@@ -1,8 +1,9 @@
 /* ═══════════════════════════════════════════════════════
-   CHARACTER MODEL 3D — Procedural Humanoid Fighter Models
-   Built from geometric primitives with skeletal animation.
-   Each character has unique colors, proportions, armor,
-   and weapons based on their lore.
+   CHARACTER MODEL 3D — Anime Billboard Sprite System
+   Uses actual character artwork as textured billboard sprites
+   in the 3D scene for AAA-quality anime visuals.
+   Each character loads their artwork image as a texture
+   and animates through transform manipulation.
    ═══════════════════════════════════════════════════════ */
 import * as THREE from "three";
 
@@ -27,9 +28,11 @@ export interface CharacterConfig {
   glowColor: string;
   // Fighting style for AI
   fightStyle: "aggressive" | "defensive" | "evasive" | "balanced";
+  // Image URL for billboard sprite
+  imageUrl?: string;
 }
 
-/* ─── BONE NAMES ─── */
+/* ─── BONE NAMES (kept for compatibility) ─── */
 export const BONES = {
   ROOT: "root",
   SPINE: "spine",
@@ -56,12 +59,13 @@ export const BONES = {
 export const CHARACTER_CONFIGS: Record<string, CharacterConfig> = {
   "architect": {
     id: "architect", name: "The Architect",
-    primaryColor: "#8b1a1a", secondaryColor: "#1a0000", accentColor: "#ff4444",
-    eyeColor: "#ff0000", skinColor: "#2a1a1a",
+    primaryColor: "#1a0a00", secondaryColor: "#0a0a0f", accentColor: "#ff8c00",
+    eyeColor: "#ffaa00", skinColor: "#1a1a1a",
     height: 2.0, bulk: 1.15,
     helmetStyle: "crown", armorStyle: "heavy", weaponType: "orb",
-    hasCape: true, glowColor: "#ef4444",
+    hasCape: true, glowColor: "#ff8c00",
     fightStyle: "balanced",
+    imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/002_the_architect_b57a8e73.png",
   },
   "collector": {
     id: "collector", name: "The Collector",
@@ -71,15 +75,17 @@ export const CHARACTER_CONFIGS: Record<string, CharacterConfig> = {
     helmetStyle: "hood", armorStyle: "robes", weaponType: "staff",
     hasCape: true, glowColor: "#a855f7",
     fightStyle: "defensive",
+    imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/006_the_collector_16f93913.png",
   },
   "enigma": {
     id: "enigma", name: "The Enigma",
-    primaryColor: "#0e5e6e", secondaryColor: "#001a2e", accentColor: "#22d3ee",
-    eyeColor: "#22d3ee", skinColor: "#1a2a3a",
+    primaryColor: "#2a0050", secondaryColor: "#001a2e", accentColor: "#9945ff",
+    eyeColor: "#22d3ee", skinColor: "#3a2020",
     height: 1.75, bulk: 0.85,
     helmetStyle: "none", armorStyle: "light", weaponType: "dual-blades",
-    hasCape: false, glowColor: "#22d3ee",
+    hasCape: false, glowColor: "#9945ff",
     fightStyle: "evasive",
+    imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/035_the_enigma_4df11b15.png",
   },
   "warlord": {
     id: "warlord", name: "The Warlord",
@@ -89,6 +95,7 @@ export const CHARACTER_CONFIGS: Record<string, CharacterConfig> = {
     helmetStyle: "visor", armorStyle: "heavy", weaponType: "hammer",
     hasCape: false, glowColor: "#f59e0b",
     fightStyle: "aggressive",
+    imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/008_the_warlord_bd4d90ba.png",
   },
   "necromancer": {
     id: "necromancer", name: "The Necromancer",
@@ -98,6 +105,7 @@ export const CHARACTER_CONFIGS: Record<string, CharacterConfig> = {
     helmetStyle: "hood", armorStyle: "robes", weaponType: "staff",
     hasCape: true, glowColor: "#22c55e",
     fightStyle: "defensive",
+    imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/018_the_necromancer_d6de1da3.png",
   },
   "meme": {
     id: "meme", name: "The Meme",
@@ -107,6 +115,7 @@ export const CHARACTER_CONFIGS: Record<string, CharacterConfig> = {
     helmetStyle: "mask", armorStyle: "light", weaponType: "claws",
     hasCape: false, glowColor: "#ec4899",
     fightStyle: "evasive",
+    imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/005_the_meme_3b3bda74.png",
   },
   "shadow-tongue": {
     id: "shadow-tongue", name: "Shadow Tongue",
@@ -116,6 +125,7 @@ export const CHARACTER_CONFIGS: Record<string, CharacterConfig> = {
     helmetStyle: "mask", armorStyle: "light", weaponType: "dual-blades",
     hasCape: true, glowColor: "#6366f1",
     fightStyle: "evasive",
+    imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/007_the_shadow_tongue_dd8299da.png",
   },
   "watcher": {
     id: "watcher", name: "The Watcher",
@@ -125,6 +135,7 @@ export const CHARACTER_CONFIGS: Record<string, CharacterConfig> = {
     helmetStyle: "visor", armorStyle: "tech", weaponType: "none",
     hasCape: false, glowColor: "#3b82f6",
     fightStyle: "balanced",
+    imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/004_the_watcher_d52c0311.png",
   },
   "game-master": {
     id: "game-master", name: "The Game Master",
@@ -134,6 +145,7 @@ export const CHARACTER_CONFIGS: Record<string, CharacterConfig> = {
     helmetStyle: "none", armorStyle: "medium", weaponType: "none",
     hasCape: true, glowColor: "#f97316",
     fightStyle: "balanced",
+    imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/017_the_game_master_e5ceb4cc.png",
   },
   "authority": {
     id: "authority", name: "The Authority",
@@ -143,6 +155,7 @@ export const CHARACTER_CONFIGS: Record<string, CharacterConfig> = {
     helmetStyle: "visor", armorStyle: "heavy", weaponType: "gauntlets",
     hasCape: true, glowColor: "#e5e5e5",
     fightStyle: "aggressive",
+    imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/088_the_warden_song_ba08fe6a.png",
   },
   "source": {
     id: "source", name: "The Source",
@@ -152,6 +165,7 @@ export const CHARACTER_CONFIGS: Record<string, CharacterConfig> = {
     helmetStyle: "halo", armorStyle: "robes", weaponType: "orb",
     hasCape: true, glowColor: "#eab308",
     fightStyle: "balanced",
+    imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/036_the_source_512e9def.png",
   },
   "jailer": {
     id: "jailer", name: "The Jailer",
@@ -161,6 +175,7 @@ export const CHARACTER_CONFIGS: Record<string, CharacterConfig> = {
     helmetStyle: "visor", armorStyle: "heavy", weaponType: "chains",
     hasCape: false, glowColor: "#ca8a04",
     fightStyle: "aggressive",
+    imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/067_the_jailer_4097836e.png",
   },
   "host": {
     id: "host", name: "The Host",
@@ -170,6 +185,7 @@ export const CHARACTER_CONFIGS: Record<string, CharacterConfig> = {
     helmetStyle: "none", armorStyle: "tech", weaponType: "none",
     hasCape: false, glowColor: "#06b6d4",
     fightStyle: "defensive",
+    imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/049_the_host_471d1ee3.png",
   },
   "iron-lion": {
     id: "iron-lion", name: "Iron Lion",
@@ -179,6 +195,7 @@ export const CHARACTER_CONFIGS: Record<string, CharacterConfig> = {
     helmetStyle: "visor", armorStyle: "heavy", weaponType: "gauntlets",
     hasCape: false, glowColor: "#fbbf24",
     fightStyle: "aggressive",
+    imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/012_iron_lion_4bc7731f.png",
   },
   "oracle": {
     id: "oracle", name: "The Oracle",
@@ -188,6 +205,7 @@ export const CHARACTER_CONFIGS: Record<string, CharacterConfig> = {
     helmetStyle: "halo", armorStyle: "robes", weaponType: "orb",
     hasCape: true, glowColor: "#a78bfa",
     fightStyle: "defensive",
+    imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/034_the_oracle_1ed26b49.png",
   },
   "agent-zero": {
     id: "agent-zero", name: "Agent Zero",
@@ -197,6 +215,7 @@ export const CHARACTER_CONFIGS: Record<string, CharacterConfig> = {
     helmetStyle: "mask", armorStyle: "light", weaponType: "dual-blades",
     hasCape: false, glowColor: "#dc2626",
     fightStyle: "aggressive",
+    imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/013_agent_zero_56b59bd8.png",
   },
   "engineer": {
     id: "engineer", name: "The Engineer",
@@ -206,6 +225,7 @@ export const CHARACTER_CONFIGS: Record<string, CharacterConfig> = {
     helmetStyle: "visor", armorStyle: "tech", weaponType: "gauntlets",
     hasCape: false, glowColor: "#4ade80",
     fightStyle: "balanced",
+    imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/016_the_engineer_43ab2ccf.png",
   },
   "eyes": {
     id: "eyes", name: "The Eyes",
@@ -215,6 +235,7 @@ export const CHARACTER_CONFIGS: Record<string, CharacterConfig> = {
     helmetStyle: "visor", armorStyle: "tech", weaponType: "none",
     hasCape: false, glowColor: "#60a5fa",
     fightStyle: "evasive",
+    imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/015_the_eyes_21e946fa.png",
   },
   "akai-shi": {
     id: "akai-shi", name: "Akai Shi",
@@ -224,6 +245,7 @@ export const CHARACTER_CONFIGS: Record<string, CharacterConfig> = {
     helmetStyle: "mask", armorStyle: "light", weaponType: "sword",
     hasCape: false, glowColor: "#ff0000",
     fightStyle: "aggressive",
+    imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/057_akai_shi_603ea11d.png",
   },
   "wraith-calder": {
     id: "wraith-calder", name: "Wraith Calder",
@@ -233,6 +255,7 @@ export const CHARACTER_CONFIGS: Record<string, CharacterConfig> = {
     helmetStyle: "hood", armorStyle: "light", weaponType: "scythe",
     hasCape: true, glowColor: "#818cf8",
     fightStyle: "evasive",
+    imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/059_wraith_calder_2b6b0a6e.png",
   },
   "wolf": {
     id: "wolf", name: "The Wolf",
@@ -242,6 +265,7 @@ export const CHARACTER_CONFIGS: Record<string, CharacterConfig> = {
     helmetStyle: "none", armorStyle: "medium", weaponType: "claws",
     hasCape: false, glowColor: "#f97316",
     fightStyle: "aggressive",
+    imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/053_p292_the_wolf_bf169512.png",
   },
   // Ne-Yons
   "dreamer": {
@@ -252,6 +276,7 @@ export const CHARACTER_CONFIGS: Record<string, CharacterConfig> = {
     helmetStyle: "none", armorStyle: "robes", weaponType: "orb",
     hasCape: true, glowColor: "#c084fc",
     fightStyle: "evasive",
+    imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/020_the_dreamer_4ffc69ee.png",
   },
   "judge": {
     id: "judge", name: "The Judge",
@@ -261,6 +286,7 @@ export const CHARACTER_CONFIGS: Record<string, CharacterConfig> = {
     helmetStyle: "visor", armorStyle: "heavy", weaponType: "hammer",
     hasCape: true, glowColor: "#eab308",
     fightStyle: "balanced",
+    imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/021_the_judge_6d79dfa8.png",
   },
   "inventor": {
     id: "inventor", name: "The Inventor",
@@ -270,445 +296,128 @@ export const CHARACTER_CONFIGS: Record<string, CharacterConfig> = {
     helmetStyle: "visor", armorStyle: "tech", weaponType: "gauntlets",
     hasCape: false, glowColor: "#2dd4bf",
     fightStyle: "balanced",
+    imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/039_the_inventor_4db38ce2.png",
   },
   "seer": {
     id: "seer", name: "The Seer",
-    primaryColor: "#1a1a4a", secondaryColor: "#0a0a2a", accentColor: "#a5b4fc",
-    eyeColor: "#818cf8", skinColor: "#1a1a3a",
-    height: 1.7, bulk: 0.75,
-    helmetStyle: "halo", armorStyle: "robes", weaponType: "orb",
-    hasCape: true, glowColor: "#818cf8",
-    fightStyle: "defensive",
+    primaryColor: "#1a3a4a", secondaryColor: "#0a1a2a", accentColor: "#67e8f9",
+    eyeColor: "#22d3ee", skinColor: "#1a2a3a",
+    height: 1.75, bulk: 0.8,
+    helmetStyle: "none", armorStyle: "light", weaponType: "orb",
+    hasCape: false, glowColor: "#22d3ee",
+    fightStyle: "evasive",
+    imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/022_the_seer_9ad7eb24.png",
   },
   "knowledge": {
     id: "knowledge", name: "The Knowledge",
-    primaryColor: "#2a3a1a", secondaryColor: "#0a1a0a", accentColor: "#bef264",
-    eyeColor: "#a3e635", skinColor: "#1a2a1a",
-    height: 1.85, bulk: 1.0,
-    helmetStyle: "none", armorStyle: "medium", weaponType: "staff",
-    hasCape: false, glowColor: "#a3e635",
+    primaryColor: "#1a3a2a", secondaryColor: "#0a1a0a", accentColor: "#34d399",
+    eyeColor: "#10b981", skinColor: "#1a2a1a",
+    height: 1.85, bulk: 0.9,
+    helmetStyle: "none", armorStyle: "robes", weaponType: "orb",
+    hasCape: true, glowColor: "#34d399",
     fightStyle: "balanced",
+    imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/025_the_knowledge_a0b566a7.png",
   },
   "silence": {
     id: "silence", name: "The Silence",
-    primaryColor: "#1a1a1a", secondaryColor: "#0a0a0a", accentColor: "#737373",
-    eyeColor: "#525252", skinColor: "#1a1a1a",
+    primaryColor: "#2a2a3a", secondaryColor: "#0a0a1a", accentColor: "#94a3b8",
+    eyeColor: "#64748b", skinColor: "#1a1a2a",
     height: 1.8, bulk: 0.85,
-    helmetStyle: "hood", armorStyle: "light", weaponType: "dual-blades",
-    hasCape: true, glowColor: "#525252",
-    fightStyle: "evasive",
+    helmetStyle: "hood", armorStyle: "robes", weaponType: "none",
+    hasCape: true, glowColor: "#94a3b8",
+    fightStyle: "defensive",
+    imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/024_the_silence_94ba3036.png",
   },
   "storm": {
     id: "storm", name: "The Storm",
-    primaryColor: "#1a2a4a", secondaryColor: "#0a1a2a", accentColor: "#38bdf8",
-    eyeColor: "#0ea5e9", skinColor: "#1a2a3a",
-    height: 2.0, bulk: 1.2,
-    helmetStyle: "horns", armorStyle: "heavy", weaponType: "hammer",
-    hasCape: false, glowColor: "#0ea5e9",
+    primaryColor: "#1a2a4a", secondaryColor: "#0a0a2a", accentColor: "#60a5fa",
+    eyeColor: "#3b82f6", skinColor: "#1a1a3a",
+    height: 1.9, bulk: 1.0,
+    helmetStyle: "none", armorStyle: "medium", weaponType: "gauntlets",
+    hasCape: false, glowColor: "#60a5fa",
     fightStyle: "aggressive",
+    imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/023_the_storm_46cb0ab7.png",
   },
   "degen": {
     id: "degen", name: "The Degen",
-    primaryColor: "#4a1a1a", secondaryColor: "#2a0a0a", accentColor: "#f87171",
-    eyeColor: "#ef4444", skinColor: "#2a1a1a",
+    primaryColor: "#3a2a1a", secondaryColor: "#1a0a00", accentColor: "#fb923c",
+    eyeColor: "#f97316", skinColor: "#2a1a0a",
     height: 1.75, bulk: 0.85,
-    helmetStyle: "none", armorStyle: "light", weaponType: "claws",
-    hasCape: false, glowColor: "#ef4444",
+    helmetStyle: "none", armorStyle: "light", weaponType: "none",
+    hasCape: false, glowColor: "#fb923c",
     fightStyle: "aggressive",
+    imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/026_the_degen_d6b8727a.png",
   },
   "advocate": {
     id: "advocate", name: "The Advocate",
-    primaryColor: "#3a3a4a", secondaryColor: "#1a1a2a", accentColor: "#e2e8f0",
-    eyeColor: "#cbd5e1", skinColor: "#2a2a3a",
-    height: 1.85, bulk: 1.0,
-    helmetStyle: "none", armorStyle: "medium", weaponType: "sword",
-    hasCape: true, glowColor: "#cbd5e1",
+    primaryColor: "#3a3a1a", secondaryColor: "#1a1a00", accentColor: "#fcd34d",
+    eyeColor: "#eab308", skinColor: "#2a2a1a",
+    height: 1.8, bulk: 0.9,
+    helmetStyle: "none", armorStyle: "medium", weaponType: "none",
+    hasCape: false, glowColor: "#fcd34d",
     fightStyle: "balanced",
+    imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/027_the_advocate_88837de8.png",
   },
   "forgotten": {
     id: "forgotten", name: "The Forgotten",
-    primaryColor: "#2a2a2a", secondaryColor: "#0a0a0a", accentColor: "#a3a3a3",
-    eyeColor: "#737373", skinColor: "#1a1a1a",
-    height: 1.8, bulk: 0.9,
-    helmetStyle: "hood", armorStyle: "robes", weaponType: "chains",
-    hasCape: true, glowColor: "#737373",
-    fightStyle: "defensive",
+    primaryColor: "#2a2a2a", secondaryColor: "#0a0a0a", accentColor: "#94a3b8",
+    eyeColor: "#64748b", skinColor: "#1a1a1a",
+    height: 1.8, bulk: 0.85,
+    helmetStyle: "hood", armorStyle: "light", weaponType: "none",
+    hasCape: true, glowColor: "#94a3b8",
+    fightStyle: "evasive",
+    imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/029_the_forgotten_2ee99e52.png",
   },
   "resurrectionist": {
     id: "resurrectionist", name: "The Resurrectionist",
-    primaryColor: "#1a4a3a", secondaryColor: "#0a2a1a", accentColor: "#6ee7b7",
-    eyeColor: "#34d399", skinColor: "#1a3a2a",
-    height: 1.9, bulk: 1.0,
-    helmetStyle: "halo", armorStyle: "robes", weaponType: "staff",
-    hasCape: true, glowColor: "#34d399",
+    primaryColor: "#1a3a1a", secondaryColor: "#0a1a0a", accentColor: "#4ade80",
+    eyeColor: "#22c55e", skinColor: "#1a2a1a",
+    height: 1.85, bulk: 0.9,
+    helmetStyle: "none", armorStyle: "robes", weaponType: "staff",
+    hasCape: true, glowColor: "#4ade80",
     fightStyle: "balanced",
+    imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/028_the_resurrectionist_d523ba62.png",
   },
 };
 
-/* ─── DEFAULT CONFIG FOR UNKNOWN CHARACTERS ─── */
-const DEFAULT_CONFIG: CharacterConfig = {
-  id: "unknown", name: "Unknown",
-  primaryColor: "#4a4a4a", secondaryColor: "#1a1a1a", accentColor: "#888888",
-  eyeColor: "#ffffff", skinColor: "#2a2a2a",
-  height: 1.85, bulk: 1.0,
-  helmetStyle: "none", armorStyle: "medium", weaponType: "none",
-  hasCape: false, glowColor: "#888888",
-  fightStyle: "balanced",
-};
-
+/* ─── GET CONFIG ─── */
 export function getCharacterConfig(id: string): CharacterConfig {
-  return CHARACTER_CONFIGS[id] || { ...DEFAULT_CONFIG, id, name: id };
+  return CHARACTER_CONFIGS[id] || CHARACTER_CONFIGS["architect"];
 }
 
 /* ═══════════════════════════════════════════════════════
-   3D MODEL BUILDER — Creates a rigged humanoid from primitives
+   CHARACTER MODEL — Billboard Sprite with Anime Artwork
    ═══════════════════════════════════════════════════════ */
 
-function createMaterial(color: string, emissive?: string, emissiveIntensity = 0.2): THREE.MeshStandardMaterial {
-  return new THREE.MeshStandardMaterial({
-    color: new THREE.Color(color),
-    emissive: emissive ? new THREE.Color(emissive) : new THREE.Color(color),
-    emissiveIntensity,
-    roughness: 0.6,
-    metalness: 0.3,
-  });
-}
-
-function createArmorMaterial(color: string, accent: string): THREE.MeshStandardMaterial {
-  return new THREE.MeshStandardMaterial({
-    color: new THREE.Color(color),
-    emissive: new THREE.Color(accent),
-    emissiveIntensity: 0.15,
-    roughness: 0.3,
-    metalness: 0.7,
-  });
-}
-
-function createGlowMaterial(color: string): THREE.MeshStandardMaterial {
-  return new THREE.MeshStandardMaterial({
-    color: new THREE.Color(color),
-    emissive: new THREE.Color(color),
-    emissiveIntensity: 1.5,
-    roughness: 0.1,
-    metalness: 0.0,
-    transparent: true,
-    opacity: 0.8,
-  });
-}
-
-/* ─── BONE HIERARCHY BUILDER ─── */
-function createSkeleton(height: number, bulk: number): { bones: THREE.Bone[]; boneMap: Record<string, THREE.Bone> } {
-  const s = height / 2.0; // scale factor
-  const boneMap: Record<string, THREE.Bone> = {};
-  const bones: THREE.Bone[] = [];
-
-  function makeBone(name: string, parent: THREE.Bone | null, pos: THREE.Vector3): THREE.Bone {
-    const bone = new THREE.Bone();
-    bone.name = name;
-    bone.position.copy(pos);
-    if (parent) parent.add(bone);
-    boneMap[name] = bone;
-    bones.push(bone);
-    return bone;
-  }
-
-  const root = makeBone(BONES.ROOT, null, new THREE.Vector3(0, 0, 0));
-  const spine = makeBone(BONES.SPINE, root, new THREE.Vector3(0, 0.5 * s, 0));
-  const chest = makeBone(BONES.CHEST, spine, new THREE.Vector3(0, 0.35 * s, 0));
-  const neck = makeBone(BONES.NECK, chest, new THREE.Vector3(0, 0.25 * s, 0));
-  makeBone(BONES.HEAD, neck, new THREE.Vector3(0, 0.15 * s, 0));
-
-  // Arms
-  const lShoulder = makeBone(BONES.L_SHOULDER, chest, new THREE.Vector3(-0.2 * s * bulk, 0.2 * s, 0));
-  const lUpperArm = makeBone(BONES.L_UPPER_ARM, lShoulder, new THREE.Vector3(-0.05 * s, -0.02 * s, 0));
-  const lLowerArm = makeBone(BONES.L_LOWER_ARM, lUpperArm, new THREE.Vector3(0, -0.25 * s, 0));
-  makeBone(BONES.L_HAND, lLowerArm, new THREE.Vector3(0, -0.2 * s, 0));
-
-  const rShoulder = makeBone(BONES.R_SHOULDER, chest, new THREE.Vector3(0.2 * s * bulk, 0.2 * s, 0));
-  const rUpperArm = makeBone(BONES.R_UPPER_ARM, rShoulder, new THREE.Vector3(0.05 * s, -0.02 * s, 0));
-  const rLowerArm = makeBone(BONES.R_LOWER_ARM, rUpperArm, new THREE.Vector3(0, -0.25 * s, 0));
-  makeBone(BONES.R_HAND, rLowerArm, new THREE.Vector3(0, -0.2 * s, 0));
-
-  // Legs
-  const lUpperLeg = makeBone(BONES.L_UPPER_LEG, root, new THREE.Vector3(-0.1 * s * bulk, 0.45 * s, 0));
-  const lLowerLeg = makeBone(BONES.L_LOWER_LEG, lUpperLeg, new THREE.Vector3(0, -0.3 * s, 0));
-  makeBone(BONES.L_FOOT, lLowerLeg, new THREE.Vector3(0, -0.3 * s, 0));
-
-  const rUpperLeg = makeBone(BONES.R_UPPER_LEG, root, new THREE.Vector3(0.1 * s * bulk, 0.45 * s, 0));
-  const rLowerLeg = makeBone(BONES.R_LOWER_LEG, rUpperLeg, new THREE.Vector3(0, -0.3 * s, 0));
-  makeBone(BONES.R_FOOT, rLowerLeg, new THREE.Vector3(0, -0.3 * s, 0));
-
-  return { bones, boneMap };
-}
-
-/* ─── MESH PART BUILDERS ─── */
-
-function createHead(config: CharacterConfig, s: number): THREE.Group {
-  const group = new THREE.Group();
-  const headGeo = new THREE.SphereGeometry(0.14 * s, 12, 10);
-  const headMat = createMaterial(config.skinColor);
-  const head = new THREE.Mesh(headGeo, headMat);
-  group.add(head);
-
-  // Eyes
-  const eyeGeo = new THREE.SphereGeometry(0.025 * s, 8, 6);
-  const eyeMat = createGlowMaterial(config.eyeColor);
-  const leftEye = new THREE.Mesh(eyeGeo, eyeMat);
-  leftEye.position.set(-0.05 * s, 0.02 * s, 0.12 * s);
-  group.add(leftEye);
-  const rightEye = new THREE.Mesh(eyeGeo, eyeMat);
-  rightEye.position.set(0.05 * s, 0.02 * s, 0.12 * s);
-  group.add(rightEye);
-
-  // Helmet/headgear
-  switch (config.helmetStyle) {
-    case "crown": {
-      const crownMat = createArmorMaterial(config.accentColor, config.accentColor);
-      const bandGeo = new THREE.TorusGeometry(0.15 * s, 0.015 * s, 8, 16);
-      const band = new THREE.Mesh(bandGeo, crownMat);
-      band.position.y = 0.08 * s;
-      band.rotation.x = Math.PI / 2;
-      group.add(band);
-      // Crown points
-      for (let i = 0; i < 5; i++) {
-        const angle = (i / 5) * Math.PI * 2;
-        const pointGeo = new THREE.ConeGeometry(0.02 * s, 0.08 * s, 4);
-        const point = new THREE.Mesh(pointGeo, crownMat);
-        point.position.set(Math.sin(angle) * 0.15 * s, 0.12 * s, Math.cos(angle) * 0.15 * s);
-        group.add(point);
-      }
-      break;
-    }
-    case "visor": {
-      const visorMat = createArmorMaterial(config.primaryColor, config.accentColor);
-      const visorGeo = new THREE.SphereGeometry(0.155 * s, 12, 8, 0, Math.PI * 2, 0, Math.PI * 0.6);
-      const visor = new THREE.Mesh(visorGeo, visorMat);
-      visor.position.y = 0.03 * s;
-      group.add(visor);
-      // Visor slit
-      const slitGeo = new THREE.BoxGeometry(0.2 * s, 0.015 * s, 0.05 * s);
-      const slitMat = createGlowMaterial(config.eyeColor);
-      const slit = new THREE.Mesh(slitGeo, slitMat);
-      slit.position.set(0, 0.02 * s, 0.13 * s);
-      group.add(slit);
-      break;
-    }
-    case "hood": {
-      const hoodMat = createMaterial(config.secondaryColor, config.primaryColor, 0.1);
-      const hoodGeo = new THREE.SphereGeometry(0.17 * s, 12, 10, 0, Math.PI * 2, 0, Math.PI * 0.7);
-      const hood = new THREE.Mesh(hoodGeo, hoodMat);
-      hood.position.y = 0.02 * s;
-      group.add(hood);
-      break;
-    }
-    case "mask": {
-      const maskMat = createArmorMaterial(config.secondaryColor, config.accentColor);
-      const maskGeo = new THREE.SphereGeometry(0.145 * s, 12, 8, -Math.PI * 0.5, Math.PI);
-      const mask = new THREE.Mesh(maskGeo, maskMat);
-      mask.position.z = 0.01 * s;
-      group.add(mask);
-      break;
-    }
-    case "horns": {
-      const hornMat = createArmorMaterial(config.accentColor, config.accentColor);
-      for (const side of [-1, 1]) {
-        const hornGeo = new THREE.ConeGeometry(0.02 * s, 0.12 * s, 6);
-        const horn = new THREE.Mesh(hornGeo, hornMat);
-        horn.position.set(side * 0.12 * s, 0.1 * s, 0);
-        horn.rotation.z = side * -0.4;
-        group.add(horn);
-      }
-      break;
-    }
-    case "halo": {
-      const haloMat = createGlowMaterial(config.accentColor);
-      const haloGeo = new THREE.TorusGeometry(0.18 * s, 0.01 * s, 8, 24);
-      const halo = new THREE.Mesh(haloGeo, haloMat);
-      halo.position.y = 0.2 * s;
-      halo.rotation.x = Math.PI / 2;
-      group.add(halo);
-      break;
-    }
-  }
-
-  return group;
-}
-
-function createTorso(config: CharacterConfig, s: number): THREE.Group {
-  const group = new THREE.Group();
-  const b = config.bulk;
-
-  // Main torso
-  const torsoGeo = new THREE.BoxGeometry(0.3 * s * b, 0.35 * s, 0.18 * s * b);
-  const torsoMat = config.armorStyle === "heavy" || config.armorStyle === "tech"
-    ? createArmorMaterial(config.primaryColor, config.accentColor)
-    : createMaterial(config.primaryColor, config.accentColor, 0.15);
-  const torso = new THREE.Mesh(torsoGeo, torsoMat);
-  group.add(torso);
-
-  // Chest plate / detail
-  if (config.armorStyle === "heavy") {
-    const plateMat = createArmorMaterial(config.secondaryColor, config.accentColor);
-    const plateGeo = new THREE.BoxGeometry(0.22 * s * b, 0.2 * s, 0.02 * s);
-    const plate = new THREE.Mesh(plateGeo, plateMat);
-    plate.position.z = 0.1 * s * b;
-    group.add(plate);
-  }
-
-  // Shoulder pads for heavy armor
-  if (config.armorStyle === "heavy" || config.armorStyle === "tech") {
-    const padMat = createArmorMaterial(config.primaryColor, config.accentColor);
-    for (const side of [-1, 1]) {
-      const padGeo = new THREE.SphereGeometry(0.08 * s * b, 8, 6);
-      const pad = new THREE.Mesh(padGeo, padMat);
-      pad.position.set(side * 0.18 * s * b, 0.15 * s, 0);
-      group.add(pad);
-    }
-  }
-
-  // Belt
-  const beltGeo = new THREE.BoxGeometry(0.32 * s * b, 0.03 * s, 0.2 * s * b);
-  const beltMat = createArmorMaterial(config.secondaryColor, config.accentColor);
-  const belt = new THREE.Mesh(beltGeo, beltMat);
-  belt.position.y = -0.18 * s;
-  group.add(belt);
-
-  return group;
-}
-
-function createLimb(length: number, width: number, color: string, accent: string, isArmor: boolean): THREE.Mesh {
-  const geo = new THREE.CylinderGeometry(width * 0.4, width * 0.5, length, 8);
-  const mat = isArmor ? createArmorMaterial(color, accent) : createMaterial(color, accent, 0.1);
+/* Proxy mesh — invisible mesh used to satisfy the animation interface */
+function createProxyMesh(): THREE.Mesh {
+  const geo = new THREE.BoxGeometry(0.001, 0.001, 0.001);
+  const mat = new THREE.MeshBasicMaterial({ visible: false });
   const mesh = new THREE.Mesh(geo, mat);
-  mesh.position.y = -length / 2;
   return mesh;
 }
 
-function createFoot(s: number, color: string, accent: string): THREE.Mesh {
-  const geo = new THREE.BoxGeometry(0.08 * s, 0.04 * s, 0.14 * s);
-  const mat = createArmorMaterial(color, accent);
-  const mesh = new THREE.Mesh(geo, mat);
-  mesh.position.set(0, -0.02 * s, 0.03 * s);
-  return mesh;
+function createProxyGroup(): THREE.Group {
+  return new THREE.Group();
 }
 
-function createHand(s: number, color: string, accent: string): THREE.Mesh {
-  const geo = new THREE.SphereGeometry(0.03 * s, 8, 6);
-  const mat = createMaterial(color, accent, 0.1);
-  return new THREE.Mesh(geo, mat);
-}
-
-function createWeapon(config: CharacterConfig, s: number): THREE.Group | null {
-  const group = new THREE.Group();
-  const mat = createGlowMaterial(config.accentColor);
-  const metalMat = createArmorMaterial(config.accentColor, config.accentColor);
-
-  switch (config.weaponType) {
-    case "sword": {
-      const bladeGeo = new THREE.BoxGeometry(0.02 * s, 0.5 * s, 0.06 * s);
-      group.add(new THREE.Mesh(bladeGeo, metalMat));
-      const hiltGeo = new THREE.CylinderGeometry(0.015 * s, 0.015 * s, 0.08 * s, 6);
-      const hilt = new THREE.Mesh(hiltGeo, createArmorMaterial(config.secondaryColor, config.accentColor));
-      hilt.position.y = -0.28 * s;
-      hilt.rotation.z = Math.PI / 2;
-      group.add(hilt);
-      break;
-    }
-    case "staff": {
-      const staffGeo = new THREE.CylinderGeometry(0.012 * s, 0.012 * s, 0.8 * s, 8);
-      group.add(new THREE.Mesh(staffGeo, metalMat));
-      const orbGeo = new THREE.SphereGeometry(0.04 * s, 10, 8);
-      const orb = new THREE.Mesh(orbGeo, mat);
-      orb.position.y = 0.42 * s;
-      group.add(orb);
-      break;
-    }
-    case "hammer": {
-      const handleGeo = new THREE.CylinderGeometry(0.015 * s, 0.015 * s, 0.5 * s, 6);
-      group.add(new THREE.Mesh(handleGeo, metalMat));
-      const hammerGeo = new THREE.BoxGeometry(0.15 * s, 0.08 * s, 0.08 * s);
-      const hammer = new THREE.Mesh(hammerGeo, metalMat);
-      hammer.position.y = 0.28 * s;
-      group.add(hammer);
-      break;
-    }
-    case "scythe": {
-      const poleGeo = new THREE.CylinderGeometry(0.01 * s, 0.01 * s, 0.7 * s, 6);
-      group.add(new THREE.Mesh(poleGeo, metalMat));
-      const bladeGeo = new THREE.TorusGeometry(0.12 * s, 0.01 * s, 4, 12, Math.PI * 0.6);
-      const blade = new THREE.Mesh(bladeGeo, mat);
-      blade.position.y = 0.38 * s;
-      blade.rotation.z = Math.PI * 0.2;
-      group.add(blade);
-      break;
-    }
-    case "orb": {
-      const orbGeo = new THREE.SphereGeometry(0.06 * s, 12, 10);
-      const orb = new THREE.Mesh(orbGeo, mat);
-      group.add(orb);
-      // Orbiting rings
-      const ringGeo = new THREE.TorusGeometry(0.09 * s, 0.005 * s, 6, 16);
-      const ring1 = new THREE.Mesh(ringGeo, mat);
-      ring1.rotation.x = Math.PI / 3;
-      group.add(ring1);
-      const ring2 = new THREE.Mesh(ringGeo.clone(), mat);
-      ring2.rotation.x = -Math.PI / 3;
-      ring2.rotation.y = Math.PI / 4;
-      group.add(ring2);
-      break;
-    }
-    case "dual-blades": {
-      // Returns null — blades are attached to hands directly
-      return null;
-    }
-    case "claws": {
-      return null; // Claws are part of hands
-    }
-    case "chains": {
-      const chainGeo = new THREE.TorusGeometry(0.04 * s, 0.008 * s, 6, 8);
-      for (let i = 0; i < 5; i++) {
-        const link = new THREE.Mesh(chainGeo, metalMat);
-        link.position.y = i * 0.06 * s;
-        link.rotation.y = (i % 2) * Math.PI / 2;
-        group.add(link);
-      }
-      break;
-    }
-    case "gauntlets":
-    case "none":
-      return null;
-  }
-
-  return group.children.length > 0 ? group : null;
-}
-
-function createCape(config: CharacterConfig, s: number): THREE.Mesh | null {
-  if (!config.hasCape) return null;
-  const capeGeo = new THREE.PlaneGeometry(0.35 * s * config.bulk, 0.6 * s, 1, 8);
-  const capeMat = new THREE.MeshStandardMaterial({
-    color: new THREE.Color(config.secondaryColor),
-    emissive: new THREE.Color(config.primaryColor),
-    emissiveIntensity: 0.1,
-    roughness: 0.8,
-    metalness: 0.0,
-    side: THREE.DoubleSide,
-  });
-  const cape = new THREE.Mesh(capeGeo, capeMat);
-  cape.position.set(0, -0.1 * s, -0.12 * s);
-  return cape;
-}
-
-/* ═══════════════════════════════════════════════════════
-   BUILD COMPLETE CHARACTER MODEL
-   Returns a THREE.Group with named children for animation
-   ═══════════════════════════════════════════════════════ */
 export interface CharacterModel {
   group: THREE.Group;
   config: CharacterConfig;
   bones: Record<string, THREE.Bone>;
   weapon: THREE.Group | null;
   cape: THREE.Mesh | null;
-  // Part references for animation
+  // The main sprite plane
+  sprite: THREE.Mesh;
+  spriteMaterial: THREE.ShaderMaterial;
+  // Glow outline mesh
+  glowSprite: THREE.Mesh;
+  glowMaterial: THREE.ShaderMaterial;
+  // Energy particles group
+  energyParticles: THREE.Group;
+  // Ground shadow
+  groundShadow: THREE.Mesh;
+  // Part references for animation (proxy objects)
   parts: {
     head: THREE.Group;
     torso: THREE.Group;
@@ -727,133 +436,267 @@ export interface CharacterModel {
   };
 }
 
-export function buildCharacterModel(id: string): CharacterModel {
-  const config = getCharacterConfig(id);
-  const s = config.height / 2.0 * 1.3; // 30% bigger for 2.5D visibility
-  const b = config.bulk;
-  const isArmor = config.armorStyle === "heavy" || config.armorStyle === "tech";
-
-  const group = new THREE.Group();
-  group.name = `fighter_${id}`;
-
-  // ── Head ──
-  const head = createHead(config, s);
-  head.position.set(0, 1.55 * s, 0);
-  group.add(head);
-
-  // ── Torso ──
-  const torso = createTorso(config, s);
-  torso.position.set(0, 1.2 * s, 0);
-  group.add(torso);
-
-  // ── Arms ──
-  const armColor = isArmor ? config.primaryColor : config.skinColor;
-  const lUpperArm = createLimb(0.25 * s, 0.06 * s * b, armColor, config.accentColor, isArmor);
-  lUpperArm.position.set(-0.2 * s * b, 1.35 * s, 0);
-  group.add(lUpperArm);
-
-  const lLowerArm = createLimb(0.22 * s, 0.05 * s * b, armColor, config.accentColor, isArmor);
-  lLowerArm.position.set(-0.2 * s * b, 1.05 * s, 0);
-  group.add(lLowerArm);
-
-  const lHand = createHand(s, config.skinColor, config.accentColor);
-  lHand.position.set(-0.2 * s * b, 0.82 * s, 0);
-  group.add(lHand);
-
-  const rUpperArm = createLimb(0.25 * s, 0.06 * s * b, armColor, config.accentColor, isArmor);
-  rUpperArm.position.set(0.2 * s * b, 1.35 * s, 0);
-  group.add(rUpperArm);
-
-  const rLowerArm = createLimb(0.22 * s, 0.05 * s * b, armColor, config.accentColor, isArmor);
-  rLowerArm.position.set(0.2 * s * b, 1.05 * s, 0);
-  group.add(rLowerArm);
-
-  const rHand = createHand(s, config.skinColor, config.accentColor);
-  rHand.position.set(0.2 * s * b, 0.82 * s, 0);
-  group.add(rHand);
-
-  // ── Legs ──
-  const legColor = isArmor ? config.primaryColor : config.secondaryColor;
-  const lUpperLeg = createLimb(0.3 * s, 0.07 * s * b, legColor, config.accentColor, isArmor);
-  lUpperLeg.position.set(-0.08 * s * b, 0.85 * s, 0);
-  group.add(lUpperLeg);
-
-  const lLowerLeg = createLimb(0.28 * s, 0.06 * s * b, legColor, config.accentColor, isArmor);
-  lLowerLeg.position.set(-0.08 * s * b, 0.5 * s, 0);
-  group.add(lLowerLeg);
-
-  const lFoot = createFoot(s, config.secondaryColor, config.accentColor);
-  lFoot.position.set(-0.08 * s * b, 0.2 * s, 0);
-  group.add(lFoot);
-
-  const rUpperLeg = createLimb(0.3 * s, 0.07 * s * b, legColor, config.accentColor, isArmor);
-  rUpperLeg.position.set(0.08 * s * b, 0.85 * s, 0);
-  group.add(rUpperLeg);
-
-  const rLowerLeg = createLimb(0.28 * s, 0.06 * s * b, legColor, config.accentColor, isArmor);
-  rLowerLeg.position.set(0.08 * s * b, 0.5 * s, 0);
-  group.add(rLowerLeg);
-
-  const rFoot = createFoot(s, config.secondaryColor, config.accentColor);
-  rFoot.position.set(0.08 * s * b, 0.2 * s, 0);
-  group.add(rFoot);
-
-  // ── Weapon ──
-  const weapon = createWeapon(config, s);
-  if (weapon) {
-    weapon.position.set(0.25 * s * b, 1.0 * s, 0.1 * s);
-    group.add(weapon);
+/* ─── ANIME SPRITE SHADER ─── */
+const spriteVertexShader = `
+  varying vec2 vUv;
+  void main() {
+    vUv = uv;
+    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
   }
+`;
 
-  // Hand weapons for dual-blades and claws
-  if (config.weaponType === "dual-blades") {
-    const bladeMat = createGlowMaterial(config.accentColor);
-    for (const [hand, sx] of [["left", -1], ["right", 1]] as const) {
-      const bladeGeo = new THREE.BoxGeometry(0.01 * s, 0.2 * s, 0.03 * s);
-      const blade = new THREE.Mesh(bladeGeo, bladeMat);
-      blade.position.set((sx as number) * 0.2 * s * b, 0.7 * s, 0.05 * s);
-      blade.name = `blade_${hand}`;
-      group.add(blade);
-    }
+const spriteFragmentShader = `
+  uniform sampler2D uTexture;
+  uniform float uHitFlash;
+  uniform float uSpecialGlow;
+  uniform float uBlockTint;
+  uniform float uOpacity;
+  uniform vec3 uGlowColor;
+  uniform float uTime;
+  varying vec2 vUv;
+  
+  void main() {
+    vec4 tex = texture2D(uTexture, vUv);
+    
+    // Discard transparent pixels
+    if (tex.a < 0.1) discard;
+    
+    vec3 color = tex.rgb;
+    
+    // Hit flash — white flash on damage
+    color = mix(color, vec3(1.0, 0.3, 0.2), uHitFlash * 0.7);
+    
+    // Block tint — blue/white shield effect
+    color = mix(color, vec3(0.5, 0.7, 1.0), uBlockTint * 0.4);
+    
+    // Special glow — character color energy
+    float specialPulse = uSpecialGlow * (0.5 + 0.5 * sin(uTime * 8.0));
+    color = mix(color, uGlowColor, specialPulse * 0.6);
+    color += uGlowColor * specialPulse * 0.3;
+    
+    gl_FragColor = vec4(color, tex.a * uOpacity);
   }
-  if (config.weaponType === "claws") {
-    const clawMat = createGlowMaterial(config.accentColor);
-    for (const sx of [-1, 1]) {
-      for (let i = 0; i < 3; i++) {
-        const clawGeo = new THREE.ConeGeometry(0.008 * s, 0.08 * s, 4);
-        const claw = new THREE.Mesh(clawGeo, clawMat);
-        claw.position.set(sx * 0.2 * s * b + (i - 1) * 0.015 * s, 0.75 * s, 0.05 * s);
-        claw.rotation.x = -Math.PI / 4;
-        group.add(claw);
+`;
+
+/* ─── GLOW OUTLINE SHADER ─── */
+const glowVertexShader = `
+  varying vec2 vUv;
+  void main() {
+    vUv = uv;
+    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+  }
+`;
+
+const glowFragmentShader = `
+  uniform sampler2D uTexture;
+  uniform vec3 uGlowColor;
+  uniform float uGlowIntensity;
+  uniform float uTime;
+  varying vec2 vUv;
+  
+  void main() {
+    // Sample surrounding pixels to create outline
+    float alpha = 0.0;
+    float spread = 0.008;
+    for (int i = -2; i <= 2; i++) {
+      for (int j = -2; j <= 2; j++) {
+        if (i == 0 && j == 0) continue;
+        vec2 offset = vec2(float(i), float(j)) * spread;
+        alpha += texture2D(uTexture, vUv + offset).a;
       }
     }
+    alpha = clamp(alpha / 8.0, 0.0, 1.0);
+    
+    // Subtract the original shape to get just the outline
+    float originalAlpha = texture2D(uTexture, vUv).a;
+    float outline = alpha * (1.0 - originalAlpha);
+    
+    // Pulse effect
+    float pulse = 0.6 + 0.4 * sin(uTime * 3.0);
+    
+    gl_FragColor = vec4(uGlowColor, outline * uGlowIntensity * pulse);
   }
-  if (config.weaponType === "gauntlets") {
-    const gauntletMat = createArmorMaterial(config.accentColor, config.accentColor);
-    for (const sx of [-1, 1]) {
-      const gauntletGeo = new THREE.BoxGeometry(0.06 * s, 0.1 * s, 0.06 * s);
-      const gauntlet = new THREE.Mesh(gauntletGeo, gauntletMat);
-      gauntlet.position.set(sx * 0.2 * s * b, 0.85 * s, 0);
-      group.add(gauntlet);
-    }
+`;
+
+/* ─── TEXTURE LOADER ─── */
+const textureLoader = new THREE.TextureLoader();
+textureLoader.crossOrigin = "anonymous";
+
+// Cache textures
+const textureCache = new Map<string, THREE.Texture>();
+
+function loadCharacterTexture(url: string): THREE.Texture {
+  if (textureCache.has(url)) return textureCache.get(url)!;
+  
+  const texture = textureLoader.load(url);
+  texture.minFilter = THREE.LinearFilter;
+  texture.magFilter = THREE.LinearFilter;
+  texture.colorSpace = THREE.SRGBColorSpace;
+  textureCache.set(url, texture);
+  return texture;
+}
+
+/* ─── CREATE ENERGY PARTICLES ─── */
+function createEnergyParticles(config: CharacterConfig, height: number): THREE.Group {
+  const group = new THREE.Group();
+  const color = new THREE.Color(config.glowColor);
+  // Brighter version of the glow color for inner particles
+  const brightColor = color.clone().multiplyScalar(1.5);
+  
+  for (let i = 0; i < 16; i++) {
+    const size = 0.03 + Math.random() * 0.04;
+    const geo = new THREE.SphereGeometry(size, 6, 6);
+    const mat = new THREE.MeshBasicMaterial({
+      color: i % 3 === 0 ? brightColor : color,
+      transparent: true,
+      opacity: 0.85,
+    });
+    const particle = new THREE.Mesh(geo, mat);
+    
+    // Random orbit position — tighter around the character
+    const angle = (i / 16) * Math.PI * 2;
+    const radius = 0.3 + Math.random() * 0.25;
+    particle.position.set(
+      Math.cos(angle) * radius,
+      Math.random() * height * 0.8 + height * 0.1,
+      Math.sin(angle) * radius * 0.3 + 0.1
+    );
+    particle.userData.angle = angle;
+    particle.userData.radius = radius;
+    particle.userData.speed = 0.5 + Math.random() * 1.5;
+    particle.userData.yBase = particle.position.y;
+    
+    group.add(particle);
   }
+  
+  return group;
+}
 
-  // ── Cape ──
-  const cape = createCape(config, s);
-  if (cape) {
-    cape.position.set(0, 1.1 * s, -0.12 * s);
-    group.add(cape);
-  }
-
-  // Center the model so feet are at y=0
-  group.position.y = 0;
-
+/* ═══════════════════════════════════════════════════════
+   BUILD CHARACTER MODEL — Billboard Sprite Version
+   ═══════════════════════════════════════════════════════ */
+export function buildCharacterModel(id: string): CharacterModel {
+  const config = getCharacterConfig(id);
+  const spriteHeight = config.height * 0.8; // Slightly taller sprite for presence
+  const spriteWidth = spriteHeight * 0.5; // Narrow portrait ratio — prevents edge clipping
+  
+  const group = new THREE.Group();
+  group.name = `fighter_${id}`;
+  
+  // ── Load character texture ──
+  const imageUrl = config.imageUrl || "";
+  const texture = imageUrl ? loadCharacterTexture(imageUrl) : null;
+  
+  // ── Main sprite plane ──
+  const spriteGeo = new THREE.PlaneGeometry(spriteWidth, spriteHeight);
+  const spriteMaterial = new THREE.ShaderMaterial({
+    vertexShader: spriteVertexShader,
+    fragmentShader: spriteFragmentShader,
+    uniforms: {
+      uTexture: { value: texture || new THREE.Texture() },
+      uHitFlash: { value: 0.0 },
+      uSpecialGlow: { value: 0.0 },
+      uBlockTint: { value: 0.0 },
+      uOpacity: { value: 1.0 },
+      uGlowColor: { value: new THREE.Color(config.glowColor) },
+      uTime: { value: 0.0 },
+    },
+    transparent: true,
+    side: THREE.DoubleSide,
+    depthWrite: false,
+  });
+  
+  const sprite = new THREE.Mesh(spriteGeo, spriteMaterial);
+  sprite.position.y = spriteHeight / 2 - 0.1; // Feet touching ground level
+  sprite.renderOrder = 10;
+  group.add(sprite);
+  
+  // ── Glow outline ──
+  const glowGeo = new THREE.PlaneGeometry(spriteWidth * 1.08, spriteHeight * 1.08);
+  const glowMaterial = new THREE.ShaderMaterial({
+    vertexShader: glowVertexShader,
+    fragmentShader: glowFragmentShader,
+    uniforms: {
+      uTexture: { value: texture || new THREE.Texture() },
+      uGlowColor: { value: new THREE.Color(config.glowColor) },
+      uGlowIntensity: { value: 0.8 },
+      uTime: { value: 0.0 },
+    },
+    transparent: true,
+    side: THREE.DoubleSide,
+    depthWrite: false,
+  });
+  
+  const glowSprite = new THREE.Mesh(glowGeo, glowMaterial);
+  glowSprite.position.y = spriteHeight / 2 - 0.1;
+  glowSprite.position.z = -0.01; // Slightly behind main sprite
+  glowSprite.renderOrder = 9;
+  group.add(glowSprite);
+  
+  // ── Energy particles ──
+  const energyParticles = createEnergyParticles(config, spriteHeight);
+  group.add(energyParticles);
+  
+  // ── Ground shadow (ellipse) ──
+  const shadowGeo = new THREE.CircleGeometry(spriteWidth * 0.4, 16);
+  const shadowMat = new THREE.MeshBasicMaterial({
+    color: 0x000000,
+    transparent: true,
+    opacity: 0.3,
+    depthWrite: false,
+  });
+  const groundShadow = new THREE.Mesh(shadowGeo, shadowMat);
+  groundShadow.rotation.x = -Math.PI / 2;
+  groundShadow.position.y = 0.02;
+  groundShadow.scale.set(1, 0.5, 1); // Elliptical
+  groundShadow.renderOrder = 1;
+  group.add(groundShadow);
+  
+  // ── Proxy parts for animation system compatibility ──
+  const head = createProxyGroup();
+  const torso = createProxyGroup();
+  const lUpperArm = createProxyMesh();
+  const lLowerArm = createProxyMesh();
+  const lHand = createProxyMesh();
+  const rUpperArm = createProxyMesh();
+  const rLowerArm = createProxyMesh();
+  const rHand = createProxyMesh();
+  const lUpperLeg = createProxyMesh();
+  const lLowerLeg = createProxyMesh();
+  const lFoot = createProxyMesh();
+  const rUpperLeg = createProxyMesh();
+  const rLowerLeg = createProxyMesh();
+  const rFoot = createProxyMesh();
+  
+  // Set default positions to match expected values
+  const s = config.height / 2.0;
+  head.position.set(0, 1.55 * s, 0);
+  torso.position.set(0, 1.2 * s, 0);
+  lUpperArm.position.set(-0.2 * s, 1.35 * s, 0);
+  lLowerArm.position.set(-0.2 * s, 1.05 * s, 0);
+  lHand.position.set(-0.2 * s, 0.82 * s, 0);
+  rUpperArm.position.set(0.2 * s, 1.35 * s, 0);
+  rLowerArm.position.set(0.2 * s, 1.05 * s, 0);
+  rHand.position.set(0.2 * s, 0.82 * s, 0);
+  lUpperLeg.position.set(-0.08 * s, 0.85 * s, 0);
+  lLowerLeg.position.set(-0.08 * s, 0.5 * s, 0);
+  lFoot.position.set(-0.08 * s, 0.2 * s, 0);
+  rUpperLeg.position.set(0.08 * s, 0.85 * s, 0);
+  rLowerLeg.position.set(0.08 * s, 0.5 * s, 0);
+  rFoot.position.set(0.08 * s, 0.2 * s, 0);
+  
   return {
     group,
     config,
     bones: {},
-    weapon,
-    cape,
+    weapon: null,
+    cape: null,
+    sprite,
+    spriteMaterial,
+    glowSprite,
+    glowMaterial,
+    energyParticles,
+    groundShadow,
     parts: {
       head, torso,
       lUpperArm, lLowerArm, lHand,

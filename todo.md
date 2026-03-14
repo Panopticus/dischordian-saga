@@ -48,3 +48,9 @@
 - [x] Scale up character models 30% for better visibility
 - [x] Remove old FightEngine.ts, FightArena.tsx, SpritePreview.tsx, SpriteGenerator.ts
 - [x] Fix stale Vite cache errors from deleted files
+- [x] Upgrade character models to AAA-quality anime-style detailed 3D models (billboard sprite approach)
+- [x] Match character models to their anime artwork from the loredex (exact artwork as textures)
+- [x] Add detailed anatomy: proper human proportions, fingers, facial features (using actual artwork)
+- [x] Add character-specific clothing, armor, hair, and accessories (using actual artwork)
+- [x] Implement anime/toon shading (cel-shaded look) for all characters (custom shader with glow outline)
+- [x] Add glowing effects, energy auras, and character-specific visual flair (glow outline + energy particles)

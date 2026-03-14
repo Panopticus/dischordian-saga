@@ -182,9 +182,9 @@ export class FightEngine3D {
     this.scene.background = new THREE.Color(0x0a0a0f);
     this.scene.fog = new THREE.FogExp2(0x0a0a0f, 0.03);
 
-    this.camera = new THREE.PerspectiveCamera(38, container.clientWidth / container.clientHeight, 0.1, 100);
-    this.camera.position.set(0, 1.6, 5.0);
-    this.camera.lookAt(0, 1.0, 0);
+    this.camera = new THREE.PerspectiveCamera(48, container.clientWidth / container.clientHeight, 0.1, 100);
+    this.camera.position.set(0, 1.0, 3.2);
+    this.camera.lookAt(0, 0.7, 0);
 
     this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
     this.renderer.setSize(container.clientWidth, container.clientHeight);
@@ -204,8 +204,8 @@ export class FightEngine3D {
     this.buildLighting();
 
     // ── Fighters ──
-    this.p1 = this.createFighter(p1Data, -1.5, true);
-    this.p2 = this.createFighter(p2Data, 1.5, false);
+    this.p1 = this.createFighter(p1Data, -0.8, true);
+    this.p2 = this.createFighter(p2Data, 0.8, false);
 
     // ── Input ──
     this.setupInput();
@@ -239,27 +239,44 @@ export class FightEngine3D {
     gridHelper.position.y = 0.01;
     this.scene.add(gridHelper);
 
-    // Back wall — slightly brighter so scene doesn't feel like a void
+    // Back wall — atmospheric gradient wall
     const wallGeo = new THREE.PlaneGeometry(20, 8);
     const wallMat = new THREE.MeshStandardMaterial({
-      color: 0x151525,
-      roughness: 0.7,
-      metalness: 0.2,
-      emissive: 0x080818,
-      emissiveIntensity: 0.3,
+      color: 0x1e1e35,
+      roughness: 0.5,
+      metalness: 0.3,
+      emissive: 0x12122a,
+      emissiveIntensity: 0.6,
     });
     const wall = new THREE.Mesh(wallGeo, wallMat);
     wall.position.set(0, 4, -5);
     this.scene.add(wall);
 
-    // Pillars
-    const pillarGeo = new THREE.CylinderGeometry(0.15, 0.2, 5, 8);
-    const pillarMat = new THREE.MeshStandardMaterial({ color: 0x2a2a3e, roughness: 0.3, metalness: 0.7 });
-    for (const x of [-5, -3, 3, 5]) {
+    // Pillars — taller, glowing accent pillars
+    const pillarGeo = new THREE.CylinderGeometry(0.18, 0.25, 6, 8);
+    const pillarMat = new THREE.MeshStandardMaterial({
+      color: 0x3a3a5e,
+      roughness: 0.2,
+      metalness: 0.8,
+      emissive: 0x1a1a3a,
+      emissiveIntensity: 0.3,
+    });
+    for (const x of [-4.5, -2.5, 2.5, 4.5]) {
       const pillar = new THREE.Mesh(pillarGeo, pillarMat);
-      pillar.position.set(x, 2.5, -4.5);
+      pillar.position.set(x, 3, -4.5);
       pillar.castShadow = true;
       this.scene.add(pillar);
+
+      // Pillar glow strip
+      const stripGeo = new THREE.BoxGeometry(0.03, 5.5, 0.03);
+      const stripMat = new THREE.MeshBasicMaterial({
+        color: 0x4488ff,
+        transparent: true,
+        opacity: 0.4,
+      });
+      const strip = new THREE.Mesh(stripGeo, stripMat);
+      strip.position.set(x, 2.75, -4.3);
+      this.scene.add(strip);
     }
 
     // Stage edge markers (red lines)
@@ -274,7 +291,7 @@ export class FightEngine3D {
 
   private buildLighting() {
     // Ambient — bright enough to see character details
-    const ambient = new THREE.AmbientLight(0x556677, 1.2);
+    const ambient = new THREE.AmbientLight(0x667788, 1.5);
     this.scene.add(ambient);
 
     // Main directional (sun/key light)
@@ -309,8 +326,16 @@ export class FightEngine3D {
     }
 
     // Front fill lights to illuminate characters from the camera side
-    const frontFill = new THREE.PointLight(0xffffff, 0.4, 10);
-    frontFill.position.set(0, 2, 4);
+    const frontFill = new THREE.PointLight(0xffffff, 0.7, 12);
+    frontFill.position.set(0, 2, 3.5);
+
+    // Additional front-side fills for character sprites
+    const leftFill = new THREE.PointLight(0xffffff, 0.3, 8);
+    leftFill.position.set(-2, 1.5, 3);
+    this.scene.add(leftFill);
+    const rightFill = new THREE.PointLight(0xffffff, 0.3, 8);
+    rightFill.position.set(2, 1.5, 3);
+    this.scene.add(rightFill);
     this.scene.add(frontFill);
   }
 
@@ -1169,8 +1194,8 @@ export class FightEngine3D {
   }
 
   private resetRound() {
-    this.p1.x = -1.5;
-    this.p2.x = 1.5;
+    this.p1.x = -0.6;
+    this.p2.x = 0.6;
     this.p1.y = 0; this.p2.y = 0;
     this.p1.vx = 0; this.p2.vx = 0;
     this.p1.vy = 0; this.p2.vy = 0;
@@ -1288,88 +1313,88 @@ export class FightEngine3D {
     }
   }
 
-  /* ═══ MODEL ANIMATION ═══ */
+  /* ═══ SPRITE-BASED ANIMATION ═══ */
   private animateModels(dt: number) {
-    this.animateCharacter(this.p1, dt);
-    this.animateCharacter(this.p2, dt);
+    this.animateSprite(this.p1, dt);
+    this.animateSprite(this.p2, dt);
   }
 
-  private animateCharacter(f: Fighter, dt: number) {
-    const parts = f.model.parts;
+  private animateSprite(f: Fighter, dt: number) {
     const t = this.animFrame * 0.05;
-    const s = f.config.height / 2.0;
-    const b = f.config.bulk;
+    const sprite = f.model.sprite;
+    const mat = f.model.spriteMaterial;
+    const glowMat = f.model.glowMaterial;
+    const h = f.config.height * 0.95; // sprite height (matches buildCharacterModel)
+    const baseY = h / 2 - 0.1; // default sprite center Y (lowered so feet touch floor)
 
-    // Reset positions to default
-    const resetY = {
-      head: 1.55 * s,
-      torso: 1.2 * s,
-      lUpperArm: 1.35 * s, lLowerArm: 1.05 * s, lHand: 0.82 * s,
-      rUpperArm: 1.35 * s, rLowerArm: 1.05 * s, rHand: 0.82 * s,
-      lUpperLeg: 0.85 * s, lLowerLeg: 0.5 * s, lFoot: 0.2 * s,
-      rUpperLeg: 0.85 * s, rLowerLeg: 0.5 * s, rFoot: 0.2 * s,
-    };
+    // Update shader time
+    mat.uniforms.uTime.value = t;
+    glowMat.uniforms.uTime.value = t;
 
-    // Apply state-specific animation
+    // Reset sprite transforms
+    sprite.position.y = baseY;
+    sprite.position.z = 0;
+    sprite.rotation.set(0, 0, 0);
+    sprite.scale.set(1, 1, 1);
+    mat.uniforms.uHitFlash.value = 0;
+    mat.uniforms.uSpecialGlow.value = 0;
+    mat.uniforms.uBlockTint.value = 0;
+    mat.uniforms.uOpacity.value = 1.0;
+    glowMat.uniforms.uGlowIntensity.value = 0.5;
+
+    // Also sync glow sprite
+    const glowSprite = f.model.glowSprite;
+
     switch (f.state) {
       case "idle": {
-        const bob = Math.sin(t * 2) * 0.02;
-        parts.head.position.y = resetY.head + bob;
-        parts.torso.position.y = resetY.torso + bob;
-        // Breathing
-        parts.lUpperArm.position.y = resetY.lUpperArm + bob;
-        parts.rUpperArm.position.y = resetY.rUpperArm + bob;
-        // Slight sway
-        parts.lUpperArm.rotation.z = Math.sin(t) * 0.05 + 0.1;
-        parts.rUpperArm.rotation.z = -Math.sin(t) * 0.05 - 0.1;
-        parts.lLowerArm.rotation.z = 0.15;
-        parts.rLowerArm.rotation.z = -0.15;
-        // Legs
-        parts.lUpperLeg.rotation.z = 0;
-        parts.rUpperLeg.rotation.z = 0;
+        // Breathing bob + subtle scale pulse
+        const bob = Math.sin(t * 2.5) * 0.025;
+        const breathe = 1.0 + Math.sin(t * 2.5) * 0.008;
+        sprite.position.y = baseY + bob;
+        sprite.scale.set(breathe, 1.0 + Math.sin(t * 2.5) * 0.005, 1);
+        glowMat.uniforms.uGlowIntensity.value = 0.4 + Math.sin(t * 1.5) * 0.15;
         break;
       }
 
-      case "walk_fwd":
+      case "walk_fwd": {
+        // Lean forward + bob + slight tilt
+        const walkBob = Math.abs(Math.sin(t * 5)) * 0.03;
+        sprite.position.y = baseY + walkBob;
+        sprite.rotation.z = -0.03; // lean forward
+        sprite.position.z = 0.05; // slight forward
+        break;
+      }
+
       case "walk_back": {
-        const walkT = t * 4;
-        const stride = 0.3;
-        // Legs
-        parts.lUpperLeg.position.y = resetY.lUpperLeg;
-        parts.rUpperLeg.position.y = resetY.rUpperLeg;
-        parts.lUpperLeg.position.x = -0.08 * s * b + Math.sin(walkT) * stride * 0.1;
-        parts.rUpperLeg.position.x = 0.08 * s * b - Math.sin(walkT) * stride * 0.1;
-        parts.lFoot.position.y = resetY.lFoot + Math.max(0, Math.sin(walkT)) * 0.08;
-        parts.rFoot.position.y = resetY.rFoot + Math.max(0, -Math.sin(walkT)) * 0.08;
-        // Arms swing opposite
-        parts.lUpperArm.rotation.z = -Math.sin(walkT) * 0.3;
-        parts.rUpperArm.rotation.z = Math.sin(walkT) * 0.3;
-        // Body bob
-        parts.torso.position.y = resetY.torso + Math.abs(Math.sin(walkT * 2)) * 0.02;
+        // Lean backward + bob
+        const walkBob = Math.abs(Math.sin(t * 5)) * 0.03;
+        sprite.position.y = baseY + walkBob;
+        sprite.rotation.z = 0.03; // lean back
+        sprite.position.z = -0.05;
         break;
       }
 
       case "punch_light": {
         const frameData = this.getAttackFrameData("punch_light");
-        const progress = f.stateTimer / (frameData.startup + frameData.active + frameData.recovery);
+        const total = frameData.startup + frameData.active + frameData.recovery;
         if (f.stateTimer < frameData.startup) {
-          // Wind up
-          parts.rUpperArm.rotation.z = -0.5;
-          parts.rLowerArm.rotation.z = -1.2;
+          // Wind up — pull back
+          const prog = f.stateTimer / frameData.startup;
+          sprite.position.z = -0.08 * prog;
+          sprite.scale.set(1.02, 0.98, 1); // squash
+          sprite.rotation.z = 0.02;
         } else if (f.stateTimer < frameData.startup + frameData.active) {
-          // Strike!
-          parts.rUpperArm.rotation.z = 0.2;
-          parts.rLowerArm.rotation.z = 0;
-          parts.rHand.position.z = 0.4 * s;
-          parts.rLowerArm.position.z = 0.2 * s;
-          parts.torso.rotation.y = -0.2;
+          // Strike — lunge forward
+          const prog = (f.stateTimer - frameData.startup) / frameData.active;
+          sprite.position.z = 0.15;
+          sprite.scale.set(0.95, 1.04, 1); // stretch
+          sprite.rotation.z = -0.04;
+          mat.uniforms.uHitFlash.value = 0.15; // slight flash on strike
         } else {
           // Recovery
           const recProg = (f.stateTimer - frameData.startup - frameData.active) / frameData.recovery;
-          parts.rUpperArm.rotation.z = 0.2 * (1 - recProg) - 0.1 * recProg;
-          parts.rLowerArm.rotation.z = -0.15 * recProg;
-          parts.rHand.position.z = 0.4 * s * (1 - recProg);
-          parts.torso.rotation.y = -0.2 * (1 - recProg);
+          sprite.position.z = 0.15 * (1 - recProg);
+          sprite.scale.set(1 - 0.05 * (1 - recProg), 1 + 0.04 * (1 - recProg), 1);
         }
         break;
       }
@@ -1377,22 +1402,22 @@ export class FightEngine3D {
       case "punch_heavy": {
         const frameData = this.getAttackFrameData("punch_heavy");
         if (f.stateTimer < frameData.startup) {
-          parts.rUpperArm.rotation.z = -0.8;
-          parts.rLowerArm.rotation.z = -1.5;
-          parts.torso.rotation.y = 0.3;
+          const prog = f.stateTimer / frameData.startup;
+          sprite.position.z = -0.12 * prog;
+          sprite.scale.set(1.05, 0.95, 1); // bigger squash
+          sprite.rotation.z = 0.05;
+          // Power charge glow
+          mat.uniforms.uSpecialGlow.value = prog * 0.3;
         } else if (f.stateTimer < frameData.startup + frameData.active) {
-          parts.rUpperArm.rotation.z = 0.4;
-          parts.rLowerArm.rotation.z = 0;
-          parts.rHand.position.z = 0.6 * s;
-          parts.rLowerArm.position.z = 0.35 * s;
-          parts.torso.rotation.y = -0.4;
-          parts.torso.position.z = 0.1 * s;
+          // Big lunge
+          sprite.position.z = 0.25;
+          sprite.scale.set(0.9, 1.08, 1); // big stretch
+          sprite.rotation.z = -0.06;
+          mat.uniforms.uHitFlash.value = 0.25;
         } else {
           const recProg = (f.stateTimer - frameData.startup - frameData.active) / frameData.recovery;
-          parts.rUpperArm.rotation.z = 0.4 * (1 - recProg);
-          parts.rHand.position.z = 0.6 * s * (1 - recProg);
-          parts.torso.rotation.y = -0.4 * (1 - recProg);
-          parts.torso.position.z = 0.1 * s * (1 - recProg);
+          sprite.position.z = 0.25 * (1 - recProg);
+          sprite.scale.set(1 - 0.1 * (1 - recProg), 1 + 0.08 * (1 - recProg), 1);
         }
         break;
       }
@@ -1400,20 +1425,20 @@ export class FightEngine3D {
       case "kick_light": {
         const frameData = this.getAttackFrameData("kick_light");
         if (f.stateTimer < frameData.startup) {
-          parts.rUpperLeg.rotation.z = -0.3;
-          parts.rLowerLeg.position.y = resetY.rLowerLeg + 0.1;
+          const prog = f.stateTimer / frameData.startup;
+          sprite.position.y = baseY + 0.05 * prog;
+          sprite.rotation.z = 0.03 * prog;
         } else if (f.stateTimer < frameData.startup + frameData.active) {
-          parts.rUpperLeg.rotation.z = 0.8;
-          parts.rLowerLeg.rotation.z = 0.3;
-          parts.rFoot.position.z = 0.5 * s;
-          parts.rFoot.position.y = resetY.rFoot + 0.3;
-          parts.rLowerLeg.position.z = 0.3 * s;
-          parts.rLowerLeg.position.y = resetY.rLowerLeg + 0.2;
+          sprite.position.z = 0.12;
+          sprite.position.y = baseY + 0.08;
+          sprite.rotation.z = -0.08; // kick lean
+          sprite.scale.set(0.96, 1.03, 1);
+          mat.uniforms.uHitFlash.value = 0.12;
         } else {
           const recProg = (f.stateTimer - frameData.startup - frameData.active) / frameData.recovery;
-          parts.rUpperLeg.rotation.z = 0.8 * (1 - recProg);
-          parts.rFoot.position.z = 0.5 * s * (1 - recProg);
-          parts.rFoot.position.y = resetY.rFoot + 0.3 * (1 - recProg);
+          sprite.position.z = 0.12 * (1 - recProg);
+          sprite.position.y = baseY + 0.08 * (1 - recProg);
+          sprite.rotation.z = -0.08 * (1 - recProg);
         }
         break;
       }
@@ -1421,146 +1446,186 @@ export class FightEngine3D {
       case "kick_heavy": {
         const frameData = this.getAttackFrameData("kick_heavy");
         if (f.stateTimer < frameData.startup) {
-          parts.rUpperLeg.rotation.z = -0.5;
-          parts.torso.rotation.z = 0.1;
+          const prog = f.stateTimer / frameData.startup;
+          sprite.position.y = baseY + 0.1 * prog;
+          sprite.rotation.z = 0.06 * prog;
+          sprite.scale.set(1.03, 0.97, 1);
         } else if (f.stateTimer < frameData.startup + frameData.active) {
-          parts.rUpperLeg.rotation.z = 1.2;
-          parts.rLowerLeg.rotation.z = 0.4;
-          parts.rFoot.position.z = 0.7 * s;
-          parts.rFoot.position.y = resetY.rFoot + 0.5;
-          parts.rLowerLeg.position.z = 0.4 * s;
-          parts.rLowerLeg.position.y = resetY.rLowerLeg + 0.35;
-          parts.torso.rotation.z = -0.15;
+          sprite.position.z = 0.2;
+          sprite.position.y = baseY + 0.15;
+          sprite.rotation.z = -0.12; // big kick lean
+          sprite.scale.set(0.92, 1.06, 1);
+          mat.uniforms.uHitFlash.value = 0.2;
         } else {
           const recProg = (f.stateTimer - frameData.startup - frameData.active) / frameData.recovery;
-          parts.rUpperLeg.rotation.z = 1.2 * (1 - recProg);
-          parts.rFoot.position.z = 0.7 * s * (1 - recProg);
-          parts.rFoot.position.y = resetY.rFoot + 0.5 * (1 - recProg);
-          parts.torso.rotation.z = -0.15 * (1 - recProg);
+          sprite.position.z = 0.2 * (1 - recProg);
+          sprite.position.y = baseY + 0.15 * (1 - recProg);
+          sprite.rotation.z = -0.12 * (1 - recProg);
         }
         break;
       }
 
       case "block_stand":
       case "block_crouch": {
-        parts.lUpperArm.rotation.z = 0.8;
-        parts.lLowerArm.rotation.z = 1.2;
-        parts.rUpperArm.rotation.z = -0.8;
-        parts.rLowerArm.rotation.z = -1.2;
+        // Defensive tint + slight shrink
+        mat.uniforms.uBlockTint.value = 0.5;
+        sprite.scale.set(0.95, f.state === "block_crouch" ? 0.85 : 0.97, 1);
         if (f.state === "block_crouch") {
-          const crouch = 0.15 * s;
-          parts.head.position.y = resetY.head - crouch;
-          parts.torso.position.y = resetY.torso - crouch;
-          parts.lUpperArm.position.y = resetY.lUpperArm - crouch;
-          parts.rUpperArm.position.y = resetY.rUpperArm - crouch;
+          sprite.position.y = baseY - 0.15;
         }
+        glowMat.uniforms.uGlowIntensity.value = 1.2; // bright shield glow
+        // Pulse
+        const blockPulse = Math.sin(t * 8) * 0.02;
+        sprite.scale.x += blockPulse;
+        sprite.scale.y += blockPulse;
         break;
       }
 
       case "special": {
         const frameData = this.getAttackFrameData("special");
         if (f.stateTimer < frameData.startup) {
-          // Power up pose
-          parts.lUpperArm.rotation.z = 1.2;
-          parts.rUpperArm.rotation.z = -1.2;
-          parts.lLowerArm.rotation.z = 0.8;
-          parts.rLowerArm.rotation.z = -0.8;
-          const pulse = Math.sin(f.stateTimer * 30) * 0.02;
-          parts.torso.position.y = resetY.torso + pulse;
+          // Power up — intense glow + scale pulse
+          const prog = f.stateTimer / frameData.startup;
+          const pulse = Math.sin(f.stateTimer * 25) * 0.03;
+          sprite.scale.set(1.05 + pulse, 1.05 + pulse, 1);
+          mat.uniforms.uSpecialGlow.value = prog * 0.8;
+          glowMat.uniforms.uGlowIntensity.value = 1.5 + prog * 2;
+          sprite.position.y = baseY + pulse * 2;
         } else if (f.stateTimer < frameData.startup + frameData.active) {
-          // Release!
-          parts.lUpperArm.rotation.z = 0.3;
-          parts.rUpperArm.rotation.z = -0.3;
-          parts.lHand.position.z = 0.5 * s;
-          parts.rHand.position.z = 0.5 * s;
-          parts.torso.position.z = 0.15 * s;
+          // Release — big lunge + flash
+          sprite.position.z = 0.3;
+          sprite.scale.set(0.88, 1.1, 1);
+          mat.uniforms.uSpecialGlow.value = 1.0;
+          mat.uniforms.uHitFlash.value = 0.3;
+          glowMat.uniforms.uGlowIntensity.value = 3.0;
         } else {
           const recProg = (f.stateTimer - frameData.startup - frameData.active) / frameData.recovery;
-          parts.lHand.position.z = 0.5 * s * (1 - recProg);
-          parts.rHand.position.z = 0.5 * s * (1 - recProg);
-          parts.torso.position.z = 0.15 * s * (1 - recProg);
+          sprite.position.z = 0.3 * (1 - recProg);
+          mat.uniforms.uSpecialGlow.value = 1.0 * (1 - recProg);
+          glowMat.uniforms.uGlowIntensity.value = 3.0 * (1 - recProg) + 0.5;
         }
         break;
       }
 
       case "hitstun": {
+        // Knockback shake + red flash
         const hitProg = Math.min(f.stateTimer / 0.15, 1);
-        parts.torso.rotation.z = Math.sin(hitProg * Math.PI) * 0.2;
-        parts.head.rotation.z = Math.sin(hitProg * Math.PI) * 0.3;
-        parts.torso.position.z = -0.05 * s;
+        const shake = Math.sin(hitProg * Math.PI * 6) * 0.04 * (1 - hitProg);
+        sprite.position.z = -0.08 * (1 - hitProg);
+        sprite.rotation.z = shake;
+        sprite.scale.set(1.03, 0.97, 1); // squash on hit
+        mat.uniforms.uHitFlash.value = 0.6 * (1 - hitProg);
+        break;
+      }
+
+      case "blockstun": {
+        const blockProg = Math.min(f.stateTimer / 0.12, 1);
+        const shake = Math.sin(blockProg * Math.PI * 4) * 0.02 * (1 - blockProg);
+        sprite.rotation.z = shake;
+        mat.uniforms.uBlockTint.value = 0.4 * (1 - blockProg);
         break;
       }
 
       case "knockdown": {
+        // Fall backward + fade
         const knockProg = Math.min(f.stateTimer / 0.5, 1);
-        const fallAngle = knockProg * Math.PI / 2;
-        parts.torso.rotation.x = -fallAngle * 0.8;
-        parts.head.rotation.x = -fallAngle;
-        parts.lUpperArm.rotation.z = fallAngle * 0.5;
-        parts.rUpperArm.rotation.z = -fallAngle * 0.5;
+        sprite.rotation.z = knockProg * 1.2; // rotate to ground
+        sprite.position.y = baseY * (1 - knockProg * 0.6); // drop
+        sprite.scale.set(1 + knockProg * 0.1, 1 - knockProg * 0.2, 1);
+        mat.uniforms.uHitFlash.value = 0.3 * (1 - knockProg);
+        mat.uniforms.uOpacity.value = 1.0 - knockProg * 0.15;
+        break;
+      }
+
+      case "getup": {
+        // Rise back up
+        const getProg = Math.min(f.stateTimer / 0.4, 1);
+        sprite.rotation.z = 1.2 * (1 - getProg);
+        sprite.position.y = baseY * (0.4 + getProg * 0.6);
+        // Invincibility flash
+        mat.uniforms.uOpacity.value = 0.7 + Math.sin(t * 20) * 0.3;
         break;
       }
 
       case "victory": {
-        parts.lUpperArm.rotation.z = 1.5;
-        parts.rUpperArm.rotation.z = -1.5;
-        parts.lLowerArm.rotation.z = 0.5;
-        parts.rLowerArm.rotation.z = -0.5;
-        const victBob = Math.sin(t * 3) * 0.03;
-        parts.torso.position.y = resetY.torso + victBob;
+        // Triumphant bounce + glow
+        const victBob = Math.sin(t * 3) * 0.05;
+        sprite.position.y = baseY + 0.05 + victBob;
+        sprite.scale.set(1.03, 1.03, 1);
+        mat.uniforms.uSpecialGlow.value = 0.3 + Math.sin(t * 2) * 0.15;
+        glowMat.uniforms.uGlowIntensity.value = 1.5;
         break;
       }
 
       case "ko": {
-        parts.torso.rotation.x = -Math.PI / 3;
-        parts.head.rotation.x = -Math.PI / 4;
-        parts.lUpperArm.rotation.z = 0.5;
-        parts.rUpperArm.rotation.z = -0.5;
+        // Collapsed on ground
+        sprite.rotation.z = Math.PI / 2.5;
+        sprite.position.y = baseY * 0.35;
+        sprite.scale.set(1.05, 0.85, 1);
+        mat.uniforms.uOpacity.value = 0.7;
+        glowMat.uniforms.uGlowIntensity.value = 0.1;
         break;
       }
 
       case "crouch": {
-        const crouch = 0.2 * s;
-        parts.head.position.y = resetY.head - crouch;
-        parts.torso.position.y = resetY.torso - crouch;
-        parts.lUpperArm.position.y = resetY.lUpperArm - crouch;
-        parts.rUpperArm.position.y = resetY.rUpperArm - crouch;
-        parts.lLowerArm.position.y = resetY.lLowerArm - crouch;
-        parts.rLowerArm.position.y = resetY.rLowerArm - crouch;
+        sprite.scale.set(1.05, 0.8, 1); // squash down
+        sprite.position.y = baseY - 0.2;
         break;
       }
 
       case "jump": {
-        parts.lUpperLeg.rotation.z = 0.3;
-        parts.rUpperLeg.rotation.z = -0.3;
-        parts.lUpperArm.rotation.z = 0.3;
-        parts.rUpperArm.rotation.z = -0.3;
+        // Stretch upward
+        sprite.scale.set(0.95, 1.06, 1);
+        // Arms up feel
+        sprite.rotation.z = f.vx > 0 ? -0.05 : f.vx < 0 ? 0.05 : 0;
         break;
       }
     }
 
-    // Reset z positions for non-attack states
-    if (!this.isAttackState(f.state) && f.state !== "hitstun" && f.state !== "special") {
-      parts.rHand.position.z = 0;
-      parts.rLowerArm.position.z = 0;
-      parts.rFoot.position.z = 0;
-      parts.rLowerLeg.position.z = 0;
-      parts.lHand.position.z = 0;
-      parts.torso.position.z = 0;
-      parts.torso.rotation.y = 0;
-      parts.torso.rotation.z = 0;
-      parts.torso.rotation.x = 0;
-      parts.head.rotation.z = 0;
-      parts.head.rotation.x = 0;
-      parts.rUpperLeg.rotation.z = 0;
-      parts.rLowerLeg.rotation.z = 0;
+    // Sync glow sprite position/rotation/scale with main sprite
+    glowSprite.position.copy(sprite.position);
+    glowSprite.position.z = sprite.position.z - 0.01;
+    glowSprite.rotation.copy(sprite.rotation);
+    glowSprite.scale.copy(sprite.scale);
+
+    // Animate energy particles
+    if (f.model.energyParticles) {
+      f.model.energyParticles.children.forEach((p) => {
+        const ud = p.userData;
+        ud.angle += ud.speed * dt;
+        p.position.x = Math.cos(ud.angle) * ud.radius;
+        p.position.z = Math.sin(ud.angle) * ud.radius * 0.3;
+        p.position.y = ud.yBase + Math.sin(ud.angle * 2) * 0.1;
+        // Pulse opacity based on state
+        const mesh = p as THREE.Mesh;
+        const pMat = mesh.material as THREE.MeshBasicMaterial;
+        if (f.state === "special") {
+          pMat.opacity = 0.9;
+          ud.radius = 0.6 + Math.sin(t * 5) * 0.2;
+        } else if (f.state === "idle") {
+          pMat.opacity = 0.3 + Math.sin(t + ud.angle) * 0.2;
+        } else {
+          pMat.opacity = 0.4;
+        }
+      });
     }
 
-    // Cape animation
-    if (f.model.cape) {
-      const capeWave = Math.sin(t * 2 + f.x) * 0.1;
-      f.model.cape.rotation.x = capeWave - 0.1;
-      if (f.vx !== 0) f.model.cape.rotation.x -= 0.2;
+    // Animate ground shadow
+    if (f.model.groundShadow) {
+      const shadowMat = f.model.groundShadow.material as THREE.MeshBasicMaterial;
+      if (f.state === "jump") {
+        // Shadow shrinks when jumping
+        const jumpH = Math.max(0, f.y);
+        const shadowScale = Math.max(0.3, 1 - jumpH * 0.3);
+        f.model.groundShadow.scale.set(shadowScale, 0.5 * shadowScale, shadowScale);
+        shadowMat.opacity = 0.15 * shadowScale;
+      } else if (f.state === "knockdown" || f.state === "ko") {
+        f.model.groundShadow.scale.set(1.3, 0.3, 1);
+        shadowMat.opacity = 0.25;
+      } else {
+        f.model.groundShadow.scale.set(1, 0.5, 1);
+        shadowMat.opacity = 0.3;
+      }
     }
   }
 
@@ -1569,15 +1634,15 @@ export class FightEngine3D {
     // Follow midpoint between fighters
     const midX = (this.p1.x + this.p2.x) / 2;
     const dist = Math.abs(this.p1.x - this.p2.x);
-    const targetZ = 4.0 + dist * 0.35; // zoom out when fighters are far apart
+    const targetZ = 3.0 + dist * 0.25; // zoom out when fighters are far apart
 
     this.cameraTarget.x += (midX - this.cameraTarget.x) * 0.15; // fast camera tracking
     this.cameraTarget.z = targetZ;
 
     this.camera.position.x = this.cameraTarget.x + this.cameraShakeOffset.x;
-    this.camera.position.y = 1.6 + this.cameraShakeOffset.y;
+    this.camera.position.y = 1.0 + this.cameraShakeOffset.y;
     this.camera.position.z = this.cameraTarget.z;
-    this.camera.lookAt(this.cameraTarget.x, 1.0, 0);
+    this.camera.lookAt(this.cameraTarget.x, 0.7, 0);
   }
 
   /* ═══ RENDER ═══ */
