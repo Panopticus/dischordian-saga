@@ -364,3 +364,39 @@
 [role="progressbar"] > div {
   background: linear-gradient(90deg, oklch(0.82 0.16 195), oklch(0.78 0.16 85));
 }
+
+/* ═══════════════════════════════════════════════════════
+   FEED — SCAN LINE & SCROLLBAR HIDE
+   ═══════════════════════════════════════════════════════ */
+@keyframes scan-line {
+  0% { top: -2px; }
+  100% { top: calc(100% + 2px); }
+}
+.animate-scan-line {
+  animation: scan-line 1.5s linear infinite;
+}
+
+/* Hide scrollbar for horizontal scroll areas */
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* CRT overlay for entire app */
+.crt-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    oklch(0 0 0 / 0.015) 2px,
+    oklch(0 0 0 / 0.015) 4px
+  );
+  mix-blend-mode: multiply;
+}
