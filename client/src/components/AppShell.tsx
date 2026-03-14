@@ -4,8 +4,9 @@ import { useLoredex } from "@/contexts/LoredexContext";
 import { usePlayer } from "@/contexts/PlayerContext";
 import {
   Search, Menu, X, Map, Music, Users, MapPin, Swords, Clock,
-  ChevronRight, Terminal, Disc3, Shield, Tv, BarChart3
+  ChevronRight, Terminal, Disc3, Shield, Tv, BarChart3, Gamepad2, Trophy
 } from "lucide-react";
+import { useGamification } from "@/contexts/GamificationContext";
 import { Progress } from "@/components/ui/progress";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -16,6 +17,7 @@ const NAV_ITEMS = [
   { path: "/character-timeline", label: "CHARACTER TIMELINE", icon: BarChart3 },
   { path: "/timeline", label: "ERA TIMELINE", icon: Clock },
   { path: "/search", label: "SEARCH DATABASE", icon: Search },
+  { path: "/fight", label: "COMBAT SIMULATOR", icon: Gamepad2 },
 ];
 
 const ENTITY_TYPES = [
@@ -36,6 +38,7 @@ export default function AppShell({ children }: { children: ReactNode }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [location] = useLocation();
   const { stats, discoveryProgress, getByType } = useLoredex();
+  const gam = useGamification();
   const { showPlayer } = usePlayer();
 
   const clearanceLevel = discoveryProgress < 10 ? "LEVEL 1" : discoveryProgress < 30 ? "LEVEL 2" : discoveryProgress < 60 ? "LEVEL 3" : discoveryProgress < 90 ? "LEVEL 4" : "LEVEL 5";
@@ -181,6 +184,27 @@ export default function AppShell({ children }: { children: ReactNode }) {
                 <ChevronRight size={9} className="opacity-0 group-hover:opacity-60 transition-opacity" />
               </Link>
             ))}
+          </div>
+
+          {/* Gamification Stats */}
+          <div className="px-2.5 pb-2">
+            <div className="mx-3 mb-2 h-px bg-border/20" />
+            <p className="font-mono text-[9px] text-muted-foreground/40 tracking-[0.3em] mb-1.5 px-3 uppercase">Operative Status</p>
+            <div className="px-3 space-y-1.5">
+              <div className="flex items-center justify-between">
+                <span className="font-mono text-[10px] text-muted-foreground flex items-center gap-1.5">
+                  <Trophy size={10} className="text-amber-400" /> {gam.title}
+                </span>
+                <span className="font-mono text-[10px] text-primary">LV.{gam.level}</span>
+              </div>
+              <div className="w-full h-1 rounded-full bg-secondary overflow-hidden">
+                <div className="h-full rounded-full transition-all" style={{ width: `${gam.xpProgress}%`, background: "linear-gradient(90deg, #22d3ee, #f59e0b)" }} />
+              </div>
+              <div className="flex justify-between font-mono text-[9px] text-muted-foreground/40">
+                <span>{gam.xp} XP</span>
+                <span>{gam.earnedAchievements.length} achievements</span>
+              </div>
+            </div>
           </div>
 
           {/* Footer */}

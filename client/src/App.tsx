@@ -13,10 +13,13 @@ import TimelinePage from "./pages/TimelinePage";
 import SearchPage from "./pages/SearchPage";
 import CharacterTimeline from "./pages/CharacterTimeline";
 import WatchPage from "./pages/WatchPage";
+import FightPage from "./pages/FightPage";
 import { LoredexProvider } from "./contexts/LoredexContext";
 import { PlayerProvider } from "./contexts/PlayerContext";
+import { GamificationProvider } from "./contexts/GamificationContext";
 import PlayerBar from "./components/PlayerBar";
 import AppShell from "./components/AppShell";
+import AchievementToast from "./components/AchievementToast";
 
 function Router() {
   return (
@@ -30,6 +33,7 @@ function Router() {
       <Route path="/search" component={SearchPage} />
       <Route path="/character-timeline" component={CharacterTimeline} />
       <Route path="/watch" component={WatchPage} />
+      <Route path="/fight" component={FightPage} />
       <Route path="/404" component={NotFound} />
       <Route component={NotFound} />
     </Switch>
@@ -40,18 +44,21 @@ function App() {
   return (
     <ErrorBoundary>
       <ThemeProvider defaultTheme="dark">
-        <LoredexProvider>
-          <PlayerProvider>
-            <TooltipProvider>
-              <Toaster />
-              <AppShell>
-                <Router />
-              </AppShell>
-              <PlayerBar />
-              <div className="crt-overlay" />
-            </TooltipProvider>
-          </PlayerProvider>
-        </LoredexProvider>
+        <GamificationProvider>
+          <LoredexProvider>
+            <PlayerProvider>
+              <TooltipProvider>
+                <Toaster />
+                <AppShell>
+                  <Router />
+                </AppShell>
+                <PlayerBar />
+                <AchievementToast />
+                <div className="crt-overlay" />
+              </TooltipProvider>
+            </PlayerProvider>
+          </LoredexProvider>
+        </GamificationProvider>
       </ThemeProvider>
     </ErrorBoundary>
   );
