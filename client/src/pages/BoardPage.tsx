@@ -1,4 +1,5 @@
 import { useLoredex } from "@/contexts/LoredexContext";
+import { useGamification } from "@/contexts/GamificationContext";
 import { Link } from "wouter";
 import { useState, useMemo, useRef, useEffect, useCallback } from "react";
 import { motion } from "framer-motion";
@@ -35,6 +36,16 @@ const TYPE_COLORS: Record<string, string> = {
 
 export default function BoardPage() {
   const { entries, relationships, discoverEntry } = useLoredex();
+  const gamification = useGamification();
+  const boardTrackedRef = useRef(false);
+
+  useEffect(() => {
+    if (!boardTrackedRef.current) {
+      boardTrackedRef.current = true;
+      gamification.markBoardExplored();
+    }
+  }, []);
+
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [selectedNode, setSelectedNode] = useState<Node | null>(null);

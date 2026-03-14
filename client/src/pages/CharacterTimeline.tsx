@@ -6,6 +6,7 @@
    search, visual lifespans, and CoNexus events.
    ═══════════════════════════════════════════════════════ */
 import { useLoredex, type LoredexEntry } from "@/contexts/LoredexContext";
+import { useGamification } from "@/contexts/GamificationContext";
 import { Link } from "wouter";
 import {
   useState, useMemo, useRef, useCallback, useEffect,
@@ -126,6 +127,16 @@ function findYearIndex(year: number): number {
    ═══════════════════════════════════════════════════════ */
 export default function CharacterTimeline() {
   const { entries, getEntry, relationships, discoverEntry } = useLoredex();
+  const gamification = useGamification();
+  const timelineTrackedRef = useRef(false);
+
+  // Mark timeline as explored on first visit
+  useEffect(() => {
+    if (!timelineTrackedRef.current) {
+      timelineTrackedRef.current = true;
+      gamification.markTimelineExplored();
+    }
+  }, []);
 
   const [zoom, setZoom] = useState(0.5);
   const [pan, setPan] = useState({ x: 20, y: 20 });

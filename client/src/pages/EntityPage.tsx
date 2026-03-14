@@ -1,7 +1,8 @@
 import { useLoredex } from "@/contexts/LoredexContext";
 import { usePlayer } from "@/contexts/PlayerContext";
+import { useGamification } from "@/contexts/GamificationContext";
 import { useRoute, Link } from "wouter";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import {
   ArrowLeft, Users, MapPin, Swords, Music, Play, ExternalLink,
@@ -28,11 +29,23 @@ export default function EntityPage() {
   const [, params] = useRoute("/entity/:id");
   const { getEntryById, getRelated, getSongsForCharacter, discoverEntry, relationships } = useLoredex();
   const { playSong, setQueue } = usePlayer();
+  const gamification = useGamification();
+  const trackedRef = useRef<string | null>(null);
 
   const entry = params?.id ? getEntryById(params.id) : undefined;
 
   useEffect(() => {
-    if (entry) discoverEntry(entry.id);
+    if (entry) {
+      discoverEntry(entry.id);
+      // Track in gamification (only once per visit)
+      if (trackedRef.current !== entry.id) {
+        trackedRef.current = entry.id;
+        gamification.discoverEntry(entry.id);
+        // Track connections found
+        const relCount = getRelated(entry.name).length;
+        if (relCount > 0) gamification.findConnection(relCount);
+      }
+    }
     window.scrollTo(0, 0);
   }, [entry?.id]);
 

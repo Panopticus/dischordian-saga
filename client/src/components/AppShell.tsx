@@ -4,7 +4,7 @@ import { useLoredex } from "@/contexts/LoredexContext";
 import { usePlayer } from "@/contexts/PlayerContext";
 import {
   Search, Menu, X, Map, Music, Users, MapPin, Swords, Clock,
-  ChevronRight, Terminal, Disc3, Shield, Tv, BarChart3, Gamepad2, Trophy
+  ChevronRight, Terminal, Disc3, Shield, Tv, BarChart3, Gamepad2, Trophy, Crosshair
 } from "lucide-react";
 import { useGamification } from "@/contexts/GamificationContext";
 import { Progress } from "@/components/ui/progress";
@@ -12,6 +12,7 @@ import { motion, AnimatePresence } from "framer-motion";
 
 const NAV_ITEMS = [
   { path: "/", label: "DASHBOARD", icon: Terminal },
+  { path: "/console", label: "INCEPTION ARK", icon: Crosshair },
   { path: "/watch", label: "WATCH THE SHOW", icon: Tv },
   { path: "/board", label: "CONSPIRACY BOARD", icon: Map },
   { path: "/character-timeline", label: "CHARACTER TIMELINE", icon: BarChart3 },

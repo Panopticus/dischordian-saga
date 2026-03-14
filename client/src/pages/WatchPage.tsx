@@ -6,6 +6,7 @@
    ═══════════════════════════════════════════════════════ */
 import { useLoredex, type LoredexEntry } from "@/contexts/LoredexContext";
 import { usePlayer } from "@/contexts/PlayerContext";
+import { useGamification } from "@/contexts/GamificationContext";
 import { Link, useLocation } from "wouter";
 import { useState, useMemo, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -179,10 +180,13 @@ export default function WatchPage() {
 
   const currentEpisode = episodes[currentEpisodeIdx];
 
+  const gamification = useGamification();
+
   // Discover entry when viewing
   useEffect(() => {
     if (currentEpisode) {
       discoverEntry(currentEpisode.id);
+      gamification.watchEpisode(currentEpisode.id);
     }
   }, [currentEpisode?.id]);
 

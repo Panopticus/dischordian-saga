@@ -56,14 +56,14 @@ export interface GameState {
 }
 
 /* ─── CONSTANTS ─── */
-const GROUND_Y = 0.75; // fraction of canvas height
-const GRAVITY = 0.6;
-const FIGHTER_W = 80;
-const FIGHTER_H = 120;
-const WALK_SPEED = 3.5;
-const JUMP_FORCE = -12;
-const ATTACK_RANGE = 90;
-const HEAVY_RANGE = 100;
+const GROUND_Y = 0.82; // fraction of canvas height — pushed down for bigger fighters
+const GRAVITY = 0.7;
+const FIGHTER_W = 140;
+const FIGHTER_H = 200;
+const WALK_SPEED = 4.5;
+const JUMP_FORCE = -14;
+const ATTACK_RANGE = 150;
+const HEAVY_RANGE = 170;
 const ATTACK_FRAMES = 18;
 const HEAVY_FRAMES = 28;
 const SPECIAL_FRAMES = 45;
@@ -696,79 +696,192 @@ export class FightEngine {
 
     ctx.save();
 
-    // Shadow
-    ctx.fillStyle = "rgba(0,0,0,0.3)";
+    // Idle breathing animation
+    let drawY = f.y;
+    if (f.state === "idle" || f.state === "walk") {
+      drawY += Math.sin(this.frameCount * 0.04) * 3;
+    }
+
+    // Shadow on ground
+    ctx.fillStyle = "rgba(0,0,0,0.4)";
     ctx.beginPath();
-    ctx.ellipse(cx, this.groundY + 2, FIGHTER_W * 0.4, 6, 0, 0, Math.PI * 2);
+    ctx.ellipse(cx, this.groundY + 4, FIGHTER_W * 0.45, 10, 0, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Ambient glow under fighter
+    const glowGrad = ctx.createRadialGradient(cx, this.groundY, 0, cx, this.groundY, FIGHTER_W * 0.6);
+    glowGrad.addColorStop(0, f.data.color + "25");
+    glowGrad.addColorStop(1, f.data.color + "00");
+    ctx.fillStyle = glowGrad;
+    ctx.beginPath();
+    ctx.arc(cx, this.groundY, FIGHTER_W * 0.6, 0, Math.PI * 2);
     ctx.fill();
 
     // Hit flash
     if (f.state === "hit" && f.hitStun > 10) {
-      ctx.globalAlpha = 0.6;
+      ctx.globalAlpha = 0.5 + Math.sin(this.frameCount * 0.5) * 0.3;
     }
 
     // KO state
     if (f.state === "ko") {
-      ctx.globalAlpha = 0.5 + Math.sin(this.frameCount * 0.1) * 0.2;
+      ctx.globalAlpha = 0.4 + Math.sin(this.frameCount * 0.1) * 0.15;
     }
 
     // Draw character image or placeholder
     if (f.imgLoaded && f.img) {
-      // Flip based on facing
+      // Colored border/glow around fighter
+      ctx.shadowColor = f.data.color;
+      ctx.shadowBlur = f.state === "special" ? 30 : f.state === "attack" || f.state === "heavy" ? 20 : 12;
+
+      // Rounded clip for the character portrait
+      const borderR = 8;
+      ctx.beginPath();
+      ctx.roundRect(f.x - 2, drawY - 2, FIGHTER_W + 4, FIGHTER_H + 4, borderR + 2);
+      ctx.fillStyle = f.data.color + "60";
+      ctx.fill();
+      ctx.shadowBlur = 0;
+
+      // Clip and draw image
       ctx.save();
+      ctx.beginPath();
+      ctx.roundRect(f.x, drawY, FIGHTER_W, FIGHTER_H, borderR);
+      ctx.clip();
+
       if (f.facing === -1) {
         ctx.translate(f.x + FIGHTER_W, 0);
         ctx.scale(-1, 1);
-        ctx.drawImage(f.img, 0, f.y, FIGHTER_W, FIGHTER_H);
+        ctx.drawImage(f.img, 0, drawY, FIGHTER_W, FIGHTER_H);
       } else {
-        ctx.drawImage(f.img, f.x, f.y, FIGHTER_W, FIGHTER_H);
+        ctx.drawImage(f.img, f.x, drawY, FIGHTER_W, FIGHTER_H);
       }
+
+      // Darken bottom for name readability
+      const nameGrad = ctx.createLinearGradient(f.x, drawY + FIGHTER_H * 0.6, f.x, drawY + FIGHTER_H);
+      nameGrad.addColorStop(0, "rgba(0,0,0,0)");
+      nameGrad.addColorStop(1, "rgba(0,0,0,0.7)");
+      ctx.fillStyle = nameGrad;
+      ctx.fillRect(f.facing === -1 ? 0 : f.x, drawY, FIGHTER_W, FIGHTER_H);
+
       ctx.restore();
 
       // State-based overlays
       if (f.state === "attack" || f.state === "heavy") {
-        // Attack glow
-        const attackX = f.facing === 1 ? f.x + FIGHTER_W : f.x - 20;
-        ctx.fillStyle = f.data.color + "40";
+        // Attack slash effect
+        const attackX = f.facing === 1 ? f.x + FIGHTER_W + 10 : f.x - 30;
+        const slashSize = f.state === "heavy" ? 45 : 30;
+        const progress = 1 - (f.stateTimer / (f.state === "heavy" ? HEAVY_FRAMES : ATTACK_FRAMES));
+
+        // Slash arc
+        ctx.strokeStyle = f.data.color;
+        ctx.lineWidth = f.state === "heavy" ? 4 : 2;
+        ctx.globalAlpha = 1 - progress;
         ctx.beginPath();
-        ctx.arc(attackX, cy - 10, f.state === "heavy" ? 25 : 18, 0, Math.PI * 2);
+        ctx.arc(attackX, cy - 10, slashSize * progress, -Math.PI * 0.3, Math.PI * 0.3);
+        ctx.stroke();
+        ctx.globalAlpha = 1;
+
+        // Impact glow
+        ctx.fillStyle = f.data.color + "50";
+        ctx.beginPath();
+        ctx.arc(attackX, cy - 10, slashSize * 0.6, 0, Math.PI * 2);
         ctx.fill();
       }
 
       if (f.state === "special") {
-        // Special aura
-        const auraSize = 50 + Math.sin(this.frameCount * 0.3) * 10;
-        const gradient = ctx.createRadialGradient(cx, cy, 0, cx, cy, auraSize);
-        gradient.addColorStop(0, f.data.special.color + "60");
-        gradient.addColorStop(1, f.data.special.color + "00");
-        ctx.fillStyle = gradient;
+        // Dramatic special aura with rings
+        const auraBase = 80 + Math.sin(this.frameCount * 0.3) * 15;
+        for (let ring = 3; ring >= 0; ring--) {
+          const auraSize = auraBase + ring * 15;
+          const alpha = (0.3 - ring * 0.06).toFixed(2);
+          const gradient = ctx.createRadialGradient(cx, cy, 0, cx, cy, auraSize);
+          gradient.addColorStop(0, f.data.special.color + alpha.replace("0.", ""));
+          gradient.addColorStop(0.7, f.data.special.color + "15");
+          gradient.addColorStop(1, f.data.special.color + "00");
+          ctx.fillStyle = gradient;
+          ctx.beginPath();
+          ctx.arc(cx, cy, auraSize, 0, Math.PI * 2);
+          ctx.fill();
+        }
+
+        // Rotating energy ring
+        ctx.strokeStyle = f.data.special.color + "80";
+        ctx.lineWidth = 2;
+        ctx.setLineDash([8, 8]);
+        ctx.lineDashOffset = -this.frameCount * 2;
         ctx.beginPath();
-        ctx.arc(cx, cy, auraSize, 0, Math.PI * 2);
-        ctx.fill();
+        ctx.arc(cx, cy, auraBase * 0.7, 0, Math.PI * 2);
+        ctx.stroke();
+        ctx.setLineDash([]);
       }
 
       if (f.state === "block") {
-        // Shield effect
-        ctx.strokeStyle = "#ffffff80";
+        // Shield hexagon effect
+        ctx.strokeStyle = "#ffffff90";
+        ctx.lineWidth = 3;
+        const shieldR = FIGHTER_W * 0.55;
+        ctx.beginPath();
+        for (let i = 0; i < 6; i++) {
+          const angle = (i / 6) * Math.PI * 2 - Math.PI / 2;
+          const sx = cx + Math.cos(angle) * shieldR * (f.facing === 1 ? 0.6 : 1);
+          const sy = cy + Math.sin(angle) * shieldR;
+          if (i === 0) ctx.moveTo(sx, sy);
+          else ctx.lineTo(sx, sy);
+        }
+        ctx.closePath();
+        ctx.stroke();
+        ctx.fillStyle = "rgba(100,200,255,0.08)";
+        ctx.fill();
+      }
+
+      if (f.state === "victory") {
+        // Victory glow pulse
+        const pulse = Math.sin(this.frameCount * 0.08) * 0.3 + 0.5;
+        ctx.shadowColor = f.data.color;
+        ctx.shadowBlur = 40 * pulse;
+        ctx.strokeStyle = f.data.color + "80";
         ctx.lineWidth = 3;
         ctx.beginPath();
-        ctx.arc(cx, cy, FIGHTER_W * 0.5, -0.5, 0.5);
+        ctx.roundRect(f.x - 4, drawY - 4, FIGHTER_W + 8, FIGHTER_H + 8, 10);
         ctx.stroke();
+        ctx.shadowBlur = 0;
       }
     } else {
-      // Placeholder rectangle
-      ctx.fillStyle = f.data.color + "80";
-      ctx.fillRect(f.x, f.y, FIGHTER_W, FIGHTER_H);
+      // Placeholder — stylized silhouette
+      ctx.fillStyle = f.data.color + "30";
+      ctx.beginPath();
+      ctx.roundRect(f.x, drawY, FIGHTER_W, FIGHTER_H, 8);
+      ctx.fill();
       ctx.strokeStyle = f.data.color;
       ctx.lineWidth = 2;
-      ctx.strokeRect(f.x, f.y, FIGHTER_W, FIGHTER_H);
+      ctx.beginPath();
+      ctx.roundRect(f.x, drawY, FIGHTER_W, FIGHTER_H, 8);
+      ctx.stroke();
+
+      // Silhouette head + body
+      ctx.fillStyle = f.data.color + "50";
+      ctx.beginPath();
+      ctx.arc(cx, drawY + FIGHTER_H * 0.2, FIGHTER_W * 0.2, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.beginPath();
+      ctx.moveTo(cx - FIGHTER_W * 0.25, drawY + FIGHTER_H * 0.35);
+      ctx.lineTo(cx + FIGHTER_W * 0.25, drawY + FIGHTER_H * 0.35);
+      ctx.lineTo(cx + FIGHTER_W * 0.2, drawY + FIGHTER_H * 0.85);
+      ctx.lineTo(cx - FIGHTER_W * 0.2, drawY + FIGHTER_H * 0.85);
+      ctx.closePath();
+      ctx.fill();
     }
 
-    // Name tag
-    ctx.font = "bold 10px monospace";
-    ctx.fillStyle = f.data.color;
+    // Name tag with background
+    const name = f.data.name.toUpperCase();
+    ctx.font = "bold 12px monospace";
     ctx.textAlign = "center";
-    ctx.fillText(f.data.name.toUpperCase(), cx, f.y - 8);
+    const nameW = ctx.measureText(name).width;
+    ctx.fillStyle = "rgba(0,0,0,0.6)";
+    ctx.beginPath();
+    ctx.roundRect(cx - nameW / 2 - 6, drawY - 22, nameW + 12, 18, 4);
+    ctx.fill();
+    ctx.fillStyle = f.data.color;
+    ctx.fillText(name, cx, drawY - 8);
 
     ctx.restore();
   }
