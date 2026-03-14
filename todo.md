@@ -20,12 +20,31 @@
 - [x] Fix sticky signal header positioning
 - [x] Rewrite sprite system so every character has a unique pixel-art model
 - [x] Design The Architect's unique sprite with all animation frames
-- [ ] Build unique sprites for all remaining fight-eligible characters
-- [ ] Ensure fight game works end-to-end with new character-specific sprites
+- [x] Build unique sprites for all remaining fight-eligible characters (now 3D models)
+- [x] Ensure fight game works end-to-end with new character-specific sprites (now 3D models)
 - [x] Overhaul fight game to MK1 quality: larger sprites, detailed pixel art, proper proportions
 - [x] MK-style HUD with health bars, round indicators, timer, character portraits
-- [ ] Screen shake, hit sparks, blood particles, impact freeze frames
-- [ ] Round system with ROUND 1/2/3 announcer text, FIGHT!, FINISH HIM
-- [ ] MK-style stage backgrounds with parallax scrolling
-- [ ] Improved combat feel: hitstun, blockstun, juggle physics, combo system
+- [x] Screen shake, hit sparks, blood particles, impact freeze frames
+- [x] Round system with ROUND 1/2/3 announcer text, FIGHT!, FINISH HIM
+- [x] MK-style stage backgrounds with parallax scrolling (3D arena with pillars, lighting)
+- [x] Improved combat feel: hitstun, blockstun, juggle physics, combo system
 - [x] Mobile touch controls optimized for fighting game input
+- [x] Overhaul AI with 4 fighting styles: aggressive, defensive, evasive, balanced
+- [x] Assign fighting styles to each character based on lore/personality
+- [x] Implement MK/SF/Tekken-inspired hit physics with real contact feel
+- [x] Add proper hitstun, blockstun, knockback, and juggle mechanics
+- [x] Screen shake, hit sparks, freeze frames on contact
+- [x] Combo system with chain attacks and cancel windows
+- [x] Proper startup/active/recovery frames for all attacks
+- [x] AI that actually attacks and creates sense of danger
+- [x] Difficulty-scaled AI aggression and reaction times
+- [x] Rebuild fight game as 2.5D using Three.js (3D models on 2D gameplay plane)
+- [x] Create 3D character models with proper proportions for each fighter
+- [x] Three.js arena with camera, lighting, and 3D stage environment
+- [x] Port all combat mechanics to the 3D engine
+- [x] 3D hit effects, particle systems, and camera shake
+- [x] Convert fighting game to 2.5D style (MK9/MKX/MK11 style) with scale.x mirroring
+- [x] Fix camera framing: closer camera, faster tracking, proper FOV
+- [x] Scale up character models 30% for better visibility
+- [x] Remove old FightEngine.ts, FightArena.tsx, SpritePreview.tsx, SpriteGenerator.ts
+- [x] Fix stale Vite cache errors from deleted files

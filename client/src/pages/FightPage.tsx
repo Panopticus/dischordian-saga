@@ -11,7 +11,7 @@ import {
   ARENAS, DIFFICULTIES,
   type FighterData, type ArenaData, type DifficultyLevel,
 } from "@/game/gameData";
-import FightArena from "@/game/FightArena";
+import FightArena3D from "@/game/FightArena3D";
 
 type Phase = "title" | "select" | "difficulty" | "arena" | "fighting" | "results";
 
@@ -359,7 +359,7 @@ export default function FightPage() {
   if (phase === "fighting" && selectedPlayer && selectedOpponent) {
     return (
       <div className="fixed inset-0 z-50 bg-black">
-        <FightArena
+        <FightArena3D
           player={selectedPlayer}
           opponent={selectedOpponent}
           arena={selectedArena}
