@@ -5,35 +5,49 @@ import { Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import Home from "./pages/Home";
-
+import EntityPage from "./pages/EntityPage";
+import SongPage from "./pages/SongPage";
+import AlbumPage from "./pages/AlbumPage";
+import BoardPage from "./pages/BoardPage";
+import TimelinePage from "./pages/TimelinePage";
+import SearchPage from "./pages/SearchPage";
+import { LoredexProvider } from "./contexts/LoredexContext";
+import { PlayerProvider } from "./contexts/PlayerContext";
+import PlayerBar from "./components/PlayerBar";
+import AppShell from "./components/AppShell";
 
 function Router() {
   return (
     <Switch>
-      <Route path={"/"} component={Home} />
-      <Route path={"/404"} component={NotFound} />
-      {/* Final fallback route */}
+      <Route path="/" component={Home} />
+      <Route path="/board" component={BoardPage} />
+      <Route path="/entity/:id" component={EntityPage} />
+      <Route path="/song/:id" component={SongPage} />
+      <Route path="/album/:slug" component={AlbumPage} />
+      <Route path="/timeline" component={TimelinePage} />
+      <Route path="/search" component={SearchPage} />
+      <Route path="/404" component={NotFound} />
       <Route component={NotFound} />
     </Switch>
   );
 }
 
-// NOTE: About Theme
-// - First choose a default theme according to your design style (dark or light bg), than change color palette in index.css
-//   to keep consistent foreground/background color across components
-// - If you want to make theme switchable, pass `switchable` ThemeProvider and use `useTheme` hook
-
 function App() {
   return (
     <ErrorBoundary>
-      <ThemeProvider
-        defaultTheme="light"
-        // switchable
-      >
-        <TooltipProvider>
-          <Toaster />
-          <Router />
-        </TooltipProvider>
+      <ThemeProvider defaultTheme="dark">
+        <LoredexProvider>
+          <PlayerProvider>
+            <TooltipProvider>
+              <Toaster />
+              <AppShell>
+                <Router />
+              </AppShell>
+              <PlayerBar />
+              <div className="crt-overlay" />
+            </TooltipProvider>
+          </PlayerProvider>
+        </LoredexProvider>
       </ThemeProvider>
     </ErrorBoundary>
   );
