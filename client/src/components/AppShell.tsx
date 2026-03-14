@@ -4,15 +4,17 @@ import { useLoredex } from "@/contexts/LoredexContext";
 import { usePlayer } from "@/contexts/PlayerContext";
 import {
   Search, Menu, X, Map, Music, Users, MapPin, Swords, Clock,
-  ChevronRight, Terminal, Disc3, Shield
+  ChevronRight, Terminal, Disc3, Shield, Tv, BarChart3
 } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 import { motion, AnimatePresence } from "framer-motion";
 
 const NAV_ITEMS = [
   { path: "/", label: "DASHBOARD", icon: Terminal },
+  { path: "/watch", label: "WATCH THE SHOW", icon: Tv },
   { path: "/board", label: "CONSPIRACY BOARD", icon: Map },
-  { path: "/timeline", label: "TIMELINE", icon: Clock },
+  { path: "/character-timeline", label: "CHARACTER TIMELINE", icon: BarChart3 },
+  { path: "/timeline", label: "ERA TIMELINE", icon: Clock },
   { path: "/search", label: "SEARCH DATABASE", icon: Search },
 ];
 

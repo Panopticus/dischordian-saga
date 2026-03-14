@@ -11,6 +11,8 @@ import AlbumPage from "./pages/AlbumPage";
 import BoardPage from "./pages/BoardPage";
 import TimelinePage from "./pages/TimelinePage";
 import SearchPage from "./pages/SearchPage";
+import CharacterTimeline from "./pages/CharacterTimeline";
+import WatchPage from "./pages/WatchPage";
 import { LoredexProvider } from "./contexts/LoredexContext";
 import { PlayerProvider } from "./contexts/PlayerContext";
 import PlayerBar from "./components/PlayerBar";
@@ -26,6 +28,8 @@ function Router() {
       <Route path="/album/:slug" component={AlbumPage} />
       <Route path="/timeline" component={TimelinePage} />
       <Route path="/search" component={SearchPage} />
+      <Route path="/character-timeline" component={CharacterTimeline} />
+      <Route path="/watch" component={WatchPage} />
       <Route path="/404" component={NotFound} />
       <Route component={NotFound} />
     </Switch>
