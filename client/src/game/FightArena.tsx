@@ -1,10 +1,17 @@
 /* ═══════════════════════════════════════════════════════
    FIGHT ARENA — React wrapper for the canvas game engine
+   Uses a FIXED game resolution (1280x720) with CSS scaling
+   This ensures consistent fighter sizes on all viewports
    Mobile-first with virtual D-pad and action buttons
    ═══════════════════════════════════════════════════════ */
 import { useEffect, useRef, useCallback, useState } from "react";
 import { FightEngine } from "./FightEngine";
 import { type FighterData, type ArenaData, type DifficultyLevel } from "./gameData";
+
+// Fixed game resolution — the engine always renders at this size
+// CSS scaling makes it fill the screen
+const GAME_W = 1280;
+const GAME_H = 720;
 
 interface FightArenaProps {
   player: FighterData;
@@ -36,13 +43,24 @@ export default function FightArena({ player, opponent, arena, difficulty, onMatc
     const container = containerRef.current;
     if (!canvas || !container) return;
 
+    // Always render at fixed game resolution
+    canvas.width = GAME_W;
+    canvas.height = GAME_H;
+
+    // CSS scales the canvas to fill the container while maintaining aspect ratio
     const rect = container.getBoundingClientRect();
-    // On mobile, reserve bottom 35% for touch controls
-    const gameH = isMobile ? rect.height * 0.62 : rect.height;
-    canvas.width = rect.width;
-    canvas.height = gameH;
-    canvas.style.width = `${rect.width}px`;
-    canvas.style.height = `${gameH}px`;
+    const containerAspect = rect.width / rect.height;
+    const gameAspect = GAME_W / GAME_H;
+
+    if (containerAspect > gameAspect) {
+      // Container is wider — fit to height
+      canvas.style.height = "100%";
+      canvas.style.width = "auto";
+    } else {
+      // Container is taller — fit to width
+      canvas.style.width = "100%";
+      canvas.style.height = "auto";
+    }
 
     const engine = new FightEngine(canvas, player, opponent, arena, difficulty);
     engine.onMatchEnd = (winner, perfect) => {
@@ -52,7 +70,7 @@ export default function FightArena({ player, opponent, arena, difficulty, onMatc
     engine.start();
 
     return engine;
-  }, [player, opponent, arena, difficulty, onMatchEnd, isMobile]);
+  }, [player, opponent, arena, difficulty, onMatchEnd]);
 
   useEffect(() => {
     const engine = initEngine();
@@ -70,14 +88,18 @@ export default function FightArena({ player, opponent, arena, difficulty, onMatc
     const handleResize = () => {
       const container = containerRef.current;
       const canvas = canvasRef.current;
-      if (!container || !canvas || !engine) return;
+      if (!container || !canvas) return;
       const rect = container.getBoundingClientRect();
-      const gameH = isMobile ? rect.height * 0.62 : rect.height;
-      canvas.width = rect.width;
-      canvas.height = gameH;
-      canvas.style.width = `${rect.width}px`;
-      canvas.style.height = `${gameH}px`;
-      engine.resize(rect.width, gameH);
+      const containerAspect = rect.width / rect.height;
+      const gameAspect = GAME_W / GAME_H;
+      if (containerAspect > gameAspect) {
+        canvas.style.height = "100%";
+        canvas.style.width = "auto";
+      } else {
+        canvas.style.width = "100%";
+        canvas.style.height = "auto";
+      }
+      // Canvas internal resolution stays fixed — no resize needed
     };
     window.addEventListener("resize", handleResize);
 
@@ -87,7 +109,7 @@ export default function FightArena({ player, opponent, arena, difficulty, onMatc
       window.removeEventListener("keyup", handleKeyUp);
       window.removeEventListener("resize", handleResize);
     };
-  }, [initEngine, onBack, isMobile]);
+  }, [initEngine, onBack]);
 
   // Touch helpers — directly manipulate the engine's keys set
   const press = useCallback((key: string) => {
@@ -113,17 +135,17 @@ export default function FightArena({ player, opponent, arena, difficulty, onMatc
   );
 
   return (
-    <div ref={containerRef} className="w-full h-full relative bg-black flex flex-col select-none" style={{ touchAction: "none" }}>
-      {/* Game Canvas */}
+    <div ref={containerRef} className="w-full h-full relative bg-black flex flex-col items-center justify-center select-none" style={{ touchAction: "none" }}>
+      {/* Game Canvas — fixed resolution, CSS-scaled */}
       <canvas
         ref={canvasRef}
-        className="block flex-shrink-0"
+        className="block max-w-full max-h-full"
         style={{ imageRendering: "pixelated" }}
       />
 
       {/* ═══ MOBILE TOUCH CONTROLS ═══ */}
       {isMobile && (
-        <div className="flex-1 flex items-center justify-between px-3 py-2" style={{ minHeight: "35%" }}>
+        <div className="absolute bottom-0 left-0 right-0 flex items-center justify-between px-3 py-2" style={{ height: "30%" }}>
           {/* D-Pad */}
           <div className="relative" style={{ width: 130, height: 130 }}>
             {/* Up */}
@@ -169,7 +191,6 @@ export default function FightArena({ player, opponent, arena, difficulty, onMatc
           {/* Action Buttons — MK-style diamond layout */}
           <div className="relative" style={{ width: 150, height: 130 }}>
             {/* Punch — top (red) */}
-            {touchBtn("j", "HP", "rgba(239,68,68,0.25)", "rgba(239,68,68,0.5)", "#ef4444")}
             <div className="absolute left-1/2 -translate-x-1/2 top-0">
               {touchBtn("j", "HP", "rgba(239,68,68,0.25)", "rgba(239,68,68,0.5)", "#ef4444", "w-12 h-12")}
             </div>

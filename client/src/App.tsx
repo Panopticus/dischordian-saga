@@ -14,6 +14,7 @@ import SearchPage from "./pages/SearchPage";
 import CharacterTimeline from "./pages/CharacterTimeline";
 import WatchPage from "./pages/WatchPage";
 import FightPage from "./pages/FightPage";
+import SpritePreview from "./pages/SpritePreview";
 import ConsolePage from "./pages/ConsolePage";
 import { LoredexProvider } from "./contexts/LoredexContext";
 import { PlayerProvider } from "./contexts/PlayerContext";
@@ -35,6 +36,7 @@ function Router() {
       <Route path="/character-timeline" component={CharacterTimeline} />
       <Route path="/watch" component={WatchPage} />
       <Route path="/fight" component={FightPage} />
+      <Route path="/sprites" component={SpritePreview} />
       <Route path="/console" component={ConsolePage} />
       <Route path="/404" component={NotFound} />
       <Route component={NotFound} />

@@ -18,3 +18,14 @@
 - [x] END OF TRANSMISSION footer with THE PANOPTICON IS WATCHING
 - [x] Fix boot sequence .includes() crash on undefined
 - [x] Fix sticky signal header positioning
+- [x] Rewrite sprite system so every character has a unique pixel-art model
+- [x] Design The Architect's unique sprite with all animation frames
+- [ ] Build unique sprites for all remaining fight-eligible characters
+- [ ] Ensure fight game works end-to-end with new character-specific sprites
+- [x] Overhaul fight game to MK1 quality: larger sprites, detailed pixel art, proper proportions
+- [x] MK-style HUD with health bars, round indicators, timer, character portraits
+- [ ] Screen shake, hit sparks, blood particles, impact freeze frames
+- [ ] Round system with ROUND 1/2/3 announcer text, FIGHT!, FINISH HIM
+- [ ] MK-style stage backgrounds with parallax scrolling
+- [ ] Improved combat feel: hitstun, blockstun, juggle physics, combo system
+- [x] Mobile touch controls optimized for fighting game input

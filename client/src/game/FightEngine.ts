@@ -109,19 +109,45 @@ export interface GameState {
   flashColor: string;
 }
 
+/* ─── COLOR UTILS ─── */
+function hexToRgb(hex: string): [number, number, number] {
+  const h = hex.replace('#', '');
+  return [
+    parseInt(h.substring(0, 2), 16),
+    parseInt(h.substring(2, 4), 16),
+    parseInt(h.substring(4, 6), 16),
+  ];
+}
+
+function rgbToHex(r: number, g: number, b: number): string {
+  return '#' + [r, g, b].map(v => Math.max(0, Math.min(255, Math.round(v))).toString(16).padStart(2, '0')).join('');
+}
+
+function lightenHex(hex: string, amount: number): string {
+  const [r, g, b] = hexToRgb(hex);
+  return rgbToHex(r + (255 - r) * amount, g + (255 - g) * amount, b + (255 - b) * amount);
+}
+
+function darkenHex(hex: string, amount: number): string {
+  const [r, g, b] = hexToRgb(hex);
+  return rgbToHex(r * (1 - amount), g * (1 - amount), b * (1 - amount));
+}
+
 /* ─── CONSTANTS ─── */
-const GROUND_Y_RATIO = 0.80;
-const GRAVITY = 0.65;
-const FIGHTER_W = 80;
-const FIGHTER_H = 120;
-const SPRITE_SCALE = 2.2; // Render sprites at 2.2x for visibility
-const DRAW_W = Math.round(FIGHTER_W * SPRITE_SCALE);
-const DRAW_H = Math.round(FIGHTER_H * SPRITE_SCALE);
-const WALK_SPEED = 4.0;
-const BACK_SPEED = 2.5;
-const JUMP_FORCE = -13;
-const JUMP_FWD_VX = 4;
+const GROUND_Y_RATIO = 0.82;
 const ROUND_TIME = 99;
+
+// These are now computed dynamically in the engine based on canvas size
+// Reference values for a 800px tall canvas:
+const REF_H = 800;
+const REF_GRAVITY = 0.65;
+const REF_WALK_SPEED = 4.5;
+const REF_BACK_SPEED = 2.8;
+const REF_JUMP_FORCE = -14;
+const REF_JUMP_FWD_VX = 4.5;
+const REF_FIGHTER_W = 110;
+const REF_FIGHTER_H = 165;
+const REF_SPRITE_SCALE = 2.6;
 
 // Attack frame data: [startup, active, recovery, damage, hitstun, blockstun, knockback]
 const ATTACK_DATA: Record<string, [number, number, number, number, number, number, number]> = {
@@ -151,6 +177,19 @@ export class FightEngine {
   width: number;
   height: number;
   groundY: number;
+
+  // Dynamic scaling — computed from canvas height
+  scaleFactor: number;
+  DRAW_W: number;
+  DRAW_H: number;
+  SPRITE_SCALE: number;
+  FIGHTER_W: number;
+  FIGHTER_H: number;
+  GRAVITY: number;
+  WALK_SPEED: number;
+  BACK_SPEED: number;
+  JUMP_FORCE: number;
+  JUMP_FWD_VX: number;
 
   p1: Fighter;
   p2: Fighter;
@@ -204,6 +243,19 @@ export class FightEngine {
     this.groundY = this.height * GROUND_Y_RATIO;
     this.arena = arena;
     this.difficulty = difficulty;
+
+    // Compute dynamic scaling based on canvas height
+    this.scaleFactor = this.height / REF_H;
+    this.SPRITE_SCALE = REF_SPRITE_SCALE * this.scaleFactor;
+    this.FIGHTER_W = Math.round(REF_FIGHTER_W * this.scaleFactor);
+    this.FIGHTER_H = Math.round(REF_FIGHTER_H * this.scaleFactor);
+    this.DRAW_W = Math.round(this.FIGHTER_W * REF_SPRITE_SCALE);
+    this.DRAW_H = Math.round(this.FIGHTER_H * REF_SPRITE_SCALE);
+    this.GRAVITY = REF_GRAVITY * this.scaleFactor;
+    this.WALK_SPEED = REF_WALK_SPEED * this.scaleFactor;
+    this.BACK_SPEED = REF_BACK_SPEED * this.scaleFactor;
+    this.JUMP_FORCE = REF_JUMP_FORCE * this.scaleFactor;
+    this.JUMP_FWD_VX = REF_JUMP_FWD_VX * this.scaleFactor;
     // Sprites generated via getOrGenerateSprite()
 
     this.p1 = this.createFighter(p1Data, this.width * 0.25, 1);
@@ -308,7 +360,9 @@ export class FightEngine {
     [this.p1, this.p2].forEach((f) => {
       try {
         f.sprite = getOrGenerateSprite(f.data.id);
-      } catch {
+        console.log(`[FightEngine] Sprite for ${f.data.id}:`, f.sprite ? `OK (${Object.keys(f.sprite.animations).length} anims)` : 'NULL');
+      } catch (e) {
+        console.error(`[FightEngine] Sprite generation failed for ${f.data.id}:`, e);
         f.sprite = null;
       }
       // Also load portrait image for HUD
@@ -326,8 +380,8 @@ export class FightEngine {
     this.groundY = this.height * GROUND_Y_RATIO;
 
     // Position fighters on ground
-    this.p1.y = this.groundY - DRAW_H;
-    this.p2.y = this.groundY - DRAW_H;
+    this.p1.y = this.groundY - this.DRAW_H;
+    this.p2.y = this.groundY - this.DRAW_H;
 
     this.gameState.phase = "intro";
     this.gameState.phaseTimer = 150;
@@ -528,12 +582,12 @@ export class FightEngine {
 
     // Jump
     if (up && !f.isAirborne) {
-      f.vy = JUMP_FORCE;
+      f.vy = this.JUMP_FORCE;
       f.isAirborne = true;
-      if (right) { f.vx = JUMP_FWD_VX * f.facing; this.setState(f, "jump_fwd"); }
-      else if (left) { f.vx = -JUMP_FWD_VX * f.facing; this.setState(f, "jump_back"); }
+      if (right) { f.vx = this.JUMP_FWD_VX * f.facing; this.setState(f, "jump_fwd"); }
+      else if (left) { f.vx = -this.JUMP_FWD_VX * f.facing; this.setState(f, "jump_back"); }
       else { this.setState(f, "jump"); }
-      this.spawnDust(f.x + DRAW_W / 2, this.groundY);
+      this.spawnDust(f.x + this.DRAW_W / 2, this.groundY);
       return;
     }
 
@@ -572,10 +626,10 @@ export class FightEngine {
 
     // Movement
     if (right) {
-      f.vx = f.facing === 1 ? WALK_SPEED : -BACK_SPEED;
+      f.vx = f.facing === 1 ? this.WALK_SPEED : -this.BACK_SPEED;
       this.setState(f, f.facing === 1 ? "walk_fwd" : "walk_back");
     } else if (left) {
-      f.vx = f.facing === 1 ? -BACK_SPEED : WALK_SPEED;
+      f.vx = f.facing === 1 ? -this.BACK_SPEED : this.WALK_SPEED;
       this.setState(f, f.facing === 1 ? "walk_back" : "walk_fwd");
     } else {
       f.vx *= 0.7;
@@ -596,10 +650,10 @@ export class FightEngine {
     }
 
     this.aiTimer++;
-    const dist = Math.abs(ai.x + DRAW_W / 2 - (player.x + DRAW_W / 2));
-    const closeRange = dist < DRAW_W * 1.5;
-    const midRange = dist < DRAW_W * 3;
-    const farRange = dist >= DRAW_W * 3;
+    const dist = Math.abs(ai.x + this.DRAW_W / 2 - (player.x + this.DRAW_W / 2));
+    const closeRange = dist < this.DRAW_W * 1.5;
+    const midRange = dist < this.DRAW_W * 3;
+    const farRange = dist >= this.DRAW_W * 3;
 
     // Reaction time scales with difficulty
     const reactionDelay = Math.max(2, Math.floor(20 - this.difficulty.aiAggressiveness * 15));
@@ -633,7 +687,7 @@ export class FightEngine {
       } else if (rand < blockChance + 0.15 && !playerRecovering) {
         // Try to backdash away
         this.aiState = "neutral";
-        ai.vx = -WALK_SPEED * ai.facing;
+        ai.vx = -this.WALK_SPEED * ai.facing;
         this.setState(ai, "walk_back");
         this.aiDecisionCooldown = 15;
         return;
@@ -666,8 +720,8 @@ export class FightEngine {
   executeAIAction(ai: Fighter, player: Fighter, dist: number) {
     if (!ai.canAct && ai.state !== "idle" && ai.state !== "walk_fwd" && ai.state !== "walk_back") return;
 
-    const closeRange = dist < DRAW_W * 1.5;
-    const attackRange = dist < DRAW_W * 2;
+    const closeRange = dist < this.DRAW_W * 1.5;
+    const attackRange = dist < this.DRAW_W * 2;
     const rand = Math.random();
 
     switch (this.aiState) {
@@ -706,7 +760,7 @@ export class FightEngine {
           }
         } else {
           // Move in to punish
-          ai.vx = player.x > ai.x ? WALK_SPEED : -WALK_SPEED;
+          ai.vx = player.x > ai.x ? this.WALK_SPEED : -this.WALK_SPEED;
           this.setState(ai, "walk_fwd");
         }
         this.aiState = "neutral";
@@ -739,9 +793,9 @@ export class FightEngine {
           } else {
             // Jump attack
             if (!ai.isAirborne) {
-              ai.vy = JUMP_FORCE;
+              ai.vy = this.JUMP_FORCE;
               ai.isAirborne = true;
-              ai.vx = (player.x > ai.x ? 1 : -1) * JUMP_FWD_VX;
+              ai.vx = (player.x > ai.x ? 1 : -1) * this.JUMP_FWD_VX;
               this.setState(ai, "jump_fwd");
               // Queue air attack
               setTimeout(() => {
@@ -756,11 +810,11 @@ export class FightEngine {
           this.aiDecisionCooldown = Math.floor(15 + Math.random() * 20);
         } else {
           // Approach
-          ai.vx = player.x > ai.x ? WALK_SPEED : -WALK_SPEED;
+          ai.vx = player.x > ai.x ? this.WALK_SPEED : -this.WALK_SPEED;
           this.setState(ai, "walk_fwd");
           // Occasionally jump forward
           if (rand < 0.08 && !ai.isAirborne) {
-            ai.vy = JUMP_FORCE;
+            ai.vy = this.JUMP_FORCE;
             ai.isAirborne = true;
             this.setState(ai, "jump_fwd");
           }
@@ -785,7 +839,7 @@ export class FightEngine {
             ai.stateTimer = this.getAttackDuration("kick");
           }
           // Back away
-          ai.vx = player.x > ai.x ? -BACK_SPEED : BACK_SPEED;
+          ai.vx = player.x > ai.x ? -this.BACK_SPEED : this.BACK_SPEED;
           this.setState(ai, "walk_back");
           this.aiDecisionCooldown = 20;
         }
@@ -819,13 +873,13 @@ export class FightEngine {
             ai.stateTimer = this.getAttackDuration(rand < 0.5 ? "punch" : "kick");
           } else {
             // Slight retreat
-            ai.vx = player.x > ai.x ? -BACK_SPEED : BACK_SPEED;
+            ai.vx = player.x > ai.x ? -this.BACK_SPEED : this.BACK_SPEED;
             this.setState(ai, "walk_back");
           }
         } else {
           // Slow approach with occasional pauses
           if (rand < 0.6) {
-            ai.vx = player.x > ai.x ? WALK_SPEED * 0.7 : -WALK_SPEED * 0.7;
+            ai.vx = player.x > ai.x ? this.WALK_SPEED * 0.7 : -this.WALK_SPEED * 0.7;
             this.setState(ai, "walk_fwd");
           } else {
             ai.vx = 0;
@@ -918,12 +972,12 @@ export class FightEngine {
     }
 
     // Physics
-    f.vy += GRAVITY;
+    f.vy += this.GRAVITY;
     f.x += f.vx;
     f.y += f.vy;
 
     // Ground collision
-    const groundLevel = this.groundY - DRAW_H;
+    const groundLevel = this.groundY - this.DRAW_H;
     if (f.y >= groundLevel) {
       f.y = groundLevel;
       f.vy = 0;
@@ -934,17 +988,17 @@ export class FightEngine {
           f.stateTimer = 40;
           f.knockdownTimer = 40;
           f.canAct = false;
-          this.spawnDust(f.x + DRAW_W / 2, this.groundY);
+          this.spawnDust(f.x + this.DRAW_W / 2, this.groundY);
           this.gameState.screenShake = 4;
         } else if (!this.isAttackState(f.state)) {
           this.setState(f, "idle");
-          this.spawnDust(f.x + DRAW_W / 2, this.groundY);
+          this.spawnDust(f.x + this.DRAW_W / 2, this.groundY);
         }
       }
     }
 
     // Wall bounds
-    f.x = Math.max(10, Math.min(this.width - 10 - DRAW_W, f.x));
+    f.x = Math.max(10, Math.min(this.width - 10 - this.DRAW_W, f.x));
 
     // Face opponent
     const other = f === this.p1 ? this.p2 : this.p1;
@@ -958,7 +1012,7 @@ export class FightEngine {
     }
 
     // Prevent fighters from overlapping
-    const overlap = DRAW_W * 0.6;
+    const overlap = this.DRAW_W * 0.6;
     if (Math.abs(f.x - other.x) < overlap && !f.isAirborne && !other.isAirborne) {
       const push = f.x < other.x ? -1.5 : 1.5;
       f.x += push;
@@ -984,9 +1038,9 @@ export class FightEngine {
 
       // Check hit against opponent
       const target = p.owner === "p1" ? this.p2 : this.p1;
-      const tx = target.x + DRAW_W / 2;
-      const ty = target.y + DRAW_H / 2;
-      if (Math.abs(p.x - tx) < DRAW_W * 0.6 && Math.abs(p.y - ty) < DRAW_H * 0.6) {
+      const tx = target.x + this.DRAW_W / 2;
+      const ty = target.y + this.DRAW_H / 2;
+      if (Math.abs(p.x - tx) < this.DRAW_W * 0.6 && Math.abs(p.y - ty) < this.DRAW_H * 0.6) {
         if (target.isBlocking) {
           this.spawnParticles(p.x, p.y, 5, "#ffffff", "spark");
           return false;
@@ -1014,20 +1068,20 @@ export class FightEngine {
 
     const [xOff, yOff, w, h] = data;
     return {
-      x: f.x + DRAW_W / 2 + xOff * f.facing * (SPRITE_SCALE / 2),
-      y: f.y + DRAW_H / 2 + yOff * (SPRITE_SCALE / 2),
-      w: w * (SPRITE_SCALE / 2),
-      h: h * (SPRITE_SCALE / 2),
+      x: f.x + this.DRAW_W / 2 + xOff * f.facing * (this.SPRITE_SCALE / 2),
+      y: f.y + this.DRAW_H / 2 + yOff * (this.SPRITE_SCALE / 2),
+      w: w * (this.SPRITE_SCALE / 2),
+      h: h * (this.SPRITE_SCALE / 2),
     };
   }
 
   getHurtBox(f: Fighter): HitBox {
     const shrink = f.isCrouching ? 0.6 : 1;
     return {
-      x: f.x + DRAW_W * 0.15,
-      y: f.y + DRAW_H * (1 - shrink),
-      w: DRAW_W * 0.7,
-      h: DRAW_H * shrink,
+      x: f.x + this.DRAW_W * 0.15,
+      y: f.y + this.DRAW_H * (1 - shrink),
+      w: this.DRAW_W * 0.7,
+      h: this.DRAW_H * shrink,
     };
   }
 
@@ -1138,7 +1192,7 @@ export class FightEngine {
       defender.canAct = false;
       defender.vy = -8;
       defender.vx = attacker.facing * 6;
-      this.spawnParticles(defender.x + DRAW_W / 2, defender.y + DRAW_H / 3, 30, attacker.data.color, "ko");
+      this.spawnParticles(defender.x + this.DRAW_W / 2, defender.y + this.DRAW_H / 3, 30, attacker.data.color, "ko");
       this.gameState.screenShake = 15;
       this.gameState.slowMotion = 20;
       this.gameState.flashTimer = 6;
@@ -1194,7 +1248,7 @@ export class FightEngine {
     gs.phaseTimer = 90;
     gs.timer = ROUND_TIME;
 
-    const groundLevel = this.groundY - DRAW_H;
+    const groundLevel = this.groundY - this.DRAW_H;
     [this.p1, this.p2].forEach((f, i) => {
       f.x = this.width * (i === 0 ? 0.25 : 0.75);
       f.y = groundLevel;
@@ -1253,8 +1307,8 @@ export class FightEngine {
   }
 
   spawnSpecialParticles(f: Fighter) {
-    const cx = f.x + DRAW_W / 2;
-    const cy = f.y + DRAW_H / 2;
+    const cx = f.x + this.DRAW_W / 2;
+    const cy = f.y + this.DRAW_H / 2;
     for (let i = 0; i < 40; i++) {
       const angle = (i / 40) * Math.PI * 2;
       this.particles.push({
@@ -1407,7 +1461,7 @@ export class FightEngine {
 
   renderFighter(f: Fighter) {
     const ctx = this.ctx;
-    const cx = f.x + DRAW_W / 2;
+    const cx = f.x + this.DRAW_W / 2;
 
     ctx.save();
 
@@ -1418,14 +1472,14 @@ export class FightEngine {
     }
 
     // Shadow
-    const shadowScale = Math.max(0.3, 1 - Math.abs(f.y - (this.groundY - DRAW_H)) / 200);
+    const shadowScale = Math.max(0.3, 1 - Math.abs(f.y - (this.groundY - this.DRAW_H)) / 200);
     ctx.fillStyle = `rgba(0,0,0,${0.4 * shadowScale})`;
     ctx.beginPath();
-    ctx.ellipse(cx, this.groundY + 3, DRAW_W * 0.4 * shadowScale, 8 * shadowScale, 0, 0, Math.PI * 2);
+    ctx.ellipse(cx, this.groundY + 3, this.DRAW_W * 0.4 * shadowScale, 8 * shadowScale, 0, 0, Math.PI * 2);
     ctx.fill();
 
     // Ambient glow
-    const glowSize = DRAW_W * 0.5;
+    const glowSize = this.DRAW_W * 0.5;
     const glowGrad = ctx.createRadialGradient(cx, this.groundY, 0, cx, this.groundY, glowSize);
     glowGrad.addColorStop(0, f.data.color + "18");
     glowGrad.addColorStop(1, f.data.color + "00");
@@ -1494,11 +1548,11 @@ export class FightEngine {
     ctx.shadowBlur = f.state === "special" ? 25 : this.isAttackState(f.state) ? 15 : 8;
 
     if (f.facing === -1) {
-      ctx.translate(f.x + DRAW_W, 0);
+      ctx.translate(f.x + this.DRAW_W, 0);
       ctx.scale(-1, 1);
-      ctx.drawImage(frameCanvas, 0, drawY, DRAW_W, DRAW_H);
+      ctx.drawImage(frameCanvas, 0, drawY, this.DRAW_W, this.DRAW_H);
     } else {
-      ctx.drawImage(frameCanvas, f.x, drawY, DRAW_W, DRAW_H);
+      ctx.drawImage(frameCanvas, f.x, drawY, this.DRAW_W, this.DRAW_H);
     }
 
     ctx.shadowBlur = 0;
@@ -1514,7 +1568,7 @@ export class FightEngine {
 
     const borderR = 6;
     ctx.beginPath();
-    ctx.roundRect(f.x - 2, drawY - 2, DRAW_W + 4, DRAW_H + 4, borderR + 2);
+    ctx.roundRect(f.x - 2, drawY - 2, this.DRAW_W + 4, this.DRAW_H + 4, borderR + 2);
     ctx.fillStyle = f.data.color + "50";
     ctx.fill();
     ctx.shadowBlur = 0;
@@ -1522,67 +1576,67 @@ export class FightEngine {
     // Clip and draw image
     ctx.save();
     ctx.beginPath();
-    ctx.roundRect(f.x, drawY, DRAW_W, DRAW_H, borderR);
+    ctx.roundRect(f.x, drawY, this.DRAW_W, this.DRAW_H, borderR);
     ctx.clip();
 
     if (f.facing === -1) {
-      ctx.translate(f.x + DRAW_W, 0);
+      ctx.translate(f.x + this.DRAW_W, 0);
       ctx.scale(-1, 1);
-      ctx.drawImage(f.img!, 0, drawY, DRAW_W, DRAW_H);
+      ctx.drawImage(f.img!, 0, drawY, this.DRAW_W, this.DRAW_H);
     } else {
-      ctx.drawImage(f.img!, f.x, drawY, DRAW_W, DRAW_H);
+      ctx.drawImage(f.img!, f.x, drawY, this.DRAW_W, this.DRAW_H);
     }
 
     // Darken bottom
-    const nameGrad = ctx.createLinearGradient(f.x, drawY + DRAW_H * 0.65, f.x, drawY + DRAW_H);
+    const nameGrad = ctx.createLinearGradient(f.x, drawY + this.DRAW_H * 0.65, f.x, drawY + this.DRAW_H);
     nameGrad.addColorStop(0, "rgba(0,0,0,0)");
     nameGrad.addColorStop(1, "rgba(0,0,0,0.7)");
     ctx.fillStyle = nameGrad;
-    ctx.fillRect(f.facing === -1 ? 0 : f.x, drawY, DRAW_W, DRAW_H);
+    ctx.fillRect(f.facing === -1 ? 0 : f.x, drawY, this.DRAW_W, this.DRAW_H);
 
     ctx.restore();
   }
 
   renderSilhouette(f: Fighter, drawY: number) {
     const ctx = this.ctx;
-    const cx = f.x + DRAW_W / 2;
+    const cx = f.x + this.DRAW_W / 2;
 
     // Body silhouette
     ctx.fillStyle = f.data.color + "25";
     ctx.beginPath();
-    ctx.roundRect(f.x, drawY, DRAW_W, DRAW_H, 6);
+    ctx.roundRect(f.x, drawY, this.DRAW_W, this.DRAW_H, 6);
     ctx.fill();
 
     ctx.strokeStyle = f.data.color + "60";
     ctx.lineWidth = 2;
     ctx.beginPath();
-    ctx.roundRect(f.x, drawY, DRAW_W, DRAW_H, 6);
+    ctx.roundRect(f.x, drawY, this.DRAW_W, this.DRAW_H, 6);
     ctx.stroke();
 
     // Head
     ctx.fillStyle = f.data.color + "40";
     ctx.beginPath();
-    ctx.arc(cx, drawY + DRAW_H * 0.18, DRAW_W * 0.18, 0, Math.PI * 2);
+    ctx.arc(cx, drawY + this.DRAW_H * 0.18, this.DRAW_W * 0.18, 0, Math.PI * 2);
     ctx.fill();
 
     // Body
     ctx.beginPath();
-    ctx.moveTo(cx - DRAW_W * 0.22, drawY + DRAW_H * 0.3);
-    ctx.lineTo(cx + DRAW_W * 0.22, drawY + DRAW_H * 0.3);
-    ctx.lineTo(cx + DRAW_W * 0.18, drawY + DRAW_H * 0.8);
-    ctx.lineTo(cx - DRAW_W * 0.18, drawY + DRAW_H * 0.8);
+    ctx.moveTo(cx - this.DRAW_W * 0.22, drawY + this.DRAW_H * 0.3);
+    ctx.lineTo(cx + this.DRAW_W * 0.22, drawY + this.DRAW_H * 0.3);
+    ctx.lineTo(cx + this.DRAW_W * 0.18, drawY + this.DRAW_H * 0.8);
+    ctx.lineTo(cx - this.DRAW_W * 0.18, drawY + this.DRAW_H * 0.8);
     ctx.closePath();
     ctx.fill();
   }
 
   renderFighterEffects(f: Fighter, drawY: number) {
     const ctx = this.ctx;
-    const cx = f.x + DRAW_W / 2;
-    const cy = drawY + DRAW_H / 2;
+    const cx = f.x + this.DRAW_W / 2;
+    const cy = drawY + this.DRAW_H / 2;
 
     // Attack effects
     if (this.isAttackState(f.state) && this.getAttackPhase(f) === "active") {
-      const attackX = cx + (f.facing === 1 ? DRAW_W * 0.5 : -DRAW_W * 0.5);
+      const attackX = cx + (f.facing === 1 ? this.DRAW_W * 0.5 : -this.DRAW_W * 0.5);
 
       if (f.state === "special") {
         // Dramatic special aura
@@ -1629,13 +1683,13 @@ export class FightEngine {
 
     // Block shield
     if (f.state === "block_stand" || f.state === "block_crouch") {
-      const shieldX = cx + f.facing * DRAW_W * 0.3;
+      const shieldX = cx + f.facing * this.DRAW_W * 0.3;
       ctx.strokeStyle = "#88ccff80";
       ctx.lineWidth = 3;
       ctx.beginPath();
       for (let i = 0; i < 6; i++) {
         const angle = (i / 6) * Math.PI * 2 - Math.PI / 2;
-        const r = DRAW_W * 0.4;
+        const r = this.DRAW_W * 0.4;
         const sx = shieldX + Math.cos(angle) * r;
         const sy = cy + Math.sin(angle) * r;
         if (i === 0) ctx.moveTo(sx, sy);
@@ -1655,17 +1709,17 @@ export class FightEngine {
       ctx.strokeStyle = f.data.color + "60";
       ctx.lineWidth = 2;
       ctx.beginPath();
-      ctx.roundRect(f.x - 3, drawY - 3, DRAW_W + 6, DRAW_H + 6, 8);
+      ctx.roundRect(f.x - 3, drawY - 3, this.DRAW_W + 6, this.DRAW_H + 6, 8);
       ctx.stroke();
       ctx.shadowBlur = 0;
     }
 
     // Special meter bar under fighter
     if (this.gameState.phase === "fighting") {
-      const meterW = DRAW_W * 0.8;
+      const meterW = this.DRAW_W * 0.8;
       const meterH = 4;
       const meterX = cx - meterW / 2;
-      const meterY = drawY + DRAW_H + 8;
+      const meterY = drawY + this.DRAW_H + 8;
 
       ctx.fillStyle = "#1e293b80";
       ctx.fillRect(meterX, meterY, meterW, meterH);
@@ -1771,178 +1825,324 @@ export class FightEngine {
     ctx.globalAlpha = 1;
   }
 
-  /* ─── HUD ─── */
+  /* ─── HUD — MK1-STYLE ─── */
   renderHUD() {
     const ctx = this.ctx;
     const w = this.width;
     const isMobile = w < 600;
 
-    const barW = isMobile ? w * 0.32 : w * 0.35;
-    const barH = isMobile ? 14 : 18;
-    const barY = isMobile ? 12 : 16;
-    const barPad = isMobile ? 10 : 20;
+    const barW = isMobile ? w * 0.34 : w * 0.38;
+    const barH = isMobile ? 18 : 24;
+    const barY = isMobile ? 10 : 14;
+    const barPad = isMobile ? 8 : 16;
+    const portraitSize = isMobile ? 32 : 44;
+    const hudH = barY + barH + (isMobile ? 26 : 36);
 
-    // HUD background strip
-    ctx.fillStyle = "rgba(0,0,0,0.5)";
-    ctx.fillRect(0, 0, w, barY + barH + (isMobile ? 20 : 30));
+    // ═══ HUD BACKGROUND — dark gradient strip ═══
+    const hudGrad = ctx.createLinearGradient(0, 0, 0, hudH);
+    hudGrad.addColorStop(0, "rgba(0,0,0,0.85)");
+    hudGrad.addColorStop(0.7, "rgba(0,0,0,0.65)");
+    hudGrad.addColorStop(1, "rgba(0,0,0,0)");
+    ctx.fillStyle = hudGrad;
+    ctx.fillRect(0, 0, w, hudH);
 
-    // P1 health bar
-    this.drawHealthBar(barPad, barY, barW, barH, this.p1.hp / this.p1.maxHp, this.p1.data.color, false);
-    // P2 health bar
-    this.drawHealthBar(w - barPad - barW, barY, barW, barH, this.p2.hp / this.p2.maxHp, this.p2.data.color, true);
-
-    // Fighter portraits in HUD
+    // ═══ FIGHTER PORTRAITS ═══
     [this.p1, this.p2].forEach((f, i) => {
-      const px = i === 0 ? barPad : w - barPad - (isMobile ? 24 : 32);
+      const px = i === 0 ? barPad : w - barPad - portraitSize;
       const py = barY - 2;
-      const ps = isMobile ? 24 : 32;
 
-      ctx.fillStyle = f.data.color + "40";
-      ctx.fillRect(px - 1, py - 1, ps + 2, ps + 2);
+      // Portrait border glow
+      ctx.shadowColor = f.data.color;
+      ctx.shadowBlur = 8;
+      ctx.fillStyle = f.data.color;
+      ctx.fillRect(px - 2, py - 2, portraitSize + 4, portraitSize + 4);
+      ctx.shadowBlur = 0;
+
+      // Portrait background
+      ctx.fillStyle = "#0a0a0a";
+      ctx.fillRect(px, py, portraitSize, portraitSize);
 
       if (f.imgLoaded && f.img) {
-        ctx.drawImage(f.img, px, py, ps, ps);
+        ctx.drawImage(f.img, px, py, portraitSize, portraitSize);
       } else {
-        ctx.fillStyle = f.data.color + "60";
-        ctx.fillRect(px, py, ps, ps);
+        ctx.fillStyle = f.data.color + "40";
+        ctx.fillRect(px, py, portraitSize, portraitSize);
       }
 
+      // Corner accent
       ctx.strokeStyle = f.data.color;
-      ctx.lineWidth = 1.5;
-      ctx.strokeRect(px, py, ps, ps);
+      ctx.lineWidth = 2;
+      ctx.strokeRect(px, py, portraitSize, portraitSize);
     });
 
-    // Names
-    const nameSize = isMobile ? 9 : 12;
+    // ═══ HEALTH BARS — MK-style with angled edges ═══
+    const hbX1 = barPad + portraitSize + 6;
+    const hbX2 = w - barPad - portraitSize - 6 - barW;
+    this.drawMKHealthBar(hbX1, barY, barW, barH, this.p1.hp / this.p1.maxHp, this.p1.data.color, false);
+    this.drawMKHealthBar(hbX2, barY, barW, barH, this.p2.hp / this.p2.maxHp, this.p2.data.color, true);
+
+    // ═══ NAMES ═══
+    const nameSize = isMobile ? 10 : 13;
     ctx.font = `bold ${nameSize}px monospace`;
     ctx.textAlign = "left";
     ctx.fillStyle = this.p1.data.color;
-    const p1Name = this.p1.data.name.length > 12 ? this.p1.data.name.substring(0, 10) + ".." : this.p1.data.name;
-    ctx.fillText(p1Name.toUpperCase(), barPad + (isMobile ? 28 : 38), barY - 3);
+    const p1Name = this.p1.data.name.length > 14 ? this.p1.data.name.substring(0, 12) + ".." : this.p1.data.name;
+    ctx.fillText(p1Name.toUpperCase(), hbX1, barY - 2);
     ctx.textAlign = "right";
     ctx.fillStyle = this.p2.data.color;
-    const p2Name = this.p2.data.name.length > 12 ? this.p2.data.name.substring(0, 10) + ".." : this.p2.data.name;
-    ctx.fillText(p2Name.toUpperCase(), w - barPad - (isMobile ? 28 : 38), barY - 3);
+    const p2Name = this.p2.data.name.length > 14 ? this.p2.data.name.substring(0, 12) + ".." : this.p2.data.name;
+    ctx.fillText(p2Name.toUpperCase(), hbX2 + barW, barY - 2);
 
-    // Timer
-    const timerSize = isMobile ? 20 : 28;
+    // ═══ TIMER — MK-style centered octagon ═══
+    const timerCx = w / 2;
+    const timerCy = barY + barH / 2;
+    const timerR = isMobile ? 20 : 26;
+
+    // Timer background octagon
+    ctx.fillStyle = "rgba(0,0,0,0.9)";
+    ctx.beginPath();
+    for (let i = 0; i < 8; i++) {
+      const angle = (i / 8) * Math.PI * 2 - Math.PI / 8;
+      const x = timerCx + Math.cos(angle) * (timerR + 3);
+      const y = timerCy + Math.sin(angle) * (timerR + 3);
+      if (i === 0) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
+    }
+    ctx.closePath();
+    ctx.fill();
+
+    // Timer border
+    ctx.strokeStyle = this.gameState.timer <= 10 ? "#ef4444" : "#fbbf24";
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    for (let i = 0; i < 8; i++) {
+      const angle = (i / 8) * Math.PI * 2 - Math.PI / 8;
+      const x = timerCx + Math.cos(angle) * (timerR + 2);
+      const y = timerCy + Math.sin(angle) * (timerR + 2);
+      if (i === 0) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
+    }
+    ctx.closePath();
+    ctx.stroke();
+
+    // Timer number
+    const timerSize = isMobile ? 22 : 30;
     ctx.font = `bold ${timerSize}px monospace`;
     ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
     ctx.fillStyle = this.gameState.timer <= 10 ? "#ef4444" : "#ffffff";
-    ctx.fillText(String(this.gameState.timer), w / 2, barY + barH - 2);
+    ctx.fillText(String(this.gameState.timer), timerCx, timerCy + 1);
+    ctx.textBaseline = "alphabetic";
 
-    // Round text
-    ctx.font = `${isMobile ? 8 : 10}px monospace`;
+    // ═══ ROUND INDICATOR ═══
+    ctx.font = `bold ${isMobile ? 9 : 11}px monospace`;
     ctx.fillStyle = "#94a3b8";
     ctx.textAlign = "center";
-    ctx.fillText(`ROUND ${this.gameState.round}`, w / 2, barY + barH + (isMobile ? 10 : 14));
+    ctx.fillText(`ROUND ${this.gameState.round}`, w / 2, barY + barH + (isMobile ? 14 : 18));
 
-    // Win dots
-    const dotR = isMobile ? 3 : 4;
+    // ═══ WIN DOTS — MK skulls style ═══
+    const dotR = isMobile ? 4 : 5;
     const winsNeeded = Math.ceil(this.gameState.maxRounds / 2);
     for (let i = 0; i < winsNeeded; i++) {
-      ctx.fillStyle = i < this.gameState.p1Wins ? this.p1.data.color : "#334155";
+      // P1 wins
+      const p1dx = hbX1 + i * (dotR * 3 + 2);
+      const p1dy = barY + barH + (isMobile ? 12 : 16);
+      ctx.fillStyle = i < this.gameState.p1Wins ? this.p1.data.color : "#1e293b";
       ctx.beginPath();
-      ctx.arc(barPad + barW * 0.5 - 10 + i * (dotR * 3), barY + barH + (isMobile ? 8 : 10), dotR, 0, Math.PI * 2);
+      ctx.arc(p1dx, p1dy, dotR, 0, Math.PI * 2);
       ctx.fill();
+      if (i < this.gameState.p1Wins) {
+        ctx.strokeStyle = this.p1.data.color + "80";
+        ctx.lineWidth = 1;
+        ctx.stroke();
+      }
 
-      ctx.fillStyle = i < this.gameState.p2Wins ? this.p2.data.color : "#334155";
+      // P2 wins
+      const p2dx = hbX2 + barW - i * (dotR * 3 + 2);
+      ctx.fillStyle = i < this.gameState.p2Wins ? this.p2.data.color : "#1e293b";
       ctx.beginPath();
-      ctx.arc(w - barPad - barW * 0.5 + 10 - i * (dotR * 3), barY + barH + (isMobile ? 8 : 10), dotR, 0, Math.PI * 2);
+      ctx.arc(p2dx, p1dy, dotR, 0, Math.PI * 2);
       ctx.fill();
+      if (i < this.gameState.p2Wins) {
+        ctx.strokeStyle = this.p2.data.color + "80";
+        ctx.lineWidth = 1;
+        ctx.stroke();
+      }
     }
 
-    // Combo text
+    // ═══ COMBO TEXT ═══
     if (this.gameState.comboTextTimer > 0) {
       const alpha = Math.min(1, this.gameState.comboTextTimer / 20);
+      const scale = 1 + (1 - alpha) * 0.15;
       ctx.globalAlpha = alpha;
-      ctx.font = `bold ${isMobile ? 16 : 22}px monospace`;
-      ctx.fillStyle = "#fbbf24";
+      ctx.save();
+      ctx.translate(w / 2, this.height * 0.32);
+      ctx.scale(scale, scale);
+      ctx.font = `bold ${isMobile ? 18 : 26}px monospace`;
+      ctx.strokeStyle = "#000000";
+      ctx.lineWidth = 4;
       ctx.textAlign = "center";
-      ctx.fillText(this.gameState.comboText, w / 2, this.height * 0.35);
+      ctx.strokeText(this.gameState.comboText, 0, 0);
+      ctx.fillStyle = "#fbbf24";
+      ctx.fillText(this.gameState.comboText, 0, 0);
+      ctx.restore();
       ctx.globalAlpha = 1;
     }
 
-    // Announce text
+    // ═══ ANNOUNCE TEXT — MK-style dramatic ═══
     if (this.gameState.announceTimer > 0) {
-      const alpha = Math.min(1, this.gameState.announceTimer / 20);
-      const scale = 1 + (1 - alpha) * 0.2;
+      const alpha = Math.min(1, this.gameState.announceTimer / 15);
+      const scale = 1 + (1 - Math.min(1, this.gameState.announceTimer / 30)) * 0.3;
       ctx.globalAlpha = alpha;
       ctx.save();
-      ctx.translate(w / 2, this.height * 0.45);
+      ctx.translate(w / 2, this.height * 0.44);
       ctx.scale(scale, scale);
-      ctx.font = `bold ${isMobile ? 28 : 42}px monospace`;
-      ctx.fillStyle = this.gameState.announceColor;
+
+      // Text shadow glow
+      const fontSize = isMobile ? 34 : 52;
+      ctx.font = `bold ${fontSize}px monospace`;
       ctx.textAlign = "center";
+
+      // Outer glow
+      ctx.shadowColor = this.gameState.announceColor;
+      ctx.shadowBlur = 20;
       ctx.strokeStyle = "#000000";
-      ctx.lineWidth = 4;
+      ctx.lineWidth = 6;
       ctx.strokeText(this.gameState.announceText, 0, 0);
+
+      // Fill
+      ctx.fillStyle = this.gameState.announceColor;
       ctx.fillText(this.gameState.announceText, 0, 0);
+
+      // Inner highlight
+      ctx.shadowBlur = 0;
+      ctx.fillStyle = "rgba(255,255,255,0.3)";
+      ctx.fillText(this.gameState.announceText, 0, -2);
+
       ctx.restore();
       ctx.globalAlpha = 1;
     }
 
     // Controls hint (desktop only)
     if (!isMobile) {
-      ctx.font = "9px monospace";
+      ctx.font = "10px monospace";
       ctx.fillStyle = "#475569";
       ctx.textAlign = "center";
-      ctx.fillText("WASD: Move | J: Punch | K: Kick | L: Special | SHIFT: Block | S: Crouch", w / 2, this.height - 8);
+      ctx.fillText("WASD: Move | J: Punch | K: Kick | L: Special | SHIFT: Block", w / 2, this.height - 10);
     }
   }
 
-  drawHealthBar(x: number, y: number, w: number, h: number, pct: number, color: string, reverse: boolean) {
+  drawMKHealthBar(x: number, y: number, w: number, h: number, pct: number, color: string, reverse: boolean) {
     const ctx = this.ctx;
+    const skew = h * 0.3; // MK-style angled edges
 
-    // Background
-    ctx.fillStyle = "#0f172a";
+    // Angled background shape
+    ctx.fillStyle = "#0a0a1a";
     ctx.beginPath();
-    ctx.roundRect(x, y, w, h, 3);
+    if (!reverse) {
+      ctx.moveTo(x, y);
+      ctx.lineTo(x + w, y);
+      ctx.lineTo(x + w - skew, y + h);
+      ctx.lineTo(x, y + h);
+    } else {
+      ctx.moveTo(x, y);
+      ctx.lineTo(x + w, y);
+      ctx.lineTo(x + w, y + h);
+      ctx.lineTo(x + skew, y + h);
+    }
+    ctx.closePath();
     ctx.fill();
 
     // Damage flash (red underneath)
-    ctx.fillStyle = "#ef444440";
+    ctx.fillStyle = "#ef444430";
     ctx.beginPath();
-    ctx.roundRect(x + 1, y + 1, w - 2, h - 2, 2);
+    if (!reverse) {
+      ctx.moveTo(x + 1, y + 1);
+      ctx.lineTo(x + w - 1, y + 1);
+      ctx.lineTo(x + w - skew - 1, y + h - 1);
+      ctx.lineTo(x + 1, y + h - 1);
+    } else {
+      ctx.moveTo(x + 1, y + 1);
+      ctx.lineTo(x + w - 1, y + 1);
+      ctx.lineTo(x + w - 1, y + h - 1);
+      ctx.lineTo(x + skew + 1, y + h - 1);
+    }
+    ctx.closePath();
     ctx.fill();
 
-    // Health fill
+    // Health fill with gradient
     const fillW = (w - 2) * Math.max(0, pct);
-    const fillX = reverse ? x + 1 + (w - 2) - fillW : x + 1;
+    if (fillW > 0) {
+      const fillX = reverse ? x + 1 + (w - 2) - fillW : x + 1;
+      const gradient = ctx.createLinearGradient(fillX, y, fillX + fillW, y + h);
+      if (pct > 0.5) {
+        gradient.addColorStop(0, lightenHex(color, 0.15));
+        gradient.addColorStop(0.5, color);
+        gradient.addColorStop(1, darkenHex(color, 0.1));
+      } else if (pct > 0.25) {
+        gradient.addColorStop(0, "#fbbf24");
+        gradient.addColorStop(0.5, "#f59e0b");
+        gradient.addColorStop(1, "#d97706");
+      } else {
+        gradient.addColorStop(0, "#f87171");
+        gradient.addColorStop(0.5, "#ef4444");
+        gradient.addColorStop(1, "#b91c1c");
+      }
 
-    const gradient = ctx.createLinearGradient(fillX, y, fillX + fillW, y);
-    if (pct > 0.5) {
-      gradient.addColorStop(0, color);
-      gradient.addColorStop(1, color + "cc");
-    } else if (pct > 0.25) {
-      gradient.addColorStop(0, "#f59e0b");
-      gradient.addColorStop(1, "#f59e0bcc");
-    } else {
-      gradient.addColorStop(0, "#ef4444");
-      gradient.addColorStop(1, "#ef4444cc");
+      ctx.save();
+      // Clip to the angled shape
+      ctx.beginPath();
+      if (!reverse) {
+        ctx.moveTo(x + 1, y + 1);
+        ctx.lineTo(x + w - 1, y + 1);
+        ctx.lineTo(x + w - skew - 1, y + h - 1);
+        ctx.lineTo(x + 1, y + h - 1);
+      } else {
+        ctx.moveTo(x + 1, y + 1);
+        ctx.lineTo(x + w - 1, y + 1);
+        ctx.lineTo(x + w - 1, y + h - 1);
+        ctx.lineTo(x + skew + 1, y + h - 1);
+      }
+      ctx.closePath();
+      ctx.clip();
+
+      ctx.fillStyle = gradient;
+      ctx.fillRect(fillX, y + 1, fillW, h - 2);
+
+      // Top shine strip
+      ctx.fillStyle = "rgba(255,255,255,0.15)";
+      ctx.fillRect(fillX, y + 1, fillW, h * 0.35);
+
+      // Bottom shadow
+      ctx.fillStyle = "rgba(0,0,0,0.15)";
+      ctx.fillRect(fillX, y + h * 0.7, fillW, h * 0.3);
+
+      ctx.restore();
     }
 
-    ctx.fillStyle = gradient;
+    // Angled border
+    ctx.strokeStyle = color + "60";
+    ctx.lineWidth = 2;
     ctx.beginPath();
-    ctx.roundRect(fillX, y + 1, fillW, h - 2, 2);
-    ctx.fill();
-
-    // Shine
-    ctx.fillStyle = "rgba(255,255,255,0.1)";
-    ctx.fillRect(fillX, y + 1, fillW, h * 0.4);
-
-    // Border
-    ctx.strokeStyle = color + "40";
-    ctx.lineWidth = 1;
-    ctx.beginPath();
-    ctx.roundRect(x, y, w, h, 3);
+    if (!reverse) {
+      ctx.moveTo(x, y);
+      ctx.lineTo(x + w, y);
+      ctx.lineTo(x + w - skew, y + h);
+      ctx.lineTo(x, y + h);
+    } else {
+      ctx.moveTo(x, y);
+      ctx.lineTo(x + w, y);
+      ctx.lineTo(x + w, y + h);
+      ctx.lineTo(x + skew, y + h);
+    }
+    ctx.closePath();
     ctx.stroke();
 
-    // HP percentage
-    ctx.font = "bold 9px monospace";
+    // HP text
+    ctx.font = `bold ${h > 20 ? 11 : 9}px monospace`;
     ctx.fillStyle = "#ffffff";
     ctx.textAlign = "center";
-    ctx.fillText(`${Math.ceil(pct * 100)}%`, x + w / 2, y + h - 3);
+    ctx.fillText(`${Math.ceil(pct * 100)}%`, x + w / 2, y + h - 4);
   }
 
   renderPhaseOverlay() {
@@ -2028,10 +2228,23 @@ export class FightEngine {
     this.canvas.height = height;
     this.groundY = height * GROUND_Y_RATIO;
 
+    // Recalculate dynamic scaling
+    this.scaleFactor = this.height / REF_H;
+    this.SPRITE_SCALE = REF_SPRITE_SCALE * this.scaleFactor;
+    this.FIGHTER_W = Math.round(REF_FIGHTER_W * this.scaleFactor);
+    this.FIGHTER_H = Math.round(REF_FIGHTER_H * this.scaleFactor);
+    this.DRAW_W = Math.round(this.FIGHTER_W * REF_SPRITE_SCALE);
+    this.DRAW_H = Math.round(this.FIGHTER_H * REF_SPRITE_SCALE);
+    this.GRAVITY = REF_GRAVITY * this.scaleFactor;
+    this.WALK_SPEED = REF_WALK_SPEED * this.scaleFactor;
+    this.BACK_SPEED = REF_BACK_SPEED * this.scaleFactor;
+    this.JUMP_FORCE = REF_JUMP_FORCE * this.scaleFactor;
+    this.JUMP_FWD_VX = REF_JUMP_FWD_VX * this.scaleFactor;
+
     // Scale fighter positions
     this.p1.x = (this.p1.x / oldW) * width;
     this.p2.x = (this.p2.x / oldW) * width;
-    const groundLevel = this.groundY - DRAW_H;
+    const groundLevel = this.groundY - this.DRAW_H;
     if (!this.p1.isAirborne) this.p1.y = groundLevel;
     if (!this.p2.isAirborne) this.p2.y = groundLevel;
 
