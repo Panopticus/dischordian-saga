@@ -169,12 +169,14 @@ function getPageChoices(path: string): { greeting: string; choices: DialogChoice
   // Watch
   if (path === "/watch") {
     return {
-      greeting: "The Visual Archive contains dimensional recordings — music videos, visual transmissions, and cinematic echoes from across the multiverse. Each one offers a window into the events of the Saga.",
+      greeting: "You've accessed the Dimensional Broadcast System. The Dischordian Saga unfolds across seven epochs — from the Fall of Reality through the Age of Privacy. Each epoch is a chapter in the story of the multiverse. Choose an epoch to begin.",
       choices: [
-        { id: "watch-recommend", text: "What should I watch first?", category: "music" },
-        { id: "watch-lore", text: "Which videos reveal the most lore?", category: "lore" },
+        { id: "watch-epochs", text: "Explain the epochs to me.", category: "lore" },
+        { id: "watch-start", text: "Where should I start watching?", category: "music" },
+        { id: "watch-fall", text: "What is the Fall of Reality?", category: "lore" },
+        { id: "watch-programmer", text: "Who is the Programmer?", category: "lore" },
         { id: "watch-malkia", text: "Tell me about Malkia Ukweli.", category: "lore" },
-        { id: "watch-albums", text: "Walk me through the albums.", category: "music" },
+        { id: "watch-conexus", text: "What are the CoNexus Stories?", category: "lore" },
       ],
     };
   }

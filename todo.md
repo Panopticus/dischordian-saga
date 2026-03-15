@@ -308,3 +308,22 @@
 - [x] Redesigned node detail panel with image header, connection tags, and type badges
 - [x] Add hover state with node highlighting and connected edge illumination
 - [x] Add zoom indicator and polished filter controls with type icons
+
+## Phase 12: Dischordian Saga Show — Primary Feature
+- [x] Redesign Watch page as "The Dischordian Saga" show page organized by epochs
+- [x] Add Epoch Zero: The Fall of Reality with YouTube playlist (PLhUHvGa0xBaQFYJatsDLPtvbQVDpzydl1)
+- [x] Add First Epoch: The Awakening with YouTube playlist (PLhUHvGa0xBaRniDT5eztLsXFTzbR0JaCu)
+- [x] Add The Fall of Reality: The Engineer with YouTube playlist (PLhUHvGa0xBaQfuKeeqx7cLOfhZ1Fr1-jb)
+- [x] Add The Spaces Inbetween Epochs with correct YouTube playlist (PLhUHvGa0xBaQdgXe7lQz5mYRYQaaWZ86i)
+- [x] Add Being and Time: Second Epoch with YouTube playlist (PLhUHvGa0xBaQXcM_dscfjlqjYOeGCvtoE)
+- [x] Add The Age of Privacy with correct YouTube playlist (PLhUHvGa0xBaQ8W2PK16gS07gtBg3m64m2)
+- [x] Add bonus CoNexus Stories with YouTube playlist (PLhUHvGa0xBaQdlo3Xgz4_5_TFFw2YzmAz)
+- [x] Embed YouTube playlists with proper iframe embedding (click-to-load for performance)
+- [x] Make the show a primary/prominent feature in navigation (THE SAGA group 2nd in sidebar, 2nd in mobile bottom nav)
+- [x] Add epoch descriptions and lore context for each section
+- [x] Design with Void Energy aesthetic matching the rest of the app
+- [x] Add LISTEN link to THE SAGA nav group for music access
+- [x] Update Elara's Watch page dialog with epoch-specific questions
+- [x] Add Watch page context hint for Elara's LLM-powered responses
+- [x] Fix duplicate playlist IDs (Spaces Between and Age of Privacy were using wrong IDs)
+- [x] All 90 tests passing

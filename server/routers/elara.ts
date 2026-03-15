@@ -183,6 +183,7 @@ export const elaraRouter = router({
         else if (page.startsWith("/song/")) contextHint = "\n\nCONTEXT: The user is viewing a song page. Decode the song's lore meaning, characters referenced, and connections to the Saga.";
         else if (page.startsWith("/album/")) contextHint = "\n\nCONTEXT: The user is viewing an album. Explain the album's narrative arc, key tracks, and era in the Saga timeline.";
         else if (page === "/timeline" || page === "/character-timeline") contextHint = "\n\nCONTEXT: The user is viewing the timeline. Help them understand the chronological flow of events across the four ages.";
+        else if (page === "/watch") contextHint = "\n\nCONTEXT: The user is watching The Dischordian Saga show. The show is organized by epochs: Epoch Zero (The Fall of Reality), First Epoch (The Awakening), The Engineer arc, The Spaces Inbetween Epochs (interlude stories), Second Epoch (Being and Time featuring the Programmer), The Age of Privacy (the era of surveillance before the Age of Revelation), and bonus CoNexus Stories. Help them understand the narrative structure, which epoch to watch first, and the lore connections between epochs.";
         else if (page === "/games") contextHint = "\n\nCONTEXT: The user is at the CADES Simulation Hub. Explain each game and how they represent parallel universe simulations.";
       }
 

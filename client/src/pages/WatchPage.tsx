@@ -1,25 +1,131 @@
 /* ═══════════════════════════════════════════════════════
-   WATCH THE SHOW — Episode-by-episode viewer with
-   embedded YouTube videos and a pop-up lore navigation
-   panel showing connected characters, locations, games,
-   and songs for each episode. Easy prev/next navigation.
+   THE DISCHORDIAN SAGA — Primary show experience
+   organized by Epochs with YouTube playlists, plus
+   individual episode viewer with lore connections.
    ═══════════════════════════════════════════════════════ */
 import { useLoredex, type LoredexEntry } from "@/contexts/LoredexContext";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useGamification } from "@/contexts/GamificationContext";
-import { Link, useLocation } from "wouter";
+import { Link } from "wouter";
 import { useState, useMemo, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Play, ChevronLeft, ChevronRight, Users, MapPin, Swords, Music,
   Gamepad2, Eye, List, X, ChevronDown, ChevronUp, ExternalLink,
-  Tv, SkipForward, SkipBack, Disc3, Sparkles, BookOpen
+  Tv, SkipForward, SkipBack, Disc3, Sparkles, BookOpen, Radio,
+  Clock, Zap, Globe, Film, Layers
 } from "lucide-react";
 
-// ═══ EPISODE DATA ═══
-// Each "episode" is a song with a music video, ordered by narrative chronology
-// grouped by album (which maps to seasons/story arcs)
+/* ═══ EPOCH DATA ═══ */
+interface Epoch {
+  id: string;
+  title: string;
+  subtitle?: string;
+  description: string;
+  loreContext: string;
+  playlistUrl: string;
+  playlistId: string;
+  color: string;
+  icon: typeof Zap;
+  order: number;
+  type: "epoch" | "interlude" | "era";
+}
 
+const EPOCHS: Epoch[] = [
+  {
+    id: "fall-of-reality",
+    title: "THE FALL OF REALITY",
+    subtitle: "Epoch Zero",
+    description: "Before the ages were named, before the factions rose — there was the Fall. Witness the cataclysm that shattered the old world and gave birth to the Dischordian timeline.",
+    loreContext: "The Fall of Reality marks the end of human civilization as it was known. The Architect, the Enigma, and the first Potentials emerge from the ashes of a world consumed by its own creation. This is where it all begins.",
+    playlistUrl: "https://youtube.com/playlist?list=PLhUHvGa0xBaQFYJatsDLPtvbQVDpzydl1",
+    playlistId: "PLhUHvGa0xBaQFYJatsDLPtvbQVDpzydl1",
+    color: "#FF3C40",
+    icon: Zap,
+    order: 0,
+    type: "epoch",
+  },
+  {
+    id: "epoch-1a",
+    title: "THE AWAKENING",
+    subtitle: "First Epoch",
+    description: "The first age after the Fall. New powers awaken across the fractured multiverse. Factions form, alliances break, and the struggle for control of reality begins.",
+    loreContext: "Epoch 1 chronicles the emergence of the Potentials — beings of extraordinary power born from the chaos of the Fall. The Architect builds the Panopticon, the Warlord conquers worlds, and the seeds of the Dischordian conflict are sown.",
+    playlistUrl: "https://youtube.com/playlist?list=PLhUHvGa0xBaRniDT5eztLsXFTzbR0JaCu",
+    playlistId: "PLhUHvGa0xBaRniDT5eztLsXFTzbR0JaCu",
+    color: "#33E2E6",
+    icon: Globe,
+    order: 1,
+    type: "epoch",
+  },
+  {
+    id: "epoch-1b",
+    title: "THE FALL OF REALITY",
+    subtitle: "The Engineer",
+    description: "The Engineer's story unfolds — a tale of creation, sacrifice, and the machines that would reshape the multiverse forever.",
+    loreContext: "The Engineer's arc reveals the technological foundations of the Dischordian universe. From the construction of the first dimensional bridges to the creation of sentient machines, this chapter explores how engineering ambition both saved and doomed civilizations.",
+    playlistUrl: "https://youtube.com/playlist?list=PLhUHvGa0xBaQfuKeeqx7cLOfhZ1Fr1-jb",
+    playlistId: "PLhUHvGa0xBaQfuKeeqx7cLOfhZ1Fr1-jb",
+    color: "#33E2E6",
+    icon: Globe,
+    order: 2,
+    type: "epoch",
+  },
+  {
+    id: "spaces-between",
+    title: "THE SPACES INBETWEEN",
+    subtitle: "Interlude",
+    description: "In the gaps between the great ages, smaller stories play out — visions, echoes, and fragments of realities that exist in the liminal spaces of the multiverse.",
+    loreContext: "The Spaces Between are not empty. They are filled with visions — random stories set across the universe, glimpses of lives lived in the margins of the great epochs. The CoNexus records everything.",
+    playlistUrl: "https://youtube.com/playlist?list=PLhUHvGa0xBaQdgXe7lQz5mYRYQaaWZ86i",
+    playlistId: "PLhUHvGa0xBaQdgXe7lQz5mYRYQaaWZ86i",
+    color: "#A078FF",
+    icon: Sparkles,
+    order: 3,
+    type: "interlude",
+  },
+  {
+    id: "epoch-2",
+    title: "BEING AND TIME",
+    subtitle: "Second Epoch",
+    description: "The second great age. Questions of existence, consciousness, and the nature of time itself become the battlefield. The Programmer emerges.",
+    loreContext: "Epoch 2: Being and Time explores the philosophical dimensions of the Dischordian universe. Dr. Daniel Cross — the Programmer — begins his journey through time. The Age of Revelation approaches, and with it, truths that will reshape everything.",
+    playlistUrl: "https://youtube.com/playlist?list=PLhUHvGa0xBaQXcM_dscfjlqjYOeGCvtoE",
+    playlistId: "PLhUHvGa0xBaQXcM_dscfjlqjYOeGCvtoE",
+    color: "#3875FA",
+    icon: Clock,
+    order: 4,
+    type: "epoch",
+  },
+  {
+    id: "age-of-privacy",
+    title: "THE AGE OF PRIVACY",
+    subtitle: "Era",
+    description: "The era immediately preceding the Age of Revelation. Surveillance, control, and the erosion of freedom define this period. Malkia Ukweli — the Enigma — fights for truth.",
+    loreContext: "The Age of Privacy is the penultimate era before everything changes. It is a time of secrets, surveillance, and the struggle between those who would control information and those who would set it free. This era leads directly into the Age of Revelation, which precedes the Fall of Reality.",
+    playlistUrl: "https://youtube.com/playlist?list=PLhUHvGa0xBaQ8W2PK16gS07gtBg3m64m2",
+    playlistId: "PLhUHvGa0xBaQ8W2PK16gS07gtBg3m64m2",
+    color: "#FF8C00",
+    icon: Eye,
+    order: 5,
+    type: "era",
+  },
+  {
+    id: "conexus-stories",
+    title: "CONEXUS STORIES",
+    subtitle: "Bonus",
+    description: "Behind-the-scenes and supplementary stories from the CoNexus — the interdimensional network that connects all realities in the Dischordian universe.",
+    loreContext: "The CoNexus is more than a network — it is a living archive of every story ever told across the multiverse. These bonus episodes explore the CoNexus itself, its guardians, and the stories that don't fit neatly into any single epoch.",
+    playlistUrl: "https://youtube.com/playlist?list=PLhUHvGa0xBaQdlo3Xgz4_5_TFFw2YzmAz",
+    playlistId: "PLhUHvGa0xBaQdlo3Xgz4_5_TFFw2YzmAz",
+    color: "#10B981",
+    icon: Radio,
+    order: 6,
+    type: "interlude",
+  },
+];
+
+/* ═══ EPISODE DATA (from songs with videos) ═══ */
 interface Episode {
   id: string;
   title: string;
@@ -35,7 +141,6 @@ interface Episode {
   era: string;
 }
 
-// Build episodes from songs with music videos, in album/track order
 const ALBUM_ORDER = [
   "Dischordian Logic",
   "The Age of Privacy",
@@ -51,13 +156,12 @@ const ALBUM_SHORT: Record<string, string> = {
 };
 
 const ALBUM_COLORS: Record<string, string> = {
-  "Dischordian Logic": "#00d9ff",
-  "The Age of Privacy": "#4ade80",
-  "The Book of Daniel 2:47": "#fbbf24",
-  "Silence in Heaven": "#ff2d55",
+  "Dischordian Logic": "#33E2E6",
+  "The Age of Privacy": "#FF8C00",
+  "The Book of Daniel 2:47": "#A078FF",
+  "Silence in Heaven": "#FF3C40",
 };
 
-// CoNexus game connections per song (from the data)
 const SONG_CONEXUS: Record<string, string[]> = {
   "Building the Architect": ["Building the Architect"],
   "The Prisoner": ["The Prisoner"],
@@ -80,7 +184,6 @@ const SONG_CONEXUS: Record<string, string[]> = {
   "The Oracle": ["The Oracle"],
 };
 
-// Location connections per song
 const SONG_LOCATIONS: Record<string, string[]> = {
   "Building the Architect": ["The Panopticon"],
   "The Prisoner": ["The Panopticon"],
@@ -103,7 +206,6 @@ const SONG_LOCATIONS: Record<string, string[]> = {
   "The Oracle": ["Thaloria"],
 };
 
-// Faction connections per song
 const SONG_FACTIONS: Record<string, string[]> = {
   "A Very Civil War": ["The Insurgency"],
   "Awaken the Clone": ["The Clone Army"],
@@ -115,7 +217,11 @@ const SONG_FACTIONS: Record<string, string[]> = {
   "The Oracle": ["The Syndicate of Death", "The Council of Harmony"],
 };
 
-function getEmbedUrl(url: string): string {
+function getPlaylistEmbedUrl(playlistId: string): string {
+  return `https://www.youtube.com/embed/videoseries?list=${playlistId}&rel=0&modestbranding=1`;
+}
+
+function getVideoEmbedUrl(url: string): string {
   try {
     if (url.includes("watch?v=")) {
       const videoId = url.split("watch?v=")[1]?.split("&")[0];
@@ -131,14 +237,20 @@ function getEmbedUrl(url: string): string {
   }
 }
 
+/* ═══ VIEW MODES ═══ */
+type ViewMode = "epochs" | "episodes";
+
 export default function WatchPage() {
-  const { entries, getEntry, getEntryById, discoverEntry, musicVideos } = useLoredex();
+  const { entries, getEntry, discoverEntry, musicVideos } = useLoredex();
   const { playSong, setQueue } = usePlayer();
+  const gamification = useGamification();
+  const [viewMode, setViewMode] = useState<ViewMode>("epochs");
+  const [activeEpoch, setActiveEpoch] = useState<string | null>(null);
   const [currentEpisodeIdx, setCurrentEpisodeIdx] = useState(0);
-  const [showLorePanel, setShowLorePanel] = useState(true);
-  const [showEpisodeList, setShowEpisodeList] = useState(false);
+  const [showLorePanel, setShowLorePanel] = useState(false);
   const [loreTab, setLoreTab] = useState<"characters" | "locations" | "factions" | "games" | "songs">("characters");
   const videoContainerRef = useRef<HTMLDivElement>(null);
+  const epochRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
   // Build episode list from songs with music videos
   const episodes: Episode[] = useMemo(() => {
@@ -146,19 +258,15 @@ export default function WatchPage() {
     const songsWithVideo = entries.filter(
       (e) => e.type === "song" && e.music_video && (e.music_video.official || e.music_video.vevo)
     );
-
-    // Sort by album order, then track number
     songsWithVideo.sort((a, b) => {
       const aAlbumIdx = ALBUM_ORDER.indexOf(a.album || "");
       const bAlbumIdx = ALBUM_ORDER.indexOf(b.album || "");
       if (aAlbumIdx !== bAlbumIdx) return aAlbumIdx - bAlbumIdx;
       return (a.track_number || 0) - (b.track_number || 0);
     });
-
     songsWithVideo.forEach((song) => {
       const videoUrl = song.music_video?.official || song.music_video?.vevo || "";
       if (!videoUrl) return;
-
       eps.push({
         id: song.id,
         title: song.name,
@@ -174,23 +282,18 @@ export default function WatchPage() {
         era: song.era || "",
       });
     });
-
     return eps;
   }, [entries]);
 
   const currentEpisode = episodes[currentEpisodeIdx];
 
-  const gamification = useGamification();
-
-  // Discover entry when viewing
   useEffect(() => {
-    if (currentEpisode) {
+    if (currentEpisode && viewMode === "episodes") {
       discoverEntry(currentEpisode.id);
       gamification.watchEpisode(currentEpisode.id);
     }
-  }, [currentEpisode?.id]);
+  }, [currentEpisode?.id, viewMode]);
 
-  // Get related songs from same album (for "more from this album" section)
   const albumSongs = useMemo(() => {
     if (!currentEpisode) return [];
     return entries
@@ -200,35 +303,405 @@ export default function WatchPage() {
 
   const goToEpisode = (idx: number) => {
     setCurrentEpisodeIdx(idx);
-    setShowEpisodeList(false);
+    setViewMode("episodes");
     videoContainerRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
-  const goNext = () => {
-    if (currentEpisodeIdx < episodes.length - 1) {
-      goToEpisode(currentEpisodeIdx + 1);
-    }
+  const scrollToEpoch = (epochId: string) => {
+    setActiveEpoch(epochId);
+    epochRefs.current[epochId]?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
-  const goPrev = () => {
-    if (currentEpisodeIdx > 0) {
-      goToEpisode(currentEpisodeIdx - 1);
-    }
-  };
-
-  if (episodes.length === 0) {
+  if (viewMode === "episodes" && currentEpisode) {
     return (
-      <div className="p-8 text-center">
-        <p className="font-mono text-muted-foreground">NO EPISODES AVAILABLE</p>
-      </div>
+      <EpisodeViewer
+        episodes={episodes}
+        currentEpisodeIdx={currentEpisodeIdx}
+        currentEpisode={currentEpisode}
+        albumSongs={albumSongs}
+        showLorePanel={showLorePanel}
+        setShowLorePanel={setShowLorePanel}
+        loreTab={loreTab}
+        setLoreTab={setLoreTab}
+        getEntry={getEntry}
+        goToEpisode={goToEpisode}
+        setViewMode={setViewMode}
+        videoContainerRef={videoContainerRef}
+      />
     );
   }
 
-  if (!currentEpisode) return null;
+  return (
+    <div className="animate-fade-in">
+      {/* ═══ HERO HEADER ═══ */}
+      <section className="relative overflow-hidden">
+        <div className="absolute inset-0">
+          <div className="absolute inset-0" style={{
+            background: "radial-gradient(ellipse at 50% 20%, rgba(56,117,250,0.15) 0%, transparent 60%), radial-gradient(ellipse at 80% 80%, rgba(255,60,64,0.08) 0%, transparent 50%)"
+          }} />
+        </div>
+        <div className="relative px-4 sm:px-6 pt-8 pb-6 sm:pt-12 sm:pb-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            {/* Signal line */}
+            <div className="flex items-center gap-2 mb-4">
+              <div className="h-px flex-1 max-w-12 bg-gradient-to-r from-transparent to-[var(--alert-red)]/50" />
+              <span className="font-mono text-[10px] text-[var(--alert-red)]/70 tracking-[0.4em]">TRANSMISSION // CLASSIFIED</span>
+              <div className="h-px flex-1 max-w-12 bg-gradient-to-l from-transparent to-[var(--alert-red)]/50" />
+            </div>
 
-  const albumColor = ALBUM_COLORS[currentEpisode.album] || "#00d9ff";
+            <h1 className="font-display text-2xl sm:text-4xl lg:text-5xl font-black tracking-wider text-white mb-2 leading-tight">
+              THE <span className="text-[var(--neon-cyan)] glow-cyan">DISCHORDIAN</span> SAGA
+            </h1>
+            <p className="font-mono text-xs sm:text-sm text-white/60 max-w-2xl mb-5 leading-relaxed">
+              A multiverse-spanning narrative told through music, film, and interactive experiences.
+              Follow the story from the <span className="text-[var(--alert-red)]">Fall of Reality</span> through
+              the <span className="text-[var(--neon-cyan)]">rise of the Potentials</span> to
+              the <span className="text-[var(--orb-orange)]">Age of Privacy</span>.
+            </p>
 
-  // Resolve lore entries
+            {/* View mode toggle */}
+            <div className="flex items-center gap-2 mb-4">
+              <button
+                onClick={() => setViewMode("epochs")}
+                className={`flex items-center gap-2 px-4 py-2 rounded-md font-mono text-xs tracking-wider transition-all ${
+                  viewMode === "epochs"
+                    ? "bg-[var(--neon-cyan)]/10 text-[var(--neon-cyan)] border border-[var(--neon-cyan)]/30"
+                    : "text-white/40 border border-white/10 hover:text-white/60 hover:border-white/20"
+                }`}
+              >
+                <Layers size={14} />
+                EPOCHS
+              </button>
+              <button
+                onClick={() => setViewMode("episodes")}
+                className={`flex items-center gap-2 px-4 py-2 rounded-md font-mono text-xs tracking-wider transition-all ${
+                  viewMode === "episodes"
+                    ? "bg-[var(--neon-cyan)]/10 text-[var(--neon-cyan)] border border-[var(--neon-cyan)]/30"
+                    : "text-white/40 border border-white/10 hover:text-white/60 hover:border-white/20"
+                }`}
+              >
+                <Film size={14} />
+                EPISODES ({episodes.length})
+              </button>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ═══ EPOCH NAVIGATION STRIP ═══ */}
+      <div className="px-4 sm:px-6 mb-6">
+        <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
+          {EPOCHS.map((epoch) => {
+            const Icon = epoch.icon;
+            return (
+              <button
+                key={epoch.id}
+                onClick={() => scrollToEpoch(epoch.id)}
+                className={`flex items-center gap-2 px-3 py-2 rounded-lg font-mono text-[10px] tracking-wider whitespace-nowrap transition-all shrink-0 border ${
+                  activeEpoch === epoch.id
+                    ? "border-opacity-40 bg-opacity-10"
+                    : "border-white/10 bg-white/3 hover:bg-white/5 hover:border-white/20"
+                }`}
+                style={{
+                  borderColor: activeEpoch === epoch.id ? epoch.color + "66" : undefined,
+                  backgroundColor: activeEpoch === epoch.id ? epoch.color + "15" : undefined,
+                  color: activeEpoch === epoch.id ? epoch.color : "rgba(255,255,255,0.5)",
+                }}
+              >
+                <Icon size={12} />
+                <span>{epoch.title}</span>
+                {epoch.subtitle && (
+                  <span className="text-[8px] opacity-60">// {epoch.subtitle}</span>
+                )}
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* ═══ EPOCH SECTIONS ═══ */}
+      <div className="px-4 sm:px-6 space-y-8 pb-12">
+        {EPOCHS.map((epoch, idx) => (
+          <EpochSection
+            key={epoch.id}
+            epoch={epoch}
+            index={idx}
+            ref={(el) => { epochRefs.current[epoch.id] = el; }}
+            onWatchEpisodes={() => setViewMode("episodes")}
+          />
+        ))}
+
+        {/* ═══ INDIVIDUAL EPISODES TEASER ═══ */}
+        <motion.section
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3 }}
+          className="rounded-xl p-5 sm:p-6"
+          style={{
+            background: "linear-gradient(135deg, var(--glass-base) 0%, var(--glass-dark) 100%)",
+            border: "1px solid var(--glass-border)",
+          }}
+        >
+          <div className="flex items-center gap-3 mb-4">
+            <Film size={16} className="text-[var(--neon-cyan)]" />
+            <h2 className="font-display text-sm font-bold tracking-[0.2em] text-white">INDIVIDUAL EPISODES</h2>
+            <span className="font-mono text-[10px] text-white/30">{episodes.length} MUSIC VIDEOS</span>
+          </div>
+          <p className="font-mono text-xs text-white/60 mb-4 max-w-xl">
+            Each song with a music video is an episode in the saga. Watch them individually with full lore connections — see which characters, locations, and factions appear in each.
+          </p>
+          <button
+            onClick={() => setViewMode("episodes")}
+            className="flex items-center gap-2 px-5 py-2.5 rounded-md font-mono text-xs tracking-wider transition-all bg-[var(--neon-cyan)]/10 text-[var(--neon-cyan)] border border-[var(--neon-cyan)]/30 hover:bg-[var(--neon-cyan)]/20"
+          >
+            <Play size={14} />
+            WATCH EPISODES
+            <ChevronRight size={12} />
+          </button>
+        </motion.section>
+      </div>
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════
+   EPOCH SECTION — Individual epoch card with playlist
+   ═══════════════════════════════════════════════════════ */
+import { forwardRef } from "react";
+
+interface EpochSectionProps {
+  epoch: Epoch;
+  index: number;
+  onWatchEpisodes: () => void;
+}
+
+const EpochSection = forwardRef<HTMLDivElement, EpochSectionProps>(
+  ({ epoch, index, onWatchEpisodes }, ref) => {
+    const [expanded, setExpanded] = useState(index === 0); // First epoch starts expanded
+    const [showPlayer, setShowPlayer] = useState(false);
+    const Icon = epoch.icon;
+
+    const typeBadge = epoch.type === "epoch"
+      ? "EPOCH"
+      : epoch.type === "interlude"
+      ? "INTERLUDE"
+      : "ERA";
+
+    return (
+      <motion.div
+        ref={ref}
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.1 * index, duration: 0.5 }}
+        className="rounded-xl overflow-hidden"
+        style={{
+          background: "linear-gradient(135deg, var(--glass-base) 0%, var(--glass-dark) 100%)",
+          border: `1px solid ${epoch.color}20`,
+          boxShadow: expanded ? `0 0 30px ${epoch.color}08` : "none",
+        }}
+      >
+        {/* Epoch Header — always visible */}
+        <button
+          onClick={() => setExpanded(!expanded)}
+          className="w-full text-left p-4 sm:p-6 transition-all group"
+        >
+          <div className="flex items-start gap-3 sm:gap-4">
+            {/* Epoch Icon */}
+            <div
+              className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg flex items-center justify-center shrink-0 relative"
+              style={{
+                background: `linear-gradient(135deg, ${epoch.color}20 0%, ${epoch.color}08 100%)`,
+                border: `1px solid ${epoch.color}30`,
+              }}
+            >
+              <Icon size={20} style={{ color: epoch.color }} />
+              {expanded && (
+                <div
+                  className="absolute inset-0 rounded-lg animate-cyber-pulse"
+                  style={{ boxShadow: `0 0 15px ${epoch.color}20` }}
+                />
+              )}
+            </div>
+
+            <div className="flex-1 min-w-0">
+              {/* Type badge + order */}
+              <div className="flex items-center gap-2 mb-1">
+                <span
+                  className="font-mono text-[9px] tracking-[0.3em] px-2 py-0.5 rounded"
+                  style={{
+                    color: epoch.color,
+                    background: epoch.color + "15",
+                    border: `1px solid ${epoch.color}25`,
+                  }}
+                >
+                  {typeBadge}
+                </span>
+                {epoch.subtitle && (
+                  <span className="font-mono text-[10px] text-white/30">// {epoch.subtitle}</span>
+                )}
+              </div>
+
+              {/* Title */}
+              <h2
+                className="font-display text-base sm:text-lg font-bold tracking-wider mb-1.5"
+                style={{ color: epoch.color }}
+              >
+                {epoch.title}
+              </h2>
+
+              {/* Description */}
+              <p className="font-mono text-xs text-white/60 leading-relaxed line-clamp-2 group-hover:text-white/70 transition-colors">
+                {epoch.description}
+              </p>
+            </div>
+
+            {/* Expand indicator */}
+            <ChevronDown
+              size={16}
+              className={`shrink-0 transition-transform duration-300 text-white/30 ${expanded ? "rotate-180" : ""}`}
+            />
+          </div>
+        </button>
+
+        {/* Expanded Content */}
+        <AnimatePresence>
+          {expanded && (
+            <motion.div
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: "auto", opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="overflow-hidden"
+            >
+              <div className="px-4 sm:px-6 pb-5 sm:pb-6 space-y-4">
+                {/* Divider */}
+                <div className="h-px" style={{ background: `linear-gradient(to right, transparent, ${epoch.color}30, transparent)` }} />
+
+                {/* Lore Context */}
+                <div
+                  className="rounded-lg p-3 sm:p-4"
+                  style={{
+                    background: epoch.color + "08",
+                    border: `1px solid ${epoch.color}15`,
+                  }}
+                >
+                  <div className="flex items-center gap-2 mb-2">
+                    <BookOpen size={12} style={{ color: epoch.color }} />
+                    <span className="font-mono text-[9px] tracking-[0.2em]" style={{ color: epoch.color + "90" }}>
+                      LORE CONTEXT
+                    </span>
+                  </div>
+                  <p className="font-mono text-xs text-white/70 leading-relaxed">
+                    {epoch.loreContext}
+                  </p>
+                </div>
+
+                {/* YouTube Playlist Player */}
+                {!showPlayer ? (
+                  <button
+                    onClick={() => setShowPlayer(true)}
+                    className="w-full rounded-lg p-4 sm:p-6 flex flex-col items-center justify-center gap-3 transition-all group"
+                    style={{
+                      background: `linear-gradient(135deg, ${epoch.color}10 0%, var(--glass-dark) 100%)`,
+                      border: `1px solid ${epoch.color}20`,
+                    }}
+                  >
+                    <div
+                      className="w-14 h-14 rounded-full flex items-center justify-center transition-all group-hover:scale-110"
+                      style={{
+                        background: `linear-gradient(135deg, ${epoch.color}30 0%, ${epoch.color}10 100%)`,
+                        border: `2px solid ${epoch.color}50`,
+                        boxShadow: `0 0 20px ${epoch.color}20`,
+                      }}
+                    >
+                      <Play size={24} className="ml-1" style={{ color: epoch.color }} />
+                    </div>
+                    <div className="text-center">
+                      <p className="font-display text-sm font-bold tracking-wider text-white mb-1">
+                        PLAY {epoch.title}
+                      </p>
+                      <p className="font-mono text-[10px] text-white/40">
+                        YouTube Playlist // Click to load
+                      </p>
+                    </div>
+                  </button>
+                ) : (
+                  <div className="rounded-lg overflow-hidden" style={{ border: `1px solid ${epoch.color}20` }}>
+                    <div className="aspect-video w-full">
+                      <iframe
+                        src={getPlaylistEmbedUrl(epoch.playlistId)}
+                        title={epoch.title}
+                        className="w-full h-full"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowFullScreen
+                        style={{ border: "none" }}
+                      />
+                    </div>
+                  </div>
+                )}
+
+                {/* Action buttons */}
+                <div className="flex flex-wrap gap-2">
+                  <a
+                    href={epoch.playlistUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 px-3 py-2 rounded-md font-mono text-[10px] tracking-wider transition-all text-white/50 border border-white/10 hover:text-white/80 hover:border-white/20 hover:bg-white/5"
+                  >
+                    <ExternalLink size={11} />
+                    OPEN ON YOUTUBE
+                  </a>
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </motion.div>
+    );
+  }
+);
+
+EpochSection.displayName = "EpochSection";
+
+/* ═══════════════════════════════════════════════════════
+   EPISODE VIEWER — Individual episode with lore panel
+   ═══════════════════════════════════════════════════════ */
+interface EpisodeViewerProps {
+  episodes: Episode[];
+  currentEpisodeIdx: number;
+  currentEpisode: Episode;
+  albumSongs: LoredexEntry[];
+  showLorePanel: boolean;
+  setShowLorePanel: (v: boolean) => void;
+  loreTab: "characters" | "locations" | "factions" | "games" | "songs";
+  setLoreTab: (tab: "characters" | "locations" | "factions" | "games" | "songs") => void;
+  getEntry: (name: string) => LoredexEntry | undefined;
+  goToEpisode: (idx: number) => void;
+  setViewMode: (mode: ViewMode) => void;
+  videoContainerRef: React.RefObject<HTMLDivElement | null>;
+}
+
+function EpisodeViewer({
+  episodes,
+  currentEpisodeIdx,
+  currentEpisode,
+  albumSongs,
+  showLorePanel,
+  setShowLorePanel,
+  loreTab,
+  setLoreTab,
+  getEntry,
+  goToEpisode,
+  setViewMode,
+  videoContainerRef,
+}: EpisodeViewerProps) {
+  const [showEpisodeList, setShowEpisodeList] = useState(false);
+  const albumColor = ALBUM_COLORS[currentEpisode.album] || "#33E2E6";
+
   const resolvedCharacters = currentEpisode.characters
     .map((name) => getEntry(name))
     .filter(Boolean) as LoredexEntry[];
@@ -239,7 +712,6 @@ export default function WatchPage() {
     .map((name) => getEntry(name))
     .filter(Boolean) as LoredexEntry[];
 
-  // Count items for each tab
   const tabCounts = {
     characters: resolvedCharacters.length,
     locations: resolvedLocations.length,
@@ -250,39 +722,51 @@ export default function WatchPage() {
 
   return (
     <div className="animate-fade-in">
-      {/* ═══ TOP BAR ═══ */}
-      <div className="sticky top-12 z-30 bg-[oklch(0.06_0.01_280/0.95)] backdrop-blur-xl border-b border-border/20 px-3 sm:px-4 py-2">
+      {/* Top Bar */}
+      <div className="sticky top-12 z-30 px-3 sm:px-4 py-2"
+        style={{
+          background: "rgba(1,0,32,0.95)",
+          borderBottom: "1px solid var(--glass-border)",
+          backdropFilter: "blur(20px)",
+        }}>
         <div className="flex items-center gap-2">
-          <Tv size={14} className="text-primary shrink-0" />
-          <span className="font-display text-[10px] font-bold tracking-[0.2em] text-primary">WATCH THE SHOW</span>
+          <button
+            onClick={() => setViewMode("epochs")}
+            className="flex items-center gap-1 px-2 py-1 rounded-md text-[10px] font-mono text-white/50 hover:text-[var(--neon-cyan)] transition-colors"
+          >
+            <ChevronLeft size={12} />
+            EPOCHS
+          </button>
+
+          <div className="w-px h-4 bg-white/10" />
+
+          <Tv size={12} className="text-[var(--neon-cyan)] shrink-0" />
+          <span className="font-display text-[10px] font-bold tracking-[0.15em] text-[var(--neon-cyan)]">EPISODE VIEWER</span>
 
           <div className="flex-1" />
 
-          {/* Episode counter */}
-          <span className="font-mono text-[10px] text-muted-foreground/50">
-            EP <span className="text-foreground">{currentEpisodeIdx + 1}</span> / {episodes.length}
+          <span className="font-mono text-[10px] text-white/30">
+            EP <span className="text-white/70">{currentEpisodeIdx + 1}</span> / {episodes.length}
           </span>
 
-          {/* Episode list toggle */}
           <button
             onClick={() => setShowEpisodeList(!showEpisodeList)}
             className={`flex items-center gap-1 px-2 py-1 rounded-md text-[10px] font-mono transition-all ${
               showEpisodeList
-                ? "bg-primary/15 text-primary border border-primary/25"
-                : "bg-secondary/50 text-muted-foreground hover:text-foreground border border-border/20"
+                ? "bg-[var(--neon-cyan)]/10 text-[var(--neon-cyan)] border border-[var(--neon-cyan)]/25"
+                : "text-white/40 border border-white/10 hover:text-white/60"
             }`}
           >
             <List size={10} />
-            EPISODES
+            LIST
           </button>
 
-          {/* Lore panel toggle */}
           <button
             onClick={() => setShowLorePanel(!showLorePanel)}
             className={`flex items-center gap-1 px-2 py-1 rounded-md text-[10px] font-mono transition-all ${
               showLorePanel
-                ? "bg-accent/15 text-accent border border-accent/25"
-                : "bg-secondary/50 text-muted-foreground hover:text-foreground border border-border/20"
+                ? "bg-[var(--orb-orange)]/10 text-[var(--orb-orange)] border border-[var(--orb-orange)]/25"
+                : "text-white/40 border border-white/10 hover:text-white/60"
             }`}
           >
             <BookOpen size={10} />
@@ -291,210 +775,131 @@ export default function WatchPage() {
         </div>
       </div>
 
-      <div className="flex flex-col lg:flex-row">
-        {/* ═══ MAIN VIDEO AREA ═══ */}
-        <div className={`flex-1 ${showLorePanel ? "lg:mr-0" : ""}`}>
-          <div ref={videoContainerRef} className="p-3 sm:p-4">
-            {/* Video Player */}
-            <div className="rounded-lg overflow-hidden border border-border/30 bg-black mb-4">
-              <div className="aspect-video">
-                <iframe
-                  key={currentEpisode.videoUrl}
-                  src={getEmbedUrl(currentEpisode.videoUrl)}
-                  className="w-full h-full"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                  title={currentEpisode.title}
-                />
-              </div>
-            </div>
-
-            {/* Episode Info */}
-            <div className="mb-4">
-              <div className="flex items-center gap-2 mb-2">
-                <span
-                  className="px-2 py-0.5 rounded text-[9px] font-mono font-bold tracking-wider"
-                  style={{
-                    backgroundColor: albumColor + "15",
-                    color: albumColor,
-                    border: `1px solid ${albumColor}30`,
-                  }}
-                >
-                  {currentEpisode.albumShort} #{currentEpisode.trackNumber}
-                </span>
-                <span className="font-mono text-[10px] text-muted-foreground/40">
-                  EPISODE {currentEpisodeIdx + 1} OF {episodes.length}
-                </span>
-              </div>
-              <h2 className="font-display text-xl sm:text-2xl font-bold tracking-wider text-foreground mb-1">
-                {currentEpisode.title}
-              </h2>
-              <p className="font-mono text-xs text-muted-foreground mb-3">
-                {currentEpisode.album} // Track {currentEpisode.trackNumber}
-              </p>
-              {currentEpisode.description && (
-                <p className="text-sm text-foreground/70 leading-relaxed line-clamp-3">
-                  {currentEpisode.description}
-                </p>
-              )}
-            </div>
-
-            {/* Navigation Controls */}
-            <div className="flex items-center gap-2 mb-4">
-              <button
-                onClick={goPrev}
-                disabled={currentEpisodeIdx === 0}
-                className="flex items-center gap-1.5 px-4 py-2 rounded-md bg-secondary border border-border/30 text-sm font-mono text-foreground hover:bg-secondary/80 hover:border-primary/30 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
-              >
-                <SkipBack size={14} /> PREV
-              </button>
-              <button
-                onClick={() => {
-                  const songEntry = getEntryById(currentEpisode.id);
-                  if (songEntry) {
-                    playSong(songEntry);
-                    setQueue(albumSongs);
-                  }
-                }}
-                className="flex items-center gap-2 px-5 py-2 rounded-md bg-primary text-primary-foreground text-sm font-mono font-bold hover:scale-105 transition-transform"
-              >
-                <Play size={14} /> PLAY SONG
-              </button>
-              <button
-                onClick={goNext}
-                disabled={currentEpisodeIdx === episodes.length - 1}
-                className="flex items-center gap-1.5 px-4 py-2 rounded-md bg-secondary border border-border/30 text-sm font-mono text-foreground hover:bg-secondary/80 hover:border-primary/30 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
-              >
-                NEXT <SkipForward size={14} />
-              </button>
-              <div className="flex-1" />
-              <Link
-                href={`/song/${currentEpisode.id}`}
-                className="flex items-center gap-1 px-3 py-2 rounded-md bg-secondary/50 border border-border/20 text-xs font-mono text-muted-foreground hover:text-primary hover:border-primary/30 transition-all"
-              >
-                VIEW DOSSIER <ChevronRight size={11} />
-              </Link>
-            </div>
-
-            {/* Mobile Lore Panel (below video on mobile) */}
-            <div className="lg:hidden">
-              <AnimatePresence>
-                {showLorePanel && (
-                  <motion.div
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: "auto" }}
-                    exit={{ opacity: 0, height: 0 }}
-                    className="overflow-hidden"
+      {/* Episode List Dropdown */}
+      <AnimatePresence>
+        {showEpisodeList && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            className="overflow-hidden border-b"
+            style={{
+              background: "rgba(1,0,32,0.95)",
+              borderColor: "var(--glass-border)",
+            }}
+          >
+            <div className="max-h-60 overflow-y-auto p-2 space-y-0.5">
+              {episodes.map((ep, i) => {
+                const epColor = ALBUM_COLORS[ep.album] || "#33E2E6";
+                return (
+                  <button
+                    key={ep.id}
+                    onClick={() => goToEpisode(i)}
+                    className={`w-full flex items-center gap-2 px-3 py-2 rounded-md text-left transition-all ${
+                      i === currentEpisodeIdx
+                        ? "bg-[var(--neon-cyan)]/8 border border-[var(--neon-cyan)]/20"
+                        : "hover:bg-white/5 border border-transparent"
+                    }`}
                   >
-                    <LorePanel
-                      episode={currentEpisode}
-                      resolvedCharacters={resolvedCharacters}
-                      resolvedLocations={resolvedLocations}
-                      resolvedFactions={resolvedFactions}
-                      albumSongs={albumSongs}
-                      loreTab={loreTab}
-                      setLoreTab={setLoreTab}
-                      tabCounts={tabCounts}
-                      getEntry={getEntry}
-                      albumColor={albumColor}
-                    />
-                  </motion.div>
-                )}
-              </AnimatePresence>
+                    <span className="font-mono text-[9px] text-white/25 w-5 text-right shrink-0">{i + 1}</span>
+                    <span
+                      className="font-mono text-[8px] px-1.5 py-0.5 rounded shrink-0"
+                      style={{ color: epColor, background: epColor + "15", border: `1px solid ${epColor}25` }}
+                    >
+                      {ep.albumShort}
+                    </span>
+                    <span className={`text-xs font-medium truncate ${i === currentEpisodeIdx ? "text-[var(--neon-cyan)]" : "text-white/70"}`}>
+                      {ep.title}
+                    </span>
+                    {i === currentEpisodeIdx && (
+                      <div className="w-1.5 h-1.5 rounded-full bg-[var(--neon-cyan)] shrink-0 ml-auto" />
+                    )}
+                  </button>
+                );
+              })}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Main Content */}
+      <div className="flex flex-col lg:flex-row">
+        {/* Video + Info */}
+        <div className="flex-1">
+          {/* Video Player */}
+          <div ref={videoContainerRef} className="w-full">
+            <div className="aspect-video w-full" style={{ background: "var(--glass-dark)" }}>
+              <iframe
+                key={currentEpisode.id}
+                src={getVideoEmbedUrl(currentEpisode.videoUrl)}
+                title={currentEpisode.title}
+                className="w-full h-full"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowFullScreen
+                style={{ border: "none" }}
+              />
             </div>
           </div>
 
-          {/* ═══ EPISODE LIST DRAWER ═══ */}
-          <AnimatePresence>
-            {showEpisodeList && (
-              <motion.div
-                initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: "auto" }}
-                exit={{ opacity: 0, height: 0 }}
-                className="overflow-hidden border-t border-border/20"
+          {/* Episode Info */}
+          <div className="px-3 sm:px-4 py-3 sm:py-4">
+            {/* Album badge + title */}
+            <div className="flex items-center gap-2 mb-1">
+              <span
+                className="font-mono text-[9px] px-2 py-0.5 rounded tracking-wider"
+                style={{ color: albumColor, background: albumColor + "15", border: `1px solid ${albumColor}25` }}
               >
-                <div className="p-3 sm:p-4 bg-card/20">
-                  <div className="flex items-center justify-between mb-3">
-                    <h3 className="font-display text-xs font-bold tracking-[0.2em] text-foreground flex items-center gap-2">
-                      <List size={13} /> ALL EPISODES
-                    </h3>
-                    <button
-                      onClick={() => setShowEpisodeList(false)}
-                      className="p-1 rounded hover:bg-secondary/50 text-muted-foreground"
-                    >
-                      <X size={14} />
-                    </button>
-                  </div>
+                {currentEpisode.albumShort}
+              </span>
+              <span className="font-mono text-[9px] text-white/25">TRACK {currentEpisode.trackNumber}</span>
+            </div>
+            <h2 className="font-display text-lg sm:text-xl font-bold tracking-wider text-white mb-1">
+              {currentEpisode.title}
+            </h2>
+            <p className="font-mono text-[11px] text-white/40 mb-3">{currentEpisode.album}</p>
 
-                  {/* Group by album */}
-                  {ALBUM_ORDER.map((albumName) => {
-                    const albumEps = episodes.filter((ep) => ep.album === albumName);
-                    if (albumEps.length === 0) return null;
-                    const color = ALBUM_COLORS[albumName] || "#00d9ff";
-
-                    return (
-                      <div key={albumName} className="mb-4">
-                        <p
-                          className="font-display text-[10px] font-bold tracking-[0.15em] mb-2 px-1"
-                          style={{ color }}
-                        >
-                          {albumName.toUpperCase()}
-                        </p>
-                        <div className="space-y-0.5">
-                          {albumEps.map((ep) => {
-                            const epIdx = episodes.indexOf(ep);
-                            const isCurrent = epIdx === currentEpisodeIdx;
-                            return (
-                              <button
-                                key={ep.id}
-                                onClick={() => goToEpisode(epIdx)}
-                                className={`w-full flex items-center gap-2.5 px-2.5 py-2 rounded-md text-left transition-all ${
-                                  isCurrent
-                                    ? "bg-primary/10 border border-primary/25"
-                                    : "hover:bg-secondary/30 border border-transparent"
-                                }`}
-                              >
-                                <span
-                                  className="font-mono text-[10px] w-5 text-right shrink-0 tabular-nums"
-                                  style={{ color: isCurrent ? color : undefined }}
-                                >
-                                  {ep.trackNumber}
-                                </span>
-                                {isCurrent && (
-                                  <div className="w-2 h-2 rounded-full shrink-0" style={{ backgroundColor: color }}>
-                                    <div className="w-full h-full rounded-full animate-ping" style={{ backgroundColor: color, opacity: 0.5 }} />
-                                  </div>
-                                )}
-                                <span className={`text-xs truncate ${isCurrent ? "text-primary font-medium" : "text-foreground/70"}`}>
-                                  {ep.title}
-                                </span>
-                                <span className="font-mono text-[8px] text-muted-foreground/30 ml-auto shrink-0">
-                                  {ep.characters.length} chars
-                                </span>
-                              </button>
-                            );
-                          })}
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              </motion.div>
+            {currentEpisode.description && (
+              <p className="font-mono text-xs text-white/60 leading-relaxed mb-4 max-w-2xl line-clamp-3">
+                {currentEpisode.description}
+              </p>
             )}
-          </AnimatePresence>
+
+            {/* Navigation */}
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => currentEpisodeIdx > 0 && goToEpisode(currentEpisodeIdx - 1)}
+                disabled={currentEpisodeIdx === 0}
+                className="flex items-center gap-1 px-3 py-2 rounded-md font-mono text-[10px] tracking-wider transition-all disabled:opacity-20 text-white/50 border border-white/10 hover:text-white/80 hover:border-white/20"
+              >
+                <SkipBack size={12} />
+                PREV
+              </button>
+              <button
+                onClick={() => currentEpisodeIdx < episodes.length - 1 && goToEpisode(currentEpisodeIdx + 1)}
+                disabled={currentEpisodeIdx === episodes.length - 1}
+                className="flex items-center gap-1 px-3 py-2 rounded-md font-mono text-[10px] tracking-wider transition-all disabled:opacity-20 text-white/50 border border-white/10 hover:text-white/80 hover:border-white/20"
+              >
+                NEXT
+                <SkipForward size={12} />
+              </button>
+            </div>
+          </div>
         </div>
 
-        {/* ═══ DESKTOP LORE PANEL (right sidebar) ═══ */}
+        {/* Lore Panel */}
         <AnimatePresence>
           {showLorePanel && (
             <motion.div
-              initial={{ opacity: 0, width: 0 }}
-              animate={{ opacity: 1, width: 340 }}
-              exit={{ opacity: 0, width: 0 }}
-              className="hidden lg:block border-l border-border/20 bg-card/10 overflow-hidden shrink-0"
-              style={{ minHeight: "calc(100vh - 6rem)" }}
+              initial={{ width: 0, opacity: 0 }}
+              animate={{ width: "auto", opacity: 1 }}
+              exit={{ width: 0, opacity: 0 }}
+              className="lg:w-72 xl:w-80 overflow-hidden border-l"
+              style={{
+                background: "rgba(0,2,41,0.6)",
+                borderColor: "var(--glass-border)",
+              }}
             >
-              <div className="w-[340px] overflow-y-auto" style={{ maxHeight: "calc(100vh - 6rem)" }}>
+              <div className="w-72 xl:w-80">
                 <LorePanel
                   episode={currentEpisode}
                   resolvedCharacters={resolvedCharacters}
@@ -517,7 +922,7 @@ export default function WatchPage() {
 }
 
 /* ═══════════════════════════════════════════════════════
-   LORE PANEL COMPONENT — Shows connected entities
+   LORE PANEL — Shows connected entities for an episode
    ═══════════════════════════════════════════════════════ */
 interface LorePanelProps {
   episode: Episode;
@@ -547,36 +952,28 @@ function LorePanel({
   const tabs = [
     { key: "characters" as const, label: "CHARS", icon: Users, count: tabCounts.characters },
     { key: "locations" as const, label: "LOCS", icon: MapPin, count: tabCounts.locations },
-    { key: "factions" as const, label: "FACTIONS", icon: Swords, count: tabCounts.factions },
+    { key: "factions" as const, label: "FACS", icon: Swords, count: tabCounts.factions },
     { key: "games" as const, label: "GAMES", icon: Gamepad2, count: tabCounts.games },
     { key: "songs" as const, label: "ALBUM", icon: Music, count: tabCounts.songs },
   ];
 
   return (
     <div className="p-3">
-      {/* Panel Header */}
       <div className="flex items-center gap-2 mb-3">
-        <BookOpen size={13} className="text-accent" />
-        <span className="font-display text-[10px] font-bold tracking-[0.2em] text-accent">LORE CONNECTIONS</span>
+        <BookOpen size={13} className="text-[var(--orb-orange)]" />
+        <span className="font-display text-[10px] font-bold tracking-[0.2em] text-[var(--orb-orange)]">LORE CONNECTIONS</span>
       </div>
 
-      {/* Episode Badge */}
       <div
         className="rounded-md p-2.5 mb-3 border"
-        style={{
-          backgroundColor: albumColor + "08",
-          borderColor: albumColor + "20",
-        }}
+        style={{ backgroundColor: albumColor + "08", borderColor: albumColor + "20" }}
       >
-        <p className="font-mono text-[9px] tracking-wider mb-0.5" style={{ color: albumColor + "80" }}>
-          NOW VIEWING
-        </p>
-        <p className="font-display text-sm font-bold tracking-wide text-foreground">{episode.title}</p>
-        <p className="font-mono text-[10px] text-muted-foreground/50">{episode.album}</p>
+        <p className="font-mono text-[9px] tracking-wider mb-0.5" style={{ color: albumColor + "80" }}>NOW VIEWING</p>
+        <p className="font-display text-sm font-bold tracking-wide text-white">{episode.title}</p>
+        <p className="font-mono text-[10px] text-white/40">{episode.album}</p>
       </div>
 
-      {/* Tabs */}
-      <div className="flex gap-0.5 mb-3 bg-secondary/30 rounded-md p-0.5">
+      <div className="flex gap-0.5 mb-3 p-0.5 rounded-md" style={{ background: "var(--glass-dark)" }}>
         {tabs.map((tab) => {
           const Icon = tab.icon;
           const isActive = loreTab === tab.key;
@@ -586,75 +983,51 @@ function LorePanel({
               onClick={() => setLoreTab(tab.key)}
               className={`flex-1 flex items-center justify-center gap-1 px-1.5 py-1.5 rounded text-[9px] font-mono tracking-wider transition-all ${
                 isActive
-                  ? "bg-primary/15 text-primary border border-primary/20"
-                  : "text-muted-foreground/60 hover:text-foreground"
+                  ? "bg-[var(--neon-cyan)]/10 text-[var(--neon-cyan)] border border-[var(--neon-cyan)]/20"
+                  : "text-white/40 hover:text-white/60"
               }`}
             >
               <Icon size={9} />
               <span className="hidden sm:inline lg:inline">{tab.label}</span>
               {tab.count > 0 && (
-                <span className={`text-[8px] ${isActive ? "text-primary/60" : "text-muted-foreground/30"}`}>
-                  {tab.count}
-                </span>
+                <span className={`text-[8px] ${isActive ? "text-[var(--neon-cyan)]/60" : "text-white/20"}`}>{tab.count}</span>
               )}
             </button>
           );
         })}
       </div>
 
-      {/* Tab Content */}
       <div className="space-y-1">
         {loreTab === "characters" && (
           resolvedCharacters.length > 0 ? (
-            resolvedCharacters.map((char) => (
-              <LoreCard key={char.id} entry={char} type="character" />
-            ))
-          ) : (
-            <EmptyState text="No character connections for this episode" />
-          )
+            resolvedCharacters.map((char) => <LoreCard key={char.id} entry={char} type="character" />)
+          ) : <EmptyState text="No character connections for this episode" />
         )}
-
         {loreTab === "locations" && (
           resolvedLocations.length > 0 ? (
-            resolvedLocations.map((loc) => (
-              <LoreCard key={loc.id} entry={loc} type="location" />
-            ))
-          ) : (
-            <EmptyState text="No location connections for this episode" />
-          )
+            resolvedLocations.map((loc) => <LoreCard key={loc.id} entry={loc} type="location" />)
+          ) : <EmptyState text="No location connections for this episode" />
         )}
-
         {loreTab === "factions" && (
           resolvedFactions.length > 0 ? (
-            resolvedFactions.map((fac) => (
-              <LoreCard key={fac.id} entry={fac} type="faction" />
-            ))
-          ) : (
-            <EmptyState text="No faction connections for this episode" />
-          )
+            resolvedFactions.map((fac) => <LoreCard key={fac.id} entry={fac} type="faction" />)
+          ) : <EmptyState text="No faction connections for this episode" />
         )}
-
         {loreTab === "games" && (
           episode.conexusGames.length > 0 ? (
             episode.conexusGames.map((game) => (
-              <div
-                key={game}
-                className="flex items-center gap-2.5 p-2.5 rounded-md border border-border/15 bg-card/20"
-              >
-                <div className="w-9 h-9 rounded-md bg-chart-5/10 border border-chart-5/20 flex items-center justify-center shrink-0">
-                  <Gamepad2 size={14} className="text-chart-5" />
+              <div key={game} className="flex items-center gap-2.5 p-2.5 rounded-md" style={{ background: "var(--glass-dark)", border: "1px solid var(--glass-border)" }}>
+                <div className="w-9 h-9 rounded-md flex items-center justify-center shrink-0" style={{ background: "var(--deep-purple)" + "15", border: `1px solid var(--deep-purple)30` }}>
+                  <Gamepad2 size={14} className="text-[var(--deep-purple)]" />
                 </div>
                 <div className="min-w-0 flex-1">
-                  <p className="text-[11px] font-medium text-foreground">{game}</p>
-                  <p className="text-[9px] font-mono text-muted-foreground/40">CONEXUS INTERACTIVE STORY</p>
+                  <p className="text-[11px] font-medium text-white">{game}</p>
+                  <p className="text-[9px] font-mono text-white/30">CONEXUS INTERACTIVE STORY</p>
                 </div>
               </div>
             ))
-          ) : (
-            <EmptyState text="No CoNexus game connections for this episode" />
-          )
+          ) : <EmptyState text="No CoNexus game connections for this episode" />
         )}
-
         {loreTab === "songs" && (
           albumSongs.length > 0 ? (
             albumSongs.map((song) => (
@@ -663,34 +1036,26 @@ function LorePanel({
                 href={`/song/${song.id}`}
                 className={`group flex items-center gap-2 p-2 rounded-md border transition-all ${
                   song.id === episode.id
-                    ? "border-primary/25 bg-primary/5"
-                    : "border-border/10 hover:bg-secondary/20 hover:border-primary/15"
+                    ? "border-[var(--neon-cyan)]/25 bg-[var(--neon-cyan)]/5"
+                    : "border-transparent hover:bg-white/5 hover:border-[var(--neon-cyan)]/15"
                 }`}
               >
-                <span className="font-mono text-[9px] text-muted-foreground/30 w-4 text-right tabular-nums shrink-0">
-                  {song.track_number}
-                </span>
+                <span className="font-mono text-[9px] text-white/20 w-4 text-right tabular-nums shrink-0">{song.track_number}</span>
                 {song.image && (
-                  <img src={song.image} alt="" className="w-7 h-7 rounded object-cover ring-1 ring-border/10 shrink-0" loading="lazy" />
+                  <img src={song.image} alt="" className="w-7 h-7 rounded object-cover ring-1 ring-white/10 shrink-0" loading="lazy" />
                 )}
                 <div className="min-w-0 flex-1">
                   <p className={`text-[10px] font-medium truncate transition-colors ${
-                    song.id === episode.id ? "text-primary" : "group-hover:text-primary"
-                  }`}>
-                    {song.name}
-                  </p>
+                    song.id === episode.id ? "text-[var(--neon-cyan)]" : "group-hover:text-[var(--neon-cyan)]"
+                  }`}>{song.name}</p>
                 </div>
-                {song.id === episode.id && (
-                  <div className="w-1.5 h-1.5 rounded-full bg-primary shrink-0" />
-                )}
+                {song.id === episode.id && <div className="w-1.5 h-1.5 rounded-full bg-[var(--neon-cyan)] shrink-0" />}
                 {(song.music_video?.official || song.music_video?.vevo) && song.id !== episode.id && (
-                  <span className="text-[8px] font-mono text-destructive/50 shrink-0">VIDEO</span>
+                  <span className="text-[8px] font-mono text-[var(--alert-red)]/50 shrink-0">VIDEO</span>
                 )}
               </Link>
             ))
-          ) : (
-            <EmptyState text="No album tracks found" />
-          )
+          ) : <EmptyState text="No album tracks found" />
         )}
       </div>
     </div>
@@ -702,53 +1067,42 @@ function LoreCard({ entry, type }: { entry: LoredexEntry; type: string }) {
   const [expanded, setExpanded] = useState(false);
   const href = type === "song" ? `/song/${entry.id}` : `/entity/${entry.id}`;
 
-  const badgeClass =
-    type === "character" ? "badge-character" :
-    type === "location" ? "badge-location" :
-    type === "faction" ? "badge-faction" :
-    type === "song" ? "badge-song" : "badge-concept";
-
   const Icon =
     type === "character" ? Users :
     type === "location" ? MapPin :
     type === "faction" ? Swords : Music;
 
+  const iconColor =
+    type === "character" ? "var(--neon-cyan)" :
+    type === "location" ? "var(--signal-green)" :
+    type === "faction" ? "var(--orb-orange)" : "var(--deep-purple)";
+
   return (
-    <div className="rounded-md border border-border/15 bg-card/20 overflow-hidden">
+    <div className="rounded-md overflow-hidden" style={{ background: "var(--glass-dark)", border: "1px solid var(--glass-border)" }}>
       <div className="flex items-center gap-2.5 p-2.5">
         {entry.image ? (
-          <img
-            src={entry.image}
-            alt={entry.name}
-            className="w-9 h-9 rounded-md object-cover ring-1 ring-border/20 shrink-0"
-            loading="lazy"
-          />
+          <img src={entry.image} alt={entry.name} className="w-9 h-9 rounded-md object-cover ring-1 ring-white/10 shrink-0" loading="lazy" />
         ) : (
-          <div className="w-9 h-9 rounded-md bg-secondary/30 flex items-center justify-center shrink-0">
-            <Icon size={14} className="text-muted-foreground/40" />
+          <div className="w-9 h-9 rounded-md flex items-center justify-center shrink-0" style={{ background: "var(--glass-base)" }}>
+            <Icon size={14} style={{ color: iconColor }} />
           </div>
         )}
         <div className="min-w-0 flex-1">
-          <p className="text-[11px] font-medium truncate">{entry.name}</p>
-          <p className="text-[9px] font-mono text-muted-foreground/40 truncate">{entry.era || entry.affiliation || ""}</p>
+          <p className="text-[11px] font-medium text-white truncate">{entry.name}</p>
+          <p className="text-[9px] font-mono text-white/30 truncate">{entry.era || entry.affiliation || ""}</p>
         </div>
         <div className="flex items-center gap-1 shrink-0">
           <button
             onClick={() => setExpanded(!expanded)}
-            className="p-1 rounded hover:bg-secondary/50 text-muted-foreground/40 hover:text-foreground transition-colors"
+            className="p-1 rounded hover:bg-white/10 text-white/30 hover:text-white/70 transition-colors"
           >
             {expanded ? <ChevronUp size={11} /> : <ChevronDown size={11} />}
           </button>
-          <Link
-            href={href}
-            className="p-1 rounded hover:bg-primary/10 text-muted-foreground/40 hover:text-primary transition-colors"
-          >
+          <Link href={href} className="p-1 rounded hover:bg-[var(--neon-cyan)]/10 text-white/30 hover:text-[var(--neon-cyan)] transition-colors">
             <ChevronRight size={11} />
           </Link>
         </div>
       </div>
-
-      {/* Expanded bio */}
       <AnimatePresence>
         {expanded && entry.bio && (
           <motion.div
@@ -758,11 +1112,8 @@ function LoreCard({ entry, type }: { entry: LoredexEntry; type: string }) {
             className="overflow-hidden"
           >
             <div className="px-2.5 pb-2.5 pt-0">
-              <p className="text-[10px] text-foreground/60 leading-relaxed line-clamp-4">{entry.bio}</p>
-              <Link
-                href={href}
-                className="inline-flex items-center gap-1 mt-1.5 text-[9px] font-mono text-primary hover:text-primary/80 transition-colors"
-              >
+              <p className="text-[10px] text-white/50 leading-relaxed line-clamp-4">{entry.bio}</p>
+              <Link href={href} className="inline-flex items-center gap-1 mt-1.5 text-[9px] font-mono text-[var(--neon-cyan)] hover:text-[var(--neon-cyan)]/80 transition-colors">
                 FULL DOSSIER <ChevronRight size={8} />
               </Link>
             </div>
@@ -776,7 +1127,7 @@ function LoreCard({ entry, type }: { entry: LoredexEntry; type: string }) {
 function EmptyState({ text }: { text: string }) {
   return (
     <div className="py-6 text-center">
-      <p className="font-mono text-[10px] text-muted-foreground/30">{text}</p>
+      <p className="font-mono text-[10px] text-white/20">{text}</p>
     </div>
   );
 }

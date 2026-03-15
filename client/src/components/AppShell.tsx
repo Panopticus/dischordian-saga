@@ -39,6 +39,15 @@ const NAV_GROUPS: NavGroup[] = [
     ],
   },
   {
+    label: "THE SAGA",
+    icon: Tv,
+    defaultOpen: true,
+    items: [
+      { path: "/watch", label: "WATCH THE SHOW", icon: Tv, description: "The Dischordian Saga" },
+      { path: "/album/dischordian-logic", label: "LISTEN", icon: Music, description: "Music & albums" },
+    ],
+  },
+  {
     label: "THE LORE",
     icon: Compass,
     defaultOpen: true,
@@ -47,14 +56,6 @@ const NAV_GROUPS: NavGroup[] = [
       { path: "/board", label: "CONSPIRACY BOARD", icon: Map, description: "Connection map" },
       { path: "/character-timeline", label: "CHAR TIMELINE", icon: BarChart3, description: "Character arcs" },
       { path: "/timeline", label: "ERA TIMELINE", icon: Clock, description: "Historical eras" },
-    ],
-  },
-  {
-    label: "TRANSMISSIONS",
-    icon: Radio,
-    defaultOpen: true,
-    items: [
-      { path: "/watch", label: "WATCH THE SHOW", icon: Tv, description: "Video content" },
     ],
   },
   {
@@ -377,9 +378,9 @@ export default function AppShell({ children }: { children: ReactNode }) {
         <div className="flex items-center justify-around h-14 px-1">
           {[
             { path: "/", label: "Bridge", icon: Home },
+            { path: "/watch", label: "Saga", icon: Tv },
             { path: "/search", label: "Lore", icon: Compass },
             { path: "/games", label: "CADES", icon: Gamepad2 },
-            { path: "/watch", label: "Media", icon: Tv },
             { path: "/store", label: "Store", icon: Store },
           ].map((item) => {
             const Icon = item.icon;
