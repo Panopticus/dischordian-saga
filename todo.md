@@ -74,7 +74,7 @@
 - [x] Build card attack animations and combat system
 - [x] Build Inception Ark explorable map with unlockable areas
 - [x] Build trophy room with unlockable display themes
-- [ ] Build Trade Wars-style BBS game tied to card system
+- [x] Build Trade Wars-style BBS game tied to card system
 - [ ] Integrate card unlocking through official content participation
 - [ ] Connect fighting game as invasion mechanic within card game
 - [ ] Create histories for all characters based on lore appearances
@@ -100,3 +100,15 @@
 - [x] Build trophy room with card displays and unlockable themes
 - [x] Wire up all new routes in App.tsx
 - [x] Integrate navigation between card game, Ark, and existing pages
+
+## Phase 4: Trade Wars BBS Game
+- [x] Build Trade Wars tRPC API routes: sector navigation, warping, scanning
+- [x] Build Trade Wars trading system: buy/sell commodities at ports
+- [x] Build Trade Wars combat system: ship-to-ship battles with card bonuses
+- [x] Build Trade Wars sector map UI with BBS terminal aesthetic
+- [x] Build Trade Wars ship HUD with stats, cargo, fuel display
+- [x] Build Trade Wars trading interface at ports
+- [x] Build Trade Wars combat screen with attack/defend options
+- [x] Integrate card system bonuses into Trade Wars (card-based ship upgrades)
+- [x] Connect Trade Wars to Inception Ark Command Deck access point
+- [x] Seed initial galaxy with sectors, ports, and hazards

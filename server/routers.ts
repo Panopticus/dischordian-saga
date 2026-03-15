@@ -10,12 +10,14 @@ import { eq, and } from "drizzle-orm";
 import { cardGameRouter } from "./routers/cardGame";
 import { arkRouter } from "./routers/ark";
 import { trophyRouter } from "./routers/trophy";
+import { tradeWarsRouter } from "./routers/tradeWars";
 
 export const appRouter = router({
   system: systemRouter,
   cardGame: cardGameRouter,
   ark: arkRouter,
   trophy: trophyRouter,
+  tradeWars: tradeWarsRouter,
   auth: router({
     me: publicProcedure.query(opts => opts.ctx.user),
     logout: publicProcedure.mutation(({ ctx }) => {

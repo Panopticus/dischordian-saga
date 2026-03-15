@@ -60,7 +60,7 @@ const ARK_DECKS = [
       { id: "engineering", name: "Engineering", icon: Zap, x: 3, y: 0, w: 2, h: 1, type: "utility", locked: false, description: "Power systems and ark maintenance. Craft and upgrade cards." },
       { id: "trophy_room", name: "Trophy Room", icon: Trophy, x: 0, y: 1, w: 2, h: 1, type: "special", locked: false, description: "Display your finest cards and achievements. Customize with unlockable themes." },
       { id: "vault", name: "The Vault", icon: Lock, x: 2, y: 1, w: 1, h: 1, type: "special", locked: true, description: "Secure storage for your rarest cards and NFT-linked items." },
-      { id: "trade_hub", name: "Trade Hub", icon: Ship, x: 3, y: 1, w: 2, h: 1, type: "commerce", locked: true, description: "Access Trade Wars. Buy, sell, and trade across sectors." },
+      { id: "trade_hub", name: "Trade Hub", icon: Ship, x: 3, y: 1, w: 2, h: 1, type: "commerce", locked: false, description: "Access Trade Wars BBS terminal. Navigate the galaxy, trade commodities, and engage in space combat." },
     ],
   },
   {
@@ -99,7 +99,7 @@ const ROOM_ROUTES: Record<string, string> = {
   captains_quarters: "/trophy",
   cargo_bay: "/cards",
   trophy_room: "/trophy",
-  trade_hub: "/tradewars",
+  trade_hub: "/trade-wars",
   training: "/fight",
   rec_room: "/",
   archive: "/search",
