@@ -23,6 +23,7 @@ import TradeWarsPage from "./pages/TradeWarsPage";
 import DeckBuilderPage from "./pages/DeckBuilderPage";
 import CitizenCreationPage from "./pages/CitizenCreationPage";
 import CharacterSheetPage from "./pages/CharacterSheetPage";
+import ResearchLabPage from "./pages/ResearchLabPage";
 import { LoredexProvider } from "./contexts/LoredexContext";
 import { PlayerProvider } from "./contexts/PlayerContext";
 import { GamificationProvider } from "./contexts/GamificationContext";
@@ -52,6 +53,7 @@ function Router() {
       <Route path="/deck-builder" component={DeckBuilderPage} />
       <Route path="/create-citizen" component={CitizenCreationPage} />
       <Route path="/character-sheet" component={CharacterSheetPage} />
+      <Route path="/research-lab" component={ResearchLabPage} />
       <Route path="/404" component={NotFound} />
       <Route component={NotFound} />
     </Switch>

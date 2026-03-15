@@ -118,8 +118,8 @@ const ROOM_ROUTES: Record<string, string> = {
   armory: "/deck-builder",
   barracks: "/character-sheet",
   medbay: "/character-sheet",
-  lab: "/cards",
-  engineering: "/cards",
+  lab: "/research-lab",
+  engineering: "/research-lab",
 };
 
 const ROOM_TYPE_COLORS: Record<string, { bg: string; border: string; text: string }> = {
