@@ -171,7 +171,7 @@ function SignalHeader({ stats }: { stats: Record<string, number> }) {
         {/* Scrolling ticker */}
         <div className="overflow-hidden h-4 relative">
           <motion.div
-            className="absolute whitespace-nowrap font-mono text-[9px] text-muted-foreground/50"
+            className="absolute whitespace-nowrap font-mono text-[9px] text-muted-foreground/70"
             animate={{ x: [0, -1200] }}
             transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
           >
@@ -212,14 +212,14 @@ function DossierCard({ entry, index, onDiscover }: { entry: LoredexEntry; index:
         onClick={() => onDiscover(entry.id)}
         className="block group"
       >
-        <div className="relative border border-border/20 rounded-lg bg-card/30 overflow-hidden hover:border-primary/30 transition-all duration-300">
+        <div className="relative border border-border/30 rounded-lg bg-card/60 overflow-hidden hover:border-primary/40 transition-all duration-300">
           {/* Top classification bar */}
-          <div className="flex items-center justify-between px-3 py-1.5 bg-black/30 border-b border-border/10">
+          <div className="flex items-center justify-between px-3 py-1.5 bg-black/40 border-b border-border/20">
             <div className={`flex items-center gap-1.5 text-[9px] font-mono tracking-wider ${typeColor} px-1.5 py-0.5 rounded border`}>
               {typeIcon}
               {typeLabel}
             </div>
-            <span className="font-mono text-[8px] text-muted-foreground/40">
+            <span className="font-mono text-[8px] text-muted-foreground/60">
               #{String(index + 1).padStart(4, "0")}
             </span>
           </div>
@@ -250,7 +250,7 @@ function DossierCard({ entry, index, onDiscover }: { entry: LoredexEntry; index:
               </h3>
 
               {entry.era && (
-                <div className="font-mono text-[9px] text-muted-foreground/60 mt-0.5">
+                <div className="font-mono text-[9px] text-muted-foreground/70 mt-0.5">
                   ERA: {entry.era}
                 </div>
               )}
@@ -260,14 +260,14 @@ function DossierCard({ entry, index, onDiscover }: { entry: LoredexEntry; index:
                 </div>
               )}
               {entry.album && (
-                <div className="font-mono text-[9px] text-destructive/60 mt-0.5">
+                <div className="font-mono text-[9px] text-destructive/80 mt-0.5">
                   {entry.album} {entry.track_number ? `// TRACK ${entry.track_number}` : ""}
                 </div>
               )}
 
               {/* Redacted bio preview */}
               {entry.bio && (
-                <p className="font-mono text-[10px] text-muted-foreground/50 mt-1.5 line-clamp-2 leading-relaxed">
+                <p className="font-mono text-[10px] text-muted-foreground/80 mt-1.5 line-clamp-2 leading-relaxed">
                   {entry.bio.substring(0, 100)}{entry.bio.length > 100 ? "..." : ""}
                 </p>
               )}
@@ -275,7 +275,7 @@ function DossierCard({ entry, index, onDiscover }: { entry: LoredexEntry; index:
 
             {/* Arrow */}
             <div className="flex items-center self-center">
-              <ChevronRight size={14} className="text-muted-foreground/20 group-hover:text-primary/60 transition-colors" />
+              <ChevronRight size={14} className="text-muted-foreground/40 group-hover:text-primary/70 transition-colors" />
             </div>
           </div>
 
@@ -283,12 +283,12 @@ function DossierCard({ entry, index, onDiscover }: { entry: LoredexEntry; index:
           {(entry.connections?.length || entry.song_appearances?.length) && (
             <div className="px-3 pb-2 flex gap-3">
               {entry.connections && entry.connections.length > 0 && (
-                <span className="font-mono text-[8px] text-muted-foreground/30">
+                <span className="font-mono text-[8px] text-muted-foreground/60">
                   {entry.connections.length} LINKS
                 </span>
               )}
               {entry.song_appearances && entry.song_appearances.length > 0 && (
-                <span className="font-mono text-[8px] text-muted-foreground/30">
+                <span className="font-mono text-[8px] text-muted-foreground/60">
                   {entry.song_appearances.length} TRACKS
                 </span>
               )}
@@ -313,14 +313,14 @@ function AlbumCard({ album, tracks, index }: { album: { slug: string; name: stri
       transition={{ duration: 0.4, delay: 0.05 * index }}
     >
       <Link href={`/album/${album.slug}`} className="block group">
-        <div className="relative border border-border/20 rounded-lg bg-card/30 overflow-hidden hover:border-accent/30 transition-all">
+        <div className="relative border border-border/30 rounded-lg bg-card/60 overflow-hidden hover:border-accent/40 transition-all">
           {/* Header */}
-          <div className="flex items-center justify-between px-3 py-1.5 bg-black/30 border-b border-border/10">
+          <div className="flex items-center justify-between px-3 py-1.5 bg-black/40 border-b border-border/20">
             <div className="flex items-center gap-1.5 text-[9px] font-mono tracking-wider text-accent border-accent/30 bg-accent/8 px-1.5 py-0.5 rounded border">
               <Volume2 size={10} />
               DECODED TRANSMISSIONS
             </div>
-            <span className="font-mono text-[8px] text-muted-foreground/40">{album.year}</span>
+            <span className="font-mono text-[8px] text-muted-foreground/60">{album.year}</span>
           </div>
 
           <div className="flex gap-3 p-3">
@@ -346,18 +346,18 @@ function AlbumCard({ album, tracks, index }: { album: { slug: string; name: stri
               <h3 className="font-mono text-sm font-bold text-foreground group-hover:text-accent transition-colors">
                 {album.name}
               </h3>
-              <div className="font-mono text-[9px] text-muted-foreground/50 mt-1">
+              <div className="font-mono text-[9px] text-muted-foreground/70 mt-1">
                 {album.tracks} TRACKS INTERCEPTED
               </div>
               {/* Mini track list */}
               <div className="mt-2 space-y-0.5">
                 {tracks.slice(0, 3).map((t, i) => (
-                  <div key={t.id} className="font-mono text-[9px] text-muted-foreground/40 truncate">
+                  <div key={t.id} className="font-mono text-[9px] text-muted-foreground/60 truncate">
                     {String(i + 1).padStart(2, "0")}. {t.name}
                   </div>
                 ))}
                 {tracks.length > 3 && (
-                  <div className="font-mono text-[9px] text-muted-foreground/25">
+                  <div className="font-mono text-[9px] text-muted-foreground/50">
                     +{tracks.length - 3} more...
                   </div>
                 )}
@@ -387,12 +387,12 @@ function ActionPill({ href, icon, label, color }: { href: string; icon: React.Re
 function SectionDivider({ label, icon }: { label: string; icon: React.ReactNode }) {
   return (
     <div className="flex items-center gap-3 py-4">
-      <div className="h-px flex-1 bg-gradient-to-r from-transparent via-border/30 to-transparent" />
-      <div className="flex items-center gap-1.5 font-mono text-[9px] text-muted-foreground/40 tracking-[0.25em]">
+      <div className="h-px flex-1 bg-gradient-to-r from-transparent via-border/50 to-transparent" />
+      <div className="flex items-center gap-1.5 font-mono text-[9px] text-muted-foreground/70 tracking-[0.25em]">
         {icon}
         {label}
       </div>
-      <div className="h-px flex-1 bg-gradient-to-r from-transparent via-border/30 to-transparent" />
+      <div className="h-px flex-1 bg-gradient-to-r from-transparent via-border/50 to-transparent" />
     </div>
   );
 }
@@ -423,7 +423,7 @@ function VideoCard({ song, index }: { song: LoredexEntry; index: number }) {
         </div>
         <div className="absolute bottom-2 left-2 right-2">
           <div className="font-mono text-[10px] font-bold text-white truncate">{song.name}</div>
-          <div className="font-mono text-[8px] text-white/40">{song.album}</div>
+          <div className="font-mono text-[8px] text-white/60">{song.album}</div>
         </div>
       </div>
     </motion.a>
@@ -451,7 +451,7 @@ function ConexusCard({ game, getEntry }: { game: { title: string; image: string;
                 <Link
                   key={char}
                   href={e ? `/entity/${e.id}` : "#"}
-                  className="flex items-center gap-1 px-1.5 py-0.5 rounded bg-secondary/40 border border-border/20 text-[8px] font-mono text-muted-foreground/60 hover:text-primary hover:border-primary/30 transition-colors"
+                  className="flex items-center gap-1 px-1.5 py-0.5 rounded bg-secondary/60 border border-border/30 text-[8px] font-mono text-muted-foreground/80 hover:text-primary hover:border-primary/30 transition-colors"
                 >
                   {e?.image && <img src={e.image} alt="" className="w-3 h-3 rounded-full object-cover" />}
                   {char}
@@ -552,7 +552,7 @@ export default function Home() {
 
       {/* ═══ CLEARANCE STATUS ═══ */}
       <div className="px-4 mb-4">
-        <div className="border border-border/15 rounded-lg bg-card/20 p-3">
+        <div className="border border-border/25 rounded-lg bg-card/50 p-3">
           <div className="flex items-center justify-between mb-2">
             <div className="flex items-center gap-2">
               <Eye size={12} className="text-primary" />
@@ -572,11 +572,11 @@ export default function Home() {
                 transition={{ duration: 1, delay: 0.3 }}
               />
             </div>
-            <span className="font-mono text-[8px] text-muted-foreground/40">{Math.floor(gam.xpProgress)}%</span>
+            <span className="font-mono text-[8px] text-muted-foreground/70">{Math.floor(gam.xpProgress)}%</span>
           </div>
           <div className="flex items-center justify-between mt-2">
-            <span className="font-mono text-[8px] text-muted-foreground/30">{gam.title}</span>
-            <span className="font-mono text-[8px] text-accent/50">{gam.points} PTS</span>
+            <span className="font-mono text-[8px] text-muted-foreground/60">{gam.title}</span>
+            <span className="font-mono text-[8px] text-accent/80">{gam.points} PTS</span>
           </div>
         </div>
       </div>
@@ -678,13 +678,13 @@ export default function Home() {
 
         {/* ═══ END OF FEED ═══ */}
         <div className="py-8 text-center">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-border/15 bg-card/20">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-border/30 bg-card/50">
             <WifiOff size={12} className="text-muted-foreground/30" />
-            <span className="font-mono text-[9px] text-muted-foreground/30 tracking-wider">
+            <span className="font-mono text-[9px] text-muted-foreground/60 tracking-wider">
               END OF TRANSMISSION
             </span>
           </div>
-          <div className="font-mono text-[8px] text-muted-foreground/15 mt-3 tracking-wider">
+          <div className="font-mono text-[8px] text-muted-foreground/40 mt-3 tracking-wider">
             THE PANOPTICON IS WATCHING
           </div>
         </div>

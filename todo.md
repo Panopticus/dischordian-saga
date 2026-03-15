@@ -191,3 +191,8 @@
 - [ ] Build card art generation system with CSS/SVG procedural art
 - [ ] Build card animations (play, attack, death, special ability)
 - [ ] Write vitest tests for all new features
+
+## Bug Fixes
+- [x] Fix live feed too dark / can't be seen on screen — increase contrast and brightness
+- [x] Fix Inception Ark viewer out of proportion — make it proportional
+- [x] Design a nice looking player skin that fits the Dischordian theme
