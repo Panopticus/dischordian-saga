@@ -202,7 +202,7 @@ export default function TrophyRoomPage() {
         </AnimatePresence>
 
         {/* Stats bar */}
-        <div className="grid grid-cols-4 gap-3 mb-6">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
           {[
             { label: "TOTAL CARDS", value: topCards?.total ?? 0, icon: Package, color: "text-primary" },
             { label: "LEGENDARY", value: rarityStats?.total ?? 0, icon: Crown, color: "text-amber-400" },

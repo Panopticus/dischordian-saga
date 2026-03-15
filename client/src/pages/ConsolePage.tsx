@@ -530,7 +530,7 @@ export default function ConsolePage() {
                   <h3 className="font-display text-xs font-bold tracking-wider mb-2" style={{ color: theme.accent }}>
                     KEY OPERATIVES
                   </h3>
-                  <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 gap-2">
+                  <div className="grid grid-cols-3 sm:grid-cols-6 md:grid-cols-8 gap-2">
                     {characters.slice(0, 16).map((char) => (
                       <Link
                         key={char.id}

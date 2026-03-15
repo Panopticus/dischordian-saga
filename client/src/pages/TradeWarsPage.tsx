@@ -8,7 +8,7 @@ import { Link } from "wouter";
 // ASCII ART & CONSTANTS
 // ═══════════════════════════════════════════════════════
 
-const BANNER = `
+const BANNER_FULL = `
 ╔══════════════════════════════════════════════════════════════════╗
 ║  ████████╗██████╗  █████╗ ██████╗ ███████╗    ██╗    ██╗       ║
 ║  ╚══██╔══╝██╔══██╗██╔══██╗██╔══██╗██╔════╝    ██║    ██║       ║
@@ -22,51 +22,55 @@ const BANNER = `
 ║              Inception Ark Command Terminal v2.1                 ║
 ╚══════════════════════════════════════════════════════════════════╝`;
 
+const BANNER_MOBILE = `
+╔═══════════════════════════╗
+║   T R A D E   W A R S    ║
+║  DISCHORDIAN SAGA  v2.1  ║
+║  BBS SPACE TRADING GAME  ║
+╚═══════════════════════════╝`;
+
+const BANNER = typeof window !== 'undefined' && window.innerWidth < 640 ? BANNER_MOBILE : BANNER_FULL;
+
 const HELP_TEXT = `
-╔══════════════════════════════════════════════════════════════════╗
-║                    COMMAND REFERENCE                             ║
-╠══════════════════════════════════════════════════════════════════╣
-║  NAVIGATION                                                      ║
-║    warp <sector>  - Warp to connected sector                    ║
-║    scan           - Deep scan current sector                    ║
-║    map            - Display galaxy map                          ║
-║    sector         - Show current sector info                    ║
-║                                                                  ║
-║  TRADING                                                         ║
-║    buy <commodity> <qty>  - Buy from port                       ║
-║    sell <commodity> <qty> - Sell to port                        ║
-║    port           - Show port prices                            ║
-║                                                                  ║
-║  COMBAT                                                          ║
-║    attack         - Engage hostile contacts                     ║
-║                                                                  ║
-║  MINING                                                          ║
-║    mine           - Mine asteroids for fuel ore                 ║
-║                                                                  ║
-║  STARDOCK (Sector 1 only)                                        ║
-║    ships          - View available ships                        ║
-║    upgrade <ship> - Purchase new ship                           ║
-║    fighters <qty> - Buy fighter drones                          ║
-║    repair         - Repair shields                              ║
-║                                                                  ║
-║  COLONIES                                                        ║
-║    colonize <name> <type> - Claim planet (10,000 cr)            ║
-║    colonies       - View your colonies                          ║
-║    collect        - Collect colony income                       ║
-║    upgrade-colony <id> - Upgrade colony level                   ║
-║    fortify <id> <qty>  - Deploy fighters to colony              ║
-║                                                                  ║
-║  INFO                                                            ║
-║    status         - Show ship status                            ║
-║    log            - View recent actions                         ║
-║    leaderboard    - View high scores                            ║
-║    help           - Show this help                              ║
-║    clear          - Clear terminal                              ║
-║    quit           - Exit Trade Wars                             ║
-║                                                                  ║
-║  Commodities: fuel, organics, equipment                         ║
-║  Colony types: mining, agriculture, technology, military, trading║
-╚══════════════════════════════════════════════════════════════════╝`;
+═══ COMMAND REFERENCE ═══
+
+NAVIGATION
+  warp <sector> - Warp to sector
+  scan - Deep scan sector
+  map - Display galaxy map
+  sector - Show sector info
+
+TRADING
+  buy <item> <qty> - Buy from port
+  sell <item> <qty> - Sell to port
+  port - Show port prices
+
+COMBAT
+  attack - Engage hostiles
+
+MINING
+  mine - Mine asteroids
+
+STARDOCK (Sector 1)
+  ships - View ships
+  upgrade <ship> - Buy ship
+  fighters <qty> - Buy drones
+  repair - Repair shields
+
+COLONIES
+  colonize <name> <type>
+  colonies - View colonies
+  collect - Collect income
+  upgrade-colony <id>
+  fortify <id> <qty>
+
+INFO
+  status | log | leaderboard
+  help | clear | quit
+
+Commodities: fuel, organics, equipment
+Colony types: mining, agriculture,
+  technology, military, trading`;
 
 const SECTOR_ICONS: Record<string, string> = {
   stardock: "⚓",
@@ -836,22 +840,22 @@ export default function TradeWarsPage() {
   return (
     <div className="min-h-screen bg-black flex flex-col">
       {/* Header bar */}
-      <div className="flex items-center justify-between px-4 py-2 bg-gray-900/80 border-b border-cyan-500/20">
-        <div className="flex items-center gap-3">
-          <Link href="/ark" className="text-cyan-400 font-mono text-xs hover:text-cyan-300 transition-colors">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between px-3 sm:px-4 py-2 bg-gray-900/80 border-b border-cyan-500/20 gap-1">
+        <div className="flex items-center gap-2 sm:gap-3">
+          <Link href="/ark" className="text-cyan-400 font-mono text-[10px] sm:text-xs hover:text-cyan-300 transition-colors">
             ← ARK
           </Link>
-          <span className="text-gray-600 font-mono text-xs">|</span>
-          <span className="text-cyan-500 font-mono text-xs tracking-wider">TRADE WARS // COMMAND TERMINAL</span>
+          <span className="text-gray-600 font-mono text-[10px] sm:text-xs">|</span>
+          <span className="text-cyan-500 font-mono text-[10px] sm:text-xs tracking-wider">TRADE WARS</span>
         </div>
-        <div className="flex items-center gap-4 font-mono text-xs">
+        <div className="flex items-center gap-2 sm:gap-4 font-mono text-[10px] sm:text-xs">
           {stateQuery.data && (
             <>
               <span className="text-green-400">{stateQuery.data.credits?.toLocaleString()} cr</span>
               <span className="text-gray-500">|</span>
-              <span className="text-amber-400">Turns: {stateQuery.data.turnsRemaining}</span>
+              <span className="text-amber-400">T:{stateQuery.data.turnsRemaining}</span>
               <span className="text-gray-500">|</span>
-              <span className="text-cyan-400">Sector {stateQuery.data.currentSector}</span>
+              <span className="text-cyan-400">S{stateQuery.data.currentSector}</span>
             </>
           )}
         </div>
@@ -861,7 +865,7 @@ export default function TradeWarsPage() {
       <div
         ref={termRef}
         onClick={handleTerminalClick}
-        className="flex-1 overflow-y-auto p-4 font-mono text-sm leading-relaxed cursor-text"
+        className="flex-1 overflow-y-auto p-2 sm:p-4 font-mono text-[10px] sm:text-sm leading-relaxed cursor-text"
         style={{
           background: "linear-gradient(180deg, #000000 0%, #001a1a 100%)",
           textShadow: "0 0 5px rgba(0, 255, 255, 0.15)",
@@ -887,8 +891,8 @@ export default function TradeWarsPage() {
       </div>
 
       {/* Input */}
-      <form onSubmit={handleSubmit} className="flex items-center px-4 py-3 bg-gray-900/90 border-t border-cyan-500/20">
-        <span className="text-green-400 font-mono text-sm mr-2">{">"}</span>
+      <form onSubmit={handleSubmit} className="flex items-center px-3 sm:px-4 py-2.5 sm:py-3 bg-gray-900/90 border-t border-cyan-500/20">
+        <span className="text-green-400 font-mono text-xs sm:text-sm mr-2">{">"}</span>
         <input
           ref={inputRef}
           type="text"
@@ -897,10 +901,11 @@ export default function TradeWarsPage() {
           onKeyDown={handleKeyDown}
           disabled={isProcessing}
           autoFocus
-          className="flex-1 bg-transparent text-green-400 font-mono text-sm outline-none placeholder-gray-600 caret-green-400"
+          className="flex-1 bg-transparent text-green-400 font-mono text-xs sm:text-sm outline-none placeholder-gray-600 caret-green-400"
           placeholder={isProcessing ? "Processing..." : "Enter command..."}
           autoComplete="off"
           spellCheck={false}
+          autoCapitalize="off"
         />
       </form>
     </div>

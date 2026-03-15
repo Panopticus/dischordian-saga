@@ -109,34 +109,34 @@ export default function StorePage() {
       {/* Header */}
       <div className="border-b border-border/30 bg-card/20 backdrop-blur-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+            <div className="flex items-center gap-3">
               <Link href="/" className="text-muted-foreground hover:text-primary transition-colors">
-                <ChevronLeft size={20} />
+                <ChevronLeft size={18} />
               </Link>
               <div>
-                <h1 className="font-display text-xl font-bold tracking-wider flex items-center gap-2">
-                  <ShoppingCart size={20} className="text-accent" />
+                <h1 className="font-display text-base sm:text-xl font-bold tracking-wider flex items-center gap-2">
+                  <ShoppingCart size={16} className="text-accent" />
                   INTERGALACTIC MARKET
                 </h1>
-                <p className="font-mono text-xs text-muted-foreground">
+                <p className="font-mono text-[10px] sm:text-xs text-muted-foreground">
                   Resources, upgrades, and rare acquisitions
                 </p>
               </div>
             </div>
 
             {isAuthenticated && dreamBalance && (
-              <div className="flex items-center gap-4">
-                <div className="flex items-center gap-2 px-3 py-1.5 rounded-md bg-purple-500/10 border border-purple-500/30">
-                  <Gem size={14} className="text-purple-400" />
-                  <span className="font-mono text-sm text-purple-300">{dreamBalance.dreamTokens}</span>
-                  <span className="font-mono text-[10px] text-purple-400/60">DREAM</span>
+              <div className="flex items-center gap-2 sm:gap-4">
+                <div className="flex items-center gap-1.5 px-2 sm:px-3 py-1 sm:py-1.5 rounded-md bg-purple-500/10 border border-purple-500/30">
+                  <Gem size={12} className="text-purple-400" />
+                  <span className="font-mono text-xs sm:text-sm text-purple-300">{dreamBalance.dreamTokens}</span>
+                  <span className="font-mono text-[9px] sm:text-[10px] text-purple-400/60">DREAM</span>
                 </div>
                 {dreamBalance.soulBoundDream > 0 && (
-                  <div className="flex items-center gap-2 px-3 py-1.5 rounded-md bg-rose-500/10 border border-rose-500/30">
-                    <Crown size={14} className="text-rose-400" />
-                    <span className="font-mono text-sm text-rose-300">{dreamBalance.soulBoundDream}</span>
-                    <span className="font-mono text-[10px] text-rose-400/60">SOUL</span>
+                  <div className="flex items-center gap-1.5 px-2 sm:px-3 py-1 sm:py-1.5 rounded-md bg-rose-500/10 border border-rose-500/30">
+                    <Crown size={12} className="text-rose-400" />
+                    <span className="font-mono text-xs sm:text-sm text-rose-300">{dreamBalance.soulBoundDream}</span>
+                    <span className="font-mono text-[9px] sm:text-[10px] text-rose-400/60">SOUL</span>
                   </div>
                 )}
               </div>
@@ -385,24 +385,24 @@ export default function StorePage() {
               <Package size={15} className="text-muted-foreground" />
               PURCHASE HISTORY
             </h2>
-            <div className="rounded-lg border border-border/30 bg-card/20 overflow-hidden">
-              <table className="w-full">
+            <div className="rounded-lg border border-border/30 bg-card/20 overflow-x-auto">
+              <table className="w-full min-w-[320px]">
                 <thead>
                   <tr className="border-b border-border/20">
-                    <th className="text-left font-mono text-[10px] text-muted-foreground tracking-wider p-3">ITEM</th>
-                    <th className="text-left font-mono text-[10px] text-muted-foreground tracking-wider p-3">METHOD</th>
-                    <th className="text-left font-mono text-[10px] text-muted-foreground tracking-wider p-3">QTY</th>
-                    <th className="text-left font-mono text-[10px] text-muted-foreground tracking-wider p-3">DATE</th>
+                    <th className="text-left font-mono text-[9px] sm:text-[10px] text-muted-foreground tracking-wider p-2 sm:p-3">ITEM</th>
+                    <th className="text-left font-mono text-[9px] sm:text-[10px] text-muted-foreground tracking-wider p-2 sm:p-3">METHOD</th>
+                    <th className="text-left font-mono text-[9px] sm:text-[10px] text-muted-foreground tracking-wider p-2 sm:p-3 hidden sm:table-cell">QTY</th>
+                    <th className="text-left font-mono text-[9px] sm:text-[10px] text-muted-foreground tracking-wider p-2 sm:p-3">DATE</th>
                   </tr>
                 </thead>
                 <tbody>
                   {purchases.slice(0, 20).map((p, i) => (
                     <tr key={i} className="border-b border-border/10 last:border-0">
-                      <td className="p-3 font-mono text-xs text-foreground">
+                      <td className="p-2 sm:p-3 font-mono text-[10px] sm:text-xs text-foreground max-w-[120px] truncate">
                         {p.product?.name || p.productKey}
                       </td>
-                      <td className="p-3">
-                        <span className={`font-mono text-[10px] px-1.5 py-0.5 rounded ${
+                      <td className="p-2 sm:p-3">
+                        <span className={`font-mono text-[9px] sm:text-[10px] px-1 sm:px-1.5 py-0.5 rounded ${
                           p.paymentMethod === "stripe" ? "bg-blue-500/10 text-blue-400" :
                           p.paymentMethod === "dream" ? "bg-purple-500/10 text-purple-400" :
                           "bg-amber-500/10 text-amber-400"
@@ -410,8 +410,8 @@ export default function StorePage() {
                           {(p.paymentMethod || "unknown").toUpperCase()}
                         </span>
                       </td>
-                      <td className="p-3 font-mono text-xs text-muted-foreground">{p.quantity}</td>
-                      <td className="p-3 font-mono text-[10px] text-muted-foreground">
+                      <td className="p-2 sm:p-3 font-mono text-xs text-muted-foreground hidden sm:table-cell">{p.quantity}</td>
+                      <td className="p-2 sm:p-3 font-mono text-[9px] sm:text-[10px] text-muted-foreground">
                         {p.createdAt ? new Date(p.createdAt).toLocaleDateString() : "—"}
                       </td>
                     </tr>

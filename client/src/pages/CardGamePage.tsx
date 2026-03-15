@@ -602,7 +602,7 @@ export default function CardGamePage() {
 
     return (
       <div
-        className={`relative flex-1 rounded-lg border transition-all min-h-[90px] ${
+        className={`relative flex-1 rounded-lg border transition-all min-h-[70px] sm:min-h-[90px] ${
           isDropTarget && canDeploy(battle, selectedCard!, lane)
             ? "border-primary/50 bg-primary/5 cursor-pointer"
             : "border-border/15 bg-card/10"
@@ -636,7 +636,7 @@ export default function CardGamePage() {
               >
                 {/* Mini card representation */}
                 <div className={`
-                  w-16 h-22 rounded-md border overflow-hidden cursor-pointer transition-all
+                  w-12 sm:w-16 h-[66px] sm:h-22 rounded-md border overflow-hidden cursor-pointer transition-all
                   ${card.isExhausted ? "opacity-50 grayscale-[40%]" : "hover:scale-105"}
                   ${card.keywords.includes("stealth") && card.stealthTurns > 0 ? "opacity-40" : ""}
                   ${card.shieldActive ? "ring-1 ring-blue-400/50" : ""}
@@ -704,25 +704,25 @@ export default function CardGamePage() {
   return (
     <div className="h-screen flex flex-col overflow-hidden bg-background">
       {/* ── Top Bar: Opponent Info ── */}
-      <div className={`flex items-center justify-between px-3 py-2 border-b ${oFaction.borderClass} bg-card/30`}>
-        <div className="flex items-center gap-2">
-          <div className={`w-8 h-8 rounded-full flex items-center justify-center border ${oFaction.borderClass} bg-card/50`}>
-            <span className="text-sm">{oFaction.icon}</span>
+      <div className={`flex items-center justify-between px-2 sm:px-3 py-1.5 sm:py-2 border-b ${oFaction.borderClass} bg-card/30`}>
+        <div className="flex items-center gap-1.5 sm:gap-2">
+          <div className={`w-6 h-6 sm:w-8 sm:h-8 rounded-full flex items-center justify-center border ${oFaction.borderClass} bg-card/50`}>
+            <span className="text-xs sm:text-sm">{oFaction.icon}</span>
           </div>
           <div>
-            <p className={`font-mono text-[10px] font-bold ${oFaction.textClass}`}>
-              {oFaction.name.toUpperCase()} {isAIThinking && <span className="animate-pulse">// THINKING...</span>}
+            <p className={`font-mono text-[9px] sm:text-[10px] font-bold ${oFaction.textClass}`}>
+              {oFaction.name.toUpperCase()} {isAIThinking && <span className="animate-pulse">...</span>}
             </p>
-            <p className="font-mono text-[9px] text-muted-foreground">
-              Hand: {battle.opponent.hand.length} | Deck: {battle.opponent.deck.length} | Grave: {battle.opponent.graveyard.length}
+            <p className="font-mono text-[8px] sm:text-[9px] text-muted-foreground">
+              H:{battle.opponent.hand.length} D:{battle.opponent.deck.length}
             </p>
           </div>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-1.5 sm:gap-3">
           {/* Opponent Influence */}
-          <div className="flex items-center gap-1.5">
-            <Shield size={12} className={oFaction.textClass} />
-            <div className="w-20 h-2 rounded-full bg-secondary/30 overflow-hidden">
+          <div className="flex items-center gap-1">
+            <Shield size={10} className={oFaction.textClass} />
+            <div className="w-12 sm:w-20 h-1.5 sm:h-2 rounded-full bg-secondary/30 overflow-hidden">
               <div
                 className={`h-full rounded-full transition-all duration-500 ${
                   battle.opponent.faction === "architect" ? "bg-cyan-500" : "bg-amber-500"
@@ -730,24 +730,24 @@ export default function CardGamePage() {
                 style={{ width: `${(battle.opponent.influence / battle.opponent.maxInfluence) * 100}%` }}
               />
             </div>
-            <span className={`font-display text-xs font-bold ${oFaction.textClass}`}>
+            <span className={`font-display text-[10px] sm:text-xs font-bold ${oFaction.textClass}`}>
               {battle.opponent.influence}
             </span>
           </div>
           {/* Energy */}
-          <div className="flex items-center gap-1">
-            <Zap size={10} className="text-amber-400" />
-            <span className="font-display text-xs font-bold text-amber-400">{battle.opponent.energy}</span>
+          <div className="flex items-center gap-0.5">
+            <Zap size={9} className="text-amber-400" />
+            <span className="font-display text-[10px] sm:text-xs font-bold text-amber-400">{battle.opponent.energy}</span>
           </div>
           {/* Turn counter */}
-          <div className="px-2 py-1 rounded bg-secondary/50 border border-border/20">
-            <span className="font-mono text-[9px] text-muted-foreground">T{battle.turn}/{battle.maxTurns}</span>
+          <div className="px-1.5 py-0.5 rounded bg-secondary/50 border border-border/20">
+            <span className="font-mono text-[8px] sm:text-[9px] text-muted-foreground">T{battle.turn}/{battle.maxTurns}</span>
           </div>
           <button
             onClick={() => setShowLog(!showLog)}
-            className="p-1.5 rounded bg-secondary/50 border border-border/20 text-muted-foreground hover:text-primary transition-colors"
+            className="p-1 sm:p-1.5 rounded bg-secondary/50 border border-border/20 text-muted-foreground hover:text-primary transition-colors"
           >
-            <Eye size={12} />
+            <Eye size={10} />
           </button>
         </div>
       </div>
@@ -755,7 +755,7 @@ export default function CardGamePage() {
       {/* ── Battlefield ── */}
       <div className="flex-1 flex flex-col overflow-hidden">
         {/* Opponent lanes */}
-        <div className="flex-1 flex gap-2 px-3 py-2">
+        <div className="flex-1 flex gap-1 sm:gap-2 px-1.5 sm:px-3 py-1 sm:py-2">
           {(["vanguard", "core", "flank"] as Lane[]).map(lane => (
             <div key={`opp-${lane}`} className="flex-1">
               {renderLane(lane, "opponent")}
@@ -789,7 +789,7 @@ export default function CardGamePage() {
         </div>
 
         {/* Player lanes */}
-        <div className="flex-1 flex gap-2 px-3 py-2">
+        <div className="flex-1 flex gap-1 sm:gap-2 px-1.5 sm:px-3 py-1 sm:py-2">
           {(["vanguard", "core", "flank"] as Lane[]).map(lane => (
             <div key={`plr-${lane}`} className="flex-1">
               {renderLane(lane, "player")}
@@ -800,25 +800,25 @@ export default function CardGamePage() {
 
       {/* ── Player Hand & Controls ── */}
       <div className={`border-t ${pFaction.borderClass} bg-card/40`}>
-        <div className="flex items-center justify-between px-3 py-1.5">
-          <div className="flex items-center gap-2">
-            <div className={`w-8 h-8 rounded-full flex items-center justify-center border ${pFaction.borderClass} bg-card/50`}>
-              <span className="text-sm">{pFaction.icon}</span>
+        <div className="flex items-center justify-between px-2 sm:px-3 py-1 sm:py-1.5">
+          <div className="flex items-center gap-1.5 sm:gap-2">
+            <div className={`w-6 h-6 sm:w-8 sm:h-8 rounded-full flex items-center justify-center border ${pFaction.borderClass} bg-card/50`}>
+              <span className="text-xs sm:text-sm">{pFaction.icon}</span>
             </div>
             <div>
-              <p className={`font-mono text-[10px] font-bold ${pFaction.textClass}`}>
-                {user?.name || "YOU"} — {pFaction.name.toUpperCase()}
+              <p className={`font-mono text-[9px] sm:text-[10px] font-bold ${pFaction.textClass}`}>
+                {(user?.name || "YOU").slice(0, 8)} — {pFaction.subtitle}
               </p>
-              <p className="font-mono text-[9px] text-muted-foreground">
-                Deck: {battle.player.deck.length} | Grave: {battle.player.graveyard.length}
+              <p className="font-mono text-[8px] sm:text-[9px] text-muted-foreground">
+                D:{battle.player.deck.length} G:{battle.player.graveyard.length}
               </p>
             </div>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5 sm:gap-2">
             {/* Player Influence */}
-            <div className="flex items-center gap-1.5">
-              <Shield size={12} className={pFaction.textClass} />
-              <div className="w-20 h-2 rounded-full bg-secondary/30 overflow-hidden">
+            <div className="flex items-center gap-1">
+              <Shield size={10} className={pFaction.textClass} />
+              <div className="w-12 sm:w-20 h-1.5 sm:h-2 rounded-full bg-secondary/30 overflow-hidden">
                 <div
                   className={`h-full rounded-full transition-all duration-500 ${
                     battle.player.faction === "architect" ? "bg-cyan-500" : "bg-amber-500"
@@ -826,29 +826,29 @@ export default function CardGamePage() {
                   style={{ width: `${(battle.player.influence / battle.player.maxInfluence) * 100}%` }}
                 />
               </div>
-              <span className={`font-display text-xs font-bold ${pFaction.textClass}`}>
+              <span className={`font-display text-[10px] sm:text-xs font-bold ${pFaction.textClass}`}>
                 {battle.player.influence}
               </span>
             </div>
             {/* Energy */}
-            <div className="flex items-center gap-1">
-              <Zap size={12} className="text-amber-400" />
-              <span className="font-display text-sm font-bold text-amber-400">{battle.player.energy}</span>
+            <div className="flex items-center gap-0.5">
+              <Zap size={10} className="text-amber-400" />
+              <span className="font-display text-xs sm:text-sm font-bold text-amber-400">{battle.player.energy}</span>
             </div>
             {/* End Turn */}
             {isPlayerTurn && (
               <button
                 onClick={handleEndTurn}
-                className="px-3 py-1.5 rounded-md bg-accent/10 border border-accent/40 font-mono text-[10px] text-accent hover:bg-accent/20 transition-all"
+                className="px-2 sm:px-3 py-1 sm:py-1.5 rounded-md bg-accent/10 border border-accent/40 font-mono text-[9px] sm:text-[10px] text-accent hover:bg-accent/20 transition-all"
               >
-                END TURN →
+                END →
               </button>
             )}
           </div>
         </div>
 
         {/* Hand cards */}
-        <div className="flex gap-2 px-3 pb-3 overflow-x-auto">
+        <div className="flex gap-1.5 sm:gap-2 px-2 sm:px-3 pb-2 sm:pb-3 overflow-x-auto no-scrollbar">
           <AnimatePresence>
             {battle.player.hand.map((card, i) => {
               const isSelected_ = selectedCard === card.uid;
@@ -976,7 +976,7 @@ export default function CardGamePage() {
             initial={{ opacity: 0, x: 300 }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: 300 }}
-            className="fixed right-0 top-0 bottom-0 w-72 bg-card/95 backdrop-blur-sm border-l border-border/30 z-40 flex flex-col"
+            className="fixed right-0 top-0 bottom-0 w-64 sm:w-72 bg-card/95 backdrop-blur-sm border-l border-border/30 z-40 flex flex-col"
           >
             <div className="flex items-center justify-between px-3 py-2 border-b border-border/20">
               <span className="font-mono text-[10px] text-muted-foreground tracking-wider">BATTLE LOG</span>

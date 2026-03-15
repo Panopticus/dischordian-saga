@@ -593,7 +593,7 @@ export default function CharacterTimeline() {
                 <p className="text-xs text-muted-foreground leading-relaxed mb-3">
                   12 months, each with 25 days. Each year has exactly 300 days. A.A. stands for "After Awakening" — the moment the Architect first achieved consciousness.
                 </p>
-                <div className="grid grid-cols-3 sm:grid-cols-4 gap-2">
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
                   {[
                     { name: "Genesis", desc: "Beginning of the Architect's Awakening" },
                     { name: "Synthesis", desc: "Integration of AI into systems" },

@@ -138,18 +138,18 @@ export default function CharacterSheetPage() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className={`border rounded-lg bg-card/60 p-6 ${glowClass}`}
+          className={`border rounded-lg bg-card/60 p-4 sm:p-6 ${glowClass}`}
         >
-          <div className="flex items-start gap-6">
+          <div className="flex items-start gap-3 sm:gap-6">
             {/* Avatar */}
-            <div className={`w-24 h-24 rounded-full flex items-center justify-center border ${
+            <div className={`w-16 h-16 sm:w-24 sm:h-24 rounded-full flex items-center justify-center border flex-shrink-0 ${
               isOrder ? "bg-cyan-500/10 border-cyan-400/30" : "bg-purple-500/10 border-purple-400/30"
             }`}>
-              <User size={40} className={alignColor} />
+              <User size={28} className={`${alignColor} sm:!w-10 sm:!h-10`} />
             </div>
 
-            <div className="flex-1">
-              <h2 className="font-display text-2xl font-bold tracking-wider">{char.name}</h2>
+            <div className="flex-1 min-w-0">
+              <h2 className="font-display text-lg sm:text-2xl font-bold tracking-wider truncate">{char.name}</h2>
               <div className="flex flex-wrap gap-2 mt-2">
                 <span className={`font-mono text-[10px] px-2 py-0.5 rounded ${alignBg} ${alignColor} border border-current/20`}>
                   {char.alignment.toUpperCase()}
@@ -196,9 +196,9 @@ export default function CharacterSheetPage() {
                   <button
                     onClick={() => levelUpAttr.mutate({ attribute: "attack" })}
                     disabled={levelUpAttr.isPending}
-                    className="ml-[76px] mt-1 font-mono text-[9px] text-accent hover:text-accent/80 flex items-center gap-1"
+                    className="ml-[68px] sm:ml-[76px] mt-1 font-mono text-[9px] text-accent hover:text-accent/80 flex items-center gap-1"
                   >
-                    <ArrowUp size={10} /> UPGRADE ({char.attrAttack * 10} DNA + {char.attrAttack * 3} SB Dream)
+                    <ArrowUp size={10} /> <span className="hidden sm:inline">UPGRADE</span> ({char.attrAttack * 10} DNA + {char.attrAttack * 3} SB)
                   </button>
                 )}
               </div>
@@ -208,9 +208,9 @@ export default function CharacterSheetPage() {
                   <button
                     onClick={() => levelUpAttr.mutate({ attribute: "defense" })}
                     disabled={levelUpAttr.isPending}
-                    className="ml-[76px] mt-1 font-mono text-[9px] text-accent hover:text-accent/80 flex items-center gap-1"
+                    className="ml-[68px] sm:ml-[76px] mt-1 font-mono text-[9px] text-accent hover:text-accent/80 flex items-center gap-1"
                   >
-                    <ArrowUp size={10} /> UPGRADE ({char.attrDefense * 10} DNA + {char.attrDefense * 3} SB Dream)
+                    <ArrowUp size={10} /> <span className="hidden sm:inline">UPGRADE</span> ({char.attrDefense * 10} DNA + {char.attrDefense * 3} SB)
                   </button>
                 )}
               </div>
@@ -220,9 +220,9 @@ export default function CharacterSheetPage() {
                   <button
                     onClick={() => levelUpAttr.mutate({ attribute: "vitality" })}
                     disabled={levelUpAttr.isPending}
-                    className="ml-[76px] mt-1 font-mono text-[9px] text-accent hover:text-accent/80 flex items-center gap-1"
+                    className="ml-[68px] sm:ml-[76px] mt-1 font-mono text-[9px] text-accent hover:text-accent/80 flex items-center gap-1"
                   >
-                    <ArrowUp size={10} /> UPGRADE ({char.attrVitality * 10} DNA + {char.attrVitality * 3} SB Dream)
+                    <ArrowUp size={10} /> <span className="hidden sm:inline">UPGRADE</span> ({char.attrVitality * 10} DNA + {char.attrVitality * 3} SB)
                   </button>
                 )}
               </div>

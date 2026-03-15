@@ -196,3 +196,37 @@
 - [x] Fix live feed too dark / can't be seen on screen — increase contrast and brightness
 - [x] Fix Inception Ark viewer out of proportion — make it proportional
 - [x] Design a nice looking player skin that fits the Dischordian theme
+
+## Phase 8: Mobile Optimization + PWA
+
+### Progressive Web App (PWA)
+- [x] Create manifest.json with app name, icons, theme color, display: standalone
+- [x] Create service worker for offline caching
+- [x] Add PWA meta tags to index.html (viewport, theme-color, apple-touch-icon)
+- [x] Generate app icons for all sizes (192x192, 512x512)
+
+### Mobile Responsiveness
+- [x] Fix Home page for mobile (hero text, stats grid, character cards, album grid)
+- [x] Fix Inception Ark page for mobile (ship schematic, deck tabs, room cards)
+- [x] Fix Card Game page for mobile (3-lane battlefield, hand cards, HUD)
+- [x] Fix Card Browser page for mobile (grid layout, filters, card detail modal)
+- [x] Fix Deck Builder page for mobile (collection panel stacks vertically, deck slots)
+- [x] Fix Trade Wars page for mobile (terminal width, ASCII banner, command input)
+- [x] Fix Research Lab page for mobile (recipe cards, dream balance badges)
+- [x] Fix Store page for mobile (product grid, purchase history table)
+- [x] Fix Citizen Creation page for mobile (step wizard, dot allocation, alignment cards)
+- [x] Fix Character Sheet page for mobile (stat display, upgrade buttons)
+- [x] Fix Fight page for mobile (character grid, stats, title screen)
+- [x] Fix Trophy Room page for mobile (stats grid, card displays)
+- [x] Fix Console page for mobile (character grid columns)
+- [x] Fix Character Timeline for mobile (calendar grid)
+- [x] Fix GameCard component for mobile (responsive sizing sm/md/lg)
+- [x] Fix AppShell bottom padding for PlayerBar + bottom nav overlap
+- [x] Ensure all navigation menus work on mobile (hamburger menu, bottom nav)
+- [x] Ensure all text is readable without zooming (min 16px base font)
+- [x] Ensure minimum touch target size (32px) for interactive elements
+- [x] Ensure no horizontal overflow on any page (overflow-x: hidden)
+- [x] Add safe-area-inset support for notched devices
+- [x] Add PWA standalone mode adjustments
+- [x] Disable hover effects on touch devices
+- [x] Reduce heavy animations on mobile for performance

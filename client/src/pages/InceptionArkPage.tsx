@@ -444,12 +444,12 @@ export default function InceptionArkPage() {
                   className="overflow-hidden mt-4"
                 >
                   <div
-                    className={`rounded-lg border ${currentDeck.borderColor} p-5`}
+                    className={`rounded-lg border ${currentDeck.borderColor} p-3 sm:p-5`}
                     style={{ background: `linear-gradient(135deg, ${currentDeck.bgGlow}, transparent)` }}
                   >
-                    <div className="flex items-start gap-4">
-                      <div className={`p-3 rounded-lg border ${currentDeck.borderColor}`} style={{ background: currentDeck.bgGlow }}>
-                        <selectedRoom.icon size={28} className={currentDeck.color} />
+                    <div className="flex items-start gap-3 sm:gap-4">
+                      <div className={`p-2 sm:p-3 rounded-lg border ${currentDeck.borderColor}`} style={{ background: currentDeck.bgGlow }}>
+                        <selectedRoom.icon size={22} className={`${currentDeck.color} sm:!w-7 sm:!h-7`} />
                       </div>
                       <div className="flex-1 min-w-0">
                         <h3 className={`font-display text-sm font-bold tracking-wider ${currentDeck.color} mb-1`}>

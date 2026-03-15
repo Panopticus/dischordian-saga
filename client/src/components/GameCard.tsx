@@ -134,9 +134,9 @@ export default function GameCard({
   const isHighRarity = ["epic", "legendary", "mythic", "neyon"].includes(card.rarity);
 
   const sizeClasses = {
-    sm: "w-36 h-52",
-    md: "w-48 h-72",
-    lg: "w-64 h-96",
+    sm: "w-28 h-40 sm:w-36 sm:h-52",
+    md: "w-36 h-52 sm:w-48 sm:h-72",
+    lg: "w-48 h-72 sm:w-64 sm:h-96",
   };
 
   const handleMouseMove = useCallback((e: React.MouseEvent) => {

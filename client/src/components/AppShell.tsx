@@ -4,7 +4,8 @@ import { useLoredex } from "@/contexts/LoredexContext";
 import { usePlayer } from "@/contexts/PlayerContext";
 import {
   Search, Menu, X, Map, Music, Users, MapPin, Swords, Clock,
-  ChevronRight, Terminal, Disc3, Shield, Tv, BarChart3, Gamepad2, Trophy, Crosshair
+  ChevronRight, Terminal, Disc3, Shield, Tv, BarChart3, Gamepad2, Trophy, Crosshair,
+  Home, Rocket, Store, ScrollText
 } from "lucide-react";
 import { useGamification } from "@/contexts/GamificationContext";
 import { Progress } from "@/components/ui/progress";
@@ -236,11 +237,41 @@ export default function AppShell({ children }: { children: ReactNode }) {
 
         {/* ═══ MAIN CONTENT ═══ */}
         <main
-          className={`flex-1 lg:ml-0 transition-all ${showPlayer ? "pb-20" : ""}`}
+          className={`flex-1 lg:ml-0 transition-all ${showPlayer ? "pb-40 sm:pb-20" : "pb-20 sm:pb-0"}`}
         >
           {children}
         </main>
       </div>
+
+      {/* ═══ MOBILE BOTTOM NAV ═══ */}
+      <nav className={`fixed left-0 right-0 z-50 sm:hidden bg-[oklch(0.06_0.01_280/0.97)] border-t border-border/30 backdrop-blur-xl safe-area-bottom transition-all ${showPlayer ? "bottom-[60px]" : "bottom-0"}`}>
+        <div className="flex items-center justify-around h-14 px-1">
+          {[
+            { path: "/", label: "Home", icon: Home },
+            { path: "/ark", label: "Ark", icon: Rocket },
+            { path: "/cards", label: "Cards", icon: ScrollText },
+            { path: "/store", label: "Store", icon: Store },
+            { path: "/search", label: "Search", icon: Search },
+          ].map((item) => {
+            const Icon = item.icon;
+            const active = location === item.path;
+            return (
+              <Link
+                key={item.path}
+                href={item.path}
+                className={`flex flex-col items-center justify-center gap-0.5 w-14 h-12 rounded-lg transition-all ${
+                  active
+                    ? "text-primary bg-primary/10"
+                    : "text-muted-foreground/60 hover:text-foreground"
+                }`}
+              >
+                <Icon size={18} />
+                <span className="font-mono text-[9px] tracking-wider">{item.label}</span>
+              </Link>
+            );
+          })}
+        </div>
+      </nav>
     </div>
   );
 }

@@ -118,7 +118,7 @@ export default function FightPage() {
               <Swords className="inline mr-2" size={20} /> FIGHT
             </motion.button>
 
-            <div className="flex gap-4 mt-4 text-center">
+            <div className="grid grid-cols-2 sm:flex gap-3 sm:gap-4 mt-4 text-center">
               <div className="px-4 py-2 rounded bg-white/5 border border-white/10">
                 <div className="font-mono text-xs text-white/40">WINS</div>
                 <div className="font-display text-lg text-green-400">{gam.progress.fightWins}</div>
@@ -163,7 +163,7 @@ export default function FightPage() {
           <div className="flex-1 p-3 overflow-y-auto">
             {/* Starters */}
             <div className="font-mono text-[10px] text-white/30 tracking-[0.3em] mb-2 px-1">ARCHONS & ALLIES</div>
-            <div className="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-7 gap-2 mb-4">
+            <div className="grid grid-cols-3 sm:grid-cols-5 md:grid-cols-7 gap-2 mb-4">
               {STARTER_FIGHTERS.map(f => (
                 <FighterCard key={f.id} fighter={f} available={true}
                   selected={selectedPlayer?.id === f.id || selectedOpponent?.id === f.id}
@@ -175,7 +175,7 @@ export default function FightPage() {
 
             {/* Unlockables */}
             <div className="font-mono text-[10px] text-white/30 tracking-[0.3em] mb-2 px-1">HIDDEN ROSTER</div>
-            <div className="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-7 gap-2">
+            <div className="grid grid-cols-3 sm:grid-cols-5 md:grid-cols-7 gap-2">
               {UNLOCKABLE_FIGHTERS.map(f => {
                 const available = isFighterAvailable(f);
                 return (

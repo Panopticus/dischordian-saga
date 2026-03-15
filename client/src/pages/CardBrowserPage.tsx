@@ -311,11 +311,11 @@ export default function CardBrowserPage() {
               initial={{ scale: 0.9, y: 20 }}
               animate={{ scale: 1, y: 0 }}
               exit={{ scale: 0.9, y: 20 }}
-              className="bg-card border border-border/40 rounded-xl p-6 max-w-lg w-full max-h-[90vh] overflow-y-auto"
+              className="bg-card border border-border/40 rounded-xl p-4 sm:p-6 max-w-lg w-full max-h-[90vh] overflow-y-auto relative"
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="flex gap-6">
-                <div className="shrink-0">
+              <div className="flex flex-col sm:flex-row gap-4 sm:gap-6">
+                <div className="shrink-0 mx-auto sm:mx-0">
                   <GameCard card={selectedCard} size="lg" animated={false} />
                 </div>
                 <div className="flex-1 min-w-0">

@@ -369,10 +369,10 @@ export default function DeckBuilderPage() {
       </div>
 
       {/* Main content */}
-      <div className="flex-1 flex overflow-hidden">
+      <div className="flex-1 flex flex-col sm:flex-row overflow-hidden">
         {/* DECK LIST VIEW */}
         {showDeckList && !isEditing && (
-          <div className="flex-1 p-6 overflow-y-auto">
+          <div className="flex-1 p-3 sm:p-6 overflow-y-auto">
             <div className="max-w-4xl mx-auto">
               <div className="flex items-center justify-between mb-6">
                 <h2 className="font-display text-lg tracking-[0.15em] text-foreground">YOUR DECKS</h2>
@@ -480,7 +480,7 @@ export default function DeckBuilderPage() {
         {isEditing && (
           <>
             {/* Left: Collection browser */}
-            <div className="w-1/2 border-r border-border/30 flex flex-col overflow-hidden">
+            <div className="w-full sm:w-1/2 border-b sm:border-b-0 sm:border-r border-border/30 flex flex-col overflow-hidden" style={{ maxHeight: 'calc(50vh - 52px)', minHeight: 0 }}>
               <div className="p-3 bg-card/40 border-b border-border/20 space-y-2">
                 <div className="flex items-center gap-2">
                   <div className="relative flex-1">
@@ -596,7 +596,7 @@ export default function DeckBuilderPage() {
             {/* Right: Deck panel */}
             <div
               ref={deckPanelRef}
-              className="w-1/2 flex flex-col overflow-hidden"
+              className="w-full sm:w-1/2 flex flex-col overflow-hidden" style={{ maxHeight: 'calc(50vh - 52px)', minHeight: 0 }}
               onDrop={handleDeckDrop}
               onDragOver={handleDragOver}
             >

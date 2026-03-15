@@ -200,20 +200,20 @@ export default function ResearchLabPage() {
             </div>
 
             {/* Dream Balance */}
-            <div className="flex items-center gap-4">
-              <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-purple-900/20 border border-purple-500/20">
-                <Sparkles size={14} className="text-purple-400" />
-                <span className="font-display text-sm font-bold text-purple-300">
+            <div className="flex items-center gap-2 sm:gap-4">
+              <div className="flex items-center gap-1.5 sm:gap-2 px-2 sm:px-3 py-1.5 sm:py-2 rounded-lg bg-purple-900/20 border border-purple-500/20">
+                <Sparkles size={12} className="text-purple-400 sm:!w-3.5 sm:!h-3.5" />
+                <span className="font-display text-xs sm:text-sm font-bold text-purple-300">
                   {dreamBal?.dream ?? 0}
                 </span>
-                <span className="font-mono text-[9px] text-purple-400/60">DREAM</span>
+                <span className="font-mono text-[8px] sm:text-[9px] text-purple-400/60 hidden sm:inline">DREAM</span>
               </div>
-              <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-pink-900/20 border border-pink-500/20">
-                <Crown size={14} className="text-pink-400" />
-                <span className="font-display text-sm font-bold text-pink-300">
+              <div className="flex items-center gap-1.5 sm:gap-2 px-2 sm:px-3 py-1.5 sm:py-2 rounded-lg bg-pink-900/20 border border-pink-500/20">
+                <Crown size={12} className="text-pink-400 sm:!w-3.5 sm:!h-3.5" />
+                <span className="font-display text-xs sm:text-sm font-bold text-pink-300">
                   {dreamBal?.soulBoundDream ?? 0}
                 </span>
-                <span className="font-mono text-[9px] text-pink-400/60">SOUL</span>
+                <span className="font-mono text-[8px] sm:text-[9px] text-pink-400/60 hidden sm:inline">SOUL</span>
               </div>
             </div>
           </div>

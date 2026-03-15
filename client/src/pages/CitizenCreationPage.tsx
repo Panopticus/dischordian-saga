@@ -40,23 +40,23 @@ function DotRating({
   const activeColor = colorMap[color] || colorMap.cyan;
 
   return (
-    <div className="flex items-center gap-3">
-      <span className="font-mono text-xs text-muted-foreground w-20 text-right tracking-wider">
+    <div className="flex items-center gap-2 sm:gap-3">
+      <span className="font-mono text-[10px] sm:text-xs text-muted-foreground w-14 sm:w-20 text-right tracking-wider">
         {label}
       </span>
-      <div className="flex gap-1.5">
+      <div className="flex gap-1 sm:gap-1.5">
         {Array.from({ length: max }, (_, i) => (
           <button
             key={i}
             disabled={disabled}
             onClick={() => onChange?.(i + 1)}
-            className={`w-4 h-4 rounded-full transition-all duration-200 ${
+            className={`w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full transition-all duration-200 ${
               i < value ? activeColor : emptyColor
             } ${!disabled ? "cursor-pointer hover:scale-125" : "cursor-default"}`}
           />
         ))}
       </div>
-      <span className="font-mono text-xs text-muted-foreground/50 w-4">{value}</span>
+      <span className="font-mono text-[10px] sm:text-xs text-muted-foreground/50 w-4">{value}</span>
     </div>
   );
 }
@@ -275,7 +275,7 @@ export default function CitizenCreationPage() {
             {/* ═══ SPECIES ═══ */}
             {step === "species" && (
               <div>
-                <h2 className="font-display text-2xl font-bold mb-2 tracking-wider">CHOOSE YOUR SPECIES</h2>
+                <h2 className="font-display text-xl sm:text-2xl font-bold mb-2 tracking-wider">CHOOSE YOUR SPECIES</h2>
                 <p className="font-mono text-sm text-muted-foreground mb-8">
                   Your species determines your innate abilities and available elements.
                 </p>
@@ -311,7 +311,7 @@ export default function CitizenCreationPage() {
             {/* ═══ CLASS ═══ */}
             {step === "class" && (
               <div>
-                <h2 className="font-display text-2xl font-bold mb-2 tracking-wider">CHOOSE YOUR CLASS</h2>
+                <h2 className="font-display text-xl sm:text-2xl font-bold mb-2 tracking-wider">CHOOSE YOUR CLASS</h2>
                 <p className="font-mono text-sm text-muted-foreground mb-8">
                   Your class determines your starting gear and combat specialization.
                 </p>
@@ -346,7 +346,7 @@ export default function CitizenCreationPage() {
             {/* ═══ ALIGNMENT ═══ */}
             {step === "alignment" && (
               <div>
-                <h2 className="font-display text-2xl font-bold mb-2 tracking-wider">CHOOSE YOUR ALIGNMENT</h2>
+                <h2 className="font-display text-xl sm:text-2xl font-bold mb-2 tracking-wider">CHOOSE YOUR ALIGNMENT</h2>
                 <p className="font-mono text-sm text-muted-foreground mb-8">
                   Order grants a light glow aura. Chaos grants a dark glow aura. This affects your card game faction bonuses.
                 </p>
@@ -354,20 +354,20 @@ export default function CitizenCreationPage() {
                   {/* Order */}
                   <button
                     onClick={() => setAlignment("order")}
-                    className={`text-left p-6 rounded-lg border transition-all duration-500 ${
+                    className={`text-left p-4 sm:p-6 rounded-lg border transition-all duration-500 ${
                       alignment === "order"
                         ? "border-cyan-400/50 bg-cyan-500/10 shadow-[0_0_30px_rgba(0,255,255,0.3)]"
                         : "border-border/30 bg-card/30 hover:border-cyan-400/30"
                     }`}
                   >
-                    <div className="flex items-center gap-3 mb-4">
-                      <div className={`w-12 h-12 rounded-full flex items-center justify-center ${
+                    <div className="flex items-center gap-3 mb-3 sm:mb-4">
+                      <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center ${
                         alignment === "order" ? "bg-cyan-400/20 shadow-[0_0_20px_rgba(0,255,255,0.5)]" : "bg-muted-foreground/10"
                       }`}>
-                        <Shield size={24} className="text-cyan-400" />
+                        <Shield size={20} className="text-cyan-400" />
                       </div>
                       <div>
-                        <h3 className="font-display text-xl font-bold tracking-wider text-cyan-400">ORDER</h3>
+                        <h3 className="font-display text-lg sm:text-xl font-bold tracking-wider text-cyan-400">ORDER</h3>
                         <p className="font-mono text-[10px] text-muted-foreground tracking-wider">DISCIPLINE & REGIMEN</p>
                       </div>
                     </div>
@@ -382,20 +382,20 @@ export default function CitizenCreationPage() {
                   {/* Chaos */}
                   <button
                     onClick={() => setAlignment("chaos")}
-                    className={`text-left p-6 rounded-lg border transition-all duration-500 ${
+                    className={`text-left p-4 sm:p-6 rounded-lg border transition-all duration-500 ${
                       alignment === "chaos"
                         ? "border-purple-400/50 bg-purple-500/10 shadow-[0_0_30px_rgba(168,85,247,0.3)]"
                         : "border-border/30 bg-card/30 hover:border-purple-400/30"
                     }`}
                   >
-                    <div className="flex items-center gap-3 mb-4">
-                      <div className={`w-12 h-12 rounded-full flex items-center justify-center ${
+                    <div className="flex items-center gap-3 mb-3 sm:mb-4">
+                      <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center ${
                         alignment === "chaos" ? "bg-purple-400/20 shadow-[0_0_20px_rgba(168,85,247,0.5)]" : "bg-muted-foreground/10"
                       }`}>
-                        <Zap size={24} className="text-purple-400" />
+                        <Zap size={20} className="text-purple-400" />
                       </div>
                       <div>
-                        <h3 className="font-display text-xl font-bold tracking-wider text-purple-400">CHAOS</h3>
+                        <h3 className="font-display text-lg sm:text-xl font-bold tracking-wider text-purple-400">CHAOS</h3>
                         <p className="font-mono text-[10px] text-muted-foreground tracking-wider">TRANSIENCE & POSSIBILITY</p>
                       </div>
                     </div>
@@ -454,7 +454,7 @@ export default function CitizenCreationPage() {
             {/* ═══ ATTRIBUTES ═══ */}
             {step === "attributes" && (
               <div>
-                <h2 className="font-display text-2xl font-bold mb-2 tracking-wider">ALLOCATE ATTRIBUTES</h2>
+                <h2 className="font-display text-xl sm:text-2xl font-bold mb-2 tracking-wider">ALLOCATE ATTRIBUTES</h2>
                 <p className="font-mono text-sm text-muted-foreground mb-2">
                   Distribute 9 dots across three attributes. Each ranges from 1 to 5.
                 </p>
@@ -462,7 +462,7 @@ export default function CitizenCreationPage() {
                   DOTS REMAINING: {dotsRemaining}
                 </p>
 
-                <div className="border border-border/30 rounded-lg bg-card/40 p-6 space-y-6 max-w-md">
+                <div className="border border-border/30 rounded-lg bg-card/40 p-4 sm:p-6 space-y-5 sm:space-y-6 max-w-md">
                   <div>
                     <div className="flex items-center gap-2 mb-3">
                       <Swords size={16} className="text-red-400" />
@@ -477,7 +477,7 @@ export default function CitizenCreationPage() {
                       label="ATK"
                       color="red"
                     />
-                    <p className="font-mono text-[10px] text-muted-foreground mt-1 ml-[92px]">
+                    <p className="font-mono text-[10px] text-muted-foreground mt-1 ml-[68px] sm:ml-[92px]">
                       Melee & ranged damage output
                     </p>
                   </div>
@@ -496,7 +496,7 @@ export default function CitizenCreationPage() {
                       label="DEF"
                       color="cyan"
                     />
-                    <p className="font-mono text-[10px] text-muted-foreground mt-1 ml-[92px]">
+                    <p className="font-mono text-[10px] text-muted-foreground mt-1 ml-[68px] sm:ml-[92px]">
                       Armor rating & damage reduction
                     </p>
                   </div>
@@ -515,7 +515,7 @@ export default function CitizenCreationPage() {
                       label="VIT"
                       color="amber"
                     />
-                    <p className="font-mono text-[10px] text-muted-foreground mt-1 ml-[92px]">
+                    <p className="font-mono text-[10px] text-muted-foreground mt-1 ml-[68px] sm:ml-[92px]">
                       Maximum health pool
                     </p>
                   </div>
@@ -543,7 +543,7 @@ export default function CitizenCreationPage() {
             {/* ═══ NAME ═══ */}
             {step === "name" && (
               <div>
-                <h2 className="font-display text-2xl font-bold mb-2 tracking-wider">NAME YOUR CITIZEN</h2>
+                <h2 className="font-display text-xl sm:text-2xl font-bold mb-2 tracking-wider">NAME YOUR CITIZEN</h2>
                 <p className="font-mono text-sm text-muted-foreground mb-8">
                   Choose a name for your character. This will be your identity across the Dischordian Saga.
                 </p>
@@ -566,12 +566,12 @@ export default function CitizenCreationPage() {
             {/* ═══ REVIEW ═══ */}
             {step === "review" && (
               <div>
-                <h2 className="font-display text-2xl font-bold mb-2 tracking-wider">REVIEW YOUR CITIZEN</h2>
+                <h2 className="font-display text-xl sm:text-2xl font-bold mb-2 tracking-wider">REVIEW YOUR CITIZEN</h2>
                 <p className="font-mono text-sm text-muted-foreground mb-8">
                   Confirm your choices. This is your free Citizen — additional characters must be unlocked.
                 </p>
 
-                <div className="border border-primary/30 rounded-lg bg-card/60 p-6 max-w-lg box-glow-cyan">
+                <div className="border border-primary/30 rounded-lg bg-card/60 p-4 sm:p-6 max-w-lg box-glow-cyan">
                   {/* Character name */}
                   <div className="text-center mb-6">
                     <h3 className="font-display text-2xl font-bold text-primary tracking-wider">{charName}</h3>

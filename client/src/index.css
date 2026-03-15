@@ -529,3 +529,76 @@
 .animate-energy {
   animation: energy-charge 0.6s ease-in-out;
 }
+
+/* ═══════════════════════════════════════════════════════
+   MOBILE OPTIMIZATION
+   ═══════════════════════════════════════════════════════ */
+
+/* Safe area for notched devices (iPhone X+) */
+.safe-area-bottom {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+/* Prevent text from being too small on mobile */
+@media (max-width: 639px) {
+  html {
+    font-size: 16px;
+    -webkit-text-size-adjust: 100%;
+  }
+  
+  /* Ensure minimum touch target size - only for interactive elements that are not inline */
+  button:not(.inline-btn), [role="button"], input, select, textarea {
+    min-height: 32px;
+  }
+  
+  /* Prevent horizontal overflow */
+  body {
+    overflow-x: hidden;
+  }
+  
+  /* Hide CRT overlay on mobile for performance */
+  .crt-overlay {
+    display: none;
+  }
+  
+  /* Reduce heavy animations on mobile */
+  .animate-glitch {
+    animation: none;
+  }
+  
+  /* Make tables scrollable on mobile */
+  table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  /* Ensure font-display text doesn't overflow */
+  .font-display, [class*="font-display"] {
+    word-break: break-word;
+    overflow-wrap: break-word;
+  }
+}
+
+/* Disable hover effects on touch devices */
+@media (hover: none) {
+  .hover-lift:hover {
+    transform: none;
+    box-shadow: none;
+  }
+  .dossier-card:hover::before {
+    opacity: 0;
+  }
+}
+
+/* Improve touch scrolling */
+.overflow-y-auto, .overflow-x-auto {
+  -webkit-overflow-scrolling: touch;
+}
+
+/* PWA standalone mode adjustments */
+@media (display-mode: standalone) {
+  .safe-area-bottom {
+    padding-bottom: env(safe-area-inset-bottom, 12px);
+  }
+}
