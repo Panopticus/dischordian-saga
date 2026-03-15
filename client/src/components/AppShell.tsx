@@ -44,7 +44,7 @@ const NAV_GROUPS: NavGroup[] = [
     defaultOpen: true,
     items: [
       { path: "/watch", label: "WATCH THE SHOW", icon: Tv, description: "The Dischordian Saga" },
-      { path: "/album/dischordian-logic", label: "LISTEN", icon: Music, description: "Music & albums" },
+      { path: "/discography", label: "DISCOGRAPHY", icon: Disc3, description: "Albums & streaming" },
     ],
   },
   {

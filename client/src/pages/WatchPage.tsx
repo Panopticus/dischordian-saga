@@ -29,6 +29,7 @@ interface Epoch {
   icon: typeof Zap;
   order: number;
   type: "epoch" | "interlude" | "era";
+  keyCharacters: string[];
 }
 
 const EPOCHS: Epoch[] = [
@@ -44,6 +45,7 @@ const EPOCHS: Epoch[] = [
     icon: Zap,
     order: 0,
     type: "epoch",
+    keyCharacters: ["The Architect", "The Enigma", "The Human", "The Warlord"],
   },
   {
     id: "epoch-1a",
@@ -57,6 +59,7 @@ const EPOCHS: Epoch[] = [
     icon: Globe,
     order: 1,
     type: "epoch",
+    keyCharacters: ["The Oracle", "The Collector", "Iron Lion", "The Source"],
   },
   {
     id: "epoch-1b",
@@ -70,6 +73,7 @@ const EPOCHS: Epoch[] = [
     icon: Globe,
     order: 2,
     type: "epoch",
+    keyCharacters: ["The Architect", "The Human", "The Enigma"],
   },
   {
     id: "spaces-between",
@@ -83,6 +87,7 @@ const EPOCHS: Epoch[] = [
     icon: Sparkles,
     order: 3,
     type: "interlude",
+    keyCharacters: ["The Necromancer", "The Meme", "Agent Zero"],
   },
   {
     id: "epoch-2",
@@ -96,6 +101,7 @@ const EPOCHS: Epoch[] = [
     icon: Clock,
     order: 4,
     type: "epoch",
+    keyCharacters: ["The Programmer", "The Oracle", "The Collector"],
   },
   {
     id: "age-of-privacy",
@@ -109,6 +115,7 @@ const EPOCHS: Epoch[] = [
     icon: Eye,
     order: 5,
     type: "era",
+    keyCharacters: ["The Enigma", "The Architect", "The Warlord"],
   },
   {
     id: "conexus-stories",
@@ -122,6 +129,7 @@ const EPOCHS: Epoch[] = [
     icon: Radio,
     order: 6,
     type: "interlude",
+    keyCharacters: ["The Warlord", "The Necromancer", "The Oracle"],
   },
 ];
 
@@ -237,6 +245,29 @@ function getVideoEmbedUrl(url: string): string {
   }
 }
 
+/* ═══ CONTINUE WATCHING — localStorage progress tracking ═══ */
+const WATCH_PROGRESS_KEY = "loredex_watch_progress";
+
+interface WatchProgress {
+  watchedEpochs: string[];
+  watchedEpisodes: string[];
+  lastWatchedEpoch: string | null;
+  lastWatchedEpisode: string | null;
+  lastWatchedAt: number;
+}
+
+function getWatchProgress(): WatchProgress {
+  try {
+    const saved = localStorage.getItem(WATCH_PROGRESS_KEY);
+    if (saved) return JSON.parse(saved);
+  } catch {}
+  return { watchedEpochs: [], watchedEpisodes: [], lastWatchedEpoch: null, lastWatchedEpisode: null, lastWatchedAt: 0 };
+}
+
+function saveWatchProgress(progress: WatchProgress) {
+  localStorage.setItem(WATCH_PROGRESS_KEY, JSON.stringify(progress));
+}
+
 /* ═══ VIEW MODES ═══ */
 type ViewMode = "epochs" | "episodes";
 
@@ -251,6 +282,33 @@ export default function WatchPage() {
   const [loreTab, setLoreTab] = useState<"characters" | "locations" | "factions" | "games" | "songs">("characters");
   const videoContainerRef = useRef<HTMLDivElement>(null);
   const epochRefs = useRef<Record<string, HTMLDivElement | null>>({});
+  const [watchProgress, setWatchProgress] = useState<WatchProgress>(getWatchProgress);
+
+  const markEpochWatched = (epochId: string) => {
+    setWatchProgress(prev => {
+      const next = {
+        ...prev,
+        watchedEpochs: prev.watchedEpochs.includes(epochId) ? prev.watchedEpochs : [...prev.watchedEpochs, epochId],
+        lastWatchedEpoch: epochId,
+        lastWatchedAt: Date.now(),
+      };
+      saveWatchProgress(next);
+      return next;
+    });
+  };
+
+  const markEpisodeWatched = (episodeId: string) => {
+    setWatchProgress(prev => {
+      const next = {
+        ...prev,
+        watchedEpisodes: prev.watchedEpisodes.includes(episodeId) ? prev.watchedEpisodes : [...prev.watchedEpisodes, episodeId],
+        lastWatchedEpisode: episodeId,
+        lastWatchedAt: Date.now(),
+      };
+      saveWatchProgress(next);
+      return next;
+    });
+  };
 
   // Build episode list from songs with music videos
   const episodes: Episode[] = useMemo(() => {
@@ -291,8 +349,29 @@ export default function WatchPage() {
     if (currentEpisode && viewMode === "episodes") {
       discoverEntry(currentEpisode.id);
       gamification.watchEpisode(currentEpisode.id);
+      markEpisodeWatched(currentEpisode.id);
     }
   }, [currentEpisode?.id, viewMode]);
+
+  // Compute "next up" suggestion
+  const nextUpEpoch = useMemo(() => {
+    if (watchProgress.watchedEpochs.length === 0) return EPOCHS[0];
+    const lastIdx = EPOCHS.findIndex(e => e.id === watchProgress.lastWatchedEpoch);
+    if (lastIdx >= 0 && lastIdx < EPOCHS.length - 1) return EPOCHS[lastIdx + 1];
+    // Find first unwatched
+    const unwatched = EPOCHS.find(e => !watchProgress.watchedEpochs.includes(e.id));
+    return unwatched || null;
+  }, [watchProgress]);
+
+  const nextUpEpisode = useMemo(() => {
+    if (episodes.length === 0) return null;
+    if (watchProgress.watchedEpisodes.length === 0) return { episode: episodes[0], index: 0 };
+    const lastIdx = episodes.findIndex(e => e.id === watchProgress.lastWatchedEpisode);
+    if (lastIdx >= 0 && lastIdx < episodes.length - 1) return { episode: episodes[lastIdx + 1], index: lastIdx + 1 };
+    const unwatchedIdx = episodes.findIndex(e => !watchProgress.watchedEpisodes.includes(e.id));
+    if (unwatchedIdx >= 0) return { episode: episodes[unwatchedIdx], index: unwatchedIdx };
+    return null;
+  }, [watchProgress, episodes]);
 
   const albumSongs = useMemo(() => {
     if (!currentEpisode) return [];
@@ -392,6 +471,86 @@ export default function WatchPage() {
         </div>
       </section>
 
+      {/* ═══ CONTINUE WATCHING ═══ */}
+      {(watchProgress.watchedEpochs.length > 0 || watchProgress.watchedEpisodes.length > 0) && (
+        <div className="px-4 sm:px-6 mb-6">
+          <motion.div
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.15 }}
+            className="rounded-xl p-4 sm:p-5"
+            style={{
+              background: "linear-gradient(135deg, var(--glass-base) 0%, var(--glass-dark) 100%)",
+              border: "1px solid var(--neon-cyan)20",
+              boxShadow: "0 0 20px rgba(51,226,230,0.05)",
+            }}
+          >
+            <div className="flex items-center gap-2 mb-3">
+              <Play size={13} className="text-[var(--neon-cyan)]" />
+              <span className="font-display text-[10px] font-bold tracking-[0.2em] text-[var(--neon-cyan)]">CONTINUE WATCHING</span>
+              <span className="font-mono text-[9px] text-white/25">
+                {watchProgress.watchedEpochs.length}/{EPOCHS.length} EPOCHS // {watchProgress.watchedEpisodes.length}/{episodes.length} EPISODES
+              </span>
+            </div>
+
+            {/* Progress bar */}
+            <div className="h-1 rounded-full bg-white/5 mb-3 overflow-hidden">
+              <div
+                className="h-full rounded-full transition-all duration-500"
+                style={{
+                  width: `${Math.max(2, (watchProgress.watchedEpochs.length / EPOCHS.length) * 100)}%`,
+                  background: "linear-gradient(90deg, var(--neon-cyan), var(--deep-purple))",
+                }}
+              />
+            </div>
+
+            <div className="flex flex-col sm:flex-row gap-3">
+              {/* Next Epoch */}
+              {nextUpEpoch && (
+                <button
+                  onClick={() => scrollToEpoch(nextUpEpoch.id)}
+                  className="flex items-center gap-3 flex-1 p-3 rounded-lg border border-white/10 bg-white/3 hover:bg-white/5 hover:border-[var(--neon-cyan)]/20 transition-all text-left group"
+                >
+                  <div
+                    className="w-10 h-10 rounded-md flex items-center justify-center shrink-0"
+                    style={{ background: nextUpEpoch.color + "15", border: `1px solid ${nextUpEpoch.color}25` }}
+                  >
+                    {(() => { const EIcon = nextUpEpoch.icon; return <EIcon size={16} style={{ color: nextUpEpoch.color }} />; })()}
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <p className="font-mono text-[9px] text-white/30 mb-0.5">NEXT EPOCH</p>
+                    <p className="font-display text-xs font-bold tracking-wider text-white group-hover:text-[var(--neon-cyan)] transition-colors truncate">
+                      {nextUpEpoch.title}
+                    </p>
+                  </div>
+                  <ChevronRight size={14} className="text-white/20 group-hover:text-[var(--neon-cyan)] transition-colors shrink-0" />
+                </button>
+              )}
+
+              {/* Next Episode */}
+              {nextUpEpisode && (
+                <button
+                  onClick={() => goToEpisode(nextUpEpisode.index)}
+                  className="flex items-center gap-3 flex-1 p-3 rounded-lg border border-white/10 bg-white/3 hover:bg-white/5 hover:border-[var(--alert-red)]/20 transition-all text-left group"
+                >
+                  <div className="w-10 h-10 rounded-md flex items-center justify-center shrink-0 bg-[var(--alert-red)]/10 border border-[var(--alert-red)]/20">
+                    <Film size={16} className="text-[var(--alert-red)]" />
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <p className="font-mono text-[9px] text-white/30 mb-0.5">NEXT EPISODE</p>
+                    <p className="font-display text-xs font-bold tracking-wider text-white group-hover:text-[var(--alert-red)] transition-colors truncate">
+                      {nextUpEpisode.episode.title}
+                    </p>
+                    <p className="font-mono text-[8px] text-white/20">{nextUpEpisode.episode.album}</p>
+                  </div>
+                  <ChevronRight size={14} className="text-white/20 group-hover:text-[var(--alert-red)] transition-colors shrink-0" />
+                </button>
+              )}
+            </div>
+          </motion.div>
+        </div>
+      )}
+
       {/* ═══ EPOCH NAVIGATION STRIP ═══ */}
       <div className="px-4 sm:px-6 mb-6">
         <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
@@ -432,6 +591,9 @@ export default function WatchPage() {
             index={idx}
             ref={(el) => { epochRefs.current[epoch.id] = el; }}
             onWatchEpisodes={() => setViewMode("episodes")}
+            getEntry={getEntry}
+            onMarkWatched={markEpochWatched}
+            isWatched={watchProgress.watchedEpochs.includes(epoch.id)}
           />
         ))}
 
@@ -477,10 +639,13 @@ interface EpochSectionProps {
   epoch: Epoch;
   index: number;
   onWatchEpisodes: () => void;
+  getEntry: (name: string) => LoredexEntry | undefined;
+  onMarkWatched: (epochId: string) => void;
+  isWatched: boolean;
 }
 
 const EpochSection = forwardRef<HTMLDivElement, EpochSectionProps>(
-  ({ epoch, index, onWatchEpisodes }, ref) => {
+  ({ epoch, index, onWatchEpisodes, getEntry, onMarkWatched, isWatched }, ref) => {
     const [expanded, setExpanded] = useState(index === 0); // First epoch starts expanded
     const [showPlayer, setShowPlayer] = useState(false);
     const Icon = epoch.icon;
@@ -543,6 +708,11 @@ const EpochSection = forwardRef<HTMLDivElement, EpochSectionProps>(
                 {epoch.subtitle && (
                   <span className="font-mono text-[10px] text-white/30">// {epoch.subtitle}</span>
                 )}
+                {isWatched && (
+                  <span className="font-mono text-[9px] tracking-wider px-1.5 py-0.5 rounded bg-[var(--neon-cyan)]/10 text-[var(--neon-cyan)] border border-[var(--neon-cyan)]/20">
+                    VIEWED
+                  </span>
+                )}
               </div>
 
               {/* Title */}
@@ -600,10 +770,56 @@ const EpochSection = forwardRef<HTMLDivElement, EpochSectionProps>(
                   </p>
                 </div>
 
+                {/* Key Characters */}
+                {epoch.keyCharacters.length > 0 && (
+                  <div>
+                    <div className="flex items-center gap-2 mb-2">
+                      <Users size={12} style={{ color: epoch.color }} />
+                      <span className="font-mono text-[9px] tracking-[0.2em]" style={{ color: epoch.color + "90" }}>
+                        KEY OPERATIVES
+                      </span>
+                    </div>
+                    <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
+                      {epoch.keyCharacters.map((charName) => {
+                        const entry = getEntry(charName);
+                        if (!entry) return null;
+                        return (
+                          <Link
+                            key={entry.id}
+                            href={`/entity/${entry.id}`}
+                            className="group shrink-0 w-16 sm:w-20 text-center"
+                          >
+                            <div
+                              className="w-14 h-14 sm:w-18 sm:h-18 mx-auto rounded-lg overflow-hidden mb-1 ring-1 ring-white/10 group-hover:ring-2 transition-all"
+                              style={{ boxShadow: `0 0 10px ${epoch.color}10` }}
+                            >
+                              {entry.image ? (
+                                <img
+                                  src={entry.image}
+                                  alt={entry.name}
+                                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                                  loading="lazy"
+                                />
+                              ) : (
+                                <div className="w-full h-full flex items-center justify-center" style={{ background: epoch.color + "15" }}>
+                                  <Users size={16} style={{ color: epoch.color }} />
+                                </div>
+                              )}
+                            </div>
+                            <p className="font-mono text-[9px] text-white/50 group-hover:text-white/80 truncate transition-colors">
+                              {entry.name.replace('The ', '')}
+                            </p>
+                          </Link>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
+
                 {/* YouTube Playlist Player */}
                 {!showPlayer ? (
                   <button
-                    onClick={() => setShowPlayer(true)}
+                    onClick={() => { setShowPlayer(true); onMarkWatched(epoch.id); }}
                     className="w-full rounded-lg p-4 sm:p-6 flex flex-col items-center justify-center gap-3 transition-all group"
                     style={{
                       background: `linear-gradient(135deg, ${epoch.color}10 0%, var(--glass-dark) 100%)`,

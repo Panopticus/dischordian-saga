@@ -327,3 +327,15 @@
 - [x] Add Watch page context hint for Elara's LLM-powered responses
 - [x] Fix duplicate playlist IDs (Spaces Between and Age of Privacy were using wrong IDs)
 - [x] All 90 tests passing
+
+## Phase 12b: Watch Page Enhancements + Discography Page
+- [x] Add episode thumbnails/previews to each epoch section showing key characters/scenes
+- [x] Build "Continue Watching" feature that tracks which epochs a user has viewed
+- [x] Suggest next epoch to watch based on viewing progress
+- [x] Build dedicated Discography/Listen page under THE SAGA nav group
+- [x] Album art, track listings, and streaming links (Spotify/Apple Music/YouTube Music/Tidal)
+- [x] Wire up Discography page route in App.tsx and navigation
+- [x] Updated LISTEN nav link to DISCOGRAPHY pointing to /discography
+- [x] "VIEWED" badge on watched epoch headers
+- [x] Progress bar showing epoch completion percentage
+- [x] All 90 tests passing
