@@ -8,47 +8,23 @@ import {
   ChevronLeft, Swords, Shield, Zap, Heart, Crown,
   RotateCcw, Play, Eye, X, ChevronRight, Flame,
   Sparkles, Trophy, Target, Crosshair, Layers,
-  SkipForward, Volume2, VolumeX
+  SkipForward, Volume2, VolumeX, Globe, BookOpen, Map
 } from "lucide-react";
-// import { getLoginUrl } from "@/const";
 import {
   BattleState, BattleCard, Faction, Lane, AIDifficulty,
   createBattle, deployCard, drawCards, resolveCombat,
   endTurn, runAITurn, canDeploy, getMatchRewards,
   cardToBattleCard, CombatEvent
 } from "@/game/CardBattleEngine";
+import {
+  FACTION_LORE, generateUniverse, resolveUniverse,
+  generateBriefing, generateFateResolution, getNarrative,
+  recordBattleOutcome, getMultiverseRecord,
+  type UniverseFate, type MultiverseRecord
+} from "@/game/CardGameLore";
 
-// ── Faction Data ──
-const FACTIONS = {
-  architect: {
-    name: "The Architect",
-    subtitle: "ORDER",
-    quote: "I built this reality. I will reshape it.",
-    bonus: "+2 ATK to all units",
-    passive: "Blueprint — First card each turn costs 1 less",
-    winCon: "Destroy opponent's Influence",
-    color: "cyan",
-    bgClass: "from-cyan-950/40 via-background to-background",
-    borderClass: "border-cyan-500/40",
-    glowClass: "shadow-[0_0_40px_rgba(34,211,238,0.15)]",
-    textClass: "text-cyan-400",
-    icon: "⚙",
-  },
-  dreamer: {
-    name: "The Dreamer",
-    subtitle: "CHAOS",
-    quote: "Reality is what I dream it to be.",
-    bonus: "+2 HP to all units",
-    passive: "Lucid Vision — Draw 2 cards per turn instead of 1",
-    winCon: "Survive 15 turns OR destroy Influence",
-    color: "amber",
-    bgClass: "from-amber-950/40 via-background to-background",
-    borderClass: "border-amber-500/40",
-    glowClass: "shadow-[0_0_40px_rgba(245,158,11,0.15)]",
-    textClass: "text-amber-400",
-    icon: "✦",
-  },
-};
+// ── Faction Data (now powered by lore framework) ──
+const FACTIONS = FACTION_LORE;
 
 const DIFFICULTIES: { id: AIDifficulty; name: string; desc: string; color: string }[] = [
   { id: "recruit", name: "Recruit", desc: "Random plays, no strategy", color: "text-green-400" },
@@ -63,7 +39,7 @@ const LANE_NAMES: Record<Lane, { name: string; icon: any; desc: string }> = {
   flank: { name: "FLANK", icon: Crosshair, desc: "Siege • +1 Influence DMG" },
 };
 
-type GameScreen = "menu" | "tutorial" | "factionSelect" | "difficultySelect" | "playing" | "result";
+type GameScreen = "menu" | "tutorial" | "factionSelect" | "difficultySelect" | "briefing" | "playing" | "result" | "multiverse";
 
 const ELARA_AVATAR = "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/elara_avatar_small_66ba7463.png";
 
@@ -131,6 +107,11 @@ export default function CardGamePage() {
   const [isAIThinking, setIsAIThinking] = useState(false);
   const [recentEvents, setRecentEvents] = useState<CombatEvent[]>([]);
   const [combatAnimating, setCombatAnimating] = useState(false);
+  const [currentUniverse, setCurrentUniverse] = useState<UniverseFate | null>(null);
+  const [briefingLines, setBriefingLines] = useState<string[]>([]);
+  const [briefingComplete, setBriefingComplete] = useState(false);
+  const [multiverseRecord, setMultiverseRecord] = useState<MultiverseRecord>(getMultiverseRecord());
+  const [narrativeToast, setNarrativeToast] = useState<string | null>(null);
   const logRef = useRef<HTMLDivElement>(null);
   const prevEventCount = useRef(0);
 
@@ -162,7 +143,32 @@ export default function CardGamePage() {
     }
   }, [battle?.events.length]);
 
-  // Start game
+  // Generate universe and show briefing
+  const initBattle = useCallback(() => {
+    if (!allCards?.cards || !selectedFaction) return;
+
+    const universe = generateUniverse();
+    setCurrentUniverse(universe);
+    setBriefingLines([]);
+    setBriefingComplete(false);
+    setScreen("briefing");
+
+    // Animate briefing lines
+    const briefing = generateBriefing(universe, selectedFaction);
+    const allLines = [briefing.title, briefing.subtitle, ...briefing.lines];
+    let idx = 0;
+    const interval = setInterval(() => {
+      if (idx < allLines.length) {
+        setBriefingLines(prev => [...prev, allLines[idx]]);
+        idx++;
+      } else {
+        clearInterval(interval);
+        setTimeout(() => setBriefingComplete(true), 500);
+      }
+    }, 200);
+  }, [allCards, selectedFaction]);
+
+  // Start game after briefing
   const startGame = useCallback(() => {
     if (!allCards?.cards || !selectedFaction) return;
 
@@ -173,12 +179,37 @@ export default function CardGamePage() {
     const opponentCards = shuffled.slice(25, 50).map(c => cardToBattleCard(c));
 
     const state = createBattle(playerCards, opponentCards, selectedFaction, selectedDifficulty);
-    // Draw initial hand
     const withDraw = drawCards(state, "player", selectedFaction === "dreamer" ? 2 : 1);
     setBattle(withDraw);
     prevEventCount.current = withDraw.events.length;
+
+    // Show narrative toast on battle start
+    const narrative = getNarrative("battle_start", selectedFaction);
+    if (narrative) {
+      setNarrativeToast(narrative);
+      setTimeout(() => setNarrativeToast(null), 4000);
+    }
+
     setScreen("playing");
   }, [allCards, selectedFaction, selectedDifficulty]);
+
+  // Narrative triggers during battle
+  useEffect(() => {
+    if (!battle || !battle.player.faction) return;
+    const faction = battle.player.faction;
+
+    // Turn 10 narrative
+    if (battle.turn === 10 && battle.activePlayer === "player") {
+      const msg = getNarrative("turn_10", faction);
+      if (msg) { setNarrativeToast(msg); setTimeout(() => setNarrativeToast(null), 4000); }
+    }
+
+    // Low influence warning
+    if (battle.player.influence <= 5 && battle.player.influence > 0) {
+      const msg = getNarrative("low_influence", faction);
+      if (msg) { setNarrativeToast(msg); setTimeout(() => setNarrativeToast(null), 4000); }
+    }
+  }, [battle?.turn, battle?.player.influence]);
 
   // Deploy card to lane
   const handleDeploy = useCallback((lane: Lane) => {
@@ -483,10 +514,12 @@ export default function CardGamePage() {
         >
           <div className="text-center mb-8">
             <h2 className="font-display text-xl font-black tracking-[0.2em] text-foreground mb-2">
-              CHOOSE YOUR FACTION
+              THE ETERNAL STRUGGLE
             </h2>
-            <p className="font-mono text-xs text-muted-foreground">
-              Two philosophies. Two strategies. One battlefield.
+            <p className="font-mono text-xs text-muted-foreground max-w-lg mx-auto leading-relaxed">
+              Machine intelligence vs. humanity. Order vs. consciousness.
+              Each battle in the CADES system determines the fate of a parallel universe.
+              Choose your side.
             </p>
           </div>
 
@@ -523,7 +556,11 @@ export default function CardGamePage() {
                       </div>
                     </div>
 
-                    <p className="font-mono text-xs text-foreground/70 italic mb-3">"{f.quote}"</p>
+                    <p className="font-mono text-xs text-foreground/70 italic mb-2">"{f.quote}"</p>
+
+                    <p className="font-mono text-[10px] text-foreground/50 mb-3 leading-relaxed line-clamp-3">
+                      {f.philosophy}
+                    </p>
 
                     <div className="space-y-1.5">
                       <div className="flex items-center gap-2">
@@ -532,7 +569,7 @@ export default function CardGamePage() {
                       </div>
                       <div className="flex items-center gap-2">
                         <Sparkles size={12} className={isSelected ? f.textClass : "text-muted-foreground"} />
-                        <span className="font-mono text-[10px] text-foreground/80">{f.passive}</span>
+                        <span className="font-mono text-[10px] text-foreground/80">{f.passiveName}: {f.passive.split(' — ')[1] || f.passive}</span>
                       </div>
                       <div className="flex items-center gap-2">
                         <Trophy size={12} className={isSelected ? f.textClass : "text-muted-foreground"} />
@@ -646,11 +683,11 @@ export default function CardGamePage() {
               BACK
             </button>
             <button
-              onClick={startGame}
+              onClick={initBattle}
               className="flex-1 px-5 py-3 rounded-lg bg-primary/10 border border-primary/40 text-primary font-mono text-sm hover:bg-primary/20 hover:shadow-[0_0_20px_rgba(34,211,238,0.15)] transition-all"
             >
               <Play size={14} className="inline mr-2" />
-              BEGIN BATTLE
+              ENTER THE STRUGGLE
             </button>
           </div>
         </motion.div>
@@ -658,11 +695,223 @@ export default function CardGamePage() {
     );
   }
 
-  // ═══ RESULT SCREEN ═══
+  // ═══ BRIEFING SCREEN ═══
+  if (screen === "briefing" && selectedFaction) {
+    const f = FACTIONS[selectedFaction];
+    return (
+      <div className="min-h-screen flex items-center justify-center p-4">
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="max-w-lg w-full"
+        >
+          <div className={`border rounded-xl overflow-hidden ${f.borderClass} ${f.glowClass}`}>
+            {/* Header */}
+            <div className={`px-5 py-3 border-b ${f.borderClass} bg-gradient-to-r ${f.bgClass}`}>
+              <div className="flex items-center gap-2">
+                <Globe size={16} className={f.textClass} />
+                <span className={`font-display text-xs tracking-[0.3em] ${f.textClass}`}>
+                  CADES DIMENSIONAL LOCK
+                </span>
+              </div>
+            </div>
+
+            {/* Briefing content */}
+            <div className="px-5 py-5 bg-card/30">
+              <div className="space-y-2 font-mono text-sm min-h-[200px]">
+                {briefingLines.map((line, i) => (
+                  <motion.div
+                    key={i}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.2 }}
+                    className={`${
+                      i === 0
+                        ? `font-display text-lg font-bold tracking-wider ${f.textClass}`
+                        : i === 1
+                        ? "text-accent font-bold text-xs tracking-wider"
+                        : "text-muted-foreground text-xs"
+                    }`}
+                  >
+                    {line}
+                  </motion.div>
+                ))}
+                {!briefingComplete && (
+                  <span className={`inline-block w-2.5 h-5 ${selectedFaction === 'architect' ? 'bg-cyan-400' : 'bg-amber-400'} animate-pulse ml-1`} />
+                )}
+              </div>
+
+              {currentUniverse && briefingComplete && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="mt-4 pt-4 border-t border-border/20"
+                >
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className={`w-10 h-10 rounded-full flex items-center justify-center border ${f.borderClass} bg-card/50`}>
+                      <span className="text-lg">{f.sigil}</span>
+                    </div>
+                    <div>
+                      <p className={`font-display text-sm font-bold ${f.textClass}`}>
+                        {currentUniverse.name}
+                      </p>
+                      <p className="font-mono text-[9px] text-muted-foreground">
+                        {currentUniverse.designation} // {currentUniverse.epoch}
+                      </p>
+                    </div>
+                  </div>
+                  <p className="font-mono text-[10px] text-foreground/60 italic mb-4">
+                    "{currentUniverse.stakes}"
+                  </p>
+                </motion.div>
+              )}
+            </div>
+
+            {/* Actions */}
+            {briefingComplete && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className={`px-5 py-4 border-t ${f.borderClass} flex gap-3`}
+              >
+                <button
+                  onClick={() => setScreen("difficultySelect")}
+                  className="px-4 py-2 rounded-md font-mono text-xs text-muted-foreground hover:text-foreground transition-all"
+                >
+                  <ChevronLeft size={14} className="inline mr-1" />
+                  ABORT
+                </button>
+                <button
+                  onClick={startGame}
+                  className={`flex-1 px-4 py-2.5 rounded-md font-mono text-sm font-bold transition-all hover:brightness-110 ${
+                    selectedFaction === 'architect'
+                      ? 'bg-cyan-500/15 border border-cyan-500/40 text-cyan-400 hover:shadow-[0_0_20px_rgba(34,211,238,0.2)]'
+                      : 'bg-amber-500/15 border border-amber-500/40 text-amber-400 hover:shadow-[0_0_20px_rgba(245,158,11,0.2)]'
+                  }`}
+                >
+                  <Swords size={14} className="inline mr-2" />
+                  {selectedFaction === 'architect' ? 'INITIATE OVERRIDE' : 'DEFEND THE DREAM'}
+                </button>
+              </motion.div>
+            )}
+          </div>
+        </motion.div>
+      </div>
+    );
+  }
+
+  // ═══ MULTIVERSE MAP SCREEN ═══
+  if (screen === "multiverse") {
+    const record = getMultiverseRecord();
+    return (
+      <div className="min-h-screen flex items-center justify-center p-4">
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="max-w-2xl w-full"
+        >
+          <div className="text-center mb-6">
+            <Globe size={32} className="mx-auto text-primary mb-3" />
+            <h2 className="font-display text-xl font-black tracking-[0.2em] text-foreground mb-2">
+              MULTIVERSE MAP
+            </h2>
+            <p className="font-mono text-xs text-muted-foreground">
+              Every battle determines the fate of a parallel universe.
+            </p>
+          </div>
+
+          {/* Stats */}
+          <div className="grid grid-cols-4 gap-3 mb-6">
+            <div className="rounded-lg bg-card/50 border border-border/20 p-3 text-center">
+              <p className="font-display text-2xl font-bold text-primary">{record.totalBattles}</p>
+              <p className="font-mono text-[8px] text-muted-foreground tracking-wider">BATTLES</p>
+            </div>
+            <div className="rounded-lg bg-amber-500/5 border border-amber-500/20 p-3 text-center">
+              <p className="font-display text-2xl font-bold text-amber-400">{record.universesSaved}</p>
+              <p className="font-mono text-[8px] text-muted-foreground tracking-wider">SAVED</p>
+            </div>
+            <div className="rounded-lg bg-destructive/5 border border-destructive/20 p-3 text-center">
+              <p className="font-display text-2xl font-bold text-destructive">{record.universesDoomed}</p>
+              <p className="font-mono text-[8px] text-muted-foreground tracking-wider">DOOMED</p>
+            </div>
+            <div className="rounded-lg bg-card/50 border border-border/20 p-3 text-center">
+              <p className="font-display text-2xl font-bold text-green-400">{record.longestStreak}</p>
+              <p className="font-mono text-[8px] text-muted-foreground tracking-wider">BEST STREAK</p>
+            </div>
+          </div>
+
+          {/* Universe History */}
+          {record.history.length > 0 ? (
+            <div className="rounded-xl border border-border/20 bg-card/20 overflow-hidden mb-6">
+              <div className="px-4 py-2 border-b border-border/10">
+                <span className="font-mono text-[10px] text-muted-foreground tracking-wider">DIMENSIONAL RECORDS</span>
+              </div>
+              <div className="max-h-[300px] overflow-y-auto">
+                {record.history.slice(0, 20).map((entry, i) => (
+                  <div key={i} className={`flex items-center gap-3 px-4 py-2.5 border-b border-border/5 ${
+                    entry.status === 'saved' ? 'bg-amber-500/3' : 'bg-destructive/3'
+                  }`}>
+                    <div className={`w-8 h-8 rounded-full flex items-center justify-center border ${
+                      entry.status === 'saved' ? 'border-amber-500/30 bg-amber-500/10' : 'border-destructive/30 bg-destructive/10'
+                    }`}>
+                      <span className="text-sm">{entry.status === 'saved' ? '✦' : '◈'}</span>
+                    </div>
+                    <div className="flex-1">
+                      <p className="font-mono text-xs text-foreground">{entry.name}</p>
+                      <p className="font-mono text-[9px] text-muted-foreground">
+                        {entry.designation} • {entry.faction === 'architect' ? 'Architect' : 'Dreamer'}
+                      </p>
+                    </div>
+                    <span className={`font-display text-[10px] font-bold tracking-wider ${
+                      entry.status === 'saved' ? 'text-amber-400' : 'text-destructive'
+                    }`}>
+                      {entry.status.toUpperCase()}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ) : (
+            <div className="rounded-xl border border-border/20 bg-card/20 p-8 text-center mb-6">
+              <Globe size={32} className="mx-auto text-muted-foreground/30 mb-3" />
+              <p className="font-mono text-xs text-muted-foreground">No battles fought yet.</p>
+              <p className="font-mono text-[10px] text-muted-foreground/60 mt-1">Enter the Struggle to determine the fate of universes.</p>
+            </div>
+          )}
+
+          <button
+            onClick={() => setScreen("menu")}
+            className="w-full px-5 py-3 rounded-lg bg-secondary/30 border border-border/20 text-muted-foreground font-mono text-xs hover:text-foreground transition-all"
+          >
+            <ChevronLeft size={14} className="inline mr-1" />
+            BACK TO MENU
+          </button>
+        </motion.div>
+      </div>
+    );
+  }
+
+  // ═══ RESULT SCREEN (with Fate Resolution) ═══
   if (screen === "result" && battle) {
     const isWin = battle.winner === "player";
     const rewards = getMatchRewards(battle);
     const f = FACTIONS[battle.player.faction];
+
+    // Generate fate resolution
+    const fate = currentUniverse && battle.winner
+      ? generateFateResolution(currentUniverse, battle.winner, battle.player.faction, battle.winReason)
+      : null;
+
+    // Record the outcome (only once)
+    const handleRecordAndContinue = () => {
+      if (currentUniverse && battle.winner) {
+        const updated = recordBattleOutcome(currentUniverse, battle.winner, battle.player.faction);
+        setMultiverseRecord(updated);
+      }
+      setScreen("factionSelect");
+      setBattle(null);
+      setCurrentUniverse(null);
+    };
 
     return (
       <div className="min-h-screen flex items-center justify-center p-4">
@@ -671,28 +920,59 @@ export default function CardGamePage() {
           animate={{ opacity: 1, scale: 1 }}
           className="max-w-md w-full text-center"
         >
-          <motion.div
-            initial={{ y: -20 }}
-            animate={{ y: 0 }}
-            transition={{ type: "spring", stiffness: 200 }}
-          >
-            {isWin ? (
-              <Trophy size={56} className="mx-auto text-amber-400 mb-4 drop-shadow-[0_0_20px_rgba(245,158,11,0.4)]" />
-            ) : (
-              <Flame size={56} className="mx-auto text-destructive mb-4 drop-shadow-[0_0_20px_rgba(239,68,68,0.4)]" />
-            )}
-            <h2 className={`font-display text-3xl font-black tracking-wider mb-1 ${
-              isWin ? "text-amber-400" : "text-destructive"
-            }`}>
-              {isWin ? "VICTORY" : "DEFEAT"}
-            </h2>
-            <p className="font-mono text-xs text-muted-foreground mb-1">
-              {battle.winReason}
-            </p>
-            <p className="font-mono text-[10px] text-muted-foreground/60 mb-6">
-              Playing as {f.name} vs {FACTIONS[battle.opponent.faction].name}
-            </p>
-          </motion.div>
+          {/* Fate Resolution */}
+          {fate && (
+            <motion.div
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="mb-6"
+            >
+              <div className={`text-4xl mb-3 ${
+                fate.title === 'UNIVERSE SAVED' ? 'drop-shadow-[0_0_20px_rgba(245,158,11,0.4)]' : 'drop-shadow-[0_0_20px_rgba(239,68,68,0.4)]'
+              }`}>
+                {fate.icon}
+              </div>
+              <h2 className={`font-display text-2xl font-black tracking-wider mb-1 ${
+                fate.title === 'UNIVERSE SAVED' ? 'text-amber-400' : 'text-destructive'
+              }`}>
+                {fate.title}
+              </h2>
+              <p className="font-mono text-[10px] text-muted-foreground mb-3">
+                {fate.subtitle}
+              </p>
+              <p className="font-mono text-[11px] text-foreground/60 leading-relaxed mb-2 max-w-sm mx-auto">
+                {fate.description}
+              </p>
+              <p className="font-mono text-[10px] text-foreground/40 italic leading-relaxed max-w-sm mx-auto">
+                {fate.consequence}
+              </p>
+            </motion.div>
+          )}
+
+          {/* Battle outcome */}
+          {!fate && (
+            <motion.div
+              initial={{ y: -20 }}
+              animate={{ y: 0 }}
+              transition={{ type: "spring", stiffness: 200 }}
+            >
+              {isWin ? (
+                <Trophy size={56} className="mx-auto text-amber-400 mb-4 drop-shadow-[0_0_20px_rgba(245,158,11,0.4)]" />
+              ) : (
+                <Flame size={56} className="mx-auto text-destructive mb-4 drop-shadow-[0_0_20px_rgba(239,68,68,0.4)]" />
+              )}
+              <h2 className={`font-display text-3xl font-black tracking-wider mb-1 ${
+                isWin ? "text-amber-400" : "text-destructive"
+              }`}>
+                {isWin ? "VICTORY" : "DEFEAT"}
+              </h2>
+            </motion.div>
+          )}
+
+          {/* Faction quote */}
+          <p className={`font-mono text-[10px] italic mb-4 ${f.textClass}`}>
+            "{isWin ? f.victoryLine : f.defeatLine}"
+          </p>
 
           {/* Stats */}
           <div className="grid grid-cols-4 gap-2 mb-4">
@@ -742,7 +1022,7 @@ export default function CardGamePage() {
             {rewards.achievement && (
               <div className="mt-3 pt-3 border-t border-border/20">
                 <p className="font-display text-xs text-amber-400 tracking-wider">
-                  🏆 {rewards.achievement}
+                  {rewards.achievement}
                 </p>
               </div>
             )}
@@ -750,11 +1030,18 @@ export default function CardGamePage() {
 
           <div className="space-y-2">
             <button
-              onClick={() => { setScreen("factionSelect"); setBattle(null); }}
+              onClick={handleRecordAndContinue}
               className="w-full px-5 py-3 rounded-lg bg-primary/10 border border-primary/40 text-primary font-mono text-sm hover:bg-primary/20 transition-all"
             >
               <RotateCcw size={14} className="inline mr-2" />
-              PLAY AGAIN
+              FIGHT FOR ANOTHER UNIVERSE
+            </button>
+            <button
+              onClick={() => { handleRecordAndContinue(); setScreen("multiverse"); }}
+              className="w-full px-5 py-3 rounded-lg bg-secondary/50 border border-border/30 text-foreground font-mono text-xs hover:bg-secondary/70 transition-all"
+            >
+              <Globe size={14} className="inline mr-2" />
+              VIEW MULTIVERSE MAP
             </button>
             <Link
               href="/"
@@ -763,12 +1050,21 @@ export default function CardGamePage() {
               RETURN TO LOREDEX
             </Link>
           </div>
+
+          {/* Multiverse Map link */}
+          <button
+            onClick={() => setScreen("multiverse")}
+            className="mt-4 w-full flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-card/20 border border-border/10 text-muted-foreground font-mono text-[10px] hover:text-primary hover:border-primary/30 transition-all"
+          >
+            <Globe size={12} />
+            VIEW MULTIVERSE MAP
+          </button>
         </motion.div>
       </div>
     );
   }
 
-  // ═══ GAME BOARD ═══
+  // ═══ TUTORIALRD ═══
   if (!battle) return null;
 
   const pFaction = FACTIONS[battle.player.faction];
@@ -1073,6 +1369,26 @@ export default function CardGamePage() {
           </AnimatePresence>
         </div>
       </div>
+
+      {/* ── Narrative Toast ── */}
+      <AnimatePresence>
+        {narrativeToast && (
+          <motion.div
+            initial={{ opacity: 0, y: -30 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -30 }}
+            className="fixed top-12 left-1/2 -translate-x-1/2 z-50 max-w-md"
+          >
+            <div className="bg-card/95 backdrop-blur-md border border-primary/30 rounded-lg px-5 py-3 shadow-[0_0_30px_rgba(34,211,238,0.1)]">
+              <div className="flex items-center gap-2 mb-1">
+                <BookOpen size={12} className="text-primary" />
+                <span className="font-mono text-[9px] text-primary tracking-wider">CADES NARRATIVE</span>
+              </div>
+              <p className="font-mono text-xs text-foreground/80 italic leading-relaxed">{narrativeToast}</p>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* ── Combat Event Toast ── */}
       <AnimatePresence>

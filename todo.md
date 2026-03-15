@@ -352,3 +352,17 @@
 - [x] 9. Easter Eggs & Hidden Content — EasterEggs component with Konami code (↑↑↓↓←→←→BA), secret console commands, hidden entity reveals at higher clearance levels
 - [x] 10. Mobile-First Watch Experience — "Stories" view mode on WatchPage with swipeable card-based epoch browsing, progress dots, character previews
 - [x] All 90 tests passing
+
+## Phase 14: Card Game Lore — The Architect vs The Dreamer
+- [x] Design core lore: Eternal struggle between the Architect (machine intelligence) and the Dreamer (humanity)
+- [x] Integrate CADES system as the mechanism that determines the fate of universes
+- [x] Create narrative framework for card battles as cosmic conflicts (CardGameLore.ts with 8 narrative triggers)
+- [x] Update card game UI with lore-driven intro, faction descriptions, and narrative context
+- [x] Deep faction lore: Architect (Machine Lattice, Panopticon origin, systematic override) vs Dreamer (collective consciousness, free will, endurance)
+- [x] Connect card game outcomes to universe fate narrative (saved/doomed resolution)
+- [x] Pre-battle briefing screen with animated CADES dimensional lock and universe generation
+- [x] Post-battle fate resolution showing whether universe was saved or doomed
+- [x] Multiverse Map screen tracking all battle outcomes (universes saved/doomed, streaks)
+- [x] Narrative toast system during combat (battle_start, turn_10, low_influence triggers)
+- [x] Faction-specific victory/defeat lines and battle cries
+- [x] All 90 tests passing
