@@ -827,9 +827,11 @@ export function getMatchRewards(state: BattleState): {
   credits: number;
   boosters: number;
   dreamDrops: number;
+  soulBoundDream: number;
+  dnaCode: number;
   achievement: string | null;
 } {
-  if (!state.winner) return { xp: 0, credits: 0, boosters: 0, dreamDrops: 0, achievement: null };
+  if (!state.winner) return { xp: 0, credits: 0, boosters: 0, dreamDrops: 0, soulBoundDream: 0, dnaCode: 0, achievement: null };
 
   const isWin = state.winner === "player";
   const diffMultiplier = { recruit: 1, operative: 1.5, commander: 2, archon: 3 }[state.difficulty];
@@ -840,6 +842,8 @@ export function getMatchRewards(state: BattleState): {
       credits: 10,
       boosters: 0,
       dreamDrops: Math.random() < 0.1 ? 1 : 0,
+      soulBoundDream: 0,
+      dnaCode: 0,
       achievement: null,
     };
   }
@@ -854,11 +858,22 @@ export function getMatchRewards(state: BattleState): {
     achievement = "Architect Supreme";
   }
 
+  // Dream drops: regular from all enemies, Soul Bound only from boss-level (Archon)
+  const dreamDrops = Math.random() < 0.3 ? Math.ceil(Math.random() * 3 * diffMultiplier) : 0;
+  // Soul Bound Dream: only drops from Archon (boss-level) difficulty
+  const soulBoundDream = state.difficulty === "archon" && Math.random() < 0.4
+    ? Math.ceil(Math.random() * 2) : 0;
+  // DNA/CODE: drops from Commander+ difficulty
+  const dnaCode = (state.difficulty === "commander" || state.difficulty === "archon")
+    && Math.random() < 0.25 ? Math.ceil(Math.random() * 5) : 0;
+
   return {
     xp: Math.round(baseXp * diffMultiplier),
     credits: Math.round(baseCreds * diffMultiplier),
     boosters: state.difficulty === "archon" ? 2 : 1,
-    dreamDrops: Math.random() < 0.3 ? Math.ceil(Math.random() * 3) : 0,
+    dreamDrops,
+    soulBoundDream,
+    dnaCode,
     achievement,
   };
 }

@@ -595,13 +595,69 @@ export type StoreItem = typeof storeItems.$inferSelect;
 export const storePurchases = mysqlTable("store_purchases", {
   id: int("id").autoincrement().primaryKey(),
   userId: int("userId").notNull(),
-  itemId: int("itemId").notNull(),
+  itemId: int("itemId"),
   /** Payment method: credits, dream, stripe */
   paymentMethod: mysqlEnum("paymentMethod", ["credits", "dream", "stripe"]).notNull(),
-  /** Stripe payment intent ID if applicable */
-  stripePaymentId: varchar("stripePaymentId", { length: 256 }),
+  /** Stripe checkout session ID */
+  stripeSessionId: varchar("stripeSessionId", { length: 256 }),
+  /** Stripe payment intent ID */
+  stripePaymentIntentId: varchar("stripePaymentIntentId", { length: 256 }),
+  /** Product key from our products catalog */
+  productKey: varchar("productKey", { length: 128 }),
+  /** Quantity purchased */
+  quantity: int("quantity").notNull().default(1),
   amount: int("amount").notNull().default(0),
+  /** Whether the purchase has been fulfilled (items granted) */
+  fulfilled: int("fulfilled").notNull().default(0),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
 });
 
 export type StorePurchase = typeof storePurchases.$inferSelect;
+
+/**
+ * Ship upgrades for Trade Wars — purchased or earned.
+ */
+export const shipUpgrades = mysqlTable("ship_upgrades", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  /** Upgrade type: hull, engine, weapons, shields, cargo, scanner */
+  upgradeType: varchar("upgradeType", { length: 64 }).notNull(),
+  /** Current level of this upgrade */
+  level: int("level").notNull().default(1),
+  /** How it was obtained: purchase, crafting, quest */
+  obtainedVia: varchar("obtainedVia", { length: 64 }).default("purchase"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type ShipUpgrade = typeof shipUpgrades.$inferSelect;
+
+/**
+ * Player bases — The Foundation (Phase 3).
+ * Each player can build one base on a claimed sector.
+ */
+export const playerBases = mysqlTable("player_bases", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  /** Name of the base */
+  baseName: varchar("baseName", { length: 128 }).notNull().default("Outpost Alpha"),
+  /** Sector where the base is located */
+  sectorId: int("sectorId").notNull(),
+  /** Base level (1-10) */
+  level: int("level").notNull().default(1),
+  /** Resource storage capacity */
+  storageCapacity: int("storageCapacity").notNull().default(100),
+  /** Current stored resources: ore, organics, equipment, dream */
+  storedOre: int("storedOre").notNull().default(0),
+  storedOrganics: int("storedOrganics").notNull().default(0),
+  storedEquipment: int("storedEquipment").notNull().default(0),
+  storedDream: int("storedDream").notNull().default(0),
+  /** Defense rating */
+  defenseRating: int("defenseRating").notNull().default(10),
+  /** Production bonus (percentage) */
+  productionBonus: int("productionBonus").notNull().default(0),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type PlayerBase = typeof playerBases.$inferSelect;

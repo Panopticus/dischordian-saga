@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { publicProcedure, protectedProcedure, router } from "../_core/trpc";
 import { getDb } from "../db";
-import { twSectors, twPlayerState, twGameLog, twColonies, cards, userCards, users } from "../../drizzle/schema";
+import { twSectors, twPlayerState, twGameLog, twColonies, cards, userCards, users, shipUpgrades, playerBases } from "../../drizzle/schema";
 import { eq, and, sql, inArray, desc, gt } from "drizzle-orm";
 
 // ═══════════════════════════════════════════════════════
@@ -1053,6 +1053,235 @@ export const tradeWarsRouter = router({
         success: true,
         message: `Deployed ${input.fighters} fighters to colony. Total defense: ${colony[0].defense + input.fighters}`,
         newDefense: colony[0].defense + input.fighters,
+      };
+    }),
+
+  // ═══════════════════════════════════════════════════════
+  // SHIP EXPANSION SYSTEM
+  // ═══════════════════════════════════════════════════════
+
+  getShipUpgrades: protectedProcedure.query(async ({ ctx }) => {
+    const db = await getDb();
+    if (!db) throw new Error("DB unavailable");
+    const upgrades = await db.select().from(shipUpgrades).where(eq(shipUpgrades.userId, ctx.user.id));
+    return upgrades;
+  }),
+
+  upgradeShipModule: protectedProcedure
+    .input(z.object({ upgradeType: z.enum(["hull", "engine", "weapons", "shields", "cargo", "scanner"]) }))
+    .mutation(async ({ ctx, input }) => {
+      const db = await getDb();
+      if (!db) throw new Error("DB unavailable");
+      const player = await getOrCreatePlayer(db, ctx.user.id);
+
+      const UPGRADE_COSTS: Record<string, number[]> = {
+        hull: [5000, 12000, 25000, 50000, 100000, 200000, 400000, 750000, 1500000, 3000000],
+        engine: [3000, 8000, 18000, 35000, 70000, 140000, 280000, 550000, 1100000, 2200000],
+        weapons: [4000, 10000, 22000, 45000, 90000, 180000, 360000, 700000, 1400000, 2800000],
+        shields: [4000, 10000, 22000, 45000, 90000, 180000, 360000, 700000, 1400000, 2800000],
+        cargo: [3000, 8000, 18000, 35000, 70000, 140000, 280000, 550000, 1100000, 2200000],
+        scanner: [2000, 5000, 12000, 25000, 50000, 100000, 200000, 400000, 800000, 1600000],
+      };
+
+      const UPGRADE_BONUSES: Record<string, string[]> = {
+        hull: ["+50 shields", "+100 shields", "+200 shields", "+400 shields", "+800 shields", "+1500 shields", "+3000 shields", "+5000 shields", "+8000 shields", "+15000 shields"],
+        engine: ["+1 speed", "+1 speed", "+2 speed", "+2 speed", "+3 speed", "+3 speed", "+4 speed", "+5 speed", "+6 speed", "+8 speed"],
+        weapons: ["+10 fighters", "+25 fighters", "+50 fighters", "+100 fighters", "+200 fighters", "+400 fighters", "+800 fighters", "+1500 fighters", "+3000 fighters", "+5000 fighters"],
+        shields: ["+25% regen", "+50% regen", "+75% regen", "+100% regen", "+150% regen", "+200% regen", "+300% regen", "+400% regen", "+500% regen", "+750% regen"],
+        cargo: ["+10 holds", "+25 holds", "+50 holds", "+100 holds", "+200 holds", "+400 holds", "+800 holds", "+1500 holds", "+3000 holds", "+5000 holds"],
+        scanner: ["+1 range", "+2 range", "+3 range", "+5 range", "+7 range", "+10 range", "+15 range", "+20 range", "+30 range", "+50 range"],
+      };
+
+      // Check current level
+      const existing = await db.select().from(shipUpgrades)
+        .where(and(eq(shipUpgrades.userId, ctx.user.id), eq(shipUpgrades.upgradeType, input.upgradeType)))
+        .limit(1);
+
+      const currentLevel = existing.length > 0 ? existing[0].level : 0;
+      if (currentLevel >= 10) {
+        return { success: false, message: `${input.upgradeType} is already at maximum level (10).` };
+      }
+
+      const cost = UPGRADE_COSTS[input.upgradeType][currentLevel];
+      if (player.credits < cost) {
+        return { success: false, message: `Not enough credits. Need ${cost.toLocaleString()}, have ${player.credits.toLocaleString()}.` };
+      }
+
+      // Deduct credits
+      await db.update(twPlayerState).set({ credits: player.credits - cost }).where(eq(twPlayerState.userId, ctx.user.id));
+
+      // Apply upgrade bonuses to player stats
+      const bonus = UPGRADE_BONUSES[input.upgradeType][currentLevel];
+      const numMatch = bonus.match(/(\d+)/);
+      const bonusVal = numMatch ? parseInt(numMatch[1]) : 0;
+
+      if (input.upgradeType === "hull" || input.upgradeType === "shields") {
+        await db.update(twPlayerState).set({ shields: player.shields + bonusVal }).where(eq(twPlayerState.userId, ctx.user.id));
+      } else if (input.upgradeType === "weapons") {
+        await db.update(twPlayerState).set({ fighters: player.fighters + bonusVal }).where(eq(twPlayerState.userId, ctx.user.id));
+      } else if (input.upgradeType === "cargo") {
+        await db.update(twPlayerState).set({ holds: player.holds + bonusVal }).where(eq(twPlayerState.userId, ctx.user.id));
+      }
+
+      if (existing.length > 0) {
+        await db.update(shipUpgrades).set({ level: currentLevel + 1 }).where(eq(shipUpgrades.id, existing[0].id));
+      } else {
+        await db.insert(shipUpgrades).values({ userId: ctx.user.id, upgradeType: input.upgradeType, level: 1 });
+      }
+
+      await logAction(db, ctx.user.id, "ship_upgrade", { type: input.upgradeType, level: currentLevel + 1, cost });
+
+      return {
+        success: true,
+        message: `Upgraded ${input.upgradeType} to level ${currentLevel + 1}! Bonus: ${bonus}. Cost: ${cost.toLocaleString()} credits.`,
+        newLevel: currentLevel + 1,
+        bonus,
+      };
+    }),
+
+  // ═══════════════════════════════════════════════════════
+  // BASE BUILDING SYSTEM (THE FOUNDATION)
+  // ═══════════════════════════════════════════════════════
+
+  getMyBase: protectedProcedure.query(async ({ ctx }) => {
+    const db = await getDb();
+    if (!db) throw new Error("DB unavailable");
+    const base = await db.select().from(playerBases).where(eq(playerBases.userId, ctx.user.id)).limit(1);
+    return base.length > 0 ? base[0] : null;
+  }),
+
+  buildBase: protectedProcedure
+    .input(z.object({ sectorId: z.number(), baseName: z.string().min(1).max(64).optional() }))
+    .mutation(async ({ ctx, input }) => {
+      const db = await getDb();
+      if (!db) throw new Error("DB unavailable");
+      const player = await getOrCreatePlayer(db, ctx.user.id);
+
+      // Check if player already has a base
+      const existingBase = await db.select().from(playerBases).where(eq(playerBases.userId, ctx.user.id)).limit(1);
+      if (existingBase.length > 0) {
+        return { success: false, message: "You already have a base. Upgrade it instead." };
+      }
+
+      // Must be at the sector
+      if (player.currentSector !== input.sectorId) {
+        return { success: false, message: "You must be at the sector to build a base." };
+      }
+
+      const BUILD_COST = 50000;
+      if (player.credits < BUILD_COST) {
+        return { success: false, message: `Need ${BUILD_COST.toLocaleString()} credits to build a base. You have ${player.credits.toLocaleString()}.` };
+      }
+
+      await db.update(twPlayerState).set({ credits: player.credits - BUILD_COST }).where(eq(twPlayerState.userId, ctx.user.id));
+
+      await db.insert(playerBases).values({
+        userId: ctx.user.id,
+        baseName: input.baseName || "Outpost Alpha",
+        sectorId: input.sectorId,
+        level: 1,
+        storageCapacity: 100,
+        defenseRating: 10,
+        productionBonus: 0,
+      });
+
+      await logAction(db, ctx.user.id, "base_built", { baseName: input.baseName || "Outpost Alpha", sectorId: input.sectorId });
+
+      return {
+        success: true,
+        message: `Base '${input.baseName || "Outpost Alpha"}' established at sector ${input.sectorId}! Cost: ${BUILD_COST.toLocaleString()} credits.`,
+      };
+    }),
+
+  upgradeBase: protectedProcedure
+    .input(z.object({ upgradeType: z.enum(["storage", "defense", "production"]) }))
+    .mutation(async ({ ctx, input }) => {
+      const db = await getDb();
+      if (!db) throw new Error("DB unavailable");
+      const player = await getOrCreatePlayer(db, ctx.user.id);
+
+      const base = await db.select().from(playerBases).where(eq(playerBases.userId, ctx.user.id)).limit(1);
+      if (base.length === 0) {
+        return { success: false, message: "You don't have a base yet. Build one first." };
+      }
+
+      const b = base[0];
+      const UPGRADE_COSTS: Record<string, number> = {
+        storage: 10000 * b.level,
+        defense: 15000 * b.level,
+        production: 20000 * b.level,
+      };
+
+      const cost = UPGRADE_COSTS[input.upgradeType];
+      if (player.credits < cost) {
+        return { success: false, message: `Need ${cost.toLocaleString()} credits. You have ${player.credits.toLocaleString()}.` };
+      }
+
+      await db.update(twPlayerState).set({ credits: player.credits - cost }).where(eq(twPlayerState.userId, ctx.user.id));
+
+      const updates: any = {};
+      let bonusDesc = "";
+      if (input.upgradeType === "storage") {
+        updates.storageCapacity = b.storageCapacity + 50;
+        bonusDesc = `Storage capacity increased to ${b.storageCapacity + 50}`;
+      } else if (input.upgradeType === "defense") {
+        updates.defenseRating = b.defenseRating + 15;
+        bonusDesc = `Defense rating increased to ${b.defenseRating + 15}`;
+      } else if (input.upgradeType === "production") {
+        updates.productionBonus = b.productionBonus + 5;
+        bonusDesc = `Production bonus increased to ${b.productionBonus + 5}%`;
+      }
+
+      await db.update(playerBases).set(updates).where(eq(playerBases.id, b.id));
+      await logAction(db, ctx.user.id, "base_upgrade", { type: input.upgradeType, desc: bonusDesc });
+
+      return {
+        success: true,
+        message: `${bonusDesc}. Cost: ${cost.toLocaleString()} credits.`,
+      };
+    }),
+
+  depositResources: protectedProcedure
+    .input(z.object({ resource: z.enum(["ore", "organics", "equipment"]), amount: z.number().min(1) }))
+    .mutation(async ({ ctx, input }) => {
+      const db = await getDb();
+      if (!db) throw new Error("DB unavailable");
+      const player = await getOrCreatePlayer(db, ctx.user.id);
+
+      const base = await db.select().from(playerBases).where(eq(playerBases.userId, ctx.user.id)).limit(1);
+      if (base.length === 0) {
+        return { success: false, message: "You don't have a base." };
+      }
+
+      const b = base[0];
+      const totalStored = b.storedOre + b.storedOrganics + b.storedEquipment + b.storedDream;
+      if (totalStored + input.amount > b.storageCapacity) {
+        return { success: false, message: `Not enough storage. Capacity: ${b.storageCapacity}, used: ${totalStored}.` };
+      }
+
+      const playerResource = input.resource === "ore" ? player.fuelOre :
+        input.resource === "organics" ? player.organics : player.equipment;
+      if (playerResource < input.amount) {
+        return { success: false, message: `Not enough ${input.resource}. You have ${playerResource}.` };
+      }
+
+      // Deduct from player
+      const playerUpdate: any = {};
+      if (input.resource === "ore") playerUpdate.fuelOre = player.fuelOre - input.amount;
+      else if (input.resource === "organics") playerUpdate.organics = player.organics - input.amount;
+      else playerUpdate.equipment = player.equipment - input.amount;
+      await db.update(twPlayerState).set(playerUpdate).where(eq(twPlayerState.userId, ctx.user.id));
+
+      // Add to base
+      const baseUpdate: any = {};
+      if (input.resource === "ore") baseUpdate.storedOre = b.storedOre + input.amount;
+      else if (input.resource === "organics") baseUpdate.storedOrganics = b.storedOrganics + input.amount;
+      else baseUpdate.storedEquipment = b.storedEquipment + input.amount;
+      await db.update(playerBases).set(baseUpdate).where(eq(playerBases.id, b.id));
+
+      return {
+        success: true,
+        message: `Deposited ${input.amount} ${input.resource} to base. Storage: ${totalStored + input.amount}/${b.storageCapacity}`,
       };
     }),
 });

@@ -43,6 +43,13 @@
       "when": 1773559462505,
       "tag": "0005_gifted_alex_power",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "5",
+      "when": 1773561690997,
+      "tag": "0006_next_archangel",
+      "breakpoints": true
     }
   ]
 }
