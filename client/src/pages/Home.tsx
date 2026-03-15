@@ -543,7 +543,10 @@ export default function Home() {
           <ActionPill href="/fight" icon={<Gamepad2 size={12} />} label="FIGHT" color="border-destructive/30 bg-destructive/5 text-destructive hover:bg-destructive/10" />
           <ActionPill href="/timeline" icon={<Clock size={12} />} label="TIMELINE" color="border-accent/30 bg-accent/5 text-accent hover:bg-accent/10" />
           <ActionPill href="/watch" icon={<Tv size={12} />} label="WATCH" color="border-chart-4/30 bg-chart-4/5 text-chart-4 hover:bg-chart-4/10" />
-          <ActionPill href="/console" icon={<Crosshair size={12} />} label="ARK" color="border-chart-5/30 bg-chart-5/5 text-chart-5 hover:bg-chart-5/10" />
+          <ActionPill href="/console" icon={<Crosshair size={12} />} label="CONSOLE" color="border-chart-5/30 bg-chart-5/5 text-chart-5 hover:bg-chart-5/10" />
+          <ActionPill href="/cards" icon={<Crown size={12} />} label="CARDS" color="border-amber-500/30 bg-amber-500/5 text-amber-400 hover:bg-amber-500/10" />
+          <ActionPill href="/ark" icon={<Shield size={12} />} label="ARK" color="border-purple-500/30 bg-purple-500/5 text-purple-400 hover:bg-purple-500/10" />
+          <ActionPill href="/trophy" icon={<Crown size={12} />} label="TROPHIES" color="border-pink-500/30 bg-pink-500/5 text-pink-400 hover:bg-pink-500/10" />
         </div>
       </div>
 

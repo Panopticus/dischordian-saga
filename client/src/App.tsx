@@ -15,6 +15,10 @@ import CharacterTimeline from "./pages/CharacterTimeline";
 import WatchPage from "./pages/WatchPage";
 import FightPage from "./pages/FightPage";
 import ConsolePage from "./pages/ConsolePage";
+import CardBrowserPage from "./pages/CardBrowserPage";
+import CardGamePage from "./pages/CardGamePage";
+import InceptionArkPage from "./pages/InceptionArkPage";
+import TrophyRoomPage from "./pages/TrophyRoomPage";
 import { LoredexProvider } from "./contexts/LoredexContext";
 import { PlayerProvider } from "./contexts/PlayerContext";
 import { GamificationProvider } from "./contexts/GamificationContext";
@@ -36,6 +40,10 @@ function Router() {
       <Route path="/watch" component={WatchPage} />
       <Route path="/fight" component={FightPage} />
       <Route path="/console" component={ConsolePage} />
+      <Route path="/cards" component={CardBrowserPage} />
+      <Route path="/cards/play" component={CardGamePage} />
+      <Route path="/ark" component={InceptionArkPage} />
+      <Route path="/trophy" component={TrophyRoomPage} />
       <Route path="/404" component={NotFound} />
       <Route component={NotFound} />
     </Switch>

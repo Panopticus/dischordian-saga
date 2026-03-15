@@ -7,9 +7,15 @@ import { z } from "zod";
 import { getDb } from "./db";
 import { userAchievements, userProgress, arkThemes } from "../drizzle/schema";
 import { eq, and } from "drizzle-orm";
+import { cardGameRouter } from "./routers/cardGame";
+import { arkRouter } from "./routers/ark";
+import { trophyRouter } from "./routers/trophy";
 
 export const appRouter = router({
   system: systemRouter,
+  cardGame: cardGameRouter,
+  ark: arkRouter,
+  trophy: trophyRouter,
   auth: router({
     me: publicProcedure.query(opts => opts.ctx.user),
     logout: publicProcedure.mutation(({ ctx }) => {

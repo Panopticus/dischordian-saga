@@ -1,0 +1,22 @@
+{
+  "query": "SELECT DISTINCT season, COUNT(*) as cnt FROM cards GROUP BY season",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway04.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2T9erPMfbTpx4Y5.root --database 2quXz2C2n5hMfqc8hNVW3h --execute SELECT DISTINCT season, COUNT(*) as cnt FROM cards GROUP BY season",
+  "rows": [
+    {
+      "season": "Season 1",
+      "cnt": "1000"
+    },
+    {
+      "season": "Season 2",
+      "cnt": "1000"
+    },
+    {
+      "season": "Season 3",
+      "cnt": "1000"
+    }
+  ],
+  "messages": [],
+  "stdout": "season\tcnt\nSeason 1\t1000\nSeason 2\t1000\nSeason 3\t1000\n",
+  "stderr": "",
+  "execution_time_ms": 400
+}

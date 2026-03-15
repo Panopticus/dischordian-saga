@@ -70,10 +70,10 @@
 - [x] Assign classes (Spy, Oracle, Assassin, Engineer, Soldier)
 - [x] Assign rarity values to all cards
 - [x] Integrate NFT metadata (potentials, first 10 are Neyons, perks, power levels)
-- [ ] Build card game UI with VTES-inspired rules
-- [ ] Build card attack animations and combat system
-- [ ] Build Inception Ark explorable map with unlockable areas
-- [ ] Build trophy room with unlockable display themes
+- [x] Build card game UI with VTES-inspired rules
+- [x] Build card attack animations and combat system
+- [x] Build Inception Ark explorable map with unlockable areas
+- [x] Build trophy room with unlockable display themes
 - [ ] Build Trade Wars-style BBS game tied to card system
 - [ ] Integrate card unlocking through official content participation
 - [ ] Connect fighting game as invasion mechanic within card game
@@ -84,3 +84,19 @@
 - [x] Season 1 set: Dischordian Logic / Age of Privacy era
 - [x] Season 2 set: Book of Daniel / Age of Revelation era
 - [x] Season 3 set: Silence in Heaven / Fall of Reality era
+
+## Phase 3: Card Game UI, Inception Ark, and API Routes
+- [x] Build tRPC API routes for card browsing with filters (season, type, rarity, element, class)
+- [x] Build tRPC API routes for deck management (create, edit, delete, list)
+- [x] Build tRPC API routes for user card collection
+- [x] Build tRPC API routes for card game engine (start match, play cards, resolve combat)
+- [x] Build card browser/collection page with grid layout and filtering
+- [x] Build individual card detail view with full stats and artwork
+- [ ] Build deck builder UI with drag-and-drop card management
+- [x] Build VTES-inspired card game gameplay UI with animated card attacks
+- [x] Build card combat animations (attack, defend, special effects)
+- [x] Build Inception Ark explorable map with room navigation
+- [x] Build unlockable Ark rooms with discovery mechanics
+- [x] Build trophy room with card displays and unlockable themes
+- [x] Wire up all new routes in App.tsx
+- [x] Integrate navigation between card game, Ark, and existing pages
