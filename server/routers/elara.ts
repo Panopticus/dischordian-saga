@@ -157,14 +157,37 @@ export const elaraRouter = router({
     .input(z.object({
       message: z.string().min(1).max(2000),
       category: z.string().optional(),
+      pageContext: z.string().optional(),
       history: z.array(z.object({
         role: z.enum(["user", "assistant"]),
         content: z.string(),
       })).max(20).optional(),
     }))
     .mutation(async ({ input }) => {
+      // Build page-aware system prompt
+      let contextHint = "";
+      if (input.pageContext) {
+        const page = input.pageContext;
+        if (page === "/cards/play") contextHint = "\n\nCONTEXT: The user is currently playing the Dischordian Struggle card game. Focus your answers on card game mechanics, faction strategies, lane tactics, and how the cards connect to the lore.";
+        else if (page === "/cards") contextHint = "\n\nCONTEXT: The user is browsing the card collection. Help them understand card types, rarities, factions, elements, and keywords.";
+        else if (page === "/deck-builder") contextHint = "\n\nCONTEXT: The user is building a deck. Advise on deck composition, faction synergies, lane balance, and counter-strategies.";
+        else if (page === "/trade-wars") contextHint = "\n\nCONTEXT: The user is playing Trade Wars. Focus on trading strategies, sector navigation, combat, colonization, and how this simulation connects to the Saga's economic systems.";
+        else if (page === "/fight") contextHint = "\n\nCONTEXT: The user is in the Combat Simulator. Discuss fighter abilities, combat techniques, and how each fighter relates to their lore counterpart.";
+        else if (page === "/board") contextHint = "\n\nCONTEXT: The user is viewing the Conspiracy Board. Help them understand the connections between entities, hidden relationships, and the web of alliances and betrayals in the Saga.";
+        else if (page === "/ark") contextHint = "\n\nCONTEXT: The user is exploring the Inception Ark. Describe the ship's decks, systems, crew, and the CoNexus technology that powers it.";
+        else if (page === "/store") contextHint = "\n\nCONTEXT: The user is at the Store. Help them understand Dream Tokens, what to purchase, and how resources fuel their journey.";
+        else if (page === "/research-lab") contextHint = "\n\nCONTEXT: The user is in the Research Lab. Explain card fusion, recipes, materials, and how to craft rare cards.";
+        else if (page === "/create-citizen") contextHint = "\n\nCONTEXT: The user is creating their Citizen identity. Guide them through alignment choices, attribute allocation, and archetypes.";
+        else if (page === "/character-sheet") contextHint = "\n\nCONTEXT: The user is viewing their Character Sheet. Explain stats, progression, and how their Citizen identity affects gameplay.";
+        else if (page.startsWith("/entity/")) contextHint = "\n\nCONTEXT: The user is viewing an entity dossier. Provide deep lore about this entity's connections, history, and appearances.";
+        else if (page.startsWith("/song/")) contextHint = "\n\nCONTEXT: The user is viewing a song page. Decode the song's lore meaning, characters referenced, and connections to the Saga.";
+        else if (page.startsWith("/album/")) contextHint = "\n\nCONTEXT: The user is viewing an album. Explain the album's narrative arc, key tracks, and era in the Saga timeline.";
+        else if (page === "/timeline" || page === "/character-timeline") contextHint = "\n\nCONTEXT: The user is viewing the timeline. Help them understand the chronological flow of events across the four ages.";
+        else if (page === "/games") contextHint = "\n\nCONTEXT: The user is at the CADES Simulation Hub. Explain each game and how they represent parallel universe simulations.";
+      }
+
       const messages: Array<{ role: "system" | "user" | "assistant"; content: string }> = [
-        { role: "system", content: ELARA_SYSTEM_PROMPT },
+        { role: "system", content: ELARA_SYSTEM_PROMPT + contextHint },
       ];
 
       // Add conversation history

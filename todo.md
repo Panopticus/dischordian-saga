@@ -286,3 +286,25 @@
 
 ## Bug Fixes
 - [x] Fix card game not starting (limit exceeded 100 max, auth gate removed for play access)
+
+## Phase 11: Context-Aware Elara + Conspiracy Board Redesign
+- [x] Make Elara context-aware: detect current page/route via useLocation
+- [x] Add page-specific dialog options for Home page (lore overview, CADES, factions)
+- [x] Add page-specific dialog options for Card Game page (strategy, rules, elements)
+- [x] Add page-specific dialog options for Trade Wars page (trading tips, sectors, combat)
+- [x] Add page-specific dialog options for Inception Ark page (rooms, decks, ship systems)
+- [x] Add page-specific dialog options for Conspiracy Board page (connections, factions, hidden links)
+- [x] Add page-specific dialog options for Store/Research Lab pages (dream currency, crafting)
+- [x] Add page-specific dialog options for Character Sheet/Citizen pages (attributes, alignments)
+- [x] Add page-specific dialog options for Card Browser/Deck Builder pages (deck building, card types)
+- [x] Add page-specific dialog options for Fight page (combat, character abilities)
+- [x] Add page-specific dialog options for Watch/Discography pages (music, videos, albums)
+- [x] Pass page context to LLM backend so Elara's responses are contextual
+- [x] Redesign Conspiracy Board with Void Energy visuals (deep void gradient, glass surfaces)
+- [x] Add animated particle system (60 ambient particles with fade in/out)
+- [x] Improve node rendering with character portraits (circular clip), faction colors, connection badges
+- [x] Add animated data stream pulse dots traveling along connection edges
+- [x] Add scanning ring animation for selected/hovered nodes
+- [x] Redesigned node detail panel with image header, connection tags, and type badges
+- [x] Add hover state with node highlighting and connected edge illumination
+- [x] Add zoom indicator and polished filter controls with type icons

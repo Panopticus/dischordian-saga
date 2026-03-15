@@ -2,9 +2,10 @@ import { useLoredex } from "@/contexts/LoredexContext";
 import { useGamification } from "@/contexts/GamificationContext";
 import { Link } from "wouter";
 import { useState, useMemo, useRef, useEffect, useCallback } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import {
-  ArrowLeft, ZoomIn, ZoomOut, Maximize2, ChevronRight
+  ArrowLeft, ZoomIn, ZoomOut, Maximize2, ChevronRight,
+  Network, Eye, Shield, MapPin, Zap, Crosshair, Scan
 } from "lucide-react";
 
 interface Node {
@@ -26,13 +27,33 @@ interface Edge {
   type: string;
 }
 
-const TYPE_COLORS: Record<string, string> = {
-  character: "#00f0ff",
-  location: "#ffd700",
-  faction: "#c084fc",
-  concept: "#4ade80",
-  song: "#ff2d55",
+// Void Energy color palette for node types
+const TYPE_COLORS: Record<string, { primary: string; glow: string; rgb: string }> = {
+  character: { primary: "#33E2E6", glow: "rgba(51,226,230,", rgb: "51,226,230" },
+  location:  { primary: "#FF8C00", glow: "rgba(255,140,0,", rgb: "255,140,0" },
+  faction:   { primary: "#A078FF", glow: "rgba(160,120,255,", rgb: "160,120,255" },
+  concept:   { primary: "#3875FA", glow: "rgba(56,117,250,", rgb: "56,117,250" },
+  song:      { primary: "#FF2D55", glow: "rgba(255,45,85,", rgb: "255,45,85" },
 };
+
+const TYPE_ICONS: Record<string, typeof Eye> = {
+  character: Eye,
+  location: MapPin,
+  faction: Shield,
+  concept: Zap,
+};
+
+// Particle system for ambient atmosphere
+interface Particle {
+  x: number;
+  y: number;
+  vx: number;
+  vy: number;
+  life: number;
+  maxLife: number;
+  size: number;
+  color: string;
+}
 
 export default function BoardPage() {
   const { entries, relationships, discoverEntry } = useLoredex();
@@ -49,16 +70,18 @@ export default function BoardPage() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [selectedNode, setSelectedNode] = useState<Node | null>(null);
+  const [hoveredNode, setHoveredNode] = useState<Node | null>(null);
   const [zoom, setZoom] = useState(0.8);
   const [pan, setPan] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
   const [filter, setFilter] = useState<string>("");
-  const [tick, setTick] = useState(0);
   const animFrameRef = useRef<number>(0);
   const nodesRef = useRef<Node[]>([]);
   const edgesRef = useRef<Edge[]>([]);
   const tickRef = useRef(0);
+  const particlesRef = useRef<Particle[]>([]);
+  const imageCache = useRef<Map<string, HTMLImageElement>>(new Map());
 
   const graphData = useMemo(() => {
     const filteredEntries = entries.filter((e) => e.type !== "song");
@@ -79,7 +102,7 @@ export default function BoardPage() {
           y: Math.sin(angle) * radius + 400,
           vx: 0,
           vy: 0,
-          radius: Math.max(12, Math.min(28, 10 + connCount * 1.5)),
+          radius: Math.max(14, Math.min(32, 12 + connCount * 1.8)),
           connCount,
         };
       });
@@ -92,11 +115,41 @@ export default function BoardPage() {
     return { nodes, edges };
   }, [entries, relationships, filter]);
 
+  // Preload node images
+  useEffect(() => {
+    graphData.nodes.forEach((n) => {
+      if (n.image && !imageCache.current.has(n.id)) {
+        const img = new Image();
+        img.crossOrigin = "anonymous";
+        img.src = n.image;
+        img.onload = () => imageCache.current.set(n.id, img);
+      }
+    });
+  }, [graphData.nodes]);
+
   useEffect(() => {
     nodesRef.current = graphData.nodes.map((n) => ({ ...n }));
     edgesRef.current = graphData.edges;
     tickRef.current = 0;
   }, [graphData]);
+
+  // Initialize particles
+  useEffect(() => {
+    const particles: Particle[] = [];
+    for (let i = 0; i < 60; i++) {
+      particles.push({
+        x: Math.random() * 1000,
+        y: Math.random() * 800,
+        vx: (Math.random() - 0.5) * 0.3,
+        vy: (Math.random() - 0.5) * 0.3,
+        life: Math.random() * 200,
+        maxLife: 150 + Math.random() * 100,
+        size: 0.5 + Math.random() * 1.5,
+        color: ["51,226,230", "56,117,250", "160,120,255"][Math.floor(Math.random() * 3)],
+      });
+    }
+    particlesRef.current = particles;
+  }, []);
 
   const simulate = useCallback(() => {
     const nodes = nodesRef.current;
@@ -147,6 +200,18 @@ export default function BoardPage() {
       n.x += n.vx;
       n.y += n.vy;
     });
+
+    // Update particles
+    particlesRef.current.forEach((p) => {
+      p.x += p.vx;
+      p.y += p.vy;
+      p.life++;
+      if (p.life > p.maxLife) {
+        p.x = Math.random() * 1000;
+        p.y = Math.random() * 800;
+        p.life = 0;
+      }
+    });
   }, []);
 
   const render = useCallback(() => {
@@ -159,36 +224,60 @@ export default function BoardPage() {
     const edges = edgesRef.current;
     const nodeMap = new Map(nodes.map((n) => [n.name.toLowerCase(), n]));
     const time = Date.now() * 0.001;
+    const w = canvas.width / window.devicePixelRatio;
+    const h = canvas.height / window.devicePixelRatio;
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // Dark grid background
+    // ═══ VOID BACKGROUND ═══
     ctx.save();
-    ctx.fillStyle = "oklch(0.06 0.015 280)";
+    // Deep void gradient
+    const bgGrad = ctx.createRadialGradient(w / 2, h / 2, 0, w / 2, h / 2, Math.max(w, h) * 0.7);
+    bgGrad.addColorStop(0, "#020030");
+    bgGrad.addColorStop(0.5, "#010020");
+    bgGrad.addColorStop(1, "#000010");
+    ctx.fillStyle = bgGrad;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    // Subtle grid
-    ctx.translate(pan.x + canvas.width / 2, pan.y + canvas.height / 2);
+    // Transform for pan/zoom
+    ctx.translate(pan.x + w / 2, pan.y + h / 2);
     ctx.scale(zoom, zoom);
     ctx.translate(-500, -400);
 
+    // ═══ DIMENSIONAL GRID ═══
     const gridSize = 60;
-    ctx.strokeStyle = "rgba(0, 240, 255, 0.03)";
-    ctx.lineWidth = 0.5;
+    // Hex-style grid with subtle glow
+    ctx.lineWidth = 0.3;
     for (let x = -500; x < 1500; x += gridSize) {
+      const distFromCenter = Math.abs(x - 500) / 1000;
+      const alpha = 0.04 * (1 - distFromCenter * 0.5);
+      ctx.strokeStyle = `rgba(56,117,250,${alpha})`;
       ctx.beginPath();
       ctx.moveTo(x, -500);
       ctx.lineTo(x, 1300);
       ctx.stroke();
     }
     for (let y = -500; y < 1300; y += gridSize) {
+      const distFromCenter = Math.abs(y - 400) / 900;
+      const alpha = 0.04 * (1 - distFromCenter * 0.5);
+      ctx.strokeStyle = `rgba(56,117,250,${alpha})`;
       ctx.beginPath();
       ctx.moveTo(-500, y);
       ctx.lineTo(1500, y);
       ctx.stroke();
     }
 
-    // Draw edges with animated pulse
+    // ═══ AMBIENT PARTICLES ═══
+    particlesRef.current.forEach((p) => {
+      const lifeRatio = p.life / p.maxLife;
+      const alpha = lifeRatio < 0.1 ? lifeRatio * 10 : lifeRatio > 0.9 ? (1 - lifeRatio) * 10 : 1;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(${p.color},${alpha * 0.3})`;
+      ctx.fill();
+    });
+
+    // ═══ EDGE RENDERING — Animated data streams ═══
     edges.forEach((e, i) => {
       const s = nodeMap.get(e.source.toLowerCase());
       const t = nodeMap.get(e.target.toLowerCase());
@@ -197,81 +286,192 @@ export default function BoardPage() {
       const isConnectedToSelected = selectedNode && (
         s.id === selectedNode.id || t.id === selectedNode.id
       );
+      const isConnectedToHovered = hoveredNode && (
+        s.id === hoveredNode.id || t.id === hoveredNode.id
+      );
 
-      ctx.beginPath();
-      ctx.moveTo(s.x, s.y);
-      ctx.lineTo(t.x, t.y);
+      const dx = t.x - s.x;
+      const dy = t.y - s.y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
 
-      if (isConnectedToSelected) {
-        const alpha = 0.3 + Math.sin(time * 2 + i) * 0.15;
-        ctx.strokeStyle = `rgba(0, 240, 255, ${alpha})`;
-        ctx.lineWidth = 1.5;
-        ctx.setLineDash([]);
+      if (isConnectedToSelected || isConnectedToHovered) {
+        // Bright animated connection
+        const sourceColor = TYPE_COLORS[s.type] || TYPE_COLORS.character;
+        const targetColor = TYPE_COLORS[t.type] || TYPE_COLORS.character;
+
+        // Main line with gradient
+        const grad = ctx.createLinearGradient(s.x, s.y, t.x, t.y);
+        grad.addColorStop(0, `${sourceColor.glow}0.5)`);
+        grad.addColorStop(0.5, `${sourceColor.glow}0.7)`);
+        grad.addColorStop(1, `${targetColor.glow}0.5)`);
+
+        ctx.beginPath();
+        ctx.moveTo(s.x, s.y);
+        ctx.lineTo(t.x, t.y);
+        ctx.strokeStyle = grad;
+        ctx.lineWidth = isConnectedToSelected ? 2 : 1.5;
+        ctx.stroke();
+
+        // Animated pulse dot traveling along the edge
+        const pulsePos = ((time * 0.5 + i * 0.3) % 1);
+        const px = s.x + dx * pulsePos;
+        const py = s.y + dy * pulsePos;
+        ctx.beginPath();
+        ctx.arc(px, py, 2.5, 0, Math.PI * 2);
+        ctx.fillStyle = `${sourceColor.glow}0.9)`;
+        ctx.fill();
+
+        // Glow around pulse
+        const pulseGlow = ctx.createRadialGradient(px, py, 0, px, py, 8);
+        pulseGlow.addColorStop(0, `${sourceColor.glow}0.4)`);
+        pulseGlow.addColorStop(1, `${sourceColor.glow}0)`);
+        ctx.beginPath();
+        ctx.arc(px, py, 8, 0, Math.PI * 2);
+        ctx.fillStyle = pulseGlow;
+        ctx.fill();
       } else {
-        ctx.strokeStyle = "rgba(0, 240, 255, 0.06)";
+        // Subtle dashed connection
+        const alpha = 0.06 + Math.sin(time + i * 0.5) * 0.02;
+        ctx.beginPath();
+        ctx.moveTo(s.x, s.y);
+        ctx.lineTo(t.x, t.y);
+        ctx.strokeStyle = `rgba(56,117,250,${alpha})`;
         ctx.lineWidth = 0.5;
-        ctx.setLineDash([4, 6]);
+        ctx.setLineDash([3, 8]);
+        ctx.stroke();
+        ctx.setLineDash([]);
       }
-      ctx.stroke();
-      ctx.setLineDash([]);
     });
 
-    // Draw nodes
+    // ═══ NODE RENDERING — Void Energy style ═══
     nodes.forEach((n) => {
-      const color = TYPE_COLORS[n.type] || "#00f0ff";
+      const typeColor = TYPE_COLORS[n.type] || TYPE_COLORS.character;
       const isSelected = selectedNode?.id === n.id;
-      const isConnected = selectedNode && edges.some(
-        (e) =>
-          (e.source.toLowerCase() === selectedNode.name.toLowerCase() && e.target.toLowerCase() === n.name.toLowerCase()) ||
-          (e.target.toLowerCase() === selectedNode.name.toLowerCase() && e.source.toLowerCase() === n.name.toLowerCase())
+      const isHovered = hoveredNode?.id === n.id;
+      const isConnected = (selectedNode || hoveredNode) && edges.some(
+        (e) => {
+          const ref = selectedNode || hoveredNode;
+          if (!ref) return false;
+          return (
+            (e.source.toLowerCase() === ref.name.toLowerCase() && e.target.toLowerCase() === n.name.toLowerCase()) ||
+            (e.target.toLowerCase() === ref.name.toLowerCase() && e.source.toLowerCase() === n.name.toLowerCase())
+          );
+        }
       );
-      const dimmed = selectedNode && !isSelected && !isConnected;
+      const dimmed = (selectedNode || hoveredNode) && !isSelected && !isHovered && !isConnected;
 
-      // Outer glow for selected/connected
-      if (isSelected) {
-        const glowSize = n.radius + 12 + Math.sin(time * 3) * 3;
-        const gradient = ctx.createRadialGradient(n.x, n.y, n.radius, n.x, n.y, glowSize);
-        gradient.addColorStop(0, color + "40");
-        gradient.addColorStop(1, color + "00");
+      // ── Outer glow ring for selected/hovered ──
+      if (isSelected || isHovered) {
+        const glowRadius = n.radius + 16 + Math.sin(time * 3) * 4;
+        const outerGlow = ctx.createRadialGradient(n.x, n.y, n.radius, n.x, n.y, glowRadius);
+        outerGlow.addColorStop(0, `${typeColor.glow}0.25)`);
+        outerGlow.addColorStop(0.5, `${typeColor.glow}0.08)`);
+        outerGlow.addColorStop(1, `${typeColor.glow}0)`);
         ctx.beginPath();
-        ctx.arc(n.x, n.y, glowSize, 0, Math.PI * 2);
-        ctx.fillStyle = gradient;
+        ctx.arc(n.x, n.y, glowRadius, 0, Math.PI * 2);
+        ctx.fillStyle = outerGlow;
         ctx.fill();
-      } else if (isConnected) {
+
+        // Scanning ring animation
+        const scanAngle = time * 2;
         ctx.beginPath();
-        ctx.arc(n.x, n.y, n.radius + 4, 0, Math.PI * 2);
-        ctx.fillStyle = color + "15";
+        ctx.arc(n.x, n.y, n.radius + 6, scanAngle, scanAngle + Math.PI * 0.5);
+        ctx.strokeStyle = `${typeColor.glow}0.6)`;
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+      } else if (isConnected) {
+        // Subtle glow for connected nodes
+        const connGlow = ctx.createRadialGradient(n.x, n.y, n.radius, n.x, n.y, n.radius + 8);
+        connGlow.addColorStop(0, `${typeColor.glow}0.12)`);
+        connGlow.addColorStop(1, `${typeColor.glow}0)`);
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, n.radius + 8, 0, Math.PI * 2);
+        ctx.fillStyle = connGlow;
         ctx.fill();
       }
 
-      // Node body
+      // ── Node body — glass surface ──
+      const bodyGrad = ctx.createRadialGradient(
+        n.x - n.radius * 0.3, n.y - n.radius * 0.3, 0,
+        n.x, n.y, n.radius
+      );
+      if (dimmed) {
+        bodyGrad.addColorStop(0, "rgba(10,10,30,0.3)");
+        bodyGrad.addColorStop(1, "rgba(5,5,20,0.2)");
+      } else {
+        bodyGrad.addColorStop(0, `${typeColor.glow}0.12)`);
+        bodyGrad.addColorStop(1, "rgba(5,5,30,0.6)");
+      }
+
       ctx.beginPath();
       ctx.arc(n.x, n.y, n.radius, 0, Math.PI * 2);
-      ctx.fillStyle = dimmed ? "rgba(10, 10, 26, 0.5)" : isSelected ? color + "25" : "oklch(0.08 0.01 280)";
+      ctx.fillStyle = bodyGrad;
       ctx.fill();
-      ctx.strokeStyle = dimmed ? color + "15" : isSelected ? color + "dd" : color + "50";
-      ctx.lineWidth = isSelected ? 2.5 : 1;
+
+      // ── Node image (circular clip) ──
+      const img = imageCache.current.get(n.id);
+      if (img && img.complete && !dimmed) {
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, n.radius - 2, 0, Math.PI * 2);
+        ctx.clip();
+        const imgAlpha = isSelected || isHovered ? 0.85 : isConnected ? 0.6 : 0.4;
+        ctx.globalAlpha = imgAlpha;
+        ctx.drawImage(img, n.x - n.radius + 2, n.y - n.radius + 2, (n.radius - 2) * 2, (n.radius - 2) * 2);
+        ctx.globalAlpha = 1;
+        ctx.restore();
+      }
+
+      // ── Border ring ──
+      ctx.beginPath();
+      ctx.arc(n.x, n.y, n.radius, 0, Math.PI * 2);
+      const borderAlpha = dimmed ? 0.1 : isSelected ? 0.9 : isHovered ? 0.7 : isConnected ? 0.5 : 0.25;
+      ctx.strokeStyle = `${typeColor.glow}${borderAlpha})`;
+      ctx.lineWidth = isSelected ? 2.5 : isHovered ? 2 : 1;
       ctx.stroke();
 
-      // Inner dot
-      ctx.beginPath();
-      ctx.arc(n.x, n.y, 2.5, 0, Math.PI * 2);
-      ctx.fillStyle = dimmed ? color + "20" : color + "80";
-      ctx.fill();
+      // ── Inner core dot ──
+      if (!img || !img.complete || dimmed) {
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, 3, 0, Math.PI * 2);
+        ctx.fillStyle = dimmed ? `${typeColor.glow}0.15)` : `${typeColor.glow}0.7)`;
+        ctx.fill();
+      }
 
-      // Label
-      const alpha = dimmed ? "40" : isSelected ? "ff" : "aa";
-      ctx.fillStyle = color.slice(0, 7) + alpha;
-      ctx.font = `${isSelected ? "bold 10px" : "9px"} 'Source Code Pro', monospace`;
+      // ── Label ──
+      const labelAlpha = dimmed ? 0.2 : isSelected || isHovered ? 1 : isConnected ? 0.8 : 0.6;
+      ctx.font = `${isSelected || isHovered ? "bold 11px" : "10px"} 'Source Code Pro', monospace`;
       ctx.textAlign = "center";
-      const label = n.name.length > 18 ? n.name.slice(0, 16) + "..." : n.name;
-      ctx.fillText(label, n.x, n.y + n.radius + 14);
+
+      // Text shadow/glow for readability
+      if (!dimmed) {
+        ctx.fillStyle = `${typeColor.glow}${labelAlpha * 0.3})`;
+        ctx.fillText(n.name.length > 18 ? n.name.slice(0, 16) + "..." : n.name, n.x + 0.5, n.y + n.radius + 15.5);
+      }
+      ctx.fillStyle = `rgba(255,255,255,${labelAlpha})`;
+      ctx.fillText(n.name.length > 18 ? n.name.slice(0, 16) + "..." : n.name, n.x, n.y + n.radius + 15);
+
+      // Connection count badge for important nodes
+      if (n.connCount >= 5 && !dimmed) {
+        const badgeX = n.x + n.radius * 0.7;
+        const badgeY = n.y - n.radius * 0.7;
+        ctx.beginPath();
+        ctx.arc(badgeX, badgeY, 7, 0, Math.PI * 2);
+        ctx.fillStyle = `${typeColor.glow}0.8)`;
+        ctx.fill();
+        ctx.font = "bold 8px 'Source Code Pro', monospace";
+        ctx.fillStyle = "#000";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillText(String(n.connCount), badgeX, badgeY);
+        ctx.textBaseline = "alphabetic";
+      }
     });
 
     ctx.restore();
     simulate();
     animFrameRef.current = requestAnimationFrame(render);
-  }, [zoom, pan, selectedNode, simulate]);
+  }, [zoom, pan, selectedNode, hoveredNode, simulate]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -329,6 +529,10 @@ export default function BoardPage() {
   const handleMouseMove = (e: React.MouseEvent) => {
     if (isDragging) {
       setPan({ x: e.clientX - dragStart.x, y: e.clientY - dragStart.y });
+    } else {
+      const { mx, my } = getCanvasCoords(e.clientX, e.clientY);
+      const hovered = findNodeAt(mx, my);
+      setHoveredNode(hovered || null);
     }
   };
 
@@ -378,52 +582,95 @@ export default function BoardPage() {
 
   const handleTouchEnd = () => setIsDragging(false);
 
+  // Get connected nodes for the selected node panel
+  const connectedNodes = useMemo(() => {
+    if (!selectedNode) return [];
+    return edgesRef.current
+      .filter((e) =>
+        e.source.toLowerCase() === selectedNode.name.toLowerCase() ||
+        e.target.toLowerCase() === selectedNode.name.toLowerCase()
+      )
+      .map((e) => {
+        const otherName = e.source.toLowerCase() === selectedNode.name.toLowerCase() ? e.target : e.source;
+        const otherNode = nodesRef.current.find((n) => n.name.toLowerCase() === otherName.toLowerCase());
+        return otherNode ? { name: otherNode.name, type: otherNode.type, id: otherNode.id, relType: e.type } : null;
+      })
+      .filter(Boolean)
+      .slice(0, 8);
+  }, [selectedNode]);
+
   return (
     <div className="h-[calc(100vh-3.5rem)] flex flex-col">
-      {/* Toolbar */}
-      <div className="flex items-center justify-between px-3 sm:px-4 py-2 border-b border-border/30 bg-card/50 backdrop-blur-sm">
+      {/* ═══ TOOLBAR ═══ */}
+      <div className="flex items-center justify-between px-3 sm:px-4 py-2.5 border-b border-[var(--glass-border)]"
+           style={{ background: "linear-gradient(180deg, rgba(22,30,95,0.4) 0%, rgba(1,0,32,0.8) 100%)" }}>
         <div className="flex items-center gap-2 sm:gap-3">
-          <Link href="/" className="text-muted-foreground hover:text-primary transition-colors">
+          <Link href="/" className="text-white/40 hover:text-[var(--neon-cyan)] transition-colors">
             <ArrowLeft size={16} />
           </Link>
-          <h1 className="font-display text-[10px] sm:text-xs font-bold tracking-wider text-primary">CONSPIRACY BOARD</h1>
-          <span className="font-mono text-[9px] sm:text-[10px] text-muted-foreground hidden sm:inline">
-            {graphData.nodes.length} nodes // {graphData.edges.length} links
-          </span>
+          <div className="flex items-center gap-2">
+            <Network size={14} className="text-[var(--neon-cyan)]" />
+            <h1 className="font-display text-[10px] sm:text-xs font-bold tracking-[0.2em] text-white">
+              CONSPIRACY BOARD
+            </h1>
+          </div>
+          <div className="hidden sm:flex items-center gap-1.5 ml-2 px-2 py-0.5 rounded-full bg-[var(--glass-base)] border border-[var(--glass-border)]">
+            <Scan size={10} className="text-[var(--neon-cyan)]/60" />
+            <span className="font-mono text-[9px] text-white/50">
+              {graphData.nodes.length} NODES // {graphData.edges.length} LINKS
+            </span>
+          </div>
         </div>
-        <div className="flex items-center gap-1 sm:gap-2">
-          {["", "character", "location", "faction"].map((type) => (
-            <button
-              key={type}
-              onClick={() => setFilter(type)}
-              className={`px-1.5 sm:px-2 py-1 rounded text-[9px] sm:text-[10px] font-mono transition-all ${
-                filter === type ? "bg-primary/20 text-primary border border-primary/30" : "text-muted-foreground hover:text-foreground"
-              }`}
-            >
-              {type ? type.slice(0, 4).toUpperCase() : "ALL"}
-            </button>
-          ))}
-          <div className="h-4 w-px bg-border/30 mx-0.5 hidden sm:block" />
-          <button onClick={() => setZoom((z) => Math.min(4, z + 0.2))} className="p-1 text-muted-foreground hover:text-foreground hidden sm:block">
+
+        <div className="flex items-center gap-1 sm:gap-1.5">
+          {/* Type filters */}
+          {[
+            { type: "", label: "ALL", icon: Crosshair },
+            { type: "character", label: "CHAR", icon: Eye },
+            { type: "location", label: "LOC", icon: MapPin },
+            { type: "faction", label: "FACT", icon: Shield },
+          ].map(({ type, label, icon: Icon }) => {
+            const color = type ? TYPE_COLORS[type]?.primary : "#33E2E6";
+            return (
+              <button
+                key={type}
+                onClick={() => setFilter(type)}
+                className={`flex items-center gap-1 px-1.5 sm:px-2 py-1 rounded-md text-[9px] sm:text-[10px] font-mono transition-all border ${
+                  filter === type
+                    ? "border-current bg-current/10"
+                    : "border-transparent hover:border-white/10 hover:bg-white/5"
+                }`}
+                style={{ color: filter === type ? color : "rgba(255,255,255,0.4)" }}
+              >
+                <Icon size={11} />
+                <span className="hidden sm:inline">{label}</span>
+              </button>
+            );
+          })}
+
+          <div className="h-4 w-px bg-white/10 mx-0.5 hidden sm:block" />
+
+          {/* Zoom controls */}
+          <button onClick={() => setZoom((z) => Math.min(4, z + 0.2))} className="p-1.5 text-white/30 hover:text-white/70 transition-colors hidden sm:block">
             <ZoomIn size={14} />
           </button>
-          <button onClick={() => setZoom((z) => Math.max(0.2, z - 0.2))} className="p-1 text-muted-foreground hover:text-foreground hidden sm:block">
+          <button onClick={() => setZoom((z) => Math.max(0.2, z - 0.2))} className="p-1.5 text-white/30 hover:text-white/70 transition-colors hidden sm:block">
             <ZoomOut size={14} />
           </button>
-          <button onClick={() => { setZoom(0.8); setPan({ x: 0, y: 0 }); }} className="p-1 text-muted-foreground hover:text-foreground">
+          <button onClick={() => { setZoom(0.8); setPan({ x: 0, y: 0 }); }} className="p-1.5 text-white/30 hover:text-white/70 transition-colors">
             <Maximize2 size={14} />
           </button>
         </div>
       </div>
 
-      {/* Canvas */}
+      {/* ═══ CANVAS ═══ */}
       <div ref={containerRef} className="flex-1 relative overflow-hidden">
         <canvas
           ref={canvasRef}
           onMouseDown={handleMouseDown}
           onMouseMove={handleMouseMove}
           onMouseUp={handleMouseUp}
-          onMouseLeave={handleMouseUp}
+          onMouseLeave={() => { handleMouseUp(); setHoveredNode(null); }}
           onWheel={handleWheel}
           onTouchStart={handleTouchStart}
           onTouchMove={handleTouchMove}
@@ -431,42 +678,105 @@ export default function BoardPage() {
           className="w-full h-full cursor-grab active:cursor-grabbing touch-none"
         />
 
-        {/* Selected Node Panel */}
-        {selectedNode && (
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            className="absolute top-3 right-3 w-64 sm:w-72 rounded-lg border border-primary/30 bg-card/95 backdrop-blur-md p-4 box-glow-cyan"
-          >
-            <div className="flex items-start gap-3 mb-3">
-              {selectedNode.image && (
-                <img src={selectedNode.image} alt={selectedNode.name} className="w-14 h-14 rounded-md object-cover ring-1 ring-primary/30" />
-              )}
-              <div className="min-w-0">
-                <p className="font-display text-sm font-bold truncate">{selectedNode.name}</p>
-                <p className="font-mono text-[10px] tracking-wider uppercase" style={{ color: TYPE_COLORS[selectedNode.type] }}>
-                  {selectedNode.type}
-                </p>
-                <p className="font-mono text-[10px] text-muted-foreground/50">{selectedNode.connCount} connections</p>
-              </div>
-            </div>
-            <Link
-              href={`/entity/${selectedNode.id}`}
-              className="flex items-center justify-center gap-1.5 w-full px-3 py-2 rounded-md bg-primary/10 border border-primary/30 text-primary text-xs font-mono hover:bg-primary/20 transition-all"
+        {/* ═══ SELECTED NODE PANEL ═══ */}
+        <AnimatePresence>
+          {selectedNode && (
+            <motion.div
+              initial={{ opacity: 0, x: 20, filter: "blur(8px)" }}
+              animate={{ opacity: 1, x: 0, filter: "blur(0px)" }}
+              exit={{ opacity: 0, x: 20, filter: "blur(8px)" }}
+              transition={{ duration: 0.3 }}
+              className="absolute top-3 right-3 w-72 sm:w-80 rounded-xl overflow-hidden"
+              style={{
+                background: "linear-gradient(135deg, rgba(22,30,95,0.85) 0%, rgba(1,0,32,0.95) 100%)",
+                backdropFilter: "blur(20px)",
+                border: `1px solid ${TYPE_COLORS[selectedNode.type]?.glow || "rgba(51,226,230,"}0.3)`,
+                boxShadow: `0 0 30px ${TYPE_COLORS[selectedNode.type]?.glow || "rgba(51,226,230,"}0.15), 0 20px 60px rgba(0,0,0,0.5)`,
+              }}
             >
-              OPEN DOSSIER <ChevronRight size={11} />
-            </Link>
-          </motion.div>
-        )}
+              {/* Header with image */}
+              <div className="relative h-24 overflow-hidden">
+                {selectedNode.image ? (
+                  <>
+                    <img src={selectedNode.image} alt="" className="w-full h-full object-cover" />
+                    <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[rgba(1,0,32,0.95)]" />
+                  </>
+                ) : (
+                  <div className="w-full h-full" style={{ background: `linear-gradient(135deg, ${TYPE_COLORS[selectedNode.type]?.glow || "rgba(51,226,230,"}0.1), transparent)` }} />
+                )}
+                {/* Type badge */}
+                <div className="absolute top-2 right-2 px-2 py-0.5 rounded-full text-[9px] font-mono tracking-wider"
+                     style={{
+                       background: `${TYPE_COLORS[selectedNode.type]?.glow || "rgba(51,226,230,"}0.15)`,
+                       border: `1px solid ${TYPE_COLORS[selectedNode.type]?.glow || "rgba(51,226,230,"}0.3)`,
+                       color: TYPE_COLORS[selectedNode.type]?.primary || "#33E2E6",
+                     }}>
+                  {selectedNode.type.toUpperCase()}
+                </div>
+              </div>
 
-        {/* Legend */}
-        <div className="absolute bottom-3 left-3 flex flex-wrap gap-2 sm:gap-3 font-mono text-[9px] sm:text-[10px] bg-card/60 backdrop-blur-sm rounded-md px-2.5 py-1.5 border border-border/20">
+              {/* Content */}
+              <div className="px-4 pb-4 -mt-4 relative">
+                <h3 className="font-display text-base font-bold text-white tracking-wide mb-1">
+                  {selectedNode.name}
+                </h3>
+                <p className="font-mono text-[10px] text-white/40 mb-3">
+                  {selectedNode.connCount} dimensional connections detected
+                </p>
+
+                {/* Connected entities */}
+                {connectedNodes.length > 0 && (
+                  <div className="mb-3">
+                    <p className="font-mono text-[9px] text-white/30 tracking-wider mb-1.5">CONNECTIONS</p>
+                    <div className="flex flex-wrap gap-1">
+                      {connectedNodes.map((cn, i) => cn && (
+                        <span
+                          key={i}
+                          className="px-1.5 py-0.5 rounded text-[9px] font-mono"
+                          style={{
+                            background: `${TYPE_COLORS[cn.type]?.glow || "rgba(51,226,230,"}0.08)`,
+                            border: `1px solid ${TYPE_COLORS[cn.type]?.glow || "rgba(51,226,230,"}0.15)`,
+                            color: `${TYPE_COLORS[cn.type]?.primary || "#33E2E6"}`,
+                          }}
+                        >
+                          {cn.name.length > 16 ? cn.name.slice(0, 14) + "..." : cn.name}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                <Link
+                  href={`/entity/${selectedNode.id}`}
+                  className="flex items-center justify-center gap-2 w-full px-3 py-2.5 rounded-lg text-xs font-mono font-bold tracking-wider transition-all"
+                  style={{
+                    background: `${TYPE_COLORS[selectedNode.type]?.glow || "rgba(51,226,230,"}0.1)`,
+                    border: `1px solid ${TYPE_COLORS[selectedNode.type]?.glow || "rgba(51,226,230,"}0.3)`,
+                    color: TYPE_COLORS[selectedNode.type]?.primary || "#33E2E6",
+                  }}
+                >
+                  OPEN DOSSIER <ChevronRight size={12} />
+                </Link>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* ═══ LEGEND ═══ */}
+        <div className="absolute bottom-3 left-3 flex flex-wrap gap-2 sm:gap-3 font-mono text-[9px] sm:text-[10px] rounded-lg px-3 py-2 border border-[var(--glass-border)]"
+             style={{ background: "rgba(1,0,32,0.8)", backdropFilter: "blur(10px)" }}>
           {Object.entries(TYPE_COLORS).filter(([k]) => k !== "song").map(([type, color]) => (
-            <span key={type} className="flex items-center gap-1">
-              <span className="w-2 h-2 rounded-full" style={{ backgroundColor: color }} />
-              {type.toUpperCase()}
+            <span key={type} className="flex items-center gap-1.5">
+              <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: color.primary, boxShadow: `0 0 6px ${color.glow}0.5)` }} />
+              <span style={{ color: color.primary }}>{type.toUpperCase()}</span>
             </span>
           ))}
+        </div>
+
+        {/* ═══ ZOOM INDICATOR ═══ */}
+        <div className="absolute bottom-3 right-3 font-mono text-[9px] text-white/30 px-2 py-1 rounded border border-[var(--glass-border)]"
+             style={{ background: "rgba(1,0,32,0.6)" }}>
+          {Math.round(zoom * 100)}%
         </div>
       </div>
     </div>

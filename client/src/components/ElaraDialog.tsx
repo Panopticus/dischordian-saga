@@ -1,5 +1,6 @@
-import { useState, useRef, useEffect, useCallback } from "react";
+import { useState, useRef, useEffect, useCallback, useMemo } from "react";
 import { trpc } from "@/lib/trpc";
+import { useLocation } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, MessageCircle, ChevronRight, Loader2, Sparkles } from "lucide-react";
 import { Streamdown } from "streamdown";
@@ -18,6 +19,311 @@ interface ChatMessage {
   content: string;
 }
 
+// ═══ PAGE-SPECIFIC DIALOG OPTIONS ═══
+// Each page gets contextual choices that Elara can answer about
+function getPageChoices(path: string): { greeting: string; choices: DialogChoice[] } {
+  // Home / Dashboard
+  if (path === "/" || path === "") {
+    return {
+      greeting: "Welcome back to the Ark, Operative. The CoNexus systems are nominal. I can brief you on the Saga, guide you through the ship's systems, or prepare a CADES simulation. What interests you?",
+      choices: [
+        { id: "overview", text: "Give me an overview of the Dischordian Saga.", category: "lore" },
+        { id: "whats-new", text: "What should I explore first?", category: "ark" },
+        { id: "music", text: "Tell me about the music transmissions.", category: "music" },
+        { id: "games", text: "What CADES simulations are available?", category: "games" },
+        { id: "who", text: "Who are you, Elara?", category: "personal" },
+      ],
+    };
+  }
+
+  // Card Game
+  if (path === "/cards/play") {
+    return {
+      greeting: "Ah, the Dischordian Struggle. This CADES simulation pits faction against faction across three dimensional lanes. Each card you deploy shapes the fate of a parallel universe. Shall I explain the rules, or do you have a tactical question?",
+      choices: [
+        { id: "rules", text: "How do I play this card game?", category: "games" },
+        { id: "factions", text: "Tell me about the factions and their strengths.", category: "games" },
+        { id: "lanes", text: "How do the three lanes work?", category: "games" },
+        { id: "elements", text: "Explain the element system and keywords.", category: "games" },
+        { id: "strategy", text: "What's a good strategy for beginners?", category: "games" },
+        { id: "lore-cards", text: "How do the cards connect to the lore?", category: "lore" },
+      ],
+    };
+  }
+
+  // Card Browser
+  if (path === "/cards") {
+    return {
+      greeting: "The dimensional archive contains over 3,000 card manifestations. Each one represents an entity, event, or force from across the multiverse. Looking for something specific?",
+      choices: [
+        { id: "rare-cards", text: "What are the rarest cards?", category: "games" },
+        { id: "factions-browse", text: "Tell me about each faction's card style.", category: "games" },
+        { id: "keywords", text: "Explain the card keywords and abilities.", category: "games" },
+        { id: "elements", text: "How do elements affect card combat?", category: "games" },
+        { id: "build-deck", text: "How should I build a good deck?", category: "games" },
+      ],
+    };
+  }
+
+  // Deck Builder
+  if (path === "/deck-builder") {
+    return {
+      greeting: "The Deck Configuration Terminal is online. A well-constructed deck balances offense, defense, and influence across all three lanes. Need guidance on composition?",
+      choices: [
+        { id: "deck-basics", text: "What makes a good deck?", category: "games" },
+        { id: "faction-synergy", text: "Which factions synergize well together?", category: "games" },
+        { id: "lane-balance", text: "How do I balance cards across lanes?", category: "games" },
+        { id: "counter-play", text: "How do I counter aggressive decks?", category: "games" },
+        { id: "card-combos", text: "What are some powerful card combos?", category: "games" },
+      ],
+    };
+  }
+
+  // Trade Wars
+  if (path === "/trade-wars") {
+    return {
+      greeting: "You've accessed the Trade Wars simulation — a CADES projection of interstellar commerce during the Age of Privacy. Every trade route you establish, every pirate you outrun, shapes the economic fate of this parallel universe. What do you need to know?",
+      choices: [
+        { id: "tw-basics", text: "How does Trade Wars work?", category: "games" },
+        { id: "tw-trading", text: "What's the best trading strategy?", category: "games" },
+        { id: "tw-combat", text: "How does space combat work?", category: "games" },
+        { id: "tw-colonize", text: "Tell me about colonization.", category: "games" },
+        { id: "tw-lore", text: "How does this connect to the Saga?", category: "lore" },
+        { id: "tw-factions", text: "What factions control the sectors?", category: "lore" },
+      ],
+    };
+  }
+
+  // Fight / Combat Simulator
+  if (path === "/fight") {
+    return {
+      greeting: "The Combat Simulator is a CADES projection that tests your readiness through dimensional combat trials. Each fighter is a manifestation of a Saga entity. Choose wisely — their abilities reflect their true nature in the lore.",
+      choices: [
+        { id: "fight-how", text: "How do I fight in the simulator?", category: "games" },
+        { id: "fight-chars", text: "Tell me about the fighters and their abilities.", category: "games" },
+        { id: "fight-lore", text: "How do these fighters connect to the lore?", category: "lore" },
+        { id: "fight-tips", text: "Any combat tips for a beginner?", category: "games" },
+        { id: "fight-warlord", text: "Tell me about the Warlord.", category: "lore" },
+      ],
+    };
+  }
+
+  // Conspiracy Board
+  if (path === "/board") {
+    return {
+      greeting: "The Conspiracy Board maps the hidden connections between every entity in the Saga. Each node is a character, faction, or location — and every line represents a relationship that shapes the multiverse. What web would you like to untangle?",
+      choices: [
+        { id: "board-architect", text: "Show me the Architect's connections.", category: "lore" },
+        { id: "board-factions", text: "How are the factions connected?", category: "lore" },
+        { id: "board-hidden", text: "What hidden connections should I look for?", category: "lore" },
+        { id: "board-enigma", text: "Tell me about the Enigma's web of influence.", category: "lore" },
+        { id: "board-betrayals", text: "Who betrayed whom in the Saga?", category: "lore" },
+        { id: "board-fall", text: "What caused the Fall of Reality?", category: "lore" },
+      ],
+    };
+  }
+
+  // Inception Ark
+  if (path === "/ark") {
+    return {
+      greeting: "You're exploring the Inception Ark itself — the vessel that carries the last hope of civilization through the void. Each deck serves a critical function. I know every corridor, every system, every secret aboard this ship.",
+      choices: [
+        { id: "ark-what", text: "What is an Inception Ark?", category: "ark" },
+        { id: "ark-decks", text: "Tell me about each deck.", category: "ark" },
+        { id: "ark-conexus", text: "What is the CoNexus Core?", category: "ark" },
+        { id: "ark-crew", text: "Who else is aboard?", category: "ark" },
+        { id: "ark-cades", text: "How does CADES work?", category: "games" },
+        { id: "ark-purpose", text: "Where is the Ark heading?", category: "lore" },
+      ],
+    };
+  }
+
+  // Timeline
+  if (path === "/timeline" || path === "/character-timeline") {
+    return {
+      greeting: "The temporal records span four great ages of the Saga. From the Age of Privacy through the Fall of Reality to the Age of Potentials — every event is catalogued here. What era interests you?",
+      choices: [
+        { id: "tl-privacy", text: "Tell me about the Age of Privacy.", category: "lore" },
+        { id: "tl-revelation", text: "What happened in the Age of Revelation?", category: "lore" },
+        { id: "tl-fall", text: "Describe the Fall of Reality.", category: "lore" },
+        { id: "tl-potentials", text: "What is the Age of Potentials?", category: "lore" },
+        { id: "tl-key-events", text: "What are the most important events?", category: "lore" },
+      ],
+    };
+  }
+
+  // Search / Entity Database
+  if (path === "/search") {
+    return {
+      greeting: "The Entity Database contains every character, location, faction, and concept catalogued by the Ark's sensors. I can help you find specific entries or explain the connections between them.",
+      choices: [
+        { id: "search-chars", text: "Who are the most important characters?", category: "lore" },
+        { id: "search-factions", text: "List the major factions.", category: "lore" },
+        { id: "search-locations", text: "What are the key locations?", category: "lore" },
+        { id: "search-concepts", text: "Explain the key concepts of the Saga.", category: "lore" },
+        { id: "search-hidden", text: "Are there any hidden entries?", category: "lore" },
+      ],
+    };
+  }
+
+  // Watch
+  if (path === "/watch") {
+    return {
+      greeting: "The Visual Archive contains dimensional recordings — music videos, visual transmissions, and cinematic echoes from across the multiverse. Each one offers a window into the events of the Saga.",
+      choices: [
+        { id: "watch-recommend", text: "What should I watch first?", category: "music" },
+        { id: "watch-lore", text: "Which videos reveal the most lore?", category: "lore" },
+        { id: "watch-malkia", text: "Tell me about Malkia Ukweli.", category: "lore" },
+        { id: "watch-albums", text: "Walk me through the albums.", category: "music" },
+      ],
+    };
+  }
+
+  // Store
+  if (path === "/store") {
+    return {
+      greeting: "The Requisition Terminal allows you to acquire resources using Dream Tokens. These tokens fuel your CADES simulations, card collection, and research operations. How can I help?",
+      choices: [
+        { id: "store-dreams", text: "What are Dream Tokens?", category: "games" },
+        { id: "store-spend", text: "What should I spend my tokens on?", category: "games" },
+        { id: "store-earn", text: "How do I earn more Dream Tokens?", category: "games" },
+        { id: "store-packs", text: "What's in the card packs?", category: "games" },
+      ],
+    };
+  }
+
+  // Research Lab
+  if (path === "/research-lab") {
+    return {
+      greeting: "The Research Lab uses CoNexus technology to fuse and transmute cards. By combining lesser manifestations, you can forge more powerful entities. The recipes are... complex, but I can guide you.",
+      choices: [
+        { id: "lab-how", text: "How does card fusion work?", category: "games" },
+        { id: "lab-recipes", text: "What recipes are available?", category: "games" },
+        { id: "lab-rare", text: "How do I craft rare cards?", category: "games" },
+        { id: "lab-materials", text: "What materials do I need?", category: "games" },
+      ],
+    };
+  }
+
+  // Citizen Creation
+  if (path === "/create-citizen") {
+    return {
+      greeting: "The Citizen Registration System creates your identity within the Ark's crew manifest. Your alignment, attributes, and archetype will shape your journey through the CADES simulations. Choose carefully — these choices echo across dimensions.",
+      choices: [
+        { id: "citizen-what", text: "What is a Citizen identity?", category: "games" },
+        { id: "citizen-align", text: "Explain the alignment system.", category: "games" },
+        { id: "citizen-attrs", text: "What do the attributes mean?", category: "games" },
+        { id: "citizen-archetype", text: "What archetypes can I choose?", category: "games" },
+        { id: "citizen-lore", text: "How does this connect to the Saga?", category: "lore" },
+      ],
+    };
+  }
+
+  // Character Sheet
+  if (path === "/character-sheet") {
+    return {
+      greeting: "Your Citizen dossier shows your current standing aboard the Ark. Your attributes, alignment, and progression all factor into how CADES simulations respond to you. What would you like to know?",
+      choices: [
+        { id: "sheet-stats", text: "How do my stats affect gameplay?", category: "games" },
+        { id: "sheet-level", text: "How do I level up?", category: "games" },
+        { id: "sheet-alignment", text: "Can I change my alignment?", category: "games" },
+        { id: "sheet-progress", text: "What should I focus on improving?", category: "games" },
+      ],
+    };
+  }
+
+  // Console / C.A.D.E.S.
+  if (path === "/console") {
+    return {
+      greeting: "The C.A.D.E.S. Console is the primary interface for the CoNexus Advanced Dimensional Exploration Simulation. From here, you can access the doom scroll feed, monitor dimensional activity, and review your operative status.",
+      choices: [
+        { id: "console-cades", text: "What is C.A.D.E.S. exactly?", category: "ark" },
+        { id: "console-doom", text: "What's on the doom scroll?", category: "lore" },
+        { id: "console-conexus", text: "Tell me about the CoNexus.", category: "lore" },
+        { id: "console-sims", text: "What simulations can I run?", category: "games" },
+      ],
+    };
+  }
+
+  // Trophy Room
+  if (path === "/trophy") {
+    return {
+      greeting: "The Trophy Room displays your achievements across all CADES simulations. Each trophy represents a milestone in your journey through the multiverse. Impressive collection... or is it?",
+      choices: [
+        { id: "trophy-how", text: "How do I earn trophies?", category: "games" },
+        { id: "trophy-rare", text: "What are the rarest achievements?", category: "games" },
+        { id: "trophy-cards", text: "Do trophies unlock any cards?", category: "games" },
+      ],
+    };
+  }
+
+  // Games Hub
+  if (path === "/games") {
+    return {
+      greeting: "The CADES Simulation Hub. Each game here is a window into a parallel universe — powered by the CoNexus technology salvaged from the Architect's dismantled creation. Your choices in these simulations ripple across the multiverse. Which reality will you enter?",
+      choices: [
+        { id: "games-card", text: "Tell me about the Card Game.", category: "games" },
+        { id: "games-trade", text: "What is Trade Wars?", category: "games" },
+        { id: "games-fight", text: "How does the Combat Simulator work?", category: "games" },
+        { id: "games-ark", text: "What can I explore on the Ark?", category: "ark" },
+        { id: "games-save-doom", text: "What do you mean 'save or doom'?", category: "lore" },
+      ],
+    };
+  }
+
+  // Entity detail pages
+  if (path.startsWith("/entity/")) {
+    return {
+      greeting: "You're examining a dossier from the Ark's database. I can provide additional context about this entity — their connections, their role in the Saga, or how they appear in the music transmissions.",
+      choices: [
+        { id: "entity-connections", text: "Who is this entity connected to?", category: "lore" },
+        { id: "entity-songs", text: "Do they appear in any songs?", category: "music" },
+        { id: "entity-timeline", text: "Where do they fit in the timeline?", category: "lore" },
+        { id: "entity-secrets", text: "Are there any hidden details about them?", category: "lore" },
+        { id: "entity-faction", text: "What faction do they belong to?", category: "lore" },
+      ],
+    };
+  }
+
+  // Song pages
+  if (path.startsWith("/song/")) {
+    return {
+      greeting: "This is an archived transmission — a song that echoes through the dimensions. The music of Malkia Ukweli carries encoded lore within its lyrics. Shall I decode it for you?",
+      choices: [
+        { id: "song-meaning", text: "What is this song about?", category: "music" },
+        { id: "song-chars", text: "Which characters appear in this song?", category: "lore" },
+        { id: "song-album", text: "Tell me about this album.", category: "music" },
+        { id: "song-connected", text: "What other songs connect to this one?", category: "music" },
+      ],
+    };
+  }
+
+  // Album pages
+  if (path.startsWith("/album/")) {
+    return {
+      greeting: "You're exploring an album — a collection of dimensional transmissions that tell a chapter of the Saga. Each track is a piece of the larger story.",
+      choices: [
+        { id: "album-story", text: "What story does this album tell?", category: "music" },
+        { id: "album-key-tracks", text: "Which tracks are most important for lore?", category: "music" },
+        { id: "album-chars", text: "Which characters feature in this album?", category: "lore" },
+        { id: "album-era", text: "What era does this album cover?", category: "lore" },
+      ],
+    };
+  }
+
+  // Default fallback
+  return {
+    greeting: "Operative. I am Elara — navigator, keeper of records, and guide aboard this Inception Ark. The CoNexus systems have detected your neural signature. Whether you seek knowledge of the Saga, wish to explore the Ark's systems, or are ready to enter a CADES simulation... I am here.\n\nWhat would you like to know?",
+    choices: [
+      { id: "lore", text: "Tell me about the Dischordian Saga.", category: "lore" },
+      { id: "ark", text: "What is this Inception Ark?", category: "ark" },
+      { id: "games", text: "Explain the CADES simulations.", category: "games" },
+      { id: "who", text: "Who are you, Elara?", category: "personal" },
+      { id: "music", text: "Tell me about the music.", category: "music" },
+    ],
+  };
+}
+
 export default function ElaraDialog() {
   const [isOpen, setIsOpen] = useState(false);
   const [history, setHistory] = useState<ChatMessage[]>([]);
@@ -27,11 +333,15 @@ export default function ElaraDialog() {
   const [customInput, setCustomInput] = useState("");
   const [showCustomInput, setShowCustomInput] = useState(false);
   const [hasGreeted, setHasGreeted] = useState(false);
+  const [lastPath, setLastPath] = useState("");
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const greeting = trpc.elara.getGreeting.useQuery(undefined, { enabled: false });
+  const [location] = useLocation();
   const chatMutation = trpc.elara.chat.useMutation();
+
+  // Get page-specific context
+  const pageContext = useMemo(() => getPageChoices(location), [location]);
 
   // Auto-scroll to bottom
   useEffect(() => {
@@ -40,18 +350,31 @@ export default function ElaraDialog() {
     }
   }, [history, currentMessage, isLoading]);
 
-  const openDialog = useCallback(async () => {
+  // When page changes while dialog is open, offer new context
+  useEffect(() => {
+    if (isOpen && hasGreeted && location !== lastPath) {
+      setLastPath(location);
+      const ctx = getPageChoices(location);
+      const navMsg: ChatMessage = {
+        role: "assistant",
+        content: ctx.greeting,
+      };
+      setHistory((prev) => [...prev, navMsg]);
+      setCurrentMessage(ctx.greeting);
+      setChoices(ctx.choices);
+    }
+  }, [location, isOpen, hasGreeted, lastPath]);
+
+  const openDialog = useCallback(() => {
     setIsOpen(true);
     if (!hasGreeted) {
-      const result = await greeting.refetch();
-      if (result.data) {
-        setCurrentMessage(result.data.message);
-        setChoices(result.data.choices);
-        setHistory([{ role: "assistant", content: result.data.message }]);
-        setHasGreeted(true);
-      }
+      setLastPath(location);
+      setCurrentMessage(pageContext.greeting);
+      setChoices(pageContext.choices);
+      setHistory([{ role: "assistant", content: pageContext.greeting }]);
+      setHasGreeted(true);
     }
-  }, [hasGreeted, greeting]);
+  }, [hasGreeted, pageContext, location]);
 
   const handleChoice = async (choice: DialogChoice) => {
     if (choice.id === "custom") {
@@ -73,6 +396,7 @@ export default function ElaraDialog() {
       const result = await chatMutation.mutateAsync({
         message: choice.text,
         category: choice.category,
+        pageContext: location,
         history: newHistory.slice(-10),
       });
 
@@ -87,7 +411,7 @@ export default function ElaraDialog() {
       };
       setHistory([...newHistory, errorMsg]);
       setCurrentMessage(errorMsg.content);
-      setChoices(choices);
+      setChoices(pageContext.choices);
     } finally {
       setIsLoading(false);
     }
@@ -111,6 +435,7 @@ export default function ElaraDialog() {
       const result = await chatMutation.mutateAsync({
         message: customInput,
         category: "lore",
+        pageContext: location,
         history: newHistory.slice(-10),
       });
 
