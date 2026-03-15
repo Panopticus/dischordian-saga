@@ -85,7 +85,7 @@ export default function CardBrowserPage() {
         <div className="px-4 sm:px-6 py-4">
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-3">
-              <Link href="/" className="text-muted-foreground hover:text-primary transition-colors">
+              <Link href="/games" className="text-muted-foreground hover:text-primary transition-colors">
                 <ChevronLeft size={18} />
               </Link>
               <div>

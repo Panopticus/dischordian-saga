@@ -303,7 +303,7 @@ export default function InceptionArkPage() {
       <div className="border-b border-primary/15 bg-card/40 backdrop-blur-sm">
         <div className="max-w-5xl mx-auto px-4 py-4">
           <div className="flex items-center gap-3">
-            <Link href="/" className="text-muted-foreground hover:text-primary transition-colors">
+            <Link href="/games" className="text-muted-foreground hover:text-primary transition-colors">
               <ChevronLeft size={18} />
             </Link>
             <div className="flex-1">

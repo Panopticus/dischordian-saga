@@ -961,7 +961,7 @@ function DoomScrollPanel({ theme }: { theme: any }) {
         <div className="flex items-center gap-2">
           <Newspaper size={16} className="text-orange-400" />
           <h3 className="font-display text-xs font-bold tracking-wider text-orange-400">DOOM SCROLL</h3>
-          <span className="font-mono text-[8px] opacity-30">CONFIRMING THE END TIMES</span>
+          <span className="font-mono text-[8px]" style={{ color: "rgba(255,255,255,0.4)" }}>CONFIRMING THE END TIMES</span>
         </div>
         <button
           onClick={handleRefresh}
@@ -1027,7 +1027,7 @@ function DoomScrollPanel({ theme }: { theme: any }) {
         <div className="rounded-lg p-4 text-center" style={{ background: theme.panel, border: "1px solid #ef444430" }}>
           <Skull size={24} className="mx-auto mb-2 text-red-400" />
           <p className="font-mono text-[10px] text-red-400">TRANSMISSION INTERRUPTED</p>
-          <p className="font-mono text-[9px] opacity-40 mt-1">Failed to receive doom feed. Try refreshing.</p>
+          <p className="font-mono text-[9px] mt-1" style={{ color: "rgba(255,255,255,0.5)" }}>Failed to receive doom feed. Try refreshing.</p>
         </div>
       )}
 
@@ -1069,16 +1069,16 @@ function DoomScrollPanel({ theme }: { theme: any }) {
                   <span className="font-mono text-[8px] tracking-wider" style={{ color: catColor }}>
                     {CATEGORY_LABELS[story.category] || story.category.toUpperCase()}
                   </span>
-                  <span className="font-mono text-[8px] opacity-20 ml-auto">{story.source}</span>
+                  <span className="font-mono text-[8px] ml-auto" style={{ color: "rgba(255,255,255,0.35)" }}>{story.source}</span>
                 </div>
 
                 {/* Headline */}
-                <h4 className="font-display text-xs font-bold leading-tight mb-1" style={{ color: expanded ? catColor : theme.text }}>
+                <h4 className="font-display text-xs font-bold leading-tight mb-1" style={{ color: expanded ? catColor : "#ffffff", textShadow: expanded ? `0 0 10px ${catColor}60` : "0 0 8px rgba(255,255,255,0.15)" }}>
                   {story.headline}
                 </h4>
 
                 {/* Summary (always visible) */}
-                <p className="font-mono text-[10px] opacity-50 leading-relaxed">
+                <p className="font-mono text-[10px] leading-relaxed" style={{ color: "rgba(255,255,255,0.75)" }}>
                   {story.summary}
                 </p>
 
@@ -1105,7 +1105,7 @@ function DoomScrollPanel({ theme }: { theme: any }) {
                 </AnimatePresence>
 
                 {/* Timestamp */}
-                <p className="font-mono text-[8px] opacity-20 mt-1.5">
+                <p className="font-mono text-[8px] mt-1.5" style={{ color: "rgba(255,255,255,0.3)" }}>
                   {new Date(story.timestamp).toLocaleString()}
                 </p>
               </motion.div>
@@ -1117,7 +1117,7 @@ function DoomScrollPanel({ theme }: { theme: any }) {
       {/* Auto-refresh timer */}
       {!isLoading && stories && stories.length > 0 && (
         <div className="mt-4 pt-3 text-center" style={{ borderTop: `1px solid ${theme.primary}10` }}>
-          <p className="font-mono text-[8px] opacity-20">
+          <p className="font-mono text-[8px]" style={{ color: "rgba(255,255,255,0.3)" }}>
             Feed auto-refreshes every 5 minutes. Click REFRESH FEED for new transmissions.
           </p>
         </div>

@@ -230,3 +230,15 @@
 - [x] Add PWA standalone mode adjustments
 - [x] Disable hover effects on touch devices
 - [x] Reduce heavy animations on mobile for performance
+
+## Phase 9: Navigation Simplification + SagaVerse Games Hub
+- [x] Simplify sidebar into logical groups (C.A.D.E.S., The Lore, The Media, SagaVerse Games, Your Citizen)
+- [x] Create SagaVerse Games hub page with all game tiles
+- [x] Add SagaVerse Games tab to sidebar and mobile bottom nav
+- [x] Fix doom scroll feed text — white/glowing headlines, brighter summaries
+- [x] Make Home page feed text brighter and more readable
+- [x] Ensure Card Game has clear entry point (ENTER THE STRUGGLE → faction → difficulty → battle)
+- [x] Ensure Trade Wars has clear entry point (AUTHENTICATE → boot → terminal)
+- [x] Update game back-links to point to /games hub
+- [x] Update mobile bottom nav to: Home, Lore, Games, Media, Store
+- [x] Collapsible nav groups with active state highlighting

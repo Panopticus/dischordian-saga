@@ -842,8 +842,8 @@ export default function TradeWarsPage() {
       {/* Header bar */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between px-3 sm:px-4 py-2 bg-gray-900/80 border-b border-cyan-500/20 gap-1">
         <div className="flex items-center gap-2 sm:gap-3">
-          <Link href="/ark" className="text-cyan-400 font-mono text-[10px] sm:text-xs hover:text-cyan-300 transition-colors">
-            ← ARK
+          <Link href="/games" className="text-cyan-400 font-mono text-[10px] sm:text-xs hover:text-cyan-300 transition-colors">
+            ← GAMES
           </Link>
           <span className="text-gray-600 font-mono text-[10px] sm:text-xs">|</span>
           <span className="text-cyan-500 font-mono text-[10px] sm:text-xs tracking-wider">TRADE WARS</span>

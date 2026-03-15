@@ -278,11 +278,11 @@ export default function CardGamePage() {
             </Link>
 
             <Link
-              href="/"
+              href="/games"
               className="w-full flex items-center justify-center px-5 py-3 rounded-lg bg-secondary/30 border border-border/20 text-muted-foreground font-mono text-xs hover:text-foreground transition-all"
             >
               <ChevronLeft size={14} className="mr-1" />
-              BACK TO LOREDEX
+              BACK TO GAMES
             </Link>
           </motion.div>
         </motion.div>

@@ -4,29 +4,75 @@ import { useLoredex } from "@/contexts/LoredexContext";
 import { usePlayer } from "@/contexts/PlayerContext";
 import {
   Search, Menu, X, Map, Music, Users, MapPin, Swords, Clock,
-  ChevronRight, Terminal, Disc3, Shield, Tv, BarChart3, Gamepad2, Trophy, Crosshair,
-  Home, Rocket, Store, ScrollText
+  ChevronRight, ChevronDown, Terminal, Disc3, Shield, Tv, BarChart3, Gamepad2, Trophy, Crosshair,
+  Home, Rocket, Store, ScrollText, FlaskConical, Ship, Crown
 } from "lucide-react";
 import { useGamification } from "@/contexts/GamificationContext";
 import { Progress } from "@/components/ui/progress";
 import { motion, AnimatePresence } from "framer-motion";
 
-const NAV_ITEMS = [
-  { path: "/", label: "DASHBOARD", icon: Terminal },
-  { path: "/console", label: "INCEPTION ARK", icon: Crosshair },
-  { path: "/watch", label: "WATCH THE SHOW", icon: Tv },
-  { path: "/board", label: "CONSPIRACY BOARD", icon: Map },
-  { path: "/character-timeline", label: "CHARACTER TIMELINE", icon: BarChart3 },
-  { path: "/timeline", label: "ERA TIMELINE", icon: Clock },
-  { path: "/search", label: "SEARCH DATABASE", icon: Search },
-  { path: "/fight", label: "COMBAT SIMULATOR", icon: Gamepad2 },
-];
+/* ─── NAVIGATION STRUCTURE ─── */
+interface NavItem {
+  path: string;
+  label: string;
+  icon: typeof Terminal;
+}
 
-const ENTITY_TYPES = [
-  { type: "character", label: "CHARACTERS", icon: Users },
-  { type: "location", label: "LOCATIONS", icon: MapPin },
-  { type: "faction", label: "FACTIONS", icon: Swords },
-  { type: "song", label: "SONGS", icon: Music },
+interface NavGroup {
+  label: string;
+  items: NavItem[];
+  defaultOpen?: boolean;
+}
+
+const NAV_GROUPS: NavGroup[] = [
+  {
+    label: "C.A.D.E.S.",
+    defaultOpen: true,
+    items: [
+      { path: "/", label: "DASHBOARD", icon: Home },
+      { path: "/console", label: "ARK CONSOLE", icon: Crosshair },
+    ],
+  },
+  {
+    label: "THE LORE",
+    defaultOpen: true,
+    items: [
+      { path: "/search", label: "SEARCH DATABASE", icon: Search },
+      { path: "/board", label: "CONSPIRACY BOARD", icon: Map },
+      { path: "/character-timeline", label: "CHARACTER TIMELINE", icon: BarChart3 },
+      { path: "/timeline", label: "ERA TIMELINE", icon: Clock },
+    ],
+  },
+  {
+    label: "THE MEDIA",
+    defaultOpen: true,
+    items: [
+      { path: "/watch", label: "WATCH THE SHOW", icon: Tv },
+    ],
+  },
+  {
+    label: "SAGAVERSE GAMES",
+    defaultOpen: true,
+    items: [
+      { path: "/games", label: "ALL GAMES", icon: Gamepad2 },
+      { path: "/cards/play", label: "CARD GAME", icon: ScrollText },
+      { path: "/trade-wars", label: "TRADE WARS", icon: Ship },
+      { path: "/fight", label: "COMBAT SIMULATOR", icon: Swords },
+      { path: "/ark", label: "INCEPTION ARK", icon: Rocket },
+      { path: "/cards", label: "CARD BROWSER", icon: Crown },
+      { path: "/deck-builder", label: "DECK BUILDER", icon: Shield },
+      { path: "/research-lab", label: "RESEARCH LAB", icon: FlaskConical },
+      { path: "/trophy", label: "TROPHY ROOM", icon: Trophy },
+    ],
+  },
+  {
+    label: "YOUR CITIZEN",
+    defaultOpen: true,
+    items: [
+      { path: "/character-sheet", label: "CHARACTER SHEET", icon: Users },
+      { path: "/store", label: "STORE", icon: Store },
+    ],
+  },
 ];
 
 const ALBUMS = [
@@ -36,6 +82,69 @@ const ALBUMS = [
   { slug: "silence-in-heaven", label: "Silence in Heaven" },
 ];
 
+/* ─── COLLAPSIBLE NAV GROUP ─── */
+function NavGroupSection({ group, location, onNavigate }: { group: NavGroup; location: string; onNavigate: () => void }) {
+  const [open, setOpen] = useState(group.defaultOpen ?? true);
+
+  // Check if any item in this group is active
+  const hasActive = group.items.some(item => {
+    if (item.path === "/") return location === "/";
+    return location.startsWith(item.path);
+  });
+
+  return (
+    <div className="mb-1">
+      <button
+        onClick={() => setOpen(!open)}
+        className={`w-full flex items-center justify-between px-3 py-1.5 font-mono text-[9px] tracking-[0.25em] uppercase transition-colors ${
+          hasActive ? "text-primary/80" : "text-muted-foreground/40 hover:text-muted-foreground/60"
+        }`}
+      >
+        {group.label}
+        <ChevronDown
+          size={10}
+          className={`transition-transform duration-200 ${open ? "" : "-rotate-90"}`}
+        />
+      </button>
+      <AnimatePresence initial={false}>
+        {open && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="overflow-hidden"
+          >
+            <div className="space-y-0.5 pb-1">
+              {group.items.map((item) => {
+                const Icon = item.icon;
+                const active = item.path === "/"
+                  ? location === "/"
+                  : location === item.path || location.startsWith(item.path + "/");
+                return (
+                  <Link
+                    key={item.path}
+                    href={item.path}
+                    onClick={onNavigate}
+                    className={`flex items-center gap-2.5 px-3 py-2 rounded-md text-[11px] font-mono tracking-wider transition-all ${
+                      active
+                        ? "bg-primary/10 text-primary border border-primary/25 box-glow-cyan"
+                        : "text-muted-foreground hover:text-foreground hover:bg-secondary/50"
+                    }`}
+                  >
+                    <Icon size={13} />
+                    {item.label}
+                  </Link>
+                );
+              })}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
+
 export default function AppShell({ children }: { children: ReactNode }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [location] = useLocation();
@@ -44,6 +153,8 @@ export default function AppShell({ children }: { children: ReactNode }) {
   const { showPlayer } = usePlayer();
 
   const clearanceLevel = discoveryProgress < 10 ? "LEVEL 1" : discoveryProgress < 30 ? "LEVEL 2" : discoveryProgress < 60 ? "LEVEL 3" : discoveryProgress < 90 ? "LEVEL 4" : "LEVEL 5";
+
+  const handleNavigate = () => setSidebarOpen(false);
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -111,63 +222,23 @@ export default function AppShell({ children }: { children: ReactNode }) {
             sidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
           }`}
         >
-          {/* Main Nav */}
-          <nav className="p-2.5 space-y-0.5">
-            {NAV_ITEMS.map((item) => {
-              const Icon = item.icon;
-              const active = location === item.path;
-              return (
-                <Link
-                  key={item.path}
-                  href={item.path}
-                  onClick={() => setSidebarOpen(false)}
-                  className={`flex items-center gap-2.5 px-3 py-2 rounded-md text-[11px] font-mono tracking-wider transition-all ${
-                    active
-                      ? "bg-primary/10 text-primary border border-primary/25 box-glow-cyan"
-                      : "text-muted-foreground hover:text-foreground hover:bg-secondary/50"
-                  }`}
-                >
-                  <Icon size={13} />
-                  {item.label}
-                </Link>
-              );
-            })}
+          {/* Nav Groups */}
+          <nav className="pt-2 px-1.5">
+            {NAV_GROUPS.map((group) => (
+              <NavGroupSection
+                key={group.label}
+                group={group}
+                location={location}
+                onNavigate={handleNavigate}
+              />
+            ))}
           </nav>
 
           <div className="mx-3 my-1.5">
             <div className="h-px bg-border/20" />
           </div>
 
-          {/* Entity Types */}
-          <div className="px-2.5">
-            <p className="font-mono text-[9px] text-muted-foreground/40 tracking-[0.3em] mb-1.5 px-3 uppercase">
-              Entity Database
-            </p>
-            {ENTITY_TYPES.map((et) => {
-              const Icon = et.icon;
-              const count = getByType(et.type).length;
-              return (
-                <Link
-                  key={et.type}
-                  href={`/search?type=${et.type}`}
-                  onClick={() => setSidebarOpen(false)}
-                  className="flex items-center justify-between px-3 py-1.5 rounded-md text-[11px] font-mono text-muted-foreground hover:text-foreground hover:bg-secondary/40 transition-all group"
-                >
-                  <span className="flex items-center gap-2">
-                    <Icon size={11} className="opacity-60 group-hover:opacity-100" />
-                    {et.label}
-                  </span>
-                  <span className="text-[9px] text-muted-foreground/30 group-hover:text-muted-foreground/60 tabular-nums">{count}</span>
-                </Link>
-              );
-            })}
-          </div>
-
-          <div className="mx-3 my-1.5">
-            <div className="h-px bg-border/20" />
-          </div>
-
-          {/* Albums */}
+          {/* Discography */}
           <div className="px-2.5 pb-4">
             <p className="font-mono text-[9px] text-muted-foreground/40 tracking-[0.3em] mb-1.5 px-3 uppercase">
               Discography
@@ -176,7 +247,7 @@ export default function AppShell({ children }: { children: ReactNode }) {
               <Link
                 key={album.slug}
                 href={`/album/${album.slug}`}
-                onClick={() => setSidebarOpen(false)}
+                onClick={handleNavigate}
                 className="flex items-center justify-between px-3 py-1.5 rounded-md text-[11px] font-mono text-muted-foreground hover:text-foreground hover:bg-secondary/40 transition-all group"
               >
                 <span className="flex items-center gap-2">
@@ -248,13 +319,15 @@ export default function AppShell({ children }: { children: ReactNode }) {
         <div className="flex items-center justify-around h-14 px-1">
           {[
             { path: "/", label: "Home", icon: Home },
-            { path: "/ark", label: "Ark", icon: Rocket },
-            { path: "/cards", label: "Cards", icon: ScrollText },
+            { path: "/search", label: "Lore", icon: Search },
+            { path: "/games", label: "Games", icon: Gamepad2 },
+            { path: "/watch", label: "Media", icon: Tv },
             { path: "/store", label: "Store", icon: Store },
-            { path: "/search", label: "Search", icon: Search },
           ].map((item) => {
             const Icon = item.icon;
-            const active = location === item.path;
+            const active = item.path === "/"
+              ? location === "/"
+              : location === item.path || location.startsWith(item.path + "/");
             return (
               <Link
                 key={item.path}

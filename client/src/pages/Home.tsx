@@ -171,7 +171,7 @@ function SignalHeader({ stats }: { stats: Record<string, number> }) {
         {/* Scrolling ticker */}
         <div className="overflow-hidden h-4 relative">
           <motion.div
-            className="absolute whitespace-nowrap font-mono text-[9px] text-muted-foreground/70"
+            className="absolute whitespace-nowrap font-mono text-[9px] text-muted-foreground"
             animate={{ x: [0, -1200] }}
             transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
           >
@@ -245,7 +245,7 @@ function DossierCard({ entry, index, onDiscover }: { entry: LoredexEntry; index:
 
             {/* Content */}
             <div className="flex-1 min-w-0">
-              <h3 className="font-mono text-sm font-bold text-foreground group-hover:text-primary transition-colors truncate">
+              <h3 className="font-mono text-sm font-bold text-white group-hover:text-primary transition-colors truncate" style={{ textShadow: "0 0 6px rgba(255,255,255,0.1)" }}>
                 {entry.name}
               </h3>
 
@@ -267,7 +267,7 @@ function DossierCard({ entry, index, onDiscover }: { entry: LoredexEntry; index:
 
               {/* Redacted bio preview */}
               {entry.bio && (
-                <p className="font-mono text-[10px] text-muted-foreground/80 mt-1.5 line-clamp-2 leading-relaxed">
+                <p className="font-mono text-[10px] text-muted-foreground mt-1.5 line-clamp-2 leading-relaxed">
                   {entry.bio.substring(0, 100)}{entry.bio.length > 100 ? "..." : ""}
                 </p>
               )}
@@ -343,21 +343,21 @@ function AlbumCard({ album, tracks, index }: { album: { slug: string; name: stri
 
             {/* Info */}
             <div className="flex-1 min-w-0">
-              <h3 className="font-mono text-sm font-bold text-foreground group-hover:text-accent transition-colors">
+              <h3 className="font-mono text-sm font-bold text-white group-hover:text-accent transition-colors">
                 {album.name}
               </h3>
-              <div className="font-mono text-[9px] text-muted-foreground/70 mt-1">
+              <div className="font-mono text-[9px] text-muted-foreground mt-1">
                 {album.tracks} TRACKS INTERCEPTED
               </div>
               {/* Mini track list */}
               <div className="mt-2 space-y-0.5">
                 {tracks.slice(0, 3).map((t, i) => (
-                  <div key={t.id} className="font-mono text-[9px] text-muted-foreground/60 truncate">
+                  <div key={t.id} className="font-mono text-[9px] text-muted-foreground/80 truncate">
                     {String(i + 1).padStart(2, "0")}. {t.name}
                   </div>
                 ))}
                 {tracks.length > 3 && (
-                  <div className="font-mono text-[9px] text-muted-foreground/50">
+                  <div className="font-mono text-[9px] text-muted-foreground/70">
                     +{tracks.length - 3} more...
                   </div>
                 )}
@@ -538,15 +538,12 @@ export default function Home() {
       {/* ═══ QUICK ACTIONS — Horizontal scroll pills ═══ */}
       <div className="px-4 pt-4 pb-2">
         <div className="flex gap-2 overflow-x-auto no-scrollbar pb-1">
-          <ActionPill href="/board" icon={<Map size={12} />} label="BOARD" color="border-primary/30 bg-primary/5 text-primary hover:bg-primary/10" />
+          <ActionPill href="/games" icon={<Gamepad2 size={12} />} label="GAMES" color="border-primary/30 bg-primary/5 text-primary hover:bg-primary/10" />
+          <ActionPill href="/board" icon={<Map size={12} />} label="BOARD" color="border-border/30 bg-secondary/50 text-foreground hover:bg-secondary" />
           <ActionPill href="/search" icon={<Search size={12} />} label="SEARCH" color="border-border/30 bg-secondary/50 text-foreground hover:bg-secondary" />
-          <ActionPill href="/fight" icon={<Gamepad2 size={12} />} label="FIGHT" color="border-destructive/30 bg-destructive/5 text-destructive hover:bg-destructive/10" />
-          <ActionPill href="/timeline" icon={<Clock size={12} />} label="TIMELINE" color="border-accent/30 bg-accent/5 text-accent hover:bg-accent/10" />
           <ActionPill href="/watch" icon={<Tv size={12} />} label="WATCH" color="border-chart-4/30 bg-chart-4/5 text-chart-4 hover:bg-chart-4/10" />
+          <ActionPill href="/timeline" icon={<Clock size={12} />} label="TIMELINE" color="border-accent/30 bg-accent/5 text-accent hover:bg-accent/10" />
           <ActionPill href="/console" icon={<Crosshair size={12} />} label="CONSOLE" color="border-chart-5/30 bg-chart-5/5 text-chart-5 hover:bg-chart-5/10" />
-          <ActionPill href="/cards" icon={<Crown size={12} />} label="CARDS" color="border-amber-500/30 bg-amber-500/5 text-amber-400 hover:bg-amber-500/10" />
-          <ActionPill href="/ark" icon={<Shield size={12} />} label="ARK" color="border-purple-500/30 bg-purple-500/5 text-purple-400 hover:bg-purple-500/10" />
-          <ActionPill href="/trophy" icon={<Crown size={12} />} label="TROPHIES" color="border-pink-500/30 bg-pink-500/5 text-pink-400 hover:bg-pink-500/10" />
         </div>
       </div>
 
@@ -679,12 +676,12 @@ export default function Home() {
         {/* ═══ END OF FEED ═══ */}
         <div className="py-8 text-center">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-border/30 bg-card/50">
-            <WifiOff size={12} className="text-muted-foreground/30" />
-            <span className="font-mono text-[9px] text-muted-foreground/60 tracking-wider">
+            <WifiOff size={12} className="text-muted-foreground/50" />
+            <span className="font-mono text-[9px] text-muted-foreground tracking-wider">
               END OF TRANSMISSION
             </span>
           </div>
-          <div className="font-mono text-[8px] text-muted-foreground/40 mt-3 tracking-wider">
+          <div className="font-mono text-[8px] text-muted-foreground/60 mt-3 tracking-wider">
             THE PANOPTICON IS WATCHING
           </div>
         </div>
