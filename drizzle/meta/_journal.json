@@ -15,6 +15,13 @@
       "when": 1773494799264,
       "tag": "0001_slippery_madame_masque",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1773541658313,
+      "tag": "0002_clean_naoko",
+      "breakpoints": true
     }
   ]
 }

@@ -54,3 +54,33 @@
 - [x] Add character-specific clothing, armor, hair, and accessories (using actual artwork)
 - [x] Implement anime/toon shading (cel-shaded look) for all characters (custom shader with glow outline)
 - [x] Add glowing effects, energy auras, and character-specific visual flair (glow outline + energy particles)
+
+## Phase 2: Dischordian Saga Card Game Ecosystem
+- [x] Research VTES (Vampire: The Eternal Struggle) card game rules and mechanics
+- [x] Research Trade Wars BBS game mechanics and gameplay loop
+- [x] Scrape Degenerous DAO wiki for all lore, NFT data, and character info
+- [x] Scrape NFT metadata for potentials, levels, perks, power levels
+- [x] Design database schema for cards, users, decks, game state, Inception Ark, Trade Wars
+- [ ] Build user authentication system (email + Gmail OAuth signup/login)
+- [ ] Build admin panel for content management
+- [ ] Build user character sheets with stats, inventory, and progression
+- [x] Create 1000+ card database (characters, events, items, locations) — 3000 cards seeded
+- [x] Assign alignment system (Order 80% / Chaos 20%)
+- [x] Assign fundamental elements (Earth/Space 40%, Fire/Time 30%, Water/Probability 20%, Air/Reality 10%)
+- [x] Assign classes (Spy, Oracle, Assassin, Engineer, Soldier)
+- [x] Assign rarity values to all cards
+- [x] Integrate NFT metadata (potentials, first 10 are Neyons, perks, power levels)
+- [ ] Build card game UI with VTES-inspired rules
+- [ ] Build card attack animations and combat system
+- [ ] Build Inception Ark explorable map with unlockable areas
+- [ ] Build trophy room with unlockable display themes
+- [ ] Build Trade Wars-style BBS game tied to card system
+- [ ] Integrate card unlocking through official content participation
+- [ ] Connect fighting game as invasion mechanic within card game
+- [ ] Create histories for all characters based on lore appearances
+- [x] Expand card database from ~1000 to 3000 cards (1000 per season)
+- [x] Create all 1000 Potential NFT cards as individual entries
+- [x] Map Potentials to their story appearances from the Loredex
+- [x] Season 1 set: Dischordian Logic / Age of Privacy era
+- [x] Season 2 set: Book of Daniel / Age of Revelation era
+- [x] Season 3 set: Silence in Heaven / Fall of Reality era
