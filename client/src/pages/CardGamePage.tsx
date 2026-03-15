@@ -10,7 +10,7 @@ import {
   Sparkles, Trophy, Target, Crosshair, Layers,
   SkipForward, Volume2, VolumeX
 } from "lucide-react";
-import { getLoginUrl } from "@/const";
+// import { getLoginUrl } from "@/const";
 import {
   BattleState, BattleCard, Faction, Lane, AIDifficulty,
   createBattle, deployCard, drawCards, resolveCombat,
@@ -118,7 +118,7 @@ const TUTORIAL_STEPS: TutorialStep[] = [
 ];
 
 export default function CardGamePage() {
-  const { user, isAuthenticated } = useAuth();
+  const { user } = useAuth();
   const [screen, setScreen] = useState<GameScreen>("menu");
   const [tutorialStep, setTutorialStep] = useState(0);
   const [selectedFaction, setSelectedFaction] = useState<Faction | null>(null);
@@ -137,7 +137,7 @@ export default function CardGamePage() {
   // Fetch cards for deck building
   const { data: allCards } = trpc.cardGame.browse.useQuery({
     page: 1,
-    limit: 200,
+    limit: 100,
     cardType: "character",
     sortBy: "power",
     sortDir: "desc",
@@ -279,28 +279,19 @@ export default function CardGamePage() {
             transition={{ delay: 0.4 }}
             className="space-y-3"
           >
-            {isAuthenticated ? (
-              <button
-                onClick={() => setScreen("factionSelect")}
-                className="w-full flex items-center justify-between px-5 py-4 rounded-lg bg-primary/10 border border-primary/40 text-primary font-mono text-sm hover:bg-primary/20 hover:shadow-[0_0_20px_rgba(34,211,238,0.15)] transition-all group"
-              >
-                <div className="flex items-center gap-3">
-                  <Swords size={18} />
-                  <div className="text-left">
-                    <p className="font-display text-sm tracking-wider">ENTER THE STRUGGLE</p>
-                    <p className="text-[10px] text-primary/60">Choose faction → Difficulty → Battle</p>
-                  </div>
+            <button
+              onClick={() => setScreen("factionSelect")}
+              className="w-full flex items-center justify-between px-5 py-4 rounded-lg bg-primary/10 border border-primary/40 text-primary font-mono text-sm hover:bg-primary/20 hover:shadow-[0_0_20px_rgba(34,211,238,0.15)] transition-all group"
+            >
+              <div className="flex items-center gap-3">
+                <Swords size={18} />
+                <div className="text-left">
+                  <p className="font-display text-sm tracking-wider">ENTER THE STRUGGLE</p>
+                  <p className="text-[10px] text-primary/60">Choose faction → Difficulty → Battle</p>
                 </div>
-                <ChevronRight size={16} className="opacity-0 group-hover:opacity-100 transition-opacity" />
-              </button>
-            ) : (
-              <a
-                href={getLoginUrl()}
-                className="w-full flex items-center justify-center px-5 py-4 rounded-lg bg-primary/10 border border-primary/40 text-primary font-mono text-sm hover:bg-primary/20 transition-all"
-              >
-                LOGIN TO PLAY
-              </a>
-            )}
+              </div>
+              <ChevronRight size={16} className="opacity-0 group-hover:opacity-100 transition-opacity" />
+            </button>
 
             <Link
               href="/deck-builder"

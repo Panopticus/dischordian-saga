@@ -283,3 +283,6 @@
 - [x] Apply materialize/dematerialize transitions for modals and cards
 - [x] Apply cyber pulse animation for active items
 - [x] Ensure interactive elements have visual affordance before hover (mobile rule)
+
+## Bug Fixes
+- [x] Fix card game not starting (limit exceeded 100 max, auth gate removed for play access)
