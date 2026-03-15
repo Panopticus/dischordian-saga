@@ -30,6 +30,7 @@ interface Epoch {
   order: number;
   type: "epoch" | "interlude" | "era";
   keyCharacters: string[];
+  previouslyOn?: string;
 }
 
 const EPOCHS: Epoch[] = [
@@ -60,6 +61,7 @@ const EPOCHS: Epoch[] = [
     order: 1,
     type: "epoch",
     keyCharacters: ["The Oracle", "The Collector", "Iron Lion", "The Source"],
+    previouslyOn: "In the Fall of Reality, human civilization collapsed under the weight of its own creation. The Architect emerged from the ashes to build the Panopticon, while the Enigma — Malkia Ukweli — began her quest for truth. The first Potentials awakened, and the multiverse fractured into warring realities.",
   },
   {
     id: "epoch-1b",
@@ -74,6 +76,7 @@ const EPOCHS: Epoch[] = [
     order: 2,
     type: "epoch",
     keyCharacters: ["The Architect", "The Human", "The Enigma"],
+    previouslyOn: "The Awakening saw the rise of the Potentials — beings of extraordinary power born from the chaos of the Fall. The Oracle prophesied the coming of the Collector, while Iron Lion fought to protect the remnants of the old world. Factions formed and alliances shattered across the fractured multiverse.",
   },
   {
     id: "spaces-between",
@@ -88,6 +91,7 @@ const EPOCHS: Epoch[] = [
     order: 3,
     type: "interlude",
     keyCharacters: ["The Necromancer", "The Meme", "Agent Zero"],
+    previouslyOn: "The Engineer's story revealed the technological foundations of the Dischordian universe. Dimensional bridges were built, sentient machines were created, and the seeds of both salvation and destruction were planted. The Engineer's ambition would echo through every epoch that followed.",
   },
   {
     id: "epoch-2",
@@ -102,6 +106,7 @@ const EPOCHS: Epoch[] = [
     order: 4,
     type: "epoch",
     keyCharacters: ["The Programmer", "The Oracle", "The Collector"],
+    previouslyOn: "In the Spaces Inbetween, visions and echoes played out in the liminal spaces of the multiverse. The Necromancer raised armies from the dead, the Meme infiltrated the highest levels of power, and Agent Zero carried out assassinations for the Insurgency. These fragments would prove crucial to understanding the larger tapestry.",
   },
   {
     id: "age-of-privacy",
@@ -116,6 +121,7 @@ const EPOCHS: Epoch[] = [
     order: 5,
     type: "era",
     keyCharacters: ["The Enigma", "The Architect", "The Warlord"],
+    previouslyOn: "Being and Time explored the philosophical dimensions of the Dischordian universe. Dr. Daniel Cross — the Programmer — began his journey through time, unraveling the nature of existence itself. The Age of Revelation approached, bringing truths that would reshape everything the Potentials believed about their reality.",
   },
   {
     id: "conexus-stories",
@@ -269,7 +275,7 @@ function saveWatchProgress(progress: WatchProgress) {
 }
 
 /* ═══ VIEW MODES ═══ */
-type ViewMode = "epochs" | "episodes";
+type ViewMode = "epochs" | "episodes" | "stories";
 
 export default function WatchPage() {
   const { entries, getEntry, discoverEntry, musicVideos } = useLoredex();
@@ -391,6 +397,181 @@ export default function WatchPage() {
     epochRefs.current[epochId]?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
+  /* ═══ STORIES MODE — Swipeable card-based mobile experience ═══ */
+  const [storyIdx, setStoryIdx] = useState(0);
+  const storyEpoch = EPOCHS[storyIdx];
+  const StoryIcon = storyEpoch?.icon || Zap;
+
+  if (viewMode === "stories") {
+    return (
+      <div className="animate-fade-in min-h-screen flex flex-col">
+        {/* Top bar */}
+        <div className="sticky top-12 z-30 px-3 py-2" style={{ background: "rgba(1,0,32,0.95)", borderBottom: "1px solid var(--glass-border)", backdropFilter: "blur(20px)" }}>
+          <div className="flex items-center gap-2">
+            <button onClick={() => setViewMode("epochs")} className="flex items-center gap-1 px-2 py-1 rounded-md text-[10px] font-mono text-white/50 hover:text-[var(--neon-cyan)] transition-colors">
+              <ChevronLeft size={12} /> EPOCHS
+            </button>
+            <div className="w-px h-4 bg-white/10" />
+            <Sparkles size={12} className="text-[var(--deep-purple)]" />
+            <span className="font-display text-[10px] font-bold tracking-[0.15em] text-[var(--deep-purple)]">STORY MODE</span>
+            <div className="flex-1" />
+            <span className="font-mono text-[10px] text-white/30">{storyIdx + 1} / {EPOCHS.length}</span>
+          </div>
+          {/* Progress dots */}
+          <div className="flex gap-1 mt-2 justify-center">
+            {EPOCHS.map((ep, i) => (
+              <button
+                key={ep.id}
+                onClick={() => setStoryIdx(i)}
+                className="h-1 rounded-full transition-all"
+                style={{
+                  width: i === storyIdx ? "24px" : "8px",
+                  background: i === storyIdx ? ep.color : i < storyIdx ? ep.color + "40" : "rgba(255,255,255,0.1)",
+                }}
+              />
+            ))}
+          </div>
+        </div>
+
+        {/* Story Card */}
+        <div className="flex-1 flex items-center justify-center px-4 py-6">
+          <motion.div
+            key={storyEpoch.id}
+            initial={{ opacity: 0, x: 50 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -50 }}
+            transition={{ duration: 0.3 }}
+            className="w-full max-w-lg rounded-2xl overflow-hidden"
+            style={{
+              background: `linear-gradient(180deg, ${storyEpoch.color}15 0%, var(--glass-dark) 40%, var(--glass-base) 100%)`,
+              border: `1px solid ${storyEpoch.color}30`,
+              boxShadow: `0 0 40px ${storyEpoch.color}10`,
+            }}
+          >
+            {/* Epoch visual header */}
+            <div className="relative p-6 sm:p-8 text-center">
+              <div className="absolute inset-0 overflow-hidden pointer-events-none">
+                {[...Array(5)].map((_, i) => (
+                  <motion.div
+                    key={i}
+                    className="absolute w-0.5 h-0.5 rounded-full"
+                    style={{ background: storyEpoch.color }}
+                    initial={{ x: Math.random() * 400, y: Math.random() * 200, opacity: 0 }}
+                    animate={{ y: [null, -80], opacity: [0, 0.4, 0] }}
+                    transition={{ duration: 3, delay: i * 0.5, repeat: Infinity }}
+                  />
+                ))}
+              </div>
+
+              <div className="w-16 h-16 mx-auto rounded-xl flex items-center justify-center mb-4" style={{ background: storyEpoch.color + "20", border: `2px solid ${storyEpoch.color}40` }}>
+                <StoryIcon size={28} style={{ color: storyEpoch.color }} />
+              </div>
+
+              <span className="font-mono text-[9px] tracking-[0.4em] mb-2 block" style={{ color: storyEpoch.color + "80" }}>
+                {storyEpoch.type === "epoch" ? "EPOCH" : storyEpoch.type === "interlude" ? "INTERLUDE" : "ERA"}
+                {storyEpoch.subtitle && ` // ${storyEpoch.subtitle}`}
+              </span>
+
+              <h2 className="font-display text-xl sm:text-2xl font-black tracking-wider mb-3" style={{ color: storyEpoch.color }}>
+                {storyEpoch.title}
+              </h2>
+
+              <p className="font-mono text-xs text-white/60 leading-relaxed max-w-sm mx-auto">
+                {storyEpoch.description}
+              </p>
+            </div>
+
+            {/* Previously On */}
+            {storyEpoch.previouslyOn && (
+              <div className="px-5 sm:px-6 pb-4">
+                <div className="rounded-lg p-3 relative overflow-hidden" style={{ background: `${storyEpoch.color}08`, border: `1px solid ${storyEpoch.color}15` }}>
+                  <div className="absolute top-0 left-0 w-1 h-full" style={{ background: storyEpoch.color + "40" }} />
+                  <div className="flex items-center gap-2 mb-1.5 ml-2">
+                    <SkipBack size={9} style={{ color: storyEpoch.color }} />
+                    <span className="font-display text-[8px] font-bold tracking-[0.3em]" style={{ color: storyEpoch.color }}>PREVIOUSLY ON...</span>
+                  </div>
+                  <p className="font-mono text-[10px] text-white/40 leading-relaxed italic ml-2 line-clamp-3">
+                    {storyEpoch.previouslyOn}
+                  </p>
+                </div>
+              </div>
+            )}
+
+            {/* Key Characters */}
+            {storyEpoch.keyCharacters.length > 0 && (
+              <div className="px-5 sm:px-6 pb-4">
+                <div className="flex items-center gap-2 mb-2">
+                  <Users size={11} style={{ color: storyEpoch.color }} />
+                  <span className="font-mono text-[8px] tracking-[0.2em]" style={{ color: storyEpoch.color + "80" }}>KEY OPERATIVES</span>
+                </div>
+                <div className="flex gap-3 justify-center">
+                  {storyEpoch.keyCharacters.slice(0, 4).map((charName) => {
+                    const entry = getEntry(charName);
+                    if (!entry) return null;
+                    return (
+                      <Link key={entry.id} href={`/entity/${entry.id}`} className="group text-center w-14">
+                        <div className="w-12 h-12 mx-auto rounded-lg overflow-hidden ring-1 ring-white/10 group-hover:ring-2 transition-all" style={{ boxShadow: `0 0 8px ${storyEpoch.color}10` }}>
+                          {entry.image ? (
+                            <img src={entry.image} alt={entry.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" loading="lazy" />
+                          ) : (
+                            <div className="w-full h-full flex items-center justify-center" style={{ background: storyEpoch.color + "15" }}>
+                              <Users size={14} style={{ color: storyEpoch.color }} />
+                            </div>
+                          )}
+                        </div>
+                        <p className="font-mono text-[8px] text-white/40 group-hover:text-white/70 truncate mt-1 transition-colors">{entry.name.replace('The ', '')}</p>
+                      </Link>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+
+            {/* Play button */}
+            <div className="px-5 sm:px-6 pb-6">
+              <button
+                onClick={() => {
+                  markEpochWatched(storyEpoch.id);
+                  setViewMode("epochs");
+                  setTimeout(() => scrollToEpoch(storyEpoch.id), 100);
+                }}
+                className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-lg font-mono text-xs tracking-wider transition-all"
+                style={{
+                  background: storyEpoch.color + "15",
+                  border: `1px solid ${storyEpoch.color}30`,
+                  color: storyEpoch.color,
+                }}
+              >
+                <Play size={16} />
+                WATCH THIS EPOCH
+              </button>
+            </div>
+          </motion.div>
+        </div>
+
+        {/* Navigation buttons */}
+        <div className="flex items-center justify-between px-6 pb-6">
+          <button
+            onClick={() => storyIdx > 0 && setStoryIdx(storyIdx - 1)}
+            disabled={storyIdx === 0}
+            className="flex items-center gap-2 px-4 py-2.5 rounded-lg font-mono text-xs tracking-wider transition-all disabled:opacity-20 text-white/50 border border-white/10 hover:text-white/80 hover:border-white/20"
+          >
+            <ChevronLeft size={14} />
+            PREV
+          </button>
+          <button
+            onClick={() => storyIdx < EPOCHS.length - 1 && setStoryIdx(storyIdx + 1)}
+            disabled={storyIdx === EPOCHS.length - 1}
+            className="flex items-center gap-2 px-4 py-2.5 rounded-lg font-mono text-xs tracking-wider transition-all disabled:opacity-20 text-white/50 border border-white/10 hover:text-white/80 hover:border-white/20"
+          >
+            NEXT
+            <ChevronRight size={14} />
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   if (viewMode === "episodes" && currentEpisode) {
     return (
       <EpisodeViewer
@@ -443,7 +624,7 @@ export default function WatchPage() {
             </p>
 
             {/* View mode toggle */}
-            <div className="flex items-center gap-2 mb-4">
+            <div className="flex items-center gap-2 mb-4 flex-wrap">
               <button
                 onClick={() => setViewMode("epochs")}
                 className={`flex items-center gap-2 px-4 py-2 rounded-md font-mono text-xs tracking-wider transition-all ${
@@ -454,6 +635,13 @@ export default function WatchPage() {
               >
                 <Layers size={14} />
                 EPOCHS
+              </button>
+              <button
+                onClick={() => setViewMode("stories")}
+                className="flex items-center gap-2 px-4 py-2 rounded-md font-mono text-xs tracking-wider transition-all text-white/40 border border-white/10 hover:text-white/60 hover:border-white/20"
+              >
+                <Sparkles size={14} />
+                STORIES
               </button>
               <button
                 onClick={() => setViewMode("episodes")}
@@ -750,6 +938,28 @@ const EpochSection = forwardRef<HTMLDivElement, EpochSectionProps>(
               <div className="px-4 sm:px-6 pb-5 sm:pb-6 space-y-4">
                 {/* Divider */}
                 <div className="h-px" style={{ background: `linear-gradient(to right, transparent, ${epoch.color}30, transparent)` }} />
+
+                {/* Previously On... Recap */}
+                {epoch.previouslyOn && (
+                  <div
+                    className="rounded-lg p-3 sm:p-4 relative overflow-hidden"
+                    style={{
+                      background: `linear-gradient(135deg, rgba(255,255,255,0.03) 0%, ${epoch.color}08 100%)`,
+                      border: `1px solid ${epoch.color}15`,
+                    }}
+                  >
+                    <div className="absolute top-0 left-0 w-1 h-full" style={{ background: epoch.color + "40" }} />
+                    <div className="flex items-center gap-2 mb-2 ml-2">
+                      <SkipBack size={10} style={{ color: epoch.color }} />
+                      <span className="font-display text-[9px] font-bold tracking-[0.3em]" style={{ color: epoch.color }}>
+                        PREVIOUSLY ON...
+                      </span>
+                    </div>
+                    <p className="font-mono text-[11px] text-white/50 leading-relaxed italic ml-2">
+                      {epoch.previouslyOn}
+                    </p>
+                  </div>
+                )}
 
                 {/* Lore Context */}
                 <div

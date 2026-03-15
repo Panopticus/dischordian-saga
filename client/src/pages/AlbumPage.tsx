@@ -4,6 +4,7 @@ import { useRoute, Link } from "wouter";
 import { useEffect } from "react";
 import { motion } from "framer-motion";
 import { ArrowLeft, Play, Disc3, ExternalLink, Clock, Music } from "lucide-react";
+import { usePageMeta } from "@/hooks/usePageMeta";
 
 const ALBUM_SLUGS: Record<string, string> = {
   "dischordian-logic": "Dischordian Logic",
@@ -29,6 +30,13 @@ export default function AlbumPage() {
   const tracks = getByAlbum(albumName);
   const meta = ALBUM_META[albumName] || { date: "", color: "#00f0ff" };
   const albumArt = tracks[0]?.image || "";
+
+  usePageMeta({
+    title: albumName || "Album",
+    description: `${albumName} - ${tracks.length} tracks from the Dischordian Saga. Released ${meta.date}.`,
+    image: albumArt || undefined,
+    type: "music.album",
+  });
 
   useEffect(() => { window.scrollTo(0, 0); }, [albumName]);
 

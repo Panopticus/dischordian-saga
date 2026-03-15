@@ -8,6 +8,9 @@ import {
   ArrowLeft, Users, MapPin, Swords, Music, Play, ExternalLink,
   Link2, Clock, Shield, Eye, Disc3, Zap, ChevronRight, Gamepad2
 } from "lucide-react";
+import StoryArc from "@/components/StoryArc";
+import { usePageMeta } from "@/hooks/usePageMeta";
+import ShareButton from "@/components/ShareButton";
 
 const TYPE_ICONS: Record<string, typeof Users> = {
   character: Users,
@@ -33,6 +36,13 @@ export default function EntityPage() {
   const trackedRef = useRef<string | null>(null);
 
   const entry = params?.id ? getEntryById(params.id) : undefined;
+
+  usePageMeta({
+    title: entry?.name || "Entity",
+    description: entry?.bio?.slice(0, 160) || `Explore ${entry?.name || "this entity"} in the Dischordian Saga universe.`,
+    image: entry?.image || undefined,
+    type: "article",
+  });
 
   useEffect(() => {
     if (entry) {
@@ -78,9 +88,12 @@ export default function EntityPage() {
           </div>
         )}
         <div className="relative px-4 sm:px-6 pt-4 pb-6">
-          <Link href="/" className="inline-flex items-center gap-1.5 text-muted-foreground hover:text-primary text-xs font-mono mb-4 transition-colors">
-            <ArrowLeft size={12} /> BACK TO DASHBOARD
-          </Link>
+          <div className="flex items-center justify-between mb-4">
+            <Link href="/" className="inline-flex items-center gap-1.5 text-muted-foreground hover:text-primary text-xs font-mono transition-colors">
+              <ArrowLeft size={12} /> BACK TO DASHBOARD
+            </Link>
+            <ShareButton title={entry.name} text={entry.bio?.slice(0, 100)} />
+          </div>
 
           <div className="flex flex-col sm:flex-row gap-5">
             {entry.image && (
@@ -249,6 +262,18 @@ export default function EntityPage() {
                 </a>
               )}
             </div>
+          </motion.section>
+        )}
+
+        {/* ═══ STORY ARC (characters only) ═══ */}
+        {entry.type === "character" && (
+          <motion.section
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.32 }}
+            className="rounded-lg border border-border/30 bg-card/30 p-5"
+          >
+            <StoryArc characterName={entry.name} />
           </motion.section>
         )}
 

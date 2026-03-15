@@ -5,7 +5,7 @@ import { usePlayer } from "@/contexts/PlayerContext";
 import {
   Search, Menu, X, Map, Music, Users, MapPin, Swords, Clock,
   ChevronRight, ChevronDown, Terminal, Disc3, Shield, Tv, BarChart3, Gamepad2, Trophy, Crosshair,
-  Home, Rocket, Store, ScrollText, FlaskConical, Ship, Crown, Compass, Radio
+  Home, Rocket, Store, ScrollText, FlaskConical, Ship, Crown, Compass, Radio, Heart, Brain
 } from "lucide-react";
 import { useGamification } from "@/contexts/GamificationContext";
 import { Progress } from "@/components/ui/progress";
@@ -45,6 +45,7 @@ const NAV_GROUPS: NavGroup[] = [
     items: [
       { path: "/watch", label: "WATCH THE SHOW", icon: Tv, description: "The Dischordian Saga" },
       { path: "/discography", label: "DISCOGRAPHY", icon: Disc3, description: "Albums & streaming" },
+      { path: "/saga-timeline", label: "SAGA TIMELINE", icon: Clock, description: "Unified narrative map" },
     ],
   },
   {
@@ -68,6 +69,7 @@ const NAV_GROUPS: NavGroup[] = [
       { path: "/trade-wars", label: "TRADE WARS", icon: Ship, description: "Interstellar trade" },
       { path: "/fight", label: "COMBAT SIM", icon: Swords, description: "Combat training" },
       { path: "/ark", label: "INCEPTION ARK", icon: Rocket, description: "Explore the ship" },
+      { path: "/quiz", label: "LORE QUIZ", icon: Brain, description: "Test your knowledge" },
       { path: "/cards", label: "CARD ARCHIVE", icon: Crown, description: "Browse all cards" },
       { path: "/deck-builder", label: "DECK BUILDER", icon: Shield, description: "Build decks" },
       { path: "/research-lab", label: "RESEARCH LAB", icon: FlaskConical, description: "Craft cards" },
@@ -82,6 +84,7 @@ const NAV_GROUPS: NavGroup[] = [
       { path: "/create-citizen", label: "CITIZEN ID", icon: Users, description: "Create identity" },
       { path: "/character-sheet", label: "CHAR SHEET", icon: Shield, description: "Stats & gear" },
       { path: "/store", label: "REQUISITIONS", icon: Store, description: "Dream store" },
+      { path: "/favorites", label: "MISSION BRIEFING", icon: Heart, description: "Favorites & playlists" },
     ],
   },
 ];

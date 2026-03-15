@@ -6,6 +6,8 @@ import { motion } from "framer-motion";
 import {
   ArrowLeft, Music, Play, ExternalLink, Users, Clock, Disc3, ChevronRight
 } from "lucide-react";
+import LyricsViewer from "@/components/LyricsViewer";
+import { usePageMeta } from "@/hooks/usePageMeta";
 
 export default function SongPage() {
   const [, params] = useRoute("/song/:id");
@@ -13,6 +15,13 @@ export default function SongPage() {
   const { playSong, setQueue } = usePlayer();
 
   const entry = params?.id ? getEntryById(params.id) : undefined;
+
+  usePageMeta({
+    title: entry ? `${entry.name} - ${entry.album || "Song"}` : "Song",
+    description: entry?.bio?.slice(0, 160) || `Listen to ${entry?.name || "this track"} from the Dischordian Saga.`,
+    image: entry?.image || undefined,
+    type: "music.song",
+  });
 
   useEffect(() => {
     if (entry) discoverEntry(entry.id);
@@ -213,6 +222,14 @@ export default function SongPage() {
             <p className="text-sm text-foreground/80 leading-relaxed">{entry.bio}</p>
           </motion.section>
         )}
+
+        {/* ═══ LYRICS & LORE ANNOTATIONS ═══ */}
+        <LyricsViewer
+          songName={entry.name}
+          albumName={entry.album}
+          artistName={entry.artist || "Malkia Ukweli & the Panopticon"}
+          charactersFeature={entry.characters_featured}
+        />
 
         {/* ═══ FEATURED CHARACTERS ═══ */}
         {characters.length > 0 && (

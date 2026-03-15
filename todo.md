@@ -339,3 +339,16 @@
 - [x] "VIEWED" badge on watched epoch headers
 - [x] Progress bar showing epoch completion percentage
 - [x] All 90 tests passing
+
+## Phase 13: Major Enhancements (10 Features)
+- [x] 1. Lyrics Viewer with lore annotations — LyricsViewer component + lyrics tRPC router (LLM-powered generation with entity highlighting)
+- [x] 2. Unified Saga Timeline — SagaTimelinePage at /saga-timeline with horizontal scrollable timeline mapping epochs, albums, key events, CoNexus games
+- [x] 3. User Playlists & Favorites — FavoritesPage at /favorites with localStorage-based bookmarks for songs, entities, episodes; "Mission Briefing" dashboard with stats
+- [x] 4. Ambient Soundtrack Radio — RadioMode component rendered globally, auto-plays songs by epoch/faction/mood with floating mini-player
+- [x] 5. Character Story Arc deep dives — StoryArc component on EntityPage showing chronological appearances across albums, epochs, CoNexus games
+- [x] 6. Lore Quiz / Knowledge Check — LoreQuizPage at /lore-quiz with faction/location/era questions, XP rewards, gamification integration
+- [x] 7. Social Sharing OG Cards — usePageMeta hook for dynamic OG tags on Entity/Song/Album pages + ShareButton component + OG meta in index.html
+- [x] 8. "Previously On..." Recaps — Added previouslyOn field to each epoch with narrative summaries displayed in EpochSection and Stories mode
+- [x] 9. Easter Eggs & Hidden Content — EasterEggs component with Konami code (↑↑↓↓←→←→BA), secret console commands, hidden entity reveals at higher clearance levels
+- [x] 10. Mobile-First Watch Experience — "Stories" view mode on WatchPage with swipeable card-based epoch browsing, progress dots, character previews
+- [x] All 90 tests passing

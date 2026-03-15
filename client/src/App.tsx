@@ -27,6 +27,9 @@ import ResearchLabPage from "./pages/ResearchLabPage";
 import StorePage from "./pages/StorePage";
 import GamesPage from "./pages/GamesPage";
 import DiscographyPage from "./pages/DiscographyPage";
+import SagaTimelinePage from "./pages/SagaTimelinePage";
+import FavoritesPage from "./pages/FavoritesPage";
+import LoreQuizPage from "./pages/LoreQuizPage";
 import { LoredexProvider } from "./contexts/LoredexContext";
 import { PlayerProvider } from "./contexts/PlayerContext";
 import { GamificationProvider } from "./contexts/GamificationContext";
@@ -34,6 +37,8 @@ import PlayerBar from "./components/PlayerBar";
 import AppShell from "./components/AppShell";
 import AchievementToast from "./components/AchievementToast";
 import ElaraDialog from "./components/ElaraDialog";
+import RadioMode from "./components/RadioMode";
+import EasterEggs from "./components/EasterEggs";
 
 function Router() {
   return (
@@ -60,6 +65,9 @@ function Router() {
       <Route path="/research-lab" component={ResearchLabPage} />
       <Route path="/games" component={GamesPage} />
       <Route path="/discography" component={DiscographyPage} />
+      <Route path="/saga-timeline" component={SagaTimelinePage} />
+      <Route path="/favorites" component={FavoritesPage} />
+      <Route path="/quiz" component={LoreQuizPage} />
       <Route path="/store" component={StorePage} />
       <Route path="/404" component={NotFound} />
       <Route component={NotFound} />
@@ -82,6 +90,8 @@ function App() {
                 <PlayerBar />
                 <AchievementToast />
                 <ElaraDialog />
+                <RadioMode />
+                <EasterEggs />
                 <div className="crt-overlay" />
               </TooltipProvider>
             </PlayerProvider>
