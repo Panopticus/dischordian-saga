@@ -1,13 +1,12 @@
 /* ═══════════════════════════════════════════════════════
-   SAGAVERSE GAMES — Hub for all games in the Dischordian Saga
-   Card Game, Trade Wars, Combat Simulator, Inception Ark,
-   Deck Builder, Trophy Room, Research Lab
+   CADES — CoNexus Advanced Dimensional Exploration Simulation
+   Each game is a parallel universe simulation that can save or doom a reality
    ═══════════════════════════════════════════════════════ */
 import { Link } from "wouter";
 import { motion } from "framer-motion";
 import {
   Gamepad2, Swords, Rocket, ScrollText, Trophy, FlaskConical,
-  ChevronRight, Zap, Shield, Crown, Crosshair, Ship
+  ChevronRight, Shield, Crown, Ship, Zap, Globe, Radio
 } from "lucide-react";
 import { useGamification } from "@/contexts/GamificationContext";
 
@@ -16,199 +15,265 @@ interface GameTile {
   title: string;
   subtitle: string;
   description: string;
+  loreContext: string;
   icon: typeof Gamepad2;
   color: string;
-  glowColor: string;
   badge?: string;
+  primary?: boolean;
 }
 
-const GAMES: GameTile[] = [
+const SIMULATIONS: GameTile[] = [
   {
     href: "/cards/play",
     title: "CARD GAME",
-    subtitle: "VTES-Inspired Strategy",
-    description: "Battle AI opponents across 3-lane battlefields. Deploy characters, cast spells, and dominate with your deck.",
+    subtitle: "Faction Warfare Simulation",
+    description: "Deploy operatives across 3-lane battlefields. Each match simulates a dimensional conflict where your choices determine the fate of a parallel reality.",
+    loreContext: "CADES DIMENSION: Faction War Timeline",
     icon: ScrollText,
-    color: "#f59e0b",
-    glowColor: "rgba(245,158,11,0.3)",
-    badge: "PLAY NOW",
+    color: "var(--orb-orange)",
+    badge: "ENTER SIMULATION",
+    primary: true,
   },
   {
     href: "/trade-wars",
     title: "TRADE WARS",
-    subtitle: "BBS Space Trading",
-    description: "Navigate the galaxy, trade commodities, colonize planets, and engage in ship-to-ship combat.",
+    subtitle: "Interstellar Commerce Simulation",
+    description: "Navigate galactic trade routes, colonize sectors, and engage in ship-to-ship combat. Your economic decisions ripple across this simulated universe.",
+    loreContext: "CADES DIMENSION: Commerce Timeline",
     icon: Ship,
-    color: "#22d3ee",
-    glowColor: "rgba(34,211,238,0.3)",
-    badge: "PLAY NOW",
+    color: "var(--neon-cyan)",
+    badge: "ENTER SIMULATION",
+    primary: true,
   },
   {
     href: "/fight",
     title: "COMBAT SIMULATOR",
-    subtitle: "Fall of Reality",
-    description: "Select your fighter and battle in 2.5D arena combat. Unlock hidden roster characters with fight points.",
+    subtitle: "Dimensional Combat Training",
+    description: "Project your consciousness into combat scenarios. Each fight tests readiness against threats from across the multiverse.",
+    loreContext: "CADES DIMENSION: Combat Timeline",
     icon: Swords,
-    color: "#ef4444",
-    glowColor: "rgba(239,68,68,0.3)",
-    badge: "FIGHT",
+    color: "var(--alert-red)",
+    badge: "ENTER SIMULATION",
+    primary: true,
   },
   {
     href: "/ark",
     title: "INCEPTION ARK",
-    subtitle: "Explore the Ship",
-    description: "Navigate the decks of the Inception Ark. Discover rooms, unlock secrets, and uncover hidden lore.",
+    subtitle: "Ship Exploration",
+    description: "Navigate the decks of the Inception Ark. Discover rooms, unlock secrets, and uncover the ship's hidden systems.",
+    loreContext: "LOCAL: Ark Interior Systems",
     icon: Rocket,
-    color: "#a855f7",
-    glowColor: "rgba(168,85,247,0.3)",
+    color: "var(--deep-purple)",
   },
   {
     href: "/cards",
-    title: "CARD BROWSER",
-    subtitle: "3000+ Cards",
-    description: "Browse the complete card collection. Filter by season, type, rarity, element, and class.",
+    title: "CARD ARCHIVE",
+    subtitle: "3000+ Dimensional Records",
+    description: "Browse the complete archive of operatives, spells, and artifacts catalogued from CADES simulations.",
+    loreContext: "DATABASE: Simulation Records",
     icon: Crown,
-    color: "#ec4899",
-    glowColor: "rgba(236,72,153,0.3)",
+    color: "var(--electric-blue)",
   },
   {
     href: "/deck-builder",
     title: "DECK BUILDER",
-    subtitle: "Build Your Strategy",
-    description: "Construct custom decks from your collection. Save, load, and optimize your card loadouts.",
+    subtitle: "Strategic Loadout",
+    description: "Construct and optimize your simulation loadouts. Prepare for dimensional warfare.",
+    loreContext: "ARMORY: Loadout Configuration",
     icon: Shield,
-    color: "#22c55e",
-    glowColor: "rgba(34,197,94,0.3)",
+    color: "var(--signal-green)",
   },
   {
     href: "/research-lab",
     title: "RESEARCH LAB",
-    subtitle: "Card Crafting",
-    description: "Fuse duplicate cards, transmute elements, and craft powerful new cards from your collection.",
+    subtitle: "Card Synthesis",
+    description: "Fuse dimensional artifacts, transmute elements, and synthesize new cards from your collection.",
+    loreContext: "SCIENCE: CoNexus Research",
     icon: FlaskConical,
-    color: "#6366f1",
-    glowColor: "rgba(99,102,241,0.3)",
+    color: "var(--deep-purple)",
   },
   {
     href: "/trophy",
     title: "TROPHY ROOM",
-    subtitle: "Your Collection",
-    description: "Display your rarest cards, track achievements, and customize your trophy room theme.",
+    subtitle: "Achievement Archive",
+    description: "Display your rarest finds, track achievements, and review your simulation history.",
+    loreContext: "PERSONAL: Operative Records",
     icon: Trophy,
-    color: "#eab308",
-    glowColor: "rgba(234,179,8,0.3)",
+    color: "var(--orb-orange)",
   },
 ];
 
 export default function GamesPage() {
   const gam = useGamification();
 
+  const primarySims = SIMULATIONS.filter(s => s.primary);
+  const supportSims = SIMULATIONS.filter(s => !s.primary);
+
   return (
-    <div className="min-h-screen pb-8">
-      {/* Header */}
-      <div className="px-4 sm:px-6 pt-6 pb-4">
-        <div className="flex items-center gap-3 mb-1">
-          <div className="w-8 h-8 rounded-lg bg-primary/15 border border-primary/30 flex items-center justify-center">
-            <Gamepad2 size={16} className="text-primary" />
-          </div>
-          <div>
-            <h1 className="font-display text-lg sm:text-xl font-black tracking-wider text-foreground">
-              SAGAVERSE <span className="text-primary glow-cyan">GAMES</span>
-            </h1>
-            <p className="font-mono text-[9px] text-muted-foreground/60 tracking-wider">
-              THE DISCHORDIAN SAGA INTERACTIVE EXPERIENCES
-            </p>
-          </div>
+    <div className="min-h-screen pb-8 animate-materialize">
+      {/* ═══ CADES HEADER ═══ */}
+      <div className="px-4 sm:px-6 pt-6 pb-6">
+        <div className="flex items-center gap-2 mb-3">
+          <div className="h-px flex-1 max-w-8" style={{ background: "var(--brand-gradient)" }} />
+          <span className="font-mono text-[9px] tracking-[0.4em]" style={{ color: "var(--neon-cyan)" }}>
+            CoNexus Advanced Dimensional Exploration Simulation
+          </span>
+          <div className="h-px flex-1 max-w-8" style={{ background: "var(--brand-gradient)" }} />
         </div>
 
-        {/* Quick stats */}
-        <div className="flex items-center gap-4 mt-3 font-mono text-[10px]">
-          <span className="text-muted-foreground">
-            <span className="text-primary">{gam.level}</span> LV
-          </span>
-          <span className="text-muted-foreground">
-            <span className="text-amber-400">{gam.points}</span> PTS
-          </span>
-          <span className="text-muted-foreground">
-            <span className="text-green-400">{gam.earnedAchievements.length}</span> ACHIEVEMENTS
-          </span>
+        <h1 className="font-display text-2xl sm:text-3xl font-black tracking-wider text-white mb-2">
+          C.A.D.E.S. <span className="glow-cyan" style={{ color: "var(--neon-cyan)" }}>SIMULATIONS</span>
+        </h1>
+
+        <p className="font-mono text-xs sm:text-sm leading-relaxed max-w-2xl" style={{ color: "var(--text-dim)" }}>
+          Each simulation projects your consciousness into a parallel universe within the multiverse.
+          Your choices determine whether that reality is <span style={{ color: "var(--signal-green)" }}>saved</span> or{" "}
+          <span style={{ color: "var(--alert-red)" }}>doomed</span>.
+          The CoNexus technology bridges the dimensional divide — proceed with caution, Operative.
+        </p>
+
+        {/* Stats bar */}
+        <div className="flex items-center gap-4 mt-4 font-mono text-[10px]">
+          <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-md glass-sunk">
+            <Zap size={10} style={{ color: "var(--neon-cyan)" }} />
+            <span style={{ color: "var(--text-muted-ve)" }}>LV.<span style={{ color: "var(--neon-cyan)" }}>{gam.level}</span></span>
+          </div>
+          <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-md glass-sunk">
+            <Globe size={10} style={{ color: "var(--orb-orange)" }} />
+            <span style={{ color: "var(--text-muted-ve)" }}><span style={{ color: "var(--orb-orange)" }}>{gam.points}</span> PTS</span>
+          </div>
+          <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-md glass-sunk">
+            <Trophy size={10} style={{ color: "var(--signal-green)" }} />
+            <span style={{ color: "var(--text-muted-ve)" }}><span style={{ color: "var(--signal-green)" }}>{gam.earnedAchievements.length}</span> ACHIEVED</span>
+          </div>
         </div>
       </div>
 
-      {/* Game Grid */}
-      <div className="px-4 sm:px-6 grid grid-cols-1 sm:grid-cols-2 gap-3">
-        {GAMES.map((game, i) => {
-          const Icon = game.icon;
-          return (
-            <motion.div
-              key={game.href}
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.06 }}
-            >
-              <Link
-                href={game.href}
-                className="group block rounded-lg border border-border/30 bg-card/60 overflow-hidden hover:border-opacity-60 transition-all duration-300"
-                style={{
-                  ["--game-color" as any]: game.color,
-                }}
+      {/* ═══ PRIMARY SIMULATIONS ═══ */}
+      <div className="px-4 sm:px-6 mb-6">
+        <div className="flex items-center gap-2 mb-3">
+          <Radio size={12} style={{ color: "var(--neon-cyan)" }} />
+          <span className="font-mono text-[9px] tracking-[0.25em]" style={{ color: "var(--neon-cyan)" }}>
+            ACTIVE DIMENSIONAL SIMULATIONS
+          </span>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          {primarySims.map((sim, i) => {
+            const Icon = sim.icon;
+            return (
+              <motion.div
+                key={sim.href}
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.08 }}
               >
-                <div className="p-4">
-                  {/* Top row: icon + badge */}
-                  <div className="flex items-start justify-between mb-2">
-                    <div
-                      className="w-10 h-10 rounded-lg flex items-center justify-center transition-all group-hover:scale-110"
-                      style={{
-                        background: game.color + "15",
-                        border: `1px solid ${game.color}30`,
-                        boxShadow: `0 0 15px ${game.glowColor}`,
-                      }}
-                    >
-                      <Icon size={20} style={{ color: game.color }} />
-                    </div>
-                    {game.badge && (
-                      <span
-                        className="font-mono text-[9px] font-bold tracking-wider px-2 py-0.5 rounded-full"
+                <Link
+                  href={sim.href}
+                  className="group block rounded-lg overflow-hidden glass-float hover:shadow-[0_0_30px_rgba(51,226,230,0.12)] transition-all duration-300"
+                >
+                  {/* Top accent line */}
+                  <div className="h-[2px]" style={{ background: `linear-gradient(90deg, transparent, ${sim.color}, transparent)` }} />
+
+                  <div className="p-4 sm:p-5">
+                    {/* Icon + Badge */}
+                    <div className="flex items-start justify-between mb-3">
+                      <div
+                        className="w-11 h-11 rounded-lg flex items-center justify-center transition-all group-hover:scale-110"
                         style={{
-                          background: game.color + "20",
-                          color: game.color,
-                          border: `1px solid ${game.color}40`,
+                          background: `color-mix(in oklch, ${sim.color} 12%, transparent)`,
+                          border: `1px solid color-mix(in oklch, ${sim.color} 25%, transparent)`,
+                          boxShadow: `0 0 20px color-mix(in oklch, ${sim.color} 15%, transparent)`,
                         }}
                       >
-                        {game.badge}
+                        <Icon size={22} style={{ color: sim.color }} />
+                      </div>
+                      {sim.badge && (
+                        <span
+                          className="font-mono text-[8px] font-bold tracking-[0.15em] px-2 py-1 rounded-full animate-cyber-pulse"
+                          style={{
+                            background: `color-mix(in oklch, ${sim.color} 15%, transparent)`,
+                            color: sim.color,
+                            border: `1px solid color-mix(in oklch, ${sim.color} 30%, transparent)`,
+                          }}
+                        >
+                          {sim.badge}
+                        </span>
+                      )}
+                    </div>
+
+                    {/* Title */}
+                    <h3
+                      className="font-display text-base font-bold tracking-wider mb-1 transition-all group-hover:brightness-125"
+                      style={{ color: sim.color }}
+                    >
+                      {sim.title}
+                    </h3>
+                    <p className="font-mono text-[9px] tracking-wider mb-2" style={{ color: "var(--text-muted-ve)" }}>
+                      {sim.subtitle}
+                    </p>
+
+                    {/* Description */}
+                    <p className="font-mono text-[11px] leading-relaxed mb-3" style={{ color: "var(--text-dim)" }}>
+                      {sim.description}
+                    </p>
+
+                    {/* Lore context tag */}
+                    <div className="flex items-center justify-between">
+                      <span className="font-mono text-[8px] tracking-wider px-2 py-0.5 rounded glass-sunk" style={{ color: "var(--text-muted-ve)" }}>
+                        {sim.loreContext}
                       </span>
-                    )}
+                      <ChevronRight
+                        size={14}
+                        className="opacity-30 group-hover:opacity-80 group-hover:translate-x-1 transition-all"
+                        style={{ color: sim.color }}
+                      />
+                    </div>
                   </div>
+                </Link>
+              </motion.div>
+            );
+          })}
+        </div>
+      </div>
 
-                  {/* Title */}
-                  <h3
-                    className="font-display text-sm font-bold tracking-wider mb-0.5 transition-colors group-hover:brightness-125"
-                    style={{ color: game.color }}
-                  >
-                    {game.title}
-                  </h3>
-                  <p className="font-mono text-[9px] text-muted-foreground/60 tracking-wider mb-2">
-                    {game.subtitle}
-                  </p>
+      {/* ═══ SUPPORT SYSTEMS ═══ */}
+      <div className="px-4 sm:px-6">
+        <div className="flex items-center gap-2 mb-3">
+          <Gamepad2 size={12} style={{ color: "var(--electric-blue)" }} />
+          <span className="font-mono text-[9px] tracking-[0.25em]" style={{ color: "var(--electric-blue)" }}>
+            ARK SUPPORT SYSTEMS
+          </span>
+        </div>
 
-                  {/* Description */}
-                  <p className="font-mono text-[10px] text-muted-foreground/80 leading-relaxed line-clamp-2">
-                    {game.description}
-                  </p>
-
-                  {/* Arrow */}
-                  <div className="flex items-center justify-end mt-3">
-                    <ChevronRight
-                      size={14}
-                      className="text-muted-foreground/30 group-hover:translate-x-1 transition-all"
-                      style={{ color: game.color + "60" }}
-                    />
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+          {supportSims.map((sim, i) => {
+            const Icon = sim.icon;
+            return (
+              <motion.div
+                key={sim.href}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 + i * 0.05 }}
+              >
+                <Link
+                  href={sim.href}
+                  className="group block rounded-lg glass-float p-3 hover:shadow-[0_0_20px_rgba(56,117,250,0.1)] transition-all duration-300"
+                >
+                  <div className="flex items-center gap-2.5 mb-2">
+                    <Icon size={16} style={{ color: sim.color }} className="group-hover:scale-110 transition-transform" />
+                    <h4 className="font-display text-[11px] font-bold tracking-wider text-white/90 group-hover:text-white transition-colors">
+                      {sim.title}
+                    </h4>
                   </div>
-                </div>
-              </Link>
-            </motion.div>
-          );
-        })}
+                  <p className="font-mono text-[9px] leading-relaxed" style={{ color: "var(--text-muted-ve)" }}>
+                    {sim.subtitle}
+                  </p>
+                </Link>
+              </motion.div>
+            );
+          })}
+        </div>
       </div>
     </div>
   );

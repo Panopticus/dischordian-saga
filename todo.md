@@ -242,3 +242,44 @@
 - [x] Update game back-links to point to /games hub
 - [x] Update mobile bottom nav to: Home, Lore, Games, Media, Store
 - [x] Collapsible nav groups with active state highlighting
+
+## Phase 10: Inception Ark Control Room + Elara AI Agent
+
+### Elara AI Lore Agent (BioWare-style Dialog)
+- [x] Generate Elara character portrait image (holographic AI woman)
+- [x] Build BioWare-style dialog box component (portrait + dialog text + multiple choice responses)
+- [x] Build Elara floating icon that opens dialog on click (bottom-right, cyan glow)
+- [x] Connect Elara to LLM backend for lore Q&A about characters, factions, events
+- [x] Elara can explain all Inception Ark functions and CADES
+- [x] Elara dialog feels like Mass Effect / KOTOR conversation wheel
+- [x] Elara backend test (4 tests passing)
+
+### Inception Ark Control Room Redesign
+- [x] Generate nano banana backdrop of Inception Ark control room interior
+- [x] Redesign main app shell to feel like you're inside the Ark control room
+- [x] Ark control room backdrop as subtle background with radial gradient overlay
+- [x] Header redesigned as ARK COMMAND STRIP with clearance badge
+- [x] Sidebar redesigned as ARK SYSTEMS PANEL with collapsible nav groups
+- [x] Design cool lore-themed access points for all functions from the control room
+- [x] Everything feels like you've taken control and can discover things
+
+### CADES Game Framing
+- [x] Frame all games as CADES parallel universe simulations
+- [x] Each game intro explains you're entering a parallel universe via CoNexus tech
+- [x] Player choices can either save or doom the parallel universe
+- [x] SagaVerse Games hub becomes CADES SIMULATION HUB with dimensional rift descriptions
+
+### Card Game Tutorial
+- [x] Build card game tutorial system guided by Elara (7-step tutorial)
+- [x] Elara explains rules in-game conversational form
+- [x] Tutorial covers: factions, lanes, deploying cards, combat, influence, elements, keywords
+- [x] Tutorial accessible from card game menu with Elara avatar
+
+### Void Energy Design System Application
+- [x] Apply Void Energy color palette to CSS custom properties (Blue Void #010020 bg, Neon Cyan, Electric Blue, etc.)
+- [x] Apply glass surface physics (glass-float, glass-sunk utility classes)
+- [x] Apply 3D lighting model (top border brighter, bottom border dimmer)
+- [x] Apply text luminance layers (100% headers, 85% body, 60% metadata)
+- [x] Apply materialize/dematerialize transitions for modals and cards
+- [x] Apply cyber pulse animation for active items
+- [x] Ensure interactive elements have visual affordance before hover (mobile rule)

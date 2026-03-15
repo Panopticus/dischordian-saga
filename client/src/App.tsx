@@ -32,6 +32,7 @@ import { GamificationProvider } from "./contexts/GamificationContext";
 import PlayerBar from "./components/PlayerBar";
 import AppShell from "./components/AppShell";
 import AchievementToast from "./components/AchievementToast";
+import ElaraDialog from "./components/ElaraDialog";
 
 function Router() {
   return (
@@ -78,6 +79,7 @@ function App() {
                 </AppShell>
                 <PlayerBar />
                 <AchievementToast />
+                <ElaraDialog />
                 <div className="crt-overlay" />
               </TooltipProvider>
             </PlayerProvider>

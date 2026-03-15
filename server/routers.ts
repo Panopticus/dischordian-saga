@@ -14,6 +14,7 @@ import { tradeWarsRouter } from "./routers/tradeWars";
 import { citizenRouter } from "./routers/citizen";
 import { craftingRouter } from "./routers/crafting";
 import { storeRouter } from "./routers/store";
+import { elaraRouter } from "./routers/elara";
 
 export const appRouter = router({
   system: systemRouter,
@@ -24,6 +25,7 @@ export const appRouter = router({
   citizen: citizenRouter,
   crafting: craftingRouter,
   store: storeRouter,
+  elara: elaraRouter,
   auth: router({
     me: publicProcedure.query(opts => opts.ctx.user),
     logout: publicProcedure.mutation(({ ctx }) => {

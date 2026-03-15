@@ -63,11 +63,64 @@ const LANE_NAMES: Record<Lane, { name: string; icon: any; desc: string }> = {
   flank: { name: "FLANK", icon: Crosshair, desc: "Siege • +1 Influence DMG" },
 };
 
-type GameScreen = "menu" | "factionSelect" | "difficultySelect" | "playing" | "result";
+type GameScreen = "menu" | "tutorial" | "factionSelect" | "difficultySelect" | "playing" | "result";
+
+const ELARA_AVATAR = "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/elara_avatar_small_66ba7463.png";
+
+interface TutorialStep {
+  title: string;
+  elaraText: string;
+  highlight?: string;
+  tip?: string;
+}
+
+const TUTORIAL_STEPS: TutorialStep[] = [
+  {
+    title: "WELCOME, OPERATIVE",
+    elaraText: "Welcome to the CADES Faction Warfare Simulation. I'm Elara, your guide aboard this Inception Ark. Each match you play here simulates a dimensional conflict in a parallel universe — your choices determine whether that reality is saved or doomed. Let me walk you through the fundamentals.",
+    tip: "This tutorial covers the basics. You can always ask me questions using the floating chat button.",
+  },
+  {
+    title: "FACTIONS",
+    elaraText: "There are two factions you can align with. The Architect represents ORDER — methodical control, enhanced attack power, and cost reduction. The Dreamer represents CHAOS — resilience, extra card draw, and an alternate win condition of surviving 15 turns. Choose wisely — your faction shapes your entire strategy.",
+    highlight: "faction",
+    tip: "The Architect is more aggressive. The Dreamer rewards patience and defense.",
+  },
+  {
+    title: "THE BATTLEFIELD",
+    elaraText: "The battlefield has three lanes: VANGUARD (melee, +1 ATK bonus), CORE (ranged, flexible), and FLANK (siege, +1 Influence damage). Each lane can hold up to 3 units. Deploy your cards strategically — lane positioning is crucial to victory.",
+    highlight: "lanes",
+    tip: "Flank lane deals extra damage to the enemy's Influence. Use it for your strongest attackers.",
+  },
+  {
+    title: "DEPLOYING CARDS",
+    elaraText: "Each turn you draw cards and gain energy. To deploy a card, select it from your hand, then choose a lane. Each card has an energy cost — you can't deploy cards you can't afford. Cards have ATK (attack power), HP (health), and may have special keywords like Shield, Drain, or Fury.",
+    highlight: "deploy",
+    tip: "Tap a card in your hand to select it, then tap a lane to deploy. The card's cost is shown in the top corner.",
+  },
+  {
+    title: "COMBAT & INFLUENCE",
+    elaraText: "When you end your turn, combat resolves automatically. Units in each lane attack opposing units. If a lane is empty on the opponent's side, your units deal damage directly to their Influence. Reduce the enemy's Influence to 0 to win. Both players start with 20 Influence.",
+    highlight: "combat",
+    tip: "End your turn by tapping the END TURN button. Combat happens, then the AI takes its turn.",
+  },
+  {
+    title: "ELEMENTS & KEYWORDS",
+    elaraText: "Cards belong to elements: Fire, Water, Earth, Air, Void, Light, Dark. Element matchups affect damage — Fire beats Earth, Water beats Fire, and so on. Keywords add special abilities: Shield (blocks first hit), Drain (heals on attack), Fury (attacks twice), and more.",
+    highlight: "elements",
+    tip: "Check the element icon on each card. Deploying against a weak element gives you an advantage.",
+  },
+  {
+    title: "READY FOR BATTLE",
+    elaraText: "You're ready, Operative. Remember: choose your faction, select a difficulty level, and enter the simulation. Start with Recruit difficulty to learn the ropes, then work your way up to Archon for the ultimate challenge. May the CoNexus guide your strategy.",
+    tip: "Win battles to earn Dream points and unlock achievements. Good luck in the simulation!",
+  },
+];
 
 export default function CardGamePage() {
   const { user, isAuthenticated } = useAuth();
   const [screen, setScreen] = useState<GameScreen>("menu");
+  const [tutorialStep, setTutorialStep] = useState(0);
   const [selectedFaction, setSelectedFaction] = useState<Faction | null>(null);
   const [selectedDifficulty, setSelectedDifficulty] = useState<AIDifficulty>("operative");
   const [battle, setBattle] = useState<BattleState | null>(null);
@@ -277,14 +330,152 @@ export default function CardGamePage() {
               <ChevronRight size={16} className="opacity-0 group-hover:opacity-100 transition-opacity" />
             </Link>
 
+            <button
+              onClick={() => { setTutorialStep(0); setScreen("tutorial"); }}
+              className="w-full flex items-center justify-between px-5 py-4 rounded-lg bg-secondary/50 border border-border/30 text-foreground font-mono text-sm hover:bg-secondary/80 hover:border-[var(--deep-purple)]/30 transition-all group"
+            >
+              <div className="flex items-center gap-3">
+                <img src={ELARA_AVATAR} alt="Elara" className="w-7 h-7 rounded-full border border-[var(--neon-cyan)]/30" />
+                <div className="text-left">
+                  <p className="font-display text-sm tracking-wider">TUTORIAL</p>
+                  <p className="text-[10px] text-muted-foreground">Elara teaches you the basics</p>
+                </div>
+              </div>
+              <ChevronRight size={16} className="opacity-0 group-hover:opacity-100 transition-opacity" />
+            </button>
+
             <Link
               href="/games"
               className="w-full flex items-center justify-center px-5 py-3 rounded-lg bg-secondary/30 border border-border/20 text-muted-foreground font-mono text-xs hover:text-foreground transition-all"
             >
               <ChevronLeft size={14} className="mr-1" />
-              BACK TO GAMES
+              BACK TO CADES
             </Link>
           </motion.div>
+        </motion.div>
+      </div>
+    );
+  }
+
+  // ═══ TUTORIAL SCREEN ═══
+  if (screen === "tutorial") {
+    const step = TUTORIAL_STEPS[tutorialStep];
+    const isLast = tutorialStep === TUTORIAL_STEPS.length - 1;
+    const isFirst = tutorialStep === 0;
+
+    return (
+      <div className="min-h-screen flex items-center justify-center p-4">
+        <motion.div
+          key={tutorialStep}
+          initial={{ opacity: 0, x: 30 }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: -30 }}
+          transition={{ duration: 0.3 }}
+          className="max-w-lg w-full"
+        >
+          {/* Progress bar */}
+          <div className="flex items-center gap-1.5 mb-6">
+            {TUTORIAL_STEPS.map((_, i) => (
+              <div
+                key={i}
+                className="h-1 flex-1 rounded-full transition-all duration-300"
+                style={{
+                  background: i <= tutorialStep
+                    ? "var(--brand-gradient)"
+                    : "rgba(56,117,250,0.15)",
+                }}
+              />
+            ))}
+          </div>
+
+          {/* Elara card */}
+          <div className="rounded-xl overflow-hidden glass-float">
+            {/* Header */}
+            <div className="flex items-center gap-3 px-4 py-3 border-b" style={{ borderColor: "rgba(56,117,250,0.15)" }}>
+              <div className="w-10 h-10 rounded-full overflow-hidden border border-[var(--neon-cyan)]/40 shadow-[0_0_12px_rgba(51,226,230,0.2)]">
+                <img src={ELARA_AVATAR} alt="Elara" className="w-full h-full object-cover" />
+              </div>
+              <div>
+                <h3 className="font-display text-xs font-bold tracking-[0.2em] text-white">ELARA</h3>
+                <p className="font-mono text-[9px] tracking-wider" style={{ color: "var(--neon-cyan)" }}>CADES TRAINING PROTOCOL</p>
+              </div>
+              <div className="flex-1" />
+              <span className="font-mono text-[9px]" style={{ color: "var(--text-muted-ve)" }}>
+                {tutorialStep + 1}/{TUTORIAL_STEPS.length}
+              </span>
+            </div>
+
+            {/* Content */}
+            <div className="px-5 py-5">
+              <h2 className="font-display text-lg font-bold tracking-wider mb-3" style={{ color: "var(--neon-cyan)" }}>
+                {step.title}
+              </h2>
+              <p className="font-mono text-[12px] leading-relaxed mb-4" style={{ color: "var(--text-dim)" }}>
+                {step.elaraText}
+              </p>
+
+              {step.tip && (
+                <div className="flex items-start gap-2 px-3 py-2.5 rounded-lg glass-sunk mb-4">
+                  <Sparkles size={12} className="mt-0.5 flex-shrink-0" style={{ color: "var(--orb-orange)" }} />
+                  <p className="font-mono text-[10px] leading-relaxed" style={{ color: "var(--orb-orange)" }}>
+                    {step.tip}
+                  </p>
+                </div>
+              )}
+            </div>
+
+            {/* Navigation */}
+            <div className="flex items-center gap-3 px-5 py-4 border-t" style={{ borderColor: "rgba(56,117,250,0.15)" }}>
+              {!isFirst && (
+                <button
+                  onClick={() => setTutorialStep(tutorialStep - 1)}
+                  className="flex items-center gap-1.5 px-3 py-2 rounded-md font-mono text-xs transition-all hover:bg-white/5"
+                  style={{ color: "var(--text-muted-ve)" }}
+                >
+                  <ChevronLeft size={14} />
+                  BACK
+                </button>
+              )}
+              {isFirst && (
+                <button
+                  onClick={() => setScreen("menu")}
+                  className="flex items-center gap-1.5 px-3 py-2 rounded-md font-mono text-xs transition-all hover:bg-white/5"
+                  style={{ color: "var(--text-muted-ve)" }}
+                >
+                  <ChevronLeft size={14} />
+                  MENU
+                </button>
+              )}
+              <div className="flex-1" />
+              {isLast ? (
+                <button
+                  onClick={() => setScreen("menu")}
+                  className="flex items-center gap-2 px-4 py-2 rounded-md font-mono text-sm font-bold transition-all hover:brightness-110"
+                  style={{
+                    background: "color-mix(in oklch, var(--neon-cyan) 15%, transparent)",
+                    border: "1px solid color-mix(in oklch, var(--neon-cyan) 30%, transparent)",
+                    color: "var(--neon-cyan)",
+                  }}
+                >
+                  <Swords size={14} />
+                  READY TO FIGHT
+                </button>
+              ) : (
+                <button
+                  onClick={() => setTutorialStep(tutorialStep + 1)}
+                  className="flex items-center gap-1.5 px-4 py-2 rounded-md font-mono text-xs font-bold transition-all hover:brightness-110"
+                  style={{
+                    background: "color-mix(in oklch, var(--neon-cyan) 12%, transparent)",
+                    border: "1px solid color-mix(in oklch, var(--neon-cyan) 25%, transparent)",
+                    color: "var(--neon-cyan)",
+                  }}
+                >
+                  NEXT
+                  <ChevronRight size={14} />
+                </button>
+              )}
+            </div>
+          </div>
         </motion.div>
       </div>
     );
