@@ -11,6 +11,7 @@ import { cardGameRouter } from "./routers/cardGame";
 import { arkRouter } from "./routers/ark";
 import { trophyRouter } from "./routers/trophy";
 import { tradeWarsRouter } from "./routers/tradeWars";
+import { citizenRouter } from "./routers/citizen";
 
 export const appRouter = router({
   system: systemRouter,
@@ -18,6 +19,7 @@ export const appRouter = router({
   ark: arkRouter,
   trophy: trophyRouter,
   tradeWars: tradeWarsRouter,
+  citizen: citizenRouter,
   auth: router({
     me: publicProcedure.query(opts => opts.ctx.user),
     logout: publicProcedure.mutation(({ ctx }) => {

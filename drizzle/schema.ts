@@ -474,3 +474,134 @@ export const twGameLog = mysqlTable("tw_game_log", {
   sectorId: int("sectorId"),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
 });
+
+/* ═══════════════════════════════════════════════════════
+   CARD CRAFTING — Research Lab fusion system
+   ═══════════════════════════════════════════════════════ */
+
+/**
+ * Crafting log — records every fusion attempt.
+ */
+export const craftingLog = mysqlTable("crafting_log", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  /** Recipe type used */
+  recipeType: varchar("recipeType", { length: 64 }).notNull(),
+  /** Input card IDs JSON */
+  inputCards: json("inputCards").$type<Array<{ cardId: string; quantity: number }>>(),
+  /** Output card ID */
+  outputCardId: varchar("outputCardId", { length: 128 }).notNull(),
+  /** Was the craft successful */
+  success: int("success").notNull().default(1),
+  /** Credits spent */
+  creditsCost: int("creditsCost").notNull().default(0),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export type CraftingLog = typeof craftingLog.$inferSelect;
+
+/* ═══════════════════════════════════════════════════════
+   CITIZEN CHARACTER SYSTEM — White Wolf-style character sheet
+   Every player creates one free Citizen. Additional characters unlocked.
+   ═══════════════════════════════════════════════════════ */
+
+export const citizenCharacters = mysqlTable("citizen_characters", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  name: varchar("name", { length: 128 }).notNull(),
+  /** Species: demagi, quarchon, neyon */
+  species: mysqlEnum("species", ["demagi", "quarchon", "neyon"]).notNull(),
+  /** Class: engineer, oracle, assassin, soldier, spy */
+  characterClass: mysqlEnum("characterClass", ["engineer", "oracle", "assassin", "soldier", "spy"]).notNull(),
+  /** Alignment: order, chaos */
+  alignment: mysqlEnum("alignment", ["order", "chaos"]).notNull(),
+  /** Element (DeMagi) or Dimension (Quarchon) or choice (Ne-Yon) */
+  element: mysqlEnum("element", ["earth", "fire", "water", "air", "space", "time", "probability", "reality"]).notNull(),
+  /** White Wolf dot ratings 1-5 */
+  attrAttack: int("attrAttack").notNull().default(2),
+  attrDefense: int("attrDefense").notNull().default(2),
+  attrVitality: int("attrVitality").notNull().default(2),
+  /** Derived / leveled stats */
+  level: int("level").notNull().default(1),
+  xp: int("xp").notNull().default(0),
+  classLevel: int("classLevel").notNull().default(1),
+  /** Current HP derived from vitality + species bonus */
+  maxHp: int("maxHp").notNull().default(100),
+  /** Armor from species + attribute bonuses */
+  armor: int("armor").notNull().default(0),
+  /** JSON: equipped gear, inventory, cosmetics */
+  gear: json("gear").$type<Record<string, unknown>>(),
+  /** JSON: unlocked abilities, element mastery levels */
+  abilities: json("abilities").$type<Record<string, unknown>>(),
+  /** Is this the player's primary (free) citizen? */
+  isPrimary: int("isPrimary").notNull().default(1),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type CitizenCharacter = typeof citizenCharacters.$inferSelect;
+export type InsertCitizenCharacter = typeof citizenCharacters.$inferInsert;
+
+/* ═══════════════════════════════════════════════════════
+   DREAM RESOURCE ECONOMY
+   Soul Bound (boss drops) and Non-Soul Bound (mob drops)
+   Used for upgrading Potentials and Phase 3 world-building
+   ═══════════════════════════════════════════════════════ */
+
+export const dreamBalance = mysqlTable("dream_balance", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  /** Non-soul-bound Dream (tradeable, from regular mobs) */
+  dreamTokens: int("dreamTokens").notNull().default(0),
+  /** Soul-bound Dream (non-tradeable, from bosses only) */
+  soulBoundDream: int("soulBoundDream").notNull().default(0),
+  /** DNA/CODE resource for attribute leveling */
+  dnaCode: int("dnaCode").notNull().default(0),
+  /** Total Dream ever earned (for milestones) */
+  totalDreamEarned: int("totalDreamEarned").notNull().default(0),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type DreamBalance = typeof dreamBalance.$inferSelect;
+
+/* ═══════════════════════════════════════════════════════
+   INTERGALACTIC MARKET — In-game store items & purchases
+   ═══════════════════════════════════════════════════════ */
+
+export const storeItems = mysqlTable("store_items", {
+  id: int("id").autoincrement().primaryKey(),
+  name: varchar("name", { length: 128 }).notNull(),
+  description: text("description"),
+  category: mysqlEnum("category", [
+    "troop_upgrade", "skill_pack", "cosmetic", "booster",
+    "elite_pass", "story_extension", "ship_upgrade", "room_upgrade",
+    "dream_pack"
+  ]).notNull(),
+  /** Price in cents (USD) for real-money items, 0 = in-game currency only */
+  priceUsd: int("priceUsd").notNull().default(0),
+  /** Price in Dream tokens */
+  priceDream: int("priceDream").notNull().default(0),
+  /** Price in credits (in-game) */
+  priceCredits: int("priceCredits").notNull().default(0),
+  /** JSON: item effects, bonuses, contents */
+  itemData: json("itemData").$type<Record<string, unknown>>(),
+  isActive: int("isActive").notNull().default(1),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export type StoreItem = typeof storeItems.$inferSelect;
+
+export const storePurchases = mysqlTable("store_purchases", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  itemId: int("itemId").notNull(),
+  /** Payment method: credits, dream, stripe */
+  paymentMethod: mysqlEnum("paymentMethod", ["credits", "dream", "stripe"]).notNull(),
+  /** Stripe payment intent ID if applicable */
+  stripePaymentId: varchar("stripePaymentId", { length: 256 }),
+  amount: int("amount").notNull().default(0),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export type StorePurchase = typeof storePurchases.$inferSelect;

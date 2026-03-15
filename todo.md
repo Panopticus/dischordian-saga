@@ -124,3 +124,70 @@
 - [x] Build planet colonization UI in Trade Wars terminal (colony management commands)
 - [x] Build passive income system tied to card collection bonuses
 - [x] Write vitest tests for leaderboard, deck builder, and colonization features
+
+## Phase 6: Card Crafting / Fusion System
+- [ ] Design crafting recipes (fusion rules: same-rarity pairs, cross-element combos, legendary fusions)
+- [ ] Add crafting_log table to database schema for tracking crafted cards
+- [ ] Build tRPC endpoints for crafting: listRecipes, craftCard, getCraftingHistory
+- [ ] Build Research Lab crafting UI page with card selection, recipe preview, and fusion animation
+- [ ] Unlock Research Lab room in Inception Ark and wire route
+- [ ] Add crafting link from card browser and deck builder pages
+- [ ] Write vitest tests for crafting endpoints
+
+## Phase 7: White Wolf Character Creation + AAA Card Game Overhaul + Economy
+
+### Citizen Character Creation (White Wolf Style)
+- [x] Design Citizen character sheet schema (species, class, alignment, element/dimension, attributes)
+- [x] Build citizen_characters DB table with dot-rating attributes
+- [x] Build Citizen creation flow: species selection (DeMagi/Quarchon/Ne-Yon)
+- [x] Build class selection step (Engineer/Oracle/Assassin/Soldier/Spy)
+- [x] Build alignment selection step (Order/Chaos) with visual glow preview
+- [x] Build element/dimension selection based on species
+- [x] Build attribute point allocation with White Wolf dot system (Attack/Defense/Vitality)
+- [x] Build character sheet UI page with dot ratings, portrait, and gear display
+- [x] Every player gets one free Citizen; must unlock additional cards/characters
+
+### AAA Card Game Engine Overhaul
+- [ ] Build Architect vs Dreamer faction selection with asymmetric bonuses
+- [ ] Build 3-lane battlefield system (Vanguard/Core/Flank) with 3 slots each
+- [ ] Build card placement, attack targeting, and lane mechanics
+- [ ] Build element rock-paper-scissors combat modifiers
+- [ ] Build card keywords system (Stealth, Taunt, Drain, Pierce, Evolve, etc.)
+- [ ] Build 4 AI difficulty tiers (Recruit/Operative/Commander/Archon)
+- [ ] Build Architect faction bonus: +2 ATK all units, first card costs 1 less
+- [ ] Build Dreamer faction bonus: +2 HP all units, extra card draw, survive 15 turns win
+- [ ] Build species bonuses in card game (DeMagi=extra HP, Quarchon=base armor, Ne-Yon=both)
+
+### Trait-Based Stats System
+- [ ] Implement alignment cosmetic effects (Order=light glow, Chaos=dark glow)
+- [ ] Implement species combat bonuses (DeMagi HP, Quarchon armor, Ne-Yon both)
+- [ ] Implement element abilities (Earth/Space=haste, Water/Time=underwater, Air/Prob=fly, Fire/Reality=fire immune)
+- [ ] Implement class starting gear (Assassin=poison+ranged, Warrior=sword+shield, Prophet=potions, Engineer=diamond pickaxes)
+- [ ] Implement attribute bonuses to Attack/Armor/Health based on dot ratings
+
+### Dream Resource Economy
+- [ ] Build Dream resource system (Soul Bound from bosses, Non-Soul Bound from mobs)
+- [ ] Build Dream drop mechanics in Trade Wars combat and card game
+- [ ] Build Potential upgrading: Class leveling (EXP + Dream)
+- [ ] Build Potential upgrading: Attribute leveling (DNA/CODE + Dream)
+
+### Card Crafting System
+- [ ] Build crafting recipes backend (fusion, transmutation, enhancement)
+- [ ] Build Research Lab crafting UI page
+- [ ] Build card fusion: combine duplicates for upgraded variants
+
+### Phase 3: The Foundation
+- [ ] Build ship expansion system for Trade Wars (rooms, upgrades, levels 1-10)
+- [ ] Build base building mechanics with resource requirements
+- [ ] Build Intergalactic Market hub (Trade Depot, Social Arenas, Spaceship Dock, Trophy Gallery)
+- [ ] Build in-game store with purchasable items (Troop Upgrades, Skill Packs, Cosmetics, Boosters)
+- [ ] Set up Stripe payment integration for real-money purchases
+- [ ] Build Dream as base component for world-building in Phase 3
+
+### Season 1 Card Generation
+- [ ] Generate Season 1 card data from loredex characters (58 characters → cards)
+- [ ] Generate Season 1 card data from loredex songs (89 songs → spell/event cards)
+- [ ] Generate Season 1 card data from factions and locations
+- [ ] Build card art generation system with CSS/SVG procedural art
+- [ ] Build card animations (play, attack, death, special ability)
+- [ ] Write vitest tests for all new features
