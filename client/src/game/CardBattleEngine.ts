@@ -52,6 +52,8 @@ export interface BattleCard {
   evolved: boolean;
   resurrected: boolean;
   lane: Lane | null;
+  // faction ability
+  factionAbilityId?: string;
 }
 
 export interface LaneState {
@@ -118,6 +120,8 @@ const LANE_BONUSES: Record<Lane, { atkBonus: number; influenceDmgBonus: number }
 };
 
 // ── Helpers ──
+
+import { assignFactionAbility, executeFactionAbility, type FactionAbilityId } from "./FactionAbilities";
 
 let uidCounter = 0;
 function genUid(): string {
@@ -216,6 +220,7 @@ export function cardToBattleCard(card: {
     evolved: false,
     resurrected: false,
     lane: null,
+    factionAbilityId: undefined,
   };
 }
 
@@ -224,6 +229,13 @@ function applyFactionBonus(card: BattleCard, faction: Faction): void {
     card.currentPower = card.basePower + 2;
   } else {
     card.currentHealth = card.baseHealth + 2;
+  }
+  // Assign faction ability if not already assigned
+  if (!card.factionAbilityId) {
+    const ability = assignFactionAbility(card, faction);
+    if (ability) {
+      card.factionAbilityId = ability.id;
+    }
   }
 }
 
@@ -378,6 +390,15 @@ export function deployCard(
           message: `${card.name}'s Rally gives ${adj.name} +1 ATK!`,
         });
       }
+    }
+  }
+
+  // Trigger on_deploy faction ability
+  if (card.factionAbilityId) {
+    const abilityResult = triggerFactionAbility(s, card, who, "on_deploy");
+    if (abilityResult) {
+      Object.assign(s, abilityResult.state);
+      events.push(...abilityResult.events);
     }
   }
 
@@ -556,6 +577,16 @@ export function resolveCombat(state: BattleState): BattleState {
         }
       }
 
+      // Trigger on_combat faction abilities
+      const attackerWho = isPlayer ? "player" : "opponent";
+      if (attacker.factionAbilityId) {
+        const abilityResult = triggerFactionAbility(s, attacker, attackerWho as "player" | "opponent", "on_combat");
+        if (abilityResult) {
+          Object.assign(s, abilityResult.state);
+          events.push(...abilityResult.events);
+        }
+      }
+
       // Check destruction
       if (target.currentHealth <= 0) {
         events.push({
@@ -594,6 +625,14 @@ export function resolveCombat(state: BattleState): BattleState {
               message: `${c.name} resurrects with half health!`,
             });
           } else {
+            // Trigger on_death faction ability before going to graveyard
+            if (c.factionAbilityId) {
+              const deathResult = triggerFactionAbility(s, c, who, "on_death");
+              if (deathResult) {
+                Object.assign(s, deathResult.state);
+                events.push(...deathResult.events);
+              }
+            }
             graveyard.push(c);
           }
         } else {
@@ -666,6 +705,18 @@ export function endTurn(state: BattleState): BattleState {
     }
     // Energy regen
     s.opponent.energy = Math.min(s.opponent.maxEnergy, s.opponent.energy + 1 + Math.floor(s.turn / 3));
+    // Trigger on_turn_start abilities for opponent
+    for (const lane of ["vanguard", "core", "flank"] as Lane[]) {
+      for (const card of s.opponent.lanes[lane]) {
+        if (card.factionAbilityId) {
+          const result = triggerFactionAbility(s, card, "opponent", "on_turn_start");
+          if (result) {
+            Object.assign(s, result.state);
+            events.push(...result.events);
+          }
+        }
+      }
+    }
   } else {
     s.activePlayer = "player";
     s.currentPhase = "deploy";
@@ -678,6 +729,18 @@ export function endTurn(state: BattleState): BattleState {
     }
     // Energy regen
     s.player.energy = Math.min(s.player.maxEnergy, s.player.energy + 1 + Math.floor(s.turn / 3));
+    // Trigger on_turn_start abilities for player
+    for (const lane of ["vanguard", "core", "flank"] as Lane[]) {
+      for (const card of s.player.lanes[lane]) {
+        if (card.factionAbilityId) {
+          const result = triggerFactionAbility(s, card, "player", "on_turn_start");
+          if (result) {
+            Object.assign(s, result.state);
+            events.push(...result.events);
+          }
+        }
+      }
+    }
 
     events.push({
       type: "turn_start",
@@ -801,6 +864,22 @@ export function runAITurn(state: BattleState): BattleState {
   s = endTurn(s);
 
   return s;
+}
+
+// ── Faction Ability Integration ──
+
+import { ALL_FACTION_ABILITIES } from "./FactionAbilities";
+
+function triggerFactionAbility(
+  state: BattleState,
+  card: BattleCard,
+  who: "player" | "opponent",
+  triggerType: "on_deploy" | "on_combat" | "on_death" | "on_turn_start"
+): { state: BattleState; events: CombatEvent[] } | null {
+  if (!card.factionAbilityId) return null;
+  const ability = ALL_FACTION_ABILITIES.find(a => a.id === card.factionAbilityId);
+  if (!ability || ability.triggerType !== triggerType) return null;
+  return executeFactionAbility(ability, state, card, who);
 }
 
 // ── Utility Exports ──

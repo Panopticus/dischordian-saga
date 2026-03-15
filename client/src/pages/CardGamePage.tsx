@@ -1166,6 +1166,15 @@ export default function CardGamePage() {
                   </div>
                 )}
 
+                {/* Faction ability indicator */}
+                {card.factionAbilityId && (
+                  <div className="absolute -bottom-1 -left-1">
+                    <span className="text-[8px]" title={card.factionAbilityId.replace(/_/g, ' ')}>
+                      {card.alignment === "order" || card.factionAbilityId.startsWith("s") || card.factionAbilityId.startsWith("d") || card.factionAbilityId.startsWith("n") || card.factionAbilityId.startsWith("a") || card.factionAbilityId.startsWith("p") || card.factionAbilityId.startsWith("m") ? "⚙" : "✦"}
+                    </span>
+                  </div>
+                )}
+
                 {card.isExhausted && (
                   <div className="absolute bottom-0 left-0 right-0 bg-muted/60 text-center">
                     <span className="font-mono text-[6px] text-muted-foreground">TAPPED</span>
@@ -1461,6 +1470,14 @@ export default function CardGamePage() {
                   <span>HP: {showCardZoom.currentHealth}/{showCardZoom.baseHealth}</span>
                   {showCardZoom.element && <span>Element: {showCardZoom.element}</span>}
                 </div>
+                {showCardZoom.factionAbilityId && (
+                  <div className="mt-2 px-2 py-1.5 rounded bg-primary/5 border border-primary/20">
+                    <p className="font-mono text-[8px] text-primary tracking-wider mb-0.5">FACTION ABILITY</p>
+                    <p className="font-mono text-[9px] text-foreground/80">
+                      {showCardZoom.factionAbilityId.replace(/_/g, ' ').replace(/\b\w/g, (l: string) => l.toUpperCase())}
+                    </p>
+                  </div>
+                )}
               </div>
             </motion.div>
           </motion.div>

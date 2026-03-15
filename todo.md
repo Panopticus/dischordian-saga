@@ -366,3 +366,14 @@
 - [x] Narrative toast system during combat (battle_start, turn_10, low_influence triggers)
 - [x] Faction-specific victory/defeat lines and battle cries
 - [x] All 90 tests passing
+
+## Phase 15: Card Flavor Text, Codex Library, Faction Abilities
+- [x] All 169 season 1 cards now have flavor text (The Engineer was the only missing one)
+- [x] Created FactionAbilities.ts with 12 unique abilities: 6 Architect (surveillance_protocol, data_corruption, system_override, neural_hijack, panopticon_sight, machine_lattice_link) and 6 Dreamer (dream_weave, inspiration_surge, collective_memory, reality_anchor, hope_resonance, consciousness_bloom)
+- [x] Each ability has distinct triggers: on_deploy, on_combat, on_death, on_turn_start
+- [x] Built Codex/Lore Library page with 20+ unlockable entries across 5 categories (The Struggle, The Architect, The Dreamer, CADES System, The Multiverse)
+- [x] Entries unlock based on clearance level, battles won, and discovery progress
+- [x] Integrated faction abilities into CardBattleEngine at all 4 trigger points (deploy, combat, death, turn_start)
+- [x] Cards display faction ability indicator on battlefield and full ability name in zoom view
+- [x] Codex page route (/codex) and nav link added to THE LORE group
+- [x] All 90 tests passing

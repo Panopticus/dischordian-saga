@@ -5,7 +5,7 @@ import { usePlayer } from "@/contexts/PlayerContext";
 import {
   Search, Menu, X, Map, Music, Users, MapPin, Swords, Clock,
   ChevronRight, ChevronDown, Terminal, Disc3, Shield, Tv, BarChart3, Gamepad2, Trophy, Crosshair,
-  Home, Rocket, Store, ScrollText, FlaskConical, Ship, Crown, Compass, Radio, Heart, Brain
+  Home, Rocket, Store, ScrollText, FlaskConical, Ship, Crown, Compass, Radio, Heart, Brain, BookOpen
 } from "lucide-react";
 import { useGamification } from "@/contexts/GamificationContext";
 import { Progress } from "@/components/ui/progress";
@@ -57,6 +57,7 @@ const NAV_GROUPS: NavGroup[] = [
       { path: "/board", label: "CONSPIRACY BOARD", icon: Map, description: "Connection map" },
       { path: "/character-timeline", label: "CHAR TIMELINE", icon: BarChart3, description: "Character arcs" },
       { path: "/timeline", label: "ERA TIMELINE", icon: Clock, description: "Historical eras" },
+      { path: "/codex", label: "THE CODEX", icon: BookOpen, description: "Lore library" },
     ],
   },
   {

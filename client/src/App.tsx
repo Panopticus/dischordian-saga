@@ -30,6 +30,7 @@ import DiscographyPage from "./pages/DiscographyPage";
 import SagaTimelinePage from "./pages/SagaTimelinePage";
 import FavoritesPage from "./pages/FavoritesPage";
 import LoreQuizPage from "./pages/LoreQuizPage";
+import CodexPage from "./pages/CodexPage";
 import { LoredexProvider } from "./contexts/LoredexContext";
 import { PlayerProvider } from "./contexts/PlayerContext";
 import { GamificationProvider } from "./contexts/GamificationContext";
@@ -68,6 +69,7 @@ function Router() {
       <Route path="/saga-timeline" component={SagaTimelinePage} />
       <Route path="/favorites" component={FavoritesPage} />
       <Route path="/quiz" component={LoreQuizPage} />
+      <Route path="/codex" component={CodexPage} />
       <Route path="/store" component={StorePage} />
       <Route path="/404" component={NotFound} />
       <Route component={NotFound} />
