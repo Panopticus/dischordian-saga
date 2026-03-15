@@ -1,8 +1,8 @@
 import { z } from "zod";
 import { publicProcedure, protectedProcedure, router } from "../_core/trpc";
 import { getDb } from "../db";
-import { twSectors, twPlayerState, twGameLog, cards, userCards } from "../../drizzle/schema";
-import { eq, and, sql, inArray, desc } from "drizzle-orm";
+import { twSectors, twPlayerState, twGameLog, twColonies, cards, userCards, users } from "../../drizzle/schema";
+import { eq, and, sql, inArray, desc, gt } from "drizzle-orm";
 
 // ═══════════════════════════════════════════════════════
 // SHIP DEFINITIONS
@@ -67,6 +67,27 @@ async function logAction(db: any, userId: number, action: string, details: Recor
 
 function getCargoUsed(player: any): number {
   return (player.fuelOre || 0) + (player.organics || 0) + (player.equipment || 0);
+}
+
+const COLONY_INCOME: Record<string, { credits: number; fuelOre: number; organics: number; equipment: number }> = {
+  mining:       { credits: 50,  fuelOre: 5,  organics: 0,  equipment: 1 },
+  agriculture:  { credits: 30,  fuelOre: 0,  organics: 8,  equipment: 0 },
+  technology:   { credits: 80,  fuelOre: 0,  organics: 0,  equipment: 5 },
+  military:     { credits: 40,  fuelOre: 2,  organics: 0,  equipment: 3 },
+  trading:      { credits: 100, fuelOre: 1,  organics: 1,  equipment: 1 },
+};
+
+function getColonyIncome(colonyType: string, level: number, population: number) {
+  const base = COLONY_INCOME[colonyType] || COLONY_INCOME.mining;
+  const levelMultiplier = 1 + (level - 1) * 0.5; // Level 1=1x, 2=1.5x, 3=2x, 4=2.5x, 5=3x
+  const popMultiplier = population / 100; // 100 pop = 1x
+  const mult = levelMultiplier * popMultiplier;
+  return {
+    credits: Math.floor(base.credits * mult),
+    fuelOre: Math.floor(base.fuelOre * mult),
+    organics: Math.floor(base.organics * mult),
+    equipment: Math.floor(base.equipment * mult),
+  };
 }
 
 // ═══════════════════════════════════════════════════════
@@ -666,4 +687,372 @@ export const tradeWarsRouter = router({
       ...ship,
     }));
   }),
+
+  // ═══════════════════════════════════════════════════════
+  // LEADERBOARD
+  // ═══════════════════════════════════════════════════════
+
+  getLeaderboard: publicProcedure
+    .input(z.object({
+      sortBy: z.enum(["credits", "experience", "sectors", "combat"]).default("credits"),
+      limit: z.number().min(1).max(50).default(20),
+    }).optional())
+    .query(async ({ input }) => {
+      const db = await getDb();
+      if (!db) return [];
+
+      const sortBy = input?.sortBy ?? "credits";
+      const limit = input?.limit ?? 20;
+
+      // Get all players with their user info
+      const players = await db
+        .select({
+          userId: twPlayerState.userId,
+          userName: users.name,
+          credits: twPlayerState.credits,
+          experience: twPlayerState.experience,
+          shipType: twPlayerState.shipType,
+          alignment: twPlayerState.alignment,
+          discoveredSectors: twPlayerState.discoveredSectors,
+          ownedPlanets: twPlayerState.ownedPlanets,
+          fighters: twPlayerState.fighters,
+        })
+        .from(twPlayerState)
+        .innerJoin(users, eq(twPlayerState.userId, users.id))
+        .orderBy(
+          sortBy === "credits" ? desc(twPlayerState.credits)
+          : sortBy === "experience" ? desc(twPlayerState.experience)
+          : desc(twPlayerState.experience) // fallback
+        )
+        .limit(limit);
+
+      // Get combat stats for each player
+      const playerIds = players.map(p => p.userId);
+      let combatStats: Record<number, { wins: number; losses: number }> = {};
+
+      if (playerIds.length > 0) {
+        const combatLogs = await db
+          .select({
+            userId: twGameLog.userId,
+            details: twGameLog.details,
+          })
+          .from(twGameLog)
+          .where(and(
+            inArray(twGameLog.userId, playerIds),
+            eq(twGameLog.action, "combat")
+          ));
+
+        for (const log of combatLogs) {
+          if (!combatStats[log.userId]) combatStats[log.userId] = { wins: 0, losses: 0 };
+          const d = log.details as any;
+          if (d?.won) combatStats[log.userId].wins++;
+          else combatStats[log.userId].losses++;
+        }
+      }
+
+      const results = players.map((p, i) => {
+        const discovered = (p.discoveredSectors as number[]) || [];
+        const planets = (p.ownedPlanets as number[]) || [];
+        const combat = combatStats[p.userId] || { wins: 0, losses: 0 };
+        return {
+          rank: i + 1,
+          userId: p.userId,
+          name: p.userName || `Operative ${p.userId}`,
+          credits: p.credits,
+          experience: p.experience,
+          shipType: p.shipType,
+          shipName: SHIPS[p.shipType]?.name || "Unknown",
+          alignment: p.alignment,
+          sectorsDiscovered: discovered.length,
+          planetsOwned: planets.length,
+          fighters: p.fighters,
+          combatWins: combat.wins,
+          combatLosses: combat.losses,
+        };
+      });
+
+      // Re-sort by sectors or combat if needed
+      if (sortBy === "sectors") {
+        results.sort((a, b) => b.sectorsDiscovered - a.sectorsDiscovered);
+        results.forEach((r, i) => r.rank = i + 1);
+      } else if (sortBy === "combat") {
+        results.sort((a, b) => b.combatWins - a.combatWins);
+        results.forEach((r, i) => r.rank = i + 1);
+      }
+
+      return results;
+    }),
+
+  // ═══════════════════════════════════════════════════════
+  // PLANET COLONIZATION
+  // ═══════════════════════════════════════════════════════
+
+  // Claim a planet in current sector
+  claimPlanet: protectedProcedure
+    .input(z.object({
+      planetName: z.string().min(1).max(256),
+      colonyType: z.enum(["mining", "agriculture", "technology", "military", "trading"]).default("mining"),
+    }))
+    .mutation(async ({ ctx, input }) => {
+      const db = await getDb();
+      if (!db) return { success: false, message: "Database unavailable" };
+
+      const player = await getOrCreatePlayer(db, ctx.user.id);
+      if (player.turnsRemaining <= 0) return { success: false, message: "No turns remaining!" };
+
+      // Must be at a planet sector
+      const sectorRows = await db.select().from(twSectors)
+        .where(eq(twSectors.sectorId, player.currentSector)).limit(1);
+      if (sectorRows.length === 0) return { success: false, message: "Sector not found" };
+
+      if (sectorRows[0].sectorType !== "planet") {
+        return { success: false, message: "No planet in this sector to colonize" };
+      }
+
+      // Check if already colonized by this user
+      const existingColony = await db.select().from(twColonies)
+        .where(and(eq(twColonies.userId, ctx.user.id), eq(twColonies.sectorId, player.currentSector)))
+        .limit(1);
+      if (existingColony.length > 0) {
+        return { success: false, message: "You already have a colony on this planet" };
+      }
+
+      // Check if another player owns it
+      const otherColony = await db.select().from(twColonies)
+        .where(eq(twColonies.sectorId, player.currentSector))
+        .limit(1);
+      if (otherColony.length > 0) {
+        return { success: false, message: "This planet is already claimed by another operative" };
+      }
+
+      // Cost to colonize
+      const colonizeCost = 10000;
+      if (player.credits < colonizeCost) {
+        return { success: false, message: `Colonization requires ${colonizeCost} credits. You have ${player.credits}.` };
+      }
+
+      // Create colony
+      await db.insert(twColonies).values({
+        userId: ctx.user.id,
+        sectorId: player.currentSector,
+        planetName: input.planetName,
+        colonyType: input.colonyType,
+        level: 1,
+        population: 100,
+        defense: 0,
+        pendingCredits: 0,
+        pendingFuelOre: 0,
+        pendingOrganics: 0,
+        pendingEquipment: 0,
+        cardBonuses: [],
+      });
+
+      // Update player
+      const planets = (player.ownedPlanets as number[]) || [];
+      planets.push(player.currentSector);
+
+      await db.update(twPlayerState).set({
+        credits: player.credits - colonizeCost,
+        turnsRemaining: player.turnsRemaining - 1,
+        ownedPlanets: planets,
+        experience: player.experience + 50,
+      }).where(eq(twPlayerState.userId, ctx.user.id));
+
+      await logAction(db, ctx.user.id, "colonize", {
+        sectorId: player.currentSector,
+        planetName: input.planetName,
+        colonyType: input.colonyType,
+      }, player.currentSector);
+
+      return {
+        success: true,
+        message: `Colony "${input.planetName}" established! Type: ${input.colonyType}. Population: 100. +50 XP`,
+        colony: { planetName: input.planetName, colonyType: input.colonyType, level: 1, population: 100 },
+      };
+    }),
+
+  // Get all player colonies
+  getColonies: protectedProcedure.query(async ({ ctx }) => {
+    const db = await getDb();
+    if (!db) return [];
+
+    const colonies = await db.select().from(twColonies)
+      .where(eq(twColonies.userId, ctx.user.id))
+      .orderBy(desc(twColonies.level));
+
+    // Calculate pending income for each colony
+    const now = Date.now();
+    return colonies.map(c => {
+      const lastCollected = new Date(c.lastCollected).getTime();
+      const hoursSince = Math.floor((now - lastCollected) / (1000 * 60 * 60));
+      const baseIncome = getColonyIncome(c.colonyType as string, c.level, c.population);
+
+      return {
+        ...c,
+        hoursSinceCollection: hoursSince,
+        projectedCredits: c.pendingCredits + baseIncome.credits * hoursSince,
+        projectedFuelOre: c.pendingFuelOre + baseIncome.fuelOre * hoursSince,
+        projectedOrganics: c.pendingOrganics + baseIncome.organics * hoursSince,
+        projectedEquipment: c.pendingEquipment + baseIncome.equipment * hoursSince,
+        baseIncome,
+      };
+    });
+  }),
+
+  // Collect income from all colonies
+  collectIncome: protectedProcedure.mutation(async ({ ctx }) => {
+    const db = await getDb();
+    if (!db) return { success: false, message: "Database unavailable" };
+
+    const colonies = await db.select().from(twColonies)
+      .where(eq(twColonies.userId, ctx.user.id));
+
+    if (colonies.length === 0) return { success: false, message: "No colonies to collect from" };
+
+    const now = Date.now();
+    let totalCredits = 0;
+    let totalFuelOre = 0;
+    let totalOrganics = 0;
+    let totalEquipment = 0;
+
+    for (const colony of colonies) {
+      const lastCollected = new Date(colony.lastCollected).getTime();
+      const hoursSince = Math.floor((now - lastCollected) / (1000 * 60 * 60));
+      if (hoursSince < 1) continue;
+
+      const income = getColonyIncome(colony.colonyType as string, colony.level, colony.population);
+      const credits = colony.pendingCredits + income.credits * hoursSince;
+      const fuelOre = colony.pendingFuelOre + income.fuelOre * hoursSince;
+      const organics = colony.pendingOrganics + income.organics * hoursSince;
+      const equipment = colony.pendingEquipment + income.equipment * hoursSince;
+
+      totalCredits += credits;
+      totalFuelOre += fuelOre;
+      totalOrganics += organics;
+      totalEquipment += equipment;
+
+      // Grow population slightly
+      const popGrowth = Math.floor(colony.population * 0.02 * hoursSince);
+
+      await db.update(twColonies).set({
+        pendingCredits: 0,
+        pendingFuelOre: 0,
+        pendingOrganics: 0,
+        pendingEquipment: 0,
+        lastCollected: new Date(),
+        population: colony.population + popGrowth,
+      }).where(eq(twColonies.id, colony.id));
+    }
+
+    // Add resources to player
+    const player = await getOrCreatePlayer(db, ctx.user.id);
+    const cargoUsed = getCargoUsed(player);
+    const freeHolds = player.holds - cargoUsed;
+    const totalGoods = totalFuelOre + totalOrganics + totalEquipment;
+    const scale = totalGoods > freeHolds && totalGoods > 0 ? freeHolds / totalGoods : 1;
+
+    await db.update(twPlayerState).set({
+      credits: player.credits + totalCredits,
+      fuelOre: player.fuelOre + Math.floor(totalFuelOre * scale),
+      organics: player.organics + Math.floor(totalOrganics * scale),
+      equipment: player.equipment + Math.floor(totalEquipment * scale),
+      experience: player.experience + 10,
+    }).where(eq(twPlayerState.userId, ctx.user.id));
+
+    await logAction(db, ctx.user.id, "collect_income", {
+      credits: totalCredits,
+      fuelOre: Math.floor(totalFuelOre * scale),
+      organics: Math.floor(totalOrganics * scale),
+      equipment: Math.floor(totalEquipment * scale),
+      colonies: colonies.length,
+    });
+
+    return {
+      success: true,
+      message: `Collected from ${colonies.length} colonies: +${totalCredits} credits` +
+        (totalFuelOre > 0 ? `, +${Math.floor(totalFuelOre * scale)} fuel ore` : "") +
+        (totalOrganics > 0 ? `, +${Math.floor(totalOrganics * scale)} organics` : "") +
+        (totalEquipment > 0 ? `, +${Math.floor(totalEquipment * scale)} equipment` : ""),
+      totalCredits,
+      totalFuelOre: Math.floor(totalFuelOre * scale),
+      totalOrganics: Math.floor(totalOrganics * scale),
+      totalEquipment: Math.floor(totalEquipment * scale),
+    };
+  }),
+
+  // Upgrade a colony
+  upgradeColony: protectedProcedure
+    .input(z.object({ colonyId: z.number() }))
+    .mutation(async ({ ctx, input }) => {
+      const db = await getDb();
+      if (!db) return { success: false, message: "Database unavailable" };
+
+      const colony = await db.select().from(twColonies)
+        .where(and(eq(twColonies.id, input.colonyId), eq(twColonies.userId, ctx.user.id)))
+        .limit(1);
+      if (colony.length === 0) return { success: false, message: "Colony not found" };
+
+      if (colony[0].level >= 5) return { success: false, message: "Colony already at maximum level (5)" };
+
+      const upgradeCosts = [0, 15000, 35000, 75000, 150000]; // Cost for levels 2-5
+      const cost = upgradeCosts[colony[0].level] || 50000;
+
+      const player = await getOrCreatePlayer(db, ctx.user.id);
+      if (player.credits < cost) {
+        return { success: false, message: `Upgrade costs ${cost} credits. You have ${player.credits}.` };
+      }
+
+      await db.update(twColonies).set({
+        level: colony[0].level + 1,
+      }).where(eq(twColonies.id, input.colonyId));
+
+      await db.update(twPlayerState).set({
+        credits: player.credits - cost,
+        experience: player.experience + 25 * colony[0].level,
+      }).where(eq(twPlayerState.userId, ctx.user.id));
+
+      await logAction(db, ctx.user.id, "upgrade_colony", {
+        colonyId: input.colonyId,
+        newLevel: colony[0].level + 1,
+        cost,
+      });
+
+      return {
+        success: true,
+        message: `Colony upgraded to Level ${colony[0].level + 1}! Income increased.`,
+        newLevel: colony[0].level + 1,
+      };
+    }),
+
+  // Fortify colony (add defense)
+  fortifyColony: protectedProcedure
+    .input(z.object({ colonyId: z.number(), fighters: z.number().min(1).max(500) }))
+    .mutation(async ({ ctx, input }) => {
+      const db = await getDb();
+      if (!db) return { success: false, message: "Database unavailable" };
+
+      const colony = await db.select().from(twColonies)
+        .where(and(eq(twColonies.id, input.colonyId), eq(twColonies.userId, ctx.user.id)))
+        .limit(1);
+      if (colony.length === 0) return { success: false, message: "Colony not found" };
+
+      const player = await getOrCreatePlayer(db, ctx.user.id);
+      if (player.fighters < input.fighters) {
+        return { success: false, message: `Not enough fighters. You have ${player.fighters}.` };
+      }
+
+      await db.update(twColonies).set({
+        defense: colony[0].defense + input.fighters,
+      }).where(eq(twColonies.id, input.colonyId));
+
+      await db.update(twPlayerState).set({
+        fighters: player.fighters - input.fighters,
+      }).where(eq(twPlayerState.userId, ctx.user.id));
+
+      return {
+        success: true,
+        message: `Deployed ${input.fighters} fighters to colony. Total defense: ${colony[0].defense + input.fighters}`,
+        newDefense: colony[0].defense + input.fighters,
+      };
+    }),
 });

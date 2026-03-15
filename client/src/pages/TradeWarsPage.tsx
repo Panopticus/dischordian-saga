@@ -49,14 +49,23 @@ const HELP_TEXT = `
 ║    fighters <qty> - Buy fighter drones                          ║
 ║    repair         - Repair shields                              ║
 ║                                                                  ║
+║  COLONIES                                                        ║
+║    colonize <name> <type> - Claim planet (10,000 cr)            ║
+║    colonies       - View your colonies                          ║
+║    collect        - Collect colony income                       ║
+║    upgrade-colony <id> - Upgrade colony level                   ║
+║    fortify <id> <qty>  - Deploy fighters to colony              ║
+║                                                                  ║
 ║  INFO                                                            ║
 ║    status         - Show ship status                            ║
 ║    log            - View recent actions                         ║
+║    leaderboard    - View high scores                            ║
 ║    help           - Show this help                              ║
 ║    clear          - Clear terminal                              ║
 ║    quit           - Exit Trade Wars                             ║
 ║                                                                  ║
 ║  Commodities: fuel, organics, equipment                         ║
+║  Colony types: mining, agriculture, technology, military, trading║
 ╚══════════════════════════════════════════════════════════════════╝`;
 
 const SECTOR_ICONS: Record<string, string> = {
@@ -129,6 +138,10 @@ export default function TradeWarsPage() {
   const repairMut = trpc.tradeWars.repairShields.useMutation();
   const combatMut = trpc.tradeWars.combat.useMutation();
   const mineMut = trpc.tradeWars.mine.useMutation();
+  const claimPlanetMut = trpc.tradeWars.claimPlanet.useMutation();
+  const collectIncomeMut = trpc.tradeWars.collectIncome.useMutation();
+  const upgradeColonyMut = trpc.tradeWars.upgradeColony.useMutation();
+  const fortifyColonyMut = trpc.tradeWars.fortifyColony.useMutation();
   const logQuery = trpc.tradeWars.getLog.useQuery(undefined, { enabled: false });
   const mapQuery = trpc.tradeWars.getMap.useQuery(undefined, { enabled: false });
 
@@ -580,6 +593,143 @@ export default function TradeWarsPage() {
           break;
         }
 
+        case "leaderboard":
+        case "lb":
+        case "scores":
+        case "rankings": {
+          addLine("Accessing galactic rankings...", "system");
+          const sortOptions: Record<string, "credits" | "experience" | "sectors" | "combat"> = {
+            credits: "credits", wealth: "credits",
+            xp: "experience", experience: "experience", exp: "experience",
+            sectors: "sectors", explore: "sectors",
+            combat: "combat", kills: "combat", pvp: "combat",
+          };
+          const sortBy = sortOptions[arg1 || "credits"] || "credits";
+          const lb = await utils.tradeWars.getLeaderboard.fetch({ sortBy });
+          if (!lb || lb.length === 0) {
+            addLine("No operatives registered yet.", "warning");
+            break;
+          }
+          addLines([
+            { text: `╔══════════════════════════════════════════════════════════════════════╗`, type: "info" },
+            { text: `║  GALACTIC LEADERBOARD — Sorted by: ${sortBy.toUpperCase().padEnd(12)}                     ║`, type: "info" },
+            { text: `╠══════════════════════════════════════════════════════════════════════╣`, type: "info" },
+            { text: `║  #   Name                 Credits      XP    Sectors  Wins  Ship   ║`, type: "info" },
+            { text: `║  ──  ────                 ───────      ──    ───────  ────  ────   ║`, type: "info" },
+          ]);
+          lb.forEach((entry: any) => {
+            const isYou = entry.userId === stateQuery.data?.userId;
+            const marker = isYou ? ">>" : "  ";
+            const rankStr = String(entry.rank).padStart(2);
+            const name = (entry.name || "Unknown").substring(0, 20).padEnd(20);
+            const credits = String(entry.credits?.toLocaleString() || "0").padStart(12);
+            const xp = String(entry.experience || 0).padStart(7);
+            const sectors = String(entry.sectorsDiscovered || 0).padStart(7);
+            const wins = String(entry.combatWins || 0).padStart(5);
+            const ship = (entry.shipName || "Scout").substring(0, 6).padEnd(6);
+            addLine(
+              `║${marker}${rankStr}  ${name} ${credits} ${xp}  ${sectors}  ${wins}  ${ship} ║`,
+              isYou ? "warning" : "output"
+            );
+          });
+          addLines([
+            { text: `╠══════════════════════════════════════════════════════════════════════╣`, type: "info" },
+            { text: `║  Sort: leaderboard <credits|xp|sectors|combat>                      ║`, type: "system" },
+            { text: `╚══════════════════════════════════════════════════════════════════════╝`, type: "info" },
+          ]);
+          break;
+        }
+
+        case "colonize":
+        case "claim": {
+          if (!arg1) {
+            addLine("Usage: colonize <planet_name> [type]", "warning");
+            addLine("Types: mining, agriculture, technology, military, trading", "info");
+            break;
+          }
+          const colonyTypes = ["mining", "agriculture", "technology", "military", "trading"];
+          const colType = colonyTypes.includes(arg2 || "") ? arg2 as any : "mining";
+          addLine(`Establishing colony "${arg1}"...`, "system");
+          const result = await claimPlanetMut.mutateAsync({
+            planetName: arg1,
+            colonyType: colType,
+          });
+          addLine(result.message, result.success ? "success" : "error");
+          utils.tradeWars.getState.invalidate();
+          break;
+        }
+
+        case "colonies":
+        case "planets": {
+          addLine("Querying colony database...", "system");
+          const colonies = await utils.tradeWars.getColonies.fetch();
+          if (!colonies || colonies.length === 0) {
+            addLine("No colonies established. Use 'colonize <name> [type]' at a planet sector.", "warning");
+            break;
+          }
+          addLines([
+            { text: `╔══════════════════════════════════════════════════════════════════════╗`, type: "info" },
+            { text: `║  YOUR COLONIES (${colonies.length})                                                   ║`, type: "info" },
+            { text: `╠══════════════════════════════════════════════════════════════════════╣`, type: "info" },
+          ]);
+          colonies.forEach((c: any) => {
+            const typeIcon: Record<string, string> = {
+              mining: "⛏", agriculture: "🌾", technology: "💻", military: "⚔", trading: "💰",
+            };
+            addLines([
+              { text: `║  ${typeIcon[c.colonyType] || "🏠"} ${c.planetName} (ID: ${c.id}) — Sector ${c.sectorId}`, type: "warning" },
+              { text: `║    Type: ${(c.colonyType || "mining").toUpperCase()} | Level: ${c.level}/5 | Pop: ${c.population}`, type: "output" },
+              { text: `║    Defense: ${c.defense} fighters | Hours since collection: ${c.hoursSinceCollection}`, type: "output" },
+              { text: `║    Pending: ${c.projectedCredits} cr, ${c.projectedFuelOre} ore, ${c.projectedOrganics} org, ${c.projectedEquipment} eq`, type: "success" },
+              { text: `║    Income/hr: ${c.baseIncome?.credits} cr, ${c.baseIncome?.fuelOre} ore, ${c.baseIncome?.organics} org, ${c.baseIncome?.equipment} eq`, type: "info" },
+              { text: `║`, type: "info" },
+            ]);
+          });
+          addLines([
+            { text: `╠══════════════════════════════════════════════════════════════════════╣`, type: "info" },
+            { text: `║  collect — Collect all income | upgrade-colony <id> — Level up      ║`, type: "system" },
+            { text: `║  fortify <id> <qty> — Deploy fighters for defense                   ║`, type: "system" },
+            { text: `╚══════════════════════════════════════════════════════════════════════╝`, type: "info" },
+          ]);
+          break;
+        }
+
+        case "collect":
+        case "harvest": {
+          addLine("Collecting colony income...", "system");
+          const result = await collectIncomeMut.mutateAsync();
+          addLine(result.message, result.success ? "success" : "error");
+          utils.tradeWars.getState.invalidate();
+          break;
+        }
+
+        case "upgrade-colony":
+        case "uc": {
+          if (!arg1 || isNaN(Number(arg1))) {
+            addLine("Usage: upgrade-colony <colony_id>", "warning");
+            addLine("Use 'colonies' to see your colony IDs.", "info");
+            break;
+          }
+          addLine("Upgrading colony infrastructure...", "system");
+          const result = await upgradeColonyMut.mutateAsync({ colonyId: Number(arg1) });
+          addLine(result.message, result.success ? "success" : "error");
+          break;
+        }
+
+        case "fortify": {
+          if (!arg1 || isNaN(Number(arg1)) || !arg2 || isNaN(Number(arg2))) {
+            addLine("Usage: fortify <colony_id> <fighter_count>", "warning");
+            break;
+          }
+          const result = await fortifyColonyMut.mutateAsync({
+            colonyId: Number(arg1),
+            fighters: Number(arg2),
+          });
+          addLine(result.message, result.success ? "success" : "error");
+          utils.tradeWars.getState.invalidate();
+          break;
+        }
+
         case "log":
         case "history": {
           const logData = await utils.tradeWars.getLog.fetch();
@@ -613,7 +763,7 @@ export default function TradeWarsPage() {
     }
 
     setIsProcessing(false);
-  }, [addLine, addLines, showSectorInfo, utils, warpMut, tradeMut, scanMut, upgradeMut, buyFightersMut, repairMut, combatMut, mineMut, shipsQuery.data]);
+  }, [addLine, addLines, showSectorInfo, utils, warpMut, tradeMut, scanMut, upgradeMut, buyFightersMut, repairMut, combatMut, mineMut, claimPlanetMut, collectIncomeMut, upgradeColonyMut, fortifyColonyMut, shipsQuery.data, stateQuery.data]);
 
   // Handle input submission
   const handleSubmit = useCallback((e: React.FormEvent) => {

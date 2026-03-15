@@ -431,6 +431,39 @@ export const twPlayerState = mysqlTable("tw_player_state", {
 export type TWPlayerState = typeof twPlayerState.$inferSelect;
 
 /**
+ * Trade Wars colonies — player-owned planet developments.
+ */
+export const twColonies = mysqlTable("tw_colonies", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  sectorId: int("sectorId").notNull(),
+  planetName: varchar("planetName", { length: 256 }).notNull(),
+  /** Colony level (1-5) determines income multiplier */
+  level: int("level").notNull().default(1),
+  /** Colony type determines what it produces */
+  colonyType: mysqlEnum("colonyType", [
+    "mining", "agriculture", "technology", "military", "trading"
+  ]).default("mining"),
+  /** Population (affects production) */
+  population: int("population").notNull().default(100),
+  /** Defense level (fighters stationed) */
+  defense: int("defense").notNull().default(0),
+  /** Accumulated uncollected income */
+  pendingCredits: int("pendingCredits").notNull().default(0),
+  pendingFuelOre: int("pendingFuelOre").notNull().default(0),
+  pendingOrganics: int("pendingOrganics").notNull().default(0),
+  pendingEquipment: int("pendingEquipment").notNull().default(0),
+  /** Last income collection time */
+  lastCollected: timestamp("lastCollected").defaultNow().notNull(),
+  /** Card bonuses applied JSON */
+  cardBonuses: json("cardBonuses").$type<string[]>(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type TWColony = typeof twColonies.$inferSelect;
+
+/**
  * Trade Wars game log — action history.
  */
 export const twGameLog = mysqlTable("tw_game_log", {

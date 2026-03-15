@@ -99,6 +99,13 @@ export default function CardBrowserPage() {
               </div>
             </div>
             <div className="flex items-center gap-2">
+              <Link
+                href="/deck-builder"
+                className="flex items-center gap-1.5 px-3 py-2 rounded-md bg-primary/10 border border-primary/30 text-primary text-xs font-mono hover:bg-primary/20 transition-colors"
+              >
+                <Sparkles size={14} />
+                DECK BUILDER
+              </Link>
               <button
                 onClick={() => setGridSize(gridSize === "sm" ? "md" : "sm")}
                 className="p-2 rounded-md bg-secondary border border-border/30 text-muted-foreground hover:text-primary transition-colors"

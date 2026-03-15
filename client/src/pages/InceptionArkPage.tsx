@@ -44,7 +44,7 @@ const ARK_DECKS = [
       { id: "training", name: "Training Arena", icon: Swords, x: 4, y: 0, w: 1, h: 1, type: "combat", locked: false, description: "Practice combat techniques. Fight AI opponents to earn cards." },
       { id: "medbay", name: "Medical Bay", icon: Heart, x: 0, y: 1, w: 1, h: 1, type: "utility", locked: false, description: "Heal and restore. Review your character's status." },
       { id: "rec_room", name: "Recreation Room", icon: Music, x: 1, y: 1, w: 2, h: 1, type: "entertainment", locked: false, description: "Music player, doom scroll feed, and entertainment systems." },
-      { id: "armory", name: "Armory", icon: Shield, x: 3, y: 1, w: 2, h: 1, type: "combat", locked: true, description: "Weapons and equipment storage. Manage your card deck loadouts." },
+      { id: "armory", name: "Armory", icon: Shield, x: 3, y: 1, w: 2, h: 1, type: "combat", locked: false, description: "Weapons and equipment storage. Manage your card deck loadouts." },
     ],
   },
   {
@@ -106,6 +106,7 @@ const ROOM_ROUTES: Record<string, string> = {
   bridge: "/board",
   comms: "/console",
   nav: "/timeline",
+  armory: "/deck-builder",
 };
 
 export default function InceptionArkPage() {

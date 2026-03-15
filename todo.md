@@ -92,7 +92,7 @@
 - [x] Build tRPC API routes for card game engine (start match, play cards, resolve combat)
 - [x] Build card browser/collection page with grid layout and filtering
 - [x] Build individual card detail view with full stats and artwork
-- [ ] Build deck builder UI with drag-and-drop card management
+- [x] Build deck builder UI with drag-and-drop card management
 - [x] Build VTES-inspired card game gameplay UI with animated card attacks
 - [x] Build card combat animations (attack, defend, special effects)
 - [x] Build Inception Ark explorable map with room navigation
@@ -112,3 +112,15 @@
 - [x] Integrate card system bonuses into Trade Wars (card-based ship upgrades)
 - [x] Connect Trade Wars to Inception Ark Command Deck access point
 - [x] Seed initial galaxy with sectors, ports, and hazards
+
+## Phase 5: Leaderboard, Deck Builder, Planet Colonization
+- [x] Build Trade Wars leaderboard backend (tRPC endpoint for rankings by credits, sectors, combat wins)
+- [x] Build Trade Wars leaderboard BBS-style UI (high score board in terminal aesthetic)
+- [x] Build deck builder UI page with drag-and-drop card management
+- [x] Build deck builder filtering, search, and card slot assignment
+- [x] Build deck builder save/load/delete functionality
+- [x] Build planet colonization database schema (tw_colonies table)
+- [x] Build planet colonization tRPC endpoints (claim, develop, collect income)
+- [x] Build planet colonization UI in Trade Wars terminal (colony management commands)
+- [x] Build passive income system tied to card collection bonuses
+- [x] Write vitest tests for leaderboard, deck builder, and colonization features

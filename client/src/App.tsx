@@ -20,6 +20,7 @@ import CardGamePage from "./pages/CardGamePage";
 import InceptionArkPage from "./pages/InceptionArkPage";
 import TrophyRoomPage from "./pages/TrophyRoomPage";
 import TradeWarsPage from "./pages/TradeWarsPage";
+import DeckBuilderPage from "./pages/DeckBuilderPage";
 import { LoredexProvider } from "./contexts/LoredexContext";
 import { PlayerProvider } from "./contexts/PlayerContext";
 import { GamificationProvider } from "./contexts/GamificationContext";
@@ -46,6 +47,7 @@ function Router() {
       <Route path="/ark" component={InceptionArkPage} />
       <Route path="/trophy" component={TrophyRoomPage} />
       <Route path="/trade-wars" component={TradeWarsPage} />
+      <Route path="/deck-builder" component={DeckBuilderPage} />
       <Route path="/404" component={NotFound} />
       <Route component={NotFound} />
     </Switch>
