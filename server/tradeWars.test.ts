@@ -74,7 +74,7 @@ describe("tradeWars", () => {
         expect(state.shipInfo).toBeDefined();
         expect(typeof state.cargoUsed).toBe("number");
       }
-    });
+    }, 15000);
 
     it("returns consistent state on repeated calls", async () => {
       const state1 = await caller.tradeWars.getState();

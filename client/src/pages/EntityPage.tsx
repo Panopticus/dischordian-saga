@@ -30,7 +30,7 @@ const BADGE_CLASS: Record<string, string> = {
 
 export default function EntityPage() {
   const [, params] = useRoute("/entity/:id");
-  const { getEntryById, getRelated, getSongsForCharacter, discoverEntry, relationships } = useLoredex();
+  const { getEntryById, getRelated, getSongsForCharacter, discoverEntry, relationships, getAliases } = useLoredex();
   const { playSong, setQueue } = usePlayer();
   const gamification = useGamification();
   const trackedRef = useRef<string | null>(null);
@@ -315,7 +315,7 @@ export default function EntityPage() {
                       <div className="min-w-0 flex-1">
                         <p className="text-xs font-medium truncate group-hover:text-primary transition-colors">{rel.name}</p>
                         {relType && (
-                          <p className="font-mono text-[10px] text-muted-foreground/50 truncate">{relType.type}</p>
+                          <p className="font-mono text-[10px] text-muted-foreground/50 truncate">{relType.relationship_type || relType.type || 'connected_to'}</p>
                         )}
                       </div>
                       <ChevronRight size={12} className="text-muted-foreground/20 group-hover:text-primary/50 shrink-0 transition-colors" />

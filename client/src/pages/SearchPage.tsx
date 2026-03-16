@@ -36,7 +36,7 @@ export default function SearchPage() {
   const urlType = new URLSearchParams(searchParams).get("type") || "";
   const [query, setQuery] = useState("");
   const [activeType, setActiveType] = useState(urlType);
-  const { entries, search, getByType, discoverEntry } = useLoredex();
+  const { entries, search, getByType, discoverEntry, resolveAlias, getAliases } = useLoredex();
   const { playSong } = usePlayer();
 
   useEffect(() => {
@@ -72,7 +72,7 @@ export default function SearchPage() {
           type="text"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          placeholder="Search entities, songs, locations..."
+          placeholder="Search entities, songs, aliases..."
           className="w-full pl-10 pr-10 py-3 rounded-lg bg-secondary/30 border border-border/30 text-sm font-mono text-foreground placeholder:text-muted-foreground/30 focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/20 transition-all"
           autoFocus
         />
@@ -170,6 +170,11 @@ export default function SearchPage() {
                   <p className="text-[9px] font-mono text-muted-foreground/40 truncate mt-0.5">
                     {isSong ? entry.album : entry.era || entry.affiliation || entry.type}
                   </p>
+                  {entry.aliases && entry.aliases.length > 0 && query && entry.aliases.some(a => a.toLowerCase().includes(query.toLowerCase())) && (
+                    <p className="text-[8px] font-mono text-primary/40 truncate">
+                      aka: {entry.aliases.filter(a => a.toLowerCase().includes(query.toLowerCase())).join(", ")}
+                    </p>
+                  )}
                 </div>
               </Link>
             </motion.div>

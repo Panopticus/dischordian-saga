@@ -110,7 +110,7 @@ export default function BoardPage() {
     const nodeNames = new Set(nodes.map((n) => n.name.toLowerCase()));
     const edges: Edge[] = relationships
       .filter((r) => nodeNames.has(r.source.toLowerCase()) && nodeNames.has(r.target.toLowerCase()))
-      .map((r) => ({ source: r.source, target: r.target, type: r.type }));
+      .map((r) => ({ source: r.source, target: r.target, type: r.relationship_type || r.type || 'connected_to' }));
 
     return { nodes, edges };
   }, [entries, relationships, filter]);

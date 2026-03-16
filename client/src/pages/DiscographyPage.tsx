@@ -112,7 +112,7 @@ function TidalIcon({ size = 16 }: { size?: number }) {
 }
 
 export default function DiscographyPage() {
-  const { getByAlbum, entries } = useLoredex();
+  const { getByAlbum, entries, albumStreamingLinks } = useLoredex();
   const { playSong, setQueue, currentSong, isPlaying } = usePlayer();
   const [expandedAlbum, setExpandedAlbum] = useState<string | null>("dischordian-logic");
 
@@ -228,33 +228,39 @@ export default function DiscographyPage() {
               <ExternalLink size={10} />
               YOUTUBE
             </a>
-            <a
-              href="https://open.spotify.com/artist/4Y8EHFcGVJxylHEJvFBpqr"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-2 px-3 py-2 rounded-md font-mono text-[10px] tracking-wider text-[#1DB954]/70 border border-[#1DB954]/20 hover:text-[#1DB954] hover:border-[#1DB954]/40 hover:bg-[#1DB954]/5 transition-all"
-            >
-              <SpotifyIcon size={10} />
-              SPOTIFY
-            </a>
-            <a
-              href="https://music.apple.com/us/artist/malkia-ukweli-the-panopticon/1803055967"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-2 px-3 py-2 rounded-md font-mono text-[10px] tracking-wider text-[#FC3C44]/70 border border-[#FC3C44]/20 hover:text-[#FC3C44] hover:border-[#FC3C44]/40 hover:bg-[#FC3C44]/5 transition-all"
-            >
-              <AppleMusicIcon size={10} />
-              APPLE MUSIC
-            </a>
-            <a
-              href="https://tidal.com/browse/artist/49211320"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-2 px-3 py-2 rounded-md font-mono text-[10px] tracking-wider text-white/50 border border-white/10 hover:text-white/80 hover:border-white/20 hover:bg-white/5 transition-all"
-            >
-              <TidalIcon size={10} />
-              TIDAL
-            </a>
+            {albumStreamingLinks?.spotify?.artist && (
+              <a
+                href={albumStreamingLinks.spotify.artist}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 px-3 py-2 rounded-md font-mono text-[10px] tracking-wider text-[#1DB954]/70 border border-[#1DB954]/20 hover:text-[#1DB954] hover:border-[#1DB954]/40 hover:bg-[#1DB954]/5 transition-all"
+              >
+                <SpotifyIcon size={10} />
+                SPOTIFY
+              </a>
+            )}
+            {albumStreamingLinks?.apple_music?.artist && (
+              <a
+                href={albumStreamingLinks.apple_music.artist}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 px-3 py-2 rounded-md font-mono text-[10px] tracking-wider text-[#FC3C44]/70 border border-[#FC3C44]/20 hover:text-[#FC3C44] hover:border-[#FC3C44]/40 hover:bg-[#FC3C44]/5 transition-all"
+              >
+                <AppleMusicIcon size={10} />
+                APPLE MUSIC
+              </a>
+            )}
+            {albumStreamingLinks?.tidal?.artist && (
+              <a
+                href={albumStreamingLinks.tidal.artist}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 px-3 py-2 rounded-md font-mono text-[10px] tracking-wider text-white/50 border border-white/10 hover:text-white/80 hover:border-white/20 hover:bg-white/5 transition-all"
+              >
+                <TidalIcon size={10} />
+                TIDAL
+              </a>
+            )}
           </div>
         </motion.div>
       </div>

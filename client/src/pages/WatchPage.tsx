@@ -278,7 +278,7 @@ function saveWatchProgress(progress: WatchProgress) {
 type ViewMode = "epochs" | "episodes" | "stories";
 
 export default function WatchPage() {
-  const { entries, getEntry, discoverEntry, musicVideos } = useLoredex();
+  const { entries, getEntry, discoverEntry, musicVideos, songCharacterMap } = useLoredex();
   const { playSong, setQueue } = usePlayer();
   const gamification = useGamification();
   const [viewMode, setViewMode] = useState<ViewMode>("epochs");
@@ -339,7 +339,7 @@ export default function WatchPage() {
         trackNumber: song.track_number || 0,
         videoUrl,
         description: song.history || song.bio || "",
-        characters: song.characters_featured || [],
+        characters: song.characters_featured || songCharacterMap[song.name] || [],
         locations: SONG_LOCATIONS[song.name] || [],
         factions: SONG_FACTIONS[song.name] || [],
         conexusGames: SONG_CONEXUS[song.name] || [],

@@ -377,3 +377,20 @@
 - [x] Cards display faction ability indicator on battlefield and full ability name in zoom view
 - [x] Codex page route (/codex) and nav link added to THE LORE group
 - [x] All 90 tests passing
+
+## Phase 16: Data Cleanup & Model Expansion (v4)
+- [x] Fix corrupted graph connections (removed 16 broken relationships, 507 valid connections remain)
+- [x] Clean polluted text fields (PLAY NOW, Connections, Appearances junk removed from bio/description)
+- [x] Add missing entities: Varkul the Blood Lord, Fenra the Moon Tyrant, The Clone, Castle of Death, Cathedral of Code, Cursed Forest + others (176 total entries now)
+- [x] Add missing CoNexus stories: The Necromancer's Lair, Awaken the Clone
+- [x] Expand episodes data with full per-episode objects (epochs with playlist IDs)
+- [x] Normalize image filename mappings — all 176 entries have CDN images
+- [x] Reconcile entity counts — 176 entries (58 chars, 19 locations, 10 factions, 89 songs)
+- [x] Expand app data model/types: streaming_links, song_character_map, aliases, episodes, music_video, conexus_games
+- [x] Update LoredexContext with expanded data model (aliases, streaming links, episodes, songCharacterMap)
+- [x] Update SearchPage to index and search aliases (alias match indicator)
+- [x] Update DiscographyPage to use data-driven streaming links from context
+- [x] Update WatchPage to use songCharacterMap for richer episode character data
+- [x] Fix Relationship interface (relationship_type field name mismatch)
+- [x] Fix BoardPage and EntityPage to use relationship_type from updated data model
+- [x] All 90 tests passing

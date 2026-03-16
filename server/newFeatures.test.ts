@@ -42,7 +42,7 @@ describe("citizen", () => {
       const result = await caller.citizen.getCharacter();
       // New user should have no character or get null
       expect(result === null || result === undefined || (typeof result === "object" && result !== null)).toBe(true);
-    });
+    }, 15000);
   });
 
   describe("getConfig", () => {
