@@ -1,12 +1,18 @@
 /* ═══════════════════════════════════════════════════════
-   SOUND CONTROLS — Volume/mute toggle for the Ark
+   SOUND CONTROLS — Volume/mute + TTS toggle for the Ark
    Shows in the AppShell header area
    ═══════════════════════════════════════════════════════ */
-import { Volume2, VolumeX, Volume1 } from "lucide-react";
+import { Volume2, VolumeX, Volume1, Mic, MicOff } from "lucide-react";
 import { useSound } from "@/contexts/SoundContext";
 import { useState, useRef, useEffect } from "react";
 
-export default function SoundControls() {
+interface SoundControlsProps {
+  ttsEnabled?: boolean;
+  onToggleTTS?: () => void;
+  isSpeaking?: boolean;
+}
+
+export default function SoundControls({ ttsEnabled, onToggleTTS, isSpeaking }: SoundControlsProps) {
   const { muted, volume, setMuted, setVolume, toggleMute, initAudio, audioReady } = useSound();
   const [showSlider, setShowSlider] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -32,7 +38,33 @@ export default function SoundControls() {
   const VolumeIcon = muted ? VolumeX : volume > 0.5 ? Volume2 : Volume1;
 
   return (
-    <div ref={containerRef} className="relative">
+    <div ref={containerRef} className="relative flex items-center gap-1.5">
+      {/* TTS Toggle */}
+      {onToggleTTS && (
+        <button
+          onClick={onToggleTTS}
+          className="p-1.5 rounded-md transition-all group relative"
+          style={{
+            background: ttsEnabled ? "rgba(51,226,230,0.08)" : "rgba(255,50,50,0.05)",
+            border: `1px solid ${ttsEnabled ? "rgba(51,226,230,0.15)" : "rgba(255,255,255,0.05)"}`,
+          }}
+          title={ttsEnabled ? "Disable Elara Voice" : "Enable Elara Voice"}
+        >
+          {ttsEnabled ? (
+            <Mic
+              size={13}
+              className={`transition-colors ${isSpeaking ? "text-[var(--neon-cyan)] animate-pulse" : "text-[var(--neon-cyan)]/60 group-hover:text-[var(--neon-cyan)]"}`}
+            />
+          ) : (
+            <MicOff size={13} className="text-white/20 group-hover:text-white/40 transition-colors" />
+          )}
+          {isSpeaking && (
+            <span className="absolute -top-0.5 -right-0.5 w-1.5 h-1.5 rounded-full bg-[var(--neon-cyan)] animate-pulse" />
+          )}
+        </button>
+      )}
+
+      {/* Volume Control */}
       <button
         onClick={handleClick}
         onContextMenu={(e) => { e.preventDefault(); setShowSlider(!showSlider); }}

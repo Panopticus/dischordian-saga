@@ -483,3 +483,30 @@
 - [x] 8 unique puzzles across different locked rooms (riddle, cipher, sequence, keycard, power relay)
 - [x] Puzzle completion rewards (room unlock, toast notifications)
 - [x] 112 tests passing (19 new puzzle/card tests)
+
+## Phase 19: Elara TTS, Card Battle System, and Hidden Easter Eggs
+
+### Elara Text-to-Speech
+- [x] Build Web Speech API integration for Elara's dialog (useElaraTTS hook)
+- [x] Auto-speak Elara dialog during Awakening sequence (speak triggers on step change)
+- [x] Auto-speak Elara room introductions on first visit
+- [x] Speak hotspot dialog on examine/interact
+- [x] TTS toggle in sound controls (enable/disable voice)
+- [x] Select appropriate female voice with pitch/rate tuning for horror sci-fi tone (0.85 rate, 0.9 pitch)
+
+### Card Battle System
+- [x] Design turn-based card battle engine (play cards, attack face/cards, abilities, energy system)
+- [x] Build AI opponent with 3 difficulty levels (easy/normal/hard)
+- [x] Build card battle UI with hand, field, health bars, energy, and turn indicator (CardBattlePage)
+- [x] Integrate into Armory room's Combat Arena hotspot (/battle route)
+- [x] Battle rewards: XP, new cards, achievements
+- [x] 3 AI opponent decks: Corrupted Sentinel (easy), Thought Virus (normal), Void Entity (hard)
+
+### Hidden Easter Eggs
+- [x] Add secret clickable pixels/areas in room scenes (3-5% size, 8% opacity, barely visible)
+- [x] Easter eggs reveal lore fragments (Antiquarian's mark, Engineer mind swap, Oracle clone, Meme identity)
+- [x] Easter eggs reward bonus cards: mythic/legendary cards not available through normal play
+- [x] Easter eggs unlock special achievements
+- [x] 10 Easter eggs across all rooms (one per room)
+- [x] Visual hint system: tiny 1.5px dot at 8% opacity, glows to 60% on hover
+- [x] 130 tests passing (18 new Phase 19 tests)

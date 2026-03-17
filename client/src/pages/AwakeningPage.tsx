@@ -2,7 +2,7 @@
    AWAKENING PAGE — First-time cryo pod experience
    Horror sci-fi narrative character creation through Elara dialog
    ═══════════════════════════════════════════════════════ */
-import { useState, useEffect, useCallback, useMemo } from "react";
+import { useState, useEffect, useCallback, useMemo, useRef } from "react";
 import { useGame, type AwakeningStep } from "@/contexts/GameContext";
 import { useGamification } from "@/contexts/GamificationContext";
 import { useSound } from "@/contexts/SoundContext";
@@ -252,7 +252,7 @@ function AttributeAllocator({
 }
 
 /* ─── MAIN AWAKENING PAGE ─── */
-export default function AwakeningPage() {
+export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
   const { state, advanceAwakening, setCharacterChoice, completeAwakening, setAwakeningStep } = useGame();
   const { discoverEntry } = useGamification();
   const { initAudio, setRoomAmbience, playSFX, audioReady } = useSound();
@@ -263,6 +263,7 @@ export default function AwakeningPage() {
   const [heartbeat, setHeartbeat] = useState(true);
   const [showDeckReveal, setShowDeckReveal] = useState(false);
   const [audioInitialized, setAudioInitialized] = useState(false);
+  const lastSpokenRef = useRef<string>("");
 
   const createCitizen = trpc.citizen.createCharacter.useMutation();
 
@@ -299,12 +300,35 @@ export default function AwakeningPage() {
     }
   }, [awakeningStep, audioInitialized, playSFX]);
 
-  // Play dialog SFX on each step change
+  // Play dialog SFX on each step change + trigger Elara TTS
   useEffect(() => {
     if (audioInitialized && awakeningStep !== "BLACKOUT" && awakeningStep !== "COMPLETE") {
       playSFX("dialog_open");
     }
   }, [awakeningStep, audioInitialized, playSFX]);
+
+  // Elara TTS — speak dialog text when step changes
+  const STEP_DIALOG: Partial<Record<AwakeningStep, string>> = useMemo(() => ({
+    CRYO_OPEN: "Can you hear me? Don't try to move yet. Your neural pathways are still re-establishing.",
+    ELARA_INTRO: "I am Elara, the ship's intelligence. You've been in cryogenic suspension. You are aboard Inception Ark Vessel 47. You are a Potential. The others, the first wave, they're gone. All communications have been severed. We are alone.",
+    SPECIES_QUESTION: "Your neural patterns are unusual. Your cellular structure doesn't match standard human baselines. What do you remember about your origin?",
+    CLASS_QUESTION: "Your skill matrices are partially intact. What comes naturally to you?",
+    ALIGNMENT_QUESTION: "The Architect built the Panopticon to impose order. The Dreamer believed in the chaos of free will. Where do you stand?",
+    ELEMENT_QUESTION: "Choose your elemental affinity. Which force resonates with your soul?",
+    NAME_INPUT: "The cryo manifest lists you by serial number, but every Potential deserves a name. What should I call you?",
+    ATTRIBUTES: "I need to calibrate your neural interface. Distribute your attribute points carefully.",
+    FIRST_STEPS: "Welcome aboard. Your Citizen profile has been created. The rest of the ship needs your help to restore power.",
+  }), []);
+
+  useEffect(() => {
+    const dialogText = STEP_DIALOG[awakeningStep];
+    if (dialogText && elaraTTS && dialogText !== lastSpokenRef.current) {
+      lastSpokenRef.current = dialogText;
+      // Small delay to let the typewriter start first
+      const t = setTimeout(() => elaraTTS.speak(dialogText), 300);
+      return () => clearTimeout(t);
+    }
+  }, [awakeningStep, elaraTTS, STEP_DIALOG]);
 
   // Get available elements based on species
   const availableElements = useMemo(() => {

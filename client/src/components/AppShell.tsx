@@ -165,7 +165,7 @@ function NavGroupSection({ group, location, onNavigate }: { group: NavGroup; loc
   );
 }
 
-export default function AppShell({ children }: { children: ReactNode }) {
+export default function AppShell({ children, elaraTTS: _elaraTTS }: { children: ReactNode; elaraTTS?: any }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [location] = useLocation();
   const { stats, discoveryProgress } = useLoredex();

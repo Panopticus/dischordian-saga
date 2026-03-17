@@ -107,6 +107,7 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       { id: "door-medical", name: "Medical Bay Door", description: "A reinforced door leading to the Medical Bay. Green status light.", x: 88, y: 20, width: 10, height: 50, type: "door", action: "medical-bay" },
       { id: "door-bridge", name: "Bridge Access", description: "A corridor leading up to Deck 2 — the Command deck.", x: 2, y: 20, width: 10, height: 50, type: "door", action: "bridge" },
       { id: "data-crystal", name: "Data Crystal", description: "A glowing crystal wedged under a pod. It contains encrypted data.", x: 55, y: 70, width: 8, height: 10, type: "item", action: "data-crystal-alpha", elaraDialog: "A data crystal! These were used by the first wave to store personal logs. This one might contain information about what happened after they woke up." },
+      { id: "egg-cryo-scratch", name: "Scratched Symbol", description: "Barely visible scratch marks on the wall behind a pod.", x: 82, y: 72, width: 4, height: 5, type: "examine", elaraDialog: "Wait... those scratch marks. They form a symbol — the mark of the Antiquarian. But that's impossible. The Antiquarian is a myth, a figure from the deepest layers of the prophecy. Who carved this here, and when? This predates our launch." },
     ],
   },
   {
@@ -127,6 +128,7 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       { id: "medicine-cabinet", name: "Medicine Cabinet", description: "Vials of glowing liquid. Some are labeled, others are not.", x: 8, y: 25, width: 12, height: 30, type: "examine", elaraDialog: "Medical supplies. Most are standard stim-packs and neural stabilizers. But some of these vials... I don't recognize the compounds. They weren't in the original manifest." },
       { id: "medical-log", name: "Medical Log", description: "A data pad with the last medical officer's notes.", x: 25, y: 65, width: 10, height: 12, type: "item", action: "medical-log-001", elaraDialog: "The last medical officer's log. Dated... I can't read the timestamp. But the entries describe patients with unusual symptoms. Nightmares. Voices. Something about 'the signal.'" },
       { id: "door-cryo", name: "Cryo Bay Door", description: "Return to the Cryo Bay.", x: 2, y: 20, width: 10, height: 50, type: "door", action: "cryo-bay" },
+      { id: "egg-med-vial", name: "Unlabeled Vial", description: "A tiny vial of shimmering black liquid hidden behind the cabinet.", x: 18, y: 58, width: 3, height: 4, type: "item", action: "void-essence-sample", elaraDialog: "That vial... the liquid inside is moving on its own. The molecular structure doesn't match anything in my database. It's not from any known universe. The label has been torn off, but there's a serial number: VE-001. 'VE' — Void Essence? This shouldn't exist on this ship." },
     ],
   },
   {
@@ -149,6 +151,7 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       { id: "door-archives", name: "Archives Access", description: "A secured door leading to the Archives.", x: 88, y: 20, width: 10, height: 50, type: "door", action: "archives" },
       { id: "door-cryo", name: "Cryo Bay Stairs", description: "Stairs leading down to Deck 1.", x: 2, y: 20, width: 10, height: 50, type: "door", action: "cryo-bay" },
       { id: "door-comms", name: "Comms Array Corridor", description: "A corridor leading to the Communications Array.", x: 50, y: 85, width: 15, height: 12, type: "door", action: "comms-array" },
+      { id: "egg-bridge-log", name: "Hidden Data Chip", description: "A micro data chip wedged into the captain's armrest.", x: 52, y: 68, width: 3, height: 4, type: "item", action: "captains-final-log", elaraDialog: "A hidden data chip! Captain Voss must have concealed this before she entered cryo. Let me decrypt it... 'If you're reading this, the mind swap was successful. I am not who you think I am. The Engineer lives. Find the yellow coats.' The Engineer... in the Captain's body? This changes everything." },
     ],
   },
   {
@@ -169,6 +172,7 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       { id: "data-banks", name: "Data Banks", description: "Rows of humming data storage units containing centuries of records.", x: 10, y: 25, width: 15, height: 40, type: "examine", elaraDialog: "Petabytes of data. Ship logs, personnel records, scientific research, intercepted transmissions. Most of it is corrupted or encrypted. I'm still trying to recover what I can." },
       { id: "archive-crystal", name: "Encoded Crystal", description: "A crystal pulsing with amber light, partially decoded.", x: 55, y: 65, width: 8, height: 10, type: "item", action: "archive-crystal-beta", elaraDialog: "Another data crystal. This one has partial decryption — it seems to contain information about the Panopticon's surveillance network. The Architect's eyes were everywhere." },
       { id: "door-bridge", name: "Bridge Door", description: "Return to the Command Bridge.", x: 2, y: 20, width: 10, height: 50, type: "door", action: "bridge" },
+      { id: "egg-archive-tome", name: "Unmarked Tome", description: "A book with no title, bound in material that feels warm to the touch.", x: 88, y: 68, width: 3, height: 5, type: "examine", elaraDialog: "This book... it's not in any catalog. The binding material is organic — it's warm, like skin. The pages contain a prophecy written in a language I can't translate, but one word repeats: 'Dischord.' And at the very end, a drawing of seven seals. The Book of Revelation speaks of seven seals. Silence in Heaven follows the opening of the seventh." },
     ],
   },
   {
@@ -189,6 +193,7 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       { id: "static-screen", name: "Static Screen", description: "A screen showing nothing but static. Occasionally, shapes seem to form in the noise.", x: 10, y: 30, width: 12, height: 25, type: "examine", elaraDialog: "That screen has been showing static since I can remember. But sometimes... sometimes I think I see patterns in it. Faces. Words. It's probably just signal degradation. Probably." },
       { id: "door-bridge", name: "Bridge Corridor", description: "Return to the Command Bridge.", x: 2, y: 20, width: 10, height: 50, type: "door", action: "bridge" },
       { id: "door-observation", name: "Observation Deck", description: "A passage to the Observation Deck.", x: 88, y: 20, width: 10, height: 50, type: "door", action: "observation-deck" },
+      { id: "egg-comms-signal", name: "Anomalous Frequency", description: "A barely audible signal on a frequency that shouldn't exist.", x: 78, y: 62, width: 4, height: 4, type: "examine", elaraDialog: "That frequency... it's not on any standard band. The signal is repeating a pattern: three short, three long, three short. An SOS. But the origin coordinates point to a location that doesn't exist in normal space. Someone — or something — is calling for help from between dimensions. The signal is tagged with an identifier: 'MEME-PRIME.'" },
     ],
   },
   {
@@ -209,6 +214,7 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       { id: "crew-memorial", name: "Crew Memorial", description: "A small memorial with names etched in light. The crew who didn't make it.", x: 70, y: 50, width: 15, height: 25, type: "examine", elaraDialog: "A memorial for the crew members who didn't survive the journey. Forty-seven names. They gave their lives to keep the Ark running while the Potentials slept. I remember every one of them." },
       { id: "door-comms", name: "Comms Array", description: "Return to the Communications Array.", x: 2, y: 20, width: 10, height: 50, type: "door", action: "comms-array" },
       { id: "door-engineering", name: "Engineering Access", description: "A maintenance hatch leading down to Engineering.", x: 88, y: 20, width: 10, height: 50, type: "door", action: "engineering" },
+      { id: "egg-obs-constellation", name: "Strange Constellation", description: "A pattern of stars that seems to form a face.", x: 42, y: 12, width: 5, height: 6, type: "examine", elaraDialog: "Do you see it? That cluster of stars... if you connect them, they form a face. Not just any face — it looks like the Watcher. The all-seeing eye of the Panopticon's surveillance network. But we're light-years from Panopticon space. How can the stars themselves form his likeness? Unless... the stars were arranged. By someone with the power to move suns." },
     ],
   },
   {
@@ -229,6 +235,7 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       { id: "blueprints", name: "Holographic Blueprints", description: "Floating schematics showing card designs and weapon systems.", x: 65, y: 30, width: 18, height: 25, type: "examine", elaraDialog: "Card schematics. The engineers were designing new card types before... before they stopped. Some of these designs are brilliant. Legendary-tier cards that could turn the tide of any battle." },
       { id: "door-observation", name: "Observation Deck", description: "Return to the Observation Deck.", x: 2, y: 20, width: 10, height: 50, type: "door", action: "observation-deck" },
       { id: "door-armory", name: "Armory Access", description: "A reinforced door leading to the Armory.", x: 88, y: 20, width: 10, height: 50, type: "door", action: "armory" },
+      { id: "egg-eng-formula", name: "Etched Formula", description: "A mathematical formula scratched into the reactor housing.", x: 38, y: 58, width: 4, height: 4, type: "examine", elaraDialog: "Someone etched a formula into the reactor housing. It's a dimensional resonance equation — the kind used to calculate jumps between parallel universes. But there's an extra variable I've never seen: Ψ-null. The null consciousness coefficient. This formula could theoretically open a door to... nowhere. The space between spaces. Where the Source dwells." },
     ],
   },
   {
@@ -245,11 +252,12 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
     connections: ["engineering", "cargo-hold"],
     hotspots: [
       { id: "combat-arena", name: "Combat Arena", description: "A holographic combat simulation arena for training.", x: 30, y: 30, width: 25, height: 35, type: "terminal", action: "/fight", elaraDialog: "The combat arena. Step inside and I'll generate holographic opponents based on known entities from the Dischordian Saga. It's the safest way to test your abilities... relatively safe." },
-      { id: "card-battle-station", name: "Card Battle Station", description: "A tactical display for card game warfare.", x: 65, y: 25, width: 18, height: 30, type: "terminal", action: "/cards/play", elaraDialog: "The card battle station. Here you can engage in strategic card warfare — deploying your deck against AI opponents or other Potentials. Every victory earns you rewards and moves you closer to understanding the true nature of the conflict." },
+      { id: "card-battle-station", name: "Card Battle Station", description: "A tactical display for card game warfare.", x: 65, y: 25, width: 18, height: 30, type: "terminal", action: "/battle", elaraDialog: "The card battle station. Here you can engage in strategic card warfare — deploying your deck against AI opponents or other Potentials. Every victory earns you rewards and moves you closer to understanding the true nature of the conflict." },
       { id: "weapon-rack", name: "Weapon Rack", description: "Futuristic weapons behind locked glass cases.", x: 8, y: 20, width: 12, height: 45, type: "examine", elaraDialog: "The weapon racks. Plasma swords, energy shields, cloaking devices... most are locked behind security glass. You'll need to prove yourself in combat before I can authorize access to the heavier ordnance." },
       { id: "quiz-terminal", name: "Knowledge Terminal", description: "A terminal that tests your knowledge of the Dischordian lore.", x: 85, y: 50, width: 12, height: 20, type: "terminal", action: "/quiz", elaraDialog: "The Knowledge Terminal. It tests your understanding of the Dischordian Saga. Answer correctly and you'll earn rewards. Get them wrong and... well, there are no penalties. But I'll be disappointed." },
       { id: "door-engineering", name: "Engineering Bay", description: "Return to Engineering.", x: 2, y: 20, width: 10, height: 50, type: "door", action: "engineering" },
       { id: "door-cargo", name: "Cargo Hold", description: "Stairs leading down to the Cargo Hold.", x: 50, y: 85, width: 15, height: 12, type: "door", action: "cargo-hold" },
+      { id: "egg-armory-dogtag", name: "Fallen Dog Tag", description: "A military dog tag wedged between floor plates.", x: 42, y: 78, width: 3, height: 4, type: "item", action: "agent-zero-dogtag", elaraDialog: "A dog tag. Name: CLASSIFIED. Rank: Assassin, First Class. Unit: Insurgency Special Operations. Callsign: 'Agent Zero.' But wait — the biometric data on the tag doesn't match Agent Zero's profile. It matches... the Engineer. The mind swap. The Engineer is walking around in Agent Zero's body, hiding among the Potentials. On THIS ship." },
     ],
   },
   {
@@ -270,6 +278,7 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       { id: "mystery-crate", name: "Sealed Crate", description: "A large crate with claw marks on it. Something was trying to get in... or out.", x: 10, y: 55, width: 12, height: 18, type: "examine", elaraDialog: "That crate... the claw marks are on the inside. Something was sealed in there and tried to get out. The manifest says it contained 'biological samples from Sector 7.' I've locked it down. Don't touch it." },
       { id: "door-armory", name: "Armory Stairs", description: "Stairs leading up to the Armory.", x: 2, y: 20, width: 10, height: 50, type: "door", action: "armory" },
       { id: "door-captains", name: "Captain's Quarters", description: "A restricted access corridor to the Captain's Quarters.", x: 88, y: 20, width: 10, height: 50, type: "door", action: "captains-quarters" },
+      { id: "egg-cargo-manifest", name: "Torn Manifest Page", description: "A torn page from the original cargo manifest, hidden under a crate.", x: 48, y: 72, width: 4, height: 5, type: "item", action: "classified-manifest-page", elaraDialog: "A torn manifest page. Most of it is redacted, but one entry is legible: 'Container 7-Omega: BIOLOGICAL — Clone Template, Oracle-class. STATUS: Active. HANDLER: The Collector.' A clone template of the Oracle... on our ship. The False Prophet was made from an Oracle clone. Is there another one here? Is it awake?" },
     ],
   },
   {
@@ -290,6 +299,7 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       { id: "encrypted-terminal", name: "Encrypted Terminal", description: "The captain's personal terminal. 'ACCESS DENIED' flashes on screen.", x: 15, y: 55, width: 14, height: 20, type: "examine", elaraDialog: "Captain Voss's personal terminal. It's encrypted with a cipher I can't crack. Whatever she was hiding... she didn't want anyone to find it. Not even me." },
       { id: "viewport-stars", name: "Star Viewport", description: "A viewport showing a nebula that seems to pulse with light.", x: 60, y: 10, width: 25, height: 35, type: "examine", elaraDialog: "That nebula... it wasn't there when we launched. It appeared three cycles ago and it's been growing. Sometimes I think it's watching us. That's not scientifically possible, of course. But I think it anyway." },
       { id: "door-cargo", name: "Cargo Hold", description: "Return to the Cargo Hold.", x: 2, y: 20, width: 10, height: 50, type: "door", action: "cargo-hold" },
+      { id: "egg-captain-mirror", name: "Cracked Mirror", description: "A mirror in the corner, cracked in a spider-web pattern. Your reflection looks... wrong.", x: 78, y: 55, width: 4, height: 6, type: "examine", elaraDialog: "That mirror... look at your reflection. Do you see it? For a fraction of a second, your reflection moved differently than you did. It smiled when you didn't. The White Oracle — the face-changing guardian — was said to inhabit reflective surfaces. But the White Oracle is actually the Meme in disguise. Is the Meme watching us through every mirror on this ship? How long has it been watching?" },
     ],
   },
 ];

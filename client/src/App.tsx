@@ -31,13 +31,14 @@ import SagaTimelinePage from "./pages/SagaTimelinePage";
 import FavoritesPage from "./pages/FavoritesPage";
 import LoreQuizPage from "./pages/LoreQuizPage";
 import CodexPage from "./pages/CodexPage";
+import CardBattlePage from "./pages/CardBattlePage";
 import AwakeningPage from "./pages/AwakeningPage";
 import ArkExplorerPage from "./pages/ArkExplorerPage";
 import { LoredexProvider } from "./contexts/LoredexContext";
 import { PlayerProvider } from "./contexts/PlayerContext";
 import { GamificationProvider } from "./contexts/GamificationContext";
 import { GameProvider, useGame } from "./contexts/GameContext";
-import { SoundProvider } from "./contexts/SoundContext";
+import { SoundProvider, useSound } from "./contexts/SoundContext";
 import PlayerBar from "./components/PlayerBar";
 import AppShell from "./components/AppShell";
 import AchievementToast from "./components/AchievementToast";
@@ -45,6 +46,7 @@ import ElaraDialog from "./components/ElaraDialog";
 import RadioMode from "./components/RadioMode";
 import EasterEggs from "./components/EasterEggs";
 import SoundControls from "./components/SoundControls";
+import { useElaraTTS } from "./hooks/useElaraTTS";
 
 function Router() {
   return (
@@ -77,7 +79,8 @@ function Router() {
       <Route path="/quiz" component={LoreQuizPage} />
       <Route path="/codex" component={CodexPage} />
       <Route path="/store" component={StorePage} />
-      <Route path="/awakening" component={AwakeningPage} />
+      <Route path="/battle" component={CardBattlePage} />
+      <Route path="/awakening">{() => <AwakeningPage />}</Route>
       <Route path="/404" component={NotFound} />
       <Route component={NotFound} />
     </Switch>
@@ -89,27 +92,39 @@ function Router() {
    Once complete, shows the normal app with AppShell. */
 function GameGate() {
   const { state } = useGame();
+  const { muted, volume } = useSoundForTTS();
+  const elaraTTS = useElaraTTS({ enabled: true, volume, muted });
 
   // First visit or in awakening → show the awakening experience
   if (state.phase === "FIRST_VISIT" || state.phase === "AWAKENING") {
-    return <AwakeningPage />;
+    return <AwakeningPage elaraTTS={elaraTTS} />;
   }
 
   // Otherwise show the normal app
   return (
     <>
-      <AppShell>
+      <AppShell elaraTTS={elaraTTS}>
         <Router />
       </AppShell>
       <PlayerBar />
       <AchievementToast />
-      <ElaraDialog />
+      <ElaraDialog elaraTTS={elaraTTS} />
       <RadioMode />
       <EasterEggs />
-      <SoundControls />
+      <SoundControls
+        ttsEnabled={elaraTTS.ttsEnabled}
+        onToggleTTS={() => elaraTTS.setTtsEnabled(!elaraTTS.ttsEnabled)}
+        isSpeaking={elaraTTS.isSpeaking}
+      />
       <div className="crt-overlay" />
     </>
   );
+}
+
+/** Helper to read sound state for TTS without circular deps */
+function useSoundForTTS() {
+  const { muted, volume } = useSound();
+  return { muted, volume };
 }
 
 function App() {

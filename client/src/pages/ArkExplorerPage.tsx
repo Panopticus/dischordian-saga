@@ -160,6 +160,7 @@ function RoomScene({
           const Icon = getHotspotIcon(hotspot.type);
           const isCollected = hotspot.type === "item" && hotspot.action && itemsCollected.includes(hotspot.action);
           const isHovered = hoveredHotspot === hotspot.id;
+          const isEasterEgg = hotspot.id.startsWith("egg-");
 
           if (isCollected) return null;
 
@@ -194,22 +195,23 @@ function RoomScene({
               <div
                 className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transition-all duration-300"
                 style={{
-                  opacity: isHovered ? 1 : 0.7,
+                  opacity: isEasterEgg ? (isHovered ? 0.6 : 0.08) : (isHovered ? 1 : 0.7),
                   transform: `translate(-50%, -50%) scale(${isHovered ? 1.2 : 1})`,
                 }}
               >
                 <div
-                  className="w-8 h-8 rounded-full flex items-center justify-center"
+                  className={`${isEasterEgg ? "w-4 h-4" : "w-8 h-8"} rounded-full flex items-center justify-center`}
                   style={{
-                    background: colors.bg,
-                    border: `1.5px solid ${colors.border}`,
-                    boxShadow: `0 0 12px ${colors.glow}`,
+                    background: isEasterEgg ? "transparent" : colors.bg,
+                    border: isEasterEgg ? "none" : `1.5px solid ${colors.border}`,
+                    boxShadow: isEasterEgg ? "none" : `0 0 12px ${colors.glow}`,
                   }}
                 >
-                  <Icon size={14} style={{ color: colors.text }} />
+                  {!isEasterEgg && <Icon size={14} style={{ color: colors.text }} />}
+                  {isEasterEgg && <div className="w-1.5 h-1.5 rounded-full" style={{ background: colors.text, opacity: 0.4 }} />}
                 </div>
-                {/* Pulse ring */}
-                {hotspot.type === "item" && (
+                {/* Pulse ring — only for regular items, not Easter eggs */}
+                {hotspot.type === "item" && !isEasterEgg && (
                   <div
                     className="absolute inset-0 rounded-full animate-ping"
                     style={{ border: `1px solid ${colors.border}`, opacity: 0.3 }}

@@ -326,7 +326,7 @@ function getPageChoices(path: string): { greeting: string; choices: DialogChoice
   };
 }
 
-export default function ElaraDialog() {
+export default function ElaraDialog({ elaraTTS: _elaraTTS }: { elaraTTS?: any } = {}) {
   const [isOpen, setIsOpen] = useState(false);
   const [history, setHistory] = useState<ChatMessage[]>([]);
   const [choices, setChoices] = useState<DialogChoice[]>([]);
