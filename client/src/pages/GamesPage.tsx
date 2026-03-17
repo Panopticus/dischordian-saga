@@ -6,7 +6,7 @@ import { Link } from "wouter";
 import { motion } from "framer-motion";
 import {
   Gamepad2, Swords, Rocket, ScrollText, Trophy, FlaskConical,
-  ChevronRight, Shield, Crown, Ship, Zap, Globe, Radio, BookOpen, Users, Skull
+  ChevronRight, Shield, Crown, Ship, Zap, Globe, Radio, BookOpen, Users, Skull, Flame
 } from "lucide-react";
 import { useGamification } from "@/contexts/GamificationContext";
 
@@ -154,6 +154,15 @@ const SIMULATIONS: GameTile[] = [
     loreContext: "CLASSIFIED: Blood Weave Intel",
     icon: Skull,
     color: "#dc2626",
+  },
+  {
+    href: "/demon-packs",
+    title: "DEMON CARD PACKS",
+    subtitle: "Hierarchy Gacha System",
+    description: "Open Blood Weave, Infernal Gate, and Mol'Garath's Vault packs to collect all 10 demon leader cards. Spend Dream tokens for guaranteed rare+ pulls.",
+    loreContext: "CLASSIFIED: Infernal Requisitions",
+    icon: Flame,
+    color: "#f97316",
   },
 ];
 

@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { publicProcedure, protectedProcedure, router } from "../_core/trpc";
 import { getDb } from "../db";
-import { cards, userCards, decks, cardGameMatches, characterSheets } from "../../drizzle/schema";
+import { cards, userCards, decks, cardGameMatches, characterSheets, dreamBalance } from "../../drizzle/schema";
 import { eq, and, like, inArray, sql, desc, asc } from "drizzle-orm";
 
 // ═══════════════════════════════════════════════════════
@@ -805,6 +805,154 @@ export const cardGameRouter = router({
         .orderBy(desc(cardGameMatches.startedAt))
         .limit(input?.limit ?? 10);
     }),
+
+  // ═══════════════════════════════════════════════════════
+  // DEMON CARD PACKS — HIERARCHY OF THE DAMNED
+  // ═══════════════════════════════════════════════════════
+
+  /** Open a Demon Card Pack — 5 cards from the Hierarchy of the Damned pool */
+  openDemonPack: protectedProcedure
+    .input(z.object({ packType: z.enum(["standard", "premium", "infernal"]).default("standard") }))
+    .mutation(async ({ ctx, input }) => {
+      const db = await getDb();
+      if (!db) return { success: false, cards: [], cost: 0 };
+
+      // Pack costs in Dream tokens
+      const packCosts = { standard: 30, premium: 75, infernal: 200 };
+      const cost = packCosts[input.packType];
+      const packSize = input.packType === "premium" ? 7 : input.packType === "infernal" ? 5 : 5;
+
+      // Check balance
+      const [balance] = await db.select().from(dreamBalance).where(eq(dreamBalance.userId, ctx.user.id)).limit(1);
+      if (!balance || balance.dreamTokens < cost) {
+        return { success: false, cards: [], cost, error: "Insufficient Dream tokens" };
+      }
+
+      // Deduct Dream tokens
+      await db.update(dreamBalance)
+        .set({ dreamTokens: sql`${dreamBalance.dreamTokens} - ${cost}` })
+        .where(eq(dreamBalance.userId, ctx.user.id));
+
+      // Get demon cards from the database
+      const demonCards = await db.select().from(cards)
+        .where(and(eq(cards.isActive, 1), sql`${cards.cardId} LIKE 'demon-%'`));
+
+      if (demonCards.length === 0) {
+        // Refund if no demon cards exist
+        await db.update(dreamBalance)
+          .set({ dreamTokens: sql`${dreamBalance.dreamTokens} + ${cost}` })
+          .where(eq(dreamBalance.userId, ctx.user.id));
+        return { success: false, cards: [], cost, error: "No demon cards available" };
+      }
+
+      const byRarity = {
+        common: demonCards.filter(c => c.rarity === "common"),
+        uncommon: demonCards.filter(c => c.rarity === "uncommon"),
+        rare: demonCards.filter(c => c.rarity === "rare"),
+        epic: demonCards.filter(c => c.rarity === "epic"),
+        legendary: demonCards.filter(c => c.rarity === "legendary"),
+        mythic: demonCards.filter(c => c.rarity === "mythic"),
+        neyon: demonCards.filter(c => c.rarity === "neyon"),
+      };
+
+      const pick = (arr: typeof demonCards) => arr[Math.floor(Math.random() * arr.length)];
+      const pickAny = () => demonCards[Math.floor(Math.random() * demonCards.length)];
+
+      const packCards: typeof demonCards = [];
+
+      if (input.packType === "infernal") {
+        // Infernal: guaranteed 1 legendary/mythic, 2 epic+, 2 rare+
+        const legendaryPool = [...byRarity.legendary, ...byRarity.mythic, ...byRarity.neyon];
+        if (legendaryPool.length > 0) packCards.push(pick(legendaryPool));
+        else packCards.push(pickAny());
+        const epicPool = [...byRarity.epic, ...byRarity.legendary, ...byRarity.mythic];
+        for (let i = 0; i < 2; i++) {
+          if (epicPool.length > 0) packCards.push(pick(epicPool));
+          else packCards.push(pickAny());
+        }
+        const rarePool = [...byRarity.rare, ...byRarity.epic];
+        for (let i = 0; i < 2; i++) {
+          if (rarePool.length > 0) packCards.push(pick(rarePool));
+          else packCards.push(pickAny());
+        }
+      } else if (input.packType === "premium") {
+        // Premium: 3 common, 2 uncommon, 1 rare, 1 epic+
+        for (let i = 0; i < 3; i++) packCards.push(byRarity.common.length > 0 ? pick(byRarity.common) : pickAny());
+        for (let i = 0; i < 2; i++) packCards.push(byRarity.uncommon.length > 0 ? pick(byRarity.uncommon) : pickAny());
+        packCards.push(byRarity.rare.length > 0 ? pick(byRarity.rare) : pickAny());
+        const epicPlus = [...byRarity.epic, ...byRarity.legendary, ...byRarity.mythic];
+        packCards.push(epicPlus.length > 0 ? pick(epicPlus) : pickAny());
+      } else {
+        // Standard: 3 common, 1 uncommon, 1 rare+
+        for (let i = 0; i < 3; i++) packCards.push(byRarity.common.length > 0 ? pick(byRarity.common) : pickAny());
+        packCards.push(byRarity.uncommon.length > 0 ? pick(byRarity.uncommon) : pickAny());
+        const roll = Math.random();
+        if (roll < 0.05 && byRarity.legendary.length > 0) packCards.push(pick(byRarity.legendary));
+        else if (roll < 0.15 && byRarity.epic.length > 0) packCards.push(pick(byRarity.epic));
+        else packCards.push(byRarity.rare.length > 0 ? pick(byRarity.rare) : pickAny());
+      }
+
+      // Add to user collection
+      const isFoilChance = input.packType === "infernal" ? 0.15 : input.packType === "premium" ? 0.08 : 0.05;
+      for (const card of packCards) {
+        const existing = await db.select().from(userCards)
+          .where(and(eq(userCards.userId, ctx.user.id), eq(userCards.cardId, card.cardId)))
+          .limit(1);
+        if (existing.length > 0) {
+          await db.update(userCards)
+            .set({ quantity: sql`${userCards.quantity} + 1` })
+            .where(eq(userCards.id, existing[0].id));
+        } else {
+          await db.insert(userCards).values({
+            userId: ctx.user.id,
+            cardId: card.cardId,
+            quantity: 1,
+            isFoil: Math.random() < isFoilChance ? 1 : 0,
+            cardLevel: 1,
+            obtainedVia: "demon_pack",
+          });
+        }
+      }
+
+      return {
+        success: true,
+        cards: packCards,
+        cost,
+        packType: input.packType,
+        remainingDream: (balance.dreamTokens || 0) - cost,
+      };
+    }),
+
+  /** Get demon card collection stats */
+  demonCollectionStats: protectedProcedure.query(async ({ ctx }) => {
+    const db = await getDb();
+    if (!db) return { totalDemonCards: 0, uniqueDemonCards: 0, totalAvailable: 0, completionPercent: 0 };
+
+    const [totalAvailable] = await db.select({ count: sql<number>`count(*)` })
+      .from(cards)
+      .where(sql`${cards.cardId} LIKE 'demon-%'`);
+
+    const userDemonCards = await db.select({
+      cardId: userCards.cardId,
+      quantity: userCards.quantity,
+    })
+      .from(userCards)
+      .where(and(
+        eq(userCards.userId, ctx.user.id),
+        sql`${userCards.cardId} LIKE 'demon-%'`
+      ));
+
+    const uniqueCount = userDemonCards.length;
+    const totalCount = userDemonCards.reduce((sum, c) => sum + (c.quantity || 0), 0);
+    const available = Number(totalAvailable?.count || 0);
+
+    return {
+      totalDemonCards: totalCount,
+      uniqueDemonCards: uniqueCount,
+      totalAvailable: available,
+      completionPercent: available > 0 ? Math.round((uniqueCount / available) * 100) : 0,
+    };
+  }),
 });
 
 // ═══════════════════════════════════════════════════════

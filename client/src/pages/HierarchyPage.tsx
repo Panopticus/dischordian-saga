@@ -344,9 +344,14 @@ export default function HierarchyPage() {
       {/* Header */}
       <div className="border-b border-red-500/10 px-4 py-3">
         <div className="flex items-center justify-between max-w-6xl mx-auto">
-          <Link href="/games" className="text-white/40 hover:text-white font-mono text-xs flex items-center gap-1">
-            <ChevronLeft size={14} /> GAMES
-          </Link>
+          <div className="flex items-center gap-3">
+            <Link href="/games" className="text-white/40 hover:text-white font-mono text-xs flex items-center gap-1">
+              <ChevronLeft size={14} /> GAMES
+            </Link>
+            <Link href="/demon-packs" className="text-orange-400/70 hover:text-orange-400 font-mono text-[10px] flex items-center gap-1 px-2 py-0.5 rounded border border-orange-500/20 hover:border-orange-500/40 transition-colors">
+              OPEN PACKS
+            </Link>
+          </div>
           <div className="flex gap-2">
             <button
               onClick={() => setViewMode("chart")}

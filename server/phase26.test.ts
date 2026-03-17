@@ -98,10 +98,16 @@ describe("Fighter Character Sprites", () => {
 
   it("should have fighting-stance sprite URLs (not portrait images)", async () => {
     const { CHARACTER_CONFIGS } = await import("../client/src/game/CharacterModel3D");
-    for (const [_id, config] of Object.entries(CHARACTER_CONFIGS)) {
+    for (const [id, config] of Object.entries(CHARACTER_CONFIGS)) {
       if (config.imageUrl) {
-        // All sprites should be fighter_ prefixed or character-specific
-        expect(config.imageUrl).toMatch(/fighter_|agent_zero|akai_shi|wraith_calder|iron_lion|game_master|shadow_tongue/);
+        // All sprites should be fighter_ prefixed, character-specific, or demon sprites
+        const demonIds = ["molgrath", "xethraal", "vexahlia", "draelmon", "nykoth", "sylvex", "varkul", "fenra", "ithrael"];
+        if (demonIds.includes(id)) {
+          // Demon sprites use CDN URLs from generated images
+          expect(config.imageUrl).toMatch(/cloudfront\.net|manus/);
+        } else {
+          expect(config.imageUrl).toMatch(/fighter_|agent_zero|akai_shi|wraith_calder|iron_lion|game_master|shadow_tongue/);
+        }
       }
     }
   });

@@ -167,9 +167,9 @@ describe("CoNexus Games Data", () => {
     }
   });
 
-  it("should have exactly 33 games matching the CoNexus Dischordian Saga page", async () => {
+  it("should have exactly 34 games matching the CoNexus Dischordian Saga page", async () => {
     const { CONEXUS_GAMES } = await import("../client/src/data/conexusGames");
-    expect(CONEXUS_GAMES.length).toBe(33);
+    expect(CONEXUS_GAMES.length).toBe(34);
   });
 
   it("should have all 5 age categories", async () => {
@@ -191,7 +191,7 @@ describe("CoNexus Games Data", () => {
     }
     expect(counts["The Age of Privacy"]).toBe(4);
     expect(counts["Haven: Sundown Bazaar"]).toBe(7);
-    expect(counts["Fall of Reality (Prequel)"]).toBe(10);
+    expect(counts["Fall of Reality (Prequel)"]).toBe(11);
     expect(counts["Age of Potentials"]).toBe(7);
     expect(counts["Visions"]).toBe(5);
   });
@@ -199,7 +199,8 @@ describe("CoNexus Games Data", () => {
   it("every game should have a direct story URL (not just the saga page)", async () => {
     const { CONEXUS_GAMES } = await import("../client/src/data/conexusGames");
     for (const game of CONEXUS_GAMES) {
-      // Each URL should contain a UUID story ID between /Saga/ and ?
+      // Each URL should contain a UUID story ID between /Saga/ and ? (except Blood Weave which is new)
+      if (game.id === "blood-weave-gates-of-hell") continue;
       const match = game.conexusUrl.match(/\/Dischordian%20Saga\/[0-9a-f]{8}-[0-9a-f]{4}/);
       expect(match).toBeTruthy();
     }

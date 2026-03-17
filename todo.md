@@ -834,3 +834,21 @@
 
 ### Tests
 - [x] Write tests for all new demon lore, cards, fighters, and integrations (370/370 tests passing)
+
+## Phase 28: Demon Expansion — Sprites, CoNexus Game, Card Packs
+
+### Fighting Sprites
+- [x] Generate fighting sprites for all 10 demon leaders and upload to CDN
+- [x] Wire sprites into CharacterModel3D configs with unique colors, armor, and fight styles
+
+### CoNexus Story Game: The Blood Weave — Gates of Hell
+- [x] Add Blood Weave: Gates of Hell to conexusGames data (Fall of Reality age, master difficulty)
+- [x] Generate cover art and upload to CDN
+- [x] Wire into CoNexus Portal page (34th game)
+
+### Demon Card Pack / Drop Mechanic
+- [x] Add 3 demon pack products to store (Blood Weave 30D, Infernal Gate 75D, Mol'Garath's Vault 200D)
+- [x] Build openDemonPack tRPC endpoint with weighted drop rates
+- [x] Build DemonPackPage with animated pack opening UI and card reveal
+- [x] Add Demon Card Packs tile to GamesPage and OPEN PACKS link to HierarchyPage
+- [x] All 399 tests passing

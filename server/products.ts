@@ -118,6 +118,47 @@ export const STORE_PRODUCTS: StoreProduct[] = [
     icon: "crown",
   },
 
+  // ═══ DEMON CARD PACKS — HIERARCHY OF THE DAMNED ═══
+  {
+    key: "demon_pack_standard",
+    name: "Demon Pack: Blood Weave",
+    description: "5 demon cards from the Hierarchy of the Damned (guaranteed 1 rare+)",
+    category: "cards",
+    priceUsd: 299, // $2.99
+    priceCredits: 0,
+    priceDream: 30,
+    rewards: { cardPacks: 5, cardPackRarity: "rare" },
+    featured: false,
+    sortOrder: 13,
+    icon: "skull",
+  },
+  {
+    key: "demon_pack_premium",
+    name: "Demon Pack: Infernal Gate",
+    description: "7 demon cards (guaranteed 1 epic+ and 1 rare+)",
+    category: "cards",
+    priceUsd: 699, // $6.99
+    priceCredits: 0,
+    priceDream: 75,
+    rewards: { cardPacks: 7, cardPackRarity: "epic" },
+    featured: true,
+    sortOrder: 14,
+    icon: "flame",
+  },
+  {
+    key: "demon_pack_infernal",
+    name: "Demon Pack: Mol'Garath's Vault",
+    description: "5 elite demon cards (guaranteed 1 legendary+ and 2 epic+)",
+    category: "cards",
+    priceUsd: 1499, // $14.99
+    priceCredits: 0,
+    priceDream: 200,
+    rewards: { cardPacks: 5, cardPackRarity: "legendary" },
+    featured: false,
+    sortOrder: 15,
+    icon: "crown",
+  },
+
   // ═══ SHIP UPGRADES ═══
   {
     key: "ship_hull_mk2",

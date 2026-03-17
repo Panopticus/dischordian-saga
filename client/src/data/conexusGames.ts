@@ -297,6 +297,18 @@ const FALL_OF_REALITY: ConexusGame[] = [
     conexusUrl: "https://conexus.ink/s/Dischordian%20Saga/7461cf43-4ee6-4331-aa40-86ce19eab4a0?title=Sanctuary%20Lost&category=32d8c748-e1b0-4eec-b84b-ad684f101569",
     coverImage: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/conexus_sanctuary-lost_7e50fe52.png",
   },
+  {
+    id: "blood-weave-gates-of-hell",
+    title: "The Blood Weave: Gates of Hell",
+    age: "Fall of Reality (Prequel)",
+    description: "The Blood Weave pulses beneath reality — a living network of crimson energy connecting the Hierarchy of the Damned to the mortal world. When Mol'Garath, CEO of the Hierarchy, initiates a hostile takeover of the Archon Council, the Gates of Hell begin to open. Navigate the corporate underworld of demon lords, forge alliances with fallen angels, and decide whether to seal the gates forever or leverage the Blood Weave's power for your own ascension. Every demon has a price. Every deal has a clause written in blood.",
+    characters: ["Mol'Garath", "Xeth'Raal", "Vex'Ahlia", "The Shadow Tongue", "The Necromancer"],
+    difficulty: "master",
+    estimatedTime: "60-120 min",
+    tags: ["demons", "corporate horror", "blood weave", "hierarchy"],
+    conexusUrl: "https://conexus.ink/s/Dischordian%20Saga",
+    coverImage: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/conexus_blood-weave-gates-of-hell_2fa0e488.png",
+  },
 ];
 
 /* ─── AGE OF POTENTIALS ─── */
