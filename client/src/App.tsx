@@ -37,12 +37,14 @@ import { LoredexProvider } from "./contexts/LoredexContext";
 import { PlayerProvider } from "./contexts/PlayerContext";
 import { GamificationProvider } from "./contexts/GamificationContext";
 import { GameProvider, useGame } from "./contexts/GameContext";
+import { SoundProvider } from "./contexts/SoundContext";
 import PlayerBar from "./components/PlayerBar";
 import AppShell from "./components/AppShell";
 import AchievementToast from "./components/AchievementToast";
 import ElaraDialog from "./components/ElaraDialog";
 import RadioMode from "./components/RadioMode";
 import EasterEggs from "./components/EasterEggs";
+import SoundControls from "./components/SoundControls";
 
 function Router() {
   return (
@@ -104,6 +106,7 @@ function GameGate() {
       <ElaraDialog />
       <RadioMode />
       <EasterEggs />
+      <SoundControls />
       <div className="crt-overlay" />
     </>
   );
@@ -115,14 +118,16 @@ function App() {
       <ThemeProvider defaultTheme="dark">
         <GamificationProvider>
           <GameProvider>
-            <LoredexProvider>
-              <PlayerProvider>
-                <TooltipProvider>
-                  <Toaster />
-                  <GameGate />
-                </TooltipProvider>
-              </PlayerProvider>
-            </LoredexProvider>
+            <SoundProvider>
+              <LoredexProvider>
+                <PlayerProvider>
+                  <TooltipProvider>
+                    <Toaster />
+                    <GameGate />
+                  </TooltipProvider>
+                </PlayerProvider>
+              </LoredexProvider>
+            </SoundProvider>
           </GameProvider>
         </GamificationProvider>
       </ThemeProvider>

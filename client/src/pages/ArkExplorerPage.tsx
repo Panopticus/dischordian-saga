@@ -1,18 +1,20 @@
 /* ═══════════════════════════════════════════════════════
    ARK EXPLORER PAGE — Point-and-click room exploration
    Old-school adventure game with clickable hotspots,
-   Elara dialog, and room navigation.
+   Elara dialog, sound effects, and puzzle mechanics.
    ═══════════════════════════════════════════════════════ */
 import { useState, useCallback, useEffect, useMemo } from "react";
 import { useGame, ROOM_DEFINITIONS, type HotspotDef, type RoomDef } from "@/contexts/GameContext";
 import { useGamification } from "@/contexts/GamificationContext";
+import { useSound } from "@/contexts/SoundContext";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLocation } from "wouter";
 import {
   Terminal, Eye, Package, DoorOpen, Hand, Lock, ChevronRight,
-  MapPin, Compass, Zap, Ship, ArrowLeft, X, Star
+  MapPin, Compass, Zap, Ship, ArrowLeft, X, Star, Volume2, VolumeX
 } from "lucide-react";
 import { toast } from "sonner";
+import PuzzleModal, { ROOM_PUZZLES } from "@/components/PuzzleSystem";
 
 const ELARA_PORTRAIT = "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/elara_portrait_speaking-J3GJUrfnNKzSBrxY2PfWrL.webp";
 
@@ -332,12 +334,27 @@ export default function ArkExplorerPage() {
     isRoomUnlocked, canUnlockRoom, getRoomDef, getRoomState,
   } = useGame();
   const { discoverEntry } = useGamification();
+  const { setRoomAmbience, playSFX, initAudio, audioReady } = useSound();
   const [, navigate] = useLocation();
   const [elaraText, setElaraText] = useState<string | null>(null);
   const [showMap, setShowMap] = useState(false);
+  const [puzzleRoomId, setPuzzleRoomId] = useState<string | null>(null);
+  const [solvedPuzzles, setSolvedPuzzles] = useState<Set<string>>(() => {
+    try {
+      const saved = localStorage.getItem("loredex_solved_puzzles");
+      return saved ? new Set(JSON.parse(saved)) : new Set();
+    } catch { return new Set(); }
+  });
 
   const currentRoom = state.currentRoomId ? getRoomDef(state.currentRoomId) : null;
   const currentRoomState = state.currentRoomId ? getRoomState(state.currentRoomId) : null;
+
+  // Persist solved puzzles
+  useEffect(() => {
+    try {
+      localStorage.setItem("loredex_solved_puzzles", JSON.stringify(Array.from(solvedPuzzles)));
+    } catch { /* ignore */ }
+  }, [solvedPuzzles]);
 
   // Default to cryo-bay if no current room
   useEffect(() => {
@@ -346,13 +363,33 @@ export default function ArkExplorerPage() {
     }
   }, [state.currentRoomId, state.phase, enterRoom]);
 
+  // Initialize audio if not ready
+  useEffect(() => {
+    if (!audioReady) {
+      const handleClick = () => {
+        initAudio().catch(() => {});
+        window.removeEventListener("click", handleClick);
+      };
+      window.addEventListener("click", handleClick);
+      return () => window.removeEventListener("click", handleClick);
+    }
+  }, [audioReady, initAudio]);
+
+  // Change ambient sound when room changes
+  useEffect(() => {
+    if (state.currentRoomId && audioReady) {
+      setRoomAmbience(state.currentRoomId);
+    }
+  }, [state.currentRoomId, audioReady, setRoomAmbience]);
+
   // Show Elara intro on first visit to a room
   useEffect(() => {
     if (currentRoom && currentRoomState && !currentRoomState.elaraDialogSeen && currentRoomState.visitCount <= 1) {
       setElaraText(currentRoom.elaraIntro);
       markElaraDialogSeen(currentRoom.id);
+      if (audioReady) playSFX("dialog_open");
     }
-  }, [currentRoom?.id, currentRoomState?.elaraDialogSeen, currentRoomState?.visitCount]);
+  }, [currentRoom?.id, currentRoomState?.elaraDialogSeen, currentRoomState?.visitCount, audioReady]);
 
   const unlockedRoomIds = useMemo(() => {
     const set = new Set<string>();
@@ -362,13 +399,50 @@ export default function ArkExplorerPage() {
     return set;
   }, [state.rooms]);
 
+  // Check if a room requires a puzzle to enter
+  const roomNeedsPuzzle = useCallback((roomId: string): boolean => {
+    const puzzle = ROOM_PUZZLES[roomId];
+    if (!puzzle) return false;
+    if (solvedPuzzles.has(roomId)) return false;
+    // Keycard puzzles need the item
+    if (puzzle.type === "keycard" && puzzle.requiredItem) {
+      return !state.itemsCollected.includes(puzzle.requiredItem);
+    }
+    return true;
+  }, [solvedPuzzles, state.itemsCollected]);
+
+  const handlePuzzleSolve = useCallback((roomId: string) => {
+    setSolvedPuzzles(prev => {
+      const next = new Set(prev);
+      next.add(roomId);
+      return next;
+    });
+    setPuzzleRoomId(null);
+    // Now enter the room
+    enterRoom(roomId);
+    discoverEntry(`room-${roomId}`);
+    if (audioReady) playSFX("door_unlock");
+    toast.success(`ACCESS GRANTED — ${getRoomDef(roomId)?.name || roomId}`, {
+      description: "Puzzle solved! Room unlocked.",
+    });
+  }, [enterRoom, discoverEntry, audioReady, playSFX, getRoomDef]);
+
   const handleHotspotClick = useCallback((hotspot: HotspotDef) => {
+    if (audioReady) playSFX("button_click");
+
     switch (hotspot.type) {
       case "door": {
         const targetRoomId = hotspot.action!;
         if (isRoomUnlocked(targetRoomId) || canUnlockRoom(targetRoomId)) {
+          // Check if room has an unsolved puzzle
+          if (roomNeedsPuzzle(targetRoomId)) {
+            setPuzzleRoomId(targetRoomId);
+            if (audioReady) playSFX("door_locked");
+            return;
+          }
           enterRoom(targetRoomId);
           discoverEntry(`room-${targetRoomId}`);
+          if (audioReady) playSFX("room_enter");
           toast.success(`Entered ${getRoomDef(targetRoomId)?.name || "room"}`, {
             description: "Exploring new area...",
           });
@@ -378,12 +452,14 @@ export default function ArkExplorerPage() {
           let reason = "This area is locked.";
           if (req?.type === "rooms_unlocked") reason = `Unlock ${req.value} rooms to access this area.`;
           if (req?.type === "items_collected") reason = `Collect ${req.value} items to access this area.`;
+          if (audioReady) playSFX("door_locked");
           toast.error("ACCESS DENIED", { description: reason });
           setElaraText(`That door is locked. ${reason} Keep exploring — you'll find a way.`);
         }
         break;
       }
       case "terminal": {
+        if (audioReady) playSFX("terminal_access");
         if (hotspot.elaraDialog) setElaraText(hotspot.elaraDialog);
         if (hotspot.action) {
           setTimeout(() => navigate(hotspot.action!), 800);
@@ -394,10 +470,14 @@ export default function ArkExplorerPage() {
         if (hotspot.action && !state.itemsCollected.includes(hotspot.action)) {
           collectItem(hotspot.action);
           discoverEntry(`item-${hotspot.action}`);
+          if (audioReady) playSFX("item_pickup");
           toast.success("Item Collected!", {
             description: hotspot.name,
           });
-          if (hotspot.elaraDialog) setElaraText(hotspot.elaraDialog);
+          if (hotspot.elaraDialog) {
+            if (audioReady) playSFX("dialog_open");
+            setElaraText(hotspot.elaraDialog);
+          }
         } else {
           toast.info("Already collected", { description: hotspot.name });
         }
@@ -406,17 +486,23 @@ export default function ArkExplorerPage() {
       case "examine":
       case "interact": {
         if (hotspot.elaraDialog) {
+          if (audioReady) playSFX("dialog_open");
           setElaraText(hotspot.elaraDialog);
         }
         break;
       }
     }
-  }, [isRoomUnlocked, canUnlockRoom, enterRoom, collectItem, navigate, state.itemsCollected, discoverEntry, getRoomDef]);
+  }, [isRoomUnlocked, canUnlockRoom, enterRoom, collectItem, navigate, state.itemsCollected, discoverEntry, getRoomDef, audioReady, playSFX, roomNeedsPuzzle]);
 
   const handleRoomSelect = useCallback((roomId: string) => {
+    if (roomNeedsPuzzle(roomId)) {
+      setPuzzleRoomId(roomId);
+      return;
+    }
     enterRoom(roomId);
     setShowMap(false);
-  }, [enterRoom]);
+    if (audioReady) playSFX("room_enter");
+  }, [enterRoom, audioReady, playSFX, roomNeedsPuzzle]);
 
   if (!currentRoom) {
     return (
@@ -444,6 +530,7 @@ export default function ArkExplorerPage() {
               </h1>
               <p className="font-mono text-[10px] text-white/30 tracking-wider">
                 {state.totalRoomsUnlocked}/{ROOM_DEFINITIONS.length} ROOMS UNLOCKED • {state.totalItemsFound} ITEMS FOUND
+                {solvedPuzzles.size > 0 && ` • ${solvedPuzzles.size} PUZZLES SOLVED`}
               </p>
             </div>
           </div>
@@ -483,17 +570,25 @@ export default function ArkExplorerPage() {
           {/* Room features */}
           <div className="mt-3 flex flex-wrap gap-2">
             {currentRoom.features.map((feature, i) => (
-              <div
+              <button
                 key={i}
-                className="px-3 py-1.5 rounded-md font-mono text-[10px] tracking-wider"
+                onClick={() => {
+                  const route = currentRoom.featureRoutes[i];
+                  if (route) {
+                    if (audioReady) playSFX("terminal_access");
+                    navigate(route);
+                  }
+                }}
+                className="px-3 py-1.5 rounded-md font-mono text-[10px] tracking-wider transition-all hover:bg-[rgba(51,226,230,0.12)]"
                 style={{
                   background: "rgba(51,226,230,0.05)",
                   border: "1px solid rgba(51,226,230,0.15)",
                   color: "var(--neon-cyan)",
+                  cursor: currentRoom.featureRoutes[i] ? "pointer" : "default",
                 }}
               >
                 {feature}
-              </div>
+              </button>
             ))}
           </div>
 
@@ -504,26 +599,44 @@ export default function ArkExplorerPage() {
               {currentRoom.connections.map(connId => {
                 const connRoom = getRoomDef(connId);
                 const unlocked = isRoomUnlocked(connId) || canUnlockRoom(connId);
+                const hasPuzzle = roomNeedsPuzzle(connId);
                 return (
                   <button
                     key={connId}
                     onClick={() => {
                       if (unlocked) {
-                        enterRoom(connId);
-                        discoverEntry(`room-${connId}`);
+                        if (hasPuzzle) {
+                          setPuzzleRoomId(connId);
+                          if (audioReady) playSFX("door_locked");
+                        } else {
+                          enterRoom(connId);
+                          discoverEntry(`room-${connId}`);
+                          if (audioReady) playSFX("room_enter");
+                        }
                       } else {
+                        if (audioReady) playSFX("door_locked");
                         toast.error("LOCKED", { description: "Explore more to unlock this area." });
                       }
                     }}
                     className="flex items-center gap-2 px-3 py-2 rounded-md font-mono text-[11px] transition-all"
                     style={{
-                      background: unlocked ? "rgba(56,117,250,0.08)" : "rgba(255,255,255,0.02)",
-                      border: `1px solid ${unlocked ? "rgba(56,117,250,0.2)" : "rgba(255,255,255,0.05)"}`,
+                      background: unlocked
+                        ? hasPuzzle ? "rgba(255,183,77,0.08)" : "rgba(56,117,250,0.08)"
+                        : "rgba(255,255,255,0.02)",
+                      border: `1px solid ${
+                        unlocked
+                          ? hasPuzzle ? "rgba(255,183,77,0.2)" : "rgba(56,117,250,0.2)"
+                          : "rgba(255,255,255,0.05)"
+                      }`,
                       color: unlocked ? "rgba(255,255,255,0.7)" : "rgba(255,255,255,0.2)",
                     }}
                   >
-                    {unlocked ? <DoorOpen size={12} /> : <Lock size={12} />}
-                    {unlocked ? connRoom?.name || connId : "???"}
+                    {unlocked ? (
+                      hasPuzzle ? <Zap size={12} className="text-[var(--orb-orange)]" /> : <DoorOpen size={12} />
+                    ) : (
+                      <Lock size={12} />
+                    )}
+                    {unlocked ? (hasPuzzle ? `${connRoom?.name || connId} [LOCKED]` : connRoom?.name || connId) : "???"}
                     <ChevronRight size={10} className="opacity-40" />
                   </button>
                 );
@@ -577,6 +690,27 @@ export default function ArkExplorerPage() {
                   </div>
                 </div>
               )}
+
+              {/* Puzzles solved */}
+              {solvedPuzzles.size > 0 && (
+                <div className="mt-3 rounded-lg p-3" style={{
+                  background: "rgba(1,0,32,0.8)",
+                  border: "1px solid rgba(34,197,94,0.15)",
+                }}>
+                  <div className="flex items-center gap-2 mb-2">
+                    <Zap size={12} className="text-green-400" />
+                    <span className="font-mono text-[10px] text-green-400 tracking-[0.2em]">PUZZLES SOLVED</span>
+                  </div>
+                  <div className="space-y-1">
+                    {Array.from(solvedPuzzles).map(roomId => (
+                      <div key={roomId} className="flex items-center gap-2 px-2 py-1 rounded text-white/40 font-mono text-[10px]">
+                        <Zap size={8} className="text-green-400/60" />
+                        {getRoomDef(roomId)?.name || roomId}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
             </motion.div>
           )}
         </AnimatePresence>
@@ -585,7 +719,29 @@ export default function ArkExplorerPage() {
       {/* Elara dialog popup */}
       <AnimatePresence>
         {elaraText && (
-          <ElaraPopup text={elaraText} onClose={() => setElaraText(null)} />
+          <ElaraPopup text={elaraText} onClose={() => {
+            setElaraText(null);
+            if (audioReady) playSFX("dialog_close");
+          }} />
+        )}
+      </AnimatePresence>
+
+      {/* Puzzle modal */}
+      <AnimatePresence>
+        {puzzleRoomId && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[60] flex items-center justify-center bg-black/70 backdrop-blur-sm p-4"
+          >
+            <PuzzleModal
+              roomId={puzzleRoomId}
+              itemsCollected={state.itemsCollected}
+              onSolve={handlePuzzleSolve}
+              onClose={() => setPuzzleRoomId(null)}
+            />
+          </motion.div>
         )}
       </AnimatePresence>
     </div>

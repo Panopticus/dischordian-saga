@@ -456,3 +456,30 @@
 ### Entity Relationship Mini-Graph
 - [x] Build mini connection graph on Entity pages showing direct relationships (canvas-based force-directed graph)
 - [x] Clickable nodes to navigate between connected entities
+
+## Phase 18: Sound System, Card Deck Viewer, and Puzzle Mechanics
+
+### Ambient Sound & Music System
+- [x] Build Web Audio API-based sound engine (SoundContext) with volume controls
+- [x] Procedural ambient sounds: ship hum, cryo hiss, electrical crackle, distant alarms (8 ambient layers)
+- [x] Room-specific ambient layers that crossfade on room transitions
+- [x] Awakening sequence sound design: heartbeat, cryo pod opening, Elara voice cues
+- [x] Global mute/volume toggle in UI (SoundControls component)
+- [x] Sound effects for interactions: item pickup, door unlock/locked, achievement, terminal access (10 SFX types)
+
+### Card Deck Viewer
+- [x] Generate nano banana card art for starter deck cards (5 class-themed card images)
+- [x] Build StarterDeckViewer component with flip animations and card detail view
+- [x] Starter deck generated from character creation choices (race/class/alignment/element)
+- [x] Card collection tracking in game state
+- [x] Cards discoverable in room exploration (clickable items reward cards)
+- [x] Card rarity system: Common, Uncommon, Rare, Legendary
+
+### Puzzle Mechanics for Locked Rooms
+- [x] Lore-based riddle system: answer questions about the Dischordian Saga to unlock doors (Archives, Armory)
+- [x] Keycard item system: find keycards in one room to unlock another (Observation Deck, Captain's Quarters)
+- [x] Puzzle UI component with atmospheric presentation (PuzzleModal with 5 puzzle types)
+- [x] Hint system via Elara dialog when stuck
+- [x] 8 unique puzzles across different locked rooms (riddle, cipher, sequence, keycard, power relay)
+- [x] Puzzle completion rewards (room unlock, toast notifications)
+- [x] 112 tests passing (19 new puzzle/card tests)

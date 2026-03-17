@@ -5,9 +5,11 @@
 import { useState, useEffect, useCallback, useMemo } from "react";
 import { useGame, type AwakeningStep } from "@/contexts/GameContext";
 import { useGamification } from "@/contexts/GamificationContext";
+import { useSound } from "@/contexts/SoundContext";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLocation } from "wouter";
 import { trpc } from "@/lib/trpc";
+import StarterDeckViewer, { generateStarterDeck } from "@/components/StarterDeckViewer";
 
 const ELARA_PORTRAIT = "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/elara_portrait_speaking-J3GJUrfnNKzSBrxY2PfWrL.webp";
 const CRYO_BG = "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/room_cryo_bay-SdeEqURrDvgrrbJq4WK3N5.webp";
@@ -253,15 +255,29 @@ function AttributeAllocator({
 export default function AwakeningPage() {
   const { state, advanceAwakening, setCharacterChoice, completeAwakening, setAwakeningStep } = useGame();
   const { discoverEntry } = useGamification();
+  const { initAudio, setRoomAmbience, playSFX, audioReady } = useSound();
   const [, navigate] = useLocation();
   const [nameInput, setNameInput] = useState("");
   const [screenOpacity, setScreenOpacity] = useState(0);
   const [showFrost, setShowFrost] = useState(true);
   const [heartbeat, setHeartbeat] = useState(true);
+  const [showDeckReveal, setShowDeckReveal] = useState(false);
+  const [audioInitialized, setAudioInitialized] = useState(false);
 
   const createCitizen = trpc.citizen.createCharacter.useMutation();
 
   const { awakeningStep, characterChoices } = state;
+
+  // Initialize audio on first user interaction
+  const handleInitAudio = useCallback(async () => {
+    if (!audioInitialized) {
+      try {
+        await initAudio();
+        setAudioInitialized(true);
+        setRoomAmbience("cryo-bay");
+      } catch { /* audio blocked */ }
+    }
+  }, [audioInitialized, initAudio, setRoomAmbience]);
 
   // Blackout → fade in
   useEffect(() => {
@@ -274,13 +290,21 @@ export default function AwakeningPage() {
     }
   }, [awakeningStep, advanceAwakening]);
 
-  // Cryo open → remove frost
+  // Cryo open → remove frost + play cryo SFX
   useEffect(() => {
     if (awakeningStep === "CRYO_OPEN") {
+      if (audioInitialized) playSFX("cryo_open");
       const t = setTimeout(() => setShowFrost(false), 2000);
       return () => clearTimeout(t);
     }
-  }, [awakeningStep]);
+  }, [awakeningStep, audioInitialized, playSFX]);
+
+  // Play dialog SFX on each step change
+  useEffect(() => {
+    if (audioInitialized && awakeningStep !== "BLACKOUT" && awakeningStep !== "COMPLETE") {
+      playSFX("dialog_open");
+    }
+  }, [awakeningStep, audioInitialized, playSFX]);
 
   // Get available elements based on species
   const availableElements = useMemo(() => {
@@ -313,6 +337,17 @@ export default function AwakeningPage() {
     return map[species] ?? [];
   }, [characterChoices.species]);
 
+  // Generate starter deck from choices
+  const starterDeck = useMemo(() => {
+    return generateStarterDeck({
+      species: characterChoices.species || undefined,
+      characterClass: characterChoices.characterClass || undefined,
+      alignment: characterChoices.alignment || undefined,
+      element: characterChoices.element || undefined,
+      name: characterChoices.name || undefined,
+    });
+  }, [characterChoices]);
+
   const handleCompleteCreation = useCallback(async () => {
     const c = characterChoices;
     if (!c.species || !c.characterClass || !c.alignment || !c.element || !c.name) return;
@@ -333,13 +368,13 @@ export default function AwakeningPage() {
       console.warn("Character creation:", err);
     }
 
-    completeAwakening();
-    discoverEntry("awakening-complete");
-    navigate("/ark");
-  }, [characterChoices, createCitizen, completeAwakening, discoverEntry, navigate]);
+    if (audioInitialized) playSFX("achievement");
+    // Show deck reveal before navigating
+    setShowDeckReveal(true);
+  }, [characterChoices, createCitizen, audioInitialized, playSFX]);
 
   return (
-    <div className="fixed inset-0 z-[100] overflow-hidden" style={{ background: "#000" }}>
+    <div className="fixed inset-0 z-[100] overflow-hidden" style={{ background: "#000" }} onClick={handleInitAudio}>
       {/* Background image with opacity transition */}
       <div className="absolute inset-0 transition-opacity duration-[3000ms]" style={{ opacity: screenOpacity * 0.4 }}>
         <img src={CRYO_BG} alt="" className="w-full h-full object-cover" />
@@ -564,12 +599,31 @@ export default function AwakeningPage() {
           )}
 
           {/* ─── FIRST STEPS ─── */}
-          {awakeningStep === "FIRST_STEPS" && (
+          {awakeningStep === "FIRST_STEPS" && !showDeckReveal && (
             <ElaraDialogBox
               key="first-steps"
               text={`Welcome aboard, ${characterChoices.name}. Your Citizen profile has been created. You are ${characterChoices.species === "demagi" ? "a DeMagi" : characterChoices.species === "quarchon" ? "a Quarchon" : "a Ne-Yon"} ${characterChoices.characterClass}, aligned with ${characterChoices.alignment}. Your quarters are through that door — the Cryo Bay. The rest of the ship... I'll need your help to restore power to the other decks. There's so much I need to show you. And so much I need to warn you about.`}
               onContinue={handleCompleteCreation}
             />
+          )}
+
+          {/* ─── STARTER DECK REVEAL ─── */}
+          {showDeckReveal && (
+            <motion.div
+              key="deck-reveal"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="w-full max-w-4xl mx-auto"
+            >
+              <StarterDeckViewer
+                cards={starterDeck}
+                onClose={() => {
+                  completeAwakening();
+                  discoverEntry("awakening-complete");
+                  navigate("/ark");
+                }}
+              />
+            </motion.div>
           )}
         </AnimatePresence>
       </div>
