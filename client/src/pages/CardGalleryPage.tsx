@@ -15,7 +15,7 @@ const CARD_ART: Record<string, string> = {
   oracle: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/card_oracle-g4rDcyk322zSKbKGvF8dF6.webp",
   engineer: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/card_engineer-87sWBmYL7gTbn268o6MDC9.webp",
   assassin: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/card_assassin-KiyFK4iYWiFfBiKtgJcCVa.webp",
-  spy: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/card_spy-3fPXfYvdJCwHzFLQ3BQFQ2.webp",
+  spy: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/card_spy_art-Fp7AC4ebCPMRcnZRzAZZHg.webp",
 };
 
 interface CollectionCard extends StarterCard {

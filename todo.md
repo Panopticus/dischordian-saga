@@ -852,3 +852,14 @@
 - [x] Build DemonPackPage with animated pack opening UI and card reveal
 - [x] Add Demon Card Packs tile to GamesPage and OPEN PACKS link to HierarchyPage
 - [x] All 399 tests passing
+
+## Phase 29: Image Audit & Mortal Kombat Assessment
+
+### Image Audit
+- [x] Audited all 143 CDN URLs — found 3 broken (403 errors)
+- [x] Generated replacement images for The Watcher, The Collector, and Spy card
+- [x] Fixed 9 broken URL references across loredex-data.json, season1-cards.json, bossEncounters.ts, CardGalleryPage.tsx
+
+### Mortal Kombat Assessment
+- [x] Analyzed all 7,000 lines of fight engine code across 8 game files
+- [x] Wrote comprehensive MK_ASSESSMENT.md with 7-category gap analysis and 3-phase roadmap
