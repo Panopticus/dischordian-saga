@@ -663,3 +663,32 @@
 - [x] Write tests for lore achievements data integrity (33 achievements, unique IDs, unique titles/descriptions/fragments)
 - [x] Write tests for saga timeline data structure
 - [x] 259 tests passing across 12 test files (25 new Phase 23 tests)
+
+## Phase 24: Deck Builder, Achievements Gallery, Game Preview Tooltips
+
+### Deck Builder Page
+- [ ] Build deck builder page at /deck-builder
+- [ ] Show all collected cards (starter deck, boss drops, lore achievement rewards)
+- [ ] Allow drag-and-drop or click-to-add deck assembly
+- [ ] Enforce deck size limits and card type balance
+- [ ] Save custom deck to GameContext state
+- [ ] Visual card display with stats, rarity, and source indicators
+
+### Achievements Gallery Page
+- [x] Build achievements gallery page at /achievements
+- [x] Display all 33 lore achievements with locked/unlocked states
+- [x] Progress bars per Age showing completion percentage
+- [x] Collected lore fragments forming a meta-narrative when read in order
+- [x] Achievement detail modals with lore fragment reveal animation
+
+### CoNexus Game Preview Tooltips
+- [x] Add hover tooltips to game cards in ConexusPortalPage
+- [x] Show character portraits from Loredex data on hover
+- [x] Display brief animated preview or key info
+- [x] Smooth tooltip animations with proper positioning
+
+### Tests
+- [x] Write tests for deck builder card collection logic
+- [x] Write tests for achievements gallery data integrity
+- [x] Write tests for game preview tooltip data
+- [x] 296 tests passing across 13 test files (37 new Phase 24 tests)

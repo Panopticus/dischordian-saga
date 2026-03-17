@@ -40,6 +40,7 @@ import ArkExplorerPage from "./pages/ArkExplorerPage";
 import BossBattlePage from "./pages/BossBattlePage";
 import CardChallengePage from "./pages/CardChallengePage";
 import ConexusPortalPage from "./pages/ConexusPortalPage";
+import AchievementsGalleryPage from "./pages/AchievementsGalleryPage";
 import { LoredexProvider } from "./contexts/LoredexContext";
 import { PlayerProvider } from "./contexts/PlayerContext";
 import { GamificationProvider } from "./contexts/GamificationContext";
@@ -93,6 +94,7 @@ function Router() {
       <Route path="/boss-battle" component={BossBattlePage} />
       <Route path="/card-challenge" component={CardChallengePage} />
       <Route path="/conexus-portal" component={ConexusPortalPage} />
+      <Route path="/achievements" component={AchievementsGalleryPage} />
       <Route path="/awakening">{() => <AwakeningPage />}</Route>
       <Route path="/404" component={NotFound} />
       <Route component={NotFound} />

@@ -59,6 +59,8 @@ export interface GameState {
   completedGames: string[];       // CoNexus game IDs the player has completed
   loreAchievements: string[];     // Lore achievement IDs earned
   conexusXp: number;              // XP earned from CoNexus game completions
+  collectedCards: string[];        // IDs of all cards the player has collected
+  activeDeck: string[];            // IDs of cards in the player's active battle deck
 }
 
 /* ─── ROOM DEFINITIONS ─── */
@@ -360,6 +362,8 @@ const DEFAULT_GAME_STATE: GameState = {
   completedGames: [],
   loreAchievements: [],
   conexusXp: 0,
+  collectedCards: [],
+  activeDeck: [],
 };
 
 const GAME_STORAGE_KEY = "loredex_game_state";
@@ -387,6 +391,9 @@ interface GameContextValue {
   completeGame: (gameId: string) => void;
   earnLoreAchievement: (achievementId: string) => void;
   isGameCompleted: (gameId: string) => boolean;
+  // Card collection
+  collectCard: (cardId: string) => void;
+  setActiveDeck: (cardIds: string[]) => void;
   // Quick access
   skipToExploring: () => void;
   // Server sync
@@ -679,6 +686,17 @@ export function GameProvider({ children }: { children: ReactNode }) {
     return state.completedGames.includes(gameId);
   }, [state.completedGames]);
 
+  const collectCard = useCallback((cardId: string) => {
+    setState(prev => {
+      if (prev.collectedCards.includes(cardId)) return prev;
+      return { ...prev, collectedCards: [...prev.collectedCards, cardId] };
+    });
+  }, []);
+
+  const setActiveDeck = useCallback((cardIds: string[]) => {
+    setState(prev => ({ ...prev, activeDeck: cardIds }));
+  }, []);
+
   const skipToExploring = useCallback(() => {
     // Dev/debug: skip awakening and unlock first few rooms
     const rooms: Record<string, RoomState> = {};
@@ -722,6 +740,8 @@ export function GameProvider({ children }: { children: ReactNode }) {
       completeGame,
       earnLoreAchievement,
       isGameCompleted,
+      collectCard,
+      setActiveDeck,
       skipToExploring,
       syncStatus,
       lastSyncedAt,

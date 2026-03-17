@@ -19,6 +19,7 @@ import { LORE_ACHIEVEMENTS, getAchievementByGameId, type LoreAchievement } from 
 import { useLoredex } from "@/contexts/LoredexContext";
 import { useGame } from "@/contexts/GameContext";
 import { toast } from "sonner";
+import GamePreviewTooltip from "@/components/GamePreviewTooltip";
 
 const LIBRARY_BG = "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/antiquarian_library_room-dhtjQjrMbU3s3WhnWePBPF.webp";
 
@@ -378,6 +379,7 @@ export default function ConexusPortalPage() {
                           animate={{ opacity: 1, scale: 1 }}
                           transition={{ delay: 0.03 * i }}
                         >
+                          <GamePreviewTooltip game={game}>
                           <button
                             onClick={() => setSelectedGame(game)}
                             className={`w-full text-left group rounded-lg border overflow-hidden hover-lift transition-all ${
@@ -448,6 +450,7 @@ export default function ConexusPortalPage() {
                               </div>
                             </div>
                           </button>
+                          </GamePreviewTooltip>
                         </motion.div>
                       );
                     })}

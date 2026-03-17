@@ -128,6 +128,24 @@ const SIMULATIONS: GameTile[] = [
     icon: Users,
     color: "#f59e0b",
   },
+  {
+    href: "/achievements",
+    title: "LORE ACHIEVEMENTS",
+    subtitle: "Saga Progress Tracker",
+    description: "Track your progress across all 33 CoNexus story games. Unlock lore fragments, earn XP, and collect artifact cards as you complete each tale.",
+    loreContext: "ARCHIVE: Lore Fragments",
+    icon: Trophy,
+    color: "#eab308",
+  },
+  {
+    href: "/saga-timeline",
+    title: "SAGA TIMELINE",
+    subtitle: "Chronological Archive",
+    description: "View the complete Dischordian Saga timeline across all 5 Ages. Trace the connections between stories, characters, and epochs.",
+    loreContext: "ARCHIVE: Temporal Map",
+    icon: Globe,
+    color: "#8b5cf6",
+  },
 ];
 
 export default function GamesPage() {
