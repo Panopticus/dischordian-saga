@@ -6,7 +6,7 @@ import { Link } from "wouter";
 import { motion } from "framer-motion";
 import {
   Gamepad2, Swords, Rocket, ScrollText, Trophy, FlaskConical,
-  ChevronRight, Shield, Crown, Ship, Zap, Globe, Radio
+  ChevronRight, Shield, Crown, Ship, Zap, Globe, Radio, BookOpen, Users
 } from "lucide-react";
 import { useGamification } from "@/contexts/GamificationContext";
 
@@ -100,6 +100,33 @@ const SIMULATIONS: GameTile[] = [
     loreContext: "PERSONAL: Operative Records",
     icon: Trophy,
     color: "var(--orb-orange)",
+  },
+  {
+    href: "/conexus-portal",
+    title: "ANTIQUARIAN'S LIBRARY",
+    subtitle: "CoNexus Story Portal",
+    description: "Access the Antiquarian's forbidden archive of interactive story games from the CoNexus dimension. Each tale is a gateway to another reality.",
+    loreContext: "ARCHIVE: CoNexus Stories",
+    icon: BookOpen,
+    color: "#a855f7",
+  },
+  {
+    href: "/boss-battle",
+    title: "BOSS ENCOUNTERS",
+    subtitle: "Loredex Guardians",
+    description: "Face the most powerful entities in the Dischordian Saga. Each boss guards a room of the Ark with lore-accurate abilities and unique rewards.",
+    loreContext: "COMBAT: Guardian Battles",
+    icon: Crown,
+    color: "#ef4444",
+  },
+  {
+    href: "/card-challenge",
+    title: "MULTIPLAYER ARENA",
+    subtitle: "Async PvP Battles",
+    description: "Challenge other operatives from the leaderboard. Your deck fights their deck — even when they're offline. Earn XP and climb the ranks.",
+    loreContext: "PVP: Operative Duels",
+    icon: Users,
+    color: "#f59e0b",
   },
 ];
 

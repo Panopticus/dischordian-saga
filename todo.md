@@ -575,3 +575,51 @@
 - [x] Puzzle definitions integrity tests
 - [x] Game phase state machine tests
 - [x] Room connections graph tests
+
+## Phase 22: Boss Encounters, Previously On, Multiplayer Challenges
+
+### Loredex-Based Boss Encounters
+- [x] Design boss characters from actual Loredex data (The Watcher, Game Master, The Meme, The Collector, The Necromancer, The Warlord, The Source, The Architect)
+- [x] Create boss-specific card decks with lore-accurate abilities
+- [x] Tie bosses to specific Ark rooms (Watcher in Medical Bay, Game Master on Bridge, Meme in Archives, Collector at Comms, Necromancer at Observation Deck, Warlord in Engineering, Source in Cargo Hold, Architect in Captain's Quarters)
+- [x] Build boss battle UI with unique intro sequences and lore dialog
+- [x] Add boss-tier difficulty with special mechanics (passive abilities, scaling HP, unique rewards)
+- [x] Award unique boss-drop cards and achievements on victory
+
+### Previously On Narrative Recap
+- [x] Track player session timestamps and key actions per session
+- [x] Build cinematic recap component showing last session's discoveries
+- [x] Show rooms explored, puzzles solved, items found, battles won since last visit
+- [x] Elara narrates the recap with typewriter text and atmospheric effects
+- [x] Display on return after 1+ hour absence
+
+### Multiplayer Card Challenges
+- [x] Build challenge system: players can challenge others from leaderboard
+- [x] Store player deck snapshots in database for async battles
+- [x] Build tRPC procedures for creating, accepting, and resolving challenges
+- [x] Build challenge inbox UI showing pending/completed challenges
+- [x] AI plays the challenged player's deck when they're offline
+- [x] Award XP and leaderboard points for multiplayer wins
+
+## Phase 22.5: The Antiquarian's Library & CoNexus Story Games
+
+### Antiquarian's Library Room
+- [x] Generate nano banana image: ancient alien library with desk, glowing orb/glove
+- [x] Add "antiquarian-library" room to ROOM_DEFINITIONS in GameContext (10th room, Deck 7 Pocket Dimension)
+- [x] Design room UI with bookshelves, holographic displays, and CoNexus game portals
+- [x] Hidden passage door from Captain's Quarters to the Library
+
+### CoNexus Story Game Integration
+- [x] Research all CoNexus story games at conexus.ink
+- [x] Create interactive game portal cards linking to 7 CoNexus games
+- [x] Add lore descriptions connecting each game to the Dischordian Saga timeline
+- [x] Link games to relevant Loredex entries and characters
+- [x] Add Antiquarian's Prophecy Easter egg with mythic card reward
+
+### Tests
+- [x] 229 tests passing across 11 test files (28 new Phase 22/22.5 tests)
+- [x] Boss encounter data integrity tests
+- [x] Boss battle engine HP scaling tests
+- [x] CoNexus games data validation tests
+- [x] Antiquarian's Library room definition tests
+- [x] Easter egg and router wiring tests

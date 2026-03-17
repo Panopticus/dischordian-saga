@@ -17,6 +17,7 @@ import { storeRouter } from "./routers/store";
 import { elaraRouter } from "./routers/elara";
 import { lyricsRouter } from "./routers/lyrics";
 import { gameStateRouter } from "./routers/gameState";
+import { cardChallengeRouter } from "./routers/cardChallenge";
 
 export const appRouter = router({
   system: systemRouter,
@@ -30,6 +31,7 @@ export const appRouter = router({
   elara: elaraRouter,
   lyrics: lyricsRouter,
   gameState: gameStateRouter,
+  cardChallenge: cardChallengeRouter,
   auth: router({
     me: publicProcedure.query(opts => opts.ctx.user),
     logout: publicProcedure.mutation(({ ctx }) => {

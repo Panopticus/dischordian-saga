@@ -156,6 +156,13 @@ export const ROOM_EASTER_EGGS: Record<string, {
     achievement: "MIRROR_BREAKER",
     xp: 100,
   },
+  "egg-library-prophecy": {
+    title: "THE ANTIQUARIAN'S PROPHECY",
+    loreFragment: "Hidden within the Antiquarian's desk drawer, you find a handwritten note in Dr. Daniel Cross's handwriting: 'I have seen every timeline. In all of them, the Saga ends the same way — unless someone changes the story from within. The CoNexus games are not games. They are rehearsals for the real thing. Every choice you make here trains you for the choice that matters. The one that saves everything.' The note is dated to a time that hasn't happened yet.",
+    bonusCard: { name: "Antiquarian's Quill", rarity: "mythic", description: "Write a new fate: Rewrite any card's ability for one turn. The pen is mightier than the code." },
+    achievement: "PROPHECY_FOUND",
+    xp: 150,
+  },
 };
 
 /* ─── DISCOVERED SECRETS STORAGE ─── */
