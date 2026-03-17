@@ -71,6 +71,8 @@ const NAV_GROUPS: NavGroup[] = [
       { path: "/fight", label: "COMBAT SIM", icon: Swords, description: "Combat training" },
       { path: "/ark", label: "EXPLORE THE ARK", icon: Rocket, description: "Point & click adventure" },
       { path: "/quiz", label: "LORE QUIZ", icon: Brain, description: "Test your knowledge" },
+      { path: "/battle", label: "BATTLE ARENA", icon: Swords, description: "Card combat" },
+      { path: "/card-gallery", label: "CARD GALLERY", icon: Crown, description: "Your collection" },
       { path: "/cards", label: "CARD ARCHIVE", icon: Crown, description: "Browse all cards" },
       { path: "/deck-builder", label: "DECK BUILDER", icon: Shield, description: "Build decks" },
       { path: "/research-lab", label: "RESEARCH LAB", icon: FlaskConical, description: "Craft cards" },
@@ -82,6 +84,7 @@ const NAV_GROUPS: NavGroup[] = [
     icon: Users,
     defaultOpen: true,
     items: [
+      { path: "/profile", label: "OPERATIVE DOSSIER", icon: BarChart3, description: "Stats & progress" },
       { path: "/create-citizen", label: "CITIZEN ID", icon: Users, description: "Create identity" },
       { path: "/character-sheet", label: "CHAR SHEET", icon: Shield, description: "Stats & gear" },
       { path: "/store", label: "REQUISITIONS", icon: Store, description: "Dream store" },

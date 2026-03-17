@@ -1,9 +1,10 @@
 /* ═══════════════════════════════════════════════════════
-   SOUND CONTROLS — Volume/mute + TTS toggle for the Ark
+   SOUND CONTROLS — Volume/mute + TTS + Ambient Music
    Shows in the AppShell header area
    ═══════════════════════════════════════════════════════ */
-import { Volume2, VolumeX, Volume1, Mic, MicOff } from "lucide-react";
+import { Volume2, VolumeX, Volume1, Mic, MicOff, Music, Music2 } from "lucide-react";
 import { useSound } from "@/contexts/SoundContext";
+import { useAmbientMusic } from "@/contexts/AmbientMusicContext";
 import { useState, useRef, useEffect } from "react";
 
 interface SoundControlsProps {
@@ -14,6 +15,7 @@ interface SoundControlsProps {
 
 export default function SoundControls({ ttsEnabled, onToggleTTS, isSpeaking }: SoundControlsProps) {
   const { muted, volume, setMuted, setVolume, toggleMute, initAudio, audioReady } = useSound();
+  const music = useAmbientMusic();
   const [showSlider, setShowSlider] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -39,6 +41,32 @@ export default function SoundControls({ ttsEnabled, onToggleTTS, isSpeaking }: S
 
   return (
     <div ref={containerRef} className="relative flex items-center gap-1.5">
+      {/* Ambient Music Toggle */}
+      <button
+        onClick={() => music.toggleMusic()}
+        className="p-1.5 rounded-md transition-all group relative"
+        style={{
+          background: music.musicEnabled ? "rgba(255,183,77,0.08)" : "rgba(255,255,255,0.02)",
+          border: `1px solid ${music.musicEnabled ? "rgba(255,183,77,0.15)" : "rgba(255,255,255,0.05)"}`,
+        }}
+        title={music.musicEnabled
+          ? `Music: ON${music.currentTrack ? ` — ${music.currentTrack.title}` : ""}`
+          : "Enable Ambient Music"
+        }
+      >
+        {music.musicEnabled ? (
+          <Music2
+            size={13}
+            className={`transition-colors ${music.isPlaying ? "text-[var(--orb-orange)] animate-pulse" : "text-[var(--orb-orange)]/60 group-hover:text-[var(--orb-orange)]"}`}
+          />
+        ) : (
+          <Music size={13} className="text-white/20 group-hover:text-white/40 transition-colors" />
+        )}
+        {music.isPlaying && (
+          <span className="absolute -top-0.5 -right-0.5 w-1.5 h-1.5 rounded-full bg-[var(--orb-orange)] animate-pulse" />
+        )}
+      </button>
+
       {/* TTS Toggle */}
       {onToggleTTS && (
         <button
@@ -89,10 +117,11 @@ export default function SoundControls({ ttsEnabled, onToggleTTS, isSpeaking }: S
             background: "rgba(1,0,32,0.97)",
             border: "1px solid rgba(51,226,230,0.2)",
             boxShadow: "0 10px 40px rgba(0,0,0,0.5)",
-            minWidth: "160px",
+            minWidth: "180px",
           }}
         >
-          <p className="font-mono text-[9px] text-[var(--neon-cyan)]/50 tracking-[0.2em] mb-2">VOLUME</p>
+          {/* SFX Volume */}
+          <p className="font-mono text-[9px] text-[var(--neon-cyan)]/50 tracking-[0.2em] mb-2">SFX VOLUME</p>
           <input
             type="range"
             min={0}
@@ -109,6 +138,30 @@ export default function SoundControls({ ttsEnabled, onToggleTTS, isSpeaking }: S
             }}
           />
           <p className="font-mono text-[10px] text-white/30 mt-1 text-center">{Math.round(volume * 100)}%</p>
+
+          {/* Music Volume */}
+          <p className="font-mono text-[9px] text-[var(--orb-orange)]/50 tracking-[0.2em] mb-2 mt-3">MUSIC VOLUME</p>
+          <input
+            type="range"
+            min={0}
+            max={100}
+            value={music.volume}
+            onChange={(e) => music.setVolume(parseInt(e.target.value))}
+            className="w-full h-1 rounded-full appearance-none cursor-pointer"
+            style={{
+              background: `linear-gradient(to right, var(--orb-orange) ${music.volume}%, rgba(255,255,255,0.1) ${music.volume}%)`,
+            }}
+          />
+          <p className="font-mono text-[10px] text-white/30 mt-1 text-center">{music.volume}%</p>
+
+          {/* Now Playing */}
+          {music.currentTrack && music.isPlaying && (
+            <div className="mt-3 pt-2 border-t border-white/5">
+              <p className="font-mono text-[8px] text-[var(--orb-orange)]/40 tracking-[0.2em]">NOW PLAYING</p>
+              <p className="font-mono text-[10px] text-white/60 truncate mt-0.5">{music.currentTrack.title}</p>
+              <p className="font-mono text-[8px] text-white/30 truncate">{music.currentTrack.album}</p>
+            </div>
+          )}
         </div>
       )}
     </div>

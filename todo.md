@@ -510,3 +510,34 @@
 - [x] 10 Easter eggs across all rooms (one per room)
 - [x] Visual hint system: tiny 1.5px dot at 8% opacity, glows to 60% on hover
 - [x] 130 tests passing (18 new Phase 19 tests)
+
+## Phase 20: Card Gallery, Player Stats Dashboard, and Contextual Music
+
+### Card Collection Gallery
+- [x] Build gallery page showing all collected cards (starter deck + battle rewards + Easter egg bonus)
+- [x] Filter by rarity (Common, Uncommon, Rare, Legendary, Mythic)
+- [x] Filter by faction/element
+- [x] Card flip animation on click to show details
+- [x] Track total cards collected vs total available (completion percentage)
+- [x] Show locked/undiscovered cards as silhouettes
+
+### Player Profile / Stats Dashboard
+- [x] Total rooms explored / total rooms
+- [x] Puzzles solved / total puzzles
+- [x] Easter eggs found / total Easter eggs
+- [x] Battles won / battles played
+- [x] Cards collected / total cards
+- [x] Overall completion percentage with weighted progress bar
+- [x] Achievement showcase section
+- [x] Character sheet summary (race, class, skills)
+- [x] Rank system: Unranked → Recruit → Field Operative → Senior Agent → Master Operative → Grand Archivist
+
+### Contextual Ambient Music
+- [x] Map album tracks to rooms (Dischordian Logic → Bridge/Cryo, Age of Privacy → Archives/Comms/Medical, Book of Daniel → Engineering/Armory, Silence in Heaven → Observation/Captain's)
+- [x] Build music player that auto-plays room-appropriate tracks via YouTube IFrame API
+- [x] Crossfade between tracks on room transitions
+- [x] Use YouTube embed for actual Dischordian Saga album tracks (37 tracks with video IDs)
+- [x] Music volume control integrated with existing sound system (separate SFX + Music sliders)
+- [x] Track display showing current song name and album in SoundControls popup
+- [x] Music toggle button with now-playing indicator
+- [x] 152 tests passing (22 new Phase 20 tests)

@@ -7,6 +7,7 @@ import { useState, useCallback, useEffect, useMemo } from "react";
 import { useGame, ROOM_DEFINITIONS, type HotspotDef, type RoomDef } from "@/contexts/GameContext";
 import { useGamification } from "@/contexts/GamificationContext";
 import { useSound } from "@/contexts/SoundContext";
+import { useAmbientMusic } from "@/contexts/AmbientMusicContext";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLocation } from "wouter";
 import {
@@ -383,6 +384,14 @@ export default function ArkExplorerPage() {
       setRoomAmbience(state.currentRoomId);
     }
   }, [state.currentRoomId, audioReady, setRoomAmbience]);
+
+  // Play contextual music when entering a room
+  const { playForRoom: playMusicForRoom } = useAmbientMusic();
+  useEffect(() => {
+    if (state.currentRoomId) {
+      playMusicForRoom(state.currentRoomId);
+    }
+  }, [state.currentRoomId, playMusicForRoom]);
 
   // Show Elara intro on first visit to a room
   useEffect(() => {

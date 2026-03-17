@@ -32,6 +32,8 @@ import FavoritesPage from "./pages/FavoritesPage";
 import LoreQuizPage from "./pages/LoreQuizPage";
 import CodexPage from "./pages/CodexPage";
 import CardBattlePage from "./pages/CardBattlePage";
+import CardGalleryPage from "./pages/CardGalleryPage";
+import PlayerProfilePage from "./pages/PlayerProfilePage";
 import AwakeningPage from "./pages/AwakeningPage";
 import ArkExplorerPage from "./pages/ArkExplorerPage";
 import { LoredexProvider } from "./contexts/LoredexContext";
@@ -39,6 +41,7 @@ import { PlayerProvider } from "./contexts/PlayerContext";
 import { GamificationProvider } from "./contexts/GamificationContext";
 import { GameProvider, useGame } from "./contexts/GameContext";
 import { SoundProvider, useSound } from "./contexts/SoundContext";
+import { AmbientMusicProvider } from "./contexts/AmbientMusicContext";
 import PlayerBar from "./components/PlayerBar";
 import AppShell from "./components/AppShell";
 import AchievementToast from "./components/AchievementToast";
@@ -80,6 +83,8 @@ function Router() {
       <Route path="/codex" component={CodexPage} />
       <Route path="/store" component={StorePage} />
       <Route path="/battle" component={CardBattlePage} />
+      <Route path="/card-gallery" component={CardGalleryPage} />
+      <Route path="/profile" component={PlayerProfilePage} />
       <Route path="/awakening">{() => <AwakeningPage />}</Route>
       <Route path="/404" component={NotFound} />
       <Route component={NotFound} />
@@ -134,6 +139,7 @@ function App() {
         <GamificationProvider>
           <GameProvider>
             <SoundProvider>
+              <AmbientMusicProvider>
               <LoredexProvider>
                 <PlayerProvider>
                   <TooltipProvider>
@@ -142,6 +148,7 @@ function App() {
                   </TooltipProvider>
                 </PlayerProvider>
               </LoredexProvider>
+              </AmbientMusicProvider>
             </SoundProvider>
           </GameProvider>
         </GamificationProvider>
