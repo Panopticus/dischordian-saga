@@ -623,3 +623,11 @@
 - [x] CoNexus games data validation tests
 - [x] Antiquarian's Library room definition tests
 - [x] Easter egg and router wiring tests
+
+### CoNexus Games Verification (Updated)
+- [x] Verified all 33 games from CoNexus Dischordian Saga page are included (was 7, now 33)
+- [x] All games have unique direct clickable URLs with story UUIDs (not generic saga page links)
+- [x] Games categorized by 5 Ages: The Age of Privacy (4), Haven: Sundown Bazaar (7), Fall of Reality Prequel (10), Age of Potentials (7), Visions (5)
+- [x] ConexusPortalPage renders all games with age-based filtering and "PLAY ON CONEXUS" buttons opening in new tabs
+- [x] Added 6 new verification tests (exact count, age categories, per-age counts, direct URLs, unique URLs)
+- [x] 234 tests passing across 11 test files

@@ -1,6 +1,6 @@
 /* ═══════════════════════════════════════════════════════
    CONEXUS PORTAL — The Antiquarian's Library Story Game Hub
-   Access the CoNexus interactive story games from within the Ark
+   All 33 CoNexus interactive story games, categorized by Age
    ═══════════════════════════════════════════════════════ */
 import { useState, useMemo } from "react";
 import { Link } from "wouter";
@@ -10,27 +10,27 @@ import {
   Sparkles, Globe, ChevronRight, Gamepad2,
   AlertTriangle, Zap, BookMarked
 } from "lucide-react";
-import { CONEXUS_GAMES, DIFFICULTY_COLORS, EPOCH_COLORS, type ConexusGame } from "@/data/conexusGames";
+import {
+  CONEXUS_GAMES, AGE_CATEGORIES, DIFFICULTY_COLORS,
+  type ConexusGame, type Age
+} from "@/data/conexusGames";
 import { useLoredex } from "@/contexts/LoredexContext";
 
 const LIBRARY_BG = "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/antiquarian_library_room-dhtjQjrMbU3s3WhnWePBPF.webp";
 
-type FilterEpoch = "all" | string;
+type FilterAge = "all" | Age;
 
 export default function ConexusPortalPage() {
   const [selectedGame, setSelectedGame] = useState<ConexusGame | null>(null);
-  const [filterEpoch, setFilterEpoch] = useState<FilterEpoch>("all");
+  const [filterAge, setFilterAge] = useState<FilterAge>("all");
   const { getEntry } = useLoredex();
 
-  const epochs = useMemo(() => {
-    const set = new Set(CONEXUS_GAMES.map(g => g.epoch));
-    return ["all", ...Array.from(set)];
-  }, []);
+  const filteredCategories = useMemo(() => {
+    if (filterAge === "all") return AGE_CATEGORIES;
+    return AGE_CATEGORIES.filter(c => c.age === filterAge);
+  }, [filterAge]);
 
-  const filteredGames = useMemo(() => {
-    if (filterEpoch === "all") return CONEXUS_GAMES;
-    return CONEXUS_GAMES.filter(g => g.epoch === filterEpoch);
-  }, [filterEpoch]);
+  const totalGames = CONEXUS_GAMES.length;
 
   return (
     <div className="min-h-screen animate-fade-in">
@@ -70,6 +70,9 @@ export default function ConexusPortalPage() {
           </p>
 
           <div className="flex items-center gap-3 flex-wrap">
+            <span className="px-3 py-1.5 rounded-md bg-purple-500/10 border border-purple-500/30 text-purple-300 text-xs font-mono">
+              {totalGames} STORIES ACROSS {AGE_CATEGORIES.length} AGES
+            </span>
             <a
               href="https://conexus.ink/s/Dischordian%20Saga"
               target="_blank"
@@ -121,104 +124,114 @@ export default function ConexusPortalPage() {
           </div>
         </motion.div>
 
-        {/* ═══ EPOCH FILTERS ═══ */}
+        {/* ═══ AGE FILTERS ═══ */}
         <div className="flex gap-2 overflow-x-auto no-scrollbar pb-1">
-          {epochs.map(epoch => (
+          <button
+            onClick={() => setFilterAge("all")}
+            className={`shrink-0 px-3 py-1.5 rounded-full text-[10px] font-mono tracking-wider border transition-all ${
+              filterAge === "all"
+                ? "bg-purple-500/20 border-purple-500/50 text-purple-300"
+                : "bg-secondary/50 border-border/30 text-muted-foreground hover:border-purple-500/30"
+            }`}
+          >
+            ALL AGES ({totalGames})
+          </button>
+          {AGE_CATEGORIES.map(cat => (
             <button
-              key={epoch}
-              onClick={() => setFilterEpoch(epoch)}
+              key={cat.age}
+              onClick={() => setFilterAge(cat.age)}
               className={`shrink-0 px-3 py-1.5 rounded-full text-[10px] font-mono tracking-wider border transition-all ${
-                filterEpoch === epoch
-                  ? "bg-purple-500/20 border-purple-500/50 text-purple-300"
+                filterAge === cat.age
+                  ? `${cat.bgColor} ${cat.borderColor} ${cat.color}`
                   : "bg-secondary/50 border-border/30 text-muted-foreground hover:border-purple-500/30"
               }`}
             >
-              {epoch === "all" ? "ALL EPOCHS" : epoch.toUpperCase()}
+              {cat.age.toUpperCase()} ({cat.games.length})
             </button>
           ))}
         </div>
 
-        {/* ═══ GAME GRID ═══ */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          <AnimatePresence mode="popLayout">
-            {filteredGames.map((game, i) => (
-              <motion.div
-                key={game.id}
-                layout
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.95 }}
-                transition={{ delay: 0.05 * i }}
-              >
-                <button
-                  onClick={() => setSelectedGame(game)}
-                  className="w-full text-left group rounded-lg border border-border/30 bg-card/30 overflow-hidden hover:border-purple-500/40 hover-lift transition-all"
+        {/* ═══ AGE SECTIONS ═══ */}
+        {filteredCategories.map((category, catIdx) => (
+          <motion.section
+            key={category.age}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 * catIdx }}
+          >
+            {/* Age Header */}
+            <div className={`rounded-lg border ${category.borderColor} ${category.bgColor} p-4 mb-4`}>
+              <div className="flex items-center gap-3 mb-2">
+                <span className="text-2xl">{category.iconGlyph}</span>
+                <div>
+                  <h2 className={`font-display text-sm font-bold tracking-[0.15em] ${category.color}`}>
+                    {category.age.toUpperCase()}
+                  </h2>
+                  <p className="font-mono text-[10px] text-muted-foreground/60">
+                    {category.games.length} STORIES
+                  </p>
+                </div>
+              </div>
+              <p className="text-xs text-muted-foreground leading-relaxed">
+                {category.description}
+              </p>
+            </div>
+
+            {/* Game Cards */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
+              {category.games.map((game, i) => (
+                <motion.div
+                  key={game.id}
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 0.03 * i }}
                 >
-                  {/* Poster */}
-                  <div className="aspect-video overflow-hidden relative">
-                    {game.posterImage ? (
-                      <img
-                        src={game.posterImage}
-                        alt={game.title}
-                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                        loading="lazy"
-                      />
-                    ) : (
-                      <div className="w-full h-full bg-gradient-to-br from-purple-900/40 to-indigo-900/40 flex items-center justify-center">
-                        <BookOpen size={32} className="text-purple-400/40" />
+                  <button
+                    onClick={() => setSelectedGame(game)}
+                    className="w-full text-left group rounded-lg border border-border/30 bg-card/30 overflow-hidden hover:border-purple-500/40 hover-lift transition-all"
+                  >
+                    {/* Gradient poster placeholder */}
+                    <div className="aspect-[16/10] overflow-hidden relative bg-gradient-to-br from-purple-900/40 to-indigo-900/40">
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <BookOpen size={28} className="text-purple-400/30" />
                       </div>
-                    )}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
 
-                    {/* Epoch badge */}
-                    <div className="absolute top-2 left-2">
-                      <span className={`px-2 py-0.5 rounded-full text-[9px] font-mono tracking-wider border bg-black/60 backdrop-blur-sm ${
-                        EPOCH_COLORS[game.epoch] || "text-purple-300"
-                      } border-current/30`}>
-                        {game.epoch.toUpperCase()}
-                      </span>
-                    </div>
-
-                    {/* Difficulty badge */}
-                    <div className="absolute top-2 right-2">
-                      <span className={`px-2 py-0.5 rounded-full text-[9px] font-mono tracking-wider border ${DIFFICULTY_COLORS[game.difficulty]}`}>
-                        {game.difficulty.toUpperCase()}
-                      </span>
-                    </div>
-
-                    {/* Title overlay */}
-                    <div className="absolute bottom-2 left-3 right-3">
-                      <p className="font-display text-sm font-bold text-white tracking-wide">{game.title}</p>
-                      <p className="font-mono text-[10px] text-white/50">{game.season}</p>
-                    </div>
-                  </div>
-
-                  {/* Info */}
-                  <div className="p-3 space-y-2">
-                    <p className="font-mono text-xs text-muted-foreground line-clamp-2 leading-relaxed">
-                      {game.description}
-                    </p>
-                    <div className="flex items-center gap-3 text-[10px] font-mono text-muted-foreground/60">
-                      <span className="flex items-center gap-1">
-                        <Clock size={10} /> {game.estimatedTime}
-                      </span>
-                      <span className="flex items-center gap-1">
-                        <Users size={10} /> {game.characters.length} characters
-                      </span>
-                    </div>
-                    <div className="flex flex-wrap gap-1">
-                      {game.tags.slice(0, 3).map(tag => (
-                        <span key={tag} className="px-1.5 py-0.5 rounded text-[9px] font-mono bg-secondary/50 text-muted-foreground/60">
-                          {tag}
+                      {/* Difficulty badge */}
+                      <div className="absolute top-2 right-2">
+                        <span className={`px-2 py-0.5 rounded-full text-[8px] font-mono tracking-wider border ${DIFFICULTY_COLORS[game.difficulty]}`}>
+                          {game.difficulty.toUpperCase()}
                         </span>
-                      ))}
+                      </div>
+
+                      {/* Title overlay */}
+                      <div className="absolute bottom-2 left-2.5 right-2.5">
+                        <p className="font-display text-xs font-bold text-white tracking-wide leading-tight">
+                          {game.title}
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                </button>
-              </motion.div>
-            ))}
-          </AnimatePresence>
-        </div>
+
+                    {/* Info */}
+                    <div className="p-2.5 space-y-1.5">
+                      <p className="font-mono text-[10px] text-muted-foreground line-clamp-2 leading-relaxed">
+                        {game.description}
+                      </p>
+                      <div className="flex items-center gap-2 text-[9px] font-mono text-muted-foreground/50">
+                        <span className="flex items-center gap-0.5">
+                          <Clock size={9} /> {game.estimatedTime}
+                        </span>
+                        <span className="flex items-center gap-0.5">
+                          <Users size={9} /> {game.characters.length}
+                        </span>
+                      </div>
+                    </div>
+                  </button>
+                </motion.div>
+              ))}
+            </div>
+          </motion.section>
+        ))}
 
         {/* ═══ CONEXUS INFO ═══ */}
         <motion.section
@@ -228,7 +241,7 @@ export default function ConexusPortalPage() {
           className="rounded-lg border border-border/30 bg-card/30 p-4"
         >
           <h3 className="font-display text-xs font-bold tracking-[0.2em] text-foreground flex items-center gap-2 mb-3">
-            <Sparkles size={13} className="text-purple-400" />
+            <Gamepad2 size={14} className="text-purple-400" />
             ABOUT CONEXUS
           </h3>
           <p className="text-xs text-muted-foreground leading-relaxed mb-3">
@@ -239,7 +252,7 @@ export default function ConexusPortalPage() {
           </p>
           <p className="text-xs text-muted-foreground leading-relaxed mb-3">
             The Dischordian Saga is the foundational narrative that led to the creation of CoNexus itself.
-            These story games span the complete mythology — from the Age of Privacy through the Fall of Reality
+            These {totalGames} story games span the complete mythology — from the Age of Privacy through the Fall of Reality
             and into the Age of Potentials. Each game is infinitely generative: no two playthroughs are ever the same.
           </p>
           <div className="flex flex-wrap gap-2">
@@ -281,19 +294,9 @@ export default function ConexusPortalPage() {
               onClick={e => e.stopPropagation()}
               className="relative w-full max-w-lg max-h-[85vh] overflow-y-auto rounded-xl border border-purple-500/30 bg-card shadow-2xl"
             >
-              {/* Poster header */}
-              <div className="relative aspect-video">
-                {selectedGame.posterImage ? (
-                  <img
-                    src={selectedGame.posterImage}
-                    alt={selectedGame.title}
-                    className="w-full h-full object-cover"
-                  />
-                ) : (
-                  <div className="w-full h-full bg-gradient-to-br from-purple-900/60 to-indigo-900/60 flex items-center justify-center">
-                    <BookOpen size={48} className="text-purple-400/40" />
-                  </div>
-                )}
+              {/* Header */}
+              <div className="relative aspect-video bg-gradient-to-br from-purple-900/60 to-indigo-900/60 flex items-center justify-center">
+                <BookOpen size={48} className="text-purple-400/40" />
                 <div className="absolute inset-0 bg-gradient-to-t from-card via-card/30 to-transparent" />
                 <button
                   onClick={() => setSelectedGame(null)}
@@ -303,11 +306,11 @@ export default function ConexusPortalPage() {
                 </button>
                 <div className="absolute bottom-4 left-4 right-4">
                   <div className="flex items-center gap-2 mb-1">
-                    <span className={`px-2 py-0.5 rounded-full text-[9px] font-mono tracking-wider border ${
-                      EPOCH_COLORS[selectedGame.epoch] || "text-purple-300"
-                    } border-current/30 bg-black/40 backdrop-blur-sm`}>
-                      {selectedGame.epoch.toUpperCase()}
-                    </span>
+                    {AGE_CATEGORIES.map(cat => cat.age === selectedGame.age ? (
+                      <span key={cat.age} className={`px-2 py-0.5 rounded-full text-[9px] font-mono tracking-wider border ${cat.color} ${cat.borderColor} bg-black/40 backdrop-blur-sm`}>
+                        {cat.age.toUpperCase()}
+                      </span>
+                    ) : null)}
                     <span className={`px-2 py-0.5 rounded-full text-[9px] font-mono tracking-wider border ${DIFFICULTY_COLORS[selectedGame.difficulty]}`}>
                       {selectedGame.difficulty.toUpperCase()}
                     </span>
@@ -315,7 +318,6 @@ export default function ConexusPortalPage() {
                   <h2 className="font-display text-xl font-black tracking-wider text-white">
                     {selectedGame.title}
                   </h2>
-                  <p className="font-mono text-[10px] text-white/50">{selectedGame.season}</p>
                 </div>
               </div>
 
@@ -324,14 +326,6 @@ export default function ConexusPortalPage() {
                 <p className="text-sm text-muted-foreground leading-relaxed">
                   {selectedGame.description}
                 </p>
-
-                {/* Lore context */}
-                <div className="rounded-lg border border-purple-500/20 bg-purple-500/5 p-3">
-                  <p className="font-mono text-[10px] text-purple-400 tracking-wider mb-1">LORE CONTEXT</p>
-                  <p className="text-xs text-muted-foreground leading-relaxed">
-                    {selectedGame.loreContext}
-                  </p>
-                </div>
 
                 {/* Characters */}
                 <div>
@@ -399,7 +393,7 @@ export default function ConexusPortalPage() {
                   className="flex items-center justify-center gap-2 w-full px-4 py-3 rounded-lg bg-purple-600 hover:bg-purple-500 text-white text-sm font-mono tracking-wider transition-all group"
                 >
                   <Gamepad2 size={16} />
-                  ENTER THIS STORY ON CONEXUS
+                  PLAY ON CONEXUS
                   <ExternalLink size={14} className="opacity-60 group-hover:opacity-100" />
                 </a>
 

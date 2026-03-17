@@ -166,6 +166,50 @@ describe("CoNexus Games Data", () => {
       expect(game.conexusUrl.startsWith("https://")).toBe(true);
     }
   });
+
+  it("should have exactly 33 games matching the CoNexus Dischordian Saga page", async () => {
+    const { CONEXUS_GAMES } = await import("../client/src/data/conexusGames");
+    expect(CONEXUS_GAMES.length).toBe(33);
+  });
+
+  it("should have all 5 age categories", async () => {
+    const { AGE_CATEGORIES } = await import("../client/src/data/conexusGames");
+    expect(AGE_CATEGORIES.length).toBe(5);
+    const ageNames = AGE_CATEGORIES.map((c: { age: string }) => c.age);
+    expect(ageNames).toContain("The Age of Privacy");
+    expect(ageNames).toContain("Haven: Sundown Bazaar");
+    expect(ageNames).toContain("Fall of Reality (Prequel)");
+    expect(ageNames).toContain("Age of Potentials");
+    expect(ageNames).toContain("Visions");
+  });
+
+  it("should have correct game counts per age", async () => {
+    const { AGE_CATEGORIES } = await import("../client/src/data/conexusGames");
+    const counts: Record<string, number> = {};
+    for (const cat of AGE_CATEGORIES) {
+      counts[cat.age] = cat.games.length;
+    }
+    expect(counts["The Age of Privacy"]).toBe(4);
+    expect(counts["Haven: Sundown Bazaar"]).toBe(7);
+    expect(counts["Fall of Reality (Prequel)"]).toBe(10);
+    expect(counts["Age of Potentials"]).toBe(7);
+    expect(counts["Visions"]).toBe(5);
+  });
+
+  it("every game should have a direct story URL (not just the saga page)", async () => {
+    const { CONEXUS_GAMES } = await import("../client/src/data/conexusGames");
+    for (const game of CONEXUS_GAMES) {
+      // Each URL should contain a UUID story ID between /Saga/ and ?
+      const match = game.conexusUrl.match(/\/Dischordian%20Saga\/[0-9a-f]{8}-[0-9a-f]{4}/);
+      expect(match).toBeTruthy();
+    }
+  });
+
+  it("no two games should share the same URL", async () => {
+    const { CONEXUS_GAMES } = await import("../client/src/data/conexusGames");
+    const urls = CONEXUS_GAMES.map((g: { conexusUrl: string }) => g.conexusUrl);
+    expect(new Set(urls).size).toBe(urls.length);
+  });
 });
 
 /* ═══ ANTIQUARIAN'S LIBRARY ROOM ═══ */
