@@ -5,6 +5,7 @@
    ═══════════════════════════════════════════════════════ */
 import { useState, useMemo } from "react";
 import { Link } from "wouter";
+import { useContentReward } from "@/components/ContentRewardToast";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   BookOpen, ChevronLeft, ExternalLink, Clock, Users, Shield,
@@ -33,6 +34,7 @@ export default function ConexusPortalPage() {
   const [showAchievementModal, setShowAchievementModal] = useState<LoreAchievement | null>(null);
   const { getEntry } = useLoredex();
   const { state, completeGame, earnLoreAchievement, isGameCompleted } = useGame();
+  const { recordAndReward } = useContentReward();
 
   const filteredCategories = useMemo(() => {
     if (filterAge === "all") return AGE_CATEGORIES;
@@ -48,6 +50,8 @@ export default function ConexusPortalPage() {
   const handleMarkComplete = (game: ConexusGame) => {
     if (isGameCompleted(game.id)) return;
     completeGame(game.id);
+    // Record content participation for card rewards
+    recordAndReward("conexus_game", game.id, true, { title: game.title, age: game.age });
     // Also earn the lore achievement
     const ach = getAchievementByGameId(game.id);
     if (ach && !state.loreAchievements.includes(ach.id)) {
@@ -388,11 +392,20 @@ export default function ConexusPortalPage() {
                                 : "border-border/30 bg-card/30 hover:border-purple-500/40"
                             }`}
                           >
-                            {/* Gradient poster */}
+                            {/* Cover art poster */}
                             <div className="aspect-[16/10] overflow-hidden relative bg-gradient-to-br from-purple-900/40 to-indigo-900/40">
-                              <div className="absolute inset-0 flex items-center justify-center">
-                                <BookOpen size={28} className="text-purple-400/30" />
-                              </div>
+                              {game.coverImage ? (
+                                <img
+                                  src={game.coverImage}
+                                  alt={game.title}
+                                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                                  loading="lazy"
+                                />
+                              ) : (
+                                <div className="absolute inset-0 flex items-center justify-center">
+                                  <BookOpen size={28} className="text-purple-400/30" />
+                                </div>
+                              )}
                               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
 
                               {/* Completion badge */}
@@ -523,8 +536,16 @@ export default function ConexusPortalPage() {
               className="relative w-full max-w-lg max-h-[85vh] overflow-y-auto rounded-xl border border-purple-500/30 bg-card shadow-2xl"
             >
               {/* Header */}
-              <div className="relative aspect-video bg-gradient-to-br from-purple-900/60 to-indigo-900/60 flex items-center justify-center">
-                <BookOpen size={48} className="text-purple-400/40" />
+              <div className="relative aspect-video bg-gradient-to-br from-purple-900/60 to-indigo-900/60 flex items-center justify-center overflow-hidden">
+                {selectedGame.coverImage ? (
+                  <img
+                    src={selectedGame.coverImage}
+                    alt={selectedGame.title}
+                    className="w-full h-full object-cover absolute inset-0"
+                  />
+                ) : (
+                  <BookOpen size={48} className="text-purple-400/40" />
+                )}
                 <div className="absolute inset-0 bg-gradient-to-t from-card via-card/30 to-transparent" />
                 <button
                   onClick={() => setSelectedGame(null)}

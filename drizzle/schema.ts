@@ -661,3 +661,54 @@ export const playerBases = mysqlTable("player_bases", {
 });
 
 export type PlayerBase = typeof playerBases.$inferSelect;
+
+
+/* ═══════════════════════════════════════════════════════
+   CONTENT PARTICIPATION — Track user engagement with content
+   Watching episodes, completing games, solving quizzes → card rewards
+   ═══════════════════════════════════════════════════════ */
+
+export const contentParticipation = mysqlTable("content_participation", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  /** Type of content: episode, conexus_game, quiz, song, album */
+  contentType: varchar("contentType", { length: 64 }).notNull(),
+  /** Unique content identifier (episode ID, game ID, quiz ID) */
+  contentId: varchar("contentId", { length: 256 }).notNull(),
+  /** Whether the content was completed */
+  completed: int("completed").notNull().default(0),
+  /** Progress percentage 0-100 */
+  progress: int("progress").notNull().default(0),
+  /** Whether rewards have been claimed */
+  rewardsClaimed: int("rewardsClaimed").notNull().default(0),
+  /** JSON: metadata about the participation */
+  metadata: json("metadata").$type<Record<string, unknown>>(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type ContentParticipation = typeof contentParticipation.$inferSelect;
+
+/**
+ * Content rewards — defines what rewards are given for content completion.
+ * Seeded at app start.
+ */
+export const contentRewards = mysqlTable("content_rewards", {
+  id: int("id").autoincrement().primaryKey(),
+  /** Content type: episode, conexus_game, quiz, song, album, milestone */
+  contentType: varchar("contentType", { length: 64 }).notNull(),
+  /** Content identifier pattern (specific ID or "*" for any) */
+  contentId: varchar("contentId", { length: 256 }).notNull(),
+  /** Reward type: card, dream, xp, booster */
+  rewardType: varchar("rewardType", { length: 64 }).notNull(),
+  /** Reward value: card ID for cards, amount for dream/xp */
+  rewardValue: varchar("rewardValue", { length: 256 }).notNull(),
+  /** Quantity of reward */
+  quantity: int("quantity").notNull().default(1),
+  /** Description of the reward */
+  description: text("description"),
+  isActive: int("isActive").notNull().default(1),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export type ContentReward = typeof contentRewards.$inferSelect;

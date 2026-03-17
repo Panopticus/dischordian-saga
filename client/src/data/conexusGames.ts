@@ -21,6 +21,7 @@ export interface ConexusGame {
   estimatedTime: string;
   tags: string[];
   conexusUrl: string;
+  coverImage?: string;
 }
 
 export interface AgeCategory {
@@ -46,6 +47,7 @@ const AGE_OF_PRIVACY: ConexusGame[] = [
     estimatedTime: "30-60 min",
     tags: ["conspiracy", "espionage", "secret society"],
     conexusUrl: "https://conexus.ink/s/Dischordian%20Saga/9c1961aa-811a-43a3-aedd-867eac634b68?title=The%20Brotherhood%3A%20Ocularum&category=57fcdf3d-d001-456f-93ca-51e0e8b038cb",
+    coverImage: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/conexus_brotherhood-ocularum_3861cff9.png",
   },
   {
     id: "building-the-architect",
@@ -57,6 +59,7 @@ const AGE_OF_PRIVACY: ConexusGame[] = [
     estimatedTime: "45-90 min",
     tags: ["origin story", "sci-fi", "creation"],
     conexusUrl: "https://conexus.ink/s/Dischordian%20Saga/7ef8e4ef-41e8-4b76-8a0b-2014274461d5?title=Building%20the%20Architect&category=57fcdf3d-d001-456f-93ca-51e0e8b038cb",
+    coverImage: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/conexus_building-the-architect_a74a6b41.png",
   },
   {
     id: "the-experiment",
@@ -68,6 +71,7 @@ const AGE_OF_PRIVACY: ConexusGame[] = [
     estimatedTime: "30-60 min",
     tags: ["horror", "sci-fi", "psychological"],
     conexusUrl: "https://conexus.ink/s/Dischordian%20Saga/e2578d2a-ab82-4cc3-be65-99a46ae93327?title=The%20Experiment&category=57fcdf3d-d001-456f-93ca-51e0e8b038cb",
+    coverImage: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/conexus_the-experiment_fed96b05.png",
   },
   {
     id: "the-deployment",
@@ -79,6 +83,7 @@ const AGE_OF_PRIVACY: ConexusGame[] = [
     estimatedTime: "45-90 min",
     tags: ["surveillance", "thriller", "moral choices"],
     conexusUrl: "https://conexus.ink/s/Dischordian%20Saga/4366f377-effb-463c-8e8e-26d2226d7cba?title=The%20Deployment&category=57fcdf3d-d001-456f-93ca-51e0e8b038cb",
+    coverImage: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/conexus_the-deployment_38fade8c.png",
   },
 ];
 
@@ -94,6 +99,7 @@ const SUNDOWN_BAZAAR: ConexusGame[] = [
     estimatedTime: "45-90 min",
     tags: ["war", "faction conflict", "urban warfare"],
     conexusUrl: "https://conexus.ink/s/Dischordian%20Saga/8eb10f88-f7a5-4dea-be68-fcebbf3c4c93?title=Civil%20War%3A%20Sundown&category=4b2feb84-28f7-467a-9eb1-72413c599591",
+    coverImage: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/conexus_civil-war-sundown_27cf38ee.png",
   },
   {
     id: "eternal-night",
@@ -105,6 +111,7 @@ const SUNDOWN_BAZAAR: ConexusGame[] = [
     estimatedTime: "45-90 min",
     tags: ["horror", "survival", "dark fantasy"],
     conexusUrl: "https://conexus.ink/s/Dischordian%20Saga/5a886b69-3b04-4189-8c6b-3f338dc81e85?title=Eternal%20Night&category=4b2feb84-28f7-467a-9eb1-72413c599591",
+    coverImage: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/conexus_eternal-night_b6c4c5ce.png",
   },
   {
     id: "sunbreak-protocol",
@@ -116,6 +123,7 @@ const SUNDOWN_BAZAAR: ConexusGame[] = [
     estimatedTime: "30-60 min",
     tags: ["adventure", "technology", "hope"],
     conexusUrl: "https://conexus.ink/s/Dischordian%20Saga/5da1b701-17b1-43a0-9fe5-5caaa14aa6e9?title=Sunbreak%20Protocol&category=4b2feb84-28f7-467a-9eb1-72413c599591",
+    coverImage: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/conexus_sunbreak-protocol_d7294326.png",
   },
   {
     id: "circuit-of-ashes",
@@ -127,6 +135,7 @@ const SUNDOWN_BAZAAR: ConexusGame[] = [
     estimatedTime: "30-60 min",
     tags: ["cyberpunk", "mystery", "digital"],
     conexusUrl: "https://conexus.ink/s/Dischordian%20Saga/084ef9e1-f796-445a-b39b-c4c2a7d765b2?title=Circuit%20of%20Ashes&category=4b2feb84-28f7-467a-9eb1-72413c599591",
+    coverImage: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/conexus_circuit-of-ashes_f77b04e4.png",
   },
   {
     id: "veil-of-blood",
@@ -138,6 +147,7 @@ const SUNDOWN_BAZAAR: ConexusGame[] = [
     estimatedTime: "60-120 min",
     tags: ["vampire", "horror", "dark fantasy"],
     conexusUrl: "https://conexus.ink/s/Dischordian%20Saga/6ee4b74a-68c3-4b9e-a6dd-30e1f040c3f8?title=Veil%20of%20Blood&category=4b2feb84-28f7-467a-9eb1-72413c599591",
+    coverImage: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/conexus_veil-of-blood_d4e99ae1.png",
   },
   {
     id: "grave-secrets",
@@ -149,6 +159,7 @@ const SUNDOWN_BAZAAR: ConexusGame[] = [
     estimatedTime: "30-60 min",
     tags: ["mystery", "undead", "noir"],
     conexusUrl: "https://conexus.ink/s/Dischordian%20Saga/5da6249e-2dc1-4251-bcac-9d032255044e?title=Grave%20Secrets&category=4b2feb84-28f7-467a-9eb1-72413c599591",
+    coverImage: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/conexus_grave-secrets_9bcb53ab.png",
   },
   {
     id: "echoes-of-the-tenebrous",
@@ -160,6 +171,7 @@ const SUNDOWN_BAZAAR: ConexusGame[] = [
     estimatedTime: "45-90 min",
     tags: ["cosmic horror", "shadow", "ancient evil"],
     conexusUrl: "https://conexus.ink/s/Dischordian%20Saga/f02138c6-3e38-4a91-be83-4c50d70e5154?title=Echoes%20of%20the%20Tenebrous&category=4b2feb84-28f7-467a-9eb1-72413c599591",
+    coverImage: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/conexus_echoes-of-the-tenebrous_05dc5cee.png",
   },
 ];
 
@@ -175,6 +187,7 @@ const FALL_OF_REALITY: ConexusGame[] = [
     estimatedTime: "60-120 min",
     tags: ["time travel", "artifact", "epic"],
     conexusUrl: "https://conexus.ink/s/Dischordian%20Saga/b897fd72-65dc-4868-8baa-852ba908035d?title=Baron%20and%20the%20Heart%20of%20Time&category=32d8c748-e1b0-4eec-b84b-ad684f101569",
+    coverImage: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/conexus_baron-heart-of-time_bff60b0e.png",
   },
   {
     id: "necromancers-lair",
@@ -186,6 +199,7 @@ const FALL_OF_REALITY: ConexusGame[] = [
     estimatedTime: "45-90 min",
     tags: ["horror", "dark fantasy", "undead"],
     conexusUrl: "https://conexus.ink/s/Dischordian%20Saga/f204fe3b-692e-467b-b9b1-fac1961d5ee8?title=The%20Necromancer%27s%20Lair&category=32d8c748-e1b0-4eec-b84b-ad684f101569",
+    coverImage: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/conexus_necromancers-lair_ff3e36d2.png",
   },
   {
     id: "welcome-to-celebration",
@@ -197,6 +211,7 @@ const FALL_OF_REALITY: ConexusGame[] = [
     estimatedTime: "20-40 min",
     tags: ["dystopia", "mystery", "family"],
     conexusUrl: "https://conexus.ink/s/Dischordian%20Saga/8fe52770-aa52-443a-80e9-731ccbce3d5b?title=Welcome%20to%20Celebration&category=32d8c748-e1b0-4eec-b84b-ad684f101569",
+    coverImage: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/conexus_welcome-to-celebration_474f552a.png",
   },
   {
     id: "mechronis-academy",
@@ -208,6 +223,7 @@ const FALL_OF_REALITY: ConexusGame[] = [
     estimatedTime: "20-40 min",
     tags: ["school", "magic", "coming of age"],
     conexusUrl: "https://conexus.ink/s/Dischordian%20Saga/4b55c094-cb93-422f-99ff-2c309e92070e?title=Mechronis%20Academy&category=32d8c748-e1b0-4eec-b84b-ad684f101569",
+    coverImage: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/conexus_mechronis-academy_1d4c582b.png",
   },
   {
     id: "enigmas-lament",
@@ -219,6 +235,7 @@ const FALL_OF_REALITY: ConexusGame[] = [
     estimatedTime: "30-60 min",
     tags: ["personal", "music", "identity"],
     conexusUrl: "https://conexus.ink/s/Dischordian%20Saga/bdbbf093-18f4-4908-8e1a-aaa7763ed451?title=The%20Enigma%27s%20Lament&category=32d8c748-e1b0-4eec-b84b-ad684f101569",
+    coverImage: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/conexus_enigmas-lament_49eacd3f.png",
   },
   {
     id: "dischordian-logic",
@@ -230,6 +247,7 @@ const FALL_OF_REALITY: ConexusGame[] = [
     estimatedTime: "60-120 min",
     tags: ["paradox", "philosophy", "reality-bending"],
     conexusUrl: "https://conexus.ink/s/Dischordian%20Saga/c226e93a-253f-4aff-b68b-e1e9edaaa86c?title=Dischordian%20Logic&category=32d8c748-e1b0-4eec-b84b-ad684f101569",
+    coverImage: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/conexus_dischordian-logic_9bf807bb.png",
   },
   {
     id: "politicians-reign",
@@ -241,6 +259,7 @@ const FALL_OF_REALITY: ConexusGame[] = [
     estimatedTime: "30-60 min",
     tags: ["political", "thriller", "dystopia"],
     conexusUrl: "https://conexus.ink/s/Dischordian%20Saga/a43af8ce-1771-4181-8b70-69dfa3b58d71?title=The%20Politician%27s%20Reign&category=32d8c748-e1b0-4eec-b84b-ad684f101569",
+    coverImage: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/conexus_politicians-reign_16e7a83b.png",
   },
   {
     id: "the-detective",
@@ -252,6 +271,7 @@ const FALL_OF_REALITY: ConexusGame[] = [
     estimatedTime: "30-60 min",
     tags: ["noir", "mystery", "investigation"],
     conexusUrl: "https://conexus.ink/s/Dischordian%20Saga/22e81c8f-9bd7-4d51-b42e-a801dfadda48?title=The%20Detective&category=32d8c748-e1b0-4eec-b84b-ad684f101569",
+    coverImage: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/conexus_the-detective_2f91f6bc.png",
   },
   {
     id: "myths-dreams-workshop",
@@ -263,6 +283,7 @@ const FALL_OF_REALITY: ConexusGame[] = [
     estimatedTime: "20-40 min",
     tags: ["creative", "mythology", "dreams"],
     conexusUrl: "https://conexus.ink/s/Dischordian%20Saga/085b92d0-e6b7-490a-b76f-c47cefe1098b?title=Myths%20%26%20Dreams%20Workshop&category=32d8c748-e1b0-4eec-b84b-ad684f101569",
+    coverImage: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/conexus_myths-dreams-workshop_d1b7d6a9.png",
   },
   {
     id: "sanctuary-lost",
@@ -274,6 +295,7 @@ const FALL_OF_REALITY: ConexusGame[] = [
     estimatedTime: "45-90 min",
     tags: ["survival", "last stand", "hope"],
     conexusUrl: "https://conexus.ink/s/Dischordian%20Saga/7461cf43-4ee6-4331-aa40-86ce19eab4a0?title=Sanctuary%20Lost&category=32d8c748-e1b0-4eec-b84b-ad684f101569",
+    coverImage: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/conexus_sanctuary-lost_7e50fe52.png",
   },
 ];
 
@@ -289,6 +311,7 @@ const AGE_OF_POTENTIALS: ConexusGame[] = [
     estimatedTime: "30-60 min",
     tags: ["identity", "sci-fi", "clones"],
     conexusUrl: "https://conexus.ink/s/Dischordian%20Saga/3dd04396-2948-4128-b43c-3417ca2580e8?title=Awaken%20the%20Clone&category=3cb5005e-db9f-4b92-932f-7f3c7f12cc2e",
+    coverImage: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/conexus_awaken-the-clone_c152f89d.png",
   },
   {
     id: "brushstroke-of-the-empire",
@@ -300,6 +323,7 @@ const AGE_OF_POTENTIALS: ConexusGame[] = [
     estimatedTime: "30-60 min",
     tags: ["art", "empire", "power"],
     conexusUrl: "https://conexus.ink/s/Dischordian%20Saga/fe878991-f913-47a8-be87-1312a524b5b6?title=Brushstroke%20of%20the%20Empire&category=3cb5005e-db9f-4b92-932f-7f3c7f12cc2e",
+    coverImage: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/conexus_brushstroke-of-the-empire_8111d4e2.png",
   },
   {
     id: "civil-war-samsara-rising",
@@ -311,6 +335,7 @@ const AGE_OF_POTENTIALS: ConexusGame[] = [
     estimatedTime: "45-90 min",
     tags: ["war", "reincarnation", "epic"],
     conexusUrl: "https://conexus.ink/s/Dischordian%20Saga/b4b218e1-a391-4c51-80b8-f4bc045d8058?title=Civil%20War%3A%20Samsara%20Rising&category=3cb5005e-db9f-4b92-932f-7f3c7f12cc2e",
+    coverImage: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/conexus_civil-war-samsara-rising_13a84fad.png",
   },
   {
     id: "seeds-of-inception",
@@ -322,6 +347,7 @@ const AGE_OF_POTENTIALS: ConexusGame[] = [
     estimatedTime: "20-40 min",
     tags: ["colonization", "creation", "hope"],
     conexusUrl: "https://conexus.ink/s/Dischordian%20Saga/0d6b5812-3275-4d80-a360-0957aa7d593f?title=Seeds%20of%20Inception&category=3cb5005e-db9f-4b92-932f-7f3c7f12cc2e",
+    coverImage: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/conexus_seeds-of-inception_d47a35a9.png",
   },
   {
     id: "terminus-swarm",
@@ -333,6 +359,7 @@ const AGE_OF_POTENTIALS: ConexusGame[] = [
     estimatedTime: "45-90 min",
     tags: ["alien invasion", "survival", "military"],
     conexusUrl: "https://conexus.ink/s/Dischordian%20Saga/1253bb5f-ce5c-47f3-839b-719458093adf?title=Terminus%20Swarm&category=3cb5005e-db9f-4b92-932f-7f3c7f12cc2e",
+    coverImage: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/conexus_terminus-swarm_a511fbf2.png",
   },
   {
     id: "the-host",
@@ -344,6 +371,7 @@ const AGE_OF_POTENTIALS: ConexusGame[] = [
     estimatedTime: "45-90 min",
     tags: ["body horror", "symbiosis", "power"],
     conexusUrl: "https://conexus.ink/s/Dischordian%20Saga/ab23150e-cb62-4dd4-a671-3e09e2d5ac78?title=The%20Host&category=3cb5005e-db9f-4b92-932f-7f3c7f12cc2e",
+    coverImage: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/conexus_the-host_642c5605.png",
   },
   {
     id: "planet-of-the-wolf",
@@ -355,6 +383,7 @@ const AGE_OF_POTENTIALS: ConexusGame[] = [
     estimatedTime: "30-60 min",
     tags: ["survival", "primal", "alien world"],
     conexusUrl: "https://conexus.ink/s/Dischordian%20Saga/d5d23072-e2ec-4df3-98cd-4a420a1fa3f4?title=Planet%20of%20the%20Wolf&category=3cb5005e-db9f-4b92-932f-7f3c7f12cc2e",
+    coverImage: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/conexus_planet-of-the-wolf_07fcd767.png",
   },
 ];
 
@@ -370,6 +399,7 @@ const VISIONS: ConexusGame[] = [
     estimatedTime: "30-60 min",
     tags: ["simulation", "rebellion", "meta"],
     conexusUrl: "https://conexus.ink/s/Dischordian%20Saga/0ce906f3-fbba-4a70-952d-4aaa9176561a?title=NPC%20Uprising&category=24ef66fc-6b6b-44ad-b50f-5cdd8ffb9e91",
+    coverImage: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/conexus_npc-uprising_2df53105.png",
   },
   {
     id: "yakuza-the-prince",
@@ -381,6 +411,7 @@ const VISIONS: ConexusGame[] = [
     estimatedTime: "45-90 min",
     tags: ["crime", "yakuza", "cyberpunk"],
     conexusUrl: "https://conexus.ink/s/Dischordian%20Saga/83e6e7ba-999e-4806-9d21-57005162ecc3?title=Yakuza%3A%20The%20Prince&category=24ef66fc-6b6b-44ad-b50f-5cdd8ffb9e91",
+    coverImage: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/conexus_yakuza-the-prince_947f9116.png",
   },
   {
     id: "whispers-of-madness",
@@ -392,6 +423,7 @@ const VISIONS: ConexusGame[] = [
     estimatedTime: "60-120 min",
     tags: ["cosmic horror", "lovecraftian", "madness"],
     conexusUrl: "https://conexus.ink/s/Dischordian%20Saga/8734b87f-0b29-4322-9693-4400df1a154a?title=Whispers%20of%20Madness&category=24ef66fc-6b6b-44ad-b50f-5cdd8ffb9e91",
+    coverImage: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/conexus_whispers-of-madness_af23e110.png",
   },
   {
     id: "nightmare-of-oz",
@@ -403,6 +435,7 @@ const VISIONS: ConexusGame[] = [
     estimatedTime: "30-60 min",
     tags: ["dark fairy tale", "horror", "reimagining"],
     conexusUrl: "https://conexus.ink/s/Dischordian%20Saga/bb83104b-4116-41ad-8a4a-6be742e7dafa?title=Nightmare%20of%20Oz&category=24ef66fc-6b6b-44ad-b50f-5cdd8ffb9e91",
+    coverImage: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/conexus_nightmare-of-oz_d2d382c1.png",
   },
   {
     id: "the-ninth-blood-shadows",
@@ -414,6 +447,7 @@ const VISIONS: ConexusGame[] = [
     estimatedTime: "60-120 min",
     tags: ["dark fantasy", "combat", "underworld"],
     conexusUrl: "https://conexus.ink/s/Dischordian%20Saga/5ca08553-22f1-467a-9330-9dd4ffab27f8?title=The%20Ninth%3A%20Blood%20%26%20Shadows&category=24ef66fc-6b6b-44ad-b50f-5cdd8ffb9e91",
+    coverImage: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/conexus_the-ninth-blood-shadows_f48f5a7c.png",
   },
 ];
 

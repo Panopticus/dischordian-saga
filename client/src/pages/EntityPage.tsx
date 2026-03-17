@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 import StoryArc from "@/components/StoryArc";
 import RelationshipMiniGraph from "@/components/RelationshipMiniGraph";
+import LoreAppearancesTimeline from "@/components/LoreAppearancesTimeline";
 import { usePageMeta } from "@/hooks/usePageMeta";
 import ShareButton from "@/components/ShareButton";
 
@@ -382,6 +383,18 @@ export default function EntityPage() {
             </motion.section>
           )}
         </div>
+
+        {/* ═══ LORE APPEARANCES TIMELINE ═══ */}
+        {entry.type === "character" && (
+          <motion.section
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.41 }}
+            className="rounded-lg border border-chart-4/20 bg-chart-4/5 p-5"
+          >
+            <LoreAppearancesTimeline characterName={entry.name} />
+          </motion.section>
+        )}
 
         {/* ═══ RELATIONSHIP MINI-GRAPH ═══ */}
         {entry.type !== "song" && related.length > 0 && (

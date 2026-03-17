@@ -6,6 +6,7 @@
 import { useLoredex, type LoredexEntry } from "@/contexts/LoredexContext";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useGamification } from "@/contexts/GamificationContext";
+import { useContentReward } from "@/components/ContentRewardToast";
 import { Link } from "wouter";
 import { useState, useMemo, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -281,6 +282,7 @@ export default function WatchPage() {
   const { entries, getEntry, discoverEntry, musicVideos, songCharacterMap } = useLoredex();
   const { playSong, setQueue } = usePlayer();
   const gamification = useGamification();
+  const { recordAndReward } = useContentReward();
   const [viewMode, setViewMode] = useState<ViewMode>("epochs");
   const [activeEpoch, setActiveEpoch] = useState<string | null>(null);
   const [currentEpisodeIdx, setCurrentEpisodeIdx] = useState(0);
@@ -356,6 +358,11 @@ export default function WatchPage() {
       discoverEntry(currentEpisode.id);
       gamification.watchEpisode(currentEpisode.id);
       markEpisodeWatched(currentEpisode.id);
+      // Record content participation for card rewards
+      recordAndReward("episode", currentEpisode.id, true, {
+        title: currentEpisode.title,
+        album: currentEpisode.album,
+      });
     }
   }, [currentEpisode?.id, viewMode]);
 

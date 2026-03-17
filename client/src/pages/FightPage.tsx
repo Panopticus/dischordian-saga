@@ -2,10 +2,12 @@
    FALL OF REALITY — Fighting Game Page
    MK-style character select, difficulty, arena, combat
    ═══════════════════════════════════════════════════════ */
-import { useState, useMemo, useCallback } from "react";
+import { useState, useMemo, useCallback, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Swords, Lock, Trophy, Star, Shield, Zap, Heart, Wind, ChevronLeft, ChevronRight, Gamepad2 } from "lucide-react";
+import { Swords, Lock, Trophy, Star, Shield, Zap, Heart, Wind, ChevronLeft, ChevronRight, Gamepad2, AlertTriangle, Skull } from "lucide-react";
 import { useGamification } from "@/contexts/GamificationContext";
+import { useContentReward } from "@/components/ContentRewardToast";
+import { toast } from "sonner";
 import {
   STARTER_FIGHTERS, UNLOCKABLE_FIGHTERS, ALL_FIGHTERS,
   ARENAS, DIFFICULTIES,
@@ -23,9 +25,20 @@ const FACTION_COLORS: Record<string, string> = {
   neutral: "#94a3b8",
 };
 
+// Invasion events — random faction attacks that trigger special fights
+const INVASION_EVENTS = [
+  { id: "empire-raid", faction: "empire", title: "EMPIRE RAID", description: "Imperial forces are attacking! Defend your territory.", minWins: 3, reward: 50 },
+  { id: "neyon-incursion", faction: "neyons", title: "NEYON INCURSION", description: "Neyon digital entities are breaching the firewall.", minWins: 5, reward: 75 },
+  { id: "warlord-assault", faction: "insurgency", title: "WARLORD'S ASSAULT", description: "The Warlord's forces launch a surprise attack!", minWins: 8, reward: 100 },
+  { id: "void-breach", faction: "neutral", title: "VOID BREACH", description: "Unknown entities emerge from the void between realities.", minWins: 12, reward: 150 },
+];
+
 export default function FightPage() {
   const gam = useGamification();
+  const { recordAndReward } = useContentReward();
   const [phase, setPhase] = useState<Phase>("title");
+  const [activeInvasion, setActiveInvasion] = useState<typeof INVASION_EVENTS[0] | null>(null);
+  const [invasionDefeated, setInvasionDefeated] = useState(false);
   const [selectedPlayer, setSelectedPlayer] = useState<FighterData | null>(null);
   const [selectedOpponent, setSelectedOpponent] = useState<FighterData | null>(null);
   const [selectedDifficulty, setSelectedDifficulty] = useState<DifficultyLevel>(DIFFICULTIES[1]);
@@ -66,11 +79,46 @@ export default function FightPage() {
     setMatchResult({ winner, perfect });
     if (winner === "p1") {
       gam.recordFightWin(selectedDifficulty.id, perfect);
+      // Record content participation for fight wins
+      recordAndReward("fight_win", `fight-${Date.now()}`, true, {
+        difficulty: selectedDifficulty.id,
+        perfect,
+        opponent: selectedOpponent?.name,
+      });
+      // Check if invasion was defeated
+      if (activeInvasion) {
+        setInvasionDefeated(true);
+        // Award bonus fight points for invasion
+        gam.recordFightWin(selectedDifficulty.id, false); // extra win credit
+        toast.success(`Invasion Repelled: ${activeInvasion.title}`, {
+          description: `+${activeInvasion.reward} bonus points! The threat has been neutralized.`,
+          duration: 5000,
+        });
+        setActiveInvasion(null);
+      }
     } else {
       gam.recordFightLoss();
+      if (activeInvasion) {
+        toast.error(`Invasion Failed: ${activeInvasion.title}`, {
+          description: "The enemy advances. Regroup and try again.",
+        });
+      }
     }
     setPhase("results");
-  }, [gam, selectedDifficulty]);
+  }, [gam, selectedDifficulty, activeInvasion, recordAndReward, selectedOpponent]);
+
+  // Check for random invasion events
+  useEffect(() => {
+    const totalWins = gam.gameSave.totalFights || 0;
+    const eligible = INVASION_EVENTS.filter(e => totalWins >= e.minWins);
+    if (eligible.length > 0 && !activeInvasion && phase === "title") {
+      // 30% chance of invasion on title screen
+      if (Math.random() < 0.3) {
+        const invasion = eligible[Math.floor(Math.random() * eligible.length)];
+        setActiveInvasion(invasion);
+      }
+    }
+  }, [phase]);
 
   const resetToSelect = useCallback(() => {
     setPhase("select");
@@ -416,6 +464,16 @@ export default function FightPage() {
             </div>
           )}
 
+          {/* Invasion bonus */}
+          {invasionDefeated && isVictory && (
+            <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }}
+              className="mb-4 px-4 py-2 rounded-lg bg-amber-500/10 border border-amber-500/30">
+              <div className="font-mono text-xs text-amber-400 flex items-center gap-2">
+                <Skull size={14} /> INVASION REPELLED — BONUS REWARDS EARNED
+              </div>
+            </motion.div>
+          )}
+
           <div className="flex gap-3 justify-center">
             <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
               onClick={resetToSelect}
@@ -423,7 +481,7 @@ export default function FightPage() {
               NEW FIGHT
             </motion.button>
             <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
-              onClick={() => setPhase("title")}
+              onClick={() => { setPhase("title"); setInvasionDefeated(false); }}
               className="px-6 py-2.5 rounded-lg bg-white/5 border border-white/10 text-white/50 font-mono text-sm hover:bg-white/10 transition-all">
               MAIN MENU
             </motion.button>

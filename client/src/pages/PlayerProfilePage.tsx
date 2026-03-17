@@ -1,5 +1,7 @@
-import { useMemo } from "react";
+import { useMemo, useEffect } from "react";
 import { useGame, ROOM_DEFINITIONS } from "@/contexts/GameContext";
+import { trpc } from "@/lib/trpc";
+import { useAuth } from "@/_core/hooks/useAuth";
 import { generateStarterDeck } from "@/components/StarterDeckViewer";
 import { ROOM_EASTER_EGGS, getBonusCards } from "@/components/EasterEggs";
 import { ROOM_PUZZLES } from "@/components/PuzzleSystem";
@@ -135,6 +137,10 @@ function RoomStatusRow({ room, state }: {
 /* ═══ MAIN PAGE ═══ */
 export default function PlayerProfilePage() {
   const { state } = useGame();
+  const { isAuthenticated } = useAuth();
+  const saveProgress = trpc.gameState.save.useMutation();
+  const { data: serverData } = trpc.gameState.load.useQuery(undefined, { enabled: isAuthenticated });
+  const { data: contentStats } = trpc.contentReward.stats.useQuery(undefined, { enabled: isAuthenticated });
 
   // Compute all stats
   const stats = useMemo(() => {
@@ -198,6 +204,31 @@ export default function PlayerProfilePage() {
       completionPct: Math.round(totalPct),
     };
   }, [state]);
+
+  // Auto-save to server when stats change (debounced)
+  useEffect(() => {
+    if (!isAuthenticated || !state.characterCreated) return;
+    const timer = setTimeout(() => {
+      saveProgress.mutate({
+        gameState: state as any,
+        stats: {
+          roomsUnlocked: stats.unlockedRooms,
+          totalRooms: stats.totalRooms,
+          puzzlesSolved: stats.puzzlesSolved,
+          totalPuzzles: stats.totalPuzzles,
+          easterEggsFound: stats.eggsFound,
+          totalEasterEggs: stats.totalEggs,
+          battlesWon: stats.battlesWon,
+          battlesPlayed: stats.battlesPlayed,
+          cardsCollected: stats.totalOwnedCards,
+          totalCards: stats.totalPossibleCards,
+          completionPercent: stats.completionPct,
+          rank: stats.completionPct >= 90 ? "Ascended" : stats.completionPct >= 70 ? "Veteran" : stats.completionPct >= 40 ? "Operative" : "Recruit",
+        },
+      });
+    }, 2000);
+    return () => clearTimeout(timer);
+  }, [isAuthenticated, stats.completionPct]);
 
   // Character info
   const charInfo = state.characterChoices;
@@ -382,6 +413,45 @@ export default function PlayerProfilePage() {
             ))}
           </div>
         </motion.div>
+
+        {/* Content Participation Stats */}
+        {isAuthenticated && contentStats && contentStats.total > 0 && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.45 }}
+            className="rounded-xl border border-chart-5/20 bg-chart-5/5 p-5"
+          >
+            <div className="flex items-center gap-2 mb-4">
+              <BookOpen size={16} className="text-chart-5" />
+              <h3 className="font-display text-xs font-bold tracking-[0.2em]">CONTENT PARTICIPATION</h3>
+              <span className="ml-auto font-mono text-xs text-muted-foreground">
+                {contentStats.completed}/{contentStats.total} completed
+              </span>
+            </div>
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+              {Object.entries(contentStats.byType).map(([type, data]) => (
+                <div key={type} className="p-3 rounded-lg bg-zinc-900/40 border border-zinc-700/20">
+                  <p className="font-mono text-[10px] text-muted-foreground tracking-wider mb-1">
+                    {type.replace(/_/g, " ").toUpperCase()}
+                  </p>
+                  <p className="font-display text-lg font-bold">
+                    {(data as any).completed}/{(data as any).total}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+        )}
+
+        {/* Server Sync Status */}
+        {isAuthenticated && serverData && (
+          <div className="text-center">
+            <span className="font-mono text-[9px] text-muted-foreground/40">
+              Last synced: {serverData.savedAt ? new Date(serverData.savedAt).toLocaleString() : "Never"}
+            </span>
+          </div>
+        )}
 
         {/* Quick Links */}
         <motion.div

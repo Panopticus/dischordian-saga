@@ -667,12 +667,12 @@
 ## Phase 24: Deck Builder, Achievements Gallery, Game Preview Tooltips
 
 ### Deck Builder Page
-- [ ] Build deck builder page at /deck-builder
-- [ ] Show all collected cards (starter deck, boss drops, lore achievement rewards)
-- [ ] Allow drag-and-drop or click-to-add deck assembly
-- [ ] Enforce deck size limits and card type balance
-- [ ] Save custom deck to GameContext state
-- [ ] Visual card display with stats, rarity, and source indicators
+- [x] Build deck builder page at /deck-builder (790-line implementation with full tRPC backend)
+- [x] Show all collected cards (starter deck, boss drops, lore achievement rewards)
+- [x] Allow drag-and-drop or click-to-add deck assembly
+- [x] Enforce deck size limits and card type balance
+- [x] Save custom deck to GameContext state and server
+- [x] Visual card display with stats, rarity, and source indicators
 
 ### Achievements Gallery Page
 - [x] Build achievements gallery page at /achievements
@@ -692,3 +692,69 @@
 - [x] Write tests for achievements gallery data integrity
 - [x] Write tests for game preview tooltip data
 - [x] 296 tests passing across 13 test files (37 new Phase 24 tests)
+
+## Phase 25: Complete All Pending Features
+
+### Deck Builder Page (Complete)
+- [x] Build full deck builder page at /deck-builder with card collection display (already existed from Phase 24 - 790 lines with full tRPC backend)
+- [x] Show all collected cards (starter deck, boss drops, lore achievement rewards)
+- [x] Click-to-add/remove deck assembly with visual feedback
+- [x] Enforce deck size limits (20 cards) and card type balance
+- [x] Save custom deck to GameContext state and server
+- [x] Visual card display with stats, rarity, and source indicators
+- [x] Deck validation and export
+
+### AI-Generated CoNexus Game Cover Art
+- [x] Generate unique cover art images for all 33 CoNexus story games
+- [x] Upload to CDN and integrate into game data (33 images uploaded with --webdev lifecycle)
+- [x] Display cover art on game cards in ConexusPortalPage and game detail modal
+
+### User Authentication System
+- [x] Integrate Manus OAuth for user login/signup (already wired via template upgrade)
+- [x] Persist user sessions with auth cookies (handled by server/_core/oauth.ts)
+- [x] Gate protected features behind authentication (protectedProcedure for deck, profile, admin)
+- [x] Show login/logout in navigation UI (useAuth hook integrated across pages)
+
+### Admin Panel
+- [x] Build admin panel page at /admin for content management
+- [x] Admin can view dashboard stats (users, cards, game players, participations)
+- [x] Admin can manage card database (list cards with rarity/type filters)
+- [x] Admin can view user stats and manage accounts (list users, update roles)
+- [x] Role-based access control (adminProcedure middleware, role check)
+
+### User Character Sheets (Server-Persisted)
+- [x] Persist citizen character data to server database (gameState.save tRPC procedure)
+- [x] Load character sheet from server on login (gameState.load procedure)
+- [x] Sync stats, inventory, and progression to server (auto-save effect in PlayerProfilePage)
+- [x] Character sheet accessible from profile page (PlayerProfilePage with server sync)
+
+### Card Unlocking Through Content Participation
+- [x] Award cards when user watches episodes (ContentRewardToast + WatchPage integration)
+- [x] Award cards when user completes CoNexus games (ConexusPortalPage integration)
+- [x] Award cards when user wins fights (FightPage integration)
+- [x] Track content participation milestones with bonus rewards (contentReward router with tiered rewards)
+
+### Fighting Game Invasion Mechanic
+- [x] Connect fight game outcomes to card game (win fight → bonus cards/resources via contentReward)
+- [x] Fight victories grant Dream currency and card drops (fight_victory reward tier)
+- [x] Special invasion events: 4 faction invasions with increasing difficulty and rewards
+- [x] Invasion progress tracking with faction-specific bosses and rare card drops
+
+### Character Histories from Lore Appearances
+- [x] All 62 characters now have comprehensive histories (fixed The Forgotten + The Engineer + Wraith of Death)
+- [x] Show character history on entity pages (already existed in EntityPage)
+- [x] LoreAppearancesTimeline component added to EntityPage (chronological appearances across Ages)
+- [x] Display character arc progression across the saga timeline (StoryArc component + LoreAppearancesTimeline)
+
+### Tests
+- [x] Write tests for admin router procedures
+- [x] Write tests for content reward router procedures
+- [x] Write tests for content participation schema
+- [x] Write tests for CoNexus cover art (33 images, unique CDN URLs)
+- [x] Write tests for character histories (62 characters, all >50 chars)
+- [x] Write tests for fighting game invasion mechanic (4 events, increasing rewards)
+- [x] Write tests for content reward integration across pages
+- [x] Write tests for lore appearances timeline component
+- [x] Write tests for admin page routing and tRPC usage
+- [x] Write tests for player profile server sync
+- [x] 327 tests passing across 14 test files (31 new Phase 25 tests)
