@@ -5,6 +5,7 @@
    ═══════════════════════════════════════════════════════ */
 import { createContext, useContext, useCallback, useEffect, useState, useRef, type ReactNode } from "react";
 import { trpc } from "@/lib/trpc";
+import { LORE_ACHIEVEMENTS } from "@/data/loreAchievements";
 
 /* ─── TYPES ─── */
 export type GamePhase = "FIRST_VISIT" | "AWAKENING" | "QUARTERS_UNLOCKED" | "EXPLORING" | "FULL_ACCESS";
@@ -55,6 +56,9 @@ export interface GameState {
   totalRoomsUnlocked: number;
   totalItemsFound: number;
   narrativeFlags: Record<string, boolean>;
+  completedGames: string[];       // CoNexus game IDs the player has completed
+  loreAchievements: string[];     // Lore achievement IDs earned
+  conexusXp: number;              // XP earned from CoNexus game completions
 }
 
 /* ─── ROOM DEFINITIONS ─── */
@@ -353,6 +357,9 @@ const DEFAULT_GAME_STATE: GameState = {
   totalRoomsUnlocked: 0,
   totalItemsFound: 0,
   narrativeFlags: {},
+  completedGames: [],
+  loreAchievements: [],
+  conexusXp: 0,
 };
 
 const GAME_STORAGE_KEY = "loredex_game_state";
@@ -376,6 +383,10 @@ interface GameContextValue {
   getRoomState: (roomId: string) => RoomState | undefined;
   getUnlockedRooms: () => RoomDef[];
   resetGame: () => void;
+  // CoNexus game tracking
+  completeGame: (gameId: string) => void;
+  earnLoreAchievement: (achievementId: string) => void;
+  isGameCompleted: (gameId: string) => boolean;
   // Quick access
   skipToExploring: () => void;
   // Server sync
@@ -643,6 +654,31 @@ export function GameProvider({ children }: { children: ReactNode }) {
     setState({ ...DEFAULT_GAME_STATE });
   }, []);
 
+  const completeGame = useCallback((gameId: string) => {
+    setState(prev => {
+      if (prev.completedGames.includes(gameId)) return prev;
+      return { ...prev, completedGames: [...prev.completedGames, gameId] };
+    });
+  }, []);
+
+  const earnLoreAchievement = useCallback((achievementId: string) => {
+    setState(prev => {
+      if (prev.loreAchievements.includes(achievementId)) return prev;
+      // Find the achievement to get XP reward
+      const ach = LORE_ACHIEVEMENTS.find(a => a.id === achievementId);
+      const xpGain = ach?.xpReward ?? 0;
+      return {
+        ...prev,
+        loreAchievements: [...prev.loreAchievements, achievementId],
+        conexusXp: prev.conexusXp + xpGain,
+      };
+    });
+  }, []);
+
+  const isGameCompleted = useCallback((gameId: string): boolean => {
+    return state.completedGames.includes(gameId);
+  }, [state.completedGames]);
+
   const skipToExploring = useCallback(() => {
     // Dev/debug: skip awakening and unlock first few rooms
     const rooms: Record<string, RoomState> = {};
@@ -683,6 +719,9 @@ export function GameProvider({ children }: { children: ReactNode }) {
       getRoomState,
       getUnlockedRooms,
       resetGame,
+      completeGame,
+      earnLoreAchievement,
+      isGameCompleted,
       skipToExploring,
       syncStatus,
       lastSyncedAt,

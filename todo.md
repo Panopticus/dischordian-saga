@@ -631,3 +631,35 @@
 - [x] ConexusPortalPage renders all games with age-based filtering and "PLAY ON CONEXUS" buttons opening in new tabs
 - [x] Added 6 new verification tests (exact count, age categories, per-age counts, direct URLs, unique URLs)
 - [x] 234 tests passing across 11 test files
+
+## Phase 23: Game Completion Tracking, Cover Art, Saga Timeline, Lore Achievements
+
+### Game Completion Tracking
+- [x] Add completion state to game data (mark games as completed per player)
+- [x] Award XP and card rewards when player marks a game as completed
+- [x] Track completion in GameContext state and persist to server
+- [x] Show completion badges on game cards in the library
+
+### Cover Art Thumbnails
+- [x] Generate 5 cover art images (one per Age) via nano banana generation
+- [x] Upload to CDN and integrate into AGE_CATEGORIES.coverImage
+- [x] Display cover art banners in ConexusPortalPage and SagaTimelinePage age headers
+
+### Saga Timeline View
+- [x] Build visual timeline page showing all 33 games chronologically by Age
+- [x] Display Age markers, game nodes, character connections, albums, and epochs
+- [x] Link timeline nodes to game detail modals with lore achievements
+- [x] Route at /saga-timeline in App.tsx
+
+### Lore Achievements
+- [x] Design unique lore achievement for every CoNexus story (33 achievements)
+- [x] Each achievement has title, description, lore fragment, XP reward, icon, and card reward
+- [x] Track achievement unlocks in player state (loreAchievements array in GameState)
+- [x] Display achievements in dedicated section with modal overlays
+- [x] Award achievements automatically on game completion via earnLoreAchievement
+
+### Tests
+- [x] Write tests for game completion tracking
+- [x] Write tests for lore achievements data integrity (33 achievements, unique IDs, unique titles/descriptions/fragments)
+- [x] Write tests for saga timeline data structure
+- [x] 259 tests passing across 12 test files (25 new Phase 23 tests)

@@ -30,6 +30,7 @@ export interface AgeCategory {
   borderColor: string;
   bgColor: string;
   iconGlyph: string;
+  coverImage: string;
   games: ConexusGame[];
 }
 
@@ -434,6 +435,7 @@ export const AGE_CATEGORIES: AgeCategory[] = [
     borderColor: "border-blue-500/30",
     bgColor: "bg-blue-500/10",
     iconGlyph: "🔒",
+    coverImage: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/age_privacy_cover-5LvibYRoX7oL9NDwdA6cmh.webp",
     games: AGE_OF_PRIVACY,
   },
   {
@@ -443,6 +445,7 @@ export const AGE_CATEGORIES: AgeCategory[] = [
     borderColor: "border-amber-500/30",
     bgColor: "bg-amber-500/10",
     iconGlyph: "🌆",
+    coverImage: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/age_sundown_bazaar_cover-BSENtwsg42a4PZVLGpgGEA.webp",
     games: SUNDOWN_BAZAAR,
   },
   {
@@ -452,6 +455,7 @@ export const AGE_CATEGORIES: AgeCategory[] = [
     borderColor: "border-red-500/30",
     bgColor: "bg-red-500/10",
     iconGlyph: "💥",
+    coverImage: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/age_fall_reality_cover-4zRjrkR7DWgyhKmT39dtu9.webp",
     games: FALL_OF_REALITY,
   },
   {
@@ -461,6 +465,7 @@ export const AGE_CATEGORIES: AgeCategory[] = [
     borderColor: "border-green-500/30",
     bgColor: "bg-green-500/10",
     iconGlyph: "🌱",
+    coverImage: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/age_potentials_cover-WC3SceGS8Z6fx57ov3Z54J.webp",
     games: AGE_OF_POTENTIALS,
   },
   {
@@ -470,6 +475,7 @@ export const AGE_CATEGORIES: AgeCategory[] = [
     borderColor: "border-purple-500/30",
     bgColor: "bg-purple-500/10",
     iconGlyph: "👁",
+    coverImage: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/age_visions_cover-FngimcrbyodrtAjA8yLqCx.webp",
     games: VISIONS,
   },
 ];
