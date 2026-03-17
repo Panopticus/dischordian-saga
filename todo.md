@@ -541,3 +541,37 @@
 - [x] Track display showing current song name and album in SoundControls popup
 - [x] Music toggle button with now-playing indicator
 - [x] 152 tests passing (22 new Phase 20 tests)
+
+## Phase 21: Server Save/Load, Leaderboard, and Room Transitions
+
+### Server-Side Save/Load System
+- [x] Create database table for player game state (rooms unlocked, items, puzzles, achievements, cards)
+- [x] Build tRPC procedures: saveGameState, loadGameState
+- [x] Auto-save on significant actions (room unlock, puzzle solve, item collect, battle win)
+- [x] Auto-load on login — merge server state with localStorage fallback
+- [x] Handle conflict resolution (server state takes priority if newer)
+
+### Leaderboard Page
+- [x] Build leaderboard page with rankings by completion percentage
+- [x] Rankings by battles won
+- [x] Rankings by Easter eggs found
+- [x] Display player rank, avatar, and key stats
+- [x] Highlight current player's position
+- [x] Build tRPC procedures for leaderboard data
+
+### Animated Room Transition Cutscenes
+- [x] Build corridor-walking animation component (2-3 second transitions)
+- [x] CSS/canvas-based corridor animation with sci-fi aesthetic
+- [x] Transition plays between room changes in Ark Explorer
+- [x] Different corridor styles based on room connections
+- [x] Loading state during transition for smooth room swap
+
+### Tests
+- [x] 201 tests passing across 10 test files (49 new Phase 21 tests)
+- [x] Server save/load state machine tests
+- [x] Stats calculation and rank assignment tests
+- [x] Leaderboard sorting and filtering tests
+- [x] Room transition theme and timing tests
+- [x] Puzzle definitions integrity tests
+- [x] Game phase state machine tests
+- [x] Room connections graph tests

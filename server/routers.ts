@@ -16,6 +16,7 @@ import { craftingRouter } from "./routers/crafting";
 import { storeRouter } from "./routers/store";
 import { elaraRouter } from "./routers/elara";
 import { lyricsRouter } from "./routers/lyrics";
+import { gameStateRouter } from "./routers/gameState";
 
 export const appRouter = router({
   system: systemRouter,
@@ -28,6 +29,7 @@ export const appRouter = router({
   store: storeRouter,
   elara: elaraRouter,
   lyrics: lyricsRouter,
+  gameState: gameStateRouter,
   auth: router({
     me: publicProcedure.query(opts => opts.ctx.user),
     logout: publicProcedure.mutation(({ ctx }) => {

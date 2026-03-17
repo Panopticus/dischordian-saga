@@ -85,6 +85,7 @@ const NAV_GROUPS: NavGroup[] = [
     defaultOpen: true,
     items: [
       { path: "/profile", label: "OPERATIVE DOSSIER", icon: BarChart3, description: "Stats & progress" },
+      { path: "/leaderboard", label: "LEADERBOARD", icon: Trophy, description: "Top operatives" },
       { path: "/create-citizen", label: "CITIZEN ID", icon: Users, description: "Create identity" },
       { path: "/character-sheet", label: "CHAR SHEET", icon: Shield, description: "Stats & gear" },
       { path: "/store", label: "REQUISITIONS", icon: Store, description: "Dream store" },

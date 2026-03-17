@@ -34,6 +34,7 @@ import CodexPage from "./pages/CodexPage";
 import CardBattlePage from "./pages/CardBattlePage";
 import CardGalleryPage from "./pages/CardGalleryPage";
 import PlayerProfilePage from "./pages/PlayerProfilePage";
+import LeaderboardPage from "./pages/LeaderboardPage";
 import AwakeningPage from "./pages/AwakeningPage";
 import ArkExplorerPage from "./pages/ArkExplorerPage";
 import { LoredexProvider } from "./contexts/LoredexContext";
@@ -85,6 +86,7 @@ function Router() {
       <Route path="/battle" component={CardBattlePage} />
       <Route path="/card-gallery" component={CardGalleryPage} />
       <Route path="/profile" component={PlayerProfilePage} />
+      <Route path="/leaderboard" component={LeaderboardPage} />
       <Route path="/awakening">{() => <AwakeningPage />}</Route>
       <Route path="/404" component={NotFound} />
       <Route component={NotFound} />

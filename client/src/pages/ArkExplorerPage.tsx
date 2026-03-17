@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import PuzzleModal, { ROOM_PUZZLES } from "@/components/PuzzleSystem";
+import RoomTransition from "@/components/RoomTransition";
 
 const ELARA_PORTRAIT = "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/elara_portrait_speaking-J3GJUrfnNKzSBrxY2PfWrL.webp";
 
@@ -348,6 +349,13 @@ export default function ArkExplorerPage() {
       return saved ? new Set(JSON.parse(saved)) : new Set();
     } catch { return new Set(); }
   });
+  const [transition, setTransition] = useState<{
+    fromRoom: string;
+    toRoom: string;
+    toRoomName: string;
+    toRoomImage: string;
+    isNewRoom: boolean;
+  } | null>(null);
 
   const currentRoom = state.currentRoomId ? getRoomDef(state.currentRoomId) : null;
   const currentRoomState = state.currentRoomId ? getRoomState(state.currentRoomId) : null;
@@ -422,6 +430,29 @@ export default function ArkExplorerPage() {
     return true;
   }, [solvedPuzzles, state.itemsCollected]);
 
+  // Navigate to room with transition cutscene
+  const navigateWithTransition = useCallback((targetRoomId: string) => {
+    const targetDef = getRoomDef(targetRoomId);
+    if (!targetDef) return;
+    const isNew = !state.rooms[targetRoomId]?.visited;
+    const fromRoom = state.currentRoomId || "cryo-bay";
+    if (audioReady) playSFX("room_enter");
+    setTransition({
+      fromRoom,
+      toRoom: targetRoomId,
+      toRoomName: targetDef.name,
+      toRoomImage: targetDef.imageUrl,
+      isNewRoom: isNew,
+    });
+  }, [getRoomDef, state.rooms, state.currentRoomId, audioReady, playSFX]);
+
+  const handleTransitionComplete = useCallback(() => {
+    if (!transition) return;
+    enterRoom(transition.toRoom);
+    discoverEntry(`room-${transition.toRoom}`);
+    setTransition(null);
+  }, [transition, enterRoom, discoverEntry]);
+
   const handlePuzzleSolve = useCallback((roomId: string) => {
     setSolvedPuzzles(prev => {
       const next = new Set(prev);
@@ -429,14 +460,13 @@ export default function ArkExplorerPage() {
       return next;
     });
     setPuzzleRoomId(null);
-    // Now enter the room
-    enterRoom(roomId);
-    discoverEntry(`room-${roomId}`);
     if (audioReady) playSFX("door_unlock");
     toast.success(`ACCESS GRANTED — ${getRoomDef(roomId)?.name || roomId}`, {
       description: "Puzzle solved! Room unlocked.",
     });
-  }, [enterRoom, discoverEntry, audioReady, playSFX, getRoomDef]);
+    // Navigate with transition
+    navigateWithTransition(roomId);
+  }, [navigateWithTransition, audioReady, playSFX, getRoomDef]);
 
   const handleHotspotClick = useCallback((hotspot: HotspotDef) => {
     if (audioReady) playSFX("button_click");
@@ -451,12 +481,7 @@ export default function ArkExplorerPage() {
             if (audioReady) playSFX("door_locked");
             return;
           }
-          enterRoom(targetRoomId);
-          discoverEntry(`room-${targetRoomId}`);
-          if (audioReady) playSFX("room_enter");
-          toast.success(`Entered ${getRoomDef(targetRoomId)?.name || "room"}`, {
-            description: "Exploring new area...",
-          });
+          navigateWithTransition(targetRoomId);
         } else {
           const def = getRoomDef(targetRoomId);
           const req = def?.unlockRequirement;
@@ -503,17 +528,16 @@ export default function ArkExplorerPage() {
         break;
       }
     }
-  }, [isRoomUnlocked, canUnlockRoom, enterRoom, collectItem, navigate, state.itemsCollected, discoverEntry, getRoomDef, audioReady, playSFX, roomNeedsPuzzle]);
+  }, [isRoomUnlocked, canUnlockRoom, navigateWithTransition, collectItem, navigate, state.itemsCollected, discoverEntry, getRoomDef, audioReady, playSFX, roomNeedsPuzzle]);
 
   const handleRoomSelect = useCallback((roomId: string) => {
     if (roomNeedsPuzzle(roomId)) {
       setPuzzleRoomId(roomId);
       return;
     }
-    enterRoom(roomId);
     setShowMap(false);
-    if (audioReady) playSFX("room_enter");
-  }, [enterRoom, audioReady, playSFX, roomNeedsPuzzle]);
+    navigateWithTransition(roomId);
+  }, [navigateWithTransition, roomNeedsPuzzle]);
 
   if (!currentRoom) {
     return (
@@ -620,9 +644,7 @@ export default function ArkExplorerPage() {
                           setPuzzleRoomId(connId);
                           if (audioReady) playSFX("door_locked");
                         } else {
-                          enterRoom(connId);
-                          discoverEntry(`room-${connId}`);
-                          if (audioReady) playSFX("room_enter");
+                          navigateWithTransition(connId);
                         }
                       } else {
                         if (audioReady) playSFX("door_locked");
@@ -753,6 +775,20 @@ export default function ArkExplorerPage() {
               onClose={() => setPuzzleRoomId(null)}
             />
           </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Room Transition Cutscene */}
+      <AnimatePresence>
+        {transition && (
+          <RoomTransition
+            fromRoom={transition.fromRoom}
+            toRoom={transition.toRoom}
+            toRoomName={transition.toRoomName}
+            toRoomImage={transition.toRoomImage}
+            onComplete={handleTransitionComplete}
+            isNewRoom={transition.isNewRoom}
+          />
         )}
       </AnimatePresence>
     </div>

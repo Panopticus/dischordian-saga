@@ -3,7 +3,8 @@
    Manages awakening flow, room unlocks, exploration state.
    Persists to localStorage, syncs to DB for logged-in users.
    ═══════════════════════════════════════════════════════ */
-import { createContext, useContext, useCallback, useEffect, useState, type ReactNode } from "react";
+import { createContext, useContext, useCallback, useEffect, useState, useRef, type ReactNode } from "react";
+import { trpc } from "@/lib/trpc";
 
 /* ─── TYPES ─── */
 export type GamePhase = "FIRST_VISIT" | "AWAKENING" | "QUARTERS_UNLOCKED" | "EXPLORING" | "FULL_ACCESS";
@@ -354,6 +355,10 @@ interface GameContextValue {
   resetGame: () => void;
   // Quick access
   skipToExploring: () => void;
+  // Server sync
+  syncStatus: "idle" | "saving" | "loading" | "synced" | "error";
+  lastSyncedAt: string | null;
+  forceSave: () => void;
 }
 
 const GameContext = createContext<GameContextValue | null>(null);
@@ -377,8 +382,99 @@ function saveGameState(state: GameState) {
 
 export function GameProvider({ children }: { children: ReactNode }) {
   const [state, setState] = useState<GameState>(loadGameState);
+  const [syncStatus, setSyncStatus] = useState<"idle" | "saving" | "loading" | "synced" | "error">("idle");
+  const [lastSyncedAt, setLastSyncedAt] = useState<string | null>(null);
+  const saveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const hasLoadedFromServer = useRef(false);
 
+  // tRPC hooks for server sync
+  const authQuery = trpc.auth.me.useQuery(undefined, { retry: false });
+  const loadQuery = trpc.gameState.load.useQuery(undefined, {
+    enabled: !!authQuery.data,
+    retry: false,
+  });
+  const saveMutation = trpc.gameState.save.useMutation();
+
+  // Load from server on login (merge with localStorage — server wins if newer)
+  useEffect(() => {
+    if (!loadQuery.data || hasLoadedFromServer.current) return;
+    hasLoadedFromServer.current = true;
+    const serverState = loadQuery.data.gameState as GameState | null;
+    if (!serverState) return; // No server save, keep localStorage
+    // Server state exists — check if it's more progressed
+    const localState = loadGameState();
+    const serverRooms = Object.values((serverState.rooms ?? {})).filter((r: any) => r?.unlocked).length;
+    const localRooms = Object.values((localState.rooms ?? {})).filter((r: any) => r?.unlocked).length;
+    // Use server state if it has more progress
+    if (serverRooms >= localRooms && serverState.characterCreated) {
+      const merged = { ...DEFAULT_GAME_STATE, ...serverState };
+      setState(merged);
+      saveGameState(merged);
+      setSyncStatus("synced");
+      setLastSyncedAt(loadQuery.data.savedAt);
+    }
+  }, [loadQuery.data]);
+
+  // Save to localStorage on every state change
   useEffect(() => { saveGameState(state); }, [state]);
+
+  // Debounced auto-save to server (5 seconds after last change)
+  useEffect(() => {
+    if (!authQuery.data || !state.characterCreated) return;
+    if (saveTimerRef.current) clearTimeout(saveTimerRef.current);
+    saveTimerRef.current = setTimeout(() => {
+      doServerSave(state);
+    }, 5000);
+    return () => { if (saveTimerRef.current) clearTimeout(saveTimerRef.current); };
+  }, [state, authQuery.data]);
+
+  const doServerSave = useCallback(async (currentState: GameState) => {
+    if (!authQuery.data) return;
+    setSyncStatus("saving");
+    try {
+      const rooms = currentState.rooms ?? {};
+      const roomsUnlocked = Object.values(rooms).filter(r => r.unlocked).length;
+      const puzzlesSolved = JSON.parse(localStorage.getItem("loredex_puzzles_solved") || "[]").length;
+      const easterEggsFound = JSON.parse(localStorage.getItem("loredex_easter_eggs") || "[]").length;
+      const battleStats = JSON.parse(localStorage.getItem("loredex_battle_stats") || '{"won":0,"played":0}');
+      const cardsCollected = JSON.parse(localStorage.getItem("loredex_cards_collected") || "[]").length;
+      const totalRooms = ROOM_DEFINITIONS.length;
+      const totalPuzzles = 8;
+      const totalEasterEggs = 10;
+      const totalCards = 30;
+      const completionPercent = Math.round(
+        (roomsUnlocked / totalRooms * 30) +
+        (puzzlesSolved / totalPuzzles * 20) +
+        (easterEggsFound / totalEasterEggs * 20) +
+        (cardsCollected / totalCards * 15) +
+        (Math.min(battleStats.won, 10) / 10 * 15)
+      );
+      const ranks = [
+        { min: 0, name: "Unranked" }, { min: 5, name: "Recruit" },
+        { min: 20, name: "Field Operative" }, { min: 40, name: "Senior Agent" },
+        { min: 65, name: "Master Operative" }, { min: 90, name: "Grand Archivist" },
+      ];
+      const rank = [...ranks].reverse().find(r => completionPercent >= r.min)?.name ?? "Unranked";
+
+      await saveMutation.mutateAsync({
+        gameState: currentState as any,
+        stats: {
+          roomsUnlocked, totalRooms, puzzlesSolved, totalPuzzles,
+          easterEggsFound, totalEasterEggs, battlesWon: battleStats.won ?? 0,
+          battlesPlayed: battleStats.played ?? 0, cardsCollected, totalCards,
+          completionPercent, rank,
+        },
+      });
+      setSyncStatus("synced");
+      setLastSyncedAt(new Date().toISOString());
+    } catch {
+      setSyncStatus("error");
+    }
+  }, [authQuery.data, saveMutation]);
+
+  const forceSave = useCallback(() => {
+    doServerSave(state);
+  }, [state, doServerSave]);
 
   const advanceAwakening = useCallback(() => {
     setState(prev => {
@@ -565,6 +661,9 @@ export function GameProvider({ children }: { children: ReactNode }) {
       getUnlockedRooms,
       resetGame,
       skipToExploring,
+      syncStatus,
+      lastSyncedAt,
+      forceSave,
     }}>
       {children}
     </GameContext.Provider>
