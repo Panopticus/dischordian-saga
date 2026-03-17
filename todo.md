@@ -798,3 +798,39 @@
 - [x] Write tests for level design enhancement (stage elements)
 - [x] Write tests for Trade Empire rename verification (route, GamesPage)
 - [x] 354 tests passing across 15 test files (27 new Phase 26 tests)
+
+## Phase 27: Hierarchy of the Damned
+
+### Lore Design
+- [ ] Research existing lore: Master of Rylloh, Advocate, Shadow Tongue, Blood Weave, Archons, Neyons
+- [ ] Design 10 demon leaders in corporate hierarchy structure
+- [ ] Create backstories linking Blood Weave to opening the gates of hell
+- [ ] Tie each demon to corresponding Archon/Neyon lore
+
+### Loredex Integration
+- [ ] Add all 10 demon leaders as loredex entries with full bios, connections, appearances
+- [ ] Add "Hierarchy of the Damned" as a faction entry
+- [ ] Add "The Blood Weave" and "Gates of Hell" as event/location entries
+
+### Card Game Integration
+- [ ] Create unique demon cards for all 10 leaders with special abilities
+- [ ] Add demon-themed card pack or drop mechanic
+
+### Fighting Game Integration
+- [ ] Generate fighting sprites for all 10 demon leaders
+- [x] Add demons as unlockable fighters in CharacterModel3D
+
+### Trade Empire Integration
+- [x] Add demon encounters and faction events in Trade Empire
+- [x] Demon leaders as bosses or diplomatic contacts
+
+### CoNexus & Achievements
+- [ ] Create a CoNexus story game: "The Blood Weave: Gates of Hell"
+- [x] Add Hierarchy of the Damned achievements (6 demon achievements: Demon Slayer, Blood Weave Breaker, Hierarchy's Bane, Know Thy Enemy, Soul Collector, Master of the Damned)
+
+### Visualization
+- [x] Build Hierarchy of the Damned page with corporate org chart
+- [x] Interactive visualization showing demon-Archon connections
+
+### Tests
+- [x] Write tests for all new demon lore, cards, fighters, and integrations (370/370 tests passing)

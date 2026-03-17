@@ -136,13 +136,13 @@ describe("Fighting Game Invasion Mechanic", () => {
     expect(content).toContain("INVASION_EVENTS");
   });
 
-  it("should define 4 invasion events", async () => {
+  it("should define 5 invasion events (4 original + 1 hierarchy demon)", async () => {
     const fs = await import("fs");
     const content = fs.readFileSync("client/src/pages/FightPage.tsx", "utf-8");
     // Count invasion event definitions
     const matches = content.match(/id: "[\w-]+", faction:/g);
     expect(matches).toBeDefined();
-    expect(matches!.length).toBe(4);
+    expect(matches!.length).toBe(5);
   });
 
   it("invasion events should have increasing minWins requirements", async () => {

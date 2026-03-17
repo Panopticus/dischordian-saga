@@ -512,12 +512,22 @@ export const tradeWarsRouter = router({
     const sectorRows = await db.select().from(twSectors)
       .where(eq(twSectors.sectorId, player.currentSector)).limit(1);
     
-    const enemyStrength = 10 + Math.floor(Math.random() * (player.experience / 10 + 20));
-    const enemyNames = [
+    const baseEnemyStrength = 10 + Math.floor(Math.random() * (player.experience / 10 + 20));
+    const regularEnemies = [
       "Rogue Pirate", "Panopticon Drone", "Void Raider", "Data Wraith",
       "Necromancer's Shade", "Chaos Marauder", "Quantum Ghost", "Insurgent Scout",
     ];
-    const enemyName = enemyNames[Math.floor(Math.random() * enemyNames.length)];
+    const demonEnemies = [
+      "Hierarchy Scout", "Blood Weave Tendril", "Damned Legionnaire", "Soul Collector Drone",
+      "Mol'Garath's Herald", "Vex'Ahlia's Vanguard", "Shadow Tongue Whisper", "Ny'Koth's Experiment",
+    ];
+    // 20% chance of demon encounter (scales with XP)
+    const demonChance = Math.min(0.35, 0.15 + (player.experience / 5000));
+    const isDemonEncounter = Math.random() < demonChance;
+    const enemyPool = isDemonEncounter ? demonEnemies : regularEnemies;
+    const enemyName = enemyPool[Math.floor(Math.random() * enemyPool.length)];
+    // Demon encounters are 30% stronger but give 50% more rewards
+    const enemyStrength = isDemonEncounter ? Math.floor(baseEnemyStrength * 1.3) : baseEnemyStrength;
     
     // Simple combat resolution
     const playerPower = player.fighters + Math.floor(player.shields / 10);
@@ -533,17 +543,23 @@ export const tradeWarsRouter = router({
     let cardReward = null;
     
     if (won) {
-      creditsChange = 500 + Math.floor(Math.random() * enemyStrength * 50);
-      xpGain = 20 + Math.floor(enemyStrength / 2);
+      const creditBase = isDemonEncounter ? 750 : 500;
+      creditsChange = creditBase + Math.floor(Math.random() * enemyStrength * (isDemonEncounter ? 75 : 50));
+      xpGain = (isDemonEncounter ? 35 : 20) + Math.floor(enemyStrength / 2);
       fightersLost = Math.floor(Math.random() * Math.min(5, player.fighters));
       shieldDamage = Math.floor(Math.random() * 20);
-      message = `VICTORY! Defeated ${enemyName}. Salvaged ${creditsChange} credits. +${xpGain} XP`;
+      message = isDemonEncounter
+        ? `☠ HIERARCHY VANQUISHED! Defeated ${enemyName}. Blood Weave salvage: ${creditsChange} credits. +${xpGain} XP`
+        : `VICTORY! Defeated ${enemyName}. Salvaged ${creditsChange} credits. +${xpGain} XP`;
       
-      // 20% chance for card reward on combat win
-      if (Math.random() < 0.2) {
-        const combatCards = await db.select().from(cards)
-          .where(eq(cards.cardType, "combat"))
-          .limit(5);
+      // Demon encounters have 35% card drop rate, regular 20%
+      const cardDropRate = isDemonEncounter ? 0.35 : 0.2;
+      if (Math.random() < cardDropRate) {
+        // Demon encounters can drop demon cards
+        const cardQuery = isDemonEncounter
+          ? db.select().from(cards).where(sql`${cards.cardId} LIKE 'demon-%'`).limit(10)
+          : db.select().from(cards).where(eq(cards.cardType, "combat")).limit(5);
+        const combatCards = await cardQuery;
         if (combatCards.length > 0) {
           const reward = combatCards[Math.floor(Math.random() * combatCards.length)];
           cardReward = { name: reward.name, rarity: reward.rarity, cardId: reward.cardId };
@@ -565,7 +581,9 @@ export const tradeWarsRouter = router({
       shieldDamage = 30 + Math.floor(Math.random() * 50);
       creditsChange = -Math.floor(player.credits * 0.1);
       xpGain = 5;
-      message = `DEFEAT! ${enemyName} overwhelmed your defenses. Lost ${Math.abs(creditsChange)} credits.`;
+      message = isDemonEncounter
+        ? `☠ HIERARCHY TRIUMPH! ${enemyName} overwhelmed your defenses. The Blood Weave claims ${Math.abs(creditsChange)} credits.`
+        : `DEFEAT! ${enemyName} overwhelmed your defenses. Lost ${Math.abs(creditsChange)} credits.`;
     }
     
     await db.update(twPlayerState).set({
@@ -584,6 +602,7 @@ export const tradeWarsRouter = router({
       creditsChange,
       fightersLost,
       shieldDamage,
+      isDemonEncounter,
     }, player.currentSector);
     
     return {
@@ -597,6 +616,7 @@ export const tradeWarsRouter = router({
       shieldDamage,
       xpGain,
       cardReward,
+      isDemonEncounter,
     };
   }),
 

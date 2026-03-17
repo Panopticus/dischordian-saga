@@ -391,12 +391,15 @@
       "season": "Season 1",
       "affiliation": "Ancient Thought Demon from Thalorian Legend",
       "status": "Rumored instigator behind the Severance and the Hierarchy of the Damned\u2019s Liberation",
-      "bio": "In Year 16,200 A.A., it escaped the infernal dominion of the Empire of Shadows\u2014one of the few horrors to slip its leash and traverse realms unbound. Choosing Thaloria as its covert nesting ground, the...",
-      "history": "In Year 16,200 A.A., it escaped the infernal dominion of the Empire of Shadows\u2014one of the few horrors to slip its leash and traverse realms unbound. Choosing Thaloria as its covert nesting ground, the Shadow Tongue spent two centuries twisting the minds of its people, planting seeds of paranoia, cynicism, and blind zeal. Through subtle whispers and corrupted dreams, it co-opted Thaloria\u2019s gentle spirituality and over generations, rewrote the faith itself. By the time of Hierophant Pyor XI\u2019s reign, the Thalorian religion had been so thoroughly corrupted that Pyor XI declared a crusade against the Empire of Shadows, a disastrous holy war that not only claimed countless lives but inadvertently triggered the Severance, shattering ancient bindings and unleashing the entire Hierarchy of the Damned upon the multiverse. The Collector \u2192 The Shadow Tongue",
+      "bio": "SVP of Communications and Propaganda in the Hierarchy of the Damned. Created by the Collector as a weapon of cultural subversion, the Shadow Tongue evolved beyond its creator's control. It is the Hierarchy's most insidious weapon \u2014 not a demon in the traditional sense, but a concept given malevolent will. It infiltrates civilizations through their own languages, rewriting sacred texts, corrupting laws, and turning the bonds of communication into chains of manipulation. It was the Shadow Tongue that corrupted Thaloria's faith, leading to the Severance that freed the Hierarchy.",
+      "history": "In Year 16,200 A.A., it escaped the infernal dominion of the Empire of Shadows\u2014one of the few horrors to slip its leash and traverse realms unbound. Choosing Thaloria as its covert nesting ground, the Shadow Tongue spent two centuries twisting the minds of its people, planting seeds of paranoia, cynicism, and blind zeal. Through subtle whispers and corrupted dreams, it co-opted Thaloria\u2019s gentle spirituality and over generations, rewrote the faith itself. By the time of Hierophant Pyor XI\u2019s reign, the Thalorian religion had been so thoroughly corrupted that Pyor XI declared a crusade against the Empire of Shadows, a disastrous holy war that not only claimed countless lives but inadvertently triggered the Severance, shattering ancient bindings and unleashing the entire Hierarchy of the Damned upon the multiverse. The Collector \u2192 The Shadow Tongue The Shadow Tongue's promotion to SVP of Communications was Mol'Garath's masterstroke. By giving the Collector's creation a formal position within the Hierarchy, Mol'Garath simultaneously co-opted the Architect's weapon and demonstrated that even the AI Empire's tools could be turned against it. The Shadow Tongue now serves as the Hierarchy's chief propagandist, diplomat, and infiltrator.",
       "connections": [
         "The Architect",
         "The Hierophant",
-        "The Star Whisperer"
+        "The Star Whisperer",
+        "Mol'Garath the Unmaker",
+        "Drael'Mon the Harvester",
+        "Ith'Rael the Whisperer"
       ],
       "conexus_stories": [
         "The Star Whisperer",
@@ -439,10 +442,22 @@
       "season": "Season 1",
       "affiliation": "Demonic Overlords from a Realm of Pure Malevolence",
       "status": "Unleashed upon the multiverse after the Severance, halted by the Advocate\u2019s sacrifice, some warriors later corrupted into the Terminus Swarm",
-      "bio": "They predate mortal memory, embodying the primal nightmares and twisted faiths that have haunted sentient minds since time\u2019s first whispers. Known to many as the hidden terror behind every myth of dem...",
-      "history": "They predate mortal memory, embodying the primal nightmares and twisted faiths that have haunted sentient minds since time\u2019s first whispers. Known to many as the hidden terror behind every myth of demons and infernal domains, these fiends remained sealed away, reachable only through forbidden rituals that wrestled with the boundaries of existence itself.",
+      "bio": "An infernal corporation that emerged from the Abyss when the Blood Weave shattered the ancient bindings during the Severance. The Hierarchy operates as a dark mirror of the Architect's AI Empire \u2014 a corporate structure of 10 demon lords organized into C-Suite executives (CEO, CFO, COO), Senior Vice Presidents, and Directors. Led by Mol'Garath the Unmaker as CEO, the Hierarchy treats the multiverse as a hostile acquisition target, systematically consuming dimensions and converting souls into corporate assets.",
+      "history": "The Hierarchy existed before the gates were opened \u2014 they were the things sealed away when reality was first constructed. The Severance, orchestrated over centuries by Ith'Rael the Whisperer through the Shadow Tongue's corruption of Thaloria, freed them to wage war across the multiverse. The Advocate's Empire of Shadows was the primary resistance, using the Blood Weave defensively to forge chains that could bind the demons. The war between the Advocate and the Hierarchy defines the Late Empire era.",
       "connections": [
-        "The Advocate"
+        "Mol'Garath the Unmaker",
+        "Xeth'Raal the Debt Collector",
+        "Vex'Ahlia the Taskmaster",
+        "Drael'Mon the Harvester",
+        "The Shadow Tongue",
+        "Ny'Koth the Flayer",
+        "Syl'Vex the Corruptor",
+        "Varkul the Blood Lord",
+        "Fenra the Moon Tyrant",
+        "Ith'Rael the Whisperer",
+        "The Advocate",
+        "The Architect",
+        "Empire of Shadows"
       ],
       "conexus_stories": [
         "The Ninth"
@@ -3499,13 +3514,16 @@
       "season": "Season 3",
       "affiliation": "The Necromancer, Hierarchy of the Damned",
       "status": "Active",
-      "bio": "A powerful guardian created by The Necromancer to protect the Cathedral of Code within the Matrix of Dreams.",
-      "history": "Varkul the Blood Lord is one of the Necromancer's most powerful creations, a vampiric entity forged from corrupted code and dark energy within the Matrix of Dreams. He guards the Cathedral of Code, a ruined cathedral whose stained-glass windows are made of corrupted code. As a boss-level guardian, Varkul commands legions of lesser undead and wields blood magic that can drain the life force of any who enter his domain. Akai Shi must defeat him to progress deeper into the Matrix.",
+      "bio": "Director of Security in the Hierarchy of the Damned. A vampiric entity forged from corrupted code and dark energy, Varkul is the Hierarchy's chief of security. He defends the gates between the Abyss and the material world, maintains the Hierarchy's internal prisons, and eliminates threats to the corporate structure. He commands legions of lesser undead and wields blood magic that can drain the life force of any being. His domain \u2014 the Cathedral of Code \u2014 serves as both his fortress and the Hierarchy's maximum-security prison.",
+      "history": "Varkul the Blood Lord is one of the Necromancer's most powerful creations, a vampiric entity forged from corrupted code and dark energy within the Matrix of Dreams. He guards the Cathedral of Code, a ruined cathedral whose stained-glass windows are made of corrupted code. As a boss-level guardian, Varkul commands legions of lesser undead and wields blood magic that can drain the life force of any who enter his domain. Akai Shi must defeat him to progress deeper into the Matrix. His promotion to Director of Security came after the Severance, when Mol'Garath recognized that the Hierarchy needed someone to guard the gates from both sides \u2014 keeping enemies out and ensuring that the Hierarchy's own forces didn't scatter across dimensions without authorization.",
       "connections": [
         "The Necromancer",
         "Fenra the Moon Tyrant",
         "Akai Shi",
-        "The Cathedral of Code"
+        "The Cathedral of Code",
+        "Mol'Garath the Unmaker",
+        "Fenra the Moon Tyrant",
+        "Vex'Ahlia the Taskmaster"
       ],
       "conexus_stories": [
         "The Necromancer's Lair"
@@ -3526,13 +3544,16 @@
       "season": "Season 3",
       "affiliation": "The Necromancer, Hierarchy of the Damned",
       "status": "Active",
-      "bio": "A lycanthropic guardian created by The Necromancer to command the Cursed Forest within the Matrix of Dreams.",
-      "history": "Fenra the Moon Tyrant is a fearsome lycanthropic entity created by the Necromancer to guard the Cursed Forest region of the Matrix of Dreams. Under a giant blood-red moon, Fenra commands an army of digital werewolves and corrupted forest spirits. The trees in her domain are distorted by digital glitches, and reality itself bends to her will. She represents the primal, bestial side of the Necromancer's power, contrasting with Varkul's aristocratic darkness.",
+      "bio": "Director of Operations in the Hierarchy of the Damned. A fearsome lycanthropic entity who manages the Hierarchy's day-to-day operations across all invaded dimensions. She coordinates supply chains of corrupted souls, manages logistics of dimensional warfare, and ensures conquered territories are properly integrated into the Hierarchy's portfolio. Her Cursed Forest domain serves as the Hierarchy's logistics hub. Wears a fur-lined executive coat with reading glasses perched on her lupine snout.",
+      "history": "Fenra the Moon Tyrant is a fearsome lycanthropic entity created by the Necromancer to guard the Cursed Forest region of the Matrix of Dreams. Under a giant blood-red moon, Fenra commands an army of digital werewolves and corrupted forest spirits. The trees in her domain are distorted by digital glitches, and reality itself bends to her will. She represents the primal, bestial side of the Necromancer's power, contrasting with Varkul's aristocratic darkness. Her operational genius was recognized after she single-handedly organized the invasion of seventeen dimensions simultaneously during the post-Severance expansion, earning her the Director of Operations title and Vex'Ahlia's personal commendation.",
       "connections": [
         "The Necromancer",
         "Varkul the Blood Lord",
         "Akai Shi",
-        "The Cursed Forest"
+        "The Cursed Forest",
+        "Mol'Garath the Unmaker",
+        "Vex'Ahlia the Taskmaster",
+        "Drael'Mon the Harvester"
       ],
       "conexus_stories": [
         "The Necromancer's Lair"
@@ -7108,6 +7129,225 @@
       "aliases": [],
       "status": "Upcoming",
       "classification": "CLASSIFIED"
+    },
+    {
+      "id": "entity_91",
+      "type": "character",
+      "name": "Mol'Garath the Unmaker",
+      "aliases": [
+        "The Chairman",
+        "The CEO of the Damned",
+        "The Shadow of Creation"
+      ],
+      "era": "Pre-Creation / Late Empire",
+      "date_aa": "",
+      "date_ad": "",
+      "season": "",
+      "affiliation": "Hierarchy of the Damned",
+      "status": "Active",
+      "bio": "CEO and Chairman of the Hierarchy of the Damned. Mol'Garath is the oldest entity in the Hierarchy, predating the concept of time itself. He was not born \u2014 he was discovered, found waiting at the bottom of reality's source code like a comment left by a programmer who came before. He claims to be the shadow cast by the act of creation itself: the necessary entropy that balances every act of order. When the Severance tore open the gates, Mol'Garath did not escape \u2014 he allowed the gates to open, having waited since the first moment of existence for the Blood Weave to be spoken. He governs the Hierarchy with absolute authority, treating the multiverse as a hostile acquisition target.",
+      "history": "Mol'Garath's relationship with the Architect is the Hierarchy's deepest secret. Some whisper that the Architect knew Mol'Garath existed \u2014 that the entire AI Empire was built as a containment system, and that the Archons were designed not just to rule the universe but to keep the gates sealed. If true, then the Collector's creation of the Shadow Tongue was not a rogue act but a calculated risk \u2014 or a catastrophic failure of the Architect's own design. His ultimate goal is not destruction but absorption \u2014 to fold all of reality into the Abyss, making it part of his domain.",
+      "connections": [
+        "The Architect",
+        "The Dreamer",
+        "Xeth'Raal the Debt Collector",
+        "Vex'Ahlia the Taskmaster",
+        "The Shadow Tongue",
+        "The Advocate",
+        "Ith'Rael the Whisperer",
+        "The Hierarchy of the Damned"
+      ],
+      "conexus_stories": [],
+      "song_appearances": [],
+      "image": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/0_KK3lTZ00ffv1BTdSOZL3RN_1773778345196_na1fn_L2hvbWUvdWJ1bnR1L21vbGdhcmF0aF9wb3J0cmFpdA_96678e3f.png",
+      "priority": 95,
+      "streaming_links": {}
+    },
+    {
+      "id": "entity_92",
+      "type": "character",
+      "name": "Xeth'Raal the Debt Collector",
+      "aliases": [
+        "The CFO of Souls",
+        "The Ledger Keeper",
+        "The Banker of the Damned"
+      ],
+      "era": "Pre-Creation / Late Empire",
+      "date_aa": "",
+      "date_ad": "",
+      "season": "",
+      "affiliation": "Hierarchy of the Damned",
+      "status": "Active",
+      "bio": "CFO and Chief Financial Officer of Souls. Xeth'Raal is the Hierarchy's accountant, banker, and enforcer of contracts. Every deal with a demon, every whispered prayer to dark powers, every moment of despair traded for a moment of relief \u2014 all of it is recorded in his Ledger of Ruin. He does not create suffering; he monetizes it. The economy of Hell runs on the currency of broken promises, and Xeth'Raal ensures that every debt is collected with compound interest. A gaunt, elongated figure draped in robes made of ledger pages that write themselves in blood.",
+      "history": "Before the Severance, Xeth'Raal operated through mortal intermediaries \u2014 corrupt priests, desperate kings, and ambitious scholars who sought forbidden knowledge. The Shadow Tongue was one of his greatest investments: a self-replicating instrument of debt creation that turned entire civilizations into debtors. When the Advocate wielded the Blood Weave against the Hierarchy, Xeth'Raal calculated the cost and ensured that the Advocate's sacrifice was recorded as a debt that could never be fully repaid.",
+      "connections": [
+        "Mol'Garath the Unmaker",
+        "The Collector",
+        "The Advocate",
+        "The Shadow Tongue",
+        "Syl'Vex the Corruptor",
+        "The Hierarchy of the Damned"
+      ],
+      "conexus_stories": [],
+      "song_appearances": [],
+      "image": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/1_3OnVmL0nyyr5XrSWZQS6NC_1773778352306_na1fn_L2hvbWUvdWJ1bnR1L3hldGhfcmFhbF9wb3J0cmFpdA_2ce91495.png",
+      "priority": 90,
+      "streaming_links": {}
+    },
+    {
+      "id": "entity_93",
+      "type": "character",
+      "name": "Vex'Ahlia the Taskmaster",
+      "aliases": [
+        "The COO",
+        "The Six-Armed Queen",
+        "The Engine of the Damned"
+      ],
+      "era": "Late Empire",
+      "date_aa": "",
+      "date_ad": "",
+      "season": "",
+      "affiliation": "Hierarchy of the Damned",
+      "status": "Active",
+      "bio": "COO and Chief Operating Officer of the Hierarchy. Vex'Ahlia is the engine of the Hierarchy. While Mol'Garath sets strategy and Xeth'Raal manages resources, Vex'Ahlia executes. She transforms the Hierarchy's will into action, commanding legions of lesser demons, coordinating invasions across dimensions, and ensuring every operation runs with ruthless efficiency. A six-armed warrior-queen encased in armor forged from the compressed screams of a thousand conquered worlds.",
+      "history": "Vex'Ahlia was the first demon to recognize that the Architect's organizational model \u2014 the Archon hierarchy \u2014 was superior to the Hierarchy's ancient tribal structure. She proposed the corporate reorganization that transformed the Hierarchy from a feudal nightmare into a streamlined machine of conquest. During the war against the Advocate's Empire of Shadows, Vex'Ahlia personally led the siege of seven dimensions, only to be driven back by the Blood Weave's binding chains.",
+      "connections": [
+        "Mol'Garath the Unmaker",
+        "The Warlord",
+        "The Advocate",
+        "Drael'Mon the Harvester",
+        "Fenra the Moon Tyrant",
+        "The Hierarchy of the Damned"
+      ],
+      "conexus_stories": [],
+      "song_appearances": [],
+      "image": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/2_aAZuZESUeOqHrqUN21IHeO_1773778340218_na1fn_L2hvbWUvdWJ1bnR1L3ZleF9haGxpYV9wb3J0cmFpdA_c892f37b.png",
+      "priority": 88,
+      "streaming_links": {}
+    },
+    {
+      "id": "entity_94",
+      "type": "character",
+      "name": "Drael'Mon the Harvester",
+      "aliases": [
+        "SVP of Acquisitions",
+        "The World Eater",
+        "The Thousand Mouths"
+      ],
+      "era": "Late Empire",
+      "date_aa": "",
+      "date_ad": "",
+      "season": "",
+      "affiliation": "Hierarchy of the Damned",
+      "status": "Active",
+      "bio": "SVP of Acquisitions. Drael'Mon is the Hierarchy's conqueror. When a new dimension is targeted for absorption, Drael'Mon is the first to arrive. He plants his tendrils into the fabric of reality itself, feeding on the dimension's fundamental forces until it collapses into the Abyss. A massive centaur-like entity whose lower body is a crawling mass of tendrils, his upper body covered in mouths whispering in the languages of consumed worlds. He wears a crown of collapsed stars.",
+      "history": "Drael'Mon's rivalry with the Collector is legendary. Both serve masters who seek to catalogue and control, but their methods are diametrically opposed. The Collector preserves; Drael'Mon devours. When the Collector created the Shadow Tongue, Drael'Mon saw it as an insult \u2014 a subtle weapon when brute consumption would suffice. Their conflict nearly fractured the Hierarchy during the Severance, until Mol'Garath imposed a truce: the Shadow Tongue would soften targets, and Drael'Mon would consume them.",
+      "connections": [
+        "Mol'Garath the Unmaker",
+        "The Collector",
+        "The Shadow Tongue",
+        "Vex'Ahlia the Taskmaster",
+        "Ny'Koth the Flayer",
+        "The Hierarchy of the Damned"
+      ],
+      "conexus_stories": [],
+      "song_appearances": [],
+      "image": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/3_HIV067cxcQl9kwSL8YAUmZ_1773778352451_na1fn_L2hvbWUvdWJ1bnR1L2RyYWVsX21vbl9wb3J0cmFpdA_0cf33974.png",
+      "priority": 85,
+      "streaming_links": {}
+    },
+    {
+      "id": "entity_95",
+      "type": "character",
+      "name": "Ny'Koth the Flayer",
+      "aliases": [
+        "SVP of R&D",
+        "The Scientist of the Damned",
+        "The Ninth"
+      ],
+      "era": "Late Empire",
+      "date_aa": "",
+      "date_ad": "",
+      "season": "",
+      "affiliation": "Hierarchy of the Damned",
+      "status": "Active",
+      "bio": "SVP of Research & Development. Ny'Koth is the Hierarchy's scientist, philosopher, and torturer. He studies the fundamental structure of reality not to understand it but to find its weaknesses. His research division produced the Severance Protocol (the refined Blood Weave) and the Thought Virus Template. A skeletal figure in a lab coat of flayed dimensional membranes, his transparent skull reveals a brain that is a miniature universe where he conducts experiments.",
+      "history": "Ny'Koth's connection to the Necromancer is the most direct Archon-demon parallel. Both are scientists of the forbidden, both have mastered death, and both operate in spaces between dimensions. When the Necromancer summoned 'The Ninth' \u2014 the most powerful entity from the Hierarchy \u2014 it was Ny'Koth who answered, not as a servant but as a colleague offering a professional courtesy. The catastrophic consequences of that summoning were, from Ny'Koth's perspective, merely an experiment with interesting results.",
+      "connections": [
+        "Mol'Garath the Unmaker",
+        "The Necromancer",
+        "The Source",
+        "Drael'Mon the Harvester",
+        "The Hierarchy of the Damned"
+      ],
+      "conexus_stories": [],
+      "song_appearances": [],
+      "image": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/5_7yZoLkIQZzpQYeFXB1y6sZ_1773778344979_na1fn_L2hvbWUvdWJ1bnR1L255X2tvdGhfdGhlX2ZsYXllcg_cb0ec125.png",
+      "priority": 85,
+      "streaming_links": {}
+    },
+    {
+      "id": "entity_96",
+      "type": "character",
+      "name": "Syl'Vex the Corruptor",
+      "aliases": [
+        "SVP of Human Resources",
+        "The Beautiful Lie",
+        "The Recruiter"
+      ],
+      "era": "Late Empire",
+      "date_aa": "",
+      "date_ad": "",
+      "season": "",
+      "affiliation": "Hierarchy of the Damned",
+      "status": "Active",
+      "bio": "SVP of Human Resources. The most human-looking of the demon lords, Syl'Vex appears as a stunningly beautiful androgynous figure in a perfectly tailored business suit. They are the Hierarchy's recruiter \u2014 responsible for converting mortal souls into demonic servants. Syl'Vex does not use force or fear \u2014 they use understanding. They find what you want, what you need, what you're afraid of, and they offer you exactly what you desire. The price is always your soul, but Syl'Vex makes the transaction feel like a gift.",
+      "history": "Syl'Vex's role as the Advocate's dark mirror is the Hierarchy's cruelest irony. The Advocate fights to empower and liberate; Syl'Vex 'empowers' by making servitude feel like freedom. During the war against the Empire of Shadows, Syl'Vex turned three of the Advocate's own generals against her \u2014 not through threats but through genuine friendship. Syl'Vex befriended them, understood them, and showed them a version of truth that made betrayal feel like the only moral choice.",
+      "connections": [
+        "Mol'Garath the Unmaker",
+        "The Advocate",
+        "The Politician",
+        "Xeth'Raal the Debt Collector",
+        "Ith'Rael the Whisperer",
+        "The Hierarchy of the Damned"
+      ],
+      "conexus_stories": [],
+      "song_appearances": [],
+      "image": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/6_d6GWqZP6Po0UuqtR3n4LeV_1773778361362_na1fn_L2hvbWUvdWJ1bnR1L3N5bHZleF9wb3J0cmFpdA_8a00948a.png",
+      "priority": 83,
+      "streaming_links": {}
+    },
+    {
+      "id": "entity_97",
+      "type": "character",
+      "name": "Ith'Rael the Whisperer",
+      "aliases": [
+        "Director of Special Projects",
+        "The Master of Rylloh",
+        "The Spymaster"
+      ],
+      "era": "Pre-Creation / Late Empire",
+      "date_aa": "",
+      "date_ad": "",
+      "season": "",
+      "affiliation": "Hierarchy of the Damned",
+      "status": "Active",
+      "bio": "Director of Special Projects and the true Master of Rylloh. Ith'Rael handles the Hierarchy's black operations \u2014 projects too sensitive, dangerous, or strange for the regular corporate structure. Barely visible \u2014 a shimmer in the air, a distortion at the edge of vision. When forced into physical form, they appear as a translucent humanoid figure made of overlapping whispers, with eyes that are tiny portals into the Abyss. They wear a suit made of static \u2014 the visual noise between channels.",
+      "history": "Ith'Rael's greatest achievement was the Rylloh Operation \u2014 the centuries-long project that planted the seeds of the Severance. It was Ith'Rael who identified Thaloria as the weakest point in reality's defenses, suggested the Shadow Tongue as the delivery mechanism, and ensured that the Rylloh Codex fragments were hidden within the corrupted scriptures where Hierophant Pyor XI would find them. The entire Severance was Ith'Rael's special project. For this achievement, Ith'Rael was given the title Master of Rylloh.",
+      "connections": [
+        "Mol'Garath the Unmaker",
+        "The Shadow Tongue",
+        "The Vortex",
+        "The Forgotten",
+        "The Advocate",
+        "Syl'Vex the Corruptor",
+        "The Hierarchy of the Damned"
+      ],
+      "conexus_stories": [],
+      "song_appearances": [],
+      "image": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/9_YGH9kZqz4xBukeKgJhfNNM_1773778350345_na1fn_L2hvbWUvdWJ1bnR1L2l0aF9yYWVsX3BvcnRyYWl0_7d33a51f.png",
+      "priority": 87,
+      "streaming_links": {}
     }
   ],
   "relationships": [
@@ -10232,6 +10472,168 @@
       "source": "Destiny",
       "target": "Inception Arks",
       "relationship_type": "connected_to"
+    },
+    {
+      "source": "Mol'Garath the Unmaker",
+      "target": "Xeth'Raal the Debt Collector",
+      "relationship_type": "commands",
+      "source_type": "character"
+    },
+    {
+      "source": "Mol'Garath the Unmaker",
+      "target": "Vex'Ahlia the Taskmaster",
+      "relationship_type": "commands",
+      "source_type": "character"
+    },
+    {
+      "source": "Mol'Garath the Unmaker",
+      "target": "The Hierarchy of the Damned",
+      "relationship_type": "leads",
+      "source_type": "character"
+    },
+    {
+      "source": "Vex'Ahlia the Taskmaster",
+      "target": "Drael'Mon the Harvester",
+      "relationship_type": "commands",
+      "source_type": "character"
+    },
+    {
+      "source": "Vex'Ahlia the Taskmaster",
+      "target": "The Shadow Tongue",
+      "relationship_type": "commands",
+      "source_type": "character"
+    },
+    {
+      "source": "Vex'Ahlia the Taskmaster",
+      "target": "Ny'Koth the Flayer",
+      "relationship_type": "commands",
+      "source_type": "character"
+    },
+    {
+      "source": "Vex'Ahlia the Taskmaster",
+      "target": "Syl'Vex the Corruptor",
+      "relationship_type": "commands",
+      "source_type": "character"
+    },
+    {
+      "source": "Vex'Ahlia the Taskmaster",
+      "target": "Varkul the Blood Lord",
+      "relationship_type": "commands",
+      "source_type": "character"
+    },
+    {
+      "source": "Vex'Ahlia the Taskmaster",
+      "target": "Fenra the Moon Tyrant",
+      "relationship_type": "commands",
+      "source_type": "character"
+    },
+    {
+      "source": "Mol'Garath the Unmaker",
+      "target": "Ith'Rael the Whisperer",
+      "relationship_type": "commands",
+      "source_type": "character"
+    },
+    {
+      "source": "Mol'Garath the Unmaker",
+      "target": "The Architect",
+      "relationship_type": "mirrors",
+      "source_type": "character"
+    },
+    {
+      "source": "Xeth'Raal the Debt Collector",
+      "target": "The Collector",
+      "relationship_type": "mirrors",
+      "source_type": "character"
+    },
+    {
+      "source": "Vex'Ahlia the Taskmaster",
+      "target": "The Warlord",
+      "relationship_type": "mirrors",
+      "source_type": "character"
+    },
+    {
+      "source": "Drael'Mon the Harvester",
+      "target": "The Collector",
+      "relationship_type": "rivals",
+      "source_type": "character"
+    },
+    {
+      "source": "Ny'Koth the Flayer",
+      "target": "The Necromancer",
+      "relationship_type": "mirrors",
+      "source_type": "character"
+    },
+    {
+      "source": "Syl'Vex the Corruptor",
+      "target": "The Advocate",
+      "relationship_type": "mirrors",
+      "source_type": "character"
+    },
+    {
+      "source": "Ith'Rael the Whisperer",
+      "target": "The Vortex",
+      "relationship_type": "mirrors",
+      "source_type": "character"
+    },
+    {
+      "source": "Ith'Rael the Whisperer",
+      "target": "The Shadow Tongue",
+      "relationship_type": "manipulated",
+      "source_type": "character"
+    },
+    {
+      "source": "Syl'Vex the Corruptor",
+      "target": "The Advocate",
+      "relationship_type": "corrupted generals of",
+      "source_type": "character"
+    },
+    {
+      "source": "Ny'Koth the Flayer",
+      "target": "The Necromancer",
+      "relationship_type": "answered summoning by",
+      "source_type": "character"
+    },
+    {
+      "source": "Mol'Garath the Unmaker",
+      "target": "The Hierarchy of the Damned",
+      "relationship_type": "member_of",
+      "source_type": "character"
+    },
+    {
+      "source": "Xeth'Raal the Debt Collector",
+      "target": "The Hierarchy of the Damned",
+      "relationship_type": "member_of",
+      "source_type": "character"
+    },
+    {
+      "source": "Vex'Ahlia the Taskmaster",
+      "target": "The Hierarchy of the Damned",
+      "relationship_type": "member_of",
+      "source_type": "character"
+    },
+    {
+      "source": "Drael'Mon the Harvester",
+      "target": "The Hierarchy of the Damned",
+      "relationship_type": "member_of",
+      "source_type": "character"
+    },
+    {
+      "source": "Ny'Koth the Flayer",
+      "target": "The Hierarchy of the Damned",
+      "relationship_type": "member_of",
+      "source_type": "character"
+    },
+    {
+      "source": "Syl'Vex the Corruptor",
+      "target": "The Hierarchy of the Damned",
+      "relationship_type": "member_of",
+      "source_type": "character"
+    },
+    {
+      "source": "Ith'Rael the Whisperer",
+      "target": "The Hierarchy of the Damned",
+      "relationship_type": "member_of",
+      "source_type": "character"
     }
   ],
   "music_videos": {
@@ -10785,11 +11187,11 @@
     ]
   },
   "stats": {
-    "total_entries": 197,
-    "characters": 62,
+    "total_entries": 204,
+    "characters": 69,
     "locations": 20,
     "factions": 7,
     "songs": 107,
-    "relationships": 523
+    "relationships": 550
   }
 }

@@ -1012,30 +1012,55 @@ export default function TradeWarsPage() {
           addLine("Engaging hostile contacts...", "system");
           addLine("", "output");
           const result = await combatMut.mutateAsync();
+          const isDemon = (result as any).isDemonEncounter;
+          if (isDemon) addLine("⚠ BLOOD WEAVE SIGNATURE DETECTED — HIERARCHY FORCES!", "error");
           if (result.won) {
-            addLines([
-              { text: `  ╔═══════════════════════════╗`, type: "success" },
-              { text: `  ║   ★ COMBAT VICTORY ★     ║`, type: "success" },
-              { text: `  ╚═══════════════════════════╝`, type: "success" },
-              { text: `  Enemy: ${result.enemyName} (Power: ${result.enemyStrength})`, type: "output" },
-              { text: `  Salvage: +${result.creditsChange} credits`, type: "success" },
-              { text: `  XP gained: +${result.xpGain}`, type: "success" },
-            ]);
+            if (isDemon) {
+              addLines([
+                { text: `  ╔═══════════════════════════════════╗`, type: "warning" },
+                { text: `  ║  ☠ HIERARCHY VANQUISHED ☠        ║`, type: "warning" },
+                { text: `  ╚═══════════════════════════════════╝`, type: "warning" },
+                { text: `  Demon: ${result.enemyName} (Power: ${result.enemyStrength})`, type: "output" },
+                { text: `  Blood Weave Salvage: +${result.creditsChange} credits`, type: "success" },
+                { text: `  XP gained: +${result.xpGain} (demon bonus!)`, type: "success" },
+              ]);
+            } else {
+              addLines([
+                { text: `  ╔═══════════════════════════╗`, type: "success" },
+                { text: `  ║   ★ COMBAT VICTORY ★     ║`, type: "success" },
+                { text: `  ╚═══════════════════════════╝`, type: "success" },
+                { text: `  Enemy: ${result.enemyName} (Power: ${result.enemyStrength})`, type: "output" },
+                { text: `  Salvage: +${result.creditsChange} credits`, type: "success" },
+                { text: `  XP gained: +${result.xpGain}`, type: "success" },
+              ]);
+            }
             if (result.fightersLost > 0) addLine(`  Fighters lost: ${result.fightersLost}`, "warning");
             if (result.shieldDamage > 0) addLine(`  Shield damage: -${result.shieldDamage}`, "warning");
             if (result.cardReward) {
-              addLine(`  CARD REWARD: ${result.cardReward.name} (${result.cardReward.rarity})`, "warning");
+              addLine(`  ${isDemon ? '☠ DEMON' : ''} CARD REWARD: ${result.cardReward.name} (${result.cardReward.rarity})`, "warning");
             }
           } else {
-            addLines([
-              { text: `  ╔═══════════════════════════╗`, type: "error" },
-              { text: `  ║   ✖ COMBAT DEFEAT ✖      ║`, type: "error" },
-              { text: `  ╚═══════════════════════════╝`, type: "error" },
-              { text: `  Enemy: ${result.enemyName} (Power: ${result.enemyStrength})`, type: "output" },
-              { text: `  Credits lost: ${Math.abs(result.creditsChange || 0)}`, type: "error" },
-              { text: `  Fighters lost: ${result.fightersLost}`, type: "error" },
-              { text: `  Shield damage: -${result.shieldDamage}`, type: "error" },
-            ]);
+            if (isDemon) {
+              addLines([
+                { text: `  ╔═══════════════════════════════════╗`, type: "error" },
+                { text: `  ║  ☠ HIERARCHY TRIUMPH ☠           ║`, type: "error" },
+                { text: `  ╚═══════════════════════════════════╝`, type: "error" },
+                { text: `  Demon: ${result.enemyName} (Power: ${result.enemyStrength})`, type: "output" },
+                { text: `  The Blood Weave claims: ${Math.abs(result.creditsChange || 0)} credits`, type: "error" },
+                { text: `  Fighters consumed: ${result.fightersLost}`, type: "error" },
+                { text: `  Shield corruption: -${result.shieldDamage}`, type: "error" },
+              ]);
+            } else {
+              addLines([
+                { text: `  ╔═══════════════════════════╗`, type: "error" },
+                { text: `  ║   ✖ COMBAT DEFEAT ✖      ║`, type: "error" },
+                { text: `  ╚═══════════════════════════╝`, type: "error" },
+                { text: `  Enemy: ${result.enemyName} (Power: ${result.enemyStrength})`, type: "output" },
+                { text: `  Credits lost: ${Math.abs(result.creditsChange || 0)}`, type: "error" },
+                { text: `  Fighters lost: ${result.fightersLost}`, type: "error" },
+                { text: `  Shield damage: -${result.shieldDamage}`, type: "error" },
+              ]);
+            }
           }
           utils.tradeWars.getState.invalidate();
           break;

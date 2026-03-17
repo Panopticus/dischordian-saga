@@ -6,7 +6,7 @@ import { Link } from "wouter";
 import { motion } from "framer-motion";
 import {
   Gamepad2, Swords, Rocket, ScrollText, Trophy, FlaskConical,
-  ChevronRight, Shield, Crown, Ship, Zap, Globe, Radio, BookOpen, Users
+  ChevronRight, Shield, Crown, Ship, Zap, Globe, Radio, BookOpen, Users, Skull
 } from "lucide-react";
 import { useGamification } from "@/contexts/GamificationContext";
 
@@ -145,6 +145,15 @@ const SIMULATIONS: GameTile[] = [
     loreContext: "ARCHIVE: Temporal Map",
     icon: Globe,
     color: "#8b5cf6",
+  },
+  {
+    href: "/hierarchy",
+    title: "HIERARCHY OF THE DAMNED",
+    subtitle: "Demon Corporate Structure",
+    description: "Explore the corporate org chart of Hell itself. Ten demon leaders mirror the Archons, oppose the Neyons, and are connected through the Blood Weave.",
+    loreContext: "CLASSIFIED: Blood Weave Intel",
+    icon: Skull,
+    color: "#dc2626",
   },
 ];
 

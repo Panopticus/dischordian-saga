@@ -27,6 +27,9 @@ export interface UserProgressData {
   timelineExplored: boolean;
   boardExplored: boolean;
   doomScrollRead: number;
+  demonKills: number;
+  hierarchyExplored: boolean;
+  demonCardsCollected: number;
 }
 
 export interface GameSaveData {
@@ -39,6 +42,9 @@ export interface GameSaveData {
 }
 
 export const DEFAULT_PROGRESS: UserProgressData = {
+  demonKills: 0,
+  hierarchyExplored: false,
+  demonCardsCollected: 0,
   discoveredEntries: [],
   watchedEpisodes: [],
   fightWins: 0,
@@ -203,6 +209,14 @@ export const DISCHORDIAN_ACHIEVEMENTS: AchievementDef[] = [
   { achievementId: "connection-1", name: "First Link", description: "Find your first lore connection", icon: "🔗", category: "discover", tier: "bronze", xpReward: 25, pointsReward: 50, condition: { type: "connections_found", count: 1 } },
   { achievementId: "connection-50", name: "Web Weaver", description: "Find 50 lore connections", icon: "🕸️", category: "discover", tier: "silver", xpReward: 150, pointsReward: 300, condition: { type: "connections_found", count: 50 } },
   { achievementId: "connection-200", name: "The CoNexus", description: "Find 200 lore connections", icon: "🌐", category: "discover", tier: "gold", xpReward: 400, pointsReward: 800, condition: { type: "connections_found", count: 200 } },
+
+  // HIERARCHY OF THE DAMNED
+  { achievementId: "demon-slayer-1", name: "Demon Slayer", description: "Defeat a Hierarchy demon in combat", icon: "☠️", category: "fight", tier: "silver", xpReward: 100, pointsReward: 200, condition: { type: "demon_kills", count: 1 } },
+  { achievementId: "demon-slayer-10", name: "Blood Weave Breaker", description: "Defeat 10 Hierarchy demons", icon: "🔥", category: "fight", tier: "gold", xpReward: 300, pointsReward: 600, condition: { type: "demon_kills", count: 10 } },
+  { achievementId: "demon-slayer-50", name: "Hierarchy's Bane", description: "Defeat 50 Hierarchy demons across all games", icon: "💀", category: "fight", tier: "platinum", xpReward: 500, pointsReward: 1000, condition: { type: "demon_kills", count: 50 } },
+  { achievementId: "hierarchy-explorer", name: "Know Thy Enemy", description: "View the Hierarchy of the Damned org chart", icon: "👁️", category: "explore", tier: "bronze", xpReward: 50, pointsReward: 100, condition: { type: "hierarchy_explored" } },
+  { achievementId: "demon-card-collector", name: "Soul Collector", description: "Collect 5 demon cards", icon: "🃏", category: "collect", tier: "silver", xpReward: 150, pointsReward: 300, condition: { type: "demon_cards", count: 5 } },
+  { achievementId: "demon-card-all", name: "Master of the Damned", description: "Collect all 10 demon leader cards", icon: "👑", category: "collect", tier: "legendary", xpReward: 500, pointsReward: 1500, condition: { type: "demon_cards", count: 10 } },
 
   // MASTER
   { achievementId: "doom-scroll-10", name: "End Times Scholar", description: "Read 10 Doom Scroll headlines", icon: "📰", category: "master", tier: "bronze", xpReward: 50, pointsReward: 100, condition: { type: "doom_scroll_read", count: 10 } },

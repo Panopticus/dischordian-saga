@@ -9,7 +9,7 @@ import { useGamification } from "@/contexts/GamificationContext";
 import { useContentReward } from "@/components/ContentRewardToast";
 import { toast } from "sonner";
 import {
-  STARTER_FIGHTERS, UNLOCKABLE_FIGHTERS, ALL_FIGHTERS,
+  STARTER_FIGHTERS, UNLOCKABLE_FIGHTERS, DEMON_FIGHTERS, ALL_FIGHTERS,
   ARENAS, DIFFICULTIES,
   type FighterData, type ArenaData, type DifficultyLevel,
 } from "@/game/gameData";
@@ -23,6 +23,7 @@ const FACTION_COLORS: Record<string, string> = {
   neyons: "#818cf8",
   potentials: "#f59e0b",
   neutral: "#94a3b8",
+  hierarchy: "#dc2626",
 };
 
 // Invasion events — random faction attacks that trigger special fights
@@ -31,6 +32,7 @@ const INVASION_EVENTS = [
   { id: "neyon-incursion", faction: "neyons", title: "NEYON INCURSION", description: "Neyon digital entities are breaching the firewall.", minWins: 5, reward: 75 },
   { id: "warlord-assault", faction: "insurgency", title: "WARLORD'S ASSAULT", description: "The Warlord's forces launch a surprise attack!", minWins: 8, reward: 100 },
   { id: "void-breach", faction: "neutral", title: "VOID BREACH", description: "Unknown entities emerge from the void between realities.", minWins: 12, reward: 150 },
+  { id: "hierarchy-siege", faction: "hierarchy", title: "HIERARCHY SIEGE", description: "The Hierarchy of the Damned launches a full corporate takeover! Demon leaders are invading.", minWins: 15, reward: 200 },
 ];
 
 export default function FightPage() {
@@ -223,8 +225,28 @@ export default function FightPage() {
 
             {/* Unlockables */}
             <div className="font-mono text-[10px] text-white/30 tracking-[0.3em] mb-2 px-1">HIDDEN ROSTER</div>
-            <div className="grid grid-cols-3 sm:grid-cols-5 md:grid-cols-7 gap-2">
+            <div className="grid grid-cols-3 sm:grid-cols-5 md:grid-cols-7 gap-2 mb-4">
               {UNLOCKABLE_FIGHTERS.map(f => {
+                const available = isFighterAvailable(f);
+                return (
+                  <FighterCard key={f.id} fighter={f} available={available}
+                    selected={selectedPlayer?.id === f.id || selectedOpponent?.id === f.id}
+                    onSelect={() => available ? handleFighterSelect(f) : handleUnlock(f)}
+                    onHover={() => setHoveredFighter(f)}
+                    onLeave={() => setHoveredFighter(null)}
+                    canAfford={gam.gameSave.fightPoints >= f.unlockCost} />
+                );
+              })}
+            </div>
+
+            {/* Hierarchy of the Damned */}
+            <div className="font-mono text-[10px] text-red-500/60 tracking-[0.3em] mb-2 px-1 flex items-center gap-2">
+              <span className="h-px flex-1 bg-red-500/20" />
+              HIERARCHY OF THE DAMNED
+              <span className="h-px flex-1 bg-red-500/20" />
+            </div>
+            <div className="grid grid-cols-3 sm:grid-cols-5 md:grid-cols-7 gap-2">
+              {DEMON_FIGHTERS.map(f => {
                 const available = isFighterAvailable(f);
                 return (
                   <FighterCard key={f.id} fighter={f} available={available}
@@ -254,7 +276,7 @@ export default function FightPage() {
 
                   {/* Stats */}
                   <div className="space-y-1.5 mb-3">
-                    <StatBar label="HP" value={displayFighter.hp} max={130} icon={<Heart size={10} />} color="#ef4444" />
+                    <StatBar label="HP" value={displayFighter.hp} max={140} icon={<Heart size={10} />} color="#ef4444" />
                     <StatBar label="ATK" value={displayFighter.attack} max={12} icon={<Swords size={10} />} color="#f59e0b" />
                     <StatBar label="DEF" value={displayFighter.defense} max={12} icon={<Shield size={10} />} color="#22c55e" />
                     <StatBar label="SPD" value={displayFighter.speed} max={12} icon={<Wind size={10} />} color="#22d3ee" />

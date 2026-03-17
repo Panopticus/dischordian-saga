@@ -43,6 +43,9 @@ interface GamificationContextValue extends GamificationState {
   readDoomScroll: (count?: number) => void;
   markTimelineExplored: () => void;
   markBoardExplored: () => void;
+  recordDemonKill: () => void;
+  markHierarchyExplored: () => void;
+  recordDemonCard: (count?: number) => void;
   unlockFighter: (fighterId: string) => boolean;
   spendPoints: (amount: number) => boolean;
   setTheme: (themeId: string) => void;
@@ -154,6 +157,15 @@ export function GamificationProvider({ children }: { children: ReactNode }) {
           break;
         case "reach_level":
           earned = newState.level >= (cond.count ?? 0);
+          break;
+        case "demon_kills":
+          earned = newState.progress.demonKills >= (cond.count ?? 0);
+          break;
+        case "hierarchy_explored":
+          earned = newState.progress.hierarchyExplored;
+          break;
+        case "demon_cards":
+          earned = newState.progress.demonCardsCollected >= (cond.count ?? 0);
           break;
       }
 
@@ -300,6 +312,33 @@ export function GamificationProvider({ children }: { children: ReactNode }) {
     }));
   }, [update]);
 
+  const recordDemonKill = useCallback(() => {
+    update(s => ({
+      ...s,
+      xp: s.xp + 15,
+      level: getLevelForXp(s.xp + 15),
+      title: getTitleForLevel(getLevelForXp(s.xp + 15)),
+      progress: { ...s.progress, demonKills: s.progress.demonKills + 1 },
+    }));
+  }, [update]);
+
+  const markHierarchyExplored = useCallback(() => {
+    update(s => ({
+      ...s,
+      xp: s.xp + 10,
+      level: getLevelForXp(s.xp + 10),
+      title: getTitleForLevel(getLevelForXp(s.xp + 10)),
+      progress: { ...s.progress, hierarchyExplored: true },
+    }));
+  }, [update]);
+
+  const recordDemonCard = useCallback((count = 1) => {
+    update(s => ({
+      ...s,
+      progress: { ...s.progress, demonCardsCollected: s.progress.demonCardsCollected + count },
+    }));
+  }, [update]);
+
   const unlockFighter = useCallback((fighterId: string): boolean => {
     let success = false;
     update(s => {
@@ -367,6 +406,9 @@ export function GamificationProvider({ children }: { children: ReactNode }) {
       readDoomScroll,
       markTimelineExplored,
       markBoardExplored,
+      recordDemonKill,
+      markHierarchyExplored,
+      recordDemonCard,
       unlockFighter,
       spendPoints,
       setTheme,

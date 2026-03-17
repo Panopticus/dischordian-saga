@@ -42,6 +42,7 @@ import CardChallengePage from "./pages/CardChallengePage";
 import ConexusPortalPage from "./pages/ConexusPortalPage";
 import AchievementsGalleryPage from "./pages/AchievementsGalleryPage";
 import AdminPage from "./pages/AdminPage";
+import HierarchyPage from "./pages/HierarchyPage";
 import { LoredexProvider } from "./contexts/LoredexContext";
 import { PlayerProvider } from "./contexts/PlayerContext";
 import { GamificationProvider } from "./contexts/GamificationContext";
@@ -97,6 +98,7 @@ function Router() {
       <Route path="/conexus-portal" component={ConexusPortalPage} />
       <Route path="/achievements" component={AchievementsGalleryPage} />
       <Route path="/admin" component={AdminPage} />
+      <Route path="/hierarchy" component={HierarchyPage} />
       <Route path="/awakening">{() => <AwakeningPage />}</Route>
       <Route path="/404" component={NotFound} />
       <Route component={NotFound} />

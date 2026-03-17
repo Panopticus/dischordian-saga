@@ -8,7 +8,7 @@ export interface FighterData {
   name: string;
   title: string;
   image: string;
-  faction: "empire" | "insurgency" | "neyons" | "potentials" | "neutral";
+  faction: "empire" | "insurgency" | "neyons" | "potentials" | "neutral" | "hierarchy";
   locked: boolean;
   unlockCost: number;
   hp: number;
@@ -463,7 +463,81 @@ export const UNLOCKABLE_FIGHTERS: FighterData[] = [
   },
 ];
 
-export const ALL_FIGHTERS = [...STARTER_FIGHTERS, ...UNLOCKABLE_FIGHTERS];
+/* ─── HIERARCHY OF THE DAMNED — Demon Leaders ─── */
+export const DEMON_FIGHTERS: FighterData[] = [
+  {
+    id: "molgrath", name: "Mol'Garath", title: "CEO — The Unmaker",
+    image: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/0_nyHL4hnAT48JokfLRErio9_1773778548521_na1fn_L2hvbWUvdWJ1bnR1L21vbGdhcmF0aF9zcHJpdGU_837ed7b8.png",
+    faction: "hierarchy", locked: true, unlockCost: 2000, hp: 140, attack: 12, defense: 10, speed: 5,
+    special: { name: "HOSTILE ACQUISITION", damage: 45, description: "Unmakes reality itself, dealing catastrophic damage and reducing enemy defense", cooldown: 360, color: "#dc2626" },
+    combos: ["Entropy Blast", "Corporate Crush", "Void Slam"], color: "#dc2626",
+  },
+  {
+    id: "xethraal", name: "Xeth'Raal", title: "CFO — The Debt Collector",
+    image: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/1_fQwRsUQ4sbto3Om2YIbNvZ_1773778542417_na1fn_L2hvbWUvdWJ1bnR1L3hldGhfcmFhbF9zcHJpdGU_3c6e7389.png",
+    faction: "hierarchy", locked: true, unlockCost: 1800, hp: 110, attack: 8, defense: 9, speed: 7,
+    special: { name: "COMPOUND INTEREST", damage: 35, description: "Drains enemy health over time — the longer the fight, the more they owe", cooldown: 280, color: "#eab308" },
+    combos: ["Ledger Strike", "Soul Tax", "Debt Spiral"], color: "#eab308",
+  },
+  {
+    id: "vexahlia", name: "Vex'Ahlia", title: "COO — The Taskmaster",
+    image: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/2_B1Mwqtxcs505WVXjSEwqmd_1773778543993_na1fn_L2hvbWUvdWJ1bnR1L3ZleGFobGlhX3Nwcml0ZQ_c7c609fe.png",
+    faction: "hierarchy", locked: true, unlockCost: 1800, hp: 120, attack: 11, defense: 7, speed: 8,
+    special: { name: "SIX-ARMED ASSAULT", damage: 42, description: "Unleashes a devastating flurry from all six arms simultaneously", cooldown: 300, color: "#e11d48" },
+    combos: ["Hex Slash", "Arm Barrage", "Siege Breaker"], color: "#e11d48",
+  },
+  {
+    id: "draelmon", name: "Drael'Mon", title: "SVP Acquisitions — The Harvester",
+    image: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/3_JufiJIgx6WRsxjUkI9Pin0_1773778544419_na1fn_L2hvbWUvdWJ1bnR1L2RyYWVsX21vbl9zcHJpdGU_d1425cfa.png",
+    faction: "hierarchy", locked: true, unlockCost: 1500, hp: 130, attack: 10, defense: 8, speed: 5,
+    special: { name: "WORLD EATER", damage: 38, description: "Consumes dimensional energy, growing stronger with each hit", cooldown: 300, color: "#7c3aed" },
+    combos: ["Mouth Slam", "Dimensional Bite", "Harvest Crush"], color: "#7c3aed",
+  },
+  {
+    id: "shadow-tongue", name: "The Shadow Tongue", title: "SVP Communications — The Propagandist",
+    image: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/4_xp0LW5d2NSV1MMpXDTqs1J_1773778543490_na1fn_L2hvbWUvdWJ1bnR1L3NoYWRvd190b25ndWU_1a24ebe4.png",
+    faction: "hierarchy", locked: true, unlockCost: 1400, hp: 90, attack: 7, defense: 6, speed: 10,
+    special: { name: "LINGUISTIC CORRUPTION", damage: 30, description: "Corrupts the opponent's mind, confusing their controls temporarily", cooldown: 260, color: "#6366f1" },
+    combos: ["Whisper Strike", "Shadow Word", "Propaganda Pulse"], color: "#6366f1",
+  },
+  {
+    id: "nykoth", name: "Ny'Koth", title: "SVP R&D — The Flayer",
+    image: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/5_Hh9K0mWXpVEPiRXjnjqpdI_1773778546128_na1fn_L2hvbWUvdWJ1bnR1L255X2tvdGhfdGhlX2ZsYXllcg_e1f416f9.png",
+    faction: "hierarchy", locked: true, unlockCost: 1500, hp: 100, attack: 9, defense: 6, speed: 8,
+    special: { name: "THOUGHT VIRUS", damage: 33, description: "Injects a thought virus that deals damage over time for 5 seconds", cooldown: 280, color: "#10b981" },
+    combos: ["Scalpel Slash", "Vivisection", "Neural Flay"], color: "#10b981",
+  },
+  {
+    id: "sylvex", name: "Syl'Vex", title: "SVP Human Resources — The Corruptor",
+    image: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/6_AqlG6ENJBQWlzF7gEZSAPY_1773778535229_na1fn_L2hvbWUvdWJ1bnR1L3N5bHZleF90aGVfY29ycnVwdG9y_601de94d.png",
+    faction: "hierarchy", locked: true, unlockCost: 1400, hp: 95, attack: 6, defense: 7, speed: 9,
+    special: { name: "THE BEAUTIFUL LIE", damage: 28, description: "Charms the opponent, reducing their attack power significantly", cooldown: 240, color: "#ec4899" },
+    combos: ["Soul Kiss", "Empathy Strike", "Charm Blast"], color: "#ec4899",
+  },
+  {
+    id: "varkul", name: "Varkul", title: "Director of Security — The Blood Lord",
+    image: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/7_OuHQkfh4sCo760hBsGKxhP_1773778552306_na1fn_L2hvbWUvdWJ1bnR1L3Zhcmt1bF90aGVfYmxvb2RfbG9yZA_eda11841.png",
+    faction: "hierarchy", locked: true, unlockCost: 1200, hp: 115, attack: 8, defense: 9, speed: 6,
+    special: { name: "BLOOD DRAIN", damage: 30, description: "Drains life force from the opponent, healing Varkul", cooldown: 260, color: "#991b1b" },
+    combos: ["Fang Strike", "Blood Wave", "Undead Surge"], color: "#991b1b",
+  },
+  {
+    id: "fenra", name: "Fenra", title: "Director of Operations — The Moon Tyrant",
+    image: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/8_Sej4UYKCxogZQF9iMoQ7th_1773778553143_na1fn_L2hvbWUvdWJ1bnR1L2ZlbnJhX3RoZV9tb29uX3R5cmFudA_708c19a0.png",
+    faction: "hierarchy", locked: true, unlockCost: 1200, hp: 110, attack: 9, defense: 7, speed: 8,
+    special: { name: "PACK TACTICS", damage: 32, description: "Summons spectral wolves for a devastating coordinated attack", cooldown: 280, color: "#854d0e" },
+    combos: ["Claw Swipe", "Moon Howl", "Pack Rush"], color: "#854d0e",
+  },
+  {
+    id: "ithrael", name: "Ith'Rael", title: "Director of Intelligence — The Whisperer",
+    image: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/9_7zFEz6U97veRJtFarlSbPi_1773778546408_na1fn_L2hvbWUvdWJ1bnR1L2l0aF9yYWVsX3Nwcml0ZQ_7de2b56d.png",
+    faction: "hierarchy", locked: true, unlockCost: 1300, hp: 85, attack: 7, defense: 5, speed: 10,
+    special: { name: "SEVERANCE PROTOCOL", damage: 35, description: "Severs the opponent from reality, dealing massive psychic damage", cooldown: 300, color: "#4338ca" },
+    combos: ["Whisper Blade", "Mind Shatter", "Rylloh Strike"], color: "#4338ca",
+  },
+];
+
+export const ALL_FIGHTERS = [...STARTER_FIGHTERS, ...UNLOCKABLE_FIGHTERS, ...DEMON_FIGHTERS];
 
 /* ─── ARENAS ─── */
 export const ARENAS: ArenaData[] = [
@@ -508,6 +582,20 @@ export const ARENAS: ArenaData[] = [
     bgGradient: "linear-gradient(180deg, #1a0a00 0%, #3d1a00 40%, #5a2a00 70%, #1a0a00 100%)",
     floorColor: "#431407",
     ambientColor: "#f97316",
+  },
+  {
+    id: "blood-weave",
+    name: "The Blood Weave",
+    bgGradient: "linear-gradient(180deg, #1a0000 0%, #330000 30%, #4d0000 50%, #660000 70%, #1a0000 100%)",
+    floorColor: "#2d0000",
+    ambientColor: "#dc2626",
+  },
+  {
+    id: "shadow-sanctum",
+    name: "Shadow Sanctum",
+    bgGradient: "linear-gradient(180deg, #0a0014 0%, #1a0033 30%, #2a004d 50%, #1a0033 70%, #0a0014 100%)",
+    floorColor: "#1a0033",
+    ambientColor: "#7c3aed",
   },
 ];
 
