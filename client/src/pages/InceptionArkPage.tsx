@@ -82,7 +82,7 @@ const ARK_DECKS: ArkDeck[] = [
       { id: "engineering", name: "Engineering", icon: Zap, type: "utility", locked: false, description: "Power systems and ark maintenance. Craft and upgrade cards." },
       { id: "trophy_room", name: "Trophy Room", icon: Trophy, type: "special", locked: false, description: "Display your finest cards and achievements." },
       { id: "vault", name: "The Vault", icon: Lock, type: "special", locked: true, description: "Secure storage for your rarest cards and NFT-linked items." },
-      { id: "trade_hub", name: "Trade Hub", icon: Ship, type: "commerce", locked: false, description: "Access Trade Wars BBS terminal. Navigate the galaxy." },
+      { id: "trade_hub", name: "Trade Hub", icon: Ship, type: "commerce", locked: false, description: "Access Trade Empire BBS terminal. Navigate the galaxy." },
     ],
   },
   {
@@ -108,7 +108,7 @@ const ROOM_ROUTES: Record<string, string> = {
   captains_quarters: "/trophy",
   cargo_bay: "/cards",
   trophy_room: "/trophy",
-  trade_hub: "/trade-wars",
+  trade_hub: "/trade-empire",
   training: "/fight",
   rec_room: "/",
   archive: "/search",

@@ -67,7 +67,7 @@ const NAV_GROUPS: NavGroup[] = [
     items: [
       { path: "/games", label: "SIMULATION HUB", icon: Gamepad2, description: "All CADES sims" },
       { path: "/cards/play", label: "CARD GAME", icon: ScrollText, description: "Faction warfare" },
-      { path: "/trade-wars", label: "TRADE WARS", icon: Ship, description: "Interstellar trade" },
+      { path: "/trade-empire", label: "TRADE EMPIRE", icon: Ship, description: "Interstellar trade" },
       { path: "/fight", label: "COMBAT SIM", icon: Swords, description: "Combat training" },
       { path: "/ark", label: "EXPLORE THE ARK", icon: Rocket, description: "Point & click adventure" },
       { path: "/quiz", label: "LORE QUIZ", icon: Brain, description: "Test your knowledge" },

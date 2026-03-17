@@ -222,70 +222,201 @@ export class FightEngine3D {
 
   /* ═══ STAGE BUILDING ═══ */
   private buildStage() {
-    // Floor
-    const floorGeo = new THREE.PlaneGeometry(20, 10);
+    // ── FLOOR — reflective arena platform ──
+    const floorGeo = new THREE.PlaneGeometry(24, 14, 48, 28);
     const floorMat = new THREE.MeshStandardMaterial({
       color: 0x1a1a2e,
-      roughness: 0.4,
-      metalness: 0.6,
+      roughness: 0.25,
+      metalness: 0.75,
     });
     this.stageFloor = new THREE.Mesh(floorGeo, floorMat);
     this.stageFloor.rotation.x = -Math.PI / 2;
     this.stageFloor.receiveShadow = true;
     this.scene.add(this.stageFloor);
 
-    // Floor grid lines
-    const gridHelper = new THREE.GridHelper(20, 40, 0x222244, 0x111122);
+    // Floor grid — cyan-tinted tech grid
+    const gridHelper = new THREE.GridHelper(24, 48, 0x1a3355, 0x0d1a2e);
     gridHelper.position.y = 0.01;
     this.scene.add(gridHelper);
 
-    // Back wall — atmospheric gradient wall
-    const wallGeo = new THREE.PlaneGeometry(20, 8);
+    // ── FLOOR GLOW LINES — pulsing energy channels ──
+    const channelMat = new THREE.MeshBasicMaterial({
+      color: 0x00ccff, transparent: true, opacity: 0.15,
+    });
+    for (const x of [-3, 0, 3]) {
+      const ch = new THREE.Mesh(new THREE.BoxGeometry(0.04, 0.005, 14), channelMat);
+      ch.position.set(x, 0.02, 0);
+      this.scene.add(ch);
+    }
+    // Cross channels
+    for (const z of [-3, -1, 1, 3]) {
+      const ch = new THREE.Mesh(new THREE.BoxGeometry(24, 0.005, 0.04), channelMat);
+      ch.position.set(0, 0.02, z);
+      this.scene.add(ch);
+    }
+
+    // ── BACK WALL — layered depth with architectural detail ──
+    const wallGeo = new THREE.PlaneGeometry(24, 10);
     const wallMat = new THREE.MeshStandardMaterial({
-      color: 0x1e1e35,
-      roughness: 0.5,
-      metalness: 0.3,
-      emissive: 0x12122a,
-      emissiveIntensity: 0.6,
+      color: 0x12122a,
+      roughness: 0.4,
+      metalness: 0.4,
+      emissive: 0x0a0a1e,
+      emissiveIntensity: 0.8,
     });
     const wall = new THREE.Mesh(wallGeo, wallMat);
-    wall.position.set(0, 4, -5);
+    wall.position.set(0, 5, -6);
     this.scene.add(wall);
 
-    // Pillars — taller, glowing accent pillars
-    const pillarGeo = new THREE.CylinderGeometry(0.18, 0.25, 6, 8);
-    const pillarMat = new THREE.MeshStandardMaterial({
-      color: 0x3a3a5e,
-      roughness: 0.2,
-      metalness: 0.8,
-      emissive: 0x1a1a3a,
-      emissiveIntensity: 0.3,
+    // Wall accent panel — large central emblem area
+    const panelGeo = new THREE.PlaneGeometry(6, 4);
+    const panelMat = new THREE.MeshStandardMaterial({
+      color: 0x1a1a3a,
+      roughness: 0.3,
+      metalness: 0.6,
+      emissive: 0x111133,
+      emissiveIntensity: 0.5,
     });
-    for (const x of [-4.5, -2.5, 2.5, 4.5]) {
+    const panel = new THREE.Mesh(panelGeo, panelMat);
+    panel.position.set(0, 5, -5.95);
+    this.scene.add(panel);
+
+    // Central emblem ring
+    const ringGeo = new THREE.TorusGeometry(1.2, 0.06, 8, 32);
+    const ringMat = new THREE.MeshBasicMaterial({
+      color: 0x4488ff, transparent: true, opacity: 0.5,
+    });
+    const ring = new THREE.Mesh(ringGeo, ringMat);
+    ring.position.set(0, 5.2, -5.9);
+    this.scene.add(ring);
+    // Inner ring
+    const innerRing = new THREE.Mesh(
+      new THREE.TorusGeometry(0.7, 0.04, 8, 24),
+      new THREE.MeshBasicMaterial({ color: 0xffaa00, transparent: true, opacity: 0.4 })
+    );
+    innerRing.position.set(0, 5.2, -5.88);
+    this.scene.add(innerRing);
+
+    // ── PILLARS — ornate columns with glowing runes ──
+    const pillarGeo = new THREE.CylinderGeometry(0.22, 0.3, 8, 12);
+    const pillarMat = new THREE.MeshStandardMaterial({
+      color: 0x2a2a4e,
+      roughness: 0.15,
+      metalness: 0.85,
+      emissive: 0x151530,
+      emissiveIntensity: 0.4,
+    });
+    const pillarPositions = [-5.5, -3, 3, 5.5];
+    for (const x of pillarPositions) {
       const pillar = new THREE.Mesh(pillarGeo, pillarMat);
-      pillar.position.set(x, 3, -4.5);
+      pillar.position.set(x, 4, -5.2);
       pillar.castShadow = true;
       this.scene.add(pillar);
 
-      // Pillar glow strip
-      const stripGeo = new THREE.BoxGeometry(0.03, 5.5, 0.03);
-      const stripMat = new THREE.MeshBasicMaterial({
-        color: 0x4488ff,
-        transparent: true,
-        opacity: 0.4,
+      // Pillar cap — ornamental top
+      const capGeo = new THREE.CylinderGeometry(0.35, 0.22, 0.3, 12);
+      const capMat = new THREE.MeshStandardMaterial({
+        color: 0x4a4a7e, roughness: 0.1, metalness: 0.9,
+        emissive: 0x2a2a5e, emissiveIntensity: 0.3,
       });
-      const strip = new THREE.Mesh(stripGeo, stripMat);
-      strip.position.set(x, 2.75, -4.3);
-      this.scene.add(strip);
+      const cap = new THREE.Mesh(capGeo, capMat);
+      cap.position.set(x, 8.15, -5.2);
+      this.scene.add(cap);
+
+      // Pillar base
+      const baseGeo = new THREE.CylinderGeometry(0.35, 0.4, 0.4, 12);
+      const base = new THREE.Mesh(baseGeo, capMat);
+      base.position.set(x, 0.2, -5.2);
+      this.scene.add(base);
+
+      // Glowing rune strips on pillar
+      const colors = [0x4488ff, 0x00ccff, 0x6644ff];
+      for (let i = 0; i < 3; i++) {
+        const stripGeo = new THREE.BoxGeometry(0.04, 1.2, 0.04);
+        const stripMat = new THREE.MeshBasicMaterial({
+          color: colors[i % colors.length],
+          transparent: true,
+          opacity: 0.5 - i * 0.1,
+        });
+        const strip = new THREE.Mesh(stripGeo, stripMat);
+        strip.position.set(x, 2 + i * 2.2, -5.0);
+        this.scene.add(strip);
+      }
     }
 
-    // Stage edge markers (red lines)
-    const edgeGeo = new THREE.BoxGeometry(0.05, 0.02, 10);
-    const edgeMat = new THREE.MeshStandardMaterial({ color: 0xff0000, emissive: 0xff0000, emissiveIntensity: 0.5 });
+    // ── ARCHWAY — connecting top pillars ──
+    const archGeo = new THREE.BoxGeometry(11, 0.25, 0.5);
+    const archMat = new THREE.MeshStandardMaterial({
+      color: 0x2a2a4e, roughness: 0.15, metalness: 0.85,
+      emissive: 0x1a1a3e, emissiveIntensity: 0.3,
+    });
+    const arch = new THREE.Mesh(archGeo, archMat);
+    arch.position.set(0, 8.3, -5.2);
+    this.scene.add(arch);
+
+    // Arch glow strip
+    const archGlowGeo = new THREE.BoxGeometry(10.5, 0.05, 0.1);
+    const archGlowMat = new THREE.MeshBasicMaterial({
+      color: 0x4488ff, transparent: true, opacity: 0.4,
+    });
+    const archGlow = new THREE.Mesh(archGlowGeo, archGlowMat);
+    archGlow.position.set(0, 8.15, -4.95);
+    this.scene.add(archGlow);
+
+    // ── FLOATING PARTICLES — atmospheric dust/embers ──
+    const particleCount = 60;
+    const particleGeo = new THREE.BufferGeometry();
+    const positions = new Float32Array(particleCount * 3);
+    for (let i = 0; i < particleCount; i++) {
+      positions[i * 3] = (Math.random() - 0.5) * 20;
+      positions[i * 3 + 1] = Math.random() * 8;
+      positions[i * 3 + 2] = -6 + Math.random() * 4;
+    }
+    particleGeo.setAttribute("position", new THREE.BufferAttribute(positions, 3));
+    const particleMat = new THREE.PointsMaterial({
+      color: 0x6688cc,
+      size: 0.06,
+      transparent: true,
+      opacity: 0.4,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false,
+    });
+    const particles = new THREE.Points(particleGeo, particleMat);
+    this.scene.add(particles);
+
+    // ── STAGE EDGE MARKERS — glowing boundary lines ──
+    const edgeGeo = new THREE.BoxGeometry(0.08, 0.03, 14);
+    const edgeMat = new THREE.MeshStandardMaterial({
+      color: 0xff2200, emissive: 0xff2200, emissiveIntensity: 0.8,
+    });
     for (const x of [-STAGE_WIDTH / 2, STAGE_WIDTH / 2]) {
       const edge = new THREE.Mesh(edgeGeo, edgeMat);
-      edge.position.set(x, 0.01, 0);
+      edge.position.set(x, 0.015, 0);
       this.scene.add(edge);
+      // Vertical danger glow
+      const vGlow = new THREE.Mesh(
+        new THREE.BoxGeometry(0.02, 3, 0.02),
+        new THREE.MeshBasicMaterial({ color: 0xff4400, transparent: true, opacity: 0.25 })
+      );
+      vGlow.position.set(x, 1.5, 0);
+      this.scene.add(vGlow);
+    }
+
+    // ── SIDE DECORATIONS — spectator stands / barriers ──
+    const barrierMat = new THREE.MeshStandardMaterial({
+      color: 0x1e1e3a, roughness: 0.3, metalness: 0.7,
+    });
+    for (const x of [-8, 8]) {
+      const barrier = new THREE.Mesh(new THREE.BoxGeometry(2, 1.5, 8), barrierMat);
+      barrier.position.set(x, 0.75, -2);
+      this.scene.add(barrier);
+      // Barrier top glow
+      const topGlow = new THREE.Mesh(
+        new THREE.BoxGeometry(2.1, 0.05, 8.1),
+        new THREE.MeshBasicMaterial({ color: 0x3366aa, transparent: true, opacity: 0.3 })
+      );
+      topGlow.position.set(x, 1.52, -2);
+      this.scene.add(topGlow);
     }
   }
 

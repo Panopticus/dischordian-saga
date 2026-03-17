@@ -363,12 +363,12 @@ export const trophyDisplays = mysqlTable("trophy_displays", {
 export type TrophyDisplay = typeof trophyDisplays.$inferSelect;
 
 /* ═══════════════════════════════════════════════════════
-   TRADE WARS — Space trading/combat game
-   Based on Trade Wars 2002 BBS mechanics
+   TRADE EMPIRE — Space trading/combat game
+   Based on Trade Empire 2002 BBS mechanics
    ═══════════════════════════════════════════════════════ */
 
 /**
- * Trade Wars sectors — the galaxy map.
+ * Trade Empire sectors — the galaxy map.
  */
 export const twSectors = mysqlTable("tw_sectors", {
   id: int("id").autoincrement().primaryKey(),
@@ -392,7 +392,7 @@ export const twSectors = mysqlTable("tw_sectors", {
 export type TWSector = typeof twSectors.$inferSelect;
 
 /**
- * Trade Wars player state — ship, inventory, position.
+ * Trade Empire player state — ship, inventory, position.
  */
 export const twPlayerState = mysqlTable("tw_player_state", {
   id: int("id").autoincrement().primaryKey(),
@@ -421,7 +421,17 @@ export const twPlayerState = mysqlTable("tw_player_state", {
   ownedPlanets: json("ownedPlanets").$type<number[]>(),
   /** Deployed fighters JSON { sectorId: count } */
   deployedFighters: json("deployedFighters").$type<Record<number, number>>(),
-  /** Card rewards earned from Trade Wars */
+  /** Faction: empire (Architect's faction) or insurgency (Dreamer's faction) */
+  faction: mysqlEnum("faction", ["empire", "insurgency"]).default("empire"),
+  /** Tutorial step (0 = not started, -1 = completed) */
+  tutorialStep: int("tutorialStep").notNull().default(0),
+  /** Discovered pre-Fall relics JSON */
+  discoveredRelics: json("discoveredRelics").$type<string[]>(),
+  /** Research points for Civ-style tech tree */
+  researchPoints: int("researchPoints").notNull().default(0),
+  /** Unlocked technologies JSON */
+  unlockedTech: json("unlockedTech").$type<string[]>(),
+  /** Card rewards earned from Trade Empire */
   cardRewards: json("cardRewards").$type<string[]>(),
   lastTurnReset: timestamp("lastTurnReset").defaultNow().notNull(),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
@@ -431,7 +441,7 @@ export const twPlayerState = mysqlTable("tw_player_state", {
 export type TWPlayerState = typeof twPlayerState.$inferSelect;
 
 /**
- * Trade Wars colonies — player-owned planet developments.
+ * Trade Empire colonies — player-owned planet developments.
  */
 export const twColonies = mysqlTable("tw_colonies", {
   id: int("id").autoincrement().primaryKey(),
@@ -464,7 +474,7 @@ export const twColonies = mysqlTable("tw_colonies", {
 export type TWColony = typeof twColonies.$inferSelect;
 
 /**
- * Trade Wars game log — action history.
+ * Trade Empire game log — action history.
  */
 export const twGameLog = mysqlTable("tw_game_log", {
   id: int("id").autoincrement().primaryKey(),
@@ -615,7 +625,7 @@ export const storePurchases = mysqlTable("store_purchases", {
 export type StorePurchase = typeof storePurchases.$inferSelect;
 
 /**
- * Ship upgrades for Trade Wars — purchased or earned.
+ * Ship upgrades for Trade Empire — purchased or earned.
  */
 export const shipUpgrades = mysqlTable("ship_upgrades", {
   id: int("id").autoincrement().primaryKey(),

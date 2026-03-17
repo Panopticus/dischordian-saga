@@ -65,7 +65,7 @@ export const CHARACTER_CONFIGS: Record<string, CharacterConfig> = {
     helmetStyle: "crown", armorStyle: "heavy", weaponType: "orb",
     hasCape: true, glowColor: "#ff8c00",
     fightStyle: "balanced",
-    imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/002_the_architect_b57a8e73.png",
+    imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/fighter_architect_112e44c3.png",
   },
   "collector": {
     id: "collector", name: "The Collector",
@@ -75,7 +75,7 @@ export const CHARACTER_CONFIGS: Record<string, CharacterConfig> = {
     helmetStyle: "hood", armorStyle: "robes", weaponType: "staff",
     hasCape: true, glowColor: "#a855f7",
     fightStyle: "defensive",
-    imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/006_the_collector_16f93913.png",
+    imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/fighter_collector_b186a524.png",
   },
   "enigma": {
     id: "enigma", name: "The Enigma",
@@ -85,7 +85,7 @@ export const CHARACTER_CONFIGS: Record<string, CharacterConfig> = {
     helmetStyle: "none", armorStyle: "light", weaponType: "dual-blades",
     hasCape: false, glowColor: "#9945ff",
     fightStyle: "evasive",
-    imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/035_the_enigma_4df11b15.png",
+    imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/fighter_enigma_cdfd92b5.png",
   },
   "warlord": {
     id: "warlord", name: "The Warlord",
@@ -95,7 +95,7 @@ export const CHARACTER_CONFIGS: Record<string, CharacterConfig> = {
     helmetStyle: "visor", armorStyle: "heavy", weaponType: "hammer",
     hasCape: false, glowColor: "#f59e0b",
     fightStyle: "aggressive",
-    imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/008_the_warlord_bd4d90ba.png",
+    imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/fighter_warlord_c8a0631b.png",
   },
   "necromancer": {
     id: "necromancer", name: "The Necromancer",
@@ -105,7 +105,7 @@ export const CHARACTER_CONFIGS: Record<string, CharacterConfig> = {
     helmetStyle: "hood", armorStyle: "robes", weaponType: "staff",
     hasCape: true, glowColor: "#22c55e",
     fightStyle: "defensive",
-    imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/018_the_necromancer_d6de1da3.png",
+    imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/fighter_necromancer_19def768.png",
   },
   "meme": {
     id: "meme", name: "The Meme",
@@ -115,7 +115,7 @@ export const CHARACTER_CONFIGS: Record<string, CharacterConfig> = {
     helmetStyle: "mask", armorStyle: "light", weaponType: "claws",
     hasCape: false, glowColor: "#ec4899",
     fightStyle: "evasive",
-    imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/005_the_meme_3b3bda74.png",
+    imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/fighter_meme_7e48e410.png",
   },
   "shadow-tongue": {
     id: "shadow-tongue", name: "Shadow Tongue",
@@ -135,7 +135,7 @@ export const CHARACTER_CONFIGS: Record<string, CharacterConfig> = {
     helmetStyle: "visor", armorStyle: "tech", weaponType: "none",
     hasCape: false, glowColor: "#3b82f6",
     fightStyle: "balanced",
-    imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/004_the_watcher_d52c0311.png",
+    imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/fighter_watcher_5fc20ca2.png",
   },
   "game-master": {
     id: "game-master", name: "The Game Master",
@@ -155,7 +155,7 @@ export const CHARACTER_CONFIGS: Record<string, CharacterConfig> = {
     helmetStyle: "visor", armorStyle: "heavy", weaponType: "gauntlets",
     hasCape: true, glowColor: "#e5e5e5",
     fightStyle: "aggressive",
-    imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/088_the_warden_song_ba08fe6a.png",
+    imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/fighter_authority_c03da69b.png",
   },
   "source": {
     id: "source", name: "The Source",
@@ -165,7 +165,7 @@ export const CHARACTER_CONFIGS: Record<string, CharacterConfig> = {
     helmetStyle: "halo", armorStyle: "robes", weaponType: "orb",
     hasCape: true, glowColor: "#eab308",
     fightStyle: "balanced",
-    imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/036_the_source_512e9def.png",
+    imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/fighter_source_6bcf173a.png",
   },
   "jailer": {
     id: "jailer", name: "The Jailer",
@@ -175,7 +175,7 @@ export const CHARACTER_CONFIGS: Record<string, CharacterConfig> = {
     helmetStyle: "visor", armorStyle: "heavy", weaponType: "chains",
     hasCape: false, glowColor: "#ca8a04",
     fightStyle: "aggressive",
-    imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/067_the_jailer_4097836e.png",
+    imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/fighter_jailer_3f88a56e.png",
   },
   "host": {
     id: "host", name: "The Host",
@@ -185,7 +185,7 @@ export const CHARACTER_CONFIGS: Record<string, CharacterConfig> = {
     helmetStyle: "none", armorStyle: "tech", weaponType: "none",
     hasCape: false, glowColor: "#06b6d4",
     fightStyle: "defensive",
-    imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/049_the_host_471d1ee3.png",
+    imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/fighter_host_a8b29b53.png",
   },
   "iron-lion": {
     id: "iron-lion", name: "Iron Lion",
@@ -205,7 +205,7 @@ export const CHARACTER_CONFIGS: Record<string, CharacterConfig> = {
     helmetStyle: "halo", armorStyle: "robes", weaponType: "orb",
     hasCape: true, glowColor: "#a78bfa",
     fightStyle: "defensive",
-    imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/034_the_oracle_1ed26b49.png",
+    imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/fighter_oracle_ed065bf8.png",
   },
   "agent-zero": {
     id: "agent-zero", name: "Agent Zero",
@@ -225,7 +225,7 @@ export const CHARACTER_CONFIGS: Record<string, CharacterConfig> = {
     helmetStyle: "visor", armorStyle: "tech", weaponType: "gauntlets",
     hasCape: false, glowColor: "#4ade80",
     fightStyle: "balanced",
-    imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/016_the_engineer_43ab2ccf.png",
+    imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/fighter_engineer_d136fa7e.png",
   },
   "eyes": {
     id: "eyes", name: "The Eyes",
@@ -235,7 +235,7 @@ export const CHARACTER_CONFIGS: Record<string, CharacterConfig> = {
     helmetStyle: "visor", armorStyle: "tech", weaponType: "none",
     hasCape: false, glowColor: "#60a5fa",
     fightStyle: "evasive",
-    imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/015_the_eyes_21e946fa.png",
+    imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/fighter_eyes_b09d565b.png",
   },
   "akai-shi": {
     id: "akai-shi", name: "Akai Shi",
@@ -265,7 +265,7 @@ export const CHARACTER_CONFIGS: Record<string, CharacterConfig> = {
     helmetStyle: "none", armorStyle: "medium", weaponType: "claws",
     hasCape: false, glowColor: "#f97316",
     fightStyle: "aggressive",
-    imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/053_p292_the_wolf_bf169512.png",
+    imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/fighter_wolf_217e2a67.png",
   },
   // Ne-Yons
   "dreamer": {
@@ -276,7 +276,7 @@ export const CHARACTER_CONFIGS: Record<string, CharacterConfig> = {
     helmetStyle: "none", armorStyle: "robes", weaponType: "orb",
     hasCape: true, glowColor: "#c084fc",
     fightStyle: "evasive",
-    imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/020_the_dreamer_4ffc69ee.png",
+    imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/fighter_dreamer_d31b6f9d.png",
   },
   "judge": {
     id: "judge", name: "The Judge",
@@ -286,7 +286,7 @@ export const CHARACTER_CONFIGS: Record<string, CharacterConfig> = {
     helmetStyle: "visor", armorStyle: "heavy", weaponType: "hammer",
     hasCape: true, glowColor: "#eab308",
     fightStyle: "balanced",
-    imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/021_the_judge_6d79dfa8.png",
+    imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/fighter_judge_3bf3afc0.png",
   },
   "inventor": {
     id: "inventor", name: "The Inventor",
@@ -296,7 +296,7 @@ export const CHARACTER_CONFIGS: Record<string, CharacterConfig> = {
     helmetStyle: "visor", armorStyle: "tech", weaponType: "gauntlets",
     hasCape: false, glowColor: "#2dd4bf",
     fightStyle: "balanced",
-    imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/039_the_inventor_4db38ce2.png",
+    imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/fighter_inventor_3a8fbc14.png",
   },
   "seer": {
     id: "seer", name: "The Seer",
@@ -306,7 +306,7 @@ export const CHARACTER_CONFIGS: Record<string, CharacterConfig> = {
     helmetStyle: "none", armorStyle: "light", weaponType: "orb",
     hasCape: false, glowColor: "#22d3ee",
     fightStyle: "evasive",
-    imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/022_the_seer_9ad7eb24.png",
+    imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/fighter_seer_410f778d.png",
   },
   "knowledge": {
     id: "knowledge", name: "The Knowledge",
@@ -316,7 +316,7 @@ export const CHARACTER_CONFIGS: Record<string, CharacterConfig> = {
     helmetStyle: "none", armorStyle: "robes", weaponType: "orb",
     hasCape: true, glowColor: "#34d399",
     fightStyle: "balanced",
-    imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/025_the_knowledge_a0b566a7.png",
+    imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/fighter_knowledge_ffa95ea0.png",
   },
   "silence": {
     id: "silence", name: "The Silence",
@@ -326,7 +326,7 @@ export const CHARACTER_CONFIGS: Record<string, CharacterConfig> = {
     helmetStyle: "hood", armorStyle: "robes", weaponType: "none",
     hasCape: true, glowColor: "#94a3b8",
     fightStyle: "defensive",
-    imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/024_the_silence_94ba3036.png",
+    imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/fighter_silence_a2503cd2.png",
   },
   "storm": {
     id: "storm", name: "The Storm",
@@ -336,7 +336,7 @@ export const CHARACTER_CONFIGS: Record<string, CharacterConfig> = {
     helmetStyle: "none", armorStyle: "medium", weaponType: "gauntlets",
     hasCape: false, glowColor: "#60a5fa",
     fightStyle: "aggressive",
-    imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/023_the_storm_46cb0ab7.png",
+    imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/fighter_storm_56ab8f6d.png",
   },
   "degen": {
     id: "degen", name: "The Degen",
@@ -346,7 +346,7 @@ export const CHARACTER_CONFIGS: Record<string, CharacterConfig> = {
     helmetStyle: "none", armorStyle: "light", weaponType: "none",
     hasCape: false, glowColor: "#fb923c",
     fightStyle: "aggressive",
-    imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/026_the_degen_d6b8727a.png",
+    imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/fighter_degen_5dc9101e.png",
   },
   "advocate": {
     id: "advocate", name: "The Advocate",
@@ -356,7 +356,7 @@ export const CHARACTER_CONFIGS: Record<string, CharacterConfig> = {
     helmetStyle: "none", armorStyle: "medium", weaponType: "none",
     hasCape: false, glowColor: "#fcd34d",
     fightStyle: "balanced",
-    imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/027_the_advocate_88837de8.png",
+    imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/fighter_advocate_873d8277.png",
   },
   "forgotten": {
     id: "forgotten", name: "The Forgotten",
@@ -366,7 +366,7 @@ export const CHARACTER_CONFIGS: Record<string, CharacterConfig> = {
     helmetStyle: "hood", armorStyle: "light", weaponType: "none",
     hasCape: true, glowColor: "#94a3b8",
     fightStyle: "evasive",
-    imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/029_the_forgotten_2ee99e52.png",
+    imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/fighter_forgotten_327e7019.png",
   },
   "resurrectionist": {
     id: "resurrectionist", name: "The Resurrectionist",
@@ -376,7 +376,7 @@ export const CHARACTER_CONFIGS: Record<string, CharacterConfig> = {
     helmetStyle: "none", armorStyle: "robes", weaponType: "staff",
     hasCape: true, glowColor: "#4ade80",
     fightStyle: "balanced",
-    imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/028_the_resurrectionist_d523ba62.png",
+    imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/fighter_resurrectionist_e790c330.png",
   },
 };
 

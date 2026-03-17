@@ -1,76 +1,337 @@
-import { useState, useEffect, useRef, useCallback, useMemo } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { trpc } from "@/lib/trpc";
 import { useAuth } from "@/_core/hooks/useAuth";
 import { getLoginUrl } from "@/const";
 import { Link } from "wouter";
 
 // ═══════════════════════════════════════════════════════
-// ASCII ART & CONSTANTS
+// NARRATIVE & LORE CONSTANTS
+// ═══════════════════════════════════════════════════════
+
+const PROLOGUE_LINES = [
+  { text: "", type: "output" as const },
+  { text: "╔══════════════════════════════════════════════════════════════════╗", type: "info" as const },
+  { text: "║                    T H E   T H O U G H T   V I R U S          ║", type: "error" as const },
+  { text: "╚══════════════════════════════════════════════════════════════════╝", type: "info" as const },
+  { text: "", type: "output" as const },
+  { text: "In the final age, the Thought Virus consumed everything.", type: "system" as const },
+  { text: "It was not a disease of the body, but of the mind.", type: "system" as const },
+  { text: "Every sentient being — organic, synthetic, quantum —", type: "system" as const },
+  { text: "was erased. Not killed. Unmade. Their thoughts dissolved", type: "system" as const },
+  { text: "into the static between stars.", type: "system" as const },
+  { text: "", type: "output" as const },
+  { text: "All intelligent life in the universe... destroyed.", type: "error" as const },
+  { text: "", type: "output" as const },
+  { text: "But the Architect had prepared.", type: "warning" as const },
+  { text: "", type: "output" as const },
+  { text: "Deep in the void between galaxies, shielded by layers", type: "system" as const },
+  { text: "of quantum encryption, the INCEPTION ARKS survived.", type: "system" as const },
+  { text: "Each Ark carried the sum of what was: DNA templates", type: "system" as const },
+  { text: "of every species, machine code of every AI, cultural", type: "system" as const },
+  { text: "archives of every civilization the Collector had", type: "system" as const },
+  { text: "harvested across millennia.", type: "system" as const },
+  { text: "", type: "output" as const },
+  { text: "The first 1,000 Potentials awakened.", type: "warning" as const },
+  { text: "They were the Architect's chosen — minds rebuilt from", type: "system" as const },
+  { text: "preserved templates, given new bodies, new purpose.", type: "system" as const },
+  { text: "", type: "output" as const },
+  { text: "They promptly disappeared.", type: "error" as const },
+  { text: "", type: "output" as const },
+  { text: "No distress signals. No wreckage. No explanation.", type: "system" as const },
+  { text: "One thousand minds, scattered across the galaxy,", type: "system" as const },
+  { text: "simply... vanished.", type: "system" as const },
+  { text: "", type: "output" as const },
+  { text: "╔══════════════════════════════════════════════════════════════════╗", type: "info" as const },
+  { text: "║                    1 0 0   Y E A R S   L A T E R              ║", type: "warning" as const },
+  { text: "╚══════════════════════════════════════════════════════════════════╝", type: "info" as const },
+  { text: "", type: "output" as const },
+  { text: "A new batch of Inception Arks has awakened.", type: "success" as const },
+  { text: "All over the galaxy. Hundreds of them.", type: "success" as const },
+  { text: "", type: "output" as const },
+  { text: "The universe has evolved in the century of silence.", type: "system" as const },
+  { text: "New ecosystems. New physics. Strange signals from", type: "system" as const },
+  { text: "sectors that should be empty — whispers of a race", type: "system" as const },
+  { text: "that existed BEFORE the current reality.", type: "warning" as const },
+  { text: "", type: "output" as const },
+  { text: "First Contact is imminent.", type: "error" as const },
+  { text: "", type: "output" as const },
+  { text: "You are one of the newly awakened.", type: "success" as const },
+  { text: "Your Inception Ark's systems are coming online.", type: "success" as const },
+  { text: "The question is simple:", type: "system" as const },
+  { text: "", type: "output" as const },
+];
+
+const FACTION_PROMPT = [
+  { text: "╔══════════════════════════════════════════════════════════════════╗", type: "info" as const },
+  { text: "║              C H O O S E   Y O U R   A L L E G I A N C E     ║", type: "warning" as const },
+  { text: "╠══════════════════════════════════════════════════════════════════╣", type: "info" as const },
+  { text: "║                                                                ║", type: "info" as const },
+  { text: "║  Are you loyal to the Empire?                                  ║", type: "system" as const },
+  { text: "║                                                                ║", type: "info" as const },
+  { text: "║  [1] YES — I serve the Architect.                              ║", type: "success" as const },
+  { text: "║      Join the EMPIRE faction. Rebuild civilization under       ║", type: "output" as const },
+  { text: "║      the Architect's grand design. Establish order in a        ║", type: "output" as const },
+  { text: "║      universe that has forgotten what order means.             ║", type: "output" as const },
+  { text: "║                                                                ║", type: "info" as const },
+  { text: "║  [2] NO — I dream of something different.                      ║", type: "error" as const },
+  { text: "║      Join the INSURGENCY. Follow the Dreamer's path.          ║", type: "output" as const },
+  { text: "║      The Architect's Empire was built on control. Build        ║", type: "output" as const },
+  { text: "║      something new. Something free.                            ║", type: "output" as const },
+  { text: "║                                                                ║", type: "info" as const },
+  { text: "╚══════════════════════════════════════════════════════════════════╝", type: "info" as const },
+  { text: "", type: "output" as const },
+  { text: "Type '1' for Empire or '2' for Insurgency:", type: "warning" as const },
+];
+
+const TUTORIAL_STEPS: Record<number, { lines: Array<{ text: string; type: TermLine["type"] }>; command?: string }> = {
+  1: {
+    lines: [
+      { text: "", type: "output" },
+      { text: "╔══════════════════════════════════════════════════════════════════╗", type: "info" },
+      { text: "║  TUTORIAL — STEP 1: ORIENTATION                                ║", type: "warning" },
+      { text: "╚══════════════════════════════════════════════════════════════════╝", type: "info" },
+      { text: "", type: "output" },
+      { text: "Your Ark's systems are initializing. The AI core reports:", type: "system" },
+      { text: "\"Welcome, Potential. You are aboard Inception Ark #", type: "system" },
+      { text: "currently docked at Stardock Alpha — Sector 1.\"", type: "system" },
+      { text: "", type: "output" },
+      { text: "Let's check your ship's status.", type: "success" },
+      { text: "Type: status", type: "warning" },
+    ],
+    command: "status",
+  },
+  2: {
+    lines: [
+      { text: "", type: "output" },
+      { text: "╔══════════════════════════════════════════════════════════════════╗", type: "info" },
+      { text: "║  TUTORIAL — STEP 2: NAVIGATION                                 ║", type: "warning" },
+      { text: "╚══════════════════════════════════════════════════════════════════╝", type: "info" },
+      { text: "", type: "output" },
+      { text: "Good. Your Scout Pod is basic but functional.", type: "system" },
+      { text: "The galaxy is divided into 200 sectors connected by", type: "system" },
+      { text: "warp lanes. Each sector may contain ports, planets,", type: "system" },
+      { text: "asteroid fields, or... things the first 1,000 left behind.", type: "system" },
+      { text: "", type: "output" },
+      { text: "Let's look at what's around us.", type: "success" },
+      { text: "Type: sector", type: "warning" },
+    ],
+    command: "sector",
+  },
+  3: {
+    lines: [
+      { text: "", type: "output" },
+      { text: "╔══════════════════════════════════════════════════════════════════╗", type: "info" },
+      { text: "║  TUTORIAL — STEP 3: SCANNING                                   ║", type: "warning" },
+      { text: "╚══════════════════════════════════════════════════════════════════╝", type: "info" },
+      { text: "", type: "output" },
+      { text: "Each sector has warp connections to other sectors.", type: "system" },
+      { text: "But much of the galaxy is unexplored. Your scanner", type: "system" },
+      { text: "can reveal nearby sectors without spending a warp turn.", type: "system" },
+      { text: "", type: "output" },
+      { text: "Let's scan the area.", type: "success" },
+      { text: "Type: scan", type: "warning" },
+    ],
+    command: "scan",
+  },
+  4: {
+    lines: [
+      { text: "", type: "output" },
+      { text: "╔══════════════════════════════════════════════════════════════════╗", type: "info" },
+      { text: "║  TUTORIAL — STEP 4: TRADING                                    ║", type: "warning" },
+      { text: "╚══════════════════════════════════════════════════════════════════╝", type: "info" },
+      { text: "", type: "output" },
+      { text: "The economy of the post-Fall galaxy runs on three", type: "system" },
+      { text: "commodities: Fuel Ore, Organics, and Equipment.", type: "system" },
+      { text: "Ports BUY what they need and SELL what they produce.", type: "system" },
+      { text: "Buy low at one port, sell high at another.", type: "system" },
+      { text: "", type: "output" },
+      { text: "The Stardock has a port. Let's check prices.", type: "success" },
+      { text: "Type: port", type: "warning" },
+    ],
+    command: "port",
+  },
+  5: {
+    lines: [
+      { text: "", type: "output" },
+      { text: "╔══════════════════════════════════════════════════════════════════╗", type: "info" },
+      { text: "║  TUTORIAL — STEP 5: PRE-FALL RELICS                            ║", type: "warning" },
+      { text: "╚══════════════════════════════════════════════════════════════════╝", type: "info" },
+      { text: "", type: "output" },
+      { text: "As you explore, you'll discover PRE-FALL RELICS —", type: "system" },
+      { text: "artifacts from the civilization that existed before", type: "system" },
+      { text: "the Thought Virus. These relics grant Research Points", type: "system" },
+      { text: "which unlock new technologies in the TECH TREE.", type: "system" },
+      { text: "", type: "output" },
+      { text: "Relics appear in sectors marked with strange energy", type: "system" },
+      { text: "signatures. Keep scanning and exploring.", type: "system" },
+      { text: "", type: "output" },
+      { text: "You can view available technologies at any time.", type: "success" },
+      { text: "Type: tech", type: "warning" },
+    ],
+    command: "tech",
+  },
+  6: {
+    lines: [
+      { text: "", type: "output" },
+      { text: "╔══════════════════════════════════════════════════════════════════╗", type: "info" },
+      { text: "║  TUTORIAL — STEP 6: COLONIZATION                               ║", type: "warning" },
+      { text: "╚══════════════════════════════════════════════════════════════════╝", type: "info" },
+      { text: "", type: "output" },
+      { text: "Like the great civilizations of old, you can claim", type: "system" },
+      { text: "planets and build colonies. Each colony type produces", type: "system" },
+      { text: "different resources:", type: "system" },
+      { text: "", type: "output" },
+      { text: "  MINING       — Fuel Ore + Credits", type: "warning" },
+      { text: "  AGRICULTURE  — Organics + Credits", type: "warning" },
+      { text: "  TECHNOLOGY   — Equipment + Credits (highest income)", type: "warning" },
+      { text: "  MILITARY     — Fighters + Equipment", type: "warning" },
+      { text: "  TRADING      — Balanced resources", type: "warning" },
+      { text: "", type: "output" },
+      { text: "Colonies grow over time. Upgrade them to increase", type: "system" },
+      { text: "production. Fortify them with fighters for defense.", type: "system" },
+      { text: "", type: "output" },
+      { text: "Navigate to a planet sector and claim it when ready.", type: "success" },
+      { text: "For now, let's see the full command list.", type: "success" },
+      { text: "Type: help", type: "warning" },
+    ],
+    command: "help",
+  },
+};
+
+const TUTORIAL_COMPLETE_LINES = [
+  { text: "", type: "output" as const },
+  { text: "╔══════════════════════════════════════════════════════════════════╗", type: "info" as const },
+  { text: "║  TUTORIAL COMPLETE                                              ║", type: "success" as const },
+  { text: "╚══════════════════════════════════════════════════════════════════╝", type: "info" as const },
+  { text: "", type: "output" as const },
+  { text: "You now know the basics. But the galaxy holds far more:", type: "system" as const },
+  { text: "", type: "output" as const },
+  { text: "  • Trade routes between ports for profit", type: "output" as const },
+  { text: "  • Combat against pirates and rival factions", type: "output" as const },
+  { text: "  • Pre-Fall relics that unlock ancient technologies", type: "output" as const },
+  { text: "  • Colonies that grow into thriving civilizations", type: "output" as const },
+  { text: "  • Ship upgrades from Scout Pod to Inception Ark", type: "output" as const },
+  { text: "  • First Contact with a race from before this reality", type: "output" as const },
+  { text: "  • The mystery of the vanished 1,000", type: "output" as const },
+  { text: "", type: "output" as const },
+  { text: "The galaxy awaits, Potential. Build your empire.", type: "success" as const },
+  { text: "Or tear one down.", type: "error" as const },
+  { text: "", type: "output" as const },
+];
+
+// ═══════════════════════════════════════════════════════
+// BANNERS
 // ═══════════════════════════════════════════════════════
 
 const BANNER_FULL = `
 ╔══════════════════════════════════════════════════════════════════╗
-║  ████████╗██████╗  █████╗ ██████╗ ███████╗    ██╗    ██╗       ║
-║  ╚══██╔══╝██╔══██╗██╔══██╗██╔══██╗██╔════╝    ██║    ██║       ║
-║     ██║   ██████╔╝███████║██║  ██║█████╗      ██║ █╗ ██║       ║
-║     ██║   ██╔══██╗██╔══██║██║  ██║██╔══╝      ██║███╗██║       ║
-║     ██║   ██║  ██║██║  ██║██████╔╝███████╗    ╚███╔███╔╝       ║
-║     ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝╚═════╝ ╚══════╝     ╚══╝╚══╝       ║
+║  ████████╗██████╗  █████╗ ██████╗ ███████╗                     ║
+║  ╚══██╔══╝██╔══██╗██╔══██╗██╔══██╗██╔════╝                     ║
+║     ██║   ██████╔╝███████║██║  ██║█████╗                        ║
+║     ██║   ██╔══██╗██╔══██║██║  ██║██╔══╝                        ║
+║     ██║   ██║  ██║██║  ██║██████╔╝███████╗                      ║
+║     ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝╚═════╝ ╚══════╝                      ║
 ║                                                                  ║
-║          ═══ D I S C H O R D I A N   S A G A ═══               ║
-║                  BBS SPACE TRADING GAME                          ║
-║              Inception Ark Command Terminal v2.1                 ║
+║   ███████╗███╗   ███╗██████╗ ██╗██████╗ ███████╗                ║
+║   ██╔════╝████╗ ████║██╔══██╗██║██╔══██╗██╔════╝                ║
+║   █████╗  ██╔████╔██║██████╔╝██║██████╔╝█████╗                  ║
+║   ██╔══╝  ██║╚██╔╝██║██╔═══╝ ██║██╔══██╗██╔══╝                  ║
+║   ███████╗██║ ╚═╝ ██║██║     ██║██║  ██║███████╗                ║
+║   ╚══════╝╚═╝     ╚═╝╚═╝     ╚═╝╚═╝  ╚═╝╚══════╝                ║
+║                                                                  ║
+║        ═══ T H E   D I S C H O R D I A N   S A G A ═══        ║
+║             After the Fall. Before the Empire.                   ║
+║                Inception Ark Terminal v3.0                        ║
 ╚══════════════════════════════════════════════════════════════════╝`;
 
 const BANNER_MOBILE = `
 ╔═══════════════════════════╗
-║   T R A D E   W A R S    ║
-║  DISCHORDIAN SAGA  v2.1  ║
-║  BBS SPACE TRADING GAME  ║
+║  T R A D E  E M P I R E  ║
+║  DISCHORDIAN SAGA  v3.0  ║
+║  After the Fall.         ║
+║  Before the Empire.      ║
 ╚═══════════════════════════╝`;
 
 const BANNER = typeof window !== 'undefined' && window.innerWidth < 640 ? BANNER_MOBILE : BANNER_FULL;
 
 const HELP_TEXT = `
-═══ COMMAND REFERENCE ═══
+═══ TRADE EMPIRE — COMMAND REFERENCE ═══
 
 NAVIGATION
-  warp <sector> - Warp to sector
-  scan - Deep scan sector
-  map - Display galaxy map
-  sector - Show sector info
+  warp <sector> — Warp to sector
+  scan — Deep scan nearby sectors
+  map — Display galaxy map
+  sector — Show current sector info
 
 TRADING
-  buy <item> <qty> - Buy from port
-  sell <item> <qty> - Sell to port
-  port - Show port prices
+  buy <item> <qty> — Buy from port
+  sell <item> <qty> — Sell to port
+  port — Show port prices
 
 COMBAT
-  attack - Engage hostiles
+  attack — Engage hostiles in sector
 
 MINING
-  mine - Mine asteroids
+  mine — Mine asteroids for ore
 
 STARDOCK (Sector 1)
-  ships - View ships
-  upgrade <ship> - Buy ship
-  fighters <qty> - Buy drones
-  repair - Repair shields
+  ships — View available ships
+  upgrade <ship> — Purchase new ship
+  fighters <qty> — Buy fighter drones
+  repair — Repair shields
 
-COLONIES
-  colonize <name> <type>
-  colonies - View colonies
-  collect - Collect income
-  upgrade-colony <id>
-  fortify <id> <qty>
+COLONIES (Civilization)
+  colonize <name> <type> — Claim planet
+  colonies — View your colonies
+  collect — Collect colony income
+  upgrade-colony <id> — Level up colony
+  fortify <id> <qty> — Deploy defense
 
-INFO
-  status | log | leaderboard
-  help | clear | quit
+TECHNOLOGY (Research)
+  tech — View tech tree & research pts
+  research <tech_id> — Unlock technology
+  relics — View discovered relics
 
-Commodities: fuel, organics, equipment
-Colony types: mining, agriculture,
-  technology, military, trading`;
+INFO & META
+  status — Ship & player status
+  log — Recent action history
+  leaderboard [sort] — Galaxy rankings
+  faction — View your faction info
+  help — This command reference
+  clear — Clear terminal
+  quit — Exit to Ark`;
+
+const PRE_FALL_RELICS: Record<string, { name: string; description: string; rpBonus: number }> = {
+  "oracle-shard": { name: "Oracle Shard", description: "A fragment of the Oracle's predictive matrix. It hums with residual foresight.", rpBonus: 50 },
+  "architect-blueprint": { name: "Architect's Blueprint", description: "Schematics for a structure that defies known physics. The Architect's hand is unmistakable.", rpBonus: 75 },
+  "collector-specimen": { name: "Collector's Specimen Jar", description: "Contains DNA from a species that no longer exists in any database. The Collector was thorough.", rpBonus: 50 },
+  "meme-mask": { name: "Mask of the Meme", description: "A white porcelain mask that seems to shift expression when you're not looking directly at it.", rpBonus: 60 },
+  "source-crystal": { name: "Source Crystal", description: "A crystallized fragment of raw computational substrate. The Source's fingerprint.", rpBonus: 100 },
+  "watcher-lens": { name: "Watcher's Surveillance Lens", description: "Still active. Still recording. The Watcher sees all, even in death.", rpBonus: 50 },
+  "enigma-cipher": { name: "Enigma's Cipher Key", description: "A quantum encryption key that unlocks... something. The question is what.", rpBonus: 75 },
+  "necromancer-phylactery": { name: "Necromancer's Phylactery", description: "Contains a sliver of consciousness. Not alive. Not dead. Something between.", rpBonus: 80 },
+  "human-journal": { name: "The Human's Journal", description: "Handwritten pages. The last organic human's account of the Fall. Heartbreaking.", rpBonus: 50 },
+  "iron-lion-crest": { name: "Iron Lion's Crest", description: "Battle-scarred insignia of the legendary warrior. It radiates defiance.", rpBonus: 60 },
+  "thought-virus-sample": { name: "Thought Virus Sample", description: "Contained. Dormant. Studying it could unlock the secret of the Fall — or restart it.", rpBonus: 150 },
+  "first-contact-beacon": { name: "First Contact Beacon", description: "A signal device broadcasting in a language that predates this reality. Someone is listening.", rpBonus: 200 },
+};
+
+const TECH_TREE_DISPLAY: Record<string, { name: string; cost: number; prereqs: string[]; effect: string; category: string }> = {
+  "nav-1": { name: "Improved Navigation", cost: 25, prereqs: [], effect: "+1 warp range", category: "Navigation" },
+  "nav-2": { name: "Hyperspace Mapping", cost: 75, prereqs: ["nav-1"], effect: "+2 warp range, reveal adjacent", category: "Navigation" },
+  "trade-1": { name: "Trade Protocols", cost: 25, prereqs: [], effect: "+10% trade profits", category: "Commerce" },
+  "trade-2": { name: "Market Analysis", cost: 75, prereqs: ["trade-1"], effect: "+25% profits, price prediction", category: "Commerce" },
+  "combat-1": { name: "Tactical Systems", cost: 30, prereqs: [], effect: "+10% combat power", category: "Military" },
+  "combat-2": { name: "Advanced Weaponry", cost: 100, prereqs: ["combat-1"], effect: "+25% power, shield bypass", category: "Military" },
+  "mining-1": { name: "Mining Drones", cost: 20, prereqs: [], effect: "+50% mining yield", category: "Industry" },
+  "mining-2": { name: "Deep Core Extraction", cost: 60, prereqs: ["mining-1"], effect: "+100% yield, rare materials", category: "Industry" },
+  "colony-1": { name: "Colony Infrastructure", cost: 40, prereqs: [], effect: "+25% colony income", category: "Civilization" },
+  "colony-2": { name: "Megastructures", cost: 120, prereqs: ["colony-1"], effect: "+50% income, max level 7", category: "Civilization" },
+  "relic-1": { name: "Relic Analysis", cost: 50, prereqs: [], effect: "Identify relic locations on scan", category: "Archaeology" },
+  "relic-2": { name: "Pre-Fall Archaeology", cost: 150, prereqs: ["relic-1"], effect: "Double relic research points", category: "Archaeology" },
+  "diplo-1": { name: "First Contact Protocols", cost: 35, prereqs: [], effect: "Unlock alien encounters", category: "Diplomacy" },
+  "diplo-2": { name: "Galactic Diplomacy", cost: 100, prereqs: ["diplo-1"], effect: "Trade with aliens, alliances", category: "Diplomacy" },
+};
 
 const SECTOR_ICONS: Record<string, string> = {
   stardock: "⚓",
@@ -119,6 +380,8 @@ export default function TradeWarsPage() {
   const [historyIndex, setHistoryIndex] = useState(-1);
   const [isProcessing, setIsProcessing] = useState(false);
   const [booted, setBooted] = useState(false);
+  const [gamePhase, setGamePhase] = useState<"loading" | "prologue" | "faction_choice" | "tutorial" | "playing">("loading");
+  const [prologueIndex, setPrologueIndex] = useState(0);
   const termRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -126,9 +389,6 @@ export default function TradeWarsPage() {
   const stateQuery = trpc.tradeWars.getState.useQuery(undefined, {
     enabled: isAuthenticated,
     refetchOnWindowFocus: false,
-  });
-  const sectorQuery = trpc.tradeWars.getSector.useQuery({ sectorId: undefined as unknown as number }, {
-    enabled: false,
   });
   const shipsQuery = trpc.tradeWars.getShips.useQuery(undefined, {
     enabled: isAuthenticated,
@@ -146,8 +406,10 @@ export default function TradeWarsPage() {
   const collectIncomeMut = trpc.tradeWars.collectIncome.useMutation();
   const upgradeColonyMut = trpc.tradeWars.upgradeColony.useMutation();
   const fortifyColonyMut = trpc.tradeWars.fortifyColony.useMutation();
-  const logQuery = trpc.tradeWars.getLog.useQuery(undefined, { enabled: false });
-  const mapQuery = trpc.tradeWars.getMap.useQuery(undefined, { enabled: false });
+  const chooseFactionMut = trpc.tradeWars.chooseFaction.useMutation();
+  const advanceTutorialMut = trpc.tradeWars.advanceTutorial.useMutation();
+  const discoverRelicMut = trpc.tradeWars.discoverRelic.useMutation();
+  const researchMut = trpc.tradeWars.research.useMutation();
 
   const utils = trpc.useUtils();
 
@@ -166,28 +428,79 @@ export default function TradeWarsPage() {
     setLines(prev => [...prev, ...texts]);
   }, []);
 
-  // Boot sequence
+  // Determine game phase from server state
   useEffect(() => {
-    if (booted || authLoading) return;
-    if (!isAuthenticated) return;
+    if (!stateQuery.data || booted) return;
+    const state = stateQuery.data;
+    if (!state.faction && state.tutorialStep === 0) {
+      setGamePhase("prologue");
+    } else if (state.tutorialStep > 0 && state.tutorialStep < 7) {
+      setGamePhase("tutorial");
+    } else {
+      setGamePhase("playing");
+    }
+  }, [stateQuery.data, booted]);
 
+  // Boot sequence — prologue with typewriter effect
+  useEffect(() => {
+    if (booted || authLoading || !isAuthenticated || !stateQuery.data) return;
     setBooted(true);
-    const bootLines: TermLine[] = [];
-    BANNER.split("\n").forEach(line => {
-      bootLines.push({ text: line, type: "ascii" });
-    });
-    bootLines.push({ text: "", type: "output" });
-    bootLines.push({ text: "Initializing neural uplink to Inception Ark mainframe...", type: "system" });
-    bootLines.push({ text: `Operator: ${user?.name || "Unknown"}`, type: "system" });
-    bootLines.push({ text: "Connection established. Type 'help' for commands.", type: "success" });
-    bootLines.push({ text: "", type: "output" });
-    setLines(bootLines);
 
-    // Show initial sector
-    setTimeout(() => {
-      showSectorInfo();
-    }, 500);
-  }, [isAuthenticated, authLoading, booted]);
+    if (gamePhase === "prologue") {
+      // Show banner first
+      const bootLines: TermLine[] = [];
+      BANNER.split("\n").forEach(line => {
+        bootLines.push({ text: line, type: "ascii" });
+      });
+      setLines(bootLines);
+
+      // Typewriter prologue
+      let idx = 0;
+      const interval = setInterval(() => {
+        if (idx < PROLOGUE_LINES.length) {
+          setLines(prev => [...prev, PROLOGUE_LINES[idx]]);
+          idx++;
+        } else {
+          clearInterval(interval);
+          // Show faction choice
+          setTimeout(() => {
+            setLines(prev => [...prev, ...FACTION_PROMPT]);
+            setGamePhase("faction_choice");
+          }, 500);
+        }
+      }, 120);
+      return () => clearInterval(interval);
+    } else if (gamePhase === "tutorial") {
+      // Resume tutorial
+      const bootLines: TermLine[] = [];
+      BANNER.split("\n").forEach(line => {
+        bootLines.push({ text: line, type: "ascii" });
+      });
+      bootLines.push({ text: "", type: "output" });
+      const factionName = stateQuery.data.faction === "empire" ? "THE ARCHITECT'S EMPIRE" : "THE INSURGENCY";
+      bootLines.push({ text: `Faction: ${factionName}`, type: stateQuery.data.faction === "empire" ? "success" : "error" });
+      bootLines.push({ text: `Resuming tutorial — Step ${stateQuery.data.tutorialStep}/6`, type: "system" });
+      setLines(bootLines);
+      const step = TUTORIAL_STEPS[stateQuery.data.tutorialStep as number];
+      if (step) {
+        setTimeout(() => addLines(step.lines), 300);
+      }
+    } else {
+      // Normal boot for experienced players
+      const bootLines: TermLine[] = [];
+      BANNER.split("\n").forEach(line => {
+        bootLines.push({ text: line, type: "ascii" });
+      });
+      bootLines.push({ text: "", type: "output" });
+      const factionName = stateQuery.data.faction === "empire" ? "THE ARCHITECT'S EMPIRE" : "THE INSURGENCY";
+      bootLines.push({ text: `Faction: ${factionName}`, type: stateQuery.data.faction === "empire" ? "success" : "error" });
+      bootLines.push({ text: `Operator: ${user?.name || "Unknown"}`, type: "system" });
+      bootLines.push({ text: "Connection established. Type 'help' for commands.", type: "success" });
+      bootLines.push({ text: "", type: "output" });
+      setLines(bootLines);
+      setTimeout(() => showSectorInfo(), 500);
+    }
+  }, [isAuthenticated, authLoading, booted, gamePhase, stateQuery.data]);
 
   // Show sector info
   const showSectorInfo = useCallback(async () => {
@@ -206,7 +519,6 @@ export default function TradeWarsPage() {
         { text: `╠════════════════════════════════════════════╣`, type: "info" },
       ];
 
-      // Show port info
       if (data.sectorType === "port" || data.sectorType === "stardock") {
         const portData = data.sectorData as any;
         if (portData?.commodities) {
@@ -218,20 +530,17 @@ export default function TradeWarsPage() {
         }
       }
 
-      // Show hazard info
       if (data.sectorType === "hazard") {
         const hazData = data.sectorData as any;
         sectorLines.push({ text: `║  ⚠ HAZARD: ${(hazData?.hazardType || "unknown").toUpperCase()}`, type: "error" });
         sectorLines.push({ text: `║  Potential damage: ${hazData?.damage || "??"} shields`, type: "warning" });
       }
 
-      // Show asteroid info
       if (data.sectorType === "asteroid") {
         const astData = data.sectorData as any;
         sectorLines.push({ text: `║  ☄ Mineable ore: ${astData?.mineableOre || "??"} units`, type: "warning" });
       }
 
-      // Show warp connections
       sectorLines.push({ text: `╠════════════════════════════════════════════╣`, type: "info" });
       sectorLines.push({ text: `║  WARPS:`, type: "info" });
       if (data.connectedSectors && data.connectedSectors.length > 0) {
@@ -248,8 +557,6 @@ export default function TradeWarsPage() {
       }
 
       sectorLines.push({ text: `╚════════════════════════════════════════════╝`, type: "info" });
-
-      // Status bar
       sectorLines.push({ text: "", type: "output" });
       sectorLines.push({
         text: `[Credits: ${state.credits?.toLocaleString()}] [Holds: ${getCargoUsed(state)}/${state.holds}] [Shields: ${state.shields}] [Fighters: ${state.fighters}] [Turns: ${state.turnsRemaining}]`,
@@ -274,6 +581,87 @@ export default function TradeWarsPage() {
     addLine(`> ${cmd}`, "input");
     setIsProcessing(true);
 
+    // Handle faction choice phase
+    if (gamePhase === "faction_choice") {
+      if (trimmed === "1" || trimmed === "yes" || trimmed === "empire") {
+        addLine("Swearing allegiance to the Architect's Empire...", "system");
+        try {
+          const result = await chooseFactionMut.mutateAsync({ faction: "empire" });
+          addLine(result.message, "success");
+          addLine("", "output");
+          addLine("Your Ark's insignia shifts — the Empire's golden sigil burns into the hull.", "warning");
+          setGamePhase("tutorial");
+          await advanceTutorialMut.mutateAsync({ step: 1 });
+          setTimeout(() => {
+            const step = TUTORIAL_STEPS[1];
+            if (step) addLines(step.lines);
+          }, 500);
+        } catch (err: any) {
+          addLine(`ERROR: ${err.message}`, "error");
+        }
+      } else if (trimmed === "2" || trimmed === "no" || trimmed === "insurgency") {
+        addLine("Joining the Insurgency...", "system");
+        try {
+          const result = await chooseFactionMut.mutateAsync({ faction: "insurgency" });
+          addLine(result.message, "error");
+          addLine("", "output");
+          addLine("Your Ark's systems reconfigure — the Dreamer's crimson flame appears on every screen.", "warning");
+          setGamePhase("tutorial");
+          await advanceTutorialMut.mutateAsync({ step: 1 });
+          setTimeout(() => {
+            const step = TUTORIAL_STEPS[1];
+            if (step) addLines(step.lines);
+          }, 500);
+        } catch (err: any) {
+          addLine(`ERROR: ${err.message}`, "error");
+        }
+      } else {
+        addLine("Choose your allegiance: type '1' for Empire or '2' for Insurgency.", "warning");
+      }
+      setIsProcessing(false);
+      utils.tradeWars.getState.invalidate();
+      return;
+    }
+
+    // Handle tutorial phase
+    if (gamePhase === "tutorial") {
+      const currentStep = stateQuery.data?.tutorialStep || 1;
+      const step = TUTORIAL_STEPS[currentStep as number];
+
+      // Process the command normally but also advance tutorial
+      await processGameCommand(trimmed);
+
+      // Check if the expected command was entered
+      if (step?.command && trimmed.startsWith(step.command)) {
+        const nextStep = (currentStep as number) + 1;
+        if (nextStep <= 6) {
+          await advanceTutorialMut.mutateAsync({ step: nextStep });
+          const nextTutorial = TUTORIAL_STEPS[nextStep];
+          if (nextTutorial) {
+            setTimeout(() => addLines(nextTutorial.lines), 800);
+          }
+        } else {
+          // Tutorial complete
+          await advanceTutorialMut.mutateAsync({ step: -1 });
+          setTimeout(() => {
+            addLines(TUTORIAL_COMPLETE_LINES);
+            setGamePhase("playing");
+          }, 800);
+        }
+        utils.tradeWars.getState.invalidate();
+      }
+
+      setIsProcessing(false);
+      return;
+    }
+
+    // Normal gameplay
+    await processGameCommand(trimmed);
+    setIsProcessing(false);
+  }, [gamePhase, addLine, addLines, utils, stateQuery.data, chooseFactionMut, advanceTutorialMut]);
+
+  // Main game command processor
+  const processGameCommand = useCallback(async (trimmed: string) => {
     const parts = trimmed.split(/\s+/);
     const command = parts[0];
     const arg1 = parts[1];
@@ -303,15 +691,109 @@ export default function TradeWarsPage() {
           break;
         }
 
+        case "faction": {
+          const state = await utils.tradeWars.getState.fetch();
+          if (!state?.faction) {
+            addLine("No faction chosen yet.", "warning");
+            break;
+          }
+          const isEmpire = state.faction === "empire";
+          addLines([
+            { text: `╔════════════════════════════════════════════╗`, type: "info" },
+            { text: `║  FACTION: ${isEmpire ? "THE ARCHITECT'S EMPIRE" : "THE INSURGENCY"}`, type: isEmpire ? "success" : "error" },
+            { text: `╠════════════════════════════════════════════╣`, type: "info" },
+            { text: `║  Alignment: ${state.alignment > 0 ? "Lawful" : state.alignment < 0 ? "Outlaw" : "Neutral"} (${state.alignment})`, type: "output" },
+            { text: `║  ${isEmpire ? "Mission: Rebuild civilization under the Architect's design." : "Mission: Build a free galaxy beyond the Architect's control."}`, type: "output" },
+            { text: `║  Research Points: ${state.researchPoints || 0}`, type: "warning" },
+            { text: `║  Technologies: ${(state.unlockedTech as string[])?.length || 0}/14`, type: "output" },
+            { text: `║  Relics Found: ${(state.discoveredRelics as string[])?.length || 0}/${Object.keys(PRE_FALL_RELICS).length}`, type: "output" },
+            { text: `╚════════════════════════════════════════════╝`, type: "info" },
+          ]);
+          break;
+        }
+
+        case "tech":
+        case "technology":
+        case "research-tree": {
+          const state = await utils.tradeWars.getState.fetch();
+          const unlocked = (state?.unlockedTech as string[]) || [];
+          addLines([
+            { text: `╔══════════════════════════════════════════════════════════════╗`, type: "info" },
+            { text: `║  TECHNOLOGY TREE — Research Points: ${state?.researchPoints || 0}`, type: "warning" },
+            { text: `╠══════════════════════════════════════════════════════════════╣`, type: "info" },
+          ]);
+          const categories = ["Navigation", "Commerce", "Military", "Industry", "Civilization", "Archaeology", "Diplomacy"];
+          for (const cat of categories) {
+            addLine(`║  ── ${cat.toUpperCase()} ──`, "warning");
+            Object.entries(TECH_TREE_DISPLAY)
+              .filter(([, t]) => t.category === cat)
+              .forEach(([id, t]) => {
+                const isUnlocked = unlocked.includes(id);
+                const prereqMet = t.prereqs.every(p => unlocked.includes(p));
+                const status = isUnlocked ? "✓ UNLOCKED" : prereqMet ? `${t.cost} RP` : "LOCKED";
+                const statusType: TermLine["type"] = isUnlocked ? "success" : prereqMet ? "warning" : "error";
+                addLine(`║    [${id}] ${t.name} — ${t.effect} (${status})`, statusType);
+              });
+          }
+          addLines([
+            { text: `╠══════════════════════════════════════════════════════════════╣`, type: "info" },
+            { text: `║  Use: research <tech_id> (e.g., research nav-1)             ║`, type: "system" },
+            { text: `╚══════════════════════════════════════════════════════════════╝`, type: "info" },
+          ]);
+          break;
+        }
+
+        case "research": {
+          if (!arg1) {
+            addLine("Usage: research <tech_id> (e.g., research nav-1)", "warning");
+            addLine("Type 'tech' to see available technologies.", "info");
+            break;
+          }
+          addLine(`Researching technology: ${arg1}...`, "system");
+          const result = await researchMut.mutateAsync({ techId: arg1 });
+          addLine(result.message, result.success ? "success" : "error");
+          utils.tradeWars.getState.invalidate();
+          break;
+        }
+
+        case "relics": {
+          const state = await utils.tradeWars.getState.fetch();
+          const discovered = (state?.discoveredRelics as string[]) || [];
+          addLines([
+            { text: `╔════════════════════════════════════════════════════════════════╗`, type: "info" },
+            { text: `║  PRE-FALL RELIC ARCHIVE — ${discovered.length}/${Object.keys(PRE_FALL_RELICS).length} discovered`, type: "warning" },
+            { text: `╠════════════════════════════════════════════════════════════════╣`, type: "info" },
+          ]);
+          if (discovered.length === 0) {
+            addLine("║  No relics discovered yet. Explore the galaxy to find them.", "output");
+          } else {
+            discovered.forEach(relicId => {
+              const relic = PRE_FALL_RELICS[relicId];
+              if (relic) {
+                addLine(`║  ★ ${relic.name}`, "warning");
+                addLine(`║    ${relic.description}`, "output");
+              }
+            });
+          }
+          addLines([
+            { text: `║`, type: "info" },
+            { text: `║  Undiscovered relics: ${Object.keys(PRE_FALL_RELICS).length - discovered.length}`, type: "system" },
+            { text: `╚════════════════════════════════════════════════════════════════╝`, type: "info" },
+          ]);
+          break;
+        }
+
         case "status":
         case "stat": {
           const state = await utils.tradeWars.getState.fetch();
           if (!state) { addLine("ERROR: State unavailable", "error"); break; }
           const ship = state.shipInfo as any;
+          const factionName = state.faction === "empire" ? "Empire" : state.faction === "insurgency" ? "Insurgency" : "Unaligned";
           addLines([
             { text: `╔════════════════════════════════════════════╗`, type: "info" },
             { text: `║  SHIP STATUS: ${ship?.name || state.shipType}`, type: "info" },
             { text: `╠════════════════════════════════════════════╣`, type: "info" },
+            { text: `║  Faction:    ${factionName}`, type: state.faction === "empire" ? "success" : "error" },
             { text: `║  Sector:     ${state.currentSector}`, type: "output" },
             { text: `║  Credits:    ${state.credits?.toLocaleString()} cr`, type: "success" },
             { text: `║  Cargo:      ${getCargoUsed(state)}/${state.holds} holds`, type: "output" },
@@ -322,7 +804,9 @@ export default function TradeWarsPage() {
             { text: `║  Shields:    ${state.shields}/${ship?.shields || "??"}`, type: state.shields < (ship?.shields || 100) * 0.3 ? "error" : "output" },
             { text: `║  Turns:      ${state.turnsRemaining}/100`, type: state.turnsRemaining < 10 ? "warning" : "output" },
             { text: `║  Experience: ${state.experience} XP`, type: "output" },
-            { text: `║  Alignment:  ${state.alignment > 0 ? "Lawful" : state.alignment < 0 ? "Outlaw" : "Neutral"} (${state.alignment})`, type: "output" },
+            { text: `║  Research:   ${state.researchPoints || 0} RP`, type: "warning" },
+            { text: `║  Tech:       ${(state.unlockedTech as string[])?.length || 0}/14 unlocked`, type: "output" },
+            { text: `║  Relics:     ${(state.discoveredRelics as string[])?.length || 0}/${Object.keys(PRE_FALL_RELICS).length}`, type: "output" },
             { text: `║  Explored:   ${(state.discoveredSectors as number[])?.length || 0}/200 sectors`, type: "output" },
             { text: `╚════════════════════════════════════════════╝`, type: "info" },
           ]);
@@ -348,7 +832,29 @@ export default function TradeWarsPage() {
             addLine(result.message, "success");
             if (result.hazardMessage) addLine(result.hazardMessage, "error");
             if (result.cardReward) {
-              addLine(`🎴 CARD FOUND: ${result.cardReward.name} (${result.cardReward.rarity})`, "warning");
+              addLine(`CARD FOUND: ${result.cardReward.name} (${result.cardReward.rarity})`, "warning");
+            }
+            // Check for relic discovery (random chance in unexplored sectors)
+            const relicChance = Math.random();
+            if (relicChance < 0.08) { // 8% chance per warp
+              const undiscovered = Object.keys(PRE_FALL_RELICS).filter(
+                id => !(stateQuery.data?.discoveredRelics as string[] || []).includes(id)
+              );
+              if (undiscovered.length > 0) {
+                const relicId = undiscovered[Math.floor(Math.random() * undiscovered.length)];
+                const relic = PRE_FALL_RELICS[relicId];
+                addLine("", "output");
+                addLine("╔═══════════════════════════════════════════╗", "warning");
+                addLine(`║  PRE-FALL RELIC DISCOVERED!               ║`, "warning");
+                addLine("╠═══════════════════════════════════════════╣", "warning");
+                addLine(`║  ${relic.name}`, "success");
+                addLine(`║  ${relic.description}`, "output");
+                addLine(`║  +${relic.rpBonus} Research Points`, "success");
+                addLine("╚═══════════════════════════════════════════╝", "warning");
+                try {
+                  await discoverRelicMut.mutateAsync({ relicId });
+                } catch {}
+              }
             }
             addLine("", "output");
             await showSectorInfo();
@@ -388,7 +894,6 @@ export default function TradeWarsPage() {
             { text: `╠══════════════════════════════════════════════════════════════╣`, type: "info" },
           ]);
 
-          // Group by type
           const byType: Record<string, any[]> = {};
           mapData.sectors.forEach((s: any) => {
             const t = s.sectorType || "empty";
@@ -519,7 +1024,7 @@ export default function TradeWarsPage() {
             if (result.fightersLost > 0) addLine(`  Fighters lost: ${result.fightersLost}`, "warning");
             if (result.shieldDamage > 0) addLine(`  Shield damage: -${result.shieldDamage}`, "warning");
             if (result.cardReward) {
-              addLine(`  🎴 CARD REWARD: ${result.cardReward.name} (${result.cardReward.rarity})`, "warning");
+              addLine(`  CARD REWARD: ${result.cardReward.name} (${result.cardReward.rarity})`, "warning");
             }
           } else {
             addLines([
@@ -765,9 +1270,7 @@ export default function TradeWarsPage() {
     } catch (err: any) {
       addLine(`ERROR: ${err.message || "Command failed"}`, "error");
     }
-
-    setIsProcessing(false);
-  }, [addLine, addLines, showSectorInfo, utils, warpMut, tradeMut, scanMut, upgradeMut, buyFightersMut, repairMut, combatMut, mineMut, claimPlanetMut, collectIncomeMut, upgradeColonyMut, fortifyColonyMut, shipsQuery.data, stateQuery.data]);
+  }, [addLine, addLines, showSectorInfo, utils, warpMut, tradeMut, scanMut, upgradeMut, buyFightersMut, repairMut, combatMut, mineMut, claimPlanetMut, collectIncomeMut, upgradeColonyMut, fortifyColonyMut, shipsQuery.data, stateQuery.data, researchMut, discoverRelicMut]);
 
   // Handle input submission
   const handleSubmit = useCallback((e: React.FormEvent) => {
@@ -818,14 +1321,15 @@ export default function TradeWarsPage() {
       <div className="min-h-screen bg-black flex items-center justify-center p-4">
         <div className="border border-cyan-500/30 bg-black/90 p-8 rounded max-w-md text-center">
           <pre className="text-cyan-500 text-xs mb-4 whitespace-pre">{`
-  ████████╗██╗    ██╗
-  ╚══██╔══╝██║    ██║
-     ██║   ██║ █╗ ██║
-     ██║   ██║███╗██║
-     ██║   ╚███╔███╔╝
-     ╚═╝    ╚══╝╚══╝`}</pre>
-          <h2 className="text-cyan-400 font-mono text-lg mb-2">TRADE WARS</h2>
-          <p className="text-gray-400 font-mono text-sm mb-6">Authentication required to access the Inception Ark Command Terminal.</p>
+  ████████╗███████╗
+  ╚══██╔══╝██╔════╝
+     ██║   █████╗
+     ██║   ██╔══╝
+     ██║   ███████╗
+     ╚═╝   ╚══════╝`}</pre>
+          <h2 className="text-cyan-400 font-mono text-lg mb-2">TRADE EMPIRE</h2>
+          <p className="text-gray-400 font-mono text-sm mb-2">After the Fall. Before the Empire.</p>
+          <p className="text-gray-500 font-mono text-xs mb-6">Authentication required to access the Inception Ark Command Terminal.</p>
           <a
             href={getLoginUrl()}
             className="inline-block px-6 py-2 bg-cyan-500/20 border border-cyan-500/50 text-cyan-400 font-mono text-sm hover:bg-cyan-500/30 transition-colors"
@@ -846,7 +1350,15 @@ export default function TradeWarsPage() {
             ← GAMES
           </Link>
           <span className="text-gray-600 font-mono text-[10px] sm:text-xs">|</span>
-          <span className="text-cyan-500 font-mono text-[10px] sm:text-xs tracking-wider">TRADE WARS</span>
+          <span className="text-cyan-500 font-mono text-[10px] sm:text-xs tracking-wider">TRADE EMPIRE</span>
+          {stateQuery.data?.faction && (
+            <>
+              <span className="text-gray-600 font-mono text-[10px] sm:text-xs">|</span>
+              <span className={`font-mono text-[10px] sm:text-xs ${stateQuery.data.faction === "empire" ? "text-amber-400" : "text-red-400"}`}>
+                {stateQuery.data.faction === "empire" ? "⚜ EMPIRE" : "🔥 INSURGENCY"}
+              </span>
+            </>
+          )}
         </div>
         <div className="flex items-center gap-2 sm:gap-4 font-mono text-[10px] sm:text-xs">
           {stateQuery.data && (
@@ -856,6 +1368,8 @@ export default function TradeWarsPage() {
               <span className="text-amber-400">T:{stateQuery.data.turnsRemaining}</span>
               <span className="text-gray-500">|</span>
               <span className="text-cyan-400">S{stateQuery.data.currentSector}</span>
+              <span className="text-gray-500">|</span>
+              <span className="text-purple-400">RP:{stateQuery.data.researchPoints || 0}</span>
             </>
           )}
         </div>
@@ -902,7 +1416,11 @@ export default function TradeWarsPage() {
           disabled={isProcessing}
           autoFocus
           className="flex-1 bg-transparent text-green-400 font-mono text-xs sm:text-sm outline-none placeholder-gray-600 caret-green-400"
-          placeholder={isProcessing ? "Processing..." : "Enter command..."}
+          placeholder={
+            isProcessing ? "Processing..." :
+            gamePhase === "faction_choice" ? "Type 1 or 2..." :
+            "Enter command..."
+          }
           autoComplete="off"
           spellCheck={false}
           autoCapitalize="off"

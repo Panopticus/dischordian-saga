@@ -54,6 +54,11 @@ async function getOrCreatePlayer(db: any, userId: number) {
     discoveredSectors: [1, 2, 3, 4, 5],
     ownedPlanets: [],
     deployedFighters: {},
+    faction: null, // Will be set during tutorial
+    tutorialStep: 0,
+    discoveredRelics: [],
+    researchPoints: 0,
+    unlockedTech: [],
     cardRewards: [],
   });
   
@@ -91,7 +96,7 @@ function getColonyIncome(colonyType: string, level: number, population: number) 
 }
 
 // ═══════════════════════════════════════════════════════
-// TRADE WARS ROUTER
+// TRADE EMPIRE ROUTER
 // ═══════════════════════════════════════════════════════
 
 export const tradeWarsRouter = router({
@@ -1238,6 +1243,116 @@ export const tradeWarsRouter = router({
       return {
         success: true,
         message: `${bonusDesc}. Cost: ${cost.toLocaleString()} credits.`,
+      };
+    }),
+
+  // ═══ TRADE EMPIRE NARRATIVE PROCEDURES ═══
+
+  // Choose faction (during tutorial)
+  chooseFaction: protectedProcedure
+    .input(z.object({ faction: z.enum(["empire", "insurgency"]) }))
+    .mutation(async ({ ctx, input }) => {
+      const db = await getDb();
+      if (!db) return { success: false, message: "Database unavailable" };
+      const player = await getOrCreatePlayer(db, ctx.user.id);
+      if (player.faction) {
+        return { success: false, message: "Faction already chosen. Your allegiance is sealed." };
+      }
+      await db.update(twPlayerState)
+        .set({ faction: input.faction, alignment: input.faction === "empire" ? 10 : -10 })
+        .where(eq(twPlayerState.userId, ctx.user.id));
+      return {
+        success: true,
+        faction: input.faction,
+        message: input.faction === "empire"
+          ? "You have sworn loyalty to the Architect's Empire. The galaxy will be rebuilt under Order."
+          : "You have joined the Insurgency. The Dreamer's vision of freedom will prevail.",
+      };
+    }),
+
+  // Advance tutorial step
+  advanceTutorial: protectedProcedure
+    .input(z.object({ step: z.number() }))
+    .mutation(async ({ ctx, input }) => {
+      const db = await getDb();
+      if (!db) return { success: false, message: "Database unavailable" };
+      await db.update(twPlayerState)
+        .set({ tutorialStep: input.step })
+        .where(eq(twPlayerState.userId, ctx.user.id));
+      return { success: true, step: input.step };
+    }),
+
+  // Discover a pre-Fall relic
+  discoverRelic: protectedProcedure
+    .input(z.object({ relicId: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      const db = await getDb();
+      if (!db) return { success: false, message: "Database unavailable" };
+      const player = await getOrCreatePlayer(db, ctx.user.id);
+      const relics = (player.discoveredRelics as string[]) || [];
+      if (relics.includes(input.relicId)) {
+        return { success: false, message: "Relic already catalogued in your archive." };
+      }
+      relics.push(input.relicId);
+      const rpBonus = 50;
+      await db.update(twPlayerState)
+        .set({ discoveredRelics: relics, researchPoints: player.researchPoints + rpBonus })
+        .where(eq(twPlayerState.userId, ctx.user.id));
+      return {
+        success: true,
+        message: `Pre-Fall relic discovered: ${input.relicId}. +${rpBonus} Research Points.`,
+        totalRelics: relics.length,
+        researchPoints: player.researchPoints + rpBonus,
+      };
+    }),
+
+  // Research technology (Civ-style tech tree)
+  research: protectedProcedure
+    .input(z.object({ techId: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      const db = await getDb();
+      if (!db) return { success: false, message: "Database unavailable" };
+      const player = await getOrCreatePlayer(db, ctx.user.id);
+      const techs = (player.unlockedTech as string[]) || [];
+      if (techs.includes(input.techId)) {
+        return { success: false, message: "Technology already researched." };
+      }
+      const TECH_TREE: Record<string, { cost: number; name: string; prereqs: string[]; effect: string }> = {
+        "nav-1": { cost: 25, name: "Improved Navigation", prereqs: [], effect: "+1 warp range" },
+        "nav-2": { cost: 75, name: "Hyperspace Mapping", prereqs: ["nav-1"], effect: "+2 warp range, reveal adjacent sectors" },
+        "trade-1": { cost: 25, name: "Trade Protocols", prereqs: [], effect: "+10% trade profits" },
+        "trade-2": { cost: 75, name: "Market Analysis", prereqs: ["trade-1"], effect: "+25% trade profits, port price prediction" },
+        "combat-1": { cost: 30, name: "Tactical Systems", prereqs: [], effect: "+10% combat power" },
+        "combat-2": { cost: 100, name: "Advanced Weaponry", prereqs: ["combat-1"], effect: "+25% combat power, shield bypass" },
+        "mining-1": { cost: 20, name: "Mining Drones", prereqs: [], effect: "+50% mining yield" },
+        "mining-2": { cost: 60, name: "Deep Core Extraction", prereqs: ["mining-1"], effect: "+100% mining yield, rare materials" },
+        "colony-1": { cost: 40, name: "Colony Infrastructure", prereqs: [], effect: "+25% colony income" },
+        "colony-2": { cost: 120, name: "Megastructures", prereqs: ["colony-1"], effect: "+50% colony income, max level 7" },
+        "relic-1": { cost: 50, name: "Relic Analysis", prereqs: [], effect: "Identify relic locations on scan" },
+        "relic-2": { cost: 150, name: "Pre-Fall Archaeology", prereqs: ["relic-1"], effect: "Double relic research points" },
+        "diplo-1": { cost: 35, name: "First Contact Protocols", prereqs: [], effect: "Unlock alien faction encounters" },
+        "diplo-2": { cost: 100, name: "Galactic Diplomacy", prereqs: ["diplo-1"], effect: "Trade with alien factions, alliance options" },
+      };
+      const tech = TECH_TREE[input.techId];
+      if (!tech) return { success: false, message: "Unknown technology." };
+      // Check prereqs
+      for (const prereq of tech.prereqs) {
+        if (!techs.includes(prereq)) {
+          return { success: false, message: `Prerequisite not met: ${TECH_TREE[prereq]?.name || prereq}` };
+        }
+      }
+      if (player.researchPoints < tech.cost) {
+        return { success: false, message: `Not enough Research Points. Need ${tech.cost}, have ${player.researchPoints}.` };
+      }
+      techs.push(input.techId);
+      await db.update(twPlayerState)
+        .set({ unlockedTech: techs, researchPoints: player.researchPoints - tech.cost })
+        .where(eq(twPlayerState.userId, ctx.user.id));
+      return {
+        success: true,
+        message: `Technology unlocked: ${tech.name}. Effect: ${tech.effect}`,
+        researchPoints: player.researchPoints - tech.cost,
+        unlockedTech: techs,
       };
     }),
 

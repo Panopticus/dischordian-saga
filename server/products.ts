@@ -122,7 +122,7 @@ export const STORE_PRODUCTS: StoreProduct[] = [
   {
     key: "ship_hull_mk2",
     name: "Hull Plating Mk2",
-    description: "Reinforced hull — +50 max HP for your Trade Wars ship",
+    description: "Reinforced hull — +50 max HP for your Trade Empire ship",
     category: "ship",
     priceUsd: 199, // $1.99
     priceCredits: 800,
@@ -148,7 +148,7 @@ export const STORE_PRODUCTS: StoreProduct[] = [
   {
     key: "ship_cargo_expansion",
     name: "Cargo Bay Expansion",
-    description: "Double your cargo capacity for Trade Wars",
+    description: "Double your cargo capacity for Trade Empire",
     category: "ship",
     priceUsd: 299, // $2.99
     priceCredits: 1000,

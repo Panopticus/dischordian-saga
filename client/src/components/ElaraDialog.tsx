@@ -79,12 +79,12 @@ function getPageChoices(path: string): { greeting: string; choices: DialogChoice
     };
   }
 
-  // Trade Wars
-  if (path === "/trade-wars") {
+  // Trade Empire
+  if (path === "/trade-empire") {
     return {
-      greeting: "You've accessed the Trade Wars simulation — a CADES projection of interstellar commerce during the Age of Privacy. Every trade route you establish, every pirate you outrun, shapes the economic fate of this parallel universe. What do you need to know?",
+      greeting: "You've accessed the Trade Empire simulation — a CADES projection of interstellar commerce during the Age of Privacy. Every trade route you establish, every pirate you outrun, shapes the economic fate of this parallel universe. What do you need to know?",
       choices: [
-        { id: "tw-basics", text: "How does Trade Wars work?", category: "games" },
+        { id: "tw-basics", text: "How does Trade Empire work?", category: "games" },
         { id: "tw-trading", text: "What's the best trading strategy?", category: "games" },
         { id: "tw-combat", text: "How does space combat work?", category: "games" },
         { id: "tw-colonize", text: "Tell me about colonization.", category: "games" },
@@ -265,7 +265,7 @@ function getPageChoices(path: string): { greeting: string; choices: DialogChoice
       greeting: "The CADES Simulation Hub. Each game here is a window into a parallel universe — powered by the CoNexus technology salvaged from the Architect's dismantled creation. Your choices in these simulations ripple across the multiverse. Which reality will you enter?",
       choices: [
         { id: "games-card", text: "Tell me about the Card Game.", category: "games" },
-        { id: "games-trade", text: "What is Trade Wars?", category: "games" },
+        { id: "games-trade", text: "What is Trade Empire?", category: "games" },
         { id: "games-fight", text: "How does the Combat Simulator work?", category: "games" },
         { id: "games-ark", text: "What can I explore on the Ark?", category: "ark" },
         { id: "games-save-doom", text: "What do you mean 'save or doom'?", category: "lore" },

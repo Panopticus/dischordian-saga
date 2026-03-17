@@ -76,7 +76,7 @@ function Router() {
       <Route path="/ark" component={ArkExplorerPage} />
       <Route path="/ark-legacy" component={InceptionArkPage} />
       <Route path="/trophy" component={TrophyRoomPage} />
-      <Route path="/trade-wars" component={TradeWarsPage} />
+      <Route path="/trade-empire" component={TradeWarsPage} />
       <Route path="/deck-builder" component={DeckBuilderPage} />
       <Route path="/create-citizen" component={CitizenCreationPage} />
       <Route path="/character-sheet" component={CharacterSheetPage} />

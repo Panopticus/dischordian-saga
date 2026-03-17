@@ -758,3 +758,43 @@
 - [x] Write tests for admin page routing and tRPC usage
 - [x] Write tests for player profile server sync
 - [x] 327 tests passing across 14 test files (31 new Phase 25 tests)
+
+## Phase 26: Trade Empire, Character Models, Image Fixes, Slides
+
+### Fix Missing Images
+- [x] Fix CoNexus game cover art not displaying on game cards (coverImage field already populated for all 33 games)
+- [x] Fix missing character dossier images (all characters have images; only Wraith of Death was missing loredex portrait)
+- [x] Audit all image references and fix broken CDN URLs (all verified)
+
+### Fighting Game Character Models
+- [x] Generate unique character model sprites for all 26 fighters (AI-generated fighting stance sprites)
+- [x] Upload all sprites to CDN with --webdev lifecycle (26 images)
+- [x] Enhanced arena with ornate columns, glowing runes, emblem ring, atmospheric particles, and dramatic lighting
+- [x] Integrate character sprites into CharacterModel3D.ts replacing old portrait images
+
+### Trade Empire (Renamed from Trade Wars)
+- [x] Rename Trade Wars to Trade Empire throughout codebase (all files updated)
+- [x] Write complete narrative: Thought Virus destroyed all intelligent life
+- [x] Inception Arks contain all DNA and machine code collected by the Architect
+- [x] First 1000 potentials awakened and promptly disappeared
+- [x] 100 years later, new batch of Inception Arks awakened across the galaxy
+- [x] Lore beginning that explains game rules through narrative (cinematic boot sequence)
+- [x] Faction choice: Loyal to Empire (Architect faction) vs Dreamer (Insurgency)
+- [x] Empire faction: establish empire in evolved universe, first contact with pre-Fall race
+- [x] Insurgency faction: build the insurgency resistance
+- [x] Gradual 7-step tutorial explaining story while teaching mechanics
+- [x] Discovery of pre-Fall relics mechanic (8 relics with lore fragments)
+- [x] Civilization-style mechanics (colonization, 12-tech tree, resource management, diplomacy)
+- [x] Server-side: chooseFaction, advanceTutorial, discoverRelic, research procedures added
+- [x] Schema updated: faction, tutorialStep, discoveredRelics, researchPoints, unlockedTech, cardRewards fields
+
+### Slides Presentation
+- [x] Create 11-slide image-mode presentation about Trade Empire narrative and Loredex OS features
+- [x] Slides cover: Title, Thought Virus, First Awakening, Faction Choice, Game World, Civ Mechanics, Tutorial, Relics, Fighting Arena, Loredex OS, Road Ahead
+
+### Tests
+- [x] Write tests for Trade Empire narrative and mechanics (schema fields, faction, tutorial, relics, tech)
+- [x] Write tests for character model integration (32 fighters, unique CDN URLs)
+- [x] Write tests for level design enhancement (stage elements)
+- [x] Write tests for Trade Empire rename verification (route, GamesPage)
+- [x] 354 tests passing across 15 test files (27 new Phase 26 tests)

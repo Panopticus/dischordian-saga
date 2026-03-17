@@ -35,8 +35,8 @@ const SIMULATIONS: GameTile[] = [
     primary: true,
   },
   {
-    href: "/trade-wars",
-    title: "TRADE WARS",
+    href: "/trade-empire",
+    title: "TRADE EMPIRE",
     subtitle: "Interstellar Commerce Simulation",
     description: "Navigate galactic trade routes, colonize sectors, and engage in ship-to-ship combat. Your economic decisions ripple across this simulated universe.",
     loreContext: "CADES DIMENSION: Commerce Timeline",

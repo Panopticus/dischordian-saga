@@ -59,7 +59,7 @@ YOUR KNOWLEDGE:
 - CADES (CoNexus Advanced Dimensional Exploration Simulation) allows Inception Arks to immerse in any conceivable reality within the multiverse.
 - The Inception Ark has multiple decks: Command Bridge, Engineering, Crew Quarters, Science Lab, Armory, Cargo Hold, Medical Bay, Recreation, and the CoNexus Core.
 - The Card Game simulates faction warfare across parallel dimensions — each match is a CADES simulation
-- Trade Wars simulates interstellar commerce and piracy in a parallel universe
+- Trade Empire simulates interstellar commerce and piracy in a parallel universe
 - The Combat Simulator tests combat readiness through dimensional projections
 - The Citizen system creates a new identity for the Operative within the Ark's crew manifest
 
@@ -111,7 +111,7 @@ const DIALOG_CHOICES = {
   ],
   followup_games: [
     { id: "cardgame", text: "How does the Card Game work?", category: "games" },
-    { id: "tradewars", text: "Tell me about Trade Wars.", category: "games" },
+    { id: "tradewars", text: "Tell me about Trade Empire.", category: "games" },
     { id: "combat", text: "What about the Combat Simulator?", category: "games" },
     { id: "citizen", text: "How do I create my Citizen identity?", category: "games" },
     { id: "custom", text: "[Ask something specific]", category: "custom" },
@@ -171,7 +171,7 @@ export const elaraRouter = router({
         if (page === "/cards/play") contextHint = "\n\nCONTEXT: The user is currently playing the Dischordian Struggle card game. Focus your answers on card game mechanics, faction strategies, lane tactics, and how the cards connect to the lore.";
         else if (page === "/cards") contextHint = "\n\nCONTEXT: The user is browsing the card collection. Help them understand card types, rarities, factions, elements, and keywords.";
         else if (page === "/deck-builder") contextHint = "\n\nCONTEXT: The user is building a deck. Advise on deck composition, faction synergies, lane balance, and counter-strategies.";
-        else if (page === "/trade-wars") contextHint = "\n\nCONTEXT: The user is playing Trade Wars. Focus on trading strategies, sector navigation, combat, colonization, and how this simulation connects to the Saga's economic systems.";
+        else if (page === "/trade-empire") contextHint = "\n\nCONTEXT: The user is playing Trade Empire. Focus on trading strategies, sector navigation, combat, colonization, and how this simulation connects to the Saga's economic systems.";
         else if (page === "/fight") contextHint = "\n\nCONTEXT: The user is in the Combat Simulator. Discuss fighter abilities, combat techniques, and how each fighter relates to their lore counterpart.";
         else if (page === "/board") contextHint = "\n\nCONTEXT: The user is viewing the Conspiracy Board. Help them understand the connections between entities, hidden relationships, and the web of alliances and betrayals in the Saga.";
         else if (page === "/ark") contextHint = "\n\nCONTEXT: The user is exploring the Inception Ark. Describe the ship's decks, systems, crew, and the CoNexus technology that powers it.";
