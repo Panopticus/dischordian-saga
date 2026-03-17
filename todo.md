@@ -394,3 +394,65 @@
 - [x] Fix Relationship interface (relationship_type field name mismatch)
 - [x] Fix BoardPage and EntityPage to use relationship_type from updated data model
 - [x] All 90 tests passing
+
+## Phase 17: Inception Ark Adventure Game — Full Immersive Experience
+
+### Core Architecture
+- [x] Design game state machine: Awakening → Exploration → Full Access progression
+- [x] Map every app feature to a physical Inception Ark room/location (GAME_DESIGN.md)
+- [x] Build player progression database schema (room unlocks, achievements, game state)
+- [x] Build first-time-user detection and routing to Awakening sequence (GameContext + App.tsx gating)
+
+### Missing Lore Entities
+- [x] Add Wraith of Death, Jericho, The Harmony, Ambassador Voss, The Thought Virus, Inception Arks entities (186 total entries)
+- [x] Restore the 16 previously removed relationships (523 total)
+- [x] Add Silence in Heaven album placeholder to Discography page
+
+### Elara Redesign
+- [x] Generate new Elara portrait with long black hair (horror sci-fi aesthetic)
+- [x] Elara guides entire Awakening sequence as ship AI
+- [x] Elara explains each room on first visit with contextual dialog
+
+### The Awakening Sequence (First-Time Experience)
+- [x] Cryo pod scene: player wakes up disoriented, Elara's voice guides them
+- [x] Elara asks questions that determine race/class/skills (character creation as narrative)
+- [x] Lore exposition: you are a Potential on one of the last Inception Arks
+- [x] Season 2 awakening — first wave was Season 1, communications severed across multiverses
+- [x] Initial card deck generated from character creation choices
+- [x] Horror sci-fi atmosphere: flickering lights, unknown sounds, isolation
+
+### Point-and-Click Exploration Engine
+- [x] Build room scene renderer with nano banana backdrop images
+- [x] Clickable hotspot system (items, doors, terminals, objects)
+- [x] Room transition animations (walking between connected rooms)
+- [x] Inventory/interaction system for discovered items
+- [x] Old-school adventure game UI (verb bar or context menu on click)
+
+### Inception Ark Room Scenes (nano banana art for each)
+- [x] Cryo Bay / Quarters — where you wake up (character sheet, settings)
+- [x] Bridge / Command Center — Conspiracy Board, Timeline, main navigation
+- [x] Archives / Data Core — Search, Entity Browser, Codex Library
+- [x] Communications Array — Watch page (The Saga), Radio
+- [x] Engineering Bay — Card Crafting, Research Lab
+- [x] Armory / Training Deck — Fight Game, Card Game Battle
+- [x] Cargo Hold / Trading Post — Trade Wars, Store
+- [x] Observation Deck — Discography, Music Player
+- [x] Medical Bay — Citizen Character Sheet, Stats
+- [x] Hangar Bay — Inception Ark Map, Deck Builder (placeholder)
+- [x] Mess Hall / Commons — Favorites, Playlists, Social (placeholder)
+- [x] Captain's Quarters — Achievements, Trophy Room, Lore Quiz
+
+### Achievement System
+- [x] Achievement categories: Exploration, Combat, Lore, Collection, Discovery
+- [x] Achievements unlock cosmetics, titles, and bonus cards
+- [x] Achievement notifications with horror sci-fi flair
+- [x] Achievement gallery in Captain's Quarters / Trophy Room
+
+### Quick Access System
+- [x] Once a room is unlocked, add it to the ship's nav computer (sidebar)
+- [x] Minimap showing unlocked rooms and current location (Ark Explorer page)
+- [x] Quick-travel between unlocked rooms (room links in sidebar)
+
+### Entity Relationship Mini-Graph
+- [x] Build mini connection graph on Entity pages showing direct relationships (canvas-based force-directed graph)
+- [x] Clickable nodes to navigate between connected entities

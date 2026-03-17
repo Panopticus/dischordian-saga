@@ -69,7 +69,7 @@ const NAV_GROUPS: NavGroup[] = [
       { path: "/cards/play", label: "CARD GAME", icon: ScrollText, description: "Faction warfare" },
       { path: "/trade-wars", label: "TRADE WARS", icon: Ship, description: "Interstellar trade" },
       { path: "/fight", label: "COMBAT SIM", icon: Swords, description: "Combat training" },
-      { path: "/ark", label: "INCEPTION ARK", icon: Rocket, description: "Explore the ship" },
+      { path: "/ark", label: "EXPLORE THE ARK", icon: Rocket, description: "Point & click adventure" },
       { path: "/quiz", label: "LORE QUIZ", icon: Brain, description: "Test your knowledge" },
       { path: "/cards", label: "CARD ARCHIVE", icon: Crown, description: "Browse all cards" },
       { path: "/deck-builder", label: "DECK BUILDER", icon: Shield, description: "Build decks" },

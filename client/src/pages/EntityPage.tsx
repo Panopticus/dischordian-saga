@@ -9,6 +9,7 @@ import {
   Link2, Clock, Shield, Eye, Disc3, Zap, ChevronRight, Gamepad2
 } from "lucide-react";
 import StoryArc from "@/components/StoryArc";
+import RelationshipMiniGraph from "@/components/RelationshipMiniGraph";
 import { usePageMeta } from "@/hooks/usePageMeta";
 import ShareButton from "@/components/ShareButton";
 
@@ -381,6 +382,17 @@ export default function EntityPage() {
             </motion.section>
           )}
         </div>
+
+        {/* ═══ RELATIONSHIP MINI-GRAPH ═══ */}
+        {entry.type !== "song" && related.length > 0 && (
+          <motion.section
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.42 }}
+          >
+            <RelationshipMiniGraph entityName={entry.name} />
+          </motion.section>
+        )}
 
         {/* ═══ CONEXUS STORIES ═══ */}
         {entry.conexus_stories && entry.conexus_stories.length > 0 && (

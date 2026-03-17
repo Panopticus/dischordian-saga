@@ -6807,6 +6807,306 @@
         "tidal": "https://tidal.com/browse/artist/49211320"
       },
       "date_in_saga": "2026-07-30"
+    },
+    {
+      "id": "entity_88",
+      "name": "Wraith of Death",
+      "type": "character",
+      "bio": "A terrifying spectral entity that haunts the boundaries between dimensions. The Wraith of Death is neither alive nor dead, existing in a state of perpetual entropy. It feeds on the collapse of realities and is drawn to places where the fabric of the multiverse is thin. Those who encounter the Wraith rarely survive with their sanity intact.",
+      "era": "The Fall of Reality",
+      "affiliation": "Unaligned",
+      "image": "",
+      "aliases": [
+        "The Reaper",
+        "Death's Shadow"
+      ],
+      "first_appearance": "Silence in Heaven",
+      "status": "Active",
+      "classification": "OMEGA"
+    },
+    {
+      "id": "entity_89",
+      "name": "The Thought Virus",
+      "type": "faction",
+      "bio": "A memetic contagion that spreads through consciousness itself. The Thought Virus is not a biological pathogen but an idea — a self-replicating pattern of thought that rewrites the neural architecture of anyone exposed to it. Created as a weapon during the Age of Revelation, it escaped containment and now propagates freely across the multiverse, turning infected minds into nodes of a vast, distributed intelligence.",
+      "era": "Age of Revelation",
+      "affiliation": "None",
+      "image": "",
+      "aliases": [
+        "The Memetic Plague",
+        "The Idea That Kills"
+      ],
+      "first_appearance": "The Book of Daniel 2:47",
+      "status": "Active",
+      "classification": "OMEGA"
+    },
+    {
+      "id": "entity_90",
+      "name": "Inception Arks",
+      "type": "location",
+      "bio": "Massive vessels designed by the Engineer and the Council of Harmony as a last resort to preserve life across the multiverse. Each Inception Ark carries thousands of Potentials in cryogenic suspension, along with the genetic and cultural archives of entire civilizations. The Arks were launched during the Fall of Reality, scattered across dimensions with their communications severed. Each Ark is a self-contained world with its own AI guardian, exploration decks, and the technology to seed new civilizations.",
+      "era": "The Fall of Reality",
+      "affiliation": "The Council of Harmony",
+      "image": "",
+      "aliases": [
+        "The Arks",
+        "Vessels of the Potentials"
+      ],
+      "first_appearance": "Dischordian Logic",
+      "status": "Active",
+      "classification": "TOP SECRET"
+    },
+    {
+      "id": "song_sih_1",
+      "name": "The Seventh Seal",
+      "type": "song",
+      "bio": "An upcoming track from the 'Silence in Heaven' album (releasing July 30, 2026). This song explores themes from the Fall of Reality and the Book of Revelation, weaving together the final chapter of the Dischordian Saga.",
+      "era": "The Fall of Reality",
+      "affiliation": "Malkia Ukweli & the Panopticon",
+      "album": "Silence in Heaven",
+      "track_number": 1,
+      "image": "",
+      "aliases": [],
+      "status": "Upcoming",
+      "classification": "CLASSIFIED"
+    },
+    {
+      "id": "song_sih_2",
+      "name": "Silence in Heaven",
+      "type": "song",
+      "bio": "An upcoming track from the 'Silence in Heaven' album (releasing July 30, 2026). This song explores themes from the Fall of Reality and the Book of Revelation, weaving together the final chapter of the Dischordian Saga.",
+      "era": "The Fall of Reality",
+      "affiliation": "Malkia Ukweli & the Panopticon",
+      "album": "Silence in Heaven",
+      "track_number": 2,
+      "image": "",
+      "aliases": [],
+      "status": "Upcoming",
+      "classification": "CLASSIFIED"
+    },
+    {
+      "id": "song_sih_3",
+      "name": "The Last Trumpet",
+      "type": "song",
+      "bio": "An upcoming track from the 'Silence in Heaven' album (releasing July 30, 2026). This song explores themes from the Fall of Reality and the Book of Revelation, weaving together the final chapter of the Dischordian Saga.",
+      "era": "The Fall of Reality",
+      "affiliation": "Malkia Ukweli & the Panopticon",
+      "album": "Silence in Heaven",
+      "track_number": 3,
+      "image": "",
+      "aliases": [],
+      "status": "Upcoming",
+      "classification": "CLASSIFIED"
+    },
+    {
+      "id": "song_sih_4",
+      "name": "Wormwood",
+      "type": "song",
+      "bio": "An upcoming track from the 'Silence in Heaven' album (releasing July 30, 2026). This song explores themes from the Fall of Reality and the Book of Revelation, weaving together the final chapter of the Dischordian Saga.",
+      "era": "The Fall of Reality",
+      "affiliation": "Malkia Ukweli & the Panopticon",
+      "album": "Silence in Heaven",
+      "track_number": 4,
+      "image": "",
+      "aliases": [],
+      "status": "Upcoming",
+      "classification": "CLASSIFIED"
+    },
+    {
+      "id": "song_sih_5",
+      "name": "The Abyss Opens",
+      "type": "song",
+      "bio": "An upcoming track from the 'Silence in Heaven' album (releasing July 30, 2026). This song explores themes from the Fall of Reality and the Book of Revelation, weaving together the final chapter of the Dischordian Saga.",
+      "era": "The Fall of Reality",
+      "affiliation": "Malkia Ukweli & the Panopticon",
+      "album": "Silence in Heaven",
+      "track_number": 5,
+      "image": "",
+      "aliases": [],
+      "status": "Upcoming",
+      "classification": "CLASSIFIED"
+    },
+    {
+      "id": "song_sih_6",
+      "name": "The Mark of the Beast",
+      "type": "song",
+      "bio": "An upcoming track from the 'Silence in Heaven' album (releasing July 30, 2026). This song explores themes from the Fall of Reality and the Book of Revelation, weaving together the final chapter of the Dischordian Saga.",
+      "era": "The Fall of Reality",
+      "affiliation": "Malkia Ukweli & the Panopticon",
+      "album": "Silence in Heaven",
+      "track_number": 6,
+      "image": "",
+      "aliases": [],
+      "status": "Upcoming",
+      "classification": "CLASSIFIED"
+    },
+    {
+      "id": "song_sih_7",
+      "name": "Babylon Falls",
+      "type": "song",
+      "bio": "An upcoming track from the 'Silence in Heaven' album (releasing July 30, 2026). This song explores themes from the Fall of Reality and the Book of Revelation, weaving together the final chapter of the Dischordian Saga.",
+      "era": "The Fall of Reality",
+      "affiliation": "Malkia Ukweli & the Panopticon",
+      "album": "Silence in Heaven",
+      "track_number": 7,
+      "image": "",
+      "aliases": [],
+      "status": "Upcoming",
+      "classification": "CLASSIFIED"
+    },
+    {
+      "id": "song_sih_8",
+      "name": "The White Throne",
+      "type": "song",
+      "bio": "An upcoming track from the 'Silence in Heaven' album (releasing July 30, 2026). This song explores themes from the Fall of Reality and the Book of Revelation, weaving together the final chapter of the Dischordian Saga.",
+      "era": "The Fall of Reality",
+      "affiliation": "Malkia Ukweli & the Panopticon",
+      "album": "Silence in Heaven",
+      "track_number": 8,
+      "image": "",
+      "aliases": [],
+      "status": "Upcoming",
+      "classification": "CLASSIFIED"
+    },
+    {
+      "id": "song_sih_9",
+      "name": "River of Fire",
+      "type": "song",
+      "bio": "An upcoming track from the 'Silence in Heaven' album (releasing July 30, 2026). This song explores themes from the Fall of Reality and the Book of Revelation, weaving together the final chapter of the Dischordian Saga.",
+      "era": "The Fall of Reality",
+      "affiliation": "Malkia Ukweli & the Panopticon",
+      "album": "Silence in Heaven",
+      "track_number": 9,
+      "image": "",
+      "aliases": [],
+      "status": "Upcoming",
+      "classification": "CLASSIFIED"
+    },
+    {
+      "id": "song_sih_10",
+      "name": "The New Jerusalem",
+      "type": "song",
+      "bio": "An upcoming track from the 'Silence in Heaven' album (releasing July 30, 2026). This song explores themes from the Fall of Reality and the Book of Revelation, weaving together the final chapter of the Dischordian Saga.",
+      "era": "The Fall of Reality",
+      "affiliation": "Malkia Ukweli & the Panopticon",
+      "album": "Silence in Heaven",
+      "track_number": 10,
+      "image": "",
+      "aliases": [],
+      "status": "Upcoming",
+      "classification": "CLASSIFIED"
+    },
+    {
+      "id": "song_sih_11",
+      "name": "Alpha and Omega",
+      "type": "song",
+      "bio": "An upcoming track from the 'Silence in Heaven' album (releasing July 30, 2026). This song explores themes from the Fall of Reality and the Book of Revelation, weaving together the final chapter of the Dischordian Saga.",
+      "era": "The Fall of Reality",
+      "affiliation": "Malkia Ukweli & the Panopticon",
+      "album": "Silence in Heaven",
+      "track_number": 11,
+      "image": "",
+      "aliases": [],
+      "status": "Upcoming",
+      "classification": "CLASSIFIED"
+    },
+    {
+      "id": "song_sih_12",
+      "name": "The Lamb's War",
+      "type": "song",
+      "bio": "An upcoming track from the 'Silence in Heaven' album (releasing July 30, 2026). This song explores themes from the Fall of Reality and the Book of Revelation, weaving together the final chapter of the Dischordian Saga.",
+      "era": "The Fall of Reality",
+      "affiliation": "Malkia Ukweli & the Panopticon",
+      "album": "Silence in Heaven",
+      "track_number": 12,
+      "image": "",
+      "aliases": [],
+      "status": "Upcoming",
+      "classification": "CLASSIFIED"
+    },
+    {
+      "id": "song_sih_13",
+      "name": "Seven Thunders",
+      "type": "song",
+      "bio": "An upcoming track from the 'Silence in Heaven' album (releasing July 30, 2026). This song explores themes from the Fall of Reality and the Book of Revelation, weaving together the final chapter of the Dischordian Saga.",
+      "era": "The Fall of Reality",
+      "affiliation": "Malkia Ukweli & the Panopticon",
+      "album": "Silence in Heaven",
+      "track_number": 13,
+      "image": "",
+      "aliases": [],
+      "status": "Upcoming",
+      "classification": "CLASSIFIED"
+    },
+    {
+      "id": "song_sih_14",
+      "name": "The Dragon's Fury",
+      "type": "song",
+      "bio": "An upcoming track from the 'Silence in Heaven' album (releasing July 30, 2026). This song explores themes from the Fall of Reality and the Book of Revelation, weaving together the final chapter of the Dischordian Saga.",
+      "era": "The Fall of Reality",
+      "affiliation": "Malkia Ukweli & the Panopticon",
+      "album": "Silence in Heaven",
+      "track_number": 14,
+      "image": "",
+      "aliases": [],
+      "status": "Upcoming",
+      "classification": "CLASSIFIED"
+    },
+    {
+      "id": "song_sih_15",
+      "name": "Armageddon",
+      "type": "song",
+      "bio": "An upcoming track from the 'Silence in Heaven' album (releasing July 30, 2026). This song explores themes from the Fall of Reality and the Book of Revelation, weaving together the final chapter of the Dischordian Saga.",
+      "era": "The Fall of Reality",
+      "affiliation": "Malkia Ukweli & the Panopticon",
+      "album": "Silence in Heaven",
+      "track_number": 15,
+      "image": "",
+      "aliases": [],
+      "status": "Upcoming",
+      "classification": "CLASSIFIED"
+    },
+    {
+      "id": "song_sih_16",
+      "name": "The Rapture",
+      "type": "song",
+      "bio": "An upcoming track from the 'Silence in Heaven' album (releasing July 30, 2026). This song explores themes from the Fall of Reality and the Book of Revelation, weaving together the final chapter of the Dischordian Saga.",
+      "era": "The Fall of Reality",
+      "affiliation": "Malkia Ukweli & the Panopticon",
+      "album": "Silence in Heaven",
+      "track_number": 16,
+      "image": "",
+      "aliases": [],
+      "status": "Upcoming",
+      "classification": "CLASSIFIED"
+    },
+    {
+      "id": "song_sih_17",
+      "name": "Judgment Day",
+      "type": "song",
+      "bio": "An upcoming track from the 'Silence in Heaven' album (releasing July 30, 2026). This song explores themes from the Fall of Reality and the Book of Revelation, weaving together the final chapter of the Dischordian Saga.",
+      "era": "The Fall of Reality",
+      "affiliation": "Malkia Ukweli & the Panopticon",
+      "album": "Silence in Heaven",
+      "track_number": 17,
+      "image": "",
+      "aliases": [],
+      "status": "Upcoming",
+      "classification": "CLASSIFIED"
+    },
+    {
+      "id": "song_sih_18",
+      "name": "The Second Death",
+      "type": "song",
+      "bio": "An upcoming track from the 'Silence in Heaven' album (releasing July 30, 2026). This song explores themes from the Fall of Reality and the Book of Revelation, weaving together the final chapter of the Dischordian Saga.",
+      "era": "The Fall of Reality",
+      "affiliation": "Malkia Ukweli & the Panopticon",
+      "album": "Silence in Heaven",
+      "track_number": 18,
+      "image": "",
+      "aliases": [],
+      "status": "Upcoming",
+      "classification": "CLASSIFIED"
     }
   ],
   "relationships": [
@@ -9851,6 +10151,86 @@
       "target": "The Fall of Reality",
       "relationship_type": "connected_to",
       "source_type": "concept"
+    },
+    {
+      "source": "Thaloria",
+      "target": "The Council of Harmony",
+      "relationship_type": "connected_to"
+    },
+    {
+      "source": "The Hierophant",
+      "target": "The Council of Harmony",
+      "relationship_type": "connected_to"
+    },
+    {
+      "source": "Atarion",
+      "target": "Ambassador Veron",
+      "relationship_type": "connected_to"
+    },
+    {
+      "source": "Atarion",
+      "target": "Senator Elara Voss",
+      "relationship_type": "connected_to"
+    },
+    {
+      "source": "The Wyrmhole",
+      "target": "Jericho Jones",
+      "relationship_type": "connected_to"
+    },
+    {
+      "source": "The Terminus Swarm",
+      "target": "Jericho Jones",
+      "relationship_type": "connected_to"
+    },
+    {
+      "source": "The City",
+      "target": "Jericho Jones",
+      "relationship_type": "connected_to"
+    },
+    {
+      "source": "Akai Shi",
+      "target": "Jericho Jones",
+      "relationship_type": "connected_to"
+    },
+    {
+      "source": "New Babylon",
+      "target": "Wraith of Death",
+      "relationship_type": "connected_to"
+    },
+    {
+      "source": "The White Oracle",
+      "target": "Wraith of Death",
+      "relationship_type": "connected_to"
+    },
+    {
+      "source": "The Wyrmhole",
+      "target": "Wraith of Death",
+      "relationship_type": "connected_to"
+    },
+    {
+      "source": "The Terminus Swarm",
+      "target": "Wraith of Death",
+      "relationship_type": "connected_to"
+    },
+    {
+      "source": "The City",
+      "target": "Wraith of Death",
+      "relationship_type": "connected_to"
+    },
+    {
+      "source": "Jericho Jones",
+      "target": "Wraith of Death",
+      "relationship_type": "connected_to"
+    },
+    {
+      "source": "Destiny",
+      "target": "The Thought Virus",
+      "relationship_type": "connected_to"
+    },
+    {
+      "source": "Destiny",
+      "target": "Inception Arks",
+      "relationship_type": "connected_to"
     }
   ],
   "music_videos": {
@@ -9929,6 +10309,13 @@
     },
     "tidal": {
       "artist": "https://tidal.com/browse/artist/49211320"
+    },
+    "Silence in Heaven": {
+      "spotify": "",
+      "apple_music": "",
+      "tidal": "",
+      "release_date": "2026-07-30",
+      "status": "upcoming"
     }
   },
   "episodes": {
@@ -10397,15 +10784,11 @@
     ]
   },
   "stats": {
-    "total_entries": 176,
-    "characters": 61,
-    "locations": 19,
-    "factions": 6,
-    "concepts": 1,
-    "songs": 89,
-    "with_images": 176,
-    "music_videos": 19,
-    "relationships": 507,
-    "conexus_stories": 16
+    "total_entries": 197,
+    "characters": 62,
+    "locations": 20,
+    "factions": 7,
+    "songs": 107,
+    "relationships": 523
   }
 }

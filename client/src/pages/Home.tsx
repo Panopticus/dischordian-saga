@@ -17,6 +17,8 @@ import {
   Search, Clock, Tv, Terminal, Map, Crosshair, Volume2
 } from "lucide-react";
 import { useEffect, useState, useMemo, useCallback, useRef } from "react";
+import { useGame, ROOM_DEFINITIONS } from "@/contexts/GameContext";
+import { Rocket } from "lucide-react";
 
 /* ─── BOOT SEQUENCE ─── */
 function BootSequence({ onComplete }: { onComplete: () => void }) {
@@ -465,6 +467,56 @@ function ConexusCard({ game, getEntry }: { game: { title: string; image: string;
   );
 }
 
+/* ─── ARK EXPLORATION CTA ─── */
+function ArkExplorationCard() {
+  const { state } = useGame();
+  const totalRooms = ROOM_DEFINITIONS.length;
+  const unlockedCount = state.totalRoomsUnlocked;
+  const progress = Math.round((unlockedCount / totalRooms) * 100);
+
+  return (
+    <div className="px-4 mb-3">
+      <Link href="/ark">
+        <div
+          className="relative overflow-hidden rounded-lg border border-primary/20 bg-gradient-to-r from-primary/5 via-card/80 to-accent/5 p-3 group hover:border-primary/40 transition-all cursor-pointer"
+        >
+          {/* Subtle grid overlay */}
+          <div className="absolute inset-0 opacity-[0.03]" style={{
+            backgroundImage: "repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(51,226,230,0.2) 2px, rgba(51,226,230,0.2) 4px)",
+          }} />
+          <div className="relative flex items-center gap-3">
+            <div className="w-10 h-10 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center flex-shrink-0 group-hover:bg-primary/15 transition-colors">
+              <Rocket size={18} className="text-primary" />
+            </div>
+            <div className="flex-1 min-w-0">
+              <div className="flex items-center justify-between mb-1">
+                <h3 className="font-mono text-[11px] font-bold text-foreground tracking-wider">EXPLORE THE INCEPTION ARK</h3>
+                <ChevronRight size={14} className="text-primary/50 group-hover:text-primary group-hover:translate-x-0.5 transition-all" />
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="flex-1 h-1 rounded-full bg-secondary overflow-hidden">
+                  <div
+                    className="h-full rounded-full transition-all"
+                    style={{ width: `${progress}%`, background: "linear-gradient(90deg, oklch(0.82 0.16 195), oklch(0.78 0.16 85))" }}
+                  />
+                </div>
+                <span className="font-mono text-[8px] text-muted-foreground">{unlockedCount}/{totalRooms} rooms</span>
+              </div>
+              <p className="font-mono text-[8px] text-muted-foreground/60 mt-0.5">
+                {unlockedCount === 0
+                  ? "Begin your journey through the ship..."
+                  : unlockedCount < totalRooms
+                  ? `${state.totalItemsFound} items found • ${totalRooms - unlockedCount} rooms remaining`
+                  : "All rooms explored! ✦"}
+              </p>
+            </div>
+          </div>
+        </div>
+      </Link>
+    </div>
+  );
+}
+
 /* ═══════════════════════════════════════════════════════
    MAIN HOME COMPONENT — THE FEED
    ═══════════════════════════════════════════════════════ */
@@ -546,6 +598,9 @@ export default function Home() {
           <ActionPill href="/console" icon={<Crosshair size={12} />} label="CONSOLE" color="border-chart-5/30 bg-chart-5/5 text-chart-5 hover:bg-chart-5/10" />
         </div>
       </div>
+
+      {/* ═══ ARK EXPLORATION CTA ═══ */}
+      <ArkExplorationCard />
 
       {/* ═══ CLEARANCE STATUS ═══ */}
       <div className="px-4 mb-4">

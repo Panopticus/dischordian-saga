@@ -31,9 +31,12 @@ import SagaTimelinePage from "./pages/SagaTimelinePage";
 import FavoritesPage from "./pages/FavoritesPage";
 import LoreQuizPage from "./pages/LoreQuizPage";
 import CodexPage from "./pages/CodexPage";
+import AwakeningPage from "./pages/AwakeningPage";
+import ArkExplorerPage from "./pages/ArkExplorerPage";
 import { LoredexProvider } from "./contexts/LoredexContext";
 import { PlayerProvider } from "./contexts/PlayerContext";
 import { GamificationProvider } from "./contexts/GamificationContext";
+import { GameProvider, useGame } from "./contexts/GameContext";
 import PlayerBar from "./components/PlayerBar";
 import AppShell from "./components/AppShell";
 import AchievementToast from "./components/AchievementToast";
@@ -57,7 +60,8 @@ function Router() {
       <Route path="/console" component={ConsolePage} />
       <Route path="/cards" component={CardBrowserPage} />
       <Route path="/cards/play" component={CardGamePage} />
-      <Route path="/ark" component={InceptionArkPage} />
+      <Route path="/ark" component={ArkExplorerPage} />
+      <Route path="/ark-legacy" component={InceptionArkPage} />
       <Route path="/trophy" component={TrophyRoomPage} />
       <Route path="/trade-wars" component={TradeWarsPage} />
       <Route path="/deck-builder" component={DeckBuilderPage} />
@@ -71,9 +75,37 @@ function Router() {
       <Route path="/quiz" component={LoreQuizPage} />
       <Route path="/codex" component={CodexPage} />
       <Route path="/store" component={StorePage} />
+      <Route path="/awakening" component={AwakeningPage} />
       <Route path="/404" component={NotFound} />
       <Route component={NotFound} />
     </Switch>
+  );
+}
+
+/* ─── GAME GATE ─── 
+   Shows the Awakening sequence for first-time visitors.
+   Once complete, shows the normal app with AppShell. */
+function GameGate() {
+  const { state } = useGame();
+
+  // First visit or in awakening → show the awakening experience
+  if (state.phase === "FIRST_VISIT" || state.phase === "AWAKENING") {
+    return <AwakeningPage />;
+  }
+
+  // Otherwise show the normal app
+  return (
+    <>
+      <AppShell>
+        <Router />
+      </AppShell>
+      <PlayerBar />
+      <AchievementToast />
+      <ElaraDialog />
+      <RadioMode />
+      <EasterEggs />
+      <div className="crt-overlay" />
+    </>
   );
 }
 
@@ -82,22 +114,16 @@ function App() {
     <ErrorBoundary>
       <ThemeProvider defaultTheme="dark">
         <GamificationProvider>
-          <LoredexProvider>
-            <PlayerProvider>
-              <TooltipProvider>
-                <Toaster />
-                <AppShell>
-                  <Router />
-                </AppShell>
-                <PlayerBar />
-                <AchievementToast />
-                <ElaraDialog />
-                <RadioMode />
-                <EasterEggs />
-                <div className="crt-overlay" />
-              </TooltipProvider>
-            </PlayerProvider>
-          </LoredexProvider>
+          <GameProvider>
+            <LoredexProvider>
+              <PlayerProvider>
+                <TooltipProvider>
+                  <Toaster />
+                  <GameGate />
+                </TooltipProvider>
+              </PlayerProvider>
+            </LoredexProvider>
+          </GameProvider>
         </GamificationProvider>
       </ThemeProvider>
     </ErrorBoundary>
