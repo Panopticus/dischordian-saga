@@ -10,8 +10,9 @@ import { trpc } from "@/lib/trpc";
 import {
   Swords, Lock, Trophy, Star, Shield, Zap, Heart, Wind,
   ChevronLeft, ChevronRight, Gamepad2, AlertTriangle, Skull,
-  Target, BookOpen, Play, X, Info, Crown, Eye,
+  Target, BookOpen, Play, X, Info, Crown, Eye, Gem,
 } from "lucide-react";
+import { calculateTraitBonuses } from "@shared/traitBonuses";
 import { useGamification } from "@/contexts/GamificationContext";
 import { useContentReward } from "@/components/ContentRewardToast";
 import { toast } from "sonner";
@@ -21,7 +22,6 @@ import {
   type FighterData, type ArenaData, type DifficultyLevel,
 } from "@/game/gameData";
 import FightArena3D from "@/game/FightArena3D";
-import { Gem } from "lucide-react";
 import {
   ARENA_LORE_OPENING, STORY_CHAPTERS, FIGHTER_LORE,
   THE_PRISONER, getPrisonerStats,
@@ -80,6 +80,16 @@ export default function FightPage() {
     refetchOnWindowFocus: false,
   });
   const holderPerks = arenaPerks.data;
+
+  // Trait bonuses from NFT Potentials
+  const traitBonuses = trpc.nft.getTraitBonuses.useQuery(undefined, {
+    retry: false,
+    refetchOnWindowFocus: false,
+  });
+  const activeBonuses = useMemo(() => {
+    if (!traitBonuses.data?.bonuses) return null;
+    return calculateTraitBonuses(traitBonuses.data.bonuses);
+  }, [traitBonuses.data]);
 
   const unlockedIds = useMemo(() => {
     const base = new Set(gam.gameSave.unlockedFighters);
@@ -800,7 +810,7 @@ export default function FightPage() {
 
           {/* Fighter detail panel — desktop */}
           <div className="hidden lg:flex w-72 border-l border-white/10 p-4 flex-col">
-            <FighterDetailPanel fighter={displayFighter} />
+            <FighterDetailPanel fighter={displayFighter} traitBonuses={activeBonuses} activePotential={traitBonuses.data?.activePotential} />
             <MatchupBar
               selectedPlayer={selectedPlayer}
               selectedOpponent={selectedOpponent}
@@ -908,10 +918,22 @@ export default function FightPage() {
   /* ═══ FIGHTING ═══ */
   if (phase === "fighting" && selectedPlayer && selectedOpponent) {
     const isStoryFight = !!currentStoryChapter && !isTrainingMode;
+    // Apply trait bonuses to player fighter data
+    const boostedPlayer = useMemo(() => {
+      if (!activeBonuses || !selectedPlayer) return selectedPlayer;
+      const b = activeBonuses.total;
+      return {
+        ...selectedPlayer,
+        hp: selectedPlayer.hp + b.hp,
+        attack: selectedPlayer.attack + b.attack,
+        defense: selectedPlayer.defense + b.defense,
+        speed: selectedPlayer.speed + b.speed,
+      };
+    }, [selectedPlayer, activeBonuses]);
     return (
       <div className="fixed inset-0 z-50 bg-black">
         <FightArena3D
-          player={selectedPlayer}
+          player={boostedPlayer}
           opponent={selectedOpponent}
           arena={selectedArena}
           difficulty={selectedDifficulty}
@@ -1076,7 +1098,11 @@ function FighterCard({ fighter, available, selected, onSelect, onHover, onLeave,
 /* ═══════════════════════════════════════════════════════
    FIGHTER DETAIL PANEL — Stats sidebar
    ═══════════════════════════════════════════════════════ */
-function FighterDetailPanel({ fighter }: { fighter: FighterData | null }) {
+function FighterDetailPanel({ fighter, traitBonuses: bonuses, activePotential }: {
+  fighter: FighterData | null;
+  traitBonuses?: { total: { attack: number; defense: number; hp: number; speed: number }; breakdown: Array<{ source: string; bonus: { attack: number; defense: number; hp: number; speed: number; label: string; color: string } }> } | null;
+  activePotential?: { tokenId: number; name: string; level: number; nftClass: string | null; weapon: string | null; specie: string | null } | null;
+}) {
   if (!fighter) {
     return (
       <div className="flex-1 flex items-center justify-center">
@@ -1097,11 +1123,39 @@ function FighterDetailPanel({ fighter }: { fighter: FighterData | null }) {
       </div>
 
       <div className="space-y-1.5 mb-3">
-        <StatBar label="HP" value={fighter.hp} max={140} icon={<Heart size={10} />} color="#ef4444" />
-        <StatBar label="ATK" value={fighter.attack} max={12} icon={<Swords size={10} />} color="#f59e0b" />
-        <StatBar label="DEF" value={fighter.defense} max={12} icon={<Shield size={10} />} color="#22c55e" />
-        <StatBar label="SPD" value={fighter.speed} max={12} icon={<Wind size={10} />} color="#22d3ee" />
+        <StatBar label="HP" value={fighter.hp} max={140} icon={<Heart size={10} />} color="#ef4444" bonus={bonuses?.total.hp} />
+        <StatBar label="ATK" value={fighter.attack} max={12} icon={<Swords size={10} />} color="#f59e0b" bonus={bonuses?.total.attack} />
+        <StatBar label="DEF" value={fighter.defense} max={12} icon={<Shield size={10} />} color="#22c55e" bonus={bonuses?.total.defense} />
+        <StatBar label="SPD" value={fighter.speed} max={12} icon={<Wind size={10} />} color="#22d3ee" bonus={bonuses?.total.speed} />
       </div>
+
+      {/* Trait Bonuses from NFT Potentials */}
+      {bonuses && bonuses.breakdown.length > 0 && (
+        <div className="rounded-md border border-purple-500/20 bg-purple-500/5 p-2 mb-3">
+          <div className="flex items-center gap-1.5 mb-1.5">
+            <Gem size={10} className="text-purple-400" />
+            <span className="font-mono text-[9px] font-bold text-purple-300 tracking-wider">NFT TRAIT BONUSES</span>
+          </div>
+          {activePotential && (
+            <div className="font-mono text-[8px] text-purple-400/60 mb-1.5">
+              via {activePotential.name} (Lv.{activePotential.level})
+            </div>
+          )}
+          <div className="space-y-0.5">
+            {bonuses.breakdown.map((b, i) => (
+              <div key={i} className="flex items-center justify-between">
+                <span className="font-mono text-[8px]" style={{ color: b.bonus.color }}>{b.bonus.label}</span>
+                <span className="font-mono text-[8px] text-white/40">
+                  {b.bonus.attack > 0 && `+${b.bonus.attack} ATK `}
+                  {b.bonus.defense > 0 && `+${b.bonus.defense} DEF `}
+                  {b.bonus.hp > 0 && `+${b.bonus.hp} HP `}
+                  {b.bonus.speed > 0 && `+${b.bonus.speed} SPD`}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       <div className="rounded-md border p-2" style={{ borderColor: fighter.special.color + "40", background: fighter.special.color + "10" }}>
         <div className="flex items-center gap-1.5 mb-1">
@@ -1274,16 +1328,23 @@ function LorePopup({ fighter, onClose }: { fighter: FighterData; onClose: () => 
 }
 
 /* ═══ STAT BAR ═══ */
-function StatBar({ label, value, max, icon, color }: { label: string; value: number; max: number; icon: React.ReactNode; color: string }) {
+function StatBar({ label, value, max, icon, color, bonus }: { label: string; value: number; max: number; icon: React.ReactNode; color: string; bonus?: number }) {
   const pct = (value / max) * 100;
+  const bonusPct = bonus ? ((value + bonus) / max) * 100 : 0;
   return (
     <div className="flex items-center gap-2">
       <div className="w-4 flex justify-center" style={{ color }}>{icon}</div>
       <div className="font-mono text-[9px] text-white/40 w-6">{label}</div>
-      <div className="flex-1 h-1.5 rounded-full bg-white/10 overflow-hidden">
-        <div className="h-full rounded-full transition-all" style={{ width: `${pct}%`, background: color }} />
+      <div className="flex-1 h-1.5 rounded-full bg-white/10 overflow-hidden relative">
+        {bonus && bonus > 0 && (
+          <div className="absolute h-full rounded-full" style={{ width: `${Math.min(bonusPct, 100)}%`, background: "rgba(168,85,247,0.4)" }} />
+        )}
+        <div className="h-full rounded-full transition-all relative" style={{ width: `${pct}%`, background: color }} />
       </div>
-      <div className="font-mono text-[9px] text-white/60 w-5 text-right">{value}</div>
+      <div className="font-mono text-[9px] text-white/60 w-5 text-right">
+        {value}
+        {bonus && bonus > 0 && <span className="text-purple-400">+{bonus}</span>}
+      </div>
     </div>
   );
 }

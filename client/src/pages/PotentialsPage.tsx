@@ -6,8 +6,10 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   Wallet, Link2, Unlink, Shield, Sparkles, Eye, ExternalLink,
   ChevronRight, AlertTriangle, Check, Loader2, X, Swords,
-  Crown, Gem, Zap, Lock, Unlock, Copy, CheckCheck
+  Crown, Gem, Zap, Lock, Unlock, Copy, CheckCheck, Trophy,
+  PackageCheck
 } from "lucide-react";
+import { Link } from "wouter";
 import { toast } from "sonner";
 import { BrowserProvider } from "ethers";
 
@@ -71,6 +73,20 @@ export default function PotentialsPage() {
     { tokenId: selectedToken ?? 0 },
     { enabled: selectedToken !== null }
   );
+
+  // Batch claim all mutation
+  const batchClaimAll = trpc.nft.batchClaimAll.useMutation({
+    onSuccess: (data) => {
+      if (data.claimed > 0) {
+        toast.success(`Claimed ${data.claimed} cards! (${data.skipped} skipped)`);
+      } else {
+        toast.info("No new cards to claim.");
+      }
+      myClaims.refetch();
+      ownership.refetch();
+    },
+    onError: (err) => toast.error(err.message),
+  });
 
   // Mutations
   const linkWallet = trpc.nft.linkWallet.useMutation({
@@ -210,6 +226,16 @@ export default function PotentialsPage() {
           </div>
 
           {/* Navigation tabs */}
+          <div className="flex flex-wrap gap-3 mb-4">
+            <Link
+              href="/potentials/leaderboard"
+              className="flex items-center gap-2 px-3 py-1.5 rounded bg-amber-500/10 border border-amber-500/20 hover:bg-amber-500/20 transition-colors"
+            >
+              <Trophy size={14} className="text-amber-400" />
+              <span className="font-mono text-xs text-amber-300">LEADERBOARD</span>
+            </Link>
+          </div>
+
           <div className="flex gap-2 flex-wrap">
             {(
               [
@@ -284,6 +310,17 @@ export default function PotentialsPage() {
               }}
               isClaiming={claimCard.isPending}
               onNavigate={setViewMode}
+              onClaimAll={() => {
+                if (primaryWallet) {
+                  const unclaimed = ownedTokens.filter((id) => !claimedTokenIds.has(id));
+                  if (unclaimed.length > 0) {
+                    batchClaimAll.mutate({ walletAddress: primaryWallet, tokenIds: unclaimed });
+                  } else {
+                    toast.info("All your Potentials are already claimed!");
+                  }
+                }
+              }}
+              isClaimingAll={batchClaimAll.isPending}
             />
           )}
           {viewMode === "my-claims" && (
@@ -642,6 +679,8 @@ function GallerySection({
   onClaim,
   isClaiming,
   onNavigate,
+  onClaimAll,
+  isClaimingAll,
 }: {
   isAuthenticated: boolean;
   hasLinkedWallet: boolean;
@@ -655,6 +694,8 @@ function GallerySection({
   onClaim: (tokenId: number) => void;
   isClaiming: boolean;
   onNavigate: (v: ViewMode) => void;
+  onClaimAll: () => void;
+  isClaimingAll: boolean;
 }) {
   if (!isAuthenticated) {
     return (
@@ -746,6 +787,25 @@ function GallerySection({
           <Crown size={14} className="text-purple-400" />
           YOUR POTENTIALS ({ownedTokens.length})
         </h3>
+        {ownedTokens.some((id) => !claimedTokenIds.has(id)) && (
+          <button
+            onClick={onClaimAll}
+            disabled={isClaimingAll}
+            className="flex items-center gap-2 px-3 py-1.5 rounded bg-purple-500/15 border border-purple-500/40 text-purple-300 font-mono text-xs hover:bg-purple-500/25 transition-all disabled:opacity-50"
+          >
+            {isClaimingAll ? (
+              <>
+                <Loader2 size={12} className="animate-spin" />
+                CLAIMING ALL...
+              </>
+            ) : (
+              <>
+                <PackageCheck size={12} />
+                CLAIM ALL ({ownedTokens.filter((id) => !claimedTokenIds.has(id)).length})
+              </>
+            )}
+          </button>
+        )}
       </div>
 
       {/* Token grid */}

@@ -12,8 +12,10 @@ import {
   nftMetadataCache,
   userCards,
   cards,
+  fightLeaderboard,
+  users,
 } from "../../drizzle/schema";
-import { eq, and, inArray, sql } from "drizzle-orm";
+import { eq, and, inArray, sql, desc } from "drizzle-orm";
 import { ethers } from "ethers";
 import { storagePut } from "../storage";
 
@@ -841,6 +843,386 @@ export const nftRouter = router({
         bonusXpPercent,
         exclusiveArenaTheme,
         holderBadge,
+      },
+    };
+  }),
+
+  /* ─── Potentials Leaderboard — public rankings ─── */
+  potentialsLeaderboard: publicProcedure
+    .input(
+      z.object({
+        limit: z.number().min(1).max(100).default(50),
+        offset: z.number().min(0).default(0),
+      }).optional()
+    )
+    .query(async ({ input }) => {
+      const db = await getDb();
+      if (!db) return { entries: [], total: 0 };
+      const limit = input?.limit ?? 50;
+      const offset = input?.offset ?? 0;
+
+      // Aggregate claims per user with their fight stats
+      const entries = await db
+        .select({
+          userId: nftClaims.claimerUserId,
+          userName: users.name,
+          claimedCount: sql<number>`count(distinct ${nftClaims.tokenId})`,
+        })
+        .from(nftClaims)
+        .innerJoin(users, eq(nftClaims.claimerUserId, users.id))
+        .groupBy(nftClaims.claimerUserId, users.name)
+        .orderBy(desc(sql`count(distinct ${nftClaims.tokenId})`))
+        .limit(limit)
+        .offset(offset);
+
+      // Get fight stats for these users
+      const userIds = entries.map((e) => e.userId);
+      let fightStatsMap: Record<number, { wins: number; elo: number; rankTier: string }> = {};
+      if (userIds.length > 0) {
+        const fightStats = await db
+          .select({
+            userId: fightLeaderboard.userId,
+            wins: fightLeaderboard.wins,
+            elo: fightLeaderboard.elo,
+            rankTier: fightLeaderboard.rankTier,
+          })
+          .from(fightLeaderboard)
+          .where(inArray(fightLeaderboard.userId, userIds));
+        fightStatsMap = Object.fromEntries(
+          fightStats.map((f) => [f.userId, { wins: f.wins, elo: f.elo, rankTier: f.rankTier }])
+        );
+      }
+
+      // Get featured Potential for each user (highest level)
+      let featuredMap: Record<number, { tokenId: number; name: string; imageUrl: string | null }> = {};
+      if (userIds.length > 0) {
+        // Get first claim per user to find their best token
+        const claimTokens = await db
+          .select({
+            userId: nftClaims.claimerUserId,
+            tokenId: nftClaims.tokenId,
+          })
+          .from(nftClaims)
+          .where(inArray(nftClaims.claimerUserId, userIds));
+
+        const allTokenIds = claimTokens.map((c) => c.tokenId);
+        if (allTokenIds.length > 0) {
+          const metas = await db
+            .select()
+            .from(nftMetadataCache)
+            .where(inArray(nftMetadataCache.tokenId, allTokenIds));
+          const metaMap = Object.fromEntries(metas.map((m) => [m.tokenId, m]));
+
+          // Group by user, pick highest level
+          const userTokens: Record<number, Array<{ tokenId: number; level: number; name: string | null; imageUrl: string | null }>> = {};
+          for (const ct of claimTokens) {
+            const meta = metaMap[ct.tokenId];
+            if (!userTokens[ct.userId]) userTokens[ct.userId] = [];
+            userTokens[ct.userId].push({
+              tokenId: ct.tokenId,
+              level: meta?.level || 1,
+              name: meta?.name || null,
+              imageUrl: meta?.imageUrl ? resolveImageUrl(meta.imageUrl) : null,
+            });
+          }
+          for (const uid of userIds) {
+            const tokens = userTokens[uid];
+            if (tokens && tokens.length > 0) {
+              const best = tokens.reduce((a, b) => (a.level > b.level ? a : b));
+              featuredMap[uid] = {
+                tokenId: best.tokenId,
+                name: best.name || `Potential #${best.tokenId}`,
+                imageUrl: best.imageUrl,
+              };
+            }
+          }
+        }
+      }
+
+      // Calculate title tier
+      function getTitleTier(count: number) {
+        if (count >= 25) return { title: "Grand Collector", tier: "legendary" };
+        if (count >= 10) return { title: "Collector's Archon", tier: "epic" };
+        if (count >= 5) return { title: "Collector's Elite", tier: "rare" };
+        if (count >= 1) return { title: "Collector's Champion", tier: "common" };
+        return { title: null, tier: null };
+      }
+
+      const [totalResult] = await db
+        .select({ count: sql<number>`count(distinct ${nftClaims.claimerUserId})` })
+        .from(nftClaims);
+
+      return {
+        entries: entries.map((e, i) => {
+          const fight = fightStatsMap[e.userId];
+          const { title, tier } = getTitleTier(e.claimedCount);
+          return {
+            rank: offset + i + 1,
+            userId: e.userId,
+            userName: e.userName || "Unknown Operative",
+            claimedCount: e.claimedCount,
+            fightWins: fight?.wins ?? 0,
+            elo: fight?.elo ?? 1000,
+            rankTier: fight?.rankTier ?? "bronze",
+            holderTitle: title,
+            holderTier: tier,
+            featuredPotential: featuredMap[e.userId] || null,
+          };
+        }),
+        total: totalResult?.count ?? 0,
+      };
+    }),
+
+  /* ─── Batch Claim All — claim all unclaimed owned tokens at once ─── */
+  batchClaimAll: protectedProcedure
+    .input(
+      z.object({
+        walletAddress: z.string().regex(/^0x[a-fA-F0-9]{40}$/),
+        tokenIds: z.array(z.number().min(0).max(999)).min(1).max(50),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      const db = await getDb();
+      if (!db) throw new Error("Database not available");
+
+      const checksummed = ethers.getAddress(input.walletAddress);
+
+      // 1. Verify wallet is linked
+      const wallet = await db
+        .select()
+        .from(linkedWallets)
+        .where(
+          and(
+            eq(linkedWallets.userId, ctx.user.id),
+            eq(linkedWallets.walletAddress, checksummed)
+          )
+        )
+        .limit(1);
+
+      if (wallet.length === 0) {
+        throw new Error("Wallet not linked to your account.");
+      }
+
+      // 2. Check which tokens are already claimed
+      const existingClaims = await db
+        .select({ tokenId: nftClaims.tokenId })
+        .from(nftClaims)
+        .where(inArray(nftClaims.tokenId, input.tokenIds));
+      const alreadyClaimed = new Set(existingClaims.map((c) => c.tokenId));
+
+      const unclaimedIds = input.tokenIds.filter((id) => !alreadyClaimed.has(id));
+      if (unclaimedIds.length === 0) {
+        return { claimed: 0, skipped: input.tokenIds.length, results: [] };
+      }
+
+      // 3. Verify on-chain ownership for all unclaimed tokens
+      const contract = getContract();
+      const ownershipChecks = await Promise.allSettled(
+        unclaimedIds.map(async (tokenId) => {
+          const owner = await contract.ownerOf(tokenId);
+          return { tokenId, owner: ethers.getAddress(owner) };
+        })
+      );
+
+      const ownedAndUnclaimed: number[] = [];
+      for (const check of ownershipChecks) {
+        if (check.status === "fulfilled" && check.value.owner === checksummed) {
+          ownedAndUnclaimed.push(check.value.tokenId);
+        }
+      }
+
+      if (ownedAndUnclaimed.length === 0) {
+        return { claimed: 0, skipped: input.tokenIds.length, results: [] };
+      }
+
+      // 4. Process claims sequentially to avoid race conditions
+      const results: Array<{
+        tokenId: number;
+        success: boolean;
+        cardId?: string;
+        cardImageUrl?: string;
+        name?: string;
+        error?: string;
+      }> = [];
+
+      for (const tokenId of ownedAndUnclaimed) {
+        try {
+          const metadata = await fetchTokenMetadata(tokenId);
+          if (!metadata) {
+            results.push({ tokenId, success: false, error: "Failed to fetch metadata" });
+            continue;
+          }
+
+          const cardId = generateNftCardId(tokenId);
+          const nftClass = (getTrait(metadata.attributes, "Class") as string) || "Unknown";
+          const weapon = (getTrait(metadata.attributes, "Weapon") as string) || "Unknown";
+          const specie = (getTrait(metadata.attributes, "Specie") as string) || "Unknown";
+          const background = (getTrait(metadata.attributes, "Background") as string) || "Unknown";
+          const gender = (getTrait(metadata.attributes, "Gender") as string) || "Unknown";
+          const level = (getTrait(metadata.attributes, "Level") as number) || 1;
+
+          let cardImageUrl = resolveImageUrl(metadata.image);
+          try {
+            const imgResp = await fetch(cardImageUrl, { signal: AbortSignal.timeout(15000) });
+            if (imgResp.ok) {
+              const imgBuffer = Buffer.from(await imgResp.arrayBuffer());
+              const contentType = imgResp.headers.get("content-type") || "image/png";
+              const ext = contentType.includes("jpeg") || contentType.includes("jpg") ? "jpg" : "png";
+              const { url } = await storagePut(
+                `nft-cards/potential-${tokenId}-1of1.${ext}`,
+                imgBuffer,
+                contentType
+              );
+              cardImageUrl = url;
+            }
+          } catch {
+            // Use original URL
+          }
+
+          // Insert card
+          try {
+            await db.insert(cards).values({
+              cardId,
+              name: `${metadata.name} — 1/1`,
+              cardType: "character",
+              rarity: "neyon",
+              alignment: "order",
+              characterClass: mapNftClassToCardClass(nftClass),
+              species: mapNftSpecieToCardSpecies(specie),
+              power: Math.min(level * 2 + 5, 20),
+              health: Math.min(level * 3 + 10, 30),
+              abilityText: `Unique 1/1 card from The Potentials collection. ${nftClass} class wielding ${weapon}.`,
+              flavorText: `"From the depths of the Collector's vault, Potential #${tokenId} awakens — a ${specie} ${nftClass} forged in ${background}."`,
+              imageUrl: cardImageUrl,
+              nftTokenId: String(tokenId),
+              nftPerks: {
+                oneOfOne: true,
+                originalOwner: checksummed,
+                weapon,
+                background,
+                gender,
+                level,
+                fullAttributes: metadata.attributes,
+              },
+              unlockMethod: "nft",
+              isActive: 1,
+            }).onDuplicateKeyUpdate({
+              set: { imageUrl: cardImageUrl, updatedAt: new Date() },
+            });
+          } catch (e) {
+            console.warn(`[NFT] Batch card insert ${tokenId}:`, e);
+          }
+
+          // Add to user collection
+          try {
+            await db.insert(userCards).values({
+              userId: ctx.user.id,
+              cardId,
+              quantity: 1,
+              isFoil: 1,
+              cardLevel: level,
+              obtainedVia: "nft",
+            });
+          } catch (e) {
+            console.warn(`[NFT] Batch user card ${tokenId}:`, e);
+          }
+
+          // Record claim
+          await db.insert(nftClaims).values({
+            tokenId,
+            claimerWallet: checksummed,
+            claimerUserId: ctx.user.id,
+            cardId,
+            metadataSnapshot: {
+              name: metadata.name,
+              image: metadata.image,
+              attributes: metadata.attributes,
+            },
+            cardImageUrl,
+          });
+
+          // Cache metadata
+          try {
+            await db
+              .insert(nftMetadataCache)
+              .values({
+                tokenId,
+                name: metadata.name,
+                imageUrl: metadata.image,
+                nftClass,
+                weapon,
+                background,
+                specie,
+                gender,
+                level,
+                attributes: metadata.attributes,
+                currentOwner: checksummed,
+              })
+              .onDuplicateKeyUpdate({
+                set: { currentOwner: checksummed, lastRefreshed: new Date() },
+              });
+          } catch (e) {
+            console.warn(`[NFT] Batch cache ${tokenId}:`, e);
+          }
+
+          results.push({
+            tokenId,
+            success: true,
+            cardId,
+            cardImageUrl,
+            name: metadata.name,
+          });
+        } catch (e: any) {
+          results.push({ tokenId, success: false, error: e.message || "Unknown error" });
+        }
+      }
+
+      return {
+        claimed: results.filter((r) => r.success).length,
+        skipped: input.tokenIds.length - ownedAndUnclaimed.length,
+        results,
+      };
+    }),
+
+  /* ─── Get trait bonuses for current user's claimed Potentials ─── */
+  getTraitBonuses: protectedProcedure.query(async ({ ctx }) => {
+    const db = await getDb();
+    if (!db) return { bonuses: null, activePotential: null };
+
+    // Get user's claims
+    const claims = await db
+      .select({ tokenId: nftClaims.tokenId })
+      .from(nftClaims)
+      .where(eq(nftClaims.claimerUserId, ctx.user.id));
+
+    if (claims.length === 0) return { bonuses: null, activePotential: null };
+
+    // Get metadata for claimed tokens
+    const tokenIds = claims.map((c) => c.tokenId);
+    const metas = await db
+      .select()
+      .from(nftMetadataCache)
+      .where(inArray(nftMetadataCache.tokenId, tokenIds));
+
+    if (metas.length === 0) return { bonuses: null, activePotential: null };
+
+    // Pick the highest-level Potential as the "active" one for bonuses
+    const best = metas.reduce((a, b) => ((a.level || 0) > (b.level || 0) ? a : b));
+
+    return {
+      bonuses: {
+        nftClass: best.nftClass,
+        weapon: best.weapon,
+        specie: best.specie,
+      },
+      activePotential: {
+        tokenId: best.tokenId,
+        name: best.name || `Potential #${best.tokenId}`,
+        imageUrl: best.imageUrl ? resolveImageUrl(best.imageUrl) : null,
+        level: best.level || 1,
+        nftClass: best.nftClass,
+        weapon: best.weapon,
+        specie: best.specie,
       },
     };
   }),

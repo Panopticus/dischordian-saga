@@ -1029,3 +1029,11 @@
 - [x] Add "Collector's Champion" title display during fights
 - [x] Add exclusive arena visual perks for NFT holders
 - [x] Show NFT holder badge on player profile
+
+### Potentials Leaderboard, Trait Bonuses, and Claim All
+- [x] Build Potentials Leaderboard page with public rankings by claims and fight wins
+- [x] Show holder title tier and featured Potential on leaderboard
+- [x] Build trait-based fighter bonuses (Class, Weapon, Specie traits map to stat boosts)
+- [x] Integrate trait bonuses into fight engine for matching fighters
+- [x] Build "Claim All" batch claim button for multi-Potential holders
+- [x] Write tests for leaderboard, trait bonuses, and claim all features
