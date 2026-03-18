@@ -5,7 +5,7 @@ import { usePlayer } from "@/contexts/PlayerContext";
 import {
   Search, Menu, X, Map, Music, Users, MapPin, Swords, Clock,
   ChevronRight, ChevronDown, Terminal, Disc3, Shield, Tv, BarChart3, Gamepad2, Trophy, Crosshair,
-  Home, Rocket, Store, ScrollText, FlaskConical, Ship, Crown, Compass, Radio, Heart, Brain, BookOpen
+  Home, Rocket, Store, ScrollText, FlaskConical, Ship, Crown, Compass, Radio, Heart, Brain, BookOpen, Gem
 } from "lucide-react";
 import { useGamification } from "@/contexts/GamificationContext";
 import { Progress } from "@/components/ui/progress";
@@ -90,6 +90,7 @@ const NAV_GROUPS: NavGroup[] = [
       { path: "/character-sheet", label: "CHAR SHEET", icon: Shield, description: "Stats & gear" },
       { path: "/store", label: "REQUISITIONS", icon: Store, description: "Dream store" },
       { path: "/favorites", label: "MISSION BRIEFING", icon: Heart, description: "Favorites & playlists" },
+      { path: "/potentials", label: "THE POTENTIALS", icon: Gem, description: "NFT collection & 1/1 cards" },
     ],
   },
 ];

@@ -21,6 +21,7 @@ import {
   type FighterData, type ArenaData, type DifficultyLevel,
 } from "@/game/gameData";
 import FightArena3D from "@/game/FightArena3D";
+import { Gem } from "lucide-react";
 import {
   ARENA_LORE_OPENING, STORY_CHAPTERS, FIGHTER_LORE,
   THE_PRISONER, getPrisonerStats,
@@ -72,6 +73,13 @@ export default function FightPage() {
   const [hasSeenLore, setHasSeenLore] = useState(() => {
     try { return localStorage.getItem("collectors_arena_lore_seen") === "true"; } catch { return false; }
   });
+
+  // NFT holder perks
+  const arenaPerks = trpc.nft.getArenaPerks.useQuery(undefined, {
+    retry: false,
+    refetchOnWindowFocus: false,
+  });
+  const holderPerks = arenaPerks.data;
 
   const unlockedIds = useMemo(() => {
     const base = new Set(gam.gameSave.unlockedFighters);
@@ -355,6 +363,40 @@ export default function FightPage() {
               <Trophy size={14} /> LEADERBOARD
             </Link>
           </div>
+
+          {/* NFT Holder Perks Badge */}
+          {holderPerks?.isHolder && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.5 }}
+              className="mt-5 max-w-xs mx-auto w-full"
+            >
+              <Link href="/potentials">
+                <div className="rounded-lg border overflow-hidden cursor-pointer hover:brightness-110 transition-all"
+                  style={{
+                    borderColor: "rgba(147,51,234,0.4)",
+                    background: "linear-gradient(135deg, rgba(147,51,234,0.12) 0%, rgba(34,211,238,0.06) 100%)",
+                  }}
+                >
+                  <div className="flex items-center gap-3 px-3 py-2">
+                    <div className="p-1.5 rounded bg-purple-500/20">
+                      <Gem size={14} className="text-purple-400" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="font-display text-[10px] tracking-wider text-purple-300">
+                        {holderPerks.perks.title}
+                      </div>
+                      <div className="font-mono text-[8px] text-purple-400/50">
+                        {holderPerks.claimedCount} Potential{holderPerks.claimedCount !== 1 ? "s" : ""} claimed • {Math.round((holderPerks.perks.fightPointsMultiplier - 1) * 100)}% bonus points
+                      </div>
+                    </div>
+                    <div className="font-mono text-[9px] text-purple-400/40">→</div>
+                  </div>
+                </div>
+              </Link>
+            </motion.div>
+          )}
 
           {/* Stats bar */}
           <div className="grid grid-cols-4 gap-2 mt-6 max-w-xs mx-auto">
@@ -892,10 +934,13 @@ export default function FightPage() {
   if (phase === "results" && matchResult) {
     const isVictory = matchResult.winner === "p1";
     const winner = isVictory ? selectedPlayer! : selectedOpponent!;
-    const ptGain = isVictory ? Math.round(
+    const basePt = isVictory ? Math.round(
       (selectedDifficulty.id === "nightmare" ? 100 : selectedDifficulty.id === "hard" ? 60 : selectedDifficulty.id === "normal" ? 40 : 20)
       * selectedDifficulty.pointsMultiplier
     ) : 0;
+    const nftMultiplier = holderPerks?.perks.fightPointsMultiplier || 1.0;
+    const ptGain = Math.round(basePt * nftMultiplier);
+    const bonusPt = ptGain - basePt;
 
     return (
       <div className="min-h-screen flex flex-col items-center justify-center p-4 relative overflow-hidden"
@@ -921,15 +966,26 @@ export default function FightPage() {
           )}
 
           {isVictory && (
-            <div className="flex gap-4 justify-center mb-6">
+            <div className="flex flex-wrap gap-3 justify-center mb-6">
               <div className="px-4 py-2 rounded bg-white/5 border border-white/10">
                 <div className="font-mono text-[10px] text-white/40">POINTS</div>
                 <div className="font-display text-lg text-amber-400">+{ptGain}</div>
+                {bonusPt > 0 && (
+                  <div className="font-mono text-[8px] text-purple-400">
+                    +{bonusPt} NFT BONUS
+                  </div>
+                )}
               </div>
               <div className="px-4 py-2 rounded bg-white/5 border border-white/10">
                 <div className="font-mono text-[10px] text-white/40">STREAK</div>
                 <div className="font-display text-lg text-green-400">{gam.gameSave.winStreak}</div>
               </div>
+              {holderPerks?.isHolder && (
+                <div className="px-4 py-2 rounded border" style={{ background: "rgba(147,51,234,0.1)", borderColor: "rgba(147,51,234,0.3)" }}>
+                  <div className="font-mono text-[10px] text-purple-400/60">TITLE</div>
+                  <div className="font-display text-xs text-purple-300">{holderPerks.perks.title}</div>
+                </div>
+              )}
             </div>
           )}
 

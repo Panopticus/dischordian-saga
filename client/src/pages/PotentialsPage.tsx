@@ -401,6 +401,35 @@ function OverviewSection({
         })}
       </div>
 
+      {/* Arena Perks */}
+      <div className="border border-amber-500/20 rounded-lg bg-amber-500/5 p-5">
+        <div className="flex items-center gap-2 mb-3">
+          <Swords size={16} className="text-amber-400" />
+          <span className="font-display text-xs font-bold tracking-[0.2em] text-amber-300">
+            ARENA PERKS
+          </span>
+        </div>
+        <div className="font-mono text-sm text-muted-foreground leading-relaxed space-y-2">
+          <p>
+            Potentials holders receive exclusive perks in <span className="text-amber-400">The Collector's Arena</span>:
+          </p>
+          <ul className="space-y-1 ml-4">
+            <li className="flex items-center gap-2">
+              <Zap size={12} className="text-amber-400" />
+              <span><span className="text-foreground">+25% bonus fight points</span> per claimed Potential (up to +125%)</span>
+            </li>
+            <li className="flex items-center gap-2">
+              <Crown size={12} className="text-purple-400" />
+              <span>Exclusive <span className="text-purple-400">Collector's Champion</span> title displayed in arena</span>
+            </li>
+            <li className="flex items-center gap-2">
+              <Gem size={12} className="text-cyan-400" />
+              <span>Unique <span className="text-cyan-400">1/1 holographic cards</span> with your Potential's art and traits</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
       {/* CTA */}
       <div className="flex gap-3">
         <button

@@ -626,6 +626,225 @@ export const nftRouter = router({
     };
   }),
 
+  /* ─── Batch cache all 1000 Potentials metadata (admin trigger) ─── */
+  batchCacheMetadata: protectedProcedure
+    .input(
+      z.object({
+        startToken: z.number().min(0).max(999).default(0),
+        batchSize: z.number().min(1).max(50).default(10),
+      })
+    )
+    .mutation(async ({ input }) => {
+      const db = await getDb();
+      if (!db) throw new Error("Database not available");
+
+      const results: { tokenId: number; success: boolean; name?: string | null }[] = [];
+      const end = Math.min(input.startToken + input.batchSize, 1000);
+
+      // Process in parallel groups of 5 to avoid rate limiting
+      for (let i = input.startToken; i < end; i += 5) {
+        const batch = [];
+        for (let j = i; j < Math.min(i + 5, end); j++) {
+          batch.push(j);
+        }
+
+        const batchResults = await Promise.allSettled(
+          batch.map(async (tokenId) => {
+            // Check if already cached and fresh
+            const cached = await db
+              .select()
+              .from(nftMetadataCache)
+              .where(eq(nftMetadataCache.tokenId, tokenId))
+              .limit(1);
+
+            if (cached.length > 0) {
+              const age = Date.now() - new Date(cached[0].lastRefreshed).getTime();
+              if (age < 7 * 24 * 60 * 60 * 1000) {
+                // Less than 7 days old, skip
+                return { tokenId, success: true, name: cached[0].name || undefined, skipped: true };
+              }
+            }
+
+            const metadata = await fetchTokenMetadata(tokenId);
+            if (!metadata) {
+              return { tokenId, success: false };
+            }
+
+            const nftClass = getTrait(metadata.attributes, "Class") as string | null;
+            const weapon = getTrait(metadata.attributes, "Weapon") as string | null;
+            const background = getTrait(metadata.attributes, "Background") as string | null;
+            const specie = getTrait(metadata.attributes, "Specie") as string | null;
+            const gender = getTrait(metadata.attributes, "Gender") as string | null;
+            const level = getTrait(metadata.attributes, "Level") as number | null;
+            const body = getTrait(metadata.attributes, "Body") as string | null;
+
+            await db
+              .insert(nftMetadataCache)
+              .values({
+                tokenId,
+                name: metadata.name,
+                imageUrl: metadata.image,
+                nftClass,
+                weapon,
+                background,
+                specie,
+                gender,
+                level,
+                body,
+                attributes: metadata.attributes,
+              })
+              .onDuplicateKeyUpdate({
+                set: {
+                  name: metadata.name,
+                  imageUrl: metadata.image,
+                  nftClass,
+                  weapon,
+                  background,
+                  specie,
+                  gender,
+                  level,
+                  body,
+                  attributes: metadata.attributes,
+                  lastRefreshed: new Date(),
+                },
+              });
+
+            return { tokenId, success: true, name: metadata.name };
+          })
+        );
+
+        for (const r of batchResults) {
+          if (r.status === "fulfilled") {
+            results.push(r.value);
+          } else {
+            results.push({ tokenId: -1, success: false });
+          }
+        }
+
+        // Small delay between batches to avoid rate limiting
+        if (i + 5 < end) {
+          await new Promise((resolve) => setTimeout(resolve, 200));
+        }
+      }
+
+      const cached = results.filter((r) => r.success).length;
+      const failed = results.filter((r) => !r.success).length;
+
+      return {
+        cached,
+        failed,
+        nextStart: end < 1000 ? end : null,
+        results,
+      };
+    }),
+
+  /* ─── Get batch cache progress ─── */
+  getCacheProgress: publicProcedure.query(async () => {
+    const db = await getDb();
+    if (!db) return { cached: 0, total: 1000 };
+
+    const result = await db
+      .select({ count: sql<number>`count(*)` })
+      .from(nftMetadataCache);
+
+    return {
+      cached: result[0]?.count || 0,
+      total: 1000,
+    };
+  }),
+
+  /* ─── Check NFT-holder arena perks for current user ─── */
+  getArenaPerks: protectedProcedure.query(async ({ ctx }) => {
+    const db = await getDb();
+    if (!db) {
+      return {
+        isHolder: false,
+        claimedCount: 0,
+        perks: {
+          title: null,
+          fightPointsMultiplier: 1.0,
+          bonusXpPercent: 0,
+          exclusiveArenaTheme: null,
+          holderBadge: false,
+        },
+      };
+    }
+
+    // Check if user has any claims
+    const claims = await db
+      .select()
+      .from(nftClaims)
+      .where(eq(nftClaims.claimerUserId, ctx.user.id));
+
+    const claimedCount = claims.length;
+    const isHolder = claimedCount > 0;
+
+    // Calculate perks based on number of claims
+    let title: string | null = null;
+    let fightPointsMultiplier = 1.0;
+    let bonusXpPercent = 0;
+    let exclusiveArenaTheme: string | null = null;
+    let holderBadge = false;
+
+    if (claimedCount >= 1) {
+      title = "Collector's Champion";
+      fightPointsMultiplier = 1.25; // 25% bonus fight points
+      bonusXpPercent = 10;
+      exclusiveArenaTheme = "collector_vault";
+      holderBadge = true;
+    }
+    if (claimedCount >= 5) {
+      title = "Collector's Elite";
+      fightPointsMultiplier = 1.5; // 50% bonus
+      bonusXpPercent = 25;
+      exclusiveArenaTheme = "collector_throne";
+    }
+    if (claimedCount >= 10) {
+      title = "Collector's Archon";
+      fightPointsMultiplier = 2.0; // 100% bonus
+      bonusXpPercent = 50;
+      exclusiveArenaTheme = "collector_nexus";
+    }
+    if (claimedCount >= 25) {
+      title = "Grand Collector";
+      fightPointsMultiplier = 3.0; // 200% bonus
+      bonusXpPercent = 100;
+      exclusiveArenaTheme = "collector_singularity";
+    }
+
+    // Get the highest-level claimed Potential for featured display
+    let featuredPotential: { tokenId: number; name: string; level: number } | null = null;
+    if (claims.length > 0) {
+      const tokenIds = claims.map((c) => c.tokenId);
+      const metas = await db
+        .select()
+        .from(nftMetadataCache)
+        .where(inArray(nftMetadataCache.tokenId, tokenIds));
+
+      if (metas.length > 0) {
+        const best = metas.reduce((a, b) => ((a.level || 0) > (b.level || 0) ? a : b));
+        featuredPotential = {
+          tokenId: best.tokenId,
+          name: best.name || `Potential #${best.tokenId}`,
+          level: best.level || 1,
+        };
+      }
+    }
+
+    return {
+      isHolder,
+      claimedCount,
+      featuredPotential,
+      perks: {
+        title,
+        fightPointsMultiplier,
+        bonusXpPercent,
+        exclusiveArenaTheme,
+        holderBadge,
+      },
+    };
+  }),
+
   /* ─── Browse all Potentials (with claim status) ─── */
   browsePotentials: publicProcedure
     .input(

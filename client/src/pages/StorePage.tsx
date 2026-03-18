@@ -422,6 +422,41 @@ export default function StorePage() {
           </section>
         )}
 
+        {/* ═══ THE POTENTIALS NFT SECTION ═══ */}
+        <section className="rounded-lg border border-purple-500/30 overflow-hidden" style={{ background: 'linear-gradient(135deg, rgba(147,51,234,0.1) 0%, rgba(79,70,229,0.08) 50%, rgba(51,226,230,0.05) 100%)' }}>
+          <div className="p-5 sm:p-6">
+            <div className="flex items-start gap-4">
+              <div className="p-3 rounded-lg bg-purple-500/15 border border-purple-500/30">
+                <Gem size={24} className="text-purple-400" />
+              </div>
+              <div className="flex-1">
+                <div className="flex items-center gap-2 mb-1">
+                  <h3 className="font-display text-sm font-bold tracking-wider text-purple-300">THE POTENTIALS</h3>
+                  <span className="px-1.5 py-0.5 rounded text-[8px] font-mono tracking-wider bg-purple-500/20 text-purple-300 border border-purple-500/30">NFT</span>
+                </div>
+                <p className="font-mono text-xs text-muted-foreground/80 mb-4 leading-relaxed">
+                  Own a Potential NFT? Connect your Ethereum wallet to claim your exclusive 1/1 Loredex card.
+                  Each card is unique — generated from your NFT's art with lore attributes mapped from on-chain metadata.
+                  <span className="text-purple-400"> 1,000 Potentials. 1,000 unique cards. Claim once, yours forever.</span>
+                </p>
+                <div className="flex flex-wrap gap-3">
+                  <Link href="/potentials">
+                    <Button variant="outline" className="gap-2 border-purple-500/40 text-purple-300 hover:bg-purple-500/15 hover:text-purple-200">
+                      <Gem size={14} />
+                      VIEW COLLECTION
+                      <ArrowRight size={12} />
+                    </Button>
+                  </Link>
+                  <div className="flex items-center gap-2 px-3 py-1.5 rounded-md bg-card/20 border border-border/20">
+                    <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
+                    <span className="font-mono text-[10px] text-muted-foreground">Ethereum Mainnet</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* Test card info */}
         <div className="rounded-lg border border-border/20 bg-card/10 p-4">
           <p className="font-mono text-[10px] text-muted-foreground/60">

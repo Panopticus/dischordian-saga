@@ -1018,3 +1018,14 @@
 - [x] Build Potentials gallery/claim UI page
 - [x] Link wallet address to Loredex user account
 - [x] Display claimed 1/1 cards in player profile
+
+### Potentials Nav, Batch Cache, and Arena Perks
+- [x] Add Potentials link to sidebar navigation
+- [x] Add Potentials section/link to Store page
+- [x] Build batch metadata cache endpoint to pre-fetch all 1000 token metadata
+- [x] Add admin trigger for batch cache job
+- [x] Implement NFT-holder check in fight system
+- [x] Add bonus fight points multiplier for Potentials holders
+- [x] Add "Collector's Champion" title display during fights
+- [x] Add exclusive arena visual perks for NFT holders
+- [x] Show NFT holder badge on player profile

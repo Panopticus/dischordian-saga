@@ -62,11 +62,17 @@ describe("NFT Router — The Potentials Integration", () => {
       expect(appRouter._def.procedures).toHaveProperty("nft.getSignMessage");
     });
 
-    it("should have 11 total NFT procedures", () => {
+    it("should have 14 total NFT procedures", () => {
       const nftProcedures = Object.keys(appRouter._def.procedures).filter((k) =>
         k.startsWith("nft.")
       );
-      expect(nftProcedures.length).toBe(11);
+      expect(nftProcedures.length).toBe(14);
+    });
+
+    it("should have batch cache and arena perks procedures", () => {
+      expect(appRouter._def.procedures).toHaveProperty("nft.batchCacheMetadata");
+      expect(appRouter._def.procedures).toHaveProperty("nft.getArenaPerks");
+      expect(appRouter._def.procedures).toHaveProperty("nft.getCacheProgress");
     });
   });
 
@@ -270,6 +276,90 @@ describe("NFT Router — The Potentials Integration", () => {
       expect(schema).toContain("weapon");
       expect(schema).toContain("background");
       expect(schema).toContain("specie");
+    });
+  });
+
+  /* ─── Arena perks (protected) ─── */
+  describe("getArenaPerks", () => {
+    it("should return perks data for authenticated user", async () => {
+      const { ctx } = createAuthContext();
+      const caller = appRouter.createCaller(ctx);
+      const perks = await caller.nft.getArenaPerks();
+
+      expect(perks).toHaveProperty("isHolder");
+      expect(typeof perks.isHolder).toBe("boolean");
+      expect(perks).toHaveProperty("claimedCount");
+      expect(typeof perks.claimedCount).toBe("number");
+      expect(perks).toHaveProperty("perks");
+      expect(perks.perks).toHaveProperty("fightPointsMultiplier");
+      expect(perks.perks).toHaveProperty("title");
+      expect(perks.perks).toHaveProperty("exclusiveArenaTheme");
+      expect(perks.perks).toHaveProperty("holderBadge");
+    });
+
+    it("should return non-holder defaults for user with no claims", async () => {
+      const { ctx } = createAuthContext();
+      const caller = appRouter.createCaller(ctx);
+      const perks = await caller.nft.getArenaPerks();
+
+      // Fresh test user has no claims
+      expect(perks.isHolder).toBe(false);
+      expect(perks.claimedCount).toBe(0);
+      expect(perks.perks.fightPointsMultiplier).toBe(1.0);
+      expect(perks.perks.title).toBeNull();
+    });
+  });
+
+  /* ─── Cache progress (public) ─── */
+  describe("getCacheProgress", () => {
+    it("should return cache progress", async () => {
+      const { ctx } = createPublicContext();
+      const caller = appRouter.createCaller(ctx);
+      const stats = await caller.nft.getCacheProgress();
+
+      expect(stats).toHaveProperty("cached");
+      expect(typeof stats.cached).toBe("number");
+      expect(stats).toHaveProperty("total", 1000);
+    });
+  });
+
+  /* ─── Arena perks code quality ─── */
+  describe("Arena perks code quality", () => {
+    it("should have Potentials link in sidebar navigation", () => {
+      const appShell = fs.readFileSync(
+        "/home/ubuntu/loredex-os/client/src/components/AppShell.tsx",
+        "utf-8"
+      );
+      expect(appShell).toContain("/potentials");
+    });
+
+    it("should have Potentials section in StorePage", () => {
+      const store = fs.readFileSync(
+        "/home/ubuntu/loredex-os/client/src/pages/StorePage.tsx",
+        "utf-8"
+      );
+      expect(store).toContain("THE POTENTIALS");
+      expect(store).toContain("/potentials");
+    });
+
+    it("should have arena perks display in FightPage", () => {
+      const fight = fs.readFileSync(
+        "/home/ubuntu/loredex-os/client/src/pages/FightPage.tsx",
+        "utf-8"
+      );
+      expect(fight).toContain("getArenaPerks");
+      expect(fight).toContain("NFT BONUS");
+      expect(fight).toContain("holderPerks");
+    });
+
+    it("should have arena perks info on PotentialsPage overview", () => {
+      const page = fs.readFileSync(
+        "/home/ubuntu/loredex-os/client/src/pages/PotentialsPage.tsx",
+        "utf-8"
+      );
+      expect(page).toContain("ARENA PERKS");
+      expect(page).toContain("bonus fight points");
+      expect(page).toContain("Collector's Champion");
     });
   });
 
