@@ -905,3 +905,50 @@
 - [x] 7 rank tiers (Bronze through Grandmaster) with ELO-based promotion
 - [x] Auto-records match results from FightPage with ELO changes
 - [x] All 429 tests passing
+
+## Phase 32: Fighting Game Mechanics Overhaul
+
+### Audit
+- [ ] Audit full fight engine: AI, controls, combat, combos, damage model, game feel
+
+### AI Overhaul
+- [ ] Implement difficulty tiers with distinct AI behavior patterns
+- [ ] Add adaptive AI that reads player patterns and adjusts
+- [ ] Add AI combo execution and special move usage
+- [ ] Fix AI decision-making timing and reaction windows
+
+### Control System
+- [ ] Improve input responsiveness and reduce input lag
+- [ ] Add input buffering for smoother combo execution
+- [ ] Improve directional input handling
+- [ ] Add control remapping or better key layout
+
+### Combat & Combo System
+- [ ] Improve combo linking and cancel windows
+- [ ] Add juggle system and launch mechanics
+- [ ] Improve hit/block stun frame data
+- [ ] Add counter/parry mechanics
+
+### Damage Model & Game Feel
+- [ ] Balance damage scaling across fighters
+- [ ] Add hitstop/freeze frames on impact
+- [ ] Improve knockback and recovery animations
+- [ ] Add screen shake and impact effects
+
+### MCOC-Style Mobile Control Overhaul
+- [x] Research Marvel Contest of Champions control scheme (tap, swipe, hold)
+- [x] Research COD Mobile touch control innovations
+- [x] Redesign control system: tap-right = light attack, tap-left = block, swipe-right = heavy, swipe-left = dash back
+- [x] Implement swipe-up = special attack, swipe-down = heavy/launcher
+- [x] Add hold-block mechanic (hold left side of screen)
+- [x] Implement dash-forward (swipe right on left side)
+- [x] Implement dash-back with invincibility frames (swipe left on left side)
+- [x] Add parry/counter system (block just before hit lands)
+- [x] Add combo chain system (tap sequences for light-light-medium-heavy chains)
+- [x] Implement intercept mechanic (attack during opponent's dash)
+- [x] Add heavy charge attack (hold right side)
+- [x] Redesign AI with MCOC-style behavior patterns
+- [x] Rebuild HUD for mobile-first tap controls (no virtual buttons)
+- [x] Add gesture tutorial/training mode overlay
+- [x] Update desktop controls to match (click zones + keyboard)
+- [x] Update tests for new control system
