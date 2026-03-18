@@ -883,3 +883,25 @@
 - [x] Wired 8 saga tracks as arena background music via YouTube IFrame API
 - [x] Added mute toggle button in fight HUD
 - [x] All 414 tests passing
+
+## Phase 31: Remaining Sprites, Training Mode & Leaderboard
+
+### Remaining Fighter Sprites
+- [x] Generated 168 sprite pose images (6 poses x 28 fighters: 18 unlockable + 10 demon)
+- [x] Uploaded all sprites to CDN
+- [x] Wired all 40 fighters into CharacterModel3D with poseSprites configs
+
+### Training/Practice Mode
+- [x] Built training mode with infinite health regen for opponent
+- [x] Added move list overlay showing all combos and specials with key inputs
+- [x] Added frame data display (startup, active, recovery, damage, type)
+- [x] Added combo counter and damage tracker in training HUD
+- [x] Added TRAINING button on fight title screen with [TRAINING] indicator in select
+
+### Online Leaderboard
+- [x] Created fightLeaderboard and fightMatches database tables with ELO system
+- [x] Built tRPC endpoints: getLeaderboard, getMyStats, getMatchHistory, recordMatch
+- [x] Built FightLeaderboardPage with Rankings, My Stats, and History tabs
+- [x] 7 rank tiers (Bronze through Grandmaster) with ELO-based promotion
+- [x] Auto-records match results from FightPage with ELO changes
+- [x] All 429 tests passing

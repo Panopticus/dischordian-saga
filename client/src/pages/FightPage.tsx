@@ -4,7 +4,9 @@
    ═══════════════════════════════════════════════════════ */
 import { useState, useMemo, useCallback, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Swords, Lock, Trophy, Star, Shield, Zap, Heart, Wind, ChevronLeft, ChevronRight, Gamepad2, AlertTriangle, Skull } from "lucide-react";
+import { Link } from "wouter";
+import { trpc } from "@/lib/trpc";
+import { Swords, Lock, Trophy, Star, Shield, Zap, Heart, Wind, ChevronLeft, ChevronRight, Gamepad2, AlertTriangle, Skull, Target } from "lucide-react";
 import { useGamification } from "@/contexts/GamificationContext";
 import { useContentReward } from "@/components/ContentRewardToast";
 import { toast } from "sonner";
@@ -48,6 +50,7 @@ export default function FightPage() {
   const [selectingFor, setSelectingFor] = useState<"player" | "opponent">("player");
   const [matchResult, setMatchResult] = useState<{ winner: "p1" | "p2"; perfect: boolean } | null>(null);
   const [hoveredFighter, setHoveredFighter] = useState<FighterData | null>(null);
+  const [isTrainingMode, setIsTrainingMode] = useState(false);
 
   const unlockedIds = useMemo(() => new Set(gam.gameSave.unlockedFighters), [gam.gameSave.unlockedFighters]);
 
@@ -77,8 +80,29 @@ export default function FightPage() {
     setPhase("fighting");
   }, [selectedPlayer, selectedOpponent]);
 
+  const startTraining = useCallback(() => {
+    setIsTrainingMode(true);
+    setPhase("select");
+    setSelectingFor("player");
+  }, []);
+
+  const recordMatch = trpc.fightLeaderboard.recordMatch.useMutation();
+
   const handleMatchEnd = useCallback((winner: "p1" | "p2", perfect: boolean) => {
     setMatchResult({ winner, perfect });
+    // Record to online leaderboard (fire and forget)
+    if (selectedPlayer && selectedOpponent && selectedArena) {
+      recordMatch.mutate({
+        won: winner === "p1",
+        playerFighter: selectedPlayer.id,
+        opponentFighter: selectedOpponent.id,
+        arena: selectedArena.id,
+        difficulty: selectedDifficulty.id,
+        perfect,
+        bestCombo: 0,
+        pointsEarned: winner === "p1" ? selectedDifficulty.pointsMultiplier * 100 : 0,
+      });
+    }
     if (winner === "p1") {
       gam.recordFightWin(selectedDifficulty.id, perfect);
       // Record content participation for fight wins
@@ -158,15 +182,33 @@ export default function FightPage() {
           <div className="font-mono text-sm text-amber-500/60 tracking-[0.2em] mb-8">COMBAT SIMULATOR</div>
 
           <div className="flex flex-col gap-3 items-center">
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => { setPhase("select"); setSelectingFor("player"); }}
-              className="px-8 py-3 rounded-lg bg-red-500/20 border-2 border-red-500/60 text-red-400 font-display text-lg tracking-wider hover:bg-red-500/30 hover:border-red-500 transition-all"
-              style={{ textShadow: "0 0 10px rgba(239,68,68,0.5)" }}
-            >
-              <Swords className="inline mr-2" size={20} /> FIGHT
-            </motion.button>
+            <div className="flex gap-3">
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => { setIsTrainingMode(false); setPhase("select"); setSelectingFor("player"); }}
+                className="px-8 py-3 rounded-lg bg-red-500/20 border-2 border-red-500/60 text-red-400 font-display text-lg tracking-wider hover:bg-red-500/30 hover:border-red-500 transition-all"
+                style={{ textShadow: "0 0 10px rgba(239,68,68,0.5)" }}
+              >
+                <Swords className="inline mr-2" size={20} /> FIGHT
+              </motion.button>
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={startTraining}
+                className="px-8 py-3 rounded-lg bg-cyan-500/20 border-2 border-cyan-500/60 text-cyan-400 font-display text-lg tracking-wider hover:bg-cyan-500/30 hover:border-cyan-500 transition-all"
+                style={{ textShadow: "0 0 10px rgba(34,211,238,0.5)" }}
+              >
+                <Target className="inline mr-2" size={20} /> TRAINING
+              </motion.button>
+              <Link
+                href="/fight-leaderboard"
+                className="px-8 py-3 rounded-lg bg-amber-500/20 border-2 border-amber-500/60 text-amber-400 font-display text-lg tracking-wider hover:bg-amber-500/30 hover:border-amber-500 transition-all inline-flex items-center"
+                style={{ textShadow: "0 0 10px rgba(245,158,11,0.5)" }}
+              >
+                <Trophy className="inline mr-2" size={20} /> LEADERBOARD
+              </Link>
+            </div>
 
             <div className="grid grid-cols-2 sm:flex gap-3 sm:gap-4 mt-4 text-center">
               <div className="px-4 py-2 rounded bg-white/5 border border-white/10">
@@ -203,6 +245,7 @@ export default function FightPage() {
             <ChevronLeft size={16} /> BACK
           </button>
           <h2 className="font-display text-sm tracking-[0.3em] text-white/80">
+            {isTrainingMode && <span className="text-cyan-400 mr-2">[TRAINING]</span>}
             SELECT {selectingFor === "player" ? "YOUR FIGHTER" : "OPPONENT"}
           </h2>
           <div className="font-mono text-xs text-amber-400">{gam.gameSave.fightPoints} PTS</div>
@@ -434,8 +477,9 @@ export default function FightPage() {
           opponent={selectedOpponent}
           arena={selectedArena}
           difficulty={selectedDifficulty}
-          onMatchEnd={handleMatchEnd}
-          onBack={resetToSelect}
+          onMatchEnd={isTrainingMode ? () => { setIsTrainingMode(false); resetToSelect(); } : handleMatchEnd}
+          onBack={() => { setIsTrainingMode(false); resetToSelect(); }}
+          trainingMode={isTrainingMode}
         />
       </div>
     );

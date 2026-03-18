@@ -722,3 +722,77 @@ export const contentRewards = mysqlTable("content_rewards", {
 });
 
 export type ContentReward = typeof contentRewards.$inferSelect;
+
+/* ═══════════════════════════════════════════════════════
+   FIGHT LEADERBOARD — Online ranked ladder
+   Tracks fight records, ELO ratings, and achievements
+   ═══════════════════════════════════════════════════════ */
+
+/**
+ * Fight leaderboard — one row per user.
+ * Tracks wins, losses, ELO rating, streaks, and stats.
+ */
+export const fightLeaderboard = mysqlTable("fight_leaderboard", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull().unique(),
+  userName: varchar("userName", { length: 256 }),
+  /** ELO rating (starts at 1000) */
+  elo: int("elo").notNull().default(1000),
+  /** Total wins */
+  wins: int("wins").notNull().default(0),
+  /** Total losses */
+  losses: int("losses").notNull().default(0),
+  /** Current win streak */
+  winStreak: int("winStreak").notNull().default(0),
+  /** Best win streak ever */
+  bestStreak: int("bestStreak").notNull().default(0),
+  /** Total KOs delivered */
+  totalKOs: int("totalKOs").notNull().default(0),
+  /** Perfect victories (no damage taken) */
+  perfectWins: int("perfectWins").notNull().default(0),
+  /** Highest combo achieved */
+  bestCombo: int("bestCombo").notNull().default(0),
+  /** Most used fighter ID */
+  mainFighter: varchar("mainFighter", { length: 128 }),
+  /** Rank tier: bronze, silver, gold, platinum, diamond, master, grandmaster */
+  rankTier: mysqlEnum("rankTier", [
+    "bronze", "silver", "gold", "platinum", "diamond", "master", "grandmaster"
+  ]).default("bronze").notNull(),
+  /** Last fight timestamp */
+  lastFightAt: timestamp("lastFightAt"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type FightLeaderboard = typeof fightLeaderboard.$inferSelect;
+export type InsertFightLeaderboard = typeof fightLeaderboard.$inferInsert;
+
+/**
+ * Fight match history — individual match records.
+ */
+export const fightMatches = mysqlTable("fight_matches", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  /** Fighter used by player */
+  playerFighter: varchar("playerFighter", { length: 128 }).notNull(),
+  /** Opponent fighter */
+  opponentFighter: varchar("opponentFighter", { length: 128 }).notNull(),
+  /** Difficulty played */
+  difficulty: varchar("difficulty", { length: 64 }).notNull(),
+  /** Arena played in */
+  arena: varchar("arena", { length: 128 }).notNull(),
+  /** Did the player win */
+  won: int("won").notNull().default(0),
+  /** Was it a perfect victory */
+  perfect: int("perfect").notNull().default(0),
+  /** Highest combo in this match */
+  bestCombo: int("bestCombo").notNull().default(0),
+  /** ELO change from this match */
+  eloChange: int("eloChange").notNull().default(0),
+  /** Points earned */
+  pointsEarned: int("pointsEarned").notNull().default(0),
+  playedAt: timestamp("playedAt").defaultNow().notNull(),
+});
+
+export type FightMatch = typeof fightMatches.$inferSelect;
+export type InsertFightMatch = typeof fightMatches.$inferInsert;

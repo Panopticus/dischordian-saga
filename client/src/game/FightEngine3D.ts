@@ -176,7 +176,8 @@ export class FightEngine3D {
     p2Data: FighterData,
     difficulty: Difficulty,
     callbacks: FightCallbacks = {},
-    arenaData?: { backgroundImage?: string; ambientColor?: string; floorColor?: string }
+    arenaData?: { backgroundImage?: string; ambientColor?: string; floorColor?: string },
+    public trainingMode = false
   ) {
     this.difficulty = difficulty;
     this.callbacks = callbacks;
@@ -712,8 +713,22 @@ export class FightEngine3D {
     this.callbacks.onHealthChange?.(this.p1.hp, this.p1.maxHp, this.p2.hp, this.p2.maxHp);
 
     // Check KO
-    if (this.p1.hp <= 0) this.endRound(2);
-    if (this.p2.hp <= 0) this.endRound(1);
+    if (this.trainingMode) {
+      // In training mode, auto-regen opponent health and never end rounds
+      if (this.p2.hp < this.p2.maxHp * 0.3) {
+        this.p2.hp = this.p2.maxHp;
+        this.p2.displayHp = this.p2.maxHp;
+      }
+      // Player also regens slowly
+      if (this.p1.hp < this.p1.maxHp) {
+        this.p1.hp = Math.min(this.p1.maxHp, this.p1.hp + this.p1.maxHp * 0.002);
+      }
+      // Never time out
+      this.roundTimer = 99;
+    } else {
+      if (this.p1.hp <= 0) this.endRound(2);
+      if (this.p2.hp <= 0) this.endRound(1);
+    }
   }
 
   /* ═══ PLAYER INPUT ═══ */

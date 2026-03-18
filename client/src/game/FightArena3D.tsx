@@ -17,6 +17,7 @@ interface FightArena3DProps {
   difficulty: DifficultyLevel;
   onMatchEnd: (winner: "p1" | "p2", perfect: boolean) => void;
   onBack: () => void;
+  trainingMode?: boolean;
 }
 
 function mapDifficulty(d: DifficultyLevel): Difficulty {
@@ -29,7 +30,7 @@ function mapDifficulty(d: DifficultyLevel): Difficulty {
   }
 }
 
-export default function FightArena3D({ player, opponent, arena, difficulty, onMatchEnd, onBack }: FightArena3DProps) {
+export default function FightArena3D({ player, opponent, arena, difficulty, onMatchEnd, onBack, trainingMode = false }: FightArena3DProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const engineRef = useRef<FightEngine3D | null>(null);
   const rafRef = useRef<number>(0);
@@ -49,6 +50,10 @@ export default function FightArena3D({ player, opponent, arena, difficulty, onMa
   const [matchEnded, setMatchEnded] = useState(false);
   const soundRef = useRef<FightSoundManager | null>(null);
   const [soundMuted, setSoundMuted] = useState(false);
+  const [showMoveList, setShowMoveList] = useState(trainingMode);
+  const [trainingComboMax, setTrainingComboMax] = useState(0);
+  const [trainingDamageTotal, setTrainingDamageTotal] = useState(0);
+  const [trainingHitsLanded, setTrainingHitsLanded] = useState(0);
 
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth < 768 || "ontouchstart" in window);
@@ -122,6 +127,20 @@ export default function FightArena3D({ player, opponent, arena, difficulty, onMa
             sound.play("combo_hit");
             if (count >= 3) sound.announce(`${count} hit combo!`);
           }
+          if (trainingMode && p === 1) {
+            setTrainingComboMax(prev => Math.max(prev, count));
+            setTrainingDamageTotal(prev => prev + Math.round(damage));
+          }
+        },
+        onHit: (_attacker, type) => {
+          if (trainingMode && _attacker === 1) {
+            setTrainingHitsLanded(prev => prev + 1);
+          }
+          if (type.includes("punch_light") || type.includes("kick_light")) sound.play("punch_light");
+          else if (type.includes("punch_heavy") || type.includes("kick_heavy")) sound.play("punch_heavy");
+          else if (type.includes("block")) sound.play("block");
+          else if (type.includes("special")) sound.play("special");
+          else sound.play("punch_light");
         },
         onMatchEnd: (winner) => {
           setMatchEnded(true);
@@ -130,19 +149,14 @@ export default function FightArena3D({ player, opponent, arena, difficulty, onMa
           if (perfect) sound.announce("Perfect!");
           setTimeout(() => onMatchEnd(winner === 1 ? "p1" : "p2", perfect), 3000);
         },
-        onHit: (_attacker, type) => {
-          if (type.includes("punch_light") || type.includes("kick_light")) sound.play("punch_light");
-          else if (type.includes("punch_heavy") || type.includes("kick_heavy")) sound.play("punch_heavy");
-          else if (type.includes("block")) sound.play("block");
-          else if (type.includes("special")) sound.play("special");
-          else sound.play("punch_light");
-        },
+
       },
       {
         backgroundImage: arena.backgroundImage,
         ambientColor: arena.ambientColor,
         floorColor: arena.floorColor,
-      }
+      },
+      trainingMode
     );
 
     engineRef.current = engine;
@@ -571,6 +585,136 @@ export default function FightArena3D({ player, opponent, arena, difficulty, onMa
       >
         ESC
       </button>
+
+      {/* Training Mode Overlay */}
+      {trainingMode && (
+        <>
+          {/* Training Mode Banner */}
+          <div style={{
+            position: "absolute", top: "1vh", left: "50%", transform: "translateX(-50%)",
+            padding: "0.3vh 2vw", borderRadius: "0.3vw",
+            background: "rgba(34,211,238,0.15)", border: "1px solid rgba(34,211,238,0.5)",
+            color: "#22d3ee", fontFamily: "monospace",
+            fontSize: "max(1vw, 12px)", fontWeight: "bold",
+            letterSpacing: "0.2em", zIndex: 25, textAlign: "center",
+          }}>
+            TRAINING MODE
+          </div>
+
+          {/* Training Stats Panel */}
+          <div style={{
+            position: "absolute", top: "5vh", right: "1vw",
+            padding: "1vh 1vw", borderRadius: "0.5vw",
+            background: "rgba(0,0,0,0.8)", border: "1px solid rgba(34,211,238,0.3)",
+            fontFamily: "monospace", fontSize: "max(0.8vw, 10px)",
+            color: "rgba(255,255,255,0.7)", zIndex: 25,
+            minWidth: "12vw",
+          }}>
+            <div style={{ color: "#22d3ee", fontWeight: "bold", marginBottom: "0.5vh", letterSpacing: "0.1em" }}>STATS</div>
+            <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "0.3vh" }}>
+              <span style={{ color: "rgba(255,255,255,0.5)" }}>Hits:</span>
+              <span style={{ color: "#4ade80" }}>{trainingHitsLanded}</span>
+            </div>
+            <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "0.3vh" }}>
+              <span style={{ color: "rgba(255,255,255,0.5)" }}>Max Combo:</span>
+              <span style={{ color: "#f59e0b" }}>{trainingComboMax}</span>
+            </div>
+            <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "0.3vh" }}>
+              <span style={{ color: "rgba(255,255,255,0.5)" }}>Total DMG:</span>
+              <span style={{ color: "#ef4444" }}>{trainingDamageTotal}</span>
+            </div>
+            <div style={{ marginTop: "0.5vh", paddingTop: "0.5vh", borderTop: "1px solid rgba(255,255,255,0.1)" }}>
+              <div style={{ color: "rgba(255,255,255,0.4)", fontSize: "max(0.6vw, 8px)" }}>Opponent auto-regens at 30% HP</div>
+            </div>
+          </div>
+
+          {/* Move List Toggle */}
+          <button
+            onClick={() => setShowMoveList(prev => !prev)}
+            style={{
+              position: "absolute", top: "5vh", left: "1vw",
+              padding: "0.5vh 1vw", borderRadius: "0.3vw",
+              background: showMoveList ? "rgba(34,211,238,0.2)" : "rgba(0,0,0,0.7)",
+              border: `1px solid ${showMoveList ? "rgba(34,211,238,0.5)" : "rgba(255,255,255,0.25)"}`,
+              color: showMoveList ? "#22d3ee" : "rgba(255,255,255,0.5)",
+              fontFamily: "monospace", fontSize: "max(0.8vw, 10px)",
+              cursor: "pointer", zIndex: 25, letterSpacing: "0.05em",
+            }}
+          >
+            {showMoveList ? "HIDE MOVES" : "SHOW MOVES"}
+          </button>
+
+          {/* Move List Panel */}
+          {showMoveList && (
+            <div style={{
+              position: "absolute", top: "8vh", left: "1vw",
+              padding: "1vh 1.5vw", borderRadius: "0.5vw",
+              background: "rgba(0,0,0,0.9)", border: "1px solid rgba(34,211,238,0.3)",
+              fontFamily: "monospace", fontSize: "max(0.7vw, 9px)",
+              color: "rgba(255,255,255,0.8)", zIndex: 25,
+              maxHeight: "60vh", overflowY: "auto", minWidth: "18vw",
+            }}>
+              <div style={{ color: "#22d3ee", fontWeight: "bold", marginBottom: "1vh", letterSpacing: "0.15em", fontSize: "max(0.9vw, 11px)" }}>
+                MOVE LIST — {player.name.toUpperCase()}
+              </div>
+              <table style={{ width: "100%", borderCollapse: "collapse" }}>
+                <thead>
+                  <tr style={{ borderBottom: "1px solid rgba(255,255,255,0.2)" }}>
+                    <th style={{ textAlign: "left", padding: "0.3vh 0.5vw", color: "rgba(255,255,255,0.5)" }}>Move</th>
+                    <th style={{ textAlign: "left", padding: "0.3vh 0.5vw", color: "rgba(255,255,255,0.5)" }}>Input</th>
+                    <th style={{ textAlign: "right", padding: "0.3vh 0.5vw", color: "rgba(255,255,255,0.5)" }}>DMG</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr style={{ borderBottom: "1px solid rgba(255,255,255,0.05)" }}>
+                    <td style={{ padding: "0.3vh 0.5vw" }}>Light Punch</td>
+                    <td style={{ padding: "0.3vh 0.5vw", color: "#fbbf24" }}>J / Z</td>
+                    <td style={{ padding: "0.3vh 0.5vw", textAlign: "right", color: "#ef4444" }}>{Math.round(player.attack * 0.8)}</td>
+                  </tr>
+                  <tr style={{ borderBottom: "1px solid rgba(255,255,255,0.05)" }}>
+                    <td style={{ padding: "0.3vh 0.5vw" }}>Heavy Punch</td>
+                    <td style={{ padding: "0.3vh 0.5vw", color: "#fbbf24" }}>S + J</td>
+                    <td style={{ padding: "0.3vh 0.5vw", textAlign: "right", color: "#ef4444" }}>{Math.round(player.attack * 1.4)}</td>
+                  </tr>
+                  <tr style={{ borderBottom: "1px solid rgba(255,255,255,0.05)" }}>
+                    <td style={{ padding: "0.3vh 0.5vw" }}>Light Kick</td>
+                    <td style={{ padding: "0.3vh 0.5vw", color: "#fbbf24" }}>K / X</td>
+                    <td style={{ padding: "0.3vh 0.5vw", textAlign: "right", color: "#ef4444" }}>{Math.round(player.attack * 1.0)}</td>
+                  </tr>
+                  <tr style={{ borderBottom: "1px solid rgba(255,255,255,0.05)" }}>
+                    <td style={{ padding: "0.3vh 0.5vw" }}>Heavy Kick</td>
+                    <td style={{ padding: "0.3vh 0.5vw", color: "#fbbf24" }}>S + K</td>
+                    <td style={{ padding: "0.3vh 0.5vw", textAlign: "right", color: "#ef4444" }}>{Math.round(player.attack * 1.6)}</td>
+                  </tr>
+                  <tr style={{ borderBottom: "1px solid rgba(255,255,255,0.05)" }}>
+                    <td style={{ padding: "0.3vh 0.5vw" }}>Block</td>
+                    <td style={{ padding: "0.3vh 0.5vw", color: "#fbbf24" }}>L / C</td>
+                    <td style={{ padding: "0.3vh 0.5vw", textAlign: "right", color: "#60a5fa" }}>—</td>
+                  </tr>
+                  <tr style={{ borderBottom: "1px solid rgba(255,255,255,0.1)", background: "rgba(34,211,238,0.05)" }}>
+                    <td style={{ padding: "0.3vh 0.5vw", color: player.special.color, fontWeight: "bold" }}>{player.special.name}</td>
+                    <td style={{ padding: "0.3vh 0.5vw", color: "#fbbf24" }}>Space / V</td>
+                    <td style={{ padding: "0.3vh 0.5vw", textAlign: "right", color: "#ef4444", fontWeight: "bold" }}>{player.special.damage}</td>
+                  </tr>
+                </tbody>
+              </table>
+              <div style={{ marginTop: "1vh", paddingTop: "0.5vh", borderTop: "1px solid rgba(255,255,255,0.1)" }}>
+                <div style={{ color: "#22d3ee", fontWeight: "bold", marginBottom: "0.5vh" }}>COMBOS</div>
+                {player.combos.map((combo, i) => (
+                  <div key={i} style={{ color: "rgba(255,255,255,0.6)", marginBottom: "0.3vh" }}>
+                    <span style={{ color: "#f59e0b" }}>{i + 1}.</span> {combo}
+                  </div>
+                ))}
+              </div>
+              <div style={{ marginTop: "1vh", paddingTop: "0.5vh", borderTop: "1px solid rgba(255,255,255,0.1)" }}>
+                <div style={{ color: "rgba(255,255,255,0.4)", fontSize: "max(0.6vw, 8px)" }}>
+                  Special requires full meter (100%). Build meter by landing hits.
+                </div>
+              </div>
+            </div>
+          )}
+        </>
+      )}
 
       {/* Sound mute toggle */}
       <button
