@@ -30,6 +30,15 @@ export interface CharacterConfig {
   fightStyle: "aggressive" | "defensive" | "evasive" | "balanced";
   // Image URL for billboard sprite
   imageUrl?: string;
+  // Pose sprite URLs for animation states
+  poseSprites?: {
+    idle?: string;
+    attack?: string;
+    block?: string;
+    hit?: string;
+    ko?: string;
+    victory?: string;
+  };
 }
 
 /* ─── BONE NAMES (kept for compatibility) ─── */
@@ -66,6 +75,14 @@ export const CHARACTER_CONFIGS: Record<string, CharacterConfig> = {
     hasCape: true, glowColor: "#ff8c00",
     fightStyle: "balanced",
     imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/fighter_architect_112e44c3.png",
+    poseSprites: {
+      idle: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/sprite_architect_idle_73497ee2.png",
+      attack: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/sprite_architect_attack_9e30a872.png",
+      block: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/sprite_architect_block_fc0bdcce.png",
+      hit: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/sprite_architect_hit_7c5d6f27.png",
+      ko: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/sprite_architect_ko_6d2ebde3.png",
+      victory: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/sprite_architect_victory_5aa1b3c5.png",
+    },
   },
   "collector": {
     id: "collector", name: "The Collector",
@@ -76,6 +93,14 @@ export const CHARACTER_CONFIGS: Record<string, CharacterConfig> = {
     hasCape: true, glowColor: "#a855f7",
     fightStyle: "defensive",
     imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/fighter_collector_b186a524.png",
+    poseSprites: {
+      idle: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/sprite_collector_idle_ed891822.png",
+      attack: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/sprite_collector_attack_e9d6b69e.png",
+      block: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/sprite_collector_block_fe1d6aa0.png",
+      hit: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/sprite_collector_hit_3a2ccff6.png",
+      ko: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/sprite_collector_ko_c8256632.png",
+      victory: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/sprite_collector_victory_08d3cc21.png",
+    },
   },
   "enigma": {
     id: "enigma", name: "The Enigma",
@@ -86,6 +111,14 @@ export const CHARACTER_CONFIGS: Record<string, CharacterConfig> = {
     hasCape: false, glowColor: "#9945ff",
     fightStyle: "evasive",
     imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/fighter_enigma_cdfd92b5.png",
+    poseSprites: {
+      idle: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/sprite_enigma_idle_3a055f6f.png",
+      attack: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/sprite_enigma_attack_5fca073c.png",
+      block: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/sprite_enigma_block_b4dd6d7d.png",
+      hit: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/sprite_enigma_hit_6eff60dc.png",
+      ko: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/sprite_enigma_ko_c09a22ac.png",
+      victory: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/sprite_enigma_victory_c5851ae8.png",
+    },
   },
   "warlord": {
     id: "warlord", name: "The Warlord",
@@ -96,6 +129,14 @@ export const CHARACTER_CONFIGS: Record<string, CharacterConfig> = {
     hasCape: false, glowColor: "#f59e0b",
     fightStyle: "aggressive",
     imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/fighter_warlord_c8a0631b.png",
+    poseSprites: {
+      idle: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/sprite_warlord_idle_f9433b68.png",
+      attack: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/sprite_warlord_attack_ea98368b.png",
+      block: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/sprite_warlord_block_1711e375.png",
+      hit: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/sprite_warlord_hit_6915506d.png",
+      ko: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/sprite_warlord_ko_0e63f821.png",
+      victory: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/sprite_warlord_victory_e7b25576.png",
+    },
   },
   "necromancer": {
     id: "necromancer", name: "The Necromancer",
@@ -106,6 +147,14 @@ export const CHARACTER_CONFIGS: Record<string, CharacterConfig> = {
     hasCape: true, glowColor: "#22c55e",
     fightStyle: "defensive",
     imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/fighter_necromancer_19def768.png",
+    poseSprites: {
+      idle: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/sprite_necromancer_idle_5095faaa.png",
+      attack: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/sprite_necromancer_attack_b60fc80d.png",
+      block: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/sprite_necromancer_block_afaeaa38.png",
+      hit: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/sprite_necromancer_hit_f174b2d0.png",
+      ko: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/sprite_necromancer_ko_4ba40fc9.png",
+      victory: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/sprite_necromancer_victory_7a6fa1cf.png",
+    },
   },
   "meme": {
     id: "meme", name: "The Meme",
@@ -116,6 +165,14 @@ export const CHARACTER_CONFIGS: Record<string, CharacterConfig> = {
     hasCape: false, glowColor: "#ec4899",
     fightStyle: "evasive",
     imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/fighter_meme_7e48e410.png",
+    poseSprites: {
+      idle: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/sprite_meme_idle_8003ac16.png",
+      attack: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/sprite_meme_attack_064a2569.png",
+      block: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/sprite_meme_block_82ce7d05.png",
+      hit: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/sprite_meme_hit_368a54a9.png",
+      ko: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/sprite_meme_ko_da9d53a8.png",
+      victory: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/sprite_meme_victory_182435d8.png",
+    },
   },
   "shadow-tongue": {
     id: "shadow-tongue", name: "Shadow Tongue",
@@ -126,6 +183,14 @@ export const CHARACTER_CONFIGS: Record<string, CharacterConfig> = {
     hasCape: true, glowColor: "#6366f1",
     fightStyle: "evasive",
     imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/007_the_shadow_tongue_dd8299da.png",
+    poseSprites: {
+      idle: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/sprite_shadow-tongue_idle_1d6aa2c4.png",
+      attack: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/sprite_shadow-tongue_attack_ddfc8f91.png",
+      block: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/sprite_shadow-tongue_block_d583a6aa.png",
+      hit: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/sprite_shadow-tongue_hit_f0290884.png",
+      ko: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/sprite_shadow-tongue_ko_ea598646.png",
+      victory: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/sprite_shadow-tongue_victory_42f4694c.png",
+    },
   },
   "watcher": {
     id: "watcher", name: "The Watcher",
@@ -136,6 +201,14 @@ export const CHARACTER_CONFIGS: Record<string, CharacterConfig> = {
     hasCape: false, glowColor: "#3b82f6",
     fightStyle: "balanced",
     imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/fighter_watcher_5fc20ca2.png",
+    poseSprites: {
+      idle: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/sprite_watcher_idle_5fcc345b.png",
+      attack: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/sprite_watcher_attack_f47745e6.png",
+      block: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/sprite_watcher_block_72347f4e.png",
+      hit: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/sprite_watcher_hit_07dd0ab3.png",
+      ko: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/sprite_watcher_ko_79f6aca1.png",
+      victory: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/sprite_watcher_victory_ffa01ec4.png",
+    },
   },
   "game-master": {
     id: "game-master", name: "The Game Master",
@@ -146,6 +219,14 @@ export const CHARACTER_CONFIGS: Record<string, CharacterConfig> = {
     hasCape: true, glowColor: "#f97316",
     fightStyle: "balanced",
     imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/017_the_game_master_e5ceb4cc.png",
+    poseSprites: {
+      idle: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/sprite_game-master_idle_8ae48ac0.png",
+      attack: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/sprite_game-master_attack_a98c500d.png",
+      block: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/sprite_game-master_block_91ec4acb.png",
+      hit: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/sprite_game-master_hit_eb842a79.png",
+      ko: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/sprite_game-master_ko_744bfbb8.png",
+      victory: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/sprite_game-master_victory_937ba7d2.png",
+    },
   },
   "authority": {
     id: "authority", name: "The Authority",
@@ -166,6 +247,14 @@ export const CHARACTER_CONFIGS: Record<string, CharacterConfig> = {
     hasCape: true, glowColor: "#eab308",
     fightStyle: "balanced",
     imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/fighter_source_6bcf173a.png",
+    poseSprites: {
+      idle: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/sprite_source_idle_899c637f.png",
+      attack: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/sprite_source_attack_6eb83b01.png",
+      block: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/sprite_source_block_8efc9c03.png",
+      hit: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/sprite_source_hit_a0015fbe.png",
+      ko: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/sprite_source_ko_bc43ff01.png",
+      victory: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/sprite_source_victory_2134d38f.png",
+    },
   },
   "jailer": {
     id: "jailer", name: "The Jailer",
@@ -176,6 +265,14 @@ export const CHARACTER_CONFIGS: Record<string, CharacterConfig> = {
     hasCape: false, glowColor: "#ca8a04",
     fightStyle: "aggressive",
     imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/fighter_jailer_3f88a56e.png",
+    poseSprites: {
+      idle: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/sprite_jailer_idle_79b80ce8.png",
+      attack: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/sprite_jailer_attack_5009c334.png",
+      block: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/sprite_jailer_block_f24098e2.png",
+      hit: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/sprite_jailer_hit_46eae29b.png",
+      ko: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/sprite_jailer_ko_a52adcf0.png",
+      victory: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/sprite_jailer_victory_2e0f0f32.png",
+    },
   },
   "host": {
     id: "host", name: "The Host",
@@ -186,6 +283,14 @@ export const CHARACTER_CONFIGS: Record<string, CharacterConfig> = {
     hasCape: false, glowColor: "#06b6d4",
     fightStyle: "defensive",
     imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/fighter_host_a8b29b53.png",
+    poseSprites: {
+      idle: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/sprite_host_idle_58db1cc0.png",
+      attack: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/sprite_host_attack_94121d04.png",
+      block: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/sprite_host_block_a3313369.png",
+      hit: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/sprite_host_hit_0c99503d.png",
+      ko: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/sprite_host_ko_493cf379.png",
+      victory: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/sprite_host_victory_900788dd.png",
+    },
   },
   "iron-lion": {
     id: "iron-lion", name: "Iron Lion",
@@ -507,6 +612,9 @@ export interface CharacterModel {
   glowMaterial: THREE.ShaderMaterial;
   // Energy particles group
   energyParticles: THREE.Group;
+  // Pose textures for state-based sprite swapping
+  poseTextures: Record<string, THREE.Texture>;
+  currentPose: string;
   // Ground shadow
   groundShadow: THREE.Mesh;
   // Part references for animation (proxy objects)
@@ -777,6 +885,14 @@ export function buildCharacterModel(id: string): CharacterModel {
   rLowerLeg.position.set(0.08 * s, 0.5 * s, 0);
   rFoot.position.set(0.08 * s, 0.2 * s, 0);
   
+  // ── Load pose textures ──
+  const poseTextures: Record<string, THREE.Texture> = {};
+  if (config.poseSprites) {
+    for (const [pose, url] of Object.entries(config.poseSprites)) {
+      if (url) poseTextures[pose] = loadCharacterTexture(url);
+    }
+  }
+
   return {
     group,
     config,
@@ -788,6 +904,8 @@ export function buildCharacterModel(id: string): CharacterModel {
     glowSprite,
     glowMaterial,
     energyParticles,
+    poseTextures,
+    currentPose: "idle",
     groundShadow,
     parts: {
       head, torso,

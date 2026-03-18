@@ -32,6 +32,7 @@ export interface ArenaData {
   bgGradient: string;
   floorColor: string;
   ambientColor: string;
+  backgroundImage?: string;
 }
 
 /* ─── STARTER ROSTER (Archons minus CoNexus & Vortex, plus Jailer & Host) ─── */
@@ -547,6 +548,7 @@ export const ARENAS: ArenaData[] = [
     bgGradient: "linear-gradient(180deg, #0a0a2e 0%, #1a0a3e 40%, #2d1b69 70%, #1a0a2e 100%)",
     floorColor: "#1e1b4b",
     ambientColor: "#6366f1",
+    backgroundImage: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/arena_new-babylon_bg_b728428b.png",
   },
   {
     id: "panopticon",
@@ -554,6 +556,7 @@ export const ARENAS: ArenaData[] = [
     bgGradient: "linear-gradient(180deg, #0f0f0f 0%, #1a0000 40%, #3d0000 70%, #1a0000 100%)",
     floorColor: "#1c1917",
     ambientColor: "#ef4444",
+    backgroundImage: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/arena_panopticon_bg_9b399315.png",
   },
   {
     id: "thaloria",
@@ -561,6 +564,7 @@ export const ARENAS: ArenaData[] = [
     bgGradient: "linear-gradient(180deg, #001a1a 0%, #003333 40%, #004d4d 70%, #001a1a 100%)",
     floorColor: "#134e4a",
     ambientColor: "#14b8a6",
+    backgroundImage: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/arena_thaloria_bg_35141b80.png",
   },
   {
     id: "terminus",
@@ -568,6 +572,7 @@ export const ARENAS: ArenaData[] = [
     bgGradient: "linear-gradient(180deg, #0a0a0a 0%, #1a0a2a 40%, #2a1a4a 70%, #0a0a1a 100%)",
     floorColor: "#1e1b4b",
     ambientColor: "#a855f7",
+    backgroundImage: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/arena_terminus_bg_5cd44ec3.png",
   },
   {
     id: "mechronis",
@@ -575,6 +580,7 @@ export const ARENAS: ArenaData[] = [
     bgGradient: "linear-gradient(180deg, #0a1a0a 0%, #1a2a1a 40%, #2a3a2a 70%, #0a1a0a 100%)",
     floorColor: "#1a2e1a",
     ambientColor: "#22c55e",
+    backgroundImage: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/arena_mechronis_bg_ad75cf5a.png",
   },
   {
     id: "crucible",
@@ -582,6 +588,7 @@ export const ARENAS: ArenaData[] = [
     bgGradient: "linear-gradient(180deg, #1a0a00 0%, #3d1a00 40%, #5a2a00 70%, #1a0a00 100%)",
     floorColor: "#431407",
     ambientColor: "#f97316",
+    backgroundImage: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/arena_crucible_bg_3e0565d6.png",
   },
   {
     id: "blood-weave",
@@ -589,6 +596,7 @@ export const ARENAS: ArenaData[] = [
     bgGradient: "linear-gradient(180deg, #1a0000 0%, #330000 30%, #4d0000 50%, #660000 70%, #1a0000 100%)",
     floorColor: "#2d0000",
     ambientColor: "#dc2626",
+    backgroundImage: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/arena_blood-weave_bg_1b008207.png",
   },
   {
     id: "shadow-sanctum",
@@ -596,6 +604,7 @@ export const ARENAS: ArenaData[] = [
     bgGradient: "linear-gradient(180deg, #0a0014 0%, #1a0033 30%, #2a004d 50%, #1a0033 70%, #0a0014 100%)",
     floorColor: "#1a0033",
     ambientColor: "#7c3aed",
+    backgroundImage: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/arena_shadow-sanctum_bg_ed989236.png",
   },
 ];
 

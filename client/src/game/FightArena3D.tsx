@@ -5,8 +5,10 @@
    ═══════════════════════════════════════════════════════ */
 import { useEffect, useRef, useState, useCallback } from "react";
 import { FightEngine3D, type FightPhase, type Difficulty } from "./FightEngine3D";
+import { FightSoundManager } from "./FightSoundManager";
 import type { FighterData, ArenaData, DifficultyLevel } from "./gameData";
 import { motion, AnimatePresence } from "framer-motion";
+import { Volume2, VolumeX } from "lucide-react";
 
 interface FightArena3DProps {
   player: FighterData;
@@ -45,6 +47,8 @@ export default function FightArena3D({ player, opponent, arena, difficulty, onMa
   const [showAnnounce, setShowAnnounce] = useState(false);
   const [comboDisplay, setComboDisplay] = useState<{ player: 1 | 2; count: number; damage: number } | null>(null);
   const [matchEnded, setMatchEnded] = useState(false);
+  const soundRef = useRef<FightSoundManager | null>(null);
+  const [soundMuted, setSoundMuted] = useState(false);
 
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth < 768 || "ontouchstart" in window);
@@ -64,6 +68,11 @@ export default function FightArena3D({ player, opponent, arena, difficulty, onMa
     const container = containerRef.current;
     if (!container) return;
 
+    // Initialize sound manager
+    const sound = new FightSoundManager(arena.id);
+    sound.init();
+    soundRef.current = sound;
+
     const engine = new FightEngine3D(
       container,
       player,
@@ -75,36 +84,64 @@ export default function FightArena3D({ player, opponent, arena, difficulty, onMa
           switch (p) {
             case "intro":
               announce("GET READY", "#ffffff", 1500);
+              sound.announce("Get Ready");
+              sound.startArenaMusic();
               break;
-            case "round_announce":
+            case "round_announce": {
               const state = engine.getState();
               announce(`ROUND ${state.round}`, "#22d3ee", 1200);
-              setTimeout(() => announce("FIGHT!", "#ef4444", 800), 1300);
+              sound.playRoundFanfare();
+              sound.announce(`Round ${state.round}`);
+              setTimeout(() => {
+                announce("FIGHT!", "#ef4444", 800);
+                sound.announce("Fight!");
+              }, 1300);
               break;
+            }
             case "ko":
               announce("K.O.!", "#ef4444", 2000);
+              sound.play("ko");
+              sound.announce("K O!");
               break;
-            case "match_end":
+            case "match_end": {
               const finalState = engine.getState();
               const winner = finalState.p1.hp > 0 ? 1 : 2;
               const winnerName = winner === 1 ? finalState.p1.name : finalState.p2.name;
               announce(`${winnerName.toUpperCase()} WINS!`, winner === 1 ? finalState.p1.color : finalState.p2.color, 3000);
+              sound.playVictoryFanfare();
+              sound.announce(`${winnerName} wins!`);
+              sound.stopArenaMusic();
               break;
+            }
           }
         },
         onCombo: (p, count, damage) => {
           if (count >= 2) {
             setComboDisplay({ player: p, count, damage: Math.round(damage) });
             setTimeout(() => setComboDisplay(null), 1500);
+            sound.play("combo_hit");
+            if (count >= 3) sound.announce(`${count} hit combo!`);
           }
         },
         onMatchEnd: (winner) => {
           setMatchEnded(true);
           const finalState = engine.getState();
           const perfect = winner === 1 ? finalState.p1.hp >= finalState.p1.maxHp : finalState.p2.hp >= finalState.p2.maxHp;
+          if (perfect) sound.announce("Perfect!");
           setTimeout(() => onMatchEnd(winner === 1 ? "p1" : "p2", perfect), 3000);
         },
-        onHit: () => {},
+        onHit: (_attacker, type) => {
+          if (type.includes("punch_light") || type.includes("kick_light")) sound.play("punch_light");
+          else if (type.includes("punch_heavy") || type.includes("kick_heavy")) sound.play("punch_heavy");
+          else if (type.includes("block")) sound.play("block");
+          else if (type.includes("special")) sound.play("special");
+          else sound.play("punch_light");
+        },
+      },
+      {
+        backgroundImage: arena.backgroundImage,
+        ambientColor: arena.ambientColor,
+        floorColor: arena.floorColor,
       }
     );
 
@@ -126,6 +163,8 @@ export default function FightArena3D({ player, opponent, arena, difficulty, onMa
     return () => {
       cancelAnimationFrame(rafRef.current);
       engine.dispose();
+      sound.dispose();
+      soundRef.current = null;
       window.removeEventListener("keydown", handleKey);
     };
   }, [player, opponent, difficulty, onMatchEnd, onBack, announce]);
@@ -531,6 +570,27 @@ export default function FightArena3D({ player, opponent, arena, difficulty, onMa
         }}
       >
         ESC
+      </button>
+
+      {/* Sound mute toggle */}
+      <button
+        onClick={() => {
+          if (soundRef.current) {
+            const muted = soundRef.current.toggleMute();
+            setSoundMuted(muted);
+          }
+        }}
+        style={{
+          position: "absolute", top: "1vh", left: "5vw",
+          padding: "0.5vh 0.8vw", borderRadius: "0.3vw",
+          background: "rgba(0,0,0,0.7)", border: "1px solid rgba(255,255,255,0.25)",
+          color: soundMuted ? "rgba(255,80,80,0.7)" : "rgba(255,255,255,0.5)",
+          fontFamily: "monospace", fontSize: "max(0.8vw, 10px)",
+          cursor: "pointer", zIndex: 20, display: "flex", alignItems: "center", gap: "0.3vw",
+        }}
+      >
+        {soundMuted ? <VolumeX size={14} /> : <Volume2 size={14} />}
+        <span>{soundMuted ? "OFF" : "SFX"}</span>
       </button>
     </div>
   );

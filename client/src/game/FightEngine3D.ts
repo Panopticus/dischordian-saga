@@ -162,6 +162,9 @@ export class FightEngine3D {
   // Stage
   private stageFloor!: THREE.Mesh;
   private stageLights: THREE.PointLight[] = [];
+  private arenaBackgroundUrl?: string;
+  private arenaAmbientColor?: string;
+  private arenaFloorColor?: string;
 
   // Animation
   private animFrame = 0;
@@ -172,10 +175,14 @@ export class FightEngine3D {
     p1Data: FighterData,
     p2Data: FighterData,
     difficulty: Difficulty,
-    callbacks: FightCallbacks = {}
+    callbacks: FightCallbacks = {},
+    arenaData?: { backgroundImage?: string; ambientColor?: string; floorColor?: string }
   ) {
     this.difficulty = difficulty;
     this.callbacks = callbacks;
+    this.arenaBackgroundUrl = arenaData?.backgroundImage;
+    this.arenaAmbientColor = arenaData?.ambientColor;
+    this.arenaFloorColor = arenaData?.floorColor;
 
     // ── Three.js Setup ──
     this.scene = new THREE.Scene();
@@ -222,10 +229,54 @@ export class FightEngine3D {
 
   /* ═══ STAGE BUILDING ═══ */
   private buildStage() {
+    // ── ARENA BACKGROUND IMAGE — panoramic backdrop ──
+    if (this.arenaBackgroundUrl) {
+      const bgLoader = new THREE.TextureLoader();
+      bgLoader.crossOrigin = "anonymous";
+      bgLoader.load(this.arenaBackgroundUrl, (bgTex) => {
+        bgTex.colorSpace = THREE.SRGBColorSpace;
+        // Far background layer — full panoramic image
+        const bgAspect = bgTex.image.width / bgTex.image.height;
+        const bgWidth = 36;
+        const bgHeight = bgWidth / bgAspect;
+        const bgGeo = new THREE.PlaneGeometry(bgWidth, Math.max(bgHeight, 14));
+        const bgMat = new THREE.MeshBasicMaterial({
+          map: bgTex,
+          transparent: true,
+          opacity: 0.85,
+          depthWrite: false,
+        });
+        const bgMesh = new THREE.Mesh(bgGeo, bgMat);
+        bgMesh.position.set(0, 5, -8);
+        this.scene.add(bgMesh);
+
+        // Mid-ground parallax layer — slightly closer, darker
+        const midGeo = new THREE.PlaneGeometry(bgWidth * 0.8, Math.max(bgHeight * 0.6, 8));
+        const midMat = new THREE.MeshBasicMaterial({
+          map: bgTex,
+          transparent: true,
+          opacity: 0.3,
+          depthWrite: false,
+        });
+        const midMesh = new THREE.Mesh(midGeo, midMat);
+        midMesh.position.set(0, 3, -6.5);
+        midMesh.userData.parallaxFactor = 0.15;
+        this.scene.add(midMesh);
+      });
+
+      // Tint scene background to match arena
+      if (this.arenaFloorColor) {
+        const col = new THREE.Color(this.arenaFloorColor);
+        this.scene.background = col.clone().multiplyScalar(0.3);
+        this.scene.fog = new THREE.FogExp2(col.clone().multiplyScalar(0.3).getHex(), 0.025);
+      }
+    }
+
     // ── FLOOR — reflective arena platform ──
+    const floorColor = this.arenaFloorColor ? new THREE.Color(this.arenaFloorColor) : new THREE.Color(0x1a1a2e);
     const floorGeo = new THREE.PlaneGeometry(24, 14, 48, 28);
     const floorMat = new THREE.MeshStandardMaterial({
-      color: 0x1a1a2e,
+      color: floorColor,
       roughness: 0.25,
       metalness: 0.75,
     });
@@ -1475,6 +1526,31 @@ export class FightEngine3D {
 
     // Also sync glow sprite
     const glowSprite = f.model.glowSprite;
+
+    // ── Pose-based texture swapping ──
+    const poseTextures = f.model.poseTextures;
+    if (poseTextures && Object.keys(poseTextures).length > 0) {
+      let targetPose = "idle";
+      if (f.state === "idle" || f.state === "walk_fwd" || f.state === "walk_back" || f.state === "crouch" || f.state === "jump") {
+        targetPose = "idle";
+      } else if (f.state === "punch_light" || f.state === "punch_heavy" || f.state === "kick_light" || f.state === "kick_heavy" || f.state === "special") {
+        targetPose = "attack";
+      } else if (f.state === "block_stand" || f.state === "block_crouch" || f.state === "blockstun") {
+        targetPose = "block";
+      } else if (f.state === "hitstun" || f.state === "knockdown" || f.state === "getup") {
+        targetPose = "hit";
+      } else if (f.state === "ko") {
+        targetPose = "ko";
+      } else if (f.state === "victory") {
+        targetPose = "victory";
+      }
+      
+      if (targetPose !== f.model.currentPose && poseTextures[targetPose]) {
+        mat.uniforms.uTexture.value = poseTextures[targetPose];
+        f.model.glowMaterial.uniforms.uTexture.value = poseTextures[targetPose];
+        f.model.currentPose = targetPose;
+      }
+    }
 
     switch (f.state) {
       case "idle": {
