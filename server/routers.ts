@@ -21,6 +21,7 @@ import { cardChallengeRouter } from "./routers/cardChallenge";
 import { adminRouter } from "./routers/admin";
 import { contentRewardRouter } from "./routers/contentReward";
 import { fightLeaderboardRouter } from "./routers/fightLeaderboard";
+import { nftRouter } from "./routers/nft";
 
 export const appRouter = router({
   system: systemRouter,
@@ -38,6 +39,7 @@ export const appRouter = router({
   admin: adminRouter,
   contentReward: contentRewardRouter,
   fightLeaderboard: fightLeaderboardRouter,
+  nft: nftRouter,
   auth: router({
     me: publicProcedure.query(opts => opts.ctx.user),
     logout: publicProcedure.mutation(({ ctx }) => {

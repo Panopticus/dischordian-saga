@@ -1002,3 +1002,19 @@
 - [x] Fix main menu layout issues (text wrapping, card sizing on mobile)
 - [x] Story mode saves progress to localStorage
 - [x] Add "The Prisoner" as a playable character (starts weak, gains power)
+
+### The Potentials NFT Integration
+- [x] Research contract address and metadata structure from OpenSea/Etherscan
+- [x] Build database schema: wallet_claims table (tokenId, claimer_wallet, claim_timestamp, metadata_json)
+- [x] Build database schema: nft_metadata cache table
+- [x] Implement wallet connect with wagmi/ethers (MetaMask, Coinbase Wallet, WalletConnect)
+- [x] Server-side signature verification (sign message to prove wallet ownership)
+- [x] NFT ownership check via Ethereum RPC (balanceOf, tokenOfOwner on contract)
+- [x] Server-side claim ledger: check if tokenId already claimed before awarding
+- [x] One-time claim enforcement: if NFT sold, new owner cannot claim
+- [x] Fetch and parse NFT metadata (class, weapon types, backgrounds, etc.)
+- [x] Map NFT attributes to Loredex lore categories
+- [x] Generate unique 1/1 card art from NFT's own image
+- [x] Build Potentials gallery/claim UI page
+- [x] Link wallet address to Loredex user account
+- [x] Display claimed 1/1 cards in player profile

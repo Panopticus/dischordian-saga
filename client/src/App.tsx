@@ -45,6 +45,7 @@ import AdminPage from "./pages/AdminPage";
 import HierarchyPage from "./pages/HierarchyPage";
 import DemonPackPage from "./pages/DemonPackPage";
 import FightLeaderboardPage from "./pages/FightLeaderboardPage";
+import PotentialsPage from "./pages/PotentialsPage";
 import { LoredexProvider } from "./contexts/LoredexContext";
 import { PlayerProvider } from "./contexts/PlayerContext";
 import { GamificationProvider } from "./contexts/GamificationContext";
@@ -103,6 +104,7 @@ function Router() {
       <Route path="/hierarchy" component={HierarchyPage} />
       <Route path="/demon-packs" component={DemonPackPage} />
       <Route path="/fight-leaderboard" component={FightLeaderboardPage} />
+      <Route path="/potentials" component={PotentialsPage} />
       <Route path="/awakening">{() => <AwakeningPage />}</Route>
       <Route path="/404" component={NotFound} />
       <Route component={NotFound} />

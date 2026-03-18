@@ -796,3 +796,92 @@ export const fightMatches = mysqlTable("fight_matches", {
 
 export type FightMatch = typeof fightMatches.$inferSelect;
 export type InsertFightMatch = typeof fightMatches.$inferInsert;
+
+/* ═══════════════════════════════════════════════════════
+   NFT WALLET INTEGRATION — The Potentials Collection
+   Links Ethereum wallets to users, tracks NFT claims,
+   and caches on-chain metadata for lore integration.
+   ═══════════════════════════════════════════════════════ */
+
+/**
+ * Linked wallets — connects Ethereum addresses to user accounts.
+ * A user can link multiple wallets; each wallet links to one user.
+ */
+export const linkedWallets = mysqlTable("linked_wallets", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  /** Ethereum wallet address (checksummed) */
+  walletAddress: varchar("walletAddress", { length: 42 }).notNull().unique(),
+  /** Chain: ethereum, base, polygon */
+  chain: varchar("chain", { length: 32 }).notNull().default("ethereum"),
+  /** Signature used to verify ownership */
+  verificationSignature: text("verificationSignature"),
+  /** When the wallet was linked */
+  linkedAt: timestamp("linkedAt").defaultNow().notNull(),
+});
+
+export type LinkedWallet = typeof linkedWallets.$inferSelect;
+export type InsertLinkedWallet = typeof linkedWallets.$inferInsert;
+
+/**
+ * NFT claims — one-time claim ledger for Potentials 1/1 cards.
+ * Once a tokenId is claimed, it can NEVER be claimed again,
+ * even if the NFT is sold to a new owner.
+ */
+export const nftClaims = mysqlTable("nft_claims", {
+  id: int("id").autoincrement().primaryKey(),
+  /** Token ID from the Potentials contract (0-999) */
+  tokenId: int("tokenId").notNull().unique(),
+  /** The wallet that owned the NFT at claim time */
+  claimerWallet: varchar("claimerWallet", { length: 42 }).notNull(),
+  /** The Loredex user who claimed it */
+  claimerUserId: int("claimerUserId").notNull(),
+  /** The generated 1/1 card ID in our system */
+  cardId: varchar("cardId", { length: 128 }),
+  /** NFT metadata snapshot at claim time */
+  metadataSnapshot: json("metadataSnapshot").$type<Record<string, unknown>>(),
+  /** Generated card image URL */
+  cardImageUrl: text("cardImageUrl"),
+  claimedAt: timestamp("claimedAt").defaultNow().notNull(),
+});
+
+export type NftClaim = typeof nftClaims.$inferSelect;
+export type InsertNftClaim = typeof nftClaims.$inferInsert;
+
+/**
+ * Cached NFT metadata — stores on-chain metadata for all 1000 Potentials.
+ * Refreshed periodically; used for lore integration and card generation.
+ */
+export const nftMetadataCache = mysqlTable("nft_metadata_cache", {
+  id: int("id").autoincrement().primaryKey(),
+  /** Token ID (0-999) */
+  tokenId: int("tokenId").notNull().unique(),
+  /** NFT name (e.g., "Potential #559") */
+  name: varchar("name", { length: 256 }),
+  /** Image URL (IPFS or HTTP) */
+  imageUrl: text("imageUrl"),
+  /** Class trait */
+  nftClass: varchar("nftClass", { length: 64 }),
+  /** Weapon trait */
+  weapon: varchar("weapon", { length: 128 }),
+  /** Background trait */
+  background: varchar("background", { length: 128 }),
+  /** Species trait */
+  specie: varchar("specie", { length: 64 }),
+  /** Gender trait */
+  gender: varchar("gender", { length: 32 }),
+  /** Level trait */
+  level: int("level"),
+  /** Body type trait */
+  body: varchar("body", { length: 64 }),
+  /** Full attributes JSON (all 20 trait categories) */
+  attributes: json("attributes").$type<Array<{ trait_type: string; value: string | number }>>(),
+  /** Current on-chain owner */
+  currentOwner: varchar("currentOwner", { length: 42 }),
+  /** Last time metadata was refreshed */
+  lastRefreshed: timestamp("lastRefreshed").defaultNow().notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export type NftMetadataCache = typeof nftMetadataCache.$inferSelect;
+export type InsertNftMetadataCache = typeof nftMetadataCache.$inferInsert;

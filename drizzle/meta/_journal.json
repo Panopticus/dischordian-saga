@@ -71,6 +71,13 @@
       "when": 1773807654359,
       "tag": "0009_strong_lake",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "5",
+      "when": 1773851472734,
+      "tag": "0010_parched_wild_pack",
+      "breakpoints": true
     }
   ]
 }
