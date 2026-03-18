@@ -7,6 +7,7 @@
 import * as THREE from "three";
 import { buildCharacterModel, getCharacterConfig, type CharacterModel, type CharacterConfig } from "./CharacterModel3D";
 import type { FighterData } from "./gameData";
+import { getCharacterSpecials, type CharacterSpecials, type SpecialMove } from "./specialMoves";
 
 /* ═══ TYPES ═══ */
 export type FightPhase = "intro" | "round_announce" | "fighting" | "ko" | "round_end" | "match_end";
@@ -81,6 +82,21 @@ interface Fighter {
   dashCooldown: number;
   // Hit tracking
   hitThisAttack: boolean;
+  // Character-specific specials
+  specials: CharacterSpecials;
+  // DOT (damage over time)
+  dotTimer: number;
+  dotDamagePerTick: number;
+  dotTickInterval: number;
+  dotTickTimer: number;
+  // Temporary buffs/debuffs
+  speedBuffTimer: number;
+  speedBuffMult: number;
+  defenseDebuffTimer: number;
+  defenseDebuffPct: number;
+  // Auto-spacing
+  idleTimer: number;           // time spent in idle (for auto-space delay)
+  autoSpaceTarget: number;     // current target spacing distance
 }
 
 /* ═══ CONSTANTS ═══ */
@@ -95,6 +111,14 @@ const DASH_BACK_SPEED = 10;
 const DASH_DURATION = 0.18;
 const DASH_COOLDOWN = 0.25;
 const PUSH_FORCE = 2.5;
+
+// Auto-spacing (MCOC-style: fighters drift to optimal range when neutral)
+const AUTO_SPACE_TARGET = 2.8;       // optimal distance between fighters
+const AUTO_SPACE_SPEED = 1.8;        // drift speed toward optimal range
+const AUTO_SPACE_DEADZONE = 0.3;     // don't drift if within this tolerance
+const AUTO_SPACE_DELAY = 0.4;        // wait this long after action before auto-spacing
+const POST_KNOCKDOWN_SPACE = 3.5;    // extra space after knockdown recovery
+const POST_COMBO_SPACE = 2.5;        // space after combo drops
 
 // Frame data (in seconds for 60fps feel)
 const FRAME = 1 / 60;
@@ -218,6 +242,9 @@ export interface FightCallbacks {
   onDex?: (player: 1 | 2) => void;
   onIntercept?: (player: 1 | 2) => void;
   onGuardBreak?: (player: 1 | 2) => void;
+  onSpecialActivate?: (player: 1 | 2, level: 1 | 2 | 3, moveName: string, moveType: string) => void;
+  onDot?: (player: 1 | 2, damage: number) => void;
+  onHeal?: (player: 1 | 2, amount: number) => void;
 }
 
 /* ═══════════════════════════════════════════════════════
@@ -271,6 +298,10 @@ export class FightEngine3D {
   private arenaAmbientColor?: string;
   private arenaFloorColor?: string;
 
+  // Character specials
+  private p1Specials!: CharacterSpecials;
+  private p2Specials!: CharacterSpecials;
+
   // Animation
   private animFrame = 0;
   private disposed = false;
@@ -319,6 +350,8 @@ export class FightEngine3D {
     // ── Fighters ──
     this.p1 = this.createFighter(p1Data, -0.8, true);
     this.p2 = this.createFighter(p2Data, 0.8, false);
+    this.p1Specials = this.p1.specials;
+    this.p2Specials = this.p2.specials;
 
     // ── Input ──
     this.setupInput();
@@ -556,6 +589,18 @@ export class FightEngine3D {
       stunTimer: 0,
       dashCooldown: 0,
       hitThisAttack: false,
+      specials: getCharacterSpecials(data.id),
+      dotTimer: 0,
+      dotDamagePerTick: 0,
+      dotTickInterval: 0.5,
+      dotTickTimer: 0,
+      speedBuffTimer: 0,
+      speedBuffMult: 1,
+      defenseDebuffTimer: 0,
+      defenseDebuffPct: 0,
+      // Auto-spacing
+      idleTimer: 0,
+      autoSpaceTarget: AUTO_SPACE_TARGET,
     };
   }
 
@@ -710,6 +755,10 @@ export class FightEngine3D {
     this.clampToStage(this.p2);
     this.updateFacing();
 
+    // Auto-spacing (MCOC-style: fighters drift to optimal range when neutral)
+    this.updateAutoSpacing(this.p1, this.p2, dt);
+    this.updateAutoSpacing(this.p2, this.p1, dt);
+
     this.callbacks.onHealthChange?.(this.p1.hp, this.p1.maxHp, this.p2.hp, this.p2.maxHp);
 
     // Training mode
@@ -799,21 +848,25 @@ export class FightEngine3D {
           break;
       }
     } else {
-      // LEFT SIDE — Defense
+      // LEFT SIDE — Defense (MCOC-style: dash-only, no walk/jump from touch)
       switch (input.type) {
         case "swipe_left":
           // Dash back (dexterity if timed right)
           this.doDashBack(f);
           break;
         case "swipe_right":
-          // Dash forward
+          // Dash forward (close distance)
           this.doDashForward(f);
           break;
-        case "swipe_up":
-          // Jump
-          if (f.y <= 0.01) {
-            f.vy = JUMP_FORCE;
-            f.state = "jump";
+        case "tap":
+          // Quick tap on left side = momentary block pulse
+          // (Hold is handled separately via holdingBlock)
+          if (!this.isInAttackState(f) && f.stunTimer <= 0) {
+            f.state = "block_stand";
+            f.blockTimer = 0.2;
+            f.blockStartTime = performance.now() / 1000;
+            f.parryWindow = PARRY_WINDOW;
+            f.isParrying = true;
           }
           break;
       }
@@ -938,15 +991,19 @@ export class FightEngine3D {
   }
 
   private doSpecialAttack(f: Fighter) {
+    const playerNum = f === this.p1 ? 1 : 2;
     if (f.specialMeter >= 300) {
       this.startAttack(f, "special_3");
       f.specialMeter -= 300;
+      this.callbacks.onSpecialActivate?.(playerNum as 1 | 2, 3, f.specials.sp3.name, f.specials.sp3.type);
     } else if (f.specialMeter >= 200) {
       this.startAttack(f, "special_2");
       f.specialMeter -= 200;
+      this.callbacks.onSpecialActivate?.(playerNum as 1 | 2, 2, f.specials.sp2.name, f.specials.sp2.type);
     } else if (f.specialMeter >= 100) {
       this.startAttack(f, "special_1");
       f.specialMeter -= 100;
+      this.callbacks.onSpecialActivate?.(playerNum as 1 | 2, 1, f.specials.sp1.name, f.specials.sp1.type);
     }
   }
 
@@ -989,12 +1046,12 @@ export class FightEngine3D {
   private canCancelIntoNext(f: Fighter): boolean {
     // Can cancel during recovery frames of light attacks
     if (!this.isLightAttack(f.state)) return false;
-    const frameData = this.getAttackFrameData(f.state);
+    const frameData = this.getAttackFrameData(f.state, f);
     const hitPhaseEnd = frameData.startup + frameData.active;
     return f.stateTimer >= hitPhaseEnd; // can cancel during recovery
   }
 
-  private getAttackFrameData(type: FighterState): { startup: number; active: number; recovery: number } {
+  private getAttackFrameData(type: FighterState, fighter?: Fighter): { startup: number; active: number; recovery: number } {
     switch (type) {
       case "light_1": return { startup: LIGHT_1_STARTUP, active: LIGHT_1_ACTIVE, recovery: LIGHT_1_RECOVERY };
       case "light_2": return { startup: LIGHT_2_STARTUP, active: LIGHT_2_ACTIVE, recovery: LIGHT_2_RECOVERY };
@@ -1002,9 +1059,30 @@ export class FightEngine3D {
       case "light_4": return { startup: LIGHT_4_STARTUP, active: LIGHT_4_ACTIVE, recovery: LIGHT_4_RECOVERY };
       case "medium": return { startup: MEDIUM_STARTUP, active: MEDIUM_ACTIVE, recovery: MEDIUM_RECOVERY };
       case "heavy_release": return { startup: 2 * FRAME, active: HEAVY_ACTIVE, recovery: HEAVY_RECOVERY };
-      case "special_1": return { startup: SP1_STARTUP, active: SP1_ACTIVE, recovery: SP1_RECOVERY };
-      case "special_2": return { startup: SP2_STARTUP, active: SP2_ACTIVE, recovery: SP2_RECOVERY };
-      case "special_3": return { startup: SP3_STARTUP, active: SP3_ACTIVE, recovery: SP3_RECOVERY };
+      case "special_1": {
+        const sp = fighter?.specials.sp1;
+        return {
+          startup: sp?.startupFrames ? sp.startupFrames * FRAME : SP1_STARTUP,
+          active: sp?.activeFrames ? sp.activeFrames * FRAME : SP1_ACTIVE,
+          recovery: sp?.recoveryFrames ? sp.recoveryFrames * FRAME : SP1_RECOVERY,
+        };
+      }
+      case "special_2": {
+        const sp = fighter?.specials.sp2;
+        return {
+          startup: sp?.startupFrames ? sp.startupFrames * FRAME : SP2_STARTUP,
+          active: sp?.activeFrames ? sp.activeFrames * FRAME : SP2_ACTIVE,
+          recovery: sp?.recoveryFrames ? sp.recoveryFrames * FRAME : SP2_RECOVERY,
+        };
+      }
+      case "special_3": {
+        const sp = fighter?.specials.sp3;
+        return {
+          startup: sp?.startupFrames ? sp.startupFrames * FRAME : SP3_STARTUP,
+          active: sp?.activeFrames ? sp.activeFrames * FRAME : SP3_ACTIVE,
+          recovery: sp?.recoveryFrames ? sp.recoveryFrames * FRAME : SP3_RECOVERY,
+        };
+      }
       default: return { startup: 0, active: 0, recovery: 0 };
     }
   }
@@ -1019,9 +1097,9 @@ export class FightEngine3D {
         const chargeRatio = Math.min(attacker.heavyChargeTime / HEAVY_MAX_CHARGE, 1);
         return (DMG_HEAVY_MIN + (DMG_HEAVY_MAX - DMG_HEAVY_MIN) * chargeRatio) * statMult;
       }
-      case "special_1": return (DMG_SP1 + attacker.data.special.damage * 0.2) * statMult;
-      case "special_2": return (DMG_SP2 + attacker.data.special.damage * 0.35) * statMult;
-      case "special_3": return (DMG_SP3 + attacker.data.special.damage * 0.5) * statMult;
+      case "special_1": return DMG_SP1 * attacker.specials.sp1.damage * statMult;
+      case "special_2": return DMG_SP2 * attacker.specials.sp2.damage * statMult;
+      case "special_3": return DMG_SP3 * attacker.specials.sp3.damage * statMult;
       default: return 0;
     }
   }
@@ -1078,6 +1156,41 @@ export class FightEngine3D {
       }
     }
 
+    // DOT (damage over time) processing
+    if (f.dotTimer > 0) {
+      f.dotTimer -= dt;
+      f.dotTickTimer += dt;
+      if (f.dotTickTimer >= f.dotTickInterval) {
+        f.dotTickTimer -= f.dotTickInterval;
+        const dotDmg = f.dotDamagePerTick;
+        f.hp = Math.max(0, f.hp - dotDmg);
+        const playerNum = f === this.p1 ? 2 : 1; // DOT was applied BY the other player
+        this.callbacks.onDot?.(playerNum as 1 | 2, dotDmg);
+        // Small visual effect for DOT tick
+        this.spawnHitEffect(f.x, 1.5, 0.3, "spark", "#ff4444");
+      }
+      if (f.dotTimer <= 0) {
+        f.dotDamagePerTick = 0;
+        f.dotTickTimer = 0;
+      }
+    }
+
+    // Speed buff decay
+    if (f.speedBuffTimer > 0) {
+      f.speedBuffTimer -= dt;
+      if (f.speedBuffTimer <= 0) {
+        f.speedBuffMult = 1;
+      }
+    }
+
+    // Defense debuff decay
+    if (f.defenseDebuffTimer > 0) {
+      f.defenseDebuffTimer -= dt;
+      if (f.defenseDebuffTimer <= 0) {
+        f.defenseDebuffPct = 0;
+      }
+    }
+
     // Combo timer
     if (f.comboTimer > 0) {
       f.comboTimer -= dt;
@@ -1123,7 +1236,7 @@ export class FightEngine3D {
 
     // Attack state machine
     if (this.isInAttackState(f) && f.state !== "heavy_charge") {
-      const frameData = this.getAttackFrameData(f.state);
+      const frameData = this.getAttackFrameData(f.state, f);
       const totalTime = frameData.startup + frameData.active + frameData.recovery;
 
       // Medium attack lunge
@@ -1171,10 +1284,58 @@ export class FightEngine3D {
       if (f.stateTimer >= GETUP_TIME) f.state = "idle";
     }
 
+    // Track idle time for auto-spacing
+    if (f.state === "idle") {
+      f.idleTimer += dt;
+    } else {
+      f.idleTimer = 0;
+    }
+
+    // Set auto-space target based on recovery context
+    if (f.state === "getup" && f.stateTimer >= GETUP_TIME * 0.9) {
+      f.autoSpaceTarget = POST_KNOCKDOWN_SPACE; // extra space after knockdown
+    } else if (f.comboTimer <= 0 && f.comboCount === 0 && f.state === "idle") {
+      // Gradually return to normal spacing
+      f.autoSpaceTarget += (AUTO_SPACE_TARGET - f.autoSpaceTarget) * 0.05;
+    }
+
     // Update 3D model
     f.model.group.position.x = f.x;
     f.model.group.position.y = f.y;
     f.model.group.scale.x = f.facingRight ? 1 : -1;
+  }
+
+  /* ═══ AUTO-SPACING — MCOC-style neutral positioning ═══ */
+  private updateAutoSpacing(f: Fighter, opponent: Fighter, dt: number) {
+    // Only auto-space when fighter is in a neutral state and has been idle long enough
+    if (f.state !== "idle") return;
+    if (f.idleTimer < AUTO_SPACE_DELAY) return;
+    if (f.y > 0.01) return; // don't auto-space in air
+    if (f.stunTimer > 0) return;
+
+    // Don't auto-space if opponent is in an active state (let the player decide)
+    // But DO auto-space if opponent is also idle (neutral game reset)
+    const opponentNeutral = opponent.state === "idle" || opponent.state === "block_stand" || opponent.state === "block_crouch";
+    if (!opponentNeutral && f === this.p1) return; // player controls their own spacing
+
+    const dist = Math.abs(f.x - opponent.x);
+    const targetDist = f.autoSpaceTarget;
+    const diff = dist - targetDist;
+
+    // Within deadzone — no drift needed
+    if (Math.abs(diff) < AUTO_SPACE_DEADZONE) return;
+
+    // Drift toward optimal range
+    const driftDir = f.x < opponent.x ? -1 : 1; // away from opponent
+    const driftSpeed = AUTO_SPACE_SPEED * Math.min(Math.abs(diff) / targetDist, 1);
+
+    if (diff < -AUTO_SPACE_DEADZONE) {
+      // Too close — drift apart
+      f.x += driftDir * driftSpeed * dt;
+    } else if (diff > AUTO_SPACE_DEADZONE) {
+      // Too far — drift closer
+      f.x -= driftDir * driftSpeed * dt;
+    }
   }
 
   /* ═══ HIT DETECTION — MCOC STYLE ═══ */
@@ -1272,8 +1433,9 @@ export class FightEngine3D {
       damage *= DIFFICULTY_SETTINGS[this.difficulty].dmgMult;
     }
 
-    // Defense reduction
-    const defMult = 1 - (defender.data.defense - 5) * 0.03;
+    // Defense reduction (including debuff from specials)
+    const defDebuff = defender.defenseDebuffPct > 0 ? defender.defenseDebuffPct / 100 : 0;
+    const defMult = (1 - (defender.data.defense - 5) * 0.03) * (1 + defDebuff);
     damage *= defMult;
 
     defender.hp = Math.max(0, defender.hp - damage);
@@ -1364,6 +1526,62 @@ export class FightEngine3D {
     }
 
     this.callbacks.onHit?.(playerNum as 1 | 2, attackType);
+
+    // ── CHARACTER-SPECIFIC SPECIAL EFFECTS ──
+    if (this.isSpecialAttack(attackType)) {
+      const spLevel = attackType === "special_3" ? 3 : attackType === "special_2" ? 2 : 1;
+      const sp: SpecialMove = spLevel === 3 ? attacker.specials.sp3 : spLevel === 2 ? attacker.specials.sp2 : attacker.specials.sp1;
+
+      // DOT (damage over time)
+      if (sp.dot && sp.dot > 0) {
+        defender.dotTimer = 3.0; // 3 seconds of DOT
+        defender.dotDamagePerTick = sp.dot;
+        defender.dotTickTimer = 0;
+      }
+
+      // Heal
+      if (sp.heal && sp.heal > 0) {
+        const healAmount = damage * (sp.heal / 100);
+        attacker.hp = Math.min(attacker.maxHp, attacker.hp + healAmount);
+        this.callbacks.onHeal?.(playerNum as 1 | 2, healAmount);
+      }
+
+      // Armor break (already handled by armorBreak flag in hit resolution)
+      if (sp.armorBreak) {
+        // Extra stun on armor break
+        defender.stunTimer = Math.max(defender.stunTimer, 0.3);
+      }
+
+      // Speed buff
+      if (sp.speedBuff && sp.speedBuff > 1) {
+        attacker.speedBuffTimer = 4.0; // 4 seconds
+        attacker.speedBuffMult = sp.speedBuff;
+      }
+
+      // Defense debuff
+      if (sp.defenseDebuff && sp.defenseDebuff > 0) {
+        defender.defenseDebuffTimer = 5.0; // 5 seconds
+        defender.defenseDebuffPct = sp.defenseDebuff;
+      }
+
+      // Extra stun from special
+      if (sp.stun && sp.stun > 0) {
+        defender.stunTimer = Math.max(defender.stunTimer, sp.stun);
+      }
+
+      // Use character-specific effect colors for the hit effect
+      this.spawnHitEffect(
+        (attacker.x + defender.x) / 2, 1.0, 0.5,
+        "special", sp.color
+      );
+
+      // Character-specific screen shake
+      if (sp.screenShake > this.screenShake.intensity) {
+        this.screenShake.intensity = sp.screenShake;
+        this.screenShake.duration = 0.2 + sp.screenShake * 0.03;
+        this.screenShake.timer = 0;
+      }
+    }
   }
 
   /* ═══ AI SYSTEM — MCOC-INSPIRED WEIGHTED RANDOM ═══ */
@@ -1962,7 +2180,7 @@ export class FightEngine3D {
         break;
       }
       case "light_1": case "light_2": case "light_3": case "light_4": {
-        const frameData = this.getAttackFrameData(f.state);
+        const frameData = this.getAttackFrameData(f.state, f);
         if (f.stateTimer < frameData.startup) {
           const prog = f.stateTimer / frameData.startup;
           sprite.position.z = -0.06 * prog;
@@ -1979,7 +2197,7 @@ export class FightEngine3D {
         break;
       }
       case "medium": {
-        const frameData = this.getAttackFrameData("medium");
+        const frameData = this.getAttackFrameData("medium", f);
         if (f.stateTimer < frameData.startup) {
           const prog = f.stateTimer / frameData.startup;
           sprite.position.z = -0.1 * prog;
@@ -2007,7 +2225,7 @@ export class FightEngine3D {
         break;
       }
       case "heavy_release": {
-        const frameData = this.getAttackFrameData("heavy_release");
+        const frameData = this.getAttackFrameData("heavy_release", f);
         if (f.stateTimer < frameData.startup) {
           sprite.position.z = -0.1;
           sprite.scale.set(1.08, 0.92, 1);
@@ -2042,7 +2260,7 @@ export class FightEngine3D {
         break;
       }
       case "special_1": case "special_2": case "special_3": {
-        const frameData = this.getAttackFrameData(f.state);
+        const frameData = this.getAttackFrameData(f.state, f);
         const spLevel = f.state === "special_3" ? 3 : f.state === "special_2" ? 2 : 1;
         if (f.stateTimer < frameData.startup) {
           const prog = f.stateTimer / frameData.startup;
@@ -2233,6 +2451,10 @@ export class FightEngine3D {
         heavyChargeRatio: Math.min(this.p1.heavyChargeTime / HEAVY_MAX_CHARGE, 1),
         color: this.p1.config.accentColor,
         image: this.p1.data.image,
+        specials: this.p1.specials,
+        dotActive: this.p1.dotTimer > 0,
+        speedBuffActive: this.p1.speedBuffTimer > 0,
+        defenseDebuffActive: this.p1.defenseDebuffTimer > 0,
       },
       p2: {
         name: this.p2.data.name,
@@ -2252,6 +2474,10 @@ export class FightEngine3D {
         heavyChargeRatio: 0,
         color: this.p2.config.accentColor,
         image: this.p2.data.image,
+        specials: this.p2.specials,
+        dotActive: this.p2.dotTimer > 0,
+        speedBuffActive: this.p2.speedBuffTimer > 0,
+        defenseDebuffActive: this.p2.defenseDebuffTimer > 0,
       },
     };
   }

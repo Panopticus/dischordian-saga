@@ -952,3 +952,37 @@
 - [x] Add gesture tutorial/training mode overlay
 - [x] Update desktop controls to match (click zones + keyboard)
 - [x] Update tests for new control system
+
+### Interactive Gesture Tutorial
+- [x] Build first-time gesture tutorial component with step-by-step walkthrough
+- [x] Teach each control: tap (light), swipe right (medium), hold (heavy), swipe up (special)
+- [x] Teach defense: hold left (block), swipe left (dash back/evade), swipe right (dash forward)
+- [x] Teach advanced: parry timing, intercept, guard break
+- [x] Visual prompts with animated hand/finger guides
+- [x] Track tutorial completion in localStorage
+- [x] Show tutorial before first fight, skip option available
+
+### Haptic Feedback
+- [x] Add navigator.vibrate() calls for light/medium/heavy hits
+- [x] Add haptic for parry, evade, intercept, guard break events
+- [x] Add haptic for special attacks (stronger vibration)
+- [x] Add haptic for KO and round transitions
+- [x] Respect user mute/settings preferences
+
+### Character-Specific Special Moves (SP1/SP2/SP3)
+- [x] Design unique SP1/SP2/SP3 for each fighter based on lore abilities
+- [x] Implement special move data structure in gameData.ts
+- [x] Engine support for different special move types (projectile, rush, area, grab)
+- [x] Unique damage multipliers and effects per character per level
+- [x] Visual effects tied to character's element/abilities
+- [x] SP3 as cinematic-style ultimate with extra damage
+
+### Auto-Spacing + Dash-Only Movement Refinement
+- [x] Remove manual walk states from mobile input (dash-only positioning)
+- [x] Add auto-spacing system — fighters drift to optimal range after combos/knockdowns
+- [x] Keep optional arrow-key walk for desktop keyboard users
+- [x] Tune dash distances and auto-space target range
+- [x] Integrate haptic feedback into FightArena3D callbacks
+- [x] Integrate gesture tutorial into FightArena3D (first-time overlay)
+- [x] Add special move names to HUD during special attacks
+- [x] Add DOT/buff/debuff status indicators to HUD

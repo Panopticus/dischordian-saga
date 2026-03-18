@@ -2,13 +2,16 @@
    FIGHT ARENA 3D — MCOC-Style Mobile Controls
    Split-screen: LEFT = Defense, RIGHT = Offense
    Tap/Swipe gesture recognition for mobile-first fighting
+   + Haptic feedback, Gesture tutorial, Special move HUD
    ═══════════════════════════════════════════════════════ */
 import { useEffect, useRef, useState, useCallback } from "react";
 import { FightEngine3D, type FightPhase, type Difficulty, type TouchInput } from "./FightEngine3D";
 import { FightSoundManager } from "./FightSoundManager";
 import type { FighterData, ArenaData, DifficultyLevel } from "./gameData";
 import { motion, AnimatePresence } from "framer-motion";
-import { Volume2, VolumeX } from "lucide-react";
+import { Volume2, VolumeX, Vibrate, VibrateOff } from "lucide-react";
+import { hapticForEvent, setHapticEnabled, isHapticEnabled } from "./haptics";
+import GestureTutorial from "./GestureTutorial";
 
 interface FightArena3DProps {
   player: FighterData;
@@ -44,6 +47,9 @@ const SWIPE_THRESHOLD = 30;  // px minimum for swipe
 const TAP_MAX_TIME = 250;    // ms max for tap
 const HOLD_MIN_TIME = 300;   // ms min for hold
 
+/* ═══ LOCAL STORAGE KEY for tutorial completion ═══ */
+const TUTORIAL_DONE_KEY = "loredex_fight_tutorial_done";
+
 export default function FightArena3D({ player, opponent, arena, difficulty, onMatchEnd, onBack, trainingMode = false }: FightArena3DProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const engineRef = useRef<FightEngine3D | null>(null);
@@ -64,11 +70,19 @@ export default function FightArena3D({ player, opponent, arena, difficulty, onMa
   const [matchEnded, setMatchEnded] = useState(false);
   const soundRef = useRef<FightSoundManager | null>(null);
   const [soundMuted, setSoundMuted] = useState(false);
+  const [hapticOn, setHapticOn] = useState(isHapticEnabled());
   const [showMoveList, setShowMoveList] = useState(trainingMode);
   const [trainingComboMax, setTrainingComboMax] = useState(0);
   const [trainingDamageTotal, setTrainingDamageTotal] = useState(0);
   const [trainingHitsLanded, setTrainingHitsLanded] = useState(0);
   const [eventFlash, setEventFlash] = useState<{ text: string; color: string } | null>(null);
+  const [specialFlash, setSpecialFlash] = useState<{ name: string; level: number; color: string } | null>(null);
+
+  // Tutorial state — show on first visit unless training mode
+  const [showTutorial, setShowTutorial] = useState(() => {
+    if (trainingMode) return false;
+    try { return !localStorage.getItem(TUTORIAL_DONE_KEY); } catch { return true; }
+  });
 
   // Gesture tracking
   const gesturesRef = useRef<Map<number, GestureTracker>>(new Map());
@@ -91,6 +105,16 @@ export default function FightArena3D({ player, opponent, arena, difficulty, onMa
   const flashEvent = useCallback((text: string, color: string) => {
     setEventFlash({ text, color });
     setTimeout(() => setEventFlash(null), 800);
+  }, []);
+
+  const flashSpecial = useCallback((name: string, level: number, color: string) => {
+    setSpecialFlash({ name, level, color });
+    setTimeout(() => setSpecialFlash(null), 1500);
+  }, []);
+
+  const completeTutorial = useCallback(() => {
+    setShowTutorial(false);
+    try { localStorage.setItem(TUTORIAL_DONE_KEY, "1"); } catch { /* silent */ }
   }, []);
 
   useEffect(() => {
@@ -130,6 +154,7 @@ export default function FightArena3D({ player, opponent, arena, difficulty, onMa
               announce("K.O.!", "#ef4444", 2000);
               sound.play("ko");
               sound.announce("K O!");
+              hapticForEvent("ko");
               break;
             case "match_end": {
               const finalState = engine.getState();
@@ -139,6 +164,7 @@ export default function FightArena3D({ player, opponent, arena, difficulty, onMa
               sound.playVictoryFanfare();
               sound.announce(`${winnerName} wins!`);
               sound.stopArenaMusic();
+              hapticForEvent("match_win");
               break;
             }
           }
@@ -148,6 +174,7 @@ export default function FightArena3D({ player, opponent, arena, difficulty, onMa
             setComboDisplay({ player: p, count, damage: Math.round(damage) });
             setTimeout(() => setComboDisplay(null), 1500);
             sound.play("combo_hit");
+            hapticForEvent("combo", { combo: count });
             if (count >= 3) sound.announce(`${count} hit combo!`);
           }
           if (trainingMode && p === 1) {
@@ -155,35 +182,62 @@ export default function FightArena3D({ player, opponent, arena, difficulty, onMa
             setTrainingDamageTotal(prev => prev + Math.round(damage));
           }
         },
-        onHit: (_attacker, type) => {
-          if (trainingMode && _attacker === 1) {
+        onHit: (attacker, type) => {
+          if (trainingMode && attacker === 1) {
             setTrainingHitsLanded(prev => prev + 1);
           }
+          // Sound
           if (type.includes("light")) sound.play("punch_light");
           else if (type.includes("heavy") || type.includes("medium")) sound.play("punch_heavy");
           else if (type.includes("block")) sound.play("block");
           else if (type.includes("special")) sound.play("special");
           else if (type.includes("parried")) sound.play("block");
           else sound.play("punch_light");
+          // Haptic
+          if (type.includes("light")) hapticForEvent("light_hit");
+          else if (type.includes("medium")) hapticForEvent("medium_hit");
+          else if (type.includes("heavy")) hapticForEvent("heavy_hit");
+          else if (type.includes("block")) hapticForEvent("block");
+          else if (type.includes("special")) hapticForEvent("heavy_hit");
+          else hapticForEvent("light_hit");
         },
-        onParry: (p) => {
+        onParry: (_p) => {
           flashEvent("PARRY!", "#ffdd00");
           sound.play("block");
+          hapticForEvent("parry");
         },
-        onDex: (p) => {
+        onDex: (_p) => {
           flashEvent("EVADE!", "#22d3ee");
+          hapticForEvent("evade");
         },
-        onIntercept: (p) => {
+        onIntercept: (_p) => {
           flashEvent("INTERCEPT!", "#ff6600");
+          hapticForEvent("intercept");
         },
-        onGuardBreak: (p) => {
+        onGuardBreak: (_p) => {
           flashEvent("GUARD BREAK!", "#ef4444");
           sound.play("punch_heavy");
+          hapticForEvent("guard_break");
         },
         onSpecialReady: (p, level) => {
           if (p === 1) {
             flashEvent(`SP${level} READY!`, "#fbbf24");
+            hapticForEvent("special_ready");
           }
+        },
+        onSpecialActivate: (p, level, moveName, moveType) => {
+          const color = level === 3 ? "#ef4444" : level === 2 ? "#eab308" : "#22c55e";
+          flashSpecial(moveName, level, color);
+          if (level === 1) hapticForEvent("sp1");
+          else if (level === 2) hapticForEvent("sp2");
+          else hapticForEvent("sp3");
+          sound.play("special");
+        },
+        onDot: (_p, damage) => {
+          hapticForEvent("dot_tick");
+        },
+        onHeal: (_p, amount) => {
+          hapticForEvent("heal");
         },
         onMatchEnd: (winner) => {
           setMatchEnded(true);
@@ -223,7 +277,7 @@ export default function FightArena3D({ player, opponent, arena, difficulty, onMa
       soundRef.current = null;
       window.removeEventListener("keydown", handleKey);
     };
-  }, [player, opponent, difficulty, onMatchEnd, onBack, announce, flashEvent]);
+  }, [player, opponent, difficulty, onMatchEnd, onBack, announce, flashEvent, flashSpecial]);
 
   /* ═══ MCOC-STYLE GESTURE HANDLERS ═══ */
   const handleTouchStart = useCallback((e: React.TouchEvent) => {
@@ -251,6 +305,7 @@ export default function FightArena3D({ player, opponent, arena, difficulty, onMa
           if (t && !t.ended) {
             // Hold detected — start heavy charge
             engineRef.current?.setHeavyHold(true);
+            hapticForEvent("heavy_charge");
           }
         }, HOLD_MIN_TIME);
         holdTimerRef.current.set(touch.identifier, timer);
@@ -299,25 +354,27 @@ export default function FightArena3D({ player, opponent, arena, difficulty, onMa
             if (dx < 0) {
               // Swipe left = Dash back
               engineRef.current?.pushTouchInput({ type: "swipe_left", side: "left", timestamp: Date.now() });
+              hapticForEvent("dash_back");
             } else {
               // Swipe right = Dash forward
               engineRef.current?.pushTouchInput({ type: "swipe_right", side: "left", timestamp: Date.now() });
-            }
-          } else {
-            if (dy < 0) {
-              // Swipe up = Jump
-              engineRef.current?.pushTouchInput({ type: "swipe_up", side: "left", timestamp: Date.now() });
+              hapticForEvent("dash_fwd");
             }
           }
+        } else if (elapsed < TAP_MAX_TIME) {
+          // Quick tap on left = momentary block/parry
+          engineRef.current?.pushTouchInput({ type: "tap", side: "left", timestamp: Date.now() });
+          hapticForEvent("block");
         }
-        // If no swipe and short hold, it was a block (already handled by hold)
+        // If no swipe and long hold, it was a block (already handled by hold)
       } else {
         // RIGHT SIDE — Offense
         // Release heavy if charging
         engineRef.current?.setHeavyHold(false);
 
         if (elapsed >= HOLD_MIN_TIME) {
-          // Was a hold — heavy attack already triggered by setHeavyHold(false)
+          // Was a hold — heavy attack release
+          hapticForEvent("heavy_release");
         } else if (absDx > SWIPE_THRESHOLD || absDy > SWIPE_THRESHOLD) {
           // Swipe detected
           if (absDx > absDy) {
@@ -327,6 +384,7 @@ export default function FightArena3D({ player, opponent, arena, difficulty, onMa
             } else {
               // Swipe left on right side = also dash back (convenience)
               engineRef.current?.pushTouchInput({ type: "swipe_left", side: "left", timestamp: Date.now() });
+              hapticForEvent("dash_back");
             }
           } else {
             if (dy < 0) {
@@ -364,20 +422,26 @@ export default function FightArena3D({ player, opponent, arena, difficulty, onMa
   const p2HpPct = hudState.p2.maxHp > 0 ? (hudState.p2.displayHp / hudState.p2.maxHp) * 100 : 0;
   const p1SpecLevel = hudState.p1.specialMeter >= 300 ? 3 : hudState.p1.specialMeter >= 200 ? 2 : hudState.p1.specialMeter >= 100 ? 1 : 0;
   const p2SpecLevel = hudState.p2.specialMeter >= 300 ? 3 : hudState.p2.specialMeter >= 200 ? 2 : hudState.p2.specialMeter >= 100 ? 1 : 0;
-  const p1SpecPct = (hudState.p1.specialMeter % 100);
-  const p2SpecPct = (hudState.p2.specialMeter % 100);
 
   return (
     <div
       className="w-full h-full relative bg-black select-none overflow-hidden"
       style={{ touchAction: "none" }}
-      onTouchStart={handleTouchStart}
-      onTouchMove={handleTouchMove}
-      onTouchEnd={handleTouchEnd}
-      onTouchCancel={handleTouchCancel}
+      onTouchStart={showTutorial ? undefined : handleTouchStart}
+      onTouchMove={showTutorial ? undefined : handleTouchMove}
+      onTouchEnd={showTutorial ? undefined : handleTouchEnd}
+      onTouchCancel={showTutorial ? undefined : handleTouchCancel}
     >
       {/* Three.js container */}
       <div ref={containerRef} className="absolute inset-0" style={{ zIndex: 0 }} />
+
+      {/* ═══ GESTURE TUTORIAL OVERLAY ═══ */}
+      {showTutorial && (
+        <GestureTutorial
+          onComplete={completeTutorial}
+          onSkip={completeTutorial}
+        />
+      )}
 
       {/* ═══ HUD OVERLAY ═══ */}
       <div className="absolute inset-0 pointer-events-none" style={{ zIndex: 10 }}>
@@ -601,6 +665,38 @@ export default function FightArena3D({ player, opponent, arena, difficulty, onMa
           )}
         </AnimatePresence>
 
+        {/* ── SPECIAL MOVE NAME FLASH ── */}
+        <AnimatePresence>
+          {specialFlash && (
+            <motion.div
+              key={specialFlash.name}
+              initial={{ opacity: 0, x: -40, scale: 0.8 }}
+              animate={{ opacity: 1, x: 0, scale: 1 }}
+              exit={{ opacity: 0, x: 40, scale: 0.8 }}
+              transition={{ duration: 0.3, type: "spring", stiffness: 200 }}
+              style={{
+                position: "absolute", top: "42%", left: "50%", transform: "translate(-50%, -50%)",
+                textAlign: "center",
+              }}
+            >
+              <div style={{
+                fontFamily: "'Orbitron', monospace", fontSize: "max(1vw, 10px)",
+                color: "rgba(255,255,255,0.5)", letterSpacing: "0.3em", marginBottom: "0.3vh",
+              }}>
+                SP{specialFlash.level}
+              </div>
+              <div style={{
+                fontFamily: "'Orbitron', monospace", fontSize: "max(2.5vw, 20px)", fontWeight: "900",
+                color: specialFlash.color, letterSpacing: "0.1em",
+                textShadow: `0 0 30px ${specialFlash.color}80, 0 0 60px ${specialFlash.color}40, 0 3px 0 #000`,
+                textTransform: "uppercase",
+              }}>
+                {specialFlash.name}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
         {/* ── COMBO DISPLAY ── */}
         <AnimatePresence>
           {comboDisplay && (
@@ -666,7 +762,7 @@ export default function FightArena3D({ player, opponent, arena, difficulty, onMa
       </div>
 
       {/* ═══ MOBILE TOUCH ZONES OVERLAY (visual guide) ═══ */}
-      {isMobile && phase === "fighting" && (
+      {isMobile && phase === "fighting" && !showTutorial && (
         <div className="absolute inset-0 pointer-events-none" style={{ zIndex: 5 }}>
           {/* Left zone indicator */}
           <div style={{
@@ -679,7 +775,7 @@ export default function FightArena3D({ player, opponent, arena, difficulty, onMa
               color: "rgba(255,255,255,0.15)", textAlign: "center",
               lineHeight: 1.6,
             }}>
-              <div>HOLD: BLOCK</div>
+              <div>TAP/HOLD: BLOCK</div>
               <div>{"\u2190"} DASH BACK</div>
               <div>{"\u2192"} DASH FWD</div>
             </div>
@@ -758,6 +854,28 @@ export default function FightArena3D({ player, opponent, arena, difficulty, onMa
         <span>{soundMuted ? "OFF" : "SFX"}</span>
       </button>
 
+      {/* Haptic toggle */}
+      {isMobile && (
+        <button
+          onClick={() => {
+            const next = !hapticOn;
+            setHapticOn(next);
+            setHapticEnabled(next);
+          }}
+          style={{
+            position: "absolute", top: "1vh", left: "9vw",
+            padding: "0.5vh 0.8vw", borderRadius: "0.3vw",
+            background: "rgba(0,0,0,0.7)", border: "1px solid rgba(255,255,255,0.25)",
+            color: hapticOn ? "rgba(255,255,255,0.5)" : "rgba(255,80,80,0.7)",
+            fontFamily: "monospace", fontSize: "max(0.8vw, 10px)",
+            cursor: "pointer", zIndex: 20, display: "flex", alignItems: "center", gap: "0.3vw",
+          }}
+        >
+          {hapticOn ? <Vibrate size={14} /> : <VibrateOff size={14} />}
+          <span>{hapticOn ? "VIB" : "OFF"}</span>
+        </button>
+      )}
+
       {/* Training Mode Overlay */}
       {trainingMode && (
         <>
@@ -810,7 +928,7 @@ export default function FightArena3D({ player, opponent, arena, difficulty, onMa
               <div style={{ marginBottom: "0.8vh", color: "#fbbf24", fontWeight: "bold" }}>MOBILE (Touch)</div>
               <table style={{ width: "100%", borderCollapse: "collapse", marginBottom: "1vh" }}>
                 <tbody>
-                  <tr><td style={{ padding: "0.2vh 0", color: "#22c55e" }}>Hold Left</td><td>Block</td></tr>
+                  <tr><td style={{ padding: "0.2vh 0", color: "#22c55e" }}>Tap/Hold Left</td><td>Block / Parry</td></tr>
                   <tr><td style={{ padding: "0.2vh 0", color: "#22c55e" }}>{"\u2190"} Left</td><td>Dash Back / Evade</td></tr>
                   <tr><td style={{ padding: "0.2vh 0", color: "#22c55e" }}>{"\u2192"} Left</td><td>Dash Forward</td></tr>
                   <tr><td style={{ padding: "0.2vh 0", color: "#ef4444" }}>Tap Right</td><td>Light Attack</td></tr>
