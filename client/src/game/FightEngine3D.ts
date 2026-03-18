@@ -2009,7 +2009,7 @@ export class FightEngine3D {
     }
 
     // Flash
-    const flashGeo = new THREE.SphereGeometry(type === "special" ? 0.5 : type === "parry" ? 0.4 : 0.3, 8, 8);
+    const flashGeo = new THREE.SphereGeometry(type === "special" ? 0.2 : type === "parry" ? 0.18 : 0.12, 8, 8);
     const flashMat = new THREE.MeshBasicMaterial({
       color: new THREE.Color(type === "parry" ? "#ffdd00" : color),
       transparent: true, opacity: 0.8,
@@ -2065,7 +2065,7 @@ export class FightEngine3D {
 
       effect.particles.children.forEach((child) => {
         if (child.name === "flash") {
-          const scale = 1 + progress * 2;
+          const scale = 1 + progress * 1.2;
           child.scale.set(scale, scale, scale);
           ((child as THREE.Mesh).material as THREE.MeshBasicMaterial).opacity = (1 - progress) * 0.8;
           return;

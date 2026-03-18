@@ -986,3 +986,19 @@
 - [x] Integrate gesture tutorial into FightArena3D (first-time overlay)
 - [x] Add special move names to HUD during special attacks
 - [x] Add DOT/buff/debuff status indicators to HUD
+
+### The Collector's Arena Rebrand & Story Mode
+- [x] Rebrand "Reality Combat Simulator" to "The Collector's Arena"
+- [x] Write lore opening: The Collector harvesting DNA/machine code to preserve greatest intelligences
+- [x] The Dreamer and Architect settling conflicts between champions
+- [x] Design new visual theme for arena (Collector's aesthetic)
+- [x] Build Story Mode: Play as "The Prisoner" (amnesiac Oracle who's been harvested)
+- [x] Story progression: discover powers through fights, become Grand Champion
+- [x] Chapter-based story with narrative dialogue between fights
+- [x] Character unlocking: beat fighters in story mode to unlock them for free play
+- [x] Redesign character select screen with lore popup on selection
+- [x] Character popup shows powers, backstory, faction, abilities
+- [x] Fix oversized hit effect visual bug (purple circle too large on mobile)
+- [x] Fix main menu layout issues (text wrapping, card sizing on mobile)
+- [x] Story mode saves progress to localStorage
+- [x] Add "The Prisoner" as a playable character (starts weak, gains power)
