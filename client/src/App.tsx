@@ -54,7 +54,10 @@ import { GameProvider, useGame } from "./contexts/GameContext";
 import { SoundProvider, useSound } from "./contexts/SoundContext";
 import { AmbientMusicProvider } from "./contexts/AmbientMusicContext";
 import PlayerBar from "./components/PlayerBar";
+import CoNexusMediaPlayer from "./components/CoNexusMediaPlayer";
 import AppShell from "./components/AppShell";
+import CommandConsole from "./components/CommandConsole";
+import SettingsPage from "./pages/SettingsPage";
 import AchievementToast from "./components/AchievementToast";
 import ElaraDialog from "./components/ElaraDialog";
 import RadioMode from "./components/RadioMode";
@@ -107,6 +110,7 @@ function Router() {
       <Route path="/fight-leaderboard" component={FightLeaderboardPage} />
       <Route path="/potentials" component={PotentialsPage} />
       <Route path="/potentials/leaderboard" component={PotentialsLeaderboardPage} />
+      <Route path="/settings" component={SettingsPage} />
       <Route path="/awakening">{() => <AwakeningPage />}</Route>
       <Route path="/404" component={NotFound} />
       <Route component={NotFound} />
@@ -130,10 +134,10 @@ function GameGate() {
   // Otherwise show the normal app
   return (
     <>
-      <AppShell elaraTTS={elaraTTS}>
+      <CommandConsole elaraTTS={elaraTTS}>
         <Router />
-      </AppShell>
-      <PlayerBar />
+      </CommandConsole>
+      <CoNexusMediaPlayer />
       <AchievementToast />
       <ElaraDialog elaraTTS={elaraTTS} />
       <RadioMode />

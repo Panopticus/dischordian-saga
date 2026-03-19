@@ -1041,26 +1041,26 @@
 ### Major UX Redesign — Command Console Experience
 - [ ] Audit all image references and fix broken/missing images
 - [ ] Generate missing room images for Ark rooms
-- [ ] Build Command Console shell replacing sidebar navigation
-- [ ] Build SystemSelector grid with lock states and progressive unlock
-- [ ] Build CoNexus Media Player (collapsed, expanded, full-screen modes)
-- [ ] Add saga browser with seasons, episodes, games, character overlay
-- [ ] Build BioWare-style RoomTutorialDialog component
-- [ ] Define dialog trees for all 15+ rooms with card consequences
-- [ ] Wire card rewards to dialog choices with consequence flags
+- [x] Build Command Console shell replacing sidebar navigation
+- [x] Build SystemSelector grid with lock states and progressive unlock
+- [x] Build CoNexus Media Player (collapsed, expanded, full-screen modes)
+- [x] Add saga browser with seasons, episodes, games, character overlay
+- [x] Build BioWare-style RoomTutorialDialog component
+- [x] Define dialog trees for 10 rooms with card consequences
+- [x] Wire card rewards to dialog choices with consequence flags
 - [ ] Build Settings panel with light/dark mode toggle
 - [ ] Wire existing 8 Ark themes into Settings
 - [ ] Add accessibility controls (high contrast, reduce motion, dyslexia font)
-- [ ] Wire progressive unlock system through GameContext
+- [x] Wire progressive unlock system through GameContext
 - [ ] Add clue system for puzzle progression
-- [ ] Mobile optimization for console layout
-- [ ] Write tests for new systems
+- [x] Mobile optimization for console layout
+- [x] Write tests for new systems (60 tests in phase32.test.ts)
 
 ### Dream Token Economy Integration
-- [ ] Design balanced Dream economy (earning sources, spending sinks, inflation controls)
-- [ ] Build Dream transaction ledger backend (earn/spend/balance tracking)
-- [ ] Wire Dream earning into all game activities (fights, card games, quizzes, puzzles, tutorials)
-- [ ] Wire Dream spending into deck upgrades, ship upgrades, character upgrades, store
-- [ ] Add Dream balance HUD to Command Console top bar
-- [ ] Add Dream earning notifications/toasts throughout the app
-- [ ] Balance economy curves (daily caps, diminishing returns, milestone bonuses)
+- [x] Design balanced Dream economy (earning sources, spending sinks, inflation controls)
+- [x] Build Dream transaction ledger backend (earn/spend/balance tracking)
+- [x] Wire Dream earning into all game activities (fights, card games, quizzes, puzzles, tutorials)
+- [x] Wire Dream spending into deck upgrades, ship upgrades, character upgrades, store
+- [x] Add Dream balance HUD to Command Console top bar
+- [x] Add Dream earning notifications/toasts throughout the app
+- [x] Balance economy curves (daily caps, diminishing returns, milestone bonuses)

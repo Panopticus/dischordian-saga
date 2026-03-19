@@ -17,6 +17,7 @@ import {
 import { toast } from "sonner";
 import PuzzleModal, { ROOM_PUZZLES } from "@/components/PuzzleSystem";
 import RoomTransition from "@/components/RoomTransition";
+import RoomTutorialDialog, { hasRoomDialog } from "@/components/RoomTutorialDialog";
 
 const ELARA_PORTRAIT = "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/elara_portrait_speaking-J3GJUrfnNKzSBrxY2PfWrL.webp";
 
@@ -349,6 +350,14 @@ export default function ArkExplorerPage() {
       return saved ? new Set(JSON.parse(saved)) : new Set();
     } catch { return new Set(); }
   });
+  const [tutorialRoomId, setTutorialRoomId] = useState<string | null>(null);
+  const [completedTutorials, setCompletedTutorials] = useState<Set<string>>(() => {
+    try {
+      const saved = localStorage.getItem("loredex_completed_tutorials");
+      return saved ? new Set(JSON.parse(saved)) : new Set();
+    } catch { return new Set(); }
+  });
+
   const [transition, setTransition] = useState<{
     fromRoom: string;
     toRoom: string;
@@ -446,12 +455,42 @@ export default function ArkExplorerPage() {
     });
   }, [getRoomDef, state.rooms, state.currentRoomId, audioReady, playSFX]);
 
+  // Persist completed tutorials
+  useEffect(() => {
+    try {
+      localStorage.setItem("loredex_completed_tutorials", JSON.stringify(Array.from(completedTutorials)));
+    } catch { /* ignore */ }
+  }, [completedTutorials]);
+
   const handleTransitionComplete = useCallback(() => {
     if (!transition) return;
     enterRoom(transition.toRoom);
     discoverEntry(`room-${transition.toRoom}`);
+    // Check if this room has a tutorial dialog and hasn't been seen
+    if (transition.isNewRoom && hasRoomDialog(transition.toRoom) && !completedTutorials.has(transition.toRoom)) {
+      setTutorialRoomId(transition.toRoom);
+    }
     setTransition(null);
-  }, [transition, enterRoom, discoverEntry]);
+  }, [transition, enterRoom, discoverEntry, completedTutorials]);
+
+  const handleTutorialComplete = useCallback((flags: Record<string, boolean>, cardId?: string) => {
+    if (tutorialRoomId) {
+      setCompletedTutorials(prev => {
+        const next = new Set(prev);
+        next.add(tutorialRoomId);
+        return next;
+      });
+      // Set narrative flags in game state
+      // (flags are stored via the dialog choice system)
+      if (cardId) {
+        // Collect the card reward
+        toast.success("Card Acquired!", {
+          description: `New card added to your collection.`,
+        });
+      }
+    }
+    setTutorialRoomId(null);
+  }, [tutorialRoomId]);
 
   const handlePuzzleSolve = useCallback((roomId: string) => {
     setSolvedPuzzles(prev => {
@@ -775,6 +814,24 @@ export default function ArkExplorerPage() {
               onClose={() => setPuzzleRoomId(null)}
             />
           </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Room Tutorial Dialog */}
+      <AnimatePresence>
+        {tutorialRoomId && (
+          <RoomTutorialDialog
+            roomId={tutorialRoomId}
+            onComplete={handleTutorialComplete}
+            onDismiss={() => {
+              setCompletedTutorials(prev => {
+                const next = new Set(prev);
+                if (tutorialRoomId) next.add(tutorialRoomId);
+                return next;
+              });
+              setTutorialRoomId(null);
+            }}
+          />
         )}
       </AnimatePresence>
 
