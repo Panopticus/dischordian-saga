@@ -6,8 +6,9 @@ import { eq, and, desc, sql } from "drizzle-orm";
 import { protectedProcedure, publicProcedure, router } from "../_core/trpc";
 import { getDb } from "../db";
 import {
-  draftTournaments, draftParticipants, cards, dreamBalance,
+  draftTournaments, draftParticipants, cards, dreamBalance, userCards,
 } from "../../drizzle/schema";
+import { trackDraftResult, trackCollectionSize } from "../achievementTracker";
 
 function generateCode(): string {
   const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
@@ -292,5 +293,184 @@ export const draftRouter = router({
         .where(eq(draftTournaments.id, input.tournamentId));
 
       return { success: true };
+    }),
+
+  /**
+   * Complete a tournament — determine winner based on most wins,
+   * award Dream token prize pool, and grant exclusive draft-only card.
+   */
+  completeTournament: protectedProcedure
+    .input(z.object({ tournamentId: z.number() }))
+    .mutation(async ({ ctx, input }) => {
+      const db = await getDb();
+      if (!db) return { success: false, error: "DB unavailable" };
+
+      const [tournament] = await db.select().from(draftTournaments)
+        .where(eq(draftTournaments.id, input.tournamentId)).limit(1);
+      if (!tournament) return { success: false, error: "Tournament not found" };
+      if (tournament.creatorId !== ctx.user.id) return { success: false, error: "Only creator can complete" };
+      if (tournament.status !== "battling") return { success: false, error: "Tournament not in battling phase" };
+      if (tournament.winnerId) return { success: false, error: "Tournament already completed" };
+
+      const participants = await db.select().from(draftParticipants)
+        .where(eq(draftParticipants.tournamentId, tournament.id));
+
+      if (participants.length < 2) return { success: false, error: "Not enough participants" };
+
+      // Determine winner by most tournament wins, tiebreak by fewest losses
+      const sorted = [...participants].sort((a, b) => {
+        if (b.tournamentWins !== a.tournamentWins) return b.tournamentWins - a.tournamentWins;
+        return a.tournamentLosses - b.tournamentLosses;
+      });
+      const winner = sorted[0];
+      const isPerfectRun = winner.tournamentLosses === 0 && winner.tournamentWins > 0;
+
+      // Calculate prize pool: entryCost * playerCount * prizeMultiplier
+      const prizePool = tournament.entryCost * participants.length * tournament.prizeMultiplier;
+      const runnerUpPrize = Math.floor(prizePool * 0.3);
+      const winnerPrize = prizePool - runnerUpPrize;
+
+      // Award Dream tokens to winner
+      if (winnerPrize > 0) {
+        const [bal] = await db.select().from(dreamBalance)
+          .where(eq(dreamBalance.userId, winner.userId)).limit(1);
+        if (bal) {
+          await db.update(dreamBalance)
+            .set({ dreamTokens: sql`dreamTokens + ${winnerPrize}` })
+            .where(eq(dreamBalance.userId, winner.userId));
+        } else {
+          await db.insert(dreamBalance).values({
+            userId: winner.userId,
+            dreamTokens: winnerPrize,
+            soulBoundDream: 0,
+          });
+        }
+      }
+
+      // Award runner-up prize (if 3+ players)
+      const runnerUp = sorted.length >= 2 ? sorted[1] : null;
+      if (runnerUp && runnerUpPrize > 0 && participants.length >= 3) {
+        const [bal] = await db.select().from(dreamBalance)
+          .where(eq(dreamBalance.userId, runnerUp.userId)).limit(1);
+        if (bal) {
+          await db.update(dreamBalance)
+            .set({ dreamTokens: sql`dreamTokens + ${runnerUpPrize}` })
+            .where(eq(dreamBalance.userId, runnerUp.userId));
+        } else {
+          await db.insert(dreamBalance).values({
+            userId: runnerUp.userId,
+            dreamTokens: runnerUpPrize,
+            soulBoundDream: 0,
+          });
+        }
+      }
+
+      // Grant exclusive draft-only card to winner
+      // Pick a random rare+ card the winner doesn't already own
+      const ownedCardIds = await db.select({ cardId: userCards.cardId })
+        .from(userCards)
+        .where(eq(userCards.userId, winner.userId));
+      const ownedSet = new Set(ownedCardIds.map(c => c.cardId));
+
+      const exclusiveCandidates = await db.select().from(cards)
+        .where(and(
+          eq(cards.isActive, 1),
+          sql`${cards.rarity} IN ('epic', 'legendary', 'mythic')`,
+        ))
+        .limit(200);
+
+      // Prefer cards the winner doesn't own
+      const unowned = exclusiveCandidates.filter(c => !ownedSet.has(c.cardId));
+      const pool = unowned.length > 0 ? unowned : exclusiveCandidates;
+      let exclusiveCard = null;
+
+      if (pool.length > 0) {
+        exclusiveCard = pool[Math.floor(Math.random() * pool.length)];
+
+        // Grant the card as foil (draft exclusive)
+        const [existing] = await db.select().from(userCards)
+          .where(and(eq(userCards.userId, winner.userId), eq(userCards.cardId, exclusiveCard.cardId)))
+          .limit(1);
+
+        if (existing) {
+          await db.update(userCards)
+            .set({ quantity: sql`quantity + 1` })
+            .where(eq(userCards.id, existing.id));
+        } else {
+          await db.insert(userCards).values({
+            userId: winner.userId,
+            cardId: exclusiveCard.cardId,
+            quantity: 1,
+            isFoil: 1, // Draft exclusive cards are always foil
+            cardLevel: 1,
+            obtainedVia: "draft_reward",
+          });
+        }
+      }
+
+      // Mark tournament as completed
+      await db.update(draftTournaments)
+        .set({ status: "completed", winnerId: winner.userId })
+        .where(eq(draftTournaments.id, tournament.id));
+
+      // Achievement tracking for all participants
+      for (const p of participants) {
+        const isWinner = p.userId === winner.userId;
+        trackDraftResult(p.userId, isWinner, isWinner && isPerfectRun)
+          .catch(e => console.error("[Draft] Achievement error:", e));
+        if (isWinner) {
+          trackCollectionSize(p.userId)
+            .catch(e => console.error("[Draft] Collection tracking error:", e));
+        }
+      }
+
+      return {
+        success: true,
+        winnerId: winner.userId,
+        winnerPrize,
+        runnerUpPrize: participants.length >= 3 ? runnerUpPrize : 0,
+        runnerUpId: participants.length >= 3 ? runnerUp?.userId : null,
+        exclusiveCard: exclusiveCard ? {
+          cardId: exclusiveCard.cardId,
+          name: exclusiveCard.name,
+          rarity: exclusiveCard.rarity,
+          imageUrl: exclusiveCard.imageUrl,
+        } : null,
+        isPerfectRun,
+      };
+    }),
+
+  /** Get tournament results (after completion) */
+  getResults: protectedProcedure
+    .input(z.object({ tournamentId: z.number() }))
+    .query(async ({ ctx, input }) => {
+      const db = await getDb();
+      if (!db) return null;
+
+      const [tournament] = await db.select().from(draftTournaments)
+        .where(eq(draftTournaments.id, input.tournamentId)).limit(1);
+      if (!tournament || tournament.status !== "completed") return null;
+
+      const participants = await db.select().from(draftParticipants)
+        .where(eq(draftParticipants.tournamentId, tournament.id));
+
+      // Sort by wins desc, losses asc
+      const standings = [...participants].sort((a, b) => {
+        if (b.tournamentWins !== a.tournamentWins) return b.tournamentWins - a.tournamentWins;
+        return a.tournamentLosses - b.tournamentLosses;
+      });
+
+      const prizePool = tournament.entryCost * participants.length * tournament.prizeMultiplier;
+      const runnerUpPrize = participants.length >= 3 ? Math.floor(prizePool * 0.3) : 0;
+      const winnerPrize = prizePool - runnerUpPrize;
+
+      return {
+        tournament,
+        standings,
+        winnerId: tournament.winnerId,
+        prizePool,
+        winnerPrize,
+        runnerUpPrize,
+      };
     }),
 });

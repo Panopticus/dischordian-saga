@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { protectedProcedure, router } from "../_core/trpc";
 import { getDb } from "../db";
+import { trackCraftAction, trackDisenchant, trackCollectionSize } from "../achievementTracker";
 import { cards, userCards, craftingLog, dreamBalance } from "../../drizzle/schema";
 import { eq, and, sql, desc, inArray } from "drizzle-orm";
 import { fetchCitizenData, fetchPotentialNftData, resolveCraftingBonuses } from "../traitResolver";
@@ -359,6 +360,9 @@ export const craftingRouter = router({
           creditsCost: 0,
         });
 
+        // Achievement auto-tracking for disenchant
+        trackDisenchant(ctx.user.id).catch(e => console.error("[Crafting] Achievement error:", e));
+
         return {
           success: true,
           message: `Disenchanted for ${dreamGain} Dream!`,
@@ -480,6 +484,13 @@ export const craftingRouter = router({
         success: 1,
         creditsCost: recipe.creditsCost,
       });
+
+      // Achievement auto-tracking for successful craft
+      trackCraftAction(ctx.user.id, outputCard.rarity || undefined)
+        .catch(e => console.error("[Crafting] Achievement error:", e));
+      // Update collection achievements
+      trackCollectionSize(ctx.user.id)
+        .catch(e => console.error("[Crafting] Collection tracking error:", e));
 
       return {
         success: true,

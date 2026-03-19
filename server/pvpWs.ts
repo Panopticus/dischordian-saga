@@ -7,6 +7,7 @@ import { initPvpBattle, processPvpAction, getPlayerView, calculateEloChange, get
 import { getDb } from "./db";
 import { pvpMatches, pvpLeaderboard, pvpSeasons, pvpSeasonRecords } from "../drizzle/schema";
 import { eq, and } from "drizzle-orm";
+import { trackPvpResult } from "./achievementTracker";
 import { randomUUID } from "crypto";
 
 /* ─── TYPES ─── */
@@ -281,15 +282,21 @@ async function endMatch(match: ActiveMatch) {
           const row = rows[0];
           const newElo = Math.max(0, row.elo + change);
           const newStreak = won ? row.winStreak + 1 : 0;
+          const newTier = getRankTier(newElo);
           await db.update(pvpLeaderboard).set({
             elo: newElo,
             wins: won ? row.wins + 1 : row.wins,
             losses: won ? row.losses : row.losses + 1,
             winStreak: newStreak,
             bestStreak: Math.max(row.bestStreak, newStreak),
-            rankTier: getRankTier(newElo) as any,
+            rankTier: newTier as any,
             lastMatchAt: new Date(),
           }).where(eq(pvpLeaderboard.userId, player.userId));
+
+          // Achievement auto-tracking
+          const totalWins = won ? row.wins + 1 : row.wins;
+          trackPvpResult(player.userId, won, newStreak, newTier, totalWins)
+            .catch(e => console.error("[PvP] Achievement tracking error:", e));
         }
       }
 

@@ -4,6 +4,7 @@ import { getDb } from "../db";
 import { cards, userCards, decks, cardGameMatches, characterSheets, dreamBalance } from "../../drizzle/schema";
 import { eq, and, like, inArray, sql, desc, asc } from "drizzle-orm";
 import { fetchCitizenData, fetchPotentialNftData, resolveCardGameBonuses } from "../traitResolver";
+import { trackAiResult, trackCollectionSize } from "../achievementTracker";
 
 // ═══════════════════════════════════════════════════════
 // CARD BROWSING & COLLECTION
@@ -258,6 +259,10 @@ export const cardGameRouter = router({
           });
         }
       }
+
+      // Achievement auto-tracking for collection size
+      trackCollectionSize(ctx.user.id)
+        .catch(e => console.error("[CardGame] Collection tracking error:", e));
 
       return { success: true, cards: packCards };
     }),
@@ -669,6 +674,12 @@ export const cardGameRouter = router({
         })
         .where(eq(cardGameMatches.id, input.matchId));
 
+      // Achievement auto-tracking for AI matches
+      if (matchStatus === "completed") {
+        trackAiResult(ctx.user.id, winnerId === ctx.user.id)
+          .catch(e => console.error("[CardGame] Achievement tracking error:", e));
+      }
+
       return {
         success: true,
         gameState: state,
@@ -756,6 +767,12 @@ export const cardGameRouter = router({
         })
         .where(eq(cardGameMatches.id, input.matchId));
 
+      // Achievement auto-tracking for AI matches
+      if (matchStatus === "completed") {
+        trackAiResult(ctx.user.id, winnerId === ctx.user.id)
+          .catch(e => console.error("[CardGame] Achievement tracking error:", e));
+      }
+
       return { success: true, gameState: state, logEntry, matchStatus };
     }),
 
@@ -818,6 +835,12 @@ export const cardGameRouter = router({
           endedAt: matchStatus === "completed" ? new Date() : undefined,
         })
         .where(eq(cardGameMatches.id, input.matchId));
+
+      // Achievement auto-tracking for AI matches
+      if (matchStatus === "completed") {
+        trackAiResult(ctx.user.id, winnerId === ctx.user.id)
+          .catch(e => console.error("[CardGame] Achievement tracking error:", e));
+      }
 
       return { success: true, gameState: state, matchStatus };
     }),

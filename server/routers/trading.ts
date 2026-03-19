@@ -5,6 +5,7 @@ import { z } from "zod";
 import { eq, and, or, desc, sql } from "drizzle-orm";
 import { protectedProcedure, router } from "../_core/trpc";
 import { getDb } from "../db";
+import { trackTradeComplete, trackCollectionSize } from "../achievementTracker";
 import { cardTrades, userCards, dreamBalance, users } from "../../drizzle/schema";
 
 const tradeCardSchema = z.object({ cardId: z.string(), quantity: z.number().min(1).max(10) });
@@ -144,6 +145,13 @@ export const tradingRouter = router({
 
       // Mark trade as accepted
       await db.update(cardTrades).set({ status: "accepted" }).where(eq(cardTrades.id, input.tradeId));
+
+      // Achievement auto-tracking for both parties
+      trackTradeComplete(trade.senderId).catch(e => console.error("[Trading] Achievement error:", e));
+      trackTradeComplete(ctx.user.id).catch(e => console.error("[Trading] Achievement error:", e));
+      // Update collection achievements for both parties
+      trackCollectionSize(trade.senderId).catch(e => console.error("[Trading] Collection tracking error:", e));
+      trackCollectionSize(ctx.user.id).catch(e => console.error("[Trading] Collection tracking error:", e));
 
       return { success: true };
     }),

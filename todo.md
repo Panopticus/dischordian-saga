@@ -1202,3 +1202,24 @@
 - [x] Add navigation links in GamesPage for Draft Tournament, Card Trading, Card Achievements
 - [x] Register routes in App.tsx (/draft, /trading, /card-achievements)
 - [x] Write vitest tests for draft mode, trading, and achievements (916 tests pass across 29 files)
+
+### Phase 39b: Achievement Auto-Tracking, Trade Notifications, Draft Rewards
+- [x] Build achievementTracker.ts helper with trackIncrement, trackSet, trackPvpResult, trackCollectionSize, trackCraftAction, trackDisenchant, trackTradeComplete, trackDraftResult, trackAiResult
+- [x] Wire achievement auto-tracking into PvP WebSocket match completion (trackPvpResult with wins, streaks, ranks)
+- [x] Wire achievement auto-tracking into card game AI matches (trackAiResult for win/loss)
+- [x] Wire achievement auto-tracking into pack opening (trackCollectionSize after new cards)
+- [x] Wire achievement auto-tracking into crafting router (trackCraftAction with rarity, trackDisenchant)
+- [x] Wire achievement auto-tracking into trading router (trackTradeComplete for both parties, trackCollectionSize)
+- [x] Wire achievement auto-tracking into card challenge router (trackAiResult for async PvP)
+- [x] Wire achievement auto-tracking into draft tournament completion (trackDraftResult for all participants)
+- [x] Build TradeNotificationWatcher component with 15s polling for incoming trades
+- [x] Add actionable toast notifications with ACCEPT/DECLINE buttons for new trade offers
+- [x] Add toast notifications for accepted and declined trades on sent offers
+- [x] Skip toasts on initial load to prevent notification flood
+- [x] Register TradeNotificationWatcher in App.tsx alongside AchievementToast
+- [x] Build completeTournament procedure with winner determination (wins desc, losses asc tiebreak)
+- [x] Implement Dream token prize pool: entryCost * playerCount * prizeMultiplier (70% winner, 30% runner-up)
+- [x] Implement exclusive draft-only card reward (foil rare+ card, preferring unowned cards)
+- [x] Build getResults procedure for viewing tournament standings and prize info
+- [x] Track perfect run detection (zero losses) for draft_perfect achievement
+- [x] Write 105 vitest tests for all three features (1021 total tests pass across 30 files)

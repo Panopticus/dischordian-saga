@@ -8,6 +8,7 @@ import { protectedProcedure, router } from "../_core/trpc";
 import { getDb } from "../db";
 import { cardGameMatches, users, userProgress } from "../../drizzle/schema";
 import { eq, or, and, desc } from "drizzle-orm";
+import { trackAiResult } from "../achievementTracker";
 
 export const cardChallengeRouter = router({
   /**
@@ -214,6 +215,10 @@ export const cardChallengeRouter = router({
           .set({ xp: (winnerProgress[0].xp ?? 0) + 50, points: (winnerProgress[0].points ?? 0) + 25 })
           .where(eq(userProgress.userId, winnerId));
       }
+
+      // Achievement auto-tracking for async PvP
+      trackAiResult(winnerId, true).catch(e => console.error("[CardChallenge] Achievement error:", e));
+      trackAiResult(loserId, false).catch(e => console.error("[CardChallenge] Achievement error:", e));
 
       return {
         success: true,
