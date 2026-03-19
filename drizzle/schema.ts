@@ -950,3 +950,86 @@ export const pvpLeaderboard = mysqlTable("pvp_leaderboard", {
 
 export type PvpLeaderboard = typeof pvpLeaderboard.$inferSelect;
 export type InsertPvpLeaderboard = typeof pvpLeaderboard.$inferInsert;
+
+
+/* ═══════════════════════════════════════════════════════
+   PVP DECKS — Custom saved decks for PvP battles
+   ═══════════════════════════════════════════════════════ */
+
+/**
+ * Saved PvP decks — players can build and save custom decks.
+ */
+export const pvpDecks = mysqlTable("pvp_decks", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  name: varchar("name", { length: 128 }).notNull(),
+  /** Faction: architect or dreamer */
+  faction: mysqlEnum("faction", ["architect", "dreamer"]).notNull(),
+  /** JSON array of card IDs in the deck */
+  cardIds: json("cardIds").$type<string[]>().notNull(),
+  /** Whether this is the player's active/default PvP deck */
+  isActive: int("isActive").notNull().default(0),
+  /** Number of cards in the deck */
+  cardCount: int("cardCount").notNull().default(0),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type PvpDeck = typeof pvpDecks.$inferSelect;
+export type InsertPvpDeck = typeof pvpDecks.$inferInsert;
+
+/* ═══════════════════════════════════════════════════════
+   RANKED SEASONS — Seasonal competitive rankings
+   ═══════════════════════════════════════════════════════ */
+
+/**
+ * Season definitions — each season has a start/end date and reward tiers.
+ */
+export const pvpSeasons = mysqlTable("pvp_seasons", {
+  id: int("id").autoincrement().primaryKey(),
+  /** Season number (1, 2, 3...) */
+  seasonNumber: int("seasonNumber").notNull().unique(),
+  name: varchar("name", { length: 128 }).notNull(),
+  /** Season start timestamp */
+  startsAt: timestamp("startsAt").notNull(),
+  /** Season end timestamp */
+  endsAt: timestamp("endsAt").notNull(),
+  /** Whether this season is currently active */
+  isActive: int("isActive").notNull().default(0),
+  /** JSON blob: reward definitions per tier */
+  rewards: json("rewards").$type<Record<string, { cardPacks: number; title: string; badge: string }>>(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export type PvpSeason = typeof pvpSeasons.$inferSelect;
+export type InsertPvpSeason = typeof pvpSeasons.$inferInsert;
+
+/**
+ * Player season records — tracks ELO, rank, and rewards per season.
+ */
+export const pvpSeasonRecords = mysqlTable("pvp_season_records", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  seasonId: int("seasonId").notNull(),
+  /** Peak ELO achieved during the season */
+  peakElo: int("peakElo").notNull().default(1000),
+  /** Final ELO at season end */
+  finalElo: int("finalElo").notNull().default(1000),
+  /** Peak rank tier achieved */
+  peakTier: mysqlEnum("peakTier", [
+    "bronze", "silver", "gold", "platinum", "diamond", "master", "grandmaster"
+  ]).default("bronze").notNull(),
+  /** Total wins this season */
+  seasonWins: int("seasonWins").notNull().default(0),
+  /** Total losses this season */
+  seasonLosses: int("seasonLosses").notNull().default(0),
+  /** Best win streak this season */
+  bestStreak: int("bestStreak").notNull().default(0),
+  /** Whether rewards have been claimed */
+  rewardsClaimed: int("rewardsClaimed").notNull().default(0),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type PvpSeasonRecord = typeof pvpSeasonRecords.$inferSelect;
+export type InsertPvpSeasonRecord = typeof pvpSeasonRecords.$inferInsert;

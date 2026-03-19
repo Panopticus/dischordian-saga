@@ -1169,3 +1169,16 @@
 - [x] Build PvP battle page with synchronized game state
 - [x] Add PvP match history and win/loss tracking (ELO rating system + leaderboard)
 - [x] Write vitest tests for all new features (767 tests pass across 27 files)
+
+### Phase 38: PvP Deck Builder, Ranked Seasons, Spectator Mode
+- [x] Build PvP deck builder page with faction-specific card limits
+- [x] Add pre-match deck selection UI in PvP Arena
+- [x] Save/load/delete custom PvP decks (database-backed)
+- [x] Build ranked seasons system with ELO resets
+- [x] Add tier badges (Bronze/Silver/Gold/Platinum/Diamond/Master/Grandmaster)
+- [x] Build season rewards system (card packs, titles, badges per tier)
+- [x] Add ranked season UI to PvP Arena (current rank, progress bar, tier display)
+- [x] Build spectator mode WebSocket integration (watch live matches)
+- [x] Build spectator UI with real-time board view and match info
+- [x] Add spectator count and live match list to PvP Arena lobby
+- [x] Write vitest tests for deck builder, ranked seasons, and spectator mode (802 tests pass across 28 files)

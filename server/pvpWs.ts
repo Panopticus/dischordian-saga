@@ -1,13 +1,12 @@
 /* ═══════════════════════════════════════════════════════
-   PVP WEBSOCKET SERVER — Real-time card battle matchmaking
-   Handles lobby, matchmaking queue, and game state sync.
+   PVP WEBSOCKET SERVER — Matchmaking, battles, spectator
    ═══════════════════════════════════════════════════════ */
 import { WebSocketServer, WebSocket } from "ws";
 import type { Server } from "http";
 import { initPvpBattle, processPvpAction, getPlayerView, calculateEloChange, getRankTier, type PvpBattleState, type PvpAction, type DeckCard } from "@shared/pvpBattle";
 import { getDb } from "./db";
-import { pvpMatches, pvpLeaderboard } from "../drizzle/schema";
-import { eq } from "drizzle-orm";
+import { pvpMatches, pvpLeaderboard, pvpSeasons, pvpSeasonRecords } from "../drizzle/schema";
+import { eq, and } from "drizzle-orm";
 import { randomUUID } from "crypto";
 
 /* ─── TYPES ─── */
@@ -20,11 +19,17 @@ interface ConnectedPlayer {
   matchId: string | null;
 }
 
+interface Spectator {
+  ws: WebSocket;
+  matchId: string;
+}
+
 interface ActiveMatch {
   matchId: string;
   state: PvpBattleState;
   player1: ConnectedPlayer;
   player2: ConnectedPlayer;
+  spectators: Set<WebSocket>;
   turnTimeout: ReturnType<typeof setTimeout> | null;
   dbId: number | null;
 }
@@ -34,6 +39,8 @@ type ClientMessage =
   | { type: "LEAVE_QUEUE" }
   | { type: "GAME_ACTION"; action: PvpAction }
   | { type: "SURRENDER" }
+  | { type: "SPECTATE"; matchId: string }
+  | { type: "STOP_SPECTATING" }
   | { type: "PING" };
 
 type ServerMessage =
@@ -44,6 +51,10 @@ type ServerMessage =
   | { type: "ACTION_RESULT"; success: boolean; error?: string }
   | { type: "GAME_OVER"; winnerId: number; eloChange: number; newElo: number }
   | { type: "OPPONENT_DISCONNECTED" }
+  | { type: "SPECTATE_JOINED"; matchId: string; player1Name: string; player2Name: string; player1Elo: number; player2Elo: number }
+  | { type: "SPECTATE_STATE"; state: PvpBattleState }
+  | { type: "SPECTATE_ENDED"; reason: string }
+  | { type: "ACTIVE_MATCHES"; matches: Array<{ matchId: string; player1Name: string; player2Name: string; player1Elo: number; player2Elo: number; turnNumber: number; spectatorCount: number }> }
   | { type: "ERROR"; message: string }
   | { type: "PONG" };
 
@@ -51,6 +62,7 @@ type ServerMessage =
 const matchmakingQueue: ConnectedPlayer[] = [];
 const activeMatches = new Map<string, ActiveMatch>();
 const playerConnections = new Map<number, ConnectedPlayer>();
+const spectatorConnections = new Map<WebSocket, string>(); // ws -> matchId
 
 const TURN_TIMEOUT_SECONDS = 75;
 const MATCHMAKING_INTERVAL_MS = 3000;
@@ -62,9 +74,60 @@ function send(ws: WebSocket, msg: ServerMessage) {
   }
 }
 
-function sendToMatch(match: ActiveMatch, msg: ServerMessage) {
-  send(match.player1.ws, msg);
-  send(match.player2.ws, msg);
+function broadcastToSpectators(match: ActiveMatch, msg: ServerMessage) {
+  Array.from(match.spectators).forEach(specWs => {
+    send(specWs, msg);
+  });
+}
+
+/** Get a spectator-safe view of the game state (no hidden info) */
+function getSpectatorView(state: PvpBattleState): PvpBattleState {
+  const view = JSON.parse(JSON.stringify(state)) as PvpBattleState;
+  // Hide both players' hands from spectators (delayed reveal)
+  for (const player of [view.player1, view.player2]) {
+    player.hand = player.hand.map(c => ({
+      ...c,
+      name: "???",
+      ability: "???",
+      imageUrl: "",
+      cardId: "hidden",
+    }));
+    player.deck = new Array(player.deck.length).fill(null).map((_, i) => ({
+      instanceId: `hidden-${i}`,
+      cardId: "hidden",
+      name: "???",
+      type: "unit" as const,
+      rarity: "common",
+      attack: 0,
+      defense: 0,
+      cost: 0,
+      ability: "",
+      imageUrl: "",
+      currentHP: 0,
+      hasAttacked: false,
+      justDeployed: false,
+      tempAttackMod: 0,
+      tempDefenseMod: 0,
+    }));
+  }
+  return view;
+}
+
+/** Get list of active matches for spectator lobby */
+function getActiveMatchesList() {
+  const list: Array<{ matchId: string; player1Name: string; player2Name: string; player1Elo: number; player2Elo: number; turnNumber: number; spectatorCount: number }> = [];
+  Array.from(activeMatches.values()).forEach(match => {
+    list.push({
+      matchId: match.matchId,
+      player1Name: match.player1.userName,
+      player2Name: match.player2.userName,
+      player1Elo: match.player1.elo,
+      player2Elo: match.player2.elo,
+      turnNumber: match.state.turnNumber,
+      spectatorCount: match.spectators.size,
+    });
+  });
+  return list;
 }
 
 async function getOrCreateLeaderboard(userId: number, userName: string): Promise<{ elo: number }> {
@@ -82,10 +145,8 @@ async function getOrCreateLeaderboard(userId: number, userName: string): Promise
 function tryMatchPlayers() {
   if (matchmakingQueue.length < 2) return;
 
-  // Sort by ELO for fair matching
   matchmakingQueue.sort((a, b) => a.elo - b.elo);
 
-  // Find closest ELO pair
   let bestPair: [number, number] | null = null;
   let bestDiff = Infinity;
 
@@ -109,7 +170,6 @@ function tryMatchPlayers() {
 async function startMatch(p1: ConnectedPlayer, p2: ConnectedPlayer) {
   const matchId = randomUUID().slice(0, 12);
 
-  // Initialize battle state
   const state = initPvpBattle(
     matchId,
     { id: p1.userId, name: p1.userName, deck: p1.deck },
@@ -121,6 +181,7 @@ async function startMatch(p1: ConnectedPlayer, p2: ConnectedPlayer) {
     state,
     player1: p1,
     player2: p2,
+    spectators: new Set(),
     turnTimeout: null,
     dbId: null,
   };
@@ -148,26 +209,16 @@ async function startMatch(p1: ConnectedPlayer, p2: ConnectedPlayer) {
   }
 
   // Notify players
-  send(p1.ws, {
-    type: "MATCH_FOUND",
-    matchId,
-    opponentName: p2.userName,
-    opponentElo: p2.elo,
-    yourSide: "player1",
-  });
-  send(p2.ws, {
-    type: "MATCH_FOUND",
-    matchId,
-    opponentName: p1.userName,
-    opponentElo: p1.elo,
-    yourSide: "player2",
-  });
+  send(p1.ws, { type: "MATCH_FOUND", matchId, opponentName: p2.userName, opponentElo: p2.elo, yourSide: "player1" });
+  send(p2.ws, { type: "MATCH_FOUND", matchId, opponentName: p1.userName, opponentElo: p1.elo, yourSide: "player2" });
 
-  // Send initial game state (player-specific views)
+  // Send initial game state
   send(p1.ws, { type: "GAME_STATE", state: getPlayerView(state, p1.userId) });
   send(p2.ws, { type: "GAME_STATE", state: getPlayerView(state, p2.userId) });
 
-  // Start turn timer
+  // Notify spectators of new match
+  broadcastToSpectators(match, { type: "SPECTATE_STATE", state: getSpectatorView(state) });
+
   startTurnTimer(match);
 }
 
@@ -175,13 +226,12 @@ function startTurnTimer(match: ActiveMatch) {
   if (match.turnTimeout) clearTimeout(match.turnTimeout);
 
   match.turnTimeout = setTimeout(() => {
-    // Auto end turn on timeout
     const result = processPvpAction(match.state, match.state.currentTurn, { type: "END_TURN" });
     match.state = result.state;
 
-    // Send updated state
     send(match.player1.ws, { type: "GAME_STATE", state: getPlayerView(match.state, match.player1.userId) });
     send(match.player2.ws, { type: "GAME_STATE", state: getPlayerView(match.state, match.player2.userId) });
+    broadcastToSpectators(match, { type: "SPECTATE_STATE", state: getSpectatorView(match.state) });
 
     if (match.state.winner) {
       endMatch(match);
@@ -204,14 +254,12 @@ async function endMatch(match: ActiveMatch) {
   const winnerPlayer = winnerId === match.player1.userId ? match.player1 : match.player2;
   const loserPlayer = winnerId === match.player1.userId ? match.player2 : match.player1;
 
-  // Calculate ELO changes
   const { winnerChange, loserChange } = calculateEloChange(winnerPlayer.elo, loserPlayer.elo);
 
   // Update DB
   try {
     const db = await getDb();
     if (db) {
-      // Update match record
       if (match.dbId) {
         await db.update(pvpMatches).set({
           status: "completed",
@@ -244,29 +292,72 @@ async function endMatch(match: ActiveMatch) {
           }).where(eq(pvpLeaderboard.userId, player.userId));
         }
       }
+
+      // Update season records
+      await updateSeasonRecords(db, winnerPlayer.userId, winnerPlayer.elo + winnerChange, true);
+      await updateSeasonRecords(db, loserPlayer.userId, loserPlayer.elo + loserChange, false);
     }
   } catch (e) {
     console.error("[PvP] Failed to update match results:", e);
   }
 
   // Notify players
-  send(winnerPlayer.ws, {
-    type: "GAME_OVER",
-    winnerId,
-    eloChange: winnerChange,
-    newElo: winnerPlayer.elo + winnerChange,
+  send(winnerPlayer.ws, { type: "GAME_OVER", winnerId, eloChange: winnerChange, newElo: winnerPlayer.elo + winnerChange });
+  send(loserPlayer.ws, { type: "GAME_OVER", winnerId, eloChange: loserChange, newElo: loserPlayer.elo + loserChange });
+
+  // Notify spectators
+  broadcastToSpectators(match, { type: "SPECTATE_ENDED", reason: `${winnerPlayer.userName} wins!` });
+
+  // Clean up spectators
+  Array.from(match.spectators).forEach(specWs => {
+    spectatorConnections.delete(specWs);
   });
-  send(loserPlayer.ws, {
-    type: "GAME_OVER",
-    winnerId,
-    eloChange: loserChange,
-    newElo: loserPlayer.elo + loserChange,
-  });
+  match.spectators.clear();
 
   // Cleanup
   match.player1.matchId = null;
   match.player2.matchId = null;
   activeMatches.delete(match.matchId);
+}
+
+/** Update season records after a match */
+async function updateSeasonRecords(db: NonNullable<Awaited<ReturnType<typeof getDb>>>, userId: number, newElo: number, won: boolean) {
+  try {
+    const activeSeason = await db.select().from(pvpSeasons).where(eq(pvpSeasons.isActive, 1)).limit(1);
+    if (!activeSeason[0]) return;
+
+    const seasonId = activeSeason[0].id;
+    const existing = await db.select().from(pvpSeasonRecords)
+      .where(and(eq(pvpSeasonRecords.userId, userId), eq(pvpSeasonRecords.seasonId, seasonId)))
+      .limit(1);
+
+    if (existing[0]) {
+      const record = existing[0];
+      const newPeakElo = Math.max(record.peakElo, newElo);
+      const newStreak = won ? (record.bestStreak + 1) : 0;
+      await db.update(pvpSeasonRecords).set({
+        peakElo: newPeakElo,
+        finalElo: newElo,
+        peakTier: getRankTier(newPeakElo) as any,
+        seasonWins: won ? record.seasonWins + 1 : record.seasonWins,
+        seasonLosses: won ? record.seasonLosses : record.seasonLosses + 1,
+        bestStreak: Math.max(record.bestStreak, newStreak),
+      }).where(eq(pvpSeasonRecords.id, record.id));
+    } else {
+      await db.insert(pvpSeasonRecords).values({
+        userId,
+        seasonId,
+        peakElo: newElo,
+        finalElo: newElo,
+        peakTier: getRankTier(newElo) as any,
+        seasonWins: won ? 1 : 0,
+        seasonLosses: won ? 0 : 1,
+        bestStreak: won ? 1 : 0,
+      });
+    }
+  } catch (e) {
+    console.error("[PvP] Failed to update season records:", e);
+  }
 }
 
 function handleSurrender(player: ConnectedPlayer) {
@@ -282,18 +373,15 @@ function handleSurrender(player: ConnectedPlayer) {
 }
 
 function handleDisconnect(player: ConnectedPlayer) {
-  // Remove from queue
   const qIdx = matchmakingQueue.findIndex(p => p.userId === player.userId);
   if (qIdx !== -1) matchmakingQueue.splice(qIdx, 1);
 
-  // Handle active match
   if (player.matchId) {
     const match = activeMatches.get(player.matchId);
     if (match && !match.state.winner) {
       const opponent = match.player1.userId === player.userId ? match.player2 : match.player1;
       send(opponent.ws, { type: "OPPONENT_DISCONNECTED" });
 
-      // Give opponent the win after 30 seconds
       setTimeout(() => {
         if (match.state.winner) return;
         match.state.winner = opponent.userId;
@@ -306,6 +394,17 @@ function handleDisconnect(player: ConnectedPlayer) {
   playerConnections.delete(player.userId);
 }
 
+function handleSpectatorDisconnect(ws: WebSocket) {
+  const matchId = spectatorConnections.get(ws);
+  if (matchId) {
+    const match = activeMatches.get(matchId);
+    if (match) {
+      match.spectators.delete(ws);
+    }
+    spectatorConnections.delete(ws);
+  }
+}
+
 /* ─── WEBSOCKET SERVER ─── */
 export function setupPvpWebSocket(server: Server) {
   const wss = new WebSocketServer({ server, path: "/api/pvp" });
@@ -315,7 +414,6 @@ export function setupPvpWebSocket(server: Server) {
   // Matchmaking loop
   setInterval(() => {
     tryMatchPlayers();
-    // Update queue positions
     matchmakingQueue.forEach((p, i) => {
       send(p.ws, { type: "QUEUE_UPDATE", position: i + 1, playersInQueue: matchmakingQueue.length });
     });
@@ -323,6 +421,7 @@ export function setupPvpWebSocket(server: Server) {
 
   wss.on("connection", (ws) => {
     let player: ConnectedPlayer | null = null;
+    let isSpectator = false;
 
     ws.on("message", (raw) => {
       let msg: ClientMessage;
@@ -344,13 +443,11 @@ export function setupPvpWebSocket(server: Server) {
             return;
           }
 
-          // Validate deck
           if (!msg.deck || msg.deck.length < 5) {
             send(ws, { type: "ERROR", message: "Deck must have at least 5 cards" });
             return;
           }
 
-          // Check if already connected
           const existing = playerConnections.get(msg.userId);
           if (existing) {
             send(existing.ws, { type: "ERROR", message: "Connected from another session" });
@@ -358,7 +455,6 @@ export function setupPvpWebSocket(server: Server) {
             playerConnections.delete(msg.userId);
           }
 
-          // Get ELO
           getOrCreateLeaderboard(msg.userId, msg.userName).then(({ elo }) => {
             player = {
               ws,
@@ -373,8 +469,6 @@ export function setupPvpWebSocket(server: Server) {
             matchmakingQueue.push(player);
 
             send(ws, { type: "QUEUE_JOINED", position: matchmakingQueue.length });
-
-            // Try immediate match
             tryMatchPlayers();
           });
           break;
@@ -409,6 +503,9 @@ export function setupPvpWebSocket(server: Server) {
           send(match.player1.ws, { type: "GAME_STATE", state: getPlayerView(match.state, match.player1.userId) });
           send(match.player2.ws, { type: "GAME_STATE", state: getPlayerView(match.state, match.player2.userId) });
 
+          // Send to spectators
+          broadcastToSpectators(match, { type: "SPECTATE_STATE", state: getSpectatorView(match.state) });
+
           if (match.state.winner) {
             endMatch(match);
           } else if (msg.action.type === "END_TURN") {
@@ -421,15 +518,56 @@ export function setupPvpWebSocket(server: Server) {
           if (player) handleSurrender(player);
           break;
         }
+
+        case "SPECTATE": {
+          const matchToWatch = activeMatches.get(msg.matchId);
+          if (!matchToWatch) {
+            send(ws, { type: "ERROR", message: "Match not found or already ended" });
+            // Send active matches list
+            send(ws, { type: "ACTIVE_MATCHES", matches: getActiveMatchesList() });
+            return;
+          }
+
+          // Remove from any previous spectating
+          handleSpectatorDisconnect(ws);
+
+          isSpectator = true;
+          matchToWatch.spectators.add(ws);
+          spectatorConnections.set(ws, msg.matchId);
+
+          // Send join confirmation
+          send(ws, {
+            type: "SPECTATE_JOINED",
+            matchId: msg.matchId,
+            player1Name: matchToWatch.player1.userName,
+            player2Name: matchToWatch.player2.userName,
+            player1Elo: matchToWatch.player1.elo,
+            player2Elo: matchToWatch.player2.elo,
+          });
+
+          // Send current game state
+          send(ws, { type: "SPECTATE_STATE", state: getSpectatorView(matchToWatch.state) });
+          break;
+        }
+
+        case "STOP_SPECTATING": {
+          handleSpectatorDisconnect(ws);
+          isSpectator = false;
+          // Send active matches list
+          send(ws, { type: "ACTIVE_MATCHES", matches: getActiveMatchesList() });
+          break;
+        }
       }
     });
 
     ws.on("close", () => {
       if (player) handleDisconnect(player);
+      if (isSpectator) handleSpectatorDisconnect(ws);
     });
 
     ws.on("error", () => {
       if (player) handleDisconnect(player);
+      if (isSpectator) handleSpectatorDisconnect(ws);
     });
   });
 
