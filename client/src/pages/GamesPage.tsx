@@ -129,6 +129,15 @@ const SIMULATIONS: GameTile[] = [
     color: "#f59e0b",
   },
   {
+    href: "/pvp",
+    title: "PVP ARENA",
+    subtitle: "Real-Time Card Battles",
+    description: "Enter the arena for real-time multiplayer card battles. Match against live opponents, climb the ELO ladder, and earn your rank from Bronze to Grandmaster.",
+    loreContext: "PVP: Live Combat",
+    icon: Swords,
+    color: "#ef4444",
+  },
+  {
     href: "/achievements",
     title: "LORE ACHIEVEMENTS",
     subtitle: "Saga Progress Tracker",

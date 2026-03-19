@@ -85,6 +85,13 @@
       "when": 1773930873969,
       "tag": "0011_spooky_deathbird",
       "breakpoints": true
+    },
+    {
+      "idx": 12,
+      "version": "5",
+      "when": 1773944553584,
+      "tag": "0012_amusing_hedge_knight",
+      "breakpoints": true
     }
   ]
 }

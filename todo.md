@@ -1155,3 +1155,17 @@
 - [x] Wire generated card art into the card database
 - [x] Write tests for trait summary, respec, and card game visual systems (742 tests pass across 26 files)
 - [x] Fix React hooks ordering error in FightPage.tsx (Rendered more hooks than during the previous render)
+
+### Phase 37: Card Battle SFX, Card Collection Gallery, Multiplayer PvP
+- [x] Build card battle sound effects system (deploy, attack, death, turn transitions, victory/defeat)
+- [x] Create SFX context/hook for managing audio playback across the battle (extended existing SoundContext)
+- [x] Integrate SFX triggers into CardBattlePage actions
+- [x] Build card collection gallery page with all 178 cards
+- [x] Add filtering by faction, rarity, element, type, species, era, class, alignment
+- [x] Add collection progress tracking (cards discovered vs total)
+- [x] Add card detail modal with full art view and lore
+- [x] Build multiplayer PvP WebSocket server for real-time card battles
+- [x] Build matchmaking queue UI and lobby system
+- [x] Build PvP battle page with synchronized game state
+- [x] Add PvP match history and win/loss tracking (ELO rating system + leaderboard)
+- [x] Write vitest tests for all new features (767 tests pass across 27 files)

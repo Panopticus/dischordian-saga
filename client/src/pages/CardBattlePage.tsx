@@ -650,7 +650,7 @@ export default function CardBattlePage() {
     setEnemyId(eid);
     const state = initBattle(playerDeck, eid, diff);
     setBattleState(state);
-    if (audioReady) playSFX("room_enter");
+    if (audioReady) playSFX("turn_start");
     // Show initial turn banner
     setTurnBannerText("YOUR TURN");
     setShowTurnBanner(true);
@@ -665,10 +665,15 @@ export default function CardBattlePage() {
 
       // VFX based on action type
       if (action.type === "PLAY_CARD") {
-        if (audioReady) playSFX("item_pickup");
         // Find the card that was played
         const playedCard = prevState.player.hand.find(c => c.instanceId === action.cardInstanceId);
         if (playedCard) {
+          // Play type-specific SFX
+          if (audioReady) {
+            if (playedCard.type === "spell") playSFX("card_spell");
+            else if (playedCard.type === "artifact") playSFX("card_artifact");
+            else playSFX("card_deploy");
+          }
           setAnimatingCards(s => new Set(s).add(action.cardInstanceId));
           setTimeout(() => setAnimatingCards(s => { const n = new Set(s); n.delete(action.cardInstanceId); return n; }), 700);
           vfx.triggerFlash("blueFlash");
@@ -676,10 +681,14 @@ export default function CardBattlePage() {
       }
 
       if (action.type === "ATTACK") {
-        if (audioReady) playSFX("door_locked");
         const attacker = prevState.player.field.find(c => c.instanceId === action.attackerInstanceId);
         if (attacker) {
           const damage = attacker.attack + attacker.tempAttackMod;
+          // Play attack SFX — critical hit for 5+ damage
+          if (audioReady) {
+            if (damage >= 5) playSFX("critical_hit");
+            else playSFX("card_attack");
+          }
           // Spawn damage VFX at approximate center of screen
           const centerX = window.innerWidth / 2 + (Math.random() - 0.5) * 60;
           const centerY = window.innerHeight * 0.3 + (Math.random() - 0.5) * 40;
@@ -692,7 +701,7 @@ export default function CardBattlePage() {
       }
 
       if (action.type === "END_TURN") {
-        if (audioReady) playSFX("terminal_access");
+        if (audioReady) playSFX("turn_end");
         setTurnBannerText("ENEMY TURN");
         setShowTurnBanner(true);
         setTimeout(() => setShowTurnBanner(false), 1200);
@@ -700,6 +709,8 @@ export default function CardBattlePage() {
         // After enemy turn completes, show player turn banner
         if (next.turn === "player") {
           setTimeout(() => {
+            if (audioReady) playSFX("turn_start");
+            if (audioReady) playSFX("energy_charge");
             setTurnBannerText("YOUR TURN");
             setShowTurnBanner(true);
             setTimeout(() => setShowTurnBanner(false), 1200);
@@ -710,6 +721,7 @@ export default function CardBattlePage() {
         if (next.player.hp < prevState.player.hp) {
           const dmg = prevState.player.hp - next.player.hp;
           setTimeout(() => {
+            if (audioReady) playSFX(dmg >= 5 ? "critical_hit" : "card_attack");
             const x = window.innerWidth / 2 + (Math.random() - 0.5) * 80;
             const y = window.innerHeight * 0.65;
             if (dmg >= 5) {
@@ -718,6 +730,28 @@ export default function CardBattlePage() {
               vfx.spawnDamage(x, y, dmg);
             }
           }, 400);
+        }
+
+        // Check for card deaths
+        const prevEnemyFieldIds = new Set(prevState.enemy.field.map(c => c.instanceId));
+        const nextEnemyFieldIds = new Set(next.enemy.field.map(c => c.instanceId));
+        const enemyDeaths = Array.from(prevEnemyFieldIds).filter(id => !nextEnemyFieldIds.has(id));
+        if (enemyDeaths.length > 0 && audioReady) {
+          setTimeout(() => playSFX("card_death"), 200);
+        }
+
+        const prevPlayerFieldIds = new Set(prevState.player.field.map(c => c.instanceId));
+        const nextPlayerFieldIds = new Set(next.player.field.map(c => c.instanceId));
+        const playerDeaths = Array.from(prevPlayerFieldIds).filter(id => !nextPlayerFieldIds.has(id));
+        if (playerDeaths.length > 0 && audioReady) {
+          setTimeout(() => playSFX("card_death"), 300);
+        }
+
+        // Check for victory/defeat
+        if (next.winner === "player" && audioReady) {
+          setTimeout(() => playSFX("battle_victory"), 600);
+        } else if (next.winner === "enemy" && audioReady) {
+          setTimeout(() => playSFX("battle_defeat"), 600);
         }
       }
 

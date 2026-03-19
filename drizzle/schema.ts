@@ -887,3 +887,66 @@ export const nftMetadataCache = mysqlTable("nft_metadata_cache", {
 
 export type NftMetadataCache = typeof nftMetadataCache.$inferSelect;
 export type InsertNftMetadataCache = typeof nftMetadataCache.$inferInsert;
+
+/* ═══════════════════════════════════════════════════════
+   PVP CARD BATTLES — Real-time multiplayer matchmaking
+   ═══════════════════════════════════════════════════════ */
+
+/**
+ * PvP card battle matches — tracks real-time multiplayer games.
+ */
+export const pvpMatches = mysqlTable("pvp_matches", {
+  id: int("id").autoincrement().primaryKey(),
+  /** Unique match ID for WebSocket room */
+  matchId: varchar("matchId", { length: 64 }).notNull().unique(),
+  /** Player 1 user ID */
+  player1Id: int("player1Id").notNull(),
+  /** Player 2 user ID */
+  player2Id: int("player2Id"),
+  /** Match status */
+  status: mysqlEnum("status", ["waiting", "active", "completed", "abandoned"]).default("waiting").notNull(),
+  /** Winner user ID */
+  winnerId: int("winnerId"),
+  /** Player 1 deck (JSON array of card IDs) */
+  player1Deck: json("player1Deck").$type<string[]>(),
+  /** Player 2 deck (JSON array of card IDs) */
+  player2Deck: json("player2Deck").$type<string[]>(),
+  /** Final game state snapshot */
+  finalState: json("finalState").$type<Record<string, unknown>>(),
+  /** Total turns played */
+  totalTurns: int("totalTurns").notNull().default(0),
+  /** ELO change for player 1 */
+  player1EloChange: int("player1EloChange").notNull().default(0),
+  /** ELO change for player 2 */
+  player2EloChange: int("player2EloChange").notNull().default(0),
+  startedAt: timestamp("startedAt").defaultNow().notNull(),
+  endedAt: timestamp("endedAt"),
+});
+
+export type PvpMatch = typeof pvpMatches.$inferSelect;
+export type InsertPvpMatch = typeof pvpMatches.$inferInsert;
+
+/**
+ * PvP leaderboard — card battle ELO ratings.
+ */
+export const pvpLeaderboard = mysqlTable("pvp_leaderboard", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull().unique(),
+  userName: varchar("userName", { length: 256 }),
+  /** ELO rating (starts at 1000) */
+  elo: int("elo").notNull().default(1000),
+  wins: int("wins").notNull().default(0),
+  losses: int("losses").notNull().default(0),
+  winStreak: int("winStreak").notNull().default(0),
+  bestStreak: int("bestStreak").notNull().default(0),
+  /** Rank tier */
+  rankTier: mysqlEnum("rankTier", [
+    "bronze", "silver", "gold", "platinum", "diamond", "master", "grandmaster"
+  ]).default("bronze").notNull(),
+  lastMatchAt: timestamp("lastMatchAt"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type PvpLeaderboard = typeof pvpLeaderboard.$inferSelect;
+export type InsertPvpLeaderboard = typeof pvpLeaderboard.$inferInsert;

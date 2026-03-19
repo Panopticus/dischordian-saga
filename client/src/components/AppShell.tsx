@@ -72,6 +72,7 @@ const NAV_GROUPS: NavGroup[] = [
       { path: "/ark", label: "EXPLORE THE ARK", icon: Rocket, description: "Point & click adventure" },
       { path: "/quiz", label: "LORE QUIZ", icon: Brain, description: "Test your knowledge" },
       { path: "/battle", label: "BATTLE ARENA", icon: Swords, description: "Card combat" },
+      { path: "/pvp", label: "PVP ARENA", icon: Swords, description: "Multiplayer battles" },
       { path: "/card-gallery", label: "CARD GALLERY", icon: Crown, description: "Your collection" },
       { path: "/cards", label: "CARD ARCHIVE", icon: Crown, description: "Browse all cards" },
       { path: "/deck-builder", label: "DECK BUILDER", icon: Shield, description: "Build decks" },

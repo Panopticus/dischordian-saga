@@ -10,7 +10,7 @@ import { createContext, useContext, useCallback, useEffect, useRef, useState, ty
 
 /* ─── TYPES ─── */
 type SoundLayer = "ship_hum" | "cryo_hiss" | "electrical" | "alarm" | "heartbeat" | "void_wind" | "reactor" | "static";
-type SFXType = "item_pickup" | "door_unlock" | "door_locked" | "achievement" | "dialog_open" | "dialog_close" | "button_click" | "room_enter" | "cryo_open" | "terminal_access";
+type SFXType = "item_pickup" | "door_unlock" | "door_locked" | "achievement" | "dialog_open" | "dialog_close" | "button_click" | "room_enter" | "cryo_open" | "terminal_access" | "card_deploy" | "card_attack" | "card_death" | "card_spell" | "card_artifact" | "card_draw" | "turn_start" | "turn_end" | "battle_victory" | "battle_defeat" | "energy_charge" | "shield_hit" | "critical_hit" | "heal";
 
 interface RoomAmbience {
   layers: { type: SoundLayer; volume: number; }[];
@@ -582,6 +582,327 @@ class ProceduralSoundEngine {
           g.connect(this.masterGain!);
           osc.start(ctx.currentTime + delay);
           osc.stop(ctx.currentTime + delay + 0.05);
+        });
+        break;
+      }
+
+      /* ═══ CARD BATTLE SFX ═══ */
+
+      case "card_deploy": {
+        // Whoosh + impact thud — card slams onto the board
+        const buf = this.createNoiseBuffer(0.4, "pink");
+        const src = ctx.createBufferSource();
+        src.buffer = buf;
+        const filt = ctx.createBiquadFilter();
+        filt.type = "bandpass";
+        filt.frequency.setValueAtTime(800, ctx.currentTime);
+        filt.frequency.exponentialRampToValueAtTime(200, ctx.currentTime + 0.3);
+        filt.Q.value = 2;
+        gain.gain.setValueAtTime(0, ctx.currentTime);
+        gain.gain.linearRampToValueAtTime(0.25, ctx.currentTime + 0.05);
+        gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.4);
+        src.connect(filt);
+        filt.connect(gain);
+        src.start();
+        src.stop(ctx.currentTime + 0.4);
+        // Impact thud
+        const thud = ctx.createOscillator();
+        thud.type = "sine";
+        thud.frequency.setValueAtTime(80, ctx.currentTime + 0.08);
+        thud.frequency.exponentialRampToValueAtTime(30, ctx.currentTime + 0.25);
+        const tg = ctx.createGain();
+        tg.gain.setValueAtTime(0.3, ctx.currentTime + 0.08);
+        tg.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.25);
+        thud.connect(tg);
+        tg.connect(this.masterGain!);
+        thud.start(ctx.currentTime + 0.08);
+        thud.stop(ctx.currentTime + 0.25);
+        break;
+      }
+
+      case "card_attack": {
+        // Sharp slash + metallic ring
+        const buf = this.createNoiseBuffer(0.2, "white");
+        const src = ctx.createBufferSource();
+        src.buffer = buf;
+        const filt = ctx.createBiquadFilter();
+        filt.type = "highpass";
+        filt.frequency.value = 3000;
+        gain.gain.setValueAtTime(0.3, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.15);
+        src.connect(filt);
+        filt.connect(gain);
+        src.start();
+        src.stop(ctx.currentTime + 0.2);
+        // Metallic ring
+        const ring = ctx.createOscillator();
+        ring.type = "sine";
+        ring.frequency.value = 2400;
+        const rg = ctx.createGain();
+        rg.gain.setValueAtTime(0.12, ctx.currentTime + 0.02);
+        rg.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.3);
+        ring.connect(rg);
+        rg.connect(this.masterGain!);
+        ring.start(ctx.currentTime + 0.02);
+        ring.stop(ctx.currentTime + 0.3);
+        break;
+      }
+
+      case "card_death": {
+        // Descending tone + shatter noise
+        const osc = ctx.createOscillator();
+        osc.type = "sawtooth";
+        osc.frequency.setValueAtTime(400, ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(60, ctx.currentTime + 0.5);
+        const filt = ctx.createBiquadFilter();
+        filt.type = "lowpass";
+        filt.frequency.setValueAtTime(2000, ctx.currentTime);
+        filt.frequency.exponentialRampToValueAtTime(200, ctx.currentTime + 0.5);
+        gain.gain.setValueAtTime(0.2, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.5);
+        osc.connect(filt);
+        filt.connect(gain);
+        osc.start();
+        osc.stop(ctx.currentTime + 0.5);
+        // Shatter
+        const buf = this.createNoiseBuffer(0.3, "white");
+        const src = ctx.createBufferSource();
+        src.buffer = buf;
+        const sg = ctx.createGain();
+        sg.gain.setValueAtTime(0.15, ctx.currentTime + 0.05);
+        sg.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.35);
+        src.connect(sg);
+        sg.connect(this.masterGain!);
+        src.start(ctx.currentTime + 0.05);
+        src.stop(ctx.currentTime + 0.35);
+        break;
+      }
+
+      case "card_spell": {
+        // Mystical shimmer — ascending harmonics with reverb feel
+        [0, 0.06, 0.12, 0.18].forEach((delay, i) => {
+          const osc = ctx.createOscillator();
+          osc.type = "sine";
+          osc.frequency.value = [440, 660, 880, 1320][i];
+          const g = ctx.createGain();
+          g.gain.setValueAtTime(0, ctx.currentTime + delay);
+          g.gain.linearRampToValueAtTime(0.15 - i * 0.02, ctx.currentTime + delay + 0.04);
+          g.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + delay + 0.5);
+          osc.connect(g);
+          g.connect(this.masterGain!);
+          osc.start(ctx.currentTime + delay);
+          osc.stop(ctx.currentTime + delay + 0.5);
+        });
+        break;
+      }
+
+      case "card_artifact": {
+        // Deep resonant gong + harmonic overtones
+        const osc = ctx.createOscillator();
+        osc.type = "sine";
+        osc.frequency.value = 110;
+        gain.gain.setValueAtTime(0.25, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.8);
+        osc.connect(gain);
+        osc.start();
+        osc.stop(ctx.currentTime + 0.8);
+        // Overtone
+        const ot = ctx.createOscillator();
+        ot.type = "sine";
+        ot.frequency.value = 330;
+        const og = ctx.createGain();
+        og.gain.setValueAtTime(0.1, ctx.currentTime + 0.02);
+        og.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.6);
+        ot.connect(og);
+        og.connect(this.masterGain!);
+        ot.start(ctx.currentTime + 0.02);
+        ot.stop(ctx.currentTime + 0.6);
+        break;
+      }
+
+      case "card_draw": {
+        // Quick paper slide + soft click
+        const buf = this.createNoiseBuffer(0.12, "pink");
+        const src = ctx.createBufferSource();
+        src.buffer = buf;
+        const filt = ctx.createBiquadFilter();
+        filt.type = "bandpass";
+        filt.frequency.value = 3000;
+        filt.Q.value = 1;
+        gain.gain.setValueAtTime(0.12, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.12);
+        src.connect(filt);
+        filt.connect(gain);
+        src.start();
+        src.stop(ctx.currentTime + 0.12);
+        // Click
+        const click = ctx.createOscillator();
+        click.type = "sine";
+        click.frequency.value = 1000;
+        const cg = ctx.createGain();
+        cg.gain.setValueAtTime(0.06, ctx.currentTime + 0.08);
+        cg.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.12);
+        click.connect(cg);
+        cg.connect(this.masterGain!);
+        click.start(ctx.currentTime + 0.08);
+        click.stop(ctx.currentTime + 0.12);
+        break;
+      }
+
+      case "turn_start": {
+        // Rising power chord — your turn begins
+        [0, 0.05, 0.1].forEach((delay, i) => {
+          const osc = ctx.createOscillator();
+          osc.type = i === 0 ? "sine" : "triangle";
+          osc.frequency.value = [330, 440, 660][i];
+          const g = ctx.createGain();
+          g.gain.setValueAtTime(0, ctx.currentTime + delay);
+          g.gain.linearRampToValueAtTime(0.18 - i * 0.04, ctx.currentTime + delay + 0.05);
+          g.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + delay + 0.4);
+          osc.connect(g);
+          g.connect(this.masterGain!);
+          osc.start(ctx.currentTime + delay);
+          osc.stop(ctx.currentTime + delay + 0.4);
+        });
+        break;
+      }
+
+      case "turn_end": {
+        // Soft descending tone — passing the turn
+        const osc = ctx.createOscillator();
+        osc.type = "triangle";
+        osc.frequency.setValueAtTime(550, ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(330, ctx.currentTime + 0.25);
+        gain.gain.setValueAtTime(0.1, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.25);
+        osc.connect(gain);
+        osc.start();
+        osc.stop(ctx.currentTime + 0.25);
+        break;
+      }
+
+      case "battle_victory": {
+        // Triumphant fanfare — major chord arpeggio ascending
+        [0, 0.12, 0.24, 0.36, 0.48].forEach((delay, i) => {
+          const osc = ctx.createOscillator();
+          osc.type = i < 3 ? "sine" : "triangle";
+          osc.frequency.value = [262, 330, 392, 523, 659][i]; // C4, E4, G4, C5, E5
+          const g = ctx.createGain();
+          g.gain.setValueAtTime(0, ctx.currentTime + delay);
+          g.gain.linearRampToValueAtTime(0.22, ctx.currentTime + delay + 0.06);
+          g.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + delay + 0.6);
+          osc.connect(g);
+          g.connect(this.masterGain!);
+          osc.start(ctx.currentTime + delay);
+          osc.stop(ctx.currentTime + delay + 0.6);
+        });
+        break;
+      }
+
+      case "battle_defeat": {
+        // Somber descending minor chord
+        [0, 0.15, 0.3].forEach((delay, i) => {
+          const osc = ctx.createOscillator();
+          osc.type = "sine";
+          osc.frequency.value = [392, 311, 233][i]; // G4, Eb4, Bb3
+          const g = ctx.createGain();
+          g.gain.setValueAtTime(0, ctx.currentTime + delay);
+          g.gain.linearRampToValueAtTime(0.18, ctx.currentTime + delay + 0.08);
+          g.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + delay + 0.8);
+          osc.connect(g);
+          g.connect(this.masterGain!);
+          osc.start(ctx.currentTime + delay);
+          osc.stop(ctx.currentTime + delay + 0.8);
+        });
+        break;
+      }
+
+      case "energy_charge": {
+        // Ascending electronic whine — energy crystal fills
+        const osc = ctx.createOscillator();
+        osc.type = "sine";
+        osc.frequency.setValueAtTime(200, ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(800, ctx.currentTime + 0.2);
+        gain.gain.setValueAtTime(0.08, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.25);
+        osc.connect(gain);
+        osc.start();
+        osc.stop(ctx.currentTime + 0.25);
+        break;
+      }
+
+      case "shield_hit": {
+        // Metallic clang + energy dissipation
+        const osc = ctx.createOscillator();
+        osc.type = "square";
+        osc.frequency.value = 180;
+        const filt = ctx.createBiquadFilter();
+        filt.type = "bandpass";
+        filt.frequency.value = 600;
+        filt.Q.value = 5;
+        gain.gain.setValueAtTime(0.2, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.2);
+        osc.connect(filt);
+        filt.connect(gain);
+        osc.start();
+        osc.stop(ctx.currentTime + 0.2);
+        // Energy dissipation shimmer
+        const buf = this.createNoiseBuffer(0.3, "pink");
+        const src = ctx.createBufferSource();
+        src.buffer = buf;
+        const sf = ctx.createBiquadFilter();
+        sf.type = "highpass";
+        sf.frequency.value = 4000;
+        const sg = ctx.createGain();
+        sg.gain.setValueAtTime(0.08, ctx.currentTime + 0.05);
+        sg.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.3);
+        src.connect(sf);
+        sf.connect(sg);
+        sg.connect(this.masterGain!);
+        src.start(ctx.currentTime + 0.05);
+        src.stop(ctx.currentTime + 0.3);
+        break;
+      }
+
+      case "critical_hit": {
+        // Heavy impact + screen-shake bass
+        const buf = this.createNoiseBuffer(0.15, "white");
+        const src = ctx.createBufferSource();
+        src.buffer = buf;
+        gain.gain.setValueAtTime(0.35, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.15);
+        src.connect(gain);
+        src.start();
+        src.stop(ctx.currentTime + 0.15);
+        // Sub bass boom
+        const bass = ctx.createOscillator();
+        bass.type = "sine";
+        bass.frequency.setValueAtTime(60, ctx.currentTime);
+        bass.frequency.exponentialRampToValueAtTime(25, ctx.currentTime + 0.3);
+        const bg = ctx.createGain();
+        bg.gain.setValueAtTime(0.4, ctx.currentTime);
+        bg.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.3);
+        bass.connect(bg);
+        bg.connect(this.masterGain!);
+        bass.start();
+        bass.stop(ctx.currentTime + 0.3);
+        break;
+      }
+
+      case "heal": {
+        // Gentle ascending chime — restorative
+        [0, 0.08, 0.16].forEach((delay, i) => {
+          const osc = ctx.createOscillator();
+          osc.type = "sine";
+          osc.frequency.value = [523, 659, 784][i]; // C5, E5, G5
+          const g = ctx.createGain();
+          g.gain.setValueAtTime(0, ctx.currentTime + delay);
+          g.gain.linearRampToValueAtTime(0.12, ctx.currentTime + delay + 0.04);
+          g.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + delay + 0.35);
+          osc.connect(g);
+          g.connect(this.masterGain!);
+          osc.start(ctx.currentTime + delay);
+          osc.stop(ctx.currentTime + delay + 0.35);
         });
         break;
       }

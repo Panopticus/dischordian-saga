@@ -22,6 +22,7 @@ import { adminRouter } from "./routers/admin";
 import { contentRewardRouter } from "./routers/contentReward";
 import { fightLeaderboardRouter } from "./routers/fightLeaderboard";
 import { nftRouter } from "./routers/nft";
+import { pvpRouter } from "./routers/pvp";
 
 export const appRouter = router({
   system: systemRouter,
@@ -40,6 +41,7 @@ export const appRouter = router({
   contentReward: contentRewardRouter,
   fightLeaderboard: fightLeaderboardRouter,
   nft: nftRouter,
+  pvp: pvpRouter,
   auth: router({
     me: publicProcedure.query(opts => opts.ctx.user),
     logout: publicProcedure.mutation(({ ctx }) => {
