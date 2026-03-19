@@ -271,6 +271,29 @@ export default function FightPage() {
     }
   }, [currentStoryChapter, storyDialogueType, storyDialogueIndex, storyProgress, gam]);
 
+  // Apply trait bonuses to player fighter data (must be top-level, not inside conditional)
+  const boostedPlayer = useMemo(() => {
+    if (!selectedPlayer) return selectedPlayer;
+    let hp = selectedPlayer.hp;
+    let attack = selectedPlayer.attack;
+    let defense = selectedPlayer.defense;
+    let speed = selectedPlayer.speed;
+    if (activeBonuses) {
+      const b = activeBonuses.total;
+      hp += b.hp;
+      attack += b.attack;
+      defense += b.defense;
+      speed += b.speed;
+    }
+    if (citizenFightBonuses) {
+      hp += citizenFightBonuses.hpBonus;
+      attack += citizenFightBonuses.attackBonus;
+      defense += citizenFightBonuses.defenseBonus;
+      speed += citizenFightBonuses.speedBonus;
+    }
+    return { ...selectedPlayer, hp, attack, defense, speed };
+  }, [selectedPlayer, activeBonuses, citizenFightBonuses]);
+
   const resetToSelect = useCallback(() => {
     setPhase("select");
     setSelectedPlayer(null);
@@ -925,35 +948,10 @@ export default function FightPage() {
   /* ═══ FIGHTING ═══ */
   if (phase === "fighting" && selectedPlayer && selectedOpponent) {
     const isStoryFight = !!currentStoryChapter && !isTrainingMode;
-    // Apply trait bonuses to player fighter data
-    const boostedPlayer = useMemo(() => {
-      if (!selectedPlayer) return selectedPlayer;
-      // Start with base stats
-      let hp = selectedPlayer.hp;
-      let attack = selectedPlayer.attack;
-      let defense = selectedPlayer.defense;
-      let speed = selectedPlayer.speed;
-      // Add NFT Potential trait bonuses
-      if (activeBonuses) {
-        const b = activeBonuses.total;
-        hp += b.hp;
-        attack += b.attack;
-        defense += b.defense;
-        speed += b.speed;
-      }
-      // Add citizen character sheet bonuses (species, class, alignment, element, attributes)
-      if (citizenFightBonuses) {
-        hp += citizenFightBonuses.hpBonus;
-        attack += citizenFightBonuses.attackBonus;
-        defense += citizenFightBonuses.defenseBonus;
-        speed += citizenFightBonuses.speedBonus;
-      }
-      return { ...selectedPlayer, hp, attack, defense, speed };
-    }, [selectedPlayer, activeBonuses, citizenFightBonuses]);
     return (
       <div className="fixed inset-0 z-50 bg-black">
         <FightArena3D
-          player={boostedPlayer}
+          player={boostedPlayer!}
           opponent={selectedOpponent}
           arena={selectedArena}
           difficulty={selectedDifficulty}

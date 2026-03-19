@@ -9,8 +9,11 @@ import {
   Sparkles, ArrowUp, Droplets, Flame, Wind, Mountain,
   Clock, Globe, Target, Wrench, Eye, Skull, Telescope,
   Star, Trophy, Gem, Lock, Unlock, Activity, Crosshair,
-  Hexagon, CircleDot, Layers, Cpu, Wifi, ChevronDown, ChevronUp
+  Hexagon, CircleDot, Layers, Cpu, Wifi, ChevronDown, ChevronUp,
+  RotateCcw, AlertTriangle
 } from "lucide-react";
+import TraitSummaryPanel from "@/components/TraitSummaryPanel";
+import RespecDialog from "@/components/RespecDialog";
 
 /* ═══════════════════════════════════════════════════
    CONSTANTS & MAPPINGS
@@ -210,6 +213,7 @@ export default function CharacterSheetPage() {
   const dreamBalance = trpc.citizen.getDreamBalance.useQuery(undefined, { enabled: isAuthenticated });
   const utils = trpc.useUtils();
   const [showTraitDetails, setShowTraitDetails] = useState(false);
+  const [showRespec, setShowRespec] = useState(false);
 
   const levelUpClass = trpc.citizen.levelUpClass.useMutation({
     onSuccess: () => { utils.citizen.getCharacter.invalidate(); utils.citizen.getDreamBalance.invalidate(); },
@@ -616,114 +620,28 @@ export default function CharacterSheetPage() {
         </div>
 
         {/* ═══════════════════════════════════════════════════
-            TRAIT IMPACT SUMMARY — Shows how traits affect all game systems
+            RESPEC BUTTON + TRAIT IMPACT SUMMARY
            ═══════════════════════════════════════════════════ */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3 }}
-          className="glass-float rounded-lg overflow-hidden mb-6"
+          transition={{ delay: 0.28 }}
+          className="mb-4"
         >
           <button
-            onClick={() => setShowTraitDetails(!showTraitDetails)}
-            className="w-full p-4 sm:p-5 flex items-center justify-between hover:bg-white/[0.02] transition-colors"
+            onClick={() => setShowRespec(true)}
+            className="w-full py-3 rounded-lg glass-float border border-purple-400/15 hover:border-purple-400/30 hover:bg-purple-500/5 transition-all flex items-center justify-center gap-2.5 group"
           >
-            <div className="flex items-center gap-2">
-              <Activity size={12} className="text-primary" />
-              <span className="font-display text-[10px] font-bold tracking-[0.3em] text-foreground/80">TRAIT IMPACT ANALYSIS</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="font-mono text-[8px] text-muted-foreground/40">
-                {showTraitDetails ? "COLLAPSE" : "EXPAND"}
-              </span>
-              {showTraitDetails ? <ChevronUp size={12} className="text-muted-foreground/40" /> : <ChevronDown size={12} className="text-muted-foreground/40" />}
-            </div>
+            <RotateCcw size={14} className="text-purple-400 group-hover:animate-spin" style={{ animationDuration: '2s' }} />
+            <span className="font-display text-[10px] font-bold tracking-[0.25em] text-purple-400">NEURAL RESPEC</span>
+            <span className="font-mono text-[8px] text-muted-foreground/30">— Reassign attributes, alignment, or element</span>
           </button>
-
-          {showTraitDetails && (
-            <div className="px-4 sm:px-5 pb-4 sm:pb-5 border-t border-white/5 pt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-              {/* Card Game */}
-              <div className="p-3 rounded-lg bg-white/[0.02] border border-white/5">
-                <div className="flex items-center gap-1.5 mb-2">
-                  <Layers size={10} className="text-primary" />
-                  <span className="font-mono text-[9px] font-bold tracking-[0.15em] text-primary">CARD GAME</span>
-                </div>
-                <div className="space-y-1 font-mono text-[9px] text-muted-foreground/70">
-                  <p>Species: {char.species === "demagi" ? "+HP bonus" : char.species === "quarchon" ? "+Armor bonus" : "+HP & Armor"}</p>
-                  <p>Class: {char.characterClass === "spy" ? "+Draw cards" : char.characterClass === "oracle" ? "+Foresight" : char.characterClass === "assassin" ? "+Crit chance" : char.characterClass === "engineer" ? "+Repair" : "+ATK power"}</p>
-                  <p>Element: Matching cards get +ATK/+HP</p>
-                  <p>Alignment: {isOrder ? "Structure bonus" : "Wildcard bonus"}</p>
-                </div>
-              </div>
-
-              {/* Trade Empire */}
-              <div className="p-3 rounded-lg bg-white/[0.02] border border-white/5">
-                <div className="flex items-center gap-1.5 mb-2">
-                  <Globe size={10} className="text-accent" />
-                  <span className="font-mono text-[9px] font-bold tracking-[0.15em] text-accent">TRADE EMPIRE</span>
-                </div>
-                <div className="space-y-1 font-mono text-[9px] text-muted-foreground/70">
-                  <p>Species: {char.species === "demagi" ? "+Trade credits" : char.species === "quarchon" ? "+Combat power" : "+Both bonuses"}</p>
-                  <p>Class: {char.characterClass === "spy" ? "+Scan range" : char.characterClass === "oracle" ? "+Market intel" : char.characterClass === "assassin" ? "+Piracy" : char.characterClass === "engineer" ? "+Ship repair" : "+Weapons"}</p>
-                  <p>Element: Hazard resistance</p>
-                  <p>Alignment: {isOrder ? "Better port prices" : "Smuggling bonus"}</p>
-                </div>
-              </div>
-
-              {/* Fight Game */}
-              <div className="p-3 rounded-lg bg-white/[0.02] border border-white/5">
-                <div className="flex items-center gap-1.5 mb-2">
-                  <Swords size={10} className="text-red-400" />
-                  <span className="font-mono text-[9px] font-bold tracking-[0.15em] text-red-400">FIGHT ARENA</span>
-                </div>
-                <div className="space-y-1 font-mono text-[9px] text-muted-foreground/70">
-                  <p>Species: {char.species === "demagi" ? "+HP & Energy" : char.species === "quarchon" ? "+Defense & ATK" : "+HP, DEF, ATK"}</p>
-                  <p>Class: {char.characterClass === "assassin" ? "+Crit damage" : char.characterClass === "soldier" ? "+Raw ATK" : char.characterClass === "engineer" ? "+Defense" : char.characterClass === "oracle" ? "+Speed" : "+Evasion"}</p>
-                  <p>Alignment: {isOrder ? "+Counter chance" : "+Crit multiplier"}</p>
-                  <p>Attributes: Direct stat scaling</p>
-                </div>
-              </div>
-
-              {/* Crafting */}
-              <div className="p-3 rounded-lg bg-white/[0.02] border border-white/5">
-                <div className="flex items-center gap-1.5 mb-2">
-                  <Wrench size={10} className="text-emerald-400" />
-                  <span className="font-mono text-[9px] font-bold tracking-[0.15em] text-emerald-400">CRAFTING</span>
-                </div>
-                <div className="space-y-1 font-mono text-[9px] text-muted-foreground/70">
-                  <p>Class: {char.characterClass === "engineer" ? "+15% success rate" : char.characterClass === "oracle" ? "+Rare output chance" : "+5% success rate"}</p>
-                  <p>Attributes: VIT dots boost success</p>
-                </div>
-              </div>
-
-              {/* Exploration */}
-              <div className="p-3 rounded-lg bg-white/[0.02] border border-white/5">
-                <div className="flex items-center gap-1.5 mb-2">
-                  <Telescope size={10} className="text-indigo-400" />
-                  <span className="font-mono text-[9px] font-bold tracking-[0.15em] text-indigo-400">EXPLORATION</span>
-                </div>
-                <div className="space-y-1 font-mono text-[9px] text-muted-foreground/70">
-                  <p>Class: {char.characterClass === "spy" ? "+Hidden items" : char.characterClass === "oracle" ? "+Discovery XP" : "+Exploration bonus"}</p>
-                  <p>Element: Terrain affinity bonus</p>
-                  <p>Attributes: ATK dots boost Dream earnings</p>
-                </div>
-              </div>
-
-              {/* Universal */}
-              <div className="p-3 rounded-lg bg-white/[0.02] border border-white/5">
-                <div className="flex items-center gap-1.5 mb-2">
-                  <Star size={10} className="text-yellow-400" />
-                  <span className="font-mono text-[9px] font-bold tracking-[0.15em] text-yellow-400">UNIVERSAL</span>
-                </div>
-                <div className="space-y-1 font-mono text-[9px] text-muted-foreground/70">
-                  <p>Potential NFT: Level multiplier (1.0x-1.5x)</p>
-                  <p>Citizen Level: Unlocks rooms & content</p>
-                  <p>Dream Balance: Upgrade attributes & class</p>
-                </div>
-              </div>
-            </div>
-          )}
         </motion.div>
+
+        <TraitSummaryPanel isAuthenticated={isAuthenticated} />
+
+        {/* Respec Dialog */}
+        <RespecDialog isOpen={showRespec} onClose={() => setShowRespec(false)} isAuthenticated={isAuthenticated} />
 
         {/* ═══ FOOTER CLASSIFICATION ═══ */}
         <div className="text-center py-4">

@@ -751,3 +751,233 @@
     padding-bottom: env(safe-area-inset-bottom, 12px);
   }
 }
+
+/* ═══════════════════════════════════════════════════════
+   AAA CARD BATTLE — VISUAL EFFECTS SYSTEM
+   Inspired by Hearthstone, LoR, Marvel Snap, Yu-Gi-Oh MD
+   ═══════════════════════════════════════════════════════ */
+
+/* ── Screen Shake ── */
+@keyframes screen-shake {
+  0%, 100% { transform: translate(0, 0); }
+  10% { transform: translate(-4px, 2px); }
+  20% { transform: translate(3px, -3px); }
+  30% { transform: translate(-3px, 1px); }
+  40% { transform: translate(2px, -2px); }
+  50% { transform: translate(-2px, 3px); }
+  60% { transform: translate(3px, -1px); }
+  70% { transform: translate(-1px, 2px); }
+  80% { transform: translate(2px, -2px); }
+  90% { transform: translate(-1px, 1px); }
+}
+.animate-screen-shake {
+  animation: screen-shake 0.4s ease-out;
+}
+
+/* ── Heavy Screen Shake (for big hits) ── */
+@keyframes screen-shake-heavy {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  10% { transform: translate(-8px, 4px) rotate(-0.5deg); }
+  20% { transform: translate(6px, -6px) rotate(0.5deg); }
+  30% { transform: translate(-6px, 2px) rotate(-0.3deg); }
+  40% { transform: translate(4px, -4px) rotate(0.3deg); }
+  50% { transform: translate(-4px, 6px) rotate(-0.2deg); }
+  60% { transform: translate(6px, -2px) rotate(0.2deg); }
+  70% { transform: translate(-2px, 4px) rotate(-0.1deg); }
+  80% { transform: translate(4px, -4px) rotate(0.1deg); }
+  90% { transform: translate(-2px, 2px); }
+}
+.animate-screen-shake-heavy {
+  animation: screen-shake-heavy 0.5s ease-out;
+}
+
+/* ── Card Summon Burst ── */
+@keyframes summon-burst {
+  0% { transform: scale(0) rotate(-10deg); opacity: 0; filter: brightness(3) blur(8px); }
+  40% { transform: scale(1.3) rotate(2deg); opacity: 1; filter: brightness(2) blur(0); }
+  60% { transform: scale(0.9) rotate(-1deg); filter: brightness(1.2); }
+  80% { transform: scale(1.05) rotate(0.5deg); filter: brightness(1); }
+  100% { transform: scale(1) rotate(0deg); filter: brightness(1); }
+}
+.animate-summon-burst {
+  animation: summon-burst 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* ── Attack Slam (card lunges forward) ── */
+@keyframes attack-slam {
+  0% { transform: translateY(0) scale(1); }
+  15% { transform: translateY(-15px) scale(1.08); filter: brightness(1.3); }
+  35% { transform: translateY(25px) scale(0.95); filter: brightness(1.5); }
+  50% { transform: translateY(0) scale(1.02); }
+  100% { transform: translateY(0) scale(1); filter: brightness(1); }
+}
+.animate-attack-slam {
+  animation: attack-slam 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* ── Impact Flash (white flash on hit) ── */
+@keyframes impact-flash {
+  0% { opacity: 0; }
+  20% { opacity: 0.8; }
+  100% { opacity: 0; }
+}
+.animate-impact-flash {
+  animation: impact-flash 0.3s ease-out forwards;
+}
+
+/* ── Floating Damage Number ── */
+@keyframes damage-float {
+  0% { transform: translateY(0) scale(0.5); opacity: 0; }
+  20% { transform: translateY(-10px) scale(1.3); opacity: 1; }
+  40% { transform: translateY(-20px) scale(1); }
+  100% { transform: translateY(-50px) scale(0.8); opacity: 0; }
+}
+.animate-damage-float {
+  animation: damage-float 1.2s ease-out forwards;
+}
+
+/* ── Heal Float ── */
+@keyframes heal-float {
+  0% { transform: translateY(0) scale(0.5); opacity: 0; }
+  20% { transform: translateY(-10px) scale(1.2); opacity: 1; }
+  100% { transform: translateY(-40px) scale(0.9); opacity: 0; }
+}
+.animate-heal-float {
+  animation: heal-float 1s ease-out forwards;
+}
+
+/* ── Card Death Shatter ── */
+@keyframes card-shatter {
+  0% { transform: scale(1) rotate(0deg); opacity: 1; filter: brightness(1); }
+  15% { transform: scale(1.15); filter: brightness(3) saturate(2); }
+  30% { transform: scale(1.1) rotate(5deg); clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); }
+  50% { transform: scale(0.8) rotate(-3deg); clip-path: polygon(5% 5%, 95% 0, 100% 95%, 0 100%); opacity: 0.7; }
+  70% { transform: scale(0.5) rotate(8deg); clip-path: polygon(10% 10%, 90% 5%, 95% 90%, 5% 95%); opacity: 0.4; }
+  100% { transform: scale(0) rotate(15deg); opacity: 0; filter: brightness(0.2); }
+}
+.animate-card-shatter {
+  animation: card-shatter 0.8s ease-in forwards;
+}
+
+/* ── Spell Cast Ripple ── */
+@keyframes spell-ripple {
+  0% { transform: scale(0); opacity: 0.8; }
+  100% { transform: scale(3); opacity: 0; }
+}
+.animate-spell-ripple {
+  animation: spell-ripple 0.6s ease-out forwards;
+}
+
+/* ── Energy Orb Pulse ── */
+@keyframes energy-orb-pulse {
+  0%, 100% { transform: scale(1); box-shadow: 0 0 8px rgba(59, 130, 246, 0.3); }
+  50% { transform: scale(1.15); box-shadow: 0 0 20px rgba(59, 130, 246, 0.6); }
+}
+.animate-energy-orb {
+  animation: energy-orb-pulse 1.5s ease-in-out infinite;
+}
+
+/* ── Board Ambient Particles ── */
+@keyframes ambient-particle {
+  0% { transform: translateY(0) translateX(0) scale(0); opacity: 0; }
+  10% { opacity: 0.6; transform: scale(1); }
+  90% { opacity: 0.3; }
+  100% { transform: translateY(-100px) translateX(var(--drift-x, 20px)) scale(0.3); opacity: 0; }
+}
+.animate-ambient-particle {
+  animation: ambient-particle var(--particle-duration, 4s) ease-out infinite;
+  animation-delay: var(--particle-delay, 0s);
+}
+
+/* ── Turn Transition Sweep ── */
+@keyframes turn-sweep {
+  0% { transform: translateX(-100%); opacity: 0; }
+  30% { opacity: 1; }
+  70% { opacity: 1; }
+  100% { transform: translateX(100%); opacity: 0; }
+}
+.animate-turn-sweep {
+  animation: turn-sweep 1.2s ease-in-out forwards;
+}
+
+/* ── Victory Glow ── */
+@keyframes victory-glow {
+  0% { text-shadow: 0 0 10px rgba(251, 191, 36, 0.3); }
+  50% { text-shadow: 0 0 40px rgba(251, 191, 36, 0.8), 0 0 80px rgba(251, 191, 36, 0.4); }
+  100% { text-shadow: 0 0 10px rgba(251, 191, 36, 0.3); }
+}
+.animate-victory-glow {
+  animation: victory-glow 2s ease-in-out infinite;
+}
+
+/* ── Card Hover Breathe (idle field cards) ── */
+@keyframes card-breathe {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-2px); }
+}
+.animate-card-breathe {
+  animation: card-breathe 3s ease-in-out infinite;
+}
+
+/* ── Holographic Card Shine ── */
+@keyframes holo-shine {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+.animate-holo-shine {
+  background: linear-gradient(
+    105deg,
+    transparent 35%,
+    rgba(255,255,255,0.05) 40%,
+    rgba(255,255,255,0.15) 50%,
+    rgba(255,255,255,0.05) 60%,
+    transparent 65%
+  );
+  background-size: 200% 100%;
+  animation: holo-shine 3s linear infinite;
+}
+
+/* ── Rarity Border Glow Animations ── */
+@keyframes legendary-border {
+  0%, 100% { border-color: rgba(251, 191, 36, 0.4); box-shadow: 0 0 12px rgba(251, 191, 36, 0.15); }
+  50% { border-color: rgba(251, 191, 36, 0.7); box-shadow: 0 0 24px rgba(251, 191, 36, 0.3); }
+}
+.animate-legendary-border {
+  animation: legendary-border 2s ease-in-out infinite;
+}
+
+@keyframes epic-border {
+  0%, 100% { border-color: rgba(168, 85, 247, 0.3); box-shadow: 0 0 8px rgba(168, 85, 247, 0.1); }
+  50% { border-color: rgba(168, 85, 247, 0.6); box-shadow: 0 0 18px rgba(168, 85, 247, 0.25); }
+}
+.animate-epic-border {
+  animation: epic-border 2.5s ease-in-out infinite;
+}
+
+/* ── Battlefield Divider Line ── */
+@keyframes divider-pulse {
+  0%, 100% { opacity: 0.3; box-shadow: 0 0 4px rgba(51, 226, 230, 0.1); }
+  50% { opacity: 0.7; box-shadow: 0 0 12px rgba(51, 226, 230, 0.3); }
+}
+.animate-divider-pulse {
+  animation: divider-pulse 3s ease-in-out infinite;
+}
+
+/* ── Mana/Energy Crystal Fill ── */
+@keyframes crystal-fill {
+  0% { transform: scale(0.8); opacity: 0.3; }
+  50% { transform: scale(1.1); opacity: 1; }
+  100% { transform: scale(1); opacity: 0.9; }
+}
+.animate-crystal-fill {
+  animation: crystal-fill 0.4s ease-out;
+}
+
+/* ── Card Glow on Playable ── */
+@keyframes playable-glow {
+  0%, 100% { box-shadow: 0 0 6px rgba(51, 226, 230, 0.2); }
+  50% { box-shadow: 0 0 16px rgba(51, 226, 230, 0.4), 0 0 30px rgba(51, 226, 230, 0.1); }
+}
+.animate-playable-glow {
+  animation: playable-glow 2s ease-in-out infinite;
+}

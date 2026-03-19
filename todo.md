@@ -1143,3 +1143,15 @@
 - [x] Add Ne-Yon #N identity badge with 1/1 NFT verification glow
 - [x] Add trait impact summary showing bonuses across all game systems
 - [x] Write tests for Ne-Yon gating system (706 tests pass across 25 files)
+
+### Phase 36: Trait Summary UI, Respec System, AAA Card Game Visual Overhaul, Card Art Generation
+- [ ] Build Trait Summary UI panel on Character Sheet showing bonuses across all game systems
+- [ ] Build Dream-token Respec system (reassign attribute dots, change alignment)
+- [ ] Research best TCG video games for visual design inspiration (Marvel Snap, LoR, Hearthstone, MTG Arena)
+- [ ] Redesign card game board with AAA visual effects (particles, lighting, animations)
+- [ ] Add card play animations (deploy, attack, destroy effects)
+- [ ] Add board state visual effects (energy fields, faction banners, weather effects)
+- [ ] Generate unique art for every card in the database
+- [ ] Wire generated card art into the card database
+- [ ] Write tests for trait summary, respec, and card game visual systems
+- [x] Fix React hooks ordering error in FightPage.tsx (Rendered more hooks than during the previous render)

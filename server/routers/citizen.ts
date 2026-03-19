@@ -561,4 +561,246 @@ export const citizenRouter = router({
       neyonDetails,
     };
   }),
+
+  /* ═══════════════════════════════════════════════════
+     RESPEC SYSTEM — Dream token economy sink
+     Players can reassign attribute dots or change alignment/element.
+     Cost scales with citizen level to prevent trivial respeccing.
+     ═══════════════════════════════════════════════════ */
+
+  /** Get respec costs for the current citizen */
+  getRespecCosts: protectedProcedure.query(async ({ ctx }) => {
+    const db = await getDb();
+    if (!db) return null;
+
+    const chars = await db
+      .select()
+      .from(citizenCharacters)
+      .where(and(eq(citizenCharacters.userId, ctx.user.id), eq(citizenCharacters.isPrimary, 1)))
+      .limit(1);
+    if (!chars[0]) return null;
+
+    const char = chars[0];
+    const dreamRows = await db
+      .select()
+      .from(dreamBalance)
+      .where(eq(dreamBalance.userId, ctx.user.id))
+      .limit(1);
+    const dream = dreamRows[0];
+
+    // Costs scale with citizen level
+    const baseCost = 50;
+    const levelMultiplier = Math.max(1, char.level);
+    const attributeRespecCost = baseCost * levelMultiplier;
+    const alignmentRespecCost = Math.floor(baseCost * 0.6 * levelMultiplier);
+    const elementRespecCost = Math.floor(baseCost * 0.4 * levelMultiplier);
+
+    return {
+      attributeRespecCost,
+      alignmentRespecCost,
+      elementRespecCost,
+      currentDreamTokens: dream?.dreamTokens ?? 0,
+      currentAttributes: {
+        attack: char.attrAttack,
+        defense: char.attrDefense,
+        vitality: char.attrVitality,
+      },
+      currentAlignment: char.alignment,
+      currentElement: char.element,
+      species: char.species,
+      totalDots: char.attrAttack + char.attrDefense + char.attrVitality,
+    };
+  }),
+
+  /** Respec attribute dots — redistribute all 3 attributes.
+      Costs Dream tokens. Total dots must equal current total (9 at creation). */
+  respecAttributes: protectedProcedure
+    .input(
+      z.object({
+        attrAttack: z.number().min(1).max(5),
+        attrDefense: z.number().min(1).max(5),
+        attrVitality: z.number().min(1).max(5),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const db = await getDb();
+      if (!db) throw new Error("Database unavailable");
+
+      const chars = await db
+        .select()
+        .from(citizenCharacters)
+        .where(and(eq(citizenCharacters.userId, ctx.user.id), eq(citizenCharacters.isPrimary, 1)))
+        .limit(1);
+      if (!chars[0]) throw new Error("No citizen found");
+
+      const char = chars[0];
+      const currentTotal = char.attrAttack + char.attrDefense + char.attrVitality;
+      const newTotal = input.attrAttack + input.attrDefense + input.attrVitality;
+
+      if (newTotal !== currentTotal) {
+        throw new Error(`Attribute dots must total ${currentTotal}. You allocated ${newTotal}.`);
+      }
+
+      // Check if anything actually changed
+      if (
+        char.attrAttack === input.attrAttack &&
+        char.attrDefense === input.attrDefense &&
+        char.attrVitality === input.attrVitality
+      ) {
+        throw new Error("No changes detected. Attributes are already set to these values.");
+      }
+
+      // Check Dream cost
+      const dreamRows = await db
+        .select()
+        .from(dreamBalance)
+        .where(eq(dreamBalance.userId, ctx.user.id))
+        .limit(1);
+      if (!dreamRows[0]) throw new Error("No Dream balance found");
+
+      const dream = dreamRows[0];
+      const baseCost = 50;
+      const cost = baseCost * Math.max(1, char.level);
+
+      if (dream.dreamTokens < cost) {
+        throw new Error(`Need ${cost} Dream tokens (have ${dream.dreamTokens})`);
+      }
+
+      // Recalculate derived stats
+      const { maxHp, armor } = calculateDerivedStats(
+        char.species as keyof typeof SPECIES_CONFIG,
+        input.attrAttack,
+        input.attrDefense,
+        input.attrVitality
+      );
+
+      // Apply respec
+      await db
+        .update(citizenCharacters)
+        .set({
+          attrAttack: input.attrAttack,
+          attrDefense: input.attrDefense,
+          attrVitality: input.attrVitality,
+          maxHp,
+          armor,
+        })
+        .where(eq(citizenCharacters.id, char.id));
+
+      // Deduct Dream tokens
+      await db
+        .update(dreamBalance)
+        .set({ dreamTokens: dream.dreamTokens - cost })
+        .where(eq(dreamBalance.userId, ctx.user.id));
+
+      return {
+        success: true,
+        cost,
+        newAttributes: { attack: input.attrAttack, defense: input.attrDefense, vitality: input.attrVitality },
+        maxHp,
+        armor,
+      };
+    }),
+
+  /** Respec alignment — switch between Order and Chaos.
+      Costs Dream tokens. */
+  respecAlignment: protectedProcedure
+    .input(z.object({ alignment: z.enum(["order", "chaos"]) }))
+    .mutation(async ({ ctx, input }) => {
+      const db = await getDb();
+      if (!db) throw new Error("Database unavailable");
+
+      const chars = await db
+        .select()
+        .from(citizenCharacters)
+        .where(and(eq(citizenCharacters.userId, ctx.user.id), eq(citizenCharacters.isPrimary, 1)))
+        .limit(1);
+      if (!chars[0]) throw new Error("No citizen found");
+
+      const char = chars[0];
+      if (char.alignment === input.alignment) {
+        throw new Error(`Already aligned with ${input.alignment}.`);
+      }
+
+      const dreamRows = await db
+        .select()
+        .from(dreamBalance)
+        .where(eq(dreamBalance.userId, ctx.user.id))
+        .limit(1);
+      if (!dreamRows[0]) throw new Error("No Dream balance found");
+
+      const dream = dreamRows[0];
+      const baseCost = 50;
+      const cost = Math.floor(baseCost * 0.6 * Math.max(1, char.level));
+
+      if (dream.dreamTokens < cost) {
+        throw new Error(`Need ${cost} Dream tokens (have ${dream.dreamTokens})`);
+      }
+
+      await db
+        .update(citizenCharacters)
+        .set({ alignment: input.alignment })
+        .where(eq(citizenCharacters.id, char.id));
+
+      await db
+        .update(dreamBalance)
+        .set({ dreamTokens: dream.dreamTokens - cost })
+        .where(eq(dreamBalance.userId, ctx.user.id));
+
+      return { success: true, cost, newAlignment: input.alignment };
+    }),
+
+  /** Respec element — change elemental affinity.
+      Only allows elements valid for the citizen's species.
+      Costs Dream tokens. */
+  respecElement: protectedProcedure
+    .input(z.object({ element: z.enum(["earth", "fire", "water", "air", "space", "time", "probability", "reality"]) }))
+    .mutation(async ({ ctx, input }) => {
+      const db = await getDb();
+      if (!db) throw new Error("Database unavailable");
+
+      const chars = await db
+        .select()
+        .from(citizenCharacters)
+        .where(and(eq(citizenCharacters.userId, ctx.user.id), eq(citizenCharacters.isPrimary, 1)))
+        .limit(1);
+      if (!chars[0]) throw new Error("No citizen found");
+
+      const char = chars[0];
+      if (char.element === input.element) {
+        throw new Error(`Already attuned to ${input.element}.`);
+      }
+
+      // Validate element is valid for species
+      const speciesData = SPECIES_CONFIG[char.species as keyof typeof SPECIES_CONFIG];
+      if (!(speciesData.elements as readonly string[]).includes(input.element)) {
+        throw new Error(`${speciesData.name} cannot attune to ${input.element}. Valid: ${speciesData.elements.join(", ")}`);
+      }
+
+      const dreamRows = await db
+        .select()
+        .from(dreamBalance)
+        .where(eq(dreamBalance.userId, ctx.user.id))
+        .limit(1);
+      if (!dreamRows[0]) throw new Error("No Dream balance found");
+
+      const dream = dreamRows[0];
+      const baseCost = 50;
+      const cost = Math.floor(baseCost * 0.4 * Math.max(1, char.level));
+
+      if (dream.dreamTokens < cost) {
+        throw new Error(`Need ${cost} Dream tokens (have ${dream.dreamTokens})`);
+      }
+
+      await db
+        .update(citizenCharacters)
+        .set({ element: input.element })
+        .where(eq(citizenCharacters.id, char.id));
+
+      await db
+        .update(dreamBalance)
+        .set({ dreamTokens: dream.dreamTokens - cost })
+        .where(eq(dreamBalance.userId, ctx.user.id));
+
+      return { success: true, cost, newElement: input.element };
+    }),
 });
