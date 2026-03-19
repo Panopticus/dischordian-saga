@@ -1241,3 +1241,19 @@
 - [x] Increase main content bottom padding from pb-20 → pb-24 for taller nav
 - [x] Add rotate-phone keyframe animation to index.css
 - [x] All 1021 tests pass across 30 files, zero TypeScript errors
+
+### Phase 40b: Landscape Battles, Pinch-to-Zoom, Swipe Tabs, Room Explorer Fullscreen
+- [x] Apply LandscapeEnforcer to CardBattlePage (CADES card game) with custom "Rotate for better card battles" message
+- [x] Apply LandscapeEnforcer to BossBattlePage with custom "Rotate for better boss fights" message
+- [x] Build ZoomableImage component with pinch-to-zoom, double-tap zoom (2x), and drag-to-pan
+- [x] Add ZoomableImage to EntityPage for character artwork (replaces static img)
+- [x] Add ZoomableImage to CardGalleryPage card detail modal for card art
+- [x] Build useSwipeTabs hook with threshold detection, velocity-based triggers, rubber-band edges, and visual feedback
+- [x] Apply swipe navigation to CardTradingPage (4 tabs: create/incoming/outgoing/history)
+- [x] Apply swipe navigation to CardAchievementsPage (category filter tabs)
+- [x] Apply swipe navigation to CardGalleryPage (rarity filter tabs)
+- [x] Build room explorer fullscreen popout using Fullscreen API with FULLSCREEN/EXIT toggle button
+- [x] Add landscape enforcement to ArkExplorerPage with LandscapeEnforcer wrapper
+- [x] Auto-lock screen orientation to landscape when entering fullscreen on mobile
+- [x] Listen for fullscreen exit (Escape key) to sync state
+- [x] All 1021 tests pass across 30 files, zero TypeScript errors

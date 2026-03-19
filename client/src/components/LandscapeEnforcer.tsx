@@ -10,9 +10,11 @@ interface LandscapeEnforcerProps {
   children: ReactNode;
   /** If true, force-rotates the content via CSS instead of just showing an overlay */
   forceRotate?: boolean;
+  /** Custom message for the rotate overlay */
+  message?: string;
 }
 
-export default function LandscapeEnforcer({ children, forceRotate = true }: LandscapeEnforcerProps) {
+export default function LandscapeEnforcer({ children, forceRotate = true, message }: LandscapeEnforcerProps) {
   const [isPortrait, setIsPortrait] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
 
@@ -97,7 +99,7 @@ export default function LandscapeEnforcer({ children, forceRotate = true }: Land
             ROTATE YOUR DEVICE
           </h2>
           <p className="font-mono text-xs text-muted-foreground max-w-xs leading-relaxed">
-            The Collector's Arena requires landscape orientation for the best combat experience.
+            {message || "This experience requires landscape orientation for the best view."}
           </p>
         </div>
         <div className="flex items-center gap-2 text-primary/50">

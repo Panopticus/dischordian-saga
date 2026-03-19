@@ -12,8 +12,10 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useLocation } from "wouter";
 import {
   Terminal, Eye, Package, DoorOpen, Hand, Lock, ChevronRight,
-  MapPin, Compass, Zap, Ship, ArrowLeft, X, Star, Volume2, VolumeX
+  MapPin, Compass, Zap, Ship, ArrowLeft, X, Star, Volume2, VolumeX,
+  Maximize2, Minimize2
 } from "lucide-react";
+import LandscapeEnforcer from "@/components/LandscapeEnforcer";
 import { toast } from "sonner";
 import PuzzleModal, { ROOM_PUZZLES } from "@/components/PuzzleSystem";
 import RoomTransition from "@/components/RoomTransition";
@@ -366,6 +368,39 @@ export default function ArkExplorerPage() {
     isNewRoom: boolean;
   } | null>(null);
 
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  const fullscreenRef = useCallback((node: HTMLDivElement | null) => {
+    if (node) (window as any).__arkExplorerRef = node;
+  }, []);
+
+  const toggleFullscreen = useCallback(async () => {
+    const el = (window as any).__arkExplorerRef as HTMLDivElement | undefined;
+    if (!el) return;
+    try {
+      if (!document.fullscreenElement) {
+        await el.requestFullscreen();
+        setIsFullscreen(true);
+        // Try to lock landscape
+        try {
+          await (screen as any).orientation?.lock?.("landscape");
+        } catch { /* not supported */ }
+      } else {
+        await document.exitFullscreen();
+        setIsFullscreen(false);
+        try {
+          (screen as any).orientation?.unlock?.();
+        } catch { /* silent */ }
+      }
+    } catch { /* silent */ }
+  }, []);
+
+  // Listen for fullscreen changes (e.g. user presses Escape)
+  useEffect(() => {
+    const handler = () => setIsFullscreen(!!document.fullscreenElement);
+    document.addEventListener("fullscreenchange", handler);
+    return () => document.removeEventListener("fullscreenchange", handler);
+  }, []);
+
   const currentRoom = state.currentRoomId ? getRoomDef(state.currentRoomId) : null;
   const currentRoomState = state.currentRoomId ? getRoomState(state.currentRoomId) : null;
 
@@ -587,7 +622,8 @@ export default function ArkExplorerPage() {
   }
 
   return (
-    <div className="min-h-screen pb-8">
+    <LandscapeEnforcer message="Rotate for immersive exploration">
+    <div ref={fullscreenRef} className={`min-h-screen ${isFullscreen ? 'bg-background overflow-auto' : ''} pb-8`}>
       {/* Header */}
       <div className="px-4 sm:px-6 pt-4 pb-3">
         <div className="flex items-center justify-between">
@@ -608,18 +644,33 @@ export default function ArkExplorerPage() {
               </p>
             </div>
           </div>
-          <button
-            onClick={() => setShowMap(!showMap)}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-md font-mono text-[11px] transition-all"
-            style={{
-              background: showMap ? "rgba(51,226,230,0.1)" : "rgba(255,255,255,0.03)",
-              border: `1px solid ${showMap ? "rgba(51,226,230,0.3)" : "rgba(255,255,255,0.1)"}`,
-              color: showMap ? "var(--neon-cyan)" : "rgba(255,255,255,0.5)",
-            }}
-          >
-            <Compass size={12} />
-            SHIP MAP
-          </button>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={toggleFullscreen}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-md font-mono text-[11px] transition-all"
+              style={{
+                background: isFullscreen ? "rgba(51,226,230,0.15)" : "rgba(255,255,255,0.03)",
+                border: `1px solid ${isFullscreen ? "rgba(51,226,230,0.3)" : "rgba(255,255,255,0.1)"}`,
+                color: isFullscreen ? "var(--neon-cyan)" : "rgba(255,255,255,0.5)",
+              }}
+              title={isFullscreen ? "Exit fullscreen" : "Enter fullscreen"}
+            >
+              {isFullscreen ? <Minimize2 size={12} /> : <Maximize2 size={12} />}
+              {isFullscreen ? "EXIT" : "FULLSCREEN"}
+            </button>
+            <button
+              onClick={() => setShowMap(!showMap)}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-md font-mono text-[11px] transition-all"
+              style={{
+                background: showMap ? "rgba(51,226,230,0.1)" : "rgba(255,255,255,0.03)",
+                border: `1px solid ${showMap ? "rgba(51,226,230,0.3)" : "rgba(255,255,255,0.1)"}`,
+                color: showMap ? "var(--neon-cyan)" : "rgba(255,255,255,0.5)",
+              }}
+            >
+              <Compass size={12} />
+              SHIP MAP
+            </button>
+          </div>
         </div>
       </div>
 
@@ -849,5 +900,6 @@ export default function ArkExplorerPage() {
         )}
       </AnimatePresence>
     </div>
+    </LandscapeEnforcer>
   );
 }

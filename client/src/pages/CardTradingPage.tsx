@@ -1,7 +1,8 @@
 import { useAuth } from "@/_core/hooks/useAuth";
 import { trpc } from "@/lib/trpc";
 import { getLoginUrl } from "@/const";
-import { useState, useMemo, useCallback } from "react";
+import { useState, useCallback, useMemo } from "react";
+import { useSwipeTabs } from "@/hooks/useSwipeTabs";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ArrowLeftRight, Search, Send, Check, X, Clock,
@@ -168,6 +169,14 @@ export default function CardTradingPage() {
     { key: "history", label: "HISTORY", icon: ArrowLeftRight },
   ];
 
+  const tabKeys = tabs.map(t => t.key);
+  const activeTabIndex = tabKeys.indexOf(activeTab);
+  const { handlers: swipeHandlers, swipeStyle } = useSwipeTabs({
+    tabCount: tabs.length,
+    activeIndex: activeTabIndex,
+    onTabChange: (idx) => setActiveTab(tabKeys[idx]),
+  });
+
   return (
     <div className="min-h-screen p-4 sm:p-6 max-w-6xl mx-auto">
       {/* Header */}
@@ -211,6 +220,8 @@ export default function CardTradingPage() {
         })}
       </div>
 
+      {/* Tab Content with swipe */}
+      <div {...swipeHandlers} style={swipeStyle}>
       {/* Create Trade Tab */}
       {activeTab === "create" && (
         <div className="space-y-6">
@@ -601,6 +612,7 @@ export default function CardTradingPage() {
           )}
         </div>
       )}
+      </div>
     </div>
   );
 }

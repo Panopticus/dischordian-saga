@@ -13,6 +13,7 @@ import RelationshipMiniGraph from "@/components/RelationshipMiniGraph";
 import LoreAppearancesTimeline from "@/components/LoreAppearancesTimeline";
 import { usePageMeta } from "@/hooks/usePageMeta";
 import ShareButton from "@/components/ShareButton";
+import ZoomableImage from "@/components/ZoomableImage";
 
 const TYPE_ICONS: Record<string, typeof Users> = {
   character: Users,
@@ -105,9 +106,7 @@ export default function EntityPage() {
                 transition={{ duration: 0.4 }}
                 className="shrink-0"
               >
-                <div className="w-36 h-36 sm:w-44 sm:h-44 rounded-lg overflow-hidden border border-border/30 box-glow-cyan">
-                  <img src={entry.image} alt={entry.name} className="w-full h-full object-cover" />
-                </div>
+                <ZoomableImage src={entry.image} alt={entry.name} className="w-36 h-36 sm:w-44 sm:h-44 rounded-lg overflow-hidden border border-border/30 box-glow-cyan" />
               </motion.div>
             )}
 

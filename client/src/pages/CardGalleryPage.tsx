@@ -13,6 +13,8 @@ import {
   Users, MapPin, Clock, Flame, Droplets, Wind, Mountain,
   Skull, Sun, LayoutGrid, List, ChevronDown
 } from "lucide-react";
+import ZoomableImage from "@/components/ZoomableImage";
+import { useSwipeTabs } from "@/hooks/useSwipeTabs";
 import { motion, AnimatePresence } from "framer-motion";
 import allCardsRaw from "@/data/season1-cards.json";
 
@@ -294,7 +296,7 @@ function CardDetailModal({ card, onClose }: { card: FullCard | null; onClose: ()
         {/* Full art header */}
         <div className="aspect-[16/9] overflow-hidden relative">
           {card.imageUrl ? (
-            <img src={card.imageUrl} alt={card.name} className="w-full h-full object-cover" />
+            <ZoomableImage src={card.imageUrl} alt={card.name} className="w-full h-full" />
           ) : (
             <div className="w-full h-full bg-zinc-800 flex items-center justify-center">
               <TypeIcon size={48} className="text-zinc-600" />
@@ -529,6 +531,14 @@ export default function CardGalleryPage() {
     return counts;
   }, [catalog]);
 
+  const rarityKeys = useMemo(() => ["all", ...RARITY_ORDER.filter(r => (rarityCounts[r] || 0) > 0)], [rarityCounts]);
+  const activeRarityIndex = rarityKeys.indexOf(filterRarity);
+  const { handlers: swipeHandlers, swipeStyle } = useSwipeTabs({
+    tabCount: rarityKeys.length,
+    activeIndex: activeRarityIndex >= 0 ? activeRarityIndex : 0,
+    onTabChange: (idx) => setFilterRarity(rarityKeys[idx]),
+  });
+
   const clearFilters = () => {
     setFilterRarity("all");
     setFilterType("all");
@@ -742,7 +752,7 @@ export default function CardGalleryPage() {
       </div>
 
       {/* Card Grid / List */}
-      <div className="px-4 sm:px-6 pt-6">
+      <div className="px-4 sm:px-6 pt-6" {...swipeHandlers} style={swipeStyle}>
         {filtered.length === 0 ? (
           <div className="text-center py-20">
             <Search size={32} className="text-zinc-600 mx-auto mb-3" />

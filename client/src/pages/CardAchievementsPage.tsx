@@ -2,6 +2,7 @@ import { useAuth } from "@/_core/hooks/useAuth";
 import { trpc } from "@/lib/trpc";
 import { getLoginUrl } from "@/const";
 import { useState, useMemo } from "react";
+import { useSwipeTabs } from "@/hooks/useSwipeTabs";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Trophy, Star, Shield, Swords, Crown, Zap, Target,
@@ -81,6 +82,14 @@ export default function CardAchievementsPage() {
     }
     return list;
   }, [achievements.data, filterCategory, showCompleted]);
+
+  const allCategoryKeys = useMemo(() => ["all", ...categories], [categories]);
+  const activeCatIndex = allCategoryKeys.indexOf(filterCategory);
+  const { handlers: swipeHandlers, swipeStyle } = useSwipeTabs({
+    tabCount: allCategoryKeys.length,
+    activeIndex: activeCatIndex >= 0 ? activeCatIndex : 0,
+    onTabChange: (idx) => setFilterCategory(allCategoryKeys[idx] as FilterCategory),
+  });
 
   const completedCount = useMemo(
     () => (achievements.data || []).filter((a: any) => a.completed).length,
@@ -209,8 +218,8 @@ export default function CardAchievementsPage() {
         </div>
       </div>
 
-      {/* Achievement List */}
-      <div className="space-y-2">
+      {/* Achievement List with swipe */}
+      <div className="space-y-2" {...swipeHandlers} style={swipeStyle}>
         {filteredAchievements.length === 0 ? (
           <div className="text-center py-16">
             <Trophy className="mx-auto mb-3 text-muted-foreground/30" size={48} />

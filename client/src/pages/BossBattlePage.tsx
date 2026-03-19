@@ -12,6 +12,7 @@ import { type BattleCard } from "@/lib/cardBattle";
 import { initBossBattle, processBossAction, type BossBattleState } from "@/lib/bossBattle";
 import { BOSS_ENCOUNTERS, type BossEncounter } from "@/data/bossEncounters";
 import { useLocation } from "wouter";
+import LandscapeEnforcer from "@/components/LandscapeEnforcer";
 
 function BossCardView({ card, onClick, selected, targetable, disabled, small }: {
   card: BattleCard; onClick?: () => void; selected?: boolean; targetable?: boolean; disabled?: boolean; small?: boolean;
@@ -182,6 +183,7 @@ export default function BossBattlePage() {
   const { player, enemy, turn, turnNumber, logs, winner } = battleState;
 
   return (
+    <LandscapeEnforcer forceRotate message="Boss encounters are best experienced in landscape mode.">
     <div className={`min-h-screen flex flex-col bg-gradient-to-b ${battleState.bossPhase === 3 ? "from-red-900/20" : battleState.bossPhase === 2 ? "from-purple-900/20" : "from-slate-900/20"} to-black`}>
       {winner && (
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="fixed inset-0 z-50 flex items-center justify-center p-4" style={{ background: "rgba(0,0,0,0.9)" }}>
@@ -291,5 +293,6 @@ export default function BossBattlePage() {
         </div>
       </div>
     </div>
+    </LandscapeEnforcer>
   );
 }

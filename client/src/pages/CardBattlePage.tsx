@@ -23,6 +23,7 @@ import {
   AmbientParticles, FloatingNumbers, ScreenFlash, TurnBanner,
   useVFX, type FloatingText, type ScreenEffect,
 } from "@/components/BattleVFX";
+import LandscapeEnforcer from "@/components/LandscapeEnforcer";
 import {
   EnergyFieldOverlay, FactionBanners, WeatherEffects,
   DynamicBoardLighting, GraveyardSouls, ComboCounter,
@@ -807,6 +808,7 @@ export default function CardBattlePage() {
   const { player, enemy, turn, turnNumber, logs, winner } = battleState;
 
   return (
+    <LandscapeEnforcer forceRotate message="Card battles are best experienced in landscape mode.">
     <div
       ref={boardRef}
       className={`min-h-screen flex flex-col relative overflow-hidden ${vfx.shakeClass}`}
@@ -1052,5 +1054,6 @@ export default function CardBattlePage() {
         </div>
       </div>
     </div>
+    </LandscapeEnforcer>
   );
 }
