@@ -23,6 +23,9 @@ import { contentRewardRouter } from "./routers/contentReward";
 import { fightLeaderboardRouter } from "./routers/fightLeaderboard";
 import { nftRouter } from "./routers/nft";
 import { pvpRouter } from "./routers/pvp";
+import { draftRouter } from "./routers/draft";
+import { tradingRouter } from "./routers/trading";
+import { cardAchievementsRouter } from "./routers/cardAchievements";
 
 export const appRouter = router({
   system: systemRouter,
@@ -42,6 +45,9 @@ export const appRouter = router({
   fightLeaderboard: fightLeaderboardRouter,
   nft: nftRouter,
   pvp: pvpRouter,
+  draft: draftRouter,
+  trading: tradingRouter,
+  cardAchievements: cardAchievementsRouter,
   auth: router({
     me: publicProcedure.query(opts => opts.ctx.user),
     logout: publicProcedure.mutation(({ ctx }) => {

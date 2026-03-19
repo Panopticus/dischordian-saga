@@ -46,6 +46,9 @@ import HierarchyPage from "./pages/HierarchyPage";
 import DemonPackPage from "./pages/DemonPackPage";
 import FightLeaderboardPage from "./pages/FightLeaderboardPage";
 import PvpArenaPage from "./pages/PvpArenaPage";
+import DraftTournamentPage from "./pages/DraftTournamentPage";
+import CardTradingPage from "./pages/CardTradingPage";
+import CardAchievementsPage from "./pages/CardAchievementsPage";
 import PotentialsPage from "./pages/PotentialsPage";
 import PotentialsLeaderboardPage from "./pages/PotentialsLeaderboardPage";
 import { LoredexProvider } from "./contexts/LoredexContext";
@@ -111,6 +114,9 @@ function Router() {
       <Route path="/demon-packs" component={DemonPackPage} />
       <Route path="/fight-leaderboard" component={FightLeaderboardPage} />
       <Route path="/pvp" component={PvpArenaPage} />
+      <Route path="/draft" component={DraftTournamentPage} />
+      <Route path="/trading" component={CardTradingPage} />
+      <Route path="/card-achievements" component={CardAchievementsPage} />
       <Route path="/potentials" component={PotentialsPage} />
       <Route path="/potentials/leaderboard" component={PotentialsLeaderboardPage} />
       <Route path="/settings" component={SettingsPage} />

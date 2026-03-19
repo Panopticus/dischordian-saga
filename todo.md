@@ -1182,3 +1182,23 @@
 - [x] Build spectator UI with real-time board view and match info
 - [x] Add spectator count and live match list to PvP Arena lobby
 - [x] Write vitest tests for deck builder, ranked seasons, and spectator mode (802 tests pass across 28 files)
+
+### Phase 39: Draft Mode, Card Trading, Achievements
+- [x] Build draft/tournament mode - card draft phase where players pick from random pools
+- [x] Add draft lobby and matchmaking for draft tournaments
+- [x] Build draft battle UI with drafted decks
+- [x] Build draft router with create, join, getTournament, pickCard, listOpen, myHistory, startBattles
+- [x] Build DraftTournamentPage with lobby/drafting/battling/results phases
+- [x] Build card trading system - player-to-player card trades with senderCards/receiverCards
+- [x] Add trade request/accept/decline flow with Dream token support
+- [x] Build CardTradingPage with create/incoming/outgoing/history tabs
+- [x] Add player search for trade partner selection
+- [x] Build trade safety checks (self-trade prevention, ownership verification, balance checks)
+- [x] Build achievement system with 40+ achievements across 6 categories (pvp, collection, crafting, draft, trading, general)
+- [x] Add 5 achievement tiers (bronze, silver, gold, diamond, legendary) with Dream token rewards
+- [x] Build CardAchievementsPage with category filtering, progress bars, reward claiming
+- [x] Build achievement router with getAll, incrementProgress, setProgress, claimReward, getSummary
+- [x] Add database schema: draftTournaments, draftParticipants, cardTrades, cardGameAchievements tables
+- [x] Add navigation links in GamesPage for Draft Tournament, Card Trading, Card Achievements
+- [x] Register routes in App.tsx (/draft, /trading, /card-achievements)
+- [x] Write vitest tests for draft mode, trading, and achievements (916 tests pass across 29 files)

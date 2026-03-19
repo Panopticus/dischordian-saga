@@ -1033,3 +1033,118 @@ export const pvpSeasonRecords = mysqlTable("pvp_season_records", {
 
 export type PvpSeasonRecord = typeof pvpSeasonRecords.$inferSelect;
 export type InsertPvpSeasonRecord = typeof pvpSeasonRecords.$inferInsert;
+
+
+/* ═══════════════════════════════════════════════════════
+   DRAFT TOURNAMENT — Pick cards from random pools, battle
+   ═══════════════════════════════════════════════════════ */
+
+/**
+ * Draft tournaments — each tournament has a unique pool and bracket.
+ */
+export const draftTournaments = mysqlTable("draft_tournaments", {
+  id: int("id").autoincrement().primaryKey(),
+  /** Unique tournament code */
+  tournamentCode: varchar("tournamentCode", { length: 32 }).notNull().unique(),
+  /** Tournament status */
+  status: mysqlEnum("status", ["drafting", "battling", "completed", "cancelled"]).default("drafting").notNull(),
+  /** Max players (2, 4, 8) */
+  maxPlayers: int("maxPlayers").notNull().default(2),
+  /** Number of draft rounds */
+  draftRounds: int("draftRounds").notNull().default(15),
+  /** Cards offered per pick */
+  cardsPerPick: int("cardsPerPick").notNull().default(3),
+  /** Entry cost in Dream tokens */
+  entryCost: int("entryCost").notNull().default(5),
+  /** Prize pool multiplier */
+  prizeMultiplier: int("prizeMultiplier").notNull().default(2),
+  /** Creator user ID */
+  creatorId: int("creatorId").notNull(),
+  /** Winner user ID */
+  winnerId: int("winnerId"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+export type DraftTournament = typeof draftTournaments.$inferSelect;
+export type InsertDraftTournament = typeof draftTournaments.$inferInsert;
+
+/**
+ * Draft participants — players in a draft tournament with their picks.
+ */
+export const draftParticipants = mysqlTable("draft_participants", {
+  id: int("id").autoincrement().primaryKey(),
+  tournamentId: int("tournamentId").notNull(),
+  userId: int("userId").notNull(),
+  /** JSON array of picked card IDs */
+  pickedCards: json("pickedCards").$type<string[]>().notNull(),
+  /** Current draft round (0 = not started) */
+  currentRound: int("currentRound").notNull().default(0),
+  /** Current choices offered (JSON array of card IDs) */
+  currentChoices: json("currentChoices").$type<string[]>(),
+  /** Tournament wins */
+  tournamentWins: int("tournamentWins").notNull().default(0),
+  /** Tournament losses */
+  tournamentLosses: int("tournamentLosses").notNull().default(0),
+  /** Eliminated flag */
+  eliminated: int("eliminated").notNull().default(0),
+  joinedAt: timestamp("joinedAt").defaultNow().notNull(),
+});
+export type DraftParticipant = typeof draftParticipants.$inferSelect;
+export type InsertDraftParticipant = typeof draftParticipants.$inferInsert;
+
+/* ═══════════════════════════════════════════════════════
+   CARD TRADING — Player-to-player card trades
+   ═══════════════════════════════════════════════════════ */
+
+/**
+ * Trade offers — one player offers cards to another.
+ */
+export const cardTrades = mysqlTable("card_trades", {
+  id: int("id").autoincrement().primaryKey(),
+  /** Player initiating the trade */
+  senderId: int("senderId").notNull(),
+  /** Player receiving the trade offer */
+  receiverId: int("receiverId").notNull(),
+  /** Cards offered by sender (JSON: [{cardId, quantity}]) */
+  senderCards: json("senderCards").$type<Array<{ cardId: string; quantity: number }>>().notNull(),
+  /** Cards requested from receiver (JSON: [{cardId, quantity}]) */
+  receiverCards: json("receiverCards").$type<Array<{ cardId: string; quantity: number }>>().notNull(),
+  /** Optional Dream tokens offered by sender */
+  senderDream: int("senderDream").notNull().default(0),
+  /** Optional Dream tokens offered by receiver */
+  receiverDream: int("receiverDream").notNull().default(0),
+  /** Trade status */
+  status: mysqlEnum("status", ["pending", "accepted", "declined", "cancelled", "expired"]).default("pending").notNull(),
+  /** Optional message */
+  message: varchar("message", { length: 256 }),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+export type CardTrade = typeof cardTrades.$inferSelect;
+export type InsertCardTrade = typeof cardTrades.$inferInsert;
+
+/* ═══════════════════════════════════════════════════════
+   CARD GAME ACHIEVEMENTS — Milestones for card game progress
+   ═══════════════════════════════════════════════════════ */
+
+/**
+ * Card game achievement progress — tracks per-user progress toward milestones.
+ */
+export const cardGameAchievements = mysqlTable("card_game_achievements", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  achievementKey: varchar("achievementKey", { length: 128 }).notNull(),
+  /** Progress counter (e.g., wins toward 10-win streak) */
+  progress: int("progress").notNull().default(0),
+  /** Target to complete */
+  target: int("target").notNull().default(1),
+  /** Whether completed */
+  completed: int("completed").notNull().default(0),
+  /** Reward claimed */
+  rewardClaimed: int("rewardClaimed").notNull().default(0),
+  completedAt: timestamp("completedAt"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+export type CardGameAchievement = typeof cardGameAchievements.$inferSelect;
+export type InsertCardGameAchievement = typeof cardGameAchievements.$inferInsert;

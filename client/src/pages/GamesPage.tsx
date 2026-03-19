@@ -6,7 +6,8 @@ import { Link } from "wouter";
 import { motion } from "framer-motion";
 import {
   Gamepad2, Swords, Rocket, ScrollText, Trophy, FlaskConical,
-  ChevronRight, Shield, Crown, Ship, Zap, Globe, Radio, BookOpen, Users, Skull, Flame
+  ChevronRight, Shield, Crown, Ship, Zap, Globe, Radio, BookOpen, Users, Skull, Flame,
+  ArrowLeftRight, Medal, Dices
 } from "lucide-react";
 import { useGamification } from "@/contexts/GamificationContext";
 
@@ -172,6 +173,33 @@ const SIMULATIONS: GameTile[] = [
     loreContext: "CLASSIFIED: Infernal Requisitions",
     icon: Flame,
     color: "#f97316",
+  },
+  {
+    href: "/draft",
+    title: "DRAFT TOURNAMENT",
+    subtitle: "Draft & Battle",
+    description: "Enter the dimensional draft arena. Build a deck from random card pools, then battle through a tournament bracket. Win rewards and exclusive draft-only cards.",
+    loreContext: "ARENA: Draft Protocol",
+    icon: Dices,
+    color: "#a855f7",
+  },
+  {
+    href: "/trading",
+    title: "CARD TRADING",
+    subtitle: "Operative Exchange",
+    description: "Trade cards with other operatives across the network. Offer your duplicates, request cards you need, and negotiate deals on the trading floor.",
+    loreContext: "NETWORK: Trade Channel",
+    icon: ArrowLeftRight,
+    color: "#06b6d4",
+  },
+  {
+    href: "/card-achievements",
+    title: "CARD ACHIEVEMENTS",
+    subtitle: "Milestone Tracker",
+    description: "Track your card game milestones across PvP wins, collection completion, draft victories, and trading. Earn Dream tokens and exclusive rewards.",
+    loreContext: "ARCHIVE: Service Record",
+    icon: Medal,
+    color: "#f59e0b",
   },
 ];
 
