@@ -1145,13 +1145,13 @@
 - [x] Write tests for Ne-Yon gating system (706 tests pass across 25 files)
 
 ### Phase 36: Trait Summary UI, Respec System, AAA Card Game Visual Overhaul, Card Art Generation
-- [ ] Build Trait Summary UI panel on Character Sheet showing bonuses across all game systems
-- [ ] Build Dream-token Respec system (reassign attribute dots, change alignment)
-- [ ] Research best TCG video games for visual design inspiration (Marvel Snap, LoR, Hearthstone, MTG Arena)
-- [ ] Redesign card game board with AAA visual effects (particles, lighting, animations)
-- [ ] Add card play animations (deploy, attack, destroy effects)
-- [ ] Add board state visual effects (energy fields, faction banners, weather effects)
-- [ ] Generate unique art for every card in the database
-- [ ] Wire generated card art into the card database
-- [ ] Write tests for trait summary, respec, and card game visual systems
+- [x] Build Trait Summary UI panel on Character Sheet showing bonuses across all game systems
+- [x] Build Dream-token Respec system (reassign attribute dots, change alignment)
+- [x] Research best TCG video games for visual design inspiration (Marvel Snap, LoR, Hearthstone, MTG Arena)
+- [x] Redesign card game board with AAA visual effects (particles, lighting, animations)
+- [x] Add card play animations (deploy, attack, destroy effects)
+- [x] Add board state visual effects (energy fields, faction banners, weather effects)
+- [x] Generate unique art for every card in the database (73 cards generated, 178 total now unique)
+- [x] Wire generated card art into the card database
+- [x] Write tests for trait summary, respec, and card game visual systems (742 tests pass across 26 files)
 - [x] Fix React hooks ordering error in FightPage.tsx (Rendered more hooks than during the previous render)

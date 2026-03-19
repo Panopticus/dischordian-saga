@@ -23,6 +23,10 @@ import {
   AmbientParticles, FloatingNumbers, ScreenFlash, TurnBanner,
   useVFX, type FloatingText, type ScreenEffect,
 } from "@/components/BattleVFX";
+import {
+  EnergyFieldOverlay, FactionBanners, WeatherEffects,
+  DynamicBoardLighting, GraveyardSouls, ComboCounter,
+} from "@/components/BoardEffects";
 
 /* ─── ELEMENT COLORS ─── */
 const ELEMENT_COLORS: Record<string, string> = {
@@ -780,6 +784,30 @@ export default function CardBattlePage() {
       <FloatingNumbers texts={vfx.floatingTexts} onComplete={vfx.removeFloatingText} />
       <ScreenFlash effects={vfx.screenEffects} onComplete={vfx.removeScreenEffect} />
       <AmbientParticles count={15} color="rgba(51,226,230,0.15)" />
+
+      {/* ── Board State Effects ── */}
+      <EnergyFieldOverlay
+        playerFieldPower={player.field.reduce((sum, c) => sum + c.attack + c.tempAttackMod, 0)}
+        enemyFieldPower={enemy.field.reduce((sum, c) => sum + c.attack + c.tempAttackMod, 0)}
+        turn={turn}
+      />
+      <WeatherEffects
+        turnNumber={turnNumber}
+        playerHP={player.hp}
+        playerMaxHP={player.maxHP}
+        enemyHP={enemy.hp}
+        enemyMaxHP={enemy.maxHP}
+      />
+      <DynamicBoardLighting
+        lastAction={logs.length > 0 ? logs[logs.length - 1].message : undefined}
+        turn={turn}
+        turnNumber={turnNumber}
+      />
+      <GraveyardSouls
+        playerGraveyardCount={player.graveyard.length}
+        enemyGraveyardCount={enemy.graveyard.length}
+      />
+      <FactionBanners />
 
       {/* Turn banner */}
       <AnimatePresence>

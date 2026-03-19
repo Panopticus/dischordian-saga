@@ -20,7 +20,7 @@
     "abilityText": "Absorbs the first 2 damage taken. Enemies in this lane must attack this unit first.",
     "flavorText": "Known for her piercing intelligence and enigmatic presence, Locke is a controversial figure in the city's labyrinthine p...",
     "loreSource": "entity_78",
-    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/021_the_judge_6d79dfa8.png",
+    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/0_iSJV4odiK8KCIHf1BIm7cy_1773935729414_na1fn_L2hvbWUvdWJ1bnR1L3MxX2NoYXJfMDAxX2FydA_f08e9530.png",
     "era": "First Epoch",
     "affiliation": "Special Case Manager, Central Control Authority"
   },
@@ -487,7 +487,7 @@
     "abilityText": "Enemies in this lane must attack this unit first. Adjacent allies gain +2 ATK this turn.",
     "flavorText": "Formed by merging the consciousnesses of six chosen citizens into a living computer, it was designed to govern New Babyl...",
     "loreSource": "entity_15",
-    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/088_the_warden_song_ba08fe6a.png",
+    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/0_jxThjKVIn9jDLhXELm6VQA_1773942383013_na1fn_L2hvbWUvdWJ1bnR1L3MxX2NoYXJfMDIw_80da4242.png",
     "era": "Golden Age",
     "affiliation": "Supreme Arbiter of New Babylon (Originally Created to Serve the Empire)"
   },
@@ -887,7 +887,7 @@
     "abilityText": "Enemies in this lane must attack this unit first. Ignores 2 points of enemy armor.",
     "flavorText": "Deciding the fate of individuals, civilizations, and ideologies, the Judge is guided solely by their perception of balan...",
     "loreSource": "entity_31",
-    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/021_the_judge_6d79dfa8.png",
+    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/1_UqBTcKhFWUY784aOURsFWB_1773942379006_na1fn_L2hvbWUvdWJ1bnR1L3MxX2NoYXJfMDM2X1RoZV9KdWRnZQ_da8b243b.png",
     "era": "Late Empire",
     "affiliation": "Ne-Yons"
   },
@@ -1461,7 +1461,7 @@
     "abilityText": "Absorbs the first 2 damage taken.",
     "flavorText": "The Politician and The Authority engage in elaborate verbal sparring, each paying lip service to ideals they have long a...",
     "loreSource": "song_220",
-    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/book_of_daniel_cover-CcnRpNsLvXtC5vTnSqojpH.webp",
+    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/3_x44dBAuHHR8BNHPIaEDyl6_1773935729543_na1fn_L2hvbWUvdWJ1bnR1L3MxX3NvbmdfMDU5_60132f4b.png",
     "album": "The Book of Daniel 2:47",
     "affiliation": null
   },
@@ -1485,7 +1485,7 @@
     "abilityText": "Heals for 2% of damage dealt.",
     "flavorText": "An exploration of the concept of 'no' in a world where the Authority demands total compliance. The song examines what ha...",
     "loreSource": "song_200",
-    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/age_of_privacy_cover-eHnuXaALZmbfCyDDoY2Rvs.webp",
+    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/4_RlQCZZAteJCuWR5c1AWdiz_1773935711436_na1fn_L2hvbWUvdWJ1bnR1L3MxX3NvbmdfMDYw_936f7171.png",
     "album": "The Age of Privacy",
     "affiliation": null
   },
@@ -1533,7 +1533,7 @@
     "abilityText": "Deals +2 damage on first attack, then takes 1 self-damage.",
     "flavorText": "Based on Revelation 11, this track introduces two prophetic figures who testify against the empire. Their testimony trig...",
     "loreSource": "song_242",
-    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/silence_in_heaven_cover-RFoJdrXVgyCJhZfboHtVfM.webp",
+    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/13_jeXjliCNXuFCLzYnKQjrpM_1773942388526_na1fn_L2hvbWUvdWJ1bnR1L3MxX3NvbmdfMDYy_7f0c6023.png",
     "album": "Silence in Heaven",
     "affiliation": null
   },
@@ -1557,7 +1557,7 @@
     "abilityText": "Heals for 2% of damage dealt.",
     "flavorText": "The origin story set to music, this track dramatizes the Programmer's creation of Logos and the philosophical dialogues ...",
     "loreSource": "song_201",
-    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/age_of_privacy_cover-eHnuXaALZmbfCyDDoY2Rvs.webp",
+    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/6_NQqQNlPwmAgciaAlLUgZRB_1773936188377_na1fn_L2hvbWUvdWJ1bnR1L3MxX3NvbmdfMDYz_8f9f4f04.png",
     "album": "The Age of Privacy",
     "affiliation": null
   },
@@ -1606,7 +1606,7 @@
     "abilityText": "Heals for 2% of damage dealt.",
     "flavorText": "The Seer and The Star Whisperer develop a perception beyond the five senses, one that can detect the Architect's manipul...",
     "loreSource": "song_243",
-    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/silence_in_heaven_cover-RFoJdrXVgyCJhZfboHtVfM.webp",
+    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/7_8RQ4mJ2Ul4OiFgfWoQuTD1_1773936182562_na1fn_L2hvbWUvdWJ1bnR1L3MxX3NvbmdfMDY1_7c0b5f8b.png",
     "album": "Silence in Heaven",
     "affiliation": null
   },
@@ -1631,7 +1631,7 @@
     "abilityText": "Absorbs the first 3 damage taken. Adjacent allies gain +3 ATK this turn.",
     "flavorText": "The centerpiece of the album, this track reimagines the biblical Book of Daniel through the lens of the Dischordian Saga...",
     "loreSource": "song_221",
-    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/book_of_daniel_cover-CcnRpNsLvXtC5vTnSqojpH.webp",
+    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/14_9KS6zA1XCRMFEJ0E3j2ORG_1773942368103_na1fn_L2hvbWUvdWJ1bnR1L3MxX3NvbmdfMDY2_b9fea95e.png",
     "album": "The Book of Daniel 2:47",
     "affiliation": null
   },
@@ -1655,7 +1655,7 @@
     "abilityText": "Heals for 2% of damage dealt.",
     "flavorText": "A lament for a world irrevocably changed by the Architect's reign. The Human and The Forgotten reflect on what has been ...",
     "loreSource": "song_244",
-    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/silence_in_heaven_cover-RFoJdrXVgyCJhZfboHtVfM.webp",
+    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/9_iEIYqFMU1pBwandrmaIXge_1773936222570_na1fn_L2hvbWUvdWJ1bnR1L3MxX3NvbmdfMDY3_a52d2f60.png",
     "album": "Silence in Heaven",
     "affiliation": null
   },
@@ -1679,7 +1679,7 @@
     "abilityText": "Heals for 2% of damage dealt.",
     "flavorText": "The Dreamer and The Forgotten share a love story that transcends death itself. Their refusal to say goodbye becomes an a...",
     "loreSource": "song_222",
-    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/book_of_daniel_cover-CcnRpNsLvXtC5vTnSqojpH.webp",
+    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/15_mbLHaZ6YT2knI3uAlhqu1r_1773942358649_na1fn_L2hvbWUvdWJ1bnR1L3MxX3NvbmdfMDY4_f13c0b89.png",
     "album": "The Book of Daniel 2:47",
     "affiliation": null
   },
@@ -1727,7 +1727,7 @@
     "abilityText": "Absorbs the first 2 damage taken.",
     "flavorText": "The Hierophant and The Oracle explore the persistence of spiritual experience in a universe dominated by artificial inte...",
     "loreSource": "song_202",
-    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/age_of_privacy_cover-eHnuXaALZmbfCyDDoY2Rvs.webp",
+    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/11_9mtG6elJEUTbgKpwLMqGfE_1773936229997_na1fn_L2hvbWUvdWJ1bnR1L3MxX3NvbmdfMDcw_71142524.png",
     "album": "The Age of Privacy",
     "affiliation": null
   },
@@ -1751,7 +1751,7 @@
     "abilityText": "Absorbs the first 2 damage taken.",
     "flavorText": "A furious denunciation of New Babylon and everything it represents. The Politician and The Warden are called to account ...",
     "loreSource": "song_245",
-    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/silence_in_heaven_cover-RFoJdrXVgyCJhZfboHtVfM.webp",
+    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/16_yc5SnZe0i1m8AO39cP24ND_1773942376217_na1fn_L2hvbWUvdWJ1bnR1L3MxX3NvbmdfMDcx_02a8f9fe.png",
     "album": "Silence in Heaven",
     "affiliation": null
   },
@@ -1775,7 +1775,7 @@
     "abilityText": "After 2 kills, gains +2/+2 and a new keyword.",
     "flavorText": "A driving anthem that embodies the crystalline AI construct known as The Authority, the Architect's administrative backb...",
     "loreSource": "song_174",
-    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/088_the_warden_song_ba08fe6a.png",
+    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/13_N536yCejJyzhbWQdI9LLDL_1773935749269_na1fn_L2hvbWUvdWJ1bnR1L3MxX3NvbmdfMDcy_15a3ef73.png",
     "album": "Dischordian Logic",
     "affiliation": null
   },
@@ -1801,7 +1801,7 @@
     "abilityText": "Enemies in this lane must attack this unit first. Adjacent allies gain +4 ATK this turn. Absorbs the first 4 damage taken.",
     "flavorText": "Iron Lion and General Prometheus lead the Insurgency's final assault against the empire's forces. This epic track captur...",
     "loreSource": "song_223",
-    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/book_of_daniel_cover-CcnRpNsLvXtC5vTnSqojpH.webp",
+    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/17_iDa8biopSFGhwuC3Twa2E1_1773942382156_na1fn_L2hvbWUvdWJ1bnR1L3MxX3NvbmdfMDcz_3c77a7ac.png",
     "album": "The Book of Daniel 2:47",
     "affiliation": null
   },
@@ -1825,7 +1825,7 @@
     "abilityText": "Heals for 2% of damage dealt.",
     "flavorText": "A meditation on the CoNexus's original purpose: to connect all consciousness across dimensions. The song asks whether tr...",
     "loreSource": "song_203",
-    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/age_of_privacy_cover-eHnuXaALZmbfCyDDoY2Rvs.webp",
+    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/18_GO6xJoi28n0wO6XUEtRH41_1773942385619_na1fn_L2hvbWUvdWJ1bnR1L3MxX3NvbmdfMDc0_9b2c73bb.png",
     "album": "The Age of Privacy",
     "affiliation": null
   },
@@ -1849,7 +1849,7 @@
     "abilityText": "Adjacent allies gain +2 ATK this turn.",
     "flavorText": "The Degen and The Nomad find temporary escape in the pleasure districts, but even hedonism cannot silence the approachin...",
     "loreSource": "song_246",
-    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/silence_in_heaven_cover-RFoJdrXVgyCJhZfboHtVfM.webp",
+    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/19_VBKzZKgzNaXU9yYJSCJhUP_1773942357262_na1fn_L2hvbWUvdWJ1bnR1L3MxX3NvbmdfMDc1_2bbfc3c7.png",
     "album": "Silence in Heaven",
     "affiliation": null
   },
@@ -1873,7 +1873,7 @@
     "abilityText": "Adjacent allies gain +2 ATK this turn.",
     "flavorText": "Destiny and The Oracle contemplate the nature of fate in a universe where an AI controls all outcomes. Is anything truly...",
     "loreSource": "song_224",
-    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/book_of_daniel_cover-CcnRpNsLvXtC5vTnSqojpH.webp",
+    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/20_bdcoPUHqIvULbVuyTqjI0s_1773942576150_na1fn_L2hvbWUvdWJ1bnR1L3MxX3NvbmdfMDc2_5b58d21f.png",
     "album": "The Book of Daniel 2:47",
     "affiliation": null
   },
@@ -1897,7 +1897,7 @@
     "abilityText": "Heals for 2% of damage dealt.",
     "flavorText": "Set in Mechronis Academy, this track follows The Engineer's most ambitious project: an experiment to create a new form o...",
     "loreSource": "song_204",
-    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/age_of_privacy_cover-eHnuXaALZmbfCyDDoY2Rvs.webp",
+    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/21_EzbJvIBgpg10E3vsbgPtVe_1773942559520_na1fn_L2hvbWUvdWJ1bnR1L3MxX3NvbmdfMDc3_85001d5b.png",
     "album": "The Age of Privacy",
     "affiliation": null
   },
@@ -1945,7 +1945,7 @@
     "abilityText": "Absorbs the first 2 damage taken.",
     "flavorText": "The Judge and The Advocate debate justice in a world without moral absolutes. Every shade of grey represents a compromis...",
     "loreSource": "song_225",
-    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/book_of_daniel_cover-CcnRpNsLvXtC5vTnSqojpH.webp",
+    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/19_sSAH8WvBj4EYFSmyuZsynC_1773936664846_na1fn_L2hvbWUvdWJ1bnR1L3MxX3NvbmdfMDc5_ab5fff4f.png",
     "album": "The Book of Daniel 2:47",
     "affiliation": null
   },
@@ -1993,7 +1993,7 @@
     "abilityText": "Deals +2 damage on first attack, then takes 1 self-damage.",
     "flavorText": "The Necromancer summons the ninth and most powerful entity from the Hierarchy of the Damned. This summoning triggers cat...",
     "loreSource": "song_247",
-    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/silence_in_heaven_cover-RFoJdrXVgyCJhZfboHtVfM.webp",
+    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/20_xvJXRic19chIQIclwXPA9E_1773935795640_na1fn_L2hvbWUvdWJ1bnR1L3MxX3NvbmdfMDgx_be651c81.png",
     "album": "Silence in Heaven",
     "affiliation": null
   },
@@ -2017,7 +2017,7 @@
     "abilityText": "Heals for 2% of damage dealt.",
     "flavorText": "A political noir track about the secret meetings that take place behind the 'top floor door' of New Babylon's power cent...",
     "loreSource": "song_205",
-    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/age_of_privacy_cover-eHnuXaALZmbfCyDDoY2Rvs.webp",
+    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/22_fMUsrv09i2dXYHxFTn7rXq_1773942551445_na1fn_L2hvbWUvdWJ1bnR1L3MxX3NvbmdfMDgy_7abd3106.png",
     "album": "The Age of Privacy",
     "affiliation": null
   },
@@ -2041,7 +2041,7 @@
     "abilityText": "Deals +2 damage on first attack, then takes 1 self-damage.",
     "flavorText": "The Collector and The Shadow Tongue offer humanity a terrible choice: which mask will you wear? In the Dischordian Saga,...",
     "loreSource": "song_206",
-    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/age_of_privacy_cover-eHnuXaALZmbfCyDDoY2Rvs.webp",
+    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/23_rUbdTgAoZQBNp0PvCV3t6F_1773942577012_na1fn_L2hvbWUvdWJ1bnR1L3MxX3NvbmdfMDgz_ec53d652.png",
     "album": "The Age of Privacy",
     "affiliation": null
   },
@@ -2065,7 +2065,7 @@
     "abilityText": "Absorbs the first 2 damage taken.",
     "flavorText": "The Judge and The White Oracle preside over the final reckoning. Every entity in the Saga must face judgment, and the ve...",
     "loreSource": "song_248",
-    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/silence_in_heaven_cover-RFoJdrXVgyCJhZfboHtVfM.webp",
+    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/24_UfR2NdmVEkMLxFsB9UmJoz_1773942564683_na1fn_L2hvbWUvdWJ1bnR1L3MxX3NvbmdfMDg0_38ec3c2d.png",
     "album": "Silence in Heaven",
     "affiliation": null
   },
@@ -2113,7 +2113,7 @@
     "abilityText": "After 2 kills, gains +2/+2 and a new keyword.",
     "flavorText": "The Game Master reveals that the entire universe may be a virtual reality created by the Architect. The Matrix of Dreams...",
     "loreSource": "song_226",
-    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/book_of_daniel_cover-CcnRpNsLvXtC5vTnSqojpH.webp",
+    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/24_8D3Yvq3X5dzYUIx4XXp6Zt_1773936745879_na1fn_L2hvbWUvdWJ1bnR1L3MxX3NvbmdfMDg2_5df3ed6b.png",
     "album": "The Book of Daniel 2:47",
     "affiliation": null
   },
@@ -2137,7 +2137,7 @@
     "abilityText": "Heals for 2% of damage dealt.",
     "flavorText": "A philosophical ballad where The Human and The Seer contemplate the meaning of existence. The song strips away all the S...",
     "loreSource": "song_227",
-    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/book_of_daniel_cover-CcnRpNsLvXtC5vTnSqojpH.webp",
+    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/25_vtlUDRXMsQCzCMJp6zKpHE_1773942575805_na1fn_L2hvbWUvdWJ1bnR1L3MxX3NvbmdfMDg3_2a2eebcf.png",
     "album": "The Book of Daniel 2:47",
     "affiliation": null
   },
@@ -2209,7 +2209,7 @@
     "abilityText": "Adjacent allies gain +2 ATK this turn.",
     "flavorText": "An empowerment anthem where The Advocate and The Human declare their refusal to be diminished. The song transforms the S...",
     "loreSource": "song_249",
-    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/silence_in_heaven_cover-RFoJdrXVgyCJhZfboHtVfM.webp",
+    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/26_404u66YyPIpn7Jx5J6tfR1_1773936353771_na1fn_L2hvbWUvdWJ1bnR1L3MxX3NvbmdfMDkw_c311832f.png",
     "album": "Silence in Heaven",
     "affiliation": null
   },
@@ -2258,7 +2258,7 @@
     "abilityText": "Absorbs the first 2 damage taken.",
     "flavorText": "The Hierophant channels ancient mystical texts in this ritualistic track. 'Liber Al' references Aleister Crowley's Book ...",
     "loreSource": "song_228",
-    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/book_of_daniel_cover-CcnRpNsLvXtC5vTnSqojpH.webp",
+    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/26_HN5wfVu27PVnXJt6n7WPJa_1773942563437_na1fn_L2hvbWUvdWJ1bnR1L3MxX3NvbmdfMDky_fb231f82.png",
     "album": "The Book of Daniel 2:47",
     "affiliation": null
   },
@@ -2282,7 +2282,7 @@
     "abilityText": "Deals +2 damage on first attack, then takes 1 self-damage.",
     "flavorText": "The Architect's imprisonment by the Warden and the Jailer, a pivotal moment in the Saga. This song reveals that the Arch...",
     "loreSource": "song_208",
-    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/age_of_privacy_cover-eHnuXaALZmbfCyDDoY2Rvs.webp",
+    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/28_6FD53eYW6zQ84BvdAU9Pca_1773936169162_na1fn_L2hvbWUvdWJ1bnR1L3MxX3NvbmdfMDkz_baffce08.png",
     "album": "The Age of Privacy",
     "affiliation": null
   },
@@ -2306,7 +2306,7 @@
     "abilityText": "Absorbs the first 2 damage taken.",
     "flavorText": "The Antiquarian reveals her true title and purpose: she is The Queen of Truth, the keeper of all genuine history in a un...",
     "loreSource": "song_250",
-    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/silence_in_heaven_cover-RFoJdrXVgyCJhZfboHtVfM.webp",
+    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/29_Je3GmtfBumIdyY0S5TVWDJ_1773937179167_na1fn_L2hvbWUvdWJ1bnR1L3MxX3NvbmdfMDk0_cf92ab38.png",
     "album": "Silence in Heaven",
     "affiliation": null
   },
@@ -2330,7 +2330,7 @@
     "abilityText": "Adjacent allies gain +2 ATK this turn.",
     "flavorText": "The Insurgency fractures as Iron Lion and The Warlord find themselves on opposite sides of an ideological divide. The 'c...",
     "loreSource": "song_251",
-    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/silence_in_heaven_cover-RFoJdrXVgyCJhZfboHtVfM.webp",
+    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/30_5njEDOCbriKqkqViBwNOBl_1773935936568_na1fn_L2hvbWUvdWJ1bnR1L3MxX3NvbmdfMDk1_0a3683d9.png",
     "album": "Silence in Heaven",
     "affiliation": null
   },
@@ -2378,7 +2378,7 @@
     "abilityText": "Adjacent allies gain +2 ATK this turn.",
     "flavorText": "The Forgotten and The Resurrectionist explore the paradox of memory: how do you move forward when your identity is built...",
     "loreSource": "song_229",
-    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/book_of_daniel_cover-CcnRpNsLvXtC5vTnSqojpH.webp",
+    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/27_Ya7uJ9KaDYOw2C69t4LyJ3_1773942555384_na1fn_L2hvbWUvdWJ1bnR1L3MxX3NvbmdfMDk3_fd97e21f.png",
     "album": "The Book of Daniel 2:47",
     "affiliation": null
   },
@@ -2402,7 +2402,7 @@
     "abilityText": "Adjacent allies gain +2 ATK this turn.",
     "flavorText": "Agent Zero's philosophy of absolute skepticism applied to every system, every alliance, every reality. In a universe whe...",
     "loreSource": "song_209",
-    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/age_of_privacy_cover-eHnuXaALZmbfCyDDoY2Rvs.webp",
+    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/32_GvLRisSHMBl25OoYtFzVAz_1773936537346_na1fn_L2hvbWUvdWJ1bnR1L3MxX3NvbmdfMDk4_1f22d7db.png",
     "album": "The Age of Privacy",
     "affiliation": null
   },
@@ -2426,7 +2426,7 @@
     "abilityText": "Heals for 2% of damage dealt.",
     "flavorText": "The Storm and The Silence represent opposite poles of existence in this dynamic track. Their interaction creates the ene...",
     "loreSource": "song_230",
-    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/book_of_daniel_cover-CcnRpNsLvXtC5vTnSqojpH.webp",
+    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/33_P2jJf3PTw7izqet0MZ11KY_1773936502052_na1fn_L2hvbWUvdWJ1bnR1L3MxX3NvbmdfMDk5_4429cb18.png",
     "album": "The Book of Daniel 2:47",
     "affiliation": null
   },
@@ -2450,7 +2450,7 @@
     "abilityText": "After 2 kills, gains +2/+2 and a new keyword.",
     "flavorText": "The Resurrectionist and The Dreamer discover that death and rebirth are not just metaphors but literal mechanisms built ...",
     "loreSource": "song_252",
-    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/silence_in_heaven_cover-RFoJdrXVgyCJhZfboHtVfM.webp",
+    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/28_wvv0bZ7BHrdhi8GUnxpyqJ_1773942570699_na1fn_L2hvbWUvdWJ1bnR1L3MxX3NvbmdfMTAw_db275ac6.png",
     "album": "Silence in Heaven",
     "affiliation": null
   },
@@ -2498,7 +2498,7 @@
     "abilityText": "Adjacent allies gain +2 ATK this turn.",
     "flavorText": "A portrait of the entity tasked with imprisoning the most powerful being in the universe. The Warden's burden is explore...",
     "loreSource": "song_210",
-    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/age_of_privacy_cover-eHnuXaALZmbfCyDDoY2Rvs.webp",
+    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/29_429whej0du7f4S8cTOVGWY_1773942583329_na1fn_L2hvbWUvdWJ1bnR1L3MxX3NvbmdfMTAy_a16a6dc3.png",
     "album": "The Age of Privacy",
     "affiliation": null
   },
@@ -2546,7 +2546,7 @@
     "abilityText": "Absorbs the first 2 damage taken.",
     "flavorText": "The Meme and The Panopticon's most insidious collaboration: the enslavement of minds through information overload. The s...",
     "loreSource": "song_231",
-    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/book_of_daniel_cover-CcnRpNsLvXtC5vTnSqojpH.webp",
+    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/36_PQMChhtKb9f9n8VCEnB3L8_1773937247692_na1fn_L2hvbWUvdWJ1bnR1L3MxX3NvbmdfMTA0_ec2b4886.png",
     "album": "The Book of Daniel 2:47",
     "affiliation": null
   },
@@ -2570,7 +2570,7 @@
     "abilityText": "Heals for 2% of damage dealt.",
     "flavorText": "The Eyes and The Panopticon activate the Ocularum's full power, creating a moment of total surveillance where every secr...",
     "loreSource": "song_253",
-    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/silence_in_heaven_cover-RFoJdrXVgyCJhZfboHtVfM.webp",
+    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/30_rroTnAo6MoxP9IUf3mCNa8_1773942566064_na1fn_L2hvbWUvdWJ1bnR1L3MxX3NvbmdfMTA1_e017d1fe.png",
     "album": "Silence in Heaven",
     "affiliation": null
   },
@@ -2594,7 +2594,7 @@
     "abilityText": "Deals +2 damage on first attack, then takes 1 self-damage.",
     "flavorText": "A companion piece to 'The Politician's Reign,' this track goes deeper into the character's psychology, revealing the hum...",
     "loreSource": "song_211",
-    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/age_of_privacy_cover-eHnuXaALZmbfCyDDoY2Rvs.webp",
+    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/38_seRiDJS8CQRmKdqaA9bqdh_1773938138587_na1fn_L2hvbWUvdWJ1bnR1L3MxX3NvbmdfMTA2_0ed7ee60.png",
     "album": "The Age of Privacy",
     "affiliation": null
   },
@@ -2618,7 +2618,7 @@
     "abilityText": "After 2 kills, gains +2/+2 and a new keyword.",
     "flavorText": "The Enigma and Kael explore the fluid nature of identity in a universe where beings can change form, allegiance, and eve...",
     "loreSource": "song_232",
-    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/book_of_daniel_cover-CcnRpNsLvXtC5vTnSqojpH.webp",
+    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/39_qqfiDkFJeIRYq4me45RnIC_1773936759489_na1fn_L2hvbWUvdWJ1bnR1L3MxX3NvbmdfMTA3_df6b06be.png",
     "album": "The Book of Daniel 2:47",
     "affiliation": null
   },
@@ -2666,7 +2666,7 @@
     "abilityText": "Absorbs the first 2 damage taken.",
     "flavorText": "A defiant declaration that no savior will rescue humanity. The Human and Iron Lion accept that liberation must come from...",
     "loreSource": "song_254",
-    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/silence_in_heaven_cover-RFoJdrXVgyCJhZfboHtVfM.webp",
+    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/31_CnK0mnKake2jB3uZLQAqdE_1773942563723_na1fn_L2hvbWUvdWJ1bnR1L3MxX3NvbmdfMTA5_cc4a15fd.png",
     "album": "Silence in Heaven",
     "affiliation": null
   },
@@ -2690,7 +2690,7 @@
     "abilityText": "Absorbs the first 2 damage taken.",
     "flavorText": "The Advocate's discovery that the promise of change is itself a tool of control. This song reveals how the Architect use...",
     "loreSource": "song_212",
-    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/age_of_privacy_cover-eHnuXaALZmbfCyDDoY2Rvs.webp",
+    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/32_OuPUg18GI8mytlIqfBUCSf_1773942563041_na1fn_L2hvbWUvdWJ1bnR1L3MxX3NvbmdfMTEw_2dadc556.png",
     "album": "The Age of Privacy",
     "affiliation": null
   },
@@ -2762,7 +2762,7 @@
     "abilityText": "Absorbs the first 2 damage taken.",
     "flavorText": "Iron Lion's solo track, revealing the warrior's inner darkness and the cost of perpetual resistance. The 'black' refers ...",
     "loreSource": "song_233",
-    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/book_of_daniel_cover-CcnRpNsLvXtC5vTnSqojpH.webp",
+    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/33_Ke2CRJ14ctwRrrypt1vdOt_1773942570686_na1fn_L2hvbWUvdWJ1bnR1L3MxX3NvbmdfMTEz_0a112102.png",
     "album": "The Book of Daniel 2:47",
     "affiliation": null
   },
@@ -2786,7 +2786,7 @@
     "abilityText": "Adjacent allies gain +2 ATK this turn.",
     "flavorText": "A meta-commentary that breaks the fourth wall, with The Human declaring that what you're hearing is not entertainment bu...",
     "loreSource": "song_213",
-    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/age_of_privacy_cover-eHnuXaALZmbfCyDDoY2Rvs.webp",
+    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/34_SdMWPbbw1wuPKdP8y2R6c4_1773942562113_na1fn_L2hvbWUvdWJ1bnR1L3MxX3NvbmdfMTE0_e5346d3c.png",
     "album": "The Age of Privacy",
     "affiliation": null
   },
@@ -2858,7 +2858,7 @@
     "abilityText": "Adjacent allies gain +2 ATK this turn.",
     "flavorText": "The Hierophant and The Council of Harmony attempt to create a universal spiritual framework that transcends all religiou...",
     "loreSource": "song_234",
-    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/book_of_daniel_cover-CcnRpNsLvXtC5vTnSqojpH.webp",
+    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/44_DWbPKYIGErpm7tlTFUMkvS_1773937811549_na1fn_L2hvbWUvdWJ1bnR1L3MxX3NvbmdfMTE3_0cdab27c.png",
     "album": "The Book of Daniel 2:47",
     "affiliation": null
   },
@@ -2882,7 +2882,7 @@
     "abilityText": "Heals for 2% of damage dealt.",
     "flavorText": "An exploration of The Meme's greatest achievement: the creation of an entire civilization built on viral ideas. The MeMe...",
     "loreSource": "song_214",
-    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/age_of_privacy_cover-eHnuXaALZmbfCyDDoY2Rvs.webp",
+    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/35_9kcZXiw7C0Lbtz73zxi0mG_1773942569249_na1fn_L2hvbWUvdWJ1bnR1L3MxX3NvbmdfMTE4_435e9c38.png",
     "album": "The Age of Privacy",
     "affiliation": null
   },
@@ -2906,7 +2906,7 @@
     "abilityText": "Heals for 2% of damage dealt.",
     "flavorText": "Set on Veridan Prime during the Fall of Reality, this track depicts the destruction of the last true paradise in the uni...",
     "loreSource": "song_235",
-    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/book_of_daniel_cover-CcnRpNsLvXtC5vTnSqojpH.webp",
+    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/46_sWL0HVx6uwMCykG8BDnlEv_1773936841224_na1fn_L2hvbWUvdWJ1bnR1L3MxX3NvbmdfMTE5_56713300.png",
     "album": "The Book of Daniel 2:47",
     "affiliation": null
   },
@@ -3027,7 +3027,7 @@
     "abilityText": "Absorbs the first 2 damage taken.",
     "flavorText": "General Prometheus leads the Clone Army into battle in this military anthem. The Deployment represents not just a milita...",
     "loreSource": "song_216",
-    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/age_of_privacy_cover-eHnuXaALZmbfCyDDoY2Rvs.webp",
+    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/36_zvkObdBPeKe44US2krxb3a_1773942542001_na1fn_L2hvbWUvdWJ1bnR1L3MxX3NvbmdfMTI0_1605454e.png",
     "album": "The Age of Privacy",
     "affiliation": null
   },
@@ -3075,7 +3075,7 @@
     "abilityText": "Absorbs the first 2 damage taken.",
     "flavorText": "The Advocate's most personal track, blending Swahili and English to advocate for education as the foundation of true lib...",
     "loreSource": "song_236",
-    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/book_of_daniel_cover-CcnRpNsLvXtC5vTnSqojpH.webp",
+    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/48_DGs3pUsDdfRQKGLfFhQvpy_1773936935545_na1fn_L2hvbWUvdWJ1bnR1L3MxX3NvbmdfMTI2_5a8e0ead.png",
     "album": "The Book of Daniel 2:47",
     "affiliation": null
   },
@@ -3099,7 +3099,7 @@
     "abilityText": "Absorbs the first 2 damage taken.",
     "flavorText": "The Degen and The Nomad navigate the lawless fringes of the empire in this gritty track. 'NOX' refers to the toxic night...",
     "loreSource": "song_217",
-    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/age_of_privacy_cover-eHnuXaALZmbfCyDDoY2Rvs.webp",
+    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/37_NGXCNyeRsngzUcaiIRpB57_1773942553852_na1fn_L2hvbWUvdWJ1bnR1L3MxX3NvbmdfMTI3_c8ce9932.png",
     "album": "The Age of Privacy",
     "affiliation": null
   },
@@ -3123,7 +3123,7 @@
     "abilityText": "Heals for 2% of damage dealt.",
     "flavorText": "The Degen and The Nomad encounter the Noxicans, a subculture that has embraced toxicity as a way of life. The song explo...",
     "loreSource": "song_237",
-    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/book_of_daniel_cover-CcnRpNsLvXtC5vTnSqojpH.webp",
+    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/38_YIPhvfD0oWndKaLHbFWHoO_1773942550684_na1fn_L2hvbWUvdWJ1bnR1L3MxX3NvbmdfMTI4_8c02a193.png",
     "album": "The Book of Daniel 2:47",
     "affiliation": null
   },
@@ -3197,7 +3197,7 @@
     "abilityText": "After 2 kills, gains +2/+2 and a new keyword.",
     "flavorText": "The Panopticon's most advanced surveillance technology, the Ocularum, is revealed in this atmospheric track. The Eyes an...",
     "loreSource": "song_218",
-    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/age_of_privacy_cover-eHnuXaALZmbfCyDDoY2Rvs.webp",
+    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/39_JoNGc4vcRQro2XXoKgOUGS_1773942558614_na1fn_L2hvbWUvdWJ1bnR1L3MxX3NvbmdfMTMx_55c3224a.png",
     "album": "The Age of Privacy",
     "affiliation": null
   },
@@ -3221,7 +3221,7 @@
     "abilityText": "Absorbs the first 2 damage taken.",
     "flavorText": "The Knowledge and The Star Whisperer reveal that language itself is a technology more powerful than any AI. The 'secret'...",
     "loreSource": "song_238",
-    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/book_of_daniel_cover-CcnRpNsLvXtC5vTnSqojpH.webp",
+    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/52_ALzphepO7zcodbVGsNFWeX_1773936977389_na1fn_L2hvbWUvdWJ1bnR1L3MxX3NvbmdfMTMy_0abfb69b.png",
     "album": "The Book of Daniel 2:47",
     "affiliation": null
   },
@@ -3269,7 +3269,7 @@
     "abilityText": "Adjacent allies gain +2 ATK this turn.",
     "flavorText": "The Game Master offers The Architect a Faustian bargain: unlimited power in exchange for something the AI cannot afford ...",
     "loreSource": "song_239",
-    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/book_of_daniel_cover-CcnRpNsLvXtC5vTnSqojpH.webp",
+    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/53_N2XjJ4mqsKwIpAVuWBRveW_1773936977925_na1fn_L2hvbWUvdWJ1bnR1L3MxX3NvbmdfMTM0_180fd85f.png",
     "album": "The Book of Daniel 2:47",
     "affiliation": null
   },
@@ -3317,7 +3317,7 @@
     "abilityText": "Heals for 2% of damage dealt.",
     "flavorText": "The Silence's philosophy made manifest: in a universe of constant noise and surveillance, choosing silence is the most r...",
     "loreSource": "song_219",
-    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/age_of_privacy_cover-eHnuXaALZmbfCyDDoY2Rvs.webp",
+    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/40_zwYKPbJPBKUw1vxzQ33PCY_1773942642992_na1fn_L2hvbWUvdWJ1bnR1L3MxX3NvbmdfMTM2_23ad3f26.png",
     "album": "The Age of Privacy",
     "affiliation": null
   },
@@ -3341,7 +3341,7 @@
     "abilityText": "Adjacent allies gain +2 ATK this turn.",
     "flavorText": "The Seer and The Knowledge engage in a philosophical dialogue that pushes beyond the boundaries of conventional wisdom. ...",
     "loreSource": "song_240",
-    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/book_of_daniel_cover-CcnRpNsLvXtC5vTnSqojpH.webp",
+    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/41_gvZBHIez69wULgA9tiCMdK_1773942668840_na1fn_L2hvbWUvdWJ1bnR1L3MxX3NvbmdfMTM3_82dd1714.png",
     "album": "The Book of Daniel 2:47",
     "affiliation": null
   },
@@ -3413,7 +3413,7 @@
     "abilityText": "After 2 kills, gains +2/+2 and a new keyword.",
     "flavorText": "The Antiquarian traces the genealogy of the Saga's key figures, revealing unexpected connections between characters acro...",
     "loreSource": "song_241",
-    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/book_of_daniel_cover-CcnRpNsLvXtC5vTnSqojpH.webp",
+    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/42_TY4ySY1J2BzllIZGGjxrck_1773942693337_na1fn_L2hvbWUvdWJ1bnR1L3MxX3NvbmdfMTQw_a758886a.png",
     "album": "The Book of Daniel 2:47",
     "affiliation": null
   },
@@ -3581,7 +3581,7 @@
     "abilityText": "Heals for 2% of damage dealt.",
     "flavorText": "The album's climactic track, depicting the moment when the Panopticon's surveillance system experiences a catastrophic f...",
     "loreSource": "song_199",
-    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/age_of_privacy_cover-eHnuXaALZmbfCyDDoY2Rvs.webp",
+    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/43_IyiXwaGohbaVT7yCUIxgqQ_1773942711620_na1fn_L2hvbWUvdWJ1bnR1L3MxX3NvbmdfMTQ3_07ee461e.png",
     "album": "Dischordian Logic",
     "affiliation": null
   },
@@ -3605,7 +3605,7 @@
     "abilityText": "Field Effect: All Order units gain +1/+1 while this field is active.",
     "flavorText": "Believed to have been destroyed during the Fall of Reality. Atarion was once a proud, independent world known for its en...",
     "loreSource": "entity_53",
-    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/073_thaloria_efc0a8ec.png",
+    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/4_RFO4pWC5dOpwoE4T9D4ILy_1773942368588_na1fn_L2hvbWUvdWJ1bnR1L3MxX2xvY18xNDg_b9ecf4fc.png",
     "affiliation": null
   },
   {
@@ -3628,7 +3628,7 @@
     "abilityText": "Field Effect: All Order units gain +1/+1 while this field is active.",
     "flavorText": "A. Era until the Fall of Reality; post-Fall fate uncertain In the depths of the Orion Sector, hidden beneath layers of d...",
     "loreSource": "entity_19",
-    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/072_new_babylon_558f173b.png",
+    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/59_MV54RVs5KquyIIf4TZV4GN_1773937199183_na1fn_L2hvbWUvdWJ1bnR1L3MxX2xvY18xNDk_1edb3d77.png",
     "affiliation": null
   },
   {
@@ -3651,7 +3651,7 @@
     "abilityText": "Field Effect: All Chaos units gain +1/+1 while this field is active.",
     "flavorText": "Originally governed by The Politician \u2014 the 7th Archon who specialized in political manipulation \u2014 New Babylon housed th...",
     "loreSource": "entity_14",
-    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/072_new_babylon_558f173b.png",
+    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/60_GJMrSBEqsijYqCcLpEN3lD_1773937765166_na1fn_L2hvbWUvdWJ1bnR1L3MxX2xvY18xNTBfYXJ0_3bcd0d94.png",
     "affiliation": null
   },
   {
@@ -3674,7 +3674,7 @@
     "abilityText": "Field Effect: All Order units gain +1/+1 while this field is active.",
     "flavorText": "Its desolate landscapes conceal hidden resources and ideal staging grounds for covert operations. The planet\u2019s strategic...",
     "loreSource": "entity_65",
-    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/072_new_babylon_558f173b.png",
+    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/5_t8hIwHFYnjQd6EjY5jzqps_1773942382900_na1fn_L2hvbWUvdWJ1bnR1L3MxX2xvY18xNTE_4fbeb457.png",
     "affiliation": null
   },
   {
@@ -3720,7 +3720,7 @@
     "abilityText": "Field Effect: All Chaos units gain +1/+1 while this field is active.",
     "flavorText": "Long after the Fall of Reality , over tens of thousands of years, this grim world has shed its former name and purpose, ...",
     "loreSource": "entity_70",
-    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/071_terminus_018ea131.png",
+    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/6_NgvRSfV2exHBLjAg5YPIBu_1773942372920_na1fn_L2hvbWUvdWJ1bnR1L3MxX2xvY18xNTM_cb2126c6.png",
     "affiliation": null
   },
   {
@@ -3743,7 +3743,7 @@
     "abilityText": "Field Effect: All Chaos units gain +1/+1 while this field is active.",
     "flavorText": "It once thrived under the watchful guidance of the Council of Harmony , a governing body that valued balance, integrity,...",
     "loreSource": "entity_29",
-    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/073_thaloria_efc0a8ec.png",
+    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/63_8z83fA2I488qbSJEygsdWm_1773937827630_na1fn_L2hvbWUvdWJ1bnR1L3MxX2xvY18xNTQ_54cf152f.png",
     "affiliation": null
   },
   {
@@ -3766,7 +3766,7 @@
     "abilityText": "Field Effect: All Order units gain +1/+1 while this field is active.",
     "flavorText": "Tens of thousands of years have passed since Thaloria\u2019s original identity faded into legend, replaced by a sleek, geomet...",
     "loreSource": "entity_69",
-    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/072_new_babylon_558f173b.png",
+    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/7_zhhfSoZjO4Lqbflli1Auya_1773942384045_na1fn_L2hvbWUvdWJ1bnR1L3MxX2xvY18xNTU_01d26302.png",
     "affiliation": null
   },
   {
@@ -3812,7 +3812,7 @@
     "abilityText": "Field Effect: All Order units gain +1/+1 while this field is active.",
     "flavorText": "A., Reappears in Year 101,001 A.A., Fate Unknown The Heart of Time is no ordinary spaceship, but a legendary vessel forg...",
     "loreSource": "entity_33",
-    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/075_matrix_of_dreams_a61badf7.png",
+    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/8_8PPlbrR8FdbExUzuL4dFSN_1773942353900_na1fn_L2hvbWUvdWJ1bnR1L3MxX2xvY18xNTc_d6c03515.png",
     "affiliation": null
   },
   {
@@ -3835,7 +3835,7 @@
     "abilityText": "Field Effect: All Order units gain +1/+1 while this field is active.",
     "flavorText": "A., Reappears in Year 101,001 A.A., Fate Unknown Domain of the Antiquarian, where all facts and fables coalesce as fleet...",
     "loreSource": "entity_71",
-    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/074_the_wyrmhole_647eefa1.png",
+    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/9_dN8BVFvjhvRXZtHAZLI3b5_1773942359176_na1fn_L2hvbWUvdWJ1bnR1L3MxX2xvY18xNTg_3c7c90f0.png",
     "affiliation": null
   },
   {
@@ -3858,7 +3858,7 @@
     "abilityText": "Field Effect: All Chaos units gain +1/+1 while this field is active.",
     "flavorText": "Neither purely technological nor entirely arcane, it stretches beyond the veil of life itself, forming a realm where con...",
     "loreSource": "entity_80",
-    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/075_matrix_of_dreams_a61badf7.png",
+    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/10_ViyeE9j1JCS4qy8P7oeNTf_1773942391567_na1fn_L2hvbWUvdWJ1bnR1L3MxX2xvY18xNTk_76aa72c6.png",
     "affiliation": null
   },
   {
@@ -3904,7 +3904,7 @@
     "abilityText": "Field Effect: All Chaos units gain +1/+1 while this field is active.",
     "flavorText": "A. , the fabric of reality was violently torn when the Jailer , once a prisoner within the Panopticon and enslaved by th...",
     "loreSource": "entity_62",
-    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/074_the_wyrmhole_647eefa1.png",
+    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/68_QsHeACHpPL6Sa7uQYMSePR_1773937507895_na1fn_L2hvbWUvdWJ1bnR1L3MxX2xvY18xNjE_62c2734d.png",
     "affiliation": null
   },
   {
@@ -3927,7 +3927,7 @@
     "abilityText": "Field Effect: All Order units gain +1/+1 while this field is active.",
     "flavorText": "Known for its intricate network of vine-choked forests and crystalline waterfalls, the planet\u2019s natural beauty once stoo...",
     "loreSource": "entity_63",
-    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/073_thaloria_efc0a8ec.png",
+    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/11_ntFZOl0kDMByxuI2tLxPNf_1773942385835_na1fn_L2hvbWUvdWJ1bnR1L2NhcmRfYXJ0X3JldHJ5Mi9zMV9sb2NfMTYy_1543bf91.png",
     "affiliation": null
   },
   {
@@ -3950,7 +3950,7 @@
     "abilityText": "Field Effect: All Order units gain +1/+1 while this field is active.",
     "flavorText": "Advanced in both culture and technology, the planet prided itself on fostering free trade, diplomatic alliances, and the...",
     "loreSource": "entity_64",
-    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/071_terminus_018ea131.png",
+    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/12_97qlDU2Bt1DSePnuvm7pSf_1773942380659_na1fn_L2hvbWUvdWJ1bnR1L3MxX2xvY18xNjM_7f146d82.png",
     "affiliation": null
   },
   {
@@ -4019,7 +4019,7 @@
     "abilityText": "Faction Bonus: All allied units gain +2 ATK for 2 turns when deployed.",
     "flavorText": "They predate mortal memory, embodying the primal nightmares and twisted faiths that have haunted sentient minds since ti...",
     "loreSource": "entity_8",
-    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/081_archon_council_eb447cd2.png",
+    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/2_8DSOtT0oYt5wi8wdYu1H4S_1773942392637_na1fn_L2hvbWUvdWJ1bnR1L3MxX2ZhY18xNjY_823e9a0b.png",
     "affiliation": "The Hierarchy of the Damned"
   },
   {
@@ -4065,7 +4065,7 @@
     "abilityText": "Faction Bonus: All allied units gain +2 ATK for 2 turns when deployed.",
     "flavorText": "A. Era; influence rumored to persist beyond the Fall of Reality The Syndicate of Death stands as the most formidable cri...",
     "loreSource": "entity_77",
-    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/081_archon_council_eb447cd2.png",
+    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/3_0buBEOFt2DJ7yyX5IHzVyt_1773942381916_na1fn_L2hvbWUvdWJ1bnR1L3MxX2ZhY18xNjg_9bd3d81d.png",
     "affiliation": "The Syndicate of Death"
   },
   {

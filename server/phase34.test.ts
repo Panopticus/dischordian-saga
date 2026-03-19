@@ -230,34 +230,32 @@ describe("Phase 34b: Immersive Character Sheet Redesign", () => {
   });
 
   describe("Trait impact analysis section", () => {
-    it("should have expandable trait impact analysis", () => {
-      expect(charSheet).toContain("TRAIT IMPACT ANALYSIS");
-      expect(charSheet).toContain("showTraitDetails");
+    it("should use TraitSummaryPanel component", () => {
+      expect(charSheet).toContain("TraitSummaryPanel");
     });
 
-    it("should show impact for card game", () => {
-      expect(charSheet).toContain("CARD GAME");
+    it("should import TraitSummaryPanel", () => {
+      expect(charSheet).toContain("@/components/TraitSummaryPanel");
     });
 
-    it("should show impact for trade empire", () => {
-      expect(charSheet).toContain("TRADE EMPIRE");
+    it("should pass isAuthenticated to TraitSummaryPanel", () => {
+      expect(charSheet).toContain("isAuthenticated={isAuthenticated}");
     });
 
-    it("should show impact for fight arena", () => {
-      expect(charSheet).toContain("FIGHT ARENA");
+    it("should have respec button", () => {
+      expect(charSheet).toContain("NEURAL RESPEC");
     });
 
-    it("should show impact for crafting", () => {
-      expect(charSheet).toContain("CRAFTING");
+    it("should use RespecDialog component", () => {
+      expect(charSheet).toContain("RespecDialog");
     });
 
-    it("should show impact for exploration", () => {
-      expect(charSheet).toContain("EXPLORATION");
+    it("should import RespecDialog", () => {
+      expect(charSheet).toContain("@/components/RespecDialog");
     });
 
-    it("should show universal bonuses", () => {
-      expect(charSheet).toContain("UNIVERSAL");
-      expect(charSheet).toContain("Potential NFT");
+    it("should have showRespec state", () => {
+      expect(charSheet).toContain("showRespec");
     });
   });
 
