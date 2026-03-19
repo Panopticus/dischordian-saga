@@ -543,6 +543,8 @@ export const citizenCharacters = mysqlTable("citizen_characters", {
   gear: json("gear").$type<Record<string, unknown>>(),
   /** JSON: unlocked abilities, element mastery levels */
   abilities: json("abilities").$type<Record<string, unknown>>(),
+  /** If species=neyon, which specific Ne-Yon token ID (1-10) this citizen is tied to */
+  neyonTokenId: int("neyonTokenId"),
   /** Is this the player's primary (free) citizen? */
   isPrimary: int("isPrimary").notNull().default(1),
   createdAt: timestamp("createdAt").defaultNow().notNull(),

@@ -1,8 +1,17 @@
 import { protectedProcedure, router } from "../_core/trpc";
 import { z } from "zod";
 import { getDb } from "../db";
-import { citizenCharacters, dreamBalance } from "../../drizzle/schema";
-import { eq, and } from "drizzle-orm";
+import { citizenCharacters, dreamBalance, linkedWallets, nftMetadataCache } from "../../drizzle/schema";
+import { eq, and, inArray, between } from "drizzle-orm";
+import { ethers } from "ethers";
+
+/* ─── Ne-Yon Constants ─── */
+const NEYON_TOKEN_IDS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] as const;
+const POTENTIALS_CONTRACT = "0x54a4413AF2009b9110a268e49e21F0C8e4D87890";
+const POTENTIALS_ABI = [
+  "function ownerOf(uint256 tokenId) view returns (address)",
+];
+const ETH_RPC = "https://eth.llamarpc.com";
 
 /* ═══════════════════════════════════════════════════
    Species / Class / Element configuration
@@ -157,6 +166,8 @@ export const citizenRouter = router({
         attrAttack: z.number().min(1).max(5),
         attrDefense: z.number().min(1).max(5),
         attrVitality: z.number().min(1).max(5),
+        /** Required if species=neyon: which specific Ne-Yon token ID (1-10) */
+        neyonTokenId: z.number().min(1).max(10).optional(),
       })
     )
     .mutation(async ({ ctx, input }) => {
@@ -177,6 +188,54 @@ export const citizenRouter = router({
       const totalDots = input.attrAttack + input.attrDefense + input.attrVitality;
       if (totalDots !== 9) {
         throw new Error(`Attribute dots must total 9. You allocated ${totalDots}.`);
+      }
+
+      // ═══ Ne-Yon NFT GATE ═══
+      // Only verified owners of Potentials #1-10 can create a Ne-Yon citizen
+      let verifiedNeyonTokenId: number | null = null;
+      if (input.species === "neyon") {
+        if (!input.neyonTokenId || !NEYON_TOKEN_IDS.includes(input.neyonTokenId as any)) {
+          throw new Error("Ne-Yon species requires ownership of Potentials NFT #1-10. Provide a valid neyonTokenId.");
+        }
+
+        // Check if this specific Ne-Yon is already claimed by another citizen
+        const existingNeyon = await db
+          .select()
+          .from(citizenCharacters)
+          .where(eq(citizenCharacters.neyonTokenId, input.neyonTokenId))
+          .limit(1);
+        if (existingNeyon.length > 0) {
+          throw new Error(`Ne-Yon #${input.neyonTokenId} is already bound to another citizen. Each Ne-Yon is a unique 1/1.`);
+        }
+
+        // Verify the user has a linked wallet that owns this specific token
+        const userWallets = await db
+          .select()
+          .from(linkedWallets)
+          .where(eq(linkedWallets.userId, ctx.user.id));
+
+        if (userWallets.length === 0) {
+          throw new Error("You must link a wallet that owns Potentials NFT #1-10 to create a Ne-Yon citizen.");
+        }
+
+        // Verify on-chain ownership
+        let ownerVerified = false;
+        try {
+          const provider = new ethers.JsonRpcProvider(ETH_RPC);
+          const contract = new ethers.Contract(POTENTIALS_CONTRACT, POTENTIALS_ABI, provider);
+          const onChainOwner = ethers.getAddress(await contract.ownerOf(input.neyonTokenId));
+          const userWalletAddresses = userWallets.map(w => ethers.getAddress(w.walletAddress));
+          ownerVerified = userWalletAddresses.includes(onChainOwner);
+        } catch (err) {
+          console.error("[Citizen] Ne-Yon on-chain verification failed:", err);
+          throw new Error("Failed to verify on-chain ownership of Ne-Yon NFT. Please try again.");
+        }
+
+        if (!ownerVerified) {
+          throw new Error(`Your linked wallet(s) do not own Potentials NFT #${input.neyonTokenId}. Only the current on-chain owner can create this Ne-Yon citizen.`);
+        }
+
+        verifiedNeyonTokenId = input.neyonTokenId;
       }
 
       // Validate element matches species
@@ -212,6 +271,7 @@ export const citizenRouter = router({
           elementMastery: 1,
           unlockedAbilities: [],
         },
+        neyonTokenId: verifiedNeyonTokenId,
         isPrimary: 1,
       });
 
@@ -410,4 +470,95 @@ export const citizenRouter = router({
 
       return { success: true };
     }),
+
+  /**
+   * Check which Ne-Yon tokens (1-10) the current user is eligible to claim.
+   * Returns: which Ne-Yons the user's wallets own, which are already bound to citizens,
+   * and which are available for this user to claim.
+   */
+  checkNeyonEligibility: protectedProcedure.query(async ({ ctx }) => {
+    const db = await getDb();
+    if (!db) return { eligible: false, ownedNeyonIds: [], availableNeyonIds: [], boundNeyonIds: [], walletLinked: false };
+
+    // 1. Get user's linked wallets
+    const userWallets = await db
+      .select()
+      .from(linkedWallets)
+      .where(eq(linkedWallets.userId, ctx.user.id));
+
+    if (userWallets.length === 0) {
+      return { eligible: false, ownedNeyonIds: [], availableNeyonIds: [], boundNeyonIds: [], walletLinked: false };
+    }
+
+    // 2. Check on-chain ownership of tokens 1-10
+    const ownedNeyonIds: number[] = [];
+    try {
+      const provider = new ethers.JsonRpcProvider(ETH_RPC);
+      const contract = new ethers.Contract(POTENTIALS_CONTRACT, POTENTIALS_ABI, provider);
+      const walletAddresses = userWallets.map(w => ethers.getAddress(w.walletAddress));
+
+      const checks = await Promise.allSettled(
+        NEYON_TOKEN_IDS.map(async (tokenId) => {
+          const owner = ethers.getAddress(await contract.ownerOf(tokenId));
+          if (walletAddresses.includes(owner)) {
+            return tokenId;
+          }
+          return null;
+        })
+      );
+
+      for (const result of checks) {
+        if (result.status === "fulfilled" && result.value !== null) {
+          ownedNeyonIds.push(result.value);
+        }
+      }
+    } catch (err) {
+      console.error("[Citizen] Ne-Yon eligibility check failed:", err);
+      // Return what we can — wallet is linked but chain check failed
+      return { eligible: false, ownedNeyonIds: [], availableNeyonIds: [], boundNeyonIds: [], walletLinked: true, error: "Chain verification temporarily unavailable" };
+    }
+
+    if (ownedNeyonIds.length === 0) {
+      return { eligible: false, ownedNeyonIds: [], availableNeyonIds: [], boundNeyonIds: [], walletLinked: true };
+    }
+
+    // 3. Check which Ne-Yons are already bound to citizens
+    const boundCitizens = await db
+      .select({ neyonTokenId: citizenCharacters.neyonTokenId, userId: citizenCharacters.userId })
+      .from(citizenCharacters)
+      .where(inArray(citizenCharacters.neyonTokenId, ownedNeyonIds));
+
+    const boundNeyonIds = boundCitizens.map(c => c.neyonTokenId!).filter(Boolean);
+    const availableNeyonIds = ownedNeyonIds.filter(id => !boundNeyonIds.includes(id));
+
+    // 4. Get metadata for owned Ne-Yons (names, images)
+    let neyonDetails: Array<{ tokenId: number; name: string | null; imageUrl: string | null; bound: boolean; boundByMe: boolean }> = [];
+    if (ownedNeyonIds.length > 0) {
+      const metas = await db
+        .select()
+        .from(nftMetadataCache)
+        .where(inArray(nftMetadataCache.tokenId, ownedNeyonIds));
+
+      neyonDetails = ownedNeyonIds.map(tokenId => {
+        const meta = metas.find(m => m.tokenId === tokenId);
+        const boundCitizen = boundCitizens.find(c => c.neyonTokenId === tokenId);
+        return {
+          tokenId,
+          name: meta?.name || `Ne-Yon #${tokenId}`,
+          imageUrl: meta?.imageUrl || null,
+          bound: !!boundCitizen,
+          boundByMe: boundCitizen?.userId === ctx.user.id,
+        };
+      });
+    }
+
+    return {
+      eligible: availableNeyonIds.length > 0,
+      ownedNeyonIds,
+      availableNeyonIds,
+      boundNeyonIds,
+      walletLinked: true,
+      neyonDetails,
+    };
+  }),
 });

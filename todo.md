@@ -1089,3 +1089,57 @@
 - [x] Wire Potential NFT level into all systems as universal multiplier
 - [x] Build trait impact summary on character sheet page (via nft.getAllTraitBonuses endpoint)
 - [x] Write tests for trait resolver and all integrations (77 tests in phase33.test.ts)
+
+### Phase 34: Settings Panel, Clue Journal, and Image Audit
+
+#### Settings Panel
+- [ ] Build SettingsPanel component with slide-out overlay from gear icon
+- [ ] Display section: Light/Dark mode toggle, Theme selector (8 Ark themes), Font size (S/M/L), Reduce motion toggle
+- [ ] Audio section: Master volume, Music volume, SFX volume, Elara TTS toggle, Ambient sounds toggle
+- [ ] Accessibility section: High contrast mode, Reduce flashing/glow effects, Dyslexia-friendly font option
+- [ ] Game section: Reset progress, Skip tutorials toggle, Show hints toggle, Difficulty preference
+- [ ] Account section: Login/logout, Sync status, Export save data
+- [ ] Wire existing 8 Ark themes into Settings with preview swatches and lock states
+- [ ] Add light/dark mode base layer that Ark themes layer on top of
+- [ ] Persist settings to localStorage and server (for logged-in users)
+
+#### Clue Journal System
+- [ ] Build ClueJournal component showing collected clues and hints
+- [ ] Define Data Crystal clue items hidden in room hotspots
+- [ ] Define Elara hint system (after 2 failed puzzle attempts)
+- [ ] Define cross-room clue dependencies
+- [ ] Wire clue collection into GameContext state
+- [ ] Add clue journal access from Command Console
+
+#### Image Audit
+- [ ] Audit all CDN image references for broken/missing URLs
+- [ ] Generate replacement images for any broken references
+- [ ] Generate missing room images for Ark rooms
+- [ ] Fix all broken URL references across codebase
+
+#### Tests
+- [ ] Write tests for Settings Panel sections and persistence
+- [ ] Write tests for Clue Journal data integrity
+- [ ] Write tests for image reference validation
+
+### Phase 34: Ne-Yon Species NFT Gate (1/1 Ownership Required)
+- [x] Audit current Ne-Yon species selection in character creation flow
+- [x] Gate Ne-Yon species behind Potentials NFT ownership (token IDs 1-10 only)
+- [x] Build backend verification: check wallet owns a token ID 1-10 before allowing Ne-Yon creation
+- [x] Each Ne-Yon citizen is tied to a specific token ID (1/1 identity)
+- [x] Update frontend species selection to show Ne-Yon as locked unless NFT verified
+- [x] Show which specific Ne-Yon the player can unlock based on their owned token
+- [x] Store Ne-Yon token ID on citizen character record
+- [x] Prevent duplicate Ne-Yon citizens (one Ne-Yon per token ID across all users)
+- [x] Write tests for Ne-Yon gating logic
+
+### Phase 34b: Immersive Character Sheet Dossier Redesign
+- [x] Redesign CharacterSheetPage as in-world Panopticon dossier artifact
+- [x] Build dark metallic panel layout with circuit-trace borders and scan lines
+- [x] Create glowing stat orbs/medallions for ATK/DEF/VIT attributes
+- [x] Add prominent character portrait area with species-specific frame
+- [x] Build ornate gear/equipment display section
+- [x] Add ability showcase with element mastery visualization
+- [x] Add Ne-Yon #N identity badge with 1/1 NFT verification glow
+- [x] Add trait impact summary showing bonuses across all game systems
+- [x] Write tests for Ne-Yon gating system (706 tests pass across 25 files)

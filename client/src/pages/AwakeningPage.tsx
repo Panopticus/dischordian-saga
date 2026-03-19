@@ -266,8 +266,14 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
   const lastSpokenRef = useRef<string>("");
 
   const createCitizen = trpc.citizen.createCharacter.useMutation();
+  const [selectedNeyonTokenId, setSelectedNeyonTokenId] = useState<number | null>(null);
 
   const { awakeningStep, characterChoices } = state;
+
+  const neyonEligibility = trpc.citizen.checkNeyonEligibility.useQuery(undefined, {
+    enabled: awakeningStep === "SPECIES_QUESTION",
+    staleTime: 60_000,
+  });
 
   // Initialize audio on first user interaction
   const handleInitAudio = useCallback(async () => {
@@ -386,6 +392,7 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
         attrAttack: c.attrAttack,
         attrDefense: c.attrDefense,
         attrVitality: c.attrVitality,
+        ...(c.species === "neyon" && selectedNeyonTokenId ? { neyonTokenId: selectedNeyonTokenId } : {}),
       });
     } catch (err) {
       // If character already exists, that's fine — continue
@@ -472,17 +479,62 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
               choices={[
                 { label: "I remember the machine lattice, the digital realm...", value: "demagi", description: "DeMagi — Superhuman abilities from genetic alterations. Mastery over the elements." },
                 { label: "I remember the quantum storms, the probability fields...", value: "quarchon", description: "Quarchon — Vast artificial intelligence. Cold, calculating. Masters of dimensions." },
-                { label: "I remember both... fragments of everything...", value: "neyon", description: "Ne-Yon — Perfect hybrid of organic life and AI. Origin shrouded in mystery." },
+                ...(neyonEligibility.data?.eligible
+                  ? [{
+                      label: "I remember both... fragments of everything...",
+                      value: "neyon",
+                      description: `Ne-Yon — Perfect hybrid. 1/1 NFT VERIFIED ✦ ${neyonEligibility.data.availableNeyonIds.length} Ne-Yon(s) available to bind.`,
+                    }]
+                  : [{
+                      label: "[LOCKED] I remember both... fragments of everything...",
+                      value: "neyon_locked",
+                      description: neyonEligibility.data?.walletLinked === false
+                        ? "Ne-Yon — Requires Potentials NFT #1-10. Link your wallet first in Settings → Wallet."
+                        : "Ne-Yon — Requires ownership of Potentials NFT #1-10. Only 10 exist.",
+                    }]),
               ]}
               onChoice={(v) => {
-                setCharacterChoice("species", v as any);
-                advanceAwakening();
+                if (v === "neyon_locked") return; // Do nothing for locked option
+                if (v === "neyon" && neyonEligibility.data?.availableNeyonIds?.length === 1) {
+                  // Auto-select the only available Ne-Yon
+                  setSelectedNeyonTokenId(neyonEligibility.data.availableNeyonIds[0]);
+                  setCharacterChoice("species", "neyon" as any);
+                  advanceAwakening();
+                } else if (v === "neyon") {
+                  // Multiple Ne-Yons available — show picker (handled in NEYON_SELECT step)
+                  setCharacterChoice("species", "neyon" as any);
+                  // We'll handle token selection in the next step
+                  advanceAwakening();
+                } else {
+                  setCharacterChoice("species", v as any);
+                  advanceAwakening();
+                }
+              }}
+            />
+          )}
+
+          {/* ─── NE-YON TOKEN PICKER (only if species=neyon and multiple tokens available) ─── */}
+          {awakeningStep === "CLASS_QUESTION" && characterChoices.species === "neyon" && !selectedNeyonTokenId && neyonEligibility.data?.availableNeyonIds && neyonEligibility.data.availableNeyonIds.length > 1 && (
+            <ElaraDialogBox
+              key="neyon-picker"
+              text="I'm detecting multiple Ne-Yon signatures in your neural imprint. Each Ne-Yon is unique — a singular entity. Which one are you?"
+              choices={neyonEligibility.data.neyonDetails
+                ?.filter(n => !n.bound)
+                .map(n => ({
+                  label: n.name || `Ne-Yon #${n.tokenId}`,
+                  value: String(n.tokenId),
+                  description: `Potentials NFT #${n.tokenId} — Unique 1/1 Ne-Yon. This identity will be permanently bound to your citizen.`,
+                })) ?? []
+              }
+              onChoice={(v) => {
+                setSelectedNeyonTokenId(Number(v));
+                // Don't advance — let the CLASS_QUESTION render now
               }}
             />
           )}
 
           {/* ─── CLASS QUESTION ─── */}
-          {awakeningStep === "CLASS_QUESTION" && (
+          {awakeningStep === "CLASS_QUESTION" && (characterChoices.species !== "neyon" || selectedNeyonTokenId) && (
             <ElaraDialogBox
               key="class"
               text="Interesting. Your skill matrices are partially intact — the cryogenic process preserved some of your training. I can see fragments of specialized knowledge. What comes naturally to you?"
