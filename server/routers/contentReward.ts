@@ -7,6 +7,7 @@ import { publicProcedure, protectedProcedure, router } from "../_core/trpc";
 import { getDb } from "../db";
 import { contentParticipation, contentRewards, userCards, dreamBalance, cards } from "../../drizzle/schema";
 import { eq, and, sql } from "drizzle-orm";
+import { fetchCitizenData, fetchPotentialNftData, resolveExplorationBonuses, nftLevelMultiplier } from "../traitResolver";
 
 // ═══ REWARD DEFINITIONS (in-code for fast access) ═══
 // These define what rewards are given for each content type
@@ -153,15 +154,33 @@ export const contentRewardRouter = router({
 
         const rewards: { type: string; value: string; quantity: number }[] = [];
 
-        // Grant Dream tokens
+        // Fetch citizen trait bonuses for reward multipliers
+        const [rewardCitizen, rewardNft] = await Promise.all([
+          fetchCitizenData(ctx.user.id),
+          fetchPotentialNftData(ctx.user.id),
+        ]);
+        const exploreTb = resolveExplorationBonuses(rewardCitizen, rewardNft);
+        const nftMult = nftLevelMultiplier(rewardNft);
+
+        // Grant Dream tokens — boosted by citizen traits + NFT level
         if (rewardDef.dreamTokens > 0) {
-          await grantDream(db, ctx.user.id, rewardDef.dreamTokens);
-          rewards.push({ type: "dream", value: String(rewardDef.dreamTokens), quantity: rewardDef.dreamTokens });
+          const boostedDream = Math.floor(rewardDef.dreamTokens * (1 + exploreTb.dreamBonus) * nftMult);
+          await grantDream(db, ctx.user.id, boostedDream);
+          rewards.push({ type: "dream", value: String(boostedDream), quantity: boostedDream });
         }
 
-        // Grant random card from pool
+        // Grant random card from pool — trait bonus can upgrade rarity
         if (rewardDef.cardPool) {
-          const cardId = await grantRandomCard(db, ctx.user.id, rewardDef.cardPool);
+          let pool = rewardDef.cardPool;
+          // Exploration bonus can upgrade card rarity pool
+          if (exploreTb.rarityUpgradeChance > 0 && Math.random() < exploreTb.rarityUpgradeChance) {
+            const rarityLadder = ["common", "uncommon", "rare", "epic", "legendary", "mythic"];
+            const idx = rarityLadder.indexOf(pool);
+            if (idx >= 0 && idx < rarityLadder.length - 1) {
+              pool = rarityLadder[idx + 1];
+            }
+          }
+          const cardId = await grantRandomCard(db, ctx.user.id, pool);
           if (cardId) {
             rewards.push({ type: "card", value: cardId, quantity: 1 });
           }

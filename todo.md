@@ -1064,3 +1064,28 @@
 - [x] Add Dream balance HUD to Command Console top bar
 - [x] Add Dream earning notifications/toasts throughout the app
 - [x] Balance economy curves (daily caps, diminishing returns, milestone bonuses)
+
+### Phase 33: Universal Character Trait Impact System
+- [x] Audit all game systems for current trait integration gaps
+- [x] Build shared trait resolver utility (server/traitResolver.ts)
+- [x] Wire species bonuses into card game (DeMagi=HP, Quarchon=armor, Ne-Yon=both)
+- [x] Wire class bonuses into card game (Spy=draw, Oracle=foresight, Assassin=crit, Engineer=repair, Soldier=ATK)
+- [x] Wire element bonuses into card game (matching element cards get +ATK/+HP)
+- [x] Wire alignment bonuses into card game (Order=structure, Chaos=wildcards)
+- [x] Wire attribute dot ratings into card game (ATK dots=damage, DEF dots=armor, VIT dots=HP)
+- [x] Wire species bonuses into Trade Empire (DeMagi=diplomacy, Quarchon=combat, Ne-Yon=balanced)
+- [x] Wire class bonuses into Trade Empire (Spy=intel, Oracle=market, Assassin=piracy, Engineer=ship, Soldier=combat)
+- [x] Wire element bonuses into Trade Empire (sector hazard resistance, trade route bonuses)
+- [x] Wire alignment bonuses into Trade Empire (Order=port prices, Chaos=piracy/smuggling)
+- [x] Wire attribute dot ratings into Trade Empire (ATK=weapons, DEF=shields, VIT=hull)
+- [x] Wire species bonuses into fight game (HP, armor, speed modifiers)
+- [x] Wire class bonuses into fight game (damage type, special moves, defense style)
+- [x] Wire element bonuses into fight game (elemental attacks, resistances)
+- [x] Wire alignment bonuses into fight game (Order=counter, Chaos=crit)
+- [x] Wire attribute dot ratings into fight game (direct stat scaling)
+- [x] Wire class bonuses into crafting (Engineer=bonus, Oracle=rare chance, etc.)
+- [x] Wire species bonuses into lore quizzes (Dream bonus + rarity upgrade via exploration resolver)
+- [x] Wire class bonuses into Ark exploration (class-specific hotspot interactions)
+- [x] Wire Potential NFT level into all systems as universal multiplier
+- [x] Build trait impact summary on character sheet page (via nft.getAllTraitBonuses endpoint)
+- [x] Write tests for trait resolver and all integrations (77 tests in phase33.test.ts)

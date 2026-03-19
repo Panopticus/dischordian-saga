@@ -3,6 +3,7 @@ import { publicProcedure, protectedProcedure, router } from "../_core/trpc";
 import { getDb } from "../db";
 import { cards, userCards, decks, cardGameMatches, characterSheets, dreamBalance } from "../../drizzle/schema";
 import { eq, and, like, inArray, sql, desc, asc } from "drizzle-orm";
+import { fetchCitizenData, fetchPotentialNftData, resolveCardGameBonuses } from "../traitResolver";
 
 // ═══════════════════════════════════════════════════════
 // CARD BROWSING & COLLECTION
@@ -440,15 +441,31 @@ export const cardGameRouter = router({
       const aiHand = aiShuffled.slice(0, 5).map(c => ({ cardId: c.cardId, quantity: 1 }));
       const aiDrawPile = aiShuffled.slice(5, 20).map(c => ({ cardId: c.cardId, quantity: 1 }));
 
-      // Initial game state
+      // ═══ CITIZEN TRAIT BONUSES ═══
+      const [citizen, nft] = await Promise.all([
+        fetchCitizenData(ctx.user.id),
+        fetchPotentialNftData(ctx.user.id),
+      ]);
+      const traitBonuses = resolveCardGameBonuses(citizen, nft);
+
+      // Initial game state — traits modify starting stats
       const gameState = {
         turn: 1,
         phase: "untap", // untap, upkeep, influence, action, combat, discard
         activePlayer: "player1",
+        traitBonuses: {
+          globalAttackBonus: traitBonuses.globalAttackBonus,
+          globalHealthBonus: traitBonuses.globalHealthBonus,
+          elementAffinity: traitBonuses.elementAffinity,
+          extraDrawEveryNTurns: traitBonuses.extraDrawEveryNTurns,
+          costReductionChance: traitBonuses.costReductionChance,
+          alignmentEffect: traitBonuses.alignmentEffect,
+          breakdown: traitBonuses.breakdown,
+        },
         player1: {
-          health: 30,
-          influence: 30,
-          energy: 10,
+          health: 30 + traitBonuses.hpBonus,
+          influence: 30 + traitBonuses.influenceBonus,
+          energy: 10 + traitBonuses.energyBonus,
           hand: hand,
           drawPile: drawPile,
           field: [] as any[],
@@ -513,26 +530,45 @@ export const cardGameRouter = router({
 
       const card = cardDetail[0];
 
+      // Apply cost reduction from traits
+      const tb = state.traitBonuses || { costReductionChance: 0 };
+      let effectiveCost = card.cost;
+      if (tb.costReductionChance > 0 && Math.random() < tb.costReductionChance) {
+        effectiveCost = Math.max(0, effectiveCost - 1);
+        state.log.push(`[TRAIT] Class instinct reduced cost by 1!`);
+      }
+
       // Check if player has enough energy
-      if (player.energy < card.cost) {
+      if (player.energy < effectiveCost) {
         return { success: false, message: "Not enough energy" };
       }
 
       // Remove from hand, spend energy
       player.hand.splice(handIdx, 1);
-      player.energy -= card.cost;
+      player.energy -= effectiveCost;
 
       // Resolve card effect based on type
       let logEntry = "";
 
       if (card.cardType === "character") {
-        // Place on field
+        // Place on field — apply citizen trait bonuses to summoned characters
+        const tb = state.traitBonuses || { globalAttackBonus: 0, globalHealthBonus: 0, elementAffinity: "", alignmentEffect: { type: "order_structure", value: 0 } };
+        let summonPower = card.power + (tb.globalAttackBonus || 0);
+        let summonHealth = card.health + (tb.globalHealthBonus || 0);
+        // Element affinity: matching element cards get +2 ATK
+        if (tb.elementAffinity && card.element === tb.elementAffinity) {
+          summonPower += 2;
+        }
+        // Order alignment: all characters get +2 HP
+        if (tb.alignmentEffect?.type === "order_structure" && tb.alignmentEffect.value > 0) {
+          summonHealth += tb.alignmentEffect.value;
+        }
         player.field.push({
           cardId: card.cardId,
           name: card.name,
-          power: card.power,
-          health: card.health,
-          maxHealth: card.health,
+          power: summonPower,
+          health: summonHealth,
+          maxHealth: summonHealth,
           tapped: false,
         });
         logEntry = `Summoned ${card.name} (${card.power}/${card.health})`;
@@ -596,6 +632,13 @@ export const cardGameRouter = router({
       // Draw a card for player
       if (player.drawPile.length > 0) {
         player.hand.push(player.drawPile.shift());
+      }
+
+      // Extra draw from Oracle/Spy class trait
+      const extraDraw = state.traitBonuses?.extraDrawEveryNTurns || 0;
+      if (extraDraw > 0 && state.turn % extraDraw === 0 && player.drawPile.length > 0) {
+        player.hand.push(player.drawPile.shift());
+        state.log.push(`[TRAIT] Class ability granted an extra card draw!`);
       }
 
       // Regenerate some energy

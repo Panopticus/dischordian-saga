@@ -7,6 +7,7 @@ import { publicProcedure, protectedProcedure, router } from "../_core/trpc";
 import { getDb } from "../db";
 import { fightLeaderboard, fightMatches, users } from "../../drizzle/schema";
 import { eq, desc, sql, and, gte } from "drizzle-orm";
+import { fetchCitizenData, fetchPotentialNftData, resolveFightGameBonuses, nftLevelMultiplier } from "../traitResolver";
 
 /* ─── ELO Calculation ─── */
 function calculateElo(playerElo: number, opponentElo: number, won: boolean, kFactor = 32): number {
@@ -172,9 +173,18 @@ export const fightLeaderboardRouter = router({
           .where(eq(fightLeaderboard.userId, userId));
       }
 
-      // Calculate ELO change
+      // Calculate ELO change — citizen traits give bonus ELO on wins
+      const [fightCitizen, fightNft] = await Promise.all([
+        fetchCitizenData(ctx.user.id),
+        fetchPotentialNftData(ctx.user.id),
+      ]);
+      const fightTb = resolveFightGameBonuses(fightCitizen, fightNft);
+      const nftMult = nftLevelMultiplier(fightNft);
+      // Higher citizen level + NFT level = slightly higher K-factor (more ELO gained/lost)
+      const traitKBonus = Math.floor(fightTb.speedBonus / 2) + Math.floor((nftMult - 1) * 8);
+      const adjustedK = 32 + traitKBonus;
       const opponentElo = DIFFICULTY_ELO[input.difficulty] ?? 1000;
-      const newElo = calculateElo(entry.elo, opponentElo, input.won);
+      const newElo = calculateElo(entry.elo, opponentElo, input.won, adjustedK);
       const eloChange = newElo - entry.elo;
 
       // Update streak

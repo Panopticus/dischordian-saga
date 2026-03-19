@@ -371,9 +371,9 @@ describe("Trait-Based Fighter Bonuses", () => {
         "utf-8"
       );
       expect(fight).toContain("boostedPlayer");
-      expect(fight).toContain("selectedPlayer.hp + b.hp");
-      expect(fight).toContain("selectedPlayer.attack + b.attack");
-      expect(fight).toContain("selectedPlayer.defense + b.defense");
+      expect(fight).toContain("let hp = selectedPlayer.hp");
+      expect(fight).toContain("let attack = selectedPlayer.attack");
+      expect(fight).toContain("let defense = selectedPlayer.defense");
     });
 
     it("should show bonus indicators on stat bars", () => {
@@ -550,8 +550,8 @@ describe("Cross-feature integration", () => {
     const nftProcedures = Object.keys(appRouter._def.procedures).filter((k) =>
       k.startsWith("nft.")
     );
-    // 14 original + 3 new (potentialsLeaderboard, batchClaimAll, getTraitBonuses)
-    expect(nftProcedures.length).toBe(17);
+    // 14 original + 3 new (potentialsLeaderboard, batchClaimAll, getTraitBonuses) + 1 (getAllTraitBonuses)
+    expect(nftProcedures.length).toBe(18);
   });
 
   it("should have shared traitBonuses module", () => {

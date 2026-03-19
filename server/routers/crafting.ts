@@ -3,6 +3,7 @@ import { protectedProcedure, router } from "../_core/trpc";
 import { getDb } from "../db";
 import { cards, userCards, craftingLog, dreamBalance } from "../../drizzle/schema";
 import { eq, and, sql, desc, inArray } from "drizzle-orm";
+import { fetchCitizenData, fetchPotentialNftData, resolveCraftingBonuses } from "../traitResolver";
 
 // ═══════════════════════════════════════════════════════
 // CRAFTING RECIPES
@@ -366,9 +367,17 @@ export const craftingRouter = router({
         };
       }
 
-      // Roll for success
+      // Apply citizen trait bonuses to crafting
+      const [craftCitizen, craftNft] = await Promise.all([
+        fetchCitizenData(ctx.user.id),
+        fetchPotentialNftData(ctx.user.id),
+      ]);
+      const craftTb = resolveCraftingBonuses(craftCitizen, craftNft);
+
+      // Roll for success — trait bonus increases success rate
+      const boostedRate = Math.min(1, recipe.successRate + craftTb.successRateBonus);
       const roll = Math.random();
-      const succeeded = roll <= recipe.successRate;
+      const succeeded = roll <= boostedRate;
 
       // Deduct Dream
       if (recipe.dreamCost > 0) {
@@ -404,7 +413,7 @@ export const craftingRouter = router({
 
         return {
           success: false,
-          message: `Crafting failed! Materials were consumed. (${Math.round(recipe.successRate * 100)}% chance)`,
+          message: `Crafting failed! Materials were consumed. (${Math.round(boostedRate * 100)}% chance${craftTb.successRateBonus > 0 ? ` — trait bonus: +${Math.round(craftTb.successRateBonus * 100)}%` : ""})`,
           outputCard: null,
         };
       }

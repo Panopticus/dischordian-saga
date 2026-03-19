@@ -3,6 +3,7 @@ import { publicProcedure, protectedProcedure, router } from "../_core/trpc";
 import { getDb } from "../db";
 import { twSectors, twPlayerState, twGameLog, twColonies, cards, userCards, users, shipUpgrades, playerBases } from "../../drizzle/schema";
 import { eq, and, sql, inArray, desc, gt } from "drizzle-orm";
+import { fetchCitizenData, fetchPotentialNftData, resolveTradeEmpireBonuses } from "../traitResolver";
 
 // ═══════════════════════════════════════════════════════
 // SHIP DEFINITIONS
@@ -106,7 +107,13 @@ export const tradeWarsRouter = router({
     if (!db) return null;
     const player = await getOrCreatePlayer(db, ctx.user.id);
     const ship = SHIPS[player.shipType] || SHIPS.scout;
-    return { ...player, shipInfo: ship, cargoUsed: getCargoUsed(player) };
+    // Fetch citizen trait bonuses for UI display
+    const [citizen, nft] = await Promise.all([
+      fetchCitizenData(ctx.user.id),
+      fetchPotentialNftData(ctx.user.id),
+    ]);
+    const traitBonuses = resolveTradeEmpireBonuses(citizen, nft);
+    return { ...player, shipInfo: ship, cargoUsed: getCargoUsed(player), traitBonuses };
   }),
 
   // Get current sector info
@@ -183,8 +190,12 @@ export const tradeWarsRouter = router({
       let hazardMessage = "";
       if (target.sectorType === "hazard") {
         const data = target.sectorData as any;
-        if (data?.hazardType && Math.random() > (data.avoidChance || 0.5)) {
-          hazardDamage = data.damage || 20;
+        // Citizen traits can reduce hazard damage
+        const hazardCitizen = await fetchCitizenData(ctx.user.id);
+        const hazardNft = await fetchPotentialNftData(ctx.user.id);
+        const hazardTb = resolveTradeEmpireBonuses(hazardCitizen, hazardNft);
+        if (data?.hazardType && Math.random() > (data.avoidChance || 0.5) + hazardTb.hazardResistance) {
+          hazardDamage = Math.floor((data.damage || 20) * (1 - hazardTb.shieldDamageReduction));
           hazardMessage = `⚠️ ${data.hazardType.toUpperCase()} DAMAGE: -${hazardDamage} shields!`;
         }
       }
@@ -290,7 +301,12 @@ export const tradeWarsRouter = router({
         // Port must be selling (not buying) this commodity
         if (commodity.buying) return { success: false, message: `This port only BUYS ${input.commodity}, doesn't sell it` };
         
-        const totalCost = price * input.quantity;
+        // Apply citizen trade discount
+        const tradeCitizen = await fetchCitizenData(ctx.user.id);
+        const tradeNft = await fetchPotentialNftData(ctx.user.id);
+        const tradeTb = resolveTradeEmpireBonuses(tradeCitizen, tradeNft);
+        const discountedPrice = Math.max(1, Math.floor(price * (1 - tradeTb.tradePriceDiscount)));
+        const totalCost = discountedPrice * input.quantity;
         if (player.credits < totalCost) return { success: false, message: `Not enough credits. Need ${totalCost}, have ${player.credits}` };
         
         const freeHolds = player.holds - cargoUsed;
@@ -327,7 +343,11 @@ export const tradeWarsRouter = router({
         const playerStock = player[input.commodity] || 0;
         if (input.quantity > playerStock) return { success: false, message: `You only have ${playerStock} ${input.commodity}` };
         
-        const totalRevenue = price * input.quantity;
+        // Apply citizen trade bonus
+        const sellCitizen = await fetchCitizenData(ctx.user.id);
+        const sellNft = await fetchPotentialNftData(ctx.user.id);
+        const sellTb = resolveTradeEmpireBonuses(sellCitizen, sellNft);
+        const totalRevenue = price * input.quantity + sellTb.tradeCreditsBonus;
         
         const updates: any = {
           credits: player.credits + totalRevenue,
@@ -379,13 +399,17 @@ export const tradeWarsRouter = router({
       discovered.add(w);
     });
     
-    // Also scan 2nd-degree connections with lower probability
+    // Also scan 2nd-degree connections — trait scan bonus increases range
+    const scanCitizen = await fetchCitizenData(ctx.user.id);
+    const scanNft = await fetchPotentialNftData(ctx.user.id);
+    const scanTb = resolveTradeEmpireBonuses(scanCitizen, scanNft);
+    const scanDepth = 2 + scanTb.scanRangeBonus; // Base 2 + trait bonus
     if (warps.length > 0) {
       const connectedSectors = await db.select().from(twSectors).where(inArray(twSectors.sectorId, warps));
       for (const cs of connectedSectors) {
         const csWarps = (cs.warps as number[]) || [];
         csWarps.forEach(w => {
-          if (!discovered.has(w) && Math.random() < 0.3) {
+          if (!discovered.has(w) && Math.random() < (0.3 + scanTb.scanRangeBonus * 0.1)) {
             discovered.add(w);
             newDiscoveries++;
           }
@@ -529,8 +553,15 @@ export const tradeWarsRouter = router({
     // Demon encounters are 30% stronger but give 50% more rewards
     const enemyStrength = isDemonEncounter ? Math.floor(baseEnemyStrength * 1.3) : baseEnemyStrength;
     
-    // Simple combat resolution
-    const playerPower = player.fighters + Math.floor(player.shields / 10);
+    // ═══ CITIZEN TRAIT BONUSES ═══
+    const [citizen, nft] = await Promise.all([
+      fetchCitizenData(ctx.user.id),
+      fetchPotentialNftData(ctx.user.id),
+    ]);
+    const tb = resolveTradeEmpireBonuses(citizen, nft);
+
+    // Combat resolution — traits add to player power
+    const playerPower = player.fighters + Math.floor(player.shields / 10) + tb.combatPowerBonus;
     const roll = Math.random();
     const playerAdvantage = playerPower / (playerPower + enemyStrength);
     const won = roll < playerAdvantage;
@@ -545,15 +576,15 @@ export const tradeWarsRouter = router({
     if (won) {
       const creditBase = isDemonEncounter ? 750 : 500;
       creditsChange = creditBase + Math.floor(Math.random() * enemyStrength * (isDemonEncounter ? 75 : 50));
-      xpGain = (isDemonEncounter ? 35 : 20) + Math.floor(enemyStrength / 2);
+      xpGain = (isDemonEncounter ? 35 : 20) + Math.floor(enemyStrength / 2) + tb.xpBonus;
       fightersLost = Math.floor(Math.random() * Math.min(5, player.fighters));
-      shieldDamage = Math.floor(Math.random() * 20);
+      shieldDamage = Math.floor(Math.random() * 20 * (1 - tb.shieldDamageReduction));
       message = isDemonEncounter
         ? `☠ HIERARCHY VANQUISHED! Defeated ${enemyName}. Blood Weave salvage: ${creditsChange} credits. +${xpGain} XP`
         : `VICTORY! Defeated ${enemyName}. Salvaged ${creditsChange} credits. +${xpGain} XP`;
       
-      // Demon encounters have 35% card drop rate, regular 20%
-      const cardDropRate = isDemonEncounter ? 0.35 : 0.2;
+      // Demon encounters have 35% card drop rate, regular 20% — trait bonus adds to drop rate
+      const cardDropRate = (isDemonEncounter ? 0.35 : 0.2) + tb.cardDropRateBonus;
       if (Math.random() < cardDropRate) {
         // Demon encounters can drop demon cards
         const cardQuery = isDemonEncounter
@@ -578,7 +609,7 @@ export const tradeWarsRouter = router({
       }
     } else {
       fightersLost = Math.floor(player.fighters * 0.3);
-      shieldDamage = 30 + Math.floor(Math.random() * 50);
+      shieldDamage = Math.floor((30 + Math.random() * 50) * (1 - tb.shieldDamageReduction));
       creditsChange = -Math.floor(player.credits * 0.1);
       xpGain = 5;
       message = isDemonEncounter

@@ -91,6 +91,13 @@ export default function FightPage() {
     return calculateTraitBonuses(traitBonuses.data.bonuses);
   }, [traitBonuses.data]);
 
+  // Citizen character sheet bonuses (stacks with NFT bonuses)
+  const allTraitBonuses = trpc.nft.getAllTraitBonuses.useQuery(undefined, {
+    retry: false,
+    refetchOnWindowFocus: false,
+  });
+  const citizenFightBonuses = allTraitBonuses.data?.fightGame;
+
   const unlockedIds = useMemo(() => {
     const base = new Set(gam.gameSave.unlockedFighters);
     // Also include story-unlocked fighters
@@ -920,16 +927,29 @@ export default function FightPage() {
     const isStoryFight = !!currentStoryChapter && !isTrainingMode;
     // Apply trait bonuses to player fighter data
     const boostedPlayer = useMemo(() => {
-      if (!activeBonuses || !selectedPlayer) return selectedPlayer;
-      const b = activeBonuses.total;
-      return {
-        ...selectedPlayer,
-        hp: selectedPlayer.hp + b.hp,
-        attack: selectedPlayer.attack + b.attack,
-        defense: selectedPlayer.defense + b.defense,
-        speed: selectedPlayer.speed + b.speed,
-      };
-    }, [selectedPlayer, activeBonuses]);
+      if (!selectedPlayer) return selectedPlayer;
+      // Start with base stats
+      let hp = selectedPlayer.hp;
+      let attack = selectedPlayer.attack;
+      let defense = selectedPlayer.defense;
+      let speed = selectedPlayer.speed;
+      // Add NFT Potential trait bonuses
+      if (activeBonuses) {
+        const b = activeBonuses.total;
+        hp += b.hp;
+        attack += b.attack;
+        defense += b.defense;
+        speed += b.speed;
+      }
+      // Add citizen character sheet bonuses (species, class, alignment, element, attributes)
+      if (citizenFightBonuses) {
+        hp += citizenFightBonuses.hpBonus;
+        attack += citizenFightBonuses.attackBonus;
+        defense += citizenFightBonuses.defenseBonus;
+        speed += citizenFightBonuses.speedBonus;
+      }
+      return { ...selectedPlayer, hp, attack, defense, speed };
+    }, [selectedPlayer, activeBonuses, citizenFightBonuses]);
     return (
       <div className="fixed inset-0 z-50 bg-black">
         <FightArena3D

@@ -18,6 +18,7 @@ import {
 import { eq, and, inArray, sql, desc } from "drizzle-orm";
 import { ethers } from "ethers";
 import { storagePut } from "../storage";
+import { getPlayerTraitBonuses } from "../traitResolver";
 
 /* ─── Constants ─── */
 const POTENTIALS_CONTRACT = "0xfa511d5c4cce10321e6e86793cc083213c36278e";
@@ -1285,6 +1286,11 @@ export const nftRouter = router({
         total: 1000,
       };
     }),
+
+  /* ─── Get ALL trait bonuses (citizen + NFT) for every game system ─── */
+  getAllTraitBonuses: protectedProcedure.query(async ({ ctx }) => {
+    return getPlayerTraitBonuses(ctx.user.id);
+  }),
 });
 
 /* ─── Mapping helpers ─── */
