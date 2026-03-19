@@ -340,12 +340,12 @@ function DreamHUD() {
   if (!isAuthenticated || !dreamQuery.data) return null;
   
   return (
-    <Link href="/store" className="flex items-center gap-1.5 px-2 py-1 rounded-md glass-sunk hover:bg-white/5 transition-colors group">
-      <Gem size={11} className="text-[var(--orb-orange)]" />
-      <span className="font-mono text-[10px] text-[var(--orb-orange)] tracking-wider font-bold">
+    <Link href="/store" className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-md glass-sunk hover:bg-white/5 transition-colors group">
+      <Gem size={13} className="text-[var(--orb-orange)]" />
+      <span className="font-mono text-xs sm:text-[11px] text-[var(--orb-orange)] tracking-wider font-bold">
         {(dreamQuery.data?.dreamTokens ?? 0).toLocaleString()}
       </span>
-      <span className="font-mono text-[8px] text-white/30 tracking-wider">DREAM</span>
+      <span className="font-mono text-[10px] sm:text-[9px] text-white/30 tracking-wider">DREAM</span>
     </Link>
   );
 }

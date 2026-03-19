@@ -372,7 +372,7 @@ export default function AppShell({ children, elaraTTS: _elaraTTS }: { children: 
 
         {/* ═══ MAIN CONTENT ═══ */}
         <main
-          className={`flex-1 lg:ml-0 transition-all relative ${showPlayer ? "pb-40 sm:pb-20" : "pb-20 sm:pb-0"}`}
+          className={`flex-1 lg:ml-0 transition-all relative ${showPlayer ? "pb-44 sm:pb-20" : "pb-24 sm:pb-0"}`}
         >
           {children}
         </main>
@@ -385,7 +385,7 @@ export default function AppShell({ children, elaraTTS: _elaraTTS }: { children: 
           borderTop: "1px solid rgba(56,117,250,0.15)",
           backdropFilter: "blur(20px)",
         }}>
-        <div className="flex items-center justify-around h-14 px-1">
+        <div className="flex items-center justify-around h-16 px-1">
           {[
             { path: "/", label: "Bridge", icon: Home },
             { path: "/watch", label: "Saga", icon: Tv },
@@ -401,19 +401,19 @@ export default function AppShell({ children, elaraTTS: _elaraTTS }: { children: 
               <Link
                 key={item.path}
                 href={item.path}
-                className={`flex flex-col items-center justify-center gap-0.5 w-14 h-12 rounded-lg transition-all ${
+                className={`flex flex-col items-center justify-center gap-0.5 w-16 h-14 rounded-lg transition-all ${
                   active
                     ? "text-[var(--neon-cyan)]"
                     : "text-white/30 hover:text-white/50"
                 }`}
               >
                 <div className="relative">
-                  <Icon size={18} />
+                  <Icon size={20} />
                   {active && (
-                    <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-[var(--neon-cyan)] shadow-[0_0_6px_var(--neon-cyan)]" />
+                    <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-[var(--neon-cyan)] shadow-[0_0_6px_var(--neon-cyan)]" />
                   )}
                 </div>
-                <span className="font-mono text-[9px] tracking-wider">{item.label}</span>
+                <span className="font-mono text-[10px] tracking-wider">{item.label}</span>
               </Link>
             );
           })}

@@ -47,7 +47,7 @@ function BossCardView({ card, onClick, selected, targetable, disabled, small }: 
         )}
       </div>
       <div className={`${small ? "p-0.5" : "p-1"} text-center`}>
-        <p className={`font-mono ${small ? "text-[6px]" : "text-[7px] sm:text-[8px]"} text-white/80 truncate font-semibold`}>{card.name}</p>
+        <p className={`font-mono ${small ? "text-[8px]" : "text-[8px] sm:text-[9px]"} text-white/80 truncate font-semibold`}>{card.name}</p>
         {card.type === "unit" && (
           <div className="flex items-center justify-center gap-1 mt-0.5">
             <span className={`font-mono ${small ? "text-[7px]" : "text-[8px] sm:text-[9px]"} text-red-400 font-bold`}>{card.attack + card.tempAttackMod}</span>

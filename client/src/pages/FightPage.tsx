@@ -22,6 +22,7 @@ import {
   type FighterData, type ArenaData, type DifficultyLevel,
 } from "@/game/gameData";
 import FightArena3D from "@/game/FightArena3D";
+import LandscapeEnforcer from "@/components/LandscapeEnforcer";
 import {
   ARENA_LORE_OPENING, STORY_CHAPTERS, FIGHTER_LORE,
   THE_PRISONER, getPrisonerStats,
@@ -790,7 +791,7 @@ export default function FightPage() {
           {/* Fighter grid */}
           <div className="flex-1 p-3 overflow-y-auto">
             <div className="font-mono text-[10px] text-white/30 tracking-[0.3em] mb-2 px-1">ARCHONS & ALLIES</div>
-            <div className="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-7 gap-2 mb-4">
+            <div className="grid grid-cols-3 sm:grid-cols-5 md:grid-cols-7 gap-2 mb-4">
               {STARTER_FIGHTERS.map(f => (
                 <FighterCard key={f.id} fighter={f} available={true}
                   selected={selectedPlayer?.id === f.id || selectedOpponent?.id === f.id}
@@ -802,7 +803,7 @@ export default function FightPage() {
             </div>
 
             <div className="font-mono text-[10px] text-white/30 tracking-[0.3em] mb-2 px-1">HIDDEN ROSTER</div>
-            <div className="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-7 gap-2 mb-4">
+            <div className="grid grid-cols-3 sm:grid-cols-5 md:grid-cols-7 gap-2 mb-4">
               {UNLOCKABLE_FIGHTERS.map(f => {
                 const available = isFighterAvailable(f);
                 return (
@@ -822,7 +823,7 @@ export default function FightPage() {
               HIERARCHY OF THE DAMNED
               <span className="h-px flex-1 bg-red-500/20" />
             </div>
-            <div className="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-7 gap-2">
+            <div className="grid grid-cols-3 sm:grid-cols-5 md:grid-cols-7 gap-2">
               {DEMON_FIGHTERS.map(f => {
                 const available = isFighterAvailable(f);
                 return (
@@ -949,24 +950,26 @@ export default function FightPage() {
   if (phase === "fighting" && selectedPlayer && selectedOpponent) {
     const isStoryFight = !!currentStoryChapter && !isTrainingMode;
     return (
-      <div className="fixed inset-0 z-50 bg-black">
-        <FightArena3D
-          player={boostedPlayer!}
-          opponent={selectedOpponent}
-          arena={selectedArena}
-          difficulty={selectedDifficulty}
-          onMatchEnd={isTrainingMode ? () => { setIsTrainingMode(false); resetToSelect(); } : isStoryFight ? handleStoryMatchEnd : handleMatchEnd}
-          onBack={() => {
-            setIsTrainingMode(false);
-            if (isStoryFight) {
-              setPhase("story");
-            } else {
-              resetToSelect();
-            }
-          }}
-          trainingMode={isTrainingMode}
-        />
-      </div>
+      <LandscapeEnforcer forceRotate>
+        <div className="fixed inset-0 z-50 bg-black" style={{ width: "100%", height: "100%" }}>
+          <FightArena3D
+            player={boostedPlayer!}
+            opponent={selectedOpponent}
+            arena={selectedArena}
+            difficulty={selectedDifficulty}
+            onMatchEnd={isTrainingMode ? () => { setIsTrainingMode(false); resetToSelect(); } : isStoryFight ? handleStoryMatchEnd : handleMatchEnd}
+            onBack={() => {
+              setIsTrainingMode(false);
+              if (isStoryFight) {
+                setPhase("story");
+              } else {
+                resetToSelect();
+              }
+            }}
+            trainingMode={isTrainingMode}
+          />
+        </div>
+      </LandscapeEnforcer>
     );
   }
 
@@ -1082,14 +1085,14 @@ function FighterCard({ fighter, available, selected, onSelect, onHover, onLeave,
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
 
         <div className="absolute bottom-0 left-0 right-0 p-1.5">
-          <div className="font-mono text-[7px] sm:text-[9px] text-white truncate font-bold">{fighter.name}</div>
+          <div className="font-mono text-[9px] sm:text-[10px] text-white truncate font-bold">{fighter.name}</div>
           <div className="w-full h-0.5 rounded mt-0.5" style={{ background: FACTION_COLORS[fighter.faction] }} />
         </div>
 
         {!available && (
           <div className="absolute inset-0 bg-black/60 flex flex-col items-center justify-center">
             <Lock size={14} className="text-white/40 mb-1" />
-            <div className="font-mono text-[7px]" style={{ color: canAfford ? "#22c55e" : "#ef4444" }}>
+            <div className="font-mono text-[9px]" style={{ color: canAfford ? "#22c55e" : "#ef4444" }}>
               {fighter.unlockCost} PTS
             </div>
           </div>
@@ -1105,9 +1108,9 @@ function FighterCard({ fighter, available, selected, onSelect, onHover, onLeave,
       {/* Info button */}
       <button
         onClick={(e) => { e.stopPropagation(); onInfo(); }}
-        className="absolute top-0.5 left-0.5 w-4 h-4 rounded-full bg-black/60 flex items-center justify-center hover:bg-black/80 transition-colors z-10"
+        className="absolute top-0.5 left-0.5 w-5 h-5 rounded-full bg-black/60 flex items-center justify-center hover:bg-black/80 transition-colors z-10"
       >
-        <Info size={8} className="text-white/50" />
+        <Info size={10} className="text-white/50" />
       </button>
     </div>
   );

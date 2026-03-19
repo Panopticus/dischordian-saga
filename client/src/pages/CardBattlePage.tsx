@@ -254,7 +254,7 @@ function BattleCardView({
           {/* Ability text (truncated) */}
           {card.ability && (
             <div className="px-1.5 mt-0.5">
-              <p className="font-mono text-[6px] sm:text-[7px] text-white/50 line-clamp-2 leading-tight">
+              <p className="font-mono text-[8px] sm:text-[8px] text-white/50 line-clamp-2 leading-tight">
                 {card.ability}
               </p>
             </div>

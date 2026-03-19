@@ -1132,7 +1132,7 @@ export default function CardGamePage() {
                   </div>
                   {/* Name */}
                   <div className="px-1 py-0.5">
-                    <p className="font-mono text-[6px] truncate text-foreground/80">{card.name}</p>
+                    <p className="font-mono text-[8px] truncate text-foreground/80">{card.name}</p>
                   </div>
                   {/* Stats */}
                   <div className="flex items-center justify-between px-1 pb-0.5">
@@ -1177,7 +1177,7 @@ export default function CardGamePage() {
 
                 {card.isExhausted && (
                   <div className="absolute bottom-0 left-0 right-0 bg-muted/60 text-center">
-                    <span className="font-mono text-[6px] text-muted-foreground">TAPPED</span>
+                    <span className="font-mono text-[8px] text-muted-foreground">TAPPED</span>
                   </div>
                 )}
               </motion.div>

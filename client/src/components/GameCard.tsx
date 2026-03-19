@@ -353,7 +353,7 @@ export default function GameCard({
           {/* Ability text */}
           {card.abilityText && (
             <div className="flex-1 min-h-0 overflow-hidden mb-1">
-              <p className="font-mono text-[7px] leading-tight text-foreground/70 line-clamp-3">
+              <p className="font-mono text-[8px] leading-tight text-foreground/70 line-clamp-3">
                 {card.abilityText}
               </p>
             </div>
@@ -362,7 +362,7 @@ export default function GameCard({
           {/* Flavor text on hover */}
           {isHovered && card.flavorText && showDetails && (
             <div className="absolute bottom-12 left-2 right-2 bg-background/90 backdrop-blur-sm rounded p-1.5 border border-border/30">
-              <p className="font-mono text-[7px] italic text-muted-foreground line-clamp-2">
+              <p className="font-mono text-[8px] italic text-muted-foreground line-clamp-2">
                 "{card.flavorText}"
               </p>
             </div>
@@ -390,7 +390,7 @@ export default function GameCard({
             )}
             {/* Class */}
             {card.characterClass && card.characterClass !== "none" && (
-              <span className="font-mono text-[7px] text-accent/70 uppercase">
+              <span className="font-mono text-[8px] text-accent/70 uppercase">
                 {card.characterClass}
               </span>
             )}

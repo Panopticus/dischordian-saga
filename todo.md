@@ -1223,3 +1223,21 @@
 - [x] Build getResults procedure for viewing tournament standings and prize info
 - [x] Track perfect run detection (zero losses) for draft_perfect achievement
 - [x] Write 105 vitest tests for all three features (1021 total tests pass across 30 files)
+
+### Phase 40: Mobile Responsiveness Audit & Landscape Fight Game
+- [x] Build LandscapeEnforcer component with CSS rotation + Screen Orientation API lock
+- [x] Force landscape orientation for fight game on mobile (forceRotate CSS transform)
+- [x] Show rotate-phone overlay with animation when user hasn't rotated device
+- [x] Unlock orientation when leaving fight game
+- [x] Increase FighterCard text sizes and info button for mobile readability
+- [x] Increase fighter select grid to 3 columns on small screens
+- [x] Fix all 6px text across CardBattlePage, CardGamePage, BossBattlePage → 8px minimum
+- [x] Fix GameCard component text (ability, flavor, class) from 7px → 8px
+- [x] Add global CSS mobile override (@media max-width:639px) bumping all tiny text:
+  - 6px/7px/8px → 10px, 9px/10px → 11px, text-xs → 12px
+- [x] Increase bottom nav icons from 18px → 22px, labels from 9px → 10px
+- [x] Increase bottom nav height from h-14 → h-16 with larger touch targets
+- [x] Increase Dream HUD icon and text sizes for mobile readability
+- [x] Increase main content bottom padding from pb-20 → pb-24 for taller nav
+- [x] Add rotate-phone keyframe animation to index.css
+- [x] All 1021 tests pass across 30 files, zero TypeScript errors
