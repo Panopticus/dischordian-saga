@@ -215,7 +215,7 @@ const ROOM_DIALOGS: RoomDialog[] = [
 ];
 
 /* ─── ELARA PORTRAIT ─── */
-const ELARA_AVATAR = "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/elara_avatar_c1b5c5c3.png";
+const ELARA_AVATAR = "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/elara_avatar-eoUMdsSTDjkxWcWMxK6X9m.webp";
 
 /* ─── TYPEWRITER HOOK ─── */
 function useTypewriter(text: string, speed: number = 25) {

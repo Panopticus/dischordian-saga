@@ -16,7 +16,7 @@ import { trpc } from "@/lib/trpc";
 import { useAuth } from "@/_core/hooks/useAuth";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  Terminal, Menu, X, Search, Shield, Trophy, Gem,
+  Terminal, Menu, X, Search, Shield, Trophy, Gem, Diamond,
   ChevronRight, ChevronDown, Lock, Unlock, Compass,
   Home, Tv, Gamepad2, Store, Users, Disc3, Music,
   Map, Swords, Clock, Brain, Ship, Crown, FlaskConical,
@@ -564,6 +564,23 @@ export default function CommandConsole({ children, elaraTTS }: { children: React
                 <span>{gam.earnedAchievements.length} achievements</span>
               </div>
             </div>
+          </div>
+
+          {/* Clue Journal Quick Access */}
+          <div className="px-2 mb-1">
+            <Link
+              href="/clue-journal"
+              onClick={handleNavigate}
+              className={`flex items-center gap-2.5 px-3 py-2 rounded-md text-[11px] font-mono tracking-wider transition-all group ${
+                location === "/clue-journal"
+                  ? "text-white/90 bg-[rgba(51,226,230,0.08)] border border-[rgba(51,226,230,0.2)]"
+                  : "text-white/45 hover:text-white/70 hover:bg-white/4 border border-transparent"
+              }`}
+            >
+              <Diamond size={13} className={location === "/clue-journal" ? "text-[var(--neon-cyan)]" : "text-white/25 group-hover:text-white/50"} />
+              <span className="flex-1 truncate">CLUE JOURNAL</span>
+              <span className="font-mono text-[9px] text-white/20">DATA</span>
+            </Link>
           </div>
 
           {/* Footer */}

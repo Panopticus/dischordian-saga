@@ -58,6 +58,7 @@ import CoNexusMediaPlayer from "./components/CoNexusMediaPlayer";
 import AppShell from "./components/AppShell";
 import CommandConsole from "./components/CommandConsole";
 import SettingsPage from "./pages/SettingsPage";
+import ClueJournalPage from "./pages/ClueJournalPage";
 import AchievementToast from "./components/AchievementToast";
 import ElaraDialog from "./components/ElaraDialog";
 import RadioMode from "./components/RadioMode";
@@ -111,6 +112,7 @@ function Router() {
       <Route path="/potentials" component={PotentialsPage} />
       <Route path="/potentials/leaderboard" component={PotentialsLeaderboardPage} />
       <Route path="/settings" component={SettingsPage} />
+      <Route path="/clue-journal" component={ClueJournalPage} />
       <Route path="/awakening">{() => <AwakeningPage />}</Route>
       <Route path="/404" component={NotFound} />
       <Route component={NotFound} />

@@ -1,75 +1,122 @@
 /**
  * SettingsPage.tsx — Ship Configuration
  * 
- * Light/dark mode, Ark themes, accessibility tools, audio controls, game management.
+ * Full settings panel: Appearance (light/dark + Ark themes + font size),
+ * Audio (master, music, SFX, ambient toggles), Accessibility (high contrast,
+ * reduce motion, dyslexia font, reduce glow), Game (skip tutorials, show hints,
+ * difficulty), Account (login/logout, sync status, export save data).
  */
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { useTheme } from "@/contexts/ThemeContext";
 import { useGamification } from "@/contexts/GamificationContext";
 import { useSound } from "@/contexts/SoundContext";
 import { useGame } from "@/contexts/GameContext";
+import { useAuth } from "@/_core/hooks/useAuth";
+import { getLoginUrl } from "@/const";
 import { ARK_THEMES } from "@shared/gamification";
 import {
-  Settings, Sun, Moon, Palette, Eye, Volume2, VolumeX,
+  Settings, Sun, Moon, Palette, Volume2, VolumeX, Music,
   Gamepad2, RotateCcw, Check, Lock, Monitor, Accessibility,
-  Type, Contrast, Zap, ChevronRight
+  Type, Zap, ChevronDown, ChevronUp, User, LogOut, LogIn,
+  Download, Cloud, CloudOff, Shield, Eye, EyeOff, Sparkles,
+  Gauge, HelpCircle, SkipForward
 } from "lucide-react";
-import { motion } from "framer-motion";
 import { toast } from "sonner";
 
-/* ─── ACCESSIBILITY OPTIONS ─── */
-interface A11ySettings {
+/* ─── SETTINGS STORAGE ─── */
+interface AppSettings {
+  // Accessibility
   highContrast: boolean;
   reduceMotion: boolean;
   dyslexiaFont: boolean;
-  largeText: boolean;
+  reduceGlow: boolean;
+  // Display
+  fontSize: "small" | "medium" | "large";
+  // Audio
+  musicVolume: number;
+  sfxVolume: number;
+  ambientEnabled: boolean;
+  // Game
+  skipTutorials: boolean;
+  showHints: boolean;
+  difficulty: "casual" | "standard" | "hardcore";
 }
 
-function getA11ySettings(): A11ySettings {
+const DEFAULT_SETTINGS: AppSettings = {
+  highContrast: false,
+  reduceMotion: false,
+  dyslexiaFont: false,
+  reduceGlow: false,
+  fontSize: "medium",
+  musicVolume: 0.5,
+  sfxVolume: 0.5,
+  ambientEnabled: true,
+  skipTutorials: false,
+  showHints: true,
+  difficulty: "standard",
+};
+
+function loadSettings(): AppSettings {
   try {
-    const saved = localStorage.getItem("loredex-a11y");
-    return saved ? JSON.parse(saved) : { highContrast: false, reduceMotion: false, dyslexiaFont: false, largeText: false };
-  } catch { return { highContrast: false, reduceMotion: false, dyslexiaFont: false, largeText: false }; }
+    const saved = localStorage.getItem("loredex-settings");
+    return saved ? { ...DEFAULT_SETTINGS, ...JSON.parse(saved) } : { ...DEFAULT_SETTINGS };
+  } catch { return { ...DEFAULT_SETTINGS }; }
 }
 
-function saveA11ySettings(settings: A11ySettings) {
-  localStorage.setItem("loredex-a11y", JSON.stringify(settings));
-  // Apply to document
-  document.documentElement.classList.toggle("high-contrast", settings.highContrast);
-  document.documentElement.classList.toggle("reduce-motion", settings.reduceMotion);
-  document.documentElement.classList.toggle("dyslexia-font", settings.dyslexiaFont);
-  document.documentElement.classList.toggle("large-text", settings.largeText);
+function saveSettings(settings: AppSettings) {
+  localStorage.setItem("loredex-settings", JSON.stringify(settings));
+  // Apply accessibility to document
+  const root = document.documentElement;
+  root.classList.toggle("high-contrast", settings.highContrast);
+  root.classList.toggle("reduce-motion", settings.reduceMotion);
+  root.classList.toggle("dyslexia-font", settings.dyslexiaFont);
+  root.classList.toggle("reduce-glow", settings.reduceGlow);
+  // Font size
+  root.classList.remove("font-size-small", "font-size-medium", "font-size-large");
+  root.classList.add(`font-size-${settings.fontSize}`);
 }
 
 /* ─── SECTION COMPONENT ─── */
-function SettingsSection({ title, icon: Icon, children }: { title: string; icon: typeof Settings; children: React.ReactNode }) {
+function SettingsSection({ title, icon: Icon, children, defaultOpen = true }: {
+  title: string; icon: typeof Settings; children: React.ReactNode; defaultOpen?: boolean;
+}) {
+  const [open, setOpen] = useState(defaultOpen);
   return (
     <div className="rounded-lg border border-white/8 bg-white/[0.02] overflow-hidden">
-      <div className="flex items-center gap-2.5 px-5 py-3 border-b border-white/5">
+      <button
+        onClick={() => setOpen(!open)}
+        className="flex items-center gap-2.5 px-5 py-3 border-b border-white/5 w-full hover:bg-white/[0.02] transition-colors"
+      >
         <Icon size={14} className="text-[var(--neon-cyan)]" />
-        <h3 className="font-mono text-xs tracking-[0.15em] text-white/70 uppercase">{title}</h3>
-      </div>
-      <div className="p-5 space-y-4">
-        {children}
-      </div>
+        <h3 className="font-mono text-xs tracking-[0.15em] text-white/70 uppercase flex-1 text-left">{title}</h3>
+        {open ? <ChevronUp size={14} className="text-white/30" /> : <ChevronDown size={14} className="text-white/30" />}
+      </button>
+      {open && (
+        <div className="p-5 space-y-4">
+          {children}
+        </div>
+      )}
     </div>
   );
 }
 
 /* ─── TOGGLE ─── */
-function Toggle({ label, description, enabled, onChange }: {
-  label: string; description?: string; enabled: boolean; onChange: (v: boolean) => void;
+function Toggle({ label, description, enabled, onChange, icon: Icon }: {
+  label: string; description?: string; enabled: boolean; onChange: (v: boolean) => void; icon?: typeof Settings;
 }) {
   return (
     <button
       onClick={() => onChange(!enabled)}
       className="flex items-center justify-between w-full py-2 group"
     >
-      <div>
-        <p className="font-mono text-[11px] text-white/70 text-left">{label}</p>
-        {description && <p className="font-mono text-[9px] text-white/30 text-left mt-0.5">{description}</p>}
+      <div className="flex items-center gap-2.5">
+        {Icon && <Icon size={13} className="text-white/30 shrink-0" />}
+        <div>
+          <p className="font-mono text-[11px] text-white/70 text-left">{label}</p>
+          {description && <p className="font-mono text-[9px] text-white/30 text-left mt-0.5">{description}</p>}
+        </div>
       </div>
-      <div className={`w-10 h-5 rounded-full transition-all relative ${
+      <div className={`w-10 h-5 rounded-full transition-all relative shrink-0 ml-3 ${
         enabled ? "bg-[var(--neon-cyan)]/30" : "bg-white/10"
       }`}>
         <div className={`absolute top-0.5 w-4 h-4 rounded-full transition-all ${
@@ -80,23 +127,123 @@ function Toggle({ label, description, enabled, onChange }: {
   );
 }
 
+/* ─── SLIDER ─── */
+function VolumeSlider({ label, icon: Icon, value, onChange, disabled }: {
+  label: string; icon: typeof Volume2; value: number; onChange: (v: number) => void; disabled?: boolean;
+}) {
+  return (
+    <div className={`${disabled ? "opacity-40 pointer-events-none" : ""}`}>
+      <div className="flex items-center gap-2 mb-1.5">
+        <Icon size={13} className="text-white/40" />
+        <p className="font-mono text-[10px] text-white/50 tracking-wider flex-1">{label}</p>
+        <span className="font-mono text-[10px] text-[var(--neon-cyan)] w-8 text-right">
+          {Math.round(value * 100)}%
+        </span>
+      </div>
+      <div className="flex items-center gap-3">
+        <VolumeX size={12} className="text-white/20 shrink-0" />
+        <input
+          type="range"
+          min={0}
+          max={1}
+          step={0.05}
+          value={value}
+          onChange={(e) => onChange(parseFloat(e.target.value))}
+          className="flex-1 accent-[var(--neon-cyan)] h-1"
+        />
+        <Volume2 size={12} className="text-white/20 shrink-0" />
+      </div>
+    </div>
+  );
+}
+
+/* ─── OPTION SELECTOR ─── */
+function OptionSelector<T extends string>({ label, options, value, onChange }: {
+  label: string;
+  options: { value: T; label: string; desc?: string; icon?: typeof Settings }[];
+  value: T;
+  onChange: (v: T) => void;
+}) {
+  return (
+    <div>
+      <p className="font-mono text-[10px] text-white/40 tracking-wider mb-2">{label}</p>
+      <div className="flex gap-2">
+        {options.map((opt) => {
+          const active = value === opt.value;
+          const OptIcon = opt.icon;
+          return (
+            <button
+              key={opt.value}
+              onClick={() => onChange(opt.value)}
+              className={`flex-1 flex flex-col items-center gap-1.5 py-3 rounded-lg border transition-all ${
+                active
+                  ? "border-[var(--neon-cyan)]/30 bg-[var(--neon-cyan)]/5"
+                  : "border-white/8 hover:border-white/15 hover:bg-white/3"
+              }`}
+            >
+              {OptIcon && <OptIcon size={16} className={active ? "text-[var(--neon-cyan)]" : "text-white/40"} />}
+              <span className={`font-mono text-[10px] ${active ? "text-[var(--neon-cyan)]" : "text-white/50"}`}>
+                {opt.label}
+              </span>
+              {opt.desc && <span className="font-mono text-[8px] text-white/25">{opt.desc}</span>}
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════
+   MAIN SETTINGS PAGE
+   ═══════════════════════════════════════════════════════ */
 export default function SettingsPage() {
   const { theme, toggleTheme } = useTheme();
   const gam = useGamification();
   const gamSetTheme = gam.setTheme;
   const { muted, setMuted, volume, setVolume } = useSound();
-  const { resetGame } = useGame();
-  const [a11y, setA11y] = useState<A11ySettings>(getA11ySettings);
+  const { state: gameState, resetGame, syncStatus, lastSyncedAt, forceSave } = useGame();
+  const { user, isAuthenticated, loading: authLoading, logout } = useAuth();
+  const [settings, setSettings] = useState<AppSettings>(loadSettings);
   const [showResetConfirm, setShowResetConfirm] = useState(false);
+  const [exporting, setExporting] = useState(false);
 
-  const updateA11y = (key: keyof A11ySettings, value: boolean) => {
-    const next = { ...a11y, [key]: value };
-    setA11y(next);
-    saveA11ySettings(next);
-    toast.success(`${key === "highContrast" ? "High contrast" : key === "reduceMotion" ? "Reduced motion" : key === "dyslexiaFont" ? "Dyslexia font" : "Large text"} ${value ? "enabled" : "disabled"}`);
-  };
+  const updateSetting = useCallback(<K extends keyof AppSettings>(key: K, value: AppSettings[K]) => {
+    setSettings(prev => {
+      const next = { ...prev, [key]: value };
+      saveSettings(next);
+      return next;
+    });
+  }, []);
 
-  // Get unlocked themes
+  // Export save data
+  const exportSaveData = useCallback(() => {
+    setExporting(true);
+    try {
+      const exportData = {
+        version: "5.0.0",
+        exportedAt: new Date().toISOString(),
+        gameState: localStorage.getItem("loredex-game-state"),
+        settings: localStorage.getItem("loredex-settings"),
+        gamification: localStorage.getItem("loredex-gamification"),
+        playerProfile: localStorage.getItem("loredex-player-profile"),
+      };
+      const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `loredex-save-${new Date().toISOString().slice(0, 10)}.json`;
+      a.click();
+      URL.revokeObjectURL(url);
+      toast.success("Save data exported successfully");
+    } catch (e) {
+      toast.error("Failed to export save data");
+    } finally {
+      setExporting(false);
+    }
+  }, []);
+
+  // Get unlocked/locked themes
   const unlockedThemes = ARK_THEMES.filter(t => gam.level >= t.unlockLevel);
   const lockedThemes = ARK_THEMES.filter(t => gam.level < t.unlockLevel);
 
@@ -113,7 +260,7 @@ export default function SettingsPage() {
         </div>
         <div>
           <h1 className="font-display text-lg font-bold tracking-wider text-foreground">SHIP CONFIGURATION</h1>
-          <p className="font-mono text-[10px] text-muted-foreground tracking-wider">System preferences and accessibility</p>
+          <p className="font-mono text-[10px] text-muted-foreground tracking-wider">System preferences, accessibility, and account</p>
         </div>
       </div>
 
@@ -121,35 +268,29 @@ export default function SettingsPage() {
         {/* ═══ APPEARANCE ═══ */}
         <SettingsSection title="Appearance" icon={Palette}>
           {/* Light/Dark Mode */}
-          <div>
-            <p className="font-mono text-[10px] text-white/40 tracking-wider mb-2">MODE</p>
-            <div className="flex gap-2">
-              {[
-                { value: "dark" as const, label: "Dark", icon: Moon, desc: "Deep space" },
-                { value: "light" as const, label: "Light", icon: Sun, desc: "Bright mode" },
-                { value: "system" as const, label: "System", icon: Monitor, desc: "Auto-detect" },
-              ].map((mode) => {
-                const Icon = mode.icon;
-                const active = theme === mode.value;
-                return (
-                  <button
-                    key={mode.value}
-                    onClick={() => { if (theme !== mode.value && mode.value !== "system" && toggleTheme) toggleTheme(); }}
-                    className={`flex-1 flex flex-col items-center gap-1.5 py-3 rounded-lg border transition-all ${
-                      active
-                        ? "border-[var(--neon-cyan)]/30 bg-[var(--neon-cyan)]/5"
-                        : "border-white/8 hover:border-white/15 hover:bg-white/3"
-                    }`}
-                  >
-                    <Icon size={16} className={active ? "text-[var(--neon-cyan)]" : "text-white/40"} />
-                    <span className={`font-mono text-[10px] ${active ? "text-[var(--neon-cyan)]" : "text-white/50"}`}>
-                      {mode.label}
-                    </span>
-                  </button>
-                );
-              })}
-            </div>
-          </div>
+          <OptionSelector
+            label="MODE"
+            value={theme}
+            onChange={(v) => {
+              if (theme !== v && toggleTheme) toggleTheme();
+            }}
+            options={[
+              { value: "dark", label: "Dark", desc: "Deep space", icon: Moon },
+              { value: "light", label: "Light", desc: "Bright mode", icon: Sun },
+            ]}
+          />
+
+          {/* Font Size */}
+          <OptionSelector
+            label="FONT SIZE"
+            value={settings.fontSize}
+            onChange={(v) => updateSetting("fontSize", v)}
+            options={[
+              { value: "small", label: "Small", desc: "Compact", icon: Type },
+              { value: "medium", label: "Medium", desc: "Default", icon: Type },
+              { value: "large", label: "Large", desc: "Readable", icon: Type },
+            ]}
+          />
 
           {/* Ark Themes */}
           <div>
@@ -171,7 +312,7 @@ export default function SettingsPage() {
                     }`}
                   >
                     <div
-                      className="w-6 h-6 rounded-md shrink-0"
+                      className="w-6 h-6 rounded-md shrink-0 border border-white/10"
                       style={{ background: t.colors?.primary || "var(--neon-cyan)" }}
                     />
                     <div className="min-w-0">
@@ -202,99 +343,248 @@ export default function SettingsPage() {
           </div>
         </SettingsSection>
 
+        {/* ═══ AUDIO ═══ */}
+        <SettingsSection title="Audio" icon={Volume2}>
+          <Toggle
+            label="Mute All Sounds"
+            description="Disable all audio output"
+            enabled={muted}
+            onChange={setMuted}
+            icon={VolumeX}
+          />
+
+          <VolumeSlider
+            label="MASTER VOLUME"
+            icon={Volume2}
+            value={volume}
+            onChange={setVolume}
+            disabled={muted}
+          />
+
+          <VolumeSlider
+            label="MUSIC VOLUME"
+            icon={Music}
+            value={settings.musicVolume}
+            onChange={(v) => updateSetting("musicVolume", v)}
+            disabled={muted}
+          />
+
+          <VolumeSlider
+            label="SFX VOLUME"
+            icon={Zap}
+            value={settings.sfxVolume}
+            onChange={(v) => updateSetting("sfxVolume", v)}
+            disabled={muted}
+          />
+
+          <Toggle
+            label="Ambient Sounds"
+            description="Ship hum, cryo hiss, electrical crackle, void wind"
+            enabled={settings.ambientEnabled}
+            onChange={(v) => updateSetting("ambientEnabled", v)}
+            icon={Sparkles}
+          />
+        </SettingsSection>
+
         {/* ═══ ACCESSIBILITY ═══ */}
         <SettingsSection title="Accessibility" icon={Accessibility}>
           <Toggle
             label="High Contrast"
             description="Increase color contrast for better readability"
-            enabled={a11y.highContrast}
-            onChange={(v) => updateA11y("highContrast", v)}
+            enabled={settings.highContrast}
+            onChange={(v) => updateSetting("highContrast", v)}
+            icon={Shield}
           />
           <Toggle
             label="Reduce Motion"
             description="Minimize animations and transitions"
-            enabled={a11y.reduceMotion}
-            onChange={(v) => updateA11y("reduceMotion", v)}
+            enabled={settings.reduceMotion}
+            onChange={(v) => updateSetting("reduceMotion", v)}
+            icon={SkipForward}
           />
           <Toggle
             label="Dyslexia-Friendly Font"
             description="Use OpenDyslexic font for improved readability"
-            enabled={a11y.dyslexiaFont}
-            onChange={(v) => updateA11y("dyslexiaFont", v)}
+            enabled={settings.dyslexiaFont}
+            onChange={(v) => updateSetting("dyslexiaFont", v)}
+            icon={Type}
           />
           <Toggle
-            label="Large Text"
-            description="Increase base font size across the app"
-            enabled={a11y.largeText}
-            onChange={(v) => updateA11y("largeText", v)}
+            label="Reduce Glow Effects"
+            description="Dim neon glows and scan line overlays"
+            enabled={settings.reduceGlow}
+            onChange={(v) => updateSetting("reduceGlow", v)}
+            icon={Eye}
           />
         </SettingsSection>
 
-        {/* ═══ AUDIO ═══ */}
-        <SettingsSection title="Audio" icon={Volume2}>
+        {/* ═══ GAME PREFERENCES ═══ */}
+        <SettingsSection title="Game Preferences" icon={Gamepad2}>
           <Toggle
-            label="Mute All Sounds"
-            description="Disable all sound effects and ambient audio"
-            enabled={muted}
-            onChange={setMuted}
+            label="Skip Tutorials"
+            description="Skip room tutorial dialogs on first entry"
+            enabled={settings.skipTutorials}
+            onChange={(v) => updateSetting("skipTutorials", v)}
+            icon={SkipForward}
           />
-          <div>
-            <p className="font-mono text-[10px] text-white/40 mb-2">MASTER VOLUME</p>
-            <div className="flex items-center gap-3">
-              <VolumeX size={14} className="text-white/30" />
-              <input
-                type="range"
-                min={0}
-                max={1}
-                step={0.05}
-                value={volume}
-                onChange={(e) => setVolume(parseFloat(e.target.value))}
-                className="flex-1 accent-[var(--neon-cyan)]"
-              />
-              <Volume2 size={14} className="text-white/30" />
-              <span className="font-mono text-[10px] text-white/40 w-8 text-right">
-                {Math.round(volume * 100)}%
-              </span>
+          <Toggle
+            label="Show Hints"
+            description="Display Elara's hint system for puzzles"
+            enabled={settings.showHints}
+            onChange={(v) => updateSetting("showHints", v)}
+            icon={HelpCircle}
+          />
+
+          <OptionSelector
+            label="DIFFICULTY"
+            value={settings.difficulty}
+            onChange={(v) => updateSetting("difficulty", v)}
+            options={[
+              { value: "casual", label: "Casual", desc: "Relaxed", icon: Eye },
+              { value: "standard", label: "Standard", desc: "Balanced", icon: Gauge },
+              { value: "hardcore", label: "Hardcore", desc: "Punishing", icon: Shield },
+            ]}
+          />
+
+          {/* Reset Game */}
+          <div className="pt-2 border-t border-white/5">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="font-mono text-[11px] text-white/70 flex items-center gap-2">
+                  <RotateCcw size={13} className="text-[var(--alert-red)]/60" />
+                  Reset Game Progress
+                </p>
+                <p className="font-mono text-[9px] text-white/30 mt-0.5 ml-[21px]">
+                  Resets all rooms, XP, achievements, and card collection. Cannot be undone.
+                </p>
+              </div>
+              {!showResetConfirm ? (
+                <button
+                  onClick={() => setShowResetConfirm(true)}
+                  className="px-3 py-1.5 rounded-md border border-[var(--alert-red)]/30 text-[var(--alert-red)] font-mono text-[10px] hover:bg-[var(--alert-red)]/10 transition-colors shrink-0"
+                >
+                  RESET
+                </button>
+              ) : (
+                <div className="flex gap-2 shrink-0">
+                  <button
+                    onClick={() => setShowResetConfirm(false)}
+                    className="px-3 py-1.5 rounded-md border border-white/10 text-white/50 font-mono text-[10px] hover:bg-white/5 transition-colors"
+                  >
+                    CANCEL
+                  </button>
+                  <button
+                    onClick={() => {
+                      resetGame();
+                      setShowResetConfirm(false);
+                      toast.success("Game progress has been reset");
+                    }}
+                    className="px-3 py-1.5 rounded-md bg-[var(--alert-red)]/20 border border-[var(--alert-red)]/40 text-[var(--alert-red)] font-mono text-[10px] hover:bg-[var(--alert-red)]/30 transition-colors"
+                  >
+                    CONFIRM
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         </SettingsSection>
 
-        {/* ═══ GAME MANAGEMENT ═══ */}
-        <SettingsSection title="Game Management" icon={Gamepad2}>
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="font-mono text-[11px] text-white/70">Reset Game Progress</p>
-              <p className="font-mono text-[9px] text-white/30 mt-0.5">
-                This will reset all rooms, XP, achievements, and card collection. Cannot be undone.
-              </p>
+        {/* ═══ ACCOUNT ═══ */}
+        <SettingsSection title="Account" icon={User}>
+          {/* Auth Status */}
+          <div className="flex items-center justify-between py-2">
+            <div className="flex items-center gap-2.5">
+              <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
+                isAuthenticated ? "bg-[var(--neon-cyan)]/10 border border-[var(--neon-cyan)]/30" : "bg-white/5 border border-white/10"
+              }`}>
+                <User size={14} className={isAuthenticated ? "text-[var(--neon-cyan)]" : "text-white/30"} />
+              </div>
+              <div>
+                <p className="font-mono text-[11px] text-white/70">
+                  {authLoading ? "Checking..." : isAuthenticated ? (user?.name || "Operative") : "Not logged in"}
+                </p>
+                <p className="font-mono text-[9px] text-white/30">
+                  {isAuthenticated ? "Authenticated" : "Log in to sync progress across devices"}
+                </p>
+              </div>
             </div>
-            {!showResetConfirm ? (
+            {isAuthenticated ? (
               <button
-                onClick={() => setShowResetConfirm(true)}
-                className="px-3 py-1.5 rounded-md border border-[var(--alert-red)]/30 text-[var(--alert-red)] font-mono text-[10px] hover:bg-[var(--alert-red)]/10 transition-colors"
+                onClick={() => {
+                  logout();
+                  toast.success("Logged out");
+                }}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-md border border-white/10 text-white/50 font-mono text-[10px] hover:bg-white/5 hover:text-white/70 transition-colors shrink-0"
               >
-                RESET
+                <LogOut size={12} />
+                LOGOUT
               </button>
             ) : (
-              <div className="flex gap-2">
-                <button
-                  onClick={() => setShowResetConfirm(false)}
-                  className="px-3 py-1.5 rounded-md border border-white/10 text-white/50 font-mono text-[10px] hover:bg-white/5 transition-colors"
-                >
-                  CANCEL
-                </button>
-                <button
-                  onClick={() => {
-                    resetGame();
-                    setShowResetConfirm(false);
-                    toast.success("Game progress has been reset");
-                  }}
-                  className="px-3 py-1.5 rounded-md bg-[var(--alert-red)]/20 border border-[var(--alert-red)]/40 text-[var(--alert-red)] font-mono text-[10px] hover:bg-[var(--alert-red)]/30 transition-colors"
-                >
-                  CONFIRM RESET
-                </button>
-              </div>
+              <a
+                href={getLoginUrl()}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-md border border-[var(--neon-cyan)]/30 text-[var(--neon-cyan)] font-mono text-[10px] hover:bg-[var(--neon-cyan)]/10 transition-colors shrink-0"
+              >
+                <LogIn size={12} />
+                LOGIN
+              </a>
             )}
+          </div>
+
+          {/* Sync Status */}
+          {isAuthenticated && (
+            <div className="flex items-center justify-between py-2 border-t border-white/5">
+              <div className="flex items-center gap-2.5">
+                {syncStatus === "synced" ? (
+                  <Cloud size={14} className="text-green-400/70" />
+                ) : syncStatus === "saving" ? (
+                  <Cloud size={14} className="text-[var(--neon-cyan)] animate-pulse" />
+                ) : syncStatus === "error" ? (
+                  <CloudOff size={14} className="text-[var(--alert-red)]" />
+                ) : (
+                  <Cloud size={14} className="text-white/30" />
+                )}
+                <div>
+                  <p className="font-mono text-[10px] text-white/50">
+                    {syncStatus === "synced" ? "Synced to server" :
+                     syncStatus === "saving" ? "Saving..." :
+                     syncStatus === "loading" ? "Loading..." :
+                     syncStatus === "error" ? "Sync error" : "Not synced"}
+                  </p>
+                  {lastSyncedAt && (
+                    <p className="font-mono text-[8px] text-white/25">
+                      Last: {new Date(lastSyncedAt).toLocaleString()}
+                    </p>
+                  )}
+                </div>
+              </div>
+              <button
+                onClick={() => {
+                  forceSave();
+                  toast.success("Sync triggered");
+                }}
+                className="px-3 py-1.5 rounded-md border border-white/10 text-white/50 font-mono text-[10px] hover:bg-white/5 transition-colors shrink-0"
+              >
+                SYNC NOW
+              </button>
+            </div>
+          )}
+
+          {/* Export Save Data */}
+          <div className="flex items-center justify-between py-2 border-t border-white/5">
+            <div className="flex items-center gap-2.5">
+              <Download size={14} className="text-white/40" />
+              <div>
+                <p className="font-mono text-[11px] text-white/70">Export Save Data</p>
+                <p className="font-mono text-[9px] text-white/30">Download all game progress as JSON</p>
+              </div>
+            </div>
+            <button
+              onClick={exportSaveData}
+              disabled={exporting}
+              className="px-3 py-1.5 rounded-md border border-white/10 text-white/50 font-mono text-[10px] hover:bg-white/5 transition-colors shrink-0 disabled:opacity-30"
+            >
+              {exporting ? "EXPORTING..." : "EXPORT"}
+            </button>
           </div>
         </SettingsSection>
 
