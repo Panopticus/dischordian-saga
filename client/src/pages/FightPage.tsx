@@ -17,6 +17,8 @@ import { calculateTraitBonuses } from "@shared/traitBonuses";
 import { useGamification } from "@/contexts/GamificationContext";
 import { useContentReward } from "@/components/ContentRewardToast";
 import { useGame } from "@/contexts/GameContext";
+import { getCombatDrops, type LootDrop } from "@/data/lootTables";
+import { getMaterialById } from "@/data/craftingData";
 import { getMoralityTierDef } from "@/components/MoralityMeter";
 import { toast } from "sonner";
 import {
@@ -60,7 +62,7 @@ export default function FightPage() {
   const gam = useGamification();
   const { autoTutorial, showAutoTutorial, launchTutorial, dismissTutorial, snoozeTutorial } = useAutoTutorial("/fight");
   const { recordAndReward } = useContentReward();
-  const { state: gameState } = useGame();
+  const { state: gameState, addMaterial } = useGame();
   useGameAreaBGM("arena_battle");
   const [phase, setPhase] = useState<Phase>("title");
   const [selectedPlayer, setSelectedPlayer] = useState<FighterData | null>(null);
@@ -170,24 +172,48 @@ export default function FightPage() {
         perfect,
         opponent: selectedOpponent?.name,
       });
+      // ── MATERIAL DROPS ──
+      const drops = getCombatDrops(selectedDifficulty.id, perfect, gam.gameSave?.winStreak || 0);
+      for (const drop of drops) {
+        addMaterial(drop.materialId, drop.quantity);
+      }
+      if (drops.length > 0) {
+        const dropNames = drops.map(d => {
+          const mat = getMaterialById(d.materialId);
+          return `${mat?.icon || ""} ${mat?.name || d.materialId} x${d.quantity}`;
+        }).join(", ");
+        toast.success(`Loot: ${dropNames}`, { duration: 3000 });
+      }
     } else {
       gam.recordFightLoss();
     }
     setPhase("results");
-  }, [gam, selectedDifficulty, recordAndReward, selectedOpponent, selectedPlayer, selectedArena, recordMatch]);
+  }, [gam, selectedDifficulty, recordAndReward, selectedOpponent, selectedPlayer, selectedArena, recordMatch, addMaterial]);
 
   // Story mode match end
   const handleStoryMatchEnd = useCallback((winner: "p1" | "p2", perfect: boolean) => {
     setMatchResult({ winner, perfect });
     if (winner === "p1") {
       gam.recordFightWin("story", perfect);
+      // ── STORY MODE MATERIAL DROPS ──
+      const drops = getCombatDrops("story", perfect, gam.gameSave?.winStreak || 0);
+      for (const drop of drops) {
+        addMaterial(drop.materialId, drop.quantity);
+      }
+      if (drops.length > 0) {
+        const dropNames = drops.map(d => {
+          const mat = getMaterialById(d.materialId);
+          return `${mat?.icon || ""} ${mat?.name || d.materialId} x${d.quantity}`;
+        }).join(", ");
+        toast.success(`Loot: ${dropNames}`, { duration: 3000 });
+      }
     } else {
       gam.recordFightLoss();
     }
     setStoryDialogueType(winner === "p1" ? "post-win" : "post-lose");
     setStoryDialogueIndex(0);
     setPhase("story-dialogue");
-  }, [gam]);
+  }, [gam, addMaterial]);
 
   // Start story mode
   const startStoryMode = useCallback(() => {

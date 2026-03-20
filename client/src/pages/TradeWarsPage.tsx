@@ -1,5 +1,8 @@
 import { useGameAreaBGM } from "@/contexts/GameAudioContext";
 import { useGame } from "@/contexts/GameContext";
+import { getTradePortDrops, getCombatDrops, getExplorationDrops, type LootDrop } from "@/data/lootTables";
+import { getMaterialById } from "@/data/craftingData";
+import { toast } from "sonner";
 import { useState, useRef, useEffect, useCallback } from "react";
 import { trpc } from "@/lib/trpc";
 import { useAuth } from "@/_core/hooks/useAuth";
@@ -594,7 +597,21 @@ function colorClass(type: TermLine["type"]): string {
 export default function TradeWarsPage() {
   const { user, isAuthenticated, loading: authLoading } = useAuth();
   useGameAreaBGM("trade_nav");
-  const { setNarrativeFlag } = useGame();
+  const { setNarrativeFlag, addMaterial } = useGame();
+
+  // Helper to grant material drops and show toast
+  const grantMaterialDrops = useCallback((drops: LootDrop[], source: string) => {
+    for (const drop of drops) {
+      addMaterial(drop.materialId, drop.quantity);
+    }
+    if (drops.length > 0) {
+      const dropNames = drops.map(d => {
+        const mat = getMaterialById(d.materialId);
+        return `${mat?.icon || ""} ${mat?.name || d.materialId} x${d.quantity}`;
+      }).join(", ");
+      toast.success(`${source}: ${dropNames}`, { duration: 3000 });
+    }
+  }, [addMaterial]);
   const [lines, setLines] = useState<TermLine[]>([]);
   const [input, setInput] = useState("");
   const [commandHistory, setCommandHistory] = useState<string[]>([]);
@@ -1087,6 +1104,18 @@ export default function TradeWarsPage() {
                 } catch {}
               }
             }
+            // ═══ EXPLORATION MATERIAL DROPS (on new discovery) ═══
+            if (result.newDiscovery) {
+              const exploDrops = getExplorationDrops();
+              if (exploDrops.length > 0) {
+                const dropText = exploDrops.map(d => {
+                  const mat = getMaterialById(d.materialId);
+                  return `${mat?.icon || ""} ${mat?.name || d.materialId} x${d.quantity}`;
+                }).join(", ");
+                addLine(`  Sector survey materials: ${dropText}`, "success");
+                grantMaterialDrops(exploDrops, "Sector Survey");
+              }
+            }
             // ═══ SECTOR EVENT ROLL ═══
             const sectorType = (result.sector as any)?.sectorType || "empty";
             const event = rollSectorEvent(sectorType, result.newDiscovery || false);
@@ -1270,6 +1299,19 @@ export default function TradeWarsPage() {
             quantity: qty,
           });
           addLine(result.message, result.success ? "success" : "error");
+          // ── TRADE MATERIAL DROPS on successful sell ──
+          if (result.success) {
+            const portTier = qty >= 50 ? "legendary" : qty >= 20 ? "rare" : "common";
+            const drops = getTradePortDrops(portTier as "common" | "rare" | "legendary");
+            if (drops.length > 0) {
+              const dropText = drops.map(d => {
+                const mat = getMaterialById(d.materialId);
+                return `${mat?.icon || ""} ${mat?.name || d.materialId} x${d.quantity}`;
+              }).join(", ");
+              addLine(`  Salvaged materials: ${dropText}`, "success");
+              grantMaterialDrops(drops, "Trade Salvage");
+            }
+          }
           utils.tradeWars.getState.invalidate();
           break;
         }
@@ -1306,6 +1348,17 @@ export default function TradeWarsPage() {
             if (result.shieldDamage > 0) addLine(`  Shield damage: -${result.shieldDamage}`, "warning");
             if (result.cardReward) {
               addLine(`  ${isDemon ? '☠ DEMON' : ''} CARD REWARD: ${result.cardReward.name} (${result.cardReward.rarity})`, "warning");
+            }
+            // ── SPACE COMBAT MATERIAL DROPS ──
+            const combatTier = isDemon ? "legendary" : "normal";
+            const spaceCombatDrops = getCombatDrops(combatTier, false, 0);
+            if (spaceCombatDrops.length > 0) {
+              const dropText = spaceCombatDrops.map(d => {
+                const mat = getMaterialById(d.materialId);
+                return `${mat?.icon || ""} ${mat?.name || d.materialId} x${d.quantity}`;
+              }).join(", ");
+              addLine(`  Wreckage salvage: ${dropText}`, "success");
+              grantMaterialDrops(spaceCombatDrops, "Combat Salvage");
             }
           } else {
             if (isDemon) {
@@ -1563,7 +1616,7 @@ export default function TradeWarsPage() {
     } catch (err: any) {
       addLine(`ERROR: ${err.message || "Command failed"}`, "error");
     }
-  }, [addLine, addLines, showSectorInfo, utils, warpMut, tradeMut, scanMut, upgradeMut, buyFightersMut, repairMut, combatMut, mineMut, claimPlanetMut, collectIncomeMut, upgradeColonyMut, fortifyColonyMut, shipsQuery.data, stateQuery.data, researchMut, discoverRelicMut]);
+  }, [addLine, addLines, showSectorInfo, utils, warpMut, tradeMut, scanMut, upgradeMut, buyFightersMut, repairMut, combatMut, mineMut, claimPlanetMut, collectIncomeMut, upgradeColonyMut, fortifyColonyMut, shipsQuery.data, stateQuery.data, researchMut, discoverRelicMut, grantMaterialDrops]);
 
   // Handle input submission
   const handleSubmit = useCallback((e: React.FormEvent) => {

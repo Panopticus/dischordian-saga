@@ -1641,3 +1641,16 @@
 - [x] Fix expanded card modal cropping art at the top
 - [x] Fix quest/objectives boxes stacking messily over Elara companion UI
 - [x] Fix quest complete notifications piling up and overlapping
+
+### Phase 68h: Material Drops & Forge Room Integration
+- [x] Wire material drops into fight arena win rewards (RNG combat drops)
+- [x] Wire material drops into Trade Empire sell/trade completion (trade materials)
+- [x] Wire material drops into Trade Empire sector exploration (exploration drops)
+- [x] Wire material drops into Trade Empire space combat wins (combat salvage)
+- [x] Wire card sacrifice mechanic for crafting essence (dream_shard) via lootTables
+- [x] Add Forge Workshop room to Inception Ark (Deck 4, connected from Engineering)
+- [x] Add Forge hotspots: Prismatic Forge, Material Vault, Recipe Archive, Skill Totems
+- [x] Connect crafting XP gains to actual skill leveling via GameContext
+- [x] Create shared lootTables.ts with combat, trade, exploration, and card sacrifice drop tables
+- [x] Write 20 vitest tests for loot table integrity and drop mechanics
+- [x] Test all integration points compile (zero TypeScript errors)
