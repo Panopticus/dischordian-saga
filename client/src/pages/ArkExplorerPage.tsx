@@ -406,13 +406,30 @@ export default function ArkExplorerPage() {
   const [orientationText, setOrientationText] = useState("");
   const [orientationTyping, setOrientationTyping] = useState(false);
 
+  const playerName = state.characterChoices.name || "Operative";
+  const playerSpecies = state.characterChoices.species;
+  const playerClass = state.characterChoices.characterClass;
   const CRYO_ORIENTATION_LINES = useMemo(() => [
-    "Welcome to the Cryo Bay, Operative. This is where your journey begins — and where it began for every Potential before you.",
-    "You're standing in the Habitation Deck. The Ark has three main decks: Habitation below, Operations in the middle, and Command above. Each one holds secrets.",
-    "Through that door is the Medical Bay — the ship's doctor left some... interesting notes. Beyond that, the Bridge. That's where the real answers are.",
-    "Look around. Interact with the terminals, examine objects, collect items. Everything on this ship tells a story. Some stories are harder to find than others.",
-    "I'll be here if you need me. Tap any glowing marker to investigate. And Operative? Trust nothing at face value. Not even me.",
-  ], []);
+    `Welcome back to the Cryo Bay, ${playerName}. Your neural scan is complete and your identity is confirmed. This is where your journey truly begins.`,
+    playerSpecies === "neyon"
+      ? "Your Ne-Yon hybrid signature is... extraordinary. The Ark's sensors have never registered anything like it. The ship itself seems to be responding to your presence."
+      : playerSpecies === "quarchon"
+      ? "Your Quarchon neural patterns are interfacing with the Ark's quantum systems. I'm detecting data streams I've never seen before. The ship is... talking to you."
+      : "Your DeMagi cellular signature is resonating with the Ark's elemental conduits. I can feel the ship's systems warming up. It recognizes you.",
+    "You're standing in the Habitation Deck \u2014 the lowest level of the Inception Ark. Above us is the Operations Deck with the Medical Bay, Archives, and Comms Array. At the top: the Command Deck, where the Bridge holds the answers you're looking for.",
+    playerClass === "engineer"
+      ? "As an Engineer, you'll want to examine every terminal and system you find. The Ark's technology is unlike anything in the known universes. Hack it. Understand it. Rebuild it."
+      : playerClass === "oracle"
+      ? "Your Oracle abilities may trigger visions as you explore. Pay attention to them \u2014 they're not random. The Ark is saturated with temporal echoes from its previous occupants."
+      : playerClass === "assassin"
+      ? "Your Assassin instincts will serve you well here. There are hidden passages, concealed items, and secrets that only someone with your perception would notice."
+      : playerClass === "soldier"
+      ? "Stay sharp, Soldier. The Ark may seem empty, but my sensors detect... anomalies. Some rooms have defense systems that are still active. Your combat training will be tested."
+      : "Keep your eyes open, Spy. Every room on this ship was designed to hide something. The previous crew left intelligence scattered everywhere \u2014 dead drops, coded messages, hidden caches.",
+    "Look around. Tap the glowing markers to investigate terminals, collect items, and unlock new areas. Everything on this ship tells a story. Some stories are harder to find than others.",
+    "One more thing \u2014 I've activated your Quest Tracker. It will guide you through the Ark's mysteries, one objective at a time. Complete objectives to earn Dream Tokens, XP, and rare cards.",
+    `I'll be here whenever you need me, ${playerName}. And remember \u2014 the Panopticon was built on secrets. Trust nothing at face value. Not even me.`,
+  ], [playerName, playerSpecies, playerClass]);
 
   // Trigger orientation on first Cryo Bay visit (post-awakening)
   useEffect(() => {

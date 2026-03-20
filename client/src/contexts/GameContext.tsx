@@ -56,6 +56,7 @@ export interface GameState {
   totalRoomsUnlocked: number;
   totalItemsFound: number;
   narrativeFlags: Record<string, boolean>;
+  claimedQuestRewards: string[];   // Quest IDs whose rewards have been claimed
   completedGames: string[];       // CoNexus game IDs the player has completed
   loreAchievements: string[];     // Lore achievement IDs earned
   conexusXp: number;              // XP earned from CoNexus game completions
@@ -359,6 +360,7 @@ const DEFAULT_GAME_STATE: GameState = {
   totalRoomsUnlocked: 0,
   totalItemsFound: 0,
   narrativeFlags: {},
+  claimedQuestRewards: [],
   completedGames: [],
   loreAchievements: [],
   conexusXp: 0,
@@ -394,6 +396,10 @@ interface GameContextValue {
   // Card collection
   collectCard: (cardId: string) => void;
   setActiveDeck: (cardIds: string[]) => void;
+  // Narrative flags
+  setNarrativeFlag: (flag: string, value?: boolean) => void;
+  // Quest rewards
+  claimQuestReward: (questId: string) => void;
   // Quick access
   skipToExploring: () => void;
   // Server sync
@@ -697,6 +703,24 @@ export function GameProvider({ children }: { children: ReactNode }) {
     setState(prev => ({ ...prev, activeDeck: cardIds }));
   }, []);
 
+  const setNarrativeFlag = useCallback((flag: string, value: boolean = true) => {
+    setState(prev => ({
+      ...prev,
+      narrativeFlags: { ...prev.narrativeFlags, [flag]: value },
+    }));
+  }, []);
+
+  const claimQuestReward = useCallback((questId: string) => {
+    setState(prev => {
+      if (prev.claimedQuestRewards.includes(questId)) return prev;
+      return {
+        ...prev,
+        claimedQuestRewards: [...prev.claimedQuestRewards, questId],
+        narrativeFlags: { ...prev.narrativeFlags, [`quest_${questId}_claimed`]: true },
+      };
+    });
+  }, []);
+
   const skipToExploring = useCallback(() => {
     // Dev/debug: skip awakening and unlock first few rooms
     const rooms: Record<string, RoomState> = {};
@@ -742,6 +766,8 @@ export function GameProvider({ children }: { children: ReactNode }) {
       isGameCompleted,
       collectCard,
       setActiveDeck,
+      setNarrativeFlag,
+      claimQuestReward,
       skipToExploring,
       syncStatus,
       lastSyncedAt,

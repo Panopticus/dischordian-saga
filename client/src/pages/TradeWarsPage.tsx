@@ -1,4 +1,5 @@
 import { useGameAreaBGM } from "@/contexts/GameAudioContext";
+import { useGame } from "@/contexts/GameContext";
 import { useState, useRef, useEffect, useCallback } from "react";
 import { trpc } from "@/lib/trpc";
 import { useAuth } from "@/_core/hooks/useAuth";
@@ -593,6 +594,7 @@ function colorClass(type: TermLine["type"]): string {
 export default function TradeWarsPage() {
   const { user, isAuthenticated, loading: authLoading } = useAuth();
   useGameAreaBGM("trade_nav");
+  const { setNarrativeFlag } = useGame();
   const [lines, setLines] = useState<TermLine[]>([]);
   const [input, setInput] = useState("");
   const [commandHistory, setCommandHistory] = useState<string[]>([]);
@@ -1057,6 +1059,7 @@ export default function TradeWarsPage() {
           addLine(`Engaging warp drive to sector ${arg1}...`, "system");
           const result = await warpMut.mutateAsync({ targetSector: Number(arg1) });
           if (result.success) {
+            setNarrativeFlag("trade_wars_warped");
             addLine(result.message, "success");
             if (result.hazardMessage) addLine(result.hazardMessage, "error");
             if (result.cardReward) {

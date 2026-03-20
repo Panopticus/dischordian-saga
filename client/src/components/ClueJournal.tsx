@@ -11,6 +11,7 @@ import {
   Search, Filter, X, FileText
 } from "lucide-react";
 import AwakeningJournalEntry from "./AwakeningJournalEntry";
+import MilestoneJournalEntries from "./MilestoneJournalEntries";
 import { motion, AnimatePresence } from "framer-motion";
 
 /* ─── CLUE DATA DEFINITIONS ─── */
@@ -506,6 +507,10 @@ export default function ClueJournal({ onClose }: ClueJournalProps) {
               className="p-4"
             >
               <AwakeningJournalEntry />
+              {/* Milestone entries appear after the Awakening entry */}
+              <div className="mt-4">
+                <MilestoneJournalEntries />
+              </div>
             </motion.div>
           ) : activeTab === "clues" ? (
             <motion.div

@@ -39,6 +39,7 @@ const gameStateSchema = z.object({
   totalRoomsUnlocked: z.number(),
   totalItemsFound: z.number(),
   narrativeFlags: z.record(z.string(), z.boolean()),
+  claimedQuestRewards: z.array(z.string()).optional(),
 });
 
 // Stats that get stored alongside game state for leaderboard queries

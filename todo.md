@@ -1420,3 +1420,12 @@
 - [x] Add journal entry with species, class, alignment, element choices
 - [x] Add Personal Log tab to Clue Journal (defaults to log tab when character created)
 - [x] Add 94 vitest tests for narrative flow (QuestTracker, AwakeningJournalEntry, ClueJournal integration)
+
+### Phase 60: Cryo Bay Narrative Beat, Quest Rewards, Milestone Journal Entries
+- [x] Add Cryo Bay first-visit Elara orientation dialog (guides player to explore the Ark after character sheet)
+- [x] Build quest reward system (XP, cards, items wired to quest completion)
+- [x] Wire quest rewards into QuestTracker and GameContext (setNarrativeFlag, claimQuestReward)
+- [x] Build milestone journal entry auto-generation (8 milestones: first room, bridge, card battle, CoNexus, 5 rooms, Trade Wars warp, full clearance, arena champion)
+- [x] Add journal entries to Personal Log tab with chronological ordering
+- [x] Wire Trade Wars warp narrative flag for milestone tracking
+- [x] Write 57 vitest tests for all Phase 60 features (all passing)
