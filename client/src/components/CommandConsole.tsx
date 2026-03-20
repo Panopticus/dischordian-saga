@@ -199,9 +199,9 @@ function useSystemUnlockStatus() {
   const { state } = useGame();
   
   return useCallback((sys: SystemDef) => {
-    // Bridge and Ark Explorer are always accessible after awakening
-    if (sys.id === "bridge" || sys.id === "ark-explorer") return true;
-    // Check if the room is unlocked in game state
+    // Ark Explorer is always accessible after awakening
+    if (sys.id === "ark-explorer") return true;
+    // All other systems (including Bridge) require their room to be discovered
     const room = state.rooms[sys.roomId];
     return room?.unlocked ?? false;
   }, [state.rooms]);
@@ -627,13 +627,14 @@ export default function CommandConsole({ children, elaraTTS }: { children: React
           backdropFilter: "blur(20px)",
         }}>
         <div className="flex items-center justify-around h-14 px-1">
+          {/* Dynamic bottom nav — only show unlocked systems + always show Ark */}
           {[
-            { sys: SYSTEMS[0], path: "/", label: "Bridge", icon: Home },
-            { sys: SYSTEMS[2], path: "/watch", label: "Saga", icon: Tv },
-            { sys: SYSTEMS[1], path: "/search", label: "Lore", icon: Compass },
-            { sys: SYSTEMS[4], path: "/games", label: "CADES", icon: Gamepad2 },
-            { sys: SYSTEMS[6], path: "/store", label: "Store", icon: Store },
-          ].map((item) => {
+            { sys: SYSTEMS[8], path: "/ark", label: "Explore", icon: Rocket, alwaysShow: true },
+            { sys: SYSTEMS[0], path: "/", label: "Bridge", icon: Home, alwaysShow: false },
+            { sys: SYSTEMS[4], path: "/games", label: "CADES", icon: Gamepad2, alwaysShow: false },
+            { sys: SYSTEMS[1], path: "/search", label: "Lore", icon: Compass, alwaysShow: false },
+            { sys: SYSTEMS[6], path: "/store", label: "Store", icon: Store, alwaysShow: false },
+          ].filter(item => item.alwaysShow || isSystemUnlocked(item.sys)).slice(0, 5).map((item) => {
             const Icon = item.icon;
             const active = item.path === "/"
               ? location === "/"

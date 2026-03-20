@@ -24,9 +24,47 @@ export type Difficulty = "recruit" | "soldier" | "veteran" | "archon";
 interface HitEffect {
   x: number; y: number; z: number;
   life: number; maxLife: number;
-  type: "spark" | "heavy" | "block" | "special" | "parry" | "critical";
+  type: "spark" | "heavy" | "block" | "special" | "parry" | "critical" | "impact_ring" | "energy_wave";
   color: string;
   particles: THREE.Group;
+}
+
+/* ═══ AAA VFX — AFTERIMAGE TRAIL ═══ */
+interface AfterimageFrame {
+  mesh: THREE.Mesh;
+  life: number;
+  maxLife: number;
+}
+
+/* ═══ AAA VFX — ENERGY PROJECTILE ═══ */
+interface EnergyProjectile {
+  group: THREE.Group;
+  x: number;
+  y: number;
+  vx: number;
+  life: number;
+  maxLife: number;
+  color: string;
+  owner: 1 | 2;
+}
+
+/* ═══ AAA VFX — IMPACT CRATER ═══ */
+interface ImpactCrater {
+  mesh: THREE.Mesh;
+  life: number;
+  maxLife: number;
+}
+
+/* ═══ AAA CAMERA — CINEMATIC STATE ═══ */
+interface CinematicCamera {
+  active: boolean;
+  type: "sp3_zoom" | "ko_angle" | "intro_sweep" | "none";
+  timer: number;
+  duration: number;
+  startPos: THREE.Vector3;
+  endPos: THREE.Vector3;
+  startLookAt: THREE.Vector3;
+  endLookAt: THREE.Vector3;
 }
 
 interface Fighter {
@@ -277,6 +315,20 @@ export class FightEngine3D {
   private hitStop = { active: false, duration: 0, timer: 0 };
   private slowMo = { active: false, speed: 1, duration: 0, timer: 0 };
 
+  // AAA VFX Systems
+  private afterimages: AfterimageFrame[] = [];
+  private energyProjectiles: EnergyProjectile[] = [];
+  private impactCraters: ImpactCrater[] = [];
+  private screenFlash = { active: false, color: new THREE.Color(1, 1, 1), intensity: 0, timer: 0, duration: 0 };
+  private screenFlashMesh!: THREE.Mesh;
+  private cinematicCamera: CinematicCamera = {
+    active: false, type: "none", timer: 0, duration: 0,
+    startPos: new THREE.Vector3(), endPos: new THREE.Vector3(),
+    startLookAt: new THREE.Vector3(), endLookAt: new THREE.Vector3(),
+  };
+  private koZoomTarget: THREE.Vector3 | null = null;
+  private introSweepDone = false;
+
   // Camera
   private cameraTarget = new THREE.Vector3(0, 1.0, 0);
   private cameraShakeOffset = new THREE.Vector3();
@@ -347,6 +399,14 @@ export class FightEngine3D {
     // ── Lighting ──
     this.buildLighting();
 
+    // ── Screen Flash Overlay (AAA VFX) ──
+    const flashGeo = new THREE.PlaneGeometry(50, 50);
+    const flashMat = new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0, depthTest: false, depthWrite: false });
+    this.screenFlashMesh = new THREE.Mesh(flashGeo, flashMat);
+    this.screenFlashMesh.position.set(0, 0, 10); // in front of camera
+    this.screenFlashMesh.renderOrder = 999;
+    this.scene.add(this.screenFlashMesh);
+
     // ── Fighters ──
     this.p1 = this.createFighter(p1Data, -0.8, true);
     this.p2 = this.createFighter(p2Data, 0.8, false);
@@ -362,8 +422,10 @@ export class FightEngine3D {
 
     // ── Start ──
     this.phase = "intro";
-    this.phaseTimer = 2.0;
+    this.phaseTimer = 2.5;
     this.callbacks.onPhaseChange?.("intro");
+    // AAA: Intro camera sweep
+    this.startCinematicCamera("intro_sweep", 2.0);
   }
 
   /* ═══ STAGE BUILDING ═══ */
@@ -720,12 +782,28 @@ export class FightEngine3D {
         break;
     }
 
-    // Smooth HP drain
-    this.p1.displayHp += (this.p1.hp - this.p1.displayHp) * 0.12;
-    this.p2.displayHp += (this.p2.hp - this.p2.displayHp) * 0.12;
-
+     // Smooth HP drain (AAA: white bar trails behind actual HP)
+    this.p1.displayHp += (this.p1.hp - this.p1.displayHp) * 0.08;
+    this.p2.displayHp += (this.p2.hp - this.p2.displayHp) * 0.08;
     this.updateEffects(dt);
-    this.updateCamera(dt);
+    // AAA VFX updates
+    this.updateAfterimages(dt);
+    this.updateEnergyProjectiles(dt);
+    this.updateImpactCraters(dt);
+    this.updateScreenFlash(dt);
+    this.updateCinematicCamera(dt);
+    // Afterimage spawning during dashes and specials
+    if (this.animFrame % 3 === 0) {
+      if (this.p1.state === "dash_fwd" || this.p1.state === "dash_back" || this.isSpecialAttack(this.p1.state)) {
+        this.spawnAfterimage(this.p1);
+      }
+      if (this.p2.state === "dash_fwd" || this.p2.state === "dash_back" || this.isSpecialAttack(this.p2.state)) {
+        this.spawnAfterimage(this.p2);
+      }
+    }
+    if (!this.cinematicCamera.active) {
+      this.updateCamera(dt);
+    }
     this.animateModels(gameDt);
     this.render();
   }
@@ -1526,8 +1604,16 @@ export class FightEngine3D {
     }
 
     this.callbacks.onHit?.(playerNum as 1 | 2, attackType);
-
-    // ── CHARACTER-SPECIFIC SPECIAL EFFECTS ──
+    // AAA: Impact ring on heavy hits
+    if (attackType === "heavy_release" || attackType === "medium") {
+      this.spawnImpactRing((attacker.x + defender.x) / 2, 1.0, 0.5, attacker.config.accentColor);
+    }
+    // AAA: Ground crater on heavy release
+    if (attackType === "heavy_release" && attacker.heavyChargeTime >= HEAVY_MAX_CHARGE * 0.8) {
+      this.spawnGroundCrater(defender.x, attacker.config.accentColor);
+      this.triggerScreenFlash(attacker.config.accentColor, 0.4, 0.1);
+    }
+    // ── CHARACTER-SPECIFIC SPECIAL EFFECTS ───
     if (this.isSpecialAttack(attackType)) {
       const spLevel = attackType === "special_3" ? 3 : attackType === "special_2" ? 2 : 1;
       const sp: SpecialMove = spLevel === 3 ? attacker.specials.sp3 : spLevel === 2 ? attacker.specials.sp2 : attacker.specials.sp1;
@@ -1569,12 +1655,29 @@ export class FightEngine3D {
         defender.stunTimer = Math.max(defender.stunTimer, sp.stun);
       }
 
-      // Use character-specific effect colors for the hit effect
+       // Use character-specific effect colors for the hit effect
       this.spawnHitEffect(
         (attacker.x + defender.x) / 2, 1.0, 0.5,
         "special", sp.color
       );
-
+      // AAA: Impact ring on special hits
+      this.spawnImpactRing((attacker.x + defender.x) / 2, 1.0, 0.5, sp.color);
+      // AAA: Ground crater on SP2+ hits
+      if (spLevel >= 2) {
+        this.spawnGroundCrater(defender.x, sp.color);
+      }
+      // AAA: Energy projectile on ranged/projectile specials
+      if (sp.type === "projectile" || sp.type === "area" || sp.type === "drain") {
+        this.spawnEnergyProjectile(attacker, sp.color, spLevel === 3 ? 12 : 8);
+      }
+      // AAA: Screen flash on SP2+ hits
+      if (spLevel >= 2) {
+        this.triggerScreenFlash(sp.color, spLevel === 3 ? 0.8 : 0.5, spLevel === 3 ? 0.25 : 0.15);
+      }
+      // AAA: SP3 cinematic camera zoom
+      if (spLevel === 3) {
+        this.startCinematicCamera("sp3_zoom", 0.8);
+      }
       // Character-specific screen shake
       if (sp.screenShake > this.screenShake.intensity) {
         this.screenShake.intensity = sp.screenShake;
@@ -1930,20 +2033,25 @@ export class FightEngine3D {
   private endRound(winner: 1 | 2) {
     const winnerFighter = winner === 1 ? this.p1 : this.p2;
     const loserFighter = winner === 1 ? this.p2 : this.p1;
-
     winnerFighter.roundWins++;
     winnerFighter.state = "victory";
     loserFighter.state = "ko";
-
     this.phase = "ko";
-    this.phaseTimer = 2.0;
+    this.phaseTimer = 2.5; // AAA: longer KO sequence
     this.callbacks.onPhaseChange?.("ko");
     this.callbacks.onRoundEnd?.(winner, this.p1.roundWins, this.p2.roundWins);
-
-    this.slowMo = { active: true, speed: 0.2, duration: 1.0, timer: 1.0 };
-    this.screenShake.intensity = 10;
-    this.screenShake.duration = 0.5;
+    this.slowMo = { active: true, speed: 0.15, duration: 1.2, timer: 1.2 }; // AAA: slower slow-mo
+    this.screenShake.intensity = 12;
+    this.screenShake.duration = 0.6;
     this.screenShake.timer = 0;
+    // AAA: KO screen flash
+    this.triggerScreenFlash(winnerFighter.config.accentColor, 0.7, 0.3);
+    // AAA: KO camera angle
+    this.startCinematicCamera("ko_angle", 1.5);
+    // AAA: Ground crater at KO location
+    this.spawnGroundCrater(loserFighter.x, winnerFighter.config.accentColor);
+    // AAA: Impact ring at KO
+    this.spawnImpactRing(loserFighter.x, 0.5, 0.5, winnerFighter.config.accentColor);
   }
 
   private checkMatchEnd() {
@@ -2495,11 +2603,267 @@ export class FightEngine3D {
     this.renderer.setSize(w, h);
   }
 
+  /* ═══ AAA VFX — AFTERIMAGE TRAILS ═══ */
+  private spawnAfterimage(f: Fighter) {
+    const sprite = f.model.sprite;
+    const geo = sprite.geometry.clone();
+    const color = new THREE.Color(f.config.accentColor);
+    const mat = new THREE.MeshBasicMaterial({
+      color, transparent: true, opacity: 0.5, depthWrite: false, side: THREE.DoubleSide,
+    });
+    const mesh = new THREE.Mesh(geo, mat);
+    mesh.position.copy(sprite.position);
+    mesh.position.x += f.model.group.position.x;
+    mesh.position.z = sprite.position.z - 0.05;
+    mesh.rotation.copy(sprite.rotation);
+    mesh.scale.copy(sprite.scale);
+    this.scene.add(mesh);
+    this.afterimages.push({ mesh, life: 0, maxLife: 0.25 });
+  }
+
+  private updateAfterimages(dt: number) {
+    for (let i = this.afterimages.length - 1; i >= 0; i--) {
+      const ai = this.afterimages[i];
+      ai.life += dt;
+      const progress = ai.life / ai.maxLife;
+      if (progress >= 1) {
+        this.scene.remove(ai.mesh);
+        ai.mesh.geometry.dispose();
+        (ai.mesh.material as THREE.Material).dispose();
+        this.afterimages.splice(i, 1);
+        continue;
+      }
+      const mat = ai.mesh.material as THREE.MeshBasicMaterial;
+      mat.opacity = 0.5 * (1 - progress);
+      ai.mesh.scale.multiplyScalar(0.98);
+    }
+  }
+
+  /* ═══ AAA VFX — ENERGY PROJECTILES ═══ */
+  private spawnEnergyProjectile(f: Fighter, color: string, speed: number = 8) {
+    const group = new THREE.Group();
+    const col = new THREE.Color(color);
+    // Core sphere
+    const coreGeo = new THREE.SphereGeometry(0.15, 8, 8);
+    const coreMat = new THREE.MeshBasicMaterial({ color: col, transparent: true, opacity: 0.9 });
+    const core = new THREE.Mesh(coreGeo, coreMat);
+    group.add(core);
+    // Outer glow
+    const glowGeo = new THREE.SphereGeometry(0.3, 8, 8);
+    const glowMat = new THREE.MeshBasicMaterial({ color: col, transparent: true, opacity: 0.3 });
+    const glow = new THREE.Mesh(glowGeo, glowMat);
+    glow.name = "glow";
+    group.add(glow);
+    // Trail particles
+    for (let i = 0; i < 6; i++) {
+      const pGeo = new THREE.SphereGeometry(0.04 + Math.random() * 0.04, 4, 4);
+      const pMat = new THREE.MeshBasicMaterial({ color: col, transparent: true, opacity: 0.6 });
+      const p = new THREE.Mesh(pGeo, pMat);
+      p.position.set(-0.1 * (i + 1), (Math.random() - 0.5) * 0.1, (Math.random() - 0.5) * 0.1);
+      p.userData.offset = i;
+      group.add(p);
+    }
+    const dir = f.facingRight ? 1 : -1;
+    group.position.set(f.x + dir * 0.5, 1.0, 0.5);
+    this.scene.add(group);
+    this.energyProjectiles.push({
+      group, x: f.x + dir * 0.5, y: 1.0,
+      vx: dir * speed, life: 0, maxLife: 1.5, color, owner: f === this.p1 ? 1 : 2,
+    });
+  }
+
+  private updateEnergyProjectiles(dt: number) {
+    for (let i = this.energyProjectiles.length - 1; i >= 0; i--) {
+      const proj = this.energyProjectiles[i];
+      proj.life += dt;
+      proj.x += proj.vx * dt;
+      proj.group.position.x = proj.x;
+      // Pulse the glow
+      const t = proj.life * 10;
+      proj.group.children.forEach((child, idx) => {
+        if (child.name === "glow") {
+          const scale = 1 + Math.sin(t) * 0.2;
+          child.scale.set(scale, scale, scale);
+        } else if (idx > 1) {
+          // Trail particles drift behind
+          child.position.x = -0.1 * (child.userData.offset + 1) - Math.sin(t + child.userData.offset) * 0.03;
+          const pMat = (child as THREE.Mesh).material as THREE.MeshBasicMaterial;
+          pMat.opacity = 0.6 * (1 - proj.life / proj.maxLife);
+        }
+      });
+      // Check collision with opponent
+      const target = proj.owner === 1 ? this.p2 : this.p1;
+      if (Math.abs(proj.x - target.x) < 0.6 && proj.life > 0.1) {
+        // Hit! Spawn impact effect
+        this.spawnImpactRing(proj.x, 1.0, 0.5, proj.color);
+        this.scene.remove(proj.group);
+        proj.group.traverse((child) => {
+          if (child instanceof THREE.Mesh) {
+            child.geometry.dispose();
+            (child.material as THREE.Material).dispose();
+          }
+        });
+        this.energyProjectiles.splice(i, 1);
+        continue;
+      }
+      if (proj.life >= proj.maxLife || Math.abs(proj.x) > 8) {
+        this.scene.remove(proj.group);
+        proj.group.traverse((child) => {
+          if (child instanceof THREE.Mesh) {
+            child.geometry.dispose();
+            (child.material as THREE.Material).dispose();
+          }
+        });
+        this.energyProjectiles.splice(i, 1);
+      }
+    }
+  }
+
+  /* ═══ AAA VFX — IMPACT RINGS ═══ */
+  private spawnImpactRing(x: number, y: number, z: number, color: string) {
+    const ringGeo = new THREE.TorusGeometry(0.05, 0.02, 8, 24);
+    const ringMat = new THREE.MeshBasicMaterial({ color: new THREE.Color(color), transparent: true, opacity: 0.9 });
+    const ring = new THREE.Mesh(ringGeo, ringMat);
+    ring.position.set(x, y, z + 0.3);
+    ring.rotation.x = Math.PI / 2;
+    this.scene.add(ring);
+    this.impactCraters.push({ mesh: ring, life: 0, maxLife: 0.5 });
+  }
+
+  /* ═══ AAA VFX — GROUND IMPACT CRATERS ═══ */
+  private spawnGroundCrater(x: number, color: string) {
+    const craterGeo = new THREE.RingGeometry(0.1, 0.5, 16);
+    const craterMat = new THREE.MeshBasicMaterial({
+      color: new THREE.Color(color), transparent: true, opacity: 0.6, side: THREE.DoubleSide,
+    });
+    const crater = new THREE.Mesh(craterGeo, craterMat);
+    crater.position.set(x, 0.02, 0);
+    crater.rotation.x = -Math.PI / 2;
+    this.scene.add(crater);
+    this.impactCraters.push({ mesh: crater, life: 0, maxLife: 2.0 });
+  }
+
+  private updateImpactCraters(dt: number) {
+    for (let i = this.impactCraters.length - 1; i >= 0; i--) {
+      const crater = this.impactCraters[i];
+      crater.life += dt;
+      const progress = crater.life / crater.maxLife;
+      if (progress >= 1) {
+        this.scene.remove(crater.mesh);
+        crater.mesh.geometry.dispose();
+        (crater.mesh.material as THREE.Material).dispose();
+        this.impactCraters.splice(i, 1);
+        continue;
+      }
+      const mat = crater.mesh.material as THREE.MeshBasicMaterial;
+      // Impact rings expand, craters fade
+      if (crater.maxLife <= 0.6) {
+        // Impact ring — expand and fade
+        const scale = 1 + progress * 4;
+        crater.mesh.scale.set(scale, scale, scale);
+        mat.opacity = 0.9 * (1 - progress);
+      } else {
+        // Ground crater — just fade
+        mat.opacity = 0.6 * (1 - progress * progress);
+      }
+    }
+  }
+
+  /* ═══ AAA VFX — SCREEN FLASH ═══ */
+  private triggerScreenFlash(color: string, intensity: number = 0.6, duration: number = 0.15) {
+    this.screenFlash.active = true;
+    this.screenFlash.color.set(color);
+    this.screenFlash.intensity = intensity;
+    this.screenFlash.timer = 0;
+    this.screenFlash.duration = duration;
+  }
+
+  private updateScreenFlash(dt: number) {
+    if (!this.screenFlash.active) return;
+    this.screenFlash.timer += dt;
+    const progress = this.screenFlash.timer / this.screenFlash.duration;
+    if (progress >= 1) {
+      this.screenFlash.active = false;
+      (this.screenFlashMesh.material as THREE.MeshBasicMaterial).opacity = 0;
+      return;
+    }
+    const mat = this.screenFlashMesh.material as THREE.MeshBasicMaterial;
+    mat.color.copy(this.screenFlash.color);
+    mat.opacity = this.screenFlash.intensity * (1 - progress);
+    // Keep flash in front of camera
+    this.screenFlashMesh.position.copy(this.camera.position);
+    this.screenFlashMesh.position.z -= 0.5;
+    this.screenFlashMesh.quaternion.copy(this.camera.quaternion);
+  }
+
+  /* ═══ AAA CAMERA — CINEMATIC SYSTEM ═══ */
+  private startCinematicCamera(type: CinematicCamera["type"], duration: number) {
+    this.cinematicCamera.active = true;
+    this.cinematicCamera.type = type;
+    this.cinematicCamera.timer = 0;
+    this.cinematicCamera.duration = duration;
+    const midX = (this.p1.x + this.p2.x) / 2;
+    switch (type) {
+      case "intro_sweep":
+        this.cinematicCamera.startPos.set(midX - 2, 2.5, 5.0);
+        this.cinematicCamera.endPos.set(midX, 1.0, 3.2);
+        this.cinematicCamera.startLookAt.set(this.p1.x, 0.7, 0);
+        this.cinematicCamera.endLookAt.set(midX, 0.7, 0);
+        break;
+      case "sp3_zoom": {
+        const attacker = this.p1.state.includes("special_3") ? this.p1 : this.p2;
+        this.cinematicCamera.startPos.set(midX, 1.0, this.camera.position.z);
+        this.cinematicCamera.endPos.set(attacker.x * 0.7, 0.9, 2.0);
+        this.cinematicCamera.startLookAt.set(midX, 0.7, 0);
+        this.cinematicCamera.endLookAt.set(attacker.x, 0.8, 0);
+        break;
+      }
+      case "ko_angle": {
+        const winner = this.p1.state === "victory" ? this.p1 : this.p2;
+        const loser = winner === this.p1 ? this.p2 : this.p1;
+        this.cinematicCamera.startPos.set(midX, 1.0, this.camera.position.z);
+        this.cinematicCamera.endPos.set(winner.x * 0.5, 1.5, 2.5);
+        this.cinematicCamera.startLookAt.set(midX, 0.7, 0);
+        this.cinematicCamera.endLookAt.set(loser.x, 0.3, 0);
+        break;
+      }
+    }
+  }
+
+  private updateCinematicCamera(dt: number) {
+    if (!this.cinematicCamera.active) return;
+    this.cinematicCamera.timer += dt;
+    const progress = Math.min(this.cinematicCamera.timer / this.cinematicCamera.duration, 1);
+    // Smooth easing
+    const eased = 1 - Math.pow(1 - progress, 3); // ease-out cubic
+    this.camera.position.lerpVectors(
+      this.cinematicCamera.startPos,
+      this.cinematicCamera.endPos,
+      eased
+    );
+    const lookAt = new THREE.Vector3().lerpVectors(
+      this.cinematicCamera.startLookAt,
+      this.cinematicCamera.endLookAt,
+      eased
+    );
+    this.camera.lookAt(lookAt);
+    if (progress >= 1) {
+      this.cinematicCamera.active = false;
+      if (this.cinematicCamera.type === "intro_sweep") {
+        this.introSweepDone = true;
+      }
+    }
+  }
+
   public dispose() {
     this.disposed = true;
     window.removeEventListener("resize", this.handleResize);
     window.removeEventListener("keydown", (this as any)._keyDown);
     window.removeEventListener("keyup", (this as any)._keyUp);
+    // Clean up AAA VFX
+    this.afterimages.forEach(ai => { this.scene.remove(ai.mesh); ai.mesh.geometry.dispose(); (ai.mesh.material as THREE.Material).dispose(); });
+    this.energyProjectiles.forEach(p => { this.scene.remove(p.group); });
+    this.impactCraters.forEach(c => { this.scene.remove(c.mesh); c.mesh.geometry.dispose(); (c.mesh.material as THREE.Material).dispose(); });
 
     this.scene.traverse((object) => {
       if (object instanceof THREE.Mesh) {

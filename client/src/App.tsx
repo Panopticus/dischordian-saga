@@ -65,6 +65,8 @@ import SettingsPage from "./pages/SettingsPage";
 import ClueJournalPage from "./pages/ClueJournalPage";
 import AchievementToast from "./components/AchievementToast";
 import TradeNotificationWatcher from "./components/TradeNotificationWatcher";
+import ProtectedRoute from "./components/ProtectedRoute";
+import DiscoveryUnlockOverlay from "./components/DiscoveryUnlockOverlay";
 import ElaraDialog from "./components/ElaraDialog";
 import RadioMode from "./components/RadioMode";
 import EasterEggs from "./components/EasterEggs";
@@ -146,8 +148,11 @@ function GameGate() {
   return (
     <>
       <CommandConsole elaraTTS={elaraTTS}>
-        <Router />
+        <ProtectedRoute>
+          <Router />
+        </ProtectedRoute>
       </CommandConsole>
+      <DiscoveryUnlockOverlay />
       <CoNexusMediaPlayer />
       <AchievementToast />
       <TradeNotificationWatcher />

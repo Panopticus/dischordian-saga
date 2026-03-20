@@ -1257,3 +1257,58 @@
 - [x] Auto-lock screen orientation to landscape when entering fullscreen on mobile
 - [x] Listen for fullscreen exit (Escape key) to sync state
 - [x] All 1021 tests pass across 30 files, zero TypeScript errors
+
+### Phase 41: Progressive Discovery System (KOTOR-style)
+- [ ] Build featureUnlocks database table to track which features each user has discovered
+- [ ] Build discovery router with getUnlocks, unlockFeature, getDiscoveryProgress procedures
+- [ ] Map each app section to a specific room/area in the Ark exploration
+- [ ] Build DiscoveryGate component that shows locked state for undiscovered features
+- [ ] Redesign AppShell navigation to only show discovered sections
+- [ ] Redesign app entry to start with exploration (no other nav visible initially)
+- [ ] Build KOTOR-style awakening sequence for first-time users
+- [ ] Wire room discoveries to feature unlocks (Bridge→Loredex, Armory→Fight, etc.)
+- [ ] Add discovery notifications when new features are unlocked
+- [ ] Ensure returning users see their previously unlocked features
+
+### Phase 42: Fighting Game AAA Mobile Overhaul
+- [ ] Improve combo system with multi-hit chains and juggle mechanics
+- [ ] Add hit spark visual effects and screen shake on impact
+- [ ] Improve camera work with dynamic zoom on special moves
+- [ ] Add character-specific special move animations
+- [ ] Improve health bar and HUD design for mobile
+- [ ] Add round transition animations and KO screen
+- [ ] Improve AI opponent behavior with difficulty scaling
+- [ ] Add fight intro sequences with character name cards
+- [ ] Improve sound design with impact sounds and music
+
+### Phase 43: Admin Console
+- [ ] Build admin router with CRUD for loredex entries
+- [ ] Build admin router with CRUD for songs and albums
+- [ ] Build admin router with CRUD for cards and card packs
+- [ ] Build admin dashboard page with content management UI
+- [ ] Add loredex entry editor with relationship management
+- [ ] Add song editor with album assignment and metadata
+- [ ] Add card editor with stats, abilities, and art management
+- [ ] Gate admin routes behind adminProcedure
+
+### Phase 44: Tier 1 Infrastructure Upgrades
+- [ ] Add database transactions to all currency operations
+- [ ] Add rate limiting middleware (60 req/min general, 10 req/min LLM)
+- [ ] Implement React.lazy code splitting for all 52 pages
+- [ ] Move static JSON to server API with caching
+- [ ] Add foreign key constraints and populate drizzle/relations.ts
+
+### Phase 45: Tier 2 Infrastructure Upgrades
+- [ ] Add cursor-based pagination to card gallery, trade history, achievements, leaderboards
+- [ ] Migrate localStorage game state to server-side storage
+- [ ] Add skeleton loaders to all pages
+- [ ] Dynamic imports for Three.js and ethers.js
+- [ ] Add server-side query caching with staleTime
+- [ ] Add CSRF protection
+- [ ] Add soft deletes to key tables
+
+### Phase 46: Tier 3 Infrastructure Upgrades
+- [ ] Accessibility overhaul (ARIA labels, keyboard nav, focus traps)
+- [ ] Add error boundaries per route
+- [ ] Replace console.logs with structured logging
+- [ ] Add haptic feedback on mobile interactions

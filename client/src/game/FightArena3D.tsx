@@ -297,6 +297,8 @@ export default function FightArena3D({ player, opponent, arena, difficulty, onMa
         ended: false,
       };
       gesturesRef.current.set(touch.identifier, tracker);
+      // AAA: Touch ripple on contact
+      spawnTouchRipple(touch.clientX, touch.clientY, side);
 
       // Start hold timer for right side (heavy charge)
       if (side === "right") {
@@ -417,11 +419,26 @@ export default function FightArena3D({ player, opponent, arena, difficulty, onMa
     engineRef.current?.setHeavyHold(false);
   }, []);
 
+  /* ═══ TOUCH RIPPLE STATE (AAA) ═══ */
+  const [touchRipples, setTouchRipples] = useState<Array<{ id: number; x: number; y: number; side: "left" | "right" }>>([]);
+  const rippleIdRef = useRef(0);
+  const spawnTouchRipple = useCallback((x: number, y: number, side: "left" | "right") => {
+    const id = rippleIdRef.current++;
+    setTouchRipples(prev => [...prev.slice(-4), { id, x, y, side }]);
+    setTimeout(() => setTouchRipples(prev => prev.filter(r => r.id !== id)), 500);
+  }, []);
+
   /* ═══ HUD CALCULATIONS ═══ */
   const p1HpPct = hudState.p1.maxHp > 0 ? (hudState.p1.displayHp / hudState.p1.maxHp) * 100 : 0;
   const p2HpPct = hudState.p2.maxHp > 0 ? (hudState.p2.displayHp / hudState.p2.maxHp) * 100 : 0;
+  // AAA: Actual HP for white trailing bar
+  const p1ActualHpPct = hudState.p1.maxHp > 0 ? (hudState.p1.hp / hudState.p1.maxHp) * 100 : 0;
+  const p2ActualHpPct = hudState.p2.maxHp > 0 ? (hudState.p2.hp / hudState.p2.maxHp) * 100 : 0;
   const p1SpecLevel = hudState.p1.specialMeter >= 300 ? 3 : hudState.p1.specialMeter >= 200 ? 2 : hudState.p1.specialMeter >= 100 ? 1 : 0;
   const p2SpecLevel = hudState.p2.specialMeter >= 300 ? 3 : hudState.p2.specialMeter >= 200 ? 2 : hudState.p2.specialMeter >= 100 ? 1 : 0;
+  // AAA: Danger state for low HP pulsing
+  const p1Danger = p1HpPct <= 20;
+  const p2Danger = p2HpPct <= 20;
 
   return (
     <div
@@ -432,6 +449,17 @@ export default function FightArena3D({ player, opponent, arena, difficulty, onMa
       onTouchEnd={showTutorial ? undefined : handleTouchEnd}
       onTouchCancel={showTutorial ? undefined : handleTouchCancel}
     >
+      {/* AAA: CSS Keyframes for danger pulse */}
+      <style>{`
+        @keyframes dangerPulse {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.6; }
+        }
+        @keyframes specialGlow {
+          0%, 100% { box-shadow: 0 0 4px currentColor; }
+          50% { box-shadow: 0 0 12px currentColor, 0 0 20px currentColor; }
+        }
+      `}</style>
       {/* Three.js container */}
       <div ref={containerRef} className="absolute inset-0" style={{ zIndex: 0 }} />
 
@@ -464,28 +492,38 @@ export default function FightArena3D({ player, opponent, arena, difficulty, onMa
                 <div style={{ fontFamily: "monospace", fontSize: "max(1vw, 10px)", color: "rgba(255,255,255,0.7)", marginBottom: "0.3vh" }}>
                   {hudState.p1.name}
                 </div>
-                {/* Health bar */}
+                {/* Health bar — AAA: white trailing damage bar */}
                 <div style={{
-                  height: "max(1.5vh, 12px)", borderRadius: 3, overflow: "hidden",
-                  background: "rgba(0,0,0,0.7)", border: "1px solid rgba(255,255,255,0.3)",
+                  height: "max(1.8vh, 14px)", borderRadius: 3, overflow: "hidden",
+                  background: "rgba(0,0,0,0.7)", border: `1px solid ${p1Danger ? "rgba(239,68,68,0.6)" : "rgba(255,255,255,0.3)"}`,
                   position: "relative",
+                  boxShadow: p1Danger ? "0 0 8px rgba(239,68,68,0.3)" : "none",
                 }}>
+                  {/* White trailing bar (displayHp - lags behind actual) */}
                   <div style={{
                     position: "absolute", inset: 0, borderRadius: 3,
                     width: `${p1HpPct}%`,
-                    background: p1HpPct > 50 ? `linear-gradient(90deg, #22c55e, ${hudState.p1.color})` :
-                                p1HpPct > 25 ? "linear-gradient(90deg, #eab308, #ef4444)" : "#ef4444",
-                    transition: "width 0.3s",
+                    background: "rgba(255,255,255,0.35)",
+                    transition: "width 0.8s ease-out",
+                  }} />
+                  {/* Actual HP bar */}
+                  <div style={{
+                    position: "absolute", inset: 0, borderRadius: 3,
+                    width: `${p1ActualHpPct}%`,
+                    background: p1ActualHpPct > 50 ? `linear-gradient(90deg, #22c55e, ${hudState.p1.color})` :
+                                p1ActualHpPct > 25 ? "linear-gradient(90deg, #eab308, #ef4444)" : "#ef4444",
+                    transition: "width 0.15s",
+                    animation: p1Danger ? "dangerPulse 0.5s ease-in-out infinite" : "none",
                   }} />
                   <div style={{
                     position: "absolute", inset: 0, display: "flex", alignItems: "center", paddingLeft: "0.5vw",
                   }}>
                     <span style={{
-                      fontFamily: "monospace", fontSize: "max(0.8vw, 9px)",
+                      fontFamily: "monospace", fontSize: "max(0.9vw, 10px)",
                       color: "rgba(255,255,255,0.95)", fontWeight: "bold",
                       textShadow: "0 1px 3px rgba(0,0,0,0.8)",
                     }}>
-                      {Math.ceil(hudState.p1.displayHp)}
+                      {Math.ceil(hudState.p1.hp)}
                     </span>
                   </div>
                 </div>
@@ -559,28 +597,38 @@ export default function FightArena3D({ player, opponent, arena, difficulty, onMa
                 <div style={{ fontFamily: "monospace", fontSize: "max(1vw, 10px)", color: "rgba(255,255,255,0.7)", marginBottom: "0.3vh", textAlign: "right" }}>
                   {hudState.p2.name}
                 </div>
-                {/* Health bar (reversed) */}
+                {/* Health bar (reversed) — AAA: white trailing damage bar */}
                 <div style={{
-                  height: "max(1.5vh, 12px)", borderRadius: 3, overflow: "hidden",
-                  background: "rgba(0,0,0,0.7)", border: "1px solid rgba(255,255,255,0.3)",
+                  height: "max(1.8vh, 14px)", borderRadius: 3, overflow: "hidden",
+                  background: "rgba(0,0,0,0.7)", border: `1px solid ${p2Danger ? "rgba(239,68,68,0.6)" : "rgba(255,255,255,0.3)"}`,
                   position: "relative", direction: "rtl",
+                  boxShadow: p2Danger ? "0 0 8px rgba(239,68,68,0.3)" : "none",
                 }}>
+                  {/* White trailing bar */}
                   <div style={{
                     position: "absolute", top: 0, right: 0, bottom: 0,
                     width: `${p2HpPct}%`, borderRadius: 3,
-                    background: p2HpPct > 50 ? `linear-gradient(270deg, #22c55e, ${hudState.p2.color})` :
-                                p2HpPct > 25 ? "linear-gradient(270deg, #eab308, #ef4444)" : "#ef4444",
-                    transition: "width 0.3s",
+                    background: "rgba(255,255,255,0.35)",
+                    transition: "width 0.8s ease-out",
+                  }} />
+                  {/* Actual HP bar */}
+                  <div style={{
+                    position: "absolute", top: 0, right: 0, bottom: 0,
+                    width: `${p2ActualHpPct}%`, borderRadius: 3,
+                    background: p2ActualHpPct > 50 ? `linear-gradient(270deg, #22c55e, ${hudState.p2.color})` :
+                                p2ActualHpPct > 25 ? "linear-gradient(270deg, #eab308, #ef4444)" : "#ef4444",
+                    transition: "width 0.15s",
+                    animation: p2Danger ? "dangerPulse 0.5s ease-in-out infinite" : "none",
                   }} />
                   <div style={{
                     position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "flex-end", paddingRight: "0.5vw",
                   }}>
                     <span style={{
-                      fontFamily: "monospace", fontSize: "max(0.8vw, 9px)",
+                      fontFamily: "monospace", fontSize: "max(0.9vw, 10px)",
                       color: "rgba(255,255,255,0.95)", fontWeight: "bold",
                       textShadow: "0 1px 3px rgba(0,0,0,0.8)",
                     }}>
-                      {Math.ceil(hudState.p2.displayHp)}
+                      {Math.ceil(hudState.p2.hp)}
                     </span>
                   </div>
                 </div>
@@ -697,7 +745,7 @@ export default function FightArena3D({ player, opponent, arena, difficulty, onMa
           )}
         </AnimatePresence>
 
-        {/* ── COMBO DISPLAY ── */}
+        {/* ── COMBO DISPLAY — AAA: Scaling text, color tiers, combo labels ── */}
         <AnimatePresence>
           {comboDisplay && (
             <motion.div
@@ -713,15 +761,38 @@ export default function FightArena3D({ player, opponent, arena, difficulty, onMa
                 textAlign: comboDisplay.player === 1 ? "left" : "right",
               }}
             >
+              {/* AAA: Combo tier label */}
+              {comboDisplay.count >= 3 && (
+                <div style={{
+                  fontFamily: "'Orbitron', monospace",
+                  fontSize: "max(0.8vw, 8px)",
+                  color: comboDisplay.count >= 5 ? "#ef4444" : comboDisplay.count >= 4 ? "#f97316" : "#eab308",
+                  letterSpacing: "0.3em", marginBottom: "0.2vh",
+                  textShadow: "0 1px 4px rgba(0,0,0,0.8)",
+                }}>
+                  {comboDisplay.count >= 5 ? "DEVASTATING" : comboDisplay.count >= 4 ? "BRUTAL" : "IMPRESSIVE"}
+                </div>
+              )}
               <div style={{
-                fontFamily: "'Orbitron', monospace", fontSize: "max(3vw, 28px)", fontWeight: "900",
-                color: comboDisplay.count >= 5 ? "#ef4444" : "#fbbf24",
-                textShadow: `0 0 20px ${comboDisplay.count >= 5 ? "rgba(239,68,68,0.5)" : "rgba(251,191,36,0.5)"}, 0 2px 0 #000`,
+                fontFamily: "'Orbitron', monospace",
+                fontSize: `max(${Math.min(3 + comboDisplay.count * 0.4, 6)}vw, ${Math.min(28 + comboDisplay.count * 3, 48)}px)`,
+                fontWeight: "900",
+                color: comboDisplay.count >= 5 ? "#ef4444" : comboDisplay.count >= 4 ? "#f97316" : "#fbbf24",
+                textShadow: `0 0 ${10 + comboDisplay.count * 4}px ${comboDisplay.count >= 5 ? "rgba(239,68,68,0.6)" : "rgba(251,191,36,0.5)"}, 0 2px 0 #000`,
+                lineHeight: 1,
               }}>
                 {comboDisplay.count} HIT{comboDisplay.count >= 5 ? "!" : ""}
               </div>
-              <div style={{ fontFamily: "monospace", fontSize: "max(1.2vw, 12px)", color: "rgba(255,255,255,0.6)" }}>
+              <div style={{
+                fontFamily: "monospace", fontSize: "max(1.2vw, 12px)",
+                color: "rgba(255,255,255,0.7)", marginTop: "0.3vh",
+              }}>
                 {comboDisplay.damage} DMG
+                {comboDisplay.count >= 3 && (
+                  <span style={{ color: "#ef4444", marginLeft: "0.5vw", fontSize: "max(0.8vw, 9px)" }}>
+                    x{(Math.pow(0.92, comboDisplay.count - 1) * 100).toFixed(0)}%
+                  </span>
+                )}
               </div>
             </motion.div>
           )}
@@ -761,9 +832,28 @@ export default function FightArena3D({ player, opponent, arena, difficulty, onMa
         )}
       </div>
 
-      {/* ═══ MOBILE TOUCH ZONES OVERLAY (visual guide) ═══ */}
+      {/* ═══ MOBILE TOUCH ZONES OVERLAY (visual guide) — AAA: Touch ripples ═══ */}
       {isMobile && phase === "fighting" && !showTutorial && (
         <div className="absolute inset-0 pointer-events-none" style={{ zIndex: 5 }}>
+          {/* Touch ripple effects */}
+          <AnimatePresence>
+            {touchRipples.map(ripple => (
+              <motion.div
+                key={ripple.id}
+                initial={{ scale: 0, opacity: 0.6 }}
+                animate={{ scale: 3, opacity: 0 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.5, ease: "easeOut" }}
+                style={{
+                  position: "absolute",
+                  left: ripple.x - 20, top: ripple.y - 20,
+                  width: 40, height: 40, borderRadius: "50%",
+                  border: `2px solid ${ripple.side === "left" ? "rgba(34,211,238,0.5)" : "rgba(239,68,68,0.5)"}`,
+                  pointerEvents: "none",
+                }}
+              />
+            ))}
+          </AnimatePresence>
           {/* Left zone indicator */}
           <div style={{
             position: "absolute", left: 0, top: 0, bottom: 0, width: "50%",
