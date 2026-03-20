@@ -1,3 +1,4 @@
+import { useGameAreaBGM } from "@/contexts/GameAudioContext";
 import { useState, useEffect, useCallback, useRef, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAuth } from "@/_core/hooks/useAuth";
@@ -95,6 +96,7 @@ const TUTORIAL_STEPS: TutorialStep[] = [
 
 export default function CardGamePage() {
   const { user } = useAuth();
+  useGameAreaBGM("card_battle");
   const [screen, setScreen] = useState<GameScreen>("menu");
   const [tutorialStep, setTutorialStep] = useState(0);
   const [selectedFaction, setSelectedFaction] = useState<Faction | null>(null);

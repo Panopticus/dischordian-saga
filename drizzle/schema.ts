@@ -1168,3 +1168,68 @@ export const featureUnlocks = mysqlTable("feature_unlocks", {
 });
 export type FeatureUnlock = typeof featureUnlocks.$inferSelect;
 export type InsertFeatureUnlock = typeof featureUnlocks.$inferInsert;
+
+/**
+ * War Map — Faction territory control.
+ * Tracks which faction controls each sector and the control points.
+ */
+export const warTerritories = mysqlTable("war_territories", {
+  id: int("id").autoincrement().primaryKey(),
+  sectorId: int("sectorId").notNull(),
+  /** Controlling faction */
+  faction: mysqlEnum("faction", ["empire", "insurgency"]),
+  /** Control points (0-100). 50 = contested, >50 = faction leans, 100 = fully controlled */
+  controlPoints: int("controlPoints").notNull().default(50),
+  /** Number of times this sector has been contested */
+  contestCount: int("contestCount").notNull().default(0),
+  /** Current season ID */
+  seasonId: int("seasonId").notNull().default(1),
+  /** Last capture event timestamp */
+  lastCaptured: timestamp("lastCaptured"),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+export type WarTerritory = typeof warTerritories.$inferSelect;
+
+/**
+ * War Map — Faction contribution log.
+ * Tracks individual player contributions to faction war effort.
+ */
+export const warContributions = mysqlTable("war_contributions", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  sectorId: int("sectorId").notNull(),
+  faction: mysqlEnum("faction", ["empire", "insurgency"]).notNull(),
+  /** Type of contribution */
+  actionType: mysqlEnum("actionType", [
+    "capture",
+    "defend",
+    "reinforce",
+    "sabotage",
+    "trade",
+    "build",
+  ]).notNull(),
+  /** Points contributed */
+  points: int("points").notNull().default(1),
+  seasonId: int("seasonId").notNull().default(1),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+export type WarContribution = typeof warContributions.$inferSelect;
+
+/**
+ * War Map — Season tracking with weekly resets.
+ */
+export const warSeasons = mysqlTable("war_seasons", {
+  id: int("id").autoincrement().primaryKey(),
+  seasonNumber: int("seasonNumber").notNull().default(1),
+  /** Season name */
+  name: varchar("name", { length: 256 }).notNull().default("The First Conflict"),
+  /** Which faction won (null if ongoing) */
+  winner: mysqlEnum("winner", ["empire", "insurgency"]),
+  /** Season start */
+  startedAt: timestamp("startedAt").defaultNow().notNull(),
+  /** Season end (null if ongoing) */
+  endedAt: timestamp("endedAt"),
+  /** Reward data JSON */
+  rewards: json("rewards").$type<Record<string, unknown>>(),
+});
+export type WarSeason = typeof warSeasons.$inferSelect;

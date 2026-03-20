@@ -1,3 +1,4 @@
+import { useGameAreaBGM } from "@/contexts/GameAudioContext";
 /* ═══════════════════════════════════════════════════════
    ARK EXPLORER PAGE — Point-and-click room exploration
    Old-school adventure game with clickable hotspots,
@@ -369,6 +370,7 @@ export default function ArkExplorerPage() {
   } = useGame();
   const { discoverEntry } = useGamification();
   const { setRoomAmbience, playSFX, initAudio, audioReady } = useSound();
+  useGameAreaBGM("ark");
   const [, navigate] = useLocation();
   const [elaraText, setElaraText] = useState<string | null>(null);
   const [showMap, setShowMap] = useState(false);

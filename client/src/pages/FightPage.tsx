@@ -1,3 +1,4 @@
+import { useGameAreaBGM } from "@/contexts/GameAudioContext";
 /* ═══════════════════════════════════════════════════════
    THE COLLECTOR'S ARENA — Main Fight Page
    Rebranded with lore opening, story mode, character
@@ -53,6 +54,7 @@ const FACTION_COLORS: Record<string, string> = {
 export default function FightPage() {
   const gam = useGamification();
   const { recordAndReward } = useContentReward();
+  useGameAreaBGM("arena_battle");
   const [phase, setPhase] = useState<Phase>("title");
   const [selectedPlayer, setSelectedPlayer] = useState<FighterData | null>(null);
   const [selectedOpponent, setSelectedOpponent] = useState<FighterData | null>(null);

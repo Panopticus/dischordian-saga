@@ -11,6 +11,7 @@ import { useLocation } from "wouter";
 import { trpc } from "@/lib/trpc";
 import StarterDeckViewer, { generateStarterDeck } from "@/components/StarterDeckViewer";
 import { toast } from "sonner";
+import HolographicElara from "@/components/HolographicElara";
 
 const ELARA_PORTRAIT = "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/elara_portrait_speaking-J3GJUrfnNKzSBrxY2PfWrL.webp";
 const CRYO_BG = "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/room_cryo_bay-SdeEqURrDvgrrbJq4WK3N5.webp";
@@ -66,23 +67,10 @@ function ElaraDialogBox({
       className="w-full max-w-2xl mx-auto"
     >
       <div className="relative">
-        {/* Elara portrait */}
+        {/* Holographic Elara portrait */}
         {showPortrait && (
           <div className="flex justify-center mb-4">
-            <div className="relative">
-              <img
-                src={ELARA_PORTRAIT}
-                alt="Elara"
-                className="w-20 h-20 sm:w-24 sm:h-24 rounded-full object-cover border-2 border-[var(--neon-cyan)]/30"
-                style={{ boxShadow: "0 0 20px rgba(51,226,230,0.2)" }}
-              />
-              <div className="absolute inset-0 rounded-full animate-pulse" style={{
-                boxShadow: "0 0 30px rgba(51,226,230,0.15)",
-              }} />
-              <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 px-2 py-0.5 rounded-full bg-[var(--neon-cyan)]/10 border border-[var(--neon-cyan)]/30">
-                <span className="font-mono text-[9px] text-[var(--neon-cyan)] tracking-[0.2em]">ELARA</span>
-              </div>
-            </div>
+            <HolographicElara size="md" isSpeaking={!done} />
           </div>
         )}
 

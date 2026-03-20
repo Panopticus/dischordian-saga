@@ -1,3 +1,4 @@
+import { useGameAreaBGM } from "@/contexts/GameAudioContext";
 import { useState, useRef, useEffect, useCallback } from "react";
 import { trpc } from "@/lib/trpc";
 import { useAuth } from "@/_core/hooks/useAuth";
@@ -591,6 +592,7 @@ function colorClass(type: TermLine["type"]): string {
 
 export default function TradeWarsPage() {
   const { user, isAuthenticated, loading: authLoading } = useAuth();
+  useGameAreaBGM("trade_nav");
   const [lines, setLines] = useState<TermLine[]>([]);
   const [input, setInput] = useState("");
   const [commandHistory, setCommandHistory] = useState<string[]>([]);

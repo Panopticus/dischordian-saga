@@ -1,3 +1,4 @@
+import { useGameAreaBGM } from "@/contexts/GameAudioContext";
 /* ═══════════════════════════════════════════════════════
    LORE QUIZ — Test knowledge of the Dischordian Saga.
    Generates questions from the loredex data with
@@ -155,6 +156,7 @@ const CATEGORY_ICONS: Record<string, typeof Brain> = {
 export default function LoreQuizPage() {
   const { entries } = useLoredex();
   const gamification = useGamification();
+  useGameAreaBGM("quiz");
   const [quizState, setQuizState] = useState<QuizState>("menu");
   const [difficulty, setDifficulty] = useState<"easy" | "medium" | "hard">("easy");
   const [currentQ, setCurrentQ] = useState(0);

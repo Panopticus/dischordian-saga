@@ -1,4 +1,4 @@
-import { Suspense, lazy } from "react";
+import { Suspense, lazy, type ReactNode } from "react";
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/NotFound";
@@ -12,6 +12,7 @@ import { GamificationProvider } from "./contexts/GamificationContext";
 import { GameProvider, useGame } from "./contexts/GameContext";
 import { SoundProvider, useSound } from "./contexts/SoundContext";
 import { AmbientMusicProvider } from "./contexts/AmbientMusicContext";
+import { GameAudioProvider } from "./contexts/GameAudioContext";
 import PlayerBar from "./components/PlayerBar";
 import CoNexusMediaPlayer from "./components/CoNexusMediaPlayer";
 import AppShell from "./components/AppShell";
@@ -44,6 +45,7 @@ const CardGamePage = lazy(() => import("./pages/CardGamePage"));
 const InceptionArkPage = lazy(() => import("./pages/InceptionArkPage"));
 const TrophyRoomPage = lazy(() => import("./pages/TrophyRoomPage"));
 const TradeWarsPage = lazy(() => import("./pages/TradeWarsPage"));
+const WarMapPage = lazy(() => import("./pages/WarMapPage"));
 const DeckBuilderPage = lazy(() => import("./pages/DeckBuilderPage"));
 const CitizenCreationPage = lazy(() => import("./pages/CitizenCreationPage"));
 const CharacterSheetPage = lazy(() => import("./pages/CharacterSheetPage"));
@@ -113,6 +115,7 @@ function Router() {
         <Route path="/ark-legacy" component={InceptionArkPage} />
         <Route path="/trophy" component={TrophyRoomPage} />
         <Route path="/trade-empire" component={TradeWarsPage} />
+        <Route path="/war-map" component={WarMapPage} />
         <Route path="/deck-builder" component={DeckBuilderPage} />
         <Route path="/create-citizen" component={CitizenCreationPage} />
         <Route path="/character-sheet" component={CharacterSheetPage} />
@@ -203,6 +206,16 @@ function useSoundForTTS() {
   return { muted, volume };
 }
 
+/** Wrapper that reads SoundContext state and passes to GameAudioProvider */
+function GameAudioInner({ children }: { children: ReactNode }) {
+  const { muted, volume } = useSound();
+  return (
+    <GameAudioProvider masterVolume={volume * 0.6} masterMuted={muted}>
+      {children}
+    </GameAudioProvider>
+  );
+}
+
 function App() {
   return (
     <ErrorBoundary>
@@ -211,6 +224,7 @@ function App() {
           <GameProvider>
             <SoundProvider>
               <AmbientMusicProvider>
+              <GameAudioInner>
               <LoredexProvider>
                 <PlayerProvider>
                   <TooltipProvider>
@@ -219,6 +233,7 @@ function App() {
                   </TooltipProvider>
                 </PlayerProvider>
               </LoredexProvider>
+              </GameAudioInner>
               </AmbientMusicProvider>
             </SoundProvider>
           </GameProvider>

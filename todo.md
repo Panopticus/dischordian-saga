@@ -1391,3 +1391,13 @@
 - [x] Build multiplayer Trade Empire leaderboard on galaxy map (show other players' territories)
 - [x] Extract all Elara dialog lines for VO generation
 - [x] Create Suno 5.1 prompts for game background music (all game modes)
+
+### Phase 56: Audio System, War Map, Holographic Elara
+- [x] Build GameAudioManager context with crossfade transitions between game areas
+- [x] Add volume ducking when Elara speaks (VO priority over BGM)
+- [x] Wire audio tracks to each game area (Ark, Trade Empire, Card Game, Arena, etc.)
+- [x] Build real-time faction War Map mode with territory control
+- [x] Add War Map server procedures (claim sector, faction scores, weekly reset)
+- [x] Build War Map UI page with live faction territory visualization
+- [x] Create animated holographic Elara avatar component for dialog sequences
+- [x] Wire holographic Elara into Awakening flow and Ark exploration dialog

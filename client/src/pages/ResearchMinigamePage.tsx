@@ -1,3 +1,4 @@
+import { useGameAreaBGM } from "@/contexts/GameAudioContext";
 /* ═══════════════════════════════════════════════════════
    RESEARCH MINIGAME — Decrypt, Connect, Sequence
    Solve puzzles to unlock hidden Loredex entries.
@@ -234,6 +235,7 @@ const KEYBOARD_ROWS = [
 export default function ResearchMinigamePage() {
   const { entries, relationships, discoverEntry: loredexDiscover } = useLoredex();
   const { discoverEntry: gamifDiscover, xp, level, title } = useGamification();
+  useGameAreaBGM("research_cipher");
   const [gameState, setGameState] = useState<GameState>("menu");
   const [puzzle, setPuzzle] = useState<Puzzle | null>(null);
   const [selectedPuzzleType, setSelectedPuzzleType] = useState<PuzzleType>("cipher");

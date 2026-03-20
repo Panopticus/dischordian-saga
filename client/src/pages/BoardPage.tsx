@@ -1,3 +1,4 @@
+import { useGameAreaBGM } from "@/contexts/GameAudioContext";
 import { useLoredex } from "@/contexts/LoredexContext";
 import { useGamification } from "@/contexts/GamificationContext";
 import { Link } from "wouter";
@@ -60,6 +61,7 @@ export default function BoardPage() {
   const { entries, relationships, discoverEntry, discoveredIds, discoveryProgress } = useLoredex();
   const gamification = useGamification();
   const boardTrackedRef = useRef(false);
+  useGameAreaBGM("conspiracy");
   const [discoveryMode, setDiscoveryMode] = useState<"discovered" | "all">("discovered");
 
   useEffect(() => {

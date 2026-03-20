@@ -3,6 +3,7 @@ import { trpc } from "@/lib/trpc";
 import { useLocation } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, MessageCircle, ChevronRight, Loader2, Sparkles } from "lucide-react";
+import HolographicElara from "./HolographicElara";
 import { Streamdown } from "streamdown";
 
 const ELARA_PORTRAIT = "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/elara_portrait_7ce2522f.png";
@@ -474,10 +475,8 @@ export default function ElaraDialog({ elaraTTS: _elaraTTS }: { elaraTTS?: any } 
               {/* Pulsing ring */}
               <div className="absolute inset-0 rounded-full animate-cyber-pulse" 
                    style={{ background: "radial-gradient(circle, rgba(51,226,230,0.2) 0%, transparent 70%)" }} />
-              {/* Avatar */}
-              <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full overflow-hidden border-2 border-[var(--neon-cyan)] shadow-[0_0_20px_rgba(51,226,230,0.3)] group-hover:shadow-[0_0_30px_rgba(51,226,230,0.5)] transition-shadow">
-                <img src={ELARA_AVATAR} alt="Elara" className="w-full h-full object-cover" />
-              </div>
+              {/* Holographic Avatar */}
+              <HolographicElara size="sm" isSpeaking={false} />
               {/* Label */}
               <div className="absolute -top-8 left-1/2 -translate-x-1/2 whitespace-nowrap bg-[var(--glass-base)] backdrop-blur-md border border-[var(--glass-border)] rounded-md px-2 py-1 text-[10px] font-mono text-[var(--neon-cyan)] opacity-0 group-hover:opacity-100 transition-opacity">
                 TALK TO ELARA
@@ -508,10 +507,8 @@ export default function ElaraDialog({ elaraTTS: _elaraTTS }: { elaraTTS?: any } 
               {/* ── HEADER ── */}
               <div className="flex items-center gap-3 px-4 py-3 border-b border-[var(--glass-border)]"
                    style={{ background: "linear-gradient(180deg, rgba(22,30,95,0.5) 0%, rgba(1,0,32,0.8) 100%)" }}>
-                <div className="w-10 h-10 rounded-full overflow-hidden border border-[var(--neon-cyan)]/50 shadow-[0_0_10px_rgba(51,226,230,0.2)]">
-                  <img src={ELARA_AVATAR} alt="Elara" className="w-full h-full object-cover" />
-                </div>
-                <div className="flex-1">
+                <HolographicElara size="sm" isSpeaking={isLoading} />
+                <div className="flex-1 ml-1">
                   <h3 className="font-display text-sm font-bold text-white tracking-wider">ELARA</h3>
                   <p className="font-mono text-[10px] text-[var(--neon-cyan)]/70 tracking-widest">ARK NAVIGATOR // LORE KEEPER</p>
                 </div>
