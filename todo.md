@@ -1383,3 +1383,11 @@
 - [x] Build research minigame to unlock additional lore entries (puzzle mechanic)
 - [x] Upgrade Trade Empire to graphical galactic map (Civilization/mobile strategy style)
 - [x] Create Kling 3.0 start/end frame prompts for discovery hook video logs
+
+### Phase 55: Discovery Videos, Sector Events, Leaderboard Map, Elara VO & Suno Prompts
+- [x] Build fullscreen discovery video overlay component (triggers on first character discovery)
+- [x] Wire discovery video triggers to conspiracy board, research minigame, and Ark exploration
+- [x] Add sector events to galaxy map (random encounters, distress signals, lore drops)
+- [x] Build multiplayer Trade Empire leaderboard on galaxy map (show other players' territories)
+- [x] Extract all Elara dialog lines for VO generation
+- [x] Create Suno 5.1 prompts for game background music (all game modes)

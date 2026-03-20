@@ -20,6 +20,7 @@ import AchievementToast from "./components/AchievementToast";
 import TradeNotificationWatcher from "./components/TradeNotificationWatcher";
 import ProtectedRoute from "./components/ProtectedRoute";
 import DiscoveryUnlockOverlay from "./components/DiscoveryUnlockOverlay";
+import DiscoveryVideoOverlay from "./components/DiscoveryVideoOverlay";
 import ElaraDialog from "./components/ElaraDialog";
 import RadioMode from "./components/RadioMode";
 import EasterEggs from "./components/EasterEggs";
@@ -179,6 +180,7 @@ function GameGate() {
         </ProtectedRoute>
       </CommandConsole>
       <DiscoveryUnlockOverlay />
+      <DiscoveryVideoOverlay />
       <CoNexusMediaPlayer />
       <AchievementToast />
       <TradeNotificationWatcher />

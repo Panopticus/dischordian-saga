@@ -197,6 +197,11 @@ export function GamificationProvider({ children }: { children: ReactNode }) {
   const discoverEntry = useCallback((entryId: string) => {
     update(s => {
       if (s.progress.discoveredEntries.includes(entryId)) return s;
+      // Trigger cinematic discovery video for first-time discoveries
+      try {
+        const { triggerDiscoveryVideo } = require("@/components/DiscoveryVideoOverlay");
+        triggerDiscoveryVideo(entryId);
+      } catch { /* overlay not mounted */ }
       return {
         ...s,
         xp: s.xp + 5,

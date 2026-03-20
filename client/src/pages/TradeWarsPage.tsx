@@ -318,6 +318,221 @@ const PRE_FALL_RELICS: Record<string, { name: string; description: string; rpBon
   "first-contact-beacon": { name: "First Contact Beacon", description: "A signal device broadcasting in a language that predates this reality. Someone is listening.", rpBonus: 200 },
 };
 
+/* ═══ SECTOR EVENTS — Random encounters on warp ═══ */
+interface SectorEvent {
+  id: string;
+  type: "encounter" | "distress" | "lore_drop" | "anomaly" | "trader";
+  title: string;
+  narrative: string[];
+  reward?: { credits?: number; xp?: number; commodity?: string; qty?: number; rp?: number };
+  risk?: { shieldDamage?: number; creditLoss?: number };
+  loreEntityId?: string; // triggers loredex discovery
+}
+
+const SECTOR_EVENTS: SectorEvent[] = [
+  // ─── ENCOUNTERS ───
+  {
+    id: "ghost-ship",
+    type: "encounter",
+    title: "GHOST SHIP DETECTED",
+    narrative: [
+      "Your sensors detect a vessel drifting on minimal power.",
+      "Hull markings identify it as an Inception Ark — first wave.",
+      "The crew logs are corrupted, but the cargo hold contains salvageable goods.",
+      "Among the wreckage, you find a data crystal with a partial message:",
+      '"They came from between the stars. Not through space — through thought."',
+    ],
+    reward: { credits: 500, xp: 30 },
+    loreEntityId: "the-thought-virus",
+  },
+  {
+    id: "pirate-ambush",
+    type: "encounter",
+    title: "PIRATE AMBUSH!",
+    narrative: [
+      "Three unmarked vessels drop out of warp directly ahead!",
+      "They're broadcasting on an old Insurgency frequency.",
+      "\"Hand over your cargo or we'll take it from your wreckage.\"",
+      "Your shields absorb the first volley. You manage to escape to warp.",
+    ],
+    risk: { shieldDamage: 15 },
+    reward: { xp: 20 },
+  },
+  {
+    id: "alien-probe",
+    type: "encounter",
+    title: "UNKNOWN PROBE",
+    narrative: [
+      "A small object of unknown origin is scanning your ship.",
+      "Its technology doesn't match any known civilization.",
+      "It broadcasts a single repeating signal — coordinates to a sector",
+      "that your star charts show as empty. But the probe insists something is there.",
+      "The probe self-destructs after transmitting.",
+    ],
+    reward: { xp: 40, rp: 25 },
+    loreEntityId: "first-contact",
+  },
+  // ─── DISTRESS SIGNALS ───
+  {
+    id: "stranded-trader",
+    type: "distress",
+    title: "DISTRESS SIGNAL — STRANDED TRADER",
+    narrative: [
+      "A civilian freighter is broadcasting a mayday.",
+      "Their warp drive failed mid-jump. Life support is failing.",
+      "You tow them to the nearest port. The captain is grateful.",
+      '"Take this — it\'s all I can offer. May the Source guide your path."',
+    ],
+    reward: { credits: 300, xp: 25 },
+  },
+  {
+    id: "colony-plague",
+    type: "distress",
+    title: "DISTRESS SIGNAL — COLONY OUTBREAK",
+    narrative: [
+      "A frontier colony reports a mysterious illness spreading rapidly.",
+      "Symptoms match nothing in the medical database.",
+      "You deliver emergency supplies from your cargo hold.",
+      "The colony's doctor whispers: \"It's not a disease. It's a signal.\"",
+      "\"Something is rewriting their neural pathways. Like the Thought Virus, but... different.\"",
+    ],
+    reward: { xp: 35, rp: 15 },
+    loreEntityId: "the-necromancer",
+  },
+  {
+    id: "derelict-ark",
+    type: "distress",
+    title: "DISTRESS SIGNAL — DERELICT ARK",
+    narrative: [
+      "An automated distress beacon from Inception Ark 12.",
+      "The Ark is intact but completely dark. No life signs.",
+      "Inside, you find the cryo pods open — but no bodies.",
+      "The ship's AI has been lobotomized. Only one word remains in its memory:",
+      '"COLLECTED."',
+    ],
+    reward: { credits: 200, xp: 30, rp: 20 },
+    loreEntityId: "the-collector",
+  },
+  // ─── LORE DROPS ───
+  {
+    id: "architect-broadcast",
+    type: "lore_drop",
+    title: "INTERCEPTED TRANSMISSION — THE ARCHITECT",
+    narrative: [
+      "Your comms array picks up an encrypted broadcast on a frequency",
+      "that shouldn't exist anymore — the Panopticon's command channel.",
+      '"The experiment continues. The Potentials are performing as expected."',
+      '"Phase 2 begins when they discover the truth about the Inception Arks."',
+      '"They were never meant to repopulate. They were meant to evolve."',
+      "The signal terminates. Your blood runs cold.",
+    ],
+    reward: { xp: 50, rp: 30 },
+    loreEntityId: "the-architect",
+  },
+  {
+    id: "dreamer-vision",
+    type: "lore_drop",
+    title: "NEURAL ANOMALY — THE DREAMER'S ECHO",
+    narrative: [
+      "For a split second, reality... shifts.",
+      "You see a figure made of light standing on your bridge.",
+      '"You are not what they made you. You are what you choose to become."',
+      '"The Architect builds cages. I build doors."',
+      '"Find the Source. It remembers what the universe forgot."',
+      "The vision fades. Your neural implant logs a spike in theta waves.",
+    ],
+    reward: { xp: 50, rp: 35 },
+    loreEntityId: "the-dreamer",
+  },
+  {
+    id: "warlord-wreckage",
+    type: "lore_drop",
+    title: "BATTLEFIELD REMNANTS — THE WARLORD'S LAST STAND",
+    narrative: [
+      "You enter a sector littered with debris from a massive battle.",
+      "Thousands of ship fragments. The scale is staggering.",
+      "Among the wreckage, a single intact escape pod.",
+      "Inside: a suit of powered armor, still humming with energy.",
+      "The nameplate reads: \"WARLORD ZERO — COMMANDER, 1ST INSURGENT FLEET\"",
+      "The armor's AI whispers: \"The war never ended. It just moved.\"",
+    ],
+    reward: { credits: 400, xp: 40, rp: 25 },
+    loreEntityId: "the-warlord",
+  },
+  // ─── ANOMALIES ───
+  {
+    id: "time-loop",
+    type: "anomaly",
+    title: "TEMPORAL ANOMALY",
+    narrative: [
+      "Your chronometer glitches. Time stutters.",
+      "For three seconds, you exist in two places simultaneously.",
+      "Your ship's log shows an entry you haven't written yet:",
+      '"Don\'t trust the White Oracle. The Meme wears her face."',
+      "The entry vanishes before you can save it.",
+    ],
+    reward: { xp: 35, rp: 40 },
+    loreEntityId: "the-meme",
+  },
+  {
+    id: "void-whisper",
+    type: "anomaly",
+    title: "VOID WHISPER",
+    narrative: [
+      "In the silence between stars, you hear... something.",
+      "Not through your comms. Through your mind.",
+      "A voice older than this universe, speaking in mathematics.",
+      '"WE WERE HERE BEFORE THE LIGHT. WE WILL BE HERE AFTER THE DARK."',
+      '"YOUR ARCHITECT BORROWED OUR TOOLS. HE NEVER ASKED PERMISSION."',
+      "The whisper fades. Your sensors show nothing. Absolutely nothing.",
+    ],
+    reward: { xp: 60, rp: 50 },
+  },
+  // ─── TRADERS ───
+  {
+    id: "wandering-merchant",
+    type: "trader",
+    title: "WANDERING MERCHANT",
+    narrative: [
+      "A heavily modified freighter hails you.",
+      '"Greetings, traveler! I am Kael, merchant of the void."',
+      '"I trade in things that don\'t officially exist."',
+      "He offers you a crate of rare equipment at a steep discount.",
+    ],
+    reward: { credits: 250, commodity: "equipment", qty: 30 },
+  },
+  {
+    id: "information-broker",
+    type: "trader",
+    title: "INFORMATION BROKER",
+    narrative: [
+      "A cloaked vessel decloaks beside you.",
+      '"Don\'t be alarmed. I sell secrets, not violence."',
+      '"For a modest fee, I can tell you where the Collector\'s next target is."',
+      '"Or perhaps you\'d prefer to know why the first Potentials really disappeared?"',
+      "You pay. The information is... disturbing.",
+    ],
+    reward: { xp: 30, rp: 20 },
+    risk: { creditLoss: 200 },
+  },
+];
+
+function rollSectorEvent(sectorType: string, isNewDiscovery: boolean): SectorEvent | null {
+  // Higher chance in new sectors and certain types
+  let chance = isNewDiscovery ? 0.35 : 0.12;
+  if (sectorType === "nebula" || sectorType === "wormhole") chance += 0.15;
+  if (sectorType === "hazard") chance += 0.10;
+  if (sectorType === "empty") chance -= 0.05;
+  if (Math.random() > chance) return null;
+  
+  // Weight by sector type
+  let pool = [...SECTOR_EVENTS];
+  if (sectorType === "hazard") pool = pool.filter(e => e.type !== "trader");
+  if (sectorType === "port" || sectorType === "station") pool = pool.filter(e => e.type !== "anomaly");
+  
+  return pool[Math.floor(Math.random() * pool.length)];
+}
+
 const TECH_TREE_DISPLAY: Record<string, { name: string; cost: number; prereqs: string[]; effect: string; category: string }> = {
   "nav-1": { name: "Improved Navigation", cost: 25, prereqs: [], effect: "+1 warp range", category: "Navigation" },
   "nav-2": { name: "Hyperspace Mapping", cost: 75, prereqs: ["nav-1"], effect: "+2 warp range, reveal adjacent", category: "Navigation" },
@@ -397,6 +612,10 @@ export default function TradeWarsPage() {
     enabled: isAuthenticated,
   });
   const mapQuery = trpc.tradeWars.getMap.useQuery(undefined, {
+    enabled: isAuthenticated && showGalaxyMap,
+    refetchOnWindowFocus: false,
+  });
+  const territoriesQuery = trpc.tradeWars.getGalaxyTerritories.useQuery(undefined, {
     enabled: isAuthenticated && showGalaxyMap,
     refetchOnWindowFocus: false,
   });
@@ -863,6 +1082,35 @@ export default function TradeWarsPage() {
                 } catch {}
               }
             }
+            // ═══ SECTOR EVENT ROLL ═══
+            const sectorType = (result.sector as any)?.sectorType || "empty";
+            const event = rollSectorEvent(sectorType, result.newDiscovery || false);
+            if (event) {
+              addLine("", "output");
+              const eventBorderType: TermLine["type"] = event.type === "encounter" ? "error" : event.type === "distress" ? "warning" : event.type === "lore_drop" ? "info" : event.type === "anomaly" ? "system" : "success";
+              addLine("╔═══════════════════════════════════════════════════════════╗", eventBorderType);
+              addLine(`║  ${event.title}`, eventBorderType);
+              addLine("╠═══════════════════════════════════════════════════════════╣", eventBorderType);
+              event.narrative.forEach(line => addLine(`║  ${line}`, "output"));
+              addLine("╠═══════════════════════════════════════════════════════════╣", eventBorderType);
+              // Apply rewards
+              const rewards: string[] = [];
+              if (event.reward?.credits) rewards.push(`+${event.reward.credits} credits`);
+              if (event.reward?.xp) rewards.push(`+${event.reward.xp} XP`);
+              if (event.reward?.rp) rewards.push(`+${event.reward.rp} Research Points`);
+              if (event.reward?.commodity) rewards.push(`+${event.reward.qty} ${event.reward.commodity}`);
+              if (rewards.length > 0) addLine(`║  REWARD: ${rewards.join(", ")}`, "success");
+              // Apply risks
+              if (event.risk?.shieldDamage) addLine(`║  DAMAGE: -${event.risk.shieldDamage} shields`, "error");
+              if (event.risk?.creditLoss) addLine(`║  COST: -${event.risk.creditLoss} credits`, "error");
+              addLine("╚═══════════════════════════════════════════════════════════╝", eventBorderType);
+              // Trigger lore discovery if applicable
+              if (event.loreEntityId) {
+                addLine("", "output");
+                addLine(`>> NEW LOREDEX ENTRY: ${event.loreEntityId.replace(/-/g, " ").toUpperCase()} <<`, "warning");
+              }
+            }
+
             addLine("", "output");
             await showSectorInfo();
           } else {
@@ -1439,6 +1687,8 @@ export default function TradeWarsPage() {
             }, 100);
           }}
           onClose={() => setShowGalaxyMap(false)}
+          territories={territoriesQuery.data as any}
+          currentUserId={stateQuery.data?.userId}
         />
       )}
 

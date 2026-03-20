@@ -13,6 +13,37 @@ interface MapSector {
   isCurrent: boolean;
 }
 
+interface TerritoryPlayer {
+  userId: number;
+  name: string;
+  sector: number;
+  faction: string;
+  ship: string;
+  xp: number;
+  planets: number;
+}
+
+interface TerritoryColony {
+  id: number;
+  sectorId: number;
+  name: string;
+  owner: string;
+  ownerFaction: string;
+  level: number;
+  type: string | null;
+  defense: number;
+  population: number;
+}
+
+interface TerritoryBase {
+  id: number;
+  sectorId: number;
+  name: string;
+  owner: string;
+  ownerFaction: string;
+  level: number;
+}
+
 interface GalaxyMapProps {
   sectors: MapSector[];
   playerSector: number;
@@ -20,7 +51,19 @@ interface GalaxyMapProps {
   totalSectors: number;
   onWarp?: (sectorId: number) => void;
   onClose: () => void;
+  territories?: {
+    players: TerritoryPlayer[];
+    colonies: TerritoryColony[];
+    bases: TerritoryBase[];
+  };
+  currentUserId?: number;
 }
+
+const FACTION_COLORS: Record<string, { fill: string; stroke: string; text: string }> = {
+  empire: { fill: "rgba(239,68,68,0.25)", stroke: "#ef4444", text: "#fca5a5" },
+  insurgency: { fill: "rgba(59,130,246,0.25)", stroke: "#3b82f6", text: "#93c5fd" },
+  unaligned: { fill: "rgba(156,163,175,0.2)", stroke: "#9ca3af", text: "#d1d5db" },
+};
 
 // ═══════════════════════════════════════════════════════
 // SECTOR VISUAL CONFIG
@@ -96,7 +139,7 @@ function computeSectorPositions(sectors: MapSector[]): Map<number, { x: number; 
 // MAIN COMPONENT
 // ═══════════════════════════════════════════════════════
 
-export default function GalaxyMap({ sectors, playerSector, totalDiscovered, totalSectors, onWarp, onClose }: GalaxyMapProps) {
+export default function GalaxyMap({ sectors, playerSector, totalDiscovered, totalSectors, onWarp, onClose, territories, currentUserId }: GalaxyMapProps) {
   const svgRef = useRef<SVGSVGElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -106,6 +149,32 @@ export default function GalaxyMap({ sectors, playerSector, totalDiscovered, tota
   const [panStart, setPanStart] = useState({ x: 0, y: 0 });
   const [selectedSector, setSelectedSector] = useState<MapSector | null>(null);
   const [hoveredSector, setHoveredSector] = useState<number | null>(null);
+  const [showTerritories, setShowTerritories] = useState(true);
+
+  // Build territory lookup maps
+  const colonyBySector = useMemo(() => {
+    const m = new Map<number, TerritoryColony[]>();
+    territories?.colonies.forEach(c => {
+      const arr = m.get(c.sectorId) || [];
+      arr.push(c);
+      m.set(c.sectorId, arr);
+    });
+    return m;
+  }, [territories]);
+
+  const baseBySector = useMemo(() => {
+    const m = new Map<number, TerritoryBase[]>();
+    territories?.bases.forEach(b => {
+      const arr = m.get(b.sectorId) || [];
+      arr.push(b);
+      m.set(b.sectorId, arr);
+    });
+    return m;
+  }, [territories]);
+
+  const otherPlayers = useMemo(() => {
+    return (territories?.players || []).filter(p => p.userId !== currentUserId);
+  }, [territories, currentUserId]);
 
   // Compute positions
   const positions = useMemo(() => computeSectorPositions(sectors), [sectors]);
@@ -261,6 +330,17 @@ export default function GalaxyMap({ sectors, playerSector, totalDiscovered, tota
           </button>
           <button onClick={fitAll} className="p-1.5 text-gray-400 hover:text-cyan-400 transition-colors" title="Fit All">
             <Maximize2 size={16} />
+          </button>
+          <button
+            onClick={() => setShowTerritories(!showTerritories)}
+            className={`px-2 py-1 text-[10px] font-mono rounded border transition-colors ${
+              showTerritories
+                ? "bg-amber-500/20 border-amber-500/40 text-amber-400"
+                : "bg-gray-800 border-gray-600 text-gray-500"
+            }`}
+            title="Toggle Territory Overlay"
+          >
+            {showTerritories ? "🏰 TERRITORIES" : "🏰 OFF"}
           </button>
           <button onClick={onClose} className="p-1.5 text-gray-400 hover:text-red-400 transition-colors ml-2" title="Close Map">
             <X size={18} />
@@ -432,6 +512,95 @@ export default function GalaxyMap({ sectors, playerSector, totalDiscovered, tota
               </g>
             );
           })}
+
+          {/* ── Territory Overlay: Colonies & Bases ── */}
+          {showTerritories && territories && sectors.map(sector => {
+            const pos = positions.get(sector.sectorId);
+            if (!pos) return null;
+            const sectorColonies = colonyBySector.get(sector.sectorId);
+            const sectorBases = baseBySector.get(sector.sectorId);
+            if (!sectorColonies?.length && !sectorBases?.length) return null;
+            const faction = sectorColonies?.[0]?.ownerFaction || sectorBases?.[0]?.ownerFaction || "unaligned";
+            const fc = FACTION_COLORS[faction] || FACTION_COLORS.unaligned;
+            const totalStructures = (sectorColonies?.length || 0) + (sectorBases?.length || 0);
+            const ringSize = (SECTOR_SIZES[sector.sectorType] || 5) + 18 + totalStructures * 3;
+            return (
+              <g key={`territory-${sector.sectorId}`}>
+                {/* Territory ring */}
+                <circle cx={pos.x} cy={pos.y} r={ringSize} fill={fc.fill} stroke={fc.stroke} strokeWidth="0.8" strokeDasharray="4 2" opacity={0.6} />
+                {/* Colony icons */}
+                {sectorColonies?.map((colony, ci) => {
+                  const angle = (ci / (sectorColonies.length || 1)) * Math.PI * 2 - Math.PI / 2;
+                  const cx = pos.x + Math.cos(angle) * (ringSize - 6);
+                  const cy = pos.y + Math.sin(angle) * (ringSize - 6);
+                  return (
+                    <g key={`colony-${colony.id}`}>
+                      <circle cx={cx} cy={cy} r={3 + colony.level} fill={fc.stroke} opacity={0.8} />
+                      <text x={cx} y={cy + 3} textAnchor="middle" fill="white" fontSize="5" fontFamily="monospace">
+                        {colony.level}
+                      </text>
+                    </g>
+                  );
+                })}
+                {/* Base icons */}
+                {sectorBases?.map((base, bi) => {
+                  const offset = (sectorColonies?.length || 0);
+                  const angle = ((bi + offset) / ((sectorColonies?.length || 0) + sectorBases!.length)) * Math.PI * 2 - Math.PI / 2;
+                  const bx = pos.x + Math.cos(angle) * (ringSize - 6);
+                  const by = pos.y + Math.sin(angle) * (ringSize - 6);
+                  return (
+                    <g key={`base-${base.id}`}>
+                      <rect x={bx - 4} y={by - 4} width={8} height={8} fill={fc.stroke} opacity={0.8} rx={1} />
+                      <text x={bx} y={by + 3} textAnchor="middle" fill="white" fontSize="5" fontFamily="monospace">
+                        B
+                      </text>
+                    </g>
+                  );
+                })}
+                {/* Owner label */}
+                <text
+                  x={pos.x}
+                  y={pos.y + ringSize + 10}
+                  textAnchor="middle"
+                  fill={fc.text}
+                  fontSize="7"
+                  fontFamily="monospace"
+                  opacity={0.8}
+                >
+                  {sectorColonies?.[0]?.owner || sectorBases?.[0]?.owner || ""}
+                </text>
+              </g>
+            );
+          })}
+
+          {/* ── Other Players' Ships ── */}
+          {showTerritories && otherPlayers.map(player => {
+            const pos = positions.get(player.sector);
+            if (!pos) return null;
+            const fc = FACTION_COLORS[player.faction] || FACTION_COLORS.unaligned;
+            return (
+              <g key={`player-${player.userId}`}>
+                <polygon
+                  points={`${pos.x},${pos.y - 8} ${pos.x - 5},${pos.y + 4} ${pos.x + 5},${pos.y + 4}`}
+                  fill={fc.stroke}
+                  stroke="white"
+                  strokeWidth="0.5"
+                  opacity={0.7}
+                />
+                <text
+                  x={pos.x}
+                  y={pos.y + 22}
+                  textAnchor="middle"
+                  fill={fc.text}
+                  fontSize="6"
+                  fontFamily="monospace"
+                  opacity={0.7}
+                >
+                  {player.name.substring(0, 12)}
+                </text>
+              </g>
+            );
+          })}
         </svg>
       </div>
 
@@ -471,6 +640,31 @@ export default function GalaxyMap({ sectors, playerSector, totalDiscovered, tota
             {selectedSector.sectorId === playerSector && (
               <div className="text-cyan-400 font-bold mt-1">▶ YOU ARE HERE</div>
             )}
+            {/* Territory info for selected sector */}
+            {(() => {
+              const sc = colonyBySector.get(selectedSector.sectorId);
+              const sb = baseBySector.get(selectedSector.sectorId);
+              if (!sc?.length && !sb?.length) return null;
+              return (
+                <div className="mt-2 pt-2 border-t border-gray-700">
+                  <span className="text-gray-500">TERRITORY:</span>
+                  {sc?.map(c => (
+                    <div key={c.id} className="mt-1">
+                      <span className="text-amber-400">🌍 {c.name}</span>
+                      <span className="text-gray-400"> (Lv.{c.level} {c.type}) — {c.owner}</span>
+                      <span className="text-gray-500"> [{c.ownerFaction}]</span>
+                    </div>
+                  ))}
+                  {sb?.map(b => (
+                    <div key={b.id} className="mt-1">
+                      <span className="text-blue-400">🏰 {b.name}</span>
+                      <span className="text-gray-400"> (Lv.{b.level}) — {b.owner}</span>
+                      <span className="text-gray-500"> [{b.ownerFaction}]</span>
+                    </div>
+                  ))}
+                </div>
+              );
+            })()}
           </div>
 
           {/* Warp button */}
@@ -501,6 +695,19 @@ export default function GalaxyMap({ sectors, playerSector, totalDiscovered, tota
             <span className="font-mono text-[9px] text-gray-400 uppercase">{type}</span>
           </div>
         ))}
+        {showTerritories && (
+          <>
+            <div className="w-px h-3 bg-gray-600 mx-1" />
+            <div className="flex items-center gap-1.5">
+              <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: "#ef4444" }} />
+              <span className="font-mono text-[9px] text-red-400">EMPIRE</span>
+            </div>
+            <div className="flex items-center gap-1.5">
+              <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: "#3b82f6" }} />
+              <span className="font-mono text-[9px] text-blue-400">INSURGENCY</span>
+            </div>
+          </>
+        )}
         <div className="flex items-center gap-1.5 ml-auto">
           <div className="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-pulse" />
           <span className="font-mono text-[9px] text-cyan-400">YOUR SHIP</span>

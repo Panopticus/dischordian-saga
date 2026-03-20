@@ -1450,4 +1450,94 @@ export const tradeWarsRouter = router({
         message: `Deposited ${input.amount} ${input.resource} to base. Storage: ${totalStored + input.amount}/${b.storageCapacity}`,
       };
     }),
+
+  // ═══════════════════════════════════════════════════════
+  // GALAXY TERRITORIES — Multiplayer map overlay
+  // ═══════════════════════════════════════════════════════
+
+  getGalaxyTerritories: publicProcedure.query(async () => {
+    const db = await getDb();
+    if (!db) return { players: [], colonies: [], bases: [] };
+
+    // Get all active players with their positions and factions
+    const players = await db
+      .select({
+        userId: twPlayerState.userId,
+        userName: users.name,
+        currentSector: twPlayerState.currentSector,
+        faction: twPlayerState.faction,
+        shipType: twPlayerState.shipType,
+        credits: twPlayerState.credits,
+        experience: twPlayerState.experience,
+        alignment: twPlayerState.alignment,
+        ownedPlanets: twPlayerState.ownedPlanets,
+      })
+      .from(twPlayerState)
+      .innerJoin(users, eq(twPlayerState.userId, users.id))
+      .orderBy(desc(twPlayerState.experience))
+      .limit(50);
+
+    // Get all colonies with owner info
+    const colonies = await db
+      .select({
+        id: twColonies.id,
+        userId: twColonies.userId,
+        sectorId: twColonies.sectorId,
+        planetName: twColonies.planetName,
+        level: twColonies.level,
+        colonyType: twColonies.colonyType,
+        defense: twColonies.defense,
+        population: twColonies.population,
+      })
+      .from(twColonies)
+      .orderBy(desc(twColonies.level));
+
+    // Get all bases
+    const bases = await db
+      .select({
+        id: playerBases.id,
+        userId: playerBases.userId,
+        sectorId: playerBases.sectorId,
+        baseName: playerBases.baseName,
+        level: playerBases.level,
+      })
+      .from(playerBases)
+      .orderBy(desc(playerBases.level));
+
+    // Build player name lookup
+    const playerMap = new Map(players.map(p => [p.userId, p]));
+
+    return {
+      players: players.map(p => ({
+        userId: p.userId,
+        name: p.userName || `Operative ${p.userId}`,
+        sector: p.currentSector,
+        faction: p.faction,
+        ship: SHIPS[p.shipType]?.name || "Scout",
+        credits: p.credits,
+        xp: p.experience,
+        alignment: p.alignment,
+        planets: ((p.ownedPlanets as number[]) || []).length,
+      })),
+      colonies: colonies.map(c => ({
+        id: c.id,
+        sectorId: c.sectorId,
+        name: c.planetName,
+        owner: playerMap.get(c.userId)?.userName || `Operative ${c.userId}`,
+        ownerFaction: playerMap.get(c.userId)?.faction || "unaligned",
+        level: c.level,
+        type: c.colonyType,
+        defense: c.defense,
+        population: c.population,
+      })),
+      bases: bases.map(b => ({
+        id: b.id,
+        sectorId: b.sectorId,
+        name: b.baseName,
+        owner: playerMap.get(b.userId)?.userName || `Operative ${b.userId}`,
+        ownerFaction: playerMap.get(b.userId)?.faction || "unaligned",
+        level: b.level,
+      })),
+    };
+  }),
 });
