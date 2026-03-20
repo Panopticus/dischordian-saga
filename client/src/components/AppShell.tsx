@@ -78,6 +78,7 @@ const NAV_GROUPS: NavGroup[] = [
       { path: "/cards", label: "CARD ARCHIVE", icon: Crown, description: "Browse all cards" },
       { path: "/deck-builder", label: "DECK BUILDER", icon: Shield, description: "Build decks" },
       { path: "/research-lab", label: "RESEARCH LAB", icon: FlaskConical, description: "Craft cards" },
+      { path: "/research-minigame", label: "RESEARCH PUZZLES", icon: Brain, description: "Unlock lore entries" },
       { path: "/trophy", label: "TROPHY ROOM", icon: Trophy, description: "Your trophies" },
     ],
   },

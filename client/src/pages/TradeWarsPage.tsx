@@ -3,6 +3,7 @@ import { trpc } from "@/lib/trpc";
 import { useAuth } from "@/_core/hooks/useAuth";
 import { getLoginUrl } from "@/const";
 import { Link } from "wouter";
+import GalaxyMap from "@/components/GalaxyMap";
 
 // ═══════════════════════════════════════════════════════
 // NARRATIVE & LORE CONSTANTS
@@ -260,7 +261,8 @@ const HELP_TEXT = `
 NAVIGATION
   warp <sector> — Warp to sector
   scan — Deep scan nearby sectors
-  map — Display galaxy map
+  map — Open visual galaxy map
+  map-text — Classic text galaxy map
   sector — Show current sector info
 
 TRADING
@@ -384,6 +386,7 @@ export default function TradeWarsPage() {
   const [prologueIndex, setPrologueIndex] = useState(0);
   const termRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const [showGalaxyMap, setShowGalaxyMap] = useState(false);
 
   // tRPC queries/mutations
   const stateQuery = trpc.tradeWars.getState.useQuery(undefined, {
@@ -392,6 +395,10 @@ export default function TradeWarsPage() {
   });
   const shipsQuery = trpc.tradeWars.getShips.useQuery(undefined, {
     enabled: isAuthenticated,
+  });
+  const mapQuery = trpc.tradeWars.getMap.useQuery(undefined, {
+    enabled: isAuthenticated && showGalaxyMap,
+    refetchOnWindowFocus: false,
   });
 
   const warpMut = trpc.tradeWars.warp.useMutation();
@@ -881,6 +888,14 @@ export default function TradeWarsPage() {
 
         case "map":
         case "galaxy": {
+          addLine("Opening visual galaxy map...", "system");
+          addLine("(Use 'map-text' for the classic text view)", "info");
+          setShowGalaxyMap(true);
+          break;
+        }
+
+        case "map-text":
+        case "galaxy-text": {
           addLine("Rendering galaxy map...", "system");
           const mapData = await utils.tradeWars.getMap.fetch();
           if (!mapData || !mapData.sectors || mapData.sectors.length === 0) {
@@ -1395,10 +1410,37 @@ export default function TradeWarsPage() {
               <span className="text-cyan-400">S{stateQuery.data.currentSector}</span>
               <span className="text-gray-500">|</span>
               <span className="text-purple-400">RP:{stateQuery.data.researchPoints || 0}</span>
+              <span className="text-gray-500">|</span>
+              <button
+                onClick={() => setShowGalaxyMap(true)}
+                className="text-cyan-400 hover:text-cyan-300 transition-colors uppercase tracking-wider"
+                title="Open Galaxy Map"
+              >
+                🗺 MAP
+              </button>
             </>
           )}
         </div>
       </div>
+
+      {/* Galaxy Map Overlay */}
+      {showGalaxyMap && mapQuery.data && mapQuery.data.sectors.length > 0 && (
+        <GalaxyMap
+          sectors={mapQuery.data.sectors as any}
+          playerSector={mapQuery.data.playerSector}
+          totalDiscovered={mapQuery.data.totalDiscovered || 0}
+          totalSectors={mapQuery.data.totalSectors || 200}
+          onWarp={(sectorId) => {
+            setShowGalaxyMap(false);
+            setInput(`warp ${sectorId}`);
+            setTimeout(() => {
+              processCommand(`warp ${sectorId}`);
+              setInput("");
+            }, 100);
+          }}
+          onClose={() => setShowGalaxyMap(false)}
+        />
+      )}
 
       {/* Terminal */}
       <div

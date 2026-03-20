@@ -1365,9 +1365,9 @@
 - [x] Build RPG hub navigation: character sheet, inventory, journals accessible from main nav (Clue Journal added to sidebar nav)
 - [x] Make conspiracy board progressive discovery (starts empty, populates as you discover)
 - [ ] Add initial hooks and video logs for first few discoveries
-- [ ] Build research minigame to unlock additional lore entries
-- [ ] Upgrade Trade Wars to graphical galactic map (Civilization/mobile strategy style)
-- [ ] Add discoverable areas on galactic map
+- [x] Build research minigame to unlock additional lore entries
+- [x] Upgrade Trade Wars to graphical galactic map (Civilization/mobile strategy style)
+- [x] Add discoverable areas on galactic map
 - [ ] Ensure RPG character sheet is the central identity hub
 - [x] Generate Fall of Reality mythic card art and update database
 
@@ -1379,3 +1379,7 @@
 - [ ] Provide recommendation on streaming playlist integration
 - [x] Improve Ark exploration pathways: clearer room exits, better markers for connected areas
 - [x] Add wallet connect option at beginning of Awakening flow for Potential/Neyon holders
+### Phase 54: Research Minigame, Galactic Map & Discovery Video Prompts
+- [x] Build research minigame to unlock additional lore entries (puzzle mechanic)
+- [x] Upgrade Trade Empire to graphical galactic map (Civilization/mobile strategy style)
+- [x] Create Kling 3.0 start/end frame prompts for discovery hook video logs
