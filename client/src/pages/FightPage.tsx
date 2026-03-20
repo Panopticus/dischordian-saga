@@ -16,6 +16,8 @@ import {
 import { calculateTraitBonuses } from "@shared/traitBonuses";
 import { useGamification } from "@/contexts/GamificationContext";
 import { useContentReward } from "@/components/ContentRewardToast";
+import { useGame } from "@/contexts/GameContext";
+import { getMoralityTierDef } from "@/components/MoralityMeter";
 import { toast } from "sonner";
 import {
   STARTER_FIGHTERS, UNLOCKABLE_FIGHTERS, DEMON_FIGHTERS, ALL_FIGHTERS,
@@ -24,6 +26,7 @@ import {
 } from "@/game/gameData";
 import FightArena3D from "@/game/FightArena3D";
 import LandscapeEnforcer from "@/components/LandscapeEnforcer";
+import TutorialTrigger from "@/components/TutorialTrigger";
 import {
   ARENA_LORE_OPENING, STORY_CHAPTERS, FIGHTER_LORE,
   THE_PRISONER, getPrisonerStats,
@@ -54,6 +57,7 @@ const FACTION_COLORS: Record<string, string> = {
 export default function FightPage() {
   const gam = useGamification();
   const { recordAndReward } = useContentReward();
+  const { state: gameState } = useGame();
   useGameAreaBGM("arena_battle");
   const [phase, setPhase] = useState<Phase>("title");
   const [selectedPlayer, setSelectedPlayer] = useState<FighterData | null>(null);
@@ -294,8 +298,18 @@ export default function FightPage() {
       defense += citizenFightBonuses.defenseBonus;
       speed += citizenFightBonuses.speedBonus;
     }
+    // Morality tier bonuses (zero-sum: Machine boosts attack, Humanity boosts HP/defense)
+    const moralityTier = getMoralityTierDef(gameState.moralityScore);
+    if (moralityTier.side === "machine" && moralityTier.level >= 3) {
+      // Machine alignment: +1 attack per tier above 2
+      attack += moralityTier.level - 2;
+    } else if (moralityTier.side === "humanity" && moralityTier.level >= 3) {
+      // Humanity alignment: +3 HP per tier above 2, +1 defense at level 5
+      hp += (moralityTier.level - 2) * 3;
+      if (moralityTier.level >= 5) defense += 1;
+    }
     return { ...selectedPlayer, hp, attack, defense, speed };
-  }, [selectedPlayer, activeBonuses, citizenFightBonuses]);
+  }, [selectedPlayer, activeBonuses, citizenFightBonuses, gameState.moralityScore]);
 
   const resetToSelect = useCallback(() => {
     setPhase("select");
@@ -441,6 +455,10 @@ export default function FightPage() {
             </motion.div>
           )}
 
+          {/* Tutorial trigger */}
+          <div className="w-full max-w-xs mt-4">
+            <TutorialTrigger route="/fight" variant="button" className="w-full justify-center" />
+          </div>
           {/* Stats bar */}
           <div className="grid grid-cols-4 gap-2 mt-6 max-w-xs mx-auto">
             {[

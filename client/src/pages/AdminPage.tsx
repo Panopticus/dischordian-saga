@@ -685,6 +685,42 @@ function ContentTab() {
     onError: (e: any) => toast.error(e.message),
   });
   const [newRel, setNewRel] = useState({ target: "", type: "ally", description: "" });
+  const [showBulkImport, setShowBulkImport] = useState(false);
+  const [csvImportText, setCsvImportText] = useState("");
+  const [importMode, setImportMode] = useState<"merge" | "replace">("merge");
+
+  const exportCsv = trpc.contentAdmin.exportCsv.useQuery(
+    { type: (typeFilter || "all") as any },
+    { enabled: false }
+  );
+  const importCsv = trpc.contentAdmin.importCsv.useMutation({
+    onSuccess: (r) => { toast.success(`Import: ${r.created} created, ${r.updated} updated, ${r.skipped} skipped`); setShowBulkImport(false); setCsvImportText(""); utils.contentAdmin.listEntries.invalidate(); },
+    onError: (e) => toast.error(e.message),
+  });
+  const bulkDelete = trpc.contentAdmin.bulkDelete.useMutation({
+    onSuccess: (r) => { toast.success(`Deleted ${r.deleted} entries`); utils.contentAdmin.listEntries.invalidate(); },
+    onError: (e) => toast.error(e.message),
+  });
+
+  const handleExport = async () => {
+    const result = await exportCsv.refetch();
+    if (result.data?.csv) {
+      const blob = new Blob([result.data.csv], { type: "text/csv" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url; a.download = `loredex-${result.data.type}-${Date.now()}.csv`;
+      a.click(); URL.revokeObjectURL(url);
+      toast.success(`Exported ${result.data.count} entries`);
+    }
+  };
+
+  const handleFileImport = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (ev) => { setCsvImportText(ev.target?.result as string); setShowBulkImport(true); };
+    reader.readAsText(file);
+  };
 
   const utils = trpc.useUtils();
 
@@ -749,12 +785,71 @@ function ContentTab() {
         </select>
         <span className="font-mono text-xs text-muted-foreground">{data?.total ?? 0} entries</span>
         <button
+          onClick={handleExport}
+          className="flex items-center gap-1 px-3 py-1.5 rounded-md bg-accent/10 border border-accent/30 text-accent text-xs font-mono hover:bg-accent/20 transition-all"
+        >
+          EXPORT CSV
+        </button>
+        <label className="flex items-center gap-1 px-3 py-1.5 rounded-md bg-chart-4/10 border border-chart-4/30 text-chart-4 text-xs font-mono hover:bg-chart-4/20 transition-all cursor-pointer">
+          IMPORT CSV
+          <input type="file" accept=".csv" onChange={handleFileImport} className="hidden" />
+        </label>
+        <button
+          onClick={() => setShowBulkImport(!showBulkImport)}
+          className="flex items-center gap-1 px-3 py-1.5 rounded-md bg-secondary border border-border/30 text-muted-foreground text-xs font-mono hover:text-foreground transition-all"
+        >
+          PASTE CSV
+        </button>
+        <button
           onClick={() => setShowCreateForm(!showCreateForm)}
           className="flex items-center gap-1 px-3 py-1.5 rounded-md bg-primary/10 border border-primary/30 text-primary text-xs font-mono hover:bg-primary/20 transition-all ml-auto"
         >
           <Plus size={12} /> NEW ENTRY
         </button>
       </div>
+
+      {/* Bulk Import Panel */}
+      {showBulkImport && (
+        <div className="rounded-lg border border-chart-4/30 bg-chart-4/5 p-4 space-y-3">
+          <div className="flex items-center justify-between">
+            <h3 className="font-display text-sm font-bold tracking-wider">CSV IMPORT</h3>
+            <div className="flex items-center gap-2">
+              <select
+                value={importMode}
+                onChange={e => setImportMode(e.target.value as "merge" | "replace")}
+                className="px-2 py-1 rounded bg-secondary/30 border border-border/30 text-xs font-mono"
+              >
+                <option value="merge">Merge (update existing, add new)</option>
+                <option value="replace">Replace (overwrite matched entries)</option>
+              </select>
+            </div>
+          </div>
+          <textarea
+            value={csvImportText}
+            onChange={e => setCsvImportText(e.target.value)}
+            placeholder="Paste CSV content here... (must include 'name' column header)"
+            className="w-full h-40 p-3 rounded-md bg-background border border-border/30 text-xs font-mono resize-y focus:outline-none focus:border-primary/50"
+          />
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => importCsv.mutate({ csv: csvImportText, mode: importMode })}
+              disabled={!csvImportText.trim() || importCsv.isPending}
+              className="px-4 py-1.5 rounded-md bg-chart-4/20 border border-chart-4/40 text-chart-4 text-xs font-mono hover:bg-chart-4/30 disabled:opacity-50 transition-all"
+            >
+              {importCsv.isPending ? "IMPORTING..." : "IMPORT"}
+            </button>
+            <button
+              onClick={() => { setShowBulkImport(false); setCsvImportText(""); }}
+              className="px-3 py-1.5 rounded-md bg-secondary border border-border/30 text-muted-foreground text-xs font-mono hover:text-foreground transition-all"
+            >
+              CANCEL
+            </button>
+            <span className="font-mono text-[10px] text-muted-foreground">
+              {csvImportText ? `${csvImportText.split("\n").filter(l => l.trim()).length - 1} rows detected` : ""}
+            </span>
+          </div>
+        </div>
+      )}
 
       {/* Create Form */}
       {showCreateForm && (

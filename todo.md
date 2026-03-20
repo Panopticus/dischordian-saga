@@ -1490,3 +1490,70 @@
 - [x] Miscellaneous: Character sheet hub with Quest Progress, Achievements, Mission Status sections
 - [x] Miscellaneous: Discovery video log hooks (triggerDiscoveryVideo on first entity discovery with fallback mode)
 - [x] Write 57 vitest tests for Phase 65 features (all passing, 1516 total passing)
+
+### Phase 66: Discovery Videos, Admin Bulk Import/Export, BioWare Lore Tutorial & Morality Meter
+
+#### Discovery Videos
+- [ ] Populate DISCOVERY_VIDEOS registry with Kling 3.0 prompts for key characters
+- [ ] Add cinematic video entries for The Architect, The Enigma, The Collector, The Oracle, etc.
+
+#### Admin Bulk Import/Export
+- [ ] Build CSV export for loredex entries, songs, and cards
+- [ ] Build CSV import with validation and upsert for loredex entries
+- [ ] Add import/export buttons to Admin Content tab
+
+#### Machine vs Humanity Morality Meter
+- [ ] Add morality meter to DB schema (moralityScore field on characterSheets, -100 to +100)
+- [ ] Build MoralityMeter UI component (Machine left, Humanity right, visual meter)
+- [ ] Add morality context/hooks for tracking and updating alignment
+- [ ] Define morality tier thresholds with unlock rewards at each level
+- [ ] Wire morality choices into tutorial dialog system
+
+#### BioWare Lore Tutorial Engine
+- [ ] Build tutorial data structure (steps, dialog, choices, rewards, alignment impact)
+- [ ] Build TutorialDialog component (BioWare-style conversation wheel with alignment choices)
+- [ ] Build TutorialOverlay component (guided walkthrough with highlights and Elara narration)
+- [ ] Add class-specific dialog branches in tutorials
+- [ ] Add card/DT/Dream Token rewards for completing tutorial scenarios
+
+#### Tutorial Scenarios (one per game mechanic)
+- [ ] Card Battle tutorial (deck building, energy, abilities, combos)
+- [ ] Card Trading tutorial (marketplace, offers, negotiation)
+- [ ] Fighting Game tutorial (controls, combos, specials, blocking)
+- [ ] Ark Exploration tutorial (rooms, items, discoveries, navigation)
+- [ ] Conspiracy Board tutorial (connections, evidence, deduction)
+- [ ] Trade Empire tutorial (routes, resources, diplomacy, warfare)
+- [ ] Character Sheet tutorial (stats, skills, equipment, leveling)
+- [ ] Quest Chain tutorial (chains, milestones, rewards)
+- [ ] Discography tutorial (albums, lore connections, streaming)
+- [ ] CoNexus Stories tutorial (interactive fiction, choices, consequences)
+
+#### Morality-Gated Unlockables
+- [ ] Define ship theme unlocks at morality milestones (Machine themes: chrome, circuit, industrial; Humanity themes: nature, warmth, organic)
+- [ ] Define character theme unlocks (Machine: cybernetic overlays, HUD effects; Humanity: aura effects, natural elements)
+- [ ] Build theme selector UI in character sheet
+- [ ] Apply ship themes to AppShell/Ark visuals
+- [ ] Apply character themes to character sheet and fight avatar
+- [ ] Add bonus items/cards at morality tier milestones
+- [ ] Write vitest tests for all Phase 66 features
+
+### Phase 66: Lore Tutorial Hub, Discovery Videos, Admin CSV, Morality Unlockables
+#### LoreTutorialHub Page
+- [x] Build LoreTutorialHub page with all 27 tutorials displayed in categorized grid
+- [x] Show completion status, morality shift preview, and rewards for each tutorial
+- [x] Add route and navigation entry for /lore-tutorials
+- [x] Wire tutorial launch from hub into LoreTutorialEngine
+#### Tutorial Triggers on Game Pages
+- [x] Add tutorial trigger button/banner on game pages that have associated tutorials
+- [x] Create TutorialTrigger reusable component
+#### Discovery Video Prompts
+- [x] Populate DISCOVERY_VIDEOS registry with Kling 3.0 video URLs/prompts for 16 characters (already done)
+#### Admin CSV Import/Export
+- [x] Add CSV export button for loredex entries, songs, and cards (already implemented)
+- [x] Add CSV import with validation and preview for bulk data loading (already implemented)
+#### Morality Unlockables System
+- [x] Define morality milestone unlockables (ship themes, character themes, bonus cards)
+- [x] Build MoralityUnlockables component showing available/locked rewards
+- [x] Wire unlockables into character sheet and fight page combat bonuses
+#### Testing
+- [x] Write vitest tests for LoreTutorialHub, TutorialTrigger, CSV import/export, morality unlockables (47 tests passing)

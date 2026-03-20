@@ -83,6 +83,7 @@ const PotentialsLeaderboardPage = lazy(() => import("./pages/PotentialsLeaderboa
 const SettingsPage = lazy(() => import("./pages/SettingsPage"));
 const ClueJournalPage = lazy(() => import("./pages/ClueJournalPage"));
 const ResearchMinigamePage = lazy(() => import("./pages/ResearchMinigamePage"));
+const LoreTutorialHubPage = lazy(() => import("./pages/LoreTutorialHubPage"));
 
 /* ═══ LOADING FALLBACK ═══ */
 function PageLoader() {
@@ -151,6 +152,7 @@ function Router() {
         <Route path="/settings" component={SettingsPage} />
         <Route path="/clue-journal" component={ClueJournalPage} />
         <Route path="/research-minigame" component={ResearchMinigamePage} />
+        <Route path="/lore-tutorials" component={LoreTutorialHubPage} />
         <Route path="/awakening">{() => <AwakeningPage />}</Route>
         <Route path="/404" component={NotFound} />
         <Route component={NotFound} />

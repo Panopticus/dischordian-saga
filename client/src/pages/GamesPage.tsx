@@ -10,6 +10,7 @@ import {
   ArrowLeftRight, Medal, Dices
 } from "lucide-react";
 import { useGamification } from "@/contexts/GamificationContext";
+import TutorialTrigger from "@/components/TutorialTrigger";
 
 interface GameTile {
   href: string;
@@ -247,6 +248,11 @@ export default function GamesPage() {
             <span style={{ color: "var(--text-muted-ve)" }}><span style={{ color: "var(--signal-green)" }}>{gam.earnedAchievements.length}</span> ACHIEVED</span>
           </div>
         </div>
+      </div>
+
+      {/* ═══ TUTORIAL TRIGGER ═══ */}
+      <div className="px-4 sm:px-6 mb-4">
+        <TutorialTrigger route="/games" variant="banner" />
       </div>
 
       {/* ═══ PRIMARY SIMULATIONS ═══ */}

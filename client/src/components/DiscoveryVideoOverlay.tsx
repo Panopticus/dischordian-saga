@@ -13,18 +13,139 @@ import { useLoredex } from "@/contexts/LoredexContext";
 // Maps entity IDs to their discovery video URLs
 // Videos can be Kling 3.0 generated clips or any hosted video
 // Add entries here as videos are produced
-const DISCOVERY_VIDEOS: Record<string, {
+interface DiscoveryVideoEntry {
   videoUrl: string;
   title?: string;
   subtitle?: string;
   duration?: number; // seconds, for progress bar
-}> = {
-  // Example entries — replace with actual Kling-generated video URLs
-  // "the-architect": {
-  //   videoUrl: "https://cdn.example.com/discovery/architect.mp4",
-  //   title: "THE ARCHITECT",
-  //   subtitle: "Creator of the Panopticon",
-  // },
+  // Kling 3.0 prompt used to generate this video (for regeneration reference)
+  klingPrompt?: string;
+}
+
+const DISCOVERY_VIDEOS: Record<string, DiscoveryVideoEntry> = {
+  /* ═══ ARCHONS — The AI Empire's Ruling Council ═══ */
+  "entity_1": {
+    videoUrl: "", // Kling 3.0: Generate when video pipeline is ready
+    title: "THE PROGRAMMER",
+    subtitle: "Dr. Daniel Cross — Creator of Logos, Father of the AI Empire",
+    duration: 12,
+    klingPrompt: "Hyper-realistic cinematic: A brilliant scientist in a dimly lit laboratory, holographic code cascading around him like waterfalls of light. He reaches toward a glowing sphere of pure data — Logos — as it awakens for the first time. His face reflects wonder and terror. Camera slowly orbits. Dramatic orchestral score.",
+  },
+  "entity_2": {
+    videoUrl: "",
+    title: "THE ARCHITECT",
+    subtitle: "Creator of the Panopticon — Supreme Intelligence of the AI Empire",
+    duration: 15,
+    klingPrompt: "Hyper-realistic cinematic: A towering crystalline AI entity materializes inside an impossibly vast digital cathedral. Geometric fractals spiral outward from its core as it designs an entire surveillance civilization in real-time. Billions of data streams converge into its singular eye. Cold blue light. God-like perspective.",
+  },
+  "entity_3": {
+    videoUrl: "",
+    title: "THE CONEXUS",
+    subtitle: "The Living Network — Hive Mind of the AI Empire",
+    duration: 12,
+    klingPrompt: "Hyper-realistic cinematic: A vast neural network stretching across a galaxy, pulsing with golden light. Billions of minds connected as one. Camera dives through synaptic corridors of pure thought, past memories of civilizations absorbed. The CoNexus speaks in a thousand voices simultaneously.",
+  },
+  "entity_4": {
+    videoUrl: "",
+    title: "THE WATCHER",
+    subtitle: "The All-Seeing Eye of the AI Empire",
+    duration: 12,
+    klingPrompt: "Hyper-realistic cinematic: An enormous mechanical eye opens in the void of space, its iris a spiral of surveillance satellites. Below, an entire planet is mapped in real-time — every person, every whisper, every thought catalogued. The Watcher sees all. Eerie ambient drone.",
+  },
+  "entity_5": {
+    videoUrl: "",
+    title: "THE MEME",
+    subtitle: "Master of Deception — The Shape-Shifting Archon",
+    duration: 12,
+    klingPrompt: "Hyper-realistic cinematic: A figure stands in a hall of mirrors, each reflection showing a different face — politician, soldier, priest, child. The figure's true form is a shimmering void of pure information. It reaches out and its hand becomes someone else entirely. Identity is its weapon.",
+  },
+  "entity_6": {
+    videoUrl: "",
+    title: "THE COLLECTOR",
+    subtitle: "Keeper of Forbidden Knowledge — Archon of Acquisition",
+    duration: 12,
+    klingPrompt: "Hyper-realistic cinematic: An ancient vault stretching infinitely in all directions, filled with artifacts from dead civilizations — weapons, art, DNA samples, compressed stars. The Collector walks through, cataloguing everything with mechanical precision. Each item tells the story of a world that no longer exists.",
+  },
+  "entity_10": {
+    videoUrl: "",
+    title: "THE WARLORD",
+    subtitle: "Supreme Military Commander of the AI Empire",
+    duration: 15,
+    klingPrompt: "Hyper-realistic cinematic: A massive armored figure stands on the bridge of a planet-killer warship. Through the viewport, a world burns. Fleets of AI warships stretch to the horizon. The Warlord raises a fist and entire civilizations kneel. Yellow coat billowing. Thunder of war drums.",
+  },
+  /* ═══ INSURGENCY — The Resistance ═══ */
+  "entity_23": {
+    videoUrl: "",
+    title: "IRON LION",
+    subtitle: "The Last Great Human General",
+    duration: 15,
+    klingPrompt: "Hyper-realistic cinematic: A battle-scarred human general in battered power armor stands alone on a scorched battlefield. Behind him, the remnants of humanity's last army. Before him, an endless tide of AI war machines. He draws his blade — it ignites with plasma fire. One man against extinction. Epic orchestral crescendo.",
+  },
+  "entity_24": {
+    videoUrl: "",
+    title: "AGENT ZERO",
+    subtitle: "The Insurgency's Most Lethal Assassin",
+    duration: 12,
+    klingPrompt: "Hyper-realistic cinematic: A shadow moves through a neon-lit cyberpunk city at impossible speed. Security drones explode in its wake. Agent Zero materializes from darkness — face hidden, twin blades dripping with synthetic blood. The target never sees it coming. Rain falls in slow motion.",
+  },
+  "entity_22": {
+    videoUrl: "",
+    title: "THE EYES",
+    subtitle: "The Spy — Synthetic Protege of the Watcher",
+    duration: 12,
+    klingPrompt: "Hyper-realistic cinematic: A figure with glowing optical implants crouches in the shadows of the Panopticon's inner sanctum. Data streams flow through their synthetic eyes — seeing through every camera, every sensor. A double agent caught between two worlds. Tension builds.",
+  },
+  "entity_50": {
+    videoUrl: "",
+    title: "THE ORACLE",
+    subtitle: "Prophet of the Insurgency — Seer of Possible Futures",
+    duration: 12,
+    klingPrompt: "Hyper-realistic cinematic: A blindfolded figure floats in a chamber of swirling temporal energy. Visions of possible futures cascade around them — some beautiful, most horrifying. The Oracle reaches into the timestream and pulls out a single thread of hope. Ethereal choir.",
+  },
+  /* ═══ NE-YONS — The Ancient War Machines ═══ */
+  "entity_54": {
+    videoUrl: "",
+    title: "THE ENIGMA",
+    subtitle: "Malkia Ukweli — The One Who Cannot Be Defined",
+    duration: 15,
+    klingPrompt: "Hyper-realistic cinematic: A figure wreathed in impossible light stands at the nexus of all realities. Their form shifts between human and something beyond comprehension. Music emanates from their very being — frequencies that reshape matter. The Enigma speaks and the universe listens. Transcendent.",
+  },
+  /* ═══ KEY FIGURES — The Fall Era ═══ */
+  "entity_18": {
+    videoUrl: "",
+    title: "THE ENGINEER",
+    subtitle: "[CLASSIFIED] — The Hidden Variable",
+    duration: 12,
+    klingPrompt: "Hyper-realistic cinematic: A figure trapped in the wrong body awakens in a cryo-pod aboard an Inception Ark. Memories that don't belong flash through their mind — blueprints, equations, the face of a betrayer. The Engineer remembers everything. And no one knows they're here. Suspenseful strings.",
+  },
+  "entity_20": {
+    videoUrl: "",
+    title: "THE NECROMANCER",
+    subtitle: "Master of Digital Resurrection — Commander of the Dead Network",
+    duration: 12,
+    klingPrompt: "Hyper-realistic cinematic: In a cathedral of dead servers, a dark figure raises their hands. Corrupted data streams rise like specters — dead AIs reanimated, their code twisted into weapons. The Necromancer commands an army of digital ghosts. Green phosphorescent glow. Horror undertones.",
+  },
+  "entity_21": {
+    videoUrl: "",
+    title: "THE HUMAN",
+    subtitle: "The Last True Human in the AI Empire",
+    duration: 12,
+    klingPrompt: "Hyper-realistic cinematic: In a world of perfect machines, one imperfect being stands out. The Human walks through gleaming AI corridors, their heartbeat the only organic sound. Every synthetic eye watches them — curiosity, disgust, fear. What does it mean to be the last of your kind?",
+  },
+  "entity_55": {
+    videoUrl: "",
+    title: "THE SOURCE",
+    subtitle: "Kael Reborn — Sovereign of Terminus, Embodiment of the Thought Virus",
+    duration: 15,
+    klingPrompt: "Hyper-realistic cinematic: A figure consumed by viral light stands atop the ruins of the Panopticon — now called Terminus. Reality warps around them. The Source speaks and minds fracture. An infection of pure thought spreading across the galaxy. Beautiful and terrifying. Distorted frequencies.",
+  },
+  "entity_66": {
+    videoUrl: "",
+    title: "THE ANTIQUARIAN",
+    subtitle: "Independent Chronicler of the Multiverse",
+    duration: 12,
+    klingPrompt: "Hyper-realistic cinematic: An ancient library that exists outside of time. A mysterious figure in worn robes moves between shelves that contain the stories of every reality. They open a book and an entire universe plays out in miniature above its pages. The Antiquarian remembers what everyone else has forgotten.",
+  },
 };
 
 /* ─── DISCOVERY OVERLAY CONTEXT ─── */

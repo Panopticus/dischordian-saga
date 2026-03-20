@@ -15,6 +15,8 @@ import {
   RotateCcw, AlertTriangle, Compass, Crown
 } from "lucide-react";
 import TraitSummaryPanel from "@/components/TraitSummaryPanel";
+import { MoralityMeter } from "@/components/MoralityMeter";
+import MoralityUnlockablesPanel from "@/components/MoralityUnlockablesPanel";
 import RespecDialog from "@/components/RespecDialog";
 import { useGame } from "@/contexts/GameContext";
 import { useGamification } from "@/contexts/GamificationContext";
@@ -859,6 +861,20 @@ export default function CharacterSheetPage() {
               </div>
             </div>
           </div>
+        </motion.div>
+
+        {/* ═══════════════════════════════════════════════════
+            MORALITY ALIGNMENT & UNLOCKABLES
+           ═══════════════════════════════════════════════════ */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.29 }}
+          className="mb-4 space-y-3"
+        >
+          <SectionHeader icon={Shield} label="MORALITY ALIGNMENT" color="text-purple-400" />
+          <MoralityMeter showDetails={true} />
+          <MoralityUnlockablesPanel />
         </motion.div>
 
         {/* ═══════════════════════════════════════════════════

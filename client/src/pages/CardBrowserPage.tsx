@@ -7,6 +7,7 @@ import {
   SlidersHorizontal, Grid3X3, LayoutGrid, Sparkles
 } from "lucide-react";
 import { Link } from "wouter";
+import TutorialTrigger from "@/components/TutorialTrigger";
 
 const CARD_TYPES = ["character", "action", "combat", "reaction", "event", "item", "location", "master", "political"];
 const RARITIES = ["common", "uncommon", "rare", "epic", "legendary", "mythic", "neyon"];
@@ -230,6 +231,10 @@ export default function CardBrowserPage() {
         </AnimatePresence>
       </div>
 
+      {/* Tutorial trigger */}
+      <div className="px-4 sm:px-6 pt-3">
+        <TutorialTrigger route="/cards" variant="banner" />
+      </div>
       {/* Card grid */}
       <div className="px-4 sm:px-6 py-6">
         {isLoading ? (

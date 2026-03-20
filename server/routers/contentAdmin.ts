@@ -394,4 +394,139 @@ export const contentAdminRouter = router({
       totalEpisodes: Object.keys(data.episodes).length,
     };
   }),
+
+  /* ─── CSV EXPORT ─── */
+  exportCsv: adminProcedure
+    .input(z.object({ type: z.enum(["all", "character", "song", "location", "faction", "event", "concept", "technology"]).optional() }))
+    .query(({ input }) => {
+      const data = readData();
+      let entries = data.entries;
+      if (input.type && input.type !== "all") {
+        entries = entries.filter((e: LoredexEntry) => e.type === input.type);
+      }
+      // CSV header
+      const fields = ["id","type","name","era","date_aa","date_ad","season","affiliation","status","classification","threat_level","description","lore_significance","first_appearance","key_abilities","key_relationships","album","track_number","duration","genre","mood","themes"];
+      const escCsv = (v: unknown) => {
+        if (v == null) return "";
+        const s = Array.isArray(v) ? v.join(";") : String(v);
+        return s.includes(",") || s.includes('"') || s.includes("\n") ? `"${s.replace(/"/g, '""')}"` : s;
+      };
+      const rows = [fields.join(",")];
+      for (const e of entries) {
+        rows.push(fields.map(f => escCsv((e as any)[f])).join(","));
+      }
+      return { csv: rows.join("\n"), count: entries.length, type: input.type ?? "all" };
+    }),
+
+  /* ─── CSV IMPORT ─── */
+  importCsv: adminProcedure
+    .input(z.object({
+      csv: z.string(),
+      mode: z.enum(["merge", "replace"]).default("merge"),
+    }))
+    .mutation(({ input }) => {
+      const lines = input.csv.split("\n").filter(l => l.trim());
+      if (lines.length < 2) throw new TRPCError({ code: "BAD_REQUEST", message: "CSV must have header + at least 1 row" });
+      // Parse CSV (handles quoted fields with commas)
+      const parseCsvLine = (line: string): string[] => {
+        const result: string[] = [];
+        let current = "";
+        let inQuotes = false;
+        for (let i = 0; i < line.length; i++) {
+          const ch = line[i];
+          if (ch === '"') {
+            if (inQuotes && line[i + 1] === '"') { current += '"'; i++; }
+            else { inQuotes = !inQuotes; }
+          } else if (ch === "," && !inQuotes) {
+            result.push(current.trim()); current = "";
+          } else { current += ch; }
+        }
+        result.push(current.trim());
+        return result;
+      };
+      const headers = parseCsvLine(lines[0]);
+      const nameIdx = headers.indexOf("name");
+      const idIdx = headers.indexOf("id");
+      const typeIdx = headers.indexOf("type");
+      if (nameIdx === -1) throw new TRPCError({ code: "BAD_REQUEST", message: "CSV must have 'name' column" });
+
+      const data = readData();
+      let created = 0, updated = 0, skipped = 0;
+      const arrayFields = new Set(["key_abilities", "key_relationships", "themes"]);
+
+      for (let i = 1; i < lines.length; i++) {
+        const values = parseCsvLine(lines[i]);
+        if (values.length < headers.length) { skipped++; continue; }
+        const row: Record<string, any> = {};
+        headers.forEach((h, idx) => {
+          const val = values[idx];
+          if (!val) return;
+          if (arrayFields.has(h)) { row[h] = val.split(";").map((s: string) => s.trim()).filter(Boolean); }
+          else if (h === "track_number") { row[h] = parseInt(val) || undefined; }
+          else { row[h] = val; }
+        });
+        // Find existing entry by ID or name
+        const existingIdx = data.entries.findIndex((e: LoredexEntry) =>
+          (idIdx >= 0 && values[idIdx] && e.id === values[idIdx]) || e.name === values[nameIdx]
+        );
+        if (existingIdx >= 0) {
+          if (input.mode === "merge") {
+            // Merge: only overwrite non-empty fields
+            Object.entries(row).forEach(([k, v]) => {
+              if (v != null && v !== "") (data.entries[existingIdx] as any)[k] = v;
+            });
+            updated++;
+          } else {
+            // Replace: overwrite entire entry but keep ID
+            const oldId = data.entries[existingIdx].id;
+            data.entries[existingIdx] = { ...row, id: oldId } as LoredexEntry;
+            updated++;
+          }
+        } else {
+          // Create new entry
+          const maxId = data.entries.reduce((max: number, e: LoredexEntry) => {
+            const num = parseInt(e.id.replace("entity_", ""));
+            return isNaN(num) ? max : Math.max(max, num);
+          }, 0);
+          const newEntry = { id: `entity_${maxId + 1 + created}`, type: typeIdx >= 0 ? values[typeIdx] || "character" : "character", ...row };
+          data.entries.push(newEntry as LoredexEntry);
+          created++;
+        }
+      }
+      // Recalculate stats
+      data.stats = {
+        total_entries: data.entries.length,
+        characters: data.entries.filter((e: LoredexEntry) => e.type === "character").length,
+        songs: data.entries.filter((e: LoredexEntry) => e.type === "song").length,
+        locations: data.entries.filter((e: LoredexEntry) => e.type === "location").length,
+        factions: data.entries.filter((e: LoredexEntry) => e.type === "faction").length,
+        events: data.entries.filter((e: LoredexEntry) => e.type === "event").length,
+        concepts: data.entries.filter((e: LoredexEntry) => e.type === "concept").length,
+        technologies: data.entries.filter((e: LoredexEntry) => e.type === "technology").length,
+        relationships: data.relationships.length,
+      };
+      writeData(data);
+      return { created, updated, skipped, total: data.entries.length };
+    }),
+
+  /* ─── BULK DELETE ─── */
+  bulkDelete: adminProcedure
+    .input(z.object({ ids: z.array(z.string()).min(1).max(500) }))
+    .mutation(({ input }) => {
+      const data = readData();
+      const idSet = new Set(input.ids);
+      const before = data.entries.length;
+      data.entries = data.entries.filter((e: LoredexEntry) => !idSet.has(e.id));
+      // Also remove relationships involving deleted entries
+      data.relationships = data.relationships.filter((r: any) => !idSet.has(r.source) && !idSet.has(r.target));
+      // Recalculate stats
+      data.stats.total_entries = data.entries.length;
+      data.stats.characters = data.entries.filter((e: LoredexEntry) => e.type === "character").length;
+      data.stats.songs = data.entries.filter((e: LoredexEntry) => e.type === "song").length;
+      data.stats.locations = data.entries.filter((e: LoredexEntry) => e.type === "location").length;
+      data.stats.factions = data.entries.filter((e: LoredexEntry) => e.type === "faction").length;
+      data.stats.relationships = data.relationships.length;
+      writeData(data);
+      return { deleted: before - data.entries.length, remaining: data.entries.length };
+    }),
 });

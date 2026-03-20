@@ -62,6 +62,13 @@ export interface GameState {
   conexusXp: number;              // XP earned from CoNexus game completions
   collectedCards: string[];        // IDs of all cards the player has collected
   activeDeck: string[];            // IDs of cards in the player's active battle deck
+  // Morality meter: -100 (Machine) to +100 (Humanity), zero-sum
+  moralityScore: number;
+  moralityChoices: { tutorialId: string; choiceId: string; shift: number }[];
+  // Tutorial completions
+  completedTutorials: string[];    // Tutorial IDs the player has completed
+  // Morality-based unlocks
+  moralityUnlocks: string[];       // IDs of morality-gated items/themes unlocked
 }
 
 /* ─── ROOM DEFINITIONS ─── */
@@ -554,6 +561,10 @@ const DEFAULT_GAME_STATE: GameState = {
   conexusXp: 0,
   collectedCards: [],
   activeDeck: [],
+  moralityScore: 0,
+  moralityChoices: [],
+  completedTutorials: [],
+  moralityUnlocks: [],
 };
 
 const GAME_STORAGE_KEY = "loredex_game_state";
@@ -588,6 +599,14 @@ interface GameContextValue {
   setNarrativeFlag: (flag: string, value?: boolean) => void;
   // Quest rewards
   claimQuestReward: (questId: string) => void;
+  // Morality meter
+  shiftMorality: (amount: number, tutorialId?: string, choiceId?: string) => void;
+  getMoralityLabel: () => string;
+  getMoralityTier: () => { tier: string; level: number };
+  unlockMoralityReward: (rewardId: string) => void;
+  // Tutorials
+  completeTutorial: (tutorialId: string) => void;
+  isTutorialCompleted: (tutorialId: string) => boolean;
   // Quick access
   skipToExploring: () => void;
   // Server sync
@@ -911,6 +930,59 @@ export function GameProvider({ children }: { children: ReactNode }) {
     });
   }, []);
 
+  /* ─── MORALITY METER ─── */
+  const shiftMorality = useCallback((amount: number, tutorialId?: string, choiceId?: string) => {
+    setState(prev => {
+      const newScore = Math.max(-100, Math.min(100, prev.moralityScore + amount));
+      const newChoices = tutorialId && choiceId
+        ? [...prev.moralityChoices, { tutorialId, choiceId, shift: amount }]
+        : prev.moralityChoices;
+      return { ...prev, moralityScore: newScore, moralityChoices: newChoices };
+    });
+  }, []);
+
+  const getMoralityLabel = useCallback(() => {
+    const s = state.moralityScore;
+    if (s <= -80) return "Machine Ascendant";
+    if (s <= -60) return "Machine Devoted";
+    if (s <= -40) return "Machine Aligned";
+    if (s <= -20) return "Machine Leaning";
+    if (s < 20) return "Balanced";
+    if (s < 40) return "Humanity Leaning";
+    if (s < 60) return "Humanity Aligned";
+    if (s < 80) return "Humanity Devoted";
+    return "Humanity Ascendant";
+  }, [state.moralityScore]);
+
+  const getMoralityTier = useCallback(() => {
+    const abs = Math.abs(state.moralityScore);
+    const side = state.moralityScore <= 0 ? "machine" : "humanity";
+    if (abs >= 80) return { tier: side, level: 5 };
+    if (abs >= 60) return { tier: side, level: 4 };
+    if (abs >= 40) return { tier: side, level: 3 };
+    if (abs >= 20) return { tier: side, level: 2 };
+    return { tier: "balanced", level: 1 };
+  }, [state.moralityScore]);
+
+  const unlockMoralityReward = useCallback((rewardId: string) => {
+    setState(prev => {
+      if (prev.moralityUnlocks.includes(rewardId)) return prev;
+      return { ...prev, moralityUnlocks: [...prev.moralityUnlocks, rewardId] };
+    });
+  }, []);
+
+  /* ─── TUTORIALS ─── */
+  const completeTutorial = useCallback((tutorialId: string) => {
+    setState(prev => {
+      if (prev.completedTutorials.includes(tutorialId)) return prev;
+      return { ...prev, completedTutorials: [...prev.completedTutorials, tutorialId] };
+    });
+  }, []);
+
+  const isTutorialCompleted = useCallback((tutorialId: string) => {
+    return state.completedTutorials.includes(tutorialId);
+  }, [state.completedTutorials]);
+
   const skipToExploring = useCallback(() => {
     // Dev/debug: skip awakening and unlock first few rooms
     const rooms: Record<string, RoomState> = {};
@@ -958,6 +1030,12 @@ export function GameProvider({ children }: { children: ReactNode }) {
       setActiveDeck,
       setNarrativeFlag,
       claimQuestReward,
+      shiftMorality,
+      getMoralityLabel,
+      getMoralityTier,
+      unlockMoralityReward,
+      completeTutorial,
+      isTutorialCompleted,
       skipToExploring,
       syncStatus,
       lastSyncedAt,

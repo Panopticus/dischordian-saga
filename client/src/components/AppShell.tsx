@@ -96,6 +96,7 @@ const NAV_GROUPS: NavGroup[] = [
       { path: "/character-sheet", label: "CHAR SHEET", icon: Shield, description: "Stats & gear" },
       { path: "/store", label: "REQUISITIONS", icon: Store, description: "Dream store" },
       { path: "/favorites", label: "MISSION BRIEFING", icon: Heart, description: "Favorites & playlists" },
+      { path: "/lore-tutorials", label: "LORE TUTORIALS", icon: BookOpen, description: "Elara's guided tutorials" },
       { path: "/potentials", label: "THE POTENTIALS", icon: Gem, description: "NFT collection & 1/1 cards" },
     ],
   },
@@ -109,7 +110,7 @@ const ALBUMS = [
 ];
 
 /* ─── ALWAYS-ACCESSIBLE ROUTES (no room required) ─── */
-const ALWAYS_ACCESSIBLE = ["/ark", "/console", "/games", "/clue-journal", "/settings", "/admin", "/character-sheet", "/awakening", "/research-minigame", "/war-map"];
+const ALWAYS_ACCESSIBLE = ["/ark", "/console", "/games", "/clue-journal", "/settings", "/admin", "/character-sheet", "/awakening", "/research-minigame", "/war-map", "/lore-tutorials"];
 
 function isRouteUnlocked(path: string, rooms: Record<string, { unlocked?: boolean }>): boolean {
   if (ALWAYS_ACCESSIBLE.some(p => path.startsWith(p))) return true;
