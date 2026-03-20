@@ -200,21 +200,34 @@ function RoomScene({
               <div
                 className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transition-all duration-300"
                 style={{
-                  opacity: isEasterEgg ? (isHovered ? 0.6 : 0.08) : (isHovered ? 1 : 0.7),
+                  opacity: isEasterEgg ? (isHovered ? 0.6 : 0.08) : (isHovered ? 1 : 0.85),
                   transform: `translate(-50%, -50%) scale(${isHovered ? 1.2 : 1})`,
                 }}
               >
                 <div
-                  className={`${isEasterEgg ? "w-4 h-4" : "w-8 h-8"} rounded-full flex items-center justify-center`}
+                  className={`${isEasterEgg ? "w-4 h-4" : hotspot.type === "door" ? "w-10 h-10" : "w-8 h-8"} rounded-full flex items-center justify-center`}
                   style={{
-                    background: isEasterEgg ? "transparent" : colors.bg,
-                    border: isEasterEgg ? "none" : `1.5px solid ${colors.border}`,
-                    boxShadow: isEasterEgg ? "none" : `0 0 12px ${colors.glow}`,
+                    background: isEasterEgg ? "transparent" : hotspot.type === "door" ? "rgba(56,117,250,0.25)" : colors.bg,
+                    border: isEasterEgg ? "none" : hotspot.type === "door" ? "2px solid rgba(56,117,250,0.7)" : `1.5px solid ${colors.border}`,
+                    boxShadow: isEasterEgg ? "none" : hotspot.type === "door" ? "0 0 20px rgba(56,117,250,0.5), 0 0 40px rgba(56,117,250,0.2)" : `0 0 12px ${colors.glow}`,
                   }}
                 >
-                  {!isEasterEgg && <Icon size={14} style={{ color: colors.text }} />}
+                  {!isEasterEgg && <Icon size={hotspot.type === "door" ? 18 : 14} style={{ color: colors.text }} />}
                   {isEasterEgg && <div className="w-1.5 h-1.5 rounded-full" style={{ background: colors.text, opacity: 0.4 }} />}
                 </div>
+                {/* Door pulse rings - always visible, slower pulse */}
+                {hotspot.type === "door" && (
+                  <>
+                    <div
+                      className="absolute inset-[-4px] rounded-full animate-ping"
+                      style={{ border: "2px solid rgba(56,117,250,0.4)", opacity: 0.5, animationDuration: "2s" }}
+                    />
+                    <div
+                      className="absolute inset-[-8px] rounded-full animate-ping"
+                      style={{ border: "1px solid rgba(56,117,250,0.2)", opacity: 0.3, animationDuration: "3s" }}
+                    />
+                  </>
+                )}
                 {/* Pulse ring — only for regular items, not Easter eggs */}
                 {hotspot.type === "item" && !isEasterEgg && (
                   <div
@@ -223,6 +236,20 @@ function RoomScene({
                   />
                 )}
               </div>
+              {/* Always-visible door label with room name */}
+              {hotspot.type === "door" && !isEasterEgg && (
+                <div className="absolute left-1/2 -translate-x-1/2 -top-1 -translate-y-full pointer-events-none">
+                  <div className="px-2.5 py-1 rounded" style={{
+                    background: "rgba(1,0,32,0.92)",
+                    border: "1px solid rgba(56,117,250,0.35)",
+                    boxShadow: "0 0 12px rgba(56,117,250,0.15)",
+                  }}>
+                    <p className="font-mono text-[9px] text-[#3875fa] tracking-wider whitespace-nowrap font-bold">
+                      ▶ {hotspot.name}
+                    </p>
+                  </div>
+                </div>
+              )}
 
               {/* Tooltip */}
               <AnimatePresence>
@@ -717,14 +744,20 @@ export default function ArkExplorerPage() {
             ))}
           </div>
 
-          {/* Connected rooms */}
+          {/* Connected rooms - improved pathway markers */}
           <div className="mt-4">
-            <p className="font-mono text-[9px] text-white/25 tracking-[0.3em] mb-2">CONNECTED AREAS</p>
-            <div className="flex flex-wrap gap-2">
+            <div className="flex items-center gap-2 mb-3">
+              <Compass size={12} className="text-[#3875fa]" />
+              <p className="font-mono text-[10px] text-[#3875fa] tracking-[0.3em] font-bold">PATHWAYS</p>
+              <div className="flex-1 h-px bg-gradient-to-r from-[rgba(56,117,250,0.3)] to-transparent" />
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
               {currentRoom.connections.map(connId => {
                 const connRoom = getRoomDef(connId);
                 const unlocked = isRoomUnlocked(connId) || canUnlockRoom(connId);
                 const hasPuzzle = roomNeedsPuzzle(connId);
+                const deckDiff = connRoom ? connRoom.deck - currentRoom.deck : 0;
+                const deckLabel = deckDiff > 0 ? `↑ DECK ${connRoom?.deck}` : deckDiff < 0 ? `↓ DECK ${connRoom?.deck}` : "SAME DECK";
                 return (
                   <button
                     key={connId}
@@ -741,26 +774,54 @@ export default function ArkExplorerPage() {
                         toast.error("LOCKED", { description: "Explore more to unlock this area." });
                       }
                     }}
-                    className="flex items-center gap-2 px-3 py-2 rounded-md font-mono text-[11px] transition-all"
+                    className="flex items-center gap-3 px-4 py-3 rounded-lg font-mono text-[11px] transition-all group"
                     style={{
                       background: unlocked
-                        ? hasPuzzle ? "rgba(255,183,77,0.08)" : "rgba(56,117,250,0.08)"
-                        : "rgba(255,255,255,0.02)",
+                        ? hasPuzzle ? "rgba(255,183,77,0.06)" : "rgba(56,117,250,0.06)"
+                        : "rgba(255,255,255,0.015)",
                       border: `1px solid ${
                         unlocked
-                          ? hasPuzzle ? "rgba(255,183,77,0.2)" : "rgba(56,117,250,0.2)"
+                          ? hasPuzzle ? "rgba(255,183,77,0.25)" : "rgba(56,117,250,0.25)"
                           : "rgba(255,255,255,0.05)"
                       }`,
-                      color: unlocked ? "rgba(255,255,255,0.7)" : "rgba(255,255,255,0.2)",
                     }}
                   >
-                    {unlocked ? (
-                      hasPuzzle ? <Zap size={12} className="text-[var(--orb-orange)]" /> : <DoorOpen size={12} />
-                    ) : (
-                      <Lock size={12} />
-                    )}
-                    {unlocked ? (hasPuzzle ? `${connRoom?.name || connId} [LOCKED]` : connRoom?.name || connId) : "???"}
-                    <ChevronRight size={10} className="opacity-40" />
+                    {/* Icon */}
+                    <div className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center" style={{
+                      background: unlocked
+                        ? hasPuzzle ? "rgba(255,183,77,0.15)" : "rgba(56,117,250,0.15)"
+                        : "rgba(255,255,255,0.03)",
+                      border: `1px solid ${
+                        unlocked
+                          ? hasPuzzle ? "rgba(255,183,77,0.3)" : "rgba(56,117,250,0.3)"
+                          : "rgba(255,255,255,0.08)"
+                      }`,
+                    }}>
+                      {unlocked ? (
+                        hasPuzzle ? <Zap size={14} className="text-[var(--orb-orange)]" /> : <DoorOpen size={14} className="text-[#3875fa]" />
+                      ) : (
+                        <Lock size={14} className="text-white/15" />
+                      )}
+                    </div>
+                    {/* Text */}
+                    <div className="flex-1 text-left">
+                      <p className="font-bold tracking-wider" style={{
+                        color: unlocked ? "rgba(255,255,255,0.85)" : "rgba(255,255,255,0.2)",
+                      }}>
+                        {unlocked ? (connRoom?.name || connId) : "???"}
+                      </p>
+                      <p className="text-[9px] mt-0.5" style={{
+                        color: unlocked
+                          ? hasPuzzle ? "rgba(255,183,77,0.6)" : "rgba(56,117,250,0.6)"
+                          : "rgba(255,255,255,0.1)",
+                      }}>
+                        {unlocked ? (hasPuzzle ? "🔒 PUZZLE REQUIRED" : deckLabel) : "LOCKED"}
+                      </p>
+                    </div>
+                    {/* Arrow */}
+                    <ChevronRight size={14} className={`transition-transform group-hover:translate-x-1 ${
+                      unlocked ? "text-white/30" : "text-white/10"
+                    }`} />
                   </button>
                 );
               })}

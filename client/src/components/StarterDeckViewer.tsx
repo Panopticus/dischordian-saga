@@ -3,7 +3,7 @@
    character creation during the Awakening sequence.
    Shows a dramatic card reveal animation.
    ═══════════════════════════════════════════════════════ */
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Swords, Shield, Heart, Zap, Star, ChevronLeft, ChevronRight, X } from "lucide-react";
 
@@ -455,7 +455,7 @@ export default function StarterDeckViewer({
 }) {
   const [selectedCard, setSelectedCard] = useState<StarterCard | null>(null);
   const [revealPhase, setRevealPhase] = useState<"intro" | "revealing" | "complete">("intro");
-  const [scrollIndex, setScrollIndex] = useState(0);
+  const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const t1 = setTimeout(() => setRevealPhase("revealing"), 1500);
@@ -463,13 +463,28 @@ export default function StarterDeckViewer({
     return () => { clearTimeout(t1); clearTimeout(t2); };
   }, [cards.length]);
 
-  const visibleCards = cards.slice(scrollIndex, scrollIndex + 4);
-  const canScrollLeft = scrollIndex > 0;
-  const canScrollRight = scrollIndex + 4 < cards.length;
+  // Scroll helpers for arrow buttons
+  const scrollBy = (dir: number) => {
+    scrollRef.current?.scrollBy({ left: dir * 260, behavior: "smooth" });
+  };
 
   return (
-    <div className="w-full">
-      {/* Header */}
+    <div className="w-full relative">
+      {/* ─── CLOSE BUTTON (always visible) ─── */}
+      {onClose && (
+        <button
+          onClick={onClose}
+          className="absolute top-2 right-2 z-30 p-2 rounded-full transition-all hover:scale-110"
+          style={{
+            background: "rgba(1,0,32,0.9)",
+            border: "1px solid rgba(255,255,255,0.2)",
+          }}
+          aria-label="Close starter deck"
+        >
+          <X size={16} className="text-white/60 hover:text-white" />
+        </button>
+      )}
+
       <AnimatePresence mode="wait">
         {revealPhase === "intro" && (
           <motion.div
@@ -504,51 +519,69 @@ export default function StarterDeckViewer({
                 YOUR STARTER DECK
               </h2>
               <p className="font-mono text-[10px] text-white/30 mt-1">
-                {cards.length} CARDS // TAP TO INSPECT
+                {cards.length} CARDS // TAP TO INSPECT • SWIPE TO SCROLL
               </p>
             </div>
 
-            {/* Card carousel */}
+            {/* Card carousel — native horizontal scroll for mobile */}
             <div className="relative">
-              {/* Scroll buttons */}
-              {canScrollLeft && (
-                <button
-                  onClick={() => setScrollIndex(Math.max(0, scrollIndex - 1))}
-                  className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-3 z-20 p-1.5 rounded-full"
-                  style={{
-                    background: "rgba(1,0,32,0.9)",
-                    border: "1px solid rgba(51,226,230,0.3)",
-                  }}
-                >
-                  <ChevronLeft size={14} className="text-[var(--neon-cyan)]" />
-                </button>
-              )}
-              {canScrollRight && (
-                <button
-                  onClick={() => setScrollIndex(Math.min(cards.length - 4, scrollIndex + 1))}
-                  className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-3 z-20 p-1.5 rounded-full"
-                  style={{
-                    background: "rgba(1,0,32,0.9)",
-                    border: "1px solid rgba(51,226,230,0.3)",
-                  }}
-                >
-                  <ChevronRight size={14} className="text-[var(--neon-cyan)]" />
-                </button>
-              )}
+              {/* Desktop scroll arrows */}
+              <button
+                onClick={() => scrollBy(-1)}
+                className="hidden sm:flex absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-20 p-2 rounded-full items-center justify-center"
+                style={{
+                  background: "rgba(1,0,32,0.95)",
+                  border: "1px solid rgba(51,226,230,0.3)",
+                  boxShadow: "0 0 12px rgba(51,226,230,0.15)",
+                }}
+              >
+                <ChevronLeft size={16} className="text-[var(--neon-cyan)]" />
+              </button>
+              <button
+                onClick={() => scrollBy(1)}
+                className="hidden sm:flex absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-20 p-2 rounded-full items-center justify-center"
+                style={{
+                  background: "rgba(1,0,32,0.95)",
+                  border: "1px solid rgba(51,226,230,0.3)",
+                  boxShadow: "0 0 12px rgba(51,226,230,0.15)",
+                }}
+              >
+                <ChevronRight size={16} className="text-[var(--neon-cyan)]" />
+              </button>
 
-              {/* Cards grid */}
-              <div className="flex justify-center gap-3 overflow-hidden px-4">
-                <AnimatePresence mode="popLayout">
-                  {visibleCards.map((card, i) => (
+              {/* Scrollable card strip — touch-friendly horizontal scroll */}
+              <div
+                ref={scrollRef}
+                className="flex gap-3 overflow-x-auto px-4 pb-3 snap-x snap-mandatory scrollbar-hide"
+                style={{
+                  WebkitOverflowScrolling: "touch",
+                  scrollbarWidth: "none",
+                  msOverflowStyle: "none",
+                }}
+              >
+                {cards.map((card, i) => (
+                  <div key={card.id} className="snap-center flex-shrink-0" style={{ width: "min(240px, 70vw)" }}>
                     <CardDisplay
-                      key={card.id}
                       card={card}
                       index={i}
                       isActive={selectedCard?.id === card.id}
                       onClick={() => setSelectedCard(card)}
                     />
-                  ))}
-                </AnimatePresence>
+                  </div>
+                ))}
+              </div>
+
+              {/* Scroll indicator dots */}
+              <div className="flex justify-center gap-1.5 mt-2">
+                {cards.map((card, i) => (
+                  <div
+                    key={card.id}
+                    className="w-1.5 h-1.5 rounded-full transition-all"
+                    style={{
+                      background: i === 0 ? "var(--neon-cyan)" : "rgba(255,255,255,0.15)",
+                    }}
+                  />
+                ))}
               </div>
             </div>
 
@@ -579,20 +612,35 @@ export default function StarterDeckViewer({
                   </div>
                 </div>
 
-                {onContinue && (
-                  <button
-                    onClick={onContinue}
-                    className="px-6 py-2.5 rounded-md font-mono text-xs tracking-wider transition-all hover:scale-105"
-                    style={{
-                      background: "rgba(51,226,230,0.1)",
-                      border: "1px solid rgba(51,226,230,0.3)",
-                      color: "var(--neon-cyan)",
-                      boxShadow: "0 0 20px rgba(51,226,230,0.1)",
-                    }}
-                  >
-                    CONTINUE TO THE ARK
-                  </button>
-                )}
+                <div className="flex justify-center gap-3">
+                  {onClose && (
+                    <button
+                      onClick={onClose}
+                      className="px-5 py-2.5 rounded-md font-mono text-xs tracking-wider transition-all hover:scale-105"
+                      style={{
+                        background: "rgba(255,255,255,0.05)",
+                        border: "1px solid rgba(255,255,255,0.15)",
+                        color: "rgba(255,255,255,0.5)",
+                      }}
+                    >
+                      CLOSE
+                    </button>
+                  )}
+                  {onContinue && (
+                    <button
+                      onClick={onContinue}
+                      className="px-6 py-2.5 rounded-md font-mono text-xs tracking-wider transition-all hover:scale-105"
+                      style={{
+                        background: "rgba(51,226,230,0.1)",
+                        border: "1px solid rgba(51,226,230,0.3)",
+                        color: "var(--neon-cyan)",
+                        boxShadow: "0 0 20px rgba(51,226,230,0.1)",
+                      }}
+                    >
+                      VIEW CHARACTER SHEET →
+                    </button>
+                  )}
+                </div>
               </motion.div>
             )}
           </motion.div>

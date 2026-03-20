@@ -58,6 +58,7 @@ const NAV_GROUPS: NavGroup[] = [
       { path: "/character-timeline", label: "CHAR TIMELINE", icon: BarChart3, description: "Character arcs" },
       { path: "/timeline", label: "ERA TIMELINE", icon: Clock, description: "Historical eras" },
       { path: "/codex", label: "THE CODEX", icon: BookOpen, description: "Lore library" },
+      { path: "/clue-journal", label: "CLUE JOURNAL", icon: ScrollText, description: "Clues & puzzles" },
     ],
   },
   {

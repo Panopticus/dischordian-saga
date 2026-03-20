@@ -1358,3 +1358,24 @@
 - [x] Create new cards: Elara, The Overseer, Veridian VI, Prison Planet, Battle of Nexon, Operation Trojan Downfall, Fall of Reality
 - [x] Update existing Engineer card with expanded Epoch Zero lore
 - [x] Note: Engineer is Black. Fate after Battle of Nexon unknown, confirmed reports of execution by the Warlord
+
+### Phase 52: RPG Core UX Overhaul
+- [x] Fix starter deck modal: add close button (X), fix scroll on mobile
+- [x] Show character sheet immediately after Elara wake-up questions
+- [x] Build RPG hub navigation: character sheet, inventory, journals accessible from main nav (Clue Journal added to sidebar nav)
+- [x] Make conspiracy board progressive discovery (starts empty, populates as you discover)
+- [ ] Add initial hooks and video logs for first few discoveries
+- [ ] Build research minigame to unlock additional lore entries
+- [ ] Upgrade Trade Wars to graphical galactic map (Civilization/mobile strategy style)
+- [ ] Add discoverable areas on galactic map
+- [ ] Ensure RPG character sheet is the central identity hub
+- [x] Generate Fall of Reality mythic card art and update database
+
+### Phase 53: CoNexus Stories & Streaming
+- [x] Scan CoNexus website for all Dischordian Saga stories
+- [x] Compare with existing CoNexus stories in the app (found 6 missing Foundation stories)
+- [x] Add missing stories: 6 Foundation stories (Rise of Ne-Yons, Iron Lion, Agent Zero, Eyes of the Watcher, The Engineer, The Oracle)
+- [ ] Research streaming playlist embed options without user gating
+- [ ] Provide recommendation on streaming playlist integration
+- [x] Improve Ark exploration pathways: clearer room exits, better markers for connected areas
+- [x] Add wallet connect option at beginning of Awakening flow for Potential/Neyon holders

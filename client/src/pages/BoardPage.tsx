@@ -5,7 +5,8 @@ import { useState, useMemo, useRef, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ArrowLeft, ZoomIn, ZoomOut, Maximize2, ChevronRight,
-  Network, Eye, Shield, MapPin, Zap, Crosshair, Scan
+  Network, Eye, Shield, MapPin, Zap, Crosshair, Scan,
+  EyeOff, Lock
 } from "lucide-react";
 
 interface Node {
@@ -56,9 +57,10 @@ interface Particle {
 }
 
 export default function BoardPage() {
-  const { entries, relationships, discoverEntry } = useLoredex();
+  const { entries, relationships, discoverEntry, discoveredIds, discoveryProgress } = useLoredex();
   const gamification = useGamification();
   const boardTrackedRef = useRef(false);
+  const [discoveryMode, setDiscoveryMode] = useState<"discovered" | "all">("discovered");
 
   useEffect(() => {
     if (!boardTrackedRef.current) {
@@ -85,35 +87,62 @@ export default function BoardPage() {
 
   const graphData = useMemo(() => {
     const filteredEntries = entries.filter((e) => e.type !== "song");
-    const nodes: Node[] = filteredEntries
-      .filter((e) => !filter || e.type === filter)
-      .map((e, i) => {
-        const angle = (i / filteredEntries.length) * Math.PI * 2;
+    const baseEntries = filteredEntries.filter((e) => !filter || e.type === filter);
+    
+    // In discovery mode, only show discovered entries + mystery placeholders for connected undiscovered ones
+    const isDiscovered = (id: string) => discoveredIds.has(id);
+    
+    let visibleEntries = baseEntries;
+    if (discoveryMode === "discovered") {
+      // Show discovered entries + adjacent undiscovered as mystery nodes
+      const discoveredNames = new Set(
+        baseEntries.filter(e => isDiscovered(e.id)).map(e => e.name.toLowerCase())
+      );
+      // Find undiscovered entries that are connected to discovered ones
+      const adjacentUndiscovered = new Set<string>();
+      relationships.forEach(r => {
+        const srcLower = r.source.toLowerCase();
+        const tgtLower = r.target.toLowerCase();
+        if (discoveredNames.has(srcLower) && !discoveredNames.has(tgtLower)) {
+          adjacentUndiscovered.add(tgtLower);
+        }
+        if (discoveredNames.has(tgtLower) && !discoveredNames.has(srcLower)) {
+          adjacentUndiscovered.add(srcLower);
+        }
+      });
+      visibleEntries = baseEntries.filter(e => 
+        isDiscovered(e.id) || adjacentUndiscovered.has(e.name.toLowerCase())
+      );
+    }
+    
+    const nodes: Node[] = visibleEntries.map((e, i) => {
+        const angle = (i / Math.max(visibleEntries.length, 1)) * Math.PI * 2;
         const radius = 350 + Math.random() * 250;
         const connCount = relationships.filter(
           (r) => r.source.toLowerCase() === e.name.toLowerCase() || r.target.toLowerCase() === e.name.toLowerCase()
         ).length;
+        const discovered = isDiscovered(e.id);
         return {
           id: e.id,
-          name: e.name,
+          name: discovered ? e.name : "???",
           type: e.type,
-          image: e.image,
+          image: discovered ? e.image : undefined,
           x: Math.cos(angle) * radius + 500,
           y: Math.sin(angle) * radius + 400,
           vx: 0,
           vy: 0,
-          radius: Math.max(14, Math.min(32, 12 + connCount * 1.8)),
+          radius: discovered ? Math.max(14, Math.min(32, 12 + connCount * 1.8)) : 10,
           connCount,
         };
       });
 
-    const nodeNames = new Set(nodes.map((n) => n.name.toLowerCase()));
+    const nodeNames = new Set(visibleEntries.map((n) => n.name.toLowerCase()));
     const edges: Edge[] = relationships
       .filter((r) => nodeNames.has(r.source.toLowerCase()) && nodeNames.has(r.target.toLowerCase()))
       .map((r) => ({ source: r.source, target: r.target, type: r.relationship_type || r.type || 'connected_to' }));
 
     return { nodes, edges };
-  }, [entries, relationships, filter]);
+  }, [entries, relationships, filter, discoveryMode, discoveredIds]);
 
   // Preload node images
   useEffect(() => {
@@ -390,12 +419,17 @@ export default function BoardPage() {
         ctx.fill();
       }
 
+      const isMystery = n.name === "???";
+
       // ── Node body — glass surface ──
       const bodyGrad = ctx.createRadialGradient(
         n.x - n.radius * 0.3, n.y - n.radius * 0.3, 0,
         n.x, n.y, n.radius
       );
-      if (dimmed) {
+      if (isMystery) {
+        bodyGrad.addColorStop(0, "rgba(30,20,50,0.4)");
+        bodyGrad.addColorStop(1, "rgba(10,5,25,0.3)");
+      } else if (dimmed) {
         bodyGrad.addColorStop(0, "rgba(10,10,30,0.3)");
         bodyGrad.addColorStop(1, "rgba(5,5,20,0.2)");
       } else {
@@ -410,7 +444,7 @@ export default function BoardPage() {
 
       // ── Node image (circular clip) ──
       const img = imageCache.current.get(n.id);
-      if (img && img.complete && !dimmed) {
+      if (img && img.complete && !dimmed && !isMystery) {
         ctx.save();
         ctx.beginPath();
         ctx.arc(n.x, n.y, n.radius - 2, 0, Math.PI * 2);
@@ -425,13 +459,31 @@ export default function BoardPage() {
       // ── Border ring ──
       ctx.beginPath();
       ctx.arc(n.x, n.y, n.radius, 0, Math.PI * 2);
-      const borderAlpha = dimmed ? 0.1 : isSelected ? 0.9 : isHovered ? 0.7 : isConnected ? 0.5 : 0.25;
-      ctx.strokeStyle = `${typeColor.glow}${borderAlpha})`;
-      ctx.lineWidth = isSelected ? 2.5 : isHovered ? 2 : 1;
-      ctx.stroke();
+      if (isMystery) {
+        ctx.strokeStyle = "rgba(160,120,255,0.2)";
+        ctx.lineWidth = 1;
+        ctx.setLineDash([3, 4]);
+        ctx.stroke();
+        ctx.setLineDash([]);
+      } else {
+        const borderAlpha = dimmed ? 0.1 : isSelected ? 0.9 : isHovered ? 0.7 : isConnected ? 0.5 : 0.25;
+        ctx.strokeStyle = `${typeColor.glow}${borderAlpha})`;
+        ctx.lineWidth = isSelected ? 2.5 : isHovered ? 2 : 1;
+        ctx.stroke();
+      }
+
+      // ── Mystery question mark for undiscovered ──
+      if (isMystery) {
+        ctx.font = `bold ${n.radius}px 'Source Code Pro', monospace`;
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillStyle = `rgba(160,120,255,${0.3 + Math.sin(time * 2 + n.x) * 0.1})`;
+        ctx.fillText("?", n.x, n.y);
+        ctx.textBaseline = "alphabetic";
+      }
 
       // ── Inner core dot ──
-      if (!img || !img.complete || dimmed) {
+      if (!isMystery && (!img || !img.complete || dimmed)) {
         ctx.beginPath();
         ctx.arc(n.x, n.y, 3, 0, Math.PI * 2);
         ctx.fillStyle = dimmed ? `${typeColor.glow}0.15)` : `${typeColor.glow}0.7)`;
@@ -517,6 +569,11 @@ export default function BoardPage() {
     const { mx, my } = getCanvasCoords(e.clientX, e.clientY);
     const clicked = findNodeAt(mx, my);
     if (clicked) {
+      if (clicked.name === "???") {
+        // Mystery node - don't select, just show hint
+        setSelectedNode(null);
+        return;
+      }
       setSelectedNode(clicked);
       discoverEntry(clicked.id);
     } else {
@@ -552,6 +609,10 @@ export default function BoardPage() {
       const { mx, my } = getCanvasCoords(t.clientX, t.clientY);
       const clicked = findNodeAt(mx, my);
       if (clicked) {
+        if (clicked.name === "???") {
+          setSelectedNode(null);
+          return;
+        }
         setSelectedNode(clicked);
         discoverEntry(clicked.id);
       } else {
@@ -618,6 +679,9 @@ export default function BoardPage() {
             <Scan size={10} className="text-[var(--neon-cyan)]/60" />
             <span className="font-mono text-[9px] text-white/50">
               {graphData.nodes.length} NODES // {graphData.edges.length} LINKS
+              {discoveryMode === "discovered" && (
+                <> // {Math.round(discoveryProgress)}% DISCOVERED</>
+              )}
             </span>
           </div>
         </div>
@@ -647,6 +711,22 @@ export default function BoardPage() {
               </button>
             );
           })}
+
+          <div className="h-4 w-px bg-white/10 mx-0.5" />
+
+          {/* Discovery mode toggle */}
+          <button
+            onClick={() => setDiscoveryMode(m => m === "discovered" ? "all" : "discovered")}
+            className={`flex items-center gap-1 px-1.5 sm:px-2 py-1 rounded-md text-[9px] sm:text-[10px] font-mono transition-all border ${
+              discoveryMode === "discovered"
+                ? "border-[var(--orb-orange)] bg-[rgba(255,183,77,0.1)] text-[var(--orb-orange)]"
+                : "border-[var(--neon-cyan)]/30 bg-[rgba(51,226,230,0.05)] text-[var(--neon-cyan)]/70"
+            }`}
+            title={discoveryMode === "discovered" ? "Showing discovered entries only" : "Showing all entries"}
+          >
+            {discoveryMode === "discovered" ? <EyeOff size={11} /> : <Eye size={11} />}
+            <span className="hidden sm:inline">{discoveryMode === "discovered" ? "DISCOVERED" : "ALL"}</span>
+          </button>
 
           <div className="h-4 w-px bg-white/10 mx-0.5 hidden sm:block" />
 

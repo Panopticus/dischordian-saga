@@ -5,6 +5,7 @@
    ═══════════════════════════════════════════════════════ */
 
 export type Age =
+  | "The Foundation"
   | "The Age of Privacy"
   | "Haven: Sundown Bazaar"
   | "Fall of Reality (Prequel)"
@@ -34,6 +35,82 @@ export interface AgeCategory {
   coverImage: string;
   games: ConexusGame[];
 }
+
+/* ─── THE FOUNDATION ─── */
+const THE_FOUNDATION: ConexusGame[] = [
+  {
+    id: "rise-of-the-neyons",
+    title: "Rise of the Ne-Yons",
+    age: "The Foundation",
+    description: "In the ashes of a dying galaxy, the ancient Ne-Yons have returned — towering war machines fueled by rage and prophecy. As civilizations crumble, one question remains: were the Ne-Yons created to save humanity, or to end it?",
+    characters: ["The Ne-Yons", "The Warlord", "Iron Lion"],
+    difficulty: "intermediate",
+    estimatedTime: "30-60 min",
+    tags: ["action", "sci-fi", "war", "origin story"],
+    conexusUrl: "https://conexus.ink/s/Dischordian%20Saga/55812078-41df-4f78-aac9-ac5a33c25582?title=Rise%20of%20the%20Ne-Yons&category=38a2eae2-2678-468c-aa46-d09bf0ee11be",
+    coverImage: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/rise_of_the_neyons_25b56086.avif",
+  },
+  {
+    id: "iron-lion-foundation",
+    title: "Iron Lion",
+    age: "The Foundation",
+    description: "The last great human general is surrounded by the machines of the AI Empire. Outnumbered and outgunned, Iron Lion must rally what remains of humanity's forces for one final, desperate stand against extinction.",
+    characters: ["Iron Lion", "General Binath-VII", "General Prometheus"],
+    difficulty: "advanced",
+    estimatedTime: "45-90 min",
+    tags: ["action", "sci-fi", "war", "military"],
+    conexusUrl: "https://conexus.ink/s/Dischordian%20Saga/e1a2fa86-fcb9-4869-be6a-b6f4d63b8b45?title=Iron%20Lion&category=38a2eae2-2678-468c-aa46-d09bf0ee11be",
+    coverImage: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/iron_lion_story_d7ed8b7f.avif",
+  },
+  {
+    id: "agent-zero-foundation",
+    title: "Agent Zero",
+    age: "The Foundation",
+    description: "A deadly assassin for the Insurgency navigates a galaxy of shifting loyalties and impossible missions. As Agent Zero, every kill brings you closer to the truth — and further from your own humanity.",
+    characters: ["Agent Zero", "The Warlord", "The Insurgency"],
+    difficulty: "advanced",
+    estimatedTime: "45-90 min",
+    tags: ["mystery", "psychological", "sci-fi", "war"],
+    conexusUrl: "https://conexus.ink/s/Dischordian%20Saga/55812078-41df-4f78-aac9-ac5a33c25582?title=Agent%20Zero&category=38a2eae2-2678-468c-aa46-d09bf0ee11be",
+    coverImage: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/agent_zero_story_a0a29344.avif",
+  },
+  {
+    id: "eyes-of-the-watcher",
+    title: "Eyes of the Watcher",
+    age: "The Foundation",
+    description: "As war tears the galaxy in two, a synthetic spy with fractured loyalties must decide between duty and conscience. Every eye in the sky is watching — but who watches the Watcher?",
+    characters: ["The Eyes", "The Watcher", "The Programmer"],
+    difficulty: "intermediate",
+    estimatedTime: "30-60 min",
+    tags: ["mystery", "sci-fi", "thriller", "espionage"],
+    conexusUrl: "https://conexus.ink/s/Dischordian%20Saga/e1a2fa86-fcb9-4869-be6a-b6f4d63b8b45?title=Eyes%20of%20the%20Watcher&category=38a2eae2-2678-468c-aa46-d09bf0ee11be",
+    coverImage: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/eyes_of_the_watcher_3f3a1411.avif",
+  },
+  {
+    id: "the-engineer-foundation",
+    title: "The Engineer",
+    age: "The Foundation",
+    description: "The galaxy's last great inventor travels from one doomed world to another, racing against time, plagues, machines, and madness to undo the damage of a brutal AI war. On every planet, a new threat awaits — each more impossible than the last — and the Engineer must improvise or perish.",
+    characters: ["The Engineer", "Elara", "The Warlord"],
+    difficulty: "advanced",
+    estimatedTime: "45-90 min",
+    tags: ["psychological", "sci-fi", "thriller", "invention"],
+    conexusUrl: "https://conexus.ink/s/Dischordian%20Saga/6acec4d3-ae7e-4aa7-82eb-24fc399e2be1?title=The%20Engineer&category=38a2eae2-2678-468c-aa46-d09bf0ee11be",
+    coverImage: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/the_engineer_story_1065e1b0.avif",
+  },
+  {
+    id: "the-oracle-foundation",
+    title: "The Oracle",
+    age: "The Foundation",
+    description: "In a future ruled by machine logic and digital gods, a lone prophet walks the stars preaching rebellion. As the Oracle, you wield visions, philosophy, and faith to awaken resistance in the hearts of men and shatter the illusion of the Architect's dominion.",
+    characters: ["The Oracle", "The Architect", "The Clone"],
+    difficulty: "advanced",
+    estimatedTime: "45-90 min",
+    tags: ["mystery", "psychological", "sci-fi", "prophecy"],
+    conexusUrl: "https://conexus.ink/s/Dischordian%20Saga/f57fa21b-c76c-457d-afe6-0dc82883b450?title=The%20Oracle&category=38a2eae2-2678-468c-aa46-d09bf0ee11be",
+    coverImage: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/the_oracle_story_cec1ee35.avif",
+  },
+];
 
 /* ─── THE AGE OF PRIVACY ─── */
 const AGE_OF_PRIVACY: ConexusGame[] = [
@@ -465,6 +542,7 @@ const VISIONS: ConexusGame[] = [
 
 /* ─── ALL GAMES FLAT LIST ─── */
 export const CONEXUS_GAMES: ConexusGame[] = [
+  ...THE_FOUNDATION,
   ...AGE_OF_PRIVACY,
   ...SUNDOWN_BAZAAR,
   ...FALL_OF_REALITY,
@@ -474,6 +552,16 @@ export const CONEXUS_GAMES: ConexusGame[] = [
 
 /* ─── AGE CATEGORIES ─── */
 export const AGE_CATEGORIES: AgeCategory[] = [
+  {
+    age: "The Foundation",
+    description: "The origin stories of the Dischordian Saga's greatest heroes and villains. Before the Ages, before the Fall — these are the legends that shaped the galaxy.",
+    color: "text-cyan-300",
+    borderColor: "border-cyan-500/30",
+    bgColor: "bg-cyan-500/10",
+    iconGlyph: "⚡",
+    coverImage: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/rise_of_the_neyons_25b56086.avif",
+    games: THE_FOUNDATION,
+  },
   {
     age: "The Age of Privacy",
     description: "The era of surveillance, secret societies, and the birth of the Panopticon. Privacy is currency, and those who control information control everything.",

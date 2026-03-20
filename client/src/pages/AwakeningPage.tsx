@@ -10,6 +10,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useLocation } from "wouter";
 import { trpc } from "@/lib/trpc";
 import StarterDeckViewer, { generateStarterDeck } from "@/components/StarterDeckViewer";
+import { toast } from "sonner";
 
 const ELARA_PORTRAIT = "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/elara_portrait_speaking-J3GJUrfnNKzSBrxY2PfWrL.webp";
 const CRYO_BG = "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/room_cryo_bay-SdeEqURrDvgrrbJq4WK3N5.webp";
@@ -267,11 +268,10 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
 
   const createCitizen = trpc.citizen.createCharacter.useMutation();
   const [selectedNeyonTokenId, setSelectedNeyonTokenId] = useState<number | null>(null);
-
+  const linkWalletMutation = trpc.nft.linkWallet.useMutation();
   const { awakeningStep, characterChoices } = state;
-
   const neyonEligibility = trpc.citizen.checkNeyonEligibility.useQuery(undefined, {
-    enabled: awakeningStep === "SPECIES_QUESTION",
+    enabled: awakeningStep === "SPECIES_QUESTION" || (awakeningStep as string) === "WALLET_CHECK",
     staleTime: 60_000,
   });
 
@@ -467,7 +467,54 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
             <ElaraDialogBox
               key="intro"
               text="I am Elara, the ship's intelligence. You've been in cryogenic suspension for... I can't determine how long. My chronometers are damaged. You are aboard Inception Ark Vessel 47. You are a Potential. The others — the first wave — they're gone. I don't know where. All inter-Ark communications have been severed across every known universe. We are alone."
-              onContinue={advanceAwakening}
+              onContinue={() => setAwakeningStep("WALLET_CHECK" as AwakeningStep)}
+            />
+          )}
+          {/* ─── WALLET CHECK — Connect wallet for Potential/Neyon holders ─── */}
+          {awakeningStep === ("WALLET_CHECK" as AwakeningStep) && (
+            <ElaraDialogBox
+              key="wallet-check"
+              text="Wait... I'm detecting something. Your neural signature has an encrypted blockchain marker. If you carry a Potential or a Ne-Yon token on the Ethereum network, I can verify your identity and unlock enhanced capabilities. Do you have a wallet to connect?"
+              choices={[
+                { label: "Yes, I have a Potential or Ne-Yon NFT", value: "connect", description: "Connect your Ethereum wallet to verify ownership and unlock Ne-Yon species." },
+                { label: "No, continue without connecting", value: "skip", description: "You can always connect your wallet later in Settings → Wallet." },
+              ]}
+              onChoice={async (v) => {
+                if (v === "connect") {
+                  // Try to connect wallet via MetaMask
+                  try {
+                    const ethereum = (window as any).ethereum;
+                    if (!ethereum) {
+                      toast.error("No Ethereum wallet detected. Install MetaMask and try again, or connect later in Settings → Wallet.");
+                      setAwakeningStep("SPECIES_QUESTION");
+                      return;
+                    }
+                    const accounts = await ethereum.request({ method: "eth_requestAccounts" });
+                    if (accounts && accounts.length > 0) {
+                      const walletAddress = accounts[0];
+                      const message = `Link wallet ${walletAddress} to Loredex OS at ${Date.now()}`;
+                      try {
+                        const signature = await ethereum.request({
+                          method: "personal_sign",
+                          params: [message, walletAddress],
+                        });
+                        await linkWalletMutation.mutateAsync({ walletAddress, message, signature });
+                        toast.success("Wallet linked! Scanning for Potentials and Ne-Yons...");
+                        neyonEligibility.refetch();
+                      } catch (err: any) {
+                        if (err?.message?.includes("already linked")) {
+                          toast.success("Wallet already linked. Proceeding...");
+                        } else {
+                          toast.error("Failed to link wallet. You can try again later in Settings → Wallet.");
+                        }
+                      }
+                    }
+                  } catch (err) {
+                    toast.error("Wallet connection cancelled. You can connect later in Settings → Wallet.");
+                  }
+                }
+                setAwakeningStep("SPECIES_QUESTION");
+              }}
             />
           )}
 
@@ -697,6 +744,11 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
                   completeAwakening();
                   discoverEntry("awakening-complete");
                   navigate("/ark");
+                }}
+                onContinue={() => {
+                  completeAwakening();
+                  discoverEntry("awakening-complete");
+                  navigate("/character-sheet");
                 }}
               />
             </motion.div>
