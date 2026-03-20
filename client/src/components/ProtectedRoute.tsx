@@ -10,7 +10,7 @@ import { Lock, Rocket } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 // Map routes to the room that must be unlocked to access them
-const ROUTE_ROOM_MAP: Record<string, string> = {
+export const ROUTE_ROOM_MAP: Record<string, string> = {
   // Bridge routes
   "/": "bridge",
   "/board": "bridge",

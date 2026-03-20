@@ -1,3 +1,4 @@
+import { logger } from "../logger";
 import { z } from "zod";
 import { publicProcedure, protectedProcedure, router } from "../_core/trpc";
 import { getDb } from "../db";
@@ -262,7 +263,7 @@ export const cardGameRouter = router({
 
       // Achievement auto-tracking for collection size
       trackCollectionSize(ctx.user.id)
-        .catch(e => console.error("[CardGame] Collection tracking error:", e));
+        .catch(e => logger.error("[CardGame] Collection tracking error:", e));
 
       return { success: true, cards: packCards };
     }),
@@ -677,7 +678,7 @@ export const cardGameRouter = router({
       // Achievement auto-tracking for AI matches
       if (matchStatus === "completed") {
         trackAiResult(ctx.user.id, winnerId === ctx.user.id)
-          .catch(e => console.error("[CardGame] Achievement tracking error:", e));
+          .catch(e => logger.error("[CardGame] Achievement tracking error:", e));
       }
 
       return {
@@ -770,7 +771,7 @@ export const cardGameRouter = router({
       // Achievement auto-tracking for AI matches
       if (matchStatus === "completed") {
         trackAiResult(ctx.user.id, winnerId === ctx.user.id)
-          .catch(e => console.error("[CardGame] Achievement tracking error:", e));
+          .catch(e => logger.error("[CardGame] Achievement tracking error:", e));
       }
 
       return { success: true, gameState: state, logEntry, matchStatus };
@@ -839,7 +840,7 @@ export const cardGameRouter = router({
       // Achievement auto-tracking for AI matches
       if (matchStatus === "completed") {
         trackAiResult(ctx.user.id, winnerId === ctx.user.id)
-          .catch(e => console.error("[CardGame] Achievement tracking error:", e));
+          .catch(e => logger.error("[CardGame] Achievement tracking error:", e));
       }
 
       return { success: true, gameState: state, matchStatus };

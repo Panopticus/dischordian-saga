@@ -218,19 +218,33 @@ export const tradingRouter = router({
       return results;
     }),
 
-  /** Get trade history (completed trades) */
-  getTradeHistory: protectedProcedure.query(async ({ ctx }) => {
-    const db = await getDb();
-    if (!db) return [];
+  /** Get trade history (completed trades) with cursor-based pagination */
+  getTradeHistory: protectedProcedure
+    .input(z.object({
+      limit: z.number().min(1).max(50).default(20),
+      cursor: z.number().optional(), // trade ID cursor
+    }).optional())
+    .query(async ({ ctx, input }) => {
+      const db = await getDb();
+      if (!db) return { items: [], nextCursor: null };
 
-    const history = await db.select().from(cardTrades)
-      .where(and(
-        or(eq(cardTrades.senderId, ctx.user.id), eq(cardTrades.receiverId, ctx.user.id)),
-        eq(cardTrades.status, "accepted"),
-      ))
-      .orderBy(desc(cardTrades.updatedAt))
-      .limit(20);
+      const limit = input?.limit ?? 20;
+      const cursor = input?.cursor;
 
-    return history;
-  }),
+      let query = db.select().from(cardTrades)
+        .where(and(
+          or(eq(cardTrades.senderId, ctx.user.id), eq(cardTrades.receiverId, ctx.user.id)),
+          eq(cardTrades.status, "accepted"),
+          cursor ? sql`${cardTrades.id} < ${cursor}` : undefined,
+        ))
+        .orderBy(desc(cardTrades.id))
+        .limit(limit + 1);
+
+      const results = await query;
+      const hasMore = results.length > limit;
+      const items = hasMore ? results.slice(0, limit) : results;
+      const nextCursor = hasMore ? items[items.length - 1]?.id : null;
+
+      return { items, nextCursor };
+    }),
 });

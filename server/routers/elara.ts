@@ -1,3 +1,4 @@
+import { logger } from "../logger";
 import { publicProcedure, router } from "../_core/trpc";
 import { invokeLLM } from "../_core/llm";
 import { z } from "zod";
@@ -38,7 +39,7 @@ try {
   
   loredexSummary = summaries.join("\n") + "\n\nKEY RELATIONSHIPS:\n" + relSummary;
 } catch (err) {
-  console.error("[Elara] Failed to load loredex data:", err);
+  logger.error("[Elara] Failed to load loredex data:", err);
   loredexSummary = "Loredex data unavailable.";
 }
 
@@ -221,7 +222,7 @@ export const elaraRouter = router({
           choices,
         };
       } catch (error) {
-        console.error("[Elara] LLM error:", error);
+        logger.error("[Elara] LLM error:", error);
         return {
           message: "The CoNexus relay is experiencing interference. My connection to the dimensional archives is temporarily disrupted. Please try again in a moment, Operative.",
           choices: DIALOG_CHOICES.greeting,

@@ -113,6 +113,10 @@ async function startServer() {
   app.use("/api/trpc/elara", llmLimiter);
   app.use("/api/trpc/codex", llmLimiter);
 
+  // CSRF protection
+  const { csrfProtection } = await import("../csrf");
+  app.use("/api", csrfProtection);
+
   // OAuth callback under /api/oauth/callback
   registerOAuthRoutes(app);
   // tRPC API

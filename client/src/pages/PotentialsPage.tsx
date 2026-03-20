@@ -11,7 +11,11 @@ import {
 } from "lucide-react";
 import { Link } from "wouter";
 import { toast } from "sonner";
-import { BrowserProvider } from "ethers";
+// Dynamic import for ethers to reduce initial bundle size
+const getEthersProvider = async () => {
+  const { BrowserProvider } = await import("ethers");
+  return BrowserProvider;
+};
 
 /* ═══════════════════════════════════════════════════════
    THE POTENTIALS — NFT Integration Page
@@ -124,7 +128,8 @@ export default function PotentialsPage() {
 
     setIsConnecting(true);
     try {
-      const provider = new BrowserProvider((window as any).ethereum);
+      const BP = await getEthersProvider();
+      const provider = new BP((window as any).ethereum);
       const signer = await provider.getSigner();
       const address = await signer.getAddress();
       setWalletAddress(address);
@@ -141,7 +146,8 @@ export default function PotentialsPage() {
     if (!walletAddress || !isAuthenticated) return;
 
     try {
-      const provider = new BrowserProvider((window as any).ethereum);
+      const BP = await getEthersProvider();
+      const provider = new BP((window as any).ethereum);
       const signer = await provider.getSigner();
 
       const timestamp = Date.now();

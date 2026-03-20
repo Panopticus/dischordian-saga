@@ -1,3 +1,4 @@
+import { logger } from "../logger";
 import { protectedProcedure, router } from "../_core/trpc";
 import { z } from "zod";
 import { getDb } from "../db";
@@ -227,7 +228,7 @@ export const citizenRouter = router({
           const userWalletAddresses = userWallets.map(w => ethers.getAddress(w.walletAddress));
           ownerVerified = userWalletAddresses.includes(onChainOwner);
         } catch (err) {
-          console.error("[Citizen] Ne-Yon on-chain verification failed:", err);
+          logger.error("[Citizen] Ne-Yon on-chain verification failed:", err);
           throw new Error("Failed to verify on-chain ownership of Ne-Yon NFT. Please try again.");
         }
 
@@ -513,7 +514,7 @@ export const citizenRouter = router({
         }
       }
     } catch (err) {
-      console.error("[Citizen] Ne-Yon eligibility check failed:", err);
+      logger.error("[Citizen] Ne-Yon eligibility check failed:", err);
       // Return what we can — wallet is linked but chain check failed
       return { eligible: false, ownedNeyonIds: [], availableNeyonIds: [], boundNeyonIds: [], walletLinked: true, error: "Chain verification temporarily unavailable" };
     }

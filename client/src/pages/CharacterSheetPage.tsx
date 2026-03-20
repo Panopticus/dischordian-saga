@@ -12,10 +12,13 @@ import {
   Clock, Globe, Target, Wrench, Eye, Skull, Telescope,
   Star, Trophy, Gem, Lock, Unlock, Activity, Crosshair,
   Hexagon, CircleDot, Layers, Cpu, Wifi, ChevronDown, ChevronUp,
-  RotateCcw, AlertTriangle
+  RotateCcw, AlertTriangle, Compass, Crown
 } from "lucide-react";
 import TraitSummaryPanel from "@/components/TraitSummaryPanel";
 import RespecDialog from "@/components/RespecDialog";
+import { useGame } from "@/contexts/GameContext";
+import { useGamification } from "@/contexts/GamificationContext";
+import { Link as WLink } from "wouter";
 
 /* ═══════════════════════════════════════════════════
    CONSTANTS & MAPPINGS
@@ -216,6 +219,8 @@ export default function CharacterSheetPage() {
   const utils = trpc.useUtils();
   const [showTraitDetails, setShowTraitDetails] = useState(false);
   const [showRespec, setShowRespec] = useState(false);
+  const { state: gameState } = useGame();
+  const gam = useGamification();
 
   // ═══ NARRATIVE INTRO (from Awakening) ═══
   const searchString = useSearch();
@@ -760,6 +765,101 @@ export default function CharacterSheetPage() {
             </div>
           </motion.div>
         </div>
+
+        {/* ═══════════════════════════════════════════════════
+            QUEST PROGRESS & ACHIEVEMENTS — Central Identity Hub
+           ═══════════════════════════════════════════════════ */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3 }}
+          className="mb-4"
+        >
+          <SectionHeader icon={Target} label="MISSION STATUS" color="text-green-400" />
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-4">
+            {[
+              { label: "ROOMS", value: gameState.totalRoomsUnlocked, icon: Unlock, color: "text-cyan-400", border: "border-cyan-400/20" },
+              { label: "ITEMS", value: gameState.totalItemsFound, icon: Star, color: "text-amber-400", border: "border-amber-400/20" },
+              { label: "FIGHTS", value: gam.gameSave.totalFights, icon: Swords, color: "text-red-400", border: "border-red-400/20" },
+              { label: "WIN STREAK", value: gam.gameSave.bestWinStreak, icon: Trophy, color: "text-purple-400", border: "border-purple-400/20" },
+            ].map((stat) => {
+              const Icon = stat.icon;
+              return (
+                <div key={stat.label} className={`rounded-lg border ${stat.border} bg-black/20 p-3 flex items-center gap-2.5`}>
+                  <Icon size={14} className={stat.color} />
+                  <div>
+                    <p className="font-display text-base font-bold tracking-wide">{stat.value}</p>
+                    <p className="font-mono text-[8px] text-muted-foreground/50 tracking-[0.15em]">{stat.label}</p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Achievements earned */}
+          <SectionHeader icon={Trophy} label="ACHIEVEMENTS" color="text-amber-400" />
+          <div className="space-y-1.5 mb-4">
+            {gameState.achievementsEarned.length === 0 ? (
+              <p className="font-mono text-[10px] text-muted-foreground/40 text-center py-4">No achievements earned yet. Explore the Ark to unlock them.</p>
+            ) : (
+              gameState.achievementsEarned.slice(0, 8).map((ach, i) => (
+                <div key={ach} className="flex items-center gap-2 px-3 py-2 rounded-md bg-amber-500/5 border border-amber-500/10">
+                  <Trophy size={12} className="text-amber-400" />
+                  <span className="font-mono text-[10px] text-amber-300/80 flex-1">{ach.replace(/_/g, ' ').toUpperCase()}</span>
+                </div>
+              ))
+            )}
+            {gameState.achievementsEarned.length > 8 && (
+              <p className="font-mono text-[9px] text-muted-foreground/30 text-center">+{gameState.achievementsEarned.length - 8} more achievements</p>
+            )}
+          </div>
+
+          {/* Exploration progress */}
+          <SectionHeader icon={Compass} label="ARK EXPLORATION" color="text-cyan-400" />
+          <div className="grid grid-cols-3 gap-2 mb-4">
+            {[
+              { label: "Rooms Unlocked", value: gameState.totalRoomsUnlocked, max: 10 },
+              { label: "Items Found", value: gameState.totalItemsFound, max: 30 },
+              { label: "Cards Collected", value: gameState.collectedCards.length, max: 50 },
+            ].map((prog) => (
+              <div key={prog.label} className="rounded-lg bg-black/20 border border-cyan-400/10 p-3">
+                <p className="font-mono text-[8px] text-muted-foreground/50 tracking-wider mb-1">{prog.label.toUpperCase()}</p>
+                <div className="flex items-end gap-1">
+                  <span className="font-display text-lg font-bold text-cyan-400">{prog.value}</span>
+                  <span className="font-mono text-[9px] text-muted-foreground/30 pb-0.5">/ {prog.max}</span>
+                </div>
+                <div className="h-1 rounded-full bg-white/5 mt-1.5 overflow-hidden">
+                  <motion.div
+                    className="h-full rounded-full bg-gradient-to-r from-cyan-500 to-cyan-400"
+                    initial={{ width: 0 }}
+                    animate={{ width: `${Math.min((prog.value / prog.max) * 100, 100)}%` }}
+                    transition={{ duration: 0.8, delay: 0.3 }}
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Gamification Title & Rank */}
+          <SectionHeader icon={Crown} label="OPERATIVE RANK" color="text-purple-400" />
+          <div className="flex items-center gap-4 px-4 py-3 rounded-lg bg-purple-500/5 border border-purple-500/10 mb-4">
+            <div className="w-12 h-12 rounded-full bg-gradient-to-br from-purple-500/20 to-cyan-500/20 border border-purple-400/30 flex items-center justify-center">
+              <span className="font-display text-lg font-black text-purple-400">{gam.level}</span>
+            </div>
+            <div className="flex-1">
+              <p className="font-display text-sm font-bold tracking-wider text-purple-300">{gam.title}</p>
+              <p className="font-mono text-[9px] text-muted-foreground/50">{gam.xp} XP // Level {gam.level}</p>
+              <div className="h-1.5 rounded-full bg-white/5 mt-1.5 overflow-hidden">
+                <motion.div
+                  className="h-full rounded-full bg-gradient-to-r from-purple-500 to-cyan-400"
+                  initial={{ width: 0 }}
+                  animate={{ width: `${Math.min(((gam.xp % 200) / 200) * 100, 100)}%` }}
+                  transition={{ duration: 0.8 }}
+                />
+              </div>
+            </div>
+          </div>
+        </motion.div>
 
         {/* ═══════════════════════════════════════════════════
             RESPEC BUTTON + TRAIT IMPACT SUMMARY

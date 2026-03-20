@@ -676,6 +676,16 @@ function ContentTab() {
     onError: (e) => { toast.error(e.message); },
   });
 
+  const addRelationship = trpc.contentAdmin.addRelationship.useMutation({
+    onSuccess: () => { toast.success("Relationship added"); },
+    onError: (e: any) => toast.error(e.message),
+  });
+  const removeRelationship = trpc.contentAdmin.removeRelationship.useMutation({
+    onSuccess: () => { toast.success("Relationship removed"); },
+    onError: (e: any) => toast.error(e.message),
+  });
+  const [newRel, setNewRel] = useState({ target: "", type: "ally", description: "" });
+
   const utils = trpc.useUtils();
 
   const [createForm, setCreateForm] = useState({
@@ -948,21 +958,58 @@ function ContentTab() {
             </div>
           )}
           {/* Relationships */}
-          {editEntry.relationships.length > 0 && (
-            <div>
-              <label className="font-mono text-[10px] text-muted-foreground block mb-1">RELATIONSHIPS ({editEntry.relationships.length})</label>
-              <div className="space-y-1">
-                {editEntry.relationships.map((r, i) => (
-                  <div key={i} className="flex items-center gap-2 text-[10px] font-mono">
-                    <span className="text-primary">{r.source}</span>
-                    <span className="text-muted-foreground/50">—{r.type}→</span>
-                    <span className="text-accent">{r.target}</span>
-                    {r.description && <span className="text-muted-foreground/40">({r.description})</span>}
-                  </div>
-                ))}
-              </div>
+          <div>
+            <label className="font-mono text-[10px] text-muted-foreground block mb-1">RELATIONSHIPS ({editEntry.relationships.length})</label>
+            <div className="space-y-1 mb-2">
+              {editEntry.relationships.map((r: any, i: number) => (
+                <div key={i} className="flex items-center gap-2 text-[10px] font-mono">
+                  <span className="text-primary">{r.source}</span>
+                  <span className="text-muted-foreground/50">—{r.type}→</span>
+                  <span className="text-accent">{r.target}</span>
+                  {r.description && <span className="text-muted-foreground/40">({r.description})</span>}
+                  <button
+                    onClick={() => removeRelationship.mutate({ source: r.source, target: r.target, type: r.type }, {
+                      onSuccess: () => utils.contentAdmin.getEntry.invalidate({ id: editingId! }),
+                    })}
+                    className="ml-auto p-0.5 rounded hover:bg-destructive/10 text-destructive/50 hover:text-destructive transition-all"
+                    title="Remove relationship"
+                  >
+                    <Trash2 size={10} />
+                  </button>
+                </div>
+              ))}
             </div>
-          )}
+            <div className="flex items-end gap-1.5">
+              <div className="flex-1">
+                <label className="font-mono text-[9px] text-muted-foreground/50">TARGET</label>
+                <input value={newRel.target} onChange={e => setNewRel(p => ({ ...p, target: e.target.value }))} placeholder="Entity name..." className="w-full px-2 py-1 rounded bg-secondary/30 border border-border/30 text-[10px] font-mono" />
+              </div>
+              <div className="w-20">
+                <label className="font-mono text-[9px] text-muted-foreground/50">TYPE</label>
+                <select value={newRel.type} onChange={e => setNewRel(p => ({ ...p, type: e.target.value }))} className="w-full px-1 py-1 rounded bg-secondary/30 border border-border/30 text-[10px] font-mono">
+                  {["ally", "enemy", "mentor", "student", "creator", "member", "leader", "rival", "parent", "child", "sibling", "lover", "betrayed", "controls", "serves"].map(t => <option key={t} value={t}>{t}</option>)}
+                </select>
+              </div>
+              <div className="flex-1">
+                <label className="font-mono text-[9px] text-muted-foreground/50">DESC</label>
+                <input value={newRel.description} onChange={e => setNewRel(p => ({ ...p, description: e.target.value }))} placeholder="Optional..." className="w-full px-2 py-1 rounded bg-secondary/30 border border-border/30 text-[10px] font-mono" />
+              </div>
+              <button
+                onClick={() => {
+                  if (!newRel.target.trim()) { toast.error("Target required"); return; }
+                  addRelationship.mutate({ source: editEntry.entry.name, target: newRel.target, type: newRel.type, description: newRel.description || undefined }, {
+                    onSuccess: () => {
+                      utils.contentAdmin.getEntry.invalidate({ id: editingId! });
+                      setNewRel({ target: "", type: "ally", description: "" });
+                    },
+                  });
+                }}
+                className="px-2 py-1 rounded bg-primary/10 border border-primary/30 text-primary text-[10px] font-mono hover:bg-primary/20"
+              >
+                + ADD
+              </button>
+            </div>
+          </div>
           <div className="flex gap-2">
             <button
               onClick={() => {

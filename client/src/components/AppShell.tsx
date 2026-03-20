@@ -1,11 +1,13 @@
-import { useState, type ReactNode } from "react";
+import { useState, useMemo, type ReactNode } from "react";
 import { Link, useLocation } from "wouter";
 import { useLoredex } from "@/contexts/LoredexContext";
 import { usePlayer } from "@/contexts/PlayerContext";
+import { useGame } from "@/contexts/GameContext";
+import { ROUTE_ROOM_MAP } from "@/components/ProtectedRoute";
 import {
   Search, Menu, X, Map, Music, Users, MapPin, Swords, Clock,
   ChevronRight, ChevronDown, Terminal, Disc3, Shield, Tv, BarChart3, Gamepad2, Trophy, Crosshair,
-  Home, Rocket, Store, ScrollText, FlaskConical, Ship, Crown, Compass, Radio, Heart, Brain, BookOpen, Gem
+  Home, Rocket, Store, ScrollText, FlaskConical, Ship, Crown, Compass, Radio, Heart, Brain, BookOpen, Gem, Lock
 } from "lucide-react";
 import { useGamification } from "@/contexts/GamificationContext";
 import { Progress } from "@/components/ui/progress";
@@ -106,8 +108,18 @@ const ALBUMS = [
   { slug: "silence-in-heaven", label: "Silence in Heaven" },
 ];
 
+/* ─── ALWAYS-ACCESSIBLE ROUTES (no room required) ─── */
+const ALWAYS_ACCESSIBLE = ["/ark", "/console", "/games", "/clue-journal", "/settings", "/admin", "/character-sheet", "/awakening", "/research-minigame", "/war-map"];
+
+function isRouteUnlocked(path: string, rooms: Record<string, { unlocked?: boolean }>): boolean {
+  if (ALWAYS_ACCESSIBLE.some(p => path.startsWith(p))) return true;
+  const requiredRoom = ROUTE_ROOM_MAP[path];
+  if (!requiredRoom) return true;
+  return !!rooms[requiredRoom]?.unlocked;
+}
+
 /* ─── COLLAPSIBLE NAV GROUP ─── */
-function NavGroupSection({ group, location, onNavigate }: { group: NavGroup; location: string; onNavigate: () => void }) {
+function NavGroupSection({ group, location, onNavigate, rooms }: { group: NavGroup; location: string; onNavigate: () => void; rooms: Record<string, { unlocked?: boolean }> }) {
   const [open, setOpen] = useState(group.defaultOpen ?? true);
 
   const hasActive = group.items.some(item => {
@@ -115,7 +127,14 @@ function NavGroupSection({ group, location, onNavigate }: { group: NavGroup; loc
     return location.startsWith(item.path);
   });
 
+  // Filter: show unlocked items normally, locked items dimmed
+  const visibleItems = group.items;
+  const hasAnyUnlocked = visibleItems.some(item => isRouteUnlocked(item.path, rooms));
+
   const GroupIcon = group.icon;
+
+  // Hide entire group if no items are unlocked (unless it's the first group)
+  if (!hasAnyUnlocked && group.label !== "C.A.D.E.S.") return null;
 
   return (
     <div className="mb-1">
@@ -144,11 +163,25 @@ function NavGroupSection({ group, location, onNavigate }: { group: NavGroup; loc
             className="overflow-hidden"
           >
             <div className="space-y-0.5 pb-1 pl-2">
-              {group.items.map((item) => {
+              {visibleItems.map((item) => {
                 const Icon = item.icon;
-                const active = item.path === "/"
+                const unlocked = isRouteUnlocked(item.path, rooms);
+                const active = unlocked && (item.path === "/"
                   ? location === "/"
-                  : location === item.path || location.startsWith(item.path + "/");
+                  : location === item.path || location.startsWith(item.path + "/"));
+
+                if (!unlocked) {
+                  return (
+                    <div
+                      key={item.path}
+                      className="flex items-center gap-2.5 px-3 py-2 rounded-md text-[11px] font-mono tracking-wider opacity-25 cursor-not-allowed border border-transparent select-none"
+                    >
+                      <Lock size={11} className="text-white/20" />
+                      <span className="flex-1 text-white/20">{item.label}</span>
+                    </div>
+                  );
+                }
+
                 return (
                   <Link
                     key={item.path}
@@ -180,6 +213,8 @@ export default function AppShell({ children, elaraTTS: _elaraTTS }: { children: 
   const { stats, discoveryProgress } = useLoredex();
   const gam = useGamification();
   const { showPlayer } = usePlayer();
+  const { state: gameState } = useGame();
+  const rooms = gameState.rooms;
 
   const clearanceLevel = discoveryProgress < 10 ? "LEVEL 1" : discoveryProgress < 30 ? "LEVEL 2" : discoveryProgress < 60 ? "LEVEL 3" : discoveryProgress < 90 ? "LEVEL 4" : "LEVEL 5";
 
@@ -187,6 +222,16 @@ export default function AppShell({ children, elaraTTS: _elaraTTS }: { children: 
 
   return (
     <div className="min-h-screen flex flex-col relative">
+      {/* ═══ ACCESSIBILITY: Skip to Content ═══ */}
+      <a
+        href="#main-content"
+        className="absolute -top-10 left-4 z-[9999] bg-primary text-primary-foreground px-4 py-2 rounded-md font-mono text-sm focus:top-4 transition-all"
+        style={{ clip: "rect(0, 0, 0, 0)" }}
+        onFocus={(e) => { (e.target as HTMLElement).style.clip = "auto"; }}
+        onBlur={(e) => { (e.target as HTMLElement).style.clip = "rect(0, 0, 0, 0)"; }}
+      >
+        Skip to main content
+      </a>
       {/* ═══ ARK CONTROL ROOM BACKDROP ═══ */}
       <div className="fixed inset-0 z-0 pointer-events-none">
         <img
@@ -201,7 +246,7 @@ export default function AppShell({ children, elaraTTS: _elaraTTS }: { children: 
       </div>
 
       {/* ═══ TOP HEADER BAR — ARK COMMAND STRIP ═══ */}
-      <header className="fixed top-0 left-0 right-0 z-50 h-12 flex items-center px-3 sm:px-4"
+      <header role="banner" aria-label="Ark command bar" className="fixed top-0 left-0 right-0 z-50 h-12 flex items-center px-3 sm:px-4"
         style={{
           background: "linear-gradient(180deg, rgba(1,0,32,0.95) 0%, rgba(1,0,32,0.85) 100%)",
           borderBottom: "1px solid rgba(56,117,250,0.15)",
@@ -288,13 +333,14 @@ export default function AppShell({ children, elaraTTS: _elaraTTS }: { children: 
           </div>
 
           {/* Nav Groups */}
-          <nav className="pt-2 px-1.5">
+          <nav aria-label="Main navigation" className="pt-2 px-1.5">
             {NAV_GROUPS.map((group) => (
               <NavGroupSection
                 key={group.label}
                 group={group}
                 location={location}
                 onNavigate={handleNavigate}
+                rooms={rooms}
               />
             ))}
           </nav>
@@ -375,6 +421,9 @@ export default function AppShell({ children, elaraTTS: _elaraTTS }: { children: 
 
         {/* ═══ MAIN CONTENT ═══ */}
         <main
+          id="main-content"
+          role="main"
+          aria-label="Main content"
           className={`flex-1 lg:ml-0 transition-all relative ${showPlayer ? "pb-44 sm:pb-20" : "pb-24 sm:pb-0"}`}
         >
           {children}
@@ -382,7 +431,7 @@ export default function AppShell({ children, elaraTTS: _elaraTTS }: { children: 
       </div>
 
       {/* ═══ MOBILE BOTTOM NAV — ARK CONTROL STRIP ═══ */}
-      <nav className={`fixed left-0 right-0 z-50 sm:hidden safe-area-bottom transition-all ${showPlayer ? "bottom-[60px]" : "bottom-0"}`}
+      <nav aria-label="Mobile navigation" className={`fixed left-0 right-0 z-50 sm:hidden safe-area-bottom transition-all ${showPlayer ? "bottom-[60px]" : "bottom-0"}`}
         style={{
           background: "linear-gradient(0deg, rgba(1,0,32,0.98) 0%, rgba(1,0,32,0.92) 100%)",
           borderTop: "1px solid rgba(56,117,250,0.15)",

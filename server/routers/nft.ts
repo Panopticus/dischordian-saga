@@ -1,3 +1,4 @@
+import { logger } from "../logger";
 /* ═══════════════════════════════════════════════════════
    NFT ROUTER — The Potentials Integration
    Wallet linking, ownership verification, 1/1 card claims,
@@ -84,7 +85,7 @@ async function fetchTokenMetadata(tokenId: number): Promise<{
       attributes: metadata.attributes || [],
     };
   } catch (error) {
-    console.error(`[NFT] Failed to fetch metadata for token ${tokenId}:`, error);
+    logger.error(`[NFT] Failed to fetch metadata for token ${tokenId}:`, error);
     return null;
   }
 }
@@ -259,7 +260,7 @@ export const nftRouter = router({
 
         return { ownedTokenIds, balance: balanceNum };
       } catch (error) {
-        console.error("[NFT] Ownership check failed:", error);
+        logger.error("[NFT] Ownership check failed:", error);
         return { ownedTokenIds: [], balance: 0, error: "Failed to check ownership" };
       }
     }),
@@ -354,7 +355,7 @@ export const nftRouter = router({
               },
             });
         } catch (e) {
-          console.warn("[NFT] Cache write failed:", e);
+          logger.warn("[NFT] Cache write failed:", e);
         }
       }
 
@@ -477,7 +478,7 @@ export const nftRouter = router({
           cardImageUrl = url;
         }
       } catch (e) {
-        console.warn("[NFT] Image upload failed, using original URL:", e);
+        logger.warn("[NFT] Image upload failed, using original URL:", e);
       }
 
       // 7. Create the card in the cards table
@@ -511,7 +512,7 @@ export const nftRouter = router({
           set: { imageUrl: cardImageUrl, updatedAt: new Date() },
         });
       } catch (e) {
-        console.warn("[NFT] Card insert:", e);
+        logger.warn("[NFT] Card insert:", e);
       }
 
       // 8. Add card to user's collection
@@ -525,7 +526,7 @@ export const nftRouter = router({
           obtainedVia: "nft",
         });
       } catch (e) {
-        console.warn("[NFT] User card insert:", e);
+        logger.warn("[NFT] User card insert:", e);
       }
 
       // 9. Record the claim (this is the permanent ledger)
@@ -566,7 +567,7 @@ export const nftRouter = router({
             },
           });
       } catch (e) {
-        console.warn("[NFT] Metadata cache:", e);
+        logger.warn("[NFT] Metadata cache:", e);
       }
 
       return {
@@ -1111,7 +1112,7 @@ export const nftRouter = router({
               set: { imageUrl: cardImageUrl, updatedAt: new Date() },
             });
           } catch (e) {
-            console.warn(`[NFT] Batch card insert ${tokenId}:`, e);
+            logger.warn(`[NFT] Batch card insert ${tokenId}:`, e);
           }
 
           // Add to user collection
@@ -1125,7 +1126,7 @@ export const nftRouter = router({
               obtainedVia: "nft",
             });
           } catch (e) {
-            console.warn(`[NFT] Batch user card ${tokenId}:`, e);
+            logger.warn(`[NFT] Batch user card ${tokenId}:`, e);
           }
 
           // Record claim
@@ -1163,7 +1164,7 @@ export const nftRouter = router({
                 set: { currentOwner: checksummed, lastRefreshed: new Date() },
               });
           } catch (e) {
-            console.warn(`[NFT] Batch cache ${tokenId}:`, e);
+            logger.warn(`[NFT] Batch cache ${tokenId}:`, e);
           }
 
           results.push({

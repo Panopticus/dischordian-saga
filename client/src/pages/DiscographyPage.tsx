@@ -197,6 +197,54 @@ export default function DiscographyPage() {
           />
         ))}
 
+        {/* ═══ STREAMING PLAYLIST EMBED ═══ */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.25 }}
+          className="rounded-xl overflow-hidden"
+          style={{
+            background: "linear-gradient(135deg, var(--glass-base) 0%, var(--glass-dark) 100%)",
+            border: "1px solid var(--glass-border)",
+          }}
+        >
+          <div className="flex items-center gap-3 px-5 pt-4 pb-2">
+            <Headphones size={14} className="text-[#1DB954]" />
+            <h3 className="font-display text-sm font-bold tracking-[0.2em] text-white">LISTEN ON SPOTIFY</h3>
+          </div>
+          <div className="px-5 pb-4">
+            <p className="font-mono text-[10px] text-white/40 mb-3">
+              Stream the complete Dischordian Saga discography. All 4 albums, 89 tracks.
+            </p>
+            <div className="rounded-lg overflow-hidden" style={{ background: "#121212" }}>
+              <iframe
+                src="https://open.spotify.com/embed/artist/4bL2B0xVKMHYBnbSCDkqBr?utm_source=generator&theme=0"
+                width="100%"
+                height="352"
+                frameBorder="0"
+                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                loading="lazy"
+                className="rounded-lg"
+                title="Spotify - Malkia Ukweli & the Panopticon"
+              />
+            </div>
+            <div className="flex flex-wrap gap-2 mt-3">
+              {ALBUMS.filter(a => a.streaming.spotify).map((album) => (
+                <a
+                  key={album.slug}
+                  href={album.streaming.spotify}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-md font-mono text-[9px] tracking-wider text-[#1DB954]/60 border border-[#1DB954]/15 hover:text-[#1DB954] hover:border-[#1DB954]/30 hover:bg-[#1DB954]/5 transition-all"
+                >
+                  <SpotifyIcon size={9} />
+                  {album.name.toUpperCase()}
+                </a>
+              ))}
+            </div>
+          </div>
+        </motion.div>
+
         {/* ═══ ARTIST INFO ═══ */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}

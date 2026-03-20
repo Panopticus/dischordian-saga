@@ -45,7 +45,7 @@ export default function CardTradingPage() {
 
   // tRPC
   const myTrades = trpc.trading.getMyTrades.useQuery(undefined, { enabled: isAuthenticated });
-  const tradeHistory = trpc.trading.getTradeHistory.useQuery(undefined, { enabled: isAuthenticated });
+  const tradeHistory = trpc.trading.getTradeHistory.useQuery({}, { enabled: isAuthenticated });
   const searchPlayers = trpc.trading.searchPlayers.useQuery(
     { query: recipientSearch },
     { enabled: recipientSearch.length >= 2 }
@@ -554,13 +554,13 @@ export default function CardTradingPage() {
       {/* History Tab */}
       {activeTab === "history" && (
         <div className="space-y-3">
-          {!tradeHistory.data || tradeHistory.data.length === 0 ? (
+          {!tradeHistory.data || tradeHistory.data.items.length === 0 ? (
             <div className="text-center py-16">
               <ArrowLeftRight className="mx-auto mb-3 text-muted-foreground/30" size={48} />
               <p className="font-mono text-sm text-muted-foreground">No trade history yet</p>
             </div>
           ) : (
-            tradeHistory.data.map((trade: any) => (
+            tradeHistory.data.items.map((trade: any) => (
               <motion.div
                 key={trade.id}
                 initial={{ opacity: 0, y: 10 }}

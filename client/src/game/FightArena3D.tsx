@@ -68,6 +68,7 @@ export default function FightArena3D({ player, opponent, arena, difficulty, onMa
   const [showAnnounce, setShowAnnounce] = useState(false);
   const [comboDisplay, setComboDisplay] = useState<{ player: 1 | 2; count: number; damage: number } | null>(null);
   const [matchEnded, setMatchEnded] = useState(false);
+  const [showIntroSplash, setShowIntroSplash] = useState(true);
   const soundRef = useRef<FightSoundManager | null>(null);
   const [soundMuted, setSoundMuted] = useState(false);
   const [hapticOn, setHapticOn] = useState(isHapticEnabled());
@@ -138,6 +139,7 @@ export default function FightArena3D({ player, opponent, arena, difficulty, onMa
               announce("GET READY", "#ffffff", 1500);
               sound.announce("Get Ready");
               sound.startArenaMusic();
+              setTimeout(() => setShowIntroSplash(false), 2000);
               break;
             case "round_announce": {
               const state = engine.getState();
@@ -471,6 +473,75 @@ export default function FightArena3D({ player, opponent, arena, difficulty, onMa
         />
       )}
 
+      {/* ═══ VS INTRO SPLASH ═══ */}
+      <AnimatePresence>
+        {showIntroSplash && phase === "intro" && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0, scale: 1.1 }}
+            transition={{ duration: 0.5 }}
+            className="absolute inset-0 flex items-center justify-center"
+            style={{ zIndex: 25, background: "linear-gradient(135deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.6) 100%)" }}
+          >
+            <div style={{ display: "flex", alignItems: "center", gap: "3vw", width: "90%", maxWidth: 800, justifyContent: "center" }}>
+              {/* P1 Card */}
+              <motion.div
+                initial={{ x: -200, opacity: 0, rotateY: -15 }}
+                animate={{ x: 0, opacity: 1, rotateY: 0 }}
+                transition={{ delay: 0.2, duration: 0.6, type: "spring" }}
+                style={{ textAlign: "center", flex: 1 }}
+              >
+                <div style={{
+                  width: "min(20vw, 140px)", height: "min(20vw, 140px)", margin: "0 auto 1vh",
+                  borderRadius: "1vw", overflow: "hidden",
+                  border: `3px solid ${hudState.p1.color}`,
+                  boxShadow: `0 0 30px ${hudState.p1.color}60, 0 0 60px ${hudState.p1.color}30`,
+                }}>
+                  <img src={hudState.p1.image} alt={hudState.p1.name} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                </div>
+                <div style={{ fontFamily: "'Orbitron', monospace", fontSize: "max(1.5vw, 14px)", fontWeight: 900, color: hudState.p1.color, letterSpacing: "0.1em", textShadow: `0 0 20px ${hudState.p1.color}80` }}>
+                  {hudState.p1.name.toUpperCase()}
+                </div>
+                <div style={{ fontFamily: "monospace", fontSize: "max(0.8vw, 9px)", color: "rgba(255,255,255,0.4)", marginTop: "0.3vh" }}>PLAYER 1</div>
+              </motion.div>
+              {/* VS */}
+              <motion.div
+                initial={{ scale: 0, rotate: -180 }}
+                animate={{ scale: 1, rotate: 0 }}
+                transition={{ delay: 0.5, duration: 0.5, type: "spring", stiffness: 200 }}
+                style={{
+                  fontFamily: "'Orbitron', monospace", fontSize: "max(5vw, 36px)", fontWeight: 900,
+                  color: "#ef4444", letterSpacing: "0.2em",
+                  textShadow: "0 0 40px rgba(239,68,68,0.6), 0 0 80px rgba(239,68,68,0.3), 0 4px 0 #000",
+                }}
+              >
+                VS
+              </motion.div>
+              {/* P2 Card */}
+              <motion.div
+                initial={{ x: 200, opacity: 0, rotateY: 15 }}
+                animate={{ x: 0, opacity: 1, rotateY: 0 }}
+                transition={{ delay: 0.2, duration: 0.6, type: "spring" }}
+                style={{ textAlign: "center", flex: 1 }}
+              >
+                <div style={{
+                  width: "min(20vw, 140px)", height: "min(20vw, 140px)", margin: "0 auto 1vh",
+                  borderRadius: "1vw", overflow: "hidden",
+                  border: `3px solid ${hudState.p2.color}`,
+                  boxShadow: `0 0 30px ${hudState.p2.color}60, 0 0 60px ${hudState.p2.color}30`,
+                }}>
+                  <img src={hudState.p2.image} alt={hudState.p2.name} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                </div>
+                <div style={{ fontFamily: "'Orbitron', monospace", fontSize: "max(1.5vw, 14px)", fontWeight: 900, color: hudState.p2.color, letterSpacing: "0.1em", textShadow: `0 0 20px ${hudState.p2.color}80` }}>
+                  {hudState.p2.name.toUpperCase()}
+                </div>
+                <div style={{ fontFamily: "monospace", fontSize: "max(0.8vw, 9px)", color: "rgba(255,255,255,0.4)", marginTop: "0.3vh" }}>CPU</div>
+              </motion.div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
       {/* ═══ HUD OVERLAY ═══ */}
       <div className="absolute inset-0 pointer-events-none" style={{ zIndex: 10 }}>
 

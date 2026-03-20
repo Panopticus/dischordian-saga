@@ -58,7 +58,7 @@ interface ImpactCrater {
 /* ═══ AAA CAMERA — CINEMATIC STATE ═══ */
 interface CinematicCamera {
   active: boolean;
-  type: "sp3_zoom" | "ko_angle" | "intro_sweep" | "none";
+  type: "sp3_zoom" | "ko_angle" | "intro_sweep" | "heavy_zoom" | "none";
   timer: number;
   duration: number;
   startPos: THREE.Vector3;
@@ -1612,6 +1612,8 @@ export class FightEngine3D {
     if (attackType === "heavy_release" && attacker.heavyChargeTime >= HEAVY_MAX_CHARGE * 0.8) {
       this.spawnGroundCrater(defender.x, attacker.config.accentColor);
       this.triggerScreenFlash(attacker.config.accentColor, 0.4, 0.1);
+      // AAA: Camera zoom on fully charged heavy hit
+      this.startCinematicCamera("heavy_zoom", 0.5);
     }
     // ── CHARACTER-SPECIFIC SPECIAL EFFECTS ───
     if (this.isSpecialAttack(attackType)) {
@@ -1763,6 +1765,38 @@ export class FightEngine3D {
       ai.aiTimer = 0.3;
       this.callbacks.onIntercept?.(2);
       return;
+    }
+
+    // ── PATTERN READING — AI adapts to repeated player actions ──
+    if (ai.aiPatternMemory.length >= 4 && settings.aiReactSpeed > 0.5) {
+      const last4 = ai.aiPatternMemory.slice(-4);
+      const repeated = last4.filter(a => a === last4[3]).length;
+      // If player repeats same action 3+ times, AI counters
+      if (repeated >= 3) {
+        const playerAction = last4[3];
+        if (playerAction.includes("light") && isPlayerClose) {
+          // Counter light spam with parry
+          ai.state = "block_stand";
+          ai.isParrying = true;
+          ai.parryWindow = PARRY_WINDOW;
+          ai.blockStartTime = performance.now() / 1000;
+          ai.blockTimer = 0.3;
+          ai.aiTimer = 0.2;
+          return;
+        } else if (playerAction.includes("dash_fwd") && dist < MEDIUM_RANGE) {
+          // Counter dash spam with intercept
+          this.startAttack(ai, "medium");
+          ai.aiTimer = 0.3;
+          return;
+        } else if (playerAction.includes("heavy") && isPlayerClose) {
+          // Counter heavy spam with dash back + punish
+          if (ai.dashCooldown <= 0) {
+            this.doDashBack(ai);
+            ai.aiTimer = DASH_DURATION + 0.1;
+            return;
+          }
+        }
+      }
     }
 
     // ── OFFENSIVE ACTIONS based on AI style ──
@@ -2825,6 +2859,15 @@ export class FightEngine3D {
         this.cinematicCamera.endPos.set(winner.x * 0.5, 1.5, 2.5);
         this.cinematicCamera.startLookAt.set(midX, 0.7, 0);
         this.cinematicCamera.endLookAt.set(loser.x, 0.3, 0);
+        break;
+      }
+      case "heavy_zoom": {
+        // Quick zoom into the impact point for heavy hits
+        const impactX = (this.p1.x + this.p2.x) / 2;
+        this.cinematicCamera.startPos.set(midX, 1.0, this.camera.position.z);
+        this.cinematicCamera.endPos.set(impactX, 0.8, 2.2);
+        this.cinematicCamera.startLookAt.set(midX, 0.7, 0);
+        this.cinematicCamera.endLookAt.set(impactX, 0.7, 0);
         break;
       }
     }

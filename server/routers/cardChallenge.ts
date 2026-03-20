@@ -1,3 +1,4 @@
+import { logger } from "../logger";
 /* ═══════════════════════════════════════════════════════
    CARD CHALLENGE ROUTER — Async multiplayer card battles
    Players challenge each other from the leaderboard.
@@ -217,8 +218,8 @@ export const cardChallengeRouter = router({
       }
 
       // Achievement auto-tracking for async PvP
-      trackAiResult(winnerId, true).catch(e => console.error("[CardChallenge] Achievement error:", e));
-      trackAiResult(loserId, false).catch(e => console.error("[CardChallenge] Achievement error:", e));
+      trackAiResult(winnerId, true).catch(e => logger.error("[CardChallenge] Achievement error:", e));
+      trackAiResult(loserId, false).catch(e => logger.error("[CardChallenge] Achievement error:", e));
 
       return {
         success: true,

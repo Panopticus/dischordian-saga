@@ -13,6 +13,7 @@ export const users = mysqlTable("users", {
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
   lastSignedIn: timestamp("lastSignedIn").defaultNow().notNull(),
+  deletedAt: timestamp("deletedAt"),
 });
 
 export type User = typeof users.$inferSelect;
@@ -279,9 +280,9 @@ export const characterSheets = mysqlTable("character_sheets", {
   abilities: json("abilities").$type<string[]>(),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+  deletedAt: timestamp("deletedAt"),
 });
-
-export type CharacterSheet = typeof characterSheets.$inferSelect;
+export type CharacterSheet = typeof characterSheets.$inferSelect;;
 
 /* ═══════════════════════════════════════════════════════
    INCEPTION ARK — Explorable ship map

@@ -1,3 +1,4 @@
+import { logger } from "../logger";
 import { z } from "zod";
 import { protectedProcedure, router } from "../_core/trpc";
 import { getDb } from "../db";
@@ -361,7 +362,7 @@ export const craftingRouter = router({
         });
 
         // Achievement auto-tracking for disenchant
-        trackDisenchant(ctx.user.id).catch(e => console.error("[Crafting] Achievement error:", e));
+        trackDisenchant(ctx.user.id).catch(e => logger.error("[Crafting] Achievement error:", e));
 
         return {
           success: true,
@@ -487,10 +488,10 @@ export const craftingRouter = router({
 
       // Achievement auto-tracking for successful craft
       trackCraftAction(ctx.user.id, outputCard.rarity || undefined)
-        .catch(e => console.error("[Crafting] Achievement error:", e));
+        .catch(e => logger.error("[Crafting] Achievement error:", e));
       // Update collection achievements
       trackCollectionSize(ctx.user.id)
-        .catch(e => console.error("[Crafting] Collection tracking error:", e));
+        .catch(e => logger.error("[Crafting] Collection tracking error:", e));
 
       return {
         success: true,
