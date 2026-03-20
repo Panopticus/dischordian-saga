@@ -2,8 +2,11 @@
    CARD COLLECTION GALLERY — All 178 cards with filtering,
    collection progress, full art detail modal, and lore
    ═══════════════════════════════════════════════════════ */
-import { useState, useMemo } from "react";
+import { useState, useMemo, useCallback } from "react";
 import { useGame, type CharacterChoices } from "@/contexts/GameContext";
+import { getCardSacrificeRewards } from "@/data/lootTables";
+import { getMaterialById } from "@/data/craftingData";
+import { toast } from "sonner";
 import { generateStarterDeck, type StarterCard } from "@/components/StarterDeckViewer";
 import { ROOM_EASTER_EGGS, getBonusCards } from "@/components/EasterEggs";
 import { Link } from "wouter";
@@ -11,7 +14,7 @@ import {
   Crown, Filter, Sparkles, Lock, ChevronLeft, Eye, Search,
   Sword, Shield, Zap, Star, Gem, FlaskConical, X, Layers,
   Users, MapPin, Clock, Flame, Droplets, Wind, Mountain,
-  Skull, Sun, LayoutGrid, List, ChevronDown
+  Skull, Sun, LayoutGrid, List, ChevronDown, Trash2, AlertTriangle, Package
 } from "lucide-react";
 import ZoomableImage from "@/components/ZoomableImage";
 import { useSwipeTabs } from "@/hooks/useSwipeTabs";
@@ -271,11 +274,19 @@ function CardDisplay({ card, onClick, viewMode }: { card: FullCard; onClick: () 
 }
 
 /* ─── CARD DETAIL MODAL ─── */
-function CardDetailModal({ card, onClose }: { card: FullCard | null; onClose: () => void }) {
+function CardDetailModal({ card, onClose, onSacrifice }: { card: FullCard | null; onClose: () => void; onSacrifice?: (card: FullCard) => void }) {
+  const [showSacrificeConfirm, setShowSacrificeConfirm] = useState(false);
+  const [sacrificeResult, setSacrificeResult] = useState<{ materialId: string; quantity: number }[] | null>(null);
+
   if (!card) return null;
   const rarity = RARITY_COLORS[card.rarity] || RARITY_COLORS.common;
   const TypeIcon = TYPE_ICONS[card.cardType] || Sword;
   const elemCfg = ELEMENT_CONFIG[card.element];
+
+  // Preview what sacrifice would yield
+  const sacrificePreview = useMemo(() => {
+    return getCardSacrificeRewards(card.rarity);
+  }, [card.rarity]);
 
   return (
     <motion.div
@@ -409,6 +420,101 @@ function CardDetailModal({ card, onClose }: { card: FullCard | null; onClose: ()
               </div>
             )}
           </div>
+
+          {/* ═══ SACRIFICE SECTION ═══ */}
+          {card.owned && onSacrifice && (
+            <div className="border-t border-white/5 pt-3">
+              {!showSacrificeConfirm && !sacrificeResult && (
+                <button
+                  onClick={() => setShowSacrificeConfirm(true)}
+                  className="w-full flex items-center justify-center gap-2 py-2.5 rounded-lg bg-red-950/30 border border-red-800/30 text-red-400 font-mono text-xs hover:bg-red-950/50 hover:border-red-700/40 transition-all"
+                >
+                  <Trash2 size={14} />
+                  SACRIFICE FOR MATERIALS
+                </button>
+              )}
+
+              {showSacrificeConfirm && !sacrificeResult && (
+                <div className="space-y-2">
+                  <div className="flex items-center gap-2 text-amber-400 font-mono text-xs">
+                    <AlertTriangle size={14} />
+                    <span>This will destroy the card permanently!</span>
+                  </div>
+                  <div className="bg-muted/30 rounded-lg p-2.5 border border-white/5">
+                    <p className="font-mono text-[10px] text-muted-foreground/70 mb-1.5">ESTIMATED YIELD:</p>
+                    <div className="flex flex-wrap gap-1.5">
+                      {sacrificePreview.map((r, i) => {
+                        const mat = getMaterialById(r.materialId);
+                        return (
+                          <span key={i} className="flex items-center gap-1 bg-background/40 px-2 py-1 rounded-md border border-white/5">
+                            <span>{mat?.icon || "📦"}</span>
+                            <span className="font-mono text-[10px] text-foreground">×{r.quantity}</span>
+                            <span className="font-mono text-[9px] text-muted-foreground/60">{mat?.name || r.materialId}</span>
+                          </span>
+                        );
+                      })}
+                    </div>
+                  </div>
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => setShowSacrificeConfirm(false)}
+                      className="flex-1 py-2 rounded-lg bg-muted/30 border border-white/10 text-muted-foreground font-mono text-xs hover:bg-muted/50 transition-all"
+                    >
+                      CANCEL
+                    </button>
+                    <button
+                      onClick={() => {
+                        onSacrifice(card);
+                        const rewards = getCardSacrificeRewards(card.rarity);
+                        setSacrificeResult(rewards);
+                      }}
+                      className="flex-1 py-2 rounded-lg bg-red-900/50 border border-red-700/40 text-red-300 font-mono text-xs hover:bg-red-900/70 transition-all flex items-center justify-center gap-1.5"
+                    >
+                      <Trash2 size={12} />
+                      CONFIRM SACRIFICE
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {sacrificeResult && (
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  className="space-y-2"
+                >
+                  <div className="flex items-center gap-2 text-primary font-mono text-xs">
+                    <Package size={14} />
+                    <span>MATERIALS EXTRACTED</span>
+                  </div>
+                  <div className="flex flex-wrap gap-1.5">
+                    {sacrificeResult.map((r, i) => {
+                      const mat = getMaterialById(r.materialId);
+                      return (
+                        <motion.span
+                          key={i}
+                          initial={{ opacity: 0, y: 10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ delay: i * 0.1 }}
+                          className="flex items-center gap-1.5 bg-primary/10 px-2.5 py-1.5 rounded-lg border border-primary/20"
+                        >
+                          <span className="text-sm">{mat?.icon || "📦"}</span>
+                          <span className="font-mono text-xs text-primary font-bold">+{r.quantity}</span>
+                          <span className="font-mono text-[10px] text-muted-foreground">{mat?.name || r.materialId}</span>
+                        </motion.span>
+                      );
+                    })}
+                  </div>
+                  <button
+                    onClick={onClose}
+                    className="w-full py-2 rounded-lg bg-muted/30 border border-white/10 text-muted-foreground font-mono text-xs hover:bg-muted/50 transition-all mt-1"
+                  >
+                    CLOSE
+                  </button>
+                </motion.div>
+              )}
+            </div>
+          )}
         </div>
 
         {/* Close button */}
@@ -450,6 +556,20 @@ function FilterSelect({ label, value, onChange, options }: {
 export default function CardGalleryPage() {
   const { state } = useGame();
   const [selectedCard, setSelectedCard] = useState<FullCard | null>(null);
+  const { addMaterial } = useGame();
+
+  const handleSacrificeCard = useCallback((card: FullCard) => {
+    // Get the sacrifice rewards and add materials to inventory
+    const rewards = getCardSacrificeRewards(card.rarity);
+    for (const reward of rewards) {
+      addMaterial(reward.materialId, reward.quantity);
+    }
+    const matNames = rewards.map(r => {
+      const mat = getMaterialById(r.materialId);
+      return `${mat?.icon || ""} ${r.quantity}x ${mat?.name || r.materialId}`;
+    }).join(", ");
+    toast.success(`Card sacrificed! Gained: ${matNames}`, { duration: 4000 });
+  }, [addMaterial]);
   const [searchQuery, setSearchQuery] = useState("");
   const [filterRarity, setFilterRarity] = useState("all");
   const [filterType, setFilterType] = useState("all");
@@ -804,7 +924,7 @@ export default function CardGalleryPage() {
       {/* Detail Modal */}
       <AnimatePresence>
         {selectedCard && (
-          <CardDetailModal card={selectedCard} onClose={() => setSelectedCard(null)} />
+          <CardDetailModal card={selectedCard} onClose={() => setSelectedCard(null)} onSacrifice={handleSacrificeCard} />
         )}
       </AnimatePresence>
     </div>

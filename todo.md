@@ -1654,3 +1654,13 @@
 - [x] Create shared lootTables.ts with combat, trade, exploration, and card sacrifice drop tables
 - [x] Write 20 vitest tests for loot table integrity and drop mechanics
 - [x] Test all integration points compile (zero TypeScript errors)
+
+### Phase 68i: Forge Art, Card Sacrifice UI, Image Audit
+- [x] Generate unique Forge Workshop room art (replace reused Chaos Forge image)
+- [x] Build card sacrifice UI button in Card Gallery with material rewards and confirmation
+- [x] Audit all Ark room images for missing/placeholder art (22 rooms - all good)
+- [x] Audit character/loredex portraits for missing art (7 found, all generated)
+- [x] Audit card illustrations for missing art (88 boss cards found with empty imageUrl)
+- [x] Generate 7 loredex images (Elara, Overseer, Veridian VI, Prison Planet, Battle of Nexon, Operation Trojan, Fall of Reality)
+- [x] Generate 24 boss card images (3 per boss: unit, spell, artifact themes for 8 bosses)
+- [x] Upload all 32 generated images to CDN and wire into app (0 remaining empty imageUrls)
