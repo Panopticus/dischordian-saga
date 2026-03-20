@@ -10,11 +10,12 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   Shield, Users, Layers, Gift, BarChart3, Search,
   ChevronLeft, ChevronRight, Edit2, Check, X,
-  Crown, UserCog, ArrowLeft, Plus, Trash2, Eye
+  Crown, UserCog, ArrowLeft, Plus, Trash2, Eye, Compass, Lock, Unlock, Rocket,
+  BookOpen, Music, MapPin, Swords, Lightbulb, Save
 } from "lucide-react";
 import { toast } from "sonner";
 
-type Tab = "dashboard" | "users" | "cards" | "rewards";
+type Tab = "dashboard" | "users" | "cards" | "rewards" | "discovery" | "content";
 
 export default function AdminPage() {
   const { user, isAuthenticated } = useAuth();
@@ -38,6 +39,8 @@ export default function AdminPage() {
     { id: "users", label: "USERS", icon: Users },
     { id: "cards", label: "CARDS", icon: Layers },
     { id: "rewards", label: "REWARDS", icon: Gift },
+    { id: "discovery", label: "DISCOVERY", icon: Compass },
+    { id: "content", label: "CONTENT", icon: BookOpen },
   ];
 
   return (
@@ -89,6 +92,8 @@ export default function AdminPage() {
             {activeTab === "users" && <UsersTab />}
             {activeTab === "cards" && <CardsTab />}
             {activeTab === "rewards" && <RewardsTab />}
+            {activeTab === "discovery" && <DiscoveryTab />}
+            {activeTab === "content" && <ContentTab />}
           </motion.div>
         </AnimatePresence>
       </div>
@@ -472,6 +477,593 @@ function RewardsTab() {
           <p className="font-mono text-xs text-muted-foreground/50 text-center py-4">No custom rewards configured yet.</p>
         )}
       </div>
+    </div>
+  );
+}
+
+// ═══ DISCOVERY TAB ═══
+const ROOM_FEATURE_MAP: Record<string, string[]> = {
+  bridge: ["command_bridge", "ark_console"],
+  quarters: ["operative_dossier", "character_sheet", "citizen_id"],
+  armory: ["combat_sim", "battle_arena", "pvp_arena"],
+  lab: ["research_lab", "crafting"],
+  hangar: ["trade_empire"],
+  observation: ["conspiracy_board", "character_timeline", "era_timeline", "codex"],
+  trophy: ["trophy_room", "card_gallery"],
+  training: ["card_game", "deck_builder", "lore_quiz"],
+  market: ["requisitions", "potentials"],
+  comms: ["watch_show", "discography", "saga_timeline"],
+  cargo: ["database"],
+  medbay: ["mission_briefing"],
+  engine: ["leaderboard"],
+  brig: ["simulation_hub"],
+  secret: ["explore_ark"],
+  tradewars: ["trade_empire"],
+};
+
+const FEATURE_LABELS: Record<string, string> = {
+  command_bridge: "Command Bridge",
+  ark_console: "Ark Console",
+  watch_show: "Watch the Show",
+  discography: "Discography",
+  saga_timeline: "Saga Timeline",
+  database: "Database Search",
+  conspiracy_board: "Conspiracy Board",
+  character_timeline: "Character Timeline",
+  era_timeline: "Era Timeline",
+  codex: "The Codex",
+  simulation_hub: "Simulation Hub",
+  card_game: "Card Game",
+  trade_empire: "Trade Empire",
+  combat_sim: "Combat Sim",
+  explore_ark: "Explore the Ark",
+  lore_quiz: "Lore Quiz",
+  battle_arena: "Battle Arena",
+  pvp_arena: "PVP Arena",
+  card_gallery: "Card Gallery",
+  deck_builder: "Deck Builder",
+  research_lab: "Research Lab",
+  trophy_room: "Trophy Room",
+  operative_dossier: "Operative Dossier",
+  leaderboard: "Leaderboard",
+  citizen_id: "Citizen ID",
+  character_sheet: "Character Sheet",
+  requisitions: "Requisitions",
+  mission_briefing: "Mission Briefing",
+  potentials: "The Potentials",
+  crafting: "Crafting",
+};
+
+function DiscoveryTab() {
+  const { data: progress } = trpc.discovery.getProgress.useQuery();
+  const unlockAll = trpc.discovery.unlockAll.useMutation({
+    onSuccess: () => { toast.success("All features unlocked!"); },
+    onError: (e) => { toast.error(e.message); },
+  });
+  const utils = trpc.useUtils();
+
+  const allFeatures = Array.from(new Set(Object.values(ROOM_FEATURE_MAP).flat()));
+
+  return (
+    <div className="space-y-6">
+      {/* Discovery Progress Overview */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+        <div className="rounded-lg border border-primary/20 bg-primary/5 p-4">
+          <div className="flex items-center gap-2 mb-2">
+            <Compass size={14} className="text-primary" />
+            <span className="font-mono text-[10px] text-muted-foreground tracking-wider">FEATURES UNLOCKED</span>
+          </div>
+          <p className="font-display text-2xl font-bold">{progress?.unlockedFeatures ?? 0} / {progress?.totalFeatures ?? 0}</p>
+        </div>
+        <div className="rounded-lg border border-accent/20 bg-accent/5 p-4">
+          <div className="flex items-center gap-2 mb-2">
+            <Rocket size={14} className="text-accent" />
+            <span className="font-mono text-[10px] text-muted-foreground tracking-wider">ROOMS VISITED</span>
+          </div>
+          <p className="font-display text-2xl font-bold">{progress?.roomsVisited ?? 0} / {progress?.totalRooms ?? 0}</p>
+        </div>
+        <div className="rounded-lg border border-chart-4/20 bg-chart-4/5 p-4">
+          <div className="flex items-center gap-2 mb-2">
+            <Unlock size={14} className="text-chart-4" />
+            <span className="font-mono text-[10px] text-muted-foreground tracking-wider">DISCOVERY %</span>
+          </div>
+          <p className="font-display text-2xl font-bold">{progress?.percentage ?? 0}%</p>
+        </div>
+        <div className="rounded-lg border border-destructive/20 bg-destructive/5 p-4 flex items-center justify-center">
+          <button
+            onClick={() => unlockAll.mutate(undefined, {
+              onSuccess: () => utils.discovery.getProgress.invalidate(),
+            })}
+            disabled={unlockAll.isPending}
+            className="flex items-center gap-2 px-4 py-2 rounded-md bg-destructive/10 border border-destructive/30 text-destructive text-xs font-mono hover:bg-destructive/20 transition-all disabled:opacity-50"
+          >
+            <Unlock size={14} />
+            {unlockAll.isPending ? "UNLOCKING..." : "UNLOCK ALL"}
+          </button>
+        </div>
+      </div>
+
+      {/* Room → Feature Mapping */}
+      <div className="rounded-lg border border-border/30 bg-card/30 p-4">
+        <h3 className="font-display text-xs font-bold tracking-[0.2em] text-primary mb-4">ROOM → FEATURE MAPPING</h3>
+        <div className="space-y-3">
+          {Object.entries(ROOM_FEATURE_MAP).map(([room, features]) => (
+            <div key={room} className="rounded-md border border-border/20 bg-secondary/10 p-3">
+              <div className="flex items-center gap-2 mb-2">
+                <Rocket size={12} className="text-accent" />
+                <span className="font-mono text-xs font-bold tracking-wider text-foreground">{room.toUpperCase()}</span>
+                <span className="font-mono text-[10px] text-muted-foreground/50">→ {features.length} features</span>
+              </div>
+              <div className="flex flex-wrap gap-1.5">
+                {features.map(f => (
+                  <span
+                    key={f}
+                    className="px-2 py-0.5 rounded text-[10px] font-mono bg-primary/5 border border-primary/15 text-primary/80"
+                  >
+                    {FEATURE_LABELS[f] || f}
+                  </span>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* All Features List */}
+      <div className="rounded-lg border border-border/30 bg-card/30 p-4">
+        <h3 className="font-display text-xs font-bold tracking-[0.2em] text-accent mb-3">ALL DISCOVERABLE FEATURES ({allFeatures.length})</h3>
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2">
+          {allFeatures.map(f => (
+            <div key={f} className="flex items-center gap-2 p-2 rounded-md bg-secondary/20 border border-border/10">
+              <Lock size={10} className="text-muted-foreground/50 shrink-0" />
+              <span className="font-mono text-[10px] truncate">{FEATURE_LABELS[f] || f}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ═══ CONTENT TAB ═══
+const TYPE_ICONS: Record<string, typeof Users> = {
+  character: Users,
+  location: MapPin,
+  song: Music,
+  faction: Swords,
+  concept: Lightbulb,
+};
+
+const TYPE_COLORS: Record<string, string> = {
+  character: "text-primary",
+  location: "text-accent",
+  song: "text-destructive",
+  faction: "text-chart-4",
+  concept: "text-chart-5",
+};
+
+function ContentTab() {
+  const [page, setPage] = useState(1);
+  const [search, setSearch] = useState("");
+  const [typeFilter, setTypeFilter] = useState<string>("");
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [showCreateForm, setShowCreateForm] = useState(false);
+
+  const { data, isLoading } = trpc.contentAdmin.listEntries.useQuery({
+    page,
+    limit: 25,
+    search: search || undefined,
+    type: typeFilter || undefined,
+  });
+
+  const { data: editEntry } = trpc.contentAdmin.getEntry.useQuery(
+    { id: editingId! },
+    { enabled: !!editingId }
+  );
+
+  const createEntry = trpc.contentAdmin.createEntry.useMutation({
+    onSuccess: () => { toast.success("Entry created"); setShowCreateForm(false); },
+    onError: (e) => { toast.error(e.message); },
+  });
+
+  const updateEntry = trpc.contentAdmin.updateEntry.useMutation({
+    onSuccess: () => { toast.success("Entry updated"); setEditingId(null); },
+    onError: (e) => { toast.error(e.message); },
+  });
+
+  const deleteEntry = trpc.contentAdmin.deleteEntry.useMutation({
+    onSuccess: () => { toast.success("Entry deleted"); },
+    onError: (e) => { toast.error(e.message); },
+  });
+
+  const utils = trpc.useUtils();
+
+  const [createForm, setCreateForm] = useState({
+    id: "",
+    type: "character" as string,
+    name: "",
+    bio: "",
+    era: "",
+    season: "",
+    affiliation: "",
+    status: "",
+    image: "",
+    priority: "medium",
+    album: "",
+    artist: "",
+    track_number: 0,
+  });
+
+  const [editForm, setEditForm] = useState<Record<string, unknown>>({});
+
+  // When editEntry loads, populate form
+  if (editEntry && editingId && Object.keys(editForm).length === 0) {
+    setEditForm({ ...editEntry.entry });
+  }
+
+  return (
+    <div className="space-y-4">
+      {/* Stats bar */}
+      <div className="flex items-center gap-4 flex-wrap">
+        {data?.stats && Object.entries(data.stats).map(([key, val]) => (
+          <div key={key} className="flex items-center gap-1.5">
+            <span className="font-mono text-[10px] text-muted-foreground tracking-wider">{key.replace(/_/g, " ").toUpperCase()}:</span>
+            <span className="font-display text-sm font-bold">{val as number}</span>
+          </div>
+        ))}
+      </div>
+
+      {/* Filters */}
+      <div className="flex items-center gap-3 flex-wrap">
+        <div className="relative flex-1 max-w-sm">
+          <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
+          <input
+            type="text"
+            placeholder="Search entries..."
+            value={search}
+            onChange={e => { setSearch(e.target.value); setPage(1); }}
+            className="w-full pl-9 pr-3 py-2 rounded-md bg-secondary/30 border border-border/30 text-sm font-mono focus:outline-none focus:border-primary/50"
+          />
+        </div>
+        <select
+          value={typeFilter}
+          onChange={e => { setTypeFilter(e.target.value); setPage(1); }}
+          className="px-3 py-2 rounded-md bg-secondary/30 border border-border/30 text-xs font-mono"
+        >
+          <option value="">ALL TYPES</option>
+          <option value="character">Characters</option>
+          <option value="location">Locations</option>
+          <option value="song">Songs</option>
+          <option value="faction">Factions</option>
+          <option value="concept">Concepts</option>
+        </select>
+        <span className="font-mono text-xs text-muted-foreground">{data?.total ?? 0} entries</span>
+        <button
+          onClick={() => setShowCreateForm(!showCreateForm)}
+          className="flex items-center gap-1 px-3 py-1.5 rounded-md bg-primary/10 border border-primary/30 text-primary text-xs font-mono hover:bg-primary/20 transition-all ml-auto"
+        >
+          <Plus size={12} /> NEW ENTRY
+        </button>
+      </div>
+
+      {/* Create Form */}
+      {showCreateForm && (
+        <motion.div
+          initial={{ opacity: 0, height: 0 }}
+          animate={{ opacity: 1, height: "auto" }}
+          className="rounded-lg border border-primary/30 bg-primary/5 p-4 space-y-3"
+        >
+          <h3 className="font-display text-xs font-bold tracking-[0.2em] text-primary">CREATE NEW ENTRY</h3>
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+            <div>
+              <label className="font-mono text-[10px] text-muted-foreground block mb-1">ID</label>
+              <input
+                value={createForm.id}
+                onChange={e => setCreateForm(f => ({ ...f, id: e.target.value }))}
+                placeholder="e.g., char_new_name"
+                className="w-full px-2 py-1.5 rounded bg-secondary/30 border border-border/30 text-xs font-mono"
+              />
+            </div>
+            <div>
+              <label className="font-mono text-[10px] text-muted-foreground block mb-1">TYPE</label>
+              <select
+                value={createForm.type}
+                onChange={e => setCreateForm(f => ({ ...f, type: e.target.value }))}
+                className="w-full px-2 py-1.5 rounded bg-secondary/30 border border-border/30 text-xs font-mono"
+              >
+                <option value="character">Character</option>
+                <option value="location">Location</option>
+                <option value="song">Song</option>
+                <option value="faction">Faction</option>
+                <option value="concept">Concept</option>
+              </select>
+            </div>
+            <div>
+              <label className="font-mono text-[10px] text-muted-foreground block mb-1">NAME</label>
+              <input
+                value={createForm.name}
+                onChange={e => setCreateForm(f => ({ ...f, name: e.target.value }))}
+                placeholder="Entry name"
+                className="w-full px-2 py-1.5 rounded bg-secondary/30 border border-border/30 text-xs font-mono"
+              />
+            </div>
+            <div>
+              <label className="font-mono text-[10px] text-muted-foreground block mb-1">ERA</label>
+              <input
+                value={createForm.era}
+                onChange={e => setCreateForm(f => ({ ...f, era: e.target.value }))}
+                placeholder="e.g., Pre-Fall"
+                className="w-full px-2 py-1.5 rounded bg-secondary/30 border border-border/30 text-xs font-mono"
+              />
+            </div>
+            <div>
+              <label className="font-mono text-[10px] text-muted-foreground block mb-1">SEASON</label>
+              <input
+                value={createForm.season}
+                onChange={e => setCreateForm(f => ({ ...f, season: e.target.value }))}
+                placeholder="e.g., Season 1"
+                className="w-full px-2 py-1.5 rounded bg-secondary/30 border border-border/30 text-xs font-mono"
+              />
+            </div>
+            <div>
+              <label className="font-mono text-[10px] text-muted-foreground block mb-1">IMAGE URL</label>
+              <input
+                value={createForm.image}
+                onChange={e => setCreateForm(f => ({ ...f, image: e.target.value }))}
+                placeholder="https://..."
+                className="w-full px-2 py-1.5 rounded bg-secondary/30 border border-border/30 text-xs font-mono"
+              />
+            </div>
+            {createForm.type === "song" && (
+              <>
+                <div>
+                  <label className="font-mono text-[10px] text-muted-foreground block mb-1">ALBUM</label>
+                  <input
+                    value={createForm.album}
+                    onChange={e => setCreateForm(f => ({ ...f, album: e.target.value }))}
+                    placeholder="Album name"
+                    className="w-full px-2 py-1.5 rounded bg-secondary/30 border border-border/30 text-xs font-mono"
+                  />
+                </div>
+                <div>
+                  <label className="font-mono text-[10px] text-muted-foreground block mb-1">TRACK #</label>
+                  <input
+                    type="number"
+                    value={createForm.track_number}
+                    onChange={e => setCreateForm(f => ({ ...f, track_number: parseInt(e.target.value) || 0 }))}
+                    className="w-full px-2 py-1.5 rounded bg-secondary/30 border border-border/30 text-xs font-mono"
+                  />
+                </div>
+              </>
+            )}
+          </div>
+          <div>
+            <label className="font-mono text-[10px] text-muted-foreground block mb-1">BIO / DESCRIPTION</label>
+            <textarea
+              value={createForm.bio}
+              onChange={e => setCreateForm(f => ({ ...f, bio: e.target.value }))}
+              rows={3}
+              placeholder="Entry description..."
+              className="w-full px-2 py-1.5 rounded bg-secondary/30 border border-border/30 text-xs font-mono resize-none"
+            />
+          </div>
+          <div className="flex gap-2">
+            <button
+              onClick={() => {
+                const payload: Record<string, unknown> = {
+                  id: createForm.id,
+                  type: createForm.type,
+                  name: createForm.name,
+                  bio: createForm.bio || undefined,
+                  era: createForm.era || undefined,
+                  season: createForm.season || undefined,
+                  image: createForm.image || undefined,
+                  priority: createForm.priority,
+                };
+                if (createForm.type === "song") {
+                  payload.album = createForm.album || undefined;
+                  payload.track_number = createForm.track_number || undefined;
+                  payload.artist = createForm.artist || "Malkia Ukweli & the Panopticon";
+                }
+                createEntry.mutate(payload as any, {
+                  onSuccess: () => utils.contentAdmin.listEntries.invalidate(),
+                });
+              }}
+              disabled={!createForm.id || !createForm.name}
+              className="px-3 py-1.5 rounded bg-primary/20 border border-primary/40 text-primary text-xs font-mono hover:bg-primary/30 disabled:opacity-30"
+            >
+              <Check size={12} className="inline mr-1" /> CREATE
+            </button>
+            <button
+              onClick={() => setShowCreateForm(false)}
+              className="px-3 py-1.5 rounded bg-secondary/30 border border-border/30 text-muted-foreground text-xs font-mono"
+            >
+              CANCEL
+            </button>
+          </div>
+        </motion.div>
+      )}
+
+      {/* Edit Modal */}
+      {editingId && editEntry && (
+        <motion.div
+          initial={{ opacity: 0, height: 0 }}
+          animate={{ opacity: 1, height: "auto" }}
+          className="rounded-lg border border-accent/30 bg-accent/5 p-4 space-y-3"
+        >
+          <div className="flex items-center justify-between">
+            <h3 className="font-display text-xs font-bold tracking-[0.2em] text-accent">EDITING: {editEntry.entry.name}</h3>
+            <button onClick={() => { setEditingId(null); setEditForm({}); }} className="text-muted-foreground hover:text-foreground">
+              <X size={14} />
+            </button>
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+            {["name", "era", "season", "affiliation", "status", "image"].map(field => (
+              <div key={field}>
+                <label className="font-mono text-[10px] text-muted-foreground block mb-1">{field.toUpperCase()}</label>
+                <input
+                  value={String(editForm[field] ?? "")}
+                  onChange={e => setEditForm(f => ({ ...f, [field]: e.target.value }))}
+                  className="w-full px-2 py-1.5 rounded bg-secondary/30 border border-border/30 text-xs font-mono"
+                />
+              </div>
+            ))}
+          </div>
+          <div>
+            <label className="font-mono text-[10px] text-muted-foreground block mb-1">BIO</label>
+            <textarea
+              value={String(editForm.bio ?? "")}
+              onChange={e => setEditForm(f => ({ ...f, bio: e.target.value }))}
+              rows={3}
+              className="w-full px-2 py-1.5 rounded bg-secondary/30 border border-border/30 text-xs font-mono resize-none"
+            />
+          </div>
+          {editEntry.entry.type === "song" && (
+            <div className="grid grid-cols-3 gap-3">
+              <div>
+                <label className="font-mono text-[10px] text-muted-foreground block mb-1">ALBUM</label>
+                <input
+                  value={String(editForm.album ?? "")}
+                  onChange={e => setEditForm(f => ({ ...f, album: e.target.value }))}
+                  className="w-full px-2 py-1.5 rounded bg-secondary/30 border border-border/30 text-xs font-mono"
+                />
+              </div>
+              <div>
+                <label className="font-mono text-[10px] text-muted-foreground block mb-1">TRACK #</label>
+                <input
+                  type="number"
+                  value={Number(editForm.track_number ?? 0)}
+                  onChange={e => setEditForm(f => ({ ...f, track_number: parseInt(e.target.value) || 0 }))}
+                  className="w-full px-2 py-1.5 rounded bg-secondary/30 border border-border/30 text-xs font-mono"
+                />
+              </div>
+              <div>
+                <label className="font-mono text-[10px] text-muted-foreground block mb-1">ARTIST</label>
+                <input
+                  value={String(editForm.artist ?? "")}
+                  onChange={e => setEditForm(f => ({ ...f, artist: e.target.value }))}
+                  className="w-full px-2 py-1.5 rounded bg-secondary/30 border border-border/30 text-xs font-mono"
+                />
+              </div>
+            </div>
+          )}
+          {/* Relationships */}
+          {editEntry.relationships.length > 0 && (
+            <div>
+              <label className="font-mono text-[10px] text-muted-foreground block mb-1">RELATIONSHIPS ({editEntry.relationships.length})</label>
+              <div className="space-y-1">
+                {editEntry.relationships.map((r, i) => (
+                  <div key={i} className="flex items-center gap-2 text-[10px] font-mono">
+                    <span className="text-primary">{r.source}</span>
+                    <span className="text-muted-foreground/50">—{r.type}→</span>
+                    <span className="text-accent">{r.target}</span>
+                    {r.description && <span className="text-muted-foreground/40">({r.description})</span>}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+          <div className="flex gap-2">
+            <button
+              onClick={() => {
+                const updates: Record<string, unknown> = {};
+                const original = editEntry.entry;
+                for (const key of ["name", "era", "season", "affiliation", "status", "image", "bio", "album", "track_number", "artist"]) {
+                  if (editForm[key] !== undefined && editForm[key] !== (original as Record<string, unknown>)[key]) {
+                    updates[key] = editForm[key];
+                  }
+                }
+                if (Object.keys(updates).length === 0) {
+                  toast.info("No changes to save");
+                  return;
+                }
+                updateEntry.mutate({ id: editingId, updates: updates as any }, {
+                  onSuccess: () => {
+                    utils.contentAdmin.listEntries.invalidate();
+                    utils.contentAdmin.getEntry.invalidate({ id: editingId });
+                    setEditForm({});
+                  },
+                });
+              }}
+              className="px-3 py-1.5 rounded bg-accent/20 border border-accent/40 text-accent text-xs font-mono hover:bg-accent/30"
+            >
+              <Save size={12} className="inline mr-1" /> SAVE CHANGES
+            </button>
+            <button
+              onClick={() => { setEditingId(null); setEditForm({}); }}
+              className="px-3 py-1.5 rounded bg-secondary/30 border border-border/30 text-muted-foreground text-xs font-mono"
+            >
+              CANCEL
+            </button>
+          </div>
+        </motion.div>
+      )}
+
+      {/* Entry List */}
+      <div className="space-y-1.5">
+        {data?.entries.map(entry => {
+          const TypeIcon = TYPE_ICONS[entry.type] || BookOpen;
+          const typeColor = TYPE_COLORS[entry.type] || "text-foreground";
+          return (
+            <div key={entry.id} className="rounded-lg border border-border/30 bg-card/30 p-3 flex items-center gap-3 hover:border-border/50 transition-all">
+              {entry.image ? (
+                <img src={entry.image} alt={entry.name} className="w-10 h-10 rounded object-cover shrink-0" />
+              ) : (
+                <div className="w-10 h-10 rounded bg-secondary/30 flex items-center justify-center shrink-0">
+                  <TypeIcon size={16} className={typeColor} />
+                </div>
+              )}
+              <div className="min-w-0 flex-1">
+                <div className="flex items-center gap-2">
+                  <p className="font-mono text-xs font-semibold truncate">{entry.name}</p>
+                  <span className={`px-1 py-0.5 rounded text-[9px] font-mono ${typeColor} bg-current/5 border border-current/15`}>
+                    {entry.type.toUpperCase()}
+                  </span>
+                  {entry.album && <span className="text-[9px] font-mono text-muted-foreground/50">{entry.album}</span>}
+                </div>
+                <p className="text-[10px] text-muted-foreground truncate">
+                  {[entry.era, entry.season, entry.affiliation].filter(Boolean).join(" • ") || entry.id}
+                </p>
+              </div>
+              <div className="flex items-center gap-1.5 shrink-0">
+                <button
+                  onClick={() => { setEditingId(entry.id); setEditForm({}); }}
+                  className="p-1.5 rounded bg-secondary/30 border border-border/20 hover:border-accent/30 transition-all"
+                  title="Edit entry"
+                >
+                  <Edit2 size={11} className="text-accent" />
+                </button>
+                <button
+                  onClick={() => {
+                    if (confirm(`Delete "${entry.name}"? This cannot be undone.`)) {
+                      deleteEntry.mutate({ id: entry.id }, {
+                        onSuccess: () => utils.contentAdmin.listEntries.invalidate(),
+                      });
+                    }
+                  }}
+                  className="p-1.5 rounded bg-destructive/5 border border-destructive/15 hover:bg-destructive/10 transition-all"
+                  title="Delete entry"
+                >
+                  <Trash2 size={11} className="text-destructive" />
+                </button>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Pagination */}
+      {data && data.total > 25 && (
+        <div className="flex items-center justify-center gap-3">
+          <button onClick={() => setPage(p => Math.max(1, p - 1))} disabled={page === 1} className="p-1.5 rounded bg-secondary/30 border border-border/30 disabled:opacity-30">
+            <ChevronLeft size={14} />
+          </button>
+          <span className="font-mono text-xs text-muted-foreground">Page {page} of {Math.ceil(data.total / 25)}</span>
+          <button onClick={() => setPage(p => p + 1)} disabled={page * 25 >= data.total} className="p-1.5 rounded bg-secondary/30 border border-border/30 disabled:opacity-30">
+            <ChevronRight size={14} />
+          </button>
+        </div>
+      )}
     </div>
   );
 }

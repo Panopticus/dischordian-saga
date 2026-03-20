@@ -1148,3 +1148,23 @@ export const cardGameAchievements = mysqlTable("card_game_achievements", {
 });
 export type CardGameAchievement = typeof cardGameAchievements.$inferSelect;
 export type InsertCardGameAchievement = typeof cardGameAchievements.$inferInsert;
+
+/**
+ * Feature unlocks — KOTOR-style progressive discovery system.
+ * Maps Ark room discoveries to app feature unlocks.
+ */
+export const featureUnlocks = mysqlTable("feature_unlocks", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  /** Feature key matching a nav section or app feature */
+  featureKey: varchar("featureKey", { length: 128 }).notNull(),
+  /** How it was unlocked */
+  unlockedVia: mysqlEnum("unlockedVia", [
+    "ark_room", "achievement", "level", "purchase", "admin", "default"
+  ]).notNull().default("default"),
+  /** Source identifier (room ID, achievement ID, etc.) */
+  sourceId: varchar("sourceId", { length: 128 }),
+  unlockedAt: timestamp("unlockedAt").defaultNow().notNull(),
+});
+export type FeatureUnlock = typeof featureUnlocks.$inferSelect;
+export type InsertFeatureUnlock = typeof featureUnlocks.$inferInsert;

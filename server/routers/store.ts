@@ -103,35 +103,32 @@ export const storeRouter = router({
       const product = getProduct(input.productKey);
       if (!product) throw new Error("Product not found");
       if (product.priceDream <= 0) throw new Error("This product cannot be purchased with Dream");
-
       const totalCost = product.priceDream * input.quantity;
-
-      const [balance] = await db
-        .select()
-        .from(dreamBalance)
-        .where(eq(dreamBalance.userId, ctx.user.id))
-        .limit(1);
-
-      if (!balance || balance.dreamTokens < totalCost) {
-        throw new Error("Insufficient Dream tokens");
-      }
-
-      await db
-        .update(dreamBalance)
-        .set({ dreamTokens: sql`${dreamBalance.dreamTokens} - ${totalCost}` })
-        .where(eq(dreamBalance.userId, ctx.user.id));
-
-      await db.insert(storePurchases).values({
-        userId: ctx.user.id,
-        productKey: input.productKey,
-        paymentMethod: "dream",
-        quantity: input.quantity,
-        amount: totalCost,
-        fulfilled: 1,
+      // Use transaction to ensure atomicity of currency operations
+      return await db.transaction(async (tx) => {
+        const [balance] = await tx
+          .select()
+          .from(dreamBalance)
+          .where(eq(dreamBalance.userId, ctx.user.id))
+          .limit(1);
+        if (!balance || balance.dreamTokens < totalCost) {
+          throw new Error("Insufficient Dream tokens");
+        }
+        await tx
+          .update(dreamBalance)
+          .set({ dreamTokens: sql`${dreamBalance.dreamTokens} - ${totalCost}` })
+          .where(eq(dreamBalance.userId, ctx.user.id));
+        await tx.insert(storePurchases).values({
+          userId: ctx.user.id,
+          productKey: input.productKey,
+          paymentMethod: "dream",
+          quantity: input.quantity,
+          amount: totalCost,
+          fulfilled: 1,
+        });
+        await fulfillPurchase(ctx.user.id, input.productKey, input.quantity);
+        return { success: true, message: `Purchased ${product.name}!` };
       });
-
-      await fulfillPurchase(ctx.user.id, input.productKey, input.quantity);
-      return { success: true, message: `Purchased ${product.name}!` };
     }),
 
   /** Get user's purchase history */

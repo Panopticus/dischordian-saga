@@ -26,6 +26,8 @@ import { pvpRouter } from "./routers/pvp";
 import { draftRouter } from "./routers/draft";
 import { tradingRouter } from "./routers/trading";
 import { cardAchievementsRouter } from "./routers/cardAchievements";
+import { discoveryRouter } from "./routers/discovery";
+import { contentAdminRouter } from "./routers/contentAdmin";
 
 export const appRouter = router({
   system: systemRouter,
@@ -48,6 +50,8 @@ export const appRouter = router({
   draft: draftRouter,
   trading: tradingRouter,
   cardAchievements: cardAchievementsRouter,
+  discovery: discoveryRouter,
+  contentAdmin: contentAdminRouter,
   auth: router({
     me: publicProcedure.query(opts => opts.ctx.user),
     logout: publicProcedure.mutation(({ ctx }) => {

@@ -92,6 +92,27 @@ async function startServer() {
   // Configure body parser with larger size limit for file uploads
   app.use(express.json({ limit: "50mb" }));
   app.use(express.urlencoded({ limit: "50mb", extended: true }));
+
+  // Rate limiting
+  const { default: rateLimit } = await import("express-rate-limit");
+  const generalLimiter = rateLimit({
+    windowMs: 60 * 1000,
+    max: 120,
+    standardHeaders: true,
+    legacyHeaders: false,
+    message: { error: "Too many requests, please try again later" },
+  });
+  const llmLimiter = rateLimit({
+    windowMs: 60 * 1000,
+    max: 10,
+    standardHeaders: true,
+    legacyHeaders: false,
+    message: { error: "LLM rate limit exceeded, please wait" },
+  });
+  app.use("/api/trpc", generalLimiter);
+  app.use("/api/trpc/elara", llmLimiter);
+  app.use("/api/trpc/codex", llmLimiter);
+
   // OAuth callback under /api/oauth/callback
   registerOAuthRoutes(app);
   // tRPC API

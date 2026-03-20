@@ -86,70 +86,69 @@ export const tradingRouter = router({
         if (total < trade.receiverDream) return { success: false, error: "Not enough Dream tokens" };
       }
 
-      // Execute the trade — transfer cards
-      // Sender cards → Receiver
-      for (const card of trade.senderCards) {
-        // Deduct from sender
-        await db.update(userCards)
-          .set({ quantity: sql`GREATEST(0, quantity - ${card.quantity})` })
-          .where(and(eq(userCards.userId, trade.senderId), eq(userCards.cardId, card.cardId)));
-        // Add to receiver
-        const [existing] = await db.select().from(userCards)
-          .where(and(eq(userCards.userId, trade.receiverId), eq(userCards.cardId, card.cardId))).limit(1);
-        if (existing) {
-          await db.update(userCards)
-            .set({ quantity: sql`quantity + ${card.quantity}` })
-            .where(eq(userCards.id, existing.id));
-        } else {
-          await db.insert(userCards).values({
-            userId: trade.receiverId, cardId: card.cardId, quantity: card.quantity, obtainedVia: "trade",
-          });
+      // Execute the trade in a transaction for atomicity
+      await db.transaction(async (tx) => {
+        // Sender cards → Receiver
+        for (const card of trade.senderCards) {
+          await tx.update(userCards)
+            .set({ quantity: sql`GREATEST(0, quantity - ${card.quantity})` })
+            .where(and(eq(userCards.userId, trade.senderId), eq(userCards.cardId, card.cardId)));
+          const [existing] = await tx.select().from(userCards)
+            .where(and(eq(userCards.userId, trade.receiverId), eq(userCards.cardId, card.cardId))).limit(1);
+          if (existing) {
+            await tx.update(userCards)
+              .set({ quantity: sql`quantity + ${card.quantity}` })
+              .where(eq(userCards.id, existing.id));
+          } else {
+            await tx.insert(userCards).values({
+              userId: trade.receiverId, cardId: card.cardId, quantity: card.quantity, obtainedVia: "trade",
+            });
+          }
         }
-      }
 
-      // Receiver cards → Sender
-      for (const card of trade.receiverCards) {
-        await db.update(userCards)
-          .set({ quantity: sql`GREATEST(0, quantity - ${card.quantity})` })
-          .where(and(eq(userCards.userId, trade.receiverId), eq(userCards.cardId, card.cardId)));
-        const [existing] = await db.select().from(userCards)
-          .where(and(eq(userCards.userId, trade.senderId), eq(userCards.cardId, card.cardId))).limit(1);
-        if (existing) {
-          await db.update(userCards)
-            .set({ quantity: sql`quantity + ${card.quantity}` })
-            .where(eq(userCards.id, existing.id));
-        } else {
-          await db.insert(userCards).values({
-            userId: trade.senderId, cardId: card.cardId, quantity: card.quantity, obtainedVia: "trade",
-          });
+        // Receiver cards → Sender
+        for (const card of trade.receiverCards) {
+          await tx.update(userCards)
+            .set({ quantity: sql`GREATEST(0, quantity - ${card.quantity})` })
+            .where(and(eq(userCards.userId, trade.receiverId), eq(userCards.cardId, card.cardId)));
+          const [existing] = await tx.select().from(userCards)
+            .where(and(eq(userCards.userId, trade.senderId), eq(userCards.cardId, card.cardId))).limit(1);
+          if (existing) {
+            await tx.update(userCards)
+              .set({ quantity: sql`quantity + ${card.quantity}` })
+              .where(eq(userCards.id, existing.id));
+          } else {
+            await tx.insert(userCards).values({
+              userId: trade.senderId, cardId: card.cardId, quantity: card.quantity, obtainedVia: "trade",
+            });
+          }
         }
-      }
 
-      // Transfer Dream tokens
-      if (trade.senderDream > 0) {
-        await db.update(dreamBalance)
-          .set({ dreamTokens: sql`GREATEST(0, dreamTokens - ${trade.senderDream})` })
-          .where(eq(dreamBalance.userId, trade.senderId));
-        await db.update(dreamBalance)
-          .set({ dreamTokens: sql`dreamTokens + ${trade.senderDream}` })
-          .where(eq(dreamBalance.userId, trade.receiverId));
-      }
-      if (trade.receiverDream > 0) {
-        await db.update(dreamBalance)
-          .set({ dreamTokens: sql`GREATEST(0, dreamTokens - ${trade.receiverDream})` })
-          .where(eq(dreamBalance.userId, trade.receiverId));
-        await db.update(dreamBalance)
-          .set({ dreamTokens: sql`dreamTokens + ${trade.receiverDream}` })
-          .where(eq(dreamBalance.userId, trade.senderId));
-      }
+        // Transfer Dream tokens
+        if (trade.senderDream > 0) {
+          await tx.update(dreamBalance)
+            .set({ dreamTokens: sql`GREATEST(0, dreamTokens - ${trade.senderDream})` })
+            .where(eq(dreamBalance.userId, trade.senderId));
+          await tx.update(dreamBalance)
+            .set({ dreamTokens: sql`dreamTokens + ${trade.senderDream}` })
+            .where(eq(dreamBalance.userId, trade.receiverId));
+        }
+        if (trade.receiverDream > 0) {
+          await tx.update(dreamBalance)
+            .set({ dreamTokens: sql`GREATEST(0, dreamTokens - ${trade.receiverDream})` })
+            .where(eq(dreamBalance.userId, trade.receiverId));
+          await tx.update(dreamBalance)
+            .set({ dreamTokens: sql`dreamTokens + ${trade.receiverDream}` })
+            .where(eq(dreamBalance.userId, trade.senderId));
+        }
 
-      // Mark trade as accepted
-      await db.update(cardTrades).set({ status: "accepted" }).where(eq(cardTrades.id, input.tradeId));
+        // Mark trade as accepted
+        await tx.update(cardTrades).set({ status: "accepted" }).where(eq(cardTrades.id, input.tradeId));
+      });
 
-      // Achievement auto-tracking for both parties
+      // Achievement auto-tracking for both parties (outside transaction)
       trackTradeComplete(trade.senderId).catch(e => console.error("[Trading] Achievement error:", e));
       trackTradeComplete(ctx.user.id).catch(e => console.error("[Trading] Achievement error:", e));
-      // Update collection achievements for both parties
       trackCollectionSize(trade.senderId).catch(e => console.error("[Trading] Collection tracking error:", e));
       trackCollectionSize(ctx.user.id).catch(e => console.error("[Trading] Collection tracking error:", e));
 

@@ -1292,23 +1292,50 @@
 - [ ] Gate admin routes behind adminProcedure
 
 ### Phase 44: Tier 1 Infrastructure Upgrades
-- [ ] Add database transactions to all currency operations
-- [ ] Add rate limiting middleware (60 req/min general, 10 req/min LLM)
-- [ ] Implement React.lazy code splitting for all 52 pages
+- [x] Add database transactions to all currency operations (store, trading)
+- [x] Add rate limiting middleware (120 req/min general, 10 req/min LLM)
+- [x] Implement React.lazy code splitting for all 52 pages with Suspense
 - [ ] Move static JSON to server API with caching
 - [ ] Add foreign key constraints and populate drizzle/relations.ts
 
 ### Phase 45: Tier 2 Infrastructure Upgrades
 - [ ] Add cursor-based pagination to card gallery, trade history, achievements, leaderboards
 - [ ] Migrate localStorage game state to server-side storage
-- [ ] Add skeleton loaders to all pages
+- [x] Add skeleton loaders (PageSkeleton component with 5 variants)
 - [ ] Dynamic imports for Three.js and ethers.js
-- [ ] Add server-side query caching with staleTime
+- [x] Add server-side query caching with staleTime (30s default, 5min gcTime)
 - [ ] Add CSRF protection
 - [ ] Add soft deletes to key tables
 
 ### Phase 46: Tier 3 Infrastructure Upgrades
 - [ ] Accessibility overhaul (ARIA labels, keyboard nav, focus traps)
-- [ ] Add error boundaries per route
+- [x] Add error boundaries per route (RouteErrorBoundary component)
 - [ ] Replace console.logs with structured logging
-- [ ] Add haptic feedback on mobile interactions
+- [x] Add haptic feedback on mobile interactions (already built in game/haptics.ts + lib/haptics.ts)
+### Phase 47: AAA Fighting Game VFX & HUD Upgrades
+- [x] Afterimage trail system (ghostly duplicates during dashes/specials)
+- [x] Energy projectile system (fireballs, energy blasts with particle trails)
+- [x] Impact ring shockwave effects on heavy hits
+- [x] Ground crater/scorch marks on KO
+- [x] Screen flash system (white flash on critical hits, amber on KO)
+- [x] Cinematic intro camera sweep at round start
+- [x] KO slow-motion camera with dramatic zoom
+- [x] White trailing health bar (damage delay visualization)
+- [x] Danger pulse animation when HP < 25%
+- [x] Animated combo counter with scaling text
+- [x] Status effect indicators (burn, stun, poison, frozen)
+- [x] Touch ripple VFX on mobile controls
+- [x] dangerPulse CSS keyframe animation
+
+### Phase 48: Progressive Discovery System
+- [x] featureUnlocks database table
+- [x] Discovery router with getUnlocks, unlockFeature, getDiscoveryProgress
+- [x] Discovery tab in admin panel for feature unlock management
+- [x] Admin can grant/revoke feature unlocks per user
+
+### Phase 49: Admin Content Management Console
+- [x] Content admin router for CRUD operations on loredex entries
+- [x] Content tab in admin panel with entry listing, search, filtering
+- [x] Add/edit entry form with all fields (name, type, era, affiliation, bio, image, etc.)
+- [x] Delete entry with confirmation
+- [x] Content stats display (total entries, characters, songs, locations, factions)
