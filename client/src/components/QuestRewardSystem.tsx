@@ -11,8 +11,9 @@ import { useGamification } from "@/contexts/GamificationContext";
 import { useAuth } from "@/_core/hooks/useAuth";
 import { trpc } from "@/lib/trpc";
 import { motion, AnimatePresence } from "framer-motion";
-import { Gift, Sparkles, Trophy, Coins, Star, Zap, X } from "lucide-react";
+import { Gift, Sparkles, Trophy, Coins, Star, Zap, X, Link2 } from "lucide-react";
 import RewardCelebration, { type CelebrationData, determineTier } from "./RewardCelebration";
+import { ALL_QUEST_CHAINS, matchesRequirement, type ChainCheckContext } from "./QuestChainSystem";
 
 /* ─── QUEST REWARD DEFINITIONS ─── */
 interface QuestReward {
@@ -221,6 +222,33 @@ const QUEST_TITLES: Record<string, string> = {
   discover_50_entries: "DEEP INTELLIGENCE",
 };
 
+/* ─── CHAIN REWARD CARD MAPPINGS ─── */
+const CHAIN_CARD_REWARDS: Record<string, string> = {
+  engineer_chain: "the-architect",
+  oracle_chain: "the-oracle",
+  assassin_chain: "agent-zero",
+  soldier_chain: "iron-lion",
+  spy_chain: "the-enigma",
+  order_chain: "the-architect",
+  chaos_chain: "the-meme",
+  demagi_chain: "the-source",
+  quarchon_chain: "the-programmer",
+  neyon_chain: "the-human",
+};
+
+const CHAIN_TITLES: Record<string, string> = {
+  engineer_chain: "THE ARCHITECT'S BLUEPRINT",
+  oracle_chain: "THE PROPHET'S VISION",
+  assassin_chain: "THE SHADOW PROTOCOL",
+  soldier_chain: "THE IRON CAMPAIGN",
+  spy_chain: "THE DEEP COVER OPERATION",
+  order_chain: "THE PATH OF ORDER",
+  chaos_chain: "THE PATH OF CHAOS",
+  demagi_chain: "THE ELEMENTAL HERITAGE",
+  quarchon_chain: "THE QUANTUM DIRECTIVE",
+  neyon_chain: "THE HYBRID CONVERGENCE",
+};
+
 /* ─── MAIN SYSTEM COMPONENT ─── */
 export default function QuestRewardSystem() {
   const { state, claimQuestReward, collectCard, setNarrativeFlag } = useGame();
@@ -231,6 +259,7 @@ export default function QuestRewardSystem() {
   const [notifications, setNotifications] = useState<RewardNotification[]>([]);
   const [celebration, setCelebration] = useState<CelebrationData | null>(null);
   const processedRef = useRef<Set<string>>(new Set());
+  const chainProcessedRef = useRef<Set<string>>(new Set());
 
   // Build quest check state (same as QuestTracker)
   const checkState = useMemo(() => ({
@@ -258,6 +287,21 @@ export default function QuestRewardSystem() {
     discover_50_entries: checkState.discoveredCount >= 50,
   }), [checkState]);
 
+  // Build chain check context
+  const chainCtx = useMemo<ChainCheckContext>(() => ({
+    characterChoices: state.characterChoices,
+    totalRoomsUnlocked: state.totalRoomsUnlocked,
+    totalItemsFound: state.totalItemsFound,
+    narrativeFlags: state.narrativeFlags,
+    completedGames: state.completedGames,
+    collectedCards: state.collectedCards,
+    discoveredCount: discoveredIds.size,
+    fightWins: gamification.progress.fightWins,
+    totalFights: gamification.gameSave.totalFights,
+    winStreak: gamification.gameSave.winStreak,
+    solvedPuzzles: JSON.parse(localStorage.getItem("loredex_solved_puzzles") || "[]"),
+  }), [state, discoveredIds.size, gamification.progress, gamification.gameSave]);
+
   // Monitor quest completions and award rewards
   useEffect(() => {
     for (const reward of QUEST_REWARDS) {
@@ -273,8 +317,6 @@ export default function QuestRewardSystem() {
 
         // 2. Award gamification XP and points (local)
         if (reward.gamificationXp > 0 || reward.gamificationPoints > 0) {
-          // Use discoverEntry as a proxy to grant XP (each call gives 5 XP)
-          // For larger amounts, we'll use the fight win recorder
           gamification.findConnection(Math.floor(reward.gamificationPoints / 10));
         }
 
@@ -299,7 +341,6 @@ export default function QuestRewardSystem() {
         // 6. Show notification (standard toast) or celebration (major/legendary)
         const tier = determineTier(reward.dreamTokens);
         if (tier === "major" || tier === "legendary") {
-          // Major rewards get the full celebration overlay
           setCelebration({
             questTitle: QUEST_TITLES[reward.questId] || reward.questId,
             dreamTokens: reward.dreamTokens,
@@ -309,7 +350,6 @@ export default function QuestRewardSystem() {
             description: reward.description,
           });
         } else {
-          // Standard rewards get the toast notification
           setNotifications(prev => [...prev, {
             reward,
             questTitle: QUEST_TITLES[reward.questId] || reward.questId,
@@ -319,6 +359,104 @@ export default function QuestRewardSystem() {
       }
     }
   }, [questChecks, state.claimedQuestRewards, isAuthenticated]);
+
+  // ═══ CHAIN QUEST REWARD MONITORING ═══
+  // Monitor each chain quest completion and award rewards individually
+  useEffect(() => {
+    if (!state.characterCreated) return;
+
+    const activeChains = ALL_QUEST_CHAINS.filter(chain =>
+      matchesRequirement(chain.requirement, state.characterChoices)
+    );
+
+    for (const chain of activeChains) {
+      for (const quest of chain.quests) {
+        const rewardKey = `chain_${quest.id}`;
+        const checkResult = quest.check(chainCtx);
+        const alreadyClaimed = state.claimedQuestRewards.includes(rewardKey);
+        const alreadyProcessed = chainProcessedRef.current.has(rewardKey);
+
+        // Check prerequisite is met
+        const prerequisiteMet = !quest.prerequisite ||
+          chain.quests.find(q => q.id === quest.prerequisite)?.check(chainCtx).complete;
+
+        if (checkResult.complete && prerequisiteMet && !alreadyClaimed && !alreadyProcessed) {
+          chainProcessedRef.current.add(rewardKey);
+
+          // Claim the chain quest reward
+          claimQuestReward(rewardKey);
+
+          // Award Dream Tokens + XP (server-side)
+          if (isAuthenticated && (quest.rewardDreamTokens > 0 || quest.rewardXp > 0)) {
+            awardDream.mutate({
+              dreamTokens: quest.rewardDreamTokens,
+              soulBoundDream: 0,
+              dnaCode: 0,
+              xp: quest.rewardXp,
+            });
+          }
+
+          // Award gamification points
+          gamification.findConnection(Math.floor(quest.rewardXp / 10));
+
+          // Set narrative flag
+          setNarrativeFlag(`chain_quest_${quest.id}_rewarded`);
+
+          // Check if this completes the entire chain
+          const isLastQuest = quest.order === Math.max(...chain.quests.map(q => q.order));
+          const allComplete = chain.quests.every(q => {
+            if (q.id === quest.id) return true; // current quest just completed
+            return q.check(chainCtx).complete;
+          });
+
+          if (isLastQuest && allComplete) {
+            // Chain completion! Set chain complete flag and award bonus card
+            setNarrativeFlag(`chain_${chain.id}_complete`);
+            const cardReward = CHAIN_CARD_REWARDS[chain.id];
+            if (cardReward) {
+              collectCard(cardReward);
+            }
+
+            // Chain completion gets the celebration overlay
+            const totalChainDT = chain.quests.reduce((sum, q) => sum + q.rewardDreamTokens, 0);
+            setCelebration({
+              questTitle: `${CHAIN_TITLES[chain.id] || chain.chainName} — COMPLETE`,
+              dreamTokens: quest.rewardDreamTokens,
+              xp: quest.rewardXp,
+              points: quest.rewardXp,
+              cardReward,
+              description: `Quest chain mastered. Total earned: ${totalChainDT} Dream Tokens. ${cardReward ? "Legendary card unlocked." : ""}`,
+            });
+          } else {
+            // Individual chain quest completion - toast notification
+            const tier = determineTier(quest.rewardDreamTokens);
+            if (tier === "major" || tier === "legendary") {
+              setCelebration({
+                questTitle: quest.title,
+                dreamTokens: quest.rewardDreamTokens,
+                xp: quest.rewardXp,
+                points: quest.rewardXp,
+                description: `Chain quest complete: ${chain.chainName}`,
+              });
+            } else {
+              setNotifications(prev => [...prev, {
+                reward: {
+                  questId: rewardKey,
+                  dreamTokens: quest.rewardDreamTokens,
+                  xp: quest.rewardXp,
+                  gamificationXp: quest.rewardXp,
+                  gamificationPoints: quest.rewardXp,
+                  description: `${chain.chainName}: ${quest.title}`,
+                },
+                questTitle: `${quest.title} (${chain.chainName})`,
+                timestamp: Date.now(),
+              }]);
+            }
+          }
+        }
+      }
+    }
+  }, [chainCtx, state.claimedQuestRewards, state.characterCreated, isAuthenticated]);
 
   const dismissNotification = useCallback((timestamp: number) => {
     setNotifications(prev => prev.filter(n => n.timestamp !== timestamp));

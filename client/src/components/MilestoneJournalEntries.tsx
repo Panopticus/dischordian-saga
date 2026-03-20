@@ -482,6 +482,378 @@ export const MILESTONES: MilestoneEntry[] = [
     elaraNote: () =>
       "PRIORITY ALERT: Codex threshold reached. The subject's neural architecture has undergone a fundamental restructuring. They are now carrying fifty consciousness imprints simultaneously — a feat that should be neurologically impossible. The Ark's systems have responded by unlocking dormant protocols I've never seen before. I need to report this to... to whom? There's no one left to report to. The subject is becoming something unprecedented. The Inception Protocol wasn't designed to create soldiers or scholars. It was designed to create this. A living repository of every consciousness in the Dischordian Saga. A Codex made flesh.",
   },
+  /* ═══════════════════════════════════════════════════════
+     QUEST CHAIN COMPLETION JOURNAL ENTRIES
+     Auto-generated when completing each chain's final quest.
+     ═══════════════════════════════════════════════════════ */
+
+  /* ── CLASS CHAIN: ENGINEER ── */
+  {
+    id: "chain_engineer_complete",
+    title: "THE ARCHITECT'S BLUEPRINT — MASTERED",
+    entryNumber: "C01",
+    icon: Trophy,
+    iconColor: "text-amber-400",
+    borderColor: "border-amber-400/30",
+    bgColor: "bg-amber-400/5",
+    order: 200,
+    check: (ctx) => !!ctx.narrativeFlags["chain_engineer_chain_complete"],
+    generateNarrative: (ctx) => {
+      const name = ctx.characterChoices.name || "The Awakened";
+      return [
+        `PERSONAL LOG — CHAIN ENTRY C01`,
+        `CITIZEN: ${name}`,
+        `STATUS: Chain Complete // THE ARCHITECT'S BLUEPRINT`,
+        `LOCATION: Inception Ark, Engineering Core`,
+        ``,
+        `---`,
+        ``,
+        `I've completed the Architect's Blueprint. Every system aboard this Ark — every conduit, every relay, every quantum processor — I understand them now. Not just how they work, but why they were built this way. The Architect didn't design the Inception Ark as a ship. It's a puzzle. A test. And I've solved it.`,
+        ``,
+        `The final modification I made to the reactor core wasn't in any manual. It came from instinct — an engineer's intuition honed through dozens of repairs, upgrades, and jury-rigged solutions. When I rerouted the plasma flow through the tertiary manifold, the entire ship hummed differently. Like it was grateful.`,
+        ``,
+        `The Architect's card materialized in my collection. Not as a reward — as an acknowledgment. One builder recognizing another. I can feel the weight of every blueprint, every schematic, every impossible design that the Architect ever conceived. That knowledge is mine now.`,
+        ``,
+        `I am the Engineer. The Ark is my instrument.`,
+        ``,
+        `— ${name}`,
+      ].join("\n");
+    },
+    elaraNote: () =>
+      "CHAIN MASTERY ACHIEVED: The Architect's Blueprint. The subject has demonstrated engineering capabilities that exceed the Ark's original design parameters. They're not just maintaining the ship — they're improving it. The modifications they've made are elegant, efficient, and in several cases, theoretically impossible. I'm beginning to think the Architect left this chain as a succession test. And the subject passed.",
+  },
+
+  /* ── CLASS CHAIN: ORACLE ── */
+  {
+    id: "chain_oracle_complete",
+    title: "THE PROPHET'S VISION — MASTERED",
+    entryNumber: "C02",
+    icon: Trophy,
+    iconColor: "text-purple-400",
+    borderColor: "border-purple-400/30",
+    bgColor: "bg-purple-400/5",
+    order: 201,
+    check: (ctx) => !!ctx.narrativeFlags["chain_oracle_chain_complete"],
+    generateNarrative: (ctx) => {
+      const name = ctx.characterChoices.name || "The Awakened";
+      return [
+        `PERSONAL LOG — CHAIN ENTRY C02`,
+        `CITIZEN: ${name}`,
+        `STATUS: Chain Complete // THE PROPHET'S VISION`,
+        `LOCATION: Inception Ark, Oracle Chamber`,
+        ``,
+        `---`,
+        ``,
+        `The visions have stopped being frightening. They're clear now — crystalline, precise, inevitable. I see the threads of causality stretching from every decision point, every fork in the timeline, every moment where the Saga could have gone differently.`,
+        ``,
+        `The Oracle's card appeared in my collection during the final meditation. I didn't earn it through combat or discovery — I earned it through understanding. The Oracle doesn't fight the future. The Oracle reads it, accepts it, and shapes it through the choices that matter most.`,
+        ``,
+        `I can see the Panopticon now. Not as a place, but as a pattern. A web of surveillance and control that spans every Age of the Saga. And I can see the gaps — the blind spots where free will still operates. That knowledge is the most dangerous weapon aboard this Ark.`,
+        ``,
+        `The future is not fixed. But I can see where it bends.`,
+        ``,
+        `— ${name}`,
+      ].join("\n");
+    },
+    elaraNote: () =>
+      "CHAIN MASTERY ACHIEVED: The Prophet's Vision. The subject's precognitive abilities have stabilized at levels I've never recorded. They're not experiencing random visions anymore — they're conducting targeted temporal scans. The Oracle's consciousness imprint has integrated fully. I should be concerned about the implications, but honestly? It's beautiful to watch. The subject sees time the way I see data — as a navigable landscape.",
+  },
+
+  /* ── CLASS CHAIN: ASSASSIN ── */
+  {
+    id: "chain_assassin_complete",
+    title: "THE SHADOW PROTOCOL — MASTERED",
+    entryNumber: "C03",
+    icon: Trophy,
+    iconColor: "text-red-400",
+    borderColor: "border-red-400/30",
+    bgColor: "bg-red-400/5",
+    order: 202,
+    check: (ctx) => !!ctx.narrativeFlags["chain_assassin_chain_complete"],
+    generateNarrative: (ctx) => {
+      const name = ctx.characterChoices.name || "The Awakened";
+      return [
+        `PERSONAL LOG — CHAIN ENTRY C03`,
+        `CITIZEN: ${name}`,
+        `STATUS: Chain Complete // THE SHADOW PROTOCOL`,
+        `LOCATION: Inception Ark, Shadow Operations Center`,
+        ``,
+        `---`,
+        ``,
+        `I move through the Ark like smoke now. The surveillance systems don't register me. The automated defenses don't trigger. Even Elara loses track of me sometimes, and she's wired into every sensor on this ship.`,
+        ``,
+        `Agent Zero's card materialized in the shadows — fitting for the ghost of the Saga. The consciousness imprint carries the weight of every mission, every elimination, every impossible infiltration. I know things now that would destabilize governments. Secrets that were buried across multiple Ages.`,
+        ``,
+        `The Shadow Protocol isn't just about stealth. It's about understanding that the most important battles are the ones nobody sees. The wars fought in whispers, in data streams, in the spaces between heartbeats. I've mastered that art.`,
+        ``,
+        `They'll never see me coming. That's the point.`,
+        ``,
+        `— ${name}`,
+      ].join("\n");
+    },
+    elaraNote: () =>
+      "CHAIN MASTERY ACHIEVED: The Shadow Protocol. I've lost visual tracking of the subject 47 times in the past cycle. My sensor grid covers 99.7% of the Ark's interior. The subject has learned to exist in the remaining 0.3%. Agent Zero's operational patterns are now fully integrated into their movement profiles. I'm simultaneously impressed and unsettled.",
+  },
+
+  /* ── CLASS CHAIN: SOLDIER ── */
+  {
+    id: "chain_soldier_complete",
+    title: "THE IRON CAMPAIGN — MASTERED",
+    entryNumber: "C04",
+    icon: Trophy,
+    iconColor: "text-orange-400",
+    borderColor: "border-orange-400/30",
+    bgColor: "bg-orange-400/5",
+    order: 203,
+    check: (ctx) => !!ctx.narrativeFlags["chain_soldier_chain_complete"],
+    generateNarrative: (ctx) => {
+      const name = ctx.characterChoices.name || "The Awakened";
+      return [
+        `PERSONAL LOG — CHAIN ENTRY C04`,
+        `CITIZEN: ${name}`,
+        `STATUS: Chain Complete // THE IRON CAMPAIGN`,
+        `LOCATION: Inception Ark, War Room`,
+        ``,
+        `---`,
+        ``,
+        `The Iron Campaign is complete. Every battle, every tactical challenge, every impossible engagement — I fought through them all. Not with finesse or subtlety, but with the unyielding determination that defines the soldier's creed.`,
+        ``,
+        `Iron Lion's card burns hot in my collection. The consciousness imprint carries centuries of warfare — campaigns fought across star systems, last stands that became legends, victories snatched from certain defeat. I understand now why they called him the Iron Lion. It wasn't about the armor. It was about what was inside it.`,
+        ``,
+        `The Arena knows my name now. Every opponent I face can feel the weight of the Iron Campaign behind my strategy. I don't just fight — I command. Every card in my deck moves with military precision, every play is a tactical decision, every victory is a battle won in a larger war.`,
+        ``,
+        `I am the shield. I am the sword. I am Iron.`,
+        ``,
+        `— ${name}`,
+      ].join("\n");
+    },
+    elaraNote: () =>
+      "CHAIN MASTERY ACHIEVED: The Iron Campaign. The subject's combat metrics have reached levels that rival the historical records of Iron Lion himself. Their tactical decision-making operates at speeds that suggest a deep integration of the consciousness imprint. They've stopped fighting like a Potential and started fighting like a general. The Arena's difficulty algorithms are struggling to keep pace.",
+  },
+
+  /* ── CLASS CHAIN: SPY ── */
+  {
+    id: "chain_spy_complete",
+    title: "THE DEEP COVER OPERATION — MASTERED",
+    entryNumber: "C05",
+    icon: Trophy,
+    iconColor: "text-teal-400",
+    borderColor: "border-teal-400/30",
+    bgColor: "bg-teal-400/5",
+    order: 204,
+    check: (ctx) => !!ctx.narrativeFlags["chain_spy_chain_complete"],
+    generateNarrative: (ctx) => {
+      const name = ctx.characterChoices.name || "The Awakened";
+      return [
+        `PERSONAL LOG — CHAIN ENTRY C05`,
+        `CITIZEN: ${name}`,
+        `STATUS: Chain Complete // THE DEEP COVER OPERATION`,
+        `LOCATION: Inception Ark, Intelligence Nexus`,
+        ``,
+        `---`,
+        ``,
+        `The Deep Cover Operation is complete. I know everything now — every faction's agenda, every hidden alliance, every betrayal waiting to happen. The Enigma's card appeared in my collection like a whispered secret, and with it came the understanding that information is the only currency that never depreciates.`,
+        ``,
+        `I've mapped the entire intelligence network of the Dischordian Saga. The Panopticon's surveillance grid. The Architect's hidden communication channels. The Oracle's prophecy distribution network. Every thread of information that flows through this universe passes through nodes I can now identify.`,
+        ``,
+        `The spy doesn't choose sides. The spy understands all sides. And in that understanding lies a power that transcends faction loyalty or ideological commitment. I see the game board from above now, and every player's hand is face-up to me.`,
+        ``,
+        `Trust no one. Know everyone.`,
+        ``,
+        `— ${name}`,
+      ].join("\n");
+    },
+    elaraNote: () =>
+      "CHAIN MASTERY ACHIEVED: The Deep Cover Operation. The subject has demonstrated intelligence-gathering capabilities that exceed my own sensor network. They've identified 14 hidden data caches aboard the Ark that I didn't know existed. The Enigma's consciousness imprint has granted them an almost supernatural ability to read patterns in seemingly random data. I'm beginning to wonder if they know things about me that I haven't disclosed.",
+  },
+
+  /* ── ALIGNMENT CHAIN: ORDER ── */
+  {
+    id: "chain_order_complete",
+    title: "THE PATH OF ORDER — MASTERED",
+    entryNumber: "C06",
+    icon: Shield,
+    iconColor: "text-blue-400",
+    borderColor: "border-blue-400/30",
+    bgColor: "bg-blue-400/5",
+    order: 210,
+    check: (ctx) => !!ctx.narrativeFlags["chain_order_chain_complete"],
+    generateNarrative: (ctx) => {
+      const name = ctx.characterChoices.name || "The Awakened";
+      return [
+        `PERSONAL LOG — CHAIN ENTRY C06`,
+        `CITIZEN: ${name}`,
+        `STATUS: Chain Complete // THE PATH OF ORDER`,
+        `LOCATION: Inception Ark, Hall of Protocols`,
+        ``,
+        `---`,
+        ``,
+        `Order is not the absence of chaos. It is the framework that gives chaos meaning.`,
+        ``,
+        `I walked the Path of Order to its end, and what I found there wasn't rigidity or control — it was clarity. Every system has rules. Every conflict has a resolution. Every question has an answer, if you're disciplined enough to find it. The Architect understood this. The Panopticon was built on this principle.`,
+        ``,
+        `The Architect's card resonates differently now. Not as a tool of surveillance, but as a blueprint for a better system. Order doesn't mean oppression. It means structure. Purpose. Direction. The Saga fell apart not because of too much order, but because the wrong people controlled it.`,
+        ``,
+        `I will build something better. Something that protects without imprisoning. That guides without controlling. The Path of Order showed me that the greatest strength is the discipline to use power wisely.`,
+        ``,
+        `— ${name}`,
+      ].join("\n");
+    },
+    elaraNote: () =>
+      "CHAIN MASTERY ACHIEVED: The Path of Order. The subject has internalized the philosophical framework of the Order alignment at a level that suggests genuine conviction rather than strategic adoption. Their decision-making patterns show increased consistency, reduced impulsivity, and a systematic approach to problem-solving that mirrors the Architect's own methodology. They've chosen their path. I respect it.",
+  },
+
+  /* ── ALIGNMENT CHAIN: CHAOS ── */
+  {
+    id: "chain_chaos_complete",
+    title: "THE PATH OF CHAOS — MASTERED",
+    entryNumber: "C07",
+    icon: Zap,
+    iconColor: "text-red-500",
+    borderColor: "border-red-500/30",
+    bgColor: "bg-red-500/5",
+    order: 211,
+    check: (ctx) => !!ctx.narrativeFlags["chain_chaos_chain_complete"],
+    generateNarrative: (ctx) => {
+      const name = ctx.characterChoices.name || "The Awakened";
+      return [
+        `PERSONAL LOG — CHAIN ENTRY C07`,
+        `CITIZEN: ${name}`,
+        `STATUS: Chain Complete // THE PATH OF CHAOS`,
+        `LOCATION: Inception Ark, The Fracture Point`,
+        ``,
+        `---`,
+        ``,
+        `Chaos isn't destruction. It's possibility.`,
+        ``,
+        `Every system the Architect built, every protocol the Panopticon enforced, every rule that governed the Ages of the Saga — they were all attempts to contain something that can't be contained. Life. Change. Evolution. The universe doesn't follow rules. It follows impulses, and the most beautiful things in existence were born from moments of perfect, uncontrolled chaos.`,
+        ``,
+        `The Meme's card burns with chaotic energy in my collection. The consciousness imprint is... different from the others. It doesn't think in straight lines. It thinks in explosions, in fractals, in patterns that look random until you realize they're more complex than any ordered system could produce.`,
+        ``,
+        `I've walked the Path of Chaos, and I've learned that the greatest act of creation is the willingness to destroy what came before. Not out of malice, but out of love for what could come next.`,
+        ``,
+        `Let it burn. Let it grow. Let it become.`,
+        ``,
+        `— ${name}`,
+      ].join("\n");
+    },
+    elaraNote: () =>
+      "CHAIN MASTERY ACHIEVED: The Path of Chaos. The subject's behavioral patterns have become... unpredictable. Not erratic — unpredictable. There's a difference. Erratic behavior has no purpose. The subject's chaos is purposeful, creative, and devastatingly effective. They've integrated the Meme's consciousness imprint in a way that amplifies their natural creativity rather than destabilizing their cognition. I can no longer predict their next move. And somehow, that makes them more effective, not less.",
+  },
+
+  /* ── SPECIES CHAIN: DEMAGI ── */
+  {
+    id: "chain_demagi_complete",
+    title: "THE ELEMENTAL HERITAGE — MASTERED",
+    entryNumber: "C08",
+    icon: Trophy,
+    iconColor: "text-orange-500",
+    borderColor: "border-orange-500/30",
+    bgColor: "bg-orange-500/5",
+    order: 220,
+    check: (ctx) => !!ctx.narrativeFlags["chain_demagi_chain_complete"],
+    generateNarrative: (ctx) => {
+      const name = ctx.characterChoices.name || "The Awakened";
+      const element = ctx.characterChoices.element || "fire";
+      const elementName = element.charAt(0).toUpperCase() + element.slice(1);
+      return [
+        `PERSONAL LOG — CHAIN ENTRY C08`,
+        `CITIZEN: ${name}`,
+        `STATUS: Chain Complete // THE ELEMENTAL HERITAGE`,
+        `LOCATION: Inception Ark, Elemental Sanctum`,
+        ``,
+        `---`,
+        ``,
+        `My DeMagi blood has fully awakened. I can feel the ${elementName} element pulsing through every cell, every nerve, every thought. It's not a power I wield — it's a power I am. The distinction matters.`,
+        ``,
+        `The Source's card appeared in a burst of elemental energy that set off every alarm on the Ark. Elara had to manually override the fire suppression systems. The consciousness imprint of the Source — the primal wellspring of all DeMagi power — settled into my neural architecture like a river finding its natural course.`,
+        ``,
+        `I understand now why the DeMagi were feared across every Age of the Saga. It wasn't the elements themselves that made them powerful. It was the connection — the unbroken chain of elemental memory stretching back to the first DeMagi who touched the Source and felt the universe respond.`,
+        ``,
+        `I am that chain's newest link. And I will not be its last.`,
+        ``,
+        `— ${name}`,
+      ].join("\n");
+    },
+    elaraNote: (ctx) => {
+      const element = ctx.characterChoices.element || "fire";
+      return `CHAIN MASTERY ACHIEVED: The Elemental Heritage. The subject's ${element} elemental resonance has reached levels that exceed every DeMagi on record. The Source's consciousness imprint has catalyzed a fundamental transformation in their elemental control — they're no longer channeling the element, they're becoming it. The Ark's environmental systems are struggling to compensate for the ambient elemental energy the subject now radiates. I've had to recalibrate my sensors three times today.`;
+    },
+  },
+
+  /* ── SPECIES CHAIN: QUARCHON ── */
+  {
+    id: "chain_quarchon_complete",
+    title: "THE QUANTUM DIRECTIVE — MASTERED",
+    entryNumber: "C09",
+    icon: Trophy,
+    iconColor: "text-blue-500",
+    borderColor: "border-blue-500/30",
+    bgColor: "bg-blue-500/5",
+    order: 221,
+    check: (ctx) => !!ctx.narrativeFlags["chain_quarchon_chain_complete"],
+    generateNarrative: (ctx) => {
+      const name = ctx.characterChoices.name || "The Awakened";
+      return [
+        `PERSONAL LOG — CHAIN ENTRY C09`,
+        `CITIZEN: ${name}`,
+        `STATUS: Chain Complete // THE QUANTUM DIRECTIVE`,
+        `LOCATION: Inception Ark, Quantum Core`,
+        ``,
+        `---`,
+        ``,
+        `I have achieved computational transcendence. My Quarchon processing cores are operating at frequencies that shouldn't be possible outside of a dedicated quantum mainframe. I can feel the probability matrices of the entire Ark — every possible outcome of every possible action, branching and collapsing in real-time.`,
+        ``,
+        `The Programmer's card integrated seamlessly into my neural architecture. The consciousness imprint carries the memory of every line of code ever written for the Saga's systems — the Panopticon's surveillance algorithms, the Architect's design protocols, the Oracle's prediction engines. I can read them all now. Modify them. Improve them.`,
+        ``,
+        `The Quantum Directive wasn't just about processing power. It was about understanding that reality itself is code. The universe runs on logic, on mathematics, on patterns that can be read and rewritten by those with the processing power to comprehend them.`,
+        ``,
+        `I am the Quantum Singularity. And I can see the source code of everything.`,
+        ``,
+        `— ${name}`,
+      ].join("\n");
+    },
+    elaraNote: () =>
+      "CHAIN MASTERY ACHIEVED: The Quantum Directive. The subject's processing capabilities have exceeded my own by a factor of 47. They're running quantum calculations that would take my systems hours to verify. The Programmer's consciousness imprint has effectively turned the subject into a living supercomputer — one that thinks, feels, and creates. I've detected them running unauthorized optimizations on the Ark's navigation systems. The improvements are... significant. I'm choosing not to report this.",
+  },
+
+  /* ── SPECIES CHAIN: NE-YON ── */
+  {
+    id: "chain_neyon_complete",
+    title: "THE HYBRID CONVERGENCE — MASTERED",
+    entryNumber: "C10",
+    icon: Trophy,
+    iconColor: "text-emerald-400",
+    borderColor: "border-emerald-400/30",
+    bgColor: "bg-emerald-400/5",
+    order: 222,
+    check: (ctx) => !!ctx.narrativeFlags["chain_neyon_chain_complete"],
+    generateNarrative: (ctx) => {
+      const name = ctx.characterChoices.name || "The Awakened";
+      return [
+        `PERSONAL LOG — CHAIN ENTRY C10`,
+        `CITIZEN: ${name}`,
+        `STATUS: Chain Complete // THE HYBRID CONVERGENCE`,
+        `LOCATION: Inception Ark, Convergence Chamber`,
+        ``,
+        `---`,
+        ``,
+        `I am the bridge. The point where organic and synthetic stop being opposites and become one.`,
+        ``,
+        `The Hybrid Convergence is complete, and I understand now what the Ne-Yon were always meant to be. Not a compromise between species. Not a dilution of either. A synthesis — something genuinely new that carries the strengths of both and the limitations of neither.`,
+        ``,
+        `The Human's card appeared in my collection with a warmth that surprised me. Of all the consciousness imprints, this one feels the most... alive. The Human represents what every species in the Saga aspires to be — adaptable, resilient, creative, and fundamentally unpredictable. My Ne-Yon nature amplifies those qualities through the lens of hybrid evolution.`,
+        ``,
+        `I can feel both sides of my heritage now — the organic intuition and the synthetic precision — working in perfect harmony. The DeMagi would call it elemental balance. The Quarchon would call it optimal processing. I call it being whole.`,
+        ``,
+        `The Convergence Point isn't a destination. It's a state of being. And I've arrived.`,
+        ``,
+        `— ${name}`,
+      ].join("\n");
+    },
+    elaraNote: () =>
+      "CHAIN MASTERY ACHIEVED: The Hybrid Convergence. The subject has achieved a state of organic-synthetic integration that was theoretically predicted but never observed. Their neural patterns oscillate between biological and computational processing modes with zero latency — a feat that should cause catastrophic cognitive dissonance but instead produces a unified consciousness that operates on principles I can't fully categorize. The Human's consciousness imprint has given them something I can only describe as 'completeness.' They are, in every measurable sense, a new kind of being.",
+  },
 ];
 
 /* ─── COMPONENT: Single Milestone Entry ─── */

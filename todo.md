@@ -1440,3 +1440,13 @@
 - [x] Add alignment-specific quest modifiers (order vs chaos) — 3 quests each, 225 Dream Tokens per chain
 - [x] Integrate QuestChainSystem into QuestTracker expanded view
 - [x] Write 75 vitest tests for all Phase 61 features (all passing)
+
+### Phase 62: Quest Chain Rewards, Species Chains, Chain Journal Entries
+- [x] Wire quest chain completions into QuestRewardSystem for Dream Token awards + celebration overlays
+- [x] Add chain reward claiming with deduplication (CHAIN_CARD_REWARDS + CHAIN_TITLES for all 10 chains)
+- [x] Add species-specific quest chains (DeMagi/Quarchon/Ne-Yon) — 4 quests each, 325 DT per chain
+- [x] Integrate species chains into QuestChainSystem (10 total chains: 5 class + 2 alignment + 3 species)
+- [x] Build 10 quest chain journal entries for chain completion milestones (C01-C10)
+- [x] Wire chain journal entries into MilestoneJournalEntries with order 200-222
+- [x] Add species chain card rewards (The Source, The Programmer, The Human)
+- [x] Write 67 vitest tests for all Phase 62 features (all passing)
