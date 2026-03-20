@@ -623,21 +623,21 @@ export default function StarterDeckViewer({
                         color: "rgba(255,255,255,0.5)",
                       }}
                     >
-                      CLOSE
+                      SKIP FOR NOW
                     </button>
                   )}
                   {onContinue && (
                     <button
                       onClick={onContinue}
-                      className="px-6 py-2.5 rounded-md font-mono text-xs tracking-wider transition-all hover:scale-105"
+                      className="px-6 py-2.5 rounded-md font-mono text-xs tracking-wider transition-all hover:scale-105 animate-pulse"
                       style={{
-                        background: "rgba(51,226,230,0.1)",
-                        border: "1px solid rgba(51,226,230,0.3)",
+                        background: "rgba(51,226,230,0.15)",
+                        border: "1px solid rgba(51,226,230,0.4)",
                         color: "var(--neon-cyan)",
-                        boxShadow: "0 0 20px rgba(51,226,230,0.1)",
+                        boxShadow: "0 0 25px rgba(51,226,230,0.15)",
                       }}
                     >
-                      VIEW CHARACTER SHEET →
+                      REVIEW NEURAL SCAN RESULTS →
                     </button>
                   )}
                 </div>

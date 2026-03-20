@@ -731,12 +731,12 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
                 onClose={() => {
                   completeAwakening();
                   discoverEntry("awakening-complete");
-                  navigate("/ark");
+                  navigate("/character-sheet?from=awakening");
                 }}
                 onContinue={() => {
                   completeAwakening();
                   discoverEntry("awakening-complete");
-                  navigate("/character-sheet");
+                  navigate("/character-sheet?from=awakening");
                 }}
               />
             </motion.div>

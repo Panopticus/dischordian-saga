@@ -1401,3 +1401,13 @@
 - [x] Build War Map UI page with live faction territory visualization
 - [x] Create animated holographic Elara avatar component for dialog sequences
 - [x] Wire holographic Elara into Awakening flow and Ark exploration dialog
+
+### Phase 57: Documentation
+- [x] Create Puzzle & Riddle Answer Book (all puzzles, riddles, solutions across all game modes)
+- [x] Create comprehensive User's Guide PDF (full app walkthrough, all features, all game modes)
+
+### Phase 58: Narrative Post-Awakening → Character Sheet Flow
+- [x] Redirect Awakening completion to character sheet (not home)
+- [x] Add narrative Elara intro to character sheet on first visit ("Your neural scan is complete, Operative...")
+- [x] Make character sheet the second unlocked area in progression (after Awakening/Cryo Bay)
+- [x] Ensure character sheet is narratively framed as Elara presenting scan results

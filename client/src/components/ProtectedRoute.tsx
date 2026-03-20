@@ -50,7 +50,7 @@ const ROUTE_ROOM_MAP: Record<string, string> = {
   "/store": "cargo-hold",
   // Captain's Quarters routes
   "/profile": "captains-quarters",
-  "/character-sheet": "captains-quarters",
+  // "/character-sheet" — always accessible after awakening (narrative second step)
   "/create-citizen": "captains-quarters",
   "/trophy": "captains-quarters",
   "/achievements": "captains-quarters",
@@ -85,6 +85,7 @@ export function useRouteAccess(path: string): { allowed: boolean; requiredRoom: 
     path.startsWith("/settings") ||
     path.startsWith("/admin") ||
     path.startsWith("/awakening") ||
+    path.startsWith("/character-sheet") ||
     path.startsWith("/entity/") ||
     path.startsWith("/song/") ||
     path.startsWith("/album/") ||

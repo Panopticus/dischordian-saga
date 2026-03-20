@@ -2,8 +2,10 @@ import { useAuth } from "@/_core/hooks/useAuth";
 import { trpc } from "@/lib/trpc";
 import { getLoginUrl } from "@/const";
 import { Link } from "wouter";
-import { motion } from "framer-motion";
-import { useState, useMemo } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { useSearch } from "wouter";
+import HolographicElara from "@/components/HolographicElara";
+import { useState, useMemo, useEffect, useCallback } from "react";
 import {
   ChevronLeft, Shield, Swords, Heart, Zap, User,
   Sparkles, ArrowUp, Droplets, Flame, Wind, Mountain,
@@ -215,6 +217,66 @@ export default function CharacterSheetPage() {
   const [showTraitDetails, setShowTraitDetails] = useState(false);
   const [showRespec, setShowRespec] = useState(false);
 
+  // ═══ NARRATIVE INTRO (from Awakening) ═══
+  const searchString = useSearch();
+  const fromAwakening = searchString.includes("from=awakening");
+  const [showNarrativeIntro, setShowNarrativeIntro] = useState(false);
+  const [narrativeStep, setNarrativeStep] = useState(0);
+  const [narrativeText, setNarrativeText] = useState("");
+  const [isTyping, setIsTyping] = useState(false);
+
+  const ELARA_INTRO_LINES = useMemo(() => [
+    "Neural scan complete. Your biometric profile has been compiled, Operative.",
+    "This is your dossier — everything we know about what you are. Your species markers, class aptitudes, elemental affinity... it's all here.",
+    "I've cross-referenced your readings with the Ark's historical database. Your potential is... significant. The Prophecy may have been right about you.",
+    "Study your capabilities carefully. The Ark holds many secrets, and you'll need every advantage to survive what's coming.",
+    "When you're ready, the Cryo Bay door leads to the rest of the ship. I'll be with you every step of the way.",
+  ], []);
+
+  // Trigger narrative intro on first visit from Awakening
+  useEffect(() => {
+    if (fromAwakening && character.data && !showNarrativeIntro) {
+      const seen = sessionStorage.getItem("character_sheet_intro_seen");
+      if (!seen) {
+        setShowNarrativeIntro(true);
+        sessionStorage.setItem("character_sheet_intro_seen", "1");
+      }
+    }
+  }, [fromAwakening, character.data]);
+
+  // Typewriter effect for Elara dialog
+  useEffect(() => {
+    if (!showNarrativeIntro || narrativeStep >= ELARA_INTRO_LINES.length) return;
+    const line = ELARA_INTRO_LINES[narrativeStep];
+    setIsTyping(true);
+    setNarrativeText("");
+    let idx = 0;
+    const interval = setInterval(() => {
+      if (idx < line.length) {
+        setNarrativeText(line.slice(0, idx + 1));
+        idx++;
+      } else {
+        clearInterval(interval);
+        setIsTyping(false);
+      }
+    }, 28);
+    return () => clearInterval(interval);
+  }, [showNarrativeIntro, narrativeStep, ELARA_INTRO_LINES]);
+
+  const advanceNarrative = useCallback(() => {
+    if (isTyping) {
+      // Skip to end of current line
+      setNarrativeText(ELARA_INTRO_LINES[narrativeStep]);
+      setIsTyping(false);
+      return;
+    }
+    if (narrativeStep < ELARA_INTRO_LINES.length - 1) {
+      setNarrativeStep(s => s + 1);
+    } else {
+      setShowNarrativeIntro(false);
+    }
+  }, [isTyping, narrativeStep, ELARA_INTRO_LINES]);
+
   const levelUpClass = trpc.citizen.levelUpClass.useMutation({
     onSuccess: () => { utils.citizen.getCharacter.invalidate(); utils.citizen.getDreamBalance.invalidate(); },
   });
@@ -313,6 +375,86 @@ export default function CharacterSheetPage() {
         {/* Grid overlay */}
         <div className="absolute inset-0 grid-bg opacity-60" />
       </div>
+
+      {/* ═══ NARRATIVE ELARA INTRO OVERLAY ═══ */}
+      <AnimatePresence>
+        {showNarrativeIntro && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.5 }}
+            className="fixed inset-0 z-50 flex items-center justify-center cursor-pointer"
+            onClick={advanceNarrative}
+            style={{ background: "radial-gradient(ellipse at center, rgba(0,5,30,0.95) 0%, rgba(0,0,0,0.98) 100%)" }}
+          >
+            {/* Scanlines */}
+            <div className="absolute inset-0 crt-scanlines pointer-events-none opacity-30" />
+            <div className="absolute inset-0 grid-bg opacity-20" />
+
+            <div className="max-w-xl mx-auto px-6 text-center">
+              {/* Holographic Elara */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.3, duration: 0.6 }}
+                className="mb-8"
+              >
+                <HolographicElara size="lg" isSpeaking={isTyping} />
+              </motion.div>
+
+              {/* Elara label */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.5 }}
+                className="mb-6"
+              >
+                <div className="flex items-center justify-center gap-2 mb-1">
+                  <div className="h-px w-8 bg-gradient-to-r from-transparent to-cyan-400/50" />
+                  <span className="font-mono text-[10px] text-cyan-400/80 tracking-[0.4em]">ELARA // AI COMPANION</span>
+                  <div className="h-px w-8 bg-gradient-to-l from-transparent to-cyan-400/50" />
+                </div>
+              </motion.div>
+
+              {/* Dialog text */}
+              <motion.div
+                key={narrativeStep}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="min-h-[80px] flex items-center justify-center"
+              >
+                <p className="font-mono text-sm sm:text-base text-white/90 leading-relaxed">
+                  {narrativeText}
+                  {isTyping && <span className="inline-block w-2 h-4 bg-cyan-400 ml-0.5 animate-pulse" />}
+                </p>
+              </motion.div>
+
+              {/* Progress dots */}
+              <div className="flex items-center justify-center gap-2 mt-8">
+                {ELARA_INTRO_LINES.map((_, i) => (
+                  <div
+                    key={i}
+                    className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${
+                      i === narrativeStep ? "bg-cyan-400 w-4" : i < narrativeStep ? "bg-cyan-400/40" : "bg-white/15"
+                    }`}
+                  />
+                ))}
+              </div>
+
+              {/* Hint */}
+              <motion.p
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 1.5 }}
+                className="font-mono text-[10px] text-white/20 mt-6 tracking-wider"
+              >
+                {isTyping ? "CLICK TO SKIP" : narrativeStep < ELARA_INTRO_LINES.length - 1 ? "CLICK TO CONTINUE" : "CLICK TO VIEW DOSSIER"}
+              </motion.p>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* ═══ DOSSIER HEADER BAR ═══ */}
       <div className="relative z-10 border-b border-white/5 bg-black/30 backdrop-blur-md">
@@ -642,6 +784,29 @@ export default function CharacterSheetPage() {
 
         {/* Respec Dialog */}
         <RespecDialog isOpen={showRespec} onClose={() => setShowRespec(false)} isAuthenticated={isAuthenticated} />
+
+        {/* ═══ PROCEED TO ARK (post-Awakening) ═══ */}
+        {fromAwakening && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.35 }}
+            className="mb-6"
+          >
+            <Link
+              href="/ark"
+              className="w-full py-4 rounded-lg border border-cyan-400/30 bg-cyan-500/10 hover:bg-cyan-500/20 hover:border-cyan-400/50 transition-all flex items-center justify-center gap-3 group"
+              style={{ boxShadow: "0 0 30px rgba(51,226,230,0.1)" }}
+            >
+              <Sparkles size={16} className="text-cyan-400 group-hover:animate-pulse" />
+              <span className="font-display text-sm font-bold tracking-[0.2em] text-cyan-400">PROCEED TO THE ARK</span>
+              <span className="font-mono text-[9px] text-cyan-400/50">— Begin exploring the ship</span>
+            </Link>
+            <p className="text-center font-mono text-[9px] text-muted-foreground/30 mt-2 tracking-wider">
+              Elara will guide you through the Cryo Bay and beyond
+            </p>
+          </motion.div>
+        )}
 
         {/* ═══ FOOTER CLASSIFICATION ═══ */}
         <div className="text-center py-4">
