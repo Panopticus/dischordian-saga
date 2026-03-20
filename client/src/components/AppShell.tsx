@@ -10,6 +10,8 @@ import {
   Home, Rocket, Store, ScrollText, FlaskConical, Ship, Crown, Compass, Radio, Heart, Brain, BookOpen, Gem, Lock
 } from "lucide-react";
 import { useGamification } from "@/contexts/GamificationContext";
+import { useMoralityTheme } from "@/contexts/MoralityThemeContext";
+import { MoralityBar } from "@/components/MoralityMeter";
 import { Progress } from "@/components/ui/progress";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -97,6 +99,7 @@ const NAV_GROUPS: NavGroup[] = [
       { path: "/store", label: "REQUISITIONS", icon: Store, description: "Dream store" },
       { path: "/favorites", label: "MISSION BRIEFING", icon: Heart, description: "Favorites & playlists" },
       { path: "/lore-tutorials", label: "LORE TUTORIALS", icon: BookOpen, description: "Elara's guided tutorials" },
+      { path: "/morality-census", label: "MORALITY CENSUS", icon: Heart, description: "Community alignment" },
       { path: "/potentials", label: "THE POTENTIALS", icon: Gem, description: "NFT collection & 1/1 cards" },
     ],
   },
@@ -110,7 +113,7 @@ const ALBUMS = [
 ];
 
 /* ─── ALWAYS-ACCESSIBLE ROUTES (no room required) ─── */
-const ALWAYS_ACCESSIBLE = ["/ark", "/console", "/games", "/clue-journal", "/settings", "/admin", "/character-sheet", "/awakening", "/research-minigame", "/war-map", "/lore-tutorials"];
+const ALWAYS_ACCESSIBLE = ["/ark", "/console", "/games", "/clue-journal", "/settings", "/admin", "/character-sheet", "/awakening", "/research-minigame", "/war-map", "/lore-tutorials", "/morality-census"];
 
 function isRouteUnlocked(path: string, rooms: Record<string, { unlocked?: boolean }>): boolean {
   if (ALWAYS_ACCESSIBLE.some(p => path.startsWith(p))) return true;
@@ -372,6 +375,17 @@ export default function AppShell({ children, elaraTTS: _elaraTTS }: { children: 
             ))}
           </div>
 
+          {/* Morality Alignment */}
+          <div className="px-2.5 pb-2">
+            <div className="mx-3 mb-2 h-px" style={{ background: "rgba(56,117,250,0.1)" }} />
+            <p className="font-mono text-[9px] text-white/20 tracking-[0.3em] mb-1.5 px-3 uppercase flex items-center gap-1.5">
+              <Heart size={9} className="text-[var(--primary)]/50" />
+              Alignment
+            </p>
+            <div className="px-3">
+              <MoralityBar className="mb-1" />
+            </div>
+          </div>
           {/* Operative Status */}
           <div className="px-2.5 pb-2">
             <div className="mx-3 mb-2 h-px" style={{ background: "rgba(56,117,250,0.1)" }} />

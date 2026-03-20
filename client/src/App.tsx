@@ -10,6 +10,7 @@ import { LoredexProvider } from "./contexts/LoredexContext";
 import { PlayerProvider } from "./contexts/PlayerContext";
 import { GamificationProvider } from "./contexts/GamificationContext";
 import { GameProvider, useGame } from "./contexts/GameContext";
+import { MoralityThemeProvider } from "./contexts/MoralityThemeContext";
 import { SoundProvider, useSound } from "./contexts/SoundContext";
 import { AmbientMusicProvider } from "./contexts/AmbientMusicContext";
 import { GameAudioProvider } from "./contexts/GameAudioContext";
@@ -84,6 +85,7 @@ const SettingsPage = lazy(() => import("./pages/SettingsPage"));
 const ClueJournalPage = lazy(() => import("./pages/ClueJournalPage"));
 const ResearchMinigamePage = lazy(() => import("./pages/ResearchMinigamePage"));
 const LoreTutorialHubPage = lazy(() => import("./pages/LoreTutorialHubPage"));
+const MoralityLeaderboardPage = lazy(() => import("./pages/MoralityLeaderboardPage"));
 
 /* ═══ LOADING FALLBACK ═══ */
 function PageLoader() {
@@ -153,6 +155,7 @@ function Router() {
         <Route path="/clue-journal" component={ClueJournalPage} />
         <Route path="/research-minigame" component={ResearchMinigamePage} />
         <Route path="/lore-tutorials" component={LoreTutorialHubPage} />
+        <Route path="/morality-census" component={MoralityLeaderboardPage} />
         <Route path="/awakening">{() => <AwakeningPage />}</Route>
         <Route path="/404" component={NotFound} />
         <Route component={NotFound} />
@@ -230,6 +233,7 @@ function App() {
       <ThemeProvider defaultTheme="dark" switchable>
         <GamificationProvider>
           <GameProvider>
+            <MoralityThemeProvider>
             <SoundProvider>
               <AmbientMusicProvider>
               <GameAudioInner>
@@ -244,6 +248,7 @@ function App() {
               </GameAudioInner>
               </AmbientMusicProvider>
             </SoundProvider>
+            </MoralityThemeProvider>
           </GameProvider>
         </GamificationProvider>
       </ThemeProvider>

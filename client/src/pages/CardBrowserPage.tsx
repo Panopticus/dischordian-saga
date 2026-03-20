@@ -8,6 +8,8 @@ import {
 } from "lucide-react";
 import { Link } from "wouter";
 import TutorialTrigger from "@/components/TutorialTrigger";
+import { useAutoTutorial } from "@/hooks/useAutoTutorial";
+import AutoTutorialPrompt from "@/components/AutoTutorialPrompt";
 
 const CARD_TYPES = ["character", "action", "combat", "reaction", "event", "item", "location", "master", "political"];
 const RARITIES = ["common", "uncommon", "rare", "epic", "legendary", "mythic", "neyon"];
@@ -27,6 +29,7 @@ const RARITY_BADGE_COLORS: Record<string, string> = {
 };
 
 export default function CardBrowserPage() {
+  const { autoTutorial, showAutoTutorial, launchTutorial, dismissTutorial, snoozeTutorial } = useAutoTutorial("/cards");
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
   const [cardType, setCardType] = useState<string | undefined>();
@@ -80,6 +83,16 @@ export default function CardBrowserPage() {
   };
 
   return (
+    <>
+    {autoTutorial && (
+      <AutoTutorialPrompt
+        tutorial={autoTutorial}
+        show={showAutoTutorial}
+        onLaunch={launchTutorial}
+        onDismiss={dismissTutorial}
+        onSnooze={snoozeTutorial}
+      />
+    )}
     <div className="min-h-screen pb-24">
       {/* Header */}
       <div className="border-b border-border/30 bg-card/30 backdrop-blur-sm sticky top-0 z-20">
@@ -395,6 +408,7 @@ export default function CardBrowserPage() {
         )}
       </AnimatePresence>
     </div>
+    </>
   );
 }
 

@@ -11,6 +11,8 @@ import {
 } from "lucide-react";
 import { useGamification } from "@/contexts/GamificationContext";
 import TutorialTrigger from "@/components/TutorialTrigger";
+import { useAutoTutorial } from "@/hooks/useAutoTutorial";
+import AutoTutorialPrompt from "@/components/AutoTutorialPrompt";
 
 interface GameTile {
   href: string;
@@ -206,11 +208,22 @@ const SIMULATIONS: GameTile[] = [
 
 export default function GamesPage() {
   const gam = useGamification();
+  const { autoTutorial, showAutoTutorial, launchTutorial, dismissTutorial, snoozeTutorial } = useAutoTutorial("/games");
 
   const primarySims = SIMULATIONS.filter(s => s.primary);
   const supportSims = SIMULATIONS.filter(s => !s.primary);
 
   return (
+    <>
+    {autoTutorial && (
+      <AutoTutorialPrompt
+        tutorial={autoTutorial}
+        show={showAutoTutorial}
+        onLaunch={launchTutorial}
+        onDismiss={dismissTutorial}
+        onSnooze={snoozeTutorial}
+      />
+    )}
     <div className="min-h-screen pb-8 animate-materialize">
       {/* ═══ CADES HEADER ═══ */}
       <div className="px-4 sm:px-6 pt-6 pb-6">
@@ -382,5 +395,6 @@ export default function GamesPage() {
         </div>
       </div>
     </div>
+    </>
   );
 }

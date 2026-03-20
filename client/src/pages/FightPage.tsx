@@ -27,6 +27,8 @@ import {
 import FightArena3D from "@/game/FightArena3D";
 import LandscapeEnforcer from "@/components/LandscapeEnforcer";
 import TutorialTrigger from "@/components/TutorialTrigger";
+import { useAutoTutorial } from "@/hooks/useAutoTutorial";
+import AutoTutorialPrompt from "@/components/AutoTutorialPrompt";
 import {
   ARENA_LORE_OPENING, STORY_CHAPTERS, FIGHTER_LORE,
   THE_PRISONER, getPrisonerStats,
@@ -56,6 +58,7 @@ const FACTION_COLORS: Record<string, string> = {
 
 export default function FightPage() {
   const gam = useGamification();
+  const { autoTutorial, showAutoTutorial, launchTutorial, dismissTutorial, snoozeTutorial } = useAutoTutorial("/fight");
   const { recordAndReward } = useContentReward();
   const { state: gameState } = useGame();
   useGameAreaBGM("arena_battle");
@@ -324,6 +327,16 @@ export default function FightPage() {
      ═══════════════════════════════════════════════════════ */
   if (phase === "title") {
     return (
+      <>
+      {autoTutorial && (
+        <AutoTutorialPrompt
+          tutorial={autoTutorial}
+          show={showAutoTutorial}
+          onLaunch={launchTutorial}
+          onDismiss={dismissTutorial}
+          onSnooze={snoozeTutorial}
+        />
+      )}
       <div className="min-h-screen flex flex-col items-center justify-center p-4 relative overflow-hidden"
         style={{ background: "radial-gradient(ellipse at 50% 30%, #0d1a2e 0%, #070b14 50%, #030508 100%)" }}>
         {/* Animated particles */}
@@ -475,6 +488,7 @@ export default function FightPage() {
           </div>
         </motion.div>
       </div>
+      </>
     );
   }
 

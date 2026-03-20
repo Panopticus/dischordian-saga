@@ -1557,3 +1557,24 @@
 - [x] Wire unlockables into character sheet and fight page combat bonuses
 #### Testing
 - [x] Write vitest tests for LoreTutorialHub, TutorialTrigger, CSV import/export, morality unlockables (47 tests passing)
+
+### Phase 67: Auto-Trigger Tutorials, Morality Visual Theming, Community Morality Leaderboard
+#### Auto-Trigger Tutorials on First Visit
+- [x] Build useAutoTutorial hook that checks if player has visited a page before
+- [x] Auto-launch the relevant tutorial on first visit with a skip/dismiss option
+- [x] Track dismissed tutorials so they don't re-trigger
+- [x] Integrate auto-trigger into key game pages (Fight, Games, Cards)
+#### Morality Visual Theming
+- [x] Create MoralityThemeProvider that applies CSS variables based on morality score
+- [x] Machine alignment: cold reds/silvers/steel color palette shift
+- [x] Humanity alignment: warm greens/emerald color palette shift
+- [x] Balanced alignment: default cyan/amber theme
+- [x] Apply theme to AppShell, nav, cards, and key UI surfaces via CSS variable overrides
+- [x] Unlock visual themes through morality unlockables system
+#### Community Morality Leaderboard
+- [x] Add server endpoint to aggregate morality scores across all citizens
+- [x] Build community morality distribution chart (Machine vs Balanced vs Humanity)
+- [x] Show faction counts, average scores, and top players per faction
+- [x] Add /morality-census page accessible from sidebar navigation
+#### Testing
+- [x] Write vitest tests for auto-trigger, morality theming, and leaderboard features (25 tests passing)
