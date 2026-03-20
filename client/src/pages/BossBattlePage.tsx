@@ -3,7 +3,7 @@
    ═══════════════════════════════════════════════════════ */
 import { useState, useCallback, useMemo, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Swords, Shield, Heart, Zap, RotateCcw, Skull, Trophy, Target, Crown, AlertTriangle } from "lucide-react";
+import { Swords, Shield, Heart, Zap, RotateCcw, Skull, Trophy, Target, Crown, AlertTriangle, Star, Gem, FlaskConical, Sparkles } from "lucide-react";
 import { useGame } from "@/contexts/GameContext";
 import { useSound } from "@/contexts/SoundContext";
 import { useGamification } from "@/contexts/GamificationContext";
@@ -112,10 +112,12 @@ function BossSelect({ onSelect }: { onSelect: (boss: BossEncounter) => void }) {
 }
 
 export default function BossBattlePage() {
-  const { state: gameState } = useGame();
+  const { state: gameState, addMaterial } = useGame();
   const { playSFX, initAudio, audioReady } = useSound();
   const { discoverEntry } = useGamification();
   const [, navigate] = useLocation();
+  const [rewardPhase, setRewardPhase] = useState<"card" | "rewards" | "complete" | null>(null);
+  const [rewardsClaimed, setRewardsClaimed] = useState(false);
 
   const [battleState, setBattleState] = useState<BossBattleState | null>(null);
   const [selectedAttacker, setSelectedAttacker] = useState<string | null>(null);
@@ -185,20 +187,279 @@ export default function BossBattlePage() {
   return (
     <LandscapeEnforcer forceRotate message="Boss encounters are best experienced in landscape mode.">
     <div className={`min-h-screen flex flex-col bg-gradient-to-b ${battleState.bossPhase === 3 ? "from-red-900/20" : battleState.bossPhase === 2 ? "from-purple-900/20" : "from-slate-900/20"} to-black`}>
-      {winner && (
+      {/* ═══ DEFEAT SCREEN ═══ */}
+      {winner && winner !== "player" && (
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="fixed inset-0 z-50 flex items-center justify-center p-4" style={{ background: "rgba(0,0,0,0.9)" }}>
           <motion.div initial={{ scale: 0.8 }} animate={{ scale: 1 }} className="text-center max-w-sm">
-            <img src={currentBoss.image} alt="" className={`w-20 h-20 rounded-full mx-auto mb-4 object-cover ring-2 ${winner === "player" ? "ring-amber-400/50 grayscale-[50%]" : "ring-red-400/50"}`} />
-            <h2 className={`font-display text-2xl tracking-[0.2em] mb-2 ${winner === "player" ? "text-amber-400" : "text-red-400"}`}>{winner === "player" ? "BOSS DEFEATED" : "DEFEATED"}</h2>
-            <p className="font-mono text-xs text-muted-foreground/70 italic mb-3">"{winner === "player" ? currentBoss.defeatLine : currentBoss.victoryLine}"</p>
-            {winner === "player" && <p className="font-mono text-[10px] text-amber-400/60 mb-4">+{currentBoss.rewards.xp} XP | Card: {currentBoss.rewards.cardReward.name}</p>}
+            <img src={currentBoss.image} alt="" className="w-20 h-20 rounded-full mx-auto mb-4 object-cover ring-2 ring-red-400/50" />
+            <h2 className="font-display text-2xl tracking-[0.2em] mb-2 text-red-400">DEFEATED</h2>
+            <p className="font-mono text-xs text-muted-foreground/70 italic mb-3">"{currentBoss.victoryLine}"</p>
             <div className="flex gap-3 justify-center">
-              <button onClick={() => { setBattleState(null); setCurrentBoss(null); }} className="px-5 py-2 rounded-md font-mono text-xs" style={{ background: "rgba(251,191,36,0.1)", border: "1px solid rgba(251,191,36,0.3)", color: "rgb(251,191,36)" }}>
-                <RotateCcw size={12} className="inline mr-1.5" />REMATCH
+              <button onClick={() => { setBattleState(null); setCurrentBoss(null); setRewardPhase(null); setRewardsClaimed(false); }} className="px-5 py-2 rounded-md font-mono text-xs" style={{ background: "rgba(251,191,36,0.1)", border: "1px solid rgba(251,191,36,0.3)", color: "rgb(251,191,36)" }}>
+                <RotateCcw size={12} className="inline mr-1.5" />RETRY
               </button>
               <button onClick={() => navigate("/ark")} className="px-5 py-2 rounded-md font-mono text-xs" style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", color: "rgba(255,255,255,0.5)" }}>EXIT</button>
             </div>
           </motion.div>
+        </motion.div>
+      )}
+
+      {/* ═══ BOSS DEFEATED — REWARD CELEBRATION ═══ */}
+      {winner === "player" && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 overflow-y-auto"
+          style={{ background: "radial-gradient(ellipse at 50% 30%, rgba(251,191,36,0.08) 0%, rgba(0,0,0,0.95) 60%)" }}
+        >
+          {/* Phase 1: Card Reveal */}
+          {(!rewardPhase || rewardPhase === "card") && (
+            <motion.div
+              initial={{ scale: 0.5, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ type: "spring", damping: 12, stiffness: 100 }}
+              className="text-center max-w-md w-full"
+            >
+              {/* Boss defeated title */}
+              <motion.div
+                initial={{ y: -30, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: 0.2 }}
+                className="mb-6"
+              >
+                <div className="flex items-center justify-center gap-2 mb-2">
+                  <Star size={16} className="text-amber-400" />
+                  <h2 className="font-display text-2xl sm:text-3xl tracking-[0.25em] text-amber-400">BOSS DEFEATED</h2>
+                  <Star size={16} className="text-amber-400" />
+                </div>
+                <p className="font-mono text-xs text-muted-foreground/60 italic">"{currentBoss.defeatLine}"</p>
+              </motion.div>
+
+              {/* Card Reward — Big reveal */}
+              <motion.div
+                initial={{ rotateY: 180, opacity: 0 }}
+                animate={{ rotateY: 0, opacity: 1 }}
+                transition={{ delay: 0.6, duration: 0.8, type: "spring" }}
+                className="relative mx-auto mb-6"
+                style={{ maxWidth: "280px", perspective: "1000px" }}
+              >
+                <div className="rounded-xl overflow-hidden" style={{
+                  border: "2px solid rgba(251,191,36,0.5)",
+                  boxShadow: "0 0 40px rgba(251,191,36,0.2), 0 0 80px rgba(251,191,36,0.1), inset 0 0 20px rgba(251,191,36,0.05)",
+                  background: "linear-gradient(180deg, rgba(20,10,0,0.95) 0%, rgba(10,5,0,0.98) 100%)"
+                }}>
+                  {/* Card Art */}
+                  {currentBoss.rewards.cardReward.imageUrl && (
+                    <div className="w-full aspect-[4/3] overflow-hidden">
+                      <img
+                        src={currentBoss.rewards.cardReward.imageUrl}
+                        alt={currentBoss.rewards.cardReward.name}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                  )}
+                  {/* Card Info */}
+                  <div className="p-4">
+                    <div className="flex items-center gap-2 mb-1">
+                      <Sparkles size={14} className="text-amber-400" />
+                      <h3 className="font-display text-lg text-amber-400 tracking-wider">{currentBoss.rewards.cardReward.name}</h3>
+                    </div>
+                    <div className="flex items-center gap-2 mb-3">
+                      <span className="font-mono text-[9px] px-2 py-0.5 rounded-full bg-amber-400/10 text-amber-400 border border-amber-400/30">LEGENDARY</span>
+                      <span className="font-mono text-[10px] text-muted-foreground/50 uppercase">{currentBoss.rewards.cardReward.type}</span>
+                    </div>
+                    <div className="flex items-center gap-3 mb-3">
+                      <span className="font-mono text-[10px] text-red-400"><Swords size={10} className="inline mr-0.5" />{currentBoss.rewards.cardReward.attack} ATK</span>
+                      <span className="font-mono text-[10px] text-blue-400"><Shield size={10} className="inline mr-0.5" />{currentBoss.rewards.cardReward.defense} DEF</span>
+                      <span className="font-mono text-[10px] text-amber-400"><Heart size={10} className="inline mr-0.5" />{currentBoss.rewards.cardReward.cost} COST</span>
+                    </div>
+                    <div className="rounded-md p-2.5 mb-2" style={{ background: "rgba(251,191,36,0.05)", border: "1px solid rgba(251,191,36,0.1)" }}>
+                      <p className="font-mono text-[9px] text-amber-400/50 tracking-wider mb-1">ABILITY</p>
+                      <p className="font-mono text-[11px] text-foreground/80">{currentBoss.rewards.cardReward.ability}</p>
+                    </div>
+                    <p className="font-mono text-[10px] text-muted-foreground/40 italic">"{currentBoss.rewards.cardReward.lore}"</p>
+                  </div>
+                </div>
+                {/* Glow particles */}
+                <div className="absolute -inset-4 pointer-events-none">
+                  {[...Array(6)].map((_, i) => (
+                    <motion.div
+                      key={i}
+                      className="absolute w-1 h-1 rounded-full bg-amber-400"
+                      initial={{ opacity: 0, scale: 0 }}
+                      animate={{
+                        opacity: [0, 0.8, 0],
+                        scale: [0, 1.5, 0],
+                        x: [0, (Math.random() - 0.5) * 100],
+                        y: [0, (Math.random() - 0.5) * 100],
+                      }}
+                      transition={{ delay: 0.8 + i * 0.15, duration: 1.5, repeat: Infinity, repeatDelay: 2 }}
+                      style={{ left: `${50 + (Math.random() - 0.5) * 80}%`, top: `${50 + (Math.random() - 0.5) * 80}%` }}
+                    />
+                  ))}
+                </div>
+              </motion.div>
+
+              <motion.p
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 1.4 }}
+                className="font-mono text-[10px] text-amber-400/40 tracking-wider mb-4"
+              >
+                CARD ADDED TO YOUR COLLECTION
+              </motion.p>
+
+              <motion.button
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 1.6 }}
+                onClick={() => setRewardPhase("rewards")}
+                className="px-6 py-2.5 rounded-md font-mono text-xs tracking-wider"
+                style={{ background: "rgba(251,191,36,0.12)", border: "1px solid rgba(251,191,36,0.3)", color: "rgb(251,191,36)" }}
+              >
+                VIEW ALL REWARDS →
+              </motion.button>
+            </motion.div>
+          )}
+
+          {/* Phase 2: All Rewards Summary */}
+          {rewardPhase === "rewards" && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="text-center max-w-sm w-full"
+            >
+              <h2 className="font-display text-xl tracking-[0.2em] text-amber-400 mb-1">BATTLE REWARDS</h2>
+              <p className="font-mono text-[10px] text-muted-foreground/50 mb-6">{currentBoss.name} — DEFEATED</p>
+
+              <div className="space-y-3 mb-6">
+                {/* XP Reward */}
+                <motion.div
+                  initial={{ x: -30, opacity: 0 }}
+                  animate={{ x: 0, opacity: 1 }}
+                  transition={{ delay: 0.1 }}
+                  className="flex items-center gap-3 px-4 py-3 rounded-lg"
+                  style={{ background: "rgba(251,191,36,0.06)", border: "1px solid rgba(251,191,36,0.15)" }}
+                >
+                  <div className="w-8 h-8 rounded-full flex items-center justify-center" style={{ background: "rgba(251,191,36,0.1)" }}>
+                    <Trophy size={16} className="text-amber-400" />
+                  </div>
+                  <div className="flex-1 text-left">
+                    <p className="font-mono text-[10px] text-muted-foreground/50">EXPERIENCE</p>
+                    <p className="font-mono text-sm text-amber-400 font-bold">+{currentBoss.rewards.xp} XP</p>
+                  </div>
+                </motion.div>
+
+                {/* Dream Tokens */}
+                <motion.div
+                  initial={{ x: -30, opacity: 0 }}
+                  animate={{ x: 0, opacity: 1 }}
+                  transition={{ delay: 0.2 }}
+                  className="flex items-center gap-3 px-4 py-3 rounded-lg"
+                  style={{ background: "rgba(255,165,0,0.06)", border: "1px solid rgba(255,165,0,0.15)" }}
+                >
+                  <div className="w-8 h-8 rounded-full flex items-center justify-center" style={{ background: "rgba(255,165,0,0.1)" }}>
+                    <Gem size={16} className="text-orange-400" />
+                  </div>
+                  <div className="flex-1 text-left">
+                    <p className="font-mono text-[10px] text-muted-foreground/50">DREAM TOKENS</p>
+                    <p className="font-mono text-sm text-orange-400 font-bold">+{currentBoss.rewards.dreamTokens}</p>
+                  </div>
+                </motion.div>
+
+                {/* Material Drops */}
+                <motion.div
+                  initial={{ x: -30, opacity: 0 }}
+                  animate={{ x: 0, opacity: 1 }}
+                  transition={{ delay: 0.3 }}
+                  className="flex items-center gap-3 px-4 py-3 rounded-lg"
+                  style={{ background: "rgba(51,226,230,0.06)", border: "1px solid rgba(51,226,230,0.15)" }}
+                >
+                  <div className="w-8 h-8 rounded-full flex items-center justify-center" style={{ background: "rgba(51,226,230,0.1)" }}>
+                    <FlaskConical size={16} className="text-cyan-400" />
+                  </div>
+                  <div className="flex-1 text-left">
+                    <p className="font-mono text-[10px] text-muted-foreground/50">CRAFTING MATERIALS</p>
+                    <p className="font-mono text-sm text-cyan-400 font-bold">Boss Essence + Rare Catalysts</p>
+                  </div>
+                </motion.div>
+
+                {/* Legendary Card */}
+                <motion.div
+                  initial={{ x: -30, opacity: 0 }}
+                  animate={{ x: 0, opacity: 1 }}
+                  transition={{ delay: 0.4 }}
+                  className="flex items-center gap-3 px-4 py-3 rounded-lg"
+                  style={{ background: "rgba(168,85,247,0.06)", border: "1px solid rgba(168,85,247,0.15)" }}
+                >
+                  <div className="w-8 h-8 rounded-full flex items-center justify-center" style={{ background: "rgba(168,85,247,0.1)" }}>
+                    <Crown size={16} className="text-purple-400" />
+                  </div>
+                  <div className="flex-1 text-left">
+                    <p className="font-mono text-[10px] text-muted-foreground/50">LEGENDARY CARD</p>
+                    <p className="font-mono text-sm text-purple-400 font-bold">{currentBoss.rewards.cardReward.name}</p>
+                  </div>
+                </motion.div>
+              </div>
+
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.6 }}
+                className="flex gap-3 justify-center"
+              >
+                <button
+                  onClick={() => {
+                    if (!rewardsClaimed) {
+                      // Grant material drops for boss kill
+                      addMaterial("void_catalyst", 2);
+                      addMaterial("dream_shard", 3);
+                      addMaterial("neural_thread", 1);
+                      setRewardsClaimed(true);
+                    }
+                    setBattleState(null);
+                    setCurrentBoss(null);
+                    setRewardPhase(null);
+                    setRewardsClaimed(false);
+                  }}
+                  className="px-5 py-2 rounded-md font-mono text-xs tracking-wider"
+                  style={{ background: "rgba(251,191,36,0.1)", border: "1px solid rgba(251,191,36,0.3)", color: "rgb(251,191,36)" }}
+                >
+                  <RotateCcw size={12} className="inline mr-1.5" />FIGHT AGAIN
+                </button>
+                <button
+                  onClick={() => {
+                    if (!rewardsClaimed) {
+                      addMaterial("void_catalyst", 2);
+                      addMaterial("dream_shard", 3);
+                      addMaterial("neural_thread", 1);
+                      setRewardsClaimed(true);
+                    }
+                    navigate("/forge");
+                  }}
+                  className="px-5 py-2 rounded-md font-mono text-xs tracking-wider"
+                  style={{ background: "rgba(51,226,230,0.1)", border: "1px solid rgba(51,226,230,0.3)", color: "var(--neon-cyan)" }}
+                >
+                  <FlaskConical size={12} className="inline mr-1.5" />GO TO FORGE
+                </button>
+                <button
+                  onClick={() => {
+                    if (!rewardsClaimed) {
+                      addMaterial("void_catalyst", 2);
+                      addMaterial("dream_shard", 3);
+                      addMaterial("neural_thread", 1);
+                      setRewardsClaimed(true);
+                    }
+                    navigate("/ark");
+                  }}
+                  className="px-5 py-2 rounded-md font-mono text-xs tracking-wider"
+                  style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", color: "rgba(255,255,255,0.5)" }}
+                >
+                  EXIT
+                </button>
+              </motion.div>
+            </motion.div>
+          )}
         </motion.div>
       )}
 

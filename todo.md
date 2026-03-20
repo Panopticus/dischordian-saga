@@ -1664,3 +1664,9 @@
 - [x] Generate 7 loredex images (Elara, Overseer, Veridian VI, Prison Planet, Battle of Nexon, Operation Trojan, Fall of Reality)
 - [x] Generate 24 boss card images (3 per boss: unit, spell, artifact themes for 8 bosses)
 - [x] Upload all 32 generated images to CDN and wire into app (0 remaining empty imageUrls)
+
+### Phase 68j: Card Sacrifice Flow, Materials Nav, Boss Reward Screen
+- [x] Test and fix card sacrifice flow end-to-end
+- [x] Add materials count indicator to navigation bar (+ Forge link in header and nav)
+- [x] Build boss battle reward screen with two-phase card art celebration animation
+- [x] Comprehensive project analysis for missing features and improvements

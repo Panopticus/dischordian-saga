@@ -136,6 +136,7 @@ const SYSTEMS: SystemDef[] = [
     color: "var(--signal-green)",
     routes: [
       { path: "/research-lab", label: "RESEARCH LAB", icon: FlaskConical, desc: "Craft cards" },
+      { path: "/forge", label: "THE FORGE", icon: Hexagon, desc: "Craft equipment & items" },
       { path: "/deck-builder", label: "DECK BUILDER", icon: Shield, desc: "Build decks" },
       { path: "/cards", label: "CARD ARCHIVE", icon: Crown, desc: "Browse all cards" },
       { path: "/card-gallery", label: "CARD GALLERY", icon: Crown, desc: "Your collection" },
@@ -329,6 +330,32 @@ function SubsystemNav({ sys, location, onNavigate }: {
   );
 }
 
+/* ─── MATERIALS HUD ─── */
+function MaterialsHUD() {
+  const { state } = useGame();
+  const totalMaterials = useMemo(() => {
+    return Object.values(state.craftingMaterials).reduce((sum, qty) => sum + qty, 0);
+  }, [state.craftingMaterials]);
+  const uniqueMaterials = useMemo(() => {
+    return Object.keys(state.craftingMaterials).filter(k => state.craftingMaterials[k] > 0).length;
+  }, [state.craftingMaterials]);
+
+  if (totalMaterials === 0) return null;
+
+  return (
+    <Link href="/forge" className="flex items-center gap-1.5 px-2 py-1.5 rounded-md glass-sunk hover:bg-muted/50 transition-colors group mr-1.5">
+      <FlaskConical size={12} className="text-[var(--neon-cyan)] group-hover:text-[var(--neon-cyan)]" />
+      <span className="font-mono text-[11px] text-[var(--neon-cyan)] tracking-wider font-bold">
+        {totalMaterials}
+      </span>
+      <span className="hidden sm:inline font-mono text-[9px] text-muted-foreground/50 tracking-wider">MAT</span>
+      {uniqueMaterials >= 3 && (
+        <span className="w-1.5 h-1.5 rounded-full bg-[var(--signal-green)] shadow-[0_0_4px_var(--signal-green)] animate-pulse" />
+      )}
+    </Link>
+  );
+}
+
 /* ─── DREAM BALANCE HUD ─── */
 function DreamHUD() {
   const { isAuthenticated } = useAuth();
@@ -440,7 +467,8 @@ export default function CommandConsole({ children, elaraTTS }: { children: React
 
         <div className="flex-1" />
 
-        {/* Dream Balance HUD */}
+        {/* Materials & Dream Balance HUD */}
+        <MaterialsHUD />
         <DreamHUD />
 
         {/* Clearance Badge */}
