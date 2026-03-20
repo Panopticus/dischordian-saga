@@ -85,7 +85,7 @@ export default function DiscoveryGate({
         )}
 
         {/* Description */}
-        <p className="font-mono text-sm text-white/50 mb-6 leading-relaxed">
+        <p className="font-mono text-sm text-muted-foreground/70 mb-6 leading-relaxed">
           This system requires access to{" "}
           <span className="text-[var(--neon-cyan)] font-medium">{displayRoom}</span>.
           Explore the Inception Ark to discover new areas and unlock ship systems.
@@ -116,7 +116,7 @@ export default function DiscoveryGate({
         </Link>
 
         {/* Hint */}
-        <p className="font-mono text-[10px] text-white/20 mt-4 tracking-wider">
+        <p className="font-mono text-[10px] text-muted-foreground/35 mt-4 tracking-wider">
           Discover rooms to unlock new ship systems
         </p>
       </motion.div>

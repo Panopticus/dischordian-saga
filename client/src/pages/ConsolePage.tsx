@@ -325,20 +325,20 @@ export default function ConsolePage() {
                 <div className="absolute bottom-0 left-0 right-0 p-3 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
-                      <button onClick={goPrev} className="p-1 rounded hover:bg-white/10"><SkipBack size={16} /></button>
-                      <button onClick={goNext} className="p-1 rounded hover:bg-white/10"><SkipForward size={16} /></button>
+                      <button onClick={goPrev} className="p-1 rounded hover:bg-muted/60"><SkipBack size={16} /></button>
+                      <button onClick={goNext} className="p-1 rounded hover:bg-muted/60"><SkipForward size={16} /></button>
                       <span className="font-mono text-xs ml-2">{selectedMedia.title}</span>
                     </div>
                     <div className="flex items-center gap-1">
                       <button
                         onClick={() => setViewerExpanded(!viewerExpanded)}
-                        className="p-1 rounded hover:bg-white/10"
+                        className="p-1 rounded hover:bg-muted/60"
                       >
                         {viewerExpanded ? <Minimize2 size={14} /> : <Maximize2 size={14} />}
                       </button>
                       <button
                         onClick={() => setViewerPopped(true)}
-                        className="p-1 rounded hover:bg-white/10"
+                        className="p-1 rounded hover:bg-muted/60"
                         title="Pop out"
                       >
                         <ExternalLink size={14} />
@@ -879,7 +879,7 @@ export default function ConsolePage() {
               <span className="font-mono text-[9px]" style={{ color: theme.primary }}>
                 {selectedMedia.title}
               </span>
-              <button onClick={() => setViewerPopped(false)} className="p-0.5 rounded hover:bg-white/10">
+              <button onClick={() => setViewerPopped(false)} className="p-0.5 rounded hover:bg-muted/60">
                 <X size={12} />
               </button>
             </div>
@@ -892,11 +892,11 @@ export default function ConsolePage() {
               />
             </div>
             <div className="flex items-center justify-between px-2 py-1" style={{ background: theme.secondary }}>
-              <button onClick={goPrev} className="p-1 rounded hover:bg-white/10"><SkipBack size={12} /></button>
+              <button onClick={goPrev} className="p-1 rounded hover:bg-muted/60"><SkipBack size={12} /></button>
               <span className="font-mono text-[8px] opacity-40">
                 {currentVideoIndex + 1}/{mediaItems.filter((m) => m.type === "video").length}
               </span>
-              <button onClick={goNext} className="p-1 rounded hover:bg-white/10"><SkipForward size={12} /></button>
+              <button onClick={goNext} className="p-1 rounded hover:bg-muted/60"><SkipForward size={12} /></button>
             </div>
           </motion.div>
         )}

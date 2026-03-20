@@ -1,4 +1,7 @@
 import { useGameAreaBGM } from "@/contexts/GameAudioContext";
+import { useGame } from "@/contexts/GameContext";
+import { getCardMoralityModifier } from "@/game/moralityCardSystem";
+import MoralityCardIndicator, { MoralityCardSummaryPanel } from "@/components/MoralityCardIndicator";
 import { useState, useEffect, useCallback, useRef, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAuth } from "@/_core/hooks/useAuth";
@@ -97,6 +100,7 @@ const TUTORIAL_STEPS: TutorialStep[] = [
 export default function CardGamePage() {
   const { user } = useAuth();
   useGameAreaBGM("card_battle");
+  const { state: { moralityScore } } = useGame();
   const [screen, setScreen] = useState<GameScreen>("menu");
   const [tutorialStep, setTutorialStep] = useState(0);
   const [selectedFaction, setSelectedFaction] = useState<Faction | null>(null);
@@ -213,15 +217,38 @@ export default function CardGamePage() {
     }
   }, [battle?.turn, battle?.player.influence]);
 
-  // Deploy card to lane
+   // Deploy card to lane (with morality modifiers)
   const handleDeploy = useCallback((lane: Lane) => {
     if (!battle || !selectedCard || battle.activePlayer !== "player") return;
     if (!canDeploy(battle, selectedCard, lane)) return;
 
+    // Apply morality modifiers to the card before deploying
+    const card = battle.player.hand.find(c => c.uid === selectedCard);
+    if (card) {
+      const mod = getCardMoralityModifier(moralityScore, card.alignment);
+      if (mod.atkBonus > 0 || mod.energyCostModifier !== 0) {
+        // Clone battle and modify the card in hand before deploy
+        const modBattle = structuredClone(battle);
+        const handCard = modBattle.player.hand.find(c => c.uid === selectedCard);
+        if (handCard) {
+          handCard.currentPower += mod.atkBonus;
+          handCard.basePower += mod.atkBonus;
+          handCard.cost = Math.max(0, handCard.cost + mod.energyCostModifier);
+          if (mod.bonusKeyword && !handCard.keywords.includes(mod.bonusKeyword as any)) {
+            handCard.keywords.push(mod.bonusKeyword as any);
+          }
+        }
+        const newState = deployCard(modBattle, selectedCard, lane, "player");
+        setBattle(newState);
+        setSelectedCard(null);
+        return;
+      }
+    }
+
     const newState = deployCard(battle, selectedCard, lane, "player");
     setBattle(newState);
     setSelectedCard(null);
-  }, [battle, selectedCard]);
+  }, [battle, selectedCard, moralityScore]);
 
   // End player turn → combat → AI turn
   const handleEndTurn = useCallback(() => {
@@ -453,7 +480,7 @@ export default function CardGamePage() {
               {!isFirst && (
                 <button
                   onClick={() => setTutorialStep(tutorialStep - 1)}
-                  className="flex items-center gap-1.5 px-3 py-2 rounded-md font-mono text-xs transition-all hover:bg-white/5"
+                  className="flex items-center gap-1.5 px-3 py-2 rounded-md font-mono text-xs transition-all hover:bg-muted/50"
                   style={{ color: "var(--text-muted-ve)" }}
                 >
                   <ChevronLeft size={14} />
@@ -463,7 +490,7 @@ export default function CardGamePage() {
               {isFirst && (
                 <button
                   onClick={() => setScreen("menu")}
-                  className="flex items-center gap-1.5 px-3 py-2 rounded-md font-mono text-xs transition-all hover:bg-white/5"
+                  className="flex items-center gap-1.5 px-3 py-2 rounded-md font-mono text-xs transition-all hover:bg-muted/50"
                   style={{ color: "var(--text-muted-ve)" }}
                 >
                   <ChevronLeft size={14} />
@@ -1302,6 +1329,9 @@ export default function CardGamePage() {
                 D:{battle.player.deck.length} G:{battle.player.graveyard.length}
               </p>
             </div>
+            <div className="hidden sm:block">
+              <MoralityCardSummaryPanel moralityScore={moralityScore} />
+            </div>
           </div>
           <div className="flex items-center gap-1.5 sm:gap-2">
             {/* Player Influence */}
@@ -1341,7 +1371,9 @@ export default function CardGamePage() {
           <AnimatePresence>
             {battle.player.hand.map((card, i) => {
               const isSelected_ = selectedCard === card.uid;
-              const canPlay = isPlayerTurn && card.cardType === "character" && card.cost <= battle.player.energy;
+              const moralityMod = getCardMoralityModifier(moralityScore, card.alignment);
+              const effectiveCost = card.cost + moralityMod.energyCostModifier;
+              const canPlay = isPlayerTurn && card.cardType === "character" && effectiveCost <= battle.player.energy;
               return (
                 <motion.div
                   key={card.uid}
@@ -1356,24 +1388,28 @@ export default function CardGamePage() {
                   transition={{ delay: i * 0.03 }}
                   className="shrink-0"
                 >
-                  <GameCard
-                    card={{
-                      ...card,
-                      power: card.currentPower,
-                      health: card.currentHealth,
-                    }}
-                    size="sm"
-                    onClick={() => {
-                      if (!isPlayerTurn) return;
-                      if (isSelected_) {
-                        setSelectedCard(null);
-                      } else if (canPlay) {
-                        setSelectedCard(card.uid);
-                      }
-                    }}
-                    isSelected={isSelected_}
-                    className={canPlay ? "ring-1 ring-primary/30" : "opacity-50"}
-                  />
+                  <div className="relative">
+                    <MoralityCardIndicator moralityScore={moralityScore} cardAlignment={card.alignment} />
+                    <GameCard
+                      card={{
+                        ...card,
+                        power: card.currentPower + moralityMod.atkBonus,
+                        health: card.currentHealth,
+                        cost: effectiveCost,
+                      }}
+                      size="sm"
+                      onClick={() => {
+                        if (!isPlayerTurn) return;
+                        if (isSelected_) {
+                          setSelectedCard(null);
+                        } else if (canPlay) {
+                          setSelectedCard(card.uid);
+                        }
+                      }}
+                      isSelected={isSelected_}
+                      className={canPlay ? "ring-1 ring-primary/30" : "opacity-50"}
+                    />
+                  </div>
                 </motion.div>
               );
             })}
@@ -1438,7 +1474,7 @@ export default function CardGamePage() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm"
+            className="fixed inset-0 z-50 flex items-center justify-center bg-background/70 backdrop-blur-sm"
             onClick={() => setShowCardZoom(null)}
           >
             <motion.div

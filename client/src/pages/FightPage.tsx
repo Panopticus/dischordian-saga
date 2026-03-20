@@ -375,7 +375,7 @@ export default function FightPage() {
             <span className="text-cyan-400" style={{ textShadow: "0 0 40px rgba(34,211,238,0.4)" }}>THE COLLECTOR'S</span>
           </h1>
           <h1 className="font-display text-5xl sm:text-7xl font-black tracking-wider mb-2 leading-tight">
-            <span className="text-white/90" style={{ textShadow: "0 0 20px rgba(255,255,255,0.15)" }}>ARENA</span>
+            <span className="text-foreground" style={{ textShadow: "0 0 20px rgba(255,255,255,0.15)" }}>ARENA</span>
           </h1>
 
           {/* Tagline */}
@@ -428,7 +428,7 @@ export default function FightPage() {
             {/* Leaderboard */}
             <Link
               href="/fight-leaderboard"
-              className="w-full max-w-xs px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white/50 font-display text-sm tracking-wider hover:bg-white/10 hover:text-white/70 transition-all inline-flex items-center justify-center gap-1.5"
+              className="w-full max-w-xs px-4 py-2 rounded-lg bg-muted/40 border border-white/10 text-muted-foreground/70 font-display text-sm tracking-wider hover:bg-muted/60 hover:text-muted-foreground/90 transition-all inline-flex items-center justify-center gap-1.5"
             >
               <Trophy size={14} /> LEADERBOARD
             </Link>
@@ -480,8 +480,8 @@ export default function FightPage() {
               { label: "POINTS", value: gam.gameSave.fightPoints, color: "#22d3ee" },
               { label: "STORY", value: `${storyProgress.completedChapters.length}/${STORY_CHAPTERS.length}`, color: "#a78bfa" },
             ].map(s => (
-              <div key={s.label} className="text-center py-1.5 rounded bg-white/5 border border-white/5">
-                <div className="font-mono text-[8px] text-white/30 tracking-wider">{s.label}</div>
+              <div key={s.label} className="text-center py-1.5 rounded bg-muted/40 border border-white/5">
+                <div className="font-mono text-[8px] text-muted-foreground/50 tracking-wider">{s.label}</div>
                 <div className="font-display text-sm" style={{ color: s.color }}>{s.value}</div>
               </div>
             ))}
@@ -518,7 +518,7 @@ export default function FightPage() {
             localStorage.setItem("collectors_arena_lore_seen", "true");
             setPhase("story");
           }}
-          className="absolute top-4 right-4 font-mono text-xs text-white/30 hover:text-white/60 transition-colors z-10"
+          className="absolute top-4 right-4 font-mono text-xs text-muted-foreground/50 hover:text-muted-foreground/80 transition-colors z-10"
         >
           SKIP &gt;&gt;
         </button>
@@ -540,8 +540,8 @@ export default function FightPage() {
             )}
             <p className={`text-base sm:text-lg leading-relaxed ${
               currentLine.speaker === "narrator"
-                ? "font-mono text-white/60 italic"
-                : "font-mono text-white/80"
+                ? "font-mono text-muted-foreground/80 italic"
+                : "font-mono text-foreground/85"
             }`}
               style={currentLine.speaker !== "narrator" ? { color: currentLine.speakerColor || "#e2e8f0" } : undefined}
             >
@@ -553,11 +553,11 @@ export default function FightPage() {
         {/* Progress dots */}
         <div className="absolute bottom-8 flex gap-1.5">
           {ARENA_LORE_OPENING.map((_, i) => (
-            <div key={i} className={`w-1.5 h-1.5 rounded-full transition-all ${i <= loreIndex ? "bg-cyan-400/60" : "bg-white/10"}`} />
+            <div key={i} className={`w-1.5 h-1.5 rounded-full transition-all ${i <= loreIndex ? "bg-cyan-400/60" : "bg-muted/50"}`} />
           ))}
         </div>
 
-        <div className="absolute bottom-4 font-mono text-[10px] text-white/20">TAP TO CONTINUE</div>
+        <div className="absolute bottom-4 font-mono text-[10px] text-muted-foreground/35">TAP TO CONTINUE</div>
       </div>
     );
   }
@@ -571,7 +571,7 @@ export default function FightPage() {
       <div className="min-h-screen flex flex-col" style={{ background: "radial-gradient(ellipse at 50% 20%, #0d1a2e 0%, #070b14 60%, #030508 100%)" }}>
         {/* Header */}
         <div className="flex items-center justify-between px-4 py-3 border-b border-white/10">
-          <button onClick={() => setPhase("title")} className="text-white/50 hover:text-white font-mono text-sm flex items-center gap-1">
+          <button onClick={() => setPhase("title")} className="text-muted-foreground/70 hover:text-white font-mono text-sm flex items-center gap-1">
             <ChevronLeft size={16} /> BACK
           </button>
           <h2 className="font-display text-xs sm:text-sm tracking-[0.3em] text-cyan-400/80">STORY MODE</h2>
@@ -584,16 +584,16 @@ export default function FightPage() {
             <img src={ALL_FIGHTERS.find(f => f.id === "oracle")?.image || ""} alt="The Prisoner" className="w-full h-full object-cover" style={{ filter: storyProgress.completedChapters.length < 6 ? "brightness(0.5) saturate(0.3)" : "none" }} />
           </div>
           <div className="flex-1 min-w-0">
-            <div className="font-display text-sm text-white/80">
+            <div className="font-display text-sm text-foreground/85">
               {storyProgress.completedChapters.length >= 10 ? "The Oracle" : storyProgress.completedChapters.length >= 6 ? "The Awakening" : "The Prisoner"}
             </div>
             <div className="font-mono text-[9px] text-purple-400/60">{prisonerStats.special.name}</div>
           </div>
           <div className="flex gap-2 text-center">
-            <div><div className="font-mono text-[8px] text-white/30">HP</div><div className="font-mono text-xs text-red-400">{prisonerStats.hp}</div></div>
-            <div><div className="font-mono text-[8px] text-white/30">ATK</div><div className="font-mono text-xs text-amber-400">{prisonerStats.attack}</div></div>
-            <div><div className="font-mono text-[8px] text-white/30">DEF</div><div className="font-mono text-xs text-green-400">{prisonerStats.defense}</div></div>
-            <div><div className="font-mono text-[8px] text-white/30">SPD</div><div className="font-mono text-xs text-cyan-400">{prisonerStats.speed}</div></div>
+            <div><div className="font-mono text-[8px] text-muted-foreground/50">HP</div><div className="font-mono text-xs text-red-400">{prisonerStats.hp}</div></div>
+            <div><div className="font-mono text-[8px] text-muted-foreground/50">ATK</div><div className="font-mono text-xs text-amber-400">{prisonerStats.attack}</div></div>
+            <div><div className="font-mono text-[8px] text-muted-foreground/50">DEF</div><div className="font-mono text-xs text-green-400">{prisonerStats.defense}</div></div>
+            <div><div className="font-mono text-[8px] text-muted-foreground/50">SPD</div><div className="font-mono text-xs text-cyan-400">{prisonerStats.speed}</div></div>
           </div>
         </div>
 
@@ -624,7 +624,7 @@ export default function FightPage() {
                 <div className="flex items-center gap-3">
                   {/* Chapter number */}
                   <div className={`w-8 h-8 rounded-lg flex items-center justify-center text-sm font-display font-bold shrink-0 ${
-                    isCompleted ? "bg-green-500/20 text-green-400" : isNext ? "bg-cyan-500/20 text-cyan-400" : "bg-white/5 text-white/20"
+                    isCompleted ? "bg-green-500/20 text-green-400" : isNext ? "bg-cyan-500/20 text-cyan-400" : "bg-muted/40 text-muted-foreground/35"
                   }`}>
                     {isCompleted ? <Star size={14} /> : ch.chapter}
                   </div>
@@ -632,7 +632,7 @@ export default function FightPage() {
                   {/* Chapter info */}
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2">
-                      <span className="font-display text-xs sm:text-sm text-white/80 truncate">{ch.title}</span>
+                      <span className="font-display text-xs sm:text-sm text-foreground/85 truncate">{ch.title}</span>
                       <span className={`font-mono text-[8px] px-1.5 py-0.5 rounded ${
                         ch.difficulty === "nightmare" ? "bg-red-500/20 text-red-400"
                         : ch.difficulty === "hard" ? "bg-amber-500/20 text-amber-400"
@@ -640,7 +640,7 @@ export default function FightPage() {
                         : "bg-green-500/20 text-green-400"
                       }`}>{ch.difficulty.toUpperCase()}</span>
                     </div>
-                    <div className="font-mono text-[9px] text-white/30 truncate">{ch.subtitle}</div>
+                    <div className="font-mono text-[9px] text-muted-foreground/50 truncate">{ch.subtitle}</div>
                   </div>
 
                   {/* Opponent portrait */}
@@ -673,7 +673,7 @@ export default function FightPage() {
               <div className="font-display text-xl text-amber-400" style={{ textShadow: "0 0 20px rgba(251,191,36,0.4)" }}>
                 GRAND CHAMPION
               </div>
-              <div className="font-mono text-xs text-white/40 mt-1">All fighters unlocked. The Arena is yours.</div>
+              <div className="font-mono text-xs text-muted-foreground/60 mt-1">All fighters unlocked. The Arena is yours.</div>
             </motion.div>
           )}
         </div>
@@ -710,7 +710,7 @@ export default function FightPage() {
       >
         {/* Chapter title */}
         <div className="absolute top-4 left-0 right-0 text-center">
-          <div className="font-mono text-[10px] text-white/20 tracking-[0.3em]">
+          <div className="font-mono text-[10px] text-muted-foreground/35 tracking-[0.3em]">
             CHAPTER {currentStoryChapter.chapter} — {currentStoryChapter.title}
           </div>
         </div>
@@ -744,7 +744,7 @@ export default function FightPage() {
               setPhase("story");
             }
           }}
-          className="absolute top-4 right-4 font-mono text-xs text-white/30 hover:text-white/60 transition-colors z-10"
+          className="absolute top-4 right-4 font-mono text-xs text-muted-foreground/50 hover:text-muted-foreground/80 transition-colors z-10"
         >
           SKIP &gt;&gt;
         </button>
@@ -769,7 +769,7 @@ export default function FightPage() {
 
             {/* Dialogue text */}
             <p className={`text-sm sm:text-base leading-relaxed ${
-              currentLine.speaker === "narrator" ? "font-mono text-white/50 italic" : "font-mono text-white/80"
+              currentLine.speaker === "narrator" ? "font-mono text-muted-foreground/70 italic" : "font-mono text-foreground/85"
             }`}>
               {currentLine.speaker === "prisoner" && currentLine.text.startsWith("(")
                 ? <span className="italic text-purple-300/70">{currentLine.text}</span>
@@ -795,7 +795,7 @@ export default function FightPage() {
         {/* Progress */}
         <div className="absolute bottom-4 flex gap-1">
           {dialogues.map((_, i) => (
-            <div key={i} className={`w-1.5 h-1.5 rounded-full ${i <= storyDialogueIndex ? "bg-cyan-400/50" : "bg-white/10"}`} />
+            <div key={i} className={`w-1.5 h-1.5 rounded-full ${i <= storyDialogueIndex ? "bg-cyan-400/50" : "bg-muted/50"}`} />
           ))}
         </div>
       </div>
@@ -811,10 +811,10 @@ export default function FightPage() {
       <div className="min-h-screen flex flex-col" style={{ background: "radial-gradient(ellipse at 50% 20%, #0d1a2e 0%, #070b14 60%, #030508 100%)" }}>
         {/* Header */}
         <div className="flex items-center justify-between px-4 py-3 border-b border-white/10">
-          <button onClick={() => setPhase("title")} className="text-white/50 hover:text-white font-mono text-sm flex items-center gap-1">
+          <button onClick={() => setPhase("title")} className="text-muted-foreground/70 hover:text-white font-mono text-sm flex items-center gap-1">
             <ChevronLeft size={16} /> BACK
           </button>
-          <h2 className="font-display text-xs sm:text-sm tracking-[0.3em] text-white/80">
+          <h2 className="font-display text-xs sm:text-sm tracking-[0.3em] text-foreground/85">
             {isTrainingMode && <span className="text-cyan-400 mr-2">[TRAINING]</span>}
             SELECT {selectingFor === "player" ? "YOUR FIGHTER" : "OPPONENT"}
           </h2>
@@ -824,7 +824,7 @@ export default function FightPage() {
         <div className="flex-1 flex flex-col lg:flex-row">
           {/* Fighter grid */}
           <div className="flex-1 p-3 overflow-y-auto">
-            <div className="font-mono text-[10px] text-white/30 tracking-[0.3em] mb-2 px-1">ARCHONS & ALLIES</div>
+            <div className="font-mono text-[10px] text-muted-foreground/50 tracking-[0.3em] mb-2 px-1">ARCHONS & ALLIES</div>
             <div className="grid grid-cols-3 sm:grid-cols-5 md:grid-cols-7 gap-2 mb-4">
               {STARTER_FIGHTERS.map(f => (
                 <FighterCard key={f.id} fighter={f} available={true}
@@ -836,7 +836,7 @@ export default function FightPage() {
               ))}
             </div>
 
-            <div className="font-mono text-[10px] text-white/30 tracking-[0.3em] mb-2 px-1">HIDDEN ROSTER</div>
+            <div className="font-mono text-[10px] text-muted-foreground/50 tracking-[0.3em] mb-2 px-1">HIDDEN ROSTER</div>
             <div className="grid grid-cols-3 sm:grid-cols-5 md:grid-cols-7 gap-2 mb-4">
               {UNLOCKABLE_FIGHTERS.map(f => {
                 const available = isFighterAvailable(f);
@@ -908,10 +908,10 @@ export default function FightPage() {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center p-4"
         style={{ background: "radial-gradient(ellipse at 50% 50%, #0d1a2e 0%, #070b14 60%, #030508 100%)" }}>
-        <button onClick={() => setPhase("select")} className="absolute top-4 left-4 text-white/50 hover:text-white font-mono text-sm flex items-center gap-1">
+        <button onClick={() => setPhase("select")} className="absolute top-4 left-4 text-muted-foreground/70 hover:text-white font-mono text-sm flex items-center gap-1">
           <ChevronLeft size={16} /> BACK
         </button>
-        <h2 className="font-display text-xl tracking-[0.3em] text-white/80 mb-8">SELECT DIFFICULTY</h2>
+        <h2 className="font-display text-xl tracking-[0.3em] text-foreground/85 mb-8">SELECT DIFFICULTY</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-2xl w-full">
           {DIFFICULTIES.map((d) => (
             <motion.button
@@ -922,11 +922,11 @@ export default function FightPage() {
               className={`p-5 rounded-lg border-2 text-left transition-all ${
                 selectedDifficulty.id === d.id
                   ? "border-cyan-500/60 bg-cyan-500/10"
-                  : "border-white/10 bg-white/5 hover:border-white/30"
+                  : "border-white/10 bg-muted/40 hover:border-white/30"
               }`}
             >
               <div className="font-display text-lg tracking-wider text-white mb-1">{d.name}</div>
-              <div className="font-mono text-xs text-white/40 mb-2">{d.description}</div>
+              <div className="font-mono text-xs text-muted-foreground/60 mb-2">{d.description}</div>
               <div className="flex gap-3 font-mono text-[10px]">
                 <span className="text-red-400">DMG x{d.damageMultiplier}</span>
                 <span className="text-amber-400">PTS x{d.pointsMultiplier}</span>
@@ -943,10 +943,10 @@ export default function FightPage() {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center p-4"
         style={{ background: "radial-gradient(ellipse at 50% 50%, #0d1a2e 0%, #070b14 60%, #030508 100%)" }}>
-        <button onClick={() => setPhase("difficulty")} className="absolute top-4 left-4 text-white/50 hover:text-white font-mono text-sm flex items-center gap-1">
+        <button onClick={() => setPhase("difficulty")} className="absolute top-4 left-4 text-muted-foreground/70 hover:text-white font-mono text-sm flex items-center gap-1">
           <ChevronLeft size={16} /> BACK
         </button>
-        <h2 className="font-display text-xl tracking-[0.3em] text-white/80 mb-8">SELECT ARENA</h2>
+        <h2 className="font-display text-xl tracking-[0.3em] text-foreground/85 mb-8">SELECT ARENA</h2>
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 max-w-3xl w-full mb-8">
           {ARENAS.map((a) => (
             <motion.button
@@ -1033,7 +1033,7 @@ export default function FightPage() {
             <img src={winner.image} alt={winner.name} className="w-full h-full object-cover" />
           </div>
           <h2 className="font-display text-2xl font-bold mb-1" style={{ color: winner.color }}>{winner.name}</h2>
-          <div className="font-mono text-sm text-white/40 mb-6">{isVictory ? "WINS THE MATCH" : "DEFEATS YOU"}</div>
+          <div className="font-mono text-sm text-muted-foreground/60 mb-6">{isVictory ? "WINS THE MATCH" : "DEFEATS YOU"}</div>
 
           {matchResult.perfect && (
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 }}
@@ -1044,8 +1044,8 @@ export default function FightPage() {
 
           {isVictory && (
             <div className="flex flex-wrap gap-3 justify-center mb-6">
-              <div className="px-4 py-2 rounded bg-white/5 border border-white/10">
-                <div className="font-mono text-[10px] text-white/40">POINTS</div>
+              <div className="px-4 py-2 rounded bg-muted/40 border border-white/10">
+                <div className="font-mono text-[10px] text-muted-foreground/60">POINTS</div>
                 <div className="font-display text-lg text-amber-400">+{ptGain}</div>
                 {bonusPt > 0 && (
                   <div className="font-mono text-[8px] text-purple-400">
@@ -1053,8 +1053,8 @@ export default function FightPage() {
                   </div>
                 )}
               </div>
-              <div className="px-4 py-2 rounded bg-white/5 border border-white/10">
-                <div className="font-mono text-[10px] text-white/40">STREAK</div>
+              <div className="px-4 py-2 rounded bg-muted/40 border border-white/10">
+                <div className="font-mono text-[10px] text-muted-foreground/60">STREAK</div>
                 <div className="font-display text-lg text-green-400">{gam.gameSave.winStreak}</div>
               </div>
               {holderPerks?.isHolder && (
@@ -1069,12 +1069,12 @@ export default function FightPage() {
           <div className="flex gap-3 justify-center">
             <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
               onClick={resetToSelect}
-              className="px-6 py-2.5 rounded-lg bg-white/10 border border-white/20 text-white font-mono text-sm hover:bg-white/20 transition-all">
+              className="px-6 py-2.5 rounded-lg bg-muted/50 border border-white/20 text-white font-mono text-sm hover:bg-white/20 transition-all">
               NEW FIGHT
             </motion.button>
             <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
               onClick={() => setPhase("title")}
-              className="px-6 py-2.5 rounded-lg bg-white/5 border border-white/10 text-white/50 font-mono text-sm hover:bg-white/10 transition-all">
+              className="px-6 py-2.5 rounded-lg bg-muted/40 border border-white/10 text-muted-foreground/70 font-mono text-sm hover:bg-muted/60 transition-all">
               MAIN MENU
             </motion.button>
           </div>
@@ -1124,8 +1124,8 @@ function FighterCard({ fighter, available, selected, onSelect, onHover, onLeave,
         </div>
 
         {!available && (
-          <div className="absolute inset-0 bg-black/60 flex flex-col items-center justify-center">
-            <Lock size={14} className="text-white/40 mb-1" />
+          <div className="absolute inset-0 bg-background/70 flex flex-col items-center justify-center">
+            <Lock size={14} className="text-muted-foreground/60 mb-1" />
             <div className="font-mono text-[9px]" style={{ color: canAfford ? "#22c55e" : "#ef4444" }}>
               {fighter.unlockCost} PTS
             </div>
@@ -1142,9 +1142,9 @@ function FighterCard({ fighter, available, selected, onSelect, onHover, onLeave,
       {/* Info button */}
       <button
         onClick={(e) => { e.stopPropagation(); onInfo(); }}
-        className="absolute top-0.5 left-0.5 w-5 h-5 rounded-full bg-black/60 flex items-center justify-center hover:bg-black/80 transition-colors z-10"
+        className="absolute top-0.5 left-0.5 w-5 h-5 rounded-full bg-background/70 flex items-center justify-center hover:bg-background/90 transition-colors z-10"
       >
-        <Info size={10} className="text-white/50" />
+        <Info size={10} className="text-muted-foreground/70" />
       </button>
     </div>
   );
@@ -1161,7 +1161,7 @@ function FighterDetailPanel({ fighter, traitBonuses: bonuses, activePotential }:
   if (!fighter) {
     return (
       <div className="flex-1 flex items-center justify-center">
-        <p className="font-mono text-sm text-white/20">Select a fighter</p>
+        <p className="font-mono text-sm text-muted-foreground/35">Select a fighter</p>
       </div>
     );
   }
@@ -1200,7 +1200,7 @@ function FighterDetailPanel({ fighter, traitBonuses: bonuses, activePotential }:
             {bonuses.breakdown.map((b, i) => (
               <div key={i} className="flex items-center justify-between">
                 <span className="font-mono text-[8px]" style={{ color: b.bonus.color }}>{b.bonus.label}</span>
-                <span className="font-mono text-[8px] text-white/40">
+                <span className="font-mono text-[8px] text-muted-foreground/60">
                   {b.bonus.attack > 0 && `+${b.bonus.attack} ATK `}
                   {b.bonus.defense > 0 && `+${b.bonus.defense} DEF `}
                   {b.bonus.hp > 0 && `+${b.bonus.hp} HP `}
@@ -1217,7 +1217,7 @@ function FighterDetailPanel({ fighter, traitBonuses: bonuses, activePotential }:
           <Zap size={12} style={{ color: fighter.special.color }} />
           <span className="font-mono text-[10px] font-bold" style={{ color: fighter.special.color }}>{fighter.special.name}</span>
         </div>
-        <p className="font-mono text-[9px] text-white/50">{fighter.special.description}</p>
+        <p className="font-mono text-[9px] text-muted-foreground/70">{fighter.special.description}</p>
       </div>
     </div>
   );
@@ -1235,27 +1235,27 @@ function MatchupBar({ selectedPlayer, selectedOpponent, onContinue }: {
     <div className="border-t lg:border-t-0 border-white/10 pt-3 lg:mt-3">
       <div className="flex gap-3 items-center mb-3">
         <div className="flex-1 text-center">
-          <div className="font-mono text-[9px] text-white/30 mb-1">PLAYER</div>
+          <div className="font-mono text-[9px] text-muted-foreground/50 mb-1">PLAYER</div>
           {selectedPlayer ? (
             <div className="w-10 h-10 mx-auto rounded-md overflow-hidden border-2" style={{ borderColor: selectedPlayer.color }}>
               <img src={selectedPlayer.image} alt="" className="w-full h-full object-cover" />
             </div>
           ) : (
             <div className="w-10 h-10 mx-auto rounded-md border-2 border-dashed border-white/20 flex items-center justify-center">
-              <span className="text-white/20 text-lg">?</span>
+              <span className="text-muted-foreground/35 text-lg">?</span>
             </div>
           )}
         </div>
         <Swords size={18} className="text-cyan-500/50" />
         <div className="flex-1 text-center">
-          <div className="font-mono text-[9px] text-white/30 mb-1">OPPONENT</div>
+          <div className="font-mono text-[9px] text-muted-foreground/50 mb-1">OPPONENT</div>
           {selectedOpponent ? (
             <div className="w-10 h-10 mx-auto rounded-md overflow-hidden border-2" style={{ borderColor: selectedOpponent.color }}>
               <img src={selectedOpponent.image} alt="" className="w-full h-full object-cover" />
             </div>
           ) : (
             <div className="w-10 h-10 mx-auto rounded-md border-2 border-dashed border-white/20 flex items-center justify-center">
-              <span className="text-white/20 text-lg">?</span>
+              <span className="text-muted-foreground/35 text-lg">?</span>
             </div>
           )}
         </div>
@@ -1304,8 +1304,8 @@ function LorePopup({ fighter, onClose }: { fighter: FighterData; onClose: () => 
         <div className="relative h-48 overflow-hidden">
           <img src={fighter.image} alt={fighter.name} className="w-full h-full object-cover" />
           <div className="absolute inset-0 bg-gradient-to-t from-[#070b14] via-transparent to-transparent" />
-          <button onClick={onClose} className="absolute top-3 right-3 w-8 h-8 rounded-full bg-black/60 flex items-center justify-center hover:bg-black/80">
-            <X size={16} className="text-white/60" />
+          <button onClick={onClose} className="absolute top-3 right-3 w-8 h-8 rounded-full bg-background/70 flex items-center justify-center hover:bg-background/90">
+            <X size={16} className="text-muted-foreground/80" />
           </button>
           <div className="absolute bottom-3 left-4 right-4">
             <div className="font-display text-2xl font-bold text-white">{fighter.name}</div>
@@ -1322,8 +1322,8 @@ function LorePopup({ fighter, onClose }: { fighter: FighterData; onClose: () => 
               { label: "DEF", value: fighter.defense, color: "#22c55e" },
               { label: "SPD", value: fighter.speed, color: "#22d3ee" },
             ].map(s => (
-              <div key={s.label} className="text-center py-2 rounded-lg bg-white/5 border border-white/5">
-                <div className="font-mono text-[8px] text-white/30">{s.label}</div>
+              <div key={s.label} className="text-center py-2 rounded-lg bg-muted/40 border border-white/5">
+                <div className="font-mono text-[8px] text-muted-foreground/50">{s.label}</div>
                 <div className="font-display text-lg font-bold" style={{ color: s.color }}>{s.value}</div>
               </div>
             ))}
@@ -1334,7 +1334,7 @@ function LorePopup({ fighter, onClose }: { fighter: FighterData; onClose: () => 
             <>
               <div>
                 <div className="font-display text-xs tracking-[0.2em] text-cyan-400/60 mb-2">BACKSTORY</div>
-                <p className="font-mono text-xs text-white/60 leading-relaxed">{lore.backstory}</p>
+                <p className="font-mono text-xs text-muted-foreground/80 leading-relaxed">{lore.backstory}</p>
               </div>
 
               {/* Quote */}
@@ -1349,7 +1349,7 @@ function LorePopup({ fighter, onClose }: { fighter: FighterData; onClose: () => 
                 <div className="font-display text-xs tracking-[0.2em] text-amber-400/60 mb-2">POWERS</div>
                 <div className="flex flex-wrap gap-1.5">
                   {lore.powers.map(p => (
-                    <span key={p} className="font-mono text-[10px] px-2 py-1 rounded bg-white/5 border border-white/10 text-white/50">
+                    <span key={p} className="font-mono text-[10px] px-2 py-1 rounded bg-muted/40 border border-white/10 text-muted-foreground/70">
                       {p}
                     </span>
                   ))}
@@ -1358,8 +1358,8 @@ function LorePopup({ fighter, onClose }: { fighter: FighterData; onClose: () => 
 
               {/* Arena Role */}
               <div className="flex items-center gap-2 pt-2 border-t border-white/5">
-                <Gamepad2 size={14} className="text-white/30" />
-                <span className="font-mono text-xs text-white/40">{lore.arenaRole}</span>
+                <Gamepad2 size={14} className="text-muted-foreground/50" />
+                <span className="font-mono text-xs text-muted-foreground/60">{lore.arenaRole}</span>
               </div>
             </>
           )}
@@ -1370,8 +1370,8 @@ function LorePopup({ fighter, onClose }: { fighter: FighterData; onClose: () => 
               <Zap size={14} style={{ color: fighter.special.color }} />
               <span className="font-display text-sm font-bold" style={{ color: fighter.special.color }}>{fighter.special.name}</span>
             </div>
-            <p className="font-mono text-xs text-white/50">{fighter.special.description}</p>
-            <div className="flex gap-3 mt-2 font-mono text-[10px] text-white/30">
+            <p className="font-mono text-xs text-muted-foreground/70">{fighter.special.description}</p>
+            <div className="flex gap-3 mt-2 font-mono text-[10px] text-muted-foreground/50">
               <span>DMG: {fighter.special.damage}</span>
               <span>CD: {(fighter.special.cooldown / 60).toFixed(1)}s</span>
             </div>
@@ -1389,14 +1389,14 @@ function StatBar({ label, value, max, icon, color, bonus }: { label: string; val
   return (
     <div className="flex items-center gap-2">
       <div className="w-4 flex justify-center" style={{ color }}>{icon}</div>
-      <div className="font-mono text-[9px] text-white/40 w-6">{label}</div>
-      <div className="flex-1 h-1.5 rounded-full bg-white/10 overflow-hidden relative">
+      <div className="font-mono text-[9px] text-muted-foreground/60 w-6">{label}</div>
+      <div className="flex-1 h-1.5 rounded-full bg-muted/50 overflow-hidden relative">
         {bonus && bonus > 0 && (
           <div className="absolute h-full rounded-full" style={{ width: `${Math.min(bonusPct, 100)}%`, background: "rgba(168,85,247,0.4)" }} />
         )}
         <div className="h-full rounded-full transition-all relative" style={{ width: `${pct}%`, background: color }} />
       </div>
-      <div className="font-mono text-[9px] text-white/60 w-5 text-right">
+      <div className="font-mono text-[9px] text-muted-foreground/80 w-5 text-right">
         {value}
         {bonus && bonus > 0 && <span className="text-purple-400">+{bonus}</span>}
       </div>

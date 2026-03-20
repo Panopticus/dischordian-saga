@@ -1578,3 +1578,56 @@
 - [x] Add /morality-census page accessible from sidebar navigation
 #### Testing
 - [x] Write vitest tests for auto-trigger, morality theming, and leaderboard features (25 tests passing)
+
+### Phase 68: Morality Story Branches, Faction Wars, Morality-Gated Cards
+#### Morality-Gated Story Branches
+- [x] Create morality-gated story data with exclusive transmissions/dialogs per alignment tier
+- [x] Add secret Panopticon transmissions for Machine-Ascended players in Ark Explorer
+- [x] Add Dreamer's Blessing narratives for Humanity-Ascended players
+- [x] Integrate gated content into Elara's tutorial dialog system
+- [x] Show locked/teaser content for players who haven't reached the threshold
+#### Faction Wars Event System
+- [x] Create faction wars data model with event definitions and territory zones
+- [x] Build server endpoints for faction war state, contributions, and results (client-side rotating events)
+- [x] Create FactionWarEventBanner with territory map, contribution UI, and live scores
+- [x] Add time-limited event mechanics with rotating 6-hour events and reward bonuses
+- [x] Wire faction wars into War Map page
+#### Morality-Gated Card Mechanics
+- [x] Add alignment property to card data (machine/humanity/neutral) via moralityCardSystem
+- [x] Enforce alignment bonuses/penalties during card play in battle engine
+- [x] Show alignment indicators on card UI (MoralityCardIndicator component)
+- [x] Add MoralityCardSummaryPanel to card game HUD
+- [x] Create alignment-based ATK/cost modifiers for each morality tier
+#### Testing
+- [ ] Write vitest tests for story branches, faction wars, and card alignment mechanics (pending)
+
+### Phase 68b: Character Art Paper Doll System
+- [ ] Research best character generation/paper doll games for approach
+- [ ] Create base character silhouettes for each species (DeMagi, Quarchon, Ne-Yon)
+- [ ] Build equipment slot system (weapon, armor, helm, accessory)
+- [ ] Implement layered rendering of base + equipment on Character Sheet
+- [ ] Make equipment visually appear on character portrait
+- [ ] Wire equipment stats into fight bonuses and game mechanics
+
+### Phase 68c: Crafting Economy
+- [ ] Design resource types: card essence (sacrifice), trade materials, combat catalysts
+- [ ] Build crafting skill tree system with multiple disciplines that level up
+- [ ] Create recipe database for weapons, armor, potions, ship upgrades, card enhancements
+- [ ] Implement card sacrifice mechanic that yields crafting essence
+- [ ] Wire Trade Empire resources as crafting materials
+- [ ] Add RNG combat drop system for rare catalysts from fight wins
+- [ ] Build crafting UI page with skill progression and recipe browser
+- [ ] Ensure crafted items have real benefits across all three core games
+
+### Phase 68d: Nano Banana Image Audit
+- [ ] Audit all pages for image improvement opportunities
+- [ ] Generate key art assets for rooms, characters, cards, UI elements
+
+### Phase 68e: Media Player Improvements
+- [ ] Improve media player functionality
+- [ ] Build admin track upload/management system for loading audio files
+
+### Phase 68f: Light/Dark Mode Fix
+- [x] Fix light/dark mode toggle - ensure theme switching works correctly
+- [x] Ensure all pages render properly in both light and dark modes
+- [x] Fix any invisible text or mismatched bg/text color pairs

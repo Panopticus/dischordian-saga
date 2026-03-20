@@ -577,7 +577,7 @@ export default function DeckBuilderPage() {
                           )}
                           {/* Owned indicator */}
                           {owned && (
-                            <div className="absolute bottom-1 left-1 px-1.5 py-0.5 rounded bg-black/70 text-[9px] font-mono text-green-400 z-10">
+                            <div className="absolute bottom-1 left-1 px-1.5 py-0.5 rounded bg-background/80 text-[9px] font-mono text-green-400 z-10">
                               x{owned.quantity}
                             </div>
                           )}

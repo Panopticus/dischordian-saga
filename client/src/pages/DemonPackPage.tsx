@@ -197,7 +197,7 @@ export default function DemonPackPage() {
                         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/40" />
                         <Icon size={36} className={`${pack.color} relative z-10`} />
                         <div className="absolute bottom-1 left-0 right-0 text-center">
-                          <span className="font-mono text-[8px] text-white/50">{pack.cardCount} CARDS</span>
+                          <span className="font-mono text-[8px] text-muted-foreground/70">{pack.cardCount} CARDS</span>
                         </div>
                       </div>
                       <h3 className={`font-display text-sm font-bold ${pack.color} mb-1`}>{pack.name}</h3>
@@ -209,7 +209,7 @@ export default function DemonPackPage() {
                       </div>
                     </div>
                     {!canAfford && (
-                      <div className="absolute inset-0 flex items-center justify-center bg-black/40 rounded-lg">
+                      <div className="absolute inset-0 flex items-center justify-center bg-muted/60 rounded-lg">
                         <span className="font-mono text-xs text-red-400">INSUFFICIENT DREAM</span>
                       </div>
                     )}

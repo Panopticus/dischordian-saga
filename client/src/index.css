@@ -127,6 +127,75 @@
   --chart-5: #00E055;
 }
 
+/* ═══════════════════════════════════════════════════════
+   LIGHT MODE — "Daylight Protocol"
+   Bright surfaces, deep ink text, same energy accents.
+   Applied when html does NOT have .dark class.
+   ═══════════════════════════════════════════════════════ */
+html:not(.dark) {
+  /* ── VOID FOUNDATION → LIGHT FOUNDATION ── */
+  --bg-void: #F0F2F8;
+  --bg-spotlight: #E8EBF4;
+  --bg-depth: #F5F6FA;
+  --bg-overlay: rgba(240, 242, 248, 0.9);
+
+  /* ── GLASS SURFACES → FROSTED SURFACES ── */
+  --glass-base: rgba(255, 255, 255, 0.7);
+  --glass-highlight: rgba(255, 255, 255, 0.9);
+  --glass-dark: rgba(230, 234, 245, 0.6);
+  --glass-border: rgba(56, 117, 250, 0.15);
+  --glass-shine: rgba(51, 226, 230, 0.08);
+
+  /* ── ENERGY SPECTRUM — slightly deeper for contrast on white ── */
+  --neon-cyan: #0EADB2;
+  --electric-blue: #2B5FD9;
+  --brand-gradient: linear-gradient(135deg, #0EADB2 0%, #2B5FD9 100%);
+  --orb-orange: #D97706;
+  --orange-gradient: linear-gradient(to right, #E8930A, #D97706);
+  --deep-purple: #7C3AED;
+  --signal-green: #059669;
+  --alert-red: #DC2626;
+
+  /* ── TEXT LUMINANCE → INK ── */
+  --text-lumina: #0F172A;
+  --text-dim: rgba(15, 23, 42, 0.85);
+  --text-muted-ve: rgba(15, 23, 42, 0.55);
+
+  /* ── THEME VARIABLES (Light mapped) ── */
+  --background: #F0F2F8;
+  --foreground: #0F172A;
+  --card: rgba(255, 255, 255, 0.8);
+  --card-foreground: #0F172A;
+  --popover: rgba(255, 255, 255, 0.98);
+  --popover-foreground: #0F172A;
+  --primary: #0EADB2;
+  --primary-foreground: #FFFFFF;
+  --secondary: rgba(230, 234, 245, 0.7);
+  --secondary-foreground: rgba(15, 23, 42, 0.7);
+  --muted: rgba(230, 234, 245, 0.6);
+  --muted-foreground: rgba(15, 23, 42, 0.55);
+  --accent: #D97706;
+  --accent-foreground: #FFFFFF;
+  --destructive: #DC2626;
+  --destructive-foreground: #FFFFFF;
+  --border: rgba(56, 117, 250, 0.12);
+  --input: rgba(230, 234, 245, 0.7);
+  --ring: #0EADB2;
+  --sidebar: rgba(240, 242, 248, 0.98);
+  --sidebar-foreground: rgba(15, 23, 42, 0.7);
+  --sidebar-accent: rgba(230, 234, 245, 0.5);
+  --sidebar-accent-foreground: #0F172A;
+  --sidebar-border: rgba(56, 117, 250, 0.1);
+  --sidebar-ring: #0EADB2;
+  --sidebar-primary: #0EADB2;
+  --sidebar-primary-foreground: #FFFFFF;
+  --chart-1: #0EADB2;
+  --chart-2: #D97706;
+  --chart-3: #DC2626;
+  --chart-4: #7C3AED;
+  --chart-5: #059669;
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
@@ -137,6 +206,10 @@
     /* Radial spotlight to draw focus to center */
     background: radial-gradient(ellipse at 50% 30%, var(--bg-spotlight) 0%, var(--bg-void) 70%);
     background-attachment: fixed;
+  }
+  /* Light mode body overrides */
+  html:not(.dark) body {
+    background: linear-gradient(180deg, var(--bg-spotlight) 0%, var(--bg-void) 100%);
   }
   button:not(:disabled),
   [role="button"]:not([aria-disabled="true"]),
@@ -221,13 +294,42 @@
   box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.4), 0 0 12px rgba(51, 226, 230, 0.2);
 }
 
-/* Glass highlight (hover state) */
+//* Glass highlight (hover state) */
 .glass-highlight {
   background: var(--glass-highlight);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
 }
 
+/* ── Light Mode Glass Overrides ── */
+html:not(.dark) .glass-float {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(56, 117, 250, 0.08);
+  border-top-color: rgba(56, 117, 250, 0.2);
+  border-bottom-color: rgba(56, 117, 250, 0.05);
+}
+html:not(.dark) .glass-sunk {
+  background: rgba(230, 234, 245, 0.5);
+  box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.06);
+}
+html:not(.dark) .glass-sunk:focus-within {
+  box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.06), 0 0 8px rgba(14, 173, 178, 0.15);
+}
+html:not(.dark) .hover-lift:hover {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1), 0 0 4px rgba(14, 173, 178, 0.08);
+}
+html:not(.dark) .dossier-card:hover {
+  border-color: rgba(14, 173, 178, 0.3);
+  box-shadow: 0 0 12px rgba(14, 173, 178, 0.08), 0 -2px 0 rgba(14, 173, 178, 0.05);
+}
+html:not(.dark) .grid-bg {
+  background-image:
+    linear-gradient(rgba(56, 117, 250, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(56, 117, 250, 0.03) 1px, transparent 1px);
+}
+html:not(.dark) .crt-scanlines::after,
+html:not(.dark) .crt-overlay {
+  display: none;
+}
 /* ═══════════════════════════════════════════════════════
    VOID ENERGY — GLOW EFFECTS (Light is Signal)
    ═══════════════════════════════════════════════════════ */
@@ -258,6 +360,17 @@
 .box-glow-purple {
   box-shadow: 0 0 12px rgba(160, 120, 255, 0.15), 0 0 30px rgba(160, 120, 255, 0.08);
 }
+
+/* ── Light Mode: Reduce glow intensity ── */
+html:not(.dark) .glow-cyan { text-shadow: 0 0 4px rgba(14, 173, 178, 0.3); }
+html:not(.dark) .glow-amber, html:not(.dark) .glow-orange { text-shadow: 0 0 4px rgba(217, 119, 6, 0.3); }
+html:not(.dark) .glow-red { text-shadow: 0 0 4px rgba(220, 38, 38, 0.3); }
+html:not(.dark) .glow-purple { text-shadow: 0 0 4px rgba(124, 58, 237, 0.3); }
+html:not(.dark) .glow-green { text-shadow: 0 0 4px rgba(5, 150, 105, 0.3); }
+html:not(.dark) .box-glow-cyan { box-shadow: 0 0 8px rgba(14, 173, 178, 0.1); }
+html:not(.dark) .box-glow-amber, html:not(.dark) .box-glow-orange { box-shadow: 0 0 8px rgba(217, 119, 6, 0.1); }
+html:not(.dark) .box-glow-red { box-shadow: 0 0 8px rgba(220, 38, 38, 0.1); }
+html:not(.dark) .box-glow-purple { box-shadow: 0 0 8px rgba(124, 58, 237, 0.1); }
 
 /* ═══════════════════════════════════════════════════════
    VOID ENERGY — ANIMATIONS & TRANSITIONS

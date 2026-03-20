@@ -360,14 +360,14 @@ export default function QuestTracker() {
                 <span className="font-display text-[9px] tracking-[0.25em] text-[var(--neon-cyan)]/70">
                   OBJECTIVES
                 </span>
-                <span className="font-mono text-[9px] text-white/30">
+                <span className="font-mono text-[9px] text-muted-foreground/50">
                   {completedCount}/{QUESTS.length}
                 </span>
               </div>
               <div className="flex items-center gap-1">
                 <button
                   onClick={() => setMinimized(true)}
-                  className="p-1 rounded hover:bg-white/5 text-white/30 hover:text-white/60 transition-colors"
+                  className="p-1 rounded hover:bg-muted/50 text-muted-foreground/50 hover:text-muted-foreground/80 transition-colors"
                 >
                   <ChevronDown size={12} />
                 </button>
@@ -406,14 +406,14 @@ export default function QuestTracker() {
                         ? "text-[var(--neon-amber)]"
                         : activeQuest.quest.category === "discovery"
                         ? "text-purple-400"
-                        : "text-white/50"
+                        : "text-muted-foreground/70"
                     } />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="font-display text-[10px] font-bold tracking-[0.15em] text-white/90 truncate">
+                    <p className="font-display text-[10px] font-bold tracking-[0.15em] text-foreground truncate">
                       {activeQuest.quest.title}
                     </p>
-                    <p className="font-mono text-[10px] text-white/40 leading-relaxed mt-0.5">
+                    <p className="font-mono text-[10px] text-muted-foreground/60 leading-relaxed mt-0.5">
                       {activeQuest.quest.description}
                     </p>
                   </div>
@@ -422,12 +422,12 @@ export default function QuestTracker() {
                 {/* Progress bar */}
                 <div className="mt-2.5">
                   <div className="flex items-center justify-between mb-1">
-                    <span className="font-mono text-[9px] text-white/30">PROGRESS</span>
+                    <span className="font-mono text-[9px] text-muted-foreground/50">PROGRESS</span>
                     <span className="font-mono text-[9px] text-[var(--neon-cyan)]">
                       {activeQuest.progress}/{activeQuest.max}
                     </span>
                   </div>
-                  <div className="h-1.5 rounded-full bg-white/5 overflow-hidden">
+                  <div className="h-1.5 rounded-full bg-muted/40 overflow-hidden">
                     <motion.div
                       className="h-full rounded-full"
                       style={{
@@ -446,7 +446,7 @@ export default function QuestTracker() {
 
                 {/* Hint */}
                 {activeQuest.hint && (
-                  <p className="font-mono text-[9px] text-white/25 mt-2 italic leading-relaxed">
+                  <p className="font-mono text-[9px] text-muted-foreground/40 mt-2 italic leading-relaxed">
                     {activeQuest.hint}
                   </p>
                 )}
@@ -466,7 +466,7 @@ export default function QuestTracker() {
                 <p className="font-display text-[10px] tracking-[0.2em] text-[var(--neon-amber)]">
                   ALL OBJECTIVES COMPLETE
                 </p>
-                <p className="font-mono text-[9px] text-white/30 mt-1">
+                <p className="font-mono text-[9px] text-muted-foreground/50 mt-1">
                   The Ark's secrets are yours, Operative.
                 </p>
               </div>
@@ -494,7 +494,7 @@ function QuestChainsAccordion() {
     <div className="border-t border-white/5">
       <button
         onClick={() => setExpanded(!expanded)}
-        className="w-full flex items-center justify-between px-3 py-1.5 hover:bg-white/3 transition-colors"
+        className="w-full flex items-center justify-between px-3 py-1.5 hover:bg-muted/30 transition-colors"
       >
         <div className="flex items-center gap-1.5">
           <Link2 size={10} className="text-purple-400" />
@@ -532,15 +532,15 @@ function CompletedQuestsSummary({ quests }: { quests: Array<{ quest: Quest; comp
     <div className="border-t border-white/5">
       <button
         onClick={() => setExpanded(!expanded)}
-        className="w-full flex items-center justify-between px-3 py-1.5 hover:bg-white/3 transition-colors"
+        className="w-full flex items-center justify-between px-3 py-1.5 hover:bg-muted/30 transition-colors"
       >
-        <span className="font-mono text-[9px] text-white/25">
+        <span className="font-mono text-[9px] text-muted-foreground/40">
           {quests.length} COMPLETED
         </span>
         {expanded ? (
-          <ChevronUp size={10} className="text-white/20" />
+          <ChevronUp size={10} className="text-muted-foreground/35" />
         ) : (
-          <ChevronDown size={10} className="text-white/20" />
+          <ChevronDown size={10} className="text-muted-foreground/35" />
         )}
       </button>
       <AnimatePresence>
@@ -557,7 +557,7 @@ function CompletedQuestsSummary({ quests }: { quests: Array<{ quest: Quest; comp
                   <div className="w-3 h-3 rounded-full bg-green-500/20 flex items-center justify-center">
                     <span className="text-[7px] text-green-400">✓</span>
                   </div>
-                  <span className="font-mono text-[9px] text-white/30 line-through">{quest.title}</span>
+                  <span className="font-mono text-[9px] text-muted-foreground/50 line-through">{quest.title}</span>
                 </div>
               ))}
             </div>

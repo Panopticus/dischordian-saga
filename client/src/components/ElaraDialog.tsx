@@ -514,7 +514,7 @@ export default function ElaraDialog({ elaraTTS: _elaraTTS }: { elaraTTS?: any } 
                 </div>
                 <button
                   onClick={() => setIsOpen(false)}
-                  className="p-1.5 rounded-md hover:bg-white/10 transition-colors text-white/60 hover:text-white"
+                  className="p-1.5 rounded-md hover:bg-muted/60 transition-colors text-muted-foreground/80 hover:text-white"
                 >
                   <X size={18} />
                 </button>
@@ -531,8 +531,8 @@ export default function ElaraDialog({ elaraTTS: _elaraTTS }: { elaraTTS?: any } 
                     )}
                     <div className={`max-w-[85%] rounded-lg px-3 py-2.5 text-sm leading-relaxed ${
                       msg.role === "user"
-                        ? "bg-[var(--electric-blue)]/20 border border-[var(--electric-blue)]/30 text-white/90"
-                        : "bg-[var(--glass-base)] border border-[var(--glass-border)] text-white/85"
+                        ? "bg-[var(--electric-blue)]/20 border border-[var(--electric-blue)]/30 text-foreground"
+                        : "bg-[var(--glass-base)] border border-[var(--glass-border)] text-foreground/90"
                     }`}>
                       {msg.role === "assistant" && i === history.length - 1 ? (
                         <Streamdown>{msg.content}</Streamdown>
@@ -573,7 +573,7 @@ export default function ElaraDialog({ elaraTTS: _elaraTTS }: { elaraTTS?: any } 
                       <Sparkles size={12} className="text-[var(--deep-purple)]" />
                       <span className="font-display text-[10px] text-[var(--deep-purple)] tracking-[0.2em]">ELARA</span>
                     </div>
-                    <p className="font-mono text-[11px] text-white/50 leading-snug">
+                    <p className="font-mono text-[11px] text-muted-foreground/70 leading-snug">
                       {isLoading ? "Processing dimensional data..." : "Select a response:"}
                     </p>
                   </div>
@@ -588,7 +588,7 @@ export default function ElaraDialog({ elaraTTS: _elaraTTS }: { elaraTTS?: any } 
                       className="w-full text-left flex items-center gap-2 px-3 py-2 rounded-md border border-transparent hover:border-[var(--neon-cyan)]/30 hover:bg-[var(--glass-base)] transition-all group"
                     >
                       <ChevronRight size={12} className="text-[var(--neon-cyan)]/50 group-hover:text-[var(--neon-cyan)] transition-colors flex-shrink-0" />
-                      <span className="font-mono text-xs text-white/70 group-hover:text-white transition-colors">
+                      <span className="font-mono text-xs text-muted-foreground/90 group-hover:text-white transition-colors">
                         {choice.text}
                       </span>
                     </button>
@@ -603,7 +603,7 @@ export default function ElaraDialog({ elaraTTS: _elaraTTS }: { elaraTTS?: any } 
                         value={customInput}
                         onChange={(e) => setCustomInput(e.target.value)}
                         placeholder="Ask Elara anything..."
-                        className="flex-1 bg-[var(--glass-dark)] border border-[var(--glass-border)] rounded-md px-3 py-2 text-xs font-mono text-white placeholder:text-white/30 focus:border-[var(--neon-cyan)] focus:outline-none focus:shadow-[0_0_10px_rgba(51,226,230,0.15)]"
+                        className="flex-1 bg-[var(--glass-dark)] border border-[var(--glass-border)] rounded-md px-3 py-2 text-xs font-mono text-white placeholder:text-muted-foreground/50 focus:border-[var(--neon-cyan)] focus:outline-none focus:shadow-[0_0_10px_rgba(51,226,230,0.15)]"
                       />
                       <button
                         type="submit"

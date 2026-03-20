@@ -870,30 +870,30 @@ function ChainQuestItem({ quest, isActive, isLocked, checkResult }: {
           ? "bg-green-500/20 border border-green-500/40"
           : isActive
           ? "bg-amber-500/20 border border-amber-500/40"
-          : "bg-white/5 border border-white/10"
+          : "bg-muted/40 border border-white/10"
       }`}>
         {checkResult.complete ? (
           <Trophy size={10} className="text-green-400" />
         ) : isLocked ? (
-          <Lock size={10} className="text-white/30" />
+          <Lock size={10} className="text-muted-foreground/50" />
         ) : (
-          <Target size={10} className={isActive ? "text-amber-400" : "text-white/30"} />
+          <Target size={10} className={isActive ? "text-amber-400" : "text-muted-foreground/50"} />
         )}
       </div>
 
       <div className="flex-1 min-w-0">
         <p className={`font-display text-[10px] font-bold tracking-[0.1em] ${
-          checkResult.complete ? "text-green-400" : isActive ? "text-white/90" : "text-white/40"
+          checkResult.complete ? "text-green-400" : isActive ? "text-foreground" : "text-muted-foreground/60"
         }`}>
           {quest.title}
         </p>
         {!isLocked && !checkResult.complete && (
-          <p className="font-mono text-[9px] text-white/30 mt-0.5 leading-relaxed">
+          <p className="font-mono text-[9px] text-muted-foreground/50 mt-0.5 leading-relaxed">
             {quest.description}
           </p>
         )}
         {isLocked && (
-          <p className="font-mono text-[9px] text-white/20 mt-0.5 italic">
+          <p className="font-mono text-[9px] text-muted-foreground/35 mt-0.5 italic">
             Complete previous quest to unlock
           </p>
         )}
@@ -902,7 +902,7 @@ function ChainQuestItem({ quest, isActive, isLocked, checkResult }: {
         {isActive && !checkResult.complete && (
           <div className="mt-1.5">
             <div className="flex items-center gap-2">
-              <div className="flex-1 h-1 rounded-full bg-white/5 overflow-hidden">
+              <div className="flex-1 h-1 rounded-full bg-muted/40 overflow-hidden">
                 <motion.div
                   className="h-full rounded-full bg-amber-400/60"
                   initial={{ width: 0 }}
@@ -910,7 +910,7 @@ function ChainQuestItem({ quest, isActive, isLocked, checkResult }: {
                   transition={{ duration: 0.5 }}
                 />
               </div>
-              <span className="font-mono text-[8px] text-white/30">
+              <span className="font-mono text-[8px] text-muted-foreground/50">
                 {checkResult.progress}/{checkResult.max}
               </span>
             </div>
@@ -969,7 +969,7 @@ function QuestChainCard({ chain, ctx }: { chain: QuestChain; ctx: ChainCheckCont
         </div>
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2">
-            <h3 className="font-display text-[10px] font-bold tracking-[0.15em] text-white/90">
+            <h3 className="font-display text-[10px] font-bold tracking-[0.15em] text-foreground">
               {chain.chainName}
             </h3>
             {chainComplete && (
@@ -978,12 +978,12 @@ function QuestChainCard({ chain, ctx }: { chain: QuestChain; ctx: ChainCheckCont
               </span>
             )}
           </div>
-          <p className="font-mono text-[8px] text-white/30 mt-0.5">
+          <p className="font-mono text-[8px] text-muted-foreground/50 mt-0.5">
             {completedCount}/{totalQuests} OBJECTIVES
           </p>
         </div>
         {/* Chain progress */}
-        <div className="w-16 h-1.5 rounded-full bg-white/5 overflow-hidden">
+        <div className="w-16 h-1.5 rounded-full bg-muted/40 overflow-hidden">
           <div
             className={`h-full rounded-full transition-all duration-500 ${chainComplete ? "bg-green-400/60" : "bg-amber-400/40"}`}
             style={{ width: `${(completedCount / totalQuests) * 100}%` }}
@@ -993,7 +993,7 @@ function QuestChainCard({ chain, ctx }: { chain: QuestChain; ctx: ChainCheckCont
 
       {/* Chain Description */}
       <div className="px-4 pt-2 pb-1">
-        <p className="font-mono text-[9px] text-white/30 leading-relaxed italic">
+        <p className="font-mono text-[9px] text-muted-foreground/50 leading-relaxed italic">
           {chain.chainDescription}
         </p>
       </div>

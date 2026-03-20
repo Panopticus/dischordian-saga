@@ -147,8 +147,8 @@ export default function DiscographyPage() {
             <h1 className="font-display text-2xl sm:text-4xl lg:text-5xl font-black tracking-wider text-white mb-2 leading-tight">
               <span className="text-[var(--deep-purple)] glow-purple">DISCOGRAPHY</span>
             </h1>
-            <p className="font-mono text-xs sm:text-sm text-white/60 max-w-2xl mb-5 leading-relaxed">
-              Four albums spanning the complete mythology of <span className="text-white/90">Malkia Ukweli & the Panopticon</span>.
+            <p className="font-mono text-xs sm:text-sm text-muted-foreground/80 max-w-2xl mb-5 leading-relaxed">
+              Four albums spanning the complete mythology of <span className="text-foreground">Malkia Ukweli & the Panopticon</span>.
               <span className="text-[var(--deep-purple)]"> {totalSongs}</span> songs,
               <span className="text-[var(--alert-red)]"> {totalVideos}</span> music videos,
               and <span className="text-[var(--neon-cyan)]">one story</span> told across dimensions.
@@ -156,17 +156,17 @@ export default function DiscographyPage() {
 
             {/* Quick stats */}
             <div className="flex flex-wrap gap-3 mb-4">
-              <div className="flex items-center gap-2 px-3 py-1.5 rounded-md border border-white/10 bg-white/3">
+              <div className="flex items-center gap-2 px-3 py-1.5 rounded-md border border-white/10 bg-muted/25">
                 <Disc3 size={12} className="text-[var(--deep-purple)]" />
-                <span className="font-mono text-[10px] text-white/60">4 ALBUMS</span>
+                <span className="font-mono text-[10px] text-muted-foreground/80">4 ALBUMS</span>
               </div>
-              <div className="flex items-center gap-2 px-3 py-1.5 rounded-md border border-white/10 bg-white/3">
+              <div className="flex items-center gap-2 px-3 py-1.5 rounded-md border border-white/10 bg-muted/25">
                 <Music size={12} className="text-[var(--neon-cyan)]" />
-                <span className="font-mono text-[10px] text-white/60">{totalSongs} TRACKS</span>
+                <span className="font-mono text-[10px] text-muted-foreground/80">{totalSongs} TRACKS</span>
               </div>
-              <div className="flex items-center gap-2 px-3 py-1.5 rounded-md border border-white/10 bg-white/3">
+              <div className="flex items-center gap-2 px-3 py-1.5 rounded-md border border-white/10 bg-muted/25">
                 <Eye size={12} className="text-[var(--alert-red)]" />
-                <span className="font-mono text-[10px] text-white/60">{totalVideos} VIDEOS</span>
+                <span className="font-mono text-[10px] text-muted-foreground/80">{totalVideos} VIDEOS</span>
               </div>
               <Link
                 href="/watch"
@@ -213,7 +213,7 @@ export default function DiscographyPage() {
             <h3 className="font-display text-sm font-bold tracking-[0.2em] text-white">LISTEN ON SPOTIFY</h3>
           </div>
           <div className="px-5 pb-4">
-            <p className="font-mono text-[10px] text-white/40 mb-3">
+            <p className="font-mono text-[10px] text-muted-foreground/60 mb-3">
               Stream the complete Dischordian Saga discography. All 4 albums, 89 tracks.
             </p>
             <div className="rounded-lg overflow-hidden" style={{ background: "#121212" }}>
@@ -260,8 +260,8 @@ export default function DiscographyPage() {
             <Radio size={14} className="text-[var(--orb-orange)]" />
             <h3 className="font-display text-sm font-bold tracking-[0.2em] text-white">ABOUT THE ARTIST</h3>
           </div>
-          <p className="font-mono text-xs text-white/60 leading-relaxed mb-3">
-            <span className="text-white/90 font-medium">Malkia Ukweli & the Panopticon</span> is a multimedia project
+          <p className="font-mono text-xs text-muted-foreground/80 leading-relaxed mb-3">
+            <span className="text-foreground font-medium">Malkia Ukweli & the Panopticon</span> is a multimedia project
             that tells the story of the Dischordian Saga through music, film, and interactive experiences.
             The music spans multiple genres — from hip-hop and electronic to orchestral and experimental —
             weaving a narrative about power, surveillance, rebellion, and the nature of reality itself.
@@ -271,7 +271,7 @@ export default function DiscographyPage() {
               href="https://www.youtube.com/@MalkiaUkweli"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 px-3 py-2 rounded-md font-mono text-[10px] tracking-wider text-white/50 border border-white/10 hover:text-white/80 hover:border-white/20 hover:bg-white/5 transition-all"
+              className="flex items-center gap-2 px-3 py-2 rounded-md font-mono text-[10px] tracking-wider text-muted-foreground/70 border border-white/10 hover:text-foreground/85 hover:border-white/20 hover:bg-muted/50 transition-all"
             >
               <ExternalLink size={10} />
               YOUTUBE
@@ -303,7 +303,7 @@ export default function DiscographyPage() {
                 href={albumStreamingLinks.tidal.artist}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 px-3 py-2 rounded-md font-mono text-[10px] tracking-wider text-white/50 border border-white/10 hover:text-white/80 hover:border-white/20 hover:bg-white/5 transition-all"
+                className="flex items-center gap-2 px-3 py-2 rounded-md font-mono text-[10px] tracking-wider text-muted-foreground/70 border border-white/10 hover:text-foreground/85 hover:border-white/20 hover:bg-muted/50 transition-all"
               >
                 <TidalIcon size={10} />
                 TIDAL
@@ -371,8 +371,8 @@ function AlbumCard({
               </div>
             )}
             {isUpcoming && (
-              <div className="absolute inset-0 flex items-center justify-center bg-black/60">
-                <span className="font-mono text-[8px] tracking-[0.3em] text-white/80 bg-[var(--alert-red)]/80 px-2 py-0.5 rounded">UPCOMING</span>
+              <div className="absolute inset-0 flex items-center justify-center bg-background/70">
+                <span className="font-mono text-[8px] tracking-[0.3em] text-foreground/85 bg-[var(--alert-red)]/80 px-2 py-0.5 rounded">UPCOMING</span>
               </div>
             )}
           </div>
@@ -393,12 +393,12 @@ function AlbumCard({
             >
               {album.name}
             </h2>
-            <p className="font-mono text-[10px] text-white/40 mb-2">{album.releaseDate}</p>
-            <p className="font-mono text-xs text-white/50 leading-relaxed line-clamp-2 group-hover:text-white/60 transition-colors hidden sm:block">
+            <p className="font-mono text-[10px] text-muted-foreground/60 mb-2">{album.releaseDate}</p>
+            <p className="font-mono text-xs text-muted-foreground/70 leading-relaxed line-clamp-2 group-hover:text-muted-foreground/80 transition-colors hidden sm:block">
               {album.description}
             </p>
             <div className="flex items-center gap-3 mt-2">
-              <span className="font-mono text-[10px] text-white/30">
+              <span className="font-mono text-[10px] text-muted-foreground/50">
                 <Music size={10} className="inline mr-1" />{tracks.length} tracks
               </span>
               {videosCount > 0 && (
@@ -412,7 +412,7 @@ function AlbumCard({
           {/* Expand */}
           <ChevronDown
             size={16}
-            className={`shrink-0 transition-transform duration-300 text-white/30 mt-2 ${expanded ? "rotate-180" : ""}`}
+            className={`shrink-0 transition-transform duration-300 text-muted-foreground/50 mt-2 ${expanded ? "rotate-180" : ""}`}
           />
         </div>
       </button>
@@ -432,7 +432,7 @@ function AlbumCard({
               <div className="h-px" style={{ background: `linear-gradient(to right, transparent, ${album.color}30, transparent)` }} />
 
               {/* Description (mobile) */}
-              <p className="font-mono text-xs text-white/50 leading-relaxed sm:hidden">
+              <p className="font-mono text-xs text-muted-foreground/70 leading-relaxed sm:hidden">
                 {album.description}
               </p>
 
@@ -477,7 +477,7 @@ function AlbumCard({
                     href={album.streaming.tidal}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-2 px-3 py-2 rounded-md font-mono text-[10px] tracking-wider text-white/40 border border-white/10 hover:text-white/60 hover:bg-white/5 transition-all"
+                    className="flex items-center gap-2 px-3 py-2 rounded-md font-mono text-[10px] tracking-wider text-muted-foreground/60 border border-white/10 hover:text-muted-foreground/80 hover:bg-muted/50 transition-all"
                   >
                     <TidalIcon size={11} />
                     TIDAL
@@ -497,7 +497,7 @@ function AlbumCard({
                       className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-md text-left transition-all group ${
                         isCurrent
                           ? "bg-[var(--neon-cyan)]/8 border border-[var(--neon-cyan)]/20"
-                          : "hover:bg-white/5 border border-transparent"
+                          : "hover:bg-muted/50 border border-transparent"
                       }`}
                     >
                       {/* Track number / play indicator */}
@@ -505,10 +505,10 @@ function AlbumCard({
                         {isCurrent && isPlaying ? (
                           <Pause size={11} style={{ color: album.color }} />
                         ) : (
-                          <span className="font-mono text-[10px] text-white/25 group-hover:hidden">{track.track_number}</span>
+                          <span className="font-mono text-[10px] text-muted-foreground/40 group-hover:hidden">{track.track_number}</span>
                         )}
                         {!isCurrent && (
-                          <Play size={11} className="text-white/40 hidden group-hover:block" />
+                          <Play size={11} className="text-muted-foreground/60 hidden group-hover:block" />
                         )}
                       </span>
 
@@ -525,12 +525,12 @@ function AlbumCard({
                       {/* Track info */}
                       <div className="min-w-0 flex-1">
                         <p className={`text-[11px] font-medium truncate transition-colors ${
-                          isCurrent ? "text-[var(--neon-cyan)]" : "text-white/70 group-hover:text-white/90"
+                          isCurrent ? "text-[var(--neon-cyan)]" : "text-muted-foreground/90 group-hover:text-foreground"
                         }`}>
                           {track.name}
                         </p>
                         {track.characters_featured && track.characters_featured.length > 0 && (
-                          <p className="text-[9px] font-mono text-white/25 truncate">
+                          <p className="text-[9px] font-mono text-muted-foreground/40 truncate">
                             ft. {track.characters_featured.join(", ")}
                           </p>
                         )}
@@ -559,7 +559,7 @@ function AlbumCard({
               {/* View full album page link */}
               <Link
                 href={`/album/${album.slug}`}
-                className="flex items-center gap-2 px-3 py-2 rounded-md font-mono text-[10px] tracking-wider text-white/40 border border-white/10 hover:text-white/60 hover:border-white/20 hover:bg-white/5 transition-all w-fit"
+                className="flex items-center gap-2 px-3 py-2 rounded-md font-mono text-[10px] tracking-wider text-muted-foreground/60 border border-white/10 hover:text-muted-foreground/80 hover:border-white/20 hover:bg-muted/50 transition-all w-fit"
               >
                 <Headphones size={10} />
                 VIEW FULL ALBUM PAGE

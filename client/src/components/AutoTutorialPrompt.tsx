@@ -55,7 +55,7 @@ export default function AutoTutorialPrompt({
               {/* Close button */}
               <button
                 onClick={onDismiss}
-                className="absolute top-3 right-3 p-1 rounded-md text-muted-foreground/50 hover:text-muted-foreground hover:bg-white/5 transition-colors z-10"
+                className="absolute top-3 right-3 p-1 rounded-md text-muted-foreground/50 hover:text-muted-foreground hover:bg-muted/50 transition-colors z-10"
                 title="Don't show again"
               >
                 <X size={14} />
@@ -80,7 +80,7 @@ export default function AutoTutorialPrompt({
                 </div>
 
                 {/* Tutorial info */}
-                <div className="rounded-lg bg-white/5 border border-white/5 p-3 mb-3">
+                <div className="rounded-lg bg-muted/40 border border-white/5 p-3 mb-3">
                   <p className="font-mono text-[10px] text-muted-foreground mb-2 leading-relaxed">
                     {tutorial.subtitle}
                   </p>
@@ -107,7 +107,7 @@ export default function AutoTutorialPrompt({
                   </button>
                   <button
                     onClick={onSnooze}
-                    className="px-3 py-2.5 rounded-lg bg-white/5 border border-white/10 text-muted-foreground text-xs font-mono hover:bg-white/10 hover:text-foreground transition-colors"
+                    className="px-3 py-2.5 rounded-lg bg-muted/40 border border-white/10 text-muted-foreground text-xs font-mono hover:bg-muted/60 hover:text-foreground transition-colors"
                     title="Remind me later"
                   >
                     LATER

@@ -233,7 +233,7 @@ export default function DiscoveryUnlockOverlay() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.9 }}
-              className="font-mono text-sm text-white/50 mb-6 leading-relaxed"
+              className="font-mono text-sm text-muted-foreground/70 mb-6 leading-relaxed"
             >
               {currentDiscovery.description}
             </motion.p>
@@ -247,7 +247,7 @@ export default function DiscoveryUnlockOverlay() {
                   transition={{ duration: 0.4 }}
                   className="mb-8"
                 >
-                  <p className="font-mono text-[10px] text-white/30 tracking-[0.3em] mb-3">
+                  <p className="font-mono text-[10px] text-muted-foreground/50 tracking-[0.3em] mb-3">
                     FEATURES UNLOCKED
                   </p>
                   <div className="flex flex-wrap justify-center gap-2">
@@ -281,7 +281,7 @@ export default function DiscoveryUnlockOverlay() {
             >
               <button
                 onClick={handleDismiss}
-                className="px-5 py-2.5 rounded-lg font-mono text-xs tracking-wider text-white/50 hover:text-white/70 transition-colors border border-white/10 hover:border-white/20"
+                className="px-5 py-2.5 rounded-lg font-mono text-xs tracking-wider text-muted-foreground/70 hover:text-muted-foreground/90 transition-colors border border-white/10 hover:border-white/20"
               >
                 CONTINUE EXPLORING
               </button>
@@ -292,7 +292,7 @@ export default function DiscoveryUnlockOverlay() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 0.3 }}
               transition={{ delay: 2 }}
-              className="font-mono text-[10px] text-white/20 mt-6"
+              className="font-mono text-[10px] text-muted-foreground/35 mt-6"
             >
               tap anywhere to dismiss
             </motion.p>

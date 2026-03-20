@@ -104,7 +104,7 @@ function StatCard({ icon: Icon, label, value, color }: { icon: any; label: strin
       className="rounded-lg p-3 text-center" style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)" }}>
       <Icon size={16} className={`mx-auto mb-1.5 ${color}`} />
       <p className="font-display text-lg font-bold text-white">{value}</p>
-      <p className="font-mono text-[9px] text-white/30 tracking-wider">{label}</p>
+      <p className="font-mono text-[9px] text-muted-foreground/50 tracking-wider">{label}</p>
     </motion.div>
   );
 }
@@ -158,7 +158,7 @@ export default function PreviouslyOn({ onDismiss }: { onDismiss: () => void }) {
       <motion.div initial={{ y: 30, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.3 }}
         className="relative w-full max-w-lg">
         <button onClick={handleDismiss}
-          className="absolute -top-8 right-0 font-mono text-[10px] text-white/30 hover:text-white/60 transition-colors flex items-center gap-1">
+          className="absolute -top-8 right-0 font-mono text-[10px] text-muted-foreground/50 hover:text-muted-foreground/80 transition-colors flex items-center gap-1">
           SKIP <X size={10} />
         </button>
         <div className="text-center mb-6">
@@ -166,7 +166,7 @@ export default function PreviouslyOn({ onDismiss }: { onDismiss: () => void }) {
             <p className="font-mono text-[10px] text-[var(--neon-cyan)]/40 tracking-[0.5em] mb-2">PREVIOUSLY ON</p>
             <h1 className="font-display text-2xl sm:text-3xl tracking-[0.2em] text-white">THE DISCHORDIAN SAGA</h1>
             {hoursAgo > 0 && (
-              <p className="font-mono text-[10px] text-white/20 mt-2 flex items-center justify-center gap-1">
+              <p className="font-mono text-[10px] text-muted-foreground/35 mt-2 flex items-center justify-center gap-1">
                 <Clock size={8} /> {hoursAgo}h since last transmission
               </p>
             )}
@@ -180,7 +180,7 @@ export default function PreviouslyOn({ onDismiss }: { onDismiss: () => void }) {
             </div>
             <div className="flex-1">
               <p className="font-display text-[10px] text-[var(--neon-cyan)]/60 tracking-wider mb-1.5">ELARA // SHIP AI</p>
-              <p className="font-mono text-sm text-white/70 leading-relaxed min-h-[2.5em]">
+              <p className="font-mono text-sm text-muted-foreground/90 leading-relaxed min-h-[2.5em]">
                 {displayedText}
                 {isTyping && <span className="inline-block w-1.5 h-4 bg-[var(--neon-cyan)] ml-0.5 animate-pulse" />}
               </p>
@@ -188,7 +188,7 @@ export default function PreviouslyOn({ onDismiss }: { onDismiss: () => void }) {
           </div>
           {!isTyping && currentLine < narrative.length - 1 && (
             <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-              className="font-mono text-[9px] text-white/20 text-right mt-2 flex items-center justify-end gap-1">
+              className="font-mono text-[9px] text-muted-foreground/35 text-right mt-2 flex items-center justify-end gap-1">
               TAP TO CONTINUE <ChevronRight size={8} />
             </motion.p>
           )}

@@ -22,6 +22,8 @@ import PuzzleModal, { ROOM_PUZZLES } from "@/components/PuzzleSystem";
 import RoomTransition from "@/components/RoomTransition";
 import RoomTutorialDialog, { hasRoomDialog } from "@/components/RoomTutorialDialog";
 import HolographicElara from "@/components/HolographicElara";
+import SecretTransmissionOverlay from "@/components/SecretTransmissionOverlay";
+import { getRoomTransmissions, getElaraVariant, type SecretTransmission } from "@/data/moralityStoryBranches";
 
 const ELARA_PORTRAIT = "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/elara_portrait_speaking-J3GJUrfnNKzSBrxY2PfWrL.webp";
 
@@ -86,7 +88,7 @@ function ElaraPopup({ text, onClose }: { text: string; onClose: () => void }) {
       >
         <button
           onClick={onClose}
-          className="absolute top-2 right-2 p-1 rounded text-white/30 hover:text-white/60 transition-colors"
+          className="absolute top-2 right-2 p-1 rounded text-muted-foreground/50 hover:text-muted-foreground/80 transition-colors"
         >
           <X size={14} />
         </button>
@@ -98,7 +100,7 @@ function ElaraPopup({ text, onClose }: { text: string; onClose: () => void }) {
           />
           <div className="flex-1 min-w-0">
             <p className="font-mono text-[9px] text-[var(--neon-cyan)] tracking-[0.2em] mb-1">ELARA</p>
-            <p className="font-mono text-xs text-white/85 leading-relaxed">
+            <p className="font-mono text-xs text-foreground/90 leading-relaxed">
               {displayed}
               {!done && <span className="inline-block w-1.5 h-3 bg-[var(--neon-cyan)] ml-0.5 animate-pulse" />}
             </p>
@@ -272,7 +274,7 @@ function RoomScene({
                       }}
                     >
                       <p className="font-mono text-[10px] font-bold" style={{ color: colors.text }}>{hotspot.name}</p>
-                      <p className="font-mono text-[9px] text-white/50 mt-0.5">{hotspot.description}</p>
+                      <p className="font-mono text-[9px] text-muted-foreground/70 mt-0.5">{hotspot.description}</p>
                       <p className="font-mono text-[8px] mt-1 tracking-wider" style={{ color: colors.text, opacity: 0.6 }}>
                         {hotspot.type === "door" ? "ENTER" : hotspot.type === "terminal" ? "ACCESS" : hotspot.type === "item" ? "COLLECT" : "EXAMINE"}
                       </p>
@@ -291,7 +293,7 @@ function RoomScene({
           <div className="w-2 h-2 rounded-full bg-[var(--signal-green)] shadow-[0_0_6px_var(--signal-green)]" />
           <span className="font-display text-sm font-bold tracking-[0.15em] text-white drop-shadow-lg">{room.name.toUpperCase()}</span>
         </div>
-        <p className="font-mono text-[9px] text-white/40 ml-4 tracking-wider">
+        <p className="font-mono text-[9px] text-muted-foreground/60 ml-4 tracking-wider">
           DECK {room.deck} // {room.deckName.toUpperCase()}
         </p>
       </div>
@@ -326,7 +328,7 @@ function ShipMap({
     <div className="space-y-2">
       {decks.map(([deckNum, deckRooms]) => (
         <div key={deckNum}>
-          <p className="font-mono text-[9px] text-white/25 tracking-[0.3em] mb-1 px-1">
+          <p className="font-mono text-[9px] text-muted-foreground/40 tracking-[0.3em] mb-1 px-1">
             DECK {deckNum} — {deckRooms[0].deckName.toUpperCase()}
           </p>
           <div className="space-y-1">
@@ -342,14 +344,14 @@ function ShipMap({
                     isCurrent
                       ? "bg-[var(--neon-cyan)]/10 text-[var(--neon-cyan)] border border-[var(--neon-cyan)]/25"
                       : unlocked
-                      ? "text-white/60 hover:text-white/90 hover:bg-white/5 border border-transparent"
-                      : "text-white/15 border border-transparent cursor-not-allowed"
+                      ? "text-muted-foreground/80 hover:text-foreground hover:bg-muted/50 border border-transparent"
+                      : "text-muted-foreground/25 border border-transparent cursor-not-allowed"
                   }`}
                 >
                   {unlocked ? (
-                    <MapPin size={11} className={isCurrent ? "text-[var(--neon-cyan)]" : "text-white/30"} />
+                    <MapPin size={11} className={isCurrent ? "text-[var(--neon-cyan)]" : "text-muted-foreground/50"} />
                   ) : (
-                    <Lock size={11} className="text-white/15" />
+                    <Lock size={11} className="text-muted-foreground/25" />
                   )}
                   <span className="flex-1">{unlocked ? room.name : "???"}</span>
                   {isCurrent && <div className="w-1.5 h-1.5 rounded-full bg-[var(--neon-cyan)] shadow-[0_0_6px_var(--neon-cyan)]" />}
@@ -374,6 +376,8 @@ export default function ArkExplorerPage() {
   useGameAreaBGM("ark");
   const [, navigate] = useLocation();
   const [elaraText, setElaraText] = useState<string | null>(null);
+  const [activeTransmission, setActiveTransmission] = useState<SecretTransmission | null>(null);
+  const { discoverTransmission, isTransmissionDiscovered } = useGame();
 
   // Dispatch dialog-active events for QuestTracker auto-minimize
   useEffect(() => {
@@ -566,14 +570,16 @@ export default function ArkExplorerPage() {
     }
   }, [state.currentRoomId, playMusicForRoom]);
 
-  // Show Elara intro on first visit to a room
+  // Show Elara intro on first visit — with morality variant dialog
   useEffect(() => {
     if (currentRoom && currentRoomState && !currentRoomState.elaraDialogSeen && currentRoomState.visitCount <= 1) {
-      setElaraText(currentRoom.elaraIntro);
+      // Check for morality-variant Elara dialog
+      const moralityVariant = getElaraVariant(state.moralityScore, currentRoom.id);
+      setElaraText(moralityVariant || currentRoom.elaraIntro);
       markElaraDialogSeen(currentRoom.id);
       if (audioReady) playSFX("dialog_open");
     }
-  }, [currentRoom?.id, currentRoomState?.elaraDialogSeen, currentRoomState?.visitCount, audioReady]);
+  }, [currentRoom?.id, currentRoomState?.elaraDialogSeen, currentRoomState?.visitCount, audioReady, state.moralityScore]);
 
   const unlockedRoomIds = useMemo(() => {
     const set = new Set<string>();
@@ -737,7 +743,7 @@ export default function ArkExplorerPage() {
   if (!currentRoom) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <p className="font-mono text-white/40">Loading Ark systems...</p>
+        <p className="font-mono text-muted-foreground/60">Loading Ark systems...</p>
       </div>
     );
   }
@@ -751,7 +757,7 @@ export default function ArkExplorerPage() {
           <div className="flex items-center gap-3">
             <button
               onClick={() => navigate("/")}
-              className="p-1.5 rounded-md hover:bg-white/5 transition-colors text-white/40 hover:text-white/70"
+              className="p-1.5 rounded-md hover:bg-muted/50 transition-colors text-muted-foreground/60 hover:text-muted-foreground/90"
             >
               <ArrowLeft size={16} />
             </button>
@@ -759,7 +765,7 @@ export default function ArkExplorerPage() {
               <h1 className="font-display text-sm font-bold tracking-[0.2em] text-[var(--neon-cyan)]">
                 INCEPTION ARK — EXPLORATION
               </h1>
-              <p className="font-mono text-[10px] text-white/30 tracking-wider">
+              <p className="font-mono text-[10px] text-muted-foreground/50 tracking-wider">
                 {state.totalRoomsUnlocked}/{ROOM_DEFINITIONS.length} ROOMS UNLOCKED • {state.totalItemsFound} ITEMS FOUND
                 {solvedPuzzles.size > 0 && ` • ${solvedPuzzles.size} PUZZLES SOLVED`}
               </p>
@@ -810,7 +816,7 @@ export default function ArkExplorerPage() {
             background: "rgba(1,0,32,0.6)",
             border: "1px solid rgba(56,117,250,0.1)",
           }}>
-            <p className="font-mono text-xs text-white/60 leading-relaxed">{currentRoom.description}</p>
+            <p className="font-mono text-xs text-muted-foreground/80 leading-relaxed">{currentRoom.description}</p>
           </div>
 
           {/* Room features */}
@@ -894,7 +900,7 @@ export default function ArkExplorerPage() {
                       {unlocked ? (
                         hasPuzzle ? <Zap size={14} className="text-[var(--orb-orange)]" /> : <DoorOpen size={14} className="text-[#3875fa]" />
                       ) : (
-                        <Lock size={14} className="text-white/15" />
+                        <Lock size={14} className="text-muted-foreground/25" />
                       )}
                     </div>
                     {/* Text */}
@@ -914,7 +920,7 @@ export default function ArkExplorerPage() {
                     </div>
                     {/* Arrow */}
                     <ChevronRight size={14} className={`transition-transform group-hover:translate-x-1 ${
-                      unlocked ? "text-white/30" : "text-white/10"
+                      unlocked ? "text-muted-foreground/50" : "text-muted-foreground/20"
                     }`} />
                   </button>
                 );
@@ -960,7 +966,7 @@ export default function ArkExplorerPage() {
                   </div>
                   <div className="space-y-1">
                     {state.itemsCollected.map(item => (
-                      <div key={item} className="flex items-center gap-2 px-2 py-1 rounded text-white/50 font-mono text-[10px]">
+                      <div key={item} className="flex items-center gap-2 px-2 py-1 rounded text-muted-foreground/70 font-mono text-[10px]">
                         <Star size={8} className="text-[var(--orb-orange)]" />
                         {item.replace(/-/g, " ")}
                       </div>
@@ -981,7 +987,7 @@ export default function ArkExplorerPage() {
                   </div>
                   <div className="space-y-1">
                     {Array.from(solvedPuzzles).map(roomId => (
-                      <div key={roomId} className="flex items-center gap-2 px-2 py-1 rounded text-white/40 font-mono text-[10px]">
+                      <div key={roomId} className="flex items-center gap-2 px-2 py-1 rounded text-muted-foreground/60 font-mono text-[10px]">
                         <Zap size={8} className="text-green-400/60" />
                         {getRoomDef(roomId)?.name || roomId}
                       </div>
@@ -993,6 +999,47 @@ export default function ArkExplorerPage() {
           )}
         </AnimatePresence>
       </div>
+
+      {/* Morality-gated secret transmission hotspot indicator */}
+      {currentRoom && (() => {
+        const transmissions = getRoomTransmissions(state.moralityScore, currentRoom.id);
+        const undiscovered = transmissions.filter(t => !isTransmissionDiscovered(t.id));
+        if (undiscovered.length === 0) return null;
+        const t = undiscovered[0];
+        return (
+          <div className="fixed bottom-24 right-4 z-40">
+            <button
+              onClick={() => { setActiveTransmission(t); if (audioReady) playSFX("terminal_access"); }}
+              className="flex items-center gap-2 px-3 py-2 rounded-lg font-mono text-[10px] tracking-wider animate-pulse"
+              style={{
+                background: t.side === "machine"
+                  ? "linear-gradient(135deg, rgba(220,38,38,0.15), rgba(220,38,38,0.05))"
+                  : "linear-gradient(135deg, rgba(5,150,105,0.15), rgba(5,150,105,0.05))",
+                border: `1px solid ${t.side === "machine" ? "rgba(220,38,38,0.3)" : "rgba(5,150,105,0.3)"}`,
+                color: t.side === "machine" ? "var(--alert-red)" : "var(--signal-green)",
+                boxShadow: t.side === "machine" ? "0 0 20px rgba(220,38,38,0.15)" : "0 0 20px rgba(5,150,105,0.15)",
+              }}
+            >
+              <span className="w-2 h-2 rounded-full animate-ping" style={{ background: t.side === "machine" ? "var(--alert-red)" : "var(--signal-green)" }} />
+              INTERCEPTED SIGNAL DETECTED
+            </button>
+          </div>
+        );
+      })()}
+
+      {/* Secret Transmission Overlay */}
+      <SecretTransmissionOverlay
+        transmission={activeTransmission}
+        onClose={() => setActiveTransmission(null)}
+        alreadyClaimed={activeTransmission ? isTransmissionDiscovered(activeTransmission.id) : false}
+        onClaim={(t) => {
+          discoverTransmission(t.id);
+          toast.success("Transmission Archived!", {
+            description: `+${t.reward.xp} XP, +${t.reward.dreamTokens} Dream Tokens${t.reward.title ? `, "${t.reward.title}" title unlocked` : ""}`,
+          });
+          setActiveTransmission(null);
+        }}
+      />
 
       {/* Elara dialog popup */}
       <AnimatePresence>
@@ -1012,7 +1059,7 @@ export default function ArkExplorerPage() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[60] flex items-center justify-center bg-black/70 backdrop-blur-sm p-4"
+            className="fixed inset-0 z-[60] flex items-center justify-center bg-background/80 backdrop-blur-sm p-4"
           >
             <PuzzleModal
               roomId={puzzleRoomId}
@@ -1082,20 +1129,20 @@ export default function ArkExplorerPage() {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5, duration: 0.4 }}
-              className="max-w-xl w-full mx-4 rounded-lg border border-[var(--neon-cyan)]/30 bg-black/80 p-5 cursor-pointer"
+              className="max-w-xl w-full mx-4 rounded-lg border border-[var(--neon-cyan)]/30 bg-background/90 p-5 cursor-pointer"
               style={{ boxShadow: "0 0 30px rgba(51,226,230,0.1)" }}
             >
               <div className="flex items-center gap-2 mb-3">
                 <div className="w-2 h-2 rounded-full bg-[var(--neon-cyan)] animate-pulse" />
                 <span className="font-display text-[10px] text-[var(--neon-cyan)]/70 tracking-[0.3em]">ELARA // ORIENTATION BRIEFING</span>
-                <span className="ml-auto font-mono text-[10px] text-white/30">{orientationStep + 1}/{CRYO_ORIENTATION_LINES.length}</span>
+                <span className="ml-auto font-mono text-[10px] text-muted-foreground/50">{orientationStep + 1}/{CRYO_ORIENTATION_LINES.length}</span>
               </div>
-              <p className="font-mono text-sm text-white/90 leading-relaxed min-h-[3rem]">
+              <p className="font-mono text-sm text-foreground leading-relaxed min-h-[3rem]">
                 {orientationText}
                 {orientationTyping && <span className="inline-block w-2 h-4 bg-[var(--neon-cyan)] animate-pulse ml-0.5" />}
               </p>
               <div className="flex items-center justify-end mt-3 gap-2">
-                <span className="font-mono text-[10px] text-white/30">
+                <span className="font-mono text-[10px] text-muted-foreground/50">
                   {orientationTyping ? "TAP TO SKIP" : orientationStep < CRYO_ORIENTATION_LINES.length - 1 ? "TAP TO CONTINUE" : "TAP TO BEGIN EXPLORING"}
                 </span>
                 <ChevronRight size={12} className="text-[var(--neon-cyan)]/50" />

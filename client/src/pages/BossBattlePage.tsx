@@ -35,24 +35,24 @@ function BossCardView({ card, onClick, selected, targetable, disabled, small }: 
       <div className={`relative ${small ? "h-10 sm:h-12" : "h-14 sm:h-18"} overflow-hidden`}>
         <div className="w-full h-full flex items-center justify-center" style={{
           background: `linear-gradient(135deg, ${card.type === "unit" ? "rgba(239,68,68,0.15)" : card.type === "spell" ? "rgba(168,85,247,0.15)" : "rgba(251,191,36,0.15)"} 0%, rgba(0,0,0,0.3) 100%)`}}>
-          <TypeIcon size={small ? 14 : 18} className="text-white/30" />
+          <TypeIcon size={small ? 14 : 18} className="text-muted-foreground/50" />
         </div>
         <div className="absolute top-0.5 left-0.5 w-4 h-4 sm:w-5 sm:h-5 rounded-full bg-purple-500/80 flex items-center justify-center">
           <span className="font-mono text-[8px] sm:text-[9px] font-bold text-white">{card.cost}</span>
         </div>
         {card.type === "unit" && (
-          <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-black/50">
+          <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-background/60">
             <div className={`h-full transition-all ${hpPercent > 50 ? "bg-green-400" : hpPercent > 25 ? "bg-yellow-400" : "bg-red-400"}`}
               style={{ width: `${Math.max(0, hpPercent)}%` }} />
           </div>
         )}
       </div>
       <div className={`${small ? "p-0.5" : "p-1"} text-center`}>
-        <p className={`font-mono ${small ? "text-[8px]" : "text-[8px] sm:text-[9px]"} text-white/80 truncate font-semibold`}>{card.name}</p>
+        <p className={`font-mono ${small ? "text-[8px]" : "text-[8px] sm:text-[9px]"} text-foreground/85 truncate font-semibold`}>{card.name}</p>
         {card.type === "unit" && (
           <div className="flex items-center justify-center gap-1 mt-0.5">
             <span className={`font-mono ${small ? "text-[7px]" : "text-[8px] sm:text-[9px]"} text-red-400 font-bold`}>{card.attack + card.tempAttackMod}</span>
-            <span className="text-white/20">/</span>
+            <span className="text-muted-foreground/35">/</span>
             <span className={`font-mono ${small ? "text-[7px]" : "text-[8px] sm:text-[9px]"} font-bold ${isDamaged ? "text-yellow-400" : "text-green-400"}`}>{card.currentHP}</span>
           </div>
         )}
@@ -74,7 +74,7 @@ function BossSelect({ onSelect }: { onSelect: (boss: BossEncounter) => void }) {
         <div className="text-center mb-8 pt-6">
           <Crown size={36} className="text-amber-400/60 mx-auto mb-3" />
           <h1 className="font-display text-xl sm:text-2xl tracking-[0.25em] text-white mb-2">BOSS ENCOUNTERS</h1>
-          <p className="font-mono text-xs text-white/40">Challenge the Archons of the Dischordian Saga</p>
+          <p className="font-mono text-xs text-muted-foreground/60">Challenge the Archons of the Dischordian Saga</p>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           {BOSS_ENCOUNTERS.map((boss, i) => {
@@ -95,7 +95,7 @@ function BossSelect({ onSelect }: { onSelect: (boss: BossEncounter) => void }) {
                         {boss.difficulty.toUpperCase()}
                       </span>
                     </div>
-                    <p className="font-mono text-[10px] text-white/30 line-clamp-2">{boss.description}</p>
+                    <p className="font-mono text-[10px] text-muted-foreground/50 line-clamp-2">{boss.description}</p>
                     <div className="flex items-center gap-3 mt-1.5">
                       <span className="font-mono text-[9px] text-red-400/50"><Heart size={8} className="inline mr-0.5" />{boss.hp} HP</span>
                     </div>
@@ -190,7 +190,7 @@ export default function BossBattlePage() {
           <motion.div initial={{ scale: 0.8 }} animate={{ scale: 1 }} className="text-center max-w-sm">
             <img src={currentBoss.image} alt="" className={`w-20 h-20 rounded-full mx-auto mb-4 object-cover ring-2 ${winner === "player" ? "ring-amber-400/50 grayscale-[50%]" : "ring-red-400/50"}`} />
             <h2 className={`font-display text-2xl tracking-[0.2em] mb-2 ${winner === "player" ? "text-amber-400" : "text-red-400"}`}>{winner === "player" ? "BOSS DEFEATED" : "DEFEATED"}</h2>
-            <p className="font-mono text-xs text-white/50 italic mb-3">"{winner === "player" ? currentBoss.defeatLine : currentBoss.victoryLine}"</p>
+            <p className="font-mono text-xs text-muted-foreground/70 italic mb-3">"{winner === "player" ? currentBoss.defeatLine : currentBoss.victoryLine}"</p>
             {winner === "player" && <p className="font-mono text-[10px] text-amber-400/60 mb-4">+{currentBoss.rewards.xp} XP | Card: {currentBoss.rewards.cardReward.name}</p>}
             <div className="flex gap-3 justify-center">
               <button onClick={() => { setBattleState(null); setCurrentBoss(null); }} className="px-5 py-2 rounded-md font-mono text-xs" style={{ background: "rgba(251,191,36,0.1)", border: "1px solid rgba(251,191,36,0.3)", color: "rgb(251,191,36)" }}>
@@ -212,10 +212,10 @@ export default function BossBattlePage() {
             </div>
             <div className="flex items-center gap-2">
               <Heart size={10} className="text-red-400" />
-              <div className="flex-1 h-1.5 rounded-full bg-white/5 overflow-hidden">
+              <div className="flex-1 h-1.5 rounded-full bg-muted/40 overflow-hidden">
                 <motion.div className="h-full rounded-full bg-red-500" animate={{ width: `${Math.max(0, (enemy.hp / enemy.maxHP) * 100)}%` }} />
               </div>
-              <span className="font-mono text-[9px] text-white/50">{enemy.hp}/{enemy.maxHP}</span>
+              <span className="font-mono text-[9px] text-muted-foreground/70">{enemy.hp}/{enemy.maxHP}</span>
               <Zap size={10} className="text-blue-400/50 ml-2" />
               <span className="font-mono text-[9px] text-blue-400/70">{enemy.energy}/{enemy.maxEnergy}</span>
             </div>
@@ -234,7 +234,7 @@ export default function BossBattlePage() {
               <img src={currentBoss.image} alt="" className="w-8 h-8 rounded-full object-cover flex-shrink-0 ring-1 ring-red-400/30" />
               <div>
                 <p className="font-display text-[10px] text-red-400/70 tracking-wider mb-0.5">{currentBoss.name}</p>
-                <p className="font-mono text-[10px] text-white/60 italic">"{battleState.bossDialog}"</p>
+                <p className="font-mono text-[10px] text-muted-foreground/80 italic">"{battleState.bossDialog}"</p>
               </div>
             </div>
           </motion.div>
@@ -243,7 +243,7 @@ export default function BossBattlePage() {
 
       <div className="px-3 sm:px-6 py-2">
         <div className="flex items-center justify-center gap-1.5 sm:gap-2 min-h-[7rem] sm:min-h-[9rem]">
-          {enemy.field.length === 0 ? <p className="font-mono text-[10px] text-white/15 italic">No boss units</p> :
+          {enemy.field.length === 0 ? <p className="font-mono text-[10px] text-muted-foreground/25 italic">No boss units</p> :
             enemy.field.map(c => <BossCardView key={c.instanceId} card={c} small targetable={targetMode} onClick={() => targetMode && handleTargetClick(c.instanceId)} />)}
         </div>
       </div>
@@ -252,13 +252,13 @@ export default function BossBattlePage() {
         {targetMode && <motion.button initial={{ opacity: 0 }} animate={{ opacity: 1 }} onClick={() => handleTargetClick("face")}
           className="px-4 py-1.5 rounded-md font-mono text-[10px]" style={{ background: "rgba(239,68,68,0.15)", border: "1px solid rgba(239,68,68,0.3)", color: "rgba(239,68,68,0.8)" }}>
           <Target size={10} className="inline mr-1" />ATTACK BOSS</motion.button>}
-        <p className="font-mono text-[9px] text-white/30">Turn {turnNumber} — {turn === "player" ? "YOUR TURN" : "BOSS TURN"}</p>
-        {targetMode && <button onClick={() => { setSelectedAttacker(null); setTargetMode(false); }} className="px-3 py-1.5 rounded-md font-mono text-[10px] text-white/30 border border-white/10">CANCEL</button>}
+        <p className="font-mono text-[9px] text-muted-foreground/50">Turn {turnNumber} — {turn === "player" ? "YOUR TURN" : "BOSS TURN"}</p>
+        {targetMode && <button onClick={() => { setSelectedAttacker(null); setTargetMode(false); }} className="px-3 py-1.5 rounded-md font-mono text-[10px] text-muted-foreground/50 border border-white/10">CANCEL</button>}
       </div>
 
       <div className="px-3 sm:px-6 py-2">
         <div className="flex items-center justify-center gap-1.5 sm:gap-2 min-h-[7rem] sm:min-h-[9rem]">
-          {player.field.length === 0 ? <p className="font-mono text-[10px] text-white/15 italic">Deploy units</p> :
+          {player.field.length === 0 ? <p className="font-mono text-[10px] text-muted-foreground/25 italic">Deploy units</p> :
             player.field.map(c => <BossCardView key={c.instanceId} card={c} small selected={selectedAttacker === c.instanceId}
               disabled={c.hasAttacked || c.justDeployed} onClick={() => handleFieldCardClick(c)} />)}
         </div>
@@ -267,16 +267,16 @@ export default function BossBattlePage() {
       <div className="mt-auto">
         <div className="px-3 sm:px-6 mb-2">
           <div ref={logRef} className="h-24 sm:h-28 overflow-y-auto rounded-lg p-2" style={{ background: "rgba(0,0,0,0.4)", border: "1px solid rgba(255,255,255,0.05)" }}>
-            {logs.slice(-15).map((l, i) => <p key={i} className={`font-mono text-[9px] leading-relaxed ${l.actor === "system" ? "text-white/30 italic" : l.actor === "player" ? "text-[var(--neon-cyan)]/70" : "text-red-400/70"}`}>{l.message}</p>)}
+            {logs.slice(-15).map((l, i) => <p key={i} className={`font-mono text-[9px] leading-relaxed ${l.actor === "system" ? "text-muted-foreground/50 italic" : l.actor === "player" ? "text-[var(--neon-cyan)]/70" : "text-red-400/70"}`}>{l.message}</p>)}
           </div>
         </div>
         <div className="px-3 sm:px-6 py-2 flex items-center justify-between">
           <div className="flex-1 flex items-center gap-2">
             <Heart size={12} className="text-[var(--neon-cyan)]" />
-            <div className="flex-1 h-1.5 rounded-full bg-white/5 overflow-hidden">
+            <div className="flex-1 h-1.5 rounded-full bg-muted/40 overflow-hidden">
               <motion.div className="h-full rounded-full" style={{ background: "var(--neon-cyan)" }} animate={{ width: `${Math.max(0, (player.hp / player.maxHP) * 100)}%` }} />
             </div>
-            <span className="font-mono text-[9px] text-white/50">{player.hp}/{player.maxHP}</span>
+            <span className="font-mono text-[9px] text-muted-foreground/70">{player.hp}/{player.maxHP}</span>
           </div>
           <div className="ml-3 flex items-center gap-3">
             <span className="font-mono text-[10px] text-blue-400/70"><Zap size={10} className="inline mr-0.5" />{player.energy}/{player.maxEnergy}</span>
@@ -288,7 +288,7 @@ export default function BossBattlePage() {
         <div className="px-3 sm:px-6 py-3 overflow-x-auto" style={{ background: "linear-gradient(180deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.6) 100%)", borderTop: "1px solid rgba(251,191,36,0.08)" }}>
           <div className="flex items-center justify-center gap-1.5 sm:gap-2">
             {player.hand.map(c => <BossCardView key={c.instanceId} card={c} disabled={c.cost > player.energy || turn !== "player" || !!winner} onClick={() => handleHandCardClick(c)} />)}
-            {player.hand.length === 0 && <p className="font-mono text-[10px] text-white/20 italic py-4">No cards</p>}
+            {player.hand.length === 0 && <p className="font-mono text-[10px] text-muted-foreground/35 italic py-4">No cards</p>}
           </div>
         </div>
       </div>

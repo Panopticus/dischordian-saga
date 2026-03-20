@@ -104,7 +104,7 @@ export default function GamePreviewTooltip({ game, children }: GamePreviewToolti
                         </div>
                       )}
                       <div className="absolute bottom-1 left-1 right-1">
-                        <p className="font-mono text-[7px] text-white/80 truncate text-center leading-tight">
+                        <p className="font-mono text-[7px] text-foreground/85 truncate text-center leading-tight">
                           {char.name}
                         </p>
                       </div>

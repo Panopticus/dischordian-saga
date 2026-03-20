@@ -99,7 +99,7 @@ export default function DiscoveryNotification() {
               <p className="font-display text-sm font-bold text-white tracking-wider truncate">
                 {current.featureLabel}
               </p>
-              <p className="font-mono text-[10px] text-white/40 truncate">
+              <p className="font-mono text-[10px] text-muted-foreground/60 truncate">
                 Discovered in {current.roomName}
               </p>
             </div>

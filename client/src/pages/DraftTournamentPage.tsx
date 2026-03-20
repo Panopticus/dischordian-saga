@@ -143,16 +143,16 @@ function DraftCardDisplay({
 
         {/* Stats overlay */}
         <div className="absolute bottom-1 left-1 right-1 flex items-center justify-between">
-          <span className="font-mono text-[9px] bg-black/60 px-1 rounded text-primary">{card.cost}⚡</span>
+          <span className="font-mono text-[9px] bg-background/70 px-1 rounded text-primary">{card.cost}⚡</span>
           <div className="flex gap-1">
-            <span className="font-mono text-[9px] bg-black/60 px-1 rounded text-red-400">{card.power}⚔</span>
-            <span className="font-mono text-[9px] bg-black/60 px-1 rounded text-green-400">{card.health}♥</span>
+            <span className="font-mono text-[9px] bg-background/70 px-1 rounded text-red-400">{card.power}⚔</span>
+            <span className="font-mono text-[9px] bg-background/70 px-1 rounded text-green-400">{card.health}♥</span>
           </div>
         </div>
 
         {/* Rarity indicator */}
         <div className="absolute top-1 right-1">
-          <span className={`font-mono text-[8px] uppercase tracking-wider px-1 rounded bg-black/60 ${rarityClass}`}>
+          <span className={`font-mono text-[8px] uppercase tracking-wider px-1 rounded bg-background/70 ${rarityClass}`}>
             {card.rarity.charAt(0)}
           </span>
         </div>

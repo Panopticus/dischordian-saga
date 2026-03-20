@@ -57,7 +57,7 @@ function DotSelector({ value, onChange, label, color, icon: Icon, max = 5 }: {
         <button
           onClick={() => onChange(Math.max(1, value - 1))}
           disabled={value <= 1}
-          className="w-6 h-6 rounded flex items-center justify-center bg-white/5 border border-white/10 text-muted-foreground hover:bg-white/10 disabled:opacity-30 transition-all font-mono text-xs"
+          className="w-6 h-6 rounded flex items-center justify-center bg-muted/40 border border-white/10 text-muted-foreground hover:bg-muted/60 disabled:opacity-30 transition-all font-mono text-xs"
         >
           −
         </button>
@@ -72,7 +72,7 @@ function DotSelector({ value, onChange, label, color, icon: Icon, max = 5 }: {
         <button
           onClick={() => onChange(Math.min(max, value + 1))}
           disabled={value >= max}
-          className="w-6 h-6 rounded flex items-center justify-center bg-white/5 border border-white/10 text-muted-foreground hover:bg-white/10 disabled:opacity-30 transition-all font-mono text-xs"
+          className="w-6 h-6 rounded flex items-center justify-center bg-muted/40 border border-white/10 text-muted-foreground hover:bg-muted/60 disabled:opacity-30 transition-all font-mono text-xs"
         >
           +
         </button>
@@ -191,7 +191,7 @@ export default function RespecDialog({ isOpen, onClose, isAuthenticated }: {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm"
+        className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-background/80 backdrop-blur-sm"
         onClick={onClose}
       >
         <motion.div
@@ -212,7 +212,7 @@ export default function RespecDialog({ isOpen, onClose, isAuthenticated }: {
                 <p className="font-mono text-[8px] text-muted-foreground/50 tracking-wider">RECONFIGURE YOUR BUILD</p>
               </div>
             </div>
-            <button onClick={onClose} className="w-7 h-7 rounded flex items-center justify-center hover:bg-white/5 transition-colors">
+            <button onClick={onClose} className="w-7 h-7 rounded flex items-center justify-center hover:bg-muted/50 transition-colors">
               <X size={14} className="text-muted-foreground" />
             </button>
           </div>
@@ -292,7 +292,7 @@ export default function RespecDialog({ isOpen, onClose, isAuthenticated }: {
                           {dotsRemaining !== 0 && ` (${dotsRemaining > 0 ? "+" : ""}${dotsRemaining} remaining)`}
                         </span>
                       </div>
-                      <div className="h-1 bg-white/5 rounded-full overflow-hidden">
+                      <div className="h-1 bg-muted/40 rounded-full overflow-hidden">
                         <div
                           className={`h-full rounded-full transition-all ${dotsRemaining === 0 ? "bg-emerald-400" : "bg-amber-400"}`}
                           style={{ width: `${Math.min(100, (currentTotal / totalDots) * 100)}%` }}
@@ -359,7 +359,7 @@ export default function RespecDialog({ isOpen, onClose, isAuthenticated }: {
                                 {al.toUpperCase()}
                               </span>
                               {isCurrent && (
-                                <span className="font-mono text-[7px] px-1.5 py-0.5 rounded bg-white/5 text-muted-foreground/40">CURRENT</span>
+                                <span className="font-mono text-[7px] px-1.5 py-0.5 rounded bg-muted/40 text-muted-foreground/40">CURRENT</span>
                               )}
                             </div>
                             <p className="font-mono text-[8px] text-muted-foreground/50 text-left">

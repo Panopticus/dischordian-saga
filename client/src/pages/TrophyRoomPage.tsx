@@ -113,7 +113,7 @@ export default function TrophyRoomPage() {
   return (
     <div className={`min-h-screen ${activeTheme.bg} transition-colors duration-700`}>
       {/* Header */}
-      <div className="border-b border-border/20 bg-black/30 backdrop-blur-sm">
+      <div className="border-b border-border/20 bg-muted/50 backdrop-blur-sm">
         <div className="px-4 sm:px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
@@ -187,7 +187,7 @@ export default function TrophyRoomPage() {
                     <p className="font-mono text-xs font-bold text-foreground">{theme.name}</p>
                     <p className="font-mono text-[9px] text-muted-foreground">{theme.description}</p>
                     {!theme.unlocked && (
-                      <div className="absolute inset-0 flex items-center justify-center bg-black/50 rounded-lg">
+                      <div className="absolute inset-0 flex items-center justify-center bg-background/60 rounded-lg">
                         <div className="text-center">
                           <Lock size={16} className="mx-auto text-muted-foreground mb-1" />
                           <p className="font-mono text-[8px] text-muted-foreground">{theme.requirement}</p>
@@ -213,7 +213,7 @@ export default function TrophyRoomPage() {
             return (
               <div
                 key={stat.label}
-                className={`rounded-lg border ${activeTheme.accent} bg-black/20 p-3 ${activeTheme.glow}`}
+                className={`rounded-lg border ${activeTheme.accent} bg-muted/40 p-3 ${activeTheme.glow}`}
               >
                 <Icon size={14} className={stat.color} />
                 <p className="font-display text-lg font-bold text-foreground mt-1">{stat.value}</p>
@@ -287,7 +287,7 @@ export default function TrophyRoomPage() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4"
+            className="fixed inset-0 z-50 flex items-center justify-center bg-background/90 backdrop-blur-sm p-4"
             onClick={() => setSelectedCard(null)}
           >
             <motion.div

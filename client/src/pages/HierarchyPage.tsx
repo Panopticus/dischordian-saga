@@ -208,7 +208,7 @@ function DemonCard({ demon, onClick, isSelected }: { demon: DemonLeader; onClick
             <span className="font-mono text-[9px] tracking-[0.2em] uppercase" style={{ color: demon.color }}>{demon.corporateRole}</span>
           </div>
           <h3 className="font-display text-sm font-bold text-white truncate">{demon.name}</h3>
-          <p className="font-mono text-[10px] text-white/40 truncate">{demon.title}</p>
+          <p className="font-mono text-[10px] text-muted-foreground/60 truncate">{demon.title}</p>
         </div>
       </div>
       {isSelected && (
@@ -238,7 +238,7 @@ function DemonDetail({ demon, onClose }: { demon: DemonLeader; onClose: () => vo
         <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
         <button
           onClick={onClose}
-          className="absolute top-3 right-3 p-1.5 rounded-full bg-black/50 border border-white/20 text-white/60 hover:text-white hover:bg-black/70 transition-colors"
+          className="absolute top-3 right-3 p-1.5 rounded-full bg-background/60 border border-white/20 text-muted-foreground/80 hover:text-white hover:bg-background/80 transition-colors"
         >
           <X size={14} />
         </button>
@@ -249,7 +249,7 @@ function DemonDetail({ demon, onClose }: { demon: DemonLeader; onClose: () => vo
             </div>
           </div>
           <h2 className="font-display text-xl sm:text-2xl font-black text-white">{demon.name}</h2>
-          <p className="font-mono text-xs text-white/50">{demon.title}</p>
+          <p className="font-mono text-xs text-muted-foreground/70">{demon.title}</p>
         </div>
       </div>
 
@@ -257,7 +257,7 @@ function DemonDetail({ demon, onClose }: { demon: DemonLeader; onClose: () => vo
         {/* Bio */}
         {entry?.bio && (
           <div>
-            <p className="font-mono text-xs text-white/60 leading-relaxed">
+            <p className="font-mono text-xs text-muted-foreground/80 leading-relaxed">
               {showFullBio ? entry.bio : entry.bio.slice(0, 200) + (entry.bio.length > 200 ? "..." : "")}
             </p>
             {entry.bio.length > 200 && (
@@ -271,11 +271,11 @@ function DemonDetail({ demon, onClose }: { demon: DemonLeader; onClose: () => vo
         {/* Mirrors */}
         <div className="grid grid-cols-2 gap-2">
           <div className="rounded-md border border-white/10 p-2.5" style={{ background: "rgba(255,255,255,0.03)" }}>
-            <div className="font-mono text-[9px] text-white/30 tracking-[0.2em] mb-1">MIRRORS ARCHON</div>
+            <div className="font-mono text-[9px] text-muted-foreground/50 tracking-[0.2em] mb-1">MIRRORS ARCHON</div>
             <div className="font-display text-xs font-bold text-white">{demon.mirrorsArchon}</div>
           </div>
           <div className="rounded-md border border-white/10 p-2.5" style={{ background: "rgba(255,255,255,0.03)" }}>
-            <div className="font-mono text-[9px] text-white/30 tracking-[0.2em] mb-1">OPPOSES NEYON</div>
+            <div className="font-mono text-[9px] text-muted-foreground/50 tracking-[0.2em] mb-1">OPPOSES NEYON</div>
             <div className="font-display text-xs font-bold text-white">{demon.mirrorsNeyon}</div>
           </div>
         </div>
@@ -284,15 +284,15 @@ function DemonDetail({ demon, onClose }: { demon: DemonLeader; onClose: () => vo
         <div className="space-y-2">
           <div className="rounded-md border p-2.5" style={{ borderColor: demon.color + "30", background: demon.color + "08" }}>
             <div className="font-mono text-[9px] tracking-[0.2em] mb-1" style={{ color: demon.color }}>DOMAIN</div>
-            <div className="font-mono text-xs text-white/80">{demon.domain}</div>
+            <div className="font-mono text-xs text-foreground/85">{demon.domain}</div>
           </div>
           <div className="rounded-md border border-red-500/20 p-2.5" style={{ background: "rgba(220,38,38,0.05)" }}>
             <div className="font-mono text-[9px] text-red-400/60 tracking-[0.2em] mb-1">BLOOD WEAVE CONNECTION</div>
-            <div className="font-mono text-xs text-white/70">{demon.bloodWeaveConnection}</div>
+            <div className="font-mono text-xs text-muted-foreground/90">{demon.bloodWeaveConnection}</div>
           </div>
           <div className="rounded-md border border-white/10 p-2.5" style={{ background: "rgba(255,255,255,0.03)" }}>
-            <div className="font-mono text-[9px] text-white/30 tracking-[0.2em] mb-1">SPECIAL ABILITY</div>
-            <div className="font-mono text-xs text-white/80">{demon.specialAbility}</div>
+            <div className="font-mono text-[9px] text-muted-foreground/50 tracking-[0.2em] mb-1">SPECIAL ABILITY</div>
+            <div className="font-mono text-xs text-foreground/85">{demon.specialAbility}</div>
           </div>
         </div>
 
@@ -300,7 +300,7 @@ function DemonDetail({ demon, onClose }: { demon: DemonLeader; onClose: () => vo
         <div className="flex gap-2">
           <Link
             href={`/entity/${demon.entityId}`}
-            className="flex-1 flex items-center justify-center gap-1.5 px-3 py-2 rounded-md border border-white/10 font-mono text-[10px] text-white/60 hover:text-white hover:border-white/20 transition-colors"
+            className="flex-1 flex items-center justify-center gap-1.5 px-3 py-2 rounded-md border border-white/10 font-mono text-[10px] text-muted-foreground/80 hover:text-white hover:border-white/20 transition-colors"
           >
             <ExternalLink size={10} /> VIEW DOSSIER
           </Link>
@@ -345,7 +345,7 @@ export default function HierarchyPage() {
       <div className="border-b border-red-500/10 px-4 py-3">
         <div className="flex items-center justify-between max-w-6xl mx-auto">
           <div className="flex items-center gap-3">
-            <Link href="/games" className="text-white/40 hover:text-white font-mono text-xs flex items-center gap-1">
+            <Link href="/games" className="text-muted-foreground/60 hover:text-white font-mono text-xs flex items-center gap-1">
               <ChevronLeft size={14} /> GAMES
             </Link>
             <Link href="/demon-packs" className="text-orange-400/70 hover:text-orange-400 font-mono text-[10px] flex items-center gap-1 px-2 py-0.5 rounded border border-orange-500/20 hover:border-orange-500/40 transition-colors">
@@ -355,13 +355,13 @@ export default function HierarchyPage() {
           <div className="flex gap-2">
             <button
               onClick={() => setViewMode("chart")}
-              className={`px-3 py-1 rounded font-mono text-[10px] transition-colors ${viewMode === "chart" ? "bg-red-500/20 text-red-400 border border-red-500/30" : "text-white/40 hover:text-white/60"}`}
+              className={`px-3 py-1 rounded font-mono text-[10px] transition-colors ${viewMode === "chart" ? "bg-red-500/20 text-red-400 border border-red-500/30" : "text-muted-foreground/60 hover:text-muted-foreground/80"}`}
             >
               ORG CHART
             </button>
             <button
               onClick={() => setViewMode("list")}
-              className={`px-3 py-1 rounded font-mono text-[10px] transition-colors ${viewMode === "list" ? "bg-red-500/20 text-red-400 border border-red-500/30" : "text-white/40 hover:text-white/60"}`}
+              className={`px-3 py-1 rounded font-mono text-[10px] transition-colors ${viewMode === "list" ? "bg-red-500/20 text-red-400 border border-red-500/30" : "text-muted-foreground/60 hover:text-muted-foreground/80"}`}
             >
               LIST VIEW
             </button>
@@ -380,7 +380,7 @@ export default function HierarchyPage() {
           <h1 className="font-display text-2xl sm:text-4xl font-black tracking-wider text-white mb-2">
             HIERARCHY OF THE <span className="text-red-500">DAMNED</span>
           </h1>
-          <p className="font-mono text-xs text-white/40 max-w-lg mx-auto leading-relaxed">
+          <p className="font-mono text-xs text-muted-foreground/60 max-w-lg mx-auto leading-relaxed">
             The corporate structure of Hell itself. Ten demon leaders who mirror the Archons and oppose the Neyons,
             connected through the Blood Weave and bound to the Master of Rylloh.
           </p>
@@ -426,7 +426,7 @@ export default function HierarchyPage() {
 
                 {/* SVPs */}
                 <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
-                  <div className="font-mono text-[9px] text-white/30 tracking-[0.3em] mb-2 text-center">{TIER_LABELS["svp"]}</div>
+                  <div className="font-mono text-[9px] text-muted-foreground/50 tracking-[0.3em] mb-2 text-center">{TIER_LABELS["svp"]}</div>
                   <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
                     {svps.map(d => (
                       <DemonCard key={d.id} demon={d} onClick={() => setSelectedDemon(d)} isSelected={selectedDemon?.id === d.id} />
@@ -438,7 +438,7 @@ export default function HierarchyPage() {
 
                 {/* Directors */}
                 <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>
-                  <div className="font-mono text-[9px] text-white/30 tracking-[0.3em] mb-2 text-center">{TIER_LABELS["director"]}</div>
+                  <div className="font-mono text-[9px] text-muted-foreground/50 tracking-[0.3em] mb-2 text-center">{TIER_LABELS["director"]}</div>
                   <div className="grid grid-cols-3 gap-3">
                     {directors.map(d => (
                       <DemonCard key={d.id} demon={d} onClick={() => setSelectedDemon(d)} isSelected={selectedDemon?.id === d.id} />
@@ -478,12 +478,12 @@ export default function HierarchyPage() {
                 <Flame size={14} className="text-red-500/60" />
                 <h3 className="font-display text-sm font-bold text-red-400/80 tracking-wider">THE BLOOD WEAVE</h3>
               </div>
-              <p className="font-mono text-xs text-white/50 leading-relaxed mb-3">
+              <p className="font-mono text-xs text-muted-foreground/70 leading-relaxed mb-3">
                 The Blood Weave is the Hierarchy's nervous system — a vast network of corrupted dimensional threads
                 that connects all ten demon leaders to their master, Mol'Garath. Through the Blood Weave, soul contracts
                 are enforced, armies are coordinated, and the Thought Virus is propagated across realities.
               </p>
-              <p className="font-mono text-xs text-white/50 leading-relaxed">
+              <p className="font-mono text-xs text-muted-foreground/70 leading-relaxed">
                 The Advocate discovered the Blood Weave during the Age of Privacy and attempted to weaponize it against
                 the Hierarchy. This discovery led to the creation of the Shadow Tongue as a counter-weapon, and ultimately
                 to the Severance — Ith'Rael's masterwork that severed the connection between dimensions and trapped
@@ -500,30 +500,30 @@ export default function HierarchyPage() {
               style={{ background: "rgba(255,255,255,0.02)" }}
             >
               <div className="px-4 py-3 border-b border-white/10">
-                <h3 className="font-display text-sm font-bold text-white/80 tracking-wider">ARCHON / DEMON / NEYON MIRRORS</h3>
-                <p className="font-mono text-[10px] text-white/30 mt-0.5">Each demon mirrors an Archon's power and opposes a Neyon's purpose</p>
+                <h3 className="font-display text-sm font-bold text-foreground/85 tracking-wider">ARCHON / DEMON / NEYON MIRRORS</h3>
+                <p className="font-mono text-[10px] text-muted-foreground/50 mt-0.5">Each demon mirrors an Archon's power and opposes a Neyon's purpose</p>
               </div>
               <div className="overflow-x-auto">
                 <table className="w-full">
                   <thead>
                     <tr className="border-b border-white/5">
-                      <th className="px-4 py-2 text-left font-mono text-[9px] text-white/30 tracking-wider">ARCHON</th>
+                      <th className="px-4 py-2 text-left font-mono text-[9px] text-muted-foreground/50 tracking-wider">ARCHON</th>
                       <th className="px-4 py-2 text-left font-mono text-[9px] text-red-400/50 tracking-wider">DEMON</th>
                       <th className="px-4 py-2 text-left font-mono text-[9px] text-cyan-400/50 tracking-wider">NEYON</th>
-                      <th className="px-4 py-2 text-left font-mono text-[9px] text-white/30 tracking-wider">ROLE</th>
+                      <th className="px-4 py-2 text-left font-mono text-[9px] text-muted-foreground/50 tracking-wider">ROLE</th>
                     </tr>
                   </thead>
                   <tbody>
                     {DEMON_LEADERS.map((d, i) => (
                       <tr
                         key={d.id}
-                        className={`border-b border-white/5 cursor-pointer hover:bg-white/5 transition-colors ${selectedDemon?.id === d.id ? "bg-red-500/5" : ""}`}
+                        className={`border-b border-white/5 cursor-pointer hover:bg-muted/50 transition-colors ${selectedDemon?.id === d.id ? "bg-red-500/5" : ""}`}
                         onClick={() => setSelectedDemon(d)}
                       >
-                        <td className="px-4 py-2 font-mono text-xs text-white/60">{d.mirrorsArchon}</td>
+                        <td className="px-4 py-2 font-mono text-xs text-muted-foreground/80">{d.mirrorsArchon}</td>
                         <td className="px-4 py-2 font-display text-xs font-bold" style={{ color: d.color }}>{d.name}</td>
                         <td className="px-4 py-2 font-mono text-xs text-cyan-400/60">{d.mirrorsNeyon}</td>
-                        <td className="px-4 py-2 font-mono text-[10px] text-white/40">{d.corporateRole}</td>
+                        <td className="px-4 py-2 font-mono text-[10px] text-muted-foreground/60">{d.corporateRole}</td>
                       </tr>
                     ))}
                   </tbody>
@@ -546,7 +546,7 @@ export default function HierarchyPage() {
                     style={{ background: "rgba(255,255,255,0.02)" }}
                   >
                     <Skull size={32} className="text-red-500/20 mx-auto mb-3" />
-                    <p className="font-mono text-xs text-white/30">Select a demon leader to view their dossier</p>
+                    <p className="font-mono text-xs text-muted-foreground/50">Select a demon leader to view their dossier</p>
                   </motion.div>
                 )}
               </AnimatePresence>

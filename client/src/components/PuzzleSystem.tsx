@@ -146,7 +146,7 @@ function RiddlePuzzle({ puzzle, onSolve }: { puzzle: Puzzle; onSolve: () => void
         border: "1px solid rgba(168,85,247,0.15)",
       }}>
         <Brain size={14} className="text-purple-400 mb-2" />
-        <pre className="font-mono text-xs text-white/70 leading-relaxed whitespace-pre-wrap">{puzzle.riddle}</pre>
+        <pre className="font-mono text-xs text-muted-foreground/90 leading-relaxed whitespace-pre-wrap">{puzzle.riddle}</pre>
       </div>
 
       {/* Answer input */}
@@ -156,7 +156,7 @@ function RiddlePuzzle({ puzzle, onSolve }: { puzzle: Puzzle; onSolve: () => void
           value={answer}
           onChange={e => setAnswer(e.target.value)}
           placeholder="Enter your answer..."
-          className="flex-1 bg-transparent border-b border-white/20 pb-2 font-mono text-sm text-white/80 placeholder:text-white/20 focus:outline-none focus:border-purple-400/50"
+          className="flex-1 bg-transparent border-b border-white/20 pb-2 font-mono text-sm text-foreground/85 placeholder:text-muted-foreground/35 focus:outline-none focus:border-purple-400/50"
           onKeyDown={e => { if (e.key === "Enter") checkAnswer(); }}
           autoFocus
         />
@@ -259,7 +259,7 @@ function SequencePuzzle({ puzzle, onSolve }: { puzzle: Puzzle; onSolve: () => vo
           </motion.div>
         ))}
         {selected.length === 0 && (
-          <p className="font-mono text-[10px] text-white/20 self-center">Select systems in the correct boot order...</p>
+          <p className="font-mono text-[10px] text-muted-foreground/35 self-center">Select systems in the correct boot order...</p>
         )}
       </div>
 
@@ -287,7 +287,7 @@ function SequencePuzzle({ puzzle, onSolve }: { puzzle: Puzzle; onSolve: () => vo
 
       {/* Reset */}
       {selected.length > 0 && result === null && (
-        <button onClick={reset} className="flex items-center gap-1 font-mono text-[10px] text-white/30 hover:text-white/50 transition-colors">
+        <button onClick={reset} className="flex items-center gap-1 font-mono text-[10px] text-muted-foreground/50 hover:text-muted-foreground/70 transition-colors">
           <RotateCcw size={10} /> Reset
         </button>
       )}
@@ -348,7 +348,7 @@ function CipherPuzzle({ puzzle, onSolve }: { puzzle: Puzzle; onSolve: () => void
         border: "1px solid rgba(51,226,230,0.15)",
       }}>
         <Terminal size={14} className="text-[var(--neon-cyan)] mx-auto mb-2" />
-        <p className="font-mono text-[10px] text-white/30 mb-2">ENCRYPTED SIGNAL // {puzzle.cipherKey === "reverse" ? "REVERSE CIPHER" : `SHIFT-${puzzle.cipherKey}`}</p>
+        <p className="font-mono text-[10px] text-muted-foreground/50 mb-2">ENCRYPTED SIGNAL // {puzzle.cipherKey === "reverse" ? "REVERSE CIPHER" : `SHIFT-${puzzle.cipherKey}`}</p>
         <p className="font-display text-lg tracking-[0.3em] text-[var(--neon-cyan)]">{puzzle.cipherText}</p>
       </div>
 
@@ -359,7 +359,7 @@ function CipherPuzzle({ puzzle, onSolve }: { puzzle: Puzzle; onSolve: () => void
           value={answer}
           onChange={e => setAnswer(e.target.value)}
           placeholder="Enter decrypted message..."
-          className="flex-1 bg-transparent border-b border-white/20 pb-2 font-mono text-sm text-white/80 placeholder:text-white/20 focus:outline-none focus:border-[var(--neon-cyan)]/50"
+          className="flex-1 bg-transparent border-b border-white/20 pb-2 font-mono text-sm text-foreground/85 placeholder:text-muted-foreground/35 focus:outline-none focus:border-[var(--neon-cyan)]/50"
           onKeyDown={e => { if (e.key === "Enter") checkAnswer(); }}
           autoFocus
         />
@@ -433,7 +433,7 @@ function PowerRelayPuzzle({ puzzle, onSolve }: { puzzle: Puzzle; onSolve: () => 
 
   return (
     <div className="space-y-4">
-      <p className="font-mono text-[10px] text-white/30 text-center">TOGGLE RELAYS TO MATCH EMERGENCY FREQUENCY</p>
+      <p className="font-mono text-[10px] text-muted-foreground/50 text-center">TOGGLE RELAYS TO MATCH EMERGENCY FREQUENCY</p>
 
       {/* Relay switches */}
       <div className="flex justify-center gap-3">
@@ -459,7 +459,7 @@ function PowerRelayPuzzle({ puzzle, onSolve }: { puzzle: Puzzle; onSolve: () => 
                 }}
               />
             </div>
-            <span className="font-mono text-[9px] text-white/30">{i + 1}</span>
+            <span className="font-mono text-[9px] text-muted-foreground/50">{i + 1}</span>
           </button>
         ))}
       </div>
@@ -540,7 +540,7 @@ function KeycardPuzzle({ puzzle, hasItem, onSolve }: { puzzle: Puzzle; hasItem: 
       ) : (
         <>
           <p className="font-mono text-xs text-red-400">KEYCARD REQUIRED</p>
-          <p className="font-mono text-[10px] text-white/40 max-w-xs mx-auto">
+          <p className="font-mono text-[10px] text-muted-foreground/60 max-w-xs mx-auto">
             You need the <span className="text-amber-400">{puzzle.requiredItem?.replace(/-/g, " ")}</span> to access this area.
           </p>
           <div className="rounded-md p-3 max-w-xs mx-auto" style={{
@@ -607,11 +607,11 @@ export default function PuzzleModal({
               <AlertTriangle size={14} className="text-amber-400" />
               <h3 className="font-display text-sm font-bold tracking-[0.15em] text-amber-400">{puzzle.title}</h3>
             </div>
-            <button onClick={onClose} className="font-mono text-[10px] text-white/30 hover:text-white/50 transition-colors">
+            <button onClick={onClose} className="font-mono text-[10px] text-muted-foreground/50 hover:text-muted-foreground/70 transition-colors">
               [close]
             </button>
           </div>
-          <p className="font-mono text-[11px] text-white/50 leading-relaxed mb-4">{puzzle.description}</p>
+          <p className="font-mono text-[11px] text-muted-foreground/70 leading-relaxed mb-4">{puzzle.description}</p>
         </div>
 
         {/* Puzzle content */}
@@ -630,7 +630,7 @@ export default function PuzzleModal({
                 <CheckCircle size={28} className="text-green-400" />
               </div>
               <p className="font-display text-lg font-bold tracking-[0.2em] text-green-400 mb-1">PUZZLE SOLVED</p>
-              <p className="font-mono text-xs text-white/40">Unlocking {roomId.replace(/-/g, " ")}...</p>
+              <p className="font-mono text-xs text-muted-foreground/60">Unlocking {roomId.replace(/-/g, " ")}...</p>
             </motion.div>
           ) : (
             <>

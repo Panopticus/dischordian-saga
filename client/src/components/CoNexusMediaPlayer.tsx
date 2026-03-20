@@ -118,11 +118,11 @@ function MiniPlayer({
               className={`w-10 h-10 rounded-md object-cover ring-1 ring-white/10 ${isPlaying ? "animate-pulse-slow" : ""}`}
             />
           ) : (
-            <div className="w-10 h-10 rounded-md bg-white/5 flex items-center justify-center">
-              <Music2 size={14} className="text-white/30" />
+            <div className="w-10 h-10 rounded-md bg-muted/40 flex items-center justify-center">
+              <Music2 size={14} className="text-muted-foreground/50" />
             </div>
           )}
-          <div className="absolute inset-0 rounded-md bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+          <div className="absolute inset-0 rounded-md bg-muted/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
             <ChevronUp size={16} className="text-white" />
           </div>
         </button>
@@ -130,17 +130,17 @@ function MiniPlayer({
         {/* Song Info */}
         <div className="min-w-0 flex-1">
           <Link href={`/song/${song.id}`}
-            className="text-xs font-mono text-white/80 hover:text-[var(--neon-cyan)] transition-colors truncate block">
+            className="text-xs font-mono text-foreground/85 hover:text-[var(--neon-cyan)] transition-colors truncate block">
             {song.name}
           </Link>
-          <p className="text-[9px] font-mono text-white/30 truncate">
+          <p className="text-[9px] font-mono text-muted-foreground/50 truncate">
             {song.album || "Malkia Ukweli & the Panopticon"}
           </p>
         </div>
 
         {/* Playback Controls */}
         <div className="flex items-center gap-1">
-          <button onClick={onPrev} className="p-1.5 text-white/40 hover:text-white/70 transition-colors hidden sm:block">
+          <button onClick={onPrev} className="p-1.5 text-muted-foreground/60 hover:text-muted-foreground/90 transition-colors hidden sm:block">
             <SkipBack size={14} />
           </button>
           <button
@@ -153,7 +153,7 @@ function MiniPlayer({
           >
             {isPlaying ? <Pause size={14} className="text-[var(--neon-cyan)]" /> : <Play size={14} className="text-[var(--neon-cyan)] ml-0.5" />}
           </button>
-          <button onClick={onNext} className="p-1.5 text-white/40 hover:text-white/70 transition-colors hidden sm:block">
+          <button onClick={onNext} className="p-1.5 text-muted-foreground/60 hover:text-muted-foreground/90 transition-colors hidden sm:block">
             <SkipForward size={14} />
           </button>
         </div>
@@ -181,7 +181,7 @@ function MiniPlayer({
         </div>
 
         {/* Expand Button */}
-        <button onClick={onExpand} className="p-1.5 text-white/30 hover:text-white/60 transition-colors">
+        <button onClick={onExpand} className="p-1.5 text-muted-foreground/50 hover:text-muted-foreground/80 transition-colors">
           <ChevronUp size={16} />
         </button>
       </div>
@@ -198,9 +198,9 @@ function QueueTab({ queue, currentSong, onPlay }: {
   if (queue.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center py-8 text-center">
-        <List size={24} className="text-white/15 mb-2" />
-        <p className="font-mono text-xs text-white/30">Queue is empty</p>
-        <p className="font-mono text-[9px] text-white/15 mt-1">Browse albums or play a song to start</p>
+        <List size={24} className="text-muted-foreground/25 mb-2" />
+        <p className="font-mono text-xs text-muted-foreground/50">Queue is empty</p>
+        <p className="font-mono text-[9px] text-muted-foreground/25 mt-1">Browse albums or play a song to start</p>
       </div>
     );
   }
@@ -217,7 +217,7 @@ function QueueTab({ queue, currentSong, onPlay }: {
               active ? "bg-white/8 border border-white/10" : "hover:bg-white/4 border border-transparent"
             }`}
           >
-            <span className="font-mono text-[9px] text-white/20 w-5 text-right shrink-0">
+            <span className="font-mono text-[9px] text-muted-foreground/35 w-5 text-right shrink-0">
               {active ? (
                 <div className="flex gap-0.5 items-end justify-end h-3">
                   <div className="w-0.5 bg-[var(--neon-cyan)] animate-pulse" style={{ height: "60%" }} />
@@ -232,10 +232,10 @@ function QueueTab({ queue, currentSong, onPlay }: {
               <img src={song.image} alt="" className="w-7 h-7 rounded object-cover shrink-0" />
             )}
             <div className="min-w-0 flex-1">
-              <p className={`font-mono text-[10px] truncate ${active ? "text-[var(--neon-cyan)]" : "text-white/60"}`}>
+              <p className={`font-mono text-[10px] truncate ${active ? "text-[var(--neon-cyan)]" : "text-muted-foreground/80"}`}>
                 {song.name}
               </p>
-              <p className="font-mono text-[8px] text-white/20 truncate">{song.album}</p>
+              <p className="font-mono text-[8px] text-muted-foreground/35 truncate">{song.album}</p>
             </div>
           </button>
         );
@@ -267,16 +267,16 @@ function AlbumsTab({ onPlayAlbum }: {
                 <img src={firstTrack.image} alt={album.name}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
               ) : (
-                <div className="w-full h-full bg-white/5 flex items-center justify-center">
-                  <Disc3 size={24} className="text-white/15" />
+                <div className="w-full h-full bg-muted/40 flex items-center justify-center">
+                  <Disc3 size={24} className="text-muted-foreground/25" />
                 </div>
               )}
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
               <div className="absolute bottom-2 left-2 right-2">
                 <p className="font-mono text-[10px] font-bold text-white truncate">{album.name}</p>
-                <p className="font-mono text-[8px] text-white/50">{album.tracks} tracks · {album.year}</p>
+                <p className="font-mono text-[8px] text-muted-foreground/70">{album.tracks} tracks · {album.year}</p>
               </div>
-              <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+              <div className="absolute inset-0 bg-muted/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                 <Play size={24} className="text-white" />
               </div>
             </div>
@@ -294,14 +294,14 @@ function SagaTab() {
 
   return (
     <div className="space-y-2 max-h-60 overflow-y-auto custom-scrollbar">
-      <p className="font-mono text-[9px] text-white/25 tracking-[0.2em] px-1 uppercase">The Dischordian Saga — Epochs</p>
+      <p className="font-mono text-[9px] text-muted-foreground/40 tracking-[0.2em] px-1 uppercase">The Dischordian Saga — Epochs</p>
       {SAGA_EPOCHS.map((epoch) => (
         <div key={epoch.id} className="rounded-lg border border-white/8 overflow-hidden" style={{ background: "rgba(255,255,255,0.02)" }}>
           <div className="flex items-center gap-3 px-3 py-2.5">
             <div className="w-2 h-8 rounded-full shrink-0" style={{ background: epoch.color }} />
             <div className="min-w-0 flex-1">
-              <p className="font-mono text-[10px] font-bold text-white/80 tracking-wider">{epoch.title}</p>
-              <p className="font-mono text-[8px] text-white/30">{epoch.subtitle}</p>
+              <p className="font-mono text-[10px] font-bold text-foreground/85 tracking-wider">{epoch.title}</p>
+              <p className="font-mono text-[8px] text-muted-foreground/50">{epoch.subtitle}</p>
             </div>
             <a
               href={epoch.playlistUrl}
@@ -320,12 +320,12 @@ function SagaTab() {
                 <Link
                   key={name}
                   href={entry ? `/entity/${entry.id}` : "#"}
-                  className="flex items-center gap-1 px-1.5 py-0.5 rounded bg-white/5 hover:bg-white/8 transition-colors shrink-0"
+                  className="flex items-center gap-1 px-1.5 py-0.5 rounded bg-muted/40 hover:bg-white/8 transition-colors shrink-0"
                 >
                   {entry?.image && (
                     <img src={entry.image} alt="" className="w-4 h-4 rounded-full object-cover" />
                   )}
-                  <span className="font-mono text-[8px] text-white/40 whitespace-nowrap">{name}</span>
+                  <span className="font-mono text-[8px] text-muted-foreground/60 whitespace-nowrap">{name}</span>
                 </Link>
               );
             })}
@@ -342,9 +342,9 @@ function SagaTab() {
         <Gamepad2 size={16} className="text-[var(--orb-orange)] shrink-0" />
         <div className="min-w-0 flex-1">
           <p className="font-mono text-[10px] font-bold text-[var(--orb-orange)] tracking-wider">CoNexus STORY GAMES</p>
-          <p className="font-mono text-[8px] text-white/30">34 interactive narrative experiences</p>
+          <p className="font-mono text-[8px] text-muted-foreground/50">34 interactive narrative experiences</p>
         </div>
-        <ChevronRight size={14} className="text-white/20" />
+        <ChevronRight size={14} className="text-muted-foreground/35" />
       </Link>
     </div>
   );
@@ -361,16 +361,16 @@ function CharactersTab({ song }: { song: LoredexEntry | null }) {
   if (characters.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center py-8 text-center">
-        <Users size={24} className="text-white/15 mb-2" />
-        <p className="font-mono text-xs text-white/30">No characters tagged</p>
-        <p className="font-mono text-[9px] text-white/15 mt-1">Character data unavailable for this track</p>
+        <Users size={24} className="text-muted-foreground/25 mb-2" />
+        <p className="font-mono text-xs text-muted-foreground/50">No characters tagged</p>
+        <p className="font-mono text-[9px] text-muted-foreground/25 mt-1">Character data unavailable for this track</p>
       </div>
     );
   }
 
   return (
     <div className="space-y-1 max-h-60 overflow-y-auto custom-scrollbar">
-      <p className="font-mono text-[9px] text-white/25 tracking-[0.2em] px-1 uppercase mb-2">
+      <p className="font-mono text-[9px] text-muted-foreground/40 tracking-[0.2em] px-1 uppercase mb-2">
         Characters in "{song.name}"
       </p>
       {characters.map((name) => {
@@ -380,25 +380,25 @@ function CharactersTab({ song }: { song: LoredexEntry | null }) {
           <Link
             key={name}
             href={`/entity/${entry.id}`}
-            className="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-white/5 transition-all group"
+            className="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-muted/50 transition-all group"
           >
             {entry.image ? (
               <img src={entry.image} alt={entry.name}
                 className="w-9 h-9 rounded-md object-cover ring-1 ring-white/10 shrink-0" />
             ) : (
-              <div className="w-9 h-9 rounded-md bg-white/5 flex items-center justify-center shrink-0">
-                <Users size={14} className="text-white/20" />
+              <div className="w-9 h-9 rounded-md bg-muted/40 flex items-center justify-center shrink-0">
+                <Users size={14} className="text-muted-foreground/35" />
               </div>
             )}
             <div className="min-w-0 flex-1">
-              <p className="font-mono text-[11px] text-white/70 group-hover:text-[var(--neon-cyan)] transition-colors truncate">
+              <p className="font-mono text-[11px] text-muted-foreground/90 group-hover:text-[var(--neon-cyan)] transition-colors truncate">
                 {entry.name}
               </p>
-              <p className="font-mono text-[9px] text-white/25 truncate">
+              <p className="font-mono text-[9px] text-muted-foreground/40 truncate">
                 {entry.affiliation || entry.era || entry.type}
               </p>
             </div>
-            <Eye size={12} className="text-white/15 group-hover:text-white/40 transition-colors shrink-0" />
+            <Eye size={12} className="text-muted-foreground/25 group-hover:text-muted-foreground/60 transition-colors shrink-0" />
           </Link>
         );
       })}
@@ -448,7 +448,7 @@ function ExpandedPlayer({
           <Radio size={12} className="text-[var(--neon-cyan)]" />
           <span className="font-mono text-[9px] text-[var(--neon-cyan)] tracking-[0.3em]">CoNexus MEDIA</span>
         </div>
-        <button onClick={onCollapse} className="p-1 text-white/30 hover:text-white/60 transition-colors">
+        <button onClick={onCollapse} className="p-1 text-muted-foreground/50 hover:text-muted-foreground/80 transition-colors">
           <ChevronDown size={16} />
         </button>
       </div>
@@ -462,8 +462,8 @@ function ExpandedPlayer({
               className={`w-20 h-20 sm:w-24 sm:h-24 rounded-lg object-cover ring-1 ring-white/10 ${isPlaying ? "shadow-[0_0_20px_rgba(51,226,230,0.15)]" : ""}`}
             />
           ) : (
-            <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-lg bg-white/5 flex items-center justify-center">
-              <Music2 size={24} className="text-white/20" />
+            <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-lg bg-muted/40 flex items-center justify-center">
+              <Music2 size={24} className="text-muted-foreground/35" />
             </div>
           )}
         </div>
@@ -472,14 +472,14 @@ function ExpandedPlayer({
         <div className="flex-1 min-w-0 flex flex-col justify-between">
           <div>
             <Link href={`/song/${song.id}`}
-              className="font-mono text-sm font-bold text-white/90 hover:text-[var(--neon-cyan)] transition-colors truncate block">
+              className="font-mono text-sm font-bold text-foreground hover:text-[var(--neon-cyan)] transition-colors truncate block">
               {song.name}
             </Link>
-            <p className="font-mono text-[10px] text-white/30 truncate mt-0.5">
+            <p className="font-mono text-[10px] text-muted-foreground/50 truncate mt-0.5">
               {song.album || "Malkia Ukweli & the Panopticon"}
             </p>
             {song.track_number && (
-              <p className="font-mono text-[9px] text-white/15 mt-0.5">
+              <p className="font-mono text-[9px] text-muted-foreground/25 mt-0.5">
                 Track {song.track_number}
               </p>
             )}
@@ -487,7 +487,7 @@ function ExpandedPlayer({
 
           {/* Controls */}
           <div className="flex items-center gap-2 mt-2">
-            <button onClick={onPrev} className="p-1.5 text-white/40 hover:text-white/70 transition-colors">
+            <button onClick={onPrev} className="p-1.5 text-muted-foreground/60 hover:text-muted-foreground/90 transition-colors">
               <SkipBack size={16} />
             </button>
             <button
@@ -501,7 +501,7 @@ function ExpandedPlayer({
             >
               {isPlaying ? <Pause size={16} className="text-[var(--neon-cyan)]" /> : <Play size={16} className="text-[var(--neon-cyan)] ml-0.5" />}
             </button>
-            <button onClick={onNext} className="p-1.5 text-white/40 hover:text-white/70 transition-colors">
+            <button onClick={onNext} className="p-1.5 text-muted-foreground/60 hover:text-muted-foreground/90 transition-colors">
               <SkipForward size={16} />
             </button>
           </div>
@@ -542,13 +542,13 @@ function ExpandedPlayer({
               className={`flex items-center gap-1.5 px-3 py-1.5 rounded-t-md font-mono text-[9px] tracking-wider transition-all ${
                 active
                   ? "text-[var(--neon-cyan)] border-b-2 border-[var(--neon-cyan)]"
-                  : "text-white/30 hover:text-white/50"
+                  : "text-muted-foreground/50 hover:text-muted-foreground/70"
               }`}
             >
               <Icon size={11} />
               {tab.label}
               {tab.id === "queue" && queue.length > 0 && (
-                <span className="text-[8px] text-white/20 ml-0.5">({queue.length})</span>
+                <span className="text-[8px] text-muted-foreground/35 ml-0.5">({queue.length})</span>
               )}
             </button>
           );

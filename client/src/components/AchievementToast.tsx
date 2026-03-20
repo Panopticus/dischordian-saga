@@ -57,7 +57,7 @@ export default function AchievementToast() {
                 </span>
               </div>
               <div className="font-display text-sm font-bold text-white">{newAchievement.name}</div>
-              <div className="font-mono text-[10px] text-white/50">{newAchievement.description}</div>
+              <div className="font-mono text-[10px] text-muted-foreground/70">{newAchievement.description}</div>
             </div>
             <div className="text-right ml-2">
               <div className="font-mono text-[10px] text-amber-400">+{newAchievement.xpReward} XP</div>

@@ -390,7 +390,7 @@ export default function RoomTutorialDialog({
               <MessageSquare size={14} className="text-[var(--neon-cyan)]" />
               <span className="font-mono text-[10px] text-[var(--neon-cyan)] tracking-[0.2em]">ROOM TUTORIAL</span>
             </div>
-            <button onClick={onDismiss} className="p-1 text-white/20 hover:text-white/50 transition-colors">
+            <button onClick={onDismiss} className="p-1 text-muted-foreground/35 hover:text-muted-foreground/70 transition-colors">
               <X size={14} />
             </button>
           </div>
@@ -431,7 +431,7 @@ function OpeningPhase({ text, onContinue }: { text: string; onContinue: () => vo
 
   return (
     <div className="space-y-4">
-      <p className="font-mono text-xs text-white/50 leading-relaxed min-h-[3rem]" onClick={skip}>
+      <p className="font-mono text-xs text-muted-foreground/70 leading-relaxed min-h-[3rem]" onClick={skip}>
         {displayed}
         {!done && <span className="inline-block w-1.5 h-4 bg-[var(--neon-cyan)] animate-pulse ml-0.5 align-middle" />}
       </p>
@@ -482,7 +482,7 @@ function DialogPhase({
         </div>
         <div className="flex-1 min-w-0">
           <p className="font-mono text-[9px] text-[var(--neon-cyan)] tracking-[0.2em] mb-1">ELARA</p>
-          <p className="font-mono text-xs text-white/70 leading-relaxed" onClick={skip}>
+          <p className="font-mono text-xs text-muted-foreground/90 leading-relaxed" onClick={skip}>
             {displayed}
             {!done && <span className="inline-block w-1.5 h-4 bg-[var(--neon-cyan)] animate-pulse ml-0.5 align-middle" />}
           </p>
@@ -525,18 +525,18 @@ function DialogPhase({
                 }}
               >
                 <div className={`w-7 h-7 rounded-md flex items-center justify-center shrink-0 mt-0.5 ${
-                  isSelected ? "bg-[var(--neon-cyan)]/15" : "bg-white/5"
+                  isSelected ? "bg-[var(--neon-cyan)]/15" : "bg-muted/40"
                 }`}>
-                  <Icon size={14} className={isSelected ? "text-[var(--neon-cyan)]" : "text-white/40"} />
+                  <Icon size={14} className={isSelected ? "text-[var(--neon-cyan)]" : "text-muted-foreground/60"} />
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className={`font-mono text-[11px] leading-relaxed ${
-                    isSelected ? "text-[var(--neon-cyan)]" : "text-white/60"
+                    isSelected ? "text-[var(--neon-cyan)]" : "text-muted-foreground/80"
                   }`}>
                     {choice.text}
                   </p>
                   {choice.preview && (
-                    <p className="font-mono text-[8px] text-white/20 mt-1 tracking-wider uppercase">
+                    <p className="font-mono text-[8px] text-muted-foreground/35 mt-1 tracking-wider uppercase">
                       {isSelected && choice.cardName ? (
                         <span className="text-[var(--orb-orange)]">→ {choice.cardName} card acquired</span>
                       ) : (

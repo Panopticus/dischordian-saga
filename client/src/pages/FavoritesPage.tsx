@@ -368,7 +368,7 @@ export default function FavoritesPage() {
                                 e.stopPropagation();
                                 toggleFavorite(char.id);
                               }}
-                              className="absolute top-1.5 right-1.5 p-1 rounded-full bg-black/50 text-destructive hover:bg-black/70 transition-all"
+                              className="absolute top-1.5 right-1.5 p-1 rounded-full bg-background/60 text-destructive hover:bg-background/80 transition-all"
                             >
                               <Heart size={10} fill="currentColor" />
                             </button>

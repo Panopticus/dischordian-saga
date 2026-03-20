@@ -399,7 +399,7 @@ export default function EasterEggs() {
 
                 <button
                   onClick={() => setShowSecret(null)}
-                  className="absolute top-2 right-2 p-1 rounded-md text-white/30 hover:text-white/70 transition-colors"
+                  className="absolute top-2 right-2 p-1 rounded-md text-muted-foreground/50 hover:text-muted-foreground/90 transition-colors"
                 >
                   <X size={14} />
                 </button>
@@ -414,16 +414,16 @@ export default function EasterEggs() {
                 <h3 className="font-display text-sm font-bold tracking-wider text-white mb-2">
                   {showSecret.title}
                 </h3>
-                <p className="font-mono text-[11px] text-white/60 leading-relaxed whitespace-pre-line">
+                <p className="font-mono text-[11px] text-muted-foreground/80 leading-relaxed whitespace-pre-line">
                   {showSecret.message}
                 </p>
 
                 {/* Progress */}
                 <div className="mt-3 pt-2 border-t border-white/10 flex items-center gap-4">
-                  <p className="font-mono text-[9px] text-white/25">
+                  <p className="font-mono text-[9px] text-muted-foreground/40">
                     SECRETS: {getDiscoveredSecrets().length}/{Object.keys(SECRET_COMMANDS).length + 1}
                   </p>
-                  <p className="font-mono text-[9px] text-white/25">
+                  <p className="font-mono text-[9px] text-muted-foreground/40">
                     EGGS: {getDiscoveredRoomEggs().length}/{Object.keys(ROOM_EASTER_EGGS).length}
                   </p>
                 </div>
@@ -453,9 +453,9 @@ export function SecretsProgress() {
       <div className="flex items-center gap-2 mb-2">
         <Lock size={12} className="text-[var(--deep-purple)]" />
         <span className="font-mono text-[9px] tracking-[0.2em] text-[var(--deep-purple)]">SECRETS & EASTER EGGS</span>
-        <span className="font-mono text-[9px] text-white/25 ml-auto">{foundAll}/{totalAll}</span>
+        <span className="font-mono text-[9px] text-muted-foreground/40 ml-auto">{foundAll}/{totalAll}</span>
       </div>
-      <div className="h-1 rounded-full bg-white/5 overflow-hidden">
+      <div className="h-1 rounded-full bg-muted/40 overflow-hidden">
         <div
           className="h-full rounded-full transition-all"
           style={{
@@ -467,7 +467,7 @@ export function SecretsProgress() {
 
       {/* Secret words */}
       <div className="mt-2">
-        <p className="font-mono text-[8px] text-white/20 mb-1">SECRET WORDS ({discoveredSecrets.length}/{totalSecrets})</p>
+        <p className="font-mono text-[8px] text-muted-foreground/35 mb-1">SECRET WORDS ({discoveredSecrets.length}/{totalSecrets})</p>
         <div className="flex flex-wrap gap-1">
           {Object.keys(SECRET_COMMANDS).map((key) => (
             <div
@@ -475,7 +475,7 @@ export function SecretsProgress() {
               className={`w-3 h-3 rounded-sm ${
                 discoveredSecrets.includes(key)
                   ? "bg-[var(--deep-purple)]/60"
-                  : "bg-white/5"
+                  : "bg-muted/40"
               }`}
               title={discoveredSecrets.includes(key) ? key : "???"}
             />
@@ -484,7 +484,7 @@ export function SecretsProgress() {
             className={`w-3 h-3 rounded-sm ${
               discoveredSecrets.includes("konami")
                 ? "bg-[var(--neon-cyan)]/60"
-                : "bg-white/5"
+                : "bg-muted/40"
             }`}
             title={discoveredSecrets.includes("konami") ? "Konami Code" : "???"}
           />
@@ -493,7 +493,7 @@ export function SecretsProgress() {
 
       {/* Room Easter eggs */}
       <div className="mt-2">
-        <p className="font-mono text-[8px] text-white/20 mb-1">ROOM EASTER EGGS ({discoveredEggs.length}/{totalEggs})</p>
+        <p className="font-mono text-[8px] text-muted-foreground/35 mb-1">ROOM EASTER EGGS ({discoveredEggs.length}/{totalEggs})</p>
         <div className="flex flex-wrap gap-1">
           {Object.keys(ROOM_EASTER_EGGS).map((key) => (
             <div
@@ -501,7 +501,7 @@ export function SecretsProgress() {
               className={`w-3 h-3 rounded-sm ${
                 discoveredEggs.includes(key)
                   ? "bg-red-500/60"
-                  : "bg-white/5"
+                  : "bg-muted/40"
               }`}
               title={discoveredEggs.includes(key) ? ROOM_EASTER_EGGS[key].title : "???"}
             />
@@ -512,10 +512,10 @@ export function SecretsProgress() {
       {/* Lore fragments found */}
       {getLoreFragments().length > 0 && (
         <div className="mt-2">
-          <p className="font-mono text-[8px] text-white/20 mb-1">LORE FRAGMENTS ({getLoreFragments().length})</p>
+          <p className="font-mono text-[8px] text-muted-foreground/35 mb-1">LORE FRAGMENTS ({getLoreFragments().length})</p>
           <div className="space-y-1 max-h-32 overflow-y-auto">
             {getLoreFragments().map(f => (
-              <div key={f.id} className="px-2 py-1 rounded bg-white/3 border border-white/5">
+              <div key={f.id} className="px-2 py-1 rounded bg-muted/25 border border-white/5">
                 <p className="font-mono text-[9px] text-amber-400/70">{f.title}</p>
               </div>
             ))}
@@ -526,16 +526,16 @@ export function SecretsProgress() {
       {/* Bonus cards found */}
       {getBonusCards().length > 0 && (
         <div className="mt-2">
-          <p className="font-mono text-[8px] text-white/20 mb-1">BONUS CARDS ({getBonusCards().length})</p>
+          <p className="font-mono text-[8px] text-muted-foreground/35 mb-1">BONUS CARDS ({getBonusCards().length})</p>
           <div className="space-y-1 max-h-32 overflow-y-auto">
             {getBonusCards().map(c => (
-              <div key={c.name} className="px-2 py-1 rounded bg-white/3 border border-white/5 flex items-center gap-2">
+              <div key={c.name} className="px-2 py-1 rounded bg-muted/25 border border-white/5 flex items-center gap-2">
                 <span className={`font-mono text-[8px] font-bold ${
                   c.rarity === "mythic" ? "text-red-400" : c.rarity === "legendary" ? "text-amber-400" : "text-blue-400"
                 }`}>
                   {c.rarity.toUpperCase()}
                 </span>
-                <span className="font-mono text-[9px] text-white/50">{c.name}</span>
+                <span className="font-mono text-[9px] text-muted-foreground/70">{c.name}</span>
               </div>
             ))}
           </div>

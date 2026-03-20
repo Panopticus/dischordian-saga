@@ -27,7 +27,7 @@ export default function ZoomableImage({ src, alt, className, children }: Zoomabl
         {children || (
           <img src={src} alt={alt} className="w-full h-full object-cover" loading="lazy" />
         )}
-        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors flex items-center justify-center opacity-0 group-hover:opacity-100">
+        <div className="absolute inset-0 bg-black/0 group-hover:bg-muted/40 transition-colors flex items-center justify-center opacity-0 group-hover:opacity-100">
           <Maximize2 size={20} className="text-white drop-shadow-lg" />
         </div>
       </div>
@@ -204,26 +204,26 @@ function ZoomLightbox({ src, alt, onClose }: { src: string; alt: string; onClose
     >
       {/* Top bar */}
       <div className="flex items-center justify-between px-4 py-3 z-10">
-        <p className="font-mono text-xs text-white/50 truncate flex-1 mr-4">{alt}</p>
+        <p className="font-mono text-xs text-muted-foreground/70 truncate flex-1 mr-4">{alt}</p>
         <div className="flex items-center gap-2">
           <button
             onClick={zoomOut}
-            className="w-9 h-9 rounded-full flex items-center justify-center bg-white/10 hover:bg-white/20 text-white/70 transition-colors"
+            className="w-9 h-9 rounded-full flex items-center justify-center bg-muted/50 hover:bg-white/20 text-muted-foreground/90 transition-colors"
             title="Zoom out"
           >
             <ZoomOut size={16} />
           </button>
-          <span className="font-mono text-[10px] text-white/40 w-10 text-center">{Math.round(scale * 100)}%</span>
+          <span className="font-mono text-[10px] text-muted-foreground/60 w-10 text-center">{Math.round(scale * 100)}%</span>
           <button
             onClick={zoomIn}
-            className="w-9 h-9 rounded-full flex items-center justify-center bg-white/10 hover:bg-white/20 text-white/70 transition-colors"
+            className="w-9 h-9 rounded-full flex items-center justify-center bg-muted/50 hover:bg-white/20 text-muted-foreground/90 transition-colors"
             title="Zoom in"
           >
             <ZoomIn size={16} />
           </button>
           <button
             onClick={onClose}
-            className="w-9 h-9 rounded-full flex items-center justify-center bg-white/10 hover:bg-white/20 text-white/70 transition-colors ml-2"
+            className="w-9 h-9 rounded-full flex items-center justify-center bg-muted/50 hover:bg-white/20 text-muted-foreground/90 transition-colors ml-2"
             title="Close"
           >
             <X size={18} />
@@ -260,7 +260,7 @@ function ZoomLightbox({ src, alt, onClose }: { src: string; alt: string; onClose
 
       {/* Bottom hint */}
       <div className="text-center py-2">
-        <p className="font-mono text-[10px] text-white/20">
+        <p className="font-mono text-[10px] text-muted-foreground/35">
           {scale > 1 ? "Drag to pan • Double-tap to reset" : "Pinch or scroll to zoom • Double-tap to zoom in"}
         </p>
       </div>

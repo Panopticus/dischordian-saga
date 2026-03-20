@@ -352,7 +352,7 @@ export default function ConexusPortalPage() {
                               <h2 className={`font-display text-sm font-bold tracking-[0.15em] ${category.color}`}>
                                 {category.age.toUpperCase()}
                               </h2>
-                              <p className="font-mono text-[10px] text-white/50">
+                              <p className="font-mono text-[10px] text-muted-foreground/70">
                                 {category.games.length} STORIES
                               </p>
                             </div>
@@ -363,7 +363,7 @@ export default function ConexusPortalPage() {
                             </span>
                           )}
                         </div>
-                        <p className="text-xs text-white/60 leading-relaxed mt-2">
+                        <p className="text-xs text-muted-foreground/80 leading-relaxed mt-2">
                           {category.description}
                         </p>
                       </div>
@@ -527,7 +527,7 @@ export default function ConexusPortalPage() {
             className="fixed inset-0 z-50 flex items-center justify-center p-4"
             onClick={() => setSelectedGame(null)}
           >
-            <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" />
+            <div className="absolute inset-0 bg-background/90 backdrop-blur-sm" />
             <motion.div
               initial={{ scale: 0.9, y: 20 }}
               animate={{ scale: 1, y: 0 }}
@@ -549,7 +549,7 @@ export default function ConexusPortalPage() {
                 <div className="absolute inset-0 bg-gradient-to-t from-card via-card/30 to-transparent" />
                 <button
                   onClick={() => setSelectedGame(null)}
-                  className="absolute top-3 right-3 w-8 h-8 rounded-full bg-black/60 backdrop-blur-sm border border-white/20 flex items-center justify-center text-white/80 hover:text-white transition-colors"
+                  className="absolute top-3 right-3 w-8 h-8 rounded-full bg-background/70 backdrop-blur-sm border border-white/20 flex items-center justify-center text-foreground/85 hover:text-white transition-colors"
                 >
                   ×
                 </button>
@@ -563,7 +563,7 @@ export default function ConexusPortalPage() {
                 <div className="absolute bottom-4 left-4 right-4">
                   <div className="flex items-center gap-2 mb-1">
                     {AGE_CATEGORIES.map(cat => cat.age === selectedGame.age ? (
-                      <span key={cat.age} className={`px-2 py-0.5 rounded-full text-[9px] font-mono tracking-wider border ${cat.color} ${cat.borderColor} bg-black/40 backdrop-blur-sm`}>
+                      <span key={cat.age} className={`px-2 py-0.5 rounded-full text-[9px] font-mono tracking-wider border ${cat.color} ${cat.borderColor} bg-muted/60 backdrop-blur-sm`}>
                         {cat.age.toUpperCase()}
                       </span>
                     ) : null)}
@@ -726,7 +726,7 @@ export default function ConexusPortalPage() {
             className="fixed inset-0 z-50 flex items-center justify-center p-4"
             onClick={() => setShowAchievementModal(null)}
           >
-            <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" />
+            <div className="absolute inset-0 bg-background/90 backdrop-blur-sm" />
             <motion.div
               initial={{ scale: 0.9, y: 20 }}
               animate={{ scale: 1, y: 0 }}

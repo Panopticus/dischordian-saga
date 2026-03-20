@@ -381,7 +381,7 @@ export default function GamesPage() {
                 >
                   <div className="flex items-center gap-2.5 mb-2">
                     <Icon size={16} style={{ color: sim.color }} className="group-hover:scale-110 transition-transform" />
-                    <h4 className="font-display text-[11px] font-bold tracking-wider text-white/90 group-hover:text-white transition-colors">
+                    <h4 className="font-display text-[11px] font-bold tracking-wider text-foreground group-hover:text-white transition-colors">
                       {sim.title}
                     </h4>
                   </div>

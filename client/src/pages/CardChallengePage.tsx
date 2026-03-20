@@ -103,7 +103,7 @@ export default function CardChallengePage() {
         <AnimatePresence>
           {showResult && (
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-              className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80"
+              className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-background/90"
               onClick={() => setShowResult(null)}>
               <motion.div initial={{ scale: 0.8 }} animate={{ scale: 1 }}
                 className="rounded-xl p-8 text-center max-w-sm w-full"

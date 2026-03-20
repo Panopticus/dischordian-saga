@@ -170,7 +170,7 @@ function CardDisplay({ card, onClick, viewMode }: { card: FullCard; onClick: () 
     return (
       <motion.div
         whileHover={{ x: 4 }}
-        className={`flex items-center gap-3 px-3 py-2 rounded-lg border ${rarity.border} ${rarity.bg} cursor-pointer hover:bg-white/5 transition-colors`}
+        className={`flex items-center gap-3 px-3 py-2 rounded-lg border ${rarity.border} ${rarity.bg} cursor-pointer hover:bg-muted/50 transition-colors`}
         onClick={onClick}
       >
         <div className="w-10 h-10 rounded-md overflow-hidden flex-shrink-0">
@@ -315,9 +315,9 @@ function CardDetailModal({ card, onClose }: { card: FullCard | null; onClose: ()
                 <span className={`font-mono text-[10px] ${elemCfg.color} uppercase`}>{card.element}</span>
               </div>
             )}
-            <div className="flex items-center gap-1 bg-black/50 px-2 py-1 rounded-full">
-              <TypeIcon size={12} className="text-white/70" />
-              <span className="font-mono text-[10px] text-white/70 uppercase">{card.cardType}</span>
+            <div className="flex items-center gap-1 bg-background/60 px-2 py-1 rounded-full">
+              <TypeIcon size={12} className="text-muted-foreground/90" />
+              <span className="font-mono text-[10px] text-muted-foreground/90 uppercase">{card.cardType}</span>
             </div>
           </div>
           {/* Stats bar */}
@@ -364,7 +364,7 @@ function CardDetailModal({ card, onClose }: { card: FullCard | null; onClose: ()
 
           {/* Ability */}
           {card.abilityText && (
-            <div className="bg-black/30 rounded-lg p-3 border border-white/5">
+            <div className="bg-muted/50 rounded-lg p-3 border border-white/5">
               <p className="font-mono text-xs text-primary mb-1 flex items-center gap-1">
                 <Zap size={11} /> ABILITY
               </p>
@@ -374,7 +374,7 @@ function CardDetailModal({ card, onClose }: { card: FullCard | null; onClose: ()
 
           {/* Flavor text / Lore */}
           {card.flavorText && (
-            <div className="bg-black/20 rounded-lg p-3 border border-white/5">
+            <div className="bg-muted/40 rounded-lg p-3 border border-white/5">
               <p className="font-mono text-xs text-accent mb-1 flex items-center gap-1">
                 <Eye size={11} /> LORE
               </p>
@@ -414,7 +414,7 @@ function CardDetailModal({ card, onClose }: { card: FullCard | null; onClose: ()
         {/* Close button */}
         <button
           onClick={onClose}
-          className="absolute top-2 right-2 w-8 h-8 rounded-full bg-black/60 flex items-center justify-center text-white/60 hover:text-white hover:bg-black/80 transition-colors z-10"
+          className="absolute top-2 right-2 w-8 h-8 rounded-full bg-background/70 flex items-center justify-center text-muted-foreground/80 hover:text-white hover:bg-background/90 transition-colors z-10"
         >
           <X size={16} />
         </button>

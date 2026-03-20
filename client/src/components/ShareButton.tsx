@@ -59,7 +59,7 @@ export default function ShareButton({ title, text, className = "", size = "sm" }
       } ${
         copied
           ? "text-[var(--signal-green)] border border-[var(--signal-green)]/30 bg-[var(--signal-green)]/5"
-          : "text-white/50 border border-white/10 hover:text-white/80 hover:border-white/20 hover:bg-white/5"
+          : "text-muted-foreground/70 border border-white/10 hover:text-foreground/85 hover:border-white/20 hover:bg-muted/50"
       } ${className}`}
     >
       {copied ? <Check size={iconSize} /> : <Share2 size={iconSize} />}

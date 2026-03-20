@@ -364,7 +364,7 @@ export default function RewardCelebration({
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.3 }}
-                  className="font-mono text-[10px] text-white/40 mb-4"
+                  className="font-mono text-[10px] text-muted-foreground/60 mb-4"
                 >
                   {data.description}
                 </motion.p>
@@ -425,7 +425,7 @@ export default function RewardCelebration({
                   initial={{ opacity: 0 }}
                   animate={{ opacity: [0, 0.5, 0.3] }}
                   transition={{ delay: 1.5, duration: 2, repeat: Infinity }}
-                  className="font-mono text-[9px] text-white/30 mt-4 tracking-wider"
+                  className="font-mono text-[9px] text-muted-foreground/50 mt-4 tracking-wider"
                 >
                   TAP TO CONTINUE
                 </motion.p>

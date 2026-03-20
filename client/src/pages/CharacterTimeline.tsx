@@ -320,7 +320,7 @@ export default function CharacterTimeline() {
                 onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; const sib = (e.target as HTMLImageElement).nextElementSibling; if (sib) sib.classList.remove("hidden"); }}
               />
             ) : null}
-            <div className={`${entry.image ? "hidden" : ""} w-full h-full flex items-center justify-center bg-black/40`}>
+            <div className={`${entry.image ? "hidden" : ""} w-full h-full flex items-center justify-center bg-muted/60`}>
               <Icon size={24} style={{ color: colors.border }} />
             </div>
             {entry.type !== "character" && (
@@ -489,7 +489,7 @@ export default function CharacterTimeline() {
             </div>
             <div className="flex gap-4 px-2 flex-wrap">
               {CONEXUS_EVENTS.map((event) => (
-                <div key={event.title} className="rounded-lg border border-border/30 bg-black/40 backdrop-blur-sm p-3 w-48">
+                <div key={event.title} className="rounded-lg border border-border/30 bg-muted/60 backdrop-blur-sm p-3 w-48">
                   <p className="font-mono text-xs font-bold text-primary mb-2 flex items-center gap-1.5">
                     {event.url ? (
                       <a href={event.url} target="_blank" rel="noopener noreferrer" className="hover:underline flex items-center gap-1"><Play size={10} />{event.title}</a>

@@ -471,10 +471,10 @@ export default function SagaTimelinePage() {
                               <h2 className="font-display text-sm sm:text-lg font-bold tracking-wider drop-shadow-lg" style={{ color: era.color }}>
                                 {era.age.toUpperCase()}
                               </h2>
-                              <span className="font-mono text-[10px] text-white/50">{era.yearRange}</span>
+                              <span className="font-mono text-[10px] text-muted-foreground/70">{era.yearRange}</span>
                             </div>
                             {completed > 0 && (
-                              <span className="flex items-center gap-1 font-mono text-[10px] text-green-400/80 bg-black/40 px-2 py-0.5 rounded-md backdrop-blur-sm">
+                              <span className="flex items-center gap-1 font-mono text-[10px] text-green-400/80 bg-muted/60 px-2 py-0.5 rounded-md backdrop-blur-sm">
                                 <CheckCircle2 size={10} /> {completed}/{games.length}
                               </span>
                             )}

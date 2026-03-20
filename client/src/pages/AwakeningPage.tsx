@@ -88,7 +88,7 @@ function ElaraDialogBox({
             backgroundImage: "repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(51,226,230,0.1) 2px, rgba(51,226,230,0.1) 4px)",
           }} />
 
-          <p className="font-mono text-sm sm:text-base text-white/90 leading-relaxed relative z-10 min-h-[3em]">
+          <p className="font-mono text-sm sm:text-base text-foreground leading-relaxed relative z-10 min-h-[3em]">
             {displayed}
             {!done && <span className="inline-block w-2 h-4 bg-[var(--neon-cyan)] ml-1 animate-pulse" />}
           </p>
@@ -121,9 +121,9 @@ function ElaraDialogBox({
                     }}
                   >
                     <span className="text-[var(--neon-cyan)]/70 mr-2">&gt;</span>
-                    <span className="text-white/80 group-hover:text-white">{choice.label}</span>
+                    <span className="text-foreground/85 group-hover:text-white">{choice.label}</span>
                     {choice.description && (
-                      <span className="block text-[11px] text-white/30 mt-0.5 ml-4">{choice.description}</span>
+                      <span className="block text-[11px] text-muted-foreground/50 mt-0.5 ml-4">{choice.description}</span>
                     )}
                   </motion.button>
                 ))}
@@ -138,7 +138,7 @@ function ElaraDialogBox({
             ) : !done ? (
               <button
                 onClick={skip}
-                className="font-mono text-[10px] text-white/20 hover:text-white/40 transition-colors"
+                className="font-mono text-[10px] text-muted-foreground/35 hover:text-muted-foreground/60 transition-colors"
               >
                 [click to skip]
               </button>
@@ -194,7 +194,7 @@ function AttributeAllocator({
         border: "1px solid rgba(51,226,230,0.2)",
       }}>
         <h3 className="font-display text-sm tracking-[0.2em] text-[var(--neon-cyan)] mb-1">NEURAL CALIBRATION</h3>
-        <p className="font-mono text-[11px] text-white/40 mb-4">
+        <p className="font-mono text-[11px] text-muted-foreground/60 mb-4">
           Distribute 9 points across your attributes. Each starts at 1, max 5.
           <span className="text-[var(--neon-cyan)] ml-1">Remaining: {remaining}</span>
         </p>
@@ -206,18 +206,18 @@ function AttributeAllocator({
         ].map(attr => (
           <div key={attr.key} className="flex items-center justify-between mb-3">
             <div className="w-24">
-              <p className="font-mono text-xs text-white/80">{attr.label}</p>
-              <p className="font-mono text-[9px] text-white/30">{attr.desc}</p>
+              <p className="font-mono text-xs text-foreground/85">{attr.label}</p>
+              <p className="font-mono text-[9px] text-muted-foreground/50">{attr.desc}</p>
             </div>
             <div className="flex items-center gap-2">
               <button
                 onClick={() => adjust(attr.key, -1)}
-                className="w-6 h-6 rounded border border-white/20 text-white/40 hover:text-white hover:border-white/40 font-mono text-sm flex items-center justify-center transition-colors"
+                className="w-6 h-6 rounded border border-white/20 text-muted-foreground/60 hover:text-white hover:border-white/40 font-mono text-sm flex items-center justify-center transition-colors"
               >-</button>
               {renderDots(attr.val)}
               <button
                 onClick={() => adjust(attr.key, 1)}
-                className="w-6 h-6 rounded border border-white/20 text-white/40 hover:text-white hover:border-white/40 font-mono text-sm flex items-center justify-center transition-colors"
+                className="w-6 h-6 rounded border border-white/20 text-muted-foreground/60 hover:text-white hover:border-white/40 font-mono text-sm flex items-center justify-center transition-colors"
               >+</button>
             </div>
           </div>
@@ -649,7 +649,7 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
                     onChange={e => setNameInput(e.target.value)}
                     placeholder="Enter your name..."
                     maxLength={64}
-                    className="w-full bg-transparent border-b border-[var(--neon-cyan)]/30 pb-2 font-mono text-white/90 text-sm placeholder:text-white/20 focus:outline-none focus:border-[var(--neon-cyan)]/60"
+                    className="w-full bg-transparent border-b border-[var(--neon-cyan)]/30 pb-2 font-mono text-foreground text-sm placeholder:text-muted-foreground/35 focus:outline-none focus:border-[var(--neon-cyan)]/60"
                     autoFocus
                     onKeyDown={e => {
                       if (e.key === "Enter" && nameInput.trim().length >= 2) {
@@ -755,7 +755,7 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
             setCharacterChoice("element", characterChoices.element || "earth");
             setCharacterChoice("name", characterChoices.name || "Operative");
           }}
-          className="fixed bottom-4 right-4 z-50 font-mono text-[10px] text-white/20 hover:text-white/40 transition-colors px-3 py-1.5 rounded border border-white/10 hover:border-white/20"
+          className="fixed bottom-4 right-4 z-50 font-mono text-[10px] text-muted-foreground/35 hover:text-muted-foreground/60 transition-colors px-3 py-1.5 rounded border border-white/10 hover:border-white/20"
         >
           SKIP INTRO &gt;&gt;
         </button>

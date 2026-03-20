@@ -42,7 +42,7 @@ function RewardBadge({ reward }: { reward: TutorialReward }) {
     theme: <Award size={12} className="text-pink-400" />,
   };
   return (
-    <span className="inline-flex items-center gap-1.5 px-2 py-1 rounded bg-white/5 border border-white/10 text-xs font-mono">
+    <span className="inline-flex items-center gap-1.5 px-2 py-1 rounded bg-muted/40 border border-white/10 text-xs font-mono">
       {icons[reward.type] || <Gift size={12} />}
       {reward.amount ? `${reward.amount} ` : ""}{reward.name}
     </span>
@@ -119,17 +119,17 @@ function ChoiceButton({
             ? "bg-amber-500/20 border-amber-500/50 shadow-[0_0_20px_rgba(255,180,0,0.15)]"
             : "bg-primary/20 border-primary/50"
           : disabled
-          ? "bg-white/3 border-white/5 opacity-40"
+          ? "bg-muted/25 border-white/5 opacity-40"
           : isMachine
-          ? "bg-white/5 border-cyan-500/20 hover:bg-cyan-500/10 hover:border-cyan-500/40"
+          ? "bg-muted/40 border-cyan-500/20 hover:bg-cyan-500/10 hover:border-cyan-500/40"
           : isHumanity
-          ? "bg-white/5 border-amber-500/20 hover:bg-amber-500/10 hover:border-amber-500/40"
-          : "bg-white/5 border-white/10 hover:bg-white/10"
+          ? "bg-muted/40 border-amber-500/20 hover:bg-amber-500/10 hover:border-amber-500/40"
+          : "bg-muted/40 border-white/10 hover:bg-muted/60"
       }`}
     >
       <div className="flex items-start gap-3">
         <div className={`mt-1 p-1.5 rounded ${
-          isMachine ? "bg-cyan-500/20" : isHumanity ? "bg-amber-500/20" : "bg-white/10"
+          isMachine ? "bg-cyan-500/20" : isHumanity ? "bg-amber-500/20" : "bg-muted/50"
         }`}>
           {isMachine ? <CircuitBoard size={14} className="text-cyan-400" /> : 
            isHumanity ? <Heart size={14} className="text-amber-400" /> :
@@ -247,7 +247,7 @@ export default function LoreTutorialEngine({ tutorial, onComplete, onDismiss }: 
         {/* Dismiss button */}
         <button
           onClick={onDismiss}
-          className="absolute top-4 right-4 p-2 rounded-lg bg-white/5 hover:bg-white/10 text-muted-foreground hover:text-foreground transition-colors z-10"
+          className="absolute top-4 right-4 p-2 rounded-lg bg-muted/40 hover:bg-muted/60 text-muted-foreground hover:text-foreground transition-colors z-10"
           title="Skip tutorial"
         >
           <X size={18} />
@@ -295,7 +295,7 @@ export default function LoreTutorialEngine({ tutorial, onComplete, onDismiss }: 
                 <div
                   key={i}
                   className={`h-1 flex-1 rounded-full transition-colors ${
-                    i < stepIndex ? "bg-primary" : i === stepIndex ? "bg-primary/60" : "bg-white/10"
+                    i < stepIndex ? "bg-primary" : i === stepIndex ? "bg-primary/60" : "bg-muted/50"
                   }`}
                 />
               ))}
@@ -387,7 +387,7 @@ export default function LoreTutorialEngine({ tutorial, onComplete, onDismiss }: 
                 <div
                   key={i}
                   className={`h-1 flex-1 rounded-full transition-colors ${
-                    i <= stepIndex ? "bg-primary" : "bg-white/10"
+                    i <= stepIndex ? "bg-primary" : "bg-muted/50"
                   }`}
                 />
               ))}
@@ -408,7 +408,7 @@ export default function LoreTutorialEngine({ tutorial, onComplete, onDismiss }: 
 
               {/* Your choice recap */}
               <div className="px-5 pt-3 pb-1">
-                <div className="flex items-start gap-2 px-3 py-2 rounded-lg bg-white/5 border border-white/10 mb-3">
+                <div className="flex items-start gap-2 px-3 py-2 rounded-lg bg-muted/40 border border-white/10 mb-3">
                   <span className="font-mono text-[10px] text-muted-foreground mt-0.5 shrink-0">YOU:</span>
                   <p className="text-xs text-foreground/70 italic">{selectedChoice.text}</p>
                 </div>
@@ -475,7 +475,7 @@ export default function LoreTutorialEngine({ tutorial, onComplete, onDismiss }: 
 
               <div className="px-5 py-4 space-y-3">
                 {/* Morality summary */}
-                <div className="flex items-center justify-between px-3 py-2 rounded-lg bg-white/5 border border-white/10">
+                <div className="flex items-center justify-between px-3 py-2 rounded-lg bg-muted/40 border border-white/10">
                   <span className="font-mono text-xs text-muted-foreground">MORALITY SHIFT</span>
                   <div className="flex items-center gap-2">
                     {totalMoralityShift < 0 ? (
@@ -494,7 +494,7 @@ export default function LoreTutorialEngine({ tutorial, onComplete, onDismiss }: 
 
                 {/* Rewards collected */}
                 {collectedRewards.length > 0 && (
-                  <div className="px-3 py-2 rounded-lg bg-white/5 border border-white/10">
+                  <div className="px-3 py-2 rounded-lg bg-muted/40 border border-white/10">
                     <p className="font-mono text-[10px] text-accent tracking-wider mb-2">REWARDS EARNED</p>
                     <div className="flex flex-wrap gap-2">
                       {collectedRewards.map((r, i) => (

@@ -69,6 +69,7 @@ export interface GameState {
   completedTutorials: string[];    // Tutorial IDs the player has completed
   // Morality-based unlocks
   moralityUnlocks: string[];       // IDs of morality-gated items/themes unlocked
+  discoveredTransmissions: string[]; // IDs of secret morality-gated transmissions found
 }
 
 /* ─── ROOM DEFINITIONS ─── */
@@ -565,6 +566,7 @@ const DEFAULT_GAME_STATE: GameState = {
   moralityChoices: [],
   completedTutorials: [],
   moralityUnlocks: [],
+  discoveredTransmissions: [],
 };
 
 const GAME_STORAGE_KEY = "loredex_game_state";
@@ -604,6 +606,9 @@ interface GameContextValue {
   getMoralityLabel: () => string;
   getMoralityTier: () => { tier: string; level: number };
   unlockMoralityReward: (rewardId: string) => void;
+  // Secret transmissions
+  discoverTransmission: (transmissionId: string) => void;
+  isTransmissionDiscovered: (transmissionId: string) => boolean;
   // Tutorials
   completeTutorial: (tutorialId: string) => void;
   isTutorialCompleted: (tutorialId: string) => boolean;
@@ -971,6 +976,18 @@ export function GameProvider({ children }: { children: ReactNode }) {
     });
   }, []);
 
+  /* ─── SECRET TRANSMISSIONS ─── */
+  const discoverTransmission = useCallback((transmissionId: string) => {
+    setState(prev => {
+      if (prev.discoveredTransmissions.includes(transmissionId)) return prev;
+      return { ...prev, discoveredTransmissions: [...prev.discoveredTransmissions, transmissionId] };
+    });
+  }, []);
+
+  const isTransmissionDiscovered = useCallback((transmissionId: string) => {
+    return state.discoveredTransmissions.includes(transmissionId);
+  }, [state.discoveredTransmissions]);
+
   /* ─── TUTORIALS ─── */
   const completeTutorial = useCallback((tutorialId: string) => {
     setState(prev => {
@@ -1034,6 +1051,8 @@ export function GameProvider({ children }: { children: ReactNode }) {
       getMoralityLabel,
       getMoralityTier,
       unlockMoralityReward,
+      discoverTransmission,
+      isTransmissionDiscovered,
       completeTutorial,
       isTutorialCompleted,
       skipToExploring,

@@ -415,14 +415,14 @@ export default function WatchPage() {
         {/* Top bar */}
         <div className="sticky top-12 z-30 px-3 py-2" style={{ background: "rgba(1,0,32,0.95)", borderBottom: "1px solid var(--glass-border)", backdropFilter: "blur(20px)" }}>
           <div className="flex items-center gap-2">
-            <button onClick={() => setViewMode("epochs")} className="flex items-center gap-1 px-2 py-1 rounded-md text-[10px] font-mono text-white/50 hover:text-[var(--neon-cyan)] transition-colors">
+            <button onClick={() => setViewMode("epochs")} className="flex items-center gap-1 px-2 py-1 rounded-md text-[10px] font-mono text-muted-foreground/70 hover:text-[var(--neon-cyan)] transition-colors">
               <ChevronLeft size={12} /> EPOCHS
             </button>
-            <div className="w-px h-4 bg-white/10" />
+            <div className="w-px h-4 bg-muted/50" />
             <Sparkles size={12} className="text-[var(--deep-purple)]" />
             <span className="font-display text-[10px] font-bold tracking-[0.15em] text-[var(--deep-purple)]">STORY MODE</span>
             <div className="flex-1" />
-            <span className="font-mono text-[10px] text-white/30">{storyIdx + 1} / {EPOCHS.length}</span>
+            <span className="font-mono text-[10px] text-muted-foreground/50">{storyIdx + 1} / {EPOCHS.length}</span>
           </div>
           {/* Progress dots */}
           <div className="flex gap-1 mt-2 justify-center">
@@ -483,7 +483,7 @@ export default function WatchPage() {
                 {storyEpoch.title}
               </h2>
 
-              <p className="font-mono text-xs text-white/60 leading-relaxed max-w-sm mx-auto">
+              <p className="font-mono text-xs text-muted-foreground/80 leading-relaxed max-w-sm mx-auto">
                 {storyEpoch.description}
               </p>
             </div>
@@ -497,7 +497,7 @@ export default function WatchPage() {
                     <SkipBack size={9} style={{ color: storyEpoch.color }} />
                     <span className="font-display text-[8px] font-bold tracking-[0.3em]" style={{ color: storyEpoch.color }}>PREVIOUSLY ON...</span>
                   </div>
-                  <p className="font-mono text-[10px] text-white/40 leading-relaxed italic ml-2 line-clamp-3">
+                  <p className="font-mono text-[10px] text-muted-foreground/60 leading-relaxed italic ml-2 line-clamp-3">
                     {storyEpoch.previouslyOn}
                   </p>
                 </div>
@@ -526,7 +526,7 @@ export default function WatchPage() {
                             </div>
                           )}
                         </div>
-                        <p className="font-mono text-[8px] text-white/40 group-hover:text-white/70 truncate mt-1 transition-colors">{entry.name.replace('The ', '')}</p>
+                        <p className="font-mono text-[8px] text-muted-foreground/60 group-hover:text-muted-foreground/90 truncate mt-1 transition-colors">{entry.name.replace('The ', '')}</p>
                       </Link>
                     );
                   })}
@@ -561,7 +561,7 @@ export default function WatchPage() {
           <button
             onClick={() => storyIdx > 0 && setStoryIdx(storyIdx - 1)}
             disabled={storyIdx === 0}
-            className="flex items-center gap-2 px-4 py-2.5 rounded-lg font-mono text-xs tracking-wider transition-all disabled:opacity-20 text-white/50 border border-white/10 hover:text-white/80 hover:border-white/20"
+            className="flex items-center gap-2 px-4 py-2.5 rounded-lg font-mono text-xs tracking-wider transition-all disabled:opacity-20 text-muted-foreground/70 border border-white/10 hover:text-foreground/85 hover:border-white/20"
           >
             <ChevronLeft size={14} />
             PREV
@@ -569,7 +569,7 @@ export default function WatchPage() {
           <button
             onClick={() => storyIdx < EPOCHS.length - 1 && setStoryIdx(storyIdx + 1)}
             disabled={storyIdx === EPOCHS.length - 1}
-            className="flex items-center gap-2 px-4 py-2.5 rounded-lg font-mono text-xs tracking-wider transition-all disabled:opacity-20 text-white/50 border border-white/10 hover:text-white/80 hover:border-white/20"
+            className="flex items-center gap-2 px-4 py-2.5 rounded-lg font-mono text-xs tracking-wider transition-all disabled:opacity-20 text-muted-foreground/70 border border-white/10 hover:text-foreground/85 hover:border-white/20"
           >
             NEXT
             <ChevronRight size={14} />
@@ -623,7 +623,7 @@ export default function WatchPage() {
             <h1 className="font-display text-2xl sm:text-4xl lg:text-5xl font-black tracking-wider text-white mb-2 leading-tight">
               THE <span className="text-[var(--neon-cyan)] glow-cyan">DISCHORDIAN</span> SAGA
             </h1>
-            <p className="font-mono text-xs sm:text-sm text-white/60 max-w-2xl mb-5 leading-relaxed">
+            <p className="font-mono text-xs sm:text-sm text-muted-foreground/80 max-w-2xl mb-5 leading-relaxed">
               A multiverse-spanning narrative told through music, film, and interactive experiences.
               Follow the story from the <span className="text-[var(--alert-red)]">Fall of Reality</span> through
               the <span className="text-[var(--neon-cyan)]">rise of the Potentials</span> to
@@ -637,7 +637,7 @@ export default function WatchPage() {
                 className={`flex items-center gap-2 px-4 py-2 rounded-md font-mono text-xs tracking-wider transition-all ${
                   viewMode === "epochs"
                     ? "bg-[var(--neon-cyan)]/10 text-[var(--neon-cyan)] border border-[var(--neon-cyan)]/30"
-                    : "text-white/40 border border-white/10 hover:text-white/60 hover:border-white/20"
+                    : "text-muted-foreground/60 border border-white/10 hover:text-muted-foreground/80 hover:border-white/20"
                 }`}
               >
                 <Layers size={14} />
@@ -645,7 +645,7 @@ export default function WatchPage() {
               </button>
               <button
                 onClick={() => setViewMode("stories")}
-                className="flex items-center gap-2 px-4 py-2 rounded-md font-mono text-xs tracking-wider transition-all text-white/40 border border-white/10 hover:text-white/60 hover:border-white/20"
+                className="flex items-center gap-2 px-4 py-2 rounded-md font-mono text-xs tracking-wider transition-all text-muted-foreground/60 border border-white/10 hover:text-muted-foreground/80 hover:border-white/20"
               >
                 <Sparkles size={14} />
                 STORIES
@@ -655,7 +655,7 @@ export default function WatchPage() {
                 className={`flex items-center gap-2 px-4 py-2 rounded-md font-mono text-xs tracking-wider transition-all ${
                   viewMode === "episodes"
                     ? "bg-[var(--neon-cyan)]/10 text-[var(--neon-cyan)] border border-[var(--neon-cyan)]/30"
-                    : "text-white/40 border border-white/10 hover:text-white/60 hover:border-white/20"
+                    : "text-muted-foreground/60 border border-white/10 hover:text-muted-foreground/80 hover:border-white/20"
                 }`}
               >
                 <Film size={14} />
@@ -683,13 +683,13 @@ export default function WatchPage() {
             <div className="flex items-center gap-2 mb-3">
               <Play size={13} className="text-[var(--neon-cyan)]" />
               <span className="font-display text-[10px] font-bold tracking-[0.2em] text-[var(--neon-cyan)]">CONTINUE WATCHING</span>
-              <span className="font-mono text-[9px] text-white/25">
+              <span className="font-mono text-[9px] text-muted-foreground/40">
                 {watchProgress.watchedEpochs.length}/{EPOCHS.length} EPOCHS // {watchProgress.watchedEpisodes.length}/{episodes.length} EPISODES
               </span>
             </div>
 
             {/* Progress bar */}
-            <div className="h-1 rounded-full bg-white/5 mb-3 overflow-hidden">
+            <div className="h-1 rounded-full bg-muted/40 mb-3 overflow-hidden">
               <div
                 className="h-full rounded-full transition-all duration-500"
                 style={{
@@ -704,7 +704,7 @@ export default function WatchPage() {
               {nextUpEpoch && (
                 <button
                   onClick={() => scrollToEpoch(nextUpEpoch.id)}
-                  className="flex items-center gap-3 flex-1 p-3 rounded-lg border border-white/10 bg-white/3 hover:bg-white/5 hover:border-[var(--neon-cyan)]/20 transition-all text-left group"
+                  className="flex items-center gap-3 flex-1 p-3 rounded-lg border border-white/10 bg-muted/25 hover:bg-muted/50 hover:border-[var(--neon-cyan)]/20 transition-all text-left group"
                 >
                   <div
                     className="w-10 h-10 rounded-md flex items-center justify-center shrink-0"
@@ -713,12 +713,12 @@ export default function WatchPage() {
                     {(() => { const EIcon = nextUpEpoch.icon; return <EIcon size={16} style={{ color: nextUpEpoch.color }} />; })()}
                   </div>
                   <div className="min-w-0 flex-1">
-                    <p className="font-mono text-[9px] text-white/30 mb-0.5">NEXT EPOCH</p>
+                    <p className="font-mono text-[9px] text-muted-foreground/50 mb-0.5">NEXT EPOCH</p>
                     <p className="font-display text-xs font-bold tracking-wider text-white group-hover:text-[var(--neon-cyan)] transition-colors truncate">
                       {nextUpEpoch.title}
                     </p>
                   </div>
-                  <ChevronRight size={14} className="text-white/20 group-hover:text-[var(--neon-cyan)] transition-colors shrink-0" />
+                  <ChevronRight size={14} className="text-muted-foreground/35 group-hover:text-[var(--neon-cyan)] transition-colors shrink-0" />
                 </button>
               )}
 
@@ -726,19 +726,19 @@ export default function WatchPage() {
               {nextUpEpisode && (
                 <button
                   onClick={() => goToEpisode(nextUpEpisode.index)}
-                  className="flex items-center gap-3 flex-1 p-3 rounded-lg border border-white/10 bg-white/3 hover:bg-white/5 hover:border-[var(--alert-red)]/20 transition-all text-left group"
+                  className="flex items-center gap-3 flex-1 p-3 rounded-lg border border-white/10 bg-muted/25 hover:bg-muted/50 hover:border-[var(--alert-red)]/20 transition-all text-left group"
                 >
                   <div className="w-10 h-10 rounded-md flex items-center justify-center shrink-0 bg-[var(--alert-red)]/10 border border-[var(--alert-red)]/20">
                     <Film size={16} className="text-[var(--alert-red)]" />
                   </div>
                   <div className="min-w-0 flex-1">
-                    <p className="font-mono text-[9px] text-white/30 mb-0.5">NEXT EPISODE</p>
+                    <p className="font-mono text-[9px] text-muted-foreground/50 mb-0.5">NEXT EPISODE</p>
                     <p className="font-display text-xs font-bold tracking-wider text-white group-hover:text-[var(--alert-red)] transition-colors truncate">
                       {nextUpEpisode.episode.title}
                     </p>
-                    <p className="font-mono text-[8px] text-white/20">{nextUpEpisode.episode.album}</p>
+                    <p className="font-mono text-[8px] text-muted-foreground/35">{nextUpEpisode.episode.album}</p>
                   </div>
-                  <ChevronRight size={14} className="text-white/20 group-hover:text-[var(--alert-red)] transition-colors shrink-0" />
+                  <ChevronRight size={14} className="text-muted-foreground/35 group-hover:text-[var(--alert-red)] transition-colors shrink-0" />
                 </button>
               )}
             </div>
@@ -758,7 +758,7 @@ export default function WatchPage() {
                 className={`flex items-center gap-2 px-3 py-2 rounded-lg font-mono text-[10px] tracking-wider whitespace-nowrap transition-all shrink-0 border ${
                   activeEpoch === epoch.id
                     ? "border-opacity-40 bg-opacity-10"
-                    : "border-white/10 bg-white/3 hover:bg-white/5 hover:border-white/20"
+                    : "border-white/10 bg-muted/25 hover:bg-muted/50 hover:border-white/20"
                 }`}
                 style={{
                   borderColor: activeEpoch === epoch.id ? epoch.color + "66" : undefined,
@@ -806,9 +806,9 @@ export default function WatchPage() {
           <div className="flex items-center gap-3 mb-4">
             <Film size={16} className="text-[var(--neon-cyan)]" />
             <h2 className="font-display text-sm font-bold tracking-[0.2em] text-white">INDIVIDUAL EPISODES</h2>
-            <span className="font-mono text-[10px] text-white/30">{episodes.length} MUSIC VIDEOS</span>
+            <span className="font-mono text-[10px] text-muted-foreground/50">{episodes.length} MUSIC VIDEOS</span>
           </div>
-          <p className="font-mono text-xs text-white/60 mb-4 max-w-xl">
+          <p className="font-mono text-xs text-muted-foreground/80 mb-4 max-w-xl">
             Each song with a music video is an episode in the saga. Watch them individually with full lore connections — see which characters, locations, and factions appear in each.
           </p>
           <button
@@ -901,7 +901,7 @@ const EpochSection = forwardRef<HTMLDivElement, EpochSectionProps>(
                   {typeBadge}
                 </span>
                 {epoch.subtitle && (
-                  <span className="font-mono text-[10px] text-white/30">// {epoch.subtitle}</span>
+                  <span className="font-mono text-[10px] text-muted-foreground/50">// {epoch.subtitle}</span>
                 )}
                 {isWatched && (
                   <span className="font-mono text-[9px] tracking-wider px-1.5 py-0.5 rounded bg-[var(--neon-cyan)]/10 text-[var(--neon-cyan)] border border-[var(--neon-cyan)]/20">
@@ -919,7 +919,7 @@ const EpochSection = forwardRef<HTMLDivElement, EpochSectionProps>(
               </h2>
 
               {/* Description */}
-              <p className="font-mono text-xs text-white/60 leading-relaxed line-clamp-2 group-hover:text-white/70 transition-colors">
+              <p className="font-mono text-xs text-muted-foreground/80 leading-relaxed line-clamp-2 group-hover:text-muted-foreground/90 transition-colors">
                 {epoch.description}
               </p>
             </div>
@@ -927,7 +927,7 @@ const EpochSection = forwardRef<HTMLDivElement, EpochSectionProps>(
             {/* Expand indicator */}
             <ChevronDown
               size={16}
-              className={`shrink-0 transition-transform duration-300 text-white/30 ${expanded ? "rotate-180" : ""}`}
+              className={`shrink-0 transition-transform duration-300 text-muted-foreground/50 ${expanded ? "rotate-180" : ""}`}
             />
           </div>
         </button>
@@ -962,7 +962,7 @@ const EpochSection = forwardRef<HTMLDivElement, EpochSectionProps>(
                         PREVIOUSLY ON...
                       </span>
                     </div>
-                    <p className="font-mono text-[11px] text-white/50 leading-relaxed italic ml-2">
+                    <p className="font-mono text-[11px] text-muted-foreground/70 leading-relaxed italic ml-2">
                       {epoch.previouslyOn}
                     </p>
                   </div>
@@ -982,7 +982,7 @@ const EpochSection = forwardRef<HTMLDivElement, EpochSectionProps>(
                       LORE CONTEXT
                     </span>
                   </div>
-                  <p className="font-mono text-xs text-white/70 leading-relaxed">
+                  <p className="font-mono text-xs text-muted-foreground/90 leading-relaxed">
                     {epoch.loreContext}
                   </p>
                 </div>
@@ -1023,7 +1023,7 @@ const EpochSection = forwardRef<HTMLDivElement, EpochSectionProps>(
                                 </div>
                               )}
                             </div>
-                            <p className="font-mono text-[9px] text-white/50 group-hover:text-white/80 truncate transition-colors">
+                            <p className="font-mono text-[9px] text-muted-foreground/70 group-hover:text-foreground/85 truncate transition-colors">
                               {entry.name.replace('The ', '')}
                             </p>
                           </Link>
@@ -1057,7 +1057,7 @@ const EpochSection = forwardRef<HTMLDivElement, EpochSectionProps>(
                       <p className="font-display text-sm font-bold tracking-wider text-white mb-1">
                         PLAY {epoch.title}
                       </p>
-                      <p className="font-mono text-[10px] text-white/40">
+                      <p className="font-mono text-[10px] text-muted-foreground/60">
                         YouTube Playlist // Click to load
                       </p>
                     </div>
@@ -1083,7 +1083,7 @@ const EpochSection = forwardRef<HTMLDivElement, EpochSectionProps>(
                     href={epoch.playlistUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-2 px-3 py-2 rounded-md font-mono text-[10px] tracking-wider transition-all text-white/50 border border-white/10 hover:text-white/80 hover:border-white/20 hover:bg-white/5"
+                    className="flex items-center gap-2 px-3 py-2 rounded-md font-mono text-[10px] tracking-wider transition-all text-muted-foreground/70 border border-white/10 hover:text-foreground/85 hover:border-white/20 hover:bg-muted/50"
                   >
                     <ExternalLink size={11} />
                     OPEN ON YOUTUBE
@@ -1165,21 +1165,21 @@ function EpisodeViewer({
         <div className="flex items-center gap-2">
           <button
             onClick={() => setViewMode("epochs")}
-            className="flex items-center gap-1 px-2 py-1 rounded-md text-[10px] font-mono text-white/50 hover:text-[var(--neon-cyan)] transition-colors"
+            className="flex items-center gap-1 px-2 py-1 rounded-md text-[10px] font-mono text-muted-foreground/70 hover:text-[var(--neon-cyan)] transition-colors"
           >
             <ChevronLeft size={12} />
             EPOCHS
           </button>
 
-          <div className="w-px h-4 bg-white/10" />
+          <div className="w-px h-4 bg-muted/50" />
 
           <Tv size={12} className="text-[var(--neon-cyan)] shrink-0" />
           <span className="font-display text-[10px] font-bold tracking-[0.15em] text-[var(--neon-cyan)]">EPISODE VIEWER</span>
 
           <div className="flex-1" />
 
-          <span className="font-mono text-[10px] text-white/30">
-            EP <span className="text-white/70">{currentEpisodeIdx + 1}</span> / {episodes.length}
+          <span className="font-mono text-[10px] text-muted-foreground/50">
+            EP <span className="text-muted-foreground/90">{currentEpisodeIdx + 1}</span> / {episodes.length}
           </span>
 
           <button
@@ -1187,7 +1187,7 @@ function EpisodeViewer({
             className={`flex items-center gap-1 px-2 py-1 rounded-md text-[10px] font-mono transition-all ${
               showEpisodeList
                 ? "bg-[var(--neon-cyan)]/10 text-[var(--neon-cyan)] border border-[var(--neon-cyan)]/25"
-                : "text-white/40 border border-white/10 hover:text-white/60"
+                : "text-muted-foreground/60 border border-white/10 hover:text-muted-foreground/80"
             }`}
           >
             <List size={10} />
@@ -1199,7 +1199,7 @@ function EpisodeViewer({
             className={`flex items-center gap-1 px-2 py-1 rounded-md text-[10px] font-mono transition-all ${
               showLorePanel
                 ? "bg-[var(--orb-orange)]/10 text-[var(--orb-orange)] border border-[var(--orb-orange)]/25"
-                : "text-white/40 border border-white/10 hover:text-white/60"
+                : "text-muted-foreground/60 border border-white/10 hover:text-muted-foreground/80"
             }`}
           >
             <BookOpen size={10} />
@@ -1231,17 +1231,17 @@ function EpisodeViewer({
                     className={`w-full flex items-center gap-2 px-3 py-2 rounded-md text-left transition-all ${
                       i === currentEpisodeIdx
                         ? "bg-[var(--neon-cyan)]/8 border border-[var(--neon-cyan)]/20"
-                        : "hover:bg-white/5 border border-transparent"
+                        : "hover:bg-muted/50 border border-transparent"
                     }`}
                   >
-                    <span className="font-mono text-[9px] text-white/25 w-5 text-right shrink-0">{i + 1}</span>
+                    <span className="font-mono text-[9px] text-muted-foreground/40 w-5 text-right shrink-0">{i + 1}</span>
                     <span
                       className="font-mono text-[8px] px-1.5 py-0.5 rounded shrink-0"
                       style={{ color: epColor, background: epColor + "15", border: `1px solid ${epColor}25` }}
                     >
                       {ep.albumShort}
                     </span>
-                    <span className={`text-xs font-medium truncate ${i === currentEpisodeIdx ? "text-[var(--neon-cyan)]" : "text-white/70"}`}>
+                    <span className={`text-xs font-medium truncate ${i === currentEpisodeIdx ? "text-[var(--neon-cyan)]" : "text-muted-foreground/90"}`}>
                       {ep.title}
                     </span>
                     {i === currentEpisodeIdx && (
@@ -1284,15 +1284,15 @@ function EpisodeViewer({
               >
                 {currentEpisode.albumShort}
               </span>
-              <span className="font-mono text-[9px] text-white/25">TRACK {currentEpisode.trackNumber}</span>
+              <span className="font-mono text-[9px] text-muted-foreground/40">TRACK {currentEpisode.trackNumber}</span>
             </div>
             <h2 className="font-display text-lg sm:text-xl font-bold tracking-wider text-white mb-1">
               {currentEpisode.title}
             </h2>
-            <p className="font-mono text-[11px] text-white/40 mb-3">{currentEpisode.album}</p>
+            <p className="font-mono text-[11px] text-muted-foreground/60 mb-3">{currentEpisode.album}</p>
 
             {currentEpisode.description && (
-              <p className="font-mono text-xs text-white/60 leading-relaxed mb-4 max-w-2xl line-clamp-3">
+              <p className="font-mono text-xs text-muted-foreground/80 leading-relaxed mb-4 max-w-2xl line-clamp-3">
                 {currentEpisode.description}
               </p>
             )}
@@ -1302,7 +1302,7 @@ function EpisodeViewer({
               <button
                 onClick={() => currentEpisodeIdx > 0 && goToEpisode(currentEpisodeIdx - 1)}
                 disabled={currentEpisodeIdx === 0}
-                className="flex items-center gap-1 px-3 py-2 rounded-md font-mono text-[10px] tracking-wider transition-all disabled:opacity-20 text-white/50 border border-white/10 hover:text-white/80 hover:border-white/20"
+                className="flex items-center gap-1 px-3 py-2 rounded-md font-mono text-[10px] tracking-wider transition-all disabled:opacity-20 text-muted-foreground/70 border border-white/10 hover:text-foreground/85 hover:border-white/20"
               >
                 <SkipBack size={12} />
                 PREV
@@ -1310,7 +1310,7 @@ function EpisodeViewer({
               <button
                 onClick={() => currentEpisodeIdx < episodes.length - 1 && goToEpisode(currentEpisodeIdx + 1)}
                 disabled={currentEpisodeIdx === episodes.length - 1}
-                className="flex items-center gap-1 px-3 py-2 rounded-md font-mono text-[10px] tracking-wider transition-all disabled:opacity-20 text-white/50 border border-white/10 hover:text-white/80 hover:border-white/20"
+                className="flex items-center gap-1 px-3 py-2 rounded-md font-mono text-[10px] tracking-wider transition-all disabled:opacity-20 text-muted-foreground/70 border border-white/10 hover:text-foreground/85 hover:border-white/20"
               >
                 NEXT
                 <SkipForward size={12} />
@@ -1403,7 +1403,7 @@ function LorePanel({
       >
         <p className="font-mono text-[9px] tracking-wider mb-0.5" style={{ color: albumColor + "80" }}>NOW VIEWING</p>
         <p className="font-display text-sm font-bold tracking-wide text-white">{episode.title}</p>
-        <p className="font-mono text-[10px] text-white/40">{episode.album}</p>
+        <p className="font-mono text-[10px] text-muted-foreground/60">{episode.album}</p>
       </div>
 
       <div className="flex gap-0.5 mb-3 p-0.5 rounded-md" style={{ background: "var(--glass-dark)" }}>
@@ -1417,13 +1417,13 @@ function LorePanel({
               className={`flex-1 flex items-center justify-center gap-1 px-1.5 py-1.5 rounded text-[9px] font-mono tracking-wider transition-all ${
                 isActive
                   ? "bg-[var(--neon-cyan)]/10 text-[var(--neon-cyan)] border border-[var(--neon-cyan)]/20"
-                  : "text-white/40 hover:text-white/60"
+                  : "text-muted-foreground/60 hover:text-muted-foreground/80"
               }`}
             >
               <Icon size={9} />
               <span className="hidden sm:inline lg:inline">{tab.label}</span>
               {tab.count > 0 && (
-                <span className={`text-[8px] ${isActive ? "text-[var(--neon-cyan)]/60" : "text-white/20"}`}>{tab.count}</span>
+                <span className={`text-[8px] ${isActive ? "text-[var(--neon-cyan)]/60" : "text-muted-foreground/35"}`}>{tab.count}</span>
               )}
             </button>
           );
@@ -1455,7 +1455,7 @@ function LorePanel({
                 </div>
                 <div className="min-w-0 flex-1">
                   <p className="text-[11px] font-medium text-white">{game}</p>
-                  <p className="text-[9px] font-mono text-white/30">CONEXUS INTERACTIVE STORY</p>
+                  <p className="text-[9px] font-mono text-muted-foreground/50">CONEXUS INTERACTIVE STORY</p>
                 </div>
               </div>
             ))
@@ -1470,10 +1470,10 @@ function LorePanel({
                 className={`group flex items-center gap-2 p-2 rounded-md border transition-all ${
                   song.id === episode.id
                     ? "border-[var(--neon-cyan)]/25 bg-[var(--neon-cyan)]/5"
-                    : "border-transparent hover:bg-white/5 hover:border-[var(--neon-cyan)]/15"
+                    : "border-transparent hover:bg-muted/50 hover:border-[var(--neon-cyan)]/15"
                 }`}
               >
-                <span className="font-mono text-[9px] text-white/20 w-4 text-right tabular-nums shrink-0">{song.track_number}</span>
+                <span className="font-mono text-[9px] text-muted-foreground/35 w-4 text-right tabular-nums shrink-0">{song.track_number}</span>
                 {song.image && (
                   <img src={song.image} alt="" className="w-7 h-7 rounded object-cover ring-1 ring-white/10 shrink-0" loading="lazy" />
                 )}
@@ -1522,16 +1522,16 @@ function LoreCard({ entry, type }: { entry: LoredexEntry; type: string }) {
         )}
         <div className="min-w-0 flex-1">
           <p className="text-[11px] font-medium text-white truncate">{entry.name}</p>
-          <p className="text-[9px] font-mono text-white/30 truncate">{entry.era || entry.affiliation || ""}</p>
+          <p className="text-[9px] font-mono text-muted-foreground/50 truncate">{entry.era || entry.affiliation || ""}</p>
         </div>
         <div className="flex items-center gap-1 shrink-0">
           <button
             onClick={() => setExpanded(!expanded)}
-            className="p-1 rounded hover:bg-white/10 text-white/30 hover:text-white/70 transition-colors"
+            className="p-1 rounded hover:bg-muted/60 text-muted-foreground/50 hover:text-muted-foreground/90 transition-colors"
           >
             {expanded ? <ChevronUp size={11} /> : <ChevronDown size={11} />}
           </button>
-          <Link href={href} className="p-1 rounded hover:bg-[var(--neon-cyan)]/10 text-white/30 hover:text-[var(--neon-cyan)] transition-colors">
+          <Link href={href} className="p-1 rounded hover:bg-[var(--neon-cyan)]/10 text-muted-foreground/50 hover:text-[var(--neon-cyan)] transition-colors">
             <ChevronRight size={11} />
           </Link>
         </div>
@@ -1545,7 +1545,7 @@ function LoreCard({ entry, type }: { entry: LoredexEntry; type: string }) {
             className="overflow-hidden"
           >
             <div className="px-2.5 pb-2.5 pt-0">
-              <p className="text-[10px] text-white/50 leading-relaxed line-clamp-4">{entry.bio}</p>
+              <p className="text-[10px] text-muted-foreground/70 leading-relaxed line-clamp-4">{entry.bio}</p>
               <Link href={href} className="inline-flex items-center gap-1 mt-1.5 text-[9px] font-mono text-[var(--neon-cyan)] hover:text-[var(--neon-cyan)]/80 transition-colors">
                 FULL DOSSIER <ChevronRight size={8} />
               </Link>
@@ -1560,7 +1560,7 @@ function LoreCard({ entry, type }: { entry: LoredexEntry; type: string }) {
 function EmptyState({ text }: { text: string }) {
   return (
     <div className="py-6 text-center">
-      <p className="font-mono text-[10px] text-white/20">{text}</p>
+      <p className="font-mono text-[10px] text-muted-foreground/35">{text}</p>
     </div>
   );
 }

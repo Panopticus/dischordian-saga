@@ -162,7 +162,7 @@ function TutorialCard({
       {/* Alignment preview */}
       <div className="px-4 pb-3 flex items-center gap-2">
         <CircuitBoard size={10} className="text-cyan-400" />
-        <div className="flex-1 h-1 rounded-full bg-white/10 overflow-hidden">
+        <div className="flex-1 h-1 rounded-full bg-muted/50 overflow-hidden">
           <div className="h-full w-1/2 bg-gradient-to-r from-cyan-500/40 via-purple-500/40 to-amber-500/40" />
         </div>
         <Heart size={10} className="text-amber-400" />
@@ -271,7 +271,7 @@ export default function LoreTutorialHubPage() {
                 <span className="font-display text-xl font-bold text-primary">{completedCount}</span>
                 <span className="font-mono text-xs text-muted-foreground">/ {totalCount}</span>
               </div>
-              <div className="mt-1.5 h-1.5 rounded-full bg-white/10 overflow-hidden">
+              <div className="mt-1.5 h-1.5 rounded-full bg-muted/50 overflow-hidden">
                 <motion.div
                   className="h-full rounded-full bg-primary"
                   initial={{ width: 0 }}
@@ -320,7 +320,7 @@ export default function LoreTutorialHubPage() {
               placeholder="Search tutorials..."
               value={searchQuery}
               onChange={e => setSearchQuery(e.target.value)}
-              className="w-full pl-9 pr-3 py-2 rounded-lg bg-white/5 border border-white/10 text-sm font-mono text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:border-primary/40"
+              className="w-full pl-9 pr-3 py-2 rounded-lg bg-muted/40 border border-white/10 text-sm font-mono text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:border-primary/40"
             />
           </div>
 
@@ -331,7 +331,7 @@ export default function LoreTutorialHubPage() {
               className={`shrink-0 px-3 py-1.5 rounded-full font-mono text-[10px] tracking-wider border transition-colors ${
                 activeCategory === "all"
                   ? "bg-primary/20 border-primary/40 text-primary"
-                  : "bg-white/5 border-white/10 text-muted-foreground hover:text-foreground"
+                  : "bg-muted/40 border-white/10 text-muted-foreground hover:text-foreground"
               }`}
             >
               ALL ({totalCount})
@@ -346,7 +346,7 @@ export default function LoreTutorialHubPage() {
                   className={`shrink-0 px-3 py-1.5 rounded-full font-mono text-[10px] tracking-wider border transition-colors flex items-center gap-1.5 ${
                     activeCategory === cat.id
                       ? "bg-primary/20 border-primary/40 text-primary"
-                      : "bg-white/5 border-white/10 text-muted-foreground hover:text-foreground"
+                      : "bg-muted/40 border-white/10 text-muted-foreground hover:text-foreground"
                   }`}
                 >
                   <CatIcon size={10} />
@@ -373,7 +373,7 @@ export default function LoreTutorialHubPage() {
                   <h2 className="font-display text-xs font-bold tracking-[0.2em] text-foreground">
                     {cat.label}
                   </h2>
-                  <div className="h-px flex-1 bg-white/5" />
+                  <div className="h-px flex-1 bg-muted/40" />
                   <span className="font-mono text-[10px] text-muted-foreground">
                     {catTutorials.filter(t => state.completedTutorials.includes(t.id)).length}/{catTutorials.length}
                   </span>

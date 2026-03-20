@@ -192,7 +192,7 @@ function BattleCardView({
             >
               <span className="font-display text-[9px] sm:text-[10px] font-black text-blue-300">{card.cost}</span>
             </div>
-            <p className="font-display text-[8px] sm:text-[9px] font-bold tracking-wide text-white/90 truncate flex-1">
+            <p className="font-display text-[8px] sm:text-[9px] font-bold tracking-wide text-foreground truncate flex-1">
               {card.name}
             </p>
           </div>
@@ -220,13 +220,13 @@ function BattleCardView({
                   background: `linear-gradient(135deg, ${elementColor}15 0%, rgba(0,0,0,0.4) 100%)`,
                 }}
               >
-                <TypeIcon size={small ? 16 : 20} className="text-white/25" />
+                <TypeIcon size={small ? 16 : 20} className="text-muted-foreground/40" />
               </div>
             )}
 
             {/* HP bar overlay */}
             {card.type === "unit" && (
-              <div className="absolute bottom-0 left-0 right-0 h-1 bg-black/60">
+              <div className="absolute bottom-0 left-0 right-0 h-1 bg-background/70">
                 <motion.div
                   className="h-full"
                   style={{
@@ -255,7 +255,7 @@ function BattleCardView({
           {/* Ability text (truncated) */}
           {card.ability && (
             <div className="px-1.5 mt-0.5">
-              <p className="font-mono text-[8px] sm:text-[8px] text-white/50 line-clamp-2 leading-tight">
+              <p className="font-mono text-[8px] sm:text-[8px] text-muted-foreground/70 line-clamp-2 leading-tight">
                 {card.ability}
               </p>
             </div>
@@ -282,8 +282,8 @@ function BattleCardView({
               </>
             ) : (
               <div className="flex items-center gap-1 mx-auto">
-                <TypeIcon size={8} className="text-white/30" />
-                <span className="font-mono text-[7px] text-white/30 uppercase">{card.type}</span>
+                <TypeIcon size={8} className="text-muted-foreground/50" />
+                <span className="font-mono text-[7px] text-muted-foreground/50 uppercase">{card.type}</span>
               </div>
             )}
           </div>
@@ -335,7 +335,7 @@ function HPBar({ current, max, label, color, isPlayer }: {
       </div>
       <div className="flex-1">
         <div className="flex justify-between mb-0.5">
-          <span className="font-display text-[10px] sm:text-xs tracking-wider text-white/70">{label}</span>
+          <span className="font-display text-[10px] sm:text-xs tracking-wider text-muted-foreground/90">{label}</span>
           <span className="font-mono text-[10px] sm:text-xs font-bold" style={{ color }}>
             {current}/{max}
           </span>
@@ -396,12 +396,12 @@ function BattleLog({ logs }: { logs: BattleState["logs"] }) {
             initial={{ opacity: 0, x: -10 }}
             animate={{ opacity: 1, x: 0 }}
             className={`font-mono text-[8px] sm:text-[9px] leading-relaxed ${
-              log.actor === "system" ? "text-white/25 italic" :
+              log.actor === "system" ? "text-muted-foreground/40 italic" :
               log.actor === "player" ? "text-cyan-400/60" :
               "text-red-400/60"
             }`}
           >
-            <span className="text-white/15 mr-1">▸</span>
+            <span className="text-muted-foreground/25 mr-1">▸</span>
             {log.message}
           </motion.p>
         ))}
@@ -442,7 +442,7 @@ function EnemySelect({ onSelect }: { onSelect: (enemyId: string, diff: "easy" | 
           <h1 className="font-display text-2xl sm:text-3xl tracking-[0.3em] text-white mb-2">
             COMBAT <span className="text-red-400">ARENA</span>
           </h1>
-          <p className="font-mono text-[10px] sm:text-xs text-white/30 tracking-wider">
+          <p className="font-mono text-[10px] sm:text-xs text-muted-foreground/50 tracking-wider">
             Choose your opponent, Operative.
           </p>
         </div>
@@ -484,7 +484,7 @@ function EnemySelect({ onSelect }: { onSelect: (enemyId: string, diff: "easy" | 
                   <h3 className="font-display text-sm sm:text-base tracking-wider text-white group-hover:text-red-400 transition-colors">
                     {enemy.name}
                   </h3>
-                  <p className="font-mono text-[9px] sm:text-[10px] text-white/25 mt-0.5">{enemy.description}</p>
+                  <p className="font-mono text-[9px] sm:text-[10px] text-muted-foreground/40 mt-0.5">{enemy.description}</p>
                 </div>
                 <div className="flex items-center gap-2">
                   <span className={`font-mono text-[9px] sm:text-[10px] px-2 py-0.5 rounded-full ${
@@ -494,7 +494,7 @@ function EnemySelect({ onSelect }: { onSelect: (enemyId: string, diff: "easy" | 
                   }`}>
                     {enemy.difficulty}
                   </span>
-                  <ChevronRight size={14} className="text-white/15 group-hover:text-red-400/50 transition-colors" />
+                  <ChevronRight size={14} className="text-muted-foreground/25 group-hover:text-red-400/50 transition-colors" />
                 </div>
               </div>
             </motion.button>
@@ -545,7 +545,7 @@ function GameOverScreen({
         }`}>
           {isVictory ? "VICTORY" : "DEFEATED"}
         </h2>
-        <p className="font-mono text-xs text-white/40 mb-1">
+        <p className="font-mono text-xs text-muted-foreground/60 mb-1">
           {isVictory ? `Defeated ${enemyName} in ${turnCount} turns` : `${enemyName} has destroyed you`}
         </p>
         {isVictory && (
@@ -875,7 +875,7 @@ export default function CardBattlePage() {
           </div>
           <EnergyCrystals current={enemy.energy} max={enemy.maxEnergy} color="#ef4444" />
         </div>
-        <p className="font-mono text-[8px] text-white/15 mt-1 ml-6">
+        <p className="font-mono text-[8px] text-muted-foreground/25 mt-1 ml-6">
           Hand: {enemy.hand.length} | Deck: {enemy.deck.length}
         </p>
       </div>
@@ -929,7 +929,7 @@ export default function CardBattlePage() {
         )}
 
         <div className="text-center px-3">
-          <p className="font-mono text-[9px] text-white/20">
+          <p className="font-mono text-[9px] text-muted-foreground/35">
             Turn {turnNumber}
           </p>
           <p className={`font-display text-[10px] tracking-[0.2em] ${
@@ -944,7 +944,7 @@ export default function CardBattlePage() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             onClick={() => { setSelectedAttacker(null); setTargetMode(false); }}
-            className="px-3 py-1.5 rounded-lg font-mono text-[10px] text-white/25 border border-white/08"
+            className="px-3 py-1.5 rounded-lg font-mono text-[10px] text-muted-foreground/40 border border-white/08"
           >
             CANCEL
           </motion.button>
@@ -1045,10 +1045,10 @@ export default function CardBattlePage() {
               );
             })}
             {player.hand.length === 0 && (
-              <p className="font-mono text-[10px] text-white/15 italic py-8">No cards in hand</p>
+              <p className="font-mono text-[10px] text-muted-foreground/25 italic py-8">No cards in hand</p>
             )}
           </div>
-          <p className="font-mono text-[7px] sm:text-[8px] text-white/10 text-center mt-2">
+          <p className="font-mono text-[7px] sm:text-[8px] text-muted-foreground/20 text-center mt-2">
             Deck: {player.deck.length} | Graveyard: {player.graveyard.length}
           </p>
         </div>

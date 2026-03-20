@@ -329,7 +329,7 @@ export default function DiscoveryVideoOverlay() {
                     </span>
                   )}
                   {entry.era && (
-                    <span className="font-mono text-[9px] text-white/30">{entry.era}</span>
+                    <span className="font-mono text-[9px] text-muted-foreground/50">{entry.era}</span>
                   )}
                 </div>
                 <h2 className="font-display text-2xl sm:text-4xl font-black tracking-wider text-white mb-2"
@@ -338,7 +338,7 @@ export default function DiscoveryVideoOverlay() {
                   {videoData?.title || entry.name?.toUpperCase()}
                 </h2>
                 {(videoData?.subtitle || entry.bio) && (
-                  <p className="font-mono text-sm text-white/60 leading-relaxed line-clamp-3">
+                  <p className="font-mono text-sm text-muted-foreground/80 leading-relaxed line-clamp-3">
                     {videoData?.subtitle || entry.bio}
                   </p>
                 )}
@@ -352,21 +352,21 @@ export default function DiscoveryVideoOverlay() {
           {videoData && !fallbackMode && (
             <button
               onClick={() => setMuted(!muted)}
-              className="p-2 rounded-full bg-black/50 text-white/60 hover:text-white transition-colors"
+              className="p-2 rounded-full bg-background/60 text-muted-foreground/80 hover:text-white transition-colors"
             >
               {muted ? <VolumeX size={16} /> : <Volume2 size={16} />}
             </button>
           )}
           <button
             onClick={handleClose}
-            className="p-2 rounded-full bg-black/50 text-white/60 hover:text-white transition-colors flex items-center gap-1"
+            className="p-2 rounded-full bg-background/60 text-muted-foreground/80 hover:text-white transition-colors flex items-center gap-1"
           >
             <SkipForward size={14} />
             <span className="font-mono text-[10px]">SKIP</span>
           </button>
           <button
             onClick={handleClose}
-            className="p-2 rounded-full bg-black/50 text-white/60 hover:text-white transition-colors"
+            className="p-2 rounded-full bg-background/60 text-muted-foreground/80 hover:text-white transition-colors"
           >
             <X size={16} />
           </button>
@@ -374,7 +374,7 @@ export default function DiscoveryVideoOverlay() {
 
         {/* ─── PROGRESS BAR ─── */}
         <div className="absolute bottom-0 left-0 right-0 z-20">
-          <div className="h-1 bg-white/10">
+          <div className="h-1 bg-muted/50">
             <motion.div
               className="h-full bg-[var(--neon-cyan)]"
               style={{ width: `${progress}%` }}
@@ -382,7 +382,7 @@ export default function DiscoveryVideoOverlay() {
             />
           </div>
           <div className="px-4 py-3 flex items-center justify-between bg-gradient-to-t from-black/80 to-transparent">
-            <span className="font-mono text-[9px] text-white/30 tracking-wider">
+            <span className="font-mono text-[9px] text-muted-foreground/50 tracking-wider">
               ENTITY DATABASE UPDATED
             </span>
             <span className="font-mono text-[9px] text-[var(--neon-cyan)]/50 tracking-wider">

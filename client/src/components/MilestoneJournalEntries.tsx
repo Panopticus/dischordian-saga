@@ -957,10 +957,10 @@ function MilestoneEntryCard({ milestone, ctx, index }: {
           <Icon size={16} className={milestone.iconColor} />
         </div>
         <div>
-          <h3 className="font-display text-xs font-bold tracking-[0.15em] text-white/90">
+          <h3 className="font-display text-xs font-bold tracking-[0.15em] text-foreground">
             {milestone.title}
           </h3>
-          <p className="font-mono text-[9px] text-white/30 tracking-wider">
+          <p className="font-mono text-[9px] text-muted-foreground/50 tracking-wider">
             ENTRY {milestone.entryNumber} // PERSONAL LOG
           </p>
         </div>
@@ -970,19 +970,19 @@ function MilestoneEntryCard({ milestone, ctx, index }: {
       <div className="space-y-2 mb-4">
         {narrative.split("\n").map((line, i) => {
           if (line === "---") {
-            return <div key={i} className="h-px bg-white/10 my-2" />;
+            return <div key={i} className="h-px bg-muted/50 my-2" />;
           }
           if (line === "") return <div key={i} className="h-1" />;
           if (line.startsWith("PERSONAL LOG") || line.startsWith("CITIZEN:") || line.startsWith("STATUS:") || line.startsWith("LOCATION:")) {
             return (
-              <p key={i} className="font-mono text-[10px] text-white/40 tracking-wider">
+              <p key={i} className="font-mono text-[10px] text-muted-foreground/60 tracking-wider">
                 {line}
               </p>
             );
           }
           if (line.startsWith("##")) {
             return (
-              <h4 key={i} className="font-display text-[11px] font-bold tracking-[0.1em] text-white/70 mt-2">
+              <h4 key={i} className="font-display text-[11px] font-bold tracking-[0.1em] text-muted-foreground/90 mt-2">
                 {line.replace(/^##\s*/, "")}
               </h4>
             );

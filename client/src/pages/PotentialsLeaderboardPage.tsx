@@ -43,11 +43,11 @@ export default function PotentialsLeaderboardPage() {
   return (
     <div className="min-h-screen grid-bg pb-24">
       {/* Header */}
-      <div className="border-b border-white/10 bg-black/40">
+      <div className="border-b border-white/10 bg-muted/60">
         <div className="max-w-5xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <Link href="/potentials" className="text-white/50 hover:text-white transition-colors">
+              <Link href="/potentials" className="text-muted-foreground/70 hover:text-white transition-colors">
                 <ChevronLeft size={20} />
               </Link>
               <div>
@@ -73,7 +73,7 @@ export default function PotentialsLeaderboardPage() {
           </div>
         ) : !data?.entries.length ? (
           <div className="text-center py-20">
-            <Gem size={48} className="mx-auto text-white/10 mb-4" />
+            <Gem size={48} className="mx-auto text-muted-foreground/20 mb-4" />
             <p className="font-mono text-muted-foreground">No collectors ranked yet.</p>
             <p className="font-mono text-xs text-muted-foreground/50 mt-2">
               Claim Potentials to appear on the leaderboard!
@@ -82,7 +82,7 @@ export default function PotentialsLeaderboardPage() {
         ) : (
           <div className="space-y-2">
             {/* Header row */}
-            <div className="hidden sm:grid grid-cols-12 gap-2 px-4 py-2 font-mono text-[10px] text-white/30 tracking-wider">
+            <div className="hidden sm:grid grid-cols-12 gap-2 px-4 py-2 font-mono text-[10px] text-muted-foreground/50 tracking-wider">
               <div className="col-span-1">#</div>
               <div className="col-span-3">OPERATIVE</div>
               <div className="col-span-2">HOLDER TIER</div>
@@ -96,7 +96,7 @@ export default function PotentialsLeaderboardPage() {
             {data.entries.map((entry, i) => {
               const tier = entry.holderTier ? TIER_CONFIG[entry.holderTier] : null;
               const isMe = user && entry.userId === user.id;
-              const rankColor = RANK_TIER_COLORS[entry.rankTier] || "text-white/40";
+              const rankColor = RANK_TIER_COLORS[entry.rankTier] || "text-muted-foreground/60";
 
               return (
                 <motion.div
@@ -117,7 +117,7 @@ export default function PotentialsLeaderboardPage() {
                     {i === 0 ? <Crown size={16} className="text-amber-400" /> :
                      i === 1 ? <Medal size={16} className="text-gray-300" /> :
                      i === 2 ? <Medal size={16} className="text-orange-400" /> :
-                     <span className="font-mono text-sm text-white/40">{entry.rank}</span>}
+                     <span className="font-mono text-sm text-muted-foreground/60">{entry.rank}</span>}
                   </div>
 
                   {/* Name */}
@@ -142,7 +142,7 @@ export default function PotentialsLeaderboardPage() {
                         {tier.label}
                       </span>
                     ) : (
-                      <span className="font-mono text-[10px] text-white/20">—</span>
+                      <span className="font-mono text-[10px] text-muted-foreground/35">—</span>
                     )}
                   </div>
 
@@ -183,12 +183,12 @@ export default function PotentialsLeaderboardPage() {
                             <Gem size={12} className="text-purple-400" />
                           </div>
                         )}
-                        <span className="font-mono text-[10px] text-white/50 truncate max-w-[80px]">
+                        <span className="font-mono text-[10px] text-muted-foreground/70 truncate max-w-[80px]">
                           {entry.featuredPotential.name}
                         </span>
                       </>
                     ) : (
-                      <span className="text-white/20">—</span>
+                      <span className="text-muted-foreground/35">—</span>
                     )}
                   </div>
                 </motion.div>
@@ -201,17 +201,17 @@ export default function PotentialsLeaderboardPage() {
                 <button
                   onClick={() => setPage(Math.max(0, page - 1))}
                   disabled={page === 0}
-                  className="px-4 py-2 rounded bg-white/5 border border-white/10 font-mono text-xs text-white/60 hover:bg-white/10 disabled:opacity-30 disabled:cursor-not-allowed"
+                  className="px-4 py-2 rounded bg-muted/40 border border-white/10 font-mono text-xs text-muted-foreground/80 hover:bg-muted/60 disabled:opacity-30 disabled:cursor-not-allowed"
                 >
                   PREV
                 </button>
-                <span className="font-mono text-xs text-white/40 flex items-center">
+                <span className="font-mono text-xs text-muted-foreground/60 flex items-center">
                   PAGE {page + 1} / {Math.ceil(data.total / limit)}
                 </span>
                 <button
                   onClick={() => setPage(page + 1)}
                   disabled={(page + 1) * limit >= data.total}
-                  className="px-4 py-2 rounded bg-white/5 border border-white/10 font-mono text-xs text-white/60 hover:bg-white/10 disabled:opacity-30 disabled:cursor-not-allowed"
+                  className="px-4 py-2 rounded bg-muted/40 border border-white/10 font-mono text-xs text-muted-foreground/80 hover:bg-muted/60 disabled:opacity-30 disabled:cursor-not-allowed"
                 >
                   NEXT
                 </button>

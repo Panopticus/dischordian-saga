@@ -53,7 +53,7 @@ function AchievementModal({ achievement, earned, onClose }: {
       className="fixed inset-0 z-50 flex items-center justify-center p-4"
       onClick={onClose}
     >
-      <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" />
+      <div className="absolute inset-0 bg-background/90 backdrop-blur-sm" />
       <motion.div
         initial={{ scale: 0.85, y: 30 }}
         animate={{ scale: 1, y: 0 }}
@@ -67,7 +67,7 @@ function AchievementModal({ achievement, earned, onClose }: {
         <div className={`relative p-6 pb-4 ${earned ? "bg-gradient-to-br from-amber-500/10 to-amber-900/10" : "bg-gradient-to-br from-secondary/50 to-secondary/20"}`}>
           <button
             onClick={onClose}
-            className="absolute top-3 right-3 w-8 h-8 rounded-full bg-black/40 border border-white/10 flex items-center justify-center text-white/60 hover:text-white transition-colors"
+            className="absolute top-3 right-3 w-8 h-8 rounded-full bg-muted/60 border border-white/10 flex items-center justify-center text-muted-foreground/80 hover:text-white transition-colors"
           >
             <X size={14} />
           </button>

@@ -143,10 +143,10 @@ export default function ProtectedRoute({ children }: { children: React.ReactNode
           <h2 className="font-display text-xl font-bold text-white mb-2 tracking-wider">
             SYSTEM LOCKED
           </h2>
-          <p className="font-mono text-sm text-white/50 mb-4 leading-relaxed">
+          <p className="font-mono text-sm text-muted-foreground/70 mb-4 leading-relaxed">
             You need to discover <span className="text-[var(--neon-cyan)]">{roomName}</span> in the Ark to access this area.
           </p>
-          <div className="flex items-center justify-center gap-2 text-white/30">
+          <div className="flex items-center justify-center gap-2 text-muted-foreground/50">
             <Rocket size={14} className="text-[var(--neon-cyan)]" />
             <span className="font-mono text-xs">Redirecting to Ark Explorer...</span>
           </div>

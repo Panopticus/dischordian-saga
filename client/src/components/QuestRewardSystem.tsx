@@ -139,7 +139,7 @@ function RewardToast({ notification, onDismiss }: { notification: RewardNotifica
         </div>
         <button
           onClick={onDismiss}
-          className="text-white/20 hover:text-white/50 transition-colors"
+          className="text-muted-foreground/35 hover:text-muted-foreground/70 transition-colors"
         >
           <X size={12} />
         </button>
@@ -147,10 +147,10 @@ function RewardToast({ notification, onDismiss }: { notification: RewardNotifica
 
       {/* Quest Name */}
       <div className="px-4 pt-3 pb-2">
-        <p className="font-display text-xs font-bold tracking-[0.1em] text-white/90">
+        <p className="font-display text-xs font-bold tracking-[0.1em] text-foreground">
           {questTitle}
         </p>
-        <p className="font-mono text-[10px] text-white/40 mt-1 leading-relaxed">
+        <p className="font-mono text-[10px] text-muted-foreground/60 mt-1 leading-relaxed">
           {reward.description}
         </p>
       </div>

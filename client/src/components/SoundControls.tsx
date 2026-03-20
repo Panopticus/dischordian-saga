@@ -60,7 +60,7 @@ export default function SoundControls({ ttsEnabled, onToggleTTS, isSpeaking }: S
             className={`transition-colors ${music.isPlaying ? "text-[var(--orb-orange)] animate-pulse" : "text-[var(--orb-orange)]/60 group-hover:text-[var(--orb-orange)]"}`}
           />
         ) : (
-          <Music size={13} className="text-white/20 group-hover:text-white/40 transition-colors" />
+          <Music size={13} className="text-muted-foreground/35 group-hover:text-muted-foreground/60 transition-colors" />
         )}
         {music.isPlaying && (
           <span className="absolute -top-0.5 -right-0.5 w-1.5 h-1.5 rounded-full bg-[var(--orb-orange)] animate-pulse" />
@@ -84,7 +84,7 @@ export default function SoundControls({ ttsEnabled, onToggleTTS, isSpeaking }: S
               className={`transition-colors ${isSpeaking ? "text-[var(--neon-cyan)] animate-pulse" : "text-[var(--neon-cyan)]/60 group-hover:text-[var(--neon-cyan)]"}`}
             />
           ) : (
-            <MicOff size={13} className="text-white/20 group-hover:text-white/40 transition-colors" />
+            <MicOff size={13} className="text-muted-foreground/35 group-hover:text-muted-foreground/60 transition-colors" />
           )}
           {isSpeaking && (
             <span className="absolute -top-0.5 -right-0.5 w-1.5 h-1.5 rounded-full bg-[var(--neon-cyan)] animate-pulse" />
@@ -137,7 +137,7 @@ export default function SoundControls({ ttsEnabled, onToggleTTS, isSpeaking }: S
               background: `linear-gradient(to right, var(--neon-cyan) ${volume * 100}%, rgba(255,255,255,0.1) ${volume * 100}%)`,
             }}
           />
-          <p className="font-mono text-[10px] text-white/30 mt-1 text-center">{Math.round(volume * 100)}%</p>
+          <p className="font-mono text-[10px] text-muted-foreground/50 mt-1 text-center">{Math.round(volume * 100)}%</p>
 
           {/* Music Volume */}
           <p className="font-mono text-[9px] text-[var(--orb-orange)]/50 tracking-[0.2em] mb-2 mt-3">MUSIC VOLUME</p>
@@ -152,14 +152,14 @@ export default function SoundControls({ ttsEnabled, onToggleTTS, isSpeaking }: S
               background: `linear-gradient(to right, var(--orb-orange) ${music.volume}%, rgba(255,255,255,0.1) ${music.volume}%)`,
             }}
           />
-          <p className="font-mono text-[10px] text-white/30 mt-1 text-center">{music.volume}%</p>
+          <p className="font-mono text-[10px] text-muted-foreground/50 mt-1 text-center">{music.volume}%</p>
 
           {/* Now Playing */}
           {music.currentTrack && music.isPlaying && (
             <div className="mt-3 pt-2 border-t border-white/5">
               <p className="font-mono text-[8px] text-[var(--orb-orange)]/40 tracking-[0.2em]">NOW PLAYING</p>
-              <p className="font-mono text-[10px] text-white/60 truncate mt-0.5">{music.currentTrack.title}</p>
-              <p className="font-mono text-[8px] text-white/30 truncate">{music.currentTrack.album}</p>
+              <p className="font-mono text-[10px] text-muted-foreground/80 truncate mt-0.5">{music.currentTrack.title}</p>
+              <p className="font-mono text-[8px] text-muted-foreground/50 truncate">{music.currentTrack.album}</p>
             </div>
           )}
         </div>

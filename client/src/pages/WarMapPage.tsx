@@ -1,6 +1,8 @@
 import { useState, useMemo, useCallback, useRef, useEffect } from "react";
 import { trpc } from "@/lib/trpc";
 import { useGameAreaBGM } from "@/contexts/GameAudioContext";
+import { useGame } from "@/contexts/GameContext";
+import FactionWarEventBanner from "@/components/FactionWarEventBanner";
 import {
   Shield, Swords, Target, ChevronRight, Clock, Trophy,
   Zap, Users, MapPin, AlertTriangle, Crown, Crosshair
@@ -185,6 +187,9 @@ export default function WarMapPage() {
           </div>
         </div>
       </div>
+
+      {/* ═══ FACTION WAR EVENT ═══ */}
+      <FactionWarEventBanner />
 
       <div className="flex flex-col lg:flex-row" style={{ height: "calc(100vh - 140px)" }}>
         {/* ═══ MAP ═══ */}

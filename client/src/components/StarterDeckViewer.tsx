@@ -313,9 +313,9 @@ function CardDisplay({ card, index, isActive, onClick }: {
         <div className="p-2.5">
           <div className="flex items-center gap-1.5 mb-1">
             <TypeIcon size={10} style={{ color: colors.text }} />
-            <p className="font-display text-[11px] font-bold tracking-wide text-white/90 truncate">{card.name}</p>
+            <p className="font-display text-[11px] font-bold tracking-wide text-foreground truncate">{card.name}</p>
           </div>
-          <p className="font-mono text-[8px] text-white/40 uppercase tracking-wider mb-2">{card.type}</p>
+          <p className="font-mono text-[8px] text-muted-foreground/60 uppercase tracking-wider mb-2">{card.type}</p>
 
           {/* Stats */}
           <div className="flex items-center gap-3 mb-2">
@@ -328,12 +328,12 @@ function CardDisplay({ card, index, isActive, onClick }: {
               <span className="font-mono text-[10px] text-blue-400 font-bold">{card.defense}</span>
             </div>
             {card.element && (
-              <span className="font-mono text-[8px] text-white/30 uppercase">{card.element}</span>
+              <span className="font-mono text-[8px] text-muted-foreground/50 uppercase">{card.element}</span>
             )}
           </div>
 
           {/* Ability */}
-          <p className="font-mono text-[8px] text-white/50 leading-relaxed line-clamp-3">{card.ability}</p>
+          <p className="font-mono text-[8px] text-muted-foreground/70 leading-relaxed line-clamp-3">{card.ability}</p>
         </div>
       </div>
     </motion.div>
@@ -353,7 +353,7 @@ function CardDetailModal({ card, onClose }: { card: StarterCard; onClose: () => 
       className="fixed inset-0 z-50 flex items-center justify-center p-4"
       onClick={onClose}
     >
-      <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" />
+      <div className="absolute inset-0 bg-background/90 backdrop-blur-sm" />
       <motion.div
         initial={{ scale: 0.8, rotateY: 90 }}
         animate={{ scale: 1, rotateY: 0 }}
@@ -369,7 +369,7 @@ function CardDetailModal({ card, onClose }: { card: StarterCard; onClose: () => 
       >
         <button
           onClick={onClose}
-          className="absolute top-3 right-3 z-10 p-1 rounded-full bg-black/50 text-white/50 hover:text-white transition-colors"
+          className="absolute top-3 right-3 z-10 p-1 rounded-full bg-background/60 text-muted-foreground/70 hover:text-white transition-colors"
         >
           <X size={16} />
         </button>
@@ -390,9 +390,9 @@ function CardDetailModal({ card, onClose }: { card: StarterCard; onClose: () => 
               >
                 {card.rarity}
               </span>
-              <span className="font-mono text-[10px] text-white/40 uppercase">{card.type}</span>
+              <span className="font-mono text-[10px] text-muted-foreground/60 uppercase">{card.type}</span>
               {card.faction && (
-                <span className="font-mono text-[10px] text-white/30">// {card.faction}</span>
+                <span className="font-mono text-[10px] text-muted-foreground/50">// {card.faction}</span>
               )}
             </div>
           </div>
@@ -422,19 +422,19 @@ function CardDetailModal({ card, onClose }: { card: StarterCard; onClose: () => 
           {/* Ability */}
           <div className="rounded-md p-3" style={{ background: "rgba(51,226,230,0.03)", border: "1px solid rgba(51,226,230,0.1)" }}>
             <p className="font-mono text-[9px] text-[var(--neon-cyan)]/50 tracking-[0.2em] mb-1">ABILITY</p>
-            <p className="font-mono text-xs text-white/70 leading-relaxed">{card.ability}</p>
+            <p className="font-mono text-xs text-muted-foreground/90 leading-relaxed">{card.ability}</p>
           </div>
 
           {/* Lore */}
           <div className="rounded-md p-3" style={{ background: "rgba(168,85,247,0.03)", border: "1px solid rgba(168,85,247,0.1)" }}>
             <p className="font-mono text-[9px] text-purple-400/50 tracking-[0.2em] mb-1">LORE</p>
-            <p className="font-mono text-[11px] text-white/50 leading-relaxed italic">{card.lore}</p>
+            <p className="font-mono text-[11px] text-muted-foreground/70 leading-relaxed italic">{card.lore}</p>
           </div>
 
           {card.element && (
             <div className="flex items-center gap-2">
-              <Zap size={10} className="text-white/30" />
-              <span className="font-mono text-[10px] text-white/30 uppercase">Element: {card.element}</span>
+              <Zap size={10} className="text-muted-foreground/50" />
+              <span className="font-mono text-[10px] text-muted-foreground/50 uppercase">Element: {card.element}</span>
             </div>
           )}
         </div>
@@ -481,7 +481,7 @@ export default function StarterDeckViewer({
           }}
           aria-label="Close starter deck"
         >
-          <X size={16} className="text-white/60 hover:text-white" />
+          <X size={16} className="text-muted-foreground/80 hover:text-white" />
         </button>
       )}
 
@@ -504,7 +504,7 @@ export default function StarterDeckViewer({
             <h2 className="font-display text-lg font-bold tracking-[0.2em] text-amber-400 mb-2">
               INITIALIZING STARTER DECK
             </h2>
-            <p className="font-mono text-xs text-white/40">Generating cards from your neural profile...</p>
+            <p className="font-mono text-xs text-muted-foreground/60">Generating cards from your neural profile...</p>
           </motion.div>
         )}
 
@@ -518,7 +518,7 @@ export default function StarterDeckViewer({
               <h2 className="font-display text-sm font-bold tracking-[0.2em] text-amber-400">
                 YOUR STARTER DECK
               </h2>
-              <p className="font-mono text-[10px] text-white/30 mt-1">
+              <p className="font-mono text-[10px] text-muted-foreground/50 mt-1">
                 {cards.length} CARDS // TAP TO INSPECT • SWIPE TO SCROLL
               </p>
             </div>
@@ -596,19 +596,19 @@ export default function StarterDeckViewer({
                 <div className="flex justify-center gap-4 mb-4">
                   <div className="font-mono text-[10px]">
                     <span className="text-amber-400">{cards.filter(c => c.rarity === "legendary").length}</span>
-                    <span className="text-white/30 ml-1">LEGENDARY</span>
+                    <span className="text-muted-foreground/50 ml-1">LEGENDARY</span>
                   </div>
                   <div className="font-mono text-[10px]">
                     <span className="text-purple-400">{cards.filter(c => c.rarity === "rare").length}</span>
-                    <span className="text-white/30 ml-1">RARE</span>
+                    <span className="text-muted-foreground/50 ml-1">RARE</span>
                   </div>
                   <div className="font-mono text-[10px]">
                     <span className="text-blue-400">{cards.filter(c => c.rarity === "uncommon").length}</span>
-                    <span className="text-white/30 ml-1">UNCOMMON</span>
+                    <span className="text-muted-foreground/50 ml-1">UNCOMMON</span>
                   </div>
                   <div className="font-mono text-[10px]">
-                    <span className="text-white/40">{cards.filter(c => c.rarity === "common").length}</span>
-                    <span className="text-white/30 ml-1">COMMON</span>
+                    <span className="text-muted-foreground/60">{cards.filter(c => c.rarity === "common").length}</span>
+                    <span className="text-muted-foreground/50 ml-1">COMMON</span>
                   </div>
                 </div>
 

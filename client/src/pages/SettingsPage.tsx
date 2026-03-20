@@ -88,8 +88,8 @@ function SettingsSection({ title, icon: Icon, children, defaultOpen = true }: {
         className="flex items-center gap-2.5 px-5 py-3 border-b border-white/5 w-full hover:bg-white/[0.02] transition-colors"
       >
         <Icon size={14} className="text-[var(--neon-cyan)]" />
-        <h3 className="font-mono text-xs tracking-[0.15em] text-white/70 uppercase flex-1 text-left">{title}</h3>
-        {open ? <ChevronUp size={14} className="text-white/30" /> : <ChevronDown size={14} className="text-white/30" />}
+        <h3 className="font-mono text-xs tracking-[0.15em] text-muted-foreground/90 uppercase flex-1 text-left">{title}</h3>
+        {open ? <ChevronUp size={14} className="text-muted-foreground/50" /> : <ChevronDown size={14} className="text-muted-foreground/50" />}
       </button>
       {open && (
         <div className="p-5 space-y-4">
@@ -110,14 +110,14 @@ function Toggle({ label, description, enabled, onChange, icon: Icon }: {
       className="flex items-center justify-between w-full py-2 group"
     >
       <div className="flex items-center gap-2.5">
-        {Icon && <Icon size={13} className="text-white/30 shrink-0" />}
+        {Icon && <Icon size={13} className="text-muted-foreground/50 shrink-0" />}
         <div>
-          <p className="font-mono text-[11px] text-white/70 text-left">{label}</p>
-          {description && <p className="font-mono text-[9px] text-white/30 text-left mt-0.5">{description}</p>}
+          <p className="font-mono text-[11px] text-muted-foreground/90 text-left">{label}</p>
+          {description && <p className="font-mono text-[9px] text-muted-foreground/50 text-left mt-0.5">{description}</p>}
         </div>
       </div>
       <div className={`w-10 h-5 rounded-full transition-all relative shrink-0 ml-3 ${
-        enabled ? "bg-[var(--neon-cyan)]/30" : "bg-white/10"
+        enabled ? "bg-[var(--neon-cyan)]/30" : "bg-muted/50"
       }`}>
         <div className={`absolute top-0.5 w-4 h-4 rounded-full transition-all ${
           enabled ? "left-5 bg-[var(--neon-cyan)] shadow-[0_0_8px_var(--neon-cyan)]" : "left-0.5 bg-white/40"
@@ -134,14 +134,14 @@ function VolumeSlider({ label, icon: Icon, value, onChange, disabled }: {
   return (
     <div className={`${disabled ? "opacity-40 pointer-events-none" : ""}`}>
       <div className="flex items-center gap-2 mb-1.5">
-        <Icon size={13} className="text-white/40" />
-        <p className="font-mono text-[10px] text-white/50 tracking-wider flex-1">{label}</p>
+        <Icon size={13} className="text-muted-foreground/60" />
+        <p className="font-mono text-[10px] text-muted-foreground/70 tracking-wider flex-1">{label}</p>
         <span className="font-mono text-[10px] text-[var(--neon-cyan)] w-8 text-right">
           {Math.round(value * 100)}%
         </span>
       </div>
       <div className="flex items-center gap-3">
-        <VolumeX size={12} className="text-white/20 shrink-0" />
+        <VolumeX size={12} className="text-muted-foreground/35 shrink-0" />
         <input
           type="range"
           min={0}
@@ -151,7 +151,7 @@ function VolumeSlider({ label, icon: Icon, value, onChange, disabled }: {
           onChange={(e) => onChange(parseFloat(e.target.value))}
           className="flex-1 accent-[var(--neon-cyan)] h-1"
         />
-        <Volume2 size={12} className="text-white/20 shrink-0" />
+        <Volume2 size={12} className="text-muted-foreground/35 shrink-0" />
       </div>
     </div>
   );
@@ -166,7 +166,7 @@ function OptionSelector<T extends string>({ label, options, value, onChange }: {
 }) {
   return (
     <div>
-      <p className="font-mono text-[10px] text-white/40 tracking-wider mb-2">{label}</p>
+      <p className="font-mono text-[10px] text-muted-foreground/60 tracking-wider mb-2">{label}</p>
       <div className="flex gap-2">
         {options.map((opt) => {
           const active = value === opt.value;
@@ -178,14 +178,14 @@ function OptionSelector<T extends string>({ label, options, value, onChange }: {
               className={`flex-1 flex flex-col items-center gap-1.5 py-3 rounded-lg border transition-all ${
                 active
                   ? "border-[var(--neon-cyan)]/30 bg-[var(--neon-cyan)]/5"
-                  : "border-white/8 hover:border-white/15 hover:bg-white/3"
+                  : "border-white/8 hover:border-white/15 hover:bg-muted/30"
               }`}
             >
-              {OptIcon && <OptIcon size={16} className={active ? "text-[var(--neon-cyan)]" : "text-white/40"} />}
-              <span className={`font-mono text-[10px] ${active ? "text-[var(--neon-cyan)]" : "text-white/50"}`}>
+              {OptIcon && <OptIcon size={16} className={active ? "text-[var(--neon-cyan)]" : "text-muted-foreground/60"} />}
+              <span className={`font-mono text-[10px] ${active ? "text-[var(--neon-cyan)]" : "text-muted-foreground/70"}`}>
                 {opt.label}
               </span>
-              {opt.desc && <span className="font-mono text-[8px] text-white/25">{opt.desc}</span>}
+              {opt.desc && <span className="font-mono text-[8px] text-muted-foreground/40">{opt.desc}</span>}
             </button>
           );
         })}
@@ -294,7 +294,7 @@ export default function SettingsPage() {
 
           {/* Ark Themes */}
           <div>
-            <p className="font-mono text-[10px] text-white/40 tracking-wider mb-2">ARK THEME</p>
+            <p className="font-mono text-[10px] text-muted-foreground/60 tracking-wider mb-2">ARK THEME</p>
             <div className="grid grid-cols-2 gap-2">
               {unlockedThemes.map((t) => {
                 const active = gam.currentTheme.id === t.id;
@@ -308,7 +308,7 @@ export default function SettingsPage() {
                     className={`flex items-center gap-2.5 px-3 py-2.5 rounded-lg border transition-all text-left ${
                       active
                         ? "border-[var(--neon-cyan)]/30 bg-[var(--neon-cyan)]/5"
-                        : "border-white/8 hover:border-white/15 hover:bg-white/3"
+                        : "border-white/8 hover:border-white/15 hover:bg-muted/30"
                     }`}
                   >
                     <div
@@ -316,10 +316,10 @@ export default function SettingsPage() {
                       style={{ background: t.colors?.primary || "var(--neon-cyan)" }}
                     />
                     <div className="min-w-0">
-                      <p className={`font-mono text-[10px] truncate ${active ? "text-[var(--neon-cyan)]" : "text-white/60"}`}>
+                      <p className={`font-mono text-[10px] truncate ${active ? "text-[var(--neon-cyan)]" : "text-muted-foreground/80"}`}>
                         {t.name}
                       </p>
-                      <p className="font-mono text-[8px] text-white/25 truncate">{t.description}</p>
+                      <p className="font-mono text-[8px] text-muted-foreground/40 truncate">{t.description}</p>
                     </div>
                     {active && <Check size={12} className="text-[var(--neon-cyan)] shrink-0 ml-auto" />}
                   </button>
@@ -330,12 +330,12 @@ export default function SettingsPage() {
                   key={t.id}
                   className="flex items-center gap-2.5 px-3 py-2.5 rounded-lg border border-white/5 opacity-40"
                 >
-                  <div className="w-6 h-6 rounded-md shrink-0 bg-white/10 flex items-center justify-center">
-                    <Lock size={10} className="text-white/30" />
+                  <div className="w-6 h-6 rounded-md shrink-0 bg-muted/50 flex items-center justify-center">
+                    <Lock size={10} className="text-muted-foreground/50" />
                   </div>
                   <div className="min-w-0">
-                    <p className="font-mono text-[10px] text-white/30 truncate">{t.name}</p>
-                    <p className="font-mono text-[8px] text-white/15 truncate">Unlock at LV.{t.unlockLevel}</p>
+                    <p className="font-mono text-[10px] text-muted-foreground/50 truncate">{t.name}</p>
+                    <p className="font-mono text-[8px] text-muted-foreground/25 truncate">Unlock at LV.{t.unlockLevel}</p>
                   </div>
                 </div>
               ))}
@@ -450,11 +450,11 @@ export default function SettingsPage() {
           <div className="pt-2 border-t border-white/5">
             <div className="flex items-center justify-between">
               <div>
-                <p className="font-mono text-[11px] text-white/70 flex items-center gap-2">
+                <p className="font-mono text-[11px] text-muted-foreground/90 flex items-center gap-2">
                   <RotateCcw size={13} className="text-[var(--alert-red)]/60" />
                   Reset Game Progress
                 </p>
-                <p className="font-mono text-[9px] text-white/30 mt-0.5 ml-[21px]">
+                <p className="font-mono text-[9px] text-muted-foreground/50 mt-0.5 ml-[21px]">
                   Resets all rooms, XP, achievements, and card collection. Cannot be undone.
                 </p>
               </div>
@@ -469,7 +469,7 @@ export default function SettingsPage() {
                 <div className="flex gap-2 shrink-0">
                   <button
                     onClick={() => setShowResetConfirm(false)}
-                    className="px-3 py-1.5 rounded-md border border-white/10 text-white/50 font-mono text-[10px] hover:bg-white/5 transition-colors"
+                    className="px-3 py-1.5 rounded-md border border-white/10 text-muted-foreground/70 font-mono text-[10px] hover:bg-muted/50 transition-colors"
                   >
                     CANCEL
                   </button>
@@ -495,15 +495,15 @@ export default function SettingsPage() {
           <div className="flex items-center justify-between py-2">
             <div className="flex items-center gap-2.5">
               <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
-                isAuthenticated ? "bg-[var(--neon-cyan)]/10 border border-[var(--neon-cyan)]/30" : "bg-white/5 border border-white/10"
+                isAuthenticated ? "bg-[var(--neon-cyan)]/10 border border-[var(--neon-cyan)]/30" : "bg-muted/40 border border-white/10"
               }`}>
-                <User size={14} className={isAuthenticated ? "text-[var(--neon-cyan)]" : "text-white/30"} />
+                <User size={14} className={isAuthenticated ? "text-[var(--neon-cyan)]" : "text-muted-foreground/50"} />
               </div>
               <div>
-                <p className="font-mono text-[11px] text-white/70">
+                <p className="font-mono text-[11px] text-muted-foreground/90">
                   {authLoading ? "Checking..." : isAuthenticated ? (user?.name || "Operative") : "Not logged in"}
                 </p>
-                <p className="font-mono text-[9px] text-white/30">
+                <p className="font-mono text-[9px] text-muted-foreground/50">
                   {isAuthenticated ? "Authenticated" : "Log in to sync progress across devices"}
                 </p>
               </div>
@@ -514,7 +514,7 @@ export default function SettingsPage() {
                   logout();
                   toast.success("Logged out");
                 }}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-md border border-white/10 text-white/50 font-mono text-[10px] hover:bg-white/5 hover:text-white/70 transition-colors shrink-0"
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-md border border-white/10 text-muted-foreground/70 font-mono text-[10px] hover:bg-muted/50 hover:text-muted-foreground/90 transition-colors shrink-0"
               >
                 <LogOut size={12} />
                 LOGOUT
@@ -541,17 +541,17 @@ export default function SettingsPage() {
                 ) : syncStatus === "error" ? (
                   <CloudOff size={14} className="text-[var(--alert-red)]" />
                 ) : (
-                  <Cloud size={14} className="text-white/30" />
+                  <Cloud size={14} className="text-muted-foreground/50" />
                 )}
                 <div>
-                  <p className="font-mono text-[10px] text-white/50">
+                  <p className="font-mono text-[10px] text-muted-foreground/70">
                     {syncStatus === "synced" ? "Synced to server" :
                      syncStatus === "saving" ? "Saving..." :
                      syncStatus === "loading" ? "Loading..." :
                      syncStatus === "error" ? "Sync error" : "Not synced"}
                   </p>
                   {lastSyncedAt && (
-                    <p className="font-mono text-[8px] text-white/25">
+                    <p className="font-mono text-[8px] text-muted-foreground/40">
                       Last: {new Date(lastSyncedAt).toLocaleString()}
                     </p>
                   )}
@@ -562,7 +562,7 @@ export default function SettingsPage() {
                   forceSave();
                   toast.success("Sync triggered");
                 }}
-                className="px-3 py-1.5 rounded-md border border-white/10 text-white/50 font-mono text-[10px] hover:bg-white/5 transition-colors shrink-0"
+                className="px-3 py-1.5 rounded-md border border-white/10 text-muted-foreground/70 font-mono text-[10px] hover:bg-muted/50 transition-colors shrink-0"
               >
                 SYNC NOW
               </button>
@@ -572,16 +572,16 @@ export default function SettingsPage() {
           {/* Export Save Data */}
           <div className="flex items-center justify-between py-2 border-t border-white/5">
             <div className="flex items-center gap-2.5">
-              <Download size={14} className="text-white/40" />
+              <Download size={14} className="text-muted-foreground/60" />
               <div>
-                <p className="font-mono text-[11px] text-white/70">Export Save Data</p>
-                <p className="font-mono text-[9px] text-white/30">Download all game progress as JSON</p>
+                <p className="font-mono text-[11px] text-muted-foreground/90">Export Save Data</p>
+                <p className="font-mono text-[9px] text-muted-foreground/50">Download all game progress as JSON</p>
               </div>
             </div>
             <button
               onClick={exportSaveData}
               disabled={exporting}
-              className="px-3 py-1.5 rounded-md border border-white/10 text-white/50 font-mono text-[10px] hover:bg-white/5 transition-colors shrink-0 disabled:opacity-30"
+              className="px-3 py-1.5 rounded-md border border-white/10 text-muted-foreground/70 font-mono text-[10px] hover:bg-muted/50 transition-colors shrink-0 disabled:opacity-30"
             >
               {exporting ? "EXPORTING..." : "EXPORT"}
             </button>
@@ -590,10 +590,10 @@ export default function SettingsPage() {
 
         {/* Version Info */}
         <div className="text-center py-4">
-          <p className="font-mono text-[9px] text-white/15">
+          <p className="font-mono text-[9px] text-muted-foreground/25">
             LOREDEX OS v5.0.0 // INCEPTION ARK // CADES ACTIVE
           </p>
-          <p className="font-mono text-[9px] text-white/10 mt-1">
+          <p className="font-mono text-[9px] text-muted-foreground/20 mt-1">
             Malkia Ukweli & the Panopticon
           </p>
         </div>

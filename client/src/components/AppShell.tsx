@@ -7,10 +7,11 @@ import { ROUTE_ROOM_MAP } from "@/components/ProtectedRoute";
 import {
   Search, Menu, X, Map, Music, Users, MapPin, Swords, Clock,
   ChevronRight, ChevronDown, Terminal, Disc3, Shield, Tv, BarChart3, Gamepad2, Trophy, Crosshair,
-  Home, Rocket, Store, ScrollText, FlaskConical, Ship, Crown, Compass, Radio, Heart, Brain, BookOpen, Gem, Lock
+  Home, Rocket, Store, ScrollText, FlaskConical, Ship, Crown, Compass, Radio, Heart, Brain, BookOpen, Gem, Lock, Sun, Moon
 } from "lucide-react";
 import { useGamification } from "@/contexts/GamificationContext";
 import { useMoralityTheme } from "@/contexts/MoralityThemeContext";
+import { useTheme } from "@/contexts/ThemeContext";
 import { MoralityBar } from "@/components/MoralityMeter";
 import { Progress } from "@/components/ui/progress";
 import { motion, AnimatePresence } from "framer-motion";
@@ -147,10 +148,10 @@ function NavGroupSection({ group, location, onNavigate, rooms }: { group: NavGro
         className={`w-full flex items-center gap-2 px-3 py-2 font-mono text-[9px] tracking-[0.2em] uppercase transition-all rounded-md ${
           hasActive
             ? "text-[var(--neon-cyan)]/90 bg-[var(--neon-cyan)]/5"
-            : "text-white/30 hover:text-white/50 hover:bg-white/3"
+            : "text-muted-foreground/50 hover:text-muted-foreground/70 hover:bg-muted/30"
         }`}
       >
-        <GroupIcon size={10} className={hasActive ? "text-[var(--neon-cyan)]" : "text-white/20"} />
+        <GroupIcon size={10} className={hasActive ? "text-[var(--neon-cyan)]" : "text-muted-foreground/40"} />
         <span className="flex-1 text-left">{group.label}</span>
         <ChevronDown
           size={10}
@@ -180,8 +181,8 @@ function NavGroupSection({ group, location, onNavigate, rooms }: { group: NavGro
                       key={item.path}
                       className="flex items-center gap-2.5 px-3 py-2 rounded-md text-[11px] font-mono tracking-wider opacity-25 cursor-not-allowed border border-transparent select-none"
                     >
-                      <Lock size={11} className="text-white/20" />
-                      <span className="flex-1 text-white/20">{item.label}</span>
+                      <Lock size={11} className="text-muted-foreground/40" />
+                      <span className="flex-1 text-muted-foreground/40">{item.label}</span>
                     </div>
                   );
                 }
@@ -194,10 +195,10 @@ function NavGroupSection({ group, location, onNavigate, rooms }: { group: NavGro
                     className={`flex items-center gap-2.5 px-3 py-2 rounded-md text-[11px] font-mono tracking-wider transition-all group ${
                       active
                         ? "bg-[var(--neon-cyan)]/8 text-[var(--neon-cyan)] border border-[var(--neon-cyan)]/20 shadow-[0_0_12px_rgba(51,226,230,0.08)]"
-                        : "text-white/50 hover:text-white/80 hover:bg-white/5 border border-transparent"
+                        : "text-muted-foreground/70 hover:text-foreground/90 hover:bg-muted/50 border border-transparent"
                     }`}
                   >
-                    <Icon size={13} className={active ? "text-[var(--neon-cyan)]" : "text-white/30 group-hover:text-white/60"} />
+                    <Icon size={13} className={active ? "text-[var(--neon-cyan)]" : "text-muted-foreground/50 group-hover:text-muted-foreground/80"} />
                     <span className="flex-1">{item.label}</span>
                     {active && <div className="w-1.5 h-1.5 rounded-full bg-[var(--neon-cyan)] shadow-[0_0_6px_var(--neon-cyan)]" />}
                   </Link>
@@ -219,6 +220,7 @@ export default function AppShell({ children, elaraTTS: _elaraTTS }: { children: 
   const { showPlayer } = usePlayer();
   const { state: gameState } = useGame();
   const rooms = gameState.rooms;
+  const { theme, toggleTheme } = useTheme();
 
   const clearanceLevel = discoveryProgress < 10 ? "LEVEL 1" : discoveryProgress < 30 ? "LEVEL 2" : discoveryProgress < 60 ? "LEVEL 3" : discoveryProgress < 90 ? "LEVEL 4" : "LEVEL 5";
 
@@ -245,20 +247,20 @@ export default function AppShell({ children, elaraTTS: _elaraTTS }: { children: 
           style={{ filter: "blur(1px) saturate(0.5)" }}
         />
         <div className="absolute inset-0" style={{
-          background: "radial-gradient(ellipse at 50% 30%, rgba(10,12,43,0.85) 0%, rgba(1,0,32,0.97) 70%)"
+          background: "radial-gradient(ellipse at 50% 30%, var(--bg-spotlight) 0%, var(--bg-void) 70%)"
         }} />
       </div>
 
       {/* ═══ TOP HEADER BAR — ARK COMMAND STRIP ═══ */}
       <header role="banner" aria-label="Ark command bar" className="fixed top-0 left-0 right-0 z-50 h-12 flex items-center px-3 sm:px-4"
         style={{
-          background: "linear-gradient(180deg, rgba(1,0,32,0.95) 0%, rgba(1,0,32,0.85) 100%)",
-          borderBottom: "1px solid rgba(56,117,250,0.15)",
+          background: "linear-gradient(180deg, var(--bg-overlay) 0%, color-mix(in srgb, var(--background) 85%, transparent) 100%)",
+          borderBottom: "1px solid var(--border)",
           backdropFilter: "blur(20px)",
         }}>
         <button
           onClick={() => setSidebarOpen(!sidebarOpen)}
-          className="lg:hidden mr-2 p-1.5 rounded-md hover:bg-white/5 transition-colors text-white/60"
+          className="lg:hidden mr-2 p-1.5 rounded-md hover:bg-muted/50 transition-colors text-muted-foreground/80"
         >
           {sidebarOpen ? <X size={18} /> : <Menu size={18} />}
         </button>
@@ -276,7 +278,7 @@ export default function AppShell({ children, elaraTTS: _elaraTTS }: { children: 
             <span className="font-display text-xs font-bold tracking-[0.25em] text-[var(--neon-cyan)] glow-cyan">
               LOREDEX
             </span>
-            <span className="font-display text-[10px] font-bold tracking-[0.2em] text-white/40">
+            <span className="font-display text-[10px] font-bold tracking-[0.2em] text-muted-foreground/60">
               OS
             </span>
           </div>
@@ -300,19 +302,19 @@ export default function AppShell({ children, elaraTTS: _elaraTTS }: { children: 
                 }}
               />
             </div>
-            <span className="font-mono text-[10px] text-white/40">{Math.floor(discoveryProgress)}%</span>
+            <span className="font-mono text-[10px] text-muted-foreground/60">{Math.floor(discoveryProgress)}%</span>
           </div>
         </div>
 
         {/* Quick Stats */}
-        <div className="hidden lg:flex items-center gap-3 font-mono text-[10px] text-white/40 mr-3">
+        <div className="hidden lg:flex items-center gap-3 font-mono text-[10px] text-muted-foreground/60 mr-3">
           <span><span className="text-[var(--neon-cyan)]">{stats.total_entries}</span> ENTRIES</span>
-          <span className="text-white/10">|</span>
+          <span className="text-muted-foreground/20">|</span>
           <span><span className="text-[var(--orb-orange)]">{stats.relationships}</span> LINKS</span>
         </div>
 
-        <Link href="/search" className="p-1.5 rounded-md hover:bg-white/5 transition-colors group">
-          <Search size={16} className="text-white/40 group-hover:text-[var(--neon-cyan)] transition-colors" />
+        <Link href="/search" className="p-1.5 rounded-md hover:bg-muted/50 transition-colors group">
+          <Search size={16} className="text-muted-foreground/60 group-hover:text-[var(--neon-cyan)] transition-colors" />
         </Link>
       </header>
 
@@ -323,13 +325,13 @@ export default function AppShell({ children, elaraTTS: _elaraTTS }: { children: 
             sidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
           }`}
           style={{
-            background: "linear-gradient(180deg, rgba(1,0,32,0.98) 0%, rgba(0,2,41,0.95) 100%)",
-            borderRight: "1px solid rgba(56,117,250,0.12)",
+            background: "linear-gradient(180deg, var(--bg-overlay) 0%, color-mix(in srgb, var(--background) 95%, transparent) 100%)",
+            borderRight: "1px solid var(--border)",
             backdropFilter: "blur(20px)",
           }}
         >
           {/* Ark Status Indicator */}
-          <div className="px-4 py-3 border-b" style={{ borderColor: "rgba(56,117,250,0.1)" }}>
+          <div className="px-4 py-3 border-b" style={{ borderColor: "var(--border)" }}>
             <div className="flex items-center gap-2">
               <div className="w-2 h-2 rounded-full bg-[var(--signal-green)] shadow-[0_0_6px_var(--signal-green)]" />
               <span className="font-mono text-[9px] text-[var(--signal-green)] tracking-[0.3em]">ARK SYSTEMS ONLINE</span>
@@ -350,12 +352,12 @@ export default function AppShell({ children, elaraTTS: _elaraTTS }: { children: 
           </nav>
 
           <div className="mx-3 my-1.5">
-            <div className="h-px" style={{ background: "rgba(56,117,250,0.1)" }} />
+            <div className="h-px" style={{ background: "var(--border)" }} />
           </div>
 
           {/* Discography — Archived Transmissions */}
           <div className="px-2.5 pb-4">
-            <p className="font-mono text-[9px] text-white/20 tracking-[0.3em] mb-1.5 px-3 uppercase flex items-center gap-1.5">
+            <p className="font-mono text-[9px] text-muted-foreground/40 tracking-[0.3em] mb-1.5 px-3 uppercase flex items-center gap-1.5">
               <Disc3 size={9} className="text-[var(--orb-orange)]/50" />
               Transmissions
             </p>
@@ -364,7 +366,7 @@ export default function AppShell({ children, elaraTTS: _elaraTTS }: { children: 
                 key={album.slug}
                 href={`/album/${album.slug}`}
                 onClick={handleNavigate}
-                className="flex items-center justify-between px-3 py-1.5 rounded-md text-[11px] font-mono text-white/40 hover:text-white/70 hover:bg-white/3 transition-all group"
+                className="flex items-center justify-between px-3 py-1.5 rounded-md text-[11px] font-mono text-muted-foreground/60 hover:text-muted-foreground/90 hover:bg-muted/30 transition-all group"
               >
                 <span className="flex items-center gap-2">
                   <Music size={10} className="opacity-40 group-hover:opacity-70 text-[var(--orb-orange)]" />
@@ -377,8 +379,8 @@ export default function AppShell({ children, elaraTTS: _elaraTTS }: { children: 
 
           {/* Morality Alignment */}
           <div className="px-2.5 pb-2">
-            <div className="mx-3 mb-2 h-px" style={{ background: "rgba(56,117,250,0.1)" }} />
-            <p className="font-mono text-[9px] text-white/20 tracking-[0.3em] mb-1.5 px-3 uppercase flex items-center gap-1.5">
+            <div className="mx-3 mb-2 h-px" style={{ background: "var(--border)" }} />
+            <p className="font-mono text-[9px] text-muted-foreground/40 tracking-[0.3em] mb-1.5 px-3 uppercase flex items-center gap-1.5">
               <Heart size={9} className="text-[var(--primary)]/50" />
               Alignment
             </p>
@@ -388,11 +390,11 @@ export default function AppShell({ children, elaraTTS: _elaraTTS }: { children: 
           </div>
           {/* Operative Status */}
           <div className="px-2.5 pb-2">
-            <div className="mx-3 mb-2 h-px" style={{ background: "rgba(56,117,250,0.1)" }} />
-            <p className="font-mono text-[9px] text-white/20 tracking-[0.3em] mb-1.5 px-3 uppercase">Operative Status</p>
+            <div className="mx-3 mb-2 h-px" style={{ background: "var(--border)" }} />
+            <p className="font-mono text-[9px] text-muted-foreground/40 tracking-[0.3em] mb-1.5 px-3 uppercase">Operative Status</p>
             <div className="px-3 space-y-1.5">
               <div className="flex items-center justify-between">
-                <span className="font-mono text-[10px] text-white/50 flex items-center gap-1.5">
+                <span className="font-mono text-[10px] text-muted-foreground/70 flex items-center gap-1.5">
                   <Trophy size={10} className="text-[var(--orb-orange)]" /> {gam.title}
                 </span>
                 <span className="font-mono text-[10px] text-[var(--neon-cyan)]">LV.{gam.level}</span>
@@ -400,18 +402,31 @@ export default function AppShell({ children, elaraTTS: _elaraTTS }: { children: 
               <div className="w-full h-1 rounded-full overflow-hidden" style={{ background: "var(--glass-dark)" }}>
                 <div className="h-full rounded-full transition-all" style={{ width: `${gam.xpProgress}%`, background: "var(--brand-gradient)" }} />
               </div>
-              <div className="flex justify-between font-mono text-[9px] text-white/25">
+              <div className="flex justify-between font-mono text-[9px] text-muted-foreground/45">
                 <span>{gam.xp} XP</span>
                 <span>{gam.earnedAchievements.length} achievements</span>
               </div>
             </div>
           </div>
 
-          {/* Footer */}
+          {/* Theme Toggle + Footer */}
           <div className="px-2.5 pb-4 mt-auto">
-            <div className="mx-3 mb-3 h-px" style={{ background: "rgba(56,117,250,0.08)" }} />
+            <div className="mx-3 mb-3 h-px" style={{ background: "var(--border)" }} />
+            <div className="px-3 mb-3">
+              <button
+                onClick={() => toggleTheme?.()}
+                className="w-full flex items-center justify-between px-3 py-2 rounded-md font-mono text-[10px] tracking-wider transition-all hover:bg-[var(--glass-base)] border border-transparent hover:border-[var(--glass-border)]"
+                style={{ color: "var(--muted-foreground)" }}
+              >
+                <span className="flex items-center gap-2">
+                  {theme === "dark" ? <Moon size={12} className="text-[var(--primary)]" /> : <Sun size={12} className="text-[var(--accent)]" />}
+                  {theme === "dark" ? "VOID MODE" : "DAYLIGHT PROTOCOL"}
+                </span>
+                <span className="text-[9px] opacity-50">{theme === "dark" ? "DARK" : "LIGHT"}</span>
+              </button>
+            </div>
             <div className="px-3">
-              <p className="font-mono text-[9px] text-white/15 leading-relaxed">
+              <p className="font-mono text-[9px] leading-relaxed" style={{ color: "var(--muted-foreground)", opacity: 0.4 }}>
                 LOREDEX OS v4.7.2<br />
                 INCEPTION ARK // CADES ACTIVE<br />
                 Malkia Ukweli & the Panopticon
@@ -428,7 +443,7 @@ export default function AppShell({ children, elaraTTS: _elaraTTS }: { children: 
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               className="fixed inset-0 z-30 lg:hidden"
-              style={{ background: "rgba(1,0,32,0.85)", backdropFilter: "blur(8px)" }}
+              style={{ background: "color-mix(in srgb, var(--background) 85%, transparent)", backdropFilter: "blur(8px)" }}
               onClick={() => setSidebarOpen(false)}
             />
           )}
@@ -448,8 +463,8 @@ export default function AppShell({ children, elaraTTS: _elaraTTS }: { children: 
       {/* ═══ MOBILE BOTTOM NAV — ARK CONTROL STRIP ═══ */}
       <nav aria-label="Mobile navigation" className={`fixed left-0 right-0 z-50 sm:hidden safe-area-bottom transition-all ${showPlayer ? "bottom-[60px]" : "bottom-0"}`}
         style={{
-          background: "linear-gradient(0deg, rgba(1,0,32,0.98) 0%, rgba(1,0,32,0.92) 100%)",
-          borderTop: "1px solid rgba(56,117,250,0.15)",
+          background: "linear-gradient(0deg, var(--bg-overlay) 0%, color-mix(in srgb, var(--background) 92%, transparent) 100%)",
+          borderTop: "1px solid var(--border)",
           backdropFilter: "blur(20px)",
         }}>
         <div className="flex items-center justify-around h-16 px-1">
@@ -471,7 +486,7 @@ export default function AppShell({ children, elaraTTS: _elaraTTS }: { children: 
                 className={`flex flex-col items-center justify-center gap-0.5 w-16 h-14 rounded-lg transition-all ${
                   active
                     ? "text-[var(--neon-cyan)]"
-                    : "text-white/30 hover:text-white/50"
+                    : "text-muted-foreground/50 hover:text-muted-foreground/70"
                 }`}
               >
                 <div className="relative">

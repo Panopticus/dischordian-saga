@@ -60,11 +60,11 @@ export default function FightLeaderboardPage() {
   return (
     <div className="min-h-screen grid-bg">
       {/* Header */}
-      <div className="border-b border-white/10 bg-black/40">
+      <div className="border-b border-white/10 bg-muted/60">
         <div className="max-w-5xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <Link href="/fight" className="text-white/50 hover:text-white transition-colors">
+              <Link href="/fight" className="text-muted-foreground/70 hover:text-white transition-colors">
                 <ChevronLeft size={20} />
               </Link>
               <div>
@@ -99,8 +99,8 @@ export default function FightLeaderboardPage() {
                   onClick={() => setTab(t.id)}
                   className={`px-4 py-2 rounded-t font-mono text-xs tracking-wider flex items-center gap-1.5 transition-all ${
                     tab === t.id
-                      ? "bg-white/10 text-white border-b-2 border-primary"
-                      : "text-white/40 hover:text-white/60"
+                      ? "bg-muted/50 text-white border-b-2 border-primary"
+                      : "text-muted-foreground/60 hover:text-muted-foreground/80"
                   }`}
                 >
                   <Icon size={14} /> {t.label}
@@ -120,14 +120,14 @@ export default function FightLeaderboardPage() {
                 <div className="text-center py-20 font-mono text-muted-foreground">Loading rankings...</div>
               ) : !leaderboard?.entries.length ? (
                 <div className="text-center py-20">
-                  <Trophy size={48} className="mx-auto text-white/10 mb-4" />
+                  <Trophy size={48} className="mx-auto text-muted-foreground/20 mb-4" />
                   <p className="font-mono text-muted-foreground">No fighters ranked yet.</p>
                   <p className="font-mono text-xs text-muted-foreground/50 mt-2">Win fights to appear on the leaderboard!</p>
                 </div>
               ) : (
                 <div className="space-y-2">
                   {/* Header row */}
-                  <div className="hidden sm:grid grid-cols-12 gap-2 px-4 py-2 font-mono text-[10px] text-white/30 tracking-wider">
+                  <div className="hidden sm:grid grid-cols-12 gap-2 px-4 py-2 font-mono text-[10px] text-muted-foreground/50 tracking-wider">
                     <div className="col-span-1">#</div>
                     <div className="col-span-3">OPERATIVE</div>
                     <div className="col-span-2">RANK</div>
@@ -160,7 +160,7 @@ export default function FightLeaderboardPage() {
                           {i === 0 ? <Crown size={16} className="text-amber-400" /> :
                            i === 1 ? <Medal size={16} className="text-gray-300" /> :
                            i === 2 ? <Medal size={16} className="text-orange-400" /> :
-                           <span className="font-mono text-sm text-white/40">{entry.rank}</span>}
+                           <span className="font-mono text-sm text-muted-foreground/60">{entry.rank}</span>}
                         </div>
                         <div className="col-span-3 flex items-center gap-2">
                           <span className="font-mono text-sm text-foreground truncate">
@@ -174,7 +174,7 @@ export default function FightLeaderboardPage() {
                         <div className="col-span-1 text-center font-mono text-sm text-amber-400">{entry.elo}</div>
                         <div className="col-span-1 text-center font-mono text-sm text-green-400">{entry.wins}</div>
                         <div className="col-span-1 text-center font-mono text-sm text-red-400">{entry.losses}</div>
-                        <div className="col-span-1 text-center font-mono text-sm text-white/60">{entry.winRate}%</div>
+                        <div className="col-span-1 text-center font-mono text-sm text-muted-foreground/80">{entry.winRate}%</div>
                         <div className="col-span-1 text-center font-mono text-sm text-cyan-400">
                           {entry.winStreak > 0 ? `${entry.winStreak}🔥` : "-"}
                         </div>
@@ -186,7 +186,7 @@ export default function FightLeaderboardPage() {
                               className="w-6 h-6 rounded-full object-cover border border-white/20"
                             />
                           ) : (
-                            <span className="text-white/20">-</span>
+                            <span className="text-muted-foreground/35">-</span>
                           )}
                         </div>
                       </motion.div>
@@ -211,14 +211,14 @@ export default function FightLeaderboardPage() {
                   <div className={`rounded-xl border p-6 ${RANK_TIERS[myStats.rankTier ?? "bronze"]?.bg}`}>
                     <div className="flex items-center justify-between">
                       <div>
-                        <div className="font-mono text-[10px] text-white/40 tracking-wider mb-1">CURRENT RANK</div>
+                        <div className="font-mono text-[10px] text-muted-foreground/60 tracking-wider mb-1">CURRENT RANK</div>
                         <div className={`font-display text-3xl tracking-wider ${RANK_TIERS[myStats.rankTier ?? "bronze"]?.color}`}>
                           {RANK_TIERS[myStats.rankTier ?? "bronze"]?.label}
                         </div>
                         <div className="font-mono text-sm text-amber-400 mt-1">{myStats.elo} ELO</div>
                       </div>
                       <div className="text-right">
-                        <div className="font-mono text-[10px] text-white/40 tracking-wider mb-1">GLOBAL RANK</div>
+                        <div className="font-mono text-[10px] text-muted-foreground/60 tracking-wider mb-1">GLOBAL RANK</div>
                         <div className="font-display text-3xl text-foreground">#{myStats.rank}</div>
                       </div>
                     </div>
@@ -241,7 +241,7 @@ export default function FightLeaderboardPage() {
                         <div key={stat.label} className="rounded-lg border border-white/5 bg-white/[0.02] p-4">
                           <div className="flex items-center gap-1.5 mb-2">
                             <Icon size={12} className={stat.color} />
-                            <span className="font-mono text-[9px] text-white/30 tracking-wider">{stat.label}</span>
+                            <span className="font-mono text-[9px] text-muted-foreground/50 tracking-wider">{stat.label}</span>
                           </div>
                           <div className={`font-display text-2xl ${stat.color}`}>{stat.value}</div>
                         </div>
@@ -252,7 +252,7 @@ export default function FightLeaderboardPage() {
                   {/* Top Fighters */}
                   {myStats.topFighters && myStats.topFighters.length > 0 && (
                     <div>
-                      <h3 className="font-display text-sm tracking-[0.2em] text-white/60 mb-3 flex items-center gap-2">
+                      <h3 className="font-display text-sm tracking-[0.2em] text-muted-foreground/80 mb-3 flex items-center gap-2">
                         <Users size={14} /> TOP FIGHTERS
                       </h3>
                       <div className="space-y-2">
@@ -265,7 +265,7 @@ export default function FightLeaderboardPage() {
                             />
                             <div className="flex-1">
                               <div className="font-mono text-sm text-foreground">{getFighterName(f.fighter)}</div>
-                              <div className="font-mono text-[10px] text-white/40">
+                              <div className="font-mono text-[10px] text-muted-foreground/60">
                                 {f.matches} matches // {f.winRate}% win rate
                               </div>
                             </div>
@@ -291,7 +291,7 @@ export default function FightLeaderboardPage() {
                 </div>
               ) : !matchHistory?.matches.length ? (
                 <div className="text-center py-20">
-                  <History size={48} className="mx-auto text-white/10 mb-4" />
+                  <History size={48} className="mx-auto text-muted-foreground/20 mb-4" />
                   <p className="font-mono text-muted-foreground">No matches yet.</p>
                   <p className="font-mono text-xs text-muted-foreground/50 mt-2">Fight to build your history!</p>
                 </div>
@@ -325,7 +325,7 @@ export default function FightLeaderboardPage() {
                           alt=""
                           className="w-8 h-8 rounded object-cover border border-white/10 flex-shrink-0"
                         />
-                        <span className="font-mono text-xs text-white/40">vs</span>
+                        <span className="font-mono text-xs text-muted-foreground/60">vs</span>
                         <img
                           src={getFighterImage(match.opponentFighter)}
                           alt=""
@@ -335,7 +335,7 @@ export default function FightLeaderboardPage() {
                           <div className="font-mono text-sm text-foreground truncate">
                             {getFighterName(match.playerFighter)} vs {getFighterName(match.opponentFighter)}
                           </div>
-                          <div className="font-mono text-[10px] text-white/30">
+                          <div className="font-mono text-[10px] text-muted-foreground/50">
                             {match.difficulty} // {match.arena}
                             {match.perfect ? " // PERFECT" : ""}
                           </div>

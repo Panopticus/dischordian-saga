@@ -668,7 +668,7 @@ export default function BoardPage() {
       <div className="flex items-center justify-between px-3 sm:px-4 py-2.5 border-b border-[var(--glass-border)]"
            style={{ background: "linear-gradient(180deg, rgba(22,30,95,0.4) 0%, rgba(1,0,32,0.8) 100%)" }}>
         <div className="flex items-center gap-2 sm:gap-3">
-          <Link href="/" className="text-white/40 hover:text-[var(--neon-cyan)] transition-colors">
+          <Link href="/" className="text-muted-foreground/60 hover:text-[var(--neon-cyan)] transition-colors">
             <ArrowLeft size={16} />
           </Link>
           <div className="flex items-center gap-2">
@@ -679,7 +679,7 @@ export default function BoardPage() {
           </div>
           <div className="hidden sm:flex items-center gap-1.5 ml-2 px-2 py-0.5 rounded-full bg-[var(--glass-base)] border border-[var(--glass-border)]">
             <Scan size={10} className="text-[var(--neon-cyan)]/60" />
-            <span className="font-mono text-[9px] text-white/50">
+            <span className="font-mono text-[9px] text-muted-foreground/70">
               {graphData.nodes.length} NODES // {graphData.edges.length} LINKS
               {discoveryMode === "discovered" && (
                 <> // {Math.round(discoveryProgress)}% DISCOVERED</>
@@ -704,7 +704,7 @@ export default function BoardPage() {
                 className={`flex items-center gap-1 px-1.5 sm:px-2 py-1 rounded-md text-[9px] sm:text-[10px] font-mono transition-all border ${
                   filter === type
                     ? "border-current bg-current/10"
-                    : "border-transparent hover:border-white/10 hover:bg-white/5"
+                    : "border-transparent hover:border-white/10 hover:bg-muted/50"
                 }`}
                 style={{ color: filter === type ? color : "rgba(255,255,255,0.4)" }}
               >
@@ -714,7 +714,7 @@ export default function BoardPage() {
             );
           })}
 
-          <div className="h-4 w-px bg-white/10 mx-0.5" />
+          <div className="h-4 w-px bg-muted/50 mx-0.5" />
 
           {/* Discovery mode toggle */}
           <button
@@ -730,16 +730,16 @@ export default function BoardPage() {
             <span className="hidden sm:inline">{discoveryMode === "discovered" ? "DISCOVERED" : "ALL"}</span>
           </button>
 
-          <div className="h-4 w-px bg-white/10 mx-0.5 hidden sm:block" />
+          <div className="h-4 w-px bg-muted/50 mx-0.5 hidden sm:block" />
 
           {/* Zoom controls */}
-          <button onClick={() => setZoom((z) => Math.min(4, z + 0.2))} className="p-1.5 text-white/30 hover:text-white/70 transition-colors hidden sm:block">
+          <button onClick={() => setZoom((z) => Math.min(4, z + 0.2))} className="p-1.5 text-muted-foreground/50 hover:text-muted-foreground/90 transition-colors hidden sm:block">
             <ZoomIn size={14} />
           </button>
-          <button onClick={() => setZoom((z) => Math.max(0.2, z - 0.2))} className="p-1.5 text-white/30 hover:text-white/70 transition-colors hidden sm:block">
+          <button onClick={() => setZoom((z) => Math.max(0.2, z - 0.2))} className="p-1.5 text-muted-foreground/50 hover:text-muted-foreground/90 transition-colors hidden sm:block">
             <ZoomOut size={14} />
           </button>
-          <button onClick={() => { setZoom(0.8); setPan({ x: 0, y: 0 }); }} className="p-1.5 text-white/30 hover:text-white/70 transition-colors">
+          <button onClick={() => { setZoom(0.8); setPan({ x: 0, y: 0 }); }} className="p-1.5 text-muted-foreground/50 hover:text-muted-foreground/90 transition-colors">
             <Maximize2 size={14} />
           </button>
         </div>
@@ -802,14 +802,14 @@ export default function BoardPage() {
                 <h3 className="font-display text-base font-bold text-white tracking-wide mb-1">
                   {selectedNode.name}
                 </h3>
-                <p className="font-mono text-[10px] text-white/40 mb-3">
+                <p className="font-mono text-[10px] text-muted-foreground/60 mb-3">
                   {selectedNode.connCount} dimensional connections detected
                 </p>
 
                 {/* Connected entities */}
                 {connectedNodes.length > 0 && (
                   <div className="mb-3">
-                    <p className="font-mono text-[9px] text-white/30 tracking-wider mb-1.5">CONNECTIONS</p>
+                    <p className="font-mono text-[9px] text-muted-foreground/50 tracking-wider mb-1.5">CONNECTIONS</p>
                     <div className="flex flex-wrap gap-1">
                       {connectedNodes.map((cn, i) => cn && (
                         <span
@@ -856,7 +856,7 @@ export default function BoardPage() {
         </div>
 
         {/* ═══ ZOOM INDICATOR ═══ */}
-        <div className="absolute bottom-3 right-3 font-mono text-[9px] text-white/30 px-2 py-1 rounded border border-[var(--glass-border)]"
+        <div className="absolute bottom-3 right-3 font-mono text-[9px] text-muted-foreground/50 px-2 py-1 rounded border border-[var(--glass-border)]"
              style={{ background: "rgba(1,0,32,0.6)" }}>
           {Math.round(zoom * 100)}%
         </div>

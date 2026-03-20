@@ -224,7 +224,7 @@ function SystemCard({ sys, isActive, isUnlocked, onSelect }: {
         isActive
           ? "bg-white/8 border border-white/15 shadow-lg"
           : isUnlocked
-            ? "hover:bg-white/5 border border-transparent hover:border-white/8"
+            ? "hover:bg-muted/50 border border-transparent hover:border-white/8"
             : "opacity-40 cursor-not-allowed border border-transparent"
       }`}
       style={isActive ? {
@@ -248,17 +248,17 @@ function SystemCard({ sys, isActive, isUnlocked, onSelect }: {
         {isUnlocked ? (
           <Icon size={15} style={{ color: sys.color }} />
         ) : (
-          <Lock size={13} className="text-white/20" />
+          <Lock size={13} className="text-muted-foreground/35" />
         )}
       </div>
       <div className="min-w-0 flex-1">
         <p className={`font-mono text-[10px] tracking-[0.15em] truncate ${
-          isActive ? "text-white/90" : isUnlocked ? "text-white/60" : "text-white/25"
+          isActive ? "text-foreground" : isUnlocked ? "text-muted-foreground/80" : "text-muted-foreground/40"
         }`}>
           {sys.label}
         </p>
         {isActive && (
-          <p className="font-mono text-[9px] text-white/30 truncate mt-0.5">
+          <p className="font-mono text-[9px] text-muted-foreground/50 truncate mt-0.5">
             {sys.routes.length} subsystem{sys.routes.length !== 1 ? "s" : ""}
           </p>
         )}
@@ -270,7 +270,7 @@ function SystemCard({ sys, isActive, isUnlocked, onSelect }: {
         }} />
       )}
       {!isUnlocked && (
-        <Lock size={10} className="text-white/15 shrink-0" />
+        <Lock size={10} className="text-muted-foreground/25 shrink-0" />
       )}
     </button>
   );
@@ -286,7 +286,7 @@ function SubsystemNav({ sys, location, onNavigate }: {
     <div className="space-y-0.5">
       <div className="flex items-center gap-2 px-3 py-1.5 mb-1">
         <div className="w-1 h-4 rounded-full" style={{ background: sys.color }} />
-        <span className="font-mono text-[9px] tracking-[0.25em] text-white/40 uppercase">
+        <span className="font-mono text-[9px] tracking-[0.25em] text-muted-foreground/60 uppercase">
           {sys.label} SUBSYSTEMS
         </span>
       </div>
@@ -302,19 +302,19 @@ function SubsystemNav({ sys, location, onNavigate }: {
             onClick={onNavigate}
             className={`flex items-center gap-2.5 px-3 py-2 rounded-md text-[11px] font-mono tracking-wider transition-all group ${
               active
-                ? "text-white/90 border border-white/12"
-                : "text-white/45 hover:text-white/70 hover:bg-white/4 border border-transparent"
+                ? "text-foreground border border-white/12"
+                : "text-white/45 hover:text-muted-foreground/90 hover:bg-white/4 border border-transparent"
             }`}
             style={active ? {
               background: `color-mix(in srgb, ${sys.color} 8%, transparent)`,
               borderColor: `color-mix(in srgb, ${sys.color} 20%, transparent)`,
             } : {}}
           >
-            <Icon size={13} className={active ? "" : "text-white/25 group-hover:text-white/50"} 
+            <Icon size={13} className={active ? "" : "text-muted-foreground/40 group-hover:text-muted-foreground/70"} 
               style={active ? { color: sys.color } : {}} />
             <span className="flex-1 truncate">{route.label}</span>
             {route.desc && !active && (
-              <span className="text-[9px] text-white/20 hidden xl:inline truncate max-w-20">{route.desc}</span>
+              <span className="text-[9px] text-muted-foreground/35 hidden xl:inline truncate max-w-20">{route.desc}</span>
             )}
             {active && (
               <div className="w-1.5 h-1.5 rounded-full" style={{
@@ -340,12 +340,12 @@ function DreamHUD() {
   if (!isAuthenticated || !dreamQuery.data) return null;
   
   return (
-    <Link href="/store" className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-md glass-sunk hover:bg-white/5 transition-colors group">
+    <Link href="/store" className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-md glass-sunk hover:bg-muted/50 transition-colors group">
       <Gem size={13} className="text-[var(--orb-orange)]" />
       <span className="font-mono text-xs sm:text-[11px] text-[var(--orb-orange)] tracking-wider font-bold">
         {(dreamQuery.data?.dreamTokens ?? 0).toLocaleString()}
       </span>
-      <span className="font-mono text-[10px] sm:text-[9px] text-white/30 tracking-wider">DREAM</span>
+      <span className="font-mono text-[10px] sm:text-[9px] text-muted-foreground/50 tracking-wider">DREAM</span>
     </Link>
   );
 }
@@ -414,7 +414,7 @@ export default function CommandConsole({ children, elaraTTS }: { children: React
         }}>
         <button
           onClick={() => setSidebarOpen(!sidebarOpen)}
-          className="lg:hidden mr-2 p-1.5 rounded-md hover:bg-white/5 transition-colors text-white/60"
+          className="lg:hidden mr-2 p-1.5 rounded-md hover:bg-muted/50 transition-colors text-muted-foreground/80"
         >
           {sidebarOpen ? <X size={18} /> : <Menu size={18} />}
         </button>
@@ -432,7 +432,7 @@ export default function CommandConsole({ children, elaraTTS }: { children: React
             <span className="font-display text-xs font-bold tracking-[0.25em] text-[var(--neon-cyan)] glow-cyan">
               LOREDEX
             </span>
-            <span className="font-display text-[10px] font-bold tracking-[0.2em] text-white/40">
+            <span className="font-display text-[10px] font-bold tracking-[0.2em] text-muted-foreground/60">
               OS
             </span>
           </div>
@@ -459,23 +459,23 @@ export default function CommandConsole({ children, elaraTTS }: { children: React
                 }}
               />
             </div>
-            <span className="font-mono text-[9px] text-white/30">{Math.round(discoveryProgress)}%</span>
+            <span className="font-mono text-[9px] text-muted-foreground/50">{Math.round(discoveryProgress)}%</span>
           </div>
         </div>
 
         {/* Quick Stats */}
-        <div className="hidden lg:flex items-center gap-3 font-mono text-[10px] text-white/40 ml-3">
+        <div className="hidden lg:flex items-center gap-3 font-mono text-[10px] text-muted-foreground/60 ml-3">
           <span><span className="text-[var(--neon-cyan)]">{stats.total_entries}</span> ENTRIES</span>
-          <span className="text-white/10">|</span>
+          <span className="text-muted-foreground/20">|</span>
           <span><span className="text-[var(--orb-orange)]">{stats.relationships}</span> LINKS</span>
         </div>
 
-        <Link href="/search" className="p-1.5 rounded-md hover:bg-white/5 transition-colors group ml-2">
-          <Search size={16} className="text-white/40 group-hover:text-[var(--neon-cyan)] transition-colors" />
+        <Link href="/search" className="p-1.5 rounded-md hover:bg-muted/50 transition-colors group ml-2">
+          <Search size={16} className="text-muted-foreground/60 group-hover:text-[var(--neon-cyan)] transition-colors" />
         </Link>
 
-        <Link href="/settings" className="p-1.5 rounded-md hover:bg-white/5 transition-colors group ml-1">
-          <Settings size={16} className="text-white/40 group-hover:text-white/60 transition-colors" />
+        <Link href="/settings" className="p-1.5 rounded-md hover:bg-muted/50 transition-colors group ml-1">
+          <Settings size={16} className="text-muted-foreground/60 group-hover:text-muted-foreground/80 transition-colors" />
         </Link>
       </header>
 
@@ -498,7 +498,7 @@ export default function CommandConsole({ children, elaraTTS }: { children: React
               <span className="font-mono text-[9px] text-[var(--signal-green)] tracking-[0.3em]">SHIP SYSTEMS</span>
             </div>
             <div className="flex items-center gap-2 mt-1.5">
-              <span className="font-mono text-[9px] text-white/25">
+              <span className="font-mono text-[9px] text-muted-foreground/40">
                 {SYSTEMS.filter(s => isSystemUnlocked(s)).length}/{SYSTEMS.length} ONLINE
               </span>
               <div className="flex-1 h-1 rounded-full overflow-hidden" style={{ background: "var(--glass-dark)" }}>
@@ -549,10 +549,10 @@ export default function CommandConsole({ children, elaraTTS }: { children: React
 
           {/* Operative Status */}
           <div className="px-2.5 pb-2">
-            <p className="font-mono text-[9px] text-white/20 tracking-[0.3em] mb-1.5 px-3 uppercase">Operative Status</p>
+            <p className="font-mono text-[9px] text-muted-foreground/35 tracking-[0.3em] mb-1.5 px-3 uppercase">Operative Status</p>
             <div className="px-3 space-y-1.5">
               <div className="flex items-center justify-between">
-                <span className="font-mono text-[10px] text-white/50 flex items-center gap-1.5">
+                <span className="font-mono text-[10px] text-muted-foreground/70 flex items-center gap-1.5">
                   <Trophy size={10} className="text-[var(--orb-orange)]" /> {gam.title}
                 </span>
                 <span className="font-mono text-[10px] text-[var(--neon-cyan)]">LV.{gam.level}</span>
@@ -560,7 +560,7 @@ export default function CommandConsole({ children, elaraTTS }: { children: React
               <div className="w-full h-1 rounded-full overflow-hidden" style={{ background: "var(--glass-dark)" }}>
                 <div className="h-full rounded-full transition-all" style={{ width: `${gam.xpProgress}%`, background: "var(--brand-gradient)" }} />
               </div>
-              <div className="flex justify-between font-mono text-[9px] text-white/25">
+              <div className="flex justify-between font-mono text-[9px] text-muted-foreground/40">
                 <span>{gam.xp} XP</span>
                 <span>{gam.earnedAchievements.length} achievements</span>
               </div>
@@ -574,13 +574,13 @@ export default function CommandConsole({ children, elaraTTS }: { children: React
               onClick={handleNavigate}
               className={`flex items-center gap-2.5 px-3 py-2 rounded-md text-[11px] font-mono tracking-wider transition-all group ${
                 location === "/clue-journal"
-                  ? "text-white/90 bg-[rgba(51,226,230,0.08)] border border-[rgba(51,226,230,0.2)]"
-                  : "text-white/45 hover:text-white/70 hover:bg-white/4 border border-transparent"
+                  ? "text-foreground bg-[rgba(51,226,230,0.08)] border border-[rgba(51,226,230,0.2)]"
+                  : "text-white/45 hover:text-muted-foreground/90 hover:bg-white/4 border border-transparent"
               }`}
             >
-              <Diamond size={13} className={location === "/clue-journal" ? "text-[var(--neon-cyan)]" : "text-white/25 group-hover:text-white/50"} />
+              <Diamond size={13} className={location === "/clue-journal" ? "text-[var(--neon-cyan)]" : "text-muted-foreground/40 group-hover:text-muted-foreground/70"} />
               <span className="flex-1 truncate">CLUE JOURNAL</span>
-              <span className="font-mono text-[9px] text-white/20">DATA</span>
+              <span className="font-mono text-[9px] text-muted-foreground/35">DATA</span>
             </Link>
           </div>
 
@@ -588,7 +588,7 @@ export default function CommandConsole({ children, elaraTTS }: { children: React
           <div className="px-2.5 pb-4 mt-auto">
             <div className="mx-3 mb-3 h-px" style={{ background: "rgba(56,117,250,0.08)" }} />
             <div className="px-3">
-              <p className="font-mono text-[9px] text-white/15 leading-relaxed">
+              <p className="font-mono text-[9px] text-muted-foreground/25 leading-relaxed">
                 LOREDEX OS v5.0.0<br />
                 INCEPTION ARK // CADES ACTIVE<br />
                 Malkia Ukweli & the Panopticon
@@ -649,8 +649,8 @@ export default function CommandConsole({ children, elaraTTS }: { children: React
                   active
                     ? "text-[var(--neon-cyan)]"
                     : unlocked
-                      ? "text-white/30 hover:text-white/50"
-                      : "text-white/15"
+                      ? "text-muted-foreground/50 hover:text-muted-foreground/70"
+                      : "text-muted-foreground/25"
                 }`}
               >
                 <div className="relative">

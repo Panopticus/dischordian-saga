@@ -1255,7 +1255,7 @@ export default function PvpArenaPage() {
                   <div className="absolute top-0 right-0 w-2 h-2 bg-yellow-400 rounded-full animate-pulse" title="Summoning sickness" />
                 )}
                 {card.hasAttacked && (
-                  <div className="absolute inset-0 bg-black/30 rounded flex items-center justify-center">
+                  <div className="absolute inset-0 bg-muted/50 rounded flex items-center justify-center">
                     <span className="font-mono text-[8px] text-muted-foreground">EXHAUSTED</span>
                   </div>
                 )}

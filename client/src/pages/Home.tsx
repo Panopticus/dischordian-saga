@@ -216,7 +216,7 @@ function DossierCard({ entry, index, onDiscover }: { entry: LoredexEntry; index:
       >
         <div className="relative border border-border/30 rounded-lg bg-card/60 overflow-hidden hover:border-primary/40 transition-all duration-300">
           {/* Top classification bar */}
-          <div className="flex items-center justify-between px-3 py-1.5 bg-black/40 border-b border-border/20">
+          <div className="flex items-center justify-between px-3 py-1.5 bg-muted/60 border-b border-border/20">
             <div className={`flex items-center gap-1.5 text-[9px] font-mono tracking-wider ${typeColor} px-1.5 py-0.5 rounded border`}>
               {typeIcon}
               {typeLabel}
@@ -317,7 +317,7 @@ function AlbumCard({ album, tracks, index }: { album: { slug: string; name: stri
       <Link href={`/album/${album.slug}`} className="block group">
         <div className="relative border border-border/30 rounded-lg bg-card/60 overflow-hidden hover:border-accent/40 transition-all">
           {/* Header */}
-          <div className="flex items-center justify-between px-3 py-1.5 bg-black/40 border-b border-border/20">
+          <div className="flex items-center justify-between px-3 py-1.5 bg-muted/60 border-b border-border/20">
             <div className="flex items-center gap-1.5 text-[9px] font-mono tracking-wider text-accent border-accent/30 bg-accent/8 px-1.5 py-0.5 rounded border">
               <Volume2 size={10} />
               DECODED TRANSMISSIONS
@@ -425,7 +425,7 @@ function VideoCard({ song, index }: { song: LoredexEntry; index: number }) {
         </div>
         <div className="absolute bottom-2 left-2 right-2">
           <div className="font-mono text-[10px] font-bold text-white truncate">{song.name}</div>
-          <div className="font-mono text-[8px] text-white/60">{song.album}</div>
+          <div className="font-mono text-[8px] text-muted-foreground">{song.album}</div>
         </div>
       </div>
     </motion.a>
