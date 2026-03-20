@@ -1602,22 +1602,26 @@
 - [ ] Write vitest tests for story branches, faction wars, and card alignment mechanics (pending)
 
 ### Phase 68b: Character Art Paper Doll System
-- [ ] Research best character generation/paper doll games for approach
-- [ ] Create base character silhouettes for each species (DeMagi, Quarchon, Ne-Yon)
-- [ ] Build equipment slot system (weapon, armor, helm, accessory)
-- [ ] Implement layered rendering of base + equipment on Character Sheet
-- [ ] Make equipment visually appear on character portrait
-- [ ] Wire equipment stats into fight bonuses and game mechanics
-
+- [x] Research best character generation/paper doll games for approach
+- [x] Create base character silhouettes for each species (DeMagi, Quarchon, Ne-Yon)
+- [x] Build equipment slot system (weapon, armor, helm, accessory, secondary, consumable)
+- [x] Implement layered rendering of base + equipment on Character Sheet (PaperDollRenderer)
+- [x] Make equipment visually appear on character portrait (SVG-based layered rendering)
+- [x] Wire equipment stats into fight bonuses and game mechanics (calculateEquipmentStats)
+- [x] Build EquipmentPanel component with drag-and-drop slot management
+- [x] Integrate paper doll into CharacterSheetPage replacing portrait placeholder
+- [x] Add equipment data module with 20+ items across all slots and rarities
 ### Phase 68c: Crafting Economy
-- [ ] Design resource types: card essence (sacrifice), trade materials, combat catalysts
-- [ ] Build crafting skill tree system with multiple disciplines that level up
-- [ ] Create recipe database for weapons, armor, potions, ship upgrades, card enhancements
-- [ ] Implement card sacrifice mechanic that yields crafting essence
-- [ ] Wire Trade Empire resources as crafting materials
-- [ ] Add RNG combat drop system for rare catalysts from fight wins
-- [ ] Build crafting UI page with skill progression and recipe browser
-- [ ] Ensure crafted items have real benefits across all three core games
+- [x] Design resource types: card essence (sacrifice), trade materials, combat catalysts
+- [x] Build crafting skill tree system with 5 disciplines (Weaponsmith, Armorsmith, Enchanting, Alchemy, Engineering)
+- [x] Create recipe database with 15+ recipes for weapons, armor, potions, ship upgrades, card enhancements
+- [x] Implement card sacrifice mechanic that yields crafting essence (dream_shard material)
+- [x] Wire Trade Empire resources as crafting materials (iron_ore, crystal_shard, etc.)
+- [x] Add RNG combat drop system for rare catalysts from fight wins (void_catalyst, etc.)
+- [x] Build Forge crafting UI page with skill progression and recipe browser
+- [x] Ensure crafted items have real benefits across all three core games (fight_arena, card_battles, trade_empire)
+- [x] Add crafting state to GameContext (skills, XP, materials, crafted items, crafting log)
+- [x] Write 17 vitest tests for equipment and crafting data integritys
 
 ### Phase 68d: Nano Banana Image Audit
 - [ ] Audit all pages for image improvement opportunities

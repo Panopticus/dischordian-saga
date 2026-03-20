@@ -86,6 +86,7 @@ const ClueJournalPage = lazy(() => import("./pages/ClueJournalPage"));
 const ResearchMinigamePage = lazy(() => import("./pages/ResearchMinigamePage"));
 const LoreTutorialHubPage = lazy(() => import("./pages/LoreTutorialHubPage"));
 const MoralityLeaderboardPage = lazy(() => import("./pages/MoralityLeaderboardPage"));
+const ForgePage = lazy(() => import("./pages/ForgePage"));
 
 /* ═══ LOADING FALLBACK ═══ */
 function PageLoader() {
@@ -127,6 +128,7 @@ function Router() {
         <Route path="/character-sheet" component={CharacterSheetPage} />
         <Route path="/research-lab" component={ResearchLabPage} />
         <Route path="/games" component={GamesPage} />
+        <Route path="/forge" component={ForgePage} />
         <Route path="/discography" component={DiscographyPage} />
         <Route path="/saga-timeline" component={SagaTimelinePage} />
         <Route path="/favorites" component={FavoritesPage} />

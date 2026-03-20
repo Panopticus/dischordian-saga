@@ -21,6 +21,9 @@ import RespecDialog from "@/components/RespecDialog";
 import { useGame } from "@/contexts/GameContext";
 import { useGamification } from "@/contexts/GamificationContext";
 import { Link as WLink } from "wouter";
+import PaperDollRenderer from "@/components/PaperDollRenderer";
+import EquipmentPanel from "@/components/EquipmentPanel";
+import { type EquipSlot, type Species, type CharClass, getEquipmentById, calculateEquipmentStats } from "@/data/equipmentData";
 
 /* ═══════════════════════════════════════════════════
    CONSTANTS & MAPPINGS
@@ -372,6 +375,29 @@ export default function CharacterSheetPage() {
 
   const xpPercent = Math.min((char.xp % 200) / 200 * 100, 100);
 
+  // ═══ PAPER DOLL EQUIPMENT STATE ═══
+  const [showEquipPanel, setShowEquipPanel] = useState(false);
+  const paperDollEquipped = useMemo<Record<EquipSlot, string | null>>(() => {
+    return {
+      weapon: gear.weapon || null,
+      armor: gear.armor || null,
+      helm: gear.helm || null,
+      secondary: gear.secondary || null,
+      accessory: gear.accessory || null,
+      consumable: gear.consumable || null,
+    };
+  }, [gear]);
+  // Build inventory from gear values (all items the player has)
+  const playerInventory = useMemo(() => {
+    return Object.values(gear).filter(Boolean);
+  }, [gear]);
+  const equipStats = useMemo(() => calculateEquipmentStats(paperDollEquipped), [paperDollEquipped]);
+  const handleEquipChange = (slot: EquipSlot, itemId: string | null) => {
+    // For now, equipment changes are visual-only in the character sheet
+    // Full server-side persistence will come with the crafting system
+    console.log(`[Equipment] ${slot} → ${itemId || 'unequipped'}`);
+  };
+
   return (
     <div className="min-h-screen relative">
       {/* ═══ BACKGROUND DECORATIONS ═══ */}
@@ -514,22 +540,31 @@ export default function CharacterSheetPage() {
 
             {/* ── MAIN IDENTITY LAYOUT ── */}
             <div className="flex flex-col sm:flex-row gap-5 sm:gap-6">
-              {/* LEFT: Portrait Area */}
+              {/* LEFT: Paper Doll Portrait */}
               <div className="flex flex-col items-center sm:items-start gap-3">
-                {/* Portrait Frame */}
-                <div className={`relative w-32 h-40 sm:w-40 sm:h-52 rounded-lg border-2 ${alignBorderColor} overflow-hidden flex-shrink-0`}>
-                  {/* Inner glow */}
+                {/* Paper Doll Character Art */}
+                <div className={`relative rounded-lg border-2 ${alignBorderColor} overflow-hidden flex-shrink-0`}
+                  style={{ boxShadow: isOrder ? '0 0 30px rgba(51,226,230,0.1)' : '0 0 30px rgba(168,85,247,0.1)' }}>
+                  {/* Background */}
                   <div className={`absolute inset-0 ${alignBg}`} />
+                  <div className="absolute inset-0 grid-bg opacity-20" />
                   {/* Scan line sweep */}
-                  <div className="absolute inset-0 overflow-hidden">
+                  <div className="absolute inset-0 overflow-hidden pointer-events-none">
                     <div className={`absolute w-full h-0.5 ${isOrder ? "bg-cyan-400/20" : "bg-purple-400/20"} animate-scan-line`} />
                   </div>
-                  {/* Portrait placeholder */}
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="text-center">
-                      <User size={48} className={`${alignTextColor} mx-auto mb-2 opacity-40`} />
-                      <span className="font-mono text-[7px] text-muted-foreground/30 tracking-[0.2em]">NEURAL SCAN</span>
-                    </div>
+                  {/* Paper Doll Renderer */}
+                  <div className="relative z-10 p-2">
+                    <PaperDollRenderer
+                      species={char.species as Species}
+                      alignment={char.alignment as "order" | "chaos"}
+                      element={char.element}
+                      equipped={paperDollEquipped}
+                      name={char.name}
+                      size="md"
+                      interactive
+                      onSlotClick={() => setShowEquipPanel(true)}
+                      moralityScore={gameState.moralityScore || 0}
+                    />
                   </div>
                   {/* Corner brackets */}
                   <div className={`absolute top-1 left-1 w-4 h-4 border-t-2 border-l-2 ${isOrder ? "border-cyan-400/40" : "border-purple-400/40"}`} />
@@ -538,7 +573,7 @@ export default function CharacterSheetPage() {
                   <div className={`absolute bottom-1 right-1 w-4 h-4 border-b-2 border-r-2 ${isOrder ? "border-cyan-400/40" : "border-purple-400/40"}`} />
                   {/* Ne-Yon 1/1 badge */}
                   {char.species === "neyon" && char.neyonTokenId && (
-                    <div className="absolute top-2 right-2 px-1.5 py-0.5 rounded bg-amber-500/20 border border-amber-400/40">
+                    <div className="absolute top-2 right-2 px-1.5 py-0.5 rounded bg-amber-500/20 border border-amber-400/40 z-20">
                       <span className="font-mono text-[7px] text-amber-400 font-bold">#{char.neyonTokenId} ✦ 1/1</span>
                     </div>
                   )}
@@ -551,6 +586,16 @@ export default function CharacterSheetPage() {
                     {char.alignment.toUpperCase()}
                   </span>
                 </div>
+
+                {/* Equipment Stats Summary */}
+                {(equipStats.atk > 0 || equipStats.def > 0 || equipStats.hp > 0 || equipStats.speed > 0) && (
+                  <div className="flex flex-wrap gap-1.5 justify-center">
+                    {equipStats.atk > 0 && <span className="font-mono text-[8px] px-1.5 py-0.5 rounded bg-red-500/10 text-red-400 border border-red-400/15">+{equipStats.atk} ATK</span>}
+                    {equipStats.def > 0 && <span className="font-mono text-[8px] px-1.5 py-0.5 rounded bg-blue-500/10 text-blue-400 border border-blue-400/15">+{equipStats.def} DEF</span>}
+                    {equipStats.hp > 0 && <span className="font-mono text-[8px] px-1.5 py-0.5 rounded bg-green-500/10 text-green-400 border border-green-400/15">+{equipStats.hp} HP</span>}
+                    {equipStats.speed > 0 && <span className="font-mono text-[8px] px-1.5 py-0.5 rounded bg-amber-500/10 text-amber-400 border border-amber-400/15">+{equipStats.speed} SPD</span>}
+                  </div>
+                )}
               </div>
 
               {/* RIGHT: Identity + Stats */}
@@ -663,7 +708,7 @@ export default function CharacterSheetPage() {
             )}
           </motion.div>
 
-          {/* ── EQUIPPED GEAR ── */}
+          {/* ── EQUIPPED GEAR (Enhanced with rarity) ── */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -673,14 +718,37 @@ export default function CharacterSheetPage() {
             <SectionHeader icon={Layers} label="EQUIPPED GEAR" color="text-amber-400" />
             {gearEntries.length > 0 ? (
               <div>
-                {gearEntries.map(([slot, item]) => (
-                  <GearSlot key={slot} slot={slot} item={item} />
-                ))}
+                {gearEntries.map(([slot, itemName]) => {
+                  const equipItem = getEquipmentById(itemName);
+                  const rarityColor = equipItem ? {
+                    common: 'text-gray-400', uncommon: 'text-green-400',
+                    rare: 'text-blue-400', epic: 'text-purple-400', legendary: 'text-amber-400'
+                  }[equipItem.rarity] : 'text-foreground/80';
+                  return (
+                    <div key={slot} className="flex items-center gap-3 py-2 border-b border-white/5 last:border-0">
+                      <div className="w-7 h-7 rounded bg-muted/40 border border-white/10 flex items-center justify-center flex-shrink-0"
+                        style={equipItem ? { boxShadow: `0 0 6px ${equipItem.glowColor}` } : undefined}>
+                        <Hexagon size={12} className={equipItem ? rarityColor : "text-muted-foreground/40"} />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="font-mono text-[9px] text-muted-foreground/50 tracking-[0.15em] uppercase">{slot}</p>
+                        <p className={`font-mono text-xs truncate ${rarityColor}`}>{equipItem?.name || itemName}</p>
+                      </div>
+                      {equipItem && (
+                        <div className="flex gap-1">
+                          {equipItem.stats.atk ? <span className="font-mono text-[8px] text-red-400">+{equipItem.stats.atk}</span> : null}
+                          {equipItem.stats.def ? <span className="font-mono text-[8px] text-blue-400">+{equipItem.stats.def}</span> : null}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
               </div>
             ) : (
               <div className="text-center py-6">
                 <Hexagon size={28} className="text-muted-foreground/20 mx-auto mb-2" />
                 <p className="font-mono text-[10px] text-muted-foreground/40">No gear equipped</p>
+                <p className="font-mono text-[8px] text-muted-foreground/25 mt-1">Visit the Forge to craft equipment</p>
               </div>
             )}
           </motion.div>

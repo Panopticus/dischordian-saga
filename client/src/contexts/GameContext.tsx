@@ -70,6 +70,12 @@ export interface GameState {
   // Morality-based unlocks
   moralityUnlocks: string[];       // IDs of morality-gated items/themes unlocked
   discoveredTransmissions: string[]; // IDs of secret morality-gated transmissions found
+  // Crafting system
+  craftingSkills: Record<string, number>;   // Skill ID → level
+  craftingXp: Record<string, number>;       // Skill ID → XP in current level
+  craftingMaterials: Record<string, number>; // Material ID → quantity
+  craftedItems: string[];                    // IDs of items crafted
+  craftingLog: { recipeId: string; success: boolean; timestamp: number }[]; // Crafting history
 }
 
 /* ─── ROOM DEFINITIONS ─── */
@@ -567,6 +573,12 @@ const DEFAULT_GAME_STATE: GameState = {
   completedTutorials: [],
   moralityUnlocks: [],
   discoveredTransmissions: [],
+  // Crafting system defaults
+  craftingSkills: { weaponsmith: 0, armorsmith: 0, enchanting: 0, alchemy: 0, engineering: 0 },
+  craftingXp: { weaponsmith: 0, armorsmith: 0, enchanting: 0, alchemy: 0, engineering: 0 },
+  craftingMaterials: {},
+  craftedItems: [],
+  craftingLog: [],
 };
 
 const GAME_STORAGE_KEY = "loredex_game_state";
@@ -612,6 +624,10 @@ interface GameContextValue {
   // Tutorials
   completeTutorial: (tutorialId: string) => void;
   isTutorialCompleted: (tutorialId: string) => boolean;
+  // Crafting system
+  craftItem: (recipeId: string, materialsUsed: Record<string, number>, dreamCost: number, skillId: string, xpGain: number, outputItemId: string, outputQuantity: number) => void;
+  craftFailed: (recipeId: string, materialsUsed: Record<string, number>, dreamCost: number, skillId: string, xpGain: number) => void;
+  addMaterial: (materialId: string, quantity: number) => void;
   // Quick access
   skipToExploring: () => void;
   // Server sync
@@ -1024,6 +1040,61 @@ export function GameProvider({ children }: { children: ReactNode }) {
     });
   }, []);
 
+  // ═══ CRAFTING SYSTEM CALLBACKS ═══
+  const craftItem = useCallback((recipeId: string, materialsUsed: Record<string, number>, dreamCost: number, skillId: string, xpGain: number, outputItemId: string, outputQuantity: number) => {
+    setState(prev => {
+      const newMaterials = { ...prev.craftingMaterials };
+      for (const [matId, qty] of Object.entries(materialsUsed)) {
+        newMaterials[matId] = Math.max(0, (newMaterials[matId] || 0) - qty);
+      }
+      const newXp = { ...prev.craftingXp };
+      newXp[skillId] = (newXp[skillId] || 0) + xpGain;
+      // Check for level up
+      const newSkills = { ...prev.craftingSkills };
+      // Simple level-up: every 100 XP = 1 level, max 10
+      const totalXp = newXp[skillId];
+      const newLevel = Math.min(10, Math.floor(totalXp / 100));
+      if (newLevel > (newSkills[skillId] || 0)) {
+        newSkills[skillId] = newLevel;
+      }
+      return {
+        ...prev,
+        craftingMaterials: newMaterials,
+        craftingXp: newXp,
+        craftingSkills: newSkills,
+        craftedItems: [...prev.craftedItems, outputItemId],
+        craftingLog: [...prev.craftingLog, { recipeId, success: true, timestamp: Date.now() }],
+      };
+    });
+  }, []);
+
+  const craftFailed = useCallback((recipeId: string, materialsUsed: Record<string, number>, dreamCost: number, skillId: string, xpGain: number) => {
+    setState(prev => {
+      const newMaterials = { ...prev.craftingMaterials };
+      for (const [matId, qty] of Object.entries(materialsUsed)) {
+        newMaterials[matId] = Math.max(0, (newMaterials[matId] || 0) - qty);
+      }
+      const newXp = { ...prev.craftingXp };
+      newXp[skillId] = (newXp[skillId] || 0) + xpGain;
+      return {
+        ...prev,
+        craftingMaterials: newMaterials,
+        craftingXp: newXp,
+        craftingLog: [...prev.craftingLog, { recipeId, success: false, timestamp: Date.now() }],
+      };
+    });
+  }, []);
+
+  const addMaterial = useCallback((materialId: string, quantity: number) => {
+    setState(prev => ({
+      ...prev,
+      craftingMaterials: {
+        ...prev.craftingMaterials,
+        [materialId]: (prev.craftingMaterials[materialId] || 0) + quantity,
+      },
+    }));
+  }, []);
+
   return (
     <GameContext.Provider value={{
       state,
@@ -1055,6 +1126,9 @@ export function GameProvider({ children }: { children: ReactNode }) {
       isTransmissionDiscovered,
       completeTutorial,
       isTutorialCompleted,
+      craftItem,
+      craftFailed,
+      addMaterial,
       skipToExploring,
       syncStatus,
       lastSyncedAt,
