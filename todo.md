@@ -1450,3 +1450,16 @@
 - [x] Wire chain journal entries into MilestoneJournalEntries with order 200-222
 - [x] Add species chain card rewards (The Source, The Programmer, The Human)
 - [x] Write 67 vitest tests for all Phase 62 features (all passing)
+
+### Phase 63: Chain Progress Persistence & Chain Room Unlocks
+- [x] Save chain quest completion state to server via GameContext (completedGames, collectedCards, loreAchievements, conexusXp, activeDeck added to server schema)
+- [x] Load chain progress from server on login so progress survives across sessions/devices (narrativeFlags + claimedQuestRewards already synced)
+- [x] Wire chain progress into QuestChainSystem for accurate completion tracking
+- [x] Build 5 class chain hidden rooms (Engineering Core, Oracle Sanctum, Shadow Vault, War Room, Cipher Den) on Deck 8
+- [x] Build 2 alignment chain rooms (Tribunal of Order, Chaos Forge) on Deck 9
+- [x] Build 3 species chain rooms (Elemental Nexus, Quantum Laboratory, Synthesis Chamber) on Deck 10
+- [x] Add chain_complete unlock requirement type to canUnlockRoom
+- [x] Generate 10 AI room images for all chain rooms
+- [x] Wire room unlocks to chain completion narrative flags
+- [x] Add rich Elara dialog, hotspots, and Easter eggs to all 10 rooms
+- [x] Write 46 vitest tests for all Phase 63 features (all passing)

@@ -40,6 +40,11 @@ const gameStateSchema = z.object({
   totalItemsFound: z.number(),
   narrativeFlags: z.record(z.string(), z.boolean()),
   claimedQuestRewards: z.array(z.string()).optional(),
+  completedGames: z.array(z.string()).optional(),
+  collectedCards: z.array(z.string()).optional(),
+  loreAchievements: z.array(z.string()).optional(),
+  conexusXp: z.number().optional(),
+  activeDeck: z.array(z.string()).optional(),
 });
 
 // Stats that get stored alongside game state for leaderboard queries

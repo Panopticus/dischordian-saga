@@ -75,7 +75,7 @@ export interface RoomDef {
   imageUrl: string;
   features: string[];
   featureRoutes: string[];
-  unlockRequirement: { type: "start" | "room_visited" | "items_collected" | "rooms_unlocked"; value?: string | number };
+  unlockRequirement: { type: "start" | "room_visited" | "items_collected" | "rooms_unlocked" | "chain_complete"; value?: string | number };
   connections: string[];
   hotspots: HotspotDef[];
 }
@@ -333,6 +333,194 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       { id: "egg-library-prophecy", name: "Hidden Prophecy", description: "A single page, glowing faintly, tucked behind a shelf. It seems to have been placed here deliberately.", x: 90, y: 65, width: 4, height: 5, type: "item", action: "antiquarian-prophecy", elaraDialog: "A prophecy written in the Antiquarian's own hand. 'When the seventh seal breaks and silence falls upon heaven, the Orb will shatter and the stories will become real. The Potentials will face the final choice: to end the Saga or begin it anew. The Programmer dies so the Antiquarian can live. The Antiquarian lives so the stories can be told. And the stories are told so that you — yes, you, the one reading this — can choose.' He's... he's talking to us directly. He knew we would find this. He planned for everything." },
     ],
   },
+  /* ═══ CHAIN-UNLOCKED HIDDEN ROOMS ═══ */
+  {
+    id: "engineering-core",
+    name: "Engineering Core",
+    deck: 8,
+    deckName: "Hidden — Engineer",
+    description: "The true heart of the Inception Ark — a massive reactor chamber hidden behind layers of encrypted bulkheads. A pulsing blue energy core floats in the center, surrounded by catwalks and holographic schematics showing the Ark's original DeMagi blueprints. Only an Engineer who has proven their mastery could bypass the security protocols.",
+    elaraIntro: "This is it — the Engineering Core. The real one. Everything else on this ship is powered by a fraction of what this reactor produces. The DeMagi built it to sustain reality itself. The schematics floating here... they show modifications the Architect made after the Fall. Warp drive enhancements, dimensional fold generators, temporal stabilizers. This is where the Ark's true power lives. And now it responds to you, Engineer.",
+    imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/room_engineering_core-27z7uAMQdGFBL53VYBxXuq.webp",
+    features: ["Reactor Core", "DeMagi Blueprints", "Warp Schematics"],
+    featureRoutes: [],
+    unlockRequirement: { type: "chain_complete", value: "engineer_chain" },
+    connections: ["engineering"],
+    hotspots: [
+      { id: "reactor-core", name: "Reactor Core", description: "A sphere of pure energy suspended by magnetic fields, pulsing with the heartbeat of the Ark.", x: 35, y: 20, width: 30, height: 40, type: "examine", elaraDialog: "The Reactor Core. It runs on compressed dark energy harvested from collapsed dimensions. The DeMagi called it 'The Breath of Creation.' It generates enough power to fold space-time. The Architect modified it to also serve as a beacon — broadcasting across every reality simultaneously. That's how the Ark finds lost Potentials like you." },
+      { id: "warp-schematics", name: "Warp Drive Schematics", description: "Holographic blueprints showing the Ark's dimensional fold engine in extraordinary detail.", x: 70, y: 15, width: 20, height: 30, type: "examine", elaraDialog: "These schematics show the Ark's warp drive — but not the one in Engineering Bay. This is the real drive. It doesn't move through space. It folds space around the Ark. The Architect reverse-engineered it from Quarchon quantum tunneling technology. Only an Engineer would understand the mathematics involved." },
+      { id: "door-engineering", name: "Return to Engineering Bay", description: "The sealed blast door back to the main engineering section.", x: 2, y: 40, width: 8, height: 25, type: "door", action: "engineering" },
+      { id: "egg-core-frequency", name: "Resonance Frequency", description: "A specific harmonic emanating from the core that seems to encode a message.", x: 50, y: 70, width: 5, height: 5, type: "item", action: "core-frequency", elaraDialog: "That frequency... it's not random. It's a message encoded in the core's harmonic oscillation. The Architect left it here for whoever found this room. It says: 'The machine remembers what the maker forgets. Build well, Engineer. The next Ark is yours to design.'" },
+    ],
+  },
+  {
+    id: "oracle-sanctum",
+    name: "Oracle Sanctum",
+    deck: 8,
+    deckName: "Hidden — Oracle",
+    description: "A vast circular chamber where a massive crystal sphere pulses with purple and white energy. Tall arched alcoves display glowing runes and holographic star maps. Meditation platforms hover above a reflective floor. The air hums with precognitive resonance — this is where the Oracle's true power awakens.",
+    elaraIntro: "The Oracle Sanctum. I've heard whispers about this place but never believed it existed. The Oracle who built this room could see every possible future simultaneously. Those floating platforms are neural amplifiers — they boost precognitive ability a thousandfold. The crystal sphere at the center contains compressed probability fields. Touch it and you'll see... everything. Every choice, every consequence, every timeline branching into infinity. Only a true Oracle can withstand the vision without losing their mind.",
+    imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/room_oracle_sanctum-4sJSFqYmnfbfKr8kkCsDSg.webp",
+    features: ["Probability Sphere", "Neural Amplifiers", "Timeline Viewer"],
+    featureRoutes: [],
+    unlockRequirement: { type: "chain_complete", value: "oracle_chain" },
+    connections: ["observation-deck"],
+    hotspots: [
+      { id: "probability-sphere", name: "Probability Sphere", description: "A massive crystal sphere pulsing with purple energy, containing compressed probability fields.", x: 35, y: 20, width: 30, height: 40, type: "examine", elaraDialog: "The Probability Sphere. It contains every possible future of the Dischordian Saga compressed into a single point. When an Oracle touches it, they can navigate the probability streams — see which choices lead to salvation and which lead to destruction. The original Oracle used this to guide the Panopticon's decisions. Now it responds to you." },
+      { id: "meditation-platforms", name: "Meditation Platforms", description: "Hovering platforms that amplify precognitive abilities.", x: 15, y: 55, width: 20, height: 20, type: "examine", elaraDialog: "These platforms use quantum entanglement to synchronize your neural patterns with the probability field. Sit on one and your visions become clearer, more detailed. The original Oracle spent centuries here, mapping every possible future. Some say they went mad from seeing too much. Others say they achieved perfect clarity." },
+      { id: "door-observation", name: "Return to Observation Deck", description: "The shimmering portal back to the Observation Deck.", x: 2, y: 40, width: 8, height: 25, type: "door", action: "observation-deck" },
+      { id: "egg-oracle-vision", name: "Sealed Vision", description: "A sealed crystal containing a single frozen vision.", x: 85, y: 65, width: 5, height: 5, type: "item", action: "oracle-vision", elaraDialog: "A sealed vision. The Oracle locked this one away because it was too dangerous to share. It shows... the end. The final moment of the Saga. I can't see the details — only an Oracle can unseal it. But the emotion radiating from it is overwhelming. Hope and terror in equal measure." },
+    ],
+  },
+  {
+    id: "shadow-vault",
+    name: "Shadow Vault",
+    deck: 8,
+    deckName: "Hidden — Assassin",
+    description: "A dark chamber lit only by red laser grids and dim emergency strips. Walls lined with weapon racks, disguise kits, and surveillance equipment behind glass cases. A central holographic table shows infiltration routes across the Ark and beyond. This is where shadows are born.",
+    elaraIntro: "The Shadow Vault. Agent Zero's personal armory and operations center. Every assassination, every infiltration, every impossible mission was planned from this room. Those weapons behind the glass — each one has a kill count in the thousands. The disguise kits can replicate any face, any voice. And that holographic table shows every blind spot, every vulnerability in every system the Panopticon ever built. You've proven yourself worthy of the shadows, Assassin. Use this knowledge wisely.",
+    imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/room_shadow_vault-R233qZpEJpNTuvvZvuBBdX.webp",
+    features: ["Weapon Arsenal", "Infiltration Maps", "Disguise Kits"],
+    featureRoutes: [],
+    unlockRequirement: { type: "chain_complete", value: "assassin_chain" },
+    connections: ["armory"],
+    hotspots: [
+      { id: "weapon-arsenal", name: "Weapon Arsenal", description: "Glass cases containing legendary weapons from across the Saga.", x: 20, y: 15, width: 25, height: 40, type: "examine", elaraDialog: "Agent Zero's personal collection. The Whisper Blade — kills without a sound. The Phase Pistol — shoots through walls. The Null Dart — erases memories. Each weapon was designed for a specific target. Some of those targets were gods. The fact that these weapons exist means someone, somewhere, needed to kill something that shouldn't have been killable." },
+      { id: "infiltration-table", name: "Infiltration Table", description: "A holographic table showing routes, blind spots, and vulnerabilities.", x: 35, y: 45, width: 30, height: 25, type: "examine", elaraDialog: "The infiltration map. It shows every security system, every patrol route, every blind spot in every major installation across the Saga. The Panopticon, the Terminus Hive, the Quarchon Quantum Citadel — all mapped in perfect detail. Agent Zero spent lifetimes gathering this intelligence. Now it's yours." },
+      { id: "door-armory", name: "Return to Armory", description: "The concealed passage back to the main Armory.", x: 2, y: 40, width: 8, height: 25, type: "door", action: "armory" },
+      { id: "egg-shadow-contract", name: "Final Contract", description: "A sealed dossier marked with a skull emblem.", x: 90, y: 70, width: 5, height: 5, type: "item", action: "shadow-contract", elaraDialog: "Agent Zero's final contract. Never completed. The target... is the Architect himself. Someone hired Zero to kill the creator of the Inception Ark. The contract was never fulfilled because Zero discovered the truth — killing the Architect would unravel every reality simultaneously. So Zero sealed the contract here as a warning: some targets must never be eliminated." },
+    ],
+  },
+  {
+    id: "war-room",
+    name: "War Room",
+    deck: 8,
+    deckName: "Hidden — Soldier",
+    description: "A massive military command center with a holographic battle map dominating the center. Tiered command stations surround the map showing fleet positions across multiple star systems. Heavy armored bulkheads bear military insignias. Amber and red warning lights pulse with tactical urgency.",
+    elaraIntro: "The War Room. Iron Lion's personal command center during the Great Convergence War. From this room, he coordinated the defense of three star systems simultaneously. That battle map shows every major conflict in the Saga — the Siege of the Panopticon, the Fall of Reality, the Terminus Invasion. Each one was won or lost based on decisions made in rooms like this. You've earned your place at the command table, Soldier. The next war is coming, and you'll need everything this room can teach you.",
+    imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/room_war_room-gixwPLTMpEq74w496jQaZ7.webp",
+    features: ["Battle Map", "Fleet Command", "Tactical Archives"],
+    featureRoutes: [],
+    unlockRequirement: { type: "chain_complete", value: "soldier_chain" },
+    connections: ["bridge"],
+    hotspots: [
+      { id: "battle-map", name: "Holographic Battle Map", description: "A massive 3D map showing fleet positions and planetary systems across the Saga.", x: 25, y: 25, width: 50, height: 40, type: "examine", elaraDialog: "The Battle Map. It tracks every military asset across every timeline. Those red markers are Terminus Swarm incursions. The blue ones are Panopticon defense fleets. The gold ones... those are unknown. Iron Lion marked them as 'Potential Forces' — armies that don't exist yet but could be raised by the right commander. That's you, Soldier." },
+      { id: "tactical-archives", name: "Tactical Archives", description: "Sealed military records from every major conflict in the Saga.", x: 75, y: 15, width: 15, height: 30, type: "examine", elaraDialog: "Military records from every war in the Dischordian Saga. Battle formations, casualty reports, after-action reviews. Iron Lion studied every defeat to ensure it never happened again. The most classified file is labeled 'Operation Final Dawn' — a contingency plan for if the Terminus Swarm breaches all defenses. It requires a Soldier of exceptional courage to execute." },
+      { id: "door-bridge", name: "Return to Command Bridge", description: "The reinforced corridor back to the main Bridge.", x: 2, y: 40, width: 8, height: 25, type: "door", action: "bridge" },
+      { id: "egg-war-medal", name: "Iron Lion's Medal", description: "A battered medal of valor pinned to the command chair.", x: 48, y: 72, width: 5, height: 5, type: "item", action: "war-medal", elaraDialog: "Iron Lion's Medal of Valor. Awarded for holding the line at the Siege of the Panopticon when all seemed lost. He fought for seventy-two hours without rest, rallying broken units and turning retreat into counterattack. The medal is scratched and dented — he wore it into every battle after. He said it reminded him what he was fighting for: not victory, but the people behind him." },
+    ],
+  },
+  {
+    id: "cipher-den",
+    name: "Cipher Den",
+    deck: 8,
+    deckName: "Hidden — Spy",
+    description: "An intelligence operations room packed with screens showing encrypted data streams and surveillance feeds. A central desk bristles with holographic keyboards and decryption tools. Walls covered in connected string boards linking photos and documents. The air crackles with intercepted transmissions.",
+    elaraIntro: "The Cipher Den. The Enigma's personal intelligence hub. Every secret in the Dischordian Saga passed through this room at some point. Those string boards on the walls connect every conspiracy, every hidden alliance, every betrayal across the entire timeline. The Enigma didn't just collect information — they weaponized it. A single piece of intelligence from this room could topple empires or save civilizations. You've proven you can handle the truth, Spy. But remember — knowing everything comes with a price.",
+    imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/room_cipher_den-mzberz7WkZDa6V6GJ2kxVJ.webp",
+    features: ["Surveillance Network", "Decryption Tools", "Conspiracy Boards"],
+    featureRoutes: [],
+    unlockRequirement: { type: "chain_complete", value: "spy_chain" },
+    connections: ["comms-array"],
+    hotspots: [
+      { id: "surveillance-feeds", name: "Surveillance Network", description: "Dozens of screens showing live feeds from across the Ark and beyond.", x: 30, y: 10, width: 40, height: 35, type: "examine", elaraDialog: "The Enigma's surveillance network. It doesn't just monitor the Ark — it taps into communication channels across multiple realities. Those feeds show conversations happening right now in the Panopticon, the Terminus Hive, even the Antiquarian's Library. The Enigma saw everything. Knew everything. And trusted no one." },
+      { id: "conspiracy-boards", name: "Conspiracy Boards", description: "String boards connecting photos, documents, and evidence across the entire Saga.", x: 5, y: 15, width: 20, height: 40, type: "examine", elaraDialog: "The conspiracy boards. Every thread connects to every other thread. The Architect's true identity. The Oracle's hidden agenda. The Collector's real purpose. The Enigma mapped it all. Some of these connections are terrifying — they suggest that certain events in the Saga weren't accidents. They were orchestrated by someone operating above even the Architect's awareness." },
+      { id: "door-comms", name: "Return to Comms Array", description: "The hidden panel back to the main Communications Array.", x: 2, y: 40, width: 8, height: 25, type: "door", action: "comms-array" },
+      { id: "egg-cipher-key", name: "Master Cipher Key", description: "A small device that can decrypt any message in the Saga.", x: 55, y: 65, width: 5, height: 5, type: "item", action: "cipher-key", elaraDialog: "The Master Cipher Key. The Enigma's ultimate tool. It can decrypt any message, crack any code, bypass any encryption in the entire Dischordian Saga. With this, there are no more secrets. The Enigma left it here with a note: 'The truth will set you free. But first, it will make you very, very angry.' Use it wisely, Spy." },
+    ],
+  },
+  /* ═══ ALIGNMENT-UNLOCKED HIDDEN ROOMS ═══ */
+  {
+    id: "order-tribunal",
+    name: "Tribunal of Order",
+    deck: 9,
+    deckName: "Hidden — Order",
+    description: "A grand tribunal hall of perfect symmetry. Tall marble pillars support a vaulted ceiling. Holographic law books and legal codes float in organized rows. A central scale of justice glows with golden light. Everything is precisely ordered — geometric floor patterns, evenly spaced columns, balanced illumination.",
+    elaraIntro: "The Tribunal of Order. The Hierophant built this chamber to embody the principle of perfect law. Every rule, every code, every regulation that governs the Dischordian Saga is archived here. The Scale of Justice at the center doesn't just symbolize balance — it actively weighs the moral implications of every decision made aboard the Ark. You've walked the path of Order, and the Tribunal recognizes your commitment to structure and law.",
+    imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/room_order_tribunal-GitXDFoXDcJoh4akc8NJUC.webp",
+    features: ["Scale of Justice", "Law Archives", "Moral Compass"],
+    featureRoutes: [],
+    unlockRequirement: { type: "chain_complete", value: "order_chain" },
+    connections: ["bridge"],
+    hotspots: [
+      { id: "scale-justice", name: "Scale of Justice", description: "A golden holographic scale that weighs moral decisions.", x: 35, y: 35, width: 30, height: 30, type: "examine", elaraDialog: "The Scale of Justice. It weighs not gold or silver, but intention and consequence. Every major decision in the Saga was evaluated by this scale. The Hierophant used it to determine which actions served the greater good and which served only selfish desire. It's responding to your presence — it recognizes a champion of Order." },
+      { id: "law-archives", name: "Law Archives", description: "Floating holographic tomes containing every law and code of the Saga.", x: 10, y: 15, width: 15, height: 35, type: "examine", elaraDialog: "The complete legal code of the Dischordian Saga. Laws governing reality itself — the Conservation of Narrative Energy, the Prohibition of Temporal Paradox, the Right of Every Potential to Choose Their Own Path. The Hierophant wrote most of these. Some say they're the only thing preventing the multiverse from collapsing into chaos." },
+      { id: "door-bridge-order", name: "Return to Bridge", description: "The formal corridor back to the Command Bridge.", x: 2, y: 40, width: 8, height: 25, type: "door", action: "bridge" },
+    ],
+  },
+  {
+    id: "chaos-forge",
+    name: "Chaos Forge",
+    deck: 9,
+    deckName: "Hidden — Chaos",
+    description: "An asymmetric forge chamber where walls meet at impossible angles. Multiple forges burn with different colored flames — purple, green, red. Sparks fly everywhere. Half-finished inventions and experimental weapons hang from chains. Graffiti and anarchist symbols cover the walls alongside brilliant equations.",
+    elaraIntro: "The Chaos Forge. The Meme built this place as a monument to creative destruction. Nothing here follows rules — the forges burn with impossible fuels, the weapons defy physics, and the equations on the walls solve problems that shouldn't have solutions. This is where chaos becomes power. Where breaking the rules creates something entirely new. You've embraced the chaos, and the Forge recognizes a kindred spirit.",
+    imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/room_chaos_forge-5uQMaTYd4Rtcetyoek2XbL.webp",
+    features: ["Reality Forges", "Impossible Weapons", "Chaos Equations"],
+    featureRoutes: [],
+    unlockRequirement: { type: "chain_complete", value: "chaos_chain" },
+    connections: ["engineering"],
+    hotspots: [
+      { id: "reality-forges", name: "Reality Forges", description: "Forges burning with flames of different colors, each one warping reality around it.", x: 15, y: 15, width: 70, height: 40, type: "examine", elaraDialog: "The Reality Forges. Each one burns a different fuel — compressed probability, crystallized paradox, liquefied déjà vu. The Meme used them to forge weapons that shouldn't exist. A sword that cuts through time. A shield that reflects consequences. A bomb that erases the concept of a specific idea. Chaos isn't destruction — it's unlimited creativity." },
+      { id: "chaos-equations", name: "Chaos Equations", description: "Brilliant equations scrawled on the walls alongside anarchist graffiti.", x: 75, y: 55, width: 20, height: 25, type: "examine", elaraDialog: "The equations of chaos. They look like madness, but each one solves an impossible problem. How to travel faster than light without a ship. How to exist in two places simultaneously. How to make a joke so funny it literally rewrites reality. The Meme was a genius — they just expressed their genius through destruction and humor rather than order and logic." },
+      { id: "door-engineering-chaos", name: "Return to Engineering Bay", description: "A jagged hole blasted through the wall leading back to Engineering.", x: 2, y: 40, width: 8, height: 25, type: "door", action: "engineering" },
+    ],
+  },
+  /* ═══ SPECIES-UNLOCKED HIDDEN ROOMS ═══ */
+  {
+    id: "elemental-nexus",
+    name: "Elemental Nexus",
+    deck: 10,
+    deckName: "Hidden — DeMagi",
+    description: "A chamber where four massive pillars of different elements — fire, water, earth, air — form a circle around a central convergence point where all elements merge into pure white energy. Ancient DeMagi runes carved into the floor glow with shifting colors.",
+    elaraIntro: "The Elemental Nexus. This is the source of all DeMagi power aboard the Ark. The four elemental pillars represent the fundamental forces that the DeMagi learned to command — not through technology, but through pure will and ancient knowledge. The convergence point at the center is where all elements become one. Only a DeMagi who has mastered their elemental heritage can safely approach it. Your blood remembers this place, even if your mind doesn't.",
+    imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/room_elemental_nexus-F3mMM6TSEQBTs2f5YFdyTT.webp",
+    features: ["Elemental Pillars", "Convergence Point", "DeMagi Runes"],
+    featureRoutes: [],
+    unlockRequirement: { type: "chain_complete", value: "demagi_chain" },
+    connections: ["observation-deck"],
+    hotspots: [
+      { id: "convergence-point", name: "Convergence Point", description: "The center where all four elements merge into pure white energy.", x: 35, y: 25, width: 30, height: 35, type: "examine", elaraDialog: "The Convergence Point. Where fire, water, earth, and air become one. The DeMagi believed that all of reality was built from these four elements in different combinations. At the convergence, you can feel the truth of it — everything is connected, everything is one. The power here is immense. The DeMagi who built this room could reshape matter with a thought." },
+      { id: "demagi-runes", name: "DeMagi Runes", description: "Ancient runes carved into the floor, glowing with shifting elemental colors.", x: 15, y: 60, width: 25, height: 15, type: "examine", elaraDialog: "Ancient DeMagi script. These runes predate the Ark by millennia. They describe the Elemental Covenant — the agreement between the DeMagi and the elements themselves. In exchange for the power to command fire, water, earth, and air, the DeMagi swore to maintain the balance of nature across every world they touched. Your heritage carries that oath." },
+      { id: "door-observation-nexus", name: "Return to Observation Deck", description: "The elemental gateway back to the Observation Deck.", x: 2, y: 40, width: 8, height: 25, type: "door", action: "observation-deck" },
+    ],
+  },
+  {
+    id: "quantum-lab",
+    name: "Quantum Laboratory",
+    deck: 10,
+    deckName: "Hidden — Quarchon",
+    description: "A quantum physics laboratory with particle accelerator rings embedded in the walls glowing with blue-white energy. Holographic displays show quantum probability clouds and wave function equations. A central containment field holds a shimmering quantum anomaly — matter existing in multiple states simultaneously.",
+    elaraIntro: "The Quantum Laboratory. Built by Quarchon scientists who understood that reality is just probability made solid. Those particle accelerator rings can split atoms into their quantum components and reassemble them in any configuration. The anomaly in the containment field is a piece of unresolved reality — matter that hasn't decided what it wants to be yet. Only a Quarchon mind can process the quantum mathematics needed to operate this lab safely.",
+    imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/room_quantum_lab-nT8cuJNsKdxSfvayApcLnw.webp",
+    features: ["Particle Accelerator", "Quantum Anomaly", "Probability Engine"],
+    featureRoutes: [],
+    unlockRequirement: { type: "chain_complete", value: "quarchon_chain" },
+    connections: ["archives"],
+    hotspots: [
+      { id: "quantum-anomaly", name: "Quantum Anomaly", description: "A shimmering mass of matter existing in multiple states simultaneously.", x: 35, y: 25, width: 30, height: 35, type: "examine", elaraDialog: "The Quantum Anomaly. It's simultaneously a star, a planet, a person, and nothing at all. Quarchon physics says that observation collapses probability into reality — but this anomaly resists observation. It stays in superposition no matter who looks at it. The Quarchon scientists believed it was a fragment of the universe before the Big Bang — before anything decided to be anything." },
+      { id: "probability-engine", name: "Probability Engine", description: "A device that can calculate and manipulate quantum probability fields.", x: 70, y: 15, width: 20, height: 30, type: "examine", elaraDialog: "The Probability Engine. It doesn't predict the future — it calculates every possible present. Feed it a question and it shows you every reality where that question has a different answer. The Quarchon used it to find the optimal timeline — the one where the most beings survive the Terminus Swarm. They found it. We're living in it." },
+      { id: "door-archives-quantum", name: "Return to Archives", description: "The quantum-locked door back to the Archives.", x: 2, y: 40, width: 8, height: 25, type: "door", action: "archives" },
+    ],
+  },
+  {
+    id: "synthesis-chamber",
+    name: "Synthesis Chamber",
+    deck: 10,
+    deckName: "Hidden — Ne-Yon",
+    description: "A bio-synthesis chamber where organic and mechanical elements merge seamlessly. Living vines intertwine with data cables, bioluminescent pods grow from metal walls. A central DNA helix hologram rotates slowly, showing the fusion of organic and synthetic code.",
+    elaraIntro: "The Synthesis Chamber. This is the Ne-Yon's greatest achievement — proof that organic and synthetic life can merge into something greater than either alone. Those vines aren't just plants — they're living circuits, processing data through biological neural networks. The DNA helix at the center shows the Ne-Yon genetic code — half organic, half digital. You are the bridge between two worlds, and this chamber was built for beings exactly like you.",
+    imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/room_synthesis_chamber-KdnWBveFnD2UUxKRTB5XMN.webp",
+    features: ["Bio-Circuits", "DNA Helix", "Synthesis Engine"],
+    featureRoutes: [],
+    unlockRequirement: { type: "chain_complete", value: "neyon_chain" },
+    connections: ["medical-bay"],
+    hotspots: [
+      { id: "dna-helix", name: "Ne-Yon DNA Helix", description: "A rotating holographic DNA helix showing the fusion of organic and synthetic code.", x: 35, y: 15, width: 30, height: 45, type: "examine", elaraDialog: "The Ne-Yon DNA Helix. Half biological, half digital. It shows how the Ne-Yon evolved — or were engineered — to bridge the gap between organic life and artificial intelligence. Every Ne-Yon carries this dual code. Your thoughts are processed by both neurons and nanites simultaneously. That's why you can interface with technology that would fry a pure organic brain." },
+      { id: "bio-circuits", name: "Bio-Circuits", description: "Living vines that function as biological data cables.", x: 10, y: 20, width: 15, height: 40, type: "examine", elaraDialog: "Bio-circuits. Living data networks grown from Ne-Yon genetic material. They process information faster than silicon and repair themselves when damaged. The Ne-Yon dream of a future where all technology is alive — where machines grow, evolve, and think alongside their creators. This chamber is the prototype for that future." },
+      { id: "door-medical-synthesis", name: "Return to Medical Bay", description: "The bio-organic passage back to the Medical Bay.", x: 2, y: 40, width: 8, height: 25, type: "door", action: "medical-bay" },
+    ],
+  },
 ];
 
 /* ─── DEFAULT STATE ─── */
@@ -582,10 +770,12 @@ export function GameProvider({ children }: { children: ReactNode }) {
         return state.itemsCollected.length >= (req.value as number);
       case "rooms_unlocked":
         return state.totalRoomsUnlocked >= (req.value as number);
+      case "chain_complete":
+        return !!state.narrativeFlags[`chain_${req.value}_complete`];
       default:
         return false;
     }
-  }, [state.rooms, state.itemsCollected.length, state.totalRoomsUnlocked]);
+  }, [state.rooms, state.itemsCollected.length, state.totalRoomsUnlocked, state.narrativeFlags]);
 
   const isRoomUnlocked = useCallback((roomId: string): boolean => {
     return !!state.rooms[roomId]?.unlocked;
