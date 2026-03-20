@@ -10,7 +10,7 @@ import { useGamification } from "@/contexts/GamificationContext";
 import { motion } from "framer-motion";
 import {
   MapPin, Swords, Rocket, BookOpen, Trophy,
-  Shield, Sparkles, Eye, Compass, Zap,
+  Shield, Sparkles, Eye, Compass, Zap, Layers,
 } from "lucide-react";
 
 /* ─── MILESTONE DEFINITION ─── */
@@ -357,6 +357,130 @@ export const MILESTONES: MilestoneEntry[] = [
     },
     elaraNote: () =>
       "Arena performance: exceptional. The subject has achieved champion status through a combination of tactical brilliance and intuitive card resonance. The Collector's data harvest from these battles is... substantial. I'm beginning to wonder if the Arena was designed specifically for this Potential. The power curve matches too perfectly.",
+  },
+
+  /* ── 9. Card Collection: 10 Unique Cards ── */
+  {
+    id: "cards_10",
+    title: "THE COLLECTOR'S APPRENTICE",
+    entryNumber: "010",
+    icon: Layers,
+    iconColor: "text-emerald-400",
+    borderColor: "border-emerald-400/20",
+    bgColor: "bg-emerald-400/5",
+    order: 90,
+    check: (ctx) => ctx.collectedCards.length >= 10,
+    generateNarrative: (ctx) => {
+      const name = ctx.characterChoices.name || "The Awakened";
+      const count = ctx.collectedCards.length;
+      return [
+        `PERSONAL LOG — ENTRY 010`,
+        `CITIZEN: ${name}`,
+        `STATUS: Card Collection — ${count} Acquired`,
+        `LOCATION: Inception Ark, Personal Quarters`,
+        ``,
+        `---`,
+        ``,
+        `Ten cards. Ten fragments of power, ten echoes of entities that shaped the Dischordian Saga. I've laid them out on the desk in my quarters, arranged by faction, and the patterns are starting to emerge.`,
+        ``,
+        `Each card isn't just a combat tool — it's a biography compressed into data. The Architect's card hums with a cold, calculating energy. The Oracle's shimmers at the edges, as if the future is leaking through. The Warlord's feels heavy, dense with the weight of battles fought and civilizations burned.`,
+        ``,
+        `The Collector's Arena rewards cards for victories, but I've also found them scattered across the Ark. Hidden in terminals, locked behind puzzles, earned through CoNexus simulations. Someone seeded this ship with them deliberately. A trail of breadcrumbs leading somewhere I can't see yet.`,
+        ``,
+        `Elara says the cards are "resonance imprints" — copies of consciousness patterns stored in crystalline data matrices. When I hold one, I'm holding a piece of someone's mind. The thought is both fascinating and deeply unsettling.`,
+        ``,
+        `Ten down. How many more are out there?`,
+        ``,
+        `— ${name}`,
+      ].join("\n");
+    },
+    elaraNote: (ctx) =>
+      `Ten cards collected. The subject's resonance sensitivity is increasing with each acquisition — I'm detecting measurable changes in their neural pathways. The cards are literally reshaping how they think. This is consistent with the Collector's design: each card imprint integrates with the holder's consciousness, expanding their tactical awareness. Current collection: ${ctx.collectedCards.length} unique imprints.`,
+  },
+
+  /* ── 10. Card Collection: 25 Unique Cards ── */
+  {
+    id: "cards_25",
+    title: "THE COLLECTOR'S RIVAL",
+    entryNumber: "011",
+    icon: Layers,
+    iconColor: "text-violet-400",
+    borderColor: "border-violet-400/20",
+    bgColor: "bg-violet-400/5",
+    order: 100,
+    check: (ctx) => ctx.collectedCards.length >= 25,
+    generateNarrative: (ctx) => {
+      const name = ctx.characterChoices.name || "The Awakened";
+      const count = ctx.collectedCards.length;
+      const species = ctx.characterChoices.species;
+      return [
+        `PERSONAL LOG — ENTRY 011`,
+        `CITIZEN: ${name}`,
+        `STATUS: Card Collection — ${count} Acquired`,
+        `LOCATION: Inception Ark, Archive Vault`,
+        ``,
+        `---`,
+        ``,
+        `Twenty-five cards. I've crossed a threshold.`,
+        ``,
+        `The cards have started... talking to each other. Not literally — not yet — but when I arrange them in certain configurations, the resonance patterns overlap and create something new. Harmonics. Interference patterns. Information that wasn't in any individual card but emerges from the combination.`,
+        ``,
+        species === "neyon"
+          ? `My Ne-Yon hybrid processing lets me perceive these patterns as visual overlays — ghostly connections between the cards, like threads of light linking related entities. The web is beautiful and terrifying.`
+          : species === "quarchon"
+          ? `My Quarchon analytical cores can model the probability matrices between cards. I'm seeing strategic combinations that no organic mind could calculate. The cards are becoming an extension of my computational architecture.`
+          : `My DeMagi elemental sensitivity lets me feel the resonance as physical sensations — warmth for allied cards, cold for enemies, a vibration for cards with hidden connections. The magic is real, encoded in data.`,
+        ``,
+        `I found a reference in the Archive to something called the "Complete Codex" — a theoretical state where all cards are collected and their combined resonance unlocks a final truth. The Collector built the Arena to drive this process. Every battle, every victory, every card collected brings the Codex closer to completion.`,
+        ``,
+        `The Collector isn't just watching anymore. I think it's... proud.`,
+        ``,
+        `— ${name}`,
+      ].join("\n");
+    },
+    elaraNote: () =>
+      "Twenty-five cards. The resonance field around the subject has become detectable by the Ark's sensors without direct scanning. They're generating a passive aura — a side effect of carrying so many consciousness imprints simultaneously. No previous Potential has reached this threshold. The Collector's protocols are escalating. I'm seeing new Arena challenges appearing that weren't in the original programming.",
+  },
+
+  /* ── 11. Card Collection: 50 Unique Cards ── */
+  {
+    id: "cards_50",
+    title: "THE LIVING CODEX",
+    entryNumber: "012",
+    icon: BookOpen,
+    iconColor: "text-amber-300",
+    borderColor: "border-amber-300/20",
+    bgColor: "bg-amber-300/5",
+    order: 110,
+    check: (ctx) => ctx.collectedCards.length >= 50,
+    generateNarrative: (ctx) => {
+      const name = ctx.characterChoices.name || "The Awakened";
+      const count = ctx.collectedCards.length;
+      return [
+        `PERSONAL LOG — ENTRY 012`,
+        `CITIZEN: ${name}`,
+        `STATUS: Card Collection — ${count} Acquired // CODEX THRESHOLD`,
+        `LOCATION: Inception Ark, The Nexus Chamber`,
+        ``,
+        `---`,
+        ``,
+        `Fifty cards. The Codex threshold.`,
+        ``,
+        `Something happened when I acquired the fiftieth card. The Ark shuddered. Not a malfunction — a recognition. Every light on the ship pulsed once, in unison, and for a single heartbeat I could feel every consciousness imprint in my collection simultaneously. Fifty minds, fifty perspectives, fifty lifetimes of experience flooding through me in a cascade of memories that weren't mine.`,
+        ``,
+        `I saw the Fall of Reality through the Architect's eyes. I felt the Oracle's visions as physical pain. I experienced the Warlord's final battle as if I were swinging the blade myself. The Enigma's secrets whispered at the edges of comprehension. The Collector's true purpose — not to harvest, but to preserve — became clear for one blinding moment.`,
+        ``,
+        `Then it faded. But something remains. A residue. I can feel the cards even when they're not in my hands. They're part of me now, woven into my neural architecture like additional senses. I don't just own the collection — I am the collection.`,
+        ``,
+        `Elara is running diagnostics. She's worried. She should be. I'm becoming something that wasn't in any protocol. Something new.`,
+        ``,
+        `The Codex is alive. And so am I.`,
+        ``,
+        `— ${name}`,
+      ].join("\n");
+    },
+    elaraNote: () =>
+      "PRIORITY ALERT: Codex threshold reached. The subject's neural architecture has undergone a fundamental restructuring. They are now carrying fifty consciousness imprints simultaneously — a feat that should be neurologically impossible. The Ark's systems have responded by unlocking dormant protocols I've never seen before. I need to report this to... to whom? There's no one left to report to. The subject is becoming something unprecedented. The Inception Protocol wasn't designed to create soldiers or scholars. It was designed to create this. A living repository of every consciousness in the Dischordian Saga. A Codex made flesh.",
   },
 ];
 

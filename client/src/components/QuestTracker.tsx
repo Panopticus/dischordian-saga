@@ -9,8 +9,9 @@ import { useLoredex } from "@/contexts/LoredexContext";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Target, ChevronDown, ChevronUp, Compass, MapPin,
-  Sparkles, Trophy, Eye, Zap, BookOpen
+  Sparkles, Trophy, Eye, Zap, BookOpen, Link2
 } from "lucide-react";
+import QuestChainSystem from "./QuestChainSystem";
 import { useLocation } from "wouter";
 
 /* ─── QUEST DEFINITIONS ─── */
@@ -386,6 +387,17 @@ export default function QuestTracker() {
             {completedCount > 0 && (
               <CompletedQuestsSummary quests={questStates.filter(q => q.complete)} />
             )}
+
+            {/* Quest Chains Section */}
+            <div className="border-t border-white/5">
+              <div className="px-3 py-2">
+                <div className="flex items-center gap-1.5 mb-2">
+                  <Link2 size={10} className="text-purple-400" />
+                  <span className="font-display text-[8px] tracking-[0.2em] text-purple-400/70">QUEST CHAINS</span>
+                </div>
+                <QuestChainSystem />
+              </div>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>

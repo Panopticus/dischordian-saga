@@ -1429,3 +1429,14 @@
 - [x] Add journal entries to Personal Log tab with chronological ordering
 - [x] Wire Trade Wars warp narrative flag for milestone tracking
 - [x] Write 57 vitest tests for all Phase 60 features (all passing)
+
+### Phase 61: Reward Animation Polish, Card Collection Milestones, Quest Chains
+- [x] Add particle effects and screen flash for major reward claims (100+ Dream Tokens)
+- [x] Build reward celebration overlay with animated particles, shockwave ring, and glow effects (3 tiers: standard/major/legendary)
+- [x] Add card collection milestone journal entries (10/25/50 unique cards) with species-specific narratives
+- [x] Wire card collection milestones into MilestoneJournalEntries and ClueJournal Personal Log tab
+- [x] Build branching quest chain system based on alignment and class choices (7 chains total)
+- [x] Add class-specific quest lines (engineer, oracle, assassin, soldier, spy) — 4 quests each, 300 Dream Tokens per chain
+- [x] Add alignment-specific quest modifiers (order vs chaos) — 3 quests each, 225 Dream Tokens per chain
+- [x] Integrate QuestChainSystem into QuestTracker expanded view
+- [x] Write 75 vitest tests for all Phase 61 features (all passing)

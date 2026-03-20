@@ -12,6 +12,7 @@ import { useAuth } from "@/_core/hooks/useAuth";
 import { trpc } from "@/lib/trpc";
 import { motion, AnimatePresence } from "framer-motion";
 import { Gift, Sparkles, Trophy, Coins, Star, Zap, X } from "lucide-react";
+import RewardCelebration, { type CelebrationData, determineTier } from "./RewardCelebration";
 
 /* ─── QUEST REWARD DEFINITIONS ─── */
 interface QuestReward {
@@ -228,6 +229,7 @@ export default function QuestRewardSystem() {
   const { isAuthenticated } = useAuth();
   const awardDream = trpc.citizen.awardDream.useMutation();
   const [notifications, setNotifications] = useState<RewardNotification[]>([]);
+  const [celebration, setCelebration] = useState<CelebrationData | null>(null);
   const processedRef = useRef<Set<string>>(new Set());
 
   // Build quest check state (same as QuestTracker)
@@ -294,12 +296,26 @@ export default function QuestRewardSystem() {
         // 5. Set narrative flag for milestone tracking
         setNarrativeFlag(`quest_${reward.questId}_rewarded`);
 
-        // 6. Show notification
-        setNotifications(prev => [...prev, {
-          reward,
-          questTitle: QUEST_TITLES[reward.questId] || reward.questId,
-          timestamp: Date.now(),
-        }]);
+        // 6. Show notification (standard toast) or celebration (major/legendary)
+        const tier = determineTier(reward.dreamTokens);
+        if (tier === "major" || tier === "legendary") {
+          // Major rewards get the full celebration overlay
+          setCelebration({
+            questTitle: QUEST_TITLES[reward.questId] || reward.questId,
+            dreamTokens: reward.dreamTokens,
+            xp: reward.xp,
+            points: reward.gamificationPoints,
+            cardReward: reward.cardReward,
+            description: reward.description,
+          });
+        } else {
+          // Standard rewards get the toast notification
+          setNotifications(prev => [...prev, {
+            reward,
+            questTitle: QUEST_TITLES[reward.questId] || reward.questId,
+            timestamp: Date.now(),
+          }]);
+        }
       }
     }
   }, [questChecks, state.claimedQuestRewards, isAuthenticated]);
@@ -308,20 +324,28 @@ export default function QuestRewardSystem() {
     setNotifications(prev => prev.filter(n => n.timestamp !== timestamp));
   }, []);
 
-  if (notifications.length === 0) return null;
+  const dismissCelebration = useCallback(() => setCelebration(null), []);
 
   return (
-    <div className="fixed bottom-24 sm:bottom-20 left-3 sm:left-6 z-[95] pointer-events-none flex flex-col gap-2">
-      <AnimatePresence>
-        {notifications.slice(-3).map(notification => (
-          <RewardToast
-            key={notification.timestamp}
-            notification={notification}
-            onDismiss={() => dismissNotification(notification.timestamp)}
-          />
-        ))}
-      </AnimatePresence>
-    </div>
+    <>
+      {/* Standard reward toasts */}
+      {notifications.length > 0 && (
+        <div className="fixed bottom-24 sm:bottom-20 left-3 sm:left-6 z-[95] pointer-events-none flex flex-col gap-2">
+          <AnimatePresence>
+            {notifications.slice(-3).map(notification => (
+              <RewardToast
+                key={notification.timestamp}
+                notification={notification}
+                onDismiss={() => dismissNotification(notification.timestamp)}
+              />
+            ))}
+          </AnimatePresence>
+        </div>
+      )}
+
+      {/* Major/Legendary celebration overlay */}
+      <RewardCelebration data={celebration} onComplete={dismissCelebration} />
+    </>
   );
 }
 
