@@ -21,6 +21,7 @@ import { toast } from "sonner";
 import PuzzleModal, { ROOM_PUZZLES } from "@/components/PuzzleSystem";
 import RoomTransition from "@/components/RoomTransition";
 import RoomTutorialDialog, { hasRoomDialog } from "@/components/RoomTutorialDialog";
+import HolographicElara from "@/components/HolographicElara";
 
 const ELARA_PORTRAIT = "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/elara_portrait_speaking-J3GJUrfnNKzSBrxY2PfWrL.webp";
 
@@ -398,6 +399,63 @@ export default function ArkExplorerPage() {
   } | null>(null);
 
   const [isFullscreen, setIsFullscreen] = useState(false);
+
+  // ═══ CRYO BAY FIRST-VISIT ORIENTATION ═══
+  const [showCryoOrientation, setShowCryoOrientation] = useState(false);
+  const [orientationStep, setOrientationStep] = useState(0);
+  const [orientationText, setOrientationText] = useState("");
+  const [orientationTyping, setOrientationTyping] = useState(false);
+
+  const CRYO_ORIENTATION_LINES = useMemo(() => [
+    "Welcome to the Cryo Bay, Operative. This is where your journey begins — and where it began for every Potential before you.",
+    "You're standing in the Habitation Deck. The Ark has three main decks: Habitation below, Operations in the middle, and Command above. Each one holds secrets.",
+    "Through that door is the Medical Bay — the ship's doctor left some... interesting notes. Beyond that, the Bridge. That's where the real answers are.",
+    "Look around. Interact with the terminals, examine objects, collect items. Everything on this ship tells a story. Some stories are harder to find than others.",
+    "I'll be here if you need me. Tap any glowing marker to investigate. And Operative? Trust nothing at face value. Not even me.",
+  ], []);
+
+  // Trigger orientation on first Cryo Bay visit (post-awakening)
+  useEffect(() => {
+    if (state.currentRoomId === "cryo-bay" && state.characterCreated) {
+      const seen = localStorage.getItem("loredex_cryo_orientation_seen");
+      if (!seen && state.rooms["cryo-bay"]?.visitCount === 1) {
+        setShowCryoOrientation(true);
+        localStorage.setItem("loredex_cryo_orientation_seen", "1");
+      }
+    }
+  }, [state.currentRoomId, state.characterCreated, state.rooms]);
+
+  // Typewriter for orientation
+  useEffect(() => {
+    if (!showCryoOrientation || orientationStep >= CRYO_ORIENTATION_LINES.length) return;
+    const line = CRYO_ORIENTATION_LINES[orientationStep];
+    setOrientationTyping(true);
+    setOrientationText("");
+    let idx = 0;
+    const interval = setInterval(() => {
+      if (idx < line.length) {
+        setOrientationText(line.slice(0, idx + 1));
+        idx++;
+      } else {
+        clearInterval(interval);
+        setOrientationTyping(false);
+      }
+    }, 25);
+    return () => clearInterval(interval);
+  }, [showCryoOrientation, orientationStep, CRYO_ORIENTATION_LINES]);
+
+  const advanceOrientation = useCallback(() => {
+    if (orientationTyping) {
+      setOrientationText(CRYO_ORIENTATION_LINES[orientationStep]);
+      setOrientationTyping(false);
+      return;
+    }
+    if (orientationStep < CRYO_ORIENTATION_LINES.length - 1) {
+      setOrientationStep(s => s + 1);
+    } else {
+      setShowCryoOrientation(false);
+    }
+  }, [orientationTyping, orientationStep, CRYO_ORIENTATION_LINES]);
   const fullscreenRef = useCallback((node: HTMLDivElement | null) => {
     if (node) (window as any).__arkExplorerRef = node;
   }, []);
@@ -960,6 +1018,55 @@ export default function ArkExplorerPage() {
             onComplete={handleTransitionComplete}
             isNewRoom={transition.isNewRoom}
           />
+        )}
+      </AnimatePresence>
+
+      {/* ═══ CRYO BAY FIRST-VISIT ORIENTATION ═══ */}
+      <AnimatePresence>
+        {showCryoOrientation && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[200] flex items-end justify-center pb-6 sm:pb-10"
+            style={{ background: "linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.5) 40%, rgba(0,0,0,0.2) 100%)" }}
+            onClick={advanceOrientation}
+          >
+            {/* Holographic Elara in the center-top */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.3, duration: 0.5 }}
+              className="absolute top-8 sm:top-12 left-1/2 -translate-x-1/2"
+            >
+              <HolographicElara size="lg" isSpeaking={orientationTyping} />
+            </motion.div>
+
+            {/* Dialog box */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5, duration: 0.4 }}
+              className="max-w-xl w-full mx-4 rounded-lg border border-[var(--neon-cyan)]/30 bg-black/80 p-5 cursor-pointer"
+              style={{ boxShadow: "0 0 30px rgba(51,226,230,0.1)" }}
+            >
+              <div className="flex items-center gap-2 mb-3">
+                <div className="w-2 h-2 rounded-full bg-[var(--neon-cyan)] animate-pulse" />
+                <span className="font-display text-[10px] text-[var(--neon-cyan)]/70 tracking-[0.3em]">ELARA // ORIENTATION BRIEFING</span>
+                <span className="ml-auto font-mono text-[10px] text-white/30">{orientationStep + 1}/{CRYO_ORIENTATION_LINES.length}</span>
+              </div>
+              <p className="font-mono text-sm text-white/90 leading-relaxed min-h-[3rem]">
+                {orientationText}
+                {orientationTyping && <span className="inline-block w-2 h-4 bg-[var(--neon-cyan)] animate-pulse ml-0.5" />}
+              </p>
+              <div className="flex items-center justify-end mt-3 gap-2">
+                <span className="font-mono text-[10px] text-white/30">
+                  {orientationTyping ? "TAP TO SKIP" : orientationStep < CRYO_ORIENTATION_LINES.length - 1 ? "TAP TO CONTINUE" : "TAP TO BEGIN EXPLORING"}
+                </span>
+                <ChevronRight size={12} className="text-[var(--neon-cyan)]/50" />
+              </div>
+            </motion.div>
+          </motion.div>
         )}
       </AnimatePresence>
     </div>

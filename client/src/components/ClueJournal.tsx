@@ -8,8 +8,9 @@ import { useGame } from "@/contexts/GameContext";
 import {
   BookOpen, Diamond, MessageCircle, Eye, Link2, Trophy,
   Lock, Unlock, ChevronRight, ChevronDown, Sparkles,
-  Search, Filter, X
+  Search, Filter, X, FileText
 } from "lucide-react";
+import AwakeningJournalEntry from "./AwakeningJournalEntry";
 import { motion, AnimatePresence } from "framer-motion";
 
 /* ─── CLUE DATA DEFINITIONS ─── */
@@ -406,7 +407,7 @@ interface ClueJournalProps {
 
 export default function ClueJournal({ onClose }: ClueJournalProps) {
   const { state } = useGame();
-  const [activeTab, setActiveTab] = useState<"clues" | "puzzles">("clues");
+  const [activeTab, setActiveTab] = useState<"log" | "clues" | "puzzles">(state.characterCreated ? "log" : "clues");
   const [expandedPuzzle, setExpandedPuzzle] = useState<string | null>(null);
   const [filterType, setFilterType] = useState<ClueType | "all">("all");
   const [searchQuery, setSearchQuery] = useState("");
@@ -477,7 +478,7 @@ export default function ClueJournal({ onClose }: ClueJournalProps) {
 
         {/* Tab switcher */}
         <div className="flex gap-1">
-          {(["clues", "puzzles"] as const).map(tab => (
+          {(["log", "clues", "puzzles"] as const).map(tab => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
@@ -487,7 +488,7 @@ export default function ClueJournal({ onClose }: ClueJournalProps) {
                   : "text-muted-foreground hover:text-foreground hover:bg-secondary/50"
               }`}
             >
-              {tab === "clues" ? "DATA CRYSTALS" : "PUZZLES"}
+              {tab === "log" ? "PERSONAL LOG" : tab === "clues" ? "DATA CRYSTALS" : "PUZZLES"}
             </button>
           ))}
         </div>
@@ -496,7 +497,17 @@ export default function ClueJournal({ onClose }: ClueJournalProps) {
       {/* ═══ CONTENT ═══ */}
       <div className="flex-1 overflow-y-auto scrollbar-thin">
         <AnimatePresence mode="wait">
-          {activeTab === "clues" ? (
+          {activeTab === "log" ? (
+            <motion.div
+              key="log"
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: 20 }}
+              className="p-4"
+            >
+              <AwakeningJournalEntry />
+            </motion.div>
+          ) : activeTab === "clues" ? (
             <motion.div
               key="clues"
               initial={{ opacity: 0, x: -20 }}

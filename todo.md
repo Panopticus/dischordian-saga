@@ -1411,3 +1411,12 @@
 - [x] Add narrative Elara intro to character sheet on first visit ("Your neural scan is complete, Operative...")
 - [x] Make character sheet the second unlocked area in progression (after Awakening/Cryo Bay)
 - [x] Ensure character sheet is narratively framed as Elara presenting scan results
+
+### Phase 59: Narrative Beats, Quest Tracker, Awakening Journal
+- [x] Add Cryo Bay first-room narrative beat (Elara orientation on first visit after character sheet)
+- [x] Build persistent quest/objective tracker HUD component
+- [x] Wire quest tracker into game progression (explore Bridge, find items, etc.)
+- [x] Auto-generate Awakening recap journal entry as first Clue Journal page
+- [x] Add journal entry with species, class, alignment, element choices
+- [x] Add Personal Log tab to Clue Journal (defaults to log tab when character created)
+- [x] Add 94 vitest tests for narrative flow (QuestTracker, AwakeningJournalEntry, ClueJournal integration)
