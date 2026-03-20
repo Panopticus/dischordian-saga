@@ -1,0 +1,38 @@
+{
+  "query": "SELECT cardId, name, cardType, rarity, imageUrl FROM cards WHERE name LIKE '%Engineer%';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway04.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2T9erPMfbTpx4Y5.root --database 2quXz2C2n5hMfqc8hNVW3h --execute SELECT cardId, name, cardType, rarity, imageUrl FROM cards WHERE name LIKE '%Engineer%';",
+  "rows": [
+    {
+      "cardId": "evt-the-engineer-s-revenge-1243",
+      "name": "The Engineer's Revenge",
+      "cardType": "event",
+      "rarity": "epic",
+      "imageUrl": "NULL"
+    },
+    {
+      "cardId": "act-rally-season-2-all-engine-1418",
+      "name": "Rally: All Engineers create a token (S2)",
+      "cardType": "action",
+      "rarity": "common",
+      "imageUrl": "NULL"
+    },
+    {
+      "cardId": "act-rally-season-3-all-engine-1423",
+      "name": "Rally: All Engineers create a token (S3)",
+      "cardType": "action",
+      "rarity": "uncommon",
+      "imageUrl": "NULL"
+    },
+    {
+      "cardId": "s1_char_026",
+      "name": "The Engineer",
+      "cardType": "character",
+      "rarity": "epic",
+      "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/016_the_engineer_43ab2ccf.png"
+    }
+  ],
+  "messages": [],
+  "stdout": "cardId\tname\tcardType\trarity\timageUrl\nevt-the-engineer-s-revenge-1243\tThe Engineer's Revenge\tevent\tepic\tNULL\nact-rally-season-2-all-engine-1418\tRally: All Engineers create a token (S2)\taction\tcommon\tNULL\nact-rally-season-3-all-engine-1423\tRally: All Engineers create a token (S3)\taction\tuncommon\tNULL\ns1_char_026\tThe Engineer\tcharacter\tepic\thttps://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/016_the_engineer_43ab2ccf.png\n",
+  "stderr": "",
+  "execution_time_ms": 57
+}

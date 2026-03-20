@@ -1,0 +1,60 @@
+{
+  "query": "SELECT COUNT(*) as total, cardType, COUNT(*) as cnt FROM cards GROUP BY cardType ORDER BY cnt DESC;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway04.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2T9erPMfbTpx4Y5.root --database 2quXz2C2n5hMfqc8hNVW3h --execute SELECT COUNT(*) as total, cardType, COUNT(*) as cnt FROM cards GROUP BY cardType ORDER BY cnt DESC;",
+  "rows": [
+    {
+      "total": "767",
+      "cardType": "character",
+      "cnt": "767"
+    },
+    {
+      "total": "282",
+      "cardType": "action",
+      "cnt": "282"
+    },
+    {
+      "total": "279",
+      "cardType": "event",
+      "cnt": "279"
+    },
+    {
+      "total": "223",
+      "cardType": "reaction",
+      "cnt": "223"
+    },
+    {
+      "total": "221",
+      "cardType": "combat",
+      "cnt": "221"
+    },
+    {
+      "total": "204",
+      "cardType": "item",
+      "cnt": "204"
+    },
+    {
+      "total": "89",
+      "cardType": "song",
+      "cnt": "89"
+    },
+    {
+      "total": "44",
+      "cardType": "location",
+      "cnt": "44"
+    },
+    {
+      "total": "40",
+      "cardType": "master",
+      "cnt": "40"
+    },
+    {
+      "total": "30",
+      "cardType": "political",
+      "cnt": "30"
+    }
+  ],
+  "messages": [],
+  "stdout": "total\tcardType\tcnt\n767\tcharacter\t767\n282\taction\t282\n279\tevent\t279\n223\treaction\t223\n221\tcombat\t221\n204\titem\t204\n89\tsong\t89\n44\tlocation\t44\n40\tmaster\t40\n30\tpolitical\t30\n",
+  "stderr": "",
+  "execution_time_ms": 135
+}

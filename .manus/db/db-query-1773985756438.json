@@ -1,0 +1,75 @@
+{
+  "query": "SELECT cardId, name, cardType, rarity, power, health, cost, characterClass, species, faction, era FROM cards WHERE cardType = 'character' ORDER BY id DESC LIMIT 5;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway04.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2T9erPMfbTpx4Y5.root --database 2quXz2C2n5hMfqc8hNVW3h --execute SELECT cardId, name, cardType, rarity, power, health, cost, characterClass, species, faction, era FROM cards WHERE cardType = 'character' ORDER BY id DESC LIMIT 5;",
+  "rows": [
+    {
+      "cardId": "demon-ithrael-dir-0010",
+      "name": "Ith'Rael the Whisperer",
+      "cardType": "character",
+      "rarity": "legendary",
+      "power": "4",
+      "health": "6",
+      "cost": "7",
+      "characterClass": "spy",
+      "species": "unknown",
+      "faction": "Hierarchy of the Damned",
+      "era": "Pre-Creation"
+    },
+    {
+      "cardId": "demon-fenra-dir-0009",
+      "name": "Fenra the Moon Tyrant",
+      "cardType": "character",
+      "rarity": "epic",
+      "power": "8",
+      "health": "6",
+      "cost": "6",
+      "characterClass": "soldier",
+      "species": "unknown",
+      "faction": "Hierarchy of the Damned",
+      "era": "Late Empire"
+    },
+    {
+      "cardId": "demon-varkul-dir-0008",
+      "name": "Varkul the Blood Lord",
+      "cardType": "character",
+      "rarity": "epic",
+      "power": "7",
+      "health": "8",
+      "cost": "6",
+      "characterClass": "soldier",
+      "species": "unknown",
+      "faction": "Hierarchy of the Damned",
+      "era": "Late Empire"
+    },
+    {
+      "cardId": "demon-sylvex-svp-0007",
+      "name": "Syl'Vex the Corruptor",
+      "cardType": "character",
+      "rarity": "legendary",
+      "power": "5",
+      "health": "7",
+      "cost": "7",
+      "characterClass": "spy",
+      "species": "unknown",
+      "faction": "Hierarchy of the Damned",
+      "era": "Late Empire"
+    },
+    {
+      "cardId": "demon-nykoth-svp-0006",
+      "name": "Ny'Koth the Flayer",
+      "cardType": "character",
+      "rarity": "legendary",
+      "power": "7",
+      "health": "9",
+      "cost": "8",
+      "characterClass": "oracle",
+      "species": "unknown",
+      "faction": "Hierarchy of the Damned",
+      "era": "Late Empire"
+    }
+  ],
+  "messages": [],
+  "stdout": "cardId\tname\tcardType\trarity\tpower\thealth\tcost\tcharacterClass\tspecies\tfaction\tera\ndemon-ithrael-dir-0010\tIth'Rael the Whisperer\tcharacter\tlegendary\t4\t6\t7\tspy\tunknown\tHierarchy of the Damned\tPre-Creation\ndemon-fenra-dir-0009\tFenra the Moon Tyrant\tcharacter\tepic\t8\t6\t6\tsoldier\tunknown\tHierarchy of the Damned\tLate Empire\ndemon-varkul-dir-0008\tVarkul the Blood Lord\tcharacter\tepic\t7\t8\t6\tsoldier\tunknown\tHierarchy of the Damned\tLate Empire\ndemon-sylvex-svp-0007\tSyl'Vex the Corruptor\tcharacter\tlegendary\t5\t7\t7\tspy\tunknown\tHierarchy of the Damned\tLate Empire\ndemon-nykoth-svp-0006\tNy'Koth the Flayer\tcharacter\tlegendary\t7\t9\t8\toracle\tunknown\tHierarchy of the Damned\tLate Empire\n",
+  "stderr": "",
+  "execution_time_ms": 54
+}

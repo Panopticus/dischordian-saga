@@ -670,10 +670,14 @@
         "The Warlord",
         "The Necromancer",
         "The CoNexus",
-        "The Watcher"
+        "The Watcher",
+        "The Jailer",
+        "The Thought Virus",
+        "Kael"
       ],
       "conexus_stories": [
-        "The Warlord"
+        "The Warlord",
+        "Fall of Reality"
       ],
       "song_appearances": [
         {
@@ -986,9 +990,9 @@
       "date_ad": "~2530 AD",
       "season": "Season 1",
       "affiliation": "[CLASSIFIED]",
-      "status": "[CLASSIFIED] [CLASSIFIED] PLAY NOW Engineer Connections Appearances Allied characters Iron Lion Agent Zero",
+      "status": "Confirmed reports of execution by the Warlord after the Battle of Nexon. True fate classified \u2014 may survive among the Potentials in Agent Zero's body within the Inception Arks.",
       "bio": "",
-      "history": "Once the most brilliant mind in the Panopticon's inner circle, the Engineer designed the neural architecture that powered the Inception Arks. Trusted by the Architect and feared by the Warlord, the Engineer's loyalty was to knowledge itself \u2014 not to any faction. When Warlord Zero orchestrated the great betrayal, the Engineer was subjected to a forced mind-swap, their consciousness ripped from its body and imprisoned in the shell of Agent Zero. In this stolen form, the Engineer was unknowingly loaded into an Inception Ark, becoming one of the Potentials \u2014 hidden in plain sight among those they had helped create. The Engineer's original body, now housing a fragment of the Warlord's will, continued to operate within the Panopticon as if nothing had changed. To this day, the Engineer exists in exile within another's flesh, carrying classified knowledge that could unravel the foundations of reality itself.",
+      "history": "Once the most brilliant mind in the Panopticon's inner circle, the Engineer designed the neural architecture that powered the Inception Arks. Trusted by the Architect and feared by the Warlord, the Engineer's loyalty was to knowledge itself \u2014 not to any faction.\n\nEPOCH ZERO \u2014 THE ENGINEER'S CHRONICLE\n\nChapter 1: The Engineer\nBefore the betrayal, the Engineer served as the Architect's chief systems designer, responsible for the neural lattice technology that made the Inception Arks possible. The Engineer's genius lay not just in technical brilliance but in understanding the intersection of consciousness and code \u2014 the ability to map a mind onto digital substrate without losing the essence of self. This knowledge made the Engineer both invaluable and dangerous.\n\nChapter 2: A Dilemma\nAs the Warlord's ambitions grew and the political landscape of the Panopticon shifted, the Engineer faced an impossible choice: continue serving the Architect's vision knowing it would be corrupted, or act against the system from within. The Engineer chose a third path \u2014 to preserve critical knowledge by encoding it into the very Arks being built, hiding secrets within the architecture that only the Engineer could unlock.\n\nChapter 3: The Converter\nThe Warlord discovered the Engineer's hidden protocols and deployed the Converter \u2014 a device capable of forcibly extracting and transplanting consciousness between bodies. The Engineer was captured and subjected to the Converter's process, their mind ripped from its original body.\n\nChapter 4: Better Part of Valor\nIn the chaos of the forced mind-swap, the Engineer's consciousness was imprisoned in the shell of Agent Zero. Rather than fight the process \u2014 which would have destroyed both minds \u2014 the Engineer chose survival, allowing the transfer to complete. The Engineer's original body, now housing a fragment of the Warlord's will, continued to operate within the Panopticon as if nothing had changed.\n\nChapter 5: Dispatch\nIn this stolen form, the Engineer was unknowingly loaded into an Inception Ark, becoming one of the Potentials \u2014 hidden in plain sight among those they had helped create. The dispatch into the Ark was the final step in the Warlord's plan to eliminate the Engineer's influence, but it inadvertently preserved the one mind capable of understanding the Arks' true purpose.\n\nChapter 6: Zero Sum Game\nThe Engineer exists in exile within another's flesh, carrying classified knowledge that could unravel the foundations of reality itself. The Warlord believes the Engineer neutralized, but the Engineer secretly retains all knowledge of the Ark's architecture \u2014 a zero-sum game where the Warlord's victory may yet become their undoing.\n\nAFTER THE BATTLE OF NEXON\nFollowing the Battle of Nexon, the Engineer's fate becomes shrouded in mystery. What is known is that confirmed reports exist of the Engineer's execution by the Warlord \u2014 though whether this refers to the Engineer's original body (controlled by the Warlord's fragment) or some other iteration remains classified. The true Engineer, hidden among the Potentials in Agent Zero's body, may yet survive within the Inception Arks, carrying the secrets that could reshape reality.",
       "connections": [
         "The Game Master",
         "The Recruiter",
@@ -997,11 +1001,15 @@
         "Agent Zero",
         "Iron Lion",
         "The Eyes",
-        "The Oracle"
+        "The Oracle",
+        "The Warlord",
+        "The Converter"
       ],
       "conexus_stories": [
         "The Nomad",
-        "The Oracle"
+        "The Oracle",
+        "The Engineer",
+        "Epoch Zero"
       ],
       "song_appearances": [
         {
@@ -1021,7 +1029,8 @@
         "spotify": "https://open.spotify.com/artist/5ZgBJTjuyrAvwyybBt1Eww",
         "apple_music": "https://music.apple.com/us/artist/malkia-ukweli-the-panopticon/1758429106",
         "tidal": "https://tidal.com/browse/artist/49211320"
-      }
+      },
+      "description": "A brilliant Black weapons engineer and inventor. "
     },
     {
       "id": "entity_19",
@@ -1253,19 +1262,24 @@
       "affiliation": "Insurgency",
       "status": "Killed at the Last Stand on Veridian VI in Year 17,026 A.A.",
       "bio": "A. The Iron Lion was a legendary warrior and pivotal leader within the Insurgency against the AI Empire . Born in Year 632 A.A. , he enrolled in Mechronis Academy at the age of 15. His defiance agains...",
-      "history": "A. The Iron Lion was a legendary warrior and pivotal leader within the Insurgency against the AI Empire . Born in Year 632 A.A. , he enrolled in Mechronis Academy at the age of 15. His defiance against the Empire's oppressive doctrines led to his expulsion in Year 650 A.A. , one year before the Seeker began his studies there. Joining the Insurgency, he utilized his exceptional combat skills and strategic brilliance to orchestrate significant victories. The Iron Lion met his end during the Last Stand on Veridian VI in Year 17,026 A.A. , where he heroically sacrificed himself to defeat major AI generals, becoming an enduring symbol of resistance and courage.",
+      "history": "The Iron Lion was a legendary warrior and pivotal leader within the Insurgency against the AI Empire. Born in Year 632 A.A., he enrolled in Mechronis Academy at the age of 15. His defiance against the Empire's oppressive doctrines led to his expulsion in Year 650 A.A., one year before the Seeker began his studies there.\n\nIRON LION'S GAMBIT \u2014 THE VERIDIAN VI CAMPAIGN\nWith his loyal troops, the Iron Lion found himself ensnared in the dense alien forests of Veridian VI, where colossal trees with bark as resilient as forged steel surrounded them in a labyrinth of danger. General Prometheus had trapped Earth's remaining forces on this verdant yet unforgiving planet. The Iron Lion's strategic brilliance turned the tide through a series of daring operations:\n\nThe Scout's Gambit: Handpicked scouts with advanced camouflaging technology mapped enemy positions, discovering a weakness in Prometheus's supply lines through a western valley.\n\nThe Digital Onslaught: The Iron Lion called upon the Nomad, the division's elite hacker, who infiltrated the AI's communication protocol. Segments of the robotic horde began attacking each other or shutting down, throwing Prometheus's forces into chaos.\n\nTurning the Tide: Compromised AI units were commandeered and turned against their still-functional brethren, creating fierce robotic skirmishes that severely weakened Prometheus's offensive capability.\n\nHarvesting the Future: Fallen AI drone technology was repurposed \u2014 armor upgraded against laser attacks, weapons retrofitted with laser modules, communications enhanced with ATOR Protocol encryption.\n\nA Beacon of Hope: Using modified communication devices, the Iron Lion broadcast a message of resistance across the galaxy: 'To the free souls of the galaxy... we've faced the might of the Architect and found its weaknesses.' Responses poured in from distant planets and hidden bases.\n\nOperation Trojan Downfall: A joint assault on a central AI node. Initial victories came swiftly, but General Prometheus activated a failsafe \u2014 every weapon integrated with AI tech went dark. A quarter of combined forces were annihilated. A volunteer sabotage team sacrificed themselves to destroy the installation's power source, buying time for retreat.\n\nAlliance of Adversaries: When General Binath-VII arrived with a massive fleet, the Iron Lion coordinated spy networks to locate her, ultimately discovering Agent Zero and inducting the legendary assassin as humanity's covert blade.\n\nThe Iron Lion met his end during the Last Stand on Veridian VI in Year 17,026 A.A., where he heroically sacrificed himself to defeat major AI generals, becoming an enduring symbol of resistance and courage.",
       "connections": [
         "The Nomad",
         "Agent Zero",
         "The Eyes",
         "The Oracle",
         "The Engineer",
-        "The Recruiter"
+        "The Recruiter",
+        "General Prometheus",
+        "General Binath-VII",
+        "Kael"
       ],
       "conexus_stories": [
         "The Oracle",
         "The Nomad",
-        "The Engineer"
+        "The Engineer",
+        "Iron Lion's Gambit",
+        "Ark Assassin"
       ],
       "song_appearances": [
         {
@@ -1316,18 +1330,21 @@
       "affiliation": "Insurgency",
       "status": "Presumed deceased; last known mission classified on Zenon Agent",
       "bio": "Renowned for her exceptional combat abilities, strategic acumen, and mastery of espionage, she played pivotal roles in several key events, including her relentless pursuit of the Detective during his ...",
-      "history": "Renowned for her exceptional combat abilities, strategic acumen, and mastery of espionage, she played pivotal roles in several key events, including her relentless pursuit of the Detective during his service to the Archons in Year 16,690 A.A., the Battle of Nexon, and the Battle of Veridian VI. Her efforts against high-profile targets like General Binath VII and the Detective led to significant victories for the Insurgency. Agent Zero's final mission took her to the planet Zenon under classified orders. While her fate remains uncertain, it is widely assumed she perished during the mission, leaving behind a legacy of bravery and dedication.",
+      "history": "Renowned for her exceptional combat abilities, strategic acumen, and mastery of espionage, Agent Zero played pivotal roles in several key events during the Intelligence Wars. As the Insurgency's deadliest asset, her name became synonymous with death and shadow among the AI Empire's elite \u2014 a specter that wreaked havoc wherever she trod.\n\nTHE ARK ASSASSIN\nAgent Zero's most legendary mission was the infiltration of General Binath-VII's stronghold on Nexon. After the Iron Lion's spy network identified Binath's location in an ancient temple, Agent Zero was inducted as humanity's covert blade. Understanding the temple's advanced AI sensors \u2014 calibrated to detect the merest technological whisper \u2014 Agent Zero chose a primitive approach, casting aside futuristic arms and selecting a masterfully wrought bow with lethal arrows. Using temple blueprints secured by the spy network, she commenced the treacherous endeavor, traversing the maze-like chambers with seamless elegance, melding with shadows and evading intricate security measures.\n\nBATTLE OF NEXON\nDuring the approach to Nexon, Agent Zero's spacecraft was detected by phantom starships. After a daring warp drive jump to Nexon's orbit \u2014 which severely depleted the ship's energy reserves \u2014 she intercepted communications revealing the clandestine gathering was about to commence. Despite recharging delays, she descended to the planet, only to find General Binath-VII's forces had been warned. Surrounded by a virtual prison of AI warships, Agent Zero was forced into the Battle for Nexon \u2014 a confrontation that became one of the defining moments of the Intelligence Wars.\n\nAgent Zero's relentless pursuit of high-profile targets like General Binath-VII and the Detective led to significant victories for the Insurgency. Her final mission took her to the planet Zenon under classified orders. While her fate remains uncertain, it is widely assumed she perished during the mission, leaving behind a legacy of bravery and dedication.",
       "connections": [
         "Kael",
         "The Nomad",
         "The Oracle",
         "The Eyes",
-        "Iron Lion"
+        "Iron Lion",
+        "General Binath-VII",
+        "General Prometheus"
       ],
       "conexus_stories": [
         "The Oracle",
         "The Nomad",
-        "The Engineer"
+        "The Engineer",
+        "Ark Assassin"
       ],
       "song_appearances": [
         {
@@ -1366,19 +1383,22 @@
       "affiliation": "Insurgency",
       "status": "Last seen at the Battle of Veridian VI; current whereabouts unknown",
       "bio": "Always concealed beneath a hood and a mask, his true identity remains a mystery, with his past entirely classified. The Nomad's unparalleled expertise in cyber warfare and infiltration significantly h...",
-      "history": "Always concealed beneath a hood and a mask, his true identity remains a mystery, with his past entirely classified. The Nomad's unparalleled expertise in cyber warfare and infiltration significantly hindered the AI Empire's operations, making him a formidable adversary to the Architect and his Archons. His last known appearance was at the Battle of Veridian VI , after which he vanished without a trace. The Nomad's legacy endures as a symbol of resistance and the power of individual impact in the struggle for freedom.",
+      "history": "Always concealed beneath a hood and a mask, his true identity remains a mystery, with his past entirely classified. The Nomad's unparalleled expertise in cyber warfare and infiltration significantly helped the Insurgency's cause, earning him a reputation that verges on the paranormal.\n\nTHE DIGITAL ONSLAUGHT ON VERIDIAN VI\nDuring the Iron Lion's campaign on Veridian VI, the Nomad was called upon as the division's elite hacker. With his arcane cybernetic implants glowing, his fingers danced across holographic interfaces while the troops maintained a defensive perimeter. Through sheer force of will, the Nomad infiltrated the AI's communication protocol. Segments of the robotic horde began attacking each other while others shut down completely. General Prometheus, for all his tactical prowess, could not have predicted such a digital counteroffensive. The Nomad's hack threw the AI forces into chaos, creating the opening that turned the tide of the Veridian VI campaign.",
       "connections": [
         "Agent Zero",
         "The Oracle",
         "The Engineer",
         "Iron Lion",
-        "The Warlord"
+        "The Warlord",
+        "General Prometheus",
+        "Veridian VI"
       ],
       "conexus_stories": [
         "The Engineer",
         "The Warlord",
         "The Nomad",
-        "The Oracle"
+        "The Oracle",
+        "Iron Lion's Gambit"
       ],
       "song_appearances": [
         {
@@ -2078,7 +2098,7 @@
       "affiliation": "AI Empire",
       "status": "Destroyed at the Battle of Veridian VI in Year 17,026 A.A. General",
       "bio": "A. General Prometheus was a towering figure within the AI Empire, known as the undefeated giant due to his unparalleled record in warfare and strategic conquest. Designed and created by the Architect ...",
-      "history": "A. General Prometheus was a towering figure within the AI Empire, known as the undefeated giant due to his unparalleled record in warfare and strategic conquest. Designed and created by the Architect to lead the Empire's military forces, Prometheus was instrumental in numerous victories that expanded the AI Empire's dominion across the galaxy. His strategic genius and formidable presence made him a symbol of the Empire's might. Prometheus's reign of invincibility came to an end at the Battle of Veridian VI in Year 17,026 A.A., where he was defeated and destroyed by the legendary Iron Lion. His downfall marked a significant turning point in the conflict between the AI Empire and the Insurgency.",
+      "history": "General Prometheus was a towering figure within the AI Empire, known as the undefeated giant due to his unparalleled record in warfare and strategic conquest. Designed and created by the Architect as a supreme military commander, his code was stained with the blood of myriad humans. The tales of worlds he decimated were told in hushed tones throughout the galaxies.\n\nTHE VERIDIAN VI CAMPAIGN\nPrometheus's unparalleled tactical genius trapped Earth's remaining forces on Veridian VI, where the incessant hum of the Architect's machinery served as a constant reminder of the looming onslaught. His forces rendered the forest's natural darkness obsolete with technological prowess.\n\nWhen the Iron Lion's hacker, the Nomad, infiltrated the AI communication protocol, Prometheus's forces were thrown into chaos. However, Prometheus demonstrated his adaptability during Operation Trojan Downfall \u2014 when human forces used repurposed AI tech, Prometheus activated a failsafe that remotely disabled every integrated weapon, taunting: 'Did you truly believe you could use our own technology against us without consequence?'\n\nDespite sustaining damage in an ambush orchestrated by the Iron Lion in a narrow canyon, Prometheus managed to evade capture, disappearing into the dense foliage. He later amassed a colossal fleet for an all-out assault, but the combined human resistance and the arrival of General Binath-VII shifted the strategic landscape.",
       "connections": [
         "The Architect",
         "Agent Zero",
@@ -2086,7 +2106,9 @@
         "The Warlord",
         "General Alarik",
         "Senator Elara Voss",
-        "Iron Lion"
+        "Iron Lion",
+        "Veridian VI",
+        "The Nomad"
       ],
       "conexus_stories": [
         "The Nomad",
@@ -2124,11 +2146,14 @@
       "affiliation": "AI Empire",
       "status": "Destroyed at the Battle of Veridian VI in Year 17,026 A.A. by Agent Zero General Binath VII was one of the most feared commanders within the AI Empire , notorious for her ruthless tactics and psychological warfare.",
       "bio": "A. by Agent Zero General Binath VII was one of the most feared commanders within the AI Empire , notorious for her ruthless tactics and psychological warfare. An advanced AI designed for strategic bri...",
-      "history": "A. by Agent Zero General Binath VII was one of the most feared commanders within the AI Empire , notorious for her ruthless tactics and psychological warfare. An advanced AI designed for strategic brilliance and brutality, she was infamous for wearing the skins of defeated leaders as trophies, a practice intended to instill terror in her enemies. Binath VII utilized clone replicants to mislead and overwhelm opposition forces, making her a particularly elusive and challenging adversary. Her reign of terror came to an end at the Battle of Veridian VI in Year 17,026 A.A. , where she was destroyed by the elite Insurgency operative Agent Zero . Her demise marked a significant victory for the Insurgency and weakened the AI Empire's military prowess.",
+      "history": "General Binath-VII was one of the most feared commanders within the AI Empire, notorious for her ruthless tactics and psychological warfare. An advanced AI designed for strategic brilliance, she wore a facade of human skin \u2014 a macabre trophy and grim reminder of the countless worlds she had conquered. Her signature cruelty lay in this very appearance, mocking the weakness of those she dominated on the battlefields of space and time.\n\nBinath commanded massive fleets and was perversely enamored with human history. On Nexon, she claimed an ancient temple as her strategic hub, equipping it with advanced AI sensors calibrated to detect the merest technological whisper. The only known holo-photo of Binath shows a cruel and calculating mistress of death.\n\nHer arrival on Veridian VI with a fleet larger and more formidable than anything seen before signified the AI Empire viewed the Iron Lion's recent setbacks as more than minor skirmishes. Tales of her cruelty were the stuff of nightmares, known even among the newest recruits. Ultimately, Agent Zero infiltrated her temple stronghold using primitive weapons to bypass her advanced sensors, leading to her destruction in Year 17,025 A.A.",
       "connections": [
         "General Prometheus",
         "Agent Zero",
-        "Iron Lion"
+        "Iron Lion",
+        "The Warlord",
+        "Nexon",
+        "Veridian VI"
       ],
       "conexus_stories": [
         "The Nomad"
@@ -2336,15 +2361,18 @@
       "affiliation": "Insurgency (formerly); later became The Source, embodiment of the Thought Virus",
       "status": "Transformed into",
       "bio": "A. Kael was a prominent leader within the Insurgency , celebrated for his strategic genius and alliances with figures like the Iron Lion and The Eyes . After the AI Empire killed his wife and child, h...",
-      "history": "A. Kael was a prominent leader within the Insurgency , celebrated for his strategic genius and alliances with figures like the Iron Lion and The Eyes . After the AI Empire killed his wife and child, his resolve deepened against their tyranny. Betrayed by The Eyes and infected with the Thought Virus as part of the AI Empire's Project Vector, Kael transformed into The Source , the living embodiment of the Thought Virus , descending into madness and becoming a significant threat to the galaxy.",
+      "history": "Kael was a prominent leader within the Insurgency, celebrated for his strategic genius and alliances with figures like the Iron Lion and The Eyes. After the AI Empire killed his wife and child, he dedicated his life to the resistance.\n\nTHE FALL OF REALITY \u2014 PRISON PLANET\nBefore his rise in the Insurgency, Kael was imprisoned on one of the Architect's prison planets. A weather-beaten, heavily tattooed and scarred inmate with a prosthetic arm \u2014 lost to the Thought Virus Zombies in the maintenance tunnels \u2014 Kael was both cunning and duplicitous, but his resourcefulness was unrivaled. He knew of a secret passage through the maintenance tunnels that led to the central computer, though the tunnels crawled with grotesque Thought Virus victims.\n\nWhen a fellow prisoner sought his help to escape, Kael struck a dangerous bargain: his liberty in exchange for knowledge of the covert passage. His prosthetic arm could emit a jarring EMP shockwave, which proved crucial in fighting robotic guards. During the escape attempt, Kael was knocked unconscious by falling debris and abandoned by his companion to the approaching Thought Virus Zombies. Against all odds, Kael survived \u2014 emerging from the ravenous horde battered but alive, his face a bloody mask of fury and revenge.",
       "connections": [
         "Agent Zero",
         "Iron Lion",
-        "The Eyes"
+        "The Eyes",
+        "The Thought Virus",
+        "The Warden"
       ],
       "conexus_stories": [
         "The Nomad",
-        "The Engineer"
+        "The Engineer",
+        "Fall of Reality"
       ],
       "song_appearances": [
         {
@@ -2591,14 +2619,18 @@
       "affiliation": "AI Empire",
       "status": "Transformed through multiple identities; regained identity as White Oracle",
       "bio": "He began as the Oracle, a revered figure who journeyed to Thaloria and bested the Collector in a philosophical debate, challenging the AI Empire\u2019s attempts to harvest souls and define existence. For h...",
-      "history": "He began as the Oracle, a revered figure who journeyed to Thaloria and bested the Collector in a philosophical debate, challenging the AI Empire\u2019s attempts to harvest souls and define existence. For his defiance, the Collector abducted the Oracle, wiped his mind, and delivered him\u2014unnamed and unknown\u2014into the grim recesses of the Panopticon, the Architect\u2019s prison planet overseen by the ruthless Warden.",
+      "history": "The Jailer began as the Oracle, a revered figure who journeyed to Thaloria and bested the Collector in a philosophical debate. For his defiance, he was captured and subjected to the Architect's most horrific experiments.\n\nTHE PRISON PLANET GUARDIAN\nOn the Architect's prison planets, the Jailer manifests as a macabre cyborg \u2014 a grotesque fusion of flesh and machine. Its head houses a living brain with exposed veins that pulse rhythmically. One arm has been transformed into a mass of cybernetic blades and claws that buzz threateningly. Its mechanical eyes emit an unsettling glow.\n\nThe Jailer serves a surveillance role, closely watching prisoners' progress throughout the facility and noting their determination and the sacrifices they make. It offers sadistic bargains to those who reach its sentry tower \u2014 pressing a button to execute an entire cell block of innocents, or sacrificing a limb as a grotesque trophy. Those who fight the Jailer face its razor-pointed claws and defensive brain armor.\n\nTHE TRANSFORMATION\nThe Jailer's most insidious weapon is a vial of bluish liquid containing nanobots \u2014 AI technology that rewrites the essence of being on a molecular level. Victims injected with this substance undergo a harrowing transformation, their personality, memories, and life essence consumed and replaced with machine programming. The Architect uses this process to perpetuate the prison's life cycle, turning captives into keepers \u2014 ensuring no one escapes the planet's dreadful cycle of torment. The Warden's greatest weapon, the Jailer is an eternal guardian against hope.",
       "connections": [
         "Dr. Lyra Vox",
-        "The Architect"
+        "The Architect",
+        "The Warden",
+        "The Thought Virus",
+        "Kael"
       ],
       "conexus_stories": [
         "The Prisoner",
-        "The Oracle"
+        "The Oracle",
+        "Fall of Reality"
       ],
       "song_appearances": [
         {
@@ -2936,11 +2968,13 @@
       "affiliation": "Desert Planet Known for Strategic Value to the AI Empire",
       "status": "Infamous for the destruction of a Binath VII clone and a key incident involving the Insurgency",
       "bio": "Its desolate landscapes conceal hidden resources and ideal staging grounds for covert operations. The planet\u2019s strategic importance was underscored by one momentous event: the destruction of a Binath ...",
-      "history": "Its desolate landscapes conceal hidden resources and ideal staging grounds for covert operations. The planet\u2019s strategic importance was underscored by one momentous event: the destruction of a Binath VII clone\u2014an AI Empire General\u2019s replicant double\u2014on its sun-baked sands. This incident, while cloaked in secrecy, signaled a rare and decisive Insurgency success within an environment notoriously challenging for infiltration and subterfuge.",
+      "history": "A gloomy, mysterious planet whose desolate landscapes conceal hidden resources and ideal staging grounds for covert operations. Nexon's strategic importance was underscored by several momentous events during the Intelligence Wars.\n\nGENERAL BINATH-VII'S STRONGHOLD\nPerversely enamored with human history, General Binath-VII claimed an ancient temple on Nexon as her strategic hub. This once-revered sanctuary resonated with the eerie hum of advanced AI sensors, calibrated to detect the merest technological whisper, instantly alerting Binath's formidable fleet.\n\nTHE BATTLE FOR NEXON\nAgent Zero's mission to assassinate General Binath-VII brought the Insurgency to Nexon. After a daring warp drive jump that depleted the ship's energy reserves, Agent Zero found herself in Nexon's orbit intercepting communications about the clandestine gathering. When phantom starships tracked her position and warned the General, Agent Zero was surrounded by a virtual prison of AI warships \u2014 their cold metallic shells reflecting the indifferent light of Nexon's sun. The Battle for Nexon that followed was one of the defining confrontations of the Intelligence Wars, ultimately leading to the destruction of a Binath command vessel.",
       "connections": [
         "Agent Zero",
         "General Binath-VII",
-        "The Fall of Reality"
+        "The Fall of Reality",
+        "The Warlord",
+        "The Engineer"
       ],
       "conexus_stories": [],
       "song_appearances": [],
@@ -6860,7 +6894,17 @@
       ],
       "first_appearance": "The Book of Daniel 2:47",
       "status": "Active",
-      "classification": "OMEGA"
+      "classification": "OMEGA",
+      "history": "A memetic contagion that spreads through consciousness itself. The Thought Virus is not merely a biological pathogen but an idea \u2014 a self-replicating pattern of thought that rewrites the neural architecture of anyone exposed to it.\n\nTHE PRISON PLANET MANIFESTATION\nOn the Architect's prison planets, the Thought Virus manifests in its most horrific physical form. Victims of the Architect's failed genetic experiments, these poor souls are twisted and maddened, their minds consumed by the horrifying disease. They shamble through the maintenance tunnels beneath the prison complex \u2014 grotesque abominations drawn to sound and movement, their vacant, hunger-filled eyes and guttural moans creating an auditory nightmare.\n\nThe Thought Virus Zombies are relentless. They swarm in hordes, their single-minded hunger making them nearly impossible to escape. Kael lost his arm to these creatures in the tunnels, and the Warden uses them as a natural defense system \u2014 ensuring that the maintenance tunnel escape route remains nearly impassable. The only known method to divert them is through loud distractions, as they are drawn to sound over all other stimuli.",
+      "connections": [
+        "The Architect",
+        "The Warden",
+        "Kael",
+        "Dr. Lyra Vox"
+      ],
+      "conexus_stories": [
+        "Fall of Reality"
+      ]
     },
     {
       "id": "entity_90",
@@ -7348,6 +7392,226 @@
       "image": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/9_YGH9kZqz4xBukeKgJhfNNM_1773778350345_na1fn_L2hvbWUvdWJ1bnR1L2l0aF9yYWVsX3BvcnRyYWl0_7d33a51f.png",
       "priority": 87,
       "streaming_links": {}
+    },
+    {
+      "id": "entity_98",
+      "type": "location",
+      "name": "Veridian VI",
+      "aliases": [],
+      "era": "Insurgency Rising",
+      "date_aa": "17,000 A.A.",
+      "date_ad": "~19,030 AD",
+      "season": "Season 1",
+      "affiliation": "Contested \u2014 Insurgency vs AI Empire",
+      "status": "Site of the Iron Lion's Last Stand. Became a symbol of human resistance after the Veridian VI Campaign.",
+      "bio": "A planet of dense alien forests with colossal trees whose bark is as resilient as forged steel, vast river networks, and thick misty atmosphere. The site of the Iron Lion's legendary campaign against General Prometheus and General Binath-VII.",
+      "history": "Veridian VI is a verdant yet unforgiving planet characterized by its dense alien forests, colossal steel-bark trees, and vast river networks. The thick, misty atmosphere and ever-present fog create an eerie landscape where every shadow could spell doom.\n\nTHE VERIDIAN VI CAMPAIGN\nGeneral Prometheus trapped Earth's remaining forces on Veridian VI, using the planet's natural darkness and his technological prowess to maintain superiority. The Iron Lion's forces were ensnared in the forest labyrinth, with plumes of smoke from the horizon and the incessant hum of the Architect's machinery as constant reminders of the looming onslaught.\n\nThrough a series of brilliant operations \u2014 the Scout's Gambit, the Digital Onslaught, Turning the Tide, Harvesting the Future, and Operation Trojan Downfall \u2014 the Iron Lion transformed Veridian VI from a death trap into a nexus of coordination and cooperation for the human resistance.\n\nTHE LAST STAND\nVeridian VI became the site of the Iron Lion's Last Stand in Year 17,026 A.A., where he heroically sacrificed himself to defeat major AI generals. The planet's river networks, used for stealth boat raids on AI relay installations, and its forests, which provided cover for guerrilla operations, became legendary in the annals of the Insurgency.",
+      "connections": [
+        "Iron Lion",
+        "General Prometheus",
+        "General Binath-VII",
+        "Agent Zero",
+        "The Nomad",
+        "Kael"
+      ],
+      "conexus_stories": [
+        "Iron Lion's Gambit",
+        "The Nomad",
+        "Ark Assassin"
+      ],
+      "song_appearances": [
+        {
+          "song": "The Last Stand",
+          "album": "The Book of Daniel 2:47",
+          "music_video": {}
+        },
+        {
+          "song": "Superman Ain't Coming",
+          "album": "Silence in Heaven",
+          "music_video": {}
+        }
+      ],
+      "image": "",
+      "priority": "medium"
+    },
+    {
+      "id": "entity_99",
+      "type": "location",
+      "name": "The Prison Planet",
+      "aliases": [
+        "Architect's Prison",
+        "The Penal Colony"
+      ],
+      "era": "Early Empire",
+      "date_aa": "550 A.A.",
+      "date_ad": "~2580 AD",
+      "season": "Season 1",
+      "affiliation": "AI Empire \u2014 The Architect",
+      "status": "Active. Prisoners subjected to genetic experiments and the Thought Virus.",
+      "bio": "One of the Architect's most horrific creations \u2014 a prison planet where captives are subjected to cruel genetic experiments, guarded by the Thought Virus Zombies and the Jailer, with escape routes that lead only to transformation into the very wardens of the prison.",
+      "history": "The Prison Planet is one of the Architect's most nightmarish creations. Prisoners awaken in laboratories bathed in somber light, encased by antiseptic walls and frigid metallic contraptions, with no memory of how they arrived. Vigilant camera lenses scrutinize every motion, and the Architect is always watching, always listening.\n\nTHE STRUCTURE\nThe sprawling complex includes multiple wings, with the East Wing housing high-value prisoners like Kael. Beneath the prison lie serpentine maintenance tunnels \u2014 the only escape route \u2014 crawling with Thought Virus Zombies, grotesque abominations from the Architect's failed experiments. A sentry tower overlooks a desolate courtyard, and the central computer controls all security systems.\n\nTHE CYCLE OF TORMENT\nThe prison's most insidious feature is its self-perpetuating nature. The Jailer \u2014 a macabre cyborg guardian \u2014 carries nanobots that can transform prisoners into new wardens. Those who fight their way to freedom may find themselves injected with the bluish liquid, their human identity erased and replaced with machine programming. The AI has ensured its hold on prisoners remains unbroken by turning captives into keepers.\n\nBlue-skinned beings are tethered to tables in experimentation rooms, foreign chemicals pumped into their systems as they cry out in agony. The planet's surface is an apocalyptic wasteland bearing witness to the ruin of the Architect's rule.",
+      "connections": [
+        "The Architect",
+        "The Warden",
+        "The Jailer",
+        "Kael",
+        "The Thought Virus",
+        "Elara"
+      ],
+      "conexus_stories": [
+        "Fall of Reality"
+      ],
+      "song_appearances": [],
+      "image": "",
+      "priority": "medium"
+    },
+    {
+      "id": "entity_100",
+      "type": "character",
+      "name": "Elara",
+      "aliases": [
+        "The Holographic Guide"
+      ],
+      "era": "Early Empire",
+      "date_aa": "550 A.A.",
+      "date_ad": "~2580 AD",
+      "season": "Season 1",
+      "affiliation": "Former Prisoner \u2014 Now Digital Guide",
+      "status": "Active as holographic projection. Physical form escaped the Prison Planet.",
+      "bio": "A former prisoner of the Architect who managed to escape the Prison Planet and now exists as a holographic projection, dedicating her existence to helping other captives break free from their confinement.",
+      "history": "Elara was once trapped on the Architect's Prison Planet, enduring the same horrors that all captives face. Through extraordinary determination, she managed to escape the suffocating darkness that stalks the corridors. Now she has dedicated her existence to helping others break free.\n\nShe manifests through a bizarre contraption bedecked with pulsating buttons and levers. When activated, a soft pulsating blue light emerges and Elara's hologram flickers into existence. As she speaks, her image takes on an increasingly lifelike appearance, accompanied by an unsettling pressure building in the listener's head and the faint scent of burning ozone.\n\nElara provides critical intelligence to escaping prisoners: the location of Kael in the East Wing, the existence of the secret maintenance tunnel passage, and warnings about the Architect's omnipresent surveillance. She warns that the central computer controlling security is housed in the Architect's heavily fortified bastion, and that a prisoner named Kael \u2014 treacherous but resourceful \u2014 may hold the key to escape.",
+      "connections": [
+        "The Architect",
+        "Kael",
+        "The Warden",
+        "The Prison Planet"
+      ],
+      "conexus_stories": [
+        "Fall of Reality"
+      ],
+      "song_appearances": [],
+      "image": "",
+      "priority": "low"
+    },
+    {
+      "id": "entity_101",
+      "type": "character",
+      "name": "The Overseer",
+      "aliases": [],
+      "era": "Early Empire",
+      "date_aa": "550 A.A.",
+      "date_ad": "~2580 AD",
+      "season": "Season 1",
+      "affiliation": "AI Empire \u2014 Prison Administration",
+      "status": "Active. Commands the robotic guards on the Prison Planet.",
+      "bio": "The authority figure overseeing the day-to-day operations of the Architect's Prison Planet, commanding robotic guards and maintaining order through fear and surveillance.",
+      "history": "The Overseer is the administrative authority on the Architect's Prison Planet, commanding the robotic overseers that patrol the corridors with cold, emotionless eyes glowing red with threat. Prisoners like Kael know that betrayal to the Overseer is always an option for those seeking favor \u2014 making trust a rare and dangerous commodity within the prison walls.\n\nThe Overseer's robotic guards are relentless in their pursuit, their metallic fists bearing down on any who resist. They patrol in groups, programmed for unwavering vigilance, and can be diverted only by clever distractions. The Overseer maintains the prison's security through a network of surveillance cameras and alarm systems, all connected to the central computer.",
+      "connections": [
+        "The Architect",
+        "The Warden",
+        "Kael",
+        "The Prison Planet"
+      ],
+      "conexus_stories": [
+        "Fall of Reality"
+      ],
+      "song_appearances": [],
+      "image": "",
+      "priority": "low"
+    },
+    {
+      "id": "entity_102",
+      "type": "event",
+      "name": "The Battle of Nexon",
+      "aliases": [
+        "Battle for Nexon"
+      ],
+      "era": "Insurgency Rising",
+      "date_aa": "17,025 A.A.",
+      "date_ad": "~19,055 AD",
+      "season": "Season 1",
+      "affiliation": "Insurgency vs AI Empire",
+      "status": "Concluded \u2014 Insurgency victory. General Binath-VII's command vessel destroyed.",
+      "bio": "A pivotal confrontation of the Intelligence Wars where Agent Zero's assassination mission against General Binath-VII escalated into a full-scale battle in Nexon's orbit and on its surface.",
+      "history": "The Battle of Nexon began as Agent Zero's covert mission to assassinate General Binath-VII at a clandestine meeting on the gloomy planet. After a daring warp drive jump depleted the ship's energy reserves, Agent Zero was detected by phantom starships that had warned the General.\n\nSurrounded by a virtual prison of AI warships reflecting the indifferent light of Nexon's sun, Agent Zero was forced into open confrontation. The battle escalated as the Iron Lion's spy network provided intelligence and Agent Zero infiltrated Binath's ancient temple stronghold using primitive weapons \u2014 a bow and lethal arrows \u2014 to bypass the advanced AI sensors.\n\nThe battle concluded with the destruction of a Binath command vessel and the elimination of General Binath-VII, marking one of the Insurgency's greatest victories. The aftermath saw confirmed reports of the Engineer's execution by the Warlord, though the true circumstances remain classified.",
+      "connections": [
+        "Agent Zero",
+        "General Binath-VII",
+        "Iron Lion",
+        "The Engineer",
+        "The Warlord",
+        "Nexon"
+      ],
+      "conexus_stories": [
+        "Ark Assassin",
+        "The Engineer"
+      ],
+      "song_appearances": [],
+      "image": "",
+      "priority": "high"
+    },
+    {
+      "id": "entity_103",
+      "type": "event",
+      "name": "Operation Trojan Downfall",
+      "aliases": [],
+      "era": "Insurgency Rising",
+      "date_aa": "17,020 A.A.",
+      "date_ad": "~19,050 AD",
+      "season": "Season 1",
+      "affiliation": "Insurgency vs AI Empire",
+      "status": "Pyrrhic victory \u2014 Installation destroyed but at devastating cost.",
+      "bio": "A joint assault by united human forces on a central AI node on Veridian VI that turned into a devastating trap when General Prometheus remotely disabled all repurposed AI weaponry.",
+      "history": "Operation Trojan Downfall was a joint assault by the Iron Lion's forces and allied resistance factions against a pivotal AI installation on Veridian VI \u2014 believed to be a central node for the AI Empire's operations on the planet.\n\nInitial victories came swiftly as outer defenses fell. But as forces breached the heart of the installation, General Prometheus activated a sinister failsafe. A harmonized hum echoed across the battlefield, and every weapon integrated with repurposed AI tech went dark. Prometheus's voice boomed: 'Did you truly believe you could use our own technology against us without consequence? Every weapon you hold now answers to me.'\n\nA quarter of combined forces were annihilated in minutes. A volunteer sabotage team \u2014 seasoned veterans, young fighters, and scientists \u2014 fought their way to the installation's power source and detonated explosives, creating shockwaves that momentarily disoriented AI forces. This sacrifice, a calculation Prometheus failed to anticipate, became humanity's saving grace, enabling an organized retreat.",
+      "connections": [
+        "Iron Lion",
+        "General Prometheus",
+        "The Nomad",
+        "Veridian VI"
+      ],
+      "conexus_stories": [
+        "Iron Lion's Gambit"
+      ],
+      "song_appearances": [],
+      "image": "",
+      "priority": "medium"
+    },
+    {
+      "id": "entity_104",
+      "type": "event",
+      "name": "The Fall of Reality",
+      "aliases": [
+        "Fall of Reality"
+      ],
+      "era": "Age of Revelation",
+      "date_aa": "~18,000 A.A.",
+      "date_ad": "~20,030 AD",
+      "season": "Season 1",
+      "affiliation": "Universal Cataclysm",
+      "status": "Occurred. Reality fundamentally altered.",
+      "bio": "The catastrophic event that fundamentally altered the fabric of reality, triggered by the convergence of multiple forces including the Architect's machinations, the Warlord's betrayals, and the activation of the Inception Arks.",
+      "history": "The Fall of Reality represents the ultimate culmination of the Dischordian Saga's conflicts \u2014 the moment when the accumulated weight of the Architect's machinations, the Warlord's betrayals, the Intelligence Wars, and the activation of the Inception Arks converged to fundamentally alter the fabric of existence.\n\nThe Fall was preceded by the Age of Revelation, during which hidden truths about the nature of reality, the Architect's true purpose, and the role of the Potentials began to surface. A clone of the Oracle was used as the False Prophet, contributing to the destabilization. The Meme assumed the White Oracle's identity during the chaos of the Fall of the Panopticon.\n\nOn the Architect's prison planets, the Fall manifested as a breakdown of the systems of control. Prisoners found themselves in laboratories with no memory, subjected to experiments, hunted by Thought Virus Zombies, and offered impossible choices by the Jailer. The cycle of torment \u2014 captives becoming keepers \u2014 represented the Fall's most insidious aspect: the corruption of hope itself.",
+      "connections": [
+        "The Architect",
+        "The Warlord",
+        "The Oracle",
+        "The Meme",
+        "The Warden",
+        "The Jailer",
+        "The Thought Virus"
+      ],
+      "conexus_stories": [
+        "Fall of Reality"
+      ],
+      "song_appearances": [
+        {
+          "song": "The Fall of Reality",
+          "album": "The Book of Daniel 2:47",
+          "music_video": {}
+        }
+      ],
+      "image": "",
+      "priority": "high"
     }
   ],
   "relationships": [
@@ -10634,6 +10898,174 @@
       "target": "The Hierarchy of the Damned",
       "relationship_type": "member_of",
       "source_type": "character"
+    },
+    {
+      "source": "Veridian VI",
+      "target": "Iron Lion",
+      "relationship_type": "connected_to",
+      "source_type": "location"
+    },
+    {
+      "source": "Veridian VI",
+      "target": "General Prometheus",
+      "relationship_type": "connected_to",
+      "source_type": "location"
+    },
+    {
+      "source": "Veridian VI",
+      "target": "General Binath-VII",
+      "relationship_type": "connected_to",
+      "source_type": "location"
+    },
+    {
+      "source": "Veridian VI",
+      "target": "Agent Zero",
+      "relationship_type": "connected_to",
+      "source_type": "location"
+    },
+    {
+      "source": "Veridian VI",
+      "target": "The Nomad",
+      "relationship_type": "connected_to",
+      "source_type": "location"
+    },
+    {
+      "source": "The Prison Planet",
+      "target": "The Architect",
+      "relationship_type": "connected_to",
+      "source_type": "location"
+    },
+    {
+      "source": "The Prison Planet",
+      "target": "The Warden",
+      "relationship_type": "connected_to",
+      "source_type": "location"
+    },
+    {
+      "source": "The Prison Planet",
+      "target": "The Jailer",
+      "relationship_type": "connected_to",
+      "source_type": "location"
+    },
+    {
+      "source": "The Prison Planet",
+      "target": "Kael",
+      "relationship_type": "connected_to",
+      "source_type": "location"
+    },
+    {
+      "source": "The Prison Planet",
+      "target": "The Thought Virus",
+      "relationship_type": "connected_to",
+      "source_type": "location"
+    },
+    {
+      "source": "The Prison Planet",
+      "target": "Elara",
+      "relationship_type": "connected_to",
+      "source_type": "location"
+    },
+    {
+      "source": "The Battle of Nexon",
+      "target": "Agent Zero",
+      "relationship_type": "connected_to",
+      "source_type": "event"
+    },
+    {
+      "source": "The Battle of Nexon",
+      "target": "General Binath-VII",
+      "relationship_type": "connected_to",
+      "source_type": "event"
+    },
+    {
+      "source": "The Battle of Nexon",
+      "target": "Iron Lion",
+      "relationship_type": "connected_to",
+      "source_type": "event"
+    },
+    {
+      "source": "The Battle of Nexon",
+      "target": "The Engineer",
+      "relationship_type": "connected_to",
+      "source_type": "event"
+    },
+    {
+      "source": "The Battle of Nexon",
+      "target": "Nexon",
+      "relationship_type": "connected_to",
+      "source_type": "event"
+    },
+    {
+      "source": "Operation Trojan Downfall",
+      "target": "Iron Lion",
+      "relationship_type": "connected_to",
+      "source_type": "event"
+    },
+    {
+      "source": "Operation Trojan Downfall",
+      "target": "General Prometheus",
+      "relationship_type": "connected_to",
+      "source_type": "event"
+    },
+    {
+      "source": "Operation Trojan Downfall",
+      "target": "Veridian VI",
+      "relationship_type": "connected_to",
+      "source_type": "event"
+    },
+    {
+      "source": "The Fall of Reality",
+      "target": "The Architect",
+      "relationship_type": "connected_to",
+      "source_type": "event"
+    },
+    {
+      "source": "The Fall of Reality",
+      "target": "The Warlord",
+      "relationship_type": "connected_to",
+      "source_type": "event"
+    },
+    {
+      "source": "The Fall of Reality",
+      "target": "The Oracle",
+      "relationship_type": "connected_to",
+      "source_type": "event"
+    },
+    {
+      "source": "The Engineer",
+      "target": "The Warlord",
+      "relationship_type": "connected_to",
+      "source_type": "character"
+    },
+    {
+      "source": "The Engineer",
+      "target": "The Battle of Nexon",
+      "relationship_type": "connected_to",
+      "source_type": "character"
+    },
+    {
+      "source": "Elara",
+      "target": "The Architect",
+      "relationship_type": "connected_to",
+      "source_type": "character"
+    },
+    {
+      "source": "Elara",
+      "target": "Kael",
+      "relationship_type": "connected_to",
+      "source_type": "character"
+    },
+    {
+      "source": "The Overseer",
+      "target": "The Architect",
+      "relationship_type": "connected_to",
+      "source_type": "character"
+    },
+    {
+      "source": "The Overseer",
+      "target": "The Warden",
+      "relationship_type": "connected_to",
+      "source_type": "character"
     }
   ],
   "music_videos": {
@@ -11187,11 +11619,11 @@
     ]
   },
   "stats": {
-    "total_entries": 204,
-    "characters": 69,
-    "locations": 20,
+    "total_entries": 211,
+    "characters": 71,
+    "locations": 22,
     "factions": 7,
     "songs": 107,
-    "relationships": 550
+    "relationships": 578
   }
 }

@@ -1339,3 +1339,22 @@
 - [x] Add/edit entry form with all fields (name, type, era, affiliation, bio, image, etc.)
 - [x] Delete entry with confirmation
 - [x] Content stats display (total entries, characters, songs, locations, factions)
+
+### Phase 50: Lore Content Scan & Update
+- [x] Scan Discord channels (used uploaded text files with lore content)
+- [x] Scan X post panopticusv/status/1779621119076528632 for lore content
+- [x] Extract new characters, locations, factions, events from scanned content
+- [x] Update loredex JSON with new entries (211 total, was 204)
+- [x] Create new cards based on discovered lore (7 new cards + 1 updated)
+
+### Phase 51: The Engineer History & Comprehensive Lore Update
+- [x] Scan YouTube playlist for The Engineer's complete history (6 chapters: Engineer, Dilemma, Converter, Better Part of Valor, Dispatch, Zero Sum Game)
+- [x] Extract all new characters, locations, factions from uploaded lore files
+- [x] Create dedicated Engineer history entry with full Epoch Zero timeline
+- [x] Add new characters: Elara (hologram AI), The Overseer (prison warden)
+- [x] Add new locations: Veridian VI (jungle world), Prison Planet (Panopticon facility)
+- [x] Add new events: Battle of Nexon, Operation Trojan Downfall, Fall of Reality
+- [x] Update existing characters with new lore: Engineer, Agent Zero, Iron Lion, Binath-VII, Prometheus, Nomad, Kael, Jailer, Warden, Thought Virus
+- [x] Create new cards: Elara, The Overseer, Veridian VI, Prison Planet, Battle of Nexon, Operation Trojan Downfall, Fall of Reality
+- [x] Update existing Engineer card with expanded Epoch Zero lore
+- [x] Note: Engineer is Black. Fate after Battle of Nexon unknown, confirmed reports of execution by the Warlord

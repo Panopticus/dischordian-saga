@@ -1,0 +1,43 @@
+{
+  "query": "SELECT cardId, name, cardType, rarity, power, health, cost, abilityText, flavorText FROM cards WHERE cardType = 'event' LIMIT 3;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway04.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2T9erPMfbTpx4Y5.root --database 2quXz2C2n5hMfqc8hNVW3h --execute SELECT cardId, name, cardType, rarity, power, health, cost, abilityText, flavorText FROM cards WHERE cardType = 'event' LIMIT 3;",
+  "rows": [
+    {
+      "cardId": "song-lip-service-1059",
+      "name": "Lip Service",
+      "cardType": "event",
+      "rarity": "rare",
+      "power": "0",
+      "health": "0",
+      "cost": "4",
+      "abilityText": "Song Event: The Politician and The Authority engage in elaborate verbal sparring, each paying lip service to ideals they have long a",
+      "flavorText": "From the album \"The Book of Daniel 2:47\""
+    },
+    {
+      "cardId": "song-the-two-witnesses-1062",
+      "name": "The Two Witnesses",
+      "cardType": "event",
+      "rarity": "uncommon",
+      "power": "0",
+      "health": "0",
+      "cost": "3",
+      "abilityText": "Song Event: Based on Revelation 11, this track introduces two prophetic figures who testify against the empire. Their testimony trig",
+      "flavorText": "From the album \"Silence in Heaven\""
+    },
+    {
+      "cardId": "song-sixth-sense-1065",
+      "name": "Sixth Sense",
+      "cardType": "event",
+      "rarity": "epic",
+      "power": "0",
+      "health": "0",
+      "cost": "3",
+      "abilityText": "Song Event: The Seer and The Star Whisperer develop a perception beyond the five senses, one that can detect the Architect's manipul",
+      "flavorText": "From the album \"Silence in Heaven\""
+    }
+  ],
+  "messages": [],
+  "stdout": "cardId\tname\tcardType\trarity\tpower\thealth\tcost\tabilityText\tflavorText\nsong-lip-service-1059\tLip Service\tevent\trare\t0\t0\t4\tSong Event: The Politician and The Authority engage in elaborate verbal sparring, each paying lip service to ideals they have long a\tFrom the album \"The Book of Daniel 2:47\"\nsong-the-two-witnesses-1062\tThe Two Witnesses\tevent\tuncommon\t0\t0\t3\tSong Event: Based on Revelation 11, this track introduces two prophetic figures who testify against the empire. Their testimony trig\tFrom the album \"Silence in Heaven\"\nsong-sixth-sense-1065\tSixth Sense\tevent\tepic\t0\t0\t3\tSong Event: The Seer and The Star Whisperer develop a perception beyond the five senses, one that can detect the Architect's manipul\tFrom the album \"Silence in Heaven\"\n",
+  "stderr": "",
+  "execution_time_ms": 59
+}

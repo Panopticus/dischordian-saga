@@ -1,0 +1,31 @@
+{
+  "query": "SELECT cardId, name, cardType, rarity, loredexEntryId FROM cards WHERE name IN ('Elara', 'The Overseer', 'The Prison Planet', 'Veridian VI', 'The Battle of Nexon', 'Operation Trojan Downfall', 'The Fall of Reality') OR loredexEntryId IN ('entity_98', 'entity_99', 'entity_100', 'entity_101', 'entity_102', 'entity_103', 'entity_104');",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway04.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2T9erPMfbTpx4Y5.root --database 2quXz2C2n5hMfqc8hNVW3h --execute SELECT cardId, name, cardType, rarity, loredexEntryId FROM cards WHERE name IN ('Elara', 'The Overseer', 'The Prison Planet', 'Veridian VI', 'The Battle of Nexon', 'Operation Trojan Downfall', 'The Fall of Reality') OR loredexEntryId IN ('entity_98', 'entity_99', 'entity_100', 'entity_101', 'entity_102', 'entity_103', 'entity_104');",
+  "rows": [
+    {
+      "cardId": "song-the-fall-of-reality-1130",
+      "name": "The Fall of Reality",
+      "cardType": "event",
+      "rarity": "rare",
+      "loredexEntryId": "song_259"
+    },
+    {
+      "cardId": "evt-the-fall-of-reality-1262",
+      "name": "The Fall of Reality",
+      "cardType": "event",
+      "rarity": "mythic",
+      "loredexEntryId": "NULL"
+    },
+    {
+      "cardId": "s1_song_130",
+      "name": "The Fall of Reality",
+      "cardType": "song",
+      "rarity": "legendary",
+      "loredexEntryId": "song_259"
+    }
+  ],
+  "messages": [],
+  "stdout": "cardId\tname\tcardType\trarity\tloredexEntryId\nsong-the-fall-of-reality-1130\tThe Fall of Reality\tevent\trare\tsong_259\nevt-the-fall-of-reality-1262\tThe Fall of Reality\tevent\tmythic\tNULL\ns1_song_130\tThe Fall of Reality\tsong\tlegendary\tsong_259\n",
+  "stderr": "",
+  "execution_time_ms": 205
+}

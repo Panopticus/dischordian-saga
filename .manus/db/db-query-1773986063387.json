@@ -1,0 +1,9 @@
+{
+  "query": "UPDATE cards SET abilityText = 'Master Inventor: Once per turn, create a 2/2 Weapon Token. Betrayed Genius: If The Engineer would be destroyed, instead swap him with a random character in your hand (Mind Swap). Executed by Warlord: If The Warlord is in play, The Engineer gains -2/-2.', flavorText = '\"I built the weapons that won their wars. They repaid me with a firing squad.\"', era = 'Epoch Zero', loredexEntryId = 'entity_12' WHERE cardId = 's1_char_026';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway04.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2T9erPMfbTpx4Y5.root --database 2quXz2C2n5hMfqc8hNVW3h --execute UPDATE cards SET abilityText = 'Master Inventor: Once per turn, create a 2/2 Weapon Token. Betrayed Genius: If The Engineer would be destroyed, instead swap him with a random character in your hand (Mind Swap). Executed by Warlord: If The Warlord is in play, The Engineer gains -2/-2.', flavorText = '\"I built the weapons that won their wars. They repaid me with a firing squad.\"', era = 'Epoch Zero', loredexEntryId = 'entity_12' WHERE cardId = 's1_char_026';",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 74
+}

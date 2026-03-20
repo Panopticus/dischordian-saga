@@ -1,0 +1,25 @@
+{
+  "query": "SELECT MAX(id) as maxId FROM cards; SELECT cardId, name, cardType, rarity, power, health, cost FROM cards WHERE cardType = 'location' LIMIT 3;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway04.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2T9erPMfbTpx4Y5.root --database 2quXz2C2n5hMfqc8hNVW3h --execute SELECT MAX(id) as maxId FROM cards; SELECT cardId, name, cardType, rarity, power, health, cost FROM cards WHERE cardType = 'location' LIMIT 3;",
+  "rows": [
+    {
+      "maxId": "90010"
+    },
+    {
+      "maxId": "cardId\tname\tcardType\trarity\tpower\thealth\tcost"
+    },
+    {
+      "maxId": "loc-atarion-1148\tAtarion\tlocation\tepic\t0\t8\t5"
+    },
+    {
+      "maxId": "loc-nexon-1151\tNexon\tlocation\tepic\t0\t9\t4"
+    },
+    {
+      "maxId": "loc-thaloria-1154\tThaloria\tlocation\trare\t0\t10\t6"
+    }
+  ],
+  "messages": [],
+  "stdout": "maxId\n90010\ncardId\tname\tcardType\trarity\tpower\thealth\tcost\nloc-atarion-1148\tAtarion\tlocation\tepic\t0\t8\t5\nloc-nexon-1151\tNexon\tlocation\tepic\t0\t9\t4\nloc-thaloria-1154\tThaloria\tlocation\trare\t0\t10\t6\n",
+  "stderr": "",
+  "execution_time_ms": 73
+}
