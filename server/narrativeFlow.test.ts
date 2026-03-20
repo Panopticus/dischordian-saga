@@ -191,8 +191,8 @@ describe("QuestTracker Component", () => {
       expect(questTrackerSrc).toContain("right-3");
     });
 
-    it("should have appropriate z-index", () => {
-      expect(questTrackerSrc).toContain("z-[90]");
+    it("should have appropriate z-index (z-40, below dialog z-50)", () => {
+      expect(questTrackerSrc).toContain("z-40");
     });
   });
 });

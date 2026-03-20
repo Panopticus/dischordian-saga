@@ -458,6 +458,76 @@ export default function QuestRewardSystem() {
     }
   }, [chainCtx, state.claimedQuestRewards, state.characterCreated, isAuthenticated]);
 
+  // ═══ TRIPLE MASTERY REWARD MONITORING ═══
+  // Triggers when all 3 of a player's chains (class + alignment + species) are complete
+  const tripleMasteryProcessedRef = useRef(false);
+
+  useEffect(() => {
+    if (!state.characterCreated) return;
+    if (tripleMasteryProcessedRef.current) return;
+    if (state.claimedQuestRewards.includes("triple_mastery")) return;
+
+    const cc = state.characterChoices;
+    const classChainMap: Record<string, string> = {
+      engineer: "engineer_chain", oracle: "oracle_chain",
+      assassin: "assassin_chain", soldier: "soldier_chain", spy: "spy_chain",
+    };
+    const alignChainMap: Record<string, string> = {
+      order: "order_chain", chaos: "chaos_chain",
+    };
+    const speciesChainMap: Record<string, string> = {
+      demagi: "demagi_chain", quarchon: "quarchon_chain", neyon: "neyon_chain",
+    };
+
+    const classChain = classChainMap[cc.characterClass?.toLowerCase() || ""];
+    const alignChain = alignChainMap[cc.alignment?.toLowerCase() || ""];
+    const speciesChain = speciesChainMap[cc.species?.toLowerCase() || ""];
+
+    if (!classChain || !alignChain || !speciesChain) return;
+
+    const allThreeComplete =
+      !!state.narrativeFlags[`chain_${classChain}_complete`] &&
+      !!state.narrativeFlags[`chain_${alignChain}_complete`] &&
+      !!state.narrativeFlags[`chain_${speciesChain}_complete`];
+
+    if (!allThreeComplete) return;
+
+    tripleMasteryProcessedRef.current = true;
+
+    // 1. Claim the Triple Mastery reward
+    claimQuestReward("triple_mastery");
+
+    // 2. Set the narrative flag
+    setNarrativeFlag("triple_mastery_achieved");
+
+    // 3. Grant "The Nexus" card (ultimate reward card)
+    collectCard("the-nexus");
+
+    // 4. Award massive Dream Tokens + XP (server-side)
+    if (isAuthenticated) {
+      awardDream.mutate({
+        dreamTokens: 500,
+        soulBoundDream: 0,
+        dnaCode: 0,
+        xp: 500,
+      });
+    }
+
+    // 5. Award gamification points
+    gamification.findConnection(50);
+
+    // 6. Trigger legendary celebration overlay
+    setCelebration({
+      questTitle: "TRIPLE MASTERY — THE CONVERGENCE OF ALL PATHS",
+      dreamTokens: 500,
+      xp: 500,
+      points: 500,
+      cardReward: "the-nexus",
+      description: "All three quest chains mastered. Class, alignment, and species — unified. You have achieved OMEGA clearance. The Nexus card has been added to your collection.",
+      forceTier: "legendary",
+    });
+  }, [state.narrativeFlags, state.characterCreated, state.claimedQuestRewards, isAuthenticated]);
+
   const dismissNotification = useCallback((timestamp: number) => {
     setNotifications(prev => prev.filter(n => n.timestamp !== timestamp));
   }, []);

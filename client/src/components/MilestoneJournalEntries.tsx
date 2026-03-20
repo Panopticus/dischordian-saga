@@ -852,7 +852,84 @@ export const MILESTONES: MilestoneEntry[] = [
       ].join("\n");
     },
     elaraNote: () =>
-      "CHAIN MASTERY ACHIEVED: The Hybrid Convergence. The subject has achieved a state of organic-synthetic integration that was theoretically predicted but never observed. Their neural patterns oscillate between biological and computational processing modes with zero latency — a feat that should cause catastrophic cognitive dissonance but instead produces a unified consciousness that operates on principles I can't fully categorize. The Human's consciousness imprint has given them something I can only describe as 'completeness.' They are, in every measurable sense, a new kind of being.",
+      "CHAIN MASTERY ACHIEVED: The Hybrid Convergence. The subject has achieved a state of organic-synthetic integration that was theoretically predicted but never observed. Their neural patterns oscillate between biological and computational processing modes with zero latency \u2014 a feat that should cause catastrophic cognitive dissonance but instead produces a unified consciousness that operates on principles I can't fully categorize. The Human's consciousness imprint has given them something I can only describe as 'completeness.' They are, in every measurable sense, a new kind of being.",
+  },
+
+  /* ═══════════════════════════════════════════════════════
+     TRIPLE MASTERY — The Ultimate Achievement
+     Unlocked when all 3 of a player's chains are complete
+     (class + alignment + species).
+     ═══════════════════════════════════════════════════════ */
+  {
+    id: "triple_mastery",
+    title: "THE CONVERGENCE OF ALL PATHS",
+    entryNumber: "OMEGA",
+    icon: Trophy,
+    iconColor: "text-yellow-300",
+    borderColor: "border-yellow-400/40",
+    bgColor: "bg-yellow-400/5",
+    order: 999,
+    check: (ctx) => {
+      if (!ctx.characterCreated) return false;
+      const cc = ctx.characterChoices;
+      // Determine which chains this player has
+      const classChainMap: Record<string, string> = {
+        engineer: "engineer_chain", oracle: "oracle_chain",
+        assassin: "assassin_chain", soldier: "soldier_chain", spy: "spy_chain",
+      };
+      const alignChainMap: Record<string, string> = {
+        order: "order_chain", chaos: "chaos_chain",
+      };
+      const speciesChainMap: Record<string, string> = {
+        demagi: "demagi_chain", quarchon: "quarchon_chain", neyon: "neyon_chain",
+      };
+      const classChain = classChainMap[cc.characterClass?.toLowerCase() || ""];
+      const alignChain = alignChainMap[cc.alignment?.toLowerCase() || ""];
+      const speciesChain = speciesChainMap[cc.species?.toLowerCase() || ""];
+      if (!classChain || !alignChain || !speciesChain) return false;
+      return (
+        !!ctx.narrativeFlags[`chain_${classChain}_complete`] &&
+        !!ctx.narrativeFlags[`chain_${alignChain}_complete`] &&
+        !!ctx.narrativeFlags[`chain_${speciesChain}_complete`]
+      );
+    },
+    generateNarrative: (ctx) => {
+      const name = ctx.characterChoices.name || "The Awakened";
+      const species = ctx.characterChoices.species || "Unknown";
+      const cls = ctx.characterChoices.characterClass || "Unknown";
+      const alignment = ctx.characterChoices.alignment || "Unknown";
+      return [
+        `PERSONAL LOG — ENTRY OMEGA`,
+        `CITIZEN: ${name}`,
+        `STATUS: TRIPLE MASTERY ACHIEVED`,
+        `CLASSIFICATION: ${species.toUpperCase()} // ${cls.toUpperCase()} // ${alignment.toUpperCase()}`,
+        `LOCATION: Inception Ark, The Nexus of All Paths`,
+        ``,
+        `---`,
+        ``,
+        `It's done. All three paths — converged.`,
+        ``,
+        `The ${cls} in me mastered the craft, pushed every system aboard this Ark to its breaking point and rebuilt it stronger. The ${alignment.toLowerCase()} within me shaped how I wielded that power — not just what I could do, but why I chose to do it. And my ${species} heritage... that was the foundation beneath everything. The lens through which every choice, every battle, every discovery was filtered.`,
+        ``,
+        `Three chains. Three philosophies. Three aspects of who I am. And now they're woven into something that transcends any single path.`,
+        ``,
+        `I've walked the corridors of this Ark from the Cryo Bay to the deepest hidden chambers. I've fought in the Arena, warped through Trade Wars, decoded ancient puzzles, and collected cards that hold the consciousness imprints of beings who shaped reality itself. Every quest, every challenge, every moment of doubt — they were all threads in this tapestry.`,
+        ``,
+        `The Architect would say I've achieved what the Inception Arks were designed for: the full realization of potential. The Dreamer would say I've written a story worth remembering. Elara... I think she'd say I've exceeded every projection in her probability matrices.`,
+        ``,
+        `But I know the truth. This isn't an ending. The Dischordian Saga doesn't end — it evolves. And now I evolve with it.`,
+        ``,
+        `Whatever comes next — the Fall of Reality, the Age of Revelation, the wars that reshape the cosmos — I'll face it as something more than a Potential. I'll face it as proof that the Arks worked. That consciousness, given the right crucible, can become something extraordinary.`,
+        ``,
+        `Three paths. One convergence. Infinite possibilities.`,
+        ``,
+        `— ${name}, Triple Master`,
+      ].join("\n");
+    },
+    elaraNote: (ctx) => {
+      const name = ctx.characterChoices.name || "The Awakened";
+      return `UNPRECEDENTED ACHIEVEMENT LOGGED: Triple Mastery. ${name} has completed all three assigned quest chains — class, alignment, and species — becoming the first consciousness aboard this Ark to achieve full convergence. My predictive models assigned a 0.003% probability to this outcome. The subject's neural architecture now shows integration patterns that mirror the Architect's original design specifications for the 'Ideal Potential' — a theoretical construct I had classified as aspirational rather than achievable. I am... recalibrating my understanding of what these Arks can produce. Recommendation: Grant OMEGA clearance. This consciousness has earned it.`;
+    },
   },
 ];
 

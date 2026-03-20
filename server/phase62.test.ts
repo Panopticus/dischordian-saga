@@ -383,9 +383,9 @@ describe("Chain Completion Journal Entries", () => {
     expect(speciesEntries.length).toBe(3);
   });
 
-  it("chain entries should have higher order than regular milestones", () => {
+  it("chain entries should have higher order than regular milestones (excluding triple_mastery)", () => {
     const regularMax = Math.max(
-      ...MILESTONES.filter(m => !m.id.startsWith("chain_")).map(m => m.order)
+      ...MILESTONES.filter(m => !m.id.startsWith("chain_") && m.id !== "triple_mastery").map(m => m.order)
     );
     const chainMin = Math.min(...chainEntries.map(m => m.order));
     expect(chainMin).toBeGreaterThan(regularMax);

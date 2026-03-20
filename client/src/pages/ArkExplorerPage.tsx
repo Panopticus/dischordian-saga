@@ -374,6 +374,14 @@ export default function ArkExplorerPage() {
   useGameAreaBGM("ark");
   const [, navigate] = useLocation();
   const [elaraText, setElaraText] = useState<string | null>(null);
+
+  // Dispatch dialog-active events for QuestTracker auto-minimize
+  useEffect(() => {
+    if (elaraText) {
+      window.dispatchEvent(new CustomEvent("elara-dialog", { detail: { active: true } }));
+    }
+  }, [elaraText]);
+
   const [showMap, setShowMap] = useState(false);
   const [puzzleRoomId, setPuzzleRoomId] = useState<string | null>(null);
   const [solvedPuzzles, setSolvedPuzzles] = useState<Set<string>>(() => {
@@ -441,6 +449,15 @@ export default function ArkExplorerPage() {
       }
     }
   }, [state.currentRoomId, state.characterCreated, state.rooms]);
+
+  // Dispatch dialog-active event for QuestTracker auto-minimize during orientation
+  useEffect(() => {
+    if (showCryoOrientation) {
+      window.dispatchEvent(new CustomEvent("elara-dialog", { detail: { active: true } }));
+    } else {
+      window.dispatchEvent(new CustomEvent("elara-dialog", { detail: { active: false } }));
+    }
+  }, [showCryoOrientation]);
 
   // Typewriter for orientation
   useEffect(() => {
@@ -981,6 +998,7 @@ export default function ArkExplorerPage() {
       <AnimatePresence>
         {elaraText && (
           <ElaraPopup text={elaraText} onClose={() => {
+            window.dispatchEvent(new CustomEvent("elara-dialog", { detail: { active: false } }));
             setElaraText(null);
             if (audioReady) playSFX("dialog_close");
           }} />

@@ -226,6 +226,7 @@ export interface CelebrationData {
   points: number;
   cardReward?: string;
   description: string;
+  forceTier?: "standard" | "major" | "legendary";
 }
 
 export function determineTier(dreamTokens: number): "standard" | "major" | "legendary" {
@@ -243,7 +244,7 @@ export default function RewardCelebration({
 }) {
   const [phase, setPhase] = useState<"flash" | "particles" | "reveal" | "done">("flash");
 
-  const tier = useMemo(() => data ? determineTier(data.dreamTokens) : "standard", [data]);
+  const tier = useMemo(() => data ? (data.forceTier || determineTier(data.dreamTokens)) : "standard", [data]);
   const particles = useMemo(
     () => data ? generateParticles(tier === "legendary" ? 60 : tier === "major" ? 40 : 25, tier) : [],
     [data, tier]

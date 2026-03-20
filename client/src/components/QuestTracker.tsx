@@ -164,6 +164,31 @@ const QUESTS: Quest[] = [
       hint: "Use the Research Minigame and Lore Quiz to discover more entries.",
     }),
   },
+  // ═══ ULTIMATE QUEST ═══
+  {
+    id: "triple_mastery",
+    title: "TRIPLE MASTERY",
+    description: "Complete all three of your quest chains: class, alignment, and species.",
+    icon: Trophy,
+    category: "main",
+    order: 99,
+    reward: "500 Dream Tokens + The Nexus Card + OMEGA Clearance",
+    check: (s) => {
+      // Count how many of the player's 3 chain types are complete
+      const chainFlags = Object.keys(s.narrativeFlags).filter(f => f.startsWith("chain_") && f.endsWith("_complete"));
+      const count = chainFlags.length;
+      return {
+        complete: count >= 3,
+        progress: Math.min(count, 3),
+        max: 3,
+        hint: count === 0
+          ? "Complete your class, alignment, and species quest chains."
+          : count === 1
+          ? "1 chain mastered. 2 more to go."
+          : "2 chains mastered. One final chain remains.",
+      };
+    },
+  },
 ];
 
 /* ─── QUEST TRACKER COMPONENT ─── */
@@ -175,6 +200,62 @@ export default function QuestTracker() {
   const [dismissed, setDismissed] = useState(false);
   const [newQuestFlash, setNewQuestFlash] = useState(false);
   const [lastActiveQuestId, setLastActiveQuestId] = useState<string | null>(null);
+  const [dialogSuppressed, setDialogSuppressed] = useState(false);
+  const [wasExpandedBeforeDialog, setWasExpandedBeforeDialog] = useState(false);
+  const [swipeY, setSwipeY] = useState(0);
+  const [swipeStartY, setSwipeStartY] = useState<number | null>(null);
+  const [isSwiping, setIsSwiping] = useState(false);
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setSwipeStartY(e.touches[0].clientY);
+    setIsSwiping(false);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (swipeStartY === null) return;
+    const deltaY = e.touches[0].clientY - swipeStartY;
+    // Only track downward swipes
+    if (deltaY > 10) {
+      setIsSwiping(true);
+      setSwipeY(Math.min(deltaY, 200));
+    }
+  };
+
+  const handleTouchEnd = () => {
+    if (swipeY > 80) {
+      // Threshold reached — minimize
+      setMinimized(true);
+    }
+    setSwipeY(0);
+    setSwipeStartY(null);
+    setIsSwiping(false);
+  };
+
+  // Auto-minimize when Elara dialog is active, restore when it closes
+  useEffect(() => {
+    const handleDialog = (e: Event) => {
+      const detail = (e as CustomEvent).detail;
+      if (detail?.active) {
+        // Dialog opened — minimize if currently expanded
+        if (!minimized) {
+          setWasExpandedBeforeDialog(true);
+          setDialogSuppressed(true);
+          setMinimized(true);
+        }
+      } else {
+        // Dialog closed — restore if we suppressed it
+        if (dialogSuppressed) {
+          setDialogSuppressed(false);
+          if (wasExpandedBeforeDialog) {
+            setMinimized(false);
+            setWasExpandedBeforeDialog(false);
+          }
+        }
+      }
+    };
+    window.addEventListener("elara-dialog", handleDialog);
+    return () => window.removeEventListener("elara-dialog", handleDialog);
+  }, [minimized, dialogSuppressed, wasExpandedBeforeDialog]);
 
   // Build check state
   const checkState = useMemo<QuestCheckState>(() => ({
@@ -254,16 +335,24 @@ export default function QuestTracker() {
           <motion.div
             key="expanded"
             initial={{ opacity: 0, y: 20, scale: 0.95 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
+            animate={{ opacity: 1, y: swipeY, scale: 1 - swipeY * 0.001 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
             className="w-72 rounded-lg border overflow-hidden max-h-[60vh] sm:max-h-[70vh] overflow-y-auto"
             style={{
               background: "rgba(0,0,0,0.9)",
               borderColor: newQuestFlash ? "rgba(255,183,77,0.4)" : "rgba(51,226,230,0.2)",
               boxShadow: newQuestFlash ? "0 0 25px rgba(255,183,77,0.15)" : "0 0 15px rgba(51,226,230,0.05)",
               backdropFilter: "blur(12px)",
+              ...(isSwiping ? { opacity: 1 - swipeY / 250, transition: 'none' } : {}),
             }}
           >
+            {/* Swipe indicator for mobile */}
+            <div className="sm:hidden flex justify-center pt-1.5 pb-0.5">
+              <div className="w-8 h-1 rounded-full bg-white/15" />
+            </div>
             {/* Header */}
             <div className="flex items-center justify-between px-3 py-2 border-b border-white/5">
               <div className="flex items-center gap-2">

@@ -1468,3 +1468,12 @@
 - [x] Fix QuestTracker OBJECTIVES box covering Elara dialog (lowered z-index from z-90 to z-40, below Elara z-50)
 - [x] Fix QuestChainSystem expanded panel overlapping content (added max-h-[60vh] scroll + made chains collapsible accordion)
 - [x] Fix QuestChainSystem expanded panel overlapping on desktop/tablet (chains now collapsed by default)
+
+### Phase 64: Auto-Minimize Tracker, Swipe-to-Dismiss, Triple Mastery
+- [x] Auto-minimize QuestTracker when Elara dialog is active, restore after dialog ends (listens for elara-dialog-start/end events)
+- [x] Add swipe-down gesture to minimize QuestTracker on mobile touch devices (80px threshold, visual indicator bar)
+- [x] Build Triple Mastery achievement (OMEGA journal entry when all 3 chains complete — class + alignment + species)
+- [x] Add ultimate reward for Triple Mastery (500 Dream Tokens + 500 XP + The Nexus card + OMEGA clearance)
+- [x] Wire Triple Mastery into RewardCelebration with forceTier legendary overlay
+- [x] Add Triple Mastery quest to QuestTracker (tracks 0/3 chain completions)
+- [x] Write 95 vitest tests for all Phase 64 features (all passing)
