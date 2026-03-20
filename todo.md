@@ -1635,3 +1635,9 @@
 - [x] Fix light/dark mode toggle - ensure theme switching works correctly
 - [x] Ensure all pages render properly in both light and dark modes
 - [x] Fix any invisible text or mismatched bg/text color pairs
+
+### Phase 68g: Card & Quest UI Bug Fixes
+- [x] Fix starter deck cards getting cut off on right side (name/rarity text overlapping)
+- [x] Fix expanded card modal cropping art at the top
+- [x] Fix quest/objectives boxes stacking messily over Elara companion UI
+- [x] Fix quest complete notifications piling up and overlapping

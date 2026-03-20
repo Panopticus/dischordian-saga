@@ -104,7 +104,7 @@ interface RewardNotification {
 
 function RewardToast({ notification, onDismiss }: { notification: RewardNotification; onDismiss: () => void }) {
   useEffect(() => {
-    const timer = setTimeout(onDismiss, 6000);
+    const timer = setTimeout(onDismiss, 4000);
     return () => clearTimeout(timer);
   }, [onDismiss]);
 
@@ -116,7 +116,7 @@ function RewardToast({ notification, onDismiss }: { notification: RewardNotifica
       animate={{ opacity: 1, y: 0, scale: 1 }}
       exit={{ opacity: 0, y: -20, scale: 0.95 }}
       transition={{ type: "spring", stiffness: 300, damping: 25 }}
-      className="pointer-events-auto w-[320px] sm:w-[360px] rounded-xl overflow-hidden"
+      className="pointer-events-auto w-full max-w-[320px] sm:max-w-[360px] rounded-xl overflow-hidden"
       style={{
         background: "linear-gradient(135deg, rgba(1,0,32,0.98) 0%, rgba(10,12,43,0.98) 100%)",
         border: "1px solid rgba(255,183,77,0.4)",
@@ -536,11 +536,11 @@ export default function QuestRewardSystem() {
 
   return (
     <>
-      {/* Standard reward toasts */}
+      {/* Standard reward toasts — stacked from top, max 2 visible */}
       {notifications.length > 0 && (
-        <div className="fixed bottom-24 sm:bottom-20 left-3 sm:left-6 z-[95] pointer-events-none flex flex-col gap-2">
+        <div className="fixed top-16 left-3 sm:left-6 z-[95] pointer-events-none flex flex-col gap-2 max-w-[calc(100vw-24px)] sm:max-w-none">
           <AnimatePresence>
-            {notifications.slice(-3).map(notification => (
+            {notifications.slice(-2).map(notification => (
               <RewardToast
                 key={notification.timestamp}
                 notification={notification}

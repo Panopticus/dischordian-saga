@@ -306,7 +306,7 @@ export default function QuestTracker() {
   const Icon = activeQuest?.quest.icon || Target;
 
   return (
-    <div className="fixed bottom-20 sm:bottom-6 right-3 sm:right-6 z-40">
+    <div className="fixed bottom-20 sm:bottom-6 left-3 sm:left-auto sm:right-6 right-auto z-40 max-w-[calc(100vw-80px)] sm:max-w-none">
       <AnimatePresence mode="wait">
         {minimized ? (
           /* ─── MINIMIZED: Just a small icon button ─── */

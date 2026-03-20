@@ -267,17 +267,16 @@ function CardDisplay({ card, index, isActive, onClick }: {
       style={{ perspective: "1000px" }}
     >
       <div
-        className="relative rounded-lg overflow-hidden"
+        className="relative rounded-lg overflow-hidden w-full"
         style={{
           border: `2px solid ${colors.border}`,
           boxShadow: isActive ? `0 0 30px ${colors.glow}, 0 10px 40px rgba(0,0,0,0.5)` : `0 0 10px ${colors.glow}`,
           background: "linear-gradient(135deg, rgba(1,0,32,0.98) 0%, rgba(10,12,43,0.98) 100%)",
-          width: "180px",
           minHeight: "260px",
         }}
       >
         {/* Card image */}
-        <div className="relative h-28 overflow-hidden">
+        <div className="relative h-32 overflow-hidden">
           <img
             src={card.imageUrl}
             alt={card.name}
@@ -298,9 +297,9 @@ function CardDisplay({ card, index, isActive, onClick }: {
           </div>
           {/* Rarity indicator */}
           <div
-            className="absolute top-1.5 left-1.5 px-1.5 py-0.5 rounded font-mono text-[7px] tracking-wider uppercase"
+            className="absolute top-1.5 left-1.5 px-1.5 py-0.5 rounded font-mono text-[7px] tracking-wider uppercase max-w-[60%] truncate"
             style={{
-              background: colors.bg,
+              background: "rgba(1,0,32,0.85)",
               border: `1px solid ${colors.border}`,
               color: colors.text,
             }}
@@ -311,9 +310,9 @@ function CardDisplay({ card, index, isActive, onClick }: {
 
         {/* Card info */}
         <div className="p-2.5">
-          <div className="flex items-center gap-1.5 mb-1">
-            <TypeIcon size={10} style={{ color: colors.text }} />
-            <p className="font-display text-[11px] font-bold tracking-wide text-foreground truncate">{card.name}</p>
+          <div className="flex items-center gap-1.5 mb-1 min-w-0">
+            <TypeIcon size={10} className="flex-shrink-0" style={{ color: colors.text }} />
+            <p className="font-display text-[11px] font-bold tracking-wide text-foreground truncate min-w-0">{card.name}</p>
           </div>
           <p className="font-mono text-[8px] text-muted-foreground/60 uppercase tracking-wider mb-2">{card.type}</p>
 
@@ -375,9 +374,9 @@ function CardDetailModal({ card, onClose }: { card: StarterCard; onClose: () => 
         </button>
 
         {/* Large card image */}
-        <div className="relative h-56 overflow-hidden">
-          <img src={card.imageUrl} alt={card.name} className="w-full h-full object-cover" />
-          <div className="absolute inset-0 bg-gradient-to-t from-[rgba(1,0,32,1)] via-[rgba(1,0,32,0.3)] to-transparent" />
+        <div className="relative overflow-hidden" style={{ minHeight: "220px", maxHeight: "300px" }}>
+          <img src={card.imageUrl} alt={card.name} className="w-full h-auto object-contain" style={{ maxHeight: "300px" }} />
+          <div className="absolute inset-0 bg-gradient-to-t from-[rgba(1,0,32,1)] via-[rgba(1,0,32,0.2)] to-transparent" />
           <div className="absolute bottom-3 left-4 right-4">
             <div className="flex items-center gap-2 mb-1">
               <TypeIcon size={14} style={{ color: colors.text }} />
@@ -560,7 +559,7 @@ export default function StarterDeckViewer({
                 }}
               >
                 {cards.map((card, i) => (
-                  <div key={card.id} className="snap-center flex-shrink-0" style={{ width: "min(240px, 70vw)" }}>
+                  <div key={card.id} className="snap-center flex-shrink-0" style={{ width: "min(200px, 55vw)" }}>
                     <CardDisplay
                       card={card}
                       index={i}
