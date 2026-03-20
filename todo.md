@@ -1463,3 +1463,8 @@
 - [x] Wire room unlocks to chain completion narrative flags
 - [x] Add rich Elara dialog, hotspots, and Easter eggs to all 10 rooms
 - [x] Write 46 vitest tests for all Phase 63 features (all passing)
+
+### Bug Fix: QuestTracker/QuestChainSystem Overlap
+- [x] Fix QuestTracker OBJECTIVES box covering Elara dialog (lowered z-index from z-90 to z-40, below Elara z-50)
+- [x] Fix QuestChainSystem expanded panel overlapping content (added max-h-[60vh] scroll + made chains collapsible accordion)
+- [x] Fix QuestChainSystem expanded panel overlapping on desktop/tablet (chains now collapsed by default)

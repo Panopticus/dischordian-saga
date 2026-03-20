@@ -225,7 +225,7 @@ export default function QuestTracker() {
   const Icon = activeQuest?.quest.icon || Target;
 
   return (
-    <div className="fixed bottom-20 sm:bottom-6 right-3 sm:right-6 z-[90]">
+    <div className="fixed bottom-20 sm:bottom-6 right-3 sm:right-6 z-40">
       <AnimatePresence mode="wait">
         {minimized ? (
           /* ─── MINIMIZED: Just a small icon button ─── */
@@ -256,7 +256,7 @@ export default function QuestTracker() {
             initial={{ opacity: 0, y: 20, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
-            className="w-72 rounded-lg border overflow-hidden"
+            className="w-72 rounded-lg border overflow-hidden max-h-[60vh] sm:max-h-[70vh] overflow-y-auto"
             style={{
               background: "rgba(0,0,0,0.9)",
               borderColor: newQuestFlash ? "rgba(255,183,77,0.4)" : "rgba(51,226,230,0.2)",
@@ -388,15 +388,45 @@ export default function QuestTracker() {
               <CompletedQuestsSummary quests={questStates.filter(q => q.complete)} />
             )}
 
-            {/* Quest Chains Section */}
-            <div className="border-t border-white/5">
-              <div className="px-3 py-2">
-                <div className="flex items-center gap-1.5 mb-2">
-                  <Link2 size={10} className="text-purple-400" />
-                  <span className="font-display text-[8px] tracking-[0.2em] text-purple-400/70">QUEST CHAINS</span>
-                </div>
-                <QuestChainSystem />
-              </div>
+            {/* Quest Chains Section — collapsible */}
+            <QuestChainsAccordion />
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
+
+/* ─── QUEST CHAINS ACCORDION ─── */
+function QuestChainsAccordion() {
+  const [expanded, setExpanded] = useState(false);
+
+  return (
+    <div className="border-t border-white/5">
+      <button
+        onClick={() => setExpanded(!expanded)}
+        className="w-full flex items-center justify-between px-3 py-1.5 hover:bg-white/3 transition-colors"
+      >
+        <div className="flex items-center gap-1.5">
+          <Link2 size={10} className="text-purple-400" />
+          <span className="font-display text-[8px] tracking-[0.2em] text-purple-400/70">QUEST CHAINS</span>
+        </div>
+        {expanded ? (
+          <ChevronUp size={10} className="text-purple-400/40" />
+        ) : (
+          <ChevronDown size={10} className="text-purple-400/40" />
+        )}
+      </button>
+      <AnimatePresence>
+        {expanded && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            className="overflow-hidden"
+          >
+            <div className="px-3 pb-2">
+              <QuestChainSystem />
             </div>
           </motion.div>
         )}
