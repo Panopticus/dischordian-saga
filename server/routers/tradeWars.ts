@@ -270,6 +270,7 @@ export const tradeWarsRouter = router({
       commodity: z.enum(["fuelOre", "organics", "equipment"]),
       action: z.enum(["buy", "sell"]),
       quantity: z.number().min(1).max(9999),
+      factionReputation: z.record(z.string(), z.number()).optional(),
     }))
     .mutation(async ({ ctx, input }) => {
       const db = await getDb();
@@ -294,8 +295,36 @@ export const tradeWarsRouter = router({
       const commodity = portData.commodities[input.commodity];
       if (!commodity) return { success: false, message: `Port doesn't trade ${input.commodity}` };
       
-      const price = commodity.price;
+      let price = commodity.price;
       const cargoUsed = getCargoUsed(player);
+      
+      // ═══ DIPLOMACY PRICE MODIFIERS ═══
+      // Faction reputation from diplomacy choices affects trade prices
+      if (input.factionReputation) {
+        const rep = input.factionReputation;
+        const isEmpirePort = player.currentSector % 2 === 0;
+        const empireRep = rep.empire || 0;
+        const insurgencyRep = rep.insurgency || 0;
+        const independentRep = rep.independent || 0;
+        const pirateRep = rep.pirate || 0;
+        
+        // Faction alignment discount: up to 15% off at aligned ports
+        let factionDiscount = 0;
+        if (isEmpirePort) {
+          factionDiscount = Math.min(0.15, Math.max(0, empireRep) * 0.003);
+          factionDiscount -= Math.min(0.10, Math.max(0, -insurgencyRep) * 0.002);
+        } else {
+          factionDiscount = Math.min(0.15, Math.max(0, insurgencyRep) * 0.003);
+          factionDiscount -= Math.min(0.10, Math.max(0, -empireRep) * 0.002);
+        }
+        // Independent reputation gives universal small bonus
+        factionDiscount += Math.min(0.05, Math.max(0, independentRep) * 0.001);
+        // Pirate reputation: better black market prices
+        if (pirateRep > 20) factionDiscount += 0.03;
+        if (pirateRep < -20) factionDiscount -= 0.02;
+        
+        price = Math.max(1, Math.floor(price * (1 - factionDiscount)));
+      }
       
       if (input.action === "buy") {
         // Port must be selling (not buying) this commodity

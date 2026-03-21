@@ -153,10 +153,22 @@ export default function FightArena3D({ player, opponent, arena, difficulty, onMa
               break;
             }
             case "ko":
-              announce("K.O.!", "#ef4444", 2000);
+              announce("K.O.!", "#ef4444", 2500);
               sound.play("ko");
               sound.announce("K O!");
               hapticForEvent("ko");
+              setMatchEnded(true);
+              // KO slow-mo screen flash effect
+              if (containerRef.current) {
+                containerRef.current.style.transition = "filter 0.3s ease";
+                containerRef.current.style.filter = "brightness(2) saturate(0.3)";
+                setTimeout(() => {
+                  if (containerRef.current) {
+                    containerRef.current.style.transition = "filter 1.5s ease";
+                    containerRef.current.style.filter = "brightness(1) saturate(1)";
+                  }
+                }, 400);
+              }
               break;
             case "match_end": {
               const finalState = engine.getState();
@@ -841,7 +853,7 @@ export default function FightArena3D({ player, opponent, arena, difficulty, onMa
                   letterSpacing: "0.3em", marginBottom: "0.2vh",
                   textShadow: "0 1px 4px rgba(0,0,0,0.8)",
                 }}>
-                  {comboDisplay.count >= 5 ? "DEVASTATING" : comboDisplay.count >= 4 ? "BRUTAL" : "IMPRESSIVE"}
+                  {comboDisplay.count >= 7 ? "UNSTOPPABLE" : comboDisplay.count >= 6 ? "LEGENDARY" : comboDisplay.count >= 5 ? "DEVASTATING" : comboDisplay.count >= 4 ? "BRUTAL" : "IMPRESSIVE"}
                 </div>
               )}
               <div style={{

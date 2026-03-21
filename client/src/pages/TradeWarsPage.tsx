@@ -9,6 +9,8 @@ import { useAuth } from "@/_core/hooks/useAuth";
 import { getLoginUrl } from "@/const";
 import { Link } from "wouter";
 import GalaxyMap from "@/components/GalaxyMap";
+import { DIPLOMACY_EVENTS } from "@/data/companionData";
+import { WarpTransition } from "@/components/BattleVFX";
 
 // ═══════════════════════════════════════════════════════
 // NARRATIVE & LORE CONSTANTS
@@ -299,6 +301,10 @@ TECHNOLOGY (Research)
   research <tech_id> — Unlock technology
   relics — View discovered relics
 
+DIPLOMACY
+  diplo — View diplomacy status & rep
+  diplo <id> <#> — Respond to event
+  rep — View faction reputation
 INFO & META
   status — Ship & player status
   log — Recent action history
@@ -597,7 +603,7 @@ function colorClass(type: TermLine["type"]): string {
 export default function TradeWarsPage() {
   const { user, isAuthenticated, loading: authLoading } = useAuth();
   useGameAreaBGM("trade_nav");
-  const { setNarrativeFlag, addMaterial } = useGame();
+  const { state: gameState, setNarrativeFlag, addMaterial, completeDiplomacyEvent } = useGame();
 
   // Helper to grant material drops and show toast
   const grantMaterialDrops = useCallback((drops: LootDrop[], source: string) => {
@@ -623,6 +629,7 @@ export default function TradeWarsPage() {
   const termRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const [showGalaxyMap, setShowGalaxyMap] = useState(false);
+  const [showWarpTransition, setShowWarpTransition] = useState(false);
 
   // tRPC queries/mutations
   const stateQuery = trpc.tradeWars.getState.useQuery(undefined, {
@@ -1074,6 +1081,7 @@ export default function TradeWarsPage() {
             break;
           }
           addLine(`Engaging warp drive to sector ${arg1}...`, "system");
+          setShowWarpTransition(true);
           const result = await warpMut.mutateAsync({ targetSector: Number(arg1) });
           if (result.success) {
             setNarrativeFlag("trade_wars_warped");
@@ -1142,6 +1150,36 @@ export default function TradeWarsPage() {
               if (event.loreEntityId) {
                 addLine("", "output");
                 addLine(`>> NEW LOREDEX ENTRY: ${event.loreEntityId.replace(/-/g, " ").toUpperCase()} <<`, "warning");
+              }
+            }
+
+            // ═══ DIPLOMACY ENCOUNTER CHECK ═══
+            // 20% chance to trigger an unresolved diplomacy event on warp
+            if (Math.random() < 0.20) {
+              const state = await utils.tradeWars.getState.fetch();
+              const playerLevel = Math.floor((state?.experience || 0) / 100) + 1;
+              const availableEvents = DIPLOMACY_EVENTS.filter(
+                e => !gameState.completedDiplomacyEvents.includes(e.id) && e.minLevel <= playerLevel
+              );
+              if (availableEvents.length > 0) {
+                const event = availableEvents[Math.floor(Math.random() * availableEvents.length)];
+                addLine("", "output");
+                addLine("╔══════════════════════════════════════════════════════════════╗", "warning");
+                addLine(`║  ⚖ DIPLOMACY EVENT: ${event.title.toUpperCase()}`, "warning");
+                addLine("╠══════════════════════════════════════════════════════════════╣", "warning");
+                addLine(`║  ${event.description}`, "output");
+                addLine(`║  Theme: ${event.theme}`, "system");
+                addLine("╠══════════════════════════════════════════════════════════════╣", "warning");
+                event.choices.forEach((choice, i) => {
+                  addLine(`║  [${i + 1}] ${choice.text}`, "info");
+                  const repChanges = Object.entries(choice.reputationDelta)
+                    .map(([f, d]) => `${f}: ${(d as number) > 0 ? "+" : ""}${d}`)
+                    .join(", ");
+                  addLine(`║      Morality: ${choice.moralityDelta > 0 ? "+" : ""}${choice.moralityDelta} | Rep: ${repChanges}`, "system");
+                });
+                addLine("╠══════════════════════════════════════════════════════════════╣", "warning");
+                addLine(`║  Type 'diplo ${event.id} <choice#>' to respond`, "info");
+                addLine("╚══════════════════════════════════════════════════════════════╝", "warning");
               }
             }
 
@@ -1271,6 +1309,7 @@ export default function TradeWarsPage() {
             commodity: commodity as "fuelOre" | "organics" | "equipment",
             action: "buy",
             quantity: qty,
+            factionReputation: gameState.factionReputation,
           });
           addLine(result.message, result.success ? "success" : "error");
           utils.tradeWars.getState.invalidate();
@@ -1297,6 +1336,7 @@ export default function TradeWarsPage() {
             commodity: commodity as "fuelOre" | "organics" | "equipment",
             action: "sell",
             quantity: qty,
+            factionReputation: gameState.factionReputation,
           });
           addLine(result.message, result.success ? "success" : "error");
           // ── TRADE MATERIAL DROPS on successful sell ──
@@ -1609,6 +1649,78 @@ export default function TradeWarsPage() {
           break;
         }
 
+        case "diplo":
+        case "diplomacy": {
+          if (!arg1) {
+            // Show current reputation
+            const rep = gameState.factionReputation;
+            addLines([
+              { text: `╔════════════════════════════════════════════╗`, type: "info" },
+              { text: `║  ⚖ DIPLOMACY STATUS`, type: "warning" },
+              { text: `╠════════════════════════════════════════════╣`, type: "info" },
+              { text: `║  Empire:      ${rep.empire > 0 ? "+" : ""}${rep.empire || 0}`, type: (rep.empire || 0) > 0 ? "success" : (rep.empire || 0) < 0 ? "error" : "output" },
+              { text: `║  Insurgency:  ${rep.insurgency > 0 ? "+" : ""}${rep.insurgency || 0}`, type: (rep.insurgency || 0) > 0 ? "success" : (rep.insurgency || 0) < 0 ? "error" : "output" },
+              { text: `║  Independent: ${rep.independent > 0 ? "+" : ""}${rep.independent || 0}`, type: (rep.independent || 0) > 0 ? "success" : (rep.independent || 0) < 0 ? "error" : "output" },
+              { text: `║  Pirate:      ${rep.pirate > 0 ? "+" : ""}${rep.pirate || 0}`, type: (rep.pirate || 0) > 0 ? "success" : (rep.pirate || 0) < 0 ? "error" : "output" },
+              { text: `╠════════════════════════════════════════════╣`, type: "info" },
+              { text: `║  Morality: ${gameState.moralityScore > 0 ? "+" : ""}${gameState.moralityScore} (${gameState.moralityScore > 30 ? "Humanity" : gameState.moralityScore < -30 ? "Machine" : "Neutral"})`, type: "output" },
+              { text: `║  Events Resolved: ${gameState.completedDiplomacyEvents.length}/${DIPLOMACY_EVENTS.length}`, type: "output" },
+              { text: `║  Trade Price Effect: Faction rep modifies prices at ports`, type: "system" },
+              { text: `╚════════════════════════════════════════════╝`, type: "info" },
+            ]);
+            break;
+          }
+          // Handle diplomacy choice: diplo <eventId> <choiceNumber>
+          const eventId = arg1;
+          const choiceNum = Number(arg2);
+          const event = DIPLOMACY_EVENTS.find(e => e.id === eventId);
+          if (!event) {
+            addLine(`Unknown diplomacy event: ${eventId}`, "error");
+            break;
+          }
+          if (gameState.completedDiplomacyEvents.includes(eventId)) {
+            addLine(`You've already resolved this event.`, "warning");
+            break;
+          }
+          if (!choiceNum || choiceNum < 1 || choiceNum > event.choices.length) {
+            addLine(`Invalid choice. Use 1-${event.choices.length}`, "error");
+            break;
+          }
+          const choice = event.choices[choiceNum - 1];
+          completeDiplomacyEvent(eventId, choice.id, choice.moralityDelta, choice.reputationDelta);
+          addLine("", "output");
+          addLine("╔══════════════════════════════════════════════════════════════╗", "success");
+          addLine(`║  DECISION MADE: ${choice.text}`, "success");
+          addLine("╠══════════════════════════════════════════════════════════════╣", "success");
+          addLine(`║  ${choice.consequence}`, "output");
+          addLine("╠══════════════════════════════════════════════════════════════╣", "success");
+          const repChanges = Object.entries(choice.reputationDelta)
+            .map(([f, d]) => `${f}: ${(d as number) > 0 ? "+" : ""}${d}`)
+            .join(", ");
+          addLine(`║  Morality: ${choice.moralityDelta > 0 ? "+" : ""}${choice.moralityDelta} | Reputation: ${repChanges}`, "warning");
+          if (choice.creditDelta) {
+            addLine(`║  Credits: ${choice.creditDelta > 0 ? "+" : ""}${choice.creditDelta}`, choice.creditDelta > 0 ? "success" : "error");
+          }
+          addLine("╚══════════════════════════════════════════════════════════════╝", "success");
+          break;
+        }
+
+        case "rep":
+        case "reputation": {
+          const rep = gameState.factionReputation;
+          addLines([
+            { text: `╔════════════════════════════════════════════╗`, type: "info" },
+            { text: `║  FACTION REPUTATION`, type: "warning" },
+            { text: `╠════════════════════════════════════════════╣`, type: "info" },
+            { text: `║  Empire:      ${String(rep.empire || 0).padStart(4)} ${"█".repeat(Math.min(20, Math.max(0, (rep.empire || 0) / 5)))}`, type: "output" },
+            { text: `║  Insurgency:  ${String(rep.insurgency || 0).padStart(4)} ${"█".repeat(Math.min(20, Math.max(0, (rep.insurgency || 0) / 5)))}`, type: "output" },
+            { text: `║  Independent: ${String(rep.independent || 0).padStart(4)} ${"█".repeat(Math.min(20, Math.max(0, (rep.independent || 0) / 5)))}`, type: "output" },
+            { text: `║  Pirate:      ${String(rep.pirate || 0).padStart(4)} ${"█".repeat(Math.min(20, Math.max(0, (rep.pirate || 0) / 5)))}`, type: "output" },
+            { text: `╚════════════════════════════════════════════╝`, type: "info" },
+          ]);
+          break;
+        }
+
         default: {
           addLine(`Unknown command: "${command}". Type 'help' for available commands.`, "error");
         }
@@ -1616,7 +1728,7 @@ export default function TradeWarsPage() {
     } catch (err: any) {
       addLine(`ERROR: ${err.message || "Command failed"}`, "error");
     }
-  }, [addLine, addLines, showSectorInfo, utils, warpMut, tradeMut, scanMut, upgradeMut, buyFightersMut, repairMut, combatMut, mineMut, claimPlanetMut, collectIncomeMut, upgradeColonyMut, fortifyColonyMut, shipsQuery.data, stateQuery.data, researchMut, discoverRelicMut, grantMaterialDrops]);
+  }, [addLine, addLines, showSectorInfo, utils, warpMut, tradeMut, scanMut, upgradeMut, buyFightersMut, repairMut, combatMut, mineMut, claimPlanetMut, collectIncomeMut, upgradeColonyMut, fortifyColonyMut, shipsQuery.data, stateQuery.data, researchMut, discoverRelicMut, grantMaterialDrops, gameState, completeDiplomacyEvent]);
 
   // Handle input submission
   const handleSubmit = useCallback((e: React.FormEvent) => {
@@ -1689,6 +1801,8 @@ export default function TradeWarsPage() {
 
   return (
     <div className="min-h-screen bg-black flex flex-col">
+      {/* Warp Transition Effect */}
+      <WarpTransition active={showWarpTransition} onComplete={() => setShowWarpTransition(false)} />
       {/* Header bar */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between px-3 sm:px-4 py-2 bg-background/80 border-b border-cyan-500/20 gap-1">
         <div className="flex items-center gap-2 sm:gap-3">

@@ -31,6 +31,7 @@ import { contentAdminRouter } from "./routers/contentAdmin";
 import { warMapRouter } from "./routers/warMap";
 import { contentApiRouter } from "./routers/contentApi";
 import { moralityLeaderboardRouter } from "./routers/moralityLeaderboard";
+import { companionRouter } from "./routers/companion";
 
 export const appRouter = router({
   system: systemRouter,
@@ -58,6 +59,7 @@ export const appRouter = router({
   warMap: warMapRouter,
   contentApi: contentApiRouter,
   moralityLeaderboard: moralityLeaderboardRouter,
+  companion: companionRouter,
   auth: router({
     me: publicProcedure.query(opts => opts.ctx.user),
     logout: publicProcedure.mutation(({ ctx }) => {

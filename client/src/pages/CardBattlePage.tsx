@@ -22,6 +22,7 @@ import { useLocation } from "wouter";
 import {
   AmbientParticles, FloatingNumbers, ScreenFlash, TurnBanner,
   useVFX, type FloatingText, type ScreenEffect,
+  AttackProjectile, DeployBurst, ComboChainCounter,
 } from "@/components/BattleVFX";
 import LandscapeEnforcer from "@/components/LandscapeEnforcer";
 import {
@@ -634,6 +635,10 @@ export default function CardBattlePage() {
 
   const vfx = useVFX();
   const boardRef = useRef<HTMLDivElement>(null);
+  const [activeProjectiles, setActiveProjectiles] = useState<Array<{ id: string; fromX: number; fromY: number; toX: number; toY: number; color: string }>>([]); 
+  const [deployBursts, setDeployBursts] = useState<Array<{ id: string; x: number; y: number; color: string }>>([]); 
+  const [comboChainCount, setComboChainCount] = useState(0);
+  const comboTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Generate player deck
   const playerDeck = useMemo(() => {
@@ -678,6 +683,12 @@ export default function CardBattlePage() {
           setAnimatingCards(s => new Set(s).add(action.cardInstanceId));
           setTimeout(() => setAnimatingCards(s => { const n = new Set(s); n.delete(action.cardInstanceId); return n; }), 700);
           vfx.triggerFlash("blueFlash");
+          // Deploy burst effect
+          const bx = window.innerWidth / 2 + (Math.random() - 0.5) * 100;
+          const by = window.innerHeight * 0.55;
+          const burstId = `burst-${Date.now()}`;
+          setDeployBursts(prev => [...prev, { id: burstId, x: bx, y: by, color: "#33e2e6" }]);
+          setTimeout(() => setDeployBursts(prev => prev.filter(b => b.id !== burstId)), 800);
         }
       }
 
@@ -690,14 +701,27 @@ export default function CardBattlePage() {
             if (damage >= 5) playSFX("critical_hit");
             else playSFX("card_attack");
           }
-          // Spawn damage VFX at approximate center of screen
-          const centerX = window.innerWidth / 2 + (Math.random() - 0.5) * 60;
-          const centerY = window.innerHeight * 0.3 + (Math.random() - 0.5) * 40;
+          // Spawn attack projectile trail
+          const fromX = window.innerWidth * 0.3 + (Math.random() - 0.5) * 80;
+          const fromY = window.innerHeight * 0.6;
+          const toX = window.innerWidth * 0.5 + (Math.random() - 0.5) * 80;
+          const toY = window.innerHeight * 0.25;
+          const projId = `proj-${Date.now()}`;
+          const projColor = damage >= 5 ? "#fbbf24" : "#ef4444";
+          setActiveProjectiles(prev => [...prev, { id: projId, fromX, fromY, toX, toY, color: projColor }]);
+          setTimeout(() => setActiveProjectiles(prev => prev.filter(p => p.id !== projId)), 500);
+          // Spawn damage VFX at target
+          const centerX = toX + (Math.random() - 0.5) * 30;
+          const centerY = toY + (Math.random() - 0.5) * 20;
           if (damage >= 5) {
             vfx.spawnHeavyDamage(centerX, centerY, damage);
           } else {
             vfx.spawnDamage(centerX, centerY, damage);
           }
+          // Combo chain tracking
+          setComboChainCount(prev => prev + 1);
+          if (comboTimerRef.current) clearTimeout(comboTimerRef.current);
+          comboTimerRef.current = setTimeout(() => setComboChainCount(0), 3000);
         }
       }
 
@@ -844,6 +868,25 @@ export default function CardBattlePage() {
         enemyGraveyardCount={enemy.graveyard.length}
       />
       <FactionBanners />
+
+      {/* Attack Projectile Trails */}
+      <AnimatePresence>
+        {activeProjectiles.map(p => (
+          <AttackProjectile key={p.id} fromX={p.fromX} fromY={p.fromY} toX={p.toX} toY={p.toY} color={p.color} />
+        ))}
+      </AnimatePresence>
+
+      {/* Deploy Burst Effects */}
+      <AnimatePresence>
+        {deployBursts.map(b => (
+          <DeployBurst key={b.id} x={b.x} y={b.y} color={b.color} />
+        ))}
+      </AnimatePresence>
+
+      {/* Combo Chain Counter */}
+      <AnimatePresence>
+        <ComboChainCounter count={comboChainCount} />
+      </AnimatePresence>
 
       {/* Turn banner */}
       <AnimatePresence>

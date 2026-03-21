@@ -207,6 +207,146 @@ export function TurnBanner({ text, color }: { text: string; color: string }) {
   );
 }
 
+/* ── Attack Projectile Trail ── */
+export function AttackProjectile({ fromX, fromY, toX, toY, color = "#ef4444", onComplete }: {
+  fromX: number; fromY: number; toX: number; toY: number; color?: string; onComplete?: () => void;
+}) {
+  return (
+    <>
+      {/* Main projectile */}
+      <motion.div
+        initial={{ left: fromX, top: fromY, opacity: 1, scale: 1 }}
+        animate={{ left: toX, top: toY, opacity: [1, 1, 0.8], scale: [1, 1.3, 0.5] }}
+        transition={{ duration: 0.35, ease: "easeIn" }}
+        onAnimationComplete={onComplete}
+        className="absolute pointer-events-none z-40"
+        style={{
+          width: 12, height: 12, borderRadius: "50%",
+          background: `radial-gradient(circle, ${color}, transparent)`,
+          boxShadow: `0 0 16px ${color}, 0 0 32px ${color}80`,
+        }}
+      />
+      {/* Trail particles */}
+      {Array.from({ length: 5 }, (_, i) => (
+        <motion.div
+          key={i}
+          initial={{ left: fromX, top: fromY, opacity: 0.6, scale: 0.8 }}
+          animate={{ left: toX, top: toY, opacity: 0, scale: 0 }}
+          transition={{ duration: 0.35, ease: "easeIn", delay: i * 0.04 }}
+          className="absolute pointer-events-none z-35 rounded-full"
+          style={{
+            width: 6, height: 6,
+            background: color,
+            boxShadow: `0 0 8px ${color}`,
+          }}
+        />
+      ))}
+    </>
+  );
+}
+
+/* ── Card Deploy Burst ── */
+export function DeployBurst({ x, y, color = "#33e2e6" }: { x: number; y: number; color?: string }) {
+  const rings = [0, 0.1, 0.2];
+  return (
+    <>
+      {rings.map((delay, i) => (
+        <motion.div
+          key={i}
+          initial={{ scale: 0, opacity: 0.7 }}
+          animate={{ scale: [0, 2 + i * 0.5], opacity: [0.7, 0] }}
+          transition={{ duration: 0.5 + i * 0.15, delay, ease: "easeOut" }}
+          className="absolute pointer-events-none z-30"
+          style={{
+            left: x - 30, top: y - 30, width: 60, height: 60, borderRadius: "50%",
+            border: `1.5px solid ${color}`,
+            boxShadow: `0 0 12px ${color}40`,
+          }}
+        />
+      ))}
+      {/* Center flash */}
+      <motion.div
+        initial={{ scale: 0, opacity: 1 }}
+        animate={{ scale: [0, 1.5], opacity: [1, 0] }}
+        transition={{ duration: 0.3, ease: "easeOut" }}
+        className="absolute pointer-events-none z-30"
+        style={{
+          left: x - 15, top: y - 15, width: 30, height: 30, borderRadius: "50%",
+          background: `radial-gradient(circle, ${color}80, transparent)`,
+        }}
+      />
+    </>
+  );
+}
+
+/* ── Combo Chain Counter ── */
+export function ComboChainCounter({ count, color = "#fbbf24" }: { count: number; color?: string }) {
+  if (count < 2) return null;
+  const label = count >= 5 ? "DEVASTATING" : count >= 4 ? "BRUTAL" : count >= 3 ? "TRIPLE" : "DOUBLE";
+  return (
+    <motion.div
+      key={count}
+      initial={{ scale: 0, opacity: 0, y: 10 }}
+      animate={{ scale: [0, 1.3, 1], opacity: [0, 1, 1, 0.8], y: 0 }}
+      transition={{ duration: 0.8 }}
+      className="fixed top-[15%] left-1/2 -translate-x-1/2 z-50 pointer-events-none text-center"
+    >
+      <div className="font-display text-3xl sm:text-4xl font-black tracking-[0.3em]" style={{
+        color, textShadow: `0 0 20px ${color}, 0 0 40px ${color}60, 0 2px 0 #000`,
+      }}>
+        {count}x {label}
+      </div>
+      <div className="font-mono text-xs tracking-[0.4em] mt-1" style={{ color: `${color}99` }}>
+        COMBO CHAIN
+      </div>
+    </motion.div>
+  );
+}
+
+/* ── Warp Transition Effect (for Trade Empire) ── */
+export function WarpTransition({ active, onComplete }: { active: boolean; onComplete?: () => void }) {
+  if (!active) return null;
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: [0, 1, 1, 0] }}
+      transition={{ duration: 1.8, times: [0, 0.15, 0.7, 1] }}
+      onAnimationComplete={onComplete}
+      className="fixed inset-0 z-[100] pointer-events-none overflow-hidden"
+    >
+      {/* Starfield streaks */}
+      {Array.from({ length: 40 }, (_, i) => {
+        const y = Math.random() * 100;
+        const delay = Math.random() * 0.3;
+        return (
+          <motion.div
+            key={i}
+            initial={{ left: "50%", width: 2, opacity: 0 }}
+            animate={{ left: "-10%", width: "120%", opacity: [0, 0.8, 0] }}
+            transition={{ duration: 0.8, delay: 0.1 + delay, ease: "easeIn" }}
+            className="absolute h-px"
+            style={{
+              top: `${y}%`,
+              background: `linear-gradient(90deg, transparent, rgba(51,226,230,${0.3 + Math.random() * 0.5}), transparent)`,
+            }}
+          />
+        );
+      })}
+      {/* Center flash */}
+      <motion.div
+        initial={{ scale: 0, opacity: 0 }}
+        animate={{ scale: [0, 3, 8], opacity: [0, 0.6, 0] }}
+        transition={{ duration: 1.2, delay: 0.3, ease: "easeOut" }}
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full"
+        style={{
+          width: 100, height: 100,
+          background: "radial-gradient(circle, rgba(51,226,230,0.4), transparent 70%)",
+        }}
+      />
+    </motion.div>
+  );
+}
+
 /* ── VFX Manager Hook ── */
 export function useVFX() {
   const [floatingTexts, setFloatingTexts] = useState<FloatingText[]>([]);

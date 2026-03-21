@@ -1,18 +1,31 @@
-import { useState, useMemo, useCallback } from "react";
+import { useState, useRef, useEffect, useCallback, useMemo } from "react";
 import { useGame } from "@/contexts/GameContext";
+import { trpc } from "@/lib/trpc";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "wouter";
 import {
   Heart, Shield, Swords, BookOpen, MessageCircle, Lock, Unlock,
   ChevronRight, ChevronDown, Star, Zap, Eye, Radio, Users,
   Sparkles, ArrowLeft, Crown, Skull, AlertTriangle, Check, X,
+  Send, Loader2,
 } from "lucide-react";
 import {
   ELARA_PROFILE, THE_HUMAN_PROFILE, COMPANION_QUESTS, INCEPTION_ARKS,
   type CompanionProfile, type CompanionQuest, type BackstoryStage,
 } from "@/data/companionData";
 import HolographicElara from "@/components/HolographicElara";
+import { Streamdown } from "streamdown";
+import CutsceneOverlay, { QUEST_CUTSCENES, type CutsceneData } from "@/components/CutsceneOverlay";
 
+interface ChatMessage {
+  role: "user" | "assistant";
+  content: string;
+}
+interface DialogChoice {
+  id: string;
+  text: string;
+  category: string;
+}
 const ELARA_AVATAR = "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/elara_avatar_dark_hair_small_2fcb00b8.png";
 
 // ═══════════════════════════════════════════════════════
@@ -27,6 +40,7 @@ export default function CompanionHubPage() {
   const [expandedBackstory, setExpandedBackstory] = useState<string | null>(null);
   const [activeDialog, setActiveDialog] = useState<CompanionQuest | null>(null);
   const [dialogPhase, setDialogPhase] = useState<"intro" | "choices" | "completion">("intro");
+  const [activeCutscene, setActiveCutscene] = useState<CutsceneData | null>(null);
 
   const companions = useMemo(() => [ELARA_PROFILE, THE_HUMAN_PROFILE], []);
 
@@ -70,6 +84,11 @@ export default function CompanionHubPage() {
     });
     if (quest.isRomanceQuest) {
       setRomance(quest.companionId);
+    }
+    // Trigger cutscene if one exists for this quest
+    const cutscene = QUEST_CUTSCENES[quest.id];
+    if (cutscene) {
+      setActiveCutscene(cutscene);
     }
     setDialogPhase("completion");
   }, [completeCompanionQuest, gainCompanionXp, unlockBackstory, setRomance, state]);
@@ -257,6 +276,14 @@ export default function CompanionHubPage() {
 
   return (
     <div className="min-h-screen p-4 sm:p-6 pb-24">
+      {/* Cutscene Overlay */}
+      {activeCutscene && (
+        <CutsceneOverlay
+          cutscene={activeCutscene}
+          onComplete={() => setActiveCutscene(null)}
+          onClose={() => setActiveCutscene(null)}
+        />
+      )}
       <div className="max-w-4xl mx-auto">
         {/* Back Button */}
         <button
@@ -662,96 +689,303 @@ export default function CompanionHubPage() {
           )}
 
           {activeTab === "dialog" && (
-            <motion.div
-              key="dialog"
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-            >
-              {/* Dialog Interface */}
-              <div className={`rounded-lg border overflow-hidden ${
-                isElara ? "border-cyan-500/20" : "border-red-500/20"
-              }`}>
-                {/* Dialog Header */}
-                <div className={`p-4 ${isElara ? "bg-cyan-950/20" : "bg-red-950/20"}`}>
-                  <div className="flex items-center gap-3">
-                    {isElara ? (
-                      <HolographicElara size="sm" isSpeaking={false} />
-                    ) : (
-                      <div className="w-12 h-12 rounded-full bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center border border-red-500/30">
-                        {level >= 50 ? (
-                          <Eye size={20} className="text-red-400" />
-                        ) : (
-                          <Radio size={18} className="text-red-500/60 animate-pulse" />
-                        )}
-                      </div>
-                    )}
-                    <div>
-                      <h4 className="font-display text-sm font-bold text-foreground">
-                        {isElara ? "Elara" : level >= 50 ? "The Human" : "???"}
-                      </h4>
-                      <p className="font-mono text-[10px] text-muted-foreground">
-                        {isElara ? "Ship Intelligence" : level >= 50 ? "The Twelfth Archon" : "Unknown Contact"}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Dialog Content */}
-                <div className="p-4 bg-card/20">
-                  {activeDialog ? (
-                    <div className="space-y-4">
-                      {dialogPhase === "intro" && (
-                        <>
-                          <p className="font-mono text-xs text-muted-foreground leading-relaxed whitespace-pre-line">
-                            {activeDialog.introDialog}
-                          </p>
-                          <div className={`p-3 rounded border ${isElara ? "border-cyan-500/20 bg-cyan-950/10" : "border-red-500/20 bg-red-950/10"}`}>
-                            <p className="font-mono text-[10px] text-muted-foreground">
-                              <span className="font-bold text-foreground">OBJECTIVE:</span> {activeDialog.objective}
-                            </p>
-                          </div>
-                        </>
-                      )}
-                      {dialogPhase === "completion" && (
-                        <>
-                          <p className="font-mono text-xs text-muted-foreground leading-relaxed whitespace-pre-line">
-                            {activeDialog.completionDialog}
-                          </p>
-                          <div className="p-3 rounded border border-emerald-500/20 bg-emerald-950/10">
-                            <p className="font-mono text-[10px] text-emerald-400 font-bold mb-1">QUEST COMPLETE</p>
-                            <div className="flex items-center gap-3 text-[10px] font-mono text-muted-foreground">
-                              <span>+{activeDialog.rewards.relationshipXp} REL</span>
-                              <span>+{activeDialog.rewards.dreamTokens} DREAM</span>
-                              <span>+{activeDialog.rewards.xp} XP</span>
-                            </div>
-                          </div>
-                          <button
-                            onClick={() => setActiveDialog(null)}
-                            className="w-full py-2 rounded font-mono text-[10px] tracking-wider bg-primary/10 text-primary hover:bg-primary/20 border border-primary/30 transition-colors"
-                          >
-                            CLOSE
-                          </button>
-                        </>
-                      )}
-                    </div>
-                  ) : (
-                    <div className="text-center py-8">
-                      <MessageCircle size={24} className="text-muted-foreground/30 mx-auto mb-3" />
-                      <p className="font-mono text-xs text-muted-foreground/50">
-                        Start a quest to begin a conversation with {isElara ? "Elara" : "this contact"}.
-                      </p>
-                      <p className="font-mono text-[10px] text-muted-foreground/30 mt-1">
-                        Or use the floating Elara icon to chat anytime.
-                      </p>
-                    </div>
-                  )}
-                </div>
-              </div>
-            </motion.div>
+            <CompanionChatTab
+              companion={selectedCompanion}
+              level={level}
+              morality={state.moralityScore}
+              isElara={isElara}
+              activeDialog={activeDialog}
+              dialogPhase={dialogPhase}
+              setActiveDialog={setActiveDialog}
+              gainXp={() => gainCompanionXp(selectedCompanion.id, 2)}
+            />
           )}
         </AnimatePresence>
       </div>
     </div>
+  );
+}
+
+/* ═══ COMPANION CHAT TAB ═══
+   LLM-powered dialog for both Elara and The Human */
+function CompanionChatTab({
+  companion, level, morality, isElara, activeDialog, dialogPhase, setActiveDialog, gainXp,
+}: {
+  companion: CompanionProfile;
+  level: number;
+  morality: number;
+  isElara: boolean;
+  activeDialog: CompanionQuest | null;
+  dialogPhase: "intro" | "choices" | "completion";
+  setActiveDialog: (q: CompanionQuest | null) => void;
+  gainXp: () => void;
+}) {
+  const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
+  const [inputText, setInputText] = useState("");
+  const [isTyping, setIsTyping] = useState(false);
+  const [choices, setChoices] = useState<DialogChoice[]>([]);
+  const [lastCategory, setLastCategory] = useState<string>("lore");
+  const chatEndRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  // LLM mutations
+  const elaraChat = trpc.elara.chat.useMutation();
+  const humanChat = trpc.companion.chatWithHuman.useMutation();
+
+  // Get initial greeting for The Human
+  const humanGreeting = trpc.companion.getHumanGreeting.useQuery(
+    { relationshipLevel: level },
+    { enabled: !isElara && chatMessages.length === 0 }
+  );
+
+  // Auto-scroll to bottom
+  useEffect(() => {
+    chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [chatMessages, isTyping]);
+
+  // Load initial greeting
+  useEffect(() => {
+    if (!isElara && humanGreeting.data && chatMessages.length === 0) {
+      setChatMessages([{ role: "assistant", content: humanGreeting.data.greeting }]);
+      setChoices(humanGreeting.data.choices);
+    }
+  }, [humanGreeting.data, isElara, chatMessages.length]);
+
+  // Reset chat when companion changes
+  useEffect(() => {
+    setChatMessages([]);
+    setChoices([]);
+    setInputText("");
+  }, [companion.id]);
+
+  const sendMessage = useCallback(async (message: string, category?: string) => {
+    if (!message.trim() || isTyping) return;
+
+    const userMsg: ChatMessage = { role: "user", content: message.trim() };
+    setChatMessages(prev => [...prev, userMsg]);
+    setInputText("");
+    setIsTyping(true);
+    setChoices([]);
+
+    try {
+      if (isElara) {
+        const result = await elaraChat.mutateAsync({
+          message: message.trim(),
+          history: chatMessages.slice(-10),
+          pageContext: "/companions",
+        });
+        setChatMessages(prev => [...prev, { role: "assistant", content: result.message }]);
+        setChoices(result.choices || []);
+      } else {
+        const result = await humanChat.mutateAsync({
+          message: message.trim(),
+          history: chatMessages.slice(-10),
+          relationshipLevel: level,
+          moralityScore: morality,
+          category: category || lastCategory,
+        });
+        setChatMessages(prev => [...prev, { role: "assistant", content: result.message }]);
+        setChoices(result.choices || []);
+        if (category) setLastCategory(category);
+      }
+      // Gain relationship XP for chatting
+      gainXp();
+    } catch {
+      setChatMessages(prev => [...prev, {
+        role: "assistant",
+        content: isElara
+          ? "*holographic interference* ...systems experiencing momentary disruption. Please try again, Operative."
+          : "*static* ...relay's down. Someone's jamming the signal. Give it a minute, kid.",
+      }]);
+    } finally {
+      setIsTyping(false);
+    }
+  }, [isTyping, chatMessages, isElara, level, morality, lastCategory, elaraChat, humanChat, gainXp]);
+
+  const handleChoiceClick = useCallback((choice: DialogChoice) => {
+    sendMessage(choice.text, choice.category);
+  }, [sendMessage]);
+
+  const handleSubmit = useCallback((e: React.FormEvent) => {
+    e.preventDefault();
+    sendMessage(inputText);
+  }, [inputText, sendMessage]);
+
+  const accentColor = isElara ? "cyan" : "red";
+  const accentBg = isElara ? "bg-cyan-950/20" : "bg-red-950/20";
+  const accentBorder = isElara ? "border-cyan-500/20" : "border-red-500/20";
+
+  return (
+    <motion.div
+      key="dialog"
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -10 }}
+    >
+      <div className={`rounded-lg border overflow-hidden ${accentBorder}`}>
+        {/* Dialog Header */}
+        <div className={`p-4 ${accentBg}`}>
+          <div className="flex items-center gap-3">
+            {isElara ? (
+              <HolographicElara size="sm" isSpeaking={isTyping} />
+            ) : (
+              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center border border-red-500/30">
+                {level >= 50 ? (
+                  <Eye size={20} className="text-red-400" />
+                ) : (
+                  <Radio size={18} className={`text-red-500/60 ${isTyping ? "animate-pulse" : ""}`} />
+                )}
+              </div>
+            )}
+            <div className="flex-1">
+              <h4 className="font-display text-sm font-bold text-foreground">
+                {isElara ? "Elara" : level >= 50 ? "The Human" : "???"}
+              </h4>
+              <p className="font-mono text-[10px] text-muted-foreground">
+                {isElara ? "Ship Intelligence" : level >= 50 ? "The Twelfth Archon" : "Unknown Contact"}
+              </p>
+            </div>
+            <div className={`px-2 py-1 rounded text-[9px] font-mono tracking-wider ${isTyping ? `text-${accentColor}-400 bg-${accentColor}-500/10` : "text-muted-foreground/40 bg-muted/20"}`}>
+              {isTyping ? "TRANSMITTING..." : "RELAY ACTIVE"}
+            </div>
+          </div>
+        </div>
+
+        {/* Chat Messages */}
+        <div className="h-80 overflow-y-auto p-4 bg-card/10 space-y-3 scrollbar-thin">
+          {chatMessages.length === 0 && isElara && (
+            <div className="text-center py-8">
+              <MessageCircle size={24} className="text-cyan-500/30 mx-auto mb-3" />
+              <p className="font-mono text-xs text-muted-foreground/50">
+                Open a channel with Elara. Ask about the Saga, the Ark, or anything on your mind.
+              </p>
+            </div>
+          )}
+          {chatMessages.map((msg, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.2 }}
+              className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}
+            >
+              <div className={`max-w-[85%] rounded-lg px-3 py-2 ${
+                msg.role === "user"
+                  ? "bg-primary/15 border border-primary/20"
+                  : isElara
+                    ? "bg-cyan-950/20 border border-cyan-500/10"
+                    : "bg-red-950/20 border border-red-500/10"
+              }`}>
+                {msg.role === "user" ? (
+                  <p className="font-mono text-xs text-foreground">{msg.content}</p>
+                ) : (
+                  <div className="font-mono text-xs text-muted-foreground leading-relaxed prose-sm">
+                    <Streamdown>{msg.content}</Streamdown>
+                  </div>
+                )}
+              </div>
+            </motion.div>
+          ))}
+          {isTyping && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="flex justify-start"
+            >
+              <div className={`rounded-lg px-3 py-2 ${isElara ? "bg-cyan-950/20 border border-cyan-500/10" : "bg-red-950/20 border border-red-500/10"}`}>
+                <div className="flex items-center gap-1.5">
+                  <div className={`w-1.5 h-1.5 rounded-full ${isElara ? "bg-cyan-400" : "bg-red-400"} animate-bounce`} style={{ animationDelay: "0ms" }} />
+                  <div className={`w-1.5 h-1.5 rounded-full ${isElara ? "bg-cyan-400" : "bg-red-400"} animate-bounce`} style={{ animationDelay: "150ms" }} />
+                  <div className={`w-1.5 h-1.5 rounded-full ${isElara ? "bg-cyan-400" : "bg-red-400"} animate-bounce`} style={{ animationDelay: "300ms" }} />
+                </div>
+              </div>
+            </motion.div>
+          )}
+          <div ref={chatEndRef} />
+        </div>
+
+        {/* Quest Dialog Overlay (if active) */}
+        {activeDialog && (
+          <div className={`p-3 border-t ${accentBorder} ${accentBg}`}>
+            <div className="flex items-center gap-2 mb-2">
+              <Swords size={12} className={`text-${accentColor}-400`} />
+              <span className="font-mono text-[10px] font-bold text-foreground">ACTIVE QUEST: {activeDialog.title}</span>
+            </div>
+            {dialogPhase === "intro" && (
+              <p className="font-mono text-[10px] text-muted-foreground leading-relaxed">
+                {activeDialog.introDialog.slice(0, 200)}...
+              </p>
+            )}
+            {dialogPhase === "completion" && (
+              <div className="flex items-center gap-3">
+                <div className="p-2 rounded border border-emerald-500/20 bg-emerald-950/10">
+                  <p className="font-mono text-[9px] text-emerald-400 font-bold">QUEST COMPLETE</p>
+                  <div className="flex items-center gap-2 text-[9px] font-mono text-muted-foreground mt-1">
+                    <span>+{activeDialog.rewards.relationshipXp} REL</span>
+                    <span>+{activeDialog.rewards.dreamTokens} DREAM</span>
+                  </div>
+                </div>
+                <button
+                  onClick={() => setActiveDialog(null)}
+                  className="px-3 py-1.5 rounded font-mono text-[9px] tracking-wider bg-primary/10 text-primary hover:bg-primary/20 border border-primary/30 transition-colors"
+                >
+                  DISMISS
+                </button>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Dialog Choices */}
+        {choices.length > 0 && !isTyping && (
+          <div className={`p-3 border-t ${accentBorder} bg-card/5`}>
+            <p className="font-mono text-[9px] text-muted-foreground/40 tracking-wider mb-2">SUGGESTED QUERIES</p>
+            <div className="flex flex-wrap gap-1.5">
+              {choices.slice(0, 5).map(choice => (
+                <button
+                  key={choice.id}
+                  onClick={() => handleChoiceClick(choice)}
+                  className={`px-2.5 py-1.5 rounded text-[10px] font-mono border transition-all hover:scale-[1.02] ${
+                    isElara
+                      ? "border-cyan-500/20 text-cyan-300/70 hover:bg-cyan-500/10 hover:text-cyan-300"
+                      : "border-red-500/20 text-red-300/70 hover:bg-red-500/10 hover:text-red-300"
+                  }`}
+                >
+                  {choice.text}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Input */}
+        <form onSubmit={handleSubmit} className={`p-3 border-t ${accentBorder} bg-card/20`}>
+          <div className="flex items-center gap-2">
+            <input
+              ref={inputRef}
+              type="text"
+              value={inputText}
+              onChange={e => setInputText(e.target.value)}
+              placeholder={isElara ? "Ask Elara anything..." : level >= 50 ? "Talk to The Human..." : "Send encrypted message..."}
+              className="flex-1 bg-transparent border-none outline-none font-mono text-xs text-foreground placeholder:text-muted-foreground/30"
+              disabled={isTyping}
+            />
+            <button
+              type="submit"
+              disabled={!inputText.trim() || isTyping}
+              className={`p-2 rounded transition-all ${
+                inputText.trim() && !isTyping
+                  ? isElara
+                    ? "text-cyan-400 hover:bg-cyan-500/10"
+                    : "text-red-400 hover:bg-red-500/10"
+                  : "text-muted-foreground/20"
+              }`}
+            >
+              {isTyping ? <Loader2 size={14} className="animate-spin" /> : <Send size={14} />}
+            </button>
+          </div>
+        </form>
+      </div>
+    </motion.div>
   );
 }

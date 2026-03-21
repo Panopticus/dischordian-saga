@@ -1699,3 +1699,16 @@
 - [x] Write comprehensive tests for companion data, diplomacy events, and ark definitions (28 tests)
 - [x] Update todo and save checkpoint
 - [x] Add romance system for Elara (requires Humanity morality ≥ 30) and The Human (requires Machine morality ≤ -30)
+
+### Phase 71: LLM Companion Dialog, Diplomacy Consequences, Quest Cutscenes, AAA Game Upgrades
+- [x] Build The Human LLM dialog router (noir detective persona with slow reveal)
+- [x] Add companion chat UI to CompanionHub dialog tab (LLM-powered for both Elara and The Human)
+- [x] Wire diplomacy consequences into Trade Empire (faction rep affects prices, routes, events)
+- [x] Build companion quest cutscene system (6 cutscenes: typewriter text, mood effects, screen shake/flash/glitch)
+- [x] AAA Card Battle: attack projectile trails, deploy burst rings, combo chain counter (DOUBLE→DEVASTATING)
+- [x] AAA Card Battle: board-wide spell effects, victory celebration particles (already existed)
+- [x] AAA Trade Empire: warp transition effect (starfield streaks + center flash), diplomacy encounter events
+- [x] AAA Trade Empire: faction reputation price modifiers, diplo/rep commands, diplomacy event system
+- [x] AAA Fight Game: enhanced combo tier labels (UNSTOPPABLE, LEGENDARY), existing particle system
+- [x] AAA Fight Game: KO slow-motion screen flash effect (brightness + desaturation)
+- [x] Write tests and save checkpoint (18 tests passing)
