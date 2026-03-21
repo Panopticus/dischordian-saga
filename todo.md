@@ -1817,3 +1817,34 @@
 - [x] Wire chess wins into economy (Dream tokens, materials, XP)
 - [x] Add lore tie-ins (character abilities, special moves, story unlocks)
 - [x] Register chess game in navigation and GamesPage
+
+### Phase 77 — Chess Opening Books, Guild War Territory Map, Spectator Mode, Mobile UI Fixes
+
+#### Chess Opening Books
+- [x] Add character-specific opening book data (signature openings per character)
+- [x] Wire opening books into AI move selection for first 8-10 moves
+- [x] Add opening name display in chess UI during book moves
+- [x] Add getOpeningBooks endpoint for frontend display
+
+#### Mobile UI Fixes
+- [x] Fix QuestTracker overlapping mobile nav and media player (bottom-[140px], z-[42])
+- [x] Fix ElaraDialog button overlapping mobile nav (bottom-[140px], z-[45])
+- [x] Fix CoNexusMediaPlayer z-index stacking (z-[48])
+- [x] Fix mobile bottom nav z-index in AppShell and CommandConsole (z-[49])
+- [x] Fix AutoTutorialPrompt overlapping bottom nav (bottom-[140px], z-[44])
+- [x] Fix AwakeningPage skip button positioning
+- [x] Increase main content bottom padding for player+nav stack
+- [x] Fix ElaraDialog open state z-index for full-screen mode (z-[60])
+
+#### Guild War Territory Map
+- [x] Add getTerritoryMap endpoint to guildWars router
+- [x] Build GuildWarTerritoryMap component with visual territory display
+- [x] Show faction colors, control percentages, active war status
+- [x] Add territory bonus tooltips
+
+#### Spectator Mode
+- [x] Build spectator mode backend for chess games (getActiveGames, spectateGame, getFeaturedGames)
+- [x] Build spectator mode backend for PvP matches (existing WS protocol: SPECTATE, STOP_SPECTATING, ACTIVE_MATCHES)
+- [x] Build SpectatorPage with unified chess + PvP spectator lobby
+- [x] Add spectator route (/spectate) and navigation entry
+- [x] Write vitest tests for all new features (1713 tests passing)

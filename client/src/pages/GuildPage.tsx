@@ -6,7 +6,7 @@ import { useSwipeTabs } from "@/hooks/useSwipeTabs";
 import {
   Users, Shield, Crown, Star, MessageSquare, Send, Settings,
   Plus, Search, ChevronRight, Loader2, Flag, Gem, Coins,
-  Trophy, Swords, UserPlus, LogOut, Check, X, ArrowUp
+  Trophy, Swords, UserPlus, LogOut, Check, X, ArrowUp, Clock
 } from "lucide-react";
 import { getLoginUrl } from "@/const";
 
@@ -25,7 +25,7 @@ const ROLE_ICONS: Record<string, typeof Crown> = {
 
 export default function GuildPage() {
   const { isAuthenticated, user } = useAuth();
-  const [tab, setTab] = useState<"overview" | "roster" | "chat" | "treasury" | "browse">("overview");
+  const [tab, setTab] = useState<"overview" | "roster" | "chat" | "treasury" | "wars" | "browse">("overview");
 
   const { data: myGuild, isLoading: guildLoading, refetch: refetchGuild } = trpc.guild.myGuild.useQuery(undefined, {
     enabled: isAuthenticated,
@@ -65,6 +65,7 @@ export default function GuildPage() {
     { id: "roster" as const, label: "ROSTER", icon: Users },
     { id: "chat" as const, label: "COMMS", icon: MessageSquare },
     { id: "treasury" as const, label: "TREASURY", icon: Gem },
+    { id: "wars" as const, label: "TERRITORY", icon: Swords },
   ];
 
   return (
@@ -138,6 +139,11 @@ export default function GuildPage() {
           {tab === "treasury" && (
             <motion.div key="treasury" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
               <GuildTreasury guild={myGuild.guild} />
+            </motion.div>
+          )}
+          {tab === "wars" && (
+            <motion.div key="wars" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+              <GuildTerritoryMap />
             </motion.div>
           )}
         </AnimatePresence>
@@ -665,6 +671,300 @@ function GuildTreasury({ guild }: { guild: any }) {
         {donateMut.data?.xpGain && (
           <p className="font-mono text-xs text-green-400 text-center">+{donateMut.data.xpGain} Guild XP earned!</p>
         )}
+      </div>
+    </div>
+  );
+}
+
+/* ═══ GUILD TERRITORY MAP — Visual territory control display ═══ */
+function GuildTerritoryMap() {
+  const { data, isLoading } = trpc.guildWars.getTerritoryMap.useQuery();
+  const [selectedTerritory, setSelectedTerritory] = useState<number | null>(null);
+
+  const FACTION_MAP: Record<string, { color: string; glow: string; label: string; icon: typeof Shield }> = {
+    empire: { color: "#ef4444", glow: "rgba(239,68,68,0.4)", label: "EMPIRE", icon: Crown },
+    insurgency: { color: "#33e2e6", glow: "rgba(51,226,230,0.4)", label: "INSURGENCY", icon: Shield },
+    neutral: { color: "#ffb74d", glow: "rgba(255,183,77,0.4)", label: "NEUTRAL", icon: Flag },
+  };
+
+  const TERRITORY_POSITIONS = [
+    { x: 50, y: 20 },   // Panopticon Core — center top
+    { x: 15, y: 35 },   // Inception Ark Docks — left
+    { x: 85, y: 35 },   // Oracle's Sanctum — right
+    { x: 25, y: 60 },   // Necromancer's Crypt — lower left
+    { x: 75, y: 60 },   // Source Nexus — lower right
+    { x: 50, y: 50 },   // Architect's Workshop — center
+    { x: 10, y: 80 },   // Enigma Vault — far left bottom
+    { x: 90, y: 80 },   // Iron Lion Citadel — far right bottom
+  ];
+
+  const BONUS_ICONS: Record<string, string> = {
+    dream_boost: "💎",
+    trade_boost: "📊",
+    card_boost: "🃏",
+    fight_boost: "⚔️",
+    xp_boost: "⭐",
+    craft_boost: "🔧",
+    loot_boost: "🎁",
+    defense_boost: "🛡️",
+  };
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center py-20">
+        <Loader2 className="animate-spin text-primary" size={32} />
+      </div>
+    );
+  }
+
+  if (!data) return null;
+
+  const selected = selectedTerritory !== null ? data.territories[selectedTerritory] : null;
+
+  return (
+    <div className="space-y-4">
+      {/* Header */}
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="font-display text-sm font-bold tracking-[0.2em] flex items-center gap-2">
+            <Swords size={15} className="text-primary" />
+            TERRITORY CONTROL
+          </h2>
+          <p className="font-mono text-[10px] text-muted-foreground mt-1">
+            {data.activeWarCount} active war{data.activeWarCount !== 1 ? "s" : ""} •{" "}
+            {data.userFaction ? (
+              <span className={data.userFaction === "empire" ? "text-red-400" : data.userFaction === "insurgency" ? "text-cyan-400" : "text-amber-400"}>
+                Your faction: {data.userFaction.toUpperCase()}
+              </span>
+            ) : (
+              <span className="text-muted-foreground/50">No faction</span>
+            )}
+          </p>
+        </div>
+      </div>
+
+      {/* Territory Map — SVG hex grid */}
+      <div className="relative rounded-lg border border-border/30 overflow-hidden" style={{
+        background: "linear-gradient(180deg, var(--bg-void) 0%, var(--bg-depth) 100%)",
+        minHeight: "320px",
+      }}>
+        {/* Grid background */}
+        <div className="absolute inset-0 opacity-10" style={{
+          backgroundImage: "radial-gradient(circle, rgba(51,226,230,0.3) 1px, transparent 1px)",
+          backgroundSize: "30px 30px",
+        }} />
+
+        {/* Connection lines between territories */}
+        <svg className="absolute inset-0 w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+          {/* Draw connection lines */}
+          {[
+            [0, 5], [1, 5], [2, 5], [3, 5], [4, 5], // All connect to Architect's Workshop (center)
+            [0, 1], [0, 2], // Panopticon to docks and sanctum
+            [1, 3], [2, 4], // Docks to crypt, sanctum to nexus
+            [3, 6], [4, 7], // Crypt to vault, nexus to citadel
+          ].map(([a, b], i) => (
+            <line
+              key={i}
+              x1={`${TERRITORY_POSITIONS[a].x}%`}
+              y1={`${TERRITORY_POSITIONS[a].y}%`}
+              x2={`${TERRITORY_POSITIONS[b].x}%`}
+              y2={`${TERRITORY_POSITIONS[b].y}%`}
+              stroke="rgba(51,226,230,0.1)"
+              strokeWidth="0.3"
+              strokeDasharray="2,2"
+            />
+          ))}
+        </svg>
+
+        {/* Territory nodes */}
+        {data.territories.map((territory, i) => {
+          const pos = TERRITORY_POSITIONS[i];
+          const factionStyle = territory.controller ? FACTION_MAP[territory.controller] : null;
+          const isContested = territory.contested;
+          const isSelected = selectedTerritory === i;
+          const isUserFaction = territory.controller === data.userFaction;
+
+          return (
+            <button
+              key={i}
+              onClick={() => setSelectedTerritory(isSelected ? null : i)}
+              className="absolute transform -translate-x-1/2 -translate-y-1/2 group transition-all duration-300"
+              style={{ left: `${pos.x}%`, top: `${pos.y}%` }}
+            >
+              {/* Glow ring for contested */}
+              {isContested && (
+                <div className="absolute inset-0 -m-3 rounded-full animate-pulse" style={{
+                  background: "radial-gradient(circle, rgba(168,85,247,0.3) 0%, transparent 70%)",
+                }} />
+              )}
+
+              {/* Territory node */}
+              <div
+                className={`relative w-12 h-12 sm:w-14 sm:h-14 rounded-lg flex flex-col items-center justify-center border-2 transition-all ${
+                  isSelected ? "scale-125 z-10" : "hover:scale-110"
+                }`}
+                style={{
+                  background: isContested
+                    ? "rgba(168,85,247,0.15)"
+                    : factionStyle
+                    ? `${factionStyle.color}22`
+                    : "rgba(255,255,255,0.05)",
+                  borderColor: isContested
+                    ? "rgba(168,85,247,0.5)"
+                    : factionStyle
+                    ? `${factionStyle.color}66`
+                    : "rgba(255,255,255,0.15)",
+                  boxShadow: isSelected
+                    ? `0 0 20px ${isContested ? "rgba(168,85,247,0.4)" : factionStyle?.glow || "rgba(51,226,230,0.2)"}`
+                    : "none",
+                }}
+              >
+                <span className="text-lg">{BONUS_ICONS[territory.bonus] || "🏛️"}</span>
+                {isContested && (
+                  <Swords size={10} className="text-purple-400 absolute -top-1 -right-1" />
+                )}
+                {isUserFaction && !isContested && (
+                  <Star size={8} className="text-amber-400 absolute -top-1 -right-1 fill-amber-400" />
+                )}
+              </div>
+
+              {/* Territory name label */}
+              <div className="absolute top-full mt-1 left-1/2 -translate-x-1/2 whitespace-nowrap">
+                <span className={`font-mono text-[8px] sm:text-[9px] tracking-wider ${
+                  isContested ? "text-purple-400" : factionStyle ? `text-[${factionStyle.color}]` : "text-muted-foreground/50"
+                }`}>
+                  {territory.name.replace("The ", "").split("'s")[0].toUpperCase().slice(0, 12)}
+                </span>
+              </div>
+            </button>
+          );
+        })}
+      </div>
+
+      {/* Selected Territory Detail Panel */}
+      <AnimatePresence>
+        {selected && selectedTerritory !== null && (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 10 }}
+            className="rounded-lg border border-border/30 overflow-hidden"
+            style={{
+              background: "linear-gradient(135deg, var(--bg-void) 0%, var(--bg-spotlight) 100%)",
+            }}
+          >
+            {/* Territory Header */}
+            <div className="px-4 py-3 border-b border-border/20 flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <span className="text-2xl">{BONUS_ICONS[selected.bonus]}</span>
+                <div>
+                  <h3 className="font-display text-sm font-bold tracking-wider">{selected.name}</h3>
+                  <p className="font-mono text-[10px] text-muted-foreground">{selected.description}</p>
+                </div>
+              </div>
+              <button
+                onClick={() => setSelectedTerritory(null)}
+                className="p-1.5 rounded-md hover:bg-white/5 transition-colors"
+              >
+                <X size={14} className="text-muted-foreground" />
+              </button>
+            </div>
+
+            {/* Control Status */}
+            <div className="px-4 py-3">
+              {selected.contested && selected.activeWar ? (
+                <div className="space-y-3">
+                  <div className="flex items-center gap-2">
+                    <Swords size={14} className="text-purple-400" />
+                    <span className="font-mono text-xs text-purple-400 tracking-wider">CONTESTED — WAR IN PROGRESS</span>
+                  </div>
+                  <p className="font-mono text-xs text-muted-foreground">{selected.activeWar.name}</p>
+
+                  {/* Score bar */}
+                  <div className="space-y-1">
+                    <div className="flex justify-between font-mono text-[10px]">
+                      <span className={selected.activeWar.factionA === "empire" ? "text-red-400" : "text-cyan-400"}>
+                        {selected.activeWar.factionA.toUpperCase()} — {selected.activeWar.scoreA}
+                      </span>
+                      <span className={selected.activeWar.factionB === "empire" ? "text-red-400" : "text-cyan-400"}>
+                        {selected.activeWar.scoreB} — {selected.activeWar.factionB.toUpperCase()}
+                      </span>
+                    </div>
+                    <div className="h-2 rounded-full bg-white/5 overflow-hidden flex">
+                      <div
+                        className="h-full transition-all duration-500"
+                        style={{
+                          width: `${selected.controlScore}%`,
+                          background: selected.activeWar.factionA === "empire"
+                            ? "linear-gradient(90deg, #ef4444, #ef444488)"
+                            : "linear-gradient(90deg, #33e2e6, #33e2e688)",
+                        }}
+                      />
+                      <div
+                        className="h-full transition-all duration-500"
+                        style={{
+                          width: `${100 - selected.controlScore}%`,
+                          background: selected.activeWar.factionB === "empire"
+                            ? "linear-gradient(90deg, #ef444488, #ef4444)"
+                            : "linear-gradient(90deg, #33e2e688, #33e2e6)",
+                        }}
+                      />
+                    </div>
+                  </div>
+
+                  {/* Time remaining */}
+                  <div className="flex items-center gap-1.5 font-mono text-[10px] text-muted-foreground">
+                    <Clock size={10} />
+                    <span>Ends: {new Date(selected.activeWar.endsAt).toLocaleDateString()}</span>
+                  </div>
+                </div>
+              ) : selected.controller ? (
+                <div className="space-y-2">
+                  <div className="flex items-center gap-2">
+                    <Crown size={14} className={selected.controller === "empire" ? "text-red-400" : "text-cyan-400"} />
+                    <span className={`font-mono text-xs tracking-wider ${
+                      selected.controller === "empire" ? "text-red-400" : "text-cyan-400"
+                    }`}>
+                      CONTROLLED BY {selected.controller.toUpperCase()}
+                    </span>
+                  </div>
+                  <p className="font-mono text-[10px] text-muted-foreground">
+                    Bonus active: +{selected.bonusValue}% {selected.bonus.replace("_", " ")}
+                  </p>
+                  {selected.lastWar && (
+                    <p className="font-mono text-[9px] text-muted-foreground/50">
+                      Won {new Date(selected.lastWar.endedAt).toLocaleDateString()}
+                    </p>
+                  )}
+                </div>
+              ) : (
+                <div className="flex items-center gap-2">
+                  <Flag size={14} className="text-muted-foreground/50" />
+                  <span className="font-mono text-xs text-muted-foreground/50 tracking-wider">UNCLAIMED TERRITORY</span>
+                </div>
+              )}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Territory Legend */}
+      <div className="flex flex-wrap gap-3 font-mono text-[9px] text-muted-foreground/60">
+        <span className="flex items-center gap-1">
+          <div className="w-2 h-2 rounded-full bg-red-400" /> Empire
+        </span>
+        <span className="flex items-center gap-1">
+          <div className="w-2 h-2 rounded-full bg-cyan-400" /> Insurgency
+        </span>
+        <span className="flex items-center gap-1">
+          <div className="w-2 h-2 rounded-full bg-purple-400 animate-pulse" /> Contested
+        </span>
+        <span className="flex items-center gap-1">
+          <div className="w-2 h-2 rounded-full bg-white/20" /> Unclaimed
+        </span>
+        <span className="flex items-center gap-1">
+          <Star size={8} className="text-amber-400 fill-amber-400" /> Your faction
+        </span>
       </div>
     </div>
   );

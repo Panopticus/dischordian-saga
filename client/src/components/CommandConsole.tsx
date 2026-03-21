@@ -641,14 +641,14 @@ export default function CommandConsole({ children, elaraTTS }: { children: React
 
         {/* ═══ MAIN CONTENT ═══ */}
         <main
-          className={`flex-1 lg:ml-0 transition-all relative ${showPlayer ? "pb-40 sm:pb-20" : "pb-20 sm:pb-0"}`}
+          className={`flex-1 lg:ml-0 transition-all relative ${showPlayer ? "pb-48 sm:pb-20" : "pb-24 sm:pb-0"}`}
         >
           {children}
         </main>
       </div>
 
       {/* ═══ MOBILE BOTTOM NAV — SHIP SYSTEMS STRIP ═══ */}
-      <nav className={`fixed left-0 right-0 z-50 sm:hidden safe-area-bottom transition-all ${showPlayer ? "bottom-[60px]" : "bottom-0"}`}
+      <nav className={`fixed left-0 right-0 z-[49] sm:hidden safe-area-bottom transition-all ${showPlayer ? "bottom-[60px]" : "bottom-0"}`}
         style={{
           background: "linear-gradient(0deg, var(--bg-void) 0%, var(--bg-overlay) 100%)",
           borderTop: "1px solid var(--glass-border)",

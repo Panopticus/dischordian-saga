@@ -306,7 +306,7 @@ export default function QuestTracker() {
   const Icon = activeQuest?.quest.icon || Target;
 
   return (
-    <div className="fixed bottom-20 sm:bottom-6 left-3 sm:left-auto sm:right-6 right-auto z-40 max-w-[calc(100vw-80px)] sm:max-w-none">
+    <div className="fixed bottom-[140px] sm:bottom-6 left-3 sm:left-auto sm:right-6 right-auto z-[42] max-w-[calc(100vw-80px)] sm:max-w-none">
       <AnimatePresence mode="wait">
         {minimized ? (
           /* ─── MINIMIZED: Just a small icon button ─── */
@@ -340,7 +340,7 @@ export default function QuestTracker() {
             onTouchStart={handleTouchStart}
             onTouchMove={handleTouchMove}
             onTouchEnd={handleTouchEnd}
-            className="w-72 rounded-lg border overflow-hidden max-h-[60vh] sm:max-h-[70vh] overflow-y-auto"
+            className="w-72 rounded-lg border overflow-hidden max-h-[40vh] sm:max-h-[70vh] overflow-y-auto"
             style={{
               background: "rgba(0,0,0,0.9)",
               borderColor: newQuestFlash ? "rgba(255,183,77,0.4)" : "rgba(51,226,230,0.2)",

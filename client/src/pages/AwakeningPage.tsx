@@ -755,7 +755,7 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
             setCharacterChoice("element", characterChoices.element || "earth");
             setCharacterChoice("name", characterChoices.name || "Operative");
           }}
-          className="fixed bottom-4 right-4 z-50 font-mono text-[10px] text-muted-foreground/35 hover:text-muted-foreground/60 transition-colors px-3 py-1.5 rounded border border-border/60 hover:border-border"
+          className="fixed bottom-6 right-4 z-[55] font-mono text-[10px] text-muted-foreground/35 hover:text-muted-foreground/60 transition-colors px-3 py-1.5 rounded border border-border/60 hover:border-border"
         >
           SKIP INTRO &gt;&gt;
         </button>

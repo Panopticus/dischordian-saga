@@ -8,7 +8,7 @@ import {
   Search, Menu, X, Map, Music, Users, MapPin, Swords, Clock,
   ChevronRight, ChevronDown, Terminal, Disc3, Shield, Tv, BarChart3, Gamepad2, Trophy, Crosshair,
   Home, Rocket, Store, ScrollText, FlaskConical, Ship, Crown, Compass, Radio, Heart, Brain, BookOpen, Gem, Lock, Sun, Moon, Scale,
-  CalendarDays, Star, Package
+  CalendarDays, Star, Package, Eye
 } from "lucide-react";
 import { useGamification } from "@/contexts/GamificationContext";
 import { useMoralityTheme } from "@/contexts/MoralityThemeContext";
@@ -115,6 +115,7 @@ const NAV_GROUPS: NavGroup[] = [
       { path: "/battle-pass", label: "EPOCH PASS", icon: Star, description: "Season rewards" },
       { path: "/inventory", label: "INVENTORY", icon: Package, description: "Cards & materials" },
       { path: "/chess", label: "CHESS", icon: Crown, description: "Strategic warfare" },
+      { path: "/spectate", label: "SPECTATE", icon: Eye, description: "Watch live matches" },
     ],
   },
 ];
@@ -468,14 +469,14 @@ export default function AppShell({ children, elaraTTS: _elaraTTS }: { children: 
           id="main-content"
           role="main"
           aria-label="Main content"
-          className={`flex-1 lg:ml-0 transition-all relative ${showPlayer ? "pb-44 sm:pb-20" : "pb-24 sm:pb-0"}`}
+          className={`flex-1 lg:ml-0 transition-all relative ${showPlayer ? "pb-48 sm:pb-20" : "pb-24 sm:pb-0"}`}
         >
           {children}
         </main>
       </div>
 
       {/* ═══ MOBILE BOTTOM NAV — ARK CONTROL STRIP ═══ */}
-      <nav aria-label="Mobile navigation" className={`fixed left-0 right-0 z-50 sm:hidden safe-area-bottom transition-all ${showPlayer ? "bottom-[60px]" : "bottom-0"}`}
+      <nav aria-label="Mobile navigation" className={`fixed left-0 right-0 z-[49] sm:hidden safe-area-bottom transition-all ${showPlayer ? "bottom-[60px]" : "bottom-0"}`}
         style={{
           background: "linear-gradient(0deg, var(--bg-overlay) 0%, color-mix(in srgb, var(--background) 92%, transparent) 100%)",
           borderTop: "1px solid var(--border)",

@@ -170,6 +170,94 @@ export const guildWarsRouter = router({
     return TERRITORIES;
   }),
 
+  /** Get full territory map with active war overlays and control history */
+  getTerritoryMap: protectedProcedure.query(async ({ ctx }) => {
+    const db = (await getDb())!;
+
+    // Get all active wars
+    const activeWars = await db.select().from(guildWars)
+      .where(eq(guildWars.status, "active"))
+      .orderBy(desc(guildWars.startsAt));
+
+    // Get recently ended wars (last 7 days) for control history
+    const weekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+    const recentWars = await db.select().from(guildWars)
+      .where(and(
+        eq(guildWars.status, "ended"),
+        gte(guildWars.endsAt, weekAgo),
+      ))
+      .orderBy(desc(guildWars.endsAt))
+      .limit(20);
+
+    // Get user's guild and faction
+    const membership = await db.select().from(guildMembers)
+      .where(eq(guildMembers.userId, ctx.user.id)).limit(1);
+    let userFaction: string | null = null;
+    let userGuildId: number | null = null;
+    if (membership[0]) {
+      userGuildId = membership[0].guildId;
+      const guild = await db.select().from(guilds)
+        .where(eq(guilds.id, membership[0].guildId)).limit(1);
+      if (guild[0]) userFaction = guild[0].faction;
+    }
+
+    // Build territory map
+    const territoryMap = TERRITORIES.map((territory) => {
+      // Find active war for this territory
+      const activeWar = activeWars.find(w => w.territory === territory.name);
+      // Find most recent ended war for this territory
+      const lastWar = recentWars.find(w => w.territory === territory.name);
+
+      let controller: string | null = null;
+      let controlScore = 0;
+      let contested = false;
+
+      if (activeWar) {
+        contested = true;
+        const total = activeWar.scoreA + activeWar.scoreB;
+        controlScore = total > 0 ? Math.round((activeWar.scoreA / total) * 100) : 50;
+      } else if (lastWar) {
+        // Territory controlled by the winner of the last war
+        if (lastWar.scoreA > lastWar.scoreB) {
+          controller = lastWar.factionA;
+          controlScore = 100;
+        } else if (lastWar.scoreB > lastWar.scoreA) {
+          controller = lastWar.factionB;
+          controlScore = 100;
+        }
+      }
+
+      return {
+        ...territory,
+        activeWar: activeWar ? {
+          id: activeWar.id,
+          name: activeWar.name,
+          factionA: activeWar.factionA,
+          factionB: activeWar.factionB,
+          scoreA: activeWar.scoreA,
+          scoreB: activeWar.scoreB,
+          endsAt: activeWar.endsAt,
+          startsAt: activeWar.startsAt,
+        } : null,
+        controller,
+        controlScore,
+        contested,
+        lastWar: lastWar ? {
+          winner: lastWar.scoreA > lastWar.scoreB ? lastWar.factionA
+            : lastWar.scoreB > lastWar.scoreA ? lastWar.factionB : "draw",
+          endedAt: lastWar.endsAt,
+        } : null,
+      };
+    });
+
+    return {
+      territories: territoryMap,
+      userFaction,
+      userGuildId,
+      activeWarCount: activeWars.length,
+    };
+  }),
+
   /** Admin: Create a new guild war event */
   createWar: protectedProcedure
     .input(z.object({

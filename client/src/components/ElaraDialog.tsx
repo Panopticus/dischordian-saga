@@ -468,7 +468,7 @@ export default function ElaraDialog({ elaraTTS: _elaraTTS }: { elaraTTS?: any } 
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0, opacity: 0 }}
             onClick={openDialog}
-            className="fixed bottom-24 sm:bottom-6 right-4 sm:right-6 z-50 group"
+            className="fixed bottom-[140px] sm:bottom-6 right-4 sm:right-6 z-[45] group"
             aria-label="Talk to Elara"
           >
             <div className="relative">
@@ -498,7 +498,7 @@ export default function ElaraDialog({ elaraTTS: _elaraTTS }: { elaraTTS?: any } 
             animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
             exit={{ opacity: 0, scale: 0.98, y: -10, filter: "blur(10px)" }}
             transition={{ duration: 0.35 }}
-            className="fixed inset-0 sm:inset-auto sm:bottom-6 sm:right-6 sm:w-[480px] sm:h-[600px] sm:max-h-[80vh] z-50 flex flex-col"
+            className="fixed inset-0 sm:inset-auto sm:bottom-6 sm:right-6 sm:w-[480px] sm:h-[600px] sm:max-h-[80vh] z-[60] flex flex-col"
           >
             {/* Glass container */}
             <div className="flex-1 flex flex-col bg-[var(--bg-void)]/95 sm:rounded-xl border border-[var(--glass-border)] overflow-hidden shadow-[0_0_60px_rgba(51,226,230,0.1)]"

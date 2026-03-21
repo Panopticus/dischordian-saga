@@ -140,6 +140,62 @@ const CHESS_CHARACTERS: Record<string, CharacterStyle> = {
   },
 };
 
+/* ─── OPENING BOOKS — Signature opening lines per character ─── */
+const OPENING_BOOKS: Record<string, Array<{ name: string; moves: string[]; description: string }>> = {
+  queen_gambit: [
+    { name: "Queen's Gambit Declined", moves: ["d4", "d5", "c4", "e6", "Nc3", "Nf6", "Bg5"], description: "Classical positional play — slow squeeze" },
+    { name: "Queen's Gambit Accepted", moves: ["d4", "d5", "c4", "dxc4", "e4", "e5", "Nf3"], description: "Seize the center after accepting the gambit" },
+    { name: "Catalan Opening", moves: ["d4", "Nf6", "c4", "e6", "g3", "d5", "Bg2"], description: "Fianchetto bishop controls the long diagonal" },
+  ],
+  sicilian: [
+    { name: "Sicilian Dragon", moves: ["e4", "c5", "Nf3", "d6", "d4", "cxd4", "Nxd4", "Nf6", "Nc3", "g6"], description: "Fire-breathing counterattack" },
+    { name: "Sicilian Najdorf", moves: ["e4", "c5", "Nf3", "d6", "d4", "cxd4", "Nxd4", "Nf6", "Nc3", "a6"], description: "The sharpest Sicilian — maximum complexity" },
+    { name: "Sicilian Scheveningen", moves: ["e4", "c5", "Nf3", "d6", "d4", "cxd4", "Nxd4", "Nf6", "Nc3", "e6"], description: "Flexible pawn structure for counterplay" },
+  ],
+  ruy_lopez: [
+    { name: "Ruy Lopez Morphy Defense", moves: ["e4", "e5", "Nf3", "Nc6", "Bb5", "a6", "Ba4", "Nf6"], description: "Classical Spanish — centuries of theory" },
+    { name: "Ruy Lopez Berlin Defense", moves: ["e4", "e5", "Nf3", "Nc6", "Bb5", "Nf6"], description: "The Berlin Wall — solid endgame play" },
+    { name: "Ruy Lopez Marshall Attack", moves: ["e4", "e5", "Nf3", "Nc6", "Bb5", "a6", "Ba4", "Nf6", "O-O", "Be7", "Re1", "b5", "Bb3", "O-O", "c3", "d5"], description: "Explosive sacrifice for the initiative" },
+  ],
+  caro_kann: [
+    { name: "Caro-Kann Classical", moves: ["e4", "c6", "d4", "d5", "Nc3", "dxe4", "Nxe4", "Bf5"], description: "Solid development — no weaknesses" },
+    { name: "Caro-Kann Advance", moves: ["e4", "c6", "d4", "d5", "e5", "Bf5", "Nf3", "e6"], description: "Space advantage but Black is solid" },
+  ],
+  kings_gambit: [
+    { name: "King's Gambit Accepted", moves: ["e4", "e5", "f4", "exf4", "Nf3", "g5", "h4"], description: "Romantic chess — all-out attack" },
+    { name: "King's Gambit Declined", moves: ["e4", "e5", "f4", "Bc5", "Nf3", "d6"], description: "Declined but White keeps initiative" },
+  ],
+  london_system: [
+    { name: "London System", moves: ["d4", "d5", "Bf4", "Nf6", "e3", "e6", "Nf3", "c5", "c3"], description: "The fortress setup — safe and solid" },
+    { name: "London Jobava", moves: ["d4", "Nf6", "Bf4", "d5", "Nc3", "e6", "e3"], description: "Aggressive London with Nc3" },
+  ],
+  french_defense: [
+    { name: "French Winawer", moves: ["e4", "e6", "d4", "d5", "Nc3", "Bb4"], description: "Sharp counterattack — pins the knight" },
+    { name: "French Advance", moves: ["e4", "e6", "d4", "d5", "e5", "c5", "c3", "Nc6", "Nf3"], description: "Space advantage with pawn chain" },
+  ],
+  italian_game: [
+    { name: "Italian Game Giuoco Piano", moves: ["e4", "e5", "Nf3", "Nc6", "Bc4", "Bc5", "c3", "Nf6", "d4"], description: "Classical development — balanced play" },
+    { name: "Italian Game Evans Gambit", moves: ["e4", "e5", "Nf3", "Nc6", "Bc4", "Bc5", "b4"], description: "Pawn sacrifice for rapid development" },
+  ],
+  najdorf: [
+    { name: "Najdorf Poisoned Pawn", moves: ["e4", "c5", "Nf3", "d6", "d4", "cxd4", "Nxd4", "Nf6", "Nc3", "a6", "Bg5", "e6", "f4", "Qb6"], description: "The most analyzed line in chess" },
+    { name: "Najdorf English Attack", moves: ["e4", "c5", "Nf3", "d6", "d4", "cxd4", "Nxd4", "Nf6", "Nc3", "a6", "Be3", "e5", "Nb3"], description: "Modern approach — kingside attack" },
+  ],
+  english_opening: [
+    { name: "English Opening Symmetrical", moves: ["c4", "c5", "Nc3", "Nc6", "g3", "g6", "Bg2", "Bg7"], description: "Mirror positions — deep strategy" },
+    { name: "English Opening Reversed Sicilian", moves: ["c4", "e5", "Nc3", "Nf6", "Nf3", "Nc6", "g3"], description: "White plays a Sicilian with extra tempo" },
+  ],
+  kings_indian: [
+    { name: "King's Indian Classical", moves: ["d4", "Nf6", "c4", "g6", "Nc3", "Bg7", "e4", "d6", "Nf3", "O-O", "Be2", "e5"], description: "Hypermodern counterattack — strike from the flanks" },
+    { name: "King's Indian Sämisch", moves: ["d4", "Nf6", "c4", "g6", "Nc3", "Bg7", "e4", "d6", "f3"], description: "White builds a massive center" },
+  ],
+  any: [
+    { name: "Ruy Lopez", moves: ["e4", "e5", "Nf3", "Nc6", "Bb5"], description: "The Game Master knows everything" },
+    { name: "Queen's Gambit", moves: ["d4", "d5", "c4"], description: "Classical positional mastery" },
+    { name: "Sicilian Najdorf", moves: ["e4", "c5", "Nf3", "d6", "d4", "cxd4", "Nxd4", "Nf6", "Nc3", "a6"], description: "Sharp tactical play" },
+  ],
+};
+
 /* ─── ELO CALCULATION ─── */
 function calculateElo(playerElo: number, opponentElo: number, result: 1 | 0 | 0.5, k = 32): number {
   const expected = 1 / (1 + Math.pow(10, (opponentElo - playerElo) / 400));
@@ -540,6 +596,136 @@ export const chessRouter = router({
       const chess = new Chess(game[0].fen || STARTING_FEN);
       return chess.moves({ verbose: true });
     }),
+
+  /* ══════════════════════════════════════════════════
+     SPECTATOR MODE — Watch active chess games live
+     ══════════════════════════════════════════════════ */
+
+  /** Get all active chess games available for spectating */
+  getActiveGames: protectedProcedure.query(async ({ ctx }) => {
+    await chessReady;
+    const db = (await getDb())!;
+    const games = await db.select().from(chessGames)
+      .where(eq(chessGames.status, "active"))
+      .orderBy(desc(chessGames.createdAt))
+      .limit(20);
+
+    return games.map(g => {
+      const whiteChar = CHESS_CHARACTERS[g.whiteCharacter || "the_human"];
+      const blackChar = CHESS_CHARACTERS[g.blackCharacter || "the_human"];
+      const chess = new Chess(g.fen || STARTING_FEN);
+      const moveCount = g.pgn ? g.pgn.split(" ").filter((m: string) => !m.includes(".")).length : 0;
+
+      return {
+        id: g.id,
+        mode: g.mode,
+        whiteCharacter: g.whiteCharacter,
+        blackCharacter: g.blackCharacter,
+        whiteCharacterName: whiteChar?.name || "Unknown",
+        blackCharacterName: blackChar?.name || "AI",
+        moveCount,
+        isCheck: chess.isCheck(),
+        turn: chess.turn() === "w" ? "white" : "black",
+        createdAt: g.createdAt,
+        isVsAI: !g.blackPlayerId,
+        featured: g.mode === "game_master" || g.mode === "tournament" || moveCount > 30,
+      };
+    });
+  }),
+
+  /** Get spectator view of a specific chess game (no cheating — shows board only) */
+  spectateGame: protectedProcedure
+    .input(z.object({ gameId: z.number() }))
+    .query(async ({ ctx, input }) => {
+      await chessReady;
+      const db = (await getDb())!;
+      const game = await db.select().from(chessGames)
+        .where(eq(chessGames.id, input.gameId))
+        .limit(1);
+      if (!game[0]) throw new Error("Game not found");
+
+      const g = game[0];
+      const whiteChar = CHESS_CHARACTERS[g.whiteCharacter || "the_human"];
+      const blackChar = CHESS_CHARACTERS[g.blackCharacter || "the_human"];
+      const chess = new Chess(g.fen || STARTING_FEN);
+      const history = chess.history({ verbose: true }) as any[];
+
+      // Get player rankings for display
+      let whiteElo = 1200;
+      let blackElo = 1200;
+      if (g.whitePlayerId) {
+        const wr = await db.select().from(chessRankings).where(eq(chessRankings.userId, g.whitePlayerId)).limit(1);
+        if (wr[0]) whiteElo = wr[0].elo;
+      }
+      if (g.blackPlayerId) {
+        const br = await db.select().from(chessRankings).where(eq(chessRankings.userId, g.blackPlayerId)).limit(1);
+        if (br[0]) blackElo = br[0].elo;
+      }
+
+      return {
+        id: g.id,
+        fen: g.fen || STARTING_FEN,
+        pgn: g.pgn || "",
+        status: g.status,
+        mode: g.mode,
+        turn: chess.turn() === "w" ? "white" : "black",
+        isCheck: chess.isCheck(),
+        isCheckmate: chess.isCheckmate(),
+        isStalemate: chess.isStalemate(),
+        isDraw: chess.isDraw(),
+        moveCount: history.length,
+        lastMove: history.length > 0 ? history[history.length - 1] : null,
+        recentMoves: history.slice(-10).map((m: any) => m.san),
+        whiteCharacter: { id: g.whiteCharacter, ...whiteChar, elo: whiteElo },
+        blackCharacter: { id: g.blackCharacter, ...blackChar, elo: blackElo },
+        isVsAI: !g.blackPlayerId,
+        aiDifficulty: g.aiDifficulty,
+        winnerId: g.winnerId,
+        createdAt: g.createdAt,
+      };
+    }),
+
+  /** Get featured/notable games for the spectator lobby */
+  getFeaturedGames: protectedProcedure.query(async ({ ctx }) => {
+    await chessReady;
+    const db = (await getDb())!;
+
+    // Get recently completed notable games (game_master, tournament, or long games)
+    const recentGames = await db.select().from(chessGames)
+      .where(and(
+        ne(chessGames.status, "waiting"),
+        ne(chessGames.status, "abandoned"),
+      ))
+      .orderBy(desc(chessGames.createdAt))
+      .limit(10);
+
+    return recentGames.map(g => {
+      const whiteChar = CHESS_CHARACTERS[g.whiteCharacter || "the_human"];
+      const blackChar = CHESS_CHARACTERS[g.blackCharacter || "the_human"];
+      return {
+        id: g.id,
+        mode: g.mode,
+        status: g.status,
+        whiteCharacterName: whiteChar?.name || "Unknown",
+        blackCharacterName: blackChar?.name || "AI",
+        winnerId: g.winnerId,
+        createdAt: g.createdAt,
+        featured: g.mode === "game_master" || g.mode === "tournament",
+      };
+    });
+  }),
+
+  /** Get opening book data for display */
+  getOpeningBooks: protectedProcedure.query(async () => {
+    return Object.entries(CHESS_CHARACTERS).map(([id, char]) => ({
+      characterId: id,
+      characterName: char.name,
+      loreTitle: char.loreTitle,
+      style: char.style,
+      openingPreference: char.openingPreference,
+      openings: (OPENING_BOOKS as Record<string, any[]>)[char.openingPreference] || [],
+    }));
+  }),
 });
 
 /** Process game end — update ELO, give rewards, advance story */
