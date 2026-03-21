@@ -1,4 +1,4 @@
-import { int, json, mysqlEnum, mysqlTable, text, timestamp, varchar } from "drizzle-orm/mysql-core";
+import { bigint, boolean, int, json, mysqlEnum, mysqlTable, text, timestamp, varchar } from "drizzle-orm/mysql-core";
 
 /**
  * Core user table backing auth flow.
@@ -1234,3 +1234,412 @@ export const warSeasons = mysqlTable("war_seasons", {
   rewards: json("rewards").$type<Record<string, unknown>>(),
 });
 export type WarSeason = typeof warSeasons.$inferSelect;
+
+
+/* ═══════════════════════════════════════════════════════
+   INTERGALACTIC MARKETPLACE — Player-to-player economy
+   ═══════════════════════════════════════════════════════ */
+
+/**
+ * Market listings — cards and materials listed for sale.
+ */
+export const marketListings = mysqlTable("market_listings", {
+  id: int("id").autoincrement().primaryKey(),
+  sellerId: int("sellerId").notNull(),
+  /** Type of item being sold */
+  itemType: mysqlEnum("itemType", ["card", "material", "crafted_item"]).notNull(),
+  /** Card ID (for card listings) or material/item ID */
+  itemId: varchar("itemId", { length: 128 }).notNull(),
+  /** Display name for the listing */
+  itemName: varchar("itemName", { length: 256 }).notNull(),
+  /** Rarity of the item */
+  rarity: varchar("rarity", { length: 32 }),
+  /** Quantity available */
+  quantity: int("quantity").notNull().default(1),
+  /** Price per unit in Dream tokens */
+  priceDream: int("priceDream").notNull().default(0),
+  /** Price per unit in credits */
+  priceCredits: int("priceCredits").notNull().default(0),
+  /** Status of the listing */
+  status: mysqlEnum("status", ["active", "sold", "cancelled", "expired"]).notNull().default("active"),
+  /** Optional category tag */
+  category: varchar("category", { length: 64 }),
+  /** Extra metadata (card stats, material source, etc.) */
+  metadata: json("metadata").$type<Record<string, unknown>>(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+  /** Auto-expire after this date */
+  expiresAt: timestamp("expiresAt"),
+});
+export type MarketListing = typeof marketListings.$inferSelect;
+
+/**
+ * Market buy orders — "wanted" requests with max price.
+ */
+export const marketBuyOrders = mysqlTable("market_buy_orders", {
+  id: int("id").autoincrement().primaryKey(),
+  buyerId: int("buyerId").notNull(),
+  itemType: mysqlEnum("itemType", ["card", "material", "crafted_item"]).notNull(),
+  itemId: varchar("itemId", { length: 128 }).notNull(),
+  itemName: varchar("itemName", { length: 256 }).notNull(),
+  quantity: int("quantity").notNull().default(1),
+  /** Max price willing to pay per unit (Dream) */
+  maxPriceDream: int("maxPriceDream").notNull().default(0),
+  /** Max price willing to pay per unit (credits) */
+  maxPriceCredits: int("maxPriceCredits").notNull().default(0),
+  /** Quantity already filled */
+  filledQuantity: int("filledQuantity").notNull().default(0),
+  status: mysqlEnum("status", ["active", "filled", "cancelled", "expired"]).notNull().default("active"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  expiresAt: timestamp("expiresAt"),
+});
+export type MarketBuyOrder = typeof marketBuyOrders.$inferSelect;
+
+/**
+ * Market transactions — completed sales for price history.
+ */
+export const marketTransactions = mysqlTable("market_transactions", {
+  id: int("id").autoincrement().primaryKey(),
+  listingId: int("listingId"),
+  buyOrderId: int("buyOrderId"),
+  sellerId: int("sellerId").notNull(),
+  buyerId: int("buyerId").notNull(),
+  itemType: mysqlEnum("itemType", ["card", "material", "crafted_item"]).notNull(),
+  itemId: varchar("itemId", { length: 128 }).notNull(),
+  itemName: varchar("itemName", { length: 256 }).notNull(),
+  quantity: int("quantity").notNull().default(1),
+  /** Actual price paid per unit (Dream) */
+  priceDream: int("priceDream").notNull().default(0),
+  /** Actual price paid per unit (credits) */
+  priceCredits: int("priceCredits").notNull().default(0),
+  /** Tax collected (Dream) */
+  taxDream: int("taxDream").notNull().default(0),
+  /** Tax collected (credits) */
+  taxCredits: int("taxCredits").notNull().default(0),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+export type MarketTransaction = typeof marketTransactions.$inferSelect;
+
+/**
+ * Market auctions — time-limited bidding for rare items.
+ */
+export const marketAuctions = mysqlTable("market_auctions", {
+  id: int("id").autoincrement().primaryKey(),
+  sellerId: int("sellerId").notNull(),
+  itemType: mysqlEnum("itemType", ["card", "material", "crafted_item"]).notNull(),
+  itemId: varchar("itemId", { length: 128 }).notNull(),
+  itemName: varchar("itemName", { length: 256 }).notNull(),
+  rarity: varchar("rarity", { length: 32 }),
+  quantity: int("quantity").notNull().default(1),
+  /** Starting bid (Dream) */
+  startingBid: int("startingBid").notNull().default(1),
+  /** Current highest bid (Dream) */
+  currentBid: int("currentBid").notNull().default(0),
+  /** Current highest bidder */
+  highestBidderId: int("highestBidderId"),
+  /** Minimum bid increment */
+  bidIncrement: int("bidIncrement").notNull().default(1),
+  /** Buy-it-now price (0 = no buyout) */
+  buyoutPrice: int("buyoutPrice").notNull().default(0),
+  status: mysqlEnum("status", ["active", "ended", "cancelled"]).notNull().default("active"),
+  metadata: json("metadata").$type<Record<string, unknown>>(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  endsAt: timestamp("endsAt").notNull(),
+});
+export type MarketAuction = typeof marketAuctions.$inferSelect;
+
+/**
+ * Auction bids — individual bids on auctions.
+ */
+export const auctionBids = mysqlTable("auction_bids", {
+  id: int("id").autoincrement().primaryKey(),
+  auctionId: int("auctionId").notNull(),
+  bidderId: int("bidderId").notNull(),
+  bidAmount: int("bidAmount").notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+export type AuctionBid = typeof auctionBids.$inferSelect;
+
+/**
+ * Currency exchange — Dream ↔ credits swap orders.
+ */
+export const currencyExchange = mysqlTable("currency_exchange", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  /** What they're selling */
+  sellCurrency: mysqlEnum("sellCurrency", ["dream", "credits"]).notNull(),
+  /** Amount selling */
+  sellAmount: int("sellAmount").notNull(),
+  /** What they want */
+  buyCurrency: mysqlEnum("buyCurrency", ["dream", "credits"]).notNull(),
+  /** Amount wanting */
+  buyAmount: int("buyAmount").notNull(),
+  /** Amount already filled */
+  filledAmount: int("filledAmount").notNull().default(0),
+  status: mysqlEnum("status", ["active", "filled", "cancelled"]).notNull().default("active"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+export type CurrencyExchangeOrder = typeof currencyExchange.$inferSelect;
+
+/* ═══════════════════════════════════════════════════════
+   DAILY QUESTS + LOGIN CALENDAR
+   ═══════════════════════════════════════════════════════ */
+
+/**
+ * Daily quests — rotating objectives with rewards.
+ */
+export const dailyQuests = mysqlTable("daily_quests", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  /** Quest definition ID (from quest templates) */
+  questId: varchar("questId", { length: 128 }).notNull(),
+  /** Quest title */
+  title: varchar("title", { length: 256 }).notNull(),
+  /** Quest description */
+  description: text("description"),
+  /** Quest type/category */
+  questType: mysqlEnum("questType", ["fight", "card_battle", "trade", "craft", "explore", "social"]).notNull(),
+  /** Target count to complete */
+  targetCount: int("targetCount").notNull().default(1),
+  /** Current progress */
+  currentCount: int("currentCount").notNull().default(0),
+  /** Reward in Dream tokens */
+  rewardDream: int("rewardDream").notNull().default(0),
+  /** Reward in XP */
+  rewardXp: int("rewardXp").notNull().default(0),
+  /** Reward in credits */
+  rewardCredits: int("rewardCredits").notNull().default(0),
+  /** Bonus reward description (card pack, material, etc.) */
+  bonusReward: varchar("bonusReward", { length: 256 }),
+  /** Whether reward has been claimed */
+  claimed: boolean("claimed").notNull().default(false),
+  /** Date this quest is for (YYYY-MM-DD) */
+  questDate: varchar("questDate", { length: 10 }).notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+export type DailyQuest = typeof dailyQuests.$inferSelect;
+
+/**
+ * Login calendar — daily login streak tracking.
+ */
+export const loginCalendar = mysqlTable("login_calendar", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  /** Current streak length */
+  currentStreak: int("currentStreak").notNull().default(0),
+  /** Longest streak ever */
+  longestStreak: int("longestStreak").notNull().default(0),
+  /** Last login date (YYYY-MM-DD) */
+  lastLoginDate: varchar("lastLoginDate", { length: 10 }),
+  /** Total days logged in */
+  totalDays: int("totalDays").notNull().default(0),
+  /** Days claimed this month (JSON array of day numbers) */
+  monthClaims: json("monthClaims").$type<number[]>(),
+  /** Current month (YYYY-MM) */
+  currentMonth: varchar("currentMonth", { length: 7 }),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+export type LoginCalendar = typeof loginCalendar.$inferSelect;
+
+/* ═══════════════════════════════════════════════════════
+   IN-APP NOTIFICATIONS
+   ═══════════════════════════════════════════════════════ */
+
+/**
+ * Notifications — in-app notification system.
+ */
+export const notifications = mysqlTable("notifications", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  /** Notification type for icon/routing */
+  type: mysqlEnum("type", [
+    "trade_offer", "trade_accepted", "trade_declined",
+    "pvp_challenge", "pvp_result",
+    "auction_outbid", "auction_won", "auction_ended",
+    "market_sold", "market_buy_filled",
+    "faction_war", "guild_invite", "guild_message",
+    "daily_reset", "daily_login", "quest_complete", "weekly_quest", "epoch_quest",
+    "achievement", "battle_pass_reward", "syndicate_quest",
+    "system"
+  ]).notNull(),
+  title: varchar("title", { length: 256 }).notNull(),
+  message: text("message").notNull(),
+  /** Whether the notification has been read */
+  isRead: boolean("isRead").notNull().default(false),
+  /** Link to navigate to when clicked */
+  actionUrl: varchar("actionUrl", { length: 256 }),
+  /** Extra data (trade ID, auction ID, etc.) */
+  metadata: json("metadata").$type<Record<string, unknown>>(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+export type Notification = typeof notifications.$inferSelect;
+
+/* ═══════════════════════════════════════════════════════
+   BATTLE PASS / SEASON PASS
+   ═══════════════════════════════════════════════════════ */
+
+/**
+ * Battle pass seasons — defines the pass structure.
+ */
+export const battlePassSeasons = mysqlTable("battle_pass_seasons", {
+  id: int("id").autoincrement().primaryKey(),
+  seasonNumber: int("seasonNumber").notNull(),
+  name: varchar("name", { length: 256 }).notNull(),
+  /** Season description/theme */
+  description: text("description"),
+  /** Total tiers in this pass */
+  totalTiers: int("totalTiers").notNull().default(50),
+  /** XP required per tier */
+  xpPerTier: int("xpPerTier").notNull().default(1000),
+  /** Price of premium track in Dream tokens */
+  premiumPriceDream: int("premiumPriceDream").notNull().default(500),
+  /** Price of premium track in USD cents */
+  premiumPriceUsd: int("premiumPriceUsd").notNull().default(499),
+  /** Tier rewards JSON: { tier: { free: {...}, premium: {...} } } */
+  tierRewards: json("tierRewards").$type<Record<string, { free?: Record<string, unknown>; premium?: Record<string, unknown> }>>(),
+  status: mysqlEnum("status", ["active", "upcoming", "ended"]).notNull().default("upcoming"),
+  startsAt: timestamp("startsAt").notNull(),
+  endsAt: timestamp("endsAt").notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+export type BattlePassSeason = typeof battlePassSeasons.$inferSelect;
+
+/**
+ * Battle pass player progress — tracks each player's pass progress.
+ */
+export const battlePassProgress = mysqlTable("battle_pass_progress", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  seasonId: int("seasonId").notNull(),
+  /** Current XP in this season */
+  currentXp: int("currentXp").notNull().default(0),
+  /** Current tier reached */
+  currentTier: int("currentTier").notNull().default(0),
+  /** Whether player has premium pass */
+  isPremium: boolean("isPremium").notNull().default(false),
+  /** Tiers where free rewards have been claimed (JSON array) */
+  claimedFreeTiers: json("claimedFreeTiers").$type<number[]>(),
+  /** Tiers where premium rewards have been claimed (JSON array) */
+  claimedPremiumTiers: json("claimedPremiumTiers").$type<number[]>(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+export type BattlePassProgress = typeof battlePassProgress.$inferSelect;
+
+/* ═══════════════════════════════════════════════════════
+   CARD DISENCHANT LOG
+   ═══════════════════════════════════════════════════════ */
+
+/**
+ * Disenchant log — tracks card salvage operations.
+ */
+export const disenchantLog = mysqlTable("disenchant_log", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  /** Card ID that was disenchanted */
+  cardId: varchar("cardId", { length: 128 }).notNull(),
+  cardName: varchar("cardName", { length: 256 }).notNull(),
+  cardRarity: varchar("cardRarity", { length: 32 }).notNull(),
+  /** Materials received (JSON: { materialId: quantity }) */
+  materialsReceived: json("materialsReceived").$type<Record<string, number>>(),
+  /** Dream tokens received */
+  dreamReceived: int("dreamReceived").notNull().default(0),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+export type DisenchantLog = typeof disenchantLog.$inferSelect;
+
+/* ═══════════════════════════════════════════════════════
+   GUILD SYSTEM
+   ═══════════════════════════════════════════════════════ */
+
+/**
+ * Guilds — player-created organizations.
+ */
+export const guilds = mysqlTable("guilds", {
+  id: int("id").autoincrement().primaryKey(),
+  name: varchar("name", { length: 64 }).notNull().unique(),
+  /** Guild tag (3-5 chars) */
+  tag: varchar("tag", { length: 5 }).notNull().unique(),
+  description: text("description"),
+  /** Guild leader user ID */
+  leaderId: int("leaderId").notNull(),
+  /** Guild faction alignment */
+  faction: mysqlEnum("faction", ["empire", "insurgency", "neutral"]).notNull().default("neutral"),
+  /** Guild icon/emblem identifier */
+  emblem: varchar("emblem", { length: 64 }).default("default"),
+  /** Max members allowed */
+  maxMembers: int("maxMembers").notNull().default(30),
+  /** Current member count (denormalized for performance) */
+  memberCount: int("memberCount").notNull().default(1),
+  /** Guild level */
+  level: int("level").notNull().default(1),
+  /** Guild XP */
+  xp: int("xp").notNull().default(0),
+  /** Treasury: Dream tokens pooled */
+  treasuryDream: int("treasuryDream").notNull().default(0),
+  /** Treasury: credits pooled */
+  treasuryCredits: int("treasuryCredits").notNull().default(0),
+  /** Total war contributions */
+  totalWarPoints: int("totalWarPoints").notNull().default(0),
+  /** Guild MOTD */
+  motd: text("motd"),
+  /** Whether guild is recruiting */
+  isRecruiting: boolean("isRecruiting").notNull().default(true),
+  /** Minimum level to join */
+  minLevelToJoin: int("minLevelToJoin").notNull().default(1),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+export type Guild = typeof guilds.$inferSelect;
+
+/**
+ * Guild members — membership records.
+ */
+export const guildMembers = mysqlTable("guild_members", {
+  id: int("id").autoincrement().primaryKey(),
+  guildId: int("guildId").notNull(),
+  userId: int("userId").notNull(),
+  /** Role within the guild */
+  role: mysqlEnum("role", ["leader", "officer", "member"]).notNull().default("member"),
+  /** Personal contribution to guild XP */
+  contributionXp: int("contributionXp").notNull().default(0),
+  /** Dream donated to treasury */
+  donatedDream: int("donatedDream").notNull().default(0),
+  /** Credits donated to treasury */
+  donatedCredits: int("donatedCredits").notNull().default(0),
+  /** War points contributed through this guild */
+  warPoints: int("warPoints").notNull().default(0),
+  joinedAt: timestamp("joinedAt").defaultNow().notNull(),
+});
+export type GuildMember = typeof guildMembers.$inferSelect;
+
+/**
+ * Guild chat messages.
+ */
+export const guildChat = mysqlTable("guild_chat", {
+  id: int("id").autoincrement().primaryKey(),
+  guildId: int("guildId").notNull(),
+  userId: int("userId").notNull(),
+  userName: varchar("userName", { length: 128 }).notNull(),
+  message: text("message").notNull(),
+  /** Message type */
+  messageType: mysqlEnum("messageType", ["chat", "system", "war_update"]).notNull().default("chat"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+export type GuildChatMessage = typeof guildChat.$inferSelect;
+
+/**
+ * Guild invites — pending invitations.
+ */
+export const guildInvites = mysqlTable("guild_invites", {
+  id: int("id").autoincrement().primaryKey(),
+  guildId: int("guildId").notNull(),
+  /** User who was invited */
+  invitedUserId: int("invitedUserId").notNull(),
+  /** User who sent the invite */
+  invitedBy: int("invitedBy").notNull(),
+  status: mysqlEnum("status", ["pending", "accepted", "declined"]).notNull().default("pending"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+export type GuildInvite = typeof guildInvites.$inferSelect;

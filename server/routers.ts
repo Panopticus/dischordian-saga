@@ -32,6 +32,13 @@ import { warMapRouter } from "./routers/warMap";
 import { contentApiRouter } from "./routers/contentApi";
 import { moralityLeaderboardRouter } from "./routers/moralityLeaderboard";
 import { companionRouter } from "./routers/companion";
+import { marketplaceRouter } from "./routers/marketplace";
+import { dailyQuestsRouter } from "./routers/dailyQuests";
+import { marketAchievementsRouter } from "./routers/marketAchievements";
+import { notificationRouter } from "./routers/notificationRouter";
+import { guildRouter } from "./routers/guild";
+import { battlePassRouter } from "./routers/battlePass";
+import { inventoryRouter } from "./routers/inventory";
 
 export const appRouter = router({
   system: systemRouter,
@@ -60,6 +67,13 @@ export const appRouter = router({
   contentApi: contentApiRouter,
   moralityLeaderboard: moralityLeaderboardRouter,
   companion: companionRouter,
+  marketplace: marketplaceRouter,
+  quests: dailyQuestsRouter,
+  marketAchievements: marketAchievementsRouter,
+  notifications: notificationRouter,
+  guild: guildRouter,
+  battlePass: battlePassRouter,
+  inventory: inventoryRouter,
   auth: router({
     me: publicProcedure.query(opts => opts.ctx.user),
     logout: publicProcedure.mutation(({ ctx }) => {

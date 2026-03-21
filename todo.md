@@ -1735,3 +1735,62 @@
 - [x] Write Kling 3.0 animation prompts for all cinematic videos
 - [x] Write ElevenLabs VO scripts for all dialogue lines
 - [x] Write Suno 5.0 music prompts for all game sections
+
+### Phase 74: Audit Recommendations — Full Build
+
+#### Intergalactic Marketplace
+- [x] Add marketplace database tables (listings, buy orders, transactions, auctions, bids, currency exchange)
+- [x] Build marketplace backend router (create/cancel/buy listings, buy orders, search, price history)
+- [x] Build auction system backend (create auction, place bid, resolve auctions)
+- [x] Build currency exchange backend (Dream ↔ credits swap orders)
+- [x] Build Intergalactic Marketplace frontend page with all tabs
+- [x] Add marketplace link to Ark navigation and Games page
+
+#### Daily Quest Board + Login Calendar
+- [x] Add daily quests and login calendar database tables
+- [x] Build daily quest backend (generate daily quests, track completion, claim rewards)
+- [x] Build login calendar backend (track streaks, claim daily rewards)
+- [x] Build Daily Quest Board + Login Calendar frontend page
+
+#### In-App Notification System
+- [x] Add notifications database table
+- [x] Build notification backend (create, list, mark read, clear)
+- [x] Build notification bell UI component in AppShell header
+- [ ] Wire notifications into trading, PvP, auctions, faction wars
+
+#### Battle Pass / Season Pass
+- [x] Add battle pass database tables (pass tiers, player progress)
+- [x] Build battle pass backend (track XP, claim tier rewards, purchase premium)
+- [x] Build Battle Pass frontend page with free/premium tracks
+
+#### Card Disenchant + Inventory Management
+- [x] Build card disenchant/salvage backend (convert cards to materials/Dream)
+- [x] Build Inventory Management frontend page (materials, items, quick-sell)
+- [x] Add disenchant button to card detail views
+
+#### Guild System
+- [x] Add guild database tables (guilds, members, treasury, chat)
+- [x] Build guild backend (create, join, leave, promote, treasury, leaderboard)
+- [x] Build Guild frontend page (roster, chat, treasury, wars)
+- [x] Add guild leaderboard
+
+#### Integration & Testing
+- [ ] Wire all new systems together and verify economy flow
+- [ ] Write tests for all new backend routers
+- [ ] Fix all TypeScript errors and save checkpoint
+
+#### Expanded Quest System (User Request)
+- [x] Add weekly quest templates (7-day rotation, harder objectives, bigger rewards)
+- [x] Add Epoch/Season quests (long-term objectives spanning full seasons)
+- [x] Build quest board frontend with daily/weekly/epoch tabs + login calendar
+
+#### Marketplace & Social Achievements (User Request)
+- [x] Design marketplace achievement tree (first listing, 100 trades, whale trader, etc.)
+- [x] Design social achievement tree (first trade, guild member, companion maxed, etc.)
+- [ ] Wire achievements into marketplace and social actions
+
+#### Guild System (User Request — Research-Driven Design)
+- [x] Research guild system design patterns for narrative-driven games
+- [x] Design guild system with faction alignment, ranks, treasury, guild quests
+- [x] Build guild backend (creation, join/leave, ranks, treasury, chat, leaderboard)
+- [x] Build guild frontend page

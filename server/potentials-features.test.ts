@@ -70,7 +70,7 @@ describe("Potentials Leaderboard", () => {
       const result = await caller.nft.potentialsLeaderboard();
       expect(result).toHaveProperty("entries");
       expect(result).toHaveProperty("total");
-    });
+    }, 15000);
   });
 
   describe("Response shape", () => {

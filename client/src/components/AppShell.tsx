@@ -7,7 +7,8 @@ import { ROUTE_ROOM_MAP } from "@/components/ProtectedRoute";
 import {
   Search, Menu, X, Map, Music, Users, MapPin, Swords, Clock,
   ChevronRight, ChevronDown, Terminal, Disc3, Shield, Tv, BarChart3, Gamepad2, Trophy, Crosshair,
-  Home, Rocket, Store, ScrollText, FlaskConical, Ship, Crown, Compass, Radio, Heart, Brain, BookOpen, Gem, Lock, Sun, Moon, Scale
+  Home, Rocket, Store, ScrollText, FlaskConical, Ship, Crown, Compass, Radio, Heart, Brain, BookOpen, Gem, Lock, Sun, Moon, Scale,
+  CalendarDays, Star, Package
 } from "lucide-react";
 import { useGamification } from "@/contexts/GamificationContext";
 import { useMoralityTheme } from "@/contexts/MoralityThemeContext";
@@ -15,6 +16,7 @@ import { useTheme } from "@/contexts/ThemeContext";
 import { MoralityBar } from "@/components/MoralityMeter";
 import { Progress } from "@/components/ui/progress";
 import { motion, AnimatePresence } from "framer-motion";
+import NotificationBell from "@/components/NotificationBell";
 
 const ARK_CONTROL_ROOM = "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/ark_control_room_04cb4fe3.png";
 
@@ -107,6 +109,11 @@ const NAV_GROUPS: NavGroup[] = [
       { path: "/lore-tutorials", label: "LORE TUTORIALS", icon: BookOpen, description: "Elara's guided tutorials" },
       { path: "/morality-census", label: "MORALITY CENSUS", icon: Heart, description: "Community alignment" },
       { path: "/potentials", label: "THE POTENTIALS", icon: Gem, description: "NFT collection & 1/1 cards" },
+      { path: "/marketplace", label: "GALACTIC MARKET", icon: Store, description: "Trade cards & materials" },
+      { path: "/quests", label: "QUEST BOARD", icon: CalendarDays, description: "Daily/weekly/epoch quests" },
+      { path: "/guild", label: "SYNDICATES", icon: Users, description: "Guild system" },
+      { path: "/battle-pass", label: "EPOCH PASS", icon: Star, description: "Season rewards" },
+      { path: "/inventory", label: "INVENTORY", icon: Package, description: "Cards & materials" },
     ],
   },
 ];
@@ -318,6 +325,7 @@ export default function AppShell({ children, elaraTTS: _elaraTTS }: { children: 
           <span><span className="text-[var(--orb-orange)]">{stats.relationships}</span> LINKS</span>
         </div>
 
+        <NotificationBell />
         <Link href="/search" className="p-1.5 rounded-md hover:bg-muted/50 transition-colors group">
           <Search size={16} className="text-muted-foreground/60 group-hover:text-[var(--neon-cyan)] transition-colors" />
         </Link>

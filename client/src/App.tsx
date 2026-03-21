@@ -91,6 +91,11 @@ const CompanionHubPage = lazy(() => import("./pages/CompanionHubPage"));
 const FleetViewerPage = lazy(() => import("./pages/FleetViewerPage"));
 const DiplomacyPage = lazy(() => import("./pages/DiplomacyPage"));
 const FactionWarPage = lazy(() => import("./pages/FactionWarPage"));
+const MarketplacePage = lazy(() => import("./pages/MarketplacePage"));
+const QuestBoardPage = lazy(() => import("./pages/QuestBoardPage"));
+const GuildPage = lazy(() => import("./pages/GuildPage"));
+const BattlePassPage = lazy(() => import("./pages/BattlePassPage"));
+const InventoryPage = lazy(() => import("./pages/InventoryPage"));
 
 /* ═══ LOADING FALLBACK ═══ */
 function PageLoader() {
@@ -166,6 +171,11 @@ function Router() {
         <Route path="/fleet" component={FleetViewerPage} />
         <Route path="/diplomacy" component={DiplomacyPage} />
         <Route path="/faction-wars" component={FactionWarPage} />
+        <Route path="/marketplace" component={MarketplacePage} />
+        <Route path="/quests" component={QuestBoardPage} />
+        <Route path="/guild" component={GuildPage} />
+        <Route path="/battle-pass" component={BattlePassPage} />
+        <Route path="/inventory" component={InventoryPage} />
         <Route path="/awakening">{() => <AwakeningPage />}</Route>
         <Route path="/404" component={NotFound} />
         <Route component={NotFound} />

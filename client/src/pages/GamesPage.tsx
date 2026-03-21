@@ -7,7 +7,7 @@ import { motion } from "framer-motion";
 import {
   Gamepad2, Swords, Rocket, ScrollText, Trophy, FlaskConical,
   ChevronRight, Shield, Crown, Ship, Zap, Globe, Radio, BookOpen, Users, Skull, Flame,
-  ArrowLeftRight, Medal, Dices
+  ArrowLeftRight, Medal, Dices, Store, CalendarDays, Shield as ShieldIcon, Star, Package
 } from "lucide-react";
 import { useGamification } from "@/contexts/GamificationContext";
 import TutorialTrigger from "@/components/TutorialTrigger";
@@ -203,6 +203,51 @@ const SIMULATIONS: GameTile[] = [
     loreContext: "ARCHIVE: Service Record",
     icon: Medal,
     color: "#f59e0b",
+  },
+  {
+    href: "/marketplace",
+    title: "INTERGALACTIC MARKET",
+    subtitle: "Trade Everything",
+    description: "List cards, materials, and items for sale. Place buy orders, bid on auctions, and exchange Dream tokens for credits on the open market.",
+    loreContext: "MARKET: Galactic Exchange",
+    icon: Store,
+    color: "#10b981",
+  },
+  {
+    href: "/quests",
+    title: "QUEST BOARD",
+    subtitle: "Daily / Weekly / Epoch",
+    description: "Complete daily, weekly, and epoch-spanning quests for Dream tokens, materials, and exclusive rewards. Maintain your login streak for bonus loot.",
+    loreContext: "ORDERS: Mission Briefings",
+    icon: CalendarDays,
+    color: "#8b5cf6",
+  },
+  {
+    href: "/guild",
+    title: "SYNDICATES",
+    subtitle: "Guild System",
+    description: "Form or join a Syndicate aligned with a faction. Contribute to the treasury, chat with members, climb the guild leaderboard, and wage faction wars.",
+    loreContext: "SYNDICATE: Collective Operations",
+    icon: Users,
+    color: "#ec4899",
+  },
+  {
+    href: "/battle-pass",
+    title: "EPOCH PASS",
+    subtitle: "Season Rewards",
+    description: "Progress through 50 tiers of free and premium rewards. Earn XP from every game mode to unlock cards, Dream tokens, titles, and exclusive fighters.",
+    loreContext: "EPOCH: Seasonal Protocol",
+    icon: Star,
+    color: "#f59e0b",
+  },
+  {
+    href: "/inventory",
+    title: "INVENTORY",
+    subtitle: "Manage & Disenchant",
+    description: "View all your cards and materials. Disenchant excess cards into Dream tokens and Star Dust. Bulk-disenchant duplicates with a single command.",
+    loreContext: "CARGO: Asset Management",
+    icon: Package,
+    color: "#64748b",
   },
 ];
 

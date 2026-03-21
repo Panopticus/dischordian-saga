@@ -127,6 +127,20 @@
       "when": 1774026059641,
       "tag": "0017_empty_marvel_boy",
       "breakpoints": true
+    },
+    {
+      "idx": 18,
+      "version": "5",
+      "when": 1774093675847,
+      "tag": "0018_glossy_archangel",
+      "breakpoints": true
+    },
+    {
+      "idx": 19,
+      "version": "5",
+      "when": 1774094853285,
+      "tag": "0019_tranquil_shadowcat",
+      "breakpoints": true
     }
   ]
 }
