@@ -1686,3 +1686,16 @@
 - [x] Seed 18 SiH cards into database
 - [x] Update all test expectations for new content counts (196 cards, 40 games, 6 ages, 39 achievements)
 - [x] All 42 test files pass (1635 tests)
+
+### Phase 70: Companion System, The Human, Inception Arks, Trade Empire Diplomacy
+- [x] Create comprehensive companion data (Elara backstory, The Human noir detective, quests, romance)
+- [x] Build companion relationship context with state management
+- [x] Build CompanionHub page with relationship progression, backstory reveals, quest tracking
+- [x] Build The Human dialog system with noir detective persona and slow reveal
+- [x] Build Inception Ark fleet viewer with 7 ark types and class assignment
+- [x] Build Trade Empire diplomacy events with NPC encounters and moral choices
+- [x] Generate artwork for The Human character (icon-based reveal stages)
+- [x] Generate artwork for 7 Inception Arks (icon-based class visuals)
+- [x] Write comprehensive tests for companion data, diplomacy events, and ark definitions (28 tests)
+- [x] Update todo and save checkpoint
+- [x] Add romance system for Elara (requires Humanity morality ≥ 30) and The Human (requires Machine morality ≤ -30)

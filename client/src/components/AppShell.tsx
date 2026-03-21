@@ -7,7 +7,7 @@ import { ROUTE_ROOM_MAP } from "@/components/ProtectedRoute";
 import {
   Search, Menu, X, Map, Music, Users, MapPin, Swords, Clock,
   ChevronRight, ChevronDown, Terminal, Disc3, Shield, Tv, BarChart3, Gamepad2, Trophy, Crosshair,
-  Home, Rocket, Store, ScrollText, FlaskConical, Ship, Crown, Compass, Radio, Heart, Brain, BookOpen, Gem, Lock, Sun, Moon
+  Home, Rocket, Store, ScrollText, FlaskConical, Ship, Crown, Compass, Radio, Heart, Brain, BookOpen, Gem, Lock, Sun, Moon, Scale
 } from "lucide-react";
 import { useGamification } from "@/contexts/GamificationContext";
 import { useMoralityTheme } from "@/contexts/MoralityThemeContext";
@@ -95,6 +95,9 @@ const NAV_GROUPS: NavGroup[] = [
     defaultOpen: true,
     items: [
       { path: "/profile", label: "OPERATIVE DOSSIER", icon: BarChart3, description: "Stats & progress" },
+      { path: "/companions", label: "COMPANIONS", icon: Heart, description: "Ally relationships" },
+      { path: "/fleet", label: "ARK FLEET", icon: Rocket, description: "Inception Ark registry" },
+      { path: "/diplomacy", label: "DIPLOMACY", icon: Scale, description: "Moral dilemmas & factions" },
       { path: "/leaderboard", label: "LEADERBOARD", icon: Trophy, description: "Top operatives" },
       { path: "/create-citizen", label: "CITIZEN ID", icon: Users, description: "Create identity" },
       { path: "/character-sheet", label: "CHAR SHEET", icon: Shield, description: "Stats & gear" },
@@ -115,7 +118,7 @@ const ALBUMS = [
 ];
 
 /* ─── ALWAYS-ACCESSIBLE ROUTES (no room required) ─── */
-const ALWAYS_ACCESSIBLE = ["/ark", "/console", "/games", "/clue-journal", "/settings", "/admin", "/character-sheet", "/awakening", "/research-minigame", "/war-map", "/lore-tutorials", "/morality-census"];
+const ALWAYS_ACCESSIBLE = ["/ark", "/console", "/games", "/clue-journal", "/settings", "/admin", "/character-sheet", "/awakening", "/research-minigame", "/war-map", "/lore-tutorials", "/morality-census", "/companions", "/fleet", "/diplomacy"];
 
 function isRouteUnlocked(path: string, rooms: Record<string, { unlocked?: boolean }>): boolean {
   if (ALWAYS_ACCESSIBLE.some(p => path.startsWith(p))) return true;

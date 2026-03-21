@@ -87,6 +87,9 @@ const ResearchMinigamePage = lazy(() => import("./pages/ResearchMinigamePage"));
 const LoreTutorialHubPage = lazy(() => import("./pages/LoreTutorialHubPage"));
 const MoralityLeaderboardPage = lazy(() => import("./pages/MoralityLeaderboardPage"));
 const ForgePage = lazy(() => import("./pages/ForgePage"));
+const CompanionHubPage = lazy(() => import("./pages/CompanionHubPage"));
+const FleetViewerPage = lazy(() => import("./pages/FleetViewerPage"));
+const DiplomacyPage = lazy(() => import("./pages/DiplomacyPage"));
 
 /* ═══ LOADING FALLBACK ═══ */
 function PageLoader() {
@@ -158,6 +161,9 @@ function Router() {
         <Route path="/research-minigame" component={ResearchMinigamePage} />
         <Route path="/lore-tutorials" component={LoreTutorialHubPage} />
         <Route path="/morality-census" component={MoralityLeaderboardPage} />
+        <Route path="/companions" component={CompanionHubPage} />
+        <Route path="/fleet" component={FleetViewerPage} />
+        <Route path="/diplomacy" component={DiplomacyPage} />
         <Route path="/awakening">{() => <AwakeningPage />}</Route>
         <Route path="/404" component={NotFound} />
         <Route component={NotFound} />

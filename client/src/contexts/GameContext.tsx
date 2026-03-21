@@ -76,6 +76,20 @@ export interface GameState {
   craftingMaterials: Record<string, number>; // Material ID → quantity
   craftedItems: string[];                    // IDs of items crafted
   craftingLog: { recipeId: string; success: boolean; timestamp: number }[]; // Crafting history
+  // Companion relationship system
+  companionRelationships: Record<string, number>; // companionId → relationship level (0-100)
+  companionQuestsCompleted: string[];             // Quest IDs completed
+  companionQuestsActive: string[];                // Quest IDs currently active
+  companionBackstoryUnlocked: string[];           // Backstory stage IDs unlocked
+  companionRomanceActive: string | null;          // Active romance companion ID or null
+  companionDialogHistory: Record<string, string[]>; // companionId → array of dialog choice IDs
+  // Inception Ark fleet
+  assignedArkId: string | null;                   // Player's assigned Inception Ark
+  discoveredArks: string[];                       // Ark IDs the player has discovered
+  // Diplomacy events
+  completedDiplomacyEvents: string[];             // Diplomacy event IDs completed
+  diplomacyChoices: { eventId: string; choiceId: string; moralityDelta: number }[];
+  factionReputation: Record<string, number>;      // faction → reputation score
 }
 
 /* ─── ROOM DEFINITIONS ─── */
@@ -600,6 +614,20 @@ const DEFAULT_GAME_STATE: GameState = {
   craftingMaterials: {},
   craftedItems: [],
   craftingLog: [],
+  // Companion system defaults
+  companionRelationships: { elara: 5, the_human: 0 },
+  companionQuestsCompleted: [],
+  companionQuestsActive: [],
+  companionBackstoryUnlocked: ["elara_bs_1"],
+  companionRomanceActive: null,
+  companionDialogHistory: { elara: [], the_human: [] },
+  // Inception Ark fleet
+  assignedArkId: null,
+  discoveredArks: [],
+  // Diplomacy
+  completedDiplomacyEvents: [],
+  diplomacyChoices: [],
+  factionReputation: { empire: 0, insurgency: 0, independent: 0, pirate: 0 },
 };
 
 const GAME_STORAGE_KEY = "loredex_game_state";
@@ -649,6 +677,19 @@ interface GameContextValue {
   craftItem: (recipeId: string, materialsUsed: Record<string, number>, dreamCost: number, skillId: string, xpGain: number, outputItemId: string, outputQuantity: number) => void;
   craftFailed: (recipeId: string, materialsUsed: Record<string, number>, dreamCost: number, skillId: string, xpGain: number) => void;
   addMaterial: (materialId: string, quantity: number) => void;
+  // Companion system
+  gainCompanionXp: (companionId: string, amount: number) => void;
+  activateCompanionQuest: (questId: string) => void;
+  completeCompanionQuest: (questId: string) => void;
+  unlockBackstory: (stageId: string) => void;
+  setRomance: (companionId: string | null) => void;
+  addCompanionDialogChoice: (companionId: string, choiceId: string) => void;
+  getCompanionLevel: (companionId: string) => number;
+  // Inception Ark fleet
+  assignArk: (arkId: string) => void;
+  discoverArk: (arkId: string) => void;
+  // Diplomacy
+  completeDiplomacyEvent: (eventId: string, choiceId: string, moralityDelta: number, reputationDeltas: Record<string, number>) => void;
   // Quick access
   skipToExploring: () => void;
   // Server sync
@@ -1116,6 +1157,105 @@ export function GameProvider({ children }: { children: ReactNode }) {
     }));
   }, []);
 
+  // ═══ COMPANION SYSTEM CALLBACKS ═══
+  const gainCompanionXp = useCallback((companionId: string, amount: number) => {
+    setState(prev => {
+      const current = prev.companionRelationships[companionId] || 0;
+      const newLevel = Math.min(100, Math.max(0, current + amount));
+      return {
+        ...prev,
+        companionRelationships: { ...prev.companionRelationships, [companionId]: newLevel },
+      };
+    });
+  }, []);
+
+  const activateCompanionQuest = useCallback((questId: string) => {
+    setState(prev => ({
+      ...prev,
+      companionQuestsActive: prev.companionQuestsActive.includes(questId)
+        ? prev.companionQuestsActive
+        : [...prev.companionQuestsActive, questId],
+    }));
+  }, []);
+
+  const completeCompanionQuest = useCallback((questId: string) => {
+    setState(prev => ({
+      ...prev,
+      companionQuestsCompleted: prev.companionQuestsCompleted.includes(questId)
+        ? prev.companionQuestsCompleted
+        : [...prev.companionQuestsCompleted, questId],
+      companionQuestsActive: prev.companionQuestsActive.filter(id => id !== questId),
+    }));
+  }, []);
+
+  const unlockBackstory = useCallback((stageId: string) => {
+    setState(prev => ({
+      ...prev,
+      companionBackstoryUnlocked: prev.companionBackstoryUnlocked.includes(stageId)
+        ? prev.companionBackstoryUnlocked
+        : [...prev.companionBackstoryUnlocked, stageId],
+    }));
+  }, []);
+
+  const setRomance = useCallback((companionId: string | null) => {
+    setState(prev => ({ ...prev, companionRomanceActive: companionId }));
+  }, []);
+
+  const addCompanionDialogChoice = useCallback((companionId: string, choiceId: string) => {
+    setState(prev => {
+      const history = prev.companionDialogHistory[companionId] || [];
+      return {
+        ...prev,
+        companionDialogHistory: {
+          ...prev.companionDialogHistory,
+          [companionId]: [...history, choiceId],
+        },
+      };
+    });
+  }, []);
+
+  const getCompanionLevel = useCallback((companionId: string): number => {
+    return state.companionRelationships[companionId] || 0;
+  }, [state.companionRelationships]);
+
+  // ═══ INCEPTION ARK FLEET CALLBACKS ═══
+  const assignArk = useCallback((arkId: string) => {
+    setState(prev => ({
+      ...prev,
+      assignedArkId: arkId,
+      discoveredArks: prev.discoveredArks.includes(arkId)
+        ? prev.discoveredArks
+        : [...prev.discoveredArks, arkId],
+    }));
+  }, []);
+
+  const discoverArk = useCallback((arkId: string) => {
+    setState(prev => ({
+      ...prev,
+      discoveredArks: prev.discoveredArks.includes(arkId)
+        ? prev.discoveredArks
+        : [...prev.discoveredArks, arkId],
+    }));
+  }, []);
+
+  // ═══ DIPLOMACY CALLBACKS ═══
+  const completeDiplomacyEvent = useCallback((eventId: string, choiceId: string, moralityDelta: number, reputationDeltas: Record<string, number>) => {
+    setState(prev => {
+      const newReputation = { ...prev.factionReputation };
+      for (const [faction, delta] of Object.entries(reputationDeltas)) {
+        newReputation[faction] = (newReputation[faction] || 0) + delta;
+      }
+      const newMorality = Math.max(-100, Math.min(100, prev.moralityScore + moralityDelta));
+      return {
+        ...prev,
+        completedDiplomacyEvents: [...prev.completedDiplomacyEvents, eventId],
+        diplomacyChoices: [...prev.diplomacyChoices, { eventId, choiceId, moralityDelta }],
+        factionReputation: newReputation,
+        moralityScore: newMorality,
+      };
+    });
+  }, []);
+
   return (
     <GameContext.Provider value={{
       state,
@@ -1150,6 +1290,16 @@ export function GameProvider({ children }: { children: ReactNode }) {
       craftItem,
       craftFailed,
       addMaterial,
+      gainCompanionXp,
+      activateCompanionQuest,
+      completeCompanionQuest,
+      unlockBackstory,
+      setRomance,
+      addCompanionDialogChoice,
+      getCompanionLevel,
+      assignArk,
+      discoverArk,
+      completeDiplomacyEvent,
       skipToExploring,
       syncStatus,
       lastSyncedAt,
