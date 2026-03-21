@@ -570,7 +570,7 @@ export default function CodexPage() {
                     setExpandedEntry(isExpanded ? null : entry.id);
                   }
                 }}
-                className="w-full px-4 py-3 flex items-center gap-3 text-left hover:bg-white/[0.02] transition-colors"
+                className="w-full px-4 py-3 flex items-center gap-3 text-left hover:bg-muted/15 transition-colors"
               >
                 <div className={`p-1.5 rounded-md ${isUnlocked ? rarityBg : "bg-secondary/20"}`}>
                   {isUnlocked ? entry.icon : <Lock size={16} className="text-muted-foreground/40" />}

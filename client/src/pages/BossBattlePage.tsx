@@ -17,7 +17,7 @@ import LandscapeEnforcer from "@/components/LandscapeEnforcer";
 function BossCardView({ card, onClick, selected, targetable, disabled, small }: {
   card: BattleCard; onClick?: () => void; selected?: boolean; targetable?: boolean; disabled?: boolean; small?: boolean;
 }) {
-  const rarityColor = { common: "border-white/20", uncommon: "border-green-400/40", rare: "border-blue-400/50", legendary: "border-amber-400/60" }[card.rarity];
+  const rarityColor = { common: "border-border", uncommon: "border-green-400/40", rare: "border-blue-400/50", legendary: "border-amber-400/60" }[card.rarity];
   const TypeIcon = card.type === "unit" ? Swords : card.type === "spell" ? Zap : Shield;
   const hpPercent = card.defense > 0 ? (card.currentHP / card.defense) * 100 : 100;
   const isDamaged = card.currentHP < card.defense;
@@ -514,7 +514,7 @@ export default function BossBattlePage() {
           className="px-4 py-1.5 rounded-md font-mono text-[10px]" style={{ background: "rgba(239,68,68,0.15)", border: "1px solid rgba(239,68,68,0.3)", color: "rgba(239,68,68,0.8)" }}>
           <Target size={10} className="inline mr-1" />ATTACK BOSS</motion.button>}
         <p className="font-mono text-[9px] text-muted-foreground/50">Turn {turnNumber} — {turn === "player" ? "YOUR TURN" : "BOSS TURN"}</p>
-        {targetMode && <button onClick={() => { setSelectedAttacker(null); setTargetMode(false); }} className="px-3 py-1.5 rounded-md font-mono text-[10px] text-muted-foreground/50 border border-white/10">CANCEL</button>}
+        {targetMode && <button onClick={() => { setSelectedAttacker(null); setTargetMode(false); }} className="px-3 py-1.5 rounded-md font-mono text-[10px] text-muted-foreground/50 border border-border/60">CANCEL</button>}
       </div>
 
       <div className="px-3 sm:px-6 py-2">

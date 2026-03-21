@@ -214,7 +214,7 @@ function QueueTab({ queue, currentSong, onPlay }: {
             key={`${song.id}-${i}`}
             onClick={() => onPlay(song)}
             className={`flex items-center gap-2.5 w-full px-3 py-2 rounded-md text-left transition-all ${
-              active ? "bg-white/8 border border-white/10" : "hover:bg-white/4 border border-transparent"
+              active ? "bg-muted/30 border border-border/60" : "hover:bg-white/4 border border-transparent"
             }`}
           >
             <span className="font-mono text-[9px] text-muted-foreground/35 w-5 text-right shrink-0">
@@ -259,8 +259,8 @@ function AlbumsTab({ onPlayAlbum }: {
           <button
             key={album.slug}
             onClick={() => onPlayAlbum(album.name)}
-            className="group flex flex-col rounded-lg border border-white/8 overflow-hidden hover:border-white/15 transition-all text-left"
-            style={{ background: "rgba(255,255,255,0.02)" }}
+            className="group flex flex-col rounded-lg border border-border/50 overflow-hidden hover:border-border/80 transition-all text-left"
+            
           >
             <div className="aspect-square overflow-hidden relative">
               {firstTrack?.image ? (
@@ -296,7 +296,7 @@ function SagaTab() {
     <div className="space-y-2 max-h-60 overflow-y-auto custom-scrollbar">
       <p className="font-mono text-[9px] text-muted-foreground/40 tracking-[0.2em] px-1 uppercase">The Dischordian Saga — Epochs</p>
       {SAGA_EPOCHS.map((epoch) => (
-        <div key={epoch.id} className="rounded-lg border border-white/8 overflow-hidden" style={{ background: "rgba(255,255,255,0.02)" }}>
+        <div key={epoch.id} className="rounded-lg border border-border/50 overflow-hidden" >
           <div className="flex items-center gap-3 px-3 py-2.5">
             <div className="w-2 h-8 rounded-full shrink-0" style={{ background: epoch.color }} />
             <div className="min-w-0 flex-1">
@@ -320,7 +320,7 @@ function SagaTab() {
                 <Link
                   key={name}
                   href={entry ? `/entity/${entry.id}` : "#"}
-                  className="flex items-center gap-1 px-1.5 py-0.5 rounded bg-muted/40 hover:bg-white/8 transition-colors shrink-0"
+                  className="flex items-center gap-1 px-1.5 py-0.5 rounded bg-muted/40 hover:bg-muted/30 transition-colors shrink-0"
                 >
                   {entry?.image && (
                     <img src={entry.image} alt="" className="w-4 h-4 rounded-full object-cover" />
@@ -443,7 +443,7 @@ function ExpandedPlayer({
   return (
     <div className="px-3 sm:px-4 pb-3">
       {/* Header with collapse */}
-      <div className="flex items-center justify-between py-2 border-b border-white/5 mb-3">
+      <div className="flex items-center justify-between py-2 border-b border-border/40 mb-3">
         <div className="flex items-center gap-2">
           <Radio size={12} className="text-[var(--neon-cyan)]" />
           <span className="font-mono text-[9px] text-[var(--neon-cyan)] tracking-[0.3em]">CoNexus MEDIA</span>
@@ -531,7 +531,7 @@ function ExpandedPlayer({
       </div>
 
       {/* Tab Bar */}
-      <div className="flex items-center gap-0.5 mb-2 border-b border-white/5 pb-1">
+      <div className="flex items-center gap-0.5 mb-2 border-b border-border/40 pb-1">
         {tabs.map((tab) => {
           const Icon = tab.icon;
           const active = activeTab === tab.id;

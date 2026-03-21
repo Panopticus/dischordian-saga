@@ -870,7 +870,7 @@ function ChainQuestItem({ quest, isActive, isLocked, checkResult }: {
           ? "bg-green-500/20 border border-green-500/40"
           : isActive
           ? "bg-amber-500/20 border border-amber-500/40"
-          : "bg-muted/40 border border-white/10"
+          : "bg-muted/40 border border-border/60"
       }`}>
         {checkResult.complete ? (
           <Trophy size={10} className="text-green-400" />

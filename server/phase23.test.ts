@@ -8,7 +8,7 @@ describe("Lore Achievements Data", () => {
   it("should export LORE_ACHIEVEMENTS with 33 entries (one per game)", async () => {
     const { LORE_ACHIEVEMENTS } = await import("../client/src/data/loreAchievements");
     expect(Array.isArray(LORE_ACHIEVEMENTS)).toBe(true);
-    expect(LORE_ACHIEVEMENTS.length).toBe(33);
+    expect(LORE_ACHIEVEMENTS.length).toBe(39);
   });
 
   it("each achievement should have required fields", async () => {
@@ -130,8 +130,8 @@ describe("Game Completion Tracking", () => {
 
   it("CONEXUS_GAMES should have 34 games across 5 ages", async () => {
     const { CONEXUS_GAMES, AGE_CATEGORIES } = await import("../client/src/data/conexusGames");
-    expect(CONEXUS_GAMES.length).toBe(34);
-    expect(AGE_CATEGORIES.length).toBe(5);
+    expect(CONEXUS_GAMES.length).toBe(40);
+    expect(AGE_CATEGORIES.length).toBe(6);
     
     // Verify all games belong to a valid age
     const validAges = new Set(AGE_CATEGORIES.map(c => c.age));
@@ -189,6 +189,7 @@ describe("Saga Timeline Structure", () => {
   it("AGE_CATEGORIES should be in chronological order", async () => {
     const { AGE_CATEGORIES } = await import("../client/src/data/conexusGames");
     const expectedOrder = [
+      "The Foundation",
       "The Age of Privacy",
       "Haven: Sundown Bazaar",
       "Fall of Reality (Prequel)",

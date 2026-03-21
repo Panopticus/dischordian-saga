@@ -885,9 +885,9 @@ export default function CardBattlePage() {
         <div className="flex items-center justify-center gap-2 sm:gap-3 min-h-[7rem] sm:min-h-[9rem]">
           {enemy.field.length === 0 ? (
             <div className="flex items-center gap-2">
-              <div className="w-16 h-24 sm:w-20 sm:h-28 rounded-lg border border-dashed border-white/5" />
-              <div className="w-16 h-24 sm:w-20 sm:h-28 rounded-lg border border-dashed border-white/5" />
-              <div className="w-16 h-24 sm:w-20 sm:h-28 rounded-lg border border-dashed border-white/5" />
+              <div className="w-16 h-24 sm:w-20 sm:h-28 rounded-lg border border-dashed border-border/40" />
+              <div className="w-16 h-24 sm:w-20 sm:h-28 rounded-lg border border-dashed border-border/40" />
+              <div className="w-16 h-24 sm:w-20 sm:h-28 rounded-lg border border-dashed border-border/40" />
             </div>
           ) : (
             enemy.field.map(card => (

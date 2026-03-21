@@ -57,7 +57,7 @@ function DotSelector({ value, onChange, label, color, icon: Icon, max = 5 }: {
         <button
           onClick={() => onChange(Math.max(1, value - 1))}
           disabled={value <= 1}
-          className="w-6 h-6 rounded flex items-center justify-center bg-muted/40 border border-white/10 text-muted-foreground hover:bg-muted/60 disabled:opacity-30 transition-all font-mono text-xs"
+          className="w-6 h-6 rounded flex items-center justify-center bg-muted/40 border border-border text-muted-foreground hover:bg-muted/60 disabled:opacity-30 transition-all font-mono text-xs"
         >
           −
         </button>
@@ -72,7 +72,7 @@ function DotSelector({ value, onChange, label, color, icon: Icon, max = 5 }: {
         <button
           onClick={() => onChange(Math.min(max, value + 1))}
           disabled={value >= max}
-          className="w-6 h-6 rounded flex items-center justify-center bg-muted/40 border border-white/10 text-muted-foreground hover:bg-muted/60 disabled:opacity-30 transition-all font-mono text-xs"
+          className="w-6 h-6 rounded flex items-center justify-center bg-muted/40 border border-border text-muted-foreground hover:bg-muted/60 disabled:opacity-30 transition-all font-mono text-xs"
         >
           +
         </button>
@@ -198,11 +198,11 @@ export default function RespecDialog({ isOpen, onClose, isAuthenticated }: {
           initial={{ opacity: 0, scale: 0.95, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 20 }}
-          className="w-full max-w-lg bg-[#0a0a1a] border border-white/10 rounded-xl overflow-hidden shadow-2xl"
+          className="w-full max-w-lg bg-popover text-popover-foreground border border-border rounded-xl overflow-hidden shadow-2xl"
           onClick={(e) => e.stopPropagation()}
         >
           {/* Header */}
-          <div className="p-4 border-b border-white/5 flex items-center justify-between bg-white/[0.02]">
+          <div className="p-4 border-b border-border/50 flex items-center justify-between bg-muted/30">
             <div className="flex items-center gap-2.5">
               <div className="w-8 h-8 rounded-lg bg-purple-500/10 border border-purple-400/20 flex items-center justify-center">
                 <RotateCcw size={16} className="text-purple-400" />
@@ -219,7 +219,7 @@ export default function RespecDialog({ isOpen, onClose, isAuthenticated }: {
 
           {/* Dream Balance */}
           {data && (
-            <div className="px-4 py-2 border-b border-white/5 flex items-center justify-between bg-purple-500/[0.03]">
+            <div className="px-4 py-2 border-b border-border/50 flex items-center justify-between bg-purple-500/[0.05]">
               <span className="font-mono text-[9px] text-muted-foreground/50 tracking-wider">DREAM BALANCE</span>
               <div className="flex items-center gap-1.5">
                 <Gem size={10} className="text-purple-400" />
@@ -229,7 +229,7 @@ export default function RespecDialog({ isOpen, onClose, isAuthenticated }: {
           )}
 
           {/* Tab Bar */}
-          <div className="flex border-b border-white/5">
+          <div className="flex border-b border-border/50">
             {([
               { key: "attributes" as const, label: "ATTRIBUTES", cost: data?.attributeRespecCost },
               { key: "alignment" as const, label: "ALIGNMENT", cost: data?.alignmentRespecCost },
@@ -241,7 +241,7 @@ export default function RespecDialog({ isOpen, onClose, isAuthenticated }: {
                 className={`flex-1 py-2.5 font-mono text-[9px] tracking-[0.15em] transition-all border-b-2 ${
                   tab === t.key
                     ? "text-purple-400 border-purple-400 bg-purple-500/5"
-                    : "text-muted-foreground/40 border-transparent hover:text-muted-foreground/60 hover:bg-white/[0.02]"
+                    : "text-muted-foreground/40 border-transparent hover:text-muted-foreground/60 hover:bg-muted/15"
                 }`}
               >
                 {t.label}
@@ -284,7 +284,7 @@ export default function RespecDialog({ isOpen, onClose, isAuthenticated }: {
                 {/* ATTRIBUTES TAB */}
                 {tab === "attributes" && (
                   <div>
-                    <div className="mb-4 p-2.5 rounded-lg bg-white/[0.02] border border-white/5">
+                    <div className="mb-4 p-2.5 rounded-lg bg-muted/15 border border-border/40">
                       <div className="flex items-center justify-between mb-1">
                         <span className="font-mono text-[8px] text-muted-foreground/40 tracking-wider">DOT BUDGET</span>
                         <span className={`font-mono text-[10px] font-bold tabular-nums ${dotsRemaining === 0 ? "text-emerald-400" : dotsRemaining > 0 ? "text-amber-400" : "text-red-400"}`}>
@@ -350,7 +350,7 @@ export default function RespecDialog({ isOpen, onClose, isAuthenticated }: {
                             className={`p-4 rounded-lg border transition-all ${
                               isSelected
                                 ? `border-${alColor}-400/40 bg-${alColor}-500/10 shadow-[0_0_15px_rgba(${al === "order" ? "51,226,230" : "168,85,247"},0.15)]`
-                                : "border-white/10 bg-white/[0.02] hover:bg-white/[0.04]"
+                                : "border-border/60 bg-muted/15 hover:bg-muted/25"
                             }`}
                           >
                             <div className="flex items-center gap-2 mb-2">
@@ -413,7 +413,7 @@ export default function RespecDialog({ isOpen, onClose, isAuthenticated }: {
                             className={`p-3 rounded-lg border transition-all flex items-center gap-2.5 ${
                               isSelected
                                 ? `${colors.border} ${colors.bg} shadow-[0_0_10px_rgba(255,255,255,0.05)]`
-                                : "border-white/10 bg-white/[0.02] hover:bg-white/[0.04]"
+                                : "border-border/60 bg-muted/15 hover:bg-muted/25"
                             }`}
                           >
                             <ElIcon size={16} className={colors.text} />
@@ -452,7 +452,7 @@ export default function RespecDialog({ isOpen, onClose, isAuthenticated }: {
           </div>
 
           {/* Footer */}
-          <div className="px-4 py-3 border-t border-white/5 bg-white/[0.01]">
+          <div className="px-4 py-3 border-t border-border/40 bg-muted/10">
             <p className="font-mono text-[7px] text-muted-foreground/25 text-center tracking-wider">
               RESPEC COSTS SCALE WITH CITIZEN LEVEL • ALL CHANGES ARE IMMEDIATE
             </p>

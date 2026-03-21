@@ -257,7 +257,7 @@ describe("Card Gallery Data", () => {
         "utf-8"
       )
     );
-    expect(data.length).toBe(178);
+    expect(data.length).toBe(196);
   });
 
   it("every card has required fields", async () => {
@@ -289,7 +289,7 @@ describe("Card Gallery Data", () => {
       )
     );
     const withImages = data.filter((c: any) => c.imageUrl && c.imageUrl.startsWith("http"));
-    expect(withImages.length).toBe(178);
+    expect(withImages.length).toBe(196);
   });
 
   it("majority of cards have unique imageUrl values", async () => {

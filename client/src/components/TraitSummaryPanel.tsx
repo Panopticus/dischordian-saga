@@ -123,7 +123,7 @@ function SystemCard({ config, data, isExpanded, onToggle }: {
     >
       <button
         onClick={onToggle}
-        className="w-full p-3 flex items-center justify-between hover:bg-white/[0.02] transition-colors"
+        className="w-full p-3 flex items-center justify-between hover:bg-muted/15 transition-colors"
       >
         <div className="flex items-center gap-2">
           <div className={`w-6 h-6 rounded flex items-center justify-center ${config.bgColor} border ${config.borderColor}`}>
@@ -150,7 +150,7 @@ function SystemCard({ config, data, isExpanded, onToggle }: {
             transition={{ duration: 0.2 }}
             className="overflow-hidden"
           >
-            <div className="px-3 pb-3 border-t border-white/5 pt-2">
+            <div className="px-3 pb-3 border-t border-border/40 pt-2">
               {/* Live stat values */}
               {config.key === "cardGame" && data && (
                 <div className="space-y-0.5 mb-3">
@@ -222,7 +222,7 @@ function SystemCard({ config, data, isExpanded, onToggle }: {
 
               {/* Breakdown sources */}
               {breakdown.length > 0 && (
-                <div className="border-t border-white/5 pt-2 mt-1">
+                <div className="border-t border-border/40 pt-2 mt-1">
                   <span className="font-mono text-[7px] text-muted-foreground/30 tracking-[0.2em] block mb-1">BONUS SOURCES</span>
                   {breakdown.map((b: { source: string; effect: string }, i: number) => (
                     <BreakdownRow key={i} source={b.source} effect={b.effect} />
@@ -275,7 +275,7 @@ export default function TraitSummaryPanel({ isAuthenticated }: { isAuthenticated
       {/* Header */}
       <button
         onClick={() => setShowPanel(!showPanel)}
-        className="w-full p-4 sm:p-5 flex items-center justify-between hover:bg-white/[0.02] transition-colors"
+        className="w-full p-4 sm:p-5 flex items-center justify-between hover:bg-muted/15 transition-colors"
       >
         <div className="flex items-center gap-2.5">
           <div className="w-7 h-7 rounded-md bg-primary/10 border border-primary/20 flex items-center justify-center">
@@ -313,7 +313,7 @@ export default function TraitSummaryPanel({ isAuthenticated }: { isAuthenticated
             transition={{ duration: 0.3 }}
             className="overflow-hidden"
           >
-            <div className="px-4 sm:px-5 pb-4 sm:pb-5 border-t border-white/5 pt-4">
+            <div className="px-4 sm:px-5 pb-4 sm:pb-5 border-t border-border/40 pt-4">
               {traitBonuses.isLoading ? (
                 <div className="text-center py-8">
                   <div className="w-10 h-10 rounded-full border border-dashed border-primary/20 mx-auto mb-3 animate-[spin_4s_linear_infinite] flex items-center justify-center">

@@ -107,7 +107,7 @@ export default function TutorialTrigger({
             {isCompleted && (
               <button
                 onClick={() => setShowEngine(true)}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-muted/40 border border-white/10 text-muted-foreground text-xs font-mono hover:bg-muted/60 transition-colors shrink-0"
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-muted/40 border border-border/60 text-muted-foreground text-xs font-mono hover:bg-muted/60 transition-colors shrink-0"
               >
                 REPLAY
               </button>

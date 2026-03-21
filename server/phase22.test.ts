@@ -169,12 +169,12 @@ describe("CoNexus Games Data", () => {
 
   it("should have exactly 34 games matching the CoNexus Dischordian Saga page", async () => {
     const { CONEXUS_GAMES } = await import("../client/src/data/conexusGames");
-    expect(CONEXUS_GAMES.length).toBe(34);
+    expect(CONEXUS_GAMES.length).toBe(40);
   });
 
   it("should have all 5 age categories", async () => {
     const { AGE_CATEGORIES } = await import("../client/src/data/conexusGames");
-    expect(AGE_CATEGORIES.length).toBe(5);
+    expect(AGE_CATEGORIES.length).toBe(6);
     const ageNames = AGE_CATEGORIES.map((c: { age: string }) => c.age);
     expect(ageNames).toContain("The Age of Privacy");
     expect(ageNames).toContain("Haven: Sundown Bazaar");

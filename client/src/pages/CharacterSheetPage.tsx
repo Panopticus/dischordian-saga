@@ -106,7 +106,7 @@ function StatOrb({ value, max = 5, label, color, icon: Icon, onUpgrade, canUpgra
       {/* The Orb */}
       <div className={`relative w-[72px] h-[72px] sm:w-[88px] sm:h-[88px] rounded-full border-2 ${c.ring} ${c.glow} ${c.bg} flex items-center justify-center`}>
         {/* Circuit trace ring decoration */}
-        <div className="absolute inset-[-3px] rounded-full border border-dashed border-white/5 animate-[spin_30s_linear_infinite]" />
+        <div className="absolute inset-[-3px] rounded-full border border-dashed border-border/40 animate-[spin_30s_linear_infinite]" />
         {/* Inner value */}
         <div className="text-center z-10">
           <span className={`font-display text-2xl sm:text-3xl font-black ${c.text}`}>{value}</span>
@@ -185,8 +185,8 @@ function CombatPanel({ icon: Icon, label, value, color = "cyan" }: {
 
 function GearSlot({ slot, item }: { slot: string; item: string }) {
   return (
-    <div className="flex items-center gap-3 py-2 border-b border-white/5 last:border-0">
-      <div className="w-7 h-7 rounded bg-muted/40 border border-white/10 flex items-center justify-center flex-shrink-0">
+    <div className="flex items-center gap-3 py-2 border-b border-border/40 last:border-0">
+      <div className="w-7 h-7 rounded bg-muted/40 border border-border/60 flex items-center justify-center flex-shrink-0">
         <Hexagon size={12} className="text-muted-foreground/40" />
       </div>
       <div className="flex-1 min-w-0">
@@ -490,7 +490,7 @@ export default function CharacterSheetPage() {
       </AnimatePresence>
 
       {/* ═══ DOSSIER HEADER BAR ═══ */}
-      <div className="relative z-10 border-b border-white/5 bg-muted/50 backdrop-blur-md">
+      <div className="relative z-10 border-b border-border/40 bg-muted/50 backdrop-blur-md">
         <div className="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
           <Link href="/" className="font-mono text-[10px] text-muted-foreground hover:text-primary transition-colors flex items-center gap-1.5">
             <ChevronLeft size={12} /> COMMAND CONSOLE
@@ -725,8 +725,8 @@ export default function CharacterSheetPage() {
                     rare: 'text-blue-400', epic: 'text-purple-400', legendary: 'text-amber-400'
                   }[equipItem.rarity] : 'text-foreground/80';
                   return (
-                    <div key={slot} className="flex items-center gap-3 py-2 border-b border-white/5 last:border-0">
-                      <div className="w-7 h-7 rounded bg-muted/40 border border-white/10 flex items-center justify-center flex-shrink-0"
+                    <div key={slot} className="flex items-center gap-3 py-2 border-b border-border/40 last:border-0">
+                      <div className="w-7 h-7 rounded bg-muted/40 border border-border/60 flex items-center justify-center flex-shrink-0"
                         style={equipItem ? { boxShadow: `0 0 6px ${equipItem.glowColor}` } : undefined}>
                         <Hexagon size={12} className={equipItem ? rarityColor : "text-muted-foreground/40"} />
                       </div>

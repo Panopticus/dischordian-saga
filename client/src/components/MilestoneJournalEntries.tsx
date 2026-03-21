@@ -952,7 +952,7 @@ function MilestoneEntryCard({ milestone, ctx, index }: {
       style={{ background: "rgba(1,0,32,0.6)" }}
     >
       {/* Header */}
-      <div className="flex items-center gap-3 mb-3 pb-2 border-b border-white/5">
+      <div className="flex items-center gap-3 mb-3 pb-2 border-b border-border/40">
         <div className={`w-8 h-8 rounded-lg ${milestone.bgColor} border ${milestone.borderColor} flex items-center justify-center`}>
           <Icon size={16} className={milestone.iconColor} />
         </div>

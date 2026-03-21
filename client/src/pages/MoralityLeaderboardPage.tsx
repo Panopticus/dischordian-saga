@@ -347,7 +347,7 @@ function FactionRankings({
       </div>
       <div className="divide-y divide-border/10">
         {players.slice(0, 10).map((player, i) => (
-          <div key={player.userId} className="px-4 py-2.5 flex items-center gap-3 hover:bg-white/[0.02] transition-colors">
+          <div key={player.userId} className="px-4 py-2.5 flex items-center gap-3 hover:bg-muted/15 transition-colors">
             <span className="font-mono text-[10px] text-muted-foreground w-6 text-right">
               {i === 0 ? "🥇" : i === 1 ? "🥈" : i === 2 ? "🥉" : `#${i + 1}`}
             </span>

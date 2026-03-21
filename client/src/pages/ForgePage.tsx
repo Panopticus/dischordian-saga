@@ -260,7 +260,7 @@ export default function ForgePage() {
       </div>
 
       {/* Header */}
-      <div className="relative z-10 border-b border-white/5 bg-muted/50 backdrop-blur-md">
+      <div className="relative z-10 border-b border-border/40 bg-muted/50 backdrop-blur-md">
         <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
           <Link href="/games" className="font-mono text-[10px] text-muted-foreground hover:text-primary transition-colors flex items-center gap-1.5">
             <ChevronLeft size={12} /> SAGAVERSE
@@ -345,7 +345,7 @@ export default function ForgePage() {
             })}
 
             {/* Materials inventory summary */}
-            <div className="border-t border-white/5 pt-3 mt-3">
+            <div className="border-t border-border/40 pt-3 mt-3">
               <h3 className="font-mono text-[9px] tracking-[0.2em] text-muted-foreground/50 mb-2">MATERIALS</h3>
               <div className="space-y-1 max-h-[200px] overflow-y-auto">
                 {MATERIALS.filter(m => (materials[m.id] || 0) > 0).map(mat => (

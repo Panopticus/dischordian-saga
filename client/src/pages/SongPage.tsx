@@ -162,7 +162,7 @@ export default function SongPage() {
                 )}
                 {streaming.tidal && (
                   <a href={streaming.tidal} target="_blank" rel="noopener noreferrer"
-                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-muted/50 border border-white/20 text-white text-xs font-mono hover:bg-white/15 transition-all">
+                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-muted/50 border border-border text-white text-xs font-mono hover:bg-white/15 transition-all">
                     <Music size={12} /> Tidal <ExternalLink size={9} />
                   </a>
                 )}

@@ -80,7 +80,7 @@ export default function AutoTutorialPrompt({
                 </div>
 
                 {/* Tutorial info */}
-                <div className="rounded-lg bg-muted/40 border border-white/5 p-3 mb-3">
+                <div className="rounded-lg bg-muted/40 border border-border/40 p-3 mb-3">
                   <p className="font-mono text-[10px] text-muted-foreground mb-2 leading-relaxed">
                     {tutorial.subtitle}
                   </p>
@@ -107,7 +107,7 @@ export default function AutoTutorialPrompt({
                   </button>
                   <button
                     onClick={onSnooze}
-                    className="px-3 py-2.5 rounded-lg bg-muted/40 border border-white/10 text-muted-foreground text-xs font-mono hover:bg-muted/60 hover:text-foreground transition-colors"
+                    className="px-3 py-2.5 rounded-lg bg-muted/40 border border-border/60 text-muted-foreground text-xs font-mono hover:bg-muted/60 hover:text-foreground transition-colors"
                     title="Remind me later"
                   >
                     LATER

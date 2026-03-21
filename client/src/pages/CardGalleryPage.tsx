@@ -240,7 +240,7 @@ function CardDisplay({ card, onClick, viewMode }: { card: FullCard; onClick: () 
         </div>
         {/* Element badge */}
         {card.element && elemCfg && (
-          <div className={`absolute top-1.5 right-1.5 w-5 h-5 rounded-full ${elemCfg.bg} flex items-center justify-center border border-white/10`}>
+          <div className={`absolute top-1.5 right-1.5 w-5 h-5 rounded-full ${elemCfg.bg} flex items-center justify-center border border-border/60`}>
             <elemCfg.icon size={10} className={elemCfg.color} />
           </div>
         )}
@@ -256,7 +256,7 @@ function CardDisplay({ card, onClick, viewMode }: { card: FullCard; onClick: () 
           </div>
         </div>
       </div>
-      <div className="p-2 border-t border-white/5">
+      <div className="p-2 border-t border-border/40">
         <p className="font-mono text-[10px] font-semibold truncate text-foreground">{card.name}</p>
         <div className="flex items-center justify-between">
           <p className={`font-mono text-[8px] ${rarity.text} uppercase tracking-wider`}>{card.rarity}</p>
@@ -321,7 +321,7 @@ function CardDetailModal({ card, onClose, onSacrifice }: { card: FullCard | null
           {/* Element + Type */}
           <div className="absolute top-3 right-3 flex items-center gap-2">
             {card.element && elemCfg && (
-              <div className={`flex items-center gap-1 ${elemCfg.bg} px-2 py-1 rounded-full border border-white/10`}>
+              <div className={`flex items-center gap-1 ${elemCfg.bg} px-2 py-1 rounded-full border border-border/60`}>
                 <elemCfg.icon size={12} className={elemCfg.color} />
                 <span className={`font-mono text-[10px] ${elemCfg.color} uppercase`}>{card.element}</span>
               </div>
@@ -375,7 +375,7 @@ function CardDetailModal({ card, onClose, onSacrifice }: { card: FullCard | null
 
           {/* Ability */}
           {card.abilityText && (
-            <div className="bg-muted/50 rounded-lg p-3 border border-white/5">
+            <div className="bg-muted/50 rounded-lg p-3 border border-border/40">
               <p className="font-mono text-xs text-primary mb-1 flex items-center gap-1">
                 <Zap size={11} /> ABILITY
               </p>
@@ -385,7 +385,7 @@ function CardDetailModal({ card, onClose, onSacrifice }: { card: FullCard | null
 
           {/* Flavor text / Lore */}
           {card.flavorText && (
-            <div className="bg-muted/40 rounded-lg p-3 border border-white/5">
+            <div className="bg-muted/40 rounded-lg p-3 border border-border/40">
               <p className="font-mono text-xs text-accent mb-1 flex items-center gap-1">
                 <Eye size={11} /> LORE
               </p>
@@ -423,7 +423,7 @@ function CardDetailModal({ card, onClose, onSacrifice }: { card: FullCard | null
 
           {/* ═══ SACRIFICE SECTION ═══ */}
           {card.owned && onSacrifice && (
-            <div className="border-t border-white/5 pt-3">
+            <div className="border-t border-border/40 pt-3">
               {!showSacrificeConfirm && !sacrificeResult && (
                 <button
                   onClick={() => setShowSacrificeConfirm(true)}
@@ -440,13 +440,13 @@ function CardDetailModal({ card, onClose, onSacrifice }: { card: FullCard | null
                     <AlertTriangle size={14} />
                     <span>This will destroy the card permanently!</span>
                   </div>
-                  <div className="bg-muted/30 rounded-lg p-2.5 border border-white/5">
+                  <div className="bg-muted/30 rounded-lg p-2.5 border border-border/40">
                     <p className="font-mono text-[10px] text-muted-foreground/70 mb-1.5">ESTIMATED YIELD:</p>
                     <div className="flex flex-wrap gap-1.5">
                       {sacrificePreview.map((r, i) => {
                         const mat = getMaterialById(r.materialId);
                         return (
-                          <span key={i} className="flex items-center gap-1 bg-background/40 px-2 py-1 rounded-md border border-white/5">
+                          <span key={i} className="flex items-center gap-1 bg-background/40 px-2 py-1 rounded-md border border-border/40">
                             <span>{mat?.icon || "📦"}</span>
                             <span className="font-mono text-[10px] text-foreground">×{r.quantity}</span>
                             <span className="font-mono text-[9px] text-muted-foreground/60">{mat?.name || r.materialId}</span>
@@ -458,7 +458,7 @@ function CardDetailModal({ card, onClose, onSacrifice }: { card: FullCard | null
                   <div className="flex gap-2">
                     <button
                       onClick={() => setShowSacrificeConfirm(false)}
-                      className="flex-1 py-2 rounded-lg bg-muted/30 border border-white/10 text-muted-foreground font-mono text-xs hover:bg-muted/50 transition-all"
+                      className="flex-1 py-2 rounded-lg bg-muted/30 border border-border/60 text-muted-foreground font-mono text-xs hover:bg-muted/50 transition-all"
                     >
                       CANCEL
                     </button>
@@ -507,7 +507,7 @@ function CardDetailModal({ card, onClose, onSacrifice }: { card: FullCard | null
                   </div>
                   <button
                     onClick={onClose}
-                    className="w-full py-2 rounded-lg bg-muted/30 border border-white/10 text-muted-foreground font-mono text-xs hover:bg-muted/50 transition-all mt-1"
+                    className="w-full py-2 rounded-lg bg-muted/30 border border-border/60 text-muted-foreground font-mono text-xs hover:bg-muted/50 transition-all mt-1"
                   >
                     CLOSE
                   </button>

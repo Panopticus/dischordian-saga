@@ -354,7 +354,7 @@ export default function QuestTracker() {
               <div className="w-8 h-1 rounded-full bg-white/15" />
             </div>
             {/* Header */}
-            <div className="flex items-center justify-between px-3 py-2 border-b border-white/5">
+            <div className="flex items-center justify-between px-3 py-2 border-b border-border/40">
               <div className="flex items-center gap-2">
                 <Target size={12} className="text-[var(--neon-cyan)]" />
                 <span className="font-display text-[9px] tracking-[0.25em] text-[var(--neon-cyan)]/70">
@@ -452,7 +452,7 @@ export default function QuestTracker() {
                 )}
 
                 {/* Reward */}
-                <div className="flex items-center gap-1.5 mt-2 pt-2 border-t border-white/5">
+                <div className="flex items-center gap-1.5 mt-2 pt-2 border-t border-border/40">
                   <Sparkles size={10} className="text-[var(--neon-amber)]" />
                   <span className="font-mono text-[9px] text-[var(--neon-amber)]/70">
                     Reward: {activeQuest.quest.reward}
@@ -491,7 +491,7 @@ function QuestChainsAccordion() {
   const [expanded, setExpanded] = useState(false);
 
   return (
-    <div className="border-t border-white/5">
+    <div className="border-t border-border/40">
       <button
         onClick={() => setExpanded(!expanded)}
         className="w-full flex items-center justify-between px-3 py-1.5 hover:bg-muted/30 transition-colors"
@@ -529,7 +529,7 @@ function CompletedQuestsSummary({ quests }: { quests: Array<{ quest: Quest; comp
   const [expanded, setExpanded] = useState(false);
 
   return (
-    <div className="border-t border-white/5">
+    <div className="border-t border-border/40">
       <button
         onClick={() => setExpanded(!expanded)}
         className="w-full flex items-center justify-between px-3 py-1.5 hover:bg-muted/30 transition-colors"

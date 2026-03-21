@@ -156,7 +156,7 @@ export default function SoundControls({ ttsEnabled, onToggleTTS, isSpeaking }: S
 
           {/* Now Playing */}
           {music.currentTrack && music.isPlaying && (
-            <div className="mt-3 pt-2 border-t border-white/5">
+            <div className="mt-3 pt-2 border-t border-border/40">
               <p className="font-mono text-[8px] text-[var(--orb-orange)]/40 tracking-[0.2em]">NOW PLAYING</p>
               <p className="font-mono text-[10px] text-muted-foreground/80 truncate mt-0.5">{music.currentTrack.title}</p>
               <p className="font-mono text-[8px] text-muted-foreground/50 truncate">{music.currentTrack.album}</p>

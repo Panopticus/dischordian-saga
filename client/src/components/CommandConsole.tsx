@@ -223,9 +223,9 @@ function SystemCard({ sys, isActive, isUnlocked, onSelect }: {
       disabled={!isUnlocked}
       className={`relative group flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 w-full text-left ${
         isActive
-          ? "bg-white/8 border border-white/15 shadow-lg"
+          ? "bg-muted/30 border border-border/80 shadow-lg"
           : isUnlocked
-            ? "hover:bg-muted/50 border border-transparent hover:border-white/8"
+            ? "hover:bg-muted/50 border border-transparent hover:border-border/50"
             : "opacity-40 cursor-not-allowed border border-transparent"
       }`}
       style={isActive ? {
@@ -303,7 +303,7 @@ function SubsystemNav({ sys, location, onNavigate }: {
             onClick={onNavigate}
             className={`flex items-center gap-2.5 px-3 py-2 rounded-md text-[11px] font-mono tracking-wider transition-all group ${
               active
-                ? "text-foreground border border-white/12"
+                ? "text-foreground border border-border/70"
                 : "text-white/45 hover:text-muted-foreground/90 hover:bg-white/4 border border-transparent"
             }`}
             style={active ? {

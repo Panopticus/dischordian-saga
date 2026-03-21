@@ -212,7 +212,7 @@ describe("Phase 39b: Achievement Auto-Tracking Wiring", () => {
       expect(cardGame).toContain("trackCollectionSize(ctx.user.id)");
     });
     it("should use fire-and-forget pattern", () => {
-      expect(cardGame).toContain('.catch(e => console.error("[CardGame]');
+      expect(cardGame).toContain('.catch(e => logger.error("[CardGame]');
     });
   });
 

@@ -561,7 +561,7 @@ export default function WatchPage() {
           <button
             onClick={() => storyIdx > 0 && setStoryIdx(storyIdx - 1)}
             disabled={storyIdx === 0}
-            className="flex items-center gap-2 px-4 py-2.5 rounded-lg font-mono text-xs tracking-wider transition-all disabled:opacity-20 text-muted-foreground/70 border border-white/10 hover:text-foreground/85 hover:border-white/20"
+            className="flex items-center gap-2 px-4 py-2.5 rounded-lg font-mono text-xs tracking-wider transition-all disabled:opacity-20 text-muted-foreground/70 border border-border/60 hover:text-foreground/85 hover:border-border"
           >
             <ChevronLeft size={14} />
             PREV
@@ -569,7 +569,7 @@ export default function WatchPage() {
           <button
             onClick={() => storyIdx < EPOCHS.length - 1 && setStoryIdx(storyIdx + 1)}
             disabled={storyIdx === EPOCHS.length - 1}
-            className="flex items-center gap-2 px-4 py-2.5 rounded-lg font-mono text-xs tracking-wider transition-all disabled:opacity-20 text-muted-foreground/70 border border-white/10 hover:text-foreground/85 hover:border-white/20"
+            className="flex items-center gap-2 px-4 py-2.5 rounded-lg font-mono text-xs tracking-wider transition-all disabled:opacity-20 text-muted-foreground/70 border border-border/60 hover:text-foreground/85 hover:border-border"
           >
             NEXT
             <ChevronRight size={14} />
@@ -637,7 +637,7 @@ export default function WatchPage() {
                 className={`flex items-center gap-2 px-4 py-2 rounded-md font-mono text-xs tracking-wider transition-all ${
                   viewMode === "epochs"
                     ? "bg-[var(--neon-cyan)]/10 text-[var(--neon-cyan)] border border-[var(--neon-cyan)]/30"
-                    : "text-muted-foreground/60 border border-white/10 hover:text-muted-foreground/80 hover:border-white/20"
+                    : "text-muted-foreground/60 border border-border/60 hover:text-muted-foreground/80 hover:border-border"
                 }`}
               >
                 <Layers size={14} />
@@ -645,7 +645,7 @@ export default function WatchPage() {
               </button>
               <button
                 onClick={() => setViewMode("stories")}
-                className="flex items-center gap-2 px-4 py-2 rounded-md font-mono text-xs tracking-wider transition-all text-muted-foreground/60 border border-white/10 hover:text-muted-foreground/80 hover:border-white/20"
+                className="flex items-center gap-2 px-4 py-2 rounded-md font-mono text-xs tracking-wider transition-all text-muted-foreground/60 border border-border/60 hover:text-muted-foreground/80 hover:border-border"
               >
                 <Sparkles size={14} />
                 STORIES
@@ -655,7 +655,7 @@ export default function WatchPage() {
                 className={`flex items-center gap-2 px-4 py-2 rounded-md font-mono text-xs tracking-wider transition-all ${
                   viewMode === "episodes"
                     ? "bg-[var(--neon-cyan)]/10 text-[var(--neon-cyan)] border border-[var(--neon-cyan)]/30"
-                    : "text-muted-foreground/60 border border-white/10 hover:text-muted-foreground/80 hover:border-white/20"
+                    : "text-muted-foreground/60 border border-border/60 hover:text-muted-foreground/80 hover:border-border"
                 }`}
               >
                 <Film size={14} />
@@ -704,7 +704,7 @@ export default function WatchPage() {
               {nextUpEpoch && (
                 <button
                   onClick={() => scrollToEpoch(nextUpEpoch.id)}
-                  className="flex items-center gap-3 flex-1 p-3 rounded-lg border border-white/10 bg-muted/25 hover:bg-muted/50 hover:border-[var(--neon-cyan)]/20 transition-all text-left group"
+                  className="flex items-center gap-3 flex-1 p-3 rounded-lg border border-border/60 bg-muted/25 hover:bg-muted/50 hover:border-[var(--neon-cyan)]/20 transition-all text-left group"
                 >
                   <div
                     className="w-10 h-10 rounded-md flex items-center justify-center shrink-0"
@@ -726,7 +726,7 @@ export default function WatchPage() {
               {nextUpEpisode && (
                 <button
                   onClick={() => goToEpisode(nextUpEpisode.index)}
-                  className="flex items-center gap-3 flex-1 p-3 rounded-lg border border-white/10 bg-muted/25 hover:bg-muted/50 hover:border-[var(--alert-red)]/20 transition-all text-left group"
+                  className="flex items-center gap-3 flex-1 p-3 rounded-lg border border-border/60 bg-muted/25 hover:bg-muted/50 hover:border-[var(--alert-red)]/20 transition-all text-left group"
                 >
                   <div className="w-10 h-10 rounded-md flex items-center justify-center shrink-0 bg-[var(--alert-red)]/10 border border-[var(--alert-red)]/20">
                     <Film size={16} className="text-[var(--alert-red)]" />
@@ -758,7 +758,7 @@ export default function WatchPage() {
                 className={`flex items-center gap-2 px-3 py-2 rounded-lg font-mono text-[10px] tracking-wider whitespace-nowrap transition-all shrink-0 border ${
                   activeEpoch === epoch.id
                     ? "border-opacity-40 bg-opacity-10"
-                    : "border-white/10 bg-muted/25 hover:bg-muted/50 hover:border-white/20"
+                    : "border-border/60 bg-muted/25 hover:bg-muted/50 hover:border-border"
                 }`}
                 style={{
                   borderColor: activeEpoch === epoch.id ? epoch.color + "66" : undefined,
@@ -1083,7 +1083,7 @@ const EpochSection = forwardRef<HTMLDivElement, EpochSectionProps>(
                     href={epoch.playlistUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-2 px-3 py-2 rounded-md font-mono text-[10px] tracking-wider transition-all text-muted-foreground/70 border border-white/10 hover:text-foreground/85 hover:border-white/20 hover:bg-muted/50"
+                    className="flex items-center gap-2 px-3 py-2 rounded-md font-mono text-[10px] tracking-wider transition-all text-muted-foreground/70 border border-border/60 hover:text-foreground/85 hover:border-border hover:bg-muted/50"
                   >
                     <ExternalLink size={11} />
                     OPEN ON YOUTUBE
@@ -1187,7 +1187,7 @@ function EpisodeViewer({
             className={`flex items-center gap-1 px-2 py-1 rounded-md text-[10px] font-mono transition-all ${
               showEpisodeList
                 ? "bg-[var(--neon-cyan)]/10 text-[var(--neon-cyan)] border border-[var(--neon-cyan)]/25"
-                : "text-muted-foreground/60 border border-white/10 hover:text-muted-foreground/80"
+                : "text-muted-foreground/60 border border-border/60 hover:text-muted-foreground/80"
             }`}
           >
             <List size={10} />
@@ -1199,7 +1199,7 @@ function EpisodeViewer({
             className={`flex items-center gap-1 px-2 py-1 rounded-md text-[10px] font-mono transition-all ${
               showLorePanel
                 ? "bg-[var(--orb-orange)]/10 text-[var(--orb-orange)] border border-[var(--orb-orange)]/25"
-                : "text-muted-foreground/60 border border-white/10 hover:text-muted-foreground/80"
+                : "text-muted-foreground/60 border border-border/60 hover:text-muted-foreground/80"
             }`}
           >
             <BookOpen size={10} />
@@ -1302,7 +1302,7 @@ function EpisodeViewer({
               <button
                 onClick={() => currentEpisodeIdx > 0 && goToEpisode(currentEpisodeIdx - 1)}
                 disabled={currentEpisodeIdx === 0}
-                className="flex items-center gap-1 px-3 py-2 rounded-md font-mono text-[10px] tracking-wider transition-all disabled:opacity-20 text-muted-foreground/70 border border-white/10 hover:text-foreground/85 hover:border-white/20"
+                className="flex items-center gap-1 px-3 py-2 rounded-md font-mono text-[10px] tracking-wider transition-all disabled:opacity-20 text-muted-foreground/70 border border-border/60 hover:text-foreground/85 hover:border-border"
               >
                 <SkipBack size={12} />
                 PREV
@@ -1310,7 +1310,7 @@ function EpisodeViewer({
               <button
                 onClick={() => currentEpisodeIdx < episodes.length - 1 && goToEpisode(currentEpisodeIdx + 1)}
                 disabled={currentEpisodeIdx === episodes.length - 1}
-                className="flex items-center gap-1 px-3 py-2 rounded-md font-mono text-[10px] tracking-wider transition-all disabled:opacity-20 text-muted-foreground/70 border border-white/10 hover:text-foreground/85 hover:border-white/20"
+                className="flex items-center gap-1 px-3 py-2 rounded-md font-mono text-[10px] tracking-wider transition-all disabled:opacity-20 text-muted-foreground/70 border border-border/60 hover:text-foreground/85 hover:border-border"
               >
                 NEXT
                 <SkipForward size={12} />

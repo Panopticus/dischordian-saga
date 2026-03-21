@@ -385,7 +385,7 @@ export default function RoomTutorialDialog({
           }}
         >
           {/* Header */}
-          <div className="flex items-center justify-between px-4 py-3 border-b border-white/5">
+          <div className="flex items-center justify-between px-4 py-3 border-b border-border/40">
             <div className="flex items-center gap-2">
               <MessageSquare size={14} className="text-[var(--neon-cyan)]" />
               <span className="font-mono text-[10px] text-[var(--neon-cyan)] tracking-[0.2em]">ROOM TUTORIAL</span>
@@ -517,8 +517,8 @@ function DialogPhase({
                   isSelected
                     ? "border-[var(--neon-cyan)]/40 bg-[var(--neon-cyan)]/8"
                     : selectedChoice
-                      ? "border-white/5 bg-white/[0.01]"
-                      : "border-white/10 hover:border-[var(--neon-cyan)]/25 hover:bg-white/[0.03]"
+                      ? "border-border/40 bg-muted/10"
+                      : "border-border/60 hover:border-[var(--neon-cyan)]/25 hover:bg-muted/20"
                 }`}
                 style={{
                   border: `1px solid ${isSelected ? "rgba(51,226,230,0.4)" : "rgba(255,255,255,0.08)"}`,

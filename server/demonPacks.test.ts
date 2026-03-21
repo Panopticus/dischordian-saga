@@ -190,7 +190,7 @@ describe("Blood Weave CoNexus Game", () => {
 
   it("CONEXUS_GAMES should now have 34 games (33 original + Blood Weave)", async () => {
     const { CONEXUS_GAMES } = await import("../client/src/data/conexusGames");
-    expect(CONEXUS_GAMES.length).toBe(34);
+    expect(CONEXUS_GAMES.length).toBe(40);
   });
 });
 

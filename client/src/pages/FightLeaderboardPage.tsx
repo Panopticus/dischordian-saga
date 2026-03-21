@@ -60,7 +60,7 @@ export default function FightLeaderboardPage() {
   return (
     <div className="min-h-screen grid-bg">
       {/* Header */}
-      <div className="border-b border-white/10 bg-muted/60">
+      <div className="border-b border-border/60 bg-muted/60">
         <div className="max-w-5xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
@@ -153,7 +153,7 @@ export default function FightLeaderboardPage() {
                             ? "bg-primary/10 border-primary/30"
                             : i < 3
                             ? "bg-amber-500/5 border-amber-500/10 hover:border-amber-500/30"
-                            : "bg-white/[0.02] border-white/5 hover:border-white/15"
+                            : "bg-muted/15 border-border/40 hover:border-border/80"
                         }`}
                       >
                         <div className="col-span-1 flex items-center">
@@ -183,7 +183,7 @@ export default function FightLeaderboardPage() {
                             <img
                               src={getFighterImage(entry.mainFighter)}
                               alt=""
-                              className="w-6 h-6 rounded-full object-cover border border-white/20"
+                              className="w-6 h-6 rounded-full object-cover border border-border"
                             />
                           ) : (
                             <span className="text-muted-foreground/35">-</span>
@@ -238,7 +238,7 @@ export default function FightLeaderboardPage() {
                     ].map(stat => {
                       const Icon = stat.icon;
                       return (
-                        <div key={stat.label} className="rounded-lg border border-white/5 bg-white/[0.02] p-4">
+                        <div key={stat.label} className="rounded-lg border border-border/40 bg-muted/15 p-4">
                           <div className="flex items-center gap-1.5 mb-2">
                             <Icon size={12} className={stat.color} />
                             <span className="font-mono text-[9px] text-muted-foreground/50 tracking-wider">{stat.label}</span>
@@ -257,11 +257,11 @@ export default function FightLeaderboardPage() {
                       </h3>
                       <div className="space-y-2">
                         {myStats.topFighters.map((f: { fighter: string; matches: number; wins: number; winRate: number }) => (
-                          <div key={f.fighter} className="flex items-center gap-3 rounded-lg border border-white/5 bg-white/[0.02] p-3">
+                          <div key={f.fighter} className="flex items-center gap-3 rounded-lg border border-border/40 bg-muted/15 p-3">
                             <img
                               src={getFighterImage(f.fighter)}
                               alt=""
-                              className="w-10 h-10 rounded-lg object-cover border border-white/10"
+                              className="w-10 h-10 rounded-lg object-cover border border-border/60"
                             />
                             <div className="flex-1">
                               <div className="font-mono text-sm text-foreground">{getFighterName(f.fighter)}</div>
@@ -323,13 +323,13 @@ export default function FightLeaderboardPage() {
                         <img
                           src={getFighterImage(match.playerFighter)}
                           alt=""
-                          className="w-8 h-8 rounded object-cover border border-white/10 flex-shrink-0"
+                          className="w-8 h-8 rounded object-cover border border-border/60 flex-shrink-0"
                         />
                         <span className="font-mono text-xs text-muted-foreground/60">vs</span>
                         <img
                           src={getFighterImage(match.opponentFighter)}
                           alt=""
-                          className="w-8 h-8 rounded object-cover border border-white/10 flex-shrink-0"
+                          className="w-8 h-8 rounded object-cover border border-border/60 flex-shrink-0"
                         />
                         <div className="ml-2 min-w-0">
                           <div className="font-mono text-sm text-foreground truncate">

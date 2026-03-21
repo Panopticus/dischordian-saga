@@ -112,7 +112,7 @@ function TutorialCard({
       className={`w-full text-left rounded-lg border overflow-hidden transition-all ${
         isCompleted
           ? "border-green-500/30 bg-green-500/5 hover:bg-green-500/10"
-          : "border-white/10 bg-white/[0.03] hover:bg-white/[0.06] hover:border-primary/30"
+          : "border-border/60 bg-muted/20 hover:bg-muted/40 hover:border-primary/30"
       }`}
     >
       {/* Header */}
@@ -262,7 +262,7 @@ export default function LoreTutorialHubPage() {
 
       {/* ═══ STATS BAR ═══ */}
       <div className="px-4 sm:px-6 mb-4">
-        <div className="rounded-lg border border-white/10 bg-white/[0.02] p-4">
+        <div className="rounded-lg border border-border/60 bg-muted/15 p-4">
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
             {/* Progress */}
             <div>
@@ -320,7 +320,7 @@ export default function LoreTutorialHubPage() {
               placeholder="Search tutorials..."
               value={searchQuery}
               onChange={e => setSearchQuery(e.target.value)}
-              className="w-full pl-9 pr-3 py-2 rounded-lg bg-muted/40 border border-white/10 text-sm font-mono text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:border-primary/40"
+              className="w-full pl-9 pr-3 py-2 rounded-lg bg-muted/40 border border-border/60 text-sm font-mono text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:border-primary/40"
             />
           </div>
 
@@ -331,7 +331,7 @@ export default function LoreTutorialHubPage() {
               className={`shrink-0 px-3 py-1.5 rounded-full font-mono text-[10px] tracking-wider border transition-colors ${
                 activeCategory === "all"
                   ? "bg-primary/20 border-primary/40 text-primary"
-                  : "bg-muted/40 border-white/10 text-muted-foreground hover:text-foreground"
+                  : "bg-muted/40 border-border/60 text-muted-foreground hover:text-foreground"
               }`}
             >
               ALL ({totalCount})
@@ -346,7 +346,7 @@ export default function LoreTutorialHubPage() {
                   className={`shrink-0 px-3 py-1.5 rounded-full font-mono text-[10px] tracking-wider border transition-colors flex items-center gap-1.5 ${
                     activeCategory === cat.id
                       ? "bg-primary/20 border-primary/40 text-primary"
-                      : "bg-muted/40 border-white/10 text-muted-foreground hover:text-foreground"
+                      : "bg-muted/40 border-border/60 text-muted-foreground hover:text-foreground"
                   }`}
                 >
                   <CatIcon size={10} />

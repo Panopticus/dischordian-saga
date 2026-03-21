@@ -188,7 +188,7 @@ describe("QuestTracker Component", () => {
   describe("Positioning and z-index", () => {
     it("should be fixed positioned at bottom-right", () => {
       expect(questTrackerSrc).toContain("fixed bottom-20");
-      expect(questTrackerSrc).toContain("right-3");
+      expect(questTrackerSrc).toMatch(/right-\d|sm:right-/);
     });
 
     it("should have appropriate z-index (z-40, below dialog z-50)", () => {

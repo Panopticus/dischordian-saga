@@ -704,7 +704,7 @@ export default function BoardPage() {
                 className={`flex items-center gap-1 px-1.5 sm:px-2 py-1 rounded-md text-[9px] sm:text-[10px] font-mono transition-all border ${
                   filter === type
                     ? "border-current bg-current/10"
-                    : "border-transparent hover:border-white/10 hover:bg-muted/50"
+                    : "border-transparent hover:border-border/60 hover:bg-muted/50"
                 }`}
                 style={{ color: filter === type ? color : "rgba(255,255,255,0.4)" }}
               >

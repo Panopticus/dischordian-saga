@@ -1670,3 +1670,19 @@
 - [x] Add materials count indicator to navigation bar (+ Forge link in header and nav)
 - [x] Build boss battle reward screen with two-phase card art celebration animation
 - [x] Comprehensive project analysis for missing features and improvements
+
+### Phase 68k: Server Persistence, Light Mode, Silence in Heaven Album
+- [x] Extend gameStateSchema to include crafting fields (skills, XP, materials, crafted items, log)
+- [x] Extend gameStateSchema to include morality fields (score, choices)
+- [x] Fix ~19 hardcoded dark color instances across components and pages
+- [x] Add streaming URLs for all 18 Silence in Heaven tracks
+- [x] Create character entries for each Silence in Heaven song
+- [x] Create Season 3 cards for each Silence in Heaven song/character
+- [x] Generate art for new Silence in Heaven characters
+- [x] Generate art for new Silence in Heaven cards
+- [x] Wire all new data into loredex-data.json and season cards
+- [x] Add Foundation age achievements (6 new lore achievements)
+- [x] Generate unique Foundation age category cover art
+- [x] Seed 18 SiH cards into database
+- [x] Update all test expectations for new content counts (196 cards, 40 games, 6 ages, 39 achievements)
+- [x] All 42 test files pass (1635 tests)

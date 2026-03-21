@@ -549,7 +549,7 @@ export default function ConexusPortalPage() {
                 <div className="absolute inset-0 bg-gradient-to-t from-card via-card/30 to-transparent" />
                 <button
                   onClick={() => setSelectedGame(null)}
-                  className="absolute top-3 right-3 w-8 h-8 rounded-full bg-background/70 backdrop-blur-sm border border-white/20 flex items-center justify-center text-foreground/85 hover:text-white transition-colors"
+                  className="absolute top-3 right-3 w-8 h-8 rounded-full bg-background/70 backdrop-blur-sm border border-border flex items-center justify-center text-foreground/85 hover:text-white transition-colors"
                 >
                   ×
                 </button>

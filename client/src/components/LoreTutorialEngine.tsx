@@ -42,7 +42,7 @@ function RewardBadge({ reward }: { reward: TutorialReward }) {
     theme: <Award size={12} className="text-pink-400" />,
   };
   return (
-    <span className="inline-flex items-center gap-1.5 px-2 py-1 rounded bg-muted/40 border border-white/10 text-xs font-mono">
+    <span className="inline-flex items-center gap-1.5 px-2 py-1 rounded bg-muted/40 border border-border/60 text-xs font-mono">
       {icons[reward.type] || <Gift size={12} />}
       {reward.amount ? `${reward.amount} ` : ""}{reward.name}
     </span>
@@ -119,12 +119,12 @@ function ChoiceButton({
             ? "bg-amber-500/20 border-amber-500/50 shadow-[0_0_20px_rgba(255,180,0,0.15)]"
             : "bg-primary/20 border-primary/50"
           : disabled
-          ? "bg-muted/25 border-white/5 opacity-40"
+          ? "bg-muted/25 border-border/40 opacity-40"
           : isMachine
           ? "bg-muted/40 border-cyan-500/20 hover:bg-cyan-500/10 hover:border-cyan-500/40"
           : isHumanity
           ? "bg-muted/40 border-amber-500/20 hover:bg-amber-500/10 hover:border-amber-500/40"
-          : "bg-muted/40 border-white/10 hover:bg-muted/60"
+          : "bg-muted/40 border-border/60 hover:bg-muted/60"
       }`}
     >
       <div className="flex items-start gap-3">
@@ -304,7 +304,7 @@ export default function LoreTutorialEngine({ tutorial, onComplete, onDismiss }: 
             {/* Dialog box */}
             <div className="rounded-xl border border-primary/20 bg-card/90 overflow-hidden shadow-[0_0_40px_rgba(0,200,255,0.08)]">
               {/* Elara header */}
-              <div className="flex items-center gap-3 px-5 py-3 border-b border-white/5 bg-primary/5">
+              <div className="flex items-center gap-3 px-5 py-3 border-b border-border/40 bg-primary/5">
                 <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center">
                   <MessageSquare size={14} className="text-primary" />
                 </div>
@@ -395,7 +395,7 @@ export default function LoreTutorialEngine({ tutorial, onComplete, onDismiss }: 
 
             <div className="rounded-xl border border-primary/20 bg-card/90 overflow-hidden shadow-[0_0_40px_rgba(0,200,255,0.08)]">
               {/* Elara response header */}
-              <div className="flex items-center gap-3 px-5 py-3 border-b border-white/5 bg-primary/5">
+              <div className="flex items-center gap-3 px-5 py-3 border-b border-border/40 bg-primary/5">
                 <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center">
                   <MessageSquare size={14} className="text-primary" />
                 </div>
@@ -408,7 +408,7 @@ export default function LoreTutorialEngine({ tutorial, onComplete, onDismiss }: 
 
               {/* Your choice recap */}
               <div className="px-5 pt-3 pb-1">
-                <div className="flex items-start gap-2 px-3 py-2 rounded-lg bg-muted/40 border border-white/10 mb-3">
+                <div className="flex items-start gap-2 px-3 py-2 rounded-lg bg-muted/40 border border-border/60 mb-3">
                   <span className="font-mono text-[10px] text-muted-foreground mt-0.5 shrink-0">YOU:</span>
                   <p className="text-xs text-foreground/70 italic">{selectedChoice.text}</p>
                 </div>
@@ -467,7 +467,7 @@ export default function LoreTutorialEngine({ tutorial, onComplete, onDismiss }: 
             className="w-full max-w-lg mx-4 mb-4 sm:mb-0"
           >
             <div className="rounded-xl border border-accent/30 bg-card/90 overflow-hidden shadow-[0_0_40px_rgba(255,180,0,0.1)]">
-              <div className="px-5 py-4 border-b border-white/5 bg-accent/5 text-center">
+              <div className="px-5 py-4 border-b border-border/40 bg-accent/5 text-center">
                 <Award size={32} className="text-accent mx-auto mb-2" />
                 <h3 className="font-display text-lg font-bold text-foreground tracking-wide">TUTORIAL COMPLETE</h3>
                 <p className="font-mono text-xs text-muted-foreground">{tutorial.title}</p>
@@ -475,7 +475,7 @@ export default function LoreTutorialEngine({ tutorial, onComplete, onDismiss }: 
 
               <div className="px-5 py-4 space-y-3">
                 {/* Morality summary */}
-                <div className="flex items-center justify-between px-3 py-2 rounded-lg bg-muted/40 border border-white/10">
+                <div className="flex items-center justify-between px-3 py-2 rounded-lg bg-muted/40 border border-border/60">
                   <span className="font-mono text-xs text-muted-foreground">MORALITY SHIFT</span>
                   <div className="flex items-center gap-2">
                     {totalMoralityShift < 0 ? (
@@ -494,7 +494,7 @@ export default function LoreTutorialEngine({ tutorial, onComplete, onDismiss }: 
 
                 {/* Rewards collected */}
                 {collectedRewards.length > 0 && (
-                  <div className="px-3 py-2 rounded-lg bg-muted/40 border border-white/10">
+                  <div className="px-3 py-2 rounded-lg bg-muted/40 border border-border/60">
                     <p className="font-mono text-[10px] text-accent tracking-wider mb-2">REWARDS EARNED</p>
                     <div className="flex flex-wrap gap-2">
                       {collectedRewards.map((r, i) => (

@@ -66,7 +66,7 @@ describe("Content Participation Schema", () => {
 describe("CoNexus Cover Art", () => {
   it("all 34 games should have coverImage field", async () => {
     const { CONEXUS_GAMES } = await import("../client/src/data/conexusGames");
-    expect(CONEXUS_GAMES.length).toBe(34);
+    expect(CONEXUS_GAMES.length).toBe(40);
     for (const game of CONEXUS_GAMES) {
       expect(game.coverImage).toBeDefined();
       expect(typeof game.coverImage).toBe("string");
@@ -78,7 +78,7 @@ describe("CoNexus Cover Art", () => {
     const { CONEXUS_GAMES } = await import("../client/src/data/conexusGames");
     for (const game of CONEXUS_GAMES) {
       expect(game.coverImage).toMatch(/^https:\/\//);
-      expect(game.coverImage).toMatch(/\.png$/);
+      expect(game.coverImage).toMatch(/\.(png|webp|avif|jpg|jpeg)$/);
     }
   });
 

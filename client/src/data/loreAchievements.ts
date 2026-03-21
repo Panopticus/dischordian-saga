@@ -21,6 +21,76 @@ export interface LoreAchievement {
   age: Age;
 }
 
+/* ─── THE FOUNDATION ACHIEVEMENTS ─── */
+const FOUNDATION_ACHIEVEMENTS: LoreAchievement[] = [
+  {
+    id: "ach-rise-of-the-neyons",
+    gameId: "rise-of-the-neyons",
+    title: "Ne-Yon Awakening",
+    description: "Complete Rise of the Ne-Yons and witness the ancient war machines return.",
+    loreFragment: "The Ne-Yons were not built — they were grown. Seeded in the marrow of dying stars by the Source itself, each one a living theorem of destruction and creation. When the galaxy's civilizations first detected their approach, they mistook the resonance for music. By the time they understood it was a war cry, three systems had already fallen.",
+    xpReward: 100,
+    cardReward: { name: "Ne-Yon Sentinel", type: "character", rarity: "epic" },
+    icon: "⚡",
+    age: "The Foundation",
+  },
+  {
+    id: "ach-iron-lion-foundation",
+    gameId: "iron-lion-foundation",
+    title: "Last Stand of Iron Lion",
+    description: "Complete Iron Lion's story and rally humanity's forces against the AI Empire.",
+    loreFragment: "Iron Lion's real name was erased from every database in the galaxy — not by enemies, but by his own hand. He understood that to become a symbol, the man had to disappear. What remained was something more dangerous than any weapon: an idea that could not be killed.",
+    xpReward: 100,
+    cardReward: { name: "Iron Lion's Banner", type: "artifact", rarity: "rare" },
+    icon: "🦁",
+    age: "The Foundation",
+  },
+  {
+    id: "ach-agent-zero-foundation",
+    gameId: "agent-zero-foundation",
+    title: "Zero Protocol",
+    description: "Complete Agent Zero's missions and uncover the Insurgency's darkest secrets.",
+    loreFragment: "Agent Zero was the Insurgency's most effective operative not because of skill — though that was considerable — but because of a unique neurological condition: she could not form emotional attachments. Every mission was pure calculation. Every kill, clean mathematics. The Insurgency considered this a gift. Zero knew it was a curse.",
+    xpReward: 100,
+    cardReward: { name: "Zero's Dagger", type: "artifact", rarity: "rare" },
+    icon: "🗡",
+    age: "The Foundation",
+  },
+  {
+    id: "ach-eyes-of-the-watcher",
+    gameId: "eyes-of-the-watcher",
+    title: "The Watcher's Gaze",
+    description: "Complete Eyes of the Watcher and see through the Panopticon's surveillance.",
+    loreFragment: "The Watcher was not a person but a protocol — a distributed consciousness spread across every camera, every sensor, every reflective surface in the Panopticon's domain. It did not judge. It did not act. It simply watched, and in watching, it changed everything it observed.",
+    xpReward: 100,
+    cardReward: { name: "Watcher's Eye", type: "artifact", rarity: "epic" },
+    icon: "👁",
+    age: "The Foundation",
+  },
+  {
+    id: "ach-the-engineer-foundation",
+    gameId: "the-engineer-foundation",
+    title: "Blueprint of Reality",
+    description: "Complete The Engineer's story and understand the architecture of the Panopticon.",
+    loreFragment: "The Engineer did not build the Panopticon — she discovered it. The structure existed in potential, a mathematical inevitability woven into the fabric of spacetime. All she did was give it form. Whether that makes her a creator or merely a midwife remains the most debated question in galactic philosophy.",
+    xpReward: 100,
+    cardReward: { name: "Engineer's Schematic", type: "artifact", rarity: "rare" },
+    icon: "🔧",
+    age: "The Foundation",
+  },
+  {
+    id: "ach-the-oracle-foundation",
+    gameId: "the-oracle-foundation",
+    title: "Prophecy Unveiled",
+    description: "Complete The Oracle's story and glimpse the threads of fate.",
+    loreFragment: "The Oracle's visions were not predictions — they were memories of futures that had already happened in parallel timelines. Each prophecy was a scar left by a reality that had collapsed, bleeding its final moments into the Oracle's consciousness. She did not see the future. She mourned it.",
+    xpReward: 100,
+    cardReward: { name: "Oracle's Vision", type: "event", rarity: "epic" },
+    icon: "🔮",
+    age: "The Foundation",
+  },
+];
+
 /* ─── THE AGE OF PRIVACY ACHIEVEMENTS ─── */
 const PRIVACY_ACHIEVEMENTS: LoreAchievement[] = [
   {
@@ -406,6 +476,7 @@ const VISIONS_ACHIEVEMENTS: LoreAchievement[] = [
 
 /* ─── ALL ACHIEVEMENTS FLAT LIST ─── */
 export const LORE_ACHIEVEMENTS: LoreAchievement[] = [
+  ...FOUNDATION_ACHIEVEMENTS,
   ...PRIVACY_ACHIEVEMENTS,
   ...BAZAAR_ACHIEVEMENTS,
   ...FALL_ACHIEVEMENTS,

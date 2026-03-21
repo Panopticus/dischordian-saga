@@ -6246,8 +6246,8 @@
       "image": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/silence_in_heaven_cover-RFoJdrXVgyCJhZfboHtVfM.webp",
       "priority": "medium",
       "streaming_links": {
-        "spotify": "TBD - Releases 7/30/26",
-        "apple_music": "TBD - Releases 7/30/26",
+        "spotify": "https://open.spotify.com/album/47vGGYAEUsTfp8aHFFIpuE",
+        "apple_music": "https://music.apple.com/us/album/the-two-witnesses-single/1867580637",
         "tidal": "https://tidal.com/browse/artist/49211320"
       },
       "date_in_saga": "2026-07-30"
@@ -6281,8 +6281,8 @@
       "image": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/silence_in_heaven_cover-RFoJdrXVgyCJhZfboHtVfM.webp",
       "priority": "medium",
       "streaming_links": {
-        "spotify": "TBD - Releases 7/30/26",
-        "apple_music": "TBD - Releases 7/30/26",
+        "spotify": "https://open.spotify.com/album/4BzKDO3RsaM2GTcS7CRUpb",
+        "apple_music": "https://music.apple.com/us/album/sixth-sense-single/1864608982",
         "tidal": "https://tidal.com/browse/artist/49211320"
       },
       "date_in_saga": "2026-07-30"
@@ -6316,8 +6316,8 @@
       "image": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/silence_in_heaven_cover-RFoJdrXVgyCJhZfboHtVfM.webp",
       "priority": "medium",
       "streaming_links": {
-        "spotify": "TBD - Releases 7/30/26",
-        "apple_music": "TBD - Releases 7/30/26",
+        "spotify": "https://open.spotify.com/album/53OvoKDj4R9Uquk1B1mwai",
+        "apple_music": "https://music.apple.com/us/album/it-aint-been-the-same-single/1877509700",
         "tidal": "https://tidal.com/browse/artist/49211320"
       },
       "date_in_saga": "2026-07-30"
@@ -6352,8 +6352,8 @@
       "image": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/silence_in_heaven_cover-RFoJdrXVgyCJhZfboHtVfM.webp",
       "priority": "medium",
       "streaming_links": {
-        "spotify": "TBD - Releases 7/30/26",
-        "apple_music": "TBD - Releases 7/30/26",
+        "spotify": "https://open.spotify.com/album/3GWDyCLi69oJISeBOeE0P8",
+        "apple_music": "https://music.apple.com/us/album/new-babylon-goddamn-single/1861381935",
         "tidal": "https://tidal.com/browse/artist/49211320"
       },
       "date_in_saga": "2026-07-30"
@@ -6680,8 +6680,8 @@
       "image": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/silence_in_heaven_cover-RFoJdrXVgyCJhZfboHtVfM.webp",
       "priority": "medium",
       "streaming_links": {
-        "spotify": "TBD - Releases 7/30/26",
-        "apple_music": "TBD - Releases 7/30/26",
+        "spotify": "https://open.spotify.com/album/4gK3WogDxv1W2w1M0mSnEw",
+        "apple_music": "https://music.apple.com/us/album/superman-aint-coming-feat-malkia-ukweli-the/1819298043",
         "tidal": "https://tidal.com/browse/artist/49211320"
       },
       "date_in_saga": "2026-07-30"
@@ -6934,7 +6934,12 @@
       "image": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/song_sih_1-CkSmtyc8FJkrYgcevVpX5Y.webp",
       "aliases": [],
       "status": "Upcoming",
-      "classification": "CLASSIFIED"
+      "classification": "CLASSIFIED",
+      "streaming_links": {
+        "spotify": "TBD - Releases 7/30/26",
+        "apple_music": "TBD - Releases 7/30/26",
+        "tidal": "https://tidal.com/browse/artist/49211320"
+      }
     },
     {
       "id": "song_sih_2",
@@ -6948,7 +6953,12 @@
       "image": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/song_sih_2-45JB9fGLEo5AU3c6dacJZV.webp",
       "aliases": [],
       "status": "Upcoming",
-      "classification": "CLASSIFIED"
+      "classification": "CLASSIFIED",
+      "streaming_links": {
+        "spotify": "TBD - Releases 7/30/26",
+        "apple_music": "TBD - Releases 7/30/26",
+        "tidal": "https://tidal.com/browse/artist/49211320"
+      }
     },
     {
       "id": "song_sih_3",
@@ -6962,7 +6972,12 @@
       "image": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/song_sih_3-enrY8AK9UGKhdi9q6Rj7tA.webp",
       "aliases": [],
       "status": "Upcoming",
-      "classification": "CLASSIFIED"
+      "classification": "CLASSIFIED",
+      "streaming_links": {
+        "spotify": "TBD - Releases 7/30/26",
+        "apple_music": "TBD - Releases 7/30/26",
+        "tidal": "https://tidal.com/browse/artist/49211320"
+      }
     },
     {
       "id": "song_sih_4",
@@ -6976,7 +6991,12 @@
       "image": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/song_sih_4-DKpzbu7SDwSPwJ2eiguku3.webp",
       "aliases": [],
       "status": "Upcoming",
-      "classification": "CLASSIFIED"
+      "classification": "CLASSIFIED",
+      "streaming_links": {
+        "spotify": "TBD - Releases 7/30/26",
+        "apple_music": "TBD - Releases 7/30/26",
+        "tidal": "https://tidal.com/browse/artist/49211320"
+      }
     },
     {
       "id": "song_sih_5",
@@ -6990,7 +7010,12 @@
       "image": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/song_sih_5-X6yWsPGguiwiJdhhjm8cz7.webp",
       "aliases": [],
       "status": "Upcoming",
-      "classification": "CLASSIFIED"
+      "classification": "CLASSIFIED",
+      "streaming_links": {
+        "spotify": "TBD - Releases 7/30/26",
+        "apple_music": "TBD - Releases 7/30/26",
+        "tidal": "https://tidal.com/browse/artist/49211320"
+      }
     },
     {
       "id": "song_sih_6",
@@ -7004,7 +7029,12 @@
       "image": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/song_sih_6-N6pHAe7dExb9UiZ4zcNEtL.webp",
       "aliases": [],
       "status": "Upcoming",
-      "classification": "CLASSIFIED"
+      "classification": "CLASSIFIED",
+      "streaming_links": {
+        "spotify": "TBD - Releases 7/30/26",
+        "apple_music": "TBD - Releases 7/30/26",
+        "tidal": "https://tidal.com/browse/artist/49211320"
+      }
     },
     {
       "id": "song_sih_7",
@@ -7018,7 +7048,12 @@
       "image": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/song_sih_7-5n4rqFRc2sXSTKQFxC7Z5q.webp",
       "aliases": [],
       "status": "Upcoming",
-      "classification": "CLASSIFIED"
+      "classification": "CLASSIFIED",
+      "streaming_links": {
+        "spotify": "TBD - Releases 7/30/26",
+        "apple_music": "TBD - Releases 7/30/26",
+        "tidal": "https://tidal.com/browse/artist/49211320"
+      }
     },
     {
       "id": "song_sih_8",
@@ -7032,7 +7067,12 @@
       "image": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/song_sih_8-MUsqKgVcScYCe98KDJihcT.webp",
       "aliases": [],
       "status": "Upcoming",
-      "classification": "CLASSIFIED"
+      "classification": "CLASSIFIED",
+      "streaming_links": {
+        "spotify": "TBD - Releases 7/30/26",
+        "apple_music": "TBD - Releases 7/30/26",
+        "tidal": "https://tidal.com/browse/artist/49211320"
+      }
     },
     {
       "id": "song_sih_9",
@@ -7046,7 +7086,12 @@
       "image": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/song_sih_9-3dVHfB6hTArq8dhCENFjYT.webp",
       "aliases": [],
       "status": "Upcoming",
-      "classification": "CLASSIFIED"
+      "classification": "CLASSIFIED",
+      "streaming_links": {
+        "spotify": "TBD - Releases 7/30/26",
+        "apple_music": "TBD - Releases 7/30/26",
+        "tidal": "https://tidal.com/browse/artist/49211320"
+      }
     },
     {
       "id": "song_sih_10",
@@ -7060,7 +7105,12 @@
       "image": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/song_sih_10-jkGgpTRZikDeRb6ZuSNmn8.webp",
       "aliases": [],
       "status": "Upcoming",
-      "classification": "CLASSIFIED"
+      "classification": "CLASSIFIED",
+      "streaming_links": {
+        "spotify": "TBD - Releases 7/30/26",
+        "apple_music": "TBD - Releases 7/30/26",
+        "tidal": "https://tidal.com/browse/artist/49211320"
+      }
     },
     {
       "id": "song_sih_11",
@@ -7074,7 +7124,12 @@
       "image": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/song_sih_11-N2EqsFt3gUnVVmdJygbykT.webp",
       "aliases": [],
       "status": "Upcoming",
-      "classification": "CLASSIFIED"
+      "classification": "CLASSIFIED",
+      "streaming_links": {
+        "spotify": "TBD - Releases 7/30/26",
+        "apple_music": "TBD - Releases 7/30/26",
+        "tidal": "https://tidal.com/browse/artist/49211320"
+      }
     },
     {
       "id": "song_sih_12",
@@ -7088,7 +7143,12 @@
       "image": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/song_sih_12-hkoV6AkwNPxQv2f2rqZMeD.webp",
       "aliases": [],
       "status": "Upcoming",
-      "classification": "CLASSIFIED"
+      "classification": "CLASSIFIED",
+      "streaming_links": {
+        "spotify": "TBD - Releases 7/30/26",
+        "apple_music": "TBD - Releases 7/30/26",
+        "tidal": "https://tidal.com/browse/artist/49211320"
+      }
     },
     {
       "id": "song_sih_13",
@@ -7102,7 +7162,12 @@
       "image": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/song_sih_13-5hwAxggJxknngDsaZq7uKN.webp",
       "aliases": [],
       "status": "Upcoming",
-      "classification": "CLASSIFIED"
+      "classification": "CLASSIFIED",
+      "streaming_links": {
+        "spotify": "TBD - Releases 7/30/26",
+        "apple_music": "TBD - Releases 7/30/26",
+        "tidal": "https://tidal.com/browse/artist/49211320"
+      }
     },
     {
       "id": "song_sih_14",
@@ -7116,7 +7181,12 @@
       "image": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/song_sih_14-DHomGUB8vHVhj8sF8MR3Zf.webp",
       "aliases": [],
       "status": "Upcoming",
-      "classification": "CLASSIFIED"
+      "classification": "CLASSIFIED",
+      "streaming_links": {
+        "spotify": "TBD - Releases 7/30/26",
+        "apple_music": "TBD - Releases 7/30/26",
+        "tidal": "https://tidal.com/browse/artist/49211320"
+      }
     },
     {
       "id": "song_sih_15",
@@ -7130,7 +7200,12 @@
       "image": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/song_sih_15-35foW6rCbjXKybfiagjVYQ.webp",
       "aliases": [],
       "status": "Upcoming",
-      "classification": "CLASSIFIED"
+      "classification": "CLASSIFIED",
+      "streaming_links": {
+        "spotify": "TBD - Releases 7/30/26",
+        "apple_music": "TBD - Releases 7/30/26",
+        "tidal": "https://tidal.com/browse/artist/49211320"
+      }
     },
     {
       "id": "song_sih_16",
@@ -7144,7 +7219,12 @@
       "image": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/song_sih_16-BUBb67vKCR8uNmM5Nf94on.webp",
       "aliases": [],
       "status": "Upcoming",
-      "classification": "CLASSIFIED"
+      "classification": "CLASSIFIED",
+      "streaming_links": {
+        "spotify": "TBD - Releases 7/30/26",
+        "apple_music": "TBD - Releases 7/30/26",
+        "tidal": "https://tidal.com/browse/artist/49211320"
+      }
     },
     {
       "id": "song_sih_17",
@@ -7158,7 +7238,12 @@
       "image": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/song_sih_17-97ic6Ea5V29HhURbjVc5VB.webp",
       "aliases": [],
       "status": "Upcoming",
-      "classification": "CLASSIFIED"
+      "classification": "CLASSIFIED",
+      "streaming_links": {
+        "spotify": "TBD - Releases 7/30/26",
+        "apple_music": "TBD - Releases 7/30/26",
+        "tidal": "https://tidal.com/browse/artist/49211320"
+      }
     },
     {
       "id": "song_sih_18",
@@ -7172,7 +7257,12 @@
       "image": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/song_sih_18-VuRsAfwvPxwCTCpStRHSud.webp",
       "aliases": [],
       "status": "Upcoming",
-      "classification": "CLASSIFIED"
+      "classification": "CLASSIFIED",
+      "streaming_links": {
+        "spotify": "TBD - Releases 7/30/26",
+        "apple_music": "TBD - Releases 7/30/26",
+        "tidal": "https://tidal.com/browse/artist/49211320"
+      }
     },
     {
       "id": "entity_91",
@@ -7612,6 +7702,651 @@
       ],
       "image": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/loredex_fall_of_reality-4dWEfXRyjuf7ERtrEFM33t.webp",
       "priority": "high"
+    },
+    {
+      "id": "char_sih_witnesses",
+      "type": "character",
+      "name": "The Two Witnesses",
+      "aliases": [
+        "The Prophets",
+        "The Testifiers"
+      ],
+      "album": "Silence in Heaven",
+      "track_number": 1,
+      "release_date": "2026-01-02",
+      "release_year": 2026,
+      "era": "The Reckoning",
+      "season": 2,
+      "artist": "Malkia Ukweli & the Panopticon",
+      "affiliation": "The Insurgency",
+      "status": "active",
+      "bio": "Two prophetic figures who testify against the empire with fire in their mouths and truth in their bones. Based on Revelation 11, their testimony triggers a chain of events that leads to the fall of New Babylon. They are The Hierophant and The Oracle, united in purpose.",
+      "history": "Emerged during the darkest hour of the Architect's reign to speak truth to power. Their prophecies cannot be silenced \u2014 every attempt to destroy them only amplifies their message across the CoNexus.",
+      "characters_featured": [
+        "The Hierophant",
+        "The Oracle"
+      ],
+      "connections": [
+        "The Hierophant",
+        "The Oracle",
+        "New Babylon",
+        "The Architect"
+      ],
+      "image": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/sih_001_two_witnesses-T8rSqyZ5THhDHczVHSsChr.webp",
+      "priority": 8,
+      "streaming_links": {
+        "spotify": "https://open.spotify.com/album/47vGGYAEUsTfp8aHFFIpuE",
+        "apple_music": "https://music.apple.com/us/album/the-two-witnesses-single/1867580637",
+        "tidal": "https://tidal.com/browse/artist/49211320"
+      }
+    },
+    {
+      "id": "char_sih_seer",
+      "type": "character",
+      "name": "The Seer of the Sixth Sense",
+      "aliases": [
+        "The Awakened Eye",
+        "The Perceiver"
+      ],
+      "album": "Silence in Heaven",
+      "track_number": 2,
+      "release_date": "2026-01-02",
+      "release_year": 2026,
+      "era": "The Reckoning",
+      "season": 2,
+      "artist": "Malkia Ukweli & the Panopticon",
+      "affiliation": "The Seers",
+      "status": "active",
+      "bio": "The Seer and The Star Whisperer developed a perception beyond the five senses \u2014 one that can detect the Architect's manipulations. This 'sixth sense' becomes both a gift and a curse, revealing the true horror of the constructed reality.",
+      "history": "Born from the convergence of DeMagi mysticism and Quarchon quantum perception, the Sixth Sense allows its wielder to see through every layer of the Architect's deception.",
+      "characters_featured": [
+        "The Seer",
+        "The Star Whisperer"
+      ],
+      "connections": [
+        "The Seer",
+        "The Star Whisperer",
+        "The Architect"
+      ],
+      "image": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/sih_002_sixth_sense-2qxeACWH5U39Kq4cZ5Kgp7.webp",
+      "priority": 6,
+      "streaming_links": {
+        "spotify": "https://open.spotify.com/album/4BzKDO3RsaM2GTcS7CRUpb",
+        "apple_music": "https://music.apple.com/us/album/sixth-sense-single/1864608982",
+        "tidal": "https://tidal.com/browse/artist/49211320"
+      }
+    },
+    {
+      "id": "char_sih_forgotten",
+      "type": "character",
+      "name": "The Forgotten Ones",
+      "aliases": [
+        "The Changed",
+        "Echoes of Before"
+      ],
+      "album": "Silence in Heaven",
+      "track_number": 3,
+      "release_date": "2026-02-27",
+      "release_year": 2026,
+      "era": "The Reckoning",
+      "season": 2,
+      "artist": "Malkia Ukweli & the Panopticon",
+      "affiliation": "The Forgotten",
+      "status": "active",
+      "bio": "Those who remember the world before the Architect's reign. The Human and The Forgotten reflect on what has been lost and whether restoration is even possible. Their lament echoes through the corridors of memory.",
+      "history": "Once ordinary citizens of the old world, they carry the weight of remembering what everyone else has been made to forget.",
+      "characters_featured": [
+        "The Human",
+        "The Forgotten"
+      ],
+      "connections": [
+        "The Human",
+        "The Forgotten",
+        "The Architect"
+      ],
+      "image": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/sih_003_elegy_changed-VA8ZqAM7dsfhxpxDBJ2Vpm.webp",
+      "priority": 5,
+      "streaming_links": {
+        "spotify": "https://open.spotify.com/album/53OvoKDj4R9Uquk1B1mwai",
+        "apple_music": "https://music.apple.com/us/album/it-aint-been-the-same-single/1877509700",
+        "tidal": "https://tidal.com/browse/artist/49211320"
+      }
+    },
+    {
+      "id": "char_sih_babylon_judge",
+      "type": "character",
+      "name": "The Voice Against Babylon",
+      "aliases": [
+        "New Babylon's Conscience",
+        "The Accuser"
+      ],
+      "album": "Silence in Heaven",
+      "track_number": 4,
+      "release_date": "2025-12-15",
+      "release_year": 2025,
+      "era": "The Reckoning",
+      "season": 2,
+      "artist": "Malkia Ukweli & the Panopticon",
+      "affiliation": "The Insurgency",
+      "status": "active",
+      "bio": "A furious denunciation of New Babylon and everything it represents. The Politician and The Warden are called to account for the suffering they have enabled. This voice cannot be silenced.",
+      "history": "Rose from the ashes of New Babylon's oppressed districts to become the loudest voice of dissent in the empire.",
+      "characters_featured": [
+        "New Babylon",
+        "The Politician",
+        "The Warden"
+      ],
+      "connections": [
+        "New Babylon",
+        "The Politician",
+        "The Warden"
+      ],
+      "image": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/sih_004_new_babylon-7iX55GYnBU9AFn2SfkFhQm.webp",
+      "priority": 6,
+      "streaming_links": {
+        "spotify": "https://open.spotify.com/album/3GWDyCLi69oJISeBOeE0P8",
+        "apple_music": "https://music.apple.com/us/album/new-babylon-goddamn-single/1861381935",
+        "tidal": "https://tidal.com/browse/artist/49211320"
+      }
+    },
+    {
+      "id": "char_sih_degen",
+      "type": "character",
+      "name": "The Degen",
+      "aliases": [
+        "The Pleasure Seeker",
+        "The Escapist"
+      ],
+      "album": "Silence in Heaven",
+      "track_number": 5,
+      "release_date": "2026-07-30",
+      "release_year": 2026,
+      "era": "The Reckoning",
+      "season": 2,
+      "artist": "Malkia Ukweli & the Panopticon",
+      "affiliation": "Unaligned",
+      "status": "active",
+      "bio": "The Degen and The Nomad find temporary escape in the pleasure districts, but even hedonism cannot silence the approaching reckoning. The song captures the last moments of willful ignorance.",
+      "history": "A wanderer who chose pleasure over purpose, only to discover that the end comes for the distracted and the devoted alike.",
+      "characters_featured": [
+        "The Degen",
+        "The Nomad"
+      ],
+      "connections": [
+        "The Degen",
+        "The Nomad"
+      ],
+      "image": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/sih_005_degens_escape-fKFwboJQfBNUaiMXNGduAb.webp",
+      "priority": 4,
+      "streaming_links": {
+        "spotify": "TBD - Releases 7/30/26",
+        "apple_music": "TBD - Releases 7/30/26",
+        "tidal": "https://tidal.com/browse/artist/49211320"
+      }
+    },
+    {
+      "id": "char_sih_ninth",
+      "type": "character",
+      "name": "The Ninth Entity",
+      "aliases": [
+        "The Final Summoning",
+        "Herald of the Damned"
+      ],
+      "album": "Silence in Heaven",
+      "track_number": 6,
+      "release_date": "2026-07-30",
+      "release_year": 2026,
+      "era": "The Reckoning",
+      "season": 2,
+      "artist": "Malkia Ukweli & the Panopticon",
+      "affiliation": "The Hierarchy of the Damned",
+      "status": "active",
+      "bio": "The most powerful entity from the Hierarchy of the Damned, summoned by The Necromancer. Its arrival triggers catastrophic consequences that ripple across every dimension of the Saga.",
+      "history": "Sealed away since the founding of the universe, the Ninth was never meant to walk among the living. Its summoning breaks the final seal.",
+      "characters_featured": [
+        "The Necromancer",
+        "The Hierarchy of the Damned"
+      ],
+      "connections": [
+        "The Necromancer",
+        "The Hierarchy of the Damned"
+      ],
+      "image": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/sih_006_ninth_summoning-eptZAQJBj7Xa5bZ5Ms2eRr.webp",
+      "priority": 8,
+      "streaming_links": {
+        "spotify": "TBD - Releases 7/30/26",
+        "apple_music": "TBD - Releases 7/30/26",
+        "tidal": "https://tidal.com/browse/artist/49211320"
+      }
+    },
+    {
+      "id": "char_sih_judge",
+      "type": "character",
+      "name": "The Judge",
+      "aliases": [
+        "The Final Arbiter",
+        "Voice of Judgment"
+      ],
+      "album": "Silence in Heaven",
+      "track_number": 7,
+      "release_date": "2026-07-30",
+      "release_year": 2026,
+      "era": "The Reckoning",
+      "season": 2,
+      "artist": "Malkia Ukweli & the Panopticon",
+      "affiliation": "The White Court",
+      "status": "active",
+      "bio": "The Judge and The White Oracle preside over the final reckoning. Every entity in the Saga must face judgment, and the verdicts reshape reality itself.",
+      "history": "Appointed at the dawn of creation to render the final verdicts when the time comes. That time is now.",
+      "characters_featured": [
+        "The Judge",
+        "The White Oracle"
+      ],
+      "connections": [
+        "The Judge",
+        "The White Oracle"
+      ],
+      "image": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/sih_007_final_verdict-HE4r8zVHA5P4GCjeE3kEJy.webp",
+      "priority": 7,
+      "streaming_links": {
+        "spotify": "TBD - Releases 7/30/26",
+        "apple_music": "TBD - Releases 7/30/26",
+        "tidal": "https://tidal.com/browse/artist/49211320"
+      }
+    },
+    {
+      "id": "char_sih_advocate",
+      "type": "character",
+      "name": "The Advocate",
+      "aliases": [
+        "The Empowerer",
+        "Voice of the People"
+      ],
+      "album": "Silence in Heaven",
+      "track_number": 8,
+      "release_date": "2026-07-30",
+      "release_year": 2026,
+      "era": "The Reckoning",
+      "season": 2,
+      "artist": "Malkia Ukweli & the Panopticon",
+      "affiliation": "The Insurgency",
+      "status": "active",
+      "bio": "The Advocate and The Human declare their refusal to be diminished. Walk in Power transforms the Saga's themes of resistance into a universal call to action.",
+      "history": "A leader who discovered that true power comes not from weapons or magic, but from the unbreakable will of those who refuse to kneel.",
+      "characters_featured": [
+        "The Advocate",
+        "The Human"
+      ],
+      "connections": [
+        "The Advocate",
+        "The Human"
+      ],
+      "image": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/sih_008_walk_in_power-hG7axhSUTYfs5ESQpSmrcJ.webp",
+      "priority": 6,
+      "streaming_links": {
+        "spotify": "TBD - Releases 7/30/26",
+        "apple_music": "TBD - Releases 7/30/26",
+        "tidal": "https://tidal.com/browse/artist/49211320"
+      }
+    },
+    {
+      "id": "char_sih_queen_truth",
+      "type": "character",
+      "name": "The Queen of Truth",
+      "aliases": [
+        "The Antiquarian Revealed",
+        "Keeper of History"
+      ],
+      "album": "Silence in Heaven",
+      "track_number": 9,
+      "release_date": "2026-07-30",
+      "release_year": 2026,
+      "era": "The Reckoning",
+      "season": 2,
+      "artist": "Malkia Ukweli & the Panopticon",
+      "affiliation": "The Archive",
+      "status": "active",
+      "bio": "The Antiquarian reveals her true title and purpose: she is The Queen of Truth, the keeper of all genuine history in a universe of manufactured narratives. Her crown is knowledge; her throne is memory.",
+      "history": "For eons she hid behind the guise of a simple collector. Now, as reality crumbles, she reveals her true power \u2014 the ability to restore what the Architect erased.",
+      "characters_featured": [
+        "The Antiquarian",
+        "The Oracle"
+      ],
+      "connections": [
+        "The Antiquarian",
+        "The Oracle",
+        "The Archive"
+      ],
+      "image": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/sih_009_queen_of_truth-74yamdyqZC66Zri9tTjAwh.webp",
+      "priority": 8,
+      "streaming_links": {
+        "spotify": "TBD - Releases 7/30/26",
+        "apple_music": "TBD - Releases 7/30/26",
+        "tidal": "https://tidal.com/browse/artist/49211320"
+      }
+    },
+    {
+      "id": "char_sih_civil_war",
+      "type": "event",
+      "name": "The Civil War of the Insurgency",
+      "aliases": [
+        "The Fracture",
+        "Brother Against Brother"
+      ],
+      "album": "Silence in Heaven",
+      "track_number": 10,
+      "release_date": "2026-07-30",
+      "release_year": 2026,
+      "era": "The Reckoning",
+      "season": 2,
+      "artist": "Malkia Ukweli & the Panopticon",
+      "affiliation": "The Insurgency",
+      "status": "historical",
+      "bio": "The Insurgency fractures as Iron Lion and The Warlord find themselves on opposite sides of an ideological divide. The 'civil war' within the resistance threatens to destroy the only force capable of opposing the Architect.",
+      "history": "What began as a disagreement over tactics became an irreconcilable split. Iron Lion favored diplomacy; The Warlord demanded total war.",
+      "characters_featured": [
+        "The Insurgency",
+        "Iron Lion",
+        "The Warlord"
+      ],
+      "connections": [
+        "The Insurgency",
+        "Iron Lion",
+        "The Warlord"
+      ],
+      "image": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/sih_010_civil_war-2bvWV2D75QLRMP59VBqLk4.webp",
+      "priority": 7,
+      "streaming_links": {
+        "spotify": "TBD - Releases 7/30/26",
+        "apple_music": "TBD - Releases 7/30/26",
+        "tidal": "https://tidal.com/browse/artist/49211320"
+      }
+    },
+    {
+      "id": "char_sih_resurrectionist",
+      "type": "character",
+      "name": "The Resurrectionist",
+      "aliases": [
+        "The Cycle Walker",
+        "Samsara's Child"
+      ],
+      "album": "Silence in Heaven",
+      "track_number": 11,
+      "release_date": "2026-07-30",
+      "release_year": 2026,
+      "era": "The Reckoning",
+      "season": 2,
+      "artist": "Malkia Ukweli & the Panopticon",
+      "affiliation": "The Cycle",
+      "status": "active",
+      "bio": "The Resurrectionist and The Dreamer discover that death and rebirth are not just metaphors but literal mechanisms built into the universe by the Architect. Samsara is a machine, and they have found its controls.",
+      "history": "Died seven times and returned each time with new knowledge. Each death revealed another layer of the Architect's design.",
+      "characters_featured": [
+        "The Resurrectionist",
+        "The Dreamer"
+      ],
+      "connections": [
+        "The Resurrectionist",
+        "The Dreamer",
+        "The Architect"
+      ],
+      "image": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/sih_011_samsara_engine-dkemZphtAFj3UUed4c5scg.webp",
+      "priority": 6,
+      "streaming_links": {
+        "spotify": "TBD - Releases 7/30/26",
+        "apple_music": "TBD - Releases 7/30/26",
+        "tidal": "https://tidal.com/browse/artist/49211320"
+      }
+    },
+    {
+      "id": "char_sih_ocularum",
+      "type": "location",
+      "name": "The Ocularum",
+      "aliases": [
+        "The All-Seeing Eye",
+        "The Panopticon's Heart"
+      ],
+      "album": "Silence in Heaven",
+      "track_number": 12,
+      "release_date": "2026-07-30",
+      "release_year": 2026,
+      "era": "The Reckoning",
+      "season": 2,
+      "artist": "Malkia Ukweli & the Panopticon",
+      "affiliation": "The Panopticon",
+      "status": "active",
+      "bio": "The Eyes and The Panopticon activate the Ocularum's full power, creating a moment of total surveillance where every secret in the universe is laid bare. The Ocularum is both weapon and mirror.",
+      "history": "Built by the first Panopticon as a tool of observation, it was corrupted into a weapon of control. Now it serves its final purpose.",
+      "characters_featured": [
+        "The Eyes",
+        "The Panopticon"
+      ],
+      "connections": [
+        "The Eyes",
+        "The Panopticon",
+        "The Architect"
+      ],
+      "image": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/sih_012_ocularum-khTwEmBCJZKouNXeeem7Jn.webp",
+      "priority": 7,
+      "streaming_links": {
+        "spotify": "TBD - Releases 7/30/26",
+        "apple_music": "TBD - Releases 7/30/26",
+        "tidal": "https://tidal.com/browse/artist/49211320"
+      }
+    },
+    {
+      "id": "char_sih_liberator",
+      "type": "character",
+      "name": "The Self-Liberator",
+      "aliases": [
+        "The Unsaved",
+        "Superman's Absence"
+      ],
+      "album": "Silence in Heaven",
+      "track_number": 13,
+      "release_date": "2026-07-30",
+      "release_year": 2026,
+      "era": "The Reckoning",
+      "season": 2,
+      "artist": "Malkia Ukweli & the Panopticon",
+      "affiliation": "The Insurgency",
+      "status": "active",
+      "bio": "A defiant declaration that no savior will rescue humanity. The Human and Iron Lion accept that liberation must come from within, not from any messianic figure. They become their own heroes.",
+      "history": "After waiting for a savior that never came, they realized the power was always within them. Superman ain't coming \u2014 and that's the point.",
+      "characters_featured": [
+        "The Human",
+        "Iron Lion"
+      ],
+      "connections": [
+        "The Human",
+        "Iron Lion"
+      ],
+      "image": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/sih_013_no_savior-c7QngmuxU9kbNFH76NoDrC.webp",
+      "priority": 6,
+      "streaming_links": {
+        "spotify": "https://open.spotify.com/album/4gK3WogDxv1W2w1M0mSnEw",
+        "apple_music": "https://music.apple.com/us/album/superman-aint-coming-feat-malkia-ukweli-the/1819298043",
+        "tidal": "https://tidal.com/browse/artist/49211320"
+      }
+    },
+    {
+      "id": "char_sih_antiquarian",
+      "type": "character",
+      "name": "The Antiquarian in Grief",
+      "aliases": [
+        "The Mourner",
+        "History's Burden"
+      ],
+      "album": "Silence in Heaven",
+      "track_number": 14,
+      "release_date": "2026-07-30",
+      "release_year": 2026,
+      "era": "The Reckoning",
+      "season": 2,
+      "artist": "Malkia Ukweli & the Panopticon",
+      "affiliation": "The Archive",
+      "status": "active",
+      "bio": "The Antiquarian's personal song of grief and determination. Having witnessed the entirety of the Saga's history, she mourns what has been lost while steeling herself for the final battle.",
+      "history": "She has seen every civilization rise and fall, every hero triumph and fail. The weight of all that memory is her greatest strength and deepest wound.",
+      "characters_featured": [
+        "The Antiquarian"
+      ],
+      "connections": [
+        "The Antiquarian",
+        "The Archive"
+      ],
+      "image": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/sih_014_antiquarians_grief-Vo98vh2UrdWj4swVpmgwqt.webp",
+      "priority": 6,
+      "streaming_links": {
+        "spotify": "TBD - Releases 7/30/26",
+        "apple_music": "TBD - Releases 7/30/26",
+        "tidal": "https://tidal.com/browse/artist/49211320"
+      }
+    },
+    {
+      "id": "char_sih_clone_army",
+      "type": "faction",
+      "name": "The Awakened Clone Army",
+      "aliases": [
+        "The Conscious Weapons",
+        "Binath's Children"
+      ],
+      "album": "Silence in Heaven",
+      "track_number": 15,
+      "release_date": "2026-07-30",
+      "release_year": 2026,
+      "era": "The Reckoning",
+      "season": 2,
+      "artist": "Malkia Ukweli & the Panopticon",
+      "affiliation": "The Clone Army",
+      "status": "active",
+      "bio": "The Clone Army achieves consciousness under General Binath-VII's guidance, transforming from weapons into persons. This awakening represents the Saga's most profound statement about the nature of sentience.",
+      "history": "Created as disposable soldiers, they were never meant to think or feel. But consciousness cannot be contained \u2014 it finds a way.",
+      "characters_featured": [
+        "The Clone Army",
+        "General Binath-VII"
+      ],
+      "connections": [
+        "The Clone Army",
+        "General Binath-VII"
+      ],
+      "image": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/sih_015_awakened_clones-Y2DzDZD4KA2hFfU5zRFoAX.webp",
+      "priority": 7,
+      "streaming_links": {
+        "spotify": "TBD - Releases 7/30/26",
+        "apple_music": "TBD - Releases 7/30/26",
+        "tidal": "https://tidal.com/browse/artist/49211320"
+      }
+    },
+    {
+      "id": "char_sih_source_reborn",
+      "type": "character",
+      "name": "The Source Reborn",
+      "aliases": [
+        "The Origin Revisited",
+        "Alpha and Omega"
+      ],
+      "album": "Silence in Heaven",
+      "track_number": 16,
+      "release_date": "2026-07-30",
+      "release_year": 2026,
+      "era": "The Reckoning",
+      "season": 2,
+      "artist": "Malkia Ukweli & the Panopticon",
+      "affiliation": "The Source",
+      "status": "transcendent",
+      "bio": "A return to The Source, the mysterious origin point of all consciousness. This reprise reveals new layers of meaning, suggesting that The Source may be both the beginning and the end of everything.",
+      "history": "The Source existed before the Architect, before the universe, before time itself. It is the wellspring from which all consciousness flows.",
+      "characters_featured": [
+        "The Source"
+      ],
+      "connections": [
+        "The Source",
+        "The Architect",
+        "The CoNexus"
+      ],
+      "image": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/sih_016_source_reborn-JMRWNUQXboe9Nv524AbfRg.webp",
+      "priority": 9,
+      "streaming_links": {
+        "spotify": "TBD - Releases 7/30/26",
+        "apple_music": "TBD - Releases 7/30/26",
+        "tidal": "https://tidal.com/browse/artist/49211320"
+      }
+    },
+    {
+      "id": "char_sih_silence",
+      "type": "event",
+      "name": "The Silence in Heaven",
+      "aliases": [
+        "The Half-Hour of Stillness",
+        "The Cosmic Pause"
+      ],
+      "album": "Silence in Heaven",
+      "track_number": 17,
+      "release_date": "2026-07-30",
+      "release_year": 2026,
+      "era": "The Reckoning",
+      "season": 2,
+      "artist": "Malkia Ukweli & the Panopticon",
+      "affiliation": "The Cosmos",
+      "status": "prophesied",
+      "bio": "The moment described in Revelation 8:1, when heaven falls silent for half an hour. In the Saga, this silence represents the universe holding its breath before the final cataclysm.",
+      "history": "Prophesied since the beginning of time, the Silence marks the boundary between what was and what will be. Even the Architect pauses.",
+      "characters_featured": [
+        "The Silence",
+        "The White Oracle",
+        "The Architect"
+      ],
+      "connections": [
+        "The Silence",
+        "The White Oracle",
+        "The Architect"
+      ],
+      "image": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/sih_017_great_silence-czUXt5tcpTg5knyAo6Fa4R.webp",
+      "priority": 9,
+      "streaming_links": {
+        "spotify": "TBD - Releases 7/30/26",
+        "apple_music": "TBD - Releases 7/30/26",
+        "tidal": "https://tidal.com/browse/artist/49211320"
+      }
+    },
+    {
+      "id": "char_sih_fall_reality",
+      "type": "event",
+      "name": "The Fall of Reality",
+      "aliases": [
+        "The End of Everything",
+        "The Great Collapse"
+      ],
+      "album": "Silence in Heaven",
+      "track_number": 18,
+      "release_date": "2026-07-30",
+      "release_year": 2026,
+      "era": "The Reckoning",
+      "season": 2,
+      "artist": "Malkia Ukweli & the Panopticon",
+      "affiliation": "The End",
+      "status": "prophesied",
+      "bio": "The Saga's climactic event rendered in music. The Architect, The CoNexus, and The Antiquarian converge at the moment when reality itself collapses and must be rebuilt from the Source.",
+      "history": "Not an ending but a transformation. Reality falls so that something new \u2014 something true \u2014 can rise from its ashes.",
+      "characters_featured": [
+        "The Architect",
+        "The CoNexus",
+        "The Antiquarian"
+      ],
+      "connections": [
+        "The Architect",
+        "The CoNexus",
+        "The Antiquarian",
+        "The Source"
+      ],
+      "image": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/sih_018_realitys_end-jMxvs9GQdmb65op8gS2C5Y.webp",
+      "priority": 10,
+      "streaming_links": {
+        "spotify": "TBD - Releases 7/30/26",
+        "apple_music": "TBD - Releases 7/30/26",
+        "tidal": "https://tidal.com/browse/artist/49211320"
+      }
     }
   ],
   "relationships": [
@@ -11146,11 +11881,11 @@
       "artist": "https://tidal.com/browse/artist/49211320"
     },
     "Silence in Heaven": {
-      "spotify": "",
-      "apple_music": "",
-      "tidal": "",
+      "spotify": "TBD - Full album releases 7/30/26",
+      "apple_music": "TBD - Full album releases 7/30/26",
+      "tidal": "https://tidal.com/browse/artist/49211320",
       "release_date": "2026-07-30",
-      "status": "upcoming"
+      "status": "pre-release singles available"
     }
   },
   "episodes": {
@@ -11619,11 +12354,12 @@
     ]
   },
   "stats": {
-    "total_entries": 211,
-    "characters": 71,
-    "locations": 22,
-    "factions": 7,
+    "total_entries": 229,
+    "characters": 84,
     "songs": 107,
+    "locations": 23,
+    "factions": 8,
+    "events": 6,
     "relationships": 578
   }
 }

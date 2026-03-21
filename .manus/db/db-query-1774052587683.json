@@ -1,0 +1,22 @@
+{
+  "query": "SELECT id, name, season, imageUrl FROM cards WHERE id LIKE 'sih_%' OR name LIKE '%Two Witnesses%' LIMIT 5",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway04.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2T9erPMfbTpx4Y5.root --database 2quXz2C2n5hMfqc8hNVW3h --execute SELECT id, name, season, imageUrl FROM cards WHERE id LIKE 'sih_%' OR name LIKE '%Two Witnesses%' LIMIT 5",
+  "rows": [
+    {
+      "id": "31062",
+      "name": "The Two Witnesses",
+      "season": "Season 3",
+      "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/160_silence_in_heaven_title_33353707.png"
+    },
+    {
+      "id": "60062",
+      "name": "The Two Witnesses",
+      "season": "Season 1",
+      "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/160_silence_in_heaven_title_33353707.png"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tseason\timageUrl\n31062\tThe Two Witnesses\tSeason 3\thttps://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/160_silence_in_heaven_title_33353707.png\n60062\tThe Two Witnesses\tSeason 1\thttps://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/160_silence_in_heaven_title_33353707.png\n",
+  "stderr": "",
+  "execution_time_ms": 202
+}

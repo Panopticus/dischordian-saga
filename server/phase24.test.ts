@@ -7,7 +7,7 @@ import { describe, it, expect } from "vitest";
 describe("Achievements Gallery Data", () => {
   it("should have 33 lore achievements (one per CoNexus game)", async () => {
     const { LORE_ACHIEVEMENTS } = await import("../client/src/data/loreAchievements");
-    expect(LORE_ACHIEVEMENTS.length).toBe(33);
+    expect(LORE_ACHIEVEMENTS.length).toBe(39);
   });
 
   it("every achievement should have a unique title", async () => {
@@ -244,9 +244,9 @@ describe("Routes and Navigation", () => {
 
 /* ═══ AGE CATEGORIES COVER ART ═══ */
 describe("Age Categories Cover Art", () => {
-  it("all 5 age categories should have cover images", async () => {
+  it("all 6 age categories should have cover images", async () => {
     const { AGE_CATEGORIES } = await import("../client/src/data/conexusGames");
-    expect(AGE_CATEGORIES.length).toBe(5);
+    expect(AGE_CATEGORIES.length).toBe(6);
     for (const cat of AGE_CATEGORIES) {
       expect(cat.coverImage).toBeTruthy();
       expect(cat.coverImage).toContain("http");

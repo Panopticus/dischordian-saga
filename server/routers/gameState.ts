@@ -45,6 +45,29 @@ const gameStateSchema = z.object({
   loreAchievements: z.array(z.string()).optional(),
   conexusXp: z.number().optional(),
   activeDeck: z.array(z.string()).optional(),
+  // Crafting system persistence
+  craftingSkills: z.record(z.string(), z.number()).optional(),
+  craftingXp: z.record(z.string(), z.number()).optional(),
+  craftingMaterials: z.record(z.string(), z.number()).optional(),
+  craftedItems: z.array(z.string()).optional(),
+  craftingLog: z.array(z.object({
+    recipeId: z.string(),
+    timestamp: z.number(),
+  }).passthrough()).optional(),
+  // Morality system persistence
+  moralityScore: z.number().optional(),
+  moralityChoices: z.array(z.object({
+    choiceId: z.string(),
+    value: z.number(),
+    timestamp: z.number(),
+  }).passthrough()).optional(),
+  // Tutorial & morality unlocks persistence
+  completedTutorials: z.array(z.string()).optional(),
+  moralityUnlocks: z.array(z.string()).optional(),
+  discoveredTransmissions: z.array(z.string()).optional(),
+  // Equipment persistence
+  equippedItems: z.record(z.string(), z.string().nullable()).optional(),
+  inventoryItems: z.array(z.string()).optional(),
 });
 
 // Stats that get stored alongside game state for leaderboard queries

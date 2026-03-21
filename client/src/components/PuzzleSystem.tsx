@@ -156,7 +156,7 @@ function RiddlePuzzle({ puzzle, onSolve }: { puzzle: Puzzle; onSolve: () => void
           value={answer}
           onChange={e => setAnswer(e.target.value)}
           placeholder="Enter your answer..."
-          className="flex-1 bg-transparent border-b border-white/20 pb-2 font-mono text-sm text-foreground/85 placeholder:text-muted-foreground/35 focus:outline-none focus:border-purple-400/50"
+          className="flex-1 bg-transparent border-b border-border pb-2 font-mono text-sm text-foreground/85 placeholder:text-muted-foreground/35 focus:outline-none focus:border-purple-400/50"
           onKeyDown={e => { if (e.key === "Enter") checkAnswer(); }}
           autoFocus
         />
@@ -359,7 +359,7 @@ function CipherPuzzle({ puzzle, onSolve }: { puzzle: Puzzle; onSolve: () => void
           value={answer}
           onChange={e => setAnswer(e.target.value)}
           placeholder="Enter decrypted message..."
-          className="flex-1 bg-transparent border-b border-white/20 pb-2 font-mono text-sm text-foreground/85 placeholder:text-muted-foreground/35 focus:outline-none focus:border-[var(--neon-cyan)]/50"
+          className="flex-1 bg-transparent border-b border-border pb-2 font-mono text-sm text-foreground/85 placeholder:text-muted-foreground/35 focus:outline-none focus:border-[var(--neon-cyan)]/50"
           onKeyDown={e => { if (e.key === "Enter") checkAnswer(); }}
           autoFocus
         />

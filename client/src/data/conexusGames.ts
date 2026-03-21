@@ -559,7 +559,7 @@ export const AGE_CATEGORIES: AgeCategory[] = [
     borderColor: "border-cyan-500/30",
     bgColor: "bg-cyan-500/10",
     iconGlyph: "⚡",
-    coverImage: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/rise_of_the_neyons_25b56086.avif",
+    coverImage: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/foundation_age_cover-5fsWsaonbVUHwUYC9niqEt.webp",
     games: THE_FOUNDATION,
   },
   {

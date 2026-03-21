@@ -82,10 +82,10 @@ function SettingsSection({ title, icon: Icon, children, defaultOpen = true }: {
 }) {
   const [open, setOpen] = useState(defaultOpen);
   return (
-    <div className="rounded-lg border border-white/8 bg-white/[0.02] overflow-hidden">
+    <div className="rounded-lg border border-border/50 bg-muted/15 overflow-hidden">
       <button
         onClick={() => setOpen(!open)}
-        className="flex items-center gap-2.5 px-5 py-3 border-b border-white/5 w-full hover:bg-white/[0.02] transition-colors"
+        className="flex items-center gap-2.5 px-5 py-3 border-b border-border/40 w-full hover:bg-muted/15 transition-colors"
       >
         <Icon size={14} className="text-[var(--neon-cyan)]" />
         <h3 className="font-mono text-xs tracking-[0.15em] text-muted-foreground/90 uppercase flex-1 text-left">{title}</h3>
@@ -178,7 +178,7 @@ function OptionSelector<T extends string>({ label, options, value, onChange }: {
               className={`flex-1 flex flex-col items-center gap-1.5 py-3 rounded-lg border transition-all ${
                 active
                   ? "border-[var(--neon-cyan)]/30 bg-[var(--neon-cyan)]/5"
-                  : "border-white/8 hover:border-white/15 hover:bg-muted/30"
+                  : "border-border/50 hover:border-border/80 hover:bg-muted/30"
               }`}
             >
               {OptIcon && <OptIcon size={16} className={active ? "text-[var(--neon-cyan)]" : "text-muted-foreground/60"} />}
@@ -308,11 +308,11 @@ export default function SettingsPage() {
                     className={`flex items-center gap-2.5 px-3 py-2.5 rounded-lg border transition-all text-left ${
                       active
                         ? "border-[var(--neon-cyan)]/30 bg-[var(--neon-cyan)]/5"
-                        : "border-white/8 hover:border-white/15 hover:bg-muted/30"
+                        : "border-border/50 hover:border-border/80 hover:bg-muted/30"
                     }`}
                   >
                     <div
-                      className="w-6 h-6 rounded-md shrink-0 border border-white/10"
+                      className="w-6 h-6 rounded-md shrink-0 border border-border/60"
                       style={{ background: t.colors?.primary || "var(--neon-cyan)" }}
                     />
                     <div className="min-w-0">
@@ -328,7 +328,7 @@ export default function SettingsPage() {
               {lockedThemes.map((t) => (
                 <div
                   key={t.id}
-                  className="flex items-center gap-2.5 px-3 py-2.5 rounded-lg border border-white/5 opacity-40"
+                  className="flex items-center gap-2.5 px-3 py-2.5 rounded-lg border border-border/40 opacity-40"
                 >
                   <div className="w-6 h-6 rounded-md shrink-0 bg-muted/50 flex items-center justify-center">
                     <Lock size={10} className="text-muted-foreground/50" />
@@ -447,7 +447,7 @@ export default function SettingsPage() {
           />
 
           {/* Reset Game */}
-          <div className="pt-2 border-t border-white/5">
+          <div className="pt-2 border-t border-border/40">
             <div className="flex items-center justify-between">
               <div>
                 <p className="font-mono text-[11px] text-muted-foreground/90 flex items-center gap-2">
@@ -469,7 +469,7 @@ export default function SettingsPage() {
                 <div className="flex gap-2 shrink-0">
                   <button
                     onClick={() => setShowResetConfirm(false)}
-                    className="px-3 py-1.5 rounded-md border border-white/10 text-muted-foreground/70 font-mono text-[10px] hover:bg-muted/50 transition-colors"
+                    className="px-3 py-1.5 rounded-md border border-border/60 text-muted-foreground/70 font-mono text-[10px] hover:bg-muted/50 transition-colors"
                   >
                     CANCEL
                   </button>
@@ -495,7 +495,7 @@ export default function SettingsPage() {
           <div className="flex items-center justify-between py-2">
             <div className="flex items-center gap-2.5">
               <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
-                isAuthenticated ? "bg-[var(--neon-cyan)]/10 border border-[var(--neon-cyan)]/30" : "bg-muted/40 border border-white/10"
+                isAuthenticated ? "bg-[var(--neon-cyan)]/10 border border-[var(--neon-cyan)]/30" : "bg-muted/40 border border-border/60"
               }`}>
                 <User size={14} className={isAuthenticated ? "text-[var(--neon-cyan)]" : "text-muted-foreground/50"} />
               </div>
@@ -514,7 +514,7 @@ export default function SettingsPage() {
                   logout();
                   toast.success("Logged out");
                 }}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-md border border-white/10 text-muted-foreground/70 font-mono text-[10px] hover:bg-muted/50 hover:text-muted-foreground/90 transition-colors shrink-0"
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-md border border-border/60 text-muted-foreground/70 font-mono text-[10px] hover:bg-muted/50 hover:text-muted-foreground/90 transition-colors shrink-0"
               >
                 <LogOut size={12} />
                 LOGOUT
@@ -532,7 +532,7 @@ export default function SettingsPage() {
 
           {/* Sync Status */}
           {isAuthenticated && (
-            <div className="flex items-center justify-between py-2 border-t border-white/5">
+            <div className="flex items-center justify-between py-2 border-t border-border/40">
               <div className="flex items-center gap-2.5">
                 {syncStatus === "synced" ? (
                   <Cloud size={14} className="text-green-400/70" />
@@ -562,7 +562,7 @@ export default function SettingsPage() {
                   forceSave();
                   toast.success("Sync triggered");
                 }}
-                className="px-3 py-1.5 rounded-md border border-white/10 text-muted-foreground/70 font-mono text-[10px] hover:bg-muted/50 transition-colors shrink-0"
+                className="px-3 py-1.5 rounded-md border border-border/60 text-muted-foreground/70 font-mono text-[10px] hover:bg-muted/50 transition-colors shrink-0"
               >
                 SYNC NOW
               </button>
@@ -570,7 +570,7 @@ export default function SettingsPage() {
           )}
 
           {/* Export Save Data */}
-          <div className="flex items-center justify-between py-2 border-t border-white/5">
+          <div className="flex items-center justify-between py-2 border-t border-border/40">
             <div className="flex items-center gap-2.5">
               <Download size={14} className="text-muted-foreground/60" />
               <div>
@@ -581,7 +581,7 @@ export default function SettingsPage() {
             <button
               onClick={exportSaveData}
               disabled={exporting}
-              className="px-3 py-1.5 rounded-md border border-white/10 text-muted-foreground/70 font-mono text-[10px] hover:bg-muted/50 transition-colors shrink-0 disabled:opacity-30"
+              className="px-3 py-1.5 rounded-md border border-border/60 text-muted-foreground/70 font-mono text-[10px] hover:bg-muted/50 transition-colors shrink-0 disabled:opacity-30"
             >
               {exporting ? "EXPORTING..." : "EXPORT"}
             </button>

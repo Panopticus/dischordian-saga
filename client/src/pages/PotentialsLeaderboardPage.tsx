@@ -43,7 +43,7 @@ export default function PotentialsLeaderboardPage() {
   return (
     <div className="min-h-screen grid-bg pb-24">
       {/* Header */}
-      <div className="border-b border-white/10 bg-muted/60">
+      <div className="border-b border-border/60 bg-muted/60">
         <div className="max-w-5xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
@@ -109,7 +109,7 @@ export default function PotentialsLeaderboardPage() {
                       ? "bg-purple-500/10 border-purple-500/30"
                       : i < 3
                       ? "bg-amber-500/5 border-amber-500/10 hover:border-amber-500/30"
-                      : "bg-white/[0.02] border-white/5 hover:border-white/15"
+                      : "bg-muted/15 border-border/40 hover:border-border/80"
                   }`}
                 >
                   {/* Rank */}
@@ -201,7 +201,7 @@ export default function PotentialsLeaderboardPage() {
                 <button
                   onClick={() => setPage(Math.max(0, page - 1))}
                   disabled={page === 0}
-                  className="px-4 py-2 rounded bg-muted/40 border border-white/10 font-mono text-xs text-muted-foreground/80 hover:bg-muted/60 disabled:opacity-30 disabled:cursor-not-allowed"
+                  className="px-4 py-2 rounded bg-muted/40 border border-border/60 font-mono text-xs text-muted-foreground/80 hover:bg-muted/60 disabled:opacity-30 disabled:cursor-not-allowed"
                 >
                   PREV
                 </button>
@@ -211,7 +211,7 @@ export default function PotentialsLeaderboardPage() {
                 <button
                   onClick={() => setPage(page + 1)}
                   disabled={(page + 1) * limit >= data.total}
-                  className="px-4 py-2 rounded bg-muted/40 border border-white/10 font-mono text-xs text-muted-foreground/80 hover:bg-muted/60 disabled:opacity-30 disabled:cursor-not-allowed"
+                  className="px-4 py-2 rounded bg-muted/40 border border-border/60 font-mono text-xs text-muted-foreground/80 hover:bg-muted/60 disabled:opacity-30 disabled:cursor-not-allowed"
                 >
                   NEXT
                 </button>

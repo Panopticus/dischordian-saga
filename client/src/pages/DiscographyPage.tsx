@@ -156,15 +156,15 @@ export default function DiscographyPage() {
 
             {/* Quick stats */}
             <div className="flex flex-wrap gap-3 mb-4">
-              <div className="flex items-center gap-2 px-3 py-1.5 rounded-md border border-white/10 bg-muted/25">
+              <div className="flex items-center gap-2 px-3 py-1.5 rounded-md border border-border/60 bg-muted/25">
                 <Disc3 size={12} className="text-[var(--deep-purple)]" />
                 <span className="font-mono text-[10px] text-muted-foreground/80">4 ALBUMS</span>
               </div>
-              <div className="flex items-center gap-2 px-3 py-1.5 rounded-md border border-white/10 bg-muted/25">
+              <div className="flex items-center gap-2 px-3 py-1.5 rounded-md border border-border/60 bg-muted/25">
                 <Music size={12} className="text-[var(--neon-cyan)]" />
                 <span className="font-mono text-[10px] text-muted-foreground/80">{totalSongs} TRACKS</span>
               </div>
-              <div className="flex items-center gap-2 px-3 py-1.5 rounded-md border border-white/10 bg-muted/25">
+              <div className="flex items-center gap-2 px-3 py-1.5 rounded-md border border-border/60 bg-muted/25">
                 <Eye size={12} className="text-[var(--alert-red)]" />
                 <span className="font-mono text-[10px] text-muted-foreground/80">{totalVideos} VIDEOS</span>
               </div>
@@ -271,7 +271,7 @@ export default function DiscographyPage() {
               href="https://www.youtube.com/@MalkiaUkweli"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 px-3 py-2 rounded-md font-mono text-[10px] tracking-wider text-muted-foreground/70 border border-white/10 hover:text-foreground/85 hover:border-white/20 hover:bg-muted/50 transition-all"
+              className="flex items-center gap-2 px-3 py-2 rounded-md font-mono text-[10px] tracking-wider text-muted-foreground/70 border border-border/60 hover:text-foreground/85 hover:border-border hover:bg-muted/50 transition-all"
             >
               <ExternalLink size={10} />
               YOUTUBE
@@ -303,7 +303,7 @@ export default function DiscographyPage() {
                 href={albumStreamingLinks.tidal.artist}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 px-3 py-2 rounded-md font-mono text-[10px] tracking-wider text-muted-foreground/70 border border-white/10 hover:text-foreground/85 hover:border-white/20 hover:bg-muted/50 transition-all"
+                className="flex items-center gap-2 px-3 py-2 rounded-md font-mono text-[10px] tracking-wider text-muted-foreground/70 border border-border/60 hover:text-foreground/85 hover:border-border hover:bg-muted/50 transition-all"
               >
                 <TidalIcon size={10} />
                 TIDAL
@@ -477,7 +477,7 @@ function AlbumCard({
                     href={album.streaming.tidal}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-2 px-3 py-2 rounded-md font-mono text-[10px] tracking-wider text-muted-foreground/60 border border-white/10 hover:text-muted-foreground/80 hover:bg-muted/50 transition-all"
+                    className="flex items-center gap-2 px-3 py-2 rounded-md font-mono text-[10px] tracking-wider text-muted-foreground/60 border border-border/60 hover:text-muted-foreground/80 hover:bg-muted/50 transition-all"
                   >
                     <TidalIcon size={11} />
                     TIDAL
@@ -559,7 +559,7 @@ function AlbumCard({
               {/* View full album page link */}
               <Link
                 href={`/album/${album.slug}`}
-                className="flex items-center gap-2 px-3 py-2 rounded-md font-mono text-[10px] tracking-wider text-muted-foreground/60 border border-white/10 hover:text-muted-foreground/80 hover:border-white/20 hover:bg-muted/50 transition-all w-fit"
+                className="flex items-center gap-2 px-3 py-2 rounded-md font-mono text-[10px] tracking-wider text-muted-foreground/60 border border-border/60 hover:text-muted-foreground/80 hover:border-border hover:bg-muted/50 transition-all w-fit"
               >
                 <Headphones size={10} />
                 VIEW FULL ALBUM PAGE

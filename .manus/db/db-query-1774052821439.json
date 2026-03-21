@@ -1,0 +1,118 @@
+{
+  "query": "SELECT cardId, name, rarity, cardType FROM cards WHERE cardId LIKE 'sih_%' ORDER BY cardId",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway04.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2T9erPMfbTpx4Y5.root --database 2quXz2C2n5hMfqc8hNVW3h --execute SELECT cardId, name, rarity, cardType FROM cards WHERE cardId LIKE 'sih_%' ORDER BY cardId",
+  "rows": [
+    {
+      "cardId": "sih_001",
+      "name": "The Two Witnesses",
+      "rarity": "epic",
+      "cardType": "character"
+    },
+    {
+      "cardId": "sih_002",
+      "name": "Sixth Sense Awakening",
+      "rarity": "rare",
+      "cardType": "action"
+    },
+    {
+      "cardId": "sih_003",
+      "name": "Elegy of the Changed World",
+      "rarity": "uncommon",
+      "cardType": "action"
+    },
+    {
+      "cardId": "sih_004",
+      "name": "New Babylons Reckoning",
+      "rarity": "epic",
+      "cardType": "event"
+    },
+    {
+      "cardId": "sih_005",
+      "name": "The Degens Escape",
+      "rarity": "common",
+      "cardType": "character"
+    },
+    {
+      "cardId": "sih_006",
+      "name": "The Ninth Summoning",
+      "rarity": "legendary",
+      "cardType": "character"
+    },
+    {
+      "cardId": "sih_007",
+      "name": "The Final Verdict",
+      "rarity": "legendary",
+      "cardType": "event"
+    },
+    {
+      "cardId": "sih_008",
+      "name": "Walk in Power",
+      "rarity": "rare",
+      "cardType": "action"
+    },
+    {
+      "cardId": "sih_009",
+      "name": "The Queen of Truth",
+      "rarity": "legendary",
+      "cardType": "character"
+    },
+    {
+      "cardId": "sih_010",
+      "name": "Civil War Eruption",
+      "rarity": "epic",
+      "cardType": "event"
+    },
+    {
+      "cardId": "sih_011",
+      "name": "Samsara Engine",
+      "rarity": "epic",
+      "cardType": "item"
+    },
+    {
+      "cardId": "sih_012",
+      "name": "The Ocularum Activated",
+      "rarity": "legendary",
+      "cardType": "item"
+    },
+    {
+      "cardId": "sih_013",
+      "name": "No Savior Coming",
+      "rarity": "rare",
+      "cardType": "action"
+    },
+    {
+      "cardId": "sih_014",
+      "name": "The Antiquarians Grief",
+      "rarity": "rare",
+      "cardType": "character"
+    },
+    {
+      "cardId": "sih_015",
+      "name": "Awakened Clone Legion",
+      "rarity": "epic",
+      "cardType": "character"
+    },
+    {
+      "cardId": "sih_016",
+      "name": "The Source Reborn",
+      "rarity": "legendary",
+      "cardType": "character"
+    },
+    {
+      "cardId": "sih_017",
+      "name": "The Great Silence",
+      "rarity": "legendary",
+      "cardType": "event"
+    },
+    {
+      "cardId": "sih_018",
+      "name": "Realitys End",
+      "rarity": "legendary",
+      "cardType": "event"
+    }
+  ],
+  "messages": [],
+  "stdout": "cardId\tname\trarity\tcardType\nsih_001\tThe Two Witnesses\tepic\tcharacter\nsih_002\tSixth Sense Awakening\trare\taction\nsih_003\tElegy of the Changed World\tuncommon\taction\nsih_004\tNew Babylons Reckoning\tepic\tevent\nsih_005\tThe Degens Escape\tcommon\tcharacter\nsih_006\tThe Ninth Summoning\tlegendary\tcharacter\nsih_007\tThe Final Verdict\tlegendary\tevent\nsih_008\tWalk in Power\trare\taction\nsih_009\tThe Queen of Truth\tlegendary\tcharacter\nsih_010\tCivil War Eruption\tepic\tevent\nsih_011\tSamsara Engine\tepic\titem\nsih_012\tThe Ocularum Activated\tlegendary\titem\nsih_013\tNo Savior Coming\trare\taction\nsih_014\tThe Antiquarians Grief\trare\tcharacter\nsih_015\tAwakened Clone Legion\tepic\tcharacter\nsih_016\tThe Source Reborn\tlegendary\tcharacter\nsih_017\tThe Great Silence\tlegendary\tevent\nsih_018\tRealitys End\tlegendary\tevent\n",
+  "stderr": "",
+  "execution_time_ms": 73
+}

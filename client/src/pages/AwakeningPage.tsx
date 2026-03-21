@@ -177,7 +177,7 @@ function AttributeAllocator({
         <div key={i} className={`w-3 h-3 rounded-full border ${
           i <= val
             ? "bg-[var(--neon-cyan)] border-[var(--neon-cyan)]/50 shadow-[0_0_6px_var(--neon-cyan)]"
-            : "border-white/20 bg-transparent"
+            : "border-border bg-transparent"
         }`} />
       ))}
     </div>
@@ -212,12 +212,12 @@ function AttributeAllocator({
             <div className="flex items-center gap-2">
               <button
                 onClick={() => adjust(attr.key, -1)}
-                className="w-6 h-6 rounded border border-white/20 text-muted-foreground/60 hover:text-white hover:border-white/40 font-mono text-sm flex items-center justify-center transition-colors"
+                className="w-6 h-6 rounded border border-border text-muted-foreground/60 hover:text-white hover:border-white/40 font-mono text-sm flex items-center justify-center transition-colors"
               >-</button>
               {renderDots(attr.val)}
               <button
                 onClick={() => adjust(attr.key, 1)}
-                className="w-6 h-6 rounded border border-white/20 text-muted-foreground/60 hover:text-white hover:border-white/40 font-mono text-sm flex items-center justify-center transition-colors"
+                className="w-6 h-6 rounded border border-border text-muted-foreground/60 hover:text-white hover:border-white/40 font-mono text-sm flex items-center justify-center transition-colors"
               >+</button>
             </div>
           </div>
@@ -755,7 +755,7 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
             setCharacterChoice("element", characterChoices.element || "earth");
             setCharacterChoice("name", characterChoices.name || "Operative");
           }}
-          className="fixed bottom-4 right-4 z-50 font-mono text-[10px] text-muted-foreground/35 hover:text-muted-foreground/60 transition-colors px-3 py-1.5 rounded border border-white/10 hover:border-white/20"
+          className="fixed bottom-4 right-4 z-50 font-mono text-[10px] text-muted-foreground/35 hover:text-muted-foreground/60 transition-colors px-3 py-1.5 rounded border border-border/60 hover:border-border"
         >
           SKIP INTRO &gt;&gt;
         </button>

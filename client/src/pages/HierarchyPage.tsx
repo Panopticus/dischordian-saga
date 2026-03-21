@@ -194,12 +194,12 @@ function DemonCard({ demon, onClick, isSelected }: { demon: DemonLeader; onClick
       className={`relative rounded-lg overflow-hidden border transition-all duration-300 text-left w-full ${
         isSelected
           ? "border-red-500/60 ring-1 ring-red-500/30"
-          : "border-white/10 hover:border-white/20"
+          : "border-border/60 hover:border-border"
       }`}
       style={{ background: isSelected ? `${demon.color}10` : "rgba(255,255,255,0.03)" }}
     >
       <div className="flex items-start gap-3 p-3">
-        <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-md overflow-hidden flex-shrink-0 border border-white/10">
+        <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-md overflow-hidden flex-shrink-0 border border-border/60">
           <img src={demon.image} alt={demon.name} className="w-full h-full object-cover" loading="lazy" />
         </div>
         <div className="flex-1 min-w-0">
@@ -229,7 +229,7 @@ function DemonDetail({ demon, onClose }: { demon: DemonLeader; onClose: () => vo
       initial={{ opacity: 0, x: 30 }}
       animate={{ opacity: 1, x: 0 }}
       exit={{ opacity: 0, x: 30 }}
-      className="rounded-xl border border-white/10 overflow-hidden"
+      className="rounded-xl border border-border/60 overflow-hidden"
       style={{ background: "rgba(10,10,20,0.9)" }}
     >
       {/* Header with portrait */}
@@ -238,7 +238,7 @@ function DemonDetail({ demon, onClose }: { demon: DemonLeader; onClose: () => vo
         <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
         <button
           onClick={onClose}
-          className="absolute top-3 right-3 p-1.5 rounded-full bg-background/60 border border-white/20 text-muted-foreground/80 hover:text-white hover:bg-background/80 transition-colors"
+          className="absolute top-3 right-3 p-1.5 rounded-full bg-background/60 border border-border text-muted-foreground/80 hover:text-white hover:bg-background/80 transition-colors"
         >
           <X size={14} />
         </button>
@@ -270,11 +270,11 @@ function DemonDetail({ demon, onClose }: { demon: DemonLeader; onClose: () => vo
 
         {/* Mirrors */}
         <div className="grid grid-cols-2 gap-2">
-          <div className="rounded-md border border-white/10 p-2.5" style={{ background: "rgba(255,255,255,0.03)" }}>
+          <div className="rounded-md border border-border/60 p-2.5" style={{ background: "rgba(255,255,255,0.03)" }}>
             <div className="font-mono text-[9px] text-muted-foreground/50 tracking-[0.2em] mb-1">MIRRORS ARCHON</div>
             <div className="font-display text-xs font-bold text-white">{demon.mirrorsArchon}</div>
           </div>
-          <div className="rounded-md border border-white/10 p-2.5" style={{ background: "rgba(255,255,255,0.03)" }}>
+          <div className="rounded-md border border-border/60 p-2.5" style={{ background: "rgba(255,255,255,0.03)" }}>
             <div className="font-mono text-[9px] text-muted-foreground/50 tracking-[0.2em] mb-1">OPPOSES NEYON</div>
             <div className="font-display text-xs font-bold text-white">{demon.mirrorsNeyon}</div>
           </div>
@@ -290,7 +290,7 @@ function DemonDetail({ demon, onClose }: { demon: DemonLeader; onClose: () => vo
             <div className="font-mono text-[9px] text-red-400/60 tracking-[0.2em] mb-1">BLOOD WEAVE CONNECTION</div>
             <div className="font-mono text-xs text-muted-foreground/90">{demon.bloodWeaveConnection}</div>
           </div>
-          <div className="rounded-md border border-white/10 p-2.5" style={{ background: "rgba(255,255,255,0.03)" }}>
+          <div className="rounded-md border border-border/60 p-2.5" style={{ background: "rgba(255,255,255,0.03)" }}>
             <div className="font-mono text-[9px] text-muted-foreground/50 tracking-[0.2em] mb-1">SPECIAL ABILITY</div>
             <div className="font-mono text-xs text-foreground/85">{demon.specialAbility}</div>
           </div>
@@ -300,7 +300,7 @@ function DemonDetail({ demon, onClose }: { demon: DemonLeader; onClose: () => vo
         <div className="flex gap-2">
           <Link
             href={`/entity/${demon.entityId}`}
-            className="flex-1 flex items-center justify-center gap-1.5 px-3 py-2 rounded-md border border-white/10 font-mono text-[10px] text-muted-foreground/80 hover:text-white hover:border-white/20 transition-colors"
+            className="flex-1 flex items-center justify-center gap-1.5 px-3 py-2 rounded-md border border-border/60 font-mono text-[10px] text-muted-foreground/80 hover:text-white hover:border-border transition-colors"
           >
             <ExternalLink size={10} /> VIEW DOSSIER
           </Link>
@@ -496,17 +496,17 @@ export default function HierarchyPage() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.6 }}
-              className="mt-6 rounded-xl border border-white/10 overflow-hidden"
+              className="mt-6 rounded-xl border border-border/60 overflow-hidden"
               style={{ background: "rgba(255,255,255,0.02)" }}
             >
-              <div className="px-4 py-3 border-b border-white/10">
+              <div className="px-4 py-3 border-b border-border/60">
                 <h3 className="font-display text-sm font-bold text-foreground/85 tracking-wider">ARCHON / DEMON / NEYON MIRRORS</h3>
                 <p className="font-mono text-[10px] text-muted-foreground/50 mt-0.5">Each demon mirrors an Archon's power and opposes a Neyon's purpose</p>
               </div>
               <div className="overflow-x-auto">
                 <table className="w-full">
                   <thead>
-                    <tr className="border-b border-white/5">
+                    <tr className="border-b border-border/40">
                       <th className="px-4 py-2 text-left font-mono text-[9px] text-muted-foreground/50 tracking-wider">ARCHON</th>
                       <th className="px-4 py-2 text-left font-mono text-[9px] text-red-400/50 tracking-wider">DEMON</th>
                       <th className="px-4 py-2 text-left font-mono text-[9px] text-cyan-400/50 tracking-wider">NEYON</th>
@@ -517,7 +517,7 @@ export default function HierarchyPage() {
                     {DEMON_LEADERS.map((d, i) => (
                       <tr
                         key={d.id}
-                        className={`border-b border-white/5 cursor-pointer hover:bg-muted/50 transition-colors ${selectedDemon?.id === d.id ? "bg-red-500/5" : ""}`}
+                        className={`border-b border-border/40 cursor-pointer hover:bg-muted/50 transition-colors ${selectedDemon?.id === d.id ? "bg-red-500/5" : ""}`}
                         onClick={() => setSelectedDemon(d)}
                       >
                         <td className="px-4 py-2 font-mono text-xs text-muted-foreground/80">{d.mirrorsArchon}</td>
@@ -542,7 +542,7 @@ export default function HierarchyPage() {
                   <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    className="rounded-xl border border-white/10 p-6 text-center"
+                    className="rounded-xl border border-border/60 p-6 text-center"
                     style={{ background: "rgba(255,255,255,0.02)" }}
                   >
                     <Skull size={32} className="text-red-500/20 mx-auto mb-3" />

@@ -419,7 +419,7 @@ export default function EasterEggs() {
                 </p>
 
                 {/* Progress */}
-                <div className="mt-3 pt-2 border-t border-white/10 flex items-center gap-4">
+                <div className="mt-3 pt-2 border-t border-border/60 flex items-center gap-4">
                   <p className="font-mono text-[9px] text-muted-foreground/40">
                     SECRETS: {getDiscoveredSecrets().length}/{Object.keys(SECRET_COMMANDS).length + 1}
                   </p>
@@ -515,7 +515,7 @@ export function SecretsProgress() {
           <p className="font-mono text-[8px] text-muted-foreground/35 mb-1">LORE FRAGMENTS ({getLoreFragments().length})</p>
           <div className="space-y-1 max-h-32 overflow-y-auto">
             {getLoreFragments().map(f => (
-              <div key={f.id} className="px-2 py-1 rounded bg-muted/25 border border-white/5">
+              <div key={f.id} className="px-2 py-1 rounded bg-muted/25 border border-border/40">
                 <p className="font-mono text-[9px] text-amber-400/70">{f.title}</p>
               </div>
             ))}
@@ -529,7 +529,7 @@ export function SecretsProgress() {
           <p className="font-mono text-[8px] text-muted-foreground/35 mb-1">BONUS CARDS ({getBonusCards().length})</p>
           <div className="space-y-1 max-h-32 overflow-y-auto">
             {getBonusCards().map(c => (
-              <div key={c.name} className="px-2 py-1 rounded bg-muted/25 border border-white/5 flex items-center gap-2">
+              <div key={c.name} className="px-2 py-1 rounded bg-muted/25 border border-border/40 flex items-center gap-2">
                 <span className={`font-mono text-[8px] font-bold ${
                   c.rarity === "mythic" ? "text-red-400" : c.rarity === "legendary" ? "text-amber-400" : "text-blue-400"
                 }`}>

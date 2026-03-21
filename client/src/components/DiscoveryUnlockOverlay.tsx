@@ -281,7 +281,7 @@ export default function DiscoveryUnlockOverlay() {
             >
               <button
                 onClick={handleDismiss}
-                className="px-5 py-2.5 rounded-lg font-mono text-xs tracking-wider text-muted-foreground/70 hover:text-muted-foreground/90 transition-colors border border-white/10 hover:border-white/20"
+                className="px-5 py-2.5 rounded-lg font-mono text-xs tracking-wider text-muted-foreground/70 hover:text-muted-foreground/90 transition-colors border border-border/60 hover:border-border"
               >
                 CONTINUE EXPLORING
               </button>
