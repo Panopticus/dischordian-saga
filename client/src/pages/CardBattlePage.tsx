@@ -514,6 +514,32 @@ function GameOverScreen({
   onPlayAgain: () => void; onExit: () => void;
 }) {
   const isVictory = winner === "player";
+  const { addMaterial } = useGame();
+  const [drops, setDrops] = useState<{ materialId: string; quantity: number; name: string; icon: string }[]>([]);
+  const dropsGiven = useRef(false);
+
+  useEffect(() => {
+    if (isVictory && !dropsGiven.current) {
+      dropsGiven.current = true;
+      // Card battle drops: battle shards and occasional rare materials
+      const battleDrops: { materialId: string; quantity: number; name: string; icon: string }[] = [];
+      // Always drop battle shards
+      const shardQty = 1 + Math.floor(Math.random() * 3);
+      battleDrops.push({ materialId: "battle_shard", quantity: shardQty, name: "Battle Shard", icon: "⚔️" });
+      addMaterial("battle_shard", shardQty);
+      // 30% chance for champion's mark
+      if (Math.random() < 0.3) {
+        battleDrops.push({ materialId: "champions_mark", quantity: 1, name: "Champion's Mark", icon: "🏆" });
+        addMaterial("champions_mark", 1);
+      }
+      // 15% chance for crystal shard (quick wins)
+      if (turnCount <= 8 && Math.random() < 0.15) {
+        battleDrops.push({ materialId: "crystal_shard", quantity: 1, name: "Crystal Shard", icon: "💎" });
+        addMaterial("crystal_shard", 1);
+      }
+      setDrops(battleDrops);
+    }
+  }, [isVictory, turnCount, addMaterial]);
 
   return (
     <motion.div
@@ -550,14 +576,30 @@ function GameOverScreen({
           {isVictory ? `Defeated ${enemyName} in ${turnCount} turns` : `${enemyName} has destroyed you`}
         </p>
         {isVictory && (
-          <motion.p
+          <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.5 }}
-            className="font-mono text-[10px] text-amber-400/50 mb-6"
+            className="mb-6"
           >
-            +50 XP earned
-          </motion.p>
+            <p className="font-mono text-[10px] text-amber-400/50 mb-2">+50 XP earned</p>
+            {drops.length > 0 && (
+              <div className="space-y-1">
+                <p className="font-mono text-[9px] text-cyan-400/60 tracking-wider">MATERIALS FOUND</p>
+                {drops.map((drop, i) => (
+                  <motion.p
+                    key={drop.materialId}
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.7 + i * 0.15 }}
+                    className="font-mono text-[10px] text-emerald-400/70"
+                  >
+                    {drop.icon} +{drop.quantity} {drop.name}
+                  </motion.p>
+                ))}
+              </div>
+            )}
+          </motion.div>
         )}
 
         <div className="flex gap-3 justify-center mt-6">

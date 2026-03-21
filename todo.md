@@ -1725,3 +1725,13 @@
 - [x] The Prisoner already implemented — added missing story arenas (void, babylon, necropolis)
 - [x] Character unlock system already working — enhanced with FINAL BOSS/ACT BOSS/ARENA MASTER labels
 - [x] Write tests and save checkpoint (21 tests passing)
+
+### Phase 73: Loyalty Missions, PvP Ranked, Crafting Drops + Production Bible
+- [x] Build companion loyalty missions (relationship 75+ side-quests revealing Panopticon secrets)
+- [x] Build PvP ranked ladder with ELO matchmaking and seasonal rewards
+- [x] Wire crafting material drops from card battles, trade runs, and fight victories
+- [x] Write tests and save checkpoint for code features
+- [x] Write Nano Banana start/end frame prompts for all game cinematics
+- [x] Write Kling 3.0 animation prompts for all cinematic videos
+- [x] Write ElevenLabs VO scripts for all dialogue lines
+- [x] Write Suno 5.0 music prompts for all game sections

@@ -777,6 +777,39 @@ export default function PvpArenaPage() {
                 </div>
               )}
 
+              {/* Faction War Standings */}
+              <div className="border border-purple-500/30 rounded-lg bg-purple-500/5 p-5">
+                <h3 className="font-display text-sm font-bold tracking-[0.2em] mb-4 flex items-center gap-2">
+                  <Swords size={14} className="text-purple-400" />
+                  FACTION WAR STANDINGS
+                </h3>
+                <p className="font-mono text-[10px] text-muted-foreground mb-4">
+                  PvP victories contribute to your faction's war effort. Higher-ranked players earn bonus faction points.
+                </p>
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                  {Object.entries(gameState.factionReputation).map(([faction, rep]) => {
+                    const factionColors: Record<string, { text: string; bg: string; border: string }> = {
+                      empire: { text: "text-cyan-400", bg: "bg-cyan-400/10", border: "border-cyan-400/30" },
+                      insurgency: { text: "text-red-400", bg: "bg-red-400/10", border: "border-red-400/30" },
+                      independent: { text: "text-amber-400", bg: "bg-amber-400/10", border: "border-amber-400/30" },
+                      pirate: { text: "text-purple-400", bg: "bg-purple-400/10", border: "border-purple-400/30" },
+                    };
+                    const fc = factionColors[faction] || factionColors.empire;
+                    return (
+                      <div key={faction} className={`border ${fc.border} ${fc.bg} rounded-lg p-3 text-center`}>
+                        <p className={`font-mono text-[9px] ${fc.text} tracking-wider mb-1`}>{faction.toUpperCase()}</p>
+                        <p className={`font-display text-xl font-bold ${fc.text}`}>{rep}</p>
+                        <p className="font-mono text-[8px] text-muted-foreground">reputation</p>
+                      </div>
+                    );
+                  })}
+                </div>
+                <div className="mt-3 flex items-center gap-2 font-mono text-[9px] text-muted-foreground/60">
+                  <Zap size={10} className="text-amber-400" />
+                  <span>Ranked wins grant +{myStats.data?.elo && myStats.data.elo >= 1600 ? 3 : myStats.data?.elo && myStats.data.elo >= 1200 ? 2 : 1} faction rep per victory based on your rank tier</span>
+                </div>
+              </div>
+
               {/* Season Leaderboard */}
               <div className="border border-border/30 rounded-lg bg-card/40 p-5">
                 <h3 className="font-display text-sm font-bold tracking-[0.2em] mb-4 flex items-center gap-2">

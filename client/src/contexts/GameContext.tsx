@@ -104,6 +104,12 @@ export interface GameState {
   };
   // Companion gifts given
   giftsGiven: { giftId: string; companionId: string; timestamp: number }[];
+  // Loyalty missions
+  completedLoyaltyMissions: string[];              // Loyalty mission IDs completed
+  activeLoyaltyMission: string | null;             // Currently active loyalty mission ID
+  loyaltyMissionStep: number;                      // Current step index in active mission
+  loyaltyLoreUnlocked: string[];                   // Lore revelation IDs unlocked
+  loyaltyTitles: string[];                         // Earned title strings
 }
 
 /* ─── ROOM DEFINITIONS ─── */
@@ -656,6 +662,12 @@ const DEFAULT_GAME_STATE: GameState = {
   },
   // Companion gifts
   giftsGiven: [],
+  // Loyalty missions
+  completedLoyaltyMissions: [],
+  activeLoyaltyMission: null,
+  loyaltyMissionStep: 0,
+  loyaltyLoreUnlocked: [],
+  loyaltyTitles: [],
 };
 
 const GAME_STORAGE_KEY = "loredex_game_state";
@@ -724,6 +736,10 @@ interface GameContextValue {
   advanceFactionWar: () => { ended: boolean; winner?: string };
   endFactionWar: () => { winner: string; playerContribution: number };
   giveCompanionGift: (giftId: string, companionId: string, xpGain: number) => void;
+  // Loyalty missions
+  startLoyaltyMission: (missionId: string) => void;
+  advanceLoyaltyMission: (choiceId?: string, moralityShift?: number) => void;
+  completeLoyaltyMission: (missionId: string, loreUnlock: string, moralityBonus: number, relationshipBonus: number, companionId: string, title?: string) => void;
   // Quick access
   skipToExploring: () => void;
   // Server sync
@@ -1386,6 +1402,52 @@ export function GameProvider({ children }: { children: ReactNode }) {
     gainCompanionXp(companionId, xpGain);
   }, [gainCompanionXp]);
 
+  // ── Loyalty Mission callbacks ──
+  const startLoyaltyMission = useCallback((missionId: string) => {
+    setState(prev => ({
+      ...prev,
+      activeLoyaltyMission: missionId,
+      loyaltyMissionStep: 0,
+    }));
+  }, []);
+
+  const advanceLoyaltyMission = useCallback((choiceId?: string, moralityShift?: number) => {
+    setState(prev => {
+      const newState = {
+        ...prev,
+        loyaltyMissionStep: prev.loyaltyMissionStep + 1,
+      };
+      if (moralityShift) {
+        newState.moralityScore = prev.moralityScore + moralityShift;
+      }
+      if (choiceId) {
+        const companionId = prev.activeLoyaltyMission?.startsWith('lm_elara') ? 'elara' : 'the_human';
+        newState.companionDialogHistory = {
+          ...prev.companionDialogHistory,
+          [companionId]: [...(prev.companionDialogHistory[companionId] || []), choiceId],
+        };
+      }
+      return newState;
+    });
+  }, []);
+
+  const completeLoyaltyMission = useCallback((missionId: string, loreUnlock: string, moralityBonus: number, relationshipBonus: number, companionId: string, title?: string) => {
+    setState(prev => {
+      const newRel = { ...prev.companionRelationships };
+      newRel[companionId] = Math.min(100, (newRel[companionId] || 0) + relationshipBonus);
+      return {
+        ...prev,
+        completedLoyaltyMissions: [...prev.completedLoyaltyMissions, missionId],
+        activeLoyaltyMission: null,
+        loyaltyMissionStep: 0,
+        loyaltyLoreUnlocked: [...prev.loyaltyLoreUnlocked, loreUnlock],
+        loyaltyTitles: title ? [...prev.loyaltyTitles, title] : prev.loyaltyTitles,
+        moralityScore: prev.moralityScore + moralityBonus,
+        companionRelationships: newRel,
+      };
+    });
+  }, []);
+
   return (
     <GameContext.Provider value={{
       state,
@@ -1435,6 +1497,9 @@ export function GameProvider({ children }: { children: ReactNode }) {
       advanceFactionWar,
       endFactionWar,
       giveCompanionGift,
+      startLoyaltyMission,
+      advanceLoyaltyMission,
+      completeLoyaltyMission,
       skipToExploring,
       syncStatus,
       lastSyncedAt,

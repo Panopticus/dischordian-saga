@@ -18,6 +18,7 @@ import { Streamdown } from "streamdown";
 import CutsceneOverlay, { QUEST_CUTSCENES, type CutsceneData } from "@/components/CutsceneOverlay";
 import { COMPANION_GIFTS, calculateGiftXp, canCraftGift, getRarityColor, type CompanionGift } from "@/data/companionGifts";
 import { getMaterialById } from "@/data/craftingData";
+import { ALL_LOYALTY_MISSIONS, getAvailableLoyaltyMissions, type LoyaltyMission, type LoyaltyMissionStep } from "@/data/loyaltyMissions";
 
 interface ChatMessage {
   role: "user" | "assistant";
@@ -36,15 +37,18 @@ const ELARA_AVATAR = "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2
 // ═══════════════════════════════════════════════════════
 
 export default function CompanionHubPage() {
-  const { state, gainCompanionXp, activateCompanionQuest, completeCompanionQuest, unlockBackstory, setRomance, addCompanionDialogChoice, getCompanionLevel, shiftMorality } = useGame();
+  const { state, gainCompanionXp, activateCompanionQuest, completeCompanionQuest, unlockBackstory, setRomance, addCompanionDialogChoice, getCompanionLevel, shiftMorality, startLoyaltyMission, advanceLoyaltyMission, completeLoyaltyMission } = useGame();
   const [selectedCompanion, setSelectedCompanion] = useState<CompanionProfile | null>(null);
-  const [activeTab, setActiveTab] = useState<"overview" | "backstory" | "quests" | "dialog" | "gifts">("overview");
+  const [activeTab, setActiveTab] = useState<"overview" | "backstory" | "quests" | "dialog" | "gifts" | "loyalty">("overview");
   const [expandedBackstory, setExpandedBackstory] = useState<string | null>(null);
   const [activeDialog, setActiveDialog] = useState<CompanionQuest | null>(null);
   const [dialogPhase, setDialogPhase] = useState<"intro" | "choices" | "completion">("intro");
   const [activeCutscene, setActiveCutscene] = useState<CutsceneData | null>(null);
   const [giftResult, setGiftResult] = useState<{ gift: CompanionGift; xpGained: number; response: string } | null>(null);
   const [craftingGift, setCraftingGift] = useState<string | null>(null);
+  const [activeMissionStep, setActiveMissionStep] = useState<LoyaltyMissionStep | null>(null);
+  const [missionStepIndex, setMissionStepIndex] = useState(0);
+  const [missionChoiceOutcome, setMissionChoiceOutcome] = useState<string | null>(null);
 
   const companions = useMemo(() => [ELARA_PROFILE, THE_HUMAN_PROFILE], []);
 
@@ -381,7 +385,7 @@ export default function CompanionHubPage() {
 
           {/* Tab Navigation */}
           <div className={`flex border-t ${isElara ? "border-cyan-500/20" : "border-red-500/20"}`}>
-            {(["overview", "backstory", "quests", "gifts", "dialog"] as const).map(tab => (
+            {(["overview", "backstory", "quests", "gifts", "loyalty", "dialog"] as const).map(tab => (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
@@ -861,6 +865,24 @@ export default function CompanionHubPage() {
             </motion.div>
           )}
 
+          {activeTab === "loyalty" && (
+            <LoyaltyMissionsTab
+              companion={selectedCompanion}
+              level={level}
+              morality={state.moralityScore}
+              isElara={isElara}
+              completedMissions={state.completedLoyaltyMissions}
+              activeMissionId={state.activeLoyaltyMission}
+              activeMissionStepIdx={state.loyaltyMissionStep}
+              loreUnlocked={state.loyaltyLoreUnlocked}
+              titles={state.loyaltyTitles}
+              startMission={startLoyaltyMission}
+              advanceMission={advanceLoyaltyMission}
+              completeMission={completeLoyaltyMission}
+              gainXp={() => gainCompanionXp(selectedCompanion.id, 5)}
+            />
+          )}
+
           {activeTab === "dialog" && (
             <CompanionChatTab
               companion={selectedCompanion}
@@ -1159,6 +1181,410 @@ function CompanionChatTab({
           </div>
         </form>
       </div>
+    </motion.div>
+  );
+}
+
+/* ═══ LOYALTY MISSIONS TAB ═══
+   Deep lore side-quests unlocked at relationship 75+ */
+function LoyaltyMissionsTab({
+  companion, level, morality, isElara, completedMissions, activeMissionId,
+  activeMissionStepIdx, loreUnlocked, titles, startMission, advanceMission,
+  completeMission, gainXp,
+}: {
+  companion: CompanionProfile;
+  level: number;
+  morality: number;
+  isElara: boolean;
+  completedMissions: string[];
+  activeMissionId: string | null;
+  activeMissionStepIdx: number;
+  loreUnlocked: string[];
+  titles: string[];
+  startMission: (missionId: string) => void;
+  advanceMission: (choiceId?: string, moralityShift?: number) => void;
+  completeMission: (missionId: string, loreUnlock: string, moralityBonus: number, relationshipBonus: number, companionId: string, title?: string) => void;
+  gainXp: () => void;
+}) {
+  const [choiceOutcome, setChoiceOutcome] = useState<string | null>(null);
+  const [revealedLore, setRevealedLore] = useState<string | null>(null);
+  const [missionComplete, setMissionComplete] = useState<LoyaltyMission | null>(null);
+
+  const accentColor = isElara ? "cyan" : "red";
+  const accentBg = isElara ? "bg-cyan-500/10" : "bg-red-500/10";
+  const accentBorder = isElara ? "border-cyan-500/30" : "border-red-500/30";
+  const accentText = isElara ? "text-cyan-400" : "text-red-400";
+
+  const companionMissions = ALL_LOYALTY_MISSIONS.filter(m => m.companionId === companion.id);
+  const available = getAvailableLoyaltyMissions(
+    companion.id as "elara" | "the_human", level, morality, completedMissions
+  );
+
+  // Get the active mission object
+  const activeMission = activeMissionId
+    ? ALL_LOYALTY_MISSIONS.find(m => m.id === activeMissionId) || null
+    : null;
+
+  const currentStep = activeMission ? activeMission.steps[activeMissionStepIdx] : null;
+  const isLastStep = activeMission ? activeMissionStepIdx >= activeMission.steps.length - 1 : false;
+
+  const handleAdvance = () => {
+    if (!activeMission) return;
+    setChoiceOutcome(null);
+    setRevealedLore(null);
+
+    if (isLastStep) {
+      // Complete the mission
+      const r = activeMission.reward;
+      completeMission(activeMission.id, r.loreUnlock, r.moralityBonus, r.relationshipBonus, companion.id, r.title);
+      setMissionComplete(activeMission);
+    } else {
+      advanceMission();
+    }
+  };
+
+  const handleChoice = (choice: { id: string; text: string; moralityShift: number; outcome: string }) => {
+    setChoiceOutcome(choice.outcome);
+    advanceMission(choice.id, choice.moralityShift);
+  };
+
+  // Mission complete overlay
+  if (missionComplete) {
+    return (
+      <motion.div
+        key="mission-complete"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        className="space-y-4"
+      >
+        <div className={`rounded-lg border ${accentBorder} ${accentBg} p-6 text-center`}>
+          <motion.div
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            transition={{ type: "spring", delay: 0.2 }}
+          >
+            <Crown size={48} className={`${accentText} mx-auto mb-4`} />
+          </motion.div>
+          <h3 className="font-display text-xl font-bold text-foreground mb-2">MISSION COMPLETE</h3>
+          <p className={`font-display text-sm ${accentText} mb-4`}>{missionComplete.title}</p>
+
+          {missionComplete.reward.title && (
+            <div className="mb-4 py-2 px-4 rounded-md bg-amber-500/10 border border-amber-500/30 inline-block">
+              <p className="font-mono text-[10px] text-amber-400/60 tracking-wider">TITLE EARNED</p>
+              <p className="font-display text-sm font-bold text-amber-400">{missionComplete.reward.title}</p>
+            </div>
+          )}
+
+          <div className="space-y-2 text-left max-w-md mx-auto">
+            <div className="flex items-center gap-2">
+              <BookOpen size={12} className="text-purple-400" />
+              <span className="font-mono text-xs text-purple-400">LORE: {missionComplete.reward.loreUnlock}</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Heart size={12} className="text-rose-400" />
+              <span className="font-mono text-xs text-rose-400">+{missionComplete.reward.relationshipBonus} RELATIONSHIP</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Zap size={12} className="text-amber-400" />
+              <span className="font-mono text-xs text-amber-400">+{missionComplete.reward.moralityBonus} MORALITY</span>
+            </div>
+            {missionComplete.reward.specialUnlock && (
+              <div className="flex items-center gap-2">
+                <Sparkles size={12} className="text-emerald-400" />
+                <span className="font-mono text-xs text-emerald-400">UNLOCKED: {missionComplete.reward.specialUnlock.replace(/_/g, " ").toUpperCase()}</span>
+              </div>
+            )}
+          </div>
+
+          <button
+            onClick={() => setMissionComplete(null)}
+            className={`mt-6 px-6 py-2 rounded-md font-mono text-xs ${accentText} ${accentBg} border ${accentBorder} hover:opacity-80 transition-all`}
+          >
+            CONTINUE
+          </button>
+        </div>
+      </motion.div>
+    );
+  }
+
+  // Active mission step view
+  if (activeMission && currentStep) {
+    return (
+      <motion.div
+        key="active-mission"
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="space-y-4"
+      >
+        {/* Mission Header */}
+        <div className={`rounded-lg border ${accentBorder} ${accentBg} p-4`}>
+          <div className="flex items-center gap-2 mb-1">
+            <Shield size={14} className={accentText} />
+            <span className="font-mono text-[10px] text-muted-foreground tracking-wider">LOYALTY MISSION</span>
+          </div>
+          <h3 className="font-display text-sm font-bold text-foreground">{activeMission.title}</h3>
+          <p className="font-mono text-[10px] text-muted-foreground">{activeMission.subtitle}</p>
+          <div className="mt-2 flex items-center gap-2">
+            <div className="flex-1 h-1 rounded-full bg-secondary/50">
+              <div
+                className={`h-full rounded-full transition-all duration-500 ${isElara ? "bg-cyan-500" : "bg-red-500"}`}
+                style={{ width: `${((activeMissionStepIdx + 1) / activeMission.steps.length) * 100}%` }}
+              />
+            </div>
+            <span className="font-mono text-[9px] text-muted-foreground">
+              {activeMissionStepIdx + 1}/{activeMission.steps.length}
+            </span>
+          </div>
+        </div>
+
+        {/* Current Step */}
+        <div className="rounded-lg border border-border/30 bg-card/30 p-4">
+          {/* Step type indicator */}
+          <div className="flex items-center gap-2 mb-3">
+            {currentStep.type === "dialogue" && <MessageCircle size={12} className={accentText} />}
+            {currentStep.type === "investigation" && <Eye size={12} className="text-amber-400" />}
+            {currentStep.type === "choice" && <Swords size={12} className="text-purple-400" />}
+            {currentStep.type === "revelation" && <Sparkles size={12} className="text-emerald-400" />}
+            {currentStep.type === "combat_challenge" && <Skull size={12} className="text-red-400" />}
+            <span className="font-mono text-[9px] text-muted-foreground tracking-wider">
+              {currentStep.type.toUpperCase().replace("_", " ")}
+            </span>
+          </div>
+
+          {/* Speaker */}
+          {currentStep.speaker && (
+            <p className={`font-mono text-[10px] ${accentText} mb-1 tracking-wider`}>
+              [{currentStep.speaker}]
+            </p>
+          )}
+
+          {/* Text with typewriter-like reveal */}
+          <motion.p
+            key={currentStep.id}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5 }}
+            className="font-mono text-xs text-foreground/90 leading-relaxed"
+          >
+            {currentStep.text}
+          </motion.p>
+
+          {/* Choice outcome display */}
+          {choiceOutcome && (
+            <motion.div
+              initial={{ opacity: 0, y: 5 }}
+              animate={{ opacity: 1, y: 0 }}
+              className={`mt-3 p-3 rounded-md ${accentBg} border ${accentBorder}`}
+            >
+              <p className="font-mono text-xs text-foreground/80 italic">{choiceOutcome}</p>
+            </motion.div>
+          )}
+
+          {/* Revealed lore display */}
+          {currentStep.type === "revelation" && currentStep.revealedLore && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              transition={{ delay: 0.5, duration: 0.8 }}
+              className="mt-4 p-4 rounded-md bg-purple-500/5 border border-purple-500/30"
+            >
+              <div className="flex items-center gap-2 mb-2">
+                <BookOpen size={12} className="text-purple-400" />
+                <span className="font-mono text-[9px] text-purple-400 tracking-wider">LORE REVEALED</span>
+              </div>
+              <p className="font-mono text-[10px] text-purple-300/80 leading-relaxed">
+                {currentStep.revealedLore}
+              </p>
+            </motion.div>
+          )}
+
+          {/* Choices */}
+          {currentStep.type === "choice" && currentStep.choices && !choiceOutcome && (
+            <div className="mt-4 space-y-2">
+              {currentStep.choices.map(choice => (
+                <button
+                  key={choice.id}
+                  onClick={() => handleChoice(choice)}
+                  className={`w-full text-left p-3 rounded-md border transition-all hover:scale-[1.01] ${
+                    isElara
+                      ? "border-cyan-500/20 hover:border-cyan-500/40 hover:bg-cyan-500/5"
+                      : "border-red-500/20 hover:border-red-500/40 hover:bg-red-500/5"
+                  }`}
+                >
+                  <p className="font-mono text-xs text-foreground/80">{choice.text}</p>
+                  {choice.moralityShift !== 0 && (
+                    <p className={`font-mono text-[9px] mt-1 ${choice.moralityShift > 0 ? "text-cyan-400" : "text-red-400"}`}>
+                      {choice.moralityShift > 0 ? "▲" : "▼"} MORALITY {choice.moralityShift > 0 ? "+" : ""}{choice.moralityShift}
+                    </p>
+                  )}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Advance / Complete Button */}
+        {(currentStep.type !== "choice" || choiceOutcome) && (
+          <button
+            onClick={handleAdvance}
+            className={`w-full py-3 rounded-md font-mono text-xs font-bold tracking-wider transition-all ${
+              isLastStep
+                ? "bg-amber-500/20 text-amber-400 border border-amber-500/30 hover:bg-amber-500/30"
+                : `${accentBg} ${accentText} border ${accentBorder} hover:opacity-80`
+            }`}
+          >
+            {isLastStep ? "⚡ COMPLETE MISSION" : "CONTINUE ▸"}
+          </button>
+        )}
+      </motion.div>
+    );
+  }
+
+  // Mission list view
+  return (
+    <motion.div
+      key="loyalty"
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="space-y-4"
+    >
+      <div className="flex items-center gap-2 mb-2">
+        <Shield size={14} className={accentText} />
+        <span className="font-mono text-xs text-muted-foreground">
+          LOYALTY MISSIONS — Deep lore quests at relationship 75+
+        </span>
+      </div>
+
+      {/* Earned Titles */}
+      {titles.length > 0 && (
+        <div className={`rounded-lg border ${accentBorder} ${accentBg} p-3`}>
+          <p className="font-mono text-[9px] text-muted-foreground tracking-wider mb-2">EARNED TITLES</p>
+          <div className="flex flex-wrap gap-2">
+            {titles.map(t => (
+              <span key={t} className="font-mono text-[10px] text-amber-400 px-2 py-0.5 rounded bg-amber-500/10 border border-amber-500/20">
+                ⚜ {t}
+              </span>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Unlocked Lore */}
+      {loreUnlocked.length > 0 && (
+        <div className="rounded-lg border border-purple-500/30 bg-purple-500/5 p-3">
+          <p className="font-mono text-[9px] text-purple-400/60 tracking-wider mb-2">PANOPTICON LORE UNLOCKED</p>
+          {loreUnlocked.map(l => (
+            <div key={l} className="flex items-center gap-2 mb-1">
+              <BookOpen size={10} className="text-purple-400" />
+              <span className="font-mono text-[10px] text-purple-300/80">{l}</span>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* Mission Cards */}
+      {companionMissions.map(mission => {
+        const isCompleted = completedMissions.includes(mission.id);
+        const isAvailable = available.some(m => m.id === mission.id);
+        const isLocked = !isCompleted && !isAvailable;
+        const meetsRelationship = level >= mission.requiredRelationship;
+        const meetsMorality = !mission.requiredMorality || (
+          mission.requiredMorality.side === "humanity"
+            ? morality >= mission.requiredMorality.min
+            : morality <= -mission.requiredMorality.min
+        );
+
+        return (
+          <div
+            key={mission.id}
+            className={`rounded-lg border p-4 transition-all ${
+              isCompleted
+                ? "border-emerald-500/30 bg-emerald-500/5"
+                : isAvailable
+                ? `${accentBorder} ${accentBg} hover:scale-[1.01] cursor-pointer`
+                : "border-border/20 bg-card/20 opacity-60"
+            }`}
+          >
+            <div className="flex items-start justify-between gap-3">
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-2 mb-1">
+                  {isCompleted ? (
+                    <Check size={14} className="text-emerald-400" />
+                  ) : isLocked ? (
+                    <Lock size={14} className="text-muted-foreground/50" />
+                  ) : (
+                    <Shield size={14} className={accentText} />
+                  )}
+                  <h4 className={`font-display text-sm font-bold ${isCompleted ? "text-emerald-400" : isAvailable ? "text-foreground" : "text-muted-foreground/50"}`}>
+                    {isLocked ? "???" : mission.title}
+                  </h4>
+                </div>
+                <p className="font-mono text-[10px] text-muted-foreground/70 mb-2">
+                  {isLocked ? "Requirements not met" : mission.subtitle}
+                </p>
+
+                {/* Requirements */}
+                <div className="flex flex-wrap gap-2">
+                  <span className={`font-mono text-[9px] px-1.5 py-0.5 rounded ${
+                    meetsRelationship ? "bg-emerald-500/10 text-emerald-400" : "bg-red-500/10 text-red-400"
+                  }`}>
+                    {meetsRelationship ? "✓" : "✗"} REL {mission.requiredRelationship}+
+                  </span>
+                  {mission.requiredMorality && (
+                    <span className={`font-mono text-[9px] px-1.5 py-0.5 rounded ${
+                      meetsMorality ? "bg-emerald-500/10 text-emerald-400" : "bg-red-500/10 text-red-400"
+                    }`}>
+                      {meetsMorality ? "✓" : "✗"} {mission.requiredMorality.side.toUpperCase()} ≥{mission.requiredMorality.min}
+                    </span>
+                  )}
+                  <span className="font-mono text-[9px] px-1.5 py-0.5 rounded bg-secondary/30 text-muted-foreground">
+                    {mission.steps.length} STEPS
+                  </span>
+                </div>
+              </div>
+
+              {/* Start Button */}
+              {isAvailable && !isCompleted && (
+                <button
+                  onClick={() => startMission(mission.id)}
+                  className={`px-3 py-1.5 rounded-md font-mono text-[10px] font-bold tracking-wider ${accentText} ${accentBg} border ${accentBorder} hover:opacity-80 transition-all`}
+                >
+                  BEGIN
+                </button>
+              )}
+              {isCompleted && (
+                <span className="font-mono text-[9px] text-emerald-400 px-2 py-1 rounded bg-emerald-500/10">
+                  COMPLETED
+                </span>
+              )}
+            </div>
+
+            {/* Rewards Preview */}
+            {!isLocked && (
+              <div className="mt-3 pt-2 border-t border-border/20 flex flex-wrap gap-3">
+                <span className="font-mono text-[9px] text-purple-400">📖 {mission.reward.loreUnlock}</span>
+                <span className="font-mono text-[9px] text-rose-400">♥ +{mission.reward.relationshipBonus}</span>
+                {mission.reward.title && (
+                  <span className="font-mono text-[9px] text-amber-400">⚜ {mission.reward.title}</span>
+                )}
+              </div>
+            )}
+          </div>
+        );
+      })}
+
+      {/* Locked message if below 75 */}
+      {level < 75 && companionMissions.every(m => !completedMissions.includes(m.id)) && (
+        <div className="text-center py-6">
+          <Lock size={24} className="text-muted-foreground/30 mx-auto mb-2" />
+          <p className="font-mono text-xs text-muted-foreground/50">
+            Reach relationship level 75 to unlock loyalty missions
+          </p>
+          <p className="font-mono text-[10px] text-muted-foreground/30 mt-1">
+            Current: {level}/75
+          </p>
+        </div>
+      )}
     </motion.div>
   );
 }
