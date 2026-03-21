@@ -1643,3 +1643,110 @@ export const guildInvites = mysqlTable("guild_invites", {
   createdAt: timestamp("createdAt").defaultNow().notNull(),
 });
 export type GuildInvite = typeof guildInvites.$inferSelect;
+
+
+/* ═══════════════════════════════════════════════════════
+   GUILD WARS — Faction vs Faction territory control events
+   ═══════════════════════════════════════════════════════ */
+export const guildWars = mysqlTable("guild_wars", {
+  id: int("id").autoincrement().primaryKey(),
+  name: varchar("name", { length: 128 }).notNull(),
+  seasonNumber: int("seasonNumber").notNull().default(1),
+  status: mysqlEnum("status", ["upcoming", "active", "ended"]).notNull().default("upcoming"),
+  factionA: mysqlEnum("factionA", ["empire", "insurgency", "neutral"]).notNull(),
+  factionB: mysqlEnum("factionB", ["empire", "insurgency", "neutral"]).notNull(),
+  scoreA: int("scoreA").notNull().default(0),
+  scoreB: int("scoreB").notNull().default(0),
+  territory: varchar("territory", { length: 128 }).notNull(),
+  prizePoolDream: int("prizePoolDream").notNull().default(0),
+  startsAt: timestamp("startsAt").notNull(),
+  endsAt: timestamp("endsAt").notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+export type GuildWar = typeof guildWars.$inferSelect;
+
+export const guildWarContributions = mysqlTable("guild_war_contributions", {
+  id: int("id").autoincrement().primaryKey(),
+  warId: int("warId").notNull(),
+  guildId: int("guildId").notNull(),
+  userId: int("userId").notNull(),
+  points: int("points").notNull().default(0),
+  source: mysqlEnum("source", ["fight_win", "pvp_win", "trade_volume", "quest_complete", "card_battle_win", "chess_win"]).notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+export type GuildWarContribution = typeof guildWarContributions.$inferSelect;
+
+/** Marketplace tax pool — accumulates taxes for guild wars and season prizes */
+export const marketTaxPool = mysqlTable("market_tax_pool", {
+  id: int("id").autoincrement().primaryKey(),
+  poolDream: int("poolDream").notNull().default(0),
+  poolCredits: int("poolCredits").notNull().default(0),
+  lastDistributedAt: timestamp("lastDistributedAt").defaultNow(),
+  updatedAt: timestamp("updatedAt").defaultNow().notNull(),
+});
+
+/* ═══════════════════════════════════════════════════════
+   THE ARCHITECT'S GAMBIT — Strategic Chess Game
+   ═══════════════════════════════════════════════════════ */
+export const chessGames = mysqlTable("chess_games", {
+  id: int("id").autoincrement().primaryKey(),
+  whitePlayerId: int("whitePlayerId"),
+  blackPlayerId: int("blackPlayerId"),
+  whiteCharacter: varchar("whiteCharacter", { length: 64 }),
+  blackCharacter: varchar("blackCharacter", { length: 64 }),
+  mode: mysqlEnum("mode", ["casual", "ranked", "tournament", "story", "game_master"]).notNull().default("casual"),
+  aiDifficulty: int("aiDifficulty"),
+  fen: text("fen"),
+  pgn: text("pgn"),
+  status: mysqlEnum("status", ["waiting", "active", "checkmate", "stalemate", "draw", "resigned", "timeout", "abandoned"]).notNull().default("waiting"),
+  winnerId: int("winnerId"),
+  timeControl: int("timeControl").notNull().default(600),
+  whiteTimeMs: int("whiteTimeMs").notNull().default(600000),
+  blackTimeMs: int("blackTimeMs").notNull().default(600000),
+  moveCount: int("moveCount").notNull().default(0),
+  whiteEloChange: int("whiteEloChange"),
+  blackEloChange: int("blackEloChange"),
+  rewardsDream: int("rewardsDream").default(0),
+  rewardsMaterials: json("rewardsMaterials").$type<Record<string, number>>(),
+  startedAt: timestamp("startedAt"),
+  endedAt: timestamp("endedAt"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+export type ChessGame = typeof chessGames.$inferSelect;
+
+export const chessRankings = mysqlTable("chess_rankings", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull().unique(),
+  elo: int("elo").notNull().default(1200),
+  peakElo: int("peakElo").notNull().default(1200),
+  tier: mysqlEnum("tier", ["bronze", "silver", "gold", "platinum", "diamond", "master", "grandmaster"]).notNull().default("bronze"),
+  gamesPlayed: int("gamesPlayed").notNull().default(0),
+  wins: int("wins").notNull().default(0),
+  losses: int("losses").notNull().default(0),
+  draws: int("draws").notNull().default(0),
+  winStreak: int("winStreak").notNull().default(0),
+  bestWinStreak: int("bestWinStreak").notNull().default(0),
+  defeatedGameMaster: boolean("defeatedGameMaster").notNull().default(false),
+  storyProgress: int("storyProgress").notNull().default(0),
+  unlockedCharacters: json("unlockedCharacters").$type<string[]>(),
+  seasonNumber: int("seasonNumber").notNull().default(1),
+  updatedAt: timestamp("updatedAt").defaultNow().notNull(),
+});
+export type ChessRanking = typeof chessRankings.$inferSelect;
+
+export const chessTournaments = mysqlTable("chess_tournaments", {
+  id: int("id").autoincrement().primaryKey(),
+  name: varchar("name", { length: 128 }).notNull(),
+  format: mysqlEnum("format", ["swiss", "elimination", "round_robin"]).notNull().default("swiss"),
+  maxPlayers: int("maxPlayers").notNull().default(16),
+  currentPlayers: int("currentPlayers").notNull().default(0),
+  entryFee: int("entryFee").notNull().default(0),
+  prizePool: int("prizePool").notNull().default(0),
+  timeControl: int("timeControl").notNull().default(600),
+  currentRound: int("currentRound").notNull().default(0),
+  totalRounds: int("totalRounds").notNull().default(4),
+  status: mysqlEnum("status", ["registration", "active", "completed"]).notNull().default("registration"),
+  startsAt: timestamp("startsAt").notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+export type ChessTournament = typeof chessTournaments.$inferSelect;

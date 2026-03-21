@@ -96,6 +96,7 @@ const QuestBoardPage = lazy(() => import("./pages/QuestBoardPage"));
 const GuildPage = lazy(() => import("./pages/GuildPage"));
 const BattlePassPage = lazy(() => import("./pages/BattlePassPage"));
 const InventoryPage = lazy(() => import("./pages/InventoryPage"));
+const ChessPage = lazy(() => import("./pages/ChessPage"));
 
 /* ═══ LOADING FALLBACK ═══ */
 function PageLoader() {
@@ -176,6 +177,7 @@ function Router() {
         <Route path="/guild" component={GuildPage} />
         <Route path="/battle-pass" component={BattlePassPage} />
         <Route path="/inventory" component={InventoryPage} />
+        <Route path="/chess" component={ChessPage} />
         <Route path="/awakening">{() => <AwakeningPage />}</Route>
         <Route path="/404" component={NotFound} />
         <Route component={NotFound} />

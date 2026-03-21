@@ -1794,3 +1794,26 @@
 - [x] Design guild system with faction alignment, ranks, treasury, guild quests
 - [x] Build guild backend (creation, join/leave, ranks, treasury, chat, leaderboard)
 - [x] Build guild frontend page
+
+### Phase 75: Marketplace Fees, Guild Wars, Strategic Chess Game
+
+#### Marketplace Fee & Escrow
+- [x] Add 5% transaction fee on all marketplace sales (already existed at 5% TAX_RATE)
+- [x] Build escrow system for pending transactions (items deducted on listing, currency on buy order)
+- [x] Feed marketplace fees into guild treasury pool and season prize pool
+
+#### Guild Wars PvP Events
+- [x] Build guild wars event system (faction vs faction territory control)
+- [x] Add guild war scoring from member fight wins
+- [x] Wire guild war rewards (territory bonuses, treasury payouts)
+
+#### Strategic Chess Game — The Architect's Gambit
+- [x] Add chess game database tables (games, moves, rankings, tournaments)
+- [x] Build chess engine with AI at varying skill levels per character
+- [x] Build Game Master boss (Magnus Carlsen-level AI opponent)
+- [x] Build chess frontend (board, piece movement, character selection)
+- [x] Build ranked ladder with ELO matchmaking for chess
+- [x] Build tournament system for chess
+- [x] Wire chess wins into economy (Dream tokens, materials, XP)
+- [x] Add lore tie-ins (character abilities, special moves, story unlocks)
+- [x] Register chess game in navigation and GamesPage

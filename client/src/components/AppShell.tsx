@@ -114,6 +114,7 @@ const NAV_GROUPS: NavGroup[] = [
       { path: "/guild", label: "SYNDICATES", icon: Users, description: "Guild system" },
       { path: "/battle-pass", label: "EPOCH PASS", icon: Star, description: "Season rewards" },
       { path: "/inventory", label: "INVENTORY", icon: Package, description: "Cards & materials" },
+      { path: "/chess", label: "CHESS", icon: Crown, description: "Strategic warfare" },
     ],
   },
 ];

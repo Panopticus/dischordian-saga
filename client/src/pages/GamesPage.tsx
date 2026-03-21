@@ -249,6 +249,15 @@ const SIMULATIONS: GameTile[] = [
     icon: Package,
     color: "#64748b",
   },
+  {
+    href: "/chess",
+    title: "STRATEGIC CHESS",
+    subtitle: "The Architect's Game",
+    description: "Play chess against 12 lore characters with unique AI play styles. Climb the ranked ladder, enter tournaments, and challenge the Game Master — a Magnus Carlsen-level opponent.",
+    loreContext: "STRATEGY: Neural Warfare",
+    icon: Crown,
+    color: "#a855f7",
+  },
 ];
 
 export default function GamesPage() {

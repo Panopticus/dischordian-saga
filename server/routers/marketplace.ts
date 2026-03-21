@@ -11,6 +11,7 @@ import {
   marketListings, marketBuyOrders, marketTransactions,
   marketAuctions, auctionBids, currencyExchange,
   userCards, dreamBalance, twPlayerState, notifications,
+  marketTaxPool, guilds, guildMembers,
 } from "../../drizzle/schema";
 
 /** 5% marketplace tax */
@@ -18,6 +19,42 @@ const TAX_RATE = 0.05;
 
 function calcTax(amount: number): number {
   return Math.max(1, Math.floor(amount * TAX_RATE));
+}
+
+/** Feed tax revenue into the marketplace tax pool (for guild wars + season prizes) */
+async function feedTaxPool(db: any, taxDream: number, taxCredits: number) {
+  if (taxDream <= 0 && taxCredits <= 0) return;
+  // Upsert: create row if not exists, otherwise increment
+  const existing = await db.select().from(marketTaxPool).limit(1);
+  if (existing[0]) {
+    await db.update(marketTaxPool)
+      .set({
+        poolDream: sql`${marketTaxPool.poolDream} + ${taxDream}`,
+        poolCredits: sql`${marketTaxPool.poolCredits} + ${taxCredits}`,
+      })
+      .where(eq(marketTaxPool.id, existing[0].id));
+  } else {
+    await db.insert(marketTaxPool).values({ poolDream: taxDream, poolCredits: taxCredits });
+  }
+
+  // Also feed 50% of Dream tax into the seller's guild treasury (if they have one)
+  // This incentivizes guild membership for marketplace traders
+}
+
+/** Feed tax into the seller's guild treasury */
+async function feedGuildTreasury(db: any, sellerId: number, taxDream: number, taxCredits: number) {
+  if (taxDream <= 0 && taxCredits <= 0) return;
+  const guildShare = Math.floor(taxDream * 0.2); // 20% of tax goes to guild
+  const creditShare = Math.floor(taxCredits * 0.2);
+  if (guildShare <= 0 && creditShare <= 0) return;
+  const membership = await db.select().from(guildMembers).where(eq(guildMembers.userId, sellerId)).limit(1);
+  if (!membership[0]) return;
+  await db.update(guilds)
+    .set({
+      treasuryDream: sql`${guilds.treasuryDream} + ${guildShare}`,
+      treasuryCredits: sql`${guilds.treasuryCredits} + ${creditShare}`,
+    })
+    .where(eq(guilds.id, membership[0].guildId));
 }
 
 export const marketplaceRouter = router({
@@ -207,6 +244,10 @@ export const marketplaceRouter = router({
         taxDream: input.payWith === "dream" ? tax : 0,
         taxCredits: input.payWith === "credits" ? tax : 0,
       });
+
+      // Feed tax into pool and guild treasury
+      await feedTaxPool(db, input.payWith === "dream" ? tax : 0, input.payWith === "credits" ? tax : 0);
+      await feedGuildTreasury(db, listing[0].sellerId, input.payWith === "dream" ? tax : 0, input.payWith === "credits" ? tax : 0);
 
       // Notify seller
       await db.insert(notifications).values({
@@ -842,6 +883,10 @@ async function resolveAuction(db: any, auctionId: number) {
       priceDream: auction[0].currentBid,
       taxDream: tax,
     });
+
+    // Feed tax into pool and guild treasury
+    await feedTaxPool(db, tax, 0);
+    await feedGuildTreasury(db, auction[0].sellerId, tax, 0);
 
     // Notify winner
     await db.insert(notifications).values({
