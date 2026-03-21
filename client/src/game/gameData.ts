@@ -543,6 +543,27 @@ export const ALL_FIGHTERS = [...STARTER_FIGHTERS, ...UNLOCKABLE_FIGHTERS, ...DEM
 /* ─── ARENAS ─── */
 export const ARENAS: ArenaData[] = [
   {
+    id: "void",
+    name: "The Void",
+    bgGradient: "linear-gradient(180deg, #000000 0%, #050510 30%, #0a0a20 50%, #050510 70%, #000000 100%)",
+    floorColor: "#0a0a15",
+    ambientColor: "#4f46e5",
+  },
+  {
+    id: "babylon",
+    name: "Babylon",
+    bgGradient: "linear-gradient(180deg, #0a0a2e 0%, #1a1040 30%, #2d1b69 50%, #1a1040 70%, #0a0a2e 100%)",
+    floorColor: "#1e1b4b",
+    ambientColor: "#f59e0b",
+  },
+  {
+    id: "necropolis",
+    name: "The Necropolis",
+    bgGradient: "linear-gradient(180deg, #0a0a0a 0%, #0d1a0d 30%, #1a2e1a 50%, #0d1a0d 70%, #0a0a0a 100%)",
+    floorColor: "#0d1a0d",
+    ambientColor: "#22c55e",
+  },
+  {
     id: "new-babylon",
     name: "New Babylon",
     bgGradient: "linear-gradient(180deg, #0a0a2e 0%, #1a0a3e 40%, #2d1b69 70%, #1a0a2e 100%)",

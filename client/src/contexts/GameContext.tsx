@@ -90,6 +90,20 @@ export interface GameState {
   completedDiplomacyEvents: string[];             // Diplomacy event IDs completed
   diplomacyChoices: { eventId: string; choiceId: string; moralityDelta: number }[];
   factionReputation: Record<string, number>;      // faction → reputation score
+  // Faction War events
+  factionWarState: {
+    activeWar: string | null;
+    warProgress: number;
+    empireContribution: number;
+    insurgencyContribution: number;
+    playerContribution: number;
+    playerFaction: "empire" | "insurgency" | null;
+    completedWars: string[];
+    activeExclusiveRoutes: { routeId: string; warpsRemaining: number }[];
+    warHistory: { warId: string; winner: string; playerContribution: number }[];
+  };
+  // Companion gifts given
+  giftsGiven: { giftId: string; companionId: string; timestamp: number }[];
 }
 
 /* ─── ROOM DEFINITIONS ─── */
@@ -628,6 +642,20 @@ const DEFAULT_GAME_STATE: GameState = {
   completedDiplomacyEvents: [],
   diplomacyChoices: [],
   factionReputation: { empire: 0, insurgency: 0, independent: 0, pirate: 0 },
+  // Faction War
+  factionWarState: {
+    activeWar: null,
+    warProgress: 0,
+    empireContribution: 0,
+    insurgencyContribution: 0,
+    playerContribution: 0,
+    playerFaction: null,
+    completedWars: [],
+    activeExclusiveRoutes: [],
+    warHistory: [],
+  },
+  // Companion gifts
+  giftsGiven: [],
 };
 
 const GAME_STORAGE_KEY = "loredex_game_state";
@@ -690,6 +718,12 @@ interface GameContextValue {
   discoverArk: (arkId: string) => void;
   // Diplomacy
   completeDiplomacyEvent: (eventId: string, choiceId: string, moralityDelta: number, reputationDeltas: Record<string, number>) => void;
+  // Faction War
+  startFactionWar: (warId: string, faction: "empire" | "insurgency") => void;
+  contributeFactionWar: (amount: number) => void;
+  advanceFactionWar: () => { ended: boolean; winner?: string };
+  endFactionWar: () => { winner: string; playerContribution: number };
+  giveCompanionGift: (giftId: string, companionId: string, xpGain: number) => void;
   // Quick access
   skipToExploring: () => void;
   // Server sync
@@ -1256,6 +1290,102 @@ export function GameProvider({ children }: { children: ReactNode }) {
     });
   }, []);
 
+  // ── Faction War callbacks ──
+  const startFactionWar = useCallback((warId: string, faction: "empire" | "insurgency") => {
+    setState(prev => ({
+      ...prev,
+      factionWarState: {
+        ...prev.factionWarState,
+        activeWar: warId,
+        warProgress: 0,
+        empireContribution: 0,
+        insurgencyContribution: 0,
+        playerContribution: 0,
+        playerFaction: faction,
+      },
+    }));
+  }, []);
+
+  const contributeFactionWar = useCallback((amount: number) => {
+    setState(prev => {
+      const fw = prev.factionWarState;
+      if (!fw.activeWar || !fw.playerFaction) return prev;
+      const isEmpire = fw.playerFaction === "empire";
+      // AI opponent contributes a random amount
+      const aiContribution = Math.floor(amount * (0.6 + Math.random() * 0.8));
+      return {
+        ...prev,
+        factionWarState: {
+          ...fw,
+          empireContribution: fw.empireContribution + (isEmpire ? amount : aiContribution),
+          insurgencyContribution: fw.insurgencyContribution + (isEmpire ? aiContribution : amount),
+          playerContribution: fw.playerContribution + amount,
+        },
+      };
+    });
+  }, []);
+
+  const advanceFactionWar = useCallback((): { ended: boolean; winner?: string } => {
+    let result = { ended: false, winner: undefined as string | undefined };
+    setState(prev => {
+      const fw = prev.factionWarState;
+      if (!fw.activeWar) return prev;
+      const newProgress = fw.warProgress + 1;
+      // Check if war is over by looking up duration from data
+      // We use a simple check: if progress >= duration (stored in events)
+      const updated = {
+        ...prev,
+        factionWarState: {
+          ...fw,
+          warProgress: newProgress,
+          // Decrement exclusive route warps
+          activeExclusiveRoutes: fw.activeExclusiveRoutes
+            .map(r => ({ ...r, warpsRemaining: r.warpsRemaining - 1 }))
+            .filter(r => r.warpsRemaining > 0),
+        },
+      };
+      return updated;
+    });
+    return result;
+  }, []);
+
+  const endFactionWar = useCallback((): { winner: string; playerContribution: number } => {
+    let outcome = { winner: "stalemate", playerContribution: 0 };
+    setState(prev => {
+      const fw = prev.factionWarState;
+      if (!fw.activeWar) return prev;
+      const total = fw.empireContribution + fw.insurgencyContribution;
+      let winner = "stalemate";
+      if (total > 0) {
+        const empireRatio = fw.empireContribution / total;
+        if (empireRatio > 0.55) winner = "empire";
+        else if (empireRatio < 0.45) winner = "insurgency";
+      }
+      outcome = { winner, playerContribution: fw.playerContribution };
+      return {
+        ...prev,
+        factionWarState: {
+          ...fw,
+          activeWar: null,
+          warProgress: 0,
+          completedWars: [...fw.completedWars, fw.activeWar],
+          warHistory: [...fw.warHistory, { warId: fw.activeWar, winner, playerContribution: fw.playerContribution }],
+          playerFaction: null,
+        },
+      };
+    });
+    return outcome;
+  }, []);
+
+  const giveCompanionGift = useCallback((giftId: string, companionId: string, xpGain: number) => {
+    setState(prev => ({
+      ...prev,
+      giftsGiven: [...prev.giftsGiven, { giftId, companionId, timestamp: Date.now() }],
+    }));
+    // Also gain companion XP
+    gainCompanionXp(companionId, xpGain);
+  }, [gainCompanionXp]);
+
   return (
     <GameContext.Provider value={{
       state,
@@ -1300,6 +1430,11 @@ export function GameProvider({ children }: { children: ReactNode }) {
       assignArk,
       discoverArk,
       completeDiplomacyEvent,
+      startFactionWar,
+      contributeFactionWar,
+      advanceFactionWar,
+      endFactionWar,
+      giveCompanionGift,
       skipToExploring,
       syncStatus,
       lastSyncedAt,

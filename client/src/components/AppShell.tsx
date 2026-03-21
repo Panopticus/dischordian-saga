@@ -98,6 +98,7 @@ const NAV_GROUPS: NavGroup[] = [
       { path: "/companions", label: "COMPANIONS", icon: Heart, description: "Ally relationships" },
       { path: "/fleet", label: "ARK FLEET", icon: Rocket, description: "Inception Ark registry" },
       { path: "/diplomacy", label: "DIPLOMACY", icon: Scale, description: "Moral dilemmas & factions" },
+      { path: "/faction-wars", label: "FACTION WARS", icon: Swords, description: "Galactic conflict events" },
       { path: "/leaderboard", label: "LEADERBOARD", icon: Trophy, description: "Top operatives" },
       { path: "/create-citizen", label: "CITIZEN ID", icon: Users, description: "Create identity" },
       { path: "/character-sheet", label: "CHAR SHEET", icon: Shield, description: "Stats & gear" },
@@ -118,7 +119,7 @@ const ALBUMS = [
 ];
 
 /* ─── ALWAYS-ACCESSIBLE ROUTES (no room required) ─── */
-const ALWAYS_ACCESSIBLE = ["/ark", "/console", "/games", "/clue-journal", "/settings", "/admin", "/character-sheet", "/awakening", "/research-minigame", "/war-map", "/lore-tutorials", "/morality-census", "/companions", "/fleet", "/diplomacy"];
+const ALWAYS_ACCESSIBLE = ["/ark", "/console", "/games", "/clue-journal", "/settings", "/admin", "/character-sheet", "/awakening", "/research-minigame", "/war-map", "/lore-tutorials", "/morality-census", "/companions", "/fleet", "/diplomacy", "/faction-wars"];
 
 function isRouteUnlocked(path: string, rooms: Record<string, { unlocked?: boolean }>): boolean {
   if (ALWAYS_ACCESSIBLE.some(p => path.startsWith(p))) return true;

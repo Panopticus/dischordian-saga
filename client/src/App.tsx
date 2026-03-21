@@ -90,6 +90,7 @@ const ForgePage = lazy(() => import("./pages/ForgePage"));
 const CompanionHubPage = lazy(() => import("./pages/CompanionHubPage"));
 const FleetViewerPage = lazy(() => import("./pages/FleetViewerPage"));
 const DiplomacyPage = lazy(() => import("./pages/DiplomacyPage"));
+const FactionWarPage = lazy(() => import("./pages/FactionWarPage"));
 
 /* ═══ LOADING FALLBACK ═══ */
 function PageLoader() {
@@ -164,6 +165,7 @@ function Router() {
         <Route path="/companions" component={CompanionHubPage} />
         <Route path="/fleet" component={FleetViewerPage} />
         <Route path="/diplomacy" component={DiplomacyPage} />
+        <Route path="/faction-wars" component={FactionWarPage} />
         <Route path="/awakening">{() => <AwakeningPage />}</Route>
         <Route path="/404" component={NotFound} />
         <Route component={NotFound} />

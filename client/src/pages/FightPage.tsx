@@ -719,7 +719,6 @@ export default function FightPage() {
     const currentLine = dialogues[storyDialogueIndex];
 
     if (!currentLine) {
-      // Safety: advance
       advanceStoryDialogue();
       return null;
     }
@@ -729,16 +728,81 @@ export default function FightPage() {
         : currentLine.speaker === "narrator" ? "#94a3b8"
         : "#e2e8f0");
 
+    // Boss chapters get special cinematic treatment
+    const isBossChapter = [7, 11, 12].includes(currentStoryChapter.chapter);
+    const isActBoss = currentStoryChapter.chapter === 12;
+    const bossGlow = isActBoss ? "#ef4444" : currentStoryChapter.chapter === 11 ? "#22d3ee" : "#f59e0b";
+    const isFirstLine = storyDialogueIndex === 0 && storyDialogueType === "pre";
+    const isVictoryMoment = storyDialogueType === "post-win" && storyDialogueIndex === dialogues.length - 1;
+    const opponent = ALL_FIGHTERS.find(f => f.id === currentStoryChapter.opponentId);
+
     return (
       <div className="min-h-screen flex flex-col items-center justify-center p-6 relative overflow-hidden cursor-pointer"
-        style={{ background: "radial-gradient(ellipse at 50% 50%, #0d1a2e 0%, #030508 100%)" }}
+        style={{
+          background: isBossChapter
+            ? `radial-gradient(ellipse at 50% 50%, ${bossGlow}15 0%, #030508 60%)`
+            : "radial-gradient(ellipse at 50% 50%, #0d1a2e 0%, #030508 100%)",
+        }}
         onClick={advanceStoryDialogue}
       >
+        {/* Boss cinematic: pulsing border glow */}
+        {isBossChapter && storyDialogueType === "pre" && (
+          <motion.div
+            className="absolute inset-0 pointer-events-none"
+            animate={{ opacity: [0.3, 0.6, 0.3] }}
+            transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+            style={{
+              boxShadow: `inset 0 0 80px ${bossGlow}20, inset 0 0 200px ${bossGlow}10`,
+            }}
+          />
+        )}
+
+        {/* Boss cinematic: opponent portrait flash on first line */}
+        {isBossChapter && isFirstLine && opponent && (
+          <motion.div
+            className="absolute inset-0 flex items-center justify-center pointer-events-none z-10"
+            initial={{ opacity: 1, scale: 1.2 }}
+            animate={{ opacity: 0, scale: 1 }}
+            transition={{ duration: 2, ease: "easeOut" }}
+          >
+            <div className="relative">
+              <motion.div
+                className="w-32 h-32 sm:w-48 sm:h-48 rounded-full overflow-hidden border-4"
+                style={{ borderColor: bossGlow }}
+                animate={{ boxShadow: [`0 0 40px ${bossGlow}60`, `0 0 80px ${bossGlow}30`, `0 0 40px ${bossGlow}60`] }}
+                transition={{ duration: 2, repeat: Infinity }}
+              >
+                <img src={opponent.image} alt={opponent.name} className="w-full h-full object-cover" />
+              </motion.div>
+              <motion.div
+                className="absolute -bottom-6 left-1/2 -translate-x-1/2 whitespace-nowrap"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 }}
+              >
+                <span className="font-display text-lg sm:text-2xl tracking-[0.3em] font-bold" style={{ color: bossGlow, textShadow: `0 0 20px ${bossGlow}80` }}>
+                  {opponent.name.toUpperCase()}
+                </span>
+              </motion.div>
+            </div>
+          </motion.div>
+        )}
+
         {/* Chapter title */}
         <div className="absolute top-4 left-0 right-0 text-center">
-          <div className="font-mono text-[10px] text-muted-foreground/35 tracking-[0.3em]">
-            CHAPTER {currentStoryChapter.chapter} — {currentStoryChapter.title}
+          <div className="font-mono text-[10px] tracking-[0.3em]" style={{ color: isBossChapter ? bossGlow + "80" : undefined }}>
+            {isBossChapter ? "\u2694\uFE0F " : ""}CHAPTER {currentStoryChapter.chapter} — {currentStoryChapter.title}{isBossChapter ? " \u2694\uFE0F" : ""}
           </div>
+          {isBossChapter && storyDialogueType === "pre" && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="font-display text-[10px] tracking-[0.5em] mt-1"
+              style={{ color: bossGlow + "60" }}
+            >
+              {currentStoryChapter.chapter === 12 ? "FINAL BOSS" : currentStoryChapter.chapter === 11 ? "ARENA MASTER" : "ACT BOSS"}
+            </motion.div>
+          )}
         </div>
 
         {/* Skip button */}
@@ -746,13 +810,10 @@ export default function FightPage() {
           onClick={(e) => {
             e.stopPropagation();
             if (storyDialogueType === "pre") {
-              // Skip to fight
               setStoryDialogueIndex(dialogues.length - 1);
               advanceStoryDialogue();
             } else {
-              // Skip to story select
               if (storyDialogueType === "post-win") {
-                // Still need to process the win
                 const newProgress: StoryProgress = {
                   ...storyProgress,
                   completedChapters: Array.from(new Set([...storyProgress.completedChapters, currentStoryChapter.id])),
@@ -786,7 +847,13 @@ export default function FightPage() {
           >
             {/* Speaker name */}
             {currentLine.speaker !== "narrator" && (
-              <div className="font-display text-sm tracking-[0.2em] mb-3" style={{ color: speakerColor }}>
+              <div className={`font-display tracking-[0.2em] mb-3 ${isBossChapter && currentLine.speaker !== "prisoner" ? "text-base sm:text-lg" : "text-sm"}`}
+                style={{
+                  color: speakerColor,
+                  textShadow: isBossChapter && currentLine.speaker !== "prisoner" && currentLine.speaker !== "narrator"
+                    ? `0 0 15px ${speakerColor}60` : undefined,
+                }}
+              >
                 {currentLine.speaker === "prisoner"
                   ? (storyProgress.completedChapters.length >= 6 ? "THE ORACLE" : "THE PRISONER")
                   : currentLine.speaker.toUpperCase()}
@@ -805,8 +872,31 @@ export default function FightPage() {
           </motion.div>
         </AnimatePresence>
 
+        {/* Power-up visualization on victory */}
+        {isVictoryMoment && currentStoryChapter.powerGained && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.3, duration: 0.6 }}
+            className="absolute bottom-28 left-6 right-6 flex flex-col items-center"
+          >
+            <motion.div
+              className="w-16 h-16 rounded-full flex items-center justify-center mb-3"
+              style={{ background: `radial-gradient(circle, ${bossGlow}30 0%, transparent 70%)` }}
+              animate={{
+                boxShadow: [`0 0 20px ${bossGlow}40`, `0 0 40px ${bossGlow}20`, `0 0 20px ${bossGlow}40`],
+              }}
+              transition={{ duration: 2, repeat: Infinity }}
+            >
+              <Zap size={28} style={{ color: bossGlow }} />
+            </motion.div>
+            <div className="font-display text-xs tracking-[0.3em] mb-1" style={{ color: bossGlow }}>POWER GAINED</div>
+            <div className="font-mono text-[10px] text-muted-foreground/70 text-center max-w-xs">{currentStoryChapter.powerGained}</div>
+          </motion.div>
+        )}
+
         {/* Memory fragment display on post-win */}
-        {storyDialogueType === "post-win" && storyDialogueIndex === dialogues.length - 1 && currentStoryChapter.memoryFragment && (
+        {storyDialogueType === "post-win" && storyDialogueIndex === dialogues.length - 1 && currentStoryChapter.memoryFragment && !currentStoryChapter.powerGained && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -816,6 +906,34 @@ export default function FightPage() {
             <div className="font-mono text-[10px] text-purple-400/40 tracking-wider mb-1">\u2728 MEMORY RECOVERED</div>
             <div className="font-mono text-[10px] text-purple-300/50 italic">{currentStoryChapter.memoryFragment}</div>
           </motion.div>
+        )}
+
+        {/* Floating ambient particles for boss fights */}
+        {isBossChapter && (
+          <div className="absolute inset-0 pointer-events-none overflow-hidden">
+            {Array.from({ length: 12 }).map((_, i) => (
+              <motion.div
+                key={i}
+                className="absolute w-1 h-1 rounded-full"
+                style={{
+                  background: bossGlow,
+                  left: `${Math.random() * 100}%`,
+                  top: `${Math.random() * 100}%`,
+                }}
+                animate={{
+                  y: [0, -30, 0],
+                  opacity: [0, 0.6, 0],
+                  scale: [0.5, 1.2, 0.5],
+                }}
+                transition={{
+                  duration: 3 + Math.random() * 2,
+                  repeat: Infinity,
+                  delay: Math.random() * 3,
+                  ease: "easeInOut",
+                }}
+              />
+            ))}
+          </div>
         )}
 
         {/* Progress */}

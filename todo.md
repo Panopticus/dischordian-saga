@@ -1712,3 +1712,16 @@
 - [x] AAA Fight Game: enhanced combo tier labels (UNSTOPPABLE, LEGENDARY), existing particle system
 - [x] AAA Fight Game: KO slow-motion screen flash effect (brightness + desaturation)
 - [x] Write tests and save checkpoint (18 tests passing)
+
+### Phase 72: Companion Gifts, Faction War Events, Fight Game Story Mode
+- [x] Build companion gift data (10 gifts across 5 rarities with crafting recipes)
+- [x] Add gift crafting UI to CompanionHub with resource requirements
+- [x] Add gifting mechanic with unique dialog responses per companion per gift
+- [x] Build faction war event system with 4 war events, contribution tracking, sector control
+- [x] Add faction war UI with sector visualization, faction selection, and contribution ranks
+- [x] Wire faction war results with exclusive trade routes and victory rewards
+- [x] Story mode already built (12 chapters) — enhanced with boss cinematics and power-up viz
+- [x] Enhanced story dialogue with boss portrait flash, pulsing glow, ambient particles
+- [x] The Prisoner already implemented — added missing story arenas (void, babylon, necropolis)
+- [x] Character unlock system already working — enhanced with FINAL BOSS/ACT BOSS/ARENA MASTER labels
+- [x] Write tests and save checkpoint (21 tests passing)

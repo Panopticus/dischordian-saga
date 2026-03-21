@@ -7,7 +7,7 @@ import {
   Heart, Shield, Swords, BookOpen, MessageCircle, Lock, Unlock,
   ChevronRight, ChevronDown, Star, Zap, Eye, Radio, Users,
   Sparkles, ArrowLeft, Crown, Skull, AlertTriangle, Check, X,
-  Send, Loader2,
+  Send, Loader2, Gift, Package, Hammer,
 } from "lucide-react";
 import {
   ELARA_PROFILE, THE_HUMAN_PROFILE, COMPANION_QUESTS, INCEPTION_ARKS,
@@ -16,6 +16,8 @@ import {
 import HolographicElara from "@/components/HolographicElara";
 import { Streamdown } from "streamdown";
 import CutsceneOverlay, { QUEST_CUTSCENES, type CutsceneData } from "@/components/CutsceneOverlay";
+import { COMPANION_GIFTS, calculateGiftXp, canCraftGift, getRarityColor, type CompanionGift } from "@/data/companionGifts";
+import { getMaterialById } from "@/data/craftingData";
 
 interface ChatMessage {
   role: "user" | "assistant";
@@ -36,11 +38,13 @@ const ELARA_AVATAR = "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2
 export default function CompanionHubPage() {
   const { state, gainCompanionXp, activateCompanionQuest, completeCompanionQuest, unlockBackstory, setRomance, addCompanionDialogChoice, getCompanionLevel, shiftMorality } = useGame();
   const [selectedCompanion, setSelectedCompanion] = useState<CompanionProfile | null>(null);
-  const [activeTab, setActiveTab] = useState<"overview" | "backstory" | "quests" | "dialog">("overview");
+  const [activeTab, setActiveTab] = useState<"overview" | "backstory" | "quests" | "dialog" | "gifts">("overview");
   const [expandedBackstory, setExpandedBackstory] = useState<string | null>(null);
   const [activeDialog, setActiveDialog] = useState<CompanionQuest | null>(null);
   const [dialogPhase, setDialogPhase] = useState<"intro" | "choices" | "completion">("intro");
   const [activeCutscene, setActiveCutscene] = useState<CutsceneData | null>(null);
+  const [giftResult, setGiftResult] = useState<{ gift: CompanionGift; xpGained: number; response: string } | null>(null);
+  const [craftingGift, setCraftingGift] = useState<string | null>(null);
 
   const companions = useMemo(() => [ELARA_PROFILE, THE_HUMAN_PROFILE], []);
 
@@ -377,7 +381,7 @@ export default function CompanionHubPage() {
 
           {/* Tab Navigation */}
           <div className={`flex border-t ${isElara ? "border-cyan-500/20" : "border-red-500/20"}`}>
-            {(["overview", "backstory", "quests", "dialog"] as const).map(tab => (
+            {(["overview", "backstory", "quests", "gifts", "dialog"] as const).map(tab => (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
@@ -685,6 +689,175 @@ export default function CompanionHubPage() {
                   </motion.div>
                 );
               })}
+            </motion.div>
+          )}
+
+          {activeTab === "gifts" && (
+            <motion.div
+              key="gifts"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="space-y-4"
+            >
+              <div className="flex items-center gap-2 mb-2">
+                <Gift size={14} className={isElara ? "text-cyan-400" : "text-red-400"} />
+                <span className="font-mono text-xs text-muted-foreground">COMPANION GIFTS — Craft and give gifts to strengthen your bond</span>
+              </div>
+
+              {/* Gift Result Overlay */}
+              <AnimatePresence>
+                {giftResult && (
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.9 }}
+                    className={`rounded-lg border p-4 ${isElara ? "border-cyan-500/40 bg-cyan-500/10" : "border-red-500/40 bg-red-500/10"}`}
+                  >
+                    <div className="flex items-center gap-3 mb-3">
+                      <span className="text-2xl">{giftResult.gift.icon}</span>
+                      <div>
+                        <p className="font-display text-sm font-bold" style={{ color: giftResult.gift.color }}>{giftResult.gift.name}</p>
+                        <p className="font-mono text-xs text-green-400">+{giftResult.xpGained} RELATIONSHIP XP</p>
+                      </div>
+                    </div>
+                    <div className={`rounded-md p-3 mb-3 ${isElara ? "bg-cyan-500/5 border border-cyan-500/20" : "bg-red-500/5 border border-red-500/20"}`}>
+                      <p className="font-mono text-xs text-foreground/80 italic">"{giftResult.response}"</p>
+                    </div>
+                    <button
+                      onClick={() => setGiftResult(null)}
+                      className="font-mono text-xs text-muted-foreground hover:text-foreground"
+                    >
+                      DISMISS
+                    </button>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
+              {/* Gift Grid */}
+              {!giftResult && (
+                <div className="space-y-3">
+                  {COMPANION_GIFTS.map(gift => {
+                    const xpGain = calculateGiftXp(gift, selectedCompanion.id);
+                    const isPreferred = gift.preferredBy === selectedCompanion.id;
+                    const canCraft = canCraftGift(gift, state.craftingMaterials, state.craftingSkills);
+                    const isExpanded = craftingGift === gift.id;
+                    const rarityColor = getRarityColor(gift.rarity);
+
+                    return (
+                      <div
+                        key={gift.id}
+                        className={`rounded-lg border transition-all ${
+                          isExpanded
+                            ? `${isElara ? "border-cyan-500/40 bg-cyan-500/5" : "border-red-500/40 bg-red-500/5"}`
+                            : "border-border/30 bg-card/30 hover:border-border/50"
+                        }`}
+                      >
+                        <button
+                          onClick={() => setCraftingGift(isExpanded ? null : gift.id)}
+                          className="w-full flex items-center gap-3 p-3 text-left"
+                        >
+                          <span className="text-xl">{gift.icon}</span>
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center gap-2">
+                              <span className="font-mono text-xs font-bold" style={{ color: rarityColor }}>{gift.name}</span>
+                              {isPreferred && (
+                                <span className={`font-mono text-[9px] px-1.5 py-0.5 rounded ${isElara ? "bg-cyan-500/20 text-cyan-400" : "bg-red-500/20 text-red-400"}`}>
+                                  ♥ FAVORITE
+                                </span>
+                              )}
+                            </div>
+                            <p className="font-mono text-[10px] text-muted-foreground truncate">{gift.description}</p>
+                          </div>
+                          <div className="text-right">
+                            <p className="font-mono text-xs text-green-400">+{xpGain} XP</p>
+                            <p className="font-mono text-[9px]" style={{ color: rarityColor }}>{gift.rarity.toUpperCase()}</p>
+                          </div>
+                          <ChevronDown size={14} className={`text-muted-foreground transition-transform ${isExpanded ? "rotate-180" : ""}`} />
+                        </button>
+
+                        <AnimatePresence>
+                          {isExpanded && (
+                            <motion.div
+                              initial={{ height: 0, opacity: 0 }}
+                              animate={{ height: "auto", opacity: 1 }}
+                              exit={{ height: 0, opacity: 0 }}
+                              className="overflow-hidden"
+                            >
+                              <div className="px-3 pb-3 space-y-2">
+                                {/* Recipe */}
+                                <div className="rounded-md bg-secondary/30 p-2">
+                                  <p className="font-mono text-[9px] text-muted-foreground mb-1.5">RECIPE ({gift.craftingSkill.toUpperCase()} LVL {gift.minSkillLevel}+)</p>
+                                  <div className="flex flex-wrap gap-2">
+                                    {gift.recipe.map(req => {
+                                      const mat = getMaterialById(req.materialId);
+                                      const owned = state.craftingMaterials[req.materialId] || 0;
+                                      const hasEnough = owned >= req.quantity;
+                                      return (
+                                        <div key={req.materialId} className={`flex items-center gap-1 font-mono text-[10px] ${hasEnough ? "text-green-400" : "text-red-400"}`}>
+                                          <span>{mat?.icon || "?"}</span>
+                                          <span>{owned}/{req.quantity} {mat?.name || req.materialId}</span>
+                                        </div>
+                                      );
+                                    })}
+                                  </div>
+                                </div>
+
+                                {/* Special Effect */}
+                                {gift.specialEffect && (
+                                  <div className="flex items-center gap-1.5 font-mono text-[9px] text-amber-400">
+                                    <Sparkles size={10} />
+                                    <span>SPECIAL: {gift.specialEffect.type === "unlock_backstory" ? "Unlocks hidden backstory" : gift.specialEffect.type === "morality_shift" ? `Shifts morality by ${gift.specialEffect.value}` : gift.specialEffect.type === "unlock_quest" ? "Unlocks special quest" : "Bonus materials"}</span>
+                                  </div>
+                                )}
+
+                                {/* Craft & Gift Button */}
+                                <button
+                                  onClick={() => {
+                                    if (!canCraft) return;
+                                    // Deduct materials
+                                    const newMaterials = { ...state.craftingMaterials };
+                                    gift.recipe.forEach(req => {
+                                      newMaterials[req.materialId] = Math.max(0, (newMaterials[req.materialId] || 0) - req.quantity);
+                                    });
+                                    // Apply XP
+                                    gainCompanionXp(selectedCompanion.id, xpGain);
+                                    // Apply special effects
+                                    if (gift.specialEffect?.type === "unlock_backstory") {
+                                      unlockBackstory(gift.specialEffect.value as string);
+                                    } else if (gift.specialEffect?.type === "morality_shift") {
+                                      shiftMorality(gift.specialEffect.value as number);
+                                    }
+                                    // Show result
+                                    const response = isElara ? gift.dialogResponses.elara : gift.dialogResponses.the_human;
+                                    setGiftResult({ gift, xpGained: xpGain, response });
+                                    setCraftingGift(null);
+                                  }}
+                                  disabled={!canCraft}
+                                  className={`w-full py-2 rounded-md font-mono text-xs font-bold transition-all ${
+                                    canCraft
+                                      ? `${isElara ? "bg-cyan-500/20 text-cyan-400 hover:bg-cyan-500/30" : "bg-red-500/20 text-red-400 hover:bg-red-500/30"}`
+                                      : "bg-secondary/20 text-muted-foreground/50 cursor-not-allowed"
+                                  }`}
+                                >
+                                  {canCraft ? (
+                                    <span className="flex items-center justify-center gap-1.5">
+                                      <Hammer size={12} /> CRAFT & GIFT
+                                    </span>
+                                  ) : (
+                                    <span className="flex items-center justify-center gap-1.5">
+                                      <Lock size={12} /> INSUFFICIENT MATERIALS
+                                    </span>
+                                  )}
+                                </button>
+                              </div>
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
             </motion.div>
           )}
 
