@@ -666,14 +666,14 @@ export default function BoardPage() {
     <div className="h-[calc(100vh-3.5rem)] flex flex-col">
       {/* ═══ TOOLBAR ═══ */}
       <div className="flex items-center justify-between px-3 sm:px-4 py-2.5 border-b border-[var(--glass-border)]"
-           style={{ background: "linear-gradient(180deg, rgba(22,30,95,0.4) 0%, rgba(1,0,32,0.8) 100%)" }}>
+           style={{ background: "linear-gradient(180deg, var(--glass-base) 0%, var(--bg-overlay) 100%)" }}>
         <div className="flex items-center gap-2 sm:gap-3">
           <Link href="/" className="text-muted-foreground/60 hover:text-[var(--neon-cyan)] transition-colors">
             <ArrowLeft size={16} />
           </Link>
           <div className="flex items-center gap-2">
             <Network size={14} className="text-[var(--neon-cyan)]" />
-            <h1 className="font-display text-[10px] sm:text-xs font-bold tracking-[0.2em] text-white">
+            <h1 className="font-display text-[10px] sm:text-xs font-bold tracking-[0.2em] text-foreground">
               CONSPIRACY BOARD
             </h1>
           </div>
@@ -770,7 +770,7 @@ export default function BoardPage() {
               transition={{ duration: 0.3 }}
               className="absolute top-3 right-3 w-72 sm:w-80 rounded-xl overflow-hidden"
               style={{
-                background: "linear-gradient(135deg, rgba(22,30,95,0.85) 0%, rgba(1,0,32,0.95) 100%)",
+                background: "linear-gradient(135deg, color-mix(in srgb, var(--glass-base) 85%, transparent) 0%, var(--bg-void) 100%)",
                 backdropFilter: "blur(20px)",
                 border: `1px solid ${TYPE_COLORS[selectedNode.type]?.glow || "rgba(51,226,230,"}0.3)`,
                 boxShadow: `0 0 30px ${TYPE_COLORS[selectedNode.type]?.glow || "rgba(51,226,230,"}0.15), 0 20px 60px rgba(0,0,0,0.5)`,
@@ -781,7 +781,7 @@ export default function BoardPage() {
                 {selectedNode.image ? (
                   <>
                     <img src={selectedNode.image} alt="" className="w-full h-full object-cover" />
-                    <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[rgba(1,0,32,0.95)]" />
+                    <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[var(--bg-void)]" />
                   </>
                 ) : (
                   <div className="w-full h-full" style={{ background: `linear-gradient(135deg, ${TYPE_COLORS[selectedNode.type]?.glow || "rgba(51,226,230,"}0.1), transparent)` }} />
@@ -799,7 +799,7 @@ export default function BoardPage() {
 
               {/* Content */}
               <div className="px-4 pb-4 -mt-4 relative">
-                <h3 className="font-display text-base font-bold text-white tracking-wide mb-1">
+                <h3 className="font-display text-base font-bold text-foreground tracking-wide mb-1">
                   {selectedNode.name}
                 </h3>
                 <p className="font-mono text-[10px] text-muted-foreground/60 mb-3">
@@ -846,7 +846,7 @@ export default function BoardPage() {
 
         {/* ═══ LEGEND ═══ */}
         <div className="absolute bottom-3 left-3 flex flex-wrap gap-2 sm:gap-3 font-mono text-[9px] sm:text-[10px] rounded-lg px-3 py-2 border border-[var(--glass-border)]"
-             style={{ background: "rgba(1,0,32,0.8)", backdropFilter: "blur(10px)" }}>
+             style={{ background: "var(--bg-overlay)", backdropFilter: "blur(10px)" }}>
           {Object.entries(TYPE_COLORS).filter(([k]) => k !== "song").map(([type, color]) => (
             <span key={type} className="flex items-center gap-1.5">
               <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: color.primary, boxShadow: `0 0 6px ${color.glow}0.5)` }} />
@@ -857,7 +857,7 @@ export default function BoardPage() {
 
         {/* ═══ ZOOM INDICATOR ═══ */}
         <div className="absolute bottom-3 right-3 font-mono text-[9px] text-muted-foreground/50 px-2 py-1 rounded border border-[var(--glass-border)]"
-             style={{ background: "rgba(1,0,32,0.6)" }}>
+             style={{ background: "color-mix(in srgb, var(--bg-void) 60%, transparent)" }}>
           {Math.round(zoom * 100)}%
         </div>
       </div>

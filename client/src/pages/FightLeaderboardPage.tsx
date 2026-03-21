@@ -21,7 +21,7 @@ const RANK_TIERS: Record<string, { label: string; color: string; bg: string; min
   diamond: { label: "DIAMOND", color: "text-cyan-300", bg: "bg-cyan-500/20 border-cyan-500/40", min: 1600 },
   platinum: { label: "PLATINUM", color: "text-emerald-400", bg: "bg-emerald-500/20 border-emerald-500/40", min: 1400 },
   gold: { label: "GOLD", color: "text-yellow-400", bg: "bg-yellow-500/20 border-yellow-500/40", min: 1200 },
-  silver: { label: "SILVER", color: "text-gray-300", bg: "bg-gray-500/20 border-gray-500/40", min: 1000 },
+  silver: { label: "SILVER", color: "text-muted-foreground", bg: "bg-gray-500/20 border-gray-500/40", min: 1000 },
   bronze: { label: "BRONZE", color: "text-orange-400", bg: "bg-orange-500/20 border-orange-500/40", min: 0 },
 };
 
@@ -64,7 +64,7 @@ export default function FightLeaderboardPage() {
         <div className="max-w-5xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <Link href="/fight" className="text-muted-foreground/70 hover:text-white transition-colors">
+              <Link href="/fight" className="text-muted-foreground/70 hover:text-foreground transition-colors">
                 <ChevronLeft size={20} />
               </Link>
               <div>
@@ -99,7 +99,7 @@ export default function FightLeaderboardPage() {
                   onClick={() => setTab(t.id)}
                   className={`px-4 py-2 rounded-t font-mono text-xs tracking-wider flex items-center gap-1.5 transition-all ${
                     tab === t.id
-                      ? "bg-muted/50 text-white border-b-2 border-primary"
+                      ? "bg-muted/50 text-foreground border-b-2 border-primary"
                       : "text-muted-foreground/60 hover:text-muted-foreground/80"
                   }`}
                 >
@@ -158,7 +158,7 @@ export default function FightLeaderboardPage() {
                       >
                         <div className="col-span-1 flex items-center">
                           {i === 0 ? <Crown size={16} className="text-amber-400" /> :
-                           i === 1 ? <Medal size={16} className="text-gray-300" /> :
+                           i === 1 ? <Medal size={16} className="text-muted-foreground" /> :
                            i === 2 ? <Medal size={16} className="text-orange-400" /> :
                            <span className="font-mono text-sm text-muted-foreground/60">{entry.rank}</span>}
                         </div>

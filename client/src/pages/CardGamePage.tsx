@@ -45,7 +45,7 @@ const LANE_NAMES: Record<Lane, { name: string; icon: any; desc: string }> = {
 
 type GameScreen = "menu" | "tutorial" | "factionSelect" | "difficultySelect" | "briefing" | "playing" | "result" | "multiverse";
 
-const ELARA_AVATAR = "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/elara_avatar_small_66ba7463.png";
+const ELARA_AVATAR = "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/elara_avatar_dark_hair_small_2fcb00b8.png";
 
 interface TutorialStep {
   title: string;
@@ -433,7 +433,7 @@ export default function CardGamePage() {
                 style={{
                   background: i <= tutorialStep
                     ? "var(--brand-gradient)"
-                    : "rgba(56,117,250,0.15)",
+                    : "var(--glass-border)",
                 }}
               />
             ))}
@@ -442,7 +442,7 @@ export default function CardGamePage() {
           {/* Elara card */}
           <div className="rounded-xl overflow-hidden glass-float">
             {/* Header */}
-            <div className="flex items-center gap-3 px-4 py-3 border-b" style={{ borderColor: "rgba(56,117,250,0.15)" }}>
+            <div className="flex items-center gap-3 px-4 py-3 border-b" style={{ borderColor: "var(--glass-border)" }}>
               <div className="w-10 h-10 rounded-full overflow-hidden border border-[var(--neon-cyan)]/40 shadow-[0_0_12px_rgba(51,226,230,0.2)]">
                 <img src={ELARA_AVATAR} alt="Elara" className="w-full h-full object-cover" />
               </div>
@@ -476,7 +476,7 @@ export default function CardGamePage() {
             </div>
 
             {/* Navigation */}
-            <div className="flex items-center gap-3 px-5 py-4 border-t" style={{ borderColor: "rgba(56,117,250,0.15)" }}>
+            <div className="flex items-center gap-3 px-5 py-4 border-t" style={{ borderColor: "var(--glass-border)" }}>
               {!isFirst && (
                 <button
                   onClick={() => setTutorialStep(tutorialStep - 1)}

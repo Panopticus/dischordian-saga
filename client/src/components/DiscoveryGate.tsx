@@ -105,7 +105,7 @@ export default function DiscoveryGate({
           href="/ark"
           className="inline-flex items-center gap-2.5 px-5 py-2.5 rounded-lg font-mono text-sm tracking-wider transition-all group"
           style={{
-            background: "linear-gradient(135deg, rgba(51,226,230,0.1) 0%, rgba(56,117,250,0.1) 100%)",
+            background: "linear-gradient(135deg, rgba(51,226,230,0.1) 0%, var(--glass-border) 100%)",
             border: "1px solid rgba(51,226,230,0.3)",
             color: "var(--neon-cyan)",
           }}

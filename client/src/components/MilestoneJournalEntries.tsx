@@ -949,7 +949,7 @@ function MilestoneEntryCard({ milestone, ctx, index }: {
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.1 * index, duration: 0.4 }}
       className={`rounded-xl border ${milestone.borderColor} ${milestone.bgColor} p-4 sm:p-5`}
-      style={{ background: "rgba(1,0,32,0.6)" }}
+      style={{ background: "color-mix(in srgb, var(--bg-void) 60%, transparent)" }}
     >
       {/* Header */}
       <div className="flex items-center gap-3 mb-3 pb-2 border-b border-border/40">

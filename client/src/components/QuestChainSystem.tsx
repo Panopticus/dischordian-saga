@@ -960,7 +960,7 @@ function QuestChainCard({ chain, ctx }: { chain: QuestChain; ctx: ChainCheckCont
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       className={`rounded-xl border ${chain.borderColor} ${chain.bgColor} overflow-hidden`}
-      style={{ background: "rgba(1,0,32,0.5)" }}
+      style={{ background: "color-mix(in srgb, var(--bg-void) 50%, transparent)" }}
     >
       {/* Chain Header */}
       <div className={`px-4 py-3 flex items-center gap-3 border-b ${chain.borderColor}`}>

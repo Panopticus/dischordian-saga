@@ -7,7 +7,7 @@ import HolographicElara from "./HolographicElara";
 import { Streamdown } from "streamdown";
 
 const ELARA_PORTRAIT = "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/elara_portrait_7ce2522f.png";
-const ELARA_AVATAR = "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/elara_avatar_small_66ba7463.png";
+const ELARA_AVATAR = "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/elara_avatar_dark_hair_small_2fcb00b8.png";
 
 interface DialogChoice {
   id: string;
@@ -506,7 +506,7 @@ export default function ElaraDialog({ elaraTTS: _elaraTTS }: { elaraTTS?: any } 
               
               {/* ── HEADER ── */}
               <div className="flex items-center gap-3 px-4 py-3 border-b border-[var(--glass-border)]"
-                   style={{ background: "linear-gradient(180deg, rgba(22,30,95,0.5) 0%, rgba(1,0,32,0.8) 100%)" }}>
+                   style={{ background: "linear-gradient(180deg, color-mix(in srgb, var(--glass-base) 50%, transparent) 0%, var(--bg-overlay) 100%)" }}>
                 <HolographicElara size="sm" isSpeaking={isLoading} />
                 <div className="flex-1 ml-1">
                   <h3 className="font-display text-sm font-bold text-white tracking-wider">ELARA</h3>
@@ -561,7 +561,7 @@ export default function ElaraDialog({ elaraTTS: _elaraTTS }: { elaraTTS?: any } 
 
               {/* ── PORTRAIT + DIALOG CHOICES (BioWare style) ── */}
               <div className="border-t border-[var(--glass-border)]"
-                   style={{ background: "linear-gradient(0deg, rgba(1,0,32,0.95) 0%, rgba(22,30,95,0.3) 100%)" }}>
+                   style={{ background: "linear-gradient(0deg, var(--bg-void) 0%, color-mix(in srgb, var(--glass-base) 30%, transparent) 100%)" }}>
                 
                 {/* Portrait bar */}
                 <div className="flex items-end gap-3 px-4 pt-3">

@@ -103,7 +103,7 @@ function MiniPlayer({
   return (
     <div className="relative">
       {/* Progress bar */}
-      <div className="h-[2px] relative" style={{ background: "rgba(56,117,250,0.1)" }}>
+      <div className="h-[2px] relative" style={{ background: "var(--glass-border)" }}>
         <div
           className="h-full transition-all duration-150"
           style={{ width: `${progress}%`, background: "var(--brand-gradient, linear-gradient(90deg, #33E2E6, #3875FA))" }}
@@ -123,7 +123,7 @@ function MiniPlayer({
             </div>
           )}
           <div className="absolute inset-0 rounded-md bg-muted/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-            <ChevronUp size={16} className="text-white" />
+            <ChevronUp size={16} className="text-foreground" />
           </div>
         </button>
 
@@ -147,7 +147,7 @@ function MiniPlayer({
             onClick={onPlayPause}
             className="p-2 rounded-full transition-all hover:scale-105"
             style={{
-              background: "linear-gradient(135deg, rgba(51,226,230,0.2), rgba(56,117,250,0.2))",
+              background: "linear-gradient(135deg, rgba(51,226,230,0.2), var(--glass-border))",
               border: "1px solid rgba(51,226,230,0.3)",
             }}
           >
@@ -214,7 +214,7 @@ function QueueTab({ queue, currentSong, onPlay }: {
             key={`${song.id}-${i}`}
             onClick={() => onPlay(song)}
             className={`flex items-center gap-2.5 w-full px-3 py-2 rounded-md text-left transition-all ${
-              active ? "bg-muted/30 border border-border/60" : "hover:bg-white/4 border border-transparent"
+              active ? "bg-muted/30 border border-border/60" : "hover:bg-foreground/4 border border-transparent"
             }`}
           >
             <span className="font-mono text-[9px] text-muted-foreground/35 w-5 text-right shrink-0">
@@ -273,11 +273,11 @@ function AlbumsTab({ onPlayAlbum }: {
               )}
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
               <div className="absolute bottom-2 left-2 right-2">
-                <p className="font-mono text-[10px] font-bold text-white truncate">{album.name}</p>
+                <p className="font-mono text-[10px] font-bold text-foreground truncate">{album.name}</p>
                 <p className="font-mono text-[8px] text-muted-foreground/70">{album.tracks} tracks · {album.year}</p>
               </div>
               <div className="absolute inset-0 bg-muted/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                <Play size={24} className="text-white" />
+                <Play size={24} className="text-foreground" />
               </div>
             </div>
           </button>
@@ -598,8 +598,8 @@ export default function CoNexusMediaPlayer() {
             exit={{ y: 100, opacity: 0 }}
             transition={{ type: "spring", damping: 25, stiffness: 300 }}
             style={{
-              background: "linear-gradient(180deg, rgba(1,0,32,0.98) 0%, rgba(0,2,41,0.99) 100%)",
-              borderTop: "1px solid rgba(56,117,250,0.2)",
+              background: "linear-gradient(180deg, var(--bg-void) 0%, var(--bg-depth) 100%)",
+              borderTop: "1px solid var(--glass-border)",
               backdropFilter: "blur(30px)",
             }}
           >
@@ -622,8 +622,8 @@ export default function CoNexusMediaPlayer() {
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: 50, opacity: 0 }}
             style={{
-              background: "linear-gradient(180deg, rgba(1,0,32,0.95) 0%, rgba(0,2,41,0.98) 100%)",
-              borderTop: "1px solid rgba(56,117,250,0.15)",
+              background: "linear-gradient(180deg, var(--bg-void) 0%, var(--bg-depth) 100%)",
+              borderTop: "1px solid var(--glass-border)",
               backdropFilter: "blur(20px)",
             }}
           >

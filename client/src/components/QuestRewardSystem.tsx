@@ -118,7 +118,7 @@ function RewardToast({ notification, onDismiss }: { notification: RewardNotifica
       transition={{ type: "spring", stiffness: 300, damping: 25 }}
       className="pointer-events-auto w-full max-w-[320px] sm:max-w-[360px] rounded-xl overflow-hidden"
       style={{
-        background: "linear-gradient(135deg, rgba(1,0,32,0.98) 0%, rgba(10,12,43,0.98) 100%)",
+        background: "linear-gradient(135deg, var(--bg-void) 0%, var(--bg-spotlight) 100%)",
         border: "1px solid rgba(255,183,77,0.4)",
         boxShadow: "0 0 40px rgba(255,183,77,0.15), 0 20px 60px rgba(0,0,0,0.6)",
       }}

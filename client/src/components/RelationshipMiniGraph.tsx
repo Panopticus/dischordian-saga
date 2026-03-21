@@ -200,7 +200,7 @@ export default function RelationshipMiniGraph({ entityName }: { entityName: stri
         ctx.beginPath();
         ctx.moveTo(s.x, s.y);
         ctx.lineTo(t.x, t.y);
-        ctx.strokeStyle = isHovered ? "rgba(51,226,230,0.5)" : "rgba(56,117,250,0.15)";
+        ctx.strokeStyle = isHovered ? "rgba(51,226,230,0.5)" : "var(--glass-border)";
         ctx.lineWidth = isHovered ? 1.5 : 0.8;
         ctx.stroke();
 

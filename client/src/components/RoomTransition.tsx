@@ -305,7 +305,7 @@ export default function RoomTransition({
 
       {/* Edge vignette */}
       <div className="absolute inset-0 pointer-events-none" style={{
-        background: "radial-gradient(ellipse at center, transparent 40%, rgba(1,0,32,0.8) 100%)",
+        background: "radial-gradient(ellipse at center, transparent 40%, var(--bg-overlay) 100%)",
       }} />
     </motion.div>
   );

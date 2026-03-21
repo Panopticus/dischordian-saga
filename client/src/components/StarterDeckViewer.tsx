@@ -271,7 +271,7 @@ function CardDisplay({ card, index, isActive, onClick }: {
         style={{
           border: `2px solid ${colors.border}`,
           boxShadow: isActive ? `0 0 30px ${colors.glow}, 0 10px 40px rgba(0,0,0,0.5)` : `0 0 10px ${colors.glow}`,
-          background: "linear-gradient(135deg, rgba(1,0,32,0.98) 0%, rgba(10,12,43,0.98) 100%)",
+          background: "linear-gradient(135deg, var(--bg-void) 0%, var(--bg-spotlight) 100%)",
           minHeight: "260px",
         }}
       >
@@ -283,12 +283,12 @@ function CardDisplay({ card, index, isActive, onClick }: {
             className="w-full h-full object-cover object-top"
             loading="lazy"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-[rgba(1,0,32,1)] via-transparent to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[var(--bg-void)] via-transparent to-transparent" />
           {/* Cost badge */}
           <div
             className="absolute top-1.5 right-1.5 w-7 h-7 rounded-full flex items-center justify-center font-display text-xs font-bold"
             style={{
-              background: "rgba(1,0,32,0.9)",
+              background: "var(--bg-void)",
               border: `1.5px solid ${colors.border}`,
               color: colors.text,
             }}
@@ -299,7 +299,7 @@ function CardDisplay({ card, index, isActive, onClick }: {
           <div
             className="absolute top-1.5 left-1.5 px-1.5 py-0.5 rounded font-mono text-[7px] tracking-wider uppercase max-w-[60%] truncate"
             style={{
-              background: "rgba(1,0,32,0.85)",
+              background: "var(--bg-overlay)",
               border: `1px solid ${colors.border}`,
               color: colors.text,
             }}
@@ -363,7 +363,7 @@ function CardDetailModal({ card, onClose }: { card: StarterCard; onClose: () => 
         style={{
           border: `2px solid ${colors.border}`,
           boxShadow: `0 0 60px ${colors.glow}, 0 20px 80px rgba(0,0,0,0.7)`,
-          background: "linear-gradient(135deg, rgba(1,0,32,0.99) 0%, rgba(10,12,43,0.99) 100%)",
+          background: "linear-gradient(135deg, var(--bg-void) 0%, var(--bg-spotlight) 100%)",
         }}
       >
         <button
@@ -376,7 +376,7 @@ function CardDetailModal({ card, onClose }: { card: StarterCard; onClose: () => 
         {/* Large card image */}
         <div className="relative overflow-hidden" style={{ minHeight: "220px", maxHeight: "300px" }}>
           <img src={card.imageUrl} alt={card.name} className="w-full h-auto object-contain" style={{ maxHeight: "300px" }} />
-          <div className="absolute inset-0 bg-gradient-to-t from-[rgba(1,0,32,1)] via-[rgba(1,0,32,0.2)] to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[var(--bg-void)] via-[color-mix(in_srgb,var(--bg-void)_20%,transparent)] to-transparent" />
           <div className="absolute bottom-3 left-4 right-4">
             <div className="flex items-center gap-2 mb-1">
               <TypeIcon size={14} style={{ color: colors.text }} />
@@ -475,7 +475,7 @@ export default function StarterDeckViewer({
           onClick={onClose}
           className="absolute top-2 right-2 z-30 p-2 rounded-full transition-all hover:scale-110"
           style={{
-            background: "rgba(1,0,32,0.9)",
+            background: "var(--bg-void)",
             border: "1px solid rgba(255,255,255,0.2)",
           }}
           aria-label="Close starter deck"
@@ -529,7 +529,7 @@ export default function StarterDeckViewer({
                 onClick={() => scrollBy(-1)}
                 className="hidden sm:flex absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-20 p-2 rounded-full items-center justify-center"
                 style={{
-                  background: "rgba(1,0,32,0.95)",
+                  background: "var(--bg-void)",
                   border: "1px solid rgba(51,226,230,0.3)",
                   boxShadow: "0 0 12px rgba(51,226,230,0.15)",
                 }}
@@ -540,7 +540,7 @@ export default function StarterDeckViewer({
                 onClick={() => scrollBy(1)}
                 className="hidden sm:flex absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-20 p-2 rounded-full items-center justify-center"
                 style={{
-                  background: "rgba(1,0,32,0.95)",
+                  background: "var(--bg-void)",
                   border: "1px solid rgba(51,226,230,0.3)",
                   boxShadow: "0 0 12px rgba(51,226,230,0.15)",
                 }}

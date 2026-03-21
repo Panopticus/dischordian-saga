@@ -15,7 +15,7 @@ import season1Cards from "@/data/season1-cards.json";
 type CardData = (typeof season1Cards)[number];
 
 const RARITY_COLORS: Record<string, string> = {
-  Common: "text-gray-400 border-gray-500/30",
+  Common: "text-muted-foreground border-gray-500/30",
   Uncommon: "text-green-400 border-green-500/30",
   Rare: "text-blue-400 border-blue-500/30",
   Epic: "text-purple-400 border-purple-500/30",

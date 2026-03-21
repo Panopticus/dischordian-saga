@@ -7,7 +7,7 @@
    
    The theme is "zero-sum" — as you gain one palette, you lose the other.
    ═══════════════════════════════════════════════════════ */
-import { createContext, useContext, useEffect, useMemo, type ReactNode } from "react";
+import { createContext, useContext, useEffect, useMemo, useRef, type ReactNode } from "react";
 import { useGame } from "@/contexts/GameContext";
 import { getMoralityTierDef } from "@/components/MoralityMeter";
 
@@ -53,7 +53,7 @@ const BALANCED_PALETTE: ThemePalette = {
   accent: "#FF8C00",
   accentForeground: "#010020",
   ring: "#33E2E6",
-  glassBorder: "rgba(56, 117, 250, 0.2)",
+  glassBorder: "var(--glass-border)",
   glassShine: "rgba(51, 226, 230, 0.15)",
   sidebarPrimary: "#33E2E6",
   sidebarPrimaryForeground: "#010020",
@@ -188,40 +188,57 @@ export function MoralityThemeProvider({ children }: { children: ReactNode }) {
     return { side: "balanced", level: 1, intensity: 0, palette: BALANCED_PALETTE, label: "Balanced" };
   }, [score]);
 
+  // Track which CSS properties we've overridden so we can clean them up
+  const overriddenProps = useRef<string[]>([]);
+
   // Apply CSS variable overrides to document root
   useEffect(() => {
     const root = document.documentElement;
     const p = themeValue.palette;
 
-    // Energy spectrum
-    root.style.setProperty("--neon-cyan", p.neonCyan);
-    root.style.setProperty("--electric-blue", p.electricBlue);
-    root.style.setProperty("--orb-orange", p.orbOrange);
-    root.style.setProperty("--deep-purple", p.deepPurple);
-    root.style.setProperty("--signal-green", p.signalGreen);
-    root.style.setProperty("--alert-red", p.alertRed);
-    root.style.setProperty("--brand-gradient", p.brandGradient);
+    // First, clean up any previously overridden properties
+    overriddenProps.current.forEach(prop => root.style.removeProperty(prop));
+    overriddenProps.current = [];
 
-    // Theme variables
-    root.style.setProperty("--primary", p.primary);
-    root.style.setProperty("--primary-foreground", p.primaryForeground);
-    root.style.setProperty("--accent", p.accent);
-    root.style.setProperty("--accent-foreground", p.accentForeground);
-    root.style.setProperty("--ring", p.ring);
-    root.style.setProperty("--border", p.glassBorder);
-    root.style.setProperty("--sidebar-primary", p.sidebarPrimary);
-    root.style.setProperty("--sidebar-primary-foreground", p.sidebarPrimaryForeground);
-    root.style.setProperty("--sidebar-border", p.glassBorder);
-    root.style.setProperty("--sidebar-ring", p.ring);
-    root.style.setProperty("--chart-1", p.chart1);
-    root.style.setProperty("--chart-2", p.chart2);
+    const setAndTrack = (prop: string, value: string) => {
+      root.style.setProperty(prop, value);
+      overriddenProps.current.push(prop);
+    };
+
+    // Energy spectrum (custom vars, always safe to override)
+    setAndTrack("--neon-cyan", p.neonCyan);
+    setAndTrack("--electric-blue", p.electricBlue);
+    setAndTrack("--orb-orange", p.orbOrange);
+    setAndTrack("--deep-purple", p.deepPurple);
+    setAndTrack("--signal-green", p.signalGreen);
+    setAndTrack("--alert-red", p.alertRed);
+    setAndTrack("--brand-gradient", p.brandGradient);
+
+    // Only override core theme variables when morality is NOT balanced.
+    // When balanced, let the CSS light/dark mode handle everything.
+    if (themeValue.side !== "balanced") {
+      setAndTrack("--primary", p.primary);
+      setAndTrack("--accent", p.accent);
+      setAndTrack("--ring", p.ring);
+      setAndTrack("--border", p.glassBorder);
+      setAndTrack("--sidebar-primary", p.sidebarPrimary);
+      setAndTrack("--sidebar-border", p.glassBorder);
+      setAndTrack("--sidebar-ring", p.ring);
+      setAndTrack("--chart-1", p.chart1);
+      setAndTrack("--chart-2", p.chart2);
+      // NOTE: We intentionally do NOT override --primary-foreground,
+      // --accent-foreground, or --sidebar-primary-foreground here.
+      // Those are managed by CSS light/dark mode for proper contrast.
+    }
 
     // Add a data attribute for CSS selectors
     root.dataset.moralityTheme = themeValue.side;
     root.dataset.moralityLevel = String(themeValue.level);
 
-    // Cleanup: restore defaults when unmounting
+    // Cleanup: remove ALL inline overrides so CSS takes back control
     return () => {
+      overriddenProps.current.forEach(prop => root.style.removeProperty(prop));
+      overriddenProps.current = [];
       root.dataset.moralityTheme = "";
       root.dataset.moralityLevel = "";
     };

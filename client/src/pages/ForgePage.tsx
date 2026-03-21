@@ -89,7 +89,7 @@ function RecipeCard({ recipe, skillLevels, materials, dreamTokens, onSelect, isS
   const { canCraft } = canCraftRecipe(recipe, skillLevels, materials, dreamTokens);
   const successRate = calculateSuccessRate(recipe, skillLevels[recipe.skill] || 0);
   const rarityColors = {
-    common: { text: "text-gray-400", border: "border-gray-500/20", bg: "bg-gray-500/5" },
+    common: { text: "text-muted-foreground", border: "border-gray-500/20", bg: "bg-gray-500/5" },
     uncommon: { text: "text-green-400", border: "border-green-500/20", bg: "bg-green-500/5" },
     rare: { text: "text-blue-400", border: "border-blue-500/20", bg: "bg-blue-500/5" },
     epic: { text: "text-purple-400", border: "border-purple-500/20", bg: "bg-purple-500/5" },
@@ -403,12 +403,12 @@ export default function ForgePage() {
                   <div>
                     <div className="flex items-center gap-2 mb-1">
                       <span className={`font-display text-base font-bold tracking-wider ${
-                        { common: "text-gray-400", uncommon: "text-green-400", rare: "text-blue-400", epic: "text-purple-400", legendary: "text-amber-400" }[selectedRecipe.rarity]
+                        { common: "text-muted-foreground", uncommon: "text-green-400", rare: "text-blue-400", epic: "text-purple-400", legendary: "text-amber-400" }[selectedRecipe.rarity]
                       }`}>
                         {selectedRecipe.name}
                       </span>
                       <span className={`font-mono text-[8px] px-1.5 py-0.5 rounded ${
-                        { common: "bg-gray-500/10 text-gray-400", uncommon: "bg-green-500/10 text-green-400", rare: "bg-blue-500/10 text-blue-400", epic: "bg-purple-500/10 text-purple-400", legendary: "bg-amber-500/10 text-amber-400" }[selectedRecipe.rarity]
+                        { common: "bg-gray-500/10 text-muted-foreground", uncommon: "bg-green-500/10 text-green-400", rare: "bg-blue-500/10 text-blue-400", epic: "bg-purple-500/10 text-purple-400", legendary: "bg-amber-500/10 text-amber-400" }[selectedRecipe.rarity]
                       }`}>
                         {selectedRecipe.rarity.toUpperCase()}
                       </span>
@@ -537,7 +537,7 @@ export default function ForgePage() {
                         disabled={!craftCheck.canCraft}
                         className={`w-full py-3 rounded-lg font-display text-sm font-bold tracking-[0.2em] transition-all flex items-center justify-center gap-2
                           ${craftCheck.canCraft
-                            ? "bg-gradient-to-r from-orange-600 to-amber-500 text-white hover:from-orange-500 hover:to-amber-400 shadow-lg shadow-orange-500/20"
+                            ? "bg-gradient-to-r from-orange-600 to-amber-500 text-foreground hover:from-orange-500 hover:to-amber-400 shadow-lg shadow-orange-500/20"
                             : "bg-muted/30 text-muted-foreground/30 cursor-not-allowed border border-border/20"
                           }`}
                       >

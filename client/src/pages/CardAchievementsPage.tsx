@@ -36,7 +36,7 @@ const CATEGORY_COLORS: Record<string, string> = {
 
 const TIER_COLORS: Record<string, string> = {
   bronze: "text-amber-700 bg-amber-900/20 border-amber-700/30",
-  silver: "text-gray-300 bg-gray-500/20 border-gray-400/30",
+  silver: "text-muted-foreground bg-gray-500/20 border-gray-400/30",
   gold: "text-yellow-400 bg-yellow-500/20 border-yellow-500/30",
   platinum: "text-cyan-300 bg-cyan-500/20 border-cyan-400/30",
   diamond: "text-blue-300 bg-blue-500/20 border-blue-400/30",
@@ -191,7 +191,7 @@ export default function CardAchievementsPage() {
         </button>
         {categories.map((cat) => {
           const Icon = CATEGORY_ICONS[cat] || Star;
-          const color = CATEGORY_COLORS[cat] || "text-gray-400 bg-gray-500/10 border-gray-500/30";
+          const color = CATEGORY_COLORS[cat] || "text-muted-foreground bg-gray-500/10 border-gray-500/30";
           return (
             <button
               key={cat}
@@ -228,7 +228,7 @@ export default function CardAchievementsPage() {
         ) : (
           filteredAchievements.map((achievement: any) => {
             const Icon = CATEGORY_ICONS[achievement.category] || Star;
-            const catColor = CATEGORY_COLORS[achievement.category] || "text-gray-400 bg-gray-500/10 border-gray-500/30";
+            const catColor = CATEGORY_COLORS[achievement.category] || "text-muted-foreground bg-gray-500/10 border-gray-500/30";
             const tierColor = TIER_COLORS[achievement.tier] || "";
             const progress = achievement.target > 0
               ? Math.min(100, (achievement.progress / achievement.target) * 100)

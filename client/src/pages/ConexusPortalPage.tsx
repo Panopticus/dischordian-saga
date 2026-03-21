@@ -437,7 +437,7 @@ export default function ConexusPortalPage() {
 
                               {/* Title overlay */}
                               <div className="absolute bottom-2 left-2.5 right-2.5">
-                                <p className="font-display text-xs font-bold text-white tracking-wide leading-tight">
+                                <p className="font-display text-xs font-bold text-foreground tracking-wide leading-tight">
                                   {game.title}
                                 </p>
                               </div>
@@ -549,7 +549,7 @@ export default function ConexusPortalPage() {
                 <div className="absolute inset-0 bg-gradient-to-t from-card via-card/30 to-transparent" />
                 <button
                   onClick={() => setSelectedGame(null)}
-                  className="absolute top-3 right-3 w-8 h-8 rounded-full bg-background/70 backdrop-blur-sm border border-border flex items-center justify-center text-foreground/85 hover:text-white transition-colors"
+                  className="absolute top-3 right-3 w-8 h-8 rounded-full bg-background/70 backdrop-blur-sm border border-border flex items-center justify-center text-foreground/85 hover:text-foreground transition-colors"
                 >
                   ×
                 </button>
@@ -571,7 +571,7 @@ export default function ConexusPortalPage() {
                       {selectedGame.difficulty.toUpperCase()}
                     </span>
                   </div>
-                  <h2 className="font-display text-xl font-black tracking-wider text-white">
+                  <h2 className="font-display text-xl font-black tracking-wider text-foreground">
                     {selectedGame.title}
                   </h2>
                 </div>
@@ -681,7 +681,7 @@ export default function ConexusPortalPage() {
                 <div className="space-y-2">
                   <button
                     onClick={() => handlePlayGame(selectedGame)}
-                    className="flex items-center justify-center gap-2 w-full px-4 py-3 rounded-lg bg-purple-600 hover:bg-purple-500 text-white text-sm font-mono tracking-wider transition-all group"
+                    className="flex items-center justify-center gap-2 w-full px-4 py-3 rounded-lg bg-purple-600 hover:bg-purple-500 text-foreground text-sm font-mono tracking-wider transition-all group"
                   >
                     <Gamepad2 size={16} />
                     PLAY ON CONEXUS

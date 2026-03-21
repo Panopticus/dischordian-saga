@@ -311,7 +311,7 @@ export default function RewardCelebration({
               <div
                 className="rounded-2xl p-6 sm:p-8 max-w-sm mx-auto"
                 style={{
-                  background: "linear-gradient(135deg, rgba(1,0,32,0.97) 0%, rgba(10,12,43,0.97) 100%)",
+                  background: "linear-gradient(135deg, var(--bg-void) 0%, var(--bg-spotlight) 100%)",
                   border: tier === "legendary"
                     ? "1px solid rgba(255,183,77,0.5)"
                     : tier === "major"

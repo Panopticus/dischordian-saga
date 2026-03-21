@@ -580,13 +580,13 @@ function colorClass(type: TermLine["type"]): string {
   switch (type) {
     case "system": return "text-cyan-400";
     case "input": return "text-green-400";
-    case "output": return "text-gray-300";
+    case "output": return "text-muted-foreground";
     case "error": return "text-red-400";
     case "success": return "text-green-300";
     case "warning": return "text-amber-400";
     case "ascii": return "text-cyan-500";
     case "info": return "text-blue-300";
-    default: return "text-gray-400";
+    default: return "text-muted-foreground";
   }
 }
 
@@ -1674,8 +1674,8 @@ export default function TradeWarsPage() {
      ██║   ███████╗
      ╚═╝   ╚══════╝`}</pre>
           <h2 className="text-cyan-400 font-mono text-lg mb-2">TRADE EMPIRE</h2>
-          <p className="text-gray-400 font-mono text-sm mb-2">After the Fall. Before the Empire.</p>
-          <p className="text-gray-500 font-mono text-xs mb-6">Authentication required to access the Inception Ark Command Terminal.</p>
+          <p className="text-muted-foreground font-mono text-sm mb-2">After the Fall. Before the Empire.</p>
+          <p className="text-muted-foreground font-mono text-xs mb-6">Authentication required to access the Inception Ark Command Terminal.</p>
           <a
             href={getLoginUrl()}
             className="inline-block px-6 py-2 bg-cyan-500/20 border border-cyan-500/50 text-cyan-400 font-mono text-sm hover:bg-cyan-500/30 transition-colors"
@@ -1690,7 +1690,7 @@ export default function TradeWarsPage() {
   return (
     <div className="min-h-screen bg-black flex flex-col">
       {/* Header bar */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between px-3 sm:px-4 py-2 bg-gray-900/80 border-b border-cyan-500/20 gap-1">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between px-3 sm:px-4 py-2 bg-background/80 border-b border-cyan-500/20 gap-1">
         <div className="flex items-center gap-2 sm:gap-3">
           <Link href="/games" className="text-cyan-400 font-mono text-[10px] sm:text-xs hover:text-cyan-300 transition-colors">
             ← GAMES
@@ -1710,13 +1710,13 @@ export default function TradeWarsPage() {
           {stateQuery.data && (
             <>
               <span className="text-green-400">{stateQuery.data.credits?.toLocaleString()} cr</span>
-              <span className="text-gray-500">|</span>
+              <span className="text-muted-foreground">|</span>
               <span className="text-amber-400">T:{stateQuery.data.turnsRemaining}</span>
-              <span className="text-gray-500">|</span>
+              <span className="text-muted-foreground">|</span>
               <span className="text-cyan-400">S{stateQuery.data.currentSector}</span>
-              <span className="text-gray-500">|</span>
+              <span className="text-muted-foreground">|</span>
               <span className="text-purple-400">RP:{stateQuery.data.researchPoints || 0}</span>
-              <span className="text-gray-500">|</span>
+              <span className="text-muted-foreground">|</span>
               <button
                 onClick={() => setShowGalaxyMap(true)}
                 className="text-cyan-400 hover:text-cyan-300 transition-colors uppercase tracking-wider"
@@ -1780,7 +1780,7 @@ export default function TradeWarsPage() {
       </div>
 
       {/* Input */}
-      <form onSubmit={handleSubmit} className="flex items-center px-3 sm:px-4 py-2.5 sm:py-3 bg-gray-900/90 border-t border-cyan-500/20">
+      <form onSubmit={handleSubmit} className="flex items-center px-3 sm:px-4 py-2.5 sm:py-3 bg-background/90 border-t border-cyan-500/20">
         <span className="text-green-400 font-mono text-xs sm:text-sm mr-2">{">"}</span>
         <input
           ref={inputRef}

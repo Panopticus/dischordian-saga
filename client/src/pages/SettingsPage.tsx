@@ -120,7 +120,7 @@ function Toggle({ label, description, enabled, onChange, icon: Icon }: {
         enabled ? "bg-[var(--neon-cyan)]/30" : "bg-muted/50"
       }`}>
         <div className={`absolute top-0.5 w-4 h-4 rounded-full transition-all ${
-          enabled ? "left-5 bg-[var(--neon-cyan)] shadow-[0_0_8px_var(--neon-cyan)]" : "left-0.5 bg-white/40"
+          enabled ? "left-5 bg-[var(--neon-cyan)] shadow-[0_0_8px_var(--neon-cyan)]" : "left-0.5 bg-foreground/40"
         }`} />
       </div>
     </button>
@@ -253,7 +253,7 @@ export default function SettingsPage() {
       <div className="flex items-center gap-3 mb-6">
         <div className="w-10 h-10 rounded-lg flex items-center justify-center"
           style={{
-            background: "linear-gradient(135deg, rgba(51,226,230,0.15), rgba(56,117,250,0.15))",
+            background: "linear-gradient(135deg, rgba(51,226,230,0.15), var(--glass-border))",
             border: "1px solid rgba(51,226,230,0.3)",
           }}>
           <Settings size={18} className="text-[var(--neon-cyan)]" />

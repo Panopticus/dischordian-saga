@@ -236,7 +236,7 @@ function CardDisplay({ card, onClick, viewMode }: { card: FullCard; onClick: () 
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
         {/* Cost badge */}
         <div className="absolute top-1.5 left-1.5 w-6 h-6 rounded-full bg-blue-600/90 flex items-center justify-center border border-blue-400/50">
-          <span className="font-display text-[10px] font-bold text-white">{card.cost}</span>
+          <span className="font-display text-[10px] font-bold text-foreground">{card.cost}</span>
         </div>
         {/* Element badge */}
         {card.element && elemCfg && (
@@ -316,7 +316,7 @@ function CardDetailModal({ card, onClose, onSacrifice }: { card: FullCard | null
           <div className="absolute inset-0 bg-gradient-to-t from-card via-card/40 to-transparent" />
           {/* Cost */}
           <div className="absolute top-3 left-3 w-12 h-12 rounded-full bg-blue-600/90 flex items-center justify-center border-2 border-blue-400/50 shadow-lg shadow-blue-500/30">
-            <span className="font-display text-xl font-bold text-white">{card.cost}</span>
+            <span className="font-display text-xl font-bold text-foreground">{card.cost}</span>
           </div>
           {/* Element + Type */}
           <div className="absolute top-3 right-3 flex items-center gap-2">
@@ -520,7 +520,7 @@ function CardDetailModal({ card, onClose, onSacrifice }: { card: FullCard | null
         {/* Close button */}
         <button
           onClick={onClose}
-          className="absolute top-2 right-2 w-8 h-8 rounded-full bg-background/70 flex items-center justify-center text-muted-foreground/80 hover:text-white hover:bg-background/90 transition-colors z-10"
+          className="absolute top-2 right-2 w-8 h-8 rounded-full bg-background/70 flex items-center justify-center text-muted-foreground/80 hover:text-foreground hover:bg-background/90 transition-colors z-10"
         >
           <X size={16} />
         </button>

@@ -207,7 +207,7 @@ function DemonCard({ demon, onClick, isSelected }: { demon: DemonLeader; onClick
             <Icon size={12} style={{ color: demon.color }} />
             <span className="font-mono text-[9px] tracking-[0.2em] uppercase" style={{ color: demon.color }}>{demon.corporateRole}</span>
           </div>
-          <h3 className="font-display text-sm font-bold text-white truncate">{demon.name}</h3>
+          <h3 className="font-display text-sm font-bold text-foreground truncate">{demon.name}</h3>
           <p className="font-mono text-[10px] text-muted-foreground/60 truncate">{demon.title}</p>
         </div>
       </div>
@@ -238,7 +238,7 @@ function DemonDetail({ demon, onClose }: { demon: DemonLeader; onClose: () => vo
         <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
         <button
           onClick={onClose}
-          className="absolute top-3 right-3 p-1.5 rounded-full bg-background/60 border border-border text-muted-foreground/80 hover:text-white hover:bg-background/80 transition-colors"
+          className="absolute top-3 right-3 p-1.5 rounded-full bg-background/60 border border-border text-muted-foreground/80 hover:text-foreground hover:bg-background/80 transition-colors"
         >
           <X size={14} />
         </button>
@@ -248,7 +248,7 @@ function DemonDetail({ demon, onClose }: { demon: DemonLeader; onClose: () => vo
               {demon.corporateRole}
             </div>
           </div>
-          <h2 className="font-display text-xl sm:text-2xl font-black text-white">{demon.name}</h2>
+          <h2 className="font-display text-xl sm:text-2xl font-black text-foreground">{demon.name}</h2>
           <p className="font-mono text-xs text-muted-foreground/70">{demon.title}</p>
         </div>
       </div>
@@ -272,11 +272,11 @@ function DemonDetail({ demon, onClose }: { demon: DemonLeader; onClose: () => vo
         <div className="grid grid-cols-2 gap-2">
           <div className="rounded-md border border-border/60 p-2.5" style={{ background: "rgba(255,255,255,0.03)" }}>
             <div className="font-mono text-[9px] text-muted-foreground/50 tracking-[0.2em] mb-1">MIRRORS ARCHON</div>
-            <div className="font-display text-xs font-bold text-white">{demon.mirrorsArchon}</div>
+            <div className="font-display text-xs font-bold text-foreground">{demon.mirrorsArchon}</div>
           </div>
           <div className="rounded-md border border-border/60 p-2.5" style={{ background: "rgba(255,255,255,0.03)" }}>
             <div className="font-mono text-[9px] text-muted-foreground/50 tracking-[0.2em] mb-1">OPPOSES NEYON</div>
-            <div className="font-display text-xs font-bold text-white">{demon.mirrorsNeyon}</div>
+            <div className="font-display text-xs font-bold text-foreground">{demon.mirrorsNeyon}</div>
           </div>
         </div>
 
@@ -300,7 +300,7 @@ function DemonDetail({ demon, onClose }: { demon: DemonLeader; onClose: () => vo
         <div className="flex gap-2">
           <Link
             href={`/entity/${demon.entityId}`}
-            className="flex-1 flex items-center justify-center gap-1.5 px-3 py-2 rounded-md border border-border/60 font-mono text-[10px] text-muted-foreground/80 hover:text-white hover:border-border transition-colors"
+            className="flex-1 flex items-center justify-center gap-1.5 px-3 py-2 rounded-md border border-border/60 font-mono text-[10px] text-muted-foreground/80 hover:text-foreground hover:border-border transition-colors"
           >
             <ExternalLink size={10} /> VIEW DOSSIER
           </Link>
@@ -345,7 +345,7 @@ export default function HierarchyPage() {
       <div className="border-b border-red-500/10 px-4 py-3">
         <div className="flex items-center justify-between max-w-6xl mx-auto">
           <div className="flex items-center gap-3">
-            <Link href="/games" className="text-muted-foreground/60 hover:text-white font-mono text-xs flex items-center gap-1">
+            <Link href="/games" className="text-muted-foreground/60 hover:text-foreground font-mono text-xs flex items-center gap-1">
               <ChevronLeft size={14} /> GAMES
             </Link>
             <Link href="/demon-packs" className="text-orange-400/70 hover:text-orange-400 font-mono text-[10px] flex items-center gap-1 px-2 py-0.5 rounded border border-orange-500/20 hover:border-orange-500/40 transition-colors">
@@ -377,7 +377,7 @@ export default function HierarchyPage() {
             <Skull size={16} className="text-red-500/60" />
             <div className="h-px w-12 bg-gradient-to-l from-transparent to-red-500/40" />
           </div>
-          <h1 className="font-display text-2xl sm:text-4xl font-black tracking-wider text-white mb-2">
+          <h1 className="font-display text-2xl sm:text-4xl font-black tracking-wider text-foreground mb-2">
             HIERARCHY OF THE <span className="text-red-500">DAMNED</span>
           </h1>
           <p className="font-mono text-xs text-muted-foreground/60 max-w-lg mx-auto leading-relaxed">

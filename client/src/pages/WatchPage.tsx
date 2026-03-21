@@ -413,7 +413,7 @@ export default function WatchPage() {
     return (
       <div className="animate-fade-in min-h-screen flex flex-col">
         {/* Top bar */}
-        <div className="sticky top-12 z-30 px-3 py-2" style={{ background: "rgba(1,0,32,0.95)", borderBottom: "1px solid var(--glass-border)", backdropFilter: "blur(20px)" }}>
+        <div className="sticky top-12 z-30 px-3 py-2" style={{ background: "var(--bg-void)", borderBottom: "1px solid var(--glass-border)", backdropFilter: "blur(20px)" }}>
           <div className="flex items-center gap-2">
             <button onClick={() => setViewMode("epochs")} className="flex items-center gap-1 px-2 py-1 rounded-md text-[10px] font-mono text-muted-foreground/70 hover:text-[var(--neon-cyan)] transition-colors">
               <ChevronLeft size={12} /> EPOCHS
@@ -604,7 +604,7 @@ export default function WatchPage() {
       <section className="relative overflow-hidden">
         <div className="absolute inset-0">
           <div className="absolute inset-0" style={{
-            background: "radial-gradient(ellipse at 50% 20%, rgba(56,117,250,0.15) 0%, transparent 60%), radial-gradient(ellipse at 80% 80%, rgba(255,60,64,0.08) 0%, transparent 50%)"
+            background: "radial-gradient(ellipse at 50% 20%, var(--glass-border) 0%, transparent 60%), radial-gradient(ellipse at 80% 80%, rgba(255,60,64,0.08) 0%, transparent 50%)"
           }} />
         </div>
         <div className="relative px-4 sm:px-6 pt-8 pb-6 sm:pt-12 sm:pb-8">
@@ -620,7 +620,7 @@ export default function WatchPage() {
               <div className="h-px flex-1 max-w-12 bg-gradient-to-l from-transparent to-[var(--alert-red)]/50" />
             </div>
 
-            <h1 className="font-display text-2xl sm:text-4xl lg:text-5xl font-black tracking-wider text-white mb-2 leading-tight">
+            <h1 className="font-display text-2xl sm:text-4xl lg:text-5xl font-black tracking-wider text-foreground mb-2 leading-tight">
               THE <span className="text-[var(--neon-cyan)] glow-cyan">DISCHORDIAN</span> SAGA
             </h1>
             <p className="font-mono text-xs sm:text-sm text-muted-foreground/80 max-w-2xl mb-5 leading-relaxed">
@@ -714,7 +714,7 @@ export default function WatchPage() {
                   </div>
                   <div className="min-w-0 flex-1">
                     <p className="font-mono text-[9px] text-muted-foreground/50 mb-0.5">NEXT EPOCH</p>
-                    <p className="font-display text-xs font-bold tracking-wider text-white group-hover:text-[var(--neon-cyan)] transition-colors truncate">
+                    <p className="font-display text-xs font-bold tracking-wider text-foreground group-hover:text-[var(--neon-cyan)] transition-colors truncate">
                       {nextUpEpoch.title}
                     </p>
                   </div>
@@ -733,7 +733,7 @@ export default function WatchPage() {
                   </div>
                   <div className="min-w-0 flex-1">
                     <p className="font-mono text-[9px] text-muted-foreground/50 mb-0.5">NEXT EPISODE</p>
-                    <p className="font-display text-xs font-bold tracking-wider text-white group-hover:text-[var(--alert-red)] transition-colors truncate">
+                    <p className="font-display text-xs font-bold tracking-wider text-foreground group-hover:text-[var(--alert-red)] transition-colors truncate">
                       {nextUpEpisode.episode.title}
                     </p>
                     <p className="font-mono text-[8px] text-muted-foreground/35">{nextUpEpisode.episode.album}</p>
@@ -805,7 +805,7 @@ export default function WatchPage() {
         >
           <div className="flex items-center gap-3 mb-4">
             <Film size={16} className="text-[var(--neon-cyan)]" />
-            <h2 className="font-display text-sm font-bold tracking-[0.2em] text-white">INDIVIDUAL EPISODES</h2>
+            <h2 className="font-display text-sm font-bold tracking-[0.2em] text-foreground">INDIVIDUAL EPISODES</h2>
             <span className="font-mono text-[10px] text-muted-foreground/50">{episodes.length} MUSIC VIDEOS</span>
           </div>
           <p className="font-mono text-xs text-muted-foreground/80 mb-4 max-w-xl">
@@ -1054,7 +1054,7 @@ const EpochSection = forwardRef<HTMLDivElement, EpochSectionProps>(
                       <Play size={24} className="ml-1" style={{ color: epoch.color }} />
                     </div>
                     <div className="text-center">
-                      <p className="font-display text-sm font-bold tracking-wider text-white mb-1">
+                      <p className="font-display text-sm font-bold tracking-wider text-foreground mb-1">
                         PLAY {epoch.title}
                       </p>
                       <p className="font-mono text-[10px] text-muted-foreground/60">
@@ -1158,7 +1158,7 @@ function EpisodeViewer({
       {/* Top Bar */}
       <div className="sticky top-12 z-30 px-3 sm:px-4 py-2"
         style={{
-          background: "rgba(1,0,32,0.95)",
+          background: "var(--bg-void)",
           borderBottom: "1px solid var(--glass-border)",
           backdropFilter: "blur(20px)",
         }}>
@@ -1217,7 +1217,7 @@ function EpisodeViewer({
             exit={{ height: 0, opacity: 0 }}
             className="overflow-hidden border-b"
             style={{
-              background: "rgba(1,0,32,0.95)",
+              background: "var(--bg-void)",
               borderColor: "var(--glass-border)",
             }}
           >
@@ -1286,7 +1286,7 @@ function EpisodeViewer({
               </span>
               <span className="font-mono text-[9px] text-muted-foreground/40">TRACK {currentEpisode.trackNumber}</span>
             </div>
-            <h2 className="font-display text-lg sm:text-xl font-bold tracking-wider text-white mb-1">
+            <h2 className="font-display text-lg sm:text-xl font-bold tracking-wider text-foreground mb-1">
               {currentEpisode.title}
             </h2>
             <p className="font-mono text-[11px] text-muted-foreground/60 mb-3">{currentEpisode.album}</p>
@@ -1328,7 +1328,7 @@ function EpisodeViewer({
               exit={{ width: 0, opacity: 0 }}
               className="lg:w-72 xl:w-80 overflow-hidden border-l"
               style={{
-                background: "rgba(0,2,41,0.6)",
+                background: "var(--glass-dark)",
                 borderColor: "var(--glass-border)",
               }}
             >
@@ -1402,7 +1402,7 @@ function LorePanel({
         style={{ backgroundColor: albumColor + "08", borderColor: albumColor + "20" }}
       >
         <p className="font-mono text-[9px] tracking-wider mb-0.5" style={{ color: albumColor + "80" }}>NOW VIEWING</p>
-        <p className="font-display text-sm font-bold tracking-wide text-white">{episode.title}</p>
+        <p className="font-display text-sm font-bold tracking-wide text-foreground">{episode.title}</p>
         <p className="font-mono text-[10px] text-muted-foreground/60">{episode.album}</p>
       </div>
 
@@ -1454,7 +1454,7 @@ function LorePanel({
                   <Gamepad2 size={14} className="text-[var(--deep-purple)]" />
                 </div>
                 <div className="min-w-0 flex-1">
-                  <p className="text-[11px] font-medium text-white">{game}</p>
+                  <p className="text-[11px] font-medium text-foreground">{game}</p>
                   <p className="text-[9px] font-mono text-muted-foreground/50">CONEXUS INTERACTIVE STORY</p>
                 </div>
               </div>
@@ -1521,7 +1521,7 @@ function LoreCard({ entry, type }: { entry: LoredexEntry; type: string }) {
           </div>
         )}
         <div className="min-w-0 flex-1">
-          <p className="text-[11px] font-medium text-white truncate">{entry.name}</p>
+          <p className="text-[11px] font-medium text-foreground truncate">{entry.name}</p>
           <p className="text-[9px] font-mono text-muted-foreground/50 truncate">{entry.era || entry.affiliation || ""}</p>
         </div>
         <div className="flex items-center gap-1 shrink-0">

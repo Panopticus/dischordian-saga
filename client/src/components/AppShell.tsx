@@ -269,7 +269,7 @@ export default function AppShell({ children, elaraTTS: _elaraTTS }: { children: 
         <Link href="/" className="flex items-center gap-2 group">
           <div className="w-7 h-7 rounded-md flex items-center justify-center relative"
             style={{
-              background: "linear-gradient(135deg, rgba(51,226,230,0.15) 0%, rgba(56,117,250,0.15) 100%)",
+              background: "linear-gradient(135deg, rgba(51,226,230,0.15) 0%, var(--glass-border) 100%)",
               border: "1px solid rgba(51,226,230,0.3)",
             }}>
             <Terminal size={14} className="text-[var(--neon-cyan)]" />

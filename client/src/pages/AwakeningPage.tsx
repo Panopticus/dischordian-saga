@@ -78,7 +78,7 @@ function ElaraDialogBox({
         <div
           className="rounded-lg p-5 sm:p-6 relative overflow-hidden"
           style={{
-            background: "linear-gradient(135deg, rgba(1,0,32,0.95) 0%, rgba(10,12,43,0.95) 100%)",
+            background: "linear-gradient(135deg, var(--bg-void) 0%, var(--bg-spotlight) 100%)",
             border: "1px solid rgba(51,226,230,0.2)",
             boxShadow: "0 0 30px rgba(51,226,230,0.05), inset 0 1px 0 rgba(51,226,230,0.1)",
           }}
@@ -190,7 +190,7 @@ function AttributeAllocator({
       className="w-full max-w-md mx-auto"
     >
       <div className="rounded-lg p-5" style={{
-        background: "linear-gradient(135deg, rgba(1,0,32,0.95) 0%, rgba(10,12,43,0.95) 100%)",
+        background: "linear-gradient(135deg, var(--bg-void) 0%, var(--bg-spotlight) 100%)",
         border: "1px solid rgba(51,226,230,0.2)",
       }}>
         <h3 className="font-display text-sm tracking-[0.2em] text-[var(--neon-cyan)] mb-1">NEURAL CALIBRATION</h3>
@@ -640,7 +640,7 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
               />
               <div className="mt-4 max-w-md mx-auto">
                 <div className="rounded-lg p-4" style={{
-                  background: "linear-gradient(135deg, rgba(1,0,32,0.95) 0%, rgba(10,12,43,0.95) 100%)",
+                  background: "linear-gradient(135deg, var(--bg-void) 0%, var(--bg-spotlight) 100%)",
                   border: "1px solid rgba(51,226,230,0.2)",
                 }}>
                   <input

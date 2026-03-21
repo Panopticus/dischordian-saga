@@ -173,13 +173,13 @@ export default function WarMapPage() {
                 style={{ width: `${insurgencyPercent}%` }}
               />
               <div className="absolute inset-0 flex items-center justify-between px-3">
-                <span className="font-mono text-[10px] font-bold text-white drop-shadow-lg flex items-center gap-1">
+                <span className="font-mono text-[10px] font-bold text-foreground drop-shadow-lg flex items-center gap-1">
                   <Shield size={10} /> EMPIRE {empirePercent}%
                 </span>
                 <span className="font-mono text-[10px] text-purple-300">
                   {factionTotals.contested} CONTESTED
                 </span>
-                <span className="font-mono text-[10px] font-bold text-white drop-shadow-lg flex items-center gap-1">
+                <span className="font-mono text-[10px] font-bold text-foreground drop-shadow-lg flex items-center gap-1">
                   INSURGENCY {insurgencyPercent}% <Zap size={10} />
                 </span>
               </div>

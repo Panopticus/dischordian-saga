@@ -73,7 +73,7 @@ export default function DiscoveryNotification() {
           <div
             className="flex items-center gap-3 px-5 py-3 rounded-xl max-w-sm"
             style={{
-              background: "linear-gradient(135deg, rgba(51,226,230,0.15) 0%, rgba(56,117,250,0.12) 100%)",
+              background: "linear-gradient(135deg, rgba(51,226,230,0.15) 0%, var(--glass-border) 100%)",
               border: "1px solid rgba(51,226,230,0.35)",
               backdropFilter: "blur(20px)",
               boxShadow: "0 0 30px rgba(51,226,230,0.15), 0 8px 32px rgba(0,0,0,0.4)",

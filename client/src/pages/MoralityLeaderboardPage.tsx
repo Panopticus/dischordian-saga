@@ -166,7 +166,7 @@ export default function MoralityLeaderboardPage() {
                 style={{ background: "linear-gradient(90deg, #8B0000 0%, #FF4444 100%)" }}
               >
                 {factionPercentages.machine > 10 && (
-                  <span className="absolute inset-0 flex items-center justify-center font-mono text-[10px] text-white font-bold">
+                  <span className="absolute inset-0 flex items-center justify-center font-mono text-[10px] text-foreground font-bold">
                     {factionPercentages.machine}%
                   </span>
                 )}
@@ -179,7 +179,7 @@ export default function MoralityLeaderboardPage() {
                 style={{ background: "linear-gradient(90deg, #1a8a8e 0%, #33E2E6 100%)" }}
               >
                 {factionPercentages.balanced > 10 && (
-                  <span className="absolute inset-0 flex items-center justify-center font-mono text-[10px] text-white font-bold">
+                  <span className="absolute inset-0 flex items-center justify-center font-mono text-[10px] text-foreground font-bold">
                     {factionPercentages.balanced}%
                   </span>
                 )}
@@ -192,7 +192,7 @@ export default function MoralityLeaderboardPage() {
                 style={{ background: "linear-gradient(90deg, #22C55E 0%, #86efac 100%)" }}
               >
                 {factionPercentages.humanity > 10 && (
-                  <span className="absolute inset-0 flex items-center justify-center font-mono text-[10px] text-white font-bold">
+                  <span className="absolute inset-0 flex items-center justify-center font-mono text-[10px] text-foreground font-bold">
                     {factionPercentages.humanity}%
                   </span>
                 )}

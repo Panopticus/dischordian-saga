@@ -43,7 +43,7 @@ function getHotspotColor(type: HotspotDef["type"]) {
   switch (type) {
     case "terminal": return { border: "rgba(51,226,230,0.5)", bg: "rgba(51,226,230,0.15)", glow: "rgba(51,226,230,0.3)", text: "var(--neon-cyan)" };
     case "item": return { border: "rgba(255,183,77,0.5)", bg: "rgba(255,183,77,0.15)", glow: "rgba(255,183,77,0.3)", text: "var(--orb-orange)" };
-    case "door": return { border: "rgba(56,117,250,0.5)", bg: "rgba(56,117,250,0.15)", glow: "rgba(56,117,250,0.3)", text: "#3875fa" };
+    case "door": return { border: "rgba(56,117,250,0.5)", bg: "var(--glass-border)", glow: "rgba(56,117,250,0.3)", text: "#3875fa" };
     case "examine": return { border: "rgba(168,85,247,0.5)", bg: "rgba(168,85,247,0.15)", glow: "rgba(168,85,247,0.3)", text: "#a855f7" };
     case "interact": return { border: "rgba(34,197,94,0.5)", bg: "rgba(34,197,94,0.15)", glow: "rgba(34,197,94,0.3)", text: "#22c55e" };
   }
@@ -80,7 +80,7 @@ function ElaraPopup({ text, onClose }: { text: string; onClose: () => void }) {
       <div
         className="rounded-lg p-4 relative"
         style={{
-          background: "linear-gradient(135deg, rgba(1,0,32,0.97) 0%, rgba(10,12,43,0.97) 100%)",
+          background: "linear-gradient(135deg, var(--bg-void) 0%, var(--bg-spotlight) 100%)",
           border: "1px solid rgba(51,226,230,0.25)",
           boxShadow: "0 0 30px rgba(51,226,230,0.08), 0 20px 60px rgba(0,0,0,0.5)",
           backdropFilter: "blur(20px)",
@@ -213,7 +213,7 @@ function RoomScene({
                   style={{
                     background: isEasterEgg ? "transparent" : hotspot.type === "door" ? "rgba(56,117,250,0.25)" : colors.bg,
                     border: isEasterEgg ? "none" : hotspot.type === "door" ? "2px solid rgba(56,117,250,0.7)" : `1.5px solid ${colors.border}`,
-                    boxShadow: isEasterEgg ? "none" : hotspot.type === "door" ? "0 0 20px rgba(56,117,250,0.5), 0 0 40px rgba(56,117,250,0.2)" : `0 0 12px ${colors.glow}`,
+                    boxShadow: isEasterEgg ? "none" : hotspot.type === "door" ? "0 0 20px rgba(56,117,250,0.5), 0 0 40px var(--glass-border)" : `0 0 12px ${colors.glow}`,
                   }}
                 >
                   {!isEasterEgg && <Icon size={hotspot.type === "door" ? 18 : 14} style={{ color: colors.text }} />}
@@ -228,7 +228,7 @@ function RoomScene({
                     />
                     <div
                       className="absolute inset-[-8px] rounded-full animate-ping"
-                      style={{ border: "1px solid rgba(56,117,250,0.2)", opacity: 0.3, animationDuration: "3s" }}
+                      style={{ border: "1px solid var(--glass-border)", opacity: 0.3, animationDuration: "3s" }}
                     />
                   </>
                 )}
@@ -244,9 +244,9 @@ function RoomScene({
               {hotspot.type === "door" && !isEasterEgg && (
                 <div className="absolute left-1/2 -translate-x-1/2 -top-1 -translate-y-full pointer-events-none">
                   <div className="px-2.5 py-1 rounded" style={{
-                    background: "rgba(1,0,32,0.92)",
+                    background: "var(--bg-overlay)",
                     border: "1px solid rgba(56,117,250,0.35)",
-                    boxShadow: "0 0 12px rgba(56,117,250,0.15)",
+                    boxShadow: "0 0 12px var(--glass-border)",
                   }}>
                     <p className="font-mono text-[9px] text-[#3875fa] tracking-wider whitespace-nowrap font-bold">
                       ▶ {hotspot.name}
@@ -268,7 +268,7 @@ function RoomScene({
                     <div
                       className="rounded-md px-3 py-2"
                       style={{
-                        background: "rgba(1,0,32,0.95)",
+                        background: "var(--bg-void)",
                         border: `1px solid ${colors.border}`,
                         boxShadow: `0 0 15px ${colors.glow}`,
                       }}
@@ -291,7 +291,7 @@ function RoomScene({
       <div className="absolute bottom-3 left-3 z-10">
         <div className="flex items-center gap-2">
           <div className="w-2 h-2 rounded-full bg-[var(--signal-green)] shadow-[0_0_6px_var(--signal-green)]" />
-          <span className="font-display text-sm font-bold tracking-[0.15em] text-white drop-shadow-lg">{room.name.toUpperCase()}</span>
+          <span className="font-display text-sm font-bold tracking-[0.15em] text-foreground drop-shadow-lg">{room.name.toUpperCase()}</span>
         </div>
         <p className="font-mono text-[9px] text-muted-foreground/60 ml-4 tracking-wider">
           DECK {room.deck} // {room.deckName.toUpperCase()}
@@ -813,8 +813,8 @@ export default function ArkExplorerPage() {
 
           {/* Room description */}
           <div className="mt-3 rounded-lg p-4" style={{
-            background: "rgba(1,0,32,0.6)",
-            border: "1px solid rgba(56,117,250,0.1)",
+            background: "color-mix(in srgb, var(--bg-void) 60%, transparent)",
+            border: "1px solid var(--glass-border)",
           }}>
             <p className="font-mono text-xs text-muted-foreground/80 leading-relaxed">{currentRoom.description}</p>
           </div>
@@ -889,7 +889,7 @@ export default function ArkExplorerPage() {
                     {/* Icon */}
                     <div className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center" style={{
                       background: unlocked
-                        ? hasPuzzle ? "rgba(255,183,77,0.15)" : "rgba(56,117,250,0.15)"
+                        ? hasPuzzle ? "rgba(255,183,77,0.15)" : "var(--glass-border)"
                         : "rgba(255,255,255,0.03)",
                       border: `1px solid ${
                         unlocked
@@ -939,10 +939,10 @@ export default function ArkExplorerPage() {
               className="w-full sm:w-64 flex-shrink-0"
             >
               <div className="rounded-lg p-3" style={{
-                background: "rgba(1,0,32,0.8)",
-                border: "1px solid rgba(56,117,250,0.15)",
+                background: "var(--bg-overlay)",
+                border: "1px solid var(--glass-border)",
               }}>
-                <div className="flex items-center gap-2 mb-3 pb-2" style={{ borderBottom: "1px solid rgba(56,117,250,0.1)" }}>
+                <div className="flex items-center gap-2 mb-3 pb-2" style={{ borderBottom: "1px solid var(--glass-border)" }}>
                   <Ship size={12} className="text-[var(--neon-cyan)]" />
                   <span className="font-mono text-[10px] text-[var(--neon-cyan)] tracking-[0.2em]">ARK VESSEL 47</span>
                 </div>
@@ -957,7 +957,7 @@ export default function ArkExplorerPage() {
               {/* Items collected */}
               {state.itemsCollected.length > 0 && (
                 <div className="mt-3 rounded-lg p-3" style={{
-                  background: "rgba(1,0,32,0.8)",
+                  background: "var(--bg-overlay)",
                   border: "1px solid rgba(255,183,77,0.15)",
                 }}>
                   <div className="flex items-center gap-2 mb-2">
@@ -978,7 +978,7 @@ export default function ArkExplorerPage() {
               {/* Puzzles solved */}
               {solvedPuzzles.size > 0 && (
                 <div className="mt-3 rounded-lg p-3" style={{
-                  background: "rgba(1,0,32,0.8)",
+                  background: "var(--bg-overlay)",
                   border: "1px solid rgba(34,197,94,0.15)",
                 }}>
                   <div className="flex items-center gap-2 mb-2">

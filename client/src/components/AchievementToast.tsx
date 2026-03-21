@@ -56,7 +56,7 @@ export default function AchievementToast() {
                   ACHIEVEMENT UNLOCKED
                 </span>
               </div>
-              <div className="font-display text-sm font-bold text-white">{newAchievement.name}</div>
+              <div className="font-display text-sm font-bold text-foreground">{newAchievement.name}</div>
               <div className="font-mono text-[10px] text-muted-foreground/70">{newAchievement.description}</div>
             </div>
             <div className="text-right ml-2">

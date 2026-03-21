@@ -114,7 +114,7 @@ export default function SoundControls({ ttsEnabled, onToggleTTS, isSpeaking }: S
         <div
           className="absolute top-full right-0 mt-1 rounded-lg p-3 z-50"
           style={{
-            background: "rgba(1,0,32,0.97)",
+            background: "var(--bg-void)",
             border: "1px solid rgba(51,226,230,0.2)",
             boxShadow: "0 10px 40px rgba(0,0,0,0.5)",
             minWidth: "180px",

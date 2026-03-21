@@ -83,7 +83,7 @@ export default function PlayerBar() {
                 )}
                 {streaming.tidal && (
                   <a href={streaming.tidal} target="_blank" rel="noopener noreferrer"
-                    className="flex items-center gap-1 px-2 py-1 rounded bg-muted/50 text-white text-[10px] font-mono">
+                    className="flex items-center gap-1 px-2 py-1 rounded bg-muted/50 text-foreground text-[10px] font-mono">
                     <TidalIcon /> Tidal
                   </a>
                 )}

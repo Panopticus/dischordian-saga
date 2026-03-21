@@ -144,7 +144,7 @@ export default function DiscographyPage() {
               <div className="h-px flex-1 max-w-12 bg-gradient-to-l from-transparent to-[var(--deep-purple)]/50" />
             </div>
 
-            <h1 className="font-display text-2xl sm:text-4xl lg:text-5xl font-black tracking-wider text-white mb-2 leading-tight">
+            <h1 className="font-display text-2xl sm:text-4xl lg:text-5xl font-black tracking-wider text-foreground mb-2 leading-tight">
               <span className="text-[var(--deep-purple)] glow-purple">DISCOGRAPHY</span>
             </h1>
             <p className="font-mono text-xs sm:text-sm text-muted-foreground/80 max-w-2xl mb-5 leading-relaxed">
@@ -210,7 +210,7 @@ export default function DiscographyPage() {
         >
           <div className="flex items-center gap-3 px-5 pt-4 pb-2">
             <Headphones size={14} className="text-[#1DB954]" />
-            <h3 className="font-display text-sm font-bold tracking-[0.2em] text-white">LISTEN ON SPOTIFY</h3>
+            <h3 className="font-display text-sm font-bold tracking-[0.2em] text-foreground">LISTEN ON SPOTIFY</h3>
           </div>
           <div className="px-5 pb-4">
             <p className="font-mono text-[10px] text-muted-foreground/60 mb-3">
@@ -258,7 +258,7 @@ export default function DiscographyPage() {
         >
           <div className="flex items-center gap-3 mb-3">
             <Radio size={14} className="text-[var(--orb-orange)]" />
-            <h3 className="font-display text-sm font-bold tracking-[0.2em] text-white">ABOUT THE ARTIST</h3>
+            <h3 className="font-display text-sm font-bold tracking-[0.2em] text-foreground">ABOUT THE ARTIST</h3>
           </div>
           <p className="font-mono text-xs text-muted-foreground/80 leading-relaxed mb-3">
             <span className="text-foreground font-medium">Malkia Ukweli & the Panopticon</span> is a multimedia project

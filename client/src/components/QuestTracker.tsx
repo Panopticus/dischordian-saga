@@ -351,7 +351,7 @@ export default function QuestTracker() {
           >
             {/* Swipe indicator for mobile */}
             <div className="sm:hidden flex justify-center pt-1.5 pb-0.5">
-              <div className="w-8 h-1 rounded-full bg-white/15" />
+              <div className="w-8 h-1 rounded-full bg-foreground/15" />
             </div>
             {/* Header */}
             <div className="flex items-center justify-between px-3 py-2 border-b border-border/40">

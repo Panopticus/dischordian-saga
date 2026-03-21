@@ -215,7 +215,7 @@ const ROOM_DIALOGS: RoomDialog[] = [
 ];
 
 /* ─── ELARA PORTRAIT ─── */
-const ELARA_AVATAR = "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/elara_avatar-eoUMdsSTDjkxWcWMxK6X9m.webp";
+const ELARA_AVATAR = "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/elara_avatar_dark_hair_small_2fcb00b8.png";
 
 /* ─── TYPEWRITER HOOK ─── */
 function useTypewriter(text: string, speed: number = 25) {
@@ -266,9 +266,9 @@ function CardReveal({ cardName, onDismiss }: { cardName: string; onDismiss: () =
         <div
           className="w-40 h-56 rounded-xl flex flex-col items-center justify-center gap-3 relative overflow-hidden"
           style={{
-            background: "linear-gradient(135deg, rgba(51,226,230,0.15), rgba(56,117,250,0.15), rgba(255,184,0,0.1))",
+            background: "linear-gradient(135deg, rgba(51,226,230,0.15), var(--glass-border), rgba(255,184,0,0.1))",
             border: "2px solid rgba(51,226,230,0.4)",
-            boxShadow: "0 0 30px rgba(51,226,230,0.2), 0 0 60px rgba(56,117,250,0.1)",
+            boxShadow: "0 0 30px rgba(51,226,230,0.2), 0 0 60px var(--glass-border)",
           }}
         >
           <div className="absolute inset-0 bg-gradient-to-b from-white/5 to-transparent" />
@@ -286,7 +286,7 @@ function CardReveal({ cardName, onDismiss }: { cardName: string; onDismiss: () =
         onClick={onDismiss}
         className="px-6 py-2 rounded-lg font-mono text-xs tracking-wider transition-all hover:scale-105"
         style={{
-          background: "linear-gradient(135deg, rgba(51,226,230,0.2), rgba(56,117,250,0.2))",
+          background: "linear-gradient(135deg, rgba(51,226,230,0.2), var(--glass-border))",
           border: "1px solid rgba(51,226,230,0.3)",
           color: "var(--neon-cyan)",
         }}
@@ -371,7 +371,7 @@ export default function RoomTutorialDialog({
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center"
-        style={{ background: "rgba(1,0,32,0.9)", backdropFilter: "blur(8px)" }}
+        style={{ background: "var(--bg-void)", backdropFilter: "blur(8px)" }}
       >
         <motion.div
           initial={{ y: 50, opacity: 0 }}
@@ -379,9 +379,9 @@ export default function RoomTutorialDialog({
           exit={{ y: 50, opacity: 0 }}
           className="w-full max-w-lg mx-4 mb-4 sm:mb-0 rounded-xl overflow-hidden"
           style={{
-            background: "linear-gradient(180deg, rgba(10,12,43,0.98) 0%, rgba(1,0,32,0.99) 100%)",
-            border: "1px solid rgba(56,117,250,0.2)",
-            boxShadow: "0 0 40px rgba(56,117,250,0.1)",
+            background: "linear-gradient(180deg, var(--bg-spotlight) 0%, var(--bg-void) 100%)",
+            border: "1px solid var(--glass-border)",
+            boxShadow: "0 0 40px var(--glass-border)",
           }}
         >
           {/* Header */}
@@ -442,7 +442,7 @@ function OpeningPhase({ text, onContinue }: { text: string; onContinue: () => vo
           onClick={onContinue}
           className="flex items-center gap-2 px-4 py-2 rounded-lg font-mono text-[10px] tracking-wider transition-all hover:scale-105"
           style={{
-            background: "linear-gradient(135deg, rgba(51,226,230,0.15), rgba(56,117,250,0.15))",
+            background: "linear-gradient(135deg, rgba(51,226,230,0.15), var(--glass-border))",
             border: "1px solid rgba(51,226,230,0.3)",
             color: "var(--neon-cyan)",
           }}

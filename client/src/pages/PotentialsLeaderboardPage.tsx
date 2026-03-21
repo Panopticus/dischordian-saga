@@ -26,7 +26,7 @@ const RANK_TIER_COLORS: Record<string, string> = {
   diamond: "text-cyan-300",
   platinum: "text-emerald-400",
   gold: "text-yellow-400",
-  silver: "text-gray-300",
+  silver: "text-muted-foreground",
   bronze: "text-orange-400",
 };
 
@@ -47,7 +47,7 @@ export default function PotentialsLeaderboardPage() {
         <div className="max-w-5xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <Link href="/potentials" className="text-muted-foreground/70 hover:text-white transition-colors">
+              <Link href="/potentials" className="text-muted-foreground/70 hover:text-foreground transition-colors">
                 <ChevronLeft size={20} />
               </Link>
               <div>
@@ -115,7 +115,7 @@ export default function PotentialsLeaderboardPage() {
                   {/* Rank */}
                   <div className="col-span-1 flex items-center">
                     {i === 0 ? <Crown size={16} className="text-amber-400" /> :
-                     i === 1 ? <Medal size={16} className="text-gray-300" /> :
+                     i === 1 ? <Medal size={16} className="text-muted-foreground" /> :
                      i === 2 ? <Medal size={16} className="text-orange-400" /> :
                      <span className="font-mono text-sm text-muted-foreground/60">{entry.rank}</span>}
                   </div>

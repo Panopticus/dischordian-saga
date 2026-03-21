@@ -235,7 +235,7 @@ export default function GamesPage() {
           <div className="h-px flex-1 max-w-8" style={{ background: "var(--brand-gradient)" }} />
         </div>
 
-        <h1 className="font-display text-2xl sm:text-3xl font-black tracking-wider text-white mb-2">
+        <h1 className="font-display text-2xl sm:text-3xl font-black tracking-wider text-foreground mb-2">
           C.A.D.E.S. <span className="glow-cyan" style={{ color: "var(--neon-cyan)" }}>SIMULATIONS</span>
         </h1>
 
@@ -377,11 +377,11 @@ export default function GamesPage() {
               >
                 <Link
                   href={sim.href}
-                  className="group block rounded-lg glass-float p-3 hover:shadow-[0_0_20px_rgba(56,117,250,0.1)] transition-all duration-300"
+                  className="group block rounded-lg glass-float p-3 hover:shadow-[0_0_20px_var(--glass-border)] transition-all duration-300"
                 >
                   <div className="flex items-center gap-2.5 mb-2">
                     <Icon size={16} style={{ color: sim.color }} className="group-hover:scale-110 transition-transform" />
-                    <h4 className="font-display text-[11px] font-bold tracking-wider text-foreground group-hover:text-white transition-colors">
+                    <h4 className="font-display text-[11px] font-bold tracking-wider text-foreground group-hover:text-foreground transition-colors">
                       {sim.title}
                     </h4>
                   </div>

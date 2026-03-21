@@ -304,7 +304,7 @@ function SubsystemNav({ sys, location, onNavigate }: {
             className={`flex items-center gap-2.5 px-3 py-2 rounded-md text-[11px] font-mono tracking-wider transition-all group ${
               active
                 ? "text-foreground border border-border/70"
-                : "text-white/45 hover:text-muted-foreground/90 hover:bg-white/4 border border-transparent"
+                : "text-foreground/45 hover:text-muted-foreground/90 hover:bg-foreground/4 border border-transparent"
             }`}
             style={active ? {
               background: `color-mix(in srgb, ${sys.color} 8%, transparent)`,
@@ -428,15 +428,15 @@ export default function CommandConsole({ children, elaraTTS }: { children: React
           style={{ filter: "blur(1px) saturate(0.5)" }}
         />
         <div className="absolute inset-0" style={{
-          background: "radial-gradient(ellipse at 50% 30%, rgba(10,12,43,0.85) 0%, rgba(1,0,32,0.97) 70%)"
+          background: "radial-gradient(ellipse at 50% 30%, color-mix(in srgb, var(--bg-spotlight) 85%, transparent) 0%, var(--bg-void) 70%)"
         }} />
       </div>
 
       {/* ═══ TOP HEADER BAR — ARK COMMAND STRIP ═══ */}
       <header className="fixed top-0 left-0 right-0 z-50 h-12 flex items-center px-3 sm:px-4"
         style={{
-          background: "linear-gradient(180deg, rgba(1,0,32,0.95) 0%, rgba(1,0,32,0.85) 100%)",
-          borderBottom: "1px solid rgba(56,117,250,0.15)",
+          background: "linear-gradient(180deg, var(--bg-void) 0%, var(--bg-overlay) 100%)",
+          borderBottom: "1px solid var(--glass-border)",
           backdropFilter: "blur(20px)",
         }}>
         <button
@@ -449,7 +449,7 @@ export default function CommandConsole({ children, elaraTTS }: { children: React
         <Link href="/" className="flex items-center gap-2 group">
           <div className="w-7 h-7 rounded-md flex items-center justify-center relative"
             style={{
-              background: "linear-gradient(135deg, rgba(51,226,230,0.15) 0%, rgba(56,117,250,0.15) 100%)",
+              background: "linear-gradient(135deg, rgba(51,226,230,0.15) 0%, var(--glass-border) 100%)",
               border: "1px solid rgba(51,226,230,0.3)",
             }}>
             <Terminal size={14} className="text-[var(--neon-cyan)]" />
@@ -514,13 +514,13 @@ export default function CommandConsole({ children, elaraTTS }: { children: React
             sidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
           }`}
           style={{
-            background: "linear-gradient(180deg, rgba(1,0,32,0.98) 0%, rgba(0,2,41,0.95) 100%)",
-            borderRight: "1px solid rgba(56,117,250,0.12)",
+            background: "linear-gradient(180deg, var(--bg-void) 0%, var(--bg-depth) 100%)",
+            borderRight: "1px solid var(--glass-border)",
             backdropFilter: "blur(20px)",
           }}
         >
           {/* Ark Status Indicator */}
-          <div className="px-4 py-3 border-b" style={{ borderColor: "rgba(56,117,250,0.1)" }}>
+          <div className="px-4 py-3 border-b" style={{ borderColor: "var(--glass-border)" }}>
             <div className="flex items-center gap-2">
               <div className="w-2 h-2 rounded-full bg-[var(--signal-green)] shadow-[0_0_6px_var(--signal-green)]" />
               <span className="font-mono text-[9px] text-[var(--signal-green)] tracking-[0.3em]">SHIP SYSTEMS</span>
@@ -556,7 +556,7 @@ export default function CommandConsole({ children, elaraTTS }: { children: React
 
           {/* Divider */}
           <div className="mx-3 my-2">
-            <div className="h-px" style={{ background: "rgba(56,117,250,0.1)" }} />
+            <div className="h-px" style={{ background: "var(--glass-border)" }} />
           </div>
 
           {/* Active System Subsystems */}
@@ -572,7 +572,7 @@ export default function CommandConsole({ children, elaraTTS }: { children: React
 
           {/* Divider */}
           <div className="mx-3 my-2">
-            <div className="h-px" style={{ background: "rgba(56,117,250,0.08)" }} />
+            <div className="h-px" style={{ background: "var(--glass-border)" }} />
           </div>
 
           {/* Operative Status */}
@@ -603,7 +603,7 @@ export default function CommandConsole({ children, elaraTTS }: { children: React
               className={`flex items-center gap-2.5 px-3 py-2 rounded-md text-[11px] font-mono tracking-wider transition-all group ${
                 location === "/clue-journal"
                   ? "text-foreground bg-[rgba(51,226,230,0.08)] border border-[rgba(51,226,230,0.2)]"
-                  : "text-white/45 hover:text-muted-foreground/90 hover:bg-white/4 border border-transparent"
+                  : "text-foreground/45 hover:text-muted-foreground/90 hover:bg-foreground/4 border border-transparent"
               }`}
             >
               <Diamond size={13} className={location === "/clue-journal" ? "text-[var(--neon-cyan)]" : "text-muted-foreground/40 group-hover:text-muted-foreground/70"} />
@@ -614,7 +614,7 @@ export default function CommandConsole({ children, elaraTTS }: { children: React
 
           {/* Footer */}
           <div className="px-2.5 pb-4 mt-auto">
-            <div className="mx-3 mb-3 h-px" style={{ background: "rgba(56,117,250,0.08)" }} />
+            <div className="mx-3 mb-3 h-px" style={{ background: "var(--glass-border)" }} />
             <div className="px-3">
               <p className="font-mono text-[9px] text-muted-foreground/25 leading-relaxed">
                 LOREDEX OS v5.0.0<br />
@@ -633,7 +633,7 @@ export default function CommandConsole({ children, elaraTTS }: { children: React
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               className="fixed inset-0 z-30 lg:hidden"
-              style={{ background: "rgba(1,0,32,0.85)", backdropFilter: "blur(8px)" }}
+              style={{ background: "var(--bg-overlay)", backdropFilter: "blur(8px)" }}
               onClick={() => setSidebarOpen(false)}
             />
           )}
@@ -650,8 +650,8 @@ export default function CommandConsole({ children, elaraTTS }: { children: React
       {/* ═══ MOBILE BOTTOM NAV — SHIP SYSTEMS STRIP ═══ */}
       <nav className={`fixed left-0 right-0 z-50 sm:hidden safe-area-bottom transition-all ${showPlayer ? "bottom-[60px]" : "bottom-0"}`}
         style={{
-          background: "linear-gradient(0deg, rgba(1,0,32,0.98) 0%, rgba(1,0,32,0.92) 100%)",
-          borderTop: "1px solid rgba(56,117,250,0.15)",
+          background: "linear-gradient(0deg, var(--bg-void) 0%, var(--bg-overlay) 100%)",
+          borderTop: "1px solid var(--glass-border)",
           backdropFilter: "blur(20px)",
         }}>
         <div className="flex items-center justify-around h-14 px-1">

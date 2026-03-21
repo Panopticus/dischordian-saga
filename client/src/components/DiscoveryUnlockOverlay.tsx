@@ -164,7 +164,7 @@ export default function DiscoveryUnlockOverlay() {
           transition={{ duration: 0.4 }}
           className="fixed inset-0 z-[9999] flex items-center justify-center"
           style={{
-            background: "radial-gradient(ellipse at center, rgba(1,0,32,0.95) 0%, rgba(0,0,0,0.98) 100%)",
+            background: "radial-gradient(ellipse at center, var(--bg-void) 0%, rgba(0,0,0,0.98) 100%)",
             backdropFilter: "blur(20px)",
           }}
           onClick={handleDismiss}

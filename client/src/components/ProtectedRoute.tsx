@@ -140,7 +140,7 @@ export default function ProtectedRoute({ children }: { children: React.ReactNode
             }}>
             <Lock size={28} className="text-red-400" />
           </div>
-          <h2 className="font-display text-xl font-bold text-white mb-2 tracking-wider">
+          <h2 className="font-display text-xl font-bold text-foreground mb-2 tracking-wider">
             SYSTEM LOCKED
           </h2>
           <p className="font-mono text-sm text-muted-foreground/70 mb-4 leading-relaxed">

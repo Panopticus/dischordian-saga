@@ -98,7 +98,7 @@ export const RARITY_COLORS: Record<EquipRarity, {
   label: string;
 }> = {
   common: {
-    text: "text-gray-400",
+    text: "text-muted-foreground",
     bg: "bg-gray-500/10",
     border: "border-gray-500/30",
     glow: "rgba(156,163,175,0.3)",

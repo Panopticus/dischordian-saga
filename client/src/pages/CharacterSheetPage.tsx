@@ -469,7 +469,7 @@ export default function CharacterSheetPage() {
                   <div
                     key={i}
                     className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${
-                      i === narrativeStep ? "bg-cyan-400 w-4" : i < narrativeStep ? "bg-cyan-400/40" : "bg-white/15"
+                      i === narrativeStep ? "bg-cyan-400 w-4" : i < narrativeStep ? "bg-cyan-400/40" : "bg-foreground/15"
                     }`}
                   />
                 ))}
@@ -721,7 +721,7 @@ export default function CharacterSheetPage() {
                 {gearEntries.map(([slot, itemName]) => {
                   const equipItem = getEquipmentById(itemName);
                   const rarityColor = equipItem ? {
-                    common: 'text-gray-400', uncommon: 'text-green-400',
+                    common: 'text-muted-foreground', uncommon: 'text-green-400',
                     rare: 'text-blue-400', epic: 'text-purple-400', legendary: 'text-amber-400'
                   }[equipItem.rarity] : 'text-foreground/80';
                   return (

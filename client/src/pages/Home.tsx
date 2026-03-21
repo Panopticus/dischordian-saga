@@ -247,7 +247,7 @@ function DossierCard({ entry, index, onDiscover }: { entry: LoredexEntry; index:
 
             {/* Content */}
             <div className="flex-1 min-w-0">
-              <h3 className="font-mono text-sm font-bold text-white group-hover:text-primary transition-colors truncate" style={{ textShadow: "0 0 6px rgba(255,255,255,0.1)" }}>
+              <h3 className="font-mono text-sm font-bold text-foreground group-hover:text-primary transition-colors truncate" style={{ textShadow: "0 0 6px rgba(255,255,255,0.1)" }}>
                 {entry.name}
               </h3>
 
@@ -345,7 +345,7 @@ function AlbumCard({ album, tracks, index }: { album: { slug: string; name: stri
 
             {/* Info */}
             <div className="flex-1 min-w-0">
-              <h3 className="font-mono text-sm font-bold text-white group-hover:text-accent transition-colors">
+              <h3 className="font-mono text-sm font-bold text-foreground group-hover:text-accent transition-colors">
                 {album.name}
               </h3>
               <div className="font-mono text-[9px] text-muted-foreground mt-1">
@@ -424,7 +424,7 @@ function VideoCard({ song, index }: { song: LoredexEntry; index: number }) {
           </div>
         </div>
         <div className="absolute bottom-2 left-2 right-2">
-          <div className="font-mono text-[10px] font-bold text-white truncate">{song.name}</div>
+          <div className="font-mono text-[10px] font-bold text-foreground truncate">{song.name}</div>
           <div className="font-mono text-[8px] text-muted-foreground">{song.album}</div>
         </div>
       </div>

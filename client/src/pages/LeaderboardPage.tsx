@@ -52,7 +52,7 @@ const POSITION_STYLES: Record<number, { bg: string; border: string; badge: strin
   3: {
     bg: "bg-amber-700/10",
     border: "border-amber-700/40",
-    badge: "bg-amber-700 text-white",
+    badge: "bg-amber-700 text-foreground",
     glow: "shadow-[0_0_15px_rgba(180,83,9,0.1)]",
   },
 };

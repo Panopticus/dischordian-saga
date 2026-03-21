@@ -274,7 +274,7 @@ function SequencePuzzle({ puzzle, onSolve }: { puzzle: Puzzle; onSolve: () => vo
               disabled={isSelected || result !== null}
               className="px-3 py-2 rounded-md font-mono text-[11px] tracking-wider transition-all disabled:opacity-20"
               style={{
-                background: isSelected ? "rgba(255,255,255,0.02)" : "rgba(56,117,250,0.08)",
+                background: isSelected ? "rgba(255,255,255,0.02)" : "var(--glass-border)",
                 border: `1px solid ${isSelected ? "rgba(255,255,255,0.05)" : "rgba(56,117,250,0.25)"}`,
                 color: isSelected ? "rgba(255,255,255,0.2)" : "#3b82f6",
               }}
@@ -595,7 +595,7 @@ export default function PuzzleModal({
         onClick={e => e.stopPropagation()}
         className="relative rounded-xl max-w-lg w-full max-h-[85vh] overflow-y-auto"
         style={{
-          background: "linear-gradient(135deg, rgba(1,0,32,0.99) 0%, rgba(10,12,43,0.99) 100%)",
+          background: "linear-gradient(135deg, var(--bg-void) 0%, var(--bg-spotlight) 100%)",
           border: "1px solid rgba(51,226,230,0.2)",
           boxShadow: "0 0 60px rgba(51,226,230,0.08), 0 20px 80px rgba(0,0,0,0.7)",
         }}
