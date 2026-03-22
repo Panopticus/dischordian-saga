@@ -9,7 +9,7 @@ import { useLoredex } from "@/contexts/LoredexContext";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Target, ChevronDown, ChevronUp, Compass, MapPin,
-  Sparkles, Trophy, Eye, Zap, BookOpen, Link2, Navigation
+  Sparkles, Trophy, Eye, Zap, BookOpen, Link2, Navigation, Radio
 } from "lucide-react";
 import QuestChainSystem from "./QuestChainSystem";
 import { useLocation } from "wouter";
@@ -87,6 +87,21 @@ const QUESTS: Quest[] = [
       progress: s.narrativeFlags["fast_travel_unlocked"] ? 1 : 0,
       max: 1,
       hint: "Go to the Bridge and interact with the Navigation Console. Solve the alien symbol puzzle.",
+    }),
+  },
+  {
+    id: "comms_relay",
+    title: "RE-ESTABLISH COMMUNICATIONS",
+    description: "Use the Communication Relay in the Comms Array to link your wallet and claim your first Potential's identity card.",
+    icon: Radio,
+    category: "main",
+    order: 2.7,
+    reward: "100 Dream Tokens + Neural Link Badge",
+    check: (s) => ({
+      complete: !!s.narrativeFlags["comms_relay_first_claim"],
+      progress: s.narrativeFlags["comms_relay_first_claim"] ? 1 : 0,
+      max: 1,
+      hint: "Go to the Comms Array and interact with the Communication Relay. Link your wallet and claim a Potential.",
     }),
   },
   {

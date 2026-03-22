@@ -2183,3 +2183,17 @@
 
 ### Tests
 - [x] Write tests and save checkpoint (53 files, 2035 tests, all passing)
+
+## Phase 89 — Comms Relay Quest + Card Previews
+
+### Quest Objective
+- [x] Add "Re-establish Communications" quest that completes when user links wallet and claims a Potential
+- [x] Add quest reward (100 Dream Tokens, 150 XP, 120 gamification points)
+- [x] Add milestone journal entry for the quest ("VOICES FROM THE VOID")
+
+### Card Previews After Batch Claim
+- [x] Show thumbnail images of newly claimed 1/1 cards after batch claiming (3x4 grid with hover zoom)
+- [x] Link thumbnails to the collection page ("VIEW IN COLLECTION" link to /potentials)
+
+### Tests
+- [x] Update tests and save checkpoint (53 files, 2035 tests, all passing)

@@ -289,12 +289,12 @@ describe("Species-Specific Quest Chains", () => {
    2. QUEST CHAIN REWARD CLAIMING
    ═══════════════════════════════════════════════════════ */
 describe("Quest Chain Reward Claiming", () => {
-  it("QUEST_REWARDS should have 9 base quest rewards", () => {
-    expect(QUEST_REWARDS.length).toBe(9);
+  it("QUEST_REWARDS should have 10 base quest rewards", () => {
+    expect(QUEST_REWARDS.length).toBe(10);
   });
 
-  it("QUEST_TITLES should map all 9 quest IDs", () => {
-    expect(Object.keys(QUEST_TITLES).length).toBe(9);
+  it("QUEST_TITLES should map all 10 quest IDs", () => {
+    expect(Object.keys(QUEST_TITLES).length).toBe(10);
     for (const reward of QUEST_REWARDS) {
       expect(QUEST_TITLES[reward.questId]).toBeDefined();
     }

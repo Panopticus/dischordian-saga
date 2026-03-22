@@ -6,13 +6,15 @@
 import { useAuth } from "@/_core/hooks/useAuth";
 import { trpc } from "@/lib/trpc";
 import { getLoginUrl } from "@/const";
+import { useGame } from "@/contexts/GameContext";
 import { useState, useCallback, useEffect, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Radio, Wallet, Link2, Scan, Sparkles, Check, Loader2, X,
-  Plus, AlertTriangle, ChevronRight, Shield, Zap, Signal
+  Plus, AlertTriangle, ChevronRight, Shield, Zap, Signal, ExternalLink
 } from "lucide-react";
 import { toast } from "sonner";
+import { Link } from "wouter";
 
 const getEthersProvider = async () => {
   const { BrowserProvider } = await import("ethers");
@@ -32,6 +34,7 @@ type Phase = "intro" | "wallets" | "scanning" | "results";
 
 export default function CommsRelayImport({ onClose }: { onClose: () => void }) {
   const { user, isAuthenticated } = useAuth();
+  const { setNarrativeFlag, state } = useGame();
   const [phase, setPhase] = useState<Phase>("intro");
   const [introLine, setIntroLine] = useState(0);
   const [isConnecting, setIsConnecting] = useState(false);
@@ -48,6 +51,10 @@ export default function CommsRelayImport({ onClose }: { onClose: () => void }) {
     onSuccess: (data) => {
       if (data.claimed > 0) {
         toast.success(`Extracted ${data.claimed} identity cards from the neural pathways!`);
+        // Set narrative flag for quest completion on first successful claim
+        if (!state.narrativeFlags["comms_relay_first_claim"]) {
+          setNarrativeFlag("comms_relay_first_claim");
+        }
       } else {
         toast.info("No new identity cards to extract.");
       }
@@ -548,33 +555,79 @@ export default function CommsRelayImport({ onClose }: { onClose: () => void }) {
                   </div>
                 </div>
 
-                {/* Batch claim results */}
+                {/* Batch claim results with card preview thumbnails */}
                 {batchClaimAll.data && batchClaimAll.data.claimed > 0 && (
                   <motion.div
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="mt-4 rounded-lg p-3"
+                    className="mt-4 rounded-lg p-4"
                     style={{
                       background: "rgba(34,197,94,0.05)",
                       border: "1px solid rgba(34,197,94,0.2)",
                     }}
                   >
-                    <p className="font-mono text-xs text-green-400 flex items-center gap-2 mb-2">
-                      <Check size={14} /> {batchClaimAll.data.claimed} identity cards extracted successfully!
+                    <p className="font-mono text-xs text-green-400 flex items-center gap-2 mb-3">
+                      <Check size={14} /> {batchClaimAll.data.claimed} identity card{batchClaimAll.data.claimed !== 1 ? "s" : ""} extracted successfully!
                     </p>
-                    <div className="flex flex-wrap gap-1.5">
+
+                    {/* Card preview thumbnails */}
+                    <div className="grid grid-cols-3 sm:grid-cols-4 gap-2 mb-3">
                       {batchClaimAll.data.results
-                        .filter((r) => r.success)
-                        .map((r) => (
-                          <span
+                        .filter((r: any) => r.success && r.cardImageUrl)
+                        .map((r: any) => (
+                          <motion.div
                             key={r.tokenId}
-                            className="font-mono text-[9px] px-1.5 py-0.5 rounded"
-                            style={{ background: "rgba(34,197,94,0.1)", color: "#22c55e" }}
+                            initial={{ opacity: 0, scale: 0.8 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            transition={{ delay: 0.1 }}
+                            className="group relative rounded-md overflow-hidden"
+                            style={{
+                              border: "1px solid rgba(34,197,94,0.2)",
+                              boxShadow: "0 0 10px rgba(34,197,94,0.1)",
+                            }}
                           >
-                            #{r.tokenId}
-                          </span>
+                            <div className="aspect-[3/4] overflow-hidden">
+                              <img
+                                src={r.cardImageUrl}
+                                alt={r.name || `Potential #${r.tokenId}`}
+                                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                                loading="lazy"
+                              />
+                            </div>
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                            <div className="absolute bottom-0 left-0 right-0 p-1.5">
+                              <p className="font-mono text-[8px] text-green-300 truncate">{r.name || `#${r.tokenId}`}</p>
+                              <p className="font-mono text-[7px] text-green-400/50">#{r.tokenId}</p>
+                            </div>
+                          </motion.div>
                         ))}
                     </div>
+
+                    {/* Tokens without images — show as badges */}
+                    {batchClaimAll.data.results.filter((r: any) => r.success && !r.cardImageUrl).length > 0 && (
+                      <div className="flex flex-wrap gap-1.5 mb-2">
+                        {batchClaimAll.data.results
+                          .filter((r: any) => r.success && !r.cardImageUrl)
+                          .map((r: any) => (
+                            <span
+                              key={r.tokenId}
+                              className="font-mono text-[9px] px-1.5 py-0.5 rounded"
+                              style={{ background: "rgba(34,197,94,0.1)", color: "#22c55e" }}
+                            >
+                              #{r.tokenId}
+                            </span>
+                          ))}
+                      </div>
+                    )}
+
+                    {/* Link to collection */}
+                    <Link
+                      href="/potentials"
+                      onClick={onClose}
+                      className="flex items-center justify-center gap-1.5 font-mono text-[10px] text-green-400/70 hover:text-green-400 transition-colors mt-1"
+                    >
+                      VIEW IN COLLECTION <ExternalLink size={10} />
+                    </Link>
                   </motion.div>
                 )}
               </motion.div>

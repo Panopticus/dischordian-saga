@@ -10,7 +10,7 @@ import { useGamification } from "@/contexts/GamificationContext";
 import { motion } from "framer-motion";
 import {
   MapPin, Swords, Rocket, BookOpen, Trophy,
-  Shield, Sparkles, Eye, Compass, Zap, Layers,
+  Shield, Sparkles, Eye, Compass, Zap, Layers, Radio,
 } from "lucide-react";
 
 /* ─── MILESTONE DEFINITION ─── */
@@ -157,6 +157,42 @@ export const MILESTONES: MilestoneEntry[] = [
     },
     elaraNote: () =>
       "NAVIGATION CALIBRATION COMPLETE. The subject decoded the alien glyph sequence on their first attempt. This cipher has been active since the Ark's construction — it predates my own installation by centuries. The fact that they solved it suggests a neural compatibility with the ship's original builders that I did not anticipate. I've granted full fast-travel access. They've earned it.",
+  },
+
+  /* ── 3b. Comms Relay — First Potential Claimed ── */
+  {
+    id: "comms_relay",
+    title: "VOICES FROM THE VOID",
+    entryNumber: "003c",
+    icon: Radio,
+    iconColor: "text-purple-400",
+    borderColor: "border-purple-400/20",
+    bgColor: "bg-purple-400/5",
+    order: 27,
+    check: (ctx) => !!ctx.narrativeFlags["comms_relay_first_claim"],
+    generateNarrative: (ctx) => {
+      const name = ctx.characterChoices.name || "The Awakened";
+      return [
+        `PERSONAL LOG — ENTRY 003c`,
+        `CITIZEN: ${name}`,
+        `STATUS: Communication Relay Active`,
+        `LOCATION: Inception Ark, Comms Array`,
+        ``,
+        `---`,
+        ``,
+        `The Communication Relay was buried under layers of static — dead channels, encrypted frequencies, ghost signals from ships that went silent decades ago. Elara guided me through the process of re-establishing contact.`,
+        ``,
+        `She asked me to link my wallet — the quantum signature tied to my neural pathway. When I did, the relay lit up. Frequencies I couldn't hear before suddenly became visible on the spectrum analyzer. Faint echoes. Subconscious memories encoded in the void between stars.`,
+        ``,
+        `My first Potential's identity card materialized on the display. A 1/1 — unique in all of existence. Their DNA, their story, their face. Now permanently bound to my collection. Elara says there may be more out there, scattered across other wallets, other vessels. I just need to keep scanning.`,
+        ``,
+        `The fleet isn't dead. It's sleeping. And I'm waking it up, one signal at a time.`,
+        ``,
+        `— ${name}`,
+      ].join("\n");
+    },
+    elaraNote: () =>
+      "COMMUNICATION RELAY ACTIVATED. The subject successfully linked their quantum signature and extracted their first Potential identity card. The neural pathway scan revealed intact subconscious memories — fragments of the transit that the conscious mind suppressed. Each wallet they link expands our network. Each Potential they claim brings us closer to understanding what happened to the first wave. I am... cautiously optimistic.",
   },
 
   /* ── 3. First Card Battle ── */
