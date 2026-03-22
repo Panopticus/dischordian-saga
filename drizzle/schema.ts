@@ -2156,3 +2156,243 @@ export const dailyStreaks = mysqlTable("daily_streaks", {
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
 });
 export type DailyStreakRow = typeof dailyStreaks.$inferSelect;
+
+
+/* ═══════════════════════════════════════════════════════════
+   PHASE 84 — ALL REMAINING COMPETITIVE ROADMAP FEATURES
+   ═══════════════════════════════════════════════════════════ */
+
+/* ─── SEASONAL EVENTS ─── */
+export const seasonalEvents = mysqlTable("seasonal_events", {
+  id: int("id").primaryKey().autoincrement(),
+  eventKey: varchar("eventKey", { length: 100 }).notNull(),
+  name: varchar("name", { length: 200 }).notNull(),
+  startsAt: timestamp("startsAt").notNull(),
+  endsAt: timestamp("endsAt").notNull(),
+  globalProgress: int("globalProgress").notNull().default(0),
+  globalTarget: int("globalTarget").notNull().default(100000),
+  active: boolean("active").notNull().default(true),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+export type SeasonalEventRow = typeof seasonalEvents.$inferSelect;
+
+export const eventParticipation = mysqlTable("event_participation", {
+  id: int("id").primaryKey().autoincrement(),
+  userId: int("userId").notNull(),
+  eventId: int("eventId").notNull(),
+  contribution: int("contribution").notNull().default(0),
+  tokensEarned: int("tokensEarned").notNull().default(0),
+  tokensSpent: int("tokensSpent").notNull().default(0),
+  milestonesReached: json("milestonesReached").$type<number[]>(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+export type EventParticipationRow = typeof eventParticipation.$inferSelect;
+
+export const eventShopPurchases = mysqlTable("event_shop_purchases", {
+  id: int("id").primaryKey().autoincrement(),
+  userId: int("userId").notNull(),
+  eventId: int("eventId").notNull(),
+  itemKey: varchar("itemKey", { length: 100 }).notNull(),
+  quantity: int("quantity").notNull().default(1),
+  tokensCost: int("tokensCost").notNull(),
+  purchasedAt: timestamp("purchasedAt").defaultNow().notNull(),
+});
+export type EventShopPurchaseRow = typeof eventShopPurchases.$inferSelect;
+
+/* ─── GAME REPLAYS ─── */
+export const gameReplays = mysqlTable("game_replays", {
+  id: int("id").primaryKey().autoincrement(),
+  gameType: varchar("gameType", { length: 50 }).notNull(),
+  player1Id: int("player1Id").notNull(),
+  player1Name: varchar("player1Name", { length: 100 }).notNull(),
+  player2Id: int("player2Id"),
+  player2Name: varchar("player2Name", { length: 100 }),
+  winnerId: int("winnerId"),
+  moveData: text("moveData").notNull(),
+  totalMoves: int("totalMoves").notNull().default(0),
+  duration: int("duration").notNull().default(0),
+  featured: boolean("featured").notNull().default(false),
+  tags: json("tags").$type<string[]>(),
+  playedAt: timestamp("playedAt").defaultNow().notNull(),
+});
+export type GameReplayRow = typeof gameReplays.$inferSelect;
+
+/* ─── PERSONAL QUARTERS ─── */
+export const playerQuarters = mysqlTable("player_quarters", {
+  id: int("id").primaryKey().autoincrement(),
+  userId: int("userId").notNull().unique(),
+  name: varchar("name", { length: 200 }).notNull().default("My Quarters"),
+  unlockedZones: json("unlockedZones").$type<string[]>(),
+  placedItems: json("placedItems").$type<{ itemKey: string; zone: string; x: number; y: number }[]>(),
+  ownedItems: json("ownedItems").$type<string[]>(),
+  visitCount: int("visitCount").notNull().default(0),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+export type PlayerQuartersRow = typeof playerQuarters.$inferSelect;
+
+export const quarterVisits = mysqlTable("quarter_visits", {
+  id: int("id").primaryKey().autoincrement(),
+  ownerId: int("ownerId").notNull(),
+  visitorId: int("visitorId").notNull(),
+  visitedAt: timestamp("visitedAt").defaultNow().notNull(),
+});
+export type QuarterVisitRow = typeof quarterVisits.$inferSelect;
+
+/* ─── FRIENDLY CHALLENGES ─── */
+export const friendlyChallenges = mysqlTable("friendly_challenges", {
+  id: int("id").primaryKey().autoincrement(),
+  challengerId: int("challengerId").notNull(),
+  opponentId: int("opponentId"),
+  gameType: varchar("gameType", { length: 50 }).notNull(),
+  rules: json("rules").$type<string[]>(),
+  status: varchar("status", { length: 20 }).notNull().default("pending"),
+  winnerId: int("winnerId"),
+  isDaily: boolean("isDaily").notNull().default(false),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  completedAt: timestamp("completedAt"),
+});
+export type FriendlyChallengeRow = typeof friendlyChallenges.$inferSelect;
+
+/* ─── COOPERATIVE PvE RAIDS ─── */
+export const coopRaids = mysqlTable("coop_raids", {
+  id: int("id").primaryKey().autoincrement(),
+  bossKey: varchar("bossKey", { length: 100 }).notNull(),
+  difficulty: varchar("difficulty", { length: 20 }).notNull().default("normal"),
+  guildId: int("guildId"),
+  currentHp: int("currentHp").notNull(),
+  maxHp: int("maxHp").notNull(),
+  status: varchar("status", { length: 20 }).notNull().default("active"),
+  startsAt: timestamp("startsAt").defaultNow().notNull(),
+  endsAt: timestamp("endsAt").notNull(),
+  completedAt: timestamp("completedAt"),
+});
+export type CoopRaidRow = typeof coopRaids.$inferSelect;
+
+export const raidContributions = mysqlTable("raid_contributions", {
+  id: int("id").primaryKey().autoincrement(),
+  raidId: int("raidId").notNull(),
+  userId: int("userId").notNull(),
+  damageDealt: int("damageDealt").notNull().default(0),
+  healingDone: int("healingDone").notNull().default(0),
+  damageTaken: int("damageTaken").notNull().default(0),
+  mechanicsHandled: int("mechanicsHandled").notNull().default(0),
+  contributionScore: int("contributionScore").notNull().default(0),
+  role: varchar("role", { length: 20 }).notNull().default("dps"),
+  lootClaimed: boolean("lootClaimed").notNull().default(false),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+export type RaidContributionRow = typeof raidContributions.$inferSelect;
+
+/* ─── BOSS MASTERY ─── */
+export const bossMastery = mysqlTable("boss_mastery", {
+  id: int("id").primaryKey().autoincrement(),
+  userId: int("userId").notNull(),
+  bossKey: varchar("bossKey", { length: 100 }).notNull(),
+  kills: int("kills").notNull().default(0),
+  masteryLevel: int("masteryLevel").notNull().default(0),
+  bestTime: int("bestTime"),
+  highestDifficulty: varchar("highestDifficulty", { length: 20 }),
+  cosmeticsUnlocked: json("cosmeticsUnlocked").$type<string[]>(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+export type BossMasteryRow = typeof bossMastery.$inferSelect;
+
+/* ─── COSMETIC SHOP ─── */
+export const cosmeticPurchases = mysqlTable("cosmetic_purchases", {
+  id: int("id").primaryKey().autoincrement(),
+  userId: int("userId").notNull(),
+  itemKey: varchar("itemKey", { length: 100 }).notNull(),
+  price: int("price").notNull(),
+  equipped: boolean("equipped").notNull().default(false),
+  purchasedAt: timestamp("purchasedAt").defaultNow().notNull(),
+});
+export type CosmeticPurchaseRow = typeof cosmeticPurchases.$inferSelect;
+
+/* ─── DONATIONS ─── */
+export const donations = mysqlTable("donations", {
+  id: int("id").primaryKey().autoincrement(),
+  donorId: int("donorId").notNull(),
+  guildId: int("guildId").notNull(),
+  donationType: varchar("donationType", { length: 20 }).notNull(),
+  itemKey: varchar("itemKey", { length: 100 }),
+  amount: int("amount").notNull().default(1),
+  reputationEarned: int("reputationEarned").notNull().default(0),
+  donatedAt: timestamp("donatedAt").defaultNow().notNull(),
+});
+export type DonationRow = typeof donations.$inferSelect;
+
+export const donationReputation = mysqlTable("donation_reputation", {
+  id: int("id").primaryKey().autoincrement(),
+  userId: int("userId").notNull(),
+  guildId: int("guildId").notNull(),
+  totalReputation: int("totalReputation").notNull().default(0),
+  weeklyDonations: json("weeklyDonations").$type<Record<string, number>>(),
+  weekResetAt: timestamp("weekResetAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+export type DonationReputationRow = typeof donationReputation.$inferSelect;
+
+/* ─── SOCIAL: FRIENDS ─── */
+export const friends = mysqlTable("friends", {
+  id: int("id").primaryKey().autoincrement(),
+  userId: int("userId").notNull(),
+  friendId: int("friendId").notNull(),
+  status: varchar("status", { length: 20 }).notNull().default("pending"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+export type FriendRow = typeof friends.$inferSelect;
+
+export const directMessages = mysqlTable("direct_messages", {
+  id: int("id").primaryKey().autoincrement(),
+  fromUserId: int("fromUserId").notNull(),
+  toUserId: int("toUserId").notNull(),
+  content: text("content").notNull(),
+  readAt: timestamp("readAt"),
+  sentAt: timestamp("sentAt").defaultNow().notNull(),
+});
+export type DirectMessageRow = typeof directMessages.$inferSelect;
+
+export const guildRecruitment = mysqlTable("guild_recruitment", {
+  id: int("id").primaryKey().autoincrement(),
+  guildId: int("guildId").notNull().unique(),
+  description: text("description").notNull(),
+  requirements: text("requirements"),
+  status: varchar("status", { length: 20 }).notNull().default("open"),
+  minLevel: int("minLevel").notNull().default(1),
+  preferredClasses: json("preferredClasses").$type<string[]>(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+export type GuildRecruitmentRow = typeof guildRecruitment.$inferSelect;
+
+/* ─── LORE JOURNAL ─── */
+export const loreJournalEntries = mysqlTable("lore_journal_entries", {
+  id: int("id").primaryKey().autoincrement(),
+  userId: int("userId").notNull(),
+  title: varchar("title", { length: 300 }).notNull(),
+  content: text("content").notNull(),
+  category: varchar("category", { length: 50 }).notNull(),
+  wordCount: int("wordCount").notNull().default(0),
+  xpEarned: int("xpEarned").notNull().default(0),
+  linkedEntityId: varchar("linkedEntityId", { length: 100 }),
+  published: boolean("published").notNull().default(false),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+export type LoreJournalEntryRow = typeof loreJournalEntries.$inferSelect;
+
+export const writingStreaks = mysqlTable("writing_streaks", {
+  id: int("id").primaryKey().autoincrement(),
+  userId: int("userId").notNull().unique(),
+  currentStreak: int("currentStreak").notNull().default(0),
+  longestStreak: int("longestStreak").notNull().default(0),
+  lastWriteDate: varchar("lastWriteDate", { length: 10 }),
+  totalWordsWritten: int("totalWordsWritten").notNull().default(0),
+  totalEntries: int("totalEntries").notNull().default(0),
+  streakProtectionUsed: boolean("streakProtectionUsed").notNull().default(false),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+export type WritingStreakRow = typeof writingStreaks.$inferSelect;

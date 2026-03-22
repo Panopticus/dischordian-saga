@@ -103,6 +103,16 @@ const SyndicateWorldPage = lazy(() => import("./pages/SyndicateWorldPage"));
 const TowerDefensePage = lazy(() => import("./pages/TowerDefensePage"));
 const PrestigeQuestPage = lazy(() => import("./pages/PrestigeQuestPage"));
 const CompetitiveArenaPage = lazy(() => import("./pages/CompetitiveArenaPage"));
+const SeasonalEventsPage = lazy(() => import("./pages/SeasonalEventsPage"));
+const ReplayPage = lazy(() => import("./pages/ReplayPage"));
+const PersonalQuartersPage = lazy(() => import("./pages/PersonalQuartersPage"));
+const FriendlyChallengesPage = lazy(() => import("./pages/FriendlyChallengesPage"));
+const CoopRaidPage = lazy(() => import("./pages/CoopRaidPage"));
+const BossMasteryPage = lazy(() => import("./pages/BossMasteryPage"));
+const CosmeticShopPage = lazy(() => import("./pages/CosmeticShopPage"));
+const DonationPage = lazy(() => import("./pages/DonationPage"));
+const SocialPage = lazy(() => import("./pages/SocialPage"));
+const LoreJournalPage = lazy(() => import("./pages/LoreJournalPage"));
 
 /* ═══ LOADING FALLBACK ═══ */
 function PageLoader() {
@@ -190,6 +200,16 @@ function Router() {
         <Route path="/tower-defense" component={TowerDefensePage} />
         <Route path="/prestige-quests" component={PrestigeQuestPage} />
         <Route path="/competitive-arena" component={CompetitiveArenaPage} />
+        <Route path="/seasonal-events" component={SeasonalEventsPage} />
+        <Route path="/replays" component={ReplayPage} />
+        <Route path="/personal-quarters" component={PersonalQuartersPage} />
+        <Route path="/friendly-challenges" component={FriendlyChallengesPage} />
+        <Route path="/coop-raids" component={CoopRaidPage} />
+        <Route path="/boss-mastery" component={BossMasteryPage} />
+        <Route path="/cosmetic-shop" component={CosmeticShopPage} />
+        <Route path="/donations" component={DonationPage} />
+        <Route path="/social" component={SocialPage} />
+        <Route path="/lore-journal" component={LoreJournalPage} />
         <Route path="/awakening">{() => <AwakeningPage />}</Route>
         <Route path="/404" component={NotFound} />
         <Route component={NotFound} />

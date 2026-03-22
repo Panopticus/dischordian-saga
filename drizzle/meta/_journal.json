@@ -183,6 +183,20 @@
       "when": 1774161165821,
       "tag": "0025_wet_mojo",
       "breakpoints": true
+    },
+    {
+      "idx": 26,
+      "version": "5",
+      "when": 1774163677605,
+      "tag": "0026_loose_paper_doll",
+      "breakpoints": true
+    },
+    {
+      "idx": 27,
+      "version": "5",
+      "when": 1774163713036,
+      "tag": "0027_curvy_excalibur",
+      "breakpoints": true
     }
   ]
 }

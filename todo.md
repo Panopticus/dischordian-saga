@@ -2055,3 +2055,76 @@
 - [x] Ensure all RPG systems have impact in new features
 - [x] TypeScript compiles cleanly, all tests pass
 - [x] Checkpoint and deliver
+
+### Phase 84 — All Remaining Competitive Roadmap Features (10 Systems)
+
+#### Seasonal Events System
+- [x] Build seasonalEvents.ts shared module (event types, tokens, shop items, global objectives, RPG bonuses)
+- [x] Add seasonal_events, event_participation, event_shop_purchases DB tables
+- [x] Build seasonalEvents backend router (active events, join, contribute, claim rewards, shop)
+- [x] Build SeasonalEventsPage frontend with event dashboard, progress, shop
+- [x] Class/species bonuses affect event contribution multipliers and exclusive event rewards
+
+#### Replay System
+- [x] Build replaySystem.ts shared module (move encoding, playback, sharing)
+- [x] Add game_replays DB table (compressed move data, metadata, featured flag)
+- [x] Build replay backend router (save, load, list, feature, share)
+- [x] Build ReplayViewerPage frontend with playback controls, timeline scrubber, sharing
+
+#### Personal Quarters / Hideout
+- [x] Build personalQuarters.ts shared module (78 decoration items, room layouts, visit system, RPG unlocks)
+- [x] Add player_quarters, quarter_items, quarter_visits DB tables
+- [x] Build quarters backend router (get room, place item, visit, get visitors)
+- [x] Build PersonalQuartersPage frontend with room decorator
+- [x] Morality score, class, and achievements unlock exclusive decorations
+
+#### Friendly Challenges
+- [x] Build friendlyChallenges.ts shared module (challenge types, custom rules, daily challenge)
+- [x] Add friendly_challenges DB table (challenger, opponent, rules, result)
+- [x] Build friendlyChallenge backend router (create, accept, resolve, daily challenge)
+- [x] Build FriendlyChallengesPage frontend with challenge creation and history
+
+#### Cooperative PvE Raids
+- [x] Build coopRaids.ts shared module (weekly bosses, contribution mechanics, raid loot tables, RPG scaling)
+- [x] Add coop_raids, raid_contributions, raid_rewards DB tables
+- [x] Build coopRaid backend router (active raids, contribute, claim loot, leaderboard)
+- [x] Build CoopRaidPage frontend with boss HP bar, contribution tracker, loot display
+- [x] Class determines role (tank/dps/support), species affects elemental damage, prestige unlocks special attacks
+
+#### Boss Mastery System
+- [x] Build bossMastery.ts shared module (mastery levels, exclusive cosmetics, mastery leaderboard)
+- [x] Add boss_mastery DB table (userId, bossId, masteryLevel, kills, bestTime)
+- [x] Build bossMastery backend router (get mastery, record kill, leaderboard, claim cosmetic)
+- [x] Build BossMasteryPage frontend with mastery trees, cosmetic gallery, leaderboard
+
+#### Premium Cosmetic Shop
+- [x] Build cosmeticShop.ts shared module (card art variants, skins, theme packs, pricing)
+- [x] Add cosmetic_items, cosmetic_purchases DB tables
+- [x] Build cosmeticShop backend router (browse, purchase, equip, inventory)
+- [x] Build CosmeticShopPage frontend with shop grid, preview, purchase flow
+
+#### Donation System
+- [x] Build donationSystem.ts shared module (card/material donations, weekly limits, reputation tiers)
+- [x] Add donations, donation_reputation DB tables
+- [x] Build donation backend router (donate, get history, reputation, weekly limits)
+- [x] Build DonationPage frontend with donation interface, reputation tracker, leaderboard
+
+#### Social Features
+- [x] Build socialFeatures.ts shared module (friends, DMs, recently played, guild recruitment)
+- [x] Add friends, direct_messages, guild_recruitment DB tables
+- [x] Build social backend router (add friend, send message, get conversations, recruit)
+- [x] Build SocialPage frontend with friends list, DM inbox, recently played, recruitment board
+
+#### Lore Journal Writing
+- [x] Build loreJournal.ts shared module (journal entries, word count XP, writing streaks, RPG bonuses)
+- [x] Add lore_journal_entries, writing_streaks DB tables
+- [x] Build loreJournal backend router (create entry, get entries, get streak, get XP)
+- [x] Build LoreJournalPage frontend with rich text editor, word count, streak tracker
+- [x] Civil skill "Lore" affects XP multiplier, class bonuses for writing quality
+
+#### Integration & Testing
+- [x] Wire all 10 features into App.tsx routes
+- [x] Add Ark room connections for new features (social-hub + war-room)
+- [x] Write vitest tests for all new shared modules and routers (32 tests passing)
+- [x] TypeScript compiles cleanly, all tests pass (1909/1910, 1 pre-existing nft timeout)
+- [x] Checkpoint and deliver

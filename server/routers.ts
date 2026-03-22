@@ -47,6 +47,16 @@ import { syndicateWorldRouter } from "./routers/syndicateWorld";
 import { spaceStationRouter } from "./routers/spaceStation";
 import { towerDefenseRouter } from "./routers/towerDefense";
 import { prestigeQuestRouter } from "./routers/prestigeQuests";
+import { seasonalEventsRouter } from "./routers/seasonalEvents";
+import { replaySystemRouter } from "./routers/replaySystem";
+import { personalQuartersRouter } from "./routers/personalQuarters";
+import { friendlyChallengesRouter } from "./routers/friendlyChallenges";
+import { coopRaidsRouter } from "./routers/coopRaids";
+import { bossMasteryRouter } from "./routers/bossMastery";
+import { cosmeticShopRouter } from "./routers/cosmeticShop";
+import { donationSystemRouter } from "./routers/donationSystem";
+import { socialFeaturesRouter } from "./routers/socialFeatures";
+import { loreJournalRouter } from "./routers/loreJournal";
 
 export const appRouter = router({
   system: systemRouter,
@@ -90,6 +100,16 @@ export const appRouter = router({
   spaceStation: spaceStationRouter,
   towerDefense: towerDefenseRouter,
   prestigeQuest: prestigeQuestRouter,
+  seasonalEvents: seasonalEventsRouter,
+  replay: replaySystemRouter,
+  personalQuarters: personalQuartersRouter,
+  friendlyChallenge: friendlyChallengesRouter,
+  coopRaid: coopRaidsRouter,
+  bossMastery: bossMasteryRouter,
+  cosmeticShop: cosmeticShopRouter,
+  donation: donationSystemRouter,
+  social: socialFeaturesRouter,
+  loreJournal: loreJournalRouter,
   auth: router({
     me: publicProcedure.query(opts => opts.ctx.user),
     logout: publicProcedure.mutation(({ ctx }) => {
