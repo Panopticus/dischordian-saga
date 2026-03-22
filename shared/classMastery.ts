@@ -362,3 +362,362 @@ export function hasPerk(characterClass: CharacterClass, rank: MasteryRank, perkK
   const perks = getUnlockedPerks(characterClass, rank);
   return perks.some(p => p.key === perkKey);
 }
+
+/* ═══════════════════════════════════════════════════════
+   BRANCHING MASTERY PATHS (Recommendation 4.2)
+   At rank 3 (Specialist), each class offers a binary
+   specialization choice that determines rank 4-5 perks.
+   Inspired by Mass Effect Power Evolution & Skyrim Perk Trees.
+   ═══════════════════════════════════════════════════════ */
+
+export type MasteryPath = "path_a" | "path_b";
+
+export interface MasteryBranch {
+  pathKey: MasteryPath;
+  name: string;
+  title: string;
+  description: string;
+  icon: string;
+  color: string;
+  /** Perks granted at ranks 4 and 5 when this path is chosen */
+  perks: MasteryPerk[];
+}
+
+export interface ClassBranching {
+  /** Class this branching applies to */
+  characterClass: CharacterClass;
+  /** Rank at which the choice is presented */
+  branchRank: 3;
+  /** Path A specialization */
+  pathA: MasteryBranch;
+  /** Path B specialization */
+  pathB: MasteryBranch;
+}
+
+export const CLASS_BRANCHES: Record<CharacterClass, ClassBranching> = {
+  /* ─── ENGINEER: Artificer vs Architect ─── */
+  engineer: {
+    characterClass: "engineer",
+    branchRank: 3,
+    pathA: {
+      pathKey: "path_a",
+      name: "Artificer",
+      title: "Master Artificer",
+      description: "Focus on crafting mastery — rarity upgrades, material efficiency, and legendary item creation.",
+      icon: "Hammer",
+      color: "#f59e0b",
+      perks: [
+        {
+          key: "eng_a_transmute",
+          name: "Transmutation Matrix",
+          description: "20% chance to craft items at +1 rarity tier (replaces Masterwork)",
+          rank: 4,
+          effect: { type: "passive", target: "craft_rarity_upgrade", value: 0.20 },
+        },
+        {
+          key: "eng_a_legendary_forge",
+          name: "Legendary Forge",
+          description: "Can craft legendary items; material costs for rare+ items reduced by 30%",
+          rank: 5,
+          effect: { type: "unlock", target: "legendary_crafting", value: 1 },
+        },
+      ],
+    },
+    pathB: {
+      pathKey: "path_b",
+      name: "Architect",
+      title: "Grand Architect",
+      description: "Focus on colony and trade optimization — income, scan range, and fleet efficiency.",
+      icon: "Building2",
+      color: "#3b82f6",
+      perks: [
+        {
+          key: "eng_b_blueprint",
+          name: "Master Blueprint",
+          description: "Colony production +35%, colony upgrade costs reduced by 20%",
+          rank: 4,
+          effect: { type: "multiplier", target: "colony_production", value: 1.35 },
+        },
+        {
+          key: "eng_b_megastructure",
+          name: "Megastructure",
+          description: "Unlock Megastructure colony type: 3x production, unique trade goods",
+          rank: 5,
+          effect: { type: "unlock", target: "megastructure_colony", value: 1 },
+        },
+      ],
+    },
+  },
+
+  /* ─── ORACLE: Seer vs Prophet ─── */
+  oracle: {
+    characterClass: "oracle",
+    branchRank: 3,
+    pathA: {
+      pathKey: "path_a",
+      name: "Seer",
+      title: "Grand Seer",
+      description: "Focus on foresight — quest previews, chess undos, card game vision, and tactical advantage.",
+      icon: "Eye",
+      color: "#8b5cf6",
+      perks: [
+        {
+          key: "orc_a_third_eye",
+          name: "Third Eye",
+          description: "See opponent's full hand in card battles; +2 chess undos per game",
+          rank: 4,
+          effect: { type: "unlock", target: "full_hand_vision", value: 1 },
+        },
+        {
+          key: "orc_a_fate_sight",
+          name: "Fate Sight",
+          description: "Preview all possible quest outcomes before choosing; guaranteed rare+ quest rewards",
+          rank: 5,
+          effect: { type: "unlock", target: "quest_outcome_preview", value: 1 },
+        },
+      ],
+    },
+    pathB: {
+      pathKey: "path_b",
+      name: "Prophet",
+      title: "Grand Prophet",
+      description: "Focus on reward amplification — XP bonuses, battle pass acceleration, and reward multiplication.",
+      icon: "Sparkles",
+      color: "#f59e0b",
+      perks: [
+        {
+          key: "orc_b_divine_favor",
+          name: "Divine Favor",
+          description: "Battle Pass XP +50%; all game rewards +15%",
+          rank: 4,
+          effect: { type: "multiplier", target: "battlepass_xp", value: 1.50 },
+        },
+        {
+          key: "orc_b_golden_prophecy",
+          name: "Golden Prophecy",
+          description: "Once per day: double the rewards of any single game activity",
+          rank: 5,
+          effect: { type: "passive", target: "daily_double_reward", value: 1 },
+        },
+      ],
+    },
+  },
+
+  /* ─── ASSASSIN: Phantom vs Saboteur ─── */
+  assassin: {
+    characterClass: "assassin",
+    branchRank: 3,
+    pathA: {
+      pathKey: "path_a",
+      name: "Phantom",
+      title: "Grand Phantom",
+      description: "Focus on PvP and fight dominance — dodge, critical hits, and first-strike devastation.",
+      icon: "Ghost",
+      color: "#dc2626",
+      perks: [
+        {
+          key: "ass_a_death_dance",
+          name: "Death Dance",
+          description: "25% dodge chance; dodged attacks trigger a counter-attack at 50% damage",
+          rank: 4,
+          effect: { type: "passive", target: "dodge_counter", value: 0.25 },
+        },
+        {
+          key: "ass_a_execute",
+          name: "Execute",
+          description: "Attacks against targets below 25% HP are guaranteed critical hits that ignore armor",
+          rank: 5,
+          effect: { type: "passive", target: "execute_threshold", value: 0.25 },
+        },
+      ],
+    },
+    pathB: {
+      pathKey: "path_b",
+      name: "Saboteur",
+      title: "Grand Saboteur",
+      description: "Focus on guild war disruption and economic warfare — sabotage, market manipulation, and chaos.",
+      icon: "Bomb",
+      color: "#f97316",
+      perks: [
+        {
+          key: "ass_b_poison_market",
+          name: "Poison the Market",
+          description: "Once per day: increase an enemy guild's marketplace tax by 10% for 4 hours",
+          rank: 4,
+          effect: { type: "passive", target: "market_sabotage", value: 0.10 },
+        },
+        {
+          key: "ass_b_scorched_earth",
+          name: "Scorched Earth",
+          description: "Sabotaged territories lose 50% production for 6 hours; sabotage cooldown -50%",
+          rank: 5,
+          effect: { type: "multiplier", target: "sabotage_power", value: 1.50 },
+        },
+      ],
+    },
+  },
+
+  /* ─── SOLDIER: Vanguard vs Sentinel ─── */
+  soldier: {
+    characterClass: "soldier",
+    branchRank: 3,
+    pathA: {
+      pathKey: "path_a",
+      name: "Vanguard",
+      title: "Grand Vanguard",
+      description: "Focus on offensive warfare — capture speed, damage output, and siege capabilities.",
+      icon: "Swords",
+      color: "#ef4444",
+      perks: [
+        {
+          key: "sol_a_blitz",
+          name: "Blitz Assault",
+          description: "Territory capture speed +50%; first 3 attacks in fights deal +30% damage",
+          rank: 4,
+          effect: { type: "multiplier", target: "territory_capture", value: 1.50 },
+        },
+        {
+          key: "sol_a_warlord",
+          name: "Warlord",
+          description: "All guild members gain +10% ATK when you're in a guild war; war points +40%",
+          rank: 5,
+          effect: { type: "multiplier", target: "guild_war_points", value: 1.40 },
+        },
+      ],
+    },
+    pathB: {
+      pathKey: "path_b",
+      name: "Sentinel",
+      title: "Grand Sentinel",
+      description: "Focus on defensive warfare — HP, armor, death saves, and territory reinforcement.",
+      icon: "ShieldCheck",
+      color: "#3b82f6",
+      perks: [
+        {
+          key: "sol_b_fortress",
+          name: "Living Fortress",
+          description: "Max HP +40%; armor blocks 50% of incoming damage (up from 30%)",
+          rank: 4,
+          effect: { type: "multiplier", target: "max_hp", value: 1.40 },
+        },
+        {
+          key: "sol_b_last_stand",
+          name: "Last Stand",
+          description: "Survive 3 lethal hits per fight; each death save triggers a shockwave dealing 20% max HP to all enemies",
+          rank: 5,
+          effect: { type: "flat", target: "death_save_count", value: 3 },
+        },
+      ],
+    },
+  },
+
+  /* ─── SPY: Broker vs Shadow ─── */
+  spy: {
+    characterClass: "spy",
+    branchRank: 3,
+    pathA: {
+      pathKey: "path_a",
+      name: "Broker",
+      title: "Grand Broker",
+      description: "Focus on economic advantage — tax reduction, market listings, and price intelligence.",
+      icon: "Banknote",
+      color: "#10b981",
+      perks: [
+        {
+          key: "spy_a_insider",
+          name: "Insider Trading",
+          description: "See all marketplace prices 1 hour before they update; buy orders fill 20% cheaper",
+          rank: 4,
+          effect: { type: "unlock", target: "price_preview", value: 1 },
+        },
+        {
+          key: "spy_a_monopoly",
+          name: "Monopoly",
+          description: "Marketplace tax reduced to 0%; earn 2% commission on all marketplace trades in your guild",
+          rank: 5,
+          effect: { type: "multiplier", target: "market_tax", value: 0 },
+        },
+      ],
+    },
+    pathB: {
+      pathKey: "path_b",
+      name: "Shadow",
+      title: "Grand Shadow",
+      description: "Focus on covert operations — hidden contributions, profit theft, and deep sabotage.",
+      icon: "EyeOff",
+      color: "#6366f1",
+      perks: [
+        {
+          key: "spy_b_phantom_ops",
+          name: "Phantom Operations",
+          description: "All guild war contributions hidden AND doubled; sabotage cannot be traced",
+          rank: 4,
+          effect: { type: "multiplier", target: "hidden_war_contribution", value: 2.0 },
+        },
+        {
+          key: "spy_b_kingmaker",
+          name: "Kingmaker",
+          description: "Once per day: steal 10% of target player's daily trade profits; identity remains hidden",
+          rank: 5,
+          effect: { type: "passive", target: "profit_steal", value: 0.10 },
+        },
+      ],
+    },
+  },
+};
+
+/**
+ * Get the branching paths available for a class.
+ */
+export function getClassBranches(characterClass: CharacterClass): ClassBranching {
+  return CLASS_BRANCHES[characterClass];
+}
+
+/**
+ * Get perks for a class considering the chosen mastery path.
+ * Ranks 1-3 use the base CLASS_PERKS.
+ * Ranks 4-5 use the branch-specific perks if a path is chosen.
+ * If no path is chosen and rank >= 3, only ranks 1-3 perks are returned.
+ */
+export function getPerksWithBranch(
+  characterClass: CharacterClass,
+  rank: MasteryRank,
+  masteryPath: MasteryPath | null
+): MasteryPerk[] {
+  const basePerks = CLASS_PERKS[characterClass].filter(p => p.rank <= Math.min(rank, 3));
+  
+  if (!masteryPath || rank < 4) {
+    return basePerks;
+  }
+  
+  const branch = CLASS_BRANCHES[characterClass];
+  const chosenBranch = masteryPath === "path_a" ? branch.pathA : branch.pathB;
+  const branchPerks = chosenBranch.perks.filter(p => p.rank <= rank);
+  
+  return [...basePerks, ...branchPerks];
+}
+
+/**
+ * Get the next perk considering branching.
+ * If at rank 3 with no path chosen, returns null (must choose path first).
+ * If path is chosen, returns the next branch-specific perk.
+ */
+export function getNextPerkWithBranch(
+  characterClass: CharacterClass,
+  rank: MasteryRank,
+  masteryPath: MasteryPath | null
+): MasteryPerk | null {
+  if (rank < 3) {
+    return getNextPerk(characterClass, rank);
+  }
+  
+  if (rank === 3 && !masteryPath) {
+    return null; // Must choose path first
+  }
+  
+  if (rank >= 5) return null;
+  
+  const branch = CLASS_BRANCHES[characterClass];
+  const chosenBranch = masteryPath === "path_a" ? branch.pathA : branch.pathB;
+  return chosenBranch.perks.find(p => p.rank === rank + 1) || null;
+}

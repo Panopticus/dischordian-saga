@@ -1776,3 +1776,80 @@ export const classMastery = mysqlTable("class_mastery", {
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
 });
 export type ClassMastery = typeof classMastery.$inferSelect;
+
+/* ═══════════════════════════════════════════════════════
+   RPG RECOMMENDATION TABLES (Phase 80)
+   ═══════════════════════════════════════════════════════ */
+
+/** Branching mastery specialization choice at rank 3 */
+export const masteryBranches = mysqlTable("mastery_branches", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  characterClass: mysqlEnum("characterClass", [
+    "spy", "oracle", "assassin", "engineer", "soldier"
+  ]).notNull(),
+  /** Branch key chosen (e.g., "cryptographer" or "saboteur") */
+  branchKey: varchar("branchKey", { length: 64 }).notNull(),
+  /** When the branch was chosen */
+  chosenAt: timestamp("chosenAt").defaultNow().notNull(),
+});
+export type MasteryBranch = typeof masteryBranches.$inferSelect;
+
+/** Citizen talents — powerful passives chosen at milestone levels */
+export const citizenTalentSelections = mysqlTable("citizen_talent_selections", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  /** Talent key from citizenTalents.ts */
+  talentKey: varchar("talentKey", { length: 64 }).notNull(),
+  /** Milestone level at which this was chosen */
+  milestoneLevel: int("milestoneLevel").notNull(),
+  selectedAt: timestamp("selectedAt").defaultNow().notNull(),
+});
+export type CitizenTalentSelection = typeof citizenTalentSelections.$inferSelect;
+
+/** Civil skill proficiency levels — non-combat skills leveled by use */
+export const civilSkillProgress = mysqlTable("civil_skill_progress", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  /** Skill key from civilSkills.ts (e.g., "diplomacy", "lore_mastery") */
+  skillKey: varchar("skillKey", { length: 64 }).notNull(),
+  /** Current XP in this skill */
+  xp: int("xp").notNull().default(0),
+  /** Current level (1-10) */
+  level: int("level").notNull().default(1),
+  /** Total actions performed for this skill */
+  actionsPerformed: int("actionsPerformed").notNull().default(0),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+export type CivilSkillProgress = typeof civilSkillProgress.$inferSelect;
+
+/** Prestige class selection and progression */
+export const prestigeProgress = mysqlTable("prestige_progress", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  /** Prestige class key from prestigeClasses.ts */
+  prestigeClassKey: varchar("prestigeClassKey", { length: 64 }).notNull(),
+  /** Prestige XP */
+  prestigeXp: int("prestigeXp").notNull().default(0),
+  /** Prestige rank (0-3) */
+  prestigeRank: int("prestigeRank").notNull().default(0),
+  /** Unlocked perk keys (JSON array) */
+  unlockedPerks: json("unlockedPerks").$type<string[]>(),
+  selectedAt: timestamp("selectedAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+export type PrestigeProgressRow = typeof prestigeProgress.$inferSelect;
+
+/** Achievement trait tracking — unlocked traits and equipped slots */
+export const achievementTraitProgress = mysqlTable("achievement_trait_progress", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  /** Achievement counter values (JSON: Record<string, number>) */
+  counters: json("counters").$type<Record<string, number>>(),
+  /** Unlocked trait keys (JSON array) */
+  unlockedTraits: json("unlockedTraits").$type<string[]>(),
+  /** Currently equipped trait keys (max 3, JSON array) */
+  equippedTraits: json("equippedTraits").$type<string[]>(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+export type AchievementTraitProgressRow = typeof achievementTraitProgress.$inferSelect;

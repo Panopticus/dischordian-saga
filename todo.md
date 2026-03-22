@@ -1897,3 +1897,63 @@
 #### RPG Analysis
 - [x] Research top RPGs (KOTOR, Mass Effect, BG3, Elder Scrolls, Skyrim, Divinity, FF, Disco Elysium, PoE, Hades)
 - [x] Write analysis report with 8 recommendations (synergy bonuses, branching mastery, talents, civil skills, elemental combos, companion synergies, prestige classes, achievement traits)
+
+### Phase 80 — Implement All 8 RPG Recommendations
+
+#### 4.1 Synergy Bonus System
+- [x] Create shared/synergyBonuses.ts with species+class+element combo definitions
+- [x] Build synergy resolver function that checks citizen build for matching combos
+- [x] Integrate synergy bonuses into all game system resolvers in citizenTraits.ts
+- [x] Build SynergyBonusPanel UI component for profile page
+
+#### 4.2 Branching Mastery Paths
+- [x] Add specialization paths (Path A / Path B) for each class at rank 3
+- [x] Modify classMastery.ts to support branching perk selection
+- [x] Add mastery_path column to class_mastery DB table
+- [x] Build specialization choice UI in ClassMasteryPanel
+- [x] Wire path-specific perks for ranks 4-5
+
+#### 4.3 Citizen Talents
+- [x] Create shared/citizenTalents.ts with 16+ talent definitions across 4 tiers
+- [x] Add citizen_talents DB table (user_id, talent_key, unlocked_at_level)
+- [x] Build talent selection tRPC endpoints (listAvailable, selectTalent, getSelected)
+- [x] Build CitizenTalentsPanel UI component
+- [x] Integrate talent bonuses into game system resolvers
+
+#### 4.4 Non-Combat Skill Proficiencies (Civil Skills)
+- [x] Create shared/civilSkills.ts with 8 skill definitions and leveling curves
+- [x] Add civil_skills DB table (user_id, skill_key, xp, level)
+- [x] Build civil skill tRPC endpoints (getSkills, awardSkillXp)
+- [x] Wire civil skill XP earning into game actions (trades, crafts, discoveries, etc.)
+- [x] Build CivilSkillsPanel UI component for profile page
+
+#### 4.5 Elemental Combo System
+- [x] Create shared/elementalCombos.ts with element pair interaction definitions
+- [x] Build combo resolver that triggers when elements interact in combat/guild wars
+- [x] Integrate elemental combos into card game, fight game, and guild war systems
+- [x] Build ElementalCombosPanel UI component for profile page
+
+#### 4.6 Companion Build Synergies
+- [x] Create shared/companionSynergies.ts with build-dependent companion bonuses
+- [x] Build synergy resolver that checks player build against companion preferences
+- [x] Integrate companion synergy bonuses into quest and combat systems
+- [x] Build CompanionSynergyPanel UI component for profile page
+
+#### 4.7 Prestige Classes
+- [x] Create shared/prestigeClasses.ts with 5+ prestige class definitions
+- [x] Add prestige_classes DB table
+- [x] Build prestige class unlock check (requires rank 3 primary + rank 2 secondary + quest)
+- [x] Build tRPC endpoint for prestige class selection
+- [x] Build PrestigeClassPanel UI with unlock requirements and unique abilities
+
+#### 4.8 Achievement-Unlocked Traits
+- [x] Create shared/achievementTraits.ts with 20 achievement trait definitions (bronze/silver/gold/diamond)
+- [x] Add achievement_traits DB table (user_id, trait_key, unlocked_at, equipped)
+- [x] Build achievement check system that auto-awards traits on milestone completion
+- [x] Build AchievementTraitsPanel UI component for profile page
+- [x] Display achievement trait titles on player profile
+
+#### Tests & Integration
+- [x] Write vitest tests for all 8 new systems (55 tests in rpgSystems.test.ts, 1849 total passing)
+- [x] Verify TypeScript compiles cleanly (zero errors)
+- [x] Checkpoint and deliver

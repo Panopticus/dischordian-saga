@@ -14,6 +14,14 @@ import {
 } from "lucide-react";
 import CharacterBonusesPanel from "@/components/CharacterBonusesPanel";
 import { ClassMasteryPanel } from "@/components/ClassMasteryPanel";
+import { SynergyBonusesPanel } from "@/components/SynergyBonusesPanel";
+import { BranchingMasteryPanel } from "@/components/BranchingMasteryPanel";
+import { CitizenTalentsPanel } from "@/components/CitizenTalentsPanel";
+import { CivilSkillsPanel } from "@/components/CivilSkillsPanel";
+import { ElementalCombosPanel } from "@/components/ElementalCombosPanel";
+import { CompanionSynergyPanel } from "@/components/CompanionSynergyPanel";
+import { PrestigeClassPanel } from "@/components/PrestigeClassPanel";
+import { AchievementTraitsPanel } from "@/components/AchievementTraitsPanel";
 
 /* ═══ STAT RING ═══ */
 function StatRing({ value, max, label, icon: Icon, color, size = 80 }: {
@@ -313,6 +321,46 @@ export default function PlayerProfilePage() {
           transition={{ delay: 0.55 }}
         >
           <ClassMasteryPanel />
+        </motion.div>
+
+        {/* Synergy Bonuses — hidden build combos */}
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6 }}>
+          <SynergyBonusesPanel />
+        </motion.div>
+
+        {/* Branching Mastery — specialization choice at rank 3 */}
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.65 }}>
+          <BranchingMasteryPanel />
+        </motion.div>
+
+        {/* Citizen Talents — powerful passives at milestone levels */}
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.7 }}>
+          <CitizenTalentsPanel />
+        </motion.div>
+
+        {/* Civil Skills — non-combat proficiencies */}
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.75 }}>
+          <CivilSkillsPanel />
+        </motion.div>
+
+        {/* Elemental Combos — element interaction effects */}
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.8 }}>
+          <ElementalCombosPanel />
+        </motion.div>
+
+        {/* Companion Synergies — companion build compatibility */}
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.85 }}>
+          <CompanionSynergyPanel />
+        </motion.div>
+
+        {/* Prestige Classes — endgame cross-class specializations */}
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.9 }}>
+          <PrestigeClassPanel />
+        </motion.div>
+
+        {/* Achievement Traits — traits unlocked by achievements */}
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.95 }}>
+          <AchievementTraitsPanel />
         </motion.div>
 
         {/* Overall Completion */}
