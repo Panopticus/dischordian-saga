@@ -39,15 +39,21 @@ export const ROUTE_ROOM_MAP: Record<string, string> = {
   "/draft": "armory",
   "/trading": "armory",
   "/card-achievements": "armory",
+  "/chess": "armory",
+  "/spectate": "armory",
   // Engineering routes
   "/research-lab": "engineering",
   "/deck-builder": "engineering",
   "/cards": "engineering",
   "/card-gallery": "engineering",
   "/demon-packs": "engineering",
+  "/research-minigame": "engineering",
   // Cargo Hold routes
   "/trade-empire": "cargo-hold",
   "/store": "cargo-hold",
+  "/marketplace": "cargo-hold",
+  "/inventory": "cargo-hold",
+  "/fleet": "cargo-hold",
   // Captain's Quarters routes
   "/profile": "captains-quarters",
   // "/character-sheet" — always accessible after awakening (narrative second step)
@@ -57,6 +63,17 @@ export const ROUTE_ROOM_MAP: Record<string, string> = {
   "/leaderboard": "captains-quarters",
   "/potentials": "captains-quarters",
   "/potentials/leaderboard": "captains-quarters",
+  "/companions": "captains-quarters",
+  "/battle-pass": "captains-quarters",
+  "/morality-census": "captains-quarters",
+  // Bridge routes (extended)
+  "/quests": "bridge",
+  "/guild": "bridge",
+  "/diplomacy": "bridge",
+  "/faction-wars": "bridge",
+  "/war-map": "bridge",
+  // Comms Array routes (extended)
+  "/lore-tutorials": "comms-array",
   // Always accessible (Ark Explorer system)
   // /ark, /ark-legacy, /console, /games, /clue-journal, /settings, /admin
 };

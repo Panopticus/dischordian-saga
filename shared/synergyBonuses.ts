@@ -394,6 +394,93 @@ export const SYNERGY_BONUSES: SynergyBonus[] = [
       { system: "card_game", type: "flat", target: "extra_draw", value: 1, label: "+1 card draw per turn" },
     ],
   },
+  // ═══ HUMAN SYNERGIES ═══
+  {
+    key: "adaptive_resilience",
+    name: "Adaptive Resilience",
+    description: "Humans who walk the path of the Soldier and channel Earth draw upon an unbreakable will — they endure where others fall.",
+    icon: "Shield",
+    color: "#78716c",
+    rarity: "rare",
+    requirements: { species: "human", characterClass: "soldier", element: "earth" },
+    effects: [
+      { system: "fight", type: "flat", target: "defense", value: 3, label: "+3 defense" },
+      { system: "fight", type: "multiplier", target: "max_hp", value: 1.15, label: "+15% max HP" },
+      { system: "guild_war", type: "multiplier", target: "reinforce_speed", value: 1.15, label: "+15% reinforce speed" },
+    ],
+  },
+  {
+    key: "cunning_diplomat",
+    name: "Cunning Diplomat",
+    description: "A Human Spy attuned to Air moves through negotiations like a breeze — unseen, unfelt, but always present.",
+    icon: "MessageCircle",
+    color: "#94a3b8",
+    rarity: "rare",
+    requirements: { species: "human", characterClass: "spy", element: "air" },
+    effects: [
+      { system: "trade_empire", type: "flat", target: "trade_discount", value: 0.10, label: "+10% trade discount" },
+      { system: "market", type: "multiplier", target: "sell_bonus", value: 1.12, label: "+12% sell price" },
+      { system: "quest", type: "multiplier", target: "reward_multiplier", value: 1.10, label: "+10% quest rewards" },
+    ],
+  },
+  {
+    key: "jacks_gambit",
+    name: "Jack's Gambit",
+    description: "Humans who embrace Chaos and the Oracle's sight see patterns in the noise — every risk becomes a calculated play.",
+    icon: "Dices",
+    color: "#f59e0b",
+    rarity: "rare",
+    requirements: { species: "human", characterClass: "oracle", alignment: "chaos" },
+    effects: [
+      { system: "chess", type: "multiplier", target: "reward_multiplier", value: 1.20, label: "+20% chess rewards" },
+      { system: "card_game", type: "flat", target: "extra_draw", value: 1, label: "+1 card draw" },
+      { system: "all", type: "passive", target: "rng_improvement", value: 0.08, label: "+8% to all RNG outcomes" },
+    ],
+  },
+  // ═══ SYNTHETIC SYNERGIES ═══
+  {
+    key: "machine_precision",
+    name: "Machine Precision",
+    description: "Synthetic Engineers who channel Reality operate with perfect mechanical efficiency — every calculation exact, every output optimized.",
+    icon: "Cpu",
+    color: "#06b6d4",
+    rarity: "rare",
+    requirements: { species: "synthetic", characterClass: "engineer", element: "reality" },
+    effects: [
+      { system: "crafting", type: "flat", target: "success_bonus", value: 0.15, label: "+15% crafting success" },
+      { system: "crafting", type: "multiplier", target: "bonus_output", value: 1.10, label: "+10% bonus output" },
+      { system: "trade_empire", type: "flat", target: "scan_bonus", value: 3, label: "+3 scan range" },
+    ],
+  },
+  {
+    key: "digital_phantom",
+    name: "Digital Phantom",
+    description: "A Synthetic Assassin attuned to Space exists between dimensions — striking from angles that shouldn't exist.",
+    icon: "Ghost",
+    color: "#8b5cf6",
+    rarity: "rare",
+    requirements: { species: "synthetic", characterClass: "assassin", element: "space" },
+    effects: [
+      { system: "fight", type: "flat", target: "attack", value: 3, label: "+3 attack" },
+      { system: "fight", type: "flat", target: "crit_chance", value: 0.05, label: "+5% crit chance" },
+      { system: "card_game", type: "flat", target: "global_attack_bonus", value: 2, label: "+2 global attack" },
+    ],
+  },
+  {
+    key: "singularity_core",
+    name: "Singularity Core",
+    description: "A Synthetic Oracle of Order who channels Time has transcended mortal computation — they see all possible futures simultaneously.",
+    icon: "Infinity",
+    color: "#14b8a6",
+    rarity: "legendary",
+    requirements: { species: "synthetic", characterClass: "oracle", alignment: "order", element: "time" },
+    effects: [
+      { system: "chess", type: "flat", target: "time_bonus", value: 30, label: "+30s chess time" },
+      { system: "chess", type: "multiplier", target: "reward_multiplier", value: 1.25, label: "+25% chess rewards" },
+      { system: "all", type: "passive", target: "rng_improvement", value: 0.15, label: "+15% to all RNG outcomes" },
+      { system: "quest", type: "multiplier", target: "reward_multiplier", value: 1.25, label: "+25% quest rewards" },
+    ],
+  },
 ];
 
 /* ═══════════════════════════════════════════════════════

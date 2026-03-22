@@ -1,0 +1,9 @@
+{
+  "query": "SELECT id, whitePlayerId, status, mode, createdAt FROM chess_games WHERE status = 'active' ORDER BY createdAt DESC LIMIT 5;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway04.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2T9erPMfbTpx4Y5.root --database 2quXz2C2n5hMfqc8hNVW3h --execute SELECT id, whitePlayerId, status, mode, createdAt FROM chess_games WHERE status = 'active' ORDER BY createdAt DESC LIMIT 5;",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 530
+}

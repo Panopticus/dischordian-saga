@@ -12,7 +12,7 @@
 /* ─── INPUT TYPES ─── */
 
 export interface CitizenData {
-  species: "demagi" | "quarchon" | "neyon";
+  species: "demagi" | "quarchon" | "neyon" | "human" | "synthetic";
   characterClass: "engineer" | "oracle" | "assassin" | "soldier" | "spy";
   alignment: "order" | "chaos";
   element: "earth" | "fire" | "water" | "air" | "space" | "time" | "probability" | "reality";
@@ -143,27 +143,35 @@ export interface ExplorationBonuses {
    ═══════════════════════════════════════════════════════ */
 
 const SPECIES_CARD_GAME = {
-  demagi:   { hpBonus: 5, globalHealthBonus: 2, globalAttackBonus: 0, influenceBonus: 0, energyBonus: 0 },
-  quarchon: { hpBonus: 0, globalHealthBonus: 0, globalAttackBonus: 2, influenceBonus: 5, energyBonus: 0 },
-  neyon:    { hpBonus: 3, globalHealthBonus: 1, globalAttackBonus: 1, influenceBonus: 0, energyBonus: 2 },
+  demagi:    { hpBonus: 5, globalHealthBonus: 2, globalAttackBonus: 0, influenceBonus: 0, energyBonus: 0 },
+  quarchon:  { hpBonus: 0, globalHealthBonus: 0, globalAttackBonus: 2, influenceBonus: 5, energyBonus: 0 },
+  neyon:     { hpBonus: 3, globalHealthBonus: 1, globalAttackBonus: 1, influenceBonus: 0, energyBonus: 2 },
+  human:     { hpBonus: 2, globalHealthBonus: 1, globalAttackBonus: 1, influenceBonus: 2, energyBonus: 1 },
+  synthetic: { hpBonus: 0, globalHealthBonus: 0, globalAttackBonus: 0, influenceBonus: 3, energyBonus: 3 },
 } as const;
 
 const SPECIES_TRADE = {
-  demagi:   { combatBonus: 0, shieldReduction: 0.05, tradeDiscount: 0, hazardResist: 0.10, colonyMulti: 1.0 },
-  quarchon: { combatBonus: 5, shieldReduction: 0, tradeDiscount: 0.05, hazardResist: 0, colonyMulti: 1.10 },
-  neyon:    { combatBonus: 3, shieldReduction: 0.03, tradeDiscount: 0.03, hazardResist: 0.05, colonyMulti: 1.05 },
+  demagi:    { combatBonus: 0, shieldReduction: 0.05, tradeDiscount: 0, hazardResist: 0.10, colonyMulti: 1.0 },
+  quarchon:  { combatBonus: 5, shieldReduction: 0, tradeDiscount: 0.05, hazardResist: 0, colonyMulti: 1.10 },
+  neyon:     { combatBonus: 3, shieldReduction: 0.03, tradeDiscount: 0.03, hazardResist: 0.05, colonyMulti: 1.05 },
+  human:     { combatBonus: 2, shieldReduction: 0.02, tradeDiscount: 0.05, hazardResist: 0.05, colonyMulti: 1.05 },
+  synthetic: { combatBonus: 1, shieldReduction: 0, tradeDiscount: 0.08, hazardResist: 0.02, colonyMulti: 1.08 },
 } as const;
 
 const SPECIES_FIGHT = {
-  demagi:   { hp: 10, defense: 1, attack: 0, speed: 0, critChance: 0 },
-  quarchon: { hp: 0, defense: 0, attack: 1, speed: 1, critChance: 0.02 },
-  neyon:    { hp: 5, defense: 0, attack: 0, speed: 0, critChance: 0.01 },
+  demagi:    { hp: 10, defense: 1, attack: 0, speed: 0, critChance: 0 },
+  quarchon:  { hp: 0, defense: 0, attack: 1, speed: 1, critChance: 0.02 },
+  neyon:     { hp: 5, defense: 0, attack: 0, speed: 0, critChance: 0.01 },
+  human:     { hp: 5, defense: 0, attack: 0, speed: 1, critChance: 0.01 },
+  synthetic: { hp: 3, defense: 1, attack: 1, speed: 0, critChance: 0 },
 } as const;
 
 const SPECIES_CRAFTING = {
-  demagi:   { successBonus: 0, materialPreserve: 0, bonusOutput: 0.05 },
-  quarchon: { successBonus: 0.05, materialPreserve: 0, bonusOutput: 0 },
-  neyon:    { successBonus: 0.02, materialPreserve: 0.03, bonusOutput: 0.02 },
+  demagi:    { successBonus: 0, materialPreserve: 0, bonusOutput: 0.05 },
+  quarchon:  { successBonus: 0.05, materialPreserve: 0, bonusOutput: 0 },
+  neyon:     { successBonus: 0.02, materialPreserve: 0.03, bonusOutput: 0.02 },
+  human:     { successBonus: 0.03, materialPreserve: 0.02, bonusOutput: 0.02 },
+  synthetic: { successBonus: 0.08, materialPreserve: 0, bonusOutput: 0 },
 } as const;
 
 /* ═══════════════════════════════════════════════════════
@@ -684,9 +692,11 @@ const CLASS_CHESS = {
 } as const;
 
 const SPECIES_CHESS = {
-  demagi:   { time: 5,  reward: 1.05, dream: 1.05 },
-  quarchon: { time: 10, reward: 1.0,  dream: 1.0  },
-  neyon:    { time: 5,  reward: 1.03, dream: 1.03 },
+  demagi:    { time: 5,  reward: 1.05, dream: 1.05 },
+  quarchon:  { time: 10, reward: 1.0,  dream: 1.0  },
+  neyon:     { time: 5,  reward: 1.03, dream: 1.03 },
+  human:     { time: 8,  reward: 1.05, dream: 1.03 },
+  synthetic: { time: 15, reward: 1.0,  dream: 1.0  },
 } as const;
 
 export function resolveChessBonuses(
@@ -790,9 +800,11 @@ const CLASS_GUILD_WAR = {
 } as const;
 
 const SPECIES_GUILD_WAR = {
-  demagi:   { warPts: 1.05, capture: 1.0,  reinforce: 1.05 },
-  quarchon: { warPts: 1.0,  capture: 1.05, reinforce: 1.0  },
-  neyon:    { warPts: 1.03, capture: 1.03, reinforce: 1.03 },
+  demagi:    { warPts: 1.05, capture: 1.0,  reinforce: 1.05 },
+  quarchon:  { warPts: 1.0,  capture: 1.05, reinforce: 1.0  },
+  neyon:     { warPts: 1.03, capture: 1.03, reinforce: 1.03 },
+  human:     { warPts: 1.03, capture: 1.02, reinforce: 1.03 },
+  synthetic: { warPts: 1.0,  capture: 1.0,  reinforce: 1.08 },
 } as const;
 
 const ELEMENT_TERRITORY_MAP: Record<string, string[]> = {
@@ -916,9 +928,11 @@ const CLASS_QUEST = {
 } as const;
 
 const SPECIES_QUEST = {
-  demagi:   { reward: 1.05, bpXp: 1.0  },
-  quarchon: { reward: 1.0,  bpXp: 1.05 },
-  neyon:    { reward: 1.03, bpXp: 1.08 },
+  demagi:    { reward: 1.05, bpXp: 1.0  },
+  quarchon:  { reward: 1.0,  bpXp: 1.05 },
+  neyon:     { reward: 1.03, bpXp: 1.08 },
+  human:     { reward: 1.05, bpXp: 1.05 },
+  synthetic: { reward: 1.0,  bpXp: 1.10 },
 } as const;
 
 export function resolveQuestBonuses(
@@ -1017,9 +1031,11 @@ const CLASS_MARKET = {
 } as const;
 
 const SPECIES_MARKET = {
-  demagi:   { tax: 1.0,  sellBonus: 1.05 },
-  quarchon: { tax: 0.95, sellBonus: 1.0  },
-  neyon:    { tax: 0.97, sellBonus: 1.03 },
+  demagi:    { tax: 1.0,  sellBonus: 1.05 },
+  quarchon:  { tax: 0.95, sellBonus: 1.0  },
+  neyon:     { tax: 0.97, sellBonus: 1.03 },
+  human:     { tax: 0.97, sellBonus: 1.03 },
+  synthetic: { tax: 0.93, sellBonus: 1.0  },
 } as const;
 
 export function resolveMarketBonuses(

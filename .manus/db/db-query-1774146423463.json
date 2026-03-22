@@ -1,0 +1,186 @@
+{
+  "query": "DESCRIBE chess_games;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway04.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2T9erPMfbTpx4Y5.root --database 2quXz2C2n5hMfqc8hNVW3h --execute DESCRIBE chess_games;",
+  "rows": [
+    {
+      "Field": "id",
+      "Type": "int",
+      "Null": "NO",
+      "Key": "PRI",
+      "Default": "NULL",
+      "Extra": "auto_increment"
+    },
+    {
+      "Field": "whitePlayerId",
+      "Type": "int",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "blackPlayerId",
+      "Type": "int",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "whiteCharacter",
+      "Type": "varchar(64)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "blackCharacter",
+      "Type": "varchar(64)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "mode",
+      "Type": "enum('casual','ranked','tournament','story','game_master')",
+      "Null": "NO",
+      "Key": "",
+      "Default": "casual",
+      "Extra": ""
+    },
+    {
+      "Field": "aiDifficulty",
+      "Type": "int",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "fen",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "pgn",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "status",
+      "Type": "enum('waiting','active','checkmate','stalemate','draw','resigned','timeout','abandoned')",
+      "Null": "NO",
+      "Key": "",
+      "Default": "waiting",
+      "Extra": ""
+    },
+    {
+      "Field": "winnerId",
+      "Type": "int",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "timeControl",
+      "Type": "int",
+      "Null": "NO",
+      "Key": "",
+      "Default": "600",
+      "Extra": ""
+    },
+    {
+      "Field": "whiteTimeMs",
+      "Type": "int",
+      "Null": "NO",
+      "Key": "",
+      "Default": "600000",
+      "Extra": ""
+    },
+    {
+      "Field": "blackTimeMs",
+      "Type": "int",
+      "Null": "NO",
+      "Key": "",
+      "Default": "600000",
+      "Extra": ""
+    },
+    {
+      "Field": "moveCount",
+      "Type": "int",
+      "Null": "NO",
+      "Key": "",
+      "Default": "0",
+      "Extra": ""
+    },
+    {
+      "Field": "whiteEloChange",
+      "Type": "int",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "blackEloChange",
+      "Type": "int",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "rewardsDream",
+      "Type": "int",
+      "Null": "YES",
+      "Key": "",
+      "Default": "0",
+      "Extra": ""
+    },
+    {
+      "Field": "rewardsMaterials",
+      "Type": "json",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "startedAt",
+      "Type": "timestamp",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "endedAt",
+      "Type": "timestamp",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "createdAt",
+      "Type": "timestamp",
+      "Null": "NO",
+      "Key": "",
+      "Default": "CURRENT_TIMESTAMP",
+      "Extra": ""
+    }
+  ],
+  "messages": [],
+  "stdout": "Field\tType\tNull\tKey\tDefault\tExtra\nid\tint\tNO\tPRI\tNULL\tauto_increment\nwhitePlayerId\tint\tYES\t\tNULL\t\nblackPlayerId\tint\tYES\t\tNULL\t\nwhiteCharacter\tvarchar(64)\tYES\t\tNULL\t\nblackCharacter\tvarchar(64)\tYES\t\tNULL\t\nmode\tenum('casual','ranked','tournament','story','game_master')\tNO\t\tcasual\t\naiDifficulty\tint\tYES\t\tNULL\t\nfen\ttext\tYES\t\tNULL\t\npgn\ttext\tYES\t\tNULL\t\nstatus\tenum('waiting','active','checkmate','stalemate','draw','resigned','timeout','abandoned')\tNO\t\twaiting\t\nwinnerId\tint\tYES\t\tNULL\t\ntimeControl\tint\tNO\t\t600\t\nwhiteTimeMs\tint\tNO\t\t600000\t\nblackTimeMs\tint\tNO\t\t600000\t\nmoveCount\tint\tNO\t\t0\t\nwhiteEloChange\tint\tYES\t\tNULL\t\nblackEloChange\tint\tYES\t\tNULL\t\nrewardsDream\tint\tYES\t\t0\t\nrewardsMaterials\tjson\tYES\t\tNULL\t\nstartedAt\ttimestamp\tYES\t\tNULL\t\nendedAt\ttimestamp\tYES\t\tNULL\t\ncreatedAt\ttimestamp\tNO\t\tCURRENT_TIMESTAMP\t\n",
+  "stderr": "",
+  "execution_time_ms": 362
+}

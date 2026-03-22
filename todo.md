@@ -1957,3 +1957,13 @@
 - [x] Write vitest tests for all 8 new systems (55 tests in rpgSystems.test.ts, 1849 total passing)
 - [x] Verify TypeScript compiles cleanly (zero errors)
 - [x] Checkpoint and deliver
+
+### Phase 81 — Fix Chess Game + Wire Features to Room Exploration
+
+- [x] Fix chess game stuck on "initializing" — root cause: missing human/synthetic species in all 8 SPECIES_ lookup tables in citizenTraits.ts
+- [x] Add human and synthetic species entries to all SPECIES_ lookup tables (chess, quest, crafting, trading, fighting, guild wars, market, card game)
+- [x] Add 4 human/synthetic synergy combos to synergyBonuses.ts
+- [x] Audit all routes — found 16 unmapped routes, mapped all to appropriate rooms in ROUTE_ROOM_MAP
+- [x] Add hotspots for all newly mapped features: chess, spectate, quests, guild, diplomacy, war-map, marketplace, inventory, fleet, companions, battle-pass, morality-census, lore-tutorials, research-minigame, guild-war, faction-wars
+- [x] Add featureRoutes for all rooms (bridge, comms-array, engineering, armory, cargo-hold, captains-quarters, war-room)
+- [x] Verify all main features discoverable through room exploration — 1849 tests passing, zero TS errors
