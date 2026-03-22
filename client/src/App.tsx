@@ -98,6 +98,11 @@ const BattlePassPage = lazy(() => import("./pages/BattlePassPage"));
 const InventoryPage = lazy(() => import("./pages/InventoryPage"));
 const ChessPage = lazy(() => import("./pages/ChessPage"));
 const SpectatorPage = lazy(() => import("./pages/SpectatorPage"));
+const SpaceStationPage = lazy(() => import("./pages/SpaceStationPage"));
+const SyndicateWorldPage = lazy(() => import("./pages/SyndicateWorldPage"));
+const TowerDefensePage = lazy(() => import("./pages/TowerDefensePage"));
+const PrestigeQuestPage = lazy(() => import("./pages/PrestigeQuestPage"));
+const CompetitiveArenaPage = lazy(() => import("./pages/CompetitiveArenaPage"));
 
 /* ═══ LOADING FALLBACK ═══ */
 function PageLoader() {
@@ -180,6 +185,11 @@ function Router() {
         <Route path="/inventory" component={InventoryPage} />
         <Route path="/chess" component={ChessPage} />
         <Route path="/spectate" component={SpectatorPage} />
+        <Route path="/space-station" component={SpaceStationPage} />
+        <Route path="/syndicate-world" component={SyndicateWorldPage} />
+        <Route path="/tower-defense" component={TowerDefensePage} />
+        <Route path="/prestige-quests" component={PrestigeQuestPage} />
+        <Route path="/competitive-arena" component={CompetitiveArenaPage} />
         <Route path="/awakening">{() => <AwakeningPage />}</Route>
         <Route path="/404" component={NotFound} />
         <Route component={NotFound} />

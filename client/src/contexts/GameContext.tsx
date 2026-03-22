@@ -605,6 +605,43 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       { id: "door-medical-synthesis", name: "Return to Medical Bay", description: "The bio-organic passage back to the Medical Bay.", x: 2, y: 40, width: 8, height: 25, type: "door", action: "medical-bay" },
     ],
   },
+  {
+    id: "station-dock",
+    name: "Station Dock",
+    deck: 6,
+    deckName: "Operations",
+    description: "A massive docking bay with modular station blueprints projected on holographic displays. Construction drones hover in standby. Through the viewport, you can see the skeletal frame of a personal space station being assembled.",
+    elaraIntro: "The Station Dock. This is where Potentials design and build their personal space stations — orbital bases that serve as your home in the void. Your class, species, civil skills, and talents all determine what modules you can install and how efficient your station becomes. Think of it as your personal fortress in space.",
+    imageUrl: "",
+    features: ["Space Station", "Tower Defense", "Competitive Arena"],
+    featureRoutes: ["/space-station", "/tower-defense", "/competitive-arena"],
+    unlockRequirement: { type: "room_visited", value: "engineering" },
+    connections: ["engineering", "war-room"],
+    hotspots: [
+      { id: "station-console", name: "Station Command Console", description: "Design and manage your personal space station from this holographic interface.", x: 30, y: 25, width: 25, height: 35, type: "terminal", action: "/space-station", elaraDialog: "The Station Command Console. From here you can build modules, collect resources, and customize your orbital base. Your civil skills in Engineering and Architecture directly affect build speed and module efficiency. Your class determines which specialized modules you can unlock." },
+      { id: "defense-grid", name: "Defense Grid Terminal", description: "Tower placement and raid management systems.", x: 65, y: 20, width: 20, height: 30, type: "terminal", action: "/tower-defense", elaraDialog: "The Defense Grid. Place towers to protect your station from raiders, or launch raids against other Potentials. Your combat class, elemental affinity, and prestige rank all affect your tower damage, HP, and the raid units available to you." },
+      { id: "arena-portal", name: "Competitive Arena Portal", description: "Trophy rankings, daily streaks, and league standings.", x: 75, y: 55, width: 15, height: 25, type: "terminal", action: "/competitive-arena", elaraDialog: "The Competitive Arena. Track your raid trophies, climb the league ladder, and maintain your daily streak for Chrono Shards. Your RPG build gives you an edge — stronger characters earn more trophies per victory." },
+      { id: "door-engineering-dock", name: "Return to Engineering", description: "The corridor back to Engineering.", x: 2, y: 40, width: 8, height: 25, type: "door", action: "engineering" },
+    ],
+  },
+  {
+    id: "guild-sanctum",
+    name: "Guild Sanctum",
+    deck: 7,
+    deckName: "Social",
+    description: "A grand chamber with faction banners hanging from the ceiling. A massive holographic globe shows guild territories across the galaxy. The Syndicate World projector dominates the center, displaying a miniature capital city.",
+    elaraIntro: "The Guild Sanctum. This is where syndicates manage their capital worlds. Each guild can establish a Syndicate World — a shared base that all members contribute to. Your civil skills, class mastery, and prestige all provide bonuses to the capital. The stronger the members, the stronger the capital.",
+    imageUrl: "",
+    features: ["Syndicate World", "Guild Capital", "Prestige Quests"],
+    featureRoutes: ["/syndicate-world", "/guild", "/prestige-quests"],
+    unlockRequirement: { type: "room_visited", value: "bridge" },
+    connections: ["bridge", "station-dock"],
+    hotspots: [
+      { id: "world-projector", name: "Syndicate World Projector", description: "A holographic display of your guild's capital world.", x: 30, y: 20, width: 30, height: 40, type: "terminal", action: "/syndicate-world", elaraDialog: "The Syndicate World Projector. Your guild's capital is displayed here. Your civil skills in Architecture and Engineering reduce build costs and times. Your class mastery unlocks special buildings only available to certain classes." },
+      { id: "prestige-altar", name: "Prestige Altar", description: "A glowing altar where Potentials undertake quest chains to unlock prestige classes.", x: 70, y: 25, width: 18, height: 30, type: "terminal", action: "/prestige-quests", elaraDialog: "The Prestige Altar. Undertake quest chains that unlock prestige classes — advanced specializations that grant powerful bonuses to everything you do. Each requires specific base classes, species, and skill levels." },
+      { id: "door-bridge-sanctum", name: "Return to Bridge", description: "The passage back to the Command Bridge.", x: 2, y: 40, width: 8, height: 25, type: "door", action: "bridge" },
+    ],
+  },
 ];
 
 /* ─── DEFAULT STATE ─── */

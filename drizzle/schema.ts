@@ -1853,3 +1853,306 @@ export const achievementTraitProgress = mysqlTable("achievement_trait_progress",
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
 });
 export type AchievementTraitProgressRow = typeof achievementTraitProgress.$inferSelect;
+
+
+/* ═══════════════════════════════════════════════════════
+   SYNDICATE WORLDS — Guild Capital System
+   Each guild controls a homeworld with buildings that
+   generate resources and provide guild-wide bonuses.
+   ═══════════════════════════════════════════════════════ */
+
+export const syndicateWorlds = mysqlTable("syndicate_worlds", {
+  id: int("id").autoincrement().primaryKey(),
+  guildId: int("guildId").notNull().unique(),
+  /** World biome type */
+  biome: varchar("biome", { length: 32 }).notNull().default("forge_world"),
+  /** World name (customizable) */
+  worldName: varchar("worldName", { length: 128 }).notNull().default("Unnamed World"),
+  /** World level (affects max buildings, defense) */
+  level: int("level").notNull().default(1),
+  /** Grid size NxN */
+  gridSize: int("gridSize").notNull().default(8),
+  /** Total defense rating (sum of all defense buildings + bonuses) */
+  totalDefense: int("totalDefense").notNull().default(0),
+  /** Total resource production rates (JSON: Record<string, number>) */
+  productionRates: json("productionRates").$type<Record<string, number>>(),
+  /** Stored resources (JSON: Record<string, number>) */
+  storedResources: json("storedResources").$type<Record<string, number>>(),
+  /** Last time resources were collected */
+  lastCollection: timestamp("lastCollection").defaultNow().notNull(),
+  /** Active elemental synergies (JSON array) */
+  activeSynergies: json("activeSynergies").$type<string[]>(),
+  /** Shield active until (null = no shield) */
+  shieldUntil: timestamp("shieldUntil"),
+  /** Number of times raided */
+  timesRaided: int("timesRaided").notNull().default(0),
+  /** Number of successful defenses */
+  successfulDefenses: int("successfulDefenses").notNull().default(0),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+export type SyndicateWorld = typeof syndicateWorlds.$inferSelect;
+
+export const syndicateBuildings = mysqlTable("syndicate_buildings", {
+  id: int("id").autoincrement().primaryKey(),
+  worldId: int("worldId").notNull(),
+  /** Building definition key (from shared/syndicateWorlds.ts) */
+  buildingKey: varchar("buildingKey", { length: 64 }).notNull(),
+  /** Current level */
+  level: int("level").notNull().default(1),
+  /** Grid position X */
+  gridX: int("gridX").notNull(),
+  /** Grid position Y */
+  gridY: int("gridY").notNull(),
+  /** Building status */
+  status: mysqlEnum("status", ["active", "building", "upgrading", "damaged", "destroyed"]).notNull().default("active"),
+  /** Build/upgrade completion time */
+  completesAt: timestamp("completesAt"),
+  /** Current HP (for raids) */
+  currentHp: int("currentHp").notNull().default(100),
+  /** Max HP */
+  maxHp: int("maxHp").notNull().default(100),
+  /** Who built this (user ID) */
+  builtBy: int("builtBy").notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+export type SyndicateBuilding = typeof syndicateBuildings.$inferSelect;
+
+
+/* ═══════════════════════════════════════════════════════
+   SPACE STATIONS — Personal Player Base System
+   Each player has a personal station with modules.
+   ═══════════════════════════════════════════════════════ */
+
+export const spaceStations = mysqlTable("space_stations", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull().unique(),
+  /** Station name */
+  stationName: varchar("stationName", { length: 128 }).notNull().default("Outpost Alpha"),
+  /** Station tier (1-5) */
+  tier: int("tier").notNull().default(1),
+  /** Grid size */
+  gridSize: int("gridSize").notNull().default(6),
+  /** Total defense rating */
+  totalDefense: int("totalDefense").notNull().default(0),
+  /** Total stealth rating */
+  stealthRating: int("stealthRating").notNull().default(0),
+  /** Stored resources (JSON: Record<string, number>) */
+  storedResources: json("storedResources").$type<Record<string, number>>(),
+  /** Production rates (JSON: Record<string, number>) */
+  productionRates: json("productionRates").$type<Record<string, number>>(),
+  /** Last resource collection */
+  lastCollection: timestamp("lastCollection").defaultNow().notNull(),
+  /** Stationed companion IDs (JSON array) */
+  stationedCompanions: json("stationedCompanions").$type<string[]>(),
+  /** Active module synergies (JSON array) */
+  activeSynergies: json("activeSynergies").$type<string[]>(),
+  /** Shield active until */
+  shieldUntil: timestamp("shieldUntil"),
+  /** Visit count (other players visiting) */
+  visitCount: int("visitCount").notNull().default(0),
+  /** Reputation earned from visits */
+  reputation: int("reputation").notNull().default(0),
+  /** Times raided */
+  timesRaided: int("timesRaided").notNull().default(0),
+  /** Successful defenses */
+  successfulDefenses: int("successfulDefenses").notNull().default(0),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+export type SpaceStation = typeof spaceStations.$inferSelect;
+
+export const stationModules = mysqlTable("station_modules", {
+  id: int("id").autoincrement().primaryKey(),
+  stationId: int("stationId").notNull(),
+  /** Module definition key (from shared/spaceStations.ts) */
+  moduleKey: varchar("moduleKey", { length: 64 }).notNull(),
+  /** Current level */
+  level: int("level").notNull().default(1),
+  /** Grid position */
+  gridX: int("gridX").notNull(),
+  gridY: int("gridY").notNull(),
+  /** Module status */
+  status: mysqlEnum("status", ["active", "building", "upgrading", "damaged", "destroyed"]).notNull().default("active"),
+  /** Build/upgrade completion time */
+  completesAt: timestamp("completesAt"),
+  /** Current HP */
+  currentHp: int("currentHp").notNull().default(100),
+  maxHp: int("maxHp").notNull().default(100),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+export type StationModuleRow = typeof stationModules.$inferSelect;
+
+
+/* ═══════════════════════════════════════════════════════
+   TOWER DEFENSE — Tower placements, raid logs, defense waves
+   Clash of Clans-style base defense and raiding.
+   ═══════════════════════════════════════════════════════ */
+
+export const towerPlacements = mysqlTable("tower_placements", {
+  id: int("id").autoincrement().primaryKey(),
+  /** Owner type: 'station' or 'world' */
+  ownerType: mysqlEnum("ownerType", ["station", "world"]).notNull(),
+  /** Owner ID (station ID or world ID) */
+  ownerId: int("ownerId").notNull(),
+  /** Tower definition key (from shared/towerDefense.ts) */
+  towerKey: varchar("towerKey", { length: 64 }).notNull(),
+  /** Current level */
+  level: int("level").notNull().default(1),
+  /** Grid position */
+  gridX: int("gridX").notNull(),
+  gridY: int("gridY").notNull(),
+  /** Current HP */
+  currentHp: int("currentHp").notNull().default(200),
+  maxHp: int("maxHp").notNull().default(200),
+  /** Status */
+  status: mysqlEnum("status", ["active", "building", "upgrading", "destroyed"]).notNull().default("active"),
+  completesAt: timestamp("completesAt"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+export type TowerPlacement = typeof towerPlacements.$inferSelect;
+
+export const raidLogs = mysqlTable("raid_logs", {
+  id: int("id").autoincrement().primaryKey(),
+  /** Attacker user ID */
+  attackerId: int("attackerId").notNull(),
+  /** Defender: station or world */
+  defenderType: mysqlEnum("defenderType", ["station", "world"]).notNull(),
+  defenderId: int("defenderId").notNull(),
+  /** Defender user ID (for station) or guild ID (for world) */
+  defenderOwnerId: int("defenderOwnerId").notNull(),
+  /** Raid result */
+  result: mysqlEnum("result", ["victory", "defeat", "draw"]).notNull(),
+  /** Stars earned (0-3) */
+  stars: int("stars").notNull().default(0),
+  /** Destruction percentage */
+  destructionPercent: int("destructionPercent").notNull().default(0),
+  /** Loot stolen (JSON: Record<string, number>) */
+  lootStolen: json("lootStolen").$type<Record<string, number>>(),
+  /** Units deployed (JSON: { key: string, count: number }[]) */
+  unitsDeployed: json("unitsDeployed").$type<{ key: string; count: number }[]>(),
+  /** Units lost */
+  unitsLost: int("unitsLost").notNull().default(0),
+  /** Towers destroyed */
+  towersDestroyed: int("towersDestroyed").notNull().default(0),
+  /** XP earned by attacker */
+  xpEarned: int("xpEarned").notNull().default(0),
+  /** Trophies gained/lost */
+  trophiesChanged: int("trophiesChanged").notNull().default(0),
+  /** RPG bonuses applied (JSON summary) */
+  rpgBonuses: json("rpgBonuses").$type<Record<string, number>>(),
+  /** Duration in seconds */
+  duration: int("duration").notNull().default(0),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+export type RaidLog = typeof raidLogs.$inferSelect;
+
+export const defenseWaves = mysqlTable("defense_waves", {
+  id: int("id").autoincrement().primaryKey(),
+  /** Owner type and ID (same as tower placements) */
+  ownerType: mysqlEnum("ownerType", ["station", "world"]).notNull(),
+  ownerId: int("ownerId").notNull(),
+  /** Wave number (for PvE defense mode) */
+  waveNumber: int("waveNumber").notNull().default(1),
+  /** Enemy composition (JSON: { key: string, count: number, level: number }[]) */
+  enemies: json("enemies").$type<{ key: string; count: number; level: number }[]>(),
+  /** Wave difficulty multiplier */
+  difficultyMultiplier: int("difficultyMultiplier").notNull().default(100),
+  /** Reward for surviving this wave (JSON) */
+  rewards: json("rewards").$type<Record<string, number>>(),
+  /** Status */
+  status: mysqlEnum("status", ["pending", "active", "completed", "failed"]).notNull().default("pending"),
+  completedAt: timestamp("completedAt"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+export type DefenseWave = typeof defenseWaves.$inferSelect;
+
+
+/* ═══════════════════════════════════════════════════════
+   PRESTIGE QUEST PROGRESS — Track prestige quest chains
+   ═══════════════════════════════════════════════════════ */
+
+export const prestigeQuestProgress = mysqlTable("prestige_quest_progress", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  /** Prestige quest chain key */
+  questChainKey: varchar("questChainKey", { length: 128 }).notNull(),
+  /** Current step index (0-based) */
+  currentStep: int("currentStep").notNull().default(0),
+  /** Completed step IDs (JSON array) */
+  completedSteps: json("completedSteps").$type<string[]>(),
+  /** Skipped step IDs via talents (JSON array) */
+  skippedSteps: json("skippedSteps").$type<string[]>(),
+  /** Overall status */
+  status: mysqlEnum("status", ["in_progress", "completed", "abandoned"]).notNull().default("in_progress"),
+  /** Step-specific progress data (JSON: Record<stepId, progressValue>) */
+  stepProgress: json("stepProgress").$type<Record<string, number>>(),
+  startedAt: timestamp("startedAt").defaultNow().notNull(),
+  completedAt: timestamp("completedAt"),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+export type PrestigeQuestProgressRow = typeof prestigeQuestProgress.$inferSelect;
+
+
+/* ═══════════════════════════════════════════════════════
+   RAID TROPHIES — Unified trophy/league system
+   ═══════════════════════════════════════════════════════ */
+
+export const raidTrophies = mysqlTable("raid_trophies", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull().unique(),
+  /** Current trophy count */
+  trophies: int("trophies").notNull().default(0),
+  /** Current league */
+  league: mysqlEnum("league", [
+    "bronze_1", "bronze_2", "bronze_3",
+    "silver_1", "silver_2", "silver_3",
+    "gold_1", "gold_2", "gold_3",
+    "platinum_1", "platinum_2", "platinum_3",
+    "diamond_1", "diamond_2", "diamond_3",
+    "champion", "legend"
+  ]).notNull().default("bronze_1"),
+  /** Season high */
+  seasonHigh: int("seasonHigh").notNull().default(0),
+  /** All-time high */
+  allTimeHigh: int("allTimeHigh").notNull().default(0),
+  /** Total raids */
+  totalRaids: int("totalRaids").notNull().default(0),
+  /** Total defenses */
+  totalDefenses: int("totalDefenses").notNull().default(0),
+  /** Win rate (percentage * 100) */
+  winRate: int("winRate").notNull().default(0),
+  /** Current win streak */
+  winStreak: int("winStreak").notNull().default(0),
+  /** Best win streak */
+  bestWinStreak: int("bestWinStreak").notNull().default(0),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+export type RaidTrophyRow = typeof raidTrophies.$inferSelect;
+
+
+/* ═══════════════════════════════════════════════════════
+   DAILY ENGAGEMENT STREAKS — Chrono Shards system
+   ═══════════════════════════════════════════════════════ */
+
+export const dailyStreaks = mysqlTable("daily_streaks", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull().unique(),
+  /** Current streak count */
+  currentStreak: int("currentStreak").notNull().default(0),
+  /** Longest streak ever */
+  longestStreak: int("longestStreak").notNull().default(0),
+  /** Chrono Shards earned */
+  chronoShards: int("chronoShards").notNull().default(0),
+  /** Last check-in date (YYYY-MM-DD stored as varchar) */
+  lastCheckIn: varchar("lastCheckIn", { length: 10 }),
+  /** Streak repair items available */
+  repairItems: int("repairItems").notNull().default(0),
+  /** Total check-ins */
+  totalCheckIns: int("totalCheckIns").notNull().default(0),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+export type DailyStreakRow = typeof dailyStreaks.$inferSelect;

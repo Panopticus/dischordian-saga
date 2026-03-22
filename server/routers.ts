@@ -43,6 +43,10 @@ import { guildWarsRouter } from "./routers/guildWars";
 import { chessRouter } from "./routers/chess";
 import { classMasteryRouter } from "./routers/classMastery";
 import { rpgSystemsRouter } from "./routers/rpgSystems";
+import { syndicateWorldRouter } from "./routers/syndicateWorld";
+import { spaceStationRouter } from "./routers/spaceStation";
+import { towerDefenseRouter } from "./routers/towerDefense";
+import { prestigeQuestRouter } from "./routers/prestigeQuests";
 
 export const appRouter = router({
   system: systemRouter,
@@ -82,6 +86,10 @@ export const appRouter = router({
   chess: chessRouter,
   classMastery: classMasteryRouter,
   rpg: rpgSystemsRouter,
+  syndicateWorld: syndicateWorldRouter,
+  spaceStation: spaceStationRouter,
+  towerDefense: towerDefenseRouter,
+  prestigeQuest: prestigeQuestRouter,
   auth: router({
     me: publicProcedure.query(opts => opts.ctx.user),
     logout: publicProcedure.mutation(({ ctx }) => {
