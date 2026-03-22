@@ -14,6 +14,7 @@ import { useGamification } from "@/contexts/GamificationContext";
 import { useMoralityTheme } from "@/contexts/MoralityThemeContext";
 import { useTheme } from "@/contexts/ThemeContext";
 import { MoralityBar } from "@/components/MoralityMeter";
+import { ShipThemeOverlay } from "@/components/ShipThemeOverlay";
 import { Progress } from "@/components/ui/progress";
 import { motion, AnimatePresence } from "framer-motion";
 import NotificationBell from "@/components/NotificationBell";
@@ -264,6 +265,9 @@ export default function AppShell({ children, elaraTTS: _elaraTTS }: { children: 
           background: "radial-gradient(ellipse at 50% 30%, var(--bg-spotlight) 0%, var(--bg-void) 70%)"
         }} />
       </div>
+
+      {/* ═══ SHIP THEME OVERLAY ═══ */}
+      <ShipThemeOverlay />
 
       {/* ═══ TOP HEADER BAR — ARK COMMAND STRIP ═══ */}
       <header role="banner" aria-label="Ark command bar" className="fixed top-0 left-0 right-0 z-50 h-12 flex items-center px-3 sm:px-4"

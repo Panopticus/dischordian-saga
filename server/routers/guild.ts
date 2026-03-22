@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { protectedProcedure, publicProcedure, router } from "../_core/trpc";
 import { getDb } from "../db";
-import { guilds, guildMembers, guildChat, guildInvites, notifications, users } from "../../drizzle/schema";
+import { guilds, guildMembers, guildChat, guildInvites, guildRecruitment, notifications, users } from "../../drizzle/schema";
 import { eq, and, desc, sql, like, ne } from "drizzle-orm";
 import { TRPCError } from "@trpc/server";
 
@@ -608,4 +608,121 @@ export const guildRouter = router({
 
   /* ─── Available emblems ─── */
   emblems: publicProcedure.query(() => GUILD_EMBLEMS),
+
+  /* ═══ GUILD RECRUITMENT BOARD ═══ */
+
+  /** Get recruitment posts for browsing */
+  getRecruitmentPosts: publicProcedure
+    .input(z.object({
+      faction: z.enum(["empire", "insurgency", "neutral", "all"]).optional(),
+      limit: z.number().min(1).max(50).optional().default(20),
+      offset: z.number().min(0).optional().default(0),
+    }).optional())
+    .query(async ({ input }) => {
+      const db = await getDb();
+      if (!db) return { posts: [], total: 0 };
+      const posts = await db.select({
+        recruitment: guildRecruitment,
+        guild: guilds,
+      }).from(guildRecruitment)
+        .innerJoin(guilds, eq(guildRecruitment.guildId, guilds.id))
+        .where(eq(guildRecruitment.status, "open"))
+        .orderBy(desc(guildRecruitment.updatedAt))
+        .limit(input?.limit ?? 20)
+        .offset(input?.offset ?? 0);
+
+      const filtered = posts.filter(p => {
+        if (input?.faction && input.faction !== "all" && p.guild.faction !== input.faction) return false;
+        return true;
+      });
+
+      return {
+        posts: filtered.map(p => ({
+          id: p.recruitment.id,
+          guildId: p.guild.id,
+          guildName: p.guild.name,
+          guildTag: p.guild.tag,
+          guildFaction: p.guild.faction,
+          guildLevel: p.guild.level,
+          guildEmblem: p.guild.emblem,
+          memberCount: p.guild.memberCount,
+          maxMembers: p.guild.maxMembers,
+          description: p.recruitment.description,
+          requirements: p.recruitment.requirements,
+          minLevel: p.recruitment.minLevel,
+          preferredClasses: p.recruitment.preferredClasses,
+          updatedAt: p.recruitment.updatedAt,
+        })),
+        total: filtered.length,
+      };
+    }),
+
+  /** Create or update recruitment post (guild leader/officer) */
+  setRecruitmentPost: protectedProcedure
+    .input(z.object({
+      description: z.string().min(10).max(500),
+      requirements: z.string().max(300).optional(),
+      minLevel: z.number().min(1).max(50).optional().default(1),
+      preferredClasses: z.array(z.string()).optional(),
+      status: z.enum(["open", "closed"]).optional().default("open"),
+    }))
+    .mutation(async ({ ctx, input }) => {
+      const db = await getDb();
+      if (!db) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
+      const [membership] = await db.select().from(guildMembers)
+        .where(eq(guildMembers.userId, ctx.user.id));
+      if (!membership) throw new TRPCError({ code: "FORBIDDEN", message: "You must be in a Syndicate" });
+      if (membership.role !== "leader" && membership.role !== "officer") {
+        throw new TRPCError({ code: "FORBIDDEN", message: "Only leaders and officers can manage recruitment" });
+      }
+      const [existing] = await db.select().from(guildRecruitment)
+        .where(eq(guildRecruitment.guildId, membership.guildId));
+      if (existing) {
+        await db.update(guildRecruitment)
+          .set({
+            description: input.description,
+            requirements: input.requirements || null,
+            minLevel: input.minLevel,
+            preferredClasses: input.preferredClasses || null,
+            status: input.status,
+          })
+          .where(eq(guildRecruitment.id, existing.id));
+      } else {
+        await db.insert(guildRecruitment).values({
+          guildId: membership.guildId,
+          description: input.description,
+          requirements: input.requirements || "",
+          minLevel: input.minLevel,
+          preferredClasses: input.preferredClasses || null,
+          status: input.status,
+        });
+      }
+      return { success: true };
+    }),
+
+  /** Get my guild's recruitment post */
+  getMyRecruitmentPost: protectedProcedure.query(async ({ ctx }) => {
+    const db = await getDb();
+    if (!db) return null;
+    const [membership] = await db.select().from(guildMembers)
+      .where(eq(guildMembers.userId, ctx.user.id));
+    if (!membership) return null;
+    const [post] = await db.select().from(guildRecruitment)
+      .where(eq(guildRecruitment.guildId, membership.guildId));
+    return post || null;
+  }),
+
+  /** Delete recruitment post */
+  deleteRecruitmentPost: protectedProcedure.mutation(async ({ ctx }) => {
+    const db = await getDb();
+    if (!db) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
+    const [membership] = await db.select().from(guildMembers)
+      .where(eq(guildMembers.userId, ctx.user.id));
+    if (!membership) throw new TRPCError({ code: "FORBIDDEN" });
+    if (membership.role !== "leader" && membership.role !== "officer") {
+      throw new TRPCError({ code: "FORBIDDEN", message: "Only leaders and officers can manage recruitment" });
+    }
+    await db.delete(guildRecruitment).where(eq(guildRecruitment.guildId, membership.guildId));
+    return { deleted: true };
+  }),
 });

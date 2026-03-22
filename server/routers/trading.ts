@@ -6,7 +6,7 @@ import { eq, and, or, desc, sql } from "drizzle-orm";
 import { protectedProcedure, router } from "../_core/trpc";
 import { getDb } from "../db";
 import { trackTradeComplete, trackCollectionSize } from "../achievementTracker";
-import { cardTrades, userCards, dreamBalance, users } from "../../drizzle/schema";
+import { cardTrades, userCards, dreamBalance, users, notifications } from "../../drizzle/schema";
 
 const tradeCardSchema = z.object({ cardId: z.string(), quantity: z.number().min(1).max(10) });
 
@@ -55,9 +55,16 @@ export const tradingRouter = router({
         message: input.message || null,
       });
 
+      // Notify receiver about the trade offer
+      db.insert(notifications).values({
+        userId: input.receiverId,
+        type: "trade_offer",
+        title: "New Trade Offer",
+        message: `${ctx.user.name || "An operative"} sent you a trade offer.`,
+        actionUrl: "/trading",
+      }).catch(() => {});
       return { success: true, tradeId: result.insertId };
     }),
-
   /** Accept a trade offer */
   acceptTrade: protectedProcedure
     .input(z.object({ tradeId: z.number() }))
@@ -146,6 +153,14 @@ export const tradingRouter = router({
         await tx.update(cardTrades).set({ status: "accepted" }).where(eq(cardTrades.id, input.tradeId));
       });
 
+      // Notify sender that their trade was accepted
+      db.insert(notifications).values({
+        userId: trade.senderId,
+        type: "trade_accepted",
+        title: "Trade Accepted!",
+        message: `Your trade offer was accepted by ${ctx.user.name || "another operative"}.`,
+        actionUrl: "/trading",
+      }).catch(() => {});
       // Achievement auto-tracking for both parties (outside transaction)
       trackTradeComplete(trade.senderId).catch(e => console.error("[Trading] Achievement error:", e));
       trackTradeComplete(ctx.user.id).catch(e => console.error("[Trading] Achievement error:", e));

@@ -1566,6 +1566,81 @@ export const LORE_TUTORIALS: LoreTutorial[] = [
       },
     ],
   },
+
+  /* ─── 28. QUEST CHAINS & PRESTIGE ─── */
+  {
+    id: "tut-quest-chains",
+    title: "The Path of Prestige",
+    subtitle: "How quest chains, milestones, and prestige classes shape your destiny",
+    mechanic: "Quest Chains",
+    triggerRoute: "/prestige-quests",
+    icon: "Scroll",
+    estimatedMinutes: 5,
+    totalRewards: { dreamTokens: 75, xp: 150, cards: 2 },
+    steps: [
+      {
+        id: "qc-1", type: "narration",
+        elaraText: "Every Potential aboard the Inception Ark walks a path, {playerName}. But only those who complete the ancient quest chains can transcend their base class and become something... more. These are the Prestige Paths — and they are not for the faint of heart.",
+        subtitle: "QUEST CHAINS — The road to transcendence",
+      },
+      {
+        id: "qc-2", type: "dialog",
+        elaraText: "Quest chains are multi-step journeys. Each chain has 3 to 5 stages, and every stage demands something different — combat victories, resource gathering, exploration milestones, or moral choices. Complete all stages and you unlock a Prestige Class.",
+        classOverrides: {
+          "oracle": "As an Oracle, the Chronomancer prestige path calls to you. It requires mastery of temporal mechanics and a deep understanding of probability fields.",
+          "warrior": "As a Warrior, the Warlord prestige path awaits. It demands 50 combat victories and the conquest of 3 syndicate territories.",
+          "scholar": "As a Scholar, the Technomancer prestige path is your destiny. It requires engineering mastery and the construction of advanced station modules.",
+          "spy": "As a Spy, the Shadow Broker prestige path beckons. It demands intelligence gathering across 10 Ark rooms and 100 successful trades.",
+          "assassin": "As an Assassin, the Blade Dancer prestige path is written in blood. It requires perfect combat scores and mastery of elemental combos.",
+        },
+      },
+      {
+        id: "qc-3", type: "dialog",
+        elaraText: "Each quest stage has a milestone — a specific threshold you must reach. Some milestones are simple: 'Win 10 card battles.' Others are complex: 'Reach morality score -50 while maintaining Engineering civil skill level 5.' The Ark tracks your progress automatically.",
+      },
+      {
+        id: "qc-4", type: "choice",
+        elaraText: "Here's the crucial question, {playerName}. When you reach a quest milestone that offers a moral choice, which path do you walk?",
+        choices: [
+          {
+            id: "qc-choice-machine", text: "The efficient path. Sacrifice what's necessary to reach the goal faster.",
+            moralityShift: -15, sideLabel: "machine",
+            elaraResponse: "Efficiency over sentiment. The Machine philosophy rewards speed — you'll complete quest stages 20% faster, but some NPCs will refuse to aid you. The Architect would approve.",
+            rewards: [{ type: "xp", id: "xp-eff", name: "XP", amount: 80 }],
+          },
+          {
+            id: "qc-choice-humanity", text: "The thorough path. Help everyone along the way, even if it takes longer.",
+            moralityShift: 15, sideLabel: "humanity",
+            elaraResponse: "Compassion is its own reward — but not the only one. The Humanity path unlocks bonus quest stages with exclusive rewards. It takes longer, but the treasures are worth it. The Oracle would smile.",
+            rewards: [{ type: "card", id: "the-oracle", name: "The Oracle" }],
+          },
+          {
+            id: "qc-choice-balance", text: "The balanced path. Weigh each decision on its own merits.",
+            moralityShift: 0, sideLabel: "neutral",
+            elaraResponse: "Wisdom is knowing when to be ruthless and when to be kind. The balanced path doesn't give speed or bonus stages, but it keeps all options open. You'll never be locked out of any quest branch.",
+            rewards: [{ type: "dream_tokens", id: "dt-bal", name: "Dream Tokens", amount: 50 }],
+          },
+        ],
+      },
+      {
+        id: "qc-5", type: "dialog",
+        elaraText: "Prestige Classes are the ultimate reward. Each one grants permanent bonuses: the Chronomancer bends time in card battles, the Warlord commands armies in tower defense, the Shadow Broker manipulates markets, the Technomancer builds impossible structures, and the Blade Dancer becomes untouchable in combat.",
+      },
+      {
+        id: "qc-6", type: "dialog",
+        elaraText: "But here's what most Potentials don't realize: your civil skills, citizen talents, and class mastery all affect quest difficulty. A high Engineering skill makes construction quests trivial. A high Lore skill reveals hidden quest shortcuts. Build your character wisely, and the quests will bend to your strengths.",
+        classOverrides: {
+          "oracle": "Your Oracle class gives you foresight — you can preview quest rewards before committing to a path.",
+          "warrior": "Your Warrior class gives you endurance — combat quest stages have reduced difficulty for you.",
+          "scholar": "Your Scholar class gives you insight — research quest stages auto-complete if your Lore skill is high enough.",
+        },
+      },
+      {
+        id: "qc-7", type: "reward_summary",
+        elaraText: "The quest chains await you in the Prestige Quests terminal. Choose your path, track your milestones, and ascend beyond your base class. Remember — every choice shapes not just your character, but the fate of the Dischordian Saga itself.",
+      },
+    ],
+  },
 ];
 
 /* ─── UTILITY FUNCTIONS ─── */

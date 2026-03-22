@@ -14,6 +14,7 @@ import {
   marketTaxPool, guilds, guildMembers,
 } from "../../drizzle/schema";
 import { fetchCitizenData, fetchPotentialNftData, resolveMarketBonuses } from "../traitResolver";
+import { trackIncrement } from "../achievementTracker";
 
 /** 5% marketplace tax */
 const TAX_RATE = 0.05;
@@ -117,6 +118,8 @@ export const marketplaceRouter = router({
       // Check if any buy orders match
       await tryMatchBuyOrders(db, ctx.user.id, input.itemType, input.itemId, input.priceDream, input.priceCredits, input.quantity, result.insertId);
 
+      // Track marketplace listing achievement
+      trackIncrement(ctx.user.id, "market_listings", 1).catch(() => {});
       return { success: true, listingId: result.insertId };
     }),
 
@@ -275,8 +278,10 @@ export const marketplaceRouter = router({
       // Award civil skill XP for marketplace activity (negotiation)
       const { awardCivilXp } = await import("../civilSkillHelper");
       awardCivilXp(ctx.user.id, "marketplace_buy").catch(() => {});
-      awardCivilXp(listing[0].sellerId, "marketplace_sell").catch(() => {});
-
+       awardCivilXp(listing[0].sellerId, "marketplace_sell").catch(() => {});
+      // Track marketplace achievements for both buyer and seller
+      trackIncrement(ctx.user.id, "market_purchases", 1).catch(() => {});
+      trackIncrement(listing[0].sellerId, "market_sales", 1).catch(() => {});
       return { success: true, totalPaid: totalPrice, tax, sellerReceives };
     }),
 

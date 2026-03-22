@@ -379,6 +379,20 @@ export const guildWarsRouter = router({
         }
       }
 
+      // Notify all contributing members of winning guilds
+      for (const guildId of Array.from(winnerGuildIds)) {
+        const members = await db.select({ userId: guildMembers.userId }).from(guildMembers)
+          .where(eq(guildMembers.guildId, guildId));
+        for (const m of members) {
+          db.insert(notifications).values({
+            userId: m.userId,
+            type: "guild_war_victory",
+            title: "Faction War Victory!",
+            message: `Your faction ${winnerFaction} won the war! Prize Dream has been distributed to your guild treasury.`,
+            actionUrl: "/guild",
+          }).catch(() => {});
+        }
+      }
       return { success: true, winner: winnerFaction, distributed: war[0].prizePoolDream };
     }),
 

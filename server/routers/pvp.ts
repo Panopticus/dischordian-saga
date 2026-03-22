@@ -5,7 +5,7 @@ import { z } from "zod";
 import { router, publicProcedure, protectedProcedure } from "../_core/trpc";
 import { getDb } from "../db";
 import {
-  pvpMatches, pvpLeaderboard, pvpDecks, pvpSeasons, pvpSeasonRecords, users,
+  pvpMatches, pvpLeaderboard, pvpDecks, pvpSeasons, pvpSeasonRecords, users, notifications,
 } from "../../drizzle/schema";
 import { eq, desc, and, or, sql, asc } from "drizzle-orm";
 import { getRankTier } from "@shared/pvpBattle";
@@ -313,6 +313,15 @@ export const pvpRouter = router({
       // Mark as claimed
       await db.update(pvpSeasonRecords).set({ rewardsClaimed: 1 })
         .where(eq(pvpSeasonRecords.id, record[0].id));
+
+      // Notify player about season rewards
+      db.insert(notifications).values({
+        userId: ctx.user.id,
+        type: "pvp_season_reward",
+        title: "Season Rewards Claimed!",
+        message: `You claimed ${record[0].peakTier} tier rewards for PvP Season ${input.seasonId}.`,
+        actionUrl: "/pvp",
+      }).catch(() => {});
 
       return {
         success: true,

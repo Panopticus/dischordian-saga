@@ -154,7 +154,8 @@ export default function GuildPage() {
 
 /* ═══ NO GUILD VIEW — Browse / Create / Invites ═══ */
 function NoGuildView({ invites, onJoined }: { invites: any[]; onJoined: () => void }) {
-  const [mode, setMode] = useState<"browse" | "create">("browse");
+  const [mode, setMode] = useState<"browse" | "create" | "recruitment">("browse");
+  const { data: recruitmentPosts } = trpc.guild.getRecruitmentPosts.useQuery();
   const [search, setSearch] = useState("");
   const [faction, setFaction] = useState<string>("all");
 
@@ -223,6 +224,14 @@ function NoGuildView({ invites, onJoined }: { invites: any[]; onJoined: () => vo
             <Search size={13} className="inline mr-1.5" /> BROWSE
           </button>
           <button
+            onClick={() => setMode("recruitment")}
+            className={`flex-1 py-2 rounded-md font-mono text-xs tracking-wider transition-all ${
+              mode === "recruitment" ? "bg-primary/10 border border-primary/40 text-primary" : "bg-card/30 border border-border/20 text-muted-foreground"
+            }`}
+          >
+            <UserPlus size={13} className="inline mr-1.5" /> RECRUITMENT
+          </button>
+          <button
             onClick={() => setMode("create")}
             className={`flex-1 py-2 rounded-md font-mono text-xs tracking-wider transition-all ${
               mode === "create" ? "bg-primary/10 border border-primary/40 text-primary" : "bg-card/30 border border-border/20 text-muted-foreground"
@@ -232,7 +241,62 @@ function NoGuildView({ invites, onJoined }: { invites: any[]; onJoined: () => vo
           </button>
         </div>
 
-        {mode === "browse" ? (
+        {mode === "recruitment" ? (
+          <div className="space-y-3">
+            <div className="flex items-center gap-2 mb-3">
+              <UserPlus size={14} className="text-primary" />
+              <span className="font-display text-xs font-bold tracking-[0.2em]">RECRUITMENT BOARD</span>
+              <span className="font-mono text-[10px] text-muted-foreground">// ACTIVE POSTINGS</span>
+            </div>
+            {recruitmentPosts?.posts.map(p => {
+              const fs = FACTION_STYLE[p.guildFaction] || FACTION_STYLE.neutral;
+              return (
+                <div key={p.id} className="p-4 rounded-lg bg-card/40 border border-border/20 hover:border-primary/20 transition-all space-y-2">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <div className={`w-8 h-8 rounded-md flex items-center justify-center ${fs.bg} border ${fs.border}`}>
+                        <Shield size={16} className={fs.color} />
+                      </div>
+                      <div>
+                        <p className="font-mono text-sm font-semibold">{p.guildName} <span className="text-muted-foreground text-xs">[{p.guildTag}]</span></p>
+                        <div className="flex items-center gap-2 font-mono text-[10px] text-muted-foreground">
+                          <span className={fs.color}>{p.guildFaction.toUpperCase()}</span>
+                          <span>LVL {p.guildLevel}</span>
+                          <span>{p.memberCount}/{p.maxMembers}</span>
+                        </div>
+                      </div>
+                    </div>
+                    <button
+                      onClick={() => joinMut.mutate({ guildId: p.guildId })}
+                      disabled={joinMut.isPending}
+                      className="px-3 py-1.5 rounded-md bg-primary/10 border border-primary/40 text-primary font-mono text-xs hover:bg-primary/20 transition-all disabled:opacity-50"
+                    >
+                      APPLY
+                    </button>
+                  </div>
+                  <p className="font-mono text-xs text-muted-foreground leading-relaxed">{p.description}</p>
+                  <div className="flex flex-wrap gap-2">
+                    {p.minLevel > 1 && (
+                      <span className="px-2 py-0.5 rounded bg-amber-400/10 border border-amber-400/20 font-mono text-[10px] text-amber-400">MIN LVL {p.minLevel}</span>
+                    )}
+                    {p.requirements && (
+                      <span className="px-2 py-0.5 rounded bg-card/60 border border-border/30 font-mono text-[10px] text-muted-foreground">{p.requirements}</span>
+                    )}
+                    {p.preferredClasses?.map((c: string) => (
+                      <span key={c} className="px-2 py-0.5 rounded bg-primary/10 border border-primary/20 font-mono text-[10px] text-primary">{c}</span>
+                    ))}
+                  </div>
+                </div>
+              );
+            })}
+            {(!recruitmentPosts?.posts || recruitmentPosts.posts.length === 0) && (
+              <div className="text-center py-8">
+                <UserPlus size={32} className="text-muted-foreground/30 mx-auto mb-2" />
+                <p className="font-mono text-xs text-muted-foreground">No active recruitment posts. Check back later or browse syndicates directly.</p>
+              </div>
+            )}
+          </div>
+        ) : mode === "browse" ? (
           <div className="space-y-3">
             <div className="flex gap-2">
               <input
@@ -362,6 +426,24 @@ function NoGuildView({ invites, onJoined }: { invites: any[]; onJoined: () => vo
 function GuildOverview({ guild, membership, onRefetch }: { guild: any; membership: any; onRefetch: () => void }) {
   const leaveMut = trpc.guild.leave.useMutation({ onSuccess: onRefetch });
   const fs = FACTION_STYLE[guild.faction] || FACTION_STYLE.neutral;
+  const isLeaderOrOfficer = membership.role === "leader" || membership.role === "officer";
+  const { data: myRecruitPost, refetch: refetchRecruit } = trpc.guild.getMyRecruitmentPost.useQuery();
+  const setRecruitMut = trpc.guild.setRecruitmentPost.useMutation({ onSuccess: () => refetchRecruit() });
+  const deleteRecruitMut = trpc.guild.deleteRecruitmentPost.useMutation({ onSuccess: () => refetchRecruit() });
+  const [recruitForm, setRecruitForm] = useState({
+    description: myRecruitPost?.description || "",
+    requirements: myRecruitPost?.requirements || "",
+    minLevel: myRecruitPost?.minLevel || 1,
+  });
+  useEffect(() => {
+    if (myRecruitPost) {
+      setRecruitForm({
+        description: myRecruitPost.description || "",
+        requirements: myRecruitPost.requirements || "",
+        minLevel: myRecruitPost.minLevel || 1,
+      });
+    }
+  }, [myRecruitPost]);
 
   return (
     <div className="space-y-6">
@@ -413,6 +495,66 @@ function GuildOverview({ guild, membership, onRefetch }: { guild: any; membershi
           </button>
         </div>
       </div>
+
+      {/* Recruitment Management (leaders/officers only) */}
+      {isLeaderOrOfficer && (
+        <div className="p-4 rounded-lg bg-card/30 border border-border/20 space-y-3">
+          <h3 className="font-display text-xs font-bold tracking-[0.2em] text-muted-foreground flex items-center gap-2">
+            <UserPlus size={13} className="text-primary" /> RECRUITMENT POST
+          </h3>
+          {myRecruitPost ? (
+            <div className="space-y-2">
+              <p className="font-mono text-xs text-foreground/80">{myRecruitPost.description}</p>
+              <div className="flex items-center gap-2">
+                <span className={`px-2 py-0.5 rounded font-mono text-[10px] ${
+                  myRecruitPost.status === "open" ? "bg-green-400/10 text-green-400 border border-green-400/20" : "bg-red-400/10 text-red-400 border border-red-400/20"
+                }`}>{myRecruitPost.status.toUpperCase()}</span>
+                <span className="font-mono text-[10px] text-muted-foreground">MIN LVL {myRecruitPost.minLevel}</span>
+              </div>
+              <div className="flex gap-2">
+                <button
+                  onClick={() => deleteRecruitMut.mutate()}
+                  className="px-3 py-1 rounded bg-destructive/10 border border-destructive/30 text-destructive font-mono text-[10px] hover:bg-destructive/20"
+                >
+                  DELETE POST
+                </button>
+              </div>
+            </div>
+          ) : (
+            <div className="space-y-2">
+              <textarea
+                value={recruitForm.description}
+                onChange={e => setRecruitForm(f => ({ ...f, description: e.target.value }))}
+                placeholder="Describe what your syndicate is looking for..."
+                rows={3}
+                className="w-full px-3 py-2 rounded-md bg-card/40 border border-border/30 font-mono text-xs text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:border-primary/50 resize-none"
+              />
+              <div className="flex gap-2">
+                <input
+                  value={recruitForm.requirements}
+                  onChange={e => setRecruitForm(f => ({ ...f, requirements: e.target.value }))}
+                  placeholder="Requirements (optional)"
+                  className="flex-1 px-3 py-1.5 rounded-md bg-card/40 border border-border/30 font-mono text-xs text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:border-primary/50"
+                />
+                <input
+                  type="number"
+                  value={recruitForm.minLevel}
+                  onChange={e => setRecruitForm(f => ({ ...f, minLevel: Number(e.target.value) || 1 }))}
+                  min={1} max={50}
+                  className="w-20 px-2 py-1.5 rounded-md bg-card/40 border border-border/30 font-mono text-xs text-foreground focus:outline-none focus:border-primary/50"
+                />
+              </div>
+              <button
+                onClick={() => setRecruitMut.mutate({ description: recruitForm.description, requirements: recruitForm.requirements, minLevel: recruitForm.minLevel })}
+                disabled={!recruitForm.description || recruitForm.description.length < 10 || setRecruitMut.isPending}
+                className="w-full py-2 rounded-md bg-primary/10 border border-primary/40 text-primary font-mono text-xs font-bold tracking-wider hover:bg-primary/20 transition-all disabled:opacity-50"
+              >
+                {setRecruitMut.isPending ? "POSTING..." : "POST RECRUITMENT"}
+              </button>
+            </div>
+          )}
+        </div>
+      )}
 
       {/* Faction Info */}
       <div className={`p-4 rounded-lg ${fs.bg} border ${fs.border}`}>

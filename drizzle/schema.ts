@@ -272,6 +272,12 @@ export const characterSheets = mysqlTable("character_sheets", {
   influence: int("influence").notNull().default(30),
   energy: int("energy").notNull().default(10),
   credits: int("credits").notNull().default(1000),
+  /** Morality score: -100 (Machine) to +100 (Humanity) */
+  moralityScore: int("moralityScore").notNull().default(0),
+  /** Active ship theme ID (from morality unlockables) */
+  activeShipTheme: varchar("activeShipTheme", { length: 128 }),
+  /** Active character theme ID (from morality unlockables) */
+  activeCharacterTheme: varchar("activeCharacterTheme", { length: 128 }),
   /** Avatar/portrait URL */
   avatarUrl: text("avatarUrl"),
   /** Equipped items JSON */
@@ -1455,12 +1461,13 @@ export const notifications = mysqlTable("notifications", {
   /** Notification type for icon/routing */
   type: mysqlEnum("type", [
     "trade_offer", "trade_accepted", "trade_declined",
-    "pvp_challenge", "pvp_result",
+    "pvp_challenge", "pvp_result", "pvp_season_reward",
     "auction_outbid", "auction_won", "auction_ended",
     "market_sold", "market_buy_filled",
-    "faction_war", "guild_invite", "guild_message",
+    "faction_war", "guild_invite", "guild_message", "guild_war_victory",
     "daily_reset", "daily_login", "quest_complete", "weekly_quest", "epoch_quest",
     "achievement", "battle_pass_reward", "syndicate_quest",
+    "boss_mastery", "seasonal_event", "recruitment",
     "system"
   ]).notNull(),
   title: varchar("title", { length: 256 }).notNull(),

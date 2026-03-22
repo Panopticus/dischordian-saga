@@ -3,9 +3,11 @@
  * ══════════════════════════════════════════════════════════
  * Card art variants, skins, theme packs, pricing.
  * Purchased with Dreams (in-game currency).
+ * Boss mastery cosmetics are earned, not purchased — they appear
+ * in the collection once the player reaches the required mastery level.
  */
 
-export type CosmeticType = "card_art" | "avatar_frame" | "title" | "theme_pack" | "emote" | "trail_effect" | "board_skin" | "tower_skin";
+export type CosmeticType = "card_art" | "avatar_frame" | "title" | "theme_pack" | "emote" | "trail_effect" | "board_skin" | "tower_skin" | "badge" | "armor_skin";
 export type CosmeticRarity = "common" | "rare" | "epic" | "legendary" | "mythic";
 
 export interface CosmeticItem {
@@ -16,7 +18,7 @@ export interface CosmeticItem {
   color: string;
   type: CosmeticType;
   rarity: CosmeticRarity;
-  /** Cost in Dreams */
+  /** Cost in Dreams (0 = earned, not purchasable) */
   price: number;
   /** Sale price (optional) */
   salePrice?: number;
@@ -28,6 +30,12 @@ export interface CosmeticItem {
   requiredPrestige?: string;
   /** Required level */
   requiredLevel?: number;
+  /** Earned from boss mastery (key = boss key, not purchasable) */
+  earnedFromBoss?: string;
+  /** Earned from seasonal event participation */
+  earnedFromEvent?: string;
+  /** Earned from achievement */
+  earnedFromAchievement?: string;
 }
 
 export const COSMETIC_ITEMS: CosmeticItem[] = [
@@ -76,6 +84,20 @@ export const COSMETIC_ITEMS: CosmeticItem[] = [
   // ── TOWER SKINS ──
   { key: "tower_crystal", name: "Crystal Towers", description: "Towers made of pure crystal", icon: "Diamond", color: "#38bdf8", type: "tower_skin", rarity: "epic", price: 300, limited: false },
   { key: "tower_shadow", name: "Shadow Towers", description: "Dark energy towers", icon: "Moon", color: "#1e1b4b", type: "tower_skin", rarity: "epic", price: 300, limited: false },
+
+  // ═══ BOSS MASTERY COSMETICS (earned, not purchased) ═══
+  // Sentinel Prime
+  { key: "sentinel_slayer_badge", name: "Sentinel Slayer Badge", description: "Earned by defeating Sentinel Prime 5 times", icon: "Shield", color: "#3b82f6", type: "badge", rarity: "rare", price: 0, limited: false, earnedFromBoss: "sentinel_prime" },
+  { key: "sentinel_armor_skin", name: "Sentinel Armor Skin", description: "Earned by defeating Sentinel Prime 25 times", icon: "Shield", color: "#3b82f6", type: "armor_skin", rarity: "epic", price: 0, limited: false, earnedFromBoss: "sentinel_prime" },
+  // Chrono Wyrm
+  { key: "chrono_scales_badge", name: "Chrono Scales Badge", description: "Earned by defeating Chrono Wyrm 5 times", icon: "Timer", color: "#0ea5e9", type: "badge", rarity: "rare", price: 0, limited: false, earnedFromBoss: "chrono_wyrm" },
+  { key: "wyrm_rider_skin", name: "Wyrm Rider Skin", description: "Earned by defeating Chrono Wyrm 25 times", icon: "Timer", color: "#0ea5e9", type: "armor_skin", rarity: "epic", price: 0, limited: false, earnedFromBoss: "chrono_wyrm" },
+  // Void Leviathan
+  { key: "void_mark_badge", name: "Void Mark Badge", description: "Earned by defeating Void Leviathan 5 times", icon: "Circle", color: "#6d28d9", type: "badge", rarity: "rare", price: 0, limited: false, earnedFromBoss: "void_leviathan" },
+  { key: "leviathan_cloak_skin", name: "Leviathan Cloak Skin", description: "Earned by defeating Void Leviathan 25 times", icon: "Circle", color: "#6d28d9", type: "armor_skin", rarity: "epic", price: 0, limited: false, earnedFromBoss: "void_leviathan" },
+  // Shadow Colossus
+  { key: "shadow_mark_badge", name: "Shadow Mark Badge", description: "Earned by defeating Shadow Colossus 5 times", icon: "Moon", color: "#1e1b4b", type: "badge", rarity: "rare", price: 0, limited: false, earnedFromBoss: "shadow_colossus" },
+  { key: "colossus_armor_skin", name: "Colossus Armor Skin", description: "Earned by defeating Shadow Colossus 25 times", icon: "Moon", color: "#1e1b4b", type: "armor_skin", rarity: "epic", price: 0, limited: false, earnedFromBoss: "shadow_colossus" },
 ];
 
 export const COSMETIC_TYPE_LABELS: Record<CosmeticType, string> = {
@@ -87,15 +109,41 @@ export const COSMETIC_TYPE_LABELS: Record<CosmeticType, string> = {
   trail_effect: "Trail Effect",
   board_skin: "Board Skin",
   tower_skin: "Tower Skin",
+  badge: "Badge",
+  armor_skin: "Armor Skin",
 };
 
+/** Get purchasable shop items (filters by prestige/level) */
 export function getShopItems(opts: {
   prestigeClass?: string;
   citizenLevel?: number;
 }): CosmeticItem[] {
   return COSMETIC_ITEMS.filter(item => {
+    // Boss mastery items are earned, not shown in shop
+    if (item.earnedFromBoss) return false;
+    if (item.earnedFromEvent) return false;
+    if (item.earnedFromAchievement) return false;
     if (item.requiredPrestige && item.requiredPrestige !== opts.prestigeClass) return false;
     if (item.requiredLevel && (opts.citizenLevel || 0) < item.requiredLevel) return false;
     return true;
+  });
+}
+
+/** Get all cosmetics a player has earned from boss mastery */
+export function getBossMasteryCosmetics(unlockedKeys: string[]): CosmeticItem[] {
+  return COSMETIC_ITEMS.filter(item => item.earnedFromBoss && unlockedKeys.includes(item.key));
+}
+
+/** Get all cosmetics a player has earned from any source */
+export function getAllEarnedCosmetics(opts: {
+  bossUnlocked: string[];
+  eventUnlocked?: string[];
+  achievementUnlocked?: string[];
+}): CosmeticItem[] {
+  return COSMETIC_ITEMS.filter(item => {
+    if (item.earnedFromBoss && opts.bossUnlocked.includes(item.key)) return true;
+    if (item.earnedFromEvent && opts.eventUnlocked?.includes(item.key)) return true;
+    if (item.earnedFromAchievement && opts.achievementUnlocked?.includes(item.key)) return true;
+    return false;
   });
 }

@@ -1,8 +1,9 @@
 /**
  * PERSONAL QUARTERS ROUTER
  * ──────────────────────────────────────────────────
- * Decoratable player hideout with 100+ items, zones, visiting.
- * RPG integration: class/species unlock items, civil skills reduce costs.
+ * Decoratable player hideout with 120+ items, zones, visiting.
+ * RPG integration: class/species unlock items, civil skills reduce costs,
+ * boss kill trophies, seasonal event decorations, achievement-gated items.
  */
 import { z } from "zod";
 import { router, protectedProcedure, publicProcedure } from "../_core/trpc";
@@ -10,7 +11,8 @@ import { getDb } from "../db";
 import {
   playerQuarters, quarterVisits,
   citizenCharacters, civilSkillProgress, classMastery,
-  prestigeProgress,
+  prestigeProgress, bossMastery, eventParticipation,
+  seasonalEvents, userAchievements, characterSheets,
 } from "../../drizzle/schema";
 import { eq, and, desc, sql } from "drizzle-orm";
 import {
@@ -42,12 +44,39 @@ export const personalQuartersRouter = router({
     for (const c of classRows) classMap[c.characterClass] = c.masteryRank;
     const prestRows = await db.select().from(prestigeProgress).where(eq(prestigeProgress.userId, ctx.user.id));
 
-    // Get available decorations based on RPG state
+    // Get boss kill counts
+    const bossRows = await db.select().from(bossMastery).where(eq(bossMastery.userId, ctx.user.id));
+    const bossKills: Record<string, number> = {};
+    for (const b of bossRows) bossKills[b.bossKey] = b.kills;
+
+    // Get seasonal event participation
+    const eventParts = await db.select({
+      eventKey: seasonalEvents.eventKey,
+    }).from(eventParticipation)
+      .innerJoin(seasonalEvents, eq(eventParticipation.eventId, seasonalEvents.id))
+      .where(eq(eventParticipation.userId, ctx.user.id));
+    const seasonalEventsParticipated = Array.from(new Set(eventParts.map(e => e.eventKey)));
+
+    // Get achievements
+    const achievementRows = await db.select().from(userAchievements).where(eq(userAchievements.userId, ctx.user.id));
+    const achievements = achievementRows.map(a => a.achievementId);
+
+    // Get morality score and level
+    const [sheet] = await db.select().from(characterSheets).where(eq(characterSheets.userId, ctx.user.id));
+    const moralityScore = sheet?.moralityScore ?? 0;
+    const citizenLevel = char?.level ?? 1;
+
+    // Get available decorations based on full RPG state
     const allAvailable = getAvailableDecorations({
       characterClass: char?.characterClass,
       species: char?.species,
       civilSkills: skillMap,
       prestigeClass: prestRows[0]?.prestigeClassKey,
+      achievements,
+      moralityScore,
+      citizenLevel,
+      bossKills,
+      seasonalEventsParticipated,
     });
 
     // Calculate bonuses from placed items
@@ -61,6 +90,14 @@ export const personalQuartersRouter = router({
       bonuses,
       availableItems: allAvailable,
       zones: ROOM_ZONES,
+      stats: {
+        totalItems: DECORATION_ITEMS.length,
+        unlockedItems: allAvailable.length,
+        placedItems: (quarters.placedItems || []).length,
+        bossKills,
+        seasonalEventsParticipated,
+        achievementCount: achievements.length,
+      },
     };
   }),
 

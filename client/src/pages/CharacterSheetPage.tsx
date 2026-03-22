@@ -18,6 +18,9 @@ import TraitSummaryPanel from "@/components/TraitSummaryPanel";
 import { MoralityMeter } from "@/components/MoralityMeter";
 import MoralityUnlockablesPanel from "@/components/MoralityUnlockablesPanel";
 import RespecDialog from "@/components/RespecDialog";
+import { ThemeSelector } from "@/components/ThemeSelector";
+import { CharacterAuraOverlay } from "@/components/CharacterAuraOverlay";
+import { MoralityMilestoneRewards } from "@/components/MoralityMilestoneRewards";
 import { useGame } from "@/contexts/GameContext";
 import { useGamification } from "@/contexts/GamificationContext";
 import { Link as WLink } from "wouter";
@@ -943,6 +946,18 @@ export default function CharacterSheetPage() {
           <SectionHeader icon={Shield} label="MORALITY ALIGNMENT" color="text-purple-400" />
           <MoralityMeter showDetails={true} />
           <MoralityUnlockablesPanel />
+          <MoralityMilestoneRewards />
+          <ThemeSelector
+            activeShipTheme={(gameState as any).activeShipTheme || "ship_twilight_equilibrium"}
+            activeCharacterTheme={(gameState as any).activeCharacterTheme || "char_void_walker"}
+            onEquipShipTheme={(id) => {
+              // Persist via local state — server sync handled by gameState router
+              (gameState as any).activeShipTheme = id;
+            }}
+            onEquipCharacterTheme={(id) => {
+              (gameState as any).activeCharacterTheme = id;
+            }}
+          />
         </motion.div>
 
         {/* ═══════════════════════════════════════════════════
