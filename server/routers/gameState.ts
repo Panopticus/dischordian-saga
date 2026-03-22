@@ -151,6 +151,10 @@ export const gameStateRouter = router({
           title: input.stats.rank,
         });
       }
+      // Award civil skill XP for entity discovery (lore + perception)
+      const { awardCivilXp } = await import("../civilSkillHelper");
+      awardCivilXp(ctx.user.id, "discover_entity").catch(() => {});
+
       return { success: true };
     }),
 

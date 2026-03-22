@@ -242,6 +242,10 @@ export const contentRewardRouter = router({
         return { success: true, rewards };
       }
 
+      // Award civil skill XP for content participation (lore)
+      const { awardCivilXp } = await import("../civilSkillHelper");
+      awardCivilXp(ctx.user.id, "listen_song").catch(() => {});
+
       return { success: true, rewards: null };
     }),
 

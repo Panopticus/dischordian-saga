@@ -94,6 +94,10 @@ export const arkRouter = router({
         lastVisitedAt: new Date(),
       });
 
+      // Award civil skill XP for room exploration (perception + lore)
+      const { awardCivilXp } = await import("../civilSkillHelper");
+      awardCivilXp(ctx.user.id, "explore_room").catch(() => {});
+
       return { success: true, room: room[0], firstVisit: true };
     }),
 

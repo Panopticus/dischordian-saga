@@ -375,6 +375,7 @@ export const chessRouter = router({
       timeControl: z.number().min(60).max(3600).default(600),
     }))
     .mutation(async ({ ctx, input }) => {
+      try {
       await chessReady;
       const db = (await getDb())!;
       const character = CHESS_CHARACTERS[input.characterId];
@@ -448,6 +449,10 @@ export const chessRouter = router({
         aiDifficulty,
         traitBonuses: chessTb,
       };
+      } catch (err: any) {
+        console.error("[Chess] startGame error:", err?.message, err?.stack);
+        throw err;
+      }
     }),
 
   /** Make a move and get AI response */
@@ -849,6 +854,15 @@ async function processGameEnd(
     // Extra XP for checkmate wins
     if (playerWon && game.pgn?.includes("#")) {
       await awardClassXp(playerId, "chess_checkmate");
+    }
+  }
+
+  // Award civil skill XP (tactics)
+  const { awardCivilXp } = await import("../civilSkillHelper");
+  if (playerWon) {
+    awardCivilXp(playerId, "win_chess").catch(() => {});
+    if (game.pgn?.includes("#")) {
+      awardCivilXp(playerId, "chess_checkmate").catch(() => {});
     }
   }
 

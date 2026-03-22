@@ -78,8 +78,11 @@ export default function ChessPage() {
     }
   }, [activeGame.data]);
 
+  const [startError, setStartError] = useState<string | null>(null);
+
   const handleStartGame = async () => {
     if (!selectedCharacter) return;
+    setStartError(null);
     try {
       const result = await startGame.mutateAsync({
         mode: selectedMode,
@@ -95,7 +98,8 @@ export default function ChessPage() {
       setEloChange(0);
       setView("playing");
     } catch (e: any) {
-      console.error(e);
+      console.error("Chess startGame error:", e);
+      setStartError(e?.message || "Failed to start game. Please try again.");
     }
   };
 
@@ -364,6 +368,11 @@ export default function ChessPage() {
                 <span className="flex items-center justify-center gap-2"><Swords size={16} /> BEGIN MATCH</span>
               )}
             </button>
+            {startError && (
+              <div className="mt-3 p-3 rounded-lg bg-destructive/10 border border-destructive/30 text-destructive font-mono text-xs">
+                <span className="font-bold">ERROR:</span> {startError}
+              </div>
+            )}
           </motion.div>
         )}
 
@@ -403,7 +412,7 @@ export default function ChessPage() {
                         handleDrop(sourceSquare, targetSquare, piece.pieceType);
                         return true;
                       },
-                      canDragPiece: ({ piece }) => piece.pieceType[0] === "w" && gameStatus === "active" && !isThinking,
+                      canDragPiece: ({ piece }) => (piece.pieceType?.startsWith("w") || piece.pieceType?.[0] === "w") && gameStatus === "active" && !isThinking,
                       boardStyle: {
                         borderRadius: "8px",
                         boxShadow: "0 0 20px rgba(0,255,255,0.1)",

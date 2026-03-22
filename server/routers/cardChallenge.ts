@@ -221,6 +221,10 @@ export const cardChallengeRouter = router({
       trackAiResult(winnerId, true).catch(e => logger.error("[CardChallenge] Achievement error:", e));
       trackAiResult(loserId, false).catch(e => logger.error("[CardChallenge] Achievement error:", e));
 
+      // Award civil skill XP (tactics) to winner
+      const { awardCivilXp } = await import("../civilSkillHelper");
+      awardCivilXp(winnerId, "win_card_battle").catch(() => {});
+
       return {
         success: true,
         winnerId,

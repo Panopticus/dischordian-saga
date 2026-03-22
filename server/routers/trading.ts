@@ -157,6 +157,11 @@ export const tradingRouter = router({
       awardClassXp(trade.senderId, "trade_card").catch(() => {});
       awardClassXp(ctx.user.id, "trade_card").catch(() => {});
 
+      // Award civil skill XP for completed trade (negotiation + diplomacy)
+      const { awardCivilXp } = await import("../civilSkillHelper");
+      awardCivilXp(trade.senderId, "complete_trade").catch(() => {});
+      awardCivilXp(ctx.user.id, "complete_trade").catch(() => {});
+
       return { success: true };
     }),
 

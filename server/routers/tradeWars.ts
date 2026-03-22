@@ -358,6 +358,11 @@ export const tradeWarsRouter = router({
           totalCost,
         }, player.currentSector);
         
+        // Award civil skill XP (negotiation)
+        const { awardCivilXp } = await import("../civilSkillHelper");
+        awardCivilXp(ctx.user.id, "complete_trade").catch(() => {});
+        awardCivilXp(ctx.user.id, "marketplace_buy").catch(() => {});
+
         return {
           success: true,
           message: `Bought ${input.quantity} ${input.commodity} for ${totalCost} credits`,
@@ -395,6 +400,11 @@ export const tradeWarsRouter = router({
           totalRevenue,
         }, player.currentSector);
         
+        // Award civil skill XP (negotiation)
+        const { awardCivilXp: awardSellXp } = await import("../civilSkillHelper");
+        awardSellXp(ctx.user.id, "complete_trade").catch(() => {});
+        awardSellXp(ctx.user.id, "marketplace_sell").catch(() => {});
+
         return {
           success: true,
           message: `Sold ${input.quantity} ${input.commodity} for ${totalRevenue} credits`,
@@ -452,6 +462,10 @@ export const tradeWarsRouter = router({
       experience: player.experience + 10 + newDiscoveries * 5,
     }).where(eq(twPlayerState.userId, ctx.user.id));
     
+    // Award civil skill XP (perception)
+    const { awardCivilXp: awardScanXp } = await import("../civilSkillHelper");
+    awardScanXp(ctx.user.id, "scan_system").catch(() => {});
+
     return {
       success: true,
       message: `Scan complete. ${newDiscoveries} new sectors detected.`,
@@ -665,6 +679,13 @@ export const tradeWarsRouter = router({
       isDemonEncounter,
     }, player.currentSector);
     
+    // Award civil skill XP (tactics for win, endurance for survive)
+    const { awardCivilXp: awardCombatXp } = await import("../civilSkillHelper");
+    if (won) {
+      awardCombatXp(ctx.user.id, "win_fight").catch(() => {});
+    }
+    awardCombatXp(ctx.user.id, "survive_fight").catch(() => {});
+
     return {
       success: true,
       won,

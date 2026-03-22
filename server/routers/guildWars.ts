@@ -164,6 +164,10 @@ export const guildWarsRouter = router({
       const { awardClassXp } = await import("../classMasteryHelper");
       awardClassXp(ctx.user.id, "guild_war_contribute").catch(() => {});
 
+      // Award civil skill XP (tactics + endurance)
+      const { awardCivilXp } = await import("../civilSkillHelper");
+      awardCivilXp(ctx.user.id, "guild_war_contribute").catch(() => {});
+
       return { success: true, points, faction: guildFaction, traitMultiplier: warTb.warPointMultiplier };
     }),
 

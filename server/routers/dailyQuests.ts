@@ -292,6 +292,10 @@ export const dailyQuestsRouter = router({
       const { awardClassXp } = await import("../classMasteryHelper");
       const classXpResult = await awardClassXp(ctx.user.id, "complete_quest");
 
+      // Award civil skill XP (endurance + lore)
+      const { awardCivilXp } = await import("../civilSkillHelper");
+      awardCivilXp(ctx.user.id, "complete_quest").catch(() => {});
+
       return {
         success: true,
         rewardDream: adjustedDream,

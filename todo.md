@@ -1967,3 +1967,31 @@
 - [x] Add hotspots for all newly mapped features: chess, spectate, quests, guild, diplomacy, war-map, marketplace, inventory, fleet, companions, battle-pass, morality-census, lore-tutorials, research-minigame, guild-war, faction-wars
 - [x] Add featureRoutes for all rooms (bridge, comms-array, engineering, armory, cargo-hold, captains-quarters, war-room)
 - [x] Verify all main features discoverable through room exploration — 1849 tests passing, zero TS errors
+
+### Phase 82 — Chess E2E Test, War Room Preview, Civil Skill XP Wiring
+
+#### Chess End-to-End
+- [x] Verified chess startGame mutation works for all species — added human/synthetic to SPECIES_ tables
+- [x] Added try-catch error handling to startGame mutation with proper error logging
+- [x] Fixed ChessPage canDragPiece for react-chessboard v5 API, added error display for startGame failures
+
+#### War Room Preview/Teaser
+- [x] Added locked feature preview UI for hidden rooms — teaser cards with feature names, descriptions, and unlock hints
+- [x] Updated ROOM_ROUTES in InceptionArkPage to include all missing feature routes
+- [x] Added unlock requirement hints for War Room (soldier_chain), Cipher Den (discovery), Captain's Quarters (character creation)
+
+#### Civil Skill XP Wiring
+- [x] Wire trading actions — tradeWars buy/sell (complete_trade), trading acceptTrade (complete_trade)
+- [x] Wire crafting actions — crafting.ts craft success (craft_item, craft_rare)
+- [x] Wire discovery/exploration — ark visitRoom (explore_room), gameState save (discover_entity), tradeWars scan (scan_system)
+- [x] Wire chess/card game — chess processGameEnd (win_chess, chess_checkmate), cardChallenge accept (win_card_battle)
+- [x] Wire quest completion — dailyQuests claimReward (complete_quest)
+- [x] Wire fight victories — tradeWars combat (win_fight)
+- [x] Wire guild/diplomacy — guild donate (guild_donation), guildWars contribute (guild_war_contribute), warMap action (capture_territory, sabotage_territory)
+- [x] Wire marketplace — marketplace buyListing (marketplace_buy, marketplace_sell)
+- [x] Wire music/content — contentReward recordParticipation (listen_song)
+
+#### Tests & Verification
+- [x] All 1849 tests passing
+- [x] TypeScript compiles cleanly (zero errors)
+- [ ] Checkpoint and deliver

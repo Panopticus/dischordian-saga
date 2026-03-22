@@ -272,6 +272,11 @@ export const marketplaceRouter = router({
       awardClassXp(ctx.user.id, "market_trade").catch(() => {});
       awardClassXp(listing[0].sellerId, "market_trade").catch(() => {});
 
+      // Award civil skill XP for marketplace activity (negotiation)
+      const { awardCivilXp } = await import("../civilSkillHelper");
+      awardCivilXp(ctx.user.id, "marketplace_buy").catch(() => {});
+      awardCivilXp(listing[0].sellerId, "marketplace_sell").catch(() => {});
+
       return { success: true, totalPaid: totalPrice, tax, sellerReceives };
     }),
 

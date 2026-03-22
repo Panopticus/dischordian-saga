@@ -389,6 +389,14 @@ export const warMapRouter = router({
         seasonId: season.id,
       });
 
+      // Award civil skill XP based on action type
+      const { awardCivilXp } = await import("../civilSkillHelper");
+      if (actionType === "capture") {
+        awardCivilXp(ctx.user.id, "capture_territory").catch(() => {});
+      } else if (actionType === "sabotage") {
+        awardCivilXp(ctx.user.id, "sabotage_territory").catch(() => {});
+      }
+
       return { success: true, message, pointsEarned: pointsChange };
     }),
 

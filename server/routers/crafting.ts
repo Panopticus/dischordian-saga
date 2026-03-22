@@ -497,6 +497,14 @@ export const craftingRouter = router({
       const { awardClassXp } = await import("../classMasteryHelper");
       awardClassXp(ctx.user.id, "craft_item").catch(() => {});
 
+      // Award civil skill XP (craftsmanship)
+      const { awardCivilXp } = await import("../civilSkillHelper");
+      awardCivilXp(ctx.user.id, "craft_item").catch(() => {});
+      // Extra XP for rare+ crafts
+      if (["rare", "epic", "legendary", "mythic"].includes(outputCard.rarity)) {
+        awardCivilXp(ctx.user.id, "craft_rare").catch(() => {});
+      }
+
       return {
         success: true,
         message: `Crafted ${outputCard.name} (${outputCard.rarity})!`,

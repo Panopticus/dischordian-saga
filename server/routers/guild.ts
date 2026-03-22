@@ -328,6 +328,10 @@ export const guildRouter = router({
         messageType: "system",
       });
 
+      // Award civil skill XP for guild donation (negotiation + diplomacy)
+      const { awardCivilXp } = await import("../civilSkillHelper");
+      awardCivilXp(ctx.user.id, "guild_donation").catch(() => {});
+
       return { success: true, xpGain };
     }),
 

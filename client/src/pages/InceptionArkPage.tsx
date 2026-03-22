@@ -105,7 +105,7 @@ const ARK_DECKS: ArkDeck[] = [
 
 const ROOM_ROUTES: Record<string, string> = {
   war_room: "/cards/play",
-  captains_quarters: "/trophy",
+  captains_quarters: "/companions",
   cargo_bay: "/cards",
   trophy_room: "/trophy",
   trade_hub: "/trade-empire",
@@ -115,11 +115,88 @@ const ROOM_ROUTES: Record<string, string> = {
   bridge: "/board",
   comms: "/console",
   nav: "/timeline",
-  armory: "/deck-builder",
+  armory: "/chess",
   barracks: "/character-sheet",
   medbay: "/character-sheet",
   lab: "/research-lab",
   engineering: "/research-lab",
+  observation: "/morality-census",
+  mess_hall: "/marketplace",
+};
+
+/* ─── ROOM FEATURE PREVIEWS (for locked & unlocked rooms) ─── */
+interface RoomFeature {
+  name: string;
+  route: string;
+  icon: string;
+  status: "active" | "preview";
+}
+
+const ROOM_FEATURES: Record<string, RoomFeature[]> = {
+  bridge: [
+    { name: "Conspiracy Board", route: "/board", icon: "🗺️", status: "active" },
+    { name: "Quests", route: "/quests", icon: "📜", status: "active" },
+    { name: "Guild Hall", route: "/guild", icon: "⚔️", status: "active" },
+    { name: "Diplomacy", route: "/diplomacy", icon: "🤝", status: "active" },
+    { name: "War Map", route: "/faction-wars", icon: "🌍", status: "active" },
+  ],
+  war_room: [
+    { name: "Card Arena", route: "/cards/play", icon: "🃏", status: "active" },
+    { name: "Guild Wars", route: "/guild-war", icon: "⚔️", status: "active" },
+    { name: "Faction Wars", route: "/faction-wars", icon: "🏴", status: "active" },
+  ],
+  armory: [
+    { name: "Deck Builder", route: "/deck-builder", icon: "🛡️", status: "active" },
+    { name: "Chess", route: "/chess", icon: "♟️", status: "active" },
+    { name: "Spectate", route: "/spectate", icon: "👁️", status: "active" },
+  ],
+  captains_quarters: [
+    { name: "Companions", route: "/companions", icon: "🤖", status: "active" },
+    { name: "Battle Pass", route: "/battle-pass", icon: "🎖️", status: "active" },
+    { name: "Morality Census", route: "/morality-census", icon: "⚖️", status: "active" },
+    { name: "Trophy Room", route: "/trophy", icon: "🏆", status: "active" },
+  ],
+  cargo_bay: [
+    { name: "Card Collection", route: "/cards", icon: "📦", status: "active" },
+    { name: "Marketplace", route: "/marketplace", icon: "🏪", status: "active" },
+    { name: "Inventory", route: "/inventory", icon: "🎒", status: "active" },
+    { name: "Fleet", route: "/fleet", icon: "🚀", status: "active" },
+  ],
+  comms: [
+    { name: "Console", route: "/console", icon: "💻", status: "active" },
+    { name: "Lore Tutorials", route: "/lore-tutorials", icon: "📖", status: "active" },
+  ],
+  engineering: [
+    { name: "Research Lab", route: "/research-lab", icon: "🔬", status: "active" },
+    { name: "Research Minigame", route: "/research-minigame", icon: "🧪", status: "active" },
+  ],
+  training: [
+    { name: "Fight Arena", route: "/fight", icon: "⚔️", status: "active" },
+  ],
+  trade_hub: [
+    { name: "Trade Empire", route: "/trade-empire", icon: "🚢", status: "active" },
+  ],
+  // Locked room previews — show what's coming
+  vault: [
+    { name: "NFT Vault", route: "/nft", icon: "💎", status: "preview" },
+    { name: "Rare Collection", route: "/cards", icon: "✨", status: "preview" },
+  ],
+  archive: [
+    { name: "Lore Database", route: "/search", icon: "📚", status: "preview" },
+    { name: "Hidden Files", route: "/search", icon: "🔍", status: "preview" },
+  ],
+  brig: [
+    { name: "Interrogation", route: "/quests", icon: "🔒", status: "preview" },
+    { name: "Intel Extraction", route: "/quests", icon: "🕵️", status: "preview" },
+  ],
+  reactor: [
+    { name: "Power Core", route: "/research-lab", icon: "⚡", status: "preview" },
+    { name: "Energy Forge", route: "/research-lab", icon: "🔥", status: "preview" },
+  ],
+  void_gate: [
+    { name: "Dimensional Rift", route: "/quests", icon: "🌀", status: "preview" },
+    { name: "Boss Encounters", route: "/fight", icon: "💀", status: "preview" },
+  ],
 };
 
 const ROOM_TYPE_COLORS: Record<string, { bg: string; border: string; text: string }> = {
@@ -473,11 +550,44 @@ export default function InceptionArkPage() {
                           )}
                         </div>
 
+                        {/* Room Features */}
+                        {ROOM_FEATURES[selectedRoom.id] && (
+                          <div className="mb-3">
+                            <div className="font-mono text-[9px] text-muted-foreground/50 tracking-wider mb-2">
+                              {selectedRoom.locked ? "FEATURES (LOCKED)" : "AVAILABLE FEATURES"}
+                            </div>
+                            <div className="flex flex-wrap gap-1.5">
+                              {ROOM_FEATURES[selectedRoom.id].map((feat) => (
+                                selectedRoom.locked ? (
+                                  <span
+                                    key={feat.name}
+                                    className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-secondary/30 border border-border/15 font-mono text-[10px] text-muted-foreground/40"
+                                  >
+                                    <span>{feat.icon}</span>
+                                    {feat.name}
+                                    <Lock size={8} className="opacity-40" />
+                                  </span>
+                                ) : (
+                                  <Link
+                                    key={feat.name}
+                                    href={feat.route}
+                                    className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md border font-mono text-[10px] transition-all hover:brightness-125 ${currentDeck.borderColor} ${currentDeck.color} bg-card/30 hover:bg-card/50`}
+                                  >
+                                    <span>{feat.icon}</span>
+                                    {feat.name}
+                                  </Link>
+                                )
+                              ))}
+                            </div>
+                          </div>
+                        )}
+
                         {/* Action buttons */}
                         <div className="flex gap-2">
                           {selectedRoom.locked ? (
                             <div className="font-mono text-xs text-muted-foreground/50 italic">
-                              Unlock by exploring more and collecting cards...
+                              <Lock size={10} className="inline mr-1" />
+                              Unlock by exploring more, completing quests, and collecting cards...
                             </div>
                           ) : (
                             <>
