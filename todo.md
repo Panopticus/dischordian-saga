@@ -2202,3 +2202,34 @@
 
 - [x] Add pulsing signal indicator on Communication Relay hotspot before quest is completed (purple pulsing rings + ! badge)
 - [x] Test and save checkpoint (53 files, 2035 tests, all passing)
+
+## Phase 91 — Comprehensive Audit & Fixes
+
+### Audit
+- [x] Audit codebase for redundancies, dead code, and efficiency issues
+  - ComponentShowcase.tsx is unused (1437 lines) — can be removed
+  - ShipMap in ArkExplorerPage is redundant with FastTravelPanel — will merge
+  - Attribute system works correctly (saved to DB during creation)
+  - Quest reward system for nav_calibration is correct (auto-fires on flag set)
+- [x] Document findings and fix critical issues
+
+### Nav Calibration Points
+- [x] Fix points not being distributed when nav calibration puzzle is solved (verified: reward system auto-fires correctly, attributes saved to DB)
+
+### Ship Map → Nav Panel
+- [x] Merge the ShipMap sidebar into the FastTravelPanel (renamed to MAP, shows all rooms by deck, inventory, puzzles solved)
+- [x] Remove redundant ShipMap component and SHIP MAP button from ArkExplorerPage (60+ lines removed)
+
+### Interactive Inventory
+- [x] Make picked-up items interactive (ItemDetailModal with rich lore text + Elara analysis)
+- [x] Add item interaction UI when clicking inventory items (clickable in MAP panel, opens detail modal)
+
+### Command Console Gating
+- [x] Command console hidden until Bridge room is unlocked (renders children only before Bridge discovery)
+- [x] Character sheet exit button now uses browser history.back() to return to previous room/page
+
+### Chess as Main Game
+- [x] Chess promoted to primary simulation on Games page ("THE ARCHITECT'S GAMBIT")
+
+### Tests
+- [x] All 2035 tests passing across 53 files, zero TypeScript errors

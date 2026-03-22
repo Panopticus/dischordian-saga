@@ -27,6 +27,7 @@ import { getRoomTransmissions, getElaraVariant, type SecretTransmission } from "
 import AlienSymbolPuzzle from "@/components/AlienSymbolPuzzle";
 import FastTravelPanel from "@/components/FastTravelPanel";
 import CommsRelayImport from "@/components/CommsRelayImport";
+import ItemDetailModal from "@/components/ItemDetailModal";
 
 const ELARA_PORTRAIT = "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/elara_portrait_speaking-J3GJUrfnNKzSBrxY2PfWrL.webp";
 
@@ -359,70 +360,6 @@ function RoomScene({
   );
 }
 
-/* ─── SHIP MAP (QUICK NAV) ─── */
-function ShipMap({
-  rooms,
-  currentRoomId,
-  onRoomSelect,
-  unlockedRooms,
-}: {
-  rooms: RoomDef[];
-  currentRoomId: string | null;
-  onRoomSelect: (roomId: string) => void;
-  unlockedRooms: Set<string>;
-}) {
-  // Group rooms by deck
-  const decks = useMemo(() => {
-    const map = new Map<number, RoomDef[]>();
-    rooms.forEach(r => {
-      const list = map.get(r.deck) || [];
-      list.push(r);
-      map.set(r.deck, list);
-    });
-    return Array.from(map.entries()).sort((a, b) => a[0] - b[0]);
-  }, [rooms]);
-
-  return (
-    <div className="space-y-2">
-      {decks.map(([deckNum, deckRooms]) => (
-        <div key={deckNum}>
-          <p className="font-mono text-[9px] text-muted-foreground/40 tracking-[0.3em] mb-1 px-1">
-            DECK {deckNum} — {deckRooms[0].deckName.toUpperCase()}
-          </p>
-          <div className="space-y-1">
-            {deckRooms.map(room => {
-              const unlocked = unlockedRooms.has(room.id);
-              const isCurrent = room.id === currentRoomId;
-              return (
-                <button
-                  key={room.id}
-                  onClick={() => unlocked && onRoomSelect(room.id)}
-                  disabled={!unlocked}
-                  className={`w-full text-left px-3 py-2 rounded-md font-mono text-[11px] transition-all flex items-center gap-2 ${
-                    isCurrent
-                      ? "bg-[var(--neon-cyan)]/10 text-[var(--neon-cyan)] border border-[var(--neon-cyan)]/25"
-                      : unlocked
-                      ? "text-muted-foreground/80 hover:text-foreground hover:bg-muted/50 border border-transparent"
-                      : "text-muted-foreground/25 border border-transparent cursor-not-allowed"
-                  }`}
-                >
-                  {unlocked ? (
-                    <MapPin size={11} className={isCurrent ? "text-[var(--neon-cyan)]" : "text-muted-foreground/50"} />
-                  ) : (
-                    <Lock size={11} className="text-muted-foreground/25" />
-                  )}
-                  <span className="flex-1">{unlocked ? room.name : "???"}</span>
-                  {isCurrent && <div className="w-1.5 h-1.5 rounded-full bg-[var(--neon-cyan)] shadow-[0_0_6px_var(--neon-cyan)]" />}
-                </button>
-              );
-            })}
-          </div>
-        </div>
-      ))}
-    </div>
-  );
-}
-
 /* ─── MAIN EXPLORER PAGE ─── */
 export default function ArkExplorerPage() {
   const {
@@ -445,10 +382,11 @@ export default function ArkExplorerPage() {
     }
   }, [elaraText]);
 
-  const [showMap, setShowMap] = useState(false);
+
   const [puzzleRoomId, setPuzzleRoomId] = useState<string | null>(null);
   const [showNavPuzzle, setShowNavPuzzle] = useState(false);
   const [showCommsRelay, setShowCommsRelay] = useState(false);
+  const [selectedItem, setSelectedItem] = useState<string | null>(null);
   const fastTravelUnlocked = !!state.narrativeFlags["fast_travel_unlocked"];
   const [solvedPuzzles, setSolvedPuzzles] = useState<Set<string>>(() => {
     try {
@@ -813,7 +751,7 @@ export default function ArkExplorerPage() {
       setPuzzleRoomId(roomId);
       return;
     }
-    setShowMap(false);
+
     navigateWithTransition(roomId);
   }, [navigateWithTransition, roomNeedsPuzzle]);
 
@@ -862,25 +800,14 @@ export default function ArkExplorerPage() {
               {isFullscreen ? <Minimize2 size={12} /> : <Maximize2 size={12} />}
               {isFullscreen ? "EXIT" : "FULLSCREEN"}
             </button>
-            <button
-              onClick={() => setShowMap(!showMap)}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-md font-mono text-[11px] transition-all"
-              style={{
-                background: showMap ? "rgba(51,226,230,0.1)" : "rgba(255,255,255,0.03)",
-                border: `1px solid ${showMap ? "rgba(51,226,230,0.3)" : "rgba(255,255,255,0.1)"}`,
-                color: showMap ? "var(--neon-cyan)" : "rgba(255,255,255,0.5)",
-              }}
-            >
-              <Compass size={12} />
-              SHIP MAP
-            </button>
+
           </div>
         </div>
       </div>
 
       <div className="px-4 sm:px-6 flex gap-4">
         {/* Main scene */}
-        <div className={`flex-1 ${showMap ? "hidden sm:block" : ""}`}>
+        <div className="flex-1">
           {/* Room scene */}
           <RoomScene
             room={currentRoom}
@@ -1008,75 +935,6 @@ export default function ArkExplorerPage() {
           </div>
         </div>
 
-        {/* Ship map sidebar */}
-        <AnimatePresence>
-          {showMap && (
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: 20 }}
-              className="w-full sm:w-64 flex-shrink-0"
-            >
-              <div className="rounded-lg p-3" style={{
-                background: "var(--bg-overlay)",
-                border: "1px solid var(--glass-border)",
-              }}>
-                <div className="flex items-center gap-2 mb-3 pb-2" style={{ borderBottom: "1px solid var(--glass-border)" }}>
-                  <Ship size={12} className="text-[var(--neon-cyan)]" />
-                  <span className="font-mono text-[10px] text-[var(--neon-cyan)] tracking-[0.2em]">ARK VESSEL 47</span>
-                </div>
-                <ShipMap
-                  rooms={ROOM_DEFINITIONS}
-                  currentRoomId={state.currentRoomId}
-                  onRoomSelect={handleRoomSelect}
-                  unlockedRooms={unlockedRoomIds}
-                />
-              </div>
-
-              {/* Items collected */}
-              {state.itemsCollected.length > 0 && (
-                <div className="mt-3 rounded-lg p-3" style={{
-                  background: "var(--bg-overlay)",
-                  border: "1px solid rgba(255,183,77,0.15)",
-                }}>
-                  <div className="flex items-center gap-2 mb-2">
-                    <Package size={12} className="text-[var(--orb-orange)]" />
-                    <span className="font-mono text-[10px] text-[var(--orb-orange)] tracking-[0.2em]">INVENTORY</span>
-                  </div>
-                  <div className="space-y-1">
-                    {state.itemsCollected.map(item => (
-                      <div key={item} className="flex items-center gap-2 px-2 py-1 rounded text-muted-foreground/70 font-mono text-[10px]">
-                        <Star size={8} className="text-[var(--orb-orange)]" />
-                        {item.replace(/-/g, " ")}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {/* Puzzles solved */}
-              {solvedPuzzles.size > 0 && (
-                <div className="mt-3 rounded-lg p-3" style={{
-                  background: "var(--bg-overlay)",
-                  border: "1px solid rgba(34,197,94,0.15)",
-                }}>
-                  <div className="flex items-center gap-2 mb-2">
-                    <Zap size={12} className="text-green-400" />
-                    <span className="font-mono text-[10px] text-green-400 tracking-[0.2em]">PUZZLES SOLVED</span>
-                  </div>
-                  <div className="space-y-1">
-                    {Array.from(solvedPuzzles).map(roomId => (
-                      <div key={roomId} className="flex items-center gap-2 px-2 py-1 rounded text-muted-foreground/60 font-mono text-[10px]">
-                        <Zap size={8} className="text-green-400/60" />
-                        {getRoomDef(roomId)?.name || roomId}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </motion.div>
-          )}
-        </AnimatePresence>
       </div>
 
       {/* Morality-gated secret transmission hotspot indicator */}
@@ -1176,12 +1034,26 @@ export default function ArkExplorerPage() {
         <FastTravelPanel
           currentRoomId={state.currentRoomId}
           rooms={state.rooms}
+          unlockedRooms={unlockedRoomIds}
+          itemsCollected={state.itemsCollected}
+          solvedPuzzles={solvedPuzzles}
+          getRoomDef={getRoomDef}
           onTravel={(roomId) => {
             if (audioReady) playSFX("terminal_access");
             navigateWithTransition(roomId);
           }}
+          onItemClick={(itemAction) => {
+            if (audioReady) playSFX("dialog_open");
+            setSelectedItem(itemAction);
+          }}
         />
       )}
+
+      {/* Item Detail Modal */}
+      <ItemDetailModal
+        itemAction={selectedItem}
+        onClose={() => setSelectedItem(null)}
+      />
 
       {/* Room Tutorial Dialog */}
       <AnimatePresence>

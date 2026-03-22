@@ -495,9 +495,12 @@ export default function CharacterSheetPage() {
       {/* ═══ DOSSIER HEADER BAR ═══ */}
       <div className="relative z-10 border-b border-border/40 bg-muted/50 backdrop-blur-md">
         <div className="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
-          <Link href="/" className="font-mono text-[10px] text-muted-foreground hover:text-primary transition-colors flex items-center gap-1.5">
-            <ChevronLeft size={12} /> COMMAND CONSOLE
-          </Link>
+          <button
+            onClick={() => window.history.length > 1 ? window.history.back() : window.location.href = "/"}
+            className="font-mono text-[10px] text-muted-foreground hover:text-primary transition-colors flex items-center gap-1.5 cursor-pointer bg-transparent border-none"
+          >
+            <ChevronLeft size={12} /> EXIT DOSSIER
+          </button>
           <div className="flex items-center gap-2">
             <div className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
             <span className="font-mono text-[9px] text-muted-foreground/60 tracking-[0.3em]">DOSSIER // ACTIVE</span>

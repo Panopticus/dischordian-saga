@@ -251,12 +251,14 @@ const SIMULATIONS: GameTile[] = [
   },
   {
     href: "/chess",
-    title: "STRATEGIC CHESS",
-    subtitle: "The Architect's Game",
+    title: "THE ARCHITECT'S GAMBIT",
+    subtitle: "Strategic Neural Warfare",
     description: "Play chess against 12 lore characters with unique AI play styles. Climb the ranked ladder, enter tournaments, and challenge the Game Master — a Magnus Carlsen-level opponent.",
-    loreContext: "STRATEGY: Neural Warfare",
+    loreContext: "CADES DIMENSION: Strategy Timeline",
     icon: Crown,
     color: "#a855f7",
+    badge: "ENTER SIMULATION",
+    primary: true,
   },
 ];
 
