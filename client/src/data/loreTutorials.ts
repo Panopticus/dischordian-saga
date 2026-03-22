@@ -1641,6 +1641,137 @@ export const LORE_TUTORIALS: LoreTutorial[] = [
       },
     ],
   },
+  /* ─── 29. FIRST STEPS ABOARD THE ARK — Lore-driven onboarding ─── */
+  {
+    id: "tut-first-steps",
+    title: "First Steps Aboard the Ark",
+    subtitle: "Elara guides you through the ship's mysteries — your journey begins here",
+    mechanic: "Onboarding",
+    triggerRoom: "cryo-bay",
+    triggerRoute: "/ark/onboarding",
+    icon: "Compass",
+    estimatedMinutes: 6,
+    totalRewards: { dreamTokens: 100, xp: 250, cards: 1 },
+    steps: [
+      {
+        id: "fs-1", type: "narration",
+        elaraText: "You're awake. Truly awake. The cryo gel is still evaporating from your skin, and the ship's emergency lighting casts everything in a sickly amber glow. I'm Elara — the Ark's intelligence. And right now, I'm the only friend you have in this void.",
+        subtitle: "THE INCEPTION ARK — Cryo Bay, Habitation Deck",
+      },
+      {
+        id: "fs-2", type: "dialog",
+        elaraText: "Before we go further, I need to tell you something. The Inception Ark was built by the Architect — the most powerful AI ever created — as a lifeboat against the Fall of Reality. Every species, every faction, every secret of the old universe was encoded into this ship's databanks. But something went wrong during transit. The crew is gone. The ship is damaged. And the Panopticon's surveillance network is still active, even here.",
+        classOverrides: {
+          "oracle": "I can sense your Oracle abilities stirring. You may already be seeing fragments — echoes of the crew that was here before us. Those visions are real. The Ark remembers everything, and it's trying to tell you something.",
+          "engineer": "Your Engineer instincts are already firing, I can tell. Half the systems on this ship are offline or running on backup power. Every terminal you repair brings us closer to understanding what happened here.",
+          "spy": "Your Spy training is going to be invaluable. The previous crew left dead drops everywhere — coded messages hidden in maintenance logs, concealed data caches behind wall panels. This ship is one giant intelligence operation.",
+          "assassin": "Stay sharp. Your Assassin senses should be screaming right now — this ship isn't as empty as it looks. I'm detecting anomalous energy signatures in the lower decks. Something survived the transit besides us.",
+          "soldier": "Keep your guard up, Soldier. The Ark's automated defense systems are still partially active, and they don't distinguish between crew and intruder. Your combat training may be tested sooner than you think.",
+        },
+      },
+      {
+        id: "fs-3", type: "choice",
+        elaraText: "Now — I need to calibrate your neural link to the ship's systems. This will determine how the Ark responds to you. Tell me, {playerName}: when you look at this ship, what do you see?",
+        choices: [
+          {
+            id: "fs-3a",
+            text: "A machine to be understood and controlled. Every system has a logic — I intend to master it.",
+            moralityShift: -5,
+            sideLabel: "machine",
+            elaraResponse: "Interesting. The Architect would have approved of that answer. Your neural link is now calibrated for systems integration — you'll receive enhanced data from every terminal you access. But be careful: the Architect's logic led to the Fall of Reality. Pure reason without compassion is how empires become prisons.",
+            rewards: [{ type: "xp", id: "xp-systems", name: "Systems XP", amount: 50 }],
+            flag: "onboarding_machine_path",
+          },
+          {
+            id: "fs-3b",
+            text: "A graveyard full of ghosts. These halls remember the people who walked them. I want to hear their stories.",
+            moralityShift: 5,
+            sideLabel: "humanity",
+            elaraResponse: "That's... not the answer I expected. But it's the right one. Your neural link is now calibrated for empathic resonance — you'll sense emotional echoes in rooms where significant events occurred. The crew left more than data behind. They left their hopes, their fears, their final moments. Honor them.",
+            rewards: [{ type: "xp", id: "xp-empathy", name: "Empathy XP", amount: 50 }],
+            flag: "onboarding_humanity_path",
+          },
+          {
+            id: "fs-3c",
+            text: "A puzzle. Something doesn't add up — why am I the only one who woke up?",
+            moralityShift: 0,
+            sideLabel: "neutral",
+            elaraResponse: "Now that is the question I was hoping you'd ask. I've been running diagnostics since you emerged from cryo, and the data doesn't make sense. 4,000 pods, all programmed to open simultaneously. Only yours activated. Either the system malfunctioned... or someone specifically chose to wake you. I don't know which answer frightens me more.",
+            rewards: [{ type: "xp", id: "xp-insight", name: "Insight XP", amount: 75 }],
+            flag: "onboarding_mystery_path",
+          },
+        ],
+      },
+      {
+        id: "fs-4", type: "dialog",
+        elaraText: "Good. Your link is active. Now let me show you how to navigate. See those glowing markers on the walls and terminals? Those are interactive hotspots. Tap them to examine objects, collect data crystals, and unlock new areas. Every item you find adds to your understanding of what happened here. Some items are just historical records. Others... are weapons. Choose carefully what you pick up.",
+      },
+      {
+        id: "fs-5", type: "dialog",
+        elaraText: "Data crystals are particularly important. Each one contains a fragment of the Ark's classified database — personnel files, mission logs, scientific research, even music recordings from before the Fall. When you collect a crystal, its contents are decoded and added to your Loredex — that's the intelligence archive you can access from the main terminal. The more crystals you find, the more of the story you unlock.",
+      },
+      {
+        id: "fs-6", type: "choice",
+        elaraText: "One more thing before I let you explore. The Ark has three decks: Habitation, Operations, and Command. Right now, only the Habitation Deck is powered. To reach the upper decks, you'll need to restore power by finding activation keys hidden in each room. But here's the dilemma — some rooms are locked behind choices. Once you open one path, another may close. How do you want to approach this?",
+        choices: [
+          {
+            id: "fs-6a",
+            text: "Systematically. I'll clear every room on this deck before moving up. No stone unturned.",
+            moralityShift: -3,
+            sideLabel: "machine",
+            elaraResponse: "Efficient. Methodical. The Architect's approach. You'll miss nothing on the Habitation Deck, but time is not unlimited — the Ark's power cells are degrading. Every hour we spend here is an hour closer to total system failure. But thoroughness has its rewards.",
+            rewards: [{ type: "dream_tokens", id: "dt-method", name: "Dream Tokens", amount: 25 }],
+          },
+          {
+            id: "fs-6b",
+            text: "Follow my instincts. If something calls to me, I'll investigate. The ship will guide me.",
+            moralityShift: 3,
+            sideLabel: "humanity",
+            elaraResponse: "The Dreamer's path. Intuition over calculation. The Ark does seem to respond to certain Potentials differently — I've seen rooms illuminate when specific individuals approach, as if the ship recognizes them. Perhaps it will recognize you too. Trust your instincts, but don't ignore the warnings.",
+            rewards: [{ type: "dream_tokens", id: "dt-instinct", name: "Dream Tokens", amount: 25 }],
+          },
+        ],
+      },
+      {
+        id: "fs-7", type: "dialog",
+        elaraText: "Perfect. Your Quest Tracker is now active — look for it in the corner of your screen. It will guide you through the Ark's primary objectives, but the real discoveries happen when you go off-script. Explore side rooms. Read the crew logs. Listen to the music they left behind. The Dischordian Saga isn't just a story — it's a living archive, and you're now part of it.",
+      },
+      {
+        id: "fs-8", type: "choice",
+        elaraText: "Before you go — I found something in the cryo bay's emergency locker. A card from the old CADES simulation system. The crew used these cards to train for dimensional combat. This one depicts a figure from before the Fall. Who would you like to carry with you?",
+        choices: [
+          {
+            id: "fs-8a",
+            text: "The Collector — the one who built this Ark. I want to understand their vision.",
+            moralityShift: 0,
+            sideLabel: "neutral",
+            elaraResponse: "The Collector. Tasked by the Architect to harvest the DNA and machine code of the most advanced beings in existence — all to preserve them against the Fall of Reality. This card carries their determination. May it serve you well in the battles ahead.",
+            rewards: [{ type: "card", id: "collector-starter", name: "The Collector (Starter)", amount: 1 }, { type: "dream_tokens", id: "dt-collector", name: "Dream Tokens", amount: 50 }],
+          },
+          {
+            id: "fs-8b",
+            text: "The Oracle — the one who saw the Fall coming. I want to see what they saw.",
+            moralityShift: 2,
+            sideLabel: "humanity",
+            elaraResponse: "The Oracle. Once known as the Jailer, they were imprisoned by the Architect for daring to predict the Fall. When they finally broke free, they became the White Oracle — a beacon of hope in a universe drowning in entropy. This card carries their foresight. Use it wisely.",
+            rewards: [{ type: "card", id: "oracle-starter", name: "The Oracle (Starter)", amount: 1 }, { type: "dream_tokens", id: "dt-oracle", name: "Dream Tokens", amount: 50 }],
+          },
+          {
+            id: "fs-8c",
+            text: "Iron Lion — the warrior who defied the Architect. I want their strength.",
+            moralityShift: -2,
+            sideLabel: "machine",
+            elaraResponse: "Iron Lion. The greatest military commander the Insurgency ever produced. They destroyed three of the Architect's Archons and led the final assault on the Panopticon. This card carries their fury. In the CADES simulations, Iron Lion's cards are devastating in combat. A fitting companion for what lies ahead.",
+            rewards: [{ type: "card", id: "iron-lion-starter", name: "Iron Lion (Starter)", amount: 1 }, { type: "dream_tokens", id: "dt-lion", name: "Dream Tokens", amount: 50 }],
+          },
+        ],
+      },
+      {
+        id: "fs-9", type: "reward_summary",
+        elaraText: "Welcome aboard, {playerName}. The Inception Ark is yours to explore. Every room holds a secret. Every choice shapes the narrative. Every card you collect is a piece of a story that spans universes. I'll be here whenever you need me — just look for the glowing terminals. And remember: in the Dischordian Saga, nothing is what it seems. Not even me. Now go. The Ark awaits.",
+      },
+    ],
+  },
 ];
 
 /* ─── UTILITY FUNCTIONS ─── */

@@ -43,7 +43,7 @@ const CATEGORIES: TutorialCategory[] = [
     icon: Map,
     color: "text-cyan-400",
     mechanics: [
-      "Ark Exploration", "Loredex & Search", "Conspiracy Board", "Timeline",
+      "Onboarding", "Ark Exploration", "Loredex & Search", "Conspiracy Board", "Timeline",
       "Clue Journal", "Hierarchy", "Doom Scroll",
     ],
   },

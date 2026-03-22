@@ -1,0 +1,9 @@
+{
+  "query": "INSERT INTO seasonal_events (eventKey, name, startsAt, endsAt, globalProgress, globalTarget, active) VALUES ('fall_of_reality', 'The Fall of Reality', '2026-03-15 00:00:00', '2026-04-05 23:59:59', 127843, 2000000, true);",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway04.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2T9erPMfbTpx4Y5.root --database 2quXz2C2n5hMfqc8hNVW3h --execute INSERT INTO seasonal_events (eventKey, name, startsAt, endsAt, globalProgress, globalTarget, active) VALUES ('fall_of_reality', 'The Fall of Reality', '2026-03-15 00:00:00', '2026-04-05 23:59:59', 127843, 2000000, true);",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 476
+}

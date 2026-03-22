@@ -28,6 +28,8 @@ import AlienSymbolPuzzle from "@/components/AlienSymbolPuzzle";
 import FastTravelPanel from "@/components/FastTravelPanel";
 import CommsRelayImport from "@/components/CommsRelayImport";
 import ItemDetailModal from "@/components/ItemDetailModal";
+import LoreTutorialEngine from "@/components/LoreTutorialEngine";
+import { getTutorialById, type TutorialReward } from "@/data/loreTutorials";
 
 const ELARA_PORTRAIT = "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/elara_portrait_speaking-J3GJUrfnNKzSBrxY2PfWrL.webp";
 
@@ -365,13 +367,14 @@ export default function ArkExplorerPage() {
   const {
     state, enterRoom, collectItem, markElaraDialogSeen,
     isRoomUnlocked, canUnlockRoom, getRoomDef, getRoomState,
-    setNarrativeFlag,
+    setNarrativeFlag, isTutorialCompleted, completeTutorial, shiftMorality, collectCard,
   } = useGame();
   const { discoverEntry } = useGamification();
   const { setRoomAmbience, playSFX, initAudio, audioReady } = useSound();
   useGameAreaBGM("ark");
   const [, navigate] = useLocation();
   const [elaraText, setElaraText] = useState<string | null>(null);
+  const [showOnboardingTutorial, setShowOnboardingTutorial] = useState(false);
   const [activeTransmission, setActiveTransmission] = useState<SecretTransmission | null>(null);
   const { discoverTransmission, isTransmissionDiscovered } = useGame();
 
@@ -492,8 +495,12 @@ export default function ArkExplorerPage() {
       setOrientationStep(s => s + 1);
     } else {
       setShowCryoOrientation(false);
+      // After orientation ends, auto-launch the onboarding tutorial for new players
+      if (!isTutorialCompleted("tut-first-steps")) {
+        setTimeout(() => setShowOnboardingTutorial(true), 600);
+      }
     }
-  }, [orientationTyping, orientationStep, CRYO_ORIENTATION_LINES]);
+  }, [orientationTyping, orientationStep, CRYO_ORIENTATION_LINES, isTutorialCompleted]);
   const fullscreenRef = useCallback((node: HTMLDivElement | null) => {
     if (node) (window as any).__arkExplorerRef = node;
   }, []);
@@ -1134,6 +1141,28 @@ export default function ArkExplorerPage() {
             </motion.div>
           </motion.div>
         )}
+      </AnimatePresence>
+
+      {/* ═══ ONBOARDING TUTORIAL OVERLAY ═══ */}
+      <AnimatePresence>
+        {showOnboardingTutorial && (() => {
+          const tut = getTutorialById("tut-first-steps");
+          if (!tut) return null;
+          return (
+            <LoreTutorialEngine
+              key="onboarding"
+              tutorial={tut}
+              onComplete={(rewards: TutorialReward[], moralityTotal: number, flags: Record<string, boolean>) => {
+                completeTutorial("tut-first-steps");
+                if (moralityTotal !== 0) shiftMorality(moralityTotal, "tut-first-steps");
+                rewards.forEach(r => { if (r.type === "card" && r.id) collectCard(r.id); });
+                Object.entries(flags).forEach(([k, v]) => { if (v) setNarrativeFlag(k); });
+                setShowOnboardingTutorial(false);
+              }}
+              onDismiss={() => setShowOnboardingTutorial(false)}
+            />
+          );
+        })()}
       </AnimatePresence>
     </div>
     </LandscapeEnforcer>

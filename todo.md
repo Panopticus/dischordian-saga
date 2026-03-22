@@ -2233,3 +2233,24 @@
 
 ### Tests
 - [x] All 2035 tests passing across 53 files, zero TypeScript errors
+
+## Phase 91: Tower Defense Audit + Lore Tutorial + Seasonal Event
+
+### Tower Defense Audit
+- [x] Tower defense is a standalone playable game at /tower-defense with Defense, Raid, and History tabs
+- [x] Accessible from Space Station, Syndicate World, and Ark room hotspot "Defense Grid Terminal"
+
+### Lore-Driven Onboarding Tutorial
+- [x] Built "First Steps Aboard the Ark" — 12-step lore-driven tutorial narrated by Elara
+- [x] Auto-launches after cryo orientation for new players
+- [x] Covers Ark exploration, hotspot interaction, Loredex discovery, morality choices, and card battles
+- [x] Rewards: 100 Dream Tokens, 250 XP, 1 card; morality choices affect alignment
+- [x] Skippable via dismiss button, accessible from Lore Tutorial Hub under Onboarding category
+
+### Seasonal Event: Fall of Reality Anniversary
+- [x] Created "The Fall of Reality" event with full lore description and 21-day duration
+- [x] 6 milestones from Echo Listener (50) to Architect's Heir (5000)
+- [x] 8 shop items: Fractured Reality Aura, Architect's Journal, Memory Amplifier, Void Echo Card Pack, etc.
+- [x] Seeded as active event in DB (March 15 - April 5, 2026) with global objective of 2M Reality Shards
+- [x] Rewrote SeasonalEventsPage with hero banner, 4 tabs (Overview/Milestones/Shop/Lore)
+- [x] Lore tab with 5 unlockable Memory Fragments from key characters (Architect, Elara, Oracle, Iron Lion, The Source)
