@@ -2141,3 +2141,19 @@
 - [x] Connect boss mastery cosmetics to cosmetic shop inventory (earned cosmetics appear in collection) — getMyCollection endpoint + boss mastery cosmetics in COSMETIC_ITEMS
 - [x] Connect seasonal event tokens to personal quarters decoration unlocks (event-exclusive decorations) — 123 decoration items with seasonal event gating
 - [x] Create unified progression loop linking boss mastery → cosmetics → quarters → events — cross-system reward chains fully wired
+
+## Phase 86 — Navigation Overhaul, Bug Fixes, Guild Recruitment Notifications
+
+### Bug Fixes
+- [x] Fix syndicate formation "Unable to transform response from server" error
+- [x] Fix Elara dialog bug — no way to exit typed question dialog, stuck in conversation
+- [x] Fix Elara mobile text overlap — dialog covers room content, too crowded on mobile
+
+### Guild Recruitment Notifications
+- [x] Add guild recruitment notifications (already implemented — notifies on join, invite, kick)
+
+### Ship Navigation Overhaul
+- [x] Build alien symbol matching mini-game on Bridge that unlocks fast-travel navigation
+- [x] Build persistent navigation map panel — discovered rooms appear permanently, click to fast-travel
+- [x] Write tests for Phase 86 features (12 tests, all passing)
+- [x] Fix all TypeScript errors and save checkpoint

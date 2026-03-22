@@ -24,6 +24,8 @@ import RoomTutorialDialog, { hasRoomDialog } from "@/components/RoomTutorialDial
 import HolographicElara from "@/components/HolographicElara";
 import SecretTransmissionOverlay from "@/components/SecretTransmissionOverlay";
 import { getRoomTransmissions, getElaraVariant, type SecretTransmission } from "@/data/moralityStoryBranches";
+import AlienSymbolPuzzle from "@/components/AlienSymbolPuzzle";
+import FastTravelPanel from "@/components/FastTravelPanel";
 
 const ELARA_PORTRAIT = "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/elara_portrait_speaking-J3GJUrfnNKzSBrxY2PfWrL.webp";
 
@@ -75,7 +77,7 @@ function ElaraPopup({ text, onClose }: { text: string; onClose: () => void }) {
       initial={{ opacity: 0, y: 20, scale: 0.95 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
       exit={{ opacity: 0, y: 10, scale: 0.95 }}
-      className="fixed bottom-4 left-4 right-4 sm:left-auto sm:right-4 sm:bottom-4 sm:w-[420px] z-50"
+      className="fixed top-4 left-4 right-4 sm:top-auto sm:bottom-4 sm:left-auto sm:right-4 sm:w-[420px] z-50"
     >
       <div
         className="rounded-lg p-4 relative"
@@ -88,9 +90,10 @@ function ElaraPopup({ text, onClose }: { text: string; onClose: () => void }) {
       >
         <button
           onClick={onClose}
-          className="absolute top-2 right-2 p-1 rounded text-muted-foreground/50 hover:text-muted-foreground/80 transition-colors"
+          className="absolute top-2 right-2 p-2 rounded-md border border-[var(--glass-border)] text-muted-foreground/70 hover:text-white hover:bg-muted/40 transition-colors"
+          aria-label="Close"
         >
-          <X size={14} />
+          <X size={16} />
         </button>
         <div className="flex gap-3">
           <img
@@ -370,6 +373,7 @@ export default function ArkExplorerPage() {
   const {
     state, enterRoom, collectItem, markElaraDialogSeen,
     isRoomUnlocked, canUnlockRoom, getRoomDef, getRoomState,
+    setNarrativeFlag,
   } = useGame();
   const { discoverEntry } = useGamification();
   const { setRoomAmbience, playSFX, initAudio, audioReady } = useSound();
@@ -388,6 +392,8 @@ export default function ArkExplorerPage() {
 
   const [showMap, setShowMap] = useState(false);
   const [puzzleRoomId, setPuzzleRoomId] = useState<string | null>(null);
+  const [showNavPuzzle, setShowNavPuzzle] = useState(false);
+  const fastTravelUnlocked = !!state.narrativeFlags["fast_travel_unlocked"];
   const [solvedPuzzles, setSolvedPuzzles] = useState<Set<string>>(() => {
     try {
       const saved = localStorage.getItem("loredex_solved_puzzles");
@@ -722,6 +728,16 @@ export default function ArkExplorerPage() {
       }
       case "examine":
       case "interact": {
+        if (hotspot.action === "nav-calibration") {
+          if (fastTravelUnlocked) {
+            toast.info("Navigation system already calibrated", { description: "Fast-travel is online. Use the NAV tab on the right." });
+            if (hotspot.elaraDialog) setElaraText("The navigation system is already online. Use the NAV panel on the right side of your screen to jump to any discovered room.");
+          } else {
+            if (audioReady) playSFX("terminal_access");
+            setShowNavPuzzle(true);
+          }
+          break;
+        }
         if (hotspot.elaraDialog) {
           if (audioReady) playSFX("dialog_open");
           setElaraText(hotspot.elaraDialog);
@@ -729,7 +745,7 @@ export default function ArkExplorerPage() {
         break;
       }
     }
-  }, [isRoomUnlocked, canUnlockRoom, navigateWithTransition, collectItem, navigate, state.itemsCollected, discoverEntry, getRoomDef, audioReady, playSFX, roomNeedsPuzzle]);
+  }, [isRoomUnlocked, canUnlockRoom, navigateWithTransition, collectItem, navigate, state.itemsCollected, discoverEntry, getRoomDef, audioReady, playSFX, roomNeedsPuzzle, fastTravelUnlocked]);
 
   const handleRoomSelect = useCallback((roomId: string) => {
     if (roomNeedsPuzzle(roomId)) {
@@ -1070,6 +1086,36 @@ export default function ArkExplorerPage() {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Alien Symbol Navigation Puzzle */}
+      <AnimatePresence>
+        {showNavPuzzle && (
+          <AlienSymbolPuzzle
+            onSolve={() => {
+              setShowNavPuzzle(false);
+              setNarrativeFlag("fast_travel_unlocked");
+              if (audioReady) playSFX("door_unlock");
+              toast.success("NAVIGATION SYSTEM ONLINE", {
+                description: "Fast-travel unlocked! Use the NAV tab on the right to jump between discovered rooms.",
+              });
+              setElaraText("Excellent work! The navigation grid is online. You can now use the NAV panel on the right side of your screen to instantly travel to any room you've already discovered. No more backtracking through corridors.");
+            }}
+            onClose={() => setShowNavPuzzle(false)}
+          />
+        )}
+      </AnimatePresence>
+
+      {/* Fast Travel Panel — only visible after solving the nav puzzle */}
+      {fastTravelUnlocked && (
+        <FastTravelPanel
+          currentRoomId={state.currentRoomId}
+          rooms={state.rooms}
+          onTravel={(roomId) => {
+            if (audioReady) playSFX("terminal_access");
+            navigateWithTransition(roomId);
+          }}
+        />
+      )}
 
       {/* Room Tutorial Dialog */}
       <AnimatePresence>

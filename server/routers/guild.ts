@@ -137,7 +137,7 @@ export const guildRouter = router({
         .where(eq(guilds.tag, input.tag)).limit(1);
       if (tagCheck[0]) throw new TRPCError({ code: "CONFLICT", message: "Syndicate tag already taken" });
 
-      const result = await db.insert(guilds).values({
+      const [result] = await db.insert(guilds).values({
         name: input.name,
         tag: input.tag,
         description: input.description || null,
@@ -147,7 +147,8 @@ export const guildRouter = router({
         memberCount: 1,
       });
 
-      const guildId = Number(result[0].insertId);
+      const guildId = Number(result.insertId);
+      if (!guildId || isNaN(guildId)) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Failed to create Syndicate" });
 
       // Add creator as leader
       await db.insert(guildMembers).values({

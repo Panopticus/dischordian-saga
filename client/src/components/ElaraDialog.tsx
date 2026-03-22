@@ -453,6 +453,7 @@ export default function ElaraDialog({ elaraTTS: _elaraTTS }: { elaraTTS?: any } 
       };
       setHistory([...newHistory, errorMsg]);
       setCurrentMessage(errorMsg.content);
+      setChoices(pageContext.choices);
     } finally {
       setIsLoading(false);
     }
@@ -514,9 +515,10 @@ export default function ElaraDialog({ elaraTTS: _elaraTTS }: { elaraTTS?: any } 
                 </div>
                 <button
                   onClick={() => setIsOpen(false)}
-                  className="p-1.5 rounded-md hover:bg-muted/60 transition-colors text-muted-foreground/80 hover:text-white"
+                  className="p-2 sm:p-1.5 rounded-md border border-[var(--glass-border)] sm:border-transparent hover:bg-muted/60 hover:border-[var(--glass-border)] transition-colors text-muted-foreground hover:text-white"
+                  aria-label="Close dialog"
                 >
-                  <X size={18} />
+                  <X size={20} className="sm:w-[18px] sm:h-[18px]" />
                 </button>
               </div>
 
@@ -560,12 +562,12 @@ export default function ElaraDialog({ elaraTTS: _elaraTTS }: { elaraTTS?: any } 
               </div>
 
               {/* ── PORTRAIT + DIALOG CHOICES (BioWare style) ── */}
-              <div className="border-t border-[var(--glass-border)]"
+              <div className="border-t border-[var(--glass-border)] flex-shrink-0"
                    style={{ background: "linear-gradient(0deg, var(--bg-void) 0%, color-mix(in srgb, var(--glass-base) 30%, transparent) 100%)" }}>
                 
-                {/* Portrait bar */}
+                {/* Portrait bar — hidden on mobile to save space */}
                 <div className="flex items-end gap-3 px-4 pt-3">
-                  <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-lg overflow-hidden border border-[var(--neon-cyan)]/30 shadow-[0_0_15px_rgba(51,226,230,0.15)] flex-shrink-0">
+                  <div className="hidden sm:block w-20 h-20 rounded-lg overflow-hidden border border-[var(--neon-cyan)]/30 shadow-[0_0_15px_rgba(51,226,230,0.15)] flex-shrink-0">
                     <img src={ELARA_PORTRAIT} alt="Elara" className="w-full h-full object-cover object-top" />
                   </div>
                   <div className="flex-1 pb-1">
@@ -580,7 +582,7 @@ export default function ElaraDialog({ elaraTTS: _elaraTTS }: { elaraTTS?: any } 
                 </div>
 
                 {/* Dialog choices */}
-                <div className="px-4 py-3 space-y-1.5 max-h-[200px] overflow-y-auto">
+                <div className="px-4 py-2 sm:py-3 space-y-1 sm:space-y-1.5 max-h-[160px] sm:max-h-[200px] overflow-y-auto">
                   {!isLoading && choices.map((choice) => (
                     <button
                       key={choice.id}
