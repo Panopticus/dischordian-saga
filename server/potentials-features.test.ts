@@ -546,12 +546,12 @@ describe("Batch Claim All", () => {
    4. CROSS-FEATURE INTEGRATION
    ═══════════════════════════════════════════════════════ */
 describe("Cross-feature integration", () => {
-  it("should have all 17 NFT procedures after additions", () => {
+  it("should have all NFT procedures after additions", () => {
     const nftProcedures = Object.keys(appRouter._def.procedures).filter((k) =>
       k.startsWith("nft.")
     );
-    // 14 original + 3 new (potentialsLeaderboard, batchClaimAll, getTraitBonuses) + 1 (getAllTraitBonuses)
-    expect(nftProcedures.length).toBe(18);
+    // 14 original + 3 new + 1 getAllTraitBonuses + 2 batch wallet (scanAllWallets, batchClaimAllWallets)
+    expect(nftProcedures.length).toBe(20);
   });
 
   it("should have shared traitBonuses module", () => {

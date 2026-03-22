@@ -2162,3 +2162,24 @@
 
 - [x] Add quest objective "Calibrate the Navigation Console on the Bridge" to guide players toward fast-travel
 - [x] Write tests and save checkpoint (53 files, 2035 tests, all passing)
+
+## Phase 88 — DeMagi Description, NFT Import System, Nav Console Cues
+
+### DeMagi Race Description Update
+- [x] Update DeMagi description in character creation — magically genetically modified humans with elemental powers tied to the arcane, make clear one side is humanity, other is machines
+- [x] Leave Ne-Yon description unchanged
+
+### Bridge Nav Console Visual Cues (Suggestions 1 & 2)
+- [x] Add Elara voice line on Bridge first entry about the Navigation Console being offline
+- [x] Add pulsing glow / "!" visual indicator on nav-console hotspot before puzzle is solved
+
+### NFT Wallet Batch Import System (Comms Array)
+- [x] Design DB schema for wallet imports and NFT card claims (already existed)
+- [x] Build backend API for wallet verification and NFT ownership check (scanAllWallets + batchClaimAllWallets)
+- [x] Build batch wallet import UI on Comms Array page (CommsRelayImport component)
+- [x] Unlock unique 1/1 cards associated with each NFT (one-time claim per NFT)
+- [x] Support loading multiple wallets for batch import (add wallet → scan all → batch claim)
+- [x] Add Elara dialog about re-establishing communication with other vessels and scanning neural pathways (embedded in CommsRelayImport intro sequence)
+
+### Tests
+- [x] Write tests and save checkpoint (53 files, 2035 tests, all passing)

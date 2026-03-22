@@ -62,11 +62,12 @@ describe("NFT Router — The Potentials Integration", () => {
       expect(appRouter._def.procedures).toHaveProperty("nft.getSignMessage");
     });
 
-    it("should have 18 total NFT procedures", () => {
+    it("should have 20 total NFT procedures", () => {
       const nftProcedures = Object.keys(appRouter._def.procedures).filter((k) =>
         k.startsWith("nft.")
       );
-      expect(nftProcedures.length).toBe(18);
+      // +2 for scanAllWallets, batchClaimAllWallets
+      expect(nftProcedures.length).toBe(20);
     });
 
     it("should have batch cache and arena perks procedures", () => {

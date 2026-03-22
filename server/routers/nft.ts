@@ -1292,6 +1292,243 @@ export const nftRouter = router({
   getAllTraitBonuses: protectedProcedure.query(async ({ ctx }) => {
     return getPlayerTraitBonuses(ctx.user.id);
   }),
+
+  /* ─── Scan ALL linked wallets for owned Potentials ─── */
+  scanAllWallets: protectedProcedure.query(async ({ ctx }) => {
+    const db = await getDb();
+    if (!db) return { wallets: [], totalOwned: 0, totalUnclaimed: 0 };
+
+    // Get all linked wallets
+    const wallets = await db
+      .select()
+      .from(linkedWallets)
+      .where(eq(linkedWallets.userId, ctx.user.id));
+
+    if (wallets.length === 0) {
+      return { wallets: [], totalOwned: 0, totalUnclaimed: 0 };
+    }
+
+    // Get all existing claims by this user
+    const existingClaims = await db
+      .select({ tokenId: nftClaims.tokenId })
+      .from(nftClaims);
+    const claimedSet = new Set(existingClaims.map((c) => c.tokenId));
+
+    const contract = getContract();
+    let totalOwned = 0;
+    let totalUnclaimed = 0;
+
+    const walletResults: Array<{
+      walletAddress: string;
+      linkedAt: Date | null;
+      ownedTokenIds: number[];
+      unclaimedTokenIds: number[];
+      balance: number;
+      error?: string;
+    }> = [];
+
+    // Scan each wallet
+    for (const w of wallets) {
+      try {
+        const checksummed = ethers.getAddress(w.walletAddress);
+        const balance = Number(await contract.balanceOf(checksummed));
+
+        if (balance === 0) {
+          walletResults.push({
+            walletAddress: w.walletAddress,
+            linkedAt: w.linkedAt,
+            ownedTokenIds: [],
+            unclaimedTokenIds: [],
+            balance: 0,
+          });
+          continue;
+        }
+
+        // Check ownership in batches
+        const ownedTokenIds: number[] = [];
+        const batchSize = 50;
+        for (let start = 0; start < 1000; start += batchSize) {
+          const promises: Promise<string>[] = [];
+          for (let i = start; i < Math.min(start + batchSize, 1000); i++) {
+            promises.push(contract.ownerOf(i).catch(() => ethers.ZeroAddress));
+          }
+          const owners = await Promise.all(promises);
+          owners.forEach((owner, idx) => {
+            if (owner.toLowerCase() === checksummed.toLowerCase()) {
+              ownedTokenIds.push(start + idx);
+            }
+          });
+          if (ownedTokenIds.length >= balance) break;
+        }
+
+        const unclaimedTokenIds = ownedTokenIds.filter((id) => !claimedSet.has(id));
+        totalOwned += ownedTokenIds.length;
+        totalUnclaimed += unclaimedTokenIds.length;
+
+        walletResults.push({
+          walletAddress: w.walletAddress,
+          linkedAt: w.linkedAt,
+          ownedTokenIds,
+          unclaimedTokenIds,
+          balance,
+        });
+      } catch (error: any) {
+        walletResults.push({
+          walletAddress: w.walletAddress,
+          linkedAt: w.linkedAt,
+          ownedTokenIds: [],
+          unclaimedTokenIds: [],
+          balance: 0,
+          error: error.message || "Scan failed",
+        });
+      }
+    }
+
+    return { wallets: walletResults, totalOwned, totalUnclaimed };
+  }),
+
+  /* ─── Batch claim from ALL wallets at once ─── */
+  batchClaimAllWallets: protectedProcedure.mutation(async ({ ctx }) => {
+    const db = await getDb();
+    if (!db) throw new Error("Database not available");
+
+    // Get all linked wallets
+    const wallets = await db
+      .select()
+      .from(linkedWallets)
+      .where(eq(linkedWallets.userId, ctx.user.id));
+
+    if (wallets.length === 0) {
+      throw new Error("No wallets linked. Link a wallet first.");
+    }
+
+    // Get all existing claims
+    const existingClaims = await db
+      .select({ tokenId: nftClaims.tokenId })
+      .from(nftClaims);
+    const claimedSet = new Set(existingClaims.map((c) => c.tokenId));
+
+    const contract = getContract();
+    const allResults: Array<{
+      tokenId: number;
+      walletAddress: string;
+      success: boolean;
+      cardId?: string;
+      cardImageUrl?: string;
+      name?: string;
+      error?: string;
+    }> = [];
+
+    for (const w of wallets) {
+      const checksummed = ethers.getAddress(w.walletAddress);
+
+      try {
+        const balance = Number(await contract.balanceOf(checksummed));
+        if (balance === 0) continue;
+
+        // Find owned tokens
+        const ownedTokenIds: number[] = [];
+        const batchSize = 50;
+        for (let start = 0; start < 1000; start += batchSize) {
+          const promises: Promise<string>[] = [];
+          for (let i = start; i < Math.min(start + batchSize, 1000); i++) {
+            promises.push(contract.ownerOf(i).catch(() => ethers.ZeroAddress));
+          }
+          const owners = await Promise.all(promises);
+          owners.forEach((owner, idx) => {
+            if (owner.toLowerCase() === checksummed.toLowerCase()) {
+              ownedTokenIds.push(start + idx);
+            }
+          });
+          if (ownedTokenIds.length >= balance) break;
+        }
+
+        const unclaimed = ownedTokenIds.filter((id) => !claimedSet.has(id));
+
+        // Claim each unclaimed token
+        for (const tokenId of unclaimed) {
+          try {
+            const metadata = await fetchTokenMetadata(tokenId);
+            if (!metadata) {
+              allResults.push({ tokenId, walletAddress: checksummed, success: false, error: "Metadata fetch failed" });
+              continue;
+            }
+
+            const cardId = generateNftCardId(tokenId);
+            const nftClass = (getTrait(metadata.attributes, "Class") as string) || "Unknown";
+            const weapon = (getTrait(metadata.attributes, "Weapon") as string) || "Unknown";
+            const specie = (getTrait(metadata.attributes, "Specie") as string) || "Unknown";
+            const background = (getTrait(metadata.attributes, "Background") as string) || "Unknown";
+            const gender = (getTrait(metadata.attributes, "Gender") as string) || "Unknown";
+            const level = (getTrait(metadata.attributes, "Level") as number) || 1;
+
+            let cardImageUrl = resolveImageUrl(metadata.image);
+            try {
+              const imgResp = await fetch(cardImageUrl, { signal: AbortSignal.timeout(15000) });
+              if (imgResp.ok) {
+                const imgBuffer = Buffer.from(await imgResp.arrayBuffer());
+                const contentType = imgResp.headers.get("content-type") || "image/png";
+                const ext = contentType.includes("jpeg") || contentType.includes("jpg") ? "jpg" : "png";
+                const { url } = await storagePut(`nft-cards/potential-${tokenId}-1of1.${ext}`, imgBuffer, contentType);
+                cardImageUrl = url;
+              }
+            } catch { /* use original */ }
+
+            try {
+              await db.insert(cards).values({
+                cardId,
+                name: `${metadata.name} \u2014 1/1`,
+                cardType: "character",
+                rarity: "neyon",
+                alignment: "order",
+                characterClass: mapNftClassToCardClass(nftClass),
+                species: mapNftSpecieToCardSpecies(specie),
+                power: Math.min(level * 2 + 5, 20),
+                health: Math.min(level * 3 + 10, 30),
+                abilityText: `Unique 1/1 card from The Potentials collection. ${nftClass} class wielding ${weapon}.`,
+                flavorText: `"From the depths of the Collector's vault, Potential #${tokenId} awakens \u2014 a ${specie} ${nftClass} forged in ${background}."`,
+                imageUrl: cardImageUrl,
+                nftTokenId: String(tokenId),
+                nftPerks: { oneOfOne: true, originalOwner: checksummed, weapon, background, gender, level, fullAttributes: metadata.attributes },
+                unlockMethod: "nft",
+                isActive: 1,
+              }).onDuplicateKeyUpdate({ set: { imageUrl: cardImageUrl, updatedAt: new Date() } });
+            } catch (e) { logger.warn(`[NFT] Batch card insert ${tokenId}:`, e); }
+
+            try {
+              await db.insert(userCards).values({ userId: ctx.user.id, cardId, quantity: 1, isFoil: 1, cardLevel: level, obtainedVia: "nft" });
+            } catch (e) { logger.warn(`[NFT] Batch user card ${tokenId}:`, e); }
+
+            await db.insert(nftClaims).values({
+              tokenId, claimerWallet: checksummed, claimerUserId: ctx.user.id, cardId,
+              metadataSnapshot: { name: metadata.name, image: metadata.image, attributes: metadata.attributes },
+              cardImageUrl,
+            });
+            claimedSet.add(tokenId);
+
+            try {
+              await db.insert(nftMetadataCache).values({
+                tokenId, name: metadata.name, imageUrl: metadata.image, nftClass, weapon, background, specie, gender, level,
+                attributes: metadata.attributes, currentOwner: checksummed,
+              }).onDuplicateKeyUpdate({ set: { currentOwner: checksummed, lastRefreshed: new Date() } });
+            } catch (e) { logger.warn(`[NFT] Batch cache ${tokenId}:`, e); }
+
+            allResults.push({ tokenId, walletAddress: checksummed, success: true, cardId, cardImageUrl, name: metadata.name });
+          } catch (e: any) {
+            allResults.push({ tokenId, walletAddress: checksummed, success: false, error: e.message || "Unknown error" });
+          }
+        }
+      } catch (error: any) {
+        logger.error(`[NFT] Wallet scan failed for ${w.walletAddress}:`, error);
+      }
+    }
+
+    return {
+      claimed: allResults.filter((r) => r.success).length,
+      failed: allResults.filter((r) => !r.success).length,
+      results: allResults,
+    };
+  }),
 });
 
 /* ─── Mapping helpers ─── */

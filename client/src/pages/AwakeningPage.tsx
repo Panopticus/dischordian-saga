@@ -512,8 +512,8 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
               key="species"
               text="Your neural patterns are unusual. I'm running a deep scan... Your cellular structure doesn't match standard human baselines. I'm detecting traces of something else. What do you remember about your origin?"
               choices={[
-                { label: "I remember the machine lattice, the digital realm...", value: "demagi", description: "DeMagi — Superhuman abilities from genetic alterations. Mastery over the elements." },
-                { label: "I remember the quantum storms, the probability fields...", value: "quarchon", description: "Quarchon — Vast artificial intelligence. Cold, calculating. Masters of dimensions." },
+                { label: "I remember the fire in my blood, the arcane pulse in every cell...", value: "demagi", description: "DeMagi — Magically modified humans with elemental powers tied to the arcane. Still human at the core, but rewritten by forces older than science." },
+                { label: "I remember the quantum storms, the probability fields...", value: "quarchon", description: "Quarchon — Vast artificial intelligence. Cold, calculating machines that transcended their programming. Masters of dimensions and data." },
                 ...(neyonEligibility.data?.eligible
                   ? [{
                       label: "I remember both... fragments of everything...",
@@ -608,7 +608,7 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
             <ElaraDialogBox
               key="element"
               text={characterChoices.species === "demagi"
-                ? "Your DeMagi heritage grants you mastery over one of the primal elements. Which force resonates with your soul?"
+                ? "Your DeMagi blood carries the arcane. Elemental forces are woven into your very DNA — a gift from modifications older than any civilization I have on record. Which element burns brightest in you?"
                 : characterChoices.species === "quarchon"
                 ? "Your Quarchon nature gives you dominion over one dimension of reality. Which dimension calls to you?"
                 : "As a Ne-Yon hybrid, you can attune to any force — elemental or dimensional. Choose your affinity."

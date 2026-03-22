@@ -26,6 +26,7 @@ import SecretTransmissionOverlay from "@/components/SecretTransmissionOverlay";
 import { getRoomTransmissions, getElaraVariant, type SecretTransmission } from "@/data/moralityStoryBranches";
 import AlienSymbolPuzzle from "@/components/AlienSymbolPuzzle";
 import FastTravelPanel from "@/components/FastTravelPanel";
+import CommsRelayImport from "@/components/CommsRelayImport";
 
 const ELARA_PORTRAIT = "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/elara_portrait_speaking-J3GJUrfnNKzSBrxY2PfWrL.webp";
 
@@ -127,10 +128,12 @@ function RoomScene({
   room,
   onHotspotClick,
   itemsCollected,
+  fastTravelUnlocked = false,
 }: {
   room: RoomDef;
   onHotspotClick: (hotspot: HotspotDef) => void;
   itemsCollected: string[];
+  fastTravelUnlocked?: boolean;
 }) {
   const [hoveredHotspot, setHoveredHotspot] = useState<string | null>(null);
   const [showHotspots, setShowHotspots] = useState(true);
@@ -241,6 +244,31 @@ function RoomScene({
                     className="absolute inset-0 rounded-full animate-ping"
                     style={{ border: `1px solid ${colors.border}`, opacity: 0.3 }}
                   />
+                )}
+                {/* Special pulsing indicator for nav-console before puzzle is solved */}
+                {hotspot.id === "nav-console" && !fastTravelUnlocked && (
+                  <>
+                    <div
+                      className="absolute inset-[-6px] rounded-full animate-ping"
+                      style={{ border: "2px solid rgba(51,226,230,0.6)", opacity: 0.6, animationDuration: "1.5s" }}
+                    />
+                    <div
+                      className="absolute inset-[-12px] rounded-full animate-ping"
+                      style={{ border: "1px solid rgba(51,226,230,0.3)", opacity: 0.3, animationDuration: "2.5s" }}
+                    />
+                    {/* Exclamation badge */}
+                    <div
+                      className="absolute -top-1 -right-1 w-4 h-4 rounded-full flex items-center justify-center text-[8px] font-bold z-20"
+                      style={{
+                        background: "rgba(255,183,77,0.9)",
+                        color: "#000",
+                        boxShadow: "0 0 8px rgba(255,183,77,0.6)",
+                        animation: "pulse 2s ease-in-out infinite",
+                      }}
+                    >
+                      !
+                    </div>
+                  </>
                 )}
               </div>
               {/* Always-visible door label with room name */}
@@ -393,6 +421,7 @@ export default function ArkExplorerPage() {
   const [showMap, setShowMap] = useState(false);
   const [puzzleRoomId, setPuzzleRoomId] = useState<string | null>(null);
   const [showNavPuzzle, setShowNavPuzzle] = useState(false);
+  const [showCommsRelay, setShowCommsRelay] = useState(false);
   const fastTravelUnlocked = !!state.narrativeFlags["fast_travel_unlocked"];
   const [solvedPuzzles, setSolvedPuzzles] = useState<Set<string>>(() => {
     try {
@@ -738,6 +767,11 @@ export default function ArkExplorerPage() {
           }
           break;
         }
+        if (hotspot.action === "comms-relay-import") {
+          if (audioReady) playSFX("terminal_access");
+          setShowCommsRelay(true);
+          break;
+        }
         if (hotspot.elaraDialog) {
           if (audioReady) playSFX("dialog_open");
           setElaraText(hotspot.elaraDialog);
@@ -825,6 +859,7 @@ export default function ArkExplorerPage() {
             room={currentRoom}
             onHotspotClick={handleHotspotClick}
             itemsCollected={state.itemsCollected}
+            fastTravelUnlocked={fastTravelUnlocked}
           />
 
           {/* Room description */}
@@ -1102,6 +1137,9 @@ export default function ArkExplorerPage() {
             }}
             onClose={() => setShowNavPuzzle(false)}
           />
+        )}
+        {showCommsRelay && (
+          <CommsRelayImport onClose={() => setShowCommsRelay(false)} />
         )}
       </AnimatePresence>
 
