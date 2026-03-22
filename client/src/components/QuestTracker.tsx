@@ -9,7 +9,7 @@ import { useLoredex } from "@/contexts/LoredexContext";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Target, ChevronDown, ChevronUp, Compass, MapPin,
-  Sparkles, Trophy, Eye, Zap, BookOpen, Link2
+  Sparkles, Trophy, Eye, Zap, BookOpen, Link2, Navigation
 } from "lucide-react";
 import QuestChainSystem from "./QuestChainSystem";
 import { useLocation } from "wouter";
@@ -73,6 +73,21 @@ const QUESTS: Quest[] = [
         hint: "Go through the Medical Bay to reach the Bridge.",
       };
     },
+  },
+  {
+    id: "nav_calibration",
+    title: "CALIBRATE NAVIGATION",
+    description: "The Bridge's Navigation Console is offline. Decode the alien glyph sequence to bring the fast-travel system online.",
+    icon: Navigation,
+    category: "main",
+    order: 2.5,
+    reward: "Fast-Travel System",
+    check: (s) => ({
+      complete: !!s.narrativeFlags["fast_travel_unlocked"],
+      progress: s.narrativeFlags["fast_travel_unlocked"] ? 1 : 0,
+      max: 1,
+      hint: "Go to the Bridge and interact with the Navigation Console. Solve the alien symbol puzzle.",
+    }),
   },
   {
     id: "explore_5_rooms",

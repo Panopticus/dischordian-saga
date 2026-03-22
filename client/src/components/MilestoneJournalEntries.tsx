@@ -123,6 +123,42 @@ export const MILESTONES: MilestoneEntry[] = [
       "The subject has reached the Bridge and accessed the Conspiracy Board. Their neural activity spiked significantly when viewing the entity connections. The pattern recognition centers are firing at levels I've only seen in Oracle-class Potentials. They're starting to see the web.",
   },
 
+  /* ── 2b. Navigation Calibration ── */
+  {
+    id: "nav_calibration",
+    title: "THE SHIP REMEMBERS",
+    entryNumber: "003b",
+    icon: Compass,
+    iconColor: "text-cyan-400",
+    borderColor: "border-cyan-400/20",
+    bgColor: "bg-cyan-400/5",
+    order: 25,
+    check: (ctx) => !!ctx.narrativeFlags["fast_travel_unlocked"],
+    generateNarrative: (ctx) => {
+      const name = ctx.characterChoices.name || "The Awakened";
+      return [
+        `PERSONAL LOG — ENTRY 003b`,
+        `CITIZEN: ${name}`,
+        `STATUS: Navigation Grid Online`,
+        `LOCATION: Inception Ark, Command Bridge`,
+        ``,
+        `---`,
+        ``,
+        `The Navigation Console on the Bridge was locked behind an alien glyph cipher. Not human code — something older. The symbols pulsed with a rhythm that felt almost biological, like a heartbeat encoded in light.`,
+        ``,
+        `I matched the sequence. Four glyphs, each one a fragment of a language I've never seen but somehow understood. When the last symbol locked into place, the entire console lit up and a holographic map of the Ark materialized above the tactical display.`,
+        ``,
+        `Every room I've visited is now marked on the grid. I can jump between them instantly — the ship's internal transport system was waiting for someone to wake it up. Elara says the previous crew never cracked the cipher. She seemed... impressed. Or maybe concerned. Hard to tell with an AI.`,
+        ``,
+        `The map shows decks I haven't reached yet. Rooms I didn't know existed. Whatever this ship is hiding, I now have the means to find it faster.`,
+        ``,
+        `— ${name}`,
+      ].join("\n");
+    },
+    elaraNote: () =>
+      "NAVIGATION CALIBRATION COMPLETE. The subject decoded the alien glyph sequence on their first attempt. This cipher has been active since the Ark's construction — it predates my own installation by centuries. The fact that they solved it suggests a neural compatibility with the ship's original builders that I did not anticipate. I've granted full fast-travel access. They've earned it.",
+  },
+
   /* ── 3. First Card Battle ── */
   {
     id: "first_card_battle",

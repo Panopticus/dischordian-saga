@@ -44,6 +44,14 @@ const QUEST_REWARDS: QuestReward[] = [
     description: "Bridge accessed. The Conspiracy Board awaits.",
   },
   {
+    questId: "nav_calibration",
+    dreamTokens: 75,
+    xp: 125,
+    gamificationXp: 50,
+    gamificationPoints: 100,
+    description: "Navigation system online. Fast-travel unlocked across the Inception Ark.",
+  },
+  {
     questId: "explore_5_rooms",
     dreamTokens: 50,
     xp: 75,
@@ -214,6 +222,7 @@ function RewardToast({ notification, onDismiss }: { notification: RewardNotifica
 const QUEST_TITLES: Record<string, string> = {
   awaken: "AWAKENING",
   explore_bridge: "REACH THE BRIDGE",
+  nav_calibration: "CALIBRATE NAVIGATION",
   explore_5_rooms: "MAP THE ARK",
   collect_3_items: "SCAVENGER PROTOCOL",
   discover_10_entries: "INTELLIGENCE GATHERING",
@@ -279,6 +288,7 @@ export default function QuestRewardSystem() {
   const questChecks = useMemo<Record<string, boolean>>(() => ({
     awaken: checkState.characterCreated,
     explore_bridge: !!(checkState.narrativeFlags["room_bridge_visited"] || checkState.roomsUnlocked >= 3),
+    nav_calibration: !!checkState.narrativeFlags["fast_travel_unlocked"],
     explore_5_rooms: checkState.roomsUnlocked >= 5,
     collect_3_items: checkState.totalItemsFound >= 3,
     discover_10_entries: checkState.discoveredCount >= 10,

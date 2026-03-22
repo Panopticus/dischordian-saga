@@ -2157,3 +2157,8 @@
 - [x] Build persistent navigation map panel — discovered rooms appear permanently, click to fast-travel
 - [x] Write tests for Phase 86 features (12 tests, all passing)
 - [x] Fix all TypeScript errors and save checkpoint
+
+## Phase 87 — Navigation Calibration Quest Objective
+
+- [x] Add quest objective "Calibrate the Navigation Console on the Bridge" to guide players toward fast-travel
+- [x] Write tests and save checkpoint (53 files, 2035 tests, all passing)
