@@ -129,11 +129,13 @@ function RoomScene({
   onHotspotClick,
   itemsCollected,
   fastTravelUnlocked = false,
+  commsRelayComplete = false,
 }: {
   room: RoomDef;
   onHotspotClick: (hotspot: HotspotDef) => void;
   itemsCollected: string[];
   fastTravelUnlocked?: boolean;
+  commsRelayComplete?: boolean;
 }) {
   const [hoveredHotspot, setHoveredHotspot] = useState<string | null>(null);
   const [showHotspots, setShowHotspots] = useState(true);
@@ -263,6 +265,31 @@ function RoomScene({
                         background: "rgba(255,183,77,0.9)",
                         color: "#000",
                         boxShadow: "0 0 8px rgba(255,183,77,0.6)",
+                        animation: "pulse 2s ease-in-out infinite",
+                      }}
+                    >
+                      !
+                    </div>
+                  </>
+                )}
+                {/* Special pulsing indicator for comms-relay before quest is completed */}
+                {hotspot.id === "comms-relay" && !commsRelayComplete && (
+                  <>
+                    <div
+                      className="absolute inset-[-6px] rounded-full animate-ping"
+                      style={{ border: "2px solid rgba(168,85,247,0.6)", opacity: 0.6, animationDuration: "1.8s" }}
+                    />
+                    <div
+                      className="absolute inset-[-12px] rounded-full animate-ping"
+                      style={{ border: "1px solid rgba(168,85,247,0.3)", opacity: 0.3, animationDuration: "2.8s" }}
+                    />
+                    {/* Signal badge */}
+                    <div
+                      className="absolute -top-1 -right-1 w-4 h-4 rounded-full flex items-center justify-center text-[7px] font-bold z-20"
+                      style={{
+                        background: "rgba(168,85,247,0.9)",
+                        color: "#fff",
+                        boxShadow: "0 0 8px rgba(168,85,247,0.6)",
                         animation: "pulse 2s ease-in-out infinite",
                       }}
                     >
@@ -860,6 +887,7 @@ export default function ArkExplorerPage() {
             onHotspotClick={handleHotspotClick}
             itemsCollected={state.itemsCollected}
             fastTravelUnlocked={fastTravelUnlocked}
+            commsRelayComplete={!!state.narrativeFlags["comms_relay_first_claim"]}
           />
 
           {/* Room description */}

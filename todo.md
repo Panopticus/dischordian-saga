@@ -2197,3 +2197,8 @@
 
 ### Tests
 - [x] Update tests and save checkpoint (53 files, 2035 tests, all passing)
+
+## Phase 90 — Comms Relay Visual Indicator
+
+- [x] Add pulsing signal indicator on Communication Relay hotspot before quest is completed (purple pulsing rings + ! badge)
+- [x] Test and save checkpoint (53 files, 2035 tests, all passing)
