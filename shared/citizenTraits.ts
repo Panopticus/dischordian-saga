@@ -1099,3 +1099,384 @@ export function resolveMarketBonuses(
 
   return result;
 }
+
+
+/* ═══════════════════════════════════════════════════════
+   PVP ARENA BONUSES — Ranked competitive play
+   ═══════════════════════════════════════════════════════ */
+export interface PvpBonuses {
+  /** Elo gain multiplier (higher = climb faster) */
+  eloGainMultiplier: number;
+  /** Elo loss reduction (0-1, lower = lose less on defeat) */
+  eloLossReduction: number;
+  /** Starting hand advantage (extra card draws) */
+  startingHandBonus: number;
+  /** Win streak bonus multiplier */
+  streakMultiplier: number;
+  /** Dream token multiplier from PvP wins */
+  dreamMultiplier: number;
+  /** XP multiplier from PvP matches */
+  xpMultiplier: number;
+  /** Breakdown for UI display */
+  breakdown: Array<{ source: string; effect: string }>;
+}
+const CLASS_PVP = {
+  engineer:  { eloGain: 1.0,  eloLoss: 0.05, hand: 0, streak: 1.0,  dream: 1.0,  xp: 1.05 },
+  oracle:    { eloGain: 1.05, eloLoss: 0,    hand: 1, streak: 1.0,  dream: 1.10, xp: 1.0  },
+  assassin:  { eloGain: 1.10, eloLoss: 0,    hand: 0, streak: 1.15, dream: 1.05, xp: 1.0  },
+  soldier:   { eloGain: 1.05, eloLoss: 0.10, hand: 0, streak: 1.05, dream: 1.0,  xp: 1.05 },
+  spy:       { eloGain: 1.05, eloLoss: 0.05, hand: 0, streak: 1.10, dream: 1.05, xp: 1.05 },
+} as const;
+const SPECIES_PVP = {
+  demagi:    { eloLoss: 0.05, dream: 1.05, streak: 1.0  },
+  quarchon:  { eloLoss: 0,    dream: 1.0,  streak: 1.10 },
+  neyon:     { eloLoss: 0.03, dream: 1.03, streak: 1.05 },
+  human:     { eloLoss: 0.03, dream: 1.03, streak: 1.03 },
+  synthetic: { eloLoss: 0,    dream: 1.0,  streak: 1.08 },
+} as const;
+export function resolvePvpBonuses(
+  citizen?: CitizenData | null,
+  nft?: PotentialNftData | null
+): PvpBonuses {
+  const breakdown: Array<{ source: string; effect: string }> = [];
+  const result: PvpBonuses = {
+    eloGainMultiplier: 1.0, eloLossReduction: 0,
+    startingHandBonus: 0, streakMultiplier: 1.0,
+    dreamMultiplier: 1.0, xpMultiplier: 1.0, breakdown,
+  };
+  if (!citizen) return result;
+  // Species
+  const sp = SPECIES_PVP[citizen.species];
+  result.eloLossReduction += sp.eloLoss;
+  result.dreamMultiplier *= sp.dream;
+  result.streakMultiplier *= sp.streak;
+  breakdown.push({ source: `Species: ${citizen.species}`, effect: `${Math.round(sp.eloLoss * 100)}% elo loss reduction, ${Math.round((sp.streak - 1) * 100)}% streak bonus` });
+  // Class
+  const cl = CLASS_PVP[citizen.characterClass];
+  result.eloGainMultiplier *= cl.eloGain;
+  result.eloLossReduction += cl.eloLoss;
+  result.startingHandBonus += cl.hand;
+  result.streakMultiplier *= cl.streak;
+  result.dreamMultiplier *= cl.dream;
+  result.xpMultiplier *= cl.xp;
+  const effects: string[] = [];
+  if (cl.eloGain > 1.0) effects.push(`+${Math.round((cl.eloGain - 1) * 100)}% elo gain`);
+  if (cl.hand > 0) effects.push(`+${cl.hand} starting card`);
+  if (cl.streak > 1.0) effects.push(`+${Math.round((cl.streak - 1) * 100)}% streak bonus`);
+  breakdown.push({ source: `Class: ${citizen.characterClass}`, effect: effects.join(", ") || "Standard PvP rates" });
+  // Alignment
+  if (citizen.alignment === "order") {
+    result.eloLossReduction += 0.05;
+    result.xpMultiplier *= 1.05;
+    breakdown.push({ source: "Alignment: Order", effect: "+5% elo loss reduction, +5% XP (disciplined play)" });
+  } else {
+    result.eloGainMultiplier *= 1.10;
+    result.streakMultiplier *= 1.05;
+    breakdown.push({ source: "Alignment: Chaos", effect: "+10% elo gain, +5% streak bonus (aggressive play)" });
+  }
+  // Attributes
+  const atkScale = attrScale(citizen.attrAttack);
+  const defScale = attrScale(citizen.attrDefense);
+  result.eloGainMultiplier *= 1 + atkScale * 0.02;
+  result.eloLossReduction += defScale * 0.02;
+  if (atkScale + defScale > 0) {
+    breakdown.push({ source: "Attributes", effect: `+${Math.round(atkScale * 2)}% elo gain, +${Math.round(defScale * 2)}% loss reduction` });
+  }
+  // Class level
+  if (citizen.classLevel > 1) {
+    const clBonus = citizen.classLevel - 1;
+    result.dreamMultiplier *= 1 + clBonus * 0.02;
+    result.xpMultiplier *= 1 + clBonus * 0.02;
+    breakdown.push({ source: `Class Level ${citizen.classLevel}`, effect: `+${Math.round(clBonus * 2)}% dream & XP from PvP` });
+  }
+  // NFT multiplier
+  const multi = nftLevelMultiplier(nft);
+  if (multi > 1.0) {
+    result.dreamMultiplier *= multi;
+    result.eloGainMultiplier *= 1 + (multi - 1) * 0.5;
+    breakdown.push({ source: `Potential Lv.${nft!.level}`, effect: `${Math.round((multi - 1) * 100)}% dream bonus, ${Math.round((multi - 1) * 50)}% elo gain` });
+  }
+  return result;
+}
+
+/* ═══════════════════════════════════════════════════════
+   DRAFT TOURNAMENT BONUSES — Card drafting events
+   ═══════════════════════════════════════════════════════ */
+export interface DraftBonuses {
+  /** Extra picks per round */
+  extraPicks: number;
+  /** Chance to see higher rarity cards in pool (0-1) */
+  rarityBoostChance: number;
+  /** Reroll chances per draft */
+  rerollChances: number;
+  /** Dream token multiplier from draft rewards */
+  dreamMultiplier: number;
+  /** XP multiplier from draft participation */
+  xpMultiplier: number;
+  /** Bonus cards kept after draft ends */
+  bonusKeepCards: number;
+  /** Breakdown for UI display */
+  breakdown: Array<{ source: string; effect: string }>;
+}
+const CLASS_DRAFT = {
+  engineer:  { picks: 0, rarity: 0.05, rerolls: 1, dream: 1.0,  xp: 1.05, keep: 1 },
+  oracle:    { picks: 1, rarity: 0.10, rerolls: 2, dream: 1.10, xp: 1.0,  keep: 0 },
+  assassin:  { picks: 0, rarity: 0.05, rerolls: 0, dream: 1.05, xp: 1.0,  keep: 0 },
+  soldier:   { picks: 0, rarity: 0,    rerolls: 0, dream: 1.0,  xp: 1.10, keep: 2 },
+  spy:       { picks: 1, rarity: 0.08, rerolls: 1, dream: 1.05, xp: 1.05, keep: 0 },
+} as const;
+const SPECIES_DRAFT = {
+  demagi:    { rarity: 0.05, keep: 1, dream: 1.0  },
+  quarchon:  { rarity: 0,    keep: 0, dream: 1.10 },
+  neyon:     { rarity: 0.03, keep: 0, dream: 1.05 },
+  human:     { rarity: 0.03, keep: 1, dream: 1.03 },
+  synthetic: { rarity: 0.08, keep: 0, dream: 1.0  },
+} as const;
+export function resolveDraftBonuses(
+  citizen?: CitizenData | null,
+  nft?: PotentialNftData | null
+): DraftBonuses {
+  const breakdown: Array<{ source: string; effect: string }> = [];
+  const result: DraftBonuses = {
+    extraPicks: 0, rarityBoostChance: 0, rerollChances: 0,
+    dreamMultiplier: 1.0, xpMultiplier: 1.0, bonusKeepCards: 0, breakdown,
+  };
+  if (!citizen) return result;
+  // Species
+  const sp = SPECIES_DRAFT[citizen.species];
+  result.rarityBoostChance += sp.rarity;
+  result.bonusKeepCards += sp.keep;
+  result.dreamMultiplier *= sp.dream;
+  breakdown.push({ source: `Species: ${citizen.species}`, effect: `+${Math.round(sp.rarity * 100)}% rarity boost, +${sp.keep} keep cards` });
+  // Class
+  const cl = CLASS_DRAFT[citizen.characterClass];
+  result.extraPicks += cl.picks;
+  result.rarityBoostChance += cl.rarity;
+  result.rerollChances += cl.rerolls;
+  result.dreamMultiplier *= cl.dream;
+  result.xpMultiplier *= cl.xp;
+  result.bonusKeepCards += cl.keep;
+  const effects: string[] = [];
+  if (cl.picks > 0) effects.push(`+${cl.picks} extra pick`);
+  if (cl.rerolls > 0) effects.push(`${cl.rerolls} rerolls`);
+  if (cl.keep > 0) effects.push(`+${cl.keep} keep cards`);
+  breakdown.push({ source: `Class: ${citizen.characterClass}`, effect: effects.join(", ") || "Standard draft rates" });
+  // Alignment
+  if (citizen.alignment === "order") {
+    result.rerollChances += 1;
+    breakdown.push({ source: "Alignment: Order", effect: "+1 reroll (methodical selection)" });
+  } else {
+    result.rarityBoostChance += 0.08;
+    breakdown.push({ source: "Alignment: Chaos", effect: "+8% rarity boost (lucky draws)" });
+  }
+  // Attributes — Vitality = endurance for longer drafts
+  const vitScale = attrScale(citizen.attrVitality);
+  result.bonusKeepCards += Math.floor(vitScale / 2);
+  if (vitScale > 0) {
+    breakdown.push({ source: "Vitality Attribute", effect: `+${Math.floor(vitScale / 2)} bonus keep cards` });
+  }
+  // Class level
+  if (citizen.classLevel > 1) {
+    const clBonus = citizen.classLevel - 1;
+    result.rarityBoostChance += clBonus * 0.02;
+    breakdown.push({ source: `Class Level ${citizen.classLevel}`, effect: `+${Math.round(clBonus * 2)}% rarity boost` });
+  }
+  // NFT multiplier
+  const multi = nftLevelMultiplier(nft);
+  if (multi > 1.0) {
+    result.dreamMultiplier *= multi;
+    result.extraPicks += Math.floor((multi - 1) * 4);
+    breakdown.push({ source: `Potential Lv.${nft!.level}`, effect: `${Math.round((multi - 1) * 100)}% dream bonus, +${Math.floor((multi - 1) * 4)} extra picks` });
+  }
+  return result;
+}
+
+/* ═══════════════════════════════════════════════════════
+   BOSS MASTERY BONUSES — Boss encounter scaling
+   ═══════════════════════════════════════════════════════ */
+export interface BossMasteryBonuses {
+  /** Damage multiplier against bosses */
+  bossDamageMultiplier: number;
+  /** Damage reduction from boss attacks (0-1) */
+  bossDefenseReduction: number;
+  /** Mastery XP multiplier (faster mastery progression) */
+  masteryXpMultiplier: number;
+  /** Loot quality multiplier */
+  lootQualityMultiplier: number;
+  /** Extra mastery points per kill */
+  bonusMasteryPoints: number;
+  /** Breakdown for UI display */
+  breakdown: Array<{ source: string; effect: string }>;
+}
+const CLASS_BOSS = {
+  engineer:  { damage: 1.0,  defense: 0.10, masteryXp: 1.05, loot: 1.05, mastery: 1 },
+  oracle:    { damage: 1.05, defense: 0.05, masteryXp: 1.10, loot: 1.10, mastery: 0 },
+  assassin:  { damage: 1.15, defense: 0,    masteryXp: 1.0,  loot: 1.0,  mastery: 0 },
+  soldier:   { damage: 1.10, defense: 0.15, masteryXp: 1.0,  loot: 1.0,  mastery: 2 },
+  spy:       { damage: 1.05, defense: 0.05, masteryXp: 1.05, loot: 1.15, mastery: 0 },
+} as const;
+const SPECIES_BOSS = {
+  demagi:    { defense: 0.10, masteryXp: 1.0,  loot: 1.0  },
+  quarchon:  { defense: 0,    masteryXp: 1.0,  loot: 1.10 },
+  neyon:     { defense: 0.05, masteryXp: 1.05, loot: 1.05 },
+  human:     { defense: 0.05, masteryXp: 1.05, loot: 1.05 },
+  synthetic: { defense: 0.03, masteryXp: 1.0,  loot: 1.08 },
+} as const;
+export function resolveBossMasteryBonuses(
+  citizen?: CitizenData | null,
+  nft?: PotentialNftData | null
+): BossMasteryBonuses {
+  const breakdown: Array<{ source: string; effect: string }> = [];
+  const result: BossMasteryBonuses = {
+    bossDamageMultiplier: 1.0, bossDefenseReduction: 0,
+    masteryXpMultiplier: 1.0, lootQualityMultiplier: 1.0,
+    bonusMasteryPoints: 0, breakdown,
+  };
+  if (!citizen) return result;
+  // Species
+  const sp = SPECIES_BOSS[citizen.species];
+  result.bossDefenseReduction += sp.defense;
+  result.masteryXpMultiplier *= sp.masteryXp;
+  result.lootQualityMultiplier *= sp.loot;
+  breakdown.push({ source: `Species: ${citizen.species}`, effect: `${Math.round(sp.defense * 100)}% boss damage reduction, ${Math.round((sp.loot - 1) * 100)}% loot quality` });
+  // Class
+  const cl = CLASS_BOSS[citizen.characterClass];
+  result.bossDamageMultiplier *= cl.damage;
+  result.bossDefenseReduction += cl.defense;
+  result.masteryXpMultiplier *= cl.masteryXp;
+  result.lootQualityMultiplier *= cl.loot;
+  result.bonusMasteryPoints += cl.mastery;
+  const effects: string[] = [];
+  if (cl.damage > 1.0) effects.push(`+${Math.round((cl.damage - 1) * 100)}% boss damage`);
+  if (cl.defense > 0) effects.push(`${Math.round(cl.defense * 100)}% damage reduction`);
+  if (cl.mastery > 0) effects.push(`+${cl.mastery} mastery points`);
+  breakdown.push({ source: `Class: ${citizen.characterClass}`, effect: effects.join(", ") || "Standard boss rates" });
+  // Alignment
+  if (citizen.alignment === "order") {
+    result.bossDefenseReduction += 0.05;
+    result.masteryXpMultiplier *= 1.05;
+    breakdown.push({ source: "Alignment: Order", effect: "+5% boss defense, +5% mastery XP (disciplined approach)" });
+  } else {
+    result.bossDamageMultiplier *= 1.10;
+    result.lootQualityMultiplier *= 1.05;
+    breakdown.push({ source: "Alignment: Chaos", effect: "+10% boss damage, +5% loot quality (reckless aggression)" });
+  }
+  // Element — matching boss element gives resistance
+  if (citizen.element) {
+    result.bossDefenseReduction += 0.03;
+    breakdown.push({ source: `Element: ${citizen.element}`, effect: "+3% elemental resistance vs bosses" });
+  }
+  // Attributes — Attack for damage, Defense for survival
+  const atkScale = attrScale(citizen.attrAttack);
+  const defScale = attrScale(citizen.attrDefense);
+  result.bossDamageMultiplier *= 1 + atkScale * 0.03;
+  result.bossDefenseReduction += defScale * 0.02;
+  if (atkScale + defScale > 0) {
+    breakdown.push({ source: "Attributes", effect: `+${Math.round(atkScale * 3)}% boss damage, +${Math.round(defScale * 2)}% defense` });
+  }
+  // Class level
+  if (citizen.classLevel > 1) {
+    const clBonus = citizen.classLevel - 1;
+    result.bonusMasteryPoints += Math.floor(clBonus / 2);
+    result.masteryXpMultiplier *= 1 + clBonus * 0.02;
+    breakdown.push({ source: `Class Level ${citizen.classLevel}`, effect: `+${Math.floor(clBonus / 2)} mastery points, +${Math.round(clBonus * 2)}% mastery XP` });
+  }
+  // NFT multiplier
+  const multi = nftLevelMultiplier(nft);
+  if (multi > 1.0) {
+    result.lootQualityMultiplier *= multi;
+    result.bossDamageMultiplier *= 1 + (multi - 1) * 0.5;
+    breakdown.push({ source: `Potential Lv.${nft!.level}`, effect: `${Math.round((multi - 1) * 100)}% loot quality, ${Math.round((multi - 1) * 50)}% boss damage` });
+  }
+  return result;
+}
+
+/* ═══════════════════════════════════════════════════════
+   FRIENDLY CHALLENGE BONUSES — Unranked play
+   ═══════════════════════════════════════════════════════ */
+export interface FriendlyChallengeBonuses {
+  /** XP multiplier from friendly matches */
+  xpMultiplier: number;
+  /** Dream token multiplier from friendly matches */
+  dreamMultiplier: number;
+  /** Extra custom rule slots */
+  extraRuleSlots: number;
+  /** Card reward chance per match (0-1) */
+  cardRewardChance: number;
+  /** Bonus to daily challenge rewards */
+  dailyChallengeBonus: number;
+  /** Breakdown for UI display */
+  breakdown: Array<{ source: string; effect: string }>;
+}
+const CLASS_FRIENDLY = {
+  engineer:  { xp: 1.05, dream: 1.0,  rules: 1, card: 0.05, daily: 0.05 },
+  oracle:    { xp: 1.0,  dream: 1.10, rules: 2, card: 0.10, daily: 0.10 },
+  assassin:  { xp: 1.0,  dream: 1.05, rules: 0, card: 0.05, daily: 0    },
+  soldier:   { xp: 1.10, dream: 1.0,  rules: 0, card: 0,    daily: 0.10 },
+  spy:       { xp: 1.05, dream: 1.05, rules: 1, card: 0.08, daily: 0.05 },
+} as const;
+const SPECIES_FRIENDLY = {
+  demagi:    { xp: 1.05, card: 0.03 },
+  quarchon:  { xp: 1.0,  card: 0.05 },
+  neyon:     { xp: 1.03, card: 0.03 },
+  human:     { xp: 1.03, card: 0.03 },
+  synthetic: { xp: 1.0,  card: 0.05 },
+} as const;
+export function resolveFriendlyChallengeBonuses(
+  citizen?: CitizenData | null,
+  nft?: PotentialNftData | null
+): FriendlyChallengeBonuses {
+  const breakdown: Array<{ source: string; effect: string }> = [];
+  const result: FriendlyChallengeBonuses = {
+    xpMultiplier: 1.0, dreamMultiplier: 1.0,
+    extraRuleSlots: 0, cardRewardChance: 0,
+    dailyChallengeBonus: 0, breakdown,
+  };
+  if (!citizen) return result;
+  // Species
+  const sp = SPECIES_FRIENDLY[citizen.species];
+  result.xpMultiplier *= sp.xp;
+  result.cardRewardChance += sp.card;
+  breakdown.push({ source: `Species: ${citizen.species}`, effect: `+${Math.round((sp.xp - 1) * 100)}% XP, +${Math.round(sp.card * 100)}% card chance` });
+  // Class
+  const cl = CLASS_FRIENDLY[citizen.characterClass];
+  result.xpMultiplier *= cl.xp;
+  result.dreamMultiplier *= cl.dream;
+  result.extraRuleSlots += cl.rules;
+  result.cardRewardChance += cl.card;
+  result.dailyChallengeBonus += cl.daily;
+  const effects: string[] = [];
+  if (cl.rules > 0) effects.push(`+${cl.rules} custom rules`);
+  if (cl.card > 0) effects.push(`+${Math.round(cl.card * 100)}% card chance`);
+  if (cl.daily > 0) effects.push(`+${Math.round(cl.daily * 100)}% daily bonus`);
+  breakdown.push({ source: `Class: ${citizen.characterClass}`, effect: effects.join(", ") || "Standard friendly rates" });
+  // Alignment
+  if (citizen.alignment === "order") {
+    result.dailyChallengeBonus += 0.10;
+    breakdown.push({ source: "Alignment: Order", effect: "+10% daily challenge bonus (consistent practice)" });
+  } else {
+    result.cardRewardChance += 0.05;
+    result.dreamMultiplier *= 1.05;
+    breakdown.push({ source: "Alignment: Chaos", effect: "+5% card chance, +5% dream bonus (unpredictable rewards)" });
+  }
+  // Attributes — Vitality = social endurance
+  const vitScale = attrScale(citizen.attrVitality);
+  result.xpMultiplier *= 1 + vitScale * 0.02;
+  if (vitScale > 0) {
+    breakdown.push({ source: "Vitality Attribute", effect: `+${Math.round(vitScale * 2)}% XP (social endurance)` });
+  }
+  // Class level
+  if (citizen.classLevel > 1) {
+    const clBonus = citizen.classLevel - 1;
+    result.dreamMultiplier *= 1 + clBonus * 0.02;
+    breakdown.push({ source: `Class Level ${citizen.classLevel}`, effect: `+${Math.round(clBonus * 2)}% dream tokens` });
+  }
+  // NFT multiplier
+  const multi = nftLevelMultiplier(nft);
+  if (multi > 1.0) {
+    result.dreamMultiplier *= multi;
+    result.cardRewardChance += (multi - 1) * 0.1;
+    breakdown.push({ source: `Potential Lv.${nft!.level}`, effect: `${Math.round((multi - 1) * 100)}% dream bonus, +${Math.round((multi - 1) * 10)}% card chance` });
+  }
+  return result;
+}

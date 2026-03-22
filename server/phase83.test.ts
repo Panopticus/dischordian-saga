@@ -315,7 +315,7 @@ describe("Phase 83 Ark room definitions", () => {
     const stationDock = ROOM_DEFINITIONS.find((r) => r.id === "station-dock");
     expect(stationDock).toBeDefined();
     expect(stationDock!.features).toContain("Space Station");
-    expect(stationDock!.features).toContain("Tower Defense");
+    expect(stationDock!.features).toContain("Warden's Vigil");
     expect(stationDock!.features).toContain("Competitive Arena");
     expect(stationDock!.featureRoutes).toContain("/space-station");
     expect(stationDock!.featureRoutes).toContain("/tower-defense");

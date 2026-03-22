@@ -120,6 +120,8 @@ export default function PvpArenaPage() {
   const mySeasonRecord = trpc.pvp.getMySeasonRecord.useQuery(undefined, { enabled: isAuthenticated });
   const seasonLeaderboard = trpc.pvp.getSeasonLeaderboard.useQuery();
   const activeMatches = trpc.pvp.getActiveMatches.useQuery(undefined, { refetchInterval: phase === "lobby" && lobbyTab === "spectate" ? 5000 : false });
+  const allTraitBonuses = trpc.nft.getAllTraitBonuses.useQuery(undefined, { enabled: isAuthenticated, retry: false, refetchOnWindowFocus: false });
+  const pvpBonuses = allTraitBonuses.data?.pvp;
 
   const claimRewards = trpc.pvp.claimSeasonRewards.useMutation({
     onSuccess: () => { mySeasonRecord.refetch(); },
@@ -667,6 +669,62 @@ export default function PvpArenaPage() {
                   MANAGE DECKS →
                 </Link>
               </div>
+              {/* RPG Combat Bonuses */}
+              {pvpBonuses && pvpBonuses.breakdown.length > 0 && (
+                <div className="lg:col-span-2 border border-primary/20 rounded-lg bg-primary/5 p-5">
+                  <h3 className="font-display text-sm font-bold tracking-[0.2em] mb-4 flex items-center gap-2">
+                    <Zap size={14} className="text-primary" />
+                    RPG COMBAT BONUSES
+                  </h3>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-4">
+                    {pvpBonuses.eloGainMultiplier > 1 && (
+                      <div className="border border-green-500/20 bg-green-500/5 rounded p-2 text-center">
+                        <p className="font-display text-lg font-bold text-green-400">+{Math.round((pvpBonuses.eloGainMultiplier - 1) * 100)}%</p>
+                        <p className="font-mono text-[9px] text-muted-foreground">ELO GAIN</p>
+                      </div>
+                    )}
+                    {pvpBonuses.eloLossReduction > 0 && (
+                      <div className="border border-blue-500/20 bg-blue-500/5 rounded p-2 text-center">
+                        <p className="font-display text-lg font-bold text-blue-400">-{Math.round(pvpBonuses.eloLossReduction * 100)}%</p>
+                        <p className="font-mono text-[9px] text-muted-foreground">ELO LOSS</p>
+                      </div>
+                    )}
+                    {pvpBonuses.startingHandBonus > 0 && (
+                      <div className="border border-purple-500/20 bg-purple-500/5 rounded p-2 text-center">
+                        <p className="font-display text-lg font-bold text-purple-400">+{pvpBonuses.startingHandBonus}</p>
+                        <p className="font-mono text-[9px] text-muted-foreground">STARTING CARDS</p>
+                      </div>
+                    )}
+                    {pvpBonuses.streakMultiplier > 1 && (
+                      <div className="border border-amber-500/20 bg-amber-500/5 rounded p-2 text-center">
+                        <p className="font-display text-lg font-bold text-amber-400">+{Math.round((pvpBonuses.streakMultiplier - 1) * 100)}%</p>
+                        <p className="font-mono text-[9px] text-muted-foreground">STREAK BONUS</p>
+                      </div>
+                    )}
+                    {pvpBonuses.dreamMultiplier > 1 && (
+                      <div className="border border-cyan-500/20 bg-cyan-500/5 rounded p-2 text-center">
+                        <p className="font-display text-lg font-bold text-cyan-400">+{Math.round((pvpBonuses.dreamMultiplier - 1) * 100)}%</p>
+                        <p className="font-mono text-[9px] text-muted-foreground">DREAM TOKENS</p>
+                      </div>
+                    )}
+                    {pvpBonuses.xpMultiplier > 1 && (
+                      <div className="border border-yellow-500/20 bg-yellow-500/5 rounded p-2 text-center">
+                        <p className="font-display text-lg font-bold text-yellow-400">+{Math.round((pvpBonuses.xpMultiplier - 1) * 100)}%</p>
+                        <p className="font-mono text-[9px] text-muted-foreground">XP BONUS</p>
+                      </div>
+                    )}
+                  </div>
+                  <div className="space-y-1">
+                    {pvpBonuses.breakdown.map((b, i) => (
+                      <div key={i} className="flex items-center gap-2 font-mono text-[10px]">
+                        <span className="text-primary">▸</span>
+                        <span className="text-muted-foreground">{b.source}:</span>
+                        <span className="text-foreground">{b.effect}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
           )}
 

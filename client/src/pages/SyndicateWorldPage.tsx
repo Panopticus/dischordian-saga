@@ -455,7 +455,7 @@ export default function SyndicateWorldPage() {
             className="border border-red-500/20 bg-red-950/10 rounded-lg p-3 hover:border-red-500/40 transition-all"
           >
             <Shield size={16} className="text-red-400 mb-1" />
-            <span className="font-display text-xs font-bold block">Tower Defense</span>
+            <span className="font-display text-xs font-bold block">Warden's Vigil</span>
             <span className="font-mono text-[8px] text-muted-foreground">Defend the capital</span>
           </Link>
           <Link

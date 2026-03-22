@@ -152,6 +152,62 @@ export const seasonalEventsRouter = router({
       return { purchased: true, item: item.name, quantity: input.quantity, tokensSpent: totalCost };
     }),
 
+  /** Get ended/past events for recap */
+  getEndedEvents: publicProcedure.query(async () => {
+    const db = await getDb();
+    if (!db) throw new Error("DB unavailable");
+    const events = await db.select().from(seasonalEvents)
+      .where(eq(seasonalEvents.active, false))
+      .orderBy(desc(seasonalEvents.endsAt));
+    return events;
+  }),
+
+  /** Get event recap for a specific event */
+  getEventRecap: protectedProcedure
+    .input(z.object({ eventId: z.number() }))
+    .query(async ({ ctx, input }) => {
+      const db = await getDb();
+      if (!db) throw new Error("DB unavailable");
+      const [event] = await db.select().from(seasonalEvents).where(eq(seasonalEvents.id, input.eventId));
+      if (!event) return null;
+
+      const [participation] = await db.select().from(eventParticipation)
+        .where(and(eq(eventParticipation.userId, ctx.user.id), eq(eventParticipation.eventId, input.eventId)));
+
+      const purchases = await db.select().from(eventShopPurchases)
+        .where(and(eq(eventShopPurchases.userId, ctx.user.id), eq(eventShopPurchases.eventId, input.eventId)))
+        .orderBy(desc(eventShopPurchases.purchasedAt));
+
+      // Count total participants
+      const allParticipants = await db.select().from(eventParticipation)
+        .where(eq(eventParticipation.eventId, input.eventId));
+
+      const eventDef = SEASONAL_EVENTS.find(e => e.key === event.eventKey);
+
+      // Calculate rank among participants
+      const sortedParticipants = allParticipants.sort((a, b) => b.contribution - a.contribution);
+      const rank = participation
+        ? sortedParticipants.findIndex(p => p.userId === ctx.user.id) + 1
+        : 0;
+
+      // Calculate milestones reached
+      const milestonesReached = eventDef
+        ? eventDef.milestones.filter(m => (participation?.contribution || 0) >= m.threshold).length
+        : 0;
+
+      return {
+        event,
+        participation: participation || null,
+        purchases,
+        totalParticipants: allParticipants.length,
+        rank,
+        milestonesReached,
+        totalMilestones: eventDef?.milestones.length || 0,
+        globalObjectiveMet: event.globalProgress >= event.globalTarget,
+        eventDef: eventDef || null,
+      };
+    }),
+
   /** Get purchase history */
   getPurchaseHistory: protectedProcedure
     .input(z.object({ eventId: z.number() }))

@@ -2254,3 +2254,30 @@
 - [x] Seeded as active event in DB (March 15 - April 5, 2026) with global objective of 2M Reality Shards
 - [x] Rewrote SeasonalEventsPage with hero banner, 4 tabs (Overview/Milestones/Shop/Lore)
 - [x] Lore tab with 5 unlockable Memory Fragments from key characters (Architect, Elara, Oracle, Iron Lion, The Source)
+
+## Phase 92: Tower Defense on Games Page + Event Quests + Post-Event Recap
+
+### Tower Defense on Games Page
+- [x] Named tower defense "THE WARDEN'S VIGIL" (after The Warden, Archon of the Panopticon)
+- [x] Added as primary simulation on Games page with lore description and badge
+- [x] Updated all references: TowerDefensePage header, Ark hotspot, Space Station, Syndicate World
+
+### Event-Exclusive Quests (Fall of Reality)
+- [x] Created 10 event-exclusive quests across 4 categories (exploration, combat, discovery, social)
+- [x] Quests reward Reality Shards: 25-150 per quest, 150 for completing all
+- [x] Added Quests tab to SeasonalEventsPage with progress tracking and lore hints
+- [x] Quest checks use narrativeFlags from GameContext for completion detection
+
+### Post-Event Recap System
+- [x] Built getEventRecap and getEndedEvents server endpoints
+- [x] Shows contribution, rank, milestones reached, items collected in stats grid
+- [x] Narrative summary adapts based on performance (4 tiers from non-participant to full completion)
+- [x] Past Events section appears below active events or as main content when no active events
+
+### RPG Integration Audit — Classes/Skills/Traits/Morality Impact on Every Game
+- [x] Audited all game modes: 9 fully integrated, 2 partial, 5 missing
+- [x] Added PvP, Draft, Boss Mastery, Friendly Challenge resolvers to citizenTraits.ts
+- [x] Added alignment + element bonuses to Tower Defense resolver
+- [x] Wired all new resolvers into central traitResolver.ts
+- [x] Added RPG bonuses display panels to PvpArenaPage, DraftTournamentPage, BossBattlePage, FriendlyChallengesPage, TowerDefensePage
+- [x] All game modes now have class, species, alignment, element, civil skills, and morality impact

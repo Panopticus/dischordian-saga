@@ -20,8 +20,13 @@ import {
   resolveGuildWarBonuses,
   resolveQuestBonuses,
   resolveMarketBonuses,
+  resolvePvpBonuses,
+  resolveDraftBonuses,
+  resolveBossMasteryBonuses,
+  resolveFriendlyChallengeBonuses,
   nftLevelMultiplier,
 } from "../shared/citizenTraits";
+import { resolveTowerDefenseBonuses } from "../shared/towerDefense";
 
 /* ─── FETCH CITIZEN DATA ─── */
 
@@ -113,6 +118,19 @@ export async function getPlayerTraitBonuses(userId: number) {
     guildWar: resolveGuildWarBonuses(citizen, nft),
     quest: resolveQuestBonuses(citizen, nft),
     market: resolveMarketBonuses(citizen, nft),
+    pvp: resolvePvpBonuses(citizen, nft),
+    draft: resolveDraftBonuses(citizen, nft),
+    bossMastery: resolveBossMasteryBonuses(citizen, nft),
+    friendlyChallenge: resolveFriendlyChallengeBonuses(citizen, nft),
+    towerDefense: resolveTowerDefenseBonuses({
+      characterClass: citizen?.characterClass,
+      species: citizen?.species,
+      alignment: citizen?.alignment,
+      element: citizen?.element,
+      civilSkills: citizen ? Object.fromEntries(
+        Object.entries(citizen).filter(([k]) => k.startsWith('skill_')).map(([k, v]) => [k.replace('skill_', ''), v as number])
+      ) : {},
+    }),
     nftMultiplier: nftLevelMultiplier(nft),
   };
 }
@@ -128,5 +146,9 @@ export {
   resolveGuildWarBonuses,
   resolveQuestBonuses,
   resolveMarketBonuses,
+  resolvePvpBonuses,
+  resolveDraftBonuses,
+  resolveBossMasteryBonuses,
+  resolveFriendlyChallengeBonuses,
   nftLevelMultiplier,
 };

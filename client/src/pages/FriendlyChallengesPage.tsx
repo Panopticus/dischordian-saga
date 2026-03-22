@@ -21,6 +21,8 @@ export default function FriendlyChallengesPage() {
 
   const { data: myChallenges, isLoading, refetch } = trpc.friendlyChallenge.getMyChallenges.useQuery({});
   const { data: dailyChallenge } = trpc.friendlyChallenge.getDailyChallenge.useQuery(undefined, { enabled: tab === "daily" });
+  const allTraitBonuses = trpc.nft.getAllTraitBonuses.useQuery(undefined, { retry: false, refetchOnWindowFocus: false });
+  const friendlyBonuses = allTraitBonuses.data?.friendlyChallenge;
 
   const createMut = trpc.friendlyChallenge.createChallenge.useMutation({
     onSuccess: () => { toast.success("Challenge sent!"); refetch(); setTab("challenges"); },
@@ -68,6 +70,45 @@ export default function FriendlyChallengesPage() {
       </div>
 
       <div className="px-4 sm:px-6 pt-4 space-y-4">
+        {/* RPG Bonuses */}
+        {friendlyBonuses && friendlyBonuses.breakdown.length > 0 && (
+          <div className="border border-accent/20 rounded-lg bg-accent/5 p-4">
+            <h3 className="font-display text-xs font-bold tracking-[0.15em] mb-2 flex items-center gap-2">
+              <Zap size={12} className="text-accent" />
+              CHALLENGE BONUSES
+            </h3>
+            <div className="grid grid-cols-3 gap-2 mb-2">
+              {friendlyBonuses.xpMultiplier > 1 && (
+                <div className="border border-primary/20 bg-primary/5 rounded p-2 text-center">
+                  <p className="font-display text-sm font-bold text-primary">+{Math.round((friendlyBonuses.xpMultiplier - 1) * 100)}%</p>
+                  <p className="font-mono text-[8px] text-muted-foreground">XP</p>
+                </div>
+              )}
+              {friendlyBonuses.dreamMultiplier > 1 && (
+                <div className="border border-amber-500/20 bg-amber-500/5 rounded p-2 text-center">
+                  <p className="font-display text-sm font-bold text-amber-400">x{friendlyBonuses.dreamMultiplier.toFixed(1)}</p>
+                  <p className="font-mono text-[8px] text-muted-foreground">DREAM TOKENS</p>
+                </div>
+              )}
+              {friendlyBonuses.dailyChallengeBonus > 0 && (
+                <div className="border border-green-500/20 bg-green-500/5 rounded p-2 text-center">
+                  <p className="font-display text-sm font-bold text-green-400">+{Math.round(friendlyBonuses.dailyChallengeBonus * 100)}%</p>
+                  <p className="font-mono text-[8px] text-muted-foreground">DAILY BONUS</p>
+                </div>
+              )}
+            </div>
+            <div className="space-y-0.5">
+              {friendlyBonuses.breakdown.map((b, i) => (
+                <div key={i} className="flex items-center gap-2 font-mono text-[10px]">
+                  <span className="text-accent">▸</span>
+                  <span className="text-muted-foreground">{b.source}:</span>
+                  <span className="text-foreground">{b.effect}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
         {tab === "challenges" && (
           <>
             {(!myChallenges || myChallenges.length === 0) ? (

@@ -250,6 +250,17 @@ const SIMULATIONS: GameTile[] = [
     color: "#64748b",
   },
   {
+    href: "/tower-defense",
+    title: "THE WARDEN'S VIGIL",
+    subtitle: "Dimensional Fortification Simulation",
+    description: "Fortify your station with elemental towers and raid enemy bases with specialized units. Your class, species, and skills determine which towers and units you command.",
+    loreContext: "CADES DIMENSION: Fortification Timeline",
+    icon: Shield,
+    color: "#ef4444",
+    badge: "ENTER SIMULATION",
+    primary: true,
+  },
+  {
     href: "/chess",
     title: "THE ARCHITECT'S GAMBIT",
     subtitle: "Strategic Neural Warfare",

@@ -4,6 +4,7 @@
 import { useState, useCallback, useMemo, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Swords, Shield, Heart, Zap, RotateCcw, Skull, Trophy, Target, Crown, AlertTriangle, Star, Gem, FlaskConical, Sparkles } from "lucide-react";
+import { trpc } from "@/lib/trpc";
 import { useGame } from "@/contexts/GameContext";
 import { useSound } from "@/contexts/SoundContext";
 import { useGamification } from "@/contexts/GamificationContext";
@@ -125,6 +126,9 @@ export default function BossBattlePage() {
   const [currentBoss, setCurrentBoss] = useState<BossEncounter | null>(null);
   const logRef = useRef<HTMLDivElement>(null);
 
+  const allTraitBonuses = trpc.nft.getAllTraitBonuses.useQuery(undefined, { retry: false, refetchOnWindowFocus: false });
+  const bossBonuses = allTraitBonuses.data?.bossMastery;
+
   const playerDeck = useMemo(() => {
     const choices = gameState.characterChoices;
     return generateStarterDeck({ species: choices.species || undefined, characterClass: choices.characterClass || undefined,
@@ -180,7 +184,56 @@ export default function BossBattlePage() {
     if (!audioReady) { const h = () => { initAudio(); window.removeEventListener("click", h); }; window.addEventListener("click", h); return () => window.removeEventListener("click", h); }
   }, [audioReady, initAudio]);
 
-  if (!battleState || !currentBoss) return <BossSelect onSelect={startBossBattle} />;
+  if (!battleState || !currentBoss) return (
+    <div>
+      <BossSelect onSelect={startBossBattle} />
+      {bossBonuses && bossBonuses.breakdown.length > 0 && (
+        <div className="max-w-3xl mx-auto px-4 pb-6">
+          <div className="border border-amber-500/20 rounded-lg bg-amber-500/5 p-4">
+            <h3 className="font-display text-xs font-bold tracking-[0.2em] mb-3 flex items-center gap-2">
+              <Zap size={12} className="text-amber-400" />
+              BOSS MASTERY BONUSES
+            </h3>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-3">
+              {bossBonuses.bossDamageMultiplier > 1 && (
+                <div className="border border-red-500/20 bg-red-500/5 rounded p-2 text-center">
+                  <p className="font-display text-sm font-bold text-red-400">+{Math.round((bossBonuses.bossDamageMultiplier - 1) * 100)}%</p>
+                  <p className="font-mono text-[8px] text-muted-foreground">DAMAGE</p>
+                </div>
+              )}
+              {bossBonuses.bossDefenseReduction > 0 && (
+                <div className="border border-green-500/20 bg-green-500/5 rounded p-2 text-center">
+                  <p className="font-display text-sm font-bold text-green-400">-{Math.round(bossBonuses.bossDefenseReduction * 100)}%</p>
+                  <p className="font-mono text-[8px] text-muted-foreground">DMG TAKEN</p>
+                </div>
+              )}
+              {bossBonuses.lootQualityMultiplier > 1 && (
+                <div className="border border-amber-500/20 bg-amber-500/5 rounded p-2 text-center">
+                  <p className="font-display text-sm font-bold text-amber-400">x{bossBonuses.lootQualityMultiplier.toFixed(1)}</p>
+                  <p className="font-mono text-[8px] text-muted-foreground">LOOT QUALITY</p>
+                </div>
+              )}
+              {bossBonuses.masteryXpMultiplier > 1 && (
+                <div className="border border-cyan-500/20 bg-cyan-500/5 rounded p-2 text-center">
+                  <p className="font-display text-sm font-bold text-cyan-400">+{Math.round((bossBonuses.masteryXpMultiplier - 1) * 100)}%</p>
+                  <p className="font-mono text-[8px] text-muted-foreground">MASTERY XP</p>
+                </div>
+              )}
+            </div>
+            <div className="space-y-1">
+              {bossBonuses.breakdown.map((b, i) => (
+                <div key={i} className="flex items-center gap-2 font-mono text-[10px]">
+                  <span className="text-amber-400">▸</span>
+                  <span className="text-muted-foreground">{b.source}:</span>
+                  <span className="text-foreground">{b.effect}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
 
   const { player, enemy, turn, turnNumber, logs, winner } = battleState;
 

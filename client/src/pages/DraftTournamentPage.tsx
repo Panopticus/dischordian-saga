@@ -203,6 +203,8 @@ export default function DraftTournamentPage() {
   // tRPC queries
   const myDrafts = trpc.draft.myHistory.useQuery(undefined, { enabled: isAuthenticated });
   const openDrafts = trpc.draft.listOpen.useQuery();
+  const allTraitBonuses = trpc.nft.getAllTraitBonuses.useQuery(undefined, { enabled: isAuthenticated, retry: false, refetchOnWindowFocus: false });
+  const draftBonuses = allTraitBonuses.data?.draft;
   const createDraft = trpc.draft.create.useMutation({
     onSuccess: () => utils.draft.myHistory.invalidate(),
   });
@@ -402,6 +404,51 @@ export default function DraftTournamentPage() {
                 BEGIN DRAFT
               </button>
             </div>
+
+            {/* RPG Draft Bonuses */}
+            {draftBonuses && draftBonuses.breakdown.length > 0 && (
+              <div className="border border-accent/20 rounded-lg bg-accent/5 p-5">
+                <h3 className="font-display text-sm font-bold tracking-[0.15em] mb-3 flex items-center gap-2">
+                  <Zap size={14} className="text-accent" />
+                  DRAFT BONUSES ACTIVE
+                </h3>
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-3">
+                  {draftBonuses.extraPicks > 0 && (
+                    <div className="border border-primary/20 bg-primary/5 rounded p-2 text-center">
+                      <p className="font-display text-lg font-bold text-primary">+{draftBonuses.extraPicks}</p>
+                      <p className="font-mono text-[8px] text-muted-foreground">EXTRA PICKS</p>
+                    </div>
+                  )}
+                  {draftBonuses.rarityBoostChance > 0 && (
+                    <div className="border border-purple-500/20 bg-purple-500/5 rounded p-2 text-center">
+                      <p className="font-display text-lg font-bold text-purple-400">+{Math.round(draftBonuses.rarityBoostChance * 100)}%</p>
+                      <p className="font-mono text-[8px] text-muted-foreground">RARITY LUCK</p>
+                    </div>
+                  )}
+                  {draftBonuses.rerollChances > 0 && (
+                    <div className="border border-amber-500/20 bg-amber-500/5 rounded p-2 text-center">
+                      <p className="font-display text-lg font-bold text-amber-400">{draftBonuses.rerollChances}</p>
+                      <p className="font-mono text-[8px] text-muted-foreground">REROLLS</p>
+                    </div>
+                  )}
+                  {draftBonuses.dreamMultiplier > 1 && (
+                    <div className="border border-green-500/20 bg-green-500/5 rounded p-2 text-center">
+                      <p className="font-display text-lg font-bold text-green-400">x{draftBonuses.dreamMultiplier.toFixed(1)}</p>
+                      <p className="font-mono text-[8px] text-muted-foreground">DREAM TOKENS</p>
+                    </div>
+                  )}
+                </div>
+                <div className="space-y-1">
+                  {draftBonuses.breakdown.map((b, i) => (
+                    <div key={i} className="flex items-center gap-2 font-mono text-[10px]">
+                      <span className="text-accent">▸</span>
+                      <span className="text-muted-foreground">{b.source}:</span>
+                      <span className="text-foreground">{b.effect}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
 
             {/* Draft History */}
             {myDrafts.data && myDrafts.data.length > 0 && (

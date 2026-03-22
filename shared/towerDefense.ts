@@ -416,6 +416,9 @@ export function resolveTowerDefenseBonuses(opts: {
   characterClass?: string;
   classRank?: number;
   species?: string;
+  alignment?: string;
+  element?: string;
+  moralityScore?: number;
   civilSkills?: Record<string, number>;
   talents?: string[];
   prestigeClass?: string;
@@ -475,6 +478,43 @@ export function resolveTowerDefenseBonuses(opts: {
     synthetic: () => { b.towerDamageMultiplier += 0.10; b.raidUnitDamageMultiplier += 0.10; b.sources.push({ source: "Synthetic", label: "+10% all damage (optimization)" }); },
   };
   if (opts.species && speciesMap[opts.species]) speciesMap[opts.species]();
+
+  // ALIGNMENT BONUSES
+  if (opts.alignment === "order") {
+    b.towerHpMultiplier += 0.08;
+    b.towerRangeBonus += 1;
+    b.sources.push({ source: "Order Alignment", label: "+8% tower HP, +1 range (disciplined fortification)" });
+  } else if (opts.alignment === "chaos") {
+    b.raidUnitDamageMultiplier += 0.10;
+    b.raidLootMultiplier += 0.08;
+    b.sources.push({ source: "Chaos Alignment", label: "+10% raid damage, +8% loot (aggressive raiding)" });
+  }
+
+  // ELEMENT BONUSES — elemental towers gain affinity bonus
+  const elementMap: Record<string, () => void> = {
+    fire: () => { b.towerDamageMultiplier += 0.08; b.sources.push({ source: "Fire Element", label: "+8% tower damage (incendiary towers)" }); },
+    ice: () => { b.towerHpMultiplier += 0.08; b.towerRangeBonus += 1; b.sources.push({ source: "Ice Element", label: "+8% tower HP, +1 range (frost barriers)" }); },
+    lightning: () => { b.towerDamageMultiplier += 0.05; b.raidUnitDamageMultiplier += 0.05; b.sources.push({ source: "Lightning Element", label: "+5% all damage (chain lightning)" }); },
+    void: () => { b.raidLootMultiplier += 0.12; b.sources.push({ source: "Void Element", label: "+12% raid loot (dimensional siphon)" }); },
+    earth: () => { b.towerHpMultiplier += 0.12; b.sources.push({ source: "Earth Element", label: "+12% tower HP (stone fortification)" }); },
+    wind: () => { b.towerRangeBonus += 2; b.sources.push({ source: "Wind Element", label: "+2 tower range (aerial surveillance)" }); },
+    shadow: () => { b.raidUnitDamageMultiplier += 0.10; b.sources.push({ source: "Shadow Element", label: "+10% raid unit damage (stealth strikes)" }); },
+    light: () => { b.towerDamageMultiplier += 0.05; b.towerHpMultiplier += 0.05; b.sources.push({ source: "Light Element", label: "+5% tower damage & HP (radiant defense)" }); },
+  };
+  if (opts.element && elementMap[opts.element]) elementMap[opts.element]();
+
+  // MORALITY BONUS — deep alignment grants special bonus
+  if (opts.moralityScore !== undefined) {
+    if (opts.moralityScore > 60) {
+      b.towerHpMultiplier += 0.05;
+      b.maxTowerSlots += 1;
+      b.sources.push({ source: "Humanity Path", label: "+5% tower HP, +1 tower slot (protective instinct)" });
+    } else if (opts.moralityScore < -60) {
+      b.raidUnitDamageMultiplier += 0.08;
+      b.maxRaidUnits += 3;
+      b.sources.push({ source: "Machine Path", label: "+8% raid damage, +3 raid units (ruthless efficiency)" });
+    }
+  }
 
   // CIVIL SKILL BONUSES
   if (opts.civilSkills) {

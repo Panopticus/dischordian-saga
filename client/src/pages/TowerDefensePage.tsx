@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════════════
-   TOWER DEFENSE PAGE — Base Defense & Raiding
+   THE WARDEN'S VIGIL — Base Defense & Raiding
    Place towers, defend against waves, raid other players.
    Full RPG integration: class, species, talents, civil
    skills, prestige all affect towers and raid units.
@@ -54,6 +54,8 @@ export default function TowerDefensePage() {
   const [raidHistoryLimit] = useState(20);
   const { data: raidHistory } = trpc.towerDefense.getRaidHistory.useQuery({ limit: raidHistoryLimit });
   const { data: stationBonuses } = trpc.spaceStation.getStationBonuses.useQuery();
+  const allTraitBonuses = trpc.nft.getAllTraitBonuses.useQuery(undefined, { retry: false, refetchOnWindowFocus: false });
+  const tdBonuses = allTraitBonuses.data?.towerDefense;
 
   const placeTower = trpc.towerDefense.placeTower.useMutation({
     onSuccess: () => { refetchDef(); toast.success("Tower placed!"); },
@@ -109,7 +111,7 @@ export default function TowerDefensePage() {
           <div className="flex-1">
             <h1 className="font-display text-xl font-bold tracking-wider flex items-center gap-2">
               <Shield size={20} className="text-red-400" />
-              TOWER <span className="text-red-400">DEFENSE</span> & RAIDING
+              THE WARDEN'S <span className="text-red-400">VIGIL</span>
             </h1>
             <p className="font-mono text-[10px] text-muted-foreground">
               Total Defense: {totalDefense} • Towers: {towerList.length}/{maxTowers} •
@@ -203,6 +205,52 @@ export default function TowerDefensePage() {
                 </motion.div>
               )}
             </AnimatePresence>
+          </div>
+        )}
+
+        {/* Character Trait Bonuses */}
+        {tdBonuses && tdBonuses.sources.length > 0 && (
+          <div className="border border-accent/20 rounded-lg bg-accent/5 p-3 mb-4">
+            <h3 className="font-mono text-[9px] font-bold tracking-wider flex items-center gap-2 mb-2">
+              <Zap size={12} className="text-accent" />
+              CHARACTER TRAIT BONUSES
+            </h3>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-2">
+              {tdBonuses.towerDamageMultiplier > 1 && (
+                <div className="bg-red-500/10 rounded-md p-2">
+                  <span className="font-mono text-[8px] text-muted-foreground block">Tower DMG</span>
+                  <span className="font-display text-sm font-bold text-red-400">+{Math.round((tdBonuses.towerDamageMultiplier - 1) * 100)}%</span>
+                </div>
+              )}
+              {tdBonuses.towerHpMultiplier > 1 && (
+                <div className="bg-green-500/10 rounded-md p-2">
+                  <span className="font-mono text-[8px] text-muted-foreground block">Tower HP</span>
+                  <span className="font-display text-sm font-bold text-green-400">+{Math.round((tdBonuses.towerHpMultiplier - 1) * 100)}%</span>
+                </div>
+              )}
+              {tdBonuses.raidUnitDamageMultiplier > 1 && (
+                <div className="bg-amber-500/10 rounded-md p-2">
+                  <span className="font-mono text-[8px] text-muted-foreground block">Raid DMG</span>
+                  <span className="font-display text-sm font-bold text-amber-400">+{Math.round((tdBonuses.raidUnitDamageMultiplier - 1) * 100)}%</span>
+                </div>
+              )}
+              {tdBonuses.raidLootMultiplier > 1 && (
+                <div className="bg-purple-500/10 rounded-md p-2">
+                  <span className="font-mono text-[8px] text-muted-foreground block">Raid Loot</span>
+                  <span className="font-display text-sm font-bold text-purple-400">x{tdBonuses.raidLootMultiplier.toFixed(1)}</span>
+                </div>
+              )}
+            </div>
+            <div className="space-y-0.5">
+              {tdBonuses.sources.map((s, i) => (
+                <div key={i} className="flex items-center gap-1.5">
+                  <Sparkles size={8} className="text-accent/60" />
+                  <span className="font-mono text-[8px] text-muted-foreground">
+                    <strong className="text-foreground/70">{s.source}:</strong> {s.label}
+                  </span>
+                </div>
+              ))}
+            </div>
           </div>
         )}
 

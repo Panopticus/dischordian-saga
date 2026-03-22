@@ -11,7 +11,7 @@ import {
   towerPlacements, raidLogs, raidTrophies, dailyStreaks,
   spaceStations, syndicateWorlds,
   citizenCharacters, civilSkillProgress, citizenTalentSelections,
-  prestigeProgress, achievementTraitProgress, classMastery,
+  prestigeProgress, achievementTraitProgress, classMastery, characterSheets,
 } from "../../drizzle/schema";
 import { eq, and, desc, sql } from "drizzle-orm";
 import {
@@ -35,10 +35,16 @@ async function getUserRpgStats(userId: number) {
   const [prestige] = await db.select().from(prestigeProgress).where(eq(prestigeProgress.userId, userId)).limit(1);
   const [traits] = await db.select().from(achievementTraitProgress).where(eq(achievementTraitProgress.userId, userId)).limit(1);
   const [mastery] = await db.select().from(classMastery).where(eq(classMastery.userId, userId)).limit(1);
+  // Get morality score from character_sheets table
+  const [sheet] = await db.select({ moralityScore: characterSheets.moralityScore })
+    .from(characterSheets).where(eq(characterSheets.userId, userId)).limit(1);
   return {
     characterClass: citizen?.characterClass || undefined,
     classRank: mastery?.masteryRank || 0,
     species: citizen?.species || undefined,
+    alignment: citizen?.alignment || undefined,
+    element: citizen?.element || undefined,
+    moralityScore: sheet?.moralityScore ?? 0,
     citizenLevel: citizen?.level || 1,
     civilSkills: civilSkillMap,
     talents: talentKeys,
