@@ -1750,3 +1750,29 @@ export const chessTournaments = mysqlTable("chess_tournaments", {
   createdAt: timestamp("createdAt").defaultNow().notNull(),
 });
 export type ChessTournament = typeof chessTournaments.$inferSelect;
+
+
+/* ═══════════════════════════════════════════════════════
+   CLASS MASTERY — Progressive class specialization
+   Players earn class XP by performing class-aligned actions.
+   5 mastery ranks unlock increasingly powerful perks.
+   ═══════════════════════════════════════════════════════ */
+
+export const classMastery = mysqlTable("class_mastery", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  characterClass: mysqlEnum("characterClass", [
+    "spy", "oracle", "assassin", "engineer", "soldier"
+  ]).notNull(),
+  /** Class-specific XP earned through aligned actions */
+  classXp: int("classXp").notNull().default(0),
+  /** Mastery rank 0-5 (0 = unranked, 5 = grandmaster) */
+  masteryRank: int("masteryRank").notNull().default(0),
+  /** Unlocked perk keys (JSON array) */
+  unlockedPerks: json("unlockedPerks").$type<string[]>(),
+  /** Total class-aligned actions performed */
+  actionsPerformed: int("actionsPerformed").notNull().default(0),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+export type ClassMastery = typeof classMastery.$inferSelect;

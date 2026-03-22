@@ -282,17 +282,30 @@ export const dailyQuestsRouter = router({
         }
       }
 
+      // Build trait source labels for frontend toast
+      const traitSources: string[] = [];
+      if (questCitizen?.species) traitSources.push(`${questCitizen.species} Species`);
+      if (questCitizen?.characterClass) traitSources.push(`${questCitizen.characterClass} Class`);
+      if (questCitizen?.element) traitSources.push(`${questCitizen.element} Element`);
+
+      // Award class mastery XP for quest completion
+      const { awardClassXp } = await import("../classMasteryHelper");
+      const classXpResult = await awardClassXp(ctx.user.id, "complete_quest");
+
       return {
         success: true,
         rewardDream: adjustedDream,
         rewardXp: adjustedXp,
         rewardCredits: adjustedCredits,
         bonusReward: record[0].bonusReward,
+        traitMultiplier: questTb.rewardMultiplier,
+        traitSources,
         traitBonuses: {
           rewardMultiplier: questTb.rewardMultiplier,
           battlePassXpMultiplier: questTb.battlePassXpMultiplier,
           completionXpBonus: questTb.completionXpBonus,
         },
+        classXpResult,
       };
     }),
 

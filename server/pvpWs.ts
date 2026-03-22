@@ -312,6 +312,12 @@ async function endMatch(match: ActiveMatch) {
   send(winnerPlayer.ws, { type: "GAME_OVER", winnerId, eloChange: winnerChange, newElo: winnerPlayer.elo + winnerChange });
   send(loserPlayer.ws, { type: "GAME_OVER", winnerId, eloChange: loserChange, newElo: loserPlayer.elo + loserChange });
 
+  // Award class mastery XP
+  import("./classMasteryHelper").then(({ awardClassXp }) => {
+    awardClassXp(winnerId, "win_pvp").catch(() => {});
+    awardClassXp(loserId, "play_pvp").catch(() => {});
+  }).catch(() => {});
+
   // Notify spectators
   broadcastToSpectators(match, { type: "SPECTATE_ENDED", reason: `${winnerPlayer.userName} wins!` });
 

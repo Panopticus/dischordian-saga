@@ -1877,3 +1877,23 @@
 - [x] Built CharacterBonusesPanel component showing all 9 game system bonuses with expandable breakdowns
 - [x] Integrated into PlayerProfilePage after character identity card
 - [x] Write vitest tests for character bonus engine (1748 tests passing, 47 files)
+
+### Phase 79 — Bonus Notifications, Respec, Class Mastery, RPG Analysis
+#### In-Game Bonus Notifications
+- [x] Create BonusToast component showing trait bonus when rewards are earned
+- [x] Wire bonus toasts into chess reward and quest claim with traitMultiplier/traitSources
+- [x] Show source breakdown (e.g., "+15% Dream (Oracle Bonus)")
+#### Character Respec System
+- [x] Respec endpoint already exists in citizen router (respecAttributes, respecAlignment, respecElement)
+- [x] RespecDialog.tsx UI already built with attribute dots, alignment, and element switching
+- [x] Escalating cost already implemented (baseCost * level multiplier)
+#### Class Mastery Progression
+- [x] Add class_mastery table to schema (class XP, mastery level, unlocked perks)
+- [x] Build class mastery XP earning across all game systems (chess, quests, crafting, trading, fighting, guild wars)
+- [x] Build mastery tier unlocks (Rank 1-5 with deeper bonuses per class, 25 unique perks)
+- [x] Build class mastery UI panel on profile page (ClassMasteryPanel.tsx integrated into PlayerProfilePage)
+#### Tests
+- [x] Write vitest tests for class mastery system (46 tests passing)
+#### RPG Analysis
+- [x] Research top RPGs (KOTOR, Mass Effect, BG3, Elder Scrolls, Skyrim, Divinity, FF, Disco Elysium, PoE, Hades)
+- [x] Write analysis report with 8 recommendations (synergy bonuses, branching mastery, talents, civil skills, elemental combos, companion synergies, prestige classes, achievement traits)

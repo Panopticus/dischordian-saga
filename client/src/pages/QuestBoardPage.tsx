@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
+import { showBonusToast } from "@/components/BonusToast";
 
 const QUEST_TYPE_ICONS: Record<string, typeof Swords> = {
   fight: Swords, card_battle: Shield, trade: TrendingUp,
@@ -125,8 +126,19 @@ export default function QuestBoardPage() {
 function QuestListTab({ period }: { period: "daily" | "weekly" | "epoch" }) {
   const { data, isLoading, refetch } = trpc.quests.getAll.useQuery();
   const claimMutation = trpc.quests.claimReward.useMutation({
-    onSuccess: (res) => {
+    onSuccess: (res: any) => {
       toast.success(`Reward claimed! +${res.rewardDream} Dream, +${res.rewardXp} XP${res.rewardCredits ? `, +${res.rewardCredits} Credits` : ""}${res.bonusReward ? ` + ${res.bonusReward}` : ""}`);
+      // Show trait bonus toast if applicable
+      if (res.traitMultiplier && res.traitMultiplier > 1) {
+        showBonusToast({
+          system: "Quest",
+          baseAmount: Math.round(res.rewardDream / res.traitMultiplier),
+          finalAmount: res.rewardDream,
+          multiplier: res.traitMultiplier,
+          currency: "Dream",
+          sources: res.traitSources || ["Character Bonus"],
+        });
+      }
       refetch();
     },
     onError: (err) => toast.error(err.message),

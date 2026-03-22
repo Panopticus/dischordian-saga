@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "wouter";
+import { showBonusToast } from "@/components/BonusToast";
 
 /* ─── TIER CONFIG ─── */
 const TIER_CONFIG: Record<string, { color: string; bg: string; border: string; label: string; icon: string; glow?: string }> = {
@@ -126,7 +127,21 @@ export default function ChessPage() {
 
       if (result.status !== "active") {
         setGameStatus(result.status);
-        if (result.rewards) setRewards(result.rewards);
+        if (result.rewards) {
+          setRewards(result.rewards);
+          // Show trait bonus toast if there's a multiplier
+          const r = result.rewards as any;
+          if (r.traitMultiplier && r.traitMultiplier > 1) {
+            showBonusToast({
+              system: "Chess",
+              baseAmount: Math.round(r.dream / r.traitMultiplier),
+              finalAmount: r.dream,
+              multiplier: r.traitMultiplier,
+              currency: "Dream",
+              sources: r.traitSources || ["Character Bonus"],
+            });
+          }
+        }
         if (result.eloChange) setEloChange(result.eloChange);
         utils.chess.getMyRanking.invalidate();
         utils.chess.getHistory.invalidate();

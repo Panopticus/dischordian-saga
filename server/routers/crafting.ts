@@ -493,6 +493,10 @@ export const craftingRouter = router({
       trackCollectionSize(ctx.user.id)
         .catch(e => logger.error("[Crafting] Collection tracking error:", e));
 
+      // Award class mastery XP for crafting
+      const { awardClassXp } = await import("../classMasteryHelper");
+      awardClassXp(ctx.user.id, "craft_item").catch(() => {});
+
       return {
         success: true,
         message: `Crafted ${outputCard.name} (${outputCard.rarity})!`,

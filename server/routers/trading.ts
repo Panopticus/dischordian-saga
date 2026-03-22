@@ -152,6 +152,11 @@ export const tradingRouter = router({
       trackCollectionSize(trade.senderId).catch(e => console.error("[Trading] Collection tracking error:", e));
       trackCollectionSize(ctx.user.id).catch(e => console.error("[Trading] Collection tracking error:", e));
 
+      // Award class mastery XP for trading
+      const { awardClassXp } = await import("../classMasteryHelper");
+      awardClassXp(trade.senderId, "trade_card").catch(() => {});
+      awardClassXp(ctx.user.id, "trade_card").catch(() => {});
+
       return { success: true };
     }),
 

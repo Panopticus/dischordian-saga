@@ -160,6 +160,10 @@ export const guildWarsRouter = router({
         .set({ [scoreField]: sql`${guildWars[scoreField]} + ${points}` })
         .where(eq(guildWars.id, input.warId));
 
+      // Award class mastery XP for guild war contribution
+      const { awardClassXp } = await import("../classMasteryHelper");
+      awardClassXp(ctx.user.id, "guild_war_contribute").catch(() => {});
+
       return { success: true, points, faction: guildFaction, traitMultiplier: warTb.warPointMultiplier };
     }),
 

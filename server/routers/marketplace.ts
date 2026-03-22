@@ -267,6 +267,11 @@ export const marketplaceRouter = router({
         actionUrl: "/marketplace",
       });
 
+      // Award class mastery XP for marketplace activity
+      const { awardClassXp } = await import("../classMasteryHelper");
+      awardClassXp(ctx.user.id, "market_trade").catch(() => {});
+      awardClassXp(listing[0].sellerId, "market_trade").catch(() => {});
+
       return { success: true, totalPaid: totalPrice, tax, sellerReceives };
     }),
 

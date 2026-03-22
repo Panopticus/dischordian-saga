@@ -802,9 +802,17 @@ async function processGameEnd(
     fetchPotentialNftData(playerId),
   ]);
   const endChessTb = resolveChessBonuses(endCitizen, endNft);
-  const rewards = calculateRewards(game.mode, game.aiDifficulty || 3, playerWon, eloChange);
-  // Apply trait multipliers to rewards
-  rewards.dream = Math.round(rewards.dream * endChessTb.rewardMultiplier * endChessTb.dreamMultiplier);
+  const baseRewards = calculateRewards(game.mode, game.aiDifficulty || 3, playerWon, eloChange);
+  const rewards = { ...baseRewards } as typeof baseRewards & { traitMultiplier: number; traitSources: string[] };
+  const combinedMultiplier = endChessTb.rewardMultiplier * endChessTb.dreamMultiplier;
+  rewards.dream = Math.round(baseRewards.dream * combinedMultiplier);
+  // Attach trait info for frontend bonus toast
+  rewards.traitMultiplier = combinedMultiplier;
+  const traitSources: string[] = [];
+  if (endCitizen?.species) traitSources.push(`${endCitizen.species} Species`);
+  if (endCitizen?.characterClass) traitSources.push(`${endCitizen.characterClass} Class`);
+  if (endCitizen?.element) traitSources.push(`${endCitizen.element} Element`);
+  rewards.traitSources = traitSources;
   if (rewards.dream > 0) {
     const bal = await db.select().from(dreamBalance)
       .where(eq(dreamBalance.userId, playerId)).limit(1);
@@ -832,5 +840,17 @@ async function processGameEnd(
     });
   }
 
-  return { eloChange, rewards };
+  // Award class mastery XP
+  const { awardClassXp } = await import("../classMasteryHelper");
+  const classXpAction = playerWon ? "win_chess" : undefined;
+  let classXpResult = null;
+  if (classXpAction) {
+    classXpResult = await awardClassXp(playerId, classXpAction);
+    // Extra XP for checkmate wins
+    if (playerWon && game.pgn?.includes("#")) {
+      await awardClassXp(playerId, "chess_checkmate");
+    }
+  }
+
+  return { eloChange, rewards, classXpResult };
 }

@@ -41,6 +41,7 @@ import { battlePassRouter } from "./routers/battlePass";
 import { inventoryRouter } from "./routers/inventory";
 import { guildWarsRouter } from "./routers/guildWars";
 import { chessRouter } from "./routers/chess";
+import { classMasteryRouter } from "./routers/classMastery";
 
 export const appRouter = router({
   system: systemRouter,
@@ -78,6 +79,7 @@ export const appRouter = router({
   inventory: inventoryRouter,
   guildWars: guildWarsRouter,
   chess: chessRouter,
+  classMastery: classMasteryRouter,
   auth: router({
     me: publicProcedure.query(opts => opts.ctx.user),
     logout: publicProcedure.mutation(({ ctx }) => {

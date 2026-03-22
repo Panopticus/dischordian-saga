@@ -13,6 +13,7 @@ import {
   Compass, BookOpen, Gem, BarChart3
 } from "lucide-react";
 import CharacterBonusesPanel from "@/components/CharacterBonusesPanel";
+import { ClassMasteryPanel } from "@/components/ClassMasteryPanel";
 
 /* ═══ STAT RING ═══ */
 function StatRing({ value, max, label, icon: Icon, color, size = 80 }: {
@@ -304,6 +305,15 @@ export default function PlayerProfilePage() {
 
         {/* Character Bonuses — how build affects all game systems */}
         <CharacterBonusesPanel />
+
+        {/* Class Mastery — progression through class-aligned actions */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.55 }}
+        >
+          <ClassMasteryPanel />
+        </motion.div>
 
         {/* Overall Completion */}
         <motion.div
