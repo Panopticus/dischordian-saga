@@ -13,6 +13,7 @@ import {
   userCards, dreamBalance, twPlayerState, notifications,
   marketTaxPool, guilds, guildMembers,
 } from "../../drizzle/schema";
+import { fetchCitizenData, fetchPotentialNftData, resolveMarketBonuses } from "../traitResolver";
 
 /** 5% marketplace tax */
 const TAX_RATE = 0.05;
@@ -172,7 +173,15 @@ export const marketplaceRouter = router({
       const unitPrice = input.payWith === "dream" ? listing[0].priceDream : listing[0].priceCredits;
       if (unitPrice <= 0) throw new Error(`This listing doesn't accept ${input.payWith}`);
       const totalPrice = unitPrice * input.quantity;
-      const tax = calcTax(totalPrice);
+
+      // Apply seller trait bonuses — reduced marketplace fees
+      const [sellerCitizen, sellerNft] = await Promise.all([
+        fetchCitizenData(listing[0].sellerId),
+        fetchPotentialNftData(listing[0].sellerId),
+      ]);
+      const sellerTb = resolveMarketBonuses(sellerCitizen, sellerNft);
+      const adjustedTaxRate = TAX_RATE * sellerTb.taxReduction;
+      const tax = Math.max(1, Math.floor(totalPrice * adjustedTaxRate));
       const sellerReceives = totalPrice - tax;
 
       // Deduct buyer's currency

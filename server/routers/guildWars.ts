@@ -11,6 +11,7 @@ import {
   guildWars, guildWarContributions, guilds, guildMembers,
   notifications, dreamBalance, marketTaxPool,
 } from "../../drizzle/schema";
+import { fetchCitizenData, fetchPotentialNftData, resolveGuildWarBonuses } from "../traitResolver";
 
 /** Territory names tied to Dischordian Saga lore */
 const TERRITORIES = [
@@ -121,11 +122,26 @@ export const guildWarsRouter = router({
         throw new Error("Your guild's faction is not participating in this war");
       }
 
-      // Calculate points
+      // Fetch citizen trait bonuses for guild wars
+      const [warCitizen, warNft] = await Promise.all([
+        fetchCitizenData(ctx.user.id),
+        fetchPotentialNftData(ctx.user.id),
+      ]);
+      const warTb = resolveGuildWarBonuses(warCitizen, warNft);
+
+      // Calculate points — apply trait multiplier
       const basePoints = POINT_VALUES[input.source] || 10;
-      const points = input.source === "trade_volume"
+      let rawPoints = input.source === "trade_volume"
         ? Math.floor((input.rawValue || 0) / 100) * basePoints
         : basePoints;
+
+      // Apply war point multiplier from traits
+      let points = Math.round(rawPoints * warTb.warPointMultiplier);
+
+      // Check if the war territory matches player's element affinity
+      if (war[0].territory && warTb.boostedTerritories.includes(war[0].territory)) {
+        points = Math.round(points * (1 + warTb.elementTerritoryBonus));
+      }
 
       if (points <= 0) return { success: false, message: "No points earned" };
 
@@ -144,7 +160,7 @@ export const guildWarsRouter = router({
         .set({ [scoreField]: sql`${guildWars[scoreField]} + ${points}` })
         .where(eq(guildWars.id, input.warId));
 
-      return { success: true, points, faction: guildFaction };
+      return { success: true, points, faction: guildFaction, traitMultiplier: warTb.warPointMultiplier };
     }),
 
   /** Get player's contribution summary for a war */

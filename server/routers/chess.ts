@@ -11,6 +11,7 @@ import {
   chessGames, chessRankings, chessTournaments,
   dreamBalance, notifications,
 } from "../../drizzle/schema";
+import { fetchCitizenData, fetchPotentialNftData, resolveChessBonuses } from "../traitResolver";
 
 // chess.js v1.4 — dynamic import to avoid ESM/CJS mismatch
 let Chess: any;
@@ -412,6 +413,16 @@ export const chessRouter = router({
         aiDifficulty = 10;
       }
 
+      // Fetch citizen trait bonuses for chess
+      const [chessCitizen, chessNft] = await Promise.all([
+        fetchCitizenData(ctx.user.id),
+        fetchPotentialNftData(ctx.user.id),
+      ]);
+      const chessTb = resolveChessBonuses(chessCitizen, chessNft);
+
+      // Apply time bonus from traits
+      const adjustedTimeMs = (input.timeControl * 1000) + (chessTb.timeBonus * 1000);
+
       // Player is always white (for now)
       const result = await db.insert(chessGames).values({
         whitePlayerId: ctx.user.id,
@@ -424,7 +435,7 @@ export const chessRouter = router({
         pgn: "",
         status: "active",
         timeControl: input.timeControl,
-        whiteTimeMs: input.timeControl * 1000,
+        whiteTimeMs: adjustedTimeMs,
         blackTimeMs: input.timeControl * 1000,
         startedAt: new Date(),
       });
@@ -435,6 +446,7 @@ export const chessRouter = router({
         playerColor: "white",
         opponent: { id: opponentId, ...opponent },
         aiDifficulty,
+        traitBonuses: chessTb,
       };
     }),
 
@@ -784,8 +796,15 @@ async function processGameEnd(
     .set({ whiteEloChange: eloChange, rewardsDream: 0 })
     .where(eq(chessGames.id, game.id));
 
-  // Calculate and give rewards
+  // Calculate and give rewards — apply trait bonuses
+  const [endCitizen, endNft] = await Promise.all([
+    fetchCitizenData(playerId),
+    fetchPotentialNftData(playerId),
+  ]);
+  const endChessTb = resolveChessBonuses(endCitizen, endNft);
   const rewards = calculateRewards(game.mode, game.aiDifficulty || 3, playerWon, eloChange);
+  // Apply trait multipliers to rewards
+  rewards.dream = Math.round(rewards.dream * endChessTb.rewardMultiplier * endChessTb.dreamMultiplier);
   if (rewards.dream > 0) {
     const bal = await db.select().from(dreamBalance)
       .where(eq(dreamBalance.userId, playerId)).limit(1);

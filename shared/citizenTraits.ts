@@ -654,3 +654,432 @@ export function resolveExplorationBonuses(
 
   return result;
 }
+
+
+/* ═══════════════════════════════════════════════════════
+   CHESS BONUSES — Strategic mind
+   ═══════════════════════════════════════════════════════ */
+
+export interface ChessBonuses {
+  /** Extra seconds added to clock (flat) */
+  timeBonus: number;
+  /** Reward multiplier for chess wins */
+  rewardMultiplier: number;
+  /** Opening style affinity hint for AI */
+  openingAffinity: string;
+  /** XP multiplier from chess */
+  xpMultiplier: number;
+  /** Dream multiplier from chess */
+  dreamMultiplier: number;
+  /** Breakdown for UI display */
+  breakdown: Array<{ source: string; effect: string }>;
+}
+
+const CLASS_CHESS = {
+  engineer:  { time: 15, reward: 1.0,  opening: "positional",  xp: 1.0,  dream: 1.0  },
+  oracle:    { time: 30, reward: 1.15, opening: "prophetic",   xp: 1.10, dream: 1.10 },
+  assassin:  { time: 0,  reward: 1.05, opening: "aggressive",  xp: 1.0,  dream: 1.05 },
+  soldier:   { time: 10, reward: 1.0,  opening: "defensive",   xp: 1.05, dream: 1.0  },
+  spy:       { time: 20, reward: 1.10, opening: "tricky",      xp: 1.05, dream: 1.05 },
+} as const;
+
+const SPECIES_CHESS = {
+  demagi:   { time: 5,  reward: 1.05, dream: 1.05 },
+  quarchon: { time: 10, reward: 1.0,  dream: 1.0  },
+  neyon:    { time: 5,  reward: 1.03, dream: 1.03 },
+} as const;
+
+export function resolveChessBonuses(
+  citizen?: CitizenData | null,
+  nft?: PotentialNftData | null
+): ChessBonuses {
+  const breakdown: Array<{ source: string; effect: string }> = [];
+  const result: ChessBonuses = {
+    timeBonus: 0, rewardMultiplier: 1.0,
+    openingAffinity: "balanced",
+    xpMultiplier: 1.0, dreamMultiplier: 1.0,
+    breakdown,
+  };
+
+  if (!citizen) return result;
+
+  // Species
+  const sp = SPECIES_CHESS[citizen.species];
+  result.timeBonus += sp.time;
+  result.rewardMultiplier *= sp.reward;
+  result.dreamMultiplier *= sp.dream;
+  breakdown.push({ source: `Species: ${citizen.species}`, effect: `+${sp.time}s time, ${Math.round((sp.reward - 1) * 100)}% reward bonus` });
+
+  // Class — primary driver
+  const cl = CLASS_CHESS[citizen.characterClass];
+  result.timeBonus += cl.time;
+  result.rewardMultiplier *= cl.reward;
+  result.openingAffinity = cl.opening;
+  result.xpMultiplier *= cl.xp;
+  result.dreamMultiplier *= cl.dream;
+  const classEffects: string[] = [];
+  if (cl.time > 0) classEffects.push(`+${cl.time}s time`);
+  if (cl.reward > 1.0) classEffects.push(`${Math.round((cl.reward - 1) * 100)}% reward bonus`);
+  classEffects.push(`${cl.opening} opening style`);
+  breakdown.push({ source: `Class: ${citizen.characterClass}`, effect: classEffects.join(", ") });
+
+  // Alignment
+  if (citizen.alignment === "order") {
+    result.timeBonus += 10;
+    breakdown.push({ source: "Alignment: Order", effect: "+10s time (disciplined play)" });
+  } else {
+    result.rewardMultiplier *= 1.10;
+    breakdown.push({ source: "Alignment: Chaos", effect: "+10% reward (high-risk play)" });
+  }
+
+  // Attribute — Defense = patience (time), Attack = aggression (reward)
+  const defScale = attrScale(citizen.attrDefense);
+  const atkScale = attrScale(citizen.attrAttack);
+  result.timeBonus += defScale * 5;
+  result.rewardMultiplier *= 1 + atkScale * 0.03;
+  if (defScale + atkScale > 0) {
+    breakdown.push({ source: "Attributes", effect: `+${defScale * 5}s time, +${Math.round(atkScale * 3)}% reward` });
+  }
+
+  // Class level
+  if (citizen.classLevel > 1) {
+    const clBonus = citizen.classLevel - 1;
+    result.timeBonus += clBonus * 2;
+    result.xpMultiplier += clBonus * 0.03;
+    breakdown.push({ source: `Class Level ${citizen.classLevel}`, effect: `+${clBonus * 2}s time, +${Math.round(clBonus * 3)}% XP` });
+  }
+
+  // NFT multiplier
+  const multi = nftLevelMultiplier(nft);
+  if (multi > 1.0) {
+    result.rewardMultiplier *= multi;
+    result.dreamMultiplier *= multi;
+    breakdown.push({ source: `Potential Lv.${nft!.level}`, effect: `${Math.round((multi - 1) * 100)}% bonus to rewards` });
+  }
+
+  return result;
+}
+
+/* ═══════════════════════════════════════════════════════
+   GUILD WAR BONUSES — Faction warfare
+   ═══════════════════════════════════════════════════════ */
+
+export interface GuildWarBonuses {
+  /** War contribution point multiplier */
+  warPointMultiplier: number;
+  /** Territory capture speed multiplier */
+  captureSpeedMultiplier: number;
+  /** Sabotage effectiveness multiplier */
+  sabotageMultiplier: number;
+  /** Reinforce effectiveness multiplier */
+  reinforceMultiplier: number;
+  /** Bonus war points in element-aligned territories */
+  elementTerritoryBonus: number;
+  /** Territories where element bonus applies */
+  boostedTerritories: string[];
+  /** Breakdown for UI display */
+  breakdown: Array<{ source: string; effect: string }>;
+}
+
+const CLASS_GUILD_WAR = {
+  engineer:  { warPts: 1.05, capture: 1.0,  sabotage: 1.0,  reinforce: 1.25 },
+  oracle:    { warPts: 1.0,  capture: 1.0,  sabotage: 1.0,  reinforce: 1.10 },
+  assassin:  { warPts: 1.10, capture: 1.15, sabotage: 1.20, reinforce: 0.90 },
+  soldier:   { warPts: 1.15, capture: 1.25, sabotage: 1.0,  reinforce: 1.15 },
+  spy:       { warPts: 1.05, capture: 1.0,  sabotage: 1.30, reinforce: 1.0  },
+} as const;
+
+const SPECIES_GUILD_WAR = {
+  demagi:   { warPts: 1.05, capture: 1.0,  reinforce: 1.05 },
+  quarchon: { warPts: 1.0,  capture: 1.05, reinforce: 1.0  },
+  neyon:    { warPts: 1.03, capture: 1.03, reinforce: 1.03 },
+} as const;
+
+const ELEMENT_TERRITORY_MAP: Record<string, string[]> = {
+  earth:       ["The Panopticon Core", "The Bazaar of Babylon"],
+  fire:        ["The Warlord's Forge", "The Arena of Echoes"],
+  water:       ["The Oracle's Sanctum", "The Dreamer's Nexus"],
+  air:         ["The Spy Network Hub", "The Neutral Zone"],
+  space:       ["The Panopticon Core", "The Architect's Citadel"],
+  time:        ["The Oracle's Sanctum", "The Architect's Citadel"],
+  probability: ["The Dreamer's Nexus", "The Neutral Zone"],
+  reality:     ["The Warlord's Forge", "The Spy Network Hub"],
+};
+
+export function resolveGuildWarBonuses(
+  citizen?: CitizenData | null,
+  nft?: PotentialNftData | null
+): GuildWarBonuses {
+  const breakdown: Array<{ source: string; effect: string }> = [];
+  const result: GuildWarBonuses = {
+    warPointMultiplier: 1.0, captureSpeedMultiplier: 1.0,
+    sabotageMultiplier: 1.0, reinforceMultiplier: 1.0,
+    elementTerritoryBonus: 0, boostedTerritories: [],
+    breakdown,
+  };
+
+  if (!citizen) return result;
+
+  // Species
+  const sp = SPECIES_GUILD_WAR[citizen.species];
+  result.warPointMultiplier *= sp.warPts;
+  result.captureSpeedMultiplier *= sp.capture;
+  result.reinforceMultiplier *= sp.reinforce;
+  breakdown.push({ source: `Species: ${citizen.species}`, effect: `${Math.round((sp.warPts - 1) * 100)}% war pts, ${Math.round((sp.capture - 1) * 100)}% capture` });
+
+  // Class — primary driver
+  const cl = CLASS_GUILD_WAR[citizen.characterClass];
+  result.warPointMultiplier *= cl.warPts;
+  result.captureSpeedMultiplier *= cl.capture;
+  result.sabotageMultiplier *= cl.sabotage;
+  result.reinforceMultiplier *= cl.reinforce;
+  const classEffects: string[] = [];
+  if (cl.capture > 1.0) classEffects.push(`+${Math.round((cl.capture - 1) * 100)}% capture speed`);
+  if (cl.sabotage > 1.0) classEffects.push(`+${Math.round((cl.sabotage - 1) * 100)}% sabotage`);
+  if (cl.reinforce > 1.0) classEffects.push(`+${Math.round((cl.reinforce - 1) * 100)}% reinforce`);
+  breakdown.push({ source: `Class: ${citizen.characterClass}`, effect: classEffects.join(", ") || "Balanced war stats" });
+
+  // Alignment
+  if (citizen.alignment === "order") {
+    result.reinforceMultiplier *= 1.10;
+    result.warPointMultiplier *= 1.03;
+    breakdown.push({ source: "Alignment: Order", effect: "+10% reinforce, +3% war points" });
+  } else {
+    result.sabotageMultiplier *= 1.10;
+    result.captureSpeedMultiplier *= 1.05;
+    breakdown.push({ source: "Alignment: Chaos", effect: "+10% sabotage, +5% capture speed" });
+  }
+
+  // Element — territory affinity
+  const territories = ELEMENT_TERRITORY_MAP[citizen.element] || [];
+  result.boostedTerritories = territories;
+  result.elementTerritoryBonus = 0.15; // +15% war points in aligned territories
+  if (territories.length > 0) {
+    breakdown.push({ source: `Element: ${citizen.element}`, effect: `+15% war points in ${territories.join(", ")}` });
+  }
+
+  // Attribute — Attack = capture/sabotage, Defense = reinforce, Vitality = war points
+  const atkScale = attrScale(citizen.attrAttack);
+  const defScale = attrScale(citizen.attrDefense);
+  const vitScale = attrScale(citizen.attrVitality);
+  result.captureSpeedMultiplier *= 1 + atkScale * 0.05;
+  result.sabotageMultiplier *= 1 + atkScale * 0.05;
+  result.reinforceMultiplier *= 1 + defScale * 0.05;
+  result.warPointMultiplier *= 1 + vitScale * 0.03;
+  if (atkScale + defScale + vitScale > 0) {
+    breakdown.push({ source: "Attributes", effect: `+${Math.round(atkScale * 5)}% capture/sabotage, +${Math.round(defScale * 5)}% reinforce, +${Math.round(vitScale * 3)}% war pts` });
+  }
+
+  // Class level
+  if (citizen.classLevel > 1) {
+    const clBonus = citizen.classLevel - 1;
+    result.warPointMultiplier *= 1 + clBonus * 0.02;
+    breakdown.push({ source: `Class Level ${citizen.classLevel}`, effect: `+${Math.round(clBonus * 2)}% war points` });
+  }
+
+  // NFT multiplier
+  const multi = nftLevelMultiplier(nft);
+  if (multi > 1.0) {
+    result.warPointMultiplier *= multi;
+    result.captureSpeedMultiplier *= 1 + (multi - 1) * 0.5;
+    breakdown.push({ source: `Potential Lv.${nft!.level}`, effect: `${Math.round((multi - 1) * 100)}% war point bonus` });
+  }
+
+  return result;
+}
+
+/* ═══════════════════════════════════════════════════════
+   QUEST & BATTLE PASS BONUSES
+   ═══════════════════════════════════════════════════════ */
+
+export interface QuestBonuses {
+  /** Quest reward multiplier (Dream, XP, cards) */
+  rewardMultiplier: number;
+  /** Battle pass XP earning rate multiplier */
+  battlePassXpMultiplier: number;
+  /** Extra daily quest slots */
+  dailyQuestSlots: number;
+  /** Quest completion XP bonus (flat) */
+  completionXpBonus: number;
+  /** Chance for bonus quest reward (0-1) */
+  bonusRewardChance: number;
+  /** Breakdown for UI display */
+  breakdown: Array<{ source: string; effect: string }>;
+}
+
+const CLASS_QUEST = {
+  engineer:  { reward: 1.05, bpXp: 1.0,  dailySlots: 0, completionXp: 5,  bonusChance: 0.05 },
+  oracle:    { reward: 1.20, bpXp: 1.10, dailySlots: 1, completionXp: 0,  bonusChance: 0.10 },
+  assassin:  { reward: 1.05, bpXp: 1.05, dailySlots: 0, completionXp: 0,  bonusChance: 0.05 },
+  soldier:   { reward: 1.0,  bpXp: 1.05, dailySlots: 0, completionXp: 10, bonusChance: 0    },
+  spy:       { reward: 1.10, bpXp: 1.05, dailySlots: 0, completionXp: 5,  bonusChance: 0.08 },
+} as const;
+
+const SPECIES_QUEST = {
+  demagi:   { reward: 1.05, bpXp: 1.0  },
+  quarchon: { reward: 1.0,  bpXp: 1.05 },
+  neyon:    { reward: 1.03, bpXp: 1.08 },
+} as const;
+
+export function resolveQuestBonuses(
+  citizen?: CitizenData | null,
+  nft?: PotentialNftData | null
+): QuestBonuses {
+  const breakdown: Array<{ source: string; effect: string }> = [];
+  const result: QuestBonuses = {
+    rewardMultiplier: 1.0, battlePassXpMultiplier: 1.0,
+    dailyQuestSlots: 0, completionXpBonus: 0,
+    bonusRewardChance: 0, breakdown,
+  };
+
+  if (!citizen) return result;
+
+  // Species
+  const sp = SPECIES_QUEST[citizen.species];
+  result.rewardMultiplier *= sp.reward;
+  result.battlePassXpMultiplier *= sp.bpXp;
+  breakdown.push({ source: `Species: ${citizen.species}`, effect: `${Math.round((sp.reward - 1) * 100)}% quest reward, ${Math.round((sp.bpXp - 1) * 100)}% BP XP` });
+
+  // Class — primary driver
+  const cl = CLASS_QUEST[citizen.characterClass];
+  result.rewardMultiplier *= cl.reward;
+  result.battlePassXpMultiplier *= cl.bpXp;
+  result.dailyQuestSlots += cl.dailySlots;
+  result.completionXpBonus += cl.completionXp;
+  result.bonusRewardChance += cl.bonusChance;
+  const classEffects: string[] = [];
+  if (cl.reward > 1.0) classEffects.push(`+${Math.round((cl.reward - 1) * 100)}% rewards`);
+  if (cl.dailySlots > 0) classEffects.push(`+${cl.dailySlots} daily quest slot`);
+  if (cl.bonusChance > 0) classEffects.push(`${Math.round(cl.bonusChance * 100)}% bonus reward chance`);
+  breakdown.push({ source: `Class: ${citizen.characterClass}`, effect: classEffects.join(", ") || "Standard quest bonuses" });
+
+  // Alignment
+  if (citizen.alignment === "order") {
+    result.completionXpBonus += 5;
+    breakdown.push({ source: "Alignment: Order", effect: "+5 completion XP (methodical approach)" });
+  } else {
+    result.bonusRewardChance += 0.05;
+    breakdown.push({ source: "Alignment: Chaos", effect: "+5% bonus reward chance (lucky finds)" });
+  }
+
+  // Attribute — Vitality = endurance for more quests
+  const vitScale = attrScale(citizen.attrVitality);
+  result.completionXpBonus += vitScale * 3;
+  result.battlePassXpMultiplier *= 1 + vitScale * 0.03;
+  if (vitScale > 0) {
+    breakdown.push({ source: "Vitality Attribute", effect: `+${vitScale * 3} completion XP, +${Math.round(vitScale * 3)}% BP XP` });
+  }
+
+  // Class level
+  if (citizen.classLevel > 1) {
+    const clBonus = citizen.classLevel - 1;
+    result.rewardMultiplier *= 1 + clBonus * 0.02;
+    result.battlePassXpMultiplier *= 1 + clBonus * 0.02;
+    breakdown.push({ source: `Class Level ${citizen.classLevel}`, effect: `+${Math.round(clBonus * 2)}% quest rewards & BP XP` });
+  }
+
+  // NFT multiplier
+  const multi = nftLevelMultiplier(nft);
+  if (multi > 1.0) {
+    result.rewardMultiplier *= multi;
+    result.battlePassXpMultiplier *= multi;
+    breakdown.push({ source: `Potential Lv.${nft!.level}`, effect: `${Math.round((multi - 1) * 100)}% bonus to all quest rewards` });
+  }
+
+  return result;
+}
+
+/* ═══════════════════════════════════════════════════════
+   MARKET BONUSES — Economic advantage
+   ═══════════════════════════════════════════════════════ */
+
+export interface MarketBonuses {
+  /** Tax reduction multiplier (lower = less tax, 0.80 = 20% off) */
+  taxReduction: number;
+  /** Extra listing slots */
+  listingSlots: number;
+  /** Can see price history and hidden market intel */
+  marketIntel: boolean;
+  /** Buy price discount (0-1) */
+  buyDiscount: number;
+  /** Sell price bonus (multiplier, 1.0 = no bonus) */
+  sellBonus: number;
+  /** Breakdown for UI display */
+  breakdown: Array<{ source: string; effect: string }>;
+}
+
+const CLASS_MARKET = {
+  engineer:  { tax: 0.90, listings: 3, intel: false, buyDisc: 0.05, sellBonus: 1.0  },
+  oracle:    { tax: 0.95, listings: 0, intel: true,  buyDisc: 0,    sellBonus: 1.05 },
+  assassin:  { tax: 1.0,  listings: 0, intel: false, buyDisc: 0,    sellBonus: 1.0  },
+  soldier:   { tax: 1.0,  listings: 0, intel: false, buyDisc: 0,    sellBonus: 1.0  },
+  spy:       { tax: 0.80, listings: 5, intel: true,  buyDisc: 0.05, sellBonus: 1.10 },
+} as const;
+
+const SPECIES_MARKET = {
+  demagi:   { tax: 1.0,  sellBonus: 1.05 },
+  quarchon: { tax: 0.95, sellBonus: 1.0  },
+  neyon:    { tax: 0.97, sellBonus: 1.03 },
+} as const;
+
+export function resolveMarketBonuses(
+  citizen?: CitizenData | null,
+  nft?: PotentialNftData | null
+): MarketBonuses {
+  const breakdown: Array<{ source: string; effect: string }> = [];
+  const result: MarketBonuses = {
+    taxReduction: 1.0, listingSlots: 0,
+    marketIntel: false, buyDiscount: 0,
+    sellBonus: 1.0, breakdown,
+  };
+
+  if (!citizen) return result;
+
+  // Species
+  const sp = SPECIES_MARKET[citizen.species];
+  result.taxReduction *= sp.tax;
+  result.sellBonus *= sp.sellBonus;
+  breakdown.push({ source: `Species: ${citizen.species}`, effect: `${Math.round((1 - sp.tax) * 100)}% tax reduction, ${Math.round((sp.sellBonus - 1) * 100)}% sell bonus` });
+
+  // Class — primary driver
+  const cl = CLASS_MARKET[citizen.characterClass];
+  result.taxReduction *= cl.tax;
+  result.listingSlots += cl.listings;
+  result.marketIntel = result.marketIntel || cl.intel;
+  result.buyDiscount += cl.buyDisc;
+  result.sellBonus *= cl.sellBonus;
+  const classEffects: string[] = [];
+  if (cl.tax < 1.0) classEffects.push(`${Math.round((1 - cl.tax) * 100)}% tax reduction`);
+  if (cl.listings > 0) classEffects.push(`+${cl.listings} listing slots`);
+  if (cl.intel) classEffects.push("Market intel access");
+  if (cl.buyDisc > 0) classEffects.push(`${Math.round(cl.buyDisc * 100)}% buy discount`);
+  if (cl.sellBonus > 1.0) classEffects.push(`+${Math.round((cl.sellBonus - 1) * 100)}% sell bonus`);
+  breakdown.push({ source: `Class: ${citizen.characterClass}`, effect: classEffects.join(", ") || "Standard market rates" });
+
+  // Alignment — Order = stability (tax), Chaos = profit (sell)
+  if (citizen.alignment === "order") {
+    result.taxReduction *= 0.95;
+    breakdown.push({ source: "Alignment: Order", effect: "5% additional tax reduction" });
+  } else {
+    result.sellBonus *= 1.05;
+    breakdown.push({ source: "Alignment: Chaos", effect: "+5% sell price bonus" });
+  }
+
+  // Class level
+  if (citizen.classLevel > 1) {
+    const clBonus = citizen.classLevel - 1;
+    result.taxReduction *= Math.max(0.5, 1 - clBonus * 0.01);
+    result.listingSlots += Math.floor(clBonus / 3);
+    breakdown.push({ source: `Class Level ${citizen.classLevel}`, effect: `${Math.round(clBonus)}% tax reduction, +${Math.floor(clBonus / 3)} listings` });
+  }
+
+  // NFT multiplier
+  const multi = nftLevelMultiplier(nft);
+  if (multi > 1.0) {
+    result.sellBonus *= multi;
+    result.listingSlots += Math.floor((multi - 1) * 10);
+    breakdown.push({ source: `Potential Lv.${nft!.level}`, effect: `${Math.round((multi - 1) * 100)}% sell bonus, +${Math.floor((multi - 1) * 10)} listings` });
+  }
+
+  return result;
+}

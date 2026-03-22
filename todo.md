@@ -1848,3 +1848,32 @@
 - [x] Build SpectatorPage with unified chess + PvP spectator lobby
 - [x] Add spectator route (/spectate) and navigation entry
 - [x] Write vitest tests for all new features (1713 tests passing)
+
+### Phase 78 — Character Build Matters Everywhere
+#### Character Bonus Engine
+- [x] Extended shared citizenTraits.ts with 4 new resolvers (chess, guildWar, quest, market)
+- [x] Updated traitResolver.ts to export all 9 game system resolvers
+- [x] Species bonuses already defined (Demagi, Quarchon, Ne-Yon) — verified working
+- [x] Class bonuses already defined (Engineer, Oracle, Assassin, Soldier, Spy) — verified working
+- [x] Element bonuses already defined (8 elements) — verified working
+- [x] Attribute scaling already defined — verified working
+#### Wire Into Chess
+- [x] Apply chess bonuses: time bonus on startGame, reward multiplier on endGame, opening affinity
+#### Wire Into Card Battles / PvP
+- [x] Already wired via resolveCardGameBonuses (hpBonus, influenceBonus, elementAffinity, etc.)
+#### Wire Into Fighting Game
+- [x] Already wired via resolveFightGameBonuses (attackBonus, defenseBonus, critChanceBonus, etc.)
+#### Wire Into Trade Empire
+- [x] Already wired via resolveTradeEmpireBonuses (combatPowerBonus, tradePriceDiscount, etc.)
+#### Wire Into Guild Wars
+- [x] Apply guild war bonuses: warPointMultiplier on contribute mutation
+#### Wire Into Crafting
+- [x] Already wired via resolveCraftingBonuses (successRateBonus, materialPreserveChance, etc.)
+#### Wire Into Quests & Battle Pass
+- [x] Apply quest bonuses: rewardMultiplier on dailyQuests claimReward, battlePassXpMultiplier on addXp
+#### Wire Into Market
+- [x] Apply market bonuses: taxReduction on marketplace purchase (seller fee reduction)
+#### UI Display
+- [x] Built CharacterBonusesPanel component showing all 9 game system bonuses with expandable breakdowns
+- [x] Integrated into PlayerProfilePage after character identity card
+- [x] Write vitest tests for character bonus engine (1748 tests passing, 47 files)

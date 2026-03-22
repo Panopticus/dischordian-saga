@@ -4,6 +4,7 @@ import { getDb } from "../db";
 import { battlePassSeasons, battlePassProgress } from "../../drizzle/schema";
 import { eq, and, desc } from "drizzle-orm";
 import { TRPCError } from "@trpc/server";
+import { fetchCitizenData, fetchPotentialNftData, resolveQuestBonuses } from "../traitResolver";
 
 /* ═══ DEFAULT SEASON 1 TIER REWARDS ═══ */
 const SEASON_1_REWARDS: Record<string, { free?: Record<string, unknown>; premium?: Record<string, unknown> }> = {};
@@ -131,7 +132,16 @@ export const battlePassRouter = router({
       }
 
       const p = progress[0]!;
-      const newXp = p.currentXp + input.xp;
+
+      // Apply trait XP multiplier to battle pass XP
+      const [bpCitizen, bpNft] = await Promise.all([
+        fetchCitizenData(ctx.user.id),
+        fetchPotentialNftData(ctx.user.id),
+      ]);
+      const bpTb = resolveQuestBonuses(bpCitizen, bpNft);
+      const adjustedXp = Math.round(input.xp * bpTb.battlePassXpMultiplier);
+
+      const newXp = p.currentXp + adjustedXp;
       const xpPerTier = season[0].xpPerTier;
       const newTier = Math.min(Math.floor(newXp / xpPerTier), season[0].totalTiers);
       const tiersGained = newTier - p.currentTier;

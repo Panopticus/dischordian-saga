@@ -12,6 +12,7 @@ import {
   Trophy, Star, Lock, Unlock, Shield, Zap, Target,
   Compass, BookOpen, Gem, BarChart3
 } from "lucide-react";
+import CharacterBonusesPanel from "@/components/CharacterBonusesPanel";
 
 /* ═══ STAT RING ═══ */
 function StatRing({ value, max, label, icon: Icon, color, size = 80 }: {
@@ -300,6 +301,9 @@ export default function PlayerProfilePage() {
             </div>
           </div>
         </motion.div>
+
+        {/* Character Bonuses — how build affects all game systems */}
+        <CharacterBonusesPanel />
 
         {/* Overall Completion */}
         <motion.div

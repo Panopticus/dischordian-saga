@@ -3,6 +3,7 @@ import { protectedProcedure, router } from "../_core/trpc";
 import { getDb } from "../db";
 import { dailyQuests, loginCalendar, dreamBalance, notifications } from "../../drizzle/schema";
 import { eq, and, sql } from "drizzle-orm";
+import { fetchCitizenData, fetchPotentialNftData, resolveQuestBonuses } from "../traitResolver";
 
 /* ═══════════════════════════════════════════════════════
    QUEST TEMPLATES — Daily, Weekly, Epoch (Season)
@@ -254,27 +255,44 @@ export const dailyQuestsRouter = router({
         .set({ claimed: true })
         .where(eq(dailyQuests.id, record[0].id));
 
-      // Grant Dream reward
-      if (record[0].rewardDream > 0) {
+      // Fetch citizen trait bonuses for quest rewards
+      const [questCitizen, questNft] = await Promise.all([
+        fetchCitizenData(ctx.user.id),
+        fetchPotentialNftData(ctx.user.id),
+      ]);
+      const questTb = resolveQuestBonuses(questCitizen, questNft);
+
+      // Apply trait multipliers to quest rewards
+      const adjustedDream = Math.round(record[0].rewardDream * questTb.rewardMultiplier);
+      const adjustedXp = Math.round(record[0].rewardXp * questTb.rewardMultiplier + questTb.completionXpBonus);
+      const adjustedCredits = Math.round(record[0].rewardCredits * questTb.rewardMultiplier);
+
+      // Grant Dream reward (with trait bonus)
+      if (adjustedDream > 0) {
         const existing = await db.select().from(dreamBalance)
           .where(eq(dreamBalance.userId, ctx.user.id)).limit(1);
         if (existing[0]) {
           await db.update(dreamBalance)
-            .set({ dreamTokens: sql`${dreamBalance.dreamTokens} + ${record[0].rewardDream}` })
+            .set({ dreamTokens: sql`${dreamBalance.dreamTokens} + ${adjustedDream}` })
             .where(eq(dreamBalance.userId, ctx.user.id));
         } else {
           await db.insert(dreamBalance).values({
-            userId: ctx.user.id, dreamTokens: record[0].rewardDream, soulBoundDream: 0,
+            userId: ctx.user.id, dreamTokens: adjustedDream, soulBoundDream: 0,
           });
         }
       }
 
       return {
         success: true,
-        rewardDream: record[0].rewardDream,
-        rewardXp: record[0].rewardXp,
-        rewardCredits: record[0].rewardCredits,
+        rewardDream: adjustedDream,
+        rewardXp: adjustedXp,
+        rewardCredits: adjustedCredits,
         bonusReward: record[0].bonusReward,
+        traitBonuses: {
+          rewardMultiplier: questTb.rewardMultiplier,
+          battlePassXpMultiplier: questTb.battlePassXpMultiplier,
+          completionXpBonus: questTb.completionXpBonus,
+        },
       };
     }),
 

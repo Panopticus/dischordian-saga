@@ -16,6 +16,10 @@ import {
   resolveFightGameBonuses,
   resolveCraftingBonuses,
   resolveExplorationBonuses,
+  resolveChessBonuses,
+  resolveGuildWarBonuses,
+  resolveQuestBonuses,
+  resolveMarketBonuses,
   nftLevelMultiplier,
 } from "../shared/citizenTraits";
 
@@ -105,6 +109,10 @@ export async function getPlayerTraitBonuses(userId: number) {
     fightGame: resolveFightGameBonuses(citizen, nft),
     crafting: resolveCraftingBonuses(citizen, nft),
     exploration: resolveExplorationBonuses(citizen, nft),
+    chess: resolveChessBonuses(citizen, nft),
+    guildWar: resolveGuildWarBonuses(citizen, nft),
+    quest: resolveQuestBonuses(citizen, nft),
+    market: resolveMarketBonuses(citizen, nft),
     nftMultiplier: nftLevelMultiplier(nft),
   };
 }
@@ -116,5 +124,9 @@ export {
   resolveFightGameBonuses,
   resolveCraftingBonuses,
   resolveExplorationBonuses,
+  resolveChessBonuses,
+  resolveGuildWarBonuses,
+  resolveQuestBonuses,
+  resolveMarketBonuses,
   nftLevelMultiplier,
 };
