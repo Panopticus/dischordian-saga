@@ -2281,3 +2281,28 @@
 - [x] Wired all new resolvers into central traitResolver.ts
 - [x] Added RPG bonuses display panels to PvpArenaPage, DraftTournamentPage, BossBattlePage, FriendlyChallengesPage, TowerDefensePage
 - [x] All game modes now have class, species, alignment, element, civil skills, and morality impact
+
+## Phase 93: Bug Fixes (User-Reported)
+
+### Critical: Crash after character creation (React error #310)
+- [ ] Investigate React error #310 on character sheet load after awakening
+- [ ] Fix the crash so character sheet loads smoothly after creation
+
+### Mobile: Awakening page overflow / missing lines
+- [x] Fix awakening page text overflow on mobile screens
+- [x] Ensure all dialog lines are visible without being cut off
+
+### Mobile: Elara pic + radio overlap with dialog
+- [x] Hide Elara avatar and radio player when dialog popup is active
+- [x] Re-show them when dialog is dismissed
+
+### Feature: Med Bay key notification
+- [x] Add visual notification/indicator on the med bay key when player returns knowing they need it
+- [x] Add observation-keycard item hotspot to Medical Bay room
+- [x] Add captains-master-key item hotspot to Bridge room
+- [x] Add keycard item entries to ItemDetailModal with full lore
+
+### Feature: Interactive ship feature icons
+- [x] Add visible mode icons for Ark room hotspots that open new pages (navigation features)
+- [x] Add getFeatureIcon function mapping terminal actions to specific lucide icons
+- [x] Add small cyan feature badge sub-icon on terminal hotspot markers

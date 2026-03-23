@@ -297,6 +297,27 @@ export default function CharacterSheetPage() {
     onSuccess: () => { utils.citizen.getCharacter.invalidate(); utils.citizen.getDreamBalance.invalidate(); },
   });
 
+  // ═══ PAPER DOLL EQUIPMENT STATE (must be above early returns to avoid hook count mismatch) ═══
+  const [showEquipPanel, setShowEquipPanel] = useState(false);
+  const gear = (character.data?.gear || {}) as Record<string, string>;
+  const paperDollEquipped = useMemo<Record<EquipSlot, string | null>>(() => {
+    return {
+      weapon: gear.weapon || null,
+      armor: gear.armor || null,
+      helm: gear.helm || null,
+      secondary: gear.secondary || null,
+      accessory: gear.accessory || null,
+      consumable: gear.consumable || null,
+    };
+  }, [gear.weapon, gear.armor, gear.helm, gear.secondary, gear.accessory, gear.consumable]);
+  const playerInventory = useMemo(() => {
+    return Object.values(gear).filter(Boolean);
+  }, [gear.weapon, gear.armor, gear.helm, gear.secondary, gear.accessory, gear.consumable]);
+  const equipStats = useMemo(() => calculateEquipmentStats(paperDollEquipped), [paperDollEquipped]);
+  const handleEquipChange = useCallback((slot: EquipSlot, itemId: string | null) => {
+    console.log(`[Equipment] ${slot} → ${itemId || 'unequipped'}`);
+  }, []);
+
   // Loading / Auth / No Character states
   if (authLoading) {
     return (
@@ -373,33 +394,9 @@ export default function CharacterSheetPage() {
 
   const classLevelCostXp = char.classLevel * 100;
   const classLevelCostDream = char.classLevel * 5;
-  const gear = (char.gear || {}) as Record<string, string>;
   const gearEntries = Object.entries(gear);
 
   const xpPercent = Math.min((char.xp % 200) / 200 * 100, 100);
-
-  // ═══ PAPER DOLL EQUIPMENT STATE ═══
-  const [showEquipPanel, setShowEquipPanel] = useState(false);
-  const paperDollEquipped = useMemo<Record<EquipSlot, string | null>>(() => {
-    return {
-      weapon: gear.weapon || null,
-      armor: gear.armor || null,
-      helm: gear.helm || null,
-      secondary: gear.secondary || null,
-      accessory: gear.accessory || null,
-      consumable: gear.consumable || null,
-    };
-  }, [gear]);
-  // Build inventory from gear values (all items the player has)
-  const playerInventory = useMemo(() => {
-    return Object.values(gear).filter(Boolean);
-  }, [gear]);
-  const equipStats = useMemo(() => calculateEquipmentStats(paperDollEquipped), [paperDollEquipped]);
-  const handleEquipChange = (slot: EquipSlot, itemId: string | null) => {
-    // For now, equipment changes are visual-only in the character sheet
-    // Full server-side persistence will come with the crafting system
-    console.log(`[Equipment] ${slot} → ${itemId || 'unequipped'}`);
-  };
 
   return (
     <div className="min-h-screen relative">

@@ -337,8 +337,19 @@ export default function ElaraDialog({ elaraTTS: _elaraTTS }: { elaraTTS?: any } 
   const [showCustomInput, setShowCustomInput] = useState(false);
   const [hasGreeted, setHasGreeted] = useState(false);
   const [lastPath, setLastPath] = useState("");
+  const [roomDialogActive, setRoomDialogActive] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+
+  // Hide floating Elara button when a room dialog (ElaraPopup) is active on mobile
+  useEffect(() => {
+    const handler = (e: Event) => {
+      const detail = (e as CustomEvent).detail;
+      setRoomDialogActive(detail?.active ?? false);
+    };
+    window.addEventListener("elara-dialog", handler);
+    return () => window.removeEventListener("elara-dialog", handler);
+  }, []);
 
   const [location] = useLocation();
   const chatMutation = trpc.elara.chat.useMutation();
@@ -463,7 +474,7 @@ export default function ElaraDialog({ elaraTTS: _elaraTTS }: { elaraTTS?: any } 
     <>
       {/* ═══ FLOATING ELARA BUTTON ═══ */}
       <AnimatePresence>
-        {!isOpen && (
+        {!isOpen && !roomDialogActive && (
           <motion.button
             initial={{ scale: 0, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}

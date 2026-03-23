@@ -76,7 +76,7 @@ function ElaraDialogBox({
 
         {/* Dialog box */}
         <div
-          className="rounded-lg p-5 sm:p-6 relative overflow-hidden"
+          className="rounded-lg p-3 sm:p-6 relative overflow-hidden"
           style={{
             background: "linear-gradient(135deg, var(--bg-void) 0%, var(--bg-spotlight) 100%)",
             border: "1px solid rgba(51,226,230,0.2)",
@@ -88,7 +88,7 @@ function ElaraDialogBox({
             backgroundImage: "repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(51,226,230,0.1) 2px, rgba(51,226,230,0.1) 4px)",
           }} />
 
-          <p className="font-mono text-sm sm:text-base text-foreground leading-relaxed relative z-10 min-h-[3em]">
+          <p className="font-mono text-xs sm:text-base text-foreground leading-relaxed relative z-10 min-h-[2em] sm:min-h-[3em] break-words">
             {displayed}
             {!done && <span className="inline-block w-2 h-4 bg-[var(--neon-cyan)] ml-1 animate-pulse" />}
           </p>
@@ -104,7 +104,7 @@ function ElaraDialogBox({
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: i * 0.15 }}
                     onClick={() => onChoice(choice.value)}
-                    className="w-full text-left px-4 py-3 rounded-md font-mono text-sm transition-all group"
+                    className="w-full text-left px-3 py-2 sm:px-4 sm:py-3 rounded-md font-mono text-xs sm:text-sm transition-all group"
                     style={{
                       background: "rgba(51,226,230,0.05)",
                       border: "1px solid rgba(51,226,230,0.15)",
@@ -123,7 +123,7 @@ function ElaraDialogBox({
                     <span className="text-[var(--neon-cyan)]/70 mr-2">&gt;</span>
                     <span className="text-foreground/85 group-hover:text-white">{choice.label}</span>
                     {choice.description && (
-                      <span className="block text-[11px] text-muted-foreground/50 mt-0.5 ml-4">{choice.description}</span>
+                      <span className="block text-[10px] sm:text-[11px] text-muted-foreground/50 mt-0.5 ml-4">{choice.description}</span>
                     )}
                   </motion.button>
                 ))}
@@ -393,7 +393,7 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
   }, [characterChoices, createCitizen, audioInitialized, playSFX]);
 
   return (
-    <div className="fixed inset-0 z-[100] overflow-hidden" style={{ background: "#000" }} onClick={handleInitAudio}>
+    <div className="fixed inset-0 z-[100] overflow-y-auto overflow-x-hidden" style={{ background: "#000" }} onClick={handleInitAudio}>
       {/* Background image with opacity transition */}
       <div className="absolute inset-0 transition-opacity duration-[3000ms]" style={{ opacity: screenOpacity * 0.4 }}>
         <img src={CRYO_BG} alt="" className="w-full h-full object-cover" />
@@ -423,7 +423,7 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
       )}
 
       {/* Content */}
-      <div className="relative z-30 h-full flex flex-col items-center justify-center p-4 sm:p-8">
+      <div className="relative z-30 min-h-screen flex flex-col items-center justify-center p-3 sm:p-8 py-16 sm:py-8 pb-20 sm:pb-8">
         <AnimatePresence mode="wait">
           {/* ─── BLACKOUT ─── */}
           {awakeningStep === "BLACKOUT" && (

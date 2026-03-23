@@ -14,7 +14,8 @@ import { useLocation } from "wouter";
 import {
   Terminal, Eye, Package, DoorOpen, Hand, Lock, ChevronRight,
   MapPin, Compass, Zap, Ship, ArrowLeft, X, Star, Volume2, VolumeX,
-  Maximize2, Minimize2
+  Maximize2, Minimize2, Music, Swords, Search, BookOpen, Tv,
+  FlaskConical, Shield, User, Map as MapIcon, Flame
 } from "lucide-react";
 import LandscapeEnforcer from "@/components/LandscapeEnforcer";
 import { toast } from "sonner";
@@ -52,6 +53,29 @@ function getHotspotColor(type: HotspotDef["type"]) {
     case "door": return { border: "rgba(56,117,250,0.5)", bg: "var(--glass-border)", glow: "rgba(56,117,250,0.3)", text: "#3875fa" };
     case "examine": return { border: "rgba(168,85,247,0.5)", bg: "rgba(168,85,247,0.15)", glow: "rgba(168,85,247,0.3)", text: "#a855f7" };
     case "interact": return { border: "rgba(34,197,94,0.5)", bg: "rgba(34,197,94,0.15)", glow: "rgba(34,197,94,0.3)", text: "#22c55e" };
+  }
+}
+
+/* ─── FEATURE ROUTE ICON MAP ─── */
+function getFeatureIcon(action: string | undefined) {
+  if (!action) return null;
+  switch (action) {
+    case "/character-sheet": return User;
+    case "/board": return MapIcon;
+    case "/search": return Search;
+    case "/codex": return BookOpen;
+    case "/watch": return Tv;
+    case "/lore-tutorials": return BookOpen;
+    case "/discography": return Music;
+    case "/research-lab": return FlaskConical;
+    case "/research-minigame": return FlaskConical;
+    case "/forge": return Flame;
+    case "/card-game": return Swords;
+    case "/arena": return Shield;
+    case "/war-map": return MapIcon;
+    case "/trade-empire": return Package;
+    case "/fighting-game": return Swords;
+    default: return null;
   }
 }
 
@@ -178,6 +202,7 @@ function RoomScene({
         {showHotspots && room.hotspots.map((hotspot) => {
           const colors = getHotspotColor(hotspot.type);
           const Icon = getHotspotIcon(hotspot.type);
+          const FeatureIcon = hotspot.type === "terminal" ? getFeatureIcon(hotspot.action) : null;
           const isCollected = hotspot.type === "item" && hotspot.action && itemsCollected.includes(hotspot.action);
           const isHovered = hoveredHotspot === hotspot.id;
           const isEasterEgg = hotspot.id.startsWith("egg-");
@@ -230,6 +255,19 @@ function RoomScene({
                   {!isEasterEgg && <Icon size={hotspot.type === "door" ? 18 : 14} style={{ color: colors.text }} />}
                   {isEasterEgg && <div className="w-1.5 h-1.5 rounded-full" style={{ background: colors.text, opacity: 0.4 }} />}
                 </div>
+                {/* Feature sub-icon badge for terminal hotspots */}
+                {FeatureIcon && !isEasterEgg && (
+                  <div
+                    className="absolute -bottom-1 -right-1 w-4 h-4 rounded-full flex items-center justify-center z-20"
+                    style={{
+                      background: "rgba(51,226,230,0.85)",
+                      border: "1px solid rgba(51,226,230,0.5)",
+                      boxShadow: "0 0 6px rgba(51,226,230,0.4)",
+                    }}
+                  >
+                    <FeatureIcon size={8} style={{ color: "#000" }} />
+                  </div>
+                )}
                 {/* Door pulse rings - always visible, slower pulse */}
                 {hotspot.type === "door" && (
                   <>
@@ -272,6 +310,31 @@ function RoomScene({
                       }}
                     >
                       !
+                    </div>
+                  </>
+                )}
+                {/* Special pulsing indicator for key items (keycards/master keys) */}
+                {(hotspot.id === "observation-keycard" || hotspot.id === "captains-master-key") && (
+                  <>
+                    <div
+                      className="absolute inset-[-6px] rounded-full animate-ping"
+                      style={{ border: "2px solid rgba(255,215,0,0.6)", opacity: 0.6, animationDuration: "1.5s" }}
+                    />
+                    <div
+                      className="absolute inset-[-12px] rounded-full animate-ping"
+                      style={{ border: "1px solid rgba(255,215,0,0.3)", opacity: 0.3, animationDuration: "2.5s" }}
+                    />
+                    {/* Key badge */}
+                    <div
+                      className="absolute -top-1 -right-1 w-4 h-4 rounded-full flex items-center justify-center z-20"
+                      style={{
+                        background: "rgba(255,215,0,0.9)",
+                        color: "#000",
+                        boxShadow: "0 0 8px rgba(255,215,0,0.6)",
+                        animation: "pulse 2s ease-in-out infinite",
+                      }}
+                    >
+                      <svg width="8" height="8" viewBox="0 0 24 24" fill="currentColor"><path d="M12.65 10C11.83 7.67 9.61 6 7 6c-3.31 0-6 2.69-6 6s2.69 6 6 6c2.61 0 4.83-1.67 5.65-4H17v4h4v-4h3v-4H12.65zM7 14c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"/></svg>
                     </div>
                   </>
                 )}

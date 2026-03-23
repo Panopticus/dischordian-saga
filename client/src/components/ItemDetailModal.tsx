@@ -135,6 +135,24 @@ const ITEM_DATABASE: Record<string, ItemMeta> = {
     relatedEntities: ["The Enigma", "The Panopticon", "Intelligence HQ"],
     loreExcerpt: "THE MASTER CIPHER KEY — ENIGMA-CLASS DEVICE\n\nCAPABILITY: Universal decryption\nLIMITATIONS: None known\nCREATOR: The Enigma\n\nATTACHED NOTE:\n\n\"If you're reading this, you found my hiding spot. Congratulations. You're either very clever or very lucky. Probably both — the universe tends to favor those who are.\n\nThis key can decrypt anything. Any message. Any code. Any secret in any reality across the entire Saga. I built it because I believe information should be free. The Panopticon hoards knowledge like dragons hoard gold. I liberate it.\n\nBut I'm leaving it here with a warning:\n\nThe truth will set you free. But first, it will make you very, very angry.\n\nSome secrets are kept not to protect the powerful, but to protect the innocent. When you decrypt the wrong message at the wrong time, people get hurt. I learned that the hard way.\n\nUse it wisely, Spy. Not everything that CAN be known SHOULD be known.\n\nBut then again... that's exactly what they want you to think.\"\n\n— The Enigma\n   Who Knew Too Much\n   And Told It Anyway",
   },
+  "observation-keycard": {
+    name: "Observation Keycard",
+    description: "A biometric access card labeled 'OBS-DECK'. It was stored in the Medical Bay's secure safe, accessible only to senior medical staff.",
+    elaraAnalysis: "The Observation Keycard! It was in the medical safe all along. The previous crew stored sensitive access cards here for security. This will unlock the Observation Deck \u2014 the crew used it to monitor deep space anomalies. Take it.",
+    category: "key",
+    dangerLevel: "low",
+    relatedEntities: ["Medical Bay", "Observation Deck", "Dr. Reyes"],
+    loreExcerpt: "BIOMETRIC ACCESS CARD — OBS-DECK\n\nAUTHORIZATION LEVEL: Senior Staff\nISSUED TO: Dr. Reyes, CMO\nACCESS GRANTED: Observation Deck (all areas)\nSTATUS: ACTIVE\n\nNote from Dr. Reyes:\n\n\"I'm keeping the Observation Deck keycard in the medical safe. After what happened with Patient 19 \u2014 the one who kept writing about the Architect \u2014 I don't want anyone accessing the observation windows unsupervised.\n\nThe things they see out there... it changes them. The stars aren't just stars anymore. They're watching us back.\n\nIf you need access, come to me first. I need to make sure you're stable enough to handle what's on the other side of that glass.\"\n\n\u2014 Dr. Reyes, CMO\n   Last entry before the Med Bay was sealed",
+  },
+  "captains-master-key": {
+    name: "Captain's Master Key",
+    description: "A heavy magnetic key hidden in a compartment beneath the captain's armrest. It grants access to the most restricted area on the ship.",
+    elaraAnalysis: "The Captain's Master Key! It was hidden in a compartment beneath the armrest \u2014 exactly where a captain would keep their most important tool. This key opens the Captain's Quarters, the most restricted area on the ship. Whatever secrets Captain Voss was hiding, they're behind that door.",
+    category: "key",
+    dangerLevel: "high",
+    relatedEntities: ["Captain Voss", "The Engineer", "Captain's Quarters"],
+    loreExcerpt: "CAPTAIN'S MASTER KEY \u2014 MAGNETIC AUTHORIZATION\n\nACCESS LEVEL: MAXIMUM\nISSUED TO: Captain Voss (or whoever is wearing her body)\nGRANTS ACCESS: Captain's Quarters, Emergency Overrides, Self-Destruct\n\nHidden note, taped to the key's compartment:\n\n\"If you're reading this, I'm already in cryo. Or dead. Or both.\n\nThe key opens my quarters. Inside, you'll find everything I couldn't say out loud \u2014 the real mission parameters, the Architect's final instructions, and the truth about where this Ark is actually going.\n\nI hid the key here because the bridge is the last place anyone would look for something personal. Everyone assumes the captain keeps secrets in their quarters. Nobody checks the chair.\n\nWhoever you are: be ready for what you find. The truth about Inception Ark 47 is worse than the lies.\"\n\n\u2014 Captain Voss (The Engineer)\n   Who hid in plain sight",
+  },
 };
 
 const CATEGORY_CONFIG: Record<string, { icon: typeof Star; label: string; color: string }> = {

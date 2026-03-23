@@ -571,6 +571,17 @@ export default function CoNexusMediaPlayer() {
   const { currentSong, isPlaying, queue, playSong, pause, resume, next, prev, setQueue, showPlayer } = usePlayer();
   const { getByAlbum, entries } = useLoredex();
   const [expanded, setExpanded] = useState(false);
+  const [roomDialogActive, setRoomDialogActive] = useState(false);
+
+  // Hide radio player on mobile when a room dialog (ElaraPopup) is active
+  useEffect(() => {
+    const handler = (e: Event) => {
+      const detail = (e as CustomEvent).detail;
+      setRoomDialogActive(detail?.active ?? false);
+    };
+    window.addEventListener("elara-dialog", handler);
+    return () => window.removeEventListener("elara-dialog", handler);
+  }, []);
 
   const handlePlayPause = useCallback(() => {
     if (isPlaying) pause();
@@ -588,7 +599,7 @@ export default function CoNexusMediaPlayer() {
   if (!showPlayer || !currentSong) return null;
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-[48]">
+    <div className={`fixed bottom-0 left-0 right-0 z-[48] transition-all duration-300 ${roomDialogActive ? 'sm:opacity-100 opacity-0 pointer-events-none sm:pointer-events-auto translate-y-full sm:translate-y-0' : ''}`}>
       <AnimatePresence mode="wait">
         {expanded ? (
           <motion.div
