@@ -1,10 +1,13 @@
 /* ═══════════════════════════════════════════════════════
    ACHIEVEMENT TOAST — Pop-up notification when earned
+   Suppressed while dialogs (NarrativeEngine, LoreOverlay,
+   ElaraDialog) are active. Queued items show after dialog closes.
    ═══════════════════════════════════════════════════════ */
-import { useEffect } from "react";
+import { useEffect, useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Trophy } from "lucide-react";
 import { useGamification } from "@/contexts/GamificationContext";
+import { isDialogActive } from "@/lib/dialogState";
 
 const TIER_COLORS: Record<string, string> = {
   bronze: "#cd7f32",
@@ -16,17 +19,64 @@ const TIER_COLORS: Record<string, string> = {
 
 export default function AchievementToast() {
   const { newAchievement, dismissNewAchievement } = useGamification();
+  const [dialogSuppressed, setDialogSuppressed] = useState(() => isDialogActive());
+  const [visible, setVisible] = useState(false);
+  const pendingRef = useRef(false);
 
+  // Listen for dialog state changes
+  useEffect(() => {
+    const handler = (e: Event) => {
+      const detail = (e as CustomEvent).detail;
+      if (detail?.active) {
+        setDialogSuppressed(true);
+        // If currently showing, hide it and mark as pending
+        if (visible) {
+          setVisible(false);
+          pendingRef.current = true;
+        }
+      } else {
+        setDialogSuppressed(false);
+      }
+    };
+    window.addEventListener("dialog-state-change", handler);
+    return () => window.removeEventListener("dialog-state-change", handler);
+  }, [visible]);
+
+  // When a new achievement arrives, show it if no dialog is active
   useEffect(() => {
     if (newAchievement) {
+      if (isDialogActive()) {
+        // Queue it — mark pending, don't show yet
+        pendingRef.current = true;
+      } else {
+        setVisible(true);
+        pendingRef.current = false;
+      }
+    } else {
+      setVisible(false);
+      pendingRef.current = false;
+    }
+  }, [newAchievement]);
+
+  // When dialog closes and we have a pending achievement, show it
+  useEffect(() => {
+    if (!dialogSuppressed && pendingRef.current && newAchievement) {
+      pendingRef.current = false;
+      setVisible(true);
+    }
+  }, [dialogSuppressed, newAchievement]);
+
+  // Auto-dismiss after 5 seconds
+  useEffect(() => {
+    if (visible && newAchievement) {
       const timer = setTimeout(dismissNewAchievement, 5000);
       return () => clearTimeout(timer);
     }
-  }, [newAchievement, dismissNewAchievement]);
+  }, [visible, newAchievement, dismissNewAchievement]);
 
   return (
     <AnimatePresence>
-      {newAchievement && (
+      {visible && newAchievement && (
         <motion.div
           initial={{ opacity: 0, y: -80, x: "-50%" }}
           animate={{ opacity: 1, y: 0, x: "-50%" }}

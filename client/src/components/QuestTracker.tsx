@@ -261,7 +261,7 @@ export default function QuestTracker() {
     setIsSwiping(false);
   };
 
-  // Auto-minimize when Elara dialog is active, restore when it closes
+  // Auto-minimize when any dialog is active, restore when it closes
   useEffect(() => {
     const handleDialog = (e: Event) => {
       const detail = (e as CustomEvent).detail;
@@ -283,8 +283,13 @@ export default function QuestTracker() {
         }
       }
     };
+    // Listen to both legacy elara-dialog and unified dialog-state-change events
     window.addEventListener("elara-dialog", handleDialog);
-    return () => window.removeEventListener("elara-dialog", handleDialog);
+    window.addEventListener("dialog-state-change", handleDialog);
+    return () => {
+      window.removeEventListener("elara-dialog", handleDialog);
+      window.removeEventListener("dialog-state-change", handleDialog);
+    };
   }, [minimized, dialogSuppressed, wasExpandedBeforeDialog]);
 
   // Build check state

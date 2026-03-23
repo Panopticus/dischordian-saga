@@ -4,7 +4,8 @@
    the LoreTutorialEngine for the matching tutorial.
    ═══════════════════════════════════════════════════════ */
 
-import { useState, useCallback, useMemo } from "react";
+import { useState, useCallback, useMemo, useEffect } from "react";
+import { dialogOpened, dialogClosed } from "@/lib/dialogState";
 import { AnimatePresence, motion } from "framer-motion";
 import { BookOpen, CheckCircle2, Zap, Star, ChevronRight, X } from "lucide-react";
 import { useGame } from "@/contexts/GameContext";
@@ -31,6 +32,18 @@ export default function TutorialTrigger({
   const { state, completeTutorial, shiftMorality, collectCard } = useGame();
   const [showEngine, setShowEngine] = useState(false);
   const [dismissed, setDismissed] = useState(false);
+
+  // Notify global dialog state when tutorial engine opens/closes
+  useEffect(() => {
+    if (showEngine) {
+      dialogOpened();
+    } else {
+      dialogClosed();
+    }
+    return () => {
+      if (showEngine) dialogClosed();
+    };
+  }, [showEngine]);
 
   const tutorial = useMemo(() => {
     if (tutorialId) return LORE_TUTORIALS.find(t => t.id === tutorialId) || null;

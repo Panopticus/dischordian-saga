@@ -1,12 +1,14 @@
 /* ═══════════════════════════════════════════════════════
    DISCOVERY NOTIFICATION — Toast-style notification when
    a new feature is unlocked through Ark exploration.
-   Listens for custom events dispatched by the Ark explorer.
+   Suppressed while dialogs are active. Items queue and
+   show after the dialog closes.
    ═══════════════════════════════════════════════════════ */
 import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Unlock, ChevronRight, Sparkles } from "lucide-react";
 import { useLocation } from "wouter";
+import { isDialogActive } from "@/lib/dialogState";
 
 interface DiscoveryEvent {
   featureKey: string;
@@ -26,6 +28,7 @@ export function emitDiscoveryNotification(event: DiscoveryEvent) {
 export default function DiscoveryNotification() {
   const [queue, setQueue] = useState<DiscoveryEvent[]>([]);
   const [current, setCurrent] = useState<DiscoveryEvent | null>(null);
+  const [dialogSuppressed, setDialogSuppressed] = useState(() => isDialogActive());
   const [, setLocation] = useLocation();
 
   const handleDiscovery = useCallback((event: DiscoveryEvent) => {
@@ -37,13 +40,32 @@ export default function DiscoveryNotification() {
     return () => { discoveryListeners.delete(handleDiscovery); };
   }, [handleDiscovery]);
 
-  // Process queue
+  // Listen for dialog state changes
   useEffect(() => {
-    if (!current && queue.length > 0) {
+    const handler = (e: Event) => {
+      const detail = (e as CustomEvent).detail;
+      if (detail?.active) {
+        setDialogSuppressed(true);
+        // If currently showing a notification, hide it and re-queue
+        if (current) {
+          setQueue(prev => [current, ...prev]);
+          setCurrent(null);
+        }
+      } else {
+        setDialogSuppressed(false);
+      }
+    };
+    window.addEventListener("dialog-state-change", handler);
+    return () => window.removeEventListener("dialog-state-change", handler);
+  }, [current]);
+
+  // Process queue — only when no dialog is active
+  useEffect(() => {
+    if (!current && queue.length > 0 && !dialogSuppressed) {
       setCurrent(queue[0]);
       setQueue(prev => prev.slice(1));
     }
-  }, [current, queue]);
+  }, [current, queue, dialogSuppressed]);
 
   // Auto-dismiss after 5 seconds
   useEffect(() => {

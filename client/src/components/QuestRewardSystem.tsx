@@ -5,6 +5,7 @@
    Renders a reward notification overlay when rewards are claimed.
    ═══════════════════════════════════════════════════════ */
 import { useEffect, useRef, useState, useCallback, useMemo } from "react";
+import { isDialogActive } from "@/lib/dialogState";
 import { useGame, ROOM_DEFINITIONS } from "@/contexts/GameContext";
 import { useLoredex } from "@/contexts/LoredexContext";
 import { useGamification } from "@/contexts/GamificationContext";
@@ -275,8 +276,32 @@ export default function QuestRewardSystem() {
   const { isAuthenticated } = useAuth();
   const awardDream = trpc.citizen.awardDream.useMutation();
   const [notifications, setNotifications] = useState<RewardNotification[]>([]);
+  const [pendingNotifications, setPendingNotifications] = useState<RewardNotification[]>([]);
   const [celebration, setCelebration] = useState<CelebrationData | null>(null);
+  const [dialogSuppressed, setDialogSuppressed] = useState(() => isDialogActive());
   const processedRef = useRef<Set<string>>(new Set());
+
+  // Listen for dialog state changes
+  useEffect(() => {
+    const handler = (e: Event) => {
+      const detail = (e as CustomEvent).detail;
+      if (detail?.active) {
+        setDialogSuppressed(true);
+      } else {
+        setDialogSuppressed(false);
+      }
+    };
+    window.addEventListener("dialog-state-change", handler);
+    return () => window.removeEventListener("dialog-state-change", handler);
+  }, []);
+
+  // When dialog closes, flush pending notifications
+  useEffect(() => {
+    if (!dialogSuppressed && pendingNotifications.length > 0) {
+      setNotifications(prev => [...prev, ...pendingNotifications]);
+      setPendingNotifications([]);
+    }
+  }, [dialogSuppressed, pendingNotifications]);
   const chainProcessedRef = useRef<Set<string>>(new Set());
 
   // Build quest check state (same as QuestTracker)
@@ -370,11 +395,16 @@ export default function QuestRewardSystem() {
             description: reward.description,
           });
         } else {
-          setNotifications(prev => [...prev, {
+          const notif = {
             reward,
             questTitle: QUEST_TITLES[reward.questId] || reward.questId,
             timestamp: Date.now(),
-          }]);
+          };
+          if (isDialogActive()) {
+            setPendingNotifications(prev => [...prev, notif]);
+          } else {
+            setNotifications(prev => [...prev, notif]);
+          }
         }
       }
     }
@@ -459,7 +489,7 @@ export default function QuestRewardSystem() {
                 description: `Chain quest complete: ${chain.chainName}`,
               });
             } else {
-              setNotifications(prev => [...prev, {
+              const notif = {
                 reward: {
                   questId: rewardKey,
                   dreamTokens: quest.rewardDreamTokens,
@@ -470,7 +500,12 @@ export default function QuestRewardSystem() {
                 },
                 questTitle: `${quest.title} (${chain.chainName})`,
                 timestamp: Date.now(),
-              }]);
+              };
+              if (isDialogActive()) {
+                setPendingNotifications(prev => [...prev, notif]);
+              } else {
+                setNotifications(prev => [...prev, notif]);
+              }
             }
           }
         }
@@ -556,8 +591,8 @@ export default function QuestRewardSystem() {
 
   return (
     <>
-      {/* Standard reward toasts — stacked from top, max 2 visible */}
-      {notifications.length > 0 && (
+      {/* Standard reward toasts — stacked from top, max 2 visible (hidden during dialogs) */}
+      {notifications.length > 0 && !dialogSuppressed && (
         <div className="fixed top-16 left-3 sm:left-6 z-[95] pointer-events-none flex flex-col gap-2 max-w-[calc(100vw-24px)] sm:max-w-none">
           <AnimatePresence>
             {notifications.slice(-2).map(notification => (

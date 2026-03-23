@@ -11,6 +11,7 @@
  * - Narrative flags from the game state
  */
 import { useState, useEffect, useCallback, useRef } from "react";
+import { dialogOpened, dialogClosed } from "@/lib/dialogState";
 import { motion, AnimatePresence } from "framer-motion";
 import { Radio, Skull, X, ChevronRight, Volume2, CircuitBoard, Heart } from "lucide-react";
 import { useLoredex } from "@/contexts/LoredexContext";
@@ -281,6 +282,18 @@ export function LoreOverlay({ gameMode, contextId, onMoralityShift, onCardUnlock
   const [shownComments, setShownComments] = useState<Set<string>>(new Set());
   const [typingDone, setTypingDone] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  // Notify global dialog state when LoreOverlay is showing
+  useEffect(() => {
+    if (activeComment) {
+      dialogOpened();
+    } else {
+      dialogClosed();
+    }
+    return () => {
+      if (activeComment) dialogClosed();
+    };
+  }, [activeComment]);
 
   const getRandomComment = useCallback(() => {
     const comments = GAME_LORE_COMMENTS[gameMode] || [];

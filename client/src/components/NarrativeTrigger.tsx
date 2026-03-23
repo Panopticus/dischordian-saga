@@ -7,6 +7,7 @@
    ═══════════════════════════════════════════════════════ */
 
 import { useState, useEffect, useCallback, useMemo } from "react";
+import { dialogOpened, dialogClosed } from "@/lib/dialogState";
 import { motion, AnimatePresence } from "framer-motion";
 import { Radio, Skull, ChevronRight, Zap, Star, Layers } from "lucide-react";
 import { useGame } from "@/contexts/GameContext";
@@ -45,6 +46,18 @@ export default function NarrativeTrigger({
   const [showEngine, setShowEngine] = useState(false);
   const [dismissed, setDismissed] = useState(false);
   const [pendingAct, setPendingAct] = useState<number | null>(null);
+
+  // Notify global dialog state when NarrativeEngine opens/closes
+  useEffect(() => {
+    if (showEngine) {
+      dialogOpened();
+    } else {
+      dialogClosed();
+    }
+    return () => {
+      if (showEngine) dialogClosed();
+    };
+  }, [showEngine]);
 
   // Check which act should trigger next
   const nextAct = useMemo(() => {

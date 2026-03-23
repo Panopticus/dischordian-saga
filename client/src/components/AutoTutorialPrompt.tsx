@@ -2,7 +2,8 @@
    AutoTutorialPrompt — Slide-in prompt for first-visit tutorials
    Shows Elara offering to guide the player, with Launch / Skip / Later options.
    ═══════════════════════════════════════════════════════ */
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { dialogOpened, dialogClosed } from "@/lib/dialogState";
 import { motion, AnimatePresence } from "framer-motion";
 import { BookOpen, X, Zap, Star, Clock, ChevronRight } from "lucide-react";
 import type { LoreTutorial } from "@/data/loreTutorials";
@@ -26,6 +27,18 @@ export default function AutoTutorialPrompt({
 }: AutoTutorialPromptProps) {
   const [showEngine, setShowEngine] = useState(false);
   const { completeTutorial } = useGame();
+
+  // Notify global dialog state when tutorial engine opens/closes
+  useEffect(() => {
+    if (showEngine) {
+      dialogOpened();
+    } else {
+      dialogClosed();
+    }
+    return () => {
+      if (showEngine) dialogClosed();
+    };
+  }, [showEngine]);
 
   const handleLaunch = () => {
     onLaunch();

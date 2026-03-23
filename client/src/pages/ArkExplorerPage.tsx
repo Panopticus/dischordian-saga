@@ -5,6 +5,7 @@ import { useGameAreaBGM } from "@/contexts/GameAudioContext";
    Elara dialog, sound effects, and puzzle mechanics.
    ═══════════════════════════════════════════════════════ */
 import { useState, useCallback, useEffect, useMemo } from "react";
+import { dialogOpened, dialogClosed } from "@/lib/dialogState";
 import { useGame, ROOM_DEFINITIONS, type HotspotDef, type RoomDef } from "@/contexts/GameContext";
 import { useGamification } from "@/contexts/GamificationContext";
 import { useSound } from "@/contexts/SoundContext";
@@ -525,9 +526,14 @@ export default function ArkExplorerPage() {
   useEffect(() => {
     if (showCryoOrientation) {
       window.dispatchEvent(new CustomEvent("elara-dialog", { detail: { active: true } }));
+      dialogOpened();
     } else {
       window.dispatchEvent(new CustomEvent("elara-dialog", { detail: { active: false } }));
+      dialogClosed();
     }
+    return () => {
+      if (showCryoOrientation) dialogClosed();
+    };
   }, [showCryoOrientation]);
 
   // Typewriter for orientation

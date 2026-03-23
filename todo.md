@@ -2448,3 +2448,4 @@
 - [x] Chess: Integrate custom piece artwork (Architect/Archons vs Dreamer/Neyons)
 - [x] Chess: Build complete AAA chess experience with all visual upgrades
 - [x] Chess: Verify and ensure piece movement animations work with custom piece images
+- [x] Suppress achievement/quest popups while dialog boxes (NarrativeEngine, LoreOverlay, ElaraDialog) are active; queue them to show after dialog closes

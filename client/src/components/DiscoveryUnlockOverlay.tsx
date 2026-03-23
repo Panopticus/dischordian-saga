@@ -4,6 +4,7 @@
  * similar to KOTOR's "New Area Discovered" notification.
  */
 import { useState, useEffect, useCallback } from "react";
+import { isDialogActive } from "@/lib/dialogState";
 import { motion, AnimatePresence } from "framer-motion";
 import { useGame } from "@/contexts/GameContext";
 import {
@@ -127,16 +128,28 @@ export default function DiscoveryUnlockOverlay() {
   const { currentDiscovery, dismissCurrent } = useDiscoveryTracker();
   const [, setLocation] = useLocation();
   const [phase, setPhase] = useState<"enter" | "reveal" | "features" | "exit">("enter");
+  const [dialogSuppressed, setDialogSuppressed] = useState(() => isDialogActive());
+
+  // Listen for dialog state changes
+  useEffect(() => {
+    const handler = (e: Event) => {
+      const detail = (e as CustomEvent).detail;
+      setDialogSuppressed(!!detail?.active);
+    };
+    window.addEventListener("dialog-state-change", handler);
+    return () => window.removeEventListener("dialog-state-change", handler);
+  }, []);
 
   useEffect(() => {
-    if (!currentDiscovery) return;
+    if (!currentDiscovery || dialogSuppressed) return;
     setPhase("enter");
     const t1 = setTimeout(() => setPhase("reveal"), 600);
     const t2 = setTimeout(() => setPhase("features"), 1800);
     return () => { clearTimeout(t1); clearTimeout(t2); };
-  }, [currentDiscovery?.id]);
+  }, [currentDiscovery?.id, dialogSuppressed]);
 
-  if (!currentDiscovery) return null;
+  // Don't render while a dialog is active — wait for it to close
+  if (!currentDiscovery || dialogSuppressed) return null;
 
   const Icon = currentDiscovery.icon;
 

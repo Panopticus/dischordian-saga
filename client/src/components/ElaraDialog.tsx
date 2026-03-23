@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect, useCallback, useMemo } from "react";
+import { dialogOpened, dialogClosed } from "@/lib/dialogState";
 import { trpc } from "@/lib/trpc";
 import { useLocation } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
@@ -340,6 +341,18 @@ export default function ElaraDialog({ elaraTTS: _elaraTTS }: { elaraTTS?: any } 
   const [roomDialogActive, setRoomDialogActive] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+
+  // Notify global dialog state when ElaraDialog opens/closes
+  useEffect(() => {
+    if (isOpen) {
+      dialogOpened();
+    } else {
+      dialogClosed();
+    }
+    return () => {
+      if (isOpen) dialogClosed();
+    };
+  }, [isOpen]);
 
   // Hide floating Elara button when a room dialog (ElaraPopup) is active on mobile
   useEffect(() => {
