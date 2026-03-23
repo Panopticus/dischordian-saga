@@ -2306,3 +2306,16 @@
 - [x] Add visible mode icons for Ark room hotspots that open new pages (navigation features)
 - [x] Add getFeatureIcon function mapping terminal actions to specific lucide icons
 - [x] Add small cyan feature badge sub-icon on terminal hotspot markers
+
+### Feature: Mobile landscape mode for Ark Explorer
+- [x] Improve LandscapeEnforcer component with immersive rotate-device prompt
+- [x] Ensure it only appears on mobile devices in portrait mode
+- [x] Style it to match the Dischordian Saga aesthetic (sci-fi, neon, terminal)
+- [x] Add smooth transition when orientation changes
+- [x] Added "Continue in Portrait" escape button and floating reminder
+
+### Bug: Accessibility functions not working
+- [x] Investigate and fix broken accessibility functions
+- [x] Added CSS rules for high-contrast, reduce-motion, dyslexia-font, reduce-glow, font-size scaling
+- [x] Added OpenDyslexic font import
+- [x] Added initAccessibilitySettings() in App.tsx to apply saved settings on startup

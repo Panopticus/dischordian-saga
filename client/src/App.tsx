@@ -281,6 +281,25 @@ function GameAudioInner({ children }: { children: ReactNode }) {
   );
 }
 
+/* ─── Apply saved accessibility settings on app startup ─── */
+function initAccessibilitySettings() {
+  try {
+    const saved = localStorage.getItem("loredex-settings");
+    if (!saved) return;
+    const s = JSON.parse(saved);
+    const root = document.documentElement;
+    if (s.highContrast) root.classList.add("high-contrast");
+    if (s.reduceMotion) root.classList.add("reduce-motion");
+    if (s.dyslexiaFont) root.classList.add("dyslexia-font");
+    if (s.reduceGlow) root.classList.add("reduce-glow");
+    if (s.fontSize && s.fontSize !== "medium") {
+      root.classList.remove("font-size-small", "font-size-medium", "font-size-large");
+      root.classList.add(`font-size-${s.fontSize}`);
+    }
+  } catch { /* silent */ }
+}
+initAccessibilitySettings();
+
 function App() {
   return (
     <ErrorBoundary>

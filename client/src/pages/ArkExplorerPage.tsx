@@ -834,7 +834,7 @@ export default function ArkExplorerPage() {
   }
 
   return (
-    <LandscapeEnforcer message="Rotate for immersive exploration">
+    <LandscapeEnforcer message="The Ark's systems are best navigated in landscape mode. Rotate your device to explore the ship.">
     <div ref={fullscreenRef} className={`min-h-screen ${isFullscreen ? 'bg-background overflow-auto' : ''} pb-8`}>
       {/* Header */}
       <div className="px-4 sm:px-6 pt-4 pb-3">
