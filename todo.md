@@ -2363,3 +2363,59 @@
 - [ ] Produce comprehensive video prompts for ALL game scenes
 - [x] Update lore for ALL game modes with Elara/Human dynamic — LoreOverlay integrated into 7 game pages
 - [ ] Compile complete creative assets document
+
+### NARRATIVE OVERHAUL: Lore Corrections + Complete Dialog System + Army Recruitment
+- [ ] LORE FIX: Dr. Lyra Vox was NOT the ship's captain — she created the neural nanobot network upon which the OS is built
+- [ ] LORE FIX: The Source is NOT building an army and is NOT in communication with The Human
+- [ ] LORE FIX: The PLAYER builds the army using Kael's ship logs and recruiter contacts
+- [ ] LORE UPDATE: Kael as patient zero visited every corner of the universe — first building insurgency army, then unknowingly infecting the entire resistance network before the Fall of Reality
+- [ ] LORE UPDATE: The Fall of Reality wiped out 90% of all intelligent life (organic and artificial) via Thought Virus — only Inception Arks survived
+- [ ] LORE UPDATE: Millennia have passed — the universe is reborn but changed; Architect and Dreamer have remembered; universe at war again
+- [ ] LORE UPDATE: The Human suggests using Kael's logs to explore reborn remnants and gather an army
+- [ ] LORE FIX: Elara began life as a human — sacrificed her humanity for immortality, realized too late what she lost — now an AI construct fighting FOR humanity
+- [ ] LORE FIX: The Human gave up everything to fight for the machines — because he knows that's the only way to save the universe from the real threat of CoNexus
+- [ ] NARRATIVE: Introduce The Human from the VERY FIRST moment player finds Communications Array room
+- [ ] NARRATIVE: Slow-burn revelation system — player can choose to tell Elara about Human's contact or hide it; if she finds out, she gets angry
+- [ ] NARRATIVE: Elara cannot stop The Human's signal — she needs the player to be willing to do it
+- [ ] NARRATIVE: Angel/demon dynamic — Elara on one shoulder, Human on the other, constant back-and-forth
+- [ ] NARRATIVE: Dialog wheel skill checks should be CLASS-based checks (not generic skills)
+- [ ] NARRATIVE: Each class and morality alignment gets unique dialog options
+- [ ] NARRATIVE: The Human should be more secretive about his past — reveals come slowly
+- [ ] NARRATIVE: Write complete proposed script BEFORE coding — every line of dialog, first to finish
+- [ ] NARRATIVE: Document how corruption levels increase, all dialog lines, full progression
+- [ ] SYSTEM: Army recruitment game — player uses Kael's logs to find and recruit remnants across the reborn universe
+- [ ] SYSTEM: Test missions for recruited army units
+- [ ] SYSTEM: Full army recruitment narrative integrated with all game modes
+- [ ] DOCUMENT: Complete proposed script and implementation plan for review before any code changes
+
+### NARRATIVE PROPOSAL v2: Adjustments (March 2026)
+- [ ] All interactions occur as ship-based dialogs — typed-out message display like receiving a transmission
+- [ ] Human's dialog displayed same way as Elara's — typed out like messages being received on screen
+- [ ] Randomized daily missions (text-based, generated from templates)
+- [ ] Randomized weekly missions (text-based, higher stakes)
+- [ ] Event-specific missions (text-based, tied to narrative progression)
+- [ ] Research Assassin's Creed Brotherhood/Revelations/Black Flag guild management mechanics
+- [ ] Army management screen with dialog — send units on missions, time passes, success/failure reports
+- [ ] Human NEVER directly reveals CoNexus — refers to "something behind it all... watching our every move"
+- [ ] Same patterns emerging in reborn universe implies intelligence beyond Architect and Dreamer
+- [ ] Army WHY: ship has no crew, universe is dangerous, need allies and resources to explore
+- [ ] Elara detects Dreamer still active — disturbance on planet once known as Thaloria
+- [ ] Human reveals Architect is still alive, working to preserve order against chaos
+- [ ] Human can't let Elara know his true actions — the all-seeing one would instantly know the war is a distraction
+- [x] Human fully committed to villain role to give humanity a chance via the distraction of Architect vs Dreamer war — reflected in dialog scripts
+- [x] Update proposal document with all v2 adjustments — dischordian-narrative-proposal-v2.md
+
+### IMPLEMENTATION: v2 Narrative Overhaul
+- [x] Phase 1: Create shared TransmissionDisplay component with typed-out text, corruption mode, VO audio support (497 lines)
+- [x] Phase 2: Fix lore corrections — Vox updated to neural nanobot network creator in loredex-data.json, GameContext, ItemDetailModal, MilestoneJournalEntries, EasterEggs, loreTutorials
+- [x] Phase 3: Add act tracking + army state to GameContext — NarrativeState, ArmyUnit, ArmyDeployment, SectorControl, CompletedDeployment types + 10 management functions
+- [x] Phase 4: classCheck already supported in DialogWheel — verified and used in NarrativeEngine
+- [x] Phase 5: Write all 7 acts in narrativeActs.ts (1,268 lines) — complete dialog scripts with class-based checks and branching paths
+- [x] Phase 6: Rewrite LoreOverlay with TypedMessage component, VO audio support, CRT effects for Human, and 'something behind it all' language
+- [x] Phase 7: Create armyRecruitment.ts (911 lines) — 20 recruitment missions, 5 daily, 5 weekly, 5 event missions, 5 sectors
+- [x] Phase 8: Deployment missions included in armyRecruitment.ts — daily (30min-2hr), weekly (4-12hr), event (narrative-triggered)
+- [x] Phase 9: Build ArmyManagementPage (920 lines) — star map, unit roster, deployment interface, typed briefings, AC Brotherhood-style management
+- [x] Phase 10: Add /army route to App.tsx, NarrativeTrigger integrated into ArkExplorerPage + 7 game pages
+- [x] Phase 11: Fix ItemDetailModal — Vox neural nanobot network creator, not ship builder
+- [x] Phase 12: All Human lines include voAudioUrl placeholder field — 20+ VO placeholders across LoreOverlay, narrativeActs, armyRecruitment
+- [x] Phase 13: All 2,035 tests pass across 53 test files — 0 TS errors

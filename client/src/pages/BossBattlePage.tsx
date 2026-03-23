@@ -15,6 +15,7 @@ import { BOSS_ENCOUNTERS, type BossEncounter } from "@/data/bossEncounters";
 import { useLocation } from "wouter";
 import LandscapeEnforcer from "@/components/LandscapeEnforcer";
 import { LoreOverlay } from "@/components/LoreOverlay";
+import NarrativeTrigger from "@/components/NarrativeTrigger";
 
 function BossCardView({ card, onClick, selected, targetable, disabled, small }: {
   card: BattleCard; onClick?: () => void; selected?: boolean; targetable?: boolean; disabled?: boolean; small?: boolean;
@@ -608,7 +609,8 @@ export default function BossBattlePage() {
         </div>
       </div>
     </div>
-    <LoreOverlay gameMode="boss" contextId={currentBoss?.id} />
+    <NarrativeTrigger variant="banner" className="mb-3" />
+      <LoreOverlay gameMode="boss" contextId={currentBoss?.id} />
     </LandscapeEnforcer>
   );
 }

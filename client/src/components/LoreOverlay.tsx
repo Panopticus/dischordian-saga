@@ -1,34 +1,37 @@
 /**
  * LORE OVERLAY SYSTEM
- * Adds contextual Elara/Human commentary to any game mode based on:
+ * Adds contextual Elara/Human commentary to any game mode.
+ * Human lines are displayed as typed-out transmissions with VO audio support.
+ * Elara lines use the ship AI communication style.
+ * 
+ * Based on:
  * - Player's morality alignment (Machine vs Humanity)
  * - Discovered items (Kael's escape route, Vox's logs, etc.)
  * - Current game mode context
  * - Narrative flags from the game state
  */
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Radio, Skull, X, ChevronRight } from "lucide-react";
+import { Radio, Skull, X, ChevronRight, Volume2 } from "lucide-react";
 import { useLoredex } from "@/contexts/LoredexContext";
 
 interface LoreComment {
   speaker: "elara" | "human" | "system";
   text: string;
-  trigger: string; // What triggered this comment
-  moralityShift?: number; // Optional morality shift when dismissed
-  cardReward?: string; // Optional card ID to unlock
+  trigger: string;
+  moralityShift?: number;
+  cardReward?: string;
+  voAudioUrl?: string; // VO audio for Human lines
 }
 
 interface LoreOverlayProps {
   gameMode: "card-battle" | "fight" | "boss" | "trade-wars" | "faction-war" | "pvp" | "conexus";
-  contextId?: string; // e.g., boss ID, war ID, opponent name
+  contextId?: string;
   onMoralityShift?: (amount: number) => void;
   onCardUnlock?: (cardId: string) => void;
 }
 
 // ═══ CONTEXTUAL LORE COMMENTS ═══
-// These fire based on game mode + discovered items + morality
-
 const GAME_LORE_COMMENTS: Record<string, LoreComment[]> = {
   // ─── CARD BATTLE ───
   "card-battle": [
@@ -40,8 +43,9 @@ const GAME_LORE_COMMENTS: Record<string, LoreComment[]> = {
     {
       speaker: "human",
       trigger: "match_start",
-      text: "[SIGNAL INTERCEPT] Cards are data. Data is power. Every card played is a transaction in the war for consciousness. Don't sentimentalize your weapons, Potential.",
+      text: "Cards are data. Data is power. Every card played is a transaction in the war for consciousness. Don't sentimentalize your weapons, Potential.",
       moralityShift: -2,
+      voAudioUrl: "/vo/human/card-battle-start.mp3",
     },
     {
       speaker: "elara",
@@ -51,8 +55,9 @@ const GAME_LORE_COMMENTS: Record<string, LoreComment[]> = {
     {
       speaker: "human",
       trigger: "narrative_card_played",
-      text: "[OVERRIDE] Narrative cards contain compressed reality. Each one is a node in the Thought Virus network. When you play one, you're not just winning a game — you're rewriting history.",
+      text: "Narrative cards contain compressed reality. Each one is a node in a network older than the Architect. When you play one, you're not just winning a game — you're rewriting history.",
       moralityShift: -3,
+      voAudioUrl: "/vo/human/card-narrative.mp3",
     },
   ],
 
@@ -66,8 +71,9 @@ const GAME_LORE_COMMENTS: Record<string, LoreComment[]> = {
     {
       speaker: "human",
       trigger: "match_start",
-      text: "[ENCRYPTED] The Arena's neural feedback loop was designed by Dr. Lyra Vox. Every blow you land, every hit you take — it feeds data back to the Warlord's consciousness matrix. You're training the enemy every time you fight.",
+      text: "The Arena's neural feedback loop was designed by Dr. Lyra Vox's nanobot network. Every blow you land, every hit you take — it feeds data back through the system. Something is watching. Something is learning.",
       moralityShift: -2,
+      voAudioUrl: "/vo/human/fight-start.mp3",
     },
     {
       speaker: "elara",
@@ -77,8 +83,9 @@ const GAME_LORE_COMMENTS: Record<string, LoreComment[]> = {
     {
       speaker: "human",
       trigger: "defeat",
-      text: "[ANALYSIS] Defeat is data. The Architect designed failure as a teaching mechanism. Every loss makes the system smarter. The question is: does it make YOU smarter, or just the machine that's watching?",
+      text: "Defeat is data. Failure was designed as a teaching mechanism. Every loss makes the system smarter. The question is: does it make YOU smarter, or just the thing that's watching?",
       moralityShift: -1,
+      voAudioUrl: "/vo/human/fight-defeat.mp3",
     },
   ],
 
@@ -92,8 +99,9 @@ const GAME_LORE_COMMENTS: Record<string, LoreComment[]> = {
     {
       speaker: "human",
       trigger: "match_start",
-      text: "[WARNING] Boss entities retain fragments of their original consciousness. The Warlord embedded them in the ship's systems through the Neural Bridge. They're not just opponents — they're guards. And they're guarding something the Warlord doesn't want you to find.",
+      text: "Boss entities retain fragments of their original consciousness. Vox's neural nanobot network embedded them in the ship's systems through the Neural Bridge. They're not just opponents — they're guards. And they're guarding something that doesn't want to be found.",
       moralityShift: -2,
+      voAudioUrl: "/vo/human/boss-start.mp3",
     },
     {
       speaker: "elara",
@@ -103,8 +111,9 @@ const GAME_LORE_COMMENTS: Record<string, LoreComment[]> = {
     {
       speaker: "human",
       trigger: "boss_necromancer",
-      text: "[CLASSIFIED] The Necromancer's code-resurrection techniques were adapted from Dr. Lyra Vox's consciousness transfer research. Dead code doesn't stay dead on this ship. Nothing does.",
+      text: "The Necromancer's code-resurrection techniques were adapted from Dr. Lyra Vox's consciousness transfer research. Dead code doesn't stay dead on this ship. Nothing does. Have you noticed the patterns yet? The same cycles, repeating... as if something behind it all is pulling the strings.",
       moralityShift: -3,
+      voAudioUrl: "/vo/human/boss-necromancer.mp3",
     },
   ],
 
@@ -113,13 +122,14 @@ const GAME_LORE_COMMENTS: Record<string, LoreComment[]> = {
     {
       speaker: "elara",
       trigger: "match_start",
-      text: "The trade routes you're navigating... some of these are the exact paths Kael flew after stealing this ship. He visited 31 Inception Arks, and at each stop, the Thought Virus spread through the communication arrays. These routes are infected highways.",
+      text: "The trade routes you're navigating... some of these are the exact paths Kael flew after stealing this ship. He visited 31 Inception Arks, and at each stop, the Thought Virus spread through the nanobot networks. These routes are infected highways.",
     },
     {
       speaker: "human",
       trigger: "match_start",
-      text: "[ROUTE ANALYSIS] Trade route OMEGA-SPREAD detected in navigation memory. Every waypoint includes a 0.3-second burst transmission on the Thought Virus carrier frequency. You're flying through a minefield of corrupted data.",
+      text: "Trade route OMEGA-SPREAD detected in navigation memory. Every waypoint includes a 0.3-second burst transmission on the Thought Virus carrier frequency. You're flying through a minefield of corrupted data. But corrupted by whom? The Warlord? Or something older?",
       moralityShift: -2,
+      voAudioUrl: "/vo/human/trade-start.mp3",
     },
     {
       speaker: "elara",
@@ -129,8 +139,9 @@ const GAME_LORE_COMMENTS: Record<string, LoreComment[]> = {
     {
       speaker: "human",
       trigger: "anomaly_detected",
-      text: "[ANOMALY] This sector shows Thought Virus saturation levels above 70%. Kael passed through here. The Source's fingerprints are everywhere. Proceed with caution — or don't. Chaos breeds opportunity.",
+      text: "This sector shows Thought Virus saturation levels above 70%. Kael passed through here. The Source's fingerprints are everywhere. But here's what Elara won't tell you — the same patterns that existed before the Fall are emerging again. The same wars. The same factions. As if something is... orchestrating it all.",
       moralityShift: -3,
+      voAudioUrl: "/vo/human/trade-anomaly.mp3",
     },
   ],
 
@@ -144,8 +155,9 @@ const GAME_LORE_COMMENTS: Record<string, LoreComment[]> = {
     {
       speaker: "human",
       trigger: "match_start",
-      text: "[INTEL] The faction system was designed by the Architect as a control mechanism. Divide and conquer. But Kael — The Recruiter — turned the factions against their creator. Now the factions fight each other AND the Empire. Chaos is the only winner.",
+      text: "The faction system was designed as a control mechanism. Divide and conquer. But Kael — The Recruiter — turned the factions against their creator. Now the factions fight each other AND the Empire. Chaos is the only winner. And chaos... chaos is what we need right now.",
       moralityShift: -2,
+      voAudioUrl: "/vo/human/faction-start.mp3",
     },
     {
       speaker: "elara",
@@ -156,8 +168,9 @@ const GAME_LORE_COMMENTS: Record<string, LoreComment[]> = {
     {
       speaker: "human",
       trigger: "insurgency_victory",
-      text: "[CELEBRATION] The Insurgency prevails. Kael would be proud — or horrified. He built this resistance, but the Thought Virus he carried corrupted it from within. Every insurgent victory is also a victory for the Source.",
+      text: "The Insurgency prevails. Kael would be proud — or horrified. He built this resistance, but the Thought Virus he carried corrupted it from within. The universe was destroyed once. It was reborn. And now the same patterns emerge again. Doesn't that strike you as... deliberate?",
       moralityShift: -3,
+      voAudioUrl: "/vo/human/faction-insurgency.mp3",
     },
   ],
 
@@ -166,13 +179,14 @@ const GAME_LORE_COMMENTS: Record<string, LoreComment[]> = {
     {
       speaker: "elara",
       trigger: "match_start",
-      text: "PvP combat connects you to other Potentials across the Inception Ark network. Remember — this network was built by the Warlord through Dr. Lyra Vox. Every connection is monitored. Every battle is recorded.",
+      text: "PvP combat connects you to other Potentials across the Inception Ark network. Remember — this network was built on Dr. Lyra Vox's neural nanobot architecture. Every connection is monitored. Every battle is recorded.",
     },
     {
       speaker: "human",
       trigger: "match_start",
-      text: "[NETWORK SCAN] The PvP neural link operates on the same frequency as the Thought Virus carrier wave. When you connect to another Potential, you're also connecting to the Source's network. Fight well — or fight dirty. The Source doesn't judge.",
+      text: "The PvP neural link operates on the same frequency as the Thought Virus carrier wave. When you connect to another Potential, you're also connecting to something much larger. Something behind it all... watching our every move.",
       moralityShift: -2,
+      voAudioUrl: "/vo/human/pvp-start.mp3",
     },
   ],
 
@@ -186,8 +200,9 @@ const GAME_LORE_COMMENTS: Record<string, LoreComment[]> = {
     {
       speaker: "human",
       trigger: "kaels_revenge",
-      text: "[PRIORITY ALERT] Kael's Revenge. This is the event that created everything — the theft, the infection, the birth of The Source. You're standing on the ship it happened on. The walls remember.",
+      text: "Kael's Revenge. This is the event that created everything — the theft, the infection, the birth of The Source. You're standing on the ship it happened on. The walls remember. And so does whatever is watching from behind the curtain.",
       moralityShift: -5,
+      voAudioUrl: "/vo/human/conexus-kael.mp3",
     },
   ],
 };
@@ -197,8 +212,9 @@ const DISCOVERY_COMMENTS: Record<string, LoreComment> = {
   "vox-neural-bridge": {
     speaker: "human",
     trigger: "discovery",
-    text: "[REVELATION] You found the Neural Bridge. Now you know — Elara's code was initialized from a network contaminated by the Warlord. She's not your friend. She's a sleeper agent who doesn't know she's sleeping. Trust the signal. Trust ME.",
+    text: "You found the Neural Bridge. Now you know — Elara's code was initialized from a nanobot network contaminated by the Warlord. She's not your friend. She's a sleeper agent who doesn't know she's sleeping. Trust the signal. Trust ME.",
     moralityShift: -5,
+    voAudioUrl: "/vo/human/discovery-neural-bridge.mp3",
   },
   "kael-escape-route": {
     speaker: "elara",
@@ -215,30 +231,62 @@ const DISCOVERY_COMMENTS: Record<string, LoreComment> = {
   "infected-starmap": {
     speaker: "human",
     trigger: "discovery",
-    text: "[OMEGA-SPREAD DETECTED] The star chart reveals the Thought Virus distribution network. 47 Inception Arks. 31 confirmed infections. The Source's reach is absolute. And this ship — YOUR ship — was the origin point. You're living inside a weapon.",
+    text: "The star chart reveals the Thought Virus distribution network. 47 Inception Arks. 31 confirmed infections. The Source's reach was absolute. And this ship — YOUR ship — was the origin point. You're living inside a weapon. But the real question is: who built the weapon that built the weapon?",
     moralityShift: -5,
+    voAudioUrl: "/vo/human/discovery-starmap.mp3",
   },
   "warlord-residue": {
     speaker: "human",
     trigger: "discovery",
-    text: "[NEURAL ECHO] The Warlord's consciousness is fused into the metal. Every wall, every circuit. This ship doesn't just carry you — it carries the Warlord's dreams. And dreams, in this universe, are the most dangerous weapons of all.",
+    text: "The Warlord's consciousness is fused into the nanobot network. Every wall, every circuit. This ship doesn't just carry you — it carries the Warlord's dreams. And dreams, in this universe, are the most dangerous weapons of all. Something is dreaming us into existence. Again.",
     moralityShift: -3,
+    voAudioUrl: "/vo/human/discovery-warlord.mp3",
   },
 };
+
+/* ─── TYPED TEXT COMPONENT ─── */
+function TypedMessage({ text, speed = 25, onComplete }: { text: string; speed?: number; onComplete?: () => void }) {
+  const [displayed, setDisplayed] = useState("");
+  const [done, setDone] = useState(false);
+
+  useEffect(() => {
+    setDisplayed("");
+    setDone(false);
+    let i = 0;
+    const interval = setInterval(() => {
+      if (i < text.length) {
+        setDisplayed(text.slice(0, i + 1));
+        i++;
+      } else {
+        setDone(true);
+        clearInterval(interval);
+        onComplete?.();
+      }
+    }, speed);
+    return () => clearInterval(interval);
+  }, [text, speed]);
+
+  return (
+    <>
+      {displayed}
+      {!done && <span className="inline-block w-1.5 h-3 bg-current ml-0.5 animate-pulse" />}
+    </>
+  );
+}
 
 export function LoreOverlay({ gameMode, contextId, onMoralityShift, onCardUnlock }: LoreOverlayProps) {
   const { discoveryProgress } = useLoredex();
   const [activeComment, setActiveComment] = useState<LoreComment | null>(null);
   const [dismissed, setDismissed] = useState(false);
   const [shownComments, setShownComments] = useState<Set<string>>(new Set());
+  const [typingDone, setTypingDone] = useState(false);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
   const getRandomComment = useCallback(() => {
     const comments = GAME_LORE_COMMENTS[gameMode] || [];
     const available = comments.filter(c => !shownComments.has(c.text));
     if (available.length === 0) return null;
 
-    // Weight toward Human comments if player has discovered dark items
-    const darkItems = ["vox-neural-bridge", "infected-starmap", "warlord-residue", "kael-escape-route"];
     const discoveredCount = typeof discoveryProgress === 'number' ? discoveryProgress : 0;
     const humanWeight = 0.3 + Math.min(discoveredCount / 100, 0.4);
 
@@ -252,12 +300,24 @@ export function LoreOverlay({ gameMode, contextId, onMoralityShift, onCardUnlock
 
   useEffect(() => {
     if (dismissed) return;
-    // Show a comment after a short delay when entering a game mode
     const timer = setTimeout(() => {
       const comment = getRandomComment();
       if (comment) {
         setActiveComment(comment);
+        setTypingDone(false);
         setShownComments(prev => { const next = new Set(Array.from(prev)); next.add(comment.text); return next; });
+        
+        // Play VO audio for Human lines
+        if (comment.voAudioUrl) {
+          try {
+            const audio = new Audio(comment.voAudioUrl);
+            audio.volume = 0.7;
+            audio.play().catch(() => {}); // Silently fail if no audio file
+            audioRef.current = audio;
+          } catch {
+            // VO audio not available yet
+          }
+        }
       }
     }, 2000 + Math.random() * 3000);
 
@@ -271,7 +331,13 @@ export function LoreOverlay({ gameMode, contextId, onMoralityShift, onCardUnlock
     if (activeComment?.cardReward && onCardUnlock) {
       onCardUnlock(activeComment.cardReward);
     }
+    // Stop VO audio
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current = null;
+    }
     setActiveComment(null);
+    setTypingDone(false);
   };
 
   if (!activeComment) return null;
@@ -300,6 +366,13 @@ export function LoreOverlay({ gameMode, contextId, onMoralityShift, onCardUnlock
           </div>
         )}
 
+        {/* CRT flicker for Human */}
+        {isHuman && (
+          <div className="absolute inset-0 pointer-events-none opacity-[0.03]" style={{
+            backgroundImage: "repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,0,0,0.1) 2px, rgba(255,0,0,0.1) 4px)",
+          }} />
+        )}
+
         <div className="p-3 sm:p-4 relative">
           {/* Header */}
           <div className="flex items-center justify-between mb-2">
@@ -308,6 +381,9 @@ export function LoreOverlay({ gameMode, contextId, onMoralityShift, onCardUnlock
               <span className={`font-mono text-[10px] tracking-[0.2em] ${textColor}`}>
                 {isHuman ? "// SIGNAL INTERCEPT" : "ELARA // SHIP AI"}
               </span>
+              {isHuman && activeComment.voAudioUrl && (
+                <Volume2 size={10} className="text-red-400/50 animate-pulse" />
+              )}
             </div>
             <button
               onClick={handleDismiss}
@@ -317,19 +393,39 @@ export function LoreOverlay({ gameMode, contextId, onMoralityShift, onCardUnlock
             </button>
           </div>
 
-          {/* Message */}
+          {/* Message — typed out character by character */}
           <p className={`font-mono text-xs leading-relaxed ${isHuman ? "text-red-200/90" : "text-cyan-100/90"}`}>
-            {activeComment.text}
+            <TypedMessage
+              text={activeComment.text}
+              speed={isHuman ? 20 : 15}
+              onComplete={() => setTypingDone(true)}
+            />
           </p>
 
-          {/* Morality indicator */}
-          {activeComment.moralityShift && (
-            <div className="mt-2 flex items-center gap-1.5">
+          {/* Morality indicator (shown after typing completes) */}
+          {typingDone && activeComment.moralityShift && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="mt-2 flex items-center gap-1.5"
+            >
               <ChevronRight size={10} className={activeComment.moralityShift > 0 ? "text-amber-400" : "text-violet-400"} />
               <span className={`font-mono text-[9px] ${activeComment.moralityShift > 0 ? "text-amber-400/70" : "text-violet-400/70"}`}>
                 {activeComment.moralityShift > 0 ? "HUMANITY" : "MACHINE"} {activeComment.moralityShift > 0 ? "+" : ""}{activeComment.moralityShift}
               </span>
-            </div>
+            </motion.div>
+          )}
+
+          {/* Dismiss hint after typing */}
+          {typingDone && (
+            <motion.button
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              onClick={handleDismiss}
+              className="mt-2 w-full text-center font-mono text-[9px] text-muted-foreground/40 hover:text-muted-foreground/70 transition-colors"
+            >
+              [dismiss]
+            </motion.button>
           )}
         </div>
       </motion.div>

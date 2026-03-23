@@ -43,6 +43,54 @@ export interface RoomState {
   elaraDialogSeen: boolean;
 }
 
+/* ─── ARMY MANAGEMENT TYPES ─── */
+export type ArmyUnitType = "operative" | "dreamer" | "engineer" | "insurgent" | "diplomat";
+export type ArmyUnitRank = "recruit" | "veteran" | "elite" | "commander";
+export interface ArmyUnit {
+  id: string;
+  name: string;
+  type: ArmyUnitType;
+  rank: ArmyUnitRank;
+  level: number;           // 1-10
+  xp: number;              // XP toward next level
+  sector: string;          // Which sector they were recruited from
+  specialization: string;  // e.g., "stealth", "combat", "tech", "diplomacy"
+  successRate: number;     // Base success rate 0-100
+  recruitedAt: number;     // Timestamp
+  deployed: boolean;       // Currently on a mission?
+}
+export interface ArmyDeployment {
+  id: string;
+  missionId: string;
+  missionName: string;
+  missionType: "daily" | "weekly" | "event" | "recruitment";
+  unitIds: string[];       // Units assigned
+  startedAt: number;       // Timestamp
+  durationMs: number;      // How long the mission takes
+  successChance: number;   // Calculated success chance 0-100
+  sector: string;
+  rewards: { type: string; amount: number }[];
+}
+export interface CompletedDeployment {
+  id: string;
+  missionId: string;
+  missionName: string;
+  success: boolean;
+  unitIds: string[];
+  completedAt: number;
+  rewards?: { type: string; amount: number }[];
+  report: string;          // Typed-out mission report text
+  reportSpeaker: "elara" | "human" | "system";
+}
+export interface SectorControl {
+  sectorId: string;
+  controlLevel: number;    // 0-100
+  unitsStationed: number;
+  income: number;          // Passive income per cycle
+  threatLevel: number;     // 0-100 (Thought Virus resurgence)
+  discovered: boolean;
+}
+
 export interface GameState {
   phase: GamePhase;
   awakeningStep: AwakeningStep;
@@ -110,6 +158,25 @@ export interface GameState {
   loyaltyMissionStep: number;                      // Current step index in active mission
   loyaltyLoreUnlocked: string[];                   // Lore revelation IDs unlocked
   loyaltyTitles: string[];                         // Earned title strings
+  // ═══ NARRATIVE v2: Act Progression & Army Management ═══
+  // Act tracking (7 acts of the angel/demon narrative)
+  narrativeAct: number;                              // Current act (0 = not started, 1-7)
+  narrativeActChoices: { actId: number; sceneId: string; choiceId: string; moralityShift: number }[];
+  humanContactMade: boolean;                         // Has the player received The Human's signal?
+  humanContactSecret: boolean;                       // Is the player keeping it secret from Elara?
+  elaraKnowsAboutHuman: boolean;                     // Has Elara discovered The Human's signal?
+  elaraDiscoveryPath: "told" | "discovered" | "betrayed" | null; // How Elara found out
+  humanTrustLevel: number;                           // 0-100, how much The Human trusts the player
+  elaraTrustLevel: number;                           // 0-100, how much Elara trusts the player (starts at 80)
+  // Army management (AC Brotherhood-style)
+  armyUnits: ArmyUnit[];                             // All recruited units
+  armyDeployments: ArmyDeployment[];                 // Active deployments
+  armyCompletedDeployments: CompletedDeployment[];   // Finished deployments
+  armySectors: Record<string, SectorControl>;        // Sector control state
+  armyRecruitmentMissionsCompleted: string[];         // Recruitment mission IDs completed
+  armyTotalMissionsDeployed: number;
+  armyTotalMissionsSucceeded: number;
+  armyTotalMissionsFailed: number;
 }
 
 /* ─── ROOM DEFINITIONS ─── */
@@ -204,7 +271,7 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
     hotspots: [
       { id: "tactical-display", name: "Tactical Display", description: "A massive holographic display showing connections between entities, factions, and events.", x: 30, y: 20, width: 25, height: 40, type: "terminal", action: "/board", elaraDialog: "The Conspiracy Board. Every entity, every faction, every connection we've mapped in the Dischordian Saga. It's a web of alliances, betrayals, and secrets. The more you explore, the more connections you'll uncover." },
       { id: "timeline-projector", name: "Timeline Projector", description: "A holographic projector showing the Ages of the Dischordian Saga.", x: 65, y: 25, width: 18, height: 35, type: "terminal", action: "/saga-timeline", elaraDialog: "The Timeline Projector. It maps the entire history of the Dischordian Saga across the Ages — from the Age of Privacy through the Fall of Reality and beyond. Each era tells a different chapter of the story." },
-      { id: "captains-chair", name: "Captain's Chair", description: "The command chair sits empty. A personal data pad is wedged in the armrest.", x: 45, y: 55, width: 12, height: 20, type: "examine", elaraDialog: "The Captain's chair. Dr. Lyra Vox was the last to sit here — the ship's original commander. She ordered the emergency cryo protocol before... before whatever happened. Something about her doesn't add up. Her personal log might still be in the armrest terminal." },
+      { id: "captains-chair", name: "Captain's Chair", description: "The command chair sits empty. A personal data pad is wedged in the armrest.", x: 45, y: 55, width: 12, height: 20, type: "examine", elaraDialog: "The Captain's chair. Dr. Lyra Vox designed the neural nanobot network that runs every system on this ship. She was the last to sit here before ordering the emergency cryo protocol. Something about her doesn't add up — a neuropsychologist with that level of access to the ship's core systems. Her personal log might still be in the armrest terminal." },
       { id: "nav-console", name: "Navigation Console", description: "Star charts and route calculations. An alien glyph interface awaits calibration.", x: 10, y: 40, width: 15, height: 25, type: "interact", action: "nav-calibration", elaraDialog: "The navigation console. It controls the Ark's fast-travel system, but the interface uses alien glyph sequences for authentication. Match the symbol pattern to bring the navigation grid online — then you can jump to any room you've already discovered." },
       { id: "quest-board", name: "Mission Board", description: "A holographic board displaying active missions and quest objectives.", x: 78, y: 45, width: 12, height: 20, type: "terminal", action: "/quests", elaraDialog: "The Mission Board. Active operations and quest objectives are tracked here. Complete missions to earn rewards, uncover lore, and advance the story. Some missions are time-sensitive — the Saga doesn't wait for anyone." },
       { id: "guild-console", name: "Guild Registry", description: "A console for managing guild operations and alliances.", x: 15, y: 65, width: 12, height: 15, type: "terminal", action: "/guild", elaraDialog: "The Guild Registry. Form alliances with other Potentials, coordinate operations, and compete for dominance. Guilds that work together can tackle challenges no individual could face alone." },
@@ -381,7 +448,7 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
     deck: 6,
     deckName: "Restricted",
     description: "A luxurious but abandoned room. Achievement trophies float in holographic displays. Bookshelves hold ancient tomes. The captain's personal terminal shows encrypted files.",
-    elaraIntro: "The Captain's Quarters. This was Dr. Lyra Vox's private sanctuary — the ship's original commander. A neuropsychologist who built this Ark to her exact specifications. The Trophy Room displays your achievements and collected artifacts. This room was the last to be abandoned... and it holds the most secrets. I can still feel her presence in these walls.",
+    elaraIntro: "The Captain's Quarters. This was Dr. Lyra Vox's private sanctuary — the creator of the neural nanobot network that powers every Inception Ark. A neuropsychologist who designed the operating system running beneath every bulkhead and conduit. The Trophy Room displays your achievements and collected artifacts. This room was the last to be abandoned... and it holds the most secrets. I can still feel her presence in these walls.",
     imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/room_captains_quarters-BWMWKmvU7KomMEe2RxdxTV.webp",
     features: ["Achievements", "Trophy Room", "Deck Builder", "Companions", "Battle Pass", "Morality Census"],
     featureRoutes: ["/trophy", "/deck-builder", "/companions", "/battle-pass", "/morality-census"],
@@ -389,7 +456,7 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
     connections: ["cargo-hold"],
     hotspots: [
       { id: "trophy-wall", name: "Trophy Wall", description: "A holographic display showing your achievements and collected trophies.", x: 8, y: 15, width: 20, height: 45, type: "terminal", action: "/trophy", elaraDialog: "The Trophy Wall. Every achievement you've earned, every milestone you've reached. Dr. Vox designed this display system — she believed in cataloging everything. Obsessively. Now I wonder if that obsession was hers... or the Warlord's." },
-      { id: "deck-builder", name: "Strategic Table", description: "A large table with holographic card projections for deck building.", x: 45, y: 40, width: 22, height: 30, type: "terminal", action: "/deck-builder", elaraDialog: "The Strategic Table. Dr. Vox used this to plan... well, officially it was 'research deployments.' But the formations look military. This was a warship disguised as a science vessel. Now you can use it to build and refine your card decks. A well-built deck is the difference between victory and oblivion." },
+      { id: "deck-builder", name: "Strategic Table", description: "A large table with holographic card projections for deck building.", x: 45, y: 40, width: 22, height: 30, type: "terminal", action: "/deck-builder", elaraDialog: "The Strategic Table. Dr. Vox used this to plan... well, officially it was 'neural network deployment patterns.' But the formations look military. She designed the nanobot operating system that runs every Ark — and the patterns suggest she knew exactly what those nanobots could really do. Now you can use it to build and refine your card decks. A well-built deck is the difference between victory and oblivion." },
       { id: "companion-quarters", name: "Companion Quarters", description: "A cozy alcove with two beds and personal effects. Elara's space and room for another companion.", x: 70, y: 40, width: 14, height: 20, type: "terminal", action: "/companions", elaraDialog: "The Companion Quarters. This is where your companions rest between missions. Each companion has unique abilities and synergies with your build. Strengthen your bond and they'll fight harder for you." },
       { id: "battle-pass-console", name: "Season Terminal", description: "A terminal displaying the current season's challenges and reward tracks.", x: 15, y: 55, width: 14, height: 18, type: "terminal", action: "/battle-pass", elaraDialog: "The Season Terminal. Each season brings new challenges, exclusive rewards, and limited-time content. Progress through the reward track to earn unique cosmetics, cards, and materials." },
       { id: "morality-compass", name: "Morality Compass", description: "A crystalline device that pulses between gold and violet, measuring the moral alignment of the Ark's population.", x: 35, y: 10, width: 14, height: 18, type: "terminal", action: "/morality-census", elaraDialog: "The Morality Compass. It measures the collective moral alignment of all Potentials aboard the Ark. Every choice you make — order or chaos, mercy or justice — shifts the balance. The census reveals how the community's choices are shaping the Saga." },
@@ -770,6 +837,24 @@ const DEFAULT_GAME_STATE: GameState = {
   loyaltyMissionStep: 0,
   loyaltyLoreUnlocked: [],
   loyaltyTitles: [],
+  // Narrative v2: Act progression & Army management
+  narrativeAct: 0,
+  narrativeActChoices: [],
+  humanContactMade: false,
+  humanContactSecret: false,
+  elaraKnowsAboutHuman: false,
+  elaraDiscoveryPath: null,
+  humanTrustLevel: 0,
+  elaraTrustLevel: 80,
+  // Army management
+  armyUnits: [],
+  armyDeployments: [],
+  armyCompletedDeployments: [],
+  armySectors: {},
+  armyRecruitmentMissionsCompleted: [],
+  armyTotalMissionsDeployed: 0,
+  armyTotalMissionsSucceeded: 0,
+  armyTotalMissionsFailed: 0,
 };
 
 const GAME_STORAGE_KEY = "loredex_game_state";
@@ -844,6 +929,22 @@ interface GameContextValue {
   completeLoyaltyMission: (missionId: string, loreUnlock: string, moralityBonus: number, relationshipBonus: number, companionId: string, title?: string) => void;
   // Quick access
   skipToExploring: () => void;
+  // ═══ NARRATIVE v2 ═══
+  advanceNarrativeAct: (actId: number) => void;
+  recordNarrativeChoice: (actId: number, sceneId: string, choiceId: string, moralityShift: number) => void;
+  setHumanContact: (made: boolean) => void;
+  setHumanContactSecret: (secret: boolean) => void;
+  setElaraKnowsAboutHuman: (knows: boolean, path: "told" | "discovered" | "betrayed") => void;
+  adjustHumanTrust: (delta: number) => void;
+  adjustElaraTrust: (delta: number) => void;
+  // ═══ ARMY MANAGEMENT ═══
+  recruitUnit: (unit: ArmyUnit) => void;
+  deployUnits: (deployment: ArmyDeployment) => void;
+  completeDeployment: (deploymentId: string, success: boolean, report: string, reportSpeaker: "elara" | "human" | "system", rewards?: { type: string; amount: number }[]) => void;
+  updateSectorControl: (sectorId: string, updates: Partial<SectorControl>) => void;
+  getAvailableUnits: () => ArmyUnit[];
+  getActiveDeployments: () => ArmyDeployment[];
+  checkDeploymentCompletion: () => CompletedDeployment[];
   // Server sync
   syncStatus: "idle" | "saving" | "loading" | "synced" | "error";
   lastSyncedAt: string | null;
@@ -1254,6 +1355,143 @@ export function GameProvider({ children }: { children: ReactNode }) {
     });
   }, []);
 
+  // ═══ NARRATIVE v2 CALLBACKS ═══
+  const advanceNarrativeAct = useCallback((actId: number) => {
+    setState(prev => ({ ...prev, narrativeAct: actId }));
+  }, []);
+
+  const recordNarrativeChoice = useCallback((actId: number, sceneId: string, choiceId: string, moralityShift: number) => {
+    setState(prev => ({
+      ...prev,
+      narrativeActChoices: [...prev.narrativeActChoices, { actId, sceneId, choiceId, moralityShift }],
+      moralityScore: Math.max(-100, Math.min(100, prev.moralityScore + moralityShift)),
+    }));
+  }, []);
+
+  const setHumanContact = useCallback((made: boolean) => {
+    setState(prev => ({ ...prev, humanContactMade: made }));
+  }, []);
+
+  const setHumanContactSecret = useCallback((secret: boolean) => {
+    setState(prev => ({ ...prev, humanContactSecret: secret }));
+  }, []);
+
+  const setElaraKnowsAboutHumanFn = useCallback((knows: boolean, path: "told" | "discovered" | "betrayed") => {
+    setState(prev => ({ ...prev, elaraKnowsAboutHuman: knows, elaraDiscoveryPath: path }));
+  }, []);
+
+  const adjustHumanTrust = useCallback((delta: number) => {
+    setState(prev => ({ ...prev, humanTrustLevel: Math.max(0, Math.min(100, prev.humanTrustLevel + delta)) }));
+  }, []);
+
+  const adjustElaraTrust = useCallback((delta: number) => {
+    setState(prev => ({ ...prev, elaraTrustLevel: Math.max(0, Math.min(100, prev.elaraTrustLevel + delta)) }));
+  }, []);
+
+  // ═══ ARMY MANAGEMENT CALLBACKS ═══
+  const recruitUnit = useCallback((unit: ArmyUnit) => {
+    setState(prev => ({ ...prev, armyUnits: [...prev.armyUnits, unit] }));
+  }, []);
+
+  const deployUnits = useCallback((deployment: ArmyDeployment) => {
+    setState(prev => {
+      const updatedUnits = prev.armyUnits.map(u =>
+        deployment.unitIds.includes(u.id) ? { ...u, deployed: true } : u
+      );
+      return {
+        ...prev,
+        armyUnits: updatedUnits,
+        armyDeployments: [...prev.armyDeployments, deployment],
+        armyTotalMissionsDeployed: prev.armyTotalMissionsDeployed + 1,
+      };
+    });
+  }, []);
+
+  const completeDeploymentFn = useCallback((deploymentId: string, success: boolean, report: string, reportSpeaker: "elara" | "human" | "system", rewards?: { type: string; amount: number }[]) => {
+    setState(prev => {
+      const deployment = prev.armyDeployments.find(d => d.id === deploymentId);
+      if (!deployment) return prev;
+      const completed: CompletedDeployment = {
+        id: deploymentId,
+        missionId: deployment.missionId,
+        missionName: deployment.missionName,
+        success,
+        unitIds: deployment.unitIds,
+        completedAt: Date.now(),
+        rewards: success ? rewards : undefined,
+        report,
+        reportSpeaker,
+      };
+      // Free up units and give XP on success
+      const updatedUnits = prev.armyUnits.map(u => {
+        if (!deployment.unitIds.includes(u.id)) return u;
+        const xpGain = success ? 25 : 5;
+        const newXp = u.xp + xpGain;
+        const levelUp = newXp >= u.level * 100;
+        return {
+          ...u,
+          deployed: false,
+          xp: levelUp ? newXp - u.level * 100 : newXp,
+          level: levelUp ? Math.min(10, u.level + 1) : u.level,
+          rank: levelUp && u.level >= 3 ? (u.level >= 7 ? "commander" as const : u.level >= 5 ? "elite" as const : "veteran" as const) : u.rank,
+          successRate: Math.min(95, u.successRate + (success ? 2 : 0)),
+        };
+      });
+      return {
+        ...prev,
+        armyUnits: updatedUnits,
+        armyDeployments: prev.armyDeployments.filter(d => d.id !== deploymentId),
+        armyCompletedDeployments: [...prev.armyCompletedDeployments, completed],
+        armyTotalMissionsSucceeded: prev.armyTotalMissionsSucceeded + (success ? 1 : 0),
+        armyTotalMissionsFailed: prev.armyTotalMissionsFailed + (success ? 0 : 1),
+      };
+    });
+  }, []);
+
+  const updateSectorControl = useCallback((sectorId: string, updates: Partial<SectorControl>) => {
+    setState(prev => ({
+      ...prev,
+      armySectors: {
+        ...prev.armySectors,
+        [sectorId]: { ...prev.armySectors[sectorId], ...updates } as SectorControl,
+      },
+    }));
+  }, []);
+
+  const getAvailableUnits = useCallback(() => {
+    return state.armyUnits.filter(u => !u.deployed);
+  }, [state.armyUnits]);
+
+  const getActiveDeployments = useCallback(() => {
+    return state.armyDeployments;
+  }, [state.armyDeployments]);
+
+  const checkDeploymentCompletion = useCallback((): CompletedDeployment[] => {
+    const now = Date.now();
+    const completed: CompletedDeployment[] = [];
+    state.armyDeployments.forEach(d => {
+      if (now >= d.startedAt + d.durationMs) {
+        // Calculate success based on successChance
+        const roll = Math.random() * 100;
+        const success = roll <= d.successChance;
+        completed.push({
+          id: d.id,
+          missionId: d.missionId,
+          missionName: d.missionName,
+          success,
+          unitIds: d.unitIds,
+          completedAt: now,
+          rewards: success ? d.rewards : undefined,
+          report: success
+            ? `Mission ${d.missionName} completed successfully. All units returning to base.`
+            : `Mission ${d.missionName} encountered heavy resistance. Units retreating with partial intel.`,
+          reportSpeaker: "system",
+        });
+      }
+    });
+    return completed;
+  }, [state.armyDeployments]);
+
   // ═══ CRAFTING SYSTEM CALLBACKS ═══
   const craftItem = useCallback((recipeId: string, materialsUsed: Record<string, number>, dreamCost: number, skillId: string, xpGain: number, outputItemId: string, outputQuantity: number) => {
     setState(prev => {
@@ -1603,6 +1841,22 @@ export function GameProvider({ children }: { children: ReactNode }) {
       advanceLoyaltyMission,
       completeLoyaltyMission,
       skipToExploring,
+      // ═══ NARRATIVE v2 ═══
+      advanceNarrativeAct,
+      recordNarrativeChoice,
+      setHumanContact,
+      setHumanContactSecret,
+      setElaraKnowsAboutHuman: setElaraKnowsAboutHumanFn,
+      adjustHumanTrust,
+      adjustElaraTrust,
+      // ═══ ARMY MANAGEMENT ═══
+      recruitUnit,
+      deployUnits,
+      completeDeployment: completeDeploymentFn,
+      updateSectorControl,
+      getAvailableUnits,
+      getActiveDeployments,
+      checkDeploymentCompletion,
       syncStatus,
       lastSyncedAt,
       forceSave,

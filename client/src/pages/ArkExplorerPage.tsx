@@ -30,6 +30,7 @@ import FastTravelPanel from "@/components/FastTravelPanel";
 import CommsRelayImport from "@/components/CommsRelayImport";
 import ItemDetailModal from "@/components/ItemDetailModal";
 import LoreTutorialEngine from "@/components/LoreTutorialEngine";
+import NarrativeTrigger from "@/components/NarrativeTrigger";
 import { getTutorialById, type TutorialReward } from "@/data/loreTutorials";
 
 const ELARA_PORTRAIT = "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/elara_portrait_speaking-J3GJUrfnNKzSBrxY2PfWrL.webp";
@@ -1205,6 +1206,9 @@ export default function ArkExplorerPage() {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* ═══ NARRATIVE ACT TRIGGER (7-Act Angel/Demon System) ═══ */}
+      <NarrativeTrigger currentRoom={state.currentRoomId || undefined} variant="auto" />
 
       {/* ═══ ONBOARDING TUTORIAL OVERLAY ═══ */}
       <AnimatePresence>

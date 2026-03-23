@@ -113,6 +113,7 @@ const CosmeticShopPage = lazy(() => import("./pages/CosmeticShopPage"));
 const DonationPage = lazy(() => import("./pages/DonationPage"));
 const SocialPage = lazy(() => import("./pages/SocialPage"));
 const LoreJournalPage = lazy(() => import("./pages/LoreJournalPage"));
+const ArmyManagementPage = lazy(() => import("./pages/ArmyManagementPage"));
 
 /* ═══ LOADING FALLBACK ═══ */
 function PageLoader() {
@@ -210,6 +211,7 @@ function Router() {
         <Route path="/donations" component={DonationPage} />
         <Route path="/social" component={SocialPage} />
         <Route path="/lore-journal" component={LoreJournalPage} />
+        <Route path="/army" component={ArmyManagementPage} />
         <Route path="/awakening">{() => <AwakeningPage />}</Route>
         <Route path="/404" component={NotFound} />
         <Route component={NotFound} />

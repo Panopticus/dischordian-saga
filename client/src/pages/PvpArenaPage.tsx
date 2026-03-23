@@ -6,6 +6,7 @@ import { useState, useEffect, useCallback, useRef, useMemo } from "react";
 import { useAuth } from "@/_core/hooks/useAuth";
 import { useGame } from "@/contexts/GameContext";
 import { LoreOverlay } from "@/components/LoreOverlay";
+import NarrativeTrigger from "@/components/NarrativeTrigger";
 import { useSound } from "@/contexts/SoundContext";
 import { trpc } from "@/lib/trpc";
 import { getLoginUrl } from "@/const";
@@ -1507,6 +1508,7 @@ export default function PvpArenaPage() {
           ))}
         </div>
       </details>
+      <NarrativeTrigger variant="banner" className="mb-3" />
       <LoreOverlay gameMode="pvp" />
     </div>
   );

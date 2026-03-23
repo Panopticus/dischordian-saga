@@ -24,6 +24,7 @@ export interface SkillCheckDef {
   bonusText?: string;
 }
 
+export type CharacterClass = "engineer" | "oracle" | "assassin" | "soldier" | "spy";
 export interface TutorialChoice {
   id: string;
   text: string;
@@ -43,6 +44,8 @@ export interface TutorialChoice {
   source?: CorruptionSource;
   /** For dialog wheel: skill check gate */
   skillCheck?: SkillCheckDef;
+  /** For dialog wheel: class check gate — only show if player has this class */
+  classCheck?: CharacterClass;
   /** For dialog wheel: card reward preview */
   cardReward?: { name: string; rarity: CardRarity };
   /** For dialog wheel: Human's alternative response */
@@ -51,6 +54,10 @@ export interface TutorialChoice {
   corrupted?: boolean;
   /** For dialog wheel: only visible above this corruption level (0-100) */
   hiddenUntilCorruption?: number;
+  /** Narrative flag to set when this choice is selected */
+  setFlag?: string;
+  /** VO audio URL for The Human's response to this choice */
+  humanVoAudioUrl?: string;
 }
 
 export interface TutorialStep {
@@ -72,6 +79,18 @@ export interface TutorialStep {
   corruptionLevel?: number;
   /** For 'wheel_choice': speaker portrait URL */
   speakerPortrait?: string;
+  /** The Human's transmission text (typed out in red with corruption) */
+  humanText?: string;
+  /** VO audio URL for The Human's lines (placeholder for user-provided audio) */
+  humanVoAudioUrl?: string;
+  /** Speaker for this step: who is primarily speaking */
+  speaker?: "elara" | "human" | "system" | "kael_log";
+  /** Narrative flag to set when this step is completed */
+  setFlag?: string;
+  /** Narrative flag required to show this step */
+  requireFlag?: string;
+  /** Narrative flag that must NOT be set for this step to show */
+  excludeFlag?: string;
 }
 
 export interface LoreTutorial {
@@ -80,6 +99,12 @@ export interface LoreTutorial {
   subtitle: string;
   /** Which game mechanic this tutorial covers */
   mechanic: string;
+  /** Narrative act number (0 = standalone, 1-7 = main narrative) */
+  act?: number;
+  /** Required narrative path for this tutorial to appear */
+  pathRequirement?: "A" | "B" | "C";
+  /** Minimum narrative act required to unlock */
+  actRequirement?: number;
   /** Which room triggers this tutorial */
   triggerRoom?: string;
   /** Which route triggers this tutorial */
@@ -1862,7 +1887,7 @@ export const LORE_TUTORIALS: LoreTutorial[] = [
             sideLabel: "machine",
             source: "neutral",
             skillCheck: { skill: "perception", threshold: 25 },
-            elaraResponse: "The ship itself IS the weapon. Every bulkhead, every conduit — laced with dormant Thought Virus nanites. When Kael stole this Ark during his revenge, he thought he was escaping. But the Warlord let him take it. Kael was already infected. Every system he touched, every port he docked at, every world he visited... he was spreading the Thought Virus. The Warlord turned Kael's rage into a delivery system.",
+            elaraResponse: "The neural nanobot network IS the weapon. Every bulkhead, every conduit — the operating system itself is laced with dormant Thought Virus code. Dr. Lyra Vox designed it that way. When Kael stole this Ark during his revenge, he thought he was escaping. But the Warlord let him take it. Kael was already infected. Every system he connected to, every port he docked at, every world he visited... the nanobots were spreading the Thought Virus through every network they touched. Vox's neural architecture turned Kael's rage into a delivery mechanism.",
             rewards: [{ type: "card", id: "thought-virus-schematic", name: "Thought Virus Schematic", amount: 1 }],
             cardReward: { name: "Thought Virus Schematic", rarity: "epic" },
           },
@@ -2035,7 +2060,7 @@ export const LORE_TUTORIALS: LoreTutorial[] = [
             moralityShift: 3,
             sideLabel: "humanity",
             source: "elara",
-            elaraResponse: "You're right. Kael lost his family, his freedom, his identity. The Panopticon broke him, and the Warlord rebuilt him as a weapon. When he stole this ship, he genuinely believed he was striking back. The tragedy is that his revenge — the one thing that gave him purpose — was the very thing the Warlord wanted. Kael's pain was the fuel. The ship was the delivery system. And the universe paid the price.",
+            elaraResponse: "You're right. Kael lost his family, his freedom, his identity. The Panopticon broke him, and the Warlord rebuilt him as a weapon. When he stole this ship, he genuinely believed he was striking back. The tragedy is that his revenge — the one thing that gave him purpose — was the very thing the Warlord wanted. Kael's pain was the fuel. Vox's neural nanobot network was the delivery system. And the universe paid the price.",
             rewards: [{ type: "dream_tokens", id: "dt-compassion", name: "Dream Tokens", amount: 75 }],
           },
           {

@@ -26,6 +26,7 @@ import {
 } from "@/components/BattleVFX";
 import LandscapeEnforcer from "@/components/LandscapeEnforcer";
 import { LoreOverlay } from "@/components/LoreOverlay";
+import NarrativeTrigger from "@/components/NarrativeTrigger";
 import {
   EnergyFieldOverlay, FactionBanners, WeatherEffects,
   DynamicBoardLighting, GraveyardSouls, ComboCounter,
@@ -1140,7 +1141,8 @@ export default function CardBattlePage() {
         </div>
       </div>
     </div>
-    <LoreOverlay gameMode="card-battle" />
+    <NarrativeTrigger variant="banner" className="mb-3" />
+      <LoreOverlay gameMode="card-battle" />
     </LandscapeEnforcer>
   );
 }

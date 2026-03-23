@@ -104,7 +104,7 @@ export const ROOM_EASTER_EGGS: Record<string, {
   },
   "egg-bridge-log": {
     title: "THE CAPTAIN'S SECRET",
-    loreFragment: "Dr. Lyra Vox was the Warlord's host body. The ship was never stolen \u2014 the Warlord let Kael take it because Kael was already infected with the Thought Virus. Every Ark he touched, every system he connected to, he was spreading it. The Engineer knew. Trapped in Agent Zero's body, the Engineer hid among the Potentials. The yellow coats are the key to finding allies.",
+    loreFragment: "Dr. Lyra Vox was the Warlord's host body. She created the neural nanobot network — the operating system upon which every Inception Ark runs. The ship was never truly stolen \u2014 the Warlord let Kael take it because Kael was already infected with the Thought Virus. Every Ark he touched, every system he connected to, he was spreading it. The Engineer knew. Trapped in Agent Zero's body, the Engineer hid among the Potentials. The yellow coats are the key to finding allies.",
     bonusCard: { name: "Captain's Final Order", rarity: "legendary", description: "Reveals all hidden enemies. All allies gain +2 defense for 3 turns." },
     achievement: "CONSPIRACY_THEORIST",
     xp: 100,

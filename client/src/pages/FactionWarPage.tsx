@@ -1,5 +1,6 @@
 import { useGame } from "@/contexts/GameContext";
 import { LoreOverlay } from "@/components/LoreOverlay";
+import NarrativeTrigger from "@/components/NarrativeTrigger";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Swords, Shield, Skull, ChevronRight, Trophy, Map,
@@ -519,6 +520,7 @@ export default function FactionWarPage() {
           </motion.div>
         )}
       </div>
+      <NarrativeTrigger variant="banner" className="mb-3" />
       <LoreOverlay gameMode="faction-war" />
     </div>
   );

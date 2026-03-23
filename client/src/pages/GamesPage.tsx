@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import { useGamification } from "@/contexts/GamificationContext";
 import { LoreOverlay } from "@/components/LoreOverlay";
+import NarrativeTrigger from "@/components/NarrativeTrigger";
 import TutorialTrigger from "@/components/TutorialTrigger";
 import { useAutoTutorial } from "@/hooks/useAutoTutorial";
 import AutoTutorialPrompt from "@/components/AutoTutorialPrompt";
@@ -463,7 +464,8 @@ export default function GamesPage() {
         </div>
       </div>
     </div>
-    <LoreOverlay gameMode="conexus" />
+    <NarrativeTrigger variant="banner" className="mb-3" />
+      <LoreOverlay gameMode="conexus" />
     </>
   );
 }
