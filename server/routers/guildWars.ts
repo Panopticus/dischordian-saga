@@ -318,7 +318,7 @@ export const guildWarsRouter = router({
         status: "active",
       });
 
-      return { success: true, warId: result[0].insertId };
+      return { success: true, warId: Number(result[0].insertId) };
     }),
 
   /** Resolve an ended war — distribute prizes to winning faction's guilds */

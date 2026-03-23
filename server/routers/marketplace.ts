@@ -116,11 +116,11 @@ export const marketplaceRouter = router({
       });
 
       // Check if any buy orders match
-      await tryMatchBuyOrders(db, ctx.user.id, input.itemType, input.itemId, input.priceDream, input.priceCredits, input.quantity, result.insertId);
+      await tryMatchBuyOrders(db, ctx.user.id, input.itemType, input.itemId, input.priceDream, input.priceCredits, input.quantity, Number(result.insertId));
 
       // Track marketplace listing achievement
       trackIncrement(ctx.user.id, "market_listings", 1).catch(() => {});
-      return { success: true, listingId: result.insertId };
+      return { success: true, listingId: Number(result.insertId) };
     }),
 
   /** Cancel a listing and return items */
@@ -406,7 +406,7 @@ export const marketplaceRouter = router({
         maxPriceCredits: input.maxPriceCredits,
         expiresAt,
       });
-      return { success: true, orderId: result.insertId };
+      return { success: true, orderId: Number(result.insertId) };
     }),
 
   cancelBuyOrder: protectedProcedure
@@ -517,7 +517,7 @@ export const marketplaceRouter = router({
         metadata: input.metadata,
         endsAt,
       });
-      return { success: true, auctionId: result.insertId };
+      return { success: true, auctionId: Number(result.insertId) };
     }),
 
   /** Place a bid on an auction */
@@ -663,9 +663,9 @@ export const marketplaceRouter = router({
       });
 
       // Try to match with existing orders
-      await tryMatchExchangeOrders(db, result.insertId, ctx.user.id, input);
+      await tryMatchExchangeOrders(db, Number(result.insertId), ctx.user.id, input);
 
-      return { success: true, orderId: result.insertId };
+      return { success: true, orderId: Number(result.insertId) };
     }),
 
   cancelExchangeOrder: protectedProcedure

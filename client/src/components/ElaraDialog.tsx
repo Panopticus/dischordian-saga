@@ -502,15 +502,25 @@ export default function ElaraDialog({ elaraTTS: _elaraTTS }: { elaraTTS?: any } 
         )}
       </AnimatePresence>
 
-      {/* ═══ BIOWARE-STYLE DIALOG BOX ═══ */}
+      {/* ═══ BIOWARE-STYLE DIALOG BOX — CENTERED MODAL ═══ */}
       <AnimatePresence>
         {isOpen && (
+          <>
+          {/* Dimmed backdrop */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[59]"
+            style={{ background: "rgba(0,0,0,0.7)", backdropFilter: "blur(6px)" }}
+            onClick={() => setIsOpen(false)}
+          />
           <motion.div
             initial={{ opacity: 0, scale: 0.95, filter: "blur(8px)" }}
             animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
-            exit={{ opacity: 0, scale: 0.98, y: -10, filter: "blur(10px)" }}
+            exit={{ opacity: 0, scale: 0.98, filter: "blur(10px)" }}
             transition={{ duration: 0.35 }}
-            className="fixed inset-0 sm:inset-auto sm:bottom-6 sm:right-6 sm:w-[480px] sm:h-[600px] sm:max-h-[80vh] z-[60] flex flex-col"
+            className="fixed inset-4 sm:inset-auto sm:top-1/2 sm:left-1/2 sm:-translate-x-1/2 sm:-translate-y-1/2 sm:w-[520px] sm:h-[640px] sm:max-h-[85vh] z-[60] flex flex-col"
           >
             {/* Glass container */}
             <div className="flex-1 flex flex-col bg-[var(--bg-void)]/95 sm:rounded-xl border border-[var(--glass-border)] overflow-hidden shadow-[0_0_60px_rgba(51,226,230,0.1)]"
@@ -647,6 +657,7 @@ export default function ElaraDialog({ elaraTTS: _elaraTTS }: { elaraTTS?: any } 
               </div>
             </div>
           </motion.div>
+          </>
         )}
       </AnimatePresence>
     </>

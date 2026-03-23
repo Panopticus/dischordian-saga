@@ -18,6 +18,8 @@ import {
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "wouter";
 import { showBonusToast } from "@/components/BonusToast";
+import { customPieces } from "@/components/ChessPieces";
+import { getArenaForOpponent, ARENA_THEMES, type ArenaTheme } from "@/lib/chessAssets";
 
 /* ─── TIER CONFIG ─── */
 const TIER_CONFIG: Record<string, { color: string; bg: string; border: string; label: string; icon: string; glow?: string }> = {
@@ -376,127 +378,267 @@ export default function ChessPage() {
           </motion.div>
         )}
 
-        {/* ═══ PLAYING ═══ */}
-        {view === "playing" && (
-          <motion.div key="playing" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="p-4 sm:p-6">
-            <div className="flex items-center justify-between mb-4">
-              <div className="flex items-center gap-3">
-                <button onClick={handleBackToMenu} className="p-2 rounded-md bg-secondary/50 hover:bg-secondary"><ArrowLeft size={16} /></button>
-                <div>
-                  <h2 className="font-display text-sm font-bold tracking-wider flex items-center gap-2">
-                    <Crown size={14} className="text-primary" />
-                    {opponentInfo?.name || "Opponent"}
-                  </h2>
-                  <p className="font-mono text-[10px] text-muted-foreground">{opponentInfo?.loreTitle || ""} // {opponentInfo?.style || ""}</p>
-                </div>
-              </div>
-              {gameStatus === "active" && (
-                <div className="flex items-center gap-2">
-                  {isThinking && <Loader2 size={14} className="animate-spin text-accent" />}
-                  <button onClick={handleResign} className="px-3 py-1.5 rounded-md bg-destructive/10 border border-destructive/30 text-destructive text-xs font-mono hover:bg-destructive/20">
-                    <Flag size={12} className="inline mr-1" /> RESIGN
-                  </button>
-                </div>
-              )}
+        {/* ═══ PLAYING — IMMERSIVE ARENA ═══ */}
+        {view === "playing" && (() => {
+          const arena = getArenaForOpponent(opponentInfo?.id || selectedOpponent);
+          return (
+          <motion.div
+            key="playing"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="relative min-h-screen"
+          >
+            {/* Arena Background */}
+            <div className="absolute inset-0 z-0">
+              <img
+                src={arena.background}
+                alt={arena.name}
+                className="w-full h-full object-cover"
+                style={{ filter: "brightness(0.35) saturate(1.2)" }}
+              />
+              <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/80" />
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-[1fr_280px] gap-4">
-              {/* Board */}
-              <div className="flex justify-center">
-                <div className="w-full max-w-[560px]">
-                  <Chessboard
-                    options={{
-                      position: gameFen,
-                      onPieceDrop: ({ piece, sourceSquare, targetSquare }) => {
-                        if (!targetSquare) return false;
-                        handleDrop(sourceSquare, targetSquare, piece.pieceType);
-                        return true;
-                      },
-                      canDragPiece: ({ piece }) => (piece.pieceType?.startsWith("w") || piece.pieceType?.[0] === "w") && gameStatus === "active" && !isThinking,
-                      boardStyle: {
-                        borderRadius: "8px",
-                        boxShadow: "0 0 20px rgba(0,255,255,0.1)",
-                      },
-                      darkSquareStyle: { backgroundColor: "#1a1a2e" },
-                      lightSquareStyle: { backgroundColor: "#16213e" },
-                      dropSquareStyle: { boxShadow: "inset 0 0 1px 6px rgba(0,255,255,0.3)" },
-                      animationDurationInMs: 200,
-                    }}
-                  />
-                </div>
-              </div>
-
-              {/* Side Panel */}
-              <div className="space-y-3">
-                {/* Game Status */}
-                {gameStatus !== "active" && (
-                  <div className={`rounded-lg border p-4 text-center ${
-                    gameStatus === "checkmate" && rewards ? "border-primary/40 bg-primary/10" :
-                    gameStatus === "stalemate" || gameStatus === "draw" ? "border-accent/40 bg-accent/10" :
-                    "border-destructive/40 bg-destructive/10"
-                  }`}>
-                    <p className="font-display text-lg font-bold tracking-wider mb-1">
-                      {gameStatus === "checkmate" && rewards ? "VICTORY!" :
-                       gameStatus === "checkmate" ? "DEFEATED" :
-                       gameStatus === "stalemate" ? "STALEMATE" :
-                       gameStatus === "draw" ? "DRAW" :
-                       "RESIGNED"}
+            {/* Content Overlay */}
+            <div className="relative z-10 p-4 sm:p-6">
+              {/* Arena Header */}
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center gap-3">
+                  <button
+                    onClick={handleBackToMenu}
+                    className="p-2 rounded-md bg-black/40 backdrop-blur-sm border border-white/10 hover:bg-black/60"
+                  >
+                    <ArrowLeft size={16} className="text-white/80" />
+                  </button>
+                  <div>
+                    <h2
+                      className="font-display text-sm sm:text-base font-bold tracking-[0.2em] text-white flex items-center gap-2"
+                      style={{ textShadow: arena.textGlow }}
+                    >
+                      <Crown size={14} style={{ color: arena.accentColor }} />
+                      {arena.name}
+                    </h2>
+                    <p className="font-mono text-[10px] text-white/50 italic">
+                      {arena.subtitle} // vs {opponentInfo?.name || "Opponent"}
                     </p>
-                    {eloChange !== 0 && (
-                      <p className={`font-mono text-sm ${eloChange > 0 ? "text-emerald-400" : "text-destructive"}`}>
-                        ELO: {eloChange > 0 ? "+" : ""}{eloChange}
-                      </p>
-                    )}
-                    {rewards && rewards.dream > 0 && (
-                      <p className="font-mono text-xs text-accent mt-1">+{rewards.dream} Dream Tokens</p>
-                    )}
-                    {rewards && Object.keys(rewards.materials || {}).length > 0 && (
-                      <div className="mt-2 flex flex-wrap gap-1 justify-center">
-                        {Object.entries(rewards.materials).map(([mat, qty]) => (
-                          <span key={mat} className="font-mono text-[9px] px-1.5 py-0.5 rounded bg-chart-4/10 text-chart-4">
-                            {String(qty)}x {mat.replace(/_/g, " ")}
-                          </span>
-                        ))}
+                  </div>
+                </div>
+                {gameStatus === "active" && (
+                  <div className="flex items-center gap-2">
+                    {isThinking && (
+                      <div className="flex items-center gap-1.5 px-2 py-1 rounded bg-black/40 backdrop-blur-sm">
+                        <Loader2 size={12} className="animate-spin" style={{ color: arena.accentColor }} />
+                        <span className="font-mono text-[9px] text-white/60">THINKING...</span>
                       </div>
                     )}
-                    <button onClick={handleBackToMenu} className="mt-3 px-4 py-2 rounded-md bg-primary/10 border border-primary/30 text-primary text-xs font-mono hover:bg-primary/20">
-                      BACK TO MENU
+                    <button
+                      onClick={handleResign}
+                      className="px-3 py-1.5 rounded-md bg-red-900/40 backdrop-blur-sm border border-red-500/30 text-red-400 text-xs font-mono hover:bg-red-900/60"
+                    >
+                      <Flag size={12} className="inline mr-1" /> RESIGN
                     </button>
                   </div>
                 )}
+              </div>
 
-                {/* Move History */}
-                <div className="rounded-lg border border-border/20 bg-card/20 p-3">
-                  <h3 className="font-display text-xs font-bold tracking-wider mb-2 flex items-center gap-1.5">
-                    <BookOpen size={12} className="text-primary" /> MOVE LOG
-                  </h3>
-                  <div className="max-h-[300px] overflow-y-auto space-y-0.5 font-mono text-[10px]">
-                    {moveHistory.length === 0 ? (
-                      <p className="text-muted-foreground/50">No moves yet...</p>
-                    ) : (
-                      Array.from({ length: Math.ceil(moveHistory.length / 2) }).map((_, i) => (
-                        <div key={i} className="flex gap-2">
-                          <span className="text-muted-foreground/40 w-5">{i + 1}.</span>
-                          <span className="text-foreground w-12">{moveHistory[i * 2]}</span>
-                          <span className="text-muted-foreground">{moveHistory[i * 2 + 1] || ""}</span>
-                        </div>
-                      ))
-                    )}
+              <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-4">
+                {/* Board */}
+                <div className="flex justify-center">
+                  <div className="w-full max-w-[560px]">
+                    <Chessboard
+                      options={{
+                        position: gameFen,
+                        pieces: customPieces,
+                        onPieceDrop: ({ piece, sourceSquare, targetSquare }) => {
+                          if (!targetSquare) return false;
+                          handleDrop(sourceSquare, targetSquare, piece.pieceType);
+                          return true;
+                        },
+                        canDragPiece: ({ piece }) =>
+                          (piece.pieceType?.startsWith("w") || piece.pieceType?.[0] === "w") &&
+                          gameStatus === "active" &&
+                          !isThinking,
+                        boardStyle: {
+                          borderRadius: "4px",
+                          boxShadow: arena.boardGlow,
+                          border: `1px solid ${arena.accentColor}33`,
+                        },
+                        darkSquareStyle: { backgroundColor: arena.darkSquare },
+                        lightSquareStyle: { backgroundColor: arena.lightSquare },
+                        dropSquareStyle: {
+                          boxShadow: `inset 0 0 1px 6px ${arena.dropHighlight}`,
+                        },
+                        animationDurationInMs: 250,
+                        showAnimations: true,
+                      }}
+                    />
                   </div>
                 </div>
 
-                {/* Opponent Lore */}
-                {opponentInfo && (
-                  <div className="rounded-lg border border-border/20 bg-card/20 p-3">
-                    <h3 className="font-display text-xs font-bold tracking-wider mb-1">{opponentInfo.name}</h3>
-                    <p className="font-mono text-[9px] text-accent/70 mb-1">{opponentInfo.loreTitle}</p>
-                    <p className="font-mono text-[9px] text-muted-foreground">{opponentInfo.description}</p>
+                {/* Side Panel — Glass Morphism */}
+                <div className="space-y-3">
+                  {/* Game Status */}
+                  {gameStatus !== "active" && (
+                    <div
+                      className="rounded-lg p-4 text-center backdrop-blur-md border"
+                      style={{
+                        backgroundColor:
+                          gameStatus === "checkmate" && rewards
+                            ? "rgba(0,255,100,0.1)"
+                            : gameStatus === "stalemate" || gameStatus === "draw"
+                            ? "rgba(255,200,0,0.1)"
+                            : "rgba(255,50,50,0.1)",
+                        borderColor:
+                          gameStatus === "checkmate" && rewards
+                            ? "rgba(0,255,100,0.3)"
+                            : gameStatus === "stalemate" || gameStatus === "draw"
+                            ? "rgba(255,200,0,0.3)"
+                            : "rgba(255,50,50,0.3)",
+                      }}
+                    >
+                      <p
+                        className="font-display text-lg font-bold tracking-wider mb-1 text-white"
+                        style={{ textShadow: arena.textGlow }}
+                      >
+                        {gameStatus === "checkmate" && rewards
+                          ? "VICTORY!"
+                          : gameStatus === "checkmate"
+                          ? "DEFEATED"
+                          : gameStatus === "stalemate"
+                          ? "STALEMATE"
+                          : gameStatus === "draw"
+                          ? "DRAW"
+                          : "RESIGNED"}
+                      </p>
+                      {eloChange !== 0 && (
+                        <p
+                          className={`font-mono text-sm ${
+                            eloChange > 0 ? "text-emerald-400" : "text-red-400"
+                          }`}
+                        >
+                          ELO: {eloChange > 0 ? "+" : ""}
+                          {eloChange}
+                        </p>
+                      )}
+                      {rewards && rewards.dream > 0 && (
+                        <p className="font-mono text-xs mt-1" style={{ color: arena.accentColor }}>
+                          +{rewards.dream} Dream Tokens
+                        </p>
+                      )}
+                      {rewards && Object.keys(rewards.materials || {}).length > 0 && (
+                        <div className="mt-2 flex flex-wrap gap-1 justify-center">
+                          {Object.entries(rewards.materials).map(([mat, qty]) => (
+                            <span
+                              key={mat}
+                              className="font-mono text-[9px] px-1.5 py-0.5 rounded"
+                              style={{
+                                backgroundColor: `${arena.accentColor}15`,
+                                color: arena.accentColor,
+                              }}
+                            >
+                              {String(qty)}x {mat.replace(/_/g, " ")}
+                            </span>
+                          ))}
+                        </div>
+                      )}
+                      <button
+                        onClick={handleBackToMenu}
+                        className="mt-3 px-4 py-2 rounded-md text-xs font-mono border"
+                        style={{
+                          backgroundColor: `${arena.accentColor}15`,
+                          borderColor: `${arena.accentColor}40`,
+                          color: arena.accentColor,
+                        }}
+                      >
+                        BACK TO MENU
+                      </button>
+                    </div>
+                  )}
+
+                  {/* Move History */}
+                  <div
+                    className="rounded-lg p-3 backdrop-blur-md border"
+                    style={{
+                      backgroundColor: "rgba(0,0,0,0.4)",
+                      borderColor: `${arena.accentColor}20`,
+                    }}
+                  >
+                    <h3
+                      className="font-display text-xs font-bold tracking-wider mb-2 flex items-center gap-1.5"
+                      style={{ color: arena.accentColor }}
+                    >
+                      <BookOpen size={12} /> MOVE LOG
+                    </h3>
+                    <div className="max-h-[300px] overflow-y-auto space-y-0.5 font-mono text-[10px]">
+                      {moveHistory.length === 0 ? (
+                        <p className="text-white/30">No moves yet...</p>
+                      ) : (
+                        Array.from({ length: Math.ceil(moveHistory.length / 2) }).map(
+                          (_, i) => (
+                            <div key={i} className="flex gap-2">
+                              <span className="text-white/20 w-5">{i + 1}.</span>
+                              <span className="text-white/80 w-12">
+                                {moveHistory[i * 2]}
+                              </span>
+                              <span className="text-white/50">
+                                {moveHistory[i * 2 + 1] || ""}
+                              </span>
+                            </div>
+                          )
+                        )
+                      )}
+                    </div>
                   </div>
-                )}
+
+                  {/* Opponent Lore */}
+                  {opponentInfo && (
+                    <div
+                      className="rounded-lg p-3 backdrop-blur-md border"
+                      style={{
+                        backgroundColor: "rgba(0,0,0,0.4)",
+                        borderColor: `${arena.accentColor}20`,
+                      }}
+                    >
+                      <h3
+                        className="font-display text-xs font-bold tracking-wider mb-1 text-white"
+                        style={{ textShadow: arena.textGlow }}
+                      >
+                        {opponentInfo.name}
+                      </h3>
+                      <p
+                        className="font-mono text-[9px] mb-1"
+                        style={{ color: `${arena.accentColor}aa` }}
+                      >
+                        {opponentInfo.loreTitle}
+                      </p>
+                      <p className="font-mono text-[9px] text-white/50">
+                        {opponentInfo.description}
+                      </p>
+                    </div>
+                  )}
+
+                  {/* Arena Info Badge */}
+                  <div
+                    className="rounded-lg p-2 text-center backdrop-blur-sm border"
+                    style={{
+                      backgroundColor: "rgba(0,0,0,0.3)",
+                      borderColor: `${arena.accentColor}15`,
+                    }}
+                  >
+                    <p
+                      className="font-mono text-[8px] tracking-[0.3em]"
+                      style={{ color: `${arena.accentColor}80` }}
+                    >
+                      ARCHITECT/ARCHONS vs DREAMER/NEYONS
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
           </motion.div>
-        )}
+          );
+        })()}
 
         {/* ═══ RANKED LADDER ═══ */}
         {view === "ladder" && (

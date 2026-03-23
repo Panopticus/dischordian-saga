@@ -2419,3 +2419,32 @@
 - [x] Phase 11: Fix ItemDetailModal — Vox neural nanobot network creator, not ship builder
 - [x] Phase 12: All Human lines include voAudioUrl placeholder field — 20+ VO placeholders across LoreOverlay, narrativeActs, armyRecruitment
 - [x] Phase 13: All 2,035 tests pass across 53 test files — 0 TS errors
+
+### CARD ARTWORK & THALORIA MISSION
+- [ ] Generate 20 narrative card artworks for cards without images
+- [ ] Upload card images to CDN and update season1-cards.json
+- [ ] Design and implement Thaloria/Dreamer disturbance mission as first event-triggered army mission
+- [ ] Generate cinematic start frame for Thaloria mission
+- [ ] Generate cinematic end frame for Thaloria mission
+- [ ] Create Veo video prompt for Thaloria mission cinematic
+- [ ] Integrate Thaloria mission cinematics into the game
+
+### FIX: Neural Calibration + Card Images + Thaloria Mission
+- [ ] Integrate 20 narrative card image CDN URLs into season1-cards.json
+- [x] Fix Neural Calibration screen: all attribute points start undistributed (base 1, 9 points available)
+- [ ] Design Thaloria/Dreamer disturbance mission as first event-triggered army mission
+- [ ] Generate cinematic start frame for Thaloria mission
+- [ ] Generate cinematic end frame for Thaloria mission
+- [ ] Generate Veo video for Thaloria mission cinematic
+- [ ] Implement Thaloria mission in armyRecruitment.ts
+- [ ] Integrate cinematics into mission flow
+- [x] Add dynamic mysterious text above starter deck cards: "These are the keys to a universe of power, possibility and potential."
+- [x] Add text below starter deck cards: "Master the Game and the Truth will be Revealed."
+- [x] Make dialog box a centered full-screen modal overlay (primary focus, dim background, all other UI secondary)
+- [ ] Fix morality shift display: show BOTH sides (e.g., "MACHINE -5 / HUMANITY +5" instead of just "MACHINE -5") across all components (LoreOverlay, NarrativeEngine, DialogWheel, etc.)
+- [x] Chess: Design lore-based board themes that change per opponent/fight area
+- [x] Chess: Generate board background images for each fight area
+- [x] Chess: Full screen theming per opponent (background, colors, atmosphere)
+- [x] Chess: Integrate custom piece artwork (Architect/Archons vs Dreamer/Neyons)
+- [x] Chess: Build complete AAA chess experience with all visual upgrades
+- [x] Chess: Verify and ensure piece movement animations work with custom piece images

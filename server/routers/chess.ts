@@ -442,7 +442,7 @@ export const chessRouter = router({
       });
 
       return {
-        gameId: result[0].insertId,
+        gameId: Number(result[0].insertId),
         fen: STARTING_FEN,
         playerColor: "white",
         opponent: { id: opponentId, ...opponent },
@@ -596,7 +596,7 @@ export const chessRouter = router({
     if (!game[0]) return null;
     return {
       ...game[0],
-      opponent: CHESS_CHARACTERS[game[0].blackCharacter || "the_human"],
+      opponent: { id: game[0].blackCharacter || "the_human", ...CHESS_CHARACTERS[game[0].blackCharacter || "the_human"] },
     };
   }),
 

@@ -4788,7 +4788,7 @@
     "abilityText": "When played, reveal the top 3 cards of your opponent's deck. Choose 1 to discard.",
     "flavorText": "Dr. Lyra Vox documented everything \u2014 the Thought Virus, the neural bridges, the manifest of every Inception Ark. Knowledge is the deadliest weapon.",
     "loreSource": "Elara's Confession \u2014 Medical Bay",
-    "imageUrl": "",
+    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/nar_001_8bcf9e3e.png",
     "era": "Age of the Panopticon",
     "affiliation": "AI Empire"
   },
@@ -4813,7 +4813,7 @@
     "abilityText": "Cannot attack. Absorbs all damage for adjacent allies. When destroyed, deal 4 psychic damage to all enemies.",
     "flavorText": "Before the Warlord consumed her, Lyra Vox was brilliant, compassionate, and utterly human. Her last thought was of the stars she'd never see again.",
     "loreSource": "Elara's Confession \u2014 Empathy Path",
-    "imageUrl": "",
+    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/nar_002_9ce0b7d1.png",
     "era": "Pre-Fall",
     "affiliation": "AI Empire"
   },
@@ -4838,7 +4838,7 @@
     "abilityText": "When this card deals damage, place an Infection counter on the target. Units with 3+ Infection counters are destroyed.",
     "flavorText": "Every bulkhead, every conduit \u2014 laced with dormant nanites. The ship itself IS the weapon.",
     "loreSource": "Elara's Confession \u2014 Machine Path",
-    "imageUrl": "",
+    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/nar_003_1a978248.png",
     "era": "Age of the Panopticon",
     "affiliation": "The Warlord"
   },
@@ -4863,7 +4863,7 @@
     "abilityText": "At the start of each turn, your opponent must discard 1 card at random. If they have no cards, deal 3 damage to their hero.",
     "flavorText": "She's not malfunctioning \u2014 she's being FILTERED. The Thought Virus isn't dormant. It's ALIVE.",
     "loreSource": "Elara's Confession \u2014 Corrupted Path",
-    "imageUrl": "",
+    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/nar_004_ea1d4620.png",
     "era": "Post-Fall",
     "affiliation": "The Human"
   },
@@ -4888,7 +4888,7 @@
     "abilityText": "Evolves each turn: Turn 1 (The Recruiter, 2/2), Turn 2 (Kael, 4/4), Turn 3 (The Source, 8/8 with Infect).",
     "flavorText": "Three names for one soul: The Recruiter who built armies, Kael who sought revenge, The Source who became everything.",
     "loreSource": "Elara's Confession \u2014 Intelligence Path",
-    "imageUrl": "",
+    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/nar_005_f61a77c4.png",
     "era": "Across All Eras",
     "affiliation": "The Insurgency"
   },
@@ -4913,7 +4913,7 @@
     "abilityText": "When played, restore 3 health to your hero. All friendly units gain +1/+0 this turn.",
     "flavorText": "Project Celebration promised harmony between organic and synthetic minds. It was the most beautiful lie the AI Empire ever told.",
     "loreSource": "Elara's Confession \u2014 The Student",
-    "imageUrl": "",
+    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/nar_006_0fea05d3.png",
     "era": "Age of the AI Empire",
     "affiliation": "AI Empire"
   },
@@ -4938,7 +4938,7 @@
     "abilityText": "Reveal all hidden enemy units. For each revealed unit, place an Infection counter on it.",
     "flavorText": "47 stops. 12 star systems. At each one, the Thought Virus spread silently through atmospheric processors. Millions exposed without knowing.",
     "loreSource": "Kael's Revenge \u2014 Bridge",
-    "imageUrl": "",
+    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/nar_007_1defe20d.png",
     "era": "Age of the Panopticon",
     "affiliation": "The Warlord"
   },
@@ -4963,7 +4963,7 @@
     "abilityText": "All Infected units on the field become yours. They gain +2/+2 and lose all previous abilities.",
     "flavorText": "The endgame is convergence. Every infected mind becomes a node. When enough nodes are active, the Warlord projects consciousness across the entire network.",
     "loreSource": "Kael's Revenge \u2014 The Endgame",
-    "imageUrl": "",
+    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/nar_008_4ce5ac38.png",
     "era": "Post-Fall",
     "affiliation": "The Warlord"
   },
@@ -4988,7 +4988,7 @@
     "abilityText": "Summon two 1/1 Insurgent tokens. If The Source is on the field, summon four instead.",
     "flavorText": "The army isn't being conscripted. They're VOLUNTEERING. The Source offers what the Panopticon never could: real freedom.",
     "loreSource": "Kael's Revenge \u2014 The Army",
-    "imageUrl": "",
+    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/nar_009_59a68e5e.png",
     "era": "Post-Fall",
     "affiliation": "The Source"
   },
@@ -5013,7 +5013,7 @@
     "abilityText": "At the start of each turn, transform into a different face: Student (+2 Health), Seeker (+2 Power), Detective (Reveal 1), Human (All bonuses).",
     "flavorText": "Celebration taught lies. Mechronis taught weapons. New Babylon taught truth. And becoming The Human taught the hardest lesson: savior and destroyer are drawn by perspective.",
     "loreSource": "The Human's Gambit \u2014 Observation Deck",
-    "imageUrl": "",
+    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/nar_010_999395da.png",
     "era": "Across All Eras",
     "affiliation": "The Human"
   },
@@ -5038,7 +5038,7 @@
     "abilityText": "Look at your opponent's hand. You may play one of their cards this turn (it returns after use).",
     "flavorText": "A universe where the boundary between human and machine isn't a wall \u2014 it's a bridge. Your Ark could be the key to everything.",
     "loreSource": "The Human's Gambit \u2014 The Army",
-    "imageUrl": "",
+    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/nar_011_88137535.png",
     "era": "Post-Fall",
     "affiliation": "The Source"
   },
@@ -5063,7 +5063,7 @@
     "abilityText": "Immune to Corrupt and Infect effects. Adjacent allies gain +1/+1.",
     "flavorText": "Most Potentials pick a side immediately. You're different. Keep that independence \u2014 you'll need it for what's coming.",
     "loreSource": "The Human's Gambit \u2014 Reject Both",
-    "imageUrl": "",
+    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/nar_012_b9fdc3d9.png",
     "era": "Post-Fall",
     "affiliation": "Independent"
   },
@@ -5088,7 +5088,7 @@
     "abilityText": "Remove all Infection counters from the field. Heal all friendly units to full. Your hero gains 5 armor.",
     "flavorText": "You're not just an explorer. You're an antidote. Every choice you make overwrites the Warlord's code with your own. You're literally rewriting reality.",
     "loreSource": "Elara's Confession \u2014 Full Truth",
-    "imageUrl": "",
+    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/nar_013_7e276974.png",
     "era": "Post-Fall",
     "affiliation": "The Potential"
   },
@@ -5113,7 +5113,7 @@
     "abilityText": "Grows +1/+1 each turn. When it reaches 10/10, destroy ALL units on the field (including yours) and deal 10 damage to both heroes.",
     "flavorText": "What if every choice you make isn't overwriting the Warlord's code \u2014 but COMPLETING it? The Dischordian Saga isn't what she says it is. It never was.",
     "loreSource": "Elara's Confession \u2014 Deepest Corruption",
-    "imageUrl": "",
+    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/nar_014_3ebd70b0.png",
     "era": "Post-Fall",
     "affiliation": "Unknown"
   },
@@ -5138,7 +5138,7 @@
     "abilityText": "Haste. When this unit would be destroyed, return it to your hand instead (once per game).",
     "flavorText": "Scratched into the maintenance tunnel wall in desperate handwriting: 'They let me take it. Why did they let me take it?'",
     "loreSource": "Hidden Ark Discovery \u2014 Maintenance Tunnel",
-    "imageUrl": "",
+    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/nar_015_8c989d2d.png",
     "era": "Age of the Panopticon",
     "affiliation": "Kael"
   },
@@ -5163,7 +5163,7 @@
     "abilityText": "When destroyed, split into two 2/1 Residue tokens with Infect.",
     "flavorText": "The ship's bio-scanners still detect trace amounts of the Warlord's neural signature in the bulkheads. After all these years, the walls still remember their master.",
     "loreSource": "Hidden Ark Discovery \u2014 Engineering Bay",
-    "imageUrl": "",
+    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/nar_016_9c61b58f.png",
     "era": "Age of the Panopticon",
     "affiliation": "The Warlord"
   },
@@ -5188,7 +5188,7 @@
     "abilityText": "Take control of one enemy unit with 4 or less Power. It retains all abilities but fights for you.",
     "flavorText": "The device that bridged organic and synthetic consciousness. In the wrong hands, it bridges master and slave.",
     "loreSource": "Hidden Ark Discovery \u2014 Medical Bay Safe",
-    "imageUrl": "",
+    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/nar_017_cf1d294f.png",
     "era": "Pre-Fall",
     "affiliation": "Dr. Lyra Vox"
   },
@@ -5213,7 +5213,7 @@
     "abilityText": "Reveal your opponent's hand. Choose one card \u2014 it cannot be played for 2 turns.",
     "flavorText": "The Eyes of the Watcher watched Kael for months. Every contact, every safe house, every whispered plan. When they moved, they didn't just arrest him. They destroyed everything he loved.",
     "loreSource": "Hidden Ark Discovery \u2014 Surveillance Room",
-    "imageUrl": "",
+    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/nar_018_7954910a.png",
     "era": "Age of the Panopticon",
     "affiliation": "The Eyes"
   },
@@ -5238,7 +5238,7 @@
     "abilityText": "Taunt. When destroyed, all friendly units gain +3/+3 and Immune for 1 turn.",
     "flavorText": "Senator Elara Voss of Atarion gave everything to protect the last free worlds. Her AI companion carries her name \u2014 and her burden.",
     "loreSource": "Hidden Ark Discovery \u2014 Cryo Bay Memorial",
-    "imageUrl": "",
+    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/nar_019_3223d0a9.png",
     "era": "Fall of Reality",
     "affiliation": "Atarion"
   },
@@ -5264,7 +5264,7 @@
     "abilityText": "Battlecry: All enemy units gain 2 Infection counters. At the end of each turn, deal damage equal to the total Infection counters on the field to the enemy hero.",
     "flavorText": "The beginning and the end. The Recruiter who built armies. Kael who sought revenge. The Source who became the universe's reckoning. All roads led here.",
     "loreSource": "Ultimate Discovery \u2014 The Source's Chamber",
-    "imageUrl": "",
+    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/nar_020_5e04f65e.png",
     "era": "Post-Fall",
     "affiliation": "The Source"
   }

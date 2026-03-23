@@ -63,7 +63,7 @@ export const tradingRouter = router({
         message: `${ctx.user.name || "An operative"} sent you a trade offer.`,
         actionUrl: "/trading",
       }).catch(() => {});
-      return { success: true, tradeId: result.insertId };
+      return { success: true, tradeId: Number(result.insertId) };
     }),
   /** Accept a trade offer */
   acceptTrade: protectedProcedure

@@ -74,7 +74,7 @@ export const draftRouter = router({
 
       // Auto-join creator
       await db.insert(draftParticipants).values({
-        tournamentId: result.insertId,
+        tournamentId: Number(result.insertId),
         userId: ctx.user.id,
         pickedCards: [],
       });
@@ -86,7 +86,7 @@ export const draftRouter = router({
           .where(eq(dreamBalance.userId, ctx.user.id));
       }
 
-      return { success: true, tournamentCode: code, tournamentId: result.insertId };
+      return { success: true, tournamentCode: code, tournamentId: Number(result.insertId) };
     }),
 
   /** Join an existing draft tournament */

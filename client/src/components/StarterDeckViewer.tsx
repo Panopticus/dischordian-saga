@@ -513,6 +513,16 @@ export default function StarterDeckViewer({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
           >
+            {/* ─── Mysterious top text ─── */}
+            <div className="text-center mb-3">
+              <p className="font-mono text-xs italic tracking-wide" style={{
+                color: "rgba(255,215,0,0.7)",
+                textShadow: "0 0 12px rgba(255,215,0,0.3)",
+              }}>
+                "These are the keys to a universe of power, possibility and potential."
+              </p>
+            </div>
+
             <div className="text-center mb-4">
               <h2 className="font-display text-sm font-bold tracking-[0.2em] text-amber-400">
                 YOUR STARTER DECK
@@ -582,6 +592,16 @@ export default function StarterDeckViewer({
                   />
                 ))}
               </div>
+            </div>
+
+            {/* ─── Mysterious bottom text ─── */}
+            <div className="text-center mt-4">
+              <p className="font-mono text-xs italic tracking-wide" style={{
+                color: "rgba(51,226,230,0.6)",
+                textShadow: "0 0 12px rgba(51,226,230,0.25)",
+              }}>
+                "Master the Game and the Truth will be Revealed."
+              </p>
             </div>
 
             {/* Deck summary */}

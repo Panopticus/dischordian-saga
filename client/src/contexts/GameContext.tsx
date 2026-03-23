@@ -768,9 +768,9 @@ const DEFAULT_CHARACTER_CHOICES: CharacterChoices = {
   alignment: null,
   element: null,
   name: "",
-  attrAttack: 3,
-  attrDefense: 3,
-  attrVitality: 3,
+  attrAttack: 1,
+  attrDefense: 1,
+  attrVitality: 1,
 };
 
 const DEFAULT_GAME_STATE: GameState = {

@@ -351,12 +351,22 @@ export function LoreOverlay({ gameMode, contextId, onMoralityShift, onCardUnlock
 
   return (
     <AnimatePresence>
+      {/* Full-screen dimmed backdrop */}
       <motion.div
-        initial={{ opacity: 0, y: 50, scale: 0.95 }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        className="fixed inset-0 z-[90] flex items-center justify-center"
+        style={{ background: "rgba(0,0,0,0.75)", backdropFilter: "blur(8px)" }}
+        onClick={handleDismiss}
+      >
+      <motion.div
+        initial={{ opacity: 0, y: 30, scale: 0.95 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
-        exit={{ opacity: 0, y: 50, scale: 0.95 }}
+        exit={{ opacity: 0, y: 30, scale: 0.95 }}
         transition={{ duration: 0.4, ease: "easeOut" }}
-        className={`fixed bottom-4 left-4 right-4 sm:left-auto sm:right-4 sm:max-w-md z-50 ${bgColor} backdrop-blur-md border ${borderColor} rounded-lg shadow-lg ${glowColor} overflow-hidden`}
+        className={`w-[90vw] max-w-lg mx-4 ${bgColor} backdrop-blur-md border ${borderColor} rounded-lg shadow-lg ${glowColor} overflow-hidden`}
+        onClick={(e) => e.stopPropagation()}
       >
         {/* Scan line effect for Human */}
         {isHuman && (
@@ -428,6 +438,7 @@ export function LoreOverlay({ gameMode, contextId, onMoralityShift, onCardUnlock
             </motion.button>
           )}
         </div>
+      </motion.div>
       </motion.div>
     </AnimatePresence>
   );
