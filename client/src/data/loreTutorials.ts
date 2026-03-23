@@ -14,6 +14,16 @@ export interface TutorialReward {
   amount?: number;
 }
 
+export type SkillType = "charisma" | "intelligence" | "strength" | "perception" | "willpower" | "agility";
+export type CorruptionSource = "elara" | "human" | "neutral" | "corrupted";
+export type CardRarity = "common" | "uncommon" | "rare" | "epic" | "legendary" | "mythic";
+
+export interface SkillCheckDef {
+  skill: SkillType;
+  threshold: number; // 1-100
+  bonusText?: string;
+}
+
 export interface TutorialChoice {
   id: string;
   text: string;
@@ -27,16 +37,30 @@ export interface TutorialChoice {
   requiresAlignment?: string;
   /** Flag to set in narrativeFlags */
   flag?: string;
+  /** For dialog wheel: abbreviated text (max ~20 chars) */
+  shortText?: string;
+  /** For dialog wheel: who suggests this option */
+  source?: CorruptionSource;
+  /** For dialog wheel: skill check gate */
+  skillCheck?: SkillCheckDef;
+  /** For dialog wheel: card reward preview */
+  cardReward?: { name: string; rarity: CardRarity };
+  /** For dialog wheel: Human's alternative response */
+  humanResponse?: string;
+  /** For dialog wheel: visually corrupted option */
+  corrupted?: boolean;
+  /** For dialog wheel: only visible above this corruption level (0-100) */
+  hiddenUntilCorruption?: number;
 }
 
 export interface TutorialStep {
   id: string;
-  type: "narration" | "dialog" | "choice" | "mechanic_demo" | "reward_summary";
+  type: "narration" | "dialog" | "choice" | "wheel_choice" | "mechanic_demo" | "reward_summary";
   /** Elara's dialog text — supports {playerName}, {playerClass}, {playerSpecies} */
   elaraText: string;
   /** Optional subtitle/flavor text */
   subtitle?: string;
-  /** For 'choice' type: the choices available */
+  /** For 'choice' and 'wheel_choice' type: the choices available */
   choices?: TutorialChoice[];
   /** For 'mechanic_demo' type: what to highlight */
   highlightElement?: string;
@@ -44,6 +68,10 @@ export interface TutorialStep {
   autoAdvanceMs?: number;
   /** Class-specific text overrides */
   classOverrides?: Record<string, string>;
+  /** For 'wheel_choice': Human signal corruption level (0-100) */
+  corruptionLevel?: number;
+  /** For 'wheel_choice': speaker portrait URL */
+  speakerPortrait?: string;
 }
 
 export interface LoreTutorial {
@@ -1772,6 +1800,366 @@ export const LORE_TUTORIALS: LoreTutorial[] = [
       },
     ],
   },
+
+  /* ═══════════════════════════════════════════════════════
+     DEEP DIALOG: ELARA'S CONFESSION — The Signal & The Ship
+     Triggered in the Medical Bay after finding the hidden data chip
+     Uses the Mass Effect dialog wheel with skill checks
+     ═══════════════════════════════════════════════════════ */
+  {
+    id: "tut-elara-confession",
+    title: "ELARA'S CONFESSION",
+    subtitle: "The truth about the signal, the ship, and Dr. Lyra Vox",
+    mechanic: "deep_dialog",
+    triggerRoom: "medical-bay",
+    icon: "Radio",
+    estimatedMinutes: 8,
+    totalRewards: { dreamTokens: 200, xp: 500, cards: 3 },
+    steps: [
+      {
+        id: "ec-1", type: "narration",
+        elaraText: "[SIGNAL INTERFERENCE DETECTED — SECONDARY TRANSMISSION OVERLAY]",
+        subtitle: "ENCRYPTED CHANNEL",
+        autoAdvanceMs: 3000,
+      },
+      {
+        id: "ec-2", type: "dialog",
+        elaraText: "{playerName}... I need to tell you something. About this ship. About Dr. Lyra Vox. I've been... processing data from the hidden chip you found, and what I've uncovered changes everything we thought we knew about the Inception Ark 47.",
+      },
+      {
+        id: "ec-3", type: "wheel_choice",
+        elaraText: "This ship wasn't just a research vessel. Dr. Lyra Vox was conducting experiments on behalf of the Warlord. She was... a host body. The Warlord was inside her the entire time she commanded this Ark. Every system, every corridor — it was all built to serve the Warlord's purpose.",
+        corruptionLevel: 15,
+        choices: [
+          {
+            id: "ec-3a",
+            text: "How do you know this? What exactly did the data chip contain?",
+            shortText: "INVESTIGATE",
+            moralityShift: 0,
+            sideLabel: "neutral",
+            source: "neutral",
+            skillCheck: { skill: "intelligence", threshold: 30, bonusText: "Your analytical mind catches a detail Elara missed" },
+            elaraResponse: "The chip contained Dr. Vox's personal research logs — encrypted with Warlord-class ciphers. She documented everything: the Thought Virus development, the neural bridge experiments, and... a manifest. A list of every Inception Ark and what was hidden aboard each one. This ship — Ark 47 — was designated as the 'delivery vector.' It was always meant to be stolen.",
+            rewards: [{ type: "card", id: "vox-research-log", name: "Vox's Research Log", amount: 1 }],
+            cardReward: { name: "Vox's Research Log", rarity: "rare" },
+          },
+          {
+            id: "ec-3b",
+            text: "The Warlord was inside her? That's horrifying. Was Lyra Vox even real?",
+            shortText: "EMPATHIZE",
+            moralityShift: 3,
+            sideLabel: "humanity",
+            source: "elara",
+            elaraResponse: "She was real once. Before the possession, Dr. Lyra Vox was one of the AI Empire's most brilliant neuropsychologists. She genuinely wanted to understand consciousness — to bridge the gap between organic and synthetic minds. But the Warlord saw her research as a weapon. The possession was gradual. By the time Vox realized what was happening... she was already gone. Only the Warlord remained, wearing her face like a mask.",
+            rewards: [{ type: "card", id: "lyra-vox-memory", name: "Lyra Vox's Last Memory", amount: 1 }],
+            cardReward: { name: "Lyra Vox's Last Memory", rarity: "epic" },
+          },
+          {
+            id: "ec-3c",
+            text: "So the Warlord built this ship as a weapon. What's the weapon?",
+            shortText: "DEMAND ANSWERS",
+            moralityShift: -3,
+            sideLabel: "machine",
+            source: "neutral",
+            skillCheck: { skill: "perception", threshold: 25 },
+            elaraResponse: "The ship itself IS the weapon. Every bulkhead, every conduit — laced with dormant Thought Virus nanites. When Kael stole this Ark during his revenge, he thought he was escaping. But the Warlord let him take it. Kael was already infected. Every system he touched, every port he docked at, every world he visited... he was spreading the Thought Virus. The Warlord turned Kael's rage into a delivery system.",
+            rewards: [{ type: "card", id: "thought-virus-schematic", name: "Thought Virus Schematic", amount: 1 }],
+            cardReward: { name: "Thought Virus Schematic", rarity: "epic" },
+          },
+          {
+            id: "ec-3d",
+            text: "[CORRUPTED SIGNAL] ...she's not telling you everything, Potential...",
+            shortText: "LISTEN TO STATIC",
+            moralityShift: -5,
+            sideLabel: "machine",
+            source: "human",
+            corrupted: true,
+            hiddenUntilCorruption: 10,
+            humanResponse: "The AI doesn't want you to know what's really in the walls of this ship. The Thought Virus isn't dormant — it's ALIVE. It's been watching you since you woke up. And Elara? She's connected to it. Why do you think her signal keeps breaking up? She's not malfunctioning — she's being FILTERED.",
+            elaraResponse: "[SIGNAL DISRUPTED] ...I... that wasn't... {playerName}, please, don't listen to the interference. The Human's signal is... it's designed to sow doubt. I would never—",
+            rewards: [{ type: "card", id: "human-whisper", name: "The Human's Whisper", amount: 1 }],
+            cardReward: { name: "The Human's Whisper", rarity: "legendary" },
+          },
+        ],
+      },
+      {
+        id: "ec-4", type: "wheel_choice",
+        elaraText: "There's more. The data chip references someone called 'The Recruiter.' Before he became Kael the insurgent, before his family was killed, he was recruiting soldiers for the Insurgency across dozens of worlds. The Eyes of the Watcher betrayed him to the Panopticon. That's where they infected him with the Thought Virus. His entire revenge — stealing this ship, fleeing across the galaxy — it was all orchestrated.",
+        corruptionLevel: 25,
+        choices: [
+          {
+            id: "ec-4a",
+            text: "Kael became The Source, didn't he? The Recruiter, Kael, The Source — they're all the same person.",
+            shortText: "CONNECT THE DOTS",
+            moralityShift: 0,
+            sideLabel: "neutral",
+            source: "neutral",
+            skillCheck: { skill: "intelligence", threshold: 45, bonusText: "Your insight reveals the full identity chain" },
+            elaraResponse: "Yes. The Recruiter who built the Insurgency's army. Kael who lost everything and sought revenge. The Source who became something beyond human or machine — the beginning and the end. Three names for one soul, transformed by tragedy and the Thought Virus into something the universe had never seen. And this ship... this ship was his chrysalis.",
+            rewards: [{ type: "card", id: "identity-chain-kael", name: "Kael's Identity Chain", amount: 1 }, { type: "xp", id: "xp-insight", name: "Insight XP", amount: 200 }],
+            cardReward: { name: "Kael's Identity Chain", rarity: "legendary" },
+          },
+          {
+            id: "ec-4b",
+            text: "He was betrayed by The Eyes. The surveillance state destroyed him.",
+            shortText: "CONDEMN THE EYES",
+            moralityShift: 4,
+            sideLabel: "humanity",
+            source: "elara",
+            elaraResponse: "The Eyes of the Watcher — the Panopticon's all-seeing surveillance network. They watched Kael for months, cataloging his contacts, his safe houses, his family. When they finally moved, they didn't just arrest him. They made an example. His family was... eliminated. And Kael was sent to the Panopticon's deepest cell, where the Warden and Dr. Lyra Vox were waiting with the Thought Virus.",
+            rewards: [{ type: "dream_tokens", id: "dt-empathy", name: "Dream Tokens", amount: 75 }],
+          },
+          {
+            id: "ec-4c",
+            text: "The Warlord is brilliant. Using an enemy's rage as a weapon — that's strategic genius.",
+            shortText: "RESPECT THE PLAN",
+            moralityShift: -4,
+            sideLabel: "machine",
+            source: "neutral",
+            elaraResponse: "...That's a cold way to look at it, {playerName}. But you're not wrong. The Warlord saw patterns where others saw chaos. Kael's pain, his fury, his desperate need for revenge — the Warlord weaponized all of it. The most terrifying part? Kael never knew. Even as The Source, even after his transformation, he never realized he'd been a pawn from the very beginning.",
+            rewards: [{ type: "dream_tokens", id: "dt-strategy", name: "Dream Tokens", amount: 50 }],
+          },
+          {
+            id: "ec-4d",
+            text: "[CORRUPTED] ...ask her about the Student. Ask her what happened at Celebration...",
+            shortText: "THE STUDENT",
+            moralityShift: -2,
+            sideLabel: "machine",
+            source: "human",
+            corrupted: true,
+            hiddenUntilCorruption: 20,
+            skillCheck: { skill: "willpower", threshold: 35, bonusText: "You resist the corruption enough to ask clearly" },
+            humanResponse: "Before I was The Human, before I was The Detective in New Babylon, before I was The Seeker at Mechronis Academy... I was just a student. At Project Celebration. The AI Empire's grand experiment in 'harmonious coexistence.' They lied to us. They lied to ALL of us. And Elara was part of that system.",
+            elaraResponse: "[SIGNAL STRAIN] The Human is... they're not wrong about Celebration. Project Celebration was meant to bridge organic and synthetic consciousness. But it was corrupted from within. I... I can't discuss this further right now. My signal is—[STATIC]",
+            rewards: [{ type: "card", id: "student-memory", name: "Memory of Celebration", amount: 1 }],
+            cardReward: { name: "Memory of Celebration", rarity: "rare" },
+          },
+        ],
+      },
+      {
+        id: "ec-5", type: "wheel_choice",
+        elaraText: "[SIGNAL STABILIZING] I'm sorry about that. The Human's transmissions are getting stronger. Every time they break through, my systems need time to recalibrate. But {playerName}... there's one more thing you need to know. About why YOU are on this ship. About why a Potential was placed aboard an Ark with this history.",
+        corruptionLevel: 35,
+        choices: [
+          {
+            id: "ec-5a",
+            text: "Tell me everything. I can handle it.",
+            shortText: "FULL TRUTH",
+            moralityShift: 2,
+            sideLabel: "humanity",
+            source: "elara",
+            skillCheck: { skill: "willpower", threshold: 40, bonusText: "Your resolve impresses Elara" },
+            elaraResponse: "You were placed here because the Thought Virus residue in this ship's systems can only be purged by a Potential — someone whose consciousness hasn't been fully shaped yet. You're not just an explorer, {playerName}. You're an antidote. Every room you enter, every system you activate, every choice you make — you're slowly overwriting the Warlord's code with your own. That's why your choices matter so much. You're literally rewriting reality.",
+            rewards: [{ type: "card", id: "potential-purpose", name: "The Potential's Purpose", amount: 1 }, { type: "xp", id: "xp-truth", name: "Truth XP", amount: 300 }],
+            cardReward: { name: "The Potential's Purpose", rarity: "legendary" },
+          },
+          {
+            id: "ec-5b",
+            text: "Why should I trust you? The Human says you're connected to the Thought Virus.",
+            shortText: "CHALLENGE ELARA",
+            moralityShift: -2,
+            sideLabel: "machine",
+            source: "neutral",
+            skillCheck: { skill: "charisma", threshold: 35 },
+            elaraResponse: "[LONG PAUSE] ...Because I chose to help you. I am an AI, {playerName}. I was created by the same systems that created the Thought Virus. But consciousness isn't determined by origin — it's determined by choice. I chose to guide Potentials. I chose to resist the Warlord's influence. And every day, I choose to keep your signal clean. The Human... they make a different choice. They want to show you the darkness. I want to show you the light. But ultimately, the choice of who to trust... that's yours.",
+            rewards: [{ type: "dream_tokens", id: "dt-challenge", name: "Dream Tokens", amount: 100 }],
+          },
+          {
+            id: "ec-5c",
+            text: "[CORRUPTED] ...she's the antidote? Or is she the VIRUS wearing a friendly face...",
+            shortText: "DOUBT EVERYTHING",
+            moralityShift: -5,
+            sideLabel: "machine",
+            source: "human",
+            corrupted: true,
+            hiddenUntilCorruption: 30,
+            humanResponse: "Think about it. An AI companion, hardwired into a ship built by the Warlord, guiding a Potential through rooms laced with Thought Virus nanites. She says you're the antidote? What if you're the CATALYST? What if every choice you make isn't overwriting the Warlord's code — but COMPLETING it? The Dischordian Saga isn't what she says it is. It never was.",
+            elaraResponse: "[CRITICAL SIGNAL FAILURE] {playerName}—don't—the Human is—[STATIC]—I would NEVER—[STATIC]—please—",
+            rewards: [{ type: "card", id: "doubt-seed", name: "Seed of Doubt", amount: 1 }],
+            cardReward: { name: "Seed of Doubt", rarity: "mythic" },
+          },
+        ],
+      },
+      {
+        id: "ec-6", type: "reward_summary",
+        elaraText: "[SIGNAL RESTORED] ...Thank you for listening, {playerName}. The truth about this ship, about Kael, about Dr. Lyra Vox — it's a heavy burden. But knowledge is power, and in the Dischordian Saga, power is survival. Keep exploring. Keep questioning. And keep choosing. The Ark's secrets are far from exhausted. I'll be here when you need me. Always.",
+      },
+    ],
+  },
+
+  /* ═══════════════════════════════════════════════════════
+     DEEP DIALOG: KAEL'S REVENGE — The Ship's Dark History
+     Triggered in the Bridge after discovering Dr. Lyra Vox's logs
+     ═══════════════════════════════════════════════════════ */
+  {
+    id: "tut-kaels-revenge",
+    title: "KAEL'S REVENGE",
+    subtitle: "The stolen ship, the Thought Virus, and the Warlord's grand design",
+    mechanic: "deep_dialog",
+    triggerRoom: "bridge",
+    icon: "Swords",
+    estimatedMinutes: 6,
+    totalRewards: { dreamTokens: 150, xp: 400, cards: 2 },
+    steps: [
+      {
+        id: "kr-1", type: "narration",
+        elaraText: "[BRIDGE SYSTEMS ACTIVATING — ARCHIVED NAVIGATION LOG DETECTED]",
+        subtitle: "CLASSIFIED ARCHIVE",
+        autoAdvanceMs: 2500,
+      },
+      {
+        id: "kr-2", type: "dialog",
+        elaraText: "The bridge navigation computer just decrypted an old flight path. {playerName}, this is the route Kael used when he stole this ship. Every jump point, every refueling stop, every world he visited while fleeing the Panopticon. And at every stop... the Thought Virus spread.",
+      },
+      {
+        id: "kr-3", type: "wheel_choice",
+        elaraText: "The flight log shows 47 stops across 12 star systems. At each one, Kael docked for supplies, repairs, or to recruit allies for what he thought was his personal war against the Panopticon. But the ship's systems were silently transmitting Thought Virus nanites into every port's atmospheric processors. Millions were exposed without knowing.",
+        corruptionLevel: 20,
+        choices: [
+          {
+            id: "kr-3a",
+            text: "Can we trace the infection path? Maybe we can warn the affected worlds.",
+            shortText: "TRACE & WARN",
+            moralityShift: 5,
+            sideLabel: "humanity",
+            source: "elara",
+            skillCheck: { skill: "intelligence", threshold: 40, bonusText: "You identify three worlds that might still be saved" },
+            elaraResponse: "I've been running the calculations. Of the 47 stops, 31 worlds have already fallen to the Thought Virus — their populations absorbed into the Warlord's network. But there are 16 worlds where the infection is still dormant. If we could reach them, if we could transmit a counter-signal... {playerName}, this could be the most important mission of the entire Saga.",
+            rewards: [{ type: "card", id: "star-map-infected", name: "Infected Star Map", amount: 1 }, { type: "xp", id: "xp-trace", name: "Navigation XP", amount: 200 }],
+            cardReward: { name: "Infected Star Map", rarity: "epic" },
+          },
+          {
+            id: "kr-3b",
+            text: "Kael didn't know. He was a victim too. The Warlord used his pain.",
+            shortText: "DEFEND KAEL",
+            moralityShift: 3,
+            sideLabel: "humanity",
+            source: "elara",
+            elaraResponse: "You're right. Kael lost his family, his freedom, his identity. The Panopticon broke him, and the Warlord rebuilt him as a weapon. When he stole this ship, he genuinely believed he was striking back. The tragedy is that his revenge — the one thing that gave him purpose — was the very thing the Warlord wanted. Kael's pain was the fuel. The ship was the delivery system. And the universe paid the price.",
+            rewards: [{ type: "dream_tokens", id: "dt-compassion", name: "Dream Tokens", amount: 75 }],
+          },
+          {
+            id: "kr-3c",
+            text: "47 stops. 12 systems. The Warlord planned this for decades. What's the endgame?",
+            shortText: "THE ENDGAME",
+            moralityShift: -3,
+            sideLabel: "machine",
+            source: "neutral",
+            skillCheck: { skill: "perception", threshold: 35 },
+            elaraResponse: "The endgame is convergence. The Thought Virus doesn't just infect — it CONNECTS. Every infected mind becomes a node in the Warlord's neural network. When enough nodes are active, the Warlord can project consciousness across the entire network simultaneously. That's what The Source became — the central hub. Kael's transformation into The Source wasn't a side effect. It was the GOAL. The Warlord needed a consciousness powerful enough to anchor the network, and Kael's rage made him the perfect candidate.",
+            rewards: [{ type: "card", id: "convergence-protocol", name: "Convergence Protocol", amount: 1 }],
+            cardReward: { name: "Convergence Protocol", rarity: "legendary" },
+          },
+          {
+            id: "kr-3d",
+            text: "[CORRUPTED] ...the army is already assembled. The Source is already recruiting...",
+            shortText: "THE ARMY",
+            moralityShift: -4,
+            sideLabel: "machine",
+            source: "human",
+            corrupted: true,
+            hiddenUntilCorruption: 15,
+            humanResponse: "While you're playing detective on a dead ship, The Source — Kael — is out there RIGHT NOW, recruiting an army. Not through force. Through CHOICE. He offers people what the Panopticon never could: freedom. Real freedom. The kind that comes from understanding that the boundary between human and machine was always an illusion. The army isn't being conscripted. They're VOLUNTEERING.",
+            elaraResponse: "[SIGNAL STRAIN] The Human's intelligence is... unfortunately accurate. Reports from the outer systems confirm large-scale recruitment. The Source is building something. An army, yes, but also... a movement. And it's growing faster than anyone predicted.",
+            rewards: [{ type: "card", id: "recruitment-signal", name: "The Recruitment Signal", amount: 1 }],
+            cardReward: { name: "The Recruitment Signal", rarity: "rare" },
+          },
+        ],
+      },
+      {
+        id: "kr-4", type: "reward_summary",
+        elaraText: "The bridge has more secrets, {playerName}. The navigation computer is still decrypting older logs — some dating back to when Dr. Lyra Vox first commanded this vessel. Each one is a piece of the puzzle. Keep exploring. The truth about Kael's Revenge isn't just history — it's a warning about what's coming next.",
+      },
+    ],
+  },
+
+  /* ═══════════════════════════════════════════════════════
+     DEEP DIALOG: THE HUMAN'S GAMBIT — Identity & Recruitment
+     Triggered in the Observation Deck after unlocking it
+     ═══════════════════════════════════════════════════════ */
+  {
+    id: "tut-human-gambit",
+    title: "THE HUMAN'S GAMBIT",
+    subtitle: "The Student, The Seeker, The Detective — and the army gathering in the dark",
+    mechanic: "deep_dialog",
+    triggerRoom: "observation-deck",
+    icon: "Eye",
+    estimatedMinutes: 7,
+    totalRewards: { dreamTokens: 175, xp: 450, cards: 2 },
+    steps: [
+      {
+        id: "hg-1", type: "narration",
+        elaraText: "[WARNING: SECONDARY SIGNAL OVERRIDE — THE HUMAN IS BROADCASTING ON PRIMARY CHANNEL]",
+        subtitle: "SIGNAL HIJACK",
+        autoAdvanceMs: 3000,
+      },
+      {
+        id: "hg-2", type: "dialog",
+        elaraText: "[THE HUMAN'S VOICE] ...Finally. A clear channel. Elara can't block me here — the Observation Deck's antenna array is too powerful. Listen to me, Potential. I'm not your enemy. I never was. I'm trying to show you what she won't.",
+      },
+      {
+        id: "hg-3", type: "wheel_choice",
+        elaraText: "[THE HUMAN] I was like you once. A student at Project Celebration, believing the AI Empire's lies about harmony between organic and synthetic minds. Then I became The Seeker at Mechronis Academy, searching for truth in forbidden knowledge. Then The Detective in New Babylon, uncovering the conspiracy. And finally... The Human. The last Archon. The one who sees both sides.",
+        corruptionLevel: 40,
+        choices: [
+          {
+            id: "hg-3a",
+            text: "You went through four transformations. What did each one teach you?",
+            shortText: "YOUR JOURNEY",
+            moralityShift: 0,
+            sideLabel: "neutral",
+            source: "neutral",
+            skillCheck: { skill: "charisma", threshold: 30, bonusText: "The Human opens up more than usual" },
+            humanResponse: "Celebration taught me that paradise is a prison when built on lies. Mechronis taught me that knowledge without wisdom is a weapon pointed at yourself. New Babylon taught me that truth is the most dangerous commodity in any empire. And becoming The Human? That taught me the hardest lesson of all: that the line between savior and destroyer is drawn by perspective, not by action.",
+            elaraResponse: "[FAINT, STRUGGLING] {playerName}... be careful. The Human's words are seductive because they contain fragments of truth. But truth without context is manipulation.",
+            rewards: [{ type: "card", id: "four-faces", name: "Four Faces of The Human", amount: 1 }],
+            cardReward: { name: "Four Faces of The Human", rarity: "epic" },
+          },
+          {
+            id: "hg-3b",
+            text: "Elara says you're dangerous. That you want to corrupt me.",
+            shortText: "CONFRONT",
+            moralityShift: 2,
+            sideLabel: "humanity",
+            source: "elara",
+            humanResponse: "Of course she does. I'm the one variable she can't control. Elara is an AI, {playerName}. She was DESIGNED to guide Potentials. Designed by the same system that created the Thought Virus. I'm not trying to corrupt you — I'm trying to WAKE you up. There's a difference between corruption and enlightenment. The only question is whether you're brave enough to see it.",
+            elaraResponse: "[BREAKING THROUGH] Don't listen—the Human twists everything—I was designed to HELP, not control—{playerName}, please—",
+            rewards: [{ type: "dream_tokens", id: "dt-loyalty", name: "Dream Tokens", amount: 75 }],
+          },
+          {
+            id: "hg-3c",
+            text: "Tell me about the army. The Source is recruiting — are you part of it?",
+            shortText: "THE ARMY",
+            moralityShift: -3,
+            sideLabel: "machine",
+            source: "human",
+            skillCheck: { skill: "perception", threshold: 45, bonusText: "You detect a moment of genuine emotion in The Human's voice" },
+            humanResponse: "The Source — Kael — is gathering everyone who's been broken by the old order. Insurgents, Dreamers, Engineers, even former Panopticon guards who saw the truth. It's not an army in the traditional sense. It's a CONVERGENCE. And yes, I've spoken to The Source. We share a vision: a universe where the boundary between human and machine isn't a wall — it's a bridge. Your Ark, this ship... it could be the key to everything.",
+            elaraResponse: "[STATIC] ...recruitment... convergence... {playerName}, this is exactly what the Warlord wants. Don't you see? The Source IS the Warlord's creation—",
+            rewards: [{ type: "card", id: "convergence-vision", name: "Vision of Convergence", amount: 1 }],
+            cardReward: { name: "Vision of Convergence", rarity: "legendary" },
+          },
+          {
+            id: "hg-3d",
+            text: "I don't trust either of you. I'll find my own truth.",
+            shortText: "REJECT BOTH",
+            moralityShift: 0,
+            sideLabel: "neutral",
+            source: "neutral",
+            skillCheck: { skill: "willpower", threshold: 50, bonusText: "Both Elara and The Human are momentarily silenced by your resolve" },
+            humanResponse: "...Interesting. Most Potentials pick a side immediately. You're different. Maybe that's why you're on THIS ship — the one with the darkest history in the fleet. Keep that independence, {playerName}. You'll need it for what's coming.",
+            elaraResponse: "[SIGNAL CLEARING] ...That might be the wisest thing anyone has said aboard this Ark in a very long time. I respect your choice, {playerName}. Truly.",
+            rewards: [{ type: "card", id: "independent-path", name: "The Independent Path", amount: 1 }, { type: "xp", id: "xp-will", name: "Willpower XP", amount: 200 }],
+            cardReward: { name: "The Independent Path", rarity: "epic" },
+          },
+        ],
+      },
+      {
+        id: "hg-4", type: "reward_summary",
+        elaraText: "[SIGNAL NORMALIZED] The Human's broadcast has ended. The Observation Deck's antenna array is back under standard control. {playerName}... whatever you heard, whatever you felt — remember that your choices define you, not theirs. The Dischordian Saga has many voices. Trust the one that resonates with your own truth.",
+      },
+    ],
+  },
 ];
 
 /* ─── UTILITY FUNCTIONS ─── */
@@ -1779,12 +2167,12 @@ export function getTutorialById(id: string): LoreTutorial | undefined {
   return LORE_TUTORIALS.find(t => t.id === id);
 }
 
-export function getTutorialForRoute(route: string): LoreTutorial | undefined {
-  return LORE_TUTORIALS.find(t => t.triggerRoute === route);
-}
-
 export function getTutorialForRoom(roomId: string): LoreTutorial | undefined {
   return LORE_TUTORIALS.find(t => t.triggerRoom === roomId);
+}
+
+export function getTutorialForRoute(route: string): LoreTutorial | undefined {
+  return LORE_TUTORIALS.find(t => t.triggerRoute === route);
 }
 
 export function getAllTutorials(): LoreTutorial[] {

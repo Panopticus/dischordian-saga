@@ -257,7 +257,7 @@ describe("Card Gallery Data", () => {
         "utf-8"
       )
     );
-    expect(data.length).toBe(196);
+    expect(data.length).toBe(216);
   });
 
   it("every card has required fields", async () => {

@@ -128,9 +128,9 @@ describe("Game Completion Tracking", () => {
     expect(typeof mod.useGame).toBe("function");
   });
 
-  it("CONEXUS_GAMES should have 34 games across 5 ages", async () => {
+  it("CONEXUS_GAMES should have 41 games across 5 ages", async () => {
     const { CONEXUS_GAMES, AGE_CATEGORIES } = await import("../client/src/data/conexusGames");
-    expect(CONEXUS_GAMES.length).toBe(40);
+    expect(CONEXUS_GAMES.length).toBe(41);
     expect(AGE_CATEGORIES.length).toBe(6);
     
     // Verify all games belong to a valid age

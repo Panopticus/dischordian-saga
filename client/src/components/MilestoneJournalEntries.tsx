@@ -114,7 +114,7 @@ export const MILESTONES: MilestoneEntry[] = [
         ``,
         `The Timeline Projector shows the Ages — from the Age of Privacy through something called the Fall of Reality. Each era is a chapter in a saga that spans civilizations. And somehow, I'm part of it now.`,
         ``,
-        `Captain Voss's chair sits empty. Her personal log is wedged in the armrest. I haven't read it yet. Part of me isn't sure I want to know what made her order the emergency cryo protocol.`,
+        `The commander's chair sits empty. Dr. Lyra Vox \u2014 the ship's original commander \u2014 left her personal log wedged in the armrest. I haven't read it yet. Part of me isn't sure I want to know what a neuropsychologist who built a warship disguised as a science vessel was really doing out here.`,
         ``,
         `— ${name}`,
       ].join("\n");

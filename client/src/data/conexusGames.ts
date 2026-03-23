@@ -386,9 +386,21 @@ const FALL_OF_REALITY: ConexusGame[] = [
     conexusUrl: "https://conexus.ink/s/Dischordian%20Saga",
     coverImage: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/conexus_blood-weave-gates-of-hell_2fa0e488.png",
   },
+  {
+    id: "kaels-revenge",
+    title: "Kael's Revenge",
+    age: "Fall of Reality (Prequel)",
+    description: "The Recruiter has been betrayed. The Eyes of the Watcher turned Kael over to the Panopticon, where the AI Empire imprisoned him and killed his family. But Kael survived \u2014 and inside the Panopticon, something changed. Now he escapes aboard Dr. Lyra Vox's personal vessel, an Inception Ark, believing he's striking back at the Empire. What Kael doesn't know: the Warlord let him go. The Thought Virus is already inside him. Every Ark he visits, every system he touches, spreads the infection. The Recruiter's revenge is the Warlord's masterplan \u2014 and Kael is the weapon who doesn't know he's loaded.",
+    characters: ["Kael", "The Recruiter", "Dr. Lyra Vox", "The Warlord", "The Eyes"],
+    difficulty: "master",
+    estimatedTime: "60-120 min",
+    tags: ["revenge", "betrayal", "thought virus", "inception ark", "origin story"],
+    conexusUrl: "https://conexus.ink/s/Dischordian%20Saga/kaels-revenge",
+    coverImage: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/hero_bg_63073f61.png",
+  },
 ];
 
-/* ─── AGE OF POTENTIALS ─── */
+/* \u2500\u2500\u2500 AGE OF POTENTIALS \u2500\u2500\u2500 */
 const AGE_OF_POTENTIALS: ConexusGame[] = [
   {
     id: "awaken-the-clone",

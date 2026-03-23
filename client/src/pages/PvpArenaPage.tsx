@@ -5,6 +5,7 @@
 import { useState, useEffect, useCallback, useRef, useMemo } from "react";
 import { useAuth } from "@/_core/hooks/useAuth";
 import { useGame } from "@/contexts/GameContext";
+import { LoreOverlay } from "@/components/LoreOverlay";
 import { useSound } from "@/contexts/SoundContext";
 import { trpc } from "@/lib/trpc";
 import { getLoginUrl } from "@/const";
@@ -1506,6 +1507,7 @@ export default function PvpArenaPage() {
           ))}
         </div>
       </details>
+      <LoreOverlay gameMode="pvp" />
     </div>
   );
 }

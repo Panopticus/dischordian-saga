@@ -1,4 +1,5 @@
 import { useGame } from "@/contexts/GameContext";
+import { LoreOverlay } from "@/components/LoreOverlay";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Swords, Shield, Skull, ChevronRight, Trophy, Map,
@@ -518,6 +519,7 @@ export default function FactionWarPage() {
           </motion.div>
         )}
       </div>
+      <LoreOverlay gameMode="faction-war" />
     </div>
   );
 }

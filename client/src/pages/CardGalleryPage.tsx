@@ -14,7 +14,7 @@ import {
   Crown, Filter, Sparkles, Lock, ChevronLeft, Eye, Search,
   Sword, Shield, Zap, Star, Gem, FlaskConical, X, Layers,
   Users, MapPin, Clock, Flame, Droplets, Wind, Mountain,
-  Skull, Sun, LayoutGrid, List, ChevronDown, Trash2, AlertTriangle, Package
+  Skull, Sun, LayoutGrid, List, ChevronDown, Trash2, AlertTriangle, Package, BookOpen
 } from "lucide-react";
 import ZoomableImage from "@/components/ZoomableImage";
 import { useSwipeTabs } from "@/hooks/useSwipeTabs";
@@ -77,6 +77,7 @@ const TYPE_ICONS: Record<string, typeof Sword> = {
   artifact: FlaskConical,
   support: Shield,
   field: Layers,
+  narrative: BookOpen,
 };
 
 const ALIGNMENT_COLORS: Record<string, string> = {

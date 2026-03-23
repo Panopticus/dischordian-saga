@@ -25,6 +25,7 @@ import {
   AttackProjectile, DeployBurst, ComboChainCounter,
 } from "@/components/BattleVFX";
 import LandscapeEnforcer from "@/components/LandscapeEnforcer";
+import { LoreOverlay } from "@/components/LoreOverlay";
 import {
   EnergyFieldOverlay, FactionBanners, WeatherEffects,
   DynamicBoardLighting, GraveyardSouls, ComboCounter,
@@ -1139,6 +1140,7 @@ export default function CardBattlePage() {
         </div>
       </div>
     </div>
+    <LoreOverlay gameMode="card-battle" />
     </LandscapeEnforcer>
   );
 }

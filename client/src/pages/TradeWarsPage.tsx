@@ -1,5 +1,6 @@
 import { useGameAreaBGM } from "@/contexts/GameAudioContext";
 import { useGame } from "@/contexts/GameContext";
+import { LoreOverlay } from "@/components/LoreOverlay";
 import { getTradePortDrops, getCombatDrops, getExplorationDrops, type LootDrop } from "@/data/lootTables";
 import { getMaterialById } from "@/data/craftingData";
 import { toast } from "sonner";
@@ -1915,6 +1916,7 @@ export default function TradeWarsPage() {
           autoCapitalize="off"
         />
       </form>
+      <LoreOverlay gameMode="trade-wars" />
     </div>
   );
 }

@@ -1,4 +1,5 @@
 import { useGameAreaBGM } from "@/contexts/GameAudioContext";
+import { LoreOverlay } from "@/components/LoreOverlay";
 /* ═══════════════════════════════════════════════════════
    THE COLLECTOR'S ARENA — Main Fight Page
    Rebranded with lore opening, story mode, character
@@ -514,6 +515,7 @@ export default function FightPage() {
           </div>
         </motion.div>
       </div>
+      <LoreOverlay gameMode="fight" />
       </>
     );
   }

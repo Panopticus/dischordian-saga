@@ -170,7 +170,7 @@ describe("Easter Egg System", () => {
     const bridgeEgg = ROOM_EASTER_EGGS["egg-bridge-log"];
     expect(bridgeEgg).toBeDefined();
     expect(bridgeEgg.loreFragment).toContain("Engineer");
-    expect(bridgeEgg.loreFragment).toContain("mind swap");
+    expect(bridgeEgg.loreFragment).toContain("Thought Virus");
 
     // The cargo manifest should reference the Oracle clone
     const cargoEgg = ROOM_EASTER_EGGS["egg-cargo-manifest"];

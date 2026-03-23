@@ -14,6 +14,7 @@ import { initBossBattle, processBossAction, type BossBattleState } from "@/lib/b
 import { BOSS_ENCOUNTERS, type BossEncounter } from "@/data/bossEncounters";
 import { useLocation } from "wouter";
 import LandscapeEnforcer from "@/components/LandscapeEnforcer";
+import { LoreOverlay } from "@/components/LoreOverlay";
 
 function BossCardView({ card, onClick, selected, targetable, disabled, small }: {
   card: BattleCard; onClick?: () => void; selected?: boolean; targetable?: boolean; disabled?: boolean; small?: boolean;
@@ -607,6 +608,7 @@ export default function BossBattlePage() {
         </div>
       </div>
     </div>
+    <LoreOverlay gameMode="boss" contextId={currentBoss?.id} />
     </LandscapeEnforcer>
   );
 }

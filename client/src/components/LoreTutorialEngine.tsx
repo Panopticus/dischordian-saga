@@ -11,6 +11,8 @@ import {
   CircuitBoard, Heart, MessageSquare, Award
 } from "lucide-react";
 import { useGame } from "@/contexts/GameContext";
+import DialogWheel from "@/components/DialogWheel";
+import type { WheelChoice } from "@/components/DialogWheel";
 import type {
   LoreTutorial, TutorialStep, TutorialChoice, TutorialReward,
 } from "@/data/loreTutorials";
@@ -328,7 +330,7 @@ export default function LoreTutorialEngine({ tutorial, onComplete, onDismiss }: 
                   />
                 </div>
 
-                {/* Choices (for choice steps) */}
+                {/* Choices (for choice steps - linear buttons) */}
                 {currentStep.type === "choice" && textComplete && !selectedChoice && (
                   <motion.div
                     initial={{ opacity: 0, y: 10 }}
@@ -353,8 +355,30 @@ export default function LoreTutorialEngine({ tutorial, onComplete, onDismiss }: 
                   </motion.div>
                 )}
 
+                {/* Dialog Wheel (for wheel_choice steps - Mass Effect radial) */}
+                {currentStep.type === "wheel_choice" && textComplete && !selectedChoice && (
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    className="mt-4"
+                  >
+                    <DialogWheel
+                      speakerName="ELARA"
+                      speakerText={getStepText(currentStep)}
+                      speakerPortrait={currentStep.speakerPortrait}
+                      choices={getAvailableChoices(currentStep).map(c => ({
+                        ...c,
+                        shortText: c.shortText || c.text.slice(0, 20),
+                        alignment: c.sideLabel,
+                      })) as WheelChoice[]}
+                      corruptionLevel={currentStep.corruptionLevel || 0}
+                      onSelect={(wc) => handleChoice(wc as TutorialChoice)}
+                    />
+                  </motion.div>
+                )}
+
                 {/* Continue button (for non-choice steps) */}
-                {currentStep.type !== "choice" && textComplete && (
+                {currentStep.type !== "choice" && currentStep.type !== "wheel_choice" && textComplete && (
                   <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}

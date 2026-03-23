@@ -2319,3 +2319,47 @@
 - [x] Added CSS rules for high-contrast, reduce-motion, dyslexia-font, reduce-glow, font-size scaling
 - [x] Added OpenDyslexic font import
 - [x] Added initAccessibilitySettings() in App.tsx to apply saved settings on startup
+
+### MAJOR EXPANSION: Elara/Human Depth + Kael's Revenge + Lore Cards + Cinematics
+- [x] CRITICAL IDENTITY: Kael = The Source = The Recruiter (same entity across time) — loredex entries linked with aliases
+- [x] Rename all 'Kaela's Revenge' references to 'Kael's Revenge'
+- [x] Update The Source (entity_55) loredex entry to connect to Kael's origin story with aliases
+- [x] Add Kael's Revenge lore to Loredex (new entries, connections, timeline placement)
+- [x] CRITICAL: The player's Inception Ark IS the ship Kael steals — Inception Ark 47 entry added (location_ark_47)
+- [ ] Army recruitment arc: Kael/The Source gathering forces across the universe (design pending)
+- [x] Add hidden lore throughout the Ark: 5 hidden discovery items placed in rooms
+- [x] Add discoverable items: Warlord's Neural Residue, Infected Star Map, Vox's Neural Bridge, Kael's Escape Route, Vox's Personal Log
+- [x] CRITICAL: The Ark was originally Dr. Lyra Vox's ship — Inception Ark 47 entry with full Vox/Warlord history
+- [x] Lyra Vox: AI Empire scientist — updated loredex entry with neuropsychology/cybernetics/Thought Virus development
+- [x] Three layers of dark history reflected in hidden items and loredex entries
+- [x] Add hidden Warlord influence traces, Lyra Vox's research logs, and Kael's escape markings — 5 items in ItemDetailModal
+- [x] FIX: Replace ALL "Captain Voss" references with "Dr. Lyra Vox" — there is no Captain Voss
+- [x] CRITICAL LORE: The Warlord DELIBERATELY let Kael steal the ship — reflected in Infected Star Map and Kael's Escape Route items
+- [x] Kael's "revenge" was actually the Warlord's delivery mechanism — reflected in hidden items and loredex connections
+- [x] Kael becomes The Source after his transformation — identity chain: Recruiter → Kael → Source
+- [x] The player's Ark is contaminated — Thought Virus residue items placed in rooms
+- [x] Senator Elara Voss is a separate character (entity_46) — NOT connected to the ship's captain (verified)
+- [x] Expand Elara backstory: senator, betrayal, Panopticon imprisonment — reflected in dialog wheel conversations
+- [x] CRITICAL IDENTITY: The Student = The Seeker = The Detective = The Human (same entity across time)
+- [x] The Student at Project Celebration — new loredex entry (char_the_student) with music video
+- [x] The Seeker at Mechronis Academy — new loredex entry (char_the_seeker) with music video
+- [x] The Detective in New Babylon — updated loredex entry (entity_27) with aliases and music video
+- [x] The Human — the Archon (final form) — updated loredex entry (entity_21) with full identity chain
+- [x] Link all four loredex entries as one identity chain — aliases cross-reference all 4 phases
+- [x] Expand Human backstory: last Archon, ascension, necessary villain role — in dialog wheel conversations
+- [x] Implement Mass Effect-style radial dialog wheel component (DialogWheel.tsx)
+- [x] Dialog wheel with skill-check gates (Charisma, Intelligence, Strength, etc.)
+- [x] Machine choices on one side, Humanity on the other, neutral in middle
+- [x] Human's signal corruption: glitching text, static overlays on corrupted options
+- [x] Elara's options glow warm; card rarity indicators per choice
+- [x] Signal corruption mechanic: as Human hacks deeper, wheel options overlap/contradict/disappear
+- [x] Create collectible lore cards with rarity tiers tied to narrative decisions — 20 narrative cards (3 mythic, 5 legendary, 7 epic, 5 rare)
+- [ ] Generate custom card images for key lore moments (20 narrative cards need images)
+- [ ] Add army recruitment system: Kael/The Source recruiting from around the universe (design pending)
+- [x] Write all dialog scripts for expanded Elara/Human narrative — 6 deep wheel_choice conversations in loreTutorials.ts
+- [ ] Create Suno instrumental music prompts for each scene
+- [ ] Create nano banana start/end frames for mission cinematics
+- [ ] Create Kling 3.0 cinematic prompts for mission scenes
+- [ ] Produce comprehensive video prompts for ALL game scenes
+- [x] Update lore for ALL game modes with Elara/Human dynamic — LoreOverlay integrated into 7 game pages
+- [ ] Compile complete creative assets document
