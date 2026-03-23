@@ -24,7 +24,7 @@ export type Difficulty = "recruit" | "soldier" | "veteran" | "archon";
 interface HitEffect {
   x: number; y: number; z: number;
   life: number; maxLife: number;
-  type: "spark" | "heavy" | "block" | "special" | "parry" | "critical" | "impact_ring" | "energy_wave";
+  type: "spark" | "heavy" | "block" | "special" | "parry" | "critical" | "impact_ring" | "energy_wave" | "blood" | "dust" | "sweat" | "ground_crack";
   color: string;
   particles: THREE.Group;
 }
@@ -1345,6 +1345,8 @@ export class FightEngine3D {
         if (f.state === "launched") {
           f.state = "knockdown";
           f.stateTimer = 0;
+          // MK-STYLE: Dust cloud on ground impact
+          this.spawnHitEffect(f.x, 0.05, 0.2, "dust", "#8b7355");
         }
       }
     }
@@ -1680,6 +1682,18 @@ export class FightEngine3D {
     }
 
     this.callbacks.onHit?.(playerNum as 1 | 2, attackType);
+
+    // MK-STYLE: Blood splatter on successful hits
+    this.spawnHitEffect(
+      defender.x, hitY + 0.1, 0.3,
+      "blood", "#cc0000"
+    );
+
+    // MK-STYLE: Ground crack on heavy/special hits
+    if (isHeavy || this.isSpecialAttack(attackType)) {
+      this.spawnHitEffect(defender.x, 0, 0.2, "ground_crack", attacker.config.accentColor);
+    }
+
     // AAA: Impact ring on heavy hits
     if (attackType === "heavy_release" || attackType === "medium") {
       this.spawnImpactRing((attacker.x + defender.x) / 2, 1.0, 0.5, attacker.config.accentColor);
@@ -2191,6 +2205,10 @@ export class FightEngine3D {
     this.screenShake.timer = 0;
     this.triggerScreenFlash("#ff0000", 0.5, 0.3);
 
+    // MK-STYLE: Sweat/energy droplets flying off the stunned fighter
+    this.spawnHitEffect(targetFighter.x, 1.4, 0.3, "sweat", "#aaddff");
+    this.spawnHitEffect(targetFighter.x, 1.0, 0.2, "sweat", "#aaddff");
+
     // Callback for UI to show "FINISH HIM!" text
     this.callbacks.onFinishHim?.(target);
   }
@@ -2207,6 +2225,10 @@ export class FightEngine3D {
     loserFighter.state = "ko";
     this.phase = "ko";
     this.phaseTimer = 2.5; // AAA: longer KO sequence
+
+    // MK-STYLE: Dust cloud on KO collapse + blood
+    this.spawnHitEffect(loserFighter.x, 0.05, 0.2, "dust", "#8b7355");
+    this.spawnHitEffect(loserFighter.x, 0.8, 0.3, "blood", "#cc0000");
     this.callbacks.onPhaseChange?.("ko");
     this.callbacks.onRoundEnd?.(winner, this.p1.roundWins, this.p2.roundWins);
     this.slowMo = { active: true, speed: 0.15, duration: 1.2, timer: 1.2 }; // AAA: slower slow-mo
@@ -2263,6 +2285,113 @@ export class FightEngine3D {
   /* ═══ HIT EFFECTS ═══ */
   private spawnHitEffect(x: number, y: number, z: number, type: HitEffect["type"], color: string) {
     const group = new THREE.Group();
+
+    // ── MK-STYLE BLOOD SPLATTER ──
+    if (type === "blood") {
+      const bloodCount = 12 + Math.floor(Math.random() * 8);
+      for (let i = 0; i < bloodCount; i++) {
+        const size = 0.02 + Math.random() * 0.04;
+        // Mix of droplets (spheres) and streaks (stretched boxes)
+        const isStreak = Math.random() < 0.3;
+        const geo = isStreak
+          ? new THREE.BoxGeometry(size * 0.3, size * 2, size * 0.3)
+          : new THREE.SphereGeometry(size, 4, 4);
+        const bloodShade = Math.random() < 0.5 ? "#8b0000" : Math.random() < 0.5 ? "#cc0000" : "#660000";
+        const mat = new THREE.MeshBasicMaterial({ color: new THREE.Color(bloodShade), transparent: true, opacity: 0.9 });
+        const p = new THREE.Mesh(geo, mat);
+        const angle = Math.random() * Math.PI * 2;
+        const speed = 1.5 + Math.random() * 3;
+        p.userData.vx = Math.cos(angle) * speed;
+        p.userData.vy = Math.random() * 3 + 1; // Mostly upward arc
+        p.userData.vz = (Math.random() - 0.5) * speed * 0.5;
+        p.userData.gravity = 8 + Math.random() * 4; // Blood falls faster
+        p.userData.isBlood = true;
+        if (isStreak) p.rotation.z = angle;
+        group.add(p);
+      }
+      group.position.set(x, y, z);
+      this.scene.add(group);
+      this.hitEffects.push({ x, y, z, life: 0, maxLife: 0.8, type, color, particles: group });
+      return;
+    }
+
+    // ── DUST CLOUD (knockdowns, ground impacts) ──
+    if (type === "dust") {
+      const dustCount = 10;
+      for (let i = 0; i < dustCount; i++) {
+        const size = 0.06 + Math.random() * 0.08;
+        const geo = new THREE.SphereGeometry(size, 6, 6);
+        const dustShade = Math.random() < 0.5 ? "#8b7355" : "#a0926b";
+        const mat = new THREE.MeshBasicMaterial({ color: new THREE.Color(dustShade), transparent: true, opacity: 0.6 });
+        const p = new THREE.Mesh(geo, mat);
+        const angle = Math.random() * Math.PI * 2;
+        const speed = 1 + Math.random() * 2;
+        p.userData.vx = Math.cos(angle) * speed;
+        p.userData.vy = Math.random() * 1.5 + 0.5;
+        p.userData.vz = (Math.random() - 0.5) * speed;
+        p.userData.isDust = true;
+        p.userData.growRate = 1.5 + Math.random(); // Dust expands
+        group.add(p);
+      }
+      group.position.set(x, y, z);
+      this.scene.add(group);
+      this.hitEffects.push({ x, y, z, life: 0, maxLife: 0.6, type, color, particles: group });
+      return;
+    }
+
+    // ── SWEAT/ENERGY DROPLETS (FINISH HIM moment) ──
+    if (type === "sweat") {
+      const sweatCount = 6;
+      for (let i = 0; i < sweatCount; i++) {
+        const size = 0.015 + Math.random() * 0.02;
+        const geo = new THREE.SphereGeometry(size, 4, 4);
+        const mat = new THREE.MeshBasicMaterial({ color: new THREE.Color("#aaddff"), transparent: true, opacity: 0.7 });
+        const p = new THREE.Mesh(geo, mat);
+        const angle = Math.random() * Math.PI;
+        p.userData.vx = (Math.random() - 0.5) * 1.5;
+        p.userData.vy = 1 + Math.random() * 2;
+        p.userData.vz = (Math.random() - 0.5) * 0.5;
+        p.userData.gravity = 6;
+        group.add(p);
+      }
+      group.position.set(x, y, z);
+      this.scene.add(group);
+      this.hitEffects.push({ x, y, z, life: 0, maxLife: 0.5, type, color, particles: group });
+      return;
+    }
+
+    // ── GROUND CRACK (heavy impacts) ──
+    if (type === "ground_crack") {
+      const crackCount = 8;
+      for (let i = 0; i < crackCount; i++) {
+        const len = 0.1 + Math.random() * 0.2;
+        const geo = new THREE.BoxGeometry(len, 0.005, 0.01);
+        const mat = new THREE.MeshBasicMaterial({ color: new THREE.Color("#333333"), transparent: true, opacity: 0.8 });
+        const p = new THREE.Mesh(geo, mat);
+        const angle = (i / crackCount) * Math.PI * 2 + Math.random() * 0.3;
+        p.position.set(Math.cos(angle) * 0.05, 0.01, Math.sin(angle) * 0.05);
+        p.rotation.y = angle;
+        p.userData.vx = Math.cos(angle) * 0.8;
+        p.userData.vz = Math.sin(angle) * 0.8;
+        p.userData.vy = 0;
+        p.userData.isGroundCrack = true;
+        group.add(p);
+      }
+      // Central impact flash
+      const impactGeo = new THREE.RingGeometry(0.01, 0.15, 16);
+      const impactMat = new THREE.MeshBasicMaterial({ color: new THREE.Color(color), transparent: true, opacity: 0.6, side: THREE.DoubleSide });
+      const impactRing = new THREE.Mesh(impactGeo, impactMat);
+      impactRing.rotation.x = -Math.PI / 2;
+      impactRing.position.y = 0.02;
+      impactRing.name = "flash";
+      group.add(impactRing);
+      group.position.set(x, y, z);
+      this.scene.add(group);
+      this.hitEffects.push({ x, y, z, life: 0, maxLife: 0.7, type, color, particles: group });
+      return;
+    }
+
+    // ── STANDARD PARTICLES (spark, heavy, block, special, parry, critical, etc.) ──
     // FLOATING PARTICLES
     const particleCount = type === "special" ? 24 : type === "heavy" ? 14 : type === "parry" ? 16 : type === "critical" ? 18 : 8;
     const mat = new THREE.MeshBasicMaterial({
@@ -2347,11 +2476,55 @@ export class FightEngine3D {
           ((child as THREE.Mesh).material as THREE.MeshBasicMaterial).opacity = (1 - progress) * 0.8;
           return;
         }
-        child.position.x += (child.userData.vx || 0) * dt;
-        child.position.y += (child.userData.vy || 0) * dt;
-        child.position.z += (child.userData.vz || 0) * dt;
-        child.userData.vy -= 10 * dt;
+
+        const ud = child.userData;
         const pMat = (child as THREE.Mesh).material as THREE.MeshBasicMaterial;
+
+        // Blood particles — gravity + floor collision + staining
+        if (ud.isBlood) {
+          child.position.x += (ud.vx || 0) * dt;
+          child.position.y += (ud.vy || 0) * dt;
+          child.position.z += (ud.vz || 0) * dt;
+          ud.vy -= (ud.gravity || 10) * dt;
+          // Floor collision — blood sticks to ground
+          if (child.position.y < -effect.y + 0.02) {
+            child.position.y = -effect.y + 0.02;
+            ud.vx *= 0.3;
+            ud.vy = 0;
+            ud.vz *= 0.3;
+            // Flatten into puddle
+            child.scale.set(1.5, 0.2, 1.5);
+          }
+          pMat.opacity = Math.max(0, 0.9 - progress * 0.5);
+          return;
+        }
+
+        // Dust particles — expand + slow drift + fade
+        if (ud.isDust) {
+          child.position.x += (ud.vx || 0) * dt * (1 - progress * 0.7);
+          child.position.y += (ud.vy || 0) * dt * (1 - progress);
+          child.position.z += (ud.vz || 0) * dt * (1 - progress * 0.7);
+          ud.vy -= 2 * dt; // Slow gravity for dust
+          const grow = 1 + progress * (ud.growRate || 1.5);
+          child.scale.set(grow, grow, grow);
+          pMat.opacity = 0.6 * (1 - progress);
+          return;
+        }
+
+        // Ground crack — spread outward, stay on ground
+        if (ud.isGroundCrack) {
+          const spreadProg = Math.min(progress * 3, 1);
+          child.position.x += (ud.vx || 0) * dt * (1 - spreadProg);
+          child.position.z += (ud.vz || 0) * dt * (1 - spreadProg);
+          pMat.opacity = 0.8 * (1 - progress);
+          return;
+        }
+
+        // Default particle physics
+        child.position.x += (ud.vx || 0) * dt;
+        child.position.y += (ud.vy || 0) * dt;
+        child.position.z += (ud.vz || 0) * dt;
+        ud.vy -= (ud.gravity || 10) * dt;
         pMat.opacity = 1 - progress;
         child.scale.multiplyScalar(0.97);
       });

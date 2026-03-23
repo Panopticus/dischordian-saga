@@ -145,6 +145,7 @@ export default function FightArena3D({ player, opponent, arena, difficulty, onMa
             case "round_announce": {
               const state = engine.getState();
               announce(`ROUND ${state.round}`, "#22d3ee", 1200);
+              sound.play("round_bell");
               sound.playRoundFanfare();
               sound.announce(`Round ${state.round}`);
               setTimeout(() => {
@@ -191,6 +192,10 @@ export default function FightArena3D({ player, opponent, arena, difficulty, onMa
             sound.play("combo_hit");
             hapticForEvent("combo", { combo: count });
             if (count >= 3) sound.announce(`${count} hit combo!`);
+            // MK-style callouts for big combos
+            if (count === 5) { sound.announce("Excellent!"); sound.play("crowd_gasp"); }
+            else if (count === 7) { sound.announce("Outstanding!"); sound.play("crowd_gasp"); }
+            else if (count === 10) { sound.play("toasty"); sound.announce("Toasty!"); }
           }
           if (trainingMode && p === 1) {
             setTrainingComboMax(prev => Math.max(prev, count));
@@ -201,13 +206,28 @@ export default function FightArena3D({ player, opponent, arena, difficulty, onMa
           if (trainingMode && attacker === 1) {
             setTrainingHitsLanded(prev => prev + 1);
           }
-          // Sound
-          if (type.includes("light")) sound.play("punch_light");
-          else if (type.includes("heavy") || type.includes("medium")) sound.play("punch_heavy");
-          else if (type.includes("block")) sound.play("block");
-          else if (type.includes("special")) sound.play("special");
-          else if (type.includes("parried")) sound.play("block");
-          else sound.play("punch_light");
+          // Sound — MK-style layered hits
+          if (type.includes("light")) {
+            sound.play("punch_light");
+            sound.play("grunt_hit");
+          } else if (type.includes("heavy") || type.includes("medium")) {
+            sound.play("punch_heavy");
+            sound.play("grunt_hit");
+            sound.play("blood_splat");
+            if (type.includes("heavy")) sound.play("bone_crack");
+          } else if (type.includes("block")) {
+            sound.play("block");
+          } else if (type.includes("special")) {
+            sound.play("special");
+            sound.play("grunt_hit");
+            sound.play("blood_splat");
+            sound.play("dramatic_boom");
+          } else if (type.includes("parried")) {
+            sound.play("parry_flash");
+          } else {
+            sound.play("punch_light");
+            sound.play("grunt_hit");
+          }
           // Haptic
           if (type.includes("light")) hapticForEvent("light_hit");
           else if (type.includes("medium")) hapticForEvent("medium_hit");
@@ -218,7 +238,7 @@ export default function FightArena3D({ player, opponent, arena, difficulty, onMa
         },
         onParry: (_p) => {
           flashEvent("PARRY!", "#ffdd00");
-          sound.play("block");
+          sound.play("parry_flash");
           hapticForEvent("parry");
         },
         onDex: (_p) => {
@@ -232,6 +252,8 @@ export default function FightArena3D({ player, opponent, arena, difficulty, onMa
         onGuardBreak: (_p) => {
           flashEvent("GUARD BREAK!", "#ef4444");
           sound.play("punch_heavy");
+          sound.play("bone_crack");
+          sound.play("crowd_gasp");
           hapticForEvent("guard_break");
         },
         onSpecialReady: (p, level) => {
@@ -247,6 +269,9 @@ export default function FightArena3D({ player, opponent, arena, difficulty, onMa
           else if (level === 2) hapticForEvent("sp2");
           else hapticForEvent("sp3");
           sound.play("special");
+          sound.play("grunt_attack");
+          if (level >= 2) sound.play("crowd_gasp");
+          if (level === 3) sound.play("dramatic_boom");
         },
         onDot: (_p, damage) => {
           hapticForEvent("dot_tick");
@@ -258,7 +283,9 @@ export default function FightArena3D({ player, opponent, arena, difficulty, onMa
           setFinishHim({ target });
           const targetName = target === 1 ? player.name : opponent.name;
           announce("FINISH HIM!", "#ef4444", 3500);
+          sound.play("finish_him");
           sound.announce(`Finish ${targetName}!`);
+          sound.play("crowd_gasp");
           hapticForEvent("ko");
           // Clear after stun duration
           setTimeout(() => setFinishHim(null), 3500);

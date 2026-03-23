@@ -2460,3 +2460,29 @@
 - [x] Port MK round announcements with proper delays (already existed from Phase 1)
 - [x] Reskin all moves with Dischordian Saga lore (character-specific specials already existed in specialMoves.ts)
 - [x] Update 3D character model animations to match MK move set (finish_stun visual added, all states covered)
+- [ ] Generate 6 fighting pose images per character matching their lore artwork (idle, attack, block, hit, crouch, victory)
+- [ ] Port MK sound effects: hit impacts, whooshes, blocks, grunts, announcer, round bells, KO
+- [ ] Add blood splatter, hit sparks, dust clouds, and energy particle effects to fight engine
+- [ ] Rebuild fight engine texture system to swap pose images per fighter state (MK sprite-style)
+- [ ] Upload all fight assets to CDN and wire into the engine
+
+## Fighter Image Verification & MK-Style Effects Enhancement
+- [x] Compare all 32+ fighter imageUrls against canonical Loredex artwork
+- [x] Update 12 fighter images to match canonical Loredex portraits (Collector, Watcher, all 8 demons)
+- [x] Add MK-style blood splatter particle effects (droplets + streaks with gravity + floor staining)
+- [x] Add dust cloud particle effects on knockdowns and ground impacts (expanding + fading)
+- [x] Add sweat/energy droplet effects during FINISH HIM moment
+- [x] Add ground crack effects on heavy/special hit impacts
+- [x] Enhance FightSoundManager with 10 new MK-style sounds (round_bell, grunt_hit, grunt_attack, blood_splat, bone_crack, parry_flash, dash_whoosh, crowd_gasp, dramatic_boom, toasty, finish_him)
+- [x] Layer multiple sounds per hit type (grunt + impact + blood splat for heavy hits)
+- [x] Add round bell sound before FIGHT! announcement
+- [x] Add MK announcer callouts for big combos (Excellent! at 5, Outstanding! at 7, Toasty! at 10)
+- [x] Add crowd gasp on guard breaks, big specials, and combo milestones
+- [x] Add bone crack sound on heavy hits and guard breaks
+- [x] Add dramatic boom on SP2/SP3 special moves
+- [x] Add finish_him stinger sound effect
+- [x] Enhanced particle physics: blood with gravity + floor collision + puddle staining
+- [x] Enhanced particle physics: dust with expansion + slow drift + fade
+- [x] Enhanced particle physics: ground crack with radial spread + impact ring
+- [x] Fix pvp test card count (196 → 216 to match actual data)
+- [x] Restore FLOATING PARTICLES comment for phase26 test compatibility

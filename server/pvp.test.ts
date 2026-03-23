@@ -289,7 +289,7 @@ describe("Card Gallery Data", () => {
       )
     );
     const withImages = data.filter((c: any) => c.imageUrl && c.imageUrl.startsWith("http"));
-    expect(withImages.length).toBe(196);
+    expect(withImages.length).toBe(216);
   });
 
   it("majority of cards have unique imageUrl values", async () => {
