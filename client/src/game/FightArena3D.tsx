@@ -78,6 +78,7 @@ export default function FightArena3D({ player, opponent, arena, difficulty, onMa
   const [trainingHitsLanded, setTrainingHitsLanded] = useState(0);
   const [eventFlash, setEventFlash] = useState<{ text: string; color: string } | null>(null);
   const [specialFlash, setSpecialFlash] = useState<{ name: string; level: number; color: string } | null>(null);
+  const [finishHim, setFinishHim] = useState<{ target: 1 | 2 } | null>(null);
 
   // Tutorial state — show on first visit unless training mode
   const [showTutorial, setShowTutorial] = useState(() => {
@@ -252,6 +253,15 @@ export default function FightArena3D({ player, opponent, arena, difficulty, onMa
         },
         onHeal: (_p, amount) => {
           hapticForEvent("heal");
+        },
+        onFinishHim: (target) => {
+          setFinishHim({ target });
+          const targetName = target === 1 ? player.name : opponent.name;
+          announce("FINISH HIM!", "#ef4444", 3500);
+          sound.announce(`Finish ${targetName}!`);
+          hapticForEvent("ko");
+          // Clear after stun duration
+          setTimeout(() => setFinishHim(null), 3500);
         },
         onMatchEnd: (winner) => {
           setMatchEnded(true);
@@ -823,6 +833,39 @@ export default function FightArena3D({ player, opponent, arena, difficulty, onMa
                 textTransform: "uppercase",
               }}>
                 {specialFlash.name}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* ── MK-INSPIRED: FINISH HIM! OVERLAY ── */}
+        <AnimatePresence>
+          {finishHim && (
+            <motion.div
+              key="finish-him"
+              initial={{ opacity: 0, scale: 3, rotateX: 90 }}
+              animate={{ opacity: 1, scale: 1, rotateX: 0 }}
+              exit={{ opacity: 0, scale: 0.5, y: 50 }}
+              transition={{ duration: 0.5, type: "spring", stiffness: 150, damping: 12 }}
+              style={{
+                position: "absolute", top: "35%", left: "50%", transform: "translate(-50%, -50%)",
+                textAlign: "center", zIndex: 50, pointerEvents: "none",
+              }}
+            >
+              <div style={{
+                fontFamily: "'Orbitron', monospace", fontSize: "max(5vw, 36px)", fontWeight: "900",
+                color: "#ef4444", letterSpacing: "0.15em", textTransform: "uppercase",
+                textShadow: "0 0 40px #ef444480, 0 0 80px #ef444440, 0 0 120px #ef444420, 0 4px 0 #000",
+                animation: "finishHimPulse 0.5s ease-in-out infinite alternate",
+              }}>
+                FINISH HIM!
+              </div>
+              <div style={{
+                fontFamily: "'Orbitron', monospace", fontSize: "max(1.5vw, 12px)",
+                color: "rgba(255,255,255,0.6)", letterSpacing: "0.4em", marginTop: "0.5vh",
+                textShadow: "0 2px 4px rgba(0,0,0,0.8)",
+              }}>
+                DELIVER THE FINAL BLOW
               </div>
             </motion.div>
           )}

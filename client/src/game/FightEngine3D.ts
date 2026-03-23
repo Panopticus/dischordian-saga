@@ -10,14 +10,14 @@ import type { FighterData } from "./gameData";
 import { getCharacterSpecials, type CharacterSpecials, type SpecialMove } from "./specialMoves";
 
 /* ═══ TYPES ═══ */
-export type FightPhase = "intro" | "round_announce" | "fighting" | "ko" | "round_end" | "match_end";
+export type FightPhase = "intro" | "round_announce" | "fighting" | "finish_him" | "ko" | "round_end" | "match_end";
 export type FighterState = "idle" | "walk_fwd" | "walk_back" | "dash_fwd" | "dash_back" |
   "jump" | "crouch" |
   "light_1" | "light_2" | "light_3" | "light_4" | "medium" | "heavy_charge" | "heavy_release" |
   "special_1" | "special_2" | "special_3" |
   "block_stand" | "block_crouch" |
   "hitstun" | "blockstun" | "parry_stun" | "knockdown" | "getup" | "launched" |
-  "victory" | "ko";
+  "finish_stun" | "victory" | "ko";
 export type AIStyle = "aggressive" | "defensive" | "evasive" | "balanced";
 export type Difficulty = "recruit" | "soldier" | "veteran" | "archon";
 
@@ -235,6 +235,29 @@ const SPECIAL_RANGE = 2.2;
 const COMBO_DROP_TIME = 0.6;       // combo drops after 0.6s of no hits
 const MAX_COMBO_HITS = 5;          // MCOC-style 5-hit max before defender can respond
 
+// ═══ MK-INSPIRED ENHANCEMENTS ═══
+// Deferred hit resolution — creates impact timing feel (MK-style)
+const DEFERRED_HIT_DELAY_LIGHT = 0.05;   // 50ms for lights (snappy)
+const DEFERRED_HIT_DELAY_MEDIUM = 0.08;  // 80ms for medium
+const DEFERRED_HIT_DELAY_HEAVY = 0.12;   // 120ms for heavy (weighty)
+const DEFERRED_HIT_DELAY_SPECIAL = 0.15; // 150ms for specials (cinematic)
+
+// Attack lunges — forward movement during attacks (MK-style)
+const LUNGE_LIGHT = 0.15;     // small step forward
+const LUNGE_MEDIUM_EXTRA = 0.3; // additional to existing MEDIUM_LUNGE
+const LUNGE_HEAVY = 0.5;      // big step forward on release
+const LUNGE_UPPERCUT = 0.25;  // uppercut step
+
+// Damage variance — random multiplier per hit (MK-style)
+const DMG_VARIANCE_MIN = 0.75;  // minimum 75% of base damage
+const DMG_VARIANCE_MAX = 1.0;   // maximum 100% of base damage
+
+// Finish Him — dramatic stun when opponent is critical (MK-style)
+const FINISH_HIM_HP_THRESHOLD = 0.10; // 10% HP triggers finish state
+const FINISH_HIM_STUN_DURATION = 3.5; // 3.5 seconds of stun (matches MK disabled state)
+const FINISH_HIM_SLOW_MO = 0.2;       // slow-mo speed during finish
+const FINISH_HIM_PHASE_DURATION = 4.0; // total phase duration
+
 // Special meter
 const METER_PER_LIGHT = 8;
 const METER_PER_MEDIUM = 12;
@@ -283,6 +306,15 @@ export interface FightCallbacks {
   onSpecialActivate?: (player: 1 | 2, level: 1 | 2 | 3, moveName: string, moveType: string) => void;
   onDot?: (player: 1 | 2, damage: number) => void;
   onHeal?: (player: 1 | 2, amount: number) => void;
+  onFinishHim?: (target: 1 | 2) => void;
+}
+
+/* ═══ MK-INSPIRED: DEFERRED HIT QUEUE ═══ */
+interface DeferredHit {
+  attacker: Fighter;
+  defender: Fighter;
+  attackType: FighterState;
+  delay: number;  // remaining delay before resolution
 }
 
 /* ═══════════════════════════════════════════════════════
@@ -353,6 +385,12 @@ export class FightEngine3D {
   // Character specials
   private p1Specials!: CharacterSpecials;
   private p2Specials!: CharacterSpecials;
+
+  // MK-Inspired: Deferred hit queue
+  private deferredHits: DeferredHit[] = [];
+  // MK-Inspired: Finish Him state tracking
+  private finishHimTriggered = false;
+  private finishHimTarget: 1 | 2 = 2;
 
   // Animation
   private animFrame = 0;
@@ -837,6 +875,9 @@ export class FightEngine3D {
     this.updateAutoSpacing(this.p1, this.p2, dt);
     this.updateAutoSpacing(this.p2, this.p1, dt);
 
+    // MK-Inspired: Process deferred hit queue
+    this.processDeferredHits(dt);
+
     this.callbacks.onHealthChange?.(this.p1.hp, this.p1.maxHp, this.p2.hp, this.p2.maxHp);
 
     // Training mode
@@ -850,6 +891,18 @@ export class FightEngine3D {
       }
       this.roundTimer = 99;
     } else {
+      // MK-Inspired: FINISH HIM check before KO
+      if (!this.finishHimTriggered) {
+        if (this.p1.hp > 0 && this.p2.hp > 0) {
+          const p1Ratio = this.p1.hp / this.p1.maxHp;
+          const p2Ratio = this.p2.hp / this.p2.maxHp;
+          if (p1Ratio <= FINISH_HIM_HP_THRESHOLD && p1Ratio > 0) {
+            this.triggerFinishHim(1);
+          } else if (p2Ratio <= FINISH_HIM_HP_THRESHOLD && p2Ratio > 0) {
+            this.triggerFinishHim(2);
+          }
+        }
+      }
       if (this.p1.hp <= 0) this.endRound(2);
       if (this.p2.hp <= 0) this.endRound(1);
     }
@@ -1216,7 +1269,7 @@ export class FightEngine3D {
 
   private isInActionState(f: Fighter): boolean {
     return ["hitstun", "blockstun", "parry_stun", "knockdown", "getup", "ko",
-            "launched", "dash_fwd", "dash_back", "victory"].includes(f.state) ||
+            "launched", "dash_fwd", "dash_back", "victory", "finish_stun"].includes(f.state) ||
            this.isInAttackState(f);
   }
 
@@ -1228,7 +1281,7 @@ export class FightEngine3D {
     if (f.dashCooldown > 0) f.dashCooldown -= dt;
     if (f.stunTimer > 0) {
       f.stunTimer -= dt;
-      if (f.stunTimer <= 0 && f.state === "parry_stun") {
+      if (f.stunTimer <= 0 && (f.state === "parry_stun" || f.state === "finish_stun")) {
         f.state = "idle";
         f.vx = 0;
       }
@@ -1419,7 +1472,7 @@ export class FightEngine3D {
   /* ═══ HIT DETECTION — MCOC STYLE ═══ */
   private checkHit(attacker: Fighter, defender: Fighter, attackType: FighterState) {
     if (defender.invincible > 0) return;
-    if (defender.state === "knockdown" || defender.state === "getup") return;
+    if (defender.state === "knockdown" || defender.state === "getup" || defender.state === "finish_stun") return;
     if (defender.dexActive) return; // Dexterity evade
 
     const dist = Math.abs(attacker.x - defender.x);
@@ -1437,7 +1490,16 @@ export class FightEngine3D {
     const isHeavy = attackType === "heavy_release";
     const isGuardBreak = isHeavy && isBlocking;
 
-    if (isBlocking && isFacingAttacker && !isGuardBreak) {
+    // MK-Inspired: High/Low mixup blocking
+    // Standing block only blocks standing attacks, crouching block only blocks low attacks
+    const isLowAttack = attackType === "light_3" || attackType === "light_4"; // sweep-type attacks
+    const isHighAttack = attackType === "heavy_release" || attackType === "medium"; // overhead attacks
+    const blockMismatch = isBlocking && isFacingAttacker && !isGuardBreak && (
+      (defender.state === "block_stand" && isLowAttack) ||
+      (defender.state === "block_crouch" && isHighAttack)
+    );
+
+    if (isBlocking && isFacingAttacker && !isGuardBreak && !blockMismatch) {
       // ── PARRY CHECK ──
       if (defender.isParrying && defender.parryWindow > 0) {
         // PARRY! Stun the attacker
@@ -1489,6 +1551,20 @@ export class FightEngine3D {
     // ── HIT! ──
     let damage = this.getAttackDamage(attackType, attacker);
     const playerNum = attacker === this.p1 ? 1 : 2;
+
+    // MK-Inspired: Random damage variance (75%-100% of base)
+    const dmgVariance = DMG_VARIANCE_MIN + Math.random() * (DMG_VARIANCE_MAX - DMG_VARIANCE_MIN);
+    damage *= dmgVariance;
+
+    // MK-Inspired: Attack lunge — forward movement during hit
+    const lungeDir = attacker.facingRight ? 1 : -1;
+    if (this.isLightAttack(attackType)) {
+      attacker.x += lungeDir * LUNGE_LIGHT;
+    } else if (attackType === "medium") {
+      attacker.x += lungeDir * LUNGE_MEDIUM_EXTRA;
+    } else if (attackType === "heavy_release") {
+      attacker.x += lungeDir * LUNGE_HEAVY;
+    }
 
     // Combo scaling
     if (attacker.comboCount > 0) {
@@ -1693,7 +1769,7 @@ export class FightEngine3D {
   private updateAI(ai: Fighter, player: Fighter, dt: number) {
     // Don't act during stun
     if (ai.stunTimer > 0) return;
-    if (ai.state === "parry_stun" || ai.state === "knockdown" || ai.state === "getup" || ai.state === "ko") return;
+    if (ai.state === "parry_stun" || ai.state === "knockdown" || ai.state === "getup" || ai.state === "ko" || ai.state === "finish_stun") return;
     if (this.isInAttackState(ai) && !this.canCancelIntoNext(ai)) return;
 
     ai.aiTimer -= dt;
@@ -2063,8 +2139,67 @@ export class FightEngine3D {
     }
   }
 
+  /* ═══ MK-INSPIRED: DEFERRED HIT RESOLUTION ═══ */
+  private getDeferredDelay(attackType: FighterState): number {
+    if (this.isLightAttack(attackType)) return DEFERRED_HIT_DELAY_LIGHT;
+    if (attackType === "medium") return DEFERRED_HIT_DELAY_MEDIUM;
+    if (attackType === "heavy_release") return DEFERRED_HIT_DELAY_HEAVY;
+    if (this.isSpecialAttack(attackType)) return DEFERRED_HIT_DELAY_SPECIAL;
+    return DEFERRED_HIT_DELAY_LIGHT;
+  }
+
+  private queueDeferredHit(attacker: Fighter, defender: Fighter, attackType: FighterState) {
+    this.deferredHits.push({
+      attacker,
+      defender,
+      attackType,
+      delay: this.getDeferredDelay(attackType),
+    });
+  }
+
+  private processDeferredHits(dt: number) {
+    for (let i = this.deferredHits.length - 1; i >= 0; i--) {
+      const hit = this.deferredHits[i];
+      hit.delay -= dt;
+      if (hit.delay <= 0) {
+        // Resolve the hit now (checkHit handles full resolution)
+        this.checkHit(hit.attacker, hit.defender, hit.attackType);
+        this.deferredHits.splice(i, 1);
+      }
+    }
+  }
+
+  /* ═══ MK-INSPIRED: FINISH HIM SYSTEM ═══ */
+  private triggerFinishHim(target: 1 | 2) {
+    this.finishHimTriggered = true;
+    this.finishHimTarget = target;
+    const targetFighter = target === 1 ? this.p1 : this.p2;
+
+    // Stun the target (MK disabled state)
+    targetFighter.state = "finish_stun";
+    targetFighter.stateTimer = 0;
+    targetFighter.stunTimer = FINISH_HIM_STUN_DURATION;
+    targetFighter.vx = 0;
+    targetFighter.vy = 0;
+
+    // Dramatic slow-mo
+    this.slowMo = { active: true, speed: FINISH_HIM_SLOW_MO, duration: 1.5, timer: 1.5 };
+
+    // Screen shake + flash
+    this.screenShake.intensity = 8;
+    this.screenShake.duration = 0.4;
+    this.screenShake.timer = 0;
+    this.triggerScreenFlash("#ff0000", 0.5, 0.3);
+
+    // Callback for UI to show "FINISH HIM!" text
+    this.callbacks.onFinishHim?.(target);
+  }
+
   /* ═══ ROUND MANAGEMENT ═══ */
   private endRound(winner: 1 | 2) {
+    // Reset finish him state for next round
+    this.finishHimTriggered = false;
+    this.deferredHits = [];
     const winnerFighter = winner === 1 ? this.p1 : this.p2;
     const loserFighter = winner === 1 ? this.p2 : this.p1;
     winnerFighter.roundWins++;
@@ -2263,7 +2398,7 @@ export class FightEngine3D {
         targetPose = "attack";
       } else if (["block_stand", "block_crouch", "blockstun"].includes(f.state)) {
         targetPose = "block";
-      } else if (["hitstun", "knockdown", "getup", "launched", "parry_stun"].includes(f.state)) {
+      } else if (["hitstun", "knockdown", "getup", "launched", "parry_stun", "finish_stun"].includes(f.state)) {
         targetPose = "hit";
       } else if (f.state === "ko") {
         targetPose = "ko";
@@ -2449,6 +2584,17 @@ export class FightEngine3D {
         mat.uniforms.uHitFlash.value = 0.3 * stunProg;
         // Stars effect (yellow glow)
         glowMat.uniforms.uGlowIntensity.value = 1.5 * stunProg;
+        break;
+      }
+      case "finish_stun": {
+        // MK-Inspired: Dramatic wobble during FINISH HIM moment
+        const finishProg = f.stunTimer / FINISH_HIM_STUN_DURATION;
+        sprite.rotation.z = Math.sin(t * 6) * 0.12 * finishProg;
+        sprite.position.y = baseY - 0.08 + Math.sin(t * 3) * 0.03;
+        sprite.scale.set(1 + Math.sin(t * 10) * 0.02, 1 - Math.sin(t * 10) * 0.02, 1);
+        mat.uniforms.uHitFlash.value = 0.4 + Math.sin(t * 4) * 0.2;
+        // Pulsing red glow
+        glowMat.uniforms.uGlowIntensity.value = 2.0 + Math.sin(t * 5) * 0.5;
         break;
       }
       case "launched": {

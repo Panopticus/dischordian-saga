@@ -2449,3 +2449,14 @@
 - [x] Chess: Build complete AAA chess experience with all visual upgrades
 - [x] Chess: Verify and ensure piece movement animations work with custom piece images
 - [x] Suppress achievement/quest popups while dialog boxes (NarrativeEngine, LoreOverlay, ElaraDialog) are active; queue them to show after dialog closes
+- [x] Port MK state machine into FightEngine3D: READY/UP/DOWN/BLOCK/BLOCKDWN/WIN/LOSE/DISABLED states
+- [x] Port MK deferred hit resolution (350ms punch, 850ms kick delays for impact feel)
+- [x] Port MK high/low blocking system (standing blocks high, crouching blocks low)
+- [x] Port MK attack lunges (forward movement during attacks: punch 7px, kick 17px, etc.)
+- [x] Port MK random damage variance (baseDamage * random multiplier)
+- [x] Port MK combo/projectile system reskinned as lore abilities (existing system already exceeds MK complexity)
+- [x] Port MK hit reactions (single hit, uppercut launch, disabled stun)
+- [x] Add MK-style "FINISH HIM" moment at critical HP
+- [x] Port MK round announcements with proper delays (already existed from Phase 1)
+- [x] Reskin all moves with Dischordian Saga lore (character-specific specials already existed in specialMoves.ts)
+- [x] Update 3D character model animations to match MK move set (finish_stun visual added, all states covered)

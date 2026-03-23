@@ -1347,3 +1347,9 @@ html.font-size-large {
 html.font-size-large .font-mono {
   font-size: inherit;
 }
+
+/* MK-Inspired: FINISH HIM pulse animation */
+@keyframes finishHimPulse {
+  0% { transform: translate(-50%, -50%) scale(1); filter: brightness(1); }
+  100% { transform: translate(-50%, -50%) scale(1.05); filter: brightness(1.3); }
+}
