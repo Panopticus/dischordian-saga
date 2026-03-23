@@ -2441,7 +2441,7 @@
 - [x] Add dynamic mysterious text above starter deck cards: "These are the keys to a universe of power, possibility and potential."
 - [x] Add text below starter deck cards: "Master the Game and the Truth will be Revealed."
 - [x] Make dialog box a centered full-screen modal overlay (primary focus, dim background, all other UI secondary)
-- [ ] Fix morality shift display: show BOTH sides (e.g., "MACHINE -5 / HUMANITY +5" instead of just "MACHINE -5") across all components (LoreOverlay, NarrativeEngine, DialogWheel, etc.)
+- [x] Fix morality shift display: show BOTH sides (e.g., "MACHINE -5 / HUMANITY +5" instead of just "MACHINE -5") across all components (LoreOverlay, NarrativeEngine, DialogWheel, etc.)
 - [x] Chess: Design lore-based board themes that change per opponent/fight area
 - [x] Chess: Generate board background images for each fight area
 - [x] Chess: Full screen theming per opponent (background, colors, atmosphere)

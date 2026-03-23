@@ -22,14 +22,26 @@ import type { JSX } from "react";
 function MoralityShiftBadge({ shift }: { shift: number }) {
   if (shift === 0) return null;
   const isMachine = shift < 0;
+  const absVal = Math.abs(shift);
   return (
-    <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-mono tracking-wider ${
-      isMachine
-        ? "bg-cyan-500/20 text-cyan-400 border border-cyan-500/30"
-        : "bg-amber-500/20 text-amber-400 border border-amber-500/30"
-    }`}>
-      {isMachine ? <CircuitBoard size={10} /> : <Heart size={10} />}
-      {isMachine ? "MACHINE" : "HUMANITY"} {isMachine ? shift : `+${shift}`}
+    <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-[10px] font-mono tracking-wider bg-muted/30 border border-border/40">
+      {isMachine ? (
+        <>
+          <CircuitBoard size={10} className="text-cyan-400" />
+          <span className="text-cyan-400">MACHINE +{absVal}</span>
+          <span className="text-muted-foreground/50">/</span>
+          <Heart size={10} className="text-amber-400" />
+          <span className="text-amber-400">HUMANITY -{absVal}</span>
+        </>
+      ) : (
+        <>
+          <Heart size={10} className="text-amber-400" />
+          <span className="text-amber-400">HUMANITY +{absVal}</span>
+          <span className="text-muted-foreground/50">/</span>
+          <CircuitBoard size={10} className="text-cyan-400" />
+          <span className="text-cyan-400">MACHINE -{absVal}</span>
+        </>
+      )}
     </span>
   );
 }
@@ -502,13 +514,25 @@ export default function LoreTutorialEngine({ tutorial, onComplete, onDismiss }: 
                 <div className="flex items-center justify-between px-3 py-2 rounded-lg bg-muted/40 border border-border/60">
                   <span className="font-mono text-xs text-muted-foreground">MORALITY SHIFT</span>
                   <div className="flex items-center gap-2">
-                    {totalMoralityShift < 0 ? (
-                      <span className="flex items-center gap-1 text-cyan-400 font-mono text-sm font-bold">
-                        <CircuitBoard size={14} /> {totalMoralityShift} MACHINE
-                      </span>
-                    ) : totalMoralityShift > 0 ? (
-                      <span className="flex items-center gap-1 text-amber-400 font-mono text-sm font-bold">
-                        <Heart size={14} /> +{totalMoralityShift} HUMANITY
+                    {totalMoralityShift !== 0 ? (
+                      <span className="flex items-center gap-1.5 font-mono text-sm font-bold">
+                        {totalMoralityShift < 0 ? (
+                          <>
+                            <CircuitBoard size={14} className="text-cyan-400" />
+                            <span className="text-cyan-400">MACHINE +{Math.abs(totalMoralityShift)}</span>
+                            <span className="text-muted-foreground/50">/</span>
+                            <Heart size={14} className="text-amber-400" />
+                            <span className="text-amber-400">HUMANITY {totalMoralityShift}</span>
+                          </>
+                        ) : (
+                          <>
+                            <Heart size={14} className="text-amber-400" />
+                            <span className="text-amber-400">HUMANITY +{totalMoralityShift}</span>
+                            <span className="text-muted-foreground/50">/</span>
+                            <CircuitBoard size={14} className="text-cyan-400" />
+                            <span className="text-cyan-400">MACHINE -{totalMoralityShift}</span>
+                          </>
+                        )}
                       </span>
                     ) : (
                       <span className="font-mono text-sm text-muted-foreground">BALANCED</span>

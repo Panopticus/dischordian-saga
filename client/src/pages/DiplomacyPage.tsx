@@ -117,14 +117,25 @@ export default function DiplomacyPage() {
                     : "border-border/20 bg-card/10"
                 }`}>
                   <p className="font-mono text-[9px] text-muted-foreground tracking-wider mb-1">MORALITY</p>
-                  <p className={`font-display text-lg font-bold ${
-                    choice.moralityDelta > 0 ? "text-cyan-400" : choice.moralityDelta < 0 ? "text-red-400" : "text-muted-foreground"
-                  }`}>
-                    {choice.moralityDelta > 0 ? "+" : ""}{choice.moralityDelta}
-                  </p>
-                  <p className="font-mono text-[9px] text-muted-foreground">
-                    {choice.moralityDelta > 0 ? "→ HUMANITY" : choice.moralityDelta < 0 ? "→ MACHINE" : "NEUTRAL"}
-                  </p>
+                  {choice.moralityDelta !== 0 ? (
+                    <>
+                      <div className="flex items-center gap-1.5">
+                        <span className={`font-display text-lg font-bold ${choice.moralityDelta > 0 ? "text-cyan-400" : "text-red-400"}`}>
+                          {choice.moralityDelta > 0 ? "+" : ""}{choice.moralityDelta}
+                        </span>
+                      </div>
+                      <p className="font-mono text-[9px] text-muted-foreground">
+                        {choice.moralityDelta > 0
+                          ? `→ HUMANITY +${choice.moralityDelta} / MACHINE -${choice.moralityDelta}`
+                          : `→ MACHINE +${Math.abs(choice.moralityDelta)} / HUMANITY ${choice.moralityDelta}`}
+                      </p>
+                    </>
+                  ) : (
+                    <>
+                      <p className="font-display text-lg font-bold text-muted-foreground">0</p>
+                      <p className="font-mono text-[9px] text-muted-foreground">NEUTRAL</p>
+                    </>
+                  )}
                 </div>
 
                 {/* Credits */}
@@ -737,11 +748,18 @@ export default function DiplomacyPage() {
                   </div>
                 </div>
                 <p className="font-mono text-xs text-muted-foreground text-center">
-                  Current alignment: <span className={`font-bold ${
-                    state.moralityScore > 20 ? "text-cyan-400" : state.moralityScore < -20 ? "text-red-400" : "text-muted-foreground"
-                  }`}>
-                    {state.moralityScore > 20 ? "HUMANITY" : state.moralityScore < -20 ? "MACHINE" : "NEUTRAL"}
-                  </span> ({state.moralityScore > 0 ? "+" : ""}{state.moralityScore})
+                  Current alignment: {state.moralityScore !== 0 ? (
+                    <>
+                      <span className={`font-bold ${state.moralityScore > 0 ? "text-cyan-400" : "text-red-400"}`}>
+                        {state.moralityScore > 0 ? "HUMANITY" : "MACHINE"}
+                      </span>
+                      {" "}({state.moralityScore > 0
+                        ? `HUMANITY +${state.moralityScore} / MACHINE -${state.moralityScore}`
+                        : `MACHINE +${Math.abs(state.moralityScore)} / HUMANITY ${state.moralityScore}`})
+                    </>
+                  ) : (
+                    <span className="font-bold text-muted-foreground">NEUTRAL</span>
+                  )}
                 </p>
               </div>
 

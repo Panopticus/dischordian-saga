@@ -291,15 +291,28 @@ function WheelSegment({
               </div>
             )}
 
-            {/* Morality shift indicator */}
-            {choice.moralityShift !== 0 && (
-              <div className={`
-                text-[10px] font-mono font-bold
-                ${choice.moralityShift > 0 ? "text-cyan-400" : "text-amber-400"}
-              `}>
-                {choice.moralityShift > 0 ? `+${choice.moralityShift}` : choice.moralityShift}
-              </div>
-            )}
+            {/* Morality shift indicator — shows BOTH sides */}
+            {choice.moralityShift !== 0 && (() => {
+              const absVal = Math.abs(choice.moralityShift);
+              const isMachine = choice.moralityShift < 0;
+              return (
+                <div className="flex items-center gap-1 text-[10px] font-mono font-bold">
+                  {isMachine ? (
+                    <>
+                      <span className="text-amber-400">+{absVal}</span>
+                      <span className="text-muted-foreground/40">/</span>
+                      <span className="text-cyan-400">-{absVal}</span>
+                    </>
+                  ) : (
+                    <>
+                      <span className="text-cyan-400">+{absVal}</span>
+                      <span className="text-muted-foreground/40">/</span>
+                      <span className="text-amber-400">-{absVal}</span>
+                    </>
+                  )}
+                </div>
+              );
+            })()}
 
             <ChevronRight size={12} className={`
               text-muted-foreground transition-all

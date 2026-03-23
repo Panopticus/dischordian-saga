@@ -12,7 +12,7 @@
  */
 import { useState, useEffect, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Radio, Skull, X, ChevronRight, Volume2 } from "lucide-react";
+import { Radio, Skull, X, ChevronRight, Volume2, CircuitBoard, Heart } from "lucide-react";
 import { useLoredex } from "@/contexts/LoredexContext";
 
 interface LoreComment {
@@ -412,19 +412,38 @@ export function LoreOverlay({ gameMode, contextId, onMoralityShift, onCardUnlock
             />
           </p>
 
-          {/* Morality indicator (shown after typing completes) */}
-          {typingDone && activeComment.moralityShift && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="mt-2 flex items-center gap-1.5"
-            >
-              <ChevronRight size={10} className={activeComment.moralityShift > 0 ? "text-amber-400" : "text-violet-400"} />
-              <span className={`font-mono text-[9px] ${activeComment.moralityShift > 0 ? "text-amber-400/70" : "text-violet-400/70"}`}>
-                {activeComment.moralityShift > 0 ? "HUMANITY" : "MACHINE"} {activeComment.moralityShift > 0 ? "+" : ""}{activeComment.moralityShift}
-              </span>
-            </motion.div>
-          )}
+          {/* Morality indicator (shown after typing completes) — shows BOTH sides */}
+          {typingDone && activeComment.moralityShift && (() => {
+            const shift = activeComment.moralityShift;
+            const absVal = Math.abs(shift);
+            const isMachine = shift < 0;
+            return (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="mt-2 flex items-center gap-1.5"
+              >
+                <ChevronRight size={10} className={isMachine ? "text-cyan-400" : "text-amber-400"} />
+                {isMachine ? (
+                  <span className="font-mono text-[9px] flex items-center gap-1">
+                    <CircuitBoard size={9} className="text-cyan-400" />
+                    <span className="text-cyan-400">MACHINE +{absVal}</span>
+                    <span className="text-muted-foreground/40">/</span>
+                    <Heart size={9} className="text-amber-400" />
+                    <span className="text-amber-400">HUMANITY -{absVal}</span>
+                  </span>
+                ) : (
+                  <span className="font-mono text-[9px] flex items-center gap-1">
+                    <Heart size={9} className="text-amber-400" />
+                    <span className="text-amber-400">HUMANITY +{absVal}</span>
+                    <span className="text-muted-foreground/40">/</span>
+                    <CircuitBoard size={9} className="text-cyan-400" />
+                    <span className="text-cyan-400">MACHINE -{absVal}</span>
+                  </span>
+                )}
+              </motion.div>
+            );
+          })()}
 
           {/* Dismiss hint after typing */}
           {typingDone && (
