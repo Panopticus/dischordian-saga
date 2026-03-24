@@ -2518,3 +2518,13 @@
 - [x] Apply per-character startup/recovery/damage/hitstun/blockstun/pushback scaling
 - [x] Wire per-character combo hit caps to prevent infinite combos
 - [x] Run all tests and verify system (2035/2035 passing, 0 TS errors)
+
+## Navigation Overhaul - Ship Schematic Map & Narrative Discovery
+- [x] Audit all navigation components and room unlock mechanics
+- [x] Design narrative unlock chain (every room has a story reason, no arbitrary counters)
+- [x] Rewrite room unlockRequirements to use narrative triggers instead of rooms_unlocked counts
+- [x] Build ship schematic map component with fog-of-war and fast travel
+- [x] Refactor sidebar to only show discovered features progressively
+- [x] Gate top nav to only show content the player has discovered
+- [x] Consolidate overlapping navigation (Ark Explorer, InceptionArkPage, FastTravel, Pathways)
+- [x] Test and verify the complete navigation overhaul

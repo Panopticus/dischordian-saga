@@ -90,12 +90,26 @@ const ROOM_NAMES: Record<string, string> = {
   "captains-quarters": "the Captain's Quarters",
 };
 
+// Narrative hints for how to unlock each room
+const ROOM_NARRATIVE_HINTS: Record<string, string> = {
+  "bridge": "Elara will guide you to the Bridge after you explore the Cryo Bay.",
+  "archives": "Visit the Bridge first — Elara will restore access to the Archives.",
+  "comms-array": "Visit the Bridge to restore ship systems. Elara will reroute power to the Comms Array.",
+  "observation-deck": "Search the Medical Bay for the Observation Keycard to unlock this deck.",
+  "engineering": "Visit the Comms Array first. Elara will detect a power fluctuation and open Engineering.",
+  "forge-workshop": "Discover Engineering Bay — the Forge Workshop is connected to it.",
+  "armory": "Visit Engineering to bring combat systems online. The Armory will unlock.",
+  "cargo-hold": "Visit the Armory first. Elara will pressurize the Cargo Hold.",
+  "captains-quarters": "Find the Captain's Master Key on the Bridge to unlock these quarters.",
+};
+
 export function useRouteAccess(path: string): { allowed: boolean; requiredRoom: string | null } {
   const { state } = useGame();
   
   // Always allow these routes
   if (
     path.startsWith("/ark") ||
+    path.startsWith("/ship-map") ||
     path.startsWith("/console") ||
     path.startsWith("/games") ||
     path.startsWith("/clue-journal") ||
@@ -160,8 +174,11 @@ export default function ProtectedRoute({ children }: { children: React.ReactNode
           <h2 className="font-display text-xl font-bold text-foreground mb-2 tracking-wider">
             SYSTEM LOCKED
           </h2>
-          <p className="font-mono text-sm text-muted-foreground/70 mb-4 leading-relaxed">
+          <p className="font-mono text-sm text-muted-foreground/70 mb-2 leading-relaxed">
             You need to discover <span className="text-[var(--neon-cyan)]">{roomName}</span> in the Ark to access this area.
+          </p>
+          <p className="font-mono text-xs text-amber-400/60 mb-4 leading-relaxed">
+            {requiredRoom && ROOM_NARRATIVE_HINTS[requiredRoom] ? ROOM_NARRATIVE_HINTS[requiredRoom] : "Continue exploring the Ark to unlock new areas."}
           </p>
           <div className="flex items-center justify-center gap-2 text-muted-foreground/50">
             <Rocket size={14} className="text-[var(--neon-cyan)]" />

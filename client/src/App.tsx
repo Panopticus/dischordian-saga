@@ -114,6 +114,7 @@ const DonationPage = lazy(() => import("./pages/DonationPage"));
 const SocialPage = lazy(() => import("./pages/SocialPage"));
 const LoreJournalPage = lazy(() => import("./pages/LoreJournalPage"));
 const ArmyManagementPage = lazy(() => import("./pages/ArmyManagementPage"));
+const ShipSchematicMap = lazy(() => import("./components/ShipSchematicMap"));
 
 /* ═══ LOADING FALLBACK ═══ */
 function PageLoader() {
@@ -147,6 +148,7 @@ function Router() {
         <Route path="/cards/play" component={CardGamePage} />
         <Route path="/ark" component={ArkExplorerPage} />
         <Route path="/ark-legacy" component={InceptionArkPage} />
+        <Route path="/ship-map" component={ShipSchematicMap} />
         <Route path="/trophy" component={TrophyRoomPage} />
         <Route path="/trade-empire" component={TradeWarsPage} />
         <Route path="/war-map" component={WarMapPage} />

@@ -190,7 +190,7 @@ export interface RoomDef {
   imageUrl: string;
   features: string[];
   featureRoutes: string[];
-  unlockRequirement: { type: "start" | "room_visited" | "items_collected" | "rooms_unlocked" | "chain_complete"; value?: string | number };
+  unlockRequirement: { type: "start" | "room_visited" | "items_collected" | "rooms_unlocked" | "chain_complete" | "narrative_event" | "specific_item"; value?: string | number };
   connections: string[];
   hotspots: HotspotDef[];
 }
@@ -316,7 +316,7 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
     imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/room_comms_array-MeKGcBZGammMEjbx8aN8fb.webp",
     features: ["Watch The Saga", "Radio", "Lore Tutorials", "Communication Relay"],
     featureRoutes: ["/watch", "/lore-tutorials"],
-    unlockRequirement: { type: "rooms_unlocked", value: 3 },
+    unlockRequirement: { type: "narrative_event", value: "bridge_systems_restored" },
     connections: ["bridge", "observation-deck"],
     hotspots: [
       { id: "broadcast-screen", name: "Broadcast Screen", description: "A large screen playing recorded episodes of the Dischordian Saga.", x: 30, y: 20, width: 25, height: 40, type: "terminal", action: "/watch", elaraDialog: "The broadcast system. It plays the recorded history of the Dischordian Saga in episodic format. Each epoch covers a different era — from the Age of Privacy through the Fall of Reality. Watch carefully. There are clues hidden in every episode." },
@@ -339,7 +339,7 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
     imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/room_observation_deck-DbxXnUWAHiiLro4YP8rDUg.webp",
     features: ["Discography", "Music Player", "Lyrics"],
     featureRoutes: ["/discography"],
-    unlockRequirement: { type: "rooms_unlocked", value: 4 },
+    unlockRequirement: { type: "specific_item", value: "observation-keycard" },
     connections: ["comms-array", "engineering"],
     hotspots: [
       { id: "music-terminal", name: "Music Terminal", description: "A sophisticated music system with the complete discography of Malkia Ukweli & the Panopticon.", x: 30, y: 40, width: 20, height: 30, type: "terminal", action: "/discography", elaraDialog: "The complete discography. Four albums spanning the entire narrative — Dischordian Logic, The Age of Privacy, The Book of Daniel 2:47, and the upcoming Silence in Heaven. Every song is a piece of the puzzle." },
@@ -360,7 +360,7 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
     imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/room_engineering-7B58pQup6v64GgmmT7stby.webp",
     features: ["Card Crafting", "Research Lab", "Research Minigame"],
     featureRoutes: ["/research-lab", "/research-minigame"],
-    unlockRequirement: { type: "rooms_unlocked", value: 5 },
+    unlockRequirement: { type: "narrative_event", value: "power_grid_restored" },
     connections: ["observation-deck", "armory", "forge-workshop"],
     hotspots: [
       { id: "crafting-bench", name: "Crafting Workbench", description: "A workbench with tools for card crafting and fusion experiments.", x: 25, y: 45, width: 20, height: 30, type: "terminal", action: "/research-lab", elaraDialog: "The crafting workbench. Here you can fuse cards together to create more powerful versions. The recipes were developed by the Ark's engineers — combine the right elements and you might create something legendary." },
@@ -384,7 +384,7 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
     imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/room_forge_workshop-o2LLK65f5Nacwc8TcpkNXe.webp",
     features: ["Crafting Station", "Material Vault", "Recipe Archive"],
     featureRoutes: ["/forge"],
-    unlockRequirement: { type: "rooms_unlocked", value: 5 },
+    unlockRequirement: { type: "room_visited", value: "engineering" },
     connections: ["engineering"],
     hotspots: [
       { id: "central-forge", name: "Prismatic Forge", description: "The main crafting station. Prismatic flames shift color based on what's being forged.", x: 30, y: 15, width: 35, height: 40, type: "terminal", action: "/forge", elaraDialog: "The Prismatic Forge. Its flames change color based on the materials you feed it — blue for void metal, green for crystal shards, gold for legendary essence. Step up to the forge and I'll guide you through the crafting process. Every item you create here provides real combat advantages in the Arena, strategic bonuses in Card Battles, and trade benefits in the Empire." },
@@ -404,7 +404,7 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
     imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/room_armory-cVMQ78mPE6bJeREyXAxC6a.webp",
     features: ["Combat Sim", "Card Game Battles", "Chess", "Lore Quiz", "Spectator Mode"],
     featureRoutes: ["/fight", "/cards/play", "/quiz", "/chess", "/spectate"],
-    unlockRequirement: { type: "rooms_unlocked", value: 6 },
+    unlockRequirement: { type: "narrative_event", value: "combat_systems_online" },
     connections: ["engineering", "cargo-hold"],
     hotspots: [
       { id: "combat-arena", name: "Combat Arena", description: "A holographic combat simulation arena for training.", x: 30, y: 30, width: 25, height: 35, type: "terminal", action: "/fight", elaraDialog: "The combat arena. Step inside and I'll generate holographic opponents based on known entities from the Dischordian Saga. It's the safest way to test your abilities... relatively safe." },
@@ -428,7 +428,7 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
     imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/room_cargo_hold-U6wJuiqP3pgzQHUKscNpi6.webp",
     features: ["Trade Empire", "Store", "Marketplace", "Fleet", "Inventory"],
     featureRoutes: ["/trade-empire", "/store", "/marketplace", "/inventory", "/fleet"],
-    unlockRequirement: { type: "rooms_unlocked", value: 7 },
+    unlockRequirement: { type: "narrative_event", value: "cargo_bay_pressurized" },
     connections: ["armory", "captains-quarters"],
     hotspots: [
       { id: "trade-terminal", name: "Trade Empire Terminal", description: "The main terminal for the interstellar trade simulation.", x: 65, y: 35, width: 20, height: 30, type: "terminal", action: "/trade-empire", elaraDialog: "Trade Empire. An interstellar trade simulation based on the actual trade routes of the Dischordian universe. Buy low, sell high, avoid pirates, and build your trading empire. The credits you earn here are real — they can be spent in the store." },
@@ -452,7 +452,7 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
     imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/room_captains_quarters-BWMWKmvU7KomMEe2RxdxTV.webp",
     features: ["Achievements", "Trophy Room", "Deck Builder", "Companions", "Battle Pass", "Morality Census"],
     featureRoutes: ["/trophy", "/deck-builder", "/companions", "/battle-pass", "/morality-census"],
-    unlockRequirement: { type: "items_collected", value: 3 },
+    unlockRequirement: { type: "specific_item", value: "captains-master-key" },
     connections: ["cargo-hold"],
     hotspots: [
       { id: "trophy-wall", name: "Trophy Wall", description: "A holographic display showing your achievements and collected trophies.", x: 8, y: 15, width: 20, height: 45, type: "terminal", action: "/trophy", elaraDialog: "The Trophy Wall. Every achievement you've earned, every milestone you've reached. Dr. Vox designed this display system — she believed in cataloging everything. Obsessively. Now I wonder if that obsession was hers... or the Warlord's." },
@@ -1127,10 +1127,14 @@ export function GameProvider({ children }: { children: ReactNode }) {
         return state.totalRoomsUnlocked >= (req.value as number);
       case "chain_complete":
         return !!state.narrativeFlags[`chain_${req.value}_complete`];
+      case "narrative_event":
+        return !!state.narrativeFlags[req.value as string];
+      case "specific_item":
+        return state.itemsCollected.includes(req.value as string);
       default:
         return false;
     }
-  }, [state.rooms, state.itemsCollected.length, state.totalRoomsUnlocked, state.narrativeFlags]);
+  }, [state.rooms, state.itemsCollected, state.totalRoomsUnlocked, state.narrativeFlags]);
 
   const isRoomUnlocked = useCallback((roomId: string): boolean => {
     return !!state.rooms[roomId]?.unlocked;
@@ -1153,11 +1157,34 @@ export function GameProvider({ children }: { children: ReactNode }) {
       };
       const totalUnlocked = Object.values(newRooms).filter(r => r.unlocked).length;
       const allRoomsUnlocked = totalUnlocked >= ROOM_DEFINITIONS.length;
+
+      // ═══ AUTO-SET NARRATIVE FLAGS ON ROOM ENTRY ═══
+      // These flags drive the narrative unlock chain for ship exploration.
+      // Each room visit triggers Elara "restoring" the next section of the ship.
+      const newFlags = { ...prev.narrativeFlags };
+      if (roomId === "bridge" && isNew) {
+        // Visiting Bridge for the first time: Elara reroutes power to Comms Array
+        newFlags["bridge_systems_restored"] = true;
+      }
+      if (roomId === "comms-array" && isNew) {
+        // Visiting Comms Array: Elara detects power fluctuation, opens Engineering
+        newFlags["power_grid_restored"] = true;
+      }
+      if (roomId === "engineering" && isNew) {
+        // Visiting Engineering: combat systems come online, Armory unlocks
+        newFlags["combat_systems_online"] = true;
+      }
+      if (roomId === "armory" && isNew) {
+        // Visiting Armory: Elara pressurizes the Cargo Hold
+        newFlags["cargo_bay_pressurized"] = true;
+      }
+
       return {
         ...prev,
         currentRoomId: roomId,
         rooms: newRooms,
         totalRoomsUnlocked: totalUnlocked,
+        narrativeFlags: newFlags,
         phase: allRoomsUnlocked ? "FULL_ACCESS" : (prev.phase === "QUARTERS_UNLOCKED" || prev.phase === "EXPLORING") ? "EXPLORING" : prev.phase,
       };
     });

@@ -80,6 +80,7 @@ const NAV_GROUPS: NavGroup[] = [
       { path: "/war-map", label: "WAR MAP", icon: Swords, description: "Faction territory war" },
       { path: "/fight", label: "COMBAT SIM", icon: Swords, description: "Combat training" },
       { path: "/ark", label: "EXPLORE THE ARK", icon: Rocket, description: "Point & click adventure" },
+      { path: "/ship-map", label: "SHIP MAP", icon: Map, description: "Schematic & fast travel" },
       { path: "/quiz", label: "LORE QUIZ", icon: Brain, description: "Test your knowledge" },
       { path: "/battle", label: "BATTLE ARENA", icon: Swords, description: "Card combat" },
       { path: "/pvp", label: "PVP ARENA", icon: Swords, description: "Multiplayer battles" },
@@ -129,7 +130,26 @@ const ALBUMS = [
 ];
 
 /* ─── ALWAYS-ACCESSIBLE ROUTES (no room required) ─── */
-const ALWAYS_ACCESSIBLE = ["/ark", "/console", "/games", "/clue-journal", "/settings", "/admin", "/character-sheet", "/awakening", "/research-minigame", "/war-map", "/lore-tutorials", "/morality-census", "/companions", "/fleet", "/diplomacy", "/faction-wars"];
+const ALWAYS_ACCESSIBLE = ["/ark", "/ship-map", "/console", "/games", "/clue-journal", "/settings", "/admin", "/character-sheet", "/awakening", "/research-minigame", "/war-map", "/lore-tutorials", "/morality-census", "/companions", "/fleet", "/diplomacy", "/faction-wars"];
+
+/* ─── NARRATIVE UNLOCK HINTS for sidebar locked items ─── */
+const ROOM_UNLOCK_NARRATIVES: Record<string, string> = {
+  "bridge": "Explore the Cryo Bay to find the Bridge",
+  "archives": "Visit the Bridge to access the Archives",
+  "comms-array": "Restore Bridge systems to unlock",
+  "observation-deck": "Find the Observation Keycard",
+  "engineering": "Visit Comms Array to restore power",
+  "forge-workshop": "Discover Engineering Bay first",
+  "armory": "Visit Engineering to bring combat online",
+  "cargo-hold": "Visit the Armory to pressurize",
+  "captains-quarters": "Find the Captain's Master Key",
+};
+
+function getLockedHint(path: string): string {
+  const requiredRoom = ROUTE_ROOM_MAP[path];
+  if (!requiredRoom) return "Continue exploring the Ark";
+  return ROOM_UNLOCK_NARRATIVES[requiredRoom] || `Discover ${requiredRoom.replace(/-/g, " ")} first`;
+}
 
 function isRouteUnlocked(path: string, rooms: Record<string, { unlocked?: boolean }>): boolean {
   if (ALWAYS_ACCESSIBLE.some(p => path.startsWith(p))) return true;
@@ -194,10 +214,14 @@ function NavGroupSection({ group, location, onNavigate, rooms }: { group: NavGro
                   return (
                     <div
                       key={item.path}
-                      className="flex items-center gap-2.5 px-3 py-2 rounded-md text-[11px] font-mono tracking-wider opacity-25 cursor-not-allowed border border-transparent select-none"
+                      className="flex items-center gap-2.5 px-3 py-2 rounded-md text-[11px] font-mono tracking-wider opacity-30 cursor-not-allowed border border-transparent select-none group/locked relative"
+                      title={getLockedHint(item.path)}
                     >
                       <Lock size={11} className="text-muted-foreground/40" />
-                      <span className="flex-1 text-muted-foreground/40">{item.label}</span>
+                      <div className="flex-1 min-w-0">
+                        <span className="text-muted-foreground/40 block truncate">{item.label}</span>
+                        <span className="text-[8px] text-amber-400/40 block truncate">{getLockedHint(item.path)}</span>
+                      </div>
                     </div>
                   );
                 }
