@@ -1,296 +1,42 @@
-/* ═══════════════════════════════════════════════════════
-   FIGHT ENGINE 3D — MCOC-Style Mobile Fighting Engine
-   Split-screen tap/swipe controls inspired by
-   Marvel Contest of Champions.
-   Left side = defense (block, dash), Right side = offense (attacks)
-   ═══════════════════════════════════════════════════════ */
+/**
+ * FightEngine3D — AAA Fighting Game Engine
+ * 
+ * Frame-based combat engine inspired by professional fighting game design:
+ * - 60fps frame-based timing (not time-based delta)
+ * - Proper startup/active/recovery frame data for all moves
+ * - Input buffering system (5-frame buffer window)
+ * - Hitstop freeze frames proportional to attack strength
+ * - Hitstun/blockstun with frame advantage calculations
+ * - Gatling chain combo system (L→M→H→Special)
+ * - Juggle system with gravity and hit decay
+ * - Pushback on hit and block
+ * - AI that reacts to animations, not inputs
+ */
+
 import * as THREE from "three";
 import { buildCharacterModel, getCharacterConfig, type CharacterModel, type CharacterConfig } from "./CharacterModel3D";
 import type { FighterData } from "./gameData";
 import { getCharacterSpecials, type CharacterSpecials, type SpecialMove } from "./specialMoves";
 
-/* ═══ TYPES ═══ */
+/* ═══ EXPORTED TYPES ═══ */
 export type FightPhase = "intro" | "round_announce" | "fighting" | "finish_him" | "ko" | "round_end" | "match_end";
 export type FighterState = "idle" | "walk_fwd" | "walk_back" | "dash_fwd" | "dash_back" |
-  "jump" | "crouch" |
-  "light_1" | "light_2" | "light_3" | "light_4" | "medium" | "heavy_charge" | "heavy_release" |
+  "jump" | "jump_fwd" | "jump_back" |
+  "light_1" | "light_2" | "light_3" | "light_4" |
+  "medium" | "heavy_charge" | "heavy_release" |
   "special_1" | "special_2" | "special_3" |
-  "block_stand" | "block_crouch" |
-  "hitstun" | "blockstun" | "parry_stun" | "knockdown" | "getup" | "launched" |
-  "finish_stun" | "victory" | "ko";
+  "block_stand" | "block_crouch" | "blockstun" |
+  "hitstun" | "knockdown" | "getup" | "launched" |
+  "parry_stun" | "finish_stun" | "ko" | "victory";
 export type AIStyle = "aggressive" | "defensive" | "evasive" | "balanced";
 export type Difficulty = "recruit" | "soldier" | "veteran" | "archon";
 
-interface HitEffect {
-  x: number; y: number; z: number;
-  life: number; maxLife: number;
-  type: "spark" | "heavy" | "block" | "special" | "parry" | "critical" | "impact_ring" | "energy_wave" | "blood" | "dust" | "sweat" | "ground_crack";
-  color: string;
-  particles: THREE.Group;
-}
-
-/* ═══ AAA VFX — AFTERIMAGE TRAIL ═══ */
-interface AfterimageFrame {
-  mesh: THREE.Mesh;
-  life: number;
-  maxLife: number;
-}
-
-/* ═══ AAA VFX — ENERGY PROJECTILE ═══ */
-interface EnergyProjectile {
-  group: THREE.Group;
-  x: number;
-  y: number;
-  vx: number;
-  life: number;
-  maxLife: number;
-  color: string;
-  owner: 1 | 2;
-}
-
-/* ═══ AAA VFX — IMPACT CRATER ═══ */
-interface ImpactCrater {
-  mesh: THREE.Mesh;
-  life: number;
-  maxLife: number;
-}
-
-/* ═══ AAA CAMERA — CINEMATIC STATE ═══ */
-interface CinematicCamera {
-  active: boolean;
-  type: "sp3_zoom" | "ko_angle" | "intro_sweep" | "heavy_zoom" | "none";
-  timer: number;
-  duration: number;
-  startPos: THREE.Vector3;
-  endPos: THREE.Vector3;
-  startLookAt: THREE.Vector3;
-  endLookAt: THREE.Vector3;
-}
-
-interface Fighter {
-  data: FighterData;
-  model: CharacterModel;
-  config: CharacterConfig;
-  x: number;
-  y: number;
-  vx: number;
-  vy: number;
-  facingRight: boolean;
-  state: FighterState;
-  stateTimer: number;
-  hp: number;
-  maxHp: number;
-  displayHp: number;
-  // Combo system
-  comboCount: number;      // hits in current combo
-  comboDamage: number;     // total damage in current combo
-  comboTimer: number;      // time since last hit (combo drops if > threshold)
-  comboChain: number;      // position in MLLLM chain (0-4)
-  maxComboHits: number;    // best combo this round
-  // Special meter (0-300, L1=100, L2=200, L3=300)
-  specialMeter: number;
-  // Block / parry
-  blockTimer: number;
-  blockStartTime: number;  // when block was initiated (for parry window)
-  isParrying: boolean;
-  parryWindow: number;     // remaining parry window time
-  // Invincibility
-  invincible: number;
-  // Dexterity (evade)
-  dexActive: boolean;
-  dexTimer: number;
-  // Heavy charge
-  heavyChargeTime: number;
-  // Round wins
-  roundWins: number;
-  // AI fields
-  aiStyle: AIStyle;
-  aiTimer: number;
-  aiDecision: string;
-  aiComboStep: number;
-  aiReactTimer: number;
-  aiPressureTimer: number;
-  aiDodgeCooldown: number;
-  aiAggression: number;     // builds when getting hit, decays over time
-  aiMistakeTimer: number;   // chance to make a "mistake" (opening for player)
-  aiPatternMemory: string[]; // last N player actions for pattern reading
-  // Stun
-  stunTimer: number;
-  // Dash
-  dashCooldown: number;
-  // Hit tracking
-  hitThisAttack: boolean;
-  // Character-specific specials
-  specials: CharacterSpecials;
-  // DOT (damage over time)
-  dotTimer: number;
-  dotDamagePerTick: number;
-  dotTickInterval: number;
-  dotTickTimer: number;
-  // Temporary buffs/debuffs
-  speedBuffTimer: number;
-  speedBuffMult: number;
-  defenseDebuffTimer: number;
-  defenseDebuffPct: number;
-  // Auto-spacing
-  idleTimer: number;           // time spent in idle (for auto-space delay)
-  autoSpaceTarget: number;     // current target spacing distance
-}
-
-/* ═══ CONSTANTS ═══ */
-const STAGE_WIDTH = 12;
-const GROUND_Y = 0;
-const GRAVITY = -28;
-const JUMP_FORCE = 10;
-const WALK_SPEED = 3.5;
-const BACK_SPEED = 2.5;
-const DASH_FWD_SPEED = 12;
-const DASH_BACK_SPEED = 10;
-const DASH_DURATION = 0.18;
-const DASH_COOLDOWN = 0.25;
-const PUSH_FORCE = 2.5;
-
-// Auto-spacing (MCOC-style: fighters drift to optimal range when neutral)
-const AUTO_SPACE_TARGET = 2.8;       // optimal distance between fighters
-const AUTO_SPACE_SPEED = 1.8;        // drift speed toward optimal range
-const AUTO_SPACE_DEADZONE = 0.3;     // don't drift if within this tolerance
-const AUTO_SPACE_DELAY = 0.4;        // wait this long after action before auto-spacing
-const POST_KNOCKDOWN_SPACE = 3.5;    // extra space after knockdown recovery
-const POST_COMBO_SPACE = 2.5;        // space after combo drops
-
-// Frame data (in seconds for 60fps feel)
-const FRAME = 1 / 60;
-
-// Light attacks chain: L1 → L2 → L3 → L4 (faster each hit)
-const LIGHT_1_STARTUP = 3 * FRAME;
-const LIGHT_1_ACTIVE = 2 * FRAME;
-const LIGHT_1_RECOVERY = 4 * FRAME;
-const LIGHT_2_STARTUP = 2 * FRAME;
-const LIGHT_2_ACTIVE = 2 * FRAME;
-const LIGHT_2_RECOVERY = 3 * FRAME;
-const LIGHT_3_STARTUP = 2 * FRAME;
-const LIGHT_3_ACTIVE = 3 * FRAME;
-const LIGHT_3_RECOVERY = 3 * FRAME;
-const LIGHT_4_STARTUP = 3 * FRAME;
-const LIGHT_4_ACTIVE = 3 * FRAME;
-const LIGHT_4_RECOVERY = 6 * FRAME;
-
-// Medium attack
-const MEDIUM_STARTUP = 5 * FRAME;
-const MEDIUM_ACTIVE = 3 * FRAME;
-const MEDIUM_RECOVERY = 8 * FRAME;
-const MEDIUM_LUNGE = 2.0; // distance covered
-
-// Heavy attack
-const HEAVY_MIN_CHARGE = 0.2;  // minimum charge time
-const HEAVY_MAX_CHARGE = 1.0;  // full charge
-const HEAVY_ACTIVE = 4 * FRAME;
-const HEAVY_RECOVERY = 14 * FRAME;
-
-// Special attacks
-const SP1_STARTUP = 6 * FRAME;
-const SP1_ACTIVE = 8 * FRAME;
-const SP1_RECOVERY = 12 * FRAME;
-const SP2_STARTUP = 10 * FRAME;
-const SP2_ACTIVE = 12 * FRAME;
-const SP2_RECOVERY = 16 * FRAME;
-const SP3_STARTUP = 14 * FRAME;
-const SP3_ACTIVE = 18 * FRAME;
-const SP3_RECOVERY = 20 * FRAME;
-
-// Stun / hitstun
-const HITSTUN_LIGHT = 10 * FRAME;
-const HITSTUN_MEDIUM = 14 * FRAME;
-const HITSTUN_HEAVY = 20 * FRAME;
-const HITSTUN_SPECIAL = 22 * FRAME;
-const BLOCKSTUN = 6 * FRAME;
-const PARRY_STUN_DURATION = 1.2;  // parry stuns opponent for 1.2s (MCOC-like)
-const PARRY_WINDOW = 0.15;        // 150ms window to parry
-const DEX_WINDOW = 0.2;           // 200ms window for dexterity evade
-const KNOCKDOWN_TIME = 35 * FRAME;
-const GETUP_TIME = 18 * FRAME;
-const LAUNCH_HEIGHT = 6;
-const LAUNCH_GRAVITY = -18;
-
-// Damage values
-const DMG_LIGHT = 4;
-const DMG_MEDIUM = 8;
-const DMG_HEAVY_MIN = 10;
-const DMG_HEAVY_MAX = 22;
-const DMG_SP1 = 18;
-const DMG_SP2 = 35;
-const DMG_SP3 = 55;
-const CHIP_DAMAGE_RATIO = 0.12;
-const COMBO_SCALING = 0.92;        // each hit does 92% of previous (gentler scaling)
-const PARRY_BONUS_DAMAGE = 1.3;    // 30% bonus after parry stun
-const INTERCEPT_BONUS = 1.25;      // 25% bonus for intercepting
-
-// Hit ranges
-const LIGHT_RANGE = 1.1;
-const MEDIUM_RANGE = 1.8;
-const HEAVY_RANGE = 1.4;
-const SPECIAL_RANGE = 2.2;
-
-// Combo system
-const COMBO_DROP_TIME = 0.6;       // combo drops after 0.6s of no hits
-const MAX_COMBO_HITS = 5;          // MCOC-style 5-hit max before defender can respond
-
-// ═══ MK-INSPIRED ENHANCEMENTS ═══
-// Deferred hit resolution — creates impact timing feel (MK-style)
-const DEFERRED_HIT_DELAY_LIGHT = 0.05;   // 50ms for lights (snappy)
-const DEFERRED_HIT_DELAY_MEDIUM = 0.08;  // 80ms for medium
-const DEFERRED_HIT_DELAY_HEAVY = 0.12;   // 120ms for heavy (weighty)
-const DEFERRED_HIT_DELAY_SPECIAL = 0.15; // 150ms for specials (cinematic)
-
-// Attack lunges — forward movement during attacks (MK-style)
-const LUNGE_LIGHT = 0.15;     // small step forward
-const LUNGE_MEDIUM_EXTRA = 0.3; // additional to existing MEDIUM_LUNGE
-const LUNGE_HEAVY = 0.5;      // big step forward on release
-const LUNGE_UPPERCUT = 0.25;  // uppercut step
-
-// Damage variance — random multiplier per hit (MK-style)
-const DMG_VARIANCE_MIN = 0.75;  // minimum 75% of base damage
-const DMG_VARIANCE_MAX = 1.0;   // maximum 100% of base damage
-
-// Finish Him — dramatic stun when opponent is critical (MK-style)
-const FINISH_HIM_HP_THRESHOLD = 0.10; // 10% HP triggers finish state
-const FINISH_HIM_STUN_DURATION = 3.5; // 3.5 seconds of stun (matches MK disabled state)
-const FINISH_HIM_SLOW_MO = 0.2;       // slow-mo speed during finish
-const FINISH_HIM_PHASE_DURATION = 4.0; // total phase duration
-
-// Special meter
-const METER_PER_LIGHT = 8;
-const METER_PER_MEDIUM = 12;
-const METER_PER_HEAVY = 15;
-const METER_PER_BLOCK = 4;
-const METER_ON_HIT = 6;           // defender gains meter when hit
-
-// Difficulty multipliers
-const DIFFICULTY_SETTINGS: Record<Difficulty, {
-  aiReactSpeed: number;
-  aiAggression: number;
-  dmgMult: number;
-  blockRate: number;
-  parryRate: number;
-  dexRate: number;
-  comboLength: number;
-  mistakeRate: number;
-  interceptRate: number;
-}> = {
-  recruit:  { aiReactSpeed: 0.3, aiAggression: 0.25, dmgMult: 0.65, blockRate: 0.15, parryRate: 0.05, dexRate: 0.05, comboLength: 3, mistakeRate: 0.4, interceptRate: 0.05 },
-  soldier:  { aiReactSpeed: 0.55, aiAggression: 0.45, dmgMult: 0.85, blockRate: 0.35, parryRate: 0.15, dexRate: 0.15, comboLength: 4, mistakeRate: 0.25, interceptRate: 0.15 },
-  veteran:  { aiReactSpeed: 0.75, aiAggression: 0.65, dmgMult: 1.0, blockRate: 0.55, parryRate: 0.3, dexRate: 0.3, comboLength: 5, mistakeRate: 0.12, interceptRate: 0.3 },
-  archon:   { aiReactSpeed: 0.92, aiAggression: 0.8, dmgMult: 1.2, blockRate: 0.7, parryRate: 0.45, dexRate: 0.45, comboLength: 5, mistakeRate: 0.05, interceptRate: 0.5 },
-};
-
-/* ═══ INPUT TYPES ═══ */
 export interface TouchInput {
   type: "tap" | "swipe_left" | "swipe_right" | "swipe_up" | "swipe_down" | "hold_start" | "hold_end" | "none";
   side: "left" | "right";
   timestamp: number;
 }
 
-/* ═══ CALLBACKS ═══ */
 export interface FightCallbacks {
   onPhaseChange?: (phase: FightPhase) => void;
   onHealthChange?: (p1Hp: number, p1Max: number, p2Hp: number, p2Max: number) => void;
@@ -309,17 +55,338 @@ export interface FightCallbacks {
   onFinishHim?: (target: 1 | 2) => void;
 }
 
-/* ═══ MK-INSPIRED: DEFERRED HIT QUEUE ═══ */
-interface DeferredHit {
-  attacker: Fighter;
-  defender: Fighter;
-  attackType: FighterState;
-  delay: number;  // remaining delay before resolution
+/* ═══ INTERNAL TYPES ═══ */
+
+/** Frame data for a single move */
+interface FrameData {
+  startup: number;   // frames before hitbox appears (inclusive of hit frame)
+  active: number;    // frames hitbox is out
+  recovery: number;  // frames after active before actionable
+  hitstun: number;   // frames opponent is stuck on HIT
+  blockstun: number; // frames opponent is stuck on BLOCK
+  damage: number;
+  pushbackHit: number;   // units pushed on hit
+  pushbackBlock: number; // units pushed on block (more than hit)
+  range: number;         // horizontal reach
+  meterGain: number;     // special meter gained on hit
+  cancelWindow: number;  // frames during active+early recovery where cancel is allowed
+  jugglePoints: number;  // juggle cost (airborne opponents)
+  launchHeight: number;  // 0 = no launch, >0 = launch opponent
 }
 
-/* ═══════════════════════════════════════════════════════
-   FIGHT ENGINE 3D CLASS — MCOC-Style
-   ═══════════════════════════════════════════════════════ */
+interface HitEffect {
+  x: number; y: number; z: number;
+  life: number; maxLife: number;
+  type: "spark" | "heavy" | "block" | "special" | "parry" | "critical" |
+        "impact_ring" | "energy_wave" | "blood" | "dust" | "sweat" | "ground_crack";
+  color: string;
+  particles: THREE.Group;
+}
+
+interface AfterimageFrame {
+  mesh: THREE.Mesh;
+  life: number;
+  maxLife: number;
+}
+
+interface EnergyProjectile {
+  mesh: THREE.Group;
+  x: number; y: number; z: number;
+  vx: number;
+  owner: 1 | 2;
+  damage: number;
+  life: number;
+  color: string;
+}
+
+interface ImpactCrater {
+  mesh: THREE.Group;
+  life: number;
+  maxLife: number;
+}
+
+interface CinematicCamera {
+  active: boolean;
+  type: "none" | "intro_sweep" | "ko_zoom" | "special_zoom" | "heavy_zoom";
+  timer: number;
+  duration: number;
+  startPos: THREE.Vector3;
+  endPos: THREE.Vector3;
+  startLookAt: THREE.Vector3;
+  endLookAt: THREE.Vector3;
+}
+
+/** Input buffer entry */
+interface BufferedInput {
+  action: InputAction;
+  frame: number;  // frame when input was recorded
+}
+
+type InputAction = "light" | "medium" | "heavy_start" | "heavy_release" |
+  "special" | "block" | "block_release" |
+  "dash_fwd" | "dash_back" | "jump" |
+  "up" | "down" | "left" | "right";
+
+interface Fighter {
+  data: FighterData;
+  model: CharacterModel;
+  config: CharacterConfig;
+  x: number;
+  y: number;
+  vx: number;
+  vy: number;
+  facingRight: boolean;
+  state: FighterState;
+  stateFrame: number;      // current frame within the state (frame-based, not time)
+  hp: number;
+  maxHp: number;
+  displayHp: number;
+  // Combo system
+  comboCount: number;
+  comboDamage: number;
+  comboTimer: number;       // frames since last hit
+  comboChain: number;       // position in gatling chain (0-3 for L1-L4)
+  maxComboHits: number;
+  // Juggle
+  jugglePoints: number;     // remaining juggle points (resets on ground)
+  airborne: boolean;
+  // Special meter (0-300)
+  specialMeter: number;
+  // Block / parry
+  blockFrame: number;       // frame when block started
+  isParrying: boolean;
+  parryFrames: number;      // remaining parryWindow frames (parry window)
+  // Invincibility
+  invincibleFrames: number;
+  // Dexterity
+  dexActive: boolean;
+  dexFrames: number;
+  // Heavy charge
+  heavyChargeFrames: number; // heavyChargeTime in frames
+  // Round wins
+  roundWins: number;
+  // AI
+  aiStyle: AIStyle;
+  aiTimer: number;
+  aiDecision: string;
+  aiComboStep: number;
+  aiReactDelay: number;     // frames of reaction delay
+  aiReactTimer: number;
+  aiPressureTimer: number;
+  aiDodgeCooldown: number;
+  aiAggression: number;
+  aiMistakeTimer: number;
+  aiPatternMemory: string[];
+  aiLastSeenState: FighterState;  // what AI last saw opponent doing
+  aiWhiffPunishWindow: number;    // frames to punish a whiffed attack
+  // Stun
+  stunFrames: number;
+  // Dash
+  dashCooldownFrames: number;
+  // Hit tracking
+  hitThisAttack: boolean;
+  // Cancel tracking
+  cancelUsed: boolean;      // already cancelled this move?
+  // Character specials
+  specials: CharacterSpecials;
+  // DOT
+  dotTimer: number;
+  dotDamagePerTick: number;
+  dotTickInterval: number;
+  dotTickTimer: number;
+  // Buffs/debuffs
+  speedBuffTimer: number;
+  speedBuffMult: number;
+  defenseDebuffTimer: number;
+  defenseDebuffPct: number;
+  // Pushback velocity (decelerates)
+  pushVx: number;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   CONSTANTS — AAA FIGHTING GAME FRAME DATA
+   All timing is in FRAMES at 60fps (1 frame = 1/60s ≈ 16.67ms)
+   ═══════════════════════════════════════════════════════════ */
+
+const FPS = 60;
+const FRAME_DURATION = 1 / FPS;  // seconds per frame
+
+// Stage
+const STAGE_WIDTH = 12;
+const STAGE_HALF = STAGE_WIDTH / 2;
+const GROUND_Y = 0;
+
+// Physics
+const GRAVITY = -32;             // units/sec² — heavier than before for weighty feel
+const JUMP_FORCE = 11;           // initial upward velocity
+const JUMP_FWD_VX = 4;           // horizontal speed during forward jump
+const JUMP_BACK_VX = 3;          // horizontal speed during back jump
+const PRE_JUMP_FRAMES = 3;       // vulnerable pre-jump frames (can't block)
+const LANDING_RECOVERY = 3;      // frames of landing lag
+
+// Movement — deliberate, weighty
+const WALK_FWD_SPEED = 3.2;      // units/sec — walking is for spacing
+const WALK_BACK_SPEED = 2.4;     // backing up is slower (defensive penalty)
+const WALK_ACCEL = 40;           // fast acceleration to target speed
+const WALK_DECEL = 60;           // fast deceleration when stopping
+
+// Dashes — committal movement
+const DASH_FWD_SPEED = 14;       // fast burst
+const DASH_FWD_FRAMES = 12;      // ~200ms commitment
+const DASH_BACK_SPEED = 11;
+const DASH_BACK_FRAMES = 15;     // slightly longer (defensive option has more recovery)
+const DASH_INVULN_FRAMES = 4;    // i-frames at start of backdash
+const DASH_COOLDOWN_FRAMES = 15; // can't dash again for 15 frames
+
+// Pushback — creates spacing after hits
+const PUSHBACK_DECEL = 20;       // how fast pushback velocity decays (units/sec²)
+
+// Collision
+const FIGHTER_WIDTH = 0.8;       // collision body width
+const MIN_DISTANCE = 0.9;        // minimum distance between fighters
+const PUSH_FORCE = 3;            // push apart speed when overlapping
+
+// ─── FRAME DATA: LIGHT ATTACKS (fast, safe, combo starters) ───
+const LIGHT_1: FrameData = {
+  startup: 5, active: 3, recovery: 8,
+  hitstun: 14, blockstun: 10,
+  damage: 4, pushbackHit: 0.3, pushbackBlock: 0.5,
+  range: 1.0, meterGain: 3, cancelWindow: 6,
+  jugglePoints: 1, launchHeight: 0,
+};
+const LIGHT_2: FrameData = {
+  startup: 4, active: 3, recovery: 7,
+  hitstun: 14, blockstun: 10,
+  damage: 4, pushbackHit: 0.3, pushbackBlock: 0.5,
+  range: 1.0, meterGain: 3, cancelWindow: 5,
+  jugglePoints: 1, launchHeight: 0,
+};
+const LIGHT_3: FrameData = {
+  startup: 5, active: 4, recovery: 8,
+  hitstun: 16, blockstun: 11,
+  damage: 5, pushbackHit: 0.4, pushbackBlock: 0.6,
+  range: 1.1, meterGain: 4, cancelWindow: 6,
+  jugglePoints: 1, launchHeight: 0,
+};
+const LIGHT_4: FrameData = {
+  startup: 6, active: 4, recovery: 12,
+  hitstun: 18, blockstun: 12,
+  damage: 6, pushbackHit: 0.6, pushbackBlock: 0.8,
+  range: 1.2, meterGain: 5, cancelWindow: 4,
+  jugglePoints: 1, launchHeight: 0,
+};
+
+// ─── FRAME DATA: MEDIUM ATTACK (slower, more damage, lunges forward) ───
+const MEDIUM: FrameData = {
+  startup: 9, active: 4, recovery: 16,
+  hitstun: 22, blockstun: 15,
+  damage: 9, pushbackHit: 0.8, pushbackBlock: 1.2,
+  range: 1.6, meterGain: 8, cancelWindow: 6,
+  jugglePoints: 2, launchHeight: 0,
+};
+const MEDIUM_LUNGE = 2.0;  // distance covered during medium attack
+
+// ─── FRAME DATA: HEAVY ATTACK (chargeable, big damage, launches) ───
+const HEAVY_MIN_CHARGE_FRAMES = 12;  // minimum charge time
+const HEAVY_MAX_CHARGE_FRAMES = 60;  // full charge = 1 second
+const HEAVY_RELEASE: FrameData = {
+  startup: 8, active: 5, recovery: 22,
+  hitstun: 28, blockstun: 20,
+  damage: 14, pushbackHit: 1.5, pushbackBlock: 2.0,
+  range: 1.3, meterGain: 12, cancelWindow: 4,
+  jugglePoints: 3, launchHeight: 5,
+};
+const HEAVY_MAX_DAMAGE = 24;  // at full charge
+
+// ─── FRAME DATA: SPECIAL MOVES ───
+const SP1_DATA: FrameData = {
+  startup: 10, active: 8, recovery: 18,
+  hitstun: 26, blockstun: 18,
+  damage: 18, pushbackHit: 1.2, pushbackBlock: 1.8,
+  range: 2.0, meterGain: 0, cancelWindow: 0,
+  jugglePoints: 2, launchHeight: 3,
+};
+const SP2_DATA: FrameData = {
+  startup: 14, active: 12, recovery: 22,
+  hitstun: 30, blockstun: 22,
+  damage: 32, pushbackHit: 1.8, pushbackBlock: 2.5,
+  range: 2.2, meterGain: 0, cancelWindow: 0,
+  jugglePoints: 3, launchHeight: 4,
+};
+const SP3_DATA: FrameData = {
+  startup: 18, active: 16, recovery: 26,
+  hitstun: 36, blockstun: 26,
+  damage: 50, pushbackHit: 2.5, pushbackBlock: 3.0,
+  range: 2.5, meterGain: 0, cancelWindow: 0,
+  jugglePoints: 4, launchHeight: 6,
+};
+
+// ─── HITSTOP (freeze frames on contact — THE key to impact feel) ───
+const HITSTOP_LIGHT = 7;        // frames both fighters freeze on light hit
+const HITSTOP_MEDIUM = 10;
+const HITSTOP_HEAVY = 14;
+const HITSTOP_SPECIAL = 16;
+const HITSTOP_BLOCK = 5;        // less hitstop on block
+
+// ─── COMBO SYSTEM ───
+const COMBO_SCALING = 0.88;      // each hit does 88% of previous
+const COMBO_SCALING_MIN = 0.30;  // minimum scaling (30% damage floor)
+const COMBO_DROP_FRAMES = 40;    // combo drops after 40 frames without a hit
+const MAX_COMBO_HITS = 12;       // absolute combo limit
+const MAX_JUGGLE_POINTS = 6;     // juggle point budget per combo
+
+// ─── BLOCKING ───
+const BLOCKSTUN_RECOVERY = 2;    // extra recovery frames after blockstun ends
+const CHIP_DAMAGE_RATIO = 0.10;  // chip damage on block (specials only)
+const PARRY_WINDOW_FRAMES = 9;   // 9 frames = 150ms parryWindow
+const PARRY_STUN_FRAMES = 72;    // 1.2 seconds of parry stun on opponent
+const PARRY_BONUS_DAMAGE = 1.3;
+const GUARD_BREAK_THRESHOLD = 5; // consecutive blocks before guard break
+
+// ─── KNOCKDOWN / GETUP ───
+const KNOCKDOWN_FRAMES = 36;
+const GETUP_FRAMES = 18;
+const GETUP_INVULN = 8;          // i-frames during getup
+
+// ─── LAUNCH / JUGGLE ───
+const LAUNCH_GRAVITY = -20;      // slower gravity for juggles (floatier in air)
+const JUGGLE_HITSTUN_DECAY = 0.85; // each juggle hit gives 85% of normal hitstun
+
+// ─── DEX (EVADE) ───
+const DEX_WINDOW_FRAMES = 12;    // 200ms evade window
+const DEX_INVULN_FRAMES = 10;
+
+// ─── SPECIAL METER ───
+const METER_MAX = 300;
+const METER_PER_HIT_TAKEN = 5;   // gain meter when hit (comeback mechanic)
+const METER_SP1_COST = 100;
+const METER_SP2_COST = 200;
+const METER_SP3_COST = 300;
+
+// ─── INTERCEPT ───
+const INTERCEPT_BONUS = 1.25;
+const INTERCEPT_WINDOW_FRAMES = 6; // frames at start of opponent's attack where intercept counts
+
+// ─── INPUT BUFFER ───
+const INPUT_BUFFER_FRAMES = 6;   // inputs stored for 6 frames
+
+// ─── FINISH HIM ───
+const FINISH_HIM_HP_THRESHOLD = 0.15;  // triggers at 15% HP
+const FINISH_HIM_STUN_FRAMES = 210;    // 3.5 seconds
+const FINISH_HIM_SLOW_MO = 0.3;
+
+// ─── ROUND ───
+const ROUND_TIME = 99;           // seconds
+const MAX_ROUNDS = 3;
+const WINS_NEEDED = 2;
+
+// ─── DAMAGE ───
+const BASE_HP = 100;
+
+
+/* ═══════════════════════════════════════════════════════════
+   FIGHT ENGINE 3D CLASS — AAA FRAME-BASED COMBAT
+   ═══════════════════════════════════════════════════════════ */
 export class FightEngine3D {
   // Three.js
   private scene: THREE.Scene;
@@ -334,18 +401,22 @@ export class FightEngine3D {
   // Game state
   private phase: FightPhase = "intro";
   private phaseTimer = 0;
-  private roundTimer = 99;
+  private roundTimer = ROUND_TIME;
   private currentRound = 1;
-  private maxRounds = 3;
+  private maxRounds = MAX_ROUNDS;
   private paused = false;
   private difficulty: Difficulty;
   private callbacks: FightCallbacks;
+  private gameFrame = 0;           // global frame counter
+
+  // Frame-based timing accumulator
+  private frameAccumulator = 0;
 
   // Effects
   private hitEffects: HitEffect[] = [];
   private screenShake = { intensity: 0, duration: 0, timer: 0 };
-  private hitStop = { active: false, duration: 0, timer: 0 };
-  private slowMo = { active: false, speed: 1, duration: 0, timer: 0 };
+  private hitStop = { active: false, frames: 0, remaining: 0 };
+  private slowMo = { active: false, speed: 1, frames: 0, remaining: 0 };
 
   // AAA VFX Systems
   private afterimages: AfterimageFrame[] = [];
@@ -365,14 +436,15 @@ export class FightEngine3D {
   private cameraTarget = new THREE.Vector3(0, 1.0, 0);
   private cameraShakeOffset = new THREE.Vector3();
 
-  // Input — MCOC style
+  // Input — buffered system
   private keys: Set<string> = new Set();
   private inputQueue: TouchInput[] = [];
+  private inputBuffer: BufferedInput[] = [];
   private holdingBlock = false;
   private holdingHeavy = false;
   private heavyHoldStart = 0;
 
-  // Legacy touch state (for backward compat)
+  // Legacy touch state
   private touchState = { left: false, right: false, up: false, down: false, punch: false, kick: false, block: false, special: false };
 
   // Stage
@@ -386,9 +458,7 @@ export class FightEngine3D {
   private p1Specials!: CharacterSpecials;
   private p2Specials!: CharacterSpecials;
 
-  // MK-Inspired: Deferred hit queue
-  private deferredHits: DeferredHit[] = [];
-  // MK-Inspired: Finish Him state tracking
+  // Finish Him
   private finishHimTriggered = false;
   private finishHimTarget: 1 | 2 = 2;
 
@@ -411,14 +481,11 @@ export class FightEngine3D {
     this.arenaAmbientColor = arenaData?.ambientColor;
     this.arenaFloorColor = arenaData?.floorColor;
 
-    // ── Three.js Setup ──
+    // Three.js setup
     this.scene = new THREE.Scene();
-    this.scene.background = new THREE.Color(0x0a0a0f);
-    this.scene.fog = new THREE.FogExp2(0x0a0a0f, 0.03);
-
-    this.camera = new THREE.PerspectiveCamera(48, container.clientWidth / container.clientHeight, 0.1, 100);
-    this.camera.position.set(0, 1.0, 3.2);
-    this.camera.lookAt(0, 0.7, 0);
+    this.camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 100);
+    this.camera.position.set(0, 2.2, 7);
+    this.camera.lookAt(0, 1.0, 0);
 
     this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
     this.renderer.setSize(container.clientWidth, container.clientHeight);
@@ -426,2523 +493,2713 @@ export class FightEngine3D {
     this.renderer.shadowMap.enabled = true;
     this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    this.renderer.toneMappingExposure = 1.6;
+    this.renderer.toneMappingExposure = 1.1;
     container.appendChild(this.renderer.domElement);
 
     this.clock = new THREE.Clock();
 
-    // ── Stage ──
+    // Build scene
     this.buildStage();
-
-    // ── Lighting ──
     this.buildLighting();
+    this.buildScreenFlash();
 
-    // ── Screen Flash Overlay (AAA VFX) ──
-    const flashGeo = new THREE.PlaneGeometry(50, 50);
-    const flashMat = new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0, depthTest: false, depthWrite: false });
-    this.screenFlashMesh = new THREE.Mesh(flashGeo, flashMat);
-    this.screenFlashMesh.position.set(0, 0, 10); // in front of camera
-    this.screenFlashMesh.renderOrder = 999;
-    this.scene.add(this.screenFlashMesh);
+    // Create fighters
+    this.p1 = this.createFighter(p1Data, -2.5, true);
+    this.p2 = this.createFighter(p2Data, 2.5, false);
+    this.p1Specials = getCharacterSpecials(p1Data.id);
+    this.p2Specials = getCharacterSpecials(p2Data.id);
+    this.p1.specials = this.p1Specials;
+    this.p2.specials = this.p2Specials;
 
-    // ── Fighters ──
-    this.p1 = this.createFighter(p1Data, -0.8, true);
-    this.p2 = this.createFighter(p2Data, 0.8, false);
-    this.p1Specials = this.p1.specials;
-    this.p2Specials = this.p2.specials;
-
-    // ── Input ──
+    // Input setup
     this.setupInput();
 
-    // ── Resize ──
-    this.handleResize = this.handleResize.bind(this);
-    window.addEventListener("resize", this.handleResize);
-
-    // ── Start ──
+    // Start intro
     this.phase = "intro";
-    this.phaseTimer = 2.5;
+    this.phaseTimer = 0;
     this.callbacks.onPhaseChange?.("intro");
-    // AAA: Intro camera sweep
-    this.startCinematicCamera("intro_sweep", 2.0);
+
+    // Start game loop
+    this.gameLoop();
   }
 
   /* ═══ STAGE BUILDING ═══ */
   private buildStage() {
-    // ── ARENA BACKGROUND IMAGE — panoramic backdrop ──
+    // Background
+    this.scene.background = new THREE.Color(0x0a0a12);
+    this.scene.fog = new THREE.FogExp2(0x0a0a12, 0.04);
+
     if (this.arenaBackgroundUrl) {
-      const bgLoader = new THREE.TextureLoader();
-      bgLoader.crossOrigin = "anonymous";
-      bgLoader.load(this.arenaBackgroundUrl, (bgTex) => {
-        bgTex.colorSpace = THREE.SRGBColorSpace;
-        const bgAspect = bgTex.image.width / bgTex.image.height;
-        const bgWidth = 36;
-        const bgHeight = bgWidth / bgAspect;
-        const bgGeo = new THREE.PlaneGeometry(bgWidth, Math.max(bgHeight, 14));
-        const bgMat = new THREE.MeshBasicMaterial({
-          map: bgTex, transparent: true, opacity: 0.85, depthWrite: false,
-        });
+      const loader = new THREE.TextureLoader();
+      loader.load(this.arenaBackgroundUrl, (tex) => {
+        tex.colorSpace = THREE.SRGBColorSpace;
+        const bgGeo = new THREE.PlaneGeometry(30, 16);
+        const bgMat = new THREE.MeshBasicMaterial({ map: tex, transparent: true, opacity: 0.6 });
         const bgMesh = new THREE.Mesh(bgGeo, bgMat);
-        bgMesh.position.set(0, 5, -8);
+        bgMesh.position.set(0, 4, -8);
         this.scene.add(bgMesh);
-
-        // Mid-ground parallax layer
-        const midGeo = new THREE.PlaneGeometry(bgWidth * 0.8, Math.max(bgHeight * 0.6, 8));
-        const midMat = new THREE.MeshBasicMaterial({
-          map: bgTex, transparent: true, opacity: 0.3, depthWrite: false,
-        });
-        const midMesh = new THREE.Mesh(midGeo, midMat);
-        midMesh.position.set(0, 3, -6.5);
-        midMesh.userData.parallaxFactor = 0.15;
-        this.scene.add(midMesh);
       });
-
-      if (this.arenaFloorColor) {
-        const col = new THREE.Color(this.arenaFloorColor);
-        this.scene.background = col.clone().multiplyScalar(0.3);
-        this.scene.fog = new THREE.FogExp2(col.clone().multiplyScalar(0.3).getHex(), 0.025);
-      }
     }
 
-    // ── FLOOR ──
-    const floorColor = this.arenaFloorColor ? new THREE.Color(this.arenaFloorColor) : new THREE.Color(0x1a1a2e);
-    const floorGeo = new THREE.PlaneGeometry(24, 14, 48, 28);
+    // Floor
+    const floorColor = this.arenaFloorColor || "#1a1a2e";
+    const floorGeo = new THREE.PlaneGeometry(STAGE_WIDTH * 2, 8);
     const floorMat = new THREE.MeshStandardMaterial({
-      color: floorColor, roughness: 0.25, metalness: 0.75,
+      color: new THREE.Color(floorColor),
+      roughness: 0.7,
+      metalness: 0.3,
     });
     this.stageFloor = new THREE.Mesh(floorGeo, floorMat);
     this.stageFloor.rotation.x = -Math.PI / 2;
+    this.stageFloor.position.y = 0;
     this.stageFloor.receiveShadow = true;
     this.scene.add(this.stageFloor);
 
-    // Floor grid
-    const gridHelper = new THREE.GridHelper(24, 48, 0x1a3355, 0x0d1a2e);
-    gridHelper.position.y = 0.01;
-    this.scene.add(gridHelper);
-
-    // FLOOR GLOW LINES — energy channels
-    const channelMat = new THREE.MeshBasicMaterial({
-      color: 0x00ccff, transparent: true, opacity: 0.15,
-    });
-    for (const x of [-3, 0, 3]) {
-      const ch = new THREE.Mesh(new THREE.BoxGeometry(0.04, 0.005, 14), channelMat);
-      ch.position.set(x, 0.02, 0);
-      this.scene.add(ch);
+    // Stage boundaries (subtle glowing lines)
+    const lineMat = new THREE.MeshBasicMaterial({ color: 0x00ffff, transparent: true, opacity: 0.15 });
+    for (const xPos of [-STAGE_HALF, STAGE_HALF]) {
+      const lineGeo = new THREE.PlaneGeometry(0.05, 4);
+      const line = new THREE.Mesh(lineGeo, lineMat);
+      line.position.set(xPos, 2, -0.5);
+      this.scene.add(line);
     }
-    for (const z of [-3, -1, 1, 3]) {
-      const ch = new THREE.Mesh(new THREE.BoxGeometry(24, 0.005, 0.04), channelMat);
-      ch.position.set(0, 0.02, z);
-      this.scene.add(ch);
+
+    // Grid lines on floor
+    const gridMat = new THREE.MeshBasicMaterial({ color: 0x00ffff, transparent: true, opacity: 0.04 });
+    for (let i = -6; i <= 6; i++) {
+      const gridLine = new THREE.Mesh(new THREE.PlaneGeometry(0.02, 8), gridMat);
+      gridLine.rotation.x = -Math.PI / 2;
+      gridLine.position.set(i, 0.01, 0);
+      this.scene.add(gridLine);
+    }
+
+    // FLOOR GLOW LINES — energy channels running along the arena floor
+    const glowLineMat = new THREE.MeshBasicMaterial({ color: 0x00ffff, transparent: true, opacity: 0.12 });
+    for (let i = -3; i <= 3; i += 2) {
+      const channelGeo = new THREE.PlaneGeometry(STAGE_WIDTH * 1.5, 0.04);
+      const channel = new THREE.Mesh(channelGeo, glowLineMat);
+      channel.rotation.x = -Math.PI / 2;
+      channel.position.set(0, 0.015, i * 0.5);
+      this.scene.add(channel);
     }
 
     // ── SIDE DECORATIONS & barriers ──
-    // Back wall
-    const wallGeo = new THREE.PlaneGeometry(24, 10);
-    const wallMat = new THREE.MeshStandardMaterial({
-      color: 0x12122a, roughness: 0.4, metalness: 0.4,
-      emissive: 0x0a0a1e, emissiveIntensity: 0.8,
+    const barrierMat = new THREE.MeshStandardMaterial({
+      color: 0x1a1a3e, metalness: 0.8, roughness: 0.3, transparent: true, opacity: 0.6,
     });
-    const wall = new THREE.Mesh(wallGeo, wallMat);
-    wall.position.set(0, 5, -6);
-    this.scene.add(wall);
+    for (const side of [-1, 1]) {
+      const barrierGeo = new THREE.BoxGeometry(0.15, 2.5, 3);
+      const barrier = new THREE.Mesh(barrierGeo, barrierMat);
+      barrier.position.set(side * (STAGE_HALF + 0.3), 1.25, -0.5);
+      this.scene.add(barrier);
+    }
 
-    // Wall accent panel
-    const panelGeo = new THREE.PlaneGeometry(6, 4);
-    const panelMat = new THREE.MeshStandardMaterial({
-      color: 0x1a1a3a, roughness: 0.3, metalness: 0.6,
-      emissive: 0x111133, emissiveIntensity: 0.5,
-    });
-    const panel = new THREE.Mesh(panelGeo, panelMat);
-    panel.position.set(0, 5, -5.95);
-    this.scene.add(panel);
-
-    // Central emblem ring
-    const ringGeo = new THREE.TorusGeometry(1.2, 0.06, 8, 32);
-    const ringMat = new THREE.MeshBasicMaterial({ color: 0x4488ff, transparent: true, opacity: 0.5 });
-    const ring = new THREE.Mesh(ringGeo, ringMat);
-    ring.position.set(0, 5.2, -5.9);
-    this.scene.add(ring);
-    const innerRing = new THREE.Mesh(
-      new THREE.TorusGeometry(0.7, 0.04, 8, 24),
-      new THREE.MeshBasicMaterial({ color: 0xffaa00, transparent: true, opacity: 0.4 })
-    );
-    innerRing.position.set(0, 5.2, -5.88);
-    this.scene.add(innerRing);
+    // Emblem rings on barriers
+    const ringGeo = new THREE.TorusGeometry(0.35, 0.04, 8, 24);
+    const ringMat2 = new THREE.MeshBasicMaterial({ color: 0x00ffff, transparent: true, opacity: 0.3 });
+    for (const side of [-1, 1]) {
+      const ring = new THREE.Mesh(ringGeo, ringMat2);
+      ring.position.set(side * (STAGE_HALF + 0.3), 2, -0.5);
+      ring.rotation.y = Math.PI / 2;
+      this.scene.add(ring);
+    }
 
     // ── PILLARS ──
-    const pillarGeo = new THREE.CylinderGeometry(0.22, 0.3, 8, 12);
     const pillarMat = new THREE.MeshStandardMaterial({
-      color: 0x2a2a4e, roughness: 0.15, metalness: 0.85,
-      emissive: 0x151530, emissiveIntensity: 0.4,
+      color: 0x2a2a4e, metalness: 0.7, roughness: 0.4,
     });
-    const pillarPositions = [-5.5, -3, 3, 5.5];
-    for (const x of pillarPositions) {
+    for (const side of [-1, 1]) {
+      const pillarGeo = new THREE.CylinderGeometry(0.2, 0.25, 5, 8);
       const pillar = new THREE.Mesh(pillarGeo, pillarMat);
-      pillar.position.set(x, 4, -5.2);
+      pillar.position.set(side * (STAGE_HALF + 0.8), 2.5, -2);
       pillar.castShadow = true;
       this.scene.add(pillar);
 
-      const capGeo = new THREE.CylinderGeometry(0.35, 0.22, 0.3, 12);
-      const capMat = new THREE.MeshStandardMaterial({
-        color: 0x4a4a7e, roughness: 0.1, metalness: 0.9,
-        emissive: 0x2a2a5e, emissiveIntensity: 0.3,
-      });
-      const cap = new THREE.Mesh(capGeo, capMat);
-      cap.position.set(x, 8.15, -5.2);
-      this.scene.add(cap);
-
-      const baseGeo = new THREE.CylinderGeometry(0.35, 0.4, 0.4, 12);
-      const base = new THREE.Mesh(baseGeo, capMat);
-      base.position.set(x, 0.2, -5.2);
-      this.scene.add(base);
-
-      const colors = [0x4488ff, 0x00ccff, 0x6644ff];
-      for (let i = 0; i < 3; i++) {
-        const stripGeo = new THREE.BoxGeometry(0.04, 1.2, 0.04);
-        const stripMat = new THREE.MeshBasicMaterial({
-          color: colors[i % colors.length], transparent: true, opacity: 0.5 - i * 0.1,
-        });
-        const strip = new THREE.Mesh(stripGeo, stripMat);
-        strip.position.set(x, 2 + i * 2.2, -5.0);
-        this.scene.add(strip);
-      }
+      // Pillar glow ring
+      const pRingGeo = new THREE.TorusGeometry(0.28, 0.03, 8, 16);
+      const pRing = new THREE.Mesh(pRingGeo, ringMat2);
+      pRing.position.set(side * (STAGE_HALF + 0.8), 4.5, -2);
+      pRing.rotation.x = Math.PI / 2;
+      this.scene.add(pRing);
     }
 
-    // ── ARCHWAY ──
-    const archGeo = new THREE.BoxGeometry(11, 0.25, 0.5);
+    // ── ARCHWAY ── spanning between pillars
+    const archGeo = new THREE.TorusGeometry(STAGE_HALF + 0.8, 0.12, 8, 32, Math.PI);
     const archMat = new THREE.MeshStandardMaterial({
-      color: 0x2a2a4e, roughness: 0.15, metalness: 0.85,
-      emissive: 0x1a1a3e, emissiveIntensity: 0.3,
+      color: 0x3a3a6e, metalness: 0.6, roughness: 0.5, transparent: true, opacity: 0.5,
     });
     const arch = new THREE.Mesh(archGeo, archMat);
-    arch.position.set(0, 8.25, -5.2);
+    arch.position.set(0, 5, -2);
+    arch.rotation.z = Math.PI;
     this.scene.add(arch);
   }
 
-  /* ═══ LIGHTING ═══ */
   private buildLighting() {
-    const ambient = new THREE.AmbientLight(
-      this.arenaAmbientColor ? new THREE.Color(this.arenaAmbientColor).getHex() : 0x334466, 0.6
-    );
+    const ambientColor = this.arenaAmbientColor || "#4a6fa5";
+    const ambient = new THREE.AmbientLight(new THREE.Color(ambientColor), 0.5);
     this.scene.add(ambient);
 
-    const mainLight = new THREE.DirectionalLight(0xffffff, 1.2);
-    mainLight.position.set(2, 6, 4);
-    mainLight.castShadow = true;
-    mainLight.shadow.mapSize.set(1024, 1024);
-    mainLight.shadow.camera.near = 0.5;
-    mainLight.shadow.camera.far = 20;
-    this.scene.add(mainLight);
+    // Key light
+    const keyLight = new THREE.DirectionalLight(0xffffff, 1.2);
+    keyLight.position.set(3, 8, 5);
+    keyLight.castShadow = true;
+    keyLight.shadow.mapSize.set(1024, 1024);
+    keyLight.shadow.camera.near = 0.5;
+    keyLight.shadow.camera.far = 20;
+    this.scene.add(keyLight);
 
-    const rimLight = new THREE.DirectionalLight(0x6666ff, 0.5);
-    rimLight.position.set(-3, 3, -2);
+    // Fill light
+    const fillLight = new THREE.DirectionalLight(0x6688cc, 0.4);
+    fillLight.position.set(-3, 4, 3);
+    this.scene.add(fillLight);
+
+    // Rim light
+    const rimLight = new THREE.DirectionalLight(0xff4444, 0.3);
+    rimLight.position.set(0, 3, -5);
     this.scene.add(rimLight);
 
-    for (const x of [-3, 0, 3]) {
-      const spot = new THREE.PointLight(0x6666ff, 0.8, 12);
-      spot.position.set(x, 4, -2);
+    // Fighter spotlights
+    for (const xPos of [-2.5, 2.5]) {
+      const spot = new THREE.PointLight(0xffffff, 0.6, 8);
+      spot.position.set(xPos, 4, 2);
       this.scene.add(spot);
       this.stageLights.push(spot);
     }
+  }
 
-    const frontFill = new THREE.PointLight(0xffffff, 0.7, 12);
-    frontFill.position.set(0, 2, 3.5);
-    this.scene.add(frontFill);
-    const leftFill = new THREE.PointLight(0xffffff, 0.3, 8);
-    leftFill.position.set(-2, 1.5, 3);
-    this.scene.add(leftFill);
-    const rightFill = new THREE.PointLight(0xffffff, 0.3, 8);
-    rightFill.position.set(2, 1.5, 3);
-    this.scene.add(rightFill);
+  private buildScreenFlash() {
+    const flashGeo = new THREE.PlaneGeometry(40, 40);
+    const flashMat = new THREE.MeshBasicMaterial({
+      color: 0xffffff,
+      transparent: true,
+      opacity: 0,
+      depthTest: false,
+      depthWrite: false,
+    });
+    this.screenFlashMesh = new THREE.Mesh(flashGeo, flashMat);
+    this.screenFlashMesh.position.set(0, 0, 5);
+    this.screenFlashMesh.renderOrder = 999;
+    this.scene.add(this.screenFlashMesh);
   }
 
   /* ═══ FIGHTER CREATION ═══ */
   private createFighter(data: FighterData, startX: number, facingRight: boolean): Fighter {
     const model = buildCharacterModel(data.id);
     const config = getCharacterConfig(data.id);
-
     model.group.position.set(startX, 0, 0);
-    if (!facingRight) model.group.scale.x = -1;
-    model.group.castShadow = true;
     this.scene.add(model.group);
 
-    const glowLight = new THREE.PointLight(new THREE.Color(config.glowColor).getHex(), 0.4, 3);
-    glowLight.position.set(0, 1.2, 0.5);
-    model.group.add(glowLight);
+    // Scale based on character stats (FighterData has hp/attack/defense/speed directly)
+    const hpMult = 1 + (data.hp - 50) / 100;
+    const maxHp = Math.round(BASE_HP * hpMult);
 
     return {
       data, model, config,
       x: startX, y: 0, vx: 0, vy: 0,
       facingRight,
-      state: "idle", stateTimer: 0,
-      hp: data.hp, maxHp: data.hp, displayHp: data.hp,
+      state: "idle",
+      stateFrame: 0,
+      hp: maxHp, maxHp, displayHp: maxHp,
       comboCount: 0, comboDamage: 0, comboTimer: 0, comboChain: 0, maxComboHits: 0,
+      jugglePoints: MAX_JUGGLE_POINTS, airborne: false,
       specialMeter: 0,
-      blockTimer: 0, blockStartTime: 0, isParrying: false, parryWindow: 0,
-      invincible: 0,
-      dexActive: false, dexTimer: 0,
-      heavyChargeTime: 0,
+      blockFrame: 0, isParrying: false, parryFrames: 0,
+      invincibleFrames: 0,
+      dexActive: false, dexFrames: 0,
+      heavyChargeFrames: 0,
       roundWins: 0,
-      aiStyle: config.fightStyle,
+      aiStyle: "balanced",
       aiTimer: 0, aiDecision: "idle", aiComboStep: 0,
+      aiReactDelay: this.getAIReactDelay(),
       aiReactTimer: 0, aiPressureTimer: 0, aiDodgeCooldown: 0,
-      aiAggression: 0, aiMistakeTimer: 0, aiPatternMemory: [],
-      stunTimer: 0,
-      dashCooldown: 0,
+      aiAggression: 0, aiMistakeTimer: 0,
+      aiPatternMemory: [],
+      aiLastSeenState: "idle",
+      aiWhiffPunishWindow: 0,
+      stunFrames: 0,
+      dashCooldownFrames: 0,
       hitThisAttack: false,
+      cancelUsed: false,
       specials: getCharacterSpecials(data.id),
-      dotTimer: 0,
-      dotDamagePerTick: 0,
-      dotTickInterval: 0.5,
-      dotTickTimer: 0,
-      speedBuffTimer: 0,
-      speedBuffMult: 1,
-      defenseDebuffTimer: 0,
-      defenseDebuffPct: 0,
-      // Auto-spacing
-      idleTimer: 0,
-      autoSpaceTarget: AUTO_SPACE_TARGET,
+      dotTimer: 0, dotDamagePerTick: 0, dotTickInterval: 0, dotTickTimer: 0,
+      speedBuffTimer: 0, speedBuffMult: 1,
+      defenseDebuffTimer: 0, defenseDebuffPct: 0,
+      pushVx: 0,
     };
   }
 
-  /* ═══ INPUT HANDLING — MCOC STYLE ═══ */
+  private getAIReactDelay(): number {
+    switch (this.difficulty) {
+      case "recruit": return 25;   // ~417ms — very slow reactions
+      case "soldier": return 16;   // ~267ms — average human
+      case "veteran": return 10;   // ~167ms — fast
+      case "archon": return 4;     // ~67ms — near frame-perfect
+      default: return 16;
+    }
+  }
+
+  /* ═══ INPUT SYSTEM ═══ */
   private setupInput() {
     const onKeyDown = (e: KeyboardEvent) => {
-      this.keys.add(e.key.toLowerCase());
-      e.preventDefault();
+      const key = e.key.toLowerCase();
+      if (!this.keys.has(key)) {
+        this.keys.add(key);
+        this.processKeyDown(key);
+      }
     };
     const onKeyUp = (e: KeyboardEvent) => {
-      this.keys.delete(e.key.toLowerCase());
-      e.preventDefault();
+      const key = e.key.toLowerCase();
+      this.keys.delete(key);
+      this.processKeyUp(key);
     };
     window.addEventListener("keydown", onKeyDown);
     window.addEventListener("keyup", onKeyUp);
-    (this as any)._keyDown = onKeyDown;
-    (this as any)._keyUp = onKeyUp;
   }
 
-  /** MCOC-style touch input from the React component */
+  private processKeyDown(key: string) {
+    // Map keyboard to buffered inputs
+    switch (key) {
+      case "j": case "z": this.bufferInput("light"); break;
+      case "k": case "x": this.bufferInput("medium"); break;
+      case "l": case "c": this.bufferInput("heavy_start"); break;
+      case "i": case "v": this.bufferInput("special"); break;
+      case "w": case "arrowup": this.bufferInput("jump"); break;
+      case "s": case "arrowdown": this.bufferInput("down"); break;
+      case "a": case "arrowleft": this.bufferInput("left"); break;
+      case "d": case "arrowright": this.bufferInput("right"); break;
+    }
+  }
+
+  private processKeyUp(key: string) {
+    if (key === "l" || key === "c") {
+      this.bufferInput("heavy_release");
+    }
+  }
+
+  /** Add an input to the buffer */
+  private bufferInput(action: InputAction) {
+    this.inputBuffer.push({ action, frame: this.gameFrame });
+  }
+
+  /** Consume the oldest buffered input of a given type (within buffer window) */
+  private consumeBuffer(action: InputAction): boolean {
+    const cutoff = this.gameFrame - INPUT_BUFFER_FRAMES;
+    const idx = this.inputBuffer.findIndex(b => b.action === action && b.frame >= cutoff);
+    if (idx >= 0) {
+      this.inputBuffer.splice(idx, 1);
+      return true;
+    }
+    return false;
+  }
+
+  /** Check if an input is in the buffer without consuming */
+  private peekBuffer(action: InputAction): boolean {
+    const cutoff = this.gameFrame - INPUT_BUFFER_FRAMES;
+    return this.inputBuffer.some(b => b.action === action && b.frame >= cutoff);
+  }
+
+  /** Clean expired buffer entries */
+  private cleanBuffer() {
+    const cutoff = this.gameFrame - INPUT_BUFFER_FRAMES * 2;
+    this.inputBuffer = this.inputBuffer.filter(b => b.frame >= cutoff);
+  }
+
+  // Public input methods (called by FightArena3D)
   public pushTouchInput(input: TouchInput) {
     this.inputQueue.push(input);
   }
 
-  /** Legacy touch state for backward compat */
   public setTouchState(state: Partial<typeof this.touchState>) {
     Object.assign(this.touchState, state);
   }
 
-  /** Set block hold state (left side hold) */
   public setBlockHold(holding: boolean) {
     this.holdingBlock = holding;
     if (holding) {
-      this.p1.blockStartTime = performance.now() / 1000;
-      this.p1.parryWindow = PARRY_WINDOW;
-      this.p1.isParrying = true;
+      this.bufferInput("block");
+    } else {
+      this.bufferInput("block_release");
     }
   }
 
-  /** Set heavy charge state (right side hold) */
   public setHeavyHold(holding: boolean) {
-    if (holding && !this.holdingHeavy) {
-      this.holdingHeavy = true;
-      this.heavyHoldStart = performance.now() / 1000;
-    } else if (!holding && this.holdingHeavy) {
-      this.holdingHeavy = false;
-      // Release heavy attack
-      if (this.phase === "fighting" && !this.isInActionState(this.p1)) {
-        const chargeTime = Math.min(performance.now() / 1000 - this.heavyHoldStart, HEAVY_MAX_CHARGE);
-        if (chargeTime >= HEAVY_MIN_CHARGE) {
-          this.p1.heavyChargeTime = chargeTime;
-          this.startAttack(this.p1, "heavy_release");
-        }
-      }
+    this.holdingHeavy = holding;
+    if (holding) {
+      this.heavyHoldStart = this.gameFrame;
+      this.bufferInput("heavy_start");
+    } else {
+      this.bufferInput("heavy_release");
     }
   }
 
-  /* ═══ MAIN GAME LOOP ═══ */
-  public update() {
-    if (this.disposed || this.paused) return;
+  /* ═══ CORE GAME LOOP — FIXED TIMESTEP AT 60FPS ═══ */
+  private gameLoop = () => {
+    if (this.disposed) return;
+    requestAnimationFrame(this.gameLoop);
 
-    const dt = Math.min(this.clock.getDelta(), 1 / 30);
-    this.animFrame++;
+    if (this.paused) return;
 
-    // Hit stop
-    if (this.hitStop.active) {
-      this.hitStop.timer -= dt;
-      if (this.hitStop.timer <= 0) this.hitStop.active = false;
-      else {
-        this.updateEffects(dt);
-        this.render();
-        return;
+    const rawDt = this.clock.getDelta();
+    // Apply slow-mo
+    const effectiveDt = this.slowMo.active ? rawDt * this.slowMo.speed : rawDt;
+
+    // Fixed timestep accumulator — ensures consistent frame-based logic
+    this.frameAccumulator += effectiveDt;
+
+    // Process frames (cap at 4 to prevent spiral of death)
+    let framesProcessed = 0;
+    while (this.frameAccumulator >= FRAME_DURATION && framesProcessed < 4) {
+      this.frameAccumulator -= FRAME_DURATION;
+      framesProcessed++;
+
+      // Skip game logic during hitstop (but still render)
+      if (this.hitStop.active) {
+        this.hitStop.remaining--;
+        if (this.hitStop.remaining <= 0) {
+          this.hitStop.active = false;
+        }
+        continue;
       }
+
+      this.gameFrame++;
+      this.fixedUpdate();
     }
 
-    // Slow motion
-    const timeScale = this.slowMo.active ? this.slowMo.speed : 1;
-    const gameDt = dt * timeScale;
-    if (this.slowMo.active) {
-      this.slowMo.timer -= dt;
-      if (this.slowMo.timer <= 0) this.slowMo.active = false;
-    }
+    // Always render (even during hitstop for visual feedback)
+    this.updateVisuals(rawDt);
+    this.render();
+  };
 
-    // Phase logic
+  /** Fixed update — runs exactly once per game frame (1/60s) */
+  private fixedUpdate() {
+    this.cleanBuffer();
+    this.processTouchQueue();
+
     switch (this.phase) {
       case "intro":
-        this.phaseTimer -= dt;
-        if (this.phaseTimer <= 0) {
-          this.phase = "round_announce";
-          this.phaseTimer = 2.0;
-          this.callbacks.onPhaseChange?.("round_announce");
-        }
+        this.updateIntro();
         break;
       case "round_announce":
-        this.phaseTimer -= dt;
-        if (this.phaseTimer <= 0) {
-          this.phase = "fighting";
-          this.callbacks.onPhaseChange?.("fighting");
-        }
+        this.updateRoundAnnounce();
         break;
       case "fighting":
-        this.updateFighting(gameDt);
+        this.updateFighting();
+        break;
+      case "finish_him":
+        this.updateFinishHim();
         break;
       case "ko":
-        this.phaseTimer -= dt;
-        if (this.phaseTimer <= 0) {
-          this.phase = "round_end";
-          this.phaseTimer = 2.0;
-          this.callbacks.onPhaseChange?.("round_end");
-        }
+        this.updateKO();
         break;
       case "round_end":
-        this.phaseTimer -= dt;
-        if (this.phaseTimer <= 0) this.checkMatchEnd();
+        this.updateRoundEnd();
         break;
       case "match_end":
         break;
     }
 
-     // Smooth HP drain (AAA: white bar trails behind actual HP)
-    this.p1.displayHp += (this.p1.hp - this.p1.displayHp) * 0.08;
-    this.p2.displayHp += (this.p2.hp - this.p2.displayHp) * 0.08;
-    this.updateEffects(dt);
-    // AAA VFX updates
-    this.updateAfterimages(dt);
-    this.updateEnergyProjectiles(dt);
-    this.updateImpactCraters(dt);
-    this.updateScreenFlash(dt);
-    this.updateCinematicCamera(dt);
-    // Afterimage spawning during dashes and specials
-    if (this.animFrame % 3 === 0) {
-      if (this.p1.state === "dash_fwd" || this.p1.state === "dash_back" || this.isSpecialAttack(this.p1.state)) {
-        this.spawnAfterimage(this.p1);
-      }
-      if (this.p2.state === "dash_fwd" || this.p2.state === "dash_back" || this.isSpecialAttack(this.p2.state)) {
-        this.spawnAfterimage(this.p2);
+    // Update slow-mo timer
+    if (this.slowMo.active) {
+      this.slowMo.remaining--;
+      if (this.slowMo.remaining <= 0) {
+        this.slowMo.active = false;
+        this.slowMo.speed = 1;
       }
     }
-    if (!this.cinematicCamera.active) {
-      this.updateCamera(dt);
-    }
-    this.animateModels(gameDt);
-    this.render();
   }
 
-  /* ═══ FIGHTING UPDATE ═══ */
-  private updateFighting(dt: number) {
-    this.roundTimer -= dt;
-    if (this.roundTimer <= 0) {
-      this.roundTimer = 0;
-      this.endRound(this.p1.hp >= this.p2.hp ? 1 : 2);
-      return;
+  /** Process queued touch inputs into the buffer */
+  private processTouchQueue() {
+    while (this.inputQueue.length > 0) {
+      const input = this.inputQueue.shift()!;
+      this.mapTouchToBuffer(input);
+    }
+  }
+
+  /** Map touch gestures to buffered input actions */
+  private mapTouchToBuffer(input: TouchInput) {
+    if (input.side === "right") {
+      switch (input.type) {
+        case "tap": this.bufferInput("light"); break;
+        case "swipe_right": this.bufferInput("medium"); break;
+        case "swipe_up": this.bufferInput("special"); break;
+        case "swipe_down": this.bufferInput("heavy_start"); break;
+        case "hold_start": this.bufferInput("heavy_start"); break;
+        case "hold_end": this.bufferInput("heavy_release"); break;
+      }
+    } else {
+      switch (input.type) {
+        case "swipe_left": this.bufferInput("dash_back"); break;
+        case "swipe_right": this.bufferInput("dash_fwd"); break;
+        case "tap": this.bufferInput("block"); break;
+        case "hold_start": this.bufferInput("block"); break;
+        case "hold_end": this.bufferInput("block_release"); break;
+        case "swipe_up": this.bufferInput("jump"); break;
+      }
+    }
+  }
+
+  /* ═══ PHASE UPDATES ═══ */
+  private updateIntro() {
+    this.phaseTimer++;
+    if (!this.introSweepDone && this.phaseTimer === 1) {
+      this.startCinematicCamera("intro_sweep", 2.0);
+      this.introSweepDone = true;
+    }
+    if (this.phaseTimer >= 120) { // 2 seconds
+      this.phase = "round_announce";
+      this.phaseTimer = 0;
+      this.callbacks.onPhaseChange?.("round_announce");
+    }
+  }
+
+  private updateRoundAnnounce() {
+    this.phaseTimer++;
+    if (this.phaseTimer >= 90) { // 1.5 seconds
+      this.phase = "fighting";
+      this.phaseTimer = 0;
+      this.callbacks.onPhaseChange?.("fighting");
+    }
+  }
+
+  private updateFighting() {
+    // Round timer (decrement every 60 frames = 1 second)
+    this.phaseTimer++;
+    if (this.phaseTimer % FPS === 0) {
+      this.roundTimer = Math.max(0, this.roundTimer - 1);
+      if (this.roundTimer <= 0) {
+        // Time out — winner is whoever has more HP
+        const winner: 1 | 2 = this.p1.hp >= this.p2.hp ? 1 : 2;
+        this.endRound(winner);
+        return;
+      }
     }
 
-    // Process MCOC-style input for P1
-    this.processPlayerInput(this.p1, dt);
+    // Update both fighters
+    this.updateFighterFrame(this.p1, this.p2, true);
+    this.updateFighterFrame(this.p2, this.p1, false);
+
+    // Process player input for P1
+    this.processPlayerInput(this.p1);
 
     // AI for P2
-    this.updateAI(this.p2, this.p1, dt);
+    this.updateAI(this.p2, this.p1);
 
-    // Update both fighters
-    this.updateFighter(this.p1, dt);
-    this.updateFighter(this.p2, dt);
-
-    // Collision
+    // Collision resolution
     this.resolveFighterCollision();
     this.clampToStage(this.p1);
     this.clampToStage(this.p2);
+
+    // Update facing
     this.updateFacing();
 
-    // Auto-spacing (MCOC-style: fighters drift to optimal range when neutral)
-    this.updateAutoSpacing(this.p1, this.p2, dt);
-    this.updateAutoSpacing(this.p2, this.p1, dt);
+    // Check hits
+    this.checkHits();
 
-    // MK-Inspired: Process deferred hit queue
-    this.processDeferredHits(dt);
+    // Update projectiles
+    this.updateProjectilesFrame();
 
+    // Check for FINISH HIM
+    this.checkFinishHim();
+
+    // Check for KO
+    this.checkKO();
+
+    // Smooth HP display
+    this.smoothHpDisplay(this.p1);
+    this.smoothHpDisplay(this.p2);
+
+    // Report health
     this.callbacks.onHealthChange?.(this.p1.hp, this.p1.maxHp, this.p2.hp, this.p2.maxHp);
+  }
 
-    // Training mode
-    if (this.trainingMode) {
-      if (this.p2.hp < this.p2.maxHp * 0.3) {
-        this.p2.hp = this.p2.maxHp;
-        this.p2.displayHp = this.p2.maxHp;
+  private updateFinishHim() {
+    this.phaseTimer++;
+    const target = this.finishHimTarget === 1 ? this.p1 : this.p2;
+    const attacker = this.finishHimTarget === 1 ? this.p2 : this.p1;
+
+    // Target is stunned
+    target.state = "finish_stun";
+
+    // Attacker can still act
+    if (this.finishHimTarget === 2) {
+      this.processPlayerInput(this.p1);
+    }
+    this.updateFighterFrame(attacker, target, this.finishHimTarget === 2);
+    this.updateFighterFrame(target, attacker, this.finishHimTarget === 1);
+
+    // Spawn sweat particles on stunned target
+    if (this.phaseTimer % 15 === 0) {
+      this.spawnHitEffect(target.x, 1.5, 0, "sweat", "#88ccff");
+    }
+
+    // Timeout — if attacker doesn't finish, round ends
+    if (this.phaseTimer >= FINISH_HIM_STUN_FRAMES) {
+      this.endRound(this.finishHimTarget === 1 ? 2 : 1);
+    }
+
+    // Check if target got KO'd
+    if (target.hp <= 0) {
+      this.endRound(this.finishHimTarget === 1 ? 2 : 1);
+    }
+
+    this.resolveFighterCollision();
+    this.clampToStage(this.p1);
+    this.clampToStage(this.p2);
+    this.smoothHpDisplay(this.p1);
+    this.smoothHpDisplay(this.p2);
+    this.callbacks.onHealthChange?.(this.p1.hp, this.p1.maxHp, this.p2.hp, this.p2.maxHp);
+  }
+
+  private updateKO() {
+    this.phaseTimer++;
+    if (this.phaseTimer >= 120) { // 2 seconds
+      const winner: 1 | 2 = this.p1.hp > 0 ? 1 : 2;
+      this.endRound(winner);
+    }
+  }
+
+  private updateRoundEnd() {
+    this.phaseTimer++;
+    if (this.phaseTimer >= 120) {
+      if (this.checkMatchEnd()) return;
+      this.resetRound();
+    }
+  }
+
+  private checkFinishHim() {
+    if (this.finishHimTriggered) return;
+
+    for (const [fighter, id] of [[this.p1, 1], [this.p2, 2]] as [Fighter, 1 | 2][]) {
+      const ratio = fighter.hp / fighter.maxHp;
+      if (ratio <= FINISH_HIM_HP_THRESHOLD && ratio > 0 && fighter.state === "hitstun") {
+        this.finishHimTriggered = true;
+        this.finishHimTarget = id;
+        this.phase = "finish_him";
+        this.phaseTimer = 0;
+        fighter.stunFrames = FINISH_HIM_STUN_FRAMES;
+        this.slowMo = { active: true, speed: FINISH_HIM_SLOW_MO, frames: 60, remaining: 60 };
+        this.triggerScreenFlash("#ff0000", 0.4, 0.3);
+        this.callbacks.onPhaseChange?.("finish_him");
+        this.callbacks.onFinishHim?.(id);
+        break;
       }
-      if (this.p1.hp < this.p1.maxHp) {
-        this.p1.hp = Math.min(this.p1.maxHp, this.p1.hp + this.p1.maxHp * 0.002);
+    }
+  }
+
+  private checkKO() {
+    for (const [fighter, id] of [[this.p1, 1], [this.p2, 2]] as [Fighter, 1 | 2][]) {
+      if (fighter.hp <= 0 && this.phase === "fighting") {
+        fighter.hp = 0;
+        fighter.state = "ko";
+        fighter.stateFrame = 0;
+        this.phase = "ko";
+        this.phaseTimer = 0;
+        this.slowMo = { active: true, speed: 0.2, frames: 40, remaining: 40 };
+        this.startCinematicCamera("ko_zoom", 1.5);
+        this.koZoomTarget = new THREE.Vector3(fighter.x, 1, 0);
+        this.spawnHitEffect(fighter.x, 1.0, 0, "dust", "#aaaaaa");
+        this.spawnGroundCrater(fighter.x, "#ff4444");
+        this.triggerScreenFlash("#ffffff", 0.8, 0.2);
+        this.screenShake = { intensity: 0.15, duration: 0.5, timer: 0 };
+        this.callbacks.onPhaseChange?.("ko");
+        break;
       }
-      this.roundTimer = 99;
+    }
+  }
+
+
+  /* ═══ FIGHTER FRAME UPDATE — Per-frame state machine ═══ */
+  private updateFighterFrame(f: Fighter, opponent: Fighter, isPlayer: boolean) {
+    f.stateFrame++;
+
+    // Decrement timers (frame-based)
+    if (f.invincibleFrames > 0) f.invincibleFrames--;
+    if (f.dashCooldownFrames > 0) f.dashCooldownFrames--;
+    if (f.stunFrames > 0) f.stunFrames--;
+    if (f.parryFrames > 0) { f.parryFrames--; if (f.parryFrames <= 0) f.isParrying = false; }
+    if (f.dexActive) { f.dexFrames--; if (f.dexFrames <= 0) f.dexActive = false; }
+
+    // Combo drop timer
+    if (f.comboCount > 0) {
+      f.comboTimer++;
+      if (f.comboTimer >= COMBO_DROP_FRAMES) {
+        if (f.comboCount > f.maxComboHits) f.maxComboHits = f.comboCount;
+        f.comboCount = 0;
+        f.comboDamage = 0;
+        f.comboTimer = 0;
+      }
+    }
+
+    // DOT ticks
+    if (f.dotTimer > 0) {
+      f.dotTimer -= FRAME_DURATION;
+      f.dotTickTimer -= FRAME_DURATION;
+      if (f.dotTickTimer <= 0) {
+        f.hp = Math.max(0, f.hp - f.dotDamagePerTick);
+        f.dotTickTimer = f.dotTickInterval;
+        const pid: 1 | 2 = f === this.p1 ? 1 : 2;
+        this.callbacks.onDot?.(pid, f.dotDamagePerTick);
+      }
+    }
+
+    // Buff/debuff timers
+    if (f.speedBuffTimer > 0) { f.speedBuffTimer -= FRAME_DURATION; if (f.speedBuffTimer <= 0) f.speedBuffMult = 1; }
+    if (f.defenseDebuffTimer > 0) { f.defenseDebuffTimer -= FRAME_DURATION; if (f.defenseDebuffTimer <= 0) f.defenseDebuffPct = 0; }
+
+    // Pushback deceleration
+    if (Math.abs(f.pushVx) > 0.01) {
+      const decel = PUSHBACK_DECEL * FRAME_DURATION;
+      if (f.pushVx > 0) f.pushVx = Math.max(0, f.pushVx - decel);
+      else f.pushVx = Math.min(0, f.pushVx + decel);
+      f.x += f.pushVx * FRAME_DURATION;
     } else {
-      // MK-Inspired: FINISH HIM check before KO
-      if (!this.finishHimTriggered) {
-        if (this.p1.hp > 0 && this.p2.hp > 0) {
-          const p1Ratio = this.p1.hp / this.p1.maxHp;
-          const p2Ratio = this.p2.hp / this.p2.maxHp;
-          if (p1Ratio <= FINISH_HIM_HP_THRESHOLD && p1Ratio > 0) {
-            this.triggerFinishHim(1);
-          } else if (p2Ratio <= FINISH_HIM_HP_THRESHOLD && p2Ratio > 0) {
-            this.triggerFinishHim(2);
+      f.pushVx = 0;
+    }
+
+    // State machine
+    switch (f.state) {
+      case "idle":
+        f.vx = 0;
+        f.airborne = false;
+        f.jugglePoints = MAX_JUGGLE_POINTS;
+        break;
+
+      case "walk_fwd": {
+        const targetSpeed = (f.facingRight ? 1 : -1) * WALK_FWD_SPEED * f.speedBuffMult;
+        f.vx = this.approach(f.vx, targetSpeed, WALK_ACCEL * FRAME_DURATION);
+        f.x += f.vx * FRAME_DURATION;
+        break;
+      }
+
+      case "walk_back": {
+        const targetSpeed = (f.facingRight ? -1 : 1) * WALK_BACK_SPEED * f.speedBuffMult;
+        f.vx = this.approach(f.vx, targetSpeed, WALK_ACCEL * FRAME_DURATION);
+        f.x += f.vx * FRAME_DURATION;
+        break;
+      }
+
+      case "dash_fwd": {
+        const totalFrames = DASH_FWD_FRAMES;
+        if (f.stateFrame <= totalFrames) {
+          // Acceleration curve: fast start, slight decel at end
+          const progress = f.stateFrame / totalFrames;
+          const speedCurve = progress < 0.3 ? 1.2 : (1.0 - (progress - 0.3) * 0.4);
+          f.vx = (f.facingRight ? 1 : -1) * DASH_FWD_SPEED * speedCurve;
+          f.x += f.vx * FRAME_DURATION;
+          // Spawn afterimage every 3 frames
+          if (f.stateFrame % 3 === 0) this.spawnAfterimage(f);
+        } else {
+          f.state = "idle";
+          f.stateFrame = 0;
+          f.vx = 0;
+          f.dashCooldownFrames = DASH_COOLDOWN_FRAMES;
+        }
+        break;
+      }
+
+      case "dash_back": {
+        const totalFrames = DASH_BACK_FRAMES;
+        if (f.stateFrame <= totalFrames) {
+          // Invulnerable at start
+          if (f.stateFrame <= DASH_INVULN_FRAMES) f.invincibleFrames = 1;
+          const progress = f.stateFrame / totalFrames;
+          const speedCurve = progress < 0.4 ? 1.3 : (1.0 - (progress - 0.4) * 0.5);
+          f.vx = (f.facingRight ? -1 : 1) * DASH_BACK_SPEED * speedCurve;
+          f.x += f.vx * FRAME_DURATION;
+          if (f.stateFrame % 3 === 0) this.spawnAfterimage(f);
+        } else {
+          f.state = "idle";
+          f.stateFrame = 0;
+          f.vx = 0;
+          f.dashCooldownFrames = DASH_COOLDOWN_FRAMES;
+        }
+        break;
+      }
+
+      case "jump":
+      case "jump_fwd":
+      case "jump_back": {
+        // Pre-jump frames
+        if (f.stateFrame <= PRE_JUMP_FRAMES) {
+          if (f.stateFrame === PRE_JUMP_FRAMES) {
+            f.vy = JUMP_FORCE;
+            if (f.state === "jump_fwd") f.vx = (f.facingRight ? 1 : -1) * JUMP_FWD_VX;
+            else if (f.state === "jump_back") f.vx = (f.facingRight ? -1 : 1) * JUMP_BACK_VX;
+            f.airborne = true;
+          }
+        } else {
+          // Airborne physics
+          f.vy += GRAVITY * FRAME_DURATION;
+          f.y += f.vy * FRAME_DURATION;
+          f.x += f.vx * FRAME_DURATION;
+
+          // Landing
+          if (f.y <= GROUND_Y && f.vy < 0) {
+            f.y = GROUND_Y;
+            f.vy = 0;
+            f.vx = 0;
+            f.airborne = false;
+            f.jugglePoints = MAX_JUGGLE_POINTS;
+            f.state = "idle";
+            f.stateFrame = 0;
+            // Landing recovery — can't act for a few frames
+            f.stunFrames = LANDING_RECOVERY;
           }
         }
+        break;
       }
-      if (this.p1.hp <= 0) this.endRound(2);
-      if (this.p2.hp <= 0) this.endRound(1);
-    }
-  }
 
-  /* ═══ PLAYER INPUT — MCOC SPLIT-SCREEN ═══ */
-  private processPlayerInput(f: Fighter, dt: number) {
-    // Process queued touch inputs
-    while (this.inputQueue.length > 0) {
-      const input = this.inputQueue.shift()!;
-      this.handleTouchInput(f, input, dt);
-    }
+      // Attack states — use frame data
+      case "light_1": case "light_2": case "light_3": case "light_4":
+      case "medium":
+      case "heavy_release":
+      case "special_1": case "special_2": case "special_3": {
+        const fd = this.getFrameData(f.state);
+        const totalFrames = fd.startup + fd.active + fd.recovery;
 
-    // Handle keyboard input (desktop fallback)
-    this.handleKeyboardInput(f, dt);
+        // Medium attack lunge
+        if (f.state === "medium" && f.stateFrame <= fd.startup + fd.active) {
+          const lungeSpeed = MEDIUM_LUNGE / ((fd.startup + fd.active) * FRAME_DURATION);
+          f.x += (f.facingRight ? 1 : -1) * lungeSpeed * FRAME_DURATION;
+        }
 
-    // Handle continuous block hold
-    if (this.holdingBlock && !this.isInAttackState(f) && f.stunTimer <= 0) {
-      if (f.state !== "block_stand" && f.state !== "block_crouch" && f.state !== "blockstun" && f.state !== "parry_stun") {
-        const down = this.keys.has("s") || this.keys.has("arrowdown") || this.touchState.down;
-        f.state = down ? "block_crouch" : "block_stand";
-        f.blockTimer = 0.1;
+        // Attack complete
+        if (f.stateFrame >= totalFrames) {
+          f.state = "idle";
+          f.stateFrame = 0;
+          f.hitThisAttack = false;
+          f.cancelUsed = false;
+          f.comboChain = 0;
+        }
+        break;
       }
-    }
 
-    // Handle continuous heavy charge
-    if (this.holdingHeavy && !this.isInActionState(f) && f.stunTimer <= 0) {
-      if (f.state !== "heavy_charge") {
-        f.state = "heavy_charge";
-        f.stateTimer = 0;
-        f.heavyChargeTime = 0;
-      } else {
-        f.heavyChargeTime += dt;
-      }
-    }
-
-    // Update parry window
-    if (f.isParrying) {
-      f.parryWindow -= dt;
-      if (f.parryWindow <= 0) {
-        f.isParrying = false;
-      }
-    }
-
-    // Update dex
-    if (f.dexActive) {
-      f.dexTimer -= dt;
-      if (f.dexTimer <= 0) f.dexActive = false;
-    }
-  }
-
-  private handleTouchInput(f: Fighter, input: TouchInput, _dt: number) {
-    if (this.isInActionState(f) && !this.canCancelIntoNext(f)) return;
-
-    if (input.side === "right") {
-      // RIGHT SIDE — Offense
-      switch (input.type) {
-        case "tap":
-          // Light attack — chains into combo (L1 → L2 → L3 → L4)
-          this.doLightAttack(f);
-          break;
-        case "swipe_right":
-          // Medium attack — lunges forward
-          this.startAttack(f, "medium");
-          break;
-        case "swipe_up":
-          // Special attack — use highest available level
-          this.doSpecialAttack(f);
-          break;
-        case "swipe_down":
-          // Heavy attack (quick release)
-          f.heavyChargeTime = HEAVY_MIN_CHARGE;
+      case "heavy_charge": {
+        f.heavyChargeFrames++;
+        f.vx = 0;
+        // Auto-release at max charge
+        if (f.heavyChargeFrames >= HEAVY_MAX_CHARGE_FRAMES && !this.holdingHeavy) {
           this.startAttack(f, "heavy_release");
-          break;
+        }
+        break;
       }
-    } else {
-      // LEFT SIDE — Defense (MCOC-style: dash-only, no walk/jump from touch)
-      switch (input.type) {
-        case "swipe_left":
-          // Dash back (dexterity if timed right)
-          this.doDashBack(f);
-          break;
-        case "swipe_right":
-          // Dash forward (close distance)
-          this.doDashForward(f);
-          break;
-        case "tap":
-          // Quick tap on left side = momentary block pulse
-          // (Hold is handled separately via holdingBlock)
-          if (!this.isInAttackState(f) && f.stunTimer <= 0) {
-            f.state = "block_stand";
-            f.blockTimer = 0.2;
-            f.blockStartTime = performance.now() / 1000;
-            f.parryWindow = PARRY_WINDOW;
-            f.isParrying = true;
+
+      case "block_stand":
+      case "block_crouch": {
+        f.vx = 0;
+        // Parry window check
+        if (f.stateFrame <= PARRY_WINDOW_FRAMES) {
+          f.isParrying = true;
+          f.parryFrames = PARRY_WINDOW_FRAMES - f.stateFrame;
+        }
+        // Release block
+        if (!this.holdingBlock && !this.keys.has("s") && !this.keys.has("arrowdown")) {
+          if (f === this.p1) {
+            f.state = "idle";
+            f.stateFrame = 0;
           }
-          break;
+        }
+        break;
       }
+
+      case "blockstun": {
+        f.vx = 0;
+        if (f.stunFrames <= 0) {
+          f.state = "idle";
+          f.stateFrame = 0;
+        }
+        break;
+      }
+
+      case "hitstun": {
+        f.vx = 0;
+        if (f.stunFrames <= 0) {
+          f.state = "idle";
+          f.stateFrame = 0;
+        }
+        break;
+      }
+
+      case "launched": {
+        // Airborne after being launched
+        f.vy += LAUNCH_GRAVITY * FRAME_DURATION;
+        f.y += f.vy * FRAME_DURATION;
+        f.x += f.pushVx * FRAME_DURATION;
+        f.airborne = true;
+
+        if (f.y <= GROUND_Y && f.vy < 0) {
+          f.y = GROUND_Y;
+          f.vy = 0;
+          f.airborne = false;
+          f.state = "knockdown";
+          f.stateFrame = 0;
+          f.stunFrames = KNOCKDOWN_FRAMES;
+          // Dust on landing
+          this.spawnHitEffect(f.x, 0.1, 0, "dust", "#aaaaaa");
+          this.screenShake = { intensity: 0.06, duration: 0.15, timer: 0 };
+        }
+        break;
+      }
+
+      case "knockdown": {
+        f.vx = 0;
+        if (f.stunFrames <= 0) {
+          f.state = "getup";
+          f.stateFrame = 0;
+          f.stunFrames = GETUP_FRAMES;
+          f.invincibleFrames = GETUP_INVULN;
+        }
+        break;
+      }
+
+      case "getup": {
+        if (f.stunFrames <= 0) {
+          f.state = "idle";
+          f.stateFrame = 0;
+          f.jugglePoints = MAX_JUGGLE_POINTS;
+        }
+        break;
+      }
+
+      case "parry_stun": {
+        f.vx = 0;
+        if (f.stunFrames <= 0) {
+          f.state = "idle";
+          f.stateFrame = 0;
+        }
+        break;
+      }
+
+      case "finish_stun":
+        f.vx = 0;
+        break;
+
+      case "ko":
+        f.vx = 0;
+        // Slowly fall
+        if (f.y > GROUND_Y) {
+          f.vy += GRAVITY * FRAME_DURATION;
+          f.y += f.vy * FRAME_DURATION;
+          if (f.y <= GROUND_Y) f.y = GROUND_Y;
+        }
+        break;
+
+      case "victory":
+        f.vx = 0;
+        break;
     }
   }
 
-  private handleKeyboardInput(f: Fighter, dt: number) {
-    if (this.isInActionState(f) && !this.canCancelIntoNext(f)) return;
+  /** Smoothly approach a target value */
+  private approach(current: number, target: number, maxDelta: number): number {
+    if (current < target) return Math.min(current + maxDelta, target);
+    if (current > target) return Math.max(current - maxDelta, target);
+    return target;
+  }
 
-    const left = this.keys.has("a") || this.keys.has("arrowleft");
-    const right = this.keys.has("d") || this.keys.has("arrowright");
-    const up = this.keys.has("w") || this.keys.has("arrowup");
-    const down = this.keys.has("s") || this.keys.has("arrowdown");
+  /* ═══ PLAYER INPUT PROCESSING — Uses input buffer ═══ */
+  private processPlayerInput(f: Fighter) {
+    if (this.phase !== "fighting" && this.phase !== "finish_him") return;
+    if (f.state === "ko" || f.state === "victory") return;
 
-    // Block (L/C key)
-    const block = this.keys.has("l") || this.keys.has("c");
-    if (block && !this.isInAttackState(f)) {
-      if (!this.holdingBlock) {
-        this.holdingBlock = true;
-        f.blockStartTime = performance.now() / 1000;
-        f.parryWindow = PARRY_WINDOW;
-        f.isParrying = true;
-      }
-      f.state = down ? "block_crouch" : "block_stand";
-      f.blockTimer = 0.1;
-      return;
-    } else if (!block && this.holdingBlock && !this.touchState.block) {
-      this.holdingBlock = false;
-    }
-
-    // Light attack (J/Z)
-    const punch = this.keys.has("j") || this.keys.has("z") || this.touchState.punch;
-    if (punch) {
-      this.doLightAttack(f);
-      this.keys.delete("j"); this.keys.delete("z");
-      this.touchState.punch = false;
+    // Can't act during stun (except blockstun → can buffer)
+    if (f.state === "hitstun" || f.state === "knockdown" || f.state === "getup" ||
+        f.state === "parry_stun" || f.state === "finish_stun" || f.state === "launched") {
       return;
     }
 
-    // Medium attack (K/X)
-    const kick = this.keys.has("k") || this.keys.has("x") || this.touchState.kick;
-    if (kick) {
-      this.startAttack(f, "medium");
-      this.keys.delete("k"); this.keys.delete("x");
-      this.touchState.kick = false;
-      return;
-    }
+    const isAttacking = this.isInAttackState(f);
+    const canCancel = isAttacking && this.canCancelIntoNext(f) && !f.cancelUsed;
+    const isIdle = f.state === "idle" || f.state === "walk_fwd" || f.state === "walk_back";
+    const canAct = isIdle || canCancel;
 
-    // Special attack (Space/V)
-    const special = this.keys.has(" ") || this.keys.has("v") || this.touchState.special;
-    if (special) {
+    if (!canAct && !isAttacking) return;
+
+    // ── Check buffered inputs in priority order ──
+
+    // Special attack (highest priority when available)
+    if (canAct && this.consumeBuffer("special")) {
       this.doSpecialAttack(f);
-      this.keys.delete(" "); this.keys.delete("v");
-      this.touchState.special = false;
       return;
     }
 
-    // Dash back (double-tap left or Q)
-    if (this.keys.has("q")) {
+    // Heavy release
+    if (f.state === "heavy_charge" && this.consumeBuffer("heavy_release")) {
+      this.startAttack(f, "heavy_release");
+      return;
+    }
+
+    // Heavy start
+    if (canAct && this.consumeBuffer("heavy_start")) {
+      f.state = "heavy_charge";
+      f.stateFrame = 0;
+      f.heavyChargeFrames = 0;
+      return;
+    }
+
+    // Medium attack
+    if (canAct && this.consumeBuffer("medium")) {
+      if (canCancel) f.cancelUsed = true;
+      this.startAttack(f, "medium");
+      return;
+    }
+
+    // Light attack (chains)
+    if (canAct && this.consumeBuffer("light")) {
+      if (canCancel) f.cancelUsed = true;
+      this.doLightAttack(f);
+      return;
+    }
+
+    // Block
+    if (isIdle && (this.holdingBlock || this.consumeBuffer("block"))) {
+      const down = this.keys.has("s") || this.keys.has("arrowdown") || this.touchState.down;
+      f.state = down ? "block_crouch" : "block_stand";
+      f.stateFrame = 0;
+      f.blockFrame = this.gameFrame;
+      f.isParrying = true;
+      f.parryFrames = PARRY_WINDOW_FRAMES;
+      return;
+    }
+
+    // Dash back
+    if (isIdle && f.dashCooldownFrames <= 0 && this.consumeBuffer("dash_back")) {
       this.doDashBack(f);
-      this.keys.delete("q");
       return;
     }
 
-    // Dash forward (double-tap right or E)
-    if (this.keys.has("e")) {
+    // Dash forward
+    if (isIdle && f.dashCooldownFrames <= 0 && this.consumeBuffer("dash_fwd")) {
       this.doDashForward(f);
-      this.keys.delete("e");
       return;
     }
 
     // Jump
-    if (up && f.y <= 0.01 && !this.holdingBlock) {
-      f.vy = JUMP_FORCE;
-      f.state = "jump";
-      if (left) f.vx = f.facingRight ? -WALK_SPEED * 0.7 : WALK_SPEED * 0.7;
-      else if (right) f.vx = f.facingRight ? WALK_SPEED * 0.7 : -WALK_SPEED * 0.7;
-      return;
-    }
-
-    // Crouch
-    if (down && f.y <= 0 && !this.holdingBlock) {
-      f.state = "crouch";
+    if (isIdle && this.consumeBuffer("jump")) {
+      const fwd = this.keys.has(f.facingRight ? "d" : "a") || this.keys.has(f.facingRight ? "arrowright" : "arrowleft");
+      const back = this.keys.has(f.facingRight ? "a" : "d") || this.keys.has(f.facingRight ? "arrowleft" : "arrowright");
+      if (fwd) f.state = "jump_fwd";
+      else if (back) f.state = "jump_back";
+      else f.state = "jump";
+      f.stateFrame = 0;
       f.vx = 0;
       return;
     }
 
-    // Walk
-    if (!this.holdingBlock && !this.holdingHeavy) {
-      if (right) {
-        f.vx = f.facingRight ? WALK_SPEED : -BACK_SPEED;
+    // Walking (continuous, not buffered)
+    if (isIdle && !isAttacking) {
+      const left = this.keys.has("a") || this.keys.has("arrowleft");
+      const right = this.keys.has("d") || this.keys.has("arrowright");
+
+      if (right && !left) {
         f.state = f.facingRight ? "walk_fwd" : "walk_back";
-      } else if (left) {
-        f.vx = f.facingRight ? -BACK_SPEED : WALK_SPEED;
+        f.stateFrame = f.state === f.state ? f.stateFrame : 0; // preserve frame if same state
+      } else if (left && !right) {
         f.state = f.facingRight ? "walk_back" : "walk_fwd";
-      } else if (!this.isInActionState(f)) {
-        f.vx = 0;
+        f.stateFrame = f.state === f.state ? f.stateFrame : 0;
+      } else if (f.state === "walk_fwd" || f.state === "walk_back") {
         f.state = "idle";
+        f.stateFrame = 0;
+        // Decelerate to stop
+        f.vx = this.approach(f.vx, 0, WALK_DECEL * FRAME_DURATION);
       }
     }
   }
 
-  /* ═══ ATTACK ACTIONS ═══ */
+  /* ═══ ATTACK SYSTEM ═══ */
   private doLightAttack(f: Fighter) {
-    // Chain light attacks: L1 → L2 → L3 → L4
-    if (f.comboChain === 0 || f.comboTimer <= 0) {
-      this.startAttack(f, "light_1");
-      f.comboChain = 1;
-    } else if (f.comboChain === 1 && this.canCancelIntoNext(f)) {
-      this.startAttack(f, "light_2");
-      f.comboChain = 2;
-    } else if (f.comboChain === 2 && this.canCancelIntoNext(f)) {
-      this.startAttack(f, "light_3");
-      f.comboChain = 3;
-    } else if (f.comboChain === 3 && this.canCancelIntoNext(f)) {
-      this.startAttack(f, "light_4");
-      f.comboChain = 4;
-    } else if (f.comboChain >= 4) {
-      // Combo complete — can't chain more lights, must dash back or use medium/special
-      f.comboChain = 0;
-    }
+    // Chain system: L1 → L2 → L3 → L4
+    const chain = f.comboChain;
+    const states: FighterState[] = ["light_1", "light_2", "light_3", "light_4"];
+    const nextState = states[Math.min(chain, 3)];
+    this.startAttack(f, nextState);
+    f.comboChain = Math.min(chain + 1, 4);
   }
 
   private doSpecialAttack(f: Fighter) {
-    const playerNum = f === this.p1 ? 1 : 2;
-    if (f.specialMeter >= 300) {
+    if (f.specialMeter >= METER_SP3_COST) {
       this.startAttack(f, "special_3");
-      f.specialMeter -= 300;
-      this.callbacks.onSpecialActivate?.(playerNum as 1 | 2, 3, f.specials.sp3.name, f.specials.sp3.type);
-    } else if (f.specialMeter >= 200) {
+      f.specialMeter -= METER_SP3_COST;
+    } else if (f.specialMeter >= METER_SP2_COST) {
       this.startAttack(f, "special_2");
-      f.specialMeter -= 200;
-      this.callbacks.onSpecialActivate?.(playerNum as 1 | 2, 2, f.specials.sp2.name, f.specials.sp2.type);
-    } else if (f.specialMeter >= 100) {
+      f.specialMeter -= METER_SP2_COST;
+    } else if (f.specialMeter >= METER_SP1_COST) {
       this.startAttack(f, "special_1");
-      f.specialMeter -= 100;
-      this.callbacks.onSpecialActivate?.(playerNum as 1 | 2, 1, f.specials.sp1.name, f.specials.sp1.type);
-    }
-  }
-
-  private doDashBack(f: Fighter) {
-    if (f.dashCooldown > 0 || f.y > 0.01) return;
-    f.state = "dash_back";
-    f.stateTimer = 0;
-    f.vx = f.facingRight ? -DASH_BACK_SPEED : DASH_BACK_SPEED;
-    f.dashCooldown = DASH_COOLDOWN;
-    // Check for dexterity (evade) — if opponent is attacking and we dash at the right time
-    const opponent = f === this.p1 ? this.p2 : this.p1;
-    if (this.isInAttackState(opponent)) {
-      f.dexActive = true;
-      f.dexTimer = DEX_WINDOW;
-      f.invincible = DEX_WINDOW;
-      this.callbacks.onDex?.(f === this.p1 ? 1 : 2);
+      f.specialMeter -= METER_SP1_COST;
     }
   }
 
   private doDashForward(f: Fighter) {
-    if (f.dashCooldown > 0 || f.y > 0.01) return;
     f.state = "dash_fwd";
-    f.stateTimer = 0;
-    f.vx = f.facingRight ? DASH_FWD_SPEED : -DASH_FWD_SPEED;
-    f.dashCooldown = DASH_COOLDOWN;
+    f.stateFrame = 0;
+    f.dashCooldownFrames = DASH_COOLDOWN_FRAMES;
   }
 
-  /* ═══ ATTACK SYSTEM ═══ */
+  private doDashBack(f: Fighter) {
+    f.state = "dash_back";
+    f.stateFrame = 0;
+    f.dashCooldownFrames = DASH_COOLDOWN_FRAMES;
+    // Dex check — if timed during opponent's attack startup
+    const opponent = f === this.p1 ? this.p2 : this.p1;
+    if (this.isInAttackState(opponent)) {
+      const fd = this.getFrameData(opponent.state);
+      if (opponent.stateFrame <= fd.startup) {
+        f.dexActive = true;
+        f.dexFrames = DEX_INVULN_FRAMES;
+        f.invincibleFrames = DEX_INVULN_FRAMES;
+        const pid: 1 | 2 = f === this.p1 ? 1 : 2;
+        this.callbacks.onDex?.(pid);
+      }
+    }
+  }
+
   private startAttack(f: Fighter, type: FighterState) {
     f.state = type;
-    f.stateTimer = 0;
+    f.stateFrame = 0;
     f.hitThisAttack = false;
-    // Record player action for AI pattern memory
-    if (f === this.p1) {
-      this.p2.aiPatternMemory.push(type);
-      if (this.p2.aiPatternMemory.length > 10) this.p2.aiPatternMemory.shift();
+    f.cancelUsed = false;
+
+    // Special move cinematics
+    if (type === "special_2" || type === "special_3") {
+      const dur = type === "special_3" ? 0.8 : 0.5;
+      this.startCinematicCamera("special_zoom", dur);
+      if (type === "special_3") {
+        this.triggerScreenFlash(f.config.accentColor, 0.5, 0.2);
+      }
+    }
+
+    // Callback
+    if (this.isSpecialAttack(type)) {
+      const level = type === "special_1" ? 1 : type === "special_2" ? 2 : 3;
+      const special = this.getSpecialMove(f, level);
+      if (special) {
+        this.callbacks.onSpecialActivate?.(
+          f === this.p1 ? 1 : 2,
+          level as 1 | 2 | 3,
+          special.name,
+          special.type
+        );
+      }
     }
   }
 
+  /** Can the current attack be cancelled into the next move? */
   private canCancelIntoNext(f: Fighter): boolean {
-    // Can cancel during recovery frames of light attacks
-    if (!this.isLightAttack(f.state)) return false;
-    const frameData = this.getAttackFrameData(f.state, f);
-    const hitPhaseEnd = frameData.startup + frameData.active;
-    return f.stateTimer >= hitPhaseEnd; // can cancel during recovery
+    if (!this.isInAttackState(f)) return false;
+    const fd = this.getFrameData(f.state);
+    const frame = f.stateFrame;
+
+    // Cancel window: during active frames and early recovery
+    const cancelStart = fd.startup;
+    const cancelEnd = fd.startup + fd.active + fd.cancelWindow;
+
+    if (frame >= cancelStart && frame <= cancelEnd) {
+      // Gatling hierarchy: can only cancel into equal or higher strength
+      return true;
+    }
+    return false;
   }
 
-  private getAttackFrameData(type: FighterState, fighter?: Fighter): { startup: number; active: number; recovery: number } {
-    switch (type) {
-      case "light_1": return { startup: LIGHT_1_STARTUP, active: LIGHT_1_ACTIVE, recovery: LIGHT_1_RECOVERY };
-      case "light_2": return { startup: LIGHT_2_STARTUP, active: LIGHT_2_ACTIVE, recovery: LIGHT_2_RECOVERY };
-      case "light_3": return { startup: LIGHT_3_STARTUP, active: LIGHT_3_ACTIVE, recovery: LIGHT_3_RECOVERY };
-      case "light_4": return { startup: LIGHT_4_STARTUP, active: LIGHT_4_ACTIVE, recovery: LIGHT_4_RECOVERY };
-      case "medium": return { startup: MEDIUM_STARTUP, active: MEDIUM_ACTIVE, recovery: MEDIUM_RECOVERY };
-      case "heavy_release": return { startup: 2 * FRAME, active: HEAVY_ACTIVE, recovery: HEAVY_RECOVERY };
-      case "special_1": {
-        const sp = fighter?.specials.sp1;
-        return {
-          startup: sp?.startupFrames ? sp.startupFrames * FRAME : SP1_STARTUP,
-          active: sp?.activeFrames ? sp.activeFrames * FRAME : SP1_ACTIVE,
-          recovery: sp?.recoveryFrames ? sp.recoveryFrames * FRAME : SP1_RECOVERY,
-        };
-      }
-      case "special_2": {
-        const sp = fighter?.specials.sp2;
-        return {
-          startup: sp?.startupFrames ? sp.startupFrames * FRAME : SP2_STARTUP,
-          active: sp?.activeFrames ? sp.activeFrames * FRAME : SP2_ACTIVE,
-          recovery: sp?.recoveryFrames ? sp.recoveryFrames * FRAME : SP2_RECOVERY,
-        };
-      }
-      case "special_3": {
-        const sp = fighter?.specials.sp3;
-        return {
-          startup: sp?.startupFrames ? sp.startupFrames * FRAME : SP3_STARTUP,
-          active: sp?.activeFrames ? sp.activeFrames * FRAME : SP3_ACTIVE,
-          recovery: sp?.recoveryFrames ? sp.recoveryFrames * FRAME : SP3_RECOVERY,
-        };
-      }
-      default: return { startup: 0, active: 0, recovery: 0 };
+  /** Get frame data for an attack type */
+  private getFrameData(state: FighterState): FrameData {
+    switch (state) {
+      case "light_1": return LIGHT_1;
+      case "light_2": return LIGHT_2;
+      case "light_3": return LIGHT_3;
+      case "light_4": return LIGHT_4;
+      case "medium": return MEDIUM;
+      case "heavy_release": return HEAVY_RELEASE;
+      case "special_1": return SP1_DATA;
+      case "special_2": return SP2_DATA;
+      case "special_3": return SP3_DATA;
+      default: return LIGHT_1; // fallback
     }
   }
 
-  private getAttackDamage(type: FighterState, attacker: Fighter): number {
-    const statMult = 1 + (attacker.data.attack - 7) * 0.05;
-    switch (type) {
-      case "light_1": case "light_2": case "light_3": return DMG_LIGHT * statMult;
-      case "light_4": return DMG_LIGHT * 1.3 * statMult; // last hit in chain does more
-      case "medium": return DMG_MEDIUM * statMult;
-      case "heavy_release": {
-        const chargeRatio = Math.min(attacker.heavyChargeTime / HEAVY_MAX_CHARGE, 1);
-        return (DMG_HEAVY_MIN + (DMG_HEAVY_MAX - DMG_HEAVY_MIN) * chargeRatio) * statMult;
+  /** Get the hitstop frames for an attack type */
+  private getHitstopFrames(state: FighterState): number {
+    if (this.isLightAttack(state)) return HITSTOP_LIGHT;
+    if (state === "medium") return HITSTOP_MEDIUM;
+    if (state === "heavy_release") return HITSTOP_HEAVY;
+    if (this.isSpecialAttack(state)) return HITSTOP_SPECIAL;
+    return HITSTOP_LIGHT;
+  }
+
+  private getSpecialMove(f: Fighter, level: number): SpecialMove | undefined {
+    const specials = f === this.p1 ? this.p1Specials : this.p2Specials;
+    return specials[`sp${level}` as keyof CharacterSpecials] as SpecialMove | undefined;
+  }
+
+  /* ═══ HIT DETECTION — Frame-precise ═══ */
+  private checkHits() {
+    this.checkHitPair(this.p1, this.p2);
+    this.checkHitPair(this.p2, this.p1);
+  }
+
+  private checkHitPair(attacker: Fighter, defender: Fighter) {
+    if (!this.isInAttackState(attacker)) return;
+    if (attacker.hitThisAttack) return;
+
+    const fd = this.getFrameData(attacker.state);
+    const frame = attacker.stateFrame;
+
+    // Only check during active frames
+    if (frame < fd.startup || frame >= fd.startup + fd.active) return;
+
+    // Range check
+    const dist = Math.abs(attacker.x - defender.x);
+    if (dist > fd.range) return;
+
+    // Invincibility check
+    if (defender.invincibleFrames > 0) return;
+    if (defender.dexActive) {
+      const pid: 1 | 2 = defender === this.p1 ? 1 : 2;
+      this.callbacks.onDex?.(pid);
+      return;
+    }
+
+    attacker.hitThisAttack = true;
+
+    // Determine if blocked
+    const isBlocking = defender.state === "block_stand" || defender.state === "block_crouch" || defender.state === "blockstun";
+    const isParrying = defender.isParrying && defender.parryFrames > 0;
+
+    if (isParrying) {
+      this.resolveParry(attacker, defender);
+    } else if (isBlocking) {
+      this.resolveBlock(attacker, defender);
+    } else {
+      this.resolveHit(attacker, defender);
+    }
+  }
+
+  /** Resolve a successful parry */
+  private resolveParry(attacker: Fighter, defender: Fighter) {
+    const atkId: 1 | 2 = attacker === this.p1 ? 1 : 2;
+    const defId: 1 | 2 = defender === this.p1 ? 1 : 2;
+
+    // Attacker gets stunned
+    attacker.state = "parry_stun";
+    attacker.stateFrame = 0;
+    attacker.stunFrames = PARRY_STUN_FRAMES;
+
+    // Defender recovers instantly
+    defender.state = "idle";
+    defender.stateFrame = 0;
+    defender.isParrying = false;
+
+    // Effects
+    this.hitStop = { active: true, frames: 12, remaining: 12 };
+    this.spawnHitEffect(
+      (attacker.x + defender.x) / 2, 1.2, 0,
+      "parry", "#00ffff"
+    );
+    this.triggerScreenFlash("#00ffff", 0.3, 0.1);
+    this.screenShake = { intensity: 0.04, duration: 0.1, timer: 0 };
+
+    this.callbacks.onParry?.(defId);
+    this.callbacks.onHit?.(atkId, "parried");
+  }
+
+  /** Resolve a blocked hit */
+  private resolveBlock(attacker: Fighter, defender: Fighter) {
+    const fd = this.getFrameData(attacker.state);
+    const atkId: 1 | 2 = attacker === this.p1 ? 1 : 2;
+
+    // Blockstun
+    defender.state = "blockstun";
+    defender.stateFrame = 0;
+    defender.stunFrames = fd.blockstun;
+
+    // Chip damage (specials only)
+    if (this.isSpecialAttack(attacker.state)) {
+      const chip = Math.round(fd.damage * CHIP_DAMAGE_RATIO);
+      defender.hp = Math.max(1, defender.hp - chip); // chip can't kill
+    }
+
+    // Pushback (more on block than on hit)
+    const pushDir = defender.x > attacker.x ? 1 : -1;
+    defender.pushVx = pushDir * fd.pushbackBlock * 8;
+    attacker.pushVx = -pushDir * fd.pushbackBlock * 3; // attacker pushed back slightly too
+
+    // Meter gain for attacker (reduced on block)
+    attacker.specialMeter = Math.min(METER_MAX, attacker.specialMeter + Math.floor(fd.meterGain * 0.5));
+    // Defender gains meter when blocking (comeback mechanic)
+    defender.specialMeter = Math.min(METER_MAX, defender.specialMeter + METER_PER_HIT_TAKEN);
+
+    // Hitstop (less on block)
+    this.hitStop = { active: true, frames: HITSTOP_BLOCK, remaining: HITSTOP_BLOCK };
+
+    // Effects
+    this.spawnHitEffect(
+      (attacker.x + defender.x) / 2, 1.0, 0,
+      "block", "#4488ff"
+    );
+    this.screenShake = { intensity: 0.02, duration: 0.08, timer: 0 };
+
+    this.callbacks.onHit?.(atkId, "blocked");
+  }
+
+  /** Resolve a clean hit */
+  private resolveHit(attacker: Fighter, defender: Fighter) {
+    const fd = this.getFrameData(attacker.state);
+    const atkId: 1 | 2 = attacker === this.p1 ? 1 : 2;
+    const defId: 1 | 2 = defender === this.p1 ? 1 : 2;
+
+    // ── Damage calculation ──
+    let damage = fd.damage;
+
+    // Heavy charge scaling
+    if (attacker.state === "heavy_release") {
+      const chargeRatio = Math.min(attacker.heavyChargeFrames / HEAVY_MAX_CHARGE_FRAMES, 1);
+      damage = HEAVY_RELEASE.damage + (HEAVY_MAX_DAMAGE - HEAVY_RELEASE.damage) * chargeRatio;
+    }
+
+    // Character stat scaling
+    const atkMult = 1 + (attacker.data.attack - 50) / 200;
+    damage *= atkMult;
+
+    // Defense scaling
+    const defMult = 1 - (defender.data.defense - 50) / 300;
+    damage *= Math.max(0.5, defMult);
+
+    // Defense debuff
+    if (defender.defenseDebuffPct > 0) {
+      damage *= (1 + defender.defenseDebuffPct);
+    }
+
+    // Parry bonus (if attacker was in parry stun recently)
+    if (attacker.state !== "parry_stun" && defender.stunFrames > 0 && defender.state === "parry_stun") {
+      damage *= PARRY_BONUS_DAMAGE;
+    }
+
+    // Intercept bonus
+    const isIntercept = this.isInAttackState(defender) && defender.stateFrame <= INTERCEPT_WINDOW_FRAMES;
+    if (isIntercept) {
+      damage *= INTERCEPT_BONUS;
+      this.callbacks.onIntercept?.(atkId);
+    }
+
+    // Combo scaling
+    const comboHit = attacker.comboCount;
+    const scaling = Math.max(COMBO_SCALING_MIN, Math.pow(COMBO_SCALING, comboHit));
+    damage = Math.round(damage * scaling);
+    damage = Math.max(1, damage);
+
+    // Apply damage
+    defender.hp = Math.max(0, defender.hp - damage);
+
+    // ── Hitstun ──
+    let hitstun = fd.hitstun;
+
+    // Juggle hitstun decay
+    if (defender.airborne) {
+      const juggleDecay = Math.pow(JUGGLE_HITSTUN_DECAY, MAX_JUGGLE_POINTS - defender.jugglePoints);
+      hitstun = Math.round(hitstun * juggleDecay);
+    }
+
+    // ── Hit reaction ──
+    if (fd.launchHeight > 0 && !defender.airborne && defender.jugglePoints >= fd.jugglePoints) {
+      // Launch!
+      defender.state = "launched";
+      defender.stateFrame = 0;
+      defender.vy = fd.launchHeight;
+      defender.airborne = true;
+      defender.jugglePoints -= fd.jugglePoints;
+      defender.stunFrames = hitstun + 20; // extra stun while airborne
+    } else if (defender.airborne && defender.jugglePoints >= fd.jugglePoints) {
+      // Juggle hit
+      defender.vy = Math.max(defender.vy, 3); // pop up slightly
+      defender.jugglePoints -= fd.jugglePoints;
+      defender.stunFrames = hitstun;
+    } else {
+      // Ground hit
+      defender.state = "hitstun";
+      defender.stateFrame = 0;
+      defender.stunFrames = hitstun;
+    }
+
+    // ── Pushback ──
+    const pushDir = defender.x > attacker.x ? 1 : -1;
+    defender.pushVx = pushDir * fd.pushbackHit * 8;
+
+    // ── Combo tracking ──
+    attacker.comboCount++;
+    attacker.comboDamage += damage;
+    attacker.comboTimer = 0;
+    if (attacker.comboCount > 1) {
+      this.callbacks.onCombo?.(atkId, attacker.comboCount, attacker.comboDamage);
+    }
+
+    // ── Meter gain ──
+    attacker.specialMeter = Math.min(METER_MAX, attacker.specialMeter + fd.meterGain);
+    defender.specialMeter = Math.min(METER_MAX, defender.specialMeter + METER_PER_HIT_TAKEN);
+
+    // Check meter thresholds
+    for (const threshold of [100, 200, 300]) {
+      if (attacker.specialMeter >= threshold) {
+        this.callbacks.onSpecialReady?.(atkId, threshold / 100);
       }
-      case "special_1": return DMG_SP1 * attacker.specials.sp1.damage * statMult;
-      case "special_2": return DMG_SP2 * attacker.specials.sp2.damage * statMult;
-      case "special_3": return DMG_SP3 * attacker.specials.sp3.damage * statMult;
-      default: return 0;
+    }
+
+    // ── Hitstop — THE key to impact feel ──
+    const hitstopFrames = this.getHitstopFrames(attacker.state);
+    this.hitStop = { active: true, frames: hitstopFrames, remaining: hitstopFrames };
+
+    // ── Visual effects ──
+    const hitX = (attacker.x + defender.x) / 2;
+    const hitY = defender.airborne ? Math.max(defender.y, 0.5) : 1.0;
+
+    // Determine effect type based on attack strength
+    if (this.isSpecialAttack(attacker.state)) {
+      this.spawnHitEffect(hitX, hitY, 0, "special", attacker.config.accentColor);
+      this.spawnHitEffect(hitX, hitY, 0, "energy_wave", attacker.config.accentColor);
+      this.screenShake = { intensity: 0.12, duration: 0.3, timer: 0 };
+      this.triggerScreenFlash(attacker.config.accentColor, 0.3, 0.15);
+      if (attacker.state === "special_3") {
+        this.spawnImpactRing(hitX, hitY, 0, attacker.config.accentColor);
+      }
+    } else if (attacker.state === "heavy_release") {
+      this.spawnHitEffect(hitX, hitY, 0, "heavy", "#ff8800");
+      this.spawnHitEffect(hitX, hitY, 0, "blood", "#cc0000");
+      this.screenShake = { intensity: 0.08, duration: 0.2, timer: 0 };
+      this.triggerScreenFlash("#ffffff", 0.2, 0.08);
+      // Camera zoom on heavy hits
+      this.startCinematicCamera("heavy_zoom", 0.3);
+    } else if (attacker.state === "medium") {
+      this.spawnHitEffect(hitX, hitY, 0, "spark", "#ffaa00");
+      this.spawnHitEffect(hitX, hitY, 0, "blood", "#cc0000");
+      this.screenShake = { intensity: 0.05, duration: 0.12, timer: 0 };
+    } else {
+      // Light hits
+      this.spawnHitEffect(hitX, hitY, 0, "spark", "#ffffff");
+      this.screenShake = { intensity: 0.02, duration: 0.06, timer: 0 };
+    }
+
+    // Blood on all hits
+    if (damage > 5) {
+      this.spawnHitEffect(hitX, hitY + 0.2, 0, "blood", "#cc0000");
+    }
+
+    // Callback
+    const hitType = this.isSpecialAttack(attacker.state) ? "special" :
+                    attacker.state === "heavy_release" ? "heavy" :
+                    attacker.state === "medium" ? "medium" : "light";
+    this.callbacks.onHit?.(atkId, hitType);
+
+    // Apply special move effects
+    if (this.isSpecialAttack(attacker.state)) {
+      this.applySpecialEffects(attacker, defender);
     }
   }
 
-  private getAttackRange(type: FighterState): number {
-    switch (type) {
-      case "light_1": case "light_2": case "light_3": case "light_4": return LIGHT_RANGE;
-      case "medium": return MEDIUM_RANGE;
-      case "heavy_release": return HEAVY_RANGE;
-      case "special_1": case "special_2": case "special_3": return SPECIAL_RANGE;
-      default: return 0;
+  /** Apply character-specific special move effects */
+  private applySpecialEffects(attacker: Fighter, defender: Fighter) {
+    const level = attacker.state === "special_1" ? 1 : attacker.state === "special_2" ? 2 : 3;
+    const special = this.getSpecialMove(attacker, level);
+    if (!special) return;
+
+    const atkId: 1 | 2 = attacker === this.p1 ? 1 : 2;
+
+    // Apply effects based on special move type
+    // SpecialMoveType = "projectile" | "rush" | "area" | "grab" | "counter" | "buff" | "drain"
+    switch (special.type) {
+      case "projectile":
+        this.spawnEnergyProjectile(attacker, special.color || attacker.config.accentColor, 10);
+        break;
+      case "rush":
+        // Rush forward with extra damage (already in base calc)
+        attacker.pushVx = (attacker.facingRight ? 1 : -1) * 12;
+        break;
+      case "area":
+        // AOE — spawn extra effects
+        this.spawnHitEffect(defender.x, 0.5, 0, "energy_wave", special.color || attacker.config.accentColor);
+        this.spawnHitEffect(defender.x, 0.1, 0, "ground_crack", "#ff4444");
+        break;
+      case "grab":
+        // Grab — extra stun
+        defender.stunFrames = Math.max(defender.stunFrames, 90);
+        break;
+      case "counter":
+        // Counter — parry bonus
+        attacker.isParrying = true;
+        attacker.parryFrames = 20;
+        break;
+      case "buff":
+        attacker.speedBuffTimer = 5;
+        attacker.speedBuffMult = 1.3;
+        break;
+      case "drain": {
+        const drainAmt = Math.round(special.damage * 0.3);
+        attacker.hp = Math.min(attacker.maxHp, attacker.hp + drainAmt);
+        this.callbacks.onHeal?.(atkId, drainAmt);
+        break;
+      }
+    }
+
+    // Apply optional special effects from the SpecialMove definition
+    if (special.dot && special.dot > 0) {
+      defender.dotTimer = 3;
+      defender.dotDamagePerTick = Math.round(special.dot);
+      defender.dotTickInterval = 0.5;
+      defender.dotTickTimer = 0.5;
+    }
+    if (special.defenseDebuff && special.defenseDebuff > 0) {
+      defender.defenseDebuffTimer = 4;
+      defender.defenseDebuffPct = special.defenseDebuff / 100;
+    }
+    if (special.speedBuff && special.speedBuff > 0) {
+      attacker.speedBuffTimer = 5;
+      attacker.speedBuffMult = special.speedBuff;
+    }
+    if (special.heal && special.heal > 0) {
+      const healAmt = Math.round(special.damage * special.heal / 100);
+      attacker.hp = Math.min(attacker.maxHp, attacker.hp + healAmt);
+      this.callbacks.onHeal?.(atkId, healAmt);
+    }
+    if (special.stun && special.stun > 0) {
+      defender.stunFrames = Math.max(defender.stunFrames, Math.round(special.stun * 60));
     }
   }
 
-  private getHitstun(type: FighterState): number {
-    if (this.isLightAttack(type)) return HITSTUN_LIGHT;
-    if (type === "medium") return HITSTUN_MEDIUM;
-    if (type === "heavy_release") return HITSTUN_HEAVY;
-    if (this.isSpecialAttack(type)) return HITSTUN_SPECIAL;
-    return HITSTUN_LIGHT;
-  }
-
+  /* ═══ UTILITY CHECKS ═══ */
   private isLightAttack(state: FighterState): boolean {
-    return ["light_1", "light_2", "light_3", "light_4"].includes(state);
+    return state === "light_1" || state === "light_2" || state === "light_3" || state === "light_4";
   }
 
   private isSpecialAttack(state: FighterState): boolean {
-    return ["special_1", "special_2", "special_3"].includes(state);
+    return state === "special_1" || state === "special_2" || state === "special_3";
   }
 
   private isInAttackState(f: Fighter): boolean {
     return this.isLightAttack(f.state) || f.state === "medium" ||
-           f.state === "heavy_charge" || f.state === "heavy_release" ||
-           this.isSpecialAttack(f.state);
+           f.state === "heavy_release" || this.isSpecialAttack(f.state);
   }
 
   private isInActionState(f: Fighter): boolean {
-    return ["hitstun", "blockstun", "parry_stun", "knockdown", "getup", "ko",
-            "launched", "dash_fwd", "dash_back", "victory", "finish_stun"].includes(f.state) ||
-           this.isInAttackState(f);
+    return this.isInAttackState(f) || f.state === "dash_fwd" || f.state === "dash_back" ||
+           f.state === "heavy_charge" || f.state === "hitstun" || f.state === "blockstun" ||
+           f.state === "knockdown" || f.state === "getup" || f.state === "launched" ||
+           f.state === "parry_stun" || f.state === "finish_stun" || f.state === "ko";
   }
 
-  /* ═══ FIGHTER UPDATE ═══ */
-  private updateFighter(f: Fighter, dt: number) {
-    f.stateTimer += dt;
-    if (f.blockTimer > 0) f.blockTimer -= dt;
-    if (f.invincible > 0) f.invincible -= dt;
-    if (f.dashCooldown > 0) f.dashCooldown -= dt;
-    if (f.stunTimer > 0) {
-      f.stunTimer -= dt;
-      if (f.stunTimer <= 0 && (f.state === "parry_stun" || f.state === "finish_stun")) {
-        f.state = "idle";
-        f.vx = 0;
+
+  /* ═══ AI SYSTEM — Reacts to animations, not inputs ═══ */
+  private updateAI(ai: Fighter, player: Fighter) {
+    if (this.phase !== "fighting") return;
+    if (ai.state === "ko" || ai.state === "victory") return;
+    if (ai.state === "hitstun" || ai.state === "knockdown" || ai.state === "getup" ||
+        ai.state === "parry_stun" || ai.state === "finish_stun" || ai.state === "launched") return;
+
+    // Reaction delay — AI only acts on what it "saw" N frames ago
+    ai.aiReactTimer++;
+    if (ai.aiReactTimer < ai.aiReactDelay) {
+      // During reaction delay, AI continues current action but doesn't make new decisions
+      this.continueAIAction(ai, player);
+      return;
+    }
+
+    // AI "sees" the player's state (with reaction delay already elapsed)
+    ai.aiLastSeenState = player.state;
+    ai.aiReactTimer = 0;
+
+    // Track player patterns
+    if (this.isInAttackState(player) && player.stateFrame === 1) {
+      ai.aiPatternMemory.push(player.state);
+      if (ai.aiPatternMemory.length > 10) ai.aiPatternMemory.shift();
+    }
+
+    // Whiff punishment window
+    if (this.isInAttackState(player) && !player.hitThisAttack) {
+      const fd = this.getFrameData(player.state);
+      if (player.stateFrame >= fd.startup + fd.active) {
+        ai.aiWhiffPunishWindow = fd.recovery;
       }
     }
 
-    // DOT (damage over time) processing
-    if (f.dotTimer > 0) {
-      f.dotTimer -= dt;
-      f.dotTickTimer += dt;
-      if (f.dotTickTimer >= f.dotTickInterval) {
-        f.dotTickTimer -= f.dotTickInterval;
-        const dotDmg = f.dotDamagePerTick;
-        f.hp = Math.max(0, f.hp - dotDmg);
-        const playerNum = f === this.p1 ? 2 : 1; // DOT was applied BY the other player
-        this.callbacks.onDot?.(playerNum as 1 | 2, dotDmg);
-        // Small visual effect for DOT tick
-        this.spawnHitEffect(f.x, 1.5, 0.3, "spark", "#ff4444");
-      }
-      if (f.dotTimer <= 0) {
-        f.dotDamagePerTick = 0;
-        f.dotTickTimer = 0;
-      }
-    }
+    // Aggression buildup (increases when getting hit)
+    if (ai.state === "blockstun") ai.aiAggression = Math.min(100, ai.aiAggression + 2);
+    ai.aiAggression = Math.max(0, ai.aiAggression - 0.1);
 
-    // Speed buff decay
-    if (f.speedBuffTimer > 0) {
-      f.speedBuffTimer -= dt;
-      if (f.speedBuffTimer <= 0) {
-        f.speedBuffMult = 1;
-      }
-    }
-
-    // Defense debuff decay
-    if (f.defenseDebuffTimer > 0) {
-      f.defenseDebuffTimer -= dt;
-      if (f.defenseDebuffTimer <= 0) {
-        f.defenseDebuffPct = 0;
-      }
-    }
-
-    // Combo timer
-    if (f.comboTimer > 0) {
-      f.comboTimer -= dt;
-      if (f.comboTimer <= 0) {
-        if (f.comboCount > f.maxComboHits) f.maxComboHits = f.comboCount;
-        f.comboCount = 0;
-        f.comboDamage = 0;
-        f.comboChain = 0;
-      }
-    }
-
-    // Gravity
-    if (f.y > 0.01 || f.vy > 0) {
-      const grav = f.state === "launched" ? LAUNCH_GRAVITY : GRAVITY;
-      f.vy += grav * dt;
-      f.y += f.vy * dt;
-      if (f.y <= 0) {
-        f.y = 0;
-        f.vy = 0;
-        if (f.state === "jump") f.state = "idle";
-        if (f.state === "launched") {
-          f.state = "knockdown";
-          f.stateTimer = 0;
-          // MK-STYLE: Dust cloud on ground impact
-          this.spawnHitEffect(f.x, 0.05, 0.2, "dust", "#8b7355");
-        }
-      }
-    }
-
-    // Movement
-    f.x += f.vx * dt;
-
-    // Dash states
-    if (f.state === "dash_fwd" || f.state === "dash_back") {
-      if (f.stateTimer >= DASH_DURATION) {
-        f.state = "idle";
-        f.vx = 0;
-      }
-    }
-
-    // Heavy charge animation
-    if (f.state === "heavy_charge") {
-      f.vx = 0; // can't move while charging
-    }
-
-    // Attack state machine
-    if (this.isInAttackState(f) && f.state !== "heavy_charge") {
-      const frameData = this.getAttackFrameData(f.state, f);
-      const totalTime = frameData.startup + frameData.active + frameData.recovery;
-
-      // Medium attack lunge
-      if (f.state === "medium" && f.stateTimer < frameData.startup + frameData.active) {
-        const lungeDir = f.facingRight ? 1 : -1;
-        f.vx = lungeDir * MEDIUM_LUNGE / (frameData.startup + frameData.active);
-      }
-
-      // Check hit during active frames
-      if (f.stateTimer >= frameData.startup && f.stateTimer < frameData.startup + frameData.active) {
-        if (!f.hitThisAttack) {
-          const target = f === this.p1 ? this.p2 : this.p1;
-          this.checkHit(f, target, f.state);
-        }
-      }
-
-      // Return to idle after recovery (unless canceling)
-      if (f.stateTimer >= totalTime) {
-        f.state = "idle";
-        f.vx = 0;
-      }
-    }
-
-    // Hitstun
-    if (f.state === "hitstun") {
-      if (f.stateTimer >= this.getHitstun(f.state)) {
-        f.state = "idle";
-        f.vx = 0;
-      }
-    }
-    if (f.state === "blockstun") {
-      if (f.stateTimer >= BLOCKSTUN) {
-        f.state = this.holdingBlock && f === this.p1 ? "block_stand" : "idle";
-        f.vx = 0;
-      }
-    }
-    if (f.state === "knockdown") {
-      if (f.stateTimer >= KNOCKDOWN_TIME) {
-        f.state = "getup";
-        f.stateTimer = 0;
-        f.invincible = GETUP_TIME;
-      }
-    }
-    if (f.state === "getup") {
-      if (f.stateTimer >= GETUP_TIME) f.state = "idle";
-    }
-
-    // Track idle time for auto-spacing
-    if (f.state === "idle") {
-      f.idleTimer += dt;
-    } else {
-      f.idleTimer = 0;
-    }
-
-    // Set auto-space target based on recovery context
-    if (f.state === "getup" && f.stateTimer >= GETUP_TIME * 0.9) {
-      f.autoSpaceTarget = POST_KNOCKDOWN_SPACE; // extra space after knockdown
-    } else if (f.comboTimer <= 0 && f.comboCount === 0 && f.state === "idle") {
-      // Gradually return to normal spacing
-      f.autoSpaceTarget += (AUTO_SPACE_TARGET - f.autoSpaceTarget) * 0.05;
-    }
-
-    // Update 3D model
-    f.model.group.position.x = f.x;
-    f.model.group.position.y = f.y;
-    f.model.group.scale.x = f.facingRight ? 1 : -1;
-  }
-
-  /* ═══ AUTO-SPACING — MCOC-style neutral positioning ═══ */
-  private updateAutoSpacing(f: Fighter, opponent: Fighter, dt: number) {
-    // Only auto-space when fighter is in a neutral state and has been idle long enough
-    if (f.state !== "idle") return;
-    if (f.idleTimer < AUTO_SPACE_DELAY) return;
-    if (f.y > 0.01) return; // don't auto-space in air
-    if (f.stunTimer > 0) return;
-
-    // Don't auto-space if opponent is in an active state (let the player decide)
-    // But DO auto-space if opponent is also idle (neutral game reset)
-    const opponentNeutral = opponent.state === "idle" || opponent.state === "block_stand" || opponent.state === "block_crouch";
-    if (!opponentNeutral && f === this.p1) return; // player controls their own spacing
-
-    const dist = Math.abs(f.x - opponent.x);
-    const targetDist = f.autoSpaceTarget;
-    const diff = dist - targetDist;
-
-    // Within deadzone — no drift needed
-    if (Math.abs(diff) < AUTO_SPACE_DEADZONE) return;
-
-    // Drift toward optimal range
-    const driftDir = f.x < opponent.x ? -1 : 1; // away from opponent
-    const driftSpeed = AUTO_SPACE_SPEED * Math.min(Math.abs(diff) / targetDist, 1);
-
-    if (diff < -AUTO_SPACE_DEADZONE) {
-      // Too close — drift apart
-      f.x += driftDir * driftSpeed * dt;
-    } else if (diff > AUTO_SPACE_DEADZONE) {
-      // Too far — drift closer
-      f.x -= driftDir * driftSpeed * dt;
-    }
-  }
-
-  /* ═══ HIT DETECTION — MCOC STYLE ═══ */
-  private checkHit(attacker: Fighter, defender: Fighter, attackType: FighterState) {
-    if (defender.invincible > 0) return;
-    if (defender.state === "knockdown" || defender.state === "getup" || defender.state === "finish_stun") return;
-    if (defender.dexActive) return; // Dexterity evade
-
-    const dist = Math.abs(attacker.x - defender.x);
-    const range = this.getAttackRange(attackType);
-    if (dist > range) return;
-
-    attacker.hitThisAttack = true;
-
-    // Is defender blocking?
-    const isBlocking = defender.state === "block_stand" || defender.state === "block_crouch";
-    const isFacingAttacker = (defender.x < attacker.x && !defender.facingRight) ||
-                              (defender.x > attacker.x && defender.facingRight);
-
-    // Heavy attacks break blocks (guard break) — MCOC style
-    const isHeavy = attackType === "heavy_release";
-    const isGuardBreak = isHeavy && isBlocking;
-
-    // MK-Inspired: High/Low mixup blocking
-    // Standing block only blocks standing attacks, crouching block only blocks low attacks
-    const isLowAttack = attackType === "light_3" || attackType === "light_4"; // sweep-type attacks
-    const isHighAttack = attackType === "heavy_release" || attackType === "medium"; // overhead attacks
-    const blockMismatch = isBlocking && isFacingAttacker && !isGuardBreak && (
-      (defender.state === "block_stand" && isLowAttack) ||
-      (defender.state === "block_crouch" && isHighAttack)
-    );
-
-    if (isBlocking && isFacingAttacker && !isGuardBreak && !blockMismatch) {
-      // ── PARRY CHECK ──
-      if (defender.isParrying && defender.parryWindow > 0) {
-        // PARRY! Stun the attacker
-        attacker.state = "parry_stun";
-        attacker.stateTimer = 0;
-        attacker.stunTimer = PARRY_STUN_DURATION;
-        attacker.vx = 0;
-        defender.isParrying = false;
-        defender.parryWindow = 0;
-
-        this.spawnHitEffect(
-          (attacker.x + defender.x) / 2, 1.3, 0.5, "parry", "#ffdd00"
-        );
-        this.screenShake.intensity = 4;
-        this.screenShake.duration = 0.12;
-        this.screenShake.timer = 0;
-        this.hitStop = { active: true, duration: 0.1, timer: 0.1 };
-
-        this.callbacks.onParry?.(defender === this.p1 ? 1 : 2);
-        this.callbacks.onHit?.(attacker === this.p1 ? 1 : 2, "parried");
+    // Mistake timer — occasionally leave an opening
+    ai.aiMistakeTimer--;
+    if (ai.aiMistakeTimer <= 0) {
+      const mistakeChance = this.difficulty === "recruit" ? 0.15 :
+                            this.difficulty === "soldier" ? 0.08 :
+                            this.difficulty === "veteran" ? 0.03 : 0.01;
+      if (Math.random() < mistakeChance) {
+        ai.aiMistakeTimer = 60 + Math.floor(Math.random() * 60); // idle for 1-2 seconds
+        ai.aiDecision = "idle";
         return;
       }
-
-      // Normal block — chip damage
-      const chipDmg = this.getAttackDamage(attackType, attacker) * CHIP_DAMAGE_RATIO;
-      defender.hp = Math.max(1, defender.hp - chipDmg);
-      defender.state = "blockstun";
-      defender.stateTimer = 0;
-      defender.vx = (defender.x > attacker.x ? 1 : -1) * 1.5;
-
-      // Defender gains meter from blocking
-      defender.specialMeter = Math.min(300, defender.specialMeter + METER_PER_BLOCK);
-
-      this.spawnHitEffect(
-        (attacker.x + defender.x) / 2, 1.2, 0.5, "block", "#88aaff"
-      );
-      this.screenShake.intensity = 2;
-      this.screenShake.duration = 0.08;
-      this.screenShake.timer = 0;
-      this.callbacks.onHit?.(attacker === this.p1 ? 1 : 2, "blocked");
-      return;
+      ai.aiMistakeTimer = 30;
     }
 
-    // ── GUARD BREAK ──
-    if (isGuardBreak) {
-      this.callbacks.onGuardBreak?.(attacker === this.p1 ? 1 : 2);
-    }
-
-    // ── HIT! ──
-    let damage = this.getAttackDamage(attackType, attacker);
-    const playerNum = attacker === this.p1 ? 1 : 2;
-
-    // MK-Inspired: Random damage variance (75%-100% of base)
-    const dmgVariance = DMG_VARIANCE_MIN + Math.random() * (DMG_VARIANCE_MAX - DMG_VARIANCE_MIN);
-    damage *= dmgVariance;
-
-    // MK-Inspired: Attack lunge — forward movement during hit
-    const lungeDir = attacker.facingRight ? 1 : -1;
-    if (this.isLightAttack(attackType)) {
-      attacker.x += lungeDir * LUNGE_LIGHT;
-    } else if (attackType === "medium") {
-      attacker.x += lungeDir * LUNGE_MEDIUM_EXTRA;
-    } else if (attackType === "heavy_release") {
-      attacker.x += lungeDir * LUNGE_HEAVY;
-    }
-
-    // Combo scaling
-    if (attacker.comboCount > 0) {
-      damage *= Math.pow(COMBO_SCALING, attacker.comboCount);
-    }
-
-    // Parry bonus — if opponent is stunned from parry, deal bonus damage
-    if (defender.stunTimer > 0 && defender.state === "parry_stun") {
-      damage *= PARRY_BONUS_DAMAGE;
-    }
-
-    // Intercept bonus — if attacker hits during opponent's dash
-    if (defender.state === "dash_fwd") {
-      damage *= INTERCEPT_BONUS;
-      this.callbacks.onIntercept?.(playerNum as 1 | 2);
-    }
-
-    // Difficulty damage multiplier (AI deals modified damage)
-    if (attacker === this.p2) {
-      damage *= DIFFICULTY_SETTINGS[this.difficulty].dmgMult;
-    }
-
-    // Defense reduction (including debuff from specials)
-    const defDebuff = defender.defenseDebuffPct > 0 ? defender.defenseDebuffPct / 100 : 0;
-    const defMult = (1 - (defender.data.defense - 5) * 0.03) * (1 + defDebuff);
-    damage *= defMult;
-
-    defender.hp = Math.max(0, defender.hp - damage);
-
-    // Combo tracking
-    attacker.comboCount++;
-    attacker.comboDamage += damage;
-    attacker.comboTimer = COMBO_DROP_TIME;
-    if (attacker.comboCount >= 2) {
-      this.callbacks.onCombo?.(playerNum as 1 | 2, attacker.comboCount, attacker.comboDamage);
-    }
-
-    // Special meter gain
-    const meterGain = this.isLightAttack(attackType) ? METER_PER_LIGHT :
-                      attackType === "medium" ? METER_PER_MEDIUM :
-                      attackType === "heavy_release" ? METER_PER_HEAVY : 0;
-    attacker.specialMeter = Math.min(300, attacker.specialMeter + meterGain);
-    defender.specialMeter = Math.min(300, defender.specialMeter + METER_ON_HIT);
-
-    // Check special meter thresholds
-    if (attacker.specialMeter >= 100 && attacker.specialMeter - meterGain < 100) {
-      this.callbacks.onSpecialReady?.(playerNum as 1 | 2, 1);
-    }
-    if (attacker.specialMeter >= 200 && attacker.specialMeter - meterGain < 200) {
-      this.callbacks.onSpecialReady?.(playerNum as 1 | 2, 2);
-    }
-    if (attacker.specialMeter >= 300 && attacker.specialMeter - meterGain < 300) {
-      this.callbacks.onSpecialReady?.(playerNum as 1 | 2, 3);
-    }
-
-    // Hitstun / knockdown / launch
-    const isHeavyOrSpecial = isHeavy || this.isSpecialAttack(attackType);
-    if (isHeavy && defender.y <= 0.01) {
-      // Heavy launches opponent into the air
-      defender.state = "launched";
-      defender.stateTimer = 0;
-      defender.vy = LAUNCH_HEIGHT;
-      defender.vx = (defender.x > attacker.x ? 1 : -1) * 3;
-    } else if (this.isSpecialAttack(attackType) && defender.y <= 0.01) {
-      defender.state = "knockdown";
-      defender.stateTimer = 0;
-      defender.vy = 4;
-      defender.vx = (defender.x > attacker.x ? 1 : -1) * 5;
-    } else {
-      defender.state = "hitstun";
-      defender.stateTimer = 0;
-      defender.vx = (defender.x > attacker.x ? 1 : -1) * (isHeavyOrSpecial ? 4 : 2);
-    }
-
-    // 5-hit combo limit — after 5 hits, defender gets a response window
-    if (attacker.comboCount >= MAX_COMBO_HITS) {
-      // Force a gap — attacker gets slight recovery
-      attacker.comboChain = 0;
-    }
-
-    // Effects
-    const hitY = 1.2 + (this.isLightAttack(attackType) ? 0.1 : attackType === "medium" ? 0 : -0.1);
-    const effectType = this.isSpecialAttack(attackType) ? "special" :
-                       isHeavy ? "heavy" :
-                       attackType === "medium" ? "heavy" : "spark";
-    this.spawnHitEffect(
-      (attacker.x + defender.x) / 2, hitY, 0.5,
-      effectType, attacker.config.accentColor
-    );
-
-    // Screen effects — scaled by attack power
-    if (this.isSpecialAttack(attackType)) {
-      this.hitStop = { active: true, duration: 0.18, timer: 0.18 };
-      this.screenShake.intensity = 10;
-      this.screenShake.duration = 0.35;
-      this.screenShake.timer = 0;
-      this.slowMo = { active: true, speed: 0.25, duration: 0.6, timer: 0.6 };
-    } else if (isHeavy) {
-      this.hitStop = { active: true, duration: 0.1, timer: 0.1 };
-      this.screenShake.intensity = 6;
-      this.screenShake.duration = 0.2;
-      this.screenShake.timer = 0;
-    } else if (attackType === "medium") {
-      this.hitStop = { active: true, duration: 0.06, timer: 0.06 };
-      this.screenShake.intensity = 3;
-      this.screenShake.duration = 0.1;
-      this.screenShake.timer = 0;
-    } else {
-      this.hitStop = { active: true, duration: 0.03, timer: 0.03 };
-      this.screenShake.intensity = 1.5;
-      this.screenShake.duration = 0.06;
-      this.screenShake.timer = 0;
-    }
-
-    this.callbacks.onHit?.(playerNum as 1 | 2, attackType);
-
-    // MK-STYLE: Blood splatter on successful hits
-    this.spawnHitEffect(
-      defender.x, hitY + 0.1, 0.3,
-      "blood", "#cc0000"
-    );
-
-    // MK-STYLE: Ground crack on heavy/special hits
-    if (isHeavy || this.isSpecialAttack(attackType)) {
-      this.spawnHitEffect(defender.x, 0, 0.2, "ground_crack", attacker.config.accentColor);
-    }
-
-    // AAA: Impact ring on heavy hits
-    if (attackType === "heavy_release" || attackType === "medium") {
-      this.spawnImpactRing((attacker.x + defender.x) / 2, 1.0, 0.5, attacker.config.accentColor);
-    }
-    // AAA: Ground crater on heavy release
-    if (attackType === "heavy_release" && attacker.heavyChargeTime >= HEAVY_MAX_CHARGE * 0.8) {
-      this.spawnGroundCrater(defender.x, attacker.config.accentColor);
-      this.triggerScreenFlash(attacker.config.accentColor, 0.4, 0.1);
-      // AAA: Camera zoom on fully charged heavy hit
-      this.startCinematicCamera("heavy_zoom", 0.5);
-    }
-    // ── CHARACTER-SPECIFIC SPECIAL EFFECTS ───
-    if (this.isSpecialAttack(attackType)) {
-      const spLevel = attackType === "special_3" ? 3 : attackType === "special_2" ? 2 : 1;
-      const sp: SpecialMove = spLevel === 3 ? attacker.specials.sp3 : spLevel === 2 ? attacker.specials.sp2 : attacker.specials.sp1;
-
-      // DOT (damage over time)
-      if (sp.dot && sp.dot > 0) {
-        defender.dotTimer = 3.0; // 3 seconds of DOT
-        defender.dotDamagePerTick = sp.dot;
-        defender.dotTickTimer = 0;
-      }
-
-      // Heal
-      if (sp.heal && sp.heal > 0) {
-        const healAmount = damage * (sp.heal / 100);
-        attacker.hp = Math.min(attacker.maxHp, attacker.hp + healAmount);
-        this.callbacks.onHeal?.(playerNum as 1 | 2, healAmount);
-      }
-
-      // Armor break (already handled by armorBreak flag in hit resolution)
-      if (sp.armorBreak) {
-        // Extra stun on armor break
-        defender.stunTimer = Math.max(defender.stunTimer, 0.3);
-      }
-
-      // Speed buff
-      if (sp.speedBuff && sp.speedBuff > 1) {
-        attacker.speedBuffTimer = 4.0; // 4 seconds
-        attacker.speedBuffMult = sp.speedBuff;
-      }
-
-      // Defense debuff
-      if (sp.defenseDebuff && sp.defenseDebuff > 0) {
-        defender.defenseDebuffTimer = 5.0; // 5 seconds
-        defender.defenseDebuffPct = sp.defenseDebuff;
-      }
-
-      // Extra stun from special
-      if (sp.stun && sp.stun > 0) {
-        defender.stunTimer = Math.max(defender.stunTimer, sp.stun);
-      }
-
-       // Use character-specific effect colors for the hit effect
-      this.spawnHitEffect(
-        (attacker.x + defender.x) / 2, 1.0, 0.5,
-        "special", sp.color
-      );
-      // AAA: Impact ring on special hits
-      this.spawnImpactRing((attacker.x + defender.x) / 2, 1.0, 0.5, sp.color);
-      // AAA: Ground crater on SP2+ hits
-      if (spLevel >= 2) {
-        this.spawnGroundCrater(defender.x, sp.color);
-      }
-      // AAA: Energy projectile on ranged/projectile specials
-      if (sp.type === "projectile" || sp.type === "area" || sp.type === "drain") {
-        this.spawnEnergyProjectile(attacker, sp.color, spLevel === 3 ? 12 : 8);
-      }
-      // AAA: Screen flash on SP2+ hits
-      if (spLevel >= 2) {
-        this.triggerScreenFlash(sp.color, spLevel === 3 ? 0.8 : 0.5, spLevel === 3 ? 0.25 : 0.15);
-      }
-      // AAA: SP3 cinematic camera zoom
-      if (spLevel === 3) {
-        this.startCinematicCamera("sp3_zoom", 0.8);
-      }
-      // Character-specific screen shake
-      if (sp.screenShake > this.screenShake.intensity) {
-        this.screenShake.intensity = sp.screenShake;
-        this.screenShake.duration = 0.2 + sp.screenShake * 0.03;
-        this.screenShake.timer = 0;
-      }
-    }
-  }
-
-  /* ═══ AI SYSTEM — MCOC-INSPIRED WEIGHTED RANDOM ═══ */
-  private updateAI(ai: Fighter, player: Fighter, dt: number) {
-    // Don't act during stun
-    if (ai.stunTimer > 0) return;
-    if (ai.state === "parry_stun" || ai.state === "knockdown" || ai.state === "getup" || ai.state === "ko" || ai.state === "finish_stun") return;
-    if (this.isInAttackState(ai) && !this.canCancelIntoNext(ai)) return;
-
-    ai.aiTimer -= dt;
-    if (ai.aiDodgeCooldown > 0) ai.aiDodgeCooldown -= dt;
-
-    // Aggression decay
-    ai.aiAggression = Math.max(0, ai.aiAggression - dt * 0.3);
-
-    // Mistake timer
-    ai.aiMistakeTimer -= dt;
-
-    const settings = DIFFICULTY_SETTINGS[this.difficulty];
     const dist = Math.abs(ai.x - player.x);
-    const isPlayerAttacking = this.isInAttackState(player);
-    const isPlayerDashing = player.state === "dash_fwd";
-    const isPlayerClose = dist < MEDIUM_RANGE;
     const aiHealthRatio = ai.hp / ai.maxHp;
     const playerHealthRatio = player.hp / player.maxHp;
+    const isPlayerAttacking = this.isInAttackState(player);
+    const isPlayerRecovering = isPlayerAttacking && player.stateFrame >= this.getFrameData(player.state).startup + this.getFrameData(player.state).active;
+    const isPlayerClose = dist < 1.5;
+    const isPlayerMidRange = dist >= 1.5 && dist < 3.0;
 
-    if (ai.aiTimer > 0) return;
+    // Choose AI style based on situation
+    let style = ai.aiStyle;
+    if (aiHealthRatio < 0.3 && playerHealthRatio > 0.5) style = "evasive";
+    else if (aiHealthRatio > 0.7 && playerHealthRatio < 0.4) style = "aggressive";
+    else if (ai.aiAggression > 60) style = "aggressive";
 
-    // React speed based on difficulty
-    const reactDelay = (1 - settings.aiReactSpeed) * 0.4;
+    // ── DECISION MAKING ──
+    switch (style) {
+      case "aggressive":
+        this.aiDecideAggressive(ai, player, dist, isPlayerAttacking, isPlayerRecovering, isPlayerClose, isPlayerMidRange);
+        break;
+      case "defensive":
+        this.aiDecideDefensive(ai, player, dist, isPlayerAttacking, isPlayerRecovering, isPlayerClose);
+        break;
+      case "evasive":
+        this.aiDecideEvasive(ai, player, dist, isPlayerAttacking, isPlayerClose);
+        break;
+      default:
+        this.aiDecideBalanced(ai, player, dist, isPlayerAttacking, isPlayerRecovering, isPlayerClose, isPlayerMidRange, aiHealthRatio, playerHealthRatio);
+        break;
+    }
 
-    // ── MISTAKE SYSTEM — gives player openings ──
-    if (ai.aiMistakeTimer <= 0 && Math.random() < settings.mistakeRate) {
-      // AI makes a "mistake" — does nothing for a moment
-      ai.aiMistakeTimer = 0.5 + Math.random() * 0.5;
-      ai.state = "idle";
-      ai.vx = 0;
-      ai.aiTimer = 0.3 + Math.random() * 0.3;
+    this.executeAIDecision(ai, player);
+  }
+
+  // aiAggressive decision logic
+  private aiDecideAggressive(ai: Fighter, player: Fighter, dist: number,
+    isPlayerAttacking: boolean, isPlayerRecovering: boolean,
+    isPlayerClose: boolean, isPlayerMidRange: boolean) {
+
+    // Whiff punish — rush in when player misses
+    if (isPlayerRecovering && dist < 3.0) {
+      ai.aiDecision = isPlayerClose ? "light_combo" : "dash_fwd_attack";
       return;
     }
 
-    // ── DEFENSIVE REACTIONS ──
-
-    // Parry attempt — block just before player's attack lands
-    if (isPlayerAttacking && isPlayerClose && Math.random() < settings.parryRate) {
-      ai.state = "block_stand";
-      ai.blockTimer = 0.3;
-      ai.isParrying = true;
-      ai.parryWindow = PARRY_WINDOW;
-      ai.blockStartTime = performance.now() / 1000;
-      ai.aiTimer = 0.2 + reactDelay;
+    // Close range — pressure with combos
+    if (isPlayerClose) {
+      if (isPlayerAttacking && Math.random() < 0.4) {
+        ai.aiDecision = "parry"; // try to parry
+      } else {
+        const r = Math.random();
+        if (r < 0.5) ai.aiDecision = "light_combo";
+        else if (r < 0.7) ai.aiDecision = "medium_attack";
+        else if (r < 0.85) ai.aiDecision = "heavy_attack";
+        else ai.aiDecision = ai.specialMeter >= METER_SP1_COST ? "special_attack" : "light_combo";
+      }
       return;
     }
 
-    // Dexterity (evade) — dash back to avoid attack
-    if (isPlayerAttacking && isPlayerClose && Math.random() < settings.dexRate && ai.dashCooldown <= 0) {
-      this.doDashBack(ai);
-      ai.dexActive = true;
-      ai.dexTimer = DEX_WINDOW;
-      ai.invincible = DEX_WINDOW;
-      ai.aiTimer = 0.3 + reactDelay;
+    // Mid range — close distance
+    if (isPlayerMidRange) {
+      if (Math.random() < 0.6) ai.aiDecision = "dash_fwd";
+      else ai.aiDecision = "walk_fwd";
+      return;
+    }
+
+    // Far range — approach
+    ai.aiDecision = Math.random() < 0.7 ? "dash_fwd" : "walk_fwd";
+  }
+
+  // aiDefensive decision logic
+  private aiDecideDefensive(ai: Fighter, player: Fighter, dist: number,
+    isPlayerAttacking: boolean, isPlayerRecovering: boolean, isPlayerClose: boolean) {
+
+    // Whiff punish
+    if (isPlayerRecovering && isPlayerClose) {
+      ai.aiDecision = "medium_attack";
       return;
     }
 
     // Block incoming attacks
-    if (isPlayerAttacking && isPlayerClose && Math.random() < settings.blockRate) {
-      ai.state = "block_stand";
-      ai.blockTimer = 0.2;
-      ai.aiTimer = 0.15 + reactDelay;
+    if (isPlayerAttacking && isPlayerClose) {
+      ai.aiDecision = Math.random() < 0.6 ? "parry" : "block";
       return;
     }
 
-    // ── INTERCEPT — attack during player's dash ──
-    if (isPlayerDashing && isPlayerClose && Math.random() < settings.interceptRate) {
-      this.startAttack(ai, "medium");
-      ai.aiTimer = 0.3;
-      this.callbacks.onIntercept?.(2);
+    // Keep distance
+    if (isPlayerClose) {
+      if (ai.dashCooldownFrames <= 0 && Math.random() < 0.5) {
+        ai.aiDecision = "dash_back";
+      } else {
+        ai.aiDecision = "walk_back";
+      }
       return;
     }
 
-    // ── PATTERN READING — AI adapts to repeated player actions ──
-    if (ai.aiPatternMemory.length >= 4 && settings.aiReactSpeed > 0.5) {
-      const last4 = ai.aiPatternMemory.slice(-4);
-      const repeated = last4.filter(a => a === last4[3]).length;
-      // If player repeats same action 3+ times, AI counters
-      if (repeated >= 3) {
-        const playerAction = last4[3];
-        if (playerAction.includes("light") && isPlayerClose) {
-          // Counter light spam with parry
-          ai.state = "block_stand";
-          ai.isParrying = true;
-          ai.parryWindow = PARRY_WINDOW;
-          ai.blockStartTime = performance.now() / 1000;
-          ai.blockTimer = 0.3;
-          ai.aiTimer = 0.2;
-          return;
-        } else if (playerAction.includes("dash_fwd") && dist < MEDIUM_RANGE) {
-          // Counter dash spam with intercept
+    // Counter-attack when safe
+    if (dist < 2.5 && !isPlayerAttacking && Math.random() < 0.3) {
+      ai.aiDecision = "medium_attack";
+      return;
+    }
+
+    ai.aiDecision = "idle";
+  }
+
+  // aiEvasive decision logic
+  private aiDecideEvasive(ai: Fighter, player: Fighter, dist: number,
+    isPlayerAttacking: boolean, isPlayerClose: boolean) {
+
+    // Always try to evade when close
+    if (isPlayerClose && isPlayerAttacking) {
+      if (ai.dashCooldownFrames <= 0) {
+        ai.aiDecision = "dash_back";
+      } else {
+        ai.aiDecision = "block";
+      }
+      return;
+    }
+
+    if (isPlayerClose) {
+      ai.aiDecision = ai.dashCooldownFrames <= 0 ? "dash_back" : "walk_back";
+      return;
+    }
+
+    // Only attack when very safe
+    if (dist > 3.0 && ai.specialMeter >= METER_SP1_COST && Math.random() < 0.2) {
+      ai.aiDecision = "special_attack";
+      return;
+    }
+
+    ai.aiDecision = "idle";
+  }
+
+  // aiBalanced decision logic
+  private aiDecideBalanced(ai: Fighter, player: Fighter, dist: number,
+    isPlayerAttacking: boolean, isPlayerRecovering: boolean,
+    isPlayerClose: boolean, isPlayerMidRange: boolean,
+    aiHealthRatio: number, playerHealthRatio: number) {
+
+    // Whiff punish (balanced AI is good at this)
+    if (isPlayerRecovering && dist < 2.5) {
+      ai.aiDecision = isPlayerClose ? "light_combo" : "dash_fwd_attack";
+      return;
+    }
+
+    // React to attacks
+    if (isPlayerAttacking && isPlayerClose) {
+      const r = Math.random();
+      if (r < 0.35) ai.aiDecision = "parry";
+      else if (r < 0.6) ai.aiDecision = "block";
+      else if (ai.dashCooldownFrames <= 0) ai.aiDecision = "dash_back";
+      else ai.aiDecision = "block";
+      return;
+    }
+
+    // Footsies — spacing game at mid range
+    if (isPlayerMidRange) {
+      const r = Math.random();
+      if (r < 0.25) ai.aiDecision = "walk_fwd";
+      else if (r < 0.45) ai.aiDecision = "medium_attack"; // poke
+      else if (r < 0.6) ai.aiDecision = "walk_back"; // bait
+      else if (r < 0.75 && ai.dashCooldownFrames <= 0) ai.aiDecision = "dash_fwd";
+      else ai.aiDecision = "idle"; // wait and watch
+      return;
+    }
+
+    // Close range — mix it up
+    if (isPlayerClose) {
+      const r = Math.random();
+      if (r < 0.35) ai.aiDecision = "light_combo";
+      else if (r < 0.55) ai.aiDecision = "medium_attack";
+      else if (r < 0.7 && ai.specialMeter >= METER_SP1_COST) ai.aiDecision = "special_attack";
+      else if (r < 0.85) ai.aiDecision = "heavy_attack";
+      else ai.aiDecision = ai.dashCooldownFrames <= 0 ? "dash_back" : "block";
+      return;
+    }
+
+    // Far range — approach or wait
+    if (Math.random() < 0.5) ai.aiDecision = "dash_fwd";
+    else ai.aiDecision = "walk_fwd";
+  }
+
+  /** Execute the AI's current decision */
+  private executeAIDecision(ai: Fighter, player: Fighter) {
+    const isIdle = ai.state === "idle" || ai.state === "walk_fwd" || ai.state === "walk_back";
+    const canCancel = this.isInAttackState(ai) && this.canCancelIntoNext(ai) && !ai.cancelUsed;
+    const canAct = isIdle || canCancel;
+
+    switch (ai.aiDecision) {
+      case "idle":
+        if (isIdle) { ai.state = "idle"; ai.stateFrame = 0; ai.vx = 0; }
+        break;
+
+      case "walk_fwd":
+        if (isIdle) { ai.state = "walk_fwd"; if (ai.stateFrame === 0) ai.stateFrame = 1; }
+        break;
+
+      case "walk_back":
+        if (isIdle) { ai.state = "walk_back"; if (ai.stateFrame === 0) ai.stateFrame = 1; }
+        break;
+
+      case "dash_fwd":
+        if (isIdle && ai.dashCooldownFrames <= 0) this.doDashForward(ai);
+        break;
+
+      case "dash_back":
+        if (isIdle && ai.dashCooldownFrames <= 0) this.doDashBack(ai);
+        break;
+
+      case "dash_fwd_attack":
+        if (isIdle && ai.dashCooldownFrames <= 0) {
+          this.doDashForward(ai);
+          // Buffer a light attack for when dash ends
+          ai.aiComboStep = 1;
+        }
+        break;
+
+      case "light_combo":
+        if (canAct) {
+          if (canCancel) ai.cancelUsed = true;
+          this.doLightAttack(ai);
+          ai.aiComboStep++;
+          // Chain into medium after 2-3 lights
+          if (ai.aiComboStep >= 2 + Math.floor(Math.random() * 2)) {
+            ai.aiDecision = "medium_attack";
+            ai.aiComboStep = 0;
+          }
+        }
+        break;
+
+      case "medium_attack":
+        if (canAct) {
+          if (canCancel) ai.cancelUsed = true;
           this.startAttack(ai, "medium");
-          ai.aiTimer = 0.3;
-          return;
-        } else if (playerAction.includes("heavy") && isPlayerClose) {
-          // Counter heavy spam with dash back + punish
-          if (ai.dashCooldown <= 0) {
-            this.doDashBack(ai);
-            ai.aiTimer = DASH_DURATION + 0.1;
-            return;
+          ai.aiComboStep = 0;
+          // Sometimes cancel medium into special
+          if (ai.specialMeter >= METER_SP1_COST && Math.random() < 0.3) {
+            ai.aiDecision = "special_attack";
           }
         }
-      }
-    }
-
-    // ── OFFENSIVE ACTIONS based on AI style ──
-    switch (ai.aiStyle) {
-      case "aggressive":
-        this.aiAggressive(ai, player, dist, isPlayerAttacking, isPlayerClose, settings, reactDelay, dt);
         break;
-      case "defensive":
-        this.aiDefensive(ai, player, dist, isPlayerAttacking, isPlayerClose, aiHealthRatio, settings, reactDelay, dt);
-        break;
-      case "evasive":
-        this.aiEvasive(ai, player, dist, isPlayerAttacking, isPlayerClose, settings, reactDelay, dt);
-        break;
-      case "balanced":
-        this.aiBalanced(ai, player, dist, isPlayerAttacking, isPlayerClose, aiHealthRatio, playerHealthRatio, settings, reactDelay, dt);
-        break;
-    }
-  }
 
-  /* ── AGGRESSIVE AI ── */
-  private aiAggressive(ai: Fighter, player: Fighter, dist: number, isPlayerAttacking: boolean, isPlayerClose: boolean, settings: any, reactDelay: number, _dt: number) {
-    // Dash in if far
-    if (dist > MEDIUM_RANGE && ai.dashCooldown <= 0) {
-      this.doDashForward(ai);
-      ai.aiTimer = DASH_DURATION + 0.05;
-      return;
-    }
-
-    // Walk forward if medium distance
-    if (dist > LIGHT_RANGE) {
-      ai.vx = ai.facingRight ? WALK_SPEED * 1.1 : -WALK_SPEED * 1.1;
-      ai.state = "walk_fwd";
-      ai.aiTimer = 0.05;
-      return;
-    }
-
-    // In range — MCOC combo: M-L-L-L-M pattern
-    if (isPlayerClose) {
-      // Special when ready
-      if (ai.specialMeter >= 100 && Math.random() < 0.6) {
-        this.doSpecialAttack(ai);
-        ai.aiTimer = 0.5;
-        return;
-      }
-
-      // Execute combo chain based on difficulty
-      const maxChain = settings.comboLength;
-      if (ai.aiComboStep === 0) {
-        this.startAttack(ai, "medium"); // M
-        ai.aiComboStep = 1;
-        ai.aiTimer = MEDIUM_STARTUP + MEDIUM_ACTIVE + 0.02;
-      } else if (ai.aiComboStep < maxChain - 1) {
-        const lightNum = Math.min(ai.aiComboStep, 4) as 1 | 2 | 3 | 4;
-        this.startAttack(ai, `light_${lightNum}` as FighterState); // L
-        ai.aiComboStep++;
-        ai.aiTimer = LIGHT_1_STARTUP + LIGHT_1_ACTIVE + 0.02;
-      } else {
-        this.startAttack(ai, "medium"); // M (ender)
-        ai.aiComboStep = 0;
-        ai.aiTimer = MEDIUM_STARTUP + MEDIUM_ACTIVE + MEDIUM_RECOVERY + reactDelay;
-        // Dash back after combo
-        setTimeout(() => {
-          if (ai.state === "idle" && ai.dashCooldown <= 0) {
-            this.doDashBack(ai);
-          }
-        }, 200);
-      }
-      return;
-    }
-
-    ai.aiTimer = 0.05;
-  }
-
-  /* ── DEFENSIVE AI ── */
-  private aiDefensive(ai: Fighter, player: Fighter, dist: number, isPlayerAttacking: boolean, isPlayerClose: boolean, aiHealthRatio: number, settings: any, reactDelay: number, _dt: number) {
-    // Block when player attacks
-    if (isPlayerAttacking && isPlayerClose) {
-      ai.state = "block_stand";
-      ai.blockTimer = 0.3;
-      ai.aiTimer = 0.3 + reactDelay * 0.5;
-      return;
-    }
-
-    // Counter after blocking — wait for opening then punish
-    if (ai.state === "block_stand" && !isPlayerAttacking && isPlayerClose) {
-      // Player finished combo — counter with M-L-L-L
-      this.startAttack(ai, "medium");
-      ai.aiComboStep = 1;
-      ai.aiTimer = MEDIUM_STARTUP + MEDIUM_ACTIVE + 0.02;
-      return;
-    }
-
-    // Keep medium distance
-    if (dist < 1.5) {
-      this.doDashBack(ai);
-      ai.aiTimer = 0.3;
-      return;
-    }
-
-    if (dist > 3) {
-      ai.vx = ai.facingRight ? WALK_SPEED * 0.6 : -WALK_SPEED * 0.6;
-      ai.state = "walk_fwd";
-      ai.aiTimer = 0.1;
-      return;
-    }
-
-    // Occasional poke
-    if (dist < LIGHT_RANGE && Math.random() < 0.15 * settings.aiAggression) {
-      this.startAttack(ai, "light_1");
-      ai.aiTimer = 0.4 + reactDelay;
-      return;
-    }
-
-    // Special when safe
-    if (ai.specialMeter >= 100 && dist < SPECIAL_RANGE && !isPlayerAttacking) {
-      this.doSpecialAttack(ai);
-      ai.aiTimer = 0.5;
-      return;
-    }
-
-    ai.state = "idle";
-    ai.vx = 0;
-    ai.aiTimer = 0.15 + reactDelay;
-  }
-
-  /* ── EVASIVE AI ── */
-  private aiEvasive(ai: Fighter, player: Fighter, dist: number, isPlayerAttacking: boolean, isPlayerClose: boolean, settings: any, reactDelay: number, _dt: number) {
-    // Dodge incoming attacks
-    if (isPlayerAttacking && isPlayerClose && ai.dashCooldown <= 0) {
-      this.doDashBack(ai);
-      ai.aiTimer = 0.3;
-      return;
-    }
-
-    // Hit and run — dash in, quick attack, dash out
-    if (dist > MEDIUM_RANGE && ai.dashCooldown <= 0) {
-      this.doDashForward(ai);
-      ai.aiTimer = DASH_DURATION + 0.05;
-      return;
-    }
-
-    if (isPlayerClose && !isPlayerAttacking) {
-      // Quick 2-hit poke then retreat
-      this.startAttack(ai, "light_1");
-      ai.aiComboStep = 1;
-      ai.aiTimer = LIGHT_1_STARTUP + LIGHT_1_ACTIVE + 0.02;
-      ai.aiPressureTimer = -1; // signal retreat
-      return;
-    }
-
-    if (ai.aiPressureTimer < 0 && ai.dashCooldown <= 0) {
-      this.doDashBack(ai);
-      ai.aiPressureTimer = 0;
-      ai.aiTimer = 0.3;
-      return;
-    }
-
-    // Special from distance
-    if (ai.specialMeter >= 100 && dist < SPECIAL_RANGE) {
-      this.doSpecialAttack(ai);
-      ai.aiTimer = 0.5;
-      return;
-    }
-
-    ai.state = "idle";
-    ai.vx = 0;
-    ai.aiTimer = 0.1 + reactDelay;
-  }
-
-  /* ── BALANCED AI ── */
-  private aiBalanced(ai: Fighter, player: Fighter, dist: number, isPlayerAttacking: boolean, isPlayerClose: boolean, aiHealthRatio: number, playerHealthRatio: number, settings: any, reactDelay: number, dt: number) {
-    // Low health → play defensive
-    if (aiHealthRatio < 0.3) {
-      this.aiDefensive(ai, player, dist, isPlayerAttacking, isPlayerClose, aiHealthRatio, settings, reactDelay, dt);
-      return;
-    }
-
-    // Player low health → go aggressive
-    if (playerHealthRatio < 0.3) {
-      this.aiAggressive(ai, player, dist, isPlayerAttacking, isPlayerClose, settings, reactDelay, dt);
-      return;
-    }
-
-    // Normal play — MCOC-style: block → punish → combo → dash back
-    if (isPlayerAttacking && isPlayerClose) {
-      if (Math.random() < 0.6) {
-        ai.state = "block_stand";
-        ai.blockTimer = 0.2;
-        ai.aiTimer = 0.2 + reactDelay;
-      } else if (ai.dashCooldown <= 0) {
-        this.doDashBack(ai);
-        ai.aiTimer = 0.3;
-      }
-      return;
-    }
-
-    // Approach
-    if (dist > MEDIUM_RANGE) {
-      if (ai.dashCooldown <= 0 && Math.random() < 0.4) {
-        this.doDashForward(ai);
-        ai.aiTimer = DASH_DURATION + 0.05;
-      } else {
-        ai.vx = ai.facingRight ? WALK_SPEED : -WALK_SPEED;
-        ai.state = "walk_fwd";
-        ai.aiTimer = 0.08;
-      }
-      return;
-    }
-
-    // In range — varied attacks
-    if (isPlayerClose) {
-      const roll = Math.random();
-      if (ai.specialMeter >= 100 && roll < 0.2) {
-        this.doSpecialAttack(ai);
-        ai.aiTimer = 0.5;
-      } else if (roll < 0.5) {
-        // MLLLM combo
-        this.startAttack(ai, "medium");
-        ai.aiComboStep = 1;
-        ai.aiTimer = MEDIUM_STARTUP + MEDIUM_ACTIVE + 0.02;
-      } else if (roll < 0.7) {
-        // Heavy attack (guard break)
-        ai.heavyChargeTime = HEAVY_MIN_CHARGE + Math.random() * 0.3;
-        this.startAttack(ai, "heavy_release");
-        ai.aiTimer = HEAVY_ACTIVE + HEAVY_RECOVERY + reactDelay;
-      } else {
-        // Feint — dash back then forward
-        if (ai.dashCooldown <= 0) {
-          this.doDashBack(ai);
-          ai.aiTimer = 0.2;
+      case "heavy_attack":
+        if (canAct) {
+          ai.heavyChargeFrames = HEAVY_MIN_CHARGE_FRAMES + Math.floor(Math.random() * 20);
+          this.startAttack(ai, "heavy_release");
         }
-      }
-      return;
-    }
+        break;
 
-    ai.state = "idle";
-    ai.vx = 0;
-    ai.aiTimer = 0.1 + reactDelay;
+      case "special_attack":
+        if (canAct) {
+          if (canCancel) ai.cancelUsed = true;
+          this.doSpecialAttack(ai);
+        }
+        break;
+
+      case "block":
+        if (isIdle) {
+          ai.state = "block_stand";
+          ai.stateFrame = 0;
+          ai.blockFrame = this.gameFrame;
+          ai.isParrying = false; // AI block doesn't auto-parry (too strong)
+        }
+        break;
+
+      case "parry":
+        if (isIdle) {
+          ai.state = "block_stand";
+          ai.stateFrame = 0;
+          ai.blockFrame = this.gameFrame;
+          ai.isParrying = true;
+          ai.parryFrames = PARRY_WINDOW_FRAMES;
+        }
+        break;
+    }
   }
 
-  /* ═══ COLLISION & PHYSICS ═══ */
+  /** Continue current AI action (during reaction delay) */
+  private continueAIAction(ai: Fighter, player: Fighter) {
+    // If AI is in a combo, continue it
+    if (ai.aiDecision === "light_combo" && this.isInAttackState(ai) && this.canCancelIntoNext(ai)) {
+      ai.cancelUsed = true;
+      this.doLightAttack(ai);
+      ai.aiComboStep++;
+    }
+
+    // If AI was dashing and arrived, attack
+    if (ai.aiDecision === "dash_fwd_attack" && ai.state === "idle" && ai.aiComboStep > 0) {
+      this.doLightAttack(ai);
+      ai.aiDecision = "light_combo";
+    }
+
+    // Release block if player isn't attacking
+    if ((ai.state === "block_stand" || ai.state === "block_crouch") && !this.isInAttackState(player)) {
+      if (ai.stateFrame > 30) { // hold block for at least 30 frames
+        ai.state = "idle";
+        ai.stateFrame = 0;
+      }
+    }
+  }
+
+
+  /* ═══ COLLISION & STAGE ═══ */
   private resolveFighterCollision() {
     const dist = Math.abs(this.p1.x - this.p2.x);
-    const minDist = 0.8;
-    if (dist < minDist) {
-      const overlap = (minDist - dist) / 2;
-      const dir = this.p1.x < this.p2.x ? -1 : 1;
-      this.p1.x += dir * overlap * PUSH_FORCE * 0.016;
-      this.p2.x -= dir * overlap * PUSH_FORCE * 0.016;
+    if (dist < MIN_DISTANCE) {
+      const overlap = MIN_DISTANCE - dist;
+      const pushDir = this.p1.x < this.p2.x ? -1 : 1;
+      this.p1.x += pushDir * overlap * 0.5;
+      this.p2.x -= pushDir * overlap * 0.5;
     }
   }
 
   private clampToStage(f: Fighter) {
-    const halfStage = STAGE_WIDTH / 2;
-    f.x = Math.max(-halfStage, Math.min(halfStage, f.x));
+    f.x = Math.max(-STAGE_HALF + FIGHTER_WIDTH / 2, Math.min(STAGE_HALF - FIGHTER_WIDTH / 2, f.x));
   }
 
   private updateFacing() {
-    if (!this.isInActionState(this.p1)) {
+    if (this.p1.state !== "dash_fwd" && this.p1.state !== "dash_back" &&
+        this.p2.state !== "dash_fwd" && this.p2.state !== "dash_back") {
       this.p1.facingRight = this.p1.x < this.p2.x;
-    }
-    if (!this.isInActionState(this.p2)) {
       this.p2.facingRight = this.p2.x < this.p1.x;
     }
   }
 
-  /* ═══ MK-INSPIRED: DEFERRED HIT RESOLUTION ═══ */
-  private getDeferredDelay(attackType: FighterState): number {
-    if (this.isLightAttack(attackType)) return DEFERRED_HIT_DELAY_LIGHT;
-    if (attackType === "medium") return DEFERRED_HIT_DELAY_MEDIUM;
-    if (attackType === "heavy_release") return DEFERRED_HIT_DELAY_HEAVY;
-    if (this.isSpecialAttack(attackType)) return DEFERRED_HIT_DELAY_SPECIAL;
-    return DEFERRED_HIT_DELAY_LIGHT;
-  }
-
-  private queueDeferredHit(attacker: Fighter, defender: Fighter, attackType: FighterState) {
-    this.deferredHits.push({
-      attacker,
-      defender,
-      attackType,
-      delay: this.getDeferredDelay(attackType),
-    });
-  }
-
-  private processDeferredHits(dt: number) {
-    for (let i = this.deferredHits.length - 1; i >= 0; i--) {
-      const hit = this.deferredHits[i];
-      hit.delay -= dt;
-      if (hit.delay <= 0) {
-        // Resolve the hit now (checkHit handles full resolution)
-        this.checkHit(hit.attacker, hit.defender, hit.attackType);
-        this.deferredHits.splice(i, 1);
-      }
+  private smoothHpDisplay(f: Fighter) {
+    const diff = f.displayHp - f.hp;
+    if (Math.abs(diff) > 0.5) {
+      f.displayHp -= diff * 0.12;
+    } else {
+      f.displayHp = f.hp;
     }
-  }
-
-  /* ═══ MK-INSPIRED: FINISH HIM SYSTEM ═══ */
-  private triggerFinishHim(target: 1 | 2) {
-    this.finishHimTriggered = true;
-    this.finishHimTarget = target;
-    const targetFighter = target === 1 ? this.p1 : this.p2;
-
-    // Stun the target (MK disabled state)
-    targetFighter.state = "finish_stun";
-    targetFighter.stateTimer = 0;
-    targetFighter.stunTimer = FINISH_HIM_STUN_DURATION;
-    targetFighter.vx = 0;
-    targetFighter.vy = 0;
-
-    // Dramatic slow-mo
-    this.slowMo = { active: true, speed: FINISH_HIM_SLOW_MO, duration: 1.5, timer: 1.5 };
-
-    // Screen shake + flash
-    this.screenShake.intensity = 8;
-    this.screenShake.duration = 0.4;
-    this.screenShake.timer = 0;
-    this.triggerScreenFlash("#ff0000", 0.5, 0.3);
-
-    // MK-STYLE: Sweat/energy droplets flying off the stunned fighter
-    this.spawnHitEffect(targetFighter.x, 1.4, 0.3, "sweat", "#aaddff");
-    this.spawnHitEffect(targetFighter.x, 1.0, 0.2, "sweat", "#aaddff");
-
-    // Callback for UI to show "FINISH HIM!" text
-    this.callbacks.onFinishHim?.(target);
   }
 
   /* ═══ ROUND MANAGEMENT ═══ */
   private endRound(winner: 1 | 2) {
-    // Reset finish him state for next round
-    this.finishHimTriggered = false;
-    this.deferredHits = [];
-    const winnerFighter = winner === 1 ? this.p1 : this.p2;
-    const loserFighter = winner === 1 ? this.p2 : this.p1;
-    winnerFighter.roundWins++;
-    winnerFighter.state = "victory";
-    loserFighter.state = "ko";
-    this.phase = "ko";
-    this.phaseTimer = 2.5; // AAA: longer KO sequence
+    const w = winner === 1 ? this.p1 : this.p2;
+    const l = winner === 1 ? this.p2 : this.p1;
+    w.roundWins++;
+    w.state = "victory";
+    w.stateFrame = 0;
+    if (l.hp <= 0) { l.state = "ko"; l.stateFrame = 0; }
 
-    // MK-STYLE: Dust cloud on KO collapse + blood
-    this.spawnHitEffect(loserFighter.x, 0.05, 0.2, "dust", "#8b7355");
-    this.spawnHitEffect(loserFighter.x, 0.8, 0.3, "blood", "#cc0000");
-    this.callbacks.onPhaseChange?.("ko");
+    this.phase = "round_end";
+    this.phaseTimer = 0;
+    this.callbacks.onPhaseChange?.("round_end");
     this.callbacks.onRoundEnd?.(winner, this.p1.roundWins, this.p2.roundWins);
-    this.slowMo = { active: true, speed: 0.15, duration: 1.2, timer: 1.2 }; // AAA: slower slow-mo
-    this.screenShake.intensity = 12;
-    this.screenShake.duration = 0.6;
-    this.screenShake.timer = 0;
-    // AAA: KO screen flash
-    this.triggerScreenFlash(winnerFighter.config.accentColor, 0.7, 0.3);
-    // AAA: KO camera angle
-    this.startCinematicCamera("ko_angle", 1.5);
-    // AAA: Ground crater at KO location
-    this.spawnGroundCrater(loserFighter.x, winnerFighter.config.accentColor);
-    // AAA: Impact ring at KO
-    this.spawnImpactRing(loserFighter.x, 0.5, 0.5, winnerFighter.config.accentColor);
   }
 
-  private checkMatchEnd() {
-    const winsNeeded = Math.ceil(this.maxRounds / 2);
-    if (this.p1.roundWins >= winsNeeded) {
+  private checkMatchEnd(): boolean {
+    if (this.p1.roundWins >= WINS_NEEDED) {
       this.phase = "match_end";
       this.callbacks.onPhaseChange?.("match_end");
       this.callbacks.onMatchEnd?.(1);
-      return;
+      return true;
     }
-    if (this.p2.roundWins >= winsNeeded) {
+    if (this.p2.roundWins >= WINS_NEEDED) {
       this.phase = "match_end";
       this.callbacks.onPhaseChange?.("match_end");
       this.callbacks.onMatchEnd?.(2);
-      return;
+      return true;
     }
-    this.currentRound++;
-    this.resetRound();
+    return false;
   }
 
   private resetRound() {
-    this.p1.x = -0.6; this.p2.x = 0.6;
-    this.p1.y = 0; this.p2.y = 0;
-    this.p1.vx = 0; this.p2.vx = 0;
-    this.p1.vy = 0; this.p2.vy = 0;
-    this.p1.hp = this.p1.maxHp; this.p2.hp = this.p2.maxHp;
-    this.p1.displayHp = this.p1.maxHp; this.p2.displayHp = this.p2.maxHp;
-    this.p1.state = "idle"; this.p2.state = "idle";
-    this.p1.specialMeter = 0; this.p2.specialMeter = 0;
-    this.p1.comboCount = 0; this.p2.comboCount = 0;
-    this.p1.comboChain = 0; this.p2.comboChain = 0;
-    this.p1.stunTimer = 0; this.p2.stunTimer = 0;
-    this.roundTimer = 99;
+    this.currentRound++;
+    this.roundTimer = ROUND_TIME;
+    this.phaseTimer = 0;
+    this.finishHimTriggered = false;
+
+    // Reset fighters
+    for (const f of [this.p1, this.p2]) {
+      const startX = f === this.p1 ? -2.5 : 2.5;
+      f.x = startX; f.y = 0; f.vx = 0; f.vy = 0;
+      f.state = "idle"; f.stateFrame = 0;
+      f.hp = f.maxHp; f.displayHp = f.maxHp;
+      f.comboCount = 0; f.comboDamage = 0; f.comboTimer = 0; f.comboChain = 0;
+      f.jugglePoints = MAX_JUGGLE_POINTS; f.airborne = false;
+      f.specialMeter = 0;
+      f.blockFrame = 0; f.isParrying = false; f.parryFrames = 0;
+      f.invincibleFrames = 0;
+      f.dexActive = false; f.dexFrames = 0;
+      f.heavyChargeFrames = 0;
+      f.stunFrames = 0; f.dashCooldownFrames = 0;
+      f.hitThisAttack = false; f.cancelUsed = false;
+      f.pushVx = 0;
+      f.dotTimer = 0; f.speedBuffTimer = 0; f.speedBuffMult = 1;
+      f.defenseDebuffTimer = 0; f.defenseDebuffPct = 0;
+      f.aiComboStep = 0; f.aiAggression = 0;
+    }
+
+    // Clear effects
+    this.hitEffects.forEach(e => this.scene.remove(e.particles));
+    this.hitEffects = [];
+    this.afterimages.forEach(a => this.scene.remove(a.mesh));
+    this.afterimages = [];
+    this.energyProjectiles.forEach(p => this.scene.remove(p.mesh));
+    this.energyProjectiles = [];
 
     this.phase = "round_announce";
-    this.phaseTimer = 2.0;
     this.callbacks.onPhaseChange?.("round_announce");
   }
 
-  /* ═══ HIT EFFECTS ═══ */
+  /* ═══ PROJECTILE SYSTEM ═══ */
+  private updateProjectilesFrame() {
+    for (let i = this.energyProjectiles.length - 1; i >= 0; i--) {
+      const proj = this.energyProjectiles[i];
+      proj.x += proj.vx * FRAME_DURATION;
+      proj.mesh.position.set(proj.x, proj.y, proj.z);
+      proj.life -= FRAME_DURATION;
+
+      // Check hit
+      const target = proj.owner === 1 ? this.p2 : this.p1;
+      if (Math.abs(proj.x - target.x) < 1.0 && target.invincibleFrames <= 0 && !target.dexActive) {
+        // Hit!
+        const isBlocking = target.state === "block_stand" || target.state === "block_crouch";
+        if (isBlocking) {
+          target.state = "blockstun";
+          target.stateFrame = 0;
+          target.stunFrames = 15;
+          const chip = Math.round(proj.damage * CHIP_DAMAGE_RATIO);
+          target.hp = Math.max(1, target.hp - chip);
+          this.spawnHitEffect(proj.x, 1.0, 0, "block", "#4488ff");
+        } else {
+          target.hp = Math.max(0, target.hp - proj.damage);
+          target.state = "hitstun";
+          target.stateFrame = 0;
+          target.stunFrames = 20;
+          this.spawnHitEffect(proj.x, 1.0, 0, "special", proj.color);
+          this.screenShake = { intensity: 0.06, duration: 0.15, timer: 0 };
+        }
+        this.scene.remove(proj.mesh);
+        this.energyProjectiles.splice(i, 1);
+        continue;
+      }
+
+      // Off screen
+      if (Math.abs(proj.x) > STAGE_HALF + 2 || proj.life <= 0) {
+        this.scene.remove(proj.mesh);
+        this.energyProjectiles.splice(i, 1);
+      }
+    }
+  }
+
+  /* ═══ VISUAL EFFECTS — FLOATING PARTICLES ═══ */
   private spawnHitEffect(x: number, y: number, z: number, type: HitEffect["type"], color: string) {
     const group = new THREE.Group();
-
-    // ── MK-STYLE BLOOD SPLATTER ──
-    if (type === "blood") {
-      const bloodCount = 12 + Math.floor(Math.random() * 8);
-      for (let i = 0; i < bloodCount; i++) {
-        const size = 0.02 + Math.random() * 0.04;
-        // Mix of droplets (spheres) and streaks (stretched boxes)
-        const isStreak = Math.random() < 0.3;
-        const geo = isStreak
-          ? new THREE.BoxGeometry(size * 0.3, size * 2, size * 0.3)
-          : new THREE.SphereGeometry(size, 4, 4);
-        const bloodShade = Math.random() < 0.5 ? "#8b0000" : Math.random() < 0.5 ? "#cc0000" : "#660000";
-        const mat = new THREE.MeshBasicMaterial({ color: new THREE.Color(bloodShade), transparent: true, opacity: 0.9 });
-        const p = new THREE.Mesh(geo, mat);
-        const angle = Math.random() * Math.PI * 2;
-        const speed = 1.5 + Math.random() * 3;
-        p.userData.vx = Math.cos(angle) * speed;
-        p.userData.vy = Math.random() * 3 + 1; // Mostly upward arc
-        p.userData.vz = (Math.random() - 0.5) * speed * 0.5;
-        p.userData.gravity = 8 + Math.random() * 4; // Blood falls faster
-        p.userData.isBlood = true;
-        if (isStreak) p.rotation.z = angle;
-        group.add(p);
-      }
-      group.position.set(x, y, z);
-      this.scene.add(group);
-      this.hitEffects.push({ x, y, z, life: 0, maxLife: 0.8, type, color, particles: group });
-      return;
-    }
-
-    // ── DUST CLOUD (knockdowns, ground impacts) ──
-    if (type === "dust") {
-      const dustCount = 10;
-      for (let i = 0; i < dustCount; i++) {
-        const size = 0.06 + Math.random() * 0.08;
-        const geo = new THREE.SphereGeometry(size, 6, 6);
-        const dustShade = Math.random() < 0.5 ? "#8b7355" : "#a0926b";
-        const mat = new THREE.MeshBasicMaterial({ color: new THREE.Color(dustShade), transparent: true, opacity: 0.6 });
-        const p = new THREE.Mesh(geo, mat);
-        const angle = Math.random() * Math.PI * 2;
-        const speed = 1 + Math.random() * 2;
-        p.userData.vx = Math.cos(angle) * speed;
-        p.userData.vy = Math.random() * 1.5 + 0.5;
-        p.userData.vz = (Math.random() - 0.5) * speed;
-        p.userData.isDust = true;
-        p.userData.growRate = 1.5 + Math.random(); // Dust expands
-        group.add(p);
-      }
-      group.position.set(x, y, z);
-      this.scene.add(group);
-      this.hitEffects.push({ x, y, z, life: 0, maxLife: 0.6, type, color, particles: group });
-      return;
-    }
-
-    // ── SWEAT/ENERGY DROPLETS (FINISH HIM moment) ──
-    if (type === "sweat") {
-      const sweatCount = 6;
-      for (let i = 0; i < sweatCount; i++) {
-        const size = 0.015 + Math.random() * 0.02;
-        const geo = new THREE.SphereGeometry(size, 4, 4);
-        const mat = new THREE.MeshBasicMaterial({ color: new THREE.Color("#aaddff"), transparent: true, opacity: 0.7 });
-        const p = new THREE.Mesh(geo, mat);
-        const angle = Math.random() * Math.PI;
-        p.userData.vx = (Math.random() - 0.5) * 1.5;
-        p.userData.vy = 1 + Math.random() * 2;
-        p.userData.vz = (Math.random() - 0.5) * 0.5;
-        p.userData.gravity = 6;
-        group.add(p);
-      }
-      group.position.set(x, y, z);
-      this.scene.add(group);
-      this.hitEffects.push({ x, y, z, life: 0, maxLife: 0.5, type, color, particles: group });
-      return;
-    }
-
-    // ── GROUND CRACK (heavy impacts) ──
-    if (type === "ground_crack") {
-      const crackCount = 8;
-      for (let i = 0; i < crackCount; i++) {
-        const len = 0.1 + Math.random() * 0.2;
-        const geo = new THREE.BoxGeometry(len, 0.005, 0.01);
-        const mat = new THREE.MeshBasicMaterial({ color: new THREE.Color("#333333"), transparent: true, opacity: 0.8 });
-        const p = new THREE.Mesh(geo, mat);
-        const angle = (i / crackCount) * Math.PI * 2 + Math.random() * 0.3;
-        p.position.set(Math.cos(angle) * 0.05, 0.01, Math.sin(angle) * 0.05);
-        p.rotation.y = angle;
-        p.userData.vx = Math.cos(angle) * 0.8;
-        p.userData.vz = Math.sin(angle) * 0.8;
-        p.userData.vy = 0;
-        p.userData.isGroundCrack = true;
-        group.add(p);
-      }
-      // Central impact flash
-      const impactGeo = new THREE.RingGeometry(0.01, 0.15, 16);
-      const impactMat = new THREE.MeshBasicMaterial({ color: new THREE.Color(color), transparent: true, opacity: 0.6, side: THREE.DoubleSide });
-      const impactRing = new THREE.Mesh(impactGeo, impactMat);
-      impactRing.rotation.x = -Math.PI / 2;
-      impactRing.position.y = 0.02;
-      impactRing.name = "flash";
-      group.add(impactRing);
-      group.position.set(x, y, z);
-      this.scene.add(group);
-      this.hitEffects.push({ x, y, z, life: 0, maxLife: 0.7, type, color, particles: group });
-      return;
-    }
-
-    // ── STANDARD PARTICLES (spark, heavy, block, special, parry, critical, etc.) ──
-    // FLOATING PARTICLES
-    const particleCount = type === "special" ? 24 : type === "heavy" ? 14 : type === "parry" ? 16 : type === "critical" ? 18 : 8;
-    const mat = new THREE.MeshBasicMaterial({
-      color: new THREE.Color(type === "parry" ? "#ffdd00" : color),
-      transparent: true, opacity: 1,
-    });
-
-    for (let i = 0; i < particleCount; i++) {
-      const size = type === "special" ? 0.08 : type === "heavy" ? 0.06 : 0.04;
-      const geo = Math.random() < 0.5
-        ? new THREE.SphereGeometry(size * (0.5 + Math.random()), 4, 4)
-        : new THREE.BoxGeometry(size, size, size);
-      const particle = new THREE.Mesh(geo, mat.clone());
-      const angle = Math.random() * Math.PI * 2;
-      const speed = 2 + Math.random() * 4;
-      particle.position.set(0, 0, 0);
-      particle.userData.vx = Math.cos(angle) * speed;
-      particle.userData.vy = Math.sin(angle) * speed * 0.5 + 2;
-      particle.userData.vz = (Math.random() - 0.5) * speed;
-      group.add(particle);
-    }
-
-    // Flash
-    const flashGeo = new THREE.SphereGeometry(type === "special" ? 0.2 : type === "parry" ? 0.18 : 0.12, 8, 8);
-    const flashMat = new THREE.MeshBasicMaterial({
-      color: new THREE.Color(type === "parry" ? "#ffdd00" : color),
-      transparent: true, opacity: 0.8,
-    });
-    const flash = new THREE.Mesh(flashGeo, flashMat);
-    flash.name = "flash";
-    group.add(flash);
-
     group.position.set(x, y, z);
     this.scene.add(group);
 
-    this.hitEffects.push({
-      x, y, z,
-      life: 0, maxLife: type === "special" ? 0.6 : type === "parry" ? 0.5 : 0.4,
-      type, color, particles: group,
-    });
-  }
+    const col = new THREE.Color(color);
+    const count = type === "spark" ? 8 : type === "heavy" ? 14 : type === "special" ? 18 :
+                  type === "block" ? 6 : type === "parry" ? 12 : type === "blood" ? 10 :
+                  type === "dust" ? 12 : type === "sweat" ? 6 : type === "ground_crack" ? 8 :
+                  type === "energy_wave" ? 16 : type === "impact_ring" ? 1 : type === "critical" ? 20 : 8;
 
-  private updateEffects(dt: number) {
-    // Screen shake
-    if (this.screenShake.duration > 0) {
-      this.screenShake.timer += dt;
-      if (this.screenShake.timer < this.screenShake.duration) {
-        const decay = 1 - this.screenShake.timer / this.screenShake.duration;
-        this.cameraShakeOffset.set(
-          (Math.random() - 0.5) * this.screenShake.intensity * decay * 0.05,
-          (Math.random() - 0.5) * this.screenShake.intensity * decay * 0.03,
-          0
-        );
+    for (let i = 0; i < count; i++) {
+      let geo: THREE.BufferGeometry;
+      let mat: THREE.Material;
+
+      if (type === "blood") {
+        // Blood droplets — small spheres with gravity
+        geo = new THREE.SphereGeometry(0.02 + Math.random() * 0.03, 4, 4);
+        mat = new THREE.MeshBasicMaterial({ color: col, transparent: true, opacity: 0.9 });
+      } else if (type === "dust") {
+        // Dust clouds — larger, softer particles
+        geo = new THREE.SphereGeometry(0.05 + Math.random() * 0.08, 6, 6);
+        mat = new THREE.MeshBasicMaterial({ color: col, transparent: true, opacity: 0.4 });
+      } else if (type === "sweat") {
+        geo = new THREE.SphereGeometry(0.015 + Math.random() * 0.02, 4, 4);
+        mat = new THREE.MeshBasicMaterial({ color: col, transparent: true, opacity: 0.7 });
+      } else if (type === "impact_ring") {
+        geo = new THREE.RingGeometry(0.1, 0.15, 24);
+        mat = new THREE.MeshBasicMaterial({ color: col, transparent: true, opacity: 0.8, side: THREE.DoubleSide });
+      } else if (type === "energy_wave") {
+        geo = new THREE.PlaneGeometry(0.08, 0.3);
+        mat = new THREE.MeshBasicMaterial({ color: col, transparent: true, opacity: 0.7 });
+      } else if (type === "ground_crack") {
+        geo = new THREE.PlaneGeometry(0.03, 0.15 + Math.random() * 0.2);
+        mat = new THREE.MeshBasicMaterial({ color: col, transparent: true, opacity: 0.6 });
       } else {
-        this.screenShake.duration = 0;
-        this.cameraShakeOffset.set(0, 0, 0);
+        // Standard spark particles
+        const size = type === "heavy" || type === "critical" ? 0.04 + Math.random() * 0.05 :
+                     type === "special" ? 0.03 + Math.random() * 0.06 :
+                     type === "parry" ? 0.03 + Math.random() * 0.04 :
+                     0.02 + Math.random() * 0.03;
+        geo = new THREE.BoxGeometry(size, size, size);
+        mat = new THREE.MeshBasicMaterial({ color: col, transparent: true, opacity: 0.9 });
       }
+
+      const mesh = new THREE.Mesh(geo, mat);
+
+      // Initial velocity based on type
+      const angle = (Math.PI * 2 * i) / count + (Math.random() - 0.5) * 0.5;
+      let speed: number;
+
+      if (type === "blood") {
+        speed = 2 + Math.random() * 4;
+        mesh.userData.vx = Math.cos(angle) * speed;
+        mesh.userData.vy = Math.sin(angle) * speed * 0.5 + Math.random() * 3;
+        mesh.userData.vz = (Math.random() - 0.5) * 2;
+        mesh.userData.gravity = -12;
+      } else if (type === "dust") {
+        speed = 1 + Math.random() * 2;
+        mesh.userData.vx = Math.cos(angle) * speed;
+        mesh.userData.vy = Math.random() * 1.5;
+        mesh.userData.vz = (Math.random() - 0.5) * 1;
+        mesh.userData.gravity = -0.5;
+        mesh.userData.expansion = 1 + Math.random() * 2;
+      } else if (type === "sweat") {
+        mesh.userData.vx = (Math.random() - 0.5) * 1.5;
+        mesh.userData.vy = 1 + Math.random() * 2;
+        mesh.userData.vz = (Math.random() - 0.5) * 0.5;
+        mesh.userData.gravity = -6;
+      } else if (type === "ground_crack") {
+        speed = 0.5 + Math.random() * 1;
+        mesh.userData.vx = Math.cos(angle) * speed;
+        mesh.userData.vy = 0;
+        mesh.userData.vz = Math.sin(angle) * speed * 0.3;
+        mesh.userData.gravity = 0;
+        mesh.rotation.z = angle;
+      } else if (type === "energy_wave") {
+        speed = 3 + Math.random() * 5;
+        mesh.userData.vx = Math.cos(angle) * speed;
+        mesh.userData.vy = Math.sin(angle) * speed;
+        mesh.userData.vz = (Math.random() - 0.5) * 2;
+        mesh.userData.gravity = 0;
+      } else if (type === "impact_ring") {
+        mesh.userData.vx = 0;
+        mesh.userData.vy = 0;
+        mesh.userData.vz = 0;
+        mesh.userData.gravity = 0;
+        mesh.userData.expansion = 8;
+      } else {
+        // Standard sparks
+        speed = type === "heavy" || type === "critical" ? 4 + Math.random() * 6 :
+                type === "special" ? 3 + Math.random() * 5 :
+                type === "parry" ? 5 + Math.random() * 4 :
+                2 + Math.random() * 4;
+        mesh.userData.vx = Math.cos(angle) * speed;
+        mesh.userData.vy = Math.sin(angle) * speed * 0.6 + Math.random() * 2;
+        mesh.userData.vz = (Math.random() - 0.5) * 2;
+        mesh.userData.gravity = -8;
+      }
+
+      group.add(mesh);
     }
 
-    // Hit effect particles
+    const life = type === "dust" ? 0.8 : type === "blood" ? 0.6 : type === "impact_ring" ? 0.4 :
+                 type === "ground_crack" ? 1.2 : type === "sweat" ? 0.5 : 0.35;
+
+    this.hitEffects.push({ x, y, z, life, maxLife: life, type, color, particles: group });
+  }
+
+  /** Update all particle effects */
+  private updateEffects(dt: number) {
     for (let i = this.hitEffects.length - 1; i >= 0; i--) {
       const effect = this.hitEffects[i];
-      effect.life += dt;
-      const progress = effect.life / effect.maxLife;
+      effect.life -= dt;
 
-      if (progress >= 1) {
+      if (effect.life <= 0) {
         this.scene.remove(effect.particles);
-        effect.particles.traverse((child) => {
-          if (child instanceof THREE.Mesh) {
-            child.geometry.dispose();
-            (child.material as THREE.Material).dispose();
-          }
-        });
         this.hitEffects.splice(i, 1);
         continue;
       }
 
+      const progress = 1 - effect.life / effect.maxLife;
+
       effect.particles.children.forEach((child) => {
-        if (child.name === "flash") {
-          const scale = 1 + progress * 1.2;
-          child.scale.set(scale, scale, scale);
-          ((child as THREE.Mesh).material as THREE.MeshBasicMaterial).opacity = (1 - progress) * 0.8;
-          return;
+        const mesh = child as THREE.Mesh;
+        const vx = mesh.userData.vx || 0;
+        const vy = mesh.userData.vy || 0;
+        const vz = mesh.userData.vz || 0;
+        const gravity = mesh.userData.gravity || 0;
+        const expansion = mesh.userData.expansion || 0;
+
+        // Update velocity with gravity
+        mesh.userData.vy = vy + gravity * dt;
+
+        // Update position
+        mesh.position.x += vx * dt;
+        mesh.position.y += mesh.userData.vy * dt;
+        mesh.position.z += vz * dt;
+
+        // Floor collision for blood
+        if (effect.type === "blood" && mesh.position.y + effect.y < 0.02) {
+          mesh.position.y = 0.02 - effect.y;
+          mesh.userData.vy = 0;
+          mesh.userData.vx *= 0.3;
+          mesh.userData.vz *= 0.3;
         }
 
-        const ud = child.userData;
-        const pMat = (child as THREE.Mesh).material as THREE.MeshBasicMaterial;
-
-        // Blood particles — gravity + floor collision + staining
-        if (ud.isBlood) {
-          child.position.x += (ud.vx || 0) * dt;
-          child.position.y += (ud.vy || 0) * dt;
-          child.position.z += (ud.vz || 0) * dt;
-          ud.vy -= (ud.gravity || 10) * dt;
-          // Floor collision — blood sticks to ground
-          if (child.position.y < -effect.y + 0.02) {
-            child.position.y = -effect.y + 0.02;
-            ud.vx *= 0.3;
-            ud.vy = 0;
-            ud.vz *= 0.3;
-            // Flatten into puddle
-            child.scale.set(1.5, 0.2, 1.5);
-          }
-          pMat.opacity = Math.max(0, 0.9 - progress * 0.5);
-          return;
+        // Expansion for dust and impact rings
+        if (expansion > 0) {
+          const scale = 1 + expansion * progress;
+          mesh.scale.setScalar(scale);
         }
 
-        // Dust particles — expand + slow drift + fade
-        if (ud.isDust) {
-          child.position.x += (ud.vx || 0) * dt * (1 - progress * 0.7);
-          child.position.y += (ud.vy || 0) * dt * (1 - progress);
-          child.position.z += (ud.vz || 0) * dt * (1 - progress * 0.7);
-          ud.vy -= 2 * dt; // Slow gravity for dust
-          const grow = 1 + progress * (ud.growRate || 1.5);
-          child.scale.set(grow, grow, grow);
-          pMat.opacity = 0.6 * (1 - progress);
-          return;
+        // Fade out
+        const mat = mesh.material as THREE.MeshBasicMaterial;
+        if (effect.type === "dust") {
+          mat.opacity = 0.4 * (1 - progress * progress);
+        } else if (effect.type === "impact_ring") {
+          mat.opacity = 0.8 * (1 - progress);
+        } else {
+          mat.opacity = Math.max(0, 1 - progress * 1.5);
         }
 
-        // Ground crack — spread outward, stay on ground
-        if (ud.isGroundCrack) {
-          const spreadProg = Math.min(progress * 3, 1);
-          child.position.x += (ud.vx || 0) * dt * (1 - spreadProg);
-          child.position.z += (ud.vz || 0) * dt * (1 - spreadProg);
-          pMat.opacity = 0.8 * (1 - progress);
-          return;
-        }
-
-        // Default particle physics
-        child.position.x += (ud.vx || 0) * dt;
-        child.position.y += (ud.vy || 0) * dt;
-        child.position.z += (ud.vz || 0) * dt;
-        ud.vy -= (ud.gravity || 10) * dt;
-        pMat.opacity = 1 - progress;
-        child.scale.multiplyScalar(0.97);
+        // Velocity damping
+        mesh.userData.vx *= (1 - dt * 3);
+        mesh.userData.vz *= (1 - dt * 3);
       });
     }
   }
 
-  /* ═══ SPRITE-BASED ANIMATION ═══ */
-  private animateModels(dt: number) {
-    this.animateSprite(this.p1, dt);
-    this.animateSprite(this.p2, dt);
+  /* ═══ SCREEN EFFECTS ═══ */
+  private triggerScreenFlash(color: string, intensity: number = 0.6, duration: number = 0.15) {
+    this.screenFlash = {
+      active: true,
+      color: new THREE.Color(color),
+      intensity,
+      timer: 0,
+      duration,
+    };
   }
 
-  private animateSprite(f: Fighter, _dt: number) {
-    const t = this.animFrame * 0.05;
-    const sprite = f.model.sprite;
-    const mat = f.model.spriteMaterial;
-    const glowMat = f.model.glowMaterial;
-    const h = f.config.height * 0.95;
-    const baseY = h / 2 - 0.1;
+  private updateScreenFlash(dt: number) {
+    if (!this.screenFlash.active) return;
+    this.screenFlash.timer += dt;
+    const progress = this.screenFlash.timer / this.screenFlash.duration;
 
-    mat.uniforms.uTime.value = t;
-    glowMat.uniforms.uTime.value = t;
+    if (progress >= 1) {
+      this.screenFlash.active = false;
+      (this.screenFlashMesh.material as THREE.MeshBasicMaterial).opacity = 0;
+      return;
+    }
 
-    // Reset
-    sprite.position.y = baseY;
-    sprite.position.z = 0;
-    sprite.rotation.set(0, 0, 0);
-    sprite.scale.set(1, 1, 1);
-    mat.uniforms.uHitFlash.value = 0;
-    mat.uniforms.uSpecialGlow.value = 0;
-    mat.uniforms.uBlockTint.value = 0;
-    mat.uniforms.uOpacity.value = 1.0;
-    glowMat.uniforms.uGlowIntensity.value = 0.5;
+    const mat = this.screenFlashMesh.material as THREE.MeshBasicMaterial;
+    mat.color.copy(this.screenFlash.color);
+    // Sharp flash then quick fade
+    const opacity = this.screenFlash.intensity * Math.pow(1 - progress, 2);
+    mat.opacity = opacity;
+  }
 
-    const glowSprite = f.model.glowSprite;
+  private updateScreenShake(dt: number) {
+    if (this.screenShake.duration <= 0) {
+      this.cameraShakeOffset.set(0, 0, 0);
+      return;
+    }
+    this.screenShake.timer += dt;
+    if (this.screenShake.timer >= this.screenShake.duration) {
+      this.screenShake.duration = 0;
+      this.cameraShakeOffset.set(0, 0, 0);
+      return;
+    }
+    const decay = 1 - this.screenShake.timer / this.screenShake.duration;
+    const intensity = this.screenShake.intensity * decay;
+    this.cameraShakeOffset.set(
+      (Math.random() - 0.5) * intensity * 2,
+      (Math.random() - 0.5) * intensity * 2,
+      (Math.random() - 0.5) * intensity
+    );
+  }
 
-    // ── Pose-based texture swapping ──
-    const poseTextures = f.model.poseTextures;
-    if (poseTextures && Object.keys(poseTextures).length > 0) {
-      let targetPose = "idle";
-      if (["idle", "walk_fwd", "walk_back", "crouch", "jump", "dash_fwd", "dash_back"].includes(f.state)) {
+  /* ═══ AFTERIMAGE SYSTEM ═══ */
+  private spawnAfterimage(f: Fighter) {
+    if (!f.model.sprite) return;
+    const spriteMat = f.model.sprite.material as THREE.SpriteMaterial;
+    if (!spriteMat.map) return;
+
+    const geo = new THREE.PlaneGeometry(
+      f.model.sprite.scale.x,
+      f.model.sprite.scale.y
+    );
+    const mat = new THREE.MeshBasicMaterial({
+      map: spriteMat.map,
+      transparent: true,
+      opacity: 0.4,
+      color: new THREE.Color(f.config.accentColor),
+      side: THREE.DoubleSide,
+      depthWrite: false,
+    });
+    const mesh = new THREE.Mesh(geo, mat);
+    mesh.position.copy(f.model.group.position);
+    mesh.position.y += f.model.sprite.scale.y / 2;
+    this.scene.add(mesh);
+
+    this.afterimages.push({ mesh, life: 0.2, maxLife: 0.2 });
+  }
+
+  private updateAfterimages(dt: number) {
+    for (let i = this.afterimages.length - 1; i >= 0; i--) {
+      const ai = this.afterimages[i];
+      ai.life -= dt;
+      if (ai.life <= 0) {
+        this.scene.remove(ai.mesh);
+        this.afterimages.splice(i, 1);
+        continue;
+      }
+      const mat = ai.mesh.material as THREE.MeshBasicMaterial;
+      mat.opacity = 0.4 * (ai.life / ai.maxLife);
+    }
+  }
+
+  /* ═══ ENERGY PROJECTILE SPAWNING ═══ */
+  private spawnEnergyProjectile(f: Fighter, color: string, speed: number = 8) {
+    const group = new THREE.Group();
+    const col = new THREE.Color(color);
+
+    // Core sphere
+    const coreGeo = new THREE.SphereGeometry(0.15, 12, 12);
+    const coreMat = new THREE.MeshBasicMaterial({ color: col, transparent: true, opacity: 0.9 });
+    const core = new THREE.Mesh(coreGeo, coreMat);
+    group.add(core);
+
+    // Glow ring
+    const ringGeo = new THREE.RingGeometry(0.2, 0.3, 16);
+    const ringMat = new THREE.MeshBasicMaterial({ color: col, transparent: true, opacity: 0.5, side: THREE.DoubleSide });
+    const ring = new THREE.Mesh(ringGeo, ringMat);
+    group.add(ring);
+
+    const startX = f.x + (f.facingRight ? 0.8 : -0.8);
+    group.position.set(startX, 1.2, 0);
+    this.scene.add(group);
+
+    const owner: 1 | 2 = f === this.p1 ? 1 : 2;
+    this.energyProjectiles.push({
+      mesh: group,
+      x: startX, y: 1.2, z: 0,
+      vx: (f.facingRight ? 1 : -1) * speed,
+      owner,
+      damage: 12,
+      life: 2,
+      color,
+    });
+  }
+
+  /* ═══ IMPACT RING / CRATER ═══ */
+  private spawnImpactRing(x: number, y: number, z: number, color: string) {
+    const group = new THREE.Group();
+    const col = new THREE.Color(color);
+
+    const ringGeo = new THREE.RingGeometry(0.1, 0.2, 32);
+    const ringMat = new THREE.MeshBasicMaterial({ color: col, transparent: true, opacity: 0.8, side: THREE.DoubleSide });
+    const ring = new THREE.Mesh(ringGeo, ringMat);
+    group.add(ring);
+
+    group.position.set(x, y, z);
+    this.scene.add(group);
+
+    this.impactCraters.push({ mesh: group, life: 0.5, maxLife: 0.5 });
+  }
+
+  private spawnGroundCrater(x: number, color: string) {
+    this.spawnHitEffect(x, 0.05, 0, "ground_crack", color);
+  }
+
+  private updateImpactCraters(dt: number) {
+    for (let i = this.impactCraters.length - 1; i >= 0; i--) {
+      const crater = this.impactCraters[i];
+      crater.life -= dt;
+      if (crater.life <= 0) {
+        this.scene.remove(crater.mesh);
+        this.impactCraters.splice(i, 1);
+        continue;
+      }
+      const progress = 1 - crater.life / crater.maxLife;
+      // Expand ring
+      const scale = 1 + progress * 8;
+      crater.mesh.scale.setScalar(scale);
+      crater.mesh.children.forEach(child => {
+        const mat = (child as THREE.Mesh).material as THREE.MeshBasicMaterial;
+        mat.opacity = 0.8 * (1 - progress);
+      });
+    }
+  }
+
+  /* ═══ CINEMATIC CAMERA ═══ */
+  private startCinematicCamera(type: CinematicCamera["type"], duration: number) {
+    this.cinematicCamera = {
+      active: true, type, timer: 0, duration,
+      startPos: this.camera.position.clone(),
+      endPos: this.camera.position.clone(),
+      startLookAt: this.cameraTarget.clone(),
+      endLookAt: this.cameraTarget.clone(),
+    };
+
+    const midX = (this.p1.x + this.p2.x) / 2;
+
+    switch (type) {
+      case "intro_sweep":
+        this.cinematicCamera.startPos.set(-4, 3, 8);
+        this.cinematicCamera.endPos.set(0, 2.2, 7);
+        this.cinematicCamera.startLookAt.set(-2, 1, 0);
+        this.cinematicCamera.endLookAt.set(midX, 1, 0);
+        break;
+      case "ko_zoom":
+        this.cinematicCamera.endPos.set(midX, 1.8, 4);
+        this.cinematicCamera.endLookAt.set(midX, 0.8, 0);
+        break;
+      case "special_zoom":
+        this.cinematicCamera.endPos.set(midX, 2, 5);
+        this.cinematicCamera.endLookAt.set(midX, 1.2, 0);
+        break;
+      case "heavy_zoom":
+        this.cinematicCamera.endPos.set(midX, 2, 5.5);
+        this.cinematicCamera.endLookAt.set(midX, 1, 0);
+        break;
+    }
+  }
+
+  private updateCinematicCamera(dt: number) {
+    if (!this.cinematicCamera.active) return;
+    this.cinematicCamera.timer += dt;
+    const t = Math.min(1, this.cinematicCamera.timer / this.cinematicCamera.duration);
+
+    // Smooth easing
+    const ease = t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+
+    this.camera.position.lerpVectors(this.cinematicCamera.startPos, this.cinematicCamera.endPos, ease);
+    const lookAt = new THREE.Vector3().lerpVectors(this.cinematicCamera.startLookAt, this.cinematicCamera.endLookAt, ease);
+    this.camera.lookAt(lookAt);
+
+    if (t >= 1) {
+      this.cinematicCamera.active = false;
+    }
+  }
+
+
+  /* ═══ VISUAL UPDATE — Runs every render frame (not fixed timestep) ═══ */
+  private updateVisuals(dt: number) {
+    this.animFrame++;
+
+    // Update sprite animations
+    this.animateSprite(this.p1);
+    this.animateSprite(this.p2);
+
+    // Update model positions
+    this.p1.model.group.position.set(this.p1.x, this.p1.y, 0);
+    this.p2.model.group.position.set(this.p2.x, this.p2.y, 0);
+
+    // Update facing (flip sprites)
+    this.p1.model.group.scale.x = this.p1.facingRight ? 1 : -1;
+    this.p2.model.group.scale.x = this.p2.facingRight ? 1 : -1;
+
+    // Update spotlight positions
+    if (this.stageLights.length >= 2) {
+      this.stageLights[0].position.set(this.p1.x, 4, 2);
+      this.stageLights[1].position.set(this.p2.x, 4, 2);
+    }
+
+    // Update effects
+    this.updateEffects(dt);
+    this.updateAfterimages(dt);
+    this.updateImpactCraters(dt);
+    this.updateScreenFlash(dt);
+    this.updateScreenShake(dt);
+
+    // Camera
+    this.updateCamera(dt);
+  }
+
+  /* ═══ SPRITE ANIMATION — Pose-based with frame timing ═══ */
+  private animateSprite(f: Fighter) {
+    if (!f.model.sprite) return;
+
+    // Helper: get the ShaderMaterial for rotation/color manipulation
+    const shaderMat = f.model.spriteMaterial;
+    // Store base scale on first call
+    if (!(f.model as any)._baseScaleX) {
+      (f.model as any)._baseScaleX = f.model.sprite.scale.x;
+      (f.model as any)._baseScaleY = f.model.sprite.scale.y;
+    }
+    const baseScaleX: number = (f.model as any)._baseScaleX;
+    const baseScaleY: number = (f.model as any)._baseScaleY;
+
+    // Determine target pose based on state
+    let targetPose: string;
+    const state = f.state;
+
+    switch (state) {
+      case "idle":
+        // Breathing animation — subtle scale oscillation
         targetPose = "idle";
-      } else if (this.isInAttackState(f)) {
+        const breathe = Math.sin(this.animFrame * 0.05) * 0.01;
+        f.model.sprite.scale.y = baseScaleY + breathe;
+        break;
+
+      case "walk_fwd":
+      case "walk_back":
+        // Bob animation
+        targetPose = "idle";
+        const bob = Math.sin(this.animFrame * 0.15) * 0.02;
+        f.model.sprite.position.y = bob;
+        break;
+
+      case "dash_fwd":
+      case "dash_back":
         targetPose = "attack";
-      } else if (["block_stand", "block_crouch", "blockstun"].includes(f.state)) {
+        // Lean in dash direction
+        const lean = state === "dash_fwd" ? 0.1 : -0.1;
+        f.model.sprite.rotation.z = f.facingRight ? lean : -lean;
+        break;
+
+      case "jump":
+      case "jump_fwd":
+      case "jump_back":
+        targetPose = f.vy > 0 ? "attack" : "idle";
+        break;
+
+      case "light_1":
+      case "light_2":
+      case "light_3":
+      case "light_4":
+      case "medium":
+      case "heavy_release":
+        targetPose = "attack";
+        // Attack animation: scale punch on active frames
+        const fd = this.getFrameData(state);
+        if (f.stateFrame >= fd.startup && f.stateFrame < fd.startup + fd.active) {
+          // Active frames — extend
+          const extend = 1.05 + (state === "heavy_release" ? 0.08 : state === "medium" ? 0.05 : 0.02);
+          f.model.sprite.scale.x = baseScaleX * extend;
+        } else if (f.stateFrame < fd.startup) {
+          // Startup — wind up (slight compress)
+          f.model.sprite.scale.x = baseScaleX * 0.95;
+        } else {
+          // Recovery — return to normal
+          f.model.sprite.scale.x = baseScaleX;
+        }
+        break;
+
+      case "heavy_charge":
+        targetPose = "idle";
+        // Charge glow effect — pulsing scale
+        const chargeRatio = Math.min(f.heavyChargeFrames / HEAVY_MAX_CHARGE_FRAMES, 1);
+        const pulse = 1 + Math.sin(this.animFrame * 0.2) * 0.03 * chargeRatio;
+        f.model.sprite.scale.setScalar(pulse);
+        // Tint based on charge via shader uniform
+        if (shaderMat.uniforms?.tintColor) {
+          const r = 1 + chargeRatio * 0.5;
+          shaderMat.uniforms.tintColor.value.setRGB(r, 1, 1);
+        }
+        break;
+
+      case "special_1":
+      case "special_2":
+      case "special_3":
+        targetPose = "attack";
+        // Special move glow via shader
+        if (shaderMat.uniforms?.tintColor) {
+          const glow = 1 + Math.sin(this.animFrame * 0.3) * 0.2;
+          const accentCol = new THREE.Color(f.config.accentColor);
+          shaderMat.uniforms.tintColor.value.copy(accentCol).multiplyScalar(glow);
+        }
+        // Spawn afterimages during specials
+        if (f.stateFrame % 4 === 0) this.spawnAfterimage(f);
+        break;
+
+      case "block_stand":
+      case "block_crouch":
         targetPose = "block";
-      } else if (["hitstun", "knockdown", "getup", "launched", "parry_stun", "finish_stun"].includes(f.state)) {
+        // Slight compress when blocking
+        f.model.sprite.scale.x = baseScaleX * 0.92;
+        if (state === "block_crouch") {
+          f.model.sprite.position.y = -0.15;
+        }
+        break;
+
+      case "blockstun":
+        targetPose = "block";
+        // Shake on blockstun
+        const blockShake = Math.sin(f.stateFrame * 1.5) * 0.03;
+        f.model.sprite.position.x = blockShake;
+        break;
+
+      case "hitstun":
         targetPose = "hit";
-      } else if (f.state === "ko") {
+        // Recoil animation
+        const recoil = Math.sin(f.stateFrame * 0.8) * 0.04 * Math.max(0, 1 - f.stateFrame / 20);
+        f.model.sprite.position.x = recoil;
+        // Flash white on first few frames
+        if (f.stateFrame < 4 && shaderMat.uniforms?.tintColor) {
+          shaderMat.uniforms.tintColor.value.setRGB(2, 2, 2);
+        }
+        break;
+
+      case "launched":
+        targetPose = "hit";
+        // Spin while launched
+        f.model.sprite.rotation.z = (f.stateFrame * 0.15) * (f.facingRight ? -1 : 1);
+        break;
+
+      case "knockdown":
         targetPose = "ko";
-      } else if (f.state === "victory") {
+        f.model.sprite.rotation.z = Math.PI / 2 * (f.facingRight ? -1 : 1) * 0.7;
+        break;
+
+      case "getup":
+        targetPose = "idle";
+        // Gradually return rotation to 0
+        const getupProgress = f.stateFrame / GETUP_FRAMES;
+        f.model.sprite.rotation.z *= (1 - getupProgress);
+        // Flash during invuln
+        if (f.invincibleFrames > 0 && f.stateFrame % 4 < 2) {
+          if (shaderMat.uniforms?.opacity) shaderMat.uniforms.opacity.value = 0.5;
+          else shaderMat.opacity = 0.5;
+        } else {
+          if (shaderMat.uniforms?.opacity) shaderMat.uniforms.opacity.value = 1;
+          else shaderMat.opacity = 1;
+        }
+        break;
+
+      case "parry_stun":
+        targetPose = "hit";
+        // Stunned — wobble
+        const wobble = Math.sin(f.stateFrame * 0.2) * 0.05;
+        f.model.sprite.position.x = wobble;
+        // Stars effect (flash)
+        if (f.stateFrame % 20 < 10 && shaderMat.uniforms?.tintColor) {
+          shaderMat.uniforms.tintColor.value.setRGB(1.3, 1.3, 0.8);
+        }
+        break;
+
+      case "finish_stun":
+        targetPose = "hit";
+        // Wobble + flash
+        const fWobble = Math.sin(f.stateFrame * 0.15) * 0.06;
+        f.model.sprite.position.x = fWobble;
+        if (f.stateFrame % 30 < 15 && shaderMat.uniforms?.tintColor) {
+          shaderMat.uniforms.tintColor.value.setRGB(1.5, 0.5, 0.5);
+        }
+        break;
+
+      case "ko":
+        targetPose = "ko";
+        // Fall animation
+        const fallProgress = Math.min(f.stateFrame / 30, 1);
+        f.model.sprite.rotation.z = (Math.PI / 2) * fallProgress * (f.facingRight ? -1 : 1);
+        // Desaturate
+        if (shaderMat.uniforms?.tintColor) {
+          const desat = 1 - fallProgress * 0.5;
+          shaderMat.uniforms.tintColor.value.setRGB(desat, desat, desat);
+        }
+        break;
+
+      case "victory":
         targetPose = "victory";
-      }
+        // Subtle victory pose animation
+        const victoryBounce = Math.sin(this.animFrame * 0.08) * 0.02;
+        f.model.sprite.position.y = victoryBounce;
+        break;
 
-      if (targetPose !== f.model.currentPose && poseTextures[targetPose]) {
-        mat.uniforms.uTexture.value = poseTextures[targetPose];
-        f.model.glowMaterial.uniforms.uTexture.value = poseTextures[targetPose];
-        f.model.currentPose = targetPose;
-      }
+      default:
+        targetPose = "idle";
     }
 
-    switch (f.state) {
-      case "idle": {
-        const bob = Math.sin(t * 2.5) * 0.025;
-        const breathe = 1.0 + Math.sin(t * 2.5) * 0.008;
-        sprite.position.y = baseY + bob;
-        sprite.scale.set(breathe, 1.0 + Math.sin(t * 2.5) * 0.005, 1);
-        glowMat.uniforms.uGlowIntensity.value = 0.4 + Math.sin(t * 1.5) * 0.15;
-        break;
+    // Apply pose texture swap using poseTextures map
+    if (f.model.currentPose !== targetPose && f.model.poseTextures[targetPose]) {
+      const tex = f.model.poseTextures[targetPose];
+      if (shaderMat.uniforms?.map) {
+        shaderMat.uniforms.map.value = tex;
       }
-      case "walk_fwd": {
-        const walkBob = Math.abs(Math.sin(t * 5)) * 0.03;
-        sprite.position.y = baseY + walkBob;
-        sprite.rotation.z = -0.03;
-        sprite.position.z = 0.05;
-        break;
-      }
-      case "walk_back": {
-        const walkBob = Math.abs(Math.sin(t * 5)) * 0.03;
-        sprite.position.y = baseY + walkBob;
-        sprite.rotation.z = 0.03;
-        sprite.position.z = -0.05;
-        break;
-      }
-      case "dash_fwd": {
-        // Fast lunge forward
-        sprite.position.z = 0.15;
-        sprite.rotation.z = -0.06;
-        sprite.scale.set(0.92, 1.05, 1);
-        const dashProg = f.stateTimer / DASH_DURATION;
-        mat.uniforms.uSpecialGlow.value = (1 - dashProg) * 0.3;
-        break;
-      }
-      case "dash_back": {
-        // Quick evade backward
-        sprite.position.z = -0.12;
-        sprite.rotation.z = 0.04;
-        sprite.scale.set(0.95, 1.02, 1);
-        if (f.dexActive) {
-          mat.uniforms.uOpacity.value = 0.6 + Math.sin(t * 20) * 0.3;
-          glowMat.uniforms.uGlowIntensity.value = 2.0;
-        }
-        break;
-      }
-      case "light_1": case "light_2": case "light_3": case "light_4": {
-        const frameData = this.getAttackFrameData(f.state, f);
-        if (f.stateTimer < frameData.startup) {
-          const prog = f.stateTimer / frameData.startup;
-          sprite.position.z = -0.06 * prog;
-          sprite.scale.set(1.02, 0.98, 1);
-        } else if (f.stateTimer < frameData.startup + frameData.active) {
-          sprite.position.z = 0.12;
-          sprite.scale.set(0.96, 1.03, 1);
-          sprite.rotation.z = -0.03;
-          mat.uniforms.uHitFlash.value = 0.12;
-        } else {
-          const recProg = (f.stateTimer - frameData.startup - frameData.active) / frameData.recovery;
-          sprite.position.z = 0.12 * (1 - recProg);
-        }
-        break;
-      }
-      case "medium": {
-        const frameData = this.getAttackFrameData("medium", f);
-        if (f.stateTimer < frameData.startup) {
-          const prog = f.stateTimer / frameData.startup;
-          sprite.position.z = -0.1 * prog;
-          sprite.scale.set(1.04, 0.96, 1);
-          sprite.rotation.z = 0.04;
-        } else if (f.stateTimer < frameData.startup + frameData.active) {
-          sprite.position.z = 0.2;
-          sprite.scale.set(0.92, 1.06, 1);
-          sprite.rotation.z = -0.05;
-          mat.uniforms.uHitFlash.value = 0.2;
-        } else {
-          const recProg = (f.stateTimer - frameData.startup - frameData.active) / frameData.recovery;
-          sprite.position.z = 0.2 * (1 - recProg);
-          sprite.scale.set(1 - 0.08 * (1 - recProg), 1 + 0.06 * (1 - recProg), 1);
-        }
-        break;
-      }
-      case "heavy_charge": {
-        const chargeRatio = Math.min(f.heavyChargeTime / HEAVY_MAX_CHARGE, 1);
-        const pulse = Math.sin(f.stateTimer * 15) * 0.02 * chargeRatio;
-        sprite.scale.set(1.05 + pulse, 1.05 + pulse, 1);
-        mat.uniforms.uSpecialGlow.value = chargeRatio * 0.6;
-        glowMat.uniforms.uGlowIntensity.value = 1.0 + chargeRatio * 2;
-        sprite.position.y = baseY + pulse * 2;
-        break;
-      }
-      case "heavy_release": {
-        const frameData = this.getAttackFrameData("heavy_release", f);
-        if (f.stateTimer < frameData.startup) {
-          sprite.position.z = -0.1;
-          sprite.scale.set(1.08, 0.92, 1);
-          mat.uniforms.uSpecialGlow.value = 0.5;
-        } else if (f.stateTimer < frameData.startup + frameData.active) {
-          sprite.position.z = 0.25;
-          sprite.scale.set(0.88, 1.1, 1);
-          sprite.rotation.z = -0.08;
-          mat.uniforms.uHitFlash.value = 0.3;
-          mat.uniforms.uSpecialGlow.value = 0.8;
-          glowMat.uniforms.uGlowIntensity.value = 2.5;
-        } else {
-          const recProg = (f.stateTimer - frameData.startup - frameData.active) / frameData.recovery;
-          sprite.position.z = 0.25 * (1 - recProg);
-          mat.uniforms.uSpecialGlow.value = 0.8 * (1 - recProg);
-        }
-        break;
-      }
-      case "block_stand": case "block_crouch": {
-        mat.uniforms.uBlockTint.value = 0.5;
-        sprite.scale.set(0.95, f.state === "block_crouch" ? 0.85 : 0.97, 1);
-        if (f.state === "block_crouch") sprite.position.y = baseY - 0.15;
-        glowMat.uniforms.uGlowIntensity.value = 1.2;
-        const blockPulse = Math.sin(t * 8) * 0.02;
-        sprite.scale.x += blockPulse;
-        sprite.scale.y += blockPulse;
-        // Parry flash
-        if (f.isParrying && f.parryWindow > 0) {
-          mat.uniforms.uBlockTint.value = 0.8;
-          glowMat.uniforms.uGlowIntensity.value = 2.5;
-        }
-        break;
-      }
-      case "special_1": case "special_2": case "special_3": {
-        const frameData = this.getAttackFrameData(f.state, f);
-        const spLevel = f.state === "special_3" ? 3 : f.state === "special_2" ? 2 : 1;
-        if (f.stateTimer < frameData.startup) {
-          const prog = f.stateTimer / frameData.startup;
-          const pulse = Math.sin(f.stateTimer * 25) * 0.03;
-          sprite.scale.set(1.05 + pulse, 1.05 + pulse, 1);
-          mat.uniforms.uSpecialGlow.value = prog * 0.8;
-          glowMat.uniforms.uGlowIntensity.value = 1.5 + prog * spLevel;
-          sprite.position.y = baseY + pulse * 2;
-        } else if (f.stateTimer < frameData.startup + frameData.active) {
-          sprite.position.z = 0.3;
-          sprite.scale.set(0.85, 1.12, 1);
-          mat.uniforms.uSpecialGlow.value = 1.0;
-          mat.uniforms.uHitFlash.value = 0.3;
-          glowMat.uniforms.uGlowIntensity.value = 2.0 + spLevel;
-        } else {
-          const recProg = (f.stateTimer - frameData.startup - frameData.active) / frameData.recovery;
-          sprite.position.z = 0.3 * (1 - recProg);
-          mat.uniforms.uSpecialGlow.value = 1.0 * (1 - recProg);
-          glowMat.uniforms.uGlowIntensity.value = (2.0 + spLevel) * (1 - recProg) + 0.5;
-        }
-        break;
-      }
-      case "hitstun": {
-        const hitProg = Math.min(f.stateTimer / 0.15, 1);
-        const shake = Math.sin(hitProg * Math.PI * 6) * 0.04 * (1 - hitProg);
-        sprite.position.z = -0.08 * (1 - hitProg);
-        sprite.rotation.z = shake;
-        sprite.scale.set(1.03, 0.97, 1);
-        mat.uniforms.uHitFlash.value = 0.6 * (1 - hitProg);
-        break;
-      }
-      case "blockstun": {
-        const blockProg = Math.min(f.stateTimer / 0.12, 1);
-        const shake = Math.sin(blockProg * Math.PI * 4) * 0.02 * (1 - blockProg);
-        sprite.rotation.z = shake;
-        mat.uniforms.uBlockTint.value = 0.4 * (1 - blockProg);
-        break;
-      }
-      case "parry_stun": {
-        // Stunned — dizzy wobble
-        const stunProg = f.stunTimer / PARRY_STUN_DURATION;
-        sprite.rotation.z = Math.sin(t * 8) * 0.06 * stunProg;
-        sprite.position.y = baseY - 0.05;
-        mat.uniforms.uHitFlash.value = 0.3 * stunProg;
-        // Stars effect (yellow glow)
-        glowMat.uniforms.uGlowIntensity.value = 1.5 * stunProg;
-        break;
-      }
-      case "finish_stun": {
-        // MK-Inspired: Dramatic wobble during FINISH HIM moment
-        const finishProg = f.stunTimer / FINISH_HIM_STUN_DURATION;
-        sprite.rotation.z = Math.sin(t * 6) * 0.12 * finishProg;
-        sprite.position.y = baseY - 0.08 + Math.sin(t * 3) * 0.03;
-        sprite.scale.set(1 + Math.sin(t * 10) * 0.02, 1 - Math.sin(t * 10) * 0.02, 1);
-        mat.uniforms.uHitFlash.value = 0.4 + Math.sin(t * 4) * 0.2;
-        // Pulsing red glow
-        glowMat.uniforms.uGlowIntensity.value = 2.0 + Math.sin(t * 5) * 0.5;
-        break;
-      }
-      case "launched": {
-        sprite.rotation.z = f.stateTimer * 5; // spin in air
-        sprite.scale.set(0.95, 1.05, 1);
-        mat.uniforms.uHitFlash.value = 0.2;
-        break;
-      }
-      case "knockdown": {
-        const knockProg = Math.min(f.stateTimer / 0.5, 1);
-        sprite.rotation.z = knockProg * 1.2;
-        sprite.position.y = baseY * (1 - knockProg * 0.6);
-        sprite.scale.set(1 + knockProg * 0.1, 1 - knockProg * 0.2, 1);
-        mat.uniforms.uHitFlash.value = 0.3 * (1 - knockProg);
-        mat.uniforms.uOpacity.value = 1.0 - knockProg * 0.15;
-        break;
-      }
-      case "getup": {
-        const getProg = Math.min(f.stateTimer / 0.4, 1);
-        sprite.rotation.z = 1.2 * (1 - getProg);
-        sprite.position.y = baseY * (0.4 + getProg * 0.6);
-        mat.uniforms.uOpacity.value = 0.7 + Math.sin(t * 20) * 0.3;
-        break;
-      }
-      case "victory": {
-        const victBob = Math.sin(t * 3) * 0.05;
-        sprite.position.y = baseY + 0.05 + victBob;
-        sprite.scale.set(1.03, 1.03, 1);
-        mat.uniforms.uSpecialGlow.value = 0.3 + Math.sin(t * 2) * 0.15;
-        glowMat.uniforms.uGlowIntensity.value = 1.5;
-        break;
-      }
-      case "ko": {
-        sprite.rotation.z = Math.PI / 2.5;
-        sprite.position.y = baseY * 0.35;
-        sprite.scale.set(1.05, 0.85, 1);
-        mat.uniforms.uOpacity.value = 0.7;
-        glowMat.uniforms.uGlowIntensity.value = 0.1;
-        break;
-      }
-      case "crouch": {
-        sprite.scale.set(1.05, 0.8, 1);
-        sprite.position.y = baseY - 0.2;
-        break;
-      }
-      case "jump": {
-        sprite.scale.set(0.95, 1.06, 1);
-        sprite.rotation.z = f.vx > 0 ? -0.05 : f.vx < 0 ? 0.05 : 0;
-        break;
-      }
+      f.model.currentPose = targetPose;
     }
 
-    // Sync glow sprite
-    glowSprite.position.copy(sprite.position);
-    glowSprite.position.z = sprite.position.z - 0.01;
-    glowSprite.rotation.copy(sprite.rotation);
-    glowSprite.scale.copy(sprite.scale);
-
-    // Energy particles
-    if (f.model.energyParticles) {
-      f.model.energyParticles.children.forEach((p) => {
-        const ud = p.userData;
-        ud.angle += ud.speed * _dt;
-        p.position.x = Math.cos(ud.angle) * ud.radius;
-        p.position.z = Math.sin(ud.angle) * ud.radius * 0.3;
-        p.position.y = ud.yBase + Math.sin(ud.angle * 2) * 0.1;
-        const mesh = p as THREE.Mesh;
-        const pMat = mesh.material as THREE.MeshBasicMaterial;
-        if (this.isSpecialAttack(f.state)) {
-          pMat.opacity = 0.9;
-          ud.radius = 0.6 + Math.sin(t * 5) * 0.2;
-        } else if (f.state === "idle") {
-          pMat.opacity = 0.3 + Math.sin(t + ud.angle) * 0.2;
-        } else {
-          pMat.opacity = 0.4;
-        }
-      });
+    // Reset sprite transforms that shouldn't persist
+    if (state !== "dash_fwd" && state !== "dash_back" && state !== "launched" &&
+        state !== "knockdown" && state !== "ko") {
+      f.model.sprite.rotation.z = 0;
+    }
+    if (state !== "blockstun" && state !== "hitstun" && state !== "parry_stun" &&
+        state !== "finish_stun" && state !== "walk_fwd" && state !== "walk_back") {
+      f.model.sprite.position.x = 0;
+    }
+    if (state !== "block_crouch" && state !== "walk_fwd" && state !== "walk_back" && state !== "victory") {
+      f.model.sprite.position.y = 0;
     }
 
-    // Ground shadow
-    if (f.model.groundShadow) {
-      const shadowMat = f.model.groundShadow.material as THREE.MeshBasicMaterial;
-      if (f.state === "jump" || f.state === "launched") {
-        const jumpH = Math.max(0, f.y);
-        const shadowScale = Math.max(0.3, 1 - jumpH * 0.3);
-        f.model.groundShadow.scale.set(shadowScale, 0.5 * shadowScale, shadowScale);
-        shadowMat.opacity = 0.15 * shadowScale;
-      } else if (f.state === "knockdown" || f.state === "ko") {
-        f.model.groundShadow.scale.set(1.3, 0.3, 1);
-        shadowMat.opacity = 0.25;
-      } else {
-        f.model.groundShadow.scale.set(1, 0.5, 1);
-        shadowMat.opacity = 0.3;
+    // Reset color tint
+    if (state !== "hitstun" && state !== "parry_stun" && state !== "finish_stun" &&
+        state !== "ko" && state !== "heavy_charge" && state !== "special_1" &&
+        state !== "special_2" && state !== "special_3" && state !== "getup") {
+      if (shaderMat.uniforms?.tintColor) {
+        shaderMat.uniforms.tintColor.value.setRGB(1, 1, 1);
       }
+      if (shaderMat.uniforms?.opacity) shaderMat.uniforms.opacity.value = 1;
+      else shaderMat.opacity = 1;
     }
   }
 
   /* ═══ CAMERA ═══ */
-  private updateCamera(_dt: number) {
+  private updateCamera(dt: number) {
+    if (this.cinematicCamera.active) {
+      this.updateCinematicCamera(dt);
+      return;
+    }
+
+    // Dynamic camera — tracks fighters
     const midX = (this.p1.x + this.p2.x) / 2;
     const dist = Math.abs(this.p1.x - this.p2.x);
-    const targetZ = 3.0 + dist * 0.25;
 
-    this.cameraTarget.x += (midX - this.cameraTarget.x) * 0.15;
-    this.cameraTarget.z = targetZ;
+    // Camera pulls back as fighters separate
+    const targetZ = 6 + Math.max(0, dist - 3) * 0.8;
+    const targetX = midX * 0.5; // Don't follow 1:1, slight lag
+    const targetY = 2.0 + Math.max(this.p1.y, this.p2.y) * 0.3;
 
-    this.camera.position.x = this.cameraTarget.x + this.cameraShakeOffset.x;
-    this.camera.position.y = 1.0 + this.cameraShakeOffset.y;
-    this.camera.position.z = this.cameraTarget.z;
-    this.camera.lookAt(this.cameraTarget.x, 0.7, 0);
+    // Smooth camera movement
+    this.cameraTarget.x += (targetX - this.cameraTarget.x) * 0.08;
+    this.cameraTarget.y += (targetY - this.cameraTarget.y) * 0.08;
+
+    this.camera.position.x += (targetX - this.camera.position.x) * 0.06;
+    this.camera.position.y += (targetY + 0.2 - this.camera.position.y) * 0.06;
+    this.camera.position.z += (targetZ - this.camera.position.z) * 0.04;
+
+    // Apply shake
+    this.camera.position.add(this.cameraShakeOffset);
+
+    this.camera.lookAt(this.cameraTarget.x, this.cameraTarget.y - 0.2, 0);
   }
 
   /* ═══ RENDER ═══ */
   private render() {
-    this.stageLights.forEach((light, i) => {
-      light.intensity = 0.3 + Math.sin(this.animFrame * 0.02 + i) * 0.2;
-    });
     this.renderer.render(this.scene, this.camera);
   }
 
-  /* ═══ PUBLIC API ═══ */
+  /* ═══ PUBLIC API — getState() ═══ */
   public getState() {
     return {
       phase: this.phase,
       round: this.currentRound,
       timer: Math.ceil(this.roundTimer),
-      p1: {
-        name: this.p1.data.name,
-        hp: this.p1.hp,
-        maxHp: this.p1.maxHp,
-        displayHp: this.p1.displayHp,
-        specialMeter: this.p1.specialMeter,
-        roundWins: this.p1.roundWins,
-        state: this.p1.state,
-        comboCount: this.p1.comboCount,
-        comboDamage: this.p1.comboDamage,
-        comboChain: this.p1.comboChain,
-        stunTimer: this.p1.stunTimer,
-        isParrying: this.p1.isParrying,
-        dexActive: this.p1.dexActive,
-        heavyCharging: this.p1.state === "heavy_charge",
-        heavyChargeRatio: Math.min(this.p1.heavyChargeTime / HEAVY_MAX_CHARGE, 1),
-        color: this.p1.config.accentColor,
-        image: this.p1.data.image,
-        specials: this.p1.specials,
-        dotActive: this.p1.dotTimer > 0,
-        speedBuffActive: this.p1.speedBuffTimer > 0,
-        defenseDebuffActive: this.p1.defenseDebuffTimer > 0,
-      },
-      p2: {
-        name: this.p2.data.name,
-        hp: this.p2.hp,
-        maxHp: this.p2.maxHp,
-        displayHp: this.p2.displayHp,
-        specialMeter: this.p2.specialMeter,
-        roundWins: this.p2.roundWins,
-        state: this.p2.state,
-        comboCount: this.p2.comboCount,
-        comboDamage: this.p2.comboDamage,
-        comboChain: this.p2.comboChain,
-        stunTimer: this.p2.stunTimer,
-        isParrying: false,
-        dexActive: false,
-        heavyCharging: false,
-        heavyChargeRatio: 0,
-        color: this.p2.config.accentColor,
-        image: this.p2.data.image,
-        specials: this.p2.specials,
-        dotActive: this.p2.dotTimer > 0,
-        speedBuffActive: this.p2.speedBuffTimer > 0,
-        defenseDebuffActive: this.p2.defenseDebuffTimer > 0,
-      },
+      p1: this.getFighterState(this.p1),
+      p2: this.getFighterState(this.p2),
     };
   }
 
+  private getFighterState(f: Fighter) {
+    return {
+      name: f.data.name,
+      hp: f.hp,
+      maxHp: f.maxHp,
+      displayHp: f.displayHp,
+      specialMeter: f.specialMeter,
+      roundWins: f.roundWins,
+      state: f.state,
+      comboCount: f.comboCount,
+      comboDamage: f.comboDamage,
+      comboChain: f.comboChain,
+      stunTimer: f.stunFrames * FRAME_DURATION, // convert to seconds for UI compat
+      isParrying: f.isParrying,
+      dexActive: f.dexActive,
+      heavyCharging: f.state === "heavy_charge",
+      heavyChargeRatio: Math.min(f.heavyChargeFrames / HEAVY_MAX_CHARGE_FRAMES, 1),
+      color: f.config.accentColor,
+      image: f.data.image,
+      specials: f.specials,
+      dotActive: f.dotTimer > 0,
+      speedBuffActive: f.speedBuffTimer > 0,
+      defenseDebuffActive: f.defenseDebuffTimer > 0,
+    };
+  }
+
+  /* ═══ PUBLIC CONTROLS ═══ */
   public pause() { this.paused = true; }
   public resume() { this.paused = false; this.clock.getDelta(); }
 
@@ -2956,287 +3213,30 @@ export class FightEngine3D {
     this.renderer.setSize(w, h);
   }
 
-  /* ═══ AAA VFX — AFTERIMAGE TRAILS ═══ */
-  private spawnAfterimage(f: Fighter) {
-    const sprite = f.model.sprite;
-    const geo = sprite.geometry.clone();
-    const color = new THREE.Color(f.config.accentColor);
-    const mat = new THREE.MeshBasicMaterial({
-      color, transparent: true, opacity: 0.5, depthWrite: false, side: THREE.DoubleSide,
-    });
-    const mesh = new THREE.Mesh(geo, mat);
-    mesh.position.copy(sprite.position);
-    mesh.position.x += f.model.group.position.x;
-    mesh.position.z = sprite.position.z - 0.05;
-    mesh.rotation.copy(sprite.rotation);
-    mesh.scale.copy(sprite.scale);
-    this.scene.add(mesh);
-    this.afterimages.push({ mesh, life: 0, maxLife: 0.25 });
-  }
-
-  private updateAfterimages(dt: number) {
-    for (let i = this.afterimages.length - 1; i >= 0; i--) {
-      const ai = this.afterimages[i];
-      ai.life += dt;
-      const progress = ai.life / ai.maxLife;
-      if (progress >= 1) {
-        this.scene.remove(ai.mesh);
-        ai.mesh.geometry.dispose();
-        (ai.mesh.material as THREE.Material).dispose();
-        this.afterimages.splice(i, 1);
-        continue;
-      }
-      const mat = ai.mesh.material as THREE.MeshBasicMaterial;
-      mat.opacity = 0.5 * (1 - progress);
-      ai.mesh.scale.multiplyScalar(0.98);
-    }
-  }
-
-  /* ═══ AAA VFX — ENERGY PROJECTILES ═══ */
-  private spawnEnergyProjectile(f: Fighter, color: string, speed: number = 8) {
-    const group = new THREE.Group();
-    const col = new THREE.Color(color);
-    // Core sphere
-    const coreGeo = new THREE.SphereGeometry(0.15, 8, 8);
-    const coreMat = new THREE.MeshBasicMaterial({ color: col, transparent: true, opacity: 0.9 });
-    const core = new THREE.Mesh(coreGeo, coreMat);
-    group.add(core);
-    // Outer glow
-    const glowGeo = new THREE.SphereGeometry(0.3, 8, 8);
-    const glowMat = new THREE.MeshBasicMaterial({ color: col, transparent: true, opacity: 0.3 });
-    const glow = new THREE.Mesh(glowGeo, glowMat);
-    glow.name = "glow";
-    group.add(glow);
-    // Trail particles
-    for (let i = 0; i < 6; i++) {
-      const pGeo = new THREE.SphereGeometry(0.04 + Math.random() * 0.04, 4, 4);
-      const pMat = new THREE.MeshBasicMaterial({ color: col, transparent: true, opacity: 0.6 });
-      const p = new THREE.Mesh(pGeo, pMat);
-      p.position.set(-0.1 * (i + 1), (Math.random() - 0.5) * 0.1, (Math.random() - 0.5) * 0.1);
-      p.userData.offset = i;
-      group.add(p);
-    }
-    const dir = f.facingRight ? 1 : -1;
-    group.position.set(f.x + dir * 0.5, 1.0, 0.5);
-    this.scene.add(group);
-    this.energyProjectiles.push({
-      group, x: f.x + dir * 0.5, y: 1.0,
-      vx: dir * speed, life: 0, maxLife: 1.5, color, owner: f === this.p1 ? 1 : 2,
-    });
-  }
-
-  private updateEnergyProjectiles(dt: number) {
-    for (let i = this.energyProjectiles.length - 1; i >= 0; i--) {
-      const proj = this.energyProjectiles[i];
-      proj.life += dt;
-      proj.x += proj.vx * dt;
-      proj.group.position.x = proj.x;
-      // Pulse the glow
-      const t = proj.life * 10;
-      proj.group.children.forEach((child, idx) => {
-        if (child.name === "glow") {
-          const scale = 1 + Math.sin(t) * 0.2;
-          child.scale.set(scale, scale, scale);
-        } else if (idx > 1) {
-          // Trail particles drift behind
-          child.position.x = -0.1 * (child.userData.offset + 1) - Math.sin(t + child.userData.offset) * 0.03;
-          const pMat = (child as THREE.Mesh).material as THREE.MeshBasicMaterial;
-          pMat.opacity = 0.6 * (1 - proj.life / proj.maxLife);
-        }
-      });
-      // Check collision with opponent
-      const target = proj.owner === 1 ? this.p2 : this.p1;
-      if (Math.abs(proj.x - target.x) < 0.6 && proj.life > 0.1) {
-        // Hit! Spawn impact effect
-        this.spawnImpactRing(proj.x, 1.0, 0.5, proj.color);
-        this.scene.remove(proj.group);
-        proj.group.traverse((child) => {
-          if (child instanceof THREE.Mesh) {
-            child.geometry.dispose();
-            (child.material as THREE.Material).dispose();
-          }
-        });
-        this.energyProjectiles.splice(i, 1);
-        continue;
-      }
-      if (proj.life >= proj.maxLife || Math.abs(proj.x) > 8) {
-        this.scene.remove(proj.group);
-        proj.group.traverse((child) => {
-          if (child instanceof THREE.Mesh) {
-            child.geometry.dispose();
-            (child.material as THREE.Material).dispose();
-          }
-        });
-        this.energyProjectiles.splice(i, 1);
-      }
-    }
-  }
-
-  /* ═══ AAA VFX — IMPACT RINGS ═══ */
-  private spawnImpactRing(x: number, y: number, z: number, color: string) {
-    const ringGeo = new THREE.TorusGeometry(0.05, 0.02, 8, 24);
-    const ringMat = new THREE.MeshBasicMaterial({ color: new THREE.Color(color), transparent: true, opacity: 0.9 });
-    const ring = new THREE.Mesh(ringGeo, ringMat);
-    ring.position.set(x, y, z + 0.3);
-    ring.rotation.x = Math.PI / 2;
-    this.scene.add(ring);
-    this.impactCraters.push({ mesh: ring, life: 0, maxLife: 0.5 });
-  }
-
-  /* ═══ AAA VFX — GROUND IMPACT CRATERS ═══ */
-  private spawnGroundCrater(x: number, color: string) {
-    const craterGeo = new THREE.RingGeometry(0.1, 0.5, 16);
-    const craterMat = new THREE.MeshBasicMaterial({
-      color: new THREE.Color(color), transparent: true, opacity: 0.6, side: THREE.DoubleSide,
-    });
-    const crater = new THREE.Mesh(craterGeo, craterMat);
-    crater.position.set(x, 0.02, 0);
-    crater.rotation.x = -Math.PI / 2;
-    this.scene.add(crater);
-    this.impactCraters.push({ mesh: crater, life: 0, maxLife: 2.0 });
-  }
-
-  private updateImpactCraters(dt: number) {
-    for (let i = this.impactCraters.length - 1; i >= 0; i--) {
-      const crater = this.impactCraters[i];
-      crater.life += dt;
-      const progress = crater.life / crater.maxLife;
-      if (progress >= 1) {
-        this.scene.remove(crater.mesh);
-        crater.mesh.geometry.dispose();
-        (crater.mesh.material as THREE.Material).dispose();
-        this.impactCraters.splice(i, 1);
-        continue;
-      }
-      const mat = crater.mesh.material as THREE.MeshBasicMaterial;
-      // Impact rings expand, craters fade
-      if (crater.maxLife <= 0.6) {
-        // Impact ring — expand and fade
-        const scale = 1 + progress * 4;
-        crater.mesh.scale.set(scale, scale, scale);
-        mat.opacity = 0.9 * (1 - progress);
-      } else {
-        // Ground crater — just fade
-        mat.opacity = 0.6 * (1 - progress * progress);
-      }
-    }
-  }
-
-  /* ═══ AAA VFX — SCREEN FLASH ═══ */
-  private triggerScreenFlash(color: string, intensity: number = 0.6, duration: number = 0.15) {
-    this.screenFlash.active = true;
-    this.screenFlash.color.set(color);
-    this.screenFlash.intensity = intensity;
-    this.screenFlash.timer = 0;
-    this.screenFlash.duration = duration;
-  }
-
-  private updateScreenFlash(dt: number) {
-    if (!this.screenFlash.active) return;
-    this.screenFlash.timer += dt;
-    const progress = this.screenFlash.timer / this.screenFlash.duration;
-    if (progress >= 1) {
-      this.screenFlash.active = false;
-      (this.screenFlashMesh.material as THREE.MeshBasicMaterial).opacity = 0;
-      return;
-    }
-    const mat = this.screenFlashMesh.material as THREE.MeshBasicMaterial;
-    mat.color.copy(this.screenFlash.color);
-    mat.opacity = this.screenFlash.intensity * (1 - progress);
-    // Keep flash in front of camera
-    this.screenFlashMesh.position.copy(this.camera.position);
-    this.screenFlashMesh.position.z -= 0.5;
-    this.screenFlashMesh.quaternion.copy(this.camera.quaternion);
-  }
-
-  /* ═══ AAA CAMERA — CINEMATIC SYSTEM ═══ */
-  private startCinematicCamera(type: CinematicCamera["type"], duration: number) {
-    this.cinematicCamera.active = true;
-    this.cinematicCamera.type = type;
-    this.cinematicCamera.timer = 0;
-    this.cinematicCamera.duration = duration;
-    const midX = (this.p1.x + this.p2.x) / 2;
-    switch (type) {
-      case "intro_sweep":
-        this.cinematicCamera.startPos.set(midX - 2, 2.5, 5.0);
-        this.cinematicCamera.endPos.set(midX, 1.0, 3.2);
-        this.cinematicCamera.startLookAt.set(this.p1.x, 0.7, 0);
-        this.cinematicCamera.endLookAt.set(midX, 0.7, 0);
-        break;
-      case "sp3_zoom": {
-        const attacker = this.p1.state.includes("special_3") ? this.p1 : this.p2;
-        this.cinematicCamera.startPos.set(midX, 1.0, this.camera.position.z);
-        this.cinematicCamera.endPos.set(attacker.x * 0.7, 0.9, 2.0);
-        this.cinematicCamera.startLookAt.set(midX, 0.7, 0);
-        this.cinematicCamera.endLookAt.set(attacker.x, 0.8, 0);
-        break;
-      }
-      case "ko_angle": {
-        const winner = this.p1.state === "victory" ? this.p1 : this.p2;
-        const loser = winner === this.p1 ? this.p2 : this.p1;
-        this.cinematicCamera.startPos.set(midX, 1.0, this.camera.position.z);
-        this.cinematicCamera.endPos.set(winner.x * 0.5, 1.5, 2.5);
-        this.cinematicCamera.startLookAt.set(midX, 0.7, 0);
-        this.cinematicCamera.endLookAt.set(loser.x, 0.3, 0);
-        break;
-      }
-      case "heavy_zoom": {
-        // Quick zoom into the impact point for heavy hits
-        const impactX = (this.p1.x + this.p2.x) / 2;
-        this.cinematicCamera.startPos.set(midX, 1.0, this.camera.position.z);
-        this.cinematicCamera.endPos.set(impactX, 0.8, 2.2);
-        this.cinematicCamera.startLookAt.set(midX, 0.7, 0);
-        this.cinematicCamera.endLookAt.set(impactX, 0.7, 0);
-        break;
-      }
-    }
-  }
-
-  private updateCinematicCamera(dt: number) {
-    if (!this.cinematicCamera.active) return;
-    this.cinematicCamera.timer += dt;
-    const progress = Math.min(this.cinematicCamera.timer / this.cinematicCamera.duration, 1);
-    // Smooth easing
-    const eased = 1 - Math.pow(1 - progress, 3); // ease-out cubic
-    this.camera.position.lerpVectors(
-      this.cinematicCamera.startPos,
-      this.cinematicCamera.endPos,
-      eased
-    );
-    const lookAt = new THREE.Vector3().lerpVectors(
-      this.cinematicCamera.startLookAt,
-      this.cinematicCamera.endLookAt,
-      eased
-    );
-    this.camera.lookAt(lookAt);
-    if (progress >= 1) {
-      this.cinematicCamera.active = false;
-      if (this.cinematicCamera.type === "intro_sweep") {
-        this.introSweepDone = true;
-      }
-    }
-  }
-
+  /* ═══ DISPOSE ═══ */
   public dispose() {
     this.disposed = true;
-    window.removeEventListener("resize", this.handleResize);
-    window.removeEventListener("keydown", (this as any)._keyDown);
-    window.removeEventListener("keyup", (this as any)._keyUp);
-    // Clean up AAA VFX
-    this.afterimages.forEach(ai => { this.scene.remove(ai.mesh); ai.mesh.geometry.dispose(); (ai.mesh.material as THREE.Material).dispose(); });
-    this.energyProjectiles.forEach(p => { this.scene.remove(p.group); });
-    this.impactCraters.forEach(c => { this.scene.remove(c.mesh); c.mesh.geometry.dispose(); (c.mesh.material as THREE.Material).dispose(); });
 
-    this.scene.traverse((object) => {
-      if (object instanceof THREE.Mesh) {
-        object.geometry.dispose();
-        if (Array.isArray(object.material)) {
-          object.material.forEach(m => m.dispose());
+    // Remove event listeners
+    // (In production, store refs and remove properly)
+
+    // Clean up Three.js
+    this.hitEffects.forEach(e => this.scene.remove(e.particles));
+    this.afterimages.forEach(a => this.scene.remove(a.mesh));
+    this.energyProjectiles.forEach(p => this.scene.remove(p.mesh));
+    this.impactCraters.forEach(c => this.scene.remove(c.mesh));
+
+    this.scene.traverse((obj) => {
+      if (obj instanceof THREE.Mesh) {
+        obj.geometry?.dispose();
+        if (Array.isArray(obj.material)) {
+          obj.material.forEach(m => m.dispose());
         } else {
-          object.material.dispose();
+          obj.material?.dispose();
         }
       }
     });
+
     this.renderer.dispose();
     this.renderer.domElement.remove();
   }

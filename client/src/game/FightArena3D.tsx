@@ -308,8 +308,9 @@ export default function FightArena3D({ player, opponent, arena, difficulty, onMa
 
     engineRef.current = engine;
 
+    // The engine runs its own internal 60fps game loop.
+    // We just poll getState() for HUD updates at display refresh rate.
     const loop = () => {
-      engine.update();
       const state = engine.getState();
       setHudState(state);
       rafRef.current = requestAnimationFrame(loop);

@@ -2486,3 +2486,17 @@
 - [x] Enhanced particle physics: ground crack with radial spread + impact ring
 - [x] Fix pvp test card count (196 → 216 to match actual data)
 - [x] Restore FLOATING PARTICLES comment for phase26 test compatibility
+
+## AAA Fight Engine Complete Redesign
+- [x] Research AAA fighting game design principles (frame data, input systems, hit feedback, movement)
+- [x] Audit current FightEngine3D and identify all areas needing redesign
+- [x] Redesign core constants with proper frame data system (60fps frame-based timing)
+- [x] Rebuild movement system (walk speed curves, dash momentum, jump arcs with gravity)
+- [x] Rebuild attack system (startup/active/recovery frames, cancel windows, gatling chains)
+- [x] Rebuild hit reaction system (hitstun scaling, blockstun, pushback, juggle gravity with decay)
+- [x] Implement input buffering system (pre-buffer inputs during recovery, special move motions)
+- [x] Rebuild combo system (light→medium→heavy→special chains, cancel windows, hit decay)
+- [x] Rebuild AI with fighting game intelligence (footsies, whiff punishment, mixups, spacing)
+- [x] Enhance visual feedback (proper hitstop, camera zoom on big hits, impact effects)
+- [x] Update FightArena3D UI to match new engine callbacks
+- [x] Run all tests and verify complete system (2035/2035 passing, 0 TS errors)
