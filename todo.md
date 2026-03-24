@@ -2537,3 +2537,6 @@
 - [x] Generate custom illustrated room artwork for all Ship Map rooms (cross-section style)
 - [x] Upload room artwork to CDN and integrate into ShipSchematicMap component
 - [x] Test all enhancements end-to-end
+
+## Ship Map Tooltip Artwork Preview
+- [x] Expand room artwork into tooltip popover for larger preview before fast-traveling

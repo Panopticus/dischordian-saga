@@ -281,45 +281,72 @@ function RoomNode({
             initial={{ opacity: 0, y: 5, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 5, scale: 0.95 }}
-            className="absolute z-50 left-0 top-full mt-1 w-56 p-3 rounded-lg border border-white/10 backdrop-blur-xl"
-            style={{ background: "rgba(1,0,32,0.95)" }}
+            className="absolute z-50 left-0 top-full mt-1 rounded-lg border border-white/10 backdrop-blur-xl overflow-hidden"
+            style={{ background: "rgba(1,0,32,0.95)", width: isUnlocked && ROOM_ARTWORK[def.id] ? "280px" : "224px" }}
           >
-            <p className="font-mono text-xs font-bold text-white mb-1">
-              {isUnlocked || canUnlock ? def.name : "UNKNOWN ROOM"}
-            </p>
-            {isUnlocked ? (
-              <>
-                <p className="font-mono text-[10px] text-white/50 mb-2 leading-relaxed">
-                  {def.description.slice(0, 120)}...
-                </p>
-                <div className="flex flex-wrap gap-1">
-                  {def.features.map(f => (
-                    <span
-                      key={f}
-                      className="font-mono text-[8px] px-1.5 py-0.5 rounded"
-                      style={{ background: `${deckColor}15`, color: deckColor, border: `1px solid ${deckColor}30` }}
-                    >
-                      {f}
-                    </span>
-                  ))}
+            {/* Room artwork preview — only for unlocked rooms with artwork */}
+            {isUnlocked && ROOM_ARTWORK[def.id] && (
+              <div className="relative w-full" style={{ height: "140px" }}>
+                <img
+                  src={ROOM_ARTWORK[def.id]}
+                  alt={def.name}
+                  className="w-full h-full object-cover"
+                  loading="lazy"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[rgba(1,0,32,0.95)] via-transparent to-transparent" />
+                {/* Deck badge overlay */}
+                <div
+                  className="absolute top-2 right-2 px-1.5 py-0.5 rounded font-mono text-[7px] tracking-[0.2em] font-bold"
+                  style={{ background: `${deckColor}25`, color: deckColor, border: `1px solid ${deckColor}40` }}
+                >
+                  DECK {def.deck}
                 </div>
-                {!isCurrent && (
-                  <p className="font-mono text-[9px] text-cyan-400/70 mt-2 flex items-center gap-1">
-                    <Crosshair size={9} /> Click to fast travel
-                  </p>
+                {isCurrent && (
+                  <div className="absolute top-2 left-2 px-1.5 py-0.5 rounded font-mono text-[7px] tracking-[0.15em] font-bold bg-white/20 text-white border border-white/30">
+                    YOU ARE HERE
+                  </div>
                 )}
-              </>
-            ) : canUnlock ? (
-              <p className="font-mono text-[10px] text-amber-400/70 leading-relaxed">
-                <Zap size={9} className="inline mr-1" />
-                Ready to discover! Click to enter.
-              </p>
-            ) : (
-              <p className="font-mono text-[10px] text-white/30 leading-relaxed">
-                <Lock size={9} className="inline mr-1" />
-                {getUnlockHint(def)}
-              </p>
+              </div>
             )}
+
+            <div className="p-3">
+              <p className="font-mono text-xs font-bold text-white mb-1">
+                {isUnlocked || canUnlock ? def.name : "UNKNOWN ROOM"}
+              </p>
+              {isUnlocked ? (
+                <>
+                  <p className="font-mono text-[10px] text-white/50 mb-2 leading-relaxed">
+                    {def.description.slice(0, 150)}{def.description.length > 150 ? "..." : ""}
+                  </p>
+                  <div className="flex flex-wrap gap-1">
+                    {def.features.map(f => (
+                      <span
+                        key={f}
+                        className="font-mono text-[8px] px-1.5 py-0.5 rounded"
+                        style={{ background: `${deckColor}15`, color: deckColor, border: `1px solid ${deckColor}30` }}
+                      >
+                        {f}
+                      </span>
+                    ))}
+                  </div>
+                  {!isCurrent && (
+                    <p className="font-mono text-[9px] text-cyan-400/70 mt-2 flex items-center gap-1">
+                      <Crosshair size={9} /> Click to fast travel
+                    </p>
+                  )}
+                </>
+              ) : canUnlock ? (
+                <p className="font-mono text-[10px] text-amber-400/70 leading-relaxed">
+                  <Zap size={9} className="inline mr-1" />
+                  Ready to discover! Click to enter.
+                </p>
+              ) : (
+                <p className="font-mono text-[10px] text-white/30 leading-relaxed">
+                  <Lock size={9} className="inline mr-1" />
+                  {getUnlockHint(def)}
+                </p>
+              )}
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
