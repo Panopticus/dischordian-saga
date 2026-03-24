@@ -2528,3 +2528,12 @@
 - [x] Gate top nav to only show content the player has discovered
 - [x] Consolidate overlapping navigation (Ark Explorer, InceptionArkPage, FastTravel, Pathways)
 - [x] Test and verify the complete navigation overhaul
+
+## Ship Map Enhancements - Elara Dialogs, Unlock FX, Room Artwork
+- [x] Write Elara dialog lines for each narrative room unlock event
+- [x] Wire Elara dialog triggers into enterRoom/narrative flag system in GameContext
+- [x] Add visual glow/pulse animation on Ship Map when a new room unlocks
+- [x] Add audio feedback (SFX) on Ship Map room unlock events
+- [x] Generate custom illustrated room artwork for all Ship Map rooms (cross-section style)
+- [x] Upload room artwork to CDN and integrate into ShipSchematicMap component
+- [x] Test all enhancements end-to-end

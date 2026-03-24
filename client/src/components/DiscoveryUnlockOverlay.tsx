@@ -1,17 +1,21 @@
 /**
  * DiscoveryUnlockOverlay — Cinematic reveal when a new ship system is discovered.
- * Shows a full-screen overlay with the system name, icon, and description,
- * similar to KOTOR's "New Area Discovered" notification.
+ * Shows a full-screen overlay with the system name, icon, description,
+ * and an Elara dialog announcement explaining the narrative reason for the unlock.
+ * Similar to KOTOR's "New Area Discovered" notification.
  */
 import { useState, useEffect, useCallback } from "react";
 import { isDialogActive } from "@/lib/dialogState";
 import { motion, AnimatePresence } from "framer-motion";
 import { useGame } from "@/contexts/GameContext";
+import { useSound } from "@/contexts/SoundContext";
 import {
   Home, Search, Tv, Disc3, Swords, FlaskConical, Ship, Users, Rocket,
   Compass, ChevronRight, Unlock
 } from "lucide-react";
 import { useLocation } from "wouter";
+
+const ELARA_AVATAR = "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/elara_avatar_dark_hair_small_2fcb00b8.png";
 
 interface SystemDiscovery {
   id: string;
@@ -21,6 +25,8 @@ interface SystemDiscovery {
   icon: typeof Home;
   color: string;
   features: string[];
+  /** Elara's lore-relevant announcement when this room becomes available */
+  elaraAnnouncement: string;
 }
 
 const DISCOVERABLE_SYSTEMS: SystemDiscovery[] = [
@@ -30,6 +36,7 @@ const DISCOVERABLE_SYSTEMS: SystemDiscovery[] = [
     description: "Central command — conspiracy board, timelines, and saga overview",
     icon: Home, color: "#33e2e6",
     features: ["Bridge Overview", "Conspiracy Board", "Era Timeline", "Saga Timeline", "Character Arcs", "Power Hierarchy"],
+    elaraAnnouncement: "The cryo-bay systems are cycling down. I've traced a power conduit from your pod to the Command Bridge — it's two decks up. The ship's central nervous system. If we can reach it, I can start bringing the Ark's primary systems back online. Follow the corridor. I'll guide you.",
   },
   {
     id: "archives", roomId: "archives",
@@ -37,6 +44,7 @@ const DISCOVERABLE_SYSTEMS: SystemDiscovery[] = [
     description: "The lore database — search entries, browse the codex",
     icon: Search, color: "#33e2e6",
     features: ["Database Search", "The Codex"],
+    elaraAnnouncement: "Now that the Bridge is operational, I'm detecting a sealed data vault one deck below — the Archives. Centuries of classified intelligence, dossiers, and historical records are stored there. The Bridge's authentication codes just unlocked the blast doors. Everything we need to understand what happened to this ship is in that room.",
   },
   {
     id: "comms", roomId: "comms-array",
@@ -44,6 +52,7 @@ const DISCOVERABLE_SYSTEMS: SystemDiscovery[] = [
     description: "Watch the Dischordian Saga — episodes, seasons, and games",
     icon: Tv, color: "#ff8c42",
     features: ["Watch The Show", "CoNexus Portal"],
+    elaraAnnouncement: "Excellent — the Bridge's main systems are fully restored. I've rerouted auxiliary power to Deck 3. The Comms Array is coming online... I'm picking up residual transmissions — encoded broadcasts, archived footage, and something that looks like... interactive story simulations? Someone was recording everything that happened aboard this ship. We need to see those transmissions.",
   },
   {
     id: "observation", roomId: "observation-deck",
@@ -51,6 +60,7 @@ const DISCOVERABLE_SYSTEMS: SystemDiscovery[] = [
     description: "Discography, albums, and the music terminal",
     icon: Disc3, color: "#ff8c42",
     features: ["Discography", "Mission Briefing"],
+    elaraAnnouncement: "That keycard you found in the Medical Bay — it's an Observation Deck access pass. I've verified the biometric signature. Someone left it there deliberately... almost like they wanted you to find it. The Observation Deck houses the ship's cultural archive — music, art, the crew memorial. Whatever happened to this crew, their stories are preserved up there.",
   },
   {
     id: "armory", roomId: "armory",
@@ -58,6 +68,7 @@ const DISCOVERABLE_SYSTEMS: SystemDiscovery[] = [
     description: "Combat simulations, card battles, and lore quizzes",
     icon: Swords, color: "#ef4444",
     features: ["Combat Sim", "Card Game", "PvP Arena", "Boss Battle", "Lore Quiz"],
+    elaraAnnouncement: "Engineering's combat subsystems just came online. The Armory's magnetic locks have disengaged — I can hear the containment fields cycling down from here. That room houses the ship's combat simulation chambers, tactical training systems, and... something the crew called 'Card Battles.' The weapons are still live. Proceed with caution, Operative.",
   },
   {
     id: "engineering", roomId: "engineering",
@@ -65,6 +76,7 @@ const DISCOVERABLE_SYSTEMS: SystemDiscovery[] = [
     description: "Research lab — craft and upgrade cards",
     icon: FlaskConical, color: "#22c55e",
     features: ["Research Lab", "Deck Builder", "Card Gallery", "Demon Packs"],
+    elaraAnnouncement: "I've been monitoring the Comms Array's power grid diagnostics. There's a massive energy fluctuation coming from Deck 4 — the Engineering Bay. The reactor is running at minimal capacity, but it's enough to power the research stations and crafting systems. I've stabilized the corridor pressure seals. The path to Engineering is clear.",
   },
   {
     id: "cargo", roomId: "cargo-hold",
@@ -72,6 +84,7 @@ const DISCOVERABLE_SYSTEMS: SystemDiscovery[] = [
     description: "Trade Empire and the Dream requisitions store",
     icon: Ship, color: "#ff8c42",
     features: ["Trade Empire", "Requisitions Store"],
+    elaraAnnouncement: "The Armory's environmental systems just pressurized the adjacent cargo bay. I'm reading breathable atmosphere in the Cargo Hold for the first time since we woke up. The trade terminals are initializing — this was the ship's economic hub. Supply chains, fleet management, marketplace exchanges... everything the crew needed to sustain operations across star systems. It's all still functional.",
   },
   {
     id: "quarters", roomId: "captains-quarters",
@@ -79,6 +92,7 @@ const DISCOVERABLE_SYSTEMS: SystemDiscovery[] = [
     description: "Your operative dossier, trophies, and achievements",
     icon: Users, color: "#33e2e6",
     features: ["Operative Dossier", "Character Sheet", "Trophy Room", "Achievements", "Leaderboard"],
+    elaraAnnouncement: "That master key you found on the Bridge — it's the Captain's personal access key. Highest clearance level on the entire ship. The Captain's Quarters are sealed behind a biometric lock that only responds to that key. Inside you'll find the trophy room, the personal log archive, and the deck builder station. This was the most restricted room on the Ark. Now it's yours.",
   },
 ];
 
@@ -127,8 +141,9 @@ export function useDiscoveryTracker() {
 export default function DiscoveryUnlockOverlay() {
   const { currentDiscovery, dismissCurrent } = useDiscoveryTracker();
   const [, setLocation] = useLocation();
-  const [phase, setPhase] = useState<"enter" | "reveal" | "features" | "exit">("enter");
+  const [phase, setPhase] = useState<"enter" | "reveal" | "features" | "elara" | "exit">("enter");
   const [dialogSuppressed, setDialogSuppressed] = useState(() => isDialogActive());
+  const { playSFX, audioReady } = useSound();
 
   // Listen for dialog state changes
   useEffect(() => {
@@ -145,20 +160,17 @@ export default function DiscoveryUnlockOverlay() {
     setPhase("enter");
     const t1 = setTimeout(() => setPhase("reveal"), 600);
     const t2 = setTimeout(() => setPhase("features"), 1800);
-    return () => { clearTimeout(t1); clearTimeout(t2); };
-  }, [currentDiscovery?.id, dialogSuppressed]);
+    const t3 = setTimeout(() => {
+      setPhase("elara");
+      if (audioReady) playSFX("dialog_open");
+    }, 3000);
+    return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); };
+  }, [currentDiscovery?.id, dialogSuppressed, audioReady, playSFX]);
 
   // Don't render while a dialog is active — wait for it to close
   if (!currentDiscovery || dialogSuppressed) return null;
 
   const Icon = currentDiscovery.icon;
-
-  const handleExplore = () => {
-    setPhase("exit");
-    setTimeout(() => {
-      dismissCurrent();
-    }, 400);
-  };
 
   const handleDismiss = () => {
     setPhase("exit");
@@ -182,7 +194,7 @@ export default function DiscoveryUnlockOverlay() {
           }}
           onClick={handleDismiss}
         >
-          <div className="text-center max-w-md px-6" onClick={e => e.stopPropagation()}>
+          <div className="text-center max-w-lg px-6" onClick={e => e.stopPropagation()}>
             {/* Unlock icon burst */}
             <motion.div
               initial={{ scale: 0, rotate: -180 }}
@@ -253,12 +265,12 @@ export default function DiscoveryUnlockOverlay() {
 
             {/* Features unlocked */}
             <AnimatePresence>
-              {phase === "features" && (
+              {(phase === "features" || phase === "elara") && (
                 <motion.div
                   initial={{ opacity: 0, height: 0 }}
                   animate={{ opacity: 1, height: "auto" }}
                   transition={{ duration: 0.4 }}
-                  className="mb-8"
+                  className="mb-6"
                 >
                   <p className="font-mono text-[10px] text-muted-foreground/50 tracking-[0.3em] mb-3">
                     FEATURES UNLOCKED
@@ -280,6 +292,93 @@ export default function DiscoveryUnlockOverlay() {
                         {feat}
                       </motion.span>
                     ))}
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            {/* ═══ ELARA DIALOG ANNOUNCEMENT ═══ */}
+            <AnimatePresence>
+              {phase === "elara" && currentDiscovery.elaraAnnouncement && (
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ duration: 0.5, type: "spring", stiffness: 120 }}
+                  className="mb-6 mx-auto max-w-md"
+                >
+                  <div
+                    className="relative rounded-xl p-4 text-left"
+                    style={{
+                      background: "linear-gradient(135deg, rgba(51,226,230,0.08) 0%, rgba(51,226,230,0.02) 100%)",
+                      border: "1px solid rgba(51,226,230,0.2)",
+                      boxShadow: "0 0 20px rgba(51,226,230,0.05), inset 0 1px 0 rgba(51,226,230,0.1)",
+                    }}
+                  >
+                    {/* Elara avatar + name */}
+                    <div className="flex items-center gap-3 mb-3">
+                      <div
+                        className="w-10 h-10 rounded-full overflow-hidden shrink-0 relative"
+                        style={{
+                          border: "2px solid rgba(51,226,230,0.4)",
+                          boxShadow: "0 0 12px rgba(51,226,230,0.2)",
+                        }}
+                      >
+                        <img
+                          src={ELARA_AVATAR}
+                          alt="Elara"
+                          className="w-full h-full object-cover"
+                        />
+                        {/* Holographic scan line */}
+                        <motion.div
+                          className="absolute inset-0"
+                          style={{
+                            background: "linear-gradient(180deg, transparent 0%, rgba(51,226,230,0.15) 50%, transparent 100%)",
+                            backgroundSize: "100% 200%",
+                          }}
+                          animate={{ backgroundPosition: ["0% 0%", "0% 200%"] }}
+                          transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+                        />
+                      </div>
+                      <div>
+                        <p
+                          className="font-display text-sm font-bold tracking-wider"
+                          style={{ color: "rgba(51,226,230,0.9)" }}
+                        >
+                          ELARA
+                        </p>
+                        <p className="font-mono text-[9px] text-muted-foreground/40 tracking-[0.2em]">
+                          SHIP AI // INCOMING TRANSMISSION
+                        </p>
+                      </div>
+                      {/* Transmission indicator */}
+                      <div className="ml-auto flex items-center gap-1.5">
+                        {[0, 1, 2].map(i => (
+                          <motion.div
+                            key={i}
+                            className="w-1 rounded-full"
+                            style={{ background: "rgba(51,226,230,0.6)" }}
+                            animate={{ height: [4, 12, 4] }}
+                            transition={{
+                              duration: 0.6,
+                              repeat: Infinity,
+                              delay: i * 0.15,
+                              ease: "easeInOut",
+                            }}
+                          />
+                        ))}
+                      </div>
+                    </div>
+                    {/* Dialog text — typewriter-style appearance */}
+                    <motion.p
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ delay: 0.3, duration: 0.6 }}
+                      className="font-mono text-xs text-muted-foreground/80 leading-relaxed"
+                      style={{ textShadow: "0 0 8px rgba(51,226,230,0.1)" }}
+                    >
+                      "{currentDiscovery.elaraAnnouncement}"
+                    </motion.p>
                   </div>
                 </motion.div>
               )}

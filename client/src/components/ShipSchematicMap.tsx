@@ -8,7 +8,7 @@
    - Narrative unlock hints show what's needed to access locked rooms
    - Nano Banna schematic art style: dark bg, cyan/amber accents, grid lines
    ═══════════════════════════════════════════════════════ */
-import { useState, useMemo, useCallback } from "react";
+import { useState, useMemo, useCallback, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLocation } from "wouter";
 import {
@@ -19,6 +19,7 @@ import {
   ArrowRight
 } from "lucide-react";
 import { useGame, ROOM_DEFINITIONS, type RoomDef } from "@/contexts/GameContext";
+import { useSound } from "@/contexts/SoundContext";
 
 /* ─── ROOM ICON MAP ─── */
 const ROOM_ICONS: Record<string, React.ComponentType<any>> = {
@@ -47,6 +48,36 @@ const ROOM_ICONS: Record<string, React.ComponentType<any>> = {
   "station-dock": Rocket,
   "guild-sanctum": Users,
   "social-hub": Users,
+};
+
+/* ─── ROOM ARTWORK CDN URLS ─── */
+const CDN = "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h";
+const ROOM_ARTWORK: Record<string, string> = {
+  "cryo-bay": `${CDN}/cryo-bay_2da49870.png`,
+  "medical-bay": `${CDN}/medical-bay_f5c9cffe.png`,
+  "bridge": `${CDN}/bridge_5da73f83.png`,
+  "archives": `${CDN}/archives_cb00ab0a.png`,
+  "comms-array": `${CDN}/comms-array_cd8062dd.png`,
+  "observation-deck": `${CDN}/observation-deck_b9df571d.png`,
+  "engineering": `${CDN}/engineering_554605d2.png`,
+  "forge-workshop": `${CDN}/forge-workshop_7477ac0f.png`,
+  "armory": `${CDN}/armory_2b2fa061.png`,
+  "cargo-hold": `${CDN}/cargo-hold_9df574a9.png`,
+  "captains-quarters": `${CDN}/captains-quarters_8fadcc0d.png`,
+  "antiquarian-library": `${CDN}/antiquarian-library_2f2dfbf5.png`,
+  "engineering-core": `${CDN}/engineering-core_296d2fac.png`,
+  "oracle-sanctum": `${CDN}/oracle-sanctum_4d12dfef.png`,
+  "shadow-vault": `${CDN}/shadow-vault_a4d80d00.png`,
+  "war-room": `${CDN}/war-room_69f201e0.png`,
+  "cipher-den": `${CDN}/cipher-den_52bd2103.png`,
+  "order-tribunal": `${CDN}/order-tribunal_5fd0ff76.png`,
+  "chaos-forge": `${CDN}/chaos-forge_9b2bb679.png`,
+  "elemental-nexus": `${CDN}/elemental-nexus_db12815b.png`,
+  "quantum-lab": `${CDN}/quantum-lab_b49caa5a.png`,
+  "synthesis-chamber": `${CDN}/synthesis-chamber_b0262d0c.png`,
+  "station-dock": `${CDN}/station-dock_84c26932.png`,
+  "guild-sanctum": `${CDN}/guild-sanctum_8f11106b.png`,
+  "social-hub": `${CDN}/social-hub_e9a01fa2.png`,
 };
 
 /* ─── NARRATIVE UNLOCK HINTS ─── */
@@ -107,6 +138,7 @@ function RoomNode({
   deckColor,
   onTravel,
   onEnter,
+  isNewlyUnlocked,
 }: {
   def: RoomDef;
   isUnlocked: boolean;
@@ -116,9 +148,20 @@ function RoomNode({
   deckColor: string;
   onTravel: (roomId: string) => void;
   onEnter: (roomId: string) => void;
+  isNewlyUnlocked?: boolean;
 }) {
   const [showTooltip, setShowTooltip] = useState(false);
+  const [showGlow, setShowGlow] = useState(false);
   const Icon = ROOM_ICONS[def.id] || MapPin;
+
+  // Trigger glow animation when room is newly unlocked
+  useEffect(() => {
+    if (isNewlyUnlocked) {
+      setShowGlow(true);
+      const timer = setTimeout(() => setShowGlow(false), 4000);
+      return () => clearTimeout(timer);
+    }
+  }, [isNewlyUnlocked]);
 
   const handleClick = () => {
     if (isUnlocked) {
@@ -130,6 +173,19 @@ function RoomNode({
 
   return (
     <div className="relative group">
+      {/* Newly unlocked glow burst */}
+      {showGlow && (
+        <motion.div
+          className="absolute inset-0 rounded-lg z-0 pointer-events-none"
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: [0, 1, 0], scale: [0.8, 1.15, 1.3] }}
+          transition={{ duration: 3.5, times: [0, 0.1, 1] }}
+          style={{
+            background: `radial-gradient(ellipse at center, ${deckColor}30 0%, transparent 70%)`,
+            boxShadow: `0 0 30px ${deckColor}40, 0 0 60px ${deckColor}20`,
+          }}
+        />
+      )}
       <motion.button
         onClick={handleClick}
         onMouseEnter={() => setShowTooltip(true)}
@@ -137,7 +193,7 @@ function RoomNode({
         onTouchStart={() => setShowTooltip(true)}
         onTouchEnd={() => setTimeout(() => setShowTooltip(false), 2000)}
         disabled={!isUnlocked && !canUnlock}
-        className={`relative flex items-center gap-2 px-3 py-2 rounded-lg border transition-all duration-300 ${
+        className={`relative flex items-center gap-2 px-3 py-2 rounded-lg border transition-all duration-300 ${showGlow ? 'ring-1 ring-offset-0' : ''} ${
           isCurrent
             ? "border-white/60 bg-white/10 shadow-[0_0_15px_rgba(255,255,255,0.2)]"
             : isUnlocked
@@ -146,8 +202,11 @@ function RoomNode({
             ? "border-amber-500/30 bg-amber-500/5 hover:bg-amber-500/10 cursor-pointer animate-pulse"
             : "border-white/5 bg-white/[0.02] cursor-not-allowed opacity-40"
         }`}
+        style={showGlow ? { borderColor: `${deckColor}60` } : undefined}
         whileHover={isUnlocked || canUnlock ? { scale: 1.02 } : {}}
         whileTap={isUnlocked || canUnlock ? { scale: 0.98 } : {}}
+        animate={showGlow ? { boxShadow: [`0 0 0px ${deckColor}00`, `0 0 20px ${deckColor}40`, `0 0 0px ${deckColor}00`] } : {}}
+        transition={showGlow ? { duration: 2, repeat: 1, ease: "easeInOut" } : undefined}
       >
         {/* Current room indicator */}
         {isCurrent && (
@@ -157,9 +216,9 @@ function RoomNode({
           <div className="absolute -left-1 -top-1 w-2.5 h-2.5 rounded-full bg-white" />
         )}
 
-        {/* Icon */}
+        {/* Room artwork thumbnail or icon fallback */}
         <div
-          className={`w-7 h-7 rounded-md flex items-center justify-center shrink-0 ${
+          className={`w-9 h-9 rounded-md flex items-center justify-center shrink-0 overflow-hidden ${
             isUnlocked ? "" : "opacity-50"
           }`}
           style={{
@@ -171,7 +230,14 @@ function RoomNode({
             border: `1px solid ${isUnlocked ? deckColor + "40" : canUnlock ? "rgba(255,140,0,0.3)" : "rgba(255,255,255,0.05)"}`,
           }}
         >
-          {isUnlocked ? (
+          {isUnlocked && ROOM_ARTWORK[def.id] ? (
+            <img
+              src={ROOM_ARTWORK[def.id]}
+              alt={def.name}
+              className="w-full h-full object-cover"
+              loading="lazy"
+            />
+          ) : isUnlocked ? (
             <Icon size={14} style={{ color: deckColor }} />
           ) : canUnlock ? (
             <Zap size={14} className="text-amber-400" />
@@ -265,6 +331,44 @@ function RoomNode({
 export default function ShipSchematicMap() {
   const { state, enterRoom, canUnlockRoom, isRoomUnlocked, getRoomDef } = useGame();
   const [, navigate] = useLocation();
+  const { playSFX, audioReady } = useSound();
+
+  // Track newly unlocked rooms for glow animation + SFX
+  const prevRoomsRef = useRef<Record<string, boolean>>({});
+  const [newlyUnlockedRooms, setNewlyUnlockedRooms] = useState<Set<string>>(new Set());
+
+  useEffect(() => {
+    const currentUnlocked: Record<string, boolean> = {};
+    const newRooms: string[] = [];
+    Object.entries(state.rooms).forEach(([id, room]) => {
+      if (room.unlocked) {
+        currentUnlocked[id] = true;
+        if (!prevRoomsRef.current[id]) {
+          newRooms.push(id);
+        }
+      }
+    });
+
+    if (newRooms.length > 0 && Object.keys(prevRoomsRef.current).length > 0) {
+      // Only trigger effects after initial load (not on mount)
+      setNewlyUnlockedRooms(prev => {
+        const next = new Set(prev);
+        newRooms.forEach(id => next.add(id));
+        return next;
+      });
+      if (audioReady) playSFX("door_unlock");
+      // Clear the newly-unlocked state after animation duration
+      setTimeout(() => {
+        setNewlyUnlockedRooms(prev => {
+          const next = new Set(prev);
+          newRooms.forEach(id => next.delete(id));
+          return next;
+        });
+      }, 5000);
+    }
+
+    prevRoomsRef.current = currentUnlocked;
+  }, [state.rooms, audioReady, playSFX]);
 
   // Group rooms by deck
   const deckGroups = useMemo(() => {
@@ -428,6 +532,7 @@ export default function ShipSchematicMap() {
                         deckColor={deckConfig.color}
                         onTravel={handleTravel}
                         onEnter={handleEnter}
+                        isNewlyUnlocked={newlyUnlockedRooms.has(def.id)}
                       />
                     ))}
                   </div>
@@ -468,6 +573,7 @@ export default function ShipSchematicMap() {
                         deckColor="#FF69B4"
                         onTravel={handleTravel}
                         onEnter={handleEnter}
+                        isNewlyUnlocked={newlyUnlockedRooms.has(def.id)}
                       />
                     ))}
                 </div>
