@@ -596,7 +596,7 @@ export default function FightArena3D({ player, opponent, arena, difficulty, onMa
       <div className="absolute inset-0 pointer-events-none" style={{ zIndex: 10 }}>
 
         {/* ── TOP HUD — Health bars, timer, portraits ── */}
-        <div style={{ position: "absolute", top: 0, left: 0, right: 0, padding: "1.5vh 2vw" }}>
+        <div style={{ position: "absolute", top: 0, left: 0, right: 0, padding: "5.5vh 2vw 1.5vh 2vw", zIndex: 30 }}>
           <div style={{ display: "flex", alignItems: "flex-start", gap: "1vw" }}>
 
             {/* P1 Portrait + Health */}
@@ -802,10 +802,11 @@ export default function FightArena3D({ player, opponent, arena, difficulty, onMa
               transition={{ duration: 0.3, type: "spring", stiffness: 200 }}
               style={{
                 position: "absolute", top: "35%", left: "50%", transform: "translate(-50%, -50%)",
-                fontFamily: "'Orbitron', monospace", fontSize: "max(5vw, 36px)", fontWeight: "900",
-                color: announceColor, letterSpacing: "0.15em",
+                fontFamily: "'Orbitron', monospace", fontSize: "clamp(24px, 4vw, 56px)", fontWeight: "900",
+                color: announceColor, letterSpacing: "0.1em",
                 textShadow: `0 0 40px ${announceColor}80, 0 0 80px ${announceColor}40, 0 4px 0 #000`,
-                whiteSpace: "nowrap",
+                whiteSpace: "nowrap", maxWidth: "90vw", overflow: "hidden", textOverflow: "ellipsis",
+                textAlign: "center",
               }}
             >
               {announceText}

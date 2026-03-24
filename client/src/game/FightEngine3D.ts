@@ -2588,6 +2588,18 @@ export class FightEngine3D {
                  type === "ground_crack" ? 1.2 : type === "sweat" ? 0.5 : 0.35;
 
     this.hitEffects.push({ x, y, z, life, maxLife: life, type, color, particles: group });
+
+    // Cap maximum active effects to prevent performance degradation
+    const MAX_EFFECTS = 40;
+    while (this.hitEffects.length > MAX_EFFECTS) {
+      const oldest = this.hitEffects.shift()!;
+      this.scene.remove(oldest.particles);
+      oldest.particles.children.forEach(c => {
+        const m = c as THREE.Mesh;
+        m.geometry.dispose();
+        (m.material as THREE.Material).dispose();
+      });
+    }
   }
 
   /** Update all particle effects */
@@ -2974,10 +2986,9 @@ export class FightEngine3D {
         const chargeRatio = Math.min(f.heavyChargeFrames / HEAVY_MAX_CHARGE_FRAMES, 1);
         const pulse = 1 + Math.sin(this.animFrame * 0.2) * 0.03 * chargeRatio;
         f.model.sprite.scale.setScalar(pulse);
-        // Tint based on charge via shader uniform
-        if (shaderMat.uniforms?.tintColor) {
-          const r = 1 + chargeRatio * 0.5;
-          shaderMat.uniforms.tintColor.value.setRGB(r, 1, 1);
+        // Charge glow via shader uniform
+        if (shaderMat.uniforms?.uSpecialGlow) {
+          shaderMat.uniforms.uSpecialGlow.value = chargeRatio * 0.8;
         }
         break;
 
@@ -2986,10 +2997,8 @@ export class FightEngine3D {
       case "special_3":
         targetPose = "attack";
         // Special move glow via shader
-        if (shaderMat.uniforms?.tintColor) {
-          const glow = 1 + Math.sin(this.animFrame * 0.3) * 0.2;
-          const accentCol = new THREE.Color(f.config.accentColor);
-          shaderMat.uniforms.tintColor.value.copy(accentCol).multiplyScalar(glow);
+        if (shaderMat.uniforms?.uSpecialGlow) {
+          shaderMat.uniforms.uSpecialGlow.value = 0.5 + Math.sin(this.animFrame * 0.3) * 0.3;
         }
         // Spawn afterimages during specials
         if (f.stateFrame % 4 === 0) this.spawnAfterimage(f);
@@ -3018,8 +3027,8 @@ export class FightEngine3D {
         const recoil = Math.sin(f.stateFrame * 0.8) * 0.04 * Math.max(0, 1 - f.stateFrame / 20);
         f.model.sprite.position.x = recoil;
         // Flash white on first few frames
-        if (f.stateFrame < 4 && shaderMat.uniforms?.tintColor) {
-          shaderMat.uniforms.tintColor.value.setRGB(2, 2, 2);
+        if (f.stateFrame < 4 && shaderMat.uniforms?.uHitFlash) {
+          shaderMat.uniforms.uHitFlash.value = 1.0 - (f.stateFrame / 4);
         }
         break;
 
@@ -3041,11 +3050,9 @@ export class FightEngine3D {
         f.model.sprite.rotation.z *= (1 - getupProgress);
         // Flash during invuln
         if (f.invincibleFrames > 0 && f.stateFrame % 4 < 2) {
-          if (shaderMat.uniforms?.opacity) shaderMat.uniforms.opacity.value = 0.5;
-          else shaderMat.opacity = 0.5;
+          if (shaderMat.uniforms?.uOpacity) shaderMat.uniforms.uOpacity.value = 0.5;
         } else {
-          if (shaderMat.uniforms?.opacity) shaderMat.uniforms.opacity.value = 1;
-          else shaderMat.opacity = 1;
+          if (shaderMat.uniforms?.uOpacity) shaderMat.uniforms.uOpacity.value = 1;
         }
         break;
 
@@ -3055,8 +3062,8 @@ export class FightEngine3D {
         const wobble = Math.sin(f.stateFrame * 0.2) * 0.05;
         f.model.sprite.position.x = wobble;
         // Stars effect (flash)
-        if (f.stateFrame % 20 < 10 && shaderMat.uniforms?.tintColor) {
-          shaderMat.uniforms.tintColor.value.setRGB(1.3, 1.3, 0.8);
+        if (f.stateFrame % 20 < 10 && shaderMat.uniforms?.uHitFlash) {
+          shaderMat.uniforms.uHitFlash.value = 0.3;
         }
         break;
 
@@ -3065,8 +3072,8 @@ export class FightEngine3D {
         // Wobble + flash
         const fWobble = Math.sin(f.stateFrame * 0.15) * 0.06;
         f.model.sprite.position.x = fWobble;
-        if (f.stateFrame % 30 < 15 && shaderMat.uniforms?.tintColor) {
-          shaderMat.uniforms.tintColor.value.setRGB(1.5, 0.5, 0.5);
+        if (f.stateFrame % 30 < 15 && shaderMat.uniforms?.uHitFlash) {
+          shaderMat.uniforms.uHitFlash.value = 0.5;
         }
         break;
 
@@ -3075,10 +3082,9 @@ export class FightEngine3D {
         // Fall animation
         const fallProgress = Math.min(f.stateFrame / 30, 1);
         f.model.sprite.rotation.z = (Math.PI / 2) * fallProgress * (f.facingRight ? -1 : 1);
-        // Desaturate
-        if (shaderMat.uniforms?.tintColor) {
-          const desat = 1 - fallProgress * 0.5;
-          shaderMat.uniforms.tintColor.value.setRGB(desat, desat, desat);
+        // Desaturate via opacity fade
+        if (shaderMat.uniforms?.uOpacity) {
+          shaderMat.uniforms.uOpacity.value = 1 - fallProgress * 0.3;
         }
         break;
 
@@ -3096,8 +3102,15 @@ export class FightEngine3D {
     // Apply pose texture swap using poseTextures map
     if (f.model.currentPose !== targetPose && f.model.poseTextures[targetPose]) {
       const tex = f.model.poseTextures[targetPose];
-      if (shaderMat.uniforms?.map) {
-        shaderMat.uniforms.map.value = tex;
+      // The shader uses 'uTexture' uniform, not 'map'
+      if (shaderMat.uniforms?.uTexture) {
+        shaderMat.uniforms.uTexture.value = tex;
+        shaderMat.needsUpdate = true;
+      }
+      // Also update the glow sprite texture
+      if (f.model.glowMaterial?.uniforms?.uTexture) {
+        f.model.glowMaterial.uniforms.uTexture.value = tex;
+        f.model.glowMaterial.needsUpdate = true;
       }
       f.model.currentPose = targetPose;
     }
@@ -3115,15 +3128,24 @@ export class FightEngine3D {
       f.model.sprite.position.y = 0;
     }
 
-    // Reset color tint
+    // Reset shader effects for states that don't use them
     if (state !== "hitstun" && state !== "parry_stun" && state !== "finish_stun" &&
         state !== "ko" && state !== "heavy_charge" && state !== "special_1" &&
         state !== "special_2" && state !== "special_3" && state !== "getup") {
-      if (shaderMat.uniforms?.tintColor) {
-        shaderMat.uniforms.tintColor.value.setRGB(1, 1, 1);
-      }
-      if (shaderMat.uniforms?.opacity) shaderMat.uniforms.opacity.value = 1;
-      else shaderMat.opacity = 1;
+      if (shaderMat.uniforms?.uHitFlash) shaderMat.uniforms.uHitFlash.value = 0;
+      if (shaderMat.uniforms?.uSpecialGlow) shaderMat.uniforms.uSpecialGlow.value = 0;
+      if (shaderMat.uniforms?.uBlockTint) shaderMat.uniforms.uBlockTint.value = 0;
+      if (shaderMat.uniforms?.uOpacity) shaderMat.uniforms.uOpacity.value = 1;
+    }
+
+    // Block tint for blocking states
+    if (state === "block_stand" || state === "block_crouch" || state === "blockstun") {
+      if (shaderMat.uniforms?.uBlockTint) shaderMat.uniforms.uBlockTint.value = 0.4;
+    }
+
+    // Update time uniform for shader animations
+    if (shaderMat.uniforms?.uTime) {
+      shaderMat.uniforms.uTime.value = this.animFrame * FRAME_DURATION;
     }
   }
 

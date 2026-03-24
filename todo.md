@@ -2500,3 +2500,10 @@
 - [x] Enhance visual feedback (proper hitstop, camera zoom on big hits, impact effects)
 - [x] Update FightArena3D UI to match new engine callbacks
 - [x] Run all tests and verify complete system (2035/2035 passing, 0 TS errors)
+
+## Fight Engine Bug Fixes
+- [x] Fix sprite pose texture swapping — shader used uTexture but swap code referenced 'map'
+- [x] Fix all shader uniform references (tintColor→uHitFlash/uSpecialGlow/uBlockTint, opacity→uOpacity)
+- [x] Fix HUD z-index and add top padding so health bars sit below site navigation
+- [x] Fix win screen text overflow — responsive font sizing with clamp() and max-width constraint
+- [x] Fix excessive particle effects — added 40-effect cap with proper geometry/material disposal
