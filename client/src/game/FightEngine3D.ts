@@ -15,7 +15,7 @@
 
 import * as THREE from "three";
 import { buildCharacterModel, getCharacterConfig, type CharacterModel, type CharacterConfig } from "./CharacterModel3D";
-import type { FighterData } from "./gameData";
+import type { FighterData, FrameProfile } from "./gameData";
 import { getCharacterSpecials, type CharacterSpecials, type SpecialMove } from "./specialMoves";
 
 /* ═══ EXPORTED TYPES ═══ */
@@ -1166,14 +1166,14 @@ export class FightEngine3D {
         break;
 
       case "walk_fwd": {
-        const targetSpeed = (f.facingRight ? 1 : -1) * WALK_FWD_SPEED * f.speedBuffMult;
+        const targetSpeed = (f.facingRight ? 1 : -1) * WALK_FWD_SPEED * f.data.frameProfile.walkSpeedMult * f.speedBuffMult;
         f.vx = this.approach(f.vx, targetSpeed, WALK_ACCEL * FRAME_DURATION);
         f.x += f.vx * FRAME_DURATION;
         break;
       }
 
       case "walk_back": {
-        const targetSpeed = (f.facingRight ? -1 : 1) * WALK_BACK_SPEED * f.speedBuffMult;
+        const targetSpeed = (f.facingRight ? -1 : 1) * WALK_BACK_SPEED * f.data.frameProfile.walkSpeedMult * f.speedBuffMult;
         f.vx = this.approach(f.vx, targetSpeed, WALK_ACCEL * FRAME_DURATION);
         f.x += f.vx * FRAME_DURATION;
         break;
@@ -1185,7 +1185,7 @@ export class FightEngine3D {
           // Acceleration curve: fast start, slight decel at end
           const progress = f.stateFrame / totalFrames;
           const speedCurve = progress < 0.3 ? 1.2 : (1.0 - (progress - 0.3) * 0.4);
-          f.vx = (f.facingRight ? 1 : -1) * DASH_FWD_SPEED * speedCurve;
+          f.vx = (f.facingRight ? 1 : -1) * DASH_FWD_SPEED * f.data.frameProfile.dashSpeedMult * speedCurve;
           f.x += f.vx * FRAME_DURATION;
           // Spawn afterimage every 3 frames
           if (f.stateFrame % 3 === 0) this.spawnAfterimage(f);
@@ -1205,7 +1205,7 @@ export class FightEngine3D {
           if (f.stateFrame <= DASH_INVULN_FRAMES) f.invincibleFrames = 1;
           const progress = f.stateFrame / totalFrames;
           const speedCurve = progress < 0.4 ? 1.3 : (1.0 - (progress - 0.4) * 0.5);
-          f.vx = (f.facingRight ? -1 : 1) * DASH_BACK_SPEED * speedCurve;
+          f.vx = (f.facingRight ? -1 : 1) * DASH_BACK_SPEED * f.data.frameProfile.dashSpeedMult * speedCurve;
           f.x += f.vx * FRAME_DURATION;
           if (f.stateFrame % 3 === 0) this.spawnAfterimage(f);
         } else {
@@ -1223,7 +1223,7 @@ export class FightEngine3D {
         // Pre-jump frames
         if (f.stateFrame <= PRE_JUMP_FRAMES) {
           if (f.stateFrame === PRE_JUMP_FRAMES) {
-            f.vy = JUMP_FORCE;
+            f.vy = JUMP_FORCE * f.data.frameProfile.jumpForceMult;
             if (f.state === "jump_fwd") f.vx = (f.facingRight ? 1 : -1) * JUMP_FWD_VX;
             else if (f.state === "jump_back") f.vx = (f.facingRight ? -1 : 1) * JUMP_BACK_VX;
             f.airborne = true;
@@ -1255,7 +1255,7 @@ export class FightEngine3D {
       case "medium":
       case "heavy_release":
       case "special_1": case "special_2": case "special_3": {
-        const fd = this.getFrameData(f.state);
+        const fd = this.getFrameData(f);
         const totalFrames = fd.startup + fd.active + fd.recovery;
 
         // Medium attack lunge
@@ -1543,7 +1543,7 @@ export class FightEngine3D {
     // Dex check — if timed during opponent's attack startup
     const opponent = f === this.p1 ? this.p2 : this.p1;
     if (this.isInAttackState(opponent)) {
-      const fd = this.getFrameData(opponent.state);
+      const fd = this.getFrameData(opponent);
       if (opponent.stateFrame <= fd.startup) {
         f.dexActive = true;
         f.dexFrames = DEX_INVULN_FRAMES;
@@ -1587,7 +1587,7 @@ export class FightEngine3D {
   /** Can the current attack be cancelled into the next move? */
   private canCancelIntoNext(f: Fighter): boolean {
     if (!this.isInAttackState(f)) return false;
-    const fd = this.getFrameData(f.state);
+    const fd = this.getFrameData(f);
     const frame = f.stateFrame;
 
     // Cancel window: during active frames and early recovery
@@ -1602,19 +1602,54 @@ export class FightEngine3D {
   }
 
   /** Get frame data for an attack type */
-  private getFrameData(state: FighterState): FrameData {
-    switch (state) {
-      case "light_1": return LIGHT_1;
-      case "light_2": return LIGHT_2;
-      case "light_3": return LIGHT_3;
-      case "light_4": return LIGHT_4;
-      case "medium": return MEDIUM;
-      case "heavy_release": return HEAVY_RELEASE;
-      case "special_1": return SP1_DATA;
-      case "special_2": return SP2_DATA;
-      case "special_3": return SP3_DATA;
-      default: return LIGHT_1; // fallback
+  private getFrameData(fighter: Fighter, state?: FighterState): FrameData {
+    const s = state ?? fighter.state;
+    const fp = fighter.data.frameProfile;
+    let base: FrameData;
+    switch (s) {
+      case "light_1": base = LIGHT_1; break;
+      case "light_2": base = LIGHT_2; break;
+      case "light_3": base = LIGHT_3; break;
+      case "light_4": base = LIGHT_4; break;
+      case "medium": base = MEDIUM; break;
+      case "heavy_release": base = HEAVY_RELEASE; break;
+      case "special_1": base = SP1_DATA; break;
+      case "special_2": base = SP2_DATA; break;
+      case "special_3": base = SP3_DATA; break;
+      default: base = LIGHT_1; break;
     }
+    // Apply per-character frame profile scaling
+    const isLight = s.startsWith("light");
+    const isMedium = s === "medium";
+    const isHeavy = s === "heavy_release";
+    // Startup: use absolute override for light/medium/heavy, keep base for specials
+    let startup = base.startup;
+    let recovery = base.recovery;
+    if (isLight) {
+      startup = fp.lightStartup;
+      recovery = fp.lightRecovery;
+    } else if (isMedium) {
+      startup = fp.mediumStartup;
+      recovery = fp.mediumRecovery;
+    } else if (isHeavy) {
+      startup = fp.heavyStartup;
+      recovery = fp.heavyRecovery;
+    }
+    return {
+      startup,
+      active: base.active,
+      recovery,
+      hitstun: Math.round(base.hitstun * fp.hitstunMult),
+      blockstun: Math.round(base.blockstun * fp.hitstunMult),
+      damage: Math.round(base.damage * fp.damageMult),
+      pushbackHit: base.pushbackHit * fp.pushbackMult,
+      pushbackBlock: base.pushbackBlock * fp.pushbackMult,
+      range: base.range * fp.rangeMult,
+      meterGain: Math.round(base.meterGain * fp.meterGainMult),
+      cancelWindow: base.cancelWindow,
+      jugglePoints: base.jugglePoints,
+      launchHeight: base.launchHeight,
+    };
   }
 
   /** Get the hitstop frames for an attack type */
@@ -1640,8 +1675,7 @@ export class FightEngine3D {
   private checkHitPair(attacker: Fighter, defender: Fighter) {
     if (!this.isInAttackState(attacker)) return;
     if (attacker.hitThisAttack) return;
-
-    const fd = this.getFrameData(attacker.state);
+    const fd = this.getFrameData(attacker);;
     const frame = attacker.stateFrame;
 
     // Only check during active frames
@@ -1704,7 +1738,7 @@ export class FightEngine3D {
 
   /** Resolve a blocked hit */
   private resolveBlock(attacker: Fighter, defender: Fighter) {
-    const fd = this.getFrameData(attacker.state);
+    const fd = this.getFrameData(attacker);
     const atkId: 1 | 2 = attacker === this.p1 ? 1 : 2;
 
     // Blockstun
@@ -1743,7 +1777,7 @@ export class FightEngine3D {
 
   /** Resolve a clean hit */
   private resolveHit(attacker: Fighter, defender: Fighter) {
-    const fd = this.getFrameData(attacker.state);
+    const fd = this.getFrameData(attacker);
     const atkId: 1 | 2 = attacker === this.p1 ? 1 : 2;
     const defId: 1 | 2 = defender === this.p1 ? 1 : 2;
 
@@ -1830,6 +1864,12 @@ export class FightEngine3D {
     attacker.comboTimer = 0;
     if (attacker.comboCount > 1) {
       this.callbacks.onCombo?.(atkId, attacker.comboCount, attacker.comboDamage);
+    }
+    // Per-character combo cap — force combo break when limit reached
+    const comboLimit = attacker.data.frameProfile.maxComboHits;
+    if (attacker.comboCount >= comboLimit && defender.airborne) {
+      // Force ground bounce to end juggle
+      defender.jugglePoints = 0;
     }
 
     // ── Meter gain ──
@@ -2012,7 +2052,7 @@ export class FightEngine3D {
 
     // Whiff punishment window
     if (this.isInAttackState(player) && !player.hitThisAttack) {
-      const fd = this.getFrameData(player.state);
+      const fd = this.getFrameData(player);
       if (player.stateFrame >= fd.startup + fd.active) {
         ai.aiWhiffPunishWindow = fd.recovery;
       }
@@ -2040,7 +2080,7 @@ export class FightEngine3D {
     const aiHealthRatio = ai.hp / ai.maxHp;
     const playerHealthRatio = player.hp / player.maxHp;
     const isPlayerAttacking = this.isInAttackState(player);
-    const isPlayerRecovering = isPlayerAttacking && player.stateFrame >= this.getFrameData(player.state).startup + this.getFrameData(player.state).active;
+    const isPlayerRecovering = isPlayerAttacking && player.stateFrame >= this.getFrameData(player).startup + this.getFrameData(player).active;
     const isPlayerClose = dist < 1.5;
     const isPlayerMidRange = dist >= 1.5 && dist < 3.0;
 
@@ -2966,7 +3006,7 @@ export class FightEngine3D {
       case "heavy_release":
         targetPose = "attack";
         // Attack animation: scale punch on active frames
-        const fd = this.getFrameData(state);
+        const fd = this.getFrameData(f);
         if (f.stateFrame >= fd.startup && f.stateFrame < fd.startup + fd.active) {
           // Active frames — extend
           const extend = 1.05 + (state === "heavy_release" ? 0.08 : state === "medium" ? 0.05 : 0.02);

@@ -2507,3 +2507,14 @@
 - [x] Fix HUD z-index and add top padding so health bars sit below site navigation
 - [x] Fix win screen text overflow — responsive font sizing with clamp() and max-width constraint
 - [x] Fix excessive particle effects — added 40-effect cap with proper geometry/material disposal
+
+## Per-Character Frame Data
+- [x] Audit current global frame data system and all fighter lore/styles
+- [x] Design 8 fighting game archetypes: Rushdown, Balanced, Zoner, Grappler, Pressure, Turtle, Glass Cannon, Boss
+- [x] Add FrameProfile interface to FighterData with 12 tunable parameters
+- [x] Assign unique frameProfile to all 42 fighters based on lore archetype
+- [x] Update FightEngine3D getFrameData() to scale base frame data using per-character profiles
+- [x] Apply per-character walk/dash/jump speed multipliers in movement system
+- [x] Apply per-character startup/recovery/damage/hitstun/blockstun/pushback scaling
+- [x] Wire per-character combo hit caps to prevent infinite combos
+- [x] Run all tests and verify system (2035/2035 passing, 0 TS errors)

@@ -274,6 +274,7 @@ export default function FightPage() {
             special: stats.special,
             combos: ["Instinct Strike", "Memory Flash", "Survival Will"],
             color: THE_PRISONER.color,
+            frameProfile: { archetype: "balanced", walkSpeedMult: 1.0, dashSpeedMult: 1.0, jumpForceMult: 1.0, lightStartup: 5, lightRecovery: 8, mediumStartup: 9, mediumRecovery: 16, heavyStartup: 8, heavyRecovery: 22, damageMult: 1.0, hitstunMult: 1.0, pushbackMult: 1.0, rangeMult: 1.0, meterGainMult: 1.0, maxComboHits: 12 },
           };
           setSelectedPlayer(prisonerFighter);
           setSelectedOpponent(opponent);
