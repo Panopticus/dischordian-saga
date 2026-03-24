@@ -227,9 +227,16 @@ function Router() {
    Shows the Awakening sequence for first-time visitors.
    Once complete, shows the normal app with AppShell. */
 function GameGate() {
-  const { state } = useGame();
+  const { state, isServerSyncReady } = useGame();
   const { muted, volume } = useSoundForTTS();
   const elaraTTS = useElaraTTS({ enabled: true, volume, muted });
+
+  // Wait for server sync before deciding to show Awakening.
+  // This prevents the race condition where localStorage is empty/stale
+  // but the server has a saved game state with a completed character.
+  if (!isServerSyncReady && (state.phase === "FIRST_VISIT" || state.phase === "AWAKENING")) {
+    return <PageLoader />;
+  }
 
   // First visit or in awakening → show the awakening experience
   if (state.phase === "FIRST_VISIT" || state.phase === "AWAKENING") {

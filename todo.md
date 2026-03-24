@@ -2540,3 +2540,6 @@
 
 ## Ship Map Tooltip Artwork Preview
 - [x] Expand room artwork into tooltip popover for larger preview before fast-traveling
+
+## Bug Fixes
+- [x] Fix Settings page error: "You already have a Citizen. Use the character sheet to modify." — page incorrectly triggers character creation mutation

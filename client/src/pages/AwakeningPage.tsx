@@ -366,31 +366,38 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
     });
   }, [characterChoices]);
 
+  const trpcUtils = trpc.useUtils();
+
   const handleCompleteCreation = useCallback(async () => {
     const c = characterChoices;
     if (!c.species || !c.characterClass || !c.alignment || !c.element || !c.name) return;
 
     try {
-      await createCitizen.mutateAsync({
-        name: c.name,
-        species: c.species,
-        characterClass: c.characterClass,
-        alignment: c.alignment,
-        element: c.element as any,
-        attrAttack: c.attrAttack,
-        attrDefense: c.attrDefense,
-        attrVitality: c.attrVitality,
-        ...(c.species === "neyon" && selectedNeyonTokenId ? { neyonTokenId: selectedNeyonTokenId } : {}),
-      });
+      // Check if citizen already exists before trying to create
+      const existing = await trpcUtils.citizen.getCharacter.fetch();
+      if (!existing) {
+        // No existing citizen — create one
+        await createCitizen.mutateAsync({
+          name: c.name,
+          species: c.species,
+          characterClass: c.characterClass,
+          alignment: c.alignment,
+          element: c.element as any,
+          attrAttack: c.attrAttack,
+          attrDefense: c.attrDefense,
+          attrVitality: c.attrVitality,
+          ...(c.species === "neyon" && selectedNeyonTokenId ? { neyonTokenId: selectedNeyonTokenId } : {}),
+        });
+      }
     } catch (err) {
-      // If character already exists, that's fine — continue
+      // If character already exists or any other error, continue the flow
       console.warn("Character creation:", err);
     }
 
     if (audioInitialized) playSFX("achievement");
     // Show deck reveal before navigating
     setShowDeckReveal(true);
-  }, [characterChoices, createCitizen, audioInitialized, playSFX]);
+  }, [characterChoices, createCitizen, audioInitialized, playSFX, trpcUtils]);
 
   return (
     <div className="fixed inset-0 z-[100] overflow-y-auto overflow-x-hidden" style={{ background: "#000" }} onClick={handleInitAudio}>

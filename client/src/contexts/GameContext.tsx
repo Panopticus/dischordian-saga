@@ -949,6 +949,8 @@ interface GameContextValue {
   syncStatus: "idle" | "saving" | "loading" | "synced" | "error";
   lastSyncedAt: string | null;
   forceSave: () => void;
+  /** True once the server state load attempt has completed (or auth check determined no user) */
+  isServerSyncReady: boolean;
 }
 
 const GameContext = createContext<GameContextValue | null>(null);
@@ -984,6 +986,16 @@ export function GameProvider({ children }: { children: ReactNode }) {
     retry: false,
   });
   const saveMutation = trpc.gameState.save.useMutation();
+
+  // Server sync readiness: true once we know whether server state exists
+  // - If not authenticated (authQuery resolved with no user): ready immediately
+  // - If authenticated: ready once loadQuery has resolved (success or error)
+  const isServerSyncReady = 
+    authQuery.isFetched && (
+      !authQuery.data || // Not authenticated — no server state to load
+      loadQuery.isFetched || // Auth'd and load query resolved
+      loadQuery.isError // Auth'd but load failed
+    );
 
   // Load from server on login (merge with localStorage — server wins if newer)
   useEffect(() => {
@@ -1887,6 +1899,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
       syncStatus,
       lastSyncedAt,
       forceSave,
+      isServerSyncReady,
     }}>
       {children}
     </GameContext.Provider>
