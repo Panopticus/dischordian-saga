@@ -9,7 +9,8 @@ import { useRef, useEffect, useState, useCallback, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowLeft, Swords, Shield, Zap, ChevronUp, Hand, Timer } from "lucide-react";
 import type { FighterData, ArenaData, DifficultyLevel } from "./gameData";
-import { FightEngine2D, type FightCallbacks2D, type FightPhase2D, type TouchInput2D, type Difficulty2D } from "./FightEngine2D";
+import { FightEngine2D, type FightCallbacks2D, type FightPhase2D, type TouchInput2D, type Difficulty2D, type TrainingData, type MoveListEntry } from "./FightEngine2D";
+import TrainingModeOverlay from "./TrainingModeOverlay";
 
 /* ═══ PROPS ═══ */
 interface FightArena2DProps {
@@ -187,6 +188,19 @@ export default function FightArena2D({
 
     engineRef.current = engine;
     engine.start();
+
+    // Load arena background image if available
+    if (arena.backgroundImage) {
+      engine.loadBackgroundImage(arena.backgroundImage);
+    }
+
+    // Enable hitbox display by default in training mode
+    if (trainingMode) {
+      engine.setShowHitboxes(true);
+      engine.setShowFrameData(true);
+      engine.setTrainingInfiniteHealth(true);
+      engine.setTrainingAutoRecover(true);
+    }
 
     return () => {
       engine.destroy();
@@ -436,11 +450,34 @@ export default function FightArena2D({
         <ArrowLeft size={16} className="text-white/60 hover:text-white" />
       </button>
 
-      {/* Training mode indicator */}
+      {/* Training mode overlay with hitbox viewer and frame data */}
       {trainingMode && (
-        <div className="absolute top-3 right-3 z-50 px-3 py-1 rounded bg-accent/20 border border-accent/30">
-          <span className="font-mono text-xs text-accent tracking-wider">TRAINING MODE</span>
-        </div>
+        <TrainingModeOverlay
+          getTrainingData={() => {
+            const engine = engineRef.current;
+            if (!engine) return {
+              p1: { state: "idle" as const, stateFrame: 0, hp: 0, maxHp: 0, meter: 0, comboCount: 0, comboDamage: 0, facingRight: true, airborne: false, isCrouching: false, x: 0, y: 0, moveData: null },
+              p2: { state: "idle" as const, stateFrame: 0, hp: 0, maxHp: 0, meter: 0, comboCount: 0, comboDamage: 0, facingRight: false, airborne: false, isCrouching: false, x: 0, y: 0, moveData: null },
+              stats: { maxCombo: 0, totalDamage: 0, hitsLanded: 0 },
+              frameCount: 0, distance: 0, showHitboxes: true, showFrameData: true,
+            };
+            return engine.getTrainingData();
+          }}
+          getMoveList={(p) => {
+            const engine = engineRef.current;
+            if (!engine) return [];
+            return engine.getAllMoveData(p);
+          }}
+          onToggleHitboxes={(show) => engineRef.current?.setShowHitboxes(show)}
+          onToggleFrameData={(show) => engineRef.current?.setShowFrameData(show)}
+          onResetDummy={() => engineRef.current?.resetTrainingDummy()}
+          onResetPositions={() => engineRef.current?.resetP1Position()}
+          onSetInfiniteHealth={(on) => engineRef.current?.setTrainingInfiniteHealth(on)}
+          onSetInfiniteMeter={(on) => engineRef.current?.setTrainingInfiniteMeter(on)}
+          onSetAutoRecover={(on) => engineRef.current?.setTrainingAutoRecover(on)}
+          p1Name={player.name}
+          p2Name={opponent.name}
+        />
       )}
     </div>
   );

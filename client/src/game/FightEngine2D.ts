@@ -61,6 +61,55 @@ export interface FightCallbacks2D {
   onFinishHim?: (target: 1 | 2) => void;
 }
 
+export interface TrainingFighterData {
+  state: FighterState2D;
+  stateFrame: number;
+  hp: number;
+  maxHp: number;
+  meter: number;
+  comboCount: number;
+  comboDamage: number;
+  facingRight: boolean;
+  airborne: boolean;
+  isCrouching: boolean;
+  x: number;
+  y: number;
+  moveData: {
+    startup: number;
+    active: number;
+    recovery: number;
+    damage: number;
+    type: string;
+    cancelWindow: number;
+    totalFrames: number;
+    currentPhase: "startup" | "active" | "recovery";
+  } | null;
+}
+
+export interface TrainingData {
+  p1: TrainingFighterData;
+  p2: TrainingFighterData;
+  stats: { maxCombo: number; totalDamage: number; hitsLanded: number };
+  frameCount: number;
+  distance: number;
+  showHitboxes: boolean;
+  showFrameData: boolean;
+}
+
+export interface MoveListEntry {
+  name: string;
+  input: string;
+  startup: number;
+  active: number;
+  recovery: number;
+  total: number;
+  damage: number;
+  type: string;
+  onHit: string;
+  onBlock: string;
+  cancelWindow: number;
+}
+
 /* ═══════════════════════════════════════════════════════
    CONSTANTS
    ═══════════════════════════════════════════════════════ */
@@ -793,6 +842,11 @@ export class FightEngine2D {
   // Training mode
   private trainingMode: boolean;
   private trainingStats = { maxCombo: 0, totalDamage: 0, hitsLanded: 0 };
+  private showHitboxes = false;
+  private showFrameData = false;
+  private trainingAutoRecover = true;
+  private trainingInfiniteHealth = true;
+  private trainingInfiniteMeter = false;
 
   constructor(
     canvas: HTMLCanvasElement,
@@ -817,6 +871,10 @@ export class FightEngine2D {
     this.floorColor = floorColor;
     this.ambientColor = ambientColor;
     this.trainingMode = trainingMode;
+    if (trainingMode) {
+      this.showHitboxes = true;
+      this.showFrameData = true;
+    }
 
     // Create fighters
     this.p1 = this.createFighter(p1Data, STAGE_WIDTH / 2 - 200, true);
@@ -1191,6 +1249,32 @@ export class FightEngine2D {
 
     // Report health
     this.callbacks.onHealthChange?.(this.p1.hp, this.p1.maxHp, this.p2.hp, this.p2.maxHp);
+
+    // Training mode: auto-recover P2 health & meter
+    if (this.trainingMode) {
+      if (this.trainingInfiniteHealth) {
+        // Slowly regenerate P2 health when not in hitstun
+        if (this.p2.state === "idle" || this.p2.state === "walk_fwd" || this.p2.state === "walk_back") {
+          if (this.p2.hp < this.p2.maxHp) {
+            this.p2.hp = Math.min(this.p2.maxHp, this.p2.hp + 2);
+            this.p2.displayHp = this.p2.hp;
+          }
+        }
+      }
+      if (this.trainingInfiniteMeter) {
+        this.p1.specialMeter = MAX_METER;
+      }
+      if (this.trainingAutoRecover && this.p2.hp <= 0) {
+        // Auto-revive the dummy
+        this.p2.hp = this.p2.maxHp;
+        this.p2.displayHp = this.p2.maxHp;
+        this.changeState(this.p2, "idle");
+        this.p2.y = FLOOR_Y;
+        this.p2.vy = 0;
+        this.p2.airborne = false;
+        this.p2.jugglePoints = MAX_JUGGLE_POINTS;
+      }
+    }
   }
 
   /* ═══ P1 INPUT PROCESSING ═══ */
@@ -2328,6 +2412,11 @@ export class FightEngine2D {
     // Particles
     this.renderParticles(ctx);
 
+    // Debug hitbox/hurtbox overlay (training mode)
+    if (this.showHitboxes && this.trainingMode) {
+      this.renderHitboxOverlay(ctx);
+    }
+
     ctx.restore();
 
     // Screen flash (screen space)
@@ -2349,31 +2438,67 @@ export class FightEngine2D {
   }
 
   private renderBackground(ctx: CanvasRenderingContext2D) {
-    // Parse gradient and draw
-    const gradient = ctx.createLinearGradient(0, 0, 0, GAME_HEIGHT);
-    // Simple dark background with ambient color tint
-    gradient.addColorStop(0, "#000000");
-    gradient.addColorStop(0.3, this.mixColor("#050510", this.ambientColor, 0.15));
-    gradient.addColorStop(0.5, this.mixColor("#0a0a20", this.ambientColor, 0.2));
-    gradient.addColorStop(0.7, this.mixColor("#050510", this.ambientColor, 0.15));
-    gradient.addColorStop(1, "#000000");
-    ctx.fillStyle = gradient;
-    ctx.fillRect(-200, -200, STAGE_WIDTH + 400, GAME_HEIGHT + 400);
+    if (this.bgImageLoaded && this.bgImage) {
+      // Draw the arena background image with parallax scrolling
+      const img = this.bgImage;
+      const imgAspect = img.width / img.height;
+      
+      // The background should cover the full visible area
+      // Parallax: background moves slower than camera (0.3x factor)
+      const parallaxFactor = 0.3;
+      const cameraCenter = this.camera.x;
+      const stageCenter = STAGE_WIDTH / 2;
+      const parallaxOffset = (cameraCenter - stageCenter) * parallaxFactor;
+      
+      // Calculate draw dimensions to cover the stage
+      const drawHeight = GAME_HEIGHT + 400;
+      const drawWidth = drawHeight * imgAspect;
+      
+      // Center the image on the stage with parallax offset
+      const drawX = stageCenter - drawWidth / 2 - parallaxOffset;
+      const drawY = -200;
+      
+      ctx.save();
+      ctx.globalAlpha = 0.7;
+      ctx.drawImage(img, drawX, drawY, drawWidth, drawHeight);
+      ctx.globalAlpha = 1;
+      ctx.restore();
+      
+      // Subtle vignette overlay
+      const vignette = ctx.createRadialGradient(
+        stageCenter, GAME_HEIGHT / 2, GAME_HEIGHT * 0.3,
+        stageCenter, GAME_HEIGHT / 2, GAME_HEIGHT * 0.9
+      );
+      vignette.addColorStop(0, "transparent");
+      vignette.addColorStop(1, "rgba(0,0,0,0.5)");
+      ctx.fillStyle = vignette;
+      ctx.fillRect(-200, -200, STAGE_WIDTH + 400, GAME_HEIGHT + 400);
+    } else {
+      // Fallback: gradient background
+      const gradient = ctx.createLinearGradient(0, 0, 0, GAME_HEIGHT);
+      gradient.addColorStop(0, "#000000");
+      gradient.addColorStop(0.3, this.mixColor("#050510", this.ambientColor, 0.15));
+      gradient.addColorStop(0.5, this.mixColor("#0a0a20", this.ambientColor, 0.2));
+      gradient.addColorStop(0.7, this.mixColor("#050510", this.ambientColor, 0.15));
+      gradient.addColorStop(1, "#000000");
+      ctx.fillStyle = gradient;
+      ctx.fillRect(-200, -200, STAGE_WIDTH + 400, GAME_HEIGHT + 400);
 
-    // Grid lines for depth
-    ctx.strokeStyle = `${this.ambientColor}15`;
-    ctx.lineWidth = 1;
-    for (let x = 0; x < STAGE_WIDTH; x += 80) {
-      ctx.beginPath();
-      ctx.moveTo(x, 0);
-      ctx.lineTo(x, GAME_HEIGHT);
-      ctx.stroke();
-    }
-    for (let y = 0; y < GAME_HEIGHT; y += 80) {
-      ctx.beginPath();
-      ctx.moveTo(0, y);
-      ctx.lineTo(STAGE_WIDTH, y);
-      ctx.stroke();
+      // Grid lines for depth
+      ctx.strokeStyle = `${this.ambientColor}15`;
+      ctx.lineWidth = 1;
+      for (let x = 0; x < STAGE_WIDTH; x += 80) {
+        ctx.beginPath();
+        ctx.moveTo(x, 0);
+        ctx.lineTo(x, GAME_HEIGHT);
+        ctx.stroke();
+      }
+      for (let y = 0; y < GAME_HEIGHT; y += 80) {
+        ctx.beginPath();
+        ctx.moveTo(0, y);
+        ctx.lineTo(STAGE_WIDTH, y);
+        ctx.stroke();
+      }
     }
   }
 
@@ -2841,6 +2966,136 @@ export class FightEngine2D {
     return `#${r.toString(16).padStart(2, "0")}${g.toString(16).padStart(2, "0")}${bl.toString(16).padStart(2, "0")}`;
   }
 
+  /* ═══ HITBOX/HURTBOX DEBUG OVERLAY ═══ */
+  private renderHitboxOverlay(ctx: CanvasRenderingContext2D) {
+    // Draw hurtboxes for both fighters
+    this.renderFighterBoxes(ctx, this.p1, "#00ff00");
+    this.renderFighterBoxes(ctx, this.p2, "#00ff00");
+
+    // Draw active hitboxes
+    this.renderActiveHitbox(ctx, this.p1, "#ff0000");
+    this.renderActiveHitbox(ctx, this.p2, "#ff0000");
+
+    // Draw push boxes
+    this.renderPushBox(ctx, this.p1, "#ffff00");
+    this.renderPushBox(ctx, this.p2, "#ffff00");
+  }
+
+  private renderFighterBoxes(ctx: CanvasRenderingContext2D, f: Fighter2D, color: string) {
+    const hurtBoxes = this.getHurtBoxes(f);
+    const zones = [hurtBoxes.head, hurtBoxes.body, hurtBoxes.legs];
+    const zoneColors = ["#00ccff", "#00ff66", "#66ff00"];
+    const zoneLabels = ["HEAD", "BODY", "LEGS"];
+
+    zones.forEach((box, i) => {
+      const world = toWorld(box, f.x, f.y, f.facingRight);
+      ctx.save();
+      ctx.globalAlpha = 0.25;
+      ctx.fillStyle = zoneColors[i];
+      ctx.fillRect(world.x, world.y, world.w, world.h);
+      ctx.globalAlpha = 0.8;
+      ctx.strokeStyle = zoneColors[i];
+      ctx.lineWidth = 1.5;
+      ctx.strokeRect(world.x, world.y, world.w, world.h);
+      // Label
+      ctx.globalAlpha = 0.6;
+      ctx.fillStyle = "#ffffff";
+      ctx.font = "bold 8px monospace";
+      ctx.fillText(zoneLabels[i], world.x + 2, world.y + 9);
+      ctx.restore();
+    });
+  }
+
+  private renderActiveHitbox(ctx: CanvasRenderingContext2D, f: Fighter2D, color: string) {
+    if (!this.isInAttackState(f)) return;
+    const moveData = this.getMoveData(f);
+    if (!moveData) return;
+
+    const frame = f.stateFrame;
+    const inStartup = frame < moveData.startup;
+    const inActive = frame >= moveData.startup && frame < moveData.startup + moveData.active;
+    const inRecovery = frame >= moveData.startup + moveData.active;
+
+    const hitboxWorld = toWorld(moveData.hitbox, f.x, f.y, f.facingRight);
+
+    ctx.save();
+    if (inActive) {
+      // Active hitbox — bright red
+      ctx.globalAlpha = 0.4;
+      ctx.fillStyle = "#ff0000";
+      ctx.fillRect(hitboxWorld.x, hitboxWorld.y, hitboxWorld.w, hitboxWorld.h);
+      ctx.globalAlpha = 1;
+      ctx.strokeStyle = "#ff0000";
+      ctx.lineWidth = 2;
+      ctx.strokeRect(hitboxWorld.x, hitboxWorld.y, hitboxWorld.w, hitboxWorld.h);
+      // Pulsing glow
+      ctx.shadowColor = "#ff0000";
+      ctx.shadowBlur = 8;
+      ctx.strokeRect(hitboxWorld.x, hitboxWorld.y, hitboxWorld.w, hitboxWorld.h);
+      ctx.shadowBlur = 0;
+    } else if (inStartup) {
+      // Startup — yellow outline (hitbox about to become active)
+      ctx.globalAlpha = 0.15;
+      ctx.fillStyle = "#ffaa00";
+      ctx.fillRect(hitboxWorld.x, hitboxWorld.y, hitboxWorld.w, hitboxWorld.h);
+      ctx.globalAlpha = 0.6;
+      ctx.strokeStyle = "#ffaa00";
+      ctx.lineWidth = 1;
+      ctx.setLineDash([4, 4]);
+      ctx.strokeRect(hitboxWorld.x, hitboxWorld.y, hitboxWorld.w, hitboxWorld.h);
+    } else if (inRecovery) {
+      // Recovery — dim blue outline
+      ctx.globalAlpha = 0.1;
+      ctx.fillStyle = "#4488ff";
+      ctx.fillRect(hitboxWorld.x, hitboxWorld.y, hitboxWorld.w, hitboxWorld.h);
+      ctx.globalAlpha = 0.4;
+      ctx.strokeStyle = "#4488ff";
+      ctx.lineWidth = 1;
+      ctx.setLineDash([2, 6]);
+      ctx.strokeRect(hitboxWorld.x, hitboxWorld.y, hitboxWorld.w, hitboxWorld.h);
+    }
+
+    // Frame phase label
+    ctx.globalAlpha = 0.9;
+    ctx.fillStyle = inActive ? "#ff4444" : inStartup ? "#ffaa00" : "#4488ff";
+    ctx.font = "bold 9px monospace";
+    const label = inActive ? "ACTIVE" : inStartup ? "STARTUP" : "RECOVERY";
+    ctx.fillText(label, hitboxWorld.x, hitboxWorld.y - 4);
+    ctx.restore();
+  }
+
+  private renderPushBox(ctx: CanvasRenderingContext2D, f: Fighter2D, color: string) {
+    const pushW = PUSH_BOX_WIDTH;
+    const pushH = f.isCrouching ? PUSH_BOX_HEIGHT * 0.6 : PUSH_BOX_HEIGHT;
+    const px = f.x - pushW / 2;
+    const py = f.y - pushH;
+
+    ctx.save();
+    ctx.globalAlpha = 0.15;
+    ctx.fillStyle = color;
+    ctx.fillRect(px, py, pushW, pushH);
+    ctx.globalAlpha = 0.5;
+    ctx.strokeStyle = color;
+    ctx.lineWidth = 1;
+    ctx.setLineDash([3, 3]);
+    ctx.strokeRect(px, py, pushW, pushH);
+    ctx.restore();
+  }
+
+  /* ═══ ARENA BACKGROUND IMAGE ═══ */
+  private bgImage: HTMLImageElement | null = null;
+  private bgImageLoaded = false;
+
+  public loadBackgroundImage(url: string) {
+    const img = new Image();
+    img.crossOrigin = "anonymous";
+    img.onload = () => {
+      this.bgImage = img;
+      this.bgImageLoaded = true;
+    };
+    img.src = url;
+  }
+
   /* ═══ PUBLIC GETTERS ═══ */
   public getPhase(): FightPhase2D { return this.phase; }
   public getRound(): number { return this.round; }
@@ -2851,4 +3106,182 @@ export class FightEngine2D {
   public getTimer(): number { return Math.ceil(this.roundTimer / 60); }
   public getTrainingStats() { return { ...this.trainingStats }; }
   public isRunning(): boolean { return this.running; }
+
+  /* ═══ TRAINING MODE PUBLIC API ═══ */
+  public setShowHitboxes(show: boolean) { this.showHitboxes = show; }
+  public setShowFrameData(show: boolean) { this.showFrameData = show; }
+  public setTrainingAutoRecover(on: boolean) { this.trainingAutoRecover = on; }
+  public setTrainingInfiniteHealth(on: boolean) { this.trainingInfiniteHealth = on; }
+  public setTrainingInfiniteMeter(on: boolean) { this.trainingInfiniteMeter = on; }
+  public getShowHitboxes(): boolean { return this.showHitboxes; }
+  public getShowFrameData(): boolean { return this.showFrameData; }
+
+  public resetTrainingDummy() {
+    if (!this.trainingMode) return;
+    this.p2.hp = this.p2.maxHp;
+    this.p2.displayHp = this.p2.maxHp;
+    this.p2.specialMeter = 0;
+    this.changeState(this.p2, "idle");
+    this.p2.comboCount = 0;
+    this.p2.comboDamage = 0;
+    this.p2.comboTimer = 0;
+    this.p2.jugglePoints = MAX_JUGGLE_POINTS;
+    this.p2.airborne = false;
+    this.p2.stunFrames = 0;
+    this.p2.invincibleFrames = 0;
+    this.p2.dotTimer = 0;
+    this.p2.defenseDebuffTimer = 0;
+    this.p2.speedBuffTimer = 0;
+    this.trainingStats = { maxCombo: 0, totalDamage: 0, hitsLanded: 0 };
+  }
+
+  public resetP1Position() {
+    if (!this.trainingMode) return;
+    this.p1.x = STAGE_WIDTH / 2 - 200;
+    this.p1.y = FLOOR_Y;
+    this.p1.vx = 0;
+    this.p1.vy = 0;
+    this.p1.airborne = false;
+    this.changeState(this.p1, "idle");
+    this.p2.x = STAGE_WIDTH / 2 + 200;
+    this.p2.y = FLOOR_Y;
+    this.p2.vx = 0;
+    this.p2.vy = 0;
+    this.p2.airborne = false;
+    this.changeState(this.p2, "idle");
+  }
+
+  /** Get comprehensive training data for the overlay UI */
+  public getTrainingData(): TrainingData {
+    const p1Move = this.getMoveData(this.p1);
+    const p2Move = this.getMoveData(this.p2);
+    return {
+      p1: {
+        state: this.p1.state,
+        stateFrame: this.p1.stateFrame,
+        hp: this.p1.hp,
+        maxHp: this.p1.maxHp,
+        meter: this.p1.specialMeter,
+        comboCount: this.p1.comboCount,
+        comboDamage: this.p1.comboDamage,
+        facingRight: this.p1.facingRight,
+        airborne: this.p1.airborne,
+        isCrouching: this.p1.isCrouching,
+        x: Math.round(this.p1.x),
+        y: Math.round(this.p1.y),
+        moveData: p1Move ? {
+          startup: p1Move.startup,
+          active: p1Move.active,
+          recovery: p1Move.recovery,
+          damage: Math.round(p1Move.hitbox.damage),
+          type: p1Move.hitbox.type,
+          cancelWindow: p1Move.cancelWindow,
+          totalFrames: p1Move.startup + p1Move.active + p1Move.recovery,
+          currentPhase: this.p1.stateFrame < p1Move.startup ? "startup" :
+                        this.p1.stateFrame < p1Move.startup + p1Move.active ? "active" : "recovery",
+        } : null,
+      },
+      p2: {
+        state: this.p2.state,
+        stateFrame: this.p2.stateFrame,
+        hp: this.p2.hp,
+        maxHp: this.p2.maxHp,
+        meter: this.p2.specialMeter,
+        comboCount: this.p2.comboCount,
+        comboDamage: this.p2.comboDamage,
+        facingRight: this.p2.facingRight,
+        airborne: this.p2.airborne,
+        isCrouching: this.p2.isCrouching,
+        x: Math.round(this.p2.x),
+        y: Math.round(this.p2.y),
+        moveData: p2Move ? {
+          startup: p2Move.startup,
+          active: p2Move.active,
+          recovery: p2Move.recovery,
+          damage: Math.round(p2Move.hitbox.damage),
+          type: p2Move.hitbox.type,
+          cancelWindow: p2Move.cancelWindow,
+          totalFrames: p2Move.startup + p2Move.active + p2Move.recovery,
+          currentPhase: this.p2.stateFrame < p2Move.startup ? "startup" :
+                        this.p2.stateFrame < p2Move.startup + p2Move.active ? "active" : "recovery",
+        } : null,
+      },
+      stats: { ...this.trainingStats },
+      frameCount: this.frameCount,
+      distance: Math.round(Math.abs(this.p1.x - this.p2.x)),
+      showHitboxes: this.showHitboxes,
+      showFrameData: this.showFrameData,
+    };
+  }
+
+  /** Get all move frame data for a fighter (for the move list panel) */
+  public getAllMoveData(player: 1 | 2): MoveListEntry[] {
+    const f = player === 1 ? this.p1 : this.p2;
+    const profile = f.data.frameProfile;
+    const moves: MoveListEntry[] = [];
+
+    const moveKeys: Array<Parameters<typeof buildMoveData>[1]> = [
+      "light_1", "light_2", "light_3", "medium", "heavy_release",
+      "crouch_light", "crouch_medium", "crouch_heavy",
+      "jump_light", "jump_medium", "jump_heavy",
+    ];
+
+    const moveNames: Record<string, string> = {
+      light_1: "Light 1 (Jab)",
+      light_2: "Light 2",
+      light_3: "Light 3 (Chain)",
+      medium: "Medium",
+      heavy_release: "Heavy",
+      crouch_light: "Crouch Light",
+      crouch_medium: "Crouch Medium",
+      crouch_heavy: "Crouch Heavy (Sweep)",
+      jump_light: "Jump Light",
+      jump_medium: "Jump Medium",
+      jump_heavy: "Jump Heavy",
+    };
+
+    for (const key of moveKeys) {
+      const md = buildMoveData(profile, key);
+      moves.push({
+        name: moveNames[key] || key,
+        input: key,
+        startup: md.startup,
+        active: md.active,
+        recovery: md.recovery,
+        total: md.startup + md.active + md.recovery,
+        damage: Math.round(md.hitbox.damage),
+        type: md.hitbox.type,
+        onHit: `+${md.hitbox.hitstun - md.recovery}`,
+        onBlock: `${md.hitbox.blockstun - md.recovery}`,
+        cancelWindow: md.cancelWindow,
+      });
+    }
+
+    // Add specials
+    const specials = f.specials;
+    const spList: Array<{ sp: SpecialMove; level: 1 | 2 | 3; label: string }> = [
+      { sp: specials.sp1, level: 1, label: `SP1: ${specials.sp1.name}` },
+      { sp: specials.sp2, level: 2, label: `SP2: ${specials.sp2.name}` },
+      { sp: specials.sp3, level: 3, label: `SP3: ${specials.sp3.name}` },
+    ];
+
+    for (const { sp, level, label } of spList) {
+      const md = buildSpecialMoveData(sp, level, profile);
+      moves.push({
+        name: label,
+        input: `special_${level}`,
+        startup: md.startup,
+        active: md.active,
+        recovery: md.recovery,
+        total: md.startup + md.active + md.recovery,
+        damage: Math.round(md.hitbox.damage),
+        type: md.hitbox.type,
+        onHit: `+${md.hitbox.hitstun - md.recovery}`,
+        onBlock: `${md.hitbox.blockstun - md.recovery}`,
+        cancelWindow: md.cancelWindow,
+      });
+    }
+
+    return moves;
+  }
 }

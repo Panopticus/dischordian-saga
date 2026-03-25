@@ -22,3 +22,33 @@
 - Engineer: https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/card_engineer-87sWBmYL7gTbn268o6MDC9.webp
 - Assassin: https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/card_assassin-KiyFK4iYWiFfBiKtgJcCVa.webp
 - Spy: https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/card_spy-4XKj4uc84NHCSshGpoDKqE.webp
+
+## Sprite Sheets (12 characters, 4x2 grid: idle, walk, light, heavy, block, hit, crouch, special)
+
+| Character | CDN URL |
+|-----------|---------|
+| architect | https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/architect_spritesheet-cUbdFYrNmAJggCQWBB2aaX.webp |
+| collector | https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/collector_spritesheet-nmDY6uThYNZRUsZ3ucFSRS.webp |
+| enigma | https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/enigma_spritesheet-QvpeQ3pkgQxotULWbsexzM.webp |
+| warlord | https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/warlord_spritesheet-Rn8XDZdk9qW4zzEg3VuroZ.webp |
+| necromancer | https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/necromancer_spritesheet-2s7GsFKkNJEHZxztk4AXbq.webp |
+| iron-lion | https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/iron-lion_spritesheet-eN9jaJRKdSML9gQTxwBZEM.webp |
+| oracle | https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/oracle_spritesheet-oTeoDSPhLMRVy4a2XrUX94.webp |
+| agent-zero | https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/agent-zero_spritesheet-RZUqHFz5LP59H8Q68sFo4h.webp |
+| meme | https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/meme_spritesheet-7bVrsYxzdg2r6pnWABRnEj.webp |
+| source | https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/source_spritesheet-VXZZJzh3TSkHpj2GNqDAKu.webp |
+| akai-shi | https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/akai-shi_spritesheet-5weLr4FcHmRqjSd5W53Wyf.webp |
+| human | https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/human_spritesheet-A5aeHoy98gKJYAERvfnL6W.webp |
+
+## Arena Backgrounds (8 stages)
+
+| Arena | CDN URL |
+|-------|---------|
+| new-babylon | https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/new-babylon_bg-L5pBrrUTe6CFpHgUCnzGZc.webp |
+| panopticon | https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/panopticon_bg-gApTAVKfeK2mH2t2EjSnXa.webp |
+| thaloria | https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/thaloria_bg-M7SWZHAJwr8fcXgRRMMax4.webp |
+| terminus | https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/terminus_bg-DX47zzMZ5k3JdifSRVmKhR.webp |
+| mechronis | https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/mechronis_bg-CYQGpJMy45LhszadcxaySY.webp |
+| necropolis | https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/necropolis_bg-FGT6JpTpUEJS36iuVerv7R.webp |
+| digital-void | https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/digital-void_bg-MXXbEFzrcPU2f6iCeSDG2N.webp |
+| resistance-base | https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/resistance-base_bg-FfKoe3Z7EovPpm24P7DcoX.webp |

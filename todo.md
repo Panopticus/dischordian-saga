@@ -2559,3 +2559,14 @@
 - [x] Integrate the engine into Loredex OS with our characters and arenas
 - [x] Wire up story mode, character select, and game flow
 - [x] Test and verify the complete fighting game overhaul
+
+## Fighting Game Visual & Training Enhancements
+- [x] Generate multi-frame sprite sheets for top 12 priority characters (idle, walk, attack, block, hit, crouch, jump, special)
+- [x] Generate parallax arena background art for all 8 stages (far, mid, near layers)
+- [x] Upload all generated assets to CDN
+- [x] Integrate sprite sheets into FightEngine2D for proper frame-by-frame animation
+- [x] Integrate arena backgrounds into FightEngine2D with parallax scrolling
+- [x] Build training mode UI with hitbox/hurtbox viewer overlay
+- [x] Build frame data display panel for training mode
+- [x] Add training mode toggle and controls to FightArena2D
+- [x] Test all enhancements end-to-end

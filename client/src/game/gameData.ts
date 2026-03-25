@@ -627,6 +627,7 @@ export const ARENAS: ArenaData[] = [
     bgGradient: "linear-gradient(180deg, #000000 0%, #050510 30%, #0a0a20 50%, #050510 70%, #000000 100%)",
     floorColor: "#0a0a15",
     ambientColor: "#4f46e5",
+    backgroundImage: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/digital-void_bg-MXXbEFzrcPU2f6iCeSDG2N.webp",
   },
   {
     id: "babylon",
@@ -634,6 +635,7 @@ export const ARENAS: ArenaData[] = [
     bgGradient: "linear-gradient(180deg, #0a0a2e 0%, #1a1040 30%, #2d1b69 50%, #1a1040 70%, #0a0a2e 100%)",
     floorColor: "#1e1b4b",
     ambientColor: "#f59e0b",
+    backgroundImage: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/new-babylon_bg-L5pBrrUTe6CFpHgUCnzGZc.webp",
   },
   {
     id: "necropolis",
@@ -641,6 +643,7 @@ export const ARENAS: ArenaData[] = [
     bgGradient: "linear-gradient(180deg, #0a0a0a 0%, #0d1a0d 30%, #1a2e1a 50%, #0d1a0d 70%, #0a0a0a 100%)",
     floorColor: "#0d1a0d",
     ambientColor: "#22c55e",
+    backgroundImage: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/necropolis_bg-FGT6JpTpUEJS36iuVerv7R.webp",
   },
   {
     id: "new-babylon",
@@ -648,7 +651,7 @@ export const ARENAS: ArenaData[] = [
     bgGradient: "linear-gradient(180deg, #0a0a2e 0%, #1a0a3e 40%, #2d1b69 70%, #1a0a2e 100%)",
     floorColor: "#1e1b4b",
     ambientColor: "#6366f1",
-    backgroundImage: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/arena_new-babylon_bg_b728428b.png",
+    backgroundImage: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/new-babylon_bg-L5pBrrUTe6CFpHgUCnzGZc.webp",
   },
   {
     id: "panopticon",
@@ -656,7 +659,7 @@ export const ARENAS: ArenaData[] = [
     bgGradient: "linear-gradient(180deg, #0f0f0f 0%, #1a0000 40%, #3d0000 70%, #1a0000 100%)",
     floorColor: "#1c1917",
     ambientColor: "#ef4444",
-    backgroundImage: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/arena_panopticon_bg_9b399315.png",
+    backgroundImage: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/panopticon_bg-gApTAVKfeK2mH2t2EjSnXa.webp",
   },
   {
     id: "thaloria",
@@ -664,7 +667,7 @@ export const ARENAS: ArenaData[] = [
     bgGradient: "linear-gradient(180deg, #001a1a 0%, #003333 40%, #004d4d 70%, #001a1a 100%)",
     floorColor: "#134e4a",
     ambientColor: "#14b8a6",
-    backgroundImage: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/arena_thaloria_bg_35141b80.png",
+    backgroundImage: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/thaloria_bg-M7SWZHAJwr8fcXgRRMMax4.webp",
   },
   {
     id: "terminus",
@@ -672,7 +675,7 @@ export const ARENAS: ArenaData[] = [
     bgGradient: "linear-gradient(180deg, #0a0a0a 0%, #1a0a2a 40%, #2a1a4a 70%, #0a0a1a 100%)",
     floorColor: "#1e1b4b",
     ambientColor: "#a855f7",
-    backgroundImage: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/arena_terminus_bg_5cd44ec3.png",
+    backgroundImage: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/terminus_bg-DX47zzMZ5k3JdifSRVmKhR.webp",
   },
   {
     id: "mechronis",
@@ -680,7 +683,7 @@ export const ARENAS: ArenaData[] = [
     bgGradient: "linear-gradient(180deg, #0a1a0a 0%, #1a2a1a 40%, #2a3a2a 70%, #0a1a0a 100%)",
     floorColor: "#1a2e1a",
     ambientColor: "#22c55e",
-    backgroundImage: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/arena_mechronis_bg_ad75cf5a.png",
+    backgroundImage: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/mechronis_bg-CYQGpJMy45LhszadcxaySY.webp",
   },
   {
     id: "crucible",
@@ -688,7 +691,7 @@ export const ARENAS: ArenaData[] = [
     bgGradient: "linear-gradient(180deg, #1a0a00 0%, #3d1a00 40%, #5a2a00 70%, #1a0a00 100%)",
     floorColor: "#431407",
     ambientColor: "#f97316",
-    backgroundImage: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/arena_crucible_bg_3e0565d6.png",
+    backgroundImage: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/resistance-base_bg-FfKoe3Z7EovPpm24P7DcoX.webp",
   },
   {
     id: "blood-weave",
@@ -696,7 +699,7 @@ export const ARENAS: ArenaData[] = [
     bgGradient: "linear-gradient(180deg, #1a0000 0%, #330000 30%, #4d0000 50%, #660000 70%, #1a0000 100%)",
     floorColor: "#2d0000",
     ambientColor: "#dc2626",
-    backgroundImage: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/arena_blood-weave_bg_1b008207.png",
+    backgroundImage: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/necropolis_bg-FGT6JpTpUEJS36iuVerv7R.webp",
   },
   {
     id: "shadow-sanctum",
@@ -704,7 +707,7 @@ export const ARENAS: ArenaData[] = [
     bgGradient: "linear-gradient(180deg, #0a0014 0%, #1a0033 30%, #2a004d 50%, #1a0033 70%, #0a0014 100%)",
     floorColor: "#1a0033",
     ambientColor: "#7c3aed",
-    backgroundImage: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/arena_shadow-sanctum_bg_ed989236.png",
+    backgroundImage: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/digital-void_bg-MXXbEFzrcPU2f6iCeSDG2N.webp",
   },
 ];
 
