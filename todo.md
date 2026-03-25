@@ -2570,3 +2570,14 @@
 - [x] Build frame data display panel for training mode
 - [x] Add training mode toggle and controls to FightArena2D
 - [x] Test all enhancements end-to-end
+
+## Fighting Game Bug Fixes
+- [x] Fix player attacks not working/connecting on mobile (no hits happening)
+- [x] Fix health bar not visible / blocked by other UI elements
+
+## Fighting Game - Replace with Original Open-Source Engine
+- [ ] Find and download the original open-source browser fighting game
+- [ ] Integrate the working game code into Loredex OS project
+- [ ] Reskin with Dischordian Saga characters, arenas, and visual assets
+- [ ] Add enhancements (sprite sheets, arena backgrounds, training mode) on top of working base
+- [ ] Test on mobile and desktop to verify attacks, collisions, and health bars work

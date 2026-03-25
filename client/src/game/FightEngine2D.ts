@@ -1003,63 +1003,91 @@ export class FightEngine2D {
   }
 
   /* ═══ TOUCH INPUT (from React wrapper) ═══ */
+  /** Touch input auto-clear timers */
+  private touchClearTimers: ReturnType<typeof setTimeout>[] = [];
+
+  /** Set an inputState flag and auto-clear it after a short window */
+  private setTouchInput(key: keyof InputState, value: boolean, autoClearMs = 100) {
+    this.inputState[key] = value;
+    if (value) {
+      const timer = setTimeout(() => {
+        this.inputState[key] = false;
+      }, autoClearMs);
+      this.touchClearTimers.push(timer);
+    }
+  }
+
   public handleTouchInput(input: TouchInput2D) {
     if (this.phase !== "fighting" && this.phase !== "finish_him") return;
 
     switch (input.type) {
       case "tap":
         if (input.side === "right") {
-          this.bufferInput("light");
+          // Light attack
+          this.setTouchInput("light", true);
         } else {
-          this.bufferInput("block");
+          // Block
+          this.setTouchInput("block", true, 200);
         }
         break;
       case "double_tap":
         if (input.side === "right") {
-          this.bufferInput("medium");
+          // Medium attack
+          this.setTouchInput("medium", true);
         }
         break;
       case "swipe_right":
         if (input.side === "left") {
-          this.bufferInput(this.p1.facingRight ? "right" : "left");
+          // Move forward/backward
+          const key = this.p1.facingRight ? "right" : "left";
+          this.setTouchInput(key, true, 250);
         } else {
-          this.bufferInput("heavy_start");
-          setTimeout(() => this.bufferInput("heavy_release"), 200);
+          // Heavy attack
+          this.setTouchInput("heavy", true);
         }
         break;
       case "swipe_left":
         if (input.side === "left") {
-          this.bufferInput(this.p1.facingRight ? "left" : "right");
+          // Move backward/forward
+          const key = this.p1.facingRight ? "left" : "right";
+          this.setTouchInput(key, true, 250);
         } else {
-          this.bufferInput("special");
+          // Special attack
+          this.setTouchInput("special", true);
         }
         break;
       case "swipe_up":
         if (input.side === "left") {
-          this.bufferInput("up");
+          // Jump
+          this.setTouchInput("up", true);
         } else {
-          this.bufferInput("special");
+          // Special attack
+          this.setTouchInput("special", true);
         }
         break;
       case "swipe_down":
         if (input.side === "left") {
-          this.bufferInput("down");
+          // Crouch
+          this.setTouchInput("down", true, 300);
         } else {
-          this.bufferInput("medium");
+          // Medium attack
+          this.setTouchInput("medium", true);
         }
         break;
       case "hold_start":
         if (input.side === "right") {
-          this.bufferInput("heavy_start");
+          // Heavy charge
+          this.inputState.heavy = true;
         } else {
-          this.bufferInput("block");
+          // Block (hold)
+          this.inputState.block = true;
         }
         break;
       case "hold_end":
         if (input.side === "right") {
-          this.bufferInput("heavy_release");
+          this.inputState.heavy = false;
         } else {
-          this.bufferInput("block_release");
+          this.inputState.block = false;
         }
         break;
     }
@@ -1096,15 +1124,17 @@ export class FightEngine2D {
     this.callbacks.onPhaseChange?.("intro");
     this.loop(performance.now());
   }
-
   public stop() {
     this.running = false;
     cancelAnimationFrame(this.rafId);
-    this.unbindInputs();
   }
 
   public destroy() {
     this.stop();
+    this.unbindInputs();
+    // Clean up touch input timers
+    this.touchClearTimers.forEach(t => clearTimeout(t));
+    this.touchClearTimers = [];
   }
 
   private loop = (now: number) => {
@@ -2375,11 +2405,12 @@ export class FightEngine2D {
      RENDERING
      ═══════════════════════════════════════════════════════ */
 
-  private render() {
+   private render() {
     const ctx = this.ctx;
     const w = this.canvas.width;
     const h = this.canvas.height;
-
+    // Clear the canvas each frame to prevent visual artifacts
+    ctx.clearRect(0, 0, w, h);
     ctx.save();
 
     // Camera transform
