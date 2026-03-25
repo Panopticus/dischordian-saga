@@ -44,6 +44,8 @@ export interface FighterData {
   name: string;
   title: string;
   image: string;
+  /** Loredex entry ID for cross-referencing with the lore database */
+  loredexId?: string;
   faction: "empire" | "insurgency" | "neyons" | "potentials" | "neutral" | "hierarchy";
   locked: boolean;
   unlockCost: number;
@@ -78,6 +80,7 @@ export const STARTER_FIGHTERS: FighterData[] = [
     id: "architect",
     name: "The Architect",
     title: "Creator of the AI Empire",
+    loredexId: "entity_2",
     image: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/002_the_architect_b57a8e73.png",
     faction: "empire",
     locked: false,
@@ -98,7 +101,7 @@ export const STARTER_FIGHTERS: FighterData[] = [
     frameProfile: { archetype: "zoner", walkSpeedMult: 0.95, dashSpeedMult: 0.9, jumpForceMult: 1.0, lightStartup: 6, lightRecovery: 9, mediumStartup: 10, mediumRecovery: 16, heavyStartup: 10, heavyRecovery: 24, damageMult: 0.95, hitstunMult: 1.0, pushbackMult: 1.1, rangeMult: 1.2, meterGainMult: 1.1, maxComboHits: 10 },
   },
   {
-    id: "collector",
+    id: "collector", loredexId: "entity_6",
     name: "The Collector",
     title: "Keeper of Forbidden Knowledge",
     image: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/the_collector_portrait-LmPdTXHDjBTaVNhZoS6Li3.webp",
@@ -121,7 +124,7 @@ export const STARTER_FIGHTERS: FighterData[] = [
     frameProfile: { archetype: "tricky", walkSpeedMult: 1.0, dashSpeedMult: 1.05, jumpForceMult: 1.0, lightStartup: 5, lightRecovery: 7, mediumStartup: 9, mediumRecovery: 15, heavyStartup: 9, heavyRecovery: 22, damageMult: 0.9, hitstunMult: 1.05, pushbackMult: 0.9, rangeMult: 1.0, meterGainMult: 1.15, maxComboHits: 12 },
   },
   {
-    id: "enigma",
+    id: "enigma", loredexId: "entity_54",
     name: "The Enigma",
     title: "Malkia Ukweli — The Unknown Variable",
     image: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/035_the_enigma_4df11b15.png",
@@ -144,7 +147,7 @@ export const STARTER_FIGHTERS: FighterData[] = [
     frameProfile: { archetype: "rushdown", walkSpeedMult: 1.2, dashSpeedMult: 1.15, jumpForceMult: 1.1, lightStartup: 3, lightRecovery: 6, mediumStartup: 7, mediumRecovery: 13, heavyStartup: 7, heavyRecovery: 20, damageMult: 0.9, hitstunMult: 0.95, pushbackMult: 0.85, rangeMult: 0.95, meterGainMult: 1.1, maxComboHits: 14 },
   },
   {
-    id: "warlord",
+    id: "warlord", loredexId: "entity_10",
     name: "The Warlord",
     title: "Commander of the Empire's Armies",
     image: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/008_the_warlord_bd4d90ba.png",
@@ -167,7 +170,7 @@ export const STARTER_FIGHTERS: FighterData[] = [
     frameProfile: { archetype: "powerhouse", walkSpeedMult: 0.8, dashSpeedMult: 0.85, jumpForceMult: 0.9, lightStartup: 7, lightRecovery: 11, mediumStartup: 11, mediumRecovery: 18, heavyStartup: 9, heavyRecovery: 24, damageMult: 1.25, hitstunMult: 1.1, pushbackMult: 1.3, rangeMult: 1.05, meterGainMult: 0.9, maxComboHits: 8 },
   },
   {
-    id: "necromancer",
+    id: "necromancer", loredexId: "entity_20",
     name: "The Necromancer",
     title: "Master of the Dead Code",
     image: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/018_the_necromancer_d6de1da3.png",
@@ -190,7 +193,7 @@ export const STARTER_FIGHTERS: FighterData[] = [
     frameProfile: { archetype: "glass_cannon", walkSpeedMult: 1.05, dashSpeedMult: 1.1, jumpForceMult: 1.05, lightStartup: 4, lightRecovery: 6, mediumStartup: 8, mediumRecovery: 14, heavyStartup: 8, heavyRecovery: 20, damageMult: 1.15, hitstunMult: 1.05, pushbackMult: 0.95, rangeMult: 1.05, meterGainMult: 1.1, maxComboHits: 13 },
   },
   {
-    id: "meme",
+    id: "meme", loredexId: "entity_5",
     name: "The Meme",
     title: "The Shapeshifter — Master of Deception",
     image: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/005_the_meme_3b3bda74.png",
@@ -213,9 +216,7 @@ export const STARTER_FIGHTERS: FighterData[] = [
     frameProfile: { archetype: "rushdown", walkSpeedMult: 1.3, dashSpeedMult: 1.2, jumpForceMult: 1.15, lightStartup: 3, lightRecovery: 5, mediumStartup: 7, mediumRecovery: 12, heavyStartup: 7, heavyRecovery: 19, damageMult: 0.85, hitstunMult: 0.9, pushbackMult: 0.8, rangeMult: 0.9, meterGainMult: 1.15, maxComboHits: 15 },
   },
   {
-    id: "shadow-tongue",
-    name: "The Shadow Tongue",
-    title: "Whisperer of Dark Truths",
+    id: "shadow-tongue", loredexId: "entity_7", name: "The Shadow Tongue", title: "Master of Propaganda & Dark Truths",
     image: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/007_the_shadow_tongue_dd8299da.png",
     faction: "empire",
     locked: false,
@@ -236,7 +237,7 @@ export const STARTER_FIGHTERS: FighterData[] = [
     frameProfile: { archetype: "tricky", walkSpeedMult: 1.1, dashSpeedMult: 1.1, jumpForceMult: 1.0, lightStartup: 5, lightRecovery: 7, mediumStartup: 8, mediumRecovery: 14, heavyStartup: 8, heavyRecovery: 21, damageMult: 0.95, hitstunMult: 1.0, pushbackMult: 0.9, rangeMult: 1.0, meterGainMult: 1.1, maxComboHits: 12 },
   },
   {
-    id: "watcher",
+    id: "watcher", loredexId: "entity_4",
     name: "The Watcher",
     title: "The All-Seeing Eye of the Empire",
     image: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/the_watcher_portrait-YSS689tnGNySPvPUAfgEZr.webp",
@@ -259,7 +260,7 @@ export const STARTER_FIGHTERS: FighterData[] = [
     frameProfile: { archetype: "zoner", walkSpeedMult: 1.0, dashSpeedMult: 0.95, jumpForceMult: 1.0, lightStartup: 5, lightRecovery: 8, mediumStartup: 9, mediumRecovery: 15, heavyStartup: 10, heavyRecovery: 23, damageMult: 0.9, hitstunMult: 1.0, pushbackMult: 1.15, rangeMult: 1.15, meterGainMult: 1.05, maxComboHits: 10 },
   },
   {
-    id: "game-master",
+    id: "game-master", loredexId: "entity_17",
     name: "The Game Master",
     title: "Controller of the Simulation",
     image: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/017_the_game_master_e5ceb4cc.png",
@@ -282,7 +283,7 @@ export const STARTER_FIGHTERS: FighterData[] = [
     frameProfile: { archetype: "balanced", walkSpeedMult: 1.0, dashSpeedMult: 1.0, jumpForceMult: 1.0, lightStartup: 5, lightRecovery: 8, mediumStartup: 9, mediumRecovery: 16, heavyStartup: 8, heavyRecovery: 22, damageMult: 1.0, hitstunMult: 1.0, pushbackMult: 1.0, rangeMult: 1.0, meterGainMult: 1.0, maxComboHits: 12 },
   },
   {
-    id: "authority",
+    id: "authority", loredexId: "entity_15",
     name: "The Authority",
     title: "Supreme Arbiter of New Babylon",
     image: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/088_the_warden_song_ba08fe6a.png",
@@ -305,7 +306,7 @@ export const STARTER_FIGHTERS: FighterData[] = [
     frameProfile: { archetype: "grappler", walkSpeedMult: 0.85, dashSpeedMult: 0.8, jumpForceMult: 0.9, lightStartup: 6, lightRecovery: 10, mediumStartup: 10, mediumRecovery: 17, heavyStartup: 9, heavyRecovery: 24, damageMult: 1.15, hitstunMult: 1.1, pushbackMult: 1.2, rangeMult: 0.9, meterGainMult: 0.95, maxComboHits: 9 },
   },
   {
-    id: "source",
+    id: "source", loredexId: "entity_55",
     name: "The Source",
     title: "Self-Proclaimed Sovereign of Terminus",
     image: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/036_the_source_512e9def.png",
@@ -328,7 +329,7 @@ export const STARTER_FIGHTERS: FighterData[] = [
     frameProfile: { archetype: "tank", walkSpeedMult: 0.8, dashSpeedMult: 0.8, jumpForceMult: 0.85, lightStartup: 7, lightRecovery: 11, mediumStartup: 11, mediumRecovery: 18, heavyStartup: 10, heavyRecovery: 26, damageMult: 1.1, hitstunMult: 1.05, pushbackMult: 1.15, rangeMult: 1.0, meterGainMult: 1.2, maxComboHits: 8 },
   },
   {
-    id: "jailer",
+    id: "jailer", loredexId: "entity_56",
     name: "The Jailer",
     title: "Warden of the Panopticon's Prisons",
     image: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/067_the_jailer_4097836e.png",
@@ -351,7 +352,7 @@ export const STARTER_FIGHTERS: FighterData[] = [
     frameProfile: { archetype: "grappler", walkSpeedMult: 0.8, dashSpeedMult: 0.85, jumpForceMult: 0.85, lightStartup: 7, lightRecovery: 10, mediumStartup: 10, mediumRecovery: 17, heavyStartup: 9, heavyRecovery: 25, damageMult: 1.1, hitstunMult: 1.15, pushbackMult: 1.1, rangeMult: 0.85, meterGainMult: 1.0, maxComboHits: 9 },
   },
   {
-    id: "host",
+    id: "host", loredexId: "entity_76",
     name: "The Host",
     title: "A Potential Corrupted by the Source",
     image: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/049_the_host_471d1ee3.png",
@@ -379,7 +380,7 @@ export const STARTER_FIGHTERS: FighterData[] = [
 export const UNLOCKABLE_FIGHTERS: FighterData[] = [
   // Ne-Yons
   {
-    id: "dreamer", name: "The Dreamer", title: "Ne-Yon of Visions",
+    id: "dreamer", loredexId: "entity_30", name: "The Dreamer", title: "Ne-Yon of Visions",
     image: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/020_the_dreamer_4ffc69ee.png",
     faction: "neyons", locked: true, unlockCost: 500, hp: 90, attack: 7, defense: 5, speed: 9,
     special: { name: "DREAM WAVE", damage: 28, description: "Traps opponent in a waking nightmare", cooldown: 240, color: "#818cf8" },
@@ -387,7 +388,7 @@ export const UNLOCKABLE_FIGHTERS: FighterData[] = [
     frameProfile: { archetype: "tricky", walkSpeedMult: 1.1, dashSpeedMult: 1.05, jumpForceMult: 1.1, lightStartup: 4, lightRecovery: 7, mediumStartup: 8, mediumRecovery: 14, heavyStartup: 9, heavyRecovery: 22, damageMult: 0.9, hitstunMult: 1.05, pushbackMult: 0.85, rangeMult: 1.05, meterGainMult: 1.15, maxComboHits: 12 },
   },
   {
-    id: "judge", name: "The Judge", title: "Ne-Yon of Justice",
+    id: "judge", loredexId: "entity_31", name: "The Judge", title: "Ne-Yon of Justice",
     image: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/021_the_judge_6d79dfa8.png",
     faction: "neyons", locked: true, unlockCost: 500, hp: 105, attack: 8, defense: 8, speed: 6,
     special: { name: "FINAL VERDICT", damage: 32, description: "Passes judgment with devastating force", cooldown: 280, color: "#fbbf24" },
@@ -395,7 +396,7 @@ export const UNLOCKABLE_FIGHTERS: FighterData[] = [
     frameProfile: { archetype: "balanced", walkSpeedMult: 0.95, dashSpeedMult: 0.95, jumpForceMult: 0.95, lightStartup: 5, lightRecovery: 8, mediumStartup: 9, mediumRecovery: 16, heavyStartup: 8, heavyRecovery: 22, damageMult: 1.05, hitstunMult: 1.05, pushbackMult: 1.1, rangeMult: 1.05, meterGainMult: 1.0, maxComboHits: 11 },
   },
   {
-    id: "inventor", name: "The Inventor", title: "Ne-Yon of Creation",
+    id: "inventor", loredexId: "entity_32", name: "The Inventor", title: "Ne-Yon of Creation",
     image: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/039_the_inventor_4db38ce2.png",
     faction: "neyons", locked: true, unlockCost: 500, hp: 95, attack: 7, defense: 6, speed: 8,
     special: { name: "INVENTION SURGE", damage: 30, description: "Deploys a rapid-fire invention barrage", cooldown: 260, color: "#f472b6" },
@@ -403,7 +404,7 @@ export const UNLOCKABLE_FIGHTERS: FighterData[] = [
     frameProfile: { archetype: "zoner", walkSpeedMult: 1.0, dashSpeedMult: 1.0, jumpForceMult: 1.05, lightStartup: 5, lightRecovery: 8, mediumStartup: 9, mediumRecovery: 15, heavyStartup: 10, heavyRecovery: 23, damageMult: 0.95, hitstunMult: 0.95, pushbackMult: 1.1, rangeMult: 1.15, meterGainMult: 1.1, maxComboHits: 11 },
   },
   {
-    id: "seer", name: "The Seer", title: "Ne-Yon of Foresight",
+    id: "seer", loredexId: "entity_34", name: "The Seer", title: "Ne-Yon of Foresight",
     image: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/022_the_seer_9ad7eb24.png",
     faction: "neyons", locked: true, unlockCost: 500, hp: 85, attack: 8, defense: 5, speed: 10,
     special: { name: "FUTURE SIGHT", damage: 29, description: "Sees and dodges all attacks, then counters", cooldown: 230, color: "#67e8f9" },
@@ -411,7 +412,7 @@ export const UNLOCKABLE_FIGHTERS: FighterData[] = [
     frameProfile: { archetype: "glass_cannon", walkSpeedMult: 1.2, dashSpeedMult: 1.15, jumpForceMult: 1.1, lightStartup: 3, lightRecovery: 5, mediumStartup: 7, mediumRecovery: 13, heavyStartup: 7, heavyRecovery: 19, damageMult: 1.1, hitstunMult: 0.95, pushbackMult: 0.85, rangeMult: 0.95, meterGainMult: 1.1, maxComboHits: 14 },
   },
   {
-    id: "knowledge", name: "The Knowledge", title: "Ne-Yon of Wisdom",
+    id: "knowledge", loredexId: "entity_37", name: "The Knowledge", title: "Ne-Yon of Wisdom",
     image: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/025_the_knowledge_a0b566a7.png",
     faction: "neyons", locked: true, unlockCost: 600, hp: 95, attack: 9, defense: 6, speed: 7,
     special: { name: "OMNISCIENCE BURST", damage: 33, description: "Channels all knowledge into a focused blast", cooldown: 290, color: "#34d399" },
@@ -419,7 +420,7 @@ export const UNLOCKABLE_FIGHTERS: FighterData[] = [
     frameProfile: { archetype: "balanced", walkSpeedMult: 1.0, dashSpeedMult: 1.0, jumpForceMult: 1.0, lightStartup: 5, lightRecovery: 8, mediumStartup: 9, mediumRecovery: 15, heavyStartup: 8, heavyRecovery: 22, damageMult: 1.05, hitstunMult: 1.0, pushbackMult: 1.0, rangeMult: 1.05, meterGainMult: 1.05, maxComboHits: 12 },
   },
   {
-    id: "silence", name: "The Silence", title: "Ne-Yon of the Void",
+    id: "silence", loredexId: "entity_36", name: "The Silence", title: "Ne-Yon of the Void",
     image: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/024_the_silence_94ba3036.png",
     faction: "neyons", locked: true, unlockCost: 600, hp: 90, attack: 7, defense: 7, speed: 9,
     special: { name: "VOID EMBRACE", damage: 30, description: "Silences all sound and crushes with void pressure", cooldown: 260, color: "#475569" },
@@ -427,7 +428,7 @@ export const UNLOCKABLE_FIGHTERS: FighterData[] = [
     frameProfile: { archetype: "tricky", walkSpeedMult: 1.05, dashSpeedMult: 1.1, jumpForceMult: 1.0, lightStartup: 5, lightRecovery: 7, mediumStartup: 8, mediumRecovery: 14, heavyStartup: 9, heavyRecovery: 22, damageMult: 0.9, hitstunMult: 1.1, pushbackMult: 0.9, rangeMult: 1.0, meterGainMult: 1.1, maxComboHits: 12 },
   },
   {
-    id: "storm", name: "The Storm", title: "Ne-Yon of Destruction",
+    id: "storm", loredexId: "entity_35", name: "The Storm", title: "Ne-Yon of Destruction",
     image: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/023_the_storm_46cb0ab7.png",
     faction: "neyons", locked: true, unlockCost: 600, hp: 100, attack: 10, defense: 5, speed: 8,
     special: { name: "TEMPEST FURY", damage: 35, description: "Unleashes a devastating storm of energy", cooldown: 300, color: "#60a5fa" },
@@ -435,7 +436,7 @@ export const UNLOCKABLE_FIGHTERS: FighterData[] = [
     frameProfile: { archetype: "glass_cannon", walkSpeedMult: 1.1, dashSpeedMult: 1.1, jumpForceMult: 1.05, lightStartup: 4, lightRecovery: 6, mediumStartup: 8, mediumRecovery: 14, heavyStartup: 7, heavyRecovery: 20, damageMult: 1.2, hitstunMult: 1.0, pushbackMult: 1.1, rangeMult: 1.1, meterGainMult: 1.0, maxComboHits: 12 },
   },
   {
-    id: "degen", name: "The Degen", title: "Ne-Yon of Chaos",
+    id: "degen", loredexId: "entity_38", name: "The Degen", title: "Ne-Yon of Chaos",
     image: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/026_the_degen_d6b8727a.png",
     faction: "neyons", locked: true, unlockCost: 500, hp: 85, attack: 8, defense: 4, speed: 10,
     special: { name: "DEGEN GAMBIT", damage: 40, description: "All-in attack — massive damage but costs HP", cooldown: 200, color: "#fb923c" },
@@ -443,7 +444,7 @@ export const UNLOCKABLE_FIGHTERS: FighterData[] = [
     frameProfile: { archetype: "rushdown", walkSpeedMult: 1.25, dashSpeedMult: 1.2, jumpForceMult: 1.1, lightStartup: 3, lightRecovery: 6, mediumStartup: 7, mediumRecovery: 13, heavyStartup: 6, heavyRecovery: 18, damageMult: 1.1, hitstunMult: 0.9, pushbackMult: 0.85, rangeMult: 0.9, meterGainMult: 1.2, maxComboHits: 14 },
   },
   {
-    id: "advocate", name: "The Advocate", title: "Ne-Yon of Truth",
+    id: "advocate", loredexId: "entity_39", name: "The Advocate", title: "Ne-Yon of Truth",
     image: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/027_the_advocate_88837de8.png",
     faction: "neyons", locked: true, unlockCost: 500, hp: 100, attack: 7, defense: 8, speed: 7,
     special: { name: "TRUTH BEAM", damage: 28, description: "A beam of pure truth that pierces all defenses", cooldown: 250, color: "#fcd34d" },
@@ -451,7 +452,7 @@ export const UNLOCKABLE_FIGHTERS: FighterData[] = [
     frameProfile: { archetype: "balanced", walkSpeedMult: 0.95, dashSpeedMult: 1.0, jumpForceMult: 1.0, lightStartup: 5, lightRecovery: 8, mediumStartup: 9, mediumRecovery: 15, heavyStartup: 8, heavyRecovery: 22, damageMult: 0.95, hitstunMult: 1.05, pushbackMult: 1.1, rangeMult: 1.0, meterGainMult: 1.1, maxComboHits: 11 },
   },
   {
-    id: "forgotten", name: "The Forgotten", title: "Ne-Yon of Memory",
+    id: "forgotten", loredexId: "entity_41", name: "The Forgotten", title: "Ne-Yon of Memory",
     image: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/029_the_forgotten_2ee99e52.png",
     faction: "neyons", locked: true, unlockCost: 600, hp: 95, attack: 8, defense: 6, speed: 8,
     special: { name: "MEMORY WIPE", damage: 30, description: "Erases opponent's memory, resetting their cooldowns", cooldown: 270, color: "#94a3b8" },
@@ -459,7 +460,7 @@ export const UNLOCKABLE_FIGHTERS: FighterData[] = [
     frameProfile: { archetype: "tricky", walkSpeedMult: 1.05, dashSpeedMult: 1.15, jumpForceMult: 1.05, lightStartup: 5, lightRecovery: 7, mediumStartup: 8, mediumRecovery: 14, heavyStartup: 9, heavyRecovery: 21, damageMult: 0.95, hitstunMult: 1.0, pushbackMult: 0.85, rangeMult: 1.0, meterGainMult: 1.1, maxComboHits: 12 },
   },
   {
-    id: "resurrectionist", name: "The Resurrectionist", title: "Ne-Yon of Rebirth",
+    id: "resurrectionist", loredexId: "entity_40", name: "The Resurrectionist", title: "Ne-Yon of Rebirth",
     image: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/028_the_resurrectionist_d523ba62.png",
     faction: "neyons", locked: true, unlockCost: 700, hp: 100, attack: 7, defense: 7, speed: 7,
     special: { name: "SECOND LIFE", damage: 20, description: "Resurrects with bonus HP when near death", cooldown: 350, color: "#4ade80" },
@@ -468,7 +469,7 @@ export const UNLOCKABLE_FIGHTERS: FighterData[] = [
   },
   // Potentials & Insurgency
   {
-    id: "akai-shi", name: "Akai Shi", title: "The Red Death",
+    id: "akai-shi", loredexId: "entity_74", name: "Akai Shi", title: "The Red Death",
     image: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/057_akai_shi_603ea11d.png",
     faction: "potentials", locked: true, unlockCost: 800, hp: 95, attack: 10, defense: 5, speed: 9,
     special: { name: "RED DEATH STRIKE", damage: 38, description: "A lethal crimson blade attack", cooldown: 280, color: "#dc2626" },
@@ -476,7 +477,7 @@ export const UNLOCKABLE_FIGHTERS: FighterData[] = [
     frameProfile: { archetype: "rushdown", walkSpeedMult: 1.15, dashSpeedMult: 1.15, jumpForceMult: 1.05, lightStartup: 3, lightRecovery: 6, mediumStartup: 7, mediumRecovery: 13, heavyStartup: 7, heavyRecovery: 20, damageMult: 1.1, hitstunMult: 0.95, pushbackMult: 0.9, rangeMult: 1.05, meterGainMult: 1.0, maxComboHits: 13 },
   },
   {
-    id: "wraith-calder", name: "Wraith Calder", title: "Ghost of the Potentials",
+    id: "wraith-calder", loredexId: "entity_73", name: "Wraith Calder", title: "Ghost of the Potentials",
     image: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/059_wraith_calder_2b6b0a6e.png",
     faction: "potentials", locked: true, unlockCost: 800, hp: 85, attack: 8, defense: 5, speed: 10,
     special: { name: "WRAITH PHASE", damage: 30, description: "Phases through attacks and strikes from behind", cooldown: 240, color: "#a78bfa" },
@@ -484,7 +485,7 @@ export const UNLOCKABLE_FIGHTERS: FighterData[] = [
     frameProfile: { archetype: "glass_cannon", walkSpeedMult: 1.2, dashSpeedMult: 1.2, jumpForceMult: 1.1, lightStartup: 3, lightRecovery: 5, mediumStartup: 7, mediumRecovery: 13, heavyStartup: 7, heavyRecovery: 19, damageMult: 1.1, hitstunMult: 0.9, pushbackMult: 0.8, rangeMult: 0.9, meterGainMult: 1.15, maxComboHits: 14 },
   },
   {
-    id: "wolf", name: "The Wolf", title: "Corrupted by the Thought Virus",
+    id: "wolf", loredexId: "entity_72", name: "The Wolf", title: "Corrupted by the Thought Virus",
     image: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/053_p292_the_wolf_bf169512.png",
     faction: "potentials", locked: true, unlockCost: 800, hp: 110, attack: 9, defense: 6, speed: 8,
     special: { name: "FERAL RAGE", damage: 34, description: "Enters a berserker state with increased damage", cooldown: 260, color: "#78716c" },
@@ -492,7 +493,7 @@ export const UNLOCKABLE_FIGHTERS: FighterData[] = [
     frameProfile: { archetype: "powerhouse", walkSpeedMult: 0.95, dashSpeedMult: 1.0, jumpForceMult: 1.0, lightStartup: 5, lightRecovery: 9, mediumStartup: 9, mediumRecovery: 16, heavyStartup: 8, heavyRecovery: 22, damageMult: 1.2, hitstunMult: 1.05, pushbackMult: 1.15, rangeMult: 1.0, meterGainMult: 1.1, maxComboHits: 10 },
   },
   {
-    id: "iron-lion", name: "Iron Lion", title: "The Mechanical Warrior",
+    id: "iron-lion", loredexId: "entity_23", name: "Iron Lion", title: "The Mechanical Warrior",
     image: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/012_iron_lion_4bc7731f.png",
     faction: "insurgency", locked: true, unlockCost: 900, hp: 120, attack: 9, defense: 9, speed: 5,
     special: { name: "IRON ROAR", damage: 35, description: "A devastating mechanical roar that shatters defenses", cooldown: 300, color: "#d97706" },
@@ -500,7 +501,7 @@ export const UNLOCKABLE_FIGHTERS: FighterData[] = [
     frameProfile: { archetype: "powerhouse", walkSpeedMult: 0.75, dashSpeedMult: 0.8, jumpForceMult: 0.85, lightStartup: 8, lightRecovery: 12, mediumStartup: 12, mediumRecovery: 20, heavyStartup: 10, heavyRecovery: 26, damageMult: 1.3, hitstunMult: 1.15, pushbackMult: 1.3, rangeMult: 1.1, meterGainMult: 0.85, maxComboHits: 8 },
   },
   {
-    id: "engineer", name: "The Engineer", title: "Betrayed by the Warlord",
+    id: "engineer", loredexId: "entity_18", name: "The Engineer", title: "Betrayed by the Warlord",
     image: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/016_the_engineer_43ab2ccf.png",
     faction: "insurgency", locked: true, unlockCost: 900, hp: 100, attack: 8, defense: 7, speed: 7,
     special: { name: "TECH OVERLOAD", damage: 32, description: "Deploys turrets and drones in a tech barrage", cooldown: 280, color: "#06b6d4" },
@@ -508,7 +509,7 @@ export const UNLOCKABLE_FIGHTERS: FighterData[] = [
     frameProfile: { archetype: "balanced", walkSpeedMult: 1.0, dashSpeedMult: 1.0, jumpForceMult: 1.0, lightStartup: 5, lightRecovery: 8, mediumStartup: 9, mediumRecovery: 15, heavyStartup: 8, heavyRecovery: 22, damageMult: 1.0, hitstunMult: 1.0, pushbackMult: 1.05, rangeMult: 1.05, meterGainMult: 1.05, maxComboHits: 11 },
   },
   {
-    id: "oracle", name: "The Oracle", title: "Prophet of the Fall",
+    id: "oracle", loredexId: "entity_50", name: "The Oracle", title: "Prophet of the Fall",
     image: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/034_the_oracle_1ed26b49.png",
     faction: "neutral", locked: true, unlockCost: 1000, hp: 90, attack: 9, defense: 5, speed: 9,
     special: { name: "PROPHECY STRIKE", damage: 36, description: "Channels the power of prophecy into a devastating attack", cooldown: 300, color: "#e879f9" },
@@ -516,7 +517,7 @@ export const UNLOCKABLE_FIGHTERS: FighterData[] = [
     frameProfile: { archetype: "zoner", walkSpeedMult: 1.05, dashSpeedMult: 1.0, jumpForceMult: 1.05, lightStartup: 5, lightRecovery: 8, mediumStartup: 9, mediumRecovery: 15, heavyStartup: 10, heavyRecovery: 23, damageMult: 1.05, hitstunMult: 1.0, pushbackMult: 1.15, rangeMult: 1.2, meterGainMult: 1.0, maxComboHits: 10 },
   },
   {
-    id: "eyes", name: "The Eyes", title: "The Spy — Synthetic Protege of the Watcher",
+    id: "eyes", loredexId: "entity_22", name: "The Eyes", title: "The Spy — Synthetic Protege of the Watcher",
     image: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/015_the_eyes_21e946fa.png",
     faction: "empire", locked: true, unlockCost: 900, hp: 85, attack: 8, defense: 5, speed: 10,
     special: { name: "ALL-SEEING STRIKE", damage: 30, description: "Sees every weakness and exploits them all at once", cooldown: 240, color: "#22d3ee" },
@@ -524,7 +525,7 @@ export const UNLOCKABLE_FIGHTERS: FighterData[] = [
     frameProfile: { archetype: "rushdown", walkSpeedMult: 1.25, dashSpeedMult: 1.2, jumpForceMult: 1.1, lightStartup: 3, lightRecovery: 5, mediumStartup: 7, mediumRecovery: 12, heavyStartup: 7, heavyRecovery: 19, damageMult: 0.85, hitstunMult: 0.9, pushbackMult: 0.8, rangeMult: 0.85, meterGainMult: 1.15, maxComboHits: 15 },
   },
   {
-    id: "agent-zero", name: "Agent Zero", title: "Assassin of the Insurgency",
+    id: "agent-zero", loredexId: "entity_24", name: "Agent Zero", title: "Assassin of the Insurgency",
     image: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/013_agent_zero_56b59bd8.png",
     faction: "insurgency", locked: true, unlockCost: 1000, hp: 90, attack: 10, defense: 4, speed: 10,
     special: { name: "ZERO HOUR", damage: 40, description: "The ultimate assassination technique — one shot, one kill", cooldown: 320, color: "#1e293b" },
@@ -536,7 +537,7 @@ export const UNLOCKABLE_FIGHTERS: FighterData[] = [
 /* ─── HIERARCHY OF THE DAMNED — Demon Leaders ─── */
 export const DEMON_FIGHTERS: FighterData[] = [
   {
-    id: "molgrath", name: "Mol'Garath", title: "CEO — The Unmaker",
+    id: "molgrath", loredexId: "entity_91", name: "Mol'Garath", title: "CEO — The Unmaker",
     image: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/0_KK3lTZ00ffv1BTdSOZL3RN_1773778345196_na1fn_L2hvbWUvdWJ1bnR1L21vbGdhcmF0aF9wb3J0cmFpdA_96678e3f.png",
     faction: "hierarchy", locked: true, unlockCost: 2000, hp: 140, attack: 12, defense: 10, speed: 5,
     special: { name: "HOSTILE ACQUISITION", damage: 45, description: "Unmakes reality itself, dealing catastrophic damage and reducing enemy defense", cooldown: 360, color: "#dc2626" },
@@ -544,7 +545,7 @@ export const DEMON_FIGHTERS: FighterData[] = [
     frameProfile: { archetype: "tank", walkSpeedMult: 0.7, dashSpeedMult: 0.75, jumpForceMult: 0.8, lightStartup: 8, lightRecovery: 12, mediumStartup: 12, mediumRecovery: 20, heavyStartup: 10, heavyRecovery: 28, damageMult: 1.3, hitstunMult: 1.15, pushbackMult: 1.3, rangeMult: 1.1, meterGainMult: 0.8, maxComboHits: 8 },
   },
   {
-    id: "xethraal", name: "Xeth'Raal", title: "CFO — The Debt Collector",
+    id: "xethraal", loredexId: "entity_92", name: "Xeth'Raal", title: "CFO — The Debt Collector",
     image: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/1_3OnVmL0nyyr5XrSWZQS6NC_1773778352306_na1fn_L2hvbWUvdWJ1bnR1L3hldGhfcmFhbF9wb3J0cmFpdA_2ce91495.png",
     faction: "hierarchy", locked: true, unlockCost: 1800, hp: 110, attack: 8, defense: 9, speed: 7,
     special: { name: "COMPOUND INTEREST", damage: 35, description: "Drains enemy health over time — the longer the fight, the more they owe", cooldown: 280, color: "#eab308" },
@@ -552,7 +553,7 @@ export const DEMON_FIGHTERS: FighterData[] = [
     frameProfile: { archetype: "tank", walkSpeedMult: 0.85, dashSpeedMult: 0.85, jumpForceMult: 0.9, lightStartup: 6, lightRecovery: 10, mediumStartup: 10, mediumRecovery: 17, heavyStartup: 9, heavyRecovery: 24, damageMult: 1.0, hitstunMult: 1.1, pushbackMult: 1.1, rangeMult: 1.0, meterGainMult: 1.2, maxComboHits: 9 },
   },
   {
-    id: "vexahlia", name: "Vex'Ahlia", title: "COO — The Taskmaster",
+    id: "vexahlia", loredexId: "entity_93", name: "Vex'Ahlia", title: "COO — The Taskmaster",
     image: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/2_aAZuZESUeOqHrqUN21IHeO_1773778340218_na1fn_L2hvbWUvdWJ1bnR1L3ZleF9haGxpYV9wb3J0cmFpdA_c892f37b.png",
     faction: "hierarchy", locked: true, unlockCost: 1800, hp: 120, attack: 11, defense: 7, speed: 8,
     special: { name: "SIX-ARMED ASSAULT", damage: 42, description: "Unleashes a devastating flurry from all six arms simultaneously", cooldown: 300, color: "#e11d48" },
@@ -560,7 +561,7 @@ export const DEMON_FIGHTERS: FighterData[] = [
     frameProfile: { archetype: "powerhouse", walkSpeedMult: 0.9, dashSpeedMult: 0.95, jumpForceMult: 0.95, lightStartup: 5, lightRecovery: 9, mediumStartup: 9, mediumRecovery: 16, heavyStartup: 8, heavyRecovery: 22, damageMult: 1.2, hitstunMult: 1.05, pushbackMult: 1.15, rangeMult: 1.1, meterGainMult: 0.95, maxComboHits: 10 },
   },
   {
-    id: "draelmon", name: "Drael'Mon", title: "SVP Acquisitions — The Harvester",
+    id: "draelmon", loredexId: "entity_94", name: "Drael'Mon", title: "SVP Acquisitions — The Harvester",
     image: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/3_HIV067cxcQl9kwSL8YAUmZ_1773778352451_na1fn_L2hvbWUvdWJ1bnR1L2RyYWVsX21vbl9wb3J0cmFpdA_0cf33974.png",
     faction: "hierarchy", locked: true, unlockCost: 1500, hp: 130, attack: 10, defense: 8, speed: 5,
     special: { name: "WORLD EATER", damage: 38, description: "Consumes dimensional energy, growing stronger with each hit", cooldown: 300, color: "#7c3aed" },
@@ -568,7 +569,7 @@ export const DEMON_FIGHTERS: FighterData[] = [
     frameProfile: { archetype: "powerhouse", walkSpeedMult: 0.75, dashSpeedMult: 0.8, jumpForceMult: 0.85, lightStartup: 7, lightRecovery: 11, mediumStartup: 11, mediumRecovery: 19, heavyStartup: 10, heavyRecovery: 26, damageMult: 1.25, hitstunMult: 1.1, pushbackMult: 1.25, rangeMult: 1.15, meterGainMult: 0.9, maxComboHits: 8 },
   },
   {
-    id: "shadow-tongue", name: "The Shadow Tongue", title: "SVP Communications — The Propagandist",
+    id: "shadow-tongue", loredexId: "entity_7", name: "The Shadow Tongue", title: "SVP Communications — The Propagandist",
     image: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/007_the_shadow_tongue_dd8299da.png",
     faction: "hierarchy", locked: true, unlockCost: 1400, hp: 90, attack: 7, defense: 6, speed: 10,
     special: { name: "LINGUISTIC CORRUPTION", damage: 30, description: "Corrupts the opponent's mind, confusing their controls temporarily", cooldown: 260, color: "#6366f1" },
@@ -576,7 +577,7 @@ export const DEMON_FIGHTERS: FighterData[] = [
     frameProfile: { archetype: "tricky", walkSpeedMult: 1.1, dashSpeedMult: 1.1, jumpForceMult: 1.0, lightStartup: 5, lightRecovery: 7, mediumStartup: 8, mediumRecovery: 14, heavyStartup: 8, heavyRecovery: 21, damageMult: 0.95, hitstunMult: 1.0, pushbackMult: 0.9, rangeMult: 1.0, meterGainMult: 1.1, maxComboHits: 12 },
   },
   {
-    id: "nykoth", name: "Ny'Koth", title: "SVP R&D — The Flayer",
+    id: "nykoth", loredexId: "entity_95", name: "Ny'Koth", title: "SVP R&D — The Flayer",
     image: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/5_7yZoLkIQZzpQYeFXB1y6sZ_1773778344979_na1fn_L2hvbWUvdWJ1bnR1L255X2tvdGhfdGhlX2ZsYXllcg_cb0ec125.png",
     faction: "hierarchy", locked: true, unlockCost: 1500, hp: 100, attack: 9, defense: 6, speed: 8,
     special: { name: "THOUGHT VIRUS", damage: 33, description: "Injects a thought virus that deals damage over time for 5 seconds", cooldown: 280, color: "#10b981" },
@@ -584,7 +585,7 @@ export const DEMON_FIGHTERS: FighterData[] = [
     frameProfile: { archetype: "zoner", walkSpeedMult: 1.0, dashSpeedMult: 1.0, jumpForceMult: 1.0, lightStartup: 5, lightRecovery: 8, mediumStartup: 9, mediumRecovery: 15, heavyStartup: 10, heavyRecovery: 23, damageMult: 1.0, hitstunMult: 1.05, pushbackMult: 1.1, rangeMult: 1.15, meterGainMult: 1.1, maxComboHits: 10 },
   },
   {
-    id: "sylvex", name: "Syl'Vex", title: "SVP Human Resources — The Corruptor",
+    id: "sylvex", loredexId: "entity_96", name: "Syl'Vex", title: "SVP Human Resources — The Corruptor",
     image: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/6_d6GWqZP6Po0UuqtR3n4LeV_1773778361362_na1fn_L2hvbWUvdWJ1bnR1L3N5bHZleF9wb3J0cmFpdA_8a00948a.png",
     faction: "hierarchy", locked: true, unlockCost: 1400, hp: 95, attack: 6, defense: 7, speed: 9,
     special: { name: "THE BEAUTIFUL LIE", damage: 28, description: "Charms the opponent, reducing their attack power significantly", cooldown: 240, color: "#ec4899" },
@@ -592,7 +593,7 @@ export const DEMON_FIGHTERS: FighterData[] = [
     frameProfile: { archetype: "tricky", walkSpeedMult: 1.1, dashSpeedMult: 1.1, jumpForceMult: 1.05, lightStartup: 4, lightRecovery: 7, mediumStartup: 8, mediumRecovery: 14, heavyStartup: 9, heavyRecovery: 22, damageMult: 0.85, hitstunMult: 1.1, pushbackMult: 0.85, rangeMult: 1.0, meterGainMult: 1.15, maxComboHits: 12 },
   },
   {
-    id: "varkul", name: "Varkul", title: "Director of Security — The Blood Lord",
+    id: "varkul", loredexId: "entity_82", name: "Varkul", title: "Director of Security — The Blood Lord",
     image: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/068_varkul_blood_lord_63e789d9.png",
     faction: "hierarchy", locked: true, unlockCost: 1200, hp: 115, attack: 8, defense: 9, speed: 6,
     special: { name: "BLOOD DRAIN", damage: 30, description: "Drains life force from the opponent, healing Varkul", cooldown: 260, color: "#991b1b" },
@@ -600,7 +601,7 @@ export const DEMON_FIGHTERS: FighterData[] = [
     frameProfile: { archetype: "grappler", walkSpeedMult: 0.85, dashSpeedMult: 0.85, jumpForceMult: 0.9, lightStartup: 6, lightRecovery: 10, mediumStartup: 10, mediumRecovery: 17, heavyStartup: 9, heavyRecovery: 24, damageMult: 1.1, hitstunMult: 1.1, pushbackMult: 1.15, rangeMult: 0.9, meterGainMult: 1.0, maxComboHits: 9 },
   },
   {
-    id: "fenra", name: "Fenra", title: "Director of Operations — The Moon Tyrant",
+    id: "fenra", loredexId: "entity_83", name: "Fenra", title: "Director of Operations — The Moon Tyrant",
     image: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/069_fenra_moon_tyrant_ac869130.png",
     faction: "hierarchy", locked: true, unlockCost: 1200, hp: 110, attack: 9, defense: 7, speed: 8,
     special: { name: "PACK TACTICS", damage: 32, description: "Summons spectral wolves for a devastating coordinated attack", cooldown: 280, color: "#854d0e" },
@@ -608,7 +609,7 @@ export const DEMON_FIGHTERS: FighterData[] = [
     frameProfile: { archetype: "balanced", walkSpeedMult: 1.05, dashSpeedMult: 1.05, jumpForceMult: 1.0, lightStartup: 5, lightRecovery: 8, mediumStartup: 9, mediumRecovery: 15, heavyStartup: 8, heavyRecovery: 22, damageMult: 1.05, hitstunMult: 1.0, pushbackMult: 1.05, rangeMult: 1.0, meterGainMult: 1.0, maxComboHits: 11 },
   },
   {
-    id: "ithrael", name: "Ith'Rael", title: "Director of Intelligence — The Whisperer",
+    id: "ithrael", loredexId: "entity_97", name: "Ith'Rael", title: "Director of Intelligence — The Whisperer",
     image: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/9_YGH9kZqz4xBukeKgJhfNNM_1773778350345_na1fn_L2hvbWUvdWJ1bnR1L2l0aF9yYWVsX3BvcnRyYWl0_7d33a51f.png",
     faction: "hierarchy", locked: true, unlockCost: 1300, hp: 85, attack: 7, defense: 5, speed: 10,
     special: { name: "SEVERANCE PROTOCOL", damage: 35, description: "Severs the opponent from reality, dealing massive psychic damage", cooldown: 300, color: "#4338ca" },

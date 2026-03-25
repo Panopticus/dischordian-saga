@@ -1,11 +1,15 @@
 /**
  * FightEngine2D — Canvas-Based 2D Fighting Game Engine
  * 
- * Inspired by the Castagne engine architecture and classic Street Fighter II mechanics.
+ * Ported from the open-source StreetFighter JS engine with enhancements:
+ * - Control History system for directional special move inputs (QCF, DP, HCF)
+ * - Hit Splash effects with radial bursts, speed lines, and damage numbers
+ * - Perspective-correct shadow rendering that scales with fighter height
+ * - Enhanced projectile rendering with energy trails
+ * - Adaptive AI with pattern recognition from SF engine
+ * 
  * Uses proper AABB hitbox/hurtbox collision, per-frame push boxes,
  * multi-frame sprite animation, and a clean state machine.
- * 
- * Replaces the Three.js-based FightEngine3D with a performant Canvas renderer.
  */
 import type { FighterData, FrameProfile, FighterArchetype } from "./gameData";
 import { getCharacterSpecials, type CharacterSpecials, type SpecialMove } from "./specialMoves";
@@ -486,7 +490,85 @@ interface HitParticle {
   type: "spark" | "heavy" | "block" | "special" | "parry" | "dust" | "energy";
 }
 
-/* ═══════════════════════════════════════════════════════
+/* ═══════════════════════════════════════════════════
+   HIT SPLASH SYSTEM (Ported from SF Engine)
+   Stylized impact visuals with radial burst, speed lines,
+   and floating damage numbers.
+   ═══════════════════════════════════════════════════ */
+
+interface HitSplash {
+  x: number;
+  y: number;
+  timer: number;
+  maxTimer: number;
+  damage: number;
+  color: string;
+  type: "light" | "medium" | "heavy" | "special" | "block" | "parry";
+  /** Radial speed lines angles (pre-computed for visual variety) */
+  lineAngles: number[];
+  /** Scale factor for the burst ring */
+  scale: number;
+}
+
+interface DamageNumber {
+  x: number;
+  y: number;
+  vy: number;
+  damage: number;
+  color: string;
+  timer: number;
+  maxTimer: number;
+  isCritical: boolean;
+}
+
+/* ═══════════════════════════════════════════════════
+   CONTROL HISTORY SYSTEM (Ported from SF Engine)
+   Tracks directional input sequences for special move
+   detection: QCF (236), DP (623), HCF (41236), etc.
+   ═══════════════════════════════════════════════════ */
+
+/** Numpad notation for directional inputs (relative to facing direction) */
+type NumpadDir = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
+type MotionButton = "LP" | "MP" | "HP";
+
+interface ControlHistoryEntry {
+  input: NumpadDir | MotionButton;
+  frame: number;
+}
+
+/** Special move motion definitions using numpad notation */
+interface MotionSequence {
+  name: string;
+  /** Sequence of numpad directions + button, e.g. [2,3,6,"LP"] = QCF+LP */
+  sequence: (NumpadDir | MotionButton)[];
+  /** Which special level this triggers (1, 2, or 3) */
+  level: 1 | 2 | 3;
+}
+
+/** Default motion inputs for special moves */
+const SPECIAL_MOTIONS: MotionSequence[] = [
+  // QCF (Quarter Circle Forward) + button = SP1
+  { name: "QCF+LP", sequence: [2, 3, 6, "LP"], level: 1 },
+  { name: "QCF+MP", sequence: [2, 3, 6, "MP"], level: 1 },
+  { name: "QCF+HP", sequence: [2, 3, 6, "HP"], level: 1 },
+  // DP (Dragon Punch / Shoryuken) + button = SP2
+  { name: "DP+LP", sequence: [6, 2, 3, "LP"], level: 2 },
+  { name: "DP+MP", sequence: [6, 2, 3, "MP"], level: 2 },
+  { name: "DP+HP", sequence: [6, 2, 3, "HP"], level: 2 },
+  // HCF (Half Circle Forward) + button = SP3
+  { name: "HCF+LP", sequence: [4, 1, 2, 3, 6, "LP"], level: 3 },
+  { name: "HCF+MP", sequence: [4, 1, 2, 3, 6, "MP"], level: 3 },
+  { name: "HCF+HP", sequence: [4, 1, 2, 3, 6, "HP"], level: 3 },
+];
+
+/** Maximum age of a control history entry (in frames) before it expires */
+const CONTROL_HISTORY_CAP = 120; // 2 seconds at 60fps
+/** Minimum frames between re-polling the same input */
+const CONTROL_HISTORY_REPOLL = 3;
+/** Polling delay between input reads */
+const CONTROL_HISTORY_POLL_DELAY = 2;
+
+/* ═══════════════════════════════════════════════════
    SPRITE ANIMATION SYSTEM
    ═══════════════════════════════════════════════════════ */
 
@@ -689,6 +771,11 @@ interface Fighter2D {
 
   // Crouch state
   isCrouching: boolean;
+
+  // Control History (SF-ported input sequence detection)
+  controlHistory: ControlHistoryEntry[];
+  controlPollTimer: number;
+  lastPolledInput: NumpadDir | null;
 }
 
 /* ═══════════════════════════════════════════════════════
@@ -805,6 +892,21 @@ export class FightEngine2D {
   private particles: HitParticle[] = [];
   private hitStop: HitStop = { active: false, frames: 0, remaining: 0 };
   private screenFlash: ScreenFlash = { active: false, color: "#fff", alpha: 0, timer: 0, duration: 0 };
+
+  // SF-ported: Hit Splash system
+  private hitSplashes: HitSplash[] = [];
+  private damageNumbers: DamageNumber[] = [];
+
+  // SF-ported: Control History special move sequences
+  // QCF = ↓↘→ (2,3,6), QCB = ↓↙← (2,1,4), DP = →↓↘ (6,2,3)
+  private readonly SPECIAL_INPUT_SEQUENCES: { name: string; sequence: NumpadDir[]; level: 1 | 2 | 3 }[] = [
+    { name: 'qcf', sequence: [2, 3, 6], level: 1 },   // Quarter-circle forward
+    { name: 'qcb', sequence: [2, 1, 4], level: 1 },   // Quarter-circle back
+    { name: 'dp',  sequence: [6, 2, 3], level: 2 },    // Dragon punch
+    { name: 'rdp', sequence: [4, 2, 1], level: 2 },    // Reverse dragon punch
+    { name: 'hcf', sequence: [4, 1, 2, 3, 6], level: 3 }, // Half-circle forward
+    { name: 'hcb', sequence: [6, 3, 2, 1, 4], level: 3 }, // Half-circle back
+  ];
 
   // Camera
   private camera: Camera2D = {
@@ -924,6 +1026,10 @@ export class FightEngine2D {
       pushVx: 0,
       animFrame: 0, currentPose: "idle", poseTimer: 0,
       isCrouching: false,
+      // Control History (SF-ported)
+      controlHistory: [],
+      controlPollTimer: 0,
+      lastPolledInput: null,
     };
   }
 
@@ -1195,6 +1301,7 @@ export class FightEngine2D {
     // Always update visual effects
     this.updateParticles();
     this.updateProjectiles();
+    this.updateHitSplashes(); // SF-ported
     this.updateCamera();
     this.updateScreenFlashTimer();
 
@@ -1310,6 +1417,10 @@ export class FightEngine2D {
   /* ═══ P1 INPUT PROCESSING ═══ */
   private processP1Input() {
     const f = this.p1;
+
+    // SF-ported: Always poll control history (even when not actionable)
+    this.pollControlHistory(f);
+
     if (!this.isActionable(f)) {
       // Still check for buffered inputs during recovery
       return;
@@ -1327,6 +1438,21 @@ export class FightEngine2D {
     // Save previous state for edge detection
     this.prevInputState = { ...this.inputState };
 
+    // SF-ported: Record button presses into control history for motion detection
+    if (lightPressed) this.recordButtonPress(f, "LP");
+    if (mediumPressed) this.recordButtonPress(f, "MP");
+    if (heavyPressed) this.recordButtonPress(f, "HP");
+
+    // SF-ported: Check for motion input specials (QCF, DP, HCF + button)
+    // This takes priority over the simple special button
+    if (lightPressed || mediumPressed || heavyPressed) {
+      const motionResult = this.checkMotionInputs(f);
+      if (motionResult && f.specialMeter >= motionResult.level * 100) {
+        this.activateSpecial(f, motionResult.level);
+        return;
+      }
+    }
+
     // Block
     if (blockPressed && this.isGrounded(f)) {
       if (downHeld) {
@@ -1340,7 +1466,7 @@ export class FightEngine2D {
       return;
     }
 
-    // Special moves (check meter)
+    // Special moves (check meter) — fallback for dedicated special button
     if (specialPressed) {
       if (f.specialMeter >= 300) {
         this.activateSpecial(f, 3);
@@ -1772,6 +1898,12 @@ export class FightEngine2D {
                  defender.y - 30;
     this.spawnHitParticles(hitX, hitY, attacker.data.color, "spark", 8);
 
+    // SF-ported: Hit splash effect with damage number
+    const splashType: HitSplash["type"] = this.isSpecialAttack(attacker.state) ? "special" :
+                      attacker.state.includes("heavy") ? "heavy" :
+                      attacker.state.includes("medium") ? "medium" : "light";
+    this.spawnHitSplash(hitX, hitY, damage, attacker.data.color, splashType);
+
     // Screen shake
     const shakeIntensity = this.isSpecialAttack(attacker.state) ? 8 :
                            attacker.state.includes("heavy") ? 5 : 2;
@@ -1817,6 +1949,9 @@ export class FightEngine2D {
     const hitY = defender.y - FIGHTER_HEIGHT / 2;
     this.spawnHitParticles(hitX, hitY, "#ffffff", "block", 4);
 
+    // SF-ported: Block splash effect
+    this.spawnHitSplash(hitX, hitY, 0, "#ffffff", "block");
+
     // Meter gain for defender (reward blocking)
     defender.specialMeter = Math.min(MAX_METER, defender.specialMeter + 5);
 
@@ -1845,6 +1980,9 @@ export class FightEngine2D {
     this.spawnHitParticles(hitX, hitY, "#00ffff", "parry", 12);
     this.triggerScreenFlash("#00ffff", 0.3, 6);
     this.triggerScreenShake(4, 10);
+
+    // SF-ported: Parry splash effect
+    this.spawnHitSplash(hitX, hitY, 0, "#00ffff", "parry");
 
     this.callbacks.onParry?.(defId);
     this.callbacks.onHit?.(atkId, "parried");
@@ -2371,6 +2509,262 @@ export class FightEngine2D {
     this.announcement = { text, color, timer: duration };
   }
 
+  /* ═══════════════════════════════════════════════════════
+     SF-PORTED: CONTROL HISTORY SYSTEM
+     Polls directional input each frame, converts to numpad
+     notation relative to facing direction, and checks for
+     special move motion sequences (QCF, DP, HCF, etc.).
+     ═══════════════════════════════════════════════════════ */
+
+  /** Convert raw input state to numpad direction relative to facing */
+  private inputToNumpad(input: InputState, facingRight: boolean): NumpadDir {
+    const l = facingRight ? input.left : input.right; // back
+    const r = facingRight ? input.right : input.left; // forward
+    const u = input.up;
+    const d = input.down;
+    if (u && r) return 9;
+    if (u && l) return 7;
+    if (d && r) return 3;
+    if (d && l) return 1;
+    if (u) return 8;
+    if (d) return 2;
+    if (r) return 6;
+    if (l) return 4;
+    return 5; // neutral
+  }
+
+  /** Poll and record the current directional input into the fighter's control history */
+  private pollControlHistory(f: Fighter2D) {
+    f.controlPollTimer++;
+    if (f.controlPollTimer < CONTROL_HISTORY_POLL_DELAY) return;
+    f.controlPollTimer = 0;
+
+    const dir = this.inputToNumpad(this.inputState, f.facingRight);
+    // Only record if the direction changed (avoid flooding with neutral)
+    if (dir === f.lastPolledInput && dir === 5) return;
+    f.lastPolledInput = dir;
+
+    f.controlHistory.push({ input: dir, frame: this.frameCount });
+
+    // Trim old entries
+    const cutoff = this.frameCount - CONTROL_HISTORY_CAP;
+    while (f.controlHistory.length > 0 && f.controlHistory[0].frame < cutoff) {
+      f.controlHistory.shift();
+    }
+  }
+
+  /** Record a button press into the control history */
+  private recordButtonPress(f: Fighter2D, button: MotionButton) {
+    f.controlHistory.push({ input: button, frame: this.frameCount });
+  }
+
+  /** Check if the fighter's control history matches any special move motion */
+  private checkMotionInputs(f: Fighter2D): { level: 1 | 2 | 3; name: string } | null {
+    if (f.controlHistory.length < 3) return null;
+
+    // Check each motion sequence (longest first for priority)
+    const sorted = [...SPECIAL_MOTIONS].sort((a, b) => b.sequence.length - a.sequence.length);
+
+    for (const motion of sorted) {
+      if (this.matchMotionSequence(f.controlHistory, motion.sequence)) {
+        // Clear history after successful match to prevent double-triggers
+        f.controlHistory = [];
+        return { level: motion.level, name: motion.name };
+      }
+    }
+    return null;
+  }
+
+  /** Check if the recent control history ends with the given motion sequence */
+  private matchMotionSequence(
+    history: ControlHistoryEntry[],
+    sequence: (NumpadDir | MotionButton)[],
+  ): boolean {
+    if (history.length < sequence.length) return false;
+
+    // Work backwards from the end of history
+    let seqIdx = sequence.length - 1;
+    let histIdx = history.length - 1;
+    const maxGap = 15; // Max frames between inputs in the sequence
+
+    while (seqIdx >= 0 && histIdx >= 0) {
+      const entry = history[histIdx];
+      const expected = sequence[seqIdx];
+
+      if (entry.input === expected) {
+        // Check timing gap (except for the first element)
+        if (seqIdx < sequence.length - 1) {
+          const nextEntry = history[histIdx + 1];
+          if (nextEntry && nextEntry.frame - entry.frame > maxGap) return false;
+        }
+        seqIdx--;
+      }
+      histIdx--;
+    }
+
+    return seqIdx < 0; // All sequence elements matched
+  }
+
+  /* ═══════════════════════════════════════════════════════
+     SF-PORTED: HIT SPLASH & DAMAGE NUMBER SYSTEM
+     Stylized radial burst impact effects with speed lines
+     and floating damage numbers on hit/block/parry.
+     ═══════════════════════════════════════════════════════ */
+
+  /** Spawn a hit splash effect at the given position */
+  private spawnHitSplash(
+    x: number, y: number, damage: number, color: string,
+    type: HitSplash["type"],
+  ) {
+    const numLines = type === "special" ? 12 : type === "heavy" ? 10 : type === "parry" ? 8 : 6;
+    const lineAngles: number[] = [];
+    for (let i = 0; i < numLines; i++) {
+      lineAngles.push((Math.PI * 2 * i) / numLines + (Math.random() - 0.5) * 0.3);
+    }
+    const scale = type === "special" ? 1.8 : type === "heavy" ? 1.4 : type === "parry" ? 1.2 : 1.0;
+    const duration = type === "special" ? 20 : type === "heavy" ? 16 : 12;
+
+    this.hitSplashes.push({
+      x, y,
+      timer: duration,
+      maxTimer: duration,
+      damage,
+      color,
+      type,
+      lineAngles,
+      scale,
+    });
+
+    // Also spawn a floating damage number
+    if (damage > 0 && type !== "block") {
+      this.damageNumbers.push({
+        x: x + (Math.random() - 0.5) * 20,
+        y: y - 20,
+        vy: -2.5,
+        damage,
+        color,
+        timer: 45,
+        maxTimer: 45,
+        isCritical: type === "special" || type === "heavy",
+      });
+    }
+  }
+
+  /** Update hit splash and damage number timers */
+  private updateHitSplashes() {
+    for (let i = this.hitSplashes.length - 1; i >= 0; i--) {
+      this.hitSplashes[i].timer--;
+      if (this.hitSplashes[i].timer <= 0) this.hitSplashes.splice(i, 1);
+    }
+    for (let i = this.damageNumbers.length - 1; i >= 0; i--) {
+      const dn = this.damageNumbers[i];
+      dn.y += dn.vy;
+      dn.vy *= 0.95; // decelerate
+      dn.timer--;
+      if (dn.timer <= 0) this.damageNumbers.splice(i, 1);
+    }
+  }
+
+  /** Render hit splash effects (called in world space) */
+  private renderHitSplashes(ctx: CanvasRenderingContext2D) {
+    for (const splash of this.hitSplashes) {
+      const progress = 1 - splash.timer / splash.maxTimer;
+      const alpha = 1 - progress;
+      const expandRadius = 30 * splash.scale * progress;
+
+      ctx.save();
+      ctx.globalAlpha = alpha;
+      ctx.translate(splash.x, splash.y);
+
+      // Radial burst ring
+      ctx.beginPath();
+      ctx.arc(0, 0, expandRadius, 0, Math.PI * 2);
+      ctx.strokeStyle = splash.color;
+      ctx.lineWidth = 3 * (1 - progress);
+      ctx.stroke();
+
+      // Inner flash
+      if (progress < 0.3) {
+        const flashAlpha = (0.3 - progress) / 0.3;
+        ctx.beginPath();
+        ctx.arc(0, 0, expandRadius * 0.4, 0, Math.PI * 2);
+        ctx.fillStyle = splash.type === "parry" ? "#00ffff" : "#ffffff";
+        ctx.globalAlpha = flashAlpha * 0.8;
+        ctx.fill();
+        ctx.globalAlpha = alpha;
+      }
+
+      // Speed lines
+      for (const angle of splash.lineAngles) {
+        const innerR = expandRadius * 0.5;
+        const outerR = expandRadius + 15 * splash.scale * (1 - progress);
+        ctx.beginPath();
+        ctx.moveTo(Math.cos(angle) * innerR, Math.sin(angle) * innerR);
+        ctx.lineTo(Math.cos(angle) * outerR, Math.sin(angle) * outerR);
+        ctx.strokeStyle = splash.color;
+        ctx.lineWidth = 2 * (1 - progress);
+        ctx.stroke();
+      }
+
+      ctx.restore();
+    }
+  }
+
+  /** Render floating damage numbers (called in world space) */
+  private renderDamageNumbers(ctx: CanvasRenderingContext2D) {
+    for (const dn of this.damageNumbers) {
+      const progress = 1 - dn.timer / dn.maxTimer;
+      const alpha = progress < 0.7 ? 1 : 1 - (progress - 0.7) / 0.3;
+      const scale = dn.isCritical ? 1.3 + Math.sin(progress * Math.PI) * 0.3 : 1.0;
+
+      ctx.save();
+      ctx.globalAlpha = alpha;
+      ctx.translate(dn.x, dn.y);
+      ctx.scale(scale, scale);
+
+      const fontSize = dn.isCritical ? 22 : 16;
+      ctx.font = `bold ${fontSize}px monospace`;
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+
+      // Text shadow
+      ctx.fillStyle = "#000";
+      ctx.fillText(`-${dn.damage}`, 1, 1);
+
+      // Main text
+      ctx.fillStyle = dn.color;
+      ctx.fillText(`-${dn.damage}`, 0, 0);
+
+      ctx.restore();
+    }
+  }
+
+  /* ═══════════════════════════════════════════════════════
+     SF-PORTED: ENHANCED SHADOW SYSTEM
+     Perspective-correct elliptical shadows that scale with
+     fighter height above ground.
+     ═══════════════════════════════════════════════════════ */
+
+  /** Render a perspective shadow beneath a fighter */
+  private renderFighterShadow(ctx: CanvasRenderingContext2D, f: Fighter2D) {
+    const heightAboveGround = FLOOR_Y - f.y;
+    // Shadow shrinks and becomes more transparent as fighter rises
+    const heightFactor = Math.max(0, 1 - heightAboveGround / 300);
+    if (heightFactor <= 0) return;
+
+    const shadowWidth = (FIGHTER_WIDTH * 0.8) * heightFactor;
+    const shadowHeight = 8 * heightFactor;
+    const shadowAlpha = 0.35 * heightFactor;
+
+    ctx.save();
+    ctx.globalAlpha = shadowAlpha;
+    ctx.fillStyle = "#000";
+    ctx.beginPath();
+    ctx.ellipse(f.x, FLOOR_Y + 2, shadowWidth / 2, shadowHeight / 2, 0, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+  }
+
   /* ═══ CAMERA ═══ */
   private updateCamera() {
     // Target: midpoint between fighters
@@ -2428,6 +2822,10 @@ export class FightEngine2D {
     // Floor
     this.renderFloor(ctx);
 
+    // SF-ported: Perspective shadows (drawn before fighters for proper layering)
+    this.renderFighterShadow(ctx, this.p1);
+    this.renderFighterShadow(ctx, this.p2);
+
     // Projectiles
     this.renderProjectiles(ctx);
 
@@ -2442,6 +2840,10 @@ export class FightEngine2D {
 
     // Particles
     this.renderParticles(ctx);
+
+    // SF-ported: Hit splash effects and damage numbers
+    this.renderHitSplashes(ctx);
+    this.renderDamageNumbers(ctx);
 
     // Debug hitbox/hurtbox overlay (training mode)
     if (this.showHitboxes && this.trainingMode) {

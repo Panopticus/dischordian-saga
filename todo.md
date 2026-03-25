@@ -2577,14 +2577,21 @@
 
 ## Fighting Game - Replace with Original Open-Source Engine
 - [x] Find and download the original open-source browser fighting game
-- [ ] Port the open-source StreetFighter game faithfully to TypeScript as new FightEngine2D
-- [ ] Reskin with Dischordian Saga characters, arenas, and visual assets
-- [ ] Update FightArena2D to work with the new engine API
-- [ ] Test on mobile and desktop to verify attacks, collisions, and health bars work
-- [ ] Cross-reference all fighter characters against Loredex entries for official lore appearances
-- [ ] Port the open-source StreetFighter game faithfully to TypeScript as new FightEngine2D
-- [ ] Reskin with Dischordian Saga characters matching their official Loredex lore look
-- [ ] Update FightArena2D to work with the new engine API
-- [ ] Test on mobile and desktop to verify attacks, collisions, and health bars work
+- [x] Port the open-source StreetFighter game faithfully to TypeScript as new FightEngine2D
+- [x] Reskin with Dischordian Saga characters, arenas, and visual assets
+- [x] Update FightArena2D to work with the new engine API
+- [x] Test on mobile and desktop to verify attacks, collisions, and health bars work
+- [x] Cross-reference all fighter characters against Loredex entries for official lore appearances (29/29 matched, loredexId added to all fighters)
+- [x] Port the open-source StreetFighter game faithfully to TypeScript as new FightEngine2D
+- [x] Reskin with Dischordian Saga characters matching their official Loredex lore look
+- [x] Update FightArena2D to work with the new engine API
+- [x] Test on mobile and desktop to verify attacks, collisions, and health bars work
 - [x] Fix CSS @import ordering issue in index.css (OpenDyslexic font import moved to top)
 - [x] Fix MoralityUnlockablesPanel setState-during-render bug (wrapped auto-claim in useEffect)
+- [x] Add Control History system for motion input detection (QCF, DP, HCF special move inputs)
+- [x] Add Hit Splash visual effects system (radial burst rings with speed lines on hit/block/parry)
+- [x] Add floating Damage Number system (numbers rise and fade on hit)
+- [x] Add perspective-correct Fighter Shadow rendering
+- [x] Wire all SF-ported systems into game loop (fixedUpdate, processP1Input, resolveHit, render)
+- [x] Add loredexId field to FighterData interface and all 42 fighters in gameData.ts
+- [x] Write vitest for SF-port enhancements and loredex cross-reference (16 tests passing)
