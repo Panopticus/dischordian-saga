@@ -14,8 +14,15 @@
 import type { FighterData, FrameProfile, FighterArchetype } from "./gameData";
 import { getCharacterSpecials, type CharacterSpecials, type SpecialMove } from "./specialMoves";
 import { getCharacterConfig } from "./CharacterModel3D";
+import { FightSoundManager } from "./FightSoundManager";
 
-type PoseKey = "idle" | "attack" | "block" | "hit" | "ko" | "victory";
+type PoseKey = "idle" | "attack" | "block" | "hit" | "ko" | "victory"
+  | "walkForward" | "walkBack" | "crouch" | "dash"
+  | "lightPunch" | "mediumPunch" | "heavyPunch"
+  | "lightKick" | "mediumKick" | "heavyKick"
+  | "crouchPunch" | "crouchKick" | "sweep"
+  | "jump" | "jumpAttack" | "grab"
+  | "knockdown" | "dizzy" | "special" | "taunt";
 
 /* ═══════════════════════════════════════════════════════
    EXPORTED TYPES
@@ -579,69 +586,119 @@ interface SpriteSheet {
   hit: HTMLImageElement | null;
   ko: HTMLImageElement | null;
   victory: HTMLImageElement | null;
+  walkForward: HTMLImageElement | null;
+  walkBack: HTMLImageElement | null;
+  crouch: HTMLImageElement | null;
+  dash: HTMLImageElement | null;
+  lightPunch: HTMLImageElement | null;
+  mediumPunch: HTMLImageElement | null;
+  heavyPunch: HTMLImageElement | null;
+  lightKick: HTMLImageElement | null;
+  mediumKick: HTMLImageElement | null;
+  heavyKick: HTMLImageElement | null;
+  crouchPunch: HTMLImageElement | null;
+  crouchKick: HTMLImageElement | null;
+  sweep: HTMLImageElement | null;
+  jump: HTMLImageElement | null;
+  jumpAttack: HTMLImageElement | null;
+  grab: HTMLImageElement | null;
+  knockdown: HTMLImageElement | null;
+  dizzy: HTMLImageElement | null;
+  special: HTMLImageElement | null;
+  taunt: HTMLImageElement | null;
 }
 
 // PoseKey defined at top of file
 
-/** Map fighter state to sprite pose */
+/** Map fighter state to the most specific pose key available.
+ *  The renderer will fall back to base poses if the extended pose isn't loaded. */
 function stateToPose(state: FighterState2D): PoseKey {
   switch (state) {
-    case "idle":
-    case "walk_fwd":
-    case "walk_back":
+    // Movement
+    case "walk_fwd":       return "walkForward";
+    case "walk_back":      return "walkBack";
+    case "dash_fwd":       return "dash";
+    case "dash_back":      return "dash";
+    // Crouch
     case "crouch_down":
     case "crouch":
     case "crouch_up":
-    case "crouch_turn":
+    case "crouch_turn":    return "crouch";
+    // Jump
     case "jump_start":
-    case "jump_land":
-    case "getup":
-      return "idle";
+    case "jump_up":
+    case "jump_fwd":
+    case "jump_back":      return "jump";
+    case "jump_land":      return "idle";
+    // Standing attacks
     case "light_1":
     case "light_2":
-    case "light_3":
-    case "medium":
+    case "light_3":        return "lightPunch";
+    case "medium":         return "mediumPunch";
     case "heavy_charge":
-    case "heavy_release":
-    case "crouch_light":
-    case "crouch_medium":
-    case "crouch_heavy":
+    case "heavy_release":  return "heavyPunch";
+    // Kicks (mapped via archetype — medium as kick)
+    // Crouch attacks
+    case "crouch_light":   return "crouchPunch";
+    case "crouch_medium":  return "crouchKick";
+    case "crouch_heavy":   return "sweep";
+    // Air attacks
     case "jump_light":
     case "jump_medium":
-    case "jump_heavy":
-    case "dash_fwd":
-    case "dash_back":
+    case "jump_heavy":     return "jumpAttack";
+    // Specials
     case "special_1":
     case "special_2":
-    case "special_3":
-    case "throw_startup":
-      return "attack";
+    case "special_3":      return "special";
+    // Throw
+    case "throw_startup":  return "grab";
+    case "throw_whiff":    return "grab";
+    // Defense
     case "block_stand":
     case "block_crouch":
     case "blockstun":
-    case "parry_stun":
-      return "block";
+    case "parry_stun":     return "block";
+    // Damage
     case "hitstun":
     case "air_hitstun":
     case "launched":
     case "thrown":
-    case "finish_stun":
-      return "hit";
-    case "knockdown":
-    case "ko":
-      return "ko";
-    case "victory":
-      return "victory";
-    case "jump_up":
-    case "jump_fwd":
-    case "jump_back":
-      return "idle";
-    case "throw_whiff":
-      return "attack";
-    default:
-      return "idle";
+    case "finish_stun":    return "hit";
+    // Down states
+    case "knockdown":      return "knockdown";
+    case "ko":             return "ko";
+    case "getup":          return "dizzy";
+    // Win
+    case "victory":        return "victory";
+    // Default
+    case "idle":
+    default:               return "idle";
   }
 }
+
+/** Fallback chain: if the specific pose sprite isn't loaded, degrade gracefully */
+const POSE_FALLBACK: Partial<Record<PoseKey, PoseKey>> = {
+  walkForward: "idle",
+  walkBack: "idle",
+  crouch: "block",
+  dash: "attack",
+  lightPunch: "attack",
+  mediumPunch: "attack",
+  heavyPunch: "attack",
+  lightKick: "attack",
+  mediumKick: "attack",
+  heavyKick: "attack",
+  crouchPunch: "attack",
+  crouchKick: "attack",
+  sweep: "attack",
+  jump: "idle",
+  jumpAttack: "attack",
+  grab: "attack",
+  knockdown: "ko",
+  dizzy: "hit",
+  special: "attack",
+  taunt: "victory",
+};
 
 /* ═══════════════════════════════════════════════════════
    INPUT SYSTEM — Keyboard + Touch
@@ -937,6 +994,10 @@ export class FightEngine2D {
   private bgGradient: string;
   private floorColor: string;
   private ambientColor: string;
+  private arenaId: string;
+
+  // Sound
+  private sound: FightSoundManager;
 
   // Announcements (for HUD)
   private announcement: { text: string; color: string; timer: number } | null = null;
@@ -972,7 +1033,12 @@ export class FightEngine2D {
     this.bgGradient = bgGradient;
     this.floorColor = floorColor;
     this.ambientColor = ambientColor;
+    this.arenaId = arenaId;
     this.trainingMode = trainingMode;
+
+    // Initialize sound system
+    this.sound = new FightSoundManager(arenaId);
+    this.sound.init();
     if (trainingMode) {
       this.showHitboxes = true;
       this.showFrameData = true;
@@ -996,7 +1062,15 @@ export class FightEngine2D {
     const arch = data.frameProfile.archetype;
     return {
       data,
-      sprites: { idle: null, attack: null, block: null, hit: null, ko: null, victory: null },
+      sprites: {
+        idle: null, attack: null, block: null, hit: null, ko: null, victory: null,
+        walkForward: null, walkBack: null, crouch: null, dash: null,
+        lightPunch: null, mediumPunch: null, heavyPunch: null,
+        lightKick: null, mediumKick: null, heavyKick: null,
+        crouchPunch: null, crouchKick: null, sweep: null,
+        jump: null, jumpAttack: null, grab: null,
+        knockdown: null, dizzy: null, special: null, taunt: null,
+      },
       specials,
       x: startX, y: FLOOR_Y, vx: 0, vy: 0,
       facingRight,
@@ -1035,22 +1109,45 @@ export class FightEngine2D {
 
   /* ═══ SPRITE LOADING ═══ */
   private loadSprites(fighter: Fighter2D, data: FighterData) {
-    // Load pose sprites from CharacterModel3D config
+    // Load all pose sprites from CharacterModel3D config
     const poses: Record<string, string> = {};
     try {
       const config = getCharacterConfig(data.id);
       if (config?.poseSprites) {
-        if (config.poseSprites.idle) poses.idle = config.poseSprites.idle;
-        if (config.poseSprites.attack) poses.attack = config.poseSprites.attack;
-        if (config.poseSprites.block) poses.block = config.poseSprites.block;
-        if (config.poseSprites.hit) poses.hit = config.poseSprites.hit;
-        if (config.poseSprites.ko) poses.ko = config.poseSprites.ko;
-        if (config.poseSprites.victory) poses.victory = config.poseSprites.victory;
+        const ps = config.poseSprites;
+        // Base 6 poses
+        if (ps.idle) poses.idle = ps.idle;
+        if (ps.attack) poses.attack = ps.attack;
+        if (ps.block) poses.block = ps.block;
+        if (ps.hit) poses.hit = ps.hit;
+        if (ps.ko) poses.ko = ps.ko;
+        if (ps.victory) poses.victory = ps.victory;
+        // Extended 20 poses (SF-ported)
+        if (ps.walkForward) poses.walkForward = ps.walkForward;
+        if (ps.walkBack) poses.walkBack = ps.walkBack;
+        if (ps.crouch) poses.crouch = ps.crouch;
+        if (ps.dash) poses.dash = ps.dash;
+        if (ps.lightPunch) poses.lightPunch = ps.lightPunch;
+        if (ps.mediumPunch) poses.mediumPunch = ps.mediumPunch;
+        if (ps.heavyPunch) poses.heavyPunch = ps.heavyPunch;
+        if (ps.lightKick) poses.lightKick = ps.lightKick;
+        if (ps.mediumKick) poses.mediumKick = ps.mediumKick;
+        if (ps.heavyKick) poses.heavyKick = ps.heavyKick;
+        if (ps.crouchPunch) poses.crouchPunch = ps.crouchPunch;
+        if (ps.crouchKick) poses.crouchKick = ps.crouchKick;
+        if (ps.sweep) poses.sweep = ps.sweep;
+        if (ps.jump) poses.jump = ps.jump;
+        if (ps.jumpAttack) poses.jumpAttack = ps.jumpAttack;
+        if (ps.grab) poses.grab = ps.grab;
+        if (ps.knockdown) poses.knockdown = ps.knockdown;
+        if (ps.dizzy) poses.dizzy = ps.dizzy;
+        if (ps.special) poses.special = ps.special;
+        if (ps.taunt) poses.taunt = ps.taunt;
       }
     } catch {
       // Config not found — use fallback
     }
-    // Fallback: use the fighter's main image for all poses
+    // Fallback: use the fighter's main image for base poses
     if (!poses.idle && data.image) {
       poses.idle = data.image;
       poses.attack = data.image;
@@ -1228,6 +1325,8 @@ export class FightEngine2D {
     this.phase = "intro";
     this.phaseTimer = INTRO_FRAMES;
     this.callbacks.onPhaseChange?.("intro");
+    // Start arena music
+    this.sound.startArenaMusic();
     this.loop(performance.now());
   }
   public stop() {
@@ -1241,6 +1340,18 @@ export class FightEngine2D {
     // Clean up touch input timers
     this.touchClearTimers.forEach(t => clearTimeout(t));
     this.touchClearTimers = [];
+    // Clean up sound
+    this.sound.dispose();
+  }
+
+  /** Toggle sound mute — returns new muted state */
+  public toggleMute(): boolean {
+    return this.sound.toggleMute();
+  }
+
+  /** Check if sound is muted */
+  public isMuted(): boolean {
+    return this.sound.isMuted();
   }
 
   private loop = (now: number) => {
@@ -1334,9 +1445,13 @@ export class FightEngine2D {
     this.phaseTimer--;
     if (this.phaseTimer === ROUND_ANNOUNCE_FRAMES - 1) {
       this.announce(`ROUND ${this.round}`, this.ambientColor, 60);
+      this.sound.playRoundFanfare();
+      this.sound.announce(`Round ${this.round}`);
     }
     if (this.phaseTimer === 30) {
       this.announce("FIGHT!", "#ef4444", 40);
+      this.sound.play("round_bell");
+      this.sound.announce("Fight!");
     }
     if (this.phaseTimer <= 0) {
       this.setPhase("fighting");
@@ -1909,6 +2024,24 @@ export class FightEngine2D {
                            attacker.state.includes("heavy") ? 5 : 2;
     this.triggerScreenShake(shakeIntensity, 8);
 
+    // Sound effects for hit
+    if (this.isSpecialAttack(attacker.state)) {
+      this.sound.play("special");
+    } else if (attacker.state.includes("heavy")) {
+      this.sound.play(attacker.state.includes("kick") ? "kick_heavy" : "punch_heavy");
+    } else if (attacker.state.includes("medium")) {
+      this.sound.play(attacker.state.includes("kick") ? "kick_light" : "punch_light");
+    } else {
+      this.sound.play("punch_light");
+    }
+    this.sound.play("grunt_hit");
+    // Combo callouts
+    if (opponent.comboCount >= 5) {
+      this.sound.play("toasty");
+    } else if (opponent.comboCount >= 3) {
+      this.sound.play("combo_hit");
+    }
+
     // Callbacks
     this.callbacks.onHit?.(atkId, attacker.state);
 
@@ -1955,6 +2088,7 @@ export class FightEngine2D {
     // Meter gain for defender (reward blocking)
     defender.specialMeter = Math.min(MAX_METER, defender.specialMeter + 5);
 
+    this.sound.play("block");
     this.callbacks.onHit?.(atkId, "blocked");
   }
 
@@ -1985,6 +2119,7 @@ export class FightEngine2D {
     this.spawnHitSplash(hitX, hitY, 0, "#00ffff", "parry");
 
     this.callbacks.onParry?.(defId);
+    this.sound.play("parry_flash");
     this.callbacks.onHit?.(atkId, "parried");
   }
 
@@ -2190,6 +2325,9 @@ export class FightEngine2D {
     this.announce("K.O.!", "#ef4444", 90);
     this.triggerScreenFlash("#ef4444", 0.5, 15);
     this.triggerScreenShake(10, 20);
+    this.sound.play("ko");
+    this.sound.play("dramatic_boom");
+    this.sound.announce("K.O.!");
 
     this.setPhase("ko");
   }
@@ -2198,9 +2336,13 @@ export class FightEngine2D {
     const w = winner === 1 ? this.p1 : this.p2;
     w.roundWins++;
     this.changeState(w, "victory");
+    this.sound.playVictoryFanfare();
 
     const perfect = (winner === 1 ? this.p1.hp === this.p1.maxHp : this.p2.hp === this.p2.maxHp);
-    if (perfect) this.announce("PERFECT!", "#f59e0b", 90);
+    if (perfect) {
+      this.announce("PERFECT!", "#f59e0b", 90);
+      this.sound.announce("Perfect!");
+    }
 
     this.callbacks.onRoundEnd?.(winner, this.p1.roundWins, this.p2.roundWins);
 
@@ -2445,6 +2587,42 @@ export class FightEngine2D {
     f.stateFrame = 0;
     f.hitThisAttack = false;
     f.cancelUsed = false;
+
+    // Sound triggers on state entry
+    switch (newState) {
+      case "dash_fwd":
+      case "dash_back":
+        this.sound.play("dash_whoosh");
+        break;
+      case "knockdown":
+        this.sound.play("impact_ground");
+        this.sound.play("body_thud");
+        break;
+      case "light_1":
+      case "light_2":
+      case "light_3":
+        this.sound.play("whoosh");
+        break;
+      case "medium":
+      case "crouch_medium":
+        this.sound.play("whoosh");
+        this.sound.play("grunt_attack");
+        break;
+      case "heavy_charge":
+      case "heavy_release":
+      case "crouch_heavy":
+        this.sound.play("grunt_attack");
+        break;
+      case "special_1":
+      case "special_2":
+      case "special_3":
+        this.sound.play("grunt_attack");
+        break;
+      case "finish_stun":
+        this.sound.play("crowd_gasp");
+        this.sound.announce("Finish Him!");
+        break;
+    }
   }
 
   private setPhase(phase: FightPhase2D) {
@@ -2967,8 +3145,13 @@ export class FightEngine2D {
       ctx.scale(-1, 1);
     }
 
-    // Get current sprite
-    const sprite = f.sprites[f.currentPose];
+    // Get current sprite with fallback chain for characters missing extended poses
+    let sprite = f.sprites[f.currentPose];
+    if (!sprite) {
+      const fb = POSE_FALLBACK[f.currentPose];
+      if (fb) sprite = f.sprites[fb];
+    }
+    if (!sprite) sprite = f.sprites.idle;
 
     // Animation effects based on state
     let scaleX = 1;

@@ -2595,3 +2595,33 @@
 - [x] Wire all SF-ported systems into game loop (fixedUpdate, processP1Input, resolveHit, render)
 - [x] Add loredexId field to FighterData interface and all 42 fighters in gameData.ts
 - [x] Write vitest for SF-port enhancements and loredex cross-reference (16 tests passing)
+
+## Fighting Game - Sprite Animations (28 poses per character)
+- [ ] Generate 28 fighting pose sprites for The Architect
+- [ ] Generate 28 fighting pose sprites for The Collector
+- [ ] Generate 28 fighting pose sprites for The Enigma
+- [ ] Generate 28 fighting pose sprites for The Warlord
+- [ ] Generate 28 fighting pose sprites for The Necromancer
+- [ ] Generate 28 fighting pose sprites for The Meme
+- [ ] Generate 28 fighting pose sprites for The Shadow Tongue
+- [ ] Generate 28 fighting pose sprites for The Watcher
+- [ ] Generate 28 fighting pose sprites for The Game Master
+- [ ] Generate 28 fighting pose sprites for The Authority
+- [ ] Generate 28 fighting pose sprites for The Source
+- [ ] Generate 28 fighting pose sprites for The Jailer
+- [ ] Generate 28 fighting pose sprites for The Host
+- [x] Upload all sprite images to CDN
+- [x] Update gameData.ts poseSprites with new CDN URLs
+- [x] Update engine rendering to use multi-pose sprite system (26 PoseKey types, SpriteSheet interface, stateToPose mapping, POSE_FALLBACK chain)
+
+## Fighting Game - Sound Effects
+- [x] Wire FightSoundManager into FightEngine2D (import, init in constructor, dispose in destroy)
+- [x] Add hit impact sounds (light/medium/heavy punches and kicks mapped to attack states)
+- [x] Add block and parry sounds (metallic clang on block, parry flash on parry)
+- [x] Add special move sound effects (power-up sweep + shimmer on specials)
+- [x] Add announcer callouts (ROUND N, FIGHT!, K.O.!, PERFECT!, FINISH HIM!)
+- [x] Add state-transition sounds (dash whoosh, knockdown impact, attack grunts, combo callouts)
+- [x] Add arena background music via YouTube IFrame API (8 arena-specific saga tracks)
+- [x] Add round fanfare and victory fanfare synthesized audio
+- [x] Add mute toggle API (toggleMute/isMuted exposed on engine)
+- [ ] Add UI sounds for menus and selections
