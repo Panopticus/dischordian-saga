@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "tw-animate-css";
+@import url('https://fonts.cdnfonts.com/css/opendyslexic');
 
 @custom-variant dark (&:is(.dark *));
 
@@ -1282,8 +1283,6 @@ html.reduce-motion .hover-lift:hover {
    Switches all text to OpenDyslexic for improved
    readability for users with dyslexia.
    ═══════════════════════════════════════════════════════ */
-@import url('https://fonts.cdnfonts.com/css/opendyslexic');
-
 html.dyslexia-font * {
   font-family: 'OpenDyslexic', 'Comic Sans MS', sans-serif !important;
 }

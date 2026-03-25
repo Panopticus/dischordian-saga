@@ -11,7 +11,7 @@ import {
   Crown, Skull, Star, Gem, Lock, Unlock, ChevronDown,
   ChevronUp, ArrowRight, AlertTriangle
 } from "lucide-react";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import {
   MORALITY_UNLOCKABLES,
   getUnlockedItems,
@@ -49,11 +49,16 @@ export default function MoralityUnlockablesPanel() {
   const nextUnlock = useMemo(() => getNextUnlockable(score), [score]);
   const unlockedIds = new Set(unlocked.map(u => u.id));
 
-  // Auto-claim newly unlocked rewards
-  const unclaimedUnlocks = unlocked.filter(u => !state.moralityUnlocks.includes(u.id));
-  if (unclaimedUnlocks.length > 0) {
-    unclaimedUnlocks.forEach(u => unlockMoralityReward(u.id));
-  }
+  // Auto-claim newly unlocked rewards (wrapped in useEffect to avoid setState during render)
+  const unclaimedUnlocks = useMemo(
+    () => unlocked.filter(u => !state.moralityUnlocks.includes(u.id)),
+    [unlocked, state.moralityUnlocks]
+  );
+  useEffect(() => {
+    if (unclaimedUnlocks.length > 0) {
+      unclaimedUnlocks.forEach(u => unlockMoralityReward(u.id));
+    }
+  }, [unclaimedUnlocks, unlockMoralityReward]);
 
   // Group by side for display
   const machineItems = MORALITY_UNLOCKABLES.filter(u => u.side === "machine").sort((a, b) => a.requiredLevel - b.requiredLevel);

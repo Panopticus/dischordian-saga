@@ -2576,8 +2576,15 @@
 - [x] Fix health bar not visible / blocked by other UI elements
 
 ## Fighting Game - Replace with Original Open-Source Engine
-- [ ] Find and download the original open-source browser fighting game
-- [ ] Integrate the working game code into Loredex OS project
+- [x] Find and download the original open-source browser fighting game
+- [ ] Port the open-source StreetFighter game faithfully to TypeScript as new FightEngine2D
 - [ ] Reskin with Dischordian Saga characters, arenas, and visual assets
-- [ ] Add enhancements (sprite sheets, arena backgrounds, training mode) on top of working base
+- [ ] Update FightArena2D to work with the new engine API
 - [ ] Test on mobile and desktop to verify attacks, collisions, and health bars work
+- [ ] Cross-reference all fighter characters against Loredex entries for official lore appearances
+- [ ] Port the open-source StreetFighter game faithfully to TypeScript as new FightEngine2D
+- [ ] Reskin with Dischordian Saga characters matching their official Loredex lore look
+- [ ] Update FightArena2D to work with the new engine API
+- [ ] Test on mobile and desktop to verify attacks, collisions, and health bars work
+- [x] Fix CSS @import ordering issue in index.css (OpenDyslexic font import moved to top)
+- [x] Fix MoralityUnlockablesPanel setState-during-render bug (wrapped auto-claim in useEffect)
