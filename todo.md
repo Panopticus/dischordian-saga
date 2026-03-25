@@ -2625,3 +2625,11 @@
 - [x] Add round fanfare and victory fanfare synthesized audio
 - [x] Add mute toggle API (toggleMute/isMuted exposed on engine)
 - [ ] Add UI sounds for menus and selections
+
+## Opening Cinematic & Audio
+- [x] Upload opening cinematic video and SagaTheme.mp3 to CDN
+- [x] Build OpeningCinematic component (fullscreen video + theme song overlay)
+- [x] Wire cinematic into game intro flow before Elara's first words
+- [x] Reduce ambient space noise volume significantly (~75% reduction across all rooms)
+- [x] Add skip button for cinematic
+- [x] Theme song starts AFTER cinematic video ends, loops as background music for entire Awakening

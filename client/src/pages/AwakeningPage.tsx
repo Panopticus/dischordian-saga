@@ -12,6 +12,7 @@ import { trpc } from "@/lib/trpc";
 import StarterDeckViewer, { generateStarterDeck } from "@/components/StarterDeckViewer";
 import { toast } from "sonner";
 import HolographicElara from "@/components/HolographicElara";
+import OpeningCinematic from "@/components/OpeningCinematic";
 
 const ELARA_PORTRAIT = "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/elara_portrait_speaking-J3GJUrfnNKzSBrxY2PfWrL.webp";
 const CRYO_BG = "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/room_cryo_bay-SdeEqURrDvgrrbJq4WK3N5.webp";
@@ -253,6 +254,13 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
   const [showDeckReveal, setShowDeckReveal] = useState(false);
   const [audioInitialized, setAudioInitialized] = useState(false);
   const lastSpokenRef = useRef<string>("");
+  const themeAudioRef = useRef<HTMLAudioElement | null>(null);
+  const [showCinematic, setShowCinematic] = useState(() => {
+    // Only show cinematic on first visit (BLACKOUT step = very beginning)
+    if (typeof window === "undefined") return false;
+    const seen = localStorage.getItem("loredex_cinematic_seen");
+    return !seen;
+  });
 
   const createCitizen = trpc.citizen.createCharacter.useMutation();
   const [selectedNeyonTokenId, setSelectedNeyonTokenId] = useState<number | null>(null);
@@ -398,6 +406,51 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
     // Show deck reveal before navigating
     setShowDeckReveal(true);
   }, [characterChoices, createCitizen, audioInitialized, playSFX, trpcUtils]);
+
+  // Handle cinematic completion — receive the looping theme audio
+  const handleCinematicComplete = useCallback((themeAudio: HTMLAudioElement | null) => {
+    themeAudioRef.current = themeAudio;
+    setShowCinematic(false);
+    localStorage.setItem("loredex_cinematic_seen", "1");
+  }, []);
+
+  // Fade out theme music when Awakening completes
+  useEffect(() => {
+    if (awakeningStep === "COMPLETE" || awakeningStep === "FIRST_STEPS") {
+      const audio = themeAudioRef.current;
+      if (audio && !audio.paused) {
+        // Gradual fade out over ~2s
+        const fadeOut = setInterval(() => {
+          if (audio.volume > 0.03) {
+            audio.volume = Math.max(0, audio.volume - 0.02);
+          } else {
+            audio.volume = 0;
+            audio.pause();
+            clearInterval(fadeOut);
+            themeAudioRef.current = null;
+          }
+        }, 60);
+        return () => clearInterval(fadeOut);
+      }
+    }
+  }, [awakeningStep]);
+
+  // Cleanup theme audio on unmount
+  useEffect(() => {
+    return () => {
+      const audio = themeAudioRef.current;
+      if (audio) {
+        audio.pause();
+        themeAudioRef.current = null;
+      }
+    };
+  }, []);
+
+  // Show cinematic before everything else
+  if (showCinematic && awakeningStep === "BLACKOUT") {
+    return <OpeningCinematic onComplete={handleCinematicComplete} />;
+  }
+
 
   return (
     <div className="fixed inset-0 z-[100] overflow-y-auto overflow-x-hidden" style={{ background: "#000" }} onClick={handleInitAudio}>

@@ -20,82 +20,82 @@ interface RoomAmbience {
 const ROOM_AMBIENCE: Record<string, RoomAmbience> = {
   "cryo-bay": {
     layers: [
-      { type: "ship_hum", volume: 0.3 },
-      { type: "cryo_hiss", volume: 0.5 },
-      { type: "electrical", volume: 0.15 },
+      { type: "ship_hum", volume: 0.08 },
+      { type: "cryo_hiss", volume: 0.12 },
+      { type: "electrical", volume: 0.04 },
     ],
   },
   "medical-bay": {
     layers: [
-      { type: "ship_hum", volume: 0.25 },
-      { type: "electrical", volume: 0.3 },
+      { type: "ship_hum", volume: 0.06 },
+      { type: "electrical", volume: 0.08 },
     ],
   },
   "bridge": {
     layers: [
-      { type: "ship_hum", volume: 0.4 },
-      { type: "electrical", volume: 0.2 },
-      { type: "static", volume: 0.1 },
+      { type: "ship_hum", volume: 0.1 },
+      { type: "electrical", volume: 0.05 },
+      { type: "static", volume: 0.03 },
     ],
   },
   "archives": {
     layers: [
-      { type: "ship_hum", volume: 0.2 },
-      { type: "electrical", volume: 0.35 },
+      { type: "ship_hum", volume: 0.05 },
+      { type: "electrical", volume: 0.08 },
     ],
   },
   "comms-array": {
     layers: [
-      { type: "ship_hum", volume: 0.2 },
-      { type: "static", volume: 0.4 },
-      { type: "electrical", volume: 0.15 },
+      { type: "ship_hum", volume: 0.05 },
+      { type: "static", volume: 0.1 },
+      { type: "electrical", volume: 0.04 },
     ],
   },
   "observation-deck": {
     layers: [
-      { type: "void_wind", volume: 0.5 },
-      { type: "ship_hum", volume: 0.15 },
+      { type: "void_wind", volume: 0.12 },
+      { type: "ship_hum", volume: 0.04 },
     ],
   },
   "engineering": {
     layers: [
-      { type: "reactor", volume: 0.5 },
-      { type: "ship_hum", volume: 0.3 },
-      { type: "electrical", volume: 0.25 },
+      { type: "reactor", volume: 0.12 },
+      { type: "ship_hum", volume: 0.08 },
+      { type: "electrical", volume: 0.06 },
     ],
   },
   "armory": {
     layers: [
-      { type: "ship_hum", volume: 0.35 },
-      { type: "electrical", volume: 0.2 },
+      { type: "ship_hum", volume: 0.08 },
+      { type: "electrical", volume: 0.05 },
     ],
   },
   "cargo-hold": {
     layers: [
-      { type: "ship_hum", volume: 0.4 },
-      { type: "cryo_hiss", volume: 0.1 },
+      { type: "ship_hum", volume: 0.1 },
+      { type: "cryo_hiss", volume: 0.03 },
     ],
   },
   "captains-quarters": {
     layers: [
-      { type: "ship_hum", volume: 0.15 },
-      { type: "void_wind", volume: 0.2 },
+      { type: "ship_hum", volume: 0.04 },
+      { type: "void_wind", volume: 0.05 },
     ],
   },
   // Awakening sequence
   "awakening": {
     layers: [
-      { type: "heartbeat", volume: 0.6 },
-      { type: "cryo_hiss", volume: 0.3 },
-      { type: "alarm", volume: 0.15 },
+      { type: "heartbeat", volume: 0.15 },
+      { type: "cryo_hiss", volume: 0.08 },
+      { type: "alarm", volume: 0.04 },
     ],
   },
 };
 
 const DEFAULT_AMBIENCE: RoomAmbience = {
   layers: [
-    { type: "ship_hum", volume: 0.25 },
-    { type: "electrical", volume: 0.1 },
+    { type: "ship_hum", volume: 0.06 },
+    { type: "electrical", volume: 0.03 },
   ],
 };
 
