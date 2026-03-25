@@ -2551,3 +2551,11 @@
 - [x] Write comprehensive Fighting Game Engine Upgrade design document
 - [x] Write Art, Sound, and Suno Music Prompt resource specifications
 - [x] Write Production Bible for cinematics, dialog, and music
+
+## Open-Source 2D Fighting Game Engine Integration
+- [x] Research open-source browser-based 2D fighting game engines
+- [x] Evaluate top candidates (test demos, review code, assess integration)
+- [x] Select the best engine and design integration plan
+- [x] Integrate the engine into Loredex OS with our characters and arenas
+- [x] Wire up story mode, character select, and game flow
+- [x] Test and verify the complete fighting game overhaul

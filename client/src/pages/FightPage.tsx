@@ -29,6 +29,7 @@ import {
   type FighterData, type ArenaData, type DifficultyLevel,
 } from "@/game/gameData";
 import FightArena3D from "@/game/FightArena3D";
+import FightArena2D from "@/game/FightArena2D";
 import LandscapeEnforcer from "@/components/LandscapeEnforcer";
 import TutorialTrigger from "@/components/TutorialTrigger";
 import { useAutoTutorial } from "@/hooks/useAutoTutorial";
@@ -1135,7 +1136,7 @@ export default function FightPage() {
     return (
       <LandscapeEnforcer forceRotate>
         <div className="fixed inset-0 z-50 bg-black" style={{ width: "100%", height: "100%" }}>
-          <FightArena3D
+          <FightArena2D
             player={boostedPlayer!}
             opponent={selectedOpponent}
             arena={selectedArena}
