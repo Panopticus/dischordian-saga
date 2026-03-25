@@ -2633,3 +2633,5 @@
 - [x] Reduce ambient space noise volume significantly (~75% reduction across all rooms)
 - [x] Add skip button for cinematic
 - [x] Theme song starts AFTER cinematic video ends, loops as background music for entire Awakening
+- [x] Fix cinematic video cutting short before it finishes playing (BLACKOUT timer was racing the cinematic)
+- [x] Make ambient noise extremely quiet (barely perceptible — all volumes at 0.008-0.04)

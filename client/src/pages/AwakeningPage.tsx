@@ -282,16 +282,16 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
     }
   }, [audioInitialized, initAudio, setRoomAmbience]);
 
-  // Blackout → fade in
+  // Blackout → fade in (only runs AFTER cinematic is dismissed)
   useEffect(() => {
-    if (awakeningStep === "BLACKOUT") {
+    if (awakeningStep === "BLACKOUT" && !showCinematic) {
       const t1 = setTimeout(() => setScreenOpacity(0.3), 1500);
       const t2 = setTimeout(() => setScreenOpacity(0.6), 3000);
       const t3 = setTimeout(() => { setScreenOpacity(1); setHeartbeat(false); }, 4500);
       const t4 = setTimeout(() => advanceAwakening(), 6000);
       return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); clearTimeout(t4); };
     }
-  }, [awakeningStep, advanceAwakening]);
+  }, [awakeningStep, advanceAwakening, showCinematic]);
 
   // Cryo open → remove frost + play cryo SFX
   useEffect(() => {
