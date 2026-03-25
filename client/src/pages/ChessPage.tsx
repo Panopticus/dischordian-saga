@@ -41,7 +41,9 @@ const STYLE_ICONS: Record<string, typeof Crown> = {
   universal: Crown,
 };
 
-type GameView = "menu" | "character_select" | "playing" | "ladder" | "history" | "story_select";
+import ChessCinematic from "@/components/ChessCinematic";
+
+type GameView = "menu" | "character_select" | "cinematic" | "playing" | "ladder" | "history" | "story_select";
 
 export default function ChessPage() {
   const { user, isAuthenticated } = useAuth();
@@ -98,7 +100,14 @@ export default function ChessPage() {
       setMoveHistory([]);
       setRewards(null);
       setEloChange(0);
-      setView("playing");
+      // Show cinematic once per session before first game
+      const seenKey = "loredex_chess_cinematic_seen";
+      const seen = sessionStorage.getItem(seenKey);
+      if (!seen) {
+        setView("cinematic");
+      } else {
+        setView("playing");
+      }
     } catch (e: any) {
       console.error("Chess startGame error:", e);
       setStartError(e?.message || "Failed to start game. Please try again.");
@@ -376,6 +385,17 @@ export default function ChessPage() {
               </div>
             )}
           </motion.div>
+        )}
+
+        {/* ═══ CINEMATIC — Pre-game intro ═══ */}
+        {view === "cinematic" && (
+          <ChessCinematic
+            opponentName={opponentInfo?.name}
+            onComplete={() => {
+              sessionStorage.setItem("loredex_chess_cinematic_seen", "1");
+              setView("playing");
+            }}
+          />
         )}
 
         {/* ═══ PLAYING — IMMERSIVE ARENA ═══ */}

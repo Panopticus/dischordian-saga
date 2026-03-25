@@ -2635,3 +2635,8 @@
 - [x] Theme song starts AFTER cinematic video ends, loops as background music for entire Awakening
 - [x] Fix cinematic video cutting short before it finishes playing (BLACKOUT timer was racing the cinematic)
 - [x] Make ambient noise extremely quiet (barely perceptible — all volumes at 0.008-0.04)
+
+## Chess Game Cinematic
+- [x] Upload chess opening cinematic video to CDN
+- [x] Build chess cinematic intro component (ChessCinematic.tsx with amber/gold theme)
+- [x] Wire cinematic into chess game start flow (plays once per session before first match)
