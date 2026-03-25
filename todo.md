@@ -2543,3 +2543,11 @@
 
 ## Bug Fixes
 - [x] Fix Settings page error: "You already have a Citizen. Use the character sheet to modify." — page incorrectly triggers character creation mutation
+
+## Castagne Engine Research & Fighting Game Production Bible
+- [x] Research Castagne Fighting Game Engine (castagneengine.com)
+- [x] Audit current CoNexus fighting system for compatibility
+- [x] Determine integration path vs replacement strategy
+- [x] Write comprehensive Fighting Game Engine Upgrade design document
+- [x] Write Art, Sound, and Suno Music Prompt resource specifications
+- [x] Write Production Bible for cinematics, dialog, and music
