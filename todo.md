@@ -2684,3 +2684,47 @@
 - [ ] Generate nano banana artwork for Duelyst UI elements
 - [ ] Build stunning new Duelyst UI with generated artwork
 - [x] Map "The Voice of Isis" audio file to "Polarity" track (Track 11) — user confirmed they are the same song
+- [ ] Convert and upload 5 new Book of Daniel WAV files (Interactive Faustian Life, Kismet, Little Secrets/Secret of Words, Mental Slavery, Paradise Lost)
+- [ ] Map "Little Secrets" audio to "The Secret of Words" (Track 19)
+- [ ] Convert and upload last 2 WAV files (Remembering How to Move On, Virtual Reality)
+- [ ] Generate all Duelyst card game artwork (faction icons, board tiles, UI elements, card frames, general portraits)
+- [ ] Integrate generated artwork into Duelyst game components
+
+## Duelyst 3-Faction Restructure
+- [ ] Upload all character portraits to CDN (Archons, Ne-Yons, Insurgency, New Babylon, extras)
+- [ ] Restructure Duelyst from 6 factions to 3 factions (Architect, Dreamer, New Babylon)
+- [ ] Add Oracle, Eyes, Engineer, Iron Clad Lion Troops to Dreamer/Insurgency
+- [ ] Add White Oracle, Clone Army to Architect/Empire
+- [ ] Add Wolf, Antiquarian, The League to New Babylon
+- [ ] Add Wraith Calder, Akai Shi to New Babylon
+- [ ] Remove Human from Architect faction (Human is New Babylon general only)
+- [ ] Generate faction emblems for 3 factions
+- [ ] Generate board background art
+- [ ] Generate missing character art (Antiquarian, The League, Iron Clad Lion Troops)
+- [ ] Wire all portraits as general/unit images in Duelyst components
+- [ ] Update engine, cardAdapter, BoardRenderer, DuelystGameUI for 3-faction system
+
+
+## Phase 17: Duelyst 6-Faction Restructure
+- [x] Generate Thought Virus faction artwork: The Source, The Host, Infected Dr. Lyra Vox, Plague Dragon, Infected Robots, Infected Soldiers
+- [x] Generate Resurrectionist Army artwork for New Babylon (red/black steampunk plague doctors)
+- [ ] Generate 6 faction emblems (Architect, Dreamer, Insurgency, New Babylon, Antiquarian, Thought Virus)
+- [ ] Generate 6 board backgrounds for each faction
+- [ ] Generate UI elements (card frames, mana crystals, victory/defeat screens)
+- [ ] Upload all new artwork to CDN
+- [ ] Restructure Duelyst to 6 factions: Architect, Dreamer, Insurgency, New Babylon, Antiquarian, Thought Virus
+- [ ] Create Insurgency as standalone faction with Iron Lion as general
+- [ ] Create Antiquarian faction with The League and The Wolf
+- [ ] Create Thought Virus faction with The Source as general
+- [ ] Move Resurrectionist Army to New Babylon faction
+- [ ] Update Duelyst types.ts with 6 faction structure and all rosters
+- [ ] Update card data with all character portraits and CDN URLs
+- [ ] Update game engine, renderer, and UI for 6 factions
+- [ ] Connect Duelyst victories to progression system
+- [ ] Run tests and verify everything works
+- [ ] Regenerate ALL character portraits in unified dramatic fantasy card game art style
+- [ ] Use uploaded originals as references for each character
+- [x] Add clickable ship map toggle at bottom of Command Bridge (where pathways are)
+- [x] Implement fog of war on ship map that clears as rooms are discovered
+- [x] Enable instant travel to unlocked rooms from the bridge via ship map
+- [x] Upload and wire transition video for bridge-to-observation-room travel

@@ -29,6 +29,9 @@ const TRANSITION_VIDEOS: Record<string, string[]> = {
     "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/cryo_to_command_pt1_6014f4c2.mp4",
     "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/cryo_to_command_pt2_10b0af41.mp4",
   ],
+  "bridge->observation-deck": [
+    "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/bridge_to_observation_6b2f3957.mp4",
+  ],
 };
 
 /* Corridor segment colors based on destination */

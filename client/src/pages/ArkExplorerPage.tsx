@@ -32,6 +32,7 @@ import CommsRelayImport from "@/components/CommsRelayImport";
 import ItemDetailModal from "@/components/ItemDetailModal";
 import LoreTutorialEngine from "@/components/LoreTutorialEngine";
 import NarrativeTrigger from "@/components/NarrativeTrigger";
+import InlineShipMap from "@/components/InlineShipMap";
 import { getTutorialById, type TutorialReward } from "@/data/loreTutorials";
 
 const ELARA_PORTRAIT = "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/elara_portrait_speaking-J3GJUrfnNKzSBrxY2PfWrL.webp";
@@ -927,89 +928,96 @@ export default function ArkExplorerPage() {
             ))}
           </div>
 
-          {/* Connected rooms - improved pathway markers */}
-          <div className="mt-4">
-            <div className="flex items-center gap-2 mb-3">
-              <Compass size={12} className="text-[#3875fa]" />
-              <p className="font-mono text-[10px] text-[#3875fa] tracking-[0.3em] font-bold">PATHWAYS</p>
-              <div className="flex-1 h-px bg-gradient-to-r from-[rgba(56,117,250,0.3)] to-transparent" />
-            </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-              {currentRoom.connections.map(connId => {
-                const connRoom = getRoomDef(connId);
-                const unlocked = isRoomUnlocked(connId) || canUnlockRoom(connId);
-                const hasPuzzle = roomNeedsPuzzle(connId);
-                const deckDiff = connRoom ? connRoom.deck - currentRoom.deck : 0;
-                const deckLabel = deckDiff > 0 ? `↑ DECK ${connRoom?.deck}` : deckDiff < 0 ? `↓ DECK ${connRoom?.deck}` : "SAME DECK";
-                return (
-                  <button
-                    key={connId}
-                    onClick={() => {
-                      if (unlocked) {
-                        if (hasPuzzle) {
-                          setPuzzleRoomId(connId);
-                          if (audioReady) playSFX("door_locked");
+          {/* Connected rooms - PATHWAYS (non-bridge) or SHIP MAP (bridge) */}
+          {state.currentRoomId === "bridge" ? (
+            <InlineShipMap
+              currentRoomId={state.currentRoomId}
+              onTravel={(roomId) => navigateWithTransition(roomId)}
+            />
+          ) : (
+            <div className="mt-4">
+              <div className="flex items-center gap-2 mb-3">
+                <Compass size={12} className="text-[#3875fa]" />
+                <p className="font-mono text-[10px] text-[#3875fa] tracking-[0.3em] font-bold">PATHWAYS</p>
+                <div className="flex-1 h-px bg-gradient-to-r from-[rgba(56,117,250,0.3)] to-transparent" />
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                {currentRoom.connections.map(connId => {
+                  const connRoom = getRoomDef(connId);
+                  const unlocked = isRoomUnlocked(connId) || canUnlockRoom(connId);
+                  const hasPuzzle = roomNeedsPuzzle(connId);
+                  const deckDiff = connRoom ? connRoom.deck - currentRoom.deck : 0;
+                  const deckLabel = deckDiff > 0 ? `↑ DECK ${connRoom?.deck}` : deckDiff < 0 ? `↓ DECK ${connRoom?.deck}` : "SAME DECK";
+                  return (
+                    <button
+                      key={connId}
+                      onClick={() => {
+                        if (unlocked) {
+                          if (hasPuzzle) {
+                            setPuzzleRoomId(connId);
+                            if (audioReady) playSFX("door_locked");
+                          } else {
+                            navigateWithTransition(connId);
+                          }
                         } else {
-                          navigateWithTransition(connId);
+                          if (audioReady) playSFX("door_locked");
+                          toast.error("LOCKED", { description: "Explore more to unlock this area." });
                         }
-                      } else {
-                        if (audioReady) playSFX("door_locked");
-                        toast.error("LOCKED", { description: "Explore more to unlock this area." });
-                      }
-                    }}
-                    className="flex items-center gap-3 px-4 py-3 rounded-lg font-mono text-[11px] transition-all group"
-                    style={{
-                      background: unlocked
-                        ? hasPuzzle ? "rgba(255,183,77,0.06)" : "rgba(56,117,250,0.06)"
-                        : "rgba(255,255,255,0.015)",
-                      border: `1px solid ${
-                        unlocked
-                          ? hasPuzzle ? "rgba(255,183,77,0.25)" : "rgba(56,117,250,0.25)"
-                          : "rgba(255,255,255,0.05)"
-                      }`,
-                    }}
-                  >
-                    {/* Icon */}
-                    <div className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center" style={{
-                      background: unlocked
-                        ? hasPuzzle ? "rgba(255,183,77,0.15)" : "var(--glass-border)"
-                        : "rgba(255,255,255,0.03)",
-                      border: `1px solid ${
-                        unlocked
-                          ? hasPuzzle ? "rgba(255,183,77,0.3)" : "rgba(56,117,250,0.3)"
-                          : "rgba(255,255,255,0.08)"
-                      }`,
-                    }}>
-                      {unlocked ? (
-                        hasPuzzle ? <Zap size={14} className="text-[var(--orb-orange)]" /> : <DoorOpen size={14} className="text-[#3875fa]" />
-                      ) : (
-                        <Lock size={14} className="text-muted-foreground/25" />
-                      )}
-                    </div>
-                    {/* Text */}
-                    <div className="flex-1 text-left">
-                      <p className="font-bold tracking-wider" style={{
-                        color: unlocked ? "rgba(255,255,255,0.85)" : "rgba(255,255,255,0.2)",
+                      }}
+                      className="flex items-center gap-3 px-4 py-3 rounded-lg font-mono text-[11px] transition-all group"
+                      style={{
+                        background: unlocked
+                          ? hasPuzzle ? "rgba(255,183,77,0.06)" : "rgba(56,117,250,0.06)"
+                          : "rgba(255,255,255,0.015)",
+                        border: `1px solid ${
+                          unlocked
+                            ? hasPuzzle ? "rgba(255,183,77,0.25)" : "rgba(56,117,250,0.25)"
+                            : "rgba(255,255,255,0.05)"
+                        }`,
+                      }}
+                    >
+                      {/* Icon */}
+                      <div className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center" style={{
+                        background: unlocked
+                          ? hasPuzzle ? "rgba(255,183,77,0.15)" : "var(--glass-border)"
+                          : "rgba(255,255,255,0.03)",
+                        border: `1px solid ${
+                          unlocked
+                            ? hasPuzzle ? "rgba(255,183,77,0.3)" : "rgba(56,117,250,0.3)"
+                            : "rgba(255,255,255,0.08)"
+                        }`,
                       }}>
-                        {unlocked ? (connRoom?.name || connId) : "???"}
-                      </p>
-                      <p className="text-[9px] mt-0.5" style={{
-                        color: unlocked
-                          ? hasPuzzle ? "rgba(255,183,77,0.6)" : "rgba(56,117,250,0.6)"
-                          : "rgba(255,255,255,0.1)",
-                      }}>
-                        {unlocked ? (hasPuzzle ? "🔒 PUZZLE REQUIRED" : deckLabel) : "LOCKED"}
-                      </p>
-                    </div>
-                    {/* Arrow */}
-                    <ChevronRight size={14} className={`transition-transform group-hover:translate-x-1 ${
-                      unlocked ? "text-muted-foreground/50" : "text-muted-foreground/20"
-                    }`} />
-                  </button>
-                );
-              })}
+                        {unlocked ? (
+                          hasPuzzle ? <Zap size={14} className="text-[var(--orb-orange)]" /> : <DoorOpen size={14} className="text-[#3875fa]" />
+                        ) : (
+                          <Lock size={14} className="text-muted-foreground/25" />
+                        )}
+                      </div>
+                      {/* Text */}
+                      <div className="flex-1 text-left">
+                        <p className="font-bold tracking-wider" style={{
+                          color: unlocked ? "rgba(255,255,255,0.85)" : "rgba(255,255,255,0.2)",
+                        }}>
+                          {unlocked ? (connRoom?.name || connId) : "???"}
+                        </p>
+                        <p className="text-[9px] mt-0.5" style={{
+                          color: unlocked
+                            ? hasPuzzle ? "rgba(255,183,77,0.6)" : "rgba(56,117,250,0.6)"
+                            : "rgba(255,255,255,0.1)",
+                        }}>
+                          {unlocked ? (hasPuzzle ? "🔒 PUZZLE REQUIRED" : deckLabel) : "LOCKED"}
+                        </p>
+                      </div>
+                      {/* Arrow */}
+                      <ChevronRight size={14} className={`transition-transform group-hover:translate-x-1 ${
+                        unlocked ? "text-muted-foreground/50" : "text-muted-foreground/20"
+                      }`} />
+                    </button>
+                  );
+                })}
+              </div>
             </div>
-          </div>
+          )}
         </div>
 
       </div>
