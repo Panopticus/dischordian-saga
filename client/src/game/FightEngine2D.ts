@@ -825,6 +825,11 @@ interface Fighter2D {
   animFrame: number;
   currentPose: PoseKey;
   poseTimer: number;
+  // Sprite animation blending
+  prevPose: PoseKey;
+  blendAlpha: number;   // 0 = showing prevPose, 1 = fully transitioned to currentPose
+  blendFrames: number;  // total frames for the crossfade
+  walkCycleFrame: number; // oscillates for walk animation
 
   // Crouch state
   isCrouching: boolean;
@@ -1099,6 +1104,7 @@ export class FightEngine2D {
       speedBuffTimer: 0, speedBuffMult: 1, defenseDebuffTimer: 0,
       pushVx: 0,
       animFrame: 0, currentPose: "idle", poseTimer: 0,
+      prevPose: "idle", blendAlpha: 1, blendFrames: 6, walkCycleFrame: 0,
       isCrouching: false,
       // Control History (SF-ported)
       controlHistory: [],
@@ -1757,13 +1763,31 @@ export class FightEngine2D {
       }
     }
 
-    // Update sprite pose
+    // Update sprite pose with crossfade blending
     const targetPose = stateToPose(f.state);
     if (targetPose !== f.currentPose) {
+      f.prevPose = f.currentPose;
       f.currentPose = targetPose;
       f.poseTimer = 0;
+      f.blendAlpha = 0;
+      // Faster blend for attacks, slower for movement transitions
+      const isAttack = targetPose === "lightPunch" || targetPose === "mediumPunch" || targetPose === "heavyPunch" ||
+                       targetPose === "lightKick" || targetPose === "mediumKick" || targetPose === "heavyKick" ||
+                       targetPose === "crouchPunch" || targetPose === "crouchKick" || targetPose === "sweep" ||
+                       targetPose === "jumpAttack" || targetPose === "special" || targetPose === "grab";
+      f.blendFrames = isAttack ? 3 : 6;
+    }
+    // Advance blend alpha
+    if (f.blendAlpha < 1) {
+      f.blendAlpha = Math.min(1, f.blendAlpha + 1 / f.blendFrames);
     }
     f.poseTimer++;
+    // Walk cycle frame for oscillating between poses
+    if (f.state === "walk_fwd" || f.state === "walk_back") {
+      f.walkCycleFrame++;
+    } else {
+      f.walkCycleFrame = 0;
+    }
   }
 
   /* ═══ STATE TRANSITIONS ═══ */
@@ -3145,15 +3169,51 @@ export class FightEngine2D {
       ctx.scale(-1, 1);
     }
 
-    // Get current sprite with fallback chain for characters missing extended poses
-    let sprite = f.sprites[f.currentPose];
+    // ═══ RESOLVE SPRITES ═══
+    // Walk cycle: alternate between walk pose and idle every ~12 frames for 2-frame walk anim
+    let effectivePose: PoseKey = f.currentPose;
+    if ((f.state === "walk_fwd" || f.state === "walk_back") && f.walkCycleFrame > 0) {
+      const walkPhase = Math.floor(f.walkCycleFrame / 12) % 2;
+      effectivePose = walkPhase === 0 ? f.currentPose : "idle";
+    }
+    // Attack sequence cycling: cycle through related attack poses during startup/active/recovery
+    if (f.state === "light_1" || f.state === "light_2" || f.state === "light_3") {
+      // Light combo: cycle lightPunch → mediumPunch at mid-animation
+      const md = this.getMoveData(f);
+      if (md && f.stateFrame > md.startup && f.sprites.mediumPunch) {
+        effectivePose = "mediumPunch";
+      }
+    } else if (f.state === "crouch_light") {
+      // Crouch light: show crouchKick at active frames if available
+      const md = this.getMoveData(f);
+      if (md && f.stateFrame > md.startup && f.sprites.crouchKick) {
+        effectivePose = "crouchKick";
+      }
+    } else if (f.state === "crouch_heavy") {
+      // Sweep: show sweep sprite throughout
+      effectivePose = "sweep";
+    }
+
+    // Resolve sprite with fallback chain
+    let sprite = f.sprites[effectivePose];
     if (!sprite) {
-      const fb = POSE_FALLBACK[f.currentPose];
+      const fb = POSE_FALLBACK[effectivePose];
       if (fb) sprite = f.sprites[fb];
     }
     if (!sprite) sprite = f.sprites.idle;
 
-    // Animation effects based on state
+    // Resolve previous pose sprite for crossfade
+    let prevSprite: HTMLImageElement | null = null;
+    if (f.blendAlpha < 1) {
+      prevSprite = f.sprites[f.prevPose];
+      if (!prevSprite) {
+        const fb = POSE_FALLBACK[f.prevPose];
+        if (fb) prevSprite = f.sprites[fb];
+      }
+      if (!prevSprite) prevSprite = f.sprites.idle;
+    }
+
+    // ═══ ANIMATION EFFECTS ═══
     let scaleX = 1;
     let scaleY = 1;
     let rotation = 0;
@@ -3162,7 +3222,6 @@ export class FightEngine2D {
 
     switch (f.state) {
       case "idle": {
-        // Breathing animation
         const breathe = Math.sin(f.animFrame * 0.06) * 0.015;
         scaleY = 1 + breathe;
         break;
@@ -3173,43 +3232,98 @@ export class FightEngine2D {
         offsetY = bob;
         const lean = f.state === "walk_fwd" ? 0.03 : -0.03;
         rotation = lean;
+        // Squash/stretch during walk cycle
+        const walkSquash = Math.sin(f.walkCycleFrame * 0.26) * 0.03;
+        scaleX = 1 + walkSquash;
+        scaleY = 1 - walkSquash * 0.5;
         break;
       }
       case "crouch":
       case "crouch_down":
       case "block_crouch": {
-        scaleY = 0.7;
-        offsetY = FIGHTER_DRAW_HEIGHT * 0.15;
+        // Smooth crouch transition
+        const crouchT = Math.min(1, f.stateFrame / 6);
+        scaleY = 1 - 0.3 * crouchT;
+        offsetY = FIGHTER_DRAW_HEIGHT * 0.15 * crouchT;
+        break;
+      }
+      case "crouch_up": {
+        const upT = Math.min(1, f.stateFrame / 4);
+        scaleY = 0.7 + 0.3 * upT;
+        offsetY = FIGHTER_DRAW_HEIGHT * 0.15 * (1 - upT);
         break;
       }
       case "dash_fwd": {
-        rotation = 0.1;
-        scaleX = 1.1;
+        // Dash with stretch effect
+        const dashT = Math.min(1, f.stateFrame / 8);
+        rotation = 0.1 * (1 - dashT);
+        scaleX = 1.1 + Math.sin(dashT * Math.PI) * 0.05;
+        scaleY = 0.95;
         break;
       }
       case "dash_back": {
-        rotation = -0.1;
-        scaleX = 1.1;
+        const dashT = Math.min(1, f.stateFrame / 8);
+        rotation = -0.1 * (1 - dashT);
+        scaleX = 1.1 + Math.sin(dashT * Math.PI) * 0.05;
+        scaleY = 0.95;
         break;
       }
       case "light_1":
       case "light_2":
       case "light_3": {
-        const t = f.stateFrame / 10;
-        scaleX = 1 + Math.sin(t * Math.PI) * 0.08;
+        // Snappy punch: stretch on startup, snap back on recovery
+        const md = this.getMoveData(f);
+        if (md) {
+          if (f.stateFrame <= md.startup) {
+            const t = f.stateFrame / md.startup;
+            scaleX = 1 + t * 0.12;
+            scaleY = 1 - t * 0.04;
+          } else if (f.stateFrame <= md.startup + md.active) {
+            scaleX = 1.12;
+            scaleY = 0.96;
+          } else {
+            const recT = (f.stateFrame - md.startup - md.active) / Math.max(1, md.recovery);
+            scaleX = 1.12 - recT * 0.12;
+            scaleY = 0.96 + recT * 0.04;
+          }
+        } else {
+          const t = f.stateFrame / 10;
+          scaleX = 1 + Math.sin(t * Math.PI) * 0.08;
+        }
         break;
       }
       case "medium": {
-        const t = f.stateFrame / 15;
-        scaleX = 1 + Math.sin(t * Math.PI) * 0.12;
-        rotation = 0.05;
+        const md = this.getMoveData(f);
+        if (md) {
+          if (f.stateFrame <= md.startup) {
+            const t = f.stateFrame / md.startup;
+            scaleX = 1 + t * 0.15;
+            rotation = t * 0.06;
+            scaleY = 1 - t * 0.05;
+          } else if (f.stateFrame <= md.startup + md.active) {
+            scaleX = 1.15;
+            rotation = 0.06;
+            scaleY = 0.95;
+          } else {
+            const recT = (f.stateFrame - md.startup - md.active) / Math.max(1, md.recovery);
+            scaleX = 1.15 - recT * 0.15;
+            rotation = 0.06 * (1 - recT);
+            scaleY = 0.95 + recT * 0.05;
+          }
+        } else {
+          const t = f.stateFrame / 15;
+          scaleX = 1 + Math.sin(t * Math.PI) * 0.12;
+          rotation = 0.05;
+        }
         break;
       }
       case "heavy_charge": {
         const shake = Math.sin(f.stateFrame * 0.8) * 2;
         offsetY = shake;
         const chargeGlow = Math.min(1, f.heavyChargeFrames / 30);
-        // Draw charge glow
+        // Charge compression
+        scaleY = 1 - chargeGlow * 0.08;
+        scaleX = 1 + chargeGlow * 0.04;
         ctx.globalAlpha = chargeGlow * 0.3;
         ctx.fillStyle = f.data.color;
         ctx.beginPath();
@@ -3219,8 +3333,17 @@ export class FightEngine2D {
         break;
       }
       case "heavy_release": {
-        scaleX = 1.15;
-        rotation = 0.08;
+        // Explosive release: big stretch then snap
+        const releaseT = Math.min(1, f.stateFrame / 12);
+        if (releaseT < 0.3) {
+          scaleX = 1.2;
+          scaleY = 0.9;
+          rotation = 0.1;
+        } else {
+          scaleX = 1.2 - (releaseT - 0.3) * 0.29;
+          scaleY = 0.9 + (releaseT - 0.3) * 0.14;
+          rotation = 0.1 * (1 - releaseT);
+        }
         break;
       }
       case "hitstun":
@@ -3228,6 +3351,11 @@ export class FightEngine2D {
         const shake = Math.sin(f.stateFrame * 1.5) * 3;
         offsetY = shake;
         rotation = -0.05;
+        // Impact squash on first few frames
+        if (f.stateFrame < 4) {
+          scaleX = 0.92;
+          scaleY = 1.06;
+        }
         break;
       }
       case "knockdown": {
@@ -3248,6 +3376,66 @@ export class FightEngine2D {
       case "blockstun": {
         const shake = Math.sin(f.stateFrame * 2) * 2;
         offsetY = shake;
+        // Block impact compression
+        if (f.stateFrame < 3) {
+          scaleX = 0.95;
+          scaleY = 1.03;
+        }
+        break;
+      }
+      case "crouch_light":
+      case "crouch_medium":
+      case "crouch_heavy": {
+        scaleY = 0.75;
+        offsetY = FIGHTER_DRAW_HEIGHT * 0.12;
+        const atkT = f.stateFrame / 12;
+        scaleX = 1 + Math.sin(atkT * Math.PI) * 0.1;
+        break;
+      }
+      case "jump_start": {
+        // Pre-jump compression
+        scaleY = 0.85;
+        scaleX = 1.05;
+        offsetY = 10;
+        break;
+      }
+      case "jump_up":
+      case "jump_fwd":
+      case "jump_back": {
+        // Air stretch
+        scaleY = 1.05;
+        scaleX = 0.97;
+        break;
+      }
+      case "jump_light":
+      case "jump_medium":
+      case "jump_heavy": {
+        scaleX = 1.1;
+        rotation = f.state === "jump_heavy" ? 0.15 : 0.08;
+        break;
+      }
+      case "jump_land": {
+        // Landing squash
+        const landT = Math.min(1, f.stateFrame / 4);
+        scaleY = 0.85 + landT * 0.15;
+        scaleX = 1.08 - landT * 0.08;
+        break;
+      }
+      case "throw_startup":
+      case "throw_whiff": {
+        scaleX = 1.08;
+        rotation = 0.04;
+        break;
+      }
+      case "thrown": {
+        rotation = -0.1;
+        scaleY = 0.9;
+        break;
+      }
+      case "getup": {
+        const getupT = Math.min(1, f.stateFrame / 20);
+        rotation = (Math.PI / 2) * (1 - getupT);
+        offsetY = 30 * (1 - getupT);
         break;
       }
       case "special_1":
@@ -3256,7 +3444,6 @@ export class FightEngine2D {
         const pulse = Math.sin(f.stateFrame * 0.3) * 0.05;
         scaleX = 1.05 + pulse;
         scaleY = 1.05 + pulse;
-        // Special glow
         ctx.globalAlpha = 0.4;
         ctx.fillStyle = f.data.color;
         ctx.beginPath();
@@ -3275,6 +3462,13 @@ export class FightEngine2D {
         alpha = flash;
         break;
       }
+      case "finish_stun": {
+        // Stagger effect
+        const stagger = Math.sin(f.stateFrame * 0.3) * 4;
+        offsetY = stagger;
+        rotation = Math.sin(f.stateFrame * 0.2) * 0.03;
+        break;
+      }
     }
 
     // Invincibility flash
@@ -3287,13 +3481,22 @@ export class FightEngine2D {
     ctx.rotate(rotation);
     ctx.scale(scaleX, scaleY);
 
+    const drawW = FIGHTER_DRAW_WIDTH;
+    const drawH = FIGHTER_DRAW_HEIGHT;
+
+    // ═══ CROSSFADE BLENDING ═══
+    // Draw previous pose sprite fading out during transition
+    if (prevSprite && prevSprite.complete && prevSprite.naturalWidth > 0 && f.blendAlpha < 1) {
+      ctx.globalAlpha = alpha * (1 - f.blendAlpha);
+      ctx.drawImage(prevSprite, -drawW / 2, -drawH, drawW, drawH);
+    }
+
+    // Draw current pose sprite fading in
     if (sprite && sprite.complete && sprite.naturalWidth > 0) {
-      // Draw sprite image
-      const drawW = FIGHTER_DRAW_WIDTH;
-      const drawH = FIGHTER_DRAW_HEIGHT;
+      ctx.globalAlpha = f.blendAlpha < 1 ? alpha * f.blendAlpha : alpha;
       ctx.drawImage(sprite, -drawW / 2, -drawH, drawW, drawH);
     } else {
-      // Fallback: draw a colored rectangle
+      ctx.globalAlpha = alpha;
       this.renderFighterFallback(ctx, f);
     }
 

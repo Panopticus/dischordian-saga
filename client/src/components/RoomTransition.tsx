@@ -28,7 +28,7 @@ const TRANSITION_VIDEOS: Record<string, string[]> = {
   ],
   // Cryo Bay → Medical Bay: new transition
   "cryo-bay->medical-bay": [
-    "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/cryo_to_medical_64dec8bf.mp4",
+    "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/cryo_to_medbay_d7dfaa79.mp4",
   ],
   // Bridge → Observation Deck
   "bridge->observation-deck": [

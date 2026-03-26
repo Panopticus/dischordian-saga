@@ -2744,3 +2744,19 @@
 - [x] Wire all extended sprite URLs into CharacterModel3D.ts
 - [x] Fix duplicate shadow-tongue extended sprite block
 - [x] Verify all 41 fighters now have full 20-pose extended sprite sets
+
+## Cryo-to-MedBay Transition + Fight Engine Pose Sprites + Sprite Sheets
+- [x] Upload cryo-to-medbay transition video to CDN
+- [x] Wire cryo-to-medbay video into RoomTransition.tsx TRANSITION_VIDEOS map
+- [ ] Hook pose sprites into fight engine for dynamic state-based texture swapping
+- [ ] Map fighter states (walking, crouching, attacking, etc.) to corresponding pose sprite URLs
+- [ ] Generate sprite sheet animations from individual pose images for smoother combat
+- [ ] Test fight engine with new pose sprite system
+
+- [x] Hook pose sprites into fight engine for dynamic state-based texture swapping
+- [x] Implement crossfade blending between pose sprites on state transitions
+- [x] Add walk cycle animation (2-frame alternation between walkForward and idle)
+- [x] Add attack sequence cycling (lightPunch → mediumPunch during active frames)
+- [x] Enhanced squash/stretch animation for all fighter states
+- [x] Smooth crouch/getup/dash/jump/landing transitions
+- [x] Upload cryo-to-medbay transition video and wire into RoomTransition.tsx
