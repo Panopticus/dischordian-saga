@@ -36,6 +36,7 @@ export type FighterState2D =
   | "dash_fwd" | "dash_back"
   | "jump_start" | "jump_up" | "jump_fwd" | "jump_back" | "jump_land"
   | "light_1" | "light_2" | "light_3"
+  | "light_kick" | "medium_kick" | "heavy_kick"
   | "crouch_light" | "crouch_medium" | "crouch_heavy"
   | "jump_light" | "jump_medium" | "jump_heavy"
   | "medium" | "heavy_charge" | "heavy_release"
@@ -43,13 +44,14 @@ export type FighterState2D =
   | "block_stand" | "block_crouch" | "blockstun"
   | "hitstun" | "knockdown" | "getup" | "launched" | "air_hitstun"
   | "parry_stun" | "finish_stun" | "ko" | "victory"
-  | "throw_startup" | "throw_whiff" | "thrown";
+  | "throw_startup" | "throw_whiff" | "thrown"
+  | "taunt";
 
 export type AIStyle2D = "aggressive" | "defensive" | "evasive" | "balanced";
 export type Difficulty2D = "recruit" | "soldier" | "veteran" | "archon";
 
 export interface TouchInput2D {
-  type: "tap" | "swipe_left" | "swipe_right" | "swipe_up" | "swipe_down" | "hold_start" | "hold_end" | "double_tap" | "none";
+  type: "tap" | "swipe_left" | "swipe_right" | "swipe_up" | "swipe_down" | "hold_start" | "hold_end" | "double_tap" | "triple_tap" | "none";
   side: "left" | "right";
   timestamp: number;
 }
@@ -263,6 +265,7 @@ interface MoveFrameData {
 function buildMoveData(
   profile: FrameProfile,
   move: "light_1" | "light_2" | "light_3" | "medium" | "heavy_release" |
+        "light_kick" | "medium_kick" | "heavy_kick" |
         "crouch_light" | "crouch_medium" | "crouch_heavy" |
         "jump_light" | "jump_medium" | "jump_heavy"
 ): MoveFrameData {
@@ -425,6 +428,49 @@ function buildMoveData(
           type: "overhead",
         },
         cancelWindow: 0,
+      };
+    // ═══ KICK ATTACKS ═══
+    case "light_kick":
+      return {
+        startup: profile.lightStartup + 1,
+        active: 4,
+        recovery: profile.lightRecovery + 1,
+        hitbox: {
+          x: 20, y: -FIGHTER_HEIGHT + 100, w: baseRange * 0.9, h: 50,
+          damage: baseDmg * 0.65, hitstun: baseHitstun * 0.85, blockstun: Math.floor(baseHitstun * 0.5),
+          pushbackHit: basePushback * 0.6, pushbackBlock: basePushback * 0.8,
+          meterGain: METER_PER_HIT, juggleCost: 1, launchForce: 0, knockdownForce: 0,
+          type: "mid",
+        },
+        cancelWindow: 7,
+      };
+    case "medium_kick":
+      return {
+        startup: profile.mediumStartup + 1,
+        active: 5,
+        recovery: profile.mediumRecovery + 1,
+        hitbox: {
+          x: 15, y: -FIGHTER_HEIGHT + 80, w: baseRange * 1.1, h: 55,
+          damage: baseDmg * 1.1, hitstun: baseHitstun * 1.15, blockstun: Math.floor(baseHitstun * 0.7),
+          pushbackHit: basePushback * 1.1, pushbackBlock: basePushback * 1.3,
+          meterGain: METER_PER_HIT * 1.5, juggleCost: 2, launchForce: 0, knockdownForce: 0,
+          type: "mid",
+        },
+        cancelWindow: 5,
+      };
+    case "heavy_kick":
+      return {
+        startup: profile.heavyStartup + 2,
+        active: 5,
+        recovery: profile.heavyRecovery + 2,
+        hitbox: {
+          x: 10, y: -FIGHTER_HEIGHT + 70, w: baseRange * 1.3, h: 70,
+          damage: baseDmg * 1.9, hitstun: baseHitstun * 1.5, blockstun: Math.floor(baseHitstun * 0.95),
+          pushbackHit: basePushback * 1.6, pushbackBlock: basePushback * 2.0,
+          meterGain: METER_PER_HIT * 2.2, juggleCost: 3, launchForce: 5, knockdownForce: 3,
+          type: "mid",
+        },
+        cancelWindow: 3,
       };
   }
 }
@@ -637,7 +683,10 @@ function stateToPose(state: FighterState2D): PoseKey {
     case "medium":         return "mediumPunch";
     case "heavy_charge":
     case "heavy_release":  return "heavyPunch";
-    // Kicks (mapped via archetype — medium as kick)
+    // Kick attacks
+    case "light_kick":     return "lightKick";
+    case "medium_kick":    return "mediumKick";
+    case "heavy_kick":     return "heavyKick";
     // Crouch attacks
     case "crouch_light":   return "crouchPunch";
     case "crouch_medium":  return "crouchKick";
@@ -668,6 +717,8 @@ function stateToPose(state: FighterState2D): PoseKey {
     case "knockdown":      return "knockdown";
     case "ko":             return "ko";
     case "getup":          return "dizzy";
+    // Taunt
+    case "taunt":          return "taunt";
     // Win
     case "victory":        return "victory";
     // Default
@@ -725,6 +776,10 @@ interface InputState {
   heavy: boolean;
   special: boolean;
   block: boolean;
+  lightKick: boolean;
+  mediumKick: boolean;
+  heavyKick: boolean;
+  taunt: boolean;
 }
 
 /* ═══════════════════════════════════════════════════════
@@ -981,6 +1036,7 @@ export class FightEngine2D {
   private inputState: InputState = {
     left: false, right: false, up: false, down: false,
     light: false, medium: false, heavy: false, special: false, block: false,
+    lightKick: false, mediumKick: false, heavyKick: false, taunt: false,
   };
   private inputBuffer: BufferedInput2D[] = [];
   private prevInputState: InputState = { ...this.inputState };
@@ -1179,11 +1235,19 @@ export class FightEngine2D {
       case "KeyD": case "ArrowRight": this.inputState.right = true; break;
       case "KeyW": case "ArrowUp": this.inputState.up = true; break;
       case "KeyS": case "ArrowDown": this.inputState.down = true; break;
+      // Punches: J/Z = light, K/X = medium, L/C = heavy
       case "KeyJ": case "KeyZ": this.inputState.light = true; break;
       case "KeyK": case "KeyX": this.inputState.medium = true; break;
       case "KeyL": case "KeyC": this.inputState.heavy = true; break;
+      // Kicks: U = light kick, I = medium kick (moved special to O), O = heavy kick
+      case "KeyU": this.inputState.lightKick = true; break;
+      case "KeyH": this.inputState.mediumKick = true; break;
+      case "KeyN": this.inputState.heavyKick = true; break;
+      // Special: V
       case "KeyI": case "KeyV": this.inputState.special = true; break;
       case "Space": this.inputState.block = true; break;
+      // Taunt: T
+      case "KeyT": this.inputState.taunt = true; break;
     }
   };
 
@@ -1196,8 +1260,12 @@ export class FightEngine2D {
       case "KeyJ": case "KeyZ": this.inputState.light = false; break;
       case "KeyK": case "KeyX": this.inputState.medium = false; break;
       case "KeyL": case "KeyC": this.inputState.heavy = false; break;
+      case "KeyU": this.inputState.lightKick = false; break;
+      case "KeyH": this.inputState.mediumKick = false; break;
+      case "KeyN": this.inputState.heavyKick = false; break;
       case "KeyI": case "KeyV": this.inputState.special = false; break;
       case "Space": this.inputState.block = false; break;
+      case "KeyT": this.inputState.taunt = false; break;
     }
   };
 
@@ -1241,8 +1309,21 @@ export class FightEngine2D {
         break;
       case "double_tap":
         if (input.side === "right") {
-          // Medium attack
-          this.setTouchInput("medium", true);
+          // Light kick
+          this.setTouchInput("lightKick", true);
+        } else {
+          // Dash back
+          this.setTouchInput("left", true);
+          setTimeout(() => {
+            this.setTouchInput("left", false);
+            this.setTouchInput("left", true);
+          }, 30);
+        }
+        break;
+      case "triple_tap":
+        if (input.side === "right") {
+          // Taunt
+          this.setTouchInput("taunt", true);
         }
         break;
       case "swipe_right":
@@ -1251,8 +1332,8 @@ export class FightEngine2D {
           const key = this.p1.facingRight ? "right" : "left";
           this.setTouchInput(key, true, 250);
         } else {
-          // Heavy attack
-          this.setTouchInput("heavy", true);
+          // Medium punch
+          this.setTouchInput("medium", true);
         }
         break;
       case "swipe_left":
@@ -1261,8 +1342,8 @@ export class FightEngine2D {
           const key = this.p1.facingRight ? "left" : "right";
           this.setTouchInput(key, true, 250);
         } else {
-          // Special attack
-          this.setTouchInput("special", true);
+          // Heavy kick
+          this.setTouchInput("heavyKick", true);
         }
         break;
       case "swipe_up":
@@ -1279,8 +1360,8 @@ export class FightEngine2D {
           // Crouch
           this.setTouchInput("down", true, 300);
         } else {
-          // Medium attack
-          this.setTouchInput("medium", true);
+          // Medium kick
+          this.setTouchInput("mediumKick", true);
         }
         break;
       case "hold_start":
@@ -1551,10 +1632,14 @@ export class FightEngine2D {
     const lightPressed = this.inputState.light && !this.prevInputState.light;
     const mediumPressed = this.inputState.medium && !this.prevInputState.medium;
     const heavyPressed = this.inputState.heavy && !this.prevInputState.heavy;
+    const lightKickPressed = this.inputState.lightKick && !this.prevInputState.lightKick;
+    const mediumKickPressed = this.inputState.mediumKick && !this.prevInputState.mediumKick;
+    const heavyKickPressed = this.inputState.heavyKick && !this.prevInputState.heavyKick;
     const specialPressed = this.inputState.special && !this.prevInputState.special;
     const blockPressed = this.inputState.block;
     const upPressed = this.inputState.up && !this.prevInputState.up;
     const downHeld = this.inputState.down;
+    const tauntPressed = this.inputState.taunt && !this.prevInputState.taunt;
 
     // Save previous state for edge detection
     this.prevInputState = { ...this.inputState };
@@ -1563,10 +1648,13 @@ export class FightEngine2D {
     if (lightPressed) this.recordButtonPress(f, "LP");
     if (mediumPressed) this.recordButtonPress(f, "MP");
     if (heavyPressed) this.recordButtonPress(f, "HP");
+    if (lightKickPressed) this.recordButtonPress(f, "LP");
+    if (mediumKickPressed) this.recordButtonPress(f, "MP");
+    if (heavyKickPressed) this.recordButtonPress(f, "HP");
 
     // SF-ported: Check for motion input specials (QCF, DP, HCF + button)
     // This takes priority over the simple special button
-    if (lightPressed || mediumPressed || heavyPressed) {
+    if (lightPressed || mediumPressed || heavyPressed || lightKickPressed || mediumKickPressed || heavyKickPressed) {
       const motionResult = this.checkMotionInputs(f);
       if (motionResult && f.specialMeter >= motionResult.level * 100) {
         this.activateSpecial(f, motionResult.level);
@@ -1638,7 +1726,13 @@ export class FightEngine2D {
       if (heavyPressed) { this.changeState(f, "jump_heavy"); return; }
     }
 
-    // Ground attacks
+    // Taunt (only when fully idle and grounded)
+    if (tauntPressed && this.isGrounded(f) && f.state === "idle") {
+      this.changeState(f, "taunt");
+      return;
+    }
+
+    // Ground attacks — Punches
     if (lightPressed && this.isGrounded(f)) {
       // Gatling chain
       if (f.state === "light_1" && f.comboChain === 0) {
@@ -1661,6 +1755,21 @@ export class FightEngine2D {
     if (heavyPressed && this.isGrounded(f)) {
       this.changeState(f, "heavy_charge");
       f.heavyChargeFrames = 0;
+      return;
+    }
+
+    // Ground attacks — Kicks
+    if (lightKickPressed && this.isGrounded(f)) {
+      this.changeState(f, "light_kick");
+      return;
+    }
+    if (mediumKickPressed && this.isGrounded(f)) {
+      this.changeState(f, "medium_kick");
+      f.comboChain = 3;
+      return;
+    }
+    if (heavyKickPressed && this.isGrounded(f)) {
+      this.changeState(f, "heavy_kick");
       return;
     }
 
@@ -1772,10 +1881,11 @@ export class FightEngine2D {
       f.blendAlpha = 0;
       // Faster blend for attacks, slower for movement transitions
       const isAttack = targetPose === "lightPunch" || targetPose === "mediumPunch" || targetPose === "heavyPunch" ||
-                       targetPose === "lightKick" || targetPose === "mediumKick" || targetPose === "heavyKick" ||
-                       targetPose === "crouchPunch" || targetPose === "crouchKick" || targetPose === "sweep" ||
-                       targetPose === "jumpAttack" || targetPose === "special" || targetPose === "grab";
-      f.blendFrames = isAttack ? 3 : 6;
+                        targetPose === "lightKick" || targetPose === "mediumKick" || targetPose === "heavyKick" ||
+                        targetPose === "crouchPunch" || targetPose === "crouchKick" || targetPose === "sweep" ||
+                        targetPose === "jumpAttack" || targetPose === "special" || targetPose === "grab" ||
+                        targetPose === "taunt";
+      f.blendFrames = isAttack ? ((targetPose as string) === "taunt" ? 8 : 3) : 6;
     }
     // Advance blend alpha
     if (f.blendAlpha < 1) {
@@ -1797,9 +1907,15 @@ export class FightEngine2D {
       switch (f.state) {
         case "light_1": case "light_2": case "light_3":
         case "medium": case "heavy_release":
+        case "light_kick": case "medium_kick": case "heavy_kick":
         case "crouch_light": case "crouch_medium": case "crouch_heavy":
           this.changeState(f, f.isCrouching ? "crouch" : "idle");
           f.vx = 0;
+          break;
+        case "taunt":
+          this.changeState(f, "idle");
+          // Taunt grants a small meter bonus
+          f.specialMeter = Math.min(MAX_METER, f.specialMeter + 25);
           break;
         case "jump_light": case "jump_medium": case "jump_heavy":
           // Stay airborne, return to jump state
@@ -1860,6 +1976,10 @@ export class FightEngine2D {
         const md = buildMoveData(profile, "heavy_release");
         return md.startup + md.active + md.recovery;
       }
+      case "light_kick": case "medium_kick": case "heavy_kick": {
+        const md = buildMoveData(profile, f.state);
+        return md.startup + md.active + md.recovery;
+      }
       case "crouch_light": case "crouch_medium": case "crouch_heavy": {
         const md = buildMoveData(profile, f.state);
         return md.startup + md.active + md.recovery;
@@ -1890,6 +2010,7 @@ export class FightEngine2D {
       case "crouch_up": return 4;
       case "throw_startup": return 5;
       case "throw_whiff": return 20;
+      case "taunt": return 60; // Taunt animation lasts ~1 second
       default: return 9999; // Continuous states
     }
   }
@@ -2487,9 +2608,10 @@ export class FightEngine2D {
       return;
     }
 
-    // Whiff punish
+    // Whiff punish — use kicks or punches
     if (this.isInRecovery(player) && dist < 120 && Math.random() < profile.whiffPunishRate) {
-      this.changeState(ai, "medium");
+      const useKick = Math.random() < 0.4;
+      this.changeState(ai, useKick ? "medium_kick" : "medium");
       ai.hitThisAttack = false;
       ai.aiTimer = 0;
       return;
@@ -2540,10 +2662,26 @@ export class FightEngine2D {
       ai.vx = dir * walkSpeed;
       this.changeState(ai, "walk_back");
     } else {
-      // In range — attack
+      // In range — attack with punches or kicks
       if (Math.random() < ai.aiAggression) {
-        this.changeState(ai, "light_1");
-        ai.comboChain = 0;
+        const roll = Math.random();
+        if (roll < 0.45) {
+          // Punch combo
+          this.changeState(ai, "light_1");
+          ai.comboChain = 0;
+        } else if (roll < 0.65) {
+          // Light kick
+          this.changeState(ai, "light_kick");
+        } else if (roll < 0.80) {
+          // Medium kick
+          this.changeState(ai, "medium_kick");
+        } else if (roll < 0.92) {
+          // Heavy kick at range
+          this.changeState(ai, "heavy_kick");
+        } else {
+          // Medium punch
+          this.changeState(ai, "medium");
+        }
         ai.hitThisAttack = false;
       } else {
         this.changeState(ai, "idle");
@@ -2558,6 +2696,7 @@ export class FightEngine2D {
   private isActionable(f: Fighter2D): boolean {
     return f.state === "idle" || f.state === "walk_fwd" || f.state === "walk_back" ||
            f.state === "crouch" || f.state === "crouch_down";
+    // Note: taunt is NOT actionable — player is locked in for the full animation
   }
 
   private isGrounded(f: Fighter2D): boolean {
@@ -2567,6 +2706,7 @@ export class FightEngine2D {
   private isInAttackState(f: Fighter2D): boolean {
     return f.state === "light_1" || f.state === "light_2" || f.state === "light_3" ||
            f.state === "medium" || f.state === "heavy_release" ||
+           f.state === "light_kick" || f.state === "medium_kick" || f.state === "heavy_kick" ||
            f.state === "crouch_light" || f.state === "crouch_medium" || f.state === "crouch_heavy" ||
            f.state === "jump_light" || f.state === "jump_medium" || f.state === "jump_heavy" ||
            f.state === "special_1" || f.state === "special_2" || f.state === "special_3";
@@ -2591,6 +2731,9 @@ export class FightEngine2D {
       case "light_3": return buildMoveData(profile, "light_3");
       case "medium": return buildMoveData(profile, "medium");
       case "heavy_release": return buildMoveData(profile, "heavy_release");
+      case "light_kick": return buildMoveData(profile, "light_kick");
+      case "medium_kick": return buildMoveData(profile, "medium_kick");
+      case "heavy_kick": return buildMoveData(profile, "heavy_kick");
       case "crouch_light": return buildMoveData(profile, "crouch_light");
       case "crouch_medium": return buildMoveData(profile, "crouch_medium");
       case "crouch_heavy": return buildMoveData(profile, "crouch_heavy");
@@ -2629,7 +2772,17 @@ export class FightEngine2D {
         break;
       case "medium":
       case "crouch_medium":
+      case "medium_kick":
         this.sound.play("whoosh");
+        this.sound.play("grunt_attack");
+        break;
+      case "light_kick":
+        this.sound.play("whoosh");
+        break;
+      case "heavy_kick":
+        this.sound.play("grunt_attack");
+        break;
+      case "taunt":
         this.sound.play("grunt_attack");
         break;
       case "heavy_charge":
@@ -3192,6 +3345,17 @@ export class FightEngine2D {
     } else if (f.state === "crouch_heavy") {
       // Sweep: show sweep sprite throughout
       effectivePose = "sweep";
+    } else if (f.state === "light_kick" || f.state === "medium_kick" || f.state === "heavy_kick") {
+      // Kick attacks: show the specific kick sprite
+      const kickMd = this.getMoveData(f);
+      if (kickMd && f.stateFrame > kickMd.startup) {
+        // During active/recovery, show the heavier kick sprite for visual progression
+        if (f.state === "light_kick" && f.sprites.mediumKick) {
+          effectivePose = "mediumKick";
+        } else if (f.state === "medium_kick" && f.sprites.heavyKick) {
+          effectivePose = "heavyKick";
+        }
+      }
     }
 
     // Resolve sprite with fallback chain
@@ -3381,6 +3545,39 @@ export class FightEngine2D {
           scaleX = 0.95;
           scaleY = 1.03;
         }
+        break;
+      }
+      case "light_kick":
+      case "medium_kick":
+      case "heavy_kick": {
+        // Kick animation: lean back slightly, extend leg
+        const kickMd = this.getMoveData(f);
+        if (kickMd) {
+          if (f.stateFrame <= kickMd.startup) {
+            const t = f.stateFrame / kickMd.startup;
+            scaleX = 1 - t * 0.05;
+            scaleY = 1 + t * 0.08;
+            rotation = -0.05 * t; // Lean back
+          } else if (f.stateFrame <= kickMd.startup + kickMd.active) {
+            scaleX = 1.12;
+            scaleY = 0.95;
+            rotation = 0.08; // Lean forward into kick
+          } else {
+            const recT = (f.stateFrame - kickMd.startup - kickMd.active) / Math.max(1, kickMd.recovery);
+            scaleX = 1.12 - recT * 0.12;
+            scaleY = 0.95 + recT * 0.05;
+            rotation = 0.08 * (1 - recT);
+          }
+        }
+        break;
+      }
+      case "taunt": {
+        // Taunt animation: slight bounce and scale pulse
+        const tauntT = f.stateFrame / 60;
+        const pulse = Math.sin(tauntT * Math.PI * 4) * 0.03;
+        scaleX = 1 + pulse;
+        scaleY = 1 + pulse;
+        offsetY = Math.sin(tauntT * Math.PI * 2) * -5;
         break;
       }
       case "crouch_light":
@@ -4041,16 +4238,20 @@ export class FightEngine2D {
 
     const moveKeys: Array<Parameters<typeof buildMoveData>[1]> = [
       "light_1", "light_2", "light_3", "medium", "heavy_release",
+      "light_kick", "medium_kick", "heavy_kick",
       "crouch_light", "crouch_medium", "crouch_heavy",
       "jump_light", "jump_medium", "jump_heavy",
     ];
 
     const moveNames: Record<string, string> = {
-      light_1: "Light 1 (Jab)",
-      light_2: "Light 2",
-      light_3: "Light 3 (Chain)",
-      medium: "Medium",
-      heavy_release: "Heavy",
+      light_1: "Light Punch 1 (Jab)",
+      light_2: "Light Punch 2",
+      light_3: "Light Punch 3 (Chain)",
+      medium: "Medium Punch",
+      heavy_release: "Heavy Punch",
+      light_kick: "Light Kick",
+      medium_kick: "Medium Kick",
+      heavy_kick: "Heavy Kick",
       crouch_light: "Crouch Light",
       crouch_medium: "Crouch Medium",
       crouch_heavy: "Crouch Heavy (Sweep)",

@@ -11,6 +11,7 @@ import { ArrowLeft, Swords, Shield, Zap, ChevronUp, Hand, Timer } from "lucide-r
 import type { FighterData, ArenaData, DifficultyLevel } from "./gameData";
 import { FightEngine2D, type FightCallbacks2D, type FightPhase2D, type TouchInput2D, type Difficulty2D, type TrainingData, type MoveListEntry } from "./FightEngine2D";
 import TrainingModeOverlay from "./TrainingModeOverlay";
+import FighterIntroOverlay from "./FighterIntroOverlay";
 
 /* ═══ PROPS ═══ */
 interface FightArena2DProps {
@@ -53,12 +54,15 @@ const TUTORIAL_DONE_KEY = "loredex_fight2d_tutorial_done";
 function GestureTutorial({ onComplete, onSkip }: { onComplete: () => void; onSkip: () => void }) {
   const [step, setStep] = useState(0);
   const steps = [
-    { icon: <Hand size={32} />, title: "TAP RIGHT", desc: "Light attack" },
-    { icon: <Swords size={32} />, title: "SWIPE RIGHT →", desc: "Medium attack" },
+    { icon: <Hand size={32} />, title: "TAP RIGHT", desc: "Light punch" },
+    { icon: <Swords size={32} />, title: "SWIPE RIGHT →", desc: "Medium punch" },
     { icon: <Zap size={32} />, title: "HOLD RIGHT", desc: "Heavy charge → release" },
+    { icon: <Hand size={32} />, title: "DOUBLE TAP RIGHT", desc: "Light kick" },
+    { icon: <Swords size={32} />, title: "SWIPE DOWN ↓ RIGHT", desc: "Medium kick" },
+    { icon: <Zap size={32} />, title: "SWIPE LEFT ← RIGHT", desc: "Heavy kick" },
     { icon: <Shield size={32} />, title: "TAP LEFT", desc: "Block" },
     { icon: <ChevronUp size={32} />, title: "SWIPE UP", desc: "Jump" },
-    { icon: <Timer size={32} />, title: "DOUBLE TAP LEFT", desc: "Dash back (dodge)" },
+    { icon: <Timer size={32} />, title: "TRIPLE TAP RIGHT", desc: "Taunt (meter boost)" },
   ];
 
   useEffect(() => {
@@ -124,7 +128,7 @@ export default function FightArena2D({
   const engineRef = useRef<FightEngine2D | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const gesturesRef = useRef<Map<number, GestureTracker>>(new Map());
-  const lastTapRef = useRef<{ time: number; side: "left" | "right" }>({ time: 0, side: "left" });
+  const lastTapRef = useRef<{ time: number; side: "left" | "right"; count: number }>({ time: 0, side: "left", count: 0 });
 
   const [phase, setPhase] = useState<FightPhase2D>("intro");
   const [showIntroSplash, setShowIntroSplash] = useState(true);
@@ -154,7 +158,7 @@ export default function FightArena2D({
       setPhase(p);
       if (p === "intro") {
         setShowIntroSplash(true);
-        setTimeout(() => setShowIntroSplash(false), 2500);
+        // Cinematic intro handles its own timing via onComplete
       }
     },
     onHealthChange: (p1Hp, p1Max, _p2Hp, _p2Max) => {
@@ -308,15 +312,21 @@ export default function FightArena2D({
           };
         }
       } else if (elapsed < TAP_TIME) {
-        // Check double tap
+        // Check multi-tap (double/triple)
         const now = Date.now();
         const last = lastTapRef.current;
         if (now - last.time < DOUBLE_TAP_TIME && last.side === tracker.side) {
-          input = { type: "double_tap", side: tracker.side, timestamp: now };
-          lastTapRef.current = { time: 0, side: "left" };
+          const tapCount = last.count + 1;
+          if (tapCount >= 3) {
+            input = { type: "triple_tap", side: tracker.side, timestamp: now };
+            lastTapRef.current = { time: 0, side: "left", count: 0 };
+          } else {
+            input = { type: "double_tap", side: tracker.side, timestamp: now };
+            lastTapRef.current = { time: now, side: tracker.side, count: tapCount };
+          }
         } else {
           input = { type: "tap", side: tracker.side, timestamp: now };
-          lastTapRef.current = { time: now, side: tracker.side };
+          lastTapRef.current = { time: now, side: tracker.side, count: 1 };
         }
       } else {
         // Long press release
@@ -358,75 +368,16 @@ export default function FightArena2D({
         )}
       </AnimatePresence>
 
-      {/* VS Intro Splash */}
+      {/* Cinematic Fighter Intro Overlay */}
       <AnimatePresence>
         {showIntroSplash && phase === "intro" && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="absolute inset-0 z-40 flex items-center justify-center"
-          >
-            <div className="flex items-center gap-6">
-              {/* P1 */}
-              <motion.div
-                initial={{ x: -100, opacity: 0 }}
-                animate={{ x: 0, opacity: 1 }}
-                transition={{ delay: 0.2, duration: 0.4 }}
-                className="text-center"
-              >
-                {player.image ? (
-                  <img src={player.image} alt={player.name} className="w-24 h-24 object-contain rounded-lg" />
-                ) : (
-                  <div className="w-24 h-24 rounded-full flex items-center justify-center" style={{ backgroundColor: player.color + "30" }}>
-                    <span className="font-display text-2xl font-bold" style={{ color: player.color }}>{player.name[0]}</span>
-                  </div>
-                )}
-                <p className="font-mono text-xs mt-2 tracking-wider" style={{ color: player.color }}>
-                  {player.name.toUpperCase()}
-                </p>
-              </motion.div>
-
-              {/* VS */}
-              <motion.div
-                initial={{ scale: 0, rotate: -180 }}
-                animate={{ scale: 1, rotate: 0 }}
-                transition={{ delay: 0.5, type: "spring", stiffness: 200 }}
-              >
-                <span className="font-display text-4xl font-black text-destructive tracking-widest">VS</span>
-              </motion.div>
-
-              {/* P2 */}
-              <motion.div
-                initial={{ x: 100, opacity: 0 }}
-                animate={{ x: 0, opacity: 1 }}
-                transition={{ delay: 0.2, duration: 0.4 }}
-                className="text-center"
-              >
-                {opponent.image ? (
-                  <img src={opponent.image} alt={opponent.name} className="w-24 h-24 object-contain rounded-lg" />
-                ) : (
-                  <div className="w-24 h-24 rounded-full flex items-center justify-center" style={{ backgroundColor: opponent.color + "30" }}>
-                    <span className="font-display text-2xl font-bold" style={{ color: opponent.color }}>{opponent.name[0]}</span>
-                  </div>
-                )}
-                <p className="font-mono text-xs mt-2 tracking-wider" style={{ color: opponent.color }}>
-                  {opponent.name.toUpperCase()}
-                </p>
-              </motion.div>
-            </div>
-
-            {/* Arena name */}
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.8 }}
-              className="absolute bottom-12 font-mono text-xs text-muted-foreground tracking-[0.3em]"
-            >
-              {arena.name.toUpperCase()}
-            </motion.p>
-          </motion.div>
+          <FighterIntroOverlay
+            player={player}
+            opponent={opponent}
+            arenaName={arena.name}
+            arenaColor={ambientColor}
+            onComplete={() => setShowIntroSplash(false)}
+          />
         )}
       </AnimatePresence>
 

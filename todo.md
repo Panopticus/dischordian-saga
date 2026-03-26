@@ -2760,3 +2760,41 @@
 - [x] Enhanced squash/stretch animation for all fighter states
 - [x] Smooth crouch/getup/dash/jump/landing transitions
 - [x] Upload cryo-to-medbay transition video and wire into RoomTransition.tsx
+
+## Cinematic & Story Mode Design + Implementation
+- [ ] Design cinematic opening sequence for The Collectors Arena
+- [ ] Design story mode scenes and narrative arc (Prisoner to Grand Champion)
+- [ ] Design fighter introduction sequences for all fighters
+- [ ] Design arena introduction sequences for all arenas
+- [ ] Implement cinematic opening in code
+- [ ] Implement story mode scenes in code
+- [ ] Implement fighter intro sequences in code
+- [ ] Implement arena intro sequences in code
+- [x] Add kick buttons to mobile controls
+- [x] Implement taunt input binding
+
+## Kick & Taunt System Implementation
+- [x] Add light_kick, medium_kick, heavy_kick states to FighterState2D
+- [x] Add lightKick, mediumKick, heavyKick, taunt fields to InputState interface
+- [x] Add kick move frame data to buildMoveData (light_kick, medium_kick, heavy_kick)
+- [x] Add kick states to getMoveData, getStateTotalFrames, isInAttackState
+- [x] Add kick states to state transitions (return to idle on completion)
+- [x] Add taunt state with 60-frame duration and +25 meter bonus on completion
+- [x] Add kick/taunt keyboard bindings (U=light kick, H=medium kick, N=heavy kick, T=taunt)
+- [x] Add kick/taunt to keyup handler for proper release detection
+- [x] Add kick/taunt input processing in processInput with proper priority
+- [x] Add kick states to stateToPose mapping (lightKick, mediumKick, heavyKick poses)
+- [x] Add kick animation effects (lean back on startup, extend on active, snap back on recovery)
+- [x] Add taunt animation effects (pulse + bounce)
+- [x] Add kick sprite rendering (show heavier kick sprite during active frames)
+- [x] Add kick/taunt sound effects in changeState
+- [x] Update AI to use kicks (40% chance on whiff punish, mixed attack selection in range)
+- [x] Add kick moves to getAllMoveData for training mode move list display
+- [x] Add triple_tap touch type to TouchInput2D
+- [x] Map touch gestures: double_tap right=light kick, swipe_down right=medium kick, swipe_left right=heavy kick
+- [x] Map touch gesture: triple_tap right=taunt
+- [x] Update swipe_right on right side to medium punch, swipe_up right to special
+- [x] Update gesture tutorial with all new kick and taunt controls
+- [x] Add triple_tap detection with tap count tracking in FightArena2D
+- [x] Add kick button presses to motion input recording for special move detection
+- [x] Add taunt to crossfade blend system with slower 8-frame blend

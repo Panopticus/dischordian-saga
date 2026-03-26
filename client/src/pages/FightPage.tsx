@@ -40,6 +40,7 @@ import {
   loadStoryProgress, saveStoryProgress,
   type StoryChapter, type StoryProgress, type StoryDialogue,
 } from "@/game/storyMode";
+import { getStorySceneEffect, getArenaIntro, GAME_OPENING_CINEMATIC } from "@/game/cinematicDesign";
 
 type Phase = "title" | "lore" | "story" | "story-dialogue" | "select" | "difficulty" | "arena" | "fighting" | "results" | "story-results";
 
@@ -734,31 +735,50 @@ export default function FightPage() {
         : currentLine.speaker === "narrator" ? "#94a3b8"
         : "#e2e8f0");
 
-    // Boss chapters get special cinematic treatment
+    // Cinematic scene effects for ALL chapters
+    const sceneEffect = getStorySceneEffect(currentStoryChapter.id);
     const isBossChapter = [7, 11, 12].includes(currentStoryChapter.chapter);
     const isActBoss = currentStoryChapter.chapter === 12;
     const bossGlow = isActBoss ? "#ef4444" : currentStoryChapter.chapter === 11 ? "#22d3ee" : "#f59e0b";
+    const chapterAccent = isBossChapter ? bossGlow : currentStoryChapter.chapter <= 3 ? "#94a3b8" : currentStoryChapter.chapter <= 6 ? "#22d3ee" : currentStoryChapter.chapter <= 9 ? "#f59e0b" : "#ef4444";
     const isFirstLine = storyDialogueIndex === 0 && storyDialogueType === "pre";
     const isVictoryMoment = storyDialogueType === "post-win" && storyDialogueIndex === dialogues.length - 1;
     const opponent = ALL_FIGHTERS.find(f => f.id === currentStoryChapter.opponentId);
 
+    // Scene-specific background based on pre-scene effect
+    const sceneBackgrounds: Record<string, string> = {
+      cell_awakening: "radial-gradient(ellipse at 50% 80%, #1a0a2e 0%, #030508 70%)",
+      corridor_walk: "radial-gradient(ellipse at 30% 50%, #0d1a2e 0%, #030508 80%)",
+      arena_gates_open: `radial-gradient(ellipse at 50% 50%, ${chapterAccent}12 0%, #030508 60%)`,
+      memory_flash: "radial-gradient(ellipse at 50% 50%, #2d1b69 0%, #030508 60%)",
+      void_descent: "radial-gradient(ellipse at 50% 100%, #0a0a1a 0%, #000000 70%)",
+      battlefield_survey: `radial-gradient(ellipse at 50% 50%, ${chapterAccent}10 0%, #0a0f1a 60%)`,
+      dream_sequence: "radial-gradient(ellipse at 50% 50%, #1a0a3d 0%, #0a0520 60%)",
+      final_confrontation: `radial-gradient(ellipse at 50% 50%, ${bossGlow}18 0%, #030508 50%)`,
+      ascension: `radial-gradient(ellipse at 50% 30%, ${bossGlow}20 0%, #030508 60%)`,
+      revelation: "radial-gradient(ellipse at 50% 50%, #1a2a0a 0%, #030508 60%)",
+      prison_break: "radial-gradient(ellipse at 50% 50%, #2a1a0a 0%, #030508 60%)",
+      throne_approach: `radial-gradient(ellipse at 50% 50%, ${chapterAccent}15 0%, #030508 60%)`,
+    };
+    const sceneBg = sceneEffect ? sceneBackgrounds[sceneEffect.preSceneEffect] : undefined;
+
     return (
       <div className="min-h-screen flex flex-col items-center justify-center p-6 relative overflow-hidden cursor-pointer"
         style={{
-          background: isBossChapter
+          background: sceneBg || (isBossChapter
             ? `radial-gradient(ellipse at 50% 50%, ${bossGlow}15 0%, #030508 60%)`
-            : "radial-gradient(ellipse at 50% 50%, #0d1a2e 0%, #030508 100%)",
+            : "radial-gradient(ellipse at 50% 50%, #0d1a2e 0%, #030508 100%)"),
         }}
         onClick={advanceStoryDialogue}
       >
-        {/* Boss cinematic: pulsing border glow */}
-        {isBossChapter && storyDialogueType === "pre" && (
+        {/* Scene effect: ambient glow for ALL chapters */}
+        {storyDialogueType === "pre" && (
           <motion.div
             className="absolute inset-0 pointer-events-none"
-            animate={{ opacity: [0.3, 0.6, 0.3] }}
-            transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+            animate={{ opacity: isBossChapter ? [0.3, 0.6, 0.3] : [0.15, 0.3, 0.15] }}
+            transition={{ duration: isBossChapter ? 3 : 5, repeat: Infinity, ease: "easeInOut" }}
             style={{
-              boxShadow: `inset 0 0 80px ${bossGlow}20, inset 0 0 200px ${bossGlow}10`,
+              boxShadow: `inset 0 0 80px ${chapterAccent}20, inset 0 0 200px ${chapterAccent}10`,
             }}
           />
         )}
@@ -794,19 +814,34 @@ export default function FightPage() {
           </motion.div>
         )}
 
-        {/* Chapter title */}
+        {/* Chapter title with cinematic animation */}
         <div className="absolute top-4 left-0 right-0 text-center">
-          <div className="font-mono text-[10px] tracking-[0.3em]" style={{ color: isBossChapter ? bossGlow + "80" : undefined }}>
+          <motion.div
+            className="font-mono text-[10px] tracking-[0.3em]"
+            style={{ color: chapterAccent + "80" }}
+            initial={sceneEffect?.titleAnimation === "slam_down" ? { y: -40, opacity: 0, scale: 1.5 }
+              : sceneEffect?.titleAnimation === "glitch_reveal" ? { opacity: 0, x: -10 }
+              : sceneEffect?.titleAnimation === "burn_in" ? { opacity: 0, scale: 0.8 }
+              : sceneEffect?.titleAnimation === "type_classified" ? { opacity: 0, letterSpacing: "0.8em" }
+              : { opacity: 0 }}
+            animate={sceneEffect?.titleAnimation === "slam_down" ? { y: 0, opacity: 1, scale: 1 }
+              : sceneEffect?.titleAnimation === "glitch_reveal" ? { opacity: 1, x: 0 }
+              : sceneEffect?.titleAnimation === "burn_in" ? { opacity: 1, scale: 1 }
+              : sceneEffect?.titleAnimation === "type_classified" ? { opacity: 1, letterSpacing: "0.3em" }
+              : { opacity: 1 }}
+            transition={{ duration: sceneEffect?.titleAnimation === "slam_down" ? 0.4 : 0.8, ease: "easeOut" }}
+          >
             {isBossChapter ? "\u2694\uFE0F " : ""}CHAPTER {currentStoryChapter.chapter} — {currentStoryChapter.title}{isBossChapter ? " \u2694\uFE0F" : ""}
-          </div>
-          {isBossChapter && storyDialogueType === "pre" && (
+          </motion.div>
+          {storyDialogueType === "pre" && (
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
+              transition={{ delay: 0.5 }}
               className="font-display text-[10px] tracking-[0.5em] mt-1"
-              style={{ color: bossGlow + "60" }}
+              style={{ color: chapterAccent + "60" }}
             >
-              {currentStoryChapter.chapter === 12 ? "FINAL BOSS" : currentStoryChapter.chapter === 11 ? "ARENA MASTER" : "ACT BOSS"}
+              {currentStoryChapter.chapter === 12 ? "FINAL BOSS" : currentStoryChapter.chapter === 11 ? "ARENA MASTER" : currentStoryChapter.chapter === 7 ? "ACT BOSS" : currentStoryChapter.subtitle}
             </motion.div>
           )}
         </div>
@@ -914,32 +949,57 @@ export default function FightPage() {
           </motion.div>
         )}
 
-        {/* Floating ambient particles for boss fights */}
-        {isBossChapter && (
-          <div className="absolute inset-0 pointer-events-none overflow-hidden">
-            {Array.from({ length: 12 }).map((_, i) => (
-              <motion.div
-                key={i}
-                className="absolute w-1 h-1 rounded-full"
-                style={{
-                  background: bossGlow,
-                  left: `${Math.random() * 100}%`,
-                  top: `${Math.random() * 100}%`,
-                }}
-                animate={{
-                  y: [0, -30, 0],
-                  opacity: [0, 0.6, 0],
-                  scale: [0.5, 1.2, 0.5],
-                }}
-                transition={{
-                  duration: 3 + Math.random() * 2,
-                  repeat: Infinity,
-                  delay: Math.random() * 3,
-                  ease: "easeInOut",
-                }}
-              />
-            ))}
-          </div>
+        {/* Floating ambient particles for ALL chapters */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden">
+          {Array.from({ length: isBossChapter ? 16 : 8 }).map((_, i) => (
+            <motion.div
+              key={i}
+              className="absolute rounded-full"
+              style={{
+                background: chapterAccent,
+                width: isBossChapter ? "3px" : "2px",
+                height: isBossChapter ? "3px" : "2px",
+                left: `${Math.random() * 100}%`,
+                top: `${Math.random() * 100}%`,
+              }}
+              animate={{
+                y: [0, -30, 0],
+                opacity: [0, isBossChapter ? 0.6 : 0.3, 0],
+                scale: [0.5, 1.2, 0.5],
+              }}
+              transition={{
+                duration: 3 + Math.random() * 2,
+                repeat: Infinity,
+                delay: Math.random() * 3,
+                ease: "easeInOut",
+              }}
+            />
+          ))}
+        </div>
+
+        {/* Scene-specific environmental effects */}
+        {sceneEffect && storyDialogueType === "pre" && sceneEffect.preSceneEffect === "void_descent" && (
+          <motion.div
+            className="absolute inset-0 pointer-events-none"
+            animate={{ background: ["transparent", "rgba(0,0,0,0.3)", "transparent"] }}
+            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+          />
+        )}
+        {sceneEffect && storyDialogueType === "pre" && sceneEffect.preSceneEffect === "memory_flash" && (
+          <motion.div
+            className="absolute inset-0 pointer-events-none"
+            animate={{ opacity: [0, 0.15, 0] }}
+            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+            style={{ background: "radial-gradient(circle at 50% 50%, #a78bfa30 0%, transparent 60%)" }}
+          />
+        )}
+        {sceneEffect && storyDialogueType === "pre" && sceneEffect.preSceneEffect === "dream_sequence" && (
+          <motion.div
+            className="absolute inset-0 pointer-events-none"
+            animate={{ opacity: [0.05, 0.15, 0.05], scale: [1, 1.02, 1] }}
+            transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+            style={{ background: "radial-gradient(circle at 50% 50%, #7c3aed20 0%, transparent 50%)" }}
+          />
         )}
 
         {/* Progress */}
