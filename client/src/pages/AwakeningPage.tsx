@@ -48,6 +48,18 @@ function useTypewriter(text: string, speed = 30, enabled = true) {
 /** CDN VO audio URLs keyed by step — when present, plays instead of browser TTS */
 const STEP_VO_AUDIO: Partial<Record<string, string>> = {
   CRYO_OPEN: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/elara_vo_cryo_open_342b1153.mp3",
+  ELARA_INTRO: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/awakening_02_c293c1e2.mp3",
+  WALLET_CHECK: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/awakening_03_1d37bf05.mp3",
+  SPECIES_QUESTION: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/awakening_04_c9547bed.mp3",
+  NEYON_PICKER: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/awakening_05_be8d79bb.mp3",
+  CLASS_QUESTION: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/awakening_06_a496049b.mp3",
+  ALIGNMENT_QUESTION: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/awakening_07_e6fe06ac.mp3",
+  ELEMENT_QUESTION_DEMAGI: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/awakening_08_50b7edb1.mp3",
+  ELEMENT_QUESTION_QUARCHON: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/awakening_09_eb34b7d1.mp3",
+  ELEMENT_QUESTION_NEYON: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/awakening_10_8b7a2a3f.mp3",
+  NAME_INPUT: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/awakening_11_b7436001.mp3",
+  ATTRIBUTES: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/awakening_12_ced1dfea.mp3",
+  FIRST_STEPS: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/awakening_13_2075d6bd.mp3",
 };
 
 function ElaraDialogBox({
@@ -537,6 +549,7 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
               key="intro"
               text="I am Elara, the ship's intelligence. You've been in cryogenic suspension for... I can't determine how long. My chronometers are damaged. You are aboard Inception Ark Vessel 47. You are a Potential. The others — the first wave — they're gone. I don't know where. All inter-Ark communications have been severed across every known universe. We are alone."
               onContinue={() => setAwakeningStep("WALLET_CHECK" as AwakeningStep)}
+              voAudioUrl={STEP_VO_AUDIO.ELARA_INTRO}
             />
           )}
           {/* ─── WALLET CHECK — Connect wallet for Potential/Neyon holders ─── */}
@@ -544,6 +557,7 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
             <ElaraDialogBox
               key="wallet-check"
               text="Wait... I'm detecting something. Your neural signature has an encrypted blockchain marker. If you carry a Potential or a Ne-Yon token on the Ethereum network, I can verify your identity and unlock enhanced capabilities. Do you have a wallet to connect?"
+              voAudioUrl={STEP_VO_AUDIO.WALLET_CHECK}
               choices={[
                 { label: "Yes, I have a Potential or Ne-Yon NFT", value: "connect", description: "Connect your Ethereum wallet to verify ownership and unlock Ne-Yon species." },
                 { label: "No, continue without connecting", value: "skip", description: "You can always connect your wallet later in Settings → Wallet." },
@@ -592,6 +606,7 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
             <ElaraDialogBox
               key="species"
               text="Your neural patterns are unusual. I'm running a deep scan... Your cellular structure doesn't match standard human baselines. I'm detecting traces of something else. What do you remember about your origin?"
+              voAudioUrl={STEP_VO_AUDIO.SPECIES_QUESTION}
               choices={[
                 { label: "I remember the fire in my blood, the arcane pulse in every cell...", value: "demagi", description: "DeMagi — Magically modified humans with elemental powers tied to the arcane. Still human at the core, but rewritten by forces older than science." },
                 { label: "I remember the quantum storms, the probability fields...", value: "quarchon", description: "Quarchon — Vast artificial intelligence. Cold, calculating machines that transcended their programming. Masters of dimensions and data." },
@@ -634,6 +649,7 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
             <ElaraDialogBox
               key="neyon-picker"
               text="I'm detecting multiple Ne-Yon signatures in your neural imprint. Each Ne-Yon is unique — a singular entity. Which one are you?"
+              voAudioUrl={STEP_VO_AUDIO.NEYON_PICKER}
               choices={neyonEligibility.data.neyonDetails
                 ?.filter(n => !n.bound)
                 .map(n => ({
@@ -654,6 +670,7 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
             <ElaraDialogBox
               key="class"
               text="Interesting. Your skill matrices are partially intact — the cryogenic process preserved some of your training. I can see fragments of specialized knowledge. What comes naturally to you?"
+              voAudioUrl={STEP_VO_AUDIO.CLASS_QUESTION}
               choices={[
                 { label: "I can see the code behind reality...", value: "engineer", description: "Engineer — Master builders. Start with Diamond Pick Axes." },
                 { label: "I sense things before they happen...", value: "oracle", description: "Oracle (Prophet) — Seers of fate. Start with crossbow and potions." },
@@ -673,6 +690,7 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
             <ElaraDialogBox
               key="alignment"
               text="There's a fundamental question every Potential must answer. The Architect built the Panopticon to impose order — surveillance, control, a perfect machine. The Dreamer believed in the chaos of free will — unpredictable, dangerous, alive. The war between them tore reality apart. Where do you stand?"
+              voAudioUrl={STEP_VO_AUDIO.ALIGNMENT_QUESTION}
               choices={[
                 { label: "Order. Structure. Control.", value: "order", description: "Orderly, disciplined. Light glow aura. +2 Attack bonus on cards." },
                 { label: "Freedom. Chaos. Choice.", value: "chaos", description: "Chaotic, brave. Dark glow aura. +2 Defense bonus on cards." },
@@ -693,6 +711,11 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
                 : characterChoices.species === "quarchon"
                 ? "Your Quarchon nature gives you dominion over one dimension of reality. Which dimension calls to you?"
                 : "As a Ne-Yon hybrid, you can attune to any force — elemental or dimensional. Choose your affinity."
+              }
+              voAudioUrl={
+                characterChoices.species === "demagi" ? STEP_VO_AUDIO.ELEMENT_QUESTION_DEMAGI
+                : characterChoices.species === "quarchon" ? STEP_VO_AUDIO.ELEMENT_QUESTION_QUARCHON
+                : STEP_VO_AUDIO.ELEMENT_QUESTION_NEYON
               }
               choices={availableElements.map(e => ({
                 label: e.label,
@@ -718,6 +741,7 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
               <ElaraDialogBox
                 text="One last thing. The cryo manifest lists you by serial number, but every Potential deserves a name. What should I call you?"
                 showPortrait={true}
+                voAudioUrl={STEP_VO_AUDIO.NAME_INPUT}
               />
               <div className="mt-4 max-w-md mx-auto">
                 <div className="rounded-lg p-4" style={{
@@ -771,10 +795,11 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
               className="w-full"
             >
               <div className="mb-4">
-                <ElaraDialogBox
-                  text={`Good. ${characterChoices.name}, I need to calibrate your neural interface. This will determine your combat capabilities. Distribute your attribute points carefully — they define who you are.`}
-                  showPortrait={true}
-                />
+              <ElaraDialogBox
+                text={`Good. ${characterChoices.name}, I need to calibrate your neural interface. This will determine your combat capabilities. Distribute your attribute points carefully — they define who you are.`}
+                showPortrait={true}
+                voAudioUrl={STEP_VO_AUDIO.ATTRIBUTES}
+              />
               </div>
               <AttributeAllocator
                 attack={characterChoices.attrAttack}
@@ -796,6 +821,7 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
               key="first-steps"
               text={`Welcome aboard, ${characterChoices.name}. Your Citizen profile has been created. You are ${characterChoices.species === "demagi" ? "a DeMagi" : characterChoices.species === "quarchon" ? "a Quarchon" : "a Ne-Yon"} ${characterChoices.characterClass}, aligned with ${characterChoices.alignment}. Your quarters are through that door — the Cryo Bay. The rest of the ship... I'll need your help to restore power to the other decks. There's so much I need to show you. And so much I need to warn you about.`}
               onContinue={handleCompleteCreation}
+              voAudioUrl={STEP_VO_AUDIO.FIRST_STEPS}
             />
           )}
 

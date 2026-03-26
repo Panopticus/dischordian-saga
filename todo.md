@@ -2806,4 +2806,9 @@
 ## Elara Voice Over
 - [x] Edit Elara's opening line text to new dialogue
 - [x] Upload and link Elara opening VO audio file
-- [ ] Compile complete list of all Elara VO lines in the game
+- [x] Compile complete list of all Elara VO lines in the game (487 total lines found across 17 source files)
+
+## Awakening Sequence VO Integration (12 MP3s)
+- [x] Upload 12 Awakening Sequence VO MP3s to CDN (13 files total including species variants)
+- [x] Match each MP3 to correct dialogue line via transcription
+- [x] Wire VO audio URLs into AwakeningPage.tsx for all 13 steps (CRYO_OPEN, ELARA_INTRO, WALLET_CHECK, SPECIES_QUESTION, NEYON_PICKER, CLASS_QUESTION, ALIGNMENT_QUESTION, ELEMENT_QUESTION x3 species variants, NAME_INPUT, ATTRIBUTES, FIRST_STEPS)
