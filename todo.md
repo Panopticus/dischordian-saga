@@ -2683,3 +2683,4 @@
 ## Duelyst UI Redesign
 - [ ] Generate nano banana artwork for Duelyst UI elements
 - [ ] Build stunning new Duelyst UI with generated artwork
+- [x] Map "The Voice of Isis" audio file to "Polarity" track (Track 11) — user confirmed they are the same song
