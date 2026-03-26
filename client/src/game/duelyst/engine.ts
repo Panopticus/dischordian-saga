@@ -39,21 +39,10 @@ function shuffle<T>(arr: T[]): T[] {
 /* ─── GENERALS ─── */
 export const GENERALS: GeneralDef[] = [
   {
-    id: "gen_panopticon", name: "The Watcher", faction: "panopticon",
+    id: "gen_architect", name: "The Architect", faction: "architect",
     attack: 2, health: GENERAL_HP,
-    imageUrl: "",
-    loreDescription: "Supreme overseer of the Panopticon surveillance network.",
-    bloodbornSpell: {
-      name: "All-Seeing Eye", manaCost: 1,
-      description: "Deal 1 damage to a random enemy and draw a card.",
-      effect: { type: "damage", value: 1, target: "random_enemy" },
-    },
-  },
-  {
-    id: "gen_architects", name: "The Architect", faction: "architects",
-    attack: 2, health: GENERAL_HP,
-    imageUrl: "",
-    loreDescription: "Master designer of the AI Empire's grand blueprint.",
+    imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/v2_A1Architect_9a200cb7.png",
+    loreDescription: "Master designer of the AI Empire's grand blueprint. His neural network spans galaxies.",
     bloodbornSpell: {
       name: "Neural Override", manaCost: 1,
       description: "Give a friendly unit +2 attack this turn.",
@@ -61,32 +50,10 @@ export const GENERALS: GeneralDef[] = [
     },
   },
   {
-    id: "gen_demagi", name: "The Oracle", faction: "demagi",
+    id: "gen_dreamer", name: "The Dreamer", faction: "dreamer",
     attack: 2, health: GENERAL_HP,
-    imageUrl: "",
-    loreDescription: "Ancient DeMagi seer who channels elemental forces.",
-    bloodbornSpell: {
-      name: "Elemental Surge", manaCost: 1,
-      description: "Deal 2 damage to an enemy unit.",
-      effect: { type: "damage", value: 2, target: "enemy_unit" },
-    },
-  },
-  {
-    id: "gen_quarchon", name: "The Source", faction: "quarchon",
-    attack: 2, health: GENERAL_HP,
-    imageUrl: "",
-    loreDescription: "Living quantum computer, origin of all Quarchon consciousness.",
-    bloodbornSpell: {
-      name: "Probability Shift", manaCost: 1,
-      description: "Teleport a friendly unit to any unoccupied tile.",
-      effect: { type: "teleport", value: 0, target: "friendly_unit" },
-    },
-  },
-  {
-    id: "gen_neyon", name: "The Enigma", faction: "neyon",
-    attack: 2, health: GENERAL_HP,
-    imageUrl: "",
-    loreDescription: "Hybrid entity bridging organic and synthetic evolution.",
+    imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/v2_N1TheDreamer_1e277d21.png",
+    loreDescription: "Visionary leader of the Potentials who dreams new realities into existence.",
     bloodbornSpell: {
       name: "Adaptive Evolution", manaCost: 1,
       description: "Give a friendly unit +1/+1 permanently.",
@@ -94,12 +61,45 @@ export const GENERALS: GeneralDef[] = [
     },
   },
   {
-    id: "gen_chaos", name: "The Warlord", faction: "chaos",
-    attack: 2, health: GENERAL_HP,
-    imageUrl: "",
-    loreDescription: "Champion of entropy, destroyer of the old order.",
+    id: "gen_insurgency", name: "Iron Lion", faction: "insurgency",
+    attack: 3, health: GENERAL_HP,
+    imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/v2_I1IronLion_8d58aeec.png",
+    loreDescription: "Unbreakable commander of the Resistance. His iron will inspires armies.",
     bloodbornSpell: {
-      name: "Chaos Bolt", manaCost: 1,
+      name: "Rally the Resistance", manaCost: 1,
+      description: "Deal 1 damage to a random enemy and draw a card.",
+      effect: { type: "damage", value: 1, target: "random_enemy" },
+    },
+  },
+  {
+    id: "gen_new_babylon", name: "The Human", faction: "new_babylon",
+    attack: 2, health: GENERAL_HP,
+    imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/v2_A12TheHuman_0fff52d8.png",
+    loreDescription: "Dark authority of New Babylon's Syndicate of Death. Commands fear itself.",
+    bloodbornSpell: {
+      name: "Death's Embrace", manaCost: 1,
+      description: "Deal 2 damage to an enemy unit.",
+      effect: { type: "damage", value: 2, target: "enemy_unit" },
+    },
+  },
+  {
+    id: "gen_antiquarian", name: "The Antiquarian", faction: "antiquarian",
+    attack: 2, health: GENERAL_HP,
+    imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/v2_Z1TheAntiquarian_1b9e74b2.png",
+    loreDescription: "The Timekeeper who walks between ages, bending time to his will.",
+    bloodbornSpell: {
+      name: "Temporal Shift", manaCost: 1,
+      description: "Teleport a friendly unit to any unoccupied tile.",
+      effect: { type: "teleport", value: 0, target: "friendly_unit" },
+    },
+  },
+  {
+    id: "gen_thought_virus", name: "The Source", faction: "thought_virus",
+    attack: 2, health: GENERAL_HP,
+    imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/v2_TV1TheSource_1eed24b0.png",
+    loreDescription: "A sentient infection given form. The Source corrupts all it touches.",
+    bloodbornSpell: {
+      name: "Plague Bolt", manaCost: 1,
       description: "Deal 3 damage to the enemy general.",
       effect: { type: "damage", value: 3, target: "enemy_general" },
     },
@@ -398,7 +398,7 @@ function doBloodbornSpell(state: DuelystGameState, targetRow?: number, targetCol
   player.mana -= bbs.manaCost;
   player.bloodbornUsed = true;
   state = applySpellEffect(state, bbs.effect, state.currentPlayer, targetRow ?? 0, targetCol ?? 0);
-  if (player.faction === "panopticon" && player.deck.length > 0 && player.hand.length < MAX_HAND) {
+  if (player.faction === "insurgency" && player.deck.length > 0 && player.hand.length < MAX_HAND) {
     const drawn = player.deck.shift();
     if (drawn) player.hand.push(drawn);
   }

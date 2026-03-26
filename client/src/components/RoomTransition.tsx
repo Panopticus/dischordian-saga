@@ -19,20 +19,27 @@ interface RoomTransitionProps {
 
 /* ═══ VIDEO CINEMATICS REGISTRY ═══
    Key format: "fromRoom->toRoom"
-   Value: array of video URLs that play back-to-back seamlessly */
+   Value: array of video URLs that play back-to-back seamlessly
+   Special key: "*->bridge" is the return-to-bridge video (skippable) */
 const TRANSITION_VIDEOS: Record<string, string[]> = {
+  // Cryo Bay → Command Bridge: only the first corridor walk video
   "cryo-bay->bridge": [
     "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/cryo_to_command_pt1_6014f4c2.mp4",
-    "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/cryo_to_command_pt2_10b0af41.mp4",
   ],
-  "cryo-bay->observation-deck": [
-    "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/cryo_to_command_pt1_6014f4c2.mp4",
-    "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/cryo_to_command_pt2_10b0af41.mp4",
+  // Cryo Bay → Medical Bay: new transition
+  "cryo-bay->medical-bay": [
+    "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/cryo_to_medical_64dec8bf.mp4",
   ],
+  // Bridge → Observation Deck
   "bridge->observation-deck": [
     "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/bridge_to_observation_6b2f3957.mp4",
   ],
 };
+
+/* Return-to-bridge video — plays when traveling to bridge from any room
+   (except cryo-bay which has its own dedicated transition).
+   This is always skippable. */
+const RETURN_TO_BRIDGE_VIDEO = "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/cryo_to_command_pt2_10b0af41.mp4";
 
 /* Corridor segment colors based on destination */
 const CORRIDOR_THEMES: Record<string, { primary: string; secondary: string; accent: string }> = {
@@ -450,7 +457,7 @@ export default function RoomTransition({
   onComplete,
   isNewRoom = false,
 }: RoomTransitionProps) {
-  // Check if there's a video cinematic for this route
+  // Check if there's a specific video cinematic for this exact route
   const routeKey = `${fromRoom}->${toRoom}`;
   const videos = TRANSITION_VIDEOS[routeKey];
 
@@ -458,6 +465,19 @@ export default function RoomTransition({
     return (
       <VideoCinematic
         videos={videos}
+        toRoomName={toRoomName}
+        onComplete={onComplete}
+        isNewRoom={isNewRoom}
+      />
+    );
+  }
+
+  // If traveling TO the bridge from any room (and no specific route exists),
+  // play the return-to-bridge cinematic (always skippable)
+  if (toRoom === "bridge" && fromRoom !== "cryo-bay") {
+    return (
+      <VideoCinematic
+        videos={[RETURN_TO_BRIDGE_VIDEO]}
         toRoomName={toRoomName}
         onComplete={onComplete}
         isNewRoom={isNewRoom}

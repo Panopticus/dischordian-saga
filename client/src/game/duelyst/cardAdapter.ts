@@ -1,37 +1,117 @@
 /* ═══════════════════════════════════════════════════════
-   CARD ADAPTER — Converts 216 Dischordian Saga cards
-   to Duelyst tactical format with faction assignment
+   CARD ADAPTER — Converts Dischordian Saga cards
+   to Duelyst tactical format with 6-faction assignment
    ═══════════════════════════════════════════════════════ */
 import type { DuelystCard, DuelystCardType, DuelystRarity, DuelystKeyword, Faction, SpellEffect } from "./types";
 import sagaCards from "../../data/season1-cards.json";
 
-/* ─── FACTION MAPPING ─── */
+/* ─── CHARACTER → FACTION MAPPING ─── */
+const CHARACTER_FACTION: Record<string, Faction> = {
+  // ARCHITECT faction (The Empire)
+  "the architect": "architect",
+  "conexus": "architect",
+  "the collector": "architect",
+  "the watcher": "architect",
+  "the meme": "architect",
+  "the warlord": "architect",
+  "the politician": "architect",
+  "the warden": "architect",
+  "the vortex": "architect",
+  "the gamemaster": "architect",
+  "the necromancer": "architect",
+  "white oracle": "architect",
+  "clone army": "architect",
+  "panopticon": "architect",
+  "central control": "architect",
+
+  // DREAMER faction (The Potentials / Ne-Yons)
+  "the dreamer": "dreamer",
+  "the judge": "dreamer",
+  "the inventor": "dreamer",
+  "the seer": "dreamer",
+  "the storm": "dreamer",
+  "the silence": "dreamer",
+  "the knowledge": "dreamer",
+  "the degen": "dreamer",
+  "the advocate": "dreamer",
+  "the resurrectionist": "dreamer",
+  "the enigma": "dreamer",
+  "ne-yon": "dreamer",
+
+  // INSURGENCY faction (The Resistance)
+  "iron lion": "insurgency",
+  "the nomad": "insurgency",
+  "agent zero": "insurgency",
+  "the engineer": "insurgency",
+  "council of harmony": "insurgency",
+  "the hierophant": "insurgency",
+  "the oracle": "insurgency",
+  "the eyes": "insurgency",
+  "iron clad lion troops": "insurgency",
+
+  // NEW BABYLON faction (Syndicate of Death)
+  "the human": "new_babylon",
+  "adjudicar locke": "new_babylon",
+  "akai shi": "new_babylon",
+  "wraith calder": "new_babylon",
+  "resurrectionist army": "new_babylon",
+  "new babylon": "new_babylon",
+
+  // ANTIQUARIAN faction (The Timekeeper)
+  "the antiquarian": "antiquarian",
+  "the league": "antiquarian",
+  "the wolf": "antiquarian",
+
+  // THOUGHT VIRUS faction (The Infection)
+  "the source": "thought_virus",
+  "the host": "thought_virus",
+  "infected dr. lyra vox": "thought_virus",
+  "dr. lyra vox": "thought_virus",
+  "plague dragon": "thought_virus",
+  "infected robots": "thought_virus",
+  "infected soldiers": "thought_virus",
+  "thought virus": "thought_virus",
+};
+
 const AFFILIATION_FACTION: Record<string, Faction> = {
-  "ai empire": "architects",
-  "panopticon": "panopticon",
-  "central control": "panopticon",
-  "insurgency": "chaos",
-  "demagi": "demagi",
-  "archon": "demagi",
-  "quarchon": "quarchon",
-  "ne-yon": "neyon",
-  "mechronis": "architects",
+  "ai empire": "architect",
+  "panopticon": "architect",
+  "central control": "architect",
+  "mechronis": "architect",
+  "insurgency": "insurgency",
+  "demagi": "dreamer",
+  "archon": "dreamer",
+  "ne-yon": "dreamer",
+  "quarchon": "thought_virus",
+  "new babylon": "new_babylon",
 };
 
 const ELEMENT_FACTION: Record<string, Faction> = {
-  fire: "chaos", earth: "panopticon", air: "quarchon",
-  water: "neyon", void: "demagi", psychic: "architects",
-  light: "panopticon", lightning: "chaos",
+  fire: "insurgency", earth: "architect", air: "dreamer",
+  water: "antiquarian", void: "thought_virus", psychic: "architect",
+  light: "dreamer", lightning: "insurgency",
 };
 
 function assignFaction(card: any): Faction {
+  // First check character name directly
+  const name = (card.name || "").toLowerCase();
+  for (const [charName, faction] of Object.entries(CHARACTER_FACTION)) {
+    if (name.includes(charName)) return faction;
+  }
+
+  // Then check affiliation
   const aff = (card.affiliation || "").toLowerCase();
   for (const [key, faction] of Object.entries(AFFILIATION_FACTION)) {
     if (aff.includes(key)) return faction;
   }
+
+  // Then element
   if (card.element && ELEMENT_FACTION[card.element]) return ELEMENT_FACTION[card.element];
-  if (card.alignment === "chaos") return "chaos";
-  if (card.alignment === "order") return "panopticon";
+
+  // Then alignment
+  if (card.alignment === "chaos") return "thought_virus";
+  if (card.alignment === "order") return "architect";
+
   return "neutral";
 }
 
@@ -181,7 +261,11 @@ export function buildStarterDeck(faction: Faction): DuelystCard[] {
 }
 
 export function getFactionCardCounts(): Record<Faction, number> {
-  const counts: Record<Faction, number> = { panopticon: 0, architects: 0, demagi: 0, quarchon: 0, neyon: 0, chaos: 0, neutral: 0 };
+  const counts: Record<Faction, number> = {
+    architect: 0, dreamer: 0, insurgency: 0,
+    new_babylon: 0, antiquarian: 0, thought_virus: 0,
+    neutral: 0,
+  };
   for (const c of adaptAllCards()) counts[c.faction]++;
   return counts;
 }

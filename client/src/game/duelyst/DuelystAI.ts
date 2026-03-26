@@ -157,13 +157,13 @@ function findWorstCard(hand: DuelystCard[], currentMana: number): number {
 function getBBSAction(state: DuelystGameState, aiPlayer: 0 | 1): GameAction | null {
   const player = state.players[aiPlayer];
   switch (player.faction) {
-    case "chaos": return { type: "bloodborn_spell" };
-    case "demagi": {
+    case "thought_virus": return { type: "bloodborn_spell" };
+    case "new_babylon": {
       const enemy = aiPlayer === 0 ? 1 : 0;
       const targets = [...state.board.values()].filter(u => u.owner === enemy && !u.isGeneral);
       return targets.length > 0 ? { type: "bloodborn_spell" } : null;
     }
-    case "neyon": {
+    case "dreamer": {
       const friendlies = [...state.board.values()].filter(u => u.owner === aiPlayer && !u.isGeneral);
       return friendlies.length > 0 ? { type: "bloodborn_spell" } : null;
     }

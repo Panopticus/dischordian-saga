@@ -1,31 +1,33 @@
 /* ═══════════════════════════════════════════════════════
    DUELYST PAGE — Faction selection, game setup, and
    main game flow for the tactical card game
+   6 Factions of the Dischordian Saga
    ═══════════════════════════════════════════════════════ */
 import { useState } from "react";
 import type { Faction } from "./types";
-import { FACTION_COLORS, FACTION_NAMES, FACTION_DESCRIPTIONS } from "./types";
+import { FACTION_COLORS, FACTION_NAMES, FACTION_DESCRIPTIONS, FACTION_EMBLEMS } from "./types";
 import { getFactionCardCounts } from "./cardAdapter";
+import { GENERALS } from "./engine";
 import DuelystGameUI from "./DuelystGameUI";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  Swords, Shield, Zap, Eye, Skull, Atom,
+  Swords, Shield, Zap, Eye, Skull, Clock, Bug,
   ChevronRight, ArrowLeft, Trophy, Gamepad2,
 } from "lucide-react";
 
 type View = "menu" | "faction_select" | "playing" | "result";
 
 const FACTION_ICONS: Record<Faction, typeof Swords> = {
-  panopticon: Eye,
-  architects: Shield,
-  demagi: Skull,
-  quarchon: Atom,
-  neyon: Zap,
-  chaos: Swords,
+  architect: Shield,
+  dreamer: Zap,
+  insurgency: Swords,
+  new_babylon: Skull,
+  antiquarian: Clock,
+  thought_virus: Bug,
   neutral: Gamepad2,
 };
 
-const AI_FACTIONS: Faction[] = ["panopticon", "architects", "demagi", "quarchon", "neyon", "chaos"];
+const PLAYABLE_FACTIONS: Faction[] = ["architect", "dreamer", "insurgency", "new_babylon", "antiquarian", "thought_virus"];
 
 export default function DuelystPage() {
   const [view, setView] = useState<View>("menu");
@@ -40,7 +42,7 @@ export default function DuelystPage() {
   const handleFactionSelect = (faction: Faction) => {
     setPlayerFaction(faction);
     // Pick random AI faction (different from player)
-    const available = AI_FACTIONS.filter(f => f !== faction);
+    const available = PLAYABLE_FACTIONS.filter(f => f !== faction);
     setOpponentFaction(available[Math.floor(Math.random() * available.length)]);
   };
 
@@ -110,7 +112,7 @@ export default function DuelystPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0 }}
-            className="p-4 sm:p-6 max-w-4xl mx-auto"
+            className="p-4 sm:p-6 max-w-5xl mx-auto"
           >
             <button
               onClick={() => setView("menu")}
@@ -120,13 +122,15 @@ export default function DuelystPage() {
             </button>
 
             <h2 className="font-display text-xl tracking-[0.2em] text-foreground mb-2">CHOOSE YOUR FACTION</h2>
-            <p className="font-mono text-xs text-muted-foreground mb-6">Each faction has unique cards and a Bloodborn Spell</p>
+            <p className="font-mono text-xs text-muted-foreground mb-6">Each faction has unique cards, a General, and a Bloodborn Spell</p>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
-              {AI_FACTIONS.map(faction => {
+              {PLAYABLE_FACTIONS.map(faction => {
                 const Icon = FACTION_ICONS[faction];
                 const selected = playerFaction === faction;
                 const color = FACTION_COLORS[faction];
+                const general = GENERALS.find(g => g.faction === faction);
+                const emblemUrl = FACTION_EMBLEMS[faction];
                 return (
                   <button
                     key={faction}
@@ -137,15 +141,30 @@ export default function DuelystPage() {
                         : "border-border/30 bg-card/30 hover:border-primary/30"
                     }`}
                   >
-                    <div className="flex items-center gap-3 mb-2">
-                      <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ backgroundColor: color + "22", border: `2px solid ${color}` }}>
-                        <Icon size={20} style={{ color }} />
-                      </div>
+                    <div className="flex items-center gap-3 mb-3">
+                      {emblemUrl ? (
+                        <img src={emblemUrl} alt={FACTION_NAMES[faction]} className="w-12 h-12 rounded-lg object-contain" style={{ border: `2px solid ${color}`, backgroundColor: color + "11" }} />
+                      ) : (
+                        <div className="w-12 h-12 rounded-lg flex items-center justify-center" style={{ backgroundColor: color + "22", border: `2px solid ${color}` }}>
+                          <Icon size={22} style={{ color }} />
+                        </div>
+                      )}
                       <div>
-                        <p className="font-display text-sm font-bold tracking-wider">{FACTION_NAMES[faction]}</p>
+                        <p className="font-display text-sm font-bold tracking-wider" style={{ color }}>{FACTION_NAMES[faction]}</p>
                         <p className="font-mono text-[10px] text-muted-foreground">{factionCounts[faction]} cards</p>
                       </div>
                     </div>
+                    {general && (
+                      <div className="flex items-center gap-2 mb-2 p-2 rounded bg-background/50 border border-border/20">
+                        {general.imageUrl && (
+                          <img src={general.imageUrl} alt={general.name} className="w-8 h-8 rounded-full object-cover" />
+                        )}
+                        <div>
+                          <p className="font-mono text-[10px] text-foreground font-semibold">General: {general.name}</p>
+                          <p className="font-mono text-[9px] text-muted-foreground">{general.bloodbornSpell.name} — {general.bloodbornSpell.description}</p>
+                        </div>
+                      </div>
+                    )}
                     <p className="font-mono text-[11px] text-muted-foreground leading-relaxed">
                       {FACTION_DESCRIPTIONS[faction]}
                     </p>
@@ -166,9 +185,19 @@ export default function DuelystPage() {
                 className="flex flex-col items-center gap-4"
               >
                 <div className="flex items-center gap-4 font-mono text-sm">
-                  <span style={{ color: FACTION_COLORS[playerFaction] }}>{FACTION_NAMES[playerFaction]}</span>
+                  <div className="flex items-center gap-2">
+                    {FACTION_EMBLEMS[playerFaction] && (
+                      <img src={FACTION_EMBLEMS[playerFaction]} alt="" className="w-6 h-6 object-contain" />
+                    )}
+                    <span style={{ color: FACTION_COLORS[playerFaction] }}>{FACTION_NAMES[playerFaction]}</span>
+                  </div>
                   <span className="text-muted-foreground">vs</span>
-                  <span style={{ color: FACTION_COLORS[opponentFaction] }}>{FACTION_NAMES[opponentFaction]}</span>
+                  <div className="flex items-center gap-2">
+                    <span style={{ color: FACTION_COLORS[opponentFaction] }}>{FACTION_NAMES[opponentFaction]}</span>
+                    {FACTION_EMBLEMS[opponentFaction] && (
+                      <img src={FACTION_EMBLEMS[opponentFaction]} alt="" className="w-6 h-6 object-contain" />
+                    )}
+                  </div>
                 </div>
                 <button
                   onClick={handleStartGame}

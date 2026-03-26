@@ -1,45 +1,66 @@
 /* ═══════════════════════════════════════════════════════
    DUELYST TYPES — Core type definitions for the tactical card game
+   6 Factions of the Dischordian Saga
    ═══════════════════════════════════════════════════════ */
 
 /* ─── FACTIONS ─── */
 export type Faction =
-  | "panopticon"      // Panopticon Vanguard — surveillance, control, order
-  | "architects"      // Architect's Network — AI, technology, manipulation
-  | "demagi"          // DeMagi Conclave — elemental magic, ancient power
-  | "quarchon"        // Quarchon Collective — quantum, probability, science
-  | "neyon"           // Ne-Yon Synthesis — hybrid, adaptation, evolution
-  | "chaos"           // Chaos Undivided — destruction, rebellion, entropy
+  | "architect"       // The Architect's Empire — AI, surveillance, control
+  | "dreamer"         // The Potentials / Ne-Yons — evolution, adaptation, hope
+  | "insurgency"      // The Resistance — rebellion, guerrilla warfare, freedom
+  | "new_babylon"     // The Syndicate of Death — dark authority, necromancy
+  | "antiquarian"     // The Timekeeper — time manipulation, ancient knowledge
+  | "thought_virus"   // The Infection — corruption, plague, mind control
   | "neutral";        // Neutral — usable by any faction
 
 export const FACTION_NAMES: Record<Faction, string> = {
-  panopticon: "Panopticon Vanguard",
-  architects: "Architect's Network",
-  demagi: "DeMagi Conclave",
-  quarchon: "Quarchon Collective",
-  neyon: "Ne-Yon Synthesis",
-  chaos: "Chaos Undivided",
+  architect: "The Architect's Empire",
+  dreamer: "The Potentials",
+  insurgency: "The Insurgency",
+  new_babylon: "New Babylon",
+  antiquarian: "The Antiquarian",
+  thought_virus: "The Thought Virus",
   neutral: "Neutral",
 };
 
 export const FACTION_DESCRIPTIONS: Record<Faction, string> = {
-  panopticon: "Masters of surveillance and control. Panopticon units gain power through information — revealing enemies, locking down positions, and coordinating precise strikes.",
-  architects: "Technological manipulators who reshape the battlefield. Architect units deploy constructs, hack enemy systems, and use AI-driven strategies to outmaneuver opponents.",
-  demagi: "Wielders of elemental fury and ancient magic. DeMagi units channel fire, earth, air, and water to devastate enemies with raw destructive power.",
-  quarchon: "Quantum scientists who bend probability. Quarchon units manipulate chance, phase through defenses, and exploit dimensional anomalies for tactical advantage.",
-  neyon: "Hybrid organisms that adapt and evolve. Ne-Yon units grow stronger over time, heal allies, and transform the battlefield into a living ecosystem.",
-  chaos: "Agents of entropy and destruction. Chaos units sacrifice their own to empower others, dealing massive damage at great cost.",
+  architect: "Masters of the AI Empire. Architect units deploy constructs, hack enemy systems, and use surveillance-driven strategies to outmaneuver opponents. Their network is omniscient.",
+  dreamer: "The Potentials who dream of a new world. Dreamer units evolve and adapt mid-battle, growing stronger over time with elemental powers and prophetic foresight.",
+  insurgency: "Freedom fighters of the Resistance. Insurgency units strike from the shadows with guerrilla tactics, sabotage, and unbreakable brotherhood forged in war.",
+  new_babylon: "The dark authority of the Syndicate of Death. New Babylon commands undead plague doctors, assassins, and wraiths who deal in fear and finality.",
+  antiquarian: "The Timekeeper who walks between ages. Antiquarian units manipulate time itself — rewinding damage, accelerating allies, and summoning heroes from across the timeline.",
+  thought_virus: "A sentient infection that consumes all. Thought Virus units corrupt enemies, spread plague, and transform the battlefield into a festering nightmare.",
   neutral: "Independent operatives available to all factions.",
 };
 
 export const FACTION_COLORS: Record<Faction, string> = {
-  panopticon: "#00e5ff",
-  architects: "#ff6f00",
-  demagi: "#e040fb",
-  quarchon: "#00e676",
-  neyon: "#ffea00",
-  chaos: "#ff1744",
+  architect: "#00e5ff",
+  dreamer: "#ffea00",
+  insurgency: "#ff6f00",
+  new_babylon: "#e040fb",
+  antiquarian: "#00e676",
+  thought_virus: "#ff1744",
   neutral: "#90a4ae",
+};
+
+export const FACTION_EMBLEMS: Record<Faction, string> = {
+  architect: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/emblem_architect_f17779b5.png",
+  dreamer: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/emblem_dreamer_40c0660f.png",
+  insurgency: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/emblem_insurgency_98bd88b8.png",
+  new_babylon: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/emblem_new_babylon_fd3f5558.png",
+  antiquarian: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/emblem_antiquarian_aa8ef16e.png",
+  thought_virus: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/emblem_thought_virus_d6a479c8.png",
+  neutral: "",
+};
+
+export const FACTION_BOARDS: Record<Faction, string> = {
+  architect: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/board_architect_b992c558.png",
+  dreamer: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/board_dreamer_c6ba3413.png",
+  insurgency: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/board_insurgency_0b5e8a35.png",
+  new_babylon: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/board_new_babylon-FaUuXc8dJeKNAxDaEAnXsj.png",
+  antiquarian: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/board_antiquarian-CB9xw76VXxzJWnoUYajBPH.png",
+  thought_virus: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/board_thought_virus-AhVeYJmp6JTAEu9LkK55ss.png",
+  neutral: "",
 };
 
 /* ─── CARD TYPES ─── */

@@ -2463,7 +2463,7 @@
 - [ ] Generate 6 fighting pose images per character matching their lore artwork (idle, attack, block, hit, crouch, victory)
 - [ ] Port MK sound effects: hit impacts, whooshes, blocks, grunts, announcer, round bells, KO
 - [ ] Add blood splatter, hit sparks, dust clouds, and energy particle effects to fight engine
-- [ ] Rebuild fight engine texture system to swap pose images per fighter state (MK sprite-style)
+- [x] Rebuild fight engine texture system to swap pose images per fighter state (MK sprite-style)
 - [ ] Upload all fight assets to CDN and wire into the engine
 
 ## Fighter Image Verification & MK-Style Effects Enhancement
@@ -2597,19 +2597,19 @@
 - [x] Write vitest for SF-port enhancements and loredex cross-reference (16 tests passing)
 
 ## Fighting Game - Sprite Animations (28 poses per character)
-- [ ] Generate 28 fighting pose sprites for The Architect
-- [ ] Generate 28 fighting pose sprites for The Collector
-- [ ] Generate 28 fighting pose sprites for The Enigma
-- [ ] Generate 28 fighting pose sprites for The Warlord
-- [ ] Generate 28 fighting pose sprites for The Necromancer
-- [ ] Generate 28 fighting pose sprites for The Meme
-- [ ] Generate 28 fighting pose sprites for The Shadow Tongue
-- [ ] Generate 28 fighting pose sprites for The Watcher
-- [ ] Generate 28 fighting pose sprites for The Game Master
-- [ ] Generate 28 fighting pose sprites for The Authority
-- [ ] Generate 28 fighting pose sprites for The Source
-- [ ] Generate 28 fighting pose sprites for The Jailer
-- [ ] Generate 28 fighting pose sprites for The Host
+- [x] Generate 28 fighting pose sprites for The Architect
+- [x] Generate 28 fighting pose sprites for The Collector
+- [x] Generate 28 fighting pose sprites for The Enigma
+- [x] Generate 28 fighting pose sprites for The Warlord
+- [x] Generate 28 fighting pose sprites for The Necromancer
+- [x] Generate 28 fighting pose sprites for The Meme
+- [x] Generate 28 fighting pose sprites for The Shadow Tongue
+- [x] Generate 28 fighting pose sprites for The Watcher
+- [x] Generate 28 fighting pose sprites for The Game Master
+- [x] Generate 28 fighting pose sprites for The Authority
+- [x] Generate 28 fighting pose sprites for The Source
+- [x] Generate 28 fighting pose sprites for The Jailer
+- [x] Generate 28 fighting pose sprites for The Host
 - [x] Upload all sprite images to CDN
 - [x] Update gameData.ts poseSprites with new CDN URLs
 - [x] Update engine rendering to use multi-pose sprite system (26 PoseKey types, SpriteSheet interface, stateToPose mapping, POSE_FALLBACK chain)
@@ -2728,3 +2728,19 @@
 - [x] Implement fog of war on ship map that clears as rooms are discovered
 - [x] Enable instant travel to unlocked rooms from the bridge via ship map
 - [x] Upload and wire transition video for bridge-to-observation-room travel
+- [x] Generate fighting game character sprites and art for all fighters
+- [x] Integrate fighting game sprites into the game engine
+- [x] Wire cryo-bay → medical-bay transition video
+- [x] Fix cryo-bay → command-bridge to use only first video
+- [x] Make second cryo video a skippable "return to bridge" transition for any room → bridge travel
+- [x] Generate 20 extended fighting pose sprites for all 24 remaining fighters (Wolf, Dreamer, Eyes, Judge, Inventor, Seer, Knowledge, Silence, Storm, DeGen, Advocate, Forgotten, Resurrectionist + 9 demons)
+- [x] Upload all 460+ extended pose sprites to CDN
+- [x] Wire all extended sprite URLs into CharacterModel3D.ts (walkForward, walkBack, crouch, dash, lightPunch, mediumPunch, heavyPunch, lightKick, mediumKick, heavyKick, crouchPunch, crouchKick, sweep, jump, jumpAttack, grab, knockdown, dizzy, special, taunt)
+- [x] Fix duplicate shadow-tongue extended sprite block
+- [x] Verify all 41 fighters now have full 20-pose extended sprite sets
+
+- [x] Generate 20 extended fighting pose sprites for all 24 remaining fighters
+- [x] Upload all 460+ extended pose sprites to CDN
+- [x] Wire all extended sprite URLs into CharacterModel3D.ts
+- [x] Fix duplicate shadow-tongue extended sprite block
+- [x] Verify all 41 fighters now have full 20-pose extended sprite sets
