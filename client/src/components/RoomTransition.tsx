@@ -40,6 +40,15 @@ const TRANSITION_VIDEOS: Record<string, string[]> = {
   ],
 };
 
+/* Wildcard destination videos — plays when traveling TO a room from ANY origin
+   (only used if no specific fromRoom->toRoom route exists above) */
+const DESTINATION_VIDEOS: Record<string, string[]> = {
+  // Any room → Archives
+  "archives": [
+    "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/archives_transition_a9a53130.mp4",
+  ],
+};
+
 /* Return-to-bridge video — plays when traveling to bridge from any room
    (except cryo-bay which has its own dedicated transition).
    This is always skippable. */
@@ -469,6 +478,19 @@ export default function RoomTransition({
     return (
       <VideoCinematic
         videos={videos}
+        toRoomName={toRoomName}
+        onComplete={onComplete}
+        isNewRoom={isNewRoom}
+      />
+    );
+  }
+
+  // Check if there's a wildcard destination video for this target room
+  const destVideos = DESTINATION_VIDEOS[toRoom];
+  if (destVideos && destVideos.length > 0) {
+    return (
+      <VideoCinematic
+        videos={destVideos}
         toRoomName={toRoomName}
         onComplete={onComplete}
         isNewRoom={isNewRoom}

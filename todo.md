@@ -2801,3 +2801,4 @@
 
 ## Room Transition Videos
 - [x] Add Command Bridge → Comms Array transition video (bridge->comms-array) to TRANSITION_VIDEOS registry
+- [x] Add Archives transition video (any room → archives) with wildcard DESTINATION_VIDEOS system
