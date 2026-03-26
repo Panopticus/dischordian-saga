@@ -2647,14 +2647,39 @@
 - [x] Wire transition into room navigation system (TRANSITION_VIDEOS registry in RoomTransition.tsx)
 
 ## Ambient Noise Fix
-- [ ] Disable all ambient ship noises completely (cryo room and all others)
+- [x] Disable all ambient ship noises completely (cryo room and all others)
 
 ## Duelyst Card Game Port — Replace Existing Card Game
-- [ ] Install PixiJS and build core Duelyst game engine
-- [ ] Adapt all 216 saga cards to Duelyst mechanics with 6 faction system
-- [ ] Build PixiJS game board renderer
-- [ ] Build React game UI (hand, mana bar, general portraits, action log)
-- [ ] Implement AI opponent with heuristic decision-making
-- [ ] Build full game flow (faction select, mulligan, turns, win/loss)
-- [ ] Wire into app routes, replace old card game navigation links
-- [ ] Test and save checkpoint
+- [x] Install PixiJS and build core Duelyst game engine
+- [x] Adapt all 216 saga cards to Duelyst mechanics with 6 faction system
+- [x] Build PixiJS game board renderer
+- [x] Build React game UI (hand, mana bar, general portraits, action log)
+- [x] Implement AI opponent with heuristic decision-making
+- [x] Build full game flow (faction select, mulligan, turns, win/loss)
+- [x] Wire into app routes, replace old card game navigation links
+- [x] Test and save checkpoint
+
+## Book of Daniel Audio Playback
+- [x] Convert 16 WAV tracks to MP3 and upload to CDN (14 Book of Daniel + 2 extras)
+- [x] Add audio_url field to LoredexEntry interface
+- [x] Implement HTML5 Audio element in PlayerContext with play/pause/seek/volume
+- [x] Fix handleNext bug (proper track advancement using refs)
+- [x] Add ExpandedSeekBar component with draggable progress bar
+- [x] Add time display (current/duration) to MiniPlayer and ExpandedPlayer
+- [x] Add audio availability indicator (speaker icon) to queue items
+- [x] Wire 14 Book of Daniel tracks with CDN audio URLs in loredex data
+- [ ] Upload remaining 8 missing WAV files (Kismet, Virtual Reality, Remembering How to Move On, Polarity, Mental Slavery, Paradise Lost, The Secret of Words, Interactive Faustian Life) — requires user to provide files
+
+## Duelyst Character Sheet Integration
+- [ ] Integrate character sheet (class, species, skills, potential) into Duelyst gameplay
+- [ ] Apply faction bonuses based on character alignment
+- [ ] Apply class abilities as in-game buffs
+
+## Duelyst Progression Integration
+- [ ] Connect Duelyst victories to existing XP/reward system
+- [ ] Award achievements for Duelyst milestones
+- [ ] Track win/loss stats
+
+## Duelyst UI Redesign
+- [ ] Generate nano banana artwork for Duelyst UI elements
+- [ ] Build stunning new Duelyst UI with generated artwork

@@ -84,17 +84,8 @@ function MiniPlayer({
   onPrev: () => void;
   onExpand: () => void;
 }) {
-  const [progress, setProgress] = useState(0);
-
-  useEffect(() => {
-    if (!isPlaying) return;
-    const interval = setInterval(() => {
-      setProgress(p => p >= 100 ? 0 : p + 0.5);
-    }, 150);
-    return () => clearInterval(interval);
-  }, [isPlaying, song]);
-
-  useEffect(() => { setProgress(0); }, [song]);
+  const { currentTime, duration, hasAudio } = usePlayer();
+  const progress = duration > 0 ? (currentTime / duration) * 100 : 0;
 
   const streaming = song.streaming_links || {};
   const mv = song.music_video || {};
@@ -133,9 +124,16 @@ function MiniPlayer({
             className="text-xs font-mono text-foreground/85 hover:text-[var(--neon-cyan)] transition-colors truncate block">
             {song.name}
           </Link>
-          <p className="text-[9px] font-mono text-muted-foreground/50 truncate">
-            {song.album || "Malkia Ukweli & the Panopticon"}
-          </p>
+          <div className="flex items-center gap-2">
+            <p className="text-[9px] font-mono text-muted-foreground/50 truncate">
+              {song.album || "Malkia Ukweli & the Panopticon"}
+            </p>
+            {hasAudio && duration > 0 && (
+              <span className="text-[8px] font-mono text-muted-foreground/30 shrink-0">
+                {formatTime(currentTime)} / {formatTime(duration)}
+              </span>
+            )}
+          </div>
         </div>
 
         {/* Playback Controls */}
@@ -237,6 +235,11 @@ function QueueTab({ queue, currentSong, onPlay }: {
               </p>
               <p className="font-mono text-[8px] text-muted-foreground/35 truncate">{song.album}</p>
             </div>
+            {song.audio_url ? (
+              <Volume2 size={10} className="text-[var(--neon-cyan)]/40 shrink-0" />
+            ) : (
+              <VolumeX size={10} className="text-muted-foreground/20 shrink-0" />
+            )}
           </button>
         );
       })}
@@ -406,6 +409,98 @@ function CharactersTab({ song }: { song: LoredexEntry | null }) {
   );
 }
 
+/* ─── TIME FORMATTER ─── */
+function formatTime(seconds: number): string {
+  if (!seconds || !isFinite(seconds)) return "0:00";
+  const m = Math.floor(seconds / 60);
+  const s = Math.floor(seconds % 60);
+  return `${m}:${s.toString().padStart(2, "0")}`;
+}
+
+/* ─── EXPANDED SEEK BAR ─── */
+function ExpandedSeekBar() {
+  const { currentTime, duration, seek, hasAudio } = usePlayer();
+  const barRef = useRef<HTMLDivElement>(null);
+  const [dragging, setDragging] = useState(false);
+
+  const progress = duration > 0 ? (currentTime / duration) * 100 : 0;
+
+  const handleSeek = useCallback(
+    (e: React.MouseEvent<HTMLDivElement>) => {
+      if (!barRef.current || !hasAudio || duration <= 0) return;
+      const rect = barRef.current.getBoundingClientRect();
+      const pct = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+      seek(pct * duration);
+    },
+    [hasAudio, duration, seek]
+  );
+
+  const handleMouseDown = useCallback(
+    (e: React.MouseEvent<HTMLDivElement>) => {
+      setDragging(true);
+      handleSeek(e);
+    },
+    [handleSeek]
+  );
+
+  useEffect(() => {
+    if (!dragging) return;
+    const handleMove = (e: MouseEvent) => {
+      if (!barRef.current || duration <= 0) return;
+      const rect = barRef.current.getBoundingClientRect();
+      const pct = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+      seek(pct * duration);
+    };
+    const handleUp = () => setDragging(false);
+    window.addEventListener("mousemove", handleMove);
+    window.addEventListener("mouseup", handleUp);
+    return () => {
+      window.removeEventListener("mousemove", handleMove);
+      window.removeEventListener("mouseup", handleUp);
+    };
+  }, [dragging, duration, seek]);
+
+  return (
+    <div className="mt-2">
+      <div
+        ref={barRef}
+        className="relative h-1.5 rounded-full cursor-pointer group"
+        style={{ background: "rgba(255,255,255,0.08)" }}
+        onMouseDown={handleMouseDown}
+      >
+        <div
+          className="absolute inset-y-0 left-0 rounded-full"
+          style={{
+            width: `${progress}%`,
+            background: hasAudio
+              ? "linear-gradient(90deg, rgba(51,226,230,0.8), rgba(56,117,250,0.8))"
+              : "rgba(255,255,255,0.15)",
+          }}
+        />
+        {hasAudio && (
+          <div
+            className="absolute top-1/2 -translate-y-1/2 w-3 h-3 rounded-full opacity-0 group-hover:opacity-100"
+            style={{
+              left: `${progress}%`,
+              marginLeft: "-6px",
+              background: "rgb(51,226,230)",
+              boxShadow: "0 0 6px rgba(51,226,230,0.5)",
+            }}
+          />
+        )}
+      </div>
+      <div className="flex justify-between mt-1">
+        <span className="font-mono text-[9px] text-muted-foreground/40">
+          {formatTime(currentTime)}
+        </span>
+        <span className="font-mono text-[9px] text-muted-foreground/40">
+          {hasAudio ? formatTime(duration) : "--:--"}
+        </span>
+      </div>
+    </div>
+  );
+}
+
 /* ─── EXPANDED PLAYER ─── */
 function ExpandedPlayer({
   song,
@@ -505,6 +600,8 @@ function ExpandedPlayer({
               <SkipForward size={16} />
             </button>
           </div>
+          {/* Seek Bar + Time */}
+          <ExpandedSeekBar />
         </div>
 
         {/* Streaming Links */}
