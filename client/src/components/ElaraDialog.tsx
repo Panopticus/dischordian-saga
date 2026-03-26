@@ -39,7 +39,7 @@ function getPageChoices(path: string): { greeting: string; choices: DialogChoice
   }
 
   // Card Game
-  if (path === "/cards/play") {
+  if (path === "/duelyst") {
     return {
       greeting: "Ah, the Dischordian Struggle. This CADES simulation pits faction against faction across three dimensional lanes. Each card you deploy shapes the fate of a parallel universe. Shall I explain the rules, or do you have a tactical question?",
       choices: [

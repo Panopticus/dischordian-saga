@@ -104,7 +104,7 @@ const ARK_DECKS: ArkDeck[] = [
 ];
 
 const ROOM_ROUTES: Record<string, string> = {
-  war_room: "/cards/play",
+  war_room: "/duelyst",
   captains_quarters: "/companions",
   cargo_bay: "/cards",
   trophy_room: "/trophy",
@@ -141,7 +141,7 @@ const ROOM_FEATURES: Record<string, RoomFeature[]> = {
     { name: "War Map", route: "/faction-wars", icon: "🌍", status: "active" },
   ],
   war_room: [
-    { name: "Card Arena", route: "/cards/play", icon: "🃏", status: "active" },
+    { name: "Card Arena", route: "/duelyst", icon: "🃏", status: "active" },
     { name: "Guild Wars", route: "/guild-war", icon: "⚔️", status: "active" },
     { name: "Faction Wars", route: "/faction-wars", icon: "🏴", status: "active" },
   ],

@@ -75,7 +75,7 @@ const NAV_GROUPS: NavGroup[] = [
     defaultOpen: true,
     items: [
       { path: "/games", label: "SIMULATION HUB", icon: Gamepad2, description: "All CADES sims" },
-      { path: "/cards/play", label: "CARD GAME", icon: ScrollText, description: "Faction warfare" },
+      { path: "/duelyst", label: "DUELYST", icon: ScrollText, description: "Faction warfare" },
       { path: "/trade-empire", label: "TRADE EMPIRE", icon: Ship, description: "Interstellar trade" },
       { path: "/war-map", label: "WAR MAP", icon: Swords, description: "Faction territory war" },
       { path: "/fight", label: "COMBAT SIM", icon: Swords, description: "Combat training" },

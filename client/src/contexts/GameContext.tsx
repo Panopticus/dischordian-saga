@@ -403,7 +403,7 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
     elaraIntro: "The Armory and Combat Training Deck. This is where Potentials train for battle. The holographic arena can simulate combat scenarios — card game battles and direct combat. The weapon racks contain equipment that can enhance your fighting capabilities.",
     imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/room_armory-cVMQ78mPE6bJeREyXAxC6a.webp",
     features: ["Combat Sim", "Card Game Battles", "Chess", "Lore Quiz", "Spectator Mode"],
-    featureRoutes: ["/fight", "/cards/play", "/quiz", "/chess", "/spectate"],
+    featureRoutes: ["/fight", "/duelyst", "/quiz", "/chess", "/spectate"],
     unlockRequirement: { type: "narrative_event", value: "combat_systems_online" },
     connections: ["engineering", "cargo-hold"],
     hotspots: [

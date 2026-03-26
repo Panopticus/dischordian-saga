@@ -62,6 +62,7 @@ const FavoritesPage = lazy(() => import("./pages/FavoritesPage"));
 const LoreQuizPage = lazy(() => import("./pages/LoreQuizPage"));
 const CodexPage = lazy(() => import("./pages/CodexPage"));
 const CardBattlePage = lazy(() => import("./pages/CardBattlePage"));
+const DuelystPage = lazy(() => import("./game/duelyst/DuelystPage"));
 const CardGalleryPage = lazy(() => import("./pages/CardGalleryPage"));
 const PlayerProfilePage = lazy(() => import("./pages/PlayerProfilePage"));
 const LeaderboardPage = lazy(() => import("./pages/LeaderboardPage"));
@@ -146,6 +147,7 @@ function Router() {
         <Route path="/console" component={ConsolePage} />
         <Route path="/cards" component={CardBrowserPage} />
         <Route path="/cards/play" component={CardGamePage} />
+        <Route path="/duelyst" component={DuelystPage} />
         <Route path="/ark" component={ArkExplorerPage} />
         <Route path="/ark-legacy" component={InceptionArkPage} />
         <Route path="/ship-map" component={ShipSchematicMap} />

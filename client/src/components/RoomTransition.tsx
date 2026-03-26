@@ -1,10 +1,11 @@
 /* ═══════════════════════════════════════════════════════
    ROOM TRANSITION — Animated corridor-walking cutscene
    Plays a 2-3 second cinematic transition between rooms.
-   Shows corridor perspective with lighting effects and
-   destination room name reveal.
+   When video cinematics exist for a route, plays them
+   fullscreen instead of the canvas animation.
+   Supports multi-part videos that play back-to-back.
    ═══════════════════════════════════════════════════════ */
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 interface RoomTransitionProps {
@@ -15,6 +16,20 @@ interface RoomTransitionProps {
   onComplete: () => void;
   isNewRoom?: boolean;
 }
+
+/* ═══ VIDEO CINEMATICS REGISTRY ═══
+   Key format: "fromRoom->toRoom"
+   Value: array of video URLs that play back-to-back seamlessly */
+const TRANSITION_VIDEOS: Record<string, string[]> = {
+  "cryo-bay->bridge": [
+    "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/cryo_to_command_pt1_6014f4c2.mp4",
+    "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/cryo_to_command_pt2_10b0af41.mp4",
+  ],
+  "cryo-bay->observation-deck": [
+    "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/cryo_to_command_pt1_6014f4c2.mp4",
+    "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/cryo_to_command_pt2_10b0af41.mp4",
+  ],
+};
 
 /* Corridor segment colors based on destination */
 const CORRIDOR_THEMES: Record<string, { primary: string; secondary: string; accent: string }> = {
@@ -32,14 +47,165 @@ const CORRIDOR_THEMES: Record<string, { primary: string; secondary: string; acce
   "captains-quarters": { primary: "#d4af37", secondary: "#6a5818", accent: "#35300c" },
 };
 
-export default function RoomTransition({
-  fromRoom,
+/* ═══ VIDEO CINEMATIC TRANSITION ═══ */
+function VideoCinematic({
+  videos,
+  toRoomName,
+  onComplete,
+  isNewRoom,
+}: {
+  videos: string[];
+  toRoomName: string;
+  onComplete: () => void;
+  isNewRoom: boolean;
+}) {
+  const [currentVideoIdx, setCurrentVideoIdx] = useState(0);
+  const [showSkip, setShowSkip] = useState(false);
+  const [fading, setFading] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const nextVideoRef = useRef<HTMLVideoElement>(null);
+  const completedRef = useRef(false);
+
+  // Show skip button after 2 seconds
+  useEffect(() => {
+    const t = setTimeout(() => setShowSkip(true), 2000);
+    return () => clearTimeout(t);
+  }, []);
+
+  // Preload next video
+  useEffect(() => {
+    if (currentVideoIdx + 1 < videos.length && nextVideoRef.current) {
+      nextVideoRef.current.src = videos[currentVideoIdx + 1];
+      nextVideoRef.current.load();
+    }
+  }, [currentVideoIdx, videos]);
+
+  const finishTransition = useCallback(() => {
+    if (completedRef.current) return;
+    completedRef.current = true;
+    setFading(true);
+    setTimeout(() => onComplete(), 600);
+  }, [onComplete]);
+
+  const handleVideoEnded = useCallback(() => {
+    if (currentVideoIdx + 1 < videos.length) {
+      // Switch to next video instantly
+      setCurrentVideoIdx(prev => prev + 1);
+    } else {
+      // All videos played — brief room name reveal then complete
+      finishTransition();
+    }
+  }, [currentVideoIdx, videos.length, finishTransition]);
+
+  // When video index changes, play the new video
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.src = videos[currentVideoIdx];
+      videoRef.current.play().catch(() => {});
+    }
+  }, [currentVideoIdx, videos]);
+
+  const handleSkip = () => {
+    finishTransition();
+  };
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: fading ? 0 : 1 }}
+      transition={{ duration: fading ? 0.5 : 0.3 }}
+      className="fixed inset-0 z-[100] bg-black"
+    >
+      {/* Main video */}
+      <video
+        ref={videoRef}
+        className="absolute inset-0 w-full h-full object-cover"
+        autoPlay
+        muted={false}
+        playsInline
+        onEnded={handleVideoEnded}
+        src={videos[0]}
+      />
+
+      {/* Hidden preload video */}
+      <video
+        ref={nextVideoRef}
+        className="hidden"
+        preload="auto"
+        muted
+        playsInline
+      />
+
+      {/* Room name overlay at bottom */}
+      <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/80 via-black/30 to-transparent">
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1 }}
+          className="text-center"
+        >
+          <p className="font-mono text-[9px] tracking-[0.5em] text-cyan-400/50 mb-1">
+            NAVIGATING TO
+          </p>
+          <p className="font-display text-lg font-bold tracking-[0.2em] text-white/90">
+            {toRoomName.toUpperCase()}
+          </p>
+          {isNewRoom && (
+            <p className="font-mono text-[9px] text-amber-400/60 tracking-[0.3em] mt-1">
+              ★ NEW AREA DISCOVERED ★
+            </p>
+          )}
+        </motion.div>
+      </div>
+
+      {/* Video progress indicator */}
+      {videos.length > 1 && (
+        <div className="absolute top-4 left-1/2 -translate-x-1/2 flex gap-1.5">
+          {videos.map((_, i) => (
+            <div
+              key={i}
+              className="h-0.5 rounded-full transition-all duration-300"
+              style={{
+                width: i === currentVideoIdx ? 24 : 8,
+                background: i <= currentVideoIdx ? "rgba(51, 226, 230, 0.8)" : "rgba(255,255,255,0.2)",
+              }}
+            />
+          ))}
+        </div>
+      )}
+
+      {/* Skip button */}
+      <AnimatePresence>
+        {showSkip && (
+          <motion.button
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={handleSkip}
+            className="absolute top-4 right-4 z-10 px-3 py-1.5 rounded-md font-mono text-[10px] tracking-wider text-white/60 hover:text-white border border-white/20 hover:border-white/40 bg-black/30 hover:bg-black/50 transition-all"
+          >
+            SKIP ▸
+          </motion.button>
+        )}
+      </AnimatePresence>
+    </motion.div>
+  );
+}
+
+/* ═══ CANVAS CORRIDOR TRANSITION (fallback) ═══ */
+function CanvasTransition({
   toRoom,
   toRoomName,
   toRoomImage,
   onComplete,
-  isNewRoom = false,
-}: RoomTransitionProps) {
+  isNewRoom,
+}: {
+  toRoom: string;
+  toRoomName: string;
+  toRoomImage: string;
+  onComplete: () => void;
+  isNewRoom: boolean;
+}) {
   const [phase, setPhase] = useState<"corridor" | "arriving" | "reveal">("corridor");
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const animRef = useRef<number>(0);
@@ -65,47 +231,37 @@ export default function RoomTransition({
     function draw() {
       if (!ctx) return;
       const elapsed = (Date.now() - startTime.current) / 1000;
-      const speed = 2 + elapsed * 3; // Accelerating
+      const speed = 2 + elapsed * 3;
 
-      // Clear
       ctx.fillStyle = "#010020";
       ctx.fillRect(0, 0, w, h);
 
-      // Vanishing point
       const vpX = w / 2;
       const vpY = h / 2;
 
-      // Draw corridor panels (perspective lines)
       const numPanels = 20;
       for (let i = 0; i < numPanels; i++) {
         const depth = ((i / numPanels + elapsed * speed * 0.1) % 1);
         const scale = Math.pow(depth, 1.5);
         const alpha = depth < 0.1 ? depth * 10 : depth > 0.8 ? (1 - depth) * 5 : 1;
-
         if (alpha <= 0) continue;
 
         const halfW = 20 + (w / 2 - 20) * scale;
         const halfH = 15 + (h / 2 - 15) * scale;
 
-        // Corridor walls
         ctx.strokeStyle = `rgba(${hexToRgb(theme.primary)}, ${alpha * 0.4})`;
         ctx.lineWidth = 1 + scale * 2;
         ctx.beginPath();
-        // Left wall
         ctx.moveTo(vpX - halfW, vpY - halfH);
         ctx.lineTo(vpX - halfW, vpY + halfH);
-        // Right wall
         ctx.moveTo(vpX + halfW, vpY - halfH);
         ctx.lineTo(vpX + halfW, vpY + halfH);
-        // Top
         ctx.moveTo(vpX - halfW, vpY - halfH);
         ctx.lineTo(vpX + halfW, vpY - halfH);
-        // Bottom
         ctx.moveTo(vpX - halfW, vpY + halfH);
         ctx.lineTo(vpX + halfW, vpY + halfH);
         ctx.stroke();
 
-        // Floor grid lines
         if (i % 2 === 0) {
           ctx.strokeStyle = `rgba(${hexToRgb(theme.primary)}, ${alpha * 0.15})`;
           ctx.lineWidth = 1;
@@ -115,7 +271,6 @@ export default function RoomTransition({
           ctx.stroke();
         }
 
-        // Ceiling lights
         if (i % 3 === 0) {
           const lightFlicker = Math.sin(elapsed * 8 + i * 2) * 0.3 + 0.7;
           ctx.fillStyle = `rgba(${hexToRgb(theme.primary)}, ${alpha * 0.3 * lightFlicker})`;
@@ -123,7 +278,6 @@ export default function RoomTransition({
         }
       }
 
-      // Perspective lines from corners to vanishing point
       ctx.strokeStyle = `rgba(${hexToRgb(theme.secondary)}, 0.2)`;
       ctx.lineWidth = 0.5;
       ctx.beginPath();
@@ -133,7 +287,6 @@ export default function RoomTransition({
       ctx.moveTo(w, h); ctx.lineTo(vpX, vpY);
       ctx.stroke();
 
-      // Central light beam
       const beamPulse = Math.sin(elapsed * 4) * 0.2 + 0.6;
       const gradient = ctx.createRadialGradient(vpX, vpY, 0, vpX, vpY, w * 0.4);
       gradient.addColorStop(0, `rgba(${hexToRgb(theme.primary)}, ${beamPulse * 0.15})`);
@@ -142,7 +295,6 @@ export default function RoomTransition({
       ctx.fillStyle = gradient;
       ctx.fillRect(0, 0, w, h);
 
-      // Floating particles
       for (let p = 0; p < 15; p++) {
         const px = (Math.sin(elapsed * 0.5 + p * 1.7) * 0.4 + 0.5) * w;
         const py = (Math.cos(elapsed * 0.3 + p * 2.3) * 0.4 + 0.5) * h;
@@ -153,7 +305,6 @@ export default function RoomTransition({
         ctx.fill();
       }
 
-      // Scanline effect
       for (let y = 0; y < h; y += 4) {
         ctx.fillStyle = `rgba(0, 0, 0, ${0.05 + Math.sin(y * 0.1 + elapsed * 10) * 0.02})`;
         ctx.fillRect(0, y, w, 2);
@@ -186,13 +337,7 @@ export default function RoomTransition({
       className="fixed inset-0 z-[100] flex items-center justify-center"
       style={{ background: "#010020" }}
     >
-      {/* Corridor canvas */}
-      <canvas
-        ref={canvasRef}
-        className="absolute inset-0 w-full h-full"
-      />
-
-      {/* Overlay content */}
+      <canvas ref={canvasRef} className="absolute inset-0 w-full h-full" />
       <div className="relative z-10 text-center">
         <AnimatePresence mode="wait">
           {phase === "corridor" && (
@@ -203,22 +348,14 @@ export default function RoomTransition({
               exit={{ opacity: 0, y: -20 }}
               className="space-y-3"
             >
-              {/* Walking indicator */}
               <div className="flex items-center justify-center gap-1">
                 {[0, 1, 2, 3, 4].map(i => (
                   <motion.div
                     key={i}
                     className="w-1.5 h-1.5 rounded-full"
                     style={{ background: theme.primary }}
-                    animate={{
-                      opacity: [0.2, 1, 0.2],
-                      scale: [0.8, 1.2, 0.8],
-                    }}
-                    transition={{
-                      duration: 0.6,
-                      delay: i * 0.12,
-                      repeat: Infinity,
-                    }}
+                    animate={{ opacity: [0.2, 1, 0.2], scale: [0.8, 1.2, 0.8] }}
+                    transition={{ duration: 0.6, delay: i * 0.12, repeat: Infinity }}
                   />
                 ))}
               </div>
@@ -227,7 +364,6 @@ export default function RoomTransition({
               </p>
             </motion.div>
           )}
-
           {phase === "arriving" && (
             <motion.div
               key="arriving"
@@ -254,7 +390,6 @@ export default function RoomTransition({
               </p>
             </motion.div>
           )}
-
           {phase === "reveal" && (
             <motion.div
               key="reveal"
@@ -262,7 +397,6 @@ export default function RoomTransition({
               animate={{ opacity: 1, y: 0 }}
               className="space-y-4"
             >
-              {/* Room image preview */}
               <motion.div
                 initial={{ scale: 0.8, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
@@ -270,13 +404,8 @@ export default function RoomTransition({
                 className="w-48 h-28 mx-auto rounded-lg overflow-hidden border"
                 style={{ borderColor: `${theme.primary}50` }}
               >
-                <img
-                  src={toRoomImage}
-                  alt={toRoomName}
-                  className="w-full h-full object-cover"
-                />
+                <img src={toRoomImage} alt={toRoomName} className="w-full h-full object-cover" />
               </motion.div>
-
               <div>
                 <motion.p
                   initial={{ opacity: 0, letterSpacing: "0.5em" }}
@@ -302,12 +431,46 @@ export default function RoomTransition({
           )}
         </AnimatePresence>
       </div>
-
-      {/* Edge vignette */}
       <div className="absolute inset-0 pointer-events-none" style={{
         background: "radial-gradient(ellipse at center, transparent 40%, var(--bg-overlay) 100%)",
       }} />
     </motion.div>
+  );
+}
+
+/* ═══ MAIN EXPORT ═══ */
+export default function RoomTransition({
+  fromRoom,
+  toRoom,
+  toRoomName,
+  toRoomImage,
+  onComplete,
+  isNewRoom = false,
+}: RoomTransitionProps) {
+  // Check if there's a video cinematic for this route
+  const routeKey = `${fromRoom}->${toRoom}`;
+  const videos = TRANSITION_VIDEOS[routeKey];
+
+  if (videos && videos.length > 0) {
+    return (
+      <VideoCinematic
+        videos={videos}
+        toRoomName={toRoomName}
+        onComplete={onComplete}
+        isNewRoom={isNewRoom}
+      />
+    );
+  }
+
+  // Fallback to canvas corridor animation
+  return (
+    <CanvasTransition
+      toRoom={toRoom}
+      toRoomName={toRoomName}
+      toRoomImage={toRoomImage}
+      onComplete={onComplete}
+      isNewRoom={isNewRoom}
+    />
   );
 }
 

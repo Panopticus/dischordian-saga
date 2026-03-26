@@ -29,7 +29,7 @@ export const ROUTE_ROOM_MAP: Record<string, string> = {
   "/favorites": "observation-deck",
   // Armory routes
   "/fight": "armory",
-  "/cards/play": "armory",
+  "/duelyst": "armory",
   "/battle": "armory",
   "/pvp": "armory",
   "/boss-battle": "armory",

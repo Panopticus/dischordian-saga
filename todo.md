@@ -2640,3 +2640,21 @@
 - [x] Upload chess opening cinematic video to CDN
 - [x] Build chess cinematic intro component (ChessCinematic.tsx with amber/gold theme)
 - [x] Wire cinematic into chess game start flow (plays once per session before first match)
+
+## Room Transition Cinematics
+- [x] Upload Cryo Bay → Command Deck transition videos (part 1 + part 2) to CDN
+- [x] Build seamless back-to-back video transition component (VideoCinematic with preloading)
+- [x] Wire transition into room navigation system (TRANSITION_VIDEOS registry in RoomTransition.tsx)
+
+## Ambient Noise Fix
+- [ ] Disable all ambient ship noises completely (cryo room and all others)
+
+## Duelyst Card Game Port — Replace Existing Card Game
+- [ ] Install PixiJS and build core Duelyst game engine
+- [ ] Adapt all 216 saga cards to Duelyst mechanics with 6 faction system
+- [ ] Build PixiJS game board renderer
+- [ ] Build React game UI (hand, mana bar, general portraits, action log)
+- [ ] Implement AI opponent with heuristic decision-making
+- [ ] Build full game flow (faction select, mulligan, turns, win/loss)
+- [ ] Wire into app routes, replace old card game navigation links
+- [ ] Test and save checkpoint

@@ -30,10 +30,10 @@ interface GameTile {
 
 const SIMULATIONS: GameTile[] = [
   {
-    href: "/cards/play",
-    title: "CARD GAME",
-    subtitle: "Faction Warfare Simulation",
-    description: "Deploy operatives across 3-lane battlefields. Each match simulates a dimensional conflict where your choices determine the fate of a parallel reality.",
+    href: "/duelyst",
+    title: "DUELYST",
+    subtitle: "Tactical Grid Warfare",
+    description: "Command your faction on a 5×9 tactical grid. Summon units, cast spells, equip artifacts, and destroy the enemy general in this Duelyst-inspired strategy game.",
     loreContext: "CADES DIMENSION: Faction War Timeline",
     icon: ScrollText,
     color: "var(--orb-orange)",
