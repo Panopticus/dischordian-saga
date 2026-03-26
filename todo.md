@@ -2802,3 +2802,8 @@
 ## Room Transition Videos
 - [x] Add Command Bridge → Comms Array transition video (bridge->comms-array) to TRANSITION_VIDEOS registry
 - [x] Add Archives transition video (any room → archives) with wildcard DESTINATION_VIDEOS system
+
+## Elara Voice Over
+- [x] Edit Elara's opening line text to new dialogue
+- [x] Upload and link Elara opening VO audio file
+- [ ] Compile complete list of all Elara VO lines in the game

@@ -45,20 +45,38 @@ function useTypewriter(text: string, speed = 30, enabled = true) {
 }
 
 /* ─── ELARA DIALOG BOX ─── */
+/** CDN VO audio URLs keyed by step — when present, plays instead of browser TTS */
+const STEP_VO_AUDIO: Partial<Record<string, string>> = {
+  CRYO_OPEN: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/elara_vo_cryo_open_342b1153.mp3",
+};
+
 function ElaraDialogBox({
   text,
   onContinue,
   showPortrait = true,
   choices,
   onChoice,
+  voAudioUrl,
 }: {
   text: string;
   onContinue?: () => void;
   showPortrait?: boolean;
   choices?: { label: string; value: string; description?: string }[];
   onChoice?: (value: string) => void;
+  voAudioUrl?: string;
 }) {
   const { displayed, done, skip } = useTypewriter(text, 25);
+  const voAudioRef = useRef<HTMLAudioElement | null>(null);
+
+  // Play VO audio when provided (instead of browser TTS)
+  useEffect(() => {
+    if (!voAudioUrl) return;
+    const audio = new Audio(voAudioUrl);
+    audio.volume = 0.9;
+    voAudioRef.current = audio;
+    audio.play().catch(() => {});
+    return () => { audio.pause(); audio.src = ""; };
+  }, [voAudioUrl]);
 
   return (
     <motion.div
@@ -311,7 +329,7 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
 
   // Elara TTS — speak dialog text when step changes
   const STEP_DIALOG: Partial<Record<AwakeningStep, string>> = useMemo(() => ({
-    CRYO_OPEN: "Can you hear me? Don't try to move yet. Your neural pathways are still re-establishing.",
+    CRYO_OPEN: "Don't try to move yet. Your neural pathways are still re-establishing. The cryogenic process is imperfect. Give yourself a moment.",
     ELARA_INTRO: "I am Elara, the ship's intelligence. You've been in cryogenic suspension. You are aboard Inception Ark Vessel 47. You are a Potential. The others, the first wave, they're gone. All communications have been severed. We are alone.",
     SPECIES_QUESTION: "Your neural patterns are unusual. Your cellular structure doesn't match standard human baselines. What do you remember about your origin?",
     CLASS_QUESTION: "Your skill matrices are partially intact. What comes naturally to you?",
@@ -324,6 +342,8 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
 
   useEffect(() => {
     const dialogText = STEP_DIALOG[awakeningStep];
+    // Skip browser TTS if a real VO audio file exists for this step
+    if (STEP_VO_AUDIO[awakeningStep]) return;
     if (dialogText && elaraTTS && dialogText !== lastSpokenRef.current) {
       lastSpokenRef.current = dialogText;
       // Small delay to let the typewriter start first
@@ -504,9 +524,10 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
           {awakeningStep === "CRYO_OPEN" && (
             <ElaraDialogBox
               key="cryo"
-              text="Can you hear me? Don't try to move yet. Your neural pathways are still re-establishing. The cryogenic process is... imperfect. Give yourself a moment."
+              text="Don't try to move yet. Your neural pathways are still re-establishing. The cryogenic process is... imperfect. Give yourself a moment."
               onContinue={advanceAwakening}
               showPortrait={false}
+              voAudioUrl={STEP_VO_AUDIO.CRYO_OPEN}
             />
           )}
 

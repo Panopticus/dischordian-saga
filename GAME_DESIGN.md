@@ -47,7 +47,7 @@ FIRST_VISIT → AWAKENING → QUARTERS_UNLOCKED → EXPLORING → FULL_ACCESS
 - Black screen. Heartbeat sound. Slow fade in.
 - Frost on screen edges. Cryo pod glass cracking.
 - Text appears letter by letter: "EMERGENCY REVIVAL PROTOCOL INITIATED"
-- Elara's voice (text): "Can you hear me? Don't try to move yet."
+- Elara's voice (text): "Don't try to move yet. Your neural pathways are still re-establishing. The cryogenic process is... imperfect. Give yourself a moment."
 
 ### Scene 2: Elara Introduction
 - Elara appears as holographic projection (portrait with long black hair)

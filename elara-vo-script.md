@@ -14,7 +14,9 @@
 
 ### Line 1: Awakening: Cryo Open
 
-> Can you hear me? Don't try to move yet. Your neural pathways are still re-establishing. The cryogenic process is... imperfect. Give yourself a moment.
+> Don't try to move yet. Your neural pathways are still re-establishing. The cryogenic process is... imperfect. Give yourself a moment.
+>
+> **VO Audio:** `elara_vo_cryo_open_342b1153.mp3` (ElevenLabs — EngineerZero voice)
 
 ### Line 2: Awakening: Elara Intro
 
