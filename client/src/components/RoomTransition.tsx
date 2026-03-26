@@ -34,6 +34,10 @@ const TRANSITION_VIDEOS: Record<string, string[]> = {
   "bridge->observation-deck": [
     "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/bridge_to_observation_6b2f3957.mp4",
   ],
+  // Command Bridge → Comms Array
+  "bridge->comms-array": [
+    "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/bridge_to_comms_transition_a7fa50b6.mp4",
+  ],
 };
 
 /* Return-to-bridge video — plays when traveling to bridge from any room

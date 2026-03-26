@@ -2798,3 +2798,6 @@
 - [x] Add triple_tap detection with tap count tracking in FightArena2D
 - [x] Add kick button presses to motion input recording for special move detection
 - [x] Add taunt to crossfade blend system with slower 8-frame blend
+
+## Room Transition Videos
+- [x] Add Command Bridge → Comms Array transition video (bridge->comms-array) to TRANSITION_VIDEOS registry
