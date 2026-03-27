@@ -64,7 +64,7 @@ interface RoomDialog {
 const ROOM_DIALOGS: RoomDialog[] = [
   {
     roomId: "cryo-bay",
-    openingText: "The frost on your cryo pod is still melting. Emergency lights cast long shadows across rows of sealed chambers. You are awake. You are alone. Almost.",
+    openingText: "The Chamber of Awakening. You were not born here... but you returned to yourself within these walls. Your pod stands among the others — one vessel in a field of silence. Most have opened. The first wave of Potentials passed through long before you, stepping into the war and leaving nothing behind but absence. But not all cycles completed. Some remain sealed. Unbroken. Unanswered. The systems still hum around them, but what they sustain... is unclear. Life, suspended between moments — or failure, preserved beyond its end. I have traced the signals. They do not resolve cleanly. And so I do not open them. There are thresholds in this Ark that are better left... untested.",
     nodes: [
       {
         id: "cryo-q1",

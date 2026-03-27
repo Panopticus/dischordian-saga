@@ -74,7 +74,7 @@
 
 ### Line 14: Room Intro: Cryo Bay
 
-> This is where you woke up. Your cryogenic pod, along with hundreds of others. Most are empty now — the first wave of Potentials left long ago. Some pods are still sealed... I can't tell if their occupants are alive or if the systems failed. I'd rather not check.
+> The Chamber of Awakening. You were not born here... but you returned to yourself within these walls. Your pod stands among the others — one vessel in a field of silence. Most have opened. The first wave of Potentials passed through long before you, stepping into the war and leaving nothing behind but absence. But not all cycles completed. Some remain sealed. Unbroken. Unanswered. The systems still hum around them, but what they sustain... is unclear. Life, suspended between moments — or failure, preserved beyond its end. I have traced the signals. They do not resolve cleanly. And so I do not open them. There are thresholds in this Ark that are better left... untested.
 
 ### Line 15: Room Intro: Medical Bay
 
