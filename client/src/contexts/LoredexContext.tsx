@@ -36,6 +36,7 @@ export interface LoredexEntry {
   characters_featured?: string[];
   music_video?: Record<string, string>;
   audio_url?: string;
+  reveal_video?: string;
 }
 
 export interface Relationship {

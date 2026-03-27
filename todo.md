@@ -2841,5 +2841,14 @@
 - [x] Upload Wraith Calder fight cutscene video to CDN and wire into story mode
 - [x] Correct story mode chapters to match production bible: Ch1=Wraith Calder, Ch2=The Host, update all dialogues
 - [x] Add video cutscene playback system to story mode pre-fight sequence
-- [ ] Upload Iron Lion fight cutscene video to CDN and wire into story mode
-- [ ] Upload Shadow Tongue fight cutscene video to CDN and wire into story mode
+- [x] Upload Iron Lion fight cutscene video to CDN and wire into story mode (Ch4 The Iron Test)
+- [x] Upload Shadow Tongue fight cutscene video to CDN and wire into story mode
+- [x] Renumber story mode chapters from 12 to 13 (Iron Lion added as Ch4, all subsequent chapters shifted)
+- [x] Add Iron Lion Ch4 cinematic entry in cinematicDesign.ts
+- [x] Upload Host cutscene video to CDN and wire into Ch2 (The Gauntlet)
+- [x] Add reveal_video field to LoredexEntry interface for character reveal videos
+- [x] Upload OracleFight video to CDN and link to White Oracle Loredex entry as character reveal
+- [x] Add CHARACTER REVEAL section to EntityPage with inline video player
+- [x] Upload Collector's Arena intro video to CDN and add skippable intro-video phase to FightPage
+- [x] Link Collector's Arena video as official music video for The Collector song entry
+- [x] Link Collector's Arena video to The Collector character's song appearance

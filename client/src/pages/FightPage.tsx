@@ -42,7 +42,9 @@ import {
 } from "@/game/storyMode";
 import { getStorySceneEffect, getArenaIntro, GAME_OPENING_CINEMATIC } from "@/game/cinematicDesign";
 
-type Phase = "title" | "lore" | "story" | "story-cutscene" | "story-dialogue" | "select" | "difficulty" | "arena" | "fighting" | "results" | "story-results";
+type Phase = "title" | "intro-video" | "lore" | "story" | "story-cutscene" | "story-dialogue" | "select" | "difficulty" | "arena" | "fighting" | "results" | "story-results";
+
+const COLLECTORS_ARENA_INTRO_VIDEO = "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/collectors-arena-intro_c5e8c641.mp4";
 
 /* ═══ INVASION EVENTS ═══ */
 const INVASION_EVENTS = [
@@ -89,6 +91,10 @@ export default function FightPage() {
   const [hasSeenLore, setHasSeenLore] = useState(() => {
     try { return localStorage.getItem("collectors_arena_lore_seen") === "true"; } catch { return false; }
   });
+  const [hasSeenIntroVideo, setHasSeenIntroVideo] = useState(() => {
+    try { return localStorage.getItem("collectors_arena_intro_seen") === "true"; } catch { return false; }
+  });
+  const introVideoRef = useRef<HTMLVideoElement>(null);
 
   // NFT holder perks
   const arenaPerks = trpc.nft.getArenaPerks.useQuery(undefined, {
@@ -221,6 +227,19 @@ export default function FightPage() {
 
   // Start story mode
   const startStoryMode = useCallback(() => {
+    if (!hasSeenIntroVideo) {
+      setPhase("intro-video");
+    } else if (!hasSeenLore) {
+      setLoreIndex(0);
+      setPhase("lore");
+    } else {
+      setPhase("story");
+    }
+  }, [hasSeenLore, hasSeenIntroVideo]);
+
+  const skipIntroVideo = useCallback(() => {
+    setHasSeenIntroVideo(true);
+    try { localStorage.setItem("collectors_arena_intro_seen", "true"); } catch {}
     if (!hasSeenLore) {
       setLoreIndex(0);
       setPhase("lore");
@@ -527,6 +546,33 @@ export default function FightPage() {
       <NarrativeTrigger variant="banner" className="mb-3" />
       <LoreOverlay gameMode="fight" />
       </>
+    );
+  }
+
+  /* ═══════════════════════════════════════════════════════
+     INTRO VIDEO — Collector's Arena cinematic (skippable)
+     ═══════════════════════════════════════════════════════ */
+  if (phase === "intro-video") {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-black relative">
+        {/* Skip button */}
+        <button
+          onClick={skipIntroVideo}
+          className="absolute top-4 right-4 z-20 font-mono text-xs text-white/50 hover:text-white/80 transition-colors px-3 py-1.5 rounded bg-black/60 border border-white/10 hover:border-white/30"
+        >
+          SKIP &gt;&gt;
+        </button>
+
+        <video
+          ref={introVideoRef}
+          src={COLLECTORS_ARENA_INTRO_VIDEO}
+          autoPlay
+          playsInline
+          className="w-full h-full max-h-screen object-contain"
+          onEnded={skipIntroVideo}
+          onClick={skipIntroVideo}
+        />
+      </div>
     );
   }
 

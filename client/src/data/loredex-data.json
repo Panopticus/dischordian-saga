@@ -369,7 +369,9 @@
         {
           "song": "The Collector",
           "album": "The Age of Privacy",
-          "music_video": {}
+          "music_video": {
+            "official": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/collectors-arena-intro_c5e8c641.mp4"
+          }
         }
       ],
       "image": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/the_collector_portrait-LmPdTXHDjBTaVNhZoS6Li3.webp",
@@ -2857,6 +2859,7 @@
         }
       ],
       "image": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/037_the_white_oracle_8e66b504.png",
+      "reveal_video": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/oracle-fight-cutscene_eaa8749d.mp4",
       "priority": "high",
       "streaming_links": {
         "spotify": "https://open.spotify.com/artist/5ZgBJTjuyrAvwyybBt1Eww",
@@ -5082,7 +5085,9 @@
       "connections": [],
       "conexus_stories": [],
       "song_appearances": [],
-      "music_video": {},
+      "music_video": {
+        "official": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/collectors-arena-intro_c5e8c641.mp4"
+      },
       "image": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/song_124-eArMETEidrEkSVqybMt65M.webp",
       "priority": "medium",
       "streaming_links": {

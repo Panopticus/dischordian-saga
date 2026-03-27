@@ -2,11 +2,11 @@ import { useLoredex } from "@/contexts/LoredexContext";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useGamification } from "@/contexts/GamificationContext";
 import { useRoute, Link } from "wouter";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import {
   ArrowLeft, Users, MapPin, Swords, Music, Play, ExternalLink,
-  Link2, Clock, Shield, Eye, Disc3, Zap, ChevronRight, Gamepad2
+  Link2, Clock, Shield, Eye, Disc3, Zap, ChevronRight, Gamepad2, Video
 } from "lucide-react";
 import StoryArc from "@/components/StoryArc";
 import RelationshipMiniGraph from "@/components/RelationshipMiniGraph";
@@ -201,6 +201,30 @@ export default function EntityPage() {
               <Clock size={13} /> HISTORY
             </h2>
             <p className="text-sm text-foreground/80 leading-relaxed whitespace-pre-line">{entry.history}</p>
+          </motion.section>
+        )}
+
+        {/* ═══ CHARACTER REVEAL VIDEO ═══ */}
+        {entry.reveal_video && (
+          <motion.section
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.27 }}
+            className="rounded-lg border border-primary/20 bg-primary/5 p-5"
+          >
+            <h2 className="font-display text-xs font-bold tracking-[0.2em] text-primary mb-3 flex items-center gap-2">
+              <Video size={13} /> CHARACTER REVEAL
+            </h2>
+            <div className="rounded-lg overflow-hidden border border-primary/30 box-glow-cyan">
+              <video
+                src={entry.reveal_video}
+                controls
+                playsInline
+                preload="metadata"
+                className="w-full max-h-[400px] bg-black"
+                poster={entry.image}
+              />
+            </div>
           </motion.section>
         )}
 
