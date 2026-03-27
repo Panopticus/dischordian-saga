@@ -2822,3 +2822,4 @@
 - [x] Update Elara's Armory room intro dialogue to new CADES multiverse combat text
 - [x] Update Elara's Cargo Hold room intro dialogue to new trade leverage/quiet power text
 - [x] Update Elara's Captain's Quarters room intro dialogue to new Dr. Lyra Vox sanctuary of design text
+- [x] Update Elara's Antiquarian's Library room intro dialogue to new beyond-time CoNexus threshold text

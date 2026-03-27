@@ -114,7 +114,7 @@
 
 ### Line 24: Room Intro: Antiquarian's Library
 
-> This... this shouldn't exist. We've stepped outside the Ark — outside time itself. This is the Antiquarian's Library, a pocket dimension hidden between realities. The Antiquarian — once known as the Programmer, Dr. Daniel Cross — retreated here after witnessing the Fall of Reality. He watches every timeline through that Orb on his desk. And those books on the shelves? They're not books. They're doorways into the CoNexus — interactive story games that let you live through the events of the Dischordian Saga. Touch the Orb. Choose a story. Every choice you make here echoes across every universe.
+> You have not left the Ark — you have stepped beyond it... beyond time itself. This is the Antiquarian's Library. A space that exists between realities, where memory is preserved and possibility is observed. When the Fall came, the Antiquarian did not flee — he withdrew. He came here... to witness. That Orb you see before you is not an instrument. It is a lens upon existence itself. Through it, every timeline unfolds — every path taken, every path abandoned, every version of reality still struggling to become. And these shelves... do not mistake them for archives. Each volume is a threshold. A living doorway into the CoNexus — realities you do not read, but enter. Stories you do not observe, but inhabit. Within them, the events of the Dischordian Saga are not fixed. They are waiting. Touch the Orb. Choose your path. But understand this — every decision you make here does not remain contained. It ripples. Across timelines. Across worlds. Across every version of reality still fighting to exist.
 
 ---
 
