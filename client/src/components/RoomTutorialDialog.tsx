@@ -94,7 +94,7 @@ const ROOM_DIALOGS: RoomDialog[] = [
   },
   {
     roomId: "bridge",
-    openingText: "The nerve center of the Inception Ark. Holographic star charts flicker above the central console. The captain's chair sits empty, facing a massive viewport showing the void of space.",
+    openingText: "You have arrived at the Bridge... the place where direction becomes decision. From here, the Ark does not merely travel — it chooses where reality is touched next. The central display holds what the first crew began to assemble — a living web of intelligence. Every entity, every faction, every hidden allegiance within the Dischordian Saga mapped not as data... but as consequence. They called it a Conspiracy Board. In truth, it is a map of influence — a record of how power moves through existence. Above it, the timeline projector unfolds the Ages. Not as a fixed past... but as a continuum of events still echoing forward, each moment layered upon the next, still shaping what is yet to come. But the Bridge is incomplete. The Navigation Console remains sealed — its systems bound behind a cipher not of human design. If you can decipher it... the Ark will awaken its true movement. Navigation is never neutral. To choose where to go... is to choose what you are willing to change.",
     nodes: [
       {
         id: "bridge-q1",
