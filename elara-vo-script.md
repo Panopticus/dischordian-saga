@@ -78,7 +78,7 @@
 
 ### Line 15: Room Intro: Medical Bay
 
-> The Medical Bay. This is where the Potentials were examined after awakening. The diagnostic equipment can analyze your cellular structure, track your vitality, and monitor your Dream resonance. Someone left in a hurry — the surgical tools are scattered and there's broken glass everywhere.
+> The Medical Bay... though there is little here now that resembles healing. This is where the Potentials were first measured — not for what they were... but for what they could become. The instruments that remain still function. They read beyond flesh — mapping your cellular structure, tracing your vitality, and attuning to the deeper signal... your Dream resonance. This was never just a place of recovery. It was calibration. But something interrupted the process. Look closely — the tools are not set aside... they were abandoned. Glass shattered mid-procedure. Instruments left where they fell. Not the stillness of completion — but the fracture of urgency. Whoever worked here did not leave by choice. And whatever they saw... they did not stay to understand.
 
 ### Line 16: Room Intro: Bridge
 

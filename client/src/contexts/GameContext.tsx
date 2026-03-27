@@ -239,7 +239,7 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
     deck: 1,
     deckName: "Habitation",
     description: "Surgical equipment and diagnostic scanners line the walls. A bio-bed sits in the center, its holographic display still active. Something happened here — broken glass crunches underfoot.",
-    elaraIntro: "The Medical Bay. This is where the Potentials were examined after awakening. The diagnostic equipment can analyze your cellular structure, track your vitality, and monitor your Dream resonance. Someone left in a hurry — the surgical tools are scattered and there's broken glass everywhere.",
+    elaraIntro: "The Medical Bay... though there is little here now that resembles healing. This is where the Potentials were first measured — not for what they were... but for what they could become. The instruments that remain still function. They read beyond flesh — mapping your cellular structure, tracing your vitality, and attuning to the deeper signal... your Dream resonance. This was never just a place of recovery. It was calibration. But something interrupted the process. Look closely — the tools are not set aside... they were abandoned. Glass shattered mid-procedure. Instruments left where they fell. Not the stillness of completion — but the fracture of urgency. Whoever worked here did not leave by choice. And whatever they saw... they did not stay to understand.",
     imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/room_medical_bay-gLunh6wxp8sNASjZDo5FpV.webp",
     features: ["Citizen Stats", "Upgrades", "Dream Balance"],
     featureRoutes: ["/character-sheet"],

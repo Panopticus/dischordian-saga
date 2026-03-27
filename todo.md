@@ -2825,3 +2825,4 @@
 - [x] Update Elara's Antiquarian's Library room intro dialogue to new beyond-time CoNexus threshold text
 - [x] Update Elara's Engineering Core room intro dialogue to new keystone/Archon/architect text
 - [x] Update Elara's Cryo Bay room intro dialogue to new Chamber of Awakening text
+- [x] Update Elara's Medical Bay room intro dialogue to new calibration/urgency text
