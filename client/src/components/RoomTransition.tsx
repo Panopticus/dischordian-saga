@@ -124,7 +124,11 @@ function VideoCinematic({
   useEffect(() => {
     if (videoRef.current) {
       videoRef.current.src = videos[currentVideoIdx];
-      videoRef.current.play().catch(() => {});
+      // Start muted to satisfy autoplay policy, then unmute
+      videoRef.current.muted = true;
+      videoRef.current.play().then(() => {
+        if (videoRef.current) videoRef.current.muted = false;
+      }).catch(() => {});
     }
   }, [currentVideoIdx, videos]);
 
@@ -144,10 +148,15 @@ function VideoCinematic({
         ref={videoRef}
         className="absolute inset-0 w-full h-full object-cover"
         autoPlay
-        muted={false}
+        muted
         playsInline
         onEnded={handleVideoEnded}
         src={videos[0]}
+        onPlay={(e) => {
+          // Unmute after autoplay succeeds
+          const vid = e.currentTarget;
+          setTimeout(() => { vid.muted = false; }, 100);
+        }}
       />
 
       {/* Hidden preload video */}

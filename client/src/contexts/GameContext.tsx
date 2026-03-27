@@ -1262,30 +1262,53 @@ export function GameProvider({ children }: { children: ReactNode }) {
 
   const resetGame = useCallback(() => {
     localStorage.removeItem(GAME_STORAGE_KEY);
-    // Clear all cinematic / progression flags so they replay on fresh start
+    // ── Clear ALL progression / cinematic / audio / game flags ──
+    // Cinematics & tutorials
     localStorage.removeItem("loredex_cinematic_seen");
     localStorage.removeItem("collectors_arena_lore_seen");
     localStorage.removeItem("collectors_arena_intro_seen");
     localStorage.removeItem("collectors_arena_story");
     localStorage.removeItem("loredex_completed_tutorials");
     localStorage.removeItem("loredex_cryo_orientation_seen");
+    localStorage.removeItem("loredex_auto_tutorial_dismissed");
+    localStorage.removeItem("loredex_visited_pages");
+    localStorage.removeItem("loredex_fight2d_tutorial_done");
+    localStorage.removeItem("loredex_fight_tutorial_done");
+    // Discovery & puzzles
     localStorage.removeItem("loredex_discovered");
     localStorage.removeItem("loredex_shown_discoveries");
     localStorage.removeItem("loredex_solved_puzzles");
+    localStorage.removeItem("loredex_puzzles_solved");
     localStorage.removeItem("research_entries_unlocked");
     localStorage.removeItem("research_puzzles_solved");
-    // Reset all music/audio state for complete fresh start
-    localStorage.removeItem("loredex_saga_bgm");
-    localStorage.removeItem("loredex_ambient_music");
-    localStorage.removeItem("loredex_sound_muted");
-    localStorage.removeItem("loredex_sound_volume");
+    // Easter eggs & lore fragments
+    localStorage.removeItem("loredex_discovered_secrets");
+    localStorage.removeItem("loredex_room_easter_eggs");
+    localStorage.removeItem("loredex_lore_fragments");
+    localStorage.removeItem("loredex_bonus_cards");
+    localStorage.removeItem("loredex_easter_eggs");
+    // Cards, battles, gamification
     localStorage.removeItem("loredex_battle_stats");
     localStorage.removeItem("loredex_cards_collected");
-    localStorage.removeItem("loredex_easter_eggs");
-    localStorage.removeItem("loredex_puzzles_solved");
-    localStorage.removeItem("loredex_tts_enabled");
     localStorage.removeItem("loredex-gamification");
+    localStorage.removeItem("loredex_multiverse_record");
+    // Player profile & settings
     localStorage.removeItem("loredex-player-profile");
+    // Audio & music
+    localStorage.removeItem("loredex_saga_bgm");
+    localStorage.removeItem("loredex_ambient_music");
+    localStorage.removeItem("loredex_sound_volume");
+    localStorage.removeItem("loredex_sound_muted");
+    localStorage.removeItem("loredex_tts_enabled");
+    localStorage.removeItem("loredex-radio-state");
+    // Session & watch progress
+    localStorage.removeItem("loredex-session-data");
+    localStorage.removeItem("loredex-last-visit");
+    localStorage.removeItem("loredex-recap-shown");
+    localStorage.removeItem("loredex_watch_progress");
+    // Favorites & playlists
+    localStorage.removeItem("loredex-favorites");
+    localStorage.removeItem("loredex-playlists");
     setState({ ...DEFAULT_GAME_STATE });
   }, []);
 

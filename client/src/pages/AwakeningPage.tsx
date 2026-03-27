@@ -69,6 +69,7 @@ function ElaraDialogBox({
   choices,
   onChoice,
   voAudioUrl,
+  preloadedAudio,
 }: {
   text: string;
   onContinue?: () => void;
@@ -76,6 +77,7 @@ function ElaraDialogBox({
   choices?: { label: string; value: string; description?: string }[];
   onChoice?: (value: string) => void;
   voAudioUrl?: string;
+  preloadedAudio?: HTMLAudioElement | null;
 }) {
   const { displayed, done, skip } = useTypewriter(text, 25);
   const voAudioRef = useRef<HTMLAudioElement | null>(null);
@@ -83,7 +85,10 @@ function ElaraDialogBox({
   // Play VO audio when provided (instead of browser TTS)
   useEffect(() => {
     if (!voAudioUrl) return;
-    const audio = new Audio(voAudioUrl);
+    // Use preloaded audio if available (avoids download delay on first VO)
+    const audio = preloadedAudio && preloadedAudio.src.includes(voAudioUrl.split('/').pop() || '__none__')
+      ? preloadedAudio
+      : new Audio(voAudioUrl);
     audio.volume = 0.9;
     voAudioRef.current = audio;
     // Try to play immediately; if blocked by autoplay policy, retry on next user interaction
@@ -101,7 +106,7 @@ function ElaraDialogBox({
     };
     tryPlay();
     return () => { audio.pause(); audio.src = ""; };
-  }, [voAudioUrl]);
+  }, [voAudioUrl, preloadedAudio]);
 
   return (
     <motion.div
@@ -324,6 +329,19 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
       } catch { /* audio blocked */ }
     }
   }, [audioInitialized, initAudio, setRoomAmbience]);
+
+  // Preload the first VO audio during BLACKOUT so it plays instantly at CRYO_OPEN
+  const preloadedVoRef = useRef<HTMLAudioElement | null>(null);
+  useEffect(() => {
+    if (awakeningStep === "BLACKOUT" && !showCinematic) {
+      const voUrl = STEP_VO_AUDIO.CRYO_OPEN;
+      if (voUrl) {
+        const preload = new Audio(voUrl);
+        preload.preload = "auto";
+        preloadedVoRef.current = preload;
+      }
+    }
+  }, [awakeningStep, showCinematic]);
 
   // Blackout → fade in (only runs AFTER cinematic is dismissed)
   useEffect(() => {
@@ -561,6 +579,7 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
               onContinue={advanceAwakening}
               showPortrait={false}
               voAudioUrl={STEP_VO_AUDIO.CRYO_OPEN}
+              preloadedAudio={preloadedVoRef.current}
             />
           )}
 

@@ -34,7 +34,7 @@ const SAGA_THEMES = [
 ];
 
 /* ─── VOLUME CONSTANTS ─── */
-const BGM_VOLUME = 0.06;        // Very low background level — must not drown out VO
+const BGM_VOLUME = 0.12;        // Low background level for saga themes
 const VO_VOLUME = 0.90;         // Significantly louder for Elara VO lines
 const FADE_DURATION_MS = 1500;  // Fade in/out duration
 const FADE_STEP_MS = 50;        // Fade step interval
@@ -76,9 +76,9 @@ export function SagaThemeBGMProvider({ children }: { children: ReactNode }) {
   const [bgmVolume, setBGMVolumeState] = useState(() => {
     try {
       const saved = localStorage.getItem(STORAGE_KEY);
-      if (saved) return JSON.parse(saved).volume ?? 15;
+      if (saved) return JSON.parse(saved).volume ?? 25;
     } catch { /* ignore */ }
-    return 15;
+    return 25;
   });
 
   const [isPlaying, setIsPlaying] = useState(false);

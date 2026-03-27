@@ -20,8 +20,7 @@ export default function OpeningCinematic({ onComplete }: OpeningCinematicProps) 
   const videoRef = useRef<HTMLVideoElement>(null);
   const [fadeOut, setFadeOut] = useState(false);
   const [showSkip, setShowSkip] = useState(false);
-  const [started, setStarted] = useState(false);
-  const [isMuted, setIsMuted] = useState(true);
+  const [videoState, setVideoState] = useState<"loading" | "playing-muted" | "playing-unmuted" | "needs-tap">("loading");
   const completedRef = useRef(false);
 
   // Show skip button after a short delay
@@ -31,22 +30,21 @@ export default function OpeningCinematic({ onComplete }: OpeningCinematicProps) 
   }, []);
 
   // Try muted autoplay on mount — most browsers allow this
+  // IMPORTANT: Do NOT unmute programmatically after autoplay.
+  // In private browsing / strict browsers, unmuting causes the video to pause.
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
 
-    // Start muted so autoplay succeeds
     video.muted = true;
     video.play()
       .then(() => {
-        setStarted(true);
-        // Now try to unmute — if the browser allows it, great
-        video.muted = false;
-        setIsMuted(false);
+        // Video is playing muted — show "TAP TO UNMUTE" prompt
+        setVideoState("playing-muted");
       })
       .catch(() => {
-        // Even muted autoplay failed — wait for user tap
-        setStarted(false);
+        // Even muted autoplay failed — need user tap to start
+        setVideoState("needs-tap");
       });
   }, []);
 
@@ -55,7 +53,6 @@ export default function OpeningCinematic({ onComplete }: OpeningCinematicProps) 
     if (completedRef.current) return;
     completedRef.current = true;
 
-    // Pause the video
     const video = videoRef.current;
     if (video) {
       video.pause();
@@ -85,36 +82,38 @@ export default function OpeningCinematic({ onComplete }: OpeningCinematicProps) 
     handleComplete();
   }, [handleComplete]);
 
-  // Start / unmute on user tap
+  // Handle user tap — unmute or start playback
   const handleTap = useCallback(async () => {
     const video = videoRef.current;
     if (!video) return;
 
-    if (!started) {
-      // First tap — start playback unmuted
+    if (videoState === "needs-tap") {
+      // First tap — try to start playback unmuted
       video.muted = false;
-      setIsMuted(false);
       try {
         await video.play();
-        setStarted(true);
+        setVideoState("playing-unmuted");
       } catch {
-        // If unmuted play fails, try muted
+        // Unmuted play failed — try muted
         video.muted = true;
-        setIsMuted(true);
         try {
           await video.play();
-          setStarted(true);
+          setVideoState("playing-muted");
         } catch {
           // Total failure — skip cinematic
           handleComplete();
         }
       }
-    } else if (isMuted) {
+    } else if (videoState === "playing-muted") {
       // Already playing muted — unmute on tap
       video.muted = false;
-      setIsMuted(false);
+      setVideoState("playing-unmuted");
     }
-  }, [started, isMuted, handleComplete]);
+  }, [videoState, handleComplete]);
+
+  const isPlaying = videoState === "playing-muted" || videoState === "playing-unmuted";
+  const showUnmutePrompt = videoState === "playing-muted";
+  const showStartPrompt = videoState === "needs-tap";
 
   return (
     <AnimatePresence>
@@ -169,16 +168,16 @@ export default function OpeningCinematic({ onComplete }: OpeningCinematicProps) 
         </motion.div>
 
         {/* Click to start / unmute prompt */}
-        {(!started || isMuted) && (
+        {(showStartPrompt || showUnmutePrompt) && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 0.5 }}
+            transition={{ delay: 0.3 }}
             className="absolute inset-0 flex items-center justify-center z-50 cursor-pointer"
           >
             <div className="text-center">
               <div className="w-16 h-16 rounded-full border-2 border-cyan-400/40 flex items-center justify-center mx-auto mb-4 animate-pulse">
-                {!started ? (
+                {showStartPrompt ? (
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" className="text-cyan-400/80 ml-1">
                     <path d="M8 5v14l11-7z" fill="currentColor" />
                   </svg>
@@ -189,7 +188,7 @@ export default function OpeningCinematic({ onComplete }: OpeningCinematicProps) 
                 )}
               </div>
               <p className="font-mono text-xs text-cyan-400/60 tracking-[0.3em]">
-                {!started ? "TAP TO BEGIN" : "TAP TO UNMUTE"}
+                {showStartPrompt ? "TAP TO BEGIN" : "TAP TO UNMUTE"}
               </p>
             </div>
           </motion.div>
@@ -197,7 +196,7 @@ export default function OpeningCinematic({ onComplete }: OpeningCinematicProps) 
 
         {/* Skip button */}
         <AnimatePresence>
-          {showSkip && started && (
+          {showSkip && isPlaying && (
             <motion.button
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}

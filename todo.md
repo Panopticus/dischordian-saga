@@ -2855,9 +2855,7 @@
 - [x] Fix Elara opening cinematic video not playing at game start (muted autoplay + tap to unmute)
 - [x] Ensure opening cinematic replays when game data is reset (clear all cinematic/progression localStorage flags in resetGame)
 - [x] Upload Element1_I video to CDN and wire as Wraith Calder Ch1 fight intro cutscene
-- [x] Fix theme music starting too loud - drowning out voice over (BGM_VOLUME 0.12→0.06, default slider 25→15)
-- [x] Reposition radio button away from Elara button (moved to bottom-left)
-- [x] Fix Occularum song - corrected general playlist and loredex-data.json (Loc03QeRpfM is "This Ain't a Song", not "The Ocularum")
-- [x] Fix tutorial overlapping with cinematic/room description - deferred via pendingTutorialRoomId, shows after Elara popup closes, added SKIP TUTORIAL button
-- [x] Add SKIP BRIEFING button to cryo orientation sequence (skipOrientation callback + button in header)
-- [x] Reset background music state on game reset for complete fresh start (clears saga BGM, ambient music, sound volume/mute, battle stats, cards, easter eggs, gamification, player profile, TTS)
+- [x] Fix Elara opening video not playing in private/fresh browser (stay muted after autoplay, TAP TO UNMUTE prompt)
+- [x] Fix game reset not clearing all puzzles and remaining state (now clears 30+ localStorage keys)
+- [x] Fix first VO line delay - preload audio during BLACKOUT phase, pass to ElaraDialogBox
+- [x] Fix cryo bay reveal video not playing on first visit (start muted, unmute after play starts)

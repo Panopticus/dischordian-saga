@@ -95,7 +95,7 @@ const GENERAL_PLAYLIST: MusicTrack[] = [
   { id: "general-3", title: "Walk in Power", album: "Silence in Heaven", youtubeId: "GaTtZiD0qfQ" },
   { id: "general-4", title: "The Queen of Truth", album: "Silence in Heaven", youtubeId: "WiV_Ax_4wBo" },
   { id: "general-5", title: "A Very Civil War", album: "Silence in Heaven", youtubeId: "-Lyq0lEzzm4" },
-  { id: "general-6", title: "This Ain't a Song", album: "The Age of Privacy", youtubeId: "Loc03QeRpfM" },
+  { id: "general-6", title: "The Ocularum", album: "Silence in Heaven", youtubeId: "Loc03QeRpfM" },
 ];
 
 /* ═══ CONTEXT ═══ */

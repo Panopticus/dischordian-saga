@@ -493,7 +493,6 @@ export default function ArkExplorerPage() {
     } catch { return new Set(); }
   });
   const [tutorialRoomId, setTutorialRoomId] = useState<string | null>(null);
-  const [pendingTutorialRoomId, setPendingTutorialRoomId] = useState<string | null>(null);
   const [completedTutorials, setCompletedTutorials] = useState<Set<string>>(() => {
     try {
       const saved = localStorage.getItem("loredex_completed_tutorials");
@@ -602,15 +601,6 @@ export default function ArkExplorerPage() {
       }
     }
   }, [orientationTyping, orientationStep, CRYO_ORIENTATION_LINES, isTutorialCompleted]);
-
-  const skipOrientation = useCallback((e: React.MouseEvent) => {
-    e.stopPropagation(); // prevent advanceOrientation from also firing
-    setShowCryoOrientation(false);
-    if (!isTutorialCompleted("tut-first-steps")) {
-      setTimeout(() => setShowOnboardingTutorial(true), 600);
-    }
-  }, [isTutorialCompleted]);
-
   const fullscreenRef = useCallback((node: HTMLDivElement | null) => {
     if (node) (window as any).__arkExplorerRef = node;
   }, []);
@@ -703,17 +693,6 @@ export default function ArkExplorerPage() {
     }
   }, [currentRoom?.id, currentRoomState?.elaraDialogSeen, currentRoomState?.visitCount, audioReady, state.moralityScore]);
 
-  // Fallback: if pending tutorial exists but no Elara intro is showing, show tutorial after delay
-  useEffect(() => {
-    if (pendingTutorialRoomId && !elaraText) {
-      const timer = setTimeout(() => {
-        setTutorialRoomId(pendingTutorialRoomId);
-        setPendingTutorialRoomId(null);
-      }, 800);
-      return () => clearTimeout(timer);
-    }
-  }, [pendingTutorialRoomId, elaraText]);
-
   const unlockedRoomIds = useMemo(() => {
     const set = new Set<string>();
     ROOM_DEFINITIONS.forEach(r => {
@@ -761,9 +740,9 @@ export default function ArkExplorerPage() {
     if (!transition) return;
     enterRoom(transition.toRoom);
     discoverEntry(`room-${transition.toRoom}`);
-    // Queue tutorial for after Elara room description is dismissed
+    // Check if this room has a tutorial dialog and hasn't been seen
     if (transition.isNewRoom && hasRoomDialog(transition.toRoom) && !completedTutorials.has(transition.toRoom)) {
-      setPendingTutorialRoomId(transition.toRoom);
+      setTutorialRoomId(transition.toRoom);
     }
     setTransition(null);
   }, [transition, enterRoom, discoverEntry, completedTutorials]);
@@ -1126,13 +1105,6 @@ export default function ArkExplorerPage() {
             setElaraText(null);
             setElaraVoUrl(undefined);
             if (audioReady) playSFX("dialog_close");
-            // Now show the pending room tutorial after Elara description is dismissed
-            if (pendingTutorialRoomId) {
-              setTimeout(() => {
-                setTutorialRoomId(pendingTutorialRoomId);
-                setPendingTutorialRoomId(null);
-              }, 500);
-            }
           }} />
         )}
       </AnimatePresence>
@@ -1267,15 +1239,7 @@ export default function ArkExplorerPage() {
               <div className="flex items-center gap-2 mb-3">
                 <div className="w-2 h-2 rounded-full bg-[var(--neon-cyan)] animate-pulse" />
                 <span className="font-display text-[10px] text-[var(--neon-cyan)]/70 tracking-[0.3em]">ELARA // ORIENTATION BRIEFING</span>
-                <span className="ml-auto flex items-center gap-2">
-                  <button
-                    onClick={skipOrientation}
-                    className="px-2 py-0.5 rounded text-[9px] font-mono text-muted-foreground/40 hover:text-muted-foreground/80 hover:bg-muted/30 border border-transparent hover:border-border/30 transition-all tracking-wider"
-                  >
-                    SKIP BRIEFING
-                  </button>
-                  <span className="font-mono text-[10px] text-muted-foreground/50">{orientationStep + 1}/{CRYO_ORIENTATION_LINES.length}</span>
-                </span>
+                <span className="ml-auto font-mono text-[10px] text-muted-foreground/50">{orientationStep + 1}/{CRYO_ORIENTATION_LINES.length}</span>
               </div>
               <p className="font-mono text-sm text-foreground leading-relaxed min-h-[3rem]">
                 {orientationText}
