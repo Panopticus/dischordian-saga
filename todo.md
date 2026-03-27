@@ -2820,3 +2820,4 @@
 - [x] Update Elara's Observation Deck room intro dialogue to new lore-accurate text about the complete discography and the two witnesses
 - [x] Update Elara's Engineering room intro dialogue to new lore-accurate Forge of Becoming text
 - [x] Update Elara's Armory room intro dialogue to new CADES multiverse combat text
+- [x] Update Elara's Cargo Hold room intro dialogue to new trade leverage/quiet power text

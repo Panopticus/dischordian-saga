@@ -106,7 +106,7 @@
 
 ### Line 22: Room Intro: Cargo Hold
 
-> The Cargo Hold. This is where the Ark's supplies are stored — and where the Trade Empire game is run. The trading post was set up by the first wave of Potentials before they left. You can trade resources, buy and sell goods, and compete in the interstellar trade simulation.
+> What rests here is not merely supply — it is leverage, flow, and quiet power. The first wave of Potentials did not leave this chamber empty. Before they stepped beyond the Ark, they established a living network of trade — a system not of convenience, but of consequence. Resources gathered from distant realities, fragments pulled from collapsing worlds, essences carried across timelines — all pass through this place. Here, you may barter, acquire, and relinquish. You may move goods through the currents of interstellar exchange. You may rise within the Trade Empire... or be outmaneuvered by those who understand its deeper patterns. Do not mistake this for a simple market. Trade is strategy. Trade is influence. Trade decides which forces are supplied... and which are left to fall. Even here — far from the battlefield — the war for reality continues.
 
 ### Line 23: Room Intro: Captain's Quarters
 

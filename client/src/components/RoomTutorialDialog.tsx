@@ -184,7 +184,7 @@ const ROOM_DIALOGS: RoomDialog[] = [
   },
   {
     roomId: "cargo-hold",
-    openingText: "Massive cargo containers fill the hold. Some are sealed with faction insignias, others have been pried open. A trade terminal blinks with market data.",
+    openingText: "What rests here is not merely supply — it is leverage, flow, and quiet power. The first wave of Potentials did not leave this chamber empty. Before they stepped beyond the Ark, they established a living network of trade — a system not of convenience, but of consequence. Resources gathered from distant realities, fragments pulled from collapsing worlds, essences carried across timelines — all pass through this place. Here, you may barter, acquire, and relinquish. You may move goods through the currents of interstellar exchange. You may rise within the Trade Empire... or be outmaneuvered by those who understand its deeper patterns. Do not mistake this for a simple market. Trade is strategy. Trade is influence. Trade decides which forces are supplied... and which are left to fall. Even here — far from the battlefield — the war for reality continues.",
     nodes: [
       {
         id: "cargo-q1",
