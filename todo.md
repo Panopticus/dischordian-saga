@@ -2836,3 +2836,5 @@
 - [x] Upload Station Dock VO recording and wire into GameContext elaraIntroVoUrl
 - [x] Upload 3 new saga theme tracks to CDN and add to background music loop
 - [x] Implement background music loop system: 4 saga themes at low volume, VO at high volume, auto-pause when main player is active
+- [x] Convert 10 remaining Age of Privacy WAV tracks (11-20) to MP3, upload to CDN, and wire into the music player
+- [x] Add visual BGM indicator to the main HUD showing saga theme playback status

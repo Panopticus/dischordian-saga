@@ -2,7 +2,7 @@
    SOUND CONTROLS — Volume/mute + TTS + Ambient Music
    Shows in the AppShell header area
    ═══════════════════════════════════════════════════════ */
-import { Volume2, VolumeX, Volume1, Mic, MicOff, Music, Music2 } from "lucide-react";
+import { Volume2, VolumeX, Volume1, Mic, MicOff, Music, Music2, Radio } from "lucide-react";
 import { useSound } from "@/contexts/SoundContext";
 import { useAmbientMusic } from "@/contexts/AmbientMusicContext";
 import { useSagaThemeBGM } from "@/contexts/SagaThemeBGMContext";
@@ -66,6 +66,34 @@ export default function SoundControls({ ttsEnabled, onToggleTTS, isSpeaking }: S
         )}
         {music.isPlaying && (
           <span className="absolute -top-0.5 -right-0.5 w-1.5 h-1.5 rounded-full bg-[var(--orb-orange)] animate-pulse" />
+        )}
+      </button>
+
+      {/* Saga Theme BGM Indicator */}
+      <button
+        onClick={() => bgm.toggleBGM()}
+        className="p-1.5 rounded-md transition-all group relative"
+        style={{
+          background: bgm.enabled ? "rgba(168,85,247,0.08)" : "rgba(255,255,255,0.02)",
+          border: `1px solid ${bgm.enabled ? "rgba(168,85,247,0.15)" : "rgba(255,255,255,0.05)"}`,
+        }}
+        title={bgm.enabled
+          ? `Saga BGM: ON${bgm.currentTheme ? ` — ${bgm.currentTheme.title}` : ""}`
+          : "Enable Saga Theme BGM"
+        }
+      >
+        <Radio
+          size={13}
+          className={`transition-colors ${
+            bgm.isPlaying
+              ? "text-purple-400 animate-pulse"
+              : bgm.enabled
+              ? "text-purple-400/60 group-hover:text-purple-400"
+              : "text-muted-foreground/35 group-hover:text-muted-foreground/60"
+          }`}
+        />
+        {bgm.isPlaying && (
+          <span className="absolute -top-0.5 -right-0.5 w-1.5 h-1.5 rounded-full bg-purple-400 animate-pulse" />
         )}
       </button>
 
