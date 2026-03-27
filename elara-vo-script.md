@@ -110,7 +110,7 @@
 
 ### Line 23: Room Intro: Captain's Quarters
 
-> The Captain's Quarters. This was Captain Voss's private sanctuary. The Trophy Room displays your achievements and collected artifacts. The wall of honor shows every milestone you've reached. This room was the last to be abandoned... and it holds the most secrets.
+> This was not a chamber of rest — it was a sanctuary of design. Dr. Lyra Vox walked these walls before any of you were chosen. A neuropsychologist, yes... but more than that — a weaver of thought itself. She did not merely build systems. She taught the Ark how to think. Beneath every bulkhead, within every conduit, through every silent mechanism that breathes around you — her neural nanobot network listens, adapts, remembers. It is the unseen current that binds the Ark into a living intelligence. What remains here is not decoration... it is record. The Trophy Room does not celebrate achievement — it archives impact. Artifacts gathered, victories claimed, realities altered... all preserved as echoes of your passage through the war. This was the final chamber to be abandoned. Not because it was forgotten — but because it could not be fully left behind. There are layers here that do not reveal themselves to the unobservant. Patterns within patterns. Systems within systems. And if you are still enough... you will feel it. She is not here. And yet — something of her never left.
 
 ### Line 24: Room Intro: Antiquarian's Library
 

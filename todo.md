@@ -2821,3 +2821,4 @@
 - [x] Update Elara's Engineering room intro dialogue to new lore-accurate Forge of Becoming text
 - [x] Update Elara's Armory room intro dialogue to new CADES multiverse combat text
 - [x] Update Elara's Cargo Hold room intro dialogue to new trade leverage/quiet power text
+- [x] Update Elara's Captain's Quarters room intro dialogue to new Dr. Lyra Vox sanctuary of design text
