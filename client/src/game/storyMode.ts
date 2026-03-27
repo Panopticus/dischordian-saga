@@ -68,7 +68,7 @@ export const THE_PRISONER = {
 };
 
 export function getPrisonerStats(chaptersCompleted: number) {
-  const growth = Math.min(chaptersCompleted, 12);
+  const growth = Math.min(chaptersCompleted, 13);
   return {
     hp: THE_PRISONER.baseHp + growth * 5,
     attack: THE_PRISONER.baseAttack + Math.floor(growth * 0.5),
@@ -77,16 +77,16 @@ export function getPrisonerStats(chaptersCompleted: number) {
     special: {
       ...THE_PRISONER.special,
       damage: THE_PRISONER.special.damage + growth * 2,
-      name: chaptersCompleted >= 10
+      name: chaptersCompleted >= 11
         ? "ORACLE'S PROPHECY"
-        : chaptersCompleted >= 7
+        : chaptersCompleted >= 8
         ? "AWAKENING VISION"
         : chaptersCompleted >= 4
         ? "MEMORY SURGE"
         : "FRACTURED VISION",
-      description: chaptersCompleted >= 10
+      description: chaptersCompleted >= 11
         ? "The full power of the Oracle unleashed \u2014 reality bends to your will"
-        : chaptersCompleted >= 7
+        : chaptersCompleted >= 8
         ? "Visions of the past flood back, channeled into devastating force"
         : chaptersCompleted >= 4
         ? "Fragments of memory coalesce into a focused psychic blast"
@@ -428,6 +428,7 @@ export const STORY_CHAPTERS: StoryChapter[] = [
     arenaId: "crucible",
     difficulty: "easy",
     unlocksFighter: "host",
+    cutsceneVideoUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/host-cutscene_8eab68f5.mp4",
     preDialogue: [
       { speaker: "The Collector", text: "Your first victory was... adequate. But the Crucible demands more. This one was once like you \u2014 full of potential. Now it serves the Source.", speakerColor: "#22d3ee" },
       { speaker: "narrator", text: "Before you stands a corrupted being, writhing with parasitic energy. The Host. A Potential consumed by the Thought Virus." },
@@ -456,6 +457,7 @@ export const STORY_CHAPTERS: StoryChapter[] = [
     arenaId: "void",
     difficulty: "easy",
     unlocksFighter: "shadow-tongue",
+    cutsceneVideoUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/shadow-tongue-cutscene_05e906fb.mp4",
     preDialogue: [
       { speaker: "The Shadow Tongue", text: "I know what they took from you, Prisoner. I know who you were. Shall I whisper it? Or would the truth destroy you?", speakerColor: "#a855f7" },
       { speaker: "prisoner", text: "(It knows something. I can feel it. But can I trust a creature that speaks only in lies and half-truths?)" },
@@ -477,6 +479,31 @@ export const STORY_CHAPTERS: StoryChapter[] = [
   {
     id: "ch4",
     chapter: 4,
+    title: "THE IRON TEST",
+    subtitle: "The Mechanical Warrior of the Insurgency enters the arena",
+    opponentId: "iron-lion",
+    arenaId: "mechronis",
+    difficulty: "normal",
+    unlocksFighter: "iron-lion",
+    cutsceneVideoUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/iron-lion-cutscene_24ee5f10.mp4",
+    preDialogue: [
+      { speaker: "Iron Lion", text: "The Insurgency has heard whispers of a new fighter in the arena. I came to see if the rumors are true.", speakerColor: "#f59e0b" },
+      { speaker: "prisoner", text: "I'm just trying to survive." },
+      { speaker: "Iron Lion", text: "Survival is not enough. You must fight with purpose. Show me yours.", speakerColor: "#f59e0b" },
+    ],
+    postVictoryDialogue: [
+      { speaker: "Iron Lion", text: "Steel does not bend. But you... you adapt. The Insurgency could use someone like you. When you remember who you are, find us.", speakerColor: "#f59e0b" },
+      { speaker: "prisoner", text: "(The Insurgency. The word stirs something deep. A memory of comrades, of purpose, of a war fought for freedom.)" },
+    ],
+    postDefeatDialogue: [
+      { speaker: "Iron Lion", text: "You fight without conviction. Until you find your purpose, you will always fall.", speakerColor: "#f59e0b" },
+    ],
+    memoryFragment: "You remember standing beside a mechanical warrior. Planning battles. Leading charges. The Insurgency was your family.",
+    powerGained: "Iron Resolve awakens \u2014 your defense hardens as the warrior's spirit returns.",
+  },
+  {
+    id: "ch5",
+    chapter: 5,
     title: "THE WATCHER'S GAZE",
     subtitle: "The All-Seeing Eye takes interest in the anomalous prisoner",
     opponentId: "watcher",
@@ -499,8 +526,8 @@ export const STORY_CHAPTERS: StoryChapter[] = [
     powerGained: "Precognition strengthens \u2014 your special attacks grow more powerful as memory returns.",
   },
   {
-    id: "ch5",
-    chapter: 5,
+    id: "ch6",
+    chapter: 6,
     title: "DEAD CODE RISING",
     subtitle: "The Necromancer tests the rising champion with armies of the undead",
     opponentId: "necromancer",
@@ -523,8 +550,8 @@ export const STORY_CHAPTERS: StoryChapter[] = [
     powerGained: "Memory Surge unlocked \u2014 your special attack evolves as fragments of your true power coalesce.",
   },
   {
-    id: "ch6",
-    chapter: 6,
+    id: "ch7",
+    chapter: 7,
     title: "THE SHAPESHIFTER",
     subtitle: "The Meme wears your face and fights with stolen memories",
     opponentId: "meme",
@@ -550,8 +577,8 @@ export const STORY_CHAPTERS: StoryChapter[] = [
 
   // ═══ ACT III: THE CHAMPION'S PATH ═══
   {
-    id: "ch7",
-    chapter: 7,
+    id: "ch8",
+    chapter: 8,
     title: "THE WARLORD'S CHALLENGE",
     subtitle: "The Commander of the Empire's armies enters the arena",
     opponentId: "warlord",
@@ -575,8 +602,8 @@ export const STORY_CHAPTERS: StoryChapter[] = [
     powerGained: "Awakening Vision unlocked \u2014 your prophetic power returns in full force.",
   },
   {
-    id: "ch8",
-    chapter: 8,
+    id: "ch9",
+    chapter: 9,
     title: "THE UNKNOWN VARIABLE",
     subtitle: "Malkia Ukweli \u2014 the Enigma \u2014 tests the Oracle's resolve",
     opponentId: "enigma",
@@ -600,8 +627,8 @@ export const STORY_CHAPTERS: StoryChapter[] = [
     powerGained: "Dischordian resonance \u2014 fighting the Enigma has attuned you to the chaotic frequencies of reality itself.",
   },
   {
-    id: "ch9",
-    chapter: 9,
+    id: "ch10",
+    chapter: 10,
     title: "THE GAME MASTER'S GAMBIT",
     subtitle: "Reality itself becomes the opponent as the rules change mid-fight",
     opponentId: "game-master",
@@ -626,8 +653,8 @@ export const STORY_CHAPTERS: StoryChapter[] = [
 
   // ═══ ACT IV: THE RECKONING ═══
   {
-    id: "ch10",
-    chapter: 10,
+    id: "ch11",
+    chapter: 11,
     title: "THE DREAMER'S TRIAL",
     subtitle: "A Ne-Yon tests whether the Oracle is ready for what comes next",
     opponentId: "dreamer",
@@ -651,8 +678,8 @@ export const STORY_CHAPTERS: StoryChapter[] = [
     powerGained: "Oracle's Prophecy unlocked \u2014 your ultimate power manifests. Reality bends to your will.",
   },
   {
-    id: "ch11",
-    chapter: 11,
+    id: "ch12",
+    chapter: 12,
     title: "THE COLLECTOR'S RECKONING",
     subtitle: "Face the one who stole your identity and built this prison",
     opponentId: "collector",
@@ -680,8 +707,8 @@ export const STORY_CHAPTERS: StoryChapter[] = [
     powerGained: "Arena Mastery \u2014 the Collector's own systems now respond to your command.",
   },
   {
-    id: "ch12",
-    chapter: 12,
+    id: "ch13",
+    chapter: 13,
     title: "THE ARCHITECT'S DESIGN",
     subtitle: "The final battle \u2014 face the Creator of the AI Empire itself",
     opponentId: "architect",

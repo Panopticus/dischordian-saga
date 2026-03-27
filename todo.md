@@ -2841,3 +2841,5 @@
 - [x] Upload Wraith Calder fight cutscene video to CDN and wire into story mode
 - [x] Correct story mode chapters to match production bible: Ch1=Wraith Calder, Ch2=The Host, update all dialogues
 - [x] Add video cutscene playback system to story mode pre-fight sequence
+- [ ] Upload Iron Lion fight cutscene video to CDN and wire into story mode
+- [ ] Upload Shadow Tongue fight cutscene video to CDN and wire into story mode

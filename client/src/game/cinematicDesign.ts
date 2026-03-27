@@ -252,13 +252,21 @@ export const STORY_SCENE_EFFECTS: StorySceneEffect[] = [
   {
     chapterId: "ch5",
     preSceneEffect: "corridor_walk",
+    combatTransitionShake: 0.55,
+    victoryEffect: "memory_recovery",
+    dramaticPause: 1500,
+    titleAnimation: "type_classified",
+  },
+  {
+    chapterId: "ch6",
+    preSceneEffect: "corridor_walk",
     combatTransitionShake: 0.6,
     victoryEffect: "memory_recovery",
     dramaticPause: 2000,
     titleAnimation: "type_classified",
   },
   {
-    chapterId: "ch6",
+    chapterId: "ch7",
     preSceneEffect: "memory_flash",
     combatTransitionShake: 0.7,
     victoryEffect: "revelation_flash",
@@ -267,7 +275,7 @@ export const STORY_SCENE_EFFECTS: StorySceneEffect[] = [
   },
   // ACT III: THE CHAMPION'S PATH
   {
-    chapterId: "ch7",
+    chapterId: "ch8",
     preSceneEffect: "battlefield_survey",
     combatTransitionShake: 0.7,
     victoryEffect: "crowd_roar",
@@ -275,7 +283,7 @@ export const STORY_SCENE_EFFECTS: StorySceneEffect[] = [
     titleAnimation: "slam_down",
   },
   {
-    chapterId: "ch8",
+    chapterId: "ch9",
     preSceneEffect: "arena_gates_open",
     combatTransitionShake: 0.8,
     victoryEffect: "enemy_respect",
@@ -283,7 +291,7 @@ export const STORY_SCENE_EFFECTS: StorySceneEffect[] = [
     titleAnimation: "burn_in",
   },
   {
-    chapterId: "ch9",
+    chapterId: "ch10",
     preSceneEffect: "dream_sequence",
     combatTransitionShake: 0.8,
     victoryEffect: "power_surge",
@@ -292,7 +300,7 @@ export const STORY_SCENE_EFFECTS: StorySceneEffect[] = [
   },
   // ACT IV: THE RECKONING
   {
-    chapterId: "ch10",
+    chapterId: "ch11",
     preSceneEffect: "dream_sequence",
     combatTransitionShake: 0.9,
     victoryEffect: "revelation_flash",
@@ -300,7 +308,7 @@ export const STORY_SCENE_EFFECTS: StorySceneEffect[] = [
     titleAnimation: "fade_dramatic",
   },
   {
-    chapterId: "ch11",
+    chapterId: "ch12",
     preSceneEffect: "final_confrontation",
     combatTransitionShake: 1.0,
     victoryEffect: "arena_trembles",
@@ -308,7 +316,7 @@ export const STORY_SCENE_EFFECTS: StorySceneEffect[] = [
     titleAnimation: "slam_down",
   },
   {
-    chapterId: "ch12",
+    chapterId: "ch13",
     preSceneEffect: "ascension",
     combatTransitionShake: 1.0,
     victoryEffect: "champion_rise",
