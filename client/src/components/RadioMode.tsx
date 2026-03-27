@@ -183,7 +183,7 @@ export default function RadioMode() {
             setIsOpen(true);
             setIsMinimized(false);
           }}
-          className="fixed bottom-20 right-4 z-40 w-10 h-10 rounded-full bg-card/90 border border-[var(--neon-cyan)]/30 flex items-center justify-center text-[var(--neon-cyan)] hover:bg-[var(--neon-cyan)]/10 hover:border-[var(--neon-cyan)]/50 transition-all backdrop-blur-sm shadow-lg"
+          className="fixed bottom-20 left-4 z-40 w-10 h-10 rounded-full bg-card/90 border border-[var(--neon-cyan)]/30 flex items-center justify-center text-[var(--neon-cyan)] hover:bg-[var(--neon-cyan)]/10 hover:border-[var(--neon-cyan)]/50 transition-all backdrop-blur-sm shadow-lg"
           title="Open Radio"
         >
           <Radio size={16} />
@@ -199,8 +199,8 @@ export default function RadioMode() {
             exit={{ opacity: 0, y: 100 }}
             className={`fixed z-40 backdrop-blur-md ${
               isMinimized
-                ? "bottom-20 right-4 w-64"
-                : "bottom-20 right-4 w-80 sm:w-96"
+                ? "bottom-20 left-4 w-64"
+                : "bottom-20 left-4 w-80 sm:w-96"
             }`}
           >
             <div
