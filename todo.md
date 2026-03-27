@@ -2834,3 +2834,5 @@
 -
 - [x] Update Elara's Station Dock room intro dialogue to new presence/domain/void fortress text
 - [x] Upload Station Dock VO recording and wire into GameContext elaraIntroVoUrl
+- [x] Upload 3 new saga theme tracks to CDN and add to background music loop
+- [x] Implement background music loop system: 4 saga themes at low volume, VO at high volume, auto-pause when main player is active

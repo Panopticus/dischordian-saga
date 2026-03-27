@@ -89,11 +89,11 @@ function ElaraPopup({ text, onClose, voUrl }: { text: string; onClose: () => voi
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [voPlaying, setVoPlaying] = useState(false);
 
-  // Play VO audio when popup opens
+  // Play VO audio when popup opens — significantly louder than BGM
   useEffect(() => {
     if (voUrl) {
       const audio = new Audio(voUrl);
-      audio.volume = 0.85;
+      audio.volume = 0.92;
       audioRef.current = audio;
       audio.play().then(() => setVoPlaying(true)).catch(() => {/* autoplay blocked */});
       audio.onended = () => setVoPlaying(false);

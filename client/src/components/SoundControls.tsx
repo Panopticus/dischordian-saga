@@ -5,6 +5,7 @@
 import { Volume2, VolumeX, Volume1, Mic, MicOff, Music, Music2 } from "lucide-react";
 import { useSound } from "@/contexts/SoundContext";
 import { useAmbientMusic } from "@/contexts/AmbientMusicContext";
+import { useSagaThemeBGM } from "@/contexts/SagaThemeBGMContext";
 import { useState, useRef, useEffect } from "react";
 
 interface SoundControlsProps {
@@ -16,6 +17,7 @@ interface SoundControlsProps {
 export default function SoundControls({ ttsEnabled, onToggleTTS, isSpeaking }: SoundControlsProps) {
   const { muted, volume, setMuted, setVolume, toggleMute, initAudio, audioReady } = useSound();
   const music = useAmbientMusic();
+  const bgm = useSagaThemeBGM();
   const [showSlider, setShowSlider] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -154,10 +156,44 @@ export default function SoundControls({ ttsEnabled, onToggleTTS, isSpeaking }: S
           />
           <p className="font-mono text-[10px] text-muted-foreground/50 mt-1 text-center">{music.volume}%</p>
 
+          {/* BGM Volume */}
+          <p className="font-mono text-[9px] text-purple-400/50 tracking-[0.2em] mb-2 mt-3">SAGA THEME BGM</p>
+          <div className="flex items-center gap-2 mb-1">
+            <button
+              onClick={() => bgm.toggleBGM()}
+              className="font-mono text-[9px] px-1.5 py-0.5 rounded"
+              style={{
+                background: bgm.enabled ? "rgba(168,85,247,0.15)" : "rgba(255,255,255,0.05)",
+                border: `1px solid ${bgm.enabled ? "rgba(168,85,247,0.3)" : "rgba(255,255,255,0.1)"}`,
+                color: bgm.enabled ? "rgb(168,85,247)" : "rgba(255,255,255,0.4)",
+              }}
+            >
+              {bgm.enabled ? "ON" : "OFF"}
+            </button>
+            <input
+              type="range"
+              min={0}
+              max={100}
+              value={bgm.bgmVolume}
+              onChange={(e) => bgm.setBGMVolume(parseInt(e.target.value))}
+              className="flex-1 h-1 rounded-full appearance-none cursor-pointer"
+              style={{
+                background: `linear-gradient(to right, rgb(168,85,247) ${bgm.bgmVolume}%, rgba(255,255,255,0.1) ${bgm.bgmVolume}%)`,
+              }}
+            />
+            <span className="font-mono text-[9px] text-muted-foreground/50 w-6 text-right">{bgm.bgmVolume}%</span>
+          </div>
+
           {/* Now Playing */}
+          {bgm.isPlaying && bgm.currentTheme && (
+            <div className="mt-2 pt-1.5 border-t border-purple-400/20">
+              <p className="font-mono text-[8px] text-purple-400/40 tracking-[0.2em]">SAGA BGM</p>
+              <p className="font-mono text-[10px] text-muted-foreground/80 truncate mt-0.5">{bgm.currentTheme.title}</p>
+            </div>
+          )}
           {music.currentTrack && music.isPlaying && (
-            <div className="mt-3 pt-2 border-t border-border/40">
-              <p className="font-mono text-[8px] text-[var(--orb-orange)]/40 tracking-[0.2em]">NOW PLAYING</p>
+            <div className="mt-2 pt-1.5 border-t border-border/40">
+              <p className="font-mono text-[8px] text-[var(--orb-orange)]/40 tracking-[0.2em]">ROOM MUSIC</p>
               <p className="font-mono text-[10px] text-muted-foreground/80 truncate mt-0.5">{music.currentTrack.title}</p>
               <p className="font-mono text-[8px] text-muted-foreground/50 truncate">{music.currentTrack.album}</p>
             </div>

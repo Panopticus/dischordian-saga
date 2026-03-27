@@ -14,6 +14,7 @@ import { MoralityThemeProvider } from "./contexts/MoralityThemeContext";
 import { SoundProvider, useSound } from "./contexts/SoundContext";
 import { AmbientMusicProvider } from "./contexts/AmbientMusicContext";
 import { GameAudioProvider } from "./contexts/GameAudioContext";
+import { SagaThemeBGMProvider } from "./contexts/SagaThemeBGMContext";
 import PlayerBar from "./components/PlayerBar";
 import CoNexusMediaPlayer from "./components/CoNexusMediaPlayer";
 import AppShell from "./components/AppShell";
@@ -325,10 +326,12 @@ function App() {
               <GameAudioInner>
               <LoredexProvider>
                 <PlayerProvider>
+                  <SagaThemeBGMProvider>
                   <TooltipProvider>
                     <Toaster />
                     <GameGate />
                   </TooltipProvider>
+                  </SagaThemeBGMProvider>
                 </PlayerProvider>
               </LoredexProvider>
               </GameAudioInner>
