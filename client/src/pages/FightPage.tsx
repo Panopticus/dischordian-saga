@@ -554,23 +554,53 @@ export default function FightPage() {
      ═══════════════════════════════════════════════════════ */
   if (phase === "intro-video") {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-black relative">
+      <div className="min-h-screen flex items-center justify-center bg-black relative"
+        onClick={() => {
+          // If video hasn't started playing yet, try to play it on user interaction
+          const vid = introVideoRef.current;
+          if (vid && vid.paused) {
+            vid.muted = false;
+            vid.play().catch(() => {});
+          }
+        }}
+      >
         {/* Skip button */}
         <button
-          onClick={skipIntroVideo}
+          onClick={(e) => { e.stopPropagation(); skipIntroVideo(); }}
           className="absolute top-4 right-4 z-20 font-mono text-xs text-white/50 hover:text-white/80 transition-colors px-3 py-1.5 rounded bg-black/60 border border-white/10 hover:border-white/30"
         >
           SKIP &gt;&gt;
         </button>
 
+        {/* Tap to play hint */}
+        <div className="absolute bottom-6 left-0 right-0 text-center z-10 pointer-events-none">
+          <span className="font-mono text-xs text-white/40 animate-pulse">TAP TO PLAY WITH SOUND</span>
+        </div>
+
         <video
           ref={introVideoRef}
           src={COLLECTORS_ARENA_INTRO_VIDEO}
           autoPlay
+          muted
           playsInline
+          preload="auto"
           className="w-full h-full max-h-screen object-contain"
           onEnded={skipIntroVideo}
-          onClick={skipIntroVideo}
+          onCanPlay={(e) => {
+            // Try to unmute once the video can play
+            const vid = e.currentTarget;
+            vid.muted = false;
+            vid.play().catch(() => {
+              // If unmuted play fails, keep it muted
+              vid.muted = true;
+              vid.play().catch(() => {});
+            });
+          }}
+          onError={() => {
+            // If video fails to load, skip to next phase
+            console.error("[Intro Video] Failed to load, skipping");
+            skipIntroVideo();
+          }}
         />
       </div>
     );

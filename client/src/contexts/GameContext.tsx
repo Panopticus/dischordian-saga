@@ -1262,6 +1262,18 @@ export function GameProvider({ children }: { children: ReactNode }) {
 
   const resetGame = useCallback(() => {
     localStorage.removeItem(GAME_STORAGE_KEY);
+    // Clear all cinematic / progression flags so they replay on fresh start
+    localStorage.removeItem("loredex_cinematic_seen");
+    localStorage.removeItem("collectors_arena_lore_seen");
+    localStorage.removeItem("collectors_arena_intro_seen");
+    localStorage.removeItem("collectors_arena_story");
+    localStorage.removeItem("loredex_completed_tutorials");
+    localStorage.removeItem("loredex_cryo_orientation_seen");
+    localStorage.removeItem("loredex_discovered");
+    localStorage.removeItem("loredex_shown_discoveries");
+    localStorage.removeItem("loredex_solved_puzzles");
+    localStorage.removeItem("research_entries_unlocked");
+    localStorage.removeItem("research_puzzles_solved");
     setState({ ...DEFAULT_GAME_STATE });
   }, []);
 

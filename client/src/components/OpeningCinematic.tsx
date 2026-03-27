@@ -21,12 +21,33 @@ export default function OpeningCinematic({ onComplete }: OpeningCinematicProps) 
   const [fadeOut, setFadeOut] = useState(false);
   const [showSkip, setShowSkip] = useState(false);
   const [started, setStarted] = useState(false);
+  const [isMuted, setIsMuted] = useState(true);
   const completedRef = useRef(false);
 
   // Show skip button after a short delay
   useEffect(() => {
     const t = setTimeout(() => setShowSkip(true), 2000);
     return () => clearTimeout(t);
+  }, []);
+
+  // Try muted autoplay on mount — most browsers allow this
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    // Start muted so autoplay succeeds
+    video.muted = true;
+    video.play()
+      .then(() => {
+        setStarted(true);
+        // Now try to unmute — if the browser allows it, great
+        video.muted = false;
+        setIsMuted(false);
+      })
+      .catch(() => {
+        // Even muted autoplay failed — wait for user tap
+        setStarted(false);
+      });
   }, []);
 
   /** Start the Saga Theme looping, then fade out the cinematic */
@@ -64,36 +85,36 @@ export default function OpeningCinematic({ onComplete }: OpeningCinematicProps) 
     handleComplete();
   }, [handleComplete]);
 
-  // Start playback on user interaction (needed for autoplay policy)
-  const handleStart = useCallback(async () => {
-    if (started) return;
-    setStarted(true);
-
+  // Start / unmute on user tap
+  const handleTap = useCallback(async () => {
     const video = videoRef.current;
-    if (video) {
+    if (!video) return;
+
+    if (!started) {
+      // First tap — start playback unmuted
+      video.muted = false;
+      setIsMuted(false);
       try {
         await video.play();
+        setStarted(true);
       } catch {
-        // Autoplay blocked — continue anyway
-      }
-    }
-  }, [started]);
-
-  // Try autoplay on mount
-  useEffect(() => {
-    const video = videoRef.current;
-    const tryAutoplay = async () => {
-      if (video) {
+        // If unmuted play fails, try muted
+        video.muted = true;
+        setIsMuted(true);
         try {
           await video.play();
           setStarted(true);
         } catch {
-          // Autoplay blocked — wait for user click
+          // Total failure — skip cinematic
+          handleComplete();
         }
       }
-    };
-    tryAutoplay();
-  }, []);
+    } else if (isMuted) {
+      // Already playing muted — unmute on tap
+      video.muted = false;
+      setIsMuted(false);
+    }
+  }, [started, isMuted, handleComplete]);
 
   return (
     <AnimatePresence>
@@ -102,7 +123,7 @@ export default function OpeningCinematic({ onComplete }: OpeningCinematicProps) 
         animate={{ opacity: fadeOut ? 0 : 1 }}
         transition={{ duration: fadeOut ? 1.5 : 0.5 }}
         className="fixed inset-0 z-[200] bg-black flex items-center justify-center"
-        onClick={!started ? handleStart : undefined}
+        onClick={handleTap}
       >
         {/* Video — fullscreen cover */}
         <video
@@ -110,9 +131,12 @@ export default function OpeningCinematic({ onComplete }: OpeningCinematicProps) 
           src={CINEMATIC_VIDEO}
           className="absolute inset-0 w-full h-full object-cover"
           playsInline
-          muted={false}
-          onEnded={handleVideoEnd}
           preload="auto"
+          onEnded={handleVideoEnd}
+          onError={() => {
+            console.error("[Opening Cinematic] Video failed to load, skipping");
+            handleComplete();
+          }}
         />
 
         {/* Vignette overlay */}
@@ -144,8 +168,8 @@ export default function OpeningCinematic({ onComplete }: OpeningCinematicProps) 
           </h1>
         </motion.div>
 
-        {/* Click to start prompt (before user interaction) */}
-        {!started && (
+        {/* Click to start / unmute prompt */}
+        {(!started || isMuted) && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -154,11 +178,19 @@ export default function OpeningCinematic({ onComplete }: OpeningCinematicProps) 
           >
             <div className="text-center">
               <div className="w-16 h-16 rounded-full border-2 border-cyan-400/40 flex items-center justify-center mx-auto mb-4 animate-pulse">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" className="text-cyan-400/80 ml-1">
-                  <path d="M8 5v14l11-7z" fill="currentColor" />
-                </svg>
+                {!started ? (
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" className="text-cyan-400/80 ml-1">
+                    <path d="M8 5v14l11-7z" fill="currentColor" />
+                  </svg>
+                ) : (
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" className="text-cyan-400/80">
+                    <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0014 8.5v7a4.49 4.49 0 002.5-3.5zM14 3.23v2.06a6.51 6.51 0 010 13.42v2.06A8.5 8.5 0 0014 3.23z" fill="currentColor" />
+                  </svg>
+                )}
               </div>
-              <p className="font-mono text-xs text-cyan-400/60 tracking-[0.3em]">TAP TO BEGIN</p>
+              <p className="font-mono text-xs text-cyan-400/60 tracking-[0.3em]">
+                {!started ? "TAP TO BEGIN" : "TAP TO UNMUTE"}
+              </p>
             </div>
           </motion.div>
         )}

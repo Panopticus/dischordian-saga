@@ -2852,3 +2852,5 @@
 - [x] Upload Collector's Arena intro video to CDN and add skippable intro-video phase to FightPage
 - [x] Link Collector's Arena video as official music video for The Collector song entry
 - [x] Link Collector's Arena video to The Collector character's song appearance
+- [x] Fix Elara opening cinematic video not playing at game start (muted autoplay + tap to unmute)
+- [x] Ensure opening cinematic replays when game data is reset (clear all cinematic/progression localStorage flags in resetGame)
