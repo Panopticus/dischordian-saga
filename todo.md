@@ -2854,3 +2854,4 @@
 - [x] Link Collector's Arena video to The Collector character's song appearance
 - [x] Fix Elara opening cinematic video not playing at game start (muted autoplay + tap to unmute)
 - [x] Ensure opening cinematic replays when game data is reset (clear all cinematic/progression localStorage flags in resetGame)
+- [x] Upload Element1_I video to CDN and wire as Wraith Calder Ch1 fight intro cutscene
