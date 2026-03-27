@@ -493,6 +493,7 @@ export default function ArkExplorerPage() {
     } catch { return new Set(); }
   });
   const [tutorialRoomId, setTutorialRoomId] = useState<string | null>(null);
+  const [pendingTutorialRoomId, setPendingTutorialRoomId] = useState<string | null>(null);
   const [completedTutorials, setCompletedTutorials] = useState<Set<string>>(() => {
     try {
       const saved = localStorage.getItem("loredex_completed_tutorials");
@@ -693,6 +694,17 @@ export default function ArkExplorerPage() {
     }
   }, [currentRoom?.id, currentRoomState?.elaraDialogSeen, currentRoomState?.visitCount, audioReady, state.moralityScore]);
 
+  // Fallback: if pending tutorial exists but no Elara intro is showing, show tutorial after delay
+  useEffect(() => {
+    if (pendingTutorialRoomId && !elaraText) {
+      const timer = setTimeout(() => {
+        setTutorialRoomId(pendingTutorialRoomId);
+        setPendingTutorialRoomId(null);
+      }, 800);
+      return () => clearTimeout(timer);
+    }
+  }, [pendingTutorialRoomId, elaraText]);
+
   const unlockedRoomIds = useMemo(() => {
     const set = new Set<string>();
     ROOM_DEFINITIONS.forEach(r => {
@@ -740,9 +752,9 @@ export default function ArkExplorerPage() {
     if (!transition) return;
     enterRoom(transition.toRoom);
     discoverEntry(`room-${transition.toRoom}`);
-    // Check if this room has a tutorial dialog and hasn't been seen
+    // Queue tutorial for after Elara room description is dismissed
     if (transition.isNewRoom && hasRoomDialog(transition.toRoom) && !completedTutorials.has(transition.toRoom)) {
-      setTutorialRoomId(transition.toRoom);
+      setPendingTutorialRoomId(transition.toRoom);
     }
     setTransition(null);
   }, [transition, enterRoom, discoverEntry, completedTutorials]);
@@ -1105,6 +1117,13 @@ export default function ArkExplorerPage() {
             setElaraText(null);
             setElaraVoUrl(undefined);
             if (audioReady) playSFX("dialog_close");
+            // Now show the pending room tutorial after Elara description is dismissed
+            if (pendingTutorialRoomId) {
+              setTimeout(() => {
+                setTutorialRoomId(pendingTutorialRoomId);
+                setPendingTutorialRoomId(null);
+              }, 500);
+            }
           }} />
         )}
       </AnimatePresence>

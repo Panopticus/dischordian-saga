@@ -390,9 +390,17 @@ export default function RoomTutorialDialog({
               <MessageSquare size={14} className="text-[var(--neon-cyan)]" />
               <span className="font-mono text-[10px] text-[var(--neon-cyan)] tracking-[0.2em]">ROOM TUTORIAL</span>
             </div>
-            <button onClick={onDismiss} className="p-1 text-muted-foreground/35 hover:text-muted-foreground/70 transition-colors">
-              <X size={14} />
-            </button>
+            <div className="flex items-center gap-2">
+              <button
+                onClick={onDismiss}
+                className="px-2.5 py-1 rounded-md text-[10px] font-mono text-muted-foreground/50 hover:text-muted-foreground hover:bg-muted/40 border border-transparent hover:border-border/40 transition-all tracking-wider"
+              >
+                SKIP TUTORIAL
+              </button>
+              <button onClick={onDismiss} className="p-1 text-muted-foreground/35 hover:text-muted-foreground/70 transition-colors">
+                <X size={14} />
+              </button>
+            </div>
           </div>
 
           {/* Content */}

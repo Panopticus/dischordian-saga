@@ -2858,4 +2858,4 @@
 - [x] Fix theme music starting too loud - drowning out voice over (BGM_VOLUME 0.12→0.06, default slider 25→15)
 - [x] Reposition radio button away from Elara button (moved to bottom-left)
 - [x] Fix Occularum song - corrected general playlist and loredex-data.json (Loc03QeRpfM is "This Ain't a Song", not "The Ocularum")
-- [ ] Fix tutorial overlapping with cinematic/room description - show tutorial after cinematic and room description, add skip option
+- [x] Fix tutorial overlapping with cinematic/room description - deferred via pendingTutorialRoomId, shows after Elara popup closes, added SKIP TUTORIAL button
