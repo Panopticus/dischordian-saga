@@ -25,6 +25,8 @@ export interface StoryChapter {
   postDefeatDialogue: StoryDialogue[];
   memoryFragment?: string;
   powerGained?: string;
+  /** URL to a pre-fight cutscene video (plays before preDialogue) */
+  cutsceneVideoUrl?: string;
 }
 
 export interface StoryProgress {
@@ -392,52 +394,57 @@ export const STORY_CHAPTERS: StoryChapter[] = [
     chapter: 1,
     title: "THE AWAKENING",
     subtitle: "A prisoner with no name faces the arena for the first time",
-    opponentId: "host",
-    arenaId: "void",
+    opponentId: "wraith-calder",
+    arenaId: "thaloria",
     difficulty: "easy",
-    unlocksFighter: "host",
+    unlocksFighter: "wraith-calder",
+    cutsceneVideoUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/wraith-calder-cutscene_dac2ae25.mp4",
     preDialogue: [
       { speaker: "narrator", text: "You awaken in darkness. Cold metal beneath you. The hum of machinery. A voice echoes through the cell..." },
-      { speaker: "The Collector", text: "Subject Zero. You have been selected for the Arena. Your combat data will be harvested. Your cooperation is irrelevant.", speakerColor: "#22d3ee" },
-      { speaker: "prisoner", text: "(Who am I? Why can't I remember anything? There's something... a flash of light... a vision of...)" },
-      { speaker: "narrator", text: "The cell door opens. Before you stands a corrupted being, writhing with parasitic energy. The Host. Your first opponent." },
-      { speaker: "The Host", text: "Fresh meat for the arena. The virus will enjoy you.", speakerColor: "#ef4444" },
+      { speaker: "The Collector", text: "Subject 0. You are awake. Good. The arena awaits. Fight, and perhaps you will remember.", speakerColor: "#22d3ee" },
+      { speaker: "prisoner", text: "(Where am I? Who am I?)" },
+      { speaker: "The Collector", text: "Irrelevant. What matters is what you become.", speakerColor: "#22d3ee" },
+      { speaker: "narrator", text: "The cell door grinds open. In the doorway stands a translucent ghostly figure \u2014 phasing in and out of visibility, trailing lavender energy. Wraith Calder. The Ghost of the Potentials." },
     ],
     postVictoryDialogue: [
-      { speaker: "narrator", text: "The Host falls. For a moment, you feel something \u2014 a surge of power, a flash of memory. A face you don't recognize. A name you can't quite hear..." },
-      { speaker: "prisoner", text: "(What was that? That vision... I saw someone. Someone important. Who am I?)" },
+      { speaker: "narrator", text: "Wraith Calder falls to one knee, spectral form flickering. For a moment, recognition flashes across its haunted eyes." },
+      { speaker: "Wraith Calder", text: "You fight like someone who has forgotten more than most ever learn. The Oracle... no. It can't be.", speakerColor: "#c4b5fd" },
+      { speaker: "narrator", text: "A flash of memory \u2014 a golden light, a voice saying 'You will see the end.'" },
       { speaker: "The Collector", text: "Interesting. Subject Zero shows unexpected combat aptitude. Increase monitoring.", speakerColor: "#22d3ee" },
     ],
     postDefeatDialogue: [
-      { speaker: "narrator", text: "You fall. The Host's corruption seeps into your wounds. But even as darkness takes you, a voice whispers from deep within..." },
+      { speaker: "narrator", text: "You fall. Wraith Calder's spectral form looms over you, but there is no malice in its eyes \u2014 only pity." },
       { speaker: "prisoner", text: "(Not yet. I will not fall here. There is something I must remember...)" },
     ],
-    memoryFragment: "A flash of golden light. A crowd of people looking up at you with hope in their eyes. You were someone important once.",
+    memoryFragment: "A flash of golden light. A crowd of people looking up at you with hope in their eyes. A voice saying 'You will see the end.' You were someone important once.",
     powerGained: "Instinct sharpens \u2014 your reflexes improve as dormant neural pathways begin to reactivate.",
   },
   {
     id: "ch2",
     chapter: 2,
-    title: "THE JAILER'S TEST",
-    subtitle: "The warden of the Panopticon's prisons evaluates the new specimen",
-    opponentId: "jailer",
-    arenaId: "panopticon",
+    title: "THE GAUNTLET",
+    subtitle: "A corrupted Potential awaits in the Crucible",
+    opponentId: "host",
+    arenaId: "crucible",
     difficulty: "easy",
-    unlocksFighter: "jailer",
+    unlocksFighter: "host",
     preDialogue: [
-      { speaker: "The Jailer", text: "So. The new prisoner thinks it can fight. I've broken thousands like you. You will stay. You will forget. You will serve.", speakerColor: "#94a3b8" },
-      { speaker: "prisoner", text: "(Something about this one... I feel like I know him. Like looking into a dark mirror...)" },
-      { speaker: "narrator", text: "The Jailer was once someone else. Someone whose identity was stripped away, just like yours. But neither of you remembers." },
+      { speaker: "The Collector", text: "Your first victory was... adequate. But the Crucible demands more. This one was once like you \u2014 full of potential. Now it serves the Source.", speakerColor: "#22d3ee" },
+      { speaker: "narrator", text: "Before you stands a corrupted being, writhing with parasitic energy. The Host. A Potential consumed by the Thought Virus." },
+      { speaker: "The Host", text: "Join us... the virus makes everything... clear...", speakerColor: "#ef4444" },
+      { speaker: "prisoner", text: "(It was once like me? Full of potential? What happened to it... and could it happen to me?)" },
     ],
     postVictoryDialogue: [
-      { speaker: "narrator", text: "The Jailer staggers back, eyes wide. For a split second, recognition flickers across his face." },
-      { speaker: "The Jailer", text: "You... how did you... No. It's impossible. You're just a prisoner. Just like I was.", speakerColor: "#94a3b8" },
-      { speaker: "prisoner", text: "(Like he was? What does that mean? And why do I feel like I should know?)" },
+      { speaker: "narrator", text: "The Host collapses. For a moment, clarity returns to its eyes." },
+      { speaker: "The Host", text: "Run... while you still... remember yourself...", speakerColor: "#ef4444" },
+      { speaker: "narrator", text: "Another memory flash \u2014 a council chamber, robed figures, the word 'Oracle' spoken with reverence." },
+      { speaker: "prisoner", text: "(Oracle? That word... it means something. Something I can't quite reach.)" },
     ],
     postDefeatDialogue: [
-      { speaker: "The Jailer", text: "Back to your cell. You are nothing. Remember that.", speakerColor: "#94a3b8" },
+      { speaker: "The Host", text: "The virus welcomes all. Even you. Especially you.", speakerColor: "#ef4444" },
+      { speaker: "prisoner", text: "(Not yet. I will not fall here. There is something I must remember...)" },
     ],
-    memoryFragment: "Chains. You remember chains \u2014 not on your wrists, but on your mind. Someone locked away your memories. Deliberately.",
+    memoryFragment: "A council chamber. Robed figures. The word 'Oracle' spoken with reverence. Someone locked away your memories. Deliberately.",
     powerGained: "Defense hardens \u2014 you learn to read your opponent's intent before they strike.",
   },
   {

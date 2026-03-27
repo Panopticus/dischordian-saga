@@ -2838,3 +2838,6 @@
 - [x] Implement background music loop system: 4 saga themes at low volume, VO at high volume, auto-pause when main player is active
 - [x] Convert 10 remaining Age of Privacy WAV tracks (11-20) to MP3, upload to CDN, and wire into the music player
 - [x] Add visual BGM indicator to the main HUD showing saga theme playback status
+- [x] Upload Wraith Calder fight cutscene video to CDN and wire into story mode
+- [x] Correct story mode chapters to match production bible: Ch1=Wraith Calder, Ch2=The Host, update all dialogues
+- [x] Add video cutscene playback system to story mode pre-fight sequence

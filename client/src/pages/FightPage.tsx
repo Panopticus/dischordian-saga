@@ -42,7 +42,7 @@ import {
 } from "@/game/storyMode";
 import { getStorySceneEffect, getArenaIntro, GAME_OPENING_CINEMATIC } from "@/game/cinematicDesign";
 
-type Phase = "title" | "lore" | "story" | "story-dialogue" | "select" | "difficulty" | "arena" | "fighting" | "results" | "story-results";
+type Phase = "title" | "lore" | "story" | "story-cutscene" | "story-dialogue" | "select" | "difficulty" | "arena" | "fighting" | "results" | "story-results";
 
 /* ═══ INVASION EVENTS ═══ */
 const INVASION_EVENTS = [
@@ -234,7 +234,12 @@ export default function FightPage() {
     setCurrentStoryChapter(chapter);
     setStoryDialogueType("pre");
     setStoryDialogueIndex(0);
-    setPhase("story-dialogue");
+    // If chapter has a cutscene video, show it first before dialogue
+    if (chapter.cutsceneVideoUrl) {
+      setPhase("story-cutscene");
+    } else {
+      setPhase("story-dialogue");
+    }
   }, []);
 
   // Advance story dialogue
@@ -710,6 +715,30 @@ export default function FightPage() {
             </motion.div>
           )}
         </div>
+      </div>
+    );
+  }
+
+  /* ═══════════════════════════════════════════════════════
+     STORY CUTSCENE — Pre-fight cinematic video
+     ═══════════════════════════════════════════════════════ */
+  if (phase === "story-cutscene" && currentStoryChapter?.cutsceneVideoUrl) {
+    return (
+      <div className="fixed inset-0 z-50 bg-black flex items-center justify-center">
+        <video
+          src={currentStoryChapter.cutsceneVideoUrl}
+          autoPlay
+          playsInline
+          className="w-full h-full object-contain"
+          onEnded={() => setPhase("story-dialogue")}
+          onClick={() => setPhase("story-dialogue")}
+        />
+        <button
+          onClick={() => setPhase("story-dialogue")}
+          className="absolute bottom-8 right-8 font-mono text-xs text-white/50 hover:text-white/80 border border-white/20 hover:border-white/40 px-4 py-2 rounded transition-all backdrop-blur-sm bg-black/30"
+        >
+          SKIP CUTSCENE →
+        </button>
       </div>
     );
   }
