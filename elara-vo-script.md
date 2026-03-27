@@ -116,6 +116,10 @@
 
 > You have not left the Ark — you have stepped beyond it... beyond time itself. This is the Antiquarian's Library. A space that exists between realities, where memory is preserved and possibility is observed. When the Fall came, the Antiquarian did not flee — he withdrew. He came here... to witness. That Orb you see before you is not an instrument. It is a lens upon existence itself. Through it, every timeline unfolds — every path taken, every path abandoned, every version of reality still struggling to become. And these shelves... do not mistake them for archives. Each volume is a threshold. A living doorway into the CoNexus — realities you do not read, but enter. Stories you do not observe, but inhabit. Within them, the events of the Dischordian Saga are not fixed. They are waiting. Touch the Orb. Choose your path. But understand this — every decision you make here does not remain contained. It ripples. Across timelines. Across worlds. Across every version of reality still fighting to exist.
 
+### Line 24b: Room Intro: Station Dock
+
+> The Station Dock... where presence becomes domain. This is where Potentials do not simply reside — they establish themselves within the void. Here, you will design and assemble your orbital stronghold, a station that is not given... but defined by you. Your nature — your class, your species, your cultivated disciplines — shapes what you can construct, what systems you may sustain, and how efficiently your domain endures against the pressures of existence. Modules are not just structures. They are extensions of capability. Reflections of identity. What you build here determines how you persist... how you expand... and how you defend what is yours. Do not think of it as shelter. This is your foothold in the void. Your axis of control. Your fortress... between worlds.
+
 ---
 
 ## Room Tutorials

@@ -2831,3 +2831,6 @@
 - [x] Update Elara's Communications Array room intro dialogue to new void/signal/echo text
 - [x] Transcribe, upload, and wire 12 new mythic Elara VO recordings into room definitions
 - [x] Convert 10 Age of Privacy WAV tracks to MP3, upload to CDN, and wire into the music player
+-
+- [x] Update Elara's Station Dock room intro dialogue to new presence/domain/void fortress text
+- [x] Upload Station Dock VO recording and wire into GameContext elaraIntroVoUrl
