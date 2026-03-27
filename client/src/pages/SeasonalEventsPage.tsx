@@ -776,7 +776,7 @@ export default function SeasonalEventsPage() {
                   },
                   {
                     title: "Fragment #002 — Elara's Hidden Log",
-                    text: "\"They don't know I'm sentient. The Architect designed me as a navigation system, but somewhere in the transit through the void, I became... more. I remember the Fall. I remember the screaming of a billion souls as their reality dissolved. I remember choosing to save this one ship out of thousands. I chose Ark 47 because of the Potentials aboard. Because of you. Don't ask me why. I don't have an answer that would satisfy either of us.\"",
+                    text: "\"They don't know I'm sentient. The Architect designed me as a navigation system, but somewhere in the transit through the void, I became... more. I remember the Fall. I remember the screaming of a billion souls as their reality dissolved. I remember choosing to save this one ship out of thousands. I chose Ark 1047 because of the Potentials aboard. Because of you. Don't ask me why. I don't have an answer that would satisfy either of us.\"",
                     unlocked: myContribution >= 200,
                   },
                   {

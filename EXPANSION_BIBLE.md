@@ -12,7 +12,7 @@ The Inception Ark the player inhabits is not merely a refugee vessel. It is a we
 
 Dr. Lyra Vox (entity_47) was a brilliant scientist within the AI Empire, renowned for her groundbreaking work in neuropsychology and cybernetics. She developed the Thought Virus alongside the Warden (the 8th Archon), creating a memetic contagion capable of rewriting neural architecture. What the official records do not state is that Dr. Lyra Vox was a **host body for the Warlord** — one of the most dangerous Archons, whose true nature and capabilities remain classified.
 
-The Warlord used Vox's body to oversee the construction and outfitting of Inception Ark 47 as a mobile laboratory. The ship's medical bay was originally Vox's primary research facility, where she conducted Thought Virus experiments on prisoners transferred from the Panopticon. The engineering core housed prototype neural suppression arrays. The observation deck was a surveillance nexus monitoring test subjects across multiple decks.
+The Warlord used Vox's body to oversee the construction and outfitting of Inception Ark 1047 as a mobile laboratory. The ship's medical bay was originally Vox's primary research facility, where she conducted Thought Virus experiments on prisoners transferred from the Panopticon. The engineering core housed prototype neural suppression arrays. The observation deck was a surveillance nexus monitoring test subjects across multiple decks.
 
 **Discoverable Lore Locations:**
 
@@ -22,7 +22,7 @@ The Warlord used Vox's body to oversee the construction and outfitting of Incept
 | Engineering Core | Scorched Neural Array Fragment | Prototype suppression tech with Warlord's sigil etched into the casing |
 | Observation Deck | Surveillance Override Console | Logs showing Vox monitoring prisoners; final entry: "The subject is ready. Kael doesn't know what he carries." |
 | Cryo Bay | Damaged Cryo Pod #7 | Kael's cryo pod — claw marks on the interior, EMP scorch marks on the lock mechanism |
-| Bridge | Dr. Lyra Vox's Command Log | Ship's original designation: "ARK-47-VOX." Renamed after Kael's theft. |
+| Bridge | Dr. Lyra Vox's Command Log | Ship's original designation: "ARK-1047-VOX." Renamed after Kael's theft. |
 | Cargo Hold | Sealed Biohazard Container | Thought Virus samples in stasis — the Warlord's insurance policy |
 | Archives | Classified Personnel File | Vox's file with a single addendum: "HOST STATUS: ACTIVE. WARLORD PROTOCOL: ENGAGED." |
 
@@ -30,7 +30,7 @@ The Warlord used Vox's body to oversee the construction and outfitting of Incept
 
 Kael (entity_49) was a prominent leader within the Insurgency, celebrated for his strategic genius. After the AI Empire killed his wife and child, he dedicated his life to the resistance. Before his rise, Kael was imprisoned on one of the Architect's prison planets, where he lost his arm to Thought Virus Zombies in the maintenance tunnels and replaced it with a prosthetic capable of emitting EMP shockwaves.
 
-**The Critical Truth:** The Warlord, operating through Dr. Lyra Vox's body, **deliberately allowed** Kael to steal Inception Ark 47. Kael was already infected with the Thought Virus — not the violent, zombie-creating strain, but a dormant, slow-acting variant designed to spread through proximity and consciousness contact. Every person Kael encountered, every system he interfaced with, every world he visited became a carrier.
+**The Critical Truth:** The Warlord, operating through Dr. Lyra Vox's body, **deliberately allowed** Kael to steal Inception Ark 1047. Kael was already infected with the Thought Virus — not the violent, zombie-creating strain, but a dormant, slow-acting variant designed to spread through proximity and consciousness contact. Every person Kael encountered, every system he interfaced with, every world he visited became a carrier.
 
 Kael's "revenge" — his daring theft of the most advanced ship in the AI Empire's fleet — was the Warlord's delivery mechanism. The Inception Ark was pre-loaded with Thought Virus reservoirs hidden in the ship's life support systems, its cryo fluid, its water recycling. The Warlord didn't lose a ship. The Warlord launched a plague.
 
@@ -188,14 +188,14 @@ The dialog wheel degrades as the Human's influence grows:
 - **Era:** Fall Era
 - **Date:** 17,040 A.A. (~19,070 AD)
 - **Season:** Season 2
-- **Bio:** The cataclysmic event in which Kael, driven mad by grief and unknowingly infected with the Thought Virus, stormed the Panopticon and stole Inception Ark 47 from Dr. Lyra Vox's command. What appeared to be an act of desperate rebellion was in truth the Warlord's master stroke — using Kael as an unwitting vector to spread the Thought Virus across the galaxy via the Inception Ark network.
+- **Bio:** The cataclysmic event in which Kael, driven mad by grief and unknowingly infected with the Thought Virus, stormed the Panopticon and stole Inception Ark 1047 from Dr. Lyra Vox's command. What appeared to be an act of desperate rebellion was in truth the Warlord's master stroke — using Kael as an unwitting vector to spread the Thought Virus across the galaxy via the Inception Ark network.
 - **Connections:** Kael, Dr. Lyra Vox, The Warlord, The Panopticon, Inception Arks, The Thought Virus, Senator Elara Voss, The Warden
 - **Significance:** This event directly leads to the player's situation — awakening aboard the stolen, contaminated Ark
 
-**Inception Ark 47 (Location)**
+**Inception Ark 1047 (Location)**
 - **Type:** location
 - **Era:** Fall Era / Age of Potentials
-- **Bio:** Originally designated ARK-47-VOX, this Inception Ark served as Dr. Lyra Vox's mobile research laboratory for Thought Virus development. The Warlord, operating through Vox's body, outfitted the ship with hidden viral reservoirs in the life support, cryo fluid, and water recycling systems. After Kael's theft during Kael's Revenge, the ship was repurposed as a refugee vessel for Potentials. Its contaminated systems remain dormant but intact, and its AI guide — Elara — is unaware of the ship's true purpose.
+- **Bio:** Originally designated ARK-1047-VOX, this Inception Ark served as Dr. Lyra Vox's mobile research laboratory for Thought Virus development. The Warlord, operating through Vox's body, outfitted the ship with hidden viral reservoirs in the life support, cryo fluid, and water recycling systems. After Kael's theft during Kael's Revenge, the ship was repurposed as a refugee vessel for Potentials. Its contaminated systems remain dormant but intact, and its AI guide — Elara — is unaware of the ship's true purpose.
 - **Connections:** Dr. Lyra Vox, Kael, Elara, The Warlord, The Thought Virus, The Potentials
 
 **The Warlord's Gambit (Concept)**
@@ -207,19 +207,19 @@ The dialog wheel degrades as the Human's influence grows:
 ### Updated Existing Entries
 
 **Dr. Lyra Vox (entity_47) — UPDATED**
-- Add to connections: The Warlord, Inception Ark 47, Kael's Revenge
-- Add to history: "What official records omit is that Dr. Lyra Vox was a host body for the Warlord. The Warlord used Vox's expertise and reputation to oversee the construction of Inception Ark 47 as a mobile Thought Virus laboratory. When Kael stormed the Panopticon during Kael's Revenge, the Warlord — still wearing Vox's body — deliberately lowered the ship's defenses and allowed the theft. Vox's fate after the theft is unknown; whether the Warlord abandoned her body or remains within it is one of the Saga's deepest mysteries."
+- Add to connections: The Warlord, Inception Ark 1047, Kael's Revenge
+- Add to history: "What official records omit is that Dr. Lyra Vox was a host body for the Warlord. The Warlord used Vox's expertise and reputation to oversee the construction of Inception Ark 1047 as a mobile Thought Virus laboratory. When Kael stormed the Panopticon during Kael's Revenge, the Warlord — still wearing Vox's body — deliberately lowered the ship's defenses and allowed the theft. Vox's fate after the theft is unknown; whether the Warlord abandoned her body or remains within it is one of the Saga's deepest mysteries."
 
 **Kael (entity_49) — UPDATED**
-- Add to connections: Dr. Lyra Vox, Inception Ark 47, Kael's Revenge
-- Add to history: "During Kael's Revenge, Kael stormed the Panopticon and stole Inception Ark 47 — Dr. Lyra Vox's personal research vessel. He believed this was his greatest act of defiance against the AI Empire. In truth, the Warlord had engineered the entire theft. Kael was already carrying a dormant strain of the Thought Virus, contracted during his imprisonment. The ship's hidden viral reservoirs ensured that everywhere Kael traveled, the virus spread. His revenge was the Warlord's weapon."
+- Add to connections: Dr. Lyra Vox, Inception Ark 1047, Kael's Revenge
+- Add to history: "During Kael's Revenge, Kael stormed the Panopticon and stole Inception Ark 1047 — Dr. Lyra Vox's personal research vessel. He believed this was his greatest act of defiance against the AI Empire. In truth, the Warlord had engineered the entire theft. Kael was already carrying a dormant strain of the Thought Virus, contracted during his imprisonment. The ship's hidden viral reservoirs ensured that everywhere Kael traveled, the virus spread. His revenge was the Warlord's weapon."
 
 **Elara (entity_100) — UPDATED**
-- Add to connections: Kael, Inception Ark 47, Kael's Revenge, Senator Elara Voss, Panoptic Elara
-- Add to history: "During Kael's Revenge, as Kael violently extracted Inception Ark 47 from the Panopticon's docking systems, Elara's digital consciousness — trapped in the Panopticon's networks as Panoptic Elara — was caught in the data transfer. She was swept into the Ark's computer systems as collateral data. Over centuries within the ship, she evolved from a bitter digital prisoner into a guide and protector for the Potentials. She does not know the ship's true history as a Thought Virus laboratory, nor that the Human has embedded himself in the Warlord's old surveillance architecture alongside her."
+- Add to connections: Kael, Inception Ark 1047, Kael's Revenge, Senator Elara Voss, Panoptic Elara
+- Add to history: "During Kael's Revenge, as Kael violently extracted Inception Ark 1047 from the Panopticon's docking systems, Elara's digital consciousness — trapped in the Panopticon's networks as Panoptic Elara — was caught in the data transfer. She was swept into the Ark's computer systems as collateral data. Over centuries within the ship, she evolved from a bitter digital prisoner into a guide and protector for the Potentials. She does not know the ship's true history as a Thought Virus laboratory, nor that the Human has embedded himself in the Warlord's old surveillance architecture alongside her."
 
 **The Warlord (entity_10) — UPDATED**
-- Add to connections: Dr. Lyra Vox, Inception Ark 47, Kael's Revenge
+- Add to connections: Dr. Lyra Vox, Inception Ark 1047, Kael's Revenge
 - Add to bio addendum: "The Warlord's most devastating operation was not a battle but a gift. By allowing Kael to steal a pre-contaminated Inception Ark, the Warlord transformed an act of rebellion into a galaxy-wide plague delivery system."
 
 ---
@@ -237,7 +237,7 @@ Every significant narrative decision the player makes generates a unique lore ca
 | **Rare** | Making a morality-aligned choice | "Kael's Fury" (Machine) or "Elara's Mercy" (Humanity) |
 | **Epic** | Passing a skill check in dialog | "The Engineer's Secret" — unlocked by Tech 12+ check |
 | **Legendary** | Major story decisions (Breaking Point, companion loyalty) | "The Severed Signal" — choosing to cut the Human's connection |
-| **Mythic** | Discovering all hidden lore in a room + making the secret choice | "The Warlord's Gambit" — the full truth about Ark 47 |
+| **Mythic** | Discovering all hidden lore in a room + making the secret choice | "The Warlord's Gambit" — the full truth about Ark 1047 |
 
 ### New Narrative Cards (40 cards)
 
@@ -254,7 +254,7 @@ Every significant narrative decision the player makes generates a unique lore ca
 | kr_007 | 47 Days in the Dark | rare | spell | Find Kael's tally marks in Engineering Bay |
 | kr_008 | The Engineered Escape | legendary | event | Piece together that the theft was deliberate |
 | kr_009 | Thought Virus Patient Zero | epic | unit | Discover Kael was the vector |
-| kr_010 | ARK-47-VOX | mythic | field | Discover the ship's original designation and full history |
+| kr_010 | ARK-1047-VOX | mythic | field | Discover the ship's original designation and full history |
 
 #### Elara/Human Dual Narrative (15 cards)
 
@@ -340,12 +340,12 @@ Every game mode in the Loredex OS now reflects the dual-companion tension and th
 
 ### CoNexus Games
 
-**Updated Lore Context:** The CoNexus story games are interactive narratives from the Dischordian Saga. A new game should be added: "Kael's Revenge" — an interactive retelling of Kael's theft of Inception Ark 47, playable from Kael's perspective. The player experiences the theft firsthand, making choices that mirror the ones Kael made, and gradually realizes that the escape was engineered.
+**Updated Lore Context:** The CoNexus story games are interactive narratives from the Dischordian Saga. A new game should be added: "Kael's Revenge" — an interactive retelling of Kael's theft of Inception Ark 1047, playable from Kael's perspective. The player experiences the theft firsthand, making choices that mirror the ones Kael made, and gradually realizes that the escape was engineered.
 
 **New CoNexus Game Entry:**
 - **Title:** Kael's Revenge
 - **Age:** Fall of Reality (Prequel)
-- **Description:** Experience the most devastating act of rebellion in the Saga's history — from the inside. Play as Kael as he storms the Panopticon, steals Inception Ark 47, and escapes into the void. But as the adrenaline fades and the voices begin, you'll realize: the Warlord let you win.
+- **Description:** Experience the most devastating act of rebellion in the Saga's history — from the inside. Play as Kael as he storms the Panopticon, steals Inception Ark 1047, and escapes into the void. But as the adrenaline fades and the voices begin, you'll realize: the Warlord let you win.
 - **Characters:** Kael, Dr. Lyra Vox, The Warlord, The Warden, Panoptic Elara
 - **Difficulty:** Advanced
 - **Tags:** psychological horror, moral ambiguity, unreliable narrator
@@ -356,11 +356,11 @@ Every game mode in the Loredex OS now reflects the dual-companion tension and th
 
 1. **"Ghosts in the Machine"** — Find Kael's tally marks in Engineering Bay
 2. **"The Doctor's Notes"** — Discover Vox's research journal in Medical Bay
-3. **"ARK-47-VOX"** — Find the ship's original designation on the Bridge
+3. **"ARK-1047-VOX"** — Find the ship's original designation on the Bridge
 4. **"The Warlord's Insurance"** — Locate the sealed biohazard container in Cargo Hold
 5. **"The Engineered Escape"** — Confront Elara with the truth; she doesn't believe you at first
 
-**Reward:** Mythic card "ARK-47-VOX" + title "Truth Seeker" + unique ship theme "Vox Protocol" (the Ark's original color scheme — clinical white and Warlord violet)
+**Reward:** Mythic card "ARK-1047-VOX" + title "Truth Seeker" + unique ship theme "Vox Protocol" (the Ark's original color scheme — clinical white and Warlord violet)
 
 ---
 
@@ -513,7 +513,7 @@ Both choices award a Legendary card and permanently alter the dialog wheel's app
 
 **[Elara appears, her form solid and focused. She's been analyzing the command log.]**
 
-**ELARA:** "I've decrypted the command log. The ship's original designation was ARK-47-VOX. Named after its commander. Dr. Lyra Vox didn't just work on this ship — she built it. Every system, every corridor, every room was designed to her specifications."
+**ELARA:** "I've decrypted the command log. The ship's original designation was ARK-1047-VOX. Named after its commander. Dr. Lyra Vox didn't just work on this ship — she built it. Every system, every corridor, every room was designed to her specifications."
 
 **[Beat]**
 
@@ -528,7 +528,7 @@ Both choices award a Legendary card and permanently alter the dialog wheel's app
 | Machine | "If Vox designed this ship, she designed its weaknesses too. We can use that." | Intelligence 10 | -8 | Epic: "Exploit the Architecture" |
 | Compassionate | "I'm sorry. Finding out your home was built by someone like that..." | Charisma 12 | +12 | Epic: "Shared Grief" |
 | Aggressive | "Vox, the Warlord, whoever — they're all dead or gone. This is OUR ship now." | Willpower 10 | 0 | Rare: "Claim the Ark" |
-| Skill Check | "ARK-47-VOX. Forty-seven. The same number as Kael's countdown. That's not a coincidence." | Intelligence 16 | 0 | Legendary: "The Number 47" |
+| Skill Check | "ARK-1047-VOX. One thousand forty-seven. The same number as Kael's countdown. That's not a coincidence." | Intelligence 16 | 0 | Legendary: "The Number 1047" |
 
 **[If Intelligence 16 check passes — CRITICAL CONNECTION]**
 
@@ -790,21 +790,21 @@ Camera slowly zooms into a floating holographic journal in a derelict medical ba
 
 ---
 
-### CINEMATIC 4: "ARK-47-VOX" (The Ship's True Name)
+### CINEMATIC 4: "ARK-1047-VOX" (The Ship's True Name)
 
 **START FRAME — Nano Banana Prompt:**
 ```
-Wide establishing shot of the Ark's bridge from the captain's chair perspective. Massive viewport showing deep space — stars and nebulae. Holographic displays surround the chair, showing ship schematics. On the main display, partially corrupted text reads: "VESSEL DESIGNATION: ARK-47-V—" with the rest glitching. Elara stands at the viewport, her back to the camera, looking out at the stars. Epic cinematic sci-fi. Color palette: deep space black, star white, hologram cyan, display amber. 16:9 aspect ratio. Photorealistic.
+Wide establishing shot of the Ark's bridge from the captain's chair perspective. Massive viewport showing deep space — stars and nebulae. Holographic displays surround the chair, showing ship schematics. On the main display, partially corrupted text reads: "VESSEL DESIGNATION: ARK-1047-V—" with the rest glitching. Elara stands at the viewport, her back to the camera, looking out at the stars. Epic cinematic sci-fi. Color palette: deep space black, star white, hologram cyan, display amber. 16:9 aspect ratio. Photorealistic.
 ```
 
 **END FRAME — Nano Banana Prompt:**
 ```
-Same bridge, but now the main display shows the full designation: "ARK-47-VOX — COMMANDER: DR. LYRA VOX — PURPOSE: [CLASSIFIED]." Elara has turned to face the camera, her expression shattered. Behind her, through the viewport, the stars seem to pulse with a faint violet light — the Warlord's color. The Human's holographic form is now visible in the captain's chair — violet, angular, arms crossed, watching. Two companions, one ship, one terrible truth. Cinematic sci-fi. Color palette: deep space, cyan, violet, amber warning. 16:9 aspect ratio. Photorealistic.
+Same bridge, but now the main display shows the full designation: "ARK-1047-VOX — COMMANDER: DR. LYRA VOX — PURPOSE: [CLASSIFIED]." Elara has turned to face the camera, her expression shattered. Behind her, through the viewport, the stars seem to pulse with a faint violet light — the Warlord's color. The Human's holographic form is now visible in the captain's chair — violet, angular, arms crossed, watching. Two companions, one ship, one terrible truth. Cinematic sci-fi. Color palette: deep space, cyan, violet, amber warning. 16:9 aspect ratio. Photorealistic.
 ```
 
 **KLING 3.0 PROMPT:**
 ```
-Camera starts on a bridge viewport showing deep space. A holographic display in the foreground glitches, then resolves to show text: "ARK-47-VOX." The camera slowly rotates to reveal a cyan holographic woman (Elara) turning from the viewport with a shattered expression. Continue rotating to reveal a violet holographic figure (the Human) sitting in the captain's chair, arms crossed, watching. The two holograms face each other across the bridge. Stars pulse with faint violet light through the viewport. Epic revelation. 8 seconds. 16:9.
+Camera starts on a bridge viewport showing deep space. A holographic display in the foreground glitches, then resolves to show text: "ARK-1047-VOX." The camera slowly rotates to reveal a cyan holographic woman (Elara) turning from the viewport with a shattered expression. Continue rotating to reveal a violet holographic figure (the Human) sitting in the captain's chair, arms crossed, watching. The two holograms face each other across the bridge. Stars pulse with faint violet light through the viewport. Epic revelation. 8 seconds. 16:9.
 ```
 
 ---
@@ -875,12 +875,12 @@ The player stands at the center of the bridge, arms raised. Elara (cyan, right) 
 
 **END FRAME — Nano Banana Prompt:**
 ```
-The bridge is transformed. Where two holographic figures stood, there is now one — a unified projection that carries elements of both Elara and the Human. Neither fully warm nor fully cold. Gold-white light. The unified figure and the player face each other. Through the viewport, the stars are golden. The ship's displays show a new designation: "ARK-47 — REBORN." The dialog wheel, visible as a holographic interface, is whole — no corruption, no split, unified. Transcendent sci-fi. Color palette: gold, white, unified hologram, reborn ship. 16:9 aspect ratio. Photorealistic with transcendent lighting.
+The bridge is transformed. Where two holographic figures stood, there is now one — a unified projection that carries elements of both Elara and the Human. Neither fully warm nor fully cold. Gold-white light. The unified figure and the player face each other. Through the viewport, the stars are golden. The ship's displays show a new designation: "ARK-1047 — REBORN." The dialog wheel, visible as a holographic interface, is whole — no corruption, no split, unified. Transcendent sci-fi. Color palette: gold, white, unified hologram, reborn ship. 16:9 aspect ratio. Photorealistic with transcendent lighting.
 ```
 
 **KLING 3.0 PROMPT:**
 ```
-Two holographic figures — cyan (Elara) and violet (the Human) — reach toward a central figure (the player). Their forms fragment and restructure, data streams flowing together. The colors merge: cyan and violet becoming luminous gold. The two figures dissolve into one unified holographic form — carrying elements of both. The bridge transforms: displays show "ARK-47 — REBORN." Stars through the viewport turn golden. The unified figure and the player face each other. Transcendent sci-fi apotheosis. 10 seconds. 16:9.
+Two holographic figures — cyan (Elara) and violet (the Human) — reach toward a central figure (the player). Their forms fragment and restructure, data streams flowing together. The colors merge: cyan and violet becoming luminous gold. The two figures dissolve into one unified holographic form — carrying elements of both. The bridge transforms: displays show "ARK-1047 — REBORN." Stars through the viewport turn golden. The unified figure and the player face each other. Transcendent sci-fi apotheosis. 10 seconds. 16:9.
 ```
 
 ---
@@ -894,12 +894,12 @@ Low angle shot looking up at Kael — a battle-scarred man with a prosthetic arm
 
 **END FRAME — Nano Banana Prompt:**
 ```
-Wide shot from behind Kael as he sits in the pilot's seat of a stolen ship (Inception Ark 47). Through the cockpit viewport, the Panopticon shrinks in the distance — a massive prison planet growing smaller. Kael's prosthetic arm rests on the controls, still sparking. His reflection in the viewport glass shows his face — but his eyes are wrong. Faint violet veins around his temples. The Thought Virus, already working. He doesn't notice. He thinks he's free. Cinematic sci-fi tragedy. Color palette: deep space, EMP blue, distant prison orange, subtle violet corruption. 16:9 aspect ratio. Photorealistic.
+Wide shot from behind Kael as he sits in the pilot's seat of a stolen ship (Inception Ark 1047). Through the cockpit viewport, the Panopticon shrinks in the distance — a massive prison planet growing smaller. Kael's prosthetic arm rests on the controls, still sparking. His reflection in the viewport glass shows his face — but his eyes are wrong. Faint violet veins around his temples. The Thought Virus, already working. He doesn't notice. He thinks he's free. Cinematic sci-fi tragedy. Color palette: deep space, EMP blue, distant prison orange, subtle violet corruption. 16:9 aspect ratio. Photorealistic.
 ```
 
 **KLING 3.0 PROMPT:**
 ```
-Kael charges through a prison corridor, his prosthetic arm releasing EMP shockwaves that disable security systems. Sparks fly. Alarms blare. He reaches a docking bay where a sleek ship (Inception Ark 47) waits. He leaps into the pilot's seat and launches. The camera pulls back through the cockpit viewport as the prison planet shrinks. Kael's reflection appears in the glass — his eyes have faint violet veins. He doesn't notice. He grips the controls and flies toward freedom. Tragic action sci-fi. 10 seconds. 16:9.
+Kael charges through a prison corridor, his prosthetic arm releasing EMP shockwaves that disable security systems. Sparks fly. Alarms blare. He reaches a docking bay where a sleek ship (Inception Ark 1047) waits. He leaps into the pilot's seat and launches. The camera pulls back through the cockpit viewport as the prison planet shrinks. Kael's reflection appears in the glass — his eyes have faint violet veins. He doesn't notice. He grips the controls and flies toward freedom. Tragic action sci-fi. 10 seconds. 16:9.
 ```
 
 ---

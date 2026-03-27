@@ -41,8 +41,8 @@ export const ROOM_PUZZLES: Record<string, Puzzle> = {
     type: "power_relay",
     title: "BRIDGE POWER RELAY",
     description: "The bridge power grid is offline. Activate the correct relay sequence to restore main power. Toggle the switches to match the ship's emergency frequency pattern.",
-    elaraHint: "The emergency frequency follows a binary pattern based on the Ark's designation number — 47. In binary, that's 101111. Toggle the relays to match.",
-    relayPattern: [true, false, true, true, true, true], // 47 in binary = 101111
+    elaraHint: "The emergency frequency follows a binary pattern based on the Ark's designation number — 1047. In binary, that's 10000010111. Toggle the relays to match.",
+    relayPattern: [true, false, false, false, false, false, true, false, true, true, true], // 1047 in binary = 10000010111
   },
   "archives": {
     id: "puzzle-archives",

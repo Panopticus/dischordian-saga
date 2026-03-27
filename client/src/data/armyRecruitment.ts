@@ -159,7 +159,7 @@ const SECTOR_1: RecruitmentMission[] = [
         elaraResponse: "Forge-Mother Kel's eyes light up. 'You can read the nanobot integration? No outsider has ever... Come. Let me show you what we've built. And then we'll talk about what we can build together.'",
       },
       {
-        id: "m1-2-trade", text: "I have access to Inception Ark 47's full technical database. Your engineers get access to Vox's original schematics. In exchange, your Siege Engineers join our coalition.",
+        id: "m1-2-trade", text: "I have access to Inception Ark 1047's full technical database. Your engineers get access to Vox's original schematics. In exchange, your Siege Engineers join our coalition.",
         shortText: "TRADE KNOWLEDGE", moralityShift: -5, sideLabel: "machine", source: "corrupted",
         elaraResponse: "Forge-Mother Kel's expression sharpens. 'Vox's original schematics? The source code of the neural nanobot network?' She leans forward. 'Done. The Siege Engineers are yours. But I want full, unrestricted access. No redactions.'",
       },

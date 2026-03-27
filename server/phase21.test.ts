@@ -506,7 +506,7 @@ describe("Room Transition — Corridor Animation", () => {
 /* ─── PUZZLE DEFINITIONS INTEGRITY ─── */
 describe("Puzzle Definitions — Data Integrity", () => {
   const ROOM_PUZZLES: Record<string, { id: string; roomId: string; type: string; title: string; description: string; elaraHint: string }> = {
-    "bridge": { id: "puzzle-bridge", roomId: "bridge", type: "power_relay", title: "BRIDGE POWER RELAY", description: "The bridge power grid is offline.", elaraHint: "Binary pattern 47 = 101111" },
+    "bridge": { id: "puzzle-bridge", roomId: "bridge", type: "power_relay", title: "BRIDGE POWER RELAY", description: "The bridge power grid is offline.", elaraHint: "Binary pattern 1047 = 10000010111" },
     "archives": { id: "puzzle-archives", roomId: "archives", type: "riddle", title: "ARCHIVES ACCESS PROTOCOL", description: "The data core requires a verbal passphrase.", elaraHint: "What binds stories together" },
     "comms-array": { id: "puzzle-comms", roomId: "comms-array", type: "cipher", title: "COMMUNICATIONS DECRYPTION", description: "Decode the encrypted signal.", elaraHint: "Caesar cipher shift-3" },
     "observation-deck": { id: "puzzle-observation", roomId: "observation-deck", type: "keycard", title: "OBSERVATION DECK SEAL", description: "Biometric lock.", elaraHint: "Keycard in Medical Bay" },

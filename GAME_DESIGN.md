@@ -4,7 +4,7 @@
 The entire Loredex OS experience is reframed as a point-and-click adventure game. You are a **Potential** — one of the last beings to awaken from cryogenic sleep aboard an Inception Ark. The ship's AI, **Elara**, guides you through your awakening and helps you explore the vessel. Every feature of the app maps to a physical location on the ship.
 
 ## Narrative Framework
-- You are aboard Inception Ark **Vessel 47** (or player-named)
+- You are aboard Inception Ark **Vessel 1047** (or player-named)
 - The first wave of Potentials (Season 1) awakened long ago — they are gone
 - All inter-Ark communications have been severed across the multiverse
 - Something is wrong with the ship — systems are failing, rooms are locked
@@ -52,7 +52,7 @@ FIRST_VISIT → AWAKENING → QUARTERS_UNLOCKED → EXPLORING → FULL_ACCESS
 ### Scene 2: Elara Introduction
 - Elara appears as holographic projection (portrait with long black hair)
 - "I am Elara, the ship's intelligence. You've been in cryogenic suspension for... I can't determine how long. My chronometers are damaged."
-- "You are aboard Inception Ark Vessel 47. You are a Potential."
+- "You are aboard Inception Ark Vessel 1047. You are a Potential."
 - "The others... the first wave... they're gone. I don't know where."
 
 ### Scene 3: Character Creation (Narrative Questions)

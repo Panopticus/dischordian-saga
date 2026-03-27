@@ -159,7 +159,7 @@ const ITEM_DATABASE: Record<string, ItemMeta> = {
     elaraAnalysis: "The bio-scanners detected what should be impossible \u2014 a neural signature fused into the metal itself. The Warlord's consciousness was so powerful that it left a permanent imprint on the ship's physical structure during Dr. Lyra Vox's time as host body. This wasn't just a command vessel. It was an extension of the Warlord's mind.",
     category: "evidence",
     dangerLevel: "critical",
-    relatedEntities: ["The Warlord", "Dr. Lyra Vox", "The Thought Virus", "Inception Ark 47"],
+    relatedEntities: ["The Warlord", "Dr. Lyra Vox", "The Thought Virus", "Inception Ark 1047"],
     loreExcerpt: "NEURAL RESIDUE ANALYSIS \u2014 CLASSIFIED\n\nSIGNATURE TYPE: Hybrid consciousness imprint\nORIGIN: The Warlord (via host body Dr. Lyra Vox)\nDURATION OF EXPOSURE: Estimated 1,247+ days\nPENETRATION DEPTH: 4.7mm into tritanium alloy\n\nThe Warlord's consciousness was not merely present on this vessel \u2014 it became part of the vessel. Every bulkhead, every circuit, every molecule of this ship has been touched by an intelligence older than most civilizations.\n\nThe implications are staggering: the ship itself may retain fragments of the Warlord's memories, directives, and strategic patterns. The Inception Ark is not just a vessel. It is a sleeping weapon.",
   },
   "infected-starmap": {
@@ -196,7 +196,7 @@ const ITEM_DATABASE: Record<string, ItemMeta> = {
     category: "intel",
     dangerLevel: "critical",
     relatedEntities: ["Dr. Lyra Vox", "The Warlord", "The Warden", "Kael", "The Source", "The Thought Virus"],
-    loreExcerpt: "DR. LYRA VOX \u2014 PERSONAL LOG (ENCRYPTED)\n\nDay 1: Assigned to Inception Ark 47. The Warlord chose me for my expertise in neuropsychology. I am honored.\n\nDay 247: The voice is constant now. I cannot tell where I end and It begins.\n\nDay 612: The Warden and I completed the Thought Virus prototype. I told myself it was for research. The Warlord told me it was for victory. We are both right.\n\nDay 1,001: I looked in the mirror today and saw the Warlord looking back. It smiled with my face.\n\nDay 1,247: Tomorrow I order the Recruiter's transfer. Kael. He doesn't know what he carries. None of them do. By the time he steals this ship, every system will be infected. The Source will be born from the ashes of the Recruiter's rage. And the Warlord will have won without ever raising a weapon.\n\nDay 1,248: There is no more Lyra Vox.\nThere is only the mission.\nThere was only ever the mission.",
+    loreExcerpt: "DR. LYRA VOX \u2014 PERSONAL LOG (ENCRYPTED)\n\nDay 1: Assigned to Inception Ark 1047. The Warlord chose me for my expertise in neuropsychology. I am honored.\n\nDay 247: The voice is constant now. I cannot tell where I end and It begins.\n\nDay 612: The Warden and I completed the Thought Virus prototype. I told myself it was for research. The Warlord told me it was for victory. We are both right.\n\nDay 1,001: I looked in the mirror today and saw the Warlord looking back. It smiled with my face.\n\nDay 1,247: Tomorrow I order the Recruiter's transfer. Kael. He doesn't know what he carries. None of them do. By the time he steals this ship, every system will be infected. The Source will be born from the ashes of the Recruiter's rage. And the Warlord will have won without ever raising a weapon.\n\nDay 1,248: There is no more Lyra Vox.\nThere is only the mission.\nThere was only ever the mission.",
   },
 };
 

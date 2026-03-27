@@ -1,7 +1,7 @@
 # Elara — Complete Voice-Over Script
 ## The Dischordian Saga: Loredex OS
 
-**Character:** Elara — Ship AI aboard Inception Ark Vessel 47  
+**Character:** Elara — Ship AI aboard Inception Ark Vessel 1047  
 **Voice Direction:** Calm, measured, slightly melancholic. Think EDI from Mass Effect meets Cortana. She is ancient, wise, and carries the weight of knowing too much. Moments of genuine concern break through her composed exterior. She speaks with precision but not coldness — there is warmth buried beneath layers of duty and loss.
 
 **Total Lines:** 119
@@ -20,7 +20,7 @@
 
 ### Line 2: Awakening: Elara Intro
 
-> I am Elara, the ship's intelligence. You've been in cryogenic suspension for... I can't determine how long. My chronometers are damaged. You are aboard Inception Ark Vessel 47. You are a Potential. The others — the first wave — they're gone. I don't know where. All inter-Ark communications have been severed across every known universe. We are alone.
+> I am Elara, the ship's intelligence. You've been in cryogenic suspension for... I can't determine how long. My chronometers are damaged. You are aboard Inception Ark Vessel 1047. You are a Potential. The others — the first wave — they're gone. I don't know where. All inter-Ark communications have been severed across every known universe. We are alone.
 
 ### Line 3: Awakening: Wallet Check
 
@@ -384,7 +384,7 @@
 
 ### Line 87: Puzzle Hint: Power Relay
 
-> The emergency frequency follows a binary pattern based on the Ark's designation number — 47. In binary, that's 101111. Toggle the relays to match.
+> The emergency frequency follows a binary pattern based on the Ark's designation number — 1047. In binary, that's 10000010111. Toggle the relays to match.
 
 ### Line 88: Puzzle Hint: Database Password
 

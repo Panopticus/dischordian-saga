@@ -86,7 +86,20 @@ function ElaraDialogBox({
     const audio = new Audio(voAudioUrl);
     audio.volume = 0.9;
     voAudioRef.current = audio;
-    audio.play().catch(() => {});
+    // Try to play immediately; if blocked by autoplay policy, retry on next user interaction
+    const tryPlay = () => {
+      audio.play().catch(() => {
+        // Autoplay blocked — attach a one-time click listener to retry
+        const retryPlay = () => {
+          audio.play().catch(() => {});
+          document.removeEventListener("click", retryPlay);
+          document.removeEventListener("touchstart", retryPlay);
+        };
+        document.addEventListener("click", retryPlay, { once: true });
+        document.addEventListener("touchstart", retryPlay, { once: true });
+      });
+    };
+    tryPlay();
     return () => { audio.pause(); audio.src = ""; };
   }, [voAudioUrl]);
 
@@ -342,7 +355,7 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
   // Elara TTS — speak dialog text when step changes
   const STEP_DIALOG: Partial<Record<AwakeningStep, string>> = useMemo(() => ({
     CRYO_OPEN: "Don't try to move yet. Your neural pathways are still re-establishing. The cryogenic process is imperfect. Give yourself a moment.",
-    ELARA_INTRO: "I am Elara, the ship's intelligence. You've been in cryogenic suspension. You are aboard Inception Ark Vessel 47. You are a Potential. The others, the first wave, they're gone. All communications have been severed. We are alone.",
+    ELARA_INTRO: "I am Elara, the ship's intelligence. You've been in cryogenic suspension. You are aboard Inception Ark Vessel 1047. You are a Potential. The others, the first wave, they're gone. All communications have been severed. We are alone.",
     SPECIES_QUESTION: "Your neural patterns are unusual. Your cellular structure doesn't match standard human baselines. What do you remember about your origin?",
     CLASS_QUESTION: "Your skill matrices are partially intact. What comes naturally to you?",
     ALIGNMENT_QUESTION: "The Architect built the Panopticon to impose order. The Dreamer believed in the chaos of free will. Where do you stand?",
@@ -440,11 +453,19 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
   }, [characterChoices, createCitizen, audioInitialized, playSFX, trpcUtils]);
 
   // Handle cinematic completion — receive the looping theme audio
-  const handleCinematicComplete = useCallback((themeAudio: HTMLAudioElement | null) => {
+  const handleCinematicComplete = useCallback(async (themeAudio: HTMLAudioElement | null) => {
     themeAudioRef.current = themeAudio;
+    // Initialize audio context from the cinematic user interaction
+    if (!audioInitialized) {
+      try {
+        await initAudio();
+        setAudioInitialized(true);
+        setRoomAmbience("cryo-bay");
+      } catch { /* audio blocked */ }
+    }
     setShowCinematic(false);
     localStorage.setItem("loredex_cinematic_seen", "1");
-  }, []);
+  }, [audioInitialized, initAudio, setRoomAmbience]);
 
   // Fade out theme music when Awakening completes
   useEffect(() => {
@@ -547,7 +568,7 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
           {awakeningStep === "ELARA_INTRO" && (
             <ElaraDialogBox
               key="intro"
-              text="I am Elara, the ship's intelligence. You've been in cryogenic suspension for... I can't determine how long. My chronometers are damaged. You are aboard Inception Ark Vessel 47. You are a Potential. The others — the first wave — they're gone. I don't know where. All inter-Ark communications have been severed across every known universe. We are alone."
+              text="I am Elara, the ship's intelligence. You've been in cryogenic suspension for... I can't determine how long. My chronometers are damaged. You are aboard Inception Ark Vessel 1047. You are a Potential. The others — the first wave — they're gone. I don't know where. All inter-Ark communications have been severed across every known universe. We are alone."
               onContinue={() => setAwakeningStep("WALLET_CHECK" as AwakeningStep)}
               voAudioUrl={STEP_VO_AUDIO.ELARA_INTRO}
             />

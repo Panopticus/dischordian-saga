@@ -29,8 +29,8 @@ These puzzles are encountered in specific rooms aboard the Ark. Each must be sol
 | **Room** | Bridge |
 | **Type** | Power Relay (Binary Toggle) |
 | **Puzzle** | Activate the correct relay sequence to restore main power |
-| **Elara Hint** | "The emergency frequency follows a binary pattern based on the Ark's designation number — 47. In binary, that's 101111. Toggle the relays to match." |
-| **Solution** | Toggle the 6 switches to match the binary representation of 47: **ON, OFF, ON, ON, ON, ON** (101111) |
+| **Elara Hint** | "The emergency frequency follows a binary pattern based on the Ark's designation number — 1047. In binary, that's 10000010111. Toggle the relays to match." |
+| **Solution** | Toggle the 6 switches to match the binary representation of 1047: **ON, OFF, OFF, OFF, OFF, OFF, ON, OFF, ON, ON, ON** (10000010111) |
 
 ### 1.2 Archives Access Protocol
 
@@ -153,7 +153,7 @@ These are multi-step puzzles that require collecting clues from different rooms 
 |-----------|------|
 | **Location** | Bridge |
 | **Required Clues** | Data Crystal: Ark Designation (Bridge), Environmental: Emergency Panel (Bridge) |
-| **Solution** | Binary of 47 = 101111. Toggle relays to match. |
+| **Solution** | Binary of 1047 = 10000010111. Toggle 11 relays to match. |
 | **Reward** | Bridge access restored + 50 Dream Tokens |
 | **Lore Connection** | The Ark's designation number 47 is encoded into every system — a failsafe the original crew designed to prevent unauthorized access. |
 

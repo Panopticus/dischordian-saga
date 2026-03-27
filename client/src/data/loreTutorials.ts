@@ -1849,7 +1849,7 @@ export const LORE_TUTORIALS: LoreTutorial[] = [
       },
       {
         id: "ec-2", type: "dialog",
-        elaraText: "{playerName}... I need to tell you something. About this ship. About Dr. Lyra Vox. I've been... processing data from the hidden chip you found, and what I've uncovered changes everything we thought we knew about the Inception Ark 47.",
+        elaraText: "{playerName}... I need to tell you something. About this ship. About Dr. Lyra Vox. I've been... processing data from the hidden chip you found, and what I've uncovered changes everything we thought we knew about the Inception Ark 1047.",
       },
       {
         id: "ec-3", type: "wheel_choice",
@@ -1864,7 +1864,7 @@ export const LORE_TUTORIALS: LoreTutorial[] = [
             sideLabel: "neutral",
             source: "neutral",
             skillCheck: { skill: "intelligence", threshold: 30, bonusText: "Your analytical mind catches a detail Elara missed" },
-            elaraResponse: "The chip contained Dr. Vox's personal research logs — encrypted with Warlord-class ciphers. She documented everything: the Thought Virus development, the neural bridge experiments, and... a manifest. A list of every Inception Ark and what was hidden aboard each one. This ship — Ark 47 — was designated as the 'delivery vector.' It was always meant to be stolen.",
+            elaraResponse: "The chip contained Dr. Vox's personal research logs — encrypted with Warlord-class ciphers. She documented everything: the Thought Virus development, the neural bridge experiments, and... a manifest. A list of every Inception Ark and what was hidden aboard each one. This ship — Ark 1047 — was designated as the 'delivery vector.' It was always meant to be stolen.",
             rewards: [{ type: "card", id: "vox-research-log", name: "Vox's Research Log", amount: 1 }],
             cardReward: { name: "Vox's Research Log", rarity: "rare" },
           },

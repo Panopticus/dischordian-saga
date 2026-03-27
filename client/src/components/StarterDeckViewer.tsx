@@ -105,7 +105,7 @@ export function generateStarterDeck(choices: {
       defense: 4,
       cost: 2,
       ability: "Guardian: Absorbs the first hit directed at an adjacent ally.",
-      lore: "Automated defense drones still patrol the corridors of Vessel 47, their loyalty protocols intact after centuries.",
+      lore: "Automated defense drones still patrol the corridors of Vessel 1047, their loyalty protocols intact after centuries.",
       imageUrl: CARD_ART.soldier,
     },
     {
@@ -197,7 +197,7 @@ function getHeroLore(cls: string, species: string): string {
 
   switch (cls) {
     case "soldier": return `${speciesLore} You were built for war, and war has found you aboard this dying ship.`;
-    case "oracle": return `${speciesLore} You see the threads of fate, and they all converge on Vessel 47.`;
+    case "oracle": return `${speciesLore} You see the threads of fate, and they all converge on Vessel 1047.`;
     case "engineer": return `${speciesLore} The ship speaks to you in frequencies others can't hear. You will rebuild what was broken.`;
     case "assassin": return `${speciesLore} You move through shadows that shouldn't exist in the vacuum of space.`;
     case "spy": return `${speciesLore} You observe. You learn. You adapt. And you remember everything.`;

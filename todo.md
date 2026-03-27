@@ -2325,11 +2325,11 @@
 - [x] Rename all 'Kaela's Revenge' references to 'Kael's Revenge'
 - [x] Update The Source (entity_55) loredex entry to connect to Kael's origin story with aliases
 - [x] Add Kael's Revenge lore to Loredex (new entries, connections, timeline placement)
-- [x] CRITICAL: The player's Inception Ark IS the ship Kael steals — Inception Ark 47 entry added (location_ark_47)
+- [x] CRITICAL: The player's Inception Ark IS the ship Kael steals — Inception Ark 1047 entry added (location_ark_1047)
 - [ ] Army recruitment arc: Kael/The Source gathering forces across the universe (design pending)
 - [x] Add hidden lore throughout the Ark: 5 hidden discovery items placed in rooms
 - [x] Add discoverable items: Warlord's Neural Residue, Infected Star Map, Vox's Neural Bridge, Kael's Escape Route, Vox's Personal Log
-- [x] CRITICAL: The Ark was originally Dr. Lyra Vox's ship — Inception Ark 47 entry with full Vox/Warlord history
+- [x] CRITICAL: The Ark was originally Dr. Lyra Vox's ship — Inception Ark 1047 entry with full Vox/Warlord history
 - [x] Lyra Vox: AI Empire scientist — updated loredex entry with neuropsychology/cybernetics/Thought Virus development
 - [x] Three layers of dark history reflected in hidden items and loredex entries
 - [x] Add hidden Warlord influence traces, Lyra Vox's research logs, and Kael's escape markings — 5 items in ItemDetailModal
@@ -2812,3 +2812,8 @@
 - [x] Upload 12 Awakening Sequence VO MP3s to CDN (13 files total including species variants)
 - [x] Match each MP3 to correct dialogue line via transcription
 - [x] Wire VO audio URLs into AwakeningPage.tsx for all 13 steps (CRYO_OPEN, ELARA_INTRO, WALLET_CHECK, SPECIES_QUESTION, NEYON_PICKER, CLASS_QUESTION, ALIGNMENT_QUESTION, ELEMENT_QUESTION x3 species variants, NAME_INPUT, ATTRIBUTES, FIRST_STEPS)
+
+## Bug Fixes & Rename
+- [x] Fix Elara VO not playing on CRYO_OPEN step after cryo video (added audio init from cinematic, retry mechanism)
+- [x] Rename all "Ark 47" references to "Ark 1047" across entire codebase (16 files updated)
+- [x] Fix puzzle answer: binary 1047 = 10000010111, relay pattern expanded to 11 switches
