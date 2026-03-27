@@ -2859,3 +2859,4 @@
 - [x] Reposition radio button away from Elara button (moved to bottom-left)
 - [x] Fix Occularum song - corrected general playlist and loredex-data.json (Loc03QeRpfM is "This Ain't a Song", not "The Ocularum")
 - [x] Fix tutorial overlapping with cinematic/room description - deferred via pendingTutorialRoomId, shows after Elara popup closes, added SKIP TUTORIAL button
+- [x] Add SKIP BRIEFING button to cryo orientation sequence (skipOrientation callback + button in header)
