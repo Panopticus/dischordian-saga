@@ -2828,3 +2828,4 @@
 - [x] Update Elara's Medical Bay room intro dialogue to new calibration/urgency text
 - [x] Update Elara's Command Bridge room intro dialogue to new direction/decision/navigation text
 - [x] Update Elara's Archives room intro dialogue to new living record/Codex comprehension text
+- [x] Update Elara's Communications Array room intro dialogue to new void/signal/echo text

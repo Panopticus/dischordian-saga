@@ -124,7 +124,7 @@ const ROOM_DIALOGS: RoomDialog[] = [
   },
   {
     roomId: "comms-array",
-    openingText: "Banks of communication equipment fill the room. Screens display static and fragments of intercepted transmissions. A large antenna array is visible through a reinforced window.",
+    openingText: "The Communications Array... where the void is given a voice — and where echoes sometimes answer back. From this chamber, signals are cast across the darkness, and what returns is not always bound by origin or intent. The Saga flows through these channels without end — the recorded memory of the Dischordian conflict, circling itself like a truth that refuses to conclude. But there are other signals. Fragments that break the pattern. Intrusions that do not belong. They arrive without signature... without trajectory... without source. Something is reaching across the void. And it does not require us to understand.",
     nodes: [
       {
         id: "comms-q1",

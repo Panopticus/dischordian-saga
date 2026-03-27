@@ -312,7 +312,7 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
     deck: 3,
     deckName: "Operations",
     description: "Banks of communication equipment fill the room. Screens display static and fragments of intercepted transmissions. A large antenna array is visible through a reinforced window.",
-    elaraIntro: "The Communications Array. This is where we receive and transmit signals across the void. The Saga — the recorded history of the Dischordian conflict — plays on loop through the broadcast system. We've also intercepted fragments of transmissions from... somewhere. I can't determine the source.",
+    elaraIntro: "The Communications Array... where the void is given a voice — and where echoes sometimes answer back. From this chamber, signals are cast across the darkness, and what returns is not always bound by origin or intent. The Saga flows through these channels without end — the recorded memory of the Dischordian conflict, circling itself like a truth that refuses to conclude. But there are other signals. Fragments that break the pattern. Intrusions that do not belong. They arrive without signature... without trajectory... without source. I have traced every frequency, every layer of the spectrum the Ark can perceive — and still... nothing resolves. No origin. No sender. Only the signal. Something is reaching across the void. And it does not require us to understand.",
     imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/room_comms_array-MeKGcBZGammMEjbx8aN8fb.webp",
     features: ["Watch The Saga", "Radio", "Lore Tutorials", "Communication Relay"],
     featureRoutes: ["/watch", "/lore-tutorials"],
