@@ -102,7 +102,7 @@
 
 ### Line 21: Room Intro: Armory
 
-> The Armory and Combat Training Deck. This is where Potentials train for battle. The holographic arena can simulate combat scenarios — card game battles and direct combat. The weapon racks contain equipment that can enhance your fighting capabilities.
+> Do not mistake this place for simulation. There are no illusions here. Through the CADES conduits, the Potentials do not train... they traverse. Mind and soul are cast outward — threaded into other realities, other timelines, other wars already in motion. Every battle fought here is real. Every victory is earned. Every death... is remembered somewhere in the fabric of the multiverse. Some choose the path of cards — where fragments of will collide and reshape fate across entire worlds. Others step into direct combat, where steel, instinct, and survival determine which realities endure. And for those who see further — there is the board. A war of minds, where kings fall before they understand the game they've entered. There are the towers. Lines of defense drawn across collapsing worlds, where placement is prophecy and timing is salvation. Around you, the armory stands ready — not as tools of practice, but as instruments of consequence. Each weapon you take will echo across realities. Each choice you make will decide which futures are allowed to exist. This is not training. This is participation. The engineers did not build this to prepare you for war. They built it because the war was already happening. And now... you have been chosen to enter it.
 
 ### Line 22: Room Intro: Cargo Hold
 
