@@ -291,7 +291,7 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
     deck: 2,
     deckName: "Command",
     description: "Floor-to-ceiling data banks hum with stored information. Holographic terminals display searchable databases. Ancient tomes sit alongside data crystals in glass cases.",
-    elaraIntro: "The Archives. Every piece of intelligence we've gathered about the Dischordian Saga is stored here. You can search the database for any entity — characters, locations, factions, songs. The Codex contains deeper lore entries that require careful study to unlock.",
+    elaraIntro: "The Archives... though what rests here is not merely information. This is where knowledge is gathered... refined... remembered. Every fragment recovered from the Dischordian Saga woven into a living record of existence in motion. You may search it — trace the threads of any entity: the players, the places, the factions... even the songs that carry truth beneath their rhythm. But do not confuse access with understanding. Beyond the surface... lies the Codex. It does not yield to curiosity alone. Its deeper layers are not locked by encryption — but by comprehension. To open them, you must study... interpret... and, in time... become what you seek. Because the Archives do not simply contain the story. They remember it. And the further you descend... the more they begin... to remember you.",
     imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/room_archives-ZHkbF8dmAL5SyqykdLgy3n.webp",
     features: ["Search", "Entity Browser", "Codex Library"],
     featureRoutes: ["/search", "/codex"],

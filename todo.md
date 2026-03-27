@@ -2827,3 +2827,4 @@
 - [x] Update Elara's Cryo Bay room intro dialogue to new Chamber of Awakening text
 - [x] Update Elara's Medical Bay room intro dialogue to new calibration/urgency text
 - [x] Update Elara's Command Bridge room intro dialogue to new direction/decision/navigation text
+- [x] Update Elara's Archives room intro dialogue to new living record/Codex comprehension text
