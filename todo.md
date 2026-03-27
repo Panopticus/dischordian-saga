@@ -2860,3 +2860,4 @@
 - [x] Fix Occularum song - corrected general playlist and loredex-data.json (Loc03QeRpfM is "This Ain't a Song", not "The Ocularum")
 - [x] Fix tutorial overlapping with cinematic/room description - deferred via pendingTutorialRoomId, shows after Elara popup closes, added SKIP TUTORIAL button
 - [x] Add SKIP BRIEFING button to cryo orientation sequence (skipOrientation callback + button in header)
+- [x] Reset background music state on game reset for complete fresh start (clears saga BGM, ambient music, sound volume/mute, battle stats, cards, easter eggs, gamification, player profile, TTS)

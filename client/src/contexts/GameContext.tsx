@@ -1274,6 +1274,18 @@ export function GameProvider({ children }: { children: ReactNode }) {
     localStorage.removeItem("loredex_solved_puzzles");
     localStorage.removeItem("research_entries_unlocked");
     localStorage.removeItem("research_puzzles_solved");
+    // Reset all music/audio state for complete fresh start
+    localStorage.removeItem("loredex_saga_bgm");
+    localStorage.removeItem("loredex_ambient_music");
+    localStorage.removeItem("loredex_sound_muted");
+    localStorage.removeItem("loredex_sound_volume");
+    localStorage.removeItem("loredex_battle_stats");
+    localStorage.removeItem("loredex_cards_collected");
+    localStorage.removeItem("loredex_easter_eggs");
+    localStorage.removeItem("loredex_puzzles_solved");
+    localStorage.removeItem("loredex_tts_enabled");
+    localStorage.removeItem("loredex-gamification");
+    localStorage.removeItem("loredex-player-profile");
     setState({ ...DEFAULT_GAME_STATE });
   }, []);
 
