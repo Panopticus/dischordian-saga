@@ -2829,3 +2829,4 @@
 - [x] Update Elara's Command Bridge room intro dialogue to new direction/decision/navigation text
 - [x] Update Elara's Archives room intro dialogue to new living record/Codex comprehension text
 - [x] Update Elara's Communications Array room intro dialogue to new void/signal/echo text
+- [x] Transcribe, upload, and wire 12 new mythic Elara VO recordings into room definitions

@@ -4,7 +4,7 @@ import { useGameAreaBGM } from "@/contexts/GameAudioContext";
    Old-school adventure game with clickable hotspots,
    Elara dialog, sound effects, and puzzle mechanics.
    ═══════════════════════════════════════════════════════ */
-import { useState, useCallback, useEffect, useMemo } from "react";
+import { useState, useCallback, useEffect, useMemo, useRef } from "react";
 import { dialogOpened, dialogClosed } from "@/lib/dialogState";
 import { useGame, ROOM_DEFINITIONS, type HotspotDef, type RoomDef } from "@/contexts/GameContext";
 import { useGamification } from "@/contexts/GamificationContext";
@@ -83,9 +83,37 @@ function getFeatureIcon(action: string | undefined) {
 }
 
 /* ─── ELARA POPUP ─── */
-function ElaraPopup({ text, onClose }: { text: string; onClose: () => void }) {
+function ElaraPopup({ text, onClose, voUrl }: { text: string; onClose: () => void; voUrl?: string }) {
   const [displayed, setDisplayed] = useState("");
   const [done, setDone] = useState(false);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const [voPlaying, setVoPlaying] = useState(false);
+
+  // Play VO audio when popup opens
+  useEffect(() => {
+    if (voUrl) {
+      const audio = new Audio(voUrl);
+      audio.volume = 0.85;
+      audioRef.current = audio;
+      audio.play().then(() => setVoPlaying(true)).catch(() => {/* autoplay blocked */});
+      audio.onended = () => setVoPlaying(false);
+      return () => {
+        audio.pause();
+        audio.onended = null;
+        audioRef.current = null;
+        setVoPlaying(false);
+      };
+    }
+  }, [voUrl]);
+
+  // Stop VO on close
+  const handleClose = () => {
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current = null;
+    }
+    onClose();
+  };
 
   useEffect(() => {
     setDisplayed("");
@@ -120,7 +148,7 @@ function ElaraPopup({ text, onClose }: { text: string; onClose: () => void }) {
         }}
       >
         <button
-          onClick={onClose}
+          onClick={handleClose}
           className="absolute top-2 right-2 p-2 rounded-md border border-[var(--glass-border)] text-muted-foreground/70 hover:text-white hover:bg-muted/40 transition-colors"
           aria-label="Close"
         >
@@ -142,7 +170,7 @@ function ElaraPopup({ text, onClose }: { text: string; onClose: () => void }) {
         </div>
         {done && (
           <button
-            onClick={onClose}
+            onClick={handleClose}
             className="mt-2 w-full text-center font-mono text-[10px] text-[var(--neon-cyan)]/50 hover:text-[var(--neon-cyan)] transition-colors"
           >
             [dismiss]
@@ -440,6 +468,7 @@ export default function ArkExplorerPage() {
   useGameAreaBGM("ark");
   const [, navigate] = useLocation();
   const [elaraText, setElaraText] = useState<string | null>(null);
+  const [elaraVoUrl, setElaraVoUrl] = useState<string | undefined>(undefined);
   const [showOnboardingTutorial, setShowOnboardingTutorial] = useState(false);
   const [activeTransmission, setActiveTransmission] = useState<SecretTransmission | null>(null);
   const { discoverTransmission, isTransmissionDiscovered } = useGame();
@@ -654,6 +683,11 @@ export default function ArkExplorerPage() {
       // Check for morality-variant Elara dialog
       const moralityVariant = getElaraVariant(state.moralityScore, currentRoom.id);
       setElaraText(moralityVariant || currentRoom.elaraIntro);
+      if (!moralityVariant && currentRoom.elaraIntroVoUrl) {
+        setElaraVoUrl(currentRoom.elaraIntroVoUrl);
+      } else {
+        setElaraVoUrl(undefined);
+      }
       markElaraDialogSeen(currentRoom.id);
       if (audioReady) playSFX("dialog_open");
     }
@@ -1066,9 +1100,10 @@ export default function ArkExplorerPage() {
       {/* Elara dialog popup */}
       <AnimatePresence>
         {elaraText && (
-          <ElaraPopup text={elaraText} onClose={() => {
+          <ElaraPopup text={elaraText} voUrl={elaraVoUrl} onClose={() => {
             window.dispatchEvent(new CustomEvent("elara-dialog", { detail: { active: false } }));
             setElaraText(null);
+            setElaraVoUrl(undefined);
             if (audioReady) playSFX("dialog_close");
           }} />
         )}
