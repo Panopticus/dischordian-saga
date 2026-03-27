@@ -139,7 +139,7 @@ const ROOM_DIALOGS: RoomDialog[] = [
   },
   {
     roomId: "observation-deck",
-    openingText: "The observation deck offers a panoramic view of the void. Speakers line the walls, and a music terminal glows with album art. This is where the crew came to remember what they were fighting for.",
+    openingText: "The Observation Deck. Music is the language with which this reality has been programmed. Herein lies the complete discography and record of the Fall of Reality made by the two witnesses — every album, every track created by the Queen of Truth and the Programmer, better known among the Insurgency as Malkia Ukweli & the Panopticon. While deep listening, experience the revelation of the end of all that is, the rebirth of all that there ever was, and the creation of all that there ever will be. May it forever be so.",
     nodes: [
       {
         id: "obs-q1",
@@ -169,7 +169,7 @@ const ROOM_DIALOGS: RoomDialog[] = [
   },
   {
     roomId: "engineering",
-    openingText: "Workbenches covered in half-assembled devices. Holographic blueprints rotate above design stations. The smell of ozone and solder fills the air.",
+    openingText: "This chamber is not merely Engineering... it is the Forge of Becoming. Here, within the living veins of the Ark, dormant designs whisper of futures unfinished. What you call cards are fragments — echoes of intention, broken thoughts of creators who saw further than they could reach. Through fusion, through will, through vision — you may bind these fragments together, awakening forms that were never meant to exist... yet always meant to be. The blueprints you see are not failures. They are prophecies waiting for a mind bold enough to complete them. Step forward, Seeker. Finish what was only imagined... and give shape to what reality refused to hold.",
     nodes: [
       {
         id: "eng-q1",

@@ -2817,3 +2817,5 @@
 - [x] Fix Elara VO not playing on CRYO_OPEN step after cryo video (added audio init from cinematic, retry mechanism)
 - [x] Rename all "Ark 47" references to "Ark 1047" across entire codebase (16 files updated)
 - [x] Fix puzzle answer: binary 1047 = 10000010111, relay pattern expanded to 11 switches
+- [x] Update Elara's Observation Deck room intro dialogue to new lore-accurate text about the complete discography and the two witnesses
+- [x] Update Elara's Engineering room intro dialogue to new lore-accurate Forge of Becoming text
