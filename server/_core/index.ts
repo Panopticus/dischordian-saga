@@ -8,6 +8,7 @@ import { appRouter } from "../routers";
 import { createContext } from "./context";
 import { serveStatic, setupVite } from "./vite";
 import { setupPvpWebSocket } from "../pvpWs";
+import { registerSpriteProxy } from "../spriteProxy";
 
 function isPortAvailable(port: number): Promise<boolean> {
   return new Promise(resolve => {
@@ -112,6 +113,9 @@ async function startServer() {
   app.use("/api/trpc", generalLimiter);
   app.use("/api/trpc/elara", llmLimiter);
   app.use("/api/trpc/codex", llmLimiter);
+
+  // Sprite proxy (before CSRF — it's a GET endpoint for images)
+  registerSpriteProxy(app);
 
   // CSRF protection
   const { csrfProtection } = await import("../csrf");

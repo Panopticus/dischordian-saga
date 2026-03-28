@@ -2884,3 +2884,32 @@
 - [x] Move CONTINUE/FIGHT button from bottom-right to top of fight select screen
 - [x] Fix chess game stuck on same match - add New Game option
 - [x] Stop background music when fight begins (added suppress/unsuppress API to SagaThemeBGMContext)
+
+## Fight Game Improvements Round 3 (March 28, 2026)
+- [ ] Re-export all sprite images with proper transparent backgrounds (remove white/near-white BG)
+- [ ] Upload processed sprites to CDN and update character configs
+- [ ] Add difficulty selector to character select screen (recruit/soldier/veteran/archon)
+- [ ] Implement sprite sheet animation system for smooth SF2-style movement
+- [ ] Update FightEngine2D to use multi-frame sprite sheet animations
+
+## Phase: SFII-Style Fighting Game Engine Overhaul
+- [x] Clone and analyze open-source SFII JavaScript engine (Shezzor/iuritorres)
+- [x] Port SFII engine to TypeScript as React Canvas component (surgical upgrade approach)
+- [x] Build sprite sheet animation system (SpriteAnimator.ts — multi-frame synthesized from single images)
+- [x] Implement character state machine (idle, walk, crouch, jump, attack, block, hit, KO) — already existed
+- [x] Implement hitbox/hurtbox collision detection with frame data — already existed
+- [x] Implement physics engine (gravity, momentum, knockback) — already existed
+- [x] Implement variable frame timing (slow wind-up, fast strike, slow recovery) — SpriteAnimator maps frames to startup/active/recovery
+- [ ] Generate multi-frame sprite sheets for pilot batch: The Prisoner
+- [ ] Generate multi-frame sprite sheets for pilot batch: Iron Lion
+- [ ] Generate multi-frame sprite sheets for pilot batch: The Warlord
+- [ ] Generate multi-frame sprite sheets for pilot batch: The Necromancer
+- [ ] Background-remove all generated sprite frames via sprite proxy
+- [ ] Assemble sprite sheets with consistent frame dimensions
+- [ ] Wire up character select screen to new engine
+- [ ] Wire up story mode to new engine
+- [ ] Integrate BGM suppression with new engine
+- [ ] Add hit effects (screen shake, flash, sparks)
+- [ ] Add per-character frame timing and move properties
+- [ ] Test end-to-end fight game with new engine
+- [ ] Save checkpoint with new fighting game engine

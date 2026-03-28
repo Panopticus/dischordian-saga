@@ -15,6 +15,7 @@ import type { FighterData, FrameProfile, FighterArchetype } from "./gameData";
 import { getCharacterSpecials, type CharacterSpecials, type SpecialMove } from "./specialMoves";
 import { getCharacterConfig } from "./CharacterModel3D";
 import { FightSoundManager } from "./FightSoundManager";
+import { getOrSynthesizeAnimation, resolveFrame, clearAnimationCache, type PoseAnimation, type SpriteFrame } from "./SpriteAnimator";
 
 type PoseKey = "idle" | "attack" | "block" | "hit" | "ko" | "victory"
   | "walkForward" | "walkBack" | "crouch" | "dash"
@@ -1222,45 +1223,12 @@ export class FightEngine2D {
     for (const [key, url] of Object.entries(poses)) {
       if (!url) continue;
       const img = new Image();
-      img.crossOrigin = "anonymous";
-      img.onload = () => {
-        // Process the loaded image to remove white/near-white backgrounds
-        // Many sprites are RGB (no alpha) or have white background remnants
-        try {
-          const offscreen = document.createElement("canvas");
-          offscreen.width = img.naturalWidth;
-          offscreen.height = img.naturalHeight;
-          const octx = offscreen.getContext("2d", { willReadFrequently: true });
-          if (!octx) return;
-          octx.drawImage(img, 0, 0);
-          const imageData = octx.getImageData(0, 0, offscreen.width, offscreen.height);
-          const d = imageData.data;
-          // Remove white/near-white pixels (threshold: RGB all > 230)
-          // Also remove very light gray pixels that form the background
-          const threshold = 230;
-          for (let i = 0; i < d.length; i += 4) {
-            if (d[i] > threshold && d[i + 1] > threshold && d[i + 2] > threshold) {
-              d[i + 3] = 0; // Make transparent
-            }
-          }
-          octx.putImageData(imageData, 0, 0);
-          // Create a new image from the processed canvas
-          const processed = new Image();
-          processed.onload = () => {
-            fighter.sprites[key as PoseKey] = processed;
-          };
-          processed.src = offscreen.toDataURL("image/png");
-        } catch {
-          // If CORS fails, keep the original image as-is
-          // This can happen if browser has cached a non-CORS version
-        }
-      };
-      // Add cache-buster to avoid CORS cache poisoning:
-      // The character select screen loads these same URLs without crossOrigin,
-      // so the browser caches a non-CORS version. Adding ?cors=1 forces a fresh
-      // CORS-enabled fetch so getImageData() won't throw a tainted canvas error.
-      const separator = url.includes("?") ? "&" : "?";
-      img.src = url + separator + "cors=1";
+      // Route through server-side sprite proxy for reliable white background removal.
+      // The proxy fetches the CDN image, processes it with sharp to remove white
+      // backgrounds (flood-fill from edges), and serves a proper RGBA PNG.
+      // This eliminates all CORS issues and handles RGB sprites without alpha.
+      const proxyUrl = `/api/sprite-proxy?url=${encodeURIComponent(url)}`;
+      img.src = proxyUrl;
       fighter.sprites[key as PoseKey] = img;
     }
   }
@@ -3407,25 +3375,20 @@ export class FightEngine2D {
     }
     // Attack sequence cycling: cycle through related attack poses during startup/active/recovery
     if (f.state === "light_1" || f.state === "light_2" || f.state === "light_3") {
-      // Light combo: cycle lightPunch → mediumPunch at mid-animation
       const md = this.getMoveData(f);
       if (md && f.stateFrame > md.startup && f.sprites.mediumPunch) {
         effectivePose = "mediumPunch";
       }
     } else if (f.state === "crouch_light") {
-      // Crouch light: show crouchKick at active frames if available
       const md = this.getMoveData(f);
       if (md && f.stateFrame > md.startup && f.sprites.crouchKick) {
         effectivePose = "crouchKick";
       }
     } else if (f.state === "crouch_heavy") {
-      // Sweep: show sweep sprite throughout
       effectivePose = "sweep";
     } else if (f.state === "light_kick" || f.state === "medium_kick" || f.state === "heavy_kick") {
-      // Kick attacks: show the specific kick sprite
       const kickMd = this.getMoveData(f);
       if (kickMd && f.stateFrame > kickMd.startup) {
-        // During active/recovery, show the heavier kick sprite for visual progression
         if (f.state === "light_kick" && f.sprites.mediumKick) {
           effectivePose = "mediumKick";
         } else if (f.state === "medium_kick" && f.sprites.heavyKick) {
@@ -3453,117 +3416,32 @@ export class FightEngine2D {
       if (!prevSprite) prevSprite = f.sprites.idle;
     }
 
+    // ═══ MULTI-FRAME SPRITE ANIMATION (SFII-style) ═══
+    // Get synthesized animation for the current pose
+    const moveData = this.getMoveData(f);
+    const anim = sprite ? getOrSynthesizeAnimation(f.data.id, effectivePose, sprite) : null;
+    const frame: SpriteFrame | null = anim ? resolveFrame(
+      anim,
+      f.stateFrame,
+      moveData ? { startup: moveData.startup, active: moveData.active, recovery: moveData.recovery } : null,
+    ) : null;
+
     // ═══ ANIMATION EFFECTS ═══
-    let scaleX = 1;
-    let scaleY = 1;
-    let rotation = 0;
-    let offsetY = 0;
+    // Multi-frame system provides per-frame offsets; state-specific effects layer on top
+    let stateScaleX = 1;
+    let stateScaleY = 1;
+    let stateRotation = 0;
+    let stateOffsetY = 0;
     let alpha = 1;
 
+    // State-specific visual effects that ADD to the sprite frame transforms
     switch (f.state) {
-      case "idle": {
-        const breathe = Math.sin(f.animFrame * 0.06) * 0.015;
-        scaleY = 1 + breathe;
-        break;
-      }
-      case "walk_fwd":
-      case "walk_back": {
-        const bob = Math.sin(f.animFrame * 0.2) * 3;
-        offsetY = bob;
-        const lean = f.state === "walk_fwd" ? 0.03 : -0.03;
-        rotation = lean;
-        // Squash/stretch during walk cycle
-        const walkSquash = Math.sin(f.walkCycleFrame * 0.26) * 0.03;
-        scaleX = 1 + walkSquash;
-        scaleY = 1 - walkSquash * 0.5;
-        break;
-      }
-      case "crouch":
-      case "crouch_down":
-      case "block_crouch": {
-        // Smooth crouch transition
-        const crouchT = Math.min(1, f.stateFrame / 6);
-        scaleY = 1 - 0.3 * crouchT;
-        offsetY = FIGHTER_DRAW_HEIGHT * 0.15 * crouchT;
-        break;
-      }
-      case "crouch_up": {
-        const upT = Math.min(1, f.stateFrame / 4);
-        scaleY = 0.7 + 0.3 * upT;
-        offsetY = FIGHTER_DRAW_HEIGHT * 0.15 * (1 - upT);
-        break;
-      }
-      case "dash_fwd": {
-        // Dash with stretch effect
-        const dashT = Math.min(1, f.stateFrame / 8);
-        rotation = 0.1 * (1 - dashT);
-        scaleX = 1.1 + Math.sin(dashT * Math.PI) * 0.05;
-        scaleY = 0.95;
-        break;
-      }
-      case "dash_back": {
-        const dashT = Math.min(1, f.stateFrame / 8);
-        rotation = -0.1 * (1 - dashT);
-        scaleX = 1.1 + Math.sin(dashT * Math.PI) * 0.05;
-        scaleY = 0.95;
-        break;
-      }
-      case "light_1":
-      case "light_2":
-      case "light_3": {
-        // Snappy punch: stretch on startup, snap back on recovery
-        const md = this.getMoveData(f);
-        if (md) {
-          if (f.stateFrame <= md.startup) {
-            const t = f.stateFrame / md.startup;
-            scaleX = 1 + t * 0.12;
-            scaleY = 1 - t * 0.04;
-          } else if (f.stateFrame <= md.startup + md.active) {
-            scaleX = 1.12;
-            scaleY = 0.96;
-          } else {
-            const recT = (f.stateFrame - md.startup - md.active) / Math.max(1, md.recovery);
-            scaleX = 1.12 - recT * 0.12;
-            scaleY = 0.96 + recT * 0.04;
-          }
-        } else {
-          const t = f.stateFrame / 10;
-          scaleX = 1 + Math.sin(t * Math.PI) * 0.08;
-        }
-        break;
-      }
-      case "medium": {
-        const md = this.getMoveData(f);
-        if (md) {
-          if (f.stateFrame <= md.startup) {
-            const t = f.stateFrame / md.startup;
-            scaleX = 1 + t * 0.15;
-            rotation = t * 0.06;
-            scaleY = 1 - t * 0.05;
-          } else if (f.stateFrame <= md.startup + md.active) {
-            scaleX = 1.15;
-            rotation = 0.06;
-            scaleY = 0.95;
-          } else {
-            const recT = (f.stateFrame - md.startup - md.active) / Math.max(1, md.recovery);
-            scaleX = 1.15 - recT * 0.15;
-            rotation = 0.06 * (1 - recT);
-            scaleY = 0.95 + recT * 0.05;
-          }
-        } else {
-          const t = f.stateFrame / 15;
-          scaleX = 1 + Math.sin(t * Math.PI) * 0.12;
-          rotation = 0.05;
-        }
-        break;
-      }
       case "heavy_charge": {
         const shake = Math.sin(f.stateFrame * 0.8) * 2;
-        offsetY = shake;
+        stateOffsetY = shake;
         const chargeGlow = Math.min(1, f.heavyChargeFrames / 30);
-        // Charge compression
-        scaleY = 1 - chargeGlow * 0.08;
-        scaleX = 1 + chargeGlow * 0.04;
+        stateScaleY = 1 - chargeGlow * 0.08;
+        stateScaleX = 1 + chargeGlow * 0.04;
         ctx.globalAlpha = chargeGlow * 0.3;
         ctx.fillStyle = f.data.color;
         ctx.beginPath();
@@ -3572,151 +3450,55 @@ export class FightEngine2D {
         ctx.globalAlpha = 1;
         break;
       }
-      case "heavy_release": {
-        // Explosive release: big stretch then snap
-        const releaseT = Math.min(1, f.stateFrame / 12);
-        if (releaseT < 0.3) {
-          scaleX = 1.2;
-          scaleY = 0.9;
-          rotation = 0.1;
-        } else {
-          scaleX = 1.2 - (releaseT - 0.3) * 0.29;
-          scaleY = 0.9 + (releaseT - 0.3) * 0.14;
-          rotation = 0.1 * (1 - releaseT);
-        }
+      case "crouch":
+      case "crouch_down":
+      case "block_crouch": {
+        const crouchT = Math.min(1, f.stateFrame / 6);
+        stateScaleY = 1 - 0.3 * crouchT;
+        stateOffsetY = FIGHTER_DRAW_HEIGHT * 0.15 * crouchT;
         break;
       }
-      case "hitstun":
-      case "air_hitstun": {
-        const shake = Math.sin(f.stateFrame * 1.5) * 3;
-        offsetY = shake;
-        rotation = -0.05;
-        // Impact squash on first few frames
-        if (f.stateFrame < 4) {
-          scaleX = 0.92;
-          scaleY = 1.06;
-        }
-        break;
-      }
-      case "knockdown": {
-        rotation = Math.PI / 2 * Math.min(1, f.stateFrame / 15);
-        offsetY = 30;
-        break;
-      }
-      case "ko": {
-        rotation = Math.PI / 2;
-        offsetY = 40;
-        alpha = 0.8;
-        break;
-      }
-      case "launched": {
-        rotation = f.stateFrame * 0.15;
-        break;
-      }
-      case "blockstun": {
-        const shake = Math.sin(f.stateFrame * 2) * 2;
-        offsetY = shake;
-        // Block impact compression
-        if (f.stateFrame < 3) {
-          scaleX = 0.95;
-          scaleY = 1.03;
-        }
-        break;
-      }
-      case "light_kick":
-      case "medium_kick":
-      case "heavy_kick": {
-        // Kick animation: lean back slightly, extend leg
-        const kickMd = this.getMoveData(f);
-        if (kickMd) {
-          if (f.stateFrame <= kickMd.startup) {
-            const t = f.stateFrame / kickMd.startup;
-            scaleX = 1 - t * 0.05;
-            scaleY = 1 + t * 0.08;
-            rotation = -0.05 * t; // Lean back
-          } else if (f.stateFrame <= kickMd.startup + kickMd.active) {
-            scaleX = 1.12;
-            scaleY = 0.95;
-            rotation = 0.08; // Lean forward into kick
-          } else {
-            const recT = (f.stateFrame - kickMd.startup - kickMd.active) / Math.max(1, kickMd.recovery);
-            scaleX = 1.12 - recT * 0.12;
-            scaleY = 0.95 + recT * 0.05;
-            rotation = 0.08 * (1 - recT);
-          }
-        }
-        break;
-      }
-      case "taunt": {
-        // Taunt animation: slight bounce and scale pulse
-        const tauntT = f.stateFrame / 60;
-        const pulse = Math.sin(tauntT * Math.PI * 4) * 0.03;
-        scaleX = 1 + pulse;
-        scaleY = 1 + pulse;
-        offsetY = Math.sin(tauntT * Math.PI * 2) * -5;
+      case "crouch_up": {
+        const upT = Math.min(1, f.stateFrame / 4);
+        stateScaleY = 0.7 + 0.3 * upT;
+        stateOffsetY = FIGHTER_DRAW_HEIGHT * 0.15 * (1 - upT);
         break;
       }
       case "crouch_light":
       case "crouch_medium":
       case "crouch_heavy": {
-        scaleY = 0.75;
-        offsetY = FIGHTER_DRAW_HEIGHT * 0.12;
-        const atkT = f.stateFrame / 12;
-        scaleX = 1 + Math.sin(atkT * Math.PI) * 0.1;
+        stateScaleY = 0.75;
+        stateOffsetY = FIGHTER_DRAW_HEIGHT * 0.12;
         break;
       }
       case "jump_start": {
-        // Pre-jump compression
-        scaleY = 0.85;
-        scaleX = 1.05;
-        offsetY = 10;
-        break;
-      }
-      case "jump_up":
-      case "jump_fwd":
-      case "jump_back": {
-        // Air stretch
-        scaleY = 1.05;
-        scaleX = 0.97;
-        break;
-      }
-      case "jump_light":
-      case "jump_medium":
-      case "jump_heavy": {
-        scaleX = 1.1;
-        rotation = f.state === "jump_heavy" ? 0.15 : 0.08;
+        stateScaleY = 0.85;
+        stateScaleX = 1.05;
+        stateOffsetY = 10;
         break;
       }
       case "jump_land": {
-        // Landing squash
         const landT = Math.min(1, f.stateFrame / 4);
-        scaleY = 0.85 + landT * 0.15;
-        scaleX = 1.08 - landT * 0.08;
+        stateScaleY = 0.85 + landT * 0.15;
+        stateScaleX = 1.08 - landT * 0.08;
         break;
       }
-      case "throw_startup":
-      case "throw_whiff": {
-        scaleX = 1.08;
-        rotation = 0.04;
-        break;
-      }
-      case "thrown": {
-        rotation = -0.1;
-        scaleY = 0.9;
+      case "launched": {
+        stateRotation = f.stateFrame * 0.15;
         break;
       }
       case "getup": {
         const getupT = Math.min(1, f.stateFrame / 20);
-        rotation = (Math.PI / 2) * (1 - getupT);
-        offsetY = 30 * (1 - getupT);
+        stateRotation = (Math.PI / 2) * (1 - getupT);
+        stateOffsetY = 30 * (1 - getupT);
         break;
       }
       case "special_1":
       case "special_2":
       case "special_3": {
         const pulse = Math.sin(f.stateFrame * 0.3) * 0.05;
-        scaleX = 1.05 + pulse;
-        scaleY = 1.05 + pulse;
+        stateScaleX = 1.05 + pulse;
+        stateScaleY = 1.05 + pulse;
         ctx.globalAlpha = 0.4;
         ctx.fillStyle = f.data.color;
         ctx.beginPath();
@@ -3725,21 +3507,19 @@ export class FightEngine2D {
         ctx.globalAlpha = 1;
         break;
       }
-      case "victory": {
-        const bounce = Math.abs(Math.sin(f.animFrame * 0.05)) * 5;
-        offsetY = -bounce;
-        break;
-      }
       case "parry_stun": {
         const flash = Math.sin(f.stateFrame * 0.5) > 0 ? 0.5 : 1;
         alpha = flash;
         break;
       }
       case "finish_stun": {
-        // Stagger effect
         const stagger = Math.sin(f.stateFrame * 0.3) * 4;
-        offsetY = stagger;
-        rotation = Math.sin(f.stateFrame * 0.2) * 0.03;
+        stateOffsetY = stagger;
+        stateRotation = Math.sin(f.stateFrame * 0.2) * 0.03;
+        break;
+      }
+      case "ko": {
+        alpha = 0.8;
         break;
       }
     }
@@ -3749,10 +3529,22 @@ export class FightEngine2D {
       alpha = f.animFrame % 4 < 2 ? 0.4 : 1;
     }
 
+    // Compose final transforms: sprite frame animation + state-specific effects
+    const frameScaleX = frame ? frame.scaleX : 1;
+    const frameScaleY = frame ? frame.scaleY : 1;
+    const frameRotation = frame ? frame.rotation : 0;
+    const frameOffsetX = frame ? frame.offsetX : 0;
+    const frameOffsetY = frame ? frame.offsetY : 0;
+
+    const finalScaleX = frameScaleX * stateScaleX;
+    const finalScaleY = frameScaleY * stateScaleY;
+    const finalRotation = frameRotation + stateRotation;
+    const finalOffsetY = frameOffsetY + stateOffsetY;
+
     ctx.globalAlpha = alpha;
-    ctx.translate(0, offsetY);
-    ctx.rotate(rotation);
-    ctx.scale(scaleX, scaleY);
+    ctx.translate(frameOffsetX, finalOffsetY);
+    ctx.rotate(finalRotation);
+    ctx.scale(finalScaleX, finalScaleY);
 
     const drawW = FIGHTER_DRAW_WIDTH;
     const drawH = FIGHTER_DRAW_HEIGHT;
@@ -3764,8 +3556,12 @@ export class FightEngine2D {
       ctx.drawImage(prevSprite, -drawW / 2, -drawH, drawW, drawH);
     }
 
-    // Draw current pose sprite fading in
-    if (sprite && sprite.complete && sprite.naturalWidth > 0) {
+    // Draw current pose sprite fading in (use frame image if available)
+    const drawImage = (frame && frame.image instanceof HTMLImageElement) ? frame.image : sprite;
+    if (drawImage && drawImage instanceof HTMLImageElement && drawImage.complete && drawImage.naturalWidth > 0) {
+      ctx.globalAlpha = f.blendAlpha < 1 ? alpha * f.blendAlpha : alpha;
+      ctx.drawImage(drawImage, -drawW / 2, -drawH, drawW, drawH);
+    } else if (sprite && sprite.complete && sprite.naturalWidth > 0) {
       ctx.globalAlpha = f.blendAlpha < 1 ? alpha * f.blendAlpha : alpha;
       ctx.drawImage(sprite, -drawW / 2, -drawH, drawW, drawH);
     } else {
