@@ -2859,3 +2859,6 @@
 - [x] Fix game reset not clearing all puzzles and remaining state (now clears 30+ localStorage keys)
 - [x] Fix first VO line delay - preload audio during BLACKOUT phase, pass to ElaraDialogBox
 - [x] Fix cryo bay reveal video not playing on first visit (start muted, unmute after play starts)
+- [x] Add skip button to room transition videos on second play (track seen transitions in localStorage)
+- [x] Move item found/quest completed notifications to opposite side of screen (toast position changed to bottom-left)
+- [x] Move Show/Hide Markers toggle from room image to Settings page (localStorage-backed, event-driven sync)

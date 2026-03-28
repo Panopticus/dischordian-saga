@@ -71,29 +71,53 @@ const CORRIDOR_THEMES: Record<string, { primary: string; secondary: string; acce
 };
 
 /* ═══ VIDEO CINEMATIC TRANSITION ═══ */
+const SEEN_TRANSITIONS_KEY = "loredex_seen_transitions";
+
+function getSeenTransitions(): Set<string> {
+  try {
+    const raw = localStorage.getItem(SEEN_TRANSITIONS_KEY);
+    return raw ? new Set(JSON.parse(raw)) : new Set();
+  } catch { return new Set(); }
+}
+
+function markTransitionSeen(key: string) {
+  const seen = getSeenTransitions();
+  seen.add(key);
+  localStorage.setItem(SEEN_TRANSITIONS_KEY, JSON.stringify([...seen]));
+}
+
 function VideoCinematic({
   videos,
   toRoomName,
   onComplete,
   isNewRoom,
+  transitionKey,
 }: {
   videos: string[];
   toRoomName: string;
   onComplete: () => void;
   isNewRoom: boolean;
+  transitionKey: string;
 }) {
+  const hasSeenBefore = getSeenTransitions().has(transitionKey);
   const [currentVideoIdx, setCurrentVideoIdx] = useState(0);
-  const [showSkip, setShowSkip] = useState(false);
+  const [showSkip, setShowSkip] = useState(hasSeenBefore);
   const [fading, setFading] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
   const nextVideoRef = useRef<HTMLVideoElement>(null);
   const completedRef = useRef(false);
 
-  // Show skip button after 2 seconds
+  // Mark this transition as seen on mount
   useEffect(() => {
+    markTransitionSeen(transitionKey);
+  }, [transitionKey]);
+
+  // Show skip button after 2 seconds for first-time views
+  useEffect(() => {
+    if (hasSeenBefore) return; // already showing
     const t = setTimeout(() => setShowSkip(true), 2000);
     return () => clearTimeout(t);
-  }, []);
+  }, [hasSeenBefore]);
 
   // Preload next video
   useEffect(() => {
@@ -490,6 +514,7 @@ export default function RoomTransition({
         toRoomName={toRoomName}
         onComplete={onComplete}
         isNewRoom={isNewRoom}
+        transitionKey={routeKey}
       />
     );
   }
@@ -503,6 +528,7 @@ export default function RoomTransition({
         toRoomName={toRoomName}
         onComplete={onComplete}
         isNewRoom={isNewRoom}
+        transitionKey={`*->${toRoom}`}
       />
     );
   }
@@ -516,6 +542,7 @@ export default function RoomTransition({
         toRoomName={toRoomName}
         onComplete={onComplete}
         isNewRoom={isNewRoom}
+        transitionKey={`${fromRoom}->bridge-return`}
       />
     );
   }

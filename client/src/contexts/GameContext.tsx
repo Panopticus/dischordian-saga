@@ -1309,6 +1309,8 @@ export function GameProvider({ children }: { children: ReactNode }) {
     // Favorites & playlists
     localStorage.removeItem("loredex-favorites");
     localStorage.removeItem("loredex-playlists");
+    localStorage.removeItem("loredex_seen_transitions");
+    localStorage.removeItem("loredex-show-hotspots");
     setState({ ...DEFAULT_GAME_STATE });
   }, []);
 

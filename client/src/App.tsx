@@ -328,7 +328,7 @@ function App() {
                 <PlayerProvider>
                   <SagaThemeBGMProvider>
                   <TooltipProvider>
-                    <Toaster />
+                    <Toaster position="bottom-left" />
                     <GameGate />
                   </TooltipProvider>
                   </SagaThemeBGMProvider>

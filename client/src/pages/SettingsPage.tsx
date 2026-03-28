@@ -435,6 +435,23 @@ export default function SettingsPage() {
             icon={HelpCircle}
           />
 
+          <Toggle
+            label="Show Room Markers"
+            description="Display interactive hotspot markers on room images"
+            enabled={(() => {
+              try {
+                const v = localStorage.getItem("loredex-show-hotspots");
+                return v === null ? true : v === "true";
+              } catch { return true; }
+            })()}
+            onChange={(v) => {
+              localStorage.setItem("loredex-show-hotspots", String(v));
+              window.dispatchEvent(new CustomEvent("hotspot-visibility-changed", { detail: { visible: v } }));
+              toast.success(v ? "Room markers visible" : "Room markers hidden");
+            }}
+            icon={Eye}
+          />
+
           <OptionSelector
             label="DIFFICULTY"
             value={settings.difficulty}

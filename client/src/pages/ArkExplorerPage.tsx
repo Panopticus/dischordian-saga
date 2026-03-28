@@ -196,7 +196,24 @@ function RoomScene({
   commsRelayComplete?: boolean;
 }) {
   const [hoveredHotspot, setHoveredHotspot] = useState<string | null>(null);
-  const [showHotspots, setShowHotspots] = useState(true);
+  const [showHotspots, setShowHotspots] = useState(() => {
+    try {
+      const v = localStorage.getItem("loredex-show-hotspots");
+      return v === null ? true : v === "true";
+    } catch { return true; }
+  });
+
+  // Listen for settings page toggle
+  useEffect(() => {
+    const handler = (e: Event) => {
+      const detail = (e as CustomEvent).detail;
+      if (detail && typeof detail.visible === "boolean") {
+        setShowHotspots(detail.visible);
+      }
+    };
+    window.addEventListener("hotspot-visibility-changed", handler);
+    return () => window.removeEventListener("hotspot-visibility-changed", handler);
+  }, []);
 
   return (
     <div className="relative w-full aspect-[16/9] sm:aspect-[21/9] rounded-lg overflow-hidden group">
@@ -215,18 +232,7 @@ function RoomScene({
         backgroundImage: "repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(51,226,230,0.15) 2px, rgba(51,226,230,0.15) 4px)",
       }} />
 
-      {/* Toggle hotspots button */}
-      <button
-        onClick={() => setShowHotspots(!showHotspots)}
-        className="absolute top-3 right-3 z-20 px-2 py-1 rounded font-mono text-[9px] tracking-wider transition-all"
-        style={{
-          background: showHotspots ? "rgba(51,226,230,0.15)" : "rgba(0,0,0,0.5)",
-          border: `1px solid ${showHotspots ? "rgba(51,226,230,0.3)" : "rgba(255,255,255,0.2)"}`,
-          color: showHotspots ? "var(--neon-cyan)" : "rgba(255,255,255,0.5)",
-        }}
-      >
-        {showHotspots ? "HIDE" : "SHOW"} MARKERS
-      </button>
+      {/* Markers toggle moved to Settings page */}
 
       {/* Hotspot markers */}
       <AnimatePresence>
