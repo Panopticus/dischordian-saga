@@ -2876,3 +2876,11 @@
 - [x] Add AI jump-in attacks for pressure
 - [x] Add AI heavy charge attacks for damage variety
 - [x] Add AI idle repositioning to reduce standing still
+
+## Fight Game Fixes Round 2 (March 28, 2026)
+- [x] Fix white background boxes still appearing behind fighter sprites (added crossOrigin + cache-busting + canvas-based white removal)
+- [x] Remove debug hitbox rectangles - these only show in training mode (by design)
+- [x] Remove character name labels - improved fallback renderer to use dark silhouette instead of colored boxes with names
+- [x] Move CONTINUE/FIGHT button from bottom-right to top of fight select screen
+- [x] Fix chess game stuck on same match - add New Game option
+- [x] Stop background music when fight begins (added suppress/unsuppress API to SagaThemeBGMContext)

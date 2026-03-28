@@ -196,6 +196,19 @@ export default function ChessPage() {
     setSelectedOpponent(null);
   };
 
+  const handleNewGame = () => {
+    setActiveGameId(null);
+    setGameStatus("active");
+    setRewards(null);
+    setEloChange(0);
+    setMoveHistory([]);
+    setLastAiMove(null);
+    setGameFen("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+    setOpponentInfo(null);
+    utils.chess.getActiveGame.invalidate();
+    setView("character_select");
+  };
+
   if (!isAuthenticated) {
     return (
       <div className="min-h-screen flex items-center justify-center p-8 grid-bg">
@@ -444,22 +457,33 @@ export default function ChessPage() {
                     </p>
                   </div>
                 </div>
-                {gameStatus === "active" && (
-                  <div className="flex items-center gap-2">
-                    {isThinking && (
-                      <div className="flex items-center gap-1.5 px-2 py-1 rounded bg-black/40 backdrop-blur-sm">
-                        <Loader2 size={12} className="animate-spin" style={{ color: arena.accentColor }} />
-                        <span className="font-mono text-[9px] text-white/60">THINKING...</span>
-                      </div>
-                    )}
+                <div className="flex items-center gap-2">
+                  {gameStatus === "active" && isThinking && (
+                    <div className="flex items-center gap-1.5 px-2 py-1 rounded bg-black/40 backdrop-blur-sm">
+                      <Loader2 size={12} className="animate-spin" style={{ color: arena.accentColor }} />
+                      <span className="font-mono text-[9px] text-white/60">THINKING...</span>
+                    </div>
+                  )}
+                  <button
+                    onClick={handleNewGame}
+                    className="px-3 py-1.5 rounded-md backdrop-blur-sm border text-xs font-mono"
+                    style={{
+                      backgroundColor: `${arena.accentColor}15`,
+                      borderColor: `${arena.accentColor}40`,
+                      color: arena.accentColor,
+                    }}
+                  >
+                    NEW GAME
+                  </button>
+                  {gameStatus === "active" && (
                     <button
                       onClick={handleResign}
                       className="px-3 py-1.5 rounded-md bg-red-900/40 backdrop-blur-sm border border-red-500/30 text-red-400 text-xs font-mono hover:bg-red-900/60"
                     >
                       <Flag size={12} className="inline mr-1" /> RESIGN
                     </button>
-                  </div>
-                )}
+                  )}
+                </div>
               </div>
 
               <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-4">
@@ -562,17 +586,31 @@ export default function ChessPage() {
                           ))}
                         </div>
                       )}
-                      <button
-                        onClick={handleBackToMenu}
-                        className="mt-3 px-4 py-2 rounded-md text-xs font-mono border"
-                        style={{
-                          backgroundColor: `${arena.accentColor}15`,
-                          borderColor: `${arena.accentColor}40`,
-                          color: arena.accentColor,
-                        }}
-                      >
-                        BACK TO MENU
-                      </button>
+                      <div className="mt-3 flex gap-2 justify-center">
+                        <button
+                          onClick={handleNewGame}
+                          className="px-5 py-2.5 rounded-md text-sm font-display tracking-wider border-2"
+                          style={{
+                            backgroundColor: `${arena.accentColor}20`,
+                            borderColor: `${arena.accentColor}60`,
+                            color: arena.accentColor,
+                            textShadow: `0 0 8px ${arena.accentColor}50`,
+                          }}
+                        >
+                          NEW GAME
+                        </button>
+                        <button
+                          onClick={handleBackToMenu}
+                          className="px-4 py-2.5 rounded-md text-xs font-mono border"
+                          style={{
+                            backgroundColor: "rgba(255,255,255,0.05)",
+                            borderColor: "rgba(255,255,255,0.15)",
+                            color: "rgba(255,255,255,0.6)",
+                          }}
+                        >
+                          MENU
+                        </button>
+                      </div>
                     </div>
                   )}
 

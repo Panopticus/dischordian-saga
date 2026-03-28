@@ -55,6 +55,10 @@ interface SagaThemeBGMContextValue {
   bgmVolume: number;
   /** The recommended VO volume for Elara lines */
   voVolume: number;
+  /** Suppress BGM (e.g. during fight game) — pauses without disabling */
+  suppress: () => void;
+  /** Unsuppress BGM — resumes if it was playing before */
+  unsuppress: () => void;
 }
 
 const SagaThemeBGMContext = createContext<SagaThemeBGMContextValue | null>(null);
@@ -88,6 +92,7 @@ export function SagaThemeBGMProvider({ children }: { children: ReactNode }) {
   const fadeIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const pausedByPlayerRef = useRef(false);
   const userStartedRef = useRef(false);
+  const suppressedRef = useRef(false);
 
   // Persist settings
   useEffect(() => {
@@ -205,6 +210,34 @@ export function SagaThemeBGMProvider({ children }: { children: ReactNode }) {
     };
   }, [enabled, playTheme]);
 
+  // Suppress/unsuppress for fight game or other game audio
+  const suppress = useCallback(() => {
+    suppressedRef.current = true;
+    const audio = audioRef.current;
+    if (audio && isPlaying) {
+      fadeOut(() => {
+        audio.pause();
+        setIsPlaying(false);
+      });
+    }
+  }, [isPlaying, fadeOut]);
+
+  const unsuppress = useCallback(() => {
+    suppressedRef.current = false;
+    const audio = audioRef.current;
+    if (!audio || !enabled || !userStartedRef.current) return;
+    if (!pausedByPlayerRef.current) {
+      if (audio.src && audio.src !== "") {
+        audio.play().then(() => {
+          setIsPlaying(true);
+          fadeIn(actualVolume);
+        }).catch(() => {});
+      } else {
+        playTheme(currentThemeIdx);
+      }
+    }
+  }, [enabled, actualVolume, fadeIn, playTheme, currentThemeIdx]);
+
   // Pause/resume based on main player state
   useEffect(() => {
     const audio = audioRef.current;
@@ -220,16 +253,18 @@ export function SagaThemeBGMProvider({ children }: { children: ReactNode }) {
         });
       }
     } else {
-      // Main player stopped — resume BGM
+      // Main player stopped — resume BGM (only if not suppressed)
       if (pausedByPlayerRef.current) {
         pausedByPlayerRef.current = false;
-        if (audio.src && audio.src !== "") {
-          audio.play().then(() => {
-            setIsPlaying(true);
-            fadeIn(actualVolume);
-          }).catch(() => {});
-        } else {
-          playTheme(currentThemeIdx);
+        if (!suppressedRef.current) {
+          if (audio.src && audio.src !== "") {
+            audio.play().then(() => {
+              setIsPlaying(true);
+              fadeIn(actualVolume);
+            }).catch(() => {});
+          } else {
+            playTheme(currentThemeIdx);
+          }
         }
       }
     }
@@ -275,6 +310,8 @@ export function SagaThemeBGMProvider({ children }: { children: ReactNode }) {
       setBGMVolume,
       bgmVolume,
       voVolume: VO_VOLUME,
+      suppress,
+      unsuppress,
     }}>
       {children}
     </SagaThemeBGMContext.Provider>

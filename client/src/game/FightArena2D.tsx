@@ -12,6 +12,7 @@ import type { FighterData, ArenaData, DifficultyLevel } from "./gameData";
 import { FightEngine2D, type FightCallbacks2D, type FightPhase2D, type TouchInput2D, type Difficulty2D, type TrainingData, type MoveListEntry } from "./FightEngine2D";
 import TrainingModeOverlay from "./TrainingModeOverlay";
 import FighterIntroOverlay from "./FighterIntroOverlay";
+import { useSagaThemeBGM } from "@/contexts/SagaThemeBGMContext";
 
 /* ═══ PROPS ═══ */
 interface FightArena2DProps {
@@ -138,6 +139,15 @@ export default function FightArena2D({
     if (typeof window === "undefined") return false;
     return !localStorage.getItem(TUTORIAL_DONE_KEY);
   });
+
+  // Suppress BGM when fight starts, restore when leaving
+  const bgm = useSagaThemeBGM();
+  useEffect(() => {
+    bgm.suppress();
+    return () => {
+      bgm.unsuppress();
+    };
+  }, []);
 
   // Detect mobile
   useEffect(() => {

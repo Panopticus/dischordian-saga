@@ -1136,7 +1136,16 @@ export default function FightPage() {
           <div className="font-mono text-xs text-amber-400">{gam.gameSave.fightPoints} PTS</div>
         </div>
 
-        <div className="flex-1 flex flex-col lg:flex-row">
+        {/* Matchup bar at top — always visible */}
+        <div className="px-4 py-2 border-b border-border/60">
+          <MatchupBar
+            selectedPlayer={selectedPlayer}
+            selectedOpponent={selectedOpponent}
+            onContinue={() => setPhase("difficulty")}
+          />
+        </div>
+
+        <div className="flex-1 flex flex-col lg:flex-row overflow-hidden">
           {/* Fighter grid */}
           <div className="flex-1 p-3 overflow-y-auto">
             <div className="font-mono text-[10px] text-muted-foreground/50 tracking-[0.3em] mb-2 px-1">ARCHONS & ALLIES</div>
@@ -1191,21 +1200,7 @@ export default function FightPage() {
           {/* Fighter detail panel — desktop */}
           <div className="hidden lg:flex w-72 border-l border-border/60 p-4 flex-col">
             <FighterDetailPanel fighter={displayFighter} traitBonuses={activeBonuses} activePotential={traitBonuses.data?.activePotential} />
-            <MatchupBar
-              selectedPlayer={selectedPlayer}
-              selectedOpponent={selectedOpponent}
-              onContinue={() => setPhase("difficulty")}
-            />
           </div>
-        </div>
-
-        {/* Mobile bottom bar */}
-        <div className="lg:hidden border-t border-border/60 p-3">
-          <MatchupBar
-            selectedPlayer={selectedPlayer}
-            selectedOpponent={selectedOpponent}
-            onContinue={() => setPhase("difficulty")}
-          />
         </div>
 
         {/* Lore Popup Modal */}
@@ -1547,46 +1542,63 @@ function MatchupBar({ selectedPlayer, selectedOpponent, onContinue }: {
   onContinue: () => void;
 }) {
   return (
-    <div className="border-t lg:border-t-0 border-border/60 pt-3 lg:mt-3">
-      <div className="flex gap-3 items-center mb-3">
-        <div className="flex-1 text-center">
-          <div className="font-mono text-[9px] text-muted-foreground/50 mb-1">PLAYER</div>
-          {selectedPlayer ? (
-            <div className="w-10 h-10 mx-auto rounded-md overflow-hidden border-2" style={{ borderColor: selectedPlayer.color }}>
-              <img src={selectedPlayer.image} alt="" className="w-full h-full object-cover" />
-            </div>
-          ) : (
-            <div className="w-10 h-10 mx-auto rounded-md border-2 border-dashed border-border flex items-center justify-center">
-              <span className="text-muted-foreground/35 text-lg">?</span>
-            </div>
-          )}
-        </div>
-        <Swords size={18} className="text-cyan-500/50" />
-        <div className="flex-1 text-center">
-          <div className="font-mono text-[9px] text-muted-foreground/50 mb-1">OPPONENT</div>
-          {selectedOpponent ? (
-            <div className="w-10 h-10 mx-auto rounded-md overflow-hidden border-2" style={{ borderColor: selectedOpponent.color }}>
-              <img src={selectedOpponent.image} alt="" className="w-full h-full object-cover" />
-            </div>
-          ) : (
-            <div className="w-10 h-10 mx-auto rounded-md border-2 border-dashed border-border flex items-center justify-center">
-              <span className="text-muted-foreground/35 text-lg">?</span>
-            </div>
-          )}
+    <div className="flex items-center gap-3 py-1">
+      {/* Player portrait */}
+      <div className="flex items-center gap-2">
+        {selectedPlayer ? (
+          <div className="w-12 h-12 rounded-md overflow-hidden border-2 shrink-0" style={{ borderColor: selectedPlayer.color }}>
+            <img src={selectedPlayer.image} alt="" className="w-full h-full object-cover" />
+          </div>
+        ) : (
+          <div className="w-12 h-12 rounded-md border-2 border-dashed border-border/60 flex items-center justify-center shrink-0">
+            <span className="text-muted-foreground/35 text-xl">?</span>
+          </div>
+        )}
+        <div className="hidden sm:block">
+          <div className="font-mono text-[9px] text-muted-foreground/50">PLAYER</div>
+          <div className="font-display text-xs text-foreground/80 truncate max-w-24">{selectedPlayer?.name || "---"}</div>
         </div>
       </div>
 
-      {selectedPlayer && selectedOpponent && (
+      <Swords size={20} className="text-cyan-500/50 shrink-0" />
+
+      {/* Opponent portrait */}
+      <div className="flex items-center gap-2">
+        {selectedOpponent ? (
+          <div className="w-12 h-12 rounded-md overflow-hidden border-2 shrink-0" style={{ borderColor: selectedOpponent.color }}>
+            <img src={selectedOpponent.image} alt="" className="w-full h-full object-cover" />
+          </div>
+        ) : (
+          <div className="w-12 h-12 rounded-md border-2 border-dashed border-border/60 flex items-center justify-center shrink-0">
+            <span className="text-muted-foreground/35 text-xl">?</span>
+          </div>
+        )}
+        <div className="hidden sm:block">
+          <div className="font-mono text-[9px] text-muted-foreground/50">OPPONENT</div>
+          <div className="font-display text-xs text-foreground/80 truncate max-w-24">{selectedOpponent?.name || "---"}</div>
+        </div>
+      </div>
+
+      {/* Spacer */}
+      <div className="flex-1" />
+
+      {/* CONTINUE button — large and prominent */}
+      {selectedPlayer && selectedOpponent ? (
         <motion.button
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          whileHover={{ scale: 1.03 }}
-          whileTap={{ scale: 0.97 }}
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
           onClick={onContinue}
-          className="w-full py-2.5 rounded-lg bg-cyan-500/20 border border-cyan-500/50 text-cyan-400 font-display text-sm tracking-wider hover:bg-cyan-500/30 transition-all"
+          className="px-8 py-3 rounded-lg bg-cyan-500/20 border-2 border-cyan-500/60 text-cyan-400 font-display text-base sm:text-lg tracking-wider hover:bg-cyan-500/30 transition-all shrink-0"
+          style={{ textShadow: "0 0 12px rgba(34,211,238,0.5)", boxShadow: "0 0 20px rgba(34,211,238,0.15)" }}
         >
-          CONTINUE
+          <Swords className="inline mr-2" size={18} /> CONTINUE
         </motion.button>
+      ) : (
+        <div className="font-mono text-xs text-muted-foreground/40 tracking-wider shrink-0">
+          SELECT BOTH FIGHTERS
+        </div>
       )}
     </div>
   );

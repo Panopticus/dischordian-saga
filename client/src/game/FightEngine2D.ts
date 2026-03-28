@@ -1222,11 +1222,45 @@ export class FightEngine2D {
     for (const [key, url] of Object.entries(poses)) {
       if (!url) continue;
       const img = new Image();
-      // Note: crossOrigin removed intentionally. The CDN serves files as
-      // application/octet-stream which can cause CORS-related rendering
-      // issues in some browsers. The sprites already have proper alpha
-      // transparency so no canvas pixel manipulation is needed.
-      img.src = url;
+      img.crossOrigin = "anonymous";
+      img.onload = () => {
+        // Process the loaded image to remove white/near-white backgrounds
+        // Many sprites are RGB (no alpha) or have white background remnants
+        try {
+          const offscreen = document.createElement("canvas");
+          offscreen.width = img.naturalWidth;
+          offscreen.height = img.naturalHeight;
+          const octx = offscreen.getContext("2d", { willReadFrequently: true });
+          if (!octx) return;
+          octx.drawImage(img, 0, 0);
+          const imageData = octx.getImageData(0, 0, offscreen.width, offscreen.height);
+          const d = imageData.data;
+          // Remove white/near-white pixels (threshold: RGB all > 230)
+          // Also remove very light gray pixels that form the background
+          const threshold = 230;
+          for (let i = 0; i < d.length; i += 4) {
+            if (d[i] > threshold && d[i + 1] > threshold && d[i + 2] > threshold) {
+              d[i + 3] = 0; // Make transparent
+            }
+          }
+          octx.putImageData(imageData, 0, 0);
+          // Create a new image from the processed canvas
+          const processed = new Image();
+          processed.onload = () => {
+            fighter.sprites[key as PoseKey] = processed;
+          };
+          processed.src = offscreen.toDataURL("image/png");
+        } catch {
+          // If CORS fails, keep the original image as-is
+          // This can happen if browser has cached a non-CORS version
+        }
+      };
+      // Add cache-buster to avoid CORS cache poisoning:
+      // The character select screen loads these same URLs without crossOrigin,
+      // so the browser caches a non-CORS version. Adding ?cors=1 forces a fresh
+      // CORS-enabled fetch so getImageData() won't throw a tainted canvas error.
+      const separator = url.includes("?") ? "&" : "?";
+      img.src = url + separator + "cors=1";
       fighter.sprites[key as PoseKey] = img;
     }
   }
@@ -3756,24 +3790,35 @@ export class FightEngine2D {
   }
 
   private renderFighterFallback(ctx: CanvasRenderingContext2D, f: Fighter2D) {
-    // Simple colored silhouette
+    // Translucent colored silhouette — no name label, no opaque box
     const w = FIGHTER_WIDTH;
     const h = FIGHTER_HEIGHT;
 
-    // Body
+    // Semi-transparent body silhouette
+    ctx.globalAlpha = 0.5;
     ctx.fillStyle = f.data.color;
-    ctx.fillRect(-w / 2, -h, w, h);
+    // Rounded body shape instead of rectangle
+    const bx = -w / 2;
+    const by = -h;
+    const r = 8;
+    ctx.beginPath();
+    ctx.moveTo(bx + r, by);
+    ctx.lineTo(bx + w - r, by);
+    ctx.quadraticCurveTo(bx + w, by, bx + w, by + r);
+    ctx.lineTo(bx + w, by + h - r);
+    ctx.quadraticCurveTo(bx + w, by + h, bx + w - r, by + h);
+    ctx.lineTo(bx + r, by + h);
+    ctx.quadraticCurveTo(bx, by + h, bx, by + h - r);
+    ctx.lineTo(bx, by + r);
+    ctx.quadraticCurveTo(bx, by, bx + r, by);
+    ctx.closePath();
+    ctx.fill();
 
     // Head
     ctx.beginPath();
-    ctx.arc(0, -h - 15, 18, 0, Math.PI * 2);
+    ctx.arc(0, -h - 15, 16, 0, Math.PI * 2);
     ctx.fill();
-
-    // Name
-    ctx.fillStyle = "#fff";
-    ctx.font = "bold 10px monospace";
-    ctx.textAlign = "center";
-    ctx.fillText(f.data.name.substring(0, 12), 0, -h - 35);
+    ctx.globalAlpha = 1;
   }
 
   private renderProjectiles(ctx: CanvasRenderingContext2D) {
