@@ -2862,3 +2862,17 @@
 - [x] Add skip button to room transition videos on second play (track seen transitions in localStorage)
 - [x] Move item found/quest completed notifications to opposite side of screen (toast position changed to bottom-left)
 - [x] Move Show/Hide Markers toggle from room image to Settings page (localStorage-backed, event-driven sync)
+- [ ] Fix white background boxes behind character sprites in Collector's Arena fighting game
+- [ ] Fix movement controls not responding to player input in fighting game
+- [ ] Fix AI opponent behavior in fighting game
+
+## Fight Game Fixes (March 28, 2026)
+- [x] Fix white background boxes on fighter sprites by removing unnecessary crossOrigin attribute
+- [x] Remove removeWhiteBackgroundToCanvas processing (sprites already have transparent backgrounds)
+- [x] Remove crossOrigin from background image loading
+- [x] Improve AI movement with dash approach/retreat for faster gap closing
+- [x] Add AI crouch attack mix-ups for low/high variety
+- [x] Add AI throw attempts at close range
+- [x] Add AI jump-in attacks for pressure
+- [x] Add AI heavy charge attacks for damage variety
+- [x] Add AI idle repositioning to reduce standing still

@@ -1222,7 +1222,10 @@ export class FightEngine2D {
     for (const [key, url] of Object.entries(poses)) {
       if (!url) continue;
       const img = new Image();
-      img.crossOrigin = "anonymous";
+      // Note: crossOrigin removed intentionally. The CDN serves files as
+      // application/octet-stream which can cause CORS-related rendering
+      // issues in some browsers. The sprites already have proper alpha
+      // transparency so no canvas pixel manipulation is needed.
       img.src = url;
       fighter.sprites[key as PoseKey] = img;
     }
@@ -2650,42 +2653,81 @@ export class FightEngine2D {
     const idealDist = arch === "zoner" ? 400 : arch === "grappler" ? 80 : arch === "rushdown" ? 100 : 180;
 
     if (dist > idealDist + 50) {
-      // Move closer
+      // Move closer — occasionally dash for faster approach
       const dir = ai.x < player.x ? 1 : -1;
       const walkSpeed = ARCHETYPE_WALK_SPEED[arch] * ai.data.frameProfile.walkSpeedMult;
-      ai.vx = dir * walkSpeed;
-      this.changeState(ai, dir === (ai.facingRight ? 1 : -1) ? "walk_fwd" : "walk_back");
+      if (dist > idealDist + 150 && Math.random() < profile.aggressionBase * 0.5 && ai.dashCooldownFrames <= 0) {
+        // Dash approach for closing large gaps
+        this.changeState(ai, "dash_fwd");
+        ai.vx = dir * walkSpeed * 2.5;
+        ai.dashCooldownFrames = 30;
+      } else {
+        ai.vx = dir * walkSpeed;
+        this.changeState(ai, dir === (ai.facingRight ? 1 : -1) ? "walk_fwd" : "walk_back");
+      }
     } else if (dist < idealDist - 30) {
-      // Move away
+      // Move away — occasionally dash back for safety
       const dir = ai.x < player.x ? -1 : 1;
       const walkSpeed = ARCHETYPE_WALK_SPEED[arch] * ai.data.frameProfile.walkSpeedMult;
-      ai.vx = dir * walkSpeed;
-      this.changeState(ai, "walk_back");
+      if (Math.random() < 0.2 && ai.dashCooldownFrames <= 0) {
+        this.changeState(ai, "dash_back");
+        ai.vx = dir * walkSpeed * 2.5;
+        ai.dashCooldownFrames = 30;
+      } else {
+        ai.vx = dir * walkSpeed;
+        this.changeState(ai, "walk_back");
+      }
     } else {
-      // In range — attack with punches or kicks
+      // In range — attack with varied options
       if (Math.random() < ai.aiAggression) {
         const roll = Math.random();
-        if (roll < 0.45) {
-          // Punch combo
+        if (roll < 0.35) {
+          // Punch combo starter
           this.changeState(ai, "light_1");
           ai.comboChain = 0;
-        } else if (roll < 0.65) {
-          // Light kick
+        } else if (roll < 0.48) {
+          // Light kick (fast poke)
           this.changeState(ai, "light_kick");
-        } else if (roll < 0.80) {
-          // Medium kick
+        } else if (roll < 0.60) {
+          // Medium kick (mid-range)
           this.changeState(ai, "medium_kick");
-        } else if (roll < 0.92) {
-          // Heavy kick at range
+        } else if (roll < 0.70) {
+          // Heavy kick (high damage)
           this.changeState(ai, "heavy_kick");
-        } else {
+        } else if (roll < 0.80) {
           // Medium punch
           this.changeState(ai, "medium");
+        } else if (roll < 0.88) {
+          // Crouch attack mix-up (low)
+          ai.isCrouching = true;
+          this.changeState(ai, "crouch_light");
+        } else if (roll < 0.94 && dist < 80) {
+          // Throw attempt at close range
+          this.changeState(ai, "throw_startup");
+        } else {
+          // Jump-in attack for pressure
+          if (Math.random() < 0.5) {
+            this.changeState(ai, "jump_fwd");
+            ai.vy = -(ARCHETYPE_JUMP_FORCE[arch] * ai.data.frameProfile.jumpForceMult);
+            ai.airborne = true;
+          } else {
+            // Heavy punch for damage
+            this.changeState(ai, "heavy_charge");
+            ai.heavyChargeFrames = 0;
+          }
         }
         ai.hitThisAttack = false;
       } else {
-        this.changeState(ai, "idle");
-        ai.vx = 0;
+        // Idle — but occasionally reposition
+        if (Math.random() < 0.3) {
+          const dir = ai.x < player.x ? 1 : -1;
+          const walkSpeed = ARCHETYPE_WALK_SPEED[arch] * ai.data.frameProfile.walkSpeedMult;
+          ai.vx = dir * walkSpeed * 0.5;
+          this.changeState(ai, "walk_fwd");
+        } else {
+          this.changeState(ai, "idle");
+          ai.vx = 0;
+        }
       }
     }
 
@@ -4104,7 +4146,7 @@ export class FightEngine2D {
 
   public loadBackgroundImage(url: string) {
     const img = new Image();
-    img.crossOrigin = "anonymous";
+    // crossOrigin not needed — we don't manipulate bg pixels
     img.onload = () => {
       this.bgImage = img;
       this.bgImageLoaded = true;
