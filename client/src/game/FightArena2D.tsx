@@ -162,13 +162,18 @@ export default function FightArena2D({
   const floorColor = arena.floorColor || "#1a1a2e";
   const ambientColor = arena.ambientColor || "#00ffff";
 
-  // Callbacks
+  // Callbacks — use refs so the engine never gets re-created mid-fight
+  const onMatchEndRef = useRef(onMatchEnd);
+  const p1PerfectRef = useRef(p1Perfect);
+  useEffect(() => { onMatchEndRef.current = onMatchEnd; }, [onMatchEnd]);
+  useEffect(() => { p1PerfectRef.current = p1Perfect; }, [p1Perfect]);
+
+  // Stable callbacks object — created once, reads latest values from refs
   const callbacks = useMemo<FightCallbacks2D>(() => ({
     onPhaseChange: (p) => {
       setPhase(p);
       if (p === "intro") {
         setShowIntroSplash(true);
-        // Cinematic intro handles its own timing via onComplete
       }
     },
     onHealthChange: (p1Hp, p1Max, _p2Hp, _p2Max) => {
@@ -176,11 +181,11 @@ export default function FightArena2D({
     },
     onMatchEnd: (winner) => {
       const w = winner === 1 ? "p1" : "p2";
-      const perfect = winner === 1 ? p1Perfect : false;
+      const perfect = winner === 1 ? p1PerfectRef.current : false;
       // Delay to show victory animation
-      setTimeout(() => onMatchEnd(w, perfect), 1500);
+      setTimeout(() => onMatchEndRef.current(w, perfect), 1500);
     },
-  }), [onMatchEnd, p1Perfect]);
+  }), []); // empty deps — stable forever
 
   // Initialize engine
   useEffect(() => {

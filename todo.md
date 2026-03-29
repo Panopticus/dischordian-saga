@@ -2927,4 +2927,4 @@
 - [x] Fix fight arena: sprites not always loading — some fighters fall back to colored rectangle placeholders
 - [x] Fix fight arena: controls getting stuck — player drifts into corner and cannot attack
 - [x] Fix fight arena: health bars still clipped at top of screen despite z-index fix
-- [ ] Fix fight arena: fight resets/restarts after it begins — likely a React re-render destroying and recreating the component
+- [x] Fix fight arena: fight resets/restarts after it begins — React re-render from p1Perfect state change was recreating the engine via unstable callbacks dependency
