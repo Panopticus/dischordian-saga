@@ -2922,3 +2922,5 @@
 - [x] Fix Warlord sprites missing pants (2 sprites: block and mediumPunch)
 - [x] Fix Necromancer sprite with extra leg (lightKick)
 - [x] Full QA pass on all Warlord and Necromancer sprites before integration
+- [x] Fix fight arena: character sprites showing as green placeholder rectangles instead of actual sprite images
+- [x] Fix fight arena: health bars cut off by top navigation bar — push HUD below site header

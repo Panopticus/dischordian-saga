@@ -1,9 +1,14 @@
 /**
  * Sprite Proxy — Server-side image processing for fight game sprites
  * 
- * Fetches sprite images from the CDN, removes white backgrounds using sharp,
- * and serves them as proper RGBA PNGs. This eliminates all CORS issues and
- * ensures sprites always have transparent backgrounds.
+ * Fetches sprite images from the CDN, resizes them to canvas-appropriate
+ * dimensions, removes white backgrounds using sharp, and serves them as
+ * proper RGBA PNGs. This eliminates all CORS issues and ensures sprites
+ * always have transparent backgrounds.
+ * 
+ * Optimization: Source sprites are 1792×2400 (~5MB) but the canvas only
+ * displays them at 180×280. We resize to 360×480 (2× display) before
+ * processing, cutting output from ~6MB to ~100KB per sprite.
  * 
  * Endpoint: GET /api/sprite-proxy?url=<encoded-cdn-url>
  */
@@ -14,6 +19,10 @@ import sharp from "sharp";
 const spriteCache = new Map<string, { buffer: Buffer; timestamp: number }>();
 const CACHE_TTL = 1000 * 60 * 60 * 4; // 4 hours
 const MAX_CACHE_SIZE = 200; // Max cached sprites
+
+// Target dimensions: 2× the canvas display size (180×280) for crisp rendering
+const TARGET_WIDTH = 360;
+const TARGET_HEIGHT = 480;
 
 // Allowed CDN domain for security
 const ALLOWED_DOMAINS = ["d2xsxph8kpxj0f.cloudfront.net"];
@@ -28,24 +37,22 @@ function isAllowedUrl(url: string): boolean {
 }
 
 async function processSprite(imageBuffer: Buffer): Promise<Buffer> {
-  // Get image metadata
-  const metadata = await sharp(imageBuffer).metadata();
-  const { width, height, channels } = metadata;
-  
-  if (!width || !height) {
-    throw new Error("Invalid image dimensions");
-  }
-
-  // Extract raw pixel data
-  const rawBuffer = await sharp(imageBuffer)
-    .ensureAlpha() // Ensure RGBA
+  // Step 1: Resize to target dimensions first (massive performance gain)
+  const resized = await sharp(imageBuffer)
+    .resize(TARGET_WIDTH, TARGET_HEIGHT, {
+      fit: "contain",
+      background: { r: 255, g: 255, b: 255, alpha: 1 },
+    })
+    .ensureAlpha()
     .raw()
-    .toBuffer();
+    .toBuffer({ resolveWithObject: true });
 
-  // Process pixels: remove white/near-white backgrounds
+  const { data: rawBuffer, info } = resized;
+  const w = info.width;
+  const h = info.height;
+
+  // Step 2: Process pixels — remove white/near-white backgrounds
   // Use flood-fill from edges to only remove connected white regions
-  const w = width;
-  const h = height;
   const pixels = new Uint8Array(rawBuffer);
   const visited = new Uint8Array(w * h);
   const toRemove = new Uint8Array(w * h);
@@ -112,7 +119,6 @@ async function processSprite(imageBuffer: Buffer): Promise<Buffer> {
   }
 
   // Also handle near-white edge pixels with soft alpha for anti-aliasing
-  // Check pixels adjacent to removed ones that are light but not white
   for (let i = 0; i < w * h; i++) {
     if (toRemove[i]) continue;
     const x = i % w;
@@ -131,16 +137,15 @@ async function processSprite(imageBuffer: Buffer): Promise<Buffer> {
     if (y < h - 1 && toRemove[i + w]) hasRemovedNeighbor = true;
 
     if (hasRemovedNeighbor) {
-      // Soft edge: reduce alpha based on how white the pixel is
       const whiteness = Math.min(r, g, b);
       if (whiteness > 200) {
-        const fadeAmount = (whiteness - 200) / 55; // 0 to 1
+        const fadeAmount = (whiteness - 200) / 55;
         pixels[off + 3] = Math.round(a * (1 - fadeAmount * 0.7));
       }
     }
   }
 
-  // Reconstruct the image with sharp
+  // Step 3: Reconstruct the image with sharp
   return sharp(Buffer.from(pixels.buffer), {
     raw: { width: w, height: h, channels: 4 },
   })
@@ -177,25 +182,8 @@ export function registerSpriteProxy(app: Express) {
       const arrayBuffer = await response.arrayBuffer();
       const imageBuffer = Buffer.from(arrayBuffer);
 
-      // Check if image already has transparency (RGBA with actual transparent pixels)
-      const metadata = await sharp(imageBuffer).metadata();
-      let resultBuffer: Buffer;
-
-      if (metadata.channels === 4 && metadata.hasAlpha) {
-        // Check if it actually uses the alpha channel
-        const stats = await sharp(imageBuffer).stats();
-        const alphaChannel = stats.channels[3];
-        if (alphaChannel && alphaChannel.min < 128) {
-          // Already has meaningful transparency, serve as-is (just ensure PNG)
-          resultBuffer = await sharp(imageBuffer).png({ compressionLevel: 6 }).toBuffer();
-        } else {
-          // Has alpha channel but it's all opaque — process it
-          resultBuffer = await processSprite(imageBuffer);
-        }
-      } else {
-        // RGB only — definitely needs processing
-        resultBuffer = await processSprite(imageBuffer);
-      }
+      // Always process through our pipeline (resize + bg removal)
+      const resultBuffer = await processSprite(imageBuffer);
 
       // Cache the result (evict oldest if full)
       if (spriteCache.size >= MAX_CACHE_SIZE) {

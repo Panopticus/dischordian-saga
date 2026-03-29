@@ -1295,7 +1295,7 @@ export default function FightPage() {
     const isStoryFight = !!currentStoryChapter && !isTrainingMode;
     return (
       <LandscapeEnforcer forceRotate>
-        <div className="fixed inset-0 z-50 bg-black" style={{ width: "100%", height: "100%" }}>
+        <div className="fixed inset-0 z-[60] bg-black" style={{ width: "100%", height: "100%" }}>
           <FightArena2D
             player={boostedPlayer!}
             opponent={selectedOpponent}

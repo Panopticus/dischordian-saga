@@ -1073,6 +1073,11 @@ export class FightEngine2D {
   private trainingInfiniteHealth = true;
   private trainingInfiniteMeter = false;
 
+  // Sprite loading tracking
+  private spriteLoadTotal = 0;
+  private spriteLoadComplete = 0;
+  private spritesReady = false;
+
   constructor(
     canvas: HTMLCanvasElement,
     p1Data: FighterData,
@@ -1223,13 +1228,31 @@ export class FightEngine2D {
     for (const [key, url] of Object.entries(poses)) {
       if (!url) continue;
       const img = new Image();
+      this.spriteLoadTotal++;
+      img.onload = () => {
+        this.spriteLoadComplete++;
+        if (this.spriteLoadComplete >= this.spriteLoadTotal) {
+          this.spritesReady = true;
+        }
+      };
+      img.onerror = () => {
+        // Count errors as loaded to avoid blocking forever
+        this.spriteLoadComplete++;
+        if (this.spriteLoadComplete >= this.spriteLoadTotal) {
+          this.spritesReady = true;
+        }
+      };
       // Route through server-side sprite proxy for reliable white background removal.
-      // The proxy fetches the CDN image, processes it with sharp to remove white
+      // The proxy fetches the CDN image, resizes to 360x480, removes white
       // backgrounds (flood-fill from edges), and serves a proper RGBA PNG.
       // This eliminates all CORS issues and handles RGB sprites without alpha.
       const proxyUrl = `/api/sprite-proxy?url=${encodeURIComponent(url)}`;
       img.src = proxyUrl;
       fighter.sprites[key as PoseKey] = img;
+    }
+    // If no sprites to load, mark as ready immediately
+    if (this.spriteLoadTotal === 0) {
+      this.spritesReady = true;
     }
   }
 
@@ -1517,6 +1540,14 @@ export class FightEngine2D {
 
   /* ═══ PHASE: INTRO ═══ */
   private updateIntro() {
+    // Don't advance intro until sprites are loaded (or 10s timeout)
+    if (!this.spritesReady && this.phaseTimer > -600) {
+      // Keep timer frozen at the start during loading
+      if (this.phaseTimer > INTRO_FRAMES - 5) {
+        this.phaseTimer = INTRO_FRAMES;
+      }
+      return;
+    }
     this.phaseTimer--;
     // Fighters walk toward each other
     if (this.phaseTimer > 30) {
@@ -3263,6 +3294,11 @@ export class FightEngine2D {
     // HUD (screen space)
     this.renderHUD(ctx);
 
+    // Sprite loading indicator (shown during intro while sprites load)
+    if (!this.spritesReady && this.phase === "intro") {
+      this.renderLoadingIndicator(ctx);
+    }
+
     // Announcement
     if (this.announcement) {
       this.renderAnnouncement(ctx);
@@ -3979,6 +4015,48 @@ export class FightEngine2D {
     ctx.setLineDash([3, 3]);
     ctx.strokeRect(px, py, pushW, pushH);
     ctx.restore();
+  }
+
+  /* ═══ SPRITE LOADING INDICATOR ═══ */
+  private renderLoadingIndicator(ctx: CanvasRenderingContext2D) {
+    const w = this.canvas.width;
+    const h = this.canvas.height;
+    const progress = this.spriteLoadTotal > 0 ? this.spriteLoadComplete / this.spriteLoadTotal : 0;
+
+    // Semi-transparent overlay
+    ctx.fillStyle = "rgba(0, 0, 0, 0.6)";
+    ctx.fillRect(0, 0, w, h);
+
+    // Loading text
+    ctx.save();
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillStyle = this.ambientColor;
+    ctx.font = "bold 14px 'Orbitron', monospace";
+    ctx.fillText("LOADING COMBATANTS", w / 2, h / 2 - 30);
+
+    // Progress bar background
+    const barW = 300;
+    const barH = 8;
+    const barX = (w - barW) / 2;
+    const barY = h / 2;
+    ctx.fillStyle = "#1a1a2e";
+    ctx.fillRect(barX, barY, barW, barH);
+
+    // Progress bar fill
+    ctx.fillStyle = this.ambientColor;
+    ctx.fillRect(barX, barY, barW * progress, barH);
+
+    // Progress text
+    ctx.fillStyle = "#ffffff80";
+    ctx.font = "10px 'Orbitron', monospace";
+    ctx.fillText(`${this.spriteLoadComplete} / ${this.spriteLoadTotal} sprites`, w / 2, h / 2 + 25);
+    ctx.restore();
+  }
+
+  /** Public getter for sprite loading progress */
+  public getSpriteLoadProgress(): { loaded: number; total: number; ready: boolean } {
+    return { loaded: this.spriteLoadComplete, total: this.spriteLoadTotal, ready: this.spritesReady };
   }
 
   /* ═══ ARENA BACKGROUND IMAGE ═══ */
