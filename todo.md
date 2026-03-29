@@ -2924,3 +2924,7 @@
 - [x] Full QA pass on all Warlord and Necromancer sprites before integration
 - [x] Fix fight arena: character sprites showing as green placeholder rectangles instead of actual sprite images
 - [x] Fix fight arena: health bars cut off by top navigation bar — push HUD below site header
+- [x] Fix fight arena: sprites not always loading — some fighters fall back to colored rectangle placeholders
+- [x] Fix fight arena: controls getting stuck — player drifts into corner and cannot attack
+- [x] Fix fight arena: health bars still clipped at top of screen despite z-index fix
+- [ ] Fix fight arena: fight resets/restarts after it begins — likely a React re-render destroying and recreating the component

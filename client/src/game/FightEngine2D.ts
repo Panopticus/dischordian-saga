@@ -1227,32 +1227,72 @@ export class FightEngine2D {
 
     for (const [key, url] of Object.entries(poses)) {
       if (!url) continue;
-      const img = new Image();
       this.spriteLoadTotal++;
-      img.onload = () => {
-        this.spriteLoadComplete++;
-        if (this.spriteLoadComplete >= this.spriteLoadTotal) {
-          this.spritesReady = true;
-        }
-      };
-      img.onerror = () => {
-        // Count errors as loaded to avoid blocking forever
-        this.spriteLoadComplete++;
-        if (this.spriteLoadComplete >= this.spriteLoadTotal) {
-          this.spritesReady = true;
-        }
-      };
-      // Route through server-side sprite proxy for reliable white background removal.
-      // The proxy fetches the CDN image, resizes to 360x480, removes white
-      // backgrounds (flood-fill from edges), and serves a proper RGBA PNG.
-      // This eliminates all CORS issues and handles RGB sprites without alpha.
-      const proxyUrl = `/api/sprite-proxy?url=${encodeURIComponent(url)}`;
-      img.src = proxyUrl;
-      fighter.sprites[key as PoseKey] = img;
+      this.loadSpriteWithRetry(fighter, key as PoseKey, url, 0);
     }
     // If no sprites to load, mark as ready immediately
     if (this.spriteLoadTotal === 0) {
       this.spritesReady = true;
+    }
+  }
+
+  /**
+   * Load a sprite with retry logic: tries proxy first, then retries with backoff,
+   * then falls back to direct CDN URL if all proxy attempts fail.
+   */
+  private loadSpriteWithRetry(fighter: Fighter2D, poseKey: PoseKey, originalUrl: string, attempt: number) {
+    const MAX_RETRIES = 3;
+    const img = new Image();
+    img.crossOrigin = "anonymous";
+
+    img.onload = () => {
+      // Verify it's a real image (not a broken/empty response)
+      if (img.naturalWidth > 0 && img.naturalHeight > 0) {
+        fighter.sprites[poseKey] = img;
+      }
+      this.spriteLoadComplete++;
+      if (this.spriteLoadComplete >= this.spriteLoadTotal) {
+        this.spritesReady = true;
+      }
+    };
+
+    img.onerror = () => {
+      if (attempt < MAX_RETRIES) {
+        // Retry with exponential backoff (200ms, 600ms, 1400ms)
+        const delay = 200 * Math.pow(2, attempt);
+        setTimeout(() => {
+          this.loadSpriteWithRetry(fighter, poseKey, originalUrl, attempt + 1);
+        }, delay);
+      } else {
+        // All proxy retries failed — try loading directly from CDN as last resort
+        const directImg = new Image();
+        directImg.crossOrigin = "anonymous";
+        directImg.onload = () => {
+          if (directImg.naturalWidth > 0) {
+            fighter.sprites[poseKey] = directImg;
+          }
+          this.spriteLoadComplete++;
+          if (this.spriteLoadComplete >= this.spriteLoadTotal) {
+            this.spritesReady = true;
+          }
+        };
+        directImg.onerror = () => {
+          // Truly failed — count as loaded to avoid blocking
+          this.spriteLoadComplete++;
+          if (this.spriteLoadComplete >= this.spriteLoadTotal) {
+            this.spritesReady = true;
+          }
+        };
+        directImg.src = originalUrl;
+      }
+    };
+
+    // Use proxy URL for background removal
+    const proxyUrl = `/api/sprite-proxy?url=${encodeURIComponent(originalUrl)}`;
+    img.src = proxyUrl;
+    // Set initial reference (will be replaced on successful load)
+    if (!fighter.sprites[poseKey]) {
+      fighter.sprites[poseKey] = img;
     }
   }
 
@@ -1297,14 +1337,50 @@ export class FightEngine2D {
     }
   };
 
+  /** Reset all input flags to false — prevents stuck keys on focus loss */
+  private resetInputState() {
+    this.inputState.left = false;
+    this.inputState.right = false;
+    this.inputState.up = false;
+    this.inputState.down = false;
+    this.inputState.light = false;
+    this.inputState.medium = false;
+    this.inputState.heavy = false;
+    this.inputState.special = false;
+    this.inputState.block = false;
+    this.inputState.lightKick = false;
+    this.inputState.mediumKick = false;
+    this.inputState.heavyKick = false;
+    this.inputState.taunt = false;
+  }
+
+  /** Handle window blur — reset all keys to prevent stuck movement */
+  private blurHandler = () => {
+    this.resetInputState();
+  };
+
+  /** Handle visibility change — reset keys when tab is hidden */
+  private visibilityHandler = () => {
+    if (document.hidden) {
+      this.resetInputState();
+    }
+  };
+
   private bindInputs() {
     window.addEventListener("keydown", this.keydownHandler);
     window.addEventListener("keyup", this.keyupHandler);
+    window.addEventListener("blur", this.blurHandler);
+    document.addEventListener("visibilitychange", this.visibilityHandler);
+    // Also reset on canvas blur (user clicks outside the game area)
+    this.canvas.addEventListener("blur", this.blurHandler);
   }
 
   private unbindInputs() {
     window.removeEventListener("keydown", this.keydownHandler);
     window.removeEventListener("keyup", this.keyupHandler);
+    window.removeEventListener("blur", this.blurHandler);
+    document.removeEventListener("visibilitychange", this.visibilityHandler);
+    this.canvas.removeEventListener("blur", this.blurHandler);
   }
 
   /* ═══ TOUCH INPUT (from React wrapper) ═══ */
@@ -3712,7 +3788,7 @@ export class FightEngine2D {
     const w = this.canvas.width;
     const barWidth = w * 0.35;
     const barHeight = 20;
-    const barY = 25;
+    const barY = 40;
     const barGap = 10;
 
     // P1 health bar (left side, fills right to left)
