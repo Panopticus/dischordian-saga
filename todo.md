@@ -2900,10 +2900,10 @@
 - [x] Implement hitbox/hurtbox collision detection with frame data — already existed
 - [x] Implement physics engine (gravity, momentum, knockback) — already existed
 - [x] Implement variable frame timing (slow wind-up, fast strike, slow recovery) — SpriteAnimator maps frames to startup/active/recovery
-- [ ] Generate multi-frame sprite sheets for pilot batch: The Prisoner
-- [ ] Generate multi-frame sprite sheets for pilot batch: Iron Lion
-- [ ] Generate multi-frame sprite sheets for pilot batch: The Warlord
-- [ ] Generate multi-frame sprite sheets for pilot batch: The Necromancer
+- [x] Generate multi-frame sprite sheets for pilot batch: The Prisoner
+- [x] Generate multi-frame sprite sheets for pilot batch: Iron Lion
+- [x] Generate multi-frame sprite sheets for pilot batch: The Warlord
+- [x] Generate multi-frame sprite sheets for pilot batch: The Necromancer
 - [ ] Background-remove all generated sprite frames via sprite proxy
 - [ ] Assemble sprite sheets with consistent frame dimensions
 - [ ] Wire up character select screen to new engine
@@ -2913,3 +2913,12 @@
 - [ ] Add per-character frame timing and move properties
 - [ ] Test end-to-end fight game with new engine
 - [ ] Save checkpoint with new fighting game engine
+- [x] QA fix: Regenerate Prisoner sprites with hood-down or extra limb issues
+- [x] Add The Prisoner to fighter roster in gameData.ts
+- [x] Add The Prisoner config to CharacterModel3D.ts with new sprites
+- [x] Update Warlord sprite URLs in CharacterModel3D.ts with new 26-pose sprites
+- [x] Update Necromancer sprite URLs in CharacterModel3D.ts with new 26-pose sprites
+- [x] Update Iron Lion sprite URLs in CharacterModel3D.ts with new 26-pose sprites
+- [x] Fix Warlord sprites missing pants (2 sprites: block and mediumPunch)
+- [x] Fix Necromancer sprite with extra leg (lightKick)
+- [x] Full QA pass on all Warlord and Necromancer sprites before integration

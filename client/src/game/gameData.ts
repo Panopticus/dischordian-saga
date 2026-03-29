@@ -374,6 +374,31 @@ export const STARTER_FIGHTERS: FighterData[] = [
     color: "#7c3aed",
     frameProfile: { archetype: "balanced", walkSpeedMult: 1.0, dashSpeedMult: 1.0, jumpForceMult: 1.0, lightStartup: 5, lightRecovery: 8, mediumStartup: 9, mediumRecovery: 15, heavyStartup: 8, heavyRecovery: 22, damageMult: 1.0, hitstunMult: 1.0, pushbackMult: 1.0, rangeMult: 1.0, meterGainMult: 1.05, maxComboHits: 11 },
   },
+  // Story Mode Protagonist — The Oracle after mind-wipe
+  {
+    id: "prisoner",
+    name: "The Prisoner",
+    title: "Subject 0 — The Oracle Reborn",
+    loredexId: "entity_7",
+    image: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/idle_15923b6e.png",
+    faction: "neutral",
+    locked: false,
+    unlockCost: 0,
+    hp: 95,
+    attack: 7,
+    defense: 6,
+    speed: 8,
+    special: {
+      name: "FRACTURED VISION",
+      damage: 28,
+      description: "A flash of prophetic power breaks through the amnesia, striking with precognitive force",
+      cooldown: 240,
+      color: "#34d399",
+    },
+    combos: ["Memory Flash", "Prophetic Strike", "Oracle's Fury"],
+    color: "#34d399",
+    frameProfile: { archetype: "balanced", walkSpeedMult: 1.05, dashSpeedMult: 1.05, jumpForceMult: 1.0, lightStartup: 4, lightRecovery: 7, mediumStartup: 8, mediumRecovery: 14, heavyStartup: 8, heavyRecovery: 21, damageMult: 1.0, hitstunMult: 1.0, pushbackMult: 1.0, rangeMult: 1.0, meterGainMult: 1.1, maxComboHits: 12 },
+  },
 ];
 
 /* ─── UNLOCKABLE ROSTER ─── */
