@@ -1735,12 +1735,8 @@ export class FightEngine2D {
     // SF-ported: Always poll control history (even when not actionable)
     this.pollControlHistory(f);
 
-    if (!this.isActionable(f)) {
-      // Still check for buffered inputs during recovery
-      return;
-    }
-
-    // Detect new button presses (rising edge)
+    // Detect new button presses (rising edge) — MUST happen before isActionable guard
+    // so prevInputState stays in sync even during non-actionable states
     const lightPressed = this.inputState.light && !this.prevInputState.light;
     const mediumPressed = this.inputState.medium && !this.prevInputState.medium;
     const heavyPressed = this.inputState.heavy && !this.prevInputState.heavy;
@@ -1753,8 +1749,13 @@ export class FightEngine2D {
     const downHeld = this.inputState.down;
     const tauntPressed = this.inputState.taunt && !this.prevInputState.taunt;
 
-    // Save previous state for edge detection
+    // Save previous state for edge detection — always update, even when not actionable
     this.prevInputState = { ...this.inputState };
+
+    if (!this.isActionable(f)) {
+      // Still check for buffered inputs during recovery
+      return;
+    }
 
     // SF-ported: Record button presses into control history for motion detection
     if (lightPressed) this.recordButtonPress(f, "LP");
@@ -2906,6 +2907,16 @@ export class FightEngine2D {
     f.hitThisAttack = false;
     f.cancelUsed = false;
 
+    // Stop horizontal movement when entering attack, block, stun, or other non-movement states.
+    // This prevents the "stuck forward movement" bug where walk velocity persists through attacks.
+    const isMovementState = newState === "walk_fwd" || newState === "walk_back" ||
+      newState === "dash_fwd" || newState === "dash_back" ||
+      newState === "jump_fwd" || newState === "jump_back" || newState === "jump_up" ||
+      newState === "jump_start" || newState === "idle";
+    if (!isMovementState && !f.airborne) {
+      f.vx = 0;
+    }
+
     // Sound triggers on state entry
     switch (newState) {
       case "dash_fwd":
@@ -3485,28 +3496,12 @@ export class FightEngine2D {
       const walkPhase = Math.floor(f.walkCycleFrame / 12) % 2;
       effectivePose = walkPhase === 0 ? f.currentPose : "idle";
     }
-    // Attack sequence cycling: cycle through related attack poses during startup/active/recovery
-    if (f.state === "light_1" || f.state === "light_2" || f.state === "light_3") {
-      const md = this.getMoveData(f);
-      if (md && f.stateFrame > md.startup && f.sprites.mediumPunch) {
-        effectivePose = "mediumPunch";
-      }
-    } else if (f.state === "crouch_light") {
-      const md = this.getMoveData(f);
-      if (md && f.stateFrame > md.startup && f.sprites.crouchKick) {
-        effectivePose = "crouchKick";
-      }
-    } else if (f.state === "crouch_heavy") {
+    // Attack pose: use the correct pose for each attack state.
+    // The SpriteAnimator multi-frame system handles visual variety
+    // (startup/active/recovery sub-frames) without overriding the pose.
+    // Crouch heavy always uses sweep pose.
+    if (f.state === "crouch_heavy") {
       effectivePose = "sweep";
-    } else if (f.state === "light_kick" || f.state === "medium_kick" || f.state === "heavy_kick") {
-      const kickMd = this.getMoveData(f);
-      if (kickMd && f.stateFrame > kickMd.startup) {
-        if (f.state === "light_kick" && f.sprites.mediumKick) {
-          effectivePose = "mediumKick";
-        } else if (f.state === "medium_kick" && f.sprites.heavyKick) {
-          effectivePose = "heavyKick";
-        }
-      }
     }
 
     // Resolve sprite with fallback chain

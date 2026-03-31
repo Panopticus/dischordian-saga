@@ -1,0 +1,19 @@
+{
+  "query": "SHOW TABLES LIKE 'chess%';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway04.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2T9erPMfbTpx4Y5.root --database 2quXz2C2n5hMfqc8hNVW3h --execute SHOW TABLES LIKE 'chess%';",
+  "rows": [
+    {
+      "Tables_in_2quXz2C2n5hMfqc8hNVW3h (chess%)": "chess_games"
+    },
+    {
+      "Tables_in_2quXz2C2n5hMfqc8hNVW3h (chess%)": "chess_rankings"
+    },
+    {
+      "Tables_in_2quXz2C2n5hMfqc8hNVW3h (chess%)": "chess_tournaments"
+    }
+  ],
+  "messages": [],
+  "stdout": "Tables_in_2quXz2C2n5hMfqc8hNVW3h (chess%)\nchess_games\nchess_rankings\nchess_tournaments\n",
+  "stderr": "",
+  "execution_time_ms": 521
+}

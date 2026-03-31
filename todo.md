@@ -2928,3 +2928,6 @@
 - [x] Fix fight arena: controls getting stuck — player drifts into corner and cannot attack
 - [x] Fix fight arena: health bars still clipped at top of screen despite z-index fix
 - [x] Fix fight arena: fight resets/restarts after it begins — React re-render from p1Perfect state change was recreating the engine via unstable callbacks dependency
+- [x] Fix fight arena: player character gets stuck in forward movement animation with all controls unresponsive
+- [x] Fix fight arena: all attack keys trigger the same punch effect — need varied light/medium/heavy punch and kick like Street Fighter
+- [x] Fix chess game: not a bug — chess page is behind Armory discovery gate (working as designed)
