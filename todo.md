@@ -2947,3 +2947,13 @@
 - [ ] Replace battle maps with Dischordian Saga themed environments
 - [ ] Replace music and SFX with Dischordian Saga audio
 - [ ] Set up Duelyst server backend for multiplayer/account management
+
+## Duelyst Auto-Login & API Bridge
+- [x] Build Duelyst API bridge (duelystApi.ts) with session, game data, and inventory endpoints
+- [x] Build server-side auto-login: read Loredex OS session cookie, generate Duelyst JWT, inject into localStorage before game loads
+- [x] Build Firebase shim to absorb Firebase constructor calls in the patched game bundle
+- [x] Fix route ordering: custom HTML route before static middleware with index:false
+- [x] Build faction progression, inventory, rank, quests, and matchmaking stub endpoints
+- [x] Write vitest tests for Duelyst API token creation, verification, and response formats (10 tests passing)
+- [ ] Restore game resources (621MB sprites, audio, maps) after sandbox reset
+- [ ] Full end-to-end test: Loredex OS login → auto-login → game loads past login screen

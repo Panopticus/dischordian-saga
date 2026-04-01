@@ -10,6 +10,7 @@ import { serveStatic, setupVite } from "./vite";
 import { setupPvpWebSocket } from "../pvpWs";
 import { registerSpriteProxy } from "../spriteProxy";
 import { registerDuelystClassic } from "../duelystClassic";
+import { registerDuelystApi } from "../duelystApi";
 
 function isPortAvailable(port: number): Promise<boolean> {
   return new Promise(resolve => {
@@ -120,6 +121,9 @@ async function startServer() {
 
   // Duelyst Classic game (serves standalone Cocos2d game at /duelyst-classic)
   registerDuelystClassic(app);
+
+  // Duelyst API bridge (session + game endpoints for the Duelyst client)
+  registerDuelystApi(app);
 
   // CSRF protection
   const { csrfProtection } = await import("../csrf");
