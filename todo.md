@@ -2931,3 +2931,19 @@
 - [x] Fix fight arena: player character gets stuck in forward movement animation with all controls unresponsive
 - [x] Fix fight arena: all attack keys trigger the same punch effect — need varied light/medium/heavy punch and kick like Street Fighter
 - [x] Fix chess game: not a bug — chess page is behind Armory discovery gate (working as designed)
+
+## Open Duelyst Full Port
+- [x] Clone and analyze full Open Duelyst repository (open-duelyst/duelyst)
+- [x] Catalog all Duelyst game systems, assets, and code modules
+- [x] Port complete Duelyst game code into Loredex OS project (2,752 source files)
+- [x] Port all Duelyst assets (sprites, animations, audio, shaders, maps) — 621 MB served via Express
+- [x] Configure Duelyst game to run within Loredex OS framework (pre-built bundles from v1.97.13)
+- [x] Test ported Duelyst game functionality — game loads with login screen at /duelyst-classic/
+- [x] Create RESKINNING_GUIDE.md for developer handoff
+- [x] Set up CoffeeScript + GLSL Vite plugins for future source modifications
+- [ ] Reskin factions to Dischordian Saga factions
+- [ ] Replace card names and descriptions with Dischordian Saga lore
+- [ ] Replace unit sprites with Dischordian Saga character art
+- [ ] Replace battle maps with Dischordian Saga themed environments
+- [ ] Replace music and SFX with Dischordian Saga audio
+- [ ] Set up Duelyst server backend for multiplayer/account management

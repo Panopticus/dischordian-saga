@@ -99,6 +99,7 @@ const GuildPage = lazy(() => import("./pages/GuildPage"));
 const BattlePassPage = lazy(() => import("./pages/BattlePassPage"));
 const InventoryPage = lazy(() => import("./pages/InventoryPage"));
 const ChessPage = lazy(() => import("./pages/ChessPage"));
+const DuelystClassicPage = lazy(() => import("./pages/DuelystClassicPage"));
 const SpectatorPage = lazy(() => import("./pages/SpectatorPage"));
 const SpaceStationPage = lazy(() => import("./pages/SpaceStationPage"));
 const SyndicateWorldPage = lazy(() => import("./pages/SyndicateWorldPage"));
@@ -200,6 +201,7 @@ function Router() {
         <Route path="/battle-pass" component={BattlePassPage} />
         <Route path="/inventory" component={InventoryPage} />
         <Route path="/chess" component={ChessPage} />
+        <Route path="/duelyst-play" component={DuelystClassicPage} />
         <Route path="/spectate" component={SpectatorPage} />
         <Route path="/space-station" component={SpaceStationPage} />
         <Route path="/syndicate-world" component={SyndicateWorldPage} />
