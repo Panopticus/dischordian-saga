@@ -99,7 +99,7 @@ export function registerDuelystClassic(app: Express) {
   if (fs.existsSync(localizationDir)) {
     app.use(
       "/duelyst-classic/resources/locales",
-      express.static(localizationDir, { maxAge: "7d" })
+      express.static(localizationDir, { maxAge: 0, setHeaders: (res) => { res.setHeader('Cache-Control', 'no-cache'); } })
     );
   }
 
@@ -234,41 +234,447 @@ function buildGameHtml(autoLoginScript: string): string {
     </div>
   </div>
   <script>
-    // Firebase shim - absorbs Firebase constructor calls in the patched bundle
-    if (typeof Firebase === 'undefined') {
-      window.Firebase = function(url) { this.url = url; this.childRef = this; };
-      var fp = Firebase.prototype;
-      fp.authWithCustomToken = function(token, cb) {
-        try {
-          var p = JSON.parse(atob(token.split('.')[1]));
-          cb(null, {auth:{id:p.d.id,username:p.d.username},expires:p.exp||Date.now()/1000+86400});
-        } catch(e) { cb(e); }
-      };
-      fp.child = function() { return this; };
-      fp.on = function() { return this; };
-      fp.off = function() { return this; };
-      fp.once = function(ev, cb) { if(cb) cb({val:function(){return null;},exists:function(){return false;}}); return this; };
-      fp.set = function(v, cb) { if(cb) cb(null); return this; };
-      fp.update = function(v, cb) { if(cb) cb(null); return this; };
-      fp.remove = function(cb) { if(cb) cb(null); return this; };
-      fp.push = function() { return this; };
-      fp.limit = function() { return this; };
-      fp.limitToLast = function() { return this; };
-      fp.orderByChild = function() { return this; };
-      fp.startAt = function() { return this; };
-      fp.endAt = function() { return this; };
-      fp.unauth = function() {};
-      fp.onAuth = function() {};
-      fp.offAuth = function() {};
-      fp.onDisconnect = function() { return {set:function(){},update:function(){},remove:function(){},cancel:function(){}}; };
-      fp.val = function() { return null; };
-      fp.exists = function() { return false; };
-      fp.toString = function() { return this.url || ''; };
-      Firebase.ServerValue = { TIMESTAMP: Date.now() };
-    }
+    // Prevent the "new user" redirect that sends players to the landing page
+    // The game checks for these localStorage keys to determine if user is new
+    try {
+      localStorage.setItem('redirected', 'true');
+      localStorage.setItem('duelyst-staging.redirected', 'true');
+    } catch(e) {}
   </script>
-  <script src="/duelyst-classic/vendor.js" crossorigin></script>
-  <script src="/duelyst-classic/duelyst.js" crossorigin></script>
+  <script>
+    // WebSocket interceptor: Fake Firebase Realtime Database connections
+    // Firebase SDK v2.0.3 uses WebSocket to connect to *.firebaseio.com
+    // We intercept these connections and simulate the Firebase wire protocol
+    (function() {
+      var RealWebSocket = window.WebSocket;
+      var reqCounter = 0;
+      
+      function FakeFirebaseWS(url, protocols) {
+        var self = this;
+        this.url = url;
+        this.readyState = 0; // CONNECTING
+        this.protocol = '';
+        this.extensions = '';
+        this.bufferedAmount = 0;
+        this.binaryType = 'blob';
+        this._listeners = {};
+        this.onopen = null;
+        this.onmessage = null;
+        this.onclose = null;
+        this.onerror = null;
+        
+        // Simulate connection opening
+        setTimeout(function() {
+          self.readyState = 1; // OPEN
+          var evt = new Event('open');
+          if (self.onopen) self.onopen(evt);
+          self.dispatchEvent(evt);
+          
+          // Send Firebase handshake response
+          var handshake = JSON.stringify({
+            t: 'c',
+            d: {
+              t: 'h',
+              d: {
+                ts: Date.now(),
+                v: '5',
+                h: 'duelyst-59830-default-rtdb.firebaseio.com',
+                s: 'session_' + Math.random().toString(36).substr(2)
+              }
+            }
+          });
+          self._fireMessage(handshake);
+        }, 10);
+      }
+      
+      FakeFirebaseWS.prototype._fireMessage = function(data) {
+        var evt = new MessageEvent('message', { data: data });
+        if (this.onmessage) this.onmessage(evt);
+        this.dispatchEvent(evt);
+      };
+      
+      FakeFirebaseWS.prototype.send = function(data) {
+        if (this.readyState !== 1) return;
+        var self = this;
+        try {
+          var msg = JSON.parse(data);
+          // Handle Firebase wire protocol messages
+          if (msg.t === 'd') {
+            var req = msg.d;
+            if (req.a === 'q' || req.a === 'g') {
+              // Query or get request - respond with empty data
+              setTimeout(function() {
+                self._fireMessage(JSON.stringify({
+                  t: 'd',
+                  d: {
+                    r: req.r,
+                    b: { s: 'ok', d: null }
+                  }
+                }));
+              }, 5);
+            } else if (req.a === 'p' || req.a === 'm') {
+              // Put or merge request - acknowledge
+              setTimeout(function() {
+                self._fireMessage(JSON.stringify({
+                  t: 'd',
+                  d: {
+                    r: req.r,
+                    b: { s: 'ok', d: {} }
+                  }
+                }));
+              }, 5);
+            } else if (req.a === 'n' || req.a === 'l') {
+              // Listen or unlisten - acknowledge
+              setTimeout(function() {
+                self._fireMessage(JSON.stringify({
+                  t: 'd',
+                  d: {
+                    r: req.r,
+                    b: { s: 'ok', d: null }
+                  }
+                }));
+              }, 5);
+            } else if (req.a === 'auth') {
+              // Auth request - always succeed
+              setTimeout(function() {
+                self._fireMessage(JSON.stringify({
+                  t: 'd',
+                  d: {
+                    r: req.r,
+                    b: { s: 'ok', d: { auth: req.b?.cred ? JSON.parse(atob((req.b.cred+'').split('.')[1] || 'e30=')) : null } }
+                  }
+                }));
+              }, 5);
+            } else if (req.a === 's') {
+              // Stats - acknowledge
+              setTimeout(function() {
+                self._fireMessage(JSON.stringify({
+                  t: 'd',
+                  d: { r: req.r, b: { s: 'ok', d: '' } }
+                }));
+              }, 5);
+            } else {
+              // Unknown request - generic ok
+              if (req.r) {
+                setTimeout(function() {
+                  self._fireMessage(JSON.stringify({
+                    t: 'd',
+                    d: { r: req.r, b: { s: 'ok', d: null } }
+                  }));
+                }, 5);
+              }
+            }
+          }
+        } catch(e) { /* ignore parse errors */ }
+      };
+      
+      FakeFirebaseWS.prototype.close = function(code, reason) {
+        this.readyState = 3; // CLOSED
+        var evt = new CloseEvent('close', { code: code || 1000, reason: reason || '', wasClean: true });
+        if (this.onclose) this.onclose(evt);
+        this.dispatchEvent(evt);
+      };
+      
+      FakeFirebaseWS.prototype.addEventListener = function(type, fn) {
+        if (!this._listeners[type]) this._listeners[type] = [];
+        this._listeners[type].push(fn);
+      };
+      
+      FakeFirebaseWS.prototype.removeEventListener = function(type, fn) {
+        if (!this._listeners[type]) return;
+        this._listeners[type] = this._listeners[type].filter(function(f) { return f !== fn; });
+      };
+      
+      FakeFirebaseWS.prototype.dispatchEvent = function(evt) {
+        var fns = this._listeners[evt.type] || [];
+        for (var i = 0; i < fns.length; i++) fns[i].call(this, evt);
+        return true;
+      };
+      
+      // Constants
+      FakeFirebaseWS.CONNECTING = 0;
+      FakeFirebaseWS.OPEN = 1;
+      FakeFirebaseWS.CLOSING = 2;
+      FakeFirebaseWS.CLOSED = 3;
+      
+      // Override WebSocket constructor
+      window.WebSocket = function(url, protocols) {
+        if (typeof url === 'string' && url.indexOf('firebaseio.com') !== -1) {
+          return new FakeFirebaseWS(url, protocols);
+        }
+        // For non-Firebase WebSockets, use the real implementation
+        if (protocols) return new RealWebSocket(url, protocols);
+        return new RealWebSocket(url);
+      };
+      window.WebSocket.CONNECTING = 0;
+      window.WebSocket.OPEN = 1;
+      window.WebSocket.CLOSING = 2;
+      window.WebSocket.CLOSED = 3;
+      window.WebSocket.prototype = RealWebSocket.prototype;
+    })();
+  </script>
+  <script>
+    // XHR interceptor: redirect staging.duelyst.org to our server + cache-bust locales
+    (function() {
+      var origOpen = XMLHttpRequest.prototype.open;
+      var localOrigin = window.location.origin;
+      XMLHttpRequest.prototype.open = function(method, url) {
+        if (typeof url === 'string') {
+          // Redirect all staging.duelyst.org requests to our local server
+          if (url.indexOf('staging.duelyst.org') !== -1) {
+            try {
+              var parsed = new URL(url);
+              url = localOrigin + parsed.pathname + parsed.search;
+              console.log('[Dischordian XHR] Redirected: ' + method + ' ' + url);
+            } catch(e) {
+              // If URL parsing fails, try simple string replacement
+              var idx3 = url.indexOf('/api/');
+              if (idx3 === -1) idx3 = url.indexOf('/matchmaking');
+              if (idx3 === -1) idx3 = url.indexOf('/replays');
+              if (idx3 !== -1) url = localOrigin + url.substring(idx3);
+            }
+          }
+          // Also redirect any other duelyst.com/duelyst.org requests
+          if (url.indexOf('duelyst.org') !== -1 || url.indexOf('duelyst.com') !== -1) {
+            try {
+              var parsed2 = new URL(url);
+              url = localOrigin + parsed2.pathname + parsed2.search;
+              console.log('[Dischordian XHR] Redirected external: ' + method + ' ' + url);
+            } catch(e2) {}
+          }
+          // Cache-bust localization files
+          if (url.indexOf('locales') !== -1 && url.indexOf('index.json') !== -1) {
+            var sep = url.indexOf('?') === -1 ? '?' : '&';
+            url = url + sep + '_cb=' + Date.now();
+          }
+        }
+        // Replace url in arguments
+        var args = Array.prototype.slice.call(arguments);
+        args[1] = url;
+        return origOpen.apply(this, args);
+      };
+    })();
+  </script>
+  <script src="/duelyst-classic/vendor.js"></script>
+  <script src="/duelyst-classic/duelyst.js?v=${Date.now()}"></script>
+  <script>
+    // Dischordian Saga: Apply auth patches and trigger deferred game setup.
+    // The bundle defers c.setup() into window._duelystSetup.
+    // We patch Session prototype, then call setup.
+    (function() {
+      var origin = window.location.origin;
+
+      function makeStubRef(self) {
+        self.fbRef = {
+          child: function() { return self.fbRef; },
+          update: function(d,cb) { if(cb) cb(null); },
+          set: function(d,cb) { if(cb) cb(null); },
+          on: function() {}, off: function() {},
+          once: function(ev,cb) { if(cb) cb({val:function(){return null;}}); },
+          push: function() { return self.fbRef; },
+          remove: function(cb) { if(cb) cb(null); },
+          unauth: function() {}, onAuth: function() {}, offAuth: function() {},
+          toString: function() { return 'stub-ref'; }
+        };
+      }
+
+      function applyPatches(session) {
+        var sp = Object.getPrototypeOf(session);
+        if (!sp || !sp._authFirebase) {
+          console.error('[Dischordian] Cannot patch: no _authFirebase on prototype');
+          return false;
+        }
+
+        // Lock Session.url
+        Object.defineProperty(session, 'url', {
+          get: function() { return origin; },
+          set: function() {},
+          configurable: true
+        });
+
+        // Override _authFirebase
+        sp._authFirebase = function(token) {
+          var self = this;
+          return new Promise(function(resolve, reject) {
+            try {
+              var payload = JSON.parse(atob(token.split('.')[1]));
+              makeStubRef(self);
+              resolve({
+                auth: { id: payload.d.id, username: payload.d.username },
+                expires: payload.exp || (Date.now()/1000 + 86400),
+                token: token, uid: payload.d.id, provider: 'custom'
+              });
+            } catch(e) { reject(e); }
+          });
+        };
+
+        // Override _deauthFirebase
+        sp._deauthFirebase = function() { this.fbRef = null; };
+
+        // Override isAuthenticated (native Promise, no Bluebird .bind/.timeout)
+        sp.isAuthenticated = function(token) {
+          var self = this;
+          if (token == null) return Promise.resolve(false);
+          return self._authFirebase(token)
+            .then(function(authData) {
+              console.log('[Dischordian] isAuth resolved', authData.auth);
+              self.token = token;
+              self.userId = authData.auth.id;
+              self.username = authData.auth.username;
+              self.expires = authData.expires;
+              return fetch(self.url + '/session', {
+                method: 'GET',
+                headers: { 'Accept':'application/json', 'Content-Type':'application/json', 'Authorization':'Bearer '+self.token }
+              });
+            })
+            .then(function(response) {
+              if (response.ok) return response.json().then(function(d) { d.status = response.status; return d; });
+              return null;
+            })
+            .then(function(data) {
+              if (data !== null) {
+                self.analyticsData = data.analytics_data;
+                self.emit('login', { token: self.token, userId: self.userId, analyticsData: self.analyticsData });
+                console.log('[Dischordian] Auth SUCCESS userId=' + self.userId + ' username=' + self.username);
+                return true;
+              }
+              return false;
+            })
+            .catch(function(e) { console.error('[Dischordian] isAuth FAILED', e.message); return false; });
+        };
+
+        // Override refreshToken
+        sp.refreshToken = function() {
+          var self = this;
+          if (!self.token) return Promise.resolve(null);
+          return fetch(self.url + '/session', {
+            method: 'GET',
+            headers: { 'Accept':'application/json', 'Content-Type':'application/json', 'Authorization':'Bearer '+self.token }
+          })
+          .then(function(r) { return r.ok ? r.json() : null; })
+          .then(function(data) {
+            if (!data) return null;
+            self.analyticsData = data.analytics_data;
+            if (data.token) self.token = data.token;
+            return self._authFirebase(self.token);
+          })
+          .then(function(authData) {
+            if (!authData) return null;
+            self.userId = authData.auth.id; self.username = authData.auth.username; self.expires = authData.expires;
+            self.emit('login', { token: self.token, userId: self.userId, analyticsData: self.analyticsData });
+            return true;
+          })
+          .catch(function(e) { console.error('[Dischordian] refreshToken FAILED', e.message); return null; });
+        };
+
+        // Override login
+        sp.login = function(username, password, isGuest) {
+          var self = this;
+          return fetch(self.url + '/session', {
+            method: 'POST',
+            headers: { 'Accept':'application/json', 'Content-Type':'application/json' },
+            body: JSON.stringify({ username: username, password: password || '' })
+          })
+          .then(function(r) { if (!r.ok) throw new Error(r.statusText); return r.json(); })
+          .then(function(data) {
+            self.analyticsData = data.analytics_data; self.token = data.token;
+            return self._authFirebase(self.token);
+          })
+          .then(function(authData) {
+            self.userId = authData.auth.id; self.username = authData.auth.username; self.expires = authData.expires;
+            if (!isGuest) self.emit('login', { token: self.token, userId: self.userId, analyticsData: self.analyticsData });
+            return true;
+          })
+          .catch(function(e) { console.error('[Dischordian] login FAILED', e.message); throw e; });
+        };
+
+        console.log('[Dischordian] Session patches applied successfully');
+        return true;
+      }
+
+      // XHR interceptor: redirect staging.duelyst.org to our local server
+      // Must be applied AFTER the bundle loads (vendor.js resets XHR.prototype.open)
+      (function() {
+        var origOpen = XMLHttpRequest.prototype.open;
+        XMLHttpRequest.prototype.open = function(method, url) {
+          if (typeof url === 'string') {
+            if (url.indexOf('staging.duelyst.org') !== -1 || url.indexOf('duelyst.org') !== -1 || url.indexOf('duelyst.com') !== -1) {
+              try {
+                var parsed = new URL(url);
+                url = origin + parsed.pathname + parsed.search;
+                console.log('[Dischordian XHR] ' + method + ' ' + url);
+              } catch(e) {
+                var idx = url.indexOf('/api/');
+                if (idx === -1) idx = url.indexOf('/matchmaking');
+                if (idx === -1) idx = url.indexOf('/replays');
+                if (idx === -1) idx = url.indexOf('/forgot');
+                if (idx === -1) idx = url.indexOf('/replay');
+                if (idx !== -1) url = origin + url.substring(idx);
+              }
+            }
+            // Cache-bust localization files
+            if (url.indexOf('locales') !== -1 && url.indexOf('index.json') !== -1) {
+              var sep = url.indexOf('?') === -1 ? '?' : '&';
+              url = url + sep + '_cb=' + Date.now();
+            }
+          }
+          var args = Array.prototype.slice.call(arguments);
+          args[1] = url;
+          return origOpen.apply(this, args);
+        };
+        console.log('[Dischordian] XHR interceptor installed (post-bundle)');
+      })();
+
+      // Also intercept jQuery.ajax if available (jQuery might cache its own reference)
+      function patchJqueryAjax() {
+        if (typeof jQuery !== 'undefined' && jQuery.ajaxPrefilter) {
+          jQuery.ajaxPrefilter(function(options) {
+            if (options.url && (options.url.indexOf('staging.duelyst.org') !== -1 || options.url.indexOf('duelyst.org') !== -1 || options.url.indexOf('duelyst.com') !== -1)) {
+              try {
+                var parsed = new URL(options.url);
+                options.url = origin + parsed.pathname + parsed.search;
+                console.log('[Dischordian $.ajax] ' + options.url);
+              } catch(e) {
+                var idx2 = options.url.indexOf('/api/');
+                if (idx2 === -1) idx2 = options.url.indexOf('/matchmaking');
+                if (idx2 !== -1) options.url = origin + options.url.substring(idx2);
+              }
+            }
+          });
+          console.log('[Dischordian] jQuery.ajaxPrefilter installed');
+        }
+      }
+      patchJqueryAjax();
+
+      // Poll for Session to exist, then patch and trigger setup
+      function tryPatchAndSetup() {
+        var s = window.Session;
+        if (!s) return false;
+        applyPatches(s);
+        if (typeof window._duelystSetup === 'function') {
+          console.log('[Dischordian] Triggering deferred game setup');
+          window._duelystSetup();
+        }
+        return true;
+      }
+
+      // Try immediately
+      if (!tryPatchAndSetup()) {
+        console.log('[Dischordian] Session not ready, polling...');
+        var attempts = 0;
+        var iv = setInterval(function() {
+          if (tryPatchAndSetup()) {
+            clearInterval(iv);
+          } else if (++attempts > 200) {
+            clearInterval(iv);
+            console.error('[Dischordian] Session never appeared after 10s');
+            // Try triggering setup anyway
+            if (typeof window._duelystSetup === 'function') window._duelystSetup();
+          }
+        }, 50);
+      }
+    })();
+  </script>
 </body>
 </html>`;
 }

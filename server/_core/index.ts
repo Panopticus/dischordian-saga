@@ -12,6 +12,7 @@ import { registerSpriteProxy } from "../spriteProxy";
 import { registerDuelystClassic } from "../duelystClassic";
 import { registerDuelystApi } from "../duelystApi";
 import { registerChessMultiplayer } from "../chessMultiplayer";
+import { bootstrapDuelystResources } from "../duelystBootstrap";
 
 function isPortAvailable(port: number): Promise<boolean> {
   return new Promise(resolve => {
@@ -162,6 +163,8 @@ async function startServer() {
 
   server.listen(port, () => {
     console.log(`Server running on http://localhost:${port}/`);
+    // Bootstrap Duelyst resources from CDN (runs in background, doesn't block)
+    bootstrapDuelystResources();
   });
 }
 

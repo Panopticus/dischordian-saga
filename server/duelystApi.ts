@@ -390,9 +390,214 @@ export function registerDuelystApi(app: Express) {
     });
   });
 
+  // POST /session/username_available — Check if username is available
+  app.post("/session/username_available", (req: Request, res: Response) => {
+    try {
+      const { username } = req.body || {};
+      if (!username || username.length < 3) {
+        return res.json({ available: false });
+      }
+      // In our single-player bridge, all usernames are available
+      return res.json({ available: true });
+    } catch (err: any) {
+      console.error("[Duelyst API] Username check error:", err);
+      return res.status(500).json({ error: "Internal server error" });
+    }
+  });
+
+  // POST /session/change_username — Set or change username
+  app.post("/session/change_username", (req: Request, res: Response) => {
+    try {
+      const token = extractToken(req);
+      if (!token) {
+        return res.status(401).json({ error: "Unauthorized" });
+      }
+      const user = verifyGameToken(token);
+      if (!user) {
+        return res.status(401).json({ error: "Invalid token" });
+      }
+
+      const username = req.body?.new_username || req.body?.username;
+      if (!username || username.length < 3) {
+        return res.status(400).json({ error: "Username must be at least 3 characters" });
+      }
+
+      // Update the in-memory user store
+      const oldKey = user.username.toLowerCase();
+      const existingUser = gameUsers.get(oldKey);
+      if (existingUser) {
+        gameUsers.delete(oldKey);
+        existingUser.username = username;
+        gameUsers.set(username.toLowerCase(), existingUser);
+      }
+
+      // Return a new token with the updated username
+      const newToken = createGameToken(user.id, username);
+      console.log(`[Duelyst API] Username changed: ${user.username} → ${username}`);
+
+      return res.json({
+        token: newToken,
+        username,
+      });
+    } catch (err: any) {
+      console.error("[Duelyst API] Change username error:", err);
+      return res.status(500).json({ error: "Internal server error" });
+    }
+  });
+
   // GET /session/logout — Logout
   app.get("/session/logout", (_req: Request, res: Response) => {
     return res.json({ success: true });
+  });
+
+  // ═══ /api/me/* ENDPOINTS (redirected from staging.duelyst.org) ═══
+
+  // POST /api/me/rank — Season rank data (critical for main menu)
+  app.post("/api/me/rank", (_req: Request, res: Response) => {
+    return res.json({
+      rank: 30,
+      stars: 0,
+      stars_required: 1,
+      win_streak: 0,
+      is_unread: false,
+      top_rank: 30,
+      top_rank_starting_at: new Date().toISOString(),
+      top_rank_ladder_position: null,
+      delta: 0,
+      updated_at: new Date().toISOString(),
+      created_at: new Date().toISOString(),
+    });
+  });
+
+  // GET /api/me/rank — Season rank data
+  app.get("/api/me/rank", (_req: Request, res: Response) => {
+    return res.json({
+      rank: 30,
+      stars: 0,
+      stars_required: 1,
+      win_streak: 0,
+      is_unread: false,
+      top_rank: 30,
+      top_rank_starting_at: new Date().toISOString(),
+      top_rank_ladder_position: null,
+    });
+  });
+
+  // GET /api/me/rank/history — Season rank history
+  app.get("/api/me/rank/history", (_req: Request, res: Response) => {
+    return res.json([]);
+  });
+  app.get("/api/me/rank/history/*", (_req: Request, res: Response) => {
+    return res.json([]);
+  });
+
+  // GET /api/me/rank/current_ladder_position
+  app.get("/api/me/rank/current_ladder_position", (_req: Request, res: Response) => {
+    return res.json({ position: null });
+  });
+
+  // GET /api/me/inventory/card_collection — Card collection
+  app.get("/api/me/inventory/card_collection", (_req: Request, res: Response) => {
+    return res.json(getStarterCollection());
+  });
+  app.all("/api/me/inventory/*", (_req: Request, res: Response) => {
+    return res.json({});
+  });
+
+  // GET /api/me/quests/daily — Daily quests
+  app.get("/api/me/quests/daily", (_req: Request, res: Response) => {
+    return res.json({ quests: [] });
+  });
+  app.all("/api/me/quests/*", (_req: Request, res: Response) => {
+    return res.json({});
+  });
+
+  // GET /api/me/challenges/* — Challenges
+  app.all("/api/me/challenges/*", (_req: Request, res: Response) => {
+    return res.json({});
+  });
+
+  // GET /api/me/achievements/* — Achievements
+  app.all("/api/me/achievements/*", (_req: Request, res: Response) => {
+    return res.json({});
+  });
+
+  // GET /api/me/decks — Player decks
+  app.get("/api/me/decks", (_req: Request, res: Response) => {
+    return res.json([]);
+  });
+
+  // GET /api/me/games/* — Game history
+  app.all("/api/me/games/*", (_req: Request, res: Response) => {
+    return res.json([]);
+  });
+
+  // GET /api/me/gauntlet/* — Gauntlet runs
+  app.all("/api/me/gauntlet/*", (_req: Request, res: Response) => {
+    return res.json({});
+  });
+
+  // GET /api/me/rift/* — Rift runs
+  app.all("/api/me/rift/*", (_req: Request, res: Response) => {
+    return res.json({});
+  });
+
+  // GET /api/me/crates/* — Crates
+  app.all("/api/me/crates/*", (_req: Request, res: Response) => {
+    return res.json({});
+  });
+
+  // GET /api/me/shop/* — Shop
+  app.all("/api/me/shop/*", (_req: Request, res: Response) => {
+    return res.json({});
+  });
+
+  // GET /api/me/new_player_progression — New player progression
+  app.all("/api/me/new_player_progression", (_req: Request, res: Response) => {
+    return res.json({ stage: 0, module_name: null, is_complete: true });
+  });
+  app.all("/api/me/new_player_progression/*", (_req: Request, res: Response) => {
+    return res.json({});
+  });
+
+  // GET /api/me/referrals — Referrals
+  app.all("/api/me/referrals", (_req: Request, res: Response) => {
+    return res.json({ referrals: [], summary: {} });
+  });
+  app.all("/api/me/referrals/*", (_req: Request, res: Response) => {
+    return res.json({});
+  });
+
+  // GET /api/me/rewards/* — Rewards
+  app.all("/api/me/rewards/*", (_req: Request, res: Response) => {
+    return res.json({});
+  });
+
+  // GET /api/me/spectate/* — Spectate
+  app.all("/api/me/spectate/*", (_req: Request, res: Response) => {
+    return res.json({});
+  });
+
+  // GET /api/me — User profile
+  app.get("/api/me", (_req: Request, res: Response) => {
+    return res.json({});
+  });
+
+  // GET /api/users/* — Other users
+  app.all("/api/users/*", (_req: Request, res: Response) => {
+    return res.json({});
+  });
+
+  // Catch-all for any other /api/me/* endpoints
+  app.all("/api/me/*", (req: Request, res: Response) => {
+    console.log(`[Duelyst API] Unhandled /api/me endpoint: ${req.method} ${req.path}`);
+    return res.json({});
+  });
+
+  // Catch-all for other /session/* endpoints
+  app.all("/session/*", (req: Request, res: Response) => {
+    console.log(`[Duelyst API] Unhandled session endpoint: ${req.method} ${req.path}`);
+    return res.json({});
   });
 
   // ═══ GAME DATA ENDPOINTS ═══
@@ -613,6 +818,27 @@ export function registerDuelystApi(app: Express) {
       console.error("[Arena] Stats error:", err);
       return res.status(500).json({ error: "Internal server error" });
     }
+  });
+
+  // Matchmaking endpoint (redirected from staging.duelyst.org)
+  app.all("/matchmaking", (_req: Request, res: Response) => {
+    return res.json({ status: "idle", players_online: 1 });
+  });
+  app.all("/matchmaking/*", (_req: Request, res: Response) => {
+    return res.json({ status: "idle", players_online: 1 });
+  });
+
+  // Replays endpoint
+  app.all("/replays/*", (_req: Request, res: Response) => {
+    return res.json([]);
+  });
+  app.all("/replay", (_req: Request, res: Response) => {
+    return res.json({});
+  });
+
+  // Forgot password (stub)
+  app.all("/forgot", (_req: Request, res: Response) => {
+    return res.json({ success: true });
   });
 
   // Catch-all for other /game/* endpoints

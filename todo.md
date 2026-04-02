@@ -2956,7 +2956,12 @@
 - [x] Build faction progression, inventory, rank, quests, and matchmaking stub endpoints
 - [x] Write vitest tests for Duelyst API token creation, verification, and response formats (10 tests passing)
 - [x] Restore game resources (621MB sprites, audio, maps) after sandbox reset
-- [ ] Full end-to-end test: Loredex OS login → auto-login → game loads past login screen
+- [x] Full end-to-end test: Loredex OS login → auto-login → game loads past login screen
+- [x] Fix Bluebird Promise .bind() incompatibility in isAuthenticated (override with native Promise)
+- [x] Fix regex escaping in template literal causing syntax error in post-bundle script
+- [x] Replace staging.duelyst.org URLs with relative paths in game bundle
+- [x] Add deferred setup (window._duelystSetup) to ensure patches apply before game init
+- [x] Add specific API endpoints for rank, inventory, quests, matchmaking, replays
 
 ## Duelyst Resources Restore + Reskin + Progression
 - [x] Re-download Open Duelyst game resources (621MB sprites, audio, maps, shaders) from GitHub
@@ -2975,3 +2980,8 @@
 - [x] Implement multiplayer support for player-vs-player matches
 - [x] Connect chess victories to XP/progression system
 - [x] Write vitest tests for chess game logic and API endpoints (46 tests passing)
+
+## Duelyst Game Resources Restore (3rd time)
+- [ ] Re-download Open Duelyst game resources (621MB) from GitHub
+- [ ] Copy to webdev-static-assets/duelyst-classic/resources/
+- [ ] Verify game loads with resources in browser
