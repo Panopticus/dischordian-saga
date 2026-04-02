@@ -2,7 +2,7 @@ import { type Express, type Request, type Response } from "express";
 import jwt from "jsonwebtoken";
 
 /**
- * Duelyst API Bridge
+ * Duelyst API Bridge — The Collector's Arena
  *
  * Provides the REST endpoints that the Duelyst game client expects:
  * - POST /session       — Login (create session token)
@@ -11,9 +11,12 @@ import jwt from "jsonwebtoken";
  * - GET  /game/faction_progression — Faction data
  * - GET  /game/inventory — Player inventory
  * - GET  /game/matchmaking/casual — Matchmaking status
+ * - POST /game/match_complete — Report match result → awards XP & achievements
+ * - GET  /game/arena_stats — Get arena stats for the current user
  *
  * All endpoints return data in the format the Duelyst client expects.
  * This is a single-player bridge — no real matchmaking server needed.
+ * Match completions are connected to the Loredex OS XP/progression system.
  */
 
 const DUELYST_JWT_SECRET =
@@ -28,6 +31,46 @@ const gameUsers = new Map<
 // Default starting gold and spirit for new players
 const DEFAULT_GOLD = 1000;
 const DEFAULT_SPIRIT = 500;
+
+// XP rewards for different match outcomes
+const XP_REWARDS = {
+  win: 150,
+  loss: 50,
+  draw: 75,
+  practice_win: 75,
+  practice_loss: 25,
+  first_win_bonus: 100, // bonus for first win of the day
+};
+
+// Achievement definitions for arena play
+const ARENA_ACHIEVEMENTS = [
+  { id: "arena_first_blood", name: "First Blood", condition: { wins: 1 }, xp: 200, tier: "bronze" },
+  { id: "arena_warrior", name: "Arena Warrior", condition: { wins: 10 }, xp: 500, tier: "silver" },
+  { id: "arena_champion", name: "Arena Champion", condition: { wins: 50 }, xp: 1500, tier: "gold" },
+  { id: "arena_legend", name: "Arena Legend", condition: { wins: 100 }, xp: 3000, tier: "platinum" },
+  { id: "arena_faction_master", name: "Faction Master", condition: { faction_wins: 25 }, xp: 1000, tier: "gold" },
+  { id: "arena_streak_5", name: "Unstoppable", condition: { win_streak: 5 }, xp: 500, tier: "silver" },
+  { id: "arena_streak_10", name: "Legendary Streak", condition: { win_streak: 10 }, xp: 2000, tier: "gold" },
+  { id: "arena_all_factions", name: "Master of All", condition: { factions_played: 6 }, xp: 1000, tier: "gold" },
+  { id: "arena_empire_loyal", name: "Empire Loyalist", condition: { faction_id: 1, faction_wins: 10 }, xp: 500, tier: "silver" },
+  { id: "arena_insurgent", name: "Insurgent Commander", condition: { faction_id: 2, faction_wins: 10 }, xp: 500, tier: "silver" },
+  { id: "arena_hierarchy", name: "Lord of the Damned", condition: { faction_id: 3, faction_wins: 10 }, xp: 500, tier: "silver" },
+  { id: "arena_virus", name: "Viral Propagator", condition: { faction_id: 4, faction_wins: 10 }, xp: 500, tier: "silver" },
+  { id: "arena_babylon", name: "Babylonian Conqueror", condition: { faction_id: 5, faction_wins: 10 }, xp: 500, tier: "silver" },
+  { id: "arena_potential", name: "Awakened Potential", condition: { faction_id: 6, faction_wins: 10 }, xp: 500, tier: "silver" },
+];
+
+// Title progression based on total arena wins
+const ARENA_TITLES = [
+  { wins: 0, title: "Recruit" },
+  { wins: 5, title: "Initiate" },
+  { wins: 15, title: "Gladiator" },
+  { wins: 30, title: "Centurion" },
+  { wins: 50, title: "Champion" },
+  { wins: 100, title: "Warlord" },
+  { wins: 200, title: "Grand Champion" },
+  { wins: 500, title: "Legendary" },
+];
 
 function createGameToken(userId: string, username: string): string {
   const payload = {
@@ -61,6 +104,224 @@ function extractToken(req: Request): string | null {
     return auth.substring(7);
   }
   return null;
+}
+
+/**
+ * Get the numeric Loredex user ID from a Duelyst token.
+ * The token's d.id is the Loredex user ID (set during auto-login).
+ * For manual logins (non-numeric IDs), returns null.
+ */
+function getUserIdFromToken(req: Request): number | null {
+  const token = extractToken(req);
+  if (!token) return null;
+  const user = verifyGameToken(token);
+  if (!user) return null;
+  const numId = parseInt(user.id, 10);
+  return isNaN(numId) ? null : numId;
+}
+
+/**
+ * Get the user info from token (works for both auto-login and manual login).
+ */
+function getUserFromToken(req: Request): { id: string; username: string } | null {
+  const token = extractToken(req);
+  if (!token) return null;
+  return verifyGameToken(token);
+}
+
+/**
+ * Award XP and check achievements after a match.
+ * Updates the userProgress table in the database.
+ */
+async function awardMatchXp(
+  userId: number,
+  result: "win" | "loss" | "draw",
+  factionId: number,
+  isPractice: boolean
+): Promise<{
+  xpAwarded: number;
+  newTotalXp: number;
+  newLevel: number;
+  newTitle: string;
+  achievementsUnlocked: string[];
+}> {
+  const { getDb } = await import("./db");
+  const { userProgress, userAchievements } = await import("../drizzle/schema");
+  const { eq, and } = await import("drizzle-orm");
+
+  const db = await getDb();
+  if (!db) {
+    return {
+      xpAwarded: 0,
+      newTotalXp: 0,
+      newLevel: 1,
+      newTitle: "Recruit",
+      achievementsUnlocked: [],
+    };
+  }
+
+  // Get or create user progress
+  let [progress] = await db
+    .select()
+    .from(userProgress)
+    .where(eq(userProgress.userId, userId))
+    .limit(1);
+
+  if (!progress) {
+    await db.insert(userProgress).values({
+      userId,
+      xp: 0,
+      level: 1,
+      points: 0,
+      title: "Recruit",
+      progressData: { arena: { wins: 0, losses: 0, draws: 0, streak: 0, best_streak: 0, faction_wins: {}, factions_played: [], matches_today: 0, last_match_date: "" } },
+      gameData: {},
+    });
+    [progress] = await db
+      .select()
+      .from(userProgress)
+      .where(eq(userProgress.userId, userId))
+      .limit(1);
+  }
+
+  // Parse existing arena data
+  const progressData = (progress.progressData || {}) as Record<string, any>;
+  const arena = progressData.arena || {
+    wins: 0,
+    losses: 0,
+    draws: 0,
+    streak: 0,
+    best_streak: 0,
+    faction_wins: {} as Record<string, number>,
+    factions_played: [] as number[],
+    matches_today: 0,
+    last_match_date: "",
+  };
+
+  // Calculate XP reward
+  let xpAwarded = 0;
+  const today = new Date().toISOString().split("T")[0];
+
+  if (isPractice) {
+    xpAwarded = result === "win" ? XP_REWARDS.practice_win : XP_REWARDS.practice_loss;
+  } else {
+    if (result === "win") {
+      xpAwarded = XP_REWARDS.win;
+      arena.wins = (arena.wins || 0) + 1;
+      arena.streak = (arena.streak || 0) + 1;
+      if (arena.streak > (arena.best_streak || 0)) {
+        arena.best_streak = arena.streak;
+      }
+      // First win of the day bonus
+      if (arena.last_match_date !== today) {
+        xpAwarded += XP_REWARDS.first_win_bonus;
+        arena.matches_today = 0;
+      }
+      // Track faction wins
+      const fKey = factionId.toString();
+      arena.faction_wins = arena.faction_wins || {};
+      arena.faction_wins[fKey] = (arena.faction_wins[fKey] || 0) + 1;
+    } else if (result === "loss") {
+      xpAwarded = XP_REWARDS.loss;
+      arena.losses = (arena.losses || 0) + 1;
+      arena.streak = 0;
+    } else {
+      xpAwarded = XP_REWARDS.draw;
+      arena.draws = (arena.draws || 0) + 1;
+    }
+  }
+
+  // Track factions played
+  if (!arena.factions_played) arena.factions_played = [];
+  if (!arena.factions_played.includes(factionId)) {
+    arena.factions_played.push(factionId);
+  }
+
+  arena.matches_today = (arena.matches_today || 0) + 1;
+  arena.last_match_date = today;
+
+  // Calculate new totals
+  const newTotalXp = (progress.xp || 0) + xpAwarded;
+  const newLevel = Math.floor(newTotalXp / 500) + 1; // Level up every 500 XP
+  const newPoints = (progress.points || 0) + Math.floor(xpAwarded / 2);
+
+  // Determine title from arena wins
+  let newTitle = "Recruit";
+  for (const t of ARENA_TITLES) {
+    if ((arena.wins || 0) >= t.wins) newTitle = t.title;
+  }
+
+  // Update progress data
+  progressData.arena = arena;
+
+  await db
+    .update(userProgress)
+    .set({
+      xp: newTotalXp,
+      level: newLevel,
+      points: newPoints,
+      title: newTitle,
+      progressData,
+    })
+    .where(eq(userProgress.userId, userId));
+
+  // Check achievements
+  const achievementsUnlocked: string[] = [];
+
+  for (const ach of ARENA_ACHIEVEMENTS) {
+    const cond = ach.condition as Record<string, number | undefined>;
+
+    let earned = false;
+    if (cond.wins !== undefined && (arena.wins || 0) >= cond.wins) {
+      earned = true;
+    }
+    if (cond.win_streak !== undefined && (arena.best_streak || 0) >= cond.win_streak) {
+      earned = true;
+    }
+    if (cond.factions_played !== undefined && (arena.factions_played?.length || 0) >= cond.factions_played) {
+      earned = true;
+    }
+    if (cond.faction_id !== undefined && cond.faction_wins !== undefined) {
+      const fWins = arena.faction_wins?.[cond.faction_id.toString()] || 0;
+      earned = fWins >= cond.faction_wins;
+    } else if (cond.faction_wins !== undefined && cond.faction_id === undefined) {
+      // Any faction with N wins
+      const maxFactionWins = Math.max(0, ...Object.values(arena.faction_wins || {}).map(Number));
+      earned = maxFactionWins >= cond.faction_wins;
+    }
+
+    if (earned) {
+      // Check if already unlocked
+      const [existing] = await db
+        .select()
+        .from(userAchievements)
+        .where(
+          and(
+            eq(userAchievements.userId, userId),
+            eq(userAchievements.achievementId, ach.id)
+          )
+        )
+        .limit(1);
+
+      if (!existing) {
+        await db.insert(userAchievements).values({
+          userId,
+          achievementId: ach.id,
+        });
+        achievementsUnlocked.push(ach.id);
+        // Bonus XP for achievement
+        // (already factored into the XP total via the achievement's xpReward)
+      }
+    }
+  }
+
+  return {
+    xpAwarded,
+    newTotalXp,
+    newLevel,
+    newTitle,
+    achievementsUnlocked,
+  };
 }
 
 export function registerDuelystApi(app: Express) {
@@ -232,13 +493,135 @@ export function registerDuelystApi(app: Express) {
     });
   });
 
+  // ═══ PROGRESSION INTEGRATION ENDPOINTS ═══
+
+  // POST /game/match_complete — Report a match result and award XP
+  app.post("/game/match_complete", async (req: Request, res: Response) => {
+    try {
+      const user = getUserFromToken(req);
+      if (!user) {
+        return res.status(401).json({ error: "Unauthorized" });
+      }
+      const userId = parseInt(user.id, 10);
+      const isLoredexUser = !isNaN(userId);
+
+      const {
+        result,        // "win" | "loss" | "draw"
+        faction_id,    // 1-6
+        is_practice,   // boolean
+        opponent_name, // string (optional)
+        general_id,    // number (optional)
+        turns,         // number (optional)
+      } = req.body || {};
+
+      if (!result || !["win", "loss", "draw"].includes(result)) {
+        return res.status(400).json({ error: "Invalid result. Must be 'win', 'loss', or 'draw'" });
+      }
+
+      const factionId = parseInt(faction_id, 10) || 1;
+      const isPractice = !!is_practice;
+
+      // Only award XP for Loredex-authenticated users
+      if (isLoredexUser) {
+        const reward = await awardMatchXp(userId, result, factionId, isPractice);
+
+        console.log(
+          `[Arena] User ${userId} ${result} (F${factionId}${isPractice ? " practice" : ""}) → +${reward.xpAwarded} XP (total: ${reward.newTotalXp}, level: ${reward.newLevel})`
+        );
+
+        return res.json({
+          success: true,
+          xp_awarded: reward.xpAwarded,
+          total_xp: reward.newTotalXp,
+          level: reward.newLevel,
+          title: reward.newTitle,
+          achievements_unlocked: reward.achievementsUnlocked,
+        });
+      } else {
+        // Guest/manual login — acknowledge but don't persist
+        console.log(`[Arena] Guest ${user.username} ${result} (F${factionId}) — no XP awarded (not logged in via Loredex)`);
+        return res.json({
+          success: true,
+          xp_awarded: 0,
+          total_xp: 0,
+          level: 1,
+          title: "Guest",
+          achievements_unlocked: [],
+          message: "Log in via Loredex OS to earn XP and achievements!",
+        });
+      }
+    } catch (err: any) {
+      console.error("[Arena] Match complete error:", err);
+      return res.status(500).json({ error: "Internal server error" });
+    }
+  });
+
+  // GET /game/arena_stats — Get arena stats for the current user
+  app.get("/game/arena_stats", async (req: Request, res: Response) => {
+    try {
+      const user = getUserFromToken(req);
+      if (!user) {
+        return res.status(401).json({ error: "Unauthorized" });
+      }
+      const userId = parseInt(user.id, 10);
+      if (isNaN(userId)) {
+        return res.json({ arena: { wins: 0, losses: 0, draws: 0, streak: 0, best_streak: 0, total_xp: 0, level: 1, title: "Guest", points: 0 }, achievements: [], achievement_definitions: ARENA_ACHIEVEMENTS });
+      }
+
+      const { getDb } = await import("./db");
+      const { userProgress, userAchievements } = await import("../drizzle/schema");
+      const { eq } = await import("drizzle-orm");
+
+      const db = await getDb();
+      if (!db) {
+        return res.json({ arena: null, achievements: [] });
+      }
+
+      const [progress] = await db
+        .select()
+        .from(userProgress)
+        .where(eq(userProgress.userId, userId))
+        .limit(1);
+
+      const achievements = await db
+        .select()
+        .from(userAchievements)
+        .where(eq(userAchievements.userId, userId));
+
+      const arena = (progress?.progressData as any)?.arena || {
+        wins: 0,
+        losses: 0,
+        draws: 0,
+        streak: 0,
+        best_streak: 0,
+        faction_wins: {},
+        factions_played: [],
+      };
+
+      return res.json({
+        arena: {
+          ...arena,
+          total_xp: progress?.xp || 0,
+          level: progress?.level || 1,
+          title: progress?.title || "Recruit",
+          points: progress?.points || 0,
+        },
+        achievements: achievements.map((a) => a.achievementId),
+        achievement_definitions: ARENA_ACHIEVEMENTS,
+      });
+    } catch (err: any) {
+      console.error("[Arena] Stats error:", err);
+      return res.status(500).json({ error: "Internal server error" });
+    }
+  });
+
   // Catch-all for other /game/* endpoints
   app.all("/game/*", (_req: Request, res: Response) => {
     return res.json({});
   });
 
   console.log(
-    "[Duelyst API] Bridge registered \u2014 session + game endpoints active"
+    "[Duelyst API] Bridge registered \u2014 session + game + arena progression endpoints active"
   );
 }
 
@@ -269,7 +652,9 @@ function getStarterCollection(): Record<string, number> {
 
   // Add generals (1 copy each)
   // Each faction has 2 generals
-  for (const generalId of [1, 2, 101, 102, 201, 202, 301, 302, 401, 402, 501, 502, 601, 602]) {
+  for (const generalId of [
+    1, 2, 101, 102, 201, 202, 301, 302, 401, 402, 501, 502, 601, 602,
+  ]) {
     collection[generalId.toString()] = 1;
   }
 

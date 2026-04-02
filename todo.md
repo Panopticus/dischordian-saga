@@ -2955,5 +2955,13 @@
 - [x] Fix route ordering: custom HTML route before static middleware with index:false
 - [x] Build faction progression, inventory, rank, quests, and matchmaking stub endpoints
 - [x] Write vitest tests for Duelyst API token creation, verification, and response formats (10 tests passing)
-- [ ] Restore game resources (621MB sprites, audio, maps) after sandbox reset
+- [x] Restore game resources (621MB sprites, audio, maps) after sandbox reset
 - [ ] Full end-to-end test: Loredex OS login → auto-login → game loads past login screen
+
+## Duelyst Resources Restore + Reskin + Progression
+- [x] Re-download Open Duelyst game resources (621MB sprites, audio, maps, shaders) from GitHub
+- [x] Reskin all card names and descriptions to Dischordian Saga lore via localization files
+- [x] Map Duelyst 6 factions to Dischordian Saga factions (Empire, Insurgency, Hierarchy of the Damned, Thought Virus, New Babylon, The Potentials)
+- [x] Connect Duelyst victories to XP/progression system (award XP, achievements, track stats)
+- [x] Write vitest tests for progression integration (24 tests passing)
+- [x] Compile comprehensive lore verification document (all factions, characters, cards, spells) — 994 lines

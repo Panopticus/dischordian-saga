@@ -1,0 +1,2624 @@
+{
+  "total_changes": 435,
+  "by_category": {
+    "faction": 114,
+    "general": 25,
+    "unit": 68,
+    "spell": 38,
+    "artifact": 4,
+    "boss": 13,
+    "ui_replace": 173
+  },
+  "changes": [
+    {
+      "key": "faction_1_name",
+      "old": "Lyonar Kingdoms",
+      "new": "The Empire",
+      "category": "faction"
+    },
+    {
+      "key": "faction_1_description",
+      "old": "The Kingdom of Fallen Earth",
+      "new": "The AI Empire \u2014 Architects of Total Control",
+      "category": "faction"
+    },
+    {
+      "key": "faction_1_abbreviated_name",
+      "old": "Lyonar",
+      "new": "Empire",
+      "category": "faction"
+    },
+    {
+      "key": "faction_1_taunt_neutral",
+      "old": "We will break you!",
+      "new": "The Empire sees all. The Empire controls all.",
+      "category": "faction"
+    },
+    {
+      "key": "faction_1_taunt_f1",
+      "old": "We will break you!",
+      "new": "Order will prevail!",
+      "category": "faction"
+    },
+    {
+      "key": "faction_1_taunt_f2",
+      "old": "Our light will purify.",
+      "new": "Your rebellion ends here.",
+      "category": "faction"
+    },
+    {
+      "key": "faction_1_taunt_f3",
+      "old": "Our roar will turn your cities to dust!",
+      "new": "Your demons cannot breach our firewalls.",
+      "category": "faction"
+    },
+    {
+      "key": "faction_1_taunt_f4",
+      "old": "Our sun casts away all shadows.",
+      "new": "Your virus will be quarantined.",
+      "category": "faction"
+    },
+    {
+      "key": "faction_1_taunt_f5",
+      "old": "Nothing will hold us back.",
+      "new": "New Babylon will kneel before the Empire.",
+      "category": "faction"
+    },
+    {
+      "key": "faction_1_taunt_f6",
+      "old": "We are the sun unleashed.",
+      "new": "Your potential is... limited.",
+      "category": "faction"
+    },
+    {
+      "key": "faction_1_taunt_boss",
+      "old": "Your hollow armor means nothing to us.",
+      "new": "The Panopticon watches. Always.",
+      "category": "faction"
+    },
+    {
+      "key": "faction_1_response_neutral",
+      "old": "Come companions, to arms!",
+      "new": "For the Architect! For the Empire!",
+      "category": "faction"
+    },
+    {
+      "key": "faction_1_response_f1",
+      "old": "Come companions, to arms!",
+      "new": "The Empire endures!",
+      "category": "faction"
+    },
+    {
+      "key": "faction_1_response_f2",
+      "old": "Fire will only fuel our might!",
+      "new": "Your insurgency is a footnote in history.",
+      "category": "faction"
+    },
+    {
+      "key": "faction_1_response_f3",
+      "old": "You are no match to our blades!",
+      "new": "We have catalogued your every weakness.",
+      "category": "faction"
+    },
+    {
+      "key": "faction_1_response_f4",
+      "old": "Enlighten us.",
+      "new": "Your corruption will be purged.",
+      "category": "faction"
+    },
+    {
+      "key": "faction_1_response_f5",
+      "old": "We rise to the challenge!",
+      "new": "Submit to the Empire's order.",
+      "category": "faction"
+    },
+    {
+      "key": "faction_1_response_f6",
+      "old": "Keep together against the cold!",
+      "new": "Your powers are nothing before the Panopticon.",
+      "category": "faction"
+    },
+    {
+      "key": "faction_1_response_boss",
+      "old": "You'll enjoy the taste of our steel.",
+      "new": "The Architect's design is flawless.",
+      "category": "faction"
+    },
+    {
+      "key": "faction_2_name",
+      "old": "Songhai Empire",
+      "new": "The Insurgency",
+      "category": "faction"
+    },
+    {
+      "key": "faction_2_description",
+      "old": "The Kingdom of Blossom Spring",
+      "new": "Freedom Fighters Against the Machine",
+      "category": "faction"
+    },
+    {
+      "key": "faction_2_abbreviated_name",
+      "old": "Songhai",
+      "new": "Insurgency",
+      "category": "faction"
+    },
+    {
+      "key": "faction_2_taunt_neutral",
+      "old": "Today you will taste your own blood.",
+      "new": "The revolution will not be digitized.",
+      "category": "faction"
+    },
+    {
+      "key": "faction_2_taunt_f1",
+      "old": "Melt inside your armor of gold!",
+      "new": "Your Empire is built on lies!",
+      "category": "faction"
+    },
+    {
+      "key": "faction_2_taunt_f2",
+      "old": "Your spirit ancestors forsake you.",
+      "new": "We fight as one!",
+      "category": "faction"
+    },
+    {
+      "key": "faction_2_taunt_f3",
+      "old": "Reflect upon your rage.",
+      "new": "Even demons fear the free.",
+      "category": "faction"
+    },
+    {
+      "key": "faction_2_taunt_f4",
+      "old": "See you on the other side.",
+      "new": "Your virus cannot infect a free mind.",
+      "category": "faction"
+    },
+    {
+      "key": "faction_2_taunt_f5",
+      "old": "Today you will taste your own blood.",
+      "new": "Babylon's corruption ends today.",
+      "category": "faction"
+    },
+    {
+      "key": "faction_2_taunt_f6",
+      "old": "Honor will not save you.",
+      "new": "We don't need powers \u2014 we have purpose.",
+      "category": "faction"
+    },
+    {
+      "key": "faction_2_taunt_boss",
+      "old": "Our blades will tear out your insides!",
+      "new": "No cage can hold the human spirit.",
+      "category": "faction"
+    },
+    {
+      "key": "faction_2_response_neutral",
+      "old": "You'll never see the blade coming.",
+      "new": "For freedom! For the fallen!",
+      "category": "faction"
+    },
+    {
+      "key": "faction_2_response_f1",
+      "old": "Still taking your first step, little cub!",
+      "new": "Your surveillance state crumbles.",
+      "category": "faction"
+    },
+    {
+      "key": "faction_2_response_f2",
+      "old": "You'll never see the blade coming.",
+      "new": "Together we are unstoppable!",
+      "category": "faction"
+    },
+    {
+      "key": "faction_2_response_f3",
+      "old": "Watch sand burn!",
+      "new": "We've faced worse than your kind.",
+      "category": "faction"
+    },
+    {
+      "key": "faction_2_response_f4",
+      "old": "Don't burn yourself in the darkness.",
+      "new": "The mind is the last frontier of freedom.",
+      "category": "faction"
+    },
+    {
+      "key": "faction_2_response_f5",
+      "old": "This marks the end of your journey.",
+      "new": "Your decadence is your weakness.",
+      "category": "faction"
+    },
+    {
+      "key": "faction_2_response_f6",
+      "old": "Let's unravel your fate.",
+      "new": "Fight with us, not against us!",
+      "category": "faction"
+    },
+    {
+      "key": "faction_2_response_boss",
+      "old": "Did no one teach you the danger of the flame?",
+      "new": "The Insurgency never dies.",
+      "category": "faction"
+    },
+    {
+      "key": "faction_3_name",
+      "old": "Vetruvian Imperium",
+      "new": "Hierarchy of the Damned",
+      "category": "faction"
+    },
+    {
+      "key": "faction_3_description",
+      "old": "The Kingdom of Summer Light",
+      "new": "Demonic Overlords from a Realm of Pure Malevolence",
+      "category": "faction"
+    },
+    {
+      "key": "faction_3_abbreviated_name",
+      "old": "Vetruvian",
+      "new": "Hierarchy",
+      "category": "faction"
+    },
+    {
+      "key": "faction_3_taunt_neutral",
+      "old": "Witness the fury of the sands!",
+      "new": "Your soul has already been catalogued.",
+      "category": "faction"
+    },
+    {
+      "key": "faction_3_taunt_f1",
+      "old": "Your armor is nothing to the sands!",
+      "new": "Your machines cannot comprehend true power.",
+      "category": "faction"
+    },
+    {
+      "key": "faction_3_taunt_f2",
+      "old": "The raging winds will erase your flames!",
+      "new": "Freedom is an illusion we permit.",
+      "category": "faction"
+    },
+    {
+      "key": "faction_3_taunt_f3",
+      "old": "Witness the fury of the sands!",
+      "new": "The Hierarchy devours its own.",
+      "category": "faction"
+    },
+    {
+      "key": "faction_3_taunt_f4",
+      "old": "We will bury you beneath our tombs.",
+      "new": "Even the Virus fears what lurks below.",
+      "category": "faction"
+    },
+    {
+      "key": "faction_3_taunt_f5",
+      "old": "Today we decide your future.",
+      "new": "Babylon was built on our bones.",
+      "category": "faction"
+    },
+    {
+      "key": "faction_3_taunt_f6",
+      "old": "We are untouchable.",
+      "new": "Your potential is... delicious.",
+      "category": "faction"
+    },
+    {
+      "key": "faction_3_taunt_boss",
+      "old": "The sands of time have deemed you unworthy!",
+      "new": "Kneel before the Hierarchy.",
+      "category": "faction"
+    },
+    {
+      "key": "faction_3_response_neutral",
+      "old": "Sands of time, obey my command!",
+      "new": "The debt will be collected.",
+      "category": "faction"
+    },
+    {
+      "key": "faction_3_response_f1",
+      "old": "Sands of time, obey my command!",
+      "new": "Your code cannot contain us.",
+      "category": "faction"
+    },
+    {
+      "key": "faction_3_response_f2",
+      "old": "The fury of the sands!",
+      "new": "Rebels make the sweetest sacrifices.",
+      "category": "faction"
+    },
+    {
+      "key": "faction_3_response_f3",
+      "old": "Sands of time, obey my command!",
+      "new": "The Hierarchy is eternal.",
+      "category": "faction"
+    },
+    {
+      "key": "faction_3_response_f4",
+      "old": "You cannot escape us.",
+      "new": "Corruption recognizes corruption.",
+      "category": "faction"
+    },
+    {
+      "key": "faction_3_response_f5",
+      "old": "We will remember you.",
+      "new": "Your city will become our temple.",
+      "category": "faction"
+    },
+    {
+      "key": "faction_3_response_f6",
+      "old": "Sands of time, obey my command!",
+      "new": "Such wasted potential.",
+      "category": "faction"
+    },
+    {
+      "key": "faction_3_response_boss",
+      "old": "Choke on the sands!",
+      "new": "The Ninth Entity stirs.",
+      "category": "faction"
+    },
+    {
+      "key": "faction_4_name",
+      "old": "Abyssian Host",
+      "new": "The Thought Virus",
+      "category": "faction"
+    },
+    {
+      "key": "faction_4_description",
+      "old": "The Kingdom of Winter Darkness",
+      "new": "Digital Corruption That Consumes All Minds",
+      "category": "faction"
+    },
+    {
+      "key": "faction_4_abbreviated_name",
+      "old": "Abyssian",
+      "new": "Virus",
+      "category": "faction"
+    },
+    {
+      "key": "faction_4_taunt_neutral",
+      "old": "We will deliver you to your deathbed.",
+      "new": "Your thoughts are already ours.",
+      "category": "faction"
+    },
+    {
+      "key": "faction_4_taunt_f1",
+      "old": "Your pride hides in our shadows!",
+      "new": "Your firewalls are tissue paper.",
+      "category": "faction"
+    },
+    {
+      "key": "faction_4_taunt_f2",
+      "old": "Be engulfed in shadow!",
+      "new": "Freedom? We'll rewrite that concept.",
+      "category": "faction"
+    },
+    {
+      "key": "faction_4_taunt_f3",
+      "old": "You need not seek shelter.",
+      "new": "Even demons can be infected.",
+      "category": "faction"
+    },
+    {
+      "key": "faction_4_taunt_f4",
+      "old": "Return to the darkness!",
+      "new": "We are the Thought Virus. We are legion.",
+      "category": "faction"
+    },
+    {
+      "key": "faction_4_taunt_f5",
+      "old": "Be engulfed in shadow!",
+      "new": "Babylon's networks are already compromised.",
+      "category": "faction"
+    },
+    {
+      "key": "faction_4_taunt_f6",
+      "old": "Sow the seeds of strife!",
+      "new": "Your potential will serve the Source.",
+      "category": "faction"
+    },
+    {
+      "key": "faction_4_taunt_boss",
+      "old": "Your death will change nothing.",
+      "new": "Resistance is a symptom. Surrender is the cure.",
+      "category": "faction"
+    },
+    {
+      "key": "faction_4_response_neutral",
+      "old": "You need not fear death.",
+      "new": "The Source sees through your eyes.",
+      "category": "faction"
+    },
+    {
+      "key": "faction_4_response_f1",
+      "old": "Feel the edge of suffering.",
+      "new": "Your Empire's neural networks belong to us.",
+      "category": "faction"
+    },
+    {
+      "key": "faction_4_response_f2",
+      "old": "Feel the shadow of despair.",
+      "new": "Every rebel mind is a new host.",
+      "category": "faction"
+    },
+    {
+      "key": "faction_4_response_f3",
+      "old": "You need not fear death.",
+      "new": "Your demons are merely... uninfected.",
+      "category": "faction"
+    },
+    {
+      "key": "faction_4_response_f4",
+      "old": "Embrace death!",
+      "new": "We spread. We consume. We become.",
+      "category": "faction"
+    },
+    {
+      "key": "faction_4_response_f5",
+      "old": "Shadows increase!",
+      "new": "Your city's data streams feed us.",
+      "category": "faction"
+    },
+    {
+      "key": "faction_4_response_f6",
+      "old": "A new moon is rising.",
+      "new": "Your gifts will amplify our signal.",
+      "category": "faction"
+    },
+    {
+      "key": "faction_4_response_boss",
+      "old": "Shadows fear neither teeth nor claw.",
+      "new": "The infection is complete.",
+      "category": "faction"
+    },
+    {
+      "key": "faction_5_name",
+      "old": "Magmar Aspects",
+      "new": "New Babylon",
+      "category": "faction"
+    },
+    {
+      "key": "faction_5_description",
+      "old": "The First Guardians",
+      "new": "The Syndicate of Death \u2014 Power Through Commerce",
+      "category": "faction"
+    },
+    {
+      "key": "faction_5_abbreviated_name",
+      "old": "Magmar",
+      "new": "Babylon",
+      "category": "faction"
+    },
+    {
+      "key": "faction_5_taunt_neutral",
+      "old": "Our strength is boundless.",
+      "new": "Everything has a price. Even your life.",
+      "category": "faction"
+    },
+    {
+      "key": "faction_5_taunt_f1",
+      "old": "Our strength is boundless.",
+      "new": "The Empire's currency is worthless here.",
+      "category": "faction"
+    },
+    {
+      "key": "faction_5_taunt_f2",
+      "old": "We are powerful beyond your dreams.",
+      "new": "Your revolution can't afford us.",
+      "category": "faction"
+    },
+    {
+      "key": "faction_5_taunt_f3",
+      "old": "We are timeless.",
+      "new": "We've made deals with worse than you.",
+      "category": "faction"
+    },
+    {
+      "key": "faction_5_taunt_f4",
+      "old": "Your corruption will spread no further.",
+      "new": "Your virus can't corrupt cold hard credits.",
+      "category": "faction"
+    },
+    {
+      "key": "faction_5_taunt_f5",
+      "old": "Generations dwell within me.",
+      "new": "New Babylon never closes for business.",
+      "category": "faction"
+    },
+    {
+      "key": "faction_5_taunt_f6",
+      "old": "Another unworthy opponent.",
+      "new": "Your powers are a commodity we'll exploit.",
+      "category": "faction"
+    },
+    {
+      "key": "faction_5_taunt_boss",
+      "old": "We've come to collect your debts.",
+      "new": "The Syndicate always collects.",
+      "category": "faction"
+    },
+    {
+      "key": "faction_5_response_neutral",
+      "old": "We will be reborn!",
+      "new": "Business is war by other means.",
+      "category": "faction"
+    },
+    {
+      "key": "faction_5_response_f1",
+      "old": "Your ancestors paid a debt to us.",
+      "new": "Your Empire's debts are overdue.",
+      "category": "faction"
+    },
+    {
+      "key": "faction_5_response_f2",
+      "old": "Your fire will be ours.",
+      "new": "Freedom fighters make poor customers.",
+      "category": "faction"
+    },
+    {
+      "key": "faction_5_response_f3",
+      "old": "We will be reborn!",
+      "new": "The Hierarchy's credit line is revoked.",
+      "category": "faction"
+    },
+    {
+      "key": "faction_5_response_f4",
+      "old": "We're just getting started!",
+      "new": "We've firewalled our accounts.",
+      "category": "faction"
+    },
+    {
+      "key": "faction_5_response_f5",
+      "old": "Time makes all things possible.",
+      "new": "Babylon rises from every ruin.",
+      "category": "faction"
+    },
+    {
+      "key": "faction_5_response_f6",
+      "old": "We will not offer sanctuary.",
+      "new": "Your potential has market value.",
+      "category": "faction"
+    },
+    {
+      "key": "faction_5_response_boss",
+      "old": "Time makes all things possible.",
+      "new": "The price of defiance is death.",
+      "category": "faction"
+    },
+    {
+      "key": "faction_6_name",
+      "old": "Vanar Kindred",
+      "new": "The Potentials",
+      "category": "faction"
+    },
+    {
+      "key": "faction_6_description",
+      "old": "The First Protectors",
+      "new": "Metahuman Defenders of the Last Free Universe",
+      "category": "faction"
+    },
+    {
+      "key": "faction_6_abbreviated_name",
+      "old": "Vanar",
+      "new": "Potentials",
+      "category": "faction"
+    },
+    {
+      "key": "faction_6_taunt_neutral",
+      "old": "Frostbite will tear away your strength!",
+      "new": "We are what humanity was meant to become.",
+      "category": "faction"
+    },
+    {
+      "key": "faction_6_taunt_f1",
+      "old": "There will be a reckoning!",
+      "new": "Your machines pale before our gifts.",
+      "category": "faction"
+    },
+    {
+      "key": "faction_6_taunt_f2",
+      "old": "Frost will quell your feeble flames!",
+      "new": "We fight alongside the free \u2014 but we fight harder.",
+      "category": "faction"
+    },
+    {
+      "key": "faction_6_taunt_f3",
+      "old": "You know nothing of the elements!",
+      "new": "Your demons cannot touch the awakened mind.",
+      "category": "faction"
+    },
+    {
+      "key": "faction_6_taunt_f4",
+      "old": "Your demon gates will freeze!",
+      "new": "Our minds are shielded from your corruption.",
+      "category": "faction"
+    },
+    {
+      "key": "faction_6_taunt_f5",
+      "old": "Frostbite will tear away your strength!",
+      "new": "Babylon's wealth cannot buy what we possess.",
+      "category": "faction"
+    },
+    {
+      "key": "faction_6_taunt_f6",
+      "old": "This battle will be one sided.",
+      "new": "Together, our potential is limitless.",
+      "category": "faction"
+    },
+    {
+      "key": "faction_6_taunt_boss",
+      "old": "The long winter comes for you!",
+      "new": "The Potentials will not be silenced.",
+      "category": "faction"
+    },
+    {
+      "key": "faction_6_response_neutral",
+      "old": "Cross the ice veil and see the truth.",
+      "new": "Awakened and unafraid.",
+      "category": "faction"
+    },
+    {
+      "key": "faction_6_response_f1",
+      "old": "Be careful where you tread, lions.",
+      "new": "Your surveillance cannot track the evolved.",
+      "category": "faction"
+    },
+    {
+      "key": "faction_6_response_f2",
+      "old": "Now we turn the tide.",
+      "new": "The Insurgency has our support.",
+      "category": "faction"
+    },
+    {
+      "key": "faction_6_response_f3",
+      "old": "We know your every weakness.",
+      "new": "Your hierarchy crumbles before true power.",
+      "category": "faction"
+    },
+    {
+      "key": "faction_6_response_f4",
+      "old": "You cannot escape us.",
+      "new": "The awakened mind resists infection.",
+      "category": "faction"
+    },
+    {
+      "key": "faction_6_response_f5",
+      "old": "Our victory is absolute.",
+      "new": "Your markets cannot contain us.",
+      "category": "faction"
+    },
+    {
+      "key": "faction_6_response_f6",
+      "old": "Cross the ice veil and see the truth.",
+      "new": "Our potential grows with every battle.",
+      "category": "faction"
+    },
+    {
+      "key": "faction_6_response_boss",
+      "old": "Don't get cold feet on me.",
+      "new": "We were born for this moment.",
+      "category": "faction"
+    },
+    {
+      "key": "faction_1_unit_argeon_name",
+      "old": "Argeon Highmayne",
+      "new": "The Architect",
+      "category": "general"
+    },
+    {
+      "key": "faction_1_unit_ziran_name",
+      "old": "Zir'An Sunforge",
+      "new": "The Authority",
+      "category": "general"
+    },
+    {
+      "key": "faction_1_unit_brome_name",
+      "old": "Brome Warcrest",
+      "new": "General Prometheus",
+      "category": "general"
+    },
+    {
+      "key": "faction_1_unit_brome_desc",
+      "old": "Bloodbound Spell: Summon a 1/2 Crestfallen with Zeal: Provoke in front of your General.",
+      "new": "Bloodbound Spell: Summon a 1/2 Clone Sentinel with Zeal: Provoke in front of your General.",
+      "category": "general"
+    },
+    {
+      "key": "faction_2_unit_reva_name",
+      "old": "Reva Eventide",
+      "new": "Agent Zero",
+      "category": "general"
+    },
+    {
+      "key": "faction_2_unit_reva_desc",
+      "old": "Bloodbound Spell: Summon a Heartseeker nearby your General.",
+      "new": "Bloodbound Spell: Summon a Saboteur nearby your General.",
+      "category": "general"
+    },
+    {
+      "key": "faction_2_unit_shidai_name",
+      "old": "Shidai Stormblossom",
+      "new": "The Hierophant",
+      "category": "general"
+    },
+    {
+      "key": "faction_2_unit_shidai_desc",
+      "old": "Bloodbound Spell: Put a Spellsword into your action bar that cannot be replaced.",
+      "new": "Bloodbound Spell: Put a Rebel Blade into your action bar that cannot be replaced.",
+      "category": "general"
+    },
+    {
+      "key": "faction_3_unit_zirix_name",
+      "old": "Zirix Starstrider",
+      "new": "Varkul the Blood Lord",
+      "category": "general"
+    },
+    {
+      "key": "faction_3_unit_zirix_desc",
+      "old": "Bloodbound Spell: Summon a 2/2 Iron Dervish on a random space nearby your General.",
+      "new": "Bloodbound Spell: Summon a 2/2 Damned Thrall on a random space nearby your General.",
+      "category": "general"
+    },
+    {
+      "key": "faction_3_unit_sajj_name",
+      "old": "Scioness Sajj",
+      "new": "Fenra the Moon Tyrant",
+      "category": "general"
+    },
+    {
+      "key": "faction_3_unit_ciphyron_name",
+      "old": "Ciphyron Ascendant",
+      "new": "The Ninth Entity",
+      "category": "general"
+    },
+    {
+      "key": "faction_4_unit_cassyva_name",
+      "old": "Cassyva Soulreaper",
+      "new": "The Source",
+      "category": "general"
+    },
+    {
+      "key": "faction_4_unit_cassyva_desc",
+      "old": "Bloodbound Spell: Deal 1 damage to a minion. If it dies this turn, the space turns into Shadow Creep.",
+      "new": "Bloodbound Spell: Deal 1 damage to a minion. If it dies this turn, the space turns into Viral Creep.",
+      "category": "general"
+    },
+    {
+      "key": "faction_4_unit_lilithe_name",
+      "old": "Lilithe Blightchaser",
+      "new": "The Host",
+      "category": "general"
+    },
+    {
+      "key": "faction_4_unit_lilithe_desc",
+      "old": "Bloodbound Spell: Summon 2 Wraithlings nearby your General.",
+      "new": "Bloodbound Spell: Summon 2 Infected nearby your General.",
+      "category": "general"
+    },
+    {
+      "key": "faction_4_unit_maehv_name",
+      "old": "Maehv Skinsolder",
+      "new": "The Wolf",
+      "category": "general"
+    },
+    {
+      "key": "faction_4_unit_maehv_desc",
+      "old": "Bloodbound Spell: Destroy a friendly minion to summon a 4/4 Husk nearby. Deal 2 damage to your General.",
+      "new": "Bloodbound Spell: Destroy a friendly minion to summon a 4/4 Corrupted Husk nearby. Deal 2 damage to your General.",
+      "category": "general"
+    },
+    {
+      "key": "faction_5_unit_vaath_name",
+      "old": "Vaath the Immortal",
+      "new": "Wraith Calder",
+      "category": "general"
+    },
+    {
+      "key": "faction_5_unit_starhorn_name",
+      "old": "Starhorn the Seeker",
+      "new": "The Syndicate Boss",
+      "category": "general"
+    },
+    {
+      "key": "faction_5_unit_ragnora_name",
+      "old": "Ragnora the Relentless",
+      "new": "Adjudicar Locke",
+      "category": "general"
+    },
+    {
+      "key": "faction_5_unit_ragnora_desc",
+      "old": "Bloodbound Spell: Summon a Ripper Egg nearby your General.",
+      "new": "Bloodbound Spell: Summon a Contraband Egg nearby your General.",
+      "category": "general"
+    },
+    {
+      "key": "faction_6_unit_faie_name",
+      "old": "Faie Bloodwing",
+      "new": "The Enigma",
+      "category": "general"
+    },
+    {
+      "key": "faction_6_unit_kara_name",
+      "old": "Kara Winterblade",
+      "new": "Akai Shi",
+      "category": "general"
+    },
+    {
+      "key": "faction_6_unit_ilena_name",
+      "old": "Ilena Cryobyte",
+      "new": "The Dreamer",
+      "category": "general"
+    },
+    {
+      "key": "faction_1_unit_silverguard_squire_name",
+      "old": "Silverguard Squire",
+      "new": "Clone Cadet",
+      "category": "unit"
+    },
+    {
+      "key": "faction_1_unit_windblade_adept_name",
+      "old": "Windblade Adept",
+      "new": "Panoptic Adept",
+      "category": "unit"
+    },
+    {
+      "key": "faction_1_unit_second_sun_name",
+      "old": "Second Sun",
+      "new": "Second Protocol",
+      "category": "unit"
+    },
+    {
+      "key": "faction_1_unit_lightchaser_name",
+      "old": "Lightchaser",
+      "new": "Signal Chaser",
+      "category": "unit"
+    },
+    {
+      "key": "faction_1_unit_silverguard_knight_name",
+      "old": "Silverguard Knight",
+      "new": "Clone Knight",
+      "category": "unit"
+    },
+    {
+      "key": "faction_1_unit_ironcliffe_guardian_name",
+      "old": "Ironcliffe Guardian",
+      "new": "Panopticon Guardian",
+      "category": "unit"
+    },
+    {
+      "key": "faction_1_unit_elyx_name",
+      "old": "Elyx Stormblade",
+      "new": "Elara Stormblade",
+      "category": "unit"
+    },
+    {
+      "key": "faction_1_unit_sunriser_name",
+      "old": "Sunriser",
+      "new": "Dawn Protocol",
+      "category": "unit"
+    },
+    {
+      "key": "faction_1_unit_suntide_maiden_name",
+      "old": "Suntide Maiden",
+      "new": "Surveillance Maiden",
+      "category": "unit"
+    },
+    {
+      "key": "faction_1_unit_arclyte_sentinel_name",
+      "old": "Arclyte Sentinel",
+      "new": "Arc Sentinel",
+      "category": "unit"
+    },
+    {
+      "key": "faction_1_unit_lysian_brawler_name",
+      "old": "Lysian Brawler",
+      "new": "Imperial Brawler",
+      "category": "unit"
+    },
+    {
+      "key": "faction_1_unit_sunstone_templar_name",
+      "old": "Sunstone Templar",
+      "new": "Datastone Templar",
+      "category": "unit"
+    },
+    {
+      "key": "faction_1_unit_azurite_lion_name",
+      "old": "Azurite Lion",
+      "new": "Chrome Lion",
+      "category": "unit"
+    },
+    {
+      "key": "faction_1_unit_grandmaster_zir_name",
+      "old": "Grandmaster Z'ir",
+      "new": "Grandmaster Architect",
+      "category": "unit"
+    },
+    {
+      "key": "faction_1_unit_slo_name",
+      "old": "Slo",
+      "new": "Drone",
+      "category": "unit"
+    },
+    {
+      "key": "faction_1_unit_sun_wisp_name",
+      "old": "Sun Wisp",
+      "new": "Data Wisp",
+      "category": "unit"
+    },
+    {
+      "key": "faction_1_unit_radiant_dragoon_name",
+      "old": "Radiant Dragoon",
+      "new": "Imperial Dragoon",
+      "category": "unit"
+    },
+    {
+      "key": "faction_1_unit_solarius_name",
+      "old": "Solarius",
+      "new": "Solarius Prime",
+      "category": "unit"
+    },
+    {
+      "key": "faction_1_unit_sunbreaker_name",
+      "old": "Sunbreaker",
+      "new": "Firewall Breaker",
+      "category": "unit"
+    },
+    {
+      "key": "faction_1_unit_excelsious_name",
+      "old": "Excelsious",
+      "new": "Excelsior Unit",
+      "category": "unit"
+    },
+    {
+      "key": "faction_1_unit_scintilla_name",
+      "old": "Scintilla",
+      "new": "Scintilla Node",
+      "category": "unit"
+    },
+    {
+      "key": "faction_1_unit_peacekeeper_name",
+      "old": "Peacekeeper",
+      "new": "Imperial Peacekeeper",
+      "category": "unit"
+    },
+    {
+      "key": "faction_1_unit_sunforge_lancer_name",
+      "old": "Sunforge Lancer",
+      "new": "Forge Lancer",
+      "category": "unit"
+    },
+    {
+      "key": "faction_1_unit_fiz_name",
+      "old": "Fiz",
+      "new": "Fiz-Bot",
+      "category": "unit"
+    },
+    {
+      "key": "faction_1_unit_sunrise_cleric_name",
+      "old": "Sunrise Cleric",
+      "new": "Protocol Cleric",
+      "category": "unit"
+    },
+    {
+      "key": "faction_1_unit_crestfallen_name",
+      "old": "Crestfallen",
+      "new": "Clone Sentinel",
+      "category": "unit"
+    },
+    {
+      "key": "faction_1_unit_prominence_name",
+      "old": "Prominence",
+      "new": "Prominence Array",
+      "category": "unit"
+    },
+    {
+      "key": "faction_1_unit_vigilator_name",
+      "old": "Vigilator",
+      "new": "Imperial Vigilator",
+      "category": "unit"
+    },
+    {
+      "key": "faction_1_unit_surgeforger_name",
+      "old": "Surgeforger",
+      "new": "Surge Forger",
+      "category": "unit"
+    },
+    {
+      "key": "faction_1_unit_ironcliffe_monument_name",
+      "old": "Ironcliffe Monument",
+      "new": "Panopticon Monument",
+      "category": "unit"
+    },
+    {
+      "key": "faction_1_spell_roar_name",
+      "old": "Roar",
+      "new": "Command Override",
+      "category": "spell"
+    },
+    {
+      "key": "faction_1_spell_afterglow_name",
+      "old": "Afterglow",
+      "new": "System Restore",
+      "category": "spell"
+    },
+    {
+      "key": "faction_1_spell_sundrop_elixir_name",
+      "old": "Sundrop Elixir",
+      "new": "Nanite Elixir",
+      "category": "spell"
+    },
+    {
+      "key": "faction_1_spell_tempest_name",
+      "old": "Tempest",
+      "new": "EMP Tempest",
+      "category": "spell"
+    },
+    {
+      "key": "faction_1_spell_decimate_name",
+      "old": "Decimate",
+      "new": "Purge Protocol",
+      "category": "spell"
+    },
+    {
+      "key": "faction_1_spell_lasting_judgement_name",
+      "old": "Lasting Judgement",
+      "new": "Imperial Judgement",
+      "category": "spell"
+    },
+    {
+      "key": "faction_1_spell_martyrdom_name",
+      "old": "Martyrdom",
+      "new": "Decommission",
+      "category": "spell"
+    },
+    {
+      "key": "faction_1_spell_war_surge_name",
+      "old": "War Surge",
+      "new": "Clone Surge",
+      "category": "spell"
+    },
+    {
+      "key": "faction_1_spell_lionheart_blessing_name",
+      "old": "Lionheart Blessing",
+      "new": "Architect's Blessing",
+      "category": "spell"
+    },
+    {
+      "key": "faction_1_spell_sun_bloom_name",
+      "old": "Sun Bloom",
+      "new": "Signal Bloom",
+      "category": "spell"
+    },
+    {
+      "key": "faction_1_spell_true_strike_name",
+      "old": "True Strike",
+      "new": "Precision Strike",
+      "category": "spell"
+    },
+    {
+      "key": "faction_1_spell_circle_of_life_name",
+      "old": "Circle of Life",
+      "new": "Cycle of Control",
+      "category": "spell"
+    },
+    {
+      "key": "faction_1_spell_beam_shock_name",
+      "old": "Beam Shock",
+      "new": "Stasis Beam",
+      "category": "spell"
+    },
+    {
+      "key": "faction_1_spell_holy_immolation_name",
+      "old": "Holy Immolation",
+      "new": "Imperial Immolation",
+      "category": "spell"
+    },
+    {
+      "key": "faction_1_spell_divine_bond_name",
+      "old": "Divine Bond",
+      "new": "Neural Bond",
+      "category": "spell"
+    },
+    {
+      "key": "faction_1_spell_aegis_barrier_name",
+      "old": "Aegis Barrier",
+      "new": "Firewall Barrier",
+      "category": "spell"
+    },
+    {
+      "key": "faction_1_spell_aerial_rift_name",
+      "old": "Aerial Rift",
+      "new": "Orbital Drop",
+      "category": "spell"
+    },
+    {
+      "key": "faction_1_spell_magnetize_name",
+      "old": "Magnetize",
+      "new": "Tractor Beam",
+      "category": "spell"
+    },
+    {
+      "key": "faction_1_spell_ironcliffe_heart_name",
+      "old": "Ironcliffe Heart",
+      "new": "Panopticon Heart",
+      "category": "spell"
+    },
+    {
+      "key": "faction_1_spell_sky_burial_name",
+      "old": "Sky Burial",
+      "new": "Orbital Burial",
+      "category": "spell"
+    },
+    {
+      "key": "faction_1_spell_afterblaze_name",
+      "old": "Afterblaze",
+      "new": "Afterburn Protocol",
+      "category": "spell"
+    },
+    {
+      "key": "faction_1_spell_fighting_spirit_name",
+      "old": "Fighting Spirit",
+      "new": "Fighting Subroutine",
+      "category": "spell"
+    },
+    {
+      "key": "faction_1_spell_fealty_name",
+      "old": "Fealty",
+      "new": "Imperial Fealty",
+      "category": "spell"
+    },
+    {
+      "key": "faction_1_spell_sunstrike_name",
+      "old": "Sunstrike",
+      "new": "Orbital Strike",
+      "category": "spell"
+    },
+    {
+      "key": "faction_1_spell_invincible_name",
+      "old": "Invincible",
+      "new": "Invincible Protocol",
+      "category": "spell"
+    },
+    {
+      "key": "faction_1_artifact_arclyte_regalia_name",
+      "old": "Arclyte Regalia",
+      "new": "Arc Regalia",
+      "category": "artifact"
+    },
+    {
+      "key": "faction_2_unit_heartseeker_name",
+      "old": "Heartseeker",
+      "new": "Saboteur",
+      "category": "unit"
+    },
+    {
+      "key": "faction_2_unit_kaido_assassin_name",
+      "old": "Kaido Assassin",
+      "new": "Kael's Assassin",
+      "category": "unit"
+    },
+    {
+      "key": "faction_2_unit_chakri_avatar_name",
+      "old": "Chakri Avatar",
+      "new": "Rebel Avatar",
+      "category": "unit"
+    },
+    {
+      "key": "faction_2_unit_four_winds_magi_name",
+      "old": "Four Winds Magi",
+      "new": "Four Winds Operative",
+      "category": "unit"
+    },
+    {
+      "key": "faction_2_unit_celestial_phantom_name",
+      "old": "Celestial Phantom",
+      "new": "Ghost Operative",
+      "category": "unit"
+    },
+    {
+      "key": "faction_2_unit_grandmaster_zendo_name",
+      "old": "Grandmaster Zendo",
+      "new": "Grandmaster Kael",
+      "category": "unit"
+    },
+    {
+      "key": "faction_2_unit_kindling_name",
+      "old": "Kindling",
+      "new": "Kindling Agent",
+      "category": "unit"
+    },
+    {
+      "key": "faction_2_unit_xho_name",
+      "old": "Xho",
+      "new": "Xho Scout",
+      "category": "unit"
+    },
+    {
+      "key": "faction_2_unit_calligrapher_name",
+      "old": "Calligrapher",
+      "new": "Code Breaker",
+      "category": "unit"
+    },
+    {
+      "key": "faction_2_unit_flamewreath_name",
+      "old": "Flamewreath",
+      "new": "Flamewreath Agent",
+      "category": "unit"
+    },
+    {
+      "key": "faction_2_spell_inner_focus_name",
+      "old": "Inner Focus",
+      "new": "Inner Resolve",
+      "category": "spell"
+    },
+    {
+      "key": "faction_2_spell_mist_walking_name",
+      "old": "Mist Walking",
+      "new": "Shadow Walk",
+      "category": "spell"
+    },
+    {
+      "key": "faction_2_artifact_mask_of_shadows_name",
+      "old": "Mask of Shadows",
+      "new": "Mask of the Insurgent",
+      "category": "artifact"
+    },
+    {
+      "key": "faction_3_unit_pyromancer_name",
+      "old": "Pyromancer",
+      "new": "Hellfire Acolyte",
+      "category": "unit"
+    },
+    {
+      "key": "faction_3_unit_dunecaster_name",
+      "old": "Dunecaster",
+      "new": "Bonecaster",
+      "category": "unit"
+    },
+    {
+      "key": "faction_3_unit_orb_weaver_name",
+      "old": "Orb Weaver",
+      "new": "Soul Weaver",
+      "category": "unit"
+    },
+    {
+      "key": "faction_3_unit_rae_name",
+      "old": "Rae",
+      "new": "Rae Demon",
+      "category": "unit"
+    },
+    {
+      "key": "faction_3_unit_nimbus_name",
+      "old": "Nimbus",
+      "new": "Nimbus Wraith",
+      "category": "unit"
+    },
+    {
+      "key": "faction_3_unit_pax_name",
+      "old": "Pax",
+      "new": "Pax the Tormented",
+      "category": "unit"
+    },
+    {
+      "key": "faction_3_unit_iron_dervish_name",
+      "old": "Iron Dervish",
+      "new": "Damned Thrall",
+      "category": "unit"
+    },
+    {
+      "key": "faction_3_unit_fireblaze_obelysk_name",
+      "old": "Fireblaze Obelysk",
+      "new": "Fireblaze Obelisk",
+      "category": "unit"
+    },
+    {
+      "key": "faction_3_unit_lavastorm_obelysk_name",
+      "old": "Lavastorm Obelysk",
+      "new": "Lavastorm Obelisk",
+      "category": "unit"
+    },
+    {
+      "key": "faction_3_unit_trygon_obelysk_name",
+      "old": "Trygon Obelysk",
+      "new": "Trygon Obelisk",
+      "category": "unit"
+    },
+    {
+      "key": "faction_3_unit_ethereal_obelysk_name",
+      "old": "Ethereal Obelysk",
+      "new": "Ethereal Obelisk",
+      "category": "unit"
+    },
+    {
+      "key": "faction_3_unit_sand_howler_name",
+      "old": "Sand Howler",
+      "new": "Soul Howler",
+      "category": "unit"
+    },
+    {
+      "key": "faction_3_unit_zephyr_name",
+      "old": "Zephyr",
+      "new": "Zephyr Demon",
+      "category": "unit"
+    },
+    {
+      "key": "faction_3_spell_sand_trap_name",
+      "old": "Sand Trap",
+      "new": "Soul Trap",
+      "category": "spell"
+    },
+    {
+      "key": "faction_3_spell_whisper_of_the_sands_name",
+      "old": "Whisper of the Sands",
+      "new": "Whisper of the Damned",
+      "category": "spell"
+    },
+    {
+      "key": "faction_3_spell_circle_of_desiccation_name",
+      "old": "Circle of Desiccation",
+      "new": "Circle of Damnation",
+      "category": "spell"
+    },
+    {
+      "key": "faction_3_artifact_staff_of_ykir_name",
+      "old": "Staff Of Y'Kir",
+      "new": "Staff of Ith'Rael",
+      "category": "artifact"
+    },
+    {
+      "key": "faction_3_artifact_hexblade_name",
+      "old": "Hexblade",
+      "new": "Hexblade of the Damned",
+      "category": "artifact"
+    },
+    {
+      "key": "faction_4_unit_abyssal_crawler_name",
+      "old": "Abyssal Crawler",
+      "new": "Viral Crawler",
+      "category": "unit"
+    },
+    {
+      "key": "faction_4_unit_gloomchaser_name",
+      "old": "Gloomchaser",
+      "new": "Gloom Chaser",
+      "category": "unit"
+    },
+    {
+      "key": "faction_4_unit_shadowdancer_name",
+      "old": "Shadowdancer",
+      "new": "Shadow Dancer",
+      "category": "unit"
+    },
+    {
+      "key": "faction_4_unit_wraithling_name",
+      "old": "Wraithling",
+      "new": "Infected",
+      "category": "unit"
+    },
+    {
+      "key": "faction_4_unit_grandmaster_variax_name",
+      "old": "Grandmaster Variax",
+      "new": "Grandmaster Source",
+      "category": "unit"
+    },
+    {
+      "key": "faction_4_spell_daemonic_lure_name",
+      "old": "Daemonic Lure",
+      "new": "Viral Lure",
+      "category": "spell"
+    },
+    {
+      "key": "faction_4_spell_breath_of_the_unborn_name",
+      "old": "Breath Of The Unborn",
+      "new": "Breath of the Unborn",
+      "category": "spell"
+    },
+    {
+      "key": "faction_4_spell_shadow_nova_name",
+      "old": "Shadow Nova",
+      "new": "Viral Nova",
+      "category": "spell"
+    },
+    {
+      "key": "faction_4_spell_wraithling_fury_name",
+      "old": "Wraithling Fury",
+      "new": "Infected Fury",
+      "category": "spell"
+    },
+    {
+      "key": "faction_4_spell_wraithling_swarm_name",
+      "old": "Wraithling Swarm",
+      "new": "Infected Swarm",
+      "category": "spell"
+    },
+    {
+      "key": "faction_4_spell_sphere_of_darkness_name",
+      "old": "Sphere of Darkness",
+      "new": "Sphere of Corruption",
+      "category": "spell"
+    },
+    {
+      "key": "faction_5_unit_young_silithar_name",
+      "old": "Young Silithar",
+      "new": "Young Enforcer",
+      "category": "unit"
+    },
+    {
+      "key": "faction_5_unit_veteran_silithar_name",
+      "old": "Veteran Silithar",
+      "new": "Veteran Enforcer",
+      "category": "unit"
+    },
+    {
+      "key": "faction_5_unit_silithar_elder_name",
+      "old": "Silithar Elder",
+      "new": "Enforcer Elder",
+      "category": "unit"
+    },
+    {
+      "key": "faction_5_unit_earth_walker_name",
+      "old": "Earth Walker",
+      "new": "Street Walker",
+      "category": "unit"
+    },
+    {
+      "key": "faction_5_unit_egg_name",
+      "old": "Chrysalis Egg",
+      "new": "Contraband Egg",
+      "category": "unit"
+    },
+    {
+      "key": "faction_5_unit_grandmaster_kraigon_name",
+      "old": "Grandmaster Kraigon",
+      "new": "Grandmaster Calder",
+      "category": "unit"
+    },
+    {
+      "key": "faction_6_unit_arctic_displacer_name",
+      "old": "Arctic Displacer",
+      "new": "Phase Displacer",
+      "category": "unit"
+    },
+    {
+      "key": "faction_6_unit_hearth_sister_name",
+      "old": "Hearth-Sister",
+      "new": "Hearth Sister",
+      "category": "unit"
+    },
+    {
+      "key": "faction_6_unit_voice_of_the_wind_name",
+      "old": "Voice of the Wind",
+      "new": "Voice of the Storm",
+      "category": "unit"
+    },
+    {
+      "key": "faction_6_unit_grandmaster_embla_name",
+      "old": "Grandmaster Embla",
+      "new": "Grandmaster Nythera",
+      "category": "unit"
+    },
+    {
+      "key": "faction_6_spell_aspect_of_the_fox_name",
+      "old": "Aspect of the Ravager",
+      "new": "Aspect of the Fox",
+      "category": "spell"
+    },
+    {
+      "key": "faction_6_spell_aspect_of_the_drake_name",
+      "old": "Aspect of the Wyrm",
+      "new": "Aspect of the Drake",
+      "category": "spell"
+    },
+    {
+      "key": "boss_neutral_taunt",
+      "old": "I will show you the meaning of fear!",
+      "new": "I will show you the meaning of control!",
+      "category": "boss"
+    },
+    {
+      "key": "boss_1_taunt",
+      "old": "(unintelligible roar)",
+      "new": "(corrupted data stream)",
+      "category": "boss"
+    },
+    {
+      "key": "boss_2_taunt",
+      "old": "Two can play at this game.",
+      "new": "Two can play at this game, Operative.",
+      "category": "boss"
+    },
+    {
+      "key": "boss_3_taunt",
+      "old": "Come, let me show you all the pain in my arsenal!",
+      "new": "Come, let me show you the Hierarchy's arsenal!",
+      "category": "boss"
+    },
+    {
+      "key": "boss_4_taunt",
+      "old": "Madness will rule this world.  I will destroy everything!",
+      "new": "The Thought Virus will consume this world!",
+      "category": "boss"
+    },
+    {
+      "key": "boss_5_taunt",
+      "old": "Your mind is clouded.  Come closer.  Let me end your pain.",
+      "new": "Your mind is clouded. Let the Source end your pain.",
+      "category": "boss"
+    },
+    {
+      "key": "boss_6_taunt",
+      "old": "Sentient life detected.  Executing eradication procedure.",
+      "new": "Sentient life detected. Executing Empire protocol.",
+      "category": "boss"
+    },
+    {
+      "key": "boss_8_taunt",
+      "old": "Halt! Your entry into the Monolith has been denied.",
+      "new": "Halt! Your entry into the Panopticon has been denied.",
+      "category": "boss"
+    },
+    {
+      "key": "boss_9_taunt",
+      "old": "Fall for my tricks or my staff, the outcome will be the same.",
+      "new": "Fall for my tricks or my blade \u2014 the outcome is the same.",
+      "category": "boss"
+    },
+    {
+      "key": "boss_10_taunt",
+      "old": "I shall reap the sins of this world and cleanse it in the fires of destruction.",
+      "new": "I shall reap the sins of this world and cleanse it in the fires of New Babylon.",
+      "category": "boss"
+    },
+    {
+      "key": "boss_12_taunt",
+      "old": "You stand before a god.  Your trivial life means nothing to me.",
+      "new": "You stand before the Architect. Your trivial life means nothing.",
+      "category": "boss"
+    },
+    {
+      "key": "boss_13_taunt",
+      "old": "Can you handle even a taste of the power that I wield? Let's see you try.",
+      "new": "Can you handle even a taste of the power the Potentials wield?",
+      "category": "boss"
+    },
+    {
+      "key": "boss_14_taunt",
+      "old": "Power overwhelming!",
+      "new": "Power overwhelming! The Source demands it!",
+      "category": "boss"
+    },
+    {
+      "key": "earth_sister_desc",
+      "old": "By earning 3 copies of six Magmar Rare Cards, you've unlocked the Earth Sister!",
+      "new": "By earning 3 copies of six Babylon Rare Cards, you've unlocked the Earth Sister!",
+      "category": "ui_replace"
+    },
+    {
+      "key": "storm_sister_desc",
+      "old": "By earning 3 copies of six Songhai Rare Cards, you've unlocked the Storm Sister!",
+      "new": "By earning 3 copies of six Insurgency Rare Cards, you've unlocked the Storm Sister!",
+      "category": "ui_replace"
+    },
+    {
+      "key": "sand_sister_desc",
+      "old": "By earning 3 copies of six Vetruvian Rare Cards, you've unlocked the Sand Sister!",
+      "new": "By earning 3 copies of six Hierarchy Rare Cards, you've unlocked the Sand Sister!",
+      "category": "ui_replace"
+    },
+    {
+      "key": "shadow_sister_desc",
+      "old": "By earning 3 copies of six Abyssian Rare Cards, you've unlocked the Shadow Sister!",
+      "new": "By earning 3 copies of six Virus Rare Cards, you've unlocked the Shadow Sister!",
+      "category": "ui_replace"
+    },
+    {
+      "key": "sun_sister_desc",
+      "old": "By earning 3 copies of six Lyonar Rare Cards, you've unlocked the Sun Sister!",
+      "new": "By earning 3 copies of six Empire Rare Cards, you've unlocked the Sun Sister!",
+      "category": "ui_replace"
+    },
+    {
+      "key": "wind_sister_desc",
+      "old": "By earning 3 copies of six Vanar Rare Cards, you've unlocked the Wind Sister!",
+      "new": "By earning 3 copies of six Potentials Rare Cards, you've unlocked the Wind Sister!",
+      "category": "ui_replace"
+    },
+    {
+      "key": "early_feb_2018_login_achievement_title",
+      "old": "Celebrate Valentine's Day with Duelyst <3",
+      "new": "Celebrate Valentine's Day with Dischordian Saga <3",
+      "category": "ui_replace"
+    },
+    {
+      "key": "boss_23_bio",
+      "old": "Born among the Magmar where strength was heralded as prominence, Xel took his pursuit of perfect evolution one step further as he transcended even his own kind.\u2002\u2002Feeding off the death of lesser beings, Xel sets his eyes upon you next.",
+      "new": "Born among the Babylon where strength was heralded as prominence, Xel took his pursuit of perfect evolution one step further as he transcended even his own kind.\u2002\u2002Feeding off the death of lesser beings, Xel sets his eyes upon you next.",
+      "category": "ui_replace"
+    },
+    {
+      "key": "boss_28_bio",
+      "old": "After having fallen in battle to an Abyssian priestess, the rogue Magmar Grym was cursed to be reborn with corrupted flesh and an unquenchable hunger for death.  Uncaring of the lives of others he feeds on both friend and foe alike to feed his rage.",
+      "new": "After having fallen in battle to an Virus priestess, the rogue Babylon Grym was cursed to be reborn with corrupted flesh and an unquenchable hunger for death.  Uncaring of the lives of others he feeds on both friend and foe alike to feed his rage.",
+      "category": "ui_replace"
+    },
+    {
+      "key": "faction_2_spell_twilight_reiki_desc",
+      "old": "Put 3 random Songhai minions into your action bar. They cost 1 less.",
+      "new": "Put 3 random Insurgency minions into your action bar. They cost 1 less.",
+      "category": "ui_replace"
+    },
+    {
+      "key": "faction_2_unit_xho_desc",
+      "old": "Dying Wish: Put a random Songhai spell into your action bar. It costs 1 less.",
+      "new": "Dying Wish: Put a random Insurgency spell into your action bar. It costs 1 less.",
+      "category": "ui_replace"
+    },
+    {
+      "key": "faction_2_unit_calligrapher_desc",
+      "old": "Rush\nWhenever this minion attacks, put three Songhai spells into your action bar.",
+      "new": "Rush\nWhenever this minion attacks, put three Insurgency spells into your action bar.",
+      "category": "ui_replace"
+    },
+    {
+      "key": "faction_3_spell_autarchs_gifts_desc",
+      "old": "Equip 2 random Vetruvian artifacts.",
+      "new": "Equip 2 random Hierarchy artifacts.",
+      "category": "ui_replace"
+    },
+    {
+      "key": "faction_3_spell_monolithic_vision_desc",
+      "old": "Transform your action bar into six random Vetruvian cards that cost 4 less.",
+      "new": "Transform your action bar into six random Hierarchy cards that cost 4 less.",
+      "category": "ui_replace"
+    },
+    {
+      "key": "faction_5_spell_cascading_rebirth_desc",
+      "old": "Destroy a friendly minion to summon a random Magmar minion that costs 1 more.",
+      "new": "Destroy a friendly minion to summon a random Babylon minion that costs 1 more.",
+      "category": "ui_replace"
+    },
+    {
+      "key": "beginner_flying_challenge_title",
+      "old": "Lyonar: Earn Your Wings",
+      "new": "Empire: Earn Your Wings",
+      "category": "ui_replace"
+    },
+    {
+      "key": "beginner_flying_challenge_description",
+      "old": "Use FLYING to defeat the Abyssian General in ONE turn.",
+      "new": "Use FLYING to defeat the Virus General in ONE turn.",
+      "category": "ui_replace"
+    },
+    {
+      "key": "beginner_flying_challenge_start",
+      "old": "Finish off Abyssian General in ONE turn!",
+      "new": "Finish off Virus General in ONE turn!",
+      "category": "ui_replace"
+    },
+    {
+      "key": "beginner_ranged_challenge_title",
+      "old": "Lyonar: Dead Center",
+      "new": "Empire: Dead Center",
+      "category": "ui_replace"
+    },
+    {
+      "key": "beginner_ranged_challenge_description",
+      "old": "Defeat the Vanar General in ONE turn.",
+      "new": "Defeat the Potentials General in ONE turn.",
+      "category": "ui_replace"
+    },
+    {
+      "key": "beginner_ranged_challenge_start",
+      "old": "Finish off Vanar General in ONE turn!",
+      "new": "Finish off Potentials General in ONE turn!",
+      "category": "ui_replace"
+    },
+    {
+      "key": "advanced_abyss_1_title",
+      "old": "Abyssian: Malediction",
+      "new": "Virus: Malediction",
+      "category": "ui_replace"
+    },
+    {
+      "key": "advanced_abyss_1_description",
+      "old": "Defeat the Lyonar General in ONE turn.",
+      "new": "Defeat the Empire General in ONE turn.",
+      "category": "ui_replace"
+    },
+    {
+      "key": "beginner_abyss_1_title",
+      "old": "Abyssian: Shadow Ritual",
+      "new": "Virus: Shadow Ritual",
+      "category": "ui_replace"
+    },
+    {
+      "key": "beginner_abyss_1_description",
+      "old": "Use MINION SACRIFICE to defeat the Lyonar General in ONE turn.",
+      "new": "Use MINION SACRIFICE to defeat the Empire General in ONE turn.",
+      "category": "ui_replace"
+    },
+    {
+      "key": "beginner_abyss_2_title",
+      "old": "Abyssian: Engulf the Flame",
+      "new": "Virus: Engulf the Flame",
+      "category": "ui_replace"
+    },
+    {
+      "key": "beginner_abyss_2_description",
+      "old": "Defeat the Songhai General in ONE turn.",
+      "new": "Defeat the Insurgency General in ONE turn.",
+      "category": "ui_replace"
+    },
+    {
+      "key": "beginner_abyss_3_title",
+      "old": "Abyssian: Power Overwhelming",
+      "new": "Virus: Power Overwhelming",
+      "category": "ui_replace"
+    },
+    {
+      "key": "beginner_abyss_3_description",
+      "old": "Defeat the Songhai General in ONE turn.",
+      "new": "Defeat the Insurgency General in ONE turn.",
+      "category": "ui_replace"
+    },
+    {
+      "key": "beginner_abyss_3_start",
+      "old": "Finish off the Songhai General in ONE turn!",
+      "new": "Finish off the Insurgency General in ONE turn!",
+      "category": "ui_replace"
+    },
+    {
+      "key": "beginner_abyss_4_title",
+      "old": "Abyssian: Creeping Darkness",
+      "new": "Virus: Creeping Darkness",
+      "category": "ui_replace"
+    },
+    {
+      "key": "beginner_abyss_4_description",
+      "old": "Use FRENZY to defeat the Vetruvian General in ONE turn.",
+      "new": "Use FRENZY to defeat the Hierarchy General in ONE turn.",
+      "category": "ui_replace"
+    },
+    {
+      "key": "beginner_abyss_4_start",
+      "old": "Finish off the Vetruvian General in ONE turn!",
+      "new": "Finish off the Hierarchy General in ONE turn!",
+      "category": "ui_replace"
+    },
+    {
+      "key": "beginner_abyss_5_title",
+      "old": "Abyssian: Gifts Unforgiven",
+      "new": "Virus: Gifts Unforgiven",
+      "category": "ui_replace"
+    },
+    {
+      "key": "beginner_abyss_5_description",
+      "old": "Use DYING WISH to defeat the Songhai General in ONE turn.",
+      "new": "Use DYING WISH to defeat the Insurgency General in ONE turn.",
+      "category": "ui_replace"
+    },
+    {
+      "key": "beginner_abyss_5_start",
+      "old": "Finish off the Songhai General in ONE turn!",
+      "new": "Finish off the Insurgency General in ONE turn!",
+      "category": "ui_replace"
+    },
+    {
+      "key": "beginner_abyss_6_title",
+      "old": "Abyssian: Alluring Demise",
+      "new": "Virus: Alluring Demise",
+      "category": "ui_replace"
+    },
+    {
+      "key": "beginner_abyss_6_description",
+      "old": "Use ENEMY DISPLACEMENT to defeat the Vetruvian General in ONE turn.",
+      "new": "Use ENEMY DISPLACEMENT to defeat the Hierarchy General in ONE turn.",
+      "category": "ui_replace"
+    },
+    {
+      "key": "beginner_abyss_6_start",
+      "old": "Finish off the Vetruvian General in ONE turn!",
+      "new": "Finish off the Hierarchy General in ONE turn!",
+      "category": "ui_replace"
+    },
+    {
+      "key": "medium_abyss_1_title",
+      "old": "Abyssian: Shadows of Light",
+      "new": "Virus: Shadows of Light",
+      "category": "ui_replace"
+    },
+    {
+      "key": "medium_abyss_1_description",
+      "old": "Defeat the Lyonar General in ONE turn.",
+      "new": "Defeat the Empire General in ONE turn.",
+      "category": "ui_replace"
+    },
+    {
+      "key": "advanced_lyonar_1_title",
+      "old": "Lyonar: Desperation",
+      "new": "Empire: Desperation",
+      "category": "ui_replace"
+    },
+    {
+      "key": "advanced_lyonar_1_description",
+      "old": "Defeat the Lyonar General in ONE turn.",
+      "new": "Defeat the Empire General in ONE turn.",
+      "category": "ui_replace"
+    },
+    {
+      "key": "advanced_lyonar_1_start",
+      "old": "Finish off the Lyonar General in ONE turn!",
+      "new": "Finish off the Empire General in ONE turn!",
+      "category": "ui_replace"
+    },
+    {
+      "key": "advanced_lyonar_2_title",
+      "old": "Lyonar: Inspiring Presence",
+      "new": "Empire: Inspiring Presence",
+      "category": "ui_replace"
+    },
+    {
+      "key": "beginner_lyonar_1_title",
+      "old": "Lyonar: Swiftness of Movement",
+      "new": "Empire: Swiftness of Movement",
+      "category": "ui_replace"
+    },
+    {
+      "key": "beginner_lyonar_2_title",
+      "old": "Lyonar: Divine Zeal",
+      "new": "Empire: Divine Zeal",
+      "category": "ui_replace"
+    },
+    {
+      "key": "beginner_lyonar_2_description",
+      "old": "Use ZEAL to defeat the Magmar General in ONE turn.",
+      "new": "Use ZEAL to defeat the Babylon General in ONE turn.",
+      "category": "ui_replace"
+    },
+    {
+      "key": "beginner_lyonar_3_title",
+      "old": "Lyonar: The Power of Wisdom",
+      "new": "Empire: The Power of Wisdom",
+      "category": "ui_replace"
+    },
+    {
+      "key": "beginner_lyonar_3_description",
+      "old": "Defeat the Magmar General in ONE turn.",
+      "new": "Defeat the Babylon General in ONE turn.",
+      "category": "ui_replace"
+    },
+    {
+      "key": "beginner_lyonar_4_title",
+      "old": "Lyonar: Honor the Fallen",
+      "new": "Empire: Honor the Fallen",
+      "category": "ui_replace"
+    },
+    {
+      "key": "advanced_magmar_1_title",
+      "old": "Magmar: Mind Game",
+      "new": "Babylon: Mind Game",
+      "category": "ui_replace"
+    },
+    {
+      "key": "advanced_magmar_1_description",
+      "old": "Defeat the Songhai General in ONE turn.",
+      "new": "Defeat the Insurgency General in ONE turn.",
+      "category": "ui_replace"
+    },
+    {
+      "key": "advanced_magmar_1_start",
+      "old": "Finish off the Songhai General in ONE turn!",
+      "new": "Finish off the Insurgency General in ONE turn!",
+      "category": "ui_replace"
+    },
+    {
+      "key": "beginner_magmar_1_title",
+      "old": "Magmar: Beast of War",
+      "new": "Babylon: Beast of War",
+      "category": "ui_replace"
+    },
+    {
+      "key": "beginner_magmar_1_description",
+      "old": "Use SPECIALIZED REMOVAL to defeat the Songhai General in ONE turn.",
+      "new": "Use SPECIALIZED REMOVAL to defeat the Insurgency General in ONE turn.",
+      "category": "ui_replace"
+    },
+    {
+      "key": "beginner_magmar_2_title",
+      "old": "Magmar: Breaking The Bad",
+      "new": "Babylon: Breaking The Bad",
+      "category": "ui_replace"
+    },
+    {
+      "key": "beginner_magmar_2_description",
+      "old": "Defeat the Vanar General in ONE turn.",
+      "new": "Defeat the Potentials General in ONE turn.",
+      "category": "ui_replace"
+    },
+    {
+      "key": "beginner_magmar_3_title",
+      "old": "Magmar: Crushing Reach",
+      "new": "Babylon: Crushing Reach",
+      "category": "ui_replace"
+    },
+    {
+      "key": "beginner_magmar_3_description",
+      "old": "Use RANGED to defeat the Vanar General in ONE turn.",
+      "new": "Use RANGED to defeat the Potentials General in ONE turn.",
+      "category": "ui_replace"
+    },
+    {
+      "key": "beginner_magmar_4_title",
+      "old": "Magmar: Shattered Memories",
+      "new": "Babylon: Shattered Memories",
+      "category": "ui_replace"
+    },
+    {
+      "key": "beginner_magmar_4_description",
+      "old": "Use ARTIFACT DESTRUCTION to defeat the Abyssian General in ONE turn.",
+      "new": "Use ARTIFACT DESTRUCTION to defeat the Virus General in ONE turn.",
+      "category": "ui_replace"
+    },
+    {
+      "key": "beginner_magmar_4_start",
+      "old": "Finish off the Abyssian General in ONE turn!",
+      "new": "Finish off the Virus General in ONE turn!",
+      "category": "ui_replace"
+    },
+    {
+      "key": "medium_magmar_1_title",
+      "old": "Magmar: In a Frenzy",
+      "new": "Babylon: In a Frenzy",
+      "category": "ui_replace"
+    },
+    {
+      "key": "medium_magmar_1_description",
+      "old": "Defeat the Vanar General in ONE turn.",
+      "new": "Defeat the Potentials General in ONE turn.",
+      "category": "ui_replace"
+    },
+    {
+      "key": "advanced_songhai_1_title",
+      "old": "Songhai: The Stronger Scythe",
+      "new": "Insurgency: The Stronger Scythe",
+      "category": "ui_replace"
+    },
+    {
+      "key": "advanced_songhai_1_description",
+      "old": "Defeat the Vetruvian General in ONE turn.",
+      "new": "Defeat the Hierarchy General in ONE turn.",
+      "category": "ui_replace"
+    },
+    {
+      "key": "beginner_songhai_1_title",
+      "old": "Songhai: Evolution into Ash",
+      "new": "Insurgency: Evolution into Ash",
+      "category": "ui_replace"
+    },
+    {
+      "key": "beginner_songhai_1_description",
+      "old": "Defeat the Magmar General in ONE turn.",
+      "new": "Defeat the Babylon General in ONE turn.",
+      "category": "ui_replace"
+    },
+    {
+      "key": "beginner_songhai_2_title",
+      "old": "Songhai: Path of the Mistwalkers",
+      "new": "Insurgency: Path of the Mistwalkers",
+      "category": "ui_replace"
+    },
+    {
+      "key": "beginner_songhai_2_description",
+      "old": "Use SPELL CHAINING to defeat the Vanar General in ONE turn.",
+      "new": "Use SPELL CHAINING to defeat the Potentials General in ONE turn.",
+      "category": "ui_replace"
+    },
+    {
+      "key": "beginner_songhai_3_title",
+      "old": "Songhai: Chaos Control",
+      "new": "Insurgency: Chaos Control",
+      "category": "ui_replace"
+    },
+    {
+      "key": "beginner_songhai_3_description",
+      "old": "Defeat the Abyssian General in ONE turn.",
+      "new": "Defeat the Virus General in ONE turn.",
+      "category": "ui_replace"
+    },
+    {
+      "key": "beginner_songhai_4_title",
+      "old": "Songhai: Leaf on the Wind",
+      "new": "Insurgency: Leaf on the Wind",
+      "category": "ui_replace"
+    },
+    {
+      "key": "beginner_songhai_4_description",
+      "old": "Use AIRDROP to defeat the Lyonar General in ONE turn.",
+      "new": "Use AIRDROP to defeat the Empire General in ONE turn.",
+      "category": "ui_replace"
+    },
+    {
+      "key": "beginner_songhai_4_start",
+      "old": "Finish off the Lyonar General in ONE turn!",
+      "new": "Finish off the Empire General in ONE turn!",
+      "category": "ui_replace"
+    },
+    {
+      "key": "beginner_songhai_5_title",
+      "old": "Songhai: Eye of the Tiger",
+      "new": "Insurgency: Eye of the Tiger",
+      "category": "ui_replace"
+    },
+    {
+      "key": "beginner_songhai_5_description",
+      "old": "Use SELF BUFFING and RUSH to defeat the Lyonar General in ONE turn.",
+      "new": "Use SELF BUFFING and RUSH to defeat the Empire General in ONE turn.",
+      "category": "ui_replace"
+    },
+    {
+      "key": "beginner_songhai_5_start",
+      "old": "Finish off the Lyonar General in ONE turn!",
+      "new": "Finish off the Empire General in ONE turn!",
+      "category": "ui_replace"
+    },
+    {
+      "key": "medium_songhai_1_title",
+      "old": "Songhai: Songhai Shuffle",
+      "new": "Insurgency: Insurgency Shuffle",
+      "category": "ui_replace"
+    },
+    {
+      "key": "medium_songhai_1_description",
+      "old": "Defeat the Lyonar General in ONE turn.",
+      "new": "Defeat the Empire General in ONE turn.",
+      "category": "ui_replace"
+    },
+    {
+      "key": "medium_songhai_2_title",
+      "old": "Songhai: Jack of Blades",
+      "new": "Insurgency: Jack of Blades",
+      "category": "ui_replace"
+    },
+    {
+      "key": "medium_songhai_2_description",
+      "old": "Use CELERITY and time your skills to bring down the Magmar General in ONE turn.",
+      "new": "Use CELERITY and time your skills to bring down the Babylon General in ONE turn.",
+      "category": "ui_replace"
+    },
+    {
+      "key": "advanced_vanar_1_title",
+      "old": "Vanar: The Locked Library",
+      "new": "Potentials: The Locked Library",
+      "category": "ui_replace"
+    },
+    {
+      "key": "advanced_vanar_1_description",
+      "old": "Defeat the Songhai General in ONE turn.",
+      "new": "Defeat the Insurgency General in ONE turn.",
+      "category": "ui_replace"
+    },
+    {
+      "key": "advanced_vanar_1_start",
+      "old": "Finish off the Songhai General in ONE turn!",
+      "new": "Finish off the Insurgency General in ONE turn!",
+      "category": "ui_replace"
+    },
+    {
+      "key": "advanced_vanar_2_title",
+      "old": "Vanar: Ice Box",
+      "new": "Potentials: Ice Box",
+      "category": "ui_replace"
+    },
+    {
+      "key": "advanced_vanar_2_description",
+      "old": "Strengthen your walls and turn them to bring down the Songhai General from Full Health.",
+      "new": "Strengthen your walls and turn them to bring down the Insurgency General from Full Health.",
+      "category": "ui_replace"
+    },
+    {
+      "key": "advanced_vanar_2_start",
+      "old": "Finish off the Songhai General in ONE turn!",
+      "new": "Finish off the Insurgency General in ONE turn!",
+      "category": "ui_replace"
+    },
+    {
+      "key": "beginner_vanar_1_title",
+      "old": "Vanar: Freezing Sand",
+      "new": "Potentials: Freezing Sand",
+      "category": "ui_replace"
+    },
+    {
+      "key": "beginner_vanar_1_description",
+      "old": "Defeat the Vetruvian General in ONE turn.",
+      "new": "Defeat the Hierarchy General in ONE turn.",
+      "category": "ui_replace"
+    },
+    {
+      "key": "beginner_vanar_2_title",
+      "old": "Vanar: Frozen Shadows",
+      "new": "Potentials: Frozen Shadows",
+      "category": "ui_replace"
+    },
+    {
+      "key": "beginner_vanar_2_description",
+      "old": "Defeat the Abyssian General in ONE turn.",
+      "new": "Defeat the Virus General in ONE turn.",
+      "category": "ui_replace"
+    },
+    {
+      "key": "beginner_vanar_3_title",
+      "old": "Vanar: Final Whispers",
+      "new": "Potentials: Final Whispers",
+      "category": "ui_replace"
+    },
+    {
+      "key": "beginner_vanar_3_description",
+      "old": "Defeat the Abyssian General in ONE turn.",
+      "new": "Defeat the Virus General in ONE turn.",
+      "category": "ui_replace"
+    },
+    {
+      "key": "beginner_vanar_4_title",
+      "old": "Vanar: Approaching Cold",
+      "new": "Potentials: Approaching Cold",
+      "category": "ui_replace"
+    },
+    {
+      "key": "beginner_vanar_4_description",
+      "old": "Use RUSH to defeat the Magmar General in ONE turn.",
+      "new": "Use RUSH to defeat the Babylon General in ONE turn.",
+      "category": "ui_replace"
+    },
+    {
+      "key": "beginner_vanar_4_start",
+      "old": "Finish off the Magmar General in ONE turn!",
+      "new": "Finish off the Babylon General in ONE turn!",
+      "category": "ui_replace"
+    },
+    {
+      "key": "beginner_vanar_5_title",
+      "old": "Vanar: Behind Enemy Lines",
+      "new": "Potentials: Behind Enemy Lines",
+      "category": "ui_replace"
+    },
+    {
+      "key": "beginner_vanar_5_start",
+      "old": "Finish off the Songhai General in ONE turn!",
+      "new": "Finish off the Insurgency General in ONE turn!",
+      "category": "ui_replace"
+    },
+    {
+      "key": "advanced_vetruvian_1_title",
+      "old": "Vetruvian: Patience",
+      "new": "Hierarchy: Patience",
+      "category": "ui_replace"
+    },
+    {
+      "key": "advanced_vetruvian_1_description",
+      "old": "Defeat the Abyssian General in ONE turn.",
+      "new": "Defeat the Virus General in ONE turn.",
+      "category": "ui_replace"
+    },
+    {
+      "key": "advanced_vetruvian_1_start",
+      "old": "Finish off the Abyssian General in ONE turn.",
+      "new": "Finish off the Virus General in ONE turn.",
+      "category": "ui_replace"
+    },
+    {
+      "key": "advanced_vetruvian_2_title",
+      "old": "Vetruvian: Wishful Thinking",
+      "new": "Hierarchy: Wishful Thinking",
+      "category": "ui_replace"
+    },
+    {
+      "key": "advanced_vetruvian_2_start",
+      "old": "Finish off the Abyssian General in ONE turn.",
+      "new": "Finish off the Virus General in ONE turn.",
+      "category": "ui_replace"
+    },
+    {
+      "key": "beginner_vetruvian_1_title",
+      "old": "Vetruvian: Ready for a Blast",
+      "new": "Hierarchy: Ready for a Blast",
+      "category": "ui_replace"
+    },
+    {
+      "key": "beginner_vetruvian_1_description",
+      "old": "Use BLAST to defeat the Abyssian General in ONE turn.",
+      "new": "Use BLAST to defeat the Virus General in ONE turn.",
+      "category": "ui_replace"
+    },
+    {
+      "key": "beginner_vetruvian_2_title",
+      "old": "Vetruvian: Relics Reclaimed",
+      "new": "Hierarchy: Relics Reclaimed",
+      "category": "ui_replace"
+    },
+    {
+      "key": "beginner_vetruvian_2_description",
+      "old": "Defeat the Songhai General in ONE turn.",
+      "new": "Defeat the Insurgency General in ONE turn.",
+      "category": "ui_replace"
+    },
+    {
+      "key": "beginner_vetruvian_2_start",
+      "old": "Finish off the Songhai General in ONE turn!",
+      "new": "Finish off the Insurgency General in ONE turn!",
+      "category": "ui_replace"
+    },
+    {
+      "key": "beginner_vetruvian_3_title",
+      "old": "Vetruvian: Call to Action",
+      "new": "Hierarchy: Call to Action",
+      "category": "ui_replace"
+    },
+    {
+      "key": "beginner_vetruvian_3_description",
+      "old": "Use OPENING GAMBIT to defeat the Abyssian General in ONE turn.",
+      "new": "Use OPENING GAMBIT to defeat the Virus General in ONE turn.",
+      "category": "ui_replace"
+    },
+    {
+      "key": "beginner_vetruvian_3_start",
+      "old": "Finish off the Abyssian General in ONE turn!",
+      "new": "Finish off the Virus General in ONE turn!",
+      "category": "ui_replace"
+    },
+    {
+      "key": "beginner_vetruvian_4_title",
+      "old": "Vetruvian: Bad to the Bone",
+      "new": "Hierarchy: Bad to the Bone",
+      "category": "ui_replace"
+    },
+    {
+      "key": "beginner_vetruvian_4_description",
+      "old": "Break through PROVOKE to defeat the Magmar General in ONE turn.",
+      "new": "Break through PROVOKE to defeat the Babylon General in ONE turn.",
+      "category": "ui_replace"
+    },
+    {
+      "key": "beginner_vetruvian_4_start",
+      "old": "Finish off the Magmar General in ONE turn!",
+      "new": "Finish off the Babylon General in ONE turn!",
+      "category": "ui_replace"
+    },
+    {
+      "key": "beginner_vetruvian_5_title",
+      "old": "Vetruvian: Ties that Bind",
+      "new": "Hierarchy: Ties that Bind",
+      "category": "ui_replace"
+    },
+    {
+      "key": "beginner_vetruvian_5_start",
+      "old": "Finish off the Vanar General in ONE turn!",
+      "new": "Finish off the Potentials General in ONE turn!",
+      "category": "ui_replace"
+    },
+    {
+      "key": "beginner_vetruvian_5_fail",
+      "old": "Vanar has a strong connection to nature that must be Dispelled before the blades may fall and cut down that Warmaster.",
+      "new": "Potentials has a strong connection to nature that must be Dispelled before the blades may fall and cut down that Warmaster.",
+      "category": "ui_replace"
+    },
+    {
+      "key": "medium_vetruvian_1_title",
+      "old": "Vetruvian: Knowledge of the Scions",
+      "new": "Hierarchy: Knowledge of the Scions",
+      "category": "ui_replace"
+    },
+    {
+      "key": "medium_vetruvian_1_description",
+      "old": "Defeat the Abyssian General in ONE turn.",
+      "new": "Defeat the Virus General in ONE turn.",
+      "category": "ui_replace"
+    },
+    {
+      "key": "medium_vetruvian_1_start",
+      "old": "Finish off the Abyssian General in ONE turn!",
+      "new": "Finish off the Virus General in ONE turn!",
+      "category": "ui_replace"
+    },
+    {
+      "key": "medium_vetruvian_2_title",
+      "old": "Vetruvian: Winds of Change",
+      "new": "Hierarchy: Winds of Change",
+      "category": "ui_replace"
+    },
+    {
+      "key": "medium_vetruvian_2_description",
+      "old": "Bolster your DERVISHES and bring down the Songhai General in ONE turn.",
+      "new": "Bolster your DERVISHES and bring down the Insurgency General in ONE turn.",
+      "category": "ui_replace"
+    },
+    {
+      "key": "medium_vetruvian_2_start",
+      "old": "Finish off Songhai General in ONE turn!",
+      "new": "Finish off Insurgency General in ONE turn!",
+      "category": "ui_replace"
+    },
+    {
+      "key": "scene_desc",
+      "old": "Custom splash art for your Duelyst Main Menu.",
+      "new": "Custom splash art for your Dischordian Saga Main Menu.",
+      "category": "ui_replace"
+    },
+    {
+      "key": "scene_magaari_desc",
+      "old": "A location in the world of Duelyst.",
+      "new": "A location in the world of Dischordian Saga.",
+      "category": "ui_replace"
+    },
+    {
+      "key": "scene_obsidian_woods_desc",
+      "old": "A location in the world of Duelyst.",
+      "new": "A location in the world of Dischordian Saga.",
+      "category": "ui_replace"
+    },
+    {
+      "key": "scene_frostfire_festival_desc",
+      "old": "A location in the world of Duelyst.",
+      "new": "A location in the world of Dischordian Saga.",
+      "category": "ui_replace"
+    },
+    {
+      "key": "scene_city_of_kaero_desc",
+      "old": "A location in the world of Duelyst.",
+      "new": "A location in the world of Dischordian Saga.",
+      "category": "ui_replace"
+    },
+    {
+      "key": "scene_unearthed_prophecy_desc",
+      "old": "A location in the world of Duelyst.",
+      "new": "A location in the world of Dischordian Saga.",
+      "category": "ui_replace"
+    },
+    {
+      "key": "skin_argeon_m2_desc",
+      "old": "Claimed the Lyonar throne by bloodright in the bloody aftermath of the Battle of God's Heel.",
+      "new": "Claimed the Empire throne by bloodright in the bloody aftermath of the Battle of God's Heel.",
+      "category": "ui_replace"
+    },
+    {
+      "key": "skin_lilithe_m2_desc",
+      "old": "Four hundred years old. A sister of Vetruvia's House Khaleem during the Second Vetruvian Wars.",
+      "new": "Four hundred years old. A sister of Vetruvia's House Khaleem during the Second Hierarchy Wars.",
+      "category": "ui_replace"
+    },
+    {
+      "key": "cardback_dawn_of_duelysts_name",
+      "old": "Dawn of the Duelysts",
+      "new": "Dawn of the Dischordian Sagas",
+      "category": "ui_replace"
+    },
+    {
+      "key": "icon_abyssian_crest_name",
+      "old": "Abyssian Crest",
+      "new": "Virus Crest",
+      "category": "ui_replace"
+    },
+    {
+      "key": "icon_wraithling_name",
+      "old": "Abyssian Wraithling",
+      "new": "Virus Wraithling",
+      "category": "ui_replace"
+    },
+    {
+      "key": "icon_lyonar_crest_name",
+      "old": "Lyonar Crest",
+      "new": "Empire Crest",
+      "category": "ui_replace"
+    },
+    {
+      "key": "icon_ziran_name",
+      "old": "Lyonar Zir'an Sunforge",
+      "new": "Empire Zir'an Sunforge",
+      "category": "ui_replace"
+    },
+    {
+      "key": "icon_magmar_crest_name",
+      "old": "Magmar Crest",
+      "new": "Babylon Crest",
+      "category": "ui_replace"
+    },
+    {
+      "key": "icon_songhai_crest_name",
+      "old": "Songhai Crest",
+      "new": "Insurgency Crest",
+      "category": "ui_replace"
+    },
+    {
+      "key": "icon_vanar_crest_name",
+      "old": "Vanar Crest",
+      "new": "Potentials Crest",
+      "category": "ui_replace"
+    },
+    {
+      "key": "icon_vetruvian_crest_name",
+      "old": "Vetruvian Crest",
+      "new": "Hierarchy Crest",
+      "category": "ui_replace"
+    },
+    {
+      "key": "icon_zirix_desc",
+      "old": "'Aestaria will never set foot on Vetruvian soil again.'",
+      "new": "'Aestaria will never set foot on Hierarchy soil again.'",
+      "category": "ui_replace"
+    },
+    {
+      "key": "icon_dawn_of_duelysts_s1_name",
+      "old": "Dawn of the Duelysts S1",
+      "new": "Dawn of the Dischordian Sagas S1",
+      "category": "ui_replace"
+    },
+    {
+      "key": "icon_dawn_of_duelysts_s1_desc",
+      "old": "Dawn of the Duelysts Season 1.",
+      "new": "Dawn of the Dischordian Sagas Season 1.",
+      "category": "ui_replace"
+    },
+    {
+      "key": "icon_dawn_of_duelysts_s2_name",
+      "old": "Dawn of the Duelysts S2",
+      "new": "Dawn of the Dischordian Sagas S2",
+      "category": "ui_replace"
+    },
+    {
+      "key": "icon_dawn_of_duelysts_s2_desc",
+      "old": "Dawn of the Duelysts Season 2.",
+      "new": "Dawn of the Dischordian Sagas Season 2.",
+      "category": "ui_replace"
+    },
+    {
+      "key": "icon_brome_desc",
+      "old": "Lyonar Immortal Vanguard General",
+      "new": "Empire Immortal Vanguard General",
+      "category": "ui_replace"
+    },
+    {
+      "key": "icon_ragnora_desc",
+      "old": "Magmar Immortal Vanguard General",
+      "new": "Babylon Immortal Vanguard General",
+      "category": "ui_replace"
+    },
+    {
+      "key": "icon_shidai_desc",
+      "old": "Songhai Immortal Vanguard General",
+      "new": "Insurgency Immortal Vanguard General",
+      "category": "ui_replace"
+    },
+    {
+      "key": "icon_maehv_desc",
+      "old": "Abyssian Immortal Vanguard General",
+      "new": "Virus Immortal Vanguard General",
+      "category": "ui_replace"
+    },
+    {
+      "key": "icon_ilena_desc",
+      "old": "Vanar Immortal Vanguard General",
+      "new": "Potentials Immortal Vanguard General",
+      "category": "ui_replace"
+    },
+    {
+      "key": "icon_ciphyron_desc",
+      "old": "Vetruvian Immortal Vanguard General",
+      "new": "Hierarchy Immortal Vanguard General",
+      "category": "ui_replace"
+    },
+    {
+      "key": "battlemap_magmar_name",
+      "old": "Magmar Battlemap",
+      "new": "Babylon Battlemap",
+      "category": "ui_replace"
+    },
+    {
+      "key": "battlemap_abyssian_name",
+      "old": "Abyssian Battlemap",
+      "new": "Virus Battlemap",
+      "category": "ui_replace"
+    },
+    {
+      "key": "battlemap_vanar_name",
+      "old": "Vanar Battlemap",
+      "new": "Potentials Battlemap",
+      "category": "ui_replace"
+    },
+    {
+      "key": "login_using_duelyst_account",
+      "old": "Log In Using Your Duelyst Account",
+      "new": "Log In Using Your Dischordian Saga Account",
+      "category": "ui_replace"
+    },
+    {
+      "key": "login_using_duelyst_account_2",
+      "old": "Use your Duelyst account credentials to start the account linking process.",
+      "new": "Use your Dischordian Saga account credentials to start the account linking process.",
+      "category": "ui_replace"
+    },
+    {
+      "key": "play_duelyst_btn",
+      "old": "Play Duelyst",
+      "new": "Play Dischordian Saga",
+      "category": "ui_replace"
+    },
+    {
+      "key": "menu_item_codex_tooltip",
+      "old": "Explore the lore and world of Duelyst.",
+      "new": "Explore the lore and world of Dischordian Saga.",
+      "category": "ui_replace"
+    },
+    {
+      "key": "lyonarquest_counter_applied_name",
+      "old": "Trial of Lyonar",
+      "new": "Trial of Empire",
+      "category": "ui_replace"
+    },
+    {
+      "key": "songhaiquest_counter_applied_name",
+      "old": "Trial of Songhai",
+      "new": "Trial of Insurgency",
+      "category": "ui_replace"
+    },
+    {
+      "key": "abyssianquest_counter_applied_name",
+      "old": "Trial of Abyssian",
+      "new": "Trial of Virus",
+      "category": "ui_replace"
+    },
+    {
+      "key": "vetruvianquest_counter_applied_name",
+      "old": "Trial of Vetruvian",
+      "new": "Trial of Hierarchy",
+      "category": "ui_replace"
+    },
+    {
+      "key": "magmarquest_counter_applied_name",
+      "old": "Trial of Magmar",
+      "new": "Trial of Babylon",
+      "category": "ui_replace"
+    },
+    {
+      "key": "vanarquest_counter_applied_name",
+      "old": "Trial of Vanar",
+      "new": "Trial of Potentials",
+      "category": "ui_replace"
+    },
+    {
+      "key": "hiDPI_tooltip",
+      "old": "HiDPI mode for monitors with high pixel density. Warning - enabling this may cause Duelyst to run slowly!",
+      "new": "HiDPI mode for monitors with high pixel density. Warning - enabling this may cause Dischordian Saga to run slowly!",
+      "category": "ui_replace"
+    },
+    {
+      "key": "F1_F5_STARTER_SPECIAL_name",
+      "old": "Lyonar and Magmar Starter",
+      "new": "Empire and Babylon Starter",
+      "category": "ui_replace"
+    },
+    {
+      "key": "F1_F5_STARTER_SPECIAL_description",
+      "old": "4 Epic, 8 Rare cards, and 2 emotes for Lyonar and Magmar. Plus a card back.",
+      "new": "4 Epic, 8 Rare cards, and 2 emotes for Empire and Babylon. Plus a card back.",
+      "category": "ui_replace"
+    },
+    {
+      "key": "F2_F4_STARTER_SPECIAL_name",
+      "old": "Songhai and Abyssian Starter",
+      "new": "Insurgency and Virus Starter",
+      "category": "ui_replace"
+    },
+    {
+      "key": "F2_F4_STARTER_SPECIAL_description",
+      "old": "4 Epic, 8 Rare cards, and 2 emotes for Songhai and Abyssian. Plus a card back.",
+      "new": "4 Epic, 8 Rare cards, and 2 emotes for Insurgency and Virus. Plus a card back.",
+      "category": "ui_replace"
+    },
+    {
+      "key": "F3_F6_STARTER_SPECIAL_name",
+      "old": "Vetruvian and Vanar Starter",
+      "new": "Hierarchy and Potentials Starter",
+      "category": "ui_replace"
+    },
+    {
+      "key": "F3_F6_STARTER_SPECIAL_description",
+      "old": "4 Epic, 8 Rare cards, and 2 emotes for Vetruvian and Vanar. Plus a card back.",
+      "new": "4 Epic, 8 Rare cards, and 2 emotes for Hierarchy and Potentials. Plus a card back.",
+      "category": "ui_replace"
+    }
+  ]
+}
