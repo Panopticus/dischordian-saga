@@ -739,21 +739,24 @@ export class FightEngine3D {
   }
 
   /* ═══ INPUT SYSTEM ═══ */
+  private onKeyDownBound: ((e: KeyboardEvent) => void) | null = null;
+  private onKeyUpBound: ((e: KeyboardEvent) => void) | null = null;
+
   private setupInput() {
-    const onKeyDown = (e: KeyboardEvent) => {
+    this.onKeyDownBound = (e: KeyboardEvent) => {
       const key = e.key.toLowerCase();
       if (!this.keys.has(key)) {
         this.keys.add(key);
         this.processKeyDown(key);
       }
     };
-    const onKeyUp = (e: KeyboardEvent) => {
+    this.onKeyUpBound = (e: KeyboardEvent) => {
       const key = e.key.toLowerCase();
       this.keys.delete(key);
       this.processKeyUp(key);
     };
-    window.addEventListener("keydown", onKeyDown);
-    window.addEventListener("keyup", onKeyUp);
+    window.addEventListener("keydown", this.onKeyDownBound);
+    window.addEventListener("keyup", this.onKeyUpBound);
   }
 
   private processKeyDown(key: string) {
@@ -1294,8 +1297,14 @@ export class FightEngine3D {
           f.parryFrames = PARRY_WINDOW_FRAMES - f.stateFrame;
         }
         // Release block
-        if (!this.holdingBlock && !this.keys.has("s") && !this.keys.has("arrowdown")) {
-          if (f === this.p1) {
+        if (f === this.p1) {
+          if (!this.holdingBlock && !this.keys.has("s") && !this.keys.has("arrowdown")) {
+            f.state = "idle";
+            f.stateFrame = 0;
+          }
+        } else {
+          // AI exits block after parry window + a short hold
+          if (f.stateFrame > PARRY_WINDOW_FRAMES + 8) {
             f.state = "idle";
             f.stateFrame = 0;
           }
@@ -3280,7 +3289,10 @@ export class FightEngine3D {
     this.disposed = true;
 
     // Remove event listeners
-    // (In production, store refs and remove properly)
+    if (this.onKeyDownBound) window.removeEventListener("keydown", this.onKeyDownBound);
+    if (this.onKeyUpBound) window.removeEventListener("keyup", this.onKeyUpBound);
+    this.onKeyDownBound = null;
+    this.onKeyUpBound = null;
 
     // Clean up Three.js
     this.hitEffects.forEach(e => this.scene.remove(e.particles));

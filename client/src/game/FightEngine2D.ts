@@ -1761,9 +1761,9 @@ export class FightEngine2D {
     if (lightPressed) this.recordButtonPress(f, "LP");
     if (mediumPressed) this.recordButtonPress(f, "MP");
     if (heavyPressed) this.recordButtonPress(f, "HP");
-    if (lightKickPressed) this.recordButtonPress(f, "LP");
-    if (mediumKickPressed) this.recordButtonPress(f, "MP");
-    if (heavyKickPressed) this.recordButtonPress(f, "HP");
+    if (lightKickPressed) this.recordButtonPress(f, "LK");
+    if (mediumKickPressed) this.recordButtonPress(f, "MK");
+    if (heavyKickPressed) this.recordButtonPress(f, "HK");
 
     // SF-ported: Check for motion input specials (QCF, DP, HCF + button)
     // This takes priority over the simple special button
@@ -1777,14 +1777,24 @@ export class FightEngine2D {
 
     // Block
     if (blockPressed && this.isGrounded(f)) {
+      const wasBlocking = f.state === "block_stand" || f.state === "block_crouch";
       if (downHeld) {
         this.changeState(f, "block_crouch");
       } else {
         this.changeState(f, "block_stand");
       }
-      f.blockFrame = this.frameCount;
-      f.isParrying = f.parryFrames > 0 || (this.frameCount - f.blockFrame <= PARRY_WINDOW);
-      f.parryFrames = Math.max(0, PARRY_WINDOW - (this.frameCount - f.blockFrame));
+      // Only start parry window on initial block press, then count it down
+      if (!wasBlocking) {
+        f.blockFrame = this.frameCount;
+        f.isParrying = true;
+        f.parryFrames = PARRY_WINDOW;
+      } else {
+        // Count down parry window each frame
+        if (f.parryFrames > 0) {
+          f.parryFrames--;
+          f.isParrying = f.parryFrames > 0;
+        }
+      }
       return;
     }
 
@@ -1980,7 +1990,8 @@ export class FightEngine2D {
     if (f.state === "heavy_charge") {
       f.heavyChargeFrames++;
       // Auto-release after 45 frames
-      if (f.heavyChargeFrames >= 45 || (f === this.p1 && !this.inputState.heavy)) {
+      const aiChargeLimit = f === this.p2 ? 10 + Math.floor(Math.random() * 25) : 45;
+      if (f.heavyChargeFrames >= aiChargeLimit || (f === this.p1 && !this.inputState.heavy)) {
         this.changeState(f, "heavy_release");
       }
     }
@@ -2706,7 +2717,7 @@ export class FightEngine2D {
           this.changeState(ai, "block_stand");
         }
         ai.blockFrame = this.frameCount;
-        ai.isParrying = this.frameCount - ai.blockFrame <= PARRY_WINDOW;
+        ai.isParrying = true;
         ai.parryFrames = PARRY_WINDOW;
         ai.aiTimer = 0;
         return;
@@ -3073,6 +3084,11 @@ export class FightEngine2D {
   /** Record a button press into the control history */
   private recordButtonPress(f: Fighter2D, button: MotionButton) {
     f.controlHistory.push({ input: button, frame: this.frameCount });
+    // Trim old entries to prevent memory leak
+    const cutoff = this.frameCount - CONTROL_HISTORY_CAP;
+    while (f.controlHistory.length > 0 && f.controlHistory[0].frame < cutoff) {
+      f.controlHistory.shift();
+    }
   }
 
   /** Check if the fighter's control history matches any special move motion */
