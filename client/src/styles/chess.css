@@ -1,0 +1,204 @@
+/* ═══════════════════════════════════════════════════════
+   THE ARCHITECT'S GAMBIT — Chess Board Themes
+   Custom chessground themes for the Dischordian Saga.
+   ═══════════════════════════════════════════════════════ */
+
+/* ─── Base chessground overrides ─── */
+.cg-wrap {
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+/* ─── DARK THEME (Default) ─── */
+.cg-board-dark cg-board {
+  background-image: none !important;
+}
+
+.cg-board-dark cg-board square {
+  background-color: #2d2d3d;
+}
+
+.cg-board-dark cg-board square.white {
+  background-color: #3a3a4e;
+}
+
+.cg-board-dark cg-board square.black {
+  background-color: #1e1e2e;
+}
+
+/* ─── CYBER THEME ─── */
+.cg-board-cyber cg-board {
+  background-image: none !important;
+}
+
+.cg-board-cyber cg-board square.white {
+  background-color: #1a2332;
+}
+
+.cg-board-cyber cg-board square.black {
+  background-color: #0d1520;
+}
+
+/* ─── VOID THEME ─── */
+.cg-board-void cg-board {
+  background-image: none !important;
+}
+
+.cg-board-void cg-board square.white {
+  background-color: #2a1a2e;
+}
+
+.cg-board-void cg-board square.black {
+  background-color: #150d18;
+}
+
+/* ─── AMBER THEME ─── */
+.cg-board-amber cg-board {
+  background-image: none !important;
+}
+
+.cg-board-amber cg-board square.white {
+  background-color: #3d3020;
+}
+
+.cg-board-amber cg-board square.black {
+  background-color: #251d12;
+}
+
+/* ─── Highlight overrides ─── */
+cg-board square.last-move {
+  background-color: rgba(0, 255, 200, 0.15) !important;
+}
+
+cg-board square.selected {
+  background-color: rgba(0, 200, 255, 0.25) !important;
+}
+
+cg-board square.move-dest {
+  background: radial-gradient(
+    rgba(0, 200, 255, 0.3) 22%,
+    transparent 22%
+  ) !important;
+}
+
+cg-board square.move-dest.oc {
+  background: radial-gradient(
+    transparent 0%,
+    transparent 80%,
+    rgba(0, 200, 255, 0.3) 80%
+  ) !important;
+}
+
+cg-board square.check {
+  background: radial-gradient(
+    ellipse at center,
+    rgba(255, 0, 0, 0.6) 0%,
+    rgba(255, 0, 0, 0.3) 25%,
+    rgba(255, 0, 0, 0.1) 50%,
+    transparent 100%
+  ) !important;
+}
+
+/* ─── Premove highlights ─── */
+cg-board square.premove-dest {
+  background: radial-gradient(
+    rgba(255, 170, 0, 0.3) 22%,
+    transparent 22%
+  ) !important;
+}
+
+/* ─── Coordinates ─── */
+coords.ranks coord,
+coords.files coord {
+  color: rgba(0, 200, 255, 0.4);
+  font-family: "JetBrains Mono", "Fira Code", monospace;
+  font-size: 10px;
+  font-weight: 600;
+}
+
+/* ─── Piece ghost during drag ─── */
+piece.ghost {
+  opacity: 0.4;
+}
+
+/* ─── Clock display ─── */
+.chess-clock {
+  font-family: "JetBrains Mono", "Fira Code", monospace;
+  font-variant-numeric: tabular-nums;
+}
+
+.chess-clock-active {
+  animation: clock-pulse 1s ease-in-out infinite;
+}
+
+.chess-clock-low {
+  color: #ff4444;
+  animation: clock-urgent 0.5s ease-in-out infinite;
+}
+
+@keyframes clock-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.8; }
+}
+
+@keyframes clock-urgent {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/* ─── Move list ─── */
+.move-list {
+  font-family: "JetBrains Mono", "Fira Code", monospace;
+  font-size: 12px;
+}
+
+.move-list .move-number {
+  color: rgba(255, 255, 255, 0.3);
+  min-width: 28px;
+}
+
+.move-list .move {
+  padding: 1px 4px;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: background-color 0.15s;
+}
+
+.move-list .move:hover {
+  background-color: rgba(0, 200, 255, 0.1);
+}
+
+.move-list .move.current {
+  background-color: rgba(0, 200, 255, 0.2);
+  color: #00c8ff;
+}
+
+/* ─── Evaluation bar ─── */
+.eval-bar {
+  width: 24px;
+  background: linear-gradient(to top, #1e1e2e 50%, #e8e8e8 50%);
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+}
+
+.eval-bar-fill {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #e8e8e8;
+  transition: height 0.5s ease;
+}
+
+.eval-bar-text {
+  position: absolute;
+  top: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 9px;
+  font-weight: bold;
+  color: #333;
+  z-index: 1;
+}

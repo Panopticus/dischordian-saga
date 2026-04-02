@@ -2965,3 +2965,13 @@
 - [x] Connect Duelyst victories to XP/progression system (award XP, achievements, track stats)
 - [x] Write vitest tests for progression integration (24 tests passing)
 - [x] Compile comprehensive lore verification document (all factions, characters, cards, spells) — 994 lines
+
+## Lichess Port — The Architect's Gambit Replacement
+- [x] Research Lichess architecture and identify best portable chess engine/UI components
+- [x] Examine current Architect's Gambit implementation to understand integration points
+- [x] Port Lichess chess UI (chessground board) and chess.js engine into Loredex OS
+- [x] Reskin chess UI to match Dischordian Saga lore (board, pieces, colors, terminology)
+- [x] Implement AI opponents: The Architect (grandmaster), Archons (advanced), Neyons (intermediate)
+- [x] Implement multiplayer support for player-vs-player matches
+- [x] Connect chess victories to XP/progression system
+- [x] Write vitest tests for chess game logic and API endpoints (46 tests passing)

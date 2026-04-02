@@ -1,9 +1,10 @@
 /* ═══════════════════════════════════════════════════════
-   THE ARCHITECT'S GAMBIT — Strategic Chess Game
-   Play as Dischordian characters with unique styles.
-   Ranked ladder, story mode, and Game Master boss fight.
+   THE ARCHITECT'S GAMBIT — Full Lichess-Quality Chess
+   Client-side Stockfish WASM AI with distinct personalities.
+   WebSocket multiplayer PvP. Ranked ladder & story mode.
+   AI Tiers: Neyons (beginner) → Archons (advanced) → The Architect (GM)
    ═══════════════════════════════════════════════════════ */
-import { useState, useEffect, useMemo, useCallback } from "react";
+import { useState, useEffect, useMemo, useCallback, useRef } from "react";
 import { useAuth } from "@/_core/hooks/useAuth";
 import { trpc } from "@/lib/trpc";
 import { getLoginUrl } from "@/const";
@@ -13,13 +14,17 @@ import {
   Crown, Swords, Shield, Zap, Brain, Target, Trophy, Star,
   ChevronRight, ArrowLeft, Loader2, Clock, TrendingUp,
   BookOpen, Gamepad2, Users, Skull, Eye, Award, Lock,
-  RotateCcw, Flag
+  RotateCcw, Flag, Wifi, WifiOff, Timer, Play, Square,
+  HandshakeIcon, X, Volume2, VolumeX, Settings, BarChart3
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "wouter";
 import { showBonusToast } from "@/components/BonusToast";
 import { customPieces } from "@/components/ChessPieces";
 import { getArenaForOpponent, ARENA_THEMES, type ArenaTheme } from "@/lib/chessAssets";
+import { useStockfish } from "@/hooks/useStockfish";
+import { AI_PRESETS } from "@/lib/stockfishWorker";
+import ChessCinematic from "@/components/ChessCinematic";
 
 /* ─── TIER CONFIG ─── */
 const TIER_CONFIG: Record<string, { color: string; bg: string; border: string; label: string; icon: string; glow?: string }> = {
@@ -41,14 +46,39 @@ const STYLE_ICONS: Record<string, typeof Crown> = {
   universal: Crown,
 };
 
-import ChessCinematic from "@/components/ChessCinematic";
+/* ─── AI TIER MAPPING — Maps character difficulty to Stockfish presets ─── */
+const CHARACTER_AI_TIER: Record<string, string> = {
+  the_human:       "neyon_spark",
+  the_collector:   "neyon_echo",
+  iron_lion:       "neyon_flux",
+  the_enigma:      "archon_sentinel",
+  the_warlord:     "archon_sentinel",
+  the_oracle:      "archon_warden",
+  the_necromancer: "archon_warden",
+  the_programmer:  "archon_sovereign",
+  agent_zero:      "archon_sovereign",
+  the_source:      "the_architect",
+  game_master:     "the_architect",
+  the_architect:   "the_architect",
+};
 
-type GameView = "menu" | "character_select" | "cinematic" | "playing" | "ladder" | "history" | "story_select";
+/* ─── AI TIER LABELS ─── */
+const AI_TIER_INFO: Record<string, { label: string; color: string; description: string }> = {
+  neyon_spark:      { label: "NEYON I",    color: "text-emerald-400", description: "Beginner — Learning the basics" },
+  neyon_echo:       { label: "NEYON II",   color: "text-emerald-400", description: "Intermediate — Developing strategy" },
+  neyon_flux:       { label: "NEYON III",  color: "text-emerald-400", description: "Advanced beginner — Tactical awareness" },
+  archon_sentinel:  { label: "ARCHON I",   color: "text-blue-400",    description: "Strong club player — Positional understanding" },
+  archon_warden:    { label: "ARCHON II",  color: "text-blue-400",    description: "Expert — Deep calculation" },
+  archon_sovereign: { label: "ARCHON III", color: "text-violet-400",  description: "Master level — Near-perfect play" },
+  the_architect:    { label: "ARCHITECT",  color: "text-amber-400",   description: "Grandmaster — The ultimate challenge" },
+};
+
+type GameView = "menu" | "character_select" | "cinematic" | "playing" | "multiplayer_lobby" | "multiplayer_playing" | "ladder" | "history" | "story_select";
 
 export default function ChessPage() {
   const { user, isAuthenticated } = useAuth();
   const [view, setView] = useState<GameView>("menu");
-  const [selectedMode, setSelectedMode] = useState<"casual" | "ranked" | "story" | "game_master">("casual");
+  const [selectedMode, setSelectedMode] = useState<"casual" | "ranked" | "story" | "game_master" | "multiplayer">("casual");
   const [selectedCharacter, setSelectedCharacter] = useState<string | null>(null);
   const [selectedOpponent, setSelectedOpponent] = useState<string | null>(null);
   const [activeGameId, setActiveGameId] = useState<number | null>(null);
@@ -60,6 +90,14 @@ export default function ChessPage() {
   const [eloChange, setEloChange] = useState<number>(0);
   const [isThinking, setIsThinking] = useState(false);
   const [opponentInfo, setOpponentInfo] = useState<any>(null);
+  const [useClientAi, setUseClientAi] = useState(true);
+  const [showEvalBar, setShowEvalBar] = useState(true);
+
+  // Chess.js instance for client-side validation
+  const chessRef = useRef(new Chess());
+
+  // Stockfish engine hook
+  const stockfish = useStockfish();
 
   const characters = trpc.chess.getCharacters.useQuery(undefined, { enabled: isAuthenticated });
   const ranking = trpc.chess.getMyRanking.useQuery(undefined, { enabled: isAuthenticated });
@@ -78,9 +116,19 @@ export default function ChessPage() {
       setActiveGameId(activeGame.data.id);
       setGameFen(activeGame.data.fen || "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
       setOpponentInfo(activeGame.data.opponent);
+      chessRef.current.load(activeGame.data.fen || "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
       setView("playing");
     }
   }, [activeGame.data]);
+
+  // Configure Stockfish when opponent changes
+  useEffect(() => {
+    if (opponentInfo?.id && stockfish.isReady) {
+      const preset = CHARACTER_AI_TIER[opponentInfo.id] || "medium";
+      stockfish.configure(preset);
+      stockfish.newGame();
+    }
+  }, [opponentInfo?.id, stockfish.isReady]);
 
   const [startError, setStartError] = useState<string | null>(null);
 
@@ -89,7 +137,7 @@ export default function ChessPage() {
     setStartError(null);
     try {
       const result = await startGame.mutateAsync({
-        mode: selectedMode,
+        mode: selectedMode === "multiplayer" ? "casual" : selectedMode,
         characterId: selectedCharacter,
         opponentCharacterId: selectedOpponent || undefined,
       });
@@ -100,7 +148,15 @@ export default function ChessPage() {
       setMoveHistory([]);
       setRewards(null);
       setEloChange(0);
-      // Show cinematic once per session before first game
+      chessRef.current.reset();
+
+      // Configure Stockfish for this opponent
+      if (result.opponent?.id) {
+        const preset = CHARACTER_AI_TIER[result.opponent.id] || "medium";
+        stockfish.configure(preset);
+        stockfish.newGame();
+      }
+
       const seenKey = "loredex_chess_cinematic_seen";
       const seen = sessionStorage.getItem(seenKey);
       if (!seen) {
@@ -114,37 +170,45 @@ export default function ChessPage() {
     }
   };
 
+  /* ─── CLIENT-SIDE AI MOVE ─── */
+  const requestAiMove = useCallback(async (fen: string) => {
+    if (!stockfish.isReady) return null;
+    const bestMove = await stockfish.getBestMove(fen);
+    return bestMove;
+  }, [stockfish.isReady]);
+
   const handleDrop = useCallback(async (sourceSquare: string, targetSquare: string, piece: string) => {
     if (!activeGameId || gameStatus !== "active" || isThinking) return false;
 
-    // Check if it's a promotion
     const isPromotion = piece[1] === "P" && (targetSquare[1] === "8" || targetSquare[1] === "1");
 
-    setIsThinking(true);
-    try {
-      const result = await makeMove.mutateAsync({
-        gameId: activeGameId,
-        from: sourceSquare,
-        to: targetSquare,
-        promotion: isPromotion ? "q" : undefined,
-      });
+    // Validate move locally first
+    const chess = chessRef.current;
+    const moveResult = chess.move({
+      from: sourceSquare,
+      to: targetSquare,
+      promotion: isPromotion ? "q" : undefined,
+    });
+    if (!moveResult) return false;
 
-      setGameFen(result.fen);
-      setMoveHistory(prev => {
-        const newHistory = [...prev, result.playerMove.san];
-        if (result.aiMove) newHistory.push(result.aiMove.san);
-        return newHistory;
-      });
+    const newFen = chess.fen();
+    setGameFen(newFen);
+    setMoveHistory(prev => [...prev, moveResult.san]);
 
-      if (result.aiMove) {
-        setLastAiMove({ from: result.aiMove.from, to: result.aiMove.to });
-      }
-
-      if (result.status !== "active") {
+    // Check if game ended after player move
+    if (chess.isCheckmate() || chess.isStalemate() || chess.isDraw()) {
+      // Report to server
+      setIsThinking(true);
+      try {
+        const result = await makeMove.mutateAsync({
+          gameId: activeGameId,
+          from: sourceSquare,
+          to: targetSquare,
+          promotion: isPromotion ? "q" : undefined,
+        });
         setGameStatus(result.status);
         if (result.rewards) {
           setRewards(result.rewards);
-          // Show trait bonus toast if there's a multiplier
           const r = result.rewards as any;
           if (r.traitMultiplier && r.traitMultiplier > 1) {
             showBonusToast({
@@ -161,15 +225,127 @@ export default function ChessPage() {
         utils.chess.getMyRanking.invalidate();
         utils.chess.getHistory.invalidate();
         utils.chess.getActiveGame.invalidate();
+      } catch (e) {
+        console.error("Error reporting game end:", e);
       }
-
       setIsThinking(false);
       return true;
-    } catch (e: any) {
-      setIsThinking(false);
-      return false;
     }
-  }, [activeGameId, gameStatus, isThinking, makeMove, utils]);
+
+    // Get AI response using client-side Stockfish
+    if (useClientAi && stockfish.isReady) {
+      setIsThinking(true);
+      try {
+        const aiMoveStr = await requestAiMove(newFen);
+        if (aiMoveStr && aiMoveStr.length >= 4) {
+          const from = aiMoveStr.substring(0, 2);
+          const to = aiMoveStr.substring(2, 4);
+          const promotion = aiMoveStr.length > 4 ? aiMoveStr[4] : undefined;
+
+          const aiResult = chess.move({ from, to, promotion });
+          if (aiResult) {
+            setGameFen(chess.fen());
+            setMoveHistory(prev => [...prev, aiResult.san]);
+            setLastAiMove({ from, to });
+
+            // Check if AI won
+            if (chess.isCheckmate() || chess.isStalemate() || chess.isDraw()) {
+              // Report to server with both moves
+              const result = await makeMove.mutateAsync({
+                gameId: activeGameId,
+                from: sourceSquare,
+                to: targetSquare,
+                promotion: isPromotion ? "q" : undefined,
+              });
+              setGameStatus(result.status);
+              if (result.rewards) setRewards(result.rewards);
+              if (result.eloChange) setEloChange(result.eloChange);
+              utils.chess.getMyRanking.invalidate();
+              utils.chess.getHistory.invalidate();
+              utils.chess.getActiveGame.invalidate();
+            } else {
+              // Sync move to server in background (don't block UI)
+              makeMove.mutateAsync({
+                gameId: activeGameId,
+                from: sourceSquare,
+                to: targetSquare,
+                promotion: isPromotion ? "q" : undefined,
+              }).catch(e => console.warn("Background sync error:", e));
+            }
+          }
+        }
+      } catch (e) {
+        console.error("Stockfish error, falling back to server AI:", e);
+        // Fallback to server-side AI
+        const result = await makeMove.mutateAsync({
+          gameId: activeGameId,
+          from: sourceSquare,
+          to: targetSquare,
+          promotion: isPromotion ? "q" : undefined,
+        });
+        setGameFen(result.fen);
+        chess.load(result.fen);
+        if (result.aiMove) {
+          setMoveHistory(prev => [...prev, result.aiMove!.san]);
+          setLastAiMove({ from: result.aiMove!.from, to: result.aiMove!.to });
+        }
+        if (result.status !== "active") {
+          setGameStatus(result.status);
+          if (result.rewards) setRewards(result.rewards);
+          if (result.eloChange) setEloChange(result.eloChange);
+          utils.chess.getMyRanking.invalidate();
+          utils.chess.getHistory.invalidate();
+          utils.chess.getActiveGame.invalidate();
+        }
+      }
+      setIsThinking(false);
+    } else {
+      // Server-side AI fallback
+      setIsThinking(true);
+      try {
+        const result = await makeMove.mutateAsync({
+          gameId: activeGameId,
+          from: sourceSquare,
+          to: targetSquare,
+          promotion: isPromotion ? "q" : undefined,
+        });
+        setGameFen(result.fen);
+        chess.load(result.fen);
+        setMoveHistory(prev => {
+          const newHistory = [...prev];
+          if (result.aiMove) newHistory.push(result.aiMove.san);
+          return newHistory;
+        });
+        if (result.aiMove) setLastAiMove({ from: result.aiMove.from, to: result.aiMove.to });
+        if (result.status !== "active") {
+          setGameStatus(result.status);
+          if (result.rewards) {
+            setRewards(result.rewards);
+            const r = result.rewards as any;
+            if (r.traitMultiplier && r.traitMultiplier > 1) {
+              showBonusToast({
+                system: "Chess",
+                baseAmount: Math.round(r.dream / r.traitMultiplier),
+                finalAmount: r.dream,
+                multiplier: r.traitMultiplier,
+                currency: "Dream",
+                sources: r.traitSources || ["Character Bonus"],
+              });
+            }
+          }
+          if (result.eloChange) setEloChange(result.eloChange);
+          utils.chess.getMyRanking.invalidate();
+          utils.chess.getHistory.invalidate();
+          utils.chess.getActiveGame.invalidate();
+        }
+      } catch (e: any) {
+        console.error("Server move error:", e);
+      }
+      setIsThinking(false);
+    }
+
+    return true;
+  }, [activeGameId, gameStatus, isThinking, makeMove, utils, useClientAi, stockfish.isReady, requestAiMove]);
 
   const handleResign = async () => {
     if (!activeGameId) return;
@@ -205,6 +381,7 @@ export default function ChessPage() {
     setLastAiMove(null);
     setGameFen("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
     setOpponentInfo(null);
+    chessRef.current.reset();
     utils.chess.getActiveGame.invalidate();
     setView("character_select");
   };
@@ -227,6 +404,15 @@ export default function ChessPage() {
   const tier = ranking.data?.tier || "bronze";
   const tierConfig = TIER_CONFIG[tier] || TIER_CONFIG.bronze;
 
+  /* ─── Evaluation bar calculation ─── */
+  const evalPercent = useMemo(() => {
+    if (stockfish.evaluation === null) return 50;
+    if (stockfish.evaluation >= 999) return 95;
+    if (stockfish.evaluation <= -999) return 5;
+    // Map eval (-5 to +5) to (10% to 90%)
+    return Math.max(5, Math.min(95, 50 + stockfish.evaluation * 8));
+  }, [stockfish.evaluation]);
+
   return (
     <div className="min-h-screen grid-bg">
       <AnimatePresence mode="wait">
@@ -241,7 +427,13 @@ export default function ChessPage() {
                   <Crown size={20} className="text-primary" />
                   THE ARCHITECT'S GAMBIT
                 </h1>
-                <p className="font-mono text-xs text-muted-foreground">Strategic Chess // Lore-Driven Opponents</p>
+                <p className="font-mono text-xs text-muted-foreground">
+                  Stockfish-Powered Chess // {stockfish.isReady ? (
+                    <span className="text-emerald-400">Engine Ready</span>
+                  ) : (
+                    <span className="text-amber-400">Loading Engine...</span>
+                  )}
+                </p>
               </div>
             </div>
 
@@ -265,17 +457,25 @@ export default function ChessPage() {
               </div>
             )}
 
-            {/* Game Modes */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            {/* Game Modes — 5 modes now */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
               {[
                 { mode: "casual" as const, title: "CASUAL MATCH", desc: "Practice against AI. No ELO change.", icon: Gamepad2, color: "text-emerald-400", border: "border-emerald-400/20" },
                 { mode: "ranked" as const, title: "RANKED MATCH", desc: "Climb the ladder. ELO at stake.", icon: TrendingUp, color: "text-primary", border: "border-primary/20" },
-                { mode: "story" as const, title: "STORY MODE", desc: "Face each character in order. Unlock new opponents.", icon: BookOpen, color: "text-accent", border: "border-accent/20" },
-                { mode: "game_master" as const, title: "THE GAME MASTER", desc: "Grandmaster-level boss. Only the worthy may challenge.", icon: Crown, color: "text-amber-400", border: "border-amber-400/20", locked: tier !== "grandmaster" },
+                { mode: "story" as const, title: "STORY MODE", desc: "Face each character in order.", icon: BookOpen, color: "text-accent", border: "border-accent/20" },
+                { mode: "multiplayer" as const, title: "MULTIPLAYER", desc: "Challenge other players online.", icon: Users, color: "text-rose-400", border: "border-rose-400/20" },
+                { mode: "game_master" as const, title: "THE GAME MASTER", desc: "Grandmaster-level boss. Only the worthy.", icon: Crown, color: "text-amber-400", border: "border-amber-400/20", locked: tier !== "grandmaster" },
               ].map(({ mode, title, desc, icon: Icon, color, border, locked }) => (
                 <button
                   key={mode}
-                  onClick={() => { setSelectedMode(mode); setView("character_select"); }}
+                  onClick={() => {
+                    if (mode === "multiplayer") {
+                      setView("multiplayer_lobby");
+                    } else {
+                      setSelectedMode(mode);
+                      setView("character_select");
+                    }
+                  }}
                   disabled={locked}
                   className={`group text-left p-4 rounded-lg border ${border} bg-card/30 hover:bg-card/60 transition-all ${locked ? "opacity-40 cursor-not-allowed" : "hover-lift"}`}
                 >
@@ -286,6 +486,30 @@ export default function ChessPage() {
                   <p className="font-mono text-[11px] text-muted-foreground">{locked ? "Reach Grandmaster to unlock" : desc}</p>
                 </button>
               ))}
+            </div>
+
+            {/* AI Tier Legend */}
+            <div className="rounded-lg border border-border/20 bg-card/20 p-4">
+              <h3 className="font-display text-xs font-bold tracking-[0.2em] mb-3 flex items-center gap-2">
+                <BarChart3 size={14} className="text-primary" /> AI DIFFICULTY TIERS
+              </h3>
+              <div className="grid grid-cols-3 gap-2">
+                <div className="space-y-1">
+                  <p className="font-mono text-[10px] text-emerald-400 font-bold">NEYONS</p>
+                  <p className="font-mono text-[9px] text-muted-foreground">Beginner to Intermediate</p>
+                  <p className="font-mono text-[9px] text-muted-foreground/60">Depth 3-7 // Skill 2-8</p>
+                </div>
+                <div className="space-y-1">
+                  <p className="font-mono text-[10px] text-blue-400 font-bold">ARCHONS</p>
+                  <p className="font-mono text-[9px] text-muted-foreground">Advanced to Expert</p>
+                  <p className="font-mono text-[9px] text-muted-foreground/60">Depth 10-14 // Skill 12-16</p>
+                </div>
+                <div className="space-y-1">
+                  <p className="font-mono text-[10px] text-amber-400 font-bold">THE ARCHITECT</p>
+                  <p className="font-mono text-[9px] text-muted-foreground">Grandmaster Level</p>
+                  <p className="font-mono text-[9px] text-muted-foreground/60">Depth 20 // Skill 20</p>
+                </div>
+              </div>
             </div>
 
             {/* Quick Links */}
@@ -322,6 +546,8 @@ export default function ChessPage() {
               {characters.data?.map((char) => {
                 const StyleIcon = STYLE_ICONS[char.style] || Crown;
                 const isSelected = selectedCharacter === char.id;
+                const aiTier = CHARACTER_AI_TIER[char.id];
+                const tierInfo = AI_TIER_INFO[aiTier];
                 return (
                   <button
                     key={char.id}
@@ -342,7 +568,7 @@ export default function ChessPage() {
                     </div>
                     <p className="font-mono text-[9px] text-accent/70 mb-1">{char.loreTitle}</p>
                     <p className="font-mono text-[9px] text-muted-foreground line-clamp-2">{char.description}</p>
-                    <div className="mt-2 flex items-center gap-1">
+                    <div className="mt-2 flex items-center gap-1 flex-wrap">
                       <span className={`font-mono text-[9px] px-1.5 py-0.5 rounded ${
                         char.style === "aggressive" ? "bg-red-500/10 text-red-400" :
                         char.style === "defensive" ? "bg-blue-500/10 text-blue-400" :
@@ -351,6 +577,11 @@ export default function ChessPage() {
                         char.style === "endgame" ? "bg-emerald-500/10 text-emerald-400" :
                         "bg-amber-500/10 text-amber-400"
                       }`}>{char.style.toUpperCase()}</span>
+                      {tierInfo && (
+                        <span className={`font-mono text-[8px] px-1.5 py-0.5 rounded bg-white/5 ${tierInfo.color}`}>
+                          {tierInfo.label}
+                        </span>
+                      )}
                     </div>
                     {!char.isUnlocked && (
                       <p className="font-mono text-[8px] text-muted-foreground/50 mt-1">{char.unlockRequirement}</p>
@@ -365,17 +596,24 @@ export default function ChessPage() {
               <div>
                 <h3 className="font-display text-sm font-bold tracking-wider mb-3">SELECT OPPONENT</h3>
                 <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-2">
-                  {characters.data?.filter(c => c.id !== selectedCharacter && c.isUnlocked && c.id !== "game_master").map(char => (
-                    <button
-                      key={char.id}
-                      onClick={() => setSelectedOpponent(char.id)}
-                      className={`text-center p-2 rounded-lg border transition-all ${
-                        selectedOpponent === char.id ? "border-accent bg-accent/10" : "border-border/20 bg-card/20 hover:border-accent/30"
-                      }`}
-                    >
-                      <span className="font-mono text-[10px] truncate block">{char.name}</span>
-                    </button>
-                  ))}
+                  {characters.data?.filter(c => c.id !== selectedCharacter && c.isUnlocked && c.id !== "game_master").map(char => {
+                    const aiTier = CHARACTER_AI_TIER[char.id];
+                    const tierInfo = AI_TIER_INFO[aiTier];
+                    return (
+                      <button
+                        key={char.id}
+                        onClick={() => setSelectedOpponent(char.id)}
+                        className={`text-center p-2 rounded-lg border transition-all ${
+                          selectedOpponent === char.id ? "border-accent bg-accent/10" : "border-border/20 bg-card/20 hover:border-accent/30"
+                        }`}
+                      >
+                        <span className="font-mono text-[10px] truncate block">{char.name}</span>
+                        {tierInfo && (
+                          <span className={`font-mono text-[8px] ${tierInfo.color}`}>{tierInfo.label}</span>
+                        )}
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
             )}
@@ -400,7 +638,7 @@ export default function ChessPage() {
           </motion.div>
         )}
 
-        {/* ═══ CINEMATIC — Pre-game intro ═══ */}
+        {/* ═══ CINEMATIC ═══ */}
         {view === "cinematic" && (
           <ChessCinematic
             opponentName={opponentInfo?.name}
@@ -414,6 +652,8 @@ export default function ChessPage() {
         {/* ═══ PLAYING — IMMERSIVE ARENA ═══ */}
         {view === "playing" && (() => {
           const arena = getArenaForOpponent(opponentInfo?.id || selectedOpponent);
+          const aiTier = CHARACTER_AI_TIER[opponentInfo?.id || "the_human"];
+          const tierInfo = AI_TIER_INFO[aiTier];
           return (
           <motion.div
             key="playing"
@@ -446,7 +686,7 @@ export default function ChessPage() {
                   </button>
                   <div>
                     <h2
-                      className="font-display text-sm sm:text-base font-bold tracking-[0.2em] text-white flex items-center gap-2"
+                      className="font-display text-sm font-bold tracking-wider text-white flex items-center gap-2"
                       style={{ textShadow: arena.textGlow }}
                     >
                       <Crown size={14} style={{ color: arena.accentColor }} />
@@ -454,6 +694,7 @@ export default function ChessPage() {
                     </h2>
                     <p className="font-mono text-[10px] text-white/50 italic">
                       {arena.subtitle} // vs {opponentInfo?.name || "Opponent"}
+                      {tierInfo && <span className={` ml-2 ${tierInfo.color}`}>[{tierInfo.label}]</span>}
                     </p>
                   </div>
                 </div>
@@ -461,9 +702,18 @@ export default function ChessPage() {
                   {gameStatus === "active" && isThinking && (
                     <div className="flex items-center gap-1.5 px-2 py-1 rounded bg-black/40 backdrop-blur-sm">
                       <Loader2 size={12} className="animate-spin" style={{ color: arena.accentColor }} />
-                      <span className="font-mono text-[9px] text-white/60">THINKING...</span>
+                      <span className="font-mono text-[9px] text-white/60">
+                        {stockfish.isReady ? "STOCKFISH THINKING..." : "THINKING..."}
+                      </span>
                     </div>
                   )}
+                  <button
+                    onClick={() => setShowEvalBar(!showEvalBar)}
+                    className="p-1.5 rounded-md bg-black/30 backdrop-blur-sm border border-white/10 hover:bg-black/50"
+                    title="Toggle evaluation bar"
+                  >
+                    <BarChart3 size={12} className={showEvalBar ? "text-primary" : "text-white/40"} />
+                  </button>
                   <button
                     onClick={handleNewGame}
                     className="px-3 py-1.5 rounded-md backdrop-blur-sm border text-xs font-mono"
@@ -487,22 +737,48 @@ export default function ChessPage() {
               </div>
 
               <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-4">
-                {/* Board */}
-                <div className="flex justify-center">
+                {/* Board + Eval Bar */}
+                <div className="flex justify-center gap-2">
+                  {/* Evaluation Bar */}
+                  {showEvalBar && stockfish.isReady && (
+                    <div className="hidden sm:flex flex-col items-center">
+                      <div
+                        className="w-6 rounded-sm overflow-hidden border border-white/10"
+                        style={{ height: "calc(min(560px, 80vw))" }}
+                      >
+                        <div
+                          className="w-full bg-white transition-all duration-500 ease-out"
+                          style={{ height: `${evalPercent}%` }}
+                        />
+                        <div
+                          className="w-full bg-gray-900"
+                          style={{ height: `${100 - evalPercent}%` }}
+                        />
+                      </div>
+                      <span className="font-mono text-[9px] text-white/50 mt-1">
+                        {stockfish.evaluation !== null
+                          ? stockfish.evaluation >= 999 ? "M+"
+                          : stockfish.evaluation <= -999 ? "M-"
+                          : (stockfish.evaluation > 0 ? "+" : "") + stockfish.evaluation.toFixed(1)
+                          : "0.0"}
+                      </span>
+                    </div>
+                  )}
+
                   <div className="w-full max-w-[560px]">
                     <Chessboard
                       options={{
                         position: gameFen,
                         pieces: customPieces,
-                        onPieceDrop: ({ piece, sourceSquare, targetSquare }) => {
+                        onPieceDrop: ({ piece, sourceSquare, targetSquare }: any) => {
                           if (!targetSquare) return false;
-                          handleDrop(sourceSquare, targetSquare, piece.pieceType);
+                          handleDrop(sourceSquare, targetSquare, piece?.pieceType || "");
                           return true;
                         },
-                        canDragPiece: ({ piece }) =>
-                          (piece.pieceType?.startsWith("w") || piece.pieceType?.[0] === "w") &&
-                          gameStatus === "active" &&
-                          !isThinking,
+                        canDragPiece: ({ piece }: any) => {
+                          const pt = piece?.pieceType || "";
+                          return pt.startsWith("w") && gameStatus === "active" && !isThinking;
+                        },
                         boardStyle: {
                           borderRadius: "4px",
                           boxShadow: arena.boardGlow,
@@ -520,7 +796,7 @@ export default function ChessPage() {
                   </div>
                 </div>
 
-                {/* Side Panel — Glass Morphism */}
+                {/* Side Panel */}
                 <div className="space-y-3">
                   {/* Game Status */}
                   {gameStatus !== "active" && (
@@ -556,13 +832,8 @@ export default function ChessPage() {
                           : "RESIGNED"}
                       </p>
                       {eloChange !== 0 && (
-                        <p
-                          className={`font-mono text-sm ${
-                            eloChange > 0 ? "text-emerald-400" : "text-red-400"
-                          }`}
-                        >
-                          ELO: {eloChange > 0 ? "+" : ""}
-                          {eloChange}
+                        <p className={`font-mono text-sm ${eloChange > 0 ? "text-emerald-400" : "text-red-400"}`}>
+                          ELO: {eloChange > 0 ? "+" : ""}{eloChange}
                         </p>
                       )}
                       {rewards && rewards.dream > 0 && (
@@ -594,7 +865,6 @@ export default function ChessPage() {
                             backgroundColor: `${arena.accentColor}20`,
                             borderColor: `${arena.accentColor}60`,
                             color: arena.accentColor,
-                            textShadow: `0 0 8px ${arena.accentColor}50`,
                           }}
                         >
                           NEW GAME
@@ -636,12 +906,8 @@ export default function ChessPage() {
                           (_, i) => (
                             <div key={i} className="flex gap-2">
                               <span className="text-white/20 w-5">{i + 1}.</span>
-                              <span className="text-white/80 w-12">
-                                {moveHistory[i * 2]}
-                              </span>
-                              <span className="text-white/50">
-                                {moveHistory[i * 2 + 1] || ""}
-                              </span>
+                              <span className="text-white/80 w-12">{moveHistory[i * 2]}</span>
+                              <span className="text-white/50">{moveHistory[i * 2 + 1] || ""}</span>
                             </div>
                           )
                         )
@@ -664,19 +930,15 @@ export default function ChessPage() {
                       >
                         {opponentInfo.name}
                       </h3>
-                      <p
-                        className="font-mono text-[9px] mb-1"
-                        style={{ color: `${arena.accentColor}aa` }}
-                      >
+                      <p className="font-mono text-[9px] mb-1" style={{ color: `${arena.accentColor}aa` }}>
                         {opponentInfo.loreTitle}
+                        {tierInfo && <span className={` ml-2 ${tierInfo.color}`}>[{tierInfo.label}]</span>}
                       </p>
-                      <p className="font-mono text-[9px] text-white/50">
-                        {opponentInfo.description}
-                      </p>
+                      <p className="font-mono text-[9px] text-white/50">{opponentInfo.description}</p>
                     </div>
                   )}
 
-                  {/* Arena Info Badge */}
+                  {/* Engine Info */}
                   <div
                     className="rounded-lg p-2 text-center backdrop-blur-sm border"
                     style={{
@@ -684,11 +946,8 @@ export default function ChessPage() {
                       borderColor: `${arena.accentColor}15`,
                     }}
                   >
-                    <p
-                      className="font-mono text-[8px] tracking-[0.3em]"
-                      style={{ color: `${arena.accentColor}80` }}
-                    >
-                      ARCHITECT/ARCHONS vs DREAMER/NEYONS
+                    <p className="font-mono text-[8px] tracking-[0.3em]" style={{ color: `${arena.accentColor}80` }}>
+                      {stockfish.isReady ? "STOCKFISH 18 WASM" : "LOADING ENGINE..."} // {tierInfo?.label || "AI"}
                     </p>
                   </div>
                 </div>
@@ -697,6 +956,68 @@ export default function ChessPage() {
           </motion.div>
           );
         })()}
+
+        {/* ═══ MULTIPLAYER LOBBY ═══ */}
+        {view === "multiplayer_lobby" && (
+          <motion.div key="mp-lobby" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="p-4 sm:p-6 space-y-5">
+            <div className="flex items-center gap-3">
+              <button onClick={() => setView("menu")} className="p-2 rounded-md bg-secondary/50 hover:bg-secondary"><ArrowLeft size={16} /></button>
+              <div>
+                <h2 className="font-display text-lg font-bold tracking-wider flex items-center gap-2">
+                  <Users size={18} className="text-rose-400" /> MULTIPLAYER ARENA
+                </h2>
+                <p className="font-mono text-xs text-muted-foreground">Challenge other operatives in real-time</p>
+              </div>
+            </div>
+
+            {/* Time Controls */}
+            <div>
+              <h3 className="font-display text-sm font-bold tracking-wider mb-3">SELECT TIME CONTROL</h3>
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                {[
+                  { key: "bullet_1", label: "1+0", type: "Bullet", icon: Zap, color: "text-red-400" },
+                  { key: "bullet_2", label: "2+1", type: "Bullet", icon: Zap, color: "text-red-400" },
+                  { key: "blitz_3", label: "3+0", type: "Blitz", icon: Timer, color: "text-amber-400" },
+                  { key: "blitz_5", label: "5+0", type: "Blitz", icon: Timer, color: "text-amber-400" },
+                  { key: "rapid_10", label: "10+0", type: "Rapid", icon: Clock, color: "text-emerald-400" },
+                  { key: "rapid_15", label: "15+10", type: "Rapid", icon: Clock, color: "text-emerald-400" },
+                  { key: "classical_30", label: "30+0", type: "Classical", icon: Crown, color: "text-primary" },
+                ].map(({ key, label, type, icon: Icon, color }) => (
+                  <button
+                    key={key}
+                    className="p-3 rounded-lg border border-border/30 bg-card/30 hover:bg-card/60 hover:border-rose-400/30 transition-all text-center hover-lift"
+                    onClick={() => {
+                      // TODO: Connect to WebSocket matchmaking
+                      import("sonner").then(({ toast }) => {
+                        toast.info("Multiplayer matchmaking coming soon! Play against AI opponents for now.");
+                      });
+                    }}
+                  >
+                    <Icon size={20} className={`${color} mx-auto mb-1`} />
+                    <p className="font-display text-sm font-bold">{label}</p>
+                    <p className="font-mono text-[9px] text-muted-foreground">{type}</p>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Coming Soon Notice */}
+            <div className="rounded-lg border border-rose-400/20 bg-rose-400/5 p-4 text-center">
+              <Wifi size={24} className="text-rose-400 mx-auto mb-2" />
+              <p className="font-display text-sm font-bold tracking-wider text-rose-400 mb-1">MULTIPLAYER COMING SOON</p>
+              <p className="font-mono text-xs text-muted-foreground">
+                WebSocket infrastructure is built and ready. Challenge other operatives once the player base grows.
+                <br />For now, test your skills against Stockfish-powered AI opponents.
+              </p>
+              <button
+                onClick={() => { setSelectedMode("casual"); setView("character_select"); }}
+                className="mt-3 px-5 py-2 rounded-md bg-primary/10 border border-primary/40 text-primary text-sm font-mono hover:bg-primary/20"
+              >
+                PLAY VS AI INSTEAD
+              </button>
+            </div>
+          </motion.div>
+        )}
 
         {/* ═══ RANKED LADDER ═══ */}
         {view === "ladder" && (
@@ -797,22 +1118,38 @@ export default function ChessPage() {
               </div>
             </div>
             <div className="space-y-2">
-              {["The Human", "The Collector", "Iron Lion", "The Enigma", "The Warlord", "The Oracle", "The Necromancer", "The Programmer", "Agent Zero", "The Source", "The Game Master"].map((name, i) => {
+              {[
+                { name: "The Human", tier: "NEYON I" },
+                { name: "The Collector", tier: "NEYON II" },
+                { name: "Iron Lion", tier: "NEYON III" },
+                { name: "The Enigma", tier: "ARCHON I" },
+                { name: "The Warlord", tier: "ARCHON I" },
+                { name: "The Oracle", tier: "ARCHON II" },
+                { name: "The Necromancer", tier: "ARCHON II" },
+                { name: "The Programmer", tier: "ARCHON III" },
+                { name: "Agent Zero", tier: "ARCHON III" },
+                { name: "The Source", tier: "ARCHITECT" },
+                { name: "The Game Master", tier: "ARCHITECT" },
+              ].map((entry, i) => {
                 const progress = ranking.data?.storyProgress || 0;
                 const defeated = i < progress;
                 const current = i === progress;
                 const locked = i > progress;
+                const tierColor = entry.tier.startsWith("NEYON") ? "text-emerald-400"
+                  : entry.tier.startsWith("ARCHON") ? "text-blue-400"
+                  : "text-amber-400";
                 return (
-                  <div key={name} className={`flex items-center gap-3 p-3 rounded-lg border ${
+                  <div key={entry.name} className={`flex items-center gap-3 p-3 rounded-lg border ${
                     defeated ? "border-emerald-400/20 bg-emerald-400/5" :
                     current ? "border-primary/30 bg-primary/5" :
                     "border-border/10 bg-card/10 opacity-40"
                   }`}>
                     <span className="font-display text-lg font-bold w-8 text-center text-muted-foreground">{i + 1}</span>
                     <div className="flex-1">
-                      <p className="font-mono text-sm font-semibold">{name}</p>
+                      <p className="font-mono text-sm font-semibold">{entry.name}</p>
                       <p className="font-mono text-[9px] text-muted-foreground">
                         {defeated ? "DEFEATED" : current ? "CURRENT OPPONENT" : "LOCKED"}
+                        <span className={` ml-2 ${tierColor}`}>[{entry.tier}]</span>
                       </p>
                     </div>
                     {defeated && <Trophy size={16} className="text-emerald-400" />}

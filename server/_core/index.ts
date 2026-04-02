@@ -11,6 +11,7 @@ import { setupPvpWebSocket } from "../pvpWs";
 import { registerSpriteProxy } from "../spriteProxy";
 import { registerDuelystClassic } from "../duelystClassic";
 import { registerDuelystApi } from "../duelystApi";
+import { registerChessMultiplayer } from "../chessMultiplayer";
 
 function isPortAvailable(port: number): Promise<boolean> {
   return new Promise(resolve => {
@@ -155,6 +156,9 @@ async function startServer() {
 
   // PvP WebSocket server
   setupPvpWebSocket(server);
+
+  // Chess multiplayer WebSocket
+  registerChessMultiplayer(server);
 
   server.listen(port, () => {
     console.log(`Server running on http://localhost:${port}/`);
