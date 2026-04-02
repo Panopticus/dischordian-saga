@@ -2985,3 +2985,12 @@
 - [ ] Re-download Open Duelyst game resources (621MB) from GitHub
 - [ ] Copy to webdev-static-assets/duelyst-classic/resources/
 - [ ] Verify game loads with resources in browser
+
+## Duelyst Classic Loading Fix (Post-Upgrade)
+- [x] Diagnose duelyst.js bundle not executing after webdev_add_feature upgrade
+- [x] Identify root cause: missing trailing slash in URL causes relative paths to resolve from / instead of /duelyst-classic/
+- [x] Fix: Add <base href="/duelyst-classic/"> tag to HTML template for correct relative path resolution
+- [x] Restructure duelystClassic.ts: remove all pre-bundle interceptors, move everything to post-bundle script
+- [x] Verify game loads past splash screen to tutorial/main menu
+- [x] Verify auto-login works (Session.userId=1, Session.username="Daniel Elkins")
+- [x] Verify all game systems initialized (NavigationManager, ProfileManager, Firebase, CONFIG, cc.director)
