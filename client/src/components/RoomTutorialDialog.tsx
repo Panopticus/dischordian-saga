@@ -23,6 +23,12 @@ import {
   MessageSquare, ChevronRight, Award, Zap, Shield, Swords,
   Brain, Heart, Eye, Star, Sparkles, X
 } from "lucide-react";
+import { ALL_ROOM_DIALOGS, type RoomDialogDef, type RoomChoice } from "@/game/roomDialogs";
+import {
+  getTrustTier, getElaraPersonality, getDominantArchetype,
+  getAvailableCallback, markCallbackUsed, applyChoiceEffect,
+  createInitialRelationship, type ElaraRelationshipState,
+} from "@/game/elaraRelationship";
 
 /* ─── DIALOG DATA TYPES ─── */
 interface DialogChoice {
@@ -307,13 +313,37 @@ export default function RoomTutorialDialog({
   onComplete: (flags: Record<string, boolean>, cardId?: string) => void;
   onDismiss: () => void;
 }) {
+  const { state, setNarrativeFlag } = useGame();
   const dialog = ROOM_DIALOGS.find(d => d.roomId === roomId);
-  const [phase, setPhase] = useState<"opening" | "dialog" | "reward" | "done">("opening");
+  const relationshipDialog = ALL_ROOM_DIALOGS[roomId.replace(/-/g, "_")]; // Convert "cryo-bay" → "cryo_bay"
+  const [phase, setPhase] = useState<"opening" | "relationship" | "relationship_reaction" | "dialog" | "reward" | "done">("opening");
   const [nodeIndex, setNodeIndex] = useState(0);
   const [selectedChoice, setSelectedChoice] = useState<DialogChoice | null>(null);
   const [collectedFlags, setCollectedFlags] = useState<Record<string, boolean>>({});
   const [rewardCard, setRewardCard] = useState<string | null>(null);
   const [rewardCardId, setRewardCardId] = useState<string | null>(null);
+  const [elaraReactionText, setElaraReactionText] = useState<string | null>(null);
+  const [callbackText, setCallbackText] = useState<string | null>(null);
+
+  // Get relationship state from GameContext
+  const elaraTrust = state.elaraTrust ?? 10;
+  const elaraArchetypeScores = state.elaraArchetype ?? { compassionate: 0, pragmatic: 0, suspicious: 0, loyal: 0, manipulative: 0 };
+  const elaraCallbacks = state.elaraCallbacks ?? {};
+  const elaraPersonality = getElaraPersonality(elaraTrust, getDominantArchetype(elaraArchetypeScores as any));
+
+  // Check for callbacks when entering a room
+  useEffect(() => {
+    if (!relationshipDialog) return;
+    const roomKey = roomId.replace(/-/g, "_");
+    const cb = getAvailableCallback(
+      { trust: elaraTrust, archetypeScores: elaraArchetypeScores as any, callbacks: elaraCallbacks } as any,
+      roomKey,
+    );
+    if (cb) {
+      setCallbackText(cb.line);
+      markCallbackUsed(cb.callback.id);
+    }
+  }, [roomId, relationshipDialog, elaraTrust, elaraArchetypeScores, elaraCallbacks]);
 
   // If no dialog exists for this room, auto-complete
   useEffect(() => {
@@ -357,6 +387,38 @@ export default function RoomTutorialDialog({
         setSelectedChoice(null);
       }
     }, 600);
+  };
+
+  /** Handle relationship dialog choice (BioWare-style) */
+  const handleRelationshipChoice = (choice: RoomChoice) => {
+    const effect = choice.effect;
+
+    // Apply trust and archetype changes to GameContext
+    const newTrust = Math.max(0, Math.min(100, elaraTrust + effect.trustChange));
+    const newArchetype = { ...elaraArchetypeScores };
+    for (const [key, val] of Object.entries(effect.archetypeShift)) {
+      (newArchetype as any)[key] = ((newArchetype as any)[key] || 0) + (val as number);
+    }
+
+    // Set callback flag
+    const newCallbacks = { ...elaraCallbacks };
+    if (effect.callbackFlag) newCallbacks[effect.callbackFlag] = true;
+
+    // Update GameContext (persists via localStorage)
+    // Use setNarrativeFlag to store relationship data
+    setNarrativeFlag(`elara_trust`, true); // Trigger save
+    setNarrativeFlag(`choice_${choice.id}`, true);
+
+    // Update state directly (GameContext will persist on next save cycle)
+    if ((state as any).elaraTrust !== undefined) {
+      (state as any).elaraTrust = newTrust;
+      (state as any).elaraArchetype = newArchetype;
+      (state as any).elaraCallbacks = newCallbacks;
+    }
+
+    // Show Elara's reaction
+    setElaraReactionText(effect.elaraReaction);
+    setPhase("relationship_reaction");
   };
 
   const handleRewardDismiss = () => {
@@ -404,9 +466,98 @@ export default function RoomTutorialDialog({
           <div className="p-4">
             {phase === "opening" && (
               <OpeningPhase
-                text={dialog.openingText}
-                onContinue={() => setPhase("dialog")}
+                text={relationshipDialog
+                  ? relationshipDialog.context[elaraPersonality] || dialog.openingText
+                  : dialog.openingText}
+                onContinue={() => setPhase(relationshipDialog ? "relationship" : "dialog")}
               />
+            )}
+
+            {/* BioWare-style relationship phase */}
+            {phase === "relationship" && relationshipDialog && (
+              <div className="space-y-4">
+                {/* Callback from previous room (if any) */}
+                {callbackText && (
+                  <div className="p-3 rounded-lg border border-cyan-500/20 bg-cyan-500/5 mb-3">
+                    <p className="font-mono text-[9px] text-cyan-400/50 tracking-wider mb-1">ELARA REMEMBERS</p>
+                    <p className="text-xs text-cyan-200/80 italic leading-relaxed">{callbackText}</p>
+                  </div>
+                )}
+
+                {/* Trust-gated personal reveal */}
+                {relationshipDialog.personalLayers
+                  .filter(layer => elaraTrust >= layer.minTrust && layer.oneShot)
+                  .slice(-1) // Show highest unlocked layer
+                  .map((layer, i) => (
+                    <div key={i} className="flex gap-3">
+                      <div className="shrink-0 w-8 h-8 rounded-full bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center">
+                        <MessageSquare size={12} className="text-cyan-400" />
+                      </div>
+                      <div>
+                        <p className="font-mono text-[9px] text-cyan-400/50 tracking-wider mb-1">ELARA</p>
+                        <p className="text-xs text-foreground/80 leading-relaxed">{layer.text}</p>
+                      </div>
+                    </div>
+                  ))}
+
+                {/* Human whisper (if player has had Human contact) */}
+                {state.narrativeFlags?.human_contact && relationshipDialog.humanWhisper && (
+                  <div className="p-3 rounded-lg border border-red-500/20 bg-red-500/5 mt-2">
+                    <p className="font-mono text-[9px] text-red-400/50 tracking-wider mb-1">THE HUMAN — whisper</p>
+                    <p className="text-xs text-red-300/70 italic leading-relaxed font-mono">{relationshipDialog.humanWhisper}</p>
+                  </div>
+                )}
+
+                {/* Player choices */}
+                <div className="space-y-2 mt-4">
+                  <p className="font-mono text-[9px] text-muted-foreground/40 tracking-wider">YOUR RESPONSE</p>
+                  {relationshipDialog.choices.map((choice) => (
+                    <button
+                      key={choice.id}
+                      onClick={() => handleRelationshipChoice(choice)}
+                      className="w-full text-left p-3 rounded-lg border border-border/30 bg-card/30 hover:border-primary/40 hover:bg-primary/5 transition-all group"
+                    >
+                      <p className="text-xs text-foreground/90 font-medium">{choice.label}</p>
+                      <p className="text-[10px] text-muted-foreground/50 mt-0.5 italic">{choice.fullText}</p>
+                      <div className="flex items-center gap-2 mt-1">
+                        <span className={`text-[8px] font-mono px-1.5 py-0.5 rounded ${
+                          choice.archetype === "compassionate" ? "bg-pink-500/10 text-pink-400" :
+                          choice.archetype === "pragmatic" ? "bg-blue-500/10 text-blue-400" :
+                          "bg-amber-500/10 text-amber-400"
+                        }`}>
+                          {choice.archetype}
+                        </span>
+                      </div>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Elara's reaction to relationship choice */}
+            {phase === "relationship_reaction" && elaraReactionText && (
+              <div className="space-y-4">
+                <div className="flex gap-3">
+                  <div className="shrink-0 w-8 h-8 rounded-full bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center">
+                    <MessageSquare size={12} className="text-cyan-400" />
+                  </div>
+                  <div>
+                    <p className="font-mono text-[9px] text-cyan-400/50 tracking-wider mb-1">ELARA</p>
+                    <p className="text-xs text-foreground/80 leading-relaxed">{elaraReactionText}</p>
+                  </div>
+                </div>
+                <button
+                  onClick={() => setPhase("dialog")}
+                  className="flex items-center gap-2 px-4 py-2 rounded-lg font-mono text-[10px] tracking-wider transition-all hover:scale-105"
+                  style={{
+                    background: "linear-gradient(135deg, rgba(51,226,230,0.15), var(--glass-border))",
+                    border: "1px solid rgba(51,226,230,0.3)",
+                    color: "var(--neon-cyan)",
+                  }}
+                >
+                  CONTINUE <ChevronRight size={12} />
+                </button>
+              </div>
             )}
 
             {phase === "dialog" && currentNode && (
