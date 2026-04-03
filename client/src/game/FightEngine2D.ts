@@ -158,10 +158,10 @@ const FINISH_HIM_FRAMES = 300;
 const INTRO_FRAMES = 120;
 
 // Hitstop
-const HITSTOP_LIGHT = 6;
-const HITSTOP_MEDIUM = 8;
-const HITSTOP_HEAVY = 12;
-const HITSTOP_SPECIAL = 15;
+const HITSTOP_LIGHT = 5;
+const HITSTOP_MEDIUM = 9;
+const HITSTOP_HEAVY = 14;
+const HITSTOP_SPECIAL = 18;
 
 // Parry
 const PARRY_WINDOW = 6;       // frames
@@ -2280,7 +2280,10 @@ export class FightEngine2D {
     const hitY = hitZone === "head" ? defender.y - FIGHTER_HEIGHT + 30 :
                  hitZone === "body" ? defender.y - FIGHTER_HEIGHT / 2 :
                  defender.y - 30;
-    this.spawnHitParticles(hitX, hitY, attacker.data.color, "spark", 8);
+    const particleCount = this.isSpecialAttack(attacker.state) ? 16 :
+                          attacker.state.includes("heavy") ? 12 :
+                          attacker.state.includes("medium") ? 8 : 5;
+    this.spawnHitParticles(hitX, hitY, attacker.data.color, "spark", particleCount);
 
     // SF-ported: Hit splash effect with damage number
     const splashType: HitSplash["type"] = this.isSpecialAttack(attacker.state) ? "special" :
@@ -2288,10 +2291,13 @@ export class FightEngine2D {
                       attacker.state.includes("medium") ? "medium" : "light";
     this.spawnHitSplash(hitX, hitY, damage, attacker.data.color, splashType);
 
-    // Screen shake
-    const shakeIntensity = this.isSpecialAttack(attacker.state) ? 8 :
-                           attacker.state.includes("heavy") ? 5 : 2;
-    this.triggerScreenShake(shakeIntensity, 8);
+    // Screen shake — scaled to attack weight
+    const shakeIntensity = this.isSpecialAttack(attacker.state) ? 12 :
+                           attacker.state.includes("heavy") ? 8 :
+                           attacker.state.includes("medium") ? 4 : 2;
+    const shakeDuration = this.isSpecialAttack(attacker.state) ? 14 :
+                          attacker.state.includes("heavy") ? 10 : 6;
+    this.triggerScreenShake(shakeIntensity, shakeDuration);
 
     // Sound effects for hit
     if (this.isSpecialAttack(attacker.state)) {
@@ -2702,19 +2708,37 @@ export class FightEngine2D {
     const dist = Math.abs(ai.x - player.x);
     const profile = this.aiProfile;
 
+    // Dynamic aggression — adapts based on health ratio
+    const aiHealthRatio = ai.hp / ai.maxHp;
+    const playerHealthRatio = player.hp / player.maxHp;
+    let aggression = profile.aggressionBase;
+
+    // Comeback mechanic: AI gets more aggressive when losing
+    if (aiHealthRatio < 0.3 && playerHealthRatio > 0.5) {
+      aggression = Math.min(0.9, aggression + 0.3);
+      ai.aiReactDelay = Math.max(4, profile.reactionFrames - 8); // Faster reactions when desperate
+    } else if (aiHealthRatio > 0.7 && playerHealthRatio < 0.3) {
+      // Ease off when dominating (more fun for player)
+      aggression = Math.max(0.2, aggression - 0.15);
+      ai.aiReactDelay = profile.reactionFrames + 4;
+    } else {
+      ai.aiReactDelay = profile.reactionFrames;
+    }
+
     // Mistake check
     if (Math.random() < profile.mistakeRate) {
       ai.aiTimer = 0;
-      return; // AI does nothing (mistake)
+      return;
     }
 
     // React to player attacks — block
     if (this.isInAttackState(player) && dist < 150) {
       if (Math.random() < profile.blockRate) {
-        if (player.state.startsWith("crouch_")) {
+        // Match block stance to attack type
+        if (player.state.startsWith("crouch_") || player.state.includes("low")) {
           this.changeState(ai, "block_crouch");
         } else {
-          this.changeState(ai, "block_stand");
+          this.changeState(ai, Math.random() < 0.3 ? "block_crouch" : "block_stand");
         }
         ai.blockFrame = this.frameCount;
         ai.isParrying = true;
@@ -2724,24 +2748,35 @@ export class FightEngine2D {
       }
     }
 
-    // Anti-air
+    // Anti-air — react to jumps
     if (player.airborne && dist < 200 && Math.random() < profile.antiAirRate) {
-      this.changeState(ai, "heavy_release");
+      // Vary anti-air option
+      if (dist < 100 && Math.random() < 0.4) {
+        this.changeState(ai, "crouch_heavy"); // Close anti-air
+      } else {
+        this.changeState(ai, "heavy_release"); // Standard anti-air
+      }
       ai.hitThisAttack = false;
       ai.aiTimer = 0;
       return;
     }
 
-    // Whiff punish — use kicks or punches
+    // Whiff punish — punish recovery with best available option
     if (this.isInRecovery(player) && dist < 120 && Math.random() < profile.whiffPunishRate) {
-      const useKick = Math.random() < 0.4;
-      this.changeState(ai, useKick ? "medium_kick" : "medium");
+      if (dist < 60 && Math.random() < 0.3) {
+        this.changeState(ai, "throw_startup"); // Close range throw punish
+      } else if (ai.specialMeter >= 100 && Math.random() < 0.4) {
+        this.activateSpecial(ai, 1); // Special punish for big damage
+      } else {
+        const useKick = Math.random() < 0.4;
+        this.changeState(ai, useKick ? "medium_kick" : "medium");
+      }
       ai.hitThisAttack = false;
       ai.aiTimer = 0;
       return;
     }
 
-    // Combo continuation
+    // Combo continuation — chain attacks naturally
     if (ai.comboCount > 0 && Math.random() < profile.comboAccuracy) {
       if (ai.comboChain < 2) {
         const nextState: FighterState2D = ai.comboChain === 0 ? "light_2" : "light_3";
@@ -2751,7 +2786,12 @@ export class FightEngine2D {
         ai.aiTimer = 0;
         return;
       } else if (ai.comboChain === 2) {
-        this.changeState(ai, "medium");
+        // Finish combo with medium or special
+        if (ai.specialMeter >= 100 && Math.random() < 0.5) {
+          this.activateSpecial(ai, 1); // Cancel into special for flashy finish
+        } else {
+          this.changeState(ai, "medium");
+        }
         ai.comboChain = 3;
         ai.hitThisAttack = false;
         ai.aiTimer = 0;
@@ -2774,23 +2814,27 @@ export class FightEngine2D {
     const idealDist = arch === "zoner" ? 400 : arch === "grappler" ? 80 : arch === "rushdown" ? 100 : 180;
 
     if (dist > idealDist + 50) {
-      // Move closer — occasionally dash for faster approach
+      // Move closer
       const dir = ai.x < player.x ? 1 : -1;
       const walkSpeed = ARCHETYPE_WALK_SPEED[arch] * ai.data.frameProfile.walkSpeedMult;
-      if (dist > idealDist + 150 && Math.random() < profile.aggressionBase * 0.5 && ai.dashCooldownFrames <= 0) {
-        // Dash approach for closing large gaps
+      if (dist > idealDist + 150 && Math.random() < aggression * 0.5 && ai.dashCooldownFrames <= 0) {
         this.changeState(ai, "dash_fwd");
         ai.vx = dir * walkSpeed * 2.5;
         ai.dashCooldownFrames = 30;
+      } else if (dist > idealDist + 80 && Math.random() < 0.15) {
+        // Jump-in approach (mix-up vs walking)
+        this.changeState(ai, "jump_fwd");
+        ai.vy = -(ARCHETYPE_JUMP_FORCE[arch] * ai.data.frameProfile.jumpForceMult);
+        ai.airborne = true;
       } else {
         ai.vx = dir * walkSpeed;
         this.changeState(ai, dir === (ai.facingRight ? 1 : -1) ? "walk_fwd" : "walk_back");
       }
     } else if (dist < idealDist - 30) {
-      // Move away — occasionally dash back for safety
+      // Move away
       const dir = ai.x < player.x ? -1 : 1;
       const walkSpeed = ARCHETYPE_WALK_SPEED[arch] * ai.data.frameProfile.walkSpeedMult;
-      if (Math.random() < 0.2 && ai.dashCooldownFrames <= 0) {
+      if (Math.random() < 0.25 && ai.dashCooldownFrames <= 0) {
         this.changeState(ai, "dash_back");
         ai.vx = dir * walkSpeed * 2.5;
         ai.dashCooldownFrames = 30;
@@ -2800,51 +2844,70 @@ export class FightEngine2D {
       }
     } else {
       // In range — attack with varied options
-      if (Math.random() < ai.aiAggression) {
+      if (Math.random() < aggression) {
         const roll = Math.random();
-        if (roll < 0.35) {
+        if (roll < 0.28) {
           // Punch combo starter
           this.changeState(ai, "light_1");
           ai.comboChain = 0;
-        } else if (roll < 0.48) {
+        } else if (roll < 0.40) {
           // Light kick (fast poke)
           this.changeState(ai, "light_kick");
-        } else if (roll < 0.60) {
+        } else if (roll < 0.50) {
           // Medium kick (mid-range)
           this.changeState(ai, "medium_kick");
-        } else if (roll < 0.70) {
-          // Heavy kick (high damage)
+        } else if (roll < 0.58) {
+          // Heavy kick (high damage, committal)
           this.changeState(ai, "heavy_kick");
-        } else if (roll < 0.80) {
+        } else if (roll < 0.66) {
           // Medium punch
           this.changeState(ai, "medium");
-        } else if (roll < 0.88) {
+        } else if (roll < 0.74) {
           // Crouch attack mix-up (low)
           ai.isCrouching = true;
           this.changeState(ai, "crouch_light");
-        } else if (roll < 0.94 && dist < 80) {
+        } else if (roll < 0.80 && dist < 80) {
           // Throw attempt at close range
           this.changeState(ai, "throw_startup");
-        } else {
+        } else if (roll < 0.88) {
           // Jump-in attack for pressure
-          if (Math.random() < 0.5) {
-            this.changeState(ai, "jump_fwd");
-            ai.vy = -(ARCHETYPE_JUMP_FORCE[arch] * ai.data.frameProfile.jumpForceMult);
-            ai.airborne = true;
-          } else {
-            // Heavy punch for damage
-            this.changeState(ai, "heavy_charge");
-            ai.heavyChargeFrames = 0;
+          this.changeState(ai, "jump_fwd");
+          ai.vy = -(ARCHETYPE_JUMP_FORCE[arch] * ai.data.frameProfile.jumpForceMult);
+          ai.airborne = true;
+        } else if (roll < 0.94) {
+          // Heavy punch for damage
+          this.changeState(ai, "heavy_charge");
+          ai.heavyChargeFrames = 0;
+        } else {
+          // Dash in for pressure then attack next frame
+          if (ai.dashCooldownFrames <= 0) {
+            const dir = ai.x < player.x ? 1 : -1;
+            const walkSpeed = ARCHETYPE_WALK_SPEED[arch] * ai.data.frameProfile.walkSpeedMult;
+            this.changeState(ai, "dash_fwd");
+            ai.vx = dir * walkSpeed * 2.5;
+            ai.dashCooldownFrames = 30;
           }
         }
         ai.hitThisAttack = false;
       } else {
-        // Idle — but occasionally reposition
-        if (Math.random() < 0.3) {
+        // Idle — but reposition or feint
+        const idleRoll = Math.random();
+        if (idleRoll < 0.25) {
+          // Walk forward (pressure)
           const dir = ai.x < player.x ? 1 : -1;
           const walkSpeed = ARCHETYPE_WALK_SPEED[arch] * ai.data.frameProfile.walkSpeedMult;
           ai.vx = dir * walkSpeed * 0.5;
           this.changeState(ai, "walk_fwd");
+        } else if (idleRoll < 0.40) {
+          // Walk back (bait attacks)
+          const dir = ai.x < player.x ? -1 : 1;
+          const walkSpeed = ARCHETYPE_WALK_SPEED[arch] * ai.data.frameProfile.walkSpeedMult;
+          ai.vx = dir * walkSpeed * 0.4;
+          this.changeState(ai, "walk_back");
+        } else if (idleRoll < 0.50) {
+          // Crouch (change posture)
+          ai.isCrouching = true;
+          this.changeState(ai, "crouch");
         } else {
           this.changeState(ai, "idle");
           ai.vx = 0;
