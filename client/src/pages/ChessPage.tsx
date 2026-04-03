@@ -3,7 +3,7 @@
    Play as Dischordian characters with unique styles.
    Ranked ladder, story mode, and Game Master boss fight.
    ═══════════════════════════════════════════════════════ */
-import { useState, useEffect, useMemo, useCallback } from "react";
+import { useState, useEffect, useMemo, useCallback, useRef } from "react";
 import { useAuth } from "@/_core/hooks/useAuth";
 import { trpc } from "@/lib/trpc";
 import { getLoginUrl } from "@/const";
@@ -42,6 +42,7 @@ const STYLE_ICONS: Record<string, typeof Crown> = {
 };
 
 import ChessCinematic from "@/components/ChessCinematic";
+import { StockfishEngine, getStockfishPersonality, type StockfishPersonality } from "@/lib/stockfishEngine";
 
 type GameView = "menu" | "character_select" | "cinematic" | "playing" | "ladder" | "history" | "story_select";
 
@@ -61,6 +62,22 @@ export default function ChessPage() {
   const [isThinking, setIsThinking] = useState(false);
   const [opponentInfo, setOpponentInfo] = useState<any>(null);
 
+  // Stockfish engine for client-side AI
+  const stockfishRef = useRef<StockfishEngine | null>(null);
+  const stockfishReady = useRef(false);
+  const personalityRef = useRef<StockfishPersonality | null>(null);
+
+  // Initialize Stockfish on mount, dispose on unmount
+  useEffect(() => {
+    const engine = new StockfishEngine();
+    stockfishRef.current = engine;
+    engine.init()
+      .then(() => { stockfishReady.current = true; })
+      .catch((err) => { console.warn("[Chess] Stockfish failed to load, using server AI:", err); });
+
+    return () => { engine.dispose(); };
+  }, []);
+
   const characters = trpc.chess.getCharacters.useQuery(undefined, { enabled: isAuthenticated });
   const ranking = trpc.chess.getMyRanking.useQuery(undefined, { enabled: isAuthenticated });
   const leaderboard = trpc.chess.getLeaderboard.useQuery(undefined, { enabled: view === "ladder" });
@@ -69,6 +86,7 @@ export default function ChessPage() {
 
   const startGame = trpc.chess.startGame.useMutation();
   const makeMove = trpc.chess.makeMove.useMutation();
+  const submitAiMove = trpc.chess.submitAiMove.useMutation();
   const resignGame = trpc.chess.resign.useMutation();
   const utils = trpc.useUtils();
 
@@ -100,6 +118,16 @@ export default function ChessPage() {
       setMoveHistory([]);
       setRewards(null);
       setEloChange(0);
+
+      // Configure Stockfish personality for this opponent
+      if (stockfishReady.current && stockfishRef.current && result.opponent) {
+        const personality = getStockfishPersonality(
+          result.aiDifficulty,
+          result.opponent.style || "universal",
+        );
+        personalityRef.current = personality;
+        stockfishRef.current.setPersonality(personality);
+      }
       // Show cinematic once per session before first game
       const seenKey = "loredex_chess_cinematic_seen";
       const seen = sessionStorage.getItem(seenKey);
@@ -119,24 +147,50 @@ export default function ChessPage() {
 
     // Check if it's a promotion
     const isPromotion = piece[1] === "P" && (targetSquare[1] === "8" || targetSquare[1] === "1");
+    const useStockfish = stockfishReady.current && stockfishRef.current && personalityRef.current;
 
     setIsThinking(true);
     try {
+      // Submit player move — skip server AI if Stockfish is available
       const result = await makeMove.mutateAsync({
         gameId: activeGameId,
         from: sourceSquare,
         to: targetSquare,
         promotion: isPromotion ? "q" : undefined,
+        useClientAi: !!useStockfish,
       });
 
       setGameFen(result.fen);
-      setMoveHistory(prev => {
-        const newHistory = [...prev, result.playerMove.san];
-        if (result.aiMove) newHistory.push(result.aiMove.san);
-        return newHistory;
-      });
+      setMoveHistory(prev => [...prev, result.playerMove.san]);
 
-      if (result.aiMove) {
+      // If game is still active and Stockfish is available, get AI move client-side
+      if (result.status === "active" && useStockfish) {
+        try {
+          const uciMove = await stockfishRef.current!.getBestMove(
+            result.fen,
+            personalityRef.current!,
+          );
+          if (uciMove) {
+            const aiResult = await submitAiMove.mutateAsync({
+              gameId: activeGameId,
+              move: uciMove,
+            });
+            setGameFen(aiResult.fen);
+            setMoveHistory(prev => [...prev, aiResult.aiMove.san]);
+            setLastAiMove({ from: aiResult.aiMove.from, to: aiResult.aiMove.to });
+
+            if (aiResult.status !== "active") {
+              result.status = aiResult.status;
+              result.rewards = aiResult.rewards;
+              result.eloChange = aiResult.eloChange;
+            }
+          }
+        } catch (sfErr) {
+          console.warn("[Chess] Stockfish move failed, move already server-handled:", sfErr);
+        }
+      } else if (result.aiMove) {
+        // Server-side AI fallback
+        setMoveHistory(prev => [...prev, result.aiMove!.san]);
         setLastAiMove({ from: result.aiMove.from, to: result.aiMove.to });
       }
 
@@ -169,7 +223,7 @@ export default function ChessPage() {
       setIsThinking(false);
       return false;
     }
-  }, [activeGameId, gameStatus, isThinking, makeMove, utils]);
+  }, [activeGameId, gameStatus, isThinking, makeMove, submitAiMove, utils]);
 
   const handleResign = async () => {
     if (!activeGameId) return;

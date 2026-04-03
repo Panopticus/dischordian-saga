@@ -455,13 +455,14 @@ export const chessRouter = router({
       }
     }),
 
-  /** Make a move and get AI response */
+  /** Make a move and optionally get AI response */
   makeMove: protectedProcedure
     .input(z.object({
       gameId: z.number(),
       from: z.string(),
       to: z.string(),
       promotion: z.string().optional(),
+      useClientAi: z.boolean().optional(),
     }))
     .mutation(async ({ ctx, input }) => {
       await chessReady;
@@ -496,8 +497,8 @@ export const chessRouter = router({
         status = "draw";
       }
 
-      // AI responds if game is still active
-      if (status === "active") {
+      // AI responds server-side ONLY if client is not handling AI
+      if (status === "active" && !input.useClientAi) {
         const opponentChar = CHESS_CHARACTERS[game[0].blackCharacter || "the_human"];
         const aiMove = getAiMove(chess, game[0].aiDifficulty || 3, opponentChar?.style || "universal");
         if (aiMove) {
@@ -544,6 +545,80 @@ export const chessRouter = router({
         pgn: chess.pgn(),
         playerMove: { from: playerMove.from, to: playerMove.to, san: playerMove.san },
         aiMove: aiMoveResult ? { from: aiMoveResult.from, to: aiMoveResult.to, san: aiMoveResult.san } : null,
+        status,
+        moveCount,
+        isCheck: chess.isCheck(),
+        rewards,
+        eloChange,
+      };
+    }),
+
+  /** Submit a client-side AI move (from Stockfish WASM) */
+  submitAiMove: protectedProcedure
+    .input(z.object({
+      gameId: z.number(),
+      move: z.string(), // UCI format e.g. "e7e5"
+    }))
+    .mutation(async ({ ctx, input }) => {
+      await chessReady;
+      const db = (await getDb())!;
+      const game = await db.select().from(chessGames)
+        .where(and(eq(chessGames.id, input.gameId), eq(chessGames.whitePlayerId, ctx.user.id)))
+        .limit(1);
+      if (!game[0]) throw new Error("Game not found");
+      if (game[0].status !== "active") throw new Error("Game is not active");
+
+      const chess = new Chess(game[0].fen || STARTING_FEN);
+
+      // It should be black's (AI's) turn
+      if (chess.turn() !== "b") throw new Error("Not AI's turn");
+
+      // Parse UCI move format (e.g., "e7e5" or "e7e8q" for promotion)
+      const from = input.move.slice(0, 2);
+      const to = input.move.slice(2, 4);
+      const promotion = input.move.length > 4 ? input.move[4] : undefined;
+
+      const aiMoveResult = chess.move({ from, to, promotion });
+      if (!aiMoveResult) throw new Error("Invalid AI move");
+
+      let status: string = "active";
+      let winnerId = null;
+
+      if (chess.isCheckmate()) {
+        status = "checkmate";
+        winnerId = -1; // AI wins
+      } else if (chess.isStalemate()) {
+        status = "stalemate";
+      } else if (chess.isDraw()) {
+        status = "draw";
+      }
+
+      const moveCount = chess.history().length;
+
+      await db.update(chessGames)
+        .set({
+          fen: chess.fen(),
+          pgn: chess.pgn(),
+          status: status as any,
+          moveCount,
+          winnerId: winnerId === -1 ? null : winnerId,
+          ...(status !== "active" ? { endedAt: new Date() } : {}),
+        })
+        .where(eq(chessGames.id, input.gameId));
+
+      // Process game end
+      let rewards = null;
+      let eloChange = 0;
+      if (status !== "active") {
+        const result = await processGameEnd(db, ctx.user.id, game[0], status, winnerId);
+        rewards = result.rewards;
+        eloChange = result.eloChange;
+      }
+
+      return {
+        fen: chess.fen(),
+        pgn: chess.pgn(),
+        aiMove: { from: aiMoveResult.from, to: aiMoveResult.to, san: aiMoveResult.san },
         status,
         moveCount,
         isCheck: chess.isCheck(),
