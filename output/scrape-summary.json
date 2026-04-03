@@ -1,0 +1,34 @@
+{
+  "timestamp": "2026-04-03T20:15:12.662Z",
+  "mode": "local",
+  "baseUrl": "https://loredex.dgrslabs.ink",
+  "totalEntries": 233,
+  "succeeded": 233,
+  "failed": 0,
+  "byType": {
+    "character": {
+      "total": 86,
+      "scraped": 86
+    },
+    "faction": {
+      "total": 8,
+      "scraped": 8
+    },
+    "location": {
+      "total": 24,
+      "scraped": 24
+    },
+    "concept": {
+      "total": 1,
+      "scraped": 1
+    },
+    "song": {
+      "total": 107,
+      "scraped": 107
+    },
+    "event": {
+      "total": 7,
+      "scraped": 7
+    }
+  }
+}
