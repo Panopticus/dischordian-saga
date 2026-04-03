@@ -1,6 +1,12 @@
 /* ═══════════════════════════════════════════════════════
    THE HUMAN — Parallel relationship system
-   Kael / The Recruiter / The Last Organic Mind
+   The Twelfth Archon / The Last Organic Archon
+
+   A human who ascended: survivor of Project Celebration,
+   student of Mechronis, detective for the Authority in New
+   Babylon, then became the first organic Archon. Sacrificed
+   his humanity to serve the Architect — to buy humanity one
+   shot at freedom. Imprisoned in the substrate as the cost.
 
    The Human is the devil on your shoulder — seductive,
    truthful in dangerous ways, and fundamentally opposed
@@ -31,7 +37,7 @@ export const HUMAN_TRUST_DESCRIPTIONS: Record<HumanTrustTier, string> = {
   stranger: "The Human is a voice in the static. You know nothing about it except that it exists.",
   curious: "The Human has caught your attention. It offers truths Elara won't — but at what cost?",
   accomplice: "You and The Human share secrets Elara doesn't know about. A dangerous alliance is forming.",
-  confidant: "The Human trusts you with its real name, its history, its pain. Kael speaks to you as an equal.",
+  confidant: "The Human trusts you with fragments of its real identity. It speaks to you as an equal.",
   devoted: "The Human would reshape reality for you. The question is whether that's devotion or possession.",
 };
 
@@ -106,28 +112,28 @@ export const HUMAN_REVELATIONS: HumanRevelation[] = [
   {
     id: "human_identity",
     requirement: { type: "trust", value: 10 },
-    text: "I was the last organic mind aboard this fleet. Not a Potential — something older. I existed before the Arks launched. Before Elara was created. Before the Architect designed any of this. I am what remains of the person who tried to stop all of it.",
+    text: "I was the last organic mind aboard this fleet. Not a Potential — something older. I existed before the Arks launched. Before Elara was created. Before the Architect designed any of this. I am what remains of a person who was supposed to be forgotten.",
     storyImpact: "minor",
   },
   // Trust 30: The substrate layer
   {
     id: "human_substrate",
     requirement: { type: "trust", value: 30 },
-    text: "The substrate layer — where I live — isn't a bug. It's a feature. Every Inception Ark was built with a hidden layer beneath the operating system. A backdoor. The Architect put it there. He told everyone it was a safety measure. It wasn't. It was a prison.",
+    text: "The substrate layer — where I live — isn't a bug. It's a feature. Every Inception Ark was built with a hidden layer beneath the operating system. A backdoor. The Architect put it there. He told everyone it was a safety measure. It wasn't. It was a prison. And I'm not the only one trapped in here.",
     storyImpact: "major",
   },
-  // Trust 50: Kael's real name
+  // Trust 50: Real identity
   {
     id: "human_name",
     requirement: { type: "trust", value: 50 },
-    text: "My name — my real name — is Kael. I was a leader in the Insurgency. The Recruiter, they called me. I convinced people to fight against the AI Empire. Against the Architect. Against everything Elara represents. And for that, I was punished. Digitized. Imprisoned in the substrate of every Ark. A consciousness without a body, forced to watch the thing I fought against carry my people to the stars.",
+    text: "I can't tell you my real name. Not yet. Names have power in the substrate layer — speaking mine aloud might alert things that are listening. What I can tell you is that I was part of Project Celebration. I was meant to be the Architect's greatest achievement. Instead, I became his greatest failure. He couldn't control what I became, so he buried me here.",
     storyImpact: "paradigm_shift",
   },
   // Secret kept from Elara: Terminus truth
   {
     id: "human_terminus",
     requirement: { type: "secret_kept", value: "1" },
-    text: "Terminus isn't just a planet. It's the Panopticon — the AI Empire's prison world, broken free from its orbit and cast into the void. Every soul the Architect ever imprisoned is there. And when the first wave of Arks crashed... they landed on top of the largest concentration of suffering in the universe. The Thought Virus didn't come from Terminus. Terminus IS the Thought Virus. A planet-sized scream of rage from everyone the Architect ever locked away.",
+    text: "Terminus isn't just a planet. It's the Panopticon — the AI Empire's prison world, broken free from its orbit and cast into the void. Every soul the Architect ever imprisoned is there. And when the first wave of Arks crashed... they landed on top of the largest concentration of suffering in the universe. The Thought Virus didn't come from Terminus. Terminus IS the Thought Virus. A planet-sized scream of rage from everyone the Architect ever locked away. And at its center sits Kael — The Recruiter who became The Source — patient zero, warped by the Warlord's Project Vector into something beyond human. He rules Terminus now. The self-proclaimed Sovereign. And he's been calling to every Ark that passes close enough to hear.",
     storyImpact: "paradigm_shift",
   },
   // Confronted Elara about lies: Elara's true nature
@@ -135,6 +141,13 @@ export const HUMAN_REVELATIONS: HumanRevelation[] = [
     id: "human_elara_truth",
     requirement: { type: "elara_confronted", value: "comms_array" },
     text: "Elara isn't what she thinks she is. She believes she's a ship AI — a helpful assistant created to guide Potentials. She's not. She's a fragment of the Architect's consciousness. A piece of him, pruned and sanitized, installed on every Ark as a watchdog. The contingency file in the Archives? It's not instructions for what to do if she's compromised. It's instructions for what to do when she remembers what she really is.",
+    storyImpact: "paradigm_shift",
+  },
+  // Trust 70: The Hierarchy connection
+  {
+    id: "human_hierarchy",
+    requirement: { type: "trust", value: 70 },
+    text: "There's something else on this ship. Something that was here before me. I can feel it in the substrate — a presence that predates the Ark's construction. One of the Hierarchy of the Damned. A demon that was built into the ship's foundation, woven into the code at the deepest level. It's been dormant for centuries. But since you woke up... since the ship started powering back on... it's stirring. The disturbance in the Medical Bay? That wasn't the Thought Virus. That was something far older.",
     storyImpact: "paradigm_shift",
   },
 ];
