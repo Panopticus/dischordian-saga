@@ -41,6 +41,8 @@ export default function DuelystGameUI({ playerFaction, opponentFaction, onGameEn
   const [log, setLog] = useState<LogEntry[]>([]);
   const [hoveredCard, setHoveredCard] = useState<DuelystCard | null>(null);
 
+  const [turnFlash, setTurnFlash] = useState<string | null>(null);
+
   const addLog = useCallback((text: string, type: LogEntry["type"] = "info") => {
     setLog(prev => [...prev.slice(-50), { text, type }]);
   }, []);
@@ -103,6 +105,8 @@ export default function DuelystGameUI({ playerFaction, opponentFaction, onGameEn
     setGameState(state);
     setPhase("playing");
     addLog(`Mulligan complete. Your turn — ${state.players[0].mana} mana available.`, "system");
+    setTurnFlash("YOUR TURN");
+    setTimeout(() => setTurnFlash(null), 1500);
   }, [gameState, mulliganSelections, addLog]);
 
   /* ─── TILE CLICK ─── */
@@ -251,6 +255,8 @@ export default function DuelystGameUI({ playerFaction, opponentFaction, onGameEn
     setGameState(state);
     setPhase("ai_turn");
     addLog("Your turn ended. AI is thinking...", "system");
+    setTurnFlash("ENEMY TURN");
+    setTimeout(() => setTurnFlash(null), 1500);
     clearSelection();
     rendererRef.current?.clearHighlights();
 
@@ -276,6 +282,8 @@ export default function DuelystGameUI({ playerFaction, opponentFaction, onGameEn
         if (action.type === "end_turn") {
           setPhase("playing");
           addLog(`Your turn — ${currentState.players[0].mana} mana available.`, "system");
+          setTurnFlash("YOUR TURN");
+          setTimeout(() => setTurnFlash(null), 1500);
         }
       }
     };
@@ -368,177 +376,194 @@ export default function DuelystGameUI({ playerFaction, opponentFaction, onGameEn
     );
   }
 
-  /* ─── MAIN GAME UI ─── */
+  const factionColor = FACTION_COLORS[playerFaction];
+  const enemyColor = FACTION_COLORS[opponentFaction];
+
+  /* ─── MAIN GAME UI — Mobile-first stacked layout ─── */
   return (
-    <div className="flex flex-col lg:flex-row gap-4 p-2 sm:p-4 max-w-[1400px] mx-auto">
-      {/* Left: Board */}
-      <div className="flex-1 flex flex-col items-center gap-3">
-        {/* Opponent info bar */}
-        <div className="flex items-center gap-4 w-full max-w-[760px] px-2">
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-full flex items-center justify-center" style={{ backgroundColor: FACTION_COLORS[opponentFaction] + "33", border: `2px solid ${FACTION_COLORS[opponentFaction]}` }}>
-              <Shield size={14} style={{ color: FACTION_COLORS[opponentFaction] }} />
-            </div>
-            <div>
-              <p className="font-mono text-xs font-bold">{FACTION_NAMES[opponentFaction]}</p>
-              <p className="font-mono text-[10px] text-muted-foreground">AI Opponent</p>
-            </div>
-          </div>
-          <div className="flex-1" />
-          <div className="flex items-center gap-3">
-            <div className="flex items-center gap-1">
-              <Heart size={12} className="text-red-400" />
-              <span className="font-mono text-sm font-bold">{opponentGen?.currentHealth ?? 0}/{opponentGen?.maxHealth ?? 25}</span>
-            </div>
-            <div className="flex items-center gap-1">
-              <Zap size={12} className="text-blue-400" />
-              <span className="font-mono text-sm">{opponent.mana}/{opponent.maxMana}</span>
-            </div>
-            <span className="font-mono text-[10px] text-muted-foreground">{opponent.hand.length} cards</span>
+    <div className="flex flex-col h-full max-h-screen overflow-hidden bg-black relative">
+      {/* Turn flash overlay */}
+      {turnFlash && (
+        <div className="absolute inset-0 z-50 flex items-center justify-center pointer-events-none animate-in fade-in zoom-in duration-300">
+          <div className="px-12 py-4 bg-black/80 backdrop-blur-md rounded-2xl border border-white/20">
+            <p className="font-display text-2xl sm:text-3xl tracking-[0.3em] text-white text-center" style={{
+              textShadow: turnFlash === "YOUR TURN" ? `0 0 30px ${factionColor}, 0 0 60px ${factionColor}40` : `0 0 30px ${enemyColor}, 0 0 60px ${enemyColor}40`,
+            }}>
+              {turnFlash}
+            </p>
           </div>
         </div>
+      )}
 
-        {/* Canvas */}
-        <div className="border border-border/30 rounded-lg overflow-hidden bg-background/50">
-          <canvas ref={canvasRef} />
-        </div>
-
-        {/* Player info bar */}
-        <div className="flex items-center gap-4 w-full max-w-[760px] px-2">
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-full flex items-center justify-center" style={{ backgroundColor: FACTION_COLORS[playerFaction] + "33", border: `2px solid ${FACTION_COLORS[playerFaction]}` }}>
-              <Swords size={14} style={{ color: FACTION_COLORS[playerFaction] }} />
-            </div>
-            <div>
-              <p className="font-mono text-xs font-bold">{FACTION_NAMES[playerFaction]}</p>
-              <p className="font-mono text-[10px] text-muted-foreground">You</p>
-            </div>
-          </div>
-          <div className="flex-1" />
-          <div className="flex items-center gap-3">
-            <div className="flex items-center gap-1">
-              <Heart size={12} className="text-red-400" />
-              <span className="font-mono text-sm font-bold">{playerGen?.currentHealth ?? 0}/{playerGen?.maxHealth ?? 25}</span>
-            </div>
-            <div className="flex items-center gap-1">
-              <Zap size={12} className="text-blue-400" />
-              <span className="font-mono text-sm font-bold">{player.mana}/{player.maxMana}</span>
-            </div>
+      {/* AI thinking overlay */}
+      {phase === "ai_turn" && (
+        <div className="absolute inset-0 z-40 bg-black/30 flex items-center justify-center pointer-events-none">
+          <div className="flex items-center gap-3 px-6 py-3 bg-black/70 backdrop-blur-sm rounded-xl border border-white/10 animate-pulse">
+            <div className="w-3 h-3 rounded-full animate-ping" style={{ backgroundColor: enemyColor }} />
+            <span className="font-mono text-sm tracking-wider" style={{ color: enemyColor }}>
+              {FACTION_NAMES[opponentFaction]} is thinking...
+            </span>
           </div>
         </div>
+      )}
 
-        {/* Mana crystals */}
-        <div className="flex gap-1 justify-center">
-          {Array.from({ length: player.maxMana }, (_, i) => (
-            <div key={i} className={`w-4 h-4 rounded-full border ${i < player.mana ? "bg-blue-500 border-blue-400" : "bg-transparent border-border/30"}`} />
-          ))}
+      {/* Top bar: Opponent info */}
+      <div className="flex items-center gap-3 px-3 py-2 border-b border-white/10 bg-black/60" style={{ borderBottomColor: enemyColor + "30" }}>
+        <div className="w-7 h-7 rounded-full flex items-center justify-center shrink-0"
+          style={{ backgroundColor: enemyColor + "20", border: `2px solid ${enemyColor}` }}>
+          <Shield size={12} style={{ color: enemyColor }} />
         </div>
+        <div className="min-w-0 flex-1">
+          <p className="font-mono text-xs font-bold truncate" style={{ color: enemyColor }}>{FACTION_NAMES[opponentFaction]}</p>
+        </div>
+        <div className="flex items-center gap-2 shrink-0">
+          <div className="flex items-center gap-1 px-2 py-0.5 rounded bg-red-500/10">
+            <Heart size={10} className="text-red-400" />
+            <span className="font-mono text-xs font-bold text-red-400">{opponentGen?.currentHealth ?? 0}</span>
+          </div>
+          <div className="flex items-center gap-1 px-2 py-0.5 rounded bg-blue-500/10">
+            <Zap size={10} className="text-blue-400" />
+            <span className="font-mono text-xs text-blue-400">{opponent.mana}</span>
+          </div>
+          <span className="font-mono text-[10px] text-white/30">{opponent.hand.length} cards</span>
+        </div>
+        <button onClick={onBack} className="text-white/30 hover:text-white/60 transition-colors shrink-0">
+          <RotateCcw size={14} />
+        </button>
       </div>
 
-      {/* Right: Hand + Controls + Log */}
-      <div className="w-full lg:w-72 flex flex-col gap-3">
+      {/* Board — takes remaining vertical space */}
+      <div className="flex-1 flex items-center justify-center overflow-hidden bg-gradient-to-b from-black/40 to-black/80">
+        <canvas ref={canvasRef} className="max-w-full max-h-full" />
+      </div>
+
+      {/* Player bar: HP + Mana crystals + BBS + End Turn */}
+      <div className="flex items-center gap-2 px-3 py-2 border-t border-white/10 bg-black/60" style={{ borderTopColor: factionColor + "30" }}>
+        <div className="w-7 h-7 rounded-full flex items-center justify-center shrink-0"
+          style={{ backgroundColor: factionColor + "20", border: `2px solid ${factionColor}` }}>
+          <Swords size={12} style={{ color: factionColor }} />
+        </div>
+        <div className="flex items-center gap-1 px-2 py-0.5 rounded bg-red-500/10">
+          <Heart size={10} className="text-red-400" />
+          <span className="font-mono text-xs font-bold text-red-400">{playerGen?.currentHealth ?? 0}</span>
+        </div>
+
+        {/* Mana crystals — large, glowing */}
+        <div className="flex gap-1 flex-1 justify-center">
+          {Array.from({ length: 9 }, (_, i) => (
+            <div key={i} className={`w-5 h-5 rounded-full border-2 transition-all duration-300 ${
+              i < player.maxMana
+                ? i < player.mana
+                  ? "bg-blue-500 border-blue-400 shadow-[0_0_8px_rgba(59,130,246,0.6)]"
+                  : "bg-blue-900/40 border-blue-800/50"
+                : "bg-transparent border-white/5"
+            }`} />
+          ))}
+        </div>
+
         {/* Action buttons */}
-        <div className="flex flex-wrap gap-2">
+        <div className="flex items-center gap-1.5 shrink-0">
           {selectedUnit && (
             <>
-              <button onClick={handleMoveMode} className="flex items-center gap-1 px-3 py-1.5 bg-green-500/10 border border-green-500/30 text-green-400 rounded text-xs font-mono hover:bg-green-500/20">
-                <Move size={12} /> Move
+              <button onClick={handleMoveMode} className="w-8 h-8 flex items-center justify-center rounded-lg bg-green-500/20 border border-green-500/40 text-green-400 hover:bg-green-500/30">
+                <Move size={14} />
               </button>
-              <button onClick={handleAttackMode} className="flex items-center gap-1 px-3 py-1.5 bg-red-500/10 border border-red-500/30 text-red-400 rounded text-xs font-mono hover:bg-red-500/20">
-                <Crosshair size={12} /> Attack
+              <button onClick={handleAttackMode} className="w-8 h-8 flex items-center justify-center rounded-lg bg-red-500/20 border border-red-500/40 text-red-400 hover:bg-red-500/30">
+                <Crosshair size={14} />
               </button>
             </>
           )}
           {!player.bloodbornUsed && player.mana >= 1 && phase === "playing" && (
-            <button onClick={handleBBS} className="flex items-center gap-1 px-3 py-1.5 bg-purple-500/10 border border-purple-500/30 text-purple-400 rounded text-xs font-mono hover:bg-purple-500/20">
-              <Sparkles size={12} /> BBS
+            <button onClick={handleBBS} className="w-8 h-8 flex items-center justify-center rounded-lg bg-purple-500/20 border border-purple-500/40 text-purple-400 hover:bg-purple-500/30" title="Bloodborn Spell">
+              <Sparkles size={14} />
             </button>
           )}
           {phase === "playing" && gameState.currentPlayer === 0 && (
-            <button onClick={handleEndTurn} className="flex items-center gap-1 px-3 py-1.5 bg-primary/10 border border-primary/30 text-primary rounded text-xs font-mono hover:bg-primary/20 ml-auto">
-              <SkipForward size={12} /> End Turn
+            <button onClick={handleEndTurn} className="h-8 px-4 flex items-center gap-1.5 rounded-lg font-mono text-xs font-bold tracking-wider transition-all"
+              style={{
+                backgroundColor: factionColor + "30",
+                borderColor: factionColor + "60",
+                color: factionColor,
+                border: `2px solid ${factionColor}60`,
+                boxShadow: `0 0 12px ${factionColor}30`,
+              }}>
+              END TURN
             </button>
           )}
-          {phase === "ai_turn" && (
-            <div className="flex items-center gap-2 text-amber-400 font-mono text-xs animate-pulse">
-              <RotateCcw size={12} className="animate-spin" /> AI thinking...
+        </div>
+      </div>
+
+      {/* Hand — horizontal card spread at bottom */}
+      <div className="border-t border-white/5 bg-black/80 px-2 py-2">
+        <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-thin">
+          {player.hand.map((card, i) => {
+            const playable = card.manaCost <= player.mana && phase === "playing" && gameState.currentPlayer === 0;
+            const isSelected = selectedCard === i;
+            return (
+              <button
+                key={`${card.id}-${i}`}
+                className={`shrink-0 w-28 rounded-lg border-2 p-2 text-left transition-all ${
+                  isSelected ? "border-white bg-white/10 -translate-y-2 shadow-lg" :
+                  playable ? "border-white/20 bg-white/5 hover:border-white/40 hover:-translate-y-1" :
+                  "border-white/5 bg-white/[0.02] opacity-40"
+                }`}
+                onClick={() => playable && handleCardClick(i)}
+                onContextMenu={(e) => { e.preventDefault(); if (!player.replaceUsed) handleReplace(i); }}
+                onMouseEnter={() => setHoveredCard(card)}
+                onMouseLeave={() => setHoveredCard(null)}
+              >
+                {/* Mana cost badge */}
+                <div className="flex items-center justify-between mb-1">
+                  <span className="w-5 h-5 flex items-center justify-center rounded-full bg-blue-500/30 text-blue-300 font-mono text-[10px] font-bold">
+                    {card.manaCost}
+                  </span>
+                  {card.cardType === "unit" && (
+                    <span className="text-[9px] text-white/40 font-mono">{card.attack}/{card.health}</span>
+                  )}
+                </div>
+                {/* Card image */}
+                {card.imageUrl && <img src={card.imageUrl} alt="" className="w-full h-14 object-cover rounded mb-1" />}
+                {/* Name */}
+                <p className="font-mono text-[10px] font-bold truncate text-white/90">{card.name}</p>
+                {/* Type + keywords */}
+                <p className="text-[8px] text-white/30 font-mono truncate">
+                  {card.cardType}{card.keywords.length > 0 ? ` · ${card.keywords[0]}` : ""}
+                </p>
+              </button>
+            );
+          })}
+        </div>
+        {!player.replaceUsed && phase === "playing" && (
+          <p className="font-mono text-[9px] text-white/20 text-center mt-1">Right-click or long-press a card to replace</p>
+        )}
+      </div>
+
+      {/* Card detail tooltip — floating above hand */}
+      {hoveredCard && (
+        <div className="absolute bottom-44 left-1/2 -translate-x-1/2 z-30 w-64 p-3 rounded-xl border border-white/20 bg-black/90 backdrop-blur-md shadow-2xl">
+          <div className="flex items-center gap-2 mb-2">
+            <span className="w-6 h-6 flex items-center justify-center rounded-full bg-blue-500/30 text-blue-300 font-mono text-xs font-bold">
+              {hoveredCard.manaCost}
+            </span>
+            <p className="font-mono text-sm font-bold text-white">{hoveredCard.name}</p>
+          </div>
+          {hoveredCard.abilityText && <p className="text-[11px] text-white/70 mb-2">{hoveredCard.abilityText}</p>}
+          {hoveredCard.keywords.length > 0 && (
+            <div className="flex flex-wrap gap-1 mb-2">
+              {hoveredCard.keywords.map(kw => (
+                <span key={kw} className="text-[9px] px-2 py-0.5 rounded-full bg-white/10 text-white/60 font-mono">{kw}</span>
+              ))}
             </div>
           )}
+          {hoveredCard.cardType === "unit" && (
+            <div className="flex gap-3 text-[10px] font-mono text-white/50">
+              <span>ATK {hoveredCard.attack}</span>
+              <span>HP {hoveredCard.health}</span>
+            </div>
+          )}
+          {hoveredCard.flavorText && <p className="text-[9px] text-white/30 italic mt-2 border-t border-white/10 pt-2">{hoveredCard.flavorText}</p>}
         </div>
-
-        {/* Hand */}
-        <div>
-          <p className="font-mono text-[10px] text-muted-foreground tracking-[0.2em] mb-2">HAND ({player.hand.length})</p>
-          <div className="flex flex-col gap-1.5 max-h-[300px] overflow-y-auto">
-            {player.hand.map((card, i) => {
-              const playable = card.manaCost <= player.mana && phase === "playing" && gameState.currentPlayer === 0;
-              return (
-                <div
-                  key={`${card.id}-${i}`}
-                  className={`flex items-center gap-2 p-2 rounded border cursor-pointer transition-all ${
-                    selectedCard === i ? "border-primary bg-primary/10" : playable ? "border-border/50 bg-card/50 hover:border-primary/50" : "border-border/20 bg-card/20 opacity-50"
-                  }`}
-                  onClick={() => playable && handleCardClick(i)}
-                  onContextMenu={(e) => { e.preventDefault(); if (!player.replaceUsed) handleReplace(i); }}
-                  onMouseEnter={() => setHoveredCard(card)}
-                  onMouseLeave={() => setHoveredCard(null)}
-                >
-                  {card.imageUrl && <img src={card.imageUrl} alt="" className="w-8 h-8 rounded object-cover" />}
-                  <div className="flex-1 min-w-0">
-                    <p className="font-mono text-[11px] font-bold truncate">{card.name}</p>
-                    <div className="flex gap-2">
-                      <span className="text-[9px] text-blue-400 font-mono">{card.manaCost}⬡</span>
-                      {card.cardType === "unit" && <span className="text-[9px] text-muted-foreground font-mono">{card.attack}⚔{card.health}♥</span>}
-                      <span className="text-[9px] text-muted-foreground/50 font-mono">{card.cardType}</span>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-          {!player.replaceUsed && <p className="font-mono text-[9px] text-muted-foreground/50 mt-1">Right-click a card to replace (once per turn)</p>}
-        </div>
-
-        {/* Card tooltip */}
-        {hoveredCard && (
-          <div className="p-3 rounded-lg border border-border/50 bg-card/80">
-            <p className="font-mono text-xs font-bold">{hoveredCard.name}</p>
-            <p className="text-[10px] text-muted-foreground mt-1">{hoveredCard.abilityText}</p>
-            {hoveredCard.keywords.length > 0 && (
-              <div className="flex flex-wrap gap-1 mt-1">
-                {hoveredCard.keywords.map(kw => (
-                  <span key={kw} className="text-[9px] px-1.5 py-0.5 rounded bg-primary/10 text-primary font-mono">{kw}</span>
-                ))}
-              </div>
-            )}
-            {hoveredCard.flavorText && <p className="text-[9px] text-muted-foreground/50 italic mt-1">{hoveredCard.flavorText}</p>}
-          </div>
-        )}
-
-        {/* Action log */}
-        <div>
-          <p className="font-mono text-[10px] text-muted-foreground tracking-[0.2em] mb-1 flex items-center gap-1">
-            <BookOpen size={10} /> BATTLE LOG
-          </p>
-          <div className="h-32 overflow-y-auto border border-border/20 rounded p-2 bg-card/20">
-            {log.map((entry, i) => (
-              <p key={i} className={`font-mono text-[10px] ${
-                entry.type === "attack" ? "text-red-400" :
-                entry.type === "spell" ? "text-purple-400" :
-                entry.type === "move" ? "text-green-400" :
-                entry.type === "system" ? "text-amber-400" :
-                "text-muted-foreground"
-              }`}>
-                {entry.text}
-              </p>
-            ))}
-          </div>
-        </div>
-
-        <button onClick={onBack} className="mt-auto px-3 py-1.5 border border-border/30 text-muted-foreground rounded text-xs font-mono hover:text-foreground hover:border-border/50 transition-colors">
-          ← Back to Menu
-        </button>
-      </div>
+      )}
     </div>
   );
 }
