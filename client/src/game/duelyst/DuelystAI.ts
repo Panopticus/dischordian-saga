@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════════════
-   DUELYST AI — Heuristic-based opponent for single player
+   DISCHORDIA AI — Heuristic-based opponent for single player
    ═══════════════════════════════════════════════════════ */
 import type { DuelystGameState, GameAction, BoardUnit, DuelystCard } from "./types";
 import { getValidMoves, getValidAttacks, getValidSummonTiles, findUnit, dist } from "./engine";

@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════════════
-   DUELYST GAME UI — React wrapper for the tactical board
+   DISCHORDIA GAME UI — React wrapper for the tactical board
    with hand display, mana bar, action log, and controls
    ═══════════════════════════════════════════════════════ */
 import { useRef, useEffect, useState, useCallback } from "react";

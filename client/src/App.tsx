@@ -46,7 +46,7 @@ const WatchPage = lazy(() => import("./pages/WatchPage"));
 const FightPage = lazy(() => import("./pages/FightPage"));
 const ConsolePage = lazy(() => import("./pages/ConsolePage"));
 const CardBrowserPage = lazy(() => import("./pages/CardBrowserPage"));
-// CardGamePage removed — Duelyst is the only card game now
+// CardGamePage removed — Dischordia is the only card game now
 const CardGamePage = lazy(() => import("./game/duelyst/DuelystPage"));
 const InceptionArkPage = lazy(() => import("./pages/InceptionArkPage"));
 const TrophyRoomPage = lazy(() => import("./pages/TrophyRoomPage"));
@@ -63,7 +63,7 @@ const SagaTimelinePage = lazy(() => import("./pages/SagaTimelinePage"));
 const FavoritesPage = lazy(() => import("./pages/FavoritesPage"));
 const LoreQuizPage = lazy(() => import("./pages/LoreQuizPage"));
 const CodexPage = lazy(() => import("./pages/CodexPage"));
-// CardBattlePage removed — redirects to Duelyst
+// CardBattlePage removed — redirects to Dischordia
 const CardBattlePage = lazy(() => import("./game/duelyst/DuelystPage"));
 const DuelystPage = lazy(() => import("./game/duelyst/DuelystPage"));
 const CardGalleryPage = lazy(() => import("./pages/CardGalleryPage"));
@@ -101,7 +101,7 @@ const GuildPage = lazy(() => import("./pages/GuildPage"));
 const BattlePassPage = lazy(() => import("./pages/BattlePassPage"));
 const InventoryPage = lazy(() => import("./pages/InventoryPage"));
 const ChessPage = lazy(() => import("./pages/ChessPage"));
-// DuelystClassicPage removed — React Duelyst is the only card game
+// DuelystClassicPage removed — Dischordia is the only card game
 const DuelystClassicPage = lazy(() => import("./game/duelyst/DuelystPage"));
 const SpectatorPage = lazy(() => import("./pages/SpectatorPage"));
 const SpaceStationPage = lazy(() => import("./pages/SpaceStationPage"));

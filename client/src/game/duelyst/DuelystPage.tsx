@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════════════
-   DUELYST PAGE — Faction selection, game setup, and
+   DISCHORDIA PAGE — Faction selection, game setup, and
    main game flow for the tactical card game
    6 Factions of the Dischordian Saga
    ═══════════════════════════════════════════════════════ */
@@ -77,7 +77,7 @@ export default function DuelystPage() {
                 <div className="h-px w-12 bg-gradient-to-l from-transparent to-primary/50" />
               </div>
               <h1 className="font-display text-3xl sm:text-4xl font-black tracking-wider">
-                <span className="text-primary glow-cyan">DUELYST</span>
+                <span className="text-primary glow-cyan">DISCHORDIA</span>
               </h1>
               <p className="font-mono text-sm text-muted-foreground mt-2 max-w-md">
                 Command your faction on a 5×9 tactical grid. Summon units, cast spells,

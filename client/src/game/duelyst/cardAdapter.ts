@@ -1,6 +1,6 @@
 /* ═══════════════════════════════════════════════════════
    CARD ADAPTER — Converts Dischordian Saga cards
-   to Duelyst tactical format with 6-faction assignment
+   to Dischordia tactical format with 6-faction assignment
    ═══════════════════════════════════════════════════════ */
 import type { DuelystCard, DuelystCardType, DuelystRarity, DuelystKeyword, Faction, SpellEffect } from "./types";
 import sagaCards from "../../data/season1-cards.json";

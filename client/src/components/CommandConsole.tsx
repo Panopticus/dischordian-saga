@@ -116,7 +116,7 @@ const SYSTEMS: SystemDef[] = [
     color: "var(--alert-red)",
     routes: [
       { path: "/fight", label: "COMBAT SIM", icon: Swords, desc: "Combat training" },
-      { path: "/duelyst", label: "DUELYST", icon: ScrollText, desc: "Faction warfare" },
+      { path: "/duelyst", label: "DISCHORDIA", icon: ScrollText, desc: "Faction warfare" },
       { path: "/battle", label: "BATTLE ARENA", icon: Swords, desc: "Card combat" },
       { path: "/pvp", label: "PVP ARENA", icon: Swords, desc: "Multiplayer battles" },
       { path: "/boss-battle", label: "BOSS BATTLE", icon: Crosshair, desc: "Boss encounters" },

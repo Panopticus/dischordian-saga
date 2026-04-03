@@ -31,9 +31,9 @@ interface GameTile {
 const SIMULATIONS: GameTile[] = [
   {
     href: "/duelyst",
-    title: "DUELYST",
+    title: "DISCHORDIA",
     subtitle: "Tactical Grid Warfare",
-    description: "Command your faction on a 5×9 tactical grid. Summon units, cast spells, equip artifacts, and destroy the enemy general in this Duelyst-inspired strategy game.",
+    description: "Command your faction on a 5×9 tactical grid. Summon units, cast spells, equip artifacts, and destroy the enemy general in this strategic card battle.",
     loreContext: "CADES DIMENSION: Faction War Timeline",
     icon: ScrollText,
     color: "var(--orb-orange)",

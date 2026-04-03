@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════════════
-   DUELYST TYPES — Core type definitions for the tactical card game
+   DISCHORDIA TYPES — Core type definitions for the tactical card game
    6 Factions of the Dischordian Saga
    ═══════════════════════════════════════════════════════ */
 

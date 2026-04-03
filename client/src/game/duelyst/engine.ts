@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════════════
-   DUELYST ENGINE — Core game logic
+   DISCHORDIA ENGINE — Core game logic
    5×9 tactical board, mana ramping, movement, combat,
    card playing, artifacts, bloodborn spells
    ═══════════════════════════════════════════════════════ */

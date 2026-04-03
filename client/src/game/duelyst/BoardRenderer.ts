@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════════════
-   BOARD RENDERER — PixiJS 8 WebGL rendering for the
+   DISCHORDIA BOARD RENDERER — PixiJS 8 WebGL rendering for the
    5×9 tactical board with units, tiles, effects,
    and combat animations
    ═══════════════════════════════════════════════════════ */
