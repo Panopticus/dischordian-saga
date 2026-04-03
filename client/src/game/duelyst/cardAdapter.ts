@@ -269,3 +269,18 @@ export function getFactionCardCounts(): Record<Faction, number> {
   for (const c of adaptAllCards()) counts[c.faction]++;
   return counts;
 }
+
+/** Get all cards formatted for the collection view */
+export function getAllCardsForCollection() {
+  return adaptAllCards().map(c => ({
+    id: c.id,
+    name: c.name,
+    rarity: c.rarity,
+    faction: c.faction,
+    cardType: c.cardType,
+    manaCost: c.manaCost,
+    attack: c.attack,
+    health: c.health,
+    imageUrl: c.imageUrl || "",
+  }));
+}

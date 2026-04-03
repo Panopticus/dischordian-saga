@@ -13,6 +13,7 @@ import { BoardRenderer } from "./BoardRenderer";
 import { getAIActions, getAIMulliganIndices } from "./DuelystAI";
 import { buildStarterDeck } from "./cardAdapter";
 import { TUTORIAL_STEPS, isTutorialActionComplete, type TutorialStep } from "./tutorial";
+import { dischordiaSounds } from "./SoundManager";
 import {
   Swords, Heart, Zap, RotateCcw, SkipForward, Shield,
   Crosshair, Move, Sparkles, BookOpen, MessageCircle,
@@ -143,6 +144,7 @@ export default function DuelystGameUI({ playerFaction, opponentFaction, isTutori
         const newState = executeAction(gameState, { type: "move", unitId: selectedUnit, toRow: row, toCol: col });
         setGameState(newState);
         addLog(`Moved unit to (${row}, ${col})`, "move");
+        dischordiaSounds.play("card_play");
         if (isTutorial) setLastActionType("move");
         clearSelection();
         rendererRef.current?.clearHighlights();
@@ -158,6 +160,7 @@ export default function DuelystGameUI({ playerFaction, opponentFaction, isTutori
           const newState = executeAction(gameState, { type: "play_card", cardIndex: selectedCard, row, col });
           setGameState(newState);
           addLog(`Summoned ${card.name} at (${row}, ${col})`, "spell");
+          dischordiaSounds.play("unit_summon");
           if (isTutorial) setLastActionType("play_card");
           clearSelection();
           rendererRef.current?.clearHighlights();
@@ -185,6 +188,7 @@ export default function DuelystGameUI({ playerFaction, opponentFaction, isTutori
         const newState = executeAction(gameState, { type: "attack", attackerId: selectedUnit, targetId: unitId });
         setGameState(newState);
         addLog(`${attacker?.card.name} attacks ${unit.card.name}!`, "attack");
+        dischordiaSounds.play("attack_hit");
         if (attacker) rendererRef.current?.showDamageNumber(unit.row, unit.col, attacker.currentAttack);
         if (isTutorial) setLastActionType("attack");
         clearSelection();
@@ -200,6 +204,7 @@ export default function DuelystGameUI({ playerFaction, opponentFaction, isTutori
         const newState = executeAction(gameState, { type: "play_card", cardIndex: selectedCard, row: unit.row, col: unit.col, targetId: unitId });
         setGameState(newState);
         addLog(`Cast ${card.name} on ${unit.card.name}`, "spell");
+        dischordiaSounds.play("spell_cast");
         clearSelection();
         rendererRef.current?.clearHighlights();
         return;
@@ -255,6 +260,7 @@ export default function DuelystGameUI({ playerFaction, opponentFaction, isTutori
       const newState = executeAction(gameState, { type: "play_card", cardIndex: index, row: 0, col: 0 });
       setGameState(newState);
       addLog(`Equipped ${card.name}`, "spell");
+      dischordiaSounds.play("card_play");
       clearSelection();
     }
   }, [gameState, phase, addLog]);
@@ -282,6 +288,7 @@ export default function DuelystGameUI({ playerFaction, opponentFaction, isTutori
     setGameState(state);
     setPhase("ai_turn");
     addLog("Your turn ended. AI is thinking...", "system");
+    dischordiaSounds.play("turn_end");
     if (isTutorial) setLastActionType("end_turn");
     setTurnFlash("ENEMY TURN");
     setTimeout(() => setTurnFlash(null), 1500);
@@ -299,10 +306,10 @@ export default function DuelystGameUI({ playerFaction, opponentFaction, isTutori
         currentState = executeAction(currentState, action);
         setGameState({ ...currentState });
 
-        if (action.type === "attack") addLog(`AI attacks!`, "attack");
-        else if (action.type === "play_card") addLog(`AI plays a card`, "spell");
-        else if (action.type === "move") addLog(`AI moves a unit`, "move");
-        else if (action.type === "bloodborn_spell") addLog(`AI uses Bloodborn Spell!`, "spell");
+        if (action.type === "attack") { addLog(`AI attacks!`, "attack"); dischordiaSounds.play("attack_hit"); }
+        else if (action.type === "play_card") { addLog(`AI plays a card`, "spell"); dischordiaSounds.play("unit_summon"); }
+        else if (action.type === "move") { addLog(`AI moves a unit`, "move"); }
+        else if (action.type === "bloodborn_spell") { addLog(`AI uses Bloodborn Spell!`, "spell"); dischordiaSounds.play("spell_cast"); }
 
         // Check if game ended after AI action
         if (currentState.phase === "ended") return;
@@ -310,6 +317,7 @@ export default function DuelystGameUI({ playerFaction, opponentFaction, isTutori
         if (action.type === "end_turn") {
           setPhase("playing");
           addLog(`Your turn — ${currentState.players[0].mana} mana available.`, "system");
+          dischordiaSounds.play("turn_start");
           setTurnFlash("YOUR TURN");
           setTimeout(() => setTurnFlash(null), 1500);
         }
@@ -324,6 +332,7 @@ export default function DuelystGameUI({ playerFaction, opponentFaction, isTutori
     const newState = executeAction(gameState, { type: "replace_card", cardIndex: index });
     setGameState(newState);
     addLog(`Replaced ${card?.name}`, "info");
+    dischordiaSounds.play("card_draw");
   }, [gameState, addLog]);
 
   const handleBBS = useCallback(() => {
@@ -331,6 +340,7 @@ export default function DuelystGameUI({ playerFaction, opponentFaction, isTutori
     const newState = executeAction(gameState, { type: "bloodborn_spell" });
     setGameState(newState);
     addLog(`Used Bloodborn Spell!`, "spell");
+    dischordiaSounds.play("spell_cast");
   }, [gameState, addLog]);
 
   const clearSelection = () => {
