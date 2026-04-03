@@ -41,6 +41,7 @@ import { battlePassRouter } from "./routers/battlePass";
 import { inventoryRouter } from "./routers/inventory";
 import { guildWarsRouter } from "./routers/guildWars";
 import { chessRouter } from "./routers/chess";
+import { terminusSwarmRouter } from "./routers/terminusSwarm";
 import { classMasteryRouter } from "./routers/classMastery";
 import { rpgSystemsRouter } from "./routers/rpgSystems";
 import { syndicateWorldRouter } from "./routers/syndicateWorld";
@@ -94,6 +95,7 @@ export const appRouter = router({
   inventory: inventoryRouter,
   guildWars: guildWarsRouter,
   chess: chessRouter,
+  terminusSwarm: terminusSwarmRouter,
   classMastery: classMasteryRouter,
   rpg: rpgSystemsRouter,
   syndicateWorld: syndicateWorldRouter,

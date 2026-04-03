@@ -152,6 +152,10 @@ async function startServer() {
   setupPvpWebSocket(server);
   setupChessPvpWebSocket(server);
 
+  // Terminus Swarm PvP raids
+  const { setupTerminusPvpWebSocket } = await import("../terminusWs");
+  setupTerminusPvpWebSocket(server);
+
   server.listen(port, () => {
     console.log(`Server running on http://localhost:${port}/`);
   });
