@@ -203,6 +203,50 @@ export function placeTurret(
   return state;
 }
 
+/* ─── BARRICADE PLACEMENT ─── */
+
+export function placeBarricade(state: TerminusGameState, row: number, col: number): TerminusGameState {
+  if (row < 0 || row >= state.gridHeight || col < 0 || col >= state.gridWidth) return state;
+  const cell = state.grid[row][col];
+  if (cell.type !== "empty") return state;
+  if (state.resources.salvage < 25) return state;
+
+  // Check path exists after placing
+  cell.type = "blocked";
+  let pathExists = true;
+  for (const sp of state.spawnPoints) {
+    const path = findPath(state.grid, sp, state.corePosition, false);
+    if (path.length <= 1) { pathExists = false; break; }
+  }
+  if (!pathExists) { cell.type = "empty"; return state; }
+
+  state.resources.salvage -= 25;
+
+  // Recalculate paths
+  for (const [, enemy] of state.enemies) {
+    if (enemy.alive && !enemy.def.flying) {
+      enemy.path = findPath(state.grid, { x: enemy.x, y: enemy.y }, state.corePosition, false);
+      enemy.pathIndex = 0;
+    }
+  }
+
+  return state;
+}
+
+export function removeBarricade(state: TerminusGameState, row: number, col: number): TerminusGameState {
+  if (row < 0 || row >= state.gridHeight || col < 0 || col >= state.gridWidth) return state;
+  const cell = state.grid[row][col];
+  if (cell.type !== "blocked") return state;
+  // Don't remove original map blocked tiles
+  const map = MAPS[0]; // TODO: track which map is active
+  if (map.blockedTiles.some(t => t.x === col && t.y === row)) return state;
+
+  cell.type = "empty";
+  state.resources.salvage += 10; // Partial refund
+
+  return state;
+}
+
 export function sellTurret(state: TerminusGameState, turretId: string): TerminusGameState {
   const turret = state.turrets.get(turretId);
   if (!turret) return state;

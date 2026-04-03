@@ -7,14 +7,16 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   Radio, Wrench, AlertTriangle, Play, Pause, FastForward,
   Shield, Crosshair, Snowflake, Flame, Rocket, Zap,
-  Heart, CircleDot, ArrowLeft, Package, SkipForward,
+  Heart, CircleDot, ArrowLeft, Package, SkipForward, Target,
 } from "lucide-react";
 import HanoiPuzzle from "./HanoiPuzzle";
 import {
   createGameState, placeTurret, sellTurret, startWave, tick,
-  canPlaceTurret, findPath, TURRETS, getWaveForNumber,
+  canPlaceTurret, placeBarricade, findPath, TURRETS, getWaveForNumber,
 } from "./engine";
 import { MAPS } from "./definitions";
+import QuestTracker from "../QuestTracker";
+import { UPGRADE_LEVELS } from "./baseSystem";
 import type { TerminusGameState, TurretDef, GamePhase } from "./types";
 
 type View = "intro" | "puzzle" | "signal" | "map_select" | "playing" | "game_over";
@@ -40,8 +42,10 @@ export default function TerminusSwarmPage() {
   });
   const [gameState, setGameState] = useState<TerminusGameState | null>(null);
   const [selectedTurret, setSelectedTurret] = useState<string | null>(null);
+  const [placementMode, setPlacementMode] = useState<"turret" | "barricade" | "none">("none");
   const [selectedTileInfo, setSelectedTileInfo] = useState<{ row: number; col: number } | null>(null);
   const [running, setRunning] = useState(false);
+  const [showQuests, setShowQuests] = useState(false);
   const [speed, setSpeed] = useState(1);
   const [narrativeText, setNarrativeText] = useState<string | null>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -71,7 +75,14 @@ export default function TerminusSwarmPage() {
 
     if (row < 0 || row >= gameState.gridHeight || col < 0 || col >= gameState.gridWidth) return;
 
-    if (selectedTurret) {
+    if (placementMode === "barricade") {
+      const newState = placeBarricade({ ...gameState, turrets: new Map(gameState.turrets), enemies: new Map(gameState.enemies), projectiles: [...gameState.projectiles] }, row, col);
+      setGameState(newState);
+      gameRef.current = newState;
+      return;
+    }
+
+    if (selectedTurret && placementMode === "turret") {
       if (canPlaceTurret(gameState, row, col)) {
         const newState = placeTurret({ ...gameState, turrets: new Map(gameState.turrets), enemies: new Map(gameState.enemies), projectiles: [...gameState.projectiles] }, row, col, selectedTurret);
         setGameState(newState);
@@ -442,8 +453,27 @@ export default function TerminusSwarmPage() {
                   <span className="font-mono text-sm text-red-400 font-bold animate-pulse">ARK CORE DESTROYED</span>
                 )}
                 <div className="flex-1" />
-                {selectedTurret && (
-                  <button onClick={() => setSelectedTurret(null)}
+                {/* Barricade mode */}
+                <button
+                  onClick={() => {
+                    if (placementMode === "barricade") { setPlacementMode("none"); }
+                    else { setPlacementMode("barricade"); setSelectedTurret(null); }
+                  }}
+                  className={`flex items-center gap-1 px-3 py-1 rounded font-mono text-[10px] transition-colors ${
+                    placementMode === "barricade" ? "bg-white/20 text-white" : "bg-white/5 text-white/40 hover:text-white/60"
+                  }`}
+                >
+                  <Shield size={10} /> WALL (25)
+                </button>
+                {/* Quest tracker */}
+                <button
+                  onClick={() => setShowQuests(true)}
+                  className="flex items-center gap-1 px-3 py-1 rounded bg-amber-500/10 text-amber-400 font-mono text-[10px] hover:bg-amber-500/20"
+                >
+                  <Target size={10} /> QUESTS
+                </button>
+                {(selectedTurret || placementMode !== "none") && (
+                  <button onClick={() => { setSelectedTurret(null); setPlacementMode("none"); }}
                     className="px-3 py-1 rounded bg-white/10 text-white/40 font-mono text-[10px]">
                     CANCEL
                   </button>
@@ -462,7 +492,10 @@ export default function TerminusSwarmPage() {
                   return (
                     <button
                       key={turret.type}
-                      onClick={() => setSelectedTurret(isSelected ? null : turret.type)}
+                      onClick={() => {
+                        if (isSelected) { setSelectedTurret(null); setPlacementMode("none"); }
+                        else { setSelectedTurret(turret.type); setPlacementMode("turret"); }
+                      }}
                       className={`shrink-0 flex flex-col items-center gap-1 p-2 rounded-lg border transition-all ${
                         isSelected ? "border-white bg-white/10" :
                         canAfford ? "border-white/10 bg-white/[0.02] hover:border-white/20" :
@@ -493,6 +526,15 @@ export default function TerminusSwarmPage() {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Quest Tracker Modal */}
+      {showQuests && (
+        <QuestTracker
+          progress={{}} // TODO: connect to server quest progress
+          onClaimReward={(id) => { console.log("Claim reward:", id); }}
+          onClose={() => setShowQuests(false)}
+        />
+      )}
     </div>
   );
 }
