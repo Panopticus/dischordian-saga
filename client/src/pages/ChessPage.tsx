@@ -42,7 +42,7 @@ const STYLE_ICONS: Record<string, typeof Crown> = {
 };
 
 import ChessCinematic from "@/components/ChessCinematic";
-import { StockfishEngine, getStockfishPersonality, type StockfishPersonality } from "@/lib/stockfishEngine";
+import { StockfishEngine, OpeningBookManager, getStockfishPersonality, type StockfishPersonality } from "@/lib/stockfishEngine";
 
 type GameView = "menu" | "character_select" | "cinematic" | "playing" | "ladder" | "history" | "story_select";
 
@@ -66,6 +66,8 @@ export default function ChessPage() {
   const stockfishRef = useRef<StockfishEngine | null>(null);
   const stockfishReady = useRef(false);
   const personalityRef = useRef<StockfishPersonality | null>(null);
+  const openingBookRef = useRef(new OpeningBookManager());
+  const moveNumberRef = useRef(0);
 
   // Initialize Stockfish on mount, dispose on unmount
   useEffect(() => {
@@ -119,14 +121,20 @@ export default function ChessPage() {
       setRewards(null);
       setEloChange(0);
 
-      // Configure Stockfish personality for this opponent
-      if (stockfishReady.current && stockfishRef.current && result.opponent) {
-        const personality = getStockfishPersonality(
-          result.aiDifficulty,
-          result.opponent.style || "universal",
-        );
-        personalityRef.current = personality;
-        stockfishRef.current.setPersonality(personality);
+      // Configure Stockfish personality and opening book for this opponent
+      moveNumberRef.current = 0;
+      if (result.opponent) {
+        // Set up opening book — AI plays character's signature opening
+        openingBookRef.current.setOpenings(result.opponent.openings || []);
+
+        if (stockfishReady.current && stockfishRef.current) {
+          const personality = getStockfishPersonality(
+            result.aiDifficulty,
+            result.opponent.style || "universal",
+          );
+          personalityRef.current = personality;
+          stockfishRef.current.setPersonality(personality);
+        }
       }
       // Show cinematic once per session before first game
       const seenKey = "loredex_chess_cinematic_seen";
@@ -162,22 +170,42 @@ export default function ChessPage() {
 
       setGameFen(result.fen);
       setMoveHistory(prev => [...prev, result.playerMove.san]);
+      moveNumberRef.current++;
 
-      // If game is still active and Stockfish is available, get AI move client-side
+      // If game is still active, get AI move (opening book → Stockfish → server fallback)
       if (result.status === "active" && useStockfish) {
         try {
-          const uciMove = await stockfishRef.current!.getBestMove(
-            result.fen,
-            personalityRef.current!,
-          );
-          if (uciMove) {
-            const aiResult = await submitAiMove.mutateAsync({
+          // Check opening book first — character plays their signature opening
+          const bookMove = openingBookRef.current.getBookMove(moveNumberRef.current);
+          let aiResult;
+
+          if (bookMove) {
+            // Play book move (SAN format)
+            aiResult = await submitAiMove.mutateAsync({
               gameId: activeGameId,
-              move: uciMove,
+              move: bookMove,
+              format: "san",
             });
+          } else {
+            // Book exhausted or diverged — ask Stockfish
+            const uciMove = await stockfishRef.current!.getBestMove(
+              result.fen,
+              personalityRef.current!,
+            );
+            if (uciMove) {
+              aiResult = await submitAiMove.mutateAsync({
+                gameId: activeGameId,
+                move: uciMove,
+                format: "uci",
+              });
+            }
+          }
+
+          if (aiResult) {
             setGameFen(aiResult.fen);
             setMoveHistory(prev => [...prev, aiResult.aiMove.san]);
             setLastAiMove({ from: aiResult.aiMove.from, to: aiResult.aiMove.to });
+            moveNumberRef.current++;
 
             if (aiResult.status !== "active") {
               result.status = aiResult.status;
@@ -186,12 +214,13 @@ export default function ChessPage() {
             }
           }
         } catch (sfErr) {
-          console.warn("[Chess] Stockfish move failed, move already server-handled:", sfErr);
+          console.warn("[Chess] Client AI move failed, using server fallback:", sfErr);
         }
       } else if (result.aiMove) {
         // Server-side AI fallback
         setMoveHistory(prev => [...prev, result.aiMove!.san]);
         setLastAiMove({ from: result.aiMove.from, to: result.aiMove.to });
+        moveNumberRef.current++;
       }
 
       if (result.status !== "active") {
@@ -513,9 +542,25 @@ export default function ChessPage() {
                 </div>
                 <div className="flex items-center gap-2">
                   {gameStatus === "active" && isThinking && (
-                    <div className="flex items-center gap-1.5 px-2 py-1 rounded bg-black/40 backdrop-blur-sm">
-                      <Loader2 size={12} className="animate-spin" style={{ color: arena.accentColor }} />
-                      <span className="font-mono text-[9px] text-white/60">THINKING...</span>
+                    <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-black/50 backdrop-blur-sm border border-white/10 animate-pulse">
+                      <div
+                        className="w-6 h-6 rounded-full border-2 flex items-center justify-center"
+                        style={{
+                          borderColor: arena.accentColor,
+                          boxShadow: `0 0 12px ${arena.accentColor}60, 0 0 4px ${arena.accentColor}30`,
+                        }}
+                      >
+                        <div
+                          className="w-2 h-2 rounded-full animate-ping"
+                          style={{ backgroundColor: arena.accentColor }}
+                        />
+                      </div>
+                      <div className="flex flex-col">
+                        <span className="font-mono text-[10px] font-bold" style={{ color: arena.accentColor }}>
+                          {opponentInfo?.name || "Opponent"}
+                        </span>
+                        <span className="font-mono text-[8px] text-white/50">ANALYZING POSITION...</span>
+                      </div>
                     </div>
                   )}
                   <button

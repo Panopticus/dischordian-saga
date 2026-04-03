@@ -441,11 +441,14 @@ export const chessRouter = router({
         startedAt: new Date(),
       });
 
+      // Include opening book lines so the client can play character-specific openings
+      const openings = (OPENING_BOOKS as Record<string, any[]>)[opponent.openingPreference] || [];
+
       return {
         gameId: Number(result[0].insertId),
         fen: STARTING_FEN,
         playerColor: "white",
-        opponent: { id: opponentId, ...opponent },
+        opponent: { id: opponentId, ...opponent, openings },
         aiDifficulty,
         traitBonuses: chessTb,
       };
@@ -553,11 +556,12 @@ export const chessRouter = router({
       };
     }),
 
-  /** Submit a client-side AI move (from Stockfish WASM) */
+  /** Submit a client-side AI move (from Stockfish WASM or opening book) */
   submitAiMove: protectedProcedure
     .input(z.object({
       gameId: z.number(),
-      move: z.string(), // UCI format e.g. "e7e5"
+      move: z.string(), // UCI format "e7e5" or SAN format "Nf6"
+      format: z.enum(["uci", "san"]).default("uci"),
     }))
     .mutation(async ({ ctx, input }) => {
       await chessReady;
@@ -573,12 +577,17 @@ export const chessRouter = router({
       // It should be black's (AI's) turn
       if (chess.turn() !== "b") throw new Error("Not AI's turn");
 
-      // Parse UCI move format (e.g., "e7e5" or "e7e8q" for promotion)
-      const from = input.move.slice(0, 2);
-      const to = input.move.slice(2, 4);
-      const promotion = input.move.length > 4 ? input.move[4] : undefined;
-
-      const aiMoveResult = chess.move({ from, to, promotion });
+      let aiMoveResult;
+      if (input.format === "san") {
+        // SAN format from opening book (e.g., "Nf6", "d5", "O-O")
+        aiMoveResult = chess.move(input.move);
+      } else {
+        // UCI format from Stockfish (e.g., "e7e5" or "e7e8q")
+        const from = input.move.slice(0, 2);
+        const to = input.move.slice(2, 4);
+        const promotion = input.move.length > 4 ? input.move[4] : undefined;
+        aiMoveResult = chess.move({ from, to, promotion });
+      }
       if (!aiMoveResult) throw new Error("Invalid AI move");
 
       let status: string = "active";
@@ -817,6 +826,114 @@ export const chessRouter = router({
       openingPreference: char.openingPreference,
       openings: (OPENING_BOOKS as Record<string, any[]>)[char.openingPreference] || [],
     }));
+  }),
+
+  /**
+   * Cross-game progression: report fight game achievements to unlock chess content.
+   * Called from the fight game when the player wins fights.
+   */
+  reportFightProgress: protectedProcedure
+    .input(z.object({
+      totalFightWins: z.number(),
+      highestDifficulty: z.string(),
+      perfectWins: z.number().default(0),
+      defeatedFighters: z.array(z.string()).default([]),
+    }))
+    .mutation(async ({ ctx, input }) => {
+      const db = (await getDb())!;
+
+      // Get or create chess ranking
+      let ranking = await db.select().from(chessRankings)
+        .where(eq(chessRankings.userId, ctx.user.id)).limit(1);
+      if (!ranking[0]) {
+        await db.insert(chessRankings).values({ userId: ctx.user.id, elo: 1200, peakElo: 1200 });
+        ranking = await db.select().from(chessRankings)
+          .where(eq(chessRankings.userId, ctx.user.id)).limit(1);
+      }
+
+      const currentUnlocks: string[] = ranking[0]?.unlockedCharacters || [];
+      const newUnlocks: string[] = [];
+
+      // Fight milestones unlock chess characters
+      // 5 fight wins → unlock The Necromancer in chess (the undead strategist)
+      if (input.totalFightWins >= 5 && !currentUnlocks.includes("the_necromancer")) {
+        newUnlocks.push("the_necromancer");
+      }
+      // 15 fight wins → unlock The Programmer (tactical mind)
+      if (input.totalFightWins >= 15 && !currentUnlocks.includes("the_programmer")) {
+        newUnlocks.push("the_programmer");
+      }
+      // Beat veteran difficulty → unlock Agent Zero
+      if ((input.highestDifficulty === "veteran" || input.highestDifficulty === "archon") &&
+          !currentUnlocks.includes("agent_zero")) {
+        newUnlocks.push("agent_zero");
+      }
+      // 3+ perfect fight wins → unlock The Source
+      if (input.perfectWins >= 3 && !currentUnlocks.includes("the_source")) {
+        newUnlocks.push("the_source");
+      }
+
+      if (newUnlocks.length > 0) {
+        const combined = [...new Set([...currentUnlocks, ...newUnlocks])];
+        await db.update(chessRankings)
+          .set({ unlockedCharacters: combined })
+          .where(eq(chessRankings.userId, ctx.user.id));
+
+        // Notify player about new unlocks
+        for (const charId of newUnlocks) {
+          const char = CHESS_CHARACTERS[charId];
+          if (char) {
+            await db.insert(notifications).values({
+              userId: ctx.user.id,
+              type: "achievement",
+              title: `Chess Character Unlocked: ${char.name}`,
+              message: `Your fighting prowess has earned you access to ${char.name} in The Architect's Gambit! "${char.description}"`,
+              actionUrl: "/chess",
+            });
+          }
+        }
+      }
+
+      return { newUnlocks, totalUnlocks: [...new Set([...currentUnlocks, ...newUnlocks])] };
+    }),
+
+  /**
+   * Cross-game progression: get fight game unlocks earned from chess achievements.
+   * The fight game calls this to check what fighters should be unlocked.
+   */
+  getFightUnlocksFromChess: protectedProcedure.query(async ({ ctx }) => {
+    const db = (await getDb())!;
+    const ranking = await db.select().from(chessRankings)
+      .where(eq(chessRankings.userId, ctx.user.id)).limit(1);
+
+    if (!ranking[0]) return { unlockedFighters: [] };
+
+    const unlockedFighters: string[] = [];
+    const r = ranking[0];
+
+    // Chess milestones unlock fight game characters
+    // Silver tier → unlock "oracle" (chess mind = prophetic fighter)
+    if (["silver", "gold", "platinum", "diamond", "master", "grandmaster"].includes(r.tier)) {
+      unlockedFighters.push("oracle");
+    }
+    // Gold tier → unlock "engineer" (strategic thinker)
+    if (["gold", "platinum", "diamond", "master", "grandmaster"].includes(r.tier)) {
+      unlockedFighters.push("engineer");
+    }
+    // 10+ chess wins → unlock "watcher" (patience and observation)
+    if (r.wins >= 10) {
+      unlockedFighters.push("watcher");
+    }
+    // Beat the Game Master → unlock "architect" as a fighter
+    if (r.defeatedGameMaster) {
+      unlockedFighters.push("architect");
+    }
+    // Diamond+ → unlock "source" as a fighter
+    if (["diamond", "master", "grandmaster"].includes(r.tier)) {
+      unlockedFighters.push("source");
+    }
+
+    return { unlockedFighters };
   }),
 });
 

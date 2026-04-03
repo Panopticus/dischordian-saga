@@ -8,6 +8,7 @@ import { appRouter } from "../routers";
 import { createContext } from "./context";
 import { serveStatic, setupVite } from "./vite";
 import { setupPvpWebSocket } from "../pvpWs";
+import { setupChessPvpWebSocket } from "../chessWs";
 import { registerSpriteProxy } from "../spriteProxy";
 import { registerDuelystClassic } from "../duelystClassic";
 
@@ -149,8 +150,9 @@ async function startServer() {
     console.log(`Port ${preferredPort} is busy, using port ${port} instead`);
   }
 
-  // PvP WebSocket server
+  // PvP WebSocket servers
   setupPvpWebSocket(server);
+  setupChessPvpWebSocket(server);
 
   server.listen(port, () => {
     console.log(`Server running on http://localhost:${port}/`);

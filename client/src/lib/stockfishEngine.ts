@@ -3,6 +3,7 @@
  *
  * Runs Stockfish WASM in a Web Worker for zero-latency AI chess moves.
  * Each character maps to specific UCI parameters that shape play style.
+ * Characters play their signature opening lines before Stockfish takes over.
  */
 
 /** Character personality mapped to Stockfish UCI parameters */
@@ -15,6 +16,13 @@ export interface StockfishPersonality {
   contempt: number;
   /** Move time limit in milliseconds */
   moveTimeMs: number;
+}
+
+/** Opening book line: a named sequence of SAN moves */
+export interface OpeningLine {
+  name: string;
+  moves: string[];
+  description: string;
 }
 
 /** Map game difficulty (1-10) and character style to Stockfish parameters */
@@ -32,22 +40,22 @@ export function getStockfishPersonality(
 
   switch (style) {
     case "aggressive":
-      contempt = 50; // Aggressively plays for the win, avoids draws
+      contempt = 50;
       depthBonus = 1;
       break;
     case "defensive":
-      contempt = -20; // More willing to accept solid positions/draws
+      contempt = -20;
       depthBonus = 1;
       timeBonus = 200;
       break;
     case "positional":
-      contempt = 10; // Slight preference for complex positions
-      depthBonus = 2; // Thinks deeper (positional play needs foresight)
+      contempt = 10;
+      depthBonus = 2;
       timeBonus = 300;
       break;
     case "tactical":
-      contempt = 40; // Sharp, aggressive
-      depthBonus = 0; // Relies on tactical vision, not raw depth
+      contempt = 40;
+      depthBonus = 0;
       break;
     case "endgame":
       contempt = 20;
@@ -62,10 +70,7 @@ export function getStockfishPersonality(
       break;
   }
 
-  // Depth scales with difficulty: 2 at easiest, 18 at hardest
   const baseDepth = Math.max(2, Math.min(18, Math.round(difficulty * 1.8) + depthBonus));
-
-  // Move time: faster at low difficulty, more time at high difficulty
   const baseMoveTimeMs = 200 + difficulty * 150 + timeBonus;
 
   return {
@@ -74,6 +79,56 @@ export function getStockfishPersonality(
     contempt: Math.min(100, Math.max(-100, contempt)),
     moveTimeMs: Math.min(5000, baseMoveTimeMs),
   };
+}
+
+/**
+ * Opening Book Manager
+ *
+ * Each character has signature openings. The AI plays book moves for the
+ * opening phase, then Stockfish takes over for the middlegame/endgame.
+ * This makes each character feel distinct from move 1.
+ */
+export class OpeningBookManager {
+  private bookLine: string[] = [];
+  private moveIndex = 0;
+
+  /**
+   * Set the opening lines for this game.
+   * Randomly picks one of the character's signature openings.
+   */
+  setOpenings(lines: OpeningLine[]) {
+    if (!lines || lines.length === 0) {
+      this.bookLine = [];
+      return;
+    }
+    // Pick a random opening line
+    const line = lines[Math.floor(Math.random() * lines.length)];
+    this.bookLine = line.moves;
+    this.moveIndex = 0;
+  }
+
+  /**
+   * Get the next book move (SAN format) if we're still in the opening.
+   * Returns null if the book is exhausted or the position diverged.
+   * @param moveNumber - The current half-move number (0-based)
+   */
+  getBookMove(moveNumber: number): string | null {
+    if (moveNumber >= this.bookLine.length) return null;
+    // Book moves alternate: even = white, odd = black
+    // AI plays as black, so only return moves at odd indices
+    if (moveNumber % 2 === 0) return null; // It's white's (player's) turn
+    return this.bookLine[moveNumber] || null;
+  }
+
+  /** Reset for a new game */
+  reset() {
+    this.bookLine = [];
+    this.moveIndex = 0;
+  }
+
+  get isInBook(): boolean {
+    return this.moveIndex < this.bookLine.length;
+  }
 }
 
 /**
@@ -91,7 +146,6 @@ export class StockfishEngine {
 
     return new Promise<void>((resolve, reject) => {
       try {
-        // stockfish npm package provides a WASM-based JS file
         this.worker = new Worker(
           new URL("stockfish/bin/stockfish-18-single.js", import.meta.url),
           { type: "classic" }
@@ -112,7 +166,6 @@ export class StockfishEngine {
           reject(e);
         };
 
-        // Initialize UCI protocol
         this.send("uci");
       } catch (err) {
         console.error("[Stockfish] Failed to create worker:", err);
@@ -126,7 +179,6 @@ export class StockfishEngine {
   }
 
   private handleMessage(line: string) {
-    // Look for "bestmove" response
     if (line.startsWith("bestmove")) {
       const parts = line.split(" ");
       const move = parts[1] || "";
@@ -157,11 +209,7 @@ export class StockfishEngine {
 
     return new Promise<string>((resolve) => {
       this.pendingResolve = resolve;
-
-      // Set position
       this.send(`position fen ${fen}`);
-
-      // Search with depth and time limits (whichever hits first)
       this.send(`go depth ${personality.depth} movetime ${personality.moveTimeMs}`);
     });
   }
