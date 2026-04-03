@@ -314,6 +314,12 @@ export default function CutsceneOverlay({ cutscene, onComplete, onClose }: Cutsc
         {/* Controls */}
         <div className="absolute top-4 right-4 flex items-center gap-3 z-50">
           <button
+            onClick={(e) => { e.stopPropagation(); onClose(); }}
+            className="px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-white/30 hover:text-white/60 transition-colors font-mono text-[10px]"
+          >
+            SKIP CUTSCENE
+          </button>
+          <button
             onClick={(e) => { e.stopPropagation(); setAudioEnabled(!audioEnabled); }}
             className="p-2 rounded-full bg-white/5 hover:bg-white/10 transition-colors"
           >

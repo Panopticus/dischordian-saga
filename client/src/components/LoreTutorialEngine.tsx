@@ -233,9 +233,10 @@ export default function LoreTutorialEngine({ tutorial, onComplete, onDismiss }: 
     onComplete(collectedRewards, totalMoralityShift, collectedFlags);
   }, [collectedRewards, totalMoralityShift, collectedFlags, onComplete]);
 
-  // Auto-start from intro
+  // Player clicks intro to proceed (no auto-advance)
+  const [introReady, setIntroReady] = useState(false);
   useEffect(() => {
-    const timer = setTimeout(() => setPhase("dialog"), 2000);
+    const timer = setTimeout(() => setIntroReady(true), 1000);
     return () => clearTimeout(timer);
   }, []);
 
@@ -258,14 +259,22 @@ export default function LoreTutorialEngine({ tutorial, onComplete, onDismiss }: 
         className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center"
         style={{ background: "var(--bg-overlay)", backdropFilter: "blur(12px)" }}
       >
-        {/* Dismiss button */}
-        <button
-          onClick={onDismiss}
-          className="absolute top-4 right-4 p-2 rounded-lg bg-muted/40 hover:bg-muted/60 text-muted-foreground hover:text-foreground transition-colors z-10"
-          title="Skip tutorial"
-        >
-          <X size={18} />
-        </button>
+        {/* Skip controls */}
+        <div className="absolute top-4 right-4 flex items-center gap-2 z-10">
+          <button
+            onClick={onDismiss}
+            className="px-3 py-1.5 rounded-lg bg-muted/30 hover:bg-muted/50 text-muted-foreground/50 hover:text-muted-foreground transition-colors font-mono text-[10px]"
+          >
+            SKIP ALL
+          </button>
+          <button
+            onClick={onDismiss}
+            className="p-2 rounded-lg bg-muted/40 hover:bg-muted/60 text-muted-foreground hover:text-foreground transition-colors"
+            title="Close"
+          >
+            <X size={18} />
+          </button>
+        </div>
 
         {/* ═══ INTRO PHASE ═══ */}
         {phase === "intro" && (

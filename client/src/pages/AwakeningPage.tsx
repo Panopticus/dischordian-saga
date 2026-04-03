@@ -553,6 +553,16 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
         </div>
       )}
 
+      {/* Skip Awakening button — always visible */}
+      <div className="absolute top-4 right-4 z-50">
+        <button
+          onClick={() => setAwakeningStep("COMPLETE")}
+          className="px-3 py-1.5 rounded-lg bg-black/40 backdrop-blur-sm border border-white/10 text-white/25 hover:text-white/50 font-mono text-[10px] transition-colors"
+        >
+          SKIP AWAKENING ▶▶
+        </button>
+      </div>
+
       {/* Content */}
       <div className="relative z-30 min-h-screen flex flex-col items-center justify-center p-3 sm:p-8 py-16 sm:py-8 pb-20 sm:pb-8">
         <AnimatePresence mode="wait">

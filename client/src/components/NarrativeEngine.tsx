@@ -251,13 +251,16 @@ export default function NarrativeEngine({ tutorial, onComplete, onDismiss }: Nar
     onComplete(collectedRewards, totalMoralityShift, localFlags);
   }, [collectedRewards, totalMoralityShift, localFlags, onComplete]);
 
-  // Auto-start from intro
+  // Player-triggered start (no auto-advance)
+  const [introReady, setIntroReady] = useState(false);
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setStepIndex(0);
-      setPhase("dialog");
-    }, 2500);
+    const timer = setTimeout(() => setIntroReady(true), 1000);
     return () => clearTimeout(timer);
+  }, []);
+
+  const startNarrative = useCallback(() => {
+    setStepIndex(0);
+    setPhase("dialog");
   }, []);
 
   // Auto-scroll to bottom when content changes
@@ -336,14 +339,22 @@ export default function NarrativeEngine({ tutorial, onComplete, onDismiss }: Nar
         className="fixed inset-0 z-[100] flex items-center justify-center"
         style={{ background: "rgba(0,0,0,0.85)", backdropFilter: "blur(12px)" }}
       >
-        {/* Dismiss button */}
-        <button
-          onClick={onDismiss}
-          className="absolute top-4 right-4 p-2 rounded-lg bg-muted/40 hover:bg-muted/60 text-muted-foreground hover:text-foreground transition-colors z-10"
-          title="Skip narrative"
-        >
-          <X size={18} />
-        </button>
+        {/* Skip controls */}
+        <div className="absolute top-4 right-4 flex items-center gap-2 z-10">
+          <button
+            onClick={onDismiss}
+            className="px-3 py-1.5 rounded-lg bg-muted/30 hover:bg-muted/50 text-muted-foreground/50 hover:text-muted-foreground transition-colors font-mono text-[10px]"
+          >
+            SKIP NARRATIVE
+          </button>
+          <button
+            onClick={onDismiss}
+            className="p-2 rounded-lg bg-muted/40 hover:bg-muted/60 text-muted-foreground hover:text-foreground transition-colors"
+            title="Close"
+          >
+            <X size={18} />
+          </button>
+        </div>
 
         {/* ═══ INTRO PHASE ═══ */}
         {phase === "intro" && (
