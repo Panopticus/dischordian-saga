@@ -8,6 +8,8 @@ import type { Faction } from "./types";
 import { FACTION_COLORS, FACTION_NAMES, FACTION_DESCRIPTIONS, FACTION_EMBLEMS } from "./types";
 import { getFactionCardCounts, getAllCardsForCollection } from "./cardAdapter";
 import { GENERALS } from "./engine";
+import { trpc } from "@/lib/trpc";
+import { useAuth } from "@/_core/hooks/useAuth";
 import DuelystGameUI from "./DuelystGameUI";
 import PackOpening, { type PackCard } from "./PackOpening";
 import CollectionView from "./CollectionView";
@@ -48,6 +50,7 @@ function getTierForElo(elo: number) {
 }
 
 export default function DuelystPage() {
+  const { isAuthenticated } = useAuth();
   const [view, setView] = useState<View>("menu");
   const [playerFaction, setPlayerFaction] = useState<Faction | null>(null);
   const [opponentFaction, setOpponentFaction] = useState<Faction | null>(null);
@@ -58,9 +61,50 @@ export default function DuelystPage() {
   const [muted, setMuted] = useState(false);
   const [packCards, setPackCards] = useState<PackCard[]>([]);
   const [elo, setElo] = useState(() => parseInt(localStorage.getItem("dischordia_elo") || "1200"));
+  const [serverDeckId, setServerDeckId] = useState<number | null>(null);
+
+  // Server queries — gracefully degrade if not authenticated
+  const collectionQuery = trpc.cardGame.myCollection.useQuery(
+    { page: 1, limit: 500 },
+    { enabled: isAuthenticated, retry: false, refetchOnWindowFocus: false }
+  );
+  const decksQuery = trpc.cardGame.myDecks.useQuery(
+    undefined,
+    { enabled: isAuthenticated, retry: false, refetchOnWindowFocus: false }
+  );
+  const dreamQuery = trpc.crafting.getDreamBalance.useQuery(
+    undefined,
+    { enabled: isAuthenticated, retry: false, refetchOnWindowFocus: false }
+  );
+
+  // Server mutations
+  const openBoosterPack = trpc.cardGame.openBoosterPack.useMutation();
+  const claimStarterPack = trpc.cardGame.claimStarterPack.useMutation();
+  const createDeck = trpc.cardGame.createDeck.useMutation();
+  const updateDeck = trpc.cardGame.updateDeck.useMutation();
+  const utils = trpc.useUtils();
 
   const tutorialComplete = localStorage.getItem("dischordia_tutorial_complete") === "true";
   const factionCounts = getFactionCardCounts();
+
+  // Build collection data — merge server data with local card pool
+  const collectionCards = (() => {
+    const allCards = getAllCardsForCollection();
+    if (collectionQuery.data?.cards) {
+      const ownedMap = new Map<string, { quantity: number; isFoil: boolean }>();
+      for (const c of collectionQuery.data.cards as any[]) {
+        ownedMap.set(c.cardId || c.id, { quantity: c.quantity || 1, isFoil: !!c.isFoil });
+      }
+      return allCards.map(c => ({
+        ...c,
+        owned: ownedMap.has(c.id),
+        quantity: ownedMap.get(c.id)?.quantity || 0,
+        isFoil: ownedMap.get(c.id)?.isFoil || false,
+      }));
+    }
+    // Fallback: show all as owned (no server connection)
+    return allCards.map(c => ({ ...c, owned: true, quantity: 1, isFoil: false }));
+  })();
 
   const toggleMute = () => {
     const next = !muted;
@@ -107,8 +151,38 @@ export default function DuelystPage() {
     setView("result");
   };
 
-  const handleOpenPack = useCallback(() => {
-    // Generate mock pack cards (in production, this calls the server's openBoosterPack)
+  const handleOpenPack = useCallback(async (season?: string) => {
+    // Try server-side pack opening first (adds cards to real collection)
+    if (isAuthenticated) {
+      try {
+        const result = await openBoosterPack.mutateAsync({ season: season || "1" });
+        if (result.success && result.cards) {
+          const ownedIds = new Set((collectionQuery.data?.cards as any[] || []).map((c: any) => c.cardId || c.id));
+          const cards: PackCard[] = result.cards.map((c: any) => ({
+            id: c.cardId || c.id,
+            name: c.name,
+            rarity: c.rarity || "common",
+            imageUrl: c.imageUrl || "",
+            attack: c.power || c.attack || 0,
+            health: c.health || 0,
+            manaCost: c.cost || 0,
+            cardType: c.cardType || "unit",
+            faction: c.faction || "",
+            isNew: !ownedIds.has(c.cardId || c.id),
+            isFoil: !!c.isFoil,
+          }));
+          setPackCards(cards);
+          setView("pack_opening");
+          // Refresh collection after opening
+          utils.cardGame.myCollection.invalidate();
+          return;
+        }
+      } catch (err) {
+        console.warn("[Dischordia] Server pack opening failed, using local fallback:", err);
+      }
+    }
+
+    // Local fallback — generate cards from adapted pool
     const rarities = ["common", "common", "common", "uncommon", "rare"];
     const lastCardRoll = Math.random();
     if (lastCardRoll < 0.01) rarities[4] = "neyon";
@@ -121,22 +195,15 @@ export default function DuelystPage() {
       const pool = allCards.filter(c => c.rarity === rarity);
       const card = pool.length > 0 ? pool[Math.floor(Math.random() * pool.length)] : allCards[0];
       return {
-        id: card.id,
-        name: card.name,
-        rarity: card.rarity,
-        imageUrl: card.imageUrl,
-        attack: card.attack,
-        health: card.health,
-        manaCost: card.manaCost,
-        cardType: card.cardType,
-        faction: card.faction,
-        isNew: Math.random() < 0.4,
-        isFoil: Math.random() < 0.05,
+        id: card.id, name: card.name, rarity: card.rarity, imageUrl: card.imageUrl,
+        attack: card.attack, health: card.health, manaCost: card.manaCost,
+        cardType: card.cardType, faction: card.faction,
+        isNew: Math.random() < 0.4, isFoil: Math.random() < 0.05,
       };
     });
     setPackCards(cards);
     setView("pack_opening");
-  }, []);
+  }, [isAuthenticated, openBoosterPack, collectionQuery.data, utils]);
 
   const tier = getTierForElo(elo);
 
@@ -175,17 +242,26 @@ export default function DuelystPage() {
               </p>
             </div>
 
-            {/* Rank display */}
-            <div className="flex items-center gap-2 px-4 py-2 rounded-lg bg-white/5 border border-white/10">
-              <span className="text-lg">{tier.icon}</span>
-              <div>
-                <p className="font-mono text-xs font-bold" style={{ color: tier.color }}>{tier.name}</p>
-                <p className="font-mono text-[10px] text-white/30">{elo} ELO</p>
+            {/* Rank + Dream balance */}
+            <div className="flex items-center gap-3">
+              <div className="flex items-center gap-2 px-4 py-2 rounded-lg bg-white/5 border border-white/10">
+                <span className="text-lg">{tier.icon}</span>
+                <div>
+                  <p className="font-mono text-xs font-bold" style={{ color: tier.color }}>{tier.name}</p>
+                  <p className="font-mono text-[10px] text-white/30">{elo} ELO</p>
+                </div>
+                {(wins > 0 || losses > 0) && (
+                  <div className="flex gap-3 ml-4 font-mono text-[10px]">
+                    <span className="text-green-400">{wins}W</span>
+                    <span className="text-red-400">{losses}L</span>
+                  </div>
+                )}
               </div>
-              {(wins > 0 || losses > 0) && (
-                <div className="flex gap-3 ml-4 font-mono text-[10px]">
-                  <span className="text-green-400">{wins}W</span>
-                  <span className="text-red-400">{losses}L</span>
+              {dreamQuery.data && (
+                <div className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-purple-500/10 border border-purple-500/20">
+                  <Sparkles size={14} className="text-purple-400" />
+                  <span className="font-mono text-xs text-purple-400 font-bold">{dreamQuery.data.dream}</span>
+                  <span className="font-mono text-[9px] text-purple-400/50">DREAM</span>
                 </div>
               )}
             </div>
@@ -375,12 +451,7 @@ export default function DuelystPage() {
         {view === "collection" && (
           <motion.div key="collection" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="h-screen">
             <CollectionView
-              cards={getAllCardsForCollection().map(c => ({
-                ...c,
-                owned: Math.random() < 0.6, // TODO: connect to real collection
-                quantity: Math.random() < 0.3 ? 2 : 1,
-                isFoil: Math.random() < 0.05,
-              }))}
+              cards={collectionCards}
               onBack={() => setView("menu")}
               onOpenPacks={handleOpenPack}
             />
@@ -391,13 +462,37 @@ export default function DuelystPage() {
         {view === "deck_builder" && (
           <motion.div key="deck_builder" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="h-screen">
             <DeckBuilder
-              collection={getAllCardsForCollection().map(c => ({
+              collection={collectionCards.filter(c => c.owned).map(c => ({
                 ...c,
                 maxCopies: c.rarity === "legendary" || c.rarity === "mythic" || c.rarity === "neyon" ? 1 : c.rarity === "rare" || c.rarity === "epic" ? 2 : 3,
               }))}
               faction={playerFaction || "architect"}
-              onSave={(deck) => {
+              onSave={async (deck) => {
                 dischordiaSounds.play("button_click");
+                // Save deck to server
+                if (isAuthenticated) {
+                  try {
+                    const cardList = Object.entries(
+                      deck.reduce<Record<string, number>>((acc, c) => {
+                        acc[c.id] = (acc[c.id] || 0) + 1;
+                        return acc;
+                      }, {})
+                    ).map(([cardId, quantity]) => ({ cardId, quantity }));
+
+                    if (serverDeckId) {
+                      await updateDeck.mutateAsync({ deckId: serverDeckId, cardList });
+                    } else {
+                      await createDeck.mutateAsync({
+                        name: `${FACTION_NAMES[playerFaction || "architect"]} Deck`,
+                        deckType: "combined",
+                        cardList,
+                      });
+                    }
+                    utils.cardGame.myDecks.invalidate();
+                  } catch (err) {
+                    console.warn("[Dischordia] Failed to save deck to server:", err);
+                  }
+                }
                 setView("menu");
               }}
               onBack={() => setView("menu")}
