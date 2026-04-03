@@ -50,14 +50,20 @@ export default function DuelystGameUI({ playerFaction, opponentFaction, isTutori
   const [lastActionType, setLastActionType] = useState<string | null>(null);
   const currentTutorialStep = isTutorial ? TUTORIAL_STEPS[tutorialStep] : null;
 
-  // Auto-advance tutorial steps
-  useEffect(() => {
-    if (!isTutorial || !currentTutorialStep?.autoAdvanceMs) return;
-    const timer = setTimeout(() => {
-      if (tutorialStep < TUTORIAL_STEPS.length - 1) setTutorialStep(s => s + 1);
-    }, currentTutorialStep.autoAdvanceMs);
-    return () => clearTimeout(timer);
+  // Tutorial steps are player-paced — no auto-advance timers.
+  // Steps with autoAdvanceMs show a "tap to continue" indicator.
+  // Steps with requiredAction wait for the player to perform the action.
+  const advanceTutorial = useCallback(() => {
+    if (!isTutorial) return;
+    if (currentTutorialStep?.requiredAction) return; // Can't skip action-required steps by tapping
+    if (tutorialStep < TUTORIAL_STEPS.length - 1) setTutorialStep(s => s + 1);
   }, [isTutorial, tutorialStep, currentTutorialStep]);
+
+  const skipAllTutorial = useCallback(() => {
+    if (!isTutorial) return;
+    setTutorialStep(TUTORIAL_STEPS.length); // Skip past all steps
+    localStorage.setItem("dischordia_tutorial_complete", "true");
+  }, [isTutorial]);
 
   // Check if tutorial step action was completed
   useEffect(() => {
@@ -433,10 +439,21 @@ export default function DuelystGameUI({ playerFaction, opponentFaction, isTutori
         </div>
       )}
 
-      {/* Tutorial overlay — Elara's guidance */}
+      {/* Tutorial overlay — Elara's guidance (BioWare-style: player-paced) */}
       {isTutorial && currentTutorialStep && (
         <div className="absolute bottom-48 left-1/2 -translate-x-1/2 z-50 w-[90%] max-w-lg">
-          <div className={`flex items-start gap-3 p-4 rounded-xl border backdrop-blur-md shadow-2xl ${
+          {/* Skip All button */}
+          <div className="flex justify-end mb-1">
+            <button
+              onClick={skipAllTutorial}
+              className="px-2 py-0.5 rounded bg-black/40 text-white/20 font-mono text-[9px] hover:text-white/40 transition-colors"
+            >
+              SKIP TUTORIAL ▶▶
+            </button>
+          </div>
+          <button
+            onClick={advanceTutorial}
+            className={`w-full text-left flex items-start gap-3 p-4 rounded-xl border backdrop-blur-md shadow-2xl transition-colors hover:bg-black/90 ${
             currentTutorialStep.mood === "warning" ? "bg-amber-950/80 border-amber-500/40" :
             currentTutorialStep.mood === "excited" ? "bg-emerald-950/80 border-emerald-500/40" :
             currentTutorialStep.mood === "celebration" ? "bg-purple-950/80 border-purple-500/40" :
@@ -459,25 +476,18 @@ export default function DuelystGameUI({ playerFaction, opponentFaction, isTutori
             <div className="flex-1 min-w-0">
               <p className="font-mono text-[10px] text-white/40 tracking-wider mb-1">ELARA</p>
               <p className="text-sm text-white/90 leading-relaxed">{currentTutorialStep.message}</p>
-              {currentTutorialStep.requiredAction && (
+              {currentTutorialStep.requiredAction ? (
                 <p className="font-mono text-[10px] text-cyan-400/60 mt-2 animate-pulse">
                   {currentTutorialStep.requiredAction === "move" && "↑ Click your General and move them"}
                   {currentTutorialStep.requiredAction === "attack" && "↑ Select your unit, then attack an enemy"}
                   {currentTutorialStep.requiredAction === "play_card" && "↓ Click a card in your hand, then click a tile"}
                   {currentTutorialStep.requiredAction === "end_turn" && "→ Press END TURN"}
                 </p>
+              ) : (
+                <p className="font-mono text-[10px] text-white/20 mt-2">tap to continue ▼</p>
               )}
             </div>
-            {/* Skip button */}
-            {currentTutorialStep.autoAdvanceMs && (
-              <button
-                onClick={() => tutorialStep < TUTORIAL_STEPS.length - 1 && setTutorialStep(s => s + 1)}
-                className="shrink-0 text-white/30 hover:text-white/60 text-[10px] font-mono"
-              >
-                SKIP
-              </button>
-            )}
-          </div>
+          </button>
           {/* Step indicator */}
           <div className="flex justify-center gap-1 mt-2">
             {TUTORIAL_STEPS.map((_, i) => (

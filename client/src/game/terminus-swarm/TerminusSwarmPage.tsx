@@ -18,6 +18,7 @@ import { MAPS } from "./definitions";
 import QuestTracker from "../QuestTracker";
 import { UPGRADE_LEVELS, TRAPS, LEAGUES, getLeague, ARK_COMMANDER_PASS } from "./baseSystem";
 import SeasonPass from "./SeasonPass";
+import { DockedNarrative } from "../../components/NarrativeControls";
 import { CONVEYOR_COST, RESOURCE_NODES, MAP_RESOURCE_NODES, collectResources, createConveyorState, type ConveyorState } from "./conveyors";
 import { trpc } from "@/lib/trpc";
 import { useAuth } from "@/_core/hooks/useAuth";
@@ -140,7 +141,7 @@ export default function TerminusSwarmPage() {
     const wave = getWaveForNumber(newState.wave);
     if (wave.narrative) {
       setNarrativeText(wave.narrative);
-      setTimeout(() => setNarrativeText(null), 6000);
+      // No auto-dismiss — player taps the docked panel to continue
     }
   }, [gameState]);
 
@@ -524,11 +525,13 @@ export default function TerminusSwarmPage() {
           <motion.div key="playing" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
             className="flex flex-col h-screen bg-black overflow-hidden">
 
-            {/* Narrative overlay */}
+            {/* Narrative panel — player-paced, not auto-dismiss */}
             {narrativeText && (
-              <div className="absolute top-2 left-1/2 -translate-x-1/2 z-30 max-w-lg px-4 py-3 rounded-xl bg-black/80 backdrop-blur-md border border-red-500/30">
-                <p className="font-mono text-xs text-red-400/80 leading-relaxed">{narrativeText}</p>
-              </div>
+              <DockedNarrative
+                messages={[{ speaker: "system", text: narrativeText }]}
+                onDismiss={() => setNarrativeText(null)}
+                game="terminus"
+              />
             )}
 
             {/* Top bar: wave, core health, resources */}
