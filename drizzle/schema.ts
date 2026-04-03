@@ -1678,7 +1678,7 @@ export const guildWarContributions = mysqlTable("guild_war_contributions", {
   guildId: int("guildId").notNull(),
   userId: int("userId").notNull(),
   points: int("points").notNull().default(0),
-  source: mysqlEnum("source", ["fight_win", "pvp_win", "trade_volume", "quest_complete", "card_battle_win", "chess_win"]).notNull(),
+  source: mysqlEnum("source", ["fight_win", "pvp_win", "trade_volume", "quest_complete", "card_battle_win", "chess_win", "terminus_wave", "terminus_boss_kill", "terminus_pvp_star", "terminus_defense"]).notNull(),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
 });
 export type GuildWarContribution = typeof guildWarContributions.$inferSelect;

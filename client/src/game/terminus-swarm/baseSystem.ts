@@ -376,58 +376,135 @@ export type ReplayEvent =
   | { type: "core_damage"; amount: number }
   | { type: "core_destroyed" };
 
-/* ─── ARK FLOTILLA (CLAN SYSTEM) ─── */
+/* ═══════════════════════════════════════════════════════
+   GUILD INTEGRATION — Terminus Swarm connects to the
+   existing Syndicate (guild) system. No separate clan
+   needed — guilds ARE the Ark flotillas.
 
-export interface FlotillaDef {
-  id: string;
-  name: string;
-  tag: string; // 3-6 character clan tag
+   How it integrates:
+   - Syndicate World = your guild's crashed Ark base
+   - Guild War Points earned from TD wave completions and kills
+   - PvP raids target rival guilds' syndicate world defenses
+   - Resources can be donated to guild treasury
+   - Guild-level turret blueprints shared via donation system
+   - Guild wars include Terminus Swarm as a contribution source
+   ═══════════════════════════════════════════════════════ */
+
+/** Guild war point values for Terminus Swarm activities */
+export const GUILD_WAR_POINTS = {
+  wave_completed: 15,       // Per wave survived
+  boss_killed: 50,          // Per boss wave completed
+  source_avatar_killed: 200, // Defeating The Source's Avatar
+  kills_100: 10,            // Per 100 enemies killed
+  pvp_raid_star: 30,        // Per star earned in PvP raid
+  pvp_defense_success: 25,  // Successfully defending your base
+  turret_donated: 5,        // Donating a turret blueprint to a guildmate
+};
+
+/** Guild bonus tiers for Terminus Swarm based on guild level */
+export const GUILD_TD_BONUSES: Record<number, GuildTDBonus> = {
+  1: { waveRewardBonus: 0, maxSharedTurrets: 0, description: "No Terminus bonuses" },
+  2: { waveRewardBonus: 0.05, maxSharedTurrets: 1, description: "+5% wave loot, 1 shared turret slot" },
+  3: { waveRewardBonus: 0.08, maxSharedTurrets: 2, description: "+8% wave loot, 2 shared turret slots" },
+  4: { waveRewardBonus: 0.10, maxSharedTurrets: 3, description: "+10% wave loot, 3 shared turret slots" },
+  5: { waveRewardBonus: 0.12, maxSharedTurrets: 3, description: "+12% wave loot, guild turret skin" },
+  6: { waveRewardBonus: 0.15, maxSharedTurrets: 4, description: "+15% wave loot, 4 shared turrets" },
+  7: { waveRewardBonus: 0.18, maxSharedTurrets: 4, description: "+18% wave loot, raid shield extension" },
+  8: { waveRewardBonus: 0.20, maxSharedTurrets: 5, description: "+20% wave loot, 5 shared turrets" },
+  9: { waveRewardBonus: 0.22, maxSharedTurrets: 5, description: "+22% wave loot, exclusive guild emblem" },
+  10: { waveRewardBonus: 0.25, maxSharedTurrets: 6, description: "+25% wave loot, 6 shared turrets, guild leaderboard badge" },
+};
+
+export interface GuildTDBonus {
+  /** Percentage bonus to all wave resource rewards */
+  waveRewardBonus: number;
+  /** Number of turret blueprints guildmates can place in your base */
+  maxSharedTurrets: number;
+  /** Description for UI display */
   description: string;
-  leaderId: string;
-  memberCount: number;
-  maxMembers: number;
-  trophies: number; // sum of top 20 members
-  level: number;
-  /** Cooperative defense: members donate turret blueprints to each other */
-  donationLog: FlotillaDonation[];
-  /** Flotilla Wars: coordinated raids against rival flotillas */
-  warStatus: "peace" | "searching" | "preparation" | "war";
 }
 
-export interface FlotillaDonation {
-  donorId: string;
-  recipientId: string;
+/**
+ * Turret Blueprint Donation
+ * Guild members can donate turret blueprints that appear as placeable
+ * turrets in other members' Terminus Swarm bases. These turrets are
+ * temporary (last until the base is raided or reset) but don't cost
+ * the recipient any resources to place.
+ */
+export interface TurretDonation {
+  donorId: number;
+  donorName: string;
   turretType: string;
   turretLevel: number;
-  timestamp: number;
+  expiresAt: number; // timestamp — donated turrets expire after 24h
 }
 
-export interface FlotillaWarDef {
-  flotilla1Id: string;
-  flotilla2Id: string;
-  status: "preparation" | "active" | "ended";
-  /** Each member gets 2 attacks over 24 hours */
-  attacks: FlotillaWarAttack[];
-  stars1: number;
-  stars2: number;
-  preparationEndsAt: number;
-  warEndsAt: number;
+/**
+ * Calculate guild war points earned from a Terminus Swarm session.
+ * Called at the end of each game to report to the guild war system.
+ */
+export function calculateGuildWarContribution(
+  wavesCompleted: number,
+  bossesKilled: number,
+  totalKills: number,
+  sourceAvatarKilled: boolean,
+): number {
+  let points = 0;
+  points += wavesCompleted * GUILD_WAR_POINTS.wave_completed;
+  points += bossesKilled * GUILD_WAR_POINTS.boss_killed;
+  if (sourceAvatarKilled) points += GUILD_WAR_POINTS.source_avatar_killed;
+  points += Math.floor(totalKills / 100) * GUILD_WAR_POINTS.kills_100;
+  return points;
 }
 
-export interface FlotillaWarAttack {
-  attackerId: string;
-  targetBase: string;
-  stars: 0 | 1 | 2 | 3;
-  destructionPercent: number;
-  timestamp: number;
+/**
+ * Apply guild wave reward bonus to base resources earned.
+ */
+export function applyGuildBonus(
+  resources: { salvage: number; viralIchor: number; neuralCores: number; voidCrystals: number },
+  guildLevel: number,
+): { salvage: number; viralIchor: number; neuralCores: number; voidCrystals: number } {
+  const bonus = GUILD_TD_BONUSES[guildLevel] || GUILD_TD_BONUSES[1];
+  const mult = 1 + bonus.waveRewardBonus;
+  return {
+    salvage: Math.floor(resources.salvage * mult),
+    viralIchor: Math.floor(resources.viralIchor * mult),
+    neuralCores: Math.floor(resources.neuralCores * mult),
+    voidCrystals: resources.voidCrystals, // Void crystals not affected by guild bonus
+  };
 }
 
-/** Flotilla perks by level */
-export const FLOTILLA_PERKS = [
-  { level: 1, maxMembers: 10, perk: "Basic donations" },
-  { level: 2, maxMembers: 15, perk: "+5% wave loot for all members" },
-  { level: 3, maxMembers: 20, perk: "Flotilla Wars unlocked" },
-  { level: 4, maxMembers: 30, perk: "+10% wave loot, donation cooldown reduced" },
-  { level: 5, maxMembers: 40, perk: "+15% wave loot, exclusive flotilla turret skin" },
-  { level: 6, maxMembers: 50, perk: "+20% wave loot, flotilla leaderboard badge" },
-];
+/**
+ * Syndicate World ↔ Terminus Swarm bridge
+ *
+ * The guild's Syndicate World IS the crashed Ark in Terminus Swarm.
+ * Syndicate buildings map to TD defenses:
+ *   - Plasma Turret → Pulse Cannon
+ *   - Shield Generator → Shield Pylon
+ *   - Shadow Mine → EMP Mine Field
+ *   - Void Wall → Barricade
+ *   - Nexus Cannon → Missile Battery (ultimate)
+ *   - Barracks → spawns temporary defensive units
+ *   - Command Center → increases max turret slots
+ *
+ * When a guild member plays Terminus Swarm, their syndicate world's
+ * buildings provide passive bonuses to their TD base.
+ */
+export const SYNDICATE_TD_MAPPING: Record<string, SyndicateTDEffect> = {
+  plasma_turret: { type: "free_turret", turretType: "pulse_cannon", description: "Provides a free Pulse Cannon" },
+  shield_generator: { type: "free_turret", turretType: "shield_pylon", description: "Provides a free Shield Pylon" },
+  shadow_mine: { type: "free_trap", trapType: "emp_trap", description: "Provides a free EMP Trap" },
+  void_wall: { type: "extra_barricades", count: 5, description: "+5 barricade capacity" },
+  nexus_cannon: { type: "free_turret", turretType: "missile_battery", description: "Provides a free Missile Battery" },
+  barracks: { type: "core_hp_bonus", percent: 10, description: "+10% Ark core HP per level" },
+  command_center: { type: "extra_turret_slots", count: 2, description: "+2 turret slots per level" },
+  trade_hub: { type: "resource_bonus", percent: 5, description: "+5% resource drops per level" },
+};
+
+export type SyndicateTDEffect =
+  | { type: "free_turret"; turretType: string; description: string }
+  | { type: "free_trap"; trapType: string; description: string }
+  | { type: "extra_barricades"; count: number; description: string }
+  | { type: "extra_turret_slots"; count: number; description: string }
+  | { type: "core_hp_bonus"; percent: number; description: string }
+  | { type: "resource_bonus"; percent: number; description: string };

@@ -33,6 +33,10 @@ const POINT_VALUES: Record<string, number> = {
   quest_complete: 15,
   card_battle_win: 15,
   chess_win: 20,
+  terminus_wave: 15,          // per wave survived in Terminus Swarm
+  terminus_boss_kill: 50,     // per boss killed
+  terminus_pvp_star: 30,      // per star in TD PvP raid
+  terminus_defense: 25,       // successful base defense
 };
 
 export const guildWarsRouter = router({
@@ -94,7 +98,7 @@ export const guildWarsRouter = router({
   contribute: protectedProcedure
     .input(z.object({
       warId: z.number(),
-      source: z.enum(["fight_win", "pvp_win", "trade_volume", "quest_complete", "card_battle_win", "chess_win"]),
+      source: z.enum(["fight_win", "pvp_win", "trade_volume", "quest_complete", "card_battle_win", "chess_win", "terminus_wave", "terminus_boss_kill", "terminus_pvp_star", "terminus_defense"]),
       rawValue: z.number().optional(),
     }))
     .mutation(async ({ ctx, input }) => {
