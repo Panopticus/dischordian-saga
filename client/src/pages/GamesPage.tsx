@@ -41,6 +41,17 @@ const SIMULATIONS: GameTile[] = [
     primary: true,
   },
   {
+    href: "/terminus-swarm",
+    title: "TERMINUS SWARM",
+    subtitle: "Automated Tower Defense",
+    description: "Defend crashed Inception Arks on the rogue planet Terminus against the Thought Virus-infected Terminus Swarm. Build turrets, automate defenses, and uncover what happened to the first wave of Potentials.",
+    loreContext: "CADES DIMENSION: Terminus Defense Timeline",
+    icon: Shield,
+    color: "#ff4444",
+    badge: "ENTER SIMULATION",
+    primary: true,
+  },
+  {
     href: "/trade-empire",
     title: "TRADE EMPIRE",
     subtitle: "Interstellar Commerce Simulation",

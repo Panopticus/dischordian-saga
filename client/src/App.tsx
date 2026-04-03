@@ -46,6 +46,7 @@ const WatchPage = lazy(() => import("./pages/WatchPage"));
 const FightPage = lazy(() => import("./pages/FightPage"));
 const ConsolePage = lazy(() => import("./pages/ConsolePage"));
 const CardBrowserPage = lazy(() => import("./pages/CardBrowserPage"));
+const TerminusSwarmPage = lazy(() => import("./game/terminus-swarm/TerminusSwarmPage"));
 // CardGamePage removed — Dischordia is the only card game now
 const CardGamePage = lazy(() => import("./game/duelyst/DuelystPage"));
 const InceptionArkPage = lazy(() => import("./pages/InceptionArkPage"));
@@ -153,6 +154,7 @@ function Router() {
         <Route path="/cards" component={CardBrowserPage} />
         <Route path="/cards/play" component={CardGamePage} />
         <Route path="/duelyst" component={DuelystPage} />
+        <Route path="/terminus-swarm" component={TerminusSwarmPage} />
         <Route path="/ark" component={ArkExplorerPage} />
         <Route path="/ark-legacy" component={InceptionArkPage} />
         <Route path="/ship-map" component={ShipSchematicMap} />
