@@ -511,6 +511,79 @@ export default function TerminusSwarmPage() {
                 })}
               </div>
             </div>
+
+            {/* Turret detail panel — shows when clicking a placed turret */}
+            {selectedTileInfo && gameState && (() => {
+              const cell = gameState.grid[selectedTileInfo.row]?.[selectedTileInfo.col];
+              if (!cell?.turretId) return null;
+              const turret = gameState.turrets.get(cell.turretId);
+              if (!turret) return null;
+              const nextLevel = UPGRADE_LEVELS[turret.level]; // index = next level (0-based levels)
+              const canUpgrade = nextLevel && turret.level < 6 &&
+                gameState.resources.salvage >= (nextLevel?.cost.salvage || 0);
+
+              return (
+                <div className="absolute bottom-36 left-1/2 -translate-x-1/2 z-30 w-72 p-3 rounded-xl border border-white/20 bg-black/90 backdrop-blur-md">
+                  <div className="flex items-center justify-between mb-2">
+                    <div className="flex items-center gap-2">
+                      <div className="w-3 h-3 rounded-full" style={{ backgroundColor: turret.def.color }} />
+                      <span className="font-mono text-xs font-bold text-white">{turret.def.name}</span>
+                      <span className="font-mono text-[9px] text-white/30">Lv.{turret.level}</span>
+                    </div>
+                    <button onClick={() => setSelectedTileInfo(null)} className="text-white/30 hover:text-white/60 text-xs">✕</button>
+                  </div>
+                  <div className="grid grid-cols-3 gap-2 mb-2 text-center">
+                    <div>
+                      <p className="font-mono text-[9px] text-white/30">DMG</p>
+                      <p className="font-mono text-xs text-red-400 font-bold">{Math.round(turret.def.damage * turret.level)}</p>
+                    </div>
+                    <div>
+                      <p className="font-mono text-[9px] text-white/30">RANGE</p>
+                      <p className="font-mono text-xs text-cyan-400 font-bold">{turret.def.range}</p>
+                    </div>
+                    <div>
+                      <p className="font-mono text-[9px] text-white/30">HP</p>
+                      <p className="font-mono text-xs text-green-400 font-bold">{Math.ceil(turret.health)}/{turret.maxHealth}</p>
+                    </div>
+                  </div>
+                  <div className="flex gap-2">
+                    {canUpgrade && nextLevel && (
+                      <button
+                        onClick={() => {
+                          if (!nextLevel || gameState.resources.salvage < nextLevel.cost.salvage) return;
+                          gameState.resources.salvage -= nextLevel.cost.salvage;
+                          if (nextLevel.cost.viralIchor) gameState.resources.viralIchor -= nextLevel.cost.viralIchor;
+                          if (nextLevel.cost.neuralCores) gameState.resources.neuralCores -= nextLevel.cost.neuralCores;
+                          turret.level++;
+                          turret.maxHealth = Math.round(turret.def.health * nextLevel.healthMultiplier);
+                          turret.health = turret.maxHealth;
+                          setGameState({ ...gameState });
+                          gameRef.current = gameState;
+                        }}
+                        className="flex-1 py-1.5 rounded bg-emerald-500/20 border border-emerald-500/40 text-emerald-400 font-mono text-[10px] font-bold hover:bg-emerald-500/30"
+                      >
+                        UPGRADE ({nextLevel.cost.salvage})
+                      </button>
+                    )}
+                    <button
+                      onClick={() => {
+                        const newState = sellTurret({ ...gameState, turrets: new Map(gameState.turrets) }, cell.turretId!);
+                        setGameState(newState);
+                        gameRef.current = newState;
+                        setSelectedTileInfo(null);
+                      }}
+                      className="px-3 py-1.5 rounded bg-red-500/20 border border-red-500/40 text-red-400 font-mono text-[10px] hover:bg-red-500/30"
+                    >
+                      SELL
+                    </button>
+                  </div>
+                  {turret.def.special && (
+                    <p className="font-mono text-[9px] text-white/20 mt-2">{turret.def.special}</p>
+                  )}
+                  <p className="font-mono text-[8px] text-white/10 mt-1">Kills: {turret.kills}</p>
+                </div>
+              );
+            })()}
           </motion.div>
         )}
 
