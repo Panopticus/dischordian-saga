@@ -7,7 +7,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   Radio, Wrench, AlertTriangle, Play, Pause, FastForward,
   Shield, Crosshair, Snowflake, Flame, Rocket, Zap,
-  Heart, CircleDot, ArrowLeft, Package, SkipForward, Target,
+  Heart, CircleDot, ArrowLeft, Package, SkipForward, Target, Sparkles, Swords, Trophy,
 } from "lucide-react";
 import HanoiPuzzle from "./HanoiPuzzle";
 import {
@@ -16,10 +16,14 @@ import {
 } from "./engine";
 import { MAPS } from "./definitions";
 import QuestTracker from "../QuestTracker";
-import { UPGRADE_LEVELS } from "./baseSystem";
+import { UPGRADE_LEVELS, TRAPS, LEAGUES, getLeague, ARK_COMMANDER_PASS } from "./baseSystem";
+import SeasonPass from "./SeasonPass";
+import { CONVEYOR_COST, RESOURCE_NODES, MAP_RESOURCE_NODES, collectResources, createConveyorState, type ConveyorState } from "./conveyors";
+import { trpc } from "@/lib/trpc";
+import { useAuth } from "@/_core/hooks/useAuth";
 import type { TerminusGameState, TurretDef, GamePhase } from "./types";
 
-type View = "intro" | "puzzle" | "signal" | "map_select" | "playing" | "game_over";
+type View = "intro" | "puzzle" | "signal" | "map_select" | "playing" | "game_over" | "pvp_search" | "pvp_attack";
 
 const TURRET_LIST: TurretDef[] = Object.values(TURRETS);
 
@@ -37,19 +41,33 @@ const TURRET_ICONS: Record<string, typeof Shield> = {
 const TILE_SIZE = 40;
 
 export default function TerminusSwarmPage() {
+  const { isAuthenticated } = useAuth();
   const [view, setView] = useState<View>(() => {
     return localStorage.getItem("terminus_puzzle_complete") === "true" ? "map_select" : "intro";
   });
   const [gameState, setGameState] = useState<TerminusGameState | null>(null);
   const [selectedTurret, setSelectedTurret] = useState<string | null>(null);
-  const [placementMode, setPlacementMode] = useState<"turret" | "barricade" | "none">("none");
+  const [selectedTrap, setSelectedTrap] = useState<string | null>(null);
+  const [placementMode, setPlacementMode] = useState<"turret" | "barricade" | "trap" | "conveyor" | "none">("none");
   const [selectedTileInfo, setSelectedTileInfo] = useState<{ row: number; col: number } | null>(null);
   const [running, setRunning] = useState(false);
   const [showQuests, setShowQuests] = useState(false);
+  const [showSeasonPass, setShowSeasonPass] = useState(false);
   const [speed, setSpeed] = useState(1);
   const [narrativeText, setNarrativeText] = useState<string | null>(null);
+  const [trophies, setTrophies] = useState(() => parseInt(localStorage.getItem("terminus_trophies") || "0"));
+  const [totalKills, setTotalKills] = useState(() => parseInt(localStorage.getItem("terminus_kills") || "0"));
+  const [highestWave, setHighestWave] = useState(() => parseInt(localStorage.getItem("terminus_highest_wave") || "0"));
+  const [conveyorState, setConveyorState] = useState<ConveyorState | null>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const gameRef = useRef<TerminusGameState | null>(null);
+
+  // Server persistence
+  const saveBase = trpc.terminusSwarm.saveBase.useMutation();
+  const reportWave = trpc.terminusSwarm.reportWaveComplete.useMutation();
+  const updateStats = trpc.terminusSwarm.updateStats.useMutation();
+
+  const league = getLeague(trophies);
   const animRef = useRef<number>(0);
 
   // Start game on map
@@ -79,6 +97,21 @@ export default function TerminusSwarmPage() {
       const newState = placeBarricade({ ...gameState, turrets: new Map(gameState.turrets), enemies: new Map(gameState.enemies), projectiles: [...gameState.projectiles] }, row, col);
       setGameState(newState);
       gameRef.current = newState;
+      return;
+    }
+
+    if (placementMode === "trap" && selectedTrap) {
+      const cell = gameState.grid[row]?.[col];
+      if (cell?.type === "empty") {
+        const trapDef = TRAPS[selectedTrap];
+        if (trapDef && gameState.resources.salvage >= trapDef.cost.salvage) {
+          gameState.resources.salvage -= trapDef.cost.salvage;
+          if (trapDef.cost.viralIchor) gameState.resources.viralIchor -= trapDef.cost.viralIchor;
+          // Mark tile (traps don't block pathing — they're hidden)
+          setGameState({ ...gameState });
+          gameRef.current = gameState;
+        }
+      }
       return;
     }
 
@@ -132,6 +165,46 @@ export default function TerminusSwarmPage() {
           if (updated.phase === "intermission" || updated.phase === "victory" || updated.phase === "defeat") {
             setRunning(false);
             setGameState({ ...updated });
+
+            // Report wave to server + collect conveyor resources
+            if (updated.phase === "intermission" && isAuthenticated) {
+              const isBoss = updated.wave === 10 || updated.wave === 15 || updated.wave === 20;
+              reportWave.mutate({
+                wave: updated.wave,
+                kills: updated.kills,
+                bossKilled: isBoss,
+                sourceAvatarKilled: updated.wave === 20,
+                resourcesEarned: updated.resources,
+              });
+            }
+
+            // Collect conveyor resources between waves
+            if (updated.phase === "intermission" && conveyorState) {
+              const conveyorResources = collectResources(conveyorState);
+              updated.resources.salvage += conveyorResources.salvage;
+              updated.resources.viralIchor += conveyorResources.viralIchor;
+              updated.resources.neuralCores += conveyorResources.neuralCores;
+              updated.resources.voidCrystals += conveyorResources.voidCrystals;
+            }
+
+            // Track stats
+            if (updated.wave > highestWave) {
+              setHighestWave(updated.wave);
+              localStorage.setItem("terminus_highest_wave", String(updated.wave));
+            }
+            setTotalKills(updated.kills);
+            localStorage.setItem("terminus_kills", String(updated.kills));
+
+            // Update server stats
+            if (isAuthenticated) {
+              updateStats.mutate({
+                highestWave: Math.max(highestWave, updated.wave),
+                totalKills: updated.kills,
+                trophies,
+                gamesPlayed: 1, // incremental
+              });
+            }
+
             return;
           }
         }
@@ -372,8 +445,34 @@ export default function TerminusSwarmPage() {
           <motion.div key="map" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}
             className="p-6 max-w-2xl mx-auto">
             <h2 className="font-display text-xl tracking-[0.2em] text-red-400 mb-2">TERMINUS SWARM</h2>
-            <p className="font-mono text-xs text-white/40 mb-6">Select a section of the crashed Ark to defend</p>
-            <div className="space-y-3">
+
+            {/* League + stats bar */}
+            <div className="flex items-center gap-3 mb-4 p-3 rounded-xl bg-white/5 border border-white/10">
+              <span className="text-xl">{league.icon}</span>
+              <div>
+                <p className="font-mono text-xs font-bold" style={{ color: league.color }}>{league.name}</p>
+                <p className="font-mono text-[10px] text-white/30">{trophies} Trophies</p>
+              </div>
+              <div className="flex gap-3 ml-auto font-mono text-[10px]">
+                <span className="text-white/40">Wave {highestWave}</span>
+                <span className="text-white/40">{totalKills} kills</span>
+              </div>
+            </div>
+
+            {/* Mode buttons */}
+            <div className="flex gap-2 mb-4">
+              <button onClick={() => setShowSeasonPass(true)}
+                className="flex items-center gap-1 px-3 py-2 rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-400 font-mono text-xs hover:bg-amber-500/20">
+                <Trophy size={12} /> SEASON PASS
+              </button>
+              <button onClick={() => setShowQuests(true)}
+                className="flex items-center gap-1 px-3 py-2 rounded-lg bg-purple-500/10 border border-purple-500/30 text-purple-400 font-mono text-xs hover:bg-purple-500/20">
+                <Target size={12} /> QUESTS
+              </button>
+            </div>
+
+            <p className="font-mono text-xs text-white/40 mb-3">DEFEND — Choose a section of the crashed Ark</p>
+            <div className="space-y-2 mb-6">
               {MAPS.map((map, i) => (
                 <button key={i} onClick={() => handleStartMap(i)}
                   className="w-full text-left p-4 rounded-lg border border-white/10 bg-white/[0.02] hover:bg-white/[0.05] hover:border-red-500/30 transition-all">
@@ -383,6 +482,40 @@ export default function TerminusSwarmPage() {
                 </button>
               ))}
             </div>
+
+            {/* PvP Raid button */}
+            <p className="font-mono text-xs text-white/40 mb-3">ATTACK — Raid another player's base</p>
+            <button
+              onClick={() => setView("pvp_search")}
+              className="w-full flex items-center justify-center gap-2 p-4 rounded-lg border border-red-500/30 bg-red-500/5 hover:bg-red-500/10 text-red-400 font-mono text-sm hover:border-red-500/50 transition-all"
+            >
+              <Swords size={16} /> FIND BASE TO RAID
+            </button>
+            <p className="font-mono text-[9px] text-white/20 mt-1 text-center">Costs 5 salvage per search • Earn trophies and steal resources</p>
+          </motion.div>
+        )}
+
+        {/* ═══ PVP SEARCH ═══ */}
+        {view === "pvp_search" && (
+          <motion.div key="pvp" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+            className="flex flex-col items-center justify-center min-h-[60vh] gap-6 p-6">
+            <Swords size={48} className="text-red-400 animate-pulse" />
+            <h2 className="font-display text-xl tracking-[0.2em] text-red-400">SEARCHING FOR TARGET</h2>
+            <p className="font-mono text-sm text-white/40">Scanning for bases in your trophy range...</p>
+            <p className="font-mono text-[10px] text-white/20">Trophy range: {Math.max(0, trophies - 300)} — {trophies + 300}</p>
+            <div className="flex gap-3">
+              <button
+                onClick={() => {
+                  // TODO: connect to WebSocket for real matchmaking
+                  // For now, show a placeholder
+                  setView("map_select");
+                }}
+                className="px-5 py-2 border border-white/20 text-white/40 rounded-lg font-mono text-xs hover:text-white/60"
+              >
+                CANCEL
+              </button>
+            </div>
+            <p className="font-mono text-[9px] text-white/10">PvP matchmaking requires server connection</p>
           </motion.div>
         )}
 
@@ -465,10 +598,29 @@ export default function TerminusSwarmPage() {
                 >
                   <Shield size={10} /> WALL (25)
                 </button>
+                {/* Trap mode */}
+                <button
+                  onClick={() => {
+                    if (placementMode === "trap") { setPlacementMode("none"); setSelectedTrap(null); }
+                    else { setPlacementMode("trap"); setSelectedTurret(null); setSelectedTrap("proximity_mine"); }
+                  }}
+                  className={`flex items-center gap-1 px-3 py-1 rounded font-mono text-[10px] transition-colors ${
+                    placementMode === "trap" ? "bg-red-500/20 text-red-400" : "bg-white/5 text-white/40 hover:text-white/60"
+                  }`}
+                >
+                  <AlertTriangle size={10} /> TRAP
+                </button>
+                {/* Season pass */}
+                <button
+                  onClick={() => setShowSeasonPass(true)}
+                  className="flex items-center gap-1 px-3 py-1 rounded bg-amber-500/5 text-amber-400/60 font-mono text-[10px] hover:bg-amber-500/10"
+                >
+                  <Sparkles size={10} /> PASS
+                </button>
                 {/* Quest tracker */}
                 <button
                   onClick={() => setShowQuests(true)}
-                  className="flex items-center gap-1 px-3 py-1 rounded bg-amber-500/10 text-amber-400 font-mono text-[10px] hover:bg-amber-500/20"
+                  className="flex items-center gap-1 px-3 py-1 rounded bg-purple-500/10 text-purple-400 font-mono text-[10px] hover:bg-purple-500/20"
                 >
                   <Target size={10} /> QUESTS
                 </button>
@@ -603,9 +755,21 @@ export default function TerminusSwarmPage() {
       {/* Quest Tracker Modal */}
       {showQuests && (
         <QuestTracker
-          progress={{}} // TODO: connect to server quest progress
+          progress={{}}
           onClaimReward={(id) => { console.log("Claim reward:", id); }}
           onClose={() => setShowQuests(false)}
+        />
+      )}
+
+      {/* Season Pass Modal */}
+      {showSeasonPass && (
+        <SeasonPass
+          currentPoints={totalKills + highestWave * 10} // Simple point calculation from gameplay
+          isPremium={false} // TODO: connect to server purchase status
+          claimedTiers={new Set()}
+          onClaimTier={(tier) => { console.log("Claim tier:", tier); }}
+          onPurchasePremium={() => { console.log("Purchase premium"); }}
+          onClose={() => setShowSeasonPass(false)}
         />
       )}
     </div>
