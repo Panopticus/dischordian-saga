@@ -118,6 +118,12 @@ export interface GameState {
   // Morality-based unlocks
   moralityUnlocks: string[];       // IDs of morality-gated items/themes unlocked
   discoveredTransmissions: string[]; // IDs of secret morality-gated transmissions found
+  // Elara relationship (BioWare-style trust and archetype tracking)
+  elaraTrust: number;               // 0-100, determines what she shares
+  elaraArchetype: Record<string, number>; // compassionate/pragmatic/suspicious/loyal/manipulative scores
+  elaraCallbacks: Record<string, boolean>; // callback flags for future reference
+  humanTrust: number;               // 0-100, trust with The Human (competing with Elara)
+  humanCallbacks: Record<string, boolean>; // The Human's callback flags
   // Crafting system
   craftingSkills: Record<string, number>;   // Skill ID → level
   craftingXp: Record<string, number>;       // Skill ID → XP in current level
@@ -811,6 +817,12 @@ const DEFAULT_GAME_STATE: GameState = {
   completedTutorials: [],
   moralityUnlocks: [],
   discoveredTransmissions: [],
+  // Elara relationship defaults
+  elaraTrust: 10,
+  elaraArchetype: { compassionate: 0, pragmatic: 0, suspicious: 0, loyal: 0, manipulative: 0 },
+  elaraCallbacks: {},
+  humanTrust: 0,
+  humanCallbacks: {},
   // Crafting system defaults
   craftingSkills: { weaponsmith: 0, armorsmith: 0, enchanting: 0, alchemy: 0, engineering: 0 },
   craftingXp: { weaponsmith: 0, armorsmith: 0, enchanting: 0, alchemy: 0, engineering: 0 },

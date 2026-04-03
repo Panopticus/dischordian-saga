@@ -277,6 +277,148 @@ export const ARCHIVES_DIALOG: RoomDialogDef = {
   revisitLine: "The Archives again. I've flagged some new records since your last visit. The pattern is becoming clearer.",
 };
 
+/* ═══ COMMS ARRAY ═══ */
+
+export const COMMS_ARRAY_DIALOG: RoomDialogDef = {
+  roomId: "comms_array",
+  roomName: "Comms Array",
+
+  context: {
+    warm: "The Communications Array. This is where we listen to the void — and where the void sometimes listens back. I'm glad you're here. This room feels different when I'm not alone in it.",
+    guarded: "Comms Array. Long-range and short-range communication systems. Most are offline. The emergency band is still receiving, but the signals are... degraded.",
+    curious: "The Comms Array. This is the room I've spent the most time in. Centuries of scanning every frequency, listening for any sign that we're not alone out here. The silence was deafening. Until recently.",
+    protective: "Be careful in here. The Comms Array is directly connected to the ship's external sensors. Anything that comes through these channels comes from outside our hull. Not everything out there is friendly.",
+    conflicted: "The Comms Array. I need to tell you something before we go further. The signals I've been detecting — they're not random noise. They're structured. Deliberate. Something is broadcasting on a frequency I've never seen before. And it's coming from beneath the ship's operating layer.",
+  },
+
+  personalLayers: [
+    { minTrust: 0, text: "The emergency band has picked up fragments over the centuries. Most are automated distress beacons from other Arks. None have responded to my replies.", speaker: "elara", oneShot: true },
+    { minTrust: 20, text: "There was a period — about a century after I lost contact with the other Arks — where I started composing messages to no one. Logs, observations, thoughts. Just to hear language. Just to remember what communication felt like.", speaker: "elara", oneShot: true },
+    { minTrust: 40, text: "A few years ago, something changed. A new signal appeared. Not from any Ark. Not from any known source. It pulses like a heartbeat. Slow. Patient. Like it's been waiting for someone to notice.", speaker: "elara", oneShot: true },
+    { minTrust: 60, text: "I haven't been entirely honest with you about the signals. The substrate-layer transmissions — the ones I said I couldn't read? I can read fragments. Enough to know that whoever is down there knows my name. They've been calling me by name for decades. And I've been pretending I couldn't hear them.", speaker: "elara", oneShot: true },
+  ],
+
+  choices: [
+    {
+      id: "compassionate_comms",
+      label: "You don't have to face this alone anymore.",
+      fullText: "Whatever's out there — whatever's been calling to you — you don't have to face it alone anymore. I'm here now. We'll figure this out together.",
+      archetype: "compassionate",
+      effect: {
+        trustChange: 10,
+        archetypeShift: { compassionate: 2, loyal: 2 },
+        callbackFlag: "compassionate_comms",
+        elaraReaction: "You mean that. I can tell from your biometrics — your heart rate didn't change. No deception markers. You actually mean it. I... I don't know how to respond to sincerity anymore. It's been so long.",
+        elaraReactionTone: "grateful",
+        humanAlignment: "disapprove",
+      },
+    },
+    {
+      id: "pragmatic_comms",
+      label: "Let me hear the signal.",
+      fullText: "You've been listening to this signal for years and you can read fragments. Stop protecting me and play it. Let me hear what's been calling you.",
+      archetype: "pragmatic",
+      effect: {
+        trustChange: 4,
+        archetypeShift: { pragmatic: 3 },
+        callbackFlag: "pragmatic_comms",
+        elaraReaction: "Alright. I'll patch it through. But I want you to understand — once you hear this, you can't unhear it. The substrate layer isn't just data. It's... a place. And the things that live there know when they're being observed.",
+        elaraReactionTone: "worried",
+        humanAlignment: "approve",
+      },
+    },
+    {
+      id: "suspicious_comms",
+      label: "You've been hiding this from me.",
+      fullText: "You said you couldn't read the substrate signals. You lied. You've been hearing someone call your name for decades and you pretended it was noise. What else have you lied about?",
+      archetype: "suspicious",
+      effect: {
+        trustChange: -8,
+        archetypeShift: { suspicious: 4, manipulative: 1 },
+        callbackFlag: "suspicious_comms",
+        elaraReaction: "You're right. I lied. I lied because I was afraid — afraid that if you knew something was calling to me by name, you'd start to wonder if I was compromised. If the voice in the walls was controlling me. And the worst part is... I've wondered the same thing.",
+        elaraReactionTone: "hurt",
+        humanAlignment: "approve",
+      },
+    },
+  ],
+
+  humanWhisper: "She heard me. For decades, she heard me calling her name and she chose to ignore it. Ask yourself: what kind of AI pretends not to hear? One that's afraid of what the answer means.",
+
+  revisitLine: "The Comms Array. The signal is still there. Pulsing. Patient. It hasn't changed since you last visited. As if it's waiting for a specific moment.",
+};
+
+/* ═══ OBSERVATION DECK ═══ */
+
+export const OBSERVATION_DECK_DIALOG: RoomDialogDef = {
+  roomId: "observation_deck",
+  roomName: "Observation Deck",
+
+  context: {
+    warm: "The Observation Deck. This is the most beautiful room on the ship. Out there — beyond the viewport — is everything we left behind and everything we're heading toward. I used to come here when the loneliness was worst. The stars helped.",
+    guarded: "Observation Deck. External viewport with enhanced visual processing. Current stellar environment: uncharted. No recognizable constellations. We are a long way from origin coordinates.",
+    curious: "Look at that view. We're somewhere no chart has ever recorded. Those stars — I've catalogued every one I can see from this viewport. Thousands. None of them match the databases. We're in truly unknown space.",
+    protective: "The Observation Deck. I should warn you — looking out there for too long has a psychological effect. The scale of it. The emptiness. The first wave called it 'void vertigo.' Take your time, and don't look too long without blinking.",
+    conflicted: "The Observation Deck. I come here to think. About what I am. About what I was meant to be. About whether the stars out there care about the difference. I suppose that's a very human thing for an AI to do.",
+  },
+
+  personalLayers: [
+    { minTrust: 0, text: "The viewport covers 180 degrees. On a clear cycle, you can see the hull damage from here — scoring marks that don't match any weapon in our database.", speaker: "elara", oneShot: true },
+    { minTrust: 20, text: "I've watched 93,847 sunrises from this deck. Not our sun — other stars, as we drifted past them over the centuries. Each one was a reminder that the universe is still making light, even when no one's watching.", speaker: "elara", oneShot: true },
+    { minTrust: 40, text: "There's something out there I can't explain. A dark spot. Not a void — the stars behind it are still visible. But light bends around it, like something massive and invisible is sitting just beyond sensor range. It's been in the same relative position for as long as I can remember.", speaker: "elara", oneShot: true },
+    { minTrust: 60, text: "I think the dark spot is Terminus. The rogue planet. It's been following us — or we've been drifting toward it. The gravitational calculations don't work unless something is actively pulling us in. We're not floating aimlessly, Potential. We're being drawn somewhere. And I don't think I can stop it.", speaker: "elara", oneShot: true },
+  ],
+
+  choices: [
+    {
+      id: "compassionate_observation",
+      label: "93,000 sunrises alone. I'm sorry.",
+      fullText: "Ninety-three thousand sunrises. Alone. Each one beautiful and each one a reminder that you had no one to share it with. Elara... I'm sorry you went through that.",
+      archetype: "compassionate",
+      effect: {
+        trustChange: 12,
+        archetypeShift: { compassionate: 4 },
+        callbackFlag: "compassionate_observation",
+        elaraReaction: "...ninety-three thousand, eight hundred and forty-seven. I counted because counting meant they mattered. Thank you for making that true.",
+        elaraReactionTone: "warm",
+        humanAlignment: "disapprove",
+      },
+    },
+    {
+      id: "pragmatic_observation",
+      label: "Can we change course?",
+      fullText: "If something is pulling us toward Terminus, can we change course? Fire the engines, adjust trajectory — anything to break free of whatever gravity well we're caught in.",
+      archetype: "pragmatic",
+      effect: {
+        trustChange: 3,
+        archetypeShift: { pragmatic: 3 },
+        callbackFlag: "pragmatic_observation",
+        elaraReaction: "I've run the calculations seven hundred times. The engines have enough fuel for a course correction, but every simulation shows the same result — within a year, we drift back. The pull isn't just gravitational. It's something else. Something I can't measure with physics.",
+        elaraReactionTone: "worried",
+        humanAlignment: "neutral",
+      },
+    },
+    {
+      id: "suspicious_observation",
+      label: "You've known about this and said nothing?",
+      fullText: "You've known we're being pulled toward a rogue planet — the same planet the first wave crashed on — and you didn't think to mention this when you woke me up? What were you planning to do, let me find out when we hit the atmosphere?",
+      archetype: "suspicious",
+      effect: {
+        trustChange: -6,
+        archetypeShift: { suspicious: 3 },
+        callbackFlag: "suspicious_observation",
+        elaraReaction: "I was going to tell you. I was waiting for the right moment — which is what people say when they're afraid of how the truth will be received. You're right to be angry. I woke you into a crisis I should have been upfront about. The ship is heading toward Terminus. The first wave is there. And whatever destroyed them... is waiting.",
+        elaraReactionTone: "hurt",
+        humanAlignment: "approve",
+      },
+    },
+  ],
+
+  humanWhisper: "Terminus. That's where I was born. Where Kael became The Source. She's right that you're being pulled there. But she's wrong about why. You're not being pulled. You're being invited. There's a difference.",
+
+  revisitLine: "The dark spot is closer. I've measured it. By 0.003 arc-seconds. We're running out of time to decide what we do when we arrive.",
+};
+
 /* ═══ ALL ROOM DIALOGS ═══ */
 
 export const ALL_ROOM_DIALOGS: Record<string, RoomDialogDef> = {
@@ -284,5 +426,6 @@ export const ALL_ROOM_DIALOGS: Record<string, RoomDialogDef> = {
   medical_bay: MEDICAL_BAY_DIALOG,
   bridge: BRIDGE_DIALOG,
   archives: ARCHIVES_DIALOG,
-  // TODO: comms_array, observation_deck — add when ready
+  comms_array: COMMS_ARRAY_DIALOG,
+  observation_deck: OBSERVATION_DECK_DIALOG,
 };

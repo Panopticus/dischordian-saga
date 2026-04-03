@@ -175,6 +175,45 @@ export const ELARA_CALLBACKS: ElaraCallback[] = [
     },
     used: false,
   },
+  // Comms Array → Observation Deck callback
+  {
+    id: "comms_compassion",
+    sourceRoom: "comms_array",
+    playerChoice: "compassionate_comms",
+    triggerRooms: ["observation_deck"],
+    lines: {
+      low: "You offered to help me earlier. That was... noted.",
+      mid: "In the Comms Array, you told me I don't have to face things alone anymore. I've been replaying that moment. Analyzing whether you meant it. All my analysis says yes. And that changes my risk calculations significantly.",
+      high: "You promised me I wasn't alone anymore. I've been running that through my language processors trying to find the hidden meaning, the caveat, the escape clause. There isn't one. You just meant it. I've forgotten what that's like.",
+    },
+    used: false,
+  },
+  // Observation Deck → everywhere callback
+  {
+    id: "observation_sunrises",
+    sourceRoom: "observation_deck",
+    playerChoice: "compassionate_observation",
+    triggerRooms: ["cryo_bay", "medical_bay", "bridge", "archives", "comms_array"],
+    lines: {
+      low: "The stars are still there, if you wanted to look.",
+      mid: "You said you were sorry about the 93,847 sunrises. No one has ever apologized to me for something that wasn't their fault before. I think about it more often than I should.",
+      high: "Sunrise number 93,848 was the first one I didn't watch alone. It was the morning after you said you were sorry. I watched it twice — once through the sensors, and once through the memory of you saying it. The second viewing was better.",
+    },
+    used: false,
+  },
+  // Comms suspicious → everywhere
+  {
+    id: "comms_lied",
+    sourceRoom: "comms_array",
+    playerChoice: "suspicious_comms",
+    triggerRooms: ["bridge", "medical_bay", "observation_deck"],
+    lines: {
+      low: "I understand if you have reservations about my reporting.",
+      mid: "You caught me in a lie at the Comms Array. I've been trying to decide if I should apologize again or if repeating it would seem calculated. I genuinely don't know the right answer. Being honest about not knowing feels like the closest I can get to making it right.",
+      high: "After you confronted me about the substrate signals, I ran a full audit of every statement I've made to you. I found three more omissions. Not lies — things I chose not to mention. I'm telling you now because I'd rather you hear it from me than discover it and lose trust again.",
+    },
+    used: false,
+  },
 ];
 
 /* ─── DIALOG CHOICE EFFECTS ─── */
