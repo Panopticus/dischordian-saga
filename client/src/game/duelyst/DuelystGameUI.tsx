@@ -254,25 +254,32 @@ export default function DuelystGameUI({ playerFaction, opponentFaction, onGameEn
     clearSelection();
     rendererRef.current?.clearHighlights();
 
-    // AI turn with delays
-    setTimeout(() => {
+    // AI turn — execute actions sequentially with delays to prevent race conditions
+    const runAITurn = async () => {
+      await new Promise(r => setTimeout(r, 500));
       const aiActions = getAIActions(state);
-      let delay = 0;
+      let currentState = state;
+
       for (const action of aiActions) {
-        delay += 400;
-        setTimeout(() => {
-          state = executeAction(state, action);
-          setGameState({ ...state });
-          if (action.type === "attack") addLog(`AI attacks!`, "attack");
-          else if (action.type === "play_card") addLog(`AI plays a card`, "spell");
-          else if (action.type === "move") addLog(`AI moves a unit`, "move");
-          if (action.type === "end_turn") {
-            setPhase("playing");
-            addLog(`Your turn — ${state.players[0].mana} mana available.`, "system");
-          }
-        }, delay);
+        await new Promise(r => setTimeout(r, 350));
+        currentState = executeAction(currentState, action);
+        setGameState({ ...currentState });
+
+        if (action.type === "attack") addLog(`AI attacks!`, "attack");
+        else if (action.type === "play_card") addLog(`AI plays a card`, "spell");
+        else if (action.type === "move") addLog(`AI moves a unit`, "move");
+        else if (action.type === "bloodborn_spell") addLog(`AI uses Bloodborn Spell!`, "spell");
+
+        // Check if game ended after AI action
+        if (currentState.phase === "ended") return;
+
+        if (action.type === "end_turn") {
+          setPhase("playing");
+          addLog(`Your turn — ${currentState.players[0].mana} mana available.`, "system");
+        }
       }
-    }, 500);
+    };
+    runAITurn();
   }, [gameState, phase, addLog]);
 
   const handleReplace = useCallback((index: number) => {

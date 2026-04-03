@@ -330,7 +330,7 @@ function doAttack(state: DuelystGameState, attackerId: string, targetId: string)
   }
   attacker.hasAttacked = true;
   attacker.actionsRemaining--;
-  if (attacker.actionsRemaining <= 0) attacker.hasMoved = true;
+  if (attacker.actionsRemaining <= 0) { attacker.hasMoved = true; attacker.hasAttacked = true; }
   if (target.isGeneral) {
     const defPlayer = state.players[target.owner];
     defPlayer.artifacts = defPlayer.artifacts.filter(a => { a.durability--; return a.durability > 0; });
@@ -350,7 +350,17 @@ function doPlayCard(state: DuelystGameState, cardIndex: number, row: number, col
     case "unit": {
       const unit = createBoardUnit(card, state.currentPlayer, row, col, false);
       state.board.set(posKey(row, col), unit);
-      if (!unit.activeKeywords.has("rush")) { unit.hasMoved = true; unit.hasAttacked = true; }
+      if (unit.activeKeywords.has("rush")) {
+        // Rush units can move AND attack on the turn they're summoned
+        unit.hasMoved = false;
+        unit.hasAttacked = false;
+        unit.actionsRemaining = unit.activeKeywords.has("celerity") ? 2 : 1;
+      } else {
+        // Normal units can't act the turn they're summoned
+        unit.hasMoved = true;
+        unit.hasAttacked = true;
+        unit.actionsRemaining = 0;
+      }
       if (unit.activeKeywords.has("opening_gambit") && card.spellEffect) {
         state = applySpellEffect(state, card.spellEffect, state.currentPlayer, row, col, targetId);
       }

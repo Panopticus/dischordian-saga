@@ -13,7 +13,15 @@ export function getAIActions(state: DuelystGameState): GameAction[] {
 
   const cardPlays = scoreCardPlays(state, aiPlayer);
   cardPlays.sort((a, b) => b.score - a.score);
-  for (const play of cardPlays.slice(0, 3)) { if (play.score > 0) actions.push(play.action); }
+  // Track mana spent to avoid queueing plays we can't afford
+  let manaRemaining = player.mana;
+  for (const play of cardPlays) {
+    if (play.score <= 0) break;
+    const card = player.hand[play.action.cardIndex];
+    if (!card || card.manaCost > manaRemaining) continue;
+    manaRemaining -= card.manaCost;
+    actions.push(play.action);
+  }
 
   const attacks = scoreAttacks(state, aiPlayer);
   attacks.sort((a, b) => b.score - a.score);
