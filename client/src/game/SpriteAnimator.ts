@@ -1,17 +1,17 @@
 /* ═══════════════════════════════════════════════════════
    SPRITE ANIMATOR — Multi-Frame Sprite Animation System
-   
+
    Ported from the SFII sprite sheet architecture.
    Each pose can have multiple animation frames that cycle
    based on the move's startup/active/recovery timing.
-   
+
    For poses with only a single source image, the system
    synthesizes intermediate frames using canvas manipulation
    (shift, stretch, tint) to create visual phases:
    - Anticipation (wind-up)
    - Active (impact)
    - Recovery (return to neutral)
-   
+
    When actual multi-frame sprite sheets are available,
    they override the synthesized frames entirely.
    ═══════════════════════════════════════════════════════ */
@@ -43,7 +43,7 @@ export interface PoseAnimation {
 }
 
 /** Pose categories for determining animation behavior */
-export type PoseCategory = 
+export type PoseCategory =
   | "idle"      // Continuous loop (idle, walk)
   | "attack"    // Plays once, maps to startup/active/recovery
   | "reaction"  // Plays once (hit, block, knockdown)
@@ -58,7 +58,7 @@ const POSE_CATEGORIES: Record<string, PoseCategory> = {
   dash: "movement",
   crouch: "static",
   jump: "static",
-  
+
   lightPunch: "attack",
   mediumPunch: "attack",
   heavyPunch: "attack",
@@ -73,7 +73,7 @@ const POSE_CATEGORIES: Record<string, PoseCategory> = {
   special: "attack",
   taunt: "attack",
   attack: "attack",
-  
+
   block: "reaction",
   hit: "reaction",
   ko: "reaction",
@@ -92,7 +92,7 @@ export function getPoseCategory(poseKey: string): PoseCategory {
 /**
  * Given a source image and pose category, synthesize multi-frame animation.
  * This is the core of the "make one image look like multiple frames" system.
- * 
+ *
  * Returns a PoseAnimation with 3-6 synthesized frames depending on category.
  */
 export function synthesizeFrames(
@@ -120,57 +120,67 @@ export function synthesizeFrames(
 }
 
 /**
- * Idle animation: subtle breathing cycle (4 frames, looping)
- * Frame 0: Neutral
- * Frame 1: Slight inhale (taller, narrower)
- * Frame 2: Peak inhale
- * Frame 3: Exhale (return)
+ * Idle animation: visible breathing/sway cycle (6 frames, looping)
+ * More expressive than a static stance — gives the fighter "life"
  */
 function synthesizeIdleFrames(
   src: HTMLImageElement, w: number, h: number,
 ): PoseAnimation {
   const frames: SpriteFrame[] = [
-    { image: src, duration: 10, offsetX: 0, offsetY: 0, scaleX: 1, scaleY: 1, rotation: 0 },
-    { image: src, duration: 10, offsetX: 0, offsetY: -2, scaleX: 0.99, scaleY: 1.015, rotation: 0 },
-    { image: src, duration: 10, offsetX: 0, offsetY: -3, scaleX: 0.985, scaleY: 1.02, rotation: 0 },
-    { image: src, duration: 10, offsetX: 0, offsetY: -1, scaleX: 0.995, scaleY: 1.008, rotation: 0 },
+    // Neutral stance
+    { image: src, duration: 7, offsetX: 0, offsetY: 0, scaleX: 1, scaleY: 1, rotation: 0 },
+    // Inhale up
+    { image: src, duration: 6, offsetX: 0, offsetY: -4, scaleX: 0.975, scaleY: 1.03, rotation: 0.008 },
+    // Peak inhale
+    { image: src, duration: 7, offsetX: 0, offsetY: -6, scaleX: 0.965, scaleY: 1.04, rotation: 0.012 },
+    // Start exhale
+    { image: src, duration: 6, offsetX: 0, offsetY: -3, scaleX: 0.98, scaleY: 1.02, rotation: 0.005 },
+    // Exhale down (slight bounce)
+    { image: src, duration: 7, offsetX: 0, offsetY: 2, scaleX: 1.015, scaleY: 0.985, rotation: -0.005 },
+    // Settle
+    { image: src, duration: 6, offsetX: 0, offsetY: 1, scaleX: 1.008, scaleY: 0.993, rotation: -0.002 },
   ];
-  return { frames, loop: true, totalDuration: 40 };
+  return { frames, loop: true, totalDuration: 39 };
 }
 
 /**
- * Movement animation: walk/dash bob cycle (4 frames, looping)
+ * Movement animation: walk/dash bob cycle
+ * Walk has a pronounced step rhythm, dash leans aggressively forward
  */
 function synthesizeMovementFrames(
   src: HTMLImageElement, w: number, h: number, poseKey: string,
 ): PoseAnimation {
   const isDash = poseKey === "dash";
   if (isDash) {
-    // Dash: lean forward, stretch
+    // Dash: aggressive lean forward, stretch horizontally
     const frames: SpriteFrame[] = [
-      { image: src, duration: 3, offsetX: 0, offsetY: 0, scaleX: 1.08, scaleY: 0.96, rotation: 0.04 },
-      { image: src, duration: 3, offsetX: 4, offsetY: -2, scaleX: 1.12, scaleY: 0.94, rotation: 0.06 },
-      { image: src, duration: 3, offsetX: 6, offsetY: -1, scaleX: 1.1, scaleY: 0.95, rotation: 0.05 },
-      { image: src, duration: 3, offsetX: 2, offsetY: 0, scaleX: 1.04, scaleY: 0.98, rotation: 0.02 },
+      { image: src, duration: 2, offsetX: 3, offsetY: -2, scaleX: 1.12, scaleY: 0.93, rotation: 0.07 },
+      { image: src, duration: 3, offsetX: 8, offsetY: -4, scaleX: 1.18, scaleY: 0.9, rotation: 0.1 },
+      { image: src, duration: 3, offsetX: 6, offsetY: -3, scaleX: 1.15, scaleY: 0.92, rotation: 0.08 },
+      { image: src, duration: 2, offsetX: 2, offsetY: -1, scaleX: 1.06, scaleY: 0.97, rotation: 0.03 },
     ];
-    return { frames, loop: false, totalDuration: 12 };
+    return { frames, loop: false, totalDuration: 10 };
   }
 
-  // Walk: alternating bob with slight lean
+  // Walk: pronounced step rhythm with weight shifting
   const isBack = poseKey === "walkBack";
   const leanDir = isBack ? -1 : 1;
   const frames: SpriteFrame[] = [
-    { image: src, duration: 8, offsetX: 0, offsetY: 0, scaleX: 1.02, scaleY: 0.99, rotation: 0.02 * leanDir },
-    { image: src, duration: 8, offsetX: 0, offsetY: -4, scaleX: 0.99, scaleY: 1.02, rotation: 0 },
-    { image: src, duration: 8, offsetX: 0, offsetY: 0, scaleX: 1.02, scaleY: 0.99, rotation: -0.02 * leanDir },
-    { image: src, duration: 8, offsetX: 0, offsetY: -4, scaleX: 0.99, scaleY: 1.02, rotation: 0 },
+    // Step 1: weight on front foot, leaning forward
+    { image: src, duration: 6, offsetX: 2 * leanDir, offsetY: 0, scaleX: 1.03, scaleY: 0.975, rotation: 0.035 * leanDir },
+    // Step 1 push-off: rise up
+    { image: src, duration: 5, offsetX: 0, offsetY: -7, scaleX: 0.975, scaleY: 1.035, rotation: 0.01 * leanDir },
+    // Step 2: weight on back foot
+    { image: src, duration: 6, offsetX: -2 * leanDir, offsetY: 0, scaleX: 1.03, scaleY: 0.975, rotation: -0.025 * leanDir },
+    // Step 2 push-off: rise up
+    { image: src, duration: 5, offsetX: 0, offsetY: -7, scaleX: 0.975, scaleY: 1.035, rotation: -0.01 * leanDir },
   ];
-  return { frames, loop: true, totalDuration: 32 };
+  return { frames, loop: true, totalDuration: 22 };
 }
 
 /**
  * Attack animation: startup → active → recovery (3-4 frames, plays once)
- * This maps directly to the move's frame data timing.
+ * Much more dramatic transforms for visible wind-up and follow-through
  */
 function synthesizeAttackFrames(
   src: HTMLImageElement, w: number, h: number, poseKey: string,
@@ -185,158 +195,184 @@ function synthesizeAttackFrames(
 
   if (isTaunt) {
     const frames: SpriteFrame[] = [
-      { image: src, duration: 15, offsetX: 0, offsetY: 0, scaleX: 1, scaleY: 1, rotation: 0 },
-      { image: src, duration: 15, offsetX: 0, offsetY: -5, scaleX: 1.04, scaleY: 1.04, rotation: 0 },
-      { image: src, duration: 15, offsetX: 0, offsetY: -3, scaleX: 1.02, scaleY: 1.02, rotation: 0 },
-      { image: src, duration: 15, offsetX: 0, offsetY: 0, scaleX: 1, scaleY: 1, rotation: 0 },
+      { image: src, duration: 12, offsetX: 0, offsetY: 0, scaleX: 1, scaleY: 1, rotation: 0 },
+      { image: src, duration: 12, offsetX: 0, offsetY: -8, scaleX: 1.06, scaleY: 1.06, rotation: 0.02 },
+      { image: src, duration: 20, offsetX: 0, offsetY: -6, scaleX: 1.04, scaleY: 1.04, rotation: -0.02 },
+      { image: src, duration: 16, offsetX: 0, offsetY: -2, scaleX: 1.01, scaleY: 1.01, rotation: 0 },
     ];
     return { frames, loop: false, totalDuration: 60 };
   }
 
   if (isGrab) {
     const frames: SpriteFrame[] = [
-      { image: src, duration: 5, offsetX: 0, offsetY: 0, scaleX: 1, scaleY: 1, rotation: 0 },
-      { image: src, duration: 5, offsetX: 8, offsetY: -3, scaleX: 1.1, scaleY: 0.95, rotation: 0.05 },
-      { image: src, duration: 8, offsetX: 12, offsetY: -5, scaleX: 1.15, scaleY: 0.92, rotation: 0.08 },
-      { image: src, duration: 5, offsetX: 4, offsetY: 0, scaleX: 1.02, scaleY: 0.99, rotation: 0.02 },
+      // Lunge forward
+      { image: src, duration: 4, offsetX: 4, offsetY: 0, scaleX: 1.05, scaleY: 0.97, rotation: 0.04 },
+      // Arms out
+      { image: src, duration: 4, offsetX: 14, offsetY: -4, scaleX: 1.18, scaleY: 0.9, rotation: 0.08 },
+      // Grab connect
+      { image: src, duration: 8, offsetX: 18, offsetY: -6, scaleX: 1.22, scaleY: 0.88, rotation: 0.1 },
+      // Pull back
+      { image: src, duration: 4, offsetX: 6, offsetY: 0, scaleX: 1.04, scaleY: 0.98, rotation: 0.02 },
     ];
-    return { frames, loop: false, totalDuration: 23 };
+    return { frames, loop: false, totalDuration: 20 };
   }
 
   if (isSpecial) {
-    // Special: dramatic wind-up, explosive active, long recovery
+    // Special: dramatic wind-up with full body compression, explosive release
     const frames: SpriteFrame[] = [
-      // Wind-up: compress
-      { image: src, duration: 0, offsetX: 0, offsetY: 3, scaleX: 0.95, scaleY: 1.06, rotation: -0.03 },
+      // Wind-up: compress hard, pull back
+      { image: src, duration: 0, offsetX: -6, offsetY: 6, scaleX: 0.88, scaleY: 1.12, rotation: -0.08 },
       // Active: explosive extension
-      { image: src, duration: 0, offsetX: 6, offsetY: -5, scaleX: 1.15, scaleY: 0.92, rotation: 0.08 },
-      // Peak
-      { image: src, duration: 0, offsetX: 8, offsetY: -8, scaleX: 1.18, scaleY: 0.9, rotation: 0.1 },
+      { image: src, duration: 0, offsetX: 10, offsetY: -8, scaleX: 1.22, scaleY: 0.88, rotation: 0.12 },
+      // Peak: maximum extension with energy
+      { image: src, duration: 0, offsetX: 14, offsetY: -12, scaleX: 1.28, scaleY: 0.85, rotation: 0.15 },
       // Recovery: snap back
-      { image: src, duration: 0, offsetX: 2, offsetY: 0, scaleX: 1.02, scaleY: 0.99, rotation: 0.01 },
+      { image: src, duration: 0, offsetX: 3, offsetY: 0, scaleX: 1.04, scaleY: 0.98, rotation: 0.02 },
     ];
-    return { frames, loop: false, totalDuration: 0 }; // Duration set by move data
+    return { frames, loop: false, totalDuration: 0 };
   }
 
   if (isJump) {
     const frames: SpriteFrame[] = [
-      { image: src, duration: 0, offsetX: 0, offsetY: 0, scaleX: 0.98, scaleY: 1.04, rotation: -0.05 },
-      { image: src, duration: 0, offsetX: 5, offsetY: -3, scaleX: 1.12, scaleY: 0.94, rotation: 0.1 },
-      { image: src, duration: 0, offsetX: 3, offsetY: -1, scaleX: 1.06, scaleY: 0.97, rotation: 0.05 },
+      // Wind-up in air
+      { image: src, duration: 0, offsetX: -2, offsetY: 0, scaleX: 0.94, scaleY: 1.08, rotation: -0.08 },
+      // Strike downward
+      { image: src, duration: 0, offsetX: 8, offsetY: -4, scaleX: 1.18, scaleY: 0.9, rotation: 0.14 },
+      // Follow-through
+      { image: src, duration: 0, offsetX: 5, offsetY: -2, scaleX: 1.1, scaleY: 0.95, rotation: 0.08 },
     ];
     return { frames, loop: false, totalDuration: 0 };
   }
 
   if (isCrouch) {
-    // Crouch attacks: compressed body, horizontal extension
+    // Crouch attacks: low profile, horizontal extension
     const frames: SpriteFrame[] = [
-      { image: src, duration: 0, offsetX: 0, offsetY: 2, scaleX: 1, scaleY: 0.92, rotation: 0 },
-      { image: src, duration: 0, offsetX: 6, offsetY: 0, scaleX: 1.12, scaleY: 0.88, rotation: 0.04 },
-      { image: src, duration: 0, offsetX: 2, offsetY: 1, scaleX: 1.03, scaleY: 0.91, rotation: 0.01 },
+      // Compress low
+      { image: src, duration: 0, offsetX: -2, offsetY: 4, scaleX: 0.96, scaleY: 0.88, rotation: -0.03 },
+      // Extend outward
+      { image: src, duration: 0, offsetX: 10, offsetY: 2, scaleX: 1.18, scaleY: 0.84, rotation: 0.06 },
+      // Recover
+      { image: src, duration: 0, offsetX: 3, offsetY: 3, scaleX: 1.04, scaleY: 0.88, rotation: 0.01 },
     ];
     return { frames, loop: false, totalDuration: 0 };
   }
 
-  // Standard punch/kick
-  const stretchX = isHeavy ? 0.18 : isKick ? 0.14 : 0.12;
-  const compressY = isHeavy ? 0.06 : isKick ? 0.05 : 0.04;
-  const rotAmount = isKick ? 0.08 : 0.05;
-  const offsetAmount = isHeavy ? 8 : isKick ? 6 : 4;
+  // Standard punch/kick — more dramatic transforms
+  const stretchX = isHeavy ? 0.25 : isKick ? 0.20 : 0.16;
+  const compressY = isHeavy ? 0.10 : isKick ? 0.08 : 0.06;
+  const rotAmount = isKick ? 0.12 : 0.08;
+  const offsetAmount = isHeavy ? 12 : isKick ? 10 : 7;
+  const windupX = isHeavy ? -5 : -3;
 
   const frames: SpriteFrame[] = [
-    // Startup: wind-up (slight compression)
+    // Startup: wind-up (visible pullback)
     {
       image: src, duration: 0,
-      offsetX: -2, offsetY: 2,
-      scaleX: 1 - stretchX * 0.3, scaleY: 1 + compressY * 0.5,
-      rotation: -rotAmount * 0.3,
+      offsetX: windupX, offsetY: 4,
+      scaleX: 1 - stretchX * 0.4, scaleY: 1 + compressY * 0.6,
+      rotation: -rotAmount * 0.4,
     },
-    // Active: full extension
+    // Active: full extension (impact frame)
     {
       image: src, duration: 0,
-      offsetX: offsetAmount, offsetY: -3,
+      offsetX: offsetAmount, offsetY: -4,
       scaleX: 1 + stretchX, scaleY: 1 - compressY,
       rotation: rotAmount,
     },
-    // Active peak (held slightly longer for impact feel)
+    // Active peak: held for impact feel
     {
       image: src, duration: 0,
-      offsetX: offsetAmount * 0.8, offsetY: -2,
-      scaleX: 1 + stretchX * 0.9, scaleY: 1 - compressY * 0.8,
-      rotation: rotAmount * 0.8,
+      offsetX: offsetAmount * 0.85, offsetY: -3,
+      scaleX: 1 + stretchX * 0.85, scaleY: 1 - compressY * 0.7,
+      rotation: rotAmount * 0.75,
     },
-    // Recovery: snap back
+    // Recovery: snap back with slight overshoot
     {
       image: src, duration: 0,
-      offsetX: 1, offsetY: 0,
-      scaleX: 1.01, scaleY: 0.995,
-      rotation: 0.005,
+      offsetX: -1, offsetY: 1,
+      scaleX: 0.98, scaleY: 1.01,
+      rotation: -0.01,
     },
   ];
 
-  return { frames, loop: false, totalDuration: 0 }; // Duration determined by move data
+  return { frames, loop: false, totalDuration: 0 };
 }
 
 /**
- * Reaction animation: hit/block/KO (3 frames, plays once)
+ * Reaction animation: hit/block/KO (plays once)
+ * More dramatic recoil on hits for better feedback
  */
 function synthesizeReactionFrames(
   src: HTMLImageElement, w: number, h: number, poseKey: string,
 ): PoseAnimation {
   if (poseKey === "ko") {
     const frames: SpriteFrame[] = [
-      { image: src, duration: 8, offsetX: 0, offsetY: 0, scaleX: 0.95, scaleY: 1.04, rotation: -0.05 },
-      { image: src, duration: 10, offsetX: -5, offsetY: 10, scaleX: 1.05, scaleY: 0.85, rotation: -0.2 },
-      { image: src, duration: 0, offsetX: -8, offsetY: 30, scaleX: 1.1, scaleY: 0.7, rotation: -Math.PI / 4 },
+      // Initial impact
+      { image: src, duration: 6, offsetX: -4, offsetY: 0, scaleX: 0.9, scaleY: 1.08, rotation: -0.08 },
+      // Crumple
+      { image: src, duration: 10, offsetX: -8, offsetY: 15, scaleX: 1.08, scaleY: 0.8, rotation: -0.3 },
+      // Hit floor
+      { image: src, duration: 0, offsetX: -12, offsetY: 35, scaleX: 1.15, scaleY: 0.65, rotation: -Math.PI / 3.5 },
     ];
     return { frames, loop: false, totalDuration: 0 };
   }
 
   if (poseKey === "knockdown") {
     const frames: SpriteFrame[] = [
-      { image: src, duration: 5, offsetX: 0, offsetY: 0, scaleX: 0.96, scaleY: 1.03, rotation: -0.08 },
-      { image: src, duration: 8, offsetX: -4, offsetY: 15, scaleX: 1.06, scaleY: 0.88, rotation: -0.3 },
-      { image: src, duration: 12, offsetX: -6, offsetY: 25, scaleX: 1.1, scaleY: 0.75, rotation: -Math.PI / 3 },
-      { image: src, duration: 0, offsetX: -5, offsetY: 28, scaleX: 1.08, scaleY: 0.78, rotation: -Math.PI / 3 },
+      // Impact jolt
+      { image: src, duration: 4, offsetX: -5, offsetY: -2, scaleX: 0.92, scaleY: 1.06, rotation: -0.1 },
+      // Spin back
+      { image: src, duration: 6, offsetX: -8, offsetY: 12, scaleX: 1.08, scaleY: 0.85, rotation: -0.35 },
+      // Hit ground
+      { image: src, duration: 10, offsetX: -10, offsetY: 28, scaleX: 1.14, scaleY: 0.72, rotation: -Math.PI / 2.8 },
+      // Settle on ground
+      { image: src, duration: 0, offsetX: -9, offsetY: 30, scaleX: 1.12, scaleY: 0.74, rotation: -Math.PI / 2.8 },
     ];
     return { frames, loop: false, totalDuration: 0 };
   }
 
   if (poseKey === "dizzy") {
+    // More pronounced wobble
     const frames: SpriteFrame[] = [
-      { image: src, duration: 12, offsetX: -3, offsetY: 2, scaleX: 1, scaleY: 0.98, rotation: -0.03 },
-      { image: src, duration: 12, offsetX: 3, offsetY: 0, scaleX: 1, scaleY: 1, rotation: 0.03 },
-      { image: src, duration: 12, offsetX: -2, offsetY: 1, scaleX: 1, scaleY: 0.99, rotation: -0.02 },
-      { image: src, duration: 12, offsetX: 2, offsetY: -1, scaleX: 1, scaleY: 1.01, rotation: 0.02 },
+      { image: src, duration: 10, offsetX: -5, offsetY: 3, scaleX: 0.98, scaleY: 0.97, rotation: -0.05 },
+      { image: src, duration: 10, offsetX: 5, offsetY: 0, scaleX: 1.02, scaleY: 1.01, rotation: 0.05 },
+      { image: src, duration: 10, offsetX: -3, offsetY: 2, scaleX: 0.99, scaleY: 0.98, rotation: -0.03 },
+      { image: src, duration: 10, offsetX: 4, offsetY: -1, scaleX: 1.01, scaleY: 1.02, rotation: 0.04 },
     ];
-    return { frames, loop: true, totalDuration: 48 };
+    return { frames, loop: true, totalDuration: 40 };
   }
 
-  // hit, block: impact then settle
+  // hit, block: visible recoil then settle
+  const isBlock = poseKey === "block";
+  const recoil = isBlock ? 0.6 : 1.0; // blocks have less recoil
+
   const frames: SpriteFrame[] = [
-    { image: src, duration: 4, offsetX: -4, offsetY: 2, scaleX: 0.94, scaleY: 1.05, rotation: -0.06 },
-    { image: src, duration: 6, offsetX: -2, offsetY: 1, scaleX: 0.97, scaleY: 1.02, rotation: -0.03 },
+    // Impact: body compressed backward
+    { image: src, duration: 3, offsetX: -7 * recoil, offsetY: 3 * recoil, scaleX: 0.9, scaleY: 1.08 * recoil, rotation: -0.09 * recoil },
+    // Stagger back
+    { image: src, duration: 5, offsetX: -4 * recoil, offsetY: 2, scaleX: 0.95, scaleY: 1.04, rotation: -0.05 * recoil },
+    // Recover to stance
     { image: src, duration: 0, offsetX: 0, offsetY: 0, scaleX: 1, scaleY: 1, rotation: 0 },
   ];
   return { frames, loop: false, totalDuration: 0 };
 }
 
 /**
- * Static pose: single frame held with very subtle micro-movement
+ * Static pose: subtle micro-movement so fighters never look frozen
  */
 function synthesizeStaticFrames(
   src: HTMLImageElement, w: number, h: number,
 ): PoseAnimation {
   const frames: SpriteFrame[] = [
-    { image: src, duration: 20, offsetX: 0, offsetY: 0, scaleX: 1, scaleY: 1, rotation: 0 },
-    { image: src, duration: 20, offsetX: 0, offsetY: -1, scaleX: 1, scaleY: 1.005, rotation: 0 },
+    { image: src, duration: 15, offsetX: 0, offsetY: 0, scaleX: 1, scaleY: 1, rotation: 0 },
+    { image: src, duration: 15, offsetX: 0, offsetY: -2, scaleX: 0.998, scaleY: 1.008, rotation: 0.003 },
   ];
-  return { frames, loop: true, totalDuration: 40 };
+  return { frames, loop: true, totalDuration: 30 };
 }
 
 /**
  * Resolve which frame to display given the current animation state.
- * 
+ *
  * For attack poses, maps frames to startup/active/recovery phases.
  * For looping poses, cycles through frames based on total elapsed time.
  */
@@ -361,7 +397,6 @@ export function resolveFrame(
   // For attack animations with move data, map frames to phases
   if (moveData && !anim.loop && frameCount >= 3) {
     const { startup, active, recovery } = moveData;
-    const total = startup + active + recovery;
 
     if (frameCount === 3) {
       // 3 frames: startup, active, recovery
@@ -383,7 +418,7 @@ export function resolveFrame(
                   stateFrame < startup + active ? 1 : 2;
     const phaseFrames = phase === 0 ? 1 : phase === 1 ? Math.max(1, frameCount - 2) : 1;
     const startIdx = phase === 0 ? 0 : phase === 1 ? 1 : frameCount - 1;
-    
+
     if (phase === 1 && phaseFrames > 1) {
       const phaseProgress = (stateFrame - startup) / Math.max(1, active);
       const idx = startIdx + Math.floor(phaseProgress * phaseFrames);

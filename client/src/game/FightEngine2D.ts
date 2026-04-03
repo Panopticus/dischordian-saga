@@ -145,9 +145,9 @@ const FIGHTER_DRAW_HEIGHT = 280; // Visual sprite height
 const PUSH_BOX_WIDTH = 60;
 const PUSH_BOX_HEIGHT = 160;
 
-// Input buffer
-const INPUT_BUFFER_SIZE = 8;
-const INPUT_BUFFER_WINDOW = 6; // frames
+// Input buffer — wider window for more forgiving inputs
+const INPUT_BUFFER_SIZE = 12;
+const INPUT_BUFFER_WINDOW = 10; // frames (~167ms at 60fps)
 
 // Combat timing
 const ROUNDS_TO_WIN = 2;
@@ -759,6 +759,7 @@ const POSE_FALLBACK: Partial<Record<PoseKey, PoseKey>> = {
 type InputAction2D =
   | "left" | "right" | "up" | "down"
   | "light" | "medium" | "heavy_start" | "heavy_release"
+  | "light_kick" | "medium_kick" | "heavy_kick"
   | "special" | "block" | "block_release"
   | "dash_fwd" | "dash_back";
 
@@ -966,21 +967,29 @@ interface AIDifficultyProfile {
 }
 
 const AI_PROFILES: Record<Difficulty2D, AIDifficultyProfile> = {
+  // Easy: approachable, lets player learn. Slow reactions, frequent mistakes,
+  // rarely blocks or punishes. Feels like sparring a beginner.
   recruit: {
-    reactionFrames: 30, comboAccuracy: 0.3, blockRate: 0.2, antiAirRate: 0.1,
-    whiffPunishRate: 0.1, specialUseRate: 0.15, mistakeRate: 0.3, aggressionBase: 0.3,
+    reactionFrames: 35, comboAccuracy: 0.2, blockRate: 0.15, antiAirRate: 0.05,
+    whiffPunishRate: 0.05, specialUseRate: 0.1, mistakeRate: 0.35, aggressionBase: 0.35,
   },
+  // Normal: solid opponent, blocks sometimes, can chain 2-hit combos.
+  // Reacts to jump-ins occasionally. Feels like a competent player.
   soldier: {
-    reactionFrames: 18, comboAccuracy: 0.55, blockRate: 0.45, antiAirRate: 0.3,
-    whiffPunishRate: 0.3, specialUseRate: 0.3, mistakeRate: 0.15, aggressionBase: 0.5,
+    reactionFrames: 20, comboAccuracy: 0.5, blockRate: 0.4, antiAirRate: 0.25,
+    whiffPunishRate: 0.25, specialUseRate: 0.25, mistakeRate: 0.18, aggressionBase: 0.5,
   },
+  // Hard: reads your patterns, blocks most attacks, punishes mistakes.
+  // Chains full combos and uses specials strategically. Fair but demanding.
   veteran: {
-    reactionFrames: 10, comboAccuracy: 0.75, blockRate: 0.65, antiAirRate: 0.55,
-    whiffPunishRate: 0.55, specialUseRate: 0.5, mistakeRate: 0.07, aggressionBase: 0.6,
+    reactionFrames: 12, comboAccuracy: 0.7, blockRate: 0.6, antiAirRate: 0.5,
+    whiffPunishRate: 0.5, specialUseRate: 0.45, mistakeRate: 0.08, aggressionBase: 0.6,
   },
+  // Nightmare: near-frame-perfect reactions, optimal combos, ruthless punishes.
+  // Still makes rare mistakes to keep it beatable.
   archon: {
-    reactionFrames: 4, comboAccuracy: 0.92, blockRate: 0.85, antiAirRate: 0.8,
-    whiffPunishRate: 0.8, specialUseRate: 0.7, mistakeRate: 0.02, aggressionBase: 0.7,
+    reactionFrames: 5, comboAccuracy: 0.9, blockRate: 0.8, antiAirRate: 0.75,
+    whiffPunishRate: 0.75, specialUseRate: 0.65, mistakeRate: 0.04, aggressionBase: 0.7,
   },
 };
 
@@ -1388,7 +1397,7 @@ export class FightEngine2D {
   private touchClearTimers: ReturnType<typeof setTimeout>[] = [];
 
   /** Set an inputState flag and auto-clear it after a short window */
-  private setTouchInput(key: keyof InputState, value: boolean, autoClearMs = 100) {
+  private setTouchInput(key: keyof InputState, value: boolean, autoClearMs = 167) {
     this.inputState[key] = value;
     if (value) {
       const timer = setTimeout(() => {
@@ -1752,18 +1761,51 @@ export class FightEngine2D {
     // Save previous state for edge detection — always update, even when not actionable
     this.prevInputState = { ...this.inputState };
 
-    if (!this.isActionable(f)) {
-      // Still check for buffered inputs during recovery
-      return;
-    }
-
-    // SF-ported: Record button presses into control history for motion detection
+    // SF-ported: Always record button presses into control history for motion detection,
+    // even when not actionable — this is critical for special move inputs
     if (lightPressed) this.recordButtonPress(f, "LP");
     if (mediumPressed) this.recordButtonPress(f, "MP");
     if (heavyPressed) this.recordButtonPress(f, "HP");
     if (lightKickPressed) this.recordButtonPress(f, "LK");
     if (mediumKickPressed) this.recordButtonPress(f, "MK");
     if (heavyKickPressed) this.recordButtonPress(f, "HK");
+
+    if (!this.isActionable(f)) {
+      // Buffer attack inputs during non-actionable states so they execute
+      // as soon as the fighter recovers — prevents "eaten" inputs
+      if (lightPressed) this.bufferInput("light");
+      if (mediumPressed) this.bufferInput("medium");
+      if (heavyPressed) this.bufferInput("heavy_start");
+      if (lightKickPressed) this.bufferInput("light_kick");
+      if (mediumKickPressed) this.bufferInput("medium_kick");
+      if (heavyKickPressed) this.bufferInput("heavy_kick");
+      if (specialPressed) this.bufferInput("special");
+      return;
+    }
+
+    // Process buffered inputs from when the fighter was not actionable
+    if (!lightPressed && !mediumPressed && !heavyPressed &&
+        !lightKickPressed && !mediumKickPressed && !heavyKickPressed &&
+        !specialPressed && !blockPressed && !upPressed && !tauntPressed) {
+      const buffered = this.processInputBuffer(f);
+      if (buffered) {
+        switch (buffered) {
+          case "light": this.inputState.light = true; break;
+          case "medium": this.inputState.medium = true; break;
+          case "heavy_start": this.inputState.heavy = true; break;
+          case "light_kick": this.inputState.lightKick = true; break;
+          case "medium_kick": this.inputState.mediumKick = true; break;
+          case "heavy_kick": this.inputState.heavyKick = true; break;
+          case "special": this.inputState.special = true; break;
+        }
+      }
+    }
+
+    // Recalculate pressed states after buffer injection
+    const anyAttackPressed = lightPressed || mediumPressed || heavyPressed ||
+        lightKickPressed || mediumKickPressed || heavyKickPressed ||
+        this.inputState.light || this.inputState.medium || this.inputState.heavy ||
+        this.inputState.lightKick || this.inputState.mediumKick || this.inputState.heavyKick;
 
     // SF-ported: Check for motion input specials (QCF, DP, HCF + button)
     // This takes priority over the simple special button
