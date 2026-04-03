@@ -12,14 +12,16 @@ import {
 import { BoardRenderer } from "./BoardRenderer";
 import { getAIActions, getAIMulliganIndices } from "./DuelystAI";
 import { buildStarterDeck } from "./cardAdapter";
+import { TUTORIAL_STEPS, isTutorialActionComplete, type TutorialStep } from "./tutorial";
 import {
   Swords, Heart, Zap, RotateCcw, SkipForward, Shield,
-  Crosshair, Move, Sparkles, BookOpen,
+  Crosshair, Move, Sparkles, BookOpen, MessageCircle,
 } from "lucide-react";
 
 interface DuelystGameUIProps {
   playerFaction: Faction;
   opponentFaction: Faction;
+  isTutorial?: boolean;
   onGameEnd: (winner: "player" | "opponent") => void;
   onBack: () => void;
 }
@@ -29,7 +31,7 @@ type SelectionMode = "none" | "move" | "attack" | "summon" | "spell_target";
 
 interface LogEntry { text: string; type: "info" | "attack" | "spell" | "move" | "system"; }
 
-export default function DuelystGameUI({ playerFaction, opponentFaction, onGameEnd, onBack }: DuelystGameUIProps) {
+export default function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onGameEnd, onBack }: DuelystGameUIProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const rendererRef = useRef<BoardRenderer | null>(null);
   const [gameState, setGameState] = useState<DuelystGameState | null>(null);
@@ -40,8 +42,30 @@ export default function DuelystGameUI({ playerFaction, opponentFaction, onGameEn
   const [mulliganSelections, setMulliganSelections] = useState<Set<number>>(new Set());
   const [log, setLog] = useState<LogEntry[]>([]);
   const [hoveredCard, setHoveredCard] = useState<DuelystCard | null>(null);
-
   const [turnFlash, setTurnFlash] = useState<string | null>(null);
+
+  // Tutorial state
+  const [tutorialStep, setTutorialStep] = useState(0);
+  const [lastActionType, setLastActionType] = useState<string | null>(null);
+  const currentTutorialStep = isTutorial ? TUTORIAL_STEPS[tutorialStep] : null;
+
+  // Auto-advance tutorial steps
+  useEffect(() => {
+    if (!isTutorial || !currentTutorialStep?.autoAdvanceMs) return;
+    const timer = setTimeout(() => {
+      if (tutorialStep < TUTORIAL_STEPS.length - 1) setTutorialStep(s => s + 1);
+    }, currentTutorialStep.autoAdvanceMs);
+    return () => clearTimeout(timer);
+  }, [isTutorial, tutorialStep, currentTutorialStep]);
+
+  // Check if tutorial step action was completed
+  useEffect(() => {
+    if (!isTutorial || !currentTutorialStep?.requiredAction || !lastActionType) return;
+    if (isTutorialActionComplete(currentTutorialStep, lastActionType)) {
+      setLastActionType(null);
+      if (tutorialStep < TUTORIAL_STEPS.length - 1) setTutorialStep(s => s + 1);
+    }
+  }, [isTutorial, tutorialStep, currentTutorialStep, lastActionType]);
 
   const addLog = useCallback((text: string, type: LogEntry["type"] = "info") => {
     setLog(prev => [...prev.slice(-50), { text, type }]);
@@ -119,6 +143,7 @@ export default function DuelystGameUI({ playerFaction, opponentFaction, onGameEn
         const newState = executeAction(gameState, { type: "move", unitId: selectedUnit, toRow: row, toCol: col });
         setGameState(newState);
         addLog(`Moved unit to (${row}, ${col})`, "move");
+        if (isTutorial) setLastActionType("move");
         clearSelection();
         rendererRef.current?.clearHighlights();
         return;
@@ -133,6 +158,7 @@ export default function DuelystGameUI({ playerFaction, opponentFaction, onGameEn
           const newState = executeAction(gameState, { type: "play_card", cardIndex: selectedCard, row, col });
           setGameState(newState);
           addLog(`Summoned ${card.name} at (${row}, ${col})`, "spell");
+          if (isTutorial) setLastActionType("play_card");
           clearSelection();
           rendererRef.current?.clearHighlights();
           return;
@@ -160,6 +186,7 @@ export default function DuelystGameUI({ playerFaction, opponentFaction, onGameEn
         setGameState(newState);
         addLog(`${attacker?.card.name} attacks ${unit.card.name}!`, "attack");
         if (attacker) rendererRef.current?.showDamageNumber(unit.row, unit.col, attacker.currentAttack);
+        if (isTutorial) setLastActionType("attack");
         clearSelection();
         rendererRef.current?.clearHighlights();
         return;
@@ -255,6 +282,7 @@ export default function DuelystGameUI({ playerFaction, opponentFaction, onGameEn
     setGameState(state);
     setPhase("ai_turn");
     addLog("Your turn ended. AI is thinking...", "system");
+    if (isTutorial) setLastActionType("end_turn");
     setTurnFlash("ENEMY TURN");
     setTimeout(() => setTurnFlash(null), 1500);
     clearSelection();
@@ -391,6 +419,62 @@ export default function DuelystGameUI({ playerFaction, opponentFaction, onGameEn
             }}>
               {turnFlash}
             </p>
+          </div>
+        </div>
+      )}
+
+      {/* Tutorial overlay — Elara's guidance */}
+      {isTutorial && currentTutorialStep && (
+        <div className="absolute bottom-48 left-1/2 -translate-x-1/2 z-50 w-[90%] max-w-lg">
+          <div className={`flex items-start gap-3 p-4 rounded-xl border backdrop-blur-md shadow-2xl ${
+            currentTutorialStep.mood === "warning" ? "bg-amber-950/80 border-amber-500/40" :
+            currentTutorialStep.mood === "excited" ? "bg-emerald-950/80 border-emerald-500/40" :
+            currentTutorialStep.mood === "celebration" ? "bg-purple-950/80 border-purple-500/40" :
+            "bg-black/80 border-white/20"
+          }`}>
+            {/* Elara avatar */}
+            <div className={`w-10 h-10 rounded-full shrink-0 flex items-center justify-center ${
+              currentTutorialStep.mood === "warning" ? "bg-amber-500/20 border-2 border-amber-500" :
+              currentTutorialStep.mood === "excited" ? "bg-emerald-500/20 border-2 border-emerald-500" :
+              currentTutorialStep.mood === "celebration" ? "bg-purple-500/20 border-2 border-purple-500" :
+              "bg-cyan-500/20 border-2 border-cyan-500"
+            }`}>
+              <MessageCircle size={16} className={
+                currentTutorialStep.mood === "warning" ? "text-amber-400" :
+                currentTutorialStep.mood === "excited" ? "text-emerald-400" :
+                currentTutorialStep.mood === "celebration" ? "text-purple-400" :
+                "text-cyan-400"
+              } />
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="font-mono text-[10px] text-white/40 tracking-wider mb-1">ELARA</p>
+              <p className="text-sm text-white/90 leading-relaxed">{currentTutorialStep.message}</p>
+              {currentTutorialStep.requiredAction && (
+                <p className="font-mono text-[10px] text-cyan-400/60 mt-2 animate-pulse">
+                  {currentTutorialStep.requiredAction === "move" && "↑ Click your General and move them"}
+                  {currentTutorialStep.requiredAction === "attack" && "↑ Select your unit, then attack an enemy"}
+                  {currentTutorialStep.requiredAction === "play_card" && "↓ Click a card in your hand, then click a tile"}
+                  {currentTutorialStep.requiredAction === "end_turn" && "→ Press END TURN"}
+                </p>
+              )}
+            </div>
+            {/* Skip button */}
+            {currentTutorialStep.autoAdvanceMs && (
+              <button
+                onClick={() => tutorialStep < TUTORIAL_STEPS.length - 1 && setTutorialStep(s => s + 1)}
+                className="shrink-0 text-white/30 hover:text-white/60 text-[10px] font-mono"
+              >
+                SKIP
+              </button>
+            )}
+          </div>
+          {/* Step indicator */}
+          <div className="flex justify-center gap-1 mt-2">
+            {TUTORIAL_STEPS.map((_, i) => (
+              <div key={i} className={`w-1.5 h-1.5 rounded-full transition-colors ${
+                i === tutorialStep ? "bg-cyan-400" : i < tutorialStep ? "bg-cyan-400/30" : "bg-white/10"
+              }`} />
+            ))}
           </div>
         </div>
       )}

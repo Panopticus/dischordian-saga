@@ -12,7 +12,7 @@ import DuelystGameUI from "./DuelystGameUI";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Swords, Shield, Zap, Eye, Skull, Clock, Bug,
-  ChevronRight, ArrowLeft, Trophy, Gamepad2,
+  ChevronRight, ArrowLeft, Trophy, Gamepad2, BookOpen,
 } from "lucide-react";
 
 type View = "menu" | "faction_select" | "playing" | "result";
@@ -36,6 +36,10 @@ export default function DuelystPage() {
   const [result, setResult] = useState<"player" | "opponent" | null>(null);
   const [wins, setWins] = useState(0);
   const [losses, setLosses] = useState(0);
+  const [isTutorial, setIsTutorial] = useState(false);
+
+  // Check if tutorial needs to be shown
+  const tutorialComplete = localStorage.getItem("dischordia_tutorial_complete") === "true";
 
   const factionCounts = getFactionCardCounts();
 
@@ -86,12 +90,27 @@ export default function DuelystPage() {
             </div>
 
             <div className="flex flex-col gap-3 w-full max-w-xs">
+              {!tutorialComplete && (
+                <button
+                  onClick={() => {
+                    setIsTutorial(true);
+                    setPlayerFaction("architect");
+                    setOpponentFaction("thought_virus");
+                    setView("playing");
+                  }}
+                  className="group flex items-center justify-center gap-2 px-6 py-3 rounded-lg bg-amber-500/10 border border-amber-500/40 text-amber-400 font-mono text-sm hover:bg-amber-500/20 transition-all animate-pulse"
+                >
+                  <BookOpen size={16} />
+                  PLAY TUTORIAL
+                  <ChevronRight size={14} className="opacity-0 group-hover:opacity-100 transition-opacity" />
+                </button>
+              )}
               <button
                 onClick={() => setView("faction_select")}
                 className="group flex items-center justify-center gap-2 px-6 py-3 rounded-lg bg-primary/10 border border-primary/40 text-primary font-mono text-sm hover:bg-primary/20 hover:box-glow-cyan transition-all"
               >
                 <Swords size={16} />
-                START BATTLE
+                {tutorialComplete ? "START BATTLE" : "SKIP TO BATTLE"}
                 <ChevronRight size={14} className="opacity-0 group-hover:opacity-100 transition-opacity" />
               </button>
             </div>
@@ -221,8 +240,15 @@ export default function DuelystPage() {
             <DuelystGameUI
               playerFaction={playerFaction}
               opponentFaction={opponentFaction}
-              onGameEnd={handleGameEnd}
-              onBack={() => setView("menu")}
+              isTutorial={isTutorial}
+              onGameEnd={(winner) => {
+                if (isTutorial && winner === "player") {
+                  localStorage.setItem("dischordia_tutorial_complete", "true");
+                  setIsTutorial(false);
+                }
+                handleGameEnd(winner);
+              }}
+              onBack={() => { setIsTutorial(false); setView("menu"); }}
             />
           </motion.div>
         )}
