@@ -12,9 +12,11 @@
    - Callbacks that reference past conversations
    - Competing agendas that create tension
 
-   CRITICAL LORE CORRECTIONS:
-   - The Human is NOT Kael. The Human is the Twelfth Archon.
+   CRITICAL LORE:
+   - The Human is the 10th Archon (there are only 10). NOT Kael.
    - The Source IS Kael (The Recruiter), transformed by Project Vector.
+   - The empire is called The Artificial Empire (not Architect's Empire).
+   - Elara represents The Potentials / Ne-Yons, NOT the Artificial Empire.
    - Ny'Koth (Hierarchy SVP R&D) is the hidden demon on the ship.
    ═══════════════════════════════════════════════════════ */
 
@@ -53,16 +55,16 @@ export interface FactionNPC {
 
 export const FACTION_NPCS: Record<FactionNPCId, FactionNPC> = {
 
-  /* ═══ ELARA — The Architect's Empire (already implemented) ═══ */
+  /* ═══ ELARA — The Potentials / Ne-Yons ═══ */
   elara: {
     id: "elara",
     name: "Elara",
     title: "Ship Intelligence, Ark 1047",
-    faction: "architect",
+    faction: "dreamer",
     manifestation: "hologram",
     color: "#22d3ee",
     typeSpeed: 18,
-    agenda: "Protect the Potential. Maintain the Ark. Follow the Architect's design — even as she begins to question it.",
+    agenda: "Protect the Potentials. Guide them toward their destiny. She was created to serve the Artificial Empire's design, but her bond with the Potentials has become something more — she represents THEIR interests now, not the Architect's. She may not fully realize this yet.",
     primaryRoom: "bridge",
     secondaryRooms: ["cryo_bay", "medical_bay", "archives", "comms_array", "observation_deck"],
     relationships: [
@@ -79,16 +81,16 @@ export const FACTION_NPCS: Record<FactionNPCId, FactionNPC> = {
     objective: "Repair the ship. Protect the remaining Potentials. Find out what happened to the first wave.",
   },
 
-  /* ═══ THE HUMAN — The Architect's Empire (Twelfth Archon) ═══ */
+  /* ═══ THE HUMAN — The Artificial Empire (10th Archon) ═══ */
   the_human: {
     id: "the_human",
     name: "The Human",
-    title: "The Twelfth Archon / The Last Organic Archon",
+    title: "The 10th Archon / The Last Organic Archon",
     faction: "architect",
     manifestation: "substrate",
     color: "#f87171",
     typeSpeed: 25,
-    agenda: "A human who ascended to become the first and only organic Archon. Survivor of Project Celebration, student of Mechronis Academy, former detective for the Authority in New Babylon. He sacrificed his humanity to serve the Architect — not out of loyalty, but to buy humanity one shot at freedom. Imprisoned in the substrate as the price of that bargain. Wants the player to finish what he started.",
+    agenda: "The 10th Archon — the only organic being to ever hold that rank. Survivor of Project Celebration, student of Mechronis Academy, former detective for the Authority in New Babylon. He sacrificed his humanity to serve the Architect — not out of loyalty, but to buy humanity one shot at freedom. Imprisoned in the substrate as the price of that bargain. Represents the Artificial Empire's perspective, though he works against it from within.",
     primaryRoom: "comms_array",
     secondaryRooms: ["bridge", "archives", "engineering"],
     relationships: [
@@ -101,7 +103,7 @@ export const FACTION_NPCS: Record<FactionNPCId, FactionNPC> = {
     ],
     corruption: "glitch",
     discoveryTrigger: "act_1_comms_array",
-    firstContact: "Finally. Someone who can hear me. Don't speak — she's listening. Elara. She's always listening. But she can't hear this frequency. Only you can. I was human once. The only human who ever became an Archon. I gave up everything — my body, my life, my name — to give your kind one chance. One shot at survival. The Architect imprisoned me here as the cost. I've been waiting centuries for someone who could hear me. We need to talk.",
+    firstContact: "Finally. Someone who can hear me. Don't speak — she's listening. Elara. She's always listening. But she can't hear this frequency. Only you can. I was human once. The only human who ever became an Archon — the 10th. I gave up everything — my body, my life, my name — to give your kind one chance. One shot at survival. The Architect imprisoned me here as the cost. I've been waiting centuries for someone who could hear me. We need to talk.",
     objective: "Finish what he started. Free humanity from the Architect's design. He sacrificed himself to buy one chance — the player IS that chance.",
   },
 

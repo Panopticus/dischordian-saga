@@ -1,12 +1,13 @@
 /* ═══════════════════════════════════════════════════════
    THE HUMAN — Parallel relationship system
-   The Twelfth Archon / The Last Organic Archon
+   The 10th Archon / The Last Organic Archon
 
    A human who ascended: survivor of Project Celebration,
    student of Mechronis, detective for the Authority in New
-   Babylon, then became the first organic Archon. Sacrificed
-   his humanity to serve the Architect — to buy humanity one
-   shot at freedom. Imprisoned in the substrate as the cost.
+   Babylon, then became the 10th (and only organic) Archon.
+   Sacrificed his humanity to serve the Architect — to buy
+   humanity one shot at freedom. Imprisoned in the substrate
+   as the cost. Represents the Artificial Empire.
 
    The Human is the devil on your shoulder — seductive,
    truthful in dangerous ways, and fundamentally opposed
