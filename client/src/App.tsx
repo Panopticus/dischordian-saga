@@ -17,7 +17,7 @@ import { GameAudioProvider } from "./contexts/GameAudioContext";
 import { SagaThemeBGMProvider } from "./contexts/SagaThemeBGMContext";
 import PlayerBar from "./components/PlayerBar";
 import CoNexusMediaPlayer from "./components/CoNexusMediaPlayer";
-import AppShell from "./components/AppShell";
+import AppShell from "./components/AppShellImmersive";
 import CommandConsole from "./components/CommandConsole";
 import AchievementToast from "./components/AchievementToast";
 import TradeNotificationWatcher from "./components/TradeNotificationWatcher";
@@ -167,7 +167,7 @@ function Router() {
         <Route path="/create-citizen" component={CitizenCreationPage} />
         <Route path="/character-sheet" component={CharacterSheetPage} />
         <Route path="/research-lab" component={ResearchLabPage} />
-        <Route path="/games" component={GamesPage} />
+        {/* /games removed — all games accessed through Ark rooms */}
         <Route path="/forge" component={ForgePage} />
         <Route path="/discography" component={DiscographyPage} />
         <Route path="/saga-timeline" component={SagaTimelinePage} />

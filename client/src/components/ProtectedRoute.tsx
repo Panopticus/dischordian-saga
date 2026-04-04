@@ -111,7 +111,6 @@ export function useRouteAccess(path: string): { allowed: boolean; requiredRoom: 
     path.startsWith("/ark") ||
     path.startsWith("/ship-map") ||
     path.startsWith("/console") ||
-    path.startsWith("/games") ||
     path.startsWith("/clue-journal") ||
     path.startsWith("/settings") ||
     path.startsWith("/admin") ||

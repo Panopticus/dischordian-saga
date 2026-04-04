@@ -259,7 +259,7 @@ function RoomNode({
                 : "text-white/20"
             }`}
           >
-            {isUnlocked || canUnlock ? def.name : "???"}
+            {isUnlocked ? def.name : canUnlock ? "Energy signature..." : "???"}
           </p>
           {isUnlocked && (
             <p className="font-mono text-[8px] text-white/30 truncate">
@@ -338,14 +338,9 @@ function RoomNode({
               ) : canUnlock ? (
                 <p className="font-mono text-[10px] text-amber-400/70 leading-relaxed">
                   <Zap size={9} className="inline mr-1" />
-                  Ready to discover! Click to enter.
+                  Faint energy readings detected. Tap to investigate.
                 </p>
-              ) : (
-                <p className="font-mono text-[10px] text-white/30 leading-relaxed">
-                  <Lock size={9} className="inline mr-1" />
-                  {getUnlockHint(def)}
-                </p>
-              )}
+              ) : null}
             </div>
           </motion.div>
         )}
@@ -430,47 +425,28 @@ export default function ShipSchematicMap() {
     <div className="min-h-screen pt-14 pb-8 px-3 sm:px-6">
       {/* ═══ HEADER ═══ */}
       <div className="max-w-4xl mx-auto mb-6">
-        <div className="flex items-center gap-3 mb-3">
+        <div className="flex items-center gap-3 mb-2">
           <div
-            className="w-10 h-10 rounded-lg flex items-center justify-center"
-            style={{ background: "rgba(51,226,230,0.1)", border: "1px solid rgba(51,226,230,0.3)" }}
+            className="w-8 h-8 rounded-lg flex items-center justify-center"
+            style={{ background: "rgba(51,226,230,0.08)", border: "1px solid rgba(51,226,230,0.2)" }}
           >
-            <Ship size={20} className="text-[var(--neon-cyan)]" />
+            <Ship size={16} className="text-[var(--neon-cyan)]" />
           </div>
           <div>
-            <h1 className="font-display text-lg sm:text-xl font-bold tracking-wider text-foreground">
-              INCEPTION ARK <span className="text-[var(--neon-cyan)]">10047</span>
+            <h1 className="font-display text-base sm:text-lg font-bold tracking-wider text-foreground/80">
+              ARK <span className="text-[var(--neon-cyan)]">1047</span>
             </h1>
-            <p className="font-mono text-[10px] text-muted-foreground/50 tracking-[0.2em]">
-              SHIP SCHEMATIC // NAVIGATION SYSTEM
+            <p className="font-mono text-[9px] text-muted-foreground/30 tracking-[0.15em]">
+              {discoveryPercent < 30
+                ? "Power fluctuating. Sections still dark."
+                : discoveryPercent < 70
+                ? "Systems restoring. New sections coming online."
+                : discoveryPercent < 100
+                ? "Most decks operational."
+                : "All systems nominal."}
             </p>
           </div>
         </div>
-
-        {/* Discovery progress bar */}
-        <div className="flex items-center gap-3 mb-1">
-          <div className="flex-1 h-1.5 rounded-full overflow-hidden" style={{ background: "rgba(255,255,255,0.05)" }}>
-            <motion.div
-              className="h-full rounded-full"
-              style={{ background: "linear-gradient(90deg, var(--neon-cyan), var(--orb-orange))" }}
-              initial={{ width: 0 }}
-              animate={{ width: `${discoveryPercent}%` }}
-              transition={{ duration: 1, ease: "easeOut" }}
-            />
-          </div>
-          <span className="font-mono text-[10px] text-muted-foreground/50 shrink-0">
-            {totalDiscovered}/{totalRooms} ROOMS
-          </span>
-        </div>
-        <p className="font-mono text-[9px] text-muted-foreground/30">
-          {discoveryPercent < 30
-            ? "Ship systems are mostly offline. Elara is working to restore power to each section."
-            : discoveryPercent < 70
-            ? "Power is being restored across the Ark. More sections are coming online."
-            : discoveryPercent < 100
-            ? "Most ship systems are operational. Only a few sections remain locked."
-            : "All ship systems are fully operational. The Ark is yours to command."}
-        </p>
       </div>
 
       {/* ═══ SHIP CROSS-SECTION ═══ */}
@@ -509,6 +485,9 @@ export default function ShipSchematicMap() {
               const hasAnyUnlocked = rooms.some(r => state.rooms[r.id]?.unlocked);
               const hasAnyCanUnlock = rooms.some(r => !state.rooms[r.id]?.unlocked && canUnlockRoom(r.id));
 
+              // Hide entire deck if nothing is discovered or adjacent
+              if (!hasAnyUnlocked && !hasAnyCanUnlock) return null;
+
               return (
                 <motion.div
                   key={deckConfig.deck}
@@ -536,7 +515,7 @@ export default function ShipSchematicMap() {
                       className="font-mono text-[9px] tracking-[0.25em] font-bold"
                       style={{ color: hasAnyUnlocked ? deckConfig.color : "rgba(255,255,255,0.15)" }}
                     >
-                      DECK {deckConfig.deck} — {deckConfig.name}
+                      {deckConfig.name} SECTOR
                     </span>
 
                     {hasAnyCanUnlock && !hasAnyUnlocked && (
@@ -546,9 +525,9 @@ export default function ShipSchematicMap() {
                     )}
                   </div>
 
-                  {/* Room nodes */}
+                  {/* Room nodes — only show discovered or adjacent rooms */}
                   <div className="pl-12 sm:pl-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-1.5 mb-4">
-                    {rooms.map(def => (
+                    {rooms.filter(def => !!state.rooms[def.id]?.unlocked || canUnlockRoom(def.id)).map(def => (
                       <RoomNode
                         key={def.id}
                         def={def}
@@ -610,22 +589,7 @@ export default function ShipSchematicMap() {
         </div>
       </div>
 
-      {/* ═══ LEGEND ═══ */}
-      <div className="max-w-4xl mx-auto mt-4">
-        <div className="flex flex-wrap gap-4 justify-center">
-          {[
-            { icon: <div className="w-2 h-2 rounded-full bg-white animate-ping" />, label: "CURRENT" },
-            { icon: <div className="w-2 h-2 rounded-full bg-[var(--neon-cyan)]" />, label: "DISCOVERED" },
-            { icon: <div className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />, label: "READY" },
-            { icon: <Lock size={8} className="text-white/20" />, label: "LOCKED" },
-          ].map(item => (
-            <div key={item.label} className="flex items-center gap-1.5">
-              <div className="w-4 h-4 flex items-center justify-center">{item.icon}</div>
-              <span className="font-mono text-[8px] text-muted-foreground/40 tracking-wider">{item.label}</span>
-            </div>
-          ))}
-        </div>
-      </div>
+      {/* No legend — the ship teaches you */}
     </div>
   );
 }
