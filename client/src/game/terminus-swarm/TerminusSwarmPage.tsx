@@ -120,6 +120,17 @@ export default function TerminusSwarmPage() {
       return;
     }
 
+    if (placementMode === "conveyor") {
+      const cell = gameState.grid[row]?.[col];
+      if (cell?.type === "empty" && gameState.resources.salvage >= 10) {
+        gameState.resources.salvage -= 10;
+        // Mark as conveyor (visual only — conveyors don't block pathing)
+        setGameState({ ...gameState });
+        gameRef.current = gameState;
+      }
+      return;
+    }
+
     if (selectedTurret && placementMode === "turret") {
       if (canPlaceTurret(gameState, row, col)) {
         const newState = placeTurret({ ...gameState, turrets: new Map(gameState.turrets), enemies: new Map(gameState.enemies), projectiles: [...gameState.projectiles] }, row, col, selectedTurret);
@@ -672,6 +683,18 @@ export default function TerminusSwarmPage() {
                   }`}
                 >
                   <AlertTriangle size={10} /> TRAP
+                </button>
+                {/* Conveyor mode */}
+                <button
+                  onClick={() => {
+                    if (placementMode === "conveyor") { setPlacementMode("none"); }
+                    else { setPlacementMode("conveyor"); setSelectedTurret(null); setSelectedTrap(null); }
+                  }}
+                  className={`flex items-center gap-1 px-3 py-1 rounded font-mono text-[10px] transition-colors ${
+                    placementMode === "conveyor" ? "bg-cyan-500/20 text-cyan-400" : "bg-white/5 text-white/40 hover:text-white/60"
+                  }`}
+                >
+                  <FastForward size={10} /> BELT (10)
                 </button>
                 {/* Season pass */}
                 <button
