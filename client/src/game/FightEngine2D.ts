@@ -1056,6 +1056,12 @@ export class FightEngine2D {
   private aiProfile: AIDifficultyProfile;
   private callbacks: FightCallbacks2D;
 
+  // Economy bonuses (from crafted items, premium, NFT)
+  public playerDamageBonus = 0;   // Percent bonus to P1 damage
+  public playerDefenseBonus = 0;  // Percent bonus to P1 defense (damage reduction)
+  public playerSpeedBonus = 0;    // Percent bonus to P1 speed
+  public playerHpBonus = 0;       // Percent bonus to P1 max HP
+
   // Timing
   private lastTime = 0;
   private accumulator = 0;
@@ -2266,11 +2272,14 @@ export class FightEngine2D {
     const atkId: 1 | 2 = attacker === this.p1 ? 1 : 2;
     const defId: 1 | 2 = defender === this.p1 ? 1 : 2;
 
-    // Damage calculation with combo scaling
+    // Damage calculation with combo scaling + economy bonuses
     const comboScale = Math.max(0.2, 1 - defender.comboCount * 0.08);
     const defMult = defender.defenseDebuffTimer > 0 ? 1.2 : 1;
     const headBonus = hitZone === "head" ? 1.15 : 1;
-    const damage = Math.floor(hb.damage * comboScale * defMult * headBonus);
+    // Apply crafted item damage bonus for player, defense bonus for defender
+    const atkBonus = attacker === this.p1 ? (1 + this.playerDamageBonus / 100) : 1;
+    const defBonus = defender === this.p1 ? (1 - this.playerDefenseBonus / 200) : 1; // Defense halved to prevent invincibility
+    const damage = Math.floor(hb.damage * comboScale * defMult * headBonus * atkBonus * defBonus);
 
     defender.hp = Math.max(0, defender.hp - damage);
 

@@ -231,6 +231,52 @@ export function adaptAllCards(): DuelystCard[] {
   return _cachedCards;
 }
 
+/**
+ * Apply card upgrades from crafting/enhancement to deck cards.
+ * Upgrades are stored as { cardId: upgradeCount } in localStorage or server.
+ * Each upgrade adds +1 attack and +1 health (from Resonance Infuser crafting).
+ */
+export function applyCardUpgrades(deck: DuelystCard[]): DuelystCard[] {
+  const upgrades: Record<string, number> = JSON.parse(localStorage.getItem("card_upgrades") || "{}");
+
+  return deck.map(card => {
+    const upgradeCount = upgrades[card.id] || upgrades[card.sagaCardId || ""] || 0;
+    if (upgradeCount === 0) return card;
+
+    return {
+      ...card,
+      attack: card.attack + upgradeCount,
+      health: card.health + upgradeCount,
+      // Mark as enhanced for visual indicator
+      abilityText: card.abilityText ? `[+${upgradeCount}] ${card.abilityText}` : `[Enhanced +${upgradeCount}]`,
+    };
+  });
+}
+
+/**
+ * Apply active crafted item bonuses to card stats.
+ * Called when building a deck for gameplay.
+ */
+export function applyGameBonuses(
+  deck: DuelystCard[],
+  bonuses: Map<string, number>,
+): DuelystCard[] {
+  const powerBonus = bonuses.get("unit_power") || 0;
+  const healthBonus = bonuses.get("unit_health") || 0;
+  const manaBonus = bonuses.get("mana") || 0;
+
+  if (powerBonus === 0 && healthBonus === 0 && manaBonus === 0) return deck;
+
+  return deck.map(card => {
+    if (card.cardType !== "unit") return card;
+    return {
+      ...card,
+      attack: card.attack + (powerBonus > 1 ? powerBonus : Math.round(card.attack * powerBonus / 100)),
+      health: card.health + (healthBonus > 1 ? healthBonus : Math.round(card.health * healthBonus / 100)),
+    };
+  });
+}
+
 export function getCardsForFaction(faction: Faction): DuelystCard[] {
   return adaptAllCards().filter(c => c.faction === faction || c.faction === "neutral");
 }
