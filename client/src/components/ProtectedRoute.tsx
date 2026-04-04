@@ -27,20 +27,21 @@ export const ROUTE_ROOM_MAP: Record<string, string> = {
   // Observation Deck routes
   "/discography": "observation-deck",
   "/favorites": "observation-deck",
-  // Armory routes
-  "/fight": "armory",
-  "/duelyst": "armory",
-  "/battle": "armory",
-  "/pvp": "armory",
-  "/boss-battle": "armory",
-  "/card-challenge": "armory",
-  "/quiz": "armory",
-  "/fight-leaderboard": "armory",
-  "/draft": "armory",
+  // Combat games — distributed across rooms for early discovery
+  "/fight": "medical-bay",         // Combat diagnostics in Medical Bay (Deck 1)
+  "/fight-leaderboard": "medical-bay",
+  "/boss-battle": "medical-bay",
+  "/chess": "bridge",              // Strategic warfare on the Bridge (Deck 2)
+  "/spectate": "bridge",
+  "/duelyst": "archives",          // Card battles as living history in Archives (Deck 2)
+  "/battle": "archives",
+  "/card-challenge": "archives",
+  "/card-achievements": "archives",
+  "/draft": "archives",
+  "/quiz": "archives",             // Lore quiz belongs with lore
+  "/pvp": "armory",                // PvP stays in Armory (advanced, Deck 4)
   "/trading": "armory",
-  "/card-achievements": "armory",
-  "/chess": "armory",
-  "/spectate": "armory",
+  "/terminus-swarm": "armory",     // Terminus Swarm is endgame combat (Deck 4)
   // Engineering routes
   "/research-lab": "engineering",
   "/deck-builder": "engineering",
@@ -48,10 +49,12 @@ export const ROUTE_ROOM_MAP: Record<string, string> = {
   "/card-gallery": "engineering",
   "/demon-packs": "engineering",
   "/research-minigame": "engineering",
+  // Trade Hub routes (Deck 5 — Locke's domain)
+  "/trade-empire": "trade-hub",
+  "/marketplace": "trade-hub",
+  "/diplomacy": "trade-hub",
   // Cargo Hold routes
-  "/trade-empire": "cargo-hold",
   "/store": "cargo-hold",
-  "/marketplace": "cargo-hold",
   "/inventory": "cargo-hold",
   "/fleet": "cargo-hold",
   // Captain's Quarters routes
@@ -69,7 +72,6 @@ export const ROUTE_ROOM_MAP: Record<string, string> = {
   // Bridge routes (extended)
   "/quests": "bridge",
   "/guild": "bridge",
-  "/diplomacy": "bridge",
   "/faction-wars": "bridge",
   "/war-map": "bridge",
   // Comms Array routes (extended)

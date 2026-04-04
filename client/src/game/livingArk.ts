@@ -13,12 +13,12 @@ export interface RoomDef { id: RoomId; name: string; deck: string; primaryNPC: s
 
 export const ROOMS: Record<RoomId, RoomDef> = {
   cryo_bay: { id: "cryo_bay", name: "Cryo Bay", deck: "Deck 1", primaryNPC: null, features: ["character_sheet", "army_recruitment", "pod_mysteries"], defaultTome: "welcome-to-celebration", discoverySong: "Seeds of Inception" },
-  medical_bay: { id: "medical_bay", name: "Medical Bay", deck: "Deck 1", primaryNPC: "the_source", features: ["citizen_stats", "diagnostics", "class_mastery"], defaultTome: "the-necromancers-lair", discoverySong: "The Prisoner" },
-  bridge: { id: "bridge", name: "Bridge", deck: "Deck 2", primaryNPC: "elara", features: ["conspiracy_board", "quests", "guild_hall", "daily_brief"], defaultTome: "mechronis-academy", discoverySong: "Building the Architect" },
-  archives: { id: "archives", name: "Archives", deck: "Deck 2", primaryNPC: "the_antiquarian", features: ["loredex_search", "codex", "lore_quiz"], defaultTome: "the-detective", discoverySong: "The Book of Daniel 2.0" },
+  medical_bay: { id: "medical_bay", name: "Medical Bay", deck: "Deck 1", primaryNPC: "the_source", features: ["citizen_stats", "diagnostics", "class_mastery", "combat_sim"], defaultTome: "the-necromancers-lair", discoverySong: "The Prisoner" },
+  bridge: { id: "bridge", name: "Bridge", deck: "Deck 2", primaryNPC: "elara", features: ["conspiracy_board", "quests", "guild_hall", "daily_brief", "architects_gambit"], defaultTome: "mechronis-academy", discoverySong: "Building the Architect" },
+  archives: { id: "archives", name: "Archives", deck: "Deck 2", primaryNPC: "the_antiquarian", features: ["loredex_search", "codex", "lore_quiz", "dischordia"], defaultTome: "the-detective", discoverySong: "The Book of Daniel 2.0" },
   comms_array: { id: "comms_array", name: "Comms Array", deck: "Deck 3", primaryNPC: "the_human", features: ["transmissions", "watch_saga", "signal_intercept"], defaultTome: "kaels-revenge", discoverySong: "To Be the Human" },
   observation_deck: { id: "observation_deck", name: "Observation Deck", deck: "Deck 3", primaryNPC: null, features: ["discography", "music_player", "stargazing"], defaultTome: "the-enigmas-lament", discoverySong: "The Queen of Truth" },
-  armory: { id: "armory", name: "Armory", deck: "Deck 4", primaryNPC: "agent_zero", features: ["fight_game", "chess", "dischordia", "terminus_swarm"], defaultTome: "agent-zero-foundation", discoverySong: "It Ain't Illegal" },
+  armory: { id: "armory", name: "Armory", deck: "Deck 4", primaryNPC: "agent_zero", features: ["terminus_swarm", "pvp_arena", "weapons_cache"], defaultTome: "agent-zero-foundation", discoverySong: "It Ain't Illegal" },
   engineering: { id: "engineering", name: "Engineering Bay", deck: "Deck 4", primaryNPC: "shadow_tongue", features: ["crafting", "research_lab", "card_fusion"], defaultTome: "the-engineer-foundation", discoverySong: "Virtual Reality" },
   trade_hub: { id: "trade_hub", name: "Trade Hub", deck: "Deck 5", primaryNPC: "adjudicator_locke", features: ["trade_empire", "marketplace", "diplomacy"], defaultTome: "the-politicians-reign", discoverySong: "Governance Hub" },
   cargo_bay: { id: "cargo_bay", name: "Cargo Bay", deck: "Deck 5", primaryNPC: null, features: ["collection", "inventory", "draft_tournament"], defaultTome: "iron-lion-foundation", discoverySong: null },
