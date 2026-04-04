@@ -49,27 +49,27 @@ const CLASS_CONFIG = {
   engineer: {
     name: "Engineer",
     description: "Master builders and craftsmen. Start with Diamond Pick Axes.",
-    startingGear: { weapon: "Diamond Pick Axe", secondary: "Repair Kit", consumable: "Shield Generator" },
+    startingGear: { weapon: "diamond_pick_axe", secondary: "repair_kit", consumable: "shield_generator" },
   },
   oracle: {
     name: "Oracle (Prophet)",
     description: "Seers of fate. Start with potions of random powers and a crossbow.",
-    startingGear: { weapon: "Crossbow", secondary: "Invisibility Potion", consumable: "Random Power Potion" },
+    startingGear: { weapon: "crossbow", secondary: "invisibility_potion", consumable: "random_power_potion" },
   },
   assassin: {
     name: "Assassin (Virus)",
     description: "Silent killers. Start with poison, potions, and ranged weapons.",
-    startingGear: { weapon: "Poison Blade", secondary: "Throwing Knives", consumable: "Smoke Bomb" },
+    startingGear: { weapon: "poison_blade", secondary: "throwing_knives", consumable: "smoke_bomb" },
   },
   soldier: {
     name: "Soldier (Warrior/Drone)",
     description: "Frontline fighters. Start with sword and shield.",
-    startingGear: { weapon: "Plasma Sword", secondary: "Energy Shield", consumable: "Stim Pack" },
+    startingGear: { weapon: "plasma_sword", secondary: "energy_shield", consumable: "stim_pack" },
   },
   spy: {
     name: "Spy",
     description: "Intelligence operatives. Stealth and deception specialists.",
-    startingGear: { weapon: "Silenced Pistol", secondary: "Cloaking Device", consumable: "EMP Grenade" },
+    startingGear: { weapon: "silenced_pistol", secondary: "cloaking_device", consumable: "emp_grenade" },
   },
 } as const;
 
@@ -470,6 +470,38 @@ export const citizenRouter = router({
       }
 
       return { success: true };
+    }),
+
+  /** Update equipped gear (persists slot→itemId mapping) */
+  updateGear: protectedProcedure
+    .input(
+      z.object({
+        gear: z.record(z.string(), z.string().nullable()),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const db = await getDb();
+      if (!db) throw new Error("Database unavailable");
+
+      const chars = await db
+        .select()
+        .from(citizenCharacters)
+        .where(and(eq(citizenCharacters.userId, ctx.user.id), eq(citizenCharacters.isPrimary, 1)))
+        .limit(1);
+      if (!chars[0]) throw new Error("No citizen found");
+
+      // Filter out null values for clean storage
+      const cleanGear: Record<string, string> = {};
+      for (const [slot, itemId] of Object.entries(input.gear)) {
+        if (itemId) cleanGear[slot] = itemId;
+      }
+
+      await db
+        .update(citizenCharacters)
+        .set({ gear: cleanGear })
+        .where(eq(citizenCharacters.id, chars[0].id));
+
+      return { success: true, gear: cleanGear };
     }),
 
   /**

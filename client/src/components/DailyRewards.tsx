@@ -2,10 +2,11 @@
    DAILY LOGIN REWARDS — 30-day reward cycle
    Claim daily rewards for logging in. Escalating value.
    ═══════════════════════════════════════════════════════ */
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Gift, Star, X, Sparkles, Package } from "lucide-react";
 import { DAILY_LOGIN_REWARDS } from "@/game/unifiedEconomy";
+import { trpc } from "@/lib/trpc";
 
 interface DailyRewardsProps {
   currentDay: number;    // Which day of the cycle (1-30)
@@ -162,4 +163,45 @@ export function claimDailyReward(): { dream: number; salvage: number; voidCrysta
     salvage: reward.reward.salvage || 0,
     voidCrystals: reward.reward.voidCrystals || 0,
   };
+}
+
+/**
+ * Auto-popup wrapper: shows DailyRewards on login if a reward is available.
+ * Calls server awardDream mutation when claimed.
+ */
+export function DailyRewardPopup() {
+  const [show, setShow] = useState(false);
+  const status = useMemo(() => checkDailyReward(), []);
+  const awardDream = trpc.citizen.awardDream.useMutation();
+
+  useEffect(() => {
+    if (status.available) {
+      // Show after a short delay so it doesn't compete with page load
+      const t = setTimeout(() => setShow(true), 2000);
+      return () => clearTimeout(t);
+    }
+  }, [status.available]);
+
+  if (!show) return null;
+
+  const handleClaim = () => {
+    const reward = claimDailyReward();
+    // Persist to server
+    awardDream.mutate({
+      dreamTokens: reward.dream,
+      soulBoundDream: 0,
+      dnaCode: 0,
+      xp: 5, // Small XP for logging in
+    });
+    setShow(false);
+  };
+
+  return (
+    <DailyRewards
+      currentDay={status.currentDay}
+      claimedToday={status.claimedToday}
+      onClaim={handleClaim}
+      onClose={() => setShow(false)}
+    />
+  );
 }

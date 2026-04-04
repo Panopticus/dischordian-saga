@@ -45,6 +45,7 @@ export async function fetchCitizenData(userId: number): Promise<CitizenData | nu
       attrVitality: citizenCharacters.attrVitality,
       classLevel: citizenCharacters.classLevel,
       level: citizenCharacters.level,
+      gear: citizenCharacters.gear,
     })
     .from(citizenCharacters)
     .where(and(eq(citizenCharacters.userId, userId), eq(citizenCharacters.isPrimary, 1)))

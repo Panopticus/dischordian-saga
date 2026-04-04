@@ -12,7 +12,7 @@ import {
   Clock, Globe, Target, Wrench, Eye, Skull, Telescope,
   Star, Trophy, Gem, Lock, Unlock, Activity, Crosshair,
   Hexagon, CircleDot, Layers, Cpu, Wifi, ChevronDown, ChevronUp,
-  RotateCcw, AlertTriangle, Compass, Crown
+  RotateCcw, AlertTriangle, Compass, Crown, X
 } from "lucide-react";
 import TraitSummaryPanel from "@/components/TraitSummaryPanel";
 import { MoralityMeter } from "@/components/MoralityMeter";
@@ -26,7 +26,8 @@ import { useGamification } from "@/contexts/GamificationContext";
 import { Link as WLink } from "wouter";
 import PaperDollRenderer from "@/components/PaperDollRenderer";
 import EquipmentPanel from "@/components/EquipmentPanel";
-import { type EquipSlot, type Species, type CharClass, getEquipmentById, calculateEquipmentStats } from "@/data/equipmentData";
+import { type EquipSlot, type Species, type CharClass, getEquipmentById, calculateEquipmentStats, EQUIPMENT_DB } from "@/data/equipmentData";
+import { equipItem as globalEquipItem, type EquippedItem } from "@/game/equipmentState";
 
 /* ═══════════════════════════════════════════════════
    CONSTANTS & MAPPINGS
@@ -299,7 +300,9 @@ export default function CharacterSheetPage() {
 
   // ═══ PAPER DOLL EQUIPMENT STATE (must be above early returns to avoid hook count mismatch) ═══
   const [showEquipPanel, setShowEquipPanel] = useState(false);
-  const gear = (character.data?.gear || {}) as Record<string, string>;
+  const [localGearOverride, setLocalGearOverride] = useState<Record<string, string | null> | null>(null);
+  const dbGear = (character.data?.gear || {}) as Record<string, string>;
+  const gear = localGearOverride ?? dbGear;
   const paperDollEquipped = useMemo<Record<EquipSlot, string | null>>(() => {
     return {
       weapon: gear.weapon || null,
@@ -309,14 +312,75 @@ export default function CharacterSheetPage() {
       accessory: gear.accessory || null,
       consumable: gear.consumable || null,
     };
-  }, [gear.weapon, gear.armor, gear.helm, gear.secondary, gear.accessory, gear.consumable]);
+  }, [gear]);
+  // Inventory: all items the player owns (equipped + class-available starting + crafted/dropped)
   const playerInventory = useMemo(() => {
-    return Object.values(gear).filter(Boolean);
-  }, [gear.weapon, gear.armor, gear.helm, gear.secondary, gear.accessory, gear.consumable]);
+    const owned = new Set<string>();
+    // Currently equipped items
+    for (const id of Object.values(gear)) { if (id) owned.add(id); }
+    // Starting gear for their class is always available
+    const charClass = character.data?.characterClass;
+    if (charClass) {
+      EQUIPMENT_DB.filter(e => e.source === "starting" && (!e.requiredClass || e.requiredClass === charClass))
+        .forEach(e => owned.add(e.id));
+    }
+    // Common drops/shop items are available once found (for now, add them as obtainable)
+    EQUIPMENT_DB.filter(e => e.source === "drop" || e.source === "shop")
+      .forEach(e => owned.add(e.id));
+    return Array.from(owned);
+  }, [gear, character.data?.characterClass]);
   const equipStats = useMemo(() => calculateEquipmentStats(paperDollEquipped), [paperDollEquipped]);
+
+  const updateGearMutation = trpc.citizen.updateGear.useMutation({
+    onSuccess: () => { utils.citizen.getCharacter.invalidate(); },
+  });
+
+  // Sync DB gear → global equipmentState on load (so CharacterWidget and game engines see the gear)
+  useEffect(() => {
+    if (!character.data?.gear) return;
+    const dbG = character.data.gear as Record<string, string>;
+    const slots = ["helm", "armor", "weapon", "secondary", "accessory", "consumable"] as const;
+    for (const slot of slots) {
+      const itemId = dbG[slot];
+      if (itemId) {
+        const itemDef = getEquipmentById(itemId);
+        if (itemDef) {
+          const equipped: EquippedItem = {
+            id: itemDef.id, name: itemDef.name, slot,
+            rarity: itemDef.rarity,
+            stats: { atk: itemDef.stats.atk, def: itemDef.stats.def, hp: itemDef.stats.hp, speed: itemDef.stats.speed },
+          };
+          globalEquipItem(slot, equipped);
+        }
+      } else {
+        globalEquipItem(slot, null);
+      }
+    }
+  }, [character.data?.gear]);
+
   const handleEquipChange = useCallback((slot: EquipSlot, itemId: string | null) => {
-    console.log(`[Equipment] ${slot} → ${itemId || 'unequipped'}`);
-  }, []);
+    // Update local state immediately for responsive UI
+    const newGear = { ...gear, [slot]: itemId };
+    if (!itemId) delete (newGear as any)[slot];
+    setLocalGearOverride(newGear);
+
+    // Sync to global equipmentState (for CharacterWidget + game engines)
+    if (itemId) {
+      const itemDef = getEquipmentById(itemId);
+      if (itemDef) {
+        globalEquipItem(slot, {
+          id: itemDef.id, name: itemDef.name, slot,
+          rarity: itemDef.rarity,
+          stats: { atk: itemDef.stats.atk, def: itemDef.stats.def, hp: itemDef.stats.hp, speed: itemDef.stats.speed },
+        });
+      }
+    } else {
+      globalEquipItem(slot, null);
+    }
+
+    // Persist to server
+    updateGearMutation.mutate({ gear: newGear });
+  }, [gear, updateGearMutation]);
 
   // Loading / Auth / No Character states
   if (authLoading) {
@@ -394,7 +458,7 @@ export default function CharacterSheetPage() {
 
   const classLevelCostXp = char.classLevel * 100;
   const classLevelCostDream = char.classLevel * 5;
-  const gearEntries = Object.entries(gear);
+  const gearEntries = Object.entries(gear).filter(([, v]) => v != null) as [string, string][];
 
   const xpPercent = Math.min((char.xp % 200) / 200 * 100, 100);
 
@@ -751,9 +815,15 @@ export default function CharacterSheetPage() {
               <div className="text-center py-6">
                 <Hexagon size={28} className="text-muted-foreground/20 mx-auto mb-2" />
                 <p className="font-mono text-[10px] text-muted-foreground/40">No gear equipped</p>
-                <p className="font-mono text-[8px] text-muted-foreground/25 mt-1">Visit the Forge to craft equipment</p>
+                <p className="font-mono text-[8px] text-muted-foreground/25 mt-1">Tap below to manage equipment</p>
               </div>
             )}
+            <button
+              onClick={() => setShowEquipPanel(true)}
+              className="w-full mt-3 py-2 rounded-md bg-cyan-500/8 border border-cyan-400/20 text-cyan-400 font-mono text-[10px] tracking-[0.1em] hover:bg-cyan-500/15 transition-all flex items-center justify-center gap-1.5"
+            >
+              <Layers size={10} /> MANAGE EQUIPMENT
+            </button>
           </motion.div>
         </div>
 
@@ -1006,6 +1076,44 @@ export default function CharacterSheetPage() {
             </p>
           </motion.div>
         )}
+
+        {/* ═══ EQUIPMENT PANEL MODAL ═══ */}
+        <AnimatePresence>
+          {showEquipPanel && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4"
+              onClick={(e) => e.target === e.currentTarget && setShowEquipPanel(false)}
+            >
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95, y: 20 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.95, y: 20 }}
+                className="w-full max-w-5xl max-h-[90vh] overflow-y-auto bg-black/95 border border-cyan-500/20 rounded-2xl p-4 sm:p-6"
+              >
+                <div className="flex items-center justify-between mb-4">
+                  <h2 className="font-display text-lg tracking-[0.2em] text-cyan-400">EQUIPMENT MANAGEMENT</h2>
+                  <button onClick={() => setShowEquipPanel(false)} className="text-white/30 hover:text-white/60">
+                    <X size={18} />
+                  </button>
+                </div>
+                <EquipmentPanel
+                  equipped={paperDollEquipped}
+                  inventory={playerInventory}
+                  species={(char.species as Species) || "demagi"}
+                  charClass={(char.characterClass as CharClass) || "soldier"}
+                  alignment={char.alignment as "order" | "chaos"}
+                  element={char.element}
+                  name={char.name}
+                  moralityScore={gameState.moralityScore || 0}
+                  onEquip={handleEquipChange}
+                />
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         {/* ═══ FOOTER CLASSIFICATION ═══ */}
         <div className="text-center py-4">

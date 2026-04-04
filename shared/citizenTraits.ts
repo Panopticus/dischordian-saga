@@ -9,6 +9,8 @@
    builds affect gameplay across the entire app.
    ═══════════════════════════════════════════════════════ */
 
+import { calculateGearStats } from "./equipmentStats";
+
 /* ─── INPUT TYPES ─── */
 
 export interface CitizenData {
@@ -21,6 +23,7 @@ export interface CitizenData {
   attrVitality: number; // 1-5 dot rating
   classLevel: number;   // 1+
   level: number;        // overall citizen level
+  gear?: Record<string, unknown> | null; // equipped gear slot→itemId
 }
 
 export interface PotentialNftData {
@@ -765,6 +768,16 @@ export function resolveChessBonuses(
     result.rewardMultiplier *= multi;
     result.dreamMultiplier *= multi;
     breakdown.push({ source: `Potential Lv.${nft!.level}`, effect: `${Math.round((multi - 1) * 100)}% bonus to rewards` });
+  }
+
+  // Equipment speed bonus → chess time bonus (+5s per speed stat point)
+  if (citizen?.gear) {
+    const gearStats = calculateGearStats(citizen.gear as Record<string, unknown>);
+    if (gearStats.totalSpeed > 0) {
+      const equipTimeBonus = gearStats.totalSpeed * 5;
+      result.timeBonus += equipTimeBonus;
+      breakdown.push({ source: "Equipment (Speed)", effect: `+${equipTimeBonus}s time from gear` });
+    }
   }
 
   return result;
