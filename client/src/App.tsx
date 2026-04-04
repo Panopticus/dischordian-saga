@@ -51,7 +51,7 @@ const TerminusSwarmPage = lazy(() => import("./game/terminus-swarm/TerminusSwarm
 const CardGamePage = lazy(() => import("./game/duelyst/DuelystPage"));
 const InceptionArkPage = lazy(() => import("./pages/InceptionArkPage"));
 const TrophyRoomPage = lazy(() => import("./pages/TrophyRoomPage"));
-const TradeWarsPage = lazy(() => import("./pages/TradeWarsPage"));
+const TradeWarsPage = lazy(() => import("./game/TradeEmpirePage"));
 const WarMapPage = lazy(() => import("./pages/WarMapPage"));
 const DeckBuilderPage = lazy(() => import("./pages/DeckBuilderPage"));
 const CitizenCreationPage = lazy(() => import("./pages/CitizenCreationPage"));
