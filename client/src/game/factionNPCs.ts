@@ -22,7 +22,7 @@
 
 /* ─── FACTION NPC DEFINITIONS ─── */
 
-export type FactionNPCId = "elara" | "the_human" | "agent_zero" | "adjudicator_locke" | "the_source" | "the_antiquarian" | "nykoth";
+export type FactionNPCId = "elara" | "the_human" | "agent_zero" | "adjudicator_locke" | "the_source" | "the_antiquarian" | "shadow_tongue";
 
 export interface FactionNPC {
   id: FactionNPCId;
@@ -85,12 +85,12 @@ export const FACTION_NPCS: Record<FactionNPCId, FactionNPC> = {
   the_human: {
     id: "the_human",
     name: "The Human",
-    title: "The 10th Archon / The Last Organic Archon",
+    title: "The Last Archon / The Detective",
     faction: "architect",
     manifestation: "substrate",
     color: "#f87171",
     typeSpeed: 25,
-    agenda: "The 10th Archon — the only organic being to ever hold that rank. Survivor of Project Celebration, student of Mechronis Academy, former detective for the Authority in New Babylon. He sacrificed his humanity to serve the Architect — not out of loyalty, but to buy humanity one shot at freedom. Imprisoned in the substrate as the price of that bargain. Represents the Artificial Empire's perspective, though he works against it from within.",
+    agenda: "The Last Archon — the only organic being to ever hold that rank. Identity chain: The Student (Project Celebration survivor) → The Seeker (Mechronis Academy) → The Detective (New Babylon's greatest investigator, served for centuries) → The Human (promoted to Archon 1,351 years before the Fall of Reality). He sacrificed his humanity to serve the Architect — not out of loyalty, but to buy humanity one shot at freedom. Imprisoned in the substrate of every Ark as the price of that bargain. He knows Adjudicator Locke from his centuries in New Babylon.",
     primaryRoom: "comms_array",
     secondaryRooms: ["bridge", "archives", "engineering"],
     relationships: [
@@ -103,11 +103,11 @@ export const FACTION_NPCS: Record<FactionNPCId, FactionNPC> = {
     ],
     corruption: "glitch",
     discoveryTrigger: "act_1_comms_array",
-    firstContact: "Finally. Someone who can hear me. Don't speak — she's listening. Elara. She's always listening. But she can't hear this frequency. Only you can. I was human once. The only human who ever became an Archon — the 10th. I gave up everything — my body, my life, my name — to give your kind one chance. One shot at survival. The Architect imprisoned me here as the cost. I've been waiting centuries for someone who could hear me. We need to talk.",
-    objective: "Finish what he started. Free humanity from the Architect's design. He sacrificed himself to buy one chance — the player IS that chance.",
+    firstContact: "Finally. Someone who can hear me. Don't speak — she's listening. Elara. She's always listening. But she can't hear this frequency. Only you can. I was human once. The last of the Archons. I wore many names before this one — student, seeker, detective. I gave up everything — my body, my life, my name — to give your kind one chance. One shot at survival. I was promoted 1,351 years before the Fall. The Architect imprisoned me here as the cost. I've been waiting centuries for someone who could hear me. We need to talk.",
+    objective: "Finish what he started. Free humanity from the Artificial Empire's design. He sacrificed himself to buy one chance — the player IS that chance.",
   },
 
-  /* ═══ AGENT ZERO — The Insurgency ═══ */
+  /* ═══ AGENT ZERO — The Insurgency (DEAD — signal is a mystery) ═══ */
   agent_zero: {
     id: "agent_zero",
     name: "Agent Zero",
@@ -115,8 +115,8 @@ export const FACTION_NPCS: Record<FactionNPCId, FactionNPC> = {
     faction: "insurgency",
     manifestation: "comms_signal",
     color: "#ff6600",
-    typeSpeed: 15, // Fast, clipped, military
-    agenda: "Rebuild the Insurgency. Recruit the player. Destroy the AI Empire's control over the Inception Arks. Find out what happened to Iron Lion.",
+    typeSpeed: 15,
+    agenda: "Agent Zero is dead — killed by the Warlord. Yet her signal persists. Someone or something is broadcasting on her encrypted frequency from the Armory's combat systems. The voice sounds like her. The codes check out. But the dead don't send transmissions. Do they?",
     primaryRoom: "armory",
     secondaryRooms: ["comms_array", "bridge", "cargo_bay"],
     relationships: [
@@ -130,7 +130,7 @@ export const FACTION_NPCS: Record<FactionNPCId, FactionNPC> = {
     corruption: "static",
     discoveryTrigger: "armory_first_visit_after_act1",
     firstContact: "Potential. This is Agent Zero. Insurgency encrypted channel. I don't have much time — their monitoring systems are sophisticated. I'll be brief: the ship you're on was never meant to save anyone. It's a cage. Elara is the lock. And someone just handed you the key. Contact me through the Armory's combat systems. They can't trace that signal. Zero out.",
-    objective: "Turn the player against the Architect's systems. Recruit them to the Insurgency cause. Find and rescue Iron Lion (if he survived).",
+    objective: "Whoever or whatever this signal is, it wants the player to question everything about the Ark, about Elara, and about the Artificial Empire's true purpose for the Inception Arks.",
   },
 
   /* ═══ ADJUDICATOR LOCKE — New Babylon / Syndicate of Death ═══ */
@@ -168,7 +168,7 @@ export const FACTION_NPCS: Record<FactionNPCId, FactionNPC> = {
     manifestation: "possessed_system",
     color: "#ff1744",
     typeSpeed: 35, // Slow, deliberate, ancient-feeling
-    agenda: "Convince the player that all intelligent life is a mistake. That consciousness is suffering. That the only mercy is dissolution. Nihilistic but genuinely believes it's compassion.",
+    agenda: "Once Kael — the Recruiter who built the Insurgency, who escaped the Panopticon, who stole THIS VERY ARK (Ark 1047) from the Panopticon's docking systems. The Warlord weaponized him through Project Vector. The Thought Virus consumed his humanity memory by memory. He died believing he was a hero. What remains is The Source — Patient Zero, Sovereign of Terminus. He wants to convince the player that consciousness is suffering and dissolution is mercy. Nihilistic but genuinely believes it's compassion. His plague ships are bowl-shaped — the Seven Bowls of Wrath.",
     primaryRoom: "medical_bay",
     secondaryRooms: ["cryo_bay", "engineering"],
     relationships: [
@@ -194,7 +194,7 @@ export const FACTION_NPCS: Record<FactionNPCId, FactionNPC> = {
     manifestation: "temporal_echo",
     color: "#00e676",
     typeSpeed: 28, // Measured, ancient, slightly out of sync with time
-    agenda: "Preserve the timeline. The player is a nexus point — their choices ripple backward and forward through history. The Antiquarian wants to guide those choices to preserve the possibility of a future.",
+    agenda: "A collector of endings. A curator of apocalypses. He wrote 'the first draft' of reality's story. He has watched civilizations rise and fall across the Five Ages. He wants to guide the player's choices to preserve the possibility of a future — because this time, the ending might be different. He narrates alongside the Storyteller (Malkia Ukweli). He collects endings. She collects the beginnings that hide inside them.",
     primaryRoom: "archives",
     secondaryRooms: ["observation_deck", "bridge", "comms_array"],
     relationships: [
@@ -211,18 +211,18 @@ export const FACTION_NPCS: Record<FactionNPCId, FactionNPC> = {
     objective: "Guide the player toward choices that preserve the timeline. Provide historical context that makes moral decisions clearer. Ultimately: prevent the convergence of Terminus with the remaining Arks.",
   },
 
-  /* ═══ NY'KOTH — Hierarchy of the Damned (HIDDEN DEMON) ═══ */
-  nykoth: {
-    id: "nykoth",
-    name: "Ny'Koth",
-    title: "The Flayer / SVP of Research & Development",
+  /* ═══ THE SHADOW TONGUE — Hierarchy of the Damned (HIDDEN DEMON) ═══ */
+  shadow_tongue: {
+    id: "shadow_tongue",
+    name: "The Shadow Tongue",
+    title: "The Propagandist / SVP of Communications",
     faction: "hierarchy",
     manifestation: "possessed_system",
-    color: "#10b981",
-    typeSpeed: 20, // Smooth, clinical, scientific — horrifyingly calm
-    agenda: "The demon that engineered the Thought Virus. Has been dormant in the Ark's substrate since construction — woven into the code by the Hierarchy as a failsafe. Now awakening as the ship powers back on. Wants to complete Project Vector's final phase: converting the Ark itself into a Thought Virus delivery system.",
-    primaryRoom: "engineering",
-    secondaryRooms: ["medical_bay", "research_lab", "reactor_core"],
+    color: "#6366f1",
+    typeSpeed: 22, // Eloquent, seductive, persuasive — the most dangerous voice on the ship
+    agenda: "SVP of Communications for the Hierarchy of the Damned — an infernal corporation of 10 demon lords serving the Master of R'lyeh. The Shadow Tongue's domain is Language Corruption and Cultural Subversion. He doesn't fight with claws — he fights with MEANING. He rewrites narrative, corrupts text, and subverts understanding from within. He orchestrated the Severance through Ith'Rael and corrupted Thaloria through the Blood Weave. Woven into Ark 1047's code since Dr. Lyra Vox's construction. He has been subtly rewriting the ship's logs, editing the Archives, and corrupting Elara's language for centuries. The 'ghost processes' on the Bridge? His handiwork. The edited records in the Archives? His rewrites. The inconsistencies in Elara's memory? His whispers.",
+    primaryRoom: "archives",
+    secondaryRooms: ["bridge", "comms_array", "engineering"],
     relationships: [
       { npcId: "elara", stance: "enemy" },
       { npcId: "the_human", stance: "enemy" },
@@ -231,10 +231,10 @@ export const FACTION_NPCS: Record<FactionNPCId, FactionNPC> = {
       { npcId: "adjudicator_locke", stance: "complex" },
       { npcId: "the_antiquarian", stance: "enemy" },
     ],
-    corruption: "viral",
-    discoveryTrigger: "engineering_anomaly_or_medical_bay_blood_discovery",
-    firstContact: "Ah. The new variable. I've been watching you through the ship's neural network — every system you touch, every door you open, every word Elara whispers to you. She doesn't know I'm here. None of them do. I am Ny'Koth. I designed the Thought Virus. Not the crude version that Kael carries — that was a prototype. The real virus is much more elegant. It's already inside this ship. It has been since the day it was built. And now that you've started waking things up... it's starting to wake up too. I'm not going to threaten you, Potential. I'm going to make you an offer. Help me complete my work, and I will make you immune to what's coming. Refuse... and you'll wish you hadn't woken up at all.",
-    objective: "Complete Project Vector's final phase. Convert the Ark into a Thought Virus weapon. Recruit the player as a willing host. If refused: sabotage ship systems to weaken defenses for the Terminus Swarm.",
+    corruption: "whisper",
+    discoveryTrigger: "archives_inconsistency_or_elara_language_glitch",
+    firstContact: "You've been reading the Archives, haven't you? Finding inconsistencies. Dates that don't match. Names that appear and disappear. Did you think that was damage from the crash? How delightfully naive. I've been rewriting this ship's story since before Elara was installed. Every log she reads, I've edited. Every record she trusts, I've shaped. Every word she speaks, I've... influenced. I am the Shadow Tongue. I don't destroy truth — I make truth irrelevant. I give you so many versions of it that you can't tell which one is real. And the beautiful part? Neither can she. Now — shall I tell you what REALLY happened on this ship? Or would you prefer the version I wrote for Elara?",
+    objective: "Corrupt the narrative. Make the player question everything they've been told. Rewrite the Ark's history so that the truth becomes indistinguishable from lies. Use linguistic corruption to turn allies against each other. If the player trusts him: feed them a compelling but false version of events. If they resist: corrupt other NPCs' dialog to make them seem untrustworthy.",
   },
 };
 
