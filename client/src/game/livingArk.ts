@@ -1,206 +1,116 @@
 /* ═══════════════════════════════════════════════════════
    THE LIVING ARK — Room Event System
-
-   The Ark is not a menu of features. It is a living ship
-   where things HAPPEN. Every day, events spawn in rooms.
-   Every visit builds relationships. Every discovery reveals
-   more of the truth about Ark 1047, Elara, The Human, and
-   the war that brought everyone here.
-
-   Three interlocking systems drive room revisits:
-
-   1. ELARA'S DAILY BRIEF — 3 rooms marked each day
-      (1 relationship, 1 gameplay, 1 story)
-
-   2. SHADOW TONGUE CORRUPTION — Random rooms get "infected"
-      with linguistic corruption that must be quarantined
-
-   3. THE HUMAN'S SIGNAL TRAIL — Encrypted fragments hidden
-      across rooms, each revealing a piece of the truth
-
-   Plus: CoNexus Tomes hidden in rooms, discoverable through
-   exploration, trust, and game completion.
+   Three pillars: Daily Brief, Quarantine, Signal Hunt
+   Plus: CoNexus Tomes, music triggers, NPC encounters.
    ═══════════════════════════════════════════════════════ */
 
-export type ArkRoom =
-  | "cryo_bay" | "medical_bay" | "bridge" | "archives"
-  | "comms_array" | "observation_deck" | "armory" | "engineering"
-  | "trade_hub" | "cargo_bay" | "trophy_room" | "captains_quarters";
+export type RoomId = "cryo_bay" | "medical_bay" | "bridge" | "archives" | "comms_array" | "observation_deck" | "armory" | "engineering" | "trade_hub" | "cargo_bay" | "trophy_room" | "captains_quarters";
+export type EventType = "npc_conversation" | "signal_fragment" | "quarantine" | "tome_discovered" | "music_transmission" | "lore_discovery" | "army_recruit" | "trade_opportunity" | "doom_scroll_news" | "pod_activity" | "system_anomaly" | "stargazing" | "diagnostic_scan" | "research_complete" | "boss_challenge" | "draft_open" | "guild_war_update";
 
-export const ALL_ROOMS: ArkRoom[] = [
-  "cryo_bay", "medical_bay", "bridge", "archives",
-  "comms_array", "observation_deck", "armory", "engineering",
-  "trade_hub", "cargo_bay", "trophy_room", "captains_quarters",
+export interface RoomEvent { id: string; roomId: RoomId; type: EventType; title: string; description: string; npcId?: string; song?: string; minTrust?: number; minAct?: number; reward?: { dream?: number; xp?: number; cardId?: string; material?: string; trust?: number }; repeating: boolean; priority: number; }
+
+export interface RoomDef { id: RoomId; name: string; deck: string; primaryNPC: string | null; features: string[]; defaultTome: string | null; discoverySong: string | null; }
+
+export const ROOMS: Record<RoomId, RoomDef> = {
+  cryo_bay: { id: "cryo_bay", name: "Cryo Bay", deck: "Deck 1", primaryNPC: null, features: ["character_sheet", "army_recruitment", "pod_mysteries"], defaultTome: "welcome-to-celebration", discoverySong: "Seeds of Inception" },
+  medical_bay: { id: "medical_bay", name: "Medical Bay", deck: "Deck 1", primaryNPC: "the_source", features: ["citizen_stats", "diagnostics", "class_mastery"], defaultTome: "the-necromancers-lair", discoverySong: "The Prisoner" },
+  bridge: { id: "bridge", name: "Bridge", deck: "Deck 2", primaryNPC: "elara", features: ["conspiracy_board", "quests", "guild_hall", "daily_brief"], defaultTome: "mechronis-academy", discoverySong: "Building the Architect" },
+  archives: { id: "archives", name: "Archives", deck: "Deck 2", primaryNPC: "the_antiquarian", features: ["loredex_search", "codex", "lore_quiz"], defaultTome: "the-detective", discoverySong: "The Book of Daniel 2.0" },
+  comms_array: { id: "comms_array", name: "Comms Array", deck: "Deck 3", primaryNPC: "the_human", features: ["transmissions", "watch_saga", "signal_intercept"], defaultTome: "kaels-revenge", discoverySong: "To Be the Human" },
+  observation_deck: { id: "observation_deck", name: "Observation Deck", deck: "Deck 3", primaryNPC: null, features: ["discography", "music_player", "stargazing"], defaultTome: "the-enigmas-lament", discoverySong: "The Queen of Truth" },
+  armory: { id: "armory", name: "Armory", deck: "Deck 4", primaryNPC: "agent_zero", features: ["fight_game", "chess", "dischordia", "terminus_swarm"], defaultTome: "agent-zero-foundation", discoverySong: "It Ain't Illegal" },
+  engineering: { id: "engineering", name: "Engineering Bay", deck: "Deck 4", primaryNPC: "shadow_tongue", features: ["crafting", "research_lab", "card_fusion"], defaultTome: "the-engineer-foundation", discoverySong: "Virtual Reality" },
+  trade_hub: { id: "trade_hub", name: "Trade Hub", deck: "Deck 5", primaryNPC: "adjudicator_locke", features: ["trade_empire", "marketplace", "diplomacy"], defaultTome: "the-politicians-reign", discoverySong: "Governance Hub" },
+  cargo_bay: { id: "cargo_bay", name: "Cargo Bay", deck: "Deck 5", primaryNPC: null, features: ["collection", "inventory", "draft_tournament"], defaultTome: "iron-lion-foundation", discoverySong: null },
+  trophy_room: { id: "trophy_room", name: "Trophy Room", deck: "Deck 6", primaryNPC: null, features: ["achievements", "titles", "battle_pass"], defaultTome: "the-ninth-blood-and-shadows", discoverySong: "Judgment Day" },
+  captains_quarters: { id: "captains_quarters", name: "Captain's Quarters", deck: "Deck 6", primaryNPC: null, features: ["companion_hub", "morality_census"], defaultTome: "building-the-architect", discoverySong: "Lip Service" },
+};
+
+const NPC_NAMES: Record<string, string> = { elara: "Elara", the_human: "The Human", agent_zero: "Agent Zero", adjudicator_locke: "Adjudicator Locke", the_source: "The Source", the_antiquarian: "The Antiquarian", shadow_tongue: "????" };
+
+export function generateDailyBrief(daySeed: number, act: number, trust: number, completed: Set<string>) {
+  const pool = buildPool(act, completed);
+  const gp = pool.filter(e => ["boss_challenge", "draft_open", "trade_opportunity", "research_complete", "army_recruit"].includes(e.type));
+  const st = pool.filter(e => ["signal_fragment", "lore_discovery", "tome_discovered", "music_transmission", "system_anomaly"].includes(e.type));
+  const rl = pool.filter(e => ["npc_conversation", "stargazing", "diagnostic_scan", "pod_activity"].includes(e.type));
+  const pick = (a: RoomEvent[], s: number) => { a.sort((x, y) => y.priority - x.priority); return a[s % Math.max(1, Math.min(5, a.length))] || fb(s); };
+  return { gameplay: pick(gp, daySeed), story: pick(st, daySeed * 7 + 3), relationship: pick(rl, daySeed * 13 + 7) };
+}
+
+function buildPool(act: number, completed: Set<string>): RoomEvent[] {
+  const ev: RoomEvent[] = [];
+  for (const [rid, rm] of Object.entries(ROOMS)) {
+    const r = rid as RoomId;
+    if (rm.primaryNPC) ev.push({ id: `npc_${r}`, roomId: r, type: "npc_conversation", title: `${NPC_NAMES[rm.primaryNPC] || "Someone"} wants to speak`, description: `Dialog in ${rm.name}.`, npcId: rm.primaryNPC, reward: { trust: 3, xp: 15 }, repeating: true, priority: 8 });
+    if (r === "observation_deck") ev.push({ id: "stargaze", roomId: r, type: "stargazing", title: "Elara is at the viewport", description: "She seems reflective.", npcId: "elara", song: "The Enigma's Lament", reward: { trust: 2, xp: 10 }, repeating: true, priority: 9 });
+    if (rm.defaultTome && !completed.has(`tome_${rm.defaultTome}`)) ev.push({ id: `tome_${r}`, roomId: r, type: "tome_discovered", title: `Tome in ${rm.name}`, description: "Antiquarian's Library reveals a volume.", reward: { xp: 50, dream: 30 }, repeating: false, priority: 6 });
+    if (rm.discoverySong && !completed.has(`music_${r}`)) ev.push({ id: `music_${r}`, roomId: r, type: "music_transmission", title: `"${rm.discoverySong}" intercepted`, description: "Transmission from the Two Witnesses.", song: rm.discoverySong, reward: { xp: 20 }, repeating: false, priority: 5 });
+    if (act >= 1 && ["comms_array", "bridge", "archives", "engineering"].includes(r)) ev.push({ id: `signal_${r}`, roomId: r, type: "signal_fragment", title: `Signal in ${rm.name}`, description: "Encrypted fragment.", npcId: "the_human", reward: { xp: 25 }, repeating: true, priority: 7, minAct: 1 });
+    if (act >= 2 && ["archives", "bridge", "comms_array"].includes(r)) ev.push({ id: `anomaly_${r}`, roomId: r, type: "system_anomaly", title: `Corruption in ${rm.name}`, description: "Records being rewritten.", npcId: "shadow_tongue", reward: { xp: 20 }, repeating: true, priority: 6, minAct: 2 });
+    if (r === "armory") ev.push({ id: "boss", roomId: r, type: "boss_challenge", title: "Challenge available", description: "New opponent.", reward: { xp: 40, dream: 25 }, repeating: true, priority: 5 });
+    if (r === "cargo_bay") ev.push({ id: "draft", roomId: r, type: "draft_open", title: "Draft open", description: "Build from random cards.", reward: { xp: 30, dream: 20 }, repeating: true, priority: 4 });
+    if (r === "trade_hub") ev.push({ id: "trade", roomId: r, type: "trade_opportunity", title: "Market shift", description: "Locke has a proposition.", npcId: "adjudicator_locke", reward: { dream: 15 }, repeating: true, priority: 5 });
+    if (r === "cryo_bay") ev.push({ id: "pod", roomId: r, type: "pod_activity", title: "Pod anomaly", description: "Cryo pod showed activity.", reward: { xp: 20 }, repeating: true, priority: 6 });
+    if (r === "engineering") ev.push({ id: "research", roomId: r, type: "research_complete", title: "Research ready", description: "Blueprint synthesized.", reward: { xp: 25 }, repeating: true, priority: 5 });
+    if (r === "medical_bay") ev.push({ id: "diag", roomId: r, type: "diagnostic_scan", title: "Diagnostic available", description: "Elara wants to run your scan.", npcId: "elara", reward: { xp: 10, trust: 1 }, repeating: true, priority: 7 });
+  }
+  return ev;
+}
+
+function fb(s: number): RoomEvent { return { id: `fb_${s}`, roomId: "bridge", type: "lore_discovery", title: "New data fragment", description: "Check the Bridge.", repeating: true, priority: 1 }; }
+
+export interface QuarantineEvent { roomId: RoomId; severity: "low" | "medium" | "high"; hoursRemaining: number; spreadTo: RoomId[]; reward: { salvage: number; viralIchor: number; dream: number }; }
+
+export function generateQuarantines(weekSeed: number): QuarantineEvent[] {
+  const t: RoomId[] = ["cryo_bay", "medical_bay", "bridge", "archives", "comms_array", "engineering"];
+  const n = 2 + (weekSeed % 2);
+  return Array.from({ length: n }, (_, i) => ({ roomId: t[(weekSeed * (i + 1) * 7) % t.length], severity: (i === 0 ? "high" : "medium") as "high" | "medium", hoursRemaining: 24, spreadTo: t.filter((_, j) => j !== (weekSeed * (i + 1) * 7) % t.length).slice(0, 2) as RoomId[], reward: { salvage: 50 + i * 25, viralIchor: 10 + i * 5, dream: 15 + i * 10 } }));
+}
+
+export interface MusicTrigger { song: string; condition: string; room?: RoomId; npc?: string; flag?: string }
+export const MUSIC_TRIGGERS: MusicTrigger[] = [
+  { song: "Seeds of Inception", condition: "first_cryo_visit", room: "cryo_bay" },
+  { song: "To Be the Human", condition: "human_first_contact", npc: "the_human" },
+  { song: "The Prisoner", condition: "medical_quarantine", room: "medical_bay" },
+  { song: "Building the Architect", condition: "captain_log_decoded", room: "bridge" },
+  { song: "Kael's Revenge", condition: "ark_stolen_discovered", room: "comms_array" },
+  { song: "The Enigma's Lament", condition: "first_stargazing", room: "observation_deck" },
+  { song: "It Ain't Illegal", condition: "agent_zero_contact", npc: "agent_zero" },
+  { song: "The Last Stand", condition: "iron_lion_lore", room: "armory" },
+  { song: "Virtual Reality", condition: "shadow_tongue_found", npc: "shadow_tongue" },
+  { song: "Governance Hub", condition: "locke_contact", npc: "adjudicator_locke" },
+  { song: "The Source (Reprise)", condition: "source_contact", npc: "the_source" },
+  { song: "Silence in Heaven", condition: "antiquarian_reveal", npc: "the_antiquarian" },
+  { song: "We Are Not Okay", condition: "elara_senate_memory", flag: "elara_senate_memory" },
+  { song: "The Two Witnesses", condition: "witnesses_discovered" },
+  { song: "Worthy", condition: "act_3_scroll" },
+  { song: "Hypnotized", condition: "malkia_identity" },
+  { song: "Family Tree", condition: "game_complete", room: "captains_quarters" },
 ];
 
-export type RoomEventType =
-  | "relationship" | "gameplay" | "story" | "corruption"
-  | "signal_fragment" | "tome_discovery" | "npc_contact"
-  | "quarantine" | "music_trigger" | "memory_flash";
-
-export interface RoomEvent {
-  id: string;
-  room: ArkRoom;
-  type: RoomEventType;
-  title: string;
-  description: string;
-  npc?: string;
-  minTrust?: number;
-  requireFlags?: string[];
-  setsFlags?: string[];
-  trustChange?: { npc: string; amount: number };
-  rewards?: { dream?: number; salvage?: number; xp?: number; cardPack?: string };
-  songTrigger?: string;
-  tomeUnlock?: string;
-  completed: boolean;
-  expiresAt: number;
-  priority: number;
-}
-
-/* ─── DAILY BRIEF ─── */
-
-export function generateDailyBrief(
-  dayNumber: number, elaraTrust: number, humanTrust: number,
-  flags: Record<string, boolean>, npcs: string[],
-): RoomEvent[] {
-  const events: RoomEvent[] = [];
-  const used = new Set<ArkRoom>();
-
-  const rel = pickEvent(RELATIONSHIP_POOL, dayNumber, used, elaraTrust);
-  if (rel) { events.push({ ...rel, id: `rel_${dayNumber}`, completed: false, expiresAt: Date.now() + 86400000 }); used.add(rel.room); }
-
-  const game = pickEvent(GAMEPLAY_POOL, dayNumber * 3, used);
-  if (game) { events.push({ ...game, id: `game_${dayNumber}`, completed: false, expiresAt: Date.now() + 86400000 }); used.add(game.room); }
-
-  const story = pickEvent(STORY_POOL.filter(e => !e.requireFlags || e.requireFlags.every(f => flags[f])), dayNumber * 7, used, humanTrust);
-  if (story) { events.push({ ...story, id: `story_${dayNumber}`, completed: false, expiresAt: Date.now() + 86400000 }); }
-
-  return events;
-}
-
-function pickEvent(pool: Omit<RoomEvent, "id" | "completed" | "expiresAt">[], seed: number, used: Set<ArkRoom>, trust?: number): Omit<RoomEvent, "id" | "completed" | "expiresAt"> | null {
-  const eligible = pool.filter(e => !used.has(e.room) && (!e.minTrust || (trust ?? 0) >= e.minTrust));
-  return eligible.length > 0 ? eligible[seed % eligible.length] : null;
-}
-
-/* ─── EVENT POOLS ─── */
-
-const RELATIONSHIP_POOL: Omit<RoomEvent, "id" | "completed" | "expiresAt">[] = [
-  { room: "observation_deck", type: "relationship", title: "Stargazing with Elara", description: "Elara wants to show you something in the stars.", npc: "elara", priority: 10, trustChange: { npc: "elara", amount: 3 }, songTrigger: "silence_in_heaven" },
-  { room: "bridge", type: "relationship", title: "Morning Briefing", description: "Elara has her daily report ready.", npc: "elara", priority: 8, trustChange: { npc: "elara", amount: 2 } },
-  { room: "cryo_bay", type: "relationship", title: "Pod Status Check", description: "Changes in the cryo pod readings.", npc: "elara", priority: 7, trustChange: { npc: "elara", amount: 2 } },
-  { room: "medical_bay", type: "relationship", title: "Neural Scan", description: "Elara wants to monitor your adaptation.", npc: "elara", priority: 6, trustChange: { npc: "elara", amount: 2 } },
-  { room: "observation_deck", type: "memory_flash", title: "Elara's Memory", description: "Something is surfacing from Elara's past.", npc: "elara", minTrust: 30, priority: 12, trustChange: { npc: "elara", amount: 5 } },
-  { room: "archives", type: "relationship", title: "Research Together", description: "Elara found something in the old records.", npc: "elara", priority: 7, trustChange: { npc: "elara", amount: 3 } },
-];
-
-const GAMEPLAY_POOL: Omit<RoomEvent, "id" | "completed" | "expiresAt">[] = [
-  { room: "armory", type: "gameplay", title: "Arena Challenge", description: "A combat challenge has been issued.", priority: 7, rewards: { dream: 15, xp: 25 } },
-  { room: "engineering", type: "gameplay", title: "Research Project", description: "A data fragment needs decryption.", priority: 6, rewards: { dream: 10, salvage: 50 } },
-  { room: "cargo_bay", type: "gameplay", title: "Supply Crate", description: "New supplies in the cargo bay.", priority: 8, rewards: { cardPack: "season1" } },
-  { room: "trade_hub", type: "gameplay", title: "Trade Opportunity", description: "A rare trading window.", priority: 5, rewards: { dream: 20 } },
-  { room: "trophy_room", type: "gameplay", title: "Milestone Reached", description: "An achievement is ready to claim.", priority: 6, rewards: { xp: 50 } },
-  { room: "armory", type: "gameplay", title: "Chess Challenge", description: "An opponent awaits at the board.", priority: 6, rewards: { dream: 15 } },
-];
-
-const STORY_POOL: Omit<RoomEvent, "id" | "completed" | "expiresAt">[] = [
-  { room: "comms_array", type: "signal_fragment", title: "Substrate Signal", description: "A structured signal from below.", npc: "the_human", priority: 10, requireFlags: ["act_1_complete"], trustChange: { npc: "the_human", amount: 3 } },
-  { room: "armory", type: "npc_contact", title: "Insurgency Broadcast", description: "Someone is using Agent Zero's frequency.", npc: "agent_zero", priority: 9, requireFlags: ["act_1_complete"] },
-  { room: "trade_hub", type: "npc_contact", title: "New Babylon Signal", description: "Adjudicator Locke is making contact.", npc: "adjudicator_locke", priority: 8 },
-  { room: "medical_bay", type: "npc_contact", title: "Viral Anomaly", description: "The Source is manifesting through medical systems.", npc: "the_source", priority: 9, minTrust: 20, songTrigger: "the_source_reprise" },
-  { room: "archives", type: "npc_contact", title: "Temporal Echo", description: "Records from the future appearing.", npc: "the_antiquarian", priority: 8 },
-  { room: "archives", type: "corruption", title: "Text Corruption", description: "Ship logs rewriting in real time.", npc: "shadow_tongue", priority: 10, rewards: { dream: 25, xp: 30 } },
-  { room: "comms_array", type: "music_trigger", title: "Intercepted Song", description: "A musical broadcast from across the void.", priority: 6, songTrigger: "to_be_the_human" },
-  { room: "cryo_bay", type: "tome_discovery", title: "Ancient Tome", description: "A CoNexus story crystal found.", priority: 7, tomeUnlock: "welcome-to-celebration", rewards: { xp: 50 } },
-  { room: "observation_deck", type: "music_trigger", title: "The Two Witnesses", description: "A transmission from Malkia Ukweli.", priority: 9, songTrigger: "the_two_witnesses" },
-];
-
-/* ─── SHADOW TONGUE CORRUPTION ─── */
-
-export interface CorruptionEvent {
-  room: ArkRoom;
-  severity: "minor" | "moderate" | "severe";
-  spreadTimer: number;
-  quarantineType: "cipher" | "word_restore" | "sequence" | "purge";
-}
-
-export function generateCorruptionEvent(dayNumber: number): CorruptionEvent | null {
-  if (dayNumber % 7 !== 1 && dayNumber % 7 !== 3 && dayNumber % 7 !== 5) return null;
-  const rooms: ArkRoom[] = ["archives", "bridge", "comms_array", "medical_bay", "engineering"];
-  const types: CorruptionEvent["quarantineType"][] = ["cipher", "word_restore", "sequence", "purge"];
-  return {
-    room: rooms[dayNumber % rooms.length],
-    severity: dayNumber % 3 === 0 ? "severe" : dayNumber % 2 === 0 ? "moderate" : "minor",
-    spreadTimer: 24,
-    quarantineType: types[dayNumber % types.length],
-  };
-}
-
-/* ─── SIGNAL FRAGMENTS ─── */
-
-export function generateSignalFragments(weekNumber: number): { room: ArkRoom; sequenceNumber: number }[] {
-  const sets: ArkRoom[][] = [
-    ["comms_array", "bridge", "engineering"],
-    ["archives", "medical_bay", "observation_deck"],
-    ["armory", "comms_array", "archives"],
-  ];
-  return sets[weekNumber % sets.length].map((room, i) => ({ room, sequenceNumber: i + 1 }));
-}
-
-/* ─── CONEXUS TOME PLACEMENTS ─── */
-
-export interface TomePlacement {
-  tomeId: string;
-  room: ArkRoom;
-  unlockMethod: "exploration" | "trust" | "game_completion" | "story_event";
-  requirement: string;
-  discovered: boolean;
-}
-
+export interface TomePlacement { tomeId: string; roomId: RoomId; method: "exploration" | "trust" | "quest" | "game" | "npc_gift"; trustReq?: { npc: string; min: number }; flagReq?: string; cardReward?: string; }
 export const TOME_PLACEMENTS: TomePlacement[] = [
-  { tomeId: "welcome-to-celebration", room: "cryo_bay", unlockMethod: "exploration", requirement: "Visit Cryo Bay 3 times", discovered: false },
-  { tomeId: "the-detective", room: "archives", unlockMethod: "trust", requirement: "Elara trust 30+", discovered: false },
-  { tomeId: "iron-lion-foundation", room: "armory", unlockMethod: "game_completion", requirement: "Win 5 arena fights", discovered: false },
-  { tomeId: "mechronis-academy", room: "bridge", unlockMethod: "trust", requirement: "Human trust 20+", discovered: false },
-  { tomeId: "kaels-revenge", room: "comms_array", unlockMethod: "story_event", requirement: "Discover Ark theft", discovered: false },
-  { tomeId: "the-engineer-foundation", room: "engineering", unlockMethod: "exploration", requirement: "Visit Engineering 5 times", discovered: false },
-  { tomeId: "the-necromancers-lair", room: "medical_bay", unlockMethod: "story_event", requirement: "Discover blood evidence", discovered: false },
-  { tomeId: "the-enigmas-lament", room: "observation_deck", unlockMethod: "trust", requirement: "Elara trust 50+", discovered: false },
-  { tomeId: "the-politicians-reign", room: "trade_hub", unlockMethod: "trust", requirement: "Locke trust 20+", discovered: false },
-  { tomeId: "the-ninth", room: "engineering", unlockMethod: "story_event", requirement: "Discover the Shadow Tongue", discovered: false },
-  { tomeId: "agent-zero-foundation", room: "armory", unlockMethod: "story_event", requirement: "Investigate Zero's signal", discovered: false },
-  { tomeId: "terminus-swarm", room: "comms_array", unlockMethod: "game_completion", requirement: "Reach wave 10", discovered: false },
+  { tomeId: "welcome-to-celebration", roomId: "cryo_bay", method: "exploration", cardReward: "the-architect" },
+  { tomeId: "the-necromancers-lair", roomId: "medical_bay", method: "exploration", cardReward: "the-necromancer" },
+  { tomeId: "mechronis-academy", roomId: "bridge", method: "exploration", cardReward: "the-human" },
+  { tomeId: "the-detective", roomId: "archives", method: "exploration", cardReward: "the-detective" },
+  { tomeId: "kaels-revenge", roomId: "comms_array", method: "exploration", cardReward: "kael" },
+  { tomeId: "the-enigmas-lament", roomId: "observation_deck", method: "exploration", cardReward: "the-enigma" },
+  { tomeId: "agent-zero-foundation", roomId: "armory", method: "exploration", cardReward: "agent-zero" },
+  { tomeId: "the-engineer-foundation", roomId: "engineering", method: "exploration", cardReward: "the-engineer" },
+  { tomeId: "the-politicians-reign", roomId: "trade_hub", method: "exploration", cardReward: "the-politician" },
+  { tomeId: "iron-lion-foundation", roomId: "cargo_bay", method: "exploration", cardReward: "iron-lion" },
+  { tomeId: "the-ninth-blood-and-shadows", roomId: "trophy_room", method: "exploration", cardReward: "the-shadow-tongue" },
+  { tomeId: "building-the-architect", roomId: "captains_quarters", method: "exploration", cardReward: "the-programmer" },
+  { tomeId: "eyes-of-the-watcher", roomId: "bridge", method: "trust", trustReq: { npc: "elara", min: 40 }, cardReward: "the-eyes" },
+  { tomeId: "the-oracle", roomId: "archives", method: "trust", trustReq: { npc: "the_antiquarian", min: 30 }, cardReward: "the-oracle" },
+  { tomeId: "dischordian-logic", roomId: "comms_array", method: "trust", trustReq: { npc: "the_human", min: 50 }, cardReward: "the-dreamer" },
+  { tomeId: "terminus-swarm", roomId: "armory", method: "game", flagReq: "terminus_wave_10", cardReward: "the-source" },
+  { tomeId: "the-host", roomId: "medical_bay", method: "quest", flagReq: "quarantine_5", cardReward: "the-host" },
+  { tomeId: "rise-of-the-neyons", roomId: "observation_deck", method: "trust", trustReq: { npc: "elara", min: 60 }, cardReward: "the-dreamer" },
+  { tomeId: "the-brotherhood-ocularum", roomId: "armory", method: "npc_gift", trustReq: { npc: "agent_zero", min: 40 }, cardReward: "iron-lion" },
+  { tomeId: "sanctuary-lost", roomId: "trade_hub", method: "npc_gift", trustReq: { npc: "adjudicator_locke", min: 40 }, cardReward: "the-authority" },
+  { tomeId: "planet-of-the-wolf", roomId: "engineering", method: "trust", trustReq: { npc: "shadow_tongue", min: 30 }, cardReward: "the-wolf" },
+  { tomeId: "the-blood-weave-gates-of-hell", roomId: "trophy_room", method: "quest", flagReq: "hierarchy_discovered", cardReward: "the-advocate" },
+  { tomeId: "awaken-the-clone", roomId: "medical_bay", method: "trust", trustReq: { npc: "the_source", min: 40 }, cardReward: "the-white-oracle" },
 ];
-
-/* ─── ROOM INDICATORS ─── */
-
-export interface RoomIndicator {
-  room: ArkRoom;
-  eventType: RoomEventType;
-  color: string;
-  urgent: boolean;
-  tooltip: string;
-}
-
-export function getRoomIndicators(events: RoomEvent[], corruption: CorruptionEvent | null): RoomIndicator[] {
-  const indicators: RoomIndicator[] = [];
-  for (const e of events) {
-    if (e.completed) continue;
-    indicators.push({
-      room: e.room, eventType: e.type,
-      color: e.type === "relationship" ? "#22d3ee" : e.type === "gameplay" ? "#fbbf24" :
-             e.type === "story" ? "#a78bfa" : e.type === "corruption" ? "#6366f1" :
-             e.type === "signal_fragment" ? "#f87171" : e.type === "tome_discovery" ? "#00e676" :
-             e.type === "music_trigger" ? "#ff8c00" : e.type === "memory_flash" ? "#22d3ee" : "#94a3b8",
-      urgent: false, tooltip: e.title,
-    });
-  }
-  if (corruption) {
-    indicators.push({
-      room: corruption.room, eventType: "corruption",
-      color: "#6366f1", urgent: corruption.severity === "severe",
-      tooltip: `Shadow Tongue Corruption — ${corruption.severity}`,
-    });
-  }
-  return indicators;
-}
