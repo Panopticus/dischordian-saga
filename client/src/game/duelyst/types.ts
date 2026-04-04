@@ -14,11 +14,11 @@ export type Faction =
   | "neutral";        // Neutral — usable by any faction
 
 export const FACTION_NAMES: Record<Faction, string> = {
-  architect: "The Architect's Empire",
+  architect: "The Artificial Empire",
   dreamer: "The Potentials",
   insurgency: "The Insurgency",
   new_babylon: "New Babylon",
-  antiquarian: "The Antiquarian",
+  antiquarian: "The Timekeepers",
   thought_virus: "The Thought Virus",
   neutral: "Neutral",
 };

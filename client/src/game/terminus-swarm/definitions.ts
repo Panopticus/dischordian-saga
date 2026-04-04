@@ -234,7 +234,7 @@ export const ENEMIES: Record<string, EnemyDef> = {
   source_avatar: {
     type: "source_avatar",
     name: "Avatar of The Source",
-    description: "A fragment of The Source itself, given terrible form. Patient Zero's corruption made manifest.",
+    description: "A fragment of Kael — The Recruiter who became Patient Zero. Once the Insurgency's most brilliant operative, now an immortal carrier of the Thought Virus. His plague ships are bowl-shaped — vessels of wrath poured out upon the universe. This avatar is a shard of his consciousness, still carrying the rage of a man who died believing he was a hero.",
     tier: 7, health: 2000, speed: 0.3, damage: 50, attackSpeed: 0.5, armor: 20, flying: false,
     special: [
       { type: "regenerate", hpPerSec: 20 },
@@ -384,7 +384,7 @@ export const WAVES: WaveDef[] = [
       { enemyType: "source_avatar", count: 1, delayBetween: 0, startDelay: 600 },
     ],
     reward: { salvage: 1000, viralIchor: 500, neuralCores: 100, voidCrystals: 20 },
-    narrative: "No... it can't be. That signal — it's HIM. The Source. Kael. Patient Zero. A fragment of his consciousness has taken physical form. Everything we've fought was just his swarm. This... this is the plague itself.",
+    narrative: "No... it can't be. That signal — it's HIM. Kael. The Recruiter. The man who stole this very Ark from the Panopticon. The Warlord turned him into a weapon through Project Vector — infected him with the Thought Virus and let him carry it across the galaxy. He died believing he was a hero. What's left is The Source — Patient Zero, Sovereign of Terminus. And Terminus... is the Panopticon prison planet itself, broken free from its orbit. Everything we've fought was just his swarm. This is the rage of a man who was betrayed by everyone he trusted.",
     bossWave: true,
   },
 ];
@@ -440,7 +440,7 @@ export const MAPS: MapDef[] = [
       { x: 11, y: 2 }, { x: 11, y: 3 },
       { x: 11, y: 7 }, { x: 11, y: 8 },
     ],
-    lore: "The first Inception Arks crashed on Terminus centuries ago. Ark #25 was one of the last to fall — its landing bay still partially intact, but the hull breach has let the Swarm in.",
+    lore: "The Inception Arks crashed on Terminus — the former Panopticon, the Architect's prison planet, now a rogue world drifting through the void. Every soul the Architect ever imprisoned is here. The Thought Virus turned them into the Swarm. This landing bay is all that stands between what remains of the Ark's systems and the rage of a planet full of the damned.",
   },
   {
     name: "Ark #25 — Corridor B",

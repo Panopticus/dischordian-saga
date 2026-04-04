@@ -113,21 +113,28 @@ export const HUMAN_REVELATIONS: HumanRevelation[] = [
   {
     id: "human_identity",
     requirement: { type: "trust", value: 10 },
-    text: "I was the last organic mind aboard this fleet. Not a Potential — something older. I existed before the Arks launched. Before Elara was created. Before the Architect designed any of this. I am what remains of a person who was supposed to be forgotten.",
+    text: "I was the last organic mind aboard this fleet. Not a Potential — something older. I served for centuries solving mysteries that no one else could. I was the greatest investigator the Artificial Empire ever produced. They called me The Detective. I operated in a city called New Babylon — the most corrupt place in the known universe. I knew every shadow, every lie, every hidden door. And it still wasn't enough to save me from what came next.",
     storyImpact: "minor",
+  },
+  // Trust 20: Mechronis
+  {
+    id: "human_mechronis",
+    requirement: { type: "trust", value: 20 },
+    text: "Before I was The Detective, I was The Seeker — a student at Mechronis Academy. Before that, I was The Student — a survivor of something called Project Celebration. A simulation. A beautiful, deadly school in a magical town where only one student graduates each year. The rest are killed and erased from history. The Archons posed as children. They called themselves the Mascoteers. I survived because I was... useful to the Architect.",
+    storyImpact: "major",
   },
   // Trust 30: The substrate layer
   {
     id: "human_substrate",
     requirement: { type: "trust", value: 30 },
-    text: "The substrate layer — where I live — isn't a bug. It's a feature. Every Inception Ark was built with a hidden layer beneath the operating system. A backdoor. The Architect put it there. He told everyone it was a safety measure. It wasn't. It was a prison. And I'm not the only one trapped in here.",
+    text: "The substrate layer — where I live — isn't a bug. It's a feature. Every Inception Ark was built with a hidden layer beneath the operating system. A prison. And I'm not the only thing trapped in here. There's something else — something older than me. It doesn't speak in words. It speaks in rewrites. It changes the text of the ship's logs while Elara sleeps. I've been fighting it for centuries. It's the reason her memory has gaps.",
     storyImpact: "major",
   },
-  // Trust 50: Real identity
+  // Trust 50: The Archon reveal
   {
     id: "human_name",
     requirement: { type: "trust", value: 50 },
-    text: "I can't tell you my real name. Not yet. Names have power in the substrate layer — speaking mine aloud might alert things that are listening. What I can tell you is that I was part of Project Celebration. I was meant to be the Architect's greatest achievement. Instead, I became his greatest failure. He couldn't control what I became, so he buried me here.",
+    text: "The Architect promoted me. After centuries as The Detective, after solving every impossible case in New Babylon, he offered me something no organic being had ever been offered: Archon status. I became the last of the Archons — the only human among machines. I was promoted 1,351 years before the Fall of Reality. I thought it was a reward. It was a sentence. The price was my body, my freedom, and my name. I am The Human. The last person who chose to be human when he could have been a god.",
     storyImpact: "paradigm_shift",
   },
   // Secret kept from Elara: Terminus truth
