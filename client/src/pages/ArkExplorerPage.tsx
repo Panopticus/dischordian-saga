@@ -700,6 +700,21 @@ export default function ArkExplorerPage() {
     }
   }, [state.currentRoomId, audioReady, setRoomAmbience]);
 
+  // Living Ark: trigger NPC event notification when entering a room with an active event
+  const [activeRoomEvent, setActiveRoomEvent] = useState<RoomEvent | null>(null);
+  useEffect(() => {
+    if (!state.currentRoomId) return;
+    const roomKey = state.currentRoomId.replace(/-/g, "_");
+    const events = [dailyBrief.gameplay, dailyBrief.story, dailyBrief.relationship];
+    const match = events.find(e => e && e.roomId === roomKey);
+    if (match && match.id !== activeRoomEvent?.id) {
+      // Show event notification after a short delay (let the room load first)
+      setTimeout(() => setActiveRoomEvent(match), 1500);
+    } else if (!match) {
+      setActiveRoomEvent(null);
+    }
+  }, [state.currentRoomId, dailyBrief, activeRoomEvent]);
+
   // Play contextual music when entering a room
   const { playForRoom: playMusicForRoom } = useAmbientMusic();
   useEffect(() => {
@@ -1205,6 +1220,58 @@ export default function ArkExplorerPage() {
         itemAction={selectedItem}
         onClose={() => setSelectedItem(null)}
       />
+
+      {/* Living Ark Event Notification */}
+      <AnimatePresence>
+        {activeRoomEvent && (
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            className="fixed top-16 left-1/2 -translate-x-1/2 z-[90] max-w-sm w-full px-4"
+          >
+            <button
+              onClick={() => {
+                // Dismiss — in the future this will open the NPC dialog or event UI
+                setActiveRoomEvent(null);
+              }}
+              className="w-full text-left p-3 rounded-xl border backdrop-blur-md shadow-2xl transition-all hover:scale-[1.02]"
+              style={{
+                background: "rgba(0,0,0,0.85)",
+                borderColor: activeRoomEvent.type === "npc_conversation" ? "rgba(34,211,238,0.4)" :
+                              activeRoomEvent.type === "quarantine" ? "rgba(239,68,68,0.4)" :
+                              activeRoomEvent.type === "signal_fragment" ? "rgba(248,113,113,0.4)" :
+                              activeRoomEvent.type === "tome_discovered" ? "rgba(168,85,247,0.4)" :
+                              "rgba(255,183,77,0.4)",
+              }}
+            >
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 rounded-full flex items-center justify-center shrink-0"
+                  style={{
+                    backgroundColor: activeRoomEvent.type === "npc_conversation" ? "rgba(34,211,238,0.15)" :
+                                     activeRoomEvent.type === "quarantine" ? "rgba(239,68,68,0.15)" :
+                                     "rgba(255,183,77,0.15)",
+                    border: `1px solid ${activeRoomEvent.type === "npc_conversation" ? "rgba(34,211,238,0.4)" : "rgba(255,183,77,0.4)"}`,
+                  }}>
+                  <span className="text-xs">
+                    {activeRoomEvent.type === "npc_conversation" ? "💬" :
+                     activeRoomEvent.type === "quarantine" ? "⚠️" :
+                     activeRoomEvent.type === "signal_fragment" ? "📡" :
+                     activeRoomEvent.type === "tome_discovered" ? "📖" :
+                     activeRoomEvent.type === "music_transmission" ? "🎵" :
+                     activeRoomEvent.type === "stargazing" ? "✨" : "📋"}
+                  </span>
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="font-mono text-xs font-bold text-white/90 truncate">{activeRoomEvent.title}</p>
+                  <p className="font-mono text-[10px] text-white/40 truncate">{activeRoomEvent.description}</p>
+                </div>
+                <span className="font-mono text-[8px] text-white/20 shrink-0">TAP</span>
+              </div>
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Room Tutorial Dialog */}
       <AnimatePresence>
