@@ -10,6 +10,7 @@ import {
   Heart, Zap, Package
 } from "lucide-react";
 import { getLoginUrl } from "@/const";
+import { ACHIEVEMENT_CHAINS, type AchievementChain } from "@/game/achievementChains";
 
 // Trophy room themes
 const ROOM_THEMES = [
@@ -277,6 +278,49 @@ export default function TrophyRoomPage() {
               </motion.div>
             ))}
           </div>
+        </div>
+      </div>
+
+      {/* ═══ ACHIEVEMENT CHAINS ═══ */}
+      <div className="max-w-4xl mx-auto px-4 mt-8 mb-6">
+        <div className="flex items-center gap-2 mb-4">
+          <Star size={14} className="text-amber-400" />
+          <h2 className="font-display text-sm font-bold tracking-[0.2em] text-amber-400">ACHIEVEMENT CHAINS</h2>
+        </div>
+        <div className="grid gap-3 sm:grid-cols-2">
+          {Object.values(ACHIEVEMENT_CHAINS).map((chain: AchievementChain) => {
+            const completedCount = 0; // TODO: wire to actual progress
+            const total = chain.requirements.length;
+            const percent = Math.round((completedCount / total) * 100);
+            const done = completedCount >= total;
+            return (
+              <div
+                key={chain.id}
+                className={`p-3 rounded-lg border transition-all ${
+                  done ? "border-amber-400/40 bg-amber-500/5" : "border-white/5 bg-white/[0.02]"
+                }`}
+              >
+                <div className="flex items-start gap-2 mb-2">
+                  <span className="text-lg">{chain.icon}</span>
+                  <div className="flex-1 min-w-0">
+                    <p className={`font-mono text-xs font-bold ${done ? "text-amber-400" : "text-white/70"}`}>
+                      {chain.name}
+                    </p>
+                    <p className="font-mono text-[9px] text-white/30 mt-0.5">{chain.description}</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2 mb-1.5">
+                  <div className="flex-1 h-1 rounded-full bg-white/5 overflow-hidden">
+                    <div className="h-full rounded-full bg-amber-400 transition-all" style={{ width: `${percent}%` }} />
+                  </div>
+                  <span className="font-mono text-[8px] text-white/20">{completedCount}/{total}</span>
+                </div>
+                <p className="font-mono text-[8px] text-amber-400/50">
+                  Reward: {chain.reward.name}
+                </p>
+              </div>
+            );
+          })}
         </div>
       </div>
 
