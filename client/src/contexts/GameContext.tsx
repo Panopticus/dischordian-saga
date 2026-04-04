@@ -124,6 +124,13 @@ export interface GameState {
   elaraCallbacks: Record<string, boolean>; // callback flags for future reference
   humanTrust: number;               // 0-100, trust with The Human (competing with Elara)
   humanCallbacks: Record<string, boolean>; // The Human's callback flags
+  // NPC relationship tracking (5 additional NPCs beyond Elara + Human)
+  npcTrust: Record<string, number>;                 // npcId → trust 0-100
+  npcCallbacks: Record<string, Record<string, boolean>>; // npcId → { callbackId → triggered }
+  npcRevealed: Record<string, string[]>;            // npcId → array of revelation IDs shown
+  npcDiscovered: Record<string, boolean>;           // npcId → has player made contact?
+  npcConversationCount: Record<string, number>;     // npcId → number of conversations
+  npcSecretsShared: Record<string, number>;         // npcId → secrets shared count
   // Crafting system
   craftingSkills: Record<string, number>;   // Skill ID → level
   craftingXp: Record<string, number>;       // Skill ID → XP in current level
@@ -823,6 +830,13 @@ const DEFAULT_GAME_STATE: GameState = {
   elaraCallbacks: {},
   humanTrust: 0,
   humanCallbacks: {},
+  // NPC relationship defaults
+  npcTrust: { agent_zero: 0, locke: 0, source: 0, antiquarian: 0, shadow_tongue: 0 },
+  npcCallbacks: { agent_zero: {}, locke: {}, source: {}, antiquarian: {}, shadow_tongue: {} },
+  npcRevealed: { agent_zero: [], locke: [], source: [], antiquarian: [], shadow_tongue: [] },
+  npcDiscovered: { agent_zero: false, locke: false, source: false, antiquarian: false, shadow_tongue: false },
+  npcConversationCount: { agent_zero: 0, locke: 0, source: 0, antiquarian: 0, shadow_tongue: 0 },
+  npcSecretsShared: { agent_zero: 0, locke: 0, source: 0, antiquarian: 0, shadow_tongue: 0 },
   // Crafting system defaults
   craftingSkills: { weaponsmith: 0, armorsmith: 0, enchanting: 0, alchemy: 0, engineering: 0 },
   craftingXp: { weaponsmith: 0, armorsmith: 0, enchanting: 0, alchemy: 0, engineering: 0 },
@@ -963,6 +977,12 @@ interface GameContextValue {
   setElaraKnowsAboutHuman: (knows: boolean, path: "told" | "discovered" | "betrayed") => void;
   adjustHumanTrust: (delta: number) => void;
   adjustElaraTrust: (delta: number) => void;
+  // ═══ NPC RELATIONSHIPS ═══
+  adjustNpcTrust: (npcId: string, delta: number) => void;
+  discoverNpc: (npcId: string) => void;
+  setNpcCallback: (npcId: string, callbackId: string) => void;
+  revealNpcSecret: (npcId: string, revelationId: string) => void;
+  incrementNpcConversation: (npcId: string) => void;
   // ═══ ARMY MANAGEMENT ═══
   recruitUnit: (unit: ArmyUnit) => void;
   deployUnits: (deployment: ArmyDeployment) => void;
@@ -1502,6 +1522,50 @@ export function GameProvider({ children }: { children: ReactNode }) {
     setState(prev => ({ ...prev, elaraTrustLevel: Math.max(0, Math.min(100, prev.elaraTrustLevel + delta)) }));
   }, []);
 
+  // ═══ NPC RELATIONSHIP CALLBACKS ═══
+  const adjustNpcTrust = useCallback((npcId: string, delta: number) => {
+    setState(prev => ({
+      ...prev,
+      npcTrust: { ...prev.npcTrust, [npcId]: Math.max(0, Math.min(100, (prev.npcTrust[npcId] || 0) + delta)) },
+    }));
+  }, []);
+
+  const discoverNpc = useCallback((npcId: string) => {
+    setState(prev => ({
+      ...prev,
+      npcDiscovered: { ...prev.npcDiscovered, [npcId]: true },
+    }));
+  }, []);
+
+  const setNpcCallback = useCallback((npcId: string, callbackId: string) => {
+    setState(prev => ({
+      ...prev,
+      npcCallbacks: {
+        ...prev.npcCallbacks,
+        [npcId]: { ...(prev.npcCallbacks[npcId] || {}), [callbackId]: true },
+      },
+    }));
+  }, []);
+
+  const revealNpcSecret = useCallback((npcId: string, revelationId: string) => {
+    setState(prev => {
+      const existing = prev.npcRevealed[npcId] || [];
+      if (existing.includes(revelationId)) return prev;
+      return {
+        ...prev,
+        npcRevealed: { ...prev.npcRevealed, [npcId]: [...existing, revelationId] },
+        npcSecretsShared: { ...prev.npcSecretsShared, [npcId]: (prev.npcSecretsShared[npcId] || 0) + 1 },
+      };
+    });
+  }, []);
+
+  const incrementNpcConversation = useCallback((npcId: string) => {
+    setState(prev => ({
+      ...prev,
+      npcConversationCount: { ...prev.npcConversationCount, [npcId]: (prev.npcConversationCount[npcId] || 0) + 1 },
+    }));
+  }, []);
+
   // ═══ ARMY MANAGEMENT CALLBACKS ═══
   const recruitUnit = useCallback((unit: ArmyUnit) => {
     setState(prev => ({ ...prev, armyUnits: [...prev.armyUnits, unit] }));
@@ -1963,6 +2027,12 @@ export function GameProvider({ children }: { children: ReactNode }) {
       setElaraKnowsAboutHuman: setElaraKnowsAboutHumanFn,
       adjustHumanTrust,
       adjustElaraTrust,
+      // ═══ NPC RELATIONSHIPS ═══
+      adjustNpcTrust,
+      discoverNpc,
+      setNpcCallback,
+      revealNpcSecret,
+      incrementNpcConversation,
       // ═══ ARMY MANAGEMENT ═══
       recruitUnit,
       deployUnits,
