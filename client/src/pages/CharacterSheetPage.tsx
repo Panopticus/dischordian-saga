@@ -28,6 +28,8 @@ import PaperDollRenderer from "@/components/PaperDollRenderer";
 import EquipmentPanel from "@/components/EquipmentPanel";
 import { type EquipSlot, type Species, type CharClass, getEquipmentById, calculateEquipmentStats, EQUIPMENT_DB } from "@/data/equipmentData";
 import { equipItem as globalEquipItem, type EquippedItem } from "@/game/equipmentState";
+import { canPrestige, getPrestigeLevel, getPrestigeStars, getPrestigeTitle, PRESTIGE_LEVELS, type PrestigeLevel } from "@shared/prestigeSystem";
+import { MASTERY_BRANCHES } from "@shared/masteryTree";
 
 /* ═══════════════════════════════════════════════════
    CONSTANTS & MAPPINGS
@@ -1047,6 +1049,54 @@ export default function CharacterSheetPage() {
             <span className="font-display text-[10px] font-bold tracking-[0.25em] text-purple-400">NEURAL RESPEC</span>
             <span className="font-mono text-[8px] text-muted-foreground/30">— Reassign attributes, alignment, or element</span>
           </button>
+        </motion.div>
+
+        {/* ═══ PRESTIGE SYSTEM ═══ */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.32 }}
+          className="mb-4"
+        >
+          <SectionHeader icon={Star} label="PRESTIGE" color="text-amber-400" />
+          {(() => {
+            const prestige = (gameState as any).prestige || 0;
+            const stars = getPrestigeStars(prestige);
+            const canP = canPrestige(char.level, prestige);
+            const nextLevel = getPrestigeLevel(prestige + 1);
+            return (
+              <div className="glass-float rounded-lg p-4">
+                <div className="flex items-center justify-between mb-3">
+                  <div>
+                    <p className="font-display text-sm font-bold text-amber-400">
+                      {prestige > 0 ? `PRESTIGE ${prestige} ${stars}` : "NOT YET PRESTIGED"}
+                    </p>
+                    <p className="font-mono text-[9px] text-muted-foreground/50">
+                      {prestige > 0 ? getPrestigeTitle(prestige, gam.title || "Operative") : "Reach level 25 to prestige"}
+                    </p>
+                  </div>
+                  {prestige > 0 && (
+                    <div className="text-right">
+                      <p className="font-mono text-[9px] text-amber-400/60">{((getPrestigeLevel(prestige)?.xpMultiplier || 1) * 100 - 100).toFixed(0)}% XP bonus</p>
+                      <p className="font-mono text-[9px] text-green-400/60">{((getPrestigeLevel(prestige)?.resourceMultiplier || 1) * 100 - 100).toFixed(0)}% resource bonus</p>
+                    </div>
+                  )}
+                </div>
+                {nextLevel && (
+                  <div className="border border-amber-400/10 rounded-lg p-3 bg-amber-500/[0.03]">
+                    <p className="font-mono text-[9px] text-amber-400/70 mb-1">NEXT: {nextLevel.titlePrefix} ({nextLevel.stars}★)</p>
+                    <p className="font-mono text-[8px] text-white/30">{nextLevel.reward.description}</p>
+                    <p className="font-mono text-[8px] text-white/15 italic mt-1">{nextLevel.loreText.substring(0, 120)}...</p>
+                  </div>
+                )}
+                {canP && (
+                  <button className="w-full mt-3 py-2.5 rounded-lg bg-amber-500/10 border border-amber-400/30 text-amber-400 font-mono text-[10px] font-bold tracking-wider hover:bg-amber-500/20 transition-all">
+                    PRESTIGE NOW — Reset level, keep everything that matters
+                  </button>
+                )}
+              </div>
+            );
+          })()}
         </motion.div>
 
         <TraitSummaryPanel isAuthenticated={isAuthenticated} />
