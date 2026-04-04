@@ -33,7 +33,7 @@ export default function CosmeticShopPage() {
 
   const categories = ["all", "card_art", "avatar_frame", "title", "theme", "emote", "trail"];
   const filteredItems = shopItems?.filter((item: any) =>
-    selectedCategory === "all" || item.category === selectedCategory
+    selectedCategory === "all" || item.type === selectedCategory
   ) || [];
   const ownedItems = shopItems?.filter((item: any) => item.owned) || [];
   const equippedItems = equipped || [];
@@ -128,7 +128,7 @@ export default function CosmeticShopPage() {
                   <div className="p-2.5">
                     <p className="font-mono text-xs font-semibold truncate">{item.name}</p>
                     <p className="font-mono text-[10px] text-muted-foreground/60 truncate mb-2">
-                      {item.category?.replace(/_/g, " ")}
+                      {item.type?.replace(/_/g, " ")}
                     </p>
                     {!item.owned ? (
                       <Button
@@ -172,7 +172,7 @@ export default function CosmeticShopPage() {
                   <Sparkles size={16} className="text-primary" />
                   <div className="flex-1 min-w-0">
                     <p className="font-mono text-xs font-semibold">{item.name}</p>
-                    <p className="font-mono text-[10px] text-muted-foreground">{item.category?.replace(/_/g, " ")} • {item.rarity}</p>
+                    <p className="font-mono text-[10px] text-muted-foreground">{item.type?.replace(/_/g, " ")} • {item.rarity}</p>
                   </div>
                   <Button
                     size="sm"

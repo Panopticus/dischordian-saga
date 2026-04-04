@@ -9,7 +9,7 @@ import { router, protectedProcedure } from "../_core/trpc";
 import { getDb } from "../db";
 import {
   cosmeticPurchases, citizenCharacters, prestigeProgress,
-  bossMastery,
+  bossMastery, dreamBalance,
 } from "../../drizzle/schema";
 import { eq, and, desc } from "drizzle-orm";
 import {
@@ -98,13 +98,26 @@ export const cosmeticShopRouter = router({
         .where(and(eq(cosmeticPurchases.userId, ctx.user.id), eq(cosmeticPurchases.itemKey, input.itemKey)));
       if (existing) throw new Error("Already owned");
 
+      // Check and deduct Dream currency
+      if (item.price > 0) {
+        const [bal] = await db.select().from(dreamBalance)
+          .where(eq(dreamBalance.userId, ctx.user.id));
+        if (!bal) throw new Error("No Dream balance found");
+        if (bal.dreamTokens < item.price) {
+          throw new Error(`Not enough Dream tokens. Need ${item.price}, have ${bal.dreamTokens}`);
+        }
+        await db.update(dreamBalance)
+          .set({ dreamTokens: bal.dreamTokens - item.price })
+          .where(eq(dreamBalance.userId, ctx.user.id));
+      }
+
       await db.insert(cosmeticPurchases).values({
         userId: ctx.user.id,
         itemKey: input.itemKey,
         price: item.price,
       });
 
-      return { purchased: true, item: item.name };
+      return { purchased: true, item: item.name, priceCharged: item.price };
     }),
 
   /** Equip/unequip a cosmetic */

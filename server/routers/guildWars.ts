@@ -400,6 +400,64 @@ export const guildWarsRouter = router({
       return { success: true, winner: winnerFaction, distributed: war[0].prizePoolDream };
     }),
 
+  /** Register guild for a war — costs treasury Dream as entry fee */
+  registerGuild: protectedProcedure
+    .input(z.object({ warId: z.number() }))
+    .mutation(async ({ ctx, input }) => {
+      const db = (await getDb())!;
+
+      // Verify war exists and is active
+      const [war] = await db.select().from(guildWars)
+        .where(and(eq(guildWars.id, input.warId), eq(guildWars.status, "active")));
+      if (!war) throw new Error("No active war found");
+
+      // Get player's guild
+      const [membership] = await db.select().from(guildMembers)
+        .where(eq(guildMembers.userId, ctx.user.id));
+      if (!membership) throw new Error("You must be in a guild");
+      if (membership.role !== "leader" && membership.role !== "officer") {
+        throw new Error("Only leaders and officers can register the guild for wars");
+      }
+
+      // Get guild
+      const [guild] = await db.select().from(guilds)
+        .where(eq(guilds.id, membership.guildId));
+      if (!guild) throw new Error("Guild not found");
+
+      // Verify faction matches
+      if (guild.faction !== war.factionA && guild.faction !== war.factionB) {
+        throw new Error("Your guild's faction is not participating in this war");
+      }
+
+      // Entry fee: 50 Dream per guild level (min 50)
+      const entryFee = Math.max(50, guild.level * 50);
+      if (guild.treasuryDream < entryFee) {
+        throw new Error(`Not enough treasury Dream. Need ${entryFee}, have ${guild.treasuryDream}. Ask members to donate!`);
+      }
+
+      // Deduct entry fee
+      await db.update(guilds)
+        .set({ treasuryDream: guild.treasuryDream - entryFee })
+        .where(eq(guilds.id, guild.id));
+
+      // Add entry fee to war prize pool
+      await db.update(guildWars)
+        .set({ prizePoolDream: war.prizePoolDream + entryFee })
+        .where(eq(guildWars.id, input.warId));
+
+      // Notify guild
+      const { guildChat } = await import("../../drizzle/schema");
+      await db.insert(guildChat).values({
+        guildId: guild.id,
+        userId: ctx.user.id,
+        userName: "SYSTEM",
+        message: `Guild registered for war "${war.name}"! Entry fee: ${entryFee} Dream (added to prize pool).`,
+        messageType: "system",
+      });
+
+      return { success: true, entryFee, newPrizePool: war.prizePoolDream + entryFee };
+    }),
+
   /** Get the war leaderboard — top contributing guilds across all wars */
   warLeaderboard: protectedProcedure.query(async () => {
     const db = (await getDb())!;

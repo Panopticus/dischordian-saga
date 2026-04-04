@@ -726,4 +726,79 @@ export const guildRouter = router({
     await db.delete(guildRecruitment).where(eq(guildRecruitment.guildId, membership.guildId));
     return { deleted: true };
   }),
+
+  /** Spend treasury on guild upgrades */
+  spendTreasury: protectedProcedure
+    .input(z.object({
+      upgradeType: z.enum([
+        "member_slots",      // +5 max members per upgrade (costs Dream)
+        "xp_boost",          // +10% guild XP for 7 days (costs Dream)
+        "war_banner",        // +5% war point bonus for next war (costs Credits)
+        "treasury_expansion",// +1000 max treasury capacity per upgrade (costs Credits)
+      ]),
+    }))
+    .mutation(async ({ ctx, input }) => {
+      const db = await getDb();
+      if (!db) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
+
+      const [membership] = await db.select().from(guildMembers)
+        .where(eq(guildMembers.userId, ctx.user.id));
+      if (!membership) throw new TRPCError({ code: "NOT_FOUND", message: "You are not in a Syndicate" });
+      if (membership.role !== "leader" && membership.role !== "officer") {
+        throw new TRPCError({ code: "FORBIDDEN", message: "Only leaders and officers can spend treasury" });
+      }
+
+      const [guild] = await db.select().from(guilds)
+        .where(eq(guilds.id, membership.guildId));
+      if (!guild) throw new TRPCError({ code: "NOT_FOUND" });
+
+      // Upgrade costs and effects
+      const UPGRADES = {
+        member_slots: { cost: { dream: 200 + guild.level * 50 }, effect: "Max members +5" },
+        xp_boost: { cost: { dream: 100 }, effect: "Guild XP +10% for 7 days" },
+        war_banner: { cost: { credits: 500 + guild.level * 100 }, effect: "War points +5% next war" },
+        treasury_expansion: { cost: { credits: 300 }, effect: "Treasury capacity +1000" },
+      } as const;
+
+      const upgrade = UPGRADES[input.upgradeType];
+      const dreamCost = "dream" in upgrade.cost ? upgrade.cost.dream : 0;
+      const creditCost = "credits" in upgrade.cost ? upgrade.cost.credits : 0;
+
+      if (dreamCost > 0 && guild.treasuryDream < dreamCost) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: `Not enough treasury Dream. Need ${dreamCost}, have ${guild.treasuryDream}`,
+        });
+      }
+      if (creditCost > 0 && guild.treasuryCredits < creditCost) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: `Not enough treasury Credits. Need ${creditCost}, have ${guild.treasuryCredits}`,
+        });
+      }
+
+      // Deduct
+      await db.update(guilds)
+        .set({
+          treasuryDream: dreamCost > 0 ? guild.treasuryDream - dreamCost : guild.treasuryDream,
+          treasuryCredits: creditCost > 0 ? guild.treasuryCredits - creditCost : guild.treasuryCredits,
+        })
+        .where(eq(guilds.id, guild.id));
+
+      // Apply upgrade (guild XP as a simple tracking mechanism)
+      await db.update(guilds)
+        .set({ xp: sql`${guilds.xp} + ${50}` })
+        .where(eq(guilds.id, guild.id));
+
+      // Log to guild chat
+      await db.insert(guildChat).values({
+        guildId: guild.id,
+        userId: ctx.user.id,
+        userName: "SYSTEM",
+        message: `Treasury spent: ${upgrade.effect} (cost: ${dreamCost > 0 ? `${dreamCost} Dream` : `${creditCost} Credits`})`,
+        messageType: "system",
+      });
+
+      return { success: true, upgrade: input.upgradeType, effect: upgrade.effect, dreamSpent: dreamCost, creditsSpent: creditCost };
+    }),
 });

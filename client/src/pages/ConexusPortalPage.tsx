@@ -22,6 +22,7 @@ import { useLoredex } from "@/contexts/LoredexContext";
 import { useGame } from "@/contexts/GameContext";
 import { toast } from "sonner";
 import GamePreviewTooltip from "@/components/GamePreviewTooltip";
+import TomeViewer from "@/components/TomeViewer";
 
 const LIBRARY_BG = "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/antiquarian_library_room-dhtjQjrMbU3s3WhnWePBPF.webp";
 
@@ -33,6 +34,7 @@ export default function ConexusPortalPage() {
   const [filterAge, setFilterAge] = useState<FilterAge>("all");
   const [viewMode, setViewMode] = useState<ViewMode>("library");
   const [showAchievementModal, setShowAchievementModal] = useState<LoreAchievement | null>(null);
+  const [tomeGame, setTomeGame] = useState<ConexusGame | null>(null);
   const { getEntry } = useLoredex();
   const { state, completeGame, earnLoreAchievement, isGameCompleted } = useGame();
   const { recordAndReward } = useContentReward();
@@ -98,10 +100,7 @@ export default function ConexusPortalPage() {
   };
 
   const handlePlayGame = (game: ConexusGame) => {
-    window.open(game.conexusUrl, "_blank");
-    toast.info(`Opening "${game.title}" on CoNexus`, {
-      description: "Return here after playing to mark it complete and earn your lore achievement.",
-    });
+    setTomeGame(game);
   };
 
   return (
@@ -795,6 +794,21 @@ export default function ConexusPortalPage() {
               </div>
             </motion.div>
           </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* ═══ TOME VIEWER ═══ */}
+      <AnimatePresence>
+        {tomeGame && (
+          <TomeViewer
+            game={tomeGame}
+            isCompleted={isGameCompleted(tomeGame.id)}
+            onComplete={() => {
+              handleMarkComplete(tomeGame);
+              setTomeGame(null);
+            }}
+            onClose={() => setTomeGame(null)}
+          />
         )}
       </AnimatePresence>
     </div>
