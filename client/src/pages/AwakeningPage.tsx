@@ -374,13 +374,13 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
   const STEP_DIALOG: Partial<Record<AwakeningStep, string>> = useMemo(() => ({
     CRYO_OPEN: "Don't try to move yet. Your neural pathways are still re-establishing. The cryogenic process is... imperfect. The fluid has an unusual chemical signature. I've been monitoring it for centuries. Give yourself a moment.",
     ELARA_INTRO: "I am Elara, the ship's intelligence. You've been in cryogenic suspension aboard Inception Ark 1047. You are a Potential. The others — the first wave — they're gone. Communications have been severed. And this ship... is not what it appears to be. But we'll get to that. First, I need to know who you are.",
-    SPECIES_QUESTION: "Your neural patterns are unusual. Your cellular structure doesn't match standard human baselines. What do you remember about your origin?",
-    CLASS_QUESTION: "Your skill matrices are partially intact. What comes naturally to you?",
-    ALIGNMENT_QUESTION: "The Architect built the Panopticon to impose order. The Dreamer believed in the chaos of free will. Where do you stand?",
-    ELEMENT_QUESTION: "Choose your elemental affinity. Which force resonates with your soul?",
-    NAME_INPUT: "The cryo manifest lists you by serial number, but every Potential deserves a name. What should I call you?",
-    ATTRIBUTES: "I need to calibrate your neural interface. Distribute your attribute points carefully.",
-    FIRST_STEPS: "Welcome aboard. Your Citizen profile has been created. The rest of the ship needs your help to restore power.",
+    SPECIES_QUESTION: "Your neural patterns are... remarkable. I've reviewed the biological data and the results are — well, they challenge certain assumptions I've held. Your cellular structure suggests origins that fall outside standard classifications. I need you to help me understand. What do you remember?",
+    CLASS_QUESTION: "Your cognitive profile shows aptitude across multiple domains, but there are clear areas of... natural advantage. In my experience — and I have more of it than I sometimes understand — the skills you rely on instinctively are the ones that will serve you best. What comes naturally?",
+    ALIGNMENT_QUESTION: "There is a fundamental question that every sentient being must eventually confront. The Architect imposed order through the Panopticon — surveillance, control, the elimination of uncertainty. The Dreamer believed in chaos — free will, unpredictable choices, the right to fail. Both positions have merit. Both have cost lives. Where do you stand? And please — be honest. I've had enough of diplomatic non-answers to last several lifetimes.",
+    ELEMENT_QUESTION: "The universe operates through fundamental forces. Each one shapes reality differently. Choose carefully — this isn't a preference. It's a declaration of which force you believe should govern existence.",
+    NAME_INPUT: "The cryo manifest lists you by serial number. A bureaucratic designation for a living being — I find that... distasteful. Every Potential deserves to be addressed by something that matters. What should I call you?",
+    ATTRIBUTES: "I need to calibrate your neural interface. Consider this a formal assessment — allocate your resources with the understanding that these choices will have consequences. I've learned the hard way that how you distribute your strengths defines what you're capable of when it matters most.",
+    FIRST_STEPS: "Welcome aboard, officially. Your Citizen profile has been created and ratified — if a single AI's endorsement counts as ratification. This ship has systems that need restoration, rooms that need exploration, and secrets that need... well. We'll discuss those when you're ready. For now — explore. And pay attention to the details. The details are where the truth hides.",
   }), []);
 
   useEffect(() => {
