@@ -14,6 +14,16 @@ const FPS = 60;
 let _uid = 0;
 function uid(): string { return `ts_${++_uid}_${Date.now()}`; }
 
+/** Global bonuses from equipment/crafted items (set by TerminusSwarmPage) */
+export let turretDamageBonus = 0;  // Percent bonus
+export let coreHpBonus = 0;        // Percent bonus
+export let resourceBonus = 0;      // Percent bonus
+export function setTDGameBonuses(turretDmg: number, coreHp: number, resource: number) {
+  turretDamageBonus = turretDmg;
+  coreHpBonus = coreHp;
+  resourceBonus = resource;
+}
+
 /* ─── A* PATHFINDING ─── */
 
 interface PathNode {
@@ -132,7 +142,7 @@ export function createGameState(map: MapDef): TerminusGameState {
     resources: { salvage: 200, viralIchor: 0, neuralCores: 0, voidCrystals: 0 },
     wave: 0,
     phase: "setup",
-    coreHealth: 500,
+    coreHealth: Math.round(500 * (1 + coreHpBonus / 100)),
     coreMaxHealth: 500,
     spawnPoints: map.spawnPoints,
     corePosition: map.corePosition,
@@ -491,7 +501,7 @@ function updateTurrets(state: TerminusGameState) {
       x: turret.col,
       y: turret.row,
       targetId: target.id,
-      damage: turret.def.damage * turret.level,
+      damage: Math.round(turret.def.damage * turret.level * (1 + turretDamageBonus / 100)),
       speed: 8,
       type: turret.def.type === "arc_emitter" ? "lightning" :
             turret.def.type === "cryo_array" ? "frost" :

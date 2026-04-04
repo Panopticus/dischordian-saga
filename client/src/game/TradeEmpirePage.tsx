@@ -10,6 +10,7 @@ import {
   ArrowLeft, Clock, Star, AlertTriangle, MapPin, Send, Eye,
 } from "lucide-react";
 import GalacticMap from "./GalacticMap";
+import { getEquipmentGameBonuses } from "./equipmentState";
 import {
   GALACTIC_MAP, GALACTIC_FACTIONS, STARTER_MISSIONS,
   createInitialEmpire, type EmpireState, type MissionDef, type GalacticFactionId,
@@ -35,6 +36,10 @@ export default function TradeEmpirePage() {
   });
   const [selectedSector, setSelectedSector] = useState<string | null>(null);
   const [selectedMission, setSelectedMission] = useState<MissionDef | null>(null);
+
+  // Equipment bonuses for Trade Empire
+  const tradeBonuses = useMemo(() => getEquipmentGameBonuses("trade_empire"), []);
+  const missionSpeedBonus = tradeBonuses.get("mission_speed") || 0;
 
   // Save empire state
   const saveEmpire = useCallback((newState: EmpireState) => {
@@ -73,7 +78,7 @@ export default function TradeEmpirePage() {
       missionId: mission.id,
       agentId: "self", // Player does it themselves initially
       startTime: now,
-      endTime: now + mission.duration * 3600000,
+      endTime: now + mission.duration * 3600000 * (1 - (missionSpeedBonus / 100)), // Equipment/crafted speed bonus
     }];
 
     saveEmpire(newEmpire);

@@ -28,6 +28,7 @@ import DiscoveryNotification from "./components/DiscoveryNotification";
 import QuestTracker from "./components/QuestTracker";
 import QuestRewardSystem from "./components/QuestRewardSystem";
 import ElaraDialog from "./components/ElaraDialog";
+import CharacterWidget from "./components/CharacterWidget";
 import RadioMode from "./components/RadioMode";
 import EasterEggs from "./components/EasterEggs";
 import SoundControls from "./components/SoundControls";
@@ -274,6 +275,7 @@ function GameGate() {
       <AchievementToast />
       <TradeNotificationWatcher />
       <ElaraDialog elaraTTS={elaraTTS} />
+      <CharacterWidget />
       <RadioMode />
       <EasterEggs />
       <SoundControls
