@@ -194,50 +194,50 @@ Neither knows they are two halves of the same original being.
 ### factionNPCs.ts
 - [x] The Human = "10th Archon" → should be "Last Archon" (promoted 1,351 years before Fall)
 - [x] Elara faction = "dreamer" (Potentials/Ne-Yons) ✓
-- [ ] Agent Zero = female, and DEAD (signal is a mystery)
-- [ ] The Warlord = female (young woman, blonde, cybernetic)
-- [ ] Add: Agent Zero's signal is using her identity but she's dead
+- [x] Agent Zero = female, and DEAD (signal is a mystery)
+- [x] The Warlord = female (young woman, blonde, cybernetic)
+- [x] Add: Agent Zero's signal is using her identity but she's dead
 - [ ] Add: The Antiquarian = one half of the original Architect/Dreamer consciousness
 
 ### humanRelationship.ts
 - [x] The Human is NOT Kael ✓
 - [x] 10th Archon (corrected from 12th) ✓
-- [ ] Identity chain: Student → Seeker → Detective → Human
-- [ ] Promoted 1,351 years before the Fall of Reality
-- [ ] Served in New Babylon as The Detective
-- [ ] Connection to Adjudicator Locke (both operated in New Babylon)
+- [x] Identity chain: Student → Seeker → Detective → Human
+- [x] Promoted 1,351 years before the Fall of Reality
+- [x] Served in New Babylon as The Detective
+- [x] Connection to Adjudicator Locke (both operated in New Babylon)
 
 ### elaraRelationship.ts
-- [ ] Elara = Senator Elara Voss (memory wiped)
-- [ ] She betrayed humanity for the Architect before being betrayed herself
-- [ ] Promised immortality, got enslaved as hologram in Panopticon
-- [ ] Swept into Ark 1047 during Kael's theft as "collateral data"
-- [ ] Trust-60+ reveal should hint at political past, not generic AI backstory
+- [x] Elara = Senator Elara Voss (memory wiped)
+- [x] She betrayed humanity for the Architect before being betrayed herself
+- [x] Promised immortality, got enslaved as hologram in Panopticon
+- [x] Swept into Ark 1047 during Kael's theft as "collateral data"
+- [x] Trust-60+ reveal should hint at political past, not generic AI backstory
 - [ ] Trust-80+ reveal: fragments of her Senate memories
-- [ ] The "Contingency: ELARA" file = instructions for when she remembers
+- [x] The "Contingency: ELARA" file = instructions for when she remembers
 
 ### roomDialogs.ts
-- [ ] Cryo Bay: The cryo fluid contains dormant Thought Virus
-- [ ] Medical Bay: Blood found = not from any Potential (it's from the ship's construction era, Ny'Koth related)
-- [ ] Bridge: Ghost processes = The Human in the substrate + Ny'Koth stirring
-- [ ] Archives: Edited records = Ny'Koth covering tracks since construction
-- [ ] Comms Array: Substrate signal = The Human, but also traces of CoNexus
-- [ ] Observation Deck: The dark spot IS Terminus (the Panopticon, broken free)
-- [ ] All rooms: The ship was Dr. Lyra Vox's research vessel, stolen by Kael
+- [x] Cryo Bay: The cryo fluid contains dormant Thought Virus
+- [x] Medical Bay: Blood found = not from any Potential (it's from the ship's construction era, Ny'Koth related)
+- [x] Bridge: Ghost processes = The Human in the substrate + Ny'Koth stirring
+- [x] Archives: Edited records = Ny'Koth covering tracks since construction
+- [x] Comms Array: Substrate signal = The Human, but also traces of CoNexus
+- [x] Observation Deck: The dark spot IS Terminus (the Panopticon, broken free)
+- [x] All rooms: The ship was Dr. Lyra Vox's research vessel, stolen by Kael
 
 ### engine.ts (Dischordia)
-- [ ] General "The Human" should not be New Babylon faction general
+- [x] General "The Human" should not be New Babylon faction general
 - [ ] The Warlord = female in appearance
-- [ ] Faction name "architect" should display as "Artificial Empire"
+- [x] Faction name "architect" should display as "Artificial Empire"
 
 ### definitions.ts (Terminus Swarm)
-- [ ] Terminus = the former Panopticon prison planet
-- [ ] The Source = Kael, not a generic villain
-- [ ] Thought Virus was engineered by Ny'Koth, weaponized through Kael by the Warlord
-- [ ] Source Avatar = fragment of Kael's consciousness, not generic boss
+- [x] Terminus = the former Panopticon prison planet
+- [x] The Source = Kael, not a generic villain
+- [x] Thought Virus was engineered by Ny'Koth, weaponized through Kael by the Warlord
+- [x] Source Avatar = fragment of Kael's consciousness, not generic boss
 
 ### GAME_DESIGN.md
-- [ ] Ark 1047 = Dr. Lyra Vox's stolen research vessel
+- [x] Ark 1047 = Dr. Lyra Vox's stolen research vessel
 - [ ] Complete backstory of the ship needs updating
 - [ ] The Awakening sequence should reference the ship's true nature subtly
 
