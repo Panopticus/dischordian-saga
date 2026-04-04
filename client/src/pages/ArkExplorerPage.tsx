@@ -12,6 +12,9 @@ import { useGamification } from "@/contexts/GamificationContext";
 import { useSound } from "@/contexts/SoundContext";
 import { useAmbientMusic } from "@/contexts/AmbientMusicContext";
 import { generateDailyBrief, type RoomEvent } from "@/game/livingArk";
+import { processArkEvent, type ArkEventResult } from "@/game/arkEventHandler";
+import NPCDialog, { buildFirstContactScene, type NPCDialogScene, type NPCDialogChoice } from "@/components/NPCDialog";
+import type { FactionNPCId } from "@/game/factionNPCs";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLocation } from "wouter";
 import {
@@ -473,6 +476,8 @@ export default function ArkExplorerPage() {
     state, enterRoom, collectItem, markElaraDialogSeen,
     isRoomUnlocked, canUnlockRoom, getRoomDef, getRoomState,
     setNarrativeFlag, isTutorialCompleted, completeTutorial, shiftMorality, collectCard,
+    adjustNpcTrust, discoverNpc, adjustHumanTrust, adjustElaraTrust,
+    incrementNpcConversation, revealNpcSecret, setNpcCallback,
   } = useGame();
   const { discoverEntry } = useGamification();
   const { setRoomAmbience, playSFX, initAudio, audioReady } = useSound();
@@ -511,6 +516,10 @@ export default function ArkExplorerPage() {
     }
   }, [elaraText]);
 
+
+  // NPC Dialog state (triggered by Ark events)
+  const [npcDialogScene, setNpcDialogScene] = useState<NPCDialogScene | null>(null);
+  const [gameHint, setGameHint] = useState<ArkEventResult["gameHint"] | null>(null);
 
   const [puzzleRoomId, setPuzzleRoomId] = useState<string | null>(null);
   const [showNavPuzzle, setShowNavPuzzle] = useState(false);
@@ -1232,7 +1241,65 @@ export default function ArkExplorerPage() {
           >
             <button
               onClick={() => {
-                // Dismiss — in the future this will open the NPC dialog or event UI
+                if (!activeRoomEvent) return;
+                const daySeed = Math.floor(Date.now() / 86400000);
+                const result = processArkEvent(activeRoomEvent, daySeed);
+
+                // Apply trust changes
+                for (const tc of result.trustChanges) {
+                  if (tc.npcId === "elara") {
+                    adjustElaraTrust?.(tc.delta);
+                  } else if (tc.npcId === "the_human") {
+                    adjustHumanTrust?.(tc.delta);
+                  } else {
+                    adjustNpcTrust?.(tc.npcId, tc.delta);
+                    discoverNpc?.(tc.npcId);
+                  }
+                }
+
+                // Set narrative flags
+                for (const flag of result.flagsToSet) {
+                  setNarrativeFlag(flag, true);
+                }
+
+                // Award resources (via existing mutation or local state)
+                if (result.resources.xp) {
+                  // XP tracked in gamification context
+                }
+
+                // Trigger NPC dialog
+                if (result.npcDialog) {
+                  const scene = buildFirstContactScene(result.npcDialog.npcId);
+                  setNpcDialogScene(scene);
+                }
+
+                // Set game hint
+                if (result.gameHint) {
+                  setGameHint(result.gameHint);
+                }
+
+                // Play music
+                if (result.musicTrigger) {
+                  setNarrativeFlag(`music_heard_${result.musicTrigger.toLowerCase().replace(/\s+/g, "_")}`, true);
+                }
+
+                // Collect cards
+                if (result.cardReward) {
+                  collectCard(result.cardReward);
+                }
+
+                // Equipment drop
+                if (result.equipmentDrop) {
+                  toast.success("Equipment Found!", {
+                    description: `You found ${result.equipmentDrop.replace(/_/g, " ")} while exploring.`,
+                  });
+                }
+
+                // Show toast
+                toast[result.toast.type](result.toast.title, {
+                  description: result.toast.description,
+                });
+
                 setActiveRoomEvent(null);
               }}
               className="w-full text-left p-3 rounded-xl border backdrop-blur-md shadow-2xl transition-all hover:scale-[1.02]"
@@ -1268,6 +1335,65 @@ export default function ArkExplorerPage() {
                 </div>
                 <span className="font-mono text-[8px] text-white/20 shrink-0">TAP</span>
               </div>
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* NPC Dialog (triggered by Ark events) */}
+      <AnimatePresence>
+        {npcDialogScene && (
+          <NPCDialog
+            npcId={npcDialogScene.npcId}
+            scene={npcDialogScene}
+            onClose={() => setNpcDialogScene(null)}
+            onChoice={(choice) => {
+              // Apply choice effects
+              if (choice.trustChange) {
+                const nid = npcDialogScene.npcId;
+                if (nid === "elara") adjustElaraTrust?.(choice.trustChange);
+                else if (nid === "the_human") adjustHumanTrust?.(choice.trustChange);
+                else adjustNpcTrust?.(nid, choice.trustChange);
+              }
+              if (choice.callbackFlag) {
+                setNpcCallback?.(npcDialogScene.npcId, choice.callbackFlag);
+              }
+              incrementNpcConversation?.(npcDialogScene.npcId);
+              // Show response as Elara-style text
+              setElaraText(choice.response);
+              setNpcDialogScene(null);
+            }}
+          />
+        )}
+      </AnimatePresence>
+
+      {/* Game Hint Banner (from Ark events) */}
+      <AnimatePresence>
+        {gameHint && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 20 }}
+            className="fixed bottom-20 left-1/2 -translate-x-1/2 z-[85] max-w-sm w-full px-4"
+          >
+            <button
+              onClick={() => {
+                navigate(gameHint.route);
+                setGameHint(null);
+              }}
+              className="w-full text-left p-3 rounded-xl border border-cyan-500/30 bg-black/90 backdrop-blur-md shadow-2xl hover:border-cyan-400/50 transition-all"
+            >
+              <p className="font-mono text-[9px] text-cyan-400/60 tracking-wider mb-1">SYSTEM RECOMMENDATION</p>
+              <p className="font-mono text-xs text-white/80">{gameHint.label}</p>
+              <p className="font-mono text-[8px] text-cyan-400/40 mt-1 flex items-center gap-1">
+                <ChevronRight size={8} /> TAP TO LAUNCH {gameHint.game.replace(/_/g, " ").toUpperCase()}
+              </p>
+            </button>
+            <button
+              onClick={() => setGameHint(null)}
+              className="absolute top-2 right-6 text-white/20 hover:text-white/50"
+            >
+              <X size={14} />
             </button>
           </motion.div>
         )}
