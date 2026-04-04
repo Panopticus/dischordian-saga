@@ -15,8 +15,13 @@ import {
   GALACTIC_MAP, GALACTIC_FACTIONS, STARTER_MISSIONS,
   createInitialEmpire, type EmpireState, type MissionDef, type GalacticFactionId,
 } from "./tradeEmpire";
+import {
+  ALL_TECHNOLOGIES, getTechsByBranch, canResearch, getTechById,
+  type Technology, type TechBranch, type TechTreeState, DEFAULT_TECH_STATE,
+} from "./techTree";
+import { FlaskConical } from "lucide-react";
 
-type View = "map" | "missions" | "agents" | "diplomacy" | "fleet" | "sector_detail";
+type View = "map" | "missions" | "agents" | "diplomacy" | "fleet" | "research" | "sector_detail";
 
 const MISSION_TYPE_ICONS: Record<string, typeof Globe> = {
   trade: Package, espionage: Eye, diplomacy: Users, combat: Swords,
@@ -46,6 +51,43 @@ export default function TradeEmpirePage() {
     setEmpire(newState);
     localStorage.setItem("trade_empire_state", JSON.stringify(newState));
   }, []);
+
+  // Tech tree state
+  const [techState, setTechState] = useState<TechTreeState>(() => {
+    const saved = localStorage.getItem("trade_empire_tech");
+    return saved ? JSON.parse(saved) : DEFAULT_TECH_STATE;
+  });
+
+  const startResearch = useCallback((techId: string) => {
+    const tech = getTechById(techId);
+    if (!tech || !canResearch(techId, techState.researched)) return;
+    if (empire.influence < tech.cost.influence) return;
+    const newEmpire = { ...empire, influence: empire.influence - tech.cost.influence };
+    saveEmpire(newEmpire);
+    const newTech: TechTreeState = {
+      ...techState,
+      currentResearch: { techId, startedAt: Date.now(), endsAt: Date.now() + tech.researchHours * 3600000 },
+    };
+    setTechState(newTech);
+    localStorage.setItem("trade_empire_tech", JSON.stringify(newTech));
+  }, [techState, empire, saveEmpire]);
+
+  const completeResearch = useCallback(() => {
+    if (!techState.currentResearch) return;
+    if (Date.now() < techState.currentResearch.endsAt) return;
+    const newTech: TechTreeState = {
+      researched: [...techState.researched, techState.currentResearch.techId],
+      currentResearch: null,
+      totalResearched: techState.totalResearched + 1,
+    };
+    setTechState(newTech);
+    localStorage.setItem("trade_empire_tech", JSON.stringify(newTech));
+  }, [techState]);
+
+  // Auto-complete research when timer expires
+  if (techState.currentResearch && Date.now() >= techState.currentResearch.endsAt) {
+    completeResearch();
+  }
 
   // Available missions based on narrative flags
   const availableMissions = useMemo(() => {
@@ -143,6 +185,7 @@ export default function TradeEmpirePage() {
           { id: "agents" as View, label: "AGENTS", icon: Users },
           { id: "diplomacy" as View, label: "DIPLOMACY", icon: Shield },
           { id: "fleet" as View, label: "FLEET", icon: Send },
+          { id: "research" as View, label: "RESEARCH", icon: FlaskConical },
         ].map(tab => {
           const Icon = tab.icon;
           return (
@@ -374,6 +417,69 @@ export default function TradeEmpirePage() {
                 </div>
               </div>
             ))}
+          </div>
+        )}
+
+        {/* ═══ RESEARCH TAB (Tech Tree) ═══ */}
+        {view === "research" && (
+          <div className="space-y-4">
+            {/* Current research */}
+            {techState.currentResearch && (() => {
+              const tech = getTechById(techState.currentResearch.techId);
+              const progress = Math.min(100, ((Date.now() - techState.currentResearch.startedAt) / (techState.currentResearch.endsAt - techState.currentResearch.startedAt)) * 100);
+              return tech ? (
+                <div className="p-3 rounded-xl bg-cyan-500/5 border border-cyan-500/20">
+                  <p className="font-mono text-[9px] text-cyan-400/60 tracking-wider mb-1">RESEARCHING</p>
+                  <p className="font-mono text-sm text-cyan-400 font-bold">{tech.name}</p>
+                  <div className="h-1.5 rounded-full bg-white/5 mt-2 overflow-hidden">
+                    <div className="h-full rounded-full bg-cyan-400 transition-all" style={{ width: `${progress}%` }} />
+                  </div>
+                  <p className="font-mono text-[8px] text-white/20 mt-1">{Math.round(progress)}% complete</p>
+                </div>
+              ) : null;
+            })()}
+
+            {/* Tech branches */}
+            {(["military", "economic", "diplomatic"] as TechBranch[]).map(branch => {
+              const techs = getTechsByBranch(branch);
+              const branchColor = branch === "military" ? "#ef4444" : branch === "economic" ? "#22c55e" : "#a855f7";
+              return (
+                <div key={branch}>
+                  <p className="font-mono text-[10px] tracking-wider mb-2" style={{ color: branchColor }}>
+                    {branch.toUpperCase()} BRANCH ({techs.filter(t => techState.researched.includes(t.id)).length}/{techs.length})
+                  </p>
+                  <div className="space-y-1.5">
+                    {techs.map(tech => {
+                      const researched = techState.researched.includes(tech.id);
+                      const available = canResearch(tech.id, techState.researched);
+                      const isResearching = techState.currentResearch?.techId === tech.id;
+                      return (
+                        <button
+                          key={tech.id}
+                          onClick={() => available && !techState.currentResearch && startResearch(tech.id)}
+                          disabled={researched || !available || !!techState.currentResearch}
+                          className={`w-full text-left p-3 rounded-lg border transition-all ${
+                            researched ? "border-white/10 bg-white/5 opacity-60" :
+                            isResearching ? "border-cyan-500/30 bg-cyan-500/5" :
+                            available ? "border-white/10 bg-white/[0.02] hover:bg-white/[0.04] cursor-pointer" :
+                            "border-white/5 bg-white/[0.01] opacity-30"
+                          }`}
+                        >
+                          <div className="flex items-center justify-between mb-1">
+                            <span className="font-mono text-xs font-bold" style={{ color: researched ? "rgba(255,255,255,0.4)" : branchColor }}>
+                              {researched ? "✓ " : ""}{tech.name}
+                            </span>
+                            <span className="font-mono text-[8px] text-white/20">T{tech.tier} • {tech.cost.influence} INF{tech.researchHours}h</span>
+                          </div>
+                          <p className="font-mono text-[9px] text-white/30">{tech.description}</p>
+                          <p className="font-mono text-[8px] text-white/15 mt-1 italic">{tech.loreText}</p>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              );
+            })}
           </div>
         )}
       </div>

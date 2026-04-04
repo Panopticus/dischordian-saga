@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { FACTION_NPCS, type FactionNPCId, type FactionNPC } from "@/game/factionNPCs";
 import { useGame } from "@/contexts/GameContext";
+import { GIFT_ITEMS, calculateGiftResult, type GiftItem, type NpcId, type GiftItemId } from "@/game/npcGifts";
 
 /* ─── MANIFESTATION STYLES ─── */
 
@@ -124,6 +125,8 @@ export default function NPCDialog({ npcId, scene, onClose, onChoice }: NPCDialog
   const [displayText, setDisplayText] = useState("");
   const [isTyping, setIsTyping] = useState(true);
   const [showChoices, setShowChoices] = useState(false);
+  const [showGifts, setShowGifts] = useState(false);
+  const [giftResult, setGiftResult] = useState<string | null>(null);
   const textRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -314,6 +317,50 @@ export default function NPCDialog({ npcId, scene, onClose, onChoice }: NPCDialog
               </motion.div>
             )}
           </AnimatePresence>
+
+          {/* Gift button + panel */}
+          {showChoices && !showGifts && !giftResult && (
+            <div className="px-4 pb-2">
+              <button
+                onClick={(e) => { e.stopPropagation(); setShowGifts(true); }}
+                className="font-mono text-[9px] text-white/20 hover:text-white/40 transition-colors flex items-center gap-1"
+              >
+                🎁 OFFER GIFT
+              </button>
+            </div>
+          )}
+
+          {showGifts && (
+            <motion.div initial={{ opacity: 0, y: 5 }} animate={{ opacity: 1, y: 0 }} className="px-4 pb-3">
+              <p className="font-mono text-[9px] text-white/30 mb-2">SELECT A GIFT</p>
+              <div className="grid grid-cols-3 gap-1.5 max-h-[120px] overflow-y-auto">
+                {Object.values(GIFT_ITEMS).slice(0, 12).map((item: GiftItem) => (
+                  <button
+                    key={item.id}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      const result = calculateGiftResult("player", npcId as NpcId, item.id as GiftItemId);
+                      if (result && "dialogue" in result) {
+                        setGiftResult(result.dialogue);
+                        setShowGifts(false);
+                        // Trust change handled by parent via onChoice
+                      }
+                    }}
+                    className="p-1.5 rounded text-left border border-white/5 bg-white/[0.02] hover:bg-white/[0.05] transition-all"
+                  >
+                    <p className="font-mono text-[8px] text-white/60 truncate">{item.name}</p>
+                  </button>
+                ))}
+              </div>
+              <button onClick={(e) => { e.stopPropagation(); setShowGifts(false); }} className="font-mono text-[8px] text-white/15 mt-2">CANCEL</button>
+            </motion.div>
+          )}
+
+          {giftResult && (
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="px-4 pb-3">
+              <p className="font-mono text-xs text-white/70 italic">{giftResult}</p>
+            </motion.div>
+          )}
 
           {/* Click to continue hint */}
           {isTyping && (

@@ -25,6 +25,7 @@ import { useGamification } from "@/contexts/GamificationContext";
 import { useLoredex, type LoredexEntry } from "@/contexts/LoredexContext";
 import { generateDailyBrief, ROOMS, type RoomEvent, type RoomId } from "@/game/livingArk";
 import { FACTION_NPCS, type FactionNPCId } from "@/game/factionNPCs";
+import { getFeaturedNPC } from "@/game/npcDailyRotation";
 
 /* ─── NPC SIGNAL CARD ─── */
 function NPCSignalCard({ npcId, trust }: { npcId: string; trust: number }) {
@@ -198,6 +199,32 @@ export default function BridgeConsole() {
           {dailyBrief.relationship && <EventCard event={dailyBrief.relationship} accent="#f59e0b" />}
         </div>
       </div>
+
+      {/* ═══ FEATURED NPC (daily rotation) ═══ */}
+      {(() => {
+        const featured = getFeaturedNPC();
+        const npc = FACTION_NPCS[featured.npcId];
+        if (!npc) return null;
+        return (
+          <div className="px-4 mb-5">
+            <div className="p-3 rounded-lg border" style={{ borderColor: `${npc.color}20`, background: `${npc.color}05` }}>
+              <div className="flex items-center gap-2 mb-2">
+                <div className="w-2 h-2 rounded-full animate-pulse" style={{ backgroundColor: npc.color }} />
+                <span className="font-mono text-[9px] tracking-[0.2em]" style={{ color: `${npc.color}80` }}>
+                  FEATURED SIGNAL // 2x TRUST
+                </span>
+              </div>
+              <p className="font-mono text-xs font-bold mb-1" style={{ color: npc.color }}>{npc.name}</p>
+              <p className="font-mono text-[10px] text-white/50 leading-relaxed">{featured.dailyGreeting}</p>
+              <div className="mt-2 p-2 rounded bg-white/[0.02] border border-white/5">
+                <p className="font-mono text-[8px] text-amber-400/60">{featured.dailyQuest.title}</p>
+                <p className="font-mono text-[8px] text-white/20">{featured.dailyQuest.description}</p>
+                <p className="font-mono text-[7px] text-white/10 mt-1">+{featured.dailyQuest.reward.dream}D +{featured.dailyQuest.reward.xp}XP +{featured.dailyQuest.reward.trust} trust</p>
+              </div>
+            </div>
+          </div>
+        );
+      })()}
 
       {/* ═══ ACTIVE SIGNALS (discovered NPCs) ═══ */}
       {discoveredNPCs.length > 0 && (
