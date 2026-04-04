@@ -289,6 +289,7 @@ export const EPOCH_QUESTS: QuestDef[] = [
     frequency: "epoch",
     requirement: { type: "perfect_wins", count: 10 },
     reward: { dream: 200, titleUnlock: "Flawless" },
+    loreText: "Ten flawless victories. The Collector's Arena was built to test Potentials, but you've transcended the test. Agent Zero never achieved a perfect record — and she was the Insurgency's deadliest operative. The Iron Lion himself would acknowledge you.",
   },
   {
     id: "epoch_any_play_100",
@@ -298,6 +299,7 @@ export const EPOCH_QUESTS: QuestDef[] = [
     frequency: "epoch",
     requirement: { type: "matches_played", count: 100 },
     reward: { dream: 500, voidCrystals: 10, titleUnlock: "True Potential" },
+    loreText: "One hundred games across every dimension of the Dischordian conflict. The Ne-Yons were called Potentials because they had the capacity to change reality. You've proven that the name wasn't aspirational — it was prophetic. The Two Witnesses would sing your name.",
   },
   {
     id: "epoch_trade_10",
@@ -307,6 +309,7 @@ export const EPOCH_QUESTS: QuestDef[] = [
     frequency: "epoch",
     requirement: { type: "trades", count: 10 },
     reward: { dream: 150, titleUnlock: "Master Trader" },
+    loreText: "The markets of New Babylon run on information, influence, and cards. Adjudicator Locke would recognize a kindred spirit. Ten trades complete — you understand that in the Dischordian Saga, commerce is just another form of warfare.",
   },
 ];
 

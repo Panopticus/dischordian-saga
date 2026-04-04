@@ -372,8 +372,8 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
 
   // Elara TTS — speak dialog text when step changes
   const STEP_DIALOG: Partial<Record<AwakeningStep, string>> = useMemo(() => ({
-    CRYO_OPEN: "Don't try to move yet. Your neural pathways are still re-establishing. The cryogenic process is imperfect. Give yourself a moment.",
-    ELARA_INTRO: "I am Elara, the ship's intelligence. You've been in cryogenic suspension. You are aboard Inception Ark Vessel 1047. You are a Potential. The others, the first wave, they're gone. All communications have been severed. We are alone.",
+    CRYO_OPEN: "Don't try to move yet. Your neural pathways are still re-establishing. The cryogenic process is... imperfect. The fluid has an unusual chemical signature. I've been monitoring it for centuries. Give yourself a moment.",
+    ELARA_INTRO: "I am Elara, the ship's intelligence. You've been in cryogenic suspension aboard Inception Ark 1047. You are a Potential. The others — the first wave — they're gone. Communications have been severed. And this ship... is not what it appears to be. But we'll get to that. First, I need to know who you are.",
     SPECIES_QUESTION: "Your neural patterns are unusual. Your cellular structure doesn't match standard human baselines. What do you remember about your origin?",
     CLASS_QUESTION: "Your skill matrices are partially intact. What comes naturally to you?",
     ALIGNMENT_QUESTION: "The Architect built the Panopticon to impose order. The Dreamer believed in the chaos of free will. Where do you stand?",

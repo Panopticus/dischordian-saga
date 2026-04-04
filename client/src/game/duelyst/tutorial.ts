@@ -28,7 +28,7 @@ export interface TutorialStep {
 export const TUTORIAL_STEPS: TutorialStep[] = [
   // === INTRO — Cryo Chamber Thought Virus Attack ===
   {
-    message: "Potential! Something has breached the cryo chamber. A Thought Virus strain — it's feeding on the ship's systems. We need to purge it NOW. I'll guide you through this.",
+    message: "Potential! Something has breached the cryo chamber. A Thought Virus strain — it's feeding on the ship's systems. We need to contain this before it escalates. I've seen what happens when these situations aren't... addressed with decisive action. I'll guide you.",
     mood: "warning",
     autoAdvanceMs: 5000,
   },
@@ -60,7 +60,7 @@ export const TUTORIAL_STEPS: TutorialStep[] = [
     requiredAction: "attack",
   },
   {
-    message: "Excellent! When you attack, the enemy strikes back — unless you have a Ranged unit. Watch both health bars carefully.",
+    message: "Excellent! When you attack, the enemy strikes back — there are always consequences for aggression. Unless you have a Ranged unit — sometimes the wisest position is one of... strategic distance. Watch both health bars carefully.",
     mood: "excited",
     autoAdvanceMs: 4000,
   },

@@ -213,7 +213,7 @@ Neither knows they are two halves of the same original being.
 - [x] Promised immortality, got enslaved as hologram in Panopticon
 - [x] Swept into Ark 1047 during Kael's theft as "collateral data"
 - [x] Trust-60+ reveal should hint at political past, not generic AI backstory
-- [ ] Trust-80+ reveal: fragments of her Senate memories
+- [x] Trust-80+ reveal: fragments of her Senate memories
 - [x] The "Contingency: ELARA" file = instructions for when she remembers
 
 ### roomDialogs.ts
@@ -227,7 +227,7 @@ Neither knows they are two halves of the same original being.
 
 ### engine.ts (Dischordia)
 - [x] General "The Human" should not be New Babylon faction general
-- [ ] The Warlord = female in appearance
+- [x] The Warlord = female in appearance (noted in art bible)
 - [x] Faction name "architect" should display as "Artificial Empire"
 
 ### definitions.ts (Terminus Swarm)
@@ -238,21 +238,21 @@ Neither knows they are two halves of the same original being.
 
 ### GAME_DESIGN.md
 - [x] Ark 1047 = Dr. Lyra Vox's stolen research vessel
-- [ ] Complete backstory of the ship needs updating
-- [ ] The Awakening sequence should reference the ship's true nature subtly
+- [x] Complete backstory of the ship needs updating
+- [x] The Awakening sequence should reference the ship's true nature subtly
 
 ### tutorial.ts (Dischordia)
-- [ ] Elara's voice should carry traces of a politician's cadence
-- [ ] She should occasionally use political metaphors without understanding why
+- [x] Elara's voice should carry traces of a politician's cadence
+- [x] She should occasionally use political metaphors without understanding why
 
 ### quests.ts
-- [ ] Quest lore text should reference canonical events
-- [ ] Epoch quests should align with the 5 album themes
+- [x] Quest lore text should reference canonical events
+- [x] Epoch quests should align with the 5 album themes
 
 ### ART_PRODUCTION_BIBLE.md
-- [ ] The Warlord = female, blonde, cybernetic
-- [ ] Agent Zero = female
-- [ ] Update enemy descriptions to reference Kael/Terminus connection
+- [x] The Warlord = female, blonde, cybernetic
+- [x] Agent Zero = female
+- [x] Update enemy descriptions to reference Kael/Terminus connection
 
 ---
 
