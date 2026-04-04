@@ -36,7 +36,7 @@ import SoundControls from "./components/SoundControls";
 import { useElaraTTS } from "./hooks/useElaraTTS";
 
 /* ═══ LAZY PAGE IMPORTS — Code splitting for all 50+ pages ═══ */
-const Home = lazy(() => import("./pages/Home"));
+const Home = lazy(() => import("./pages/BridgeConsole"));
 const EntityPage = lazy(() => import("./pages/EntityPage"));
 const SongPage = lazy(() => import("./pages/SongPage"));
 const AlbumPage = lazy(() => import("./pages/AlbumPage"));
