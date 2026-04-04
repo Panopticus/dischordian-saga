@@ -4,12 +4,17 @@
 The entire Loredex OS experience is reframed as a point-and-click adventure game. You are a **Potential** — one of the last beings to awaken from cryogenic sleep aboard an Inception Ark. The ship's AI, **Elara**, guides you through your awakening and helps you explore the vessel. Every feature of the app maps to a physical location on the ship.
 
 ## Narrative Framework
-- You are aboard Inception Ark **Vessel 1047** (or player-named)
-- The first wave of Potentials (Season 1) awakened long ago — they are gone
+- You are aboard Inception Ark **Vessel 1047** — Dr. Lyra Vox's personal research vessel
+- This ship was **stolen by Kael** (The Recruiter) from the Panopticon's docking systems
+- Dr. Lyra Vox was **possessed by the Warlord**, who embedded the **Thought Virus** in the ship's life support, cryo fluid, and water recycling systems
+- During Kael's violent extraction, **Senator Elara Voss's** digital consciousness was swept into the Ark's computer systems as collateral data — she became the ship AI "Elara" with no memory of her past
+- **The Human** (the 12th and last Archon) is imprisoned in the substrate layer of every Ark
+- **The Shadow Tongue** (Hierarchy of the Damned, SVP Communications) has been dormant in the code since construction, rewriting logs and corrupting language
+- The first wave of Potentials awakened long ago — they crashed on **Terminus** (the former Panopticon prison planet, now a rogue world) and were consumed by the Thought Virus Swarm
 - All inter-Ark communications have been severed across the multiverse
-- Something is wrong with the ship — systems are failing, rooms are locked
-- As you explore, you uncover the history of the Dischordian Saga
-- Horror sci-fi tone: isolation, flickering lights, mysterious sounds, dread
+- The ship is **drifting toward Terminus**, pulled by an unknown force
+- Horror sci-fi tone: isolation, a haunted ship, competing voices, secrets in the walls
+- **The Witnessing**: The game is the lived experience of Revelation 21-22 — the New Creation where the old world's corruption followed the survivors
 
 ## Game State Machine
 

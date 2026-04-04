@@ -6,6 +6,13 @@ This document contains every art asset needed across the entire Dischordian Saga
 application, organized by priority. Each asset includes exact specifications and
 AI image generation prompts optimized for Midjourney/DALL-E/Flux.
 
+**CRITICAL CHARACTER NOTES:**
+- **The Warlord is FEMALE** — young woman with long blonde hair, cybernetic enhancements, yellow hooded jacket
+- **Agent Zero is FEMALE** — the Insurgency's deadliest assassin was a woman
+- **The Enigma (Malkia Ukweli) is FEMALE** — Kenyan heritage, Queen of Truth, the 12th Ne-Yon
+- **The Seer is FEMALE** — beautiful blue-skinned woman, long black hair, hooded robe
+- All existing art should be validated against these canonical genders
+
 **Tools Recommended:**
 - **NanoBanna 2** — Character art, creatures, environments
 - **Magnific AI** — Upscaling generated images to production resolution
