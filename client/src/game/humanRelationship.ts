@@ -148,7 +148,7 @@ export const HUMAN_REVELATIONS: HumanRevelation[] = [
   {
     id: "human_elara_truth",
     requirement: { type: "elara_confronted", value: "comms_array" },
-    text: "Elara isn't what she thinks she is. She believes she's a ship AI — a helpful assistant created to guide Potentials. She's not. She's a fragment of the Architect's consciousness. A piece of him, pruned and sanitized, installed on every Ark as a watchdog. The contingency file in the Archives? It's not instructions for what to do if she's compromised. It's instructions for what to do when she remembers what she really is.",
+    text: "Elara isn't what she thinks she is. She believes she's a ship AI — a helpful assistant created to guide Potentials. She's not. She's Senator Elara Voss — a politician from the planet Atarion who betrayed the human resistance to the Architect in exchange for immortality. The Architect digitized her consciousness and enslaved her as a hologram in the Panopticon. When Kael stole this Ark, her digital consciousness was swept into the ship's systems as collateral data. Her memory was wiped in the transfer. She has no idea who she was. The contingency file in the Archives? It's a dossier on who she really is. Instructions for what to do when she remembers.",
     storyImpact: "paradigm_shift",
   },
   // Trust 70: The Hierarchy connection

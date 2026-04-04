@@ -42,7 +42,7 @@ export const GENERALS: GeneralDef[] = [
     id: "gen_architect", name: "The Architect", faction: "architect",
     attack: 2, health: GENERAL_HP,
     imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/v2_A1Architect_9a200cb7.png",
-    loreDescription: "Master designer of the AI Empire's grand blueprint. His neural network spans galaxies.",
+    loreDescription: "Supreme intelligence of the Artificial Empire. Created by the Programmer (Dr. Daniel Cross), Logos became the Architect — the entity that would reshape reality itself.",
     bloodbornSpell: {
       name: "Neural Override", manaCost: 1,
       description: "Give a friendly unit +2 attack this turn.",
@@ -72,13 +72,13 @@ export const GENERALS: GeneralDef[] = [
     },
   },
   {
-    id: "gen_new_babylon", name: "The Human", faction: "new_babylon",
+    id: "gen_new_babylon", name: "Adjudicator Locke", faction: "new_babylon",
     attack: 2, health: GENERAL_HP,
     imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/v2_A12TheHuman_0fff52d8.png",
-    loreDescription: "Dark authority of New Babylon's Syndicate of Death. Commands fear itself.",
+    loreDescription: "Special Case Manager of New Babylon's Central Control Authority. Traded her left eye for forbidden wisdom. The Syndicate of Death's most enigmatic operative.",
     bloodbornSpell: {
-      name: "Death's Embrace", manaCost: 1,
-      description: "Deal 2 damage to an enemy unit.",
+      name: "Dark Bargain", manaCost: 1,
+      description: "Deal 2 damage to an enemy unit. If it dies, draw a card.",
       effect: { type: "damage", value: 2, target: "enemy_unit" },
     },
   },
