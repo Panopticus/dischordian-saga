@@ -29,6 +29,7 @@ import {
 import { motion, AnimatePresence } from "framer-motion";
 import NotificationBell from "@/components/NotificationBell";
 import { ShipThemeOverlay } from "@/components/ShipThemeOverlay";
+import TransmissionDeck from "@/components/TransmissionDeck";
 
 const ARK_CONTROL_ROOM = "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/ark_control_room_04cb4fe3.png";
 
@@ -50,6 +51,10 @@ export default function AppShell({ children, elaraTTS: _elaraTTS }: { children: 
   const [location] = useLocation();
   const { showPlayer } = usePlayer();
   const { state: gameState } = useGame();
+  const [showTransmissions, setShowTransmissions] = useState(false);
+
+  // TransmissionDeck unlocks when Observation Deck OR Comms Array is discovered
+  const hasMediaAccess = !!(gameState.rooms["observation-deck"]?.unlocked || gameState.rooms["comms-array"]?.unlocked);
 
   // Count discovered rooms for the map badge
   const discoveredRooms = Object.values(gameState.rooms).filter(r => r.unlocked).length;
@@ -135,10 +140,36 @@ export default function AppShell({ children, elaraTTS: _elaraTTS }: { children: 
           <div className="flex items-center justify-around h-14 max-w-md mx-auto px-2">
             {NAV_ITEMS.map((item) => {
               const Icon = item.icon;
-              const active = location === item.path || location.startsWith(item.path + "/");
+              const active = item.id === "comms" ? showTransmissions : (location === item.path || location.startsWith(item.path + "/"));
               const badge = item.id === "map" ? discoveredRooms :
                            item.id === "comms" ? npcSignals :
                            0;
+
+              // COMMS button opens TransmissionDeck overlay (if media discovered)
+              if (item.id === "comms") {
+                return (
+                  <button
+                    key={item.id}
+                    onClick={() => hasMediaAccess ? setShowTransmissions(true) : undefined}
+                    className={`flex flex-col items-center justify-center gap-0.5 w-16 h-12 rounded-lg transition-all relative ${!hasMediaAccess ? "opacity-20" : ""}`}
+                  >
+                    <div className="relative">
+                      <Icon size={20} style={{ color: active ? item.color : hasMediaAccess ? "rgba(255,255,255,0.3)" : "rgba(255,255,255,0.1)" }} className="transition-colors" />
+                      {active && (
+                        <motion.div layoutId="nav-indicator" className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-4 h-0.5 rounded-full" style={{ backgroundColor: item.color, boxShadow: `0 0 8px ${item.color}` }} />
+                      )}
+                      {hasMediaAccess && badge > 0 && !active && (
+                        <div className="absolute -top-1 -right-1.5 w-3.5 h-3.5 rounded-full bg-red-500 flex items-center justify-center">
+                          <span className="font-mono text-[7px] text-white font-bold">{badge}</span>
+                        </div>
+                      )}
+                    </div>
+                    <span className="font-mono text-[8px] tracking-[0.15em] transition-colors" style={{ color: active ? item.color : hasMediaAccess ? "rgba(255,255,255,0.2)" : "rgba(255,255,255,0.08)" }}>
+                      {item.label}
+                    </span>
+                  </button>
+                );
+              }
 
               return (
                 <Link
@@ -177,6 +208,9 @@ export default function AppShell({ children, elaraTTS: _elaraTTS }: { children: 
           </div>
         </nav>
       )}
+
+      {/* ═══ TRANSMISSION DECK (media hub) ═══ */}
+      <TransmissionDeck isOpen={showTransmissions} onClose={() => setShowTransmissions(false)} />
 
       {/* ═══ CRT OVERLAY ═══ */}
       <div className="crt-overlay" />
