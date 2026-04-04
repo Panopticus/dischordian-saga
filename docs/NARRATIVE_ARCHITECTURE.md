@@ -197,7 +197,7 @@ Neither knows they are two halves of the same original being.
 - [x] Agent Zero = female, and DEAD (signal is a mystery)
 - [x] The Warlord = female (young woman, blonde, cybernetic)
 - [x] Add: Agent Zero's signal is using her identity but she's dead
-- [ ] Add: The Antiquarian = one half of the original Architect/Dreamer consciousness
+- [x] Add: The Antiquarian = SECRET identity (do not reveal in code)
 
 ### humanRelationship.ts
 - [x] The Human is NOT Kael ✓

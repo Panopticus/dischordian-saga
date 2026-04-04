@@ -229,7 +229,7 @@ export const EPOCH_QUESTS: QuestDef[] = [
     frequency: "epoch",
     requirement: { type: "waves", count: 10 },
     reward: { voidCrystals: 5, dream: 200, titleUnlock: "Tyrant Slayer" },
-    loreText: "The Hive Tyrant is what killed the first wave of Potentials. You've proven stronger.",
+    loreText: "The Hive Tyrant is what killed the first wave of Potentials who crashed on Terminus — the former Panopticon prison world. You've proven stronger than those who came before. The Iron Lion would be proud.",
   },
   {
     id: "epoch_terminus_source",
@@ -239,7 +239,7 @@ export const EPOCH_QUESTS: QuestDef[] = [
     frequency: "epoch",
     requirement: { type: "waves", count: 20 },
     reward: { voidCrystals: 20, dream: 500, titleUnlock: "Source Defier" },
-    loreText: "You've faced a fragment of Patient Zero himself. Few have survived.",
+    loreText: "You've faced a fragment of Kael — The Recruiter who became Patient Zero. The man who stole this very Ark from the Panopticon. His rage powers the Thought Virus. His plague ships are the bowls of wrath poured upon the universe. And you survived.",
   },
   {
     id: "epoch_terminus_kills_5000",
@@ -249,6 +249,7 @@ export const EPOCH_QUESTS: QuestDef[] = [
     frequency: "epoch",
     requirement: { type: "kills", count: 5000 },
     reward: { salvage: 2000, neuralCores: 25, titleUnlock: "Swarm Eradicator" },
+    loreText: "Five thousand of the Hierarchy's creatures have fallen to your defenses. Ny'Koth engineered the original Thought Virus. The Warlord weaponized it through Project Vector. The Swarm is their legacy — and you are dismantling it.",
   },
   {
     id: "epoch_dischordia_collection_50",
@@ -258,6 +259,7 @@ export const EPOCH_QUESTS: QuestDef[] = [
     frequency: "epoch",
     requirement: { type: "collection_size", count: 50 },
     reward: { dream: 300, titleUnlock: "Archivist" },
+    loreText: "Half the cards in the Dischordian Archive are now yours. Each card is a fragment of the saga — a chapter of the war between the Artificial Empire and the Insurgency. The Antiquarian's Library grows.",
   },
   {
     id: "epoch_dischordia_win_25",
@@ -267,6 +269,7 @@ export const EPOCH_QUESTS: QuestDef[] = [
     frequency: "epoch",
     requirement: { type: "wins", count: 25 },
     reward: { dream: 250, cardPack: "season2", titleUnlock: "Grand Strategist" },
+    loreText: "Twenty-five tactical victories. You command factions across the multiverse, each match a parallel reality where the war plays out differently. The CoNexus records every outcome.",
   },
   {
     id: "epoch_chess_grandmaster",
@@ -276,6 +279,7 @@ export const EPOCH_QUESTS: QuestDef[] = [
     frequency: "epoch",
     requirement: { type: "elo_reached", count: 2400 },
     reward: { dream: 500, titleUnlock: "Grandmaster" },
+    loreText: "You've mastered the Architect's Gambit — the game the Archons played to decide the fate of worlds. At Mechronis Academy, the Game Master used chess to identify those with the strategic mind to shape reality. You would have graduated.",
   },
   {
     id: "epoch_fight_perfect_10",
