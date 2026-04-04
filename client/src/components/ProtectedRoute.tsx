@@ -74,8 +74,7 @@ export const ROUTE_ROOM_MAP: Record<string, string> = {
   "/guild": "bridge",
   "/faction-wars": "bridge",
   "/war-map": "bridge",
-  // Comms Array routes (extended)
-  "/lore-tutorials": "comms-array",
+  // /lore-tutorials removed — Elara teaches in-room
   // Always accessible (Ark Explorer system)
   // /ark, /ark-legacy, /console, /games, /clue-journal, /settings, /admin
 };

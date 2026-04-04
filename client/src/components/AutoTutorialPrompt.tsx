@@ -83,11 +83,11 @@ export default function AutoTutorialPrompt({
                   <div className="flex-1 min-w-0 pt-0.5">
                     <div className="flex items-center gap-2 mb-0.5">
                       <span className="font-display text-xs font-bold tracking-[0.15em] text-primary">ELARA</span>
-                      <span className="font-mono text-[9px] text-muted-foreground/60 tracking-wider">TUTORIAL GUIDE</span>
+                      <span className="font-mono text-[9px] text-muted-foreground/60 tracking-wider">// SHIP AI</span>
                     </div>
                     <p className="font-mono text-xs text-foreground/90 leading-relaxed">
-                      Welcome, Operative. I can guide you through{" "}
-                      <span className="text-primary font-semibold">{tutorial.title}</span>.
+                      This system is new to you. Let me walk you through{" "}
+                      <span className="text-primary font-semibold">{tutorial.title}</span> — it'll save your life later.
                     </p>
                   </div>
                 </div>
@@ -116,7 +116,7 @@ export default function AutoTutorialPrompt({
                     onClick={handleLaunch}
                     className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-primary/20 border border-primary/30 text-primary text-xs font-mono font-semibold tracking-wider hover:bg-primary/30 transition-colors"
                   >
-                    BEGIN TUTORIAL <ChevronRight size={12} />
+                    SHOW ME <ChevronRight size={12} />
                   </button>
                   <button
                     onClick={onSnooze}

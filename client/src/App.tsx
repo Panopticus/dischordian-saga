@@ -20,6 +20,7 @@ import CoNexusMediaPlayer from "./components/CoNexusMediaPlayer";
 import AppShell from "./components/AppShellImmersive";
 import CommandConsole from "./components/CommandConsole";
 import AchievementToast from "./components/AchievementToast";
+import AchievementUnlockToast from "./components/AchievementUnlockToast";
 import TradeNotificationWatcher from "./components/TradeNotificationWatcher";
 import ProtectedRoute from "./components/ProtectedRoute";
 import DiscoveryUnlockOverlay from "./components/DiscoveryUnlockOverlay";
@@ -196,7 +197,7 @@ function Router() {
         <Route path="/settings" component={SettingsPage} />
         <Route path="/clue-journal" component={ClueJournalPage} />
         <Route path="/research-minigame" component={ResearchMinigamePage} />
-        <Route path="/lore-tutorials" component={LoreTutorialHubPage} />
+        {/* /lore-tutorials removed — Elara teaches naturally through room dialog */}
         <Route path="/morality-census" component={MoralityLeaderboardPage} />
         <Route path="/companions" component={CompanionHubPage} />
         <Route path="/fleet" component={FleetViewerPage} />
@@ -274,6 +275,7 @@ function GameGate() {
       <QuestRewardSystem />
       <CoNexusMediaPlayer />
       <AchievementToast />
+      <AchievementUnlockToast />
       <TradeNotificationWatcher />
       <ElaraDialog elaraTTS={elaraTTS} />
       <CharacterWidget />
