@@ -22,6 +22,7 @@ import { DockedNarrative } from "../../components/NarrativeControls";
 import { CONVEYOR_COST, RESOURCE_NODES, MAP_RESOURCE_NODES, collectResources, createConveyorState, type ConveyorState } from "./conveyors";
 import { trpc } from "@/lib/trpc";
 import { useAuth } from "@/_core/hooks/useAuth";
+import { useTerminusPvP } from "./pvpClient";
 import type { TerminusGameState, TurretDef, GamePhase } from "./types";
 
 type View = "intro" | "puzzle" | "signal" | "map_select" | "playing" | "game_over" | "pvp_search" | "pvp_attack";
@@ -69,6 +70,9 @@ export default function TerminusSwarmPage() {
   const updateStats = trpc.terminusSwarm.updateStats.useMutation();
 
   const league = getLeague(trophies);
+
+  // PvP WebSocket connection
+  const pvp = useTerminusPvP(1, "Potential", trophies); // TODO: use real userId/userName from auth
   const animRef = useRef<number>(0);
 
   // Start game on map
@@ -500,23 +504,79 @@ export default function TerminusSwarmPage() {
         {view === "pvp_search" && (
           <motion.div key="pvp" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
             className="flex flex-col items-center justify-center min-h-[60vh] gap-6 p-6">
-            <Swords size={48} className="text-red-400 animate-pulse" />
-            <h2 className="font-display text-xl tracking-[0.2em] text-red-400">SEARCHING FOR TARGET</h2>
-            <p className="font-mono text-sm text-white/40">Scanning for bases in your trophy range...</p>
-            <p className="font-mono text-[10px] text-white/20">Trophy range: {Math.max(0, trophies - 300)} — {trophies + 300}</p>
-            <div className="flex gap-3">
-              <button
-                onClick={() => {
-                  // TODO: connect to WebSocket for real matchmaking
-                  // For now, show a placeholder
-                  setView("map_select");
-                }}
-                className="px-5 py-2 border border-white/20 text-white/40 rounded-lg font-mono text-xs hover:text-white/60"
-              >
-                CANCEL
-              </button>
-            </div>
-            <p className="font-mono text-[9px] text-white/10">PvP matchmaking requires server connection</p>
+            {pvp.phase === "idle" || pvp.phase === "searching" ? (
+              <>
+                <Swords size={48} className="text-red-400 animate-pulse" />
+                <h2 className="font-display text-xl tracking-[0.2em] text-red-400">
+                  {pvp.phase === "searching" ? "SCANNING FOR TARGET" : "READY TO RAID"}
+                </h2>
+                <p className="font-mono text-sm text-white/40">
+                  {pvp.phase === "searching" ? "Scanning bases in your trophy range..." : "Connect to find a target base"}
+                </p>
+                <p className="font-mono text-[10px] text-white/20">Trophy range: {Math.max(0, trophies - 300)} — {trophies + 300}</p>
+                {pvp.error && <p className="font-mono text-xs text-red-400">{pvp.error}</p>}
+                <div className="flex gap-3">
+                  {pvp.phase === "idle" && (
+                    <button onClick={() => pvp.connect()}
+                      className="px-5 py-2 bg-red-500/20 border border-red-500/40 text-red-400 rounded-lg font-mono text-xs hover:bg-red-500/30">
+                      SEARCH FOR BASE
+                    </button>
+                  )}
+                  <button onClick={() => { pvp.cancel(); setView("map_select"); }}
+                    className="px-5 py-2 border border-white/20 text-white/40 rounded-lg font-mono text-xs hover:text-white/60">
+                    CANCEL
+                  </button>
+                </div>
+              </>
+            ) : pvp.phase === "base_found" && pvp.defenderBase ? (
+              <>
+                <h2 className="font-display text-xl tracking-[0.2em] text-red-400">TARGET FOUND</h2>
+                <div className="p-4 rounded-xl bg-white/5 border border-white/10 max-w-sm w-full">
+                  <div className="flex items-center justify-between mb-2">
+                    <p className="font-mono text-sm text-white font-bold">{pvp.defenderBase.userName}</p>
+                    <p className="font-mono text-xs text-amber-400">{pvp.defenderBase.trophies} 🏆</p>
+                  </div>
+                  <div className="flex gap-3 font-mono text-[10px] text-white/40">
+                    <span>{pvp.defenderBase.turrets.length} turrets</span>
+                    <span>{pvp.defenderBase.barricades.length} walls</span>
+                    <span>Lv.{pvp.defenderBase.commanderLevel}</span>
+                  </div>
+                  <div className="flex gap-3 mt-2 font-mono text-[9px] text-white/30">
+                    <span className="text-amber-400">{pvp.defenderBase.resources.salvage} SAL</span>
+                    <span className="text-green-400">{pvp.defenderBase.resources.viralIchor} ICH</span>
+                  </div>
+                </div>
+                <div className="flex gap-3">
+                  <button onClick={() => pvp.startAttack()}
+                    className="px-6 py-2.5 bg-red-500/20 border border-red-500/40 text-red-400 rounded-lg font-mono text-sm font-bold hover:bg-red-500/30">
+                    ATTACK
+                  </button>
+                  <button onClick={() => pvp.skipBase()}
+                    className="px-4 py-2 border border-white/20 text-white/40 rounded-lg font-mono text-xs hover:text-white/60">
+                    SKIP (-5 SAL)
+                  </button>
+                </div>
+              </>
+            ) : pvp.phase === "results" && pvp.raidResult ? (
+              <>
+                <h2 className={`font-display text-2xl tracking-[0.2em] ${pvp.raidResult.stars >= 2 ? "text-amber-400" : pvp.raidResult.stars === 1 ? "text-white" : "text-red-400"}`}>
+                  {"★".repeat(pvp.raidResult.stars)}{"☆".repeat(3 - pvp.raidResult.stars)}
+                </h2>
+                <div className="flex gap-4 font-mono text-sm">
+                  <span className="text-amber-400">+{pvp.raidResult.loot.salvage} SAL</span>
+                  <span className="text-green-400">+{pvp.raidResult.loot.viralIchor} ICH</span>
+                  <span className={pvp.raidResult.trophyChange >= 0 ? "text-emerald-400" : "text-red-400"}>
+                    {pvp.raidResult.trophyChange >= 0 ? "+" : ""}{pvp.raidResult.trophyChange} 🏆
+                  </span>
+                </div>
+                <button onClick={() => { pvp.disconnect(); setView("map_select"); }}
+                  className="px-6 py-2.5 bg-white/10 border border-white/20 text-white rounded-lg font-mono text-sm hover:bg-white/20">
+                  RETURN TO BASE
+                </button>
+              </>
+            ) : (
+              <p className="font-mono text-sm text-white/40 animate-pulse">Attacking...</p>
+            )}
           </motion.div>
         )}
 
