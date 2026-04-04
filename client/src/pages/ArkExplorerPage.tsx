@@ -3,6 +3,7 @@ import { useGameAreaBGM } from "@/contexts/GameAudioContext";
    ARK EXPLORER PAGE — Point-and-click room exploration
    Old-school adventure game with clickable hotspots,
    Elara dialog, sound effects, and puzzle mechanics.
+   The Living Ark: rooms have daily events that drive revisits.
    ═══════════════════════════════════════════════════════ */
 import { useState, useCallback, useEffect, useMemo, useRef } from "react";
 import { dialogOpened, dialogClosed } from "@/lib/dialogState";
@@ -10,6 +11,7 @@ import { useGame, ROOM_DEFINITIONS, type HotspotDef, type RoomDef } from "@/cont
 import { useGamification } from "@/contexts/GamificationContext";
 import { useSound } from "@/contexts/SoundContext";
 import { useAmbientMusic } from "@/contexts/AmbientMusicContext";
+import { generateDailyBrief, type RoomEvent } from "@/game/livingArk";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLocation } from "wouter";
 import {
@@ -401,17 +403,20 @@ function RoomScene({
                   </>
                 )}
               </div>
-              {/* Always-visible door label with room name */}
+              {/* Always-visible door label with room name + Living Ark event badge */}
               {hotspot.type === "door" && !isEasterEgg && (
                 <div className="absolute left-1/2 -translate-x-1/2 -top-1 -translate-y-full pointer-events-none">
-                  <div className="px-2.5 py-1 rounded" style={{
+                  <div className="px-2.5 py-1 rounded flex items-center gap-1.5" style={{
                     background: "var(--bg-overlay)",
-                    border: "1px solid rgba(56,117,250,0.35)",
-                    boxShadow: "0 0 12px var(--glass-border)",
+                    border: `1px solid ${hotspot.action && roomsWithEvents.has(hotspot.action.replace(/-/g, "_")) ? "rgba(255,183,77,0.6)" : "rgba(56,117,250,0.35)"}`,
+                    boxShadow: hotspot.action && roomsWithEvents.has(hotspot.action.replace(/-/g, "_")) ? "0 0 16px rgba(255,183,77,0.4)" : "0 0 12px var(--glass-border)",
                   }}>
                     <p className="font-mono text-[9px] text-[#3875fa] tracking-wider whitespace-nowrap font-bold">
                       ▶ {hotspot.name}
                     </p>
+                    {hotspot.action && roomsWithEvents.has(hotspot.action.replace(/-/g, "_")) && (
+                      <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" title="Event available" />
+                    )}
                   </div>
                 </div>
               )}
@@ -478,6 +483,26 @@ export default function ArkExplorerPage() {
   const [showOnboardingTutorial, setShowOnboardingTutorial] = useState(false);
   const [activeTransmission, setActiveTransmission] = useState<SecretTransmission | null>(null);
   const { discoverTransmission, isTransmissionDiscovered } = useGame();
+
+  // Living Ark: daily events that drive room revisits
+  const dailyBrief = useMemo(() => {
+    const daySeed = Math.floor(Date.now() / 86400000);
+    const act = state.narrativeFlags?.act_1_complete ? (state.narrativeFlags?.act_2_complete ? 2 : 1) : 0;
+    const trust = (state as any).elaraTrust ?? 10;
+    const completed = new Set<string>(
+      Object.keys(state.narrativeFlags || {}).filter(k => k.startsWith("tome_") || k.startsWith("music_"))
+    );
+    return generateDailyBrief(daySeed, act, trust, completed);
+  }, [state.narrativeFlags, (state as any).elaraTrust]);
+
+  // Rooms with active events today (for door badges)
+  const roomsWithEvents = useMemo(() => {
+    const rooms = new Set<string>();
+    if (dailyBrief.gameplay) rooms.add(dailyBrief.gameplay.roomId);
+    if (dailyBrief.story) rooms.add(dailyBrief.story.roomId);
+    if (dailyBrief.relationship) rooms.add(dailyBrief.relationship.roomId);
+    return rooms;
+  }, [dailyBrief]);
 
   // Dispatch dialog-active events for QuestTracker auto-minimize
   useEffect(() => {
