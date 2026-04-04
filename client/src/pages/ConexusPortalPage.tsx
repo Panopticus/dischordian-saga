@@ -17,6 +17,7 @@ import {
   type ConexusGame, type Age
 } from "@/data/conexusGames";
 import { LORE_ACHIEVEMENTS, getAchievementByGameId, type LoreAchievement } from "@/data/loreAchievements";
+import { TOME_PLACEMENTS } from "@/game/livingArk";
 import { useLoredex } from "@/contexts/LoredexContext";
 import { useGame } from "@/contexts/GameContext";
 import { toast } from "sonner";
@@ -35,6 +36,35 @@ export default function ConexusPortalPage() {
   const { getEntry } = useLoredex();
   const { state, completeGame, earnLoreAchievement, isGameCompleted } = useGame();
   const { recordAndReward } = useContentReward();
+
+  // Check which tomes the player has discovered (from Living Ark room events)
+  const discoveredTomes = useMemo(() => {
+    const discovered = new Set<string>();
+    for (const placement of TOME_PLACEMENTS) {
+      // Exploration tomes: discovered if room has been visited
+      if (placement.method === "exploration") {
+        const roomKey = placement.roomId.replace(/_/g, "-");
+        if (state.rooms?.[roomKey]?.visitCount > 0) discovered.add(placement.tomeId);
+      }
+      // Trust-gated: check trust level
+      if (placement.method === "trust" && placement.trustReq) {
+        const trust = placement.trustReq.npc === "elara" ? ((state as any).elaraTrust ?? 10) : 0;
+        if (trust >= placement.trustReq.min) discovered.add(placement.tomeId);
+      }
+      // Quest/game gated: check narrative flags
+      if ((placement.method === "quest" || placement.method === "game") && placement.flagReq) {
+        if (state.narrativeFlags?.[placement.flagReq]) discovered.add(placement.tomeId);
+      }
+    }
+    return discovered;
+  }, [state.rooms, (state as any).elaraTrust, state.narrativeFlags]);
+
+  // Check if a game is discoverable (has a tome placement and is discovered)
+  const isGameDiscovered = (gameId: string): boolean => {
+    const placement = TOME_PLACEMENTS.find(p => p.tomeId === gameId);
+    if (!placement) return true; // Games without placements are always available
+    return discoveredTomes.has(gameId);
+  };
 
   const filteredCategories = useMemo(() => {
     if (filterAge === "all") return AGE_CATEGORIES;
