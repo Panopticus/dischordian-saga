@@ -10,9 +10,9 @@
      • ARCHETYPE — the shape Project Celebration is watching
        you become
    ═══════════════════════════════════════════════════════ */
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Brain, Lightbulb, User2, Sparkles, Clock, Check, Moon } from "lucide-react";
+import { Brain, Lightbulb, User2, Sparkles, Clock, Check, Moon, Play } from "lucide-react";
 import { SKILL_VOICES, getActiveVoices, type SkillId } from "@/game/innerVoices";
 import { THOUGHTS, getThoughtBonuses, getInternalizationProgress, type ThoughtState } from "@/game/thoughtCabinet";
 import { ARCHETYPES, getPrimaryArchetype, type ArchetypeState, type ArchetypeId } from "@/game/playerArchetypes";
@@ -25,6 +25,10 @@ interface Props {
   thoughtState?: ThoughtState;
   /** Archetype state */
   archetypeState?: ArchetypeState;
+  /** Called when player begins internalizing a thought */
+  onStartInternalizing?: (thoughtId: string) => void;
+  /** Called when a gestating thought's timer completes */
+  onCompleteInternalizing?: (thoughtId: string) => void;
 }
 
 type Tab = "voices" | "thoughts" | "archetype";
@@ -35,7 +39,7 @@ const DEFAULT_SKILLS: Record<SkillId, number> = {
   empathy: 50, paranoia: 50, intuition: 50, authority: 50,
 };
 
-export default function CharacterMindPanel({ skills, thoughtState, archetypeState }: Props) {
+export default function CharacterMindPanel({ skills, thoughtState, archetypeState, onStartInternalizing, onCompleteInternalizing }: Props) {
   const [tab, setTab] = useState<Tab>("voices");
 
   const skillLevels = useMemo(
@@ -68,7 +72,7 @@ export default function CharacterMindPanel({ skills, thoughtState, archetypeStat
       {/* Content */}
       <AnimatePresence mode="wait">
         {tab === "voices" && <VoicesTab key="v" skills={skillLevels} />}
-        {tab === "thoughts" && <ThoughtsTab key="t" state={thoughtState} />}
+        {tab === "thoughts" && <ThoughtsTab key="t" state={thoughtState} onStart={onStartInternalizing} onComplete={onCompleteInternalizing} />}
         {tab === "archetype" && <ArchetypeTab key="a" state={archetypeState} />}
       </AnimatePresence>
     </div>
@@ -241,7 +245,11 @@ function VoicesTab({ skills }: { skills: Record<SkillId, number> }) {
 }
 
 /* ─── THOUGHTS TAB ─── */
-function ThoughtsTab({ state }: { state?: ThoughtState }) {
+function ThoughtsTab({ state, onStart, onComplete }: {
+  state?: ThoughtState;
+  onStart?: (id: string) => void;
+  onComplete?: (id: string) => void;
+}) {
   const thoughtState: ThoughtState = state ?? { internalizing: [], internalized: [], discovered: [], maxSlots: 3 };
   const activeBonuses = getThoughtBonuses(thoughtState);
 
@@ -252,9 +260,28 @@ function ThoughtsTab({ state }: { state?: ThoughtState }) {
     return { thought, progress };
   }).filter(Boolean);
 
+  // Auto-complete thoughts that have finished gestating
+  useEffect(() => {
+    if (!onComplete) return;
+    for (const item of internalizingItems) {
+      if (item && item.progress >= 1) onComplete(item.thought.id);
+    }
+  }, [internalizingItems, onComplete]);
+
   const internalizedThoughts = thoughtState.internalized
     .map(id => THOUGHTS.find(t => t.id === id))
     .filter(Boolean) as NonNullable<typeof THOUGHTS[number]>[];
+
+  // Discovered but not yet internalized/completed
+  const availableThoughts = thoughtState.discovered
+    .map(id => THOUGHTS.find(t => t.id === id))
+    .filter((t): t is NonNullable<typeof THOUGHTS[number]> =>
+      !!t &&
+      !thoughtState.internalized.includes(t.id) &&
+      !thoughtState.internalizing.some(i => i.thoughtId === t.id),
+    );
+
+  const canStartMore = thoughtState.internalizing.length < thoughtState.maxSlots;
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="p-3 space-y-3">
@@ -262,6 +289,45 @@ function ThoughtsTab({ state }: { state?: ThoughtState }) {
         Idea-seeds gestate in the dream-substrate across real-time hours. What you decide to
         keep thinking about becomes part of who you are — permanently.
       </p>
+
+      {/* Discovered — ready to internalize */}
+      {availableThoughts.length > 0 && (
+        <div>
+          <div className="flex items-center justify-between mb-1.5">
+            <div className="flex items-center gap-1.5">
+              <Sparkles size={10} className="text-indigo-400" />
+              <span className="font-mono text-[9px] uppercase tracking-wider text-indigo-400">
+                Discovered · ready to internalize ({availableThoughts.length})
+              </span>
+            </div>
+            <span className="font-mono text-[8px] text-muted-foreground/60">
+              {thoughtState.internalizing.length}/{thoughtState.maxSlots} slots used
+            </span>
+          </div>
+          <div className="space-y-1.5">
+            {availableThoughts.slice(0, 5).map(t => (
+              <div key={t.id} className="p-2 rounded border border-indigo-500/30 bg-indigo-500/5">
+                <div className="flex items-start justify-between gap-2 mb-0.5">
+                  <span className="font-mono text-[10px] font-bold text-foreground">{t.name}</span>
+                  <button
+                    onClick={() => canStartMore && onStart?.(t.id)}
+                    disabled={!canStartMore || !onStart}
+                    className={`shrink-0 flex items-center gap-1 px-1.5 py-0.5 rounded border font-mono text-[8px] uppercase tracking-wider transition-colors ${
+                      canStartMore && onStart
+                        ? "border-indigo-500/40 text-indigo-300 hover:bg-indigo-500/20"
+                        : "border-border/20 text-muted-foreground/40 cursor-not-allowed"
+                    }`}
+                    data-testid={`start-thought-${t.id}`}
+                  >
+                    <Play size={8} /> Begin · {t.internalizationHours}h
+                  </button>
+                </div>
+                <p className="font-mono text-[9px] text-muted-foreground/70 leading-relaxed">{t.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* In progress */}
       <div>

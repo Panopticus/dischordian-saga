@@ -231,7 +231,7 @@ export default function CharacterSheetPage() {
   const utils = trpc.useUtils();
   const [showTraitDetails, setShowTraitDetails] = useState(false);
   const [showRespec, setShowRespec] = useState(false);
-  const { state: gameState, performPrestige } = useGame();
+  const { state: gameState, performPrestige, startInternalizingThought, completeInternalizingThought } = useGame();
   const gam = useGamification();
 
   // ═══ NARRATIVE INTRO (from Awakening) ═══
@@ -1116,6 +1116,8 @@ export default function CharacterSheetPage() {
             primary: gameState.archetypePrimary as any,
             emergenceDates: gameState.archetypeEmergenceDates,
           }}
+          onStartInternalizing={startInternalizingThought}
+          onCompleteInternalizing={completeInternalizingThought}
         />
 
         {/* Respec Dialog */}
