@@ -596,12 +596,66 @@ export class FightSoundManager {
             event.target.setVolume(25); // Low volume for background music
             event.target.playVideo();
           },
+          // YouTube player error codes:
+          //   2: invalid videoId
+          //   5: HTML5 player error
+          //   100: video not found (deleted/private)
+          //   101, 150: embed disabled by uploader (geo-block, copyright)
+          onError: (event: any) => {
+            const code = event?.data;
+            console.warn(`[FightSound] YouTube embed unavailable (code ${code}) — falling back to synth-ambient`);
+            this.activateFallbackAmbient();
+          },
         },
       });
     } catch {
-      console.warn("[FightSound] YouTube player failed to initialize");
+      console.warn("[FightSound] YouTube player failed to initialize — using synth-ambient fallback");
+      this.activateFallbackAmbient();
     }
   }
+
+  /**
+   * Fallback ambient — used when YouTube embed fails (geo-block,
+   * video removed, autoplay restriction, network failure).
+   * Uses Web Audio API oscillator for a minimal, legal-safe loop.
+   */
+  private activateFallbackAmbient() {
+    try {
+      if (this.fallbackOscillator) return; // Already active
+      const AudioCtx = (window as any).AudioContext || (window as any).webkitAudioContext;
+      if (!AudioCtx) return;
+      const ctx: AudioContext = (this as any).audioContext ?? new AudioCtx();
+      (this as any).audioContext = ctx;
+
+      // Low drone (80Hz) + slow modulation for ambient tension
+      const osc1 = ctx.createOscillator();
+      osc1.type = "sine";
+      osc1.frequency.value = 80;
+      const osc2 = ctx.createOscillator();
+      osc2.type = "triangle";
+      osc2.frequency.value = 160.5; // slight detune for movement
+
+      const gain = ctx.createGain();
+      gain.gain.value = 0.05; // Very low volume, unobtrusive
+
+      osc1.connect(gain);
+      osc2.connect(gain);
+      gain.connect(ctx.destination);
+      osc1.start();
+      osc2.start();
+
+      this.fallbackOscillator = { osc1, osc2, gain, ctx };
+    } catch {
+      // Silently fail — ambient music is not critical
+    }
+  }
+
+  private fallbackOscillator: {
+    osc1: OscillatorNode;
+    osc2: OscillatorNode;
+    gain: GainNode;
+    ctx: AudioContext;
+  } | null = null;
 
   stopArenaMusic() {
     try {
@@ -615,6 +669,18 @@ export class FightSoundManager {
     this.ytPlayer = null;
     const container = document.getElementById("fight-yt-player");
     if (container) container.remove();
+
+    // Also stop the fallback ambient if it's running
+    try {
+      if (this.fallbackOscillator) {
+        this.fallbackOscillator.osc1.stop();
+        this.fallbackOscillator.osc2.stop();
+        this.fallbackOscillator.gain.disconnect();
+        this.fallbackOscillator = null;
+      }
+    } catch {
+      // Ignore cleanup errors
+    }
   }
 
   /* ─── NOISE BURST HELPER ─── */
