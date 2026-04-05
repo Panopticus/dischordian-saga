@@ -118,6 +118,7 @@ const SocialPage = lazy(() => import("./pages/SocialPage"));
 const LoreJournalPage = lazy(() => import("./pages/LoreJournalPage"));
 const ArmyManagementPage = lazy(() => import("./pages/ArmyManagementPage"));
 const ShipSchematicMap = lazy(() => import("./components/ShipSchematicMap"));
+const DialectStudioPage = lazy(() => import("./pages/DialectStudioPage"));
 
 /* ═══ LOADING FALLBACK ═══ */
 function PageLoader() {
@@ -219,6 +220,8 @@ function Router() {
         <Route path="/social" component={SocialPage} />
         <Route path="/lore-journal" component={LoreJournalPage} />
         <Route path="/army" component={ArmyManagementPage} />
+        <Route path="/dialect-studio" component={DialectStudioPage} />
+        <Route path="/accents" component={DialectStudioPage} />
         <Route path="/awakening">{() => <AwakeningPage />}</Route>
         <Route path="/404" component={NotFound} />
         <Route component={NotFound} />
