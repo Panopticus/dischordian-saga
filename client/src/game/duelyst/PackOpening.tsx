@@ -6,7 +6,8 @@
    ═══════════════════════════════════════════════════════ */
 import { useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Package, Sparkles, ChevronRight, Star, X } from "lucide-react";
+import { Package, Sparkles, ChevronRight, Star, X, Gem } from "lucide-react";
+import { CARD_VARIANTS, type CardVariant } from "../tcgEnhancements";
 
 interface PackCard {
   id: string;
@@ -20,6 +21,11 @@ interface PackCard {
   faction?: string;
   isNew?: boolean;
   isFoil?: boolean;
+  /** Visual variant (holographic, full art, animated, etc.) */
+  variant?: CardVariant;
+  /** If duplicate, converts to this many shards */
+  shardValue?: number;
+  isDuplicate?: boolean;
 }
 
 interface PackType {
@@ -225,10 +231,21 @@ export default function PackOpening({ cards, packType, onComplete, onClose }: Pa
                 </div>
               )}
 
-              {/* Foil indicator */}
-              {currentCard.isFoil && (
-                <div className="absolute top-2 right-2">
-                  <Star size={16} className="text-amber-400 fill-amber-400" />
+              {/* Variant indicator */}
+              {(currentCard.isFoil || (currentCard.variant && currentCard.variant !== "standard")) && (
+                <div className="absolute top-2 right-2 flex items-center gap-1">
+                  {currentCard.variant === "holographic" && <Sparkles size={14} className="text-cyan-400" />}
+                  {currentCard.variant === "animated" && <Sparkles size={14} className="text-purple-400 animate-pulse" />}
+                  {currentCard.variant === "golden" && <Star size={14} className="text-amber-400 fill-amber-400" />}
+                  {currentCard.variant === "void_touched" && <Gem size={14} className="text-indigo-400" />}
+                  {currentCard.variant === "signature" && <Star size={14} className="text-red-400 fill-red-400" />}
+                  {currentCard.isFoil && !currentCard.variant && <Star size={14} className="text-amber-400 fill-amber-400" />}
+                </div>
+              )}
+              {/* Variant label */}
+              {currentCard.variant && currentCard.variant !== "standard" && (
+                <div className="absolute top-2 left-2 px-1.5 py-0.5 rounded bg-black/60 backdrop-blur-sm">
+                  <span className="font-mono text-[7px] text-amber-300 tracking-wider">{currentCard.variant.replace(/_/g, " ").toUpperCase()}</span>
                 </div>
               )}
 
@@ -279,7 +296,15 @@ export default function PackOpening({ cards, packType, onComplete, onClose }: Pa
                     )}
                     <p className="text-[9px] font-mono text-white/80 truncate">{card.name}</p>
                     <p className={`text-[8px] font-mono ${rs.text}`}>{card.rarity}</p>
+                    {card.variant && card.variant !== "standard" && (
+                      <span className="text-[7px] text-amber-300 font-mono">✦ {card.variant.replace(/_/g, " ")}</span>
+                    )}
                     {card.isNew && <span className="text-[8px] text-cyan-400 font-mono">NEW!</span>}
+                    {card.isDuplicate && card.shardValue && (
+                      <span className="text-[7px] text-purple-400 font-mono flex items-center gap-0.5">
+                        <Gem size={7} /> +{card.shardValue} shards
+                      </span>
+                    )}
                   </motion.div>
                 );
               })}
@@ -301,6 +326,22 @@ export default function PackOpening({ cards, packType, onComplete, onClose }: Pa
                 </p>
                 <p className="text-[10px] text-white/40 font-mono">RARE+</p>
               </div>
+              {revealedCards.some(c => c.variant && c.variant !== "standard") && (
+                <div>
+                  <p className="font-mono text-lg font-bold text-cyan-400">
+                    {revealedCards.filter(c => c.variant && c.variant !== "standard").length}
+                  </p>
+                  <p className="text-[10px] text-white/40 font-mono">VARIANTS</p>
+                </div>
+              )}
+              {revealedCards.some(c => c.isDuplicate && c.shardValue) && (
+                <div>
+                  <p className="font-mono text-lg font-bold text-purple-300">
+                    {revealedCards.reduce((sum, c) => sum + (c.isDuplicate && c.shardValue ? c.shardValue : 0), 0)}
+                  </p>
+                  <p className="text-[10px] text-white/40 font-mono">SHARDS</p>
+                </div>
+              )}
             </div>
 
             <div className="flex gap-3">

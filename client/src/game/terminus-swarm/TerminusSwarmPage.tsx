@@ -2,7 +2,8 @@
    TERMINUS SWARM — Main game page
    Narrative flow: Comms → Puzzle → Signal → Game
    ═══════════════════════════════════════════════════════ */
-import { useState, useRef, useEffect, useCallback } from "react";
+import { useState, useRef, useEffect, useCallback, useMemo } from "react";
+import { calculateStars } from "../waveRatings";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Radio, Wrench, AlertTriangle, Play, Pause, FastForward,
@@ -60,6 +61,7 @@ export default function TerminusSwarmPage() {
   const [trophies, setTrophies] = useState(() => parseInt(localStorage.getItem("terminus_trophies") || "0"));
   const [totalKills, setTotalKills] = useState(() => parseInt(localStorage.getItem("terminus_kills") || "0"));
   const [highestWave, setHighestWave] = useState(() => parseInt(localStorage.getItem("terminus_highest_wave") || "0"));
+  const [lastWaveStars, setLastWaveStars] = useState(0);
   const [conveyorState, setConveyorState] = useState<ConveyorState | null>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const gameRef = useRef<TerminusGameState | null>(null);
@@ -203,11 +205,16 @@ export default function TerminusSwarmPage() {
               updated.resources.voidCrystals += conveyorResources.voidCrystals;
             }
 
-            // Track stats
+            // Track stats + calculate wave star rating
             if (updated.wave > highestWave) {
               setHighestWave(updated.wave);
               localStorage.setItem("terminus_highest_wave", String(updated.wave));
             }
+            // Star rating: survived (1★), no core damage (2★), under time limit (3★)
+            const coreDmg = (updated.coreMaxHealth ?? 500) - (updated.coreHealth ?? 500);
+            const waveTime = Math.floor(updated.frameCount / 60); // Convert frames to seconds
+            const starsResult = calculateStars(true, coreDmg, waveTime, 60);
+            setLastWaveStars(starsResult.stars);
             setTotalKills(updated.kills);
             localStorage.setItem("terminus_kills", String(updated.kills));
 

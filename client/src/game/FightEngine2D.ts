@@ -2272,14 +2272,19 @@ export class FightEngine2D {
     const atkId: 1 | 2 = attacker === this.p1 ? 1 : 2;
     const defId: 1 | 2 = defender === this.p1 ? 1 : 2;
 
-    // Damage calculation with combo scaling + economy bonuses
+    // Counter-hit detection: if defender is in attack startup, deal bonus damage
+    const isCounterHit = ["light_punch", "medium_punch", "heavy_punch", "light_kick", "medium_kick", "heavy_kick", "special_1", "special_2", "special_3"].includes(defender.state) && defender.animFrame < 8;
+    const counterHitMult = isCounterHit ? (hb.damage >= 30 ? 1.5 : 1.25) : 1; // Crush counter for heavy moves
+    const counterHitStunBonus = isCounterHit ? 5 : 0;
+
+    // Damage calculation with combo scaling + economy bonuses + counter-hit
     const comboScale = Math.max(0.2, 1 - defender.comboCount * 0.08);
     const defMult = defender.defenseDebuffTimer > 0 ? 1.2 : 1;
     const headBonus = hitZone === "head" ? 1.15 : 1;
     // Apply crafted item damage bonus for player, defense bonus for defender
     const atkBonus = attacker === this.p1 ? (1 + this.playerDamageBonus / 100) : 1;
     const defBonus = defender === this.p1 ? (1 - this.playerDefenseBonus / 200) : 1; // Defense halved to prevent invincibility
-    const damage = Math.floor(hb.damage * comboScale * defMult * headBonus * atkBonus * defBonus);
+    const damage = Math.floor(hb.damage * comboScale * defMult * headBonus * atkBonus * defBonus * counterHitMult);
 
     defender.hp = Math.max(0, defender.hp - damage);
 
@@ -2295,7 +2300,7 @@ export class FightEngine2D {
       defender.airborne = true;
     } else {
       this.changeState(defender, "hitstun");
-      defender.stunFrames = hb.hitstun;
+      defender.stunFrames = hb.hitstun + counterHitStunBonus;
     }
 
     // Pushback
