@@ -38,7 +38,6 @@ export function dispatchRememberThis(npcId: FactionNPCId, npcName: string, isPos
 /* ═══ 2. NPC TRUST → COMBAT BONUSES ═══ */
 
 /**
- * SWTOR-style companion influence: NPC trust provides combat bonuses
  * across ALL game modes. Higher trust = stronger bonuses.
  */
 export interface TrustCombatBonus {

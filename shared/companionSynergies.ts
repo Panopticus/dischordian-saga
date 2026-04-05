@@ -1,7 +1,6 @@
 /**
  * COMPANION BUILD SYNERGIES (Recommendation 4.6)
  * ───────────────────────────────────────────────
- * Inspired by Mass Effect squad combos, BG3 party composition, Dragon Age synergies.
  * When a companion's faction/morality aligns with the player's build, both gain bonuses.
  * Deeper relationship levels unlock stronger synergy tiers.
  *

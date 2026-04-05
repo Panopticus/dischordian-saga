@@ -61,7 +61,6 @@ describe("Replay System", () => {
   });
 });
 
-// ── 3. Personal Quarters ──
 describe("Personal Quarters", () => {
   it("should have at least 6 room zones", () => {
     expect(ROOM_ZONES.length).toBeGreaterThanOrEqual(6);

@@ -6,7 +6,6 @@
    Each prestige adds a star to their title and unlocks exclusive
    ship themes, titles, and cosmetics.
 
-   Inspired by: CoD Prestige, Diablo Paragon, Hades Heat,
    Cookie Clicker ascension, NG+ in Dark Souls
 
    The twist: each prestige also locks you into a deeper

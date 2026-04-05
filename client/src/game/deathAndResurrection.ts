@@ -13,7 +13,6 @@
    - The Necromancer's pet
    - Access to the Castle of Death
 
-   Inspired by: Hades (death as progress), Darkest Dungeon (soul damage),
    Dark Souls (humanity/resurrection), Returnal (cycle of death)
 
    Lore: The Necromancer designed this system. Every death you suffer

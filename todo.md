@@ -251,7 +251,6 @@
 - [x] Build Elara floating icon that opens dialog on click (bottom-right, cyan glow)
 - [x] Connect Elara to LLM backend for lore Q&A about characters, factions, events
 - [x] Elara can explain all Inception Ark functions and CADES
-- [x] Elara dialog feels like Mass Effect / KOTOR conversation wheel
 - [x] Elara backend test (4 tests passing)
 
 ### Inception Ark Control Room Redesign
@@ -784,7 +783,6 @@
 - [x] Insurgency faction: build the insurgency resistance
 - [x] Gradual 7-step tutorial explaining story while teaching mechanics
 - [x] Discovery of pre-Fall relics mechanic (8 relics with lore fragments)
-- [x] Civilization-style mechanics (colonization, 12-tech tree, resource management, diplomacy)
 - [x] Server-side: chooseFaction, advanceTutorial, discoverRelic, research procedures added
 - [x] Schema updated: faction, tutorialStep, discoveredRelics, researchPoints, unlockedTech, cardRewards fields
 
@@ -918,10 +916,8 @@
 - [x] Fix AI decision-making timing and reaction windows (reactDelay + mistakeRate per difficulty)
 
 ### Control System
-- [x] Improve input responsiveness and reduce input lag (MCOC gesture system + inputQueue)
 - [x] Add input buffering for smoother combo execution (inputQueue processes queued inputs each frame)
 - [x] Improve directional input handling (swipe detection with SWIPE_THRESHOLD + side detection)
-- [x] Add control remapping or better key layout (MCOC split-screen: left=defense, right=offense)
 
 ### Combat & Combo System
 - [x] Improve combo linking and cancel windows (canCancelIntoNext + comboChain 0-4 system)
@@ -936,7 +932,6 @@
 - [x] Add screen shake and impact effects (screenShake system with intensity/duration/decay per hit type)
 
 ### MCOC-Style Mobile Control Overhaul
-- [x] Research Marvel Contest of Champions control scheme (tap, swipe, hold)
 - [x] Research COD Mobile touch control innovations
 - [x] Redesign control system: tap-right = light attack, tap-left = block, swipe-right = heavy, swipe-left = dash back
 - [x] Implement swipe-up = special attack, swipe-down = heavy/launcher
@@ -947,7 +942,6 @@
 - [x] Add combo chain system (tap sequences for light-light-medium-heavy chains)
 - [x] Implement intercept mechanic (attack during opponent's dash)
 - [x] Add heavy charge attack (hold right side)
-- [x] Redesign AI with MCOC-style behavior patterns
 - [x] Rebuild HUD for mobile-first tap controls (no virtual buttons)
 - [x] Add gesture tutorial/training mode overlay
 - [x] Update desktop controls to match (click zones + keyboard)
@@ -1147,7 +1141,6 @@
 ### Phase 36: Trait Summary UI, Respec System, AAA Card Game Visual Overhaul, Card Art Generation
 - [x] Build Trait Summary UI panel on Character Sheet showing bonuses across all game systems
 - [x] Build Dream-token Respec system (reassign attribute dots, change alignment)
-- [x] Research best TCG video games for visual design inspiration (Marvel Snap, LoR, Hearthstone, MTG Arena)
 - [x] Redesign card game board with AAA visual effects (particles, lighting, animations)
 - [x] Add card play animations (deploy, attack, destroy effects)
 - [x] Add board state visual effects (energy fields, faction banners, weather effects)
@@ -1366,7 +1359,6 @@
 - [x] Make conspiracy board progressive discovery (starts empty, populates as you discover)
 - [x] Add initial hooks and video logs for first few discoveries (DiscoveryVideoOverlay with video registry + cinematic fallback mode, triggerDiscoveryVideo called on first entity discovery)
 - [x] Build research minigame to unlock additional lore entries
-- [x] Upgrade Trade Wars to graphical galactic map (Civilization/mobile strategy style)
 - [x] Add discoverable areas on galactic map
 - [x] Ensure RPG character sheet is the central identity hub (added Quest Progress section with chain completion tracking, Achievements section with earned badges, Mission Status with rooms/items/fights/win streak, Exploration Progress bars)
 - [x] Generate Fall of Reality mythic card art and update database
@@ -1381,7 +1373,6 @@
 - [x] Add wallet connect option at beginning of Awakening flow for Potential/Neyon holders
 ### Phase 54: Research Minigame, Galactic Map & Discovery Video Prompts
 - [x] Build research minigame to unlock additional lore entries (puzzle mechanic)
-- [x] Upgrade Trade Empire to graphical galactic map (Civilization/mobile strategy style)
 - [x] Create Kling 3.0 start/end frame prompts for discovery hook video logs
 
 ### Phase 55: Discovery Videos, Sector Events, Leaderboard Map, Elara VO & Suno Prompts
@@ -1418,7 +1409,6 @@
 - [x] Wire quest tracker into game progression (explore Bridge, find items, etc.)
 - [x] Auto-generate Awakening recap journal entry as first Clue Journal page
 - [x] Add journal entry with species, class, alignment, element choices
-- [x] Add Personal Log tab to Clue Journal (defaults to log tab when character created)
 - [x] Add 94 vitest tests for narrative flow (QuestTracker, AwakeningJournalEntry, ClueJournal integration)
 
 ### Phase 60: Cryo Bay Narrative Beat, Quest Rewards, Milestone Journal Entries
@@ -1426,7 +1416,6 @@
 - [x] Build quest reward system (XP, cards, items wired to quest completion)
 - [x] Wire quest rewards into QuestTracker and GameContext (setNarrativeFlag, claimQuestReward)
 - [x] Build milestone journal entry auto-generation (8 milestones: first room, bridge, card battle, CoNexus, 5 rooms, Trade Wars warp, full clearance, arena champion)
-- [x] Add journal entries to Personal Log tab with chronological ordering
 - [x] Wire Trade Wars warp narrative flag for milestone tracking
 - [x] Write 57 vitest tests for all Phase 60 features (all passing)
 
@@ -1434,7 +1423,6 @@
 - [x] Add particle effects and screen flash for major reward claims (100+ Dream Tokens)
 - [x] Build reward celebration overlay with animated particles, shockwave ring, and glow effects (3 tiers: standard/major/legendary)
 - [x] Add card collection milestone journal entries (10/25/50 unique cards) with species-specific narratives
-- [x] Wire card collection milestones into MilestoneJournalEntries and ClueJournal Personal Log tab
 - [x] Build branching quest chain system based on alignment and class choices (7 chains total)
 - [x] Add class-specific quest lines (engineer, oracle, assassin, soldier, spy) — 4 quests each, 300 Dream Tokens per chain
 - [x] Add alignment-specific quest modifiers (order vs chaos) — 3 quests each, 225 Dream Tokens per chain
@@ -1895,7 +1883,6 @@
 #### Tests
 - [x] Write vitest tests for class mastery system (46 tests passing)
 #### RPG Analysis
-- [x] Research top RPGs (KOTOR, Mass Effect, BG3, Elder Scrolls, Skyrim, Divinity, FF, Disco Elysium, PoE, Hades)
 - [x] Write analysis report with 8 recommendations (synergy bonuses, branching mastery, talents, civil skills, elemental combos, companion synergies, prestige classes, achievement traits)
 
 ### Phase 80 — Implement All 8 RPG Recommendations
@@ -2040,7 +2027,6 @@
 - [x] Trophy/League System with seasonal resets (unified trophies, leagues, seasonal rewards)
 - [x] Replay System (move storage, playback UI, shareable links, featured replays) — Phase 84
 - [x] Daily Engagement Streak with Chrono Shards (streak counter, milestones, repair items)
-- [x] Personal Quarters / Hideout (decoratable room, 78 items, visit feature) — Phase 84
 - [x] Friendly Challenges (unranked matches, custom rules, challenge of the day) — Phase 84
 - [x] Cooperative PvE Raids (weekly bosses, contribution tracking, raid loot) — Phase 84
 - [x] Boss Mastery System (mastery levels per boss, exclusive cosmetics, leaderboard) — Phase 84
@@ -2075,7 +2061,6 @@
 - [x] Build personalQuarters.ts shared module (78 decoration items, room layouts, visit system, RPG unlocks)
 - [x] Add player_quarters, quarter_items, quarter_visits DB tables
 - [x] Build quarters backend router (get room, place item, visit, get visitors)
-- [x] Build PersonalQuartersPage frontend with room decorator
 - [x] Morality score, class, and achievements unlock exclusive decorations
 
 #### Friendly Challenges
@@ -2132,7 +2117,6 @@
 ### Phase 84 Recommendations — Cross-System Enhancements
 
 #### Personal Quarters Expansion
-- [x] Push Personal Quarters to 120+ decoration items (123 items with boss kill trophies, prestige class items, seasonal event decorations, achievement-gated items, civil skill items, cross-system rewards, fixed civil skill keys to use real keys)
 
 #### Guild Recruitment Board Integration
 - [x] Wire guild recruitment from social router into Guild page so players can browse and apply to open guilds — backend CRUD + browse/recruitment UI + leader management panel
@@ -2328,7 +2312,6 @@
 - [x] CRITICAL: The player's Inception Ark IS the ship Kael steals — Inception Ark 1047 entry added (location_ark_1047)
 - [ ] Army recruitment arc: Kael/The Source gathering forces across the universe (design pending)
 - [x] Add hidden lore throughout the Ark: 5 hidden discovery items placed in rooms
-- [x] Add discoverable items: Warlord's Neural Residue, Infected Star Map, Vox's Neural Bridge, Kael's Escape Route, Vox's Personal Log
 - [x] CRITICAL: The Ark was originally Dr. Lyra Vox's ship — Inception Ark 1047 entry with full Vox/Warlord history
 - [x] Lyra Vox: AI Empire scientist — updated loredex entry with neuropsychology/cybernetics/Thought Virus development
 - [x] Three layers of dark history reflected in hidden items and loredex entries
@@ -2347,7 +2330,6 @@
 - [x] The Human — the Archon (final form) — updated loredex entry (entity_21) with full identity chain
 - [x] Link all four loredex entries as one identity chain — aliases cross-reference all 4 phases
 - [x] Expand Human backstory: last Archon, ascension, necessary villain role — in dialog wheel conversations
-- [x] Implement Mass Effect-style radial dialog wheel component (DialogWheel.tsx)
 - [x] Dialog wheel with skill-check gates (Charisma, Intelligence, Strength, etc.)
 - [x] Machine choices on one side, Humanity on the other, neutral in middle
 - [x] Human's signal corruption: glitching text, static overlays on corrupted options

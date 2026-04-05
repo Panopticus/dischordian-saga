@@ -5,7 +5,6 @@
    every 4 weeks as an "Epoch Season." Drives daily
    engagement through XP-gated tiers with escalating rewards.
 
-   Inspired by: Fortnite Battle Pass, Genshin Blessing,
    Marvel Snap Season Pass, Clash Royale Pass Royale
 
    Revenue: Premium pass at $4.99/season (~$60/year)

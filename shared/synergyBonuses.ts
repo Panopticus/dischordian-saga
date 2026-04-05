@@ -1,7 +1,6 @@
 /**
  * SYNERGY BONUS SYSTEM (Recommendation 4.1)
  * ─────────────────────────────────────────
- * Inspired by Hades Duo Boons and BG3 Multiclass Synergies.
  * Specific combinations of species + class + element + alignment
  * unlock hidden synergy bonuses that reward thoughtful character building.
  *

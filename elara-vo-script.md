@@ -2,7 +2,6 @@
 ## The Dischordian Saga: Loredex OS
 
 **Character:** Elara — Ship AI aboard Inception Ark Vessel 1047  
-**Voice Direction:** Calm, measured, slightly melancholic. Think EDI from Mass Effect meets Cortana. She is ancient, wise, and carries the weight of knowing too much. Moments of genuine concern break through her composed exterior. She speaks with precision but not coldness — there is warmth buried beneath layers of duty and loss.
 
 **Total Lines:** 119
 

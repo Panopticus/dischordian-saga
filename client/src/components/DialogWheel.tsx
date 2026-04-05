@@ -131,7 +131,6 @@ function WheelSegment({
   const [checking, setChecking] = useState(false);
   const [checkResult, setCheckResult] = useState<{ passed: boolean; roll: number } | null>(null);
 
-  // Position calculation — Mass Effect style
   // Top-right = Paragon/Humanity, Bottom-right = Renegade/Machine
   // Choices arranged clockwise from top-right
   const isMachine = choice.alignment === "machine";

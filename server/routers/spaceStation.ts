@@ -1,5 +1,4 @@
 /**
- * SPACE STATION ROUTER — Personal Player Base Management
  * ──────────────────────────────────────────────────────
  * CRUD for space stations and modules.
  * Resource generation, module construction, RPG bonus resolution.

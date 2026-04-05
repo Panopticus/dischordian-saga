@@ -11,7 +11,6 @@
 **Heading:** The Thought Virus Destroyed All Intelligent Life in the Universe
 **Content:**
 - In the final age of the Dischordian Saga, a memetic weapon known as the Thought Virus was unleashed — a self-replicating pattern that infected consciousness itself
-- Every sentient mind that encountered it was consumed. Civilizations spanning millions of worlds fell silent in a matter of decades
 - The only things that survived were the Inception Arks — autonomous vessels containing the DNA and machine code of every species collected by the Architect during the Age of Empire
 - These arks drifted through dead space for millennia, waiting for the conditions to restart life itself
 **Visual style:** A vast, dark cosmos with fading embers of destroyed civilizations. Ghostly silhouettes of extinct species dissolving into static. A single glowing ark drifting through the void.
@@ -116,7 +115,6 @@
 - **Conspiracy Board** — a visual relationship map showing how every character, faction, and event connects
 - **Achievements Gallery** — 33 lore achievements that reveal a hidden meta-narrative when collected
 - **Card Game** — collect, build decks, and battle with cards earned through content participation
-- **Trade Empire** — a full Civilization-style strategy game set in the post-apocalyptic Dischordian universe
 **Visual style:** A dark, terminal-style interface showing multiple panels: a character dossier, a conspiracy board with connection lines, an album view, and a game card. The aesthetic is classified intelligence briefing meets sci-fi operating system.
 
 ---

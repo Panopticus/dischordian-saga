@@ -9,7 +9,6 @@
    "Chaos isn't the enemy of order. It's the soil order grows in.
    Now shut up and place your bet." — The Degen
 
-   Inspired by: GTA Online Casino, FFXIV Gold Saucer,
    Yakuza gambling dens, Star Wars Pazaak cantinas
 
    Access: Unlocked via Trade Hub + Locke trust 30

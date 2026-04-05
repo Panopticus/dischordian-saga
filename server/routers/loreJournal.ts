@@ -1,7 +1,6 @@
 /**
  * LORE JOURNAL ROUTER
  * ──────────────────────────────────────────────────
- * Personal journal, word count XP, writing streaks, RPG integration.
  */
 import { z } from "zod";
 import { router, protectedProcedure, publicProcedure } from "../_core/trpc";

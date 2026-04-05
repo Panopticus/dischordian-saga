@@ -10,7 +10,7 @@ import { useLocation } from "wouter";
 import {
   ArrowLeft, X, Lock, Skull, Shield, Zap, BookOpen, Eye, EyeOff,
 } from "lucide-react";
-import { BESTIARY, type BestiaryEntry } from "./witcherCyberpunkFeatures";
+import { BESTIARY, type BestiaryEntry } from "./investigationSystems";
 
 type EnemyType = BestiaryEntry["type"];
 type FilterTab = "all" | EnemyType;

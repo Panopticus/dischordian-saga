@@ -5,7 +5,6 @@
  * Each room cleared grants a permanent stacking buff for the run.
  * Deeper rooms = harder enemies but better rewards.
  *
- * Inspired by MCOC Incursions:
  * - Players alternate who fights each room (A→B→A→B...)
  * - Both players share the accumulated buff stack
  * - Boss rooms guaranteed at rooms 5 and 10

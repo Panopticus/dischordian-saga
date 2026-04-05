@@ -14,7 +14,6 @@
 /* ═══ 1. MYTHIC+ KEYSTONE SYSTEM ═══ */
 
 /**
- * WoW Mythic+ adapted for Terminus Swarm.
  * Complete a wave set → earn a keystone → use it to enter harder mode.
  * Higher keystones = better rewards but tougher modifiers.
  */

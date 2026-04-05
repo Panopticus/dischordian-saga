@@ -331,7 +331,6 @@ export default function FightArena3D({ player, opponent, arena, difficulty, onMa
     };
   }, [player, opponent, difficulty, onMatchEnd, onBack, announce, flashEvent, flashSpecial]);
 
-  /* ═══ MCOC-STYLE GESTURE HANDLERS ═══ */
   const handleTouchStart = useCallback((e: React.TouchEvent) => {
     e.preventDefault();
     const screenMid = window.innerWidth / 2;

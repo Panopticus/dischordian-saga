@@ -1,7 +1,6 @@
 /**
  * NON-COMBAT SKILL PROFICIENCIES (Recommendation 4.4)
  * ───────────────────────────────────────────────────
- * Inspired by KOTOR Skills, BG3 Proficiencies, Divinity Civil Abilities, Skyrim learn-by-doing.
  * Civil skills level up through use and provide non-combat advantages across all game systems.
  * Each skill has a 1-10 rating that improves as the player performs related actions.
  *

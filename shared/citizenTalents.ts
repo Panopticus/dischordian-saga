@@ -1,7 +1,6 @@
 /**
  * CITIZEN TALENT SYSTEM (Recommendation 4.3)
  * ─────────────────────────────────────────
- * Inspired by BG3 Feats, Divinity Talents, Disco Elysium Thought Cabinet.
  * Players choose one powerful passive ability at milestone levels (5, 10, 15, 20).
  * Each talent meaningfully alters gameplay rather than providing simple stat increases.
  *

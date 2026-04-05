@@ -5,7 +5,6 @@
    Systems unlock through narrative milestones, creating a
    sense of gradual world expansion.
 
-   Inspired by: Stardew Valley (systems unlock by season),
    Genshin Impact (AR level gates content), Disco Elysium
    (each discovery reveals more world).
 

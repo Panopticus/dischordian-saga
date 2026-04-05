@@ -1,8 +1,6 @@
 /**
  * ACHIEVEMENT-UNLOCKED TRAITS (Recommendation 4.8)
  * ────────────────────────────────────────────────
- * Inspired by Elder Scrolls standing stones, Hades Mirror of Night,
- * and Disco Elysium Thought Cabinet.
  * Traits are permanently unlocked by completing specific achievements.
  * Each trait provides a passive bonus and a cosmetic title.
  *

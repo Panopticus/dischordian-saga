@@ -17,7 +17,6 @@ import type { FactionNPCId } from "./factionNPCs";
 /**
  * During NPC dialog, a brief window appears where the player can
  * interrupt with a compassionate or aggressive response.
- * Like Mass Effect's Paragon/Renegade interrupts.
  */
 export interface DialogInterrupt {
   id: string;
@@ -294,7 +293,6 @@ export const LOCATION_DIALOGS: LocationDialog[] = [
 /* ═══ 5. SUICIDE MISSION PREPARATION ═══ */
 
 /**
- * Endgame trust check — like Mass Effect 2's final mission.
  * Every NPC's trust level determines their survival and contribution.
  */
 export interface SuicideMissionOutcome {

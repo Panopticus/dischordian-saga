@@ -1,7 +1,6 @@
 /**
  * LORE JOURNAL WRITING
  * ══════════════════════════════════════════════════════════
- * Personal journal, word count XP, writing streaks.
  *
  * RPG IMPACT:
  * - Civil skill "Lore" → XP multiplier for writing

@@ -1,7 +1,6 @@
 /* ═══════════════════════════════════════════════════════
    PET BONDING SYSTEM — BioWare-level companion relationships
 
-   Inspired by: Fallout (Dogmeat), Pokemon (Ash/Pikachu),
    Mass Effect companions, Dragon Age approval system.
 
    Core loop: Pets react to YOUR choices. They grow with you,

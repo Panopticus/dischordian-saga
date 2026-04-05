@@ -5,7 +5,6 @@
  * branching dialog tree. Choices determine:
  * 1. Which card reward the player receives
  * 2. Narrative flags that affect later gameplay
- * 3. Personality traits that shape the experience
  * 
  * Each room has 2-3 questions with 2-3 response options.
  * The dialog system supports:

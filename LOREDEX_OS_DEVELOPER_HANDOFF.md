@@ -513,7 +513,6 @@ Frontend (React) → tRPC Client → HTTP /api/trpc → tRPC Server → Drizzle 
 - Auto-refreshing feed with dark ambient styling
 
 **Lore Journal**
-- Personal lore journal entries
 - Writing streaks tracking
 
 ### 3.10 Infrastructure Features

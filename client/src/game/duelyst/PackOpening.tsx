@@ -7,7 +7,7 @@
 import { useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Package, Sparkles, ChevronRight, Star, X, Gem } from "lucide-react";
-import { CARD_VARIANTS, type CardVariant } from "../tcgEnhancements";
+import { CARD_VARIANTS, type CardVariant } from "../cardGameDepth";
 
 interface PackCard {
   id: string;

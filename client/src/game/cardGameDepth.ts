@@ -9,11 +9,9 @@
    more collectible, and more engaging.
    ═══════════════════════════════════════════════════════ */
 
-/* ═══ 1. CARD FOIL / VARIANT SYSTEM (Pokémon TCG) ═══ */
 
 /**
  * Each card can exist in multiple visual variants.
- * Like Pokémon's holographic, reverse holo, full art, secret rare.
  * Variants are cosmetic — same stats, different visual treatment.
  */
 export type CardVariant = "standard" | "holographic" | "full_art" | "animated" | "void_touched" | "golden" | "signature";
@@ -60,7 +58,6 @@ export const KEYWORD_SYNERGIES: KeywordSynergy[] = [
   { keywords: ["forcefield", "flying"], bonusName: "Aegis Wing", bonusDescription: "Forcefield + Flying units are immune to ground-based removal", effect: { stat: "immunity", value: 1 } },
 ];
 
-/* ═══ 3. CARD EVOLUTION / FUSION (Yu-Gi-Oh + Pokémon) ═══ */
 
 export interface CardEvolution {
   baseCardId: string;
@@ -154,7 +151,6 @@ export const CARD_LORE_GROUPS: Record<string, { name: string; description: strin
   },
 };
 
-/* ═══ 6. PITY TIMER / GUARANTEED RARE (Genshin/Snap) ═══ */
 
 export interface PitySystem {
   /** Pulls since last rare+ */
@@ -195,7 +191,6 @@ export function calculatePullRarity(pity: PitySystem): string {
   return "common";
 }
 
-/* ═══ 7. COLLECTION MILESTONES (Pokémon Living Dex) ═══ */
 
 export interface CollectionMilestone {
   id: string;

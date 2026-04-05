@@ -81,7 +81,6 @@ export interface StationModule {
   baseCost: Record<string, number>;
   costMultiplier: number;
   baseBuildTime: number; // minutes
-  /** Personal bonus provided */
   bonus: { target: string; value: number; label: string };
   /** Required class */
   requiredClass?: CharacterClass;

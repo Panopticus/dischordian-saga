@@ -10,7 +10,7 @@ import {
   ArrowLeft, ScrollText, Skull, Clock, Coins, Star, Package,
   Target, Search, CheckCircle2, Pin, Lock,
 } from "lucide-react";
-import { BOUNTY_CONTRACTS, type BountyContract } from "./witcherCyberpunkFeatures";
+import { BOUNTY_CONTRACTS, type BountyContract } from "./investigationSystems";
 import { useGame } from "@/contexts/GameContext";
 import { toast } from "sonner";
 

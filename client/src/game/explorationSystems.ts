@@ -13,7 +13,6 @@
 /**
  * Every room completion triggers something activating in another room.
  * Pulls the player through the entire ship in a single session.
- * "One more room" — the Civilization "one more turn" adapted for exploration.
  */
 export interface BreadcrumbChain {
   triggeredByRoom: string;

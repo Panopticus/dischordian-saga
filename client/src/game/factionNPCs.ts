@@ -8,7 +8,6 @@
 
    Structure mirrors the Elara/Human system:
    - Trust (0-100) per NPC
-   - Personality that adapts to player behavior
    - Callbacks that reference past conversations
    - Competing agendas that create tension
 

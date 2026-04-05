@@ -10,7 +10,6 @@
 
 ### 1. ELARA — Ship AI / Senator Elara Voss
 
-**Voice Profile:** Female, mid-30s, warm but precise. Cortana meets EDI from Mass Effect. Professional with hidden vulnerability. Slight digital processing. British accent.
 
 **ElevenLabs Prompt:**
 > A warm, intelligent female AI voice with a subtle British accent. She speaks with precision and care, like a trusted advisor who genuinely cares about the listener. Slight digital quality, as if transmitted through a holographic system. Measured pace, thoughtful pauses. Emotional range from clinical efficiency to deep vulnerability. When she's afraid, her voice doesn't shake — it gets quieter. When she's angry, she gets more precise, not louder.
@@ -19,7 +18,6 @@
 
 ### 2. THE HUMAN — Last Archon / The Detective
 
-**Voice Profile:** Male, ancient but sharp. Sovereign from Mass Effect meets V for Vendetta. Intimate, knowing, slightly dangerous. Whispered quality with substrate distortion.
 
 **ElevenLabs Prompt:**
 > A deep, resonant male voice with an ancient quality — as if the speaker has lived for thousands of years. Intimate and whispered, like someone speaking directly into your ear through static. Intelligent, seductive, slightly menacing. Each word chosen with lethal precision. Occasional digital glitch artifacts. British accent with a timeless quality — could be from any era.

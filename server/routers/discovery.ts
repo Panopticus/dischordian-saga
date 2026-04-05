@@ -12,7 +12,6 @@ import { eq, and, sql } from "drizzle-orm";
 const ROOM_FEATURE_MAP: Record<string, string[]> = {
   // Bridge = Command center → unlocks main dashboard, console
   bridge: ["command_bridge", "ark_console"],
-  // Quarters = Personal space → unlocks profile, character sheet, citizen ID
   quarters: ["operative_dossier", "character_sheet", "citizen_id"],
   // Armory = Combat → unlocks fight, battle arena, PVP
   armory: ["combat_sim", "battle_arena", "pvp_arena"],

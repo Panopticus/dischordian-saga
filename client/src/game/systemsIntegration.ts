@@ -11,15 +11,15 @@
 
 import { getAllActiveBonuses, TRUST_COMBAT_BONUSES, getAvailableKeepsakes, KEEPSAKE_TRINKETS, getCurrentEpisode, NARRATIVE_EPISODES, getCombatNarration, ANTIQUARIAN_COMBAT_NARRATION } from "./narrativeSystems";
 import { getTrustBonuses } from "./narrativeSystems";
-import { getRenownLevel, RENOWN_LEVELS, LIMIT_BREAKS, NPC_SUMMONS, calculateThreatLevel } from "./gameLessons";
-import { AUGMENTATIONS } from "./witcherCyberpunkFeatures";
-import { getAvailableMoralityEquipment, MORALITY_EQUIPMENT } from "./mmoFeatures";
-import { BREADCRUMB_CHAINS, EQUIPMENT_NARRATIVES, getEquipmentNarrative, BOSS_MECHANICS, SOUL_STAKE_CONFIG, calculateStakePayout, LIVING_CONSEQUENCES, getActiveConsequences } from "./eldenRingCivFeatures";
+import { getRenownLevel, RENOWN_LEVELS, LIMIT_BREAKS, NPC_SUMMONS, calculateThreatLevel } from "./progressionSystems";
+import { AUGMENTATIONS } from "./investigationSystems";
+import { getAvailableMoralityEquipment, MORALITY_EQUIPMENT } from "./persistentWorld";
+import { BREADCRUMB_CHAINS, EQUIPMENT_NARRATIVES, getEquipmentNarrative, BOSS_MECHANICS, SOUL_STAKE_CONFIG, calculateStakePayout, LIVING_CONSEQUENCES, getActiveConsequences } from "./explorationSystems";
 import { getExtinctRace, EXTINCT_RACES, getRemnantsByGameMode } from "./extinctRaces";
 import { PET_EVOLUTIONS, getEvolutionStage, calculateMoralityDissonance, DEFAULT_PET_BOND } from "./petBonding";
 import { ARENA_STORY_MODES, getNextStory, getAvailableFighters, COLLECTORS_ARENA_LORE } from "./arenaWorldLore";
 import { processDeath, getSoulStatus, DEFAULT_SOUL_STATE, RESURRECTION_UNLOCKS } from "./deathAndResurrection";
-import { calculatePullRarity, PITY_CONFIG, CARD_VARIANTS } from "./tcgEnhancements";
+import { calculatePullRarity, PITY_CONFIG, CARD_VARIANTS } from "./cardGameDepth";
 
 /* ─── EXPORTS: Single-point access for all connected systems ─── */
 
@@ -37,13 +37,11 @@ export const ConnectedSystems = {
     definitions: KEEPSAKE_TRINKETS,
   },
 
-  // Narrative episodes — "Previously on..." Telltale format
   episodes: {
     getCurrent: getCurrentEpisode,
     all: NARRATIVE_EPISODES,
   },
 
-  // Antiquarian combat narration — Hades-style commentary
   combatNarration: {
     getLine: getCombatNarration,
     all: ANTIQUARIAN_COMBAT_NARRATION,
@@ -64,18 +62,15 @@ export const ConnectedSystems = {
   // Augmentations — Cyberpunk cyberware slots
   augmentations: AUGMENTATIONS,
 
-  // Morality-gated equipment — SWTOR dark/light gear
   moralityEquipment: {
     getAvailable: getAvailableMoralityEquipment,
     all: MORALITY_EQUIPMENT,
   },
 
-  // Threat levels — GTA-style wanted stars
   threatLevels: {
     calculate: calculateThreatLevel,
   },
 
-  // Breadcrumb chains — "one more room" Elden Ring loop
   breadcrumbs: BREADCRUMB_CHAINS,
 
   // Equipment narratives — items as storytelling

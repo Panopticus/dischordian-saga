@@ -83,7 +83,6 @@ describe("FightEngine3D module structure", () => {
     const content = fs.readFileSync("client/src/game/FightEngine3D.ts", "utf-8");
     // Core class export
     expect(content).toContain("export class FightEngine3D");
-    // MCOC-style touch input type
     expect(content).toContain("export interface TouchInput");
     // New API methods
     expect(content).toContain("pushTouchInput");
@@ -133,7 +132,6 @@ describe("FightEngine3D module structure", () => {
   it("should have split-screen touch control zones in FightArena3D", async () => {
     const fs = await import("fs");
     const content = fs.readFileSync("client/src/game/FightArena3D.tsx", "utf-8");
-    // MCOC-style gesture recognition
     expect(content).toContain("GestureTracker");
     expect(content).toContain("SWIPE_THRESHOLD");
     // Split screen zones

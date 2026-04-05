@@ -33,7 +33,6 @@ export const NPC_SPECIAL_DAYS: NPCSpecialDay[] = [
 ];
 
 /**
- * Community Restoration Goals (Stardew Community Center)
  * Repair different Ark systems by contributing specific resources.
  * Each restoration unlocks a permanent benefit.
  */
@@ -92,7 +91,6 @@ export function calculateRoomBonus(condition: number): number {
 }
 
 /**
- * Resource Balance — Fallout Shelter's power/food/water balance.
  * The Ark has 3 systems that need maintaining:
  * Power (from Engineering), Oxygen (from Life Support), Data (from Archives).
  * If any drops too low, rooms in that sector malfunction.
@@ -176,11 +174,9 @@ export const NPC_SUMMONS: NPCSummon[] = [
     description: "The Shadow Tongue rewrites the enemy's story. The chapter where they win? Deleted." },
 ];
 
-/* ═══ GTA LESSONS ═══ */
 
 /**
  * Wanted Level / Threat System — the more you ally with one faction,
- * the more hostile opposing factions become. Like GTA's wanted stars.
  */
 export interface ThreatLevel {
   factionId: string;
@@ -216,7 +212,6 @@ function getThreatEffects(level: number): string[] {
 }
 
 /**
- * Property Ownership (GTA businesses) — own rooms of the Ark
  * and generate passive income from them.
  */
 export interface OwnedProperty {
@@ -287,7 +282,6 @@ export const MORALITY_APPEARANCES: MoralityAppearanceEffect[] = [
 ];
 
 /**
- * Renown System (Fable) — your fame/infamy affects how NPCs treat
  * you and what content is available. Built from total actions across
  * ALL game modes.
  */

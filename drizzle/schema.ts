@@ -1609,7 +1609,6 @@ export const guildMembers = mysqlTable("guild_members", {
   userId: int("userId").notNull(),
   /** Role within the guild */
   role: mysqlEnum("role", ["leader", "officer", "member"]).notNull().default("member"),
-  /** Personal contribution to guild XP */
   contributionXp: int("contributionXp").notNull().default(0),
   /** Dream donated to treasury */
   donatedDream: int("donatedDream").notNull().default(0),

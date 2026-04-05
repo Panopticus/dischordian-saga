@@ -36,7 +36,6 @@ export interface SpecimenDef {
   description: string;
   /** How it appears at each stage */
   appearance: Record<EvolutionStage, string>;
-  /** Personality traits */
   personality: string[];
   /** Passive gameplay bonus */
   bonus: { stat: string; value: number; percent: boolean; description: string };

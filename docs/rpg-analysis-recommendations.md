@@ -52,9 +52,7 @@ The key takeaway is **non-combat skills as first-class citizens**. Divinity prov
 
 ### 2.7 Additional Notable Systems
 
-**Disco Elysium** (ZA/UM, 2019) revolutionized skill design by treating 24 skills as personality facets that actively interject during conversations. Higher skill levels cause more frequent (and sometimes counterproductive) interruptions, creating a self-balancing difficulty curve. The **Thought Cabinet** mechanic — limited slots for "thoughts" discovered through gameplay that provide permanent bonuses — represents a novel approach to perk acquisition through narrative exploration [7].
 
-**Path of Exile** (Grinding Gear Games, 2013) features a massive interconnected passive skill web shared by all classes, with class determining only the starting position. This creates maximum build diversity while maintaining class identity through starting location advantages. **Hades** (Supergiant Games, 2020) layers permanent meta-progression (Mirror of Night) with temporary per-run upgrades (Boons), and introduces "Duo Boons" — powerful synergy bonuses that only appear when combining boons from specific god pairs.
 
 ---
 
@@ -84,7 +82,6 @@ The following table summarizes what Loredex OS currently implements and where ga
 
 ### 4.1 Synergy Bonus System (Priority: High, Effort: Medium)
 
-**Inspiration:** Hades Duo Boons, BG3 Multiclass Synergies
 
 Specific combinations of species + class + element should unlock hidden **synergy bonuses** that reward thoughtful character building. These would be discovered through gameplay and displayed in the Character Bonuses panel.
 
@@ -103,7 +100,6 @@ This system adds depth without complexity — players discover synergies organic
 
 ### 4.2 Branching Mastery Paths (Priority: High, Effort: Medium)
 
-**Inspiration:** Mass Effect Power Evolution, Skyrim Perk Trees
 
 At mastery rank 3 (Specialist), each class should offer a **binary specialization choice** that determines the rank 4 and 5 perks. This transforms the linear rank 1→5 progression into a meaningful decision point.
 
@@ -119,7 +115,6 @@ This doubles the effective number of endgame builds from 5 to 10 while requiring
 
 ### 4.3 Citizen Talents (Priority: Medium, Effort: Medium)
 
-**Inspiration:** BG3 Feats, Divinity Talents, Disco Elysium Thought Cabinet
 
 Introduce a **Talent** system where players choose one powerful passive ability at specific milestones (citizen level 5, 10, 15, 20). Each talent should meaningfully alter gameplay rather than provide simple stat increases.
 
@@ -142,7 +137,6 @@ Introduce a **Talent** system where players choose one powerful passive ability 
 
 ### 4.4 Non-Combat Skill Proficiencies (Priority: Medium, Effort: High)
 
-**Inspiration:** KOTOR Skills, BG3 Proficiencies, Divinity Civil Abilities
 
 Add a set of **civil skills** that level up through use (Skyrim-style) and provide non-combat advantages across all game systems. Each skill would have a 1-10 rating that improves as the player performs related actions.
 
@@ -180,7 +174,6 @@ These combos would trigger when a player's element interacts with an opponent's 
 
 ### 4.6 Companion Build Synergies (Priority: Low, Effort: Low)
 
-**Inspiration:** Mass Effect Squad Synergies, BG3 Party Composition
 
 Companions (Elara, The Human) should provide **synergy bonuses** based on the player's character build. A companion's effectiveness would scale with relationship level AND build compatibility.
 
@@ -209,7 +202,6 @@ This is a long-term aspirational feature that gives endgame players a new progre
 
 ### 4.8 Achievement-Unlocked Traits (Priority: Low, Effort: Low)
 
-**Inspiration:** Disco Elysium Thought Cabinet
 
 Specific in-game achievements could unlock permanent **trait bonuses** that reflect the player's journey. These would be displayed as "titles" on the player profile.
 

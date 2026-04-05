@@ -22,7 +22,6 @@ export interface CompanionProfile {
   tagline: string;
   /** Full backstory revealed in stages */
   backstoryStages: BackstoryStage[];
-  /** Personality traits for dialog generation */
   personality: string[];
   /** Speech patterns for LLM prompt */
   speechPattern: string;

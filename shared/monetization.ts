@@ -5,7 +5,6 @@
    Everything can be earned through gameplay.
    Premium gives convenience and cosmetics, not power.
 
-   Inspired by: Genshin Impact's Welkin Moon (best value),
    Fortnite's cosmetic-only model, Marvel Snap's season pass,
    Path of Exile's stash tabs (QoL, not power)
 
@@ -210,7 +209,6 @@ export const MONETIZATION_RULES = {
 /* ─── WELKIN MOON EQUIVALENT ─── */
 
 /**
- * "Ark Commander's Blessing" — Genshin's Welkin Moon equivalent.
  * $4.99 for 30 days of +30 Dream/day = 900 Dream total.
  * That's $0.0055 per Dream vs $0.0099 per Dream from packs.
  * Best value for consistent players.

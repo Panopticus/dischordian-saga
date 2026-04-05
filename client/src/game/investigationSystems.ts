@@ -16,7 +16,6 @@
    10. Phone system = NPC messaging (async dialog)
    ═══════════════════════════════════════════════════════ */
 
-/* ═══ 1. BOUNTY BOARD (Witcher Contracts) ═══ */
 
 export interface BountyContract {
   id: string;
@@ -81,7 +80,6 @@ export const BOUNTY_CONTRACTS: BountyContract[] = [
   },
 ];
 
-/* ═══ 2. INVESTIGATION MODE (Witcher Senses) ═══ */
 
 export interface InvestigationClue {
   id: string;
@@ -103,7 +101,6 @@ export const INVESTIGATION_CLUES: InvestigationClue[] = [
   { id: "clue_substrate_heat", roomId: "bridge", type: "visual", description: "The floor grating is warm. The substrate layer beneath is more active than usual.", revelation: "The Human is agitated. Something in the substrate has changed — a new presence, or an old one awakening.", },
 ];
 
-/* ═══ 3. BESTIARY (Witcher-style) ═══ */
 
 export interface BestiaryEntry {
   id: string;

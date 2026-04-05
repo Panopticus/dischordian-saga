@@ -8,11 +8,6 @@
 
    Until now.
 
-   Inspired by:
-   - PROJECT HAIL MARY (Rocky's math-based first contact)
-   - ARRIVAL (language shapes thought, non-linear comprehension)
-   - FIRST CONTACT (ST:TNG — Farpoint, patience as diplomacy)
-   - STAR TREK communication puzzles (universal translators earned, not given)
 
    MECHANICS:
    1. The community collaboratively decodes signal patterns
@@ -55,7 +50,6 @@ export type DiplomaticStage =
 
 /**
  * Voltari don't have nouns. Every concept is a VERB + RELATIONSHIP.
- * Like Arrival's heptapod language — thought itself is different.
  *
  * Example: "tree" doesn't exist. They say "{grow}→{upward}→{together}"
  *          "fear" doesn't exist. They say "{anticipate}→{separation}→{without-agreement}"
@@ -255,7 +249,6 @@ export const CONTRIBUTOR_TITLES = [
   { id: "arrival", name: "Time-Walker", requirement: "Complete full alliance (unlocks all 20 words)" },
 ];
 
-/* ─── STAR TREK-STYLE PATIENCE MECHANIC ─── */
 
 /**
  * The Voltari DO NOT respond to impatience. If the community

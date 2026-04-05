@@ -9,7 +9,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   ArrowLeft, Mail, MailOpen, Radio, Lock, CornerUpLeft, Signal, Zap,
 } from "lucide-react";
-import { ASYNC_NPC_MESSAGES, type NPCMessage } from "./witcherCyberpunkFeatures";
+import { ASYNC_NPC_MESSAGES, type NPCMessage } from "./investigationSystems";
 import { FACTION_NPCS, type FactionNPCId } from "./factionNPCs";
 import { useGame } from "@/contexts/GameContext";
 import { toast } from "sonner";

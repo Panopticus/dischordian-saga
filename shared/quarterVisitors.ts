@@ -5,7 +5,6 @@
    Visitors can react, rate rooms, and leave messages.
    Creates social engagement and incentivizes decoration.
 
-   Inspired by: FFXIV Housing, Animal Crossing visits,
    WoW garrison followers
    ═══════════════════════════════════════════════════════ */
 

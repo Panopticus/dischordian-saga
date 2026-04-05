@@ -6,7 +6,6 @@
    new capabilities in Trade Empire, affect guild wars,
    and modify resource generation across all game modes.
 
-   Inspired by: Civ tech trees, Stellaris traditions,
    StarCraft upgrades, EU4 idea groups
 
    Research costs Influence + time. Higher tiers require
