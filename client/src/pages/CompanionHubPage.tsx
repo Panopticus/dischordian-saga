@@ -17,6 +17,7 @@ import HolographicElara from "@/components/HolographicElara";
 import { Streamdown } from "streamdown";
 import CutsceneOverlay, { QUEST_CUTSCENES, type CutsceneData } from "@/components/CutsceneOverlay";
 import { COMPANION_GIFTS, calculateGiftXp, canCraftGift, getRarityColor, type CompanionGift } from "@/data/companionGifts";
+import CompanionBondPanel from "@/components/CompanionBondPanel";
 import { getMaterialById } from "@/data/craftingData";
 import { ALL_LOYALTY_MISSIONS, getAvailableLoyaltyMissions, type LoyaltyMission, type LoyaltyMissionStep } from "@/data/loyaltyMissions";
 
@@ -499,6 +500,14 @@ export default function CompanionHubPage() {
                   </p>
                 </div>
               )}
+              <div className="mt-4">
+                <CompanionBondPanel
+                  petId={selectedCompanion.id}
+                  petName={selectedCompanion.name}
+                  bond={{ bond: level }}
+                  moralityScore={state.moralityScore}
+                />
+              </div>
             </motion.div>
           )}
 

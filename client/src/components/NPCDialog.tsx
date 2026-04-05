@@ -18,6 +18,7 @@ import { useGame } from "@/contexts/GameContext";
 import { GIFT_ITEMS, calculateGiftResult, type GiftItem, type NpcId, type GiftItemId } from "@/game/npcGifts";
 import { useNPCPhysics } from "@/engine/useVoidEngine";
 import { getRelationshipState } from "@/game/npcRelationships";
+import { getAmbientReference } from "@/game/ambientStorytelling";
 
 /* ─── MANIFESTATION STYLES ─── */
 
@@ -126,6 +127,12 @@ export default function NPCDialog({ npcId, scene, onClose, onChoice }: NPCDialog
   // NPC relationship state (tier + personality based on player archetype)
   const relationship = useMemo(
     () => getRelationshipState(npcId, trust, "unknown"),
+    [npcId, trust],
+  );
+
+  // Ambient storytelling: NPCs may leak backstory when you open dialog with them
+  const ambientLeak = useMemo(
+    () => getAmbientReference(npcId, trust, "small_talk", new Set()),
     [npcId, trust],
   );
 
@@ -288,6 +295,23 @@ export default function NPCDialog({ npcId, scene, onClose, onChoice }: NPCDialog
               </div>
             )}
           </div>
+
+          {/* Ambient leak — backstory surfacing */}
+          {ambientLeak && showChoices && (
+            <motion.div
+              initial={{ opacity: 0, y: -4 }}
+              animate={{ opacity: 0.7, y: 0 }}
+              className="mt-2 p-2 rounded border-l-2 border-purple-400/40 bg-purple-500/5"
+              data-testid="ambient-leak"
+            >
+              <span className="font-mono text-[8px] uppercase tracking-wider text-purple-400/70 block mb-0.5">
+                (unprompted, quietly)
+              </span>
+              <p className="font-mono text-[10px] italic text-foreground/70 leading-relaxed">
+                "{ambientLeak.text}"
+              </p>
+            </motion.div>
+          )}
 
           {/* Choices */}
           <AnimatePresence>

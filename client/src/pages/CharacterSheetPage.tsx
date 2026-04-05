@@ -15,6 +15,7 @@ import {
   RotateCcw, AlertTriangle, Compass, Crown, X
 } from "lucide-react";
 import TraitSummaryPanel from "@/components/TraitSummaryPanel";
+import CharacterMindPanel from "@/components/CharacterMindPanel";
 import { MoralityMeter } from "@/components/MoralityMeter";
 import MoralityUnlockablesPanel from "@/components/MoralityUnlockablesPanel";
 import RespecDialog from "@/components/RespecDialog";
@@ -1101,6 +1102,8 @@ export default function CharacterSheetPage() {
         </motion.div>
 
         <TraitSummaryPanel isAuthenticated={isAuthenticated} />
+
+        <CharacterMindPanel />
 
         {/* Respec Dialog */}
         <RespecDialog isOpen={showRespec} onClose={() => setShowRespec(false)} isAuthenticated={isAuthenticated} />

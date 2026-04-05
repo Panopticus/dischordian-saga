@@ -29,6 +29,7 @@ import {
   type FighterData, type ArenaData, type DifficultyLevel,
 } from "@/game/gameData";
 import FightArena2D from "@/game/FightArena2D";
+import { triggerFailureRevelation } from "@/lib/failureRevelations";
 import LandscapeEnforcer from "@/components/LandscapeEnforcer";
 import TutorialTrigger from "@/components/TutorialTrigger";
 import { useAutoTutorial } from "@/hooks/useAutoTutorial";
@@ -173,6 +174,10 @@ export default function FightPage() {
         bestCombo: 0,
         pointsEarned: winner === "p1" ? selectedDifficulty.pointsMultiplier * 100 : 0,
       });
+      // Failure reveals lore: if player lost, surface a failure revelation
+      if (winner === "p2" && selectedOpponent) {
+        triggerFailureRevelation({ type: "combat_lost", opponent: selectedOpponent.id });
+      }
     }
     if (winner === "p1") {
       gam.recordFightWin(selectedDifficulty.id, perfect);

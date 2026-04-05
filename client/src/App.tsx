@@ -67,6 +67,7 @@ const WarMapPage = lazy(() => import("./pages/WarMapPage"));
 const DeckBuilderPage = lazy(() => import("./pages/DeckBuilderPage"));
 const CitizenCreationPage = lazy(() => import("./pages/CitizenCreationPage"));
 const CharacterSheetPage = lazy(() => import("./pages/CharacterSheetPage"));
+const IdeologyPage = lazy(() => import("./pages/IdeologyPage"));
 const ResearchLabPage = lazy(() => import("./pages/ResearchLabPage"));
 const StorePage = lazy(() => import("./pages/StorePage"));
 const GamesPage = lazy(() => import("./pages/GamesPage"));
@@ -185,6 +186,7 @@ function Router() {
         <Route path="/deck-builder" component={DeckBuilderPage} />
         <Route path="/create-citizen" component={CitizenCreationPage} />
         <Route path="/character-sheet" component={CharacterSheetPage} />
+        <Route path="/ideology" component={IdeologyPage} />
         <Route path="/research-lab" component={ResearchLabPage} />
         {/* /games removed — all games accessed through Ark rooms */}
         <Route path="/forge" component={ForgePage} />
