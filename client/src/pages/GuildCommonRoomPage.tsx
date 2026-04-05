@@ -21,6 +21,7 @@ import { useGame } from "@/contexts/GameContext";
 import { ARCHON_VOICE_MAPPING, getDominantGuild } from "@/game/archonTrainingVoices";
 import { SKILL_VOICES, type SkillId } from "@/game/innerVoices";
 import { getAbilityForArchon } from "@shared/guildSignatureAbilities";
+import { getProfessorByArchon } from "@shared/mechronisProfessors";
 
 const GUILD_AESTHETICS: Record<string, { bg: string; accent: string; borderColor: string }> = {
   "The Chorus": { bg: "from-indigo-950/30 to-purple-950/20", accent: "text-indigo-300", borderColor: "border-indigo-500/40" },
@@ -61,6 +62,7 @@ export default function GuildCommonRoomPage() {
   const aesthetic = GUILD_AESTHETICS[guild.name] ?? GUILD_AESTHETICS["The Chorus"];
   const voice = SKILL_VOICES[skillId];
   const ability = getAbilityForArchon(mentor.archonNumber);
+  const professor = getProfessorByArchon(mentor.archonNumber);
   const playerSkillLevel = skills[skillId] ?? 0;
   const abilityUnlocked = ability ? playerSkillLevel >= ability.skillThreshold : false;
 
@@ -115,6 +117,59 @@ export default function GuildCommonRoomPage() {
             </div>
           </div>
         </motion.div>
+
+        {/* Professor simulacrum — programmed teaching version of the Archon */}
+        {professor && (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.05 }}
+            className={`p-4 rounded-lg border ${aesthetic.borderColor} bg-background/40 mb-4`}
+          >
+            <div className="flex items-center gap-2 mb-2">
+              <span className="font-mono text-[9px] uppercase tracking-wider text-muted-foreground/70">
+                Your Professor (simulacrum)
+              </span>
+            </div>
+            <h3 className={`font-display text-lg font-bold ${aesthetic.accent}`}>{professor.teacherName}</h3>
+            <p className="font-mono text-[9px] italic text-foreground/60 mb-2">{professor.title}</p>
+            <p className="font-mono text-[10px] text-foreground/80 mb-2 leading-relaxed">{professor.appearance}</p>
+            <div className="space-y-1.5 mb-2">
+              <div className="p-2 rounded border border-border/30 bg-background/40">
+                <span className="font-mono text-[9px] uppercase tracking-wider text-muted-foreground/60 block mb-0.5">
+                  Philosophy
+                </span>
+                <p className="font-mono text-[10px] italic text-foreground/85 leading-relaxed">"{professor.philosophy}"</p>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-1.5">
+                <div className="p-2 rounded border border-border/30 bg-background/40">
+                  <span className="font-mono text-[9px] uppercase tracking-wider text-muted-foreground/60 block mb-0.5">
+                    Classroom Rule
+                  </span>
+                  <p className="font-mono text-[10px] text-foreground/85">{professor.classroomRule}</p>
+                </div>
+                <div className="p-2 rounded border border-border/30 bg-background/40">
+                  <span className="font-mono text-[9px] uppercase tracking-wider text-muted-foreground/60 block mb-0.5">
+                    Grading
+                  </span>
+                  <p className="font-mono text-[10px] text-foreground/85">{professor.gradingStyle}</p>
+                </div>
+              </div>
+              <div className="p-2 rounded border border-red-500/30 bg-red-500/5">
+                <span className="font-mono text-[9px] uppercase tracking-wider text-red-400 block mb-0.5">
+                  ⚠ Hidden Agenda
+                </span>
+                <p className="font-mono text-[10px] italic text-red-300/85 leading-relaxed">{professor.hiddenAgenda}</p>
+              </div>
+              <div className="p-2 rounded border border-purple-500/30 bg-purple-500/5">
+                <span className="font-mono text-[9px] uppercase tracking-wider text-purple-400 block mb-0.5">
+                  ◈ Divergence from the real Archon
+                </span>
+                <p className="font-mono text-[10px] italic text-purple-300/85 leading-relaxed">{professor.divergenceFromReal}</p>
+              </div>
+            </div>
+          </motion.div>
+        )}
 
         {/* Signature ability */}
         {ability && (
