@@ -583,7 +583,7 @@ interface DamageNumber {
 
 /** Numpad notation for directional inputs (relative to facing direction) */
 type NumpadDir = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
-type MotionButton = "LP" | "MP" | "HP";
+type MotionButton = "LP" | "MP" | "HP" | "LK" | "MK" | "HK";
 
 interface ControlHistoryEntry {
   input: NumpadDir | MotionButton;

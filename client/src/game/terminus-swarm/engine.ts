@@ -8,7 +8,7 @@ import type {
   Projectile, Vec2, GameResources, GamePhase, WaveSpawn,
   TurretDef, EnemyDef, MapDef,
 } from "./types";
-import { TURRETS, ENEMIES, getWaveForNumber } from "./definitions";
+import { TURRETS, ENEMIES, getWaveForNumber, MAPS } from "./definitions";
 
 const FPS = 60;
 let _uid = 0;
@@ -249,7 +249,7 @@ export function removeBarricade(state: TerminusGameState, row: number, col: numb
   if (cell.type !== "blocked") return state;
   // Don't remove original map blocked tiles
   const map = MAPS[0]; // TODO: track which map is active
-  if (map.blockedTiles.some(t => t.x === col && t.y === row)) return state;
+  if (map.blockedTiles.some((t: { x: number; y: number }) => t.x === col && t.y === row)) return state;
 
   cell.type = "empty";
   state.resources.salvage += 10; // Partial refund

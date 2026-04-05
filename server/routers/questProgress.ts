@@ -15,10 +15,13 @@ export const questProgressRouter = router({
       if (!db) return {};
       const { userProgress } = await import("../../drizzle/schema");
       const result = await db.select().from(userProgress)
-        .where(and(eq(userProgress.userId, ctx.user.id), eq(userProgress.key, "quest_progress")))
+        .where(eq(userProgress.userId, ctx.user.id))
         .limit(1);
       if (!result[0]) return {};
-      return JSON.parse(result[0].value);
+      const data = result[0].progressData as Record<string, unknown> | null;
+      const questProgress = data?.quest_progress;
+      if (!questProgress || typeof questProgress !== "object") return {};
+      return questProgress as Record<string, unknown>;
     } catch { return {}; }
   }),
 
@@ -35,14 +38,15 @@ export const questProgressRouter = router({
         const db = await getDb();
         if (!db) return { success: false };
         const { userProgress } = await import("../../drizzle/schema");
-        const key = "quest_progress";
 
         // Load existing progress
         const existing = await db.select().from(userProgress)
-          .where(and(eq(userProgress.userId, ctx.user.id), eq(userProgress.key, key)))
+          .where(eq(userProgress.userId, ctx.user.id))
           .limit(1);
 
-        const allProgress = existing[0] ? JSON.parse(existing[0].value) : {};
+        const progressData = (existing[0]?.progressData as Record<string, unknown> | null) ?? {};
+        const allProgress = (typeof progressData.quest_progress === "object" && progressData.quest_progress !== null
+          ? progressData.quest_progress : {}) as Record<string, unknown>;
         allProgress[input.questId] = {
           questId: input.questId,
           progress: input.progress,
@@ -51,12 +55,12 @@ export const questProgressRouter = router({
           updatedAt: Date.now(),
         };
 
-        const value = JSON.stringify(allProgress);
+        const newProgressData = { ...progressData, quest_progress: allProgress };
         if (existing[0]) {
-          await db.update(userProgress).set({ value, updatedAt: new Date() })
-            .where(and(eq(userProgress.userId, ctx.user.id), eq(userProgress.key, key)));
+          await db.update(userProgress).set({ progressData: newProgressData, updatedAt: new Date() })
+            .where(eq(userProgress.userId, ctx.user.id));
         } else {
-          await db.insert(userProgress).values({ userId: ctx.user.id, key, value });
+          await db.insert(userProgress).values({ userId: ctx.user.id, progressData: newProgressData });
         }
 
         return { success: true };
@@ -70,24 +74,25 @@ export const questProgressRouter = router({
       try {
         const db = await getDb();
         if (!db) return { success: false };
-        const { userProgress, dreamBalance } = await import("../../drizzle/schema");
-        const { sql } = await import("drizzle-orm");
-        const key = "quest_progress";
+        const { userProgress } = await import("../../drizzle/schema");
 
         const existing = await db.select().from(userProgress)
-          .where(and(eq(userProgress.userId, ctx.user.id), eq(userProgress.key, key)))
+          .where(eq(userProgress.userId, ctx.user.id))
           .limit(1);
 
         if (!existing[0]) return { success: false };
-        const allProgress = JSON.parse(existing[0].value);
-        const quest = allProgress[input.questId];
+        const progressData = (existing[0].progressData as Record<string, unknown> | null) ?? {};
+        const allProgress = (typeof progressData.quest_progress === "object" && progressData.quest_progress !== null
+          ? progressData.quest_progress : {}) as Record<string, unknown>;
+        const quest = allProgress[input.questId] as Record<string, unknown> | undefined;
         if (!quest || !quest.completed || quest.claimedReward) return { success: false };
 
         // Mark as claimed
         quest.claimedReward = true;
         quest.claimedAt = Date.now();
-        await db.update(userProgress).set({ value: JSON.stringify(allProgress), updatedAt: new Date() })
-          .where(and(eq(userProgress.userId, ctx.user.id), eq(userProgress.key, key)));
+        const newProgressData = { ...progressData, quest_progress: allProgress };
+        await db.update(userProgress).set({ progressData: newProgressData, updatedAt: new Date() })
+          .where(eq(userProgress.userId, ctx.user.id));
 
         // Award Dream tokens if quest has dream reward
         // (The actual reward amounts are defined client-side in quests.ts)
@@ -108,28 +113,30 @@ export const questProgressRouter = router({
         const db = await getDb();
         if (!db) return { success: false };
         const { userProgress } = await import("../../drizzle/schema");
-        const key = "quest_progress";
 
         const existing = await db.select().from(userProgress)
-          .where(and(eq(userProgress.userId, ctx.user.id), eq(userProgress.key, key)))
+          .where(eq(userProgress.userId, ctx.user.id))
           .limit(1);
 
-        const allProgress = existing[0] ? JSON.parse(existing[0].value) : {};
+        const progressData = (existing[0]?.progressData as Record<string, unknown> | null) ?? {};
+        const allProgress = (typeof progressData.quest_progress === "object" && progressData.quest_progress !== null
+          ? progressData.quest_progress : {}) as Record<string, unknown>;
         if (!allProgress[input.questId]) {
           allProgress[input.questId] = { questId: input.questId, progress: 0, completed: false, claimedReward: false };
         }
-        allProgress[input.questId].progress += input.amount;
-        allProgress[input.questId].updatedAt = Date.now();
+        const quest = allProgress[input.questId] as Record<string, unknown>;
+        quest.progress = (quest.progress as number) + input.amount;
+        quest.updatedAt = Date.now();
 
-        const value = JSON.stringify(allProgress);
+        const newProgressData = { ...progressData, quest_progress: allProgress };
         if (existing[0]) {
-          await db.update(userProgress).set({ value, updatedAt: new Date() })
-            .where(and(eq(userProgress.userId, ctx.user.id), eq(userProgress.key, key)));
+          await db.update(userProgress).set({ progressData: newProgressData, updatedAt: new Date() })
+            .where(eq(userProgress.userId, ctx.user.id));
         } else {
-          await db.insert(userProgress).values({ userId: ctx.user.id, key, value });
+          await db.insert(userProgress).values({ userId: ctx.user.id, progressData: newProgressData });
         }
 
-        return { success: true, newProgress: allProgress[input.questId].progress };
+        return { success: true, newProgress: quest.progress as number };
       } catch { return { success: false }; }
     }),
 });

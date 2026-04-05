@@ -3,7 +3,7 @@
    All enemy types, turret types, wave compositions,
    and map layouts for the tower defense game.
    ═══════════════════════════════════════════════════════ */
-import type { EnemyDef, TurretDef, WaveDef, MapDef } from "./types";
+import type { EnemyDef, TurretDef, WaveDef, MapDef, EnemyType } from "./types";
 
 /* ─── TURRET DEFINITIONS ─── */
 

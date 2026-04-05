@@ -170,7 +170,7 @@ export function DialogLine({
 }: DialogLineProps) {
   const [revealed, setRevealed] = useState(0);
   const [complete, setComplete] = useState(false);
-  const intervalRef = useRef<ReturnType<typeof setInterval>>();
+  const intervalRef = useRef<ReturnType<typeof setInterval>>(undefined);
 
   const displayName = speakerName || (
     speaker === "elara" ? "ELARA" :

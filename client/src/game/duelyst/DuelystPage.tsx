@@ -20,6 +20,7 @@ import {
   Swords, Shield, Zap, Eye, Skull, Clock, Bug,
   ChevronRight, ArrowLeft, Trophy, Gamepad2, BookOpen,
   Package, Grid3X3, Layers, BarChart3, Volume2, VolumeX,
+  Sparkles,
 } from "lucide-react";
 
 type View = "menu" | "faction_select" | "playing" | "result" | "collection" | "deck_builder" | "pack_opening" | "ranked";
@@ -464,7 +465,7 @@ export default function DuelystPage() {
             <DeckBuilder
               collection={collectionCards.filter(c => c.owned).map(c => ({
                 ...c,
-                maxCopies: c.rarity === "legendary" || c.rarity === "mythic" || c.rarity === "neyon" ? 1 : c.rarity === "rare" || c.rarity === "epic" ? 2 : 3,
+                maxCopies: c.rarity === "legendary" ? 1 : c.rarity === "rare" || c.rarity === "epic" ? 2 : 3,
               }))}
               faction={playerFaction || "architect"}
               onSave={async (deck) => {

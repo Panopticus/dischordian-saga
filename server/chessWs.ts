@@ -183,7 +183,7 @@ async function startMatch(p1: ChessPlayer, p2: ChessPlayer) {
         blackPlayerId: black.userId,
         whiteCharacter: white.characterId,
         blackCharacter: black.characterId,
-        mode: "pvp",
+        mode: "casual",
         aiDifficulty: 0,
         fen: STARTING_FEN,
         pgn: "",

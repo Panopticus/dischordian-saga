@@ -7,7 +7,7 @@ import { protectedProcedure, router } from "../_core/trpc";
 import { getDb } from "../db";
 import { eq, and, desc } from "drizzle-orm";
 
-// We'll use a JSON column in userProgress or a new table
+// We'll use the progressData JSON column in userProgress
 // For now, use localStorage on client + optional server sync
 
 export const terminusSwarmRouter = router({
@@ -33,30 +33,26 @@ export const terminusSwarmRouter = router({
       }),
     }))
     .mutation(async ({ ctx, input }) => {
-      // Store as JSON in a user-specific key
-      // In production, this would use a dedicated terminusBases table
       try {
         const db = await getDb();
         if (!db) return { success: false };
 
-        // Use userProgress table with a special key
         const { userProgress } = await import("../../drizzle/schema");
-        const key = "terminus_base";
         const existing = await db.select().from(userProgress)
-          .where(and(eq(userProgress.userId, ctx.user.id), eq(userProgress.key, key)))
+          .where(eq(userProgress.userId, ctx.user.id))
           .limit(1);
 
-        const value = JSON.stringify(input);
+        const progressData = (existing[0]?.progressData as Record<string, unknown> | null) ?? {};
+        const newProgressData = { ...progressData, terminus_base: input };
 
         if (existing[0]) {
           await db.update(userProgress)
-            .set({ value, updatedAt: new Date() })
-            .where(and(eq(userProgress.userId, ctx.user.id), eq(userProgress.key, key)));
+            .set({ progressData: newProgressData, updatedAt: new Date() })
+            .where(eq(userProgress.userId, ctx.user.id));
         } else {
           await db.insert(userProgress).values({
             userId: ctx.user.id,
-            key,
-            value,
+            progressData: newProgressData,
           });
         }
 
@@ -75,11 +71,12 @@ export const terminusSwarmRouter = router({
 
       const { userProgress } = await import("../../drizzle/schema");
       const result = await db.select().from(userProgress)
-        .where(and(eq(userProgress.userId, ctx.user.id), eq(userProgress.key, "terminus_base")))
+        .where(eq(userProgress.userId, ctx.user.id))
         .limit(1);
 
       if (!result[0]) return null;
-      return JSON.parse(result[0].value);
+      const data = result[0].progressData as Record<string, unknown> | null;
+      return (data?.terminus_base as Record<string, unknown>) ?? null;
     } catch (e) {
       console.error("[TerminusSwarm] Failed to load base:", e);
       return null;
@@ -157,12 +154,15 @@ export const terminusSwarmRouter = router({
       if (!db) return { highestWave: 0, totalKills: 0, trophies: 0, gamesPlayed: 0 };
 
       const { userProgress } = await import("../../drizzle/schema");
-      const stats = await db.select().from(userProgress)
-        .where(and(eq(userProgress.userId, ctx.user.id), eq(userProgress.key, "terminus_stats")))
+      const result = await db.select().from(userProgress)
+        .where(eq(userProgress.userId, ctx.user.id))
         .limit(1);
 
-      if (!stats[0]) return { highestWave: 0, totalKills: 0, trophies: 0, gamesPlayed: 0 };
-      return JSON.parse(stats[0].value);
+      if (!result[0]) return { highestWave: 0, totalKills: 0, trophies: 0, gamesPlayed: 0 };
+      const data = result[0].progressData as Record<string, unknown> | null;
+      const stats = data?.terminus_stats;
+      if (!stats || typeof stats !== "object") return { highestWave: 0, totalKills: 0, trophies: 0, gamesPlayed: 0 };
+      return stats as { highestWave: number; totalKills: number; trophies: number; gamesPlayed: number };
     } catch {
       return { highestWave: 0, totalKills: 0, trophies: 0, gamesPlayed: 0 };
     }
@@ -182,18 +182,19 @@ export const terminusSwarmRouter = router({
         if (!db) return { success: false };
 
         const { userProgress } = await import("../../drizzle/schema");
-        const key = "terminus_stats";
-        const value = JSON.stringify(input);
 
         const existing = await db.select().from(userProgress)
-          .where(and(eq(userProgress.userId, ctx.user.id), eq(userProgress.key, key)))
+          .where(eq(userProgress.userId, ctx.user.id))
           .limit(1);
 
+        const progressData = (existing[0]?.progressData as Record<string, unknown> | null) ?? {};
+        const newProgressData = { ...progressData, terminus_stats: input };
+
         if (existing[0]) {
-          await db.update(userProgress).set({ value, updatedAt: new Date() })
-            .where(and(eq(userProgress.userId, ctx.user.id), eq(userProgress.key, key)));
+          await db.update(userProgress).set({ progressData: newProgressData, updatedAt: new Date() })
+            .where(eq(userProgress.userId, ctx.user.id));
         } else {
-          await db.insert(userProgress).values({ userId: ctx.user.id, key, value });
+          await db.insert(userProgress).values({ userId: ctx.user.id, progressData: newProgressData });
         }
 
         return { success: true };

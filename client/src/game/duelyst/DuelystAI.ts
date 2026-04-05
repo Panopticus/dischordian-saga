@@ -17,7 +17,7 @@ export function getAIActions(state: DuelystGameState): GameAction[] {
   let manaRemaining = player.mana;
   for (const play of cardPlays) {
     if (play.score <= 0) break;
-    const card = player.hand[play.action.cardIndex];
+    const card = player.hand[(play.action as { type: "play_card"; cardIndex: number }).cardIndex];
     if (!card || card.manaCost > manaRemaining) continue;
     manaRemaining -= card.manaCost;
     actions.push(play.action);
