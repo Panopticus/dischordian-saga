@@ -76,6 +76,8 @@ const PetBattlesPage = lazy(() => import("./pages/PetBattlesPage"));
 const ApprenticePage = lazy(() => import("./pages/ApprenticePage"));
 const GuildCommonRoomPage = lazy(() => import("./pages/GuildCommonRoomPage"));
 const HouseCupPage = lazy(() => import("./pages/HouseCupPage"));
+const PurgeRitualPage = lazy(() => import("./pages/PurgeRitualPage"));
+const CohortPage = lazy(() => import("./pages/CohortPage"));
 const ResearchLabPage = lazy(() => import("./pages/ResearchLabPage"));
 const StorePage = lazy(() => import("./pages/StorePage"));
 const GamesPage = lazy(() => import("./pages/GamesPage"));
@@ -199,6 +201,8 @@ function Router() {
         <Route path="/apprentice" component={ApprenticePage} />
         <Route path="/common-room" component={GuildCommonRoomPage} />
         <Route path="/house-cup" component={HouseCupPage} />
+        <Route path="/purge" component={PurgeRitualPage} />
+        <Route path="/cohort" component={CohortPage} />
         <Route path="/research-lab" component={ResearchLabPage} />
         {/* /games removed — all games accessed through Ark rooms */}
         <Route path="/forge" component={ForgePage} />

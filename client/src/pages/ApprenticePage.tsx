@@ -30,6 +30,13 @@ import {
   type DecisionOption,
 } from "@shared/celebrationTrial";
 import { getMascoteer } from "@shared/mascoteers";
+import {
+  getBetrayalStage,
+  generateBetrayalEvent,
+  type BetrayalChoice,
+  type BetrayalEvent,
+} from "@shared/apprenticeBetrayal";
+import { computeDailyCorruption } from "@shared/apprentices";
 
 const STAGE_LABELS: Record<string, string> = {
   recruited: "Recruited",
@@ -109,7 +116,11 @@ export default function ApprenticePage() {
     }
     const newDay = currentApprentice.trialDay + 1;
     const newBond = Math.max(0, Math.min(100, currentApprentice.bond + outcome.bondDelta));
-    const newCorruption = Math.max(0, Math.min(100, currentApprentice.corruption + outcome.corruptionDelta));
+    // Daily corruption tick — evil apprentices still gain corruption
+    const dailyCorruptionTick = computeDailyCorruption(currentApprentice, state.moralityScore ?? 0);
+    const newCorruption = Math.max(0, Math.min(100,
+      currentApprentice.corruption + outcome.corruptionDelta + dailyCorruptionTick,
+    ));
     const graduated = newDay > TRIAL_LENGTH_DAYS;
     setApprentice({
       ...currentApprentice,
@@ -118,6 +129,46 @@ export default function ApprenticePage() {
       corruption: newCorruption,
       missedDays: 0,
       stage: graduated ? "graduated" : "training",
+    });
+  };
+
+  // Betrayal event trigger — check corruption on companion apprentice
+  const pendingBetrayal = useMemo((): BetrayalEvent | null => {
+    if (!currentApprentice) return null;
+    if (currentApprentice.stage !== "companion") return null;
+    const stage = getBetrayalStage(currentApprentice.corruption);
+    if (!stage) return null;
+    return generateBetrayalEvent(currentApprentice, stage);
+  }, [currentApprentice]);
+
+  const resolveBetrayal = (choice: BetrayalChoice) => {
+    if (!currentApprentice) return;
+    const { outcome } = choice;
+    const newCorruption = outcome.forceStage === "halted"
+      ? Math.min(currentApprentice.corruption - 20, 59) // force below warning threshold
+      : Math.max(0, Math.min(100, currentApprentice.corruption + outcome.corruptionDelta));
+    const newBond = Math.max(0, Math.min(100, currentApprentice.bond + outcome.bondDelta));
+
+    // If betrayal reached stage 100 and player chose kill/disarm, apprentice is fallen
+    if (pendingBetrayal?.stage === "betrayal" && (choice.id === "kill" || choice.id === "disarm")) {
+      recordFallenApprentice({
+        ...currentApprentice,
+        alive: false,
+        stage: choice.id === "kill" ? "betrayed" : "fallen",
+        corruption: newCorruption,
+        bond: newBond,
+        deathRecord: {
+          day: currentApprentice.trialDay,
+          cause: outcome.resultFlavor,
+        },
+      });
+      return;
+    }
+
+    setApprentice({
+      ...currentApprentice,
+      corruption: newCorruption,
+      bond: newBond,
     });
   };
 
@@ -173,6 +224,12 @@ export default function ApprenticePage() {
                   day={currentApprentice.trialDay}
                   onChoose={makeDailyDecision}
                 />
+              </div>
+            )}
+            {/* Betrayal event */}
+            {pendingBetrayal && (
+              <div className="mt-4">
+                <BetrayalEventCard event={pendingBetrayal} onChoose={resolveBetrayal} />
               </div>
             )}
             {/* Graduated → celebration */}
@@ -457,6 +514,47 @@ function Stat({ icon: Icon, label, value, color }: { icon: any; label: string; v
 }
 
 /* ─── FALLEN ROW ─── */
+/* ─── BETRAYAL EVENT CARD ─── */
+function BetrayalEventCard({ event, onChoose }: {
+  event: BetrayalEvent;
+  onChoose: (c: BetrayalChoice) => void;
+}) {
+  const stageColor =
+    event.stage === "warning" ? "yellow" :
+    event.stage === "turn" ? "orange" :
+    event.stage === "declaration" ? "red" : "red";
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      className={`p-4 rounded-lg border-2 border-${stageColor}-500/60 bg-gradient-to-br from-${stageColor}-950/30 to-black/40`}
+      data-testid={`betrayal-event-${event.stage}`}
+    >
+      <div className="flex items-center gap-2 mb-2">
+        <AlertTriangle size={14} className={`text-${stageColor}-400`} />
+        <span className={`font-mono text-[9px] uppercase tracking-[0.25em] text-${stageColor}-400`}>
+          {event.stage} · corruption {event.threshold}+
+        </span>
+      </div>
+      <p className="font-mono text-[11px] italic text-foreground/90 leading-relaxed mb-3">
+        {event.prompt}
+      </p>
+      <div className="space-y-1.5">
+        {event.options.map(opt => (
+          <button
+            key={opt.id}
+            onClick={() => onChoose(opt)}
+            className="w-full text-left p-2.5 rounded border border-border/40 bg-background/40 hover:border-red-400/40 hover:bg-red-950/20 transition-colors"
+            data-testid={`betrayal-choice-${opt.id}`}
+          >
+            <div className="font-mono text-[10px] font-bold text-foreground">{opt.label}</div>
+          </button>
+        ))}
+      </div>
+    </motion.div>
+  );
+}
+
 /* ─── DAILY DECISION CARD ─── */
 function DailyDecisionCard({ decision, day, onChoose }: {
   decision: { mascoteerId: string; prompt: string; options: DecisionOption[] };
