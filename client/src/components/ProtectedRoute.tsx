@@ -74,7 +74,9 @@ export const ROUTE_ROOM_MAP: Record<string, string> = {
   "/guild": "bridge",
   "/faction-wars": "bridge",
   "/war-map": "bridge",
-  // /lore-tutorials removed — Elara teaches in-room
+  // New game routes
+  "/gamemasters-arena": "archives",    // Quiz show in the Matrix of Dreams
+  "/casino": "trade-hub",              // Degen's Casino in Ne-Yon space
   // Always accessible (Ark Explorer system)
   // /ark, /ark-legacy, /console, /games, /clue-journal, /settings, /admin
 };

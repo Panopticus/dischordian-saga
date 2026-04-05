@@ -15,6 +15,8 @@ import { generateDailyBrief, type RoomEvent } from "@/game/livingArk";
 import { processArkEvent, type ArkEventResult } from "@/game/arkEventHandler";
 import NPCDialog, { buildFirstContactScene, type NPCDialogScene, type NPCDialogChoice } from "@/components/NPCDialog";
 import type { FactionNPCId } from "@/game/factionNPCs";
+import { getAvailableBanter, type CompanionBanter } from "@/game/biowareFeatures";
+import { dispatchRememberThis } from "@/game/narrativeSystems";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLocation } from "wouter";
 import {
@@ -519,6 +521,35 @@ export default function ArkExplorerPage() {
 
   // NPC Dialog state (triggered by Ark events)
   const [npcDialogScene, setNpcDialogScene] = useState<NPCDialogScene | null>(null);
+  const [banterText, setBanterText] = useState<string | null>(null);
+
+  // Companion banter trigger on room entry (BioWare-style)
+  useEffect(() => {
+    if (!state.currentRoomId) return;
+    const roomKey = state.currentRoomId.replace(/-/g, "_");
+    const discovered = new Set<string>(["elara"]); // Elara always discovered
+    if (state.humanContactMade) discovered.add("the_human");
+    for (const [npcId, disc] of Object.entries(state.npcDiscovered || {})) {
+      if (disc) discovered.add(npcId);
+    }
+    const trustMap: Record<string, number> = { elara: state.elaraTrust || 10, the_human: state.humanTrust || 0 };
+    for (const [npcId, trust] of Object.entries(state.npcTrust || {})) {
+      trustMap[npcId] = trust;
+    }
+    const triggered = new Set<string>(Object.keys(state.narrativeFlags || {}).filter(k => k.startsWith("banter_")));
+    const banter = getAvailableBanter(roomKey, discovered, trustMap, triggered);
+    if (banter) {
+      // Show banter after a delay (after Elara intro)
+      const timer = setTimeout(() => {
+        const text = banter.lines.map(l => `${l.speaker === "elara" ? "Elara" : l.speaker.replace(/_/g, " ")}: "${l.text}"`).join("\n");
+        setBanterText(text);
+        setNarrativeFlag(`banter_${banter.id}`, true);
+        // Auto-dismiss after reading time
+        setTimeout(() => setBanterText(null), 12000);
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [state.currentRoomId]);
   const [gameHint, setGameHint] = useState<ArkEventResult["gameHint"] | null>(null);
 
   const [puzzleRoomId, setPuzzleRoomId] = useState<string | null>(null);
@@ -1364,6 +1395,25 @@ export default function ArkExplorerPage() {
               setNpcDialogScene(null);
             }}
           />
+        )}
+      </AnimatePresence>
+
+      {/* Companion Banter (BioWare-style NPC-to-NPC dialog) */}
+      <AnimatePresence>
+        {banterText && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 20 }}
+            className="fixed bottom-24 left-1/2 -translate-x-1/2 z-[80] max-w-md w-full px-4"
+          >
+            <div className="p-3 rounded-xl bg-black/90 border border-purple-500/20 backdrop-blur-md"
+              onClick={() => setBanterText(null)}>
+              <p className="font-mono text-[8px] text-purple-400/50 tracking-wider mb-2">OVERHEARD TRANSMISSION</p>
+              <pre className="font-mono text-[10px] text-white/60 whitespace-pre-wrap leading-relaxed">{banterText}</pre>
+              <p className="font-mono text-[7px] text-white/15 mt-2 text-right">tap to dismiss</p>
+            </div>
+          </motion.div>
         )}
       </AnimatePresence>
 

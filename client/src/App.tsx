@@ -21,6 +21,7 @@ import AppShell from "./components/AppShellImmersive";
 import CommandConsole from "./components/CommandConsole";
 import AchievementToast from "./components/AchievementToast";
 import AchievementUnlockToast from "./components/AchievementUnlockToast";
+import RememberThisToast from "./components/RememberThisToast";
 import TradeNotificationWatcher from "./components/TradeNotificationWatcher";
 import ProtectedRoute from "./components/ProtectedRoute";
 import DiscoveryUnlockOverlay from "./components/DiscoveryUnlockOverlay";
@@ -127,6 +128,8 @@ const SocialPage = lazy(() => import("./pages/SocialPage"));
 const LoreJournalPage = lazy(() => import("./pages/LoreJournalPage"));
 const ArmyManagementPage = lazy(() => import("./pages/ArmyManagementPage"));
 const ShipSchematicMap = lazy(() => import("./components/ShipSchematicMap"));
+const GamemastersArenaPage = lazy(() => import("./game/GamemastersArenaPage"));
+const DegensCasinoPage = lazy(() => import("./game/DegensCasinoPage"));
 
 /* ═══ LOADING FALLBACK ═══ */
 function PageLoader() {
@@ -213,6 +216,8 @@ function Router() {
         <Route path="/chess" component={ChessPage} />
         <Route path="/duelyst-play" component={DuelystClassicPage} />
         <Route path="/spectate" component={SpectatorPage} />
+        <Route path="/gamemasters-arena" component={GamemastersArenaPage} />
+        <Route path="/casino" component={DegensCasinoPage} />
         <Route path="/space-station" component={SpaceStationPage} />
         <Route path="/syndicate-world" component={SyndicateWorldPage} />
         <Route path="/tower-defense" component={TowerDefensePage} />
@@ -281,6 +286,7 @@ function GameGate() {
       <CoNexusMediaPlayer />
       <AchievementToast />
       <AchievementUnlockToast />
+      <RememberThisToast />
       <TradeNotificationWatcher />
       <ElaraDialog elaraTTS={elaraTTS} />
       <CharacterWidget />
