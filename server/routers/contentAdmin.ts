@@ -7,10 +7,8 @@ import { protectedProcedure, router } from "../_core/trpc";
 import { TRPCError } from "@trpc/server";
 import path from "path";
 import fs from "fs";
-import { fileURLToPath } from "url";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const ROOT = process.cwd();
 
 // Admin guard
 const adminProcedure = protectedProcedure.use(({ ctx, next }) => {
@@ -20,7 +18,7 @@ const adminProcedure = protectedProcedure.use(({ ctx, next }) => {
   return next({ ctx });
 });
 
-const DATA_PATH = path.resolve(__dirname, "../../client/src/data/loredex-data.json");
+const DATA_PATH = path.resolve(ROOT, "client/src/data/loredex-data.json");
 
 interface LoredexEntry {
   id: string;

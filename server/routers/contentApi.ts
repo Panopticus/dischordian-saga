@@ -6,10 +6,8 @@ import { publicProcedure, router } from "../_core/trpc";
 import { z } from "zod";
 import fs from "fs";
 import path from "path";
-import { fileURLToPath } from "url";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const ROOT = process.cwd();
 
 // In-memory cache for JSON data
 let loredexCache: any = null;
@@ -18,7 +16,7 @@ let loredexCacheTime = 0;
 let cardsCacheTime = 0;
 const CACHE_TTL = 5 * 60 * 1000; // 5 minutes
 
-const DATA_DIR = path.resolve(__dirname, "../../client/src/data");
+const DATA_DIR = path.resolve(ROOT, "client/src/data");
 
 function getLoredexData() {
   const now = Date.now();
