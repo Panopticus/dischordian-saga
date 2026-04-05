@@ -226,6 +226,10 @@ export interface GameState {
   // Sorting Ceremony (one-time gate)
   sortingComplete: boolean;         // True once player has been sorted into a Guild
   sortedIntoArchon: number | null;  // Archon number of the Guild they were sorted into
+  // Meme Broadcasts / Transmissions
+  transmissionsWatched: string[];           // list of transmissionId strings
+  transmissionsNotified: string[];          // which ones were notified
+  oracleRevealActive: boolean;              // subtle Meme commentary shift
   // Graduate Legion — deployed apprentices
   legionRoster: unknown;            // shape: LegionRoster from graduateLegion.ts
   /** Historical roster of all graduates keyed by id */
@@ -960,6 +964,9 @@ const DEFAULT_GAME_STATE: GameState = {
   purgeRitualsCompleted: [],
   sortingComplete: false,
   sortedIntoArchon: null,
+  transmissionsWatched: [],
+  transmissionsNotified: [],
+  oracleRevealActive: false,
   legionRoster: { assignments: [], unassigned: [], sacrificedHistory: [] },
   legionGraduates: {},
   legionLetters: [],
@@ -1085,6 +1092,8 @@ interface GameContextValue {
   completePurgeRitual: (ritualId: string, reduction: number) => void;
   // Sorting Ceremony
   completeSorting: (archonNumber: number) => void;
+  markTransmissionWatched: (id: string, triggersOracleReveal: boolean) => void;
+  markTransmissionNotified: (id: string) => void;
   // Graduate Legion
   addGraduate: (apprentice: unknown) => void;
   setLegionRoster: (roster: unknown) => void;
@@ -1594,6 +1603,25 @@ export function GameProvider({ children }: { children: ReactNode }) {
       ...prev,
       sortingComplete: true,
       sortedIntoArchon: archonNumber,
+    }));
+  }, []);
+
+  const markTransmissionWatched = useCallback((id: string, triggersOracleReveal: boolean) => {
+    setState(prev => ({
+      ...prev,
+      transmissionsWatched: prev.transmissionsWatched.includes(id)
+        ? prev.transmissionsWatched
+        : [...prev.transmissionsWatched, id],
+      oracleRevealActive: prev.oracleRevealActive || triggersOracleReveal,
+    }));
+  }, []);
+
+  const markTransmissionNotified = useCallback((id: string) => {
+    setState(prev => ({
+      ...prev,
+      transmissionsNotified: prev.transmissionsNotified.includes(id)
+        ? prev.transmissionsNotified
+        : [...prev.transmissionsNotified, id],
     }));
   }, []);
 
@@ -2339,6 +2367,8 @@ export function GameProvider({ children }: { children: ReactNode }) {
       recordDarkAbilityUse,
       completePurgeRitual,
       completeSorting,
+      markTransmissionWatched,
+      markTransmissionNotified,
       addGraduate,
       setLegionRoster,
       addLegionLetter,

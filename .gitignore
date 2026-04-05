@@ -112,3 +112,7 @@ temp/
 # AI agent scratch folders
 .manus/
 .claude/
+
+# Download bundles (build artifacts)
+downloads/*.tar.gz
+downloads/*.zip
