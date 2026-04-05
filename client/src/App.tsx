@@ -38,6 +38,7 @@ import EasterEggs from "./components/EasterEggs";
 import SoundControls from "./components/SoundControls";
 import { useElaraTTS } from "./hooks/useElaraTTS";
 import { useVoidEngine } from "./engine/useVoidEngine";
+import { useArchetypeDetection } from "./hooks/useArchetypeDetection";
 import "./engine/void-materials.css";
 // Side-effect import: ensures the systems integration hub is reachable,
 // making passive-bonus aggregator, NPC relationships, and 10+ narrative
@@ -278,6 +279,8 @@ function GameGate() {
 
   // Activate Void Energy design system — syncs morality/room/NPC to visual materials
   useVoidEngine();
+  // Project Celebration runs in the Matrix of Dreams: auto-detect emerging archetypes
+  useArchetypeDetection();
 
   // Wait for server sync before deciding to show Awakening.
   // This prevents the race condition where localStorage is empty/stale

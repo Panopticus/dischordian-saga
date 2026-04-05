@@ -112,6 +112,13 @@ function VoicesTab({ skills }: { skills: Record<SkillId, number> }) {
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="p-3 space-y-3">
+      {/* Canonical Academy prompt — from CoNexus story */}
+      <div className="px-2 py-1.5 rounded border-l-2 border-amber-500/40 bg-amber-950/10">
+        <p className="font-mono text-[9px] italic text-amber-300/80 leading-relaxed">
+          ✦ {MATRIX_OF_DREAMS_LORE.academyPrompt}
+        </p>
+      </div>
+
       {/* Intro lore */}
       <p className="font-mono text-[9px] italic text-purple-300/70 leading-relaxed px-1">
         {MATRIX_OF_DREAMS_LORE.intro}

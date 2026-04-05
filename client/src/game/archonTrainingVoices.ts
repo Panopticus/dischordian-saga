@@ -176,6 +176,11 @@ export function getSkillForArchon(archonNumber: number): SkillId | null {
 export const MATRIX_OF_DREAMS_LORE = {
   heading: "The Matrix of Dreams",
   subheading: "Mechronis Academy · Project Celebration (substrate enrolment)",
+  /** Canonical Academy prompt — from the CoNexus story "Mechronis Academy" */
+  academyPrompt:
+    "A school for the gifted — where students learn to bend reality itself. But " +
+    "Mechronis Academy holds secrets older than the universe, and the final exam " +
+    "might just end everything.",
   intro:
     "You are a student at a school that does not exist in your waking life. Every Potential " +
     "is a Waking Dreamer — enrolled, without consent, in the same Academy that trained " +
