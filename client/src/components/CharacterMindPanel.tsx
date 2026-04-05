@@ -17,6 +17,7 @@ import { SKILL_VOICES, getActiveVoices, type SkillId } from "@/game/innerVoices"
 import { THOUGHTS, getThoughtBonuses, getInternalizationProgress, type ThoughtState } from "@/game/thoughtCabinet";
 import { ARCHETYPES, getPrimaryArchetype, type ArchetypeState, type ArchetypeId } from "@/game/playerArchetypes";
 import { ARCHON_VOICE_MAPPING, MATRIX_OF_DREAMS_LORE, getDominantGuild } from "@/game/archonTrainingVoices";
+import { getAbilityForArchon } from "@shared/guildSignatureAbilities";
 
 interface Props {
   /** Player skill levels (0-100) */
@@ -129,32 +130,53 @@ function VoicesTab({ skills }: { skills: Record<SkillId, number> }) {
       </p>
 
       {/* Academy Standing — player's dominant Guild ("sorted house") */}
-      {dominantGuild && (
-        <div className="p-2.5 rounded border border-amber-600/30 bg-gradient-to-br from-amber-900/10 via-background/40 to-purple-900/10" data-testid="academy-standing">
-          <div className="flex items-center gap-1.5 mb-1">
-            <span className="font-mono text-[8px] uppercase tracking-[0.25em] text-amber-400/80">
-              ◊ Your Academy Standing ◊
-            </span>
-          </div>
-          <div className="flex items-start gap-2">
-            <div className="flex-1 min-w-0">
-              <h3 className="font-display text-sm font-bold text-foreground">
-                {dominantGuild.guild.name}
-              </h3>
-              <p className="font-mono text-[8px] italic text-amber-300/70">
-                "{dominantGuild.guild.motto}"
-              </p>
-              <p className="font-mono text-[9px] text-muted-foreground/80 mt-1 leading-snug">
-                Mentored by <span className="text-purple-300">{dominantGuild.mentor.archonName}</span> ·
-                Graduates become <span className="text-foreground/80">{dominantGuild.guild.graduatesBecome.toLowerCase()}</span>
-              </p>
-              <p className="font-mono text-[9px] italic text-red-300/60 mt-1 leading-relaxed">
-                ⚠ {dominantGuild.guild.darkTruth}
-              </p>
+      {dominantGuild && (() => {
+        const signatureAbility = getAbilityForArchon(dominantGuild.mentor.archonNumber);
+        const topSkillLevel = skills[dominantGuild.skillId] ?? 0;
+        const unlocked = signatureAbility ? topSkillLevel >= signatureAbility.skillThreshold : false;
+        return (
+          <div className="p-2.5 rounded border border-amber-600/30 bg-gradient-to-br from-amber-900/10 via-background/40 to-purple-900/10" data-testid="academy-standing">
+            <div className="flex items-center gap-1.5 mb-1">
+              <span className="font-mono text-[8px] uppercase tracking-[0.25em] text-amber-400/80">
+                ◊ Your Academy Standing ◊
+              </span>
+            </div>
+            <div className="flex items-start gap-2">
+              <div className="flex-1 min-w-0">
+                <h3 className="font-display text-sm font-bold text-foreground">
+                  {dominantGuild.guild.name}
+                </h3>
+                <p className="font-mono text-[8px] italic text-amber-300/70">
+                  "{dominantGuild.guild.motto}"
+                </p>
+                <p className="font-mono text-[9px] text-muted-foreground/80 mt-1 leading-snug">
+                  Mentored by <span className="text-purple-300">{dominantGuild.mentor.archonName}</span> ·
+                  Graduates become <span className="text-foreground/80">{dominantGuild.guild.graduatesBecome.toLowerCase()}</span>
+                </p>
+                <p className="font-mono text-[9px] italic text-red-300/60 mt-1 leading-relaxed">
+                  ⚠ {dominantGuild.guild.darkTruth}
+                </p>
+                {signatureAbility && (
+                  <div className={`mt-2 pt-2 border-t border-amber-500/20 ${unlocked ? "" : "opacity-50"}`}>
+                    <div className="flex items-center justify-between mb-0.5">
+                      <span className="font-mono text-[8px] uppercase tracking-wider text-amber-400">
+                        ✦ Signature: {signatureAbility.name}
+                      </span>
+                      <span className={`font-mono text-[8px] ${unlocked ? "text-emerald-400" : "text-muted-foreground/50"}`}>
+                        {unlocked ? "UNLOCKED" : `${topSkillLevel}/${signatureAbility.skillThreshold}`}
+                      </span>
+                    </div>
+                    <p className="font-mono text-[9px] italic text-amber-200/70 leading-snug">{signatureAbility.flavor}</p>
+                    <p className="font-mono text-[9px] text-foreground/70 leading-snug mt-0.5">
+                      ▸ {signatureAbility.mechanics}
+                    </p>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
-        </div>
-      )}
+        );
+      })()}
 
       {/* Warning */}
       <div className="p-2 rounded border-l-2 border-red-500/40 bg-red-500/5">
