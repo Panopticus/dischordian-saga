@@ -133,6 +133,11 @@ const DegensCasinoPage = lazy(() => import("./game/DegensCasinoPage"));
 const SignalDecryptionPage = lazy(() => import("./game/SignalDecryptionPage"));
 const StarChartPage = lazy(() => import("./game/StarChartPage"));
 const HackingPuzzlePage = lazy(() => import("./game/HackingPuzzlePage"));
+const SpecimenCollectionPage = lazy(() => import("./game/SpecimenCollectionPage"));
+const BestiaryPage = lazy(() => import("./game/BestiaryPage"));
+const BountyBoardPage = lazy(() => import("./game/BountyBoardPage"));
+const NPCInboxPage = lazy(() => import("./game/NPCInboxPage"));
+const AllianceWarPage = lazy(() => import("./game/AllianceWarPage"));
 
 /* ═══ LOADING FALLBACK ═══ */
 function PageLoader() {
@@ -224,6 +229,11 @@ function Router() {
         <Route path="/signal-decryption" component={SignalDecryptionPage} />
         <Route path="/star-chart" component={StarChartPage} />
         <Route path="/hacking" component={HackingPuzzlePage} />
+        <Route path="/specimens" component={SpecimenCollectionPage} />
+        <Route path="/bestiary" component={BestiaryPage} />
+        <Route path="/bounties" component={BountyBoardPage} />
+        <Route path="/messages" component={NPCInboxPage} />
+        <Route path="/alliance-war" component={AllianceWarPage} />
         <Route path="/space-station" component={SpaceStationPage} />
         <Route path="/syndicate-world" component={SyndicateWorldPage} />
         <Route path="/tower-defense" component={TowerDefensePage} />

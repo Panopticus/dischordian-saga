@@ -81,6 +81,11 @@ export const ROUTE_ROOM_MAP: Record<string, string> = {
   "/signal-decryption": "comms-array",  // Wordle-style in Comms Array
   "/star-chart": "observation-deck",    // Constellation matching
   "/hacking": "engineering",            // Pipe-connect in Engineering
+  "/specimens": "cryo-bay",             // Specimen Collection (from Cryo Bay pods)
+  "/bestiary": "archives",              // Enemy codex in Archives
+  "/bounties": "trade-hub",             // Bounty Board in Trade Hub
+  "/messages": "comms-array",           // NPC Inbox in Comms Array
+  "/alliance-war": "bridge",            // War map on the Bridge
   // Extended routes that were ungated
   "/space-station": "cargo-hold",
   "/syndicate-world": "cargo-hold",
