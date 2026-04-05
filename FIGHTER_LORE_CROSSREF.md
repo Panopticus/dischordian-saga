@@ -1,11 +1,11 @@
 # Fighter Character Lore Cross-Reference
 
-## Image Mismatches (Loredex vs Game)
-4 fighters have different images in the game vs their Loredex entry:
-- The Judge: Game uses old PNG, Loredex has updated SiH webp
-- The Degen: Game uses old PNG, Loredex has updated SiH webp
-- The Advocate: Game uses old PNG, Loredex has updated SiH webp
-- The Resurrectionist: Game uses old PNG, Loredex has updated SiH webp
+## Image Mismatches (Loredex vs Game) — RESOLVED ✓
+All 4 previously-flagged fighters now use Loredex-canonical images:
+- The Judge ✓ (021_the_judge_6d79dfa8.png)
+- The Degen ✓ (026_the_degen_d6b8727a.png)
+- The Advocate ✓ (027_the_advocate_88837de8.png)
+- The Resurrectionist ✓ (028_the_resurrectionist_d523ba62.png)
 
 ## All Fighter Characters with Loredex Data
 | Fighter | ID | Era | Affiliation |
@@ -33,6 +33,6 @@
 | The Eyes | eyes | Insurgency Rising | Insurgency |
 
 ## Action Items
-- Fix 4 image mismatches to use Loredex-canonical images
+- ~~Fix 4 image mismatches to use Loredex-canonical images~~ ✓ RESOLVED
 - Ensure all character colors in CharacterModel3D match their lore descriptions
 - All 21 main fighters have matching Loredex entries with images
