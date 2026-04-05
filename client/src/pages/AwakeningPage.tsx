@@ -10,6 +10,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useLocation } from "wouter";
 import { trpc } from "@/lib/trpc";
 import StarterDeckViewer, { generateStarterDeck } from "@/components/StarterDeckViewer";
+import CompanionSelectionScene from "@/game/CompanionSelectionScene";
 import { toast } from "sonner";
 import HolographicElara from "@/components/HolographicElara";
 import OpeningCinematic from "@/components/OpeningCinematic";
@@ -295,6 +296,7 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
   const { discoverEntry } = useGamification();
   const { initAudio, setRoomAmbience, playSFX, audioReady } = useSound();
   const [, navigate] = useLocation();
+  const [showCompanionSelect, setShowCompanionSelect] = useState(false);
   const [nameInput, setNameInput] = useState("");
   const [screenOpacity, setScreenOpacity] = useState(0);
   const [showFrost, setShowFrost] = useState(true);
@@ -885,17 +887,26 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
             >
               <StarterDeckViewer
                 cards={starterDeck}
-                onClose={() => {
-                  completeAwakening();
-                  discoverEntry("awakening-complete");
-                  navigate("/character-sheet?from=awakening");
-                }}
-                onContinue={() => {
-                  completeAwakening();
-                  discoverEntry("awakening-complete");
-                  navigate("/character-sheet?from=awakening");
-                }}
+                onClose={() => setShowCompanionSelect(true)}
+                onContinue={() => setShowCompanionSelect(true)}
               />
+              {showCompanionSelect && (
+                <CompanionSelectionScene
+                  species={state.characterChoices.species || "neyon"}
+                  onComplete={(companionId) => {
+                    // Save first companion to localStorage
+                    const owned = JSON.parse(localStorage.getItem("owned_specimens") || "[]");
+                    if (!owned.includes(companionId)) {
+                      owned.push(companionId);
+                      localStorage.setItem("owned_specimens", JSON.stringify(owned));
+                      localStorage.setItem("active_specimen", companionId);
+                    }
+                    completeAwakening();
+                    discoverEntry("awakening-complete");
+                    navigate("/character-sheet?from=awakening");
+                  }}
+                />
+              )}
             </motion.div>
           )}
         </AnimatePresence>
