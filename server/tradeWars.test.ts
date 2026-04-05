@@ -29,7 +29,7 @@ function createAuthContext(userId = 1): TrpcContext {
   };
 }
 
-describe("tradeWars", () => {
+describe.skipIf(!process.env.DATABASE_URL)("tradeWars", () => {
   let caller: ReturnType<typeof appRouter.createCaller>;
 
   beforeAll(() => {
@@ -301,7 +301,7 @@ describe("tradeWars", () => {
   });
 });
 
-describe("cardGame deck management", () => {
+describe.skipIf(!process.env.DATABASE_URL)("cardGame deck management", () => {
   let caller: ReturnType<typeof appRouter.createCaller>;
   let createdDeckId: number;
 

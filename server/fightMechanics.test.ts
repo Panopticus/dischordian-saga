@@ -77,7 +77,7 @@ describe("fightLeaderboard.getMatchHistory", () => {
   }, 15000);
 });
 
-describe("FightEngine3D module structure", () => {
+describe.skip("FightEngine3D module structure [DELETED ENGINE]", () => {
   it("should export FightEngine3D class and TouchInput type", async () => {
     const fs = await import("fs");
     const content = fs.readFileSync("client/src/game/FightEngine3D.ts", "utf-8");

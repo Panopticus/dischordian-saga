@@ -44,7 +44,7 @@ describe("Fighting Game SF-Port Enhancements", () => {
       }
     });
 
-    it("should have no duplicate loredexIds (except shadow-tongue which appears in two rosters)", async () => {
+    it("should have no duplicate loredexIds (except entity_7 shared across Prisoner/Shadow Tongue rosters)", async () => {
       const { ALL_FIGHTERS } = await import("../client/src/game/gameData");
       const withLoredexId = ALL_FIGHTERS.filter((f) => f.loredexId);
       const idCounts = new Map<string, number>();
@@ -52,10 +52,10 @@ describe("Fighting Game SF-Port Enhancements", () => {
         const count = idCounts.get(f.loredexId!) || 0;
         idCounts.set(f.loredexId!, count + 1);
       }
-      // Shadow Tongue appears in both starter and demon rosters
+      // entity_7 appears 3x: Prisoner (as Oracle reborn), Shadow Tongue starter, Shadow Tongue demon
       for (const [id, count] of idCounts) {
         if (id === "entity_7") {
-          expect(count).toBe(2); // Shadow Tongue in starter + demon
+          expect(count).toBe(3);
         } else {
           expect(count).toBe(1);
         }
@@ -79,9 +79,9 @@ describe("Fighting Game SF-Port Enhancements", () => {
   });
 
   describe("Fighter roster completeness", () => {
-    it("should have 13 starter fighters", async () => {
+    it("should have 14 starter fighters", async () => {
       const { STARTER_FIGHTERS } = await import("../client/src/game/gameData");
-      expect(STARTER_FIGHTERS.length).toBe(13);
+      expect(STARTER_FIGHTERS.length).toBe(14);
     });
 
     it("should have 19 unlockable fighters", async () => {

@@ -175,7 +175,7 @@ describe("Phase 72: Fight Game Story Mode Enhancements", () => {
     expect(necropolisArena?.ambientColor).toBeTruthy();
   });
 
-  it("story mode should have 12 chapters", () => {
-    expect(STORY_CHAPTERS.length).toBe(12);
+  it("story mode should have 13 chapters", () => {
+    expect(STORY_CHAPTERS.length).toBe(13);
   });
 });

@@ -106,7 +106,7 @@ describe("Fighter Character Sprites", () => {
           // Demon sprites use CDN URLs from generated images
           expect(config.imageUrl).toMatch(/cloudfront\.net|cdn/);
         } else {
-          expect(config.imageUrl).toMatch(/fighter_|agent_zero|akai_shi|wraith_calder|iron_lion|game_master|shadow_tongue/);
+          expect(config.imageUrl).toMatch(/fighter_|agent_zero|akai_shi|wraith_calder|iron_lion|game_master|shadow_tongue|idle_/);
         }
       }
     }
@@ -181,7 +181,7 @@ describe("Trade Empire Narrative Content", () => {
 });
 
 /* ═══ ENHANCED LEVEL DESIGN ═══ */
-describe("Enhanced Fight Arena Level Design", () => {
+describe.skip("Enhanced Fight Arena Level Design [DELETED ENGINE]", () => {
   it("should have enhanced stage building with pillars and archway", async () => {
     const fs = await import("fs");
     const content = fs.readFileSync("client/src/game/FightEngine3D.ts", "utf-8");

@@ -108,14 +108,14 @@ describe("Potentials Leaderboard", () => {
   describe("Frontend page", () => {
     it("should have PotentialsLeaderboardPage component file", () => {
       const exists = fs.existsSync(
-        "/home/ubuntu/loredex-os/client/src/pages/PotentialsLeaderboardPage.tsx"
+        "./client/src/pages/PotentialsLeaderboardPage.tsx"
       );
       expect(exists).toBe(true);
     });
 
     it("should have the leaderboard route in App.tsx", () => {
       const appTsx = fs.readFileSync(
-        "/home/ubuntu/loredex-os/client/src/App.tsx",
+        "./client/src/App.tsx",
         "utf-8"
       );
       expect(appTsx).toContain("/potentials/leaderboard");
@@ -124,7 +124,7 @@ describe("Potentials Leaderboard", () => {
 
     it("should display tier badges and rankings", () => {
       const page = fs.readFileSync(
-        "/home/ubuntu/loredex-os/client/src/pages/PotentialsLeaderboardPage.tsx",
+        "./client/src/pages/PotentialsLeaderboardPage.tsx",
         "utf-8"
       );
       expect(page).toContain("TIER_CONFIG");
@@ -135,7 +135,7 @@ describe("Potentials Leaderboard", () => {
 
     it("should link back to Potentials page", () => {
       const page = fs.readFileSync(
-        "/home/ubuntu/loredex-os/client/src/pages/PotentialsLeaderboardPage.tsx",
+        "./client/src/pages/PotentialsLeaderboardPage.tsx",
         "utf-8"
       );
       expect(page).toContain("/potentials");
@@ -143,7 +143,7 @@ describe("Potentials Leaderboard", () => {
 
     it("should have leaderboard link on PotentialsPage", () => {
       const page = fs.readFileSync(
-        "/home/ubuntu/loredex-os/client/src/pages/PotentialsPage.tsx",
+        "./client/src/pages/PotentialsPage.tsx",
         "utf-8"
       );
       expect(page).toContain("/potentials/leaderboard");
@@ -341,7 +341,7 @@ describe("Trait-Based Fighter Bonuses", () => {
   describe("FightPage integration", () => {
     it("should import calculateTraitBonuses in FightPage", () => {
       const fight = fs.readFileSync(
-        "/home/ubuntu/loredex-os/client/src/pages/FightPage.tsx",
+        "./client/src/pages/FightPage.tsx",
         "utf-8"
       );
       expect(fight).toContain("calculateTraitBonuses");
@@ -350,24 +350,24 @@ describe("Trait-Based Fighter Bonuses", () => {
 
     it("should query getTraitBonuses in FightPage", () => {
       const fight = fs.readFileSync(
-        "/home/ubuntu/loredex-os/client/src/pages/FightPage.tsx",
+        "./client/src/pages/FightPage.tsx",
         "utf-8"
       );
       expect(fight).toContain("trpc.nft.getTraitBonuses");
     });
 
-    it("should display NFT TRAIT BONUSES panel in FighterDetailPanel", () => {
+    it("should display POTENTIAL TRAIT BONUSES panel in FighterDetailPanel", () => {
       const fight = fs.readFileSync(
-        "/home/ubuntu/loredex-os/client/src/pages/FightPage.tsx",
+        "./client/src/pages/FightPage.tsx",
         "utf-8"
       );
-      expect(fight).toContain("NFT TRAIT BONUSES");
+      expect(fight).toContain("POTENTIAL TRAIT BONUSES");
       expect(fight).toContain("traitBonuses");
     });
 
     it("should apply trait bonuses to boosted player in fight", () => {
       const fight = fs.readFileSync(
-        "/home/ubuntu/loredex-os/client/src/pages/FightPage.tsx",
+        "./client/src/pages/FightPage.tsx",
         "utf-8"
       );
       expect(fight).toContain("boostedPlayer");
@@ -378,7 +378,7 @@ describe("Trait-Based Fighter Bonuses", () => {
 
     it("should show bonus indicators on stat bars", () => {
       const fight = fs.readFileSync(
-        "/home/ubuntu/loredex-os/client/src/pages/FightPage.tsx",
+        "./client/src/pages/FightPage.tsx",
         "utf-8"
       );
       // StatBar should accept bonus prop
@@ -466,7 +466,7 @@ describe("Batch Claim All", () => {
   describe("PotentialsPage integration", () => {
     it("should have batchClaimAll mutation in PotentialsPage", () => {
       const page = fs.readFileSync(
-        "/home/ubuntu/loredex-os/client/src/pages/PotentialsPage.tsx",
+        "./client/src/pages/PotentialsPage.tsx",
         "utf-8"
       );
       expect(page).toContain("batchClaimAll");
@@ -475,7 +475,7 @@ describe("Batch Claim All", () => {
 
     it("should have CLAIM ALL button in GallerySection", () => {
       const page = fs.readFileSync(
-        "/home/ubuntu/loredex-os/client/src/pages/PotentialsPage.tsx",
+        "./client/src/pages/PotentialsPage.tsx",
         "utf-8"
       );
       expect(page).toContain("CLAIM ALL");
@@ -486,7 +486,7 @@ describe("Batch Claim All", () => {
 
     it("should filter unclaimed tokens before batch claim", () => {
       const page = fs.readFileSync(
-        "/home/ubuntu/loredex-os/client/src/pages/PotentialsPage.tsx",
+        "./client/src/pages/PotentialsPage.tsx",
         "utf-8"
       );
       expect(page).toContain("ownedTokens.filter");
@@ -495,7 +495,7 @@ describe("Batch Claim All", () => {
 
     it("should show loading state during batch claim", () => {
       const page = fs.readFileSync(
-        "/home/ubuntu/loredex-os/client/src/pages/PotentialsPage.tsx",
+        "./client/src/pages/PotentialsPage.tsx",
         "utf-8"
       );
       expect(page).toContain("CLAIMING ALL...");
@@ -506,7 +506,7 @@ describe("Batch Claim All", () => {
   describe("Backend code quality", () => {
     it("should verify wallet is linked before batch claim", () => {
       const router = fs.readFileSync(
-        "/home/ubuntu/loredex-os/server/routers/nft.ts",
+        "./server/routers/nft.ts",
         "utf-8"
       );
       expect(router).toContain("Wallet not linked to your account");
@@ -514,7 +514,7 @@ describe("Batch Claim All", () => {
 
     it("should check for already-claimed tokens in batch", () => {
       const router = fs.readFileSync(
-        "/home/ubuntu/loredex-os/server/routers/nft.ts",
+        "./server/routers/nft.ts",
         "utf-8"
       );
       expect(router).toContain("alreadyClaimed");
@@ -523,7 +523,7 @@ describe("Batch Claim All", () => {
 
     it("should verify on-chain ownership for batch claims", () => {
       const router = fs.readFileSync(
-        "/home/ubuntu/loredex-os/server/routers/nft.ts",
+        "./server/routers/nft.ts",
         "utf-8"
       );
       expect(router).toContain("ownedAndUnclaimed");
@@ -532,7 +532,7 @@ describe("Batch Claim All", () => {
 
     it("should return claimed count, skipped count, and results", () => {
       const router = fs.readFileSync(
-        "/home/ubuntu/loredex-os/server/routers/nft.ts",
+        "./server/routers/nft.ts",
         "utf-8"
       );
       expect(router).toContain("claimed: results.filter");
@@ -555,13 +555,13 @@ describe("Cross-feature integration", () => {
   });
 
   it("should have shared traitBonuses module", () => {
-    const exists = fs.existsSync("/home/ubuntu/loredex-os/shared/traitBonuses.ts");
+    const exists = fs.existsSync("./shared/traitBonuses.ts");
     expect(exists).toBe(true);
   });
 
   it("should export calculateTraitBonuses from shared module", () => {
     const content = fs.readFileSync(
-      "/home/ubuntu/loredex-os/shared/traitBonuses.ts",
+      "./shared/traitBonuses.ts",
       "utf-8"
     );
     expect(content).toContain("export function calculateTraitBonuses");

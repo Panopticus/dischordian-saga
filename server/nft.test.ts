@@ -193,14 +193,14 @@ describe("NFT Router — The Potentials Integration", () => {
   describe("PotentialsPage", () => {
     it("should have the PotentialsPage component file", () => {
       const exists = fs.existsSync(
-        "/home/ubuntu/loredex-os/client/src/pages/PotentialsPage.tsx"
+        "./client/src/pages/PotentialsPage.tsx"
       );
       expect(exists).toBe(true);
     });
 
     it("should have the potentials route in App.tsx", () => {
       const appTsx = fs.readFileSync(
-        "/home/ubuntu/loredex-os/client/src/App.tsx",
+        "./client/src/App.tsx",
         "utf-8"
       );
       expect(appTsx).toContain("/potentials");
@@ -209,7 +209,7 @@ describe("NFT Router — The Potentials Integration", () => {
 
     it("should reference the correct contract address", () => {
       const page = fs.readFileSync(
-        "/home/ubuntu/loredex-os/client/src/pages/PotentialsPage.tsx",
+        "./client/src/pages/PotentialsPage.tsx",
         "utf-8"
       );
       expect(page).toContain("0xfa511d5c4cce10321e6e86793cc083213c36278e");
@@ -217,7 +217,7 @@ describe("NFT Router — The Potentials Integration", () => {
 
     it("should have wallet connect functionality", () => {
       const page = fs.readFileSync(
-        "/home/ubuntu/loredex-os/client/src/pages/PotentialsPage.tsx",
+        "./client/src/pages/PotentialsPage.tsx",
         "utf-8"
       );
       expect(page).toContain("BrowserProvider");
@@ -227,7 +227,7 @@ describe("NFT Router — The Potentials Integration", () => {
 
     it("should have claim card functionality", () => {
       const page = fs.readFileSync(
-        "/home/ubuntu/loredex-os/client/src/pages/PotentialsPage.tsx",
+        "./client/src/pages/PotentialsPage.tsx",
         "utf-8"
       );
       expect(page).toContain("claimCard");
@@ -236,7 +236,7 @@ describe("NFT Router — The Potentials Integration", () => {
 
     it("should have metadata trait display", () => {
       const page = fs.readFileSync(
-        "/home/ubuntu/loredex-os/client/src/pages/PotentialsPage.tsx",
+        "./client/src/pages/PotentialsPage.tsx",
         "utf-8"
       );
       expect(page).toContain("trait_type");
@@ -248,7 +248,7 @@ describe("NFT Router — The Potentials Integration", () => {
   describe("Database schema", () => {
     it("should have linked_wallets table in schema", () => {
       const schema = fs.readFileSync(
-        "/home/ubuntu/loredex-os/drizzle/schema.ts",
+        "./drizzle/schema.ts",
         "utf-8"
       );
       expect(schema).toContain("linked_wallets");
@@ -258,7 +258,7 @@ describe("NFT Router — The Potentials Integration", () => {
 
     it("should have nft_claims table with one-time claim fields", () => {
       const schema = fs.readFileSync(
-        "/home/ubuntu/loredex-os/drizzle/schema.ts",
+        "./drizzle/schema.ts",
         "utf-8"
       );
       expect(schema).toContain("nft_claims");
@@ -269,7 +269,7 @@ describe("NFT Router — The Potentials Integration", () => {
 
     it("should have nft_metadata_cache table with trait columns", () => {
       const schema = fs.readFileSync(
-        "/home/ubuntu/loredex-os/drizzle/schema.ts",
+        "./drizzle/schema.ts",
         "utf-8"
       );
       expect(schema).toContain("nft_metadata_cache");
@@ -328,7 +328,7 @@ describe("NFT Router — The Potentials Integration", () => {
   describe("Arena perks code quality", () => {
     it("should have Potentials link in sidebar navigation", () => {
       const appShell = fs.readFileSync(
-        "/home/ubuntu/loredex-os/client/src/components/AppShell.tsx",
+        "./client/src/components/AppShell.tsx",
         "utf-8"
       );
       expect(appShell).toContain("/potentials");
@@ -336,7 +336,7 @@ describe("NFT Router — The Potentials Integration", () => {
 
     it("should have Potentials section in StorePage", () => {
       const store = fs.readFileSync(
-        "/home/ubuntu/loredex-os/client/src/pages/StorePage.tsx",
+        "./client/src/pages/StorePage.tsx",
         "utf-8"
       );
       expect(store).toContain("THE POTENTIALS");
@@ -345,17 +345,17 @@ describe("NFT Router — The Potentials Integration", () => {
 
     it("should have arena perks display in FightPage", () => {
       const fight = fs.readFileSync(
-        "/home/ubuntu/loredex-os/client/src/pages/FightPage.tsx",
+        "./client/src/pages/FightPage.tsx",
         "utf-8"
       );
       expect(fight).toContain("getArenaPerks");
-      expect(fight).toContain("NFT BONUS");
+      expect(fight).toContain("POTENTIAL BONUS");
       expect(fight).toContain("holderPerks");
     });
 
     it("should have arena perks info on PotentialsPage overview", () => {
       const page = fs.readFileSync(
-        "/home/ubuntu/loredex-os/client/src/pages/PotentialsPage.tsx",
+        "./client/src/pages/PotentialsPage.tsx",
         "utf-8"
       );
       expect(page).toContain("ARENA PERKS");
@@ -368,7 +368,7 @@ describe("NFT Router — The Potentials Integration", () => {
   describe("NFT router code quality", () => {
     it("should use ethers.verifyMessage for signature verification", () => {
       const router = fs.readFileSync(
-        "/home/ubuntu/loredex-os/server/routers/nft.ts",
+        "./server/routers/nft.ts",
         "utf-8"
       );
       expect(router).toContain("ethers.verifyMessage");
@@ -376,7 +376,7 @@ describe("NFT Router — The Potentials Integration", () => {
 
     it("should have IPFS resolution support", () => {
       const router = fs.readFileSync(
-        "/home/ubuntu/loredex-os/server/routers/nft.ts",
+        "./server/routers/nft.ts",
         "utf-8"
       );
       expect(router).toContain("ipfs://");
@@ -385,7 +385,7 @@ describe("NFT Router — The Potentials Integration", () => {
 
     it("should enforce one-time claim per token", () => {
       const router = fs.readFileSync(
-        "/home/ubuntu/loredex-os/server/routers/nft.ts",
+        "./server/routers/nft.ts",
         "utf-8"
       );
       // Check for the claim-once guard
@@ -395,7 +395,7 @@ describe("NFT Router — The Potentials Integration", () => {
 
     it("should verify on-chain ownership before claiming", () => {
       const router = fs.readFileSync(
-        "/home/ubuntu/loredex-os/server/routers/nft.ts",
+        "./server/routers/nft.ts",
         "utf-8"
       );
       expect(router).toContain("contract.ownerOf");
@@ -404,7 +404,7 @@ describe("NFT Router — The Potentials Integration", () => {
 
     it("should upload card image to S3", () => {
       const router = fs.readFileSync(
-        "/home/ubuntu/loredex-os/server/routers/nft.ts",
+        "./server/routers/nft.ts",
         "utf-8"
       );
       expect(router).toContain("storagePut");

@@ -76,7 +76,7 @@ describe("Arena Background Images", () => {
 });
 
 // ─── Training Mode ───
-describe("Training Mode", () => {
+describe.skip("Training Mode [DELETED ENGINE]", () => {
   it("FightEngine3D should accept trainingMode parameter", async () => {
     const mod = await import("../client/src/game/FightEngine3D");
     expect(mod.FightEngine3D).toBeDefined();

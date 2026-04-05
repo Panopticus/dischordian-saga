@@ -175,7 +175,7 @@ describe("store", () => {
   });
 });
 
-describe("tradeWars - leaderboard", () => {
+describe.skipIf(!process.env.DATABASE_URL)("tradeWars - leaderboard", () => {
   let caller: ReturnType<typeof appRouter.createCaller>;
 
   beforeAll(() => {
@@ -192,7 +192,7 @@ describe("tradeWars - leaderboard", () => {
   });
 });
 
-describe("tradeWars - colonies", () => {
+describe.skipIf(!process.env.DATABASE_URL)("tradeWars - colonies", () => {
   let caller: ReturnType<typeof appRouter.createCaller>;
 
   beforeAll(() => {
@@ -210,7 +210,7 @@ describe("tradeWars - colonies", () => {
   });
 });
 
-describe("tradeWars - ship upgrades", () => {
+describe.skipIf(!process.env.DATABASE_URL)("tradeWars - ship upgrades", () => {
   let caller: ReturnType<typeof appRouter.createCaller>;
 
   beforeAll(() => {

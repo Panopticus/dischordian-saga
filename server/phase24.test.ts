@@ -213,7 +213,7 @@ describe("Game Preview Tooltip Data", () => {
 describe("Routes and Navigation", () => {
   it("achievements route should be wired in App.tsx", async () => {
     const fs = await import("fs");
-    const appContent = fs.readFileSync("/home/ubuntu/loredex-os/client/src/App.tsx", "utf-8");
+    const appContent = fs.readFileSync("./client/src/App.tsx", "utf-8");
     expect(appContent).toContain('/achievements');
     expect(appContent).toContain('AchievementsGalleryPage');
   });
@@ -230,14 +230,14 @@ describe("Routes and Navigation", () => {
 
   it("GamesPage should include achievements link", async () => {
     const fs = await import("fs");
-    const content = fs.readFileSync("/home/ubuntu/loredex-os/client/src/pages/GamesPage.tsx", "utf-8");
+    const content = fs.readFileSync("./client/src/pages/GamesPage.tsx", "utf-8");
     expect(content).toContain('/achievements');
     expect(content).toContain('LORE ACHIEVEMENTS');
   });
 
   it("ConexusPortalPage should import GamePreviewTooltip", async () => {
     const fs = await import("fs");
-    const content = fs.readFileSync("/home/ubuntu/loredex-os/client/src/pages/ConexusPortalPage.tsx", "utf-8");
+    const content = fs.readFileSync("./client/src/pages/ConexusPortalPage.tsx", "utf-8");
     expect(content).toContain('GamePreviewTooltip');
   });
 });
@@ -268,14 +268,14 @@ describe("Age Categories Cover Art", () => {
 describe("GameContext Card Collection", () => {
   it("GameState should include collectedCards and activeDeck fields", async () => {
     const fs = await import("fs");
-    const content = fs.readFileSync("/home/ubuntu/loredex-os/client/src/contexts/GameContext.tsx", "utf-8");
+    const content = fs.readFileSync("./client/src/contexts/GameContext.tsx", "utf-8");
     expect(content).toContain("collectedCards: string[]");
     expect(content).toContain("activeDeck: string[]");
   });
 
   it("GameContextValue should include collectCard and setActiveDeck", async () => {
     const fs = await import("fs");
-    const content = fs.readFileSync("/home/ubuntu/loredex-os/client/src/contexts/GameContext.tsx", "utf-8");
+    const content = fs.readFileSync("./client/src/contexts/GameContext.tsx", "utf-8");
     expect(content).toContain("collectCard");
     expect(content).toContain("setActiveDeck");
   });
