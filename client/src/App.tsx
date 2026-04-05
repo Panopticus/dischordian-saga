@@ -22,6 +22,7 @@ import CommandConsole from "./components/CommandConsole";
 import AchievementToast from "./components/AchievementToast";
 import AchievementUnlockToast from "./components/AchievementUnlockToast";
 import RememberThisToast from "./components/RememberThisToast";
+import FeatureUnlockToast from "./components/FeatureUnlockToast";
 import TradeNotificationWatcher from "./components/TradeNotificationWatcher";
 import ProtectedRoute from "./components/ProtectedRoute";
 import DiscoveryUnlockOverlay from "./components/DiscoveryUnlockOverlay";
@@ -303,6 +304,7 @@ function GameGate() {
       <AchievementToast />
       <AchievementUnlockToast />
       <RememberThisToast />
+      <FeatureUnlockToast />
       <TradeNotificationWatcher />
       <ElaraDialog elaraTTS={elaraTTS} />
       <CharacterWidget />
