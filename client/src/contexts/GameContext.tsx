@@ -215,6 +215,10 @@ export interface GameState {
     evolutionStage: 1 | 2 | 3;
     deathCount: number;
   }>;
+  // Apprentice system (Sith/Jedi-style custom companion)
+  apprentice: unknown | null;       // Current Apprentice (shape: shared/apprentices.ts Apprentice)
+  apprenticeFallen: unknown[];      // History of fallen Apprentices
+  apprenticeRecruitCooldownUntil: number; // Timestamp when player can recruit again
 }
 
 /* ─── ROOM DEFINITIONS ─── */
@@ -935,6 +939,9 @@ const DEFAULT_GAME_STATE: GameState = {
     empathy: 50, paranoia: 50, intuition: 50, authority: 50,
   },
   petBonds: {},
+  apprentice: null,
+  apprenticeFallen: [],
+  apprenticeRecruitCooldownUntil: 0,
 };
 
 const GAME_STORAGE_KEY = "loredex_game_state";
@@ -1047,6 +1054,10 @@ interface GameContextValue {
   setIdeologyFlag: (flag: string, value?: boolean) => void;
   setInnerVoiceSkill: (skill: string, level: number) => void;
   updatePetBond: (petId: string, partial: Partial<GameState["petBonds"][string]>) => void;
+  // Apprentice setters
+  setApprentice: (apprentice: unknown | null) => void;
+  recordFallenApprentice: (apprentice: unknown) => void;
+  setApprenticeRecruitCooldown: (untilTs: number) => void;
 }
 
 const GameContext = createContext<GameContextValue | null>(null);
@@ -1504,6 +1515,22 @@ export function GameProvider({ children }: { children: ReactNode }) {
       ...prev,
       innerVoiceSkills: { ...prev.innerVoiceSkills, [skill]: Math.max(0, Math.min(100, level)) },
     }));
+  }, []);
+
+  const setApprentice = useCallback((apprentice: unknown | null) => {
+    setState(prev => ({ ...prev, apprentice }));
+  }, []);
+
+  const recordFallenApprentice = useCallback((apprentice: unknown) => {
+    setState(prev => ({
+      ...prev,
+      apprenticeFallen: [...prev.apprenticeFallen, apprentice],
+      apprentice: null,
+    }));
+  }, []);
+
+  const setApprenticeRecruitCooldown = useCallback((untilTs: number) => {
+    setState(prev => ({ ...prev, apprenticeRecruitCooldownUntil: untilTs }));
   }, []);
 
   const updatePetBond = useCallback((petId: string, partial: Partial<GameState["petBonds"][string]>) => {
@@ -2210,6 +2237,9 @@ export function GameProvider({ children }: { children: ReactNode }) {
       setIdeologyFlag,
       setInnerVoiceSkill,
       updatePetBond,
+      setApprentice,
+      recordFallenApprentice,
+      setApprenticeRecruitCooldown,
     }}>
       {children}
     </GameContext.Provider>
