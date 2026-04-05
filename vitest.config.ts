@@ -15,6 +15,13 @@ export default defineConfig({
   test: {
     environment: "node",
     globals: true,
-    include: ["server/**/*.test.ts", "server/**/*.spec.ts"],
+    include: [
+      "server/**/*.test.ts",
+      "server/**/*.spec.ts",
+      "shared/**/*.test.ts",
+      "shared/**/*.spec.ts",
+      "client/src/**/*.test.ts",
+      "client/src/**/*.test.tsx",
+    ],
   },
 });
