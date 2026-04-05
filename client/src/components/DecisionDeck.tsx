@@ -16,7 +16,7 @@
 import { useMemo } from "react";
 import { Link } from "wouter";
 import { motion } from "framer-motion";
-import { Sparkles, Brain, Clock, Flag, Users, Swords, Home, Skull, Mail } from "lucide-react";
+import { Sparkles, Brain, Clock, Flag, Users, Swords, Home, Skull, Mail, Radio } from "lucide-react";
 import { useGame } from "@/contexts/GameContext";
 import type { Apprentice } from "@shared/apprentices";
 import { TRIAL_LENGTH_DAYS } from "@shared/celebrationTrial";
@@ -24,6 +24,7 @@ import { THOUGHTS } from "@/game/thoughtCabinet";
 import { getDarkTier } from "@shared/darkArts";
 import { getDominantGuild } from "@/game/archonTrainingVoices";
 import type { SkillId } from "@/game/innerVoices";
+import { ALL_TRANSMISSIONS, isUnlocked, transmissionId, type PlayerContext as TxCtx } from "@shared/transmissions";
 
 export default function DecisionDeck() {
   const { state } = useGame();
@@ -213,6 +214,38 @@ export default function DecisionDeck() {
           title={`⚠ ${darkTier.name} — ${state.corruptionLevel} corruption`}
           subtitle={`${darkTier.description} Purge rituals available.`}
           cta="Enact purge"
+        />
+      ),
+    });
+  }
+
+  // Card: New Transmissions (if unwatched ones exist)
+  const txCtx: TxCtx = {
+    level: 1,
+    awakeningStep: state.awakeningStep,
+    completedChapters: [],
+    elaraTrust: state.elaraTrust ?? 0,
+    humanTrust: state.humanTrust ?? 0,
+    npcTrust: state.npcTrust ?? {},
+    moralityScore: state.moralityScore ?? 0,
+    narrativeFlags: state.narrativeFlags ?? {},
+    roomsVisited: [],
+    hasApprenticeGraduate: Object.keys(state.legionGraduates ?? {}).length > 0,
+  };
+  const watchedSet = new Set(state.transmissionsWatched ?? []);
+  const unwatchedUnlocked = ALL_TRANSMISSIONS.filter(t => isUnlocked(t, txCtx) && !watchedSet.has(transmissionId(t)));
+  if (unwatchedUnlocked.length > 0) {
+    const next = unwatchedUnlocked[0];
+    cards.push({
+      key: "transmission",
+      element: (
+        <DeckCard
+          href="/transmissions"
+          icon={Radio}
+          color="text-red-400"
+          title={`▸ Incoming Transmission (${unwatchedUnlocked.length})`}
+          subtitle={`Late Night with the Meme: "${next.title}"`}
+          cta="Watch broadcast"
         />
       ),
     });

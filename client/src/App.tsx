@@ -81,6 +81,8 @@ const CohortPage = lazy(() => import("./pages/CohortPage"));
 const SystemsLibraryPage = lazy(() => import("./pages/SystemsLibraryPage"));
 const LegionMapPage = lazy(() => import("./pages/LegionMapPage"));
 const GraduateLegionPage = lazy(() => import("./pages/GraduateLegionPage"));
+const TransmissionInboxPage = lazy(() => import("./pages/TransmissionInboxPage"));
+const AntiquariansJournalPage = lazy(() => import("./pages/AntiquariansJournalPage"));
 const ResearchLabPage = lazy(() => import("./pages/ResearchLabPage"));
 const StorePage = lazy(() => import("./pages/StorePage"));
 const GamesPage = lazy(() => import("./pages/GamesPage"));
@@ -208,6 +210,8 @@ function Router() {
         <Route path="/cohort" component={CohortPage} />
         <Route path="/systems-library" component={SystemsLibraryPage} />
         <Route path="/legion-map" component={LegionMapPage} />
+        <Route path="/transmissions" component={TransmissionInboxPage} />
+        <Route path="/antiquarian-journal" component={AntiquariansJournalPage} />
         <Route path="/legion" component={GraduateLegionPage} />
         <Route path="/research-lab" component={ResearchLabPage} />
         {/* /games removed — all games accessed through Ark rooms */}
