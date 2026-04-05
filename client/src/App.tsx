@@ -39,6 +39,10 @@ import SoundControls from "./components/SoundControls";
 import { useElaraTTS } from "./hooks/useElaraTTS";
 import { useVoidEngine } from "./engine/useVoidEngine";
 import "./engine/void-materials.css";
+// Side-effect import: ensures the systems integration hub is reachable,
+// making passive-bonus aggregator, NPC relationships, and 10+ narrative
+// systems available to any component that needs them.
+import "./game/systemsIntegration";
 
 /* ═══ LAZY PAGE IMPORTS — Code splitting for all 50+ pages ═══ */
 const Home = lazy(() => import("./pages/BridgeConsole"));

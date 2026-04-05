@@ -20,6 +20,8 @@ import { PET_EVOLUTIONS, getEvolutionStage, calculateMoralityDissonance, DEFAULT
 import { ARENA_STORY_MODES, getNextStory, getAvailableFighters, COLLECTORS_ARENA_LORE } from "./arenaWorldLore";
 import { processDeath, getSoulStatus, DEFAULT_SOUL_STATE, RESURRECTION_UNLOCKS } from "./deathAndResurrection";
 import { calculatePullRarity, PITY_CONFIG, CARD_VARIANTS } from "./cardGameDepth";
+import { getPassiveBonuses, getBonusesForSystem, getPlayerEndingBias, getPlayerElementAdvantages } from "./passiveBonusAggregator";
+import { getRelationshipState, hasRelationship } from "./npcRelationships";
 
 /* ─── EXPORTS: Single-point access for all connected systems ─── */
 
@@ -130,6 +132,20 @@ export const ConnectedSystems = {
     calculatePullRarity,
     pityConfig: PITY_CONFIG,
     variants: CARD_VARIANTS,
+  },
+
+  // Passive bonus aggregator — resolves all character-creation/talent/mastery/etc bonuses
+  passiveBonuses: {
+    getAll: getPassiveBonuses,
+    getForSystem: getBonusesForSystem,
+    getEndingBias: getPlayerEndingBias,
+    getElementAdvantages: getPlayerElementAdvantages,
+  },
+
+  // NPC relationships — trust tier + personality for all NPCs
+  relationships: {
+    getState: getRelationshipState,
+    has: hasRelationship,
   },
 };
 

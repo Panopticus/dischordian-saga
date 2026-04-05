@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 import { FACTION_LORE } from "@/game/CardGameLore";
 import { ALL_FACTION_ABILITIES } from "@/game/FactionAbilities";
+import { CODEX_LORE_EXTENSIONS } from "@/game/codexLoreExtensions";
 
 // ── Codex Entry Types ──
 
@@ -402,6 +403,17 @@ The struggle is eternal. But it is not a curse. It is the engine of existence. W
     icon: <Lock size={16} />,
     rarity: "classified",
   },
+  // ═══ EXTENSION ENTRIES — sourced from game modules ═══
+  ...CODEX_LORE_EXTENSIONS.map((ext): CodexEntry => ({
+    id: ext.id,
+    title: ext.title,
+    category: ext.category,
+    content: ext.content,
+    unlockCondition: ext.unlockCondition,
+    unlockRequirement: ext.unlockRequirement,
+    icon: <ScrollText size={16} />,
+    rarity: ext.rarity,
+  })),
 ];
 
 // ── Codex Page Component ──

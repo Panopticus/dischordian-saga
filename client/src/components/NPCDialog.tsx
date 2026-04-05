@@ -17,6 +17,7 @@ import { FACTION_NPCS, type FactionNPCId, type FactionNPC } from "@/game/faction
 import { useGame } from "@/contexts/GameContext";
 import { GIFT_ITEMS, calculateGiftResult, type GiftItem, type NpcId, type GiftItemId } from "@/game/npcGifts";
 import { useNPCPhysics } from "@/engine/useVoidEngine";
+import { getRelationshipState } from "@/game/npcRelationships";
 
 /* ─── MANIFESTATION STYLES ─── */
 
@@ -121,6 +122,12 @@ export default function NPCDialog({ npcId, scene, onClose, onChoice }: NPCDialog
   const manifest = MANIFESTATION_CONFIG[npc.manifestation] || MANIFESTATION_CONFIG.comms_signal;
   const { state } = useGame();
   const trust = npcId === "elara" ? state.elaraTrust : npcId === "the_human" ? state.humanTrust : (state.npcTrust[npcId] || 0);
+
+  // NPC relationship state (tier + personality based on player archetype)
+  const relationship = useMemo(
+    () => getRelationshipState(npcId, trust, "unknown"),
+    [npcId, trust],
+  );
 
   // Void Energy: shift document physics to match this NPC's manifestation while dialog is open
   useNPCPhysics(npc.manifestation, true);
@@ -236,6 +243,16 @@ export default function NPCDialog({ npcId, scene, onClose, onChoice }: NPCDialog
                     </div>
                     <span className="font-mono text-[7px]" style={{ color: `${npc.color}60` }}>{trust}</span>
                   </div>
+                  {relationship && (
+                    <span
+                      className="font-mono text-[7px] uppercase tracking-[0.2em] px-1.5 py-0.5 rounded border"
+                      style={{ color: npc.color, borderColor: `${npc.color}40`, backgroundColor: `${npc.color}0c` }}
+                      title={relationship.tierLabel}
+                      data-testid={`relationship-tier-${npcId}`}
+                    >
+                      {relationship.tier} · {relationship.personality}
+                    </span>
+                  )}
                 </div>
               </div>
             </div>

@@ -28,7 +28,6 @@ import {
   ARENAS, DIFFICULTIES,
   type FighterData, type ArenaData, type DifficultyLevel,
 } from "@/game/gameData";
-import FightArena3D from "@/game/FightArena3D";
 import FightArena2D from "@/game/FightArena2D";
 import LandscapeEnforcer from "@/components/LandscapeEnforcer";
 import TutorialTrigger from "@/components/TutorialTrigger";

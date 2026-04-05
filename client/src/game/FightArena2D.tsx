@@ -10,6 +10,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ArrowLeft, Swords, Shield, Zap, ChevronUp, Hand, Timer } from "lucide-react";
 import type { FighterData, ArenaData, DifficultyLevel } from "./gameData";
 import { FightEngine2D, type FightCallbacks2D, type FightPhase2D, type TouchInput2D, type Difficulty2D, type TrainingData, type MoveListEntry } from "./FightEngine2D";
+import { hapticMediumHit, hapticHeavyHit, hapticBlock, hapticSP1, hapticSP2, hapticSP3 } from "./haptics";
 import TrainingModeOverlay from "./TrainingModeOverlay";
 import FighterIntroOverlay from "./FighterIntroOverlay";
 import { useSagaThemeBGM } from "@/contexts/SagaThemeBGMContext";
@@ -178,6 +179,19 @@ export default function FightArena2D({
     },
     onHealthChange: (p1Hp, p1Max, _p2Hp, _p2Max) => {
       if (p1Hp < p1Max) setP1Perfect(false);
+    },
+    onHit: (attacker, type) => {
+      // Haptic feedback on player 1 hits (mobile)
+      if (attacker !== 1) return;
+      if (type === "blocked" || type === "parried") hapticBlock();
+      else if (type === "heavy" || type === "launcher") hapticHeavyHit();
+      else hapticMediumHit();
+    },
+    onSpecialActivate: (player, level) => {
+      if (player !== 1) return;
+      if (level === 3) hapticSP3();
+      else if (level === 2) hapticSP2();
+      else hapticSP1();
     },
     onMatchEnd: (winner) => {
       const w = winner === 1 ? "p1" : "p2";

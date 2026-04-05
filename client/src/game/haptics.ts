@@ -172,7 +172,7 @@ export function isHapticEnabled(): boolean {
 
 /**
  * Convenience: fire haptic by event name.
- * Used by FightArena3D callbacks to dispatch haptics.
+ * Used by FightArena2D callbacks to dispatch haptics.
  */
 export function hapticForEvent(event: string, data?: { combo?: number; damagePercent?: number }) {
   if (!hapticEnabled) return;
