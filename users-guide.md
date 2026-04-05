@@ -42,7 +42,7 @@ When you first open Loredex OS, you will see a terminal-style boot sequence that
 
 ### 2.2 Creating an Account
 
-Loredex OS uses **Manus OAuth** for authentication. Click the login button to create an account or sign in. Your progress, discoveries, and game state are saved to your account.
+Loredex OS uses **OAuth** for authentication. Click the login button to create an account or sign in. Your progress, discoveries, and game state are saved to your account.
 
 ### 2.3 The Awakening
 

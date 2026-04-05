@@ -6,7 +6,7 @@
 **Date**: April 1, 2026  
 **Project**: loredex-os  
 **Stack**: React 19 + Tailwind CSS 4 + Express 4 + tRPC 11 + Drizzle ORM + MySQL/TiDB  
-**Authentication**: Manus OAuth  
+**Authentication**: OAuth  
 **Payments**: Stripe  
 
 ---
@@ -78,7 +78,7 @@ The application is designed as a **mobile-first PWA** (Progressive Web App) with
 | API Layer | tRPC | 11.6.0 |
 | ORM | Drizzle ORM | 0.44.5 |
 | Database | MySQL / TiDB | - |
-| Auth | Manus OAuth (JWT sessions) | - |
+| Auth | OAuth (JWT sessions) | - |
 | Payments | Stripe | 20.4.1 |
 | Blockchain | Ethers.js | 6.x |
 | Image Processing | Sharp | 0.34.5 |
@@ -117,7 +117,7 @@ loredex-os/
 │   │   ├── llm.ts                   # LLM integration
 │   │   ├── notification.ts          # Owner notifications
 │   │   ├── oauth.ts                 # OAuth handler
-│   │   ├── sdk.ts                   # Manus SDK
+│   │   ├── sdk.ts                   # Auth SDK
 │   │   ├── trpc.ts                  # tRPC base procedures
 │   │   └── voiceTranscription.ts    # Whisper integration
 │   ├── routers/                     # 50 tRPC routers
@@ -164,7 +164,7 @@ loredex-os/
 
 ### 2.4 Authentication Flow
 
-1. User clicks login, redirected to Manus OAuth portal
+1. User clicks login, redirected to OAuth portal
 2. OAuth callback at `/api/oauth/callback` drops a session cookie (JWT)
 3. Every `/api/trpc` request builds context via `server/_core/context.ts`
 4. `protectedProcedure` injects `ctx.user` with user data
@@ -765,7 +765,7 @@ The database contains **100 tables** across 2,405 lines of schema definitions. K
 
 | Table | Purpose |
 |-------|---------|
-| `users` | User accounts (Manus OAuth) with role (admin/user) |
+| `users` | User accounts (OAuth) with role (admin/user) |
 | `user_achievements` | Achievement tracking per user |
 | `feature_unlocks` | Feature unlock state per user |
 | `notifications` | In-app notification system |
@@ -1329,13 +1329,13 @@ Boss encounter battle logic.
 | `server/_core/index.ts` | - | Server entry point |
 | `server/_core/context.ts` | - | tRPC context builder (auth, user injection) |
 | `server/_core/trpc.ts` | - | tRPC base procedures (public, protected, admin) |
-| `server/_core/oauth.ts` | - | Manus OAuth handler |
+| `server/_core/oauth.ts` | - | OAuth handler |
 | `server/_core/env.ts` | - | Environment variable access |
 | `server/_core/llm.ts` | - | LLM integration (invokeLLM) |
 | `server/_core/imageGeneration.ts` | - | AI image generation |
 | `server/_core/voiceTranscription.ts` | 284 | Whisper audio transcription |
 | `server/_core/notification.ts` | - | Owner notification system |
-| `server/_core/sdk.ts` | - | Manus SDK |
+| `server/_core/sdk.ts` | - | Auth SDK |
 | `server/_core/vite.ts` | - | Vite dev server integration |
 | `server/_core/cookies.ts` | - | Cookie management |
 
@@ -1369,15 +1369,15 @@ Real-time PvP multiplayer via WebSocket:
 |----------|---------|
 | `DATABASE_URL` | MySQL/TiDB connection string |
 | `JWT_SECRET` | Session cookie signing |
-| `VITE_APP_ID` | Manus OAuth app ID |
-| `OAUTH_SERVER_URL` | Manus OAuth backend URL |
-| `VITE_OAUTH_PORTAL_URL` | Manus login portal URL |
-| `OWNER_OPEN_ID` | Owner's Manus ID |
+| `VITE_APP_ID` | OAuth app ID |
+| `OAUTH_SERVER_URL` | OAuth backend URL |
+| `VITE_OAUTH_PORTAL_URL` | OAuth login portal URL |
+| `OWNER_OPEN_ID` | Owner's OAuth ID |
 | `OWNER_NAME` | Owner's name |
-| `BUILT_IN_FORGE_API_URL` | Manus API URL (LLM, storage, etc.) |
-| `BUILT_IN_FORGE_API_KEY` | Manus API key (server-side) |
-| `VITE_FRONTEND_FORGE_API_KEY` | Manus API key (frontend) |
-| `VITE_FRONTEND_FORGE_API_URL` | Manus API URL (frontend) |
+| `BUILT_IN_FORGE_API_URL` | Backend API URL (LLM, storage, etc.) |
+| `BUILT_IN_FORGE_API_KEY` | Backend API key (server-side) |
+| `VITE_FRONTEND_FORGE_API_KEY` | Backend API key (frontend) |
+| `VITE_FRONTEND_FORGE_API_URL` | Backend API URL (frontend) |
 | `STRIPE_SECRET_KEY` | Stripe secret key |
 | `VITE_STRIPE_PUBLISHABLE_KEY` | Stripe publishable key |
 | `STRIPE_WEBHOOK_SECRET` | Stripe webhook secret |

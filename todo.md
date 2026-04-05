@@ -61,7 +61,7 @@
 - [x] Scrape Degenerous DAO wiki for all lore, NFT data, and character info
 - [x] Scrape NFT metadata for potentials, levels, perks, power levels
 - [x] Design database schema for cards, users, decks, game state, Inception Ark, Trade Wars
-- [x] Build user authentication system (Manus OAuth + wallet connect in Phase 30+)
+- [x] Build user authentication system (OAuth + wallet connect in Phase 30+)
 - [x] Build admin panel for content management (AdminPage with user management, analytics, batch operations)
 - [x] Build user character sheets with stats, inventory, and progression (Panopticon Dossier in Phase 34b)
 - [x] Create 1000+ card database (characters, events, items, locations) — 3000 cards seeded
@@ -709,7 +709,7 @@
 - [x] Display cover art on game cards in ConexusPortalPage and game detail modal
 
 ### User Authentication System
-- [x] Integrate Manus OAuth for user login/signup (already wired via template upgrade)
+- [x] Integrate OAuth for user login/signup (already wired via template upgrade)
 - [x] Persist user sessions with auth cookies (handled by server/_core/oauth.ts)
 - [x] Gate protected features behind authentication (protectedProcedure for deck, profile, admin)
 - [x] Show login/logout in navigation UI (useAuth hook integrated across pages)

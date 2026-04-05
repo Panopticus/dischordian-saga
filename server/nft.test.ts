@@ -12,7 +12,7 @@ function createAuthContext() {
     openId: "nft-test-user",
     email: "nft-tester@example.com",
     name: "NFT Tester",
-    loginMethod: "manus",
+    loginMethod: "oauth",
     role: "user",
     createdAt: new Date(),
     updatedAt: new Date(),

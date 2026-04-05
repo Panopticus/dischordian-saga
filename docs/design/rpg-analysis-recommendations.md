@@ -1,6 +1,6 @@
 # RPG Character Progression Analysis & Recommendations for Loredex OS
 
-**Author:** Manus AI  
+**Author:** Dischordian Saga Team  
 **Date:** March 22, 2026  
 **Purpose:** Comparative analysis of character progression systems across landmark RPGs, identifying gaps in the current Loredex OS implementation and recommending additional skills, traits, and systems to deepen player engagement.
 

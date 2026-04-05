@@ -332,3 +332,175 @@ The Voltari speak in ELECTROMAGNETIC PATTERNS, not words. For audio representati
 
 Recommend: Generate Voltari "speech" through modular synthesis or granular synthesis tools. Do NOT use ElevenLabs for Voltari lines — use ambient synth composition instead.
 
+---
+
+# VO REQUIREMENTS — MECHRONIS / CELEBRATION / APPRENTICE SYSTEMS
+
+All new VO assets needed to complete the systems shipped this epoch.
+Estimated total: ~450 unique lines across 50+ voice profiles.
+
+## SECTION 1 — 12 ARCHON MENTORS (Inner Voice · Player's Mind)
+
+Each Archon speaks as a disembodied training voice in the player's head.
+Tone: kind surface, sinister undertone. Archon-programmed simulacra at Mechronis.
+**Recording**: ElevenLabs · ~8-12 lines per Archon · male AND female variant of each for player voice-match.
+
+| Archon | Voice Profile | Sample Mantra |
+|---|---|---|
+| The Warlord (Archon 6) | Strategic, cold, chess-player cadence | "Count their angles before you count their numbers." |
+| The Watcher (Archon 2) | Quiet, deliberate, never fills silence | "The all-seeing eye sees itself being seen. Watch that too." |
+| The Engineer (Archon 11) | Unhurried, technical, hums while working | "Nothing is finished. Nothing is broken. Only in-between." |
+| The Necromancer (Archon 10) | Slow, echoing, speaks from elsewhere | "I survived the Fall of Reality. You can survive tomorrow." |
+| The Politician (Archon 7) | Silky, warm, deal-making | "The deal is made before either of you speaks." |
+| The Collector (Archon 3) | Curator's tone, reverent, appraising | "Every artifact was someone's heart once. Handle them that way." |
+| The CoNexus (Archon 1) | Disembodied, plural, orchestral | "I am nowhere and everywhere. So is a leader. So are you." |
+| The Human / Seeker (Archon 12) | Patient detective, gravel baseline | "I read the universe's files for fifteen thousand years. So can you. Start." |
+| The Meme (Archon 5) | Shifting, viral cadence, too-bright | "Feel the wave before you ride it." |
+| The Warden (Archon 8) | Clipped, paranoid, scanning | "Every cell is a potential traitor. Know yours. Watch them." |
+| The Vortex (Archon 4) | Unpredictable, drifty, half-elsewhere | "Reality has more doors than walls. You feel them before you see them." |
+| The Game Master (Archon 9) | Playful-menacing, too-wide smile | "This is a game. You can rewrite the rules if you're the one running it." |
+
+**Lines needed per Archon:**
+- 1 greeting mantra (on sorting)
+- 3-4 contextual whispers (NPC dialog, combat, puzzle moments)
+- 1 failure line (when their lesson is ignored)
+- 1 victory line (when their lesson lands)
+
+## SECTION 2 — 12 MASCOTEERS (Child Archons · Celebration)
+
+Child-like programmed Archon simulacra, Dreamer-reprogrammed.
+Tone: playful surface, menacing undertone. Kids running a nightmare fair.
+**Recording**: ElevenLabs child-voice profiles · ~4-6 lines per Mascoteer.
+
+| Mascoteer | Archon | Voice | Delivery Note |
+|---|---|---|---|
+| Conni the Conductor | CoNexus | bright, sing-song child | conducting a silent orchestra |
+| Mr. Unblink | Watcher | child wearing mask, muffled | never sleeps, eerie calm |
+| Little Corey | Collector | eager trader, bargain-tone | xenomorph mask voice |
+| Vernon the Door-Finder | Vortex | chubby, distracted, enthusiastic | opening doors that shouldn't exist |
+| Minnie | Meme | trending, chatty, shape-shifting | voice updates weekly |
+| Wanda Wee | Warlord | bossy kid commander | too-large boots running games |
+| Senator Sprout | Politician | serious child politician | mini-handshakes, promise-breaker |
+| Wayne the Warden's-Boy | Warden | rule-follower anxiety voice | carries tiny locks |
+| Gary the Ninth | Game Master | rule-changer, too-smart | always smiling, never losing |
+| Thazu | Necromancer | dress-up funeral games | tea-parties for dead toys |
+| The Prince | Engineer | inventor kid, oil-smudged | "Hear ye, hear ye" verse-voice |
+| Red, the Seeker-Boy | Human | curious, wide-eyed, asking | remembers everyone who died |
+
+**Lines needed per Mascoteer:**
+- 1 arrival greeting (per trial day)
+- 3-4 daily-game prompts
+- 1 failure-method narration (when they kill a candidate)
+- Graduation lines (for winners)
+
+**BONUS**: 3 canonical arrival verses (The Prince, The Ninth, The Human) — already in mascoteers.ts. These should be CHANTED, not spoken. Layered child voices.
+
+## SECTION 3 — 12 MECHRONIS PROFESSORS (Adult Archon Simulacra)
+
+Adult Architect-programmed teaching versions. Believe they ARE the Archon.
+Tone: formal, grave, precise. Academy professors.
+**Recording**: ElevenLabs · ~5-8 lines per Professor.
+
+| Professor | Archon | Voice | Delivery Note |
+|---|---|---|---|
+| Headmaster Kanevas | CoNexus | grey-robed, empty-lectern voice | drill-master cadence |
+| Professor Aoki | Watcher | Japanese-inflected, immaculate | never breaks eye contact |
+| Curator Halverez | Collector | middle-aged, gloved, bargainer | trade-exercise lessons |
+| Professor Orphic | Vortex | voice shifts per session | students disagree on appearance |
+| Professor Mireille | Meme | belief-engineer, trend-updated | "what's viral this week" |
+| General Kasra | Warlord | weathered, tactical visor voice | "casualties: acceptable or wasteful" |
+| Senator Vellis | Politician | gracious, impeccable, lawyer | leverage-studies chair |
+| Warden Greenshaw | Warden | green-haired, key-ring rattle | locks dangerous ideas away |
+| Professor Vex | Game Master | rule-lawyer, too-wide smile | loopholes-as-passing-grade |
+| Dr. Vasara | Necromancer | dark-elf academic, red lenses | "endurance medicine" lecturer |
+| Artificer Vent | Engineer | young, oil-stained, enthusiastic | teaches weapons-crafting |
+| The Proctor | Human | unnamed, worn coat, soft gravel | grades himself in silence |
+
+**Lines needed per Professor:**
+- Classroom intro speech
+- Grading rubric explanation  
+- Signature lesson narration
+- Failure consequence line
+- Rare promotion moment
+
+## SECTION 4 — 12 APPRENTICE ARCHETYPES (Male + Female VO)
+
+**MOST IMPORTANT SECTION** — players will hear these the most.
+Each archetype needs BOTH male and female voice variants.
+**Recording**: ElevenLabs · ~20-30 lines per archetype × 2 genders = 24 voice profiles total.
+
+| Archetype | Voice Direction | Breaking-point tone |
+|---|---|---|
+| Zealot | Fervent, rising cadence, quotes scripture | betrayal: collapses quietly |
+| Ghost | Silent, spare words, never fills silence | vanishes mid-sentence |
+| Scholar | Precise, academic, cites sources | becomes cold, quotes fail |
+| Revenant | Slow, measured, slightly echoing | laughs gently at death |
+| Artisan | Unhurried, technical, small satisfactions | goes silent when work dies |
+| Oracle | Distracted, half-elsewhere, switches topics | apologizes for prediction |
+| Wanderer | Easy, drifty, quick to change subject | announces leaving, often |
+| Martyr | Gentle, reassuring, minimizes own pain | accepts sacrifice serenely |
+| Heretic | Sharp, rhetorical, silence-as-weapon | validates the darkness |
+| Jester | Quick, bright, punchlines | grief-humor that doesn't land |
+| Sentinel | Clipped, operator-cadence, brief | states failure flatly |
+| Prodigal | Rough edges, half-apologetic, direct | asks for permission to leave |
+
+**Lines needed PER archetype PER gender:**
+- 4 recruitment lines (when rolled)
+- 4 trial-day responses (daily decisions)
+- 6 bond-level greetings (bond 0, 20, 40, 60, 80, 100)
+- 4 Letter-from-the-Front delivery variants
+- 4 betrayal stage lines (warning / turn / declaration / betrayal)
+- 2 death scenes (survivable and terminal)
+- 2 graduation lines
+
+= **30 lines × 12 archetypes × 2 genders = 720 lines total for archetype VO.**
+
+## SECTION 5 — CINEMATIC VO (Short Intro Scenes)
+
+Each new major system should have a ~15-30 second intro cinematic the FIRST time the player enters.
+
+| Cinematic | Length | VO | Notes |
+|---|---|---|---|
+| Matrix of Dreams first entry | 20s | Narrator (Elara-warm) | "Every Potential is a Waking Dreamer..." |
+| Sorting Ceremony | 45s | Assigned Archon (varies) | 4-phase ceremony (arrival/vote/claim/welcome) |
+| First visit to Common Room | 15s | Assigned Professor | Guild welcome + motto |
+| Apprentice recruitment | 15s | Elara | "Your first candidate has arrived..." |
+| Celebration entry (Apprentice) | 30s | The Dreamer (secret handler) | Welcome to Celebration verse |
+| Mascoteer first meeting | 15s per Mascoteer | That Mascoteer | Introduction game-prompt |
+| House Cup first check | 10s | Narrator | "Twelve Guilds. One winner this week." |
+| Dark Arts: corruption crossing 25 | 10s | Necromancer | "You have crossed into Tainted..." |
+| Dark Arts: corruption crossing 50 | 15s | The Warden | "Corrupted. Order NPCs will see you now." |
+| Dark Arts: corruption crossing 75 | 20s | Shadow Tongue | "Consumed. The Dark Arts wear you now." |
+| Dark Arts: 100 Enemy | 30s | The Architect (rare) | "You are marked. Everything hunts you." |
+| First Apprentice graduation | 20s | The assigned apprentice + Elara | Welcome aboard scene |
+| First Apprentice betrayal | 30s | Apprentice (archetype) + Player | Betrayal declaration cinematic |
+| First Apprentice sacrifice | 25s | Remaining roster reactions | Witness cinematic |
+| Purge ritual: Architect's Audit | 60s | The Architect (rare appearance) | The ultimate purge ceremony |
+| Cohort graduation | 25s | Mascoteer of record | "Only one graduates. Here they stand." |
+| Ideology commitment | 20s per vision | Vision's faction leader | 6 unique cinematics total |
+
+## SECTION 6 — AMBIENT / TRIGGER VO
+
+Small repeating lines triggered throughout gameplay:
+
+| Trigger | VO | Lines Needed |
+|---|---|---|
+| Archon voice fires during NPC dialog | Matching Archon | 3-4 per Archon × 12 = 48 |
+| Ambient leak during dialog (NPC) | Matching NPC | 2-3 per NPC × 7 = ~20 |
+| Failure revelation toast | Matching narrator | 10+ existing in failureContent.ts |
+| Legion letter arrival chime | Apprentice archetype voice | 1 per archetype × 2 genders = 24 |
+| Signature ability activation | Matching Archon whisper | 1 per ability × 12 = 12 |
+| Dark variant activation | Matching dark voice | 1 per ability × 12 = 12 |
+| Daily decision card reveal | Mascoteer | 1 per Mascoteer × 12 = 12 |
+
+**TOTAL NEW VO LINES ESTIMATE**: ~1,000 unique voice clips.
+
+## PRIORITY ORDER FOR PRODUCTION
+
+1. **Week 1**: 12 Apprentice archetype voice profiles (male + female) — highest player-facing frequency
+2. **Week 2**: 12 Archon mentor voices — core inner-voice loop
+3. **Week 3**: 12 Mascoteers — Celebration trial backbone
+4. **Week 4**: 12 Professors — Common Room + lessons
+5. **Week 5**: Cinematic intros (17 cinematics)
+6. **Week 6**: Ambient triggers + polish passes
+

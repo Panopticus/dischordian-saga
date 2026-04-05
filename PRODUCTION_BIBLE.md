@@ -4,7 +4,7 @@
 
 **Document Version**: 1.0
 **Project**: Loredex OS — The Dischordian Saga Fighting Game
-**Author**: Manus AI
+**Author**: Dischordian Saga Team
 **Date**: March 25, 2026
 
 ---

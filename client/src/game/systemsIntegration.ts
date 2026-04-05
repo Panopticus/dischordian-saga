@@ -22,6 +22,18 @@ import { processDeath, getSoulStatus, DEFAULT_SOUL_STATE, RESURRECTION_UNLOCKS }
 import { calculatePullRarity, PITY_CONFIG, CARD_VARIANTS } from "./cardGameDepth";
 import { getPassiveBonuses, getBonusesForSystem, getPlayerEndingBias, getPlayerElementAdvantages } from "./passiveBonusAggregator";
 import { getRelationshipState, hasRelationship } from "./npcRelationships";
+// Legion deep mechanics — all orphaned from audit, wire via hub
+import { generateLetter, rollLetterChance, LETTER_TEMPLATES } from "@shared/legionLetters";
+import { generateSacrificeReactions } from "@shared/sacrificeReactions";
+import { generateCryoDream, applyDreamEffect } from "@shared/cryoDreams";
+import { computePairing, computeAllPairings } from "@shared/apprenticeRivalries";
+import { getRankForDays, getNextRank, computeDeploymentDeathChance, pickDeathCause, DEPLOYMENT_RANKS } from "@shared/deploymentPromotions";
+import { PROMPT_TEMPLATES, buildPrompt, lintPrompt } from "@shared/assetPromptTemplates";
+import { ASSET_REGISTRY, findByCharacter, findAnchors, registerAsset, detectDrift } from "@shared/assetRegistry";
+import { generateAwakeningSchedule, xpForLevel, levelFromTotalXp, canAdvanceLevel, getCurrentMaxLevel } from "@shared/levelingAsEvent";
+// Half-wired: expose missing helpers through the hub
+import { playerContributes, getPlayerRank } from "@shared/houseCompetition";
+import { getFlavoredGreeting, getElementDamageMultiplier, getTrustMultiplier, canAccessRoom } from "@shared/characterCreationImpact";
 
 /* ─── EXPORTS: Single-point access for all connected systems ─── */
 
@@ -146,6 +158,58 @@ export const ConnectedSystems = {
   relationships: {
     getState: getRelationshipState,
     has: hasRelationship,
+  },
+
+  // Legion deep mechanics — letters, sacrifice reactions, cryo dreams, rivalries, promotions
+  legion: {
+    generateLetter,
+    rollLetterChance,
+    letterTemplates: LETTER_TEMPLATES,
+    generateSacrificeReactions,
+    generateCryoDream,
+    applyDreamEffect,
+    computePairing,
+    computeAllPairings,
+    getRankForDays,
+    getNextRank,
+    computeDeploymentDeathChance,
+    pickDeathCause,
+    deploymentRanks: DEPLOYMENT_RANKS,
+  },
+
+  // AI asset production — prompt templates + registry + drift detection
+  assetProduction: {
+    templates: PROMPT_TEMPLATES,
+    buildPrompt,
+    lintPrompt,
+    registry: ASSET_REGISTRY,
+    findByCharacter,
+    findAnchors,
+    registerAsset,
+    detectDrift,
+  },
+
+  // Leveling as event — 50-level schedule with Awakenings
+  leveling: {
+    generateSchedule: generateAwakeningSchedule,
+    xpForLevel,
+    levelFromTotalXp,
+    canAdvance: canAdvanceLevel,
+    getCurrentMaxLevel,
+  },
+
+  // Character creation impact — previously half-wired extras
+  creationImpact: {
+    getFlavoredGreeting,
+    getElementDamageMultiplier,
+    getTrustMultiplier,
+    canAccessRoom,
+  },
+
+  // House competition — previously unused extras
+  houseCompetitionExtras: {
+    playerContributes,
+    getPlayerRank,
   },
 };
 

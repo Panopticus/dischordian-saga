@@ -21,7 +21,7 @@ function createAuthContext() {
     openId: "potentials-test-user",
     email: "potentials-tester@example.com",
     name: "Potentials Tester",
-    loginMethod: "manus",
+    loginMethod: "oauth",
     role: "user",
     createdAt: new Date(),
     updatedAt: new Date(),

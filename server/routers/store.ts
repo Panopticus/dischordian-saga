@@ -35,7 +35,7 @@ export const storeRouter = router({
       const Stripe = (await import("stripe")).default;
       const stripe = new Stripe(stripeKey);
 
-      const origin = ctx.req.headers.origin || "https://loredex-os.manus.space";
+      const origin = ctx.req.headers.origin || "https://loredex-os.app";
 
       const session = await stripe.checkout.sessions.create({
         payment_method_types: ["card"],

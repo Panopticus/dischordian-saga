@@ -394,3 +394,156 @@ Lower priority, can be generated post-launch.
 - Remaining 24 specimens
 - UI mockups for new systems
 
+---
+
+# VISUAL ASSETS — MECHRONIS / CELEBRATION / APPRENTICE SYSTEMS
+
+All new visual assets needed to complete the systems shipped this epoch.
+Estimated total: ~200 key art pieces + 17 cinematics.
+
+## SECTION 1 — SHORT INTRO CINEMATICS (17 pieces)
+
+Each cinematic is ~15-60 seconds, plays the first time a player enters that system.
+**Format**: Kling AI or Runway ML video · 1920×1080 or vertical 9:16 for mobile.
+
+| # | Cinematic | Length | Visual Direction | Key Imagery |
+|---|---|---|---|---|
+| 1 | Matrix of Dreams entry | 20s | Purple-indigo dreamscape, floating symbols | Twelve Archon silhouettes forming a circle; player's consciousness drifting toward center |
+| 2 | Sorting Ceremony (×12) | 45s | Cold, academic, institutional | 12 Archon holograms vote; one claims the player; Guild banner unfurls |
+| 3 | Common Room first entry | 15s per guild | Unique per Guild aesthetic | Camera tilt-down through a specific Guild's hall; students turn to look |
+| 4 | Apprentice recruitment | 15s | Elara's medbay, bright, hopeful | Elara presents candidate dossier; candidate silhouette materializes |
+| 5 | Celebration entry (Apprentice POV) | 30s | Disney-pastel turning dark | Bright welcome-sign → camera pulls back → shadows in the windows |
+| 6 | Mascoteer first meeting (×12) | 15s each | Child at play-turned-wrong | Each Mascoteer's first daily-game reveal, with hidden menace |
+| 7 | House Cup first check | 10s | Institutional leaderboard dramatized | 12 Guild crests spinning; bots animated; leader fatigues visibly |
+| 8 | Dark Arts tier cross (×4: 25/50/75/100) | 10-30s | Corruption cracking through player art | Progressive visual descent from warm → crimson → black-void |
+| 9 | First Apprentice graduation | 20s | Hopeful, relieved | Apprentice stepping onto ship, crew welcoming |
+| 10 | First Apprentice betrayal | 30s | Tense, tragic | Apprentice draws weapon, hidden motive revealed in flashback |
+| 11 | First Apprentice sacrifice | 25s | Ritual, cold, witnessed | Every roster member's reaction shot, intercut with the act |
+| 12 | Purge: Architect's Audit | 60s | Architect's Study, golden-amber, formal | The Architect himself appears (rare), scans the player, rewrites them |
+| 13 | Cohort graduation | 25s | Mascoteer crowning the winner | Last-candidate-standing moment, Mascoteer hands them a token |
+| 14 | Ideology commitment (×6: one per vision) | 20s each | Vision-specific aesthetic | Architect/Dreamer/Insurgency/New Babylon/Hierarchy/Antiquarian visions |
+| 15 | Evil Apprentice Declaration | 30s | Horror-reveal, intimate | Apprentice recites their hidden motive face-to-camera |
+| 16 | Defect to Dreamer path | 40s | Pastoral escape, liberation | Player + betrayer walking off ship together into the light |
+| 17 | Archetype emergence (×8) | 10s each | Player's portrait crystallizing | First time an archetype emerges for this player |
+
+## SECTION 2 — CHARACTER PORTRAITS
+
+### The 12 Mascoteers (child-Archon forms)
+**Style**: Afrofuturist children's book illustration meets horror-movie creepy-kid aesthetic.
+**Format**: 3:4 portrait, CDN-hosted PNG with transparency.
+
+| Mascoteer | Key Visual Tokens |
+|---|---|
+| Conni the Conductor | Child in oversized conductor's coat, waving at silent orchestra, eyes closed |
+| Mr. Unblink | Small child in white mask with eyes painted open, never blinks |
+| Little Corey | Child in blue xenomorph party-mask, holding jar of "favorite things" |
+| Vernon the Door-Finder | Chubby child in orange sun-shirt, holding detached doorknobs |
+| Minnie | Face updates per cultural trend, glitching fashion |
+| Wanda Wee | Small blonde in yellow hood, mini tactical visor, oversized boots |
+| Senator Sprout | Tiny formal suit, hands gesturing statesman-style |
+| Wayne the Warden's-Boy | Green-haired in tan/black trench coat, tiny locks |
+| Gary the Ninth | Dark-haired boy, blue trench, red steampunk goggles, too-wide smile |
+| Thazu | Pale dark-elf child, dress-up robes, oversized red goggles, skeleton cat |
+| The Prince | Young Black boy in red steampunk trench coat, tools of his own make |
+| Red (Seeker-Boy) | Red hair, blue eyes, wide-eyed alert, wearing nothing ceremonial |
+
+### The 12 Mechronis Professors (adult-Archon forms)
+**Style**: Dark academia portrait, formal, institutional, with unsettling details.
+
+| Professor | Key Visual Tokens |
+|---|---|
+| Headmaster Kanevas | Tall, grey-robed, silver hair, eyes like empty lecterns |
+| Professor Aoki | Japanese man, 40s, immaculate white suit, surgical mask, all-seeing eye tattoo |
+| Curator Halverez | Middle-aged in dark robes, blue xenomorph mask (inherited), gloved |
+| Professor Orphic | Constantly-shifting, students disagree on appearance |
+| Professor Mireille | Updates aesthetic weekly to match trend cycle |
+| General Kasra | Weathered woman 50s, yellow military coat, tactical visor |
+| Senator Vellis | Impeccable suit, gold pin of forty crossed promises |
+| Warden Greenshaw | Green-haired, tan/black trench, key-ring of 42 keys |
+| Professor Vex | Blue trenchcoat, red steampunk goggles, too-wide smile |
+| Dr. Vasara | Dark-elf woman, white hair, red-black academic robe, red lenses |
+| Artificer Vent | Young Black man, red steampunk trench coat, oil-smudged |
+| The Proctor | Red-haired, blue eyes, well-worn coat, unnamed |
+
+### The 12 Apprentice Archetypes (24 portraits total — male + female)
+**Style**: Each archetype has a distinct color palette + posture language.
+
+| Archetype | Visual Token | Palette |
+|---|---|---|
+| Zealot | Eyes lit from within, symbol-marked | crimson + gold |
+| Ghost | Always partially-obscured, cloaked | shadow + slate |
+| Scholar | Annotated margins visible on clothes | ink + parchment |
+| Revenant | Slight translucency, scar across throat | bone + indigo |
+| Artisan | Tools visible, hands weathered | copper + leather |
+| Oracle | Eyes staring past viewer | violet + smoke |
+| Wanderer | Travel-worn, open road behind them | dust + sunset |
+| Martyr | Bandages visible, calm smile | white + rust |
+| Heretic | Burn-marks of forbidden texts | black + forbidden-red |
+| Jester | Asymmetric, bright, eyes tired | carnival + bruise |
+| Sentinel | Uniform-perfect, watchful | steel + midnight |
+| Prodigal | Half-turning away, old bruise healing | sepia + returning-gold |
+
+## SECTION 3 — GUILD ENVIRONMENTS (12 Common Rooms)
+
+Interior shots, no figures, full room wide-shot.
+**Format**: 16:9 wide, establishing shot style.
+
+| Guild | Environment Tokens |
+|---|---|
+| The Chorus | Orchestra pit in the sky, floating conducting podiums, twelve microphones |
+| The Eyes | Surveillance chamber, screens-wall, Japanese-courtyard rock garden |
+| The Archive | Curio collection hall, jars of memories, trade-counters |
+| The Between | Reality-shifting room, doors that aren't attached to walls |
+| The Influencers | Trendy mirror-hall, constantly updating fashion |
+| The Yellow Coats | Military hall, yellow-coated uniforms on racks, battle plans |
+| The Congress | Senate chamber + promise-ledger walls |
+| The Locks | Prison-safe aesthetic, tiny cages stacked wall-to-ceiling |
+| The Grey Gamers | Game-design workshop, unfinished puzzles mid-air |
+| The Living | Resurrection infirmary, red funeral robes, skeletal teaching aids |
+| The Forge | Engineer's shop, half-built impossible machines |
+| The Architect's Study | Wood-paneled detective's office, unnamed desk |
+
+## SECTION 4 — CELEBRATION TOWN (Disney-Dark)
+
+**Style**: Bright pastel storybook, corrupted by second glance.
+
+| Asset | Notes |
+|---|---|
+| Celebration town square | Welcoming sign, slightly tilted, flower beds with wrong colors |
+| Schoolhouse exterior | Wholesome-wrong, windows staring back |
+| The Puzzle Garden | Gary's domain, impossible geometry under pastel skies |
+| The Tea-Party Clearing | Thazu's space, skeleton dolls at table, empty chair waits |
+| The Door Row | Vernon's courtyard, doors with no buildings |
+| The Eye Garden | Mr. Unblink's square, sculptures of eyes |
+| The Promise Office | Senator Sprout's little parliament |
+| The Locked Room | Wayne's quarantine cell (quiet horror) |
+| The Forge-Yard | Prince's workshop, sharp tools arranged as toys |
+| The Chorus Pavilion | Conni's bandstand with invisible instruments |
+| The Trading Jar-Shelf | Corey's stall of "favorite things" |
+| Celebration-by-Night | Town after hours, Mascoteers visible between buildings |
+
+## SECTION 5 — UI / FUNCTIONAL ART
+
+| Asset | Notes |
+|---|---|
+| 12 Guild crests | Heraldic design, one per Guild |
+| Dark Arts tier indicators (5 states) | Clean → Tainted → Corrupted → Consumed → Architect's Enemy |
+| Apprentice card frames (5 rarities) | Common (grey) → Mythic (gold-glow animation) |
+| Mascoteer card backs | 12 unique designs |
+| Matrix of Dreams panel background | Purple-indigo texture |
+| Cryo Vault visual | Two frozen chambers, apprentices inside, breathing-slow |
+| House Cup banner art | Tournament-scroll aesthetic |
+| Archon-voice speech bubbles | 12 unique styles per Archon |
+| Cohort leaderboard banner | Military graduation ceremony |
+
+## PRIORITY ORDER FOR PRODUCTION
+
+1. **Week 1 (critical path)**: 24 Apprentice archetype portraits (12 × 2 genders)
+2. **Week 2**: 12 Mascoteers + 12 Mechronis Professors
+3. **Week 3**: 12 Guild Common Room environments
+4. **Week 4**: Top 5 cinematics (Sorting, Matrix entry, Apprentice betrayal, Purge, Celebration)
+5. **Week 5**: Celebration town environments + remaining cinematics
+6. **Week 6**: UI assets + polish
+
+**TOTAL NEW VISUAL ASSETS**: ~200 pieces + 17 cinematics = ~217 assets.
+

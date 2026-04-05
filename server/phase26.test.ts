@@ -104,7 +104,7 @@ describe("Fighter Character Sprites", () => {
         const demonIds = ["molgrath", "xethraal", "vexahlia", "draelmon", "nykoth", "sylvex", "varkul", "fenra", "ithrael"];
         if (demonIds.includes(id)) {
           // Demon sprites use CDN URLs from generated images
-          expect(config.imageUrl).toMatch(/cloudfront\.net|manus/);
+          expect(config.imageUrl).toMatch(/cloudfront\.net|cdn/);
         } else {
           expect(config.imageUrl).toMatch(/fighter_|agent_zero|akai_shi|wraith_calder|iron_lion|game_master|shadow_tongue/);
         }
