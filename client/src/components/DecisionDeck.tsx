@@ -218,6 +218,21 @@ export default function DecisionDeck() {
     });
   }
 
+  // Card: Pet Battles (always available, lightweight entertainment)
+  cards.push({
+    key: "pet-battles",
+    element: (
+      <DeckCard
+        href="/pet-battles"
+        icon={Swords}
+        color="text-rose-400"
+        title="Arena of Small Things"
+        subtitle="Watch specimens battle. Bet on outcomes."
+        cta="Enter arena"
+      />
+    ),
+  });
+
   // Card: Graduate Legion (if graduates exist)
   const graduateCount = Object.keys(state.legionGraduates ?? {}).length;
   if (graduateCount > 0) {
