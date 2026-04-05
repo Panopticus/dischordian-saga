@@ -23,6 +23,13 @@ import {
   type Apprentice,
   type Rarity,
 } from "@shared/apprentices";
+import {
+  generateDailyDecision,
+  rollForDeath,
+  TRIAL_LENGTH_DAYS,
+  type DecisionOption,
+} from "@shared/celebrationTrial";
+import { getMascoteer } from "@shared/mascoteers";
 
 const STAGE_LABELS: Record<string, string> = {
   recruited: "Recruited",
@@ -78,6 +85,50 @@ export default function ApprenticePage() {
     recordFallenApprentice(updated);
   };
 
+  const sendToCelebration = () => {
+    if (!currentApprentice) return;
+    setApprentice({ ...currentApprentice, stage: "training", trialDay: 1 });
+  };
+
+  const makeDailyDecision = (choice: DecisionOption) => {
+    if (!currentApprentice) return;
+    const { outcome } = choice;
+    const died = rollForDeath(currentApprentice.missedDays, outcome.deathChance ?? 0);
+    if (died) {
+      recordFallenApprentice({
+        ...currentApprentice,
+        alive: false,
+        stage: "fallen",
+        deathRecord: {
+          day: currentApprentice.trialDay,
+          cause: outcome.resultFlavor,
+          mascoteer: todayDecision?.mascoteerId,
+        },
+      });
+      return;
+    }
+    const newDay = currentApprentice.trialDay + 1;
+    const newBond = Math.max(0, Math.min(100, currentApprentice.bond + outcome.bondDelta));
+    const newCorruption = Math.max(0, Math.min(100, currentApprentice.corruption + outcome.corruptionDelta));
+    const graduated = newDay > TRIAL_LENGTH_DAYS;
+    setApprentice({
+      ...currentApprentice,
+      trialDay: newDay,
+      bond: newBond,
+      corruption: newCorruption,
+      missedDays: 0,
+      stage: graduated ? "graduated" : "training",
+    });
+  };
+
+  const todayDecision = useMemo(
+    () =>
+      currentApprentice && currentApprentice.stage === "training"
+        ? generateDailyDecision(currentApprentice.trialDay, currentApprentice.recruitedAt % 100000)
+        : null,
+    [currentApprentice],
+  );
+
   return (
     <div className="min-h-screen bg-background text-foreground p-4 sm:p-6">
       <div className="max-w-4xl mx-auto">
@@ -97,7 +148,51 @@ export default function ApprenticePage() {
 
         {/* Current apprentice OR recruitment */}
         {currentApprentice ? (
-          <CurrentApprenticeCard app={currentApprentice} onMarkFallen={handleFallen} />
+          <>
+            <CurrentApprenticeCard app={currentApprentice} onMarkFallen={handleFallen} />
+            {/* Recruited → send to Celebration */}
+            {currentApprentice.stage === "recruited" && (
+              <div className="mt-4 p-3 rounded border border-amber-500/40 bg-amber-500/5">
+                <p className="font-mono text-[10px] italic text-amber-300/80 leading-relaxed mb-2">
+                  Celebration awaits. Four weeks. Twenty-eight days. One graduation, or none. The Mascoteers know you're coming.
+                </p>
+                <button
+                  onClick={sendToCelebration}
+                  className="w-full px-3 py-2 rounded border border-amber-500/50 bg-amber-500/15 text-amber-300 font-mono text-[11px] uppercase tracking-wider hover:bg-amber-500/25"
+                  data-testid="send-to-celebration"
+                >
+                  Send {currentApprentice.name} to Celebration
+                </button>
+              </div>
+            )}
+            {/* Training → daily decision */}
+            {currentApprentice.stage === "training" && todayDecision && (
+              <div className="mt-4">
+                <DailyDecisionCard
+                  decision={todayDecision}
+                  day={currentApprentice.trialDay}
+                  onChoose={makeDailyDecision}
+                />
+              </div>
+            )}
+            {/* Graduated → celebration */}
+            {currentApprentice.stage === "graduated" && (
+              <div className="mt-4 p-4 rounded border border-emerald-500/40 bg-gradient-to-br from-emerald-500/10 to-amber-500/5 text-center">
+                <Award size={32} className="mx-auto text-amber-400 mb-2" />
+                <h3 className="font-display text-lg font-bold tracking-wider text-foreground">GRADUATED</h3>
+                <p className="font-mono text-[10px] italic text-emerald-300/80 mt-1 leading-relaxed">
+                  {currentApprentice.name} survived Celebration. They board your ship now. They remember every choice.
+                </p>
+                <button
+                  onClick={() => setApprentice({ ...currentApprentice, stage: "companion" })}
+                  className="mt-3 px-4 py-1.5 rounded border border-emerald-500/50 bg-emerald-500/15 text-emerald-300 font-mono text-[11px] uppercase tracking-wider hover:bg-emerald-500/25"
+                  data-testid="welcome-aboard"
+                >
+                  Welcome Them Aboard
+                </button>
+              </div>
+            )}
+          </>
         ) : candidate ? (
           <CandidateReview
             candidate={candidate}
@@ -362,6 +457,54 @@ function Stat({ icon: Icon, label, value, color }: { icon: any; label: string; v
 }
 
 /* ─── FALLEN ROW ─── */
+/* ─── DAILY DECISION CARD ─── */
+function DailyDecisionCard({ decision, day, onChoose }: {
+  decision: { mascoteerId: string; prompt: string; options: DecisionOption[] };
+  day: number;
+  onChoose: (option: DecisionOption) => void;
+}) {
+  const mascoteer = getMascoteer(decision.mascoteerId);
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="p-4 rounded-lg border border-purple-500/40 bg-gradient-to-br from-purple-950/20 to-indigo-950/10"
+    >
+      <div className="flex items-center justify-between mb-2">
+        <span className="font-mono text-[9px] uppercase tracking-wider text-purple-400">
+          Day {day} / {TRIAL_LENGTH_DAYS} · Celebration
+        </span>
+        {mascoteer && (
+          <span className="font-mono text-[9px] text-amber-300/80">
+            ◈ {mascoteer.mascotName}
+          </span>
+        )}
+      </div>
+      <p className="font-mono text-[10px] italic text-foreground/85 leading-relaxed mb-3">
+        {decision.prompt}
+      </p>
+      <div className="space-y-1.5">
+        {decision.options.map(opt => (
+          <button
+            key={opt.id}
+            onClick={() => onChoose(opt)}
+            className="w-full text-left p-2.5 rounded border border-border/40 bg-background/40 hover:border-purple-500/40 hover:bg-purple-500/5 transition-colors"
+            data-testid={`decision-option-${opt.id}`}
+          >
+            <div className="font-mono text-[10px] font-bold text-foreground mb-0.5">{opt.label}</div>
+            <div className="font-mono text-[9px] text-muted-foreground/70 leading-snug">{opt.description}</div>
+          </button>
+        ))}
+      </div>
+      {mascoteer && (
+        <p className="mt-3 pt-2 border-t border-border/20 font-mono text-[8px] italic text-red-300/60 leading-relaxed">
+          ⚠ {mascoteer.failureMethod}
+        </p>
+      )}
+    </motion.div>
+  );
+}
+
 function FallenApprenticeRow({ app }: { app: Apprentice }) {
   const tier = getRarityTier(app.rarity);
   const def = getArchetypeDef(app.archetype);
