@@ -1103,7 +1103,20 @@ export default function CharacterSheetPage() {
 
         <TraitSummaryPanel isAuthenticated={isAuthenticated} />
 
-        <CharacterMindPanel />
+        <CharacterMindPanel
+          skills={gameState.innerVoiceSkills as any}
+          thoughtState={{
+            internalizing: gameState.thoughtInternalizing,
+            internalized: gameState.thoughtInternalized,
+            discovered: gameState.thoughtDiscovered,
+            maxSlots: 3,
+          }}
+          archetypeState={{
+            emerged: gameState.archetypeEmerged as any,
+            primary: gameState.archetypePrimary as any,
+            emergenceDates: gameState.archetypeEmergenceDates,
+          }}
+        />
 
         {/* Respec Dialog */}
         <RespecDialog isOpen={showRespec} onClose={() => setShowRespec(false)} isAuthenticated={isAuthenticated} />

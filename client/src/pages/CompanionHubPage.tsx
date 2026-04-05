@@ -504,7 +504,7 @@ export default function CompanionHubPage() {
                 <CompanionBondPanel
                   petId={selectedCompanion.id}
                   petName={selectedCompanion.name}
-                  bond={{ bond: level }}
+                  bond={state.petBonds[selectedCompanion.id] ?? { bond: level }}
                   moralityScore={state.moralityScore}
                 />
               </div>

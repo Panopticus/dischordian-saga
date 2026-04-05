@@ -190,6 +190,31 @@ export interface GameState {
   armyTotalMissionsDeployed: number;
   armyTotalMissionsSucceeded: number;
   armyTotalMissionsFailed: number;
+  // ─── Wave 2 narrative systems ───
+  // Thought cabinet: thoughts currently internalizing + completed
+  thoughtInternalizing: { thoughtId: string; startedAt: number }[];
+  thoughtInternalized: string[];
+  thoughtDiscovered: string[];
+  // Player archetype: which behavioral archetypes have emerged
+  archetypeEmerged: string[];
+  archetypePrimary: string | null;
+  archetypeEmergenceDates: Record<string, number>;
+  // Political ideology: which vision the player has committed to (mutually exclusive)
+  ideologyCommitted: string | null;
+  ideologyFlags: Record<string, boolean>;
+  // Inner voice skill levels (0-100)
+  innerVoiceSkills: Record<string, number>;
+  // Pet bonds per companion
+  petBonds: Record<string, {
+    bond: number;
+    sharedMissions: number;
+    isActive: boolean;
+    injury: number;
+    moralityDissonance: number;
+    completedQuests: string[];
+    evolutionStage: 1 | 2 | 3;
+    deathCount: number;
+  }>;
 }
 
 /* ─── ROOM DEFINITIONS ─── */
@@ -895,6 +920,21 @@ const DEFAULT_GAME_STATE: GameState = {
   armyTotalMissionsDeployed: 0,
   armyTotalMissionsSucceeded: 0,
   armyTotalMissionsFailed: 0,
+  // Wave 2 narrative systems
+  thoughtInternalizing: [],
+  thoughtInternalized: [],
+  thoughtDiscovered: [],
+  archetypeEmerged: [],
+  archetypePrimary: null,
+  archetypeEmergenceDates: {},
+  ideologyCommitted: null,
+  ideologyFlags: {},
+  innerVoiceSkills: {
+    tactics: 50, perception: 50, craftsmanship: 50, endurance: 50,
+    negotiation: 50, espionage: 50, leadership: 50, lore: 50,
+    empathy: 50, paranoia: 50, intuition: 50, authority: 50,
+  },
+  petBonds: {},
 };
 
 const GAME_STORAGE_KEY = "loredex_game_state";
@@ -999,6 +1039,14 @@ interface GameContextValue {
   forceSave: () => void;
   /** True once the server state load attempt has completed (or auth check determined no user) */
   isServerSyncReady: boolean;
+  // ─── Wave 2 narrative setters ───
+  startInternalizingThought: (thoughtId: string) => void;
+  completeInternalizingThought: (thoughtId: string) => void;
+  addArchetypeEmergence: (archetypeId: string, isPrimary?: boolean) => void;
+  commitIdeology: (visionId: string) => void;
+  setIdeologyFlag: (flag: string, value?: boolean) => void;
+  setInnerVoiceSkill: (skill: string, level: number) => void;
+  updatePetBond: (petId: string, partial: Partial<GameState["petBonds"][string]>) => void;
 }
 
 const GameContext = createContext<GameContextValue | null>(null);
@@ -1389,6 +1437,86 @@ export function GameProvider({ children }: { children: ReactNode }) {
       ...prev,
       narrativeFlags: { ...prev.narrativeFlags, [flag]: value },
     }));
+  }, []);
+
+  /* ─── Wave 2 narrative setters ─── */
+
+  const startInternalizingThought = useCallback((thoughtId: string) => {
+    setState(prev => {
+      if (prev.thoughtInternalizing.some(t => t.thoughtId === thoughtId)) return prev;
+      if (prev.thoughtInternalized.includes(thoughtId)) return prev;
+      return {
+        ...prev,
+        thoughtInternalizing: [
+          ...prev.thoughtInternalizing,
+          { thoughtId, startedAt: Date.now() },
+        ],
+        thoughtDiscovered: prev.thoughtDiscovered.includes(thoughtId)
+          ? prev.thoughtDiscovered
+          : [...prev.thoughtDiscovered, thoughtId],
+      };
+    });
+  }, []);
+
+  const completeInternalizingThought = useCallback((thoughtId: string) => {
+    setState(prev => ({
+      ...prev,
+      thoughtInternalizing: prev.thoughtInternalizing.filter(t => t.thoughtId !== thoughtId),
+      thoughtInternalized: prev.thoughtInternalized.includes(thoughtId)
+        ? prev.thoughtInternalized
+        : [...prev.thoughtInternalized, thoughtId],
+    }));
+  }, []);
+
+  const addArchetypeEmergence = useCallback((archetypeId: string, isPrimary: boolean = false) => {
+    setState(prev => {
+      if (prev.archetypeEmerged.includes(archetypeId)) {
+        if (isPrimary && prev.archetypePrimary !== archetypeId) {
+          return { ...prev, archetypePrimary: archetypeId };
+        }
+        return prev;
+      }
+      return {
+        ...prev,
+        archetypeEmerged: [...prev.archetypeEmerged, archetypeId],
+        archetypePrimary: isPrimary ? archetypeId : (prev.archetypePrimary ?? archetypeId),
+        archetypeEmergenceDates: { ...prev.archetypeEmergenceDates, [archetypeId]: Date.now() },
+      };
+    });
+  }, []);
+
+  const commitIdeology = useCallback((visionId: string) => {
+    setState(prev => {
+      if (prev.ideologyCommitted) return prev; // Mutually exclusive — no changes
+      return { ...prev, ideologyCommitted: visionId };
+    });
+  }, []);
+
+  const setIdeologyFlag = useCallback((flag: string, value: boolean = true) => {
+    setState(prev => ({
+      ...prev,
+      ideologyFlags: { ...prev.ideologyFlags, [flag]: value },
+    }));
+  }, []);
+
+  const setInnerVoiceSkill = useCallback((skill: string, level: number) => {
+    setState(prev => ({
+      ...prev,
+      innerVoiceSkills: { ...prev.innerVoiceSkills, [skill]: Math.max(0, Math.min(100, level)) },
+    }));
+  }, []);
+
+  const updatePetBond = useCallback((petId: string, partial: Partial<GameState["petBonds"][string]>) => {
+    setState(prev => {
+      const existing = prev.petBonds[petId] ?? {
+        bond: 0, sharedMissions: 0, isActive: false, injury: 0,
+        moralityDissonance: 0, completedQuests: [], evolutionStage: 1 as const, deathCount: 0,
+      };
+      return {
+        ...prev,
+        petBonds: { ...prev.petBonds, [petId]: { ...existing, ...partial } },
+      };
+    });
   }, []);
 
   const claimQuestReward = useCallback((questId: string) => {
@@ -2075,6 +2203,13 @@ export function GameProvider({ children }: { children: ReactNode }) {
       lastSyncedAt,
       forceSave,
       isServerSyncReady,
+      startInternalizingThought,
+      completeInternalizingThought,
+      addArchetypeEmergence,
+      commitIdeology,
+      setIdeologyFlag,
+      setInnerVoiceSkill,
+      updatePetBond,
     }}>
       {children}
     </GameContext.Provider>

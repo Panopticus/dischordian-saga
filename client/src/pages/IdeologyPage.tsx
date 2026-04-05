@@ -12,6 +12,7 @@ import { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "wouter";
 import { ChevronLeft, Lock, Check, AlertTriangle, Scroll, Flag } from "lucide-react";
+import { useGame } from "@/contexts/GameContext";
 import {
   POLITICAL_VISIONS,
   getVisionProgress,
@@ -29,10 +30,10 @@ const VISION_COLORS: Record<string, { color: string; border: string; bg: string;
 };
 
 export default function IdeologyPage() {
-  const [committedTo, setCommittedTo] = useState<VisionId | null>(null);
+  const { state, commitIdeology } = useGame();
+  const committedTo = state.ideologyCommitted as VisionId | null;
   const [selectedVision, setSelectedVision] = useState<VisionId | null>(null);
-  // Dummy flags for progress calc — real impl would pull from GameContext
-  const flags: Record<string, boolean> = useMemo(() => ({}), []);
+  const flags = state.ideologyFlags;
 
   const selected = selectedVision ? POLITICAL_VISIONS.find(v => v.id === selectedVision) : null;
   const selectedStyle = selected ? VISION_COLORS[selectedVision!] ?? VISION_COLORS.architect : null;
@@ -200,7 +201,7 @@ export default function IdeologyPage() {
                   {/* Commit button */}
                   {!committedTo && canPursueVision(selected.id, committedTo) && (
                     <button
-                      onClick={() => setCommittedTo(selected.id)}
+                      onClick={() => commitIdeology(selected.id)}
                       className={`w-full px-3 py-2 rounded border ${selectedStyle.border} ${selectedStyle.bg} ${selectedStyle.color} font-mono text-[10px] uppercase tracking-wider hover:brightness-125 transition-all`}
                       data-testid={`commit-${selected.id}`}
                     >

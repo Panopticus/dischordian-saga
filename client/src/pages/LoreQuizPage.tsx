@@ -8,6 +8,7 @@ import { useState, useMemo, useCallback, useEffect } from "react";
 import { Link } from "wouter";
 import { useLoredex, type LoredexEntry } from "@/contexts/LoredexContext";
 import { useGamification } from "@/contexts/GamificationContext";
+import { triggerFailureRevelation } from "@/lib/failureRevelations";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Brain, Zap, Trophy, ChevronRight, RotateCcw, CheckCircle2,
@@ -217,6 +218,10 @@ export default function LoreQuizPage() {
         });
       } else {
         setStreak(0);
+        // Failure reveals lore
+        if (question?.id) {
+          triggerFailureRevelation({ type: "quiz_wrong_answer", questionId: question.id });
+        }
       }
 
       setShowExplanation(true);
