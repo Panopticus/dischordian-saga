@@ -1,17 +1,22 @@
 /* ═══════════════════════════════════════════════════════
-   CHARACTER MIND PANEL
+   MATRIX OF DREAMS PANEL
 
-   The "inner life" tab on the character sheet. Three sub-panels:
-     • INNER VOICES — 12 skill personalities, preview of active ones
-     • THOUGHTS — idea cabinet, in-progress + internalized
-     • ARCHETYPE — emergent behavioral classification
+   Every Potential is a Waking Dreamer. This panel shows
+   their parallel mental life in the Matrix of Dreams:
+     • ARCHON VOICES — 12 skill voices, one per Archon,
+       training the Potential through simulated experience
+       (as Mechronis Academy once trained The Seeker)
+     • THOUGHTS — idea-seeds gestating in the dream-substrate
+     • ARCHETYPE — the shape Project Celebration is watching
+       you become
    ═══════════════════════════════════════════════════════ */
 import { useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Brain, Lightbulb, User2, Sparkles, Clock, Check } from "lucide-react";
+import { Brain, Lightbulb, User2, Sparkles, Clock, Check, Moon } from "lucide-react";
 import { SKILL_VOICES, getActiveVoices, type SkillId } from "@/game/innerVoices";
 import { THOUGHTS, getThoughtBonuses, getInternalizationProgress, type ThoughtState } from "@/game/thoughtCabinet";
 import { ARCHETYPES, getPrimaryArchetype, type ArchetypeState, type ArchetypeId } from "@/game/playerArchetypes";
+import { ARCHON_VOICE_MAPPING, MATRIX_OF_DREAMS_LORE, getDominantGuild } from "@/game/archonTrainingVoices";
 
 interface Props {
   /** Player skill levels (0-100) */
@@ -41,16 +46,23 @@ export default function CharacterMindPanel({ skills, thoughtState, archetypeStat
   return (
     <div className="border border-border/30 rounded-lg bg-card/40 overflow-hidden">
       {/* Header */}
-      <div className="flex items-center gap-2 px-4 pt-3 pb-2 border-b border-border/20">
-        <Brain size={16} className="text-purple-400" />
-        <span className="font-display text-xs font-bold tracking-[0.2em]">MIND</span>
+      <div className="px-4 pt-3 pb-2 border-b border-border/20 bg-gradient-to-r from-purple-950/20 via-indigo-950/10 to-transparent">
+        <div className="flex items-center gap-2 mb-0.5">
+          <Moon size={14} className="text-purple-400" />
+          <span className="font-display text-xs font-bold tracking-[0.2em]">
+            {MATRIX_OF_DREAMS_LORE.heading.toUpperCase()}
+          </span>
+        </div>
+        <span className="font-mono text-[8px] uppercase tracking-[0.2em] text-purple-400/60">
+          {MATRIX_OF_DREAMS_LORE.subheading}
+        </span>
       </div>
 
       {/* Tabs */}
       <div className="flex border-b border-border/20">
-        <TabButton active={tab === "voices"} onClick={() => setTab("voices")} icon={Sparkles} label="Voices" />
+        <TabButton active={tab === "voices"} onClick={() => setTab("voices")} icon={Sparkles} label="Archons" />
         <TabButton active={tab === "thoughts"} onClick={() => setTab("thoughts")} icon={Lightbulb} label="Thoughts" />
-        <TabButton active={tab === "archetype"} onClick={() => setTab("archetype")} icon={User2} label="Archetype" />
+        <TabButton active={tab === "archetype"} onClick={() => setTab("archetype")} icon={User2} label="Shape" />
       </div>
 
       {/* Content */}
@@ -96,25 +108,68 @@ function VoicesTab({ skills }: { skills: Record<SkillId, number> }) {
     [skills],
   );
 
+  const dominantGuild = useMemo(() => getDominantGuild(skills), [skills]);
+
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="p-3 space-y-3">
-      {/* Preview utterances */}
+      {/* Intro lore */}
+      <p className="font-mono text-[9px] italic text-purple-300/70 leading-relaxed px-1">
+        {MATRIX_OF_DREAMS_LORE.intro}
+      </p>
+
+      {/* Academy Standing — player's dominant Guild ("sorted house") */}
+      {dominantGuild && (
+        <div className="p-2.5 rounded border border-amber-600/30 bg-gradient-to-br from-amber-900/10 via-background/40 to-purple-900/10" data-testid="academy-standing">
+          <div className="flex items-center gap-1.5 mb-1">
+            <span className="font-mono text-[8px] uppercase tracking-[0.25em] text-amber-400/80">
+              ◊ Your Academy Standing ◊
+            </span>
+          </div>
+          <div className="flex items-start gap-2">
+            <div className="flex-1 min-w-0">
+              <h3 className="font-display text-sm font-bold text-foreground">
+                {dominantGuild.guild.name}
+              </h3>
+              <p className="font-mono text-[8px] italic text-amber-300/70">
+                "{dominantGuild.guild.motto}"
+              </p>
+              <p className="font-mono text-[9px] text-muted-foreground/80 mt-1 leading-snug">
+                Mentored by <span className="text-purple-300">{dominantGuild.mentor.archonName}</span> ·
+                Graduates become <span className="text-foreground/80">{dominantGuild.guild.graduatesBecome.toLowerCase()}</span>
+              </p>
+              <p className="font-mono text-[9px] italic text-red-300/60 mt-1 leading-relaxed">
+                ⚠ {dominantGuild.guild.darkTruth}
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Warning */}
+      <div className="p-2 rounded border-l-2 border-red-500/40 bg-red-500/5">
+        <p className="font-mono text-[9px] italic text-red-300/80 leading-relaxed">
+          ⚠ {MATRIX_OF_DREAMS_LORE.warning}
+        </p>
+      </div>
+
+      {/* Preview utterances — "what the Archons would say" */}
       {previewUtterances.length > 0 && (
         <div>
           <span className="font-mono text-[9px] uppercase tracking-wider text-muted-foreground/70 block mb-1.5">
-            What your voices would say right now…
+            What your Archons would whisper right now…
           </span>
           <div className="space-y-1.5">
             {previewUtterances.map(u => {
               const voice = SKILL_VOICES[u.skillId];
+              const mentor = ARCHON_VOICE_MAPPING[u.skillId];
               return (
                 <div key={u.id} className="p-2 rounded border border-border/30 bg-background/40">
-                  <div className="flex items-center gap-2 mb-1">
+                  <div className="flex items-center gap-2 mb-1 flex-wrap">
                     <span className="font-mono text-[9px] font-bold tracking-wider" style={{ color: voice.color }}>
                       {voice.name.toUpperCase()}
                     </span>
-                    <span className="font-mono text-[8px] text-muted-foreground/50 italic">
-                      [{voice.voiceDescriptor}]
+                    <span className="font-mono text-[8px] text-purple-300/60">
+                      ◈ {mentor.archonName} (Archon {mentor.archonNumber})
                     </span>
                   </div>
                   <p className="font-mono text-[10px] text-foreground/80 italic leading-relaxed">
@@ -127,33 +182,48 @@ function VoicesTab({ skills }: { skills: Record<SkillId, number> }) {
         </div>
       )}
 
-      {/* All 12 skill voices compact grid */}
+      {/* 12 Archon mentors grid */}
       <div>
         <span className="font-mono text-[9px] uppercase tracking-wider text-muted-foreground/70 block mb-1.5">
-          12 Voices · sorted by strength
+          12 Archon Mentors · your training voices
         </span>
-        <div className="grid grid-cols-2 gap-1.5">
+        <div className="grid grid-cols-1 gap-1.5">
           {sortedSkills.map(([id, level]) => {
             const voice = SKILL_VOICES[id];
+            const mentor = ARCHON_VOICE_MAPPING[id];
             const isActive = voiceIds.has(id);
             return (
               <div
                 key={id}
                 className={`px-2 py-1.5 rounded border ${isActive ? "border-purple-500/40 bg-purple-500/5" : "border-border/20"}`}
-                title={voice.personality}
+                title={`${mentor.archonName} — ${mentor.discipline}`}
+                data-testid={`archon-voice-${id}`}
               >
-                <div className="flex items-center justify-between gap-1">
-                  <span className="font-mono text-[9px] font-bold tracking-wider" style={{ color: voice.color }}>
-                    {voice.name}
-                  </span>
-                  <span className="font-mono text-[9px] text-muted-foreground tabular-nums">{level}</span>
+                <div className="flex items-center justify-between gap-1 mb-0.5">
+                  <div className="flex items-center gap-1.5 min-w-0">
+                    <span className="font-mono text-[9px] font-bold tracking-wider" style={{ color: voice.color }}>
+                      {voice.name}
+                    </span>
+                    <span className="font-mono text-[8px] text-purple-300/50 truncate">
+                      ◈ {mentor.archonName}
+                    </span>
+                    {mentor.mechronisGuild && (
+                      <span className="font-mono text-[7px] text-amber-400/50 truncate hidden sm:inline">
+                        [{mentor.mechronisGuild}]
+                      </span>
+                    )}
+                  </div>
+                  <span className="font-mono text-[9px] text-muted-foreground tabular-nums shrink-0">{level}</span>
                 </div>
-                <div className="h-0.5 bg-zinc-800/80 rounded-full overflow-hidden mt-1">
+                <div className="h-0.5 bg-zinc-800/80 rounded-full overflow-hidden">
                   <div
                     className="h-full rounded-full"
                     style={{ width: `${level}%`, backgroundColor: voice.color }}
                   />
                 </div>
+                <p className="font-mono text-[8px] italic text-muted-foreground/50 mt-0.5 leading-snug">
+                  "{mentor.mantra}"
+                </p>
               </div>
             );
           })}
@@ -181,12 +251,17 @@ function ThoughtsTab({ state }: { state?: ThoughtState }) {
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="p-3 space-y-3">
+      <p className="font-mono text-[9px] italic text-purple-300/70 leading-relaxed px-1">
+        Idea-seeds gestate in the dream-substrate across real-time hours. What you decide to
+        keep thinking about becomes part of who you are — permanently.
+      </p>
+
       {/* In progress */}
       <div>
         <div className="flex items-center gap-1.5 mb-1.5">
           <Clock size={10} className="text-amber-400" />
           <span className="font-mono text-[9px] uppercase tracking-wider text-amber-400">
-            Internalizing ({internalizingItems.length})
+            Gestating in the Matrix ({internalizingItems.length})
           </span>
         </div>
         {internalizingItems.length === 0 ? (
@@ -244,7 +319,7 @@ function ThoughtsTab({ state }: { state?: ThoughtState }) {
       {activeBonuses.length > 0 && (
         <div className="pt-2 border-t border-border/20">
           <span className="font-mono text-[9px] uppercase tracking-wider text-muted-foreground/70 block mb-1">
-            Permanent Bonuses
+            Bonuses carried back to the waking world
           </span>
           <ul className="space-y-0.5">
             {activeBonuses.map((b, i) => (
@@ -268,6 +343,11 @@ function ArchetypeTab({ state }: { state?: ArchetypeState }) {
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="p-3 space-y-3">
+      <p className="font-mono text-[9px] italic text-purple-300/70 leading-relaxed px-1">
+        Project Celebration is still running. It watches how you act and decides what shape
+        you are becoming. The Archon who graded The Seeker is grading you now.
+      </p>
+
       {/* Primary archetype */}
       {primaryArchetype ? (
         <div className="p-3 rounded border border-purple-500/40 bg-gradient-to-br from-purple-500/10 to-indigo-500/5">

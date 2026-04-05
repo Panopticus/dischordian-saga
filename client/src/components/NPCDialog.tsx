@@ -19,6 +19,8 @@ import { GIFT_ITEMS, calculateGiftResult, type GiftItem, type NpcId, type GiftIt
 import { useNPCPhysics } from "@/engine/useVoidEngine";
 import { getRelationshipState } from "@/game/npcRelationships";
 import { getAmbientReference } from "@/game/ambientStorytelling";
+import { getActiveVoices, SKILL_VOICES, type SkillId } from "@/game/innerVoices";
+import { ARCHON_VOICE_MAPPING } from "@/game/archonTrainingVoices";
 
 /* ─── MANIFESTATION STYLES ─── */
 
@@ -135,6 +137,20 @@ export default function NPCDialog({ npcId, scene, onClose, onChoice }: NPCDialog
     () => getAmbientReference(npcId, trust, "small_talk", new Set()),
     [npcId, trust],
   );
+
+  // Archon training voice: when dialog opens, the player's strongest relevant skill
+  // (taught by an Archon in the Matrix of Dreams) whispers a lesson about this NPC
+  const archonWhisper = useMemo(() => {
+    const skills = (state.innerVoiceSkills ?? {}) as Record<SkillId, number>;
+    const utterances = getActiveVoices({ type: "npc_dialog", npcId }, skills, 1);
+    if (utterances.length === 0) return null;
+    const u = utterances[0];
+    return {
+      utterance: u,
+      voice: SKILL_VOICES[u.skillId],
+      mentor: ARCHON_VOICE_MAPPING[u.skillId],
+    };
+  }, [npcId, state.innerVoiceSkills]);
 
   // Void Energy: shift document physics to match this NPC's manifestation while dialog is open
   useNPCPhysics(npc.manifestation, true);
@@ -295,6 +311,31 @@ export default function NPCDialog({ npcId, scene, onClose, onChoice }: NPCDialog
               </div>
             )}
           </div>
+
+          {/* Archon training whisper — from the Matrix of Dreams */}
+          {archonWhisper && showChoices && (
+            <motion.div
+              initial={{ opacity: 0, x: -4 }}
+              animate={{ opacity: 0.85, x: 0 }}
+              className="mt-2 p-2 rounded border-l-2 border-indigo-400/40 bg-indigo-500/5"
+              data-testid="archon-whisper"
+            >
+              <div className="flex items-center gap-1.5 mb-0.5">
+                <span
+                  className="font-mono text-[8px] uppercase tracking-wider font-bold"
+                  style={{ color: archonWhisper.voice.color }}
+                >
+                  {archonWhisper.voice.name}
+                </span>
+                <span className="font-mono text-[8px] text-indigo-300/60">
+                  ◈ {archonWhisper.mentor.archonName}
+                </span>
+              </div>
+              <p className="font-mono text-[10px] italic text-foreground/75 leading-relaxed">
+                "{archonWhisper.utterance.text}"
+              </p>
+            </motion.div>
+          )}
 
           {/* Ambient leak — backstory surfacing */}
           {ambientLeak && showChoices && (
