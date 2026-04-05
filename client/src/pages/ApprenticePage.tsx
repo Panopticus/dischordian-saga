@@ -57,7 +57,7 @@ const RARITY_BG: Record<Rarity, string> = {
 };
 
 export default function ApprenticePage() {
-  const { state, setApprentice, recordFallenApprentice } = useGame();
+  const { state, setApprentice, recordFallenApprentice, addGraduate } = useGame();
   const currentApprentice = state.apprentice as Apprentice | null;
   const fallen = (state.apprenticeFallen as Apprentice[]) ?? [];
   const [candidate, setCandidate] = useState<Apprentice | null>(null);
@@ -241,7 +241,11 @@ export default function ApprenticePage() {
                   {currentApprentice.name} survived Celebration. They board your ship now. They remember every choice.
                 </p>
                 <button
-                  onClick={() => setApprentice({ ...currentApprentice, stage: "companion" })}
+                  onClick={() => {
+                    const graduated = { ...currentApprentice, stage: "companion" as const };
+                    setApprentice(graduated);
+                    addGraduate(graduated);
+                  }}
                   className="mt-3 px-4 py-1.5 rounded border border-emerald-500/50 bg-emerald-500/15 text-emerald-300 font-mono text-[11px] uppercase tracking-wider hover:bg-emerald-500/25"
                   data-testid="welcome-aboard"
                 >

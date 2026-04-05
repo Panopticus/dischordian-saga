@@ -226,6 +226,12 @@ export interface GameState {
   // Sorting Ceremony (one-time gate)
   sortingComplete: boolean;         // True once player has been sorted into a Guild
   sortedIntoArchon: number | null;  // Archon number of the Guild they were sorted into
+  // Graduate Legion — deployed apprentices
+  legionRoster: unknown;            // shape: LegionRoster from graduateLegion.ts
+  /** Historical roster of all graduates keyed by id */
+  legionGraduates: Record<string, unknown>;  // id → Apprentice
+  /** Letters from deployed apprentices — narrative micro-updates */
+  legionLetters: { id: string; fromApprenticeId: string; body: string; timestamp: number; read: boolean }[];
 }
 
 /* ─── ROOM DEFINITIONS ─── */
@@ -954,6 +960,9 @@ const DEFAULT_GAME_STATE: GameState = {
   purgeRitualsCompleted: [],
   sortingComplete: false,
   sortedIntoArchon: null,
+  legionRoster: { assignments: [], unassigned: [], sacrificedHistory: [] },
+  legionGraduates: {},
+  legionLetters: [],
 };
 
 const GAME_STORAGE_KEY = "loredex_game_state";
@@ -1076,6 +1085,11 @@ interface GameContextValue {
   completePurgeRitual: (ritualId: string, reduction: number) => void;
   // Sorting Ceremony
   completeSorting: (archonNumber: number) => void;
+  // Graduate Legion
+  addGraduate: (apprentice: unknown) => void;
+  setLegionRoster: (roster: unknown) => void;
+  addLegionLetter: (letter: { id: string; fromApprenticeId: string; body: string }) => void;
+  markLettersRead: () => void;
 }
 
 const GameContext = createContext<GameContextValue | null>(null);
@@ -1580,6 +1594,37 @@ export function GameProvider({ children }: { children: ReactNode }) {
       ...prev,
       sortingComplete: true,
       sortedIntoArchon: archonNumber,
+    }));
+  }, []);
+
+  const addGraduate = useCallback((apprentice: any) => {
+    setState(prev => ({
+      ...prev,
+      legionGraduates: { ...prev.legionGraduates, [apprentice.id]: apprentice },
+      legionRoster: prev.legionRoster && typeof prev.legionRoster === "object"
+        ? { ...(prev.legionRoster as any), unassigned: [...((prev.legionRoster as any).unassigned ?? []), apprentice.id] }
+        : { assignments: [], unassigned: [apprentice.id], sacrificedHistory: [] },
+    }));
+  }, []);
+
+  const setLegionRoster = useCallback((roster: unknown) => {
+    setState(prev => ({ ...prev, legionRoster: roster }));
+  }, []);
+
+  const addLegionLetter = useCallback((letter: { id: string; fromApprenticeId: string; body: string }) => {
+    setState(prev => ({
+      ...prev,
+      legionLetters: [
+        ...prev.legionLetters,
+        { ...letter, timestamp: Date.now(), read: false },
+      ].slice(-50),  // cap to 50 most recent
+    }));
+  }, []);
+
+  const markLettersRead = useCallback(() => {
+    setState(prev => ({
+      ...prev,
+      legionLetters: prev.legionLetters.map(l => ({ ...l, read: true })),
     }));
   }, []);
 
@@ -2294,6 +2339,10 @@ export function GameProvider({ children }: { children: ReactNode }) {
       recordDarkAbilityUse,
       completePurgeRitual,
       completeSorting,
+      addGraduate,
+      setLegionRoster,
+      addLegionLetter,
+      markLettersRead,
     }}>
       {children}
     </GameContext.Provider>

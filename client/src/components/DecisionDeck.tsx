@@ -16,7 +16,7 @@
 import { useMemo } from "react";
 import { Link } from "wouter";
 import { motion } from "framer-motion";
-import { Sparkles, Brain, Clock, Flag, Users, Swords, Home } from "lucide-react";
+import { Sparkles, Brain, Clock, Flag, Users, Swords, Home, Skull, Mail } from "lucide-react";
 import { useGame } from "@/contexts/GameContext";
 import type { Apprentice } from "@shared/apprentices";
 import { TRIAL_LENGTH_DAYS } from "@shared/celebrationTrial";
@@ -52,6 +52,20 @@ export default function DecisionDeck() {
           title={`${apprentice.name} — Day ${apprentice.trialDay}/${TRIAL_LENGTH_DAYS}`}
           subtitle="A Mascoteer waits with today's decision."
           cta="Face the day"
+        />
+      ),
+    });
+    // Cohort view available during training
+    cards.push({
+      key: "cohort",
+      element: (
+        <DeckCard
+          href="/cohort"
+          icon={Users}
+          color="text-purple-400"
+          title={`Cohort Leaderboard`}
+          subtitle="See who's still alive in the Celebration class."
+          cta="View cohort"
         />
       ),
     });
@@ -187,18 +201,39 @@ export default function DecisionDeck() {
     });
   }
 
-  // Card: Dark Arts warning
+  // Card: Dark Arts warning + Purge option
   if ((state.corruptionLevel ?? 0) >= 25) {
     cards.push({
       key: "dark-arts",
       element: (
         <DeckCard
-          href="/character-sheet"
+          href="/purge"
           icon={Swords}
           color={darkTier.color}
           title={`⚠ ${darkTier.name} — ${state.corruptionLevel} corruption`}
-          subtitle={darkTier.description}
-          cta="See consequences"
+          subtitle={`${darkTier.description} Purge rituals available.`}
+          cta="Enact purge"
+        />
+      ),
+    });
+  }
+
+  // Card: Graduate Legion (if graduates exist)
+  const graduateCount = Object.keys(state.legionGraduates ?? {}).length;
+  if (graduateCount > 0) {
+    const unreadLetters = (state.legionLetters ?? []).filter(l => !l.read).length;
+    cards.push({
+      key: "legion",
+      element: (
+        <DeckCard
+          href="/legion"
+          icon={unreadLetters > 0 ? Mail : Users}
+          color={unreadLetters > 0 ? "text-indigo-400" : "text-amber-400"}
+          title={`Graduate Legion (${graduateCount})`}
+          subtitle={unreadLetters > 0
+            ? `${unreadLetters} unread letter${unreadLetters > 1 ? "s" : ""} from the front.`
+            : "Deploy, freeze, sacrifice, or gift your graduates."}
+          cta="Manage Legion"
         />
       ),
     });
