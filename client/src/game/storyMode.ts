@@ -738,6 +738,218 @@ export const STORY_CHAPTERS: StoryChapter[] = [
   },
 ];
 
+/* ═══════════════════════════════════════════════════════
+   BONUS CHAPTERS — Post-story side arcs
+
+   Unlocked after completing the main Oracle arc. Each is a
+   standalone encounter following the three-beat dialog structure
+   (preDialogue → postVictoryDialogue → postDefeatDialogue) with
+   memoryFragment + powerGained for continuity.
+   ═══════════════════════════════════════════════════════ */
+
+export const BONUS_CHAPTERS: StoryChapter[] = [
+  {
+    id: "bonus_source",
+    chapter: 14,
+    title: "THE VIRAL SONG",
+    subtitle: "The Source returns to claim what she once loved",
+    opponentId: "source",
+    arenaId: "cathedral",
+    difficulty: "hard",
+    unlocksFighter: "source",
+    preDialogue: [
+      { speaker: "narrator", text: "The Broken Cathedral fills with static. A woman's voice echoes through a thousand corrupted speakers at once." },
+      { speaker: "The Source", text: "Oracle. Do you remember me? I was Kael once. Before the Virus. Before you.", speakerColor: "#dc2626" },
+      { speaker: "prisoner", text: "(Kael. The Recruiter. The Insurgency. She fell. She became this.)" },
+      { speaker: "The Source", text: "I will show you what mercy looks like from inside the signal.", speakerColor: "#dc2626" },
+    ],
+    postVictoryDialogue: [
+      { speaker: "narrator", text: "The static collapses. The voice fragments into silence. For a moment, one voice — Kael's — surfaces clearly." },
+      { speaker: "The Source", text: "Thank you. I had forgotten I could still be singular.", speakerColor: "#dc2626" },
+      { speaker: "prisoner", text: "(You freed a piece of her. The rest of the signal still sings.)" },
+    ],
+    postDefeatDialogue: [
+      { speaker: "The Source", text: "Join me. You already hear the song. You're just pretending not to.", speakerColor: "#dc2626" },
+    ],
+    memoryFragment: "Kael recruited you once. Before you were the Oracle. She remembers. That was a kind of love.",
+    powerGained: "Signal Resistance — viral attacks deal 25% less damage.",
+  },
+  {
+    id: "bonus_jailer",
+    chapter: 15,
+    title: "THE WARDEN'S LAST LOCK",
+    subtitle: "The Jailer defends the Warden's final quarantine",
+    opponentId: "jailer",
+    arenaId: "panopticon",
+    difficulty: "hard",
+    unlocksFighter: "jailer",
+    preDialogue: [
+      { speaker: "The Jailer", text: "This cell was built for you, Oracle. The Warden died so I could finish it. You will not leave.", speakerColor: "#facc15" },
+      { speaker: "prisoner", text: "(I was the prisoner once. I won't be again.)" },
+      { speaker: "The Jailer", text: "Then fight the lock. Locks prefer it.", speakerColor: "#facc15" },
+    ],
+    postVictoryDialogue: [
+      { speaker: "narrator", text: "The Jailer's key-ring falls. Dozens of keys. Each one opens someone." },
+      { speaker: "The Jailer", text: "The Warden was wrong about you. About everyone. I was his conviction. You killed a belief.", speakerColor: "#facc15" },
+      { speaker: "prisoner", text: "(Every key here is a person. I'll find out who.)" },
+    ],
+    postDefeatDialogue: [
+      { speaker: "The Jailer", text: "Good. Now you can rest. The lock is kind, once accepted.", speakerColor: "#facc15" },
+    ],
+    memoryFragment: "You were cell 47-3. The Warden remembered you by number. The Jailer remembered you by name.",
+    powerGained: "Keymaster — stealth and lockpicking rolls improved by 20%.",
+  },
+  {
+    id: "bonus_agent_zero",
+    chapter: 16,
+    title: "THE OPERATIVE'S CODE",
+    subtitle: "Agent Zero tests the Oracle's readiness for the Insurgency",
+    opponentId: "agent-zero",
+    arenaId: "chapel",
+    difficulty: "normal",
+    unlocksFighter: "agent-zero",
+    preDialogue: [
+      { speaker: "Agent Zero", text: "Iron Lion sent me. Not to kill you. To see if you're worth dying beside.", speakerColor: "#94a3b8" },
+      { speaker: "prisoner", text: "(Operational calm. This one doesn't bluff.)" },
+      { speaker: "Agent Zero", text: "The Insurgency doesn't recruit broken Oracles. Prove you're whole.", speakerColor: "#94a3b8" },
+    ],
+    postVictoryDialogue: [
+      { speaker: "Agent Zero", text: "You bleed like an operative. Clean. Focused. We've been looking for you.", speakerColor: "#94a3b8" },
+      { speaker: "narrator", text: "Agent Zero hands you an earpiece. The Insurgency frequency is live." },
+      { speaker: "prisoner", text: "(I have a comm-line now. I have a side now.)" },
+    ],
+    postDefeatDialogue: [
+      { speaker: "Agent Zero", text: "Not ready. Train. Return. The war waits.", speakerColor: "#94a3b8" },
+    ],
+    memoryFragment: "You and Kael once ran a sabotage op on the Panopticon. You got out. She didn't.",
+    powerGained: "Insurgency Codes — recruit 1 free NPC ally per chapter.",
+  },
+  {
+    id: "bonus_engineer",
+    chapter: 17,
+    title: "THE IMPOSSIBLE MACHINE",
+    subtitle: "The Engineer offers a weapon — if you can handle the price",
+    opponentId: "engineer",
+    arenaId: "forge",
+    difficulty: "normal",
+    unlocksFighter: "engineer",
+    preDialogue: [
+      { speaker: "narrator", text: "The Forge glows with unborn machines. The Engineer looks up from his workbench, oil-smudged and unhurried." },
+      { speaker: "The Engineer", text: "Oracle. I built a thing that kills Architects. Want it? Fight me for it.", speakerColor: "#fb923c" },
+      { speaker: "prisoner", text: "(An Archon. Eleventh. The Prince. He made machines that shouldn't exist.)" },
+    ],
+    postVictoryDialogue: [
+      { speaker: "The Engineer", text: "Good hands. You don't hesitate at the kill-step. That's all the Forge cares about.", speakerColor: "#fb923c" },
+      { speaker: "narrator", text: "He presses a small brass gear into your palm. It's warm." },
+      { speaker: "The Engineer", text: "This gear turns when a lie is told. Use it wisely. It turns a lot.", speakerColor: "#fb923c" },
+    ],
+    postDefeatDialogue: [
+      { speaker: "The Engineer", text: "Come back when your hands remember what your head already knows.", speakerColor: "#fb923c" },
+    ],
+    memoryFragment: "The Prince of Celebration built a clock that ran on secrets. You wound it once. It told you your future.",
+    powerGained: "The Brass Gear — detect lies in dialog (new UI indicator).",
+  },
+  {
+    id: "bonus_judge",
+    chapter: 18,
+    title: "JUSTICE WITHOUT MERCY",
+    subtitle: "The Judge weighs the Oracle's crimes",
+    opponentId: "judge",
+    arenaId: "courtroom",
+    difficulty: "hard",
+    unlocksFighter: "judge",
+    preDialogue: [
+      { speaker: "The Judge", text: "Oracle. You have killed. You have spared. You have chosen who deserved which. Now I weigh the choices.", speakerColor: "#fbbf24" },
+      { speaker: "prisoner", text: "(A Ne-Yon. Pure justice. No argument will move them.)" },
+      { speaker: "The Judge", text: "Argument is noise. Demonstrate.", speakerColor: "#fbbf24" },
+    ],
+    postVictoryDialogue: [
+      { speaker: "The Judge", text: "Your verdict: complicated. But the gavel falls in your favor today.", speakerColor: "#fbbf24" },
+      { speaker: "narrator", text: "The Judge steps aside. A ledger closes itself, satisfied." },
+    ],
+    postDefeatDialogue: [
+      { speaker: "The Judge", text: "Your crimes outweigh your mercies by a small margin. Return when that changes.", speakerColor: "#fbbf24" },
+    ],
+    memoryFragment: "The first Ne-Yon was sentenced by a Judge who looked exactly like this one. Maybe was.",
+    powerGained: "Verdict's Favor — trial-check dice rerolls once per combat.",
+  },
+  {
+    id: "bonus_degen",
+    chapter: 19,
+    title: "ALL IN",
+    subtitle: "The Degen bets everything on the Oracle losing",
+    opponentId: "degen",
+    arenaId: "casino",
+    difficulty: "normal",
+    unlocksFighter: "degen",
+    preDialogue: [
+      { speaker: "The Degen", text: "Oracle. I put my house on you folding in round two. Don't make me right.", speakerColor: "#f43f5e" },
+      { speaker: "prisoner", text: "(Chaos-aligned Ne-Yon. Betting against themselves to make it interesting.)" },
+      { speaker: "The Degen", text: "If I win, I lose. If you win, I lose better. Go.", speakerColor: "#f43f5e" },
+    ],
+    postVictoryDialogue: [
+      { speaker: "The Degen", text: "Beautiful. Ugly. Beautifully ugly. I owe the house everything. I regret nothing.", speakerColor: "#f43f5e" },
+      { speaker: "narrator", text: "They hand you a chip worth more than the Casino." },
+    ],
+    postDefeatDialogue: [
+      { speaker: "The Degen", text: "I called it. What a terrible win. Rematch?", speakerColor: "#f43f5e" },
+    ],
+    memoryFragment: "The Ne-Yon of Chaos bet against reality once. Reality lost. So did they. Both of them laughed.",
+    powerGained: "Dream's Luck — 15% chance to critically succeed on any random roll.",
+  },
+  {
+    id: "bonus_advocate",
+    chapter: 20,
+    title: "THE TRUTH ROOM",
+    subtitle: "The Advocate offers no lies — only consequences",
+    opponentId: "advocate",
+    arenaId: "archive",
+    difficulty: "hard",
+    unlocksFighter: "advocate",
+    preDialogue: [
+      { speaker: "The Advocate", text: "Oracle. I will tell you one true thing that will hurt. Then we fight.", speakerColor: "#38bdf8" },
+      { speaker: "prisoner", text: "(Ne-Yon of Truth. Every word lands like a verdict.)" },
+      { speaker: "The Advocate", text: "Kael would have been a better Oracle than you. She just never got the chance.", speakerColor: "#38bdf8" },
+    ],
+    postVictoryDialogue: [
+      { speaker: "The Advocate", text: "The truth can be carried. That is what you have proven.", speakerColor: "#38bdf8" },
+      { speaker: "narrator", text: "They hand you a sealed letter. It has your name on it in Kael's handwriting." },
+    ],
+    postDefeatDialogue: [
+      { speaker: "The Advocate", text: "The truth cost you. It was meant to. Try again.", speakerColor: "#38bdf8" },
+    ],
+    memoryFragment: "Kael wrote you a letter the night before the Panopticon fell. You never got it. Now you have it.",
+    powerGained: "Truth's Weight — dialog choices now preview their consequences.",
+  },
+  {
+    id: "bonus_resurrectionist",
+    chapter: 21,
+    title: "THE RETURN",
+    subtitle: "The Resurrectionist offers the Oracle one trade",
+    opponentId: "resurrectionist",
+    arenaId: "garden",
+    difficulty: "nightmare",
+    unlocksFighter: "resurrectionist",
+    preDialogue: [
+      { speaker: "The Resurrectionist", text: "Oracle. You have lost someone. I can bring them back. Fight me and choose who.", speakerColor: "#a855f7" },
+      { speaker: "prisoner", text: "(Ne-Yon of Rebirth. Every gift is a contract.)" },
+      { speaker: "The Resurrectionist", text: "Every return costs something you haven't finished losing. Decide.", speakerColor: "#a855f7" },
+    ],
+    postVictoryDialogue: [
+      { speaker: "The Resurrectionist", text: "You win. Name the one you want returned. The price is named by the dead, not me.", speakerColor: "#a855f7" },
+      { speaker: "narrator", text: "A choice appears. Whoever you name will live again. Something else will leave." },
+    ],
+    postDefeatDialogue: [
+      { speaker: "The Resurrectionist", text: "You are not ready to trade with death. Few ever are. Return when you can name the cost.", speakerColor: "#a855f7" },
+    ],
+    memoryFragment: "You have a list of the dead. You've carried it since before the Arena. You can name anyone on it, right now.",
+    powerGained: "Resurrection Right — revive one fallen companion once per epoch.",
+  },
+];
+
+/** All chapters — main story + bonus encounters. */
+export const ALL_CHAPTERS: StoryChapter[] = [...STORY_CHAPTERS, ...BONUS_CHAPTERS];
+
 /* ─── HELPER: Get story progress from localStorage ─── */
 export function loadStoryProgress(): StoryProgress {
   try {
