@@ -52,8 +52,8 @@ export const EXTINCT_RACES: ExtinctRace[] = [
     id: "crystallans",
     name: "The Crystallans",
     homeworld: "Prisma-7 (shattered)",
-    era: "Pre-Architect (before Year 0 A.A.)",
-    extinction: "Their entire civilization was made of living crystal — sentient mineral networks spanning a planet. The Thought Virus couldn't infect them directly, so The Source's plague ships simply resonated their crystal lattice to destruction. An entire species shattered by sound.",
+    era: "Late Empire (~16,800 A.A.)",
+    extinction: "Their entire civilization was made of living crystal — sentient mineral networks that had existed since before the Architect himself. They thrived through every Age until the Thought Virus era. The Virus couldn't infect them directly (silicon, not carbon), so The Source's plague ships resonated their crystal lattice at frequencies that shattered consciousness itself. An ancient species, outliving empires, extinguished by sound.",
     remnants: [
       { id: "crystal_shard_1", type: "artifact", name: "Singing Shard", description: "A fragment of Crystallan consciousness. It hums when other crystals are nearby.", foundIn: "Terminus Swarm wave 20+ drops", revelation: "The Crystallans communicated through harmonic resonance. Their entire language was music." },
       { id: "crystal_arch", type: "architecture", name: "Crystallan Arch", description: "A doorway made of fused crystal found in the Ark's deepest deck.", foundIn: "Hidden room unlock at Prestige 2", revelation: "The Crystallans built the dimensional bridges BEFORE the Architect. He copied their work." },

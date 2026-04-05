@@ -13,11 +13,14 @@
    - Competing agendas that create tension
 
    CRITICAL LORE:
-   - The Human is the 10th Archon (there are only 10). NOT Kael.
+   - The Human is the 12th Archon — the last and only organic Archon,
+     promoted 1,351 years before the Fall. NOT Kael.
    - The Source IS Kael (The Recruiter), transformed by Project Vector.
    - The empire is called The Artificial Empire (not Architect's Empire).
    - Elara represents The Potentials / Ne-Yons, NOT the Artificial Empire.
-   - Ny'Koth (Hierarchy SVP R&D) is the hidden demon on the ship.
+   - The Shadow Tongue (Hierarchy SVP Communications) is the hidden demon
+     on the ship — woven into Ark 1047's language systems since construction.
+     Ny'Koth (SVP R&D) engineered the Thought Virus but is NOT on the ship.
    ═══════════════════════════════════════════════════════ */
 
 /* ─── FACTION NPC DEFINITIONS ─── */
@@ -81,7 +84,7 @@ export const FACTION_NPCS: Record<FactionNPCId, FactionNPC> = {
     objective: "Repair the ship. Protect the remaining Potentials. Find out what happened to the first wave.",
   },
 
-  /* ═══ THE HUMAN — The Artificial Empire (10th Archon) ═══ */
+  /* ═══ THE HUMAN — The Artificial Empire (12th/Last Archon) ═══ */
   the_human: {
     id: "the_human",
     name: "The Human",
