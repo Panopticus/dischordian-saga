@@ -10,7 +10,7 @@ import { createContext, useContext, useCallback, useEffect, useRef, useState, ty
 
 /* ─── TYPES ─── */
 type SoundLayer = "ship_hum" | "cryo_hiss" | "electrical" | "alarm" | "heartbeat" | "void_wind" | "reactor" | "static";
-type SFXType = "item_pickup" | "door_unlock" | "door_locked" | "achievement" | "dialog_open" | "dialog_close" | "button_click" | "room_enter" | "cryo_open" | "terminal_access" | "card_deploy" | "card_attack" | "card_death" | "card_spell" | "card_artifact" | "card_draw" | "turn_start" | "turn_end" | "battle_victory" | "battle_defeat" | "energy_charge" | "shield_hit" | "critical_hit" | "heal";
+type SFXType = "item_pickup" | "door_unlock" | "door_locked" | "achievement" | "dialog_open" | "dialog_close" | "button_click" | "room_enter" | "cryo_open" | "terminal_access" | "card_deploy" | "card_attack" | "card_death" | "card_spell" | "card_artifact" | "card_draw" | "turn_start" | "turn_end" | "battle_victory" | "battle_defeat" | "energy_charge" | "shield_hit" | "critical_hit" | "heal" | "puzzle_solve" | "puzzle_fail" | "quiz_correct" | "quiz_wrong" | "casino_spin" | "casino_win" | "casino_jackpot" | "specimen_bond" | "signal_decrypt" | "star_connect" | "hack_complete" | "achievement_unlock" | "tier_up" | "notification";
 
 interface RoomAmbience {
   layers: { type: SoundLayer; volume: number; }[];
@@ -841,6 +841,158 @@ class ProceduralSoundEngine {
           osc.start(ctx.currentTime + delay);
           osc.stop(ctx.currentTime + delay + 0.35);
         });
+        break;
+      }
+      case "puzzle_solve": case "hack_complete": case "signal_decrypt": {
+        // Triumphant resolution chord
+        [523, 659, 784, 1047].forEach((freq, i) => {
+          const osc = ctx.createOscillator();
+          osc.type = "sine";
+          osc.frequency.value = freq;
+          const g = ctx.createGain();
+          g.gain.setValueAtTime(0, ctx.currentTime + i * 0.05);
+          g.gain.linearRampToValueAtTime(0.1, ctx.currentTime + i * 0.05 + 0.05);
+          g.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.6);
+          osc.connect(g);
+          g.connect(this.masterGain!);
+          osc.start(ctx.currentTime + i * 0.05);
+          osc.stop(ctx.currentTime + 0.6);
+        });
+        break;
+      }
+      case "puzzle_fail": {
+        // Descending minor
+        const osc = ctx.createOscillator();
+        osc.type = "triangle";
+        osc.frequency.setValueAtTime(400, ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(200, ctx.currentTime + 0.3);
+        gain.gain.setValueAtTime(0.15, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.3);
+        osc.connect(gain);
+        osc.start();
+        osc.stop(ctx.currentTime + 0.3);
+        break;
+      }
+      case "quiz_correct": case "star_connect": {
+        // Bright ping
+        const osc = ctx.createOscillator();
+        osc.type = "sine";
+        osc.frequency.setValueAtTime(880, ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(1760, ctx.currentTime + 0.12);
+        gain.gain.setValueAtTime(0.18, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.25);
+        osc.connect(gain);
+        osc.start();
+        osc.stop(ctx.currentTime + 0.25);
+        break;
+      }
+      case "quiz_wrong": {
+        // Low buzzer
+        const osc = ctx.createOscillator();
+        osc.type = "sawtooth";
+        osc.frequency.value = 150;
+        const filt = ctx.createBiquadFilter();
+        filt.type = "lowpass";
+        filt.frequency.value = 300;
+        gain.gain.setValueAtTime(0.18, ctx.currentTime);
+        gain.gain.setValueAtTime(0.18, ctx.currentTime + 0.3);
+        gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.4);
+        osc.connect(filt);
+        filt.connect(gain);
+        osc.start();
+        osc.stop(ctx.currentTime + 0.4);
+        break;
+      }
+      case "casino_spin": {
+        // Ratcheting reel
+        for (let i = 0; i < 8; i++) {
+          const osc = ctx.createOscillator();
+          osc.type = "square";
+          osc.frequency.value = 200 + i * 20;
+          const g = ctx.createGain();
+          g.gain.setValueAtTime(0.08, ctx.currentTime + i * 0.08);
+          g.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + i * 0.08 + 0.06);
+          osc.connect(g);
+          g.connect(this.masterGain!);
+          osc.start(ctx.currentTime + i * 0.08);
+          osc.stop(ctx.currentTime + i * 0.08 + 0.07);
+        }
+        break;
+      }
+      case "casino_win": {
+        // Coin cascade
+        [0, 0.1, 0.2, 0.3].forEach((delay, i) => {
+          const osc = ctx.createOscillator();
+          osc.type = "sine";
+          osc.frequency.value = 1200 + i * 200;
+          const g = ctx.createGain();
+          g.gain.setValueAtTime(0, ctx.currentTime + delay);
+          g.gain.linearRampToValueAtTime(0.15, ctx.currentTime + delay + 0.02);
+          g.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + delay + 0.2);
+          osc.connect(g);
+          g.connect(this.masterGain!);
+          osc.start(ctx.currentTime + delay);
+          osc.stop(ctx.currentTime + delay + 0.2);
+        });
+        break;
+      }
+      case "casino_jackpot": {
+        // Triumphant fanfare
+        [523, 659, 784, 1047, 1319].forEach((freq, i) => {
+          const osc = ctx.createOscillator();
+          osc.type = "square";
+          osc.frequency.value = freq;
+          const g = ctx.createGain();
+          g.gain.setValueAtTime(0, ctx.currentTime + i * 0.08);
+          g.gain.linearRampToValueAtTime(0.1, ctx.currentTime + i * 0.08 + 0.05);
+          g.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 1.0);
+          osc.connect(g);
+          g.connect(this.masterGain!);
+          osc.start(ctx.currentTime + i * 0.08);
+          osc.stop(ctx.currentTime + 1.0);
+        });
+        break;
+      }
+      case "specimen_bond": {
+        // Warm ascending harmony
+        [440, 554, 659, 880].forEach((freq, i) => {
+          const osc = ctx.createOscillator();
+          osc.type = "sine";
+          osc.frequency.value = freq;
+          const g = ctx.createGain();
+          g.gain.setValueAtTime(0, ctx.currentTime + i * 0.12);
+          g.gain.linearRampToValueAtTime(0.12, ctx.currentTime + i * 0.12 + 0.1);
+          g.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.9);
+          osc.connect(g);
+          g.connect(this.masterGain!);
+          osc.start(ctx.currentTime + i * 0.12);
+          osc.stop(ctx.currentTime + 0.9);
+        });
+        break;
+      }
+      case "achievement_unlock": case "tier_up": {
+        // Grand reveal — shimmer + bell
+        const osc1 = ctx.createOscillator();
+        osc1.type = "sine";
+        osc1.frequency.setValueAtTime(1047, ctx.currentTime);
+        osc1.frequency.linearRampToValueAtTime(2093, ctx.currentTime + 0.6);
+        gain.gain.setValueAtTime(0.15, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.8);
+        osc1.connect(gain);
+        osc1.start();
+        osc1.stop(ctx.currentTime + 0.8);
+        break;
+      }
+      case "notification": {
+        // Soft bell
+        const osc = ctx.createOscillator();
+        osc.type = "sine";
+        osc.frequency.value = 1320;
+        gain.gain.setValueAtTime(0.1, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.2);
+        osc.connect(gain);
+        osc.start();
+        osc.stop(ctx.currentTime + 0.2);
         break;
       }
     }
