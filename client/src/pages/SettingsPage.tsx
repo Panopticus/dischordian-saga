@@ -19,7 +19,7 @@ import {
   Gamepad2, RotateCcw, Check, Lock, Monitor, Accessibility,
   Type, Zap, ChevronDown, ChevronUp, User, LogOut, LogIn,
   Download, Cloud, CloudOff, Shield, Eye, EyeOff, Sparkles,
-  Gauge, HelpCircle, SkipForward
+  Gauge, HelpCircle, SkipForward, MessageCircle, ExternalLink, Users
 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -602,6 +602,42 @@ export default function SettingsPage() {
             >
               {exporting ? "EXPORTING..." : "EXPORT"}
             </button>
+          </div>
+        </SettingsSection>
+
+        {/* ═══ COMMUNITY ═══ */}
+        <SettingsSection title="Community" icon={Users}>
+          <div className="space-y-3">
+            <div className="p-3 rounded-lg border border-border/60 bg-gradient-to-br from-indigo-500/5 to-purple-500/5">
+              <div className="flex items-start gap-3">
+                <div className="w-10 h-10 rounded-md bg-indigo-500/20 border border-indigo-500/40 flex items-center justify-center shrink-0">
+                  <MessageCircle size={18} className="text-indigo-400" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2 mb-1">
+                    <h3 className="font-display text-sm font-bold tracking-wider text-foreground">DISCORD</h3>
+                    <span className="font-mono text-[8px] px-1.5 py-0.5 rounded bg-indigo-500/20 text-indigo-300 tracking-wider">LIVE</span>
+                  </div>
+                  <p className="font-mono text-[10px] text-muted-foreground/80 leading-relaxed mb-3">
+                    Join the Dischordian community. Decode Voltari signals together, coordinate alliance wars, share lore theories, and hear announcements straight from the Storyteller.
+                  </p>
+                  <a
+                    href="https://discord.gg/vGYfAEWaA"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => toast.success("Opening Discord…")}
+                    className="inline-flex items-center gap-2 px-3 py-1.5 rounded-md bg-indigo-500 hover:bg-indigo-400 text-white font-mono text-[10px] tracking-wider transition-colors"
+                    data-testid="link-discord"
+                  >
+                    JOIN DISCORD
+                    <ExternalLink size={11} />
+                  </a>
+                </div>
+              </div>
+            </div>
+            <p className="font-mono text-[9px] text-muted-foreground/50 text-center">
+              Official channels: #ark-bridge · #voltari-decode · #alliance-war · #lore-theories
+            </p>
           </div>
         </SettingsSection>
 
