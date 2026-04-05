@@ -219,6 +219,10 @@ export interface GameState {
   apprentice: unknown | null;       // Current Apprentice (shape: shared/apprentices.ts Apprentice)
   apprenticeFallen: unknown[];      // History of fallen Apprentices
   apprenticeRecruitCooldownUntil: number; // Timestamp when player can recruit again
+  // Dark Arts tracking (see shared/darkArts.ts)
+  corruptionLevel: number;          // 0-100
+  darkAbilitiesUsed: string[];      // IDs of dark variants the player has used
+  purgeRitualsCompleted: string[];  // IDs of purge rituals completed
 }
 
 /* ─── ROOM DEFINITIONS ─── */
@@ -942,6 +946,9 @@ const DEFAULT_GAME_STATE: GameState = {
   apprentice: null,
   apprenticeFallen: [],
   apprenticeRecruitCooldownUntil: 0,
+  corruptionLevel: 0,
+  darkAbilitiesUsed: [],
+  purgeRitualsCompleted: [],
 };
 
 const GAME_STORAGE_KEY = "loredex_game_state";
@@ -1058,6 +1065,10 @@ interface GameContextValue {
   setApprentice: (apprentice: unknown | null) => void;
   recordFallenApprentice: (apprentice: unknown) => void;
   setApprenticeRecruitCooldown: (untilTs: number) => void;
+  // Dark Arts setters
+  addCorruption: (amount: number) => void;
+  recordDarkAbilityUse: (abilityId: string) => void;
+  completePurgeRitual: (ritualId: string, reduction: number) => void;
 }
 
 const GameContext = createContext<GameContextValue | null>(null);
@@ -1531,6 +1542,30 @@ export function GameProvider({ children }: { children: ReactNode }) {
 
   const setApprenticeRecruitCooldown = useCallback((untilTs: number) => {
     setState(prev => ({ ...prev, apprenticeRecruitCooldownUntil: untilTs }));
+  }, []);
+
+  const addCorruption = useCallback((amount: number) => {
+    setState(prev => ({
+      ...prev,
+      corruptionLevel: Math.max(0, Math.min(100, (prev.corruptionLevel ?? 0) + amount)),
+    }));
+  }, []);
+
+  const recordDarkAbilityUse = useCallback((abilityId: string) => {
+    setState(prev => ({
+      ...prev,
+      darkAbilitiesUsed: prev.darkAbilitiesUsed.includes(abilityId)
+        ? prev.darkAbilitiesUsed
+        : [...prev.darkAbilitiesUsed, abilityId],
+    }));
+  }, []);
+
+  const completePurgeRitual = useCallback((ritualId: string, reduction: number) => {
+    setState(prev => ({
+      ...prev,
+      corruptionLevel: Math.max(0, (prev.corruptionLevel ?? 0) - reduction),
+      purgeRitualsCompleted: [...prev.purgeRitualsCompleted, ritualId],
+    }));
   }, []);
 
   const updatePetBond = useCallback((petId: string, partial: Partial<GameState["petBonds"][string]>) => {
@@ -2240,6 +2275,9 @@ export function GameProvider({ children }: { children: ReactNode }) {
       setApprentice,
       recordFallenApprentice,
       setApprenticeRecruitCooldown,
+      addCorruption,
+      recordDarkAbilityUse,
+      completePurgeRitual,
     }}>
       {children}
     </GameContext.Provider>
