@@ -268,7 +268,7 @@ export const KEEPSAKE_TRINKETS: KeepsakeTrinket[] = [
     loreText: "The tag says Agent Zero. The data says The Engineer. The truth says: does it matter whose name is on the tag if the mission continues?" },
   { id: "locke_trade_coin", npcId: "adjudicator_locke", name: "Locke's Trade Coin", description: "A New Babylon credit chip. Both sides show the same face.",
     trustRequired: 50, bonus: { stat: "dream_bonus", value: 10, percent: true },
-    loreText: "'Heads I win, tails you lose,' Locke said as he gave it to you. 'That's not a joke. That's monetary policy.'" },
+    loreText: "'Heads I win, tails you lose,' Locke said as she pressed it into your palm with her gloved hand, her steampunk eye patch catching the light. 'That's not a joke. That's monetary policy.'" },
   { id: "source_memory_shard", npcId: "the_source", name: "Kael's Last Memory", description: "A crystallized fragment of consciousness. Inside: a melody.",
     trustRequired: 50, bonus: { stat: "hp", value: 10, percent: true },
     loreText: "One memory survived the virus. A woman singing. Kael can't remember her name. But the melody is the most beautiful thing left in his trillion-mind swarm." },

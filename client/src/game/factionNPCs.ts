@@ -140,12 +140,12 @@ export const FACTION_NPCS: Record<FactionNPCId, FactionNPC> = {
   adjudicator_locke: {
     id: "adjudicator_locke",
     name: "Adjudicator Locke",
-    title: "Special Case Manager, Central Control Authority",
+    title: "Special Case Manager, Central Control Authority (steampunk eye patch, sharp features, New Babylon's dangerous woman)",
     faction: "new_babylon",
     manifestation: "comms_signal",
     color: "#e040fb",
     typeSpeed: 22, // Deliberate, precise, slightly sinister
-    agenda: "Extend New Babylon's influence to the Inception Arks. Recruit the player as an asset. Trade forbidden knowledge for loyalty. Investigate the Thought Virus for potential weaponization.",
+    agenda: "Extend New Babylon's influence to the Inception Arks. Recruit the player as an asset. Trade forbidden knowledge for loyalty. Investigate the Thought Virus for potential weaponization. (She lost the eye in a deal that went wrong — she won't say which deal. The eye patch is a reminder: every trade has a price.)",
     primaryRoom: "trade_hub",
     secondaryRooms: ["archives", "cargo_bay", "bridge"],
     relationships: [

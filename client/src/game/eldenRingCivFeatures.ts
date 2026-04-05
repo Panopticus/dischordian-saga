@@ -311,7 +311,7 @@ export const LIVING_CONSEQUENCES: LivingConsequence[] = [
       { roomId: "armory", effect: "insurgent_tension", description: "Insurgency markings in the Armory glow hostile. Agent Zero's signal crackles with static." },
     ],
     npcShifts: [
-      { npcId: "adjudicator_locke", newBehavior: "Locke calls you 'partner' now. His deals are better. His smile is wider. Both should worry you." },
+      { npcId: "adjudicator_locke", newBehavior: "Locke calls you 'partner' now. Her deals are better. Her steampunk eye patch catches light differently when she's pleased. Both should worry you." },
       { npcId: "agent_zero", newBehavior: "Agent Zero's transmissions are shorter. Colder. 'You chose your side, Operative.'" },
     ],
   },

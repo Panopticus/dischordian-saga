@@ -8,7 +8,7 @@
    Special Case Manager, Central Control Authority of
    New Babylon. He doesn't judge. He trades.
 
-   Locke knew The Human from his centuries operating
+   Locke knew The Human from her centuries operating
    in New Babylon as The Detective. He respects cunning,
    rewards greed, and views every interaction as a
    transaction with terms yet to be negotiated.
@@ -17,11 +17,11 @@
    Where The Human values: cunning, independence, truth
    Locke values: leverage, pragmatism, mutual profit
 
-   The twist: Locke is honest about his dishonesty.
+   The twist: Locke is honest about her dishonesty.
    He never pretends to be moral. That transparency
-   makes him, paradoxically, one of the most reliable
+   makes her, paradoxically, one of the most reliable
    actors on the Ark — because you always know exactly
-   what he wants. More.
+   what she wants. More.
 
    Manifestation: comms_signal
    Primary Room: Trade Hub
@@ -46,13 +46,13 @@ export const LOCKE_TRUST_DESCRIPTIONS: Record<LockeTrustTier, string> = {
   prospect:
     "Locke is sizing you up — running credit checks on your soul. You are an unpriced commodity.",
   client:
-    "Locke has opened a ledger with your name on it. He offers deals, tests your limits, and watches which ones you accept.",
+    "Locke has opened a ledger with your name on it. She offers deals, tests your limits, and watches which ones you accept through her steampunk eye patch.",
   partner:
     "Locke shares forbidden knowledge the way other people share wine — generously, strategically, and always expecting reciprocity.",
   insider:
-    "Locke treats you as an operative. He reveals New Babylon's real interests aboard the Ark, and the price of that knowledge is complicity.",
+    "Locke treats you as an operative. She reveals New Babylon's real interests aboard the Ark, and the price of that knowledge is complicity.",
   adjudicated:
-    "Locke has rendered his verdict: you are worth the truth. He tells you what New Babylon truly wants from the Inception Arks — and what it will cost everyone.",
+    "Locke has rendered her verdict: you are worth the truth. She tells you what New Babylon truly wants from the Inception Arks — and what it will cost everyone.",
 };
 
 /* ─── LOCKE PERSONALITY ─── */
@@ -86,9 +86,9 @@ export function getLockePersonality(
  *
  * His dialog should feel:
  * - Transactional (every sentence carries an implied cost or benefit)
- * - Worldly (he has seen civilizations rise and fall, and profited from both)
- * - Disarming (his candor about corruption is itself a negotiation tactic)
- * - Precise (he speaks like a contract — every word chosen, every clause deliberate)
+ * - Worldly (she has seen civilizations rise and fall, and profited from both)
+ * - Disarming (her candor about corruption is itself a negotiation tactic)
+ * - Precise (she speaks like a contract — every word chosen, every clause deliberate)
  */
 
 export interface LockeWhisper {
