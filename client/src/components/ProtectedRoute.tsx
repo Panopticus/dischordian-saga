@@ -77,8 +77,29 @@ export const ROUTE_ROOM_MAP: Record<string, string> = {
   // New game routes
   "/gamemasters-arena": "archives",    // Quiz show in the Matrix of Dreams
   "/casino": "trade-hub",              // Degen's Casino in Ne-Yon space
+  // Minigames in specific rooms
+  "/signal-decryption": "comms-array",  // Wordle-style in Comms Array
+  "/star-chart": "observation-deck",    // Constellation matching
+  "/hacking": "engineering",            // Pipe-connect in Engineering
+  // Extended routes that were ungated
+  "/space-station": "cargo-hold",
+  "/syndicate-world": "cargo-hold",
+  "/tower-defense": "armory",
+  "/prestige-quests": "captains-quarters",
+  "/competitive-arena": "armory",
+  "/seasonal-events": "bridge",
+  "/replays": "armory",
+  "/personal-quarters": "captains-quarters",
+  "/friendly-challenges": "armory",
+  "/coop-raids": "armory",
+  "/boss-mastery": "armory",
+  "/cosmetic-shop": "trade-hub",
+  "/donations": "trade-hub",
+  "/social": "captains-quarters",
+  "/lore-journal": "archives",
+  "/army": "cryo-bay",
   // Always accessible (Ark Explorer system)
-  // /ark, /ark-legacy, /console, /games, /clue-journal, /settings, /admin
+  // /ark, /ark-legacy, /console, /clue-journal, /settings, /admin
 };
 
 // Room names for the locked message
@@ -91,6 +112,10 @@ const ROOM_NAMES: Record<string, string> = {
   "engineering": "Engineering Bay",
   "cargo-hold": "the Cargo Hold",
   "captains-quarters": "the Captain's Quarters",
+  "medical-bay": "the Medical Bay",
+  "cryo-bay": "the Cryo Bay",
+  "trade-hub": "the Trade Hub",
+  "trophy-room": "the Trophy Room",
 };
 
 // Narrative hints for how to unlock each room

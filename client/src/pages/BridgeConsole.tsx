@@ -248,7 +248,7 @@ export default function BridgeConsole() {
           <span className="font-mono text-[9px] text-white/20 tracking-[0.2em]">SHIP STATUS</span>
         </div>
         <div className="grid grid-cols-3 gap-2">
-          <div className="p-2.5 rounded-lg border border-white/5 bg-white/[0.02]">
+          <div className="p-2.5 rounded-lg void-surface">
             <p className="font-display text-lg font-bold text-cyan-400">{discoveredRooms}</p>
             <p className="font-mono text-[7px] text-white/20 tracking-wider">SECTORS</p>
           </div>

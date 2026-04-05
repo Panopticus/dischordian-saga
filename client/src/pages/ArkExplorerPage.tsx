@@ -195,12 +195,14 @@ function RoomScene({
   itemsCollected,
   fastTravelUnlocked = false,
   commsRelayComplete = false,
+  roomsWithEvents = new Set<string>(),
 }: {
   room: RoomDef;
   onHotspotClick: (hotspot: HotspotDef) => void;
   itemsCollected: string[];
   fastTravelUnlocked?: boolean;
   commsRelayComplete?: boolean;
+  roomsWithEvents?: Set<string>;
 }) {
   const [hoveredHotspot, setHoveredHotspot] = useState<string | null>(null);
   const [showHotspots, setShowHotspots] = useState(() => {
@@ -1013,6 +1015,7 @@ export default function ArkExplorerPage() {
             itemsCollected={state.itemsCollected}
             fastTravelUnlocked={fastTravelUnlocked}
             commsRelayComplete={!!state.narrativeFlags["comms_relay_first_claim"]}
+            roomsWithEvents={roomsWithEvents}
           />
 
           {/* Room description */}

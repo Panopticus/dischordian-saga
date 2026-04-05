@@ -130,6 +130,9 @@ const ArmyManagementPage = lazy(() => import("./pages/ArmyManagementPage"));
 const ShipSchematicMap = lazy(() => import("./components/ShipSchematicMap"));
 const GamemastersArenaPage = lazy(() => import("./game/GamemastersArenaPage"));
 const DegensCasinoPage = lazy(() => import("./game/DegensCasinoPage"));
+const SignalDecryptionPage = lazy(() => import("./game/SignalDecryptionPage"));
+const StarChartPage = lazy(() => import("./game/StarChartPage"));
+const HackingPuzzlePage = lazy(() => import("./game/HackingPuzzlePage"));
 
 /* ═══ LOADING FALLBACK ═══ */
 function PageLoader() {
@@ -218,6 +221,9 @@ function Router() {
         <Route path="/spectate" component={SpectatorPage} />
         <Route path="/gamemasters-arena" component={GamemastersArenaPage} />
         <Route path="/casino" component={DegensCasinoPage} />
+        <Route path="/signal-decryption" component={SignalDecryptionPage} />
+        <Route path="/star-chart" component={StarChartPage} />
+        <Route path="/hacking" component={HackingPuzzlePage} />
         <Route path="/space-station" component={SpaceStationPage} />
         <Route path="/syndicate-world" component={SyndicateWorldPage} />
         <Route path="/tower-defense" component={TowerDefensePage} />
