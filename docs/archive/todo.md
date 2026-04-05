@@ -2929,3 +2929,50 @@
 - [ ] Replace battle maps with Dischordian Saga themed environments
 - [ ] Replace music and SFX with Dischordian Saga audio
 - [ ] Set up Duelyst server backend for multiplayer/account management
+
+## Duelyst Auto-Login & API Bridge
+- [x] Build Duelyst API bridge (duelystApi.ts) with session, game data, and inventory endpoints
+- [x] Build server-side auto-login: read Loredex OS session cookie, generate Duelyst JWT, inject into localStorage before game loads
+- [x] Build Firebase shim to absorb Firebase constructor calls in the patched game bundle
+- [x] Fix route ordering: custom HTML route before static middleware with index:false
+- [x] Build faction progression, inventory, rank, quests, and matchmaking stub endpoints
+- [x] Write vitest tests for Duelyst API token creation, verification, and response formats (10 tests passing)
+- [x] Restore game resources (621MB sprites, audio, maps) after sandbox reset
+- [x] Full end-to-end test: Loredex OS login → auto-login → game loads past login screen
+- [x] Fix Bluebird Promise .bind() incompatibility in isAuthenticated (override with native Promise)
+- [x] Fix regex escaping in template literal causing syntax error in post-bundle script
+- [x] Replace staging.duelyst.org URLs with relative paths in game bundle
+- [x] Add deferred setup (window._duelystSetup) to ensure patches apply before game init
+- [x] Add specific API endpoints for rank, inventory, quests, matchmaking, replays
+
+## Duelyst Resources Restore + Reskin + Progression
+- [x] Re-download Open Duelyst game resources (621MB sprites, audio, maps, shaders) from GitHub
+- [x] Reskin all card names and descriptions to Dischordian Saga lore via localization files
+- [x] Map Duelyst 6 factions to Dischordian Saga factions (Empire, Insurgency, Hierarchy of the Damned, Thought Virus, New Babylon, The Potentials)
+- [x] Connect Duelyst victories to XP/progression system (award XP, achievements, track stats)
+- [x] Write vitest tests for progression integration (24 tests passing)
+- [x] Compile comprehensive lore verification document (all factions, characters, cards, spells) — 994 lines
+
+## Lichess Port — The Architect's Gambit Replacement
+- [x] Research Lichess architecture and identify best portable chess engine/UI components
+- [x] Examine current Architect's Gambit implementation to understand integration points
+- [x] Port Lichess chess UI (chessground board) and chess.js engine into Loredex OS
+- [x] Reskin chess UI to match Dischordian Saga lore (board, pieces, colors, terminology)
+- [x] Implement AI opponents: The Architect (grandmaster), Archons (advanced), Neyons (intermediate)
+- [x] Implement multiplayer support for player-vs-player matches
+- [x] Connect chess victories to XP/progression system
+- [x] Write vitest tests for chess game logic and API endpoints (46 tests passing)
+
+## Duelyst Game Resources Restore (3rd time)
+- [ ] Re-download Open Duelyst game resources (621MB) from GitHub
+- [ ] Copy to webdev-static-assets/duelyst-classic/resources/
+- [ ] Verify game loads with resources in browser
+
+## Duelyst Classic Loading Fix (Post-Upgrade)
+- [x] Diagnose duelyst.js bundle not executing after webdev_add_feature upgrade
+- [x] Identify root cause: missing trailing slash in URL causes relative paths to resolve from / instead of /duelyst-classic/
+- [x] Fix: Add <base href="/duelyst-classic/"> tag to HTML template for correct relative path resolution
+- [x] Restructure duelystClassic.ts: remove all pre-bundle interceptors, move everything to post-bundle script
+- [x] Verify game loads past splash screen to tutorial/main menu
+- [x] Verify auto-login works (Session.userId=1, Session.username="Daniel Elkins")
+- [x] Verify all game systems initialized (NavigationManager, ProfileManager, Firebase, CONFIG, cc.director)

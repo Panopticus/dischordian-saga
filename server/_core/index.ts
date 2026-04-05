@@ -10,6 +10,7 @@ import { serveStatic, setupVite } from "./vite";
 import { setupPvpWebSocket } from "../pvpWs";
 import { setupChessPvpWebSocket } from "../chessWs";
 import { registerSpriteProxy } from "../spriteProxy";
+import { registerChessMultiplayer } from "../chessMultiplayer";
 
 function isPortAvailable(port: number): Promise<boolean> {
   return new Promise(resolve => {
@@ -118,8 +119,6 @@ async function startServer() {
   // Sprite proxy (before CSRF — it's a GET endpoint for images)
   registerSpriteProxy(app);
 
-
-
   // CSRF protection
   const { csrfProtection } = await import("../csrf");
   app.use("/api", csrfProtection);
@@ -155,6 +154,9 @@ async function startServer() {
   // Terminus Swarm PvP raids
   const { setupTerminusPvpWebSocket } = await import("../terminusWs");
   setupTerminusPvpWebSocket(server);
+
+  // Chess multiplayer WebSocket
+  registerChessMultiplayer(server);
 
   server.listen(port, () => {
     console.log(`Server running on http://localhost:${port}/`);
