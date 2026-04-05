@@ -230,7 +230,7 @@ export default function CharacterSheetPage() {
   const utils = trpc.useUtils();
   const [showTraitDetails, setShowTraitDetails] = useState(false);
   const [showRespec, setShowRespec] = useState(false);
-  const { state: gameState } = useGame();
+  const { state: gameState, performPrestige } = useGame();
   const gam = useGamification();
 
   // ═══ NARRATIVE INTRO (from Awakening) ═══
@@ -1090,7 +1090,8 @@ export default function CharacterSheetPage() {
                   </div>
                 )}
                 {canP && (
-                  <button className="w-full mt-3 py-2.5 rounded-lg bg-amber-500/10 border border-amber-400/30 text-amber-400 font-mono text-[10px] font-bold tracking-wider hover:bg-amber-500/20 transition-all">
+                  <button onClick={() => { if (window.confirm("Prestige will reset your level, rooms, and quests. NPC trust, cards, equipment, and achievements are kept. Continue?")) { performPrestige(); } }}
+                    className="w-full mt-3 py-2.5 rounded-lg bg-amber-500/10 border border-amber-400/30 text-amber-400 font-mono text-[10px] font-bold tracking-wider hover:bg-amber-500/20 transition-all">
                     PRESTIGE NOW — Reset level, keep everything that matters
                   </button>
                 )}

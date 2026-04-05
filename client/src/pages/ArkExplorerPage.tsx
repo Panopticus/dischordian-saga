@@ -17,6 +17,9 @@ import NPCDialog, { buildFirstContactScene, type NPCDialogScene, type NPCDialogC
 import type { FactionNPCId } from "@/game/factionNPCs";
 import { getAvailableBanter, type CompanionBanter } from "@/game/biowareFeatures";
 import { dispatchRememberThis } from "@/game/narrativeSystems";
+import { getActiveBreadcrumbs, type BreadcrumbChain } from "@/game/eldenRingCivFeatures";
+import { getCluesForRoom, type EnvironmentalClue } from "@/game/puzzleClues";
+import { getAdjustedTrustGain } from "@/game/npcDailyRotation";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLocation } from "wouter";
 import {
@@ -552,6 +555,33 @@ export default function ArkExplorerPage() {
       return () => clearTimeout(timer);
     }
   }, [state.currentRoomId]);
+
+  // Breadcrumb chain: after completing something, Elara announces what activated elsewhere
+  const [breadcrumbMessage, setBreadcrumbMessage] = useState<string | null>(null);
+  useEffect(() => {
+    if (!state.currentRoomId) return;
+    const completedActions = new Set<string>(
+      Object.keys(state.narrativeFlags || {}).map(k => k) // All flags are potential actions
+    );
+    const crumbs = getActiveBreadcrumbs(completedActions, state.currentRoomId.replace(/-/g, "_"));
+    if (crumbs.length > 0) {
+      const top = crumbs[0];
+      // Show after room loads + Elara intro + banter
+      const timer = setTimeout(() => {
+        setBreadcrumbMessage(top.elaraMessage);
+        setTimeout(() => setBreadcrumbMessage(null), 8000);
+      }, 8000);
+      return () => clearTimeout(timer);
+    }
+  }, [state.currentRoomId, state.narrativeFlags]);
+
+  // Puzzle clues visible in current room
+  const roomClues = useMemo(() => {
+    if (!state.currentRoomId) return [];
+    const roomKey = state.currentRoomId.replace(/-/g, "_");
+    return getCluesForRoom(roomKey);
+  }, [state.currentRoomId]);
+
   const [gameHint, setGameHint] = useState<ArkEventResult["gameHint"] | null>(null);
 
   const [puzzleRoomId, setPuzzleRoomId] = useState<string | null>(null);
@@ -1400,6 +1430,44 @@ export default function ArkExplorerPage() {
           />
         )}
       </AnimatePresence>
+
+      {/* Breadcrumb Chain Message (Elden Ring "one more room" loop) */}
+      <AnimatePresence>
+        {breadcrumbMessage && (
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: 20 }}
+            className="fixed top-14 left-4 right-4 sm:left-auto sm:right-4 sm:w-[360px] z-[82]"
+          >
+            <div className="p-3 rounded-xl bg-cyan-950/90 border border-cyan-400/20 backdrop-blur-md"
+              onClick={() => setBreadcrumbMessage(null)}>
+              <div className="flex items-center gap-2 mb-1">
+                <div className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
+                <span className="font-mono text-[8px] text-cyan-400/60 tracking-wider">ELARA // SYSTEM ALERT</span>
+              </div>
+              <p className="font-mono text-[10px] text-cyan-300/80 leading-relaxed">{breadcrumbMessage}</p>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Puzzle Clues (Sierra/LucasArts environmental hints) */}
+      {roomClues.length > 0 && (
+        <div className="fixed bottom-28 right-4 z-[75] max-w-[200px]">
+          {roomClues.slice(0, 2).map((clue, i) => (
+            <motion.div
+              key={clue.id}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 0.6, y: 0 }}
+              transition={{ delay: 3 + i * 2 }}
+              className="mb-1.5 p-2 rounded-lg bg-amber-950/60 border border-amber-500/10"
+            >
+              <p className="font-mono text-[8px] text-amber-400/50 leading-relaxed">{clue.text}</p>
+            </motion.div>
+          ))}
+        </div>
+      )}
 
       {/* Companion Banter (BioWare-style NPC-to-NPC dialog) */}
       <AnimatePresence>

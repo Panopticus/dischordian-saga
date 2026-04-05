@@ -11,6 +11,8 @@ import {
 } from "lucide-react";
 import { getLoginUrl } from "@/const";
 import { ACHIEVEMENT_CHAINS, type AchievementChain } from "@/game/achievementChains";
+import { useGame } from "@/contexts/GameContext";
+import { useGamification } from "@/contexts/GamificationContext";
 
 // Trophy room themes
 const ROOM_THEMES = [
@@ -83,6 +85,8 @@ const DISPLAY_LAYOUTS = [
 
 export default function TrophyRoomPage() {
   const { user, isAuthenticated } = useAuth();
+  const { state: gameState } = useGame();
+  const gam = useGamification();
   const [activeTheme, setActiveTheme] = useState(ROOM_THEMES[0]);
   const [layout, setLayout] = useState(DISPLAY_LAYOUTS[0]);
   const [showThemeSelector, setShowThemeSelector] = useState(false);
@@ -289,7 +293,29 @@ export default function TrophyRoomPage() {
         </div>
         <div className="grid gap-3 sm:grid-cols-2">
           {Object.values(ACHIEVEMENT_CHAINS).map((chain: AchievementChain) => {
-            const completedCount = 0; // TODO: wire to actual progress
+            // Calculate real progress from game state
+            const completedCount = chain.requirements.reduce((count, req) => {
+              // Check common requirement patterns by chain ID
+              if (chain.id === "master_of_the_ark") {
+                // Count discovered rooms
+                return Object.values(gameState.rooms).filter(r => r.unlocked).length >= req.target ? count + 1 : count;
+              }
+              if (chain.id === "the_diplomat") {
+                // Count NPCs at trust 40+
+                const trusts = [gameState.elaraTrust || 0, gameState.humanTrust || 0, ...Object.values(gameState.npcTrust || {})];
+                return trusts.filter(t => t >= 40).length >= req.target ? count + 1 : count;
+              }
+              if (chain.id === "combat_legend") {
+                return (gam.gameSave?.totalFights || 0) >= req.target ? count + 1 : count;
+              }
+              if (chain.id === "lore_keeper") {
+                return (gameState.completedGames?.length || 0) >= req.target ? count + 1 : count;
+              }
+              if (chain.id === "the_witness") {
+                return (gameState.completedGames?.length || 0) >= req.target ? count + 1 : count;
+              }
+              return count;
+            }, 0);
             const total = chain.requirements.length;
             const percent = Math.round((completedCount / total) * 100);
             const done = completedCount >= total;

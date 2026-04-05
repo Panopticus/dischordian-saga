@@ -983,6 +983,8 @@ interface GameContextValue {
   setNpcCallback: (npcId: string, callbackId: string) => void;
   revealNpcSecret: (npcId: string, revelationId: string) => void;
   incrementNpcConversation: (npcId: string) => void;
+  // ═══ PRESTIGE ═══
+  performPrestige: () => void;
   // ═══ ARMY MANAGEMENT ═══
   recruitUnit: (unit: ArmyUnit) => void;
   deployUnits: (deployment: ArmyDeployment) => void;
@@ -1566,6 +1568,32 @@ export function GameProvider({ children }: { children: ReactNode }) {
     }));
   }, []);
 
+  // ═══ PRESTIGE SYSTEM ═══
+  const performPrestige = useCallback(() => {
+    setState(prev => {
+      const currentPrestige = (prev as any).prestige || 0;
+      if (prev.narrativeAct < 1) return prev; // Must have progressed
+      return {
+        ...prev,
+        // Reset progression
+        narrativeAct: 0,
+        narrativeActChoices: [],
+        // Keep: NPC trust, cards, equipment, achievements, completedGames
+        // Reset: rooms (re-explore), quests, crafting materials
+        rooms: Object.fromEntries(
+          Object.entries(prev.rooms).map(([id, room]) => [id, { ...room, unlocked: id === "cryo-bay", visited: id === "cryo-bay", visitCount: id === "cryo-bay" ? 1 : 0, elaraDialogSeen: false }])
+        ),
+        claimedQuestRewards: [],
+        craftingMaterials: {},
+        craftedItems: [],
+        craftingLog: [],
+        currentRoomId: "cryo-bay",
+        // Increment prestige
+        prestige: currentPrestige + 1,
+      } as any;
+    });
+  }, []);
+
   // ═══ ARMY MANAGEMENT CALLBACKS ═══
   const recruitUnit = useCallback((unit: ArmyUnit) => {
     setState(prev => ({ ...prev, armyUnits: [...prev.armyUnits, unit] }));
@@ -2033,6 +2061,8 @@ export function GameProvider({ children }: { children: ReactNode }) {
       setNpcCallback,
       revealNpcSecret,
       incrementNpcConversation,
+      // ═══ PRESTIGE ═══
+      performPrestige,
       // ═══ ARMY MANAGEMENT ═══
       recruitUnit,
       deployUnits,

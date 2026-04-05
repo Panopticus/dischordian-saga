@@ -20,6 +20,7 @@
 
 import type { RoomEvent, EventType, RoomId } from "./livingArk";
 import type { FactionNPCId } from "./factionNPCs";
+import { getAdjustedTrustGain } from "./npcDailyRotation";
 
 /* ─── EVENT RESULT ─── */
 
@@ -149,6 +150,12 @@ export function processArkEvent(event: RoomEvent, daySeed: number): ArkEventResu
   if (mats) {
     result.materials = mats;
   }
+
+  // Apply NPC daily rotation trust multiplier (featured NPC gets 2x trust)
+  result.trustChanges = result.trustChanges.map(tc => ({
+    ...tc,
+    delta: getAdjustedTrustGain(tc.npcId, tc.delta),
+  }));
 
   // Quest progress signals (generic)
   result.questSignals.push(`ark_event_${event.type}`);
