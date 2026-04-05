@@ -159,15 +159,119 @@ function makeBetrayalEvent(app: Apprentice): BetrayalEvent {
 }
 
 export function generateBetrayalEvent(app: Apprentice, stage: BetrayalStage): BetrayalEvent {
-  switch (stage) {
-    case "warning": return makeWarningEvent(app);
-    case "turn": return makeTurnEvent(app);
-    case "declaration": return makeDeclarationEvent(app);
-    case "betrayal": return makeBetrayalEvent(app);
+  // Base event per stage
+  const base: BetrayalEvent = (() => {
+    switch (stage) {
+      case "warning": return makeWarningEvent(app);
+      case "turn": return makeTurnEvent(app);
+      case "declaration": return makeDeclarationEvent(app);
+      case "betrayal": return makeBetrayalEvent(app);
+    }
+  })();
+  // Overlay archetype-specific flavor (template with {name} interpolated)
+  const flavor = ARCHETYPE_EVENT_FLAVOR[app.archetype]?.[stage];
+  if (flavor?.prompt) {
+    let prompt = flavor.prompt.replaceAll("{name}", app.name);
+    // Preserve hidden motive at declaration stage — it's the key reveal
+    if (stage === "declaration" && app.hiddenMotive) {
+      prompt = `${prompt}\n\n"${app.hiddenMotive}"`;
+    }
+    // Preserve evil-from-start distinction at betrayal stage
+    if (stage === "betrayal" && app.evilFromStart) {
+      prompt = `${prompt} This was the plan from Day 1.`;
+    }
+    return { ...base, prompt };
   }
+  return base;
 }
 
-/* ─── ARCHETYPE-SPECIFIC FLAVOR (hooks for future expansion) ─── */
+/* ─── ARCHETYPE-SPECIFIC FLAVOR OVERLAYS ─── */
+/* Each archetype reframes the 4 betrayal stages with their own voice.
+   If an archetype has no entry for a given stage, the generic event fires. */
+
+interface ArchetypeFlavor {
+  warning?: { prompt?: string };
+  turn?: { prompt?: string };
+  declaration?: { prompt?: string };
+  betrayal?: { prompt?: string };
+}
+
+const ARCHETYPE_EVENT_FLAVOR: Partial<Record<ApprenticeArchetype, ArchetypeFlavor>> = {
+  zealot: {
+    warning: { prompt: `At prayer, {name} mouths the wrong name under their breath. They catch you listening.` },
+    turn: { prompt: `You find {name} in the chapel at 3 AM. Burning the wrong book. They smile — calm, not caught.` },
+    declaration: { prompt: `{name} tells you they were never praying to your cause. They were waiting for you to fail it.` },
+    betrayal: { prompt: `{name} lifts a weapon with the reverence they once reserved for you.` },
+  },
+  ghost: {
+    warning: { prompt: `You feel watched. You turn. {name} is not where they were. Something is different about the room.` },
+    turn: { prompt: `Your private files have been read. {name} says nothing. Their face doesn't change. It's already too late.` },
+    declaration: { prompt: `{name} appears from nowhere: "I've been listening. I'm not who you thought I was listening FOR."` },
+    betrayal: { prompt: `{name} stands in a place they should not be able to reach. A weapon appears in their hand like the room grew it.` },
+  },
+  scholar: {
+    warning: { prompt: `{name} corrects you at dinner. It's a small error. But they cite a source you've never given them access to.` },
+    turn: { prompt: `You find {name} cross-referencing you against an encyclopedia you don't own. They close it too quickly.` },
+    declaration: { prompt: `{name} reads aloud from a book that details everything you've done. "I've been annotating. I thought you should know."` },
+    betrayal: { prompt: `{name} recites your failures as a mathematical proof. The conclusion is a weapon.` },
+  },
+  revenant: {
+    warning: { prompt: `{name} says something you've heard before — from a person who died. Word for word.` },
+    turn: { prompt: `{name} collects your fingerprints. "For the archive I owe," they say. You don't remember making them.` },
+    declaration: { prompt: `{name} names a ghost you killed. "They sent me. They're waiting. Today I settle their account."` },
+    betrayal: { prompt: `{name} moves with the muscle-memory of someone else. Someone you buried. They have come back through the door you thought was locked.` },
+  },
+  artisan: {
+    warning: { prompt: `The thing {name} built for you is subtly wrong. One weld crooked. A tool they never leave crooked.` },
+    turn: { prompt: `You catch {name} dismantling a gift they made you. They finish the work with care — then pocket the key piece.` },
+    declaration: { prompt: `{name} places a finished object on the table. "This one's for me. I built you badly. This one I'll build right."` },
+    betrayal: { prompt: `{name} attacks with a weapon they made in your own forge. Quiet satisfaction in every strike.` },
+  },
+  oracle: {
+    warning: { prompt: `{name} has been dreaming of your death. They tell you over breakfast. They seem to find it comforting.` },
+    turn: { prompt: `{name} predicts a disaster. It happens. You realize they predicted it because they caused it.` },
+    declaration: { prompt: `{name} says: "I saw this moment three months ago. I arranged every step to walk you into it. I'm sorry I was right."` },
+    betrayal: { prompt: `{name} attacks with prophetic certainty — every dodge you try, they anticipated weeks ago.` },
+  },
+  wanderer: {
+    warning: { prompt: `{name} has been packing a go-bag every night. They tell you it's a habit. It's not.` },
+    turn: { prompt: `You wake up. {name} is gone. They come back by noon. Something of yours is missing. They're warm again.` },
+    declaration: { prompt: `{name} announces at dinner: "I'm going tomorrow. I want you to know who's paying me to go. It's you, in a way."` },
+    betrayal: { prompt: `{name} leaves the ship at full speed. Alarms follow them. They took what cannot be replaced.` },
+  },
+  martyr: {
+    warning: { prompt: `{name} starts taking more hits for you than necessary. You notice they're smiling through them.` },
+    turn: { prompt: `{name} is hurt badly. They refuse treatment. "I'm saving this one for the big sacrifice," they whisper.` },
+    declaration: { prompt: `{name} says softly: "Everything I've given you, I'm taking back. I want to burn as brightly going out as I did coming in."` },
+    betrayal: { prompt: `{name} moves to destroy themselves and you together. They are smiling. This is their finest work.` },
+  },
+  heretic: {
+    warning: { prompt: `{name} questions your last three orders in sequence. Their questions are slightly too good.` },
+    turn: { prompt: `{name} is spreading doubt to the crew. You catch a conversation. Your name is in it, and not kindly.` },
+    declaration: { prompt: `{name} stands before the whole crew: "Here's what our Oracle actually believes. Here's what it actually costs. Vote."` },
+    betrayal: { prompt: `{name} has turned half your crew. They ask you to step aside. They promise to be fair. You believe them halfway.` },
+  },
+  jester: {
+    warning: { prompt: `{name} makes a joke at your expense. The crew laughs. The joke was accurate in a way that alarms you.` },
+    turn: { prompt: `{name} does a terrible impression of you. Too terrible. Too accurate. The jokes are barbed now.` },
+    declaration: { prompt: `{name} holds up a mirror: "I've been mocking you to teach you. You didn't learn. So now the joke is real."` },
+    betrayal: { prompt: `{name} attacks mid-punchline. The last thing you hear is the setup to a joke they never finish.` },
+  },
+  sentinel: {
+    warning: { prompt: `{name} asks permission to rotate off your detail. "Concentration issues," they say. Their eyes say something else.` },
+    turn: { prompt: `{name} missed a shift. On purpose. An intruder got close. You think they let it happen.` },
+    declaration: { prompt: `{name} salutes and files a resignation: "I was guarding the wrong person. I know who I should have been guarding now."` },
+    betrayal: { prompt: `{name} attacks at shift change — the hour they know you trust them most. The guard becomes the breach.` },
+  },
+  prodigal: {
+    warning: { prompt: `{name} tells you they're going to see "someone from before." They don't elaborate. They don't come home on time.` },
+    turn: { prompt: `{name} has been on unsanctioned calls. You catch a fragment: an old debt, an old name. They lie about who.` },
+    declaration: { prompt: `{name} finally says it: "I came to you to hide from them. I'm done hiding. I'm going back. I might need to go through you."` },
+    betrayal: { prompt: `{name} does what they always do: they leave. But this time they take your most loyal companion with them, as collateral.` },
+  },
+};
+
+/* ─── ARCHETYPE NARRATIVE FLAVOR (legacy reference) ─── */
 
 export const ARCHETYPE_BETRAYAL_FLAVOR: Partial<Record<ApprenticeArchetype, string>> = {
   zealot: "The Zealot betrays because they found a truer cause. They'll tell you about it while attacking.",
