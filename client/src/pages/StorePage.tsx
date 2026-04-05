@@ -432,11 +432,11 @@ export default function StorePage() {
               <div className="flex-1">
                 <div className="flex items-center gap-2 mb-1">
                   <h3 className="font-display text-sm font-bold tracking-wider text-purple-300">THE POTENTIALS</h3>
-                  <span className="px-1.5 py-0.5 rounded text-[8px] font-mono tracking-wider bg-purple-500/20 text-purple-300 border border-purple-500/30">NFT</span>
+                  <span className="px-1.5 py-0.5 rounded text-[8px] font-mono tracking-wider bg-purple-500/20 text-purple-300 border border-purple-500/30">1/1</span>
                 </div>
                 <p className="font-mono text-xs text-muted-foreground/80 mb-4 leading-relaxed">
-                  Own a Potential NFT? Connect your Ethereum wallet to claim your exclusive 1/1 Loredex card.
-                  Each card is unique — generated from your NFT's art with lore attributes mapped from on-chain metadata.
+                  Own a Potential? Link your signet to claim your exclusive 1/1 Loredex card.
+                  Each card is unique — generated from your Potential's art with lore attributes mapped from its Registry metadata.
                   <span className="text-purple-400"> 1,000 Potentials. 1,000 unique cards. Claim once, yours forever.</span>
                 </p>
                 <div className="flex flex-wrap gap-3">

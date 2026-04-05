@@ -890,8 +890,8 @@ export const LORE_TUTORIALS: LoreTutorial[] = [
   {
     id: "tut-potentials",
     title: "The Potential Protocol",
-    subtitle: "How to connect your wallet, claim NFT rewards, and unlock Ne-Yon characters",
-    mechanic: "Potentials NFT",
+    subtitle: "How to link your signet, claim Potential rewards, and unlock Ne-Yon characters",
+    mechanic: "Potential Registry",
     triggerRoute: "/potentials",
     icon: "Wallet",
     estimatedMinutes: 3,
@@ -899,12 +899,12 @@ export const LORE_TUTORIALS: LoreTutorial[] = [
     steps: [
       {
         id: "pot-1", type: "narration",
-        elaraText: "The Potential Protocol bridges the digital and the tangible. Your Potential NFTs — unique digital entities on the Ethereum blockchain — carry real power aboard the Ark. Each one represents a dormant consciousness waiting to be awakened.",
+        elaraText: "The Potential Protocol bridges the digital and the tangible. Your Potentials — unique consciousness-fragments inscribed in the Registry — carry real power aboard the Ark. Each one represents a dormant identity waiting to be awakened.",
         subtitle: "THE POTENTIAL PROTOCOL — Digital meets destiny",
       },
       {
         id: "pot-2", type: "dialog",
-        elaraText: "Connect your wallet to verify Potential ownership. Each Potential you own generates a unique 1/1 card based on its traits — class, weapon, background. The first ten Potentials can unlock Ne-Yon characters, the most powerful beings in the Saga.",
+        elaraText: "Link your signet to verify Potential ownership. Each Potential you own generates a unique 1/1 card based on its traits — class, weapon, background. The first ten Potentials can unlock Ne-Yon characters, the most powerful beings in the Saga.",
       },
       {
         id: "pot-3", type: "choice",
@@ -926,7 +926,7 @@ export const LORE_TUTORIALS: LoreTutorial[] = [
       },
       {
         id: "pot-4", type: "reward_summary",
-        elaraText: "The Potential Protocol is active. Connect your wallet to claim your rewards and unlock the full power of your digital companions.",
+        elaraText: "The Potential Protocol is active. Link your signet to claim your rewards and unlock the full power of your Potentials.",
       },
     ],
   },

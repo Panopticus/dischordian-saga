@@ -173,8 +173,8 @@ const SYSTEMS: SystemDef[] = [
       { path: "/trophy", label: "TROPHY ROOM", icon: Trophy, desc: "Your trophies" },
       { path: "/achievements", label: "ACHIEVEMENTS", icon: Trophy, desc: "Achievement gallery" },
       { path: "/leaderboard", label: "LEADERBOARD", icon: Trophy, desc: "Top operatives" },
-      { path: "/potentials", label: "THE POTENTIALS", icon: Gem, desc: "NFT collection" },
-      { path: "/potentials/leaderboard", label: "NFT RANKS", icon: Crown, desc: "Holder rankings" },
+      { path: "/potentials", label: "THE POTENTIALS", icon: Gem, desc: "Potential collection" },
+      { path: "/potentials/leaderboard", label: "POTENTIAL RANKS", icon: Crown, desc: "Potential holder rankings" },
     ],
   },
   {

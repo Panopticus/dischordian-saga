@@ -122,7 +122,7 @@ export default function PotentialsPage() {
   // Connect wallet via MetaMask/browser provider
   const connectWallet = useCallback(async () => {
     if (!(window as any).ethereum) {
-      toast.error("No Ethereum wallet detected. Please install MetaMask.");
+      toast.error("No signet detected. Please install a compatible Ethereum wallet (e.g. MetaMask).");
       return;
     }
 
@@ -199,7 +199,7 @@ export default function PotentialsPage() {
             THE <span className="text-purple-400" style={{ textShadow: "0 0 20px rgba(168,85,247,0.5)" }}>POTENTIALS</span>
           </h1>
           <p className="font-mono text-xs sm:text-sm text-muted-foreground max-w-xl mb-5 leading-relaxed">
-            1,000 unique operatives forged on the Ethereum blockchain. Connect your wallet to verify ownership
+            1,000 unique operatives inscribed in the Potential Registry. Link your signet to verify ownership
             and claim your exclusive <span className="text-purple-400">1/1 Loredex card</span> — each card can only be claimed once, forever.
           </p>
 
@@ -382,10 +382,10 @@ function OverviewSection({
             <span className="text-chart-4">Background</span> — traits that define their role in the Dischordian Saga.
           </p>
           <p>
-            If you hold a Potential in your Ethereum wallet, you can claim a{" "}
+            If you hold a Potential in your signet, you can claim a{" "}
             <span className="text-purple-400 font-bold">unique 1/1 Loredex card</span> — a permanent record of your
             operative's identity. This card can only be claimed <span className="text-foreground font-bold">once</span>.
-            Even if the NFT changes hands, the card remains with its original claimer.
+            Even if the Potential changes hands, the card remains with its original claimer.
           </p>
         </div>
       </div>
@@ -395,8 +395,8 @@ function OverviewSection({
         {[
           {
             step: "01",
-            title: "CONNECT WALLET",
-            desc: "Link your Ethereum wallet to verify your identity on-chain.",
+            title: "LINK SIGNET",
+            desc: "Link your signet to verify your identity in the Registry.",
             icon: Wallet,
             color: "text-blue-400",
             border: "border-blue-500/20",
@@ -405,7 +405,7 @@ function OverviewSection({
           {
             step: "02",
             title: "VERIFY OWNERSHIP",
-            desc: "We check the blockchain to confirm which Potentials you hold.",
+            desc: "We check the Potential Registry to confirm which Potentials you hold.",
             icon: Shield,
             color: "text-green-400",
             border: "border-green-500/20",
@@ -524,7 +524,7 @@ function WalletSection({
       >
         <Lock size={48} className="text-muted-foreground/30" />
         <p className="font-mono text-sm text-muted-foreground">
-          Login to your Loredex account to link your wallet
+          Login to your Loredex account to link your signet
         </p>
         <a
           href={getLoginUrl()}
@@ -603,7 +603,7 @@ function WalletSection({
         {!walletAddress ? (
           <div className="space-y-3">
             <p className="font-mono text-xs text-muted-foreground leading-relaxed">
-              Connect your Ethereum wallet to verify Potentials ownership. We'll ask you to sign a
+              Link your signet to verify Potentials ownership. We'll ask you to sign a
               message (no gas cost) to prove you control the address.
             </p>
             <button
@@ -727,7 +727,7 @@ function GallerySection({
       >
         <Wallet size={48} className="text-muted-foreground/30" />
         <p className="font-mono text-sm text-muted-foreground">
-          Link your wallet first to check ownership
+          Link your signet first to check ownership
         </p>
         <button
           onClick={() => onNavigate("wallet")}

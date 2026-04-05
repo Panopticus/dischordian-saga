@@ -81,7 +81,7 @@ const ARK_DECKS: ArkDeck[] = [
       { id: "cargo_bay", name: "Cargo Bay", icon: Package, type: "storage", locked: false, description: "Main storage area. Browse your full card collection." },
       { id: "engineering", name: "Engineering", icon: Zap, type: "utility", locked: false, description: "Power systems and ark maintenance. Craft and upgrade cards." },
       { id: "trophy_room", name: "Trophy Room", icon: Trophy, type: "special", locked: false, description: "Display your finest cards and achievements." },
-      { id: "vault", name: "The Vault", icon: Lock, type: "special", locked: true, description: "Secure storage for your rarest cards and NFT-linked items." },
+      { id: "vault", name: "The Vault", icon: Lock, type: "special", locked: true, description: "Secure storage for your rarest cards and Potential-linked items." },
       { id: "trade_hub", name: "Trade Hub", icon: Ship, type: "commerce", locked: false, description: "Access Trade Empire BBS terminal. Navigate the galaxy." },
     ],
   },
@@ -178,7 +178,7 @@ const ROOM_FEATURES: Record<string, RoomFeature[]> = {
   ],
   // Locked room previews — show what's coming
   vault: [
-    { name: "NFT Vault", route: "/nft", icon: "💎", status: "preview" },
+    { name: "Potential Vault", route: "/nft", icon: "💎", status: "preview" },
     { name: "Rare Collection", route: "/cards", icon: "✨", status: "preview" },
   ],
   archive: [

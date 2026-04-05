@@ -288,7 +288,7 @@ export default function TraitSummaryPanel({ isAuthenticated }: { isAuthenticated
             <span className="font-mono text-[8px] text-muted-foreground/40">
               Live bonuses across all game systems
               {nftMultiplier > 1.0 && (
-                <span className="text-amber-400 ml-2">✦ {((nftMultiplier - 1) * 100).toFixed(0)}% NFT BOOST</span>
+                <span className="text-amber-400 ml-2">✦ {((nftMultiplier - 1) * 100).toFixed(0)}% POTENTIAL BOOST</span>
               )}
             </span>
           </div>
@@ -345,7 +345,7 @@ export default function TraitSummaryPanel({ isAuthenticated }: { isAuthenticated
                       </div>
                       <div>
                         <span className="font-display text-[10px] font-bold text-amber-400 tracking-wider block">
-                          POTENTIAL NFT ACTIVE — {((nftMultiplier - 1) * 100).toFixed(0)}% UNIVERSAL BOOST
+                          POTENTIAL ACTIVE — {((nftMultiplier - 1) * 100).toFixed(0)}% UNIVERSAL BOOST
                         </span>
                         <span className="font-mono text-[8px] text-muted-foreground/50">
                           Level {data.nft?.level ?? "?"} multiplier applied to all systems

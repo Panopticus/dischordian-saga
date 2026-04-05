@@ -110,7 +110,7 @@ const NAV_GROUPS: NavGroup[] = [
       { path: "/favorites", label: "MISSION BRIEFING", icon: Heart, description: "Favorites & playlists" },
       { path: "/lore-tutorials", label: "LORE TUTORIALS", icon: BookOpen, description: "Elara's guided tutorials" },
       { path: "/morality-census", label: "MORALITY CENSUS", icon: Heart, description: "Community alignment" },
-      { path: "/potentials", label: "THE POTENTIALS", icon: Gem, description: "NFT collection & 1/1 cards" },
+      { path: "/potentials", label: "THE POTENTIALS", icon: Gem, description: "Potential collection & 1/1 cards" },
       { path: "/marketplace", label: "GALACTIC MARKET", icon: Store, description: "Trade cards & materials" },
       { path: "/quests", label: "QUEST BOARD", icon: CalendarDays, description: "Daily/weekly/epoch quests" },
       { path: "/guild", label: "SYNDICATES", icon: Users, description: "Guild system" },

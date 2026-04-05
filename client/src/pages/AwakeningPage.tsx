@@ -608,11 +608,11 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
           {awakeningStep === ("WALLET_CHECK" as AwakeningStep) && (
             <ElaraDialogBox
               key="wallet-check"
-              text="Wait... I'm detecting something. Your neural signature has an encrypted blockchain marker. If you carry a Potential or a Ne-Yon token on the Ethereum network, I can verify your identity and unlock enhanced capabilities. Do you have a wallet to connect?"
+              text="Wait... I'm detecting something. Your neural signature has an encrypted Registry marker. If you carry a Potential or a Ne-Yon, I can verify your identity and unlock enhanced capabilities. Do you have a signet to link?"
               voAudioUrl={STEP_VO_AUDIO.WALLET_CHECK}
               choices={[
-                { label: "Yes, I have a Potential or Ne-Yon NFT", value: "connect", description: "Connect your Ethereum wallet to verify ownership and unlock Ne-Yon species." },
-                { label: "No, continue without connecting", value: "skip", description: "You can always connect your wallet later in Settings → Wallet." },
+                { label: "Yes, I hold a Potential or Ne-Yon", value: "connect", description: "Link your signet to verify ownership and unlock Ne-Yon species." },
+                { label: "No, continue without linking", value: "skip", description: "You can always link your signet later in Settings → Signet." },
               ]}
               onChoice={async (v) => {
                 if (v === "connect") {
@@ -620,7 +620,7 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
                   try {
                     const ethereum = (window as any).ethereum;
                     if (!ethereum) {
-                      toast.error("No Ethereum wallet detected. Install MetaMask and try again, or connect later in Settings → Wallet.");
+                      toast.error("No signet detected. Install a compatible Ethereum wallet (e.g. MetaMask), or link later in Settings → Signet.");
                       setAwakeningStep("SPECIES_QUESTION");
                       return;
                     }
@@ -634,18 +634,18 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
                           params: [message, walletAddress],
                         });
                         await linkWalletMutation.mutateAsync({ walletAddress, message, signature });
-                        toast.success("Wallet linked! Scanning for Potentials and Ne-Yons...");
+                        toast.success("Signet linked! Scanning for Potentials and Ne-Yons...");
                         neyonEligibility.refetch();
                       } catch (err: any) {
                         if (err?.message?.includes("already linked")) {
-                          toast.success("Wallet already linked. Proceeding...");
+                          toast.success("Signet already linked. Proceeding...");
                         } else {
-                          toast.error("Failed to link wallet. You can try again later in Settings → Wallet.");
+                          toast.error("Failed to link signet. You can try again later in Settings → Signet.");
                         }
                       }
                     }
                   } catch (err) {
-                    toast.error("Wallet connection cancelled. You can connect later in Settings → Wallet.");
+                    toast.error("Signet linking cancelled. You can link later in Settings → Signet.");
                   }
                 }
                 setAwakeningStep("SPECIES_QUESTION");
@@ -666,14 +666,14 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
                   ? [{
                       label: "I remember both... fragments of everything...",
                       value: "neyon",
-                      description: `Ne-Yon — Perfect hybrid. 1/1 NFT VERIFIED ✦ ${neyonEligibility.data.availableNeyonIds.length} Ne-Yon(s) available to bind.`,
+                      description: `Ne-Yon — Perfect hybrid. 1/1 POTENTIAL VERIFIED ✦ ${neyonEligibility.data.availableNeyonIds.length} Ne-Yon(s) available to bind.`,
                     }]
                   : [{
                       label: "[LOCKED] I remember both... fragments of everything...",
                       value: "neyon_locked",
                       description: neyonEligibility.data?.walletLinked === false
-                        ? "Ne-Yon — Requires Potentials NFT #1-10. Link your wallet first in Settings → Wallet."
-                        : "Ne-Yon — Requires ownership of Potentials NFT #1-10. Only 10 exist.",
+                        ? "Ne-Yon — Requires Potential #1-10. Link your signet first in Settings → Signet."
+                        : "Ne-Yon — Requires ownership of Potential #1-10. Only 10 exist.",
                     }]),
               ]}
               onChoice={(v) => {
@@ -707,7 +707,7 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
                 .map(n => ({
                   label: n.name || `Ne-Yon #${n.tokenId}`,
                   value: String(n.tokenId),
-                  description: `Potentials NFT #${n.tokenId} — Unique 1/1 Ne-Yon. This identity will be permanently bound to your citizen.`,
+                  description: `Potential #${n.tokenId} — Unique 1/1 Ne-Yon. This identity will be permanently bound to your citizen.`,
                 })) ?? []
               }
               onChoice={(v) => {

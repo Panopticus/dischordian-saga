@@ -1359,7 +1359,7 @@ export default function FightPage() {
                 <div className="font-display text-lg text-amber-400">+{ptGain}</div>
                 {bonusPt > 0 && (
                   <div className="font-mono text-[8px] text-purple-400">
-                    +{bonusPt} NFT BONUS
+                    +{bonusPt} POTENTIAL BONUS
                   </div>
                 )}
               </div>
@@ -1499,7 +1499,7 @@ function FighterDetailPanel({ fighter, traitBonuses: bonuses, activePotential }:
         <div className="rounded-md border border-purple-500/20 bg-purple-500/5 p-2 mb-3">
           <div className="flex items-center gap-1.5 mb-1.5">
             <Gem size={10} className="text-purple-400" />
-            <span className="font-mono text-[9px] font-bold text-purple-300 tracking-wider">NFT TRAIT BONUSES</span>
+            <span className="font-mono text-[9px] font-bold text-purple-300 tracking-wider">POTENTIAL TRAIT BONUSES</span>
           </div>
           {activePotential && (
             <div className="font-mono text-[8px] text-purple-400/60 mb-1.5">

@@ -82,7 +82,7 @@ const CATEGORIES: TutorialCategory[] = [
     color: "text-green-400",
     mechanics: [
       "Character Sheet", "CoNexus Games", "Discography", "Lore Quiz",
-      "Potentials NFT",
+      "Potential Registry",
     ],
   },
 ];

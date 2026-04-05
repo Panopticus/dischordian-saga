@@ -92,7 +92,7 @@ const QUESTS: Quest[] = [
   {
     id: "comms_relay",
     title: "RE-ESTABLISH COMMUNICATIONS",
-    description: "Use the Communication Relay in the Comms Array to link your wallet and claim your first Potential's identity card.",
+    description: "Use the Communication Relay in the Comms Array to link your signet and claim your first Potential's identity card.",
     icon: Radio,
     category: "main",
     order: 2.7,
@@ -101,7 +101,7 @@ const QUESTS: Quest[] = [
       complete: !!s.narrativeFlags["comms_relay_first_claim"],
       progress: s.narrativeFlags["comms_relay_first_claim"] ? 1 : 0,
       max: 1,
-      hint: "Go to the Comms Array and interact with the Communication Relay. Link your wallet and claim a Potential.",
+      hint: "Go to the Comms Array and interact with the Communication Relay. Link your signet and claim a Potential.",
     }),
   },
   {

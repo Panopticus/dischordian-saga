@@ -25,7 +25,7 @@ const getEthersProvider = async () => {
 const ELARA_INTRO_LINES = [
   "The Communication Relay. I've been trying to re-establish contact with the other vessels in the fleet — the ones that carried the first wave of Potentials into the void.",
   "Most channels are dead. Static. But I've detected faint neural signatures on some frequencies — subconscious echoes from Potentials who may have survived the transit.",
-  "If you can connect your wallet — the quantum signature tied to your Potential's neural pathway — I can scan for any dormant identities linked to your consciousness.",
+  "If you can link your signet — the quantum signature tied to your Potential's neural pathway — I can scan for any dormant identities linked to your consciousness.",
   "Each Potential you own carries a unique 1/1 identity card encoded in their DNA. Once I verify ownership, I can extract that card and add it to your collection. This is a one-time extraction — once claimed, the card is permanently bound to you.",
   "Many operatives have Potentials scattered across multiple wallets. You can keep linking wallets and I'll scan them all. Ready to begin?",
 ];
@@ -85,7 +85,7 @@ export default function CommsRelayImport({ onClose }: { onClose: () => void }) {
   // Connect + link wallet
   const connectAndLink = useCallback(async () => {
     if (!(window as any).ethereum) {
-      toast.error("No Ethereum wallet detected. Install MetaMask or a compatible wallet.");
+      toast.error("No signet detected. Install a compatible Ethereum wallet (e.g. MetaMask).");
       return;
     }
     if (!isAuthenticated || !user) {
