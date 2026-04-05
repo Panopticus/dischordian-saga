@@ -12,22 +12,26 @@ const plugins = [
   glsl(),
 ];
 
+// Use process.cwd() — import.meta.dirname is undefined when this file
+// gets pulled into esbuild's server bundle (dist/index.js).
+const ROOT = import.meta.dirname ?? process.cwd();
+
 export default defineConfig({
   plugins,
   resolve: {
     alias: {
-      "@": path.resolve(import.meta.dirname, "client", "src"),
-      "@shared": path.resolve(import.meta.dirname, "shared"),
-      "@assets": path.resolve(import.meta.dirname, "attached_assets"),
-      "@duelyst": path.resolve(import.meta.dirname, "client", "src", "game", "duelyst-engine"),
-      "app": path.resolve(import.meta.dirname, "client", "src", "game", "duelyst-engine"),
+      "@": path.resolve(ROOT, "client", "src"),
+      "@shared": path.resolve(ROOT, "shared"),
+      "@assets": path.resolve(ROOT, "attached_assets"),
+      "@duelyst": path.resolve(ROOT, "client", "src", "game", "duelyst-engine"),
+      "app": path.resolve(ROOT, "client", "src", "game", "duelyst-engine"),
     },
   },
-  envDir: path.resolve(import.meta.dirname),
-  root: path.resolve(import.meta.dirname, "client"),
-  publicDir: path.resolve(import.meta.dirname, "client", "public"),
+  envDir: path.resolve(ROOT),
+  root: path.resolve(ROOT, "client"),
+  publicDir: path.resolve(ROOT, "client", "public"),
   build: {
-    outDir: path.resolve(import.meta.dirname, "dist/public"),
+    outDir: path.resolve(ROOT, "dist/public"),
     emptyOutDir: true,
   },
   server: {
