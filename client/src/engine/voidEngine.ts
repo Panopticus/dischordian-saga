@@ -111,12 +111,16 @@ export function getAtmosphereForMorality(score: number): string {
  * Map NPC manifestation type to Void Energy physics.
  */
 const NPC_PHYSICS: Record<string, PhysicsType> = {
-  hologram: "glass",        // Elara — translucent, holographic
-  substrate: "flat",         // The Human — clean, digital
-  comms_signal: "flat",      // Agent Zero, Locke — signal-based
-  possessed_system: "retro", // Source, Shadow Tongue — corrupted, CRT
-  temporal_echo: "glass",    // Antiquarian — ethereal, time-shifted
-  physical_trace: "flat",    // Physical remnants
+  hologram: "glass",          // Elara — translucent, holographic
+  substrate: "flat",           // The Human — clean, digital
+  comms_signal: "flat",        // Agent Zero, Locke — signal-based
+  possessed_system: "retro",   // Source, Shadow Tongue — corrupted, CRT
+  temporal_echo: "glass",      // Antiquarian — ethereal, time-shifted
+  physical_trace: "flat",      // Physical remnants
+  electrical_pattern: "glass", // Voltari — electrical consciousness, pattern-based
+  resurrection_echo: "retro",  // Necromancer — dead-frequency broadcasts
+  arena_broadcast: "retro",    // Collector Clone-007 — fight-cam aesthetic
+  steampunk_ledger: "flat",    // Adjudicator Locke — bureaucratic, physical records
 };
 
 export function getPhysicsForNPC(manifestation: string): PhysicsType {
@@ -127,18 +131,39 @@ export function getPhysicsForNPC(manifestation: string): PhysicsType {
  * Map room context to temporary atmosphere.
  */
 const ROOM_ATMOSPHERES: Record<string, string> = {
+  // ── Ark rooms (actual ship layout) ──
   cryo_bay: "chrome_sentinel",
   medical_bay: "circuit_nexus",
-  bridge: "twilight_equilibrium",
-  archives: "golden_sanctuary",
   comms_array: "crimson_forge",
   observation_deck: "celestial_garden",
-  armory: "industrial_accent",
-  engineering: "circuit_nexus",
-  trade_hub: "golden_sanctuary",
-  cargo_bay: "industrial_accent",
-  trophy_room: "aurora_bloom",
   captains_quarters: "verdant_growth",
+  chaos_forge: "crimson_forge",
+  guild_sanctum: "golden_sanctuary",
+  oracle_sanctum: "aurora_bloom",
+  quantum_lab: "circuit_nexus",
+  shadow_vault: "singularity_core",
+  social_hub: "golden_sanctuary",
+  synthesis_chamber: "circuit_nexus",
+  war_room: "industrial_accent",
+
+  // ── Awakening ceremony locations (see shared/levelingAsEvent.ts) ──
+  medbay: "circuit_nexus",
+  archive: "golden_sanctuary",
+  chapel: "crimson_forge",
+  bridge: "twilight_equilibrium",
+  cathedral: "singularity_core",
+  courtroom: "industrial_accent",
+  chamber: "aurora_bloom",
+  observatory: "celestial_garden",
+  cycle_room: "ascendant_light",
+  the_garden: "verdant_growth",
+
+  // ── Special event locations ──
+  degens_casino: "crimson_forge",          // retro aesthetic, casino neon
+  gamemasters_arena: "singularity_core",   // arena broadcast vibe
+  violetta: "aurora_bloom",                // Voltari purple-storm planet
+  necromancer_sanctum: "singularity_core", // dead-frequency chamber
+  the_between: "ascendant_light",          // Ne-Yon liminal space
 };
 
 export function getAtmosphereForRoom(roomId: string): string | null {
@@ -312,4 +337,52 @@ export function clearTemporaryThemes(): void {
 
 export function hasTemporaryTheme(): boolean {
   return _themeStack.length > 0;
+}
+
+/* ─── NARRATIVE EVENT ATMOSPHERES ─── */
+
+/**
+ * Atmospheres for major narrative events. Pushed temporarily
+ * during the event, popped when it ends.
+ */
+const EVENT_ATMOSPHERES: Record<string, string> = {
+  // Awakening thresholds (see shared/levelingAsEvent.ts)
+  awakening_quiet: "twilight_equilibrium",
+  awakening_milestone: "aurora_bloom",
+  awakening_witnessed: "golden_sanctuary",
+  awakening_threshold: "ascendant_light",
+
+  // Death / resurrection
+  player_death: "singularity_core",
+  resurrection: "ascendant_light",
+
+  // Special moments
+  voltari_contact: "aurora_bloom",
+  necromancer_revival: "singularity_core",
+  virus_encounter: "crimson_forge",
+  cutscene_finale: "ascendant_light",
+};
+
+export function getAtmosphereForEvent(eventId: string): string | null {
+  return EVENT_ATMOSPHERES[eventId] || null;
+}
+
+/**
+ * Convenience helper for narrative events: push an atmosphere and
+ * get back a disposer function. Call the disposer when the event ends.
+ *
+ *   const dispose = pushEventAtmosphere("awakening_threshold", "Level 25");
+ *   // ...ceremony plays...
+ *   dispose();
+ */
+export function pushEventAtmosphere(eventId: string, label: string = ""): () => void {
+  const themeId = EVENT_ATMOSPHERES[eventId];
+  if (!themeId) return () => {};
+  const handle = pushTemporaryTheme(themeId, label || eventId);
+  return () => {
+    // Only pop if this is still the top of the stack
+    if (_themeStack.length > 0 && _themeStack.length - 1 === handle) {
+      popTemporaryTheme();
+    }
+  };
 }

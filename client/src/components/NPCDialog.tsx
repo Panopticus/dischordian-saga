@@ -16,6 +16,7 @@ import {
 import { FACTION_NPCS, type FactionNPCId, type FactionNPC } from "@/game/factionNPCs";
 import { useGame } from "@/contexts/GameContext";
 import { GIFT_ITEMS, calculateGiftResult, type GiftItem, type NpcId, type GiftItemId } from "@/game/npcGifts";
+import { useNPCPhysics } from "@/engine/useVoidEngine";
 
 /* ─── MANIFESTATION STYLES ─── */
 
@@ -120,6 +121,9 @@ export default function NPCDialog({ npcId, scene, onClose, onChoice }: NPCDialog
   const manifest = MANIFESTATION_CONFIG[npc.manifestation] || MANIFESTATION_CONFIG.comms_signal;
   const { state } = useGame();
   const trust = npcId === "elara" ? state.elaraTrust : npcId === "the_human" ? state.humanTrust : (state.npcTrust[npcId] || 0);
+
+  // Void Energy: shift document physics to match this NPC's manifestation while dialog is open
+  useNPCPhysics(npc.manifestation, true);
 
   // Typewriter effect
   const [displayText, setDisplayText] = useState("");
