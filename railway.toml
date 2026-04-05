@@ -1,9 +1,9 @@
 [build]
 builder = "nixpacks"
-buildCommand = "pnpm install && pnpm run build"
+buildCommand = "pnpm install --frozen-lockfile && pnpm run build"
 
 [deploy]
-startCommand = "pnpm start"
+startCommand = "pnpm db:push && pnpm start"
 healthcheckPath = "/"
 restartPolicyType = "on_failure"
 restartPolicyMaxRetries = 10
