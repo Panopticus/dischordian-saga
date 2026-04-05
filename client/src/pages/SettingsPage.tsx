@@ -638,6 +638,44 @@ export default function SettingsPage() {
             <p className="font-mono text-[9px] text-muted-foreground/50 text-center">
               Official channels: #ark-bridge · #voltari-decode · #alliance-war · #lore-theories
             </p>
+
+            {/* DGRS Labs */}
+            <div className="pt-3 mt-3 border-t border-border/30">
+              <div className="flex items-center gap-2 mb-2">
+                <div className="w-6 h-6 rounded bg-gradient-to-br from-purple-500/20 to-cyan-500/20 border border-purple-500/40 flex items-center justify-center shrink-0">
+                  <span className="font-display text-[9px] font-bold text-purple-300">DG</span>
+                </div>
+                <div className="flex-1">
+                  <h4 className="font-display text-[11px] font-bold tracking-wider text-foreground">DGRS LABS</h4>
+                  <p className="font-mono text-[9px] text-muted-foreground/60">Studio behind the Dischordian Saga</p>
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-1.5">
+                {[
+                  { label: "Website", href: "https://dgrslabs.ink" },
+                  { label: "Discord", href: "https://dgrslabs.ink/join" },
+                  { label: "X / Twitter", href: "https://twitter.com/dgrs_labs" },
+                  { label: "Instagram", href: "https://instagram.com/dgrs_labs" },
+                  { label: "YouTube", href: "https://youtube.com/@conexus_stories" },
+                  { label: "TikTok", href: "https://tiktok.com/@conexus_stories" },
+                  { label: "LinkedIn", href: "https://linkedin.com/company/dgrslabs" },
+                ].map(link => (
+                  <a
+                    key={link.label}
+                    href={link.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-between gap-1.5 px-2 py-1.5 rounded border border-border/40 hover:border-purple-500/40 hover:bg-purple-500/5 transition-colors group"
+                    data-testid={`link-dgrs-${link.label.toLowerCase().replace(/\W+/g, "-")}`}
+                  >
+                    <span className="font-mono text-[9px] text-muted-foreground/80 group-hover:text-foreground tracking-wider truncate">
+                      {link.label}
+                    </span>
+                    <ExternalLink size={9} className="text-muted-foreground/40 group-hover:text-purple-400 shrink-0" />
+                  </a>
+                ))}
+              </div>
+            </div>
           </div>
         </SettingsSection>
 

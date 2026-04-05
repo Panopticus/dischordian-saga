@@ -54,6 +54,16 @@ docs/
 - **Discord**: https://discord.gg/vGYfAEWaA
 - **Artist**: Malkia Ukweli & the Panopticon
 
+## DGRS Labs
+
+- **Website**: https://dgrslabs.ink
+- **Discord (community)**: https://dgrslabs.ink/join
+- **X / Twitter**: [@dgrs_labs](https://twitter.com/dgrs_labs)
+- **Instagram**: [@dgrs_labs](https://instagram.com/dgrs_labs)
+- **YouTube**: [@conexus_stories](https://youtube.com/@conexus_stories)
+- **TikTok**: [@conexus_stories](https://tiktok.com/@conexus_stories)
+- **LinkedIn**: [linkedin.com/company/dgrslabs](https://linkedin.com/company/dgrslabs)
+
 ## Status
 
 **Pre-release.** Closed development. Not yet publicly promoted.
