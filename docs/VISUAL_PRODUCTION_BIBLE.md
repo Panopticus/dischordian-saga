@@ -265,3 +265,132 @@ Existing CDN artwork covers some rooms. Listed below with status.
 - Corruption: VHS tracking, glitch artifacts, text distortion
 - Scale: make the player feel small in a vast, dangerous ship
 - Emotion: every portrait should tell a story without words
+
+---
+
+## ═══ EXPANSION UPDATE — New Visual Assets Required ═══
+
+### NEW CHARACTER PORTRAITS (P0 Priority)
+
+#### **THE DEGEN (11th Ne-Yon, Casino Host)**
+- Full portrait + 3 expressions (laughing, contemplative, manic)
+- **Aesthetic**: Genderfluid, theatrical, chaos embodied. Think Las Vegas lounge singer meets trickster god.
+- **Generation prompt**: "A genderfluid entity in a shimmering iridescent suit, one eye glowing gold, the other purple, standing in a casino made of living light. Chaotic theatrical posture. Purple and gold color palette. Neon casino background with swirling light patterns. Digital art, photorealistic, dramatic lighting."
+- **Resolution**: 1024x1536 (portrait aspect)
+- **Variants**: laughing, contemplative, angry, winking
+
+#### **COLLECTOR CLONE-007 (Arena Operator)**
+- Similar to original Collector — blue Xenomorph-inspired mask
+- Distinguishing feature: slight wear on the mask (he's a clone, not the original)
+- **Generation prompt**: "A figure in dark formal robes wearing an ornate blue xenomorph-style mask with subtle wear marks. Standing in a roman-coliseum-style arena floating in purple space. Catalog scrolls and data tablets floating around them. Dramatic arena lighting."
+
+#### **THE NECROMANCER (10th Archon, Returning)**
+- **Two states needed**: Matrix of Dreams (ethereal) and Returned (physical)
+- **Aesthetic**: Dark elf, white spiky hair, red and black robe, red steampunk glasses
+- **Matrix form prompt**: "A dark elf with spiky white hair, wearing red and black robes, red steampunk glasses glowing. Appears ghostly, translucent, surrounded by swirling dreamscape energy. Ethereal lighting, purple and black palette, dream-matrix aesthetic."
+- **Returned form prompt**: "Same dark elf character now fully physical and solid. Standing before a castle of black bone in a swirling death-storm. Intimidating presence, commanding stance. Red and black robes billowing. Dark fantasy aesthetic."
+
+#### **THE RESURRECTIONIST (Ne-Yon)**
+- Withered human in techno-organic robes, cracked porcelain mask hiding face
+- **Generation prompt**: "A withered ancient figure in techno-organic robes made of interwoven metal and flesh. Face hidden behind a cracked white porcelain mask with kintsugi gold seams. Holding a resurrection staff. Standing in a vault of glowing soul fragments. Melancholic, kind presence. Ethereal lighting."
+
+### NEW PLANETS / LOCATIONS (P0 Priority)
+
+#### **VIOLETTA — The Voltari Homeworld**
+- A purple planet inside a living electrical storm
+- **Generation prompt**: "A vibrant purple planet surrounded by a permanent living lightning storm. Electric-blue and purple discharges constantly dancing across the atmosphere. Crystal formations visible through the storm. Alien, hopeful, mysterious. Space view, dramatic scale, cinematic composition."
+- **Variants needed**: Far orbit view, close orbit view, atmospheric entry view, surface view (if ever approachable)
+
+#### **THE GAME MASTER'S WORLD (Arena Location)**
+- Abandoned planet at the edge of known space
+- **Generation prompt**: "An abandoned alien planet with a massive roman-style coliseum built into its surface. Purple and red lighting, scattered mechanical debris from old games, dramatic stormy sky. The Game Master's abandoned world. Epic scale, cinematic."
+
+#### **THE CASTLE OF DEATH (Necromancer's Domain)**
+- In the Matrix of Dreams, now potentially manifesting in reality
+- **Generation prompt**: "A gothic castle made of black bone and shadow, floating in a sea of white mist. Multiple towers, red windows glowing, surrounded by swirling souls. Ominous but beautiful. Dark fantasy aesthetic."
+
+#### **THE DEGEN'S CASINO**
+- Floating casino station in Ne-Yon space
+- **Generation prompt**: "A lavish casino floating in deep purple space. Neon signs in impossible languages, crystal chandeliers made of lightning, tables where players bet with glowing souls. Vegas meets cosmic horror. Chaotic lights, multiple floors, tempting and dangerous."
+
+### NEW SPECIMEN ART (43 companions total)
+
+All 43 specimens need 3 evolution stage portraits each (Hatchling → Companion → Ascended). Priority batches:
+
+**P0 — First 7 (starter companions):**
+- Lux (holographic fox) — cyan light, phases through solid
+- Cipher (data serpent) — scrolling code scales
+- Echo (temporal kitten) — slight time-phase ghost effect
+- Flicker (static bird) — electromagnetic interference wings
+- Gilt (golden beetle) — ornate shell with gems
+- Spore (viral symbiote) — tendrils, pulsing red
+- Glyph (text moth) — wings displaying living text
+
+**P1 — Next 12 (Archon-associated):**
+See specimenExpansion.ts for full list. Each tied to an Archon.
+
+**P2 — Final 24 (Ne-Yon + faction):**
+Lower priority, can be generated post-launch.
+
+### CUTSCENE STORYBOARDS (Kling Omni)
+
+#### **First Cryo Awakening** — CRITICAL (first thing player sees)
+- 30-60 second cinematic
+- Shot list: close on frozen face → warming systems → eyes open → Elara's hologram appears
+- Style: Mass Effect / Blade Runner 2049 aesthetic
+
+#### **Voltari First Contact** — MAJOR MILESTONE
+- 45 seconds when community decodes first Voltari word
+- Shot list: Violetta from space → storm parting → electrical entity forming → human silhouette reaching back → connection established
+- Style: Arrival-inspired, awe and wonder
+
+#### **Necromancer Return** — ENDGAME MILESTONE
+- 60-90 seconds server-wide event
+- Shot list: Castle of Death manifesting → Necromancer stepping through → galaxy reacting → cultist cities lighting up on map
+- Style: Apocalyptic, beautiful horror
+
+#### **Kael's Memory (The Source's Last Human Moment)**
+- 15 second flashback
+- Shot list: Kael making coffee, sunlight through window, laughter off-screen, then static corruption
+- Style: Soft warmth contaminated by digital decay
+
+### UI/UX VISUALS
+
+#### **Inner Voices Display**
+- Skill voice text styling mockup needed
+- Each skill's comment should appear with its unique color + font treatment
+- Example: TACTICS in cold red monospace, PERCEPTION in cyan whispered italic, EMPATHY in soft purple serif
+
+#### **Thought Cabinet UI**
+- Player's "brain" visualization showing thoughts being internalized
+- Active thoughts as glowing nodes
+- Internalizing thoughts with progress rings
+
+#### **Political Vision Progress**
+- 6 faction mandala designs (one per vision)
+- Each mandala fills in as the player commits deeper
+- Architect: geometric perfect circle, Dreamer: organic spiral, Insurgency: broken chains, etc.
+
+#### **Feature Unlock Celebration**
+- Particle effect when new system unlocks
+- Category-colored (core=cyan, combat=red, social=purple, economic=amber, lore=green, endgame=gold)
+
+### ASSET DELIVERY PRIORITIES
+
+**WEEK 1 (Critical for launch):**
+- 7 NPC portraits (Elara, Human, Zero, Locke, Source, Antiquarian, Shadow Tongue)
+- First Awakening cinematic
+- 7 starter companion specimens
+
+**WEEK 2 (Expand depth):**
+- The Degen portrait
+- Voltari First Contact cinematic
+- Violetta planet art
+- 12 Archon specimens
+
+**WEEK 3-4 (Polish):**
+- Necromancer Return cinematic
+- Castle of Death, Game Master's World, Casino environments
+- Remaining 24 specimens
+- UI mockups for new systems
+

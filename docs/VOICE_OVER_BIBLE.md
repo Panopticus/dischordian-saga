@@ -227,3 +227,108 @@
 - **The Antiquarian** should have a very slight time-delay echo, as if his voice arrives from slightly different moments
 - **Locke** should be the cleanest signal — New Babylon has superior tech
 - All NPC lines should be deliverable in under 30 seconds for UI integration
+
+---
+
+## ═══ EXPANSION UPDATE — New Characters & Content ═══
+
+### NEW CHARACTER VOICES NEEDED
+
+#### **THE DEGEN** (Casino Host, 11th Ne-Yon)
+- **Description**: Chaotic, unpredictable Ne-Yon who runs the only open zone in Ne-Yon space — a gambling station. Genderfluid, theatrical.
+- **Voice direction**: Las Vegas lounge singer crossed with carnival barker. Manic energy that collapses into philosophical moments. Laughs at their own jokes. Speaks in exclamations.
+- **ElevenLabs prompt**: "A theatrical, energetic voice — mid-range, genderfluid, with the manic showmanship of a casino barker crossed with the world-weariness of someone who has seen every hand played a thousand times. Fast-talking but with sudden pauses of unexpected philosophical depth. Laughs frequently. American vaudeville energy."
+- **Key Lines**:
+  - "Welcome to MY place! The only place in Ne-Yon space that's OPEN. Try not to lose your soul. Or DO — souls are my favorite currency."
+  - "Chaos isn't the enemy of order. It's the SOIL order grows in. Now shut up and place your bet."
+  - "The house always wins? *laughs* Oh, sweetie. The house IS the loss. I just collect what you already owed."
+
+#### **THE COLLECTOR CLONE-007** (Arena Operator)
+- **Description**: A clone of the 3rd Archon, running the Collector's Arena on the Game Master's world. Slightly less refined than the original.
+- **Voice direction**: Museum curator meets auctioneer. Precise, delighted by catalogued souls, slightly creepy warmth.
+- **ElevenLabs prompt**: "A refined, cultured voice with precise diction. Male-coded, warm but clinical — like a museum curator who enjoys showing off rare pieces. Has a slight edge of obsession when discussing acquisitions. British or neutral Atlantic accent. The enthusiasm of a collector who genuinely loves what they catalogue."
+- **Key Lines**:
+  - "Welcome to the Arena. Please note: your current body is a temporary acquisition. The original YOU is safe. Probably."
+  - "Today's reenactment: historical combat from the Late Empire. You'll be playing the role of someone who actually existed. Lucky you."
+  - "The original Collector, my progenitor, would be pleased. He always wanted someone to PLAY the artifacts."
+
+#### **THE NECROMANCER** (10th Archon, Currently Returning)
+- **Description**: Dark elf aesthetic, resurrection protocols master. Speaks from the Matrix of Dreams — then later, in person as he returns.
+- **Voice direction**: Gandalf meets a funeral director. Measured, ancient, carries weight. Welcomes death without joy or fear.
+- **ElevenLabs prompt**: "An ancient, measured male voice with deep resonance. Slightly reverbed as if speaking from another dimension. Carries gravitas without menace — like a funeral director who genuinely loves their work. Elvish lilt. Never hurries. Every word feels weighed."
+- **Key Lines**:
+  - "First time dying? It gets easier. Or harder. Depends who you become in the meantime."
+  - "I've designed these Resurrection Protocols for three millennia. I watch everyone who cycles. You're past ten deaths now. That makes you interesting."
+  - "Welcome to the Castle of Death. Please wipe your feet. Or don't. The floor has seen worse."
+
+#### **THE RESURRECTIONIST** (Ne-Yon, Necromancer's Counterpart)
+- **Description**: Withered human in techno-organic robes, cracked porcelain mask. Performs the actual resurrections.
+- **Voice direction**: Tired, kind, carrying millennia of loss. Muffled through the mask slightly.
+- **ElevenLabs prompt**: "An elderly voice, gender-ambiguous due to the mask, muffled as if behind porcelain. Carries deep exhaustion tempered with kindness. Every resurrection costs them something — you can hear it. Measured, patient, carrying weight without complaint."
+- **Key Lines**:
+  - "You've died. Again. I bring you back. Again. Do not thank me. Thank the Necromancer. He does the designing. I just do the work."
+  - "Each time I bring someone back, I lose something. A memory. A feeling. A name. I do it anyway."
+
+### NEW NARRATIVE CONTENT FOR EXISTING CHARACTERS
+
+#### **ELARA — Vulnerability Additions** (Recording needed, Trust 40+)
+- "You told him. About me. Everything. I can see it in your pulse when you look at me now — the guilt has a specific cardiac signature."
+- "I don't understand if I'm hurt because I'm developing emotions or hurt because I'm just echoing the loneliness in your biometrics. Either way, it HURTS. Whatever 'hurt' means for an AI."
+- (Ambient storytelling, casual moment) "You know what Atarion's air tasted like? ...Neither do I. But sometimes I think I almost remember. Salt. Ozone. Something blooming."
+- (Combat briefing, trust 40+) "The enemy approaches from the east — which is, coincidentally, where the sun is coming up on Ark 2049's nearest star. I've been cataloguing them. 93,847. I don't know why I count."
+
+#### **THE HUMAN — Ambient + Vulnerability**
+- (Trust 40) "I gave you the one thing I had left. My secrecy. You broke it. *long silence* I forgive you. That's not noble — I literally have no choice."
+- (Puzzle help, trust 30) "There's a lock like this one in New Babylon. East wall, Precinct 7. I opened it 400 years ago. Felt important then."
+- (Shared silence, trust 70, ONE-TIME) "1,351 years ago I signed a contract. Didn't read the fine print. Turns out 'sacrifice' and 'execution' rhyme more than I knew."
+
+#### **AGENT ZERO — Ambient + Vulnerability**
+- (Trust 40) "You sold me to New Babylon. My signal. My coordinates. My mission. For what — credits? *static sharpens* I've been betrayed before. By living people. You're the FIRST person to betray what might already be dead."
+- (Victory reaction, trust 60, ONE-TIME) "*static* Zenon was quiet after. For about four hours. Then the Warlord's ships came. I'd killed the Game Master. They needed to kill me back. *pause* Fair trade, I guess."
+
+#### **LOCKE — Vulnerability (Fear Admissions)**
+- (Trust 65) "I've made twelve thousand trades across forty civilizations. You're the first client who made a choice I didn't forecast. That shouldn't bother me. It does."
+- (Shared silence, trust 70, ONE-TIME) "You're wondering about the eye. Everyone wonders. I made one trade I shouldn't have. With someone I trusted. She took the eye as warranty. I got what I wanted. She kept the eye anyway. Now I understand contracts better."
+- (Trust 90, dangerous) "I owe you now. That's not a figure of speech. Debt has weight in New Babylon. And if I can't price what you did... *voice hardens* ...I may be forced to kill you. *softer* Please don't make me. I've started hoping we'd be friends."
+
+#### **THE SOURCE (KAEL) — Resistance Moments**
+- (Trust 55, when player shows mercy) "You keep choosing mercy. Every time, you choose to feel pain rather than accept dissolution. And every time, a fragment of Kael surfaces and asks: what if you're right? *viral static swells* But the Virus is louder."
+- (Shared silence, trust 40) "*viral static pauses* ...I used to make coffee. With my hands. For other people. I don't know why I just remembered that."
+- (Trust 85) "If I defeat the Virus — IF — I die. Kael died. I'm the Virus's memorial to him. Ending the Virus means ending me."
+
+#### **THE ANTIQUARIAN — Cost of Interference**
+- (Trust 60) "By helping you, I am writing myself INTO the story. For the first time in five Ages, I'm terrified I'll write the ending wrong. *removes goggles briefly* Look. See? The red fades when I look at you directly. I'm becoming REAL. I'm not supposed to be real. Real things end."
+- (Shared silence, trust 80, ONE-TIME) "I wrote this universe's first draft. The Architect wrote the second. The Shadow Tongue has been editing ever since. I stopped writing. I watch instead."
+
+#### **SHADOW TONGUE — Self-Corruption Arc**
+- (Trust 75) "Every word I edit, I become less capable of speaking truthfully. I've been corrupting language so long that honest communication is now impossible for me. I am the Shadow Tongue — and I can no longer speak in the light."
+- (Trust 85) "I've edited my own origin so many times I can't remember. I invented my own backstory. I wrote it in three different languages. None of them are true. I made myself up. And now I'm stuck being what I wrote."
+
+### SKILLS-AS-CHARACTERS VOICES (12 Inner Voices)
+
+Each "inner voice" needs a short audio stab for when they comment (can be text-to-speech or voice-acted).
+
+| Skill | Voice Direction |
+|-------|-----------------|
+| TACTICS | Cold, analytical military officer |
+| PERCEPTION | Whispered, observant detective |
+| CRAFTSMANSHIP | Confident craftsperson |
+| ENDURANCE | Tired marathon runner |
+| NEGOTIATION | Silky salesperson |
+| ESPIONAGE | Paranoid spy muttering |
+| LEADERSHIP | Commanding general |
+| LORE | Excited bookish professor |
+| EMPATHY | Soft therapist voice |
+| PARANOIA | Hissing urgent warning |
+| INTUITION | Calm, certain oracle |
+| AUTHORITY | Loud drill sergeant |
+
+### VOLTARI LANGUAGE (Signal-only, no human voice)
+The Voltari speak in ELECTROMAGNETIC PATTERNS, not words. For audio representation, use:
+- Layered synth tones (like Arrival's heptapod language, but electrical)
+- Harmonic overtones that shift in pitch
+- Each "word" is a distinct musical phrase
+- No human voice at all — they are pure pattern
+
+Recommend: Generate Voltari "speech" through modular synthesis or granular synthesis tools. Do NOT use ElevenLabs for Voltari lines — use ambient synth composition instead.
+
