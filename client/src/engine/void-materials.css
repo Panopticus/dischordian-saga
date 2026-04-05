@@ -1,0 +1,158 @@
+/* ═══════════════════════════════════════════════════════
+   VOID MATERIALS — CSS consuming VoidEngine custom properties
+
+   These classes use --void-* variables set by the VoidEngine.
+   When the morality score, room, or NPC changes, the entire
+   visual material shifts automatically.
+
+   "We do not paint pixels; we define materials."
+   ═══════════════════════════════════════════════════════ */
+
+/* ── BASE MATERIAL (applies to all surfaces) ── */
+
+[data-atmosphere] {
+  --bg-void: var(--void-canvas, #010020);
+  --bg-surface: var(--void-surface, #060830);
+  --bg-elevated: var(--void-elevated, #0c1040);
+  --text-primary: var(--void-text, #e2e8f0);
+  --text-muted: var(--void-text-muted, #e2e8f060);
+  --energy-primary: var(--void-primary, #33e2e6);
+  --energy-muted: var(--void-primary-muted, #33e2e640);
+  --energy-accent: var(--void-accent, #ff8c00);
+  --energy-success: var(--void-success, #22c55e);
+  --energy-error: var(--void-error, #ef4444);
+  --material-border: var(--void-border, #33e2e620);
+  --material-border-subtle: var(--void-border-subtle, #33e2e610);
+  --material-glow: var(--void-glow, #33e2e630);
+  --material-blur: var(--void-blur, 12px);
+  --material-radius: var(--void-radius, 12px);
+  --material-opacity: var(--void-surface-opacity, 0.6);
+  --material-border-style: var(--void-border-style, solid);
+  --speed-fast: var(--void-speed-fast, 150ms);
+  --speed-base: var(--void-speed-base, 300ms);
+  --speed-slow: var(--void-speed-slow, 500ms);
+}
+
+/* ── GLASS PHYSICS ── */
+
+[data-physics="glass"] .void-surface {
+  background: color-mix(in srgb, var(--bg-surface) var(--material-opacity, 60%), transparent);
+  backdrop-filter: blur(var(--material-blur));
+  -webkit-backdrop-filter: blur(var(--material-blur));
+  border: 1px var(--material-border-style) var(--material-border);
+  border-radius: var(--material-radius);
+  box-shadow: 0 0 20px var(--material-glow), inset 0 0 10px color-mix(in srgb, var(--material-glow) 30%, transparent);
+}
+
+[data-physics="glass"] .void-elevated {
+  background: color-mix(in srgb, var(--bg-elevated) 70%, transparent);
+  backdrop-filter: blur(calc(var(--material-blur) * 1.5));
+  -webkit-backdrop-filter: blur(calc(var(--material-blur) * 1.5));
+  border: 1px var(--material-border-style) var(--material-border);
+  border-radius: var(--material-radius);
+}
+
+/* ── FLAT PHYSICS ── */
+
+[data-physics="flat"] .void-surface {
+  background: var(--bg-surface);
+  border: 1px solid var(--material-border);
+  border-radius: var(--material-radius);
+}
+
+[data-physics="flat"] .void-elevated {
+  background: var(--bg-elevated);
+  border: 1px solid var(--material-border);
+  border-radius: var(--material-radius);
+}
+
+/* ── RETRO PHYSICS (CRT aesthetic) ── */
+
+[data-physics="retro"] .void-surface {
+  background: var(--bg-surface);
+  border: 2px var(--material-border-style) var(--material-border);
+  border-radius: var(--material-radius);
+  image-rendering: pixelated;
+}
+
+[data-physics="retro"] .void-surface::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    color-mix(in srgb, var(--energy-primary) 3%, transparent) 2px,
+    color-mix(in srgb, var(--energy-primary) 3%, transparent) 4px
+  );
+  border-radius: inherit;
+}
+
+[data-physics="retro"] .void-elevated {
+  background: var(--bg-elevated);
+  border: 2px var(--material-border-style) var(--material-border);
+  border-radius: var(--material-radius);
+}
+
+/* ── UTILITY CLASSES ── */
+
+.void-text { color: var(--text-primary); }
+.void-text-muted { color: var(--text-muted); }
+.void-text-energy { color: var(--energy-primary); }
+.void-text-accent { color: var(--energy-accent); }
+
+.void-bg-canvas { background-color: var(--bg-void); }
+.void-bg-surface { background-color: var(--bg-surface); }
+.void-bg-elevated { background-color: var(--bg-elevated); }
+
+.void-border { border-color: var(--material-border); }
+.void-border-subtle { border-color: var(--material-border-subtle); }
+
+.void-glow { box-shadow: 0 0 20px var(--material-glow); }
+.void-glow-sm { box-shadow: 0 0 8px var(--material-glow); }
+.void-glow-lg { box-shadow: 0 0 40px var(--material-glow); }
+
+.void-radius { border-radius: var(--material-radius); }
+
+/* ── TRANSITION SPEEDS ── */
+
+.void-transition-fast { transition-duration: var(--speed-fast); }
+.void-transition-base { transition-duration: var(--speed-base); }
+.void-transition-slow { transition-duration: var(--speed-slow); }
+
+/* ── NPC PHYSICS OVERRIDE ── */
+/* When an NPC dialog is open, their physics type affects the dialog panel */
+
+[data-npc-physics="glass"] .npc-dialog-panel {
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: 16px;
+}
+
+[data-npc-physics="retro"] .npc-dialog-panel {
+  backdrop-filter: none;
+  border-radius: 2px;
+  border-style: double;
+  image-rendering: pixelated;
+}
+
+[data-npc-physics="retro"] .npc-dialog-panel::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(255,255,255,0.02) 2px,
+    rgba(255,255,255,0.02) 4px
+  );
+}
+
+[data-npc-physics="flat"] .npc-dialog-panel {
+  backdrop-filter: none;
+  border-radius: 8px;
+}

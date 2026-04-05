@@ -35,6 +35,8 @@ import RadioMode from "./components/RadioMode";
 import EasterEggs from "./components/EasterEggs";
 import SoundControls from "./components/SoundControls";
 import { useElaraTTS } from "./hooks/useElaraTTS";
+import { useVoidEngine } from "./engine/useVoidEngine";
+import "./engine/void-materials.css";
 
 /* ═══ LAZY PAGE IMPORTS — Code splitting for all 50+ pages ═══ */
 const Home = lazy(() => import("./pages/BridgeConsole"));
@@ -243,6 +245,9 @@ function GameGate() {
   const { state, isServerSyncReady } = useGame();
   const { muted, volume } = useSoundForTTS();
   const elaraTTS = useElaraTTS({ enabled: true, volume, muted });
+
+  // Activate Void Energy design system — syncs morality/room/NPC to visual materials
+  useVoidEngine();
 
   // Wait for server sync before deciding to show Awakening.
   // This prevents the race condition where localStorage is empty/stale
