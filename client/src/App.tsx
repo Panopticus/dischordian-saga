@@ -39,6 +39,9 @@ import SoundControls from "./components/SoundControls";
 import { useElaraTTS } from "./hooks/useElaraTTS";
 import { useVoidEngine } from "./engine/useVoidEngine";
 import { useArchetypeDetection } from "./hooks/useArchetypeDetection";
+import { useSortingTrigger } from "./hooks/useSortingTrigger";
+import SortingCeremony from "./components/SortingCeremony";
+import { ARCHON_VOICE_MAPPING } from "./game/archonTrainingVoices";
 import "./engine/void-materials.css";
 // Side-effect import: ensures the systems integration hub is reachable,
 // making passive-bonus aggregator, NPC relationships, and 10+ narrative
@@ -279,7 +282,7 @@ function Router() {
    Shows the Awakening sequence for first-time visitors.
    Once complete, shows the normal app with AppShell. */
 function GameGate() {
-  const { state, isServerSyncReady } = useGame();
+  const { state, isServerSyncReady, completeSorting } = useGame();
   const { muted, volume } = useSoundForTTS();
   const elaraTTS = useElaraTTS({ enabled: true, volume, muted });
 
@@ -287,6 +290,14 @@ function GameGate() {
   useVoidEngine();
   // Project Celebration runs in the Matrix of Dreams: auto-detect emerging archetypes
   useArchetypeDetection();
+  // Mechronis Sorting: watch skills, show ceremony when a dominant skill crosses threshold
+  const sortingTrigger = useSortingTrigger();
+  const handleSortingComplete = () => {
+    if (sortingTrigger.skillId) {
+      const mentor = ARCHON_VOICE_MAPPING[sortingTrigger.skillId];
+      completeSorting(mentor.archonNumber);
+    }
+  };
 
   // Wait for server sync before deciding to show Awakening.
   // This prevents the race condition where localStorage is empty/stale
@@ -322,6 +333,9 @@ function GameGate() {
       <AchievementUnlockToast />
       <RememberThisToast />
       <FeatureUnlockToast />
+      {sortingTrigger.shouldTrigger && sortingTrigger.skillId && (
+        <SortingCeremony skillId={sortingTrigger.skillId} onComplete={handleSortingComplete} />
+      )}
       <TradeNotificationWatcher />
       <ElaraDialog elaraTTS={elaraTTS} />
       <CharacterWidget />

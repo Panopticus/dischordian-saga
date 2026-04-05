@@ -19,6 +19,7 @@ import {
 import { useEffect, useState, useMemo, useCallback, useRef } from "react";
 import { useGame, ROOM_DEFINITIONS } from "@/contexts/GameContext";
 import { Rocket } from "lucide-react";
+import DecisionDeck from "@/components/DecisionDeck";
 
 /* ─── BOOT SEQUENCE ─── */
 function BootSequence({ onComplete }: { onComplete: () => void }) {
@@ -586,6 +587,11 @@ export default function Home() {
     <div className="animate-fade-in pb-4">
       {/* Signal header */}
       <SignalHeader stats={stats} />
+
+      {/* ═══ DECISION DECK — Today's actionable cards ═══ */}
+      <div className="px-4 pt-4">
+        <DecisionDeck />
+      </div>
 
       {/* ═══ QUICK ACTIONS — Horizontal scroll pills ═══ */}
       <div className="px-4 pt-4 pb-2">

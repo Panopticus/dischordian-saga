@@ -223,6 +223,9 @@ export interface GameState {
   corruptionLevel: number;          // 0-100
   darkAbilitiesUsed: string[];      // IDs of dark variants the player has used
   purgeRitualsCompleted: string[];  // IDs of purge rituals completed
+  // Sorting Ceremony (one-time gate)
+  sortingComplete: boolean;         // True once player has been sorted into a Guild
+  sortedIntoArchon: number | null;  // Archon number of the Guild they were sorted into
 }
 
 /* ─── ROOM DEFINITIONS ─── */
@@ -949,6 +952,8 @@ const DEFAULT_GAME_STATE: GameState = {
   corruptionLevel: 0,
   darkAbilitiesUsed: [],
   purgeRitualsCompleted: [],
+  sortingComplete: false,
+  sortedIntoArchon: null,
 };
 
 const GAME_STORAGE_KEY = "loredex_game_state";
@@ -1069,6 +1074,8 @@ interface GameContextValue {
   addCorruption: (amount: number) => void;
   recordDarkAbilityUse: (abilityId: string) => void;
   completePurgeRitual: (ritualId: string, reduction: number) => void;
+  // Sorting Ceremony
+  completeSorting: (archonNumber: number) => void;
 }
 
 const GameContext = createContext<GameContextValue | null>(null);
@@ -1565,6 +1572,14 @@ export function GameProvider({ children }: { children: ReactNode }) {
       ...prev,
       corruptionLevel: Math.max(0, (prev.corruptionLevel ?? 0) - reduction),
       purgeRitualsCompleted: [...prev.purgeRitualsCompleted, ritualId],
+    }));
+  }, []);
+
+  const completeSorting = useCallback((archonNumber: number) => {
+    setState(prev => ({
+      ...prev,
+      sortingComplete: true,
+      sortedIntoArchon: archonNumber,
     }));
   }, []);
 
@@ -2278,6 +2293,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
       addCorruption,
       recordDarkAbilityUse,
       completePurgeRitual,
+      completeSorting,
     }}>
       {children}
     </GameContext.Provider>

@@ -195,6 +195,11 @@ export interface Apprentice {
   alive: boolean;
   /** Death record if fallen */
   deathRecord?: { day: number; cause: string; mascoteer?: string };
+  /** Some apprentices are just evil — fate-sealed regardless of player morality.
+      Hidden at generation time. Surfaces only through their choices during training. */
+  evilFromStart: boolean;
+  /** Hidden motive — only revealed if/when they betray */
+  hiddenMotive?: string;
 }
 
 /* ─── NAME POOLS (per race) ─── */
@@ -325,6 +330,29 @@ function generateBackstory(archetype: ApprenticeArchetype, race: Race, cls: Comb
   ].join(" ");
 }
 
+/* ─── EVIL APPRENTICE POOL ─── */
+/** 8% of generated candidates are secretly evil. Hidden at gen-time.
+    Their corruption climbs regardless of player choices. They will betray. */
+const EVIL_ROLL_CHANCE = 0.08;
+
+const EVIL_MOTIVES = [
+  "Was sent by the Warden. Their 'recruitment' was orchestrated.",
+  "Believes they are the rightful Architect's heir. Tolerating you until they aren't.",
+  "Their real family was sold by one of your Potentials. Revenge outlasts bonds.",
+  "Signed a contract in Celebration they can't break. The contract names you.",
+  "Is not the person they pretend to be. The real person died in Year 2 of Celebration.",
+  "Wants the Mythic rarity they didn't roll. Will kill you to inherit yours.",
+  "Loves another Potential and was promised yours as collateral.",
+  "Has been awake since the Fall of Reality. Remembers who you will become.",
+  "Thinks they're a Ne-Yon. They're wrong. They will learn. You will pay for the lesson.",
+  "Was a Mascoteer's favorite student. Cannot disobey their first teacher.",
+];
+
+function rollEvil(): { isEvil: boolean; motive?: string } {
+  if (Math.random() >= EVIL_ROLL_CHANCE) return { isEvil: false };
+  return { isEvil: true, motive: EVIL_MOTIVES[Math.floor(Math.random() * EVIL_MOTIVES.length)] };
+}
+
 /* ─── MAIN GENERATOR ─── */
 
 export interface GenerateOptions {
@@ -349,6 +377,7 @@ export function generateApprentice(opts: GenerateOptions = {}): Apprentice {
   const stats = generateStats(archetype, combatClass, rarity);
   const backstory = generateBackstory(archetype, race, combatClass, rarity);
   const name = opts.name ?? pickNameForApprentice(race, gender);
+  const evil = rollEvil();
   return {
     id: `apprentice-${Date.now()}-${Math.floor(Math.random() * 100000)}`,
     name,
@@ -359,13 +388,16 @@ export function generateApprentice(opts: GenerateOptions = {}): Apprentice {
     rarity,
     stats,
     bond: 0,
-    corruption: 0,
+    // Evil apprentices start at 10-25 hidden corruption — visible in later inspection
+    corruption: evil.isEvil ? 10 + Math.floor(Math.random() * 16) : 0,
     stage: "recruited",
     trialDay: 0,
     recruitedAt: Date.now(),
     backstory,
     missedDays: 0,
     alive: true,
+    evilFromStart: evil.isEvil,
+    hiddenMotive: evil.motive,
   };
 }
 
@@ -382,7 +414,10 @@ export function computeDailyCorruption(app: Apprentice, playerMorality: number):
   const base = def.corruptionRisk * moralityPressure * 2;
   // High bond reduces corruption (except for high-risk archetypes)
   const bondProtection = def.corruptionRisk > 0.6 ? 0 : (app.bond / 100) * 0.5;
-  return Math.max(0, base - bondProtection);
+  const normal = Math.max(0, base - bondProtection);
+  // Evil apprentices accrue corruption regardless of player choices
+  const evilBase = app.evilFromStart ? 1.5 + Math.random() * 1.0 : 0;
+  return normal + evilBase;
 }
 
 /** Is this apprentice ready to turn on the player? */
