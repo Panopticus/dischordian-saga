@@ -4,11 +4,15 @@ import { invokeLLM } from "../_core/llm";
 import { z } from "zod";
 import * as fs from "fs";
 import * as path from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Load loredex data for context injection
 let loredexSummary = "";
 try {
-  const dataPath = path.resolve(import.meta.dirname, "../../client/src/data/loredex-data.json");
+  const dataPath = path.resolve(__dirname, "../../client/src/data/loredex-data.json");
   const raw = fs.readFileSync(dataPath, "utf-8");
   const data = JSON.parse(raw);
   
@@ -235,7 +239,7 @@ export const elaraRouter = router({
     .input(z.object({ query: z.string().min(1).max(200) }))
     .query(({ input }) => {
       try {
-        const dataPath = path.resolve(import.meta.dirname, "../../client/src/data/loredex-data.json");
+        const dataPath = path.resolve(__dirname, "../../client/src/data/loredex-data.json");
         const raw = fs.readFileSync(dataPath, "utf-8");
         const data = JSON.parse(raw);
         const entries = data.entries || [];
