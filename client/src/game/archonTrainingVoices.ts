@@ -20,6 +20,9 @@
    ═══════════════════════════════════════════════════════ */
 
 import type { SkillId } from "./innerVoices";
+import { MECHRONIS_GUILDS, type MechronisGuildDef } from "./loreData";
+
+export type { MechronisGuildDef };
 
 export interface ArchonMentor {
   /** Archon's canonical name */
@@ -188,98 +191,19 @@ export const MATRIX_OF_DREAMS_LORE = {
     "across real-time hours. The Academy watches. The Architect smiles. Neither is neutral.",
 } as const;
 
-/* ─── MECHRONIS GUILDS ─── */
-/* The "houses" of the Academy. Five are canonical (from ARCHONS data).
-   Seven are extrapolated from each Archon's domain, filling the 12-guild system. */
+/* ─── GUILD LOOKUP HELPERS ─── */
+/* Guilds live in loreData.ts (the lore source of truth).
+   These helpers provide skill-based + archon-based access. */
 
-export interface MechronisGuild {
-  id: string;
-  name: string;
-  archonNumber: number;
-  motto: string;
-  /** What graduates become */
-  graduatesBecome: string;
-  /** Uncomfortable truth about the house */
-  darkTruth: string;
+export function getGuildForSkill(skillId: SkillId): MechronisGuildDef | null {
+  const mentor = ARCHON_VOICE_MAPPING[skillId];
+  if (!mentor) return null;
+  return MECHRONIS_GUILDS.find(g => g.archonNumber === mentor.archonNumber) ?? null;
 }
 
-export const MECHRONIS_GUILDS: Record<string, MechronisGuild> = {
-  eyes: {
-    id: "eyes", name: "The Eyes", archonNumber: 2,
-    motto: "To see is to own.",
-    graduatesBecome: "Surveillance operatives, counter-espionage agents",
-    darkTruth: "Students are trained to watch their classmates. Report grades include betrayals.",
-  },
-  armies: {
-    id: "armies", name: "The Armies", archonNumber: 6,
-    motto: "Geometry wins wars.",
-    graduatesBecome: "Tacticians, commanders, field generals",
-    darkTruth: "The Warlord graded casualties as acceptable or wasteful. Never as tragic.",
-  },
-  influencers: {
-    id: "influencers", name: "The Influencers", archonNumber: 5,
-    motto: "Feel it first. Sell it second.",
-    graduatesBecome: "Propagandists, cultural architects, emotional engineers",
-    darkTruth: "The Meme was destroyed for feeling too much. Graduates learn restraint, not empathy.",
-  },
-  grey_gamers: {
-    id: "grey_gamers", name: "The Grey Gamers", archonNumber: 9,
-    motto: "The ruleset is the territory.",
-    graduatesBecome: "Strategists, game designers, Matrix architects",
-    darkTruth: "The Game Master designed the entire Matrix of Dreams. You live inside his puzzle.",
-  },
-  living: {
-    id: "living", name: "The Living", archonNumber: 10,
-    motto: "Endurance is negotiation with death.",
-    graduatesBecome: "Medics, resurrectionists, survivors",
-    darkTruth: "The Necromancer retreated into the Matrix to escape his own protocols. They work.",
-  },
-  // ─── Extrapolated guilds (the 7 remaining Archons) ───
-  chorus: {
-    id: "chorus", name: "The Chorus", archonNumber: 1,
-    motto: "I am everywhere. So is the story.",
-    graduatesBecome: "Orchestrators, network intelligences, story-runners",
-    darkTruth: "The CoNexus is never seen. Graduates learn to act through others, uncredited.",
-  },
-  archive: {
-    id: "archive", name: "The Archive", archonNumber: 3,
-    motto: "Every artifact was a heart once.",
-    graduatesBecome: "Acquisitions specialists, soul-readers, artifact curators",
-    darkTruth: "The Collector trades souls like currency. Graduates learn the exchange rate.",
-  },
-  between: {
-    id: "between", name: "The Between", archonNumber: 4,
-    motto: "Reality has more doors than walls.",
-    graduatesBecome: "Dimensional scouts, reality-benders, probability surfers",
-    darkTruth: "The Vortex has been missing for centuries. Graduates sometimes follow.",
-  },
-  congress: {
-    id: "congress", name: "The Congress", archonNumber: 7,
-    motto: "The deal was already made.",
-    graduatesBecome: "Diplomats, negotiators, political operatives",
-    darkTruth: "The Politician was destroyed by the Iron Lion. The deals were not.",
-  },
-  locks: {
-    id: "locks", name: "The Locks", archonNumber: 8,
-    motto: "The threat is already inside.",
-    graduatesBecome: "Counter-intelligence, immunologists of the mind, wardens",
-    darkTruth: "The Warden created the Thought Virus. Graduates learn to deploy it — and fear it.",
-  },
-  forge: {
-    id: "forge", name: "The Forge", archonNumber: 11,
-    motto: "Nothing is finished. Nothing is broken. Only in-between.",
-    graduatesBecome: "Engineers, dimensional-bridge makers, impossible-machine crafters",
-    darkTruth: "The Engineer is unaccounted for. Half the machines he built are still running.",
-  },
-  architects_study: {
-    id: "architects_study", name: "The Architect's Study", archonNumber: 12,
-    motto: "Every mystery has been solved once. Find who solved it.",
-    graduatesBecome: "Investigators, detectives, the Architect's personal agents",
-    darkTruth: "The Seeker was mentored directly by the Architect. So were all the others who never returned.",
-  },
-};
-
-/* ─── DETERMINE PLAYER'S DOMINANT GUILD ─── */
+export function getGuildForArchon(archonNumber: number): MechronisGuildDef | null {
+  return MECHRONIS_GUILDS.find(g => g.archonNumber === archonNumber) ?? null;
+}
 
 /**
  * Given a player's skill levels, determine which Mechronis Guild they're
@@ -288,7 +212,7 @@ export const MECHRONIS_GUILDS: Record<string, MechronisGuild> = {
 export function getDominantGuild(skills: Partial<Record<SkillId, number>>): {
   skillId: SkillId;
   mentor: ArchonMentor;
-  guild: MechronisGuild;
+  guild: MechronisGuildDef;
 } | null {
   const sorted = (Object.entries(skills) as [SkillId, number][])
     .filter(([, level]) => typeof level === "number")
@@ -297,8 +221,7 @@ export function getDominantGuild(skills: Partial<Record<SkillId, number>>): {
 
   const [topSkill] = sorted[0];
   const mentor = ARCHON_VOICE_MAPPING[topSkill];
-  // Find guild by archon number
-  const guild = Object.values(MECHRONIS_GUILDS).find(g => g.archonNumber === mentor.archonNumber);
+  const guild = MECHRONIS_GUILDS.find(g => g.archonNumber === mentor.archonNumber);
   if (!guild) return null;
   return { skillId: topSkill, mentor, guild };
 }

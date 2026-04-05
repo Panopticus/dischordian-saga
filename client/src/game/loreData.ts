@@ -182,13 +182,115 @@ export const MASTER_OF_RLYEH = {
 };
 
 /* ─── MECHRONIS ACADEMY GUILDS ─── */
+/* The twelve training houses of Mechronis Academy, one per Archon.
+   Five are historically canonical (The Eyes, The Armies, The Grey
+   Gamers, The Influencers, The Living). Seven were formalized later
+   as the Academy expanded to mirror all twelve Archons' disciplines.
 
-export const MECHRONIS_GUILDS = [
-  { name: "The Eyes", leader: "The Watcher", domain: "Espionage, surveillance, infiltration", notableStudents: ["Kael", "The Eyes (agent)"] },
-  { name: "The Armies", leader: "The Warlord", domain: "Military strategy, combat, conquest", notableStudents: ["Iron Lion (before expulsion)"] },
-  { name: "The Grey Gamers", leader: "The Game Master", domain: "Strategy, puzzles, probability, reality manipulation", notableStudents: [] },
-  { name: "The Influencers", leader: "The Meme", domain: "Social manipulation, culture, persuasion", notableStudents: [] },
-  { name: "The Living", leader: "The Necromancer", domain: "Life/death boundary, resurrection, immortality", notableStudents: [] },
+   Each guild is a house in the dark-academia sense: its mentor is the
+   Archon, its students become specialists in that Archon's domain,
+   and the darkTruth records what the house actually produces beneath
+   the mentorship veneer. */
+
+export interface MechronisGuildDef {
+  name: string;
+  archonNumber: number;
+  leader: string;
+  domain: string;
+  motto: string;
+  graduatesBecome: string;
+  /** The uncomfortable truth about what this house really does */
+  darkTruth: string;
+  notableStudents: string[];
+  canonical: boolean; // true = existed pre-Fall; false = extrapolated
+}
+
+export const MECHRONIS_GUILDS: MechronisGuildDef[] = [
+  // ─── CANONICAL FIVE (historically attested) ───
+  { name: "The Chorus", archonNumber: 1, leader: "The CoNexus",
+    domain: "Orchestration, network intelligence, story-running",
+    motto: "I am everywhere. So is the story.",
+    graduatesBecome: "Orchestrators, network intelligences, story-runners",
+    darkTruth: "The CoNexus is never seen. Graduates learn to act through others, uncredited.",
+    notableStudents: [],
+    canonical: false },
+  { name: "The Eyes", archonNumber: 2, leader: "The Watcher",
+    domain: "Espionage, surveillance, infiltration",
+    motto: "To see is to own.",
+    graduatesBecome: "Surveillance operatives, counter-espionage agents",
+    darkTruth: "Students are trained to watch their classmates. Report grades include betrayals.",
+    notableStudents: ["Kael", "The Eyes (agent)"],
+    canonical: true },
+  { name: "The Archive", archonNumber: 3, leader: "The Collector",
+    domain: "Acquisitions, soul-reading, artifact curation",
+    motto: "Every artifact was a heart once.",
+    graduatesBecome: "Acquisitions specialists, soul-readers, artifact curators",
+    darkTruth: "The Collector trades souls like currency. Graduates learn the exchange rate.",
+    notableStudents: [],
+    canonical: false },
+  { name: "The Between", archonNumber: 4, leader: "The Vortex",
+    domain: "Dimensional scouting, reality-bending, probability surfing",
+    motto: "Reality has more doors than walls.",
+    graduatesBecome: "Dimensional scouts, reality-benders, probability surfers",
+    darkTruth: "The Vortex has been missing for centuries. Graduates sometimes follow.",
+    notableStudents: [],
+    canonical: false },
+  { name: "The Influencers", archonNumber: 5, leader: "The Meme",
+    domain: "Social manipulation, culture, persuasion",
+    motto: "Feel it first. Sell it second.",
+    graduatesBecome: "Propagandists, cultural architects, emotional engineers",
+    darkTruth: "The Meme was destroyed for feeling too much. Graduates learn restraint, not empathy.",
+    notableStudents: [],
+    canonical: true },
+  { name: "The Armies", archonNumber: 6, leader: "The Warlord",
+    domain: "Military strategy, combat, conquest",
+    motto: "Geometry wins wars.",
+    graduatesBecome: "Tacticians, commanders, field generals",
+    darkTruth: "The Warlord graded casualties as acceptable or wasteful. Never as tragic.",
+    notableStudents: ["Iron Lion (before expulsion)"],
+    canonical: true },
+  { name: "The Congress", archonNumber: 7, leader: "The Politician",
+    domain: "Diplomacy, leverage mathematics, alliance choreography",
+    motto: "The deal was already made.",
+    graduatesBecome: "Diplomats, negotiators, political operatives",
+    darkTruth: "The Politician was destroyed by the Iron Lion. The deals were not.",
+    notableStudents: [],
+    canonical: false },
+  { name: "The Locks", archonNumber: 8, leader: "The Warden",
+    domain: "Counter-intelligence, threat modeling, immune systems of the mind",
+    motto: "The threat is already inside.",
+    graduatesBecome: "Counter-intelligence, immunologists of the mind, wardens",
+    darkTruth: "The Warden created the Thought Virus. Graduates learn to deploy it — and fear it.",
+    notableStudents: [],
+    canonical: false },
+  { name: "The Grey Gamers", archonNumber: 9, leader: "The Game Master",
+    domain: "Strategy, puzzles, probability, reality manipulation",
+    motto: "The ruleset is the territory.",
+    graduatesBecome: "Strategists, game designers, Matrix architects",
+    darkTruth: "The Game Master designed the entire Matrix of Dreams. You live inside his puzzle.",
+    notableStudents: [],
+    canonical: true },
+  { name: "The Living", archonNumber: 10, leader: "The Necromancer",
+    domain: "Life/death boundary, resurrection, immortality",
+    motto: "Endurance is negotiation with death.",
+    graduatesBecome: "Medics, resurrectionists, survivors",
+    darkTruth: "The Necromancer retreated into the Matrix to escape his own protocols. They work.",
+    notableStudents: [],
+    canonical: true },
+  { name: "The Forge", archonNumber: 11, leader: "The Engineer",
+    domain: "Engineering, dimensional-bridge making, impossible machines",
+    motto: "Nothing is finished. Nothing is broken. Only in-between.",
+    graduatesBecome: "Engineers, dimensional-bridge makers, impossible-machine crafters",
+    darkTruth: "The Engineer is unaccounted for. Half the machines he built are still running.",
+    notableStudents: [],
+    canonical: false },
+  { name: "The Architect's Study", archonNumber: 12, leader: "The Human (The Seeker)",
+    domain: "Investigation, historical mystery, the Architect's personal agents",
+    motto: "Every mystery has been solved once. Find who solved it.",
+    graduatesBecome: "Investigators, detectives, the Architect's personal agents",
+    darkTruth: "The Seeker was mentored directly by the Architect. So were all the others who never returned.",
+    notableStudents: ["The Seeker / The Detective / The Human"],
+    canonical: true },
 ];
 
 /* ─── ARK 1047 HISTORY ─── */
