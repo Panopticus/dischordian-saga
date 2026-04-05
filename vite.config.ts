@@ -3,14 +3,12 @@ import tailwindcss from "@tailwindcss/vite";
 import react from "@vitejs/plugin-react";
 import path from "node:path";
 import { defineConfig } from "vite";
-import coffeePlugin from "vite-plugin-coffee";
 import glsl from "vite-plugin-glsl";
 
 const plugins = [
   react(),
   tailwindcss(),
   jsxLocPlugin(),
-  coffeePlugin({ jsx: false }),
   glsl(),
 ];
 

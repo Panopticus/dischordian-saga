@@ -1,0 +1,16 @@
+# GitHub Linguist overrides — ensure accurate language stats
+# https://github.com/github-linguist/linguist/blob/main/docs/overrides.md
+
+# Mark generated / vendored / data files so they don't skew language %
+*.json linguist-language=JSON
+client/src/data/*.json linguist-generated=true
+drizzle/meta/*.json linguist-generated=true
+pnpm-lock.yaml linguist-generated=true
+
+# Documentation (don't count as "language")
+docs/** linguist-documentation=true
+output/** linguist-documentation=true
+*.md linguist-documentation=true
+
+# SQL migrations are generated output
+drizzle/**/*.sql linguist-generated=true
