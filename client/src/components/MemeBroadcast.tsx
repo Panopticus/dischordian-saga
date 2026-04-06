@@ -11,10 +11,11 @@
      3. Meme's OUTRO commentary after video
      4. Rewards granted on first completion
    ═══════════════════════════════════════════════════════ */
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Play, SkipForward, Radio } from "lucide-react";
 import { driveEmbedUrl, type Transmission } from "@shared/transmissions";
+import { useKinetic } from "@/hooks/useKinetic";
 
 interface Props {
   transmission: Transmission;
@@ -30,40 +31,13 @@ type Phase = "intro" | "broadcast" | "outro" | "done";
 
 export default function MemeBroadcast({ transmission, onClose, onComplete, alreadyWatched, oracleRevealActive }: Props) {
   const [phase, setPhase] = useState<Phase>("intro");
-  const [typedIntro, setTypedIntro] = useState("");
-  const [typedOutro, setTypedOutro] = useState("");
 
-  // Typewriter effect for intro
-  useEffect(() => {
-    if (phase !== "intro") return;
-    setTypedIntro("");
-    let i = 0;
-    const iv = setInterval(() => {
-      if (i < transmission.memeIntro.length) {
-        setTypedIntro(transmission.memeIntro.slice(0, i + 1));
-        i++;
-      } else {
-        clearInterval(iv);
-      }
-    }, 20);
-    return () => clearInterval(iv);
-  }, [phase, transmission.memeIntro]);
+  // Physics-aware kinetic typography for Meme commentary
+  const intro = useKinetic({ mode: "word", text: transmission.memeIntro, speed: 20, autoStart: phase === "intro" });
+  const outro = useKinetic({ mode: "word", text: transmission.memeOutro, speed: 20, autoStart: phase === "outro" });
 
-  // Typewriter for outro
-  useEffect(() => {
-    if (phase !== "outro") return;
-    setTypedOutro("");
-    let i = 0;
-    const iv = setInterval(() => {
-      if (i < transmission.memeOutro.length) {
-        setTypedOutro(transmission.memeOutro.slice(0, i + 1));
-        i++;
-      } else {
-        clearInterval(iv);
-      }
-    }, 20);
-    return () => clearInterval(iv);
-  }, [phase, transmission.memeOutro]);
+  const typedIntro = intro.displayText;
+  const typedOutro = outro.displayText;
 
   const handleComplete = () => {
     onComplete(`ep${transmission.epoch}-${transmission.episodeNumber}`);

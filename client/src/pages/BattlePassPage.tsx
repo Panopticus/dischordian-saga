@@ -108,7 +108,7 @@ export default function BattlePassPage() {
           <Star size={48} className="text-amber-400 mx-auto mb-4 opacity-50" />
           <h2 className="font-display text-xl font-bold mb-2">EPOCH PASS</h2>
           <p className="font-mono text-sm text-muted-foreground mb-4">Authentication required to track your pass progress.</p>
-          <a href={getLoginUrl()} className="inline-flex items-center gap-2 px-4 py-2 rounded-md bg-primary/10 border border-primary/40 text-primary font-mono text-sm hover:bg-primary/20 transition-all">
+          <a href={getLoginUrl()} className="inline-flex items-center gap-2 void-btn void-btn-primary font-mono text-sm">
             AUTHENTICATE <ChevronRight size={14} />
           </a>
         </div>

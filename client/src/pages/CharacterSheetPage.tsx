@@ -406,7 +406,7 @@ export default function CharacterSheetPage() {
           <Lock size={48} className="text-red-400 mx-auto mb-4" />
           <h2 className="font-display text-xl font-bold tracking-wider mb-2">CLEARANCE DENIED</h2>
           <p className="font-mono text-xs text-muted-foreground mb-6">Neural authentication required to access dossier.</p>
-          <a href={getLoginUrl()} className="inline-flex items-center gap-2 px-6 py-3 rounded-md bg-primary/20 border border-primary/40 text-primary font-mono text-sm hover:bg-primary/30 transition-all">
+          <a href={getLoginUrl()} className="inline-flex items-center gap-2 void-btn void-btn-primary font-mono text-sm">
             <Wifi size={14} /> AUTHENTICATE
           </a>
         </div>
@@ -434,7 +434,7 @@ export default function CharacterSheetPage() {
           <User size={48} className="text-muted-foreground mx-auto mb-4" />
           <h2 className="font-display text-xl font-bold tracking-wider mb-2">NO CITIZEN RECORD</h2>
           <p className="font-mono text-xs text-muted-foreground mb-6">No neural imprint found. Initialize awakening sequence.</p>
-          <Link href="/create-citizen" className="inline-flex items-center gap-2 px-6 py-3 rounded-md bg-primary/20 border border-primary/40 text-primary font-mono text-sm hover:bg-primary/30 transition-all">
+          <Link href="/create-citizen" className="inline-flex items-center gap-2 void-btn void-btn-primary font-mono text-sm">
             <Zap size={14} /> BEGIN AWAKENING
           </Link>
         </div>

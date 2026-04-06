@@ -44,6 +44,7 @@ import LoreTutorialEngine from "@/components/LoreTutorialEngine";
 import NarrativeTrigger from "@/components/NarrativeTrigger";
 import InlineShipMap from "@/components/InlineShipMap";
 import { getTutorialById, type TutorialReward } from "@/data/loreTutorials";
+import { useKinetic } from "@/hooks/useKinetic";
 
 const ELARA_PORTRAIT = "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/elara_portrait_speaking-J3GJUrfnNKzSBrxY2PfWrL.webp";
 
@@ -94,8 +95,9 @@ function getFeatureIcon(action: string | undefined) {
 
 /* ─── ELARA POPUP ─── */
 function ElaraPopup({ text, onClose, voUrl }: { text: string; onClose: () => void; voUrl?: string }) {
-  const [displayed, setDisplayed] = useState("");
-  const [done, setDone] = useState(false);
+  const kinetic = useKinetic({ mode: "word", text, speed: 18 });
+  const displayed = kinetic.displayText;
+  const done = kinetic.isComplete;
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [voPlaying, setVoPlaying] = useState(false);
 
@@ -125,21 +127,7 @@ function ElaraPopup({ text, onClose, voUrl }: { text: string; onClose: () => voi
     onClose();
   };
 
-  useEffect(() => {
-    setDisplayed("");
-    setDone(false);
-    let i = 0;
-    const interval = setInterval(() => {
-      if (i < text.length) {
-        setDisplayed(text.slice(0, i + 1));
-        i++;
-      } else {
-        setDone(true);
-        clearInterval(interval);
-      }
-    }, 20);
-    return () => clearInterval(interval);
-  }, [text]);
+  // Typewriter replaced by useKinetic (physics-aware word-mode streaming)
 
   return (
     <motion.div

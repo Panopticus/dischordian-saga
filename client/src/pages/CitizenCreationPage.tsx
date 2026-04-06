@@ -191,7 +191,10 @@ export default function CitizenCreationPage() {
   if (authLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center grid-bg">
-        <div className="animate-pulse font-mono text-primary text-sm">LOADING CITIZEN REGISTRY...</div>
+        <div className="flex flex-col items-center gap-3">
+          <div className="void-skeleton" style={{ width: 200, height: 12 }} />
+          <div className="void-skeleton" style={{ width: 140, height: 8 }} />
+        </div>
       </div>
     );
   }
@@ -207,7 +210,7 @@ export default function CitizenCreationPage() {
           </p>
           <a
             href={getLoginUrl()}
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-md bg-primary/20 border border-primary/40 text-primary font-mono text-sm hover:bg-primary/30 transition-all"
+            className="inline-flex items-center gap-2 void-btn void-btn-primary font-mono text-sm"
           >
             AUTHENTICATE
           </a>
@@ -228,7 +231,7 @@ export default function CitizenCreationPage() {
           </p>
           <Link
             href="/character-sheet"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-md bg-primary/20 border border-primary/40 text-primary font-mono text-sm hover:bg-primary/30 transition-all"
+            className="inline-flex items-center gap-2 void-btn void-btn-primary font-mono text-sm"
           >
             VIEW CHARACTER SHEET
           </Link>

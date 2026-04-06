@@ -9,6 +9,7 @@ import { useEffect, useState, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Trophy, Star, Crown, Gem, Zap } from "lucide-react";
 import type { TraitTier } from "@shared/achievementTraits";
+import { KineticText } from "@/components/void";
 
 /* ── Trait payload dispatched via custom event ── */
 export interface UnlockPayload {
@@ -175,7 +176,7 @@ export default function AchievementUnlockToast() {
                   lineHeight: 1.2,
                 }}
               >
-                {current.name}
+                <KineticText text={current.name} mode="decode" speed={25} showCursor={false} />
               </motion.div>
 
               <motion.div

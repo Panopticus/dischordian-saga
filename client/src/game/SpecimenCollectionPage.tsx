@@ -10,6 +10,7 @@ import { ArrowLeft, X, Lock } from "lucide-react";
 import { SPECIMENS, type SpecimenId, type EvolutionStage, getSpecimenArtPath } from "./arkSpecimens";
 import { ARCHON_SPECIMENS, NEYON_SPECIMENS, type ExpandedSpecimenDef } from "./specimenExpansion";
 import LiveSpecimen from "@/components/LiveSpecimen";
+import { VoidTile } from "@/components/void";
 
 type FilterTab = "all" | "owned" | "faction" | "archon" | "neyon";
 
@@ -175,16 +176,11 @@ export default function SpecimenCollectionPage() {
             {filtered.map((s, idx) => {
               const owned = ownedSet.has(s.id);
               return (
-                <motion.button
+                <VoidTile
                   key={s.id}
-                  initial={{ opacity: 0, y: 20, scale: 0.9 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.9 }}
-                  transition={{ delay: idx * 0.03, duration: 0.3 }}
-                  whileHover={{ scale: 1.04, y: -4 }}
                   onClick={() => setSelected(s)}
                   data-testid={`specimen-card-${s.id}`}
-                  className={`relative p-4 bg-black/60 border-2 rounded-lg text-left transition ${RARITY_BORDERS[s.rarity]} ${!owned ? "opacity-40 grayscale" : ""}`}
+                  className={`relative p-4 text-left ${RARITY_BORDERS[s.rarity]} ${!owned ? "opacity-40 grayscale" : ""}`}
                 >
                   <div className="aspect-square mb-3 bg-gradient-to-br from-gray-900 to-black border border-gray-800 rounded flex items-center justify-center overflow-hidden">
                     {owned && (s.id as string) in SPECIMENS ? (
@@ -215,7 +211,7 @@ export default function SpecimenCollectionPage() {
                   <p className={`text-[10px] mt-1 uppercase tracking-wider ${RARITY_TEXT[s.rarity]}`}>
                     {s.rarity}
                   </p>
-                </motion.button>
+                </VoidTile>
               );
             })}
           </AnimatePresence>

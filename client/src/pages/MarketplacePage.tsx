@@ -213,7 +213,7 @@ function BrowseTab() {
           <select
             value={itemType}
             onChange={(e) => { setItemType(e.target.value as any); setPage(1); }}
-            className="px-3 py-2 rounded-lg bg-secondary/50 border border-border/30 font-mono text-xs text-foreground"
+            className="void-btn font-mono text-xs"
           >
             <option value="all">All Types</option>
             <option value="card">Cards</option>
@@ -223,7 +223,7 @@ function BrowseTab() {
           <select
             value={rarity}
             onChange={(e) => { setRarity(e.target.value); setPage(1); }}
-            className="px-3 py-2 rounded-lg bg-secondary/50 border border-border/30 font-mono text-xs text-foreground"
+            className="void-btn font-mono text-xs"
           >
             <option value="">Any Rarity</option>
             <option value="Common">Common</option>
@@ -235,7 +235,7 @@ function BrowseTab() {
           <select
             value={sortBy}
             onChange={(e) => { setSortBy(e.target.value as any); setPage(1); }}
-            className="px-3 py-2 rounded-lg bg-secondary/50 border border-border/30 font-mono text-xs text-foreground"
+            className="void-btn font-mono text-xs"
           >
             <option value="newest">Newest</option>
             <option value="price_low">Price: Low</option>
@@ -245,7 +245,7 @@ function BrowseTab() {
           <select
             value={currency}
             onChange={(e) => { setCurrency(e.target.value as any); setPage(1); }}
-            className="px-3 py-2 rounded-lg bg-secondary/50 border border-border/30 font-mono text-xs text-foreground"
+            className="void-btn font-mono text-xs"
           >
             <option value="any">Any Currency</option>
             <option value="dream">Dream Only</option>
@@ -443,7 +443,7 @@ function CreateListingPanel() {
               <select
                 value={itemType}
                 onChange={(e) => setItemType(e.target.value as any)}
-                className="w-full px-3 py-2 rounded-lg bg-secondary/50 border border-border/30 font-mono text-xs"
+                className="w-full void-btn font-mono text-xs"
               >
                 <option value="card">Card</option>
                 <option value="material">Material</option>
@@ -455,7 +455,7 @@ function CreateListingPanel() {
               <select
                 value={duration}
                 onChange={(e) => setDuration(Number(e.target.value))}
-                className="w-full px-3 py-2 rounded-lg bg-secondary/50 border border-border/30 font-mono text-xs"
+                className="w-full void-btn font-mono text-xs"
               >
                 <option value={1}>1 hour</option>
                 <option value={6}>6 hours</option>
@@ -476,7 +476,7 @@ function CreateListingPanel() {
                   const card = cardOptions.find(c => c.id === e.target.value);
                   if (card) { setItemId(card.id); setItemName(card.name); setRarity(card.rarity); }
                 }}
-                className="w-full px-3 py-2 rounded-lg bg-secondary/50 border border-border/30 font-mono text-xs"
+                className="w-full void-btn font-mono text-xs"
               >
                 <option value="">-- Select a card --</option>
                 {cardOptions.map(c => (
@@ -492,7 +492,7 @@ function CreateListingPanel() {
                 <label className="font-mono text-[10px] text-muted-foreground block mb-1">ITEM ID</label>
                 <input
                   value={itemId} onChange={(e) => setItemId(e.target.value)}
-                  className="w-full px-3 py-2 rounded-lg bg-secondary/50 border border-border/30 font-mono text-xs"
+                  className="w-full void-btn font-mono text-xs"
                   placeholder="e.g. shadow_crystal"
                 />
               </div>
@@ -500,7 +500,7 @@ function CreateListingPanel() {
                 <label className="font-mono text-[10px] text-muted-foreground block mb-1">ITEM NAME</label>
                 <input
                   value={itemName} onChange={(e) => setItemName(e.target.value)}
-                  className="w-full px-3 py-2 rounded-lg bg-secondary/50 border border-border/30 font-mono text-xs"
+                  className="w-full void-btn font-mono text-xs"
                   placeholder="Shadow Crystal"
                 />
               </div>
@@ -513,7 +513,7 @@ function CreateListingPanel() {
               <input
                 type="number" min={1} max={9999} value={quantity}
                 onChange={(e) => setQuantity(Number(e.target.value))}
-                className="w-full px-3 py-2 rounded-lg bg-secondary/50 border border-border/30 font-mono text-xs"
+                className="w-full void-btn font-mono text-xs"
               />
             </div>
             <div>
@@ -523,7 +523,7 @@ function CreateListingPanel() {
               <input
                 type="number" min={0} value={priceDream}
                 onChange={(e) => setPriceDream(Number(e.target.value))}
-                className="w-full px-3 py-2 rounded-lg bg-secondary/50 border border-border/30 font-mono text-xs"
+                className="w-full void-btn font-mono text-xs"
               />
             </div>
             <div>
@@ -533,7 +533,7 @@ function CreateListingPanel() {
               <input
                 type="number" min={0} value={priceCredits}
                 onChange={(e) => setPriceCredits(Number(e.target.value))}
-                className="w-full px-3 py-2 rounded-lg bg-secondary/50 border border-border/30 font-mono text-xs"
+                className="w-full void-btn font-mono text-xs"
               />
             </div>
           </div>
@@ -790,7 +790,7 @@ function BuyOrdersTab() {
             <div>
               <label className="font-mono text-[10px] text-muted-foreground block mb-1">TYPE</label>
               <select value={orderItemType} onChange={(e) => setOrderItemType(e.target.value as any)}
-                className="w-full px-3 py-2 rounded-lg bg-secondary/50 border border-border/30 font-mono text-xs">
+                className="w-full void-btn font-mono text-xs">
                 <option value="card">Card</option>
                 <option value="material">Material</option>
                 <option value="crafted_item">Crafted</option>
@@ -799,31 +799,31 @@ function BuyOrdersTab() {
             <div>
               <label className="font-mono text-[10px] text-muted-foreground block mb-1">QUANTITY</label>
               <input type="number" min={1} value={orderQty} onChange={(e) => setOrderQty(Number(e.target.value))}
-                className="w-full px-3 py-2 rounded-lg bg-secondary/50 border border-border/30 font-mono text-xs" />
+                className="w-full void-btn font-mono text-xs" />
             </div>
           </div>
           <div className="grid grid-cols-2 gap-3">
             <div>
               <label className="font-mono text-[10px] text-muted-foreground block mb-1">ITEM ID</label>
               <input value={orderItemId} onChange={(e) => setOrderItemId(e.target.value)}
-                className="w-full px-3 py-2 rounded-lg bg-secondary/50 border border-border/30 font-mono text-xs" placeholder="card_id" />
+                className="w-full void-btn font-mono text-xs" placeholder="card_id" />
             </div>
             <div>
               <label className="font-mono text-[10px] text-muted-foreground block mb-1">ITEM NAME</label>
               <input value={orderItemName} onChange={(e) => setOrderItemName(e.target.value)}
-                className="w-full px-3 py-2 rounded-lg bg-secondary/50 border border-border/30 font-mono text-xs" placeholder="Card Name" />
+                className="w-full void-btn font-mono text-xs" placeholder="Card Name" />
             </div>
           </div>
           <div className="grid grid-cols-2 gap-3">
             <div>
               <label className="font-mono text-[10px] text-muted-foreground block mb-1">MAX DREAM/UNIT</label>
               <input type="number" min={0} value={orderMaxDream} onChange={(e) => setOrderMaxDream(Number(e.target.value))}
-                className="w-full px-3 py-2 rounded-lg bg-secondary/50 border border-border/30 font-mono text-xs" />
+                className="w-full void-btn font-mono text-xs" />
             </div>
             <div>
               <label className="font-mono text-[10px] text-muted-foreground block mb-1">MAX CREDITS/UNIT</label>
               <input type="number" min={0} value={orderMaxCredits} onChange={(e) => setOrderMaxCredits(Number(e.target.value))}
-                className="w-full px-3 py-2 rounded-lg bg-secondary/50 border border-border/30 font-mono text-xs" />
+                className="w-full void-btn font-mono text-xs" />
             </div>
           </div>
           <Button

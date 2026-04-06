@@ -108,9 +108,9 @@ export default function WarMapPage() {
   if (isLoading || !warData) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center space-y-4">
-          <div className="w-16 h-16 border-2 border-primary/30 border-t-primary rounded-full animate-spin mx-auto" />
-          <p className="font-mono text-sm text-muted-foreground">LOADING WAR MAP...</p>
+        <div className="text-center space-y-3">
+          <div className="void-skeleton mx-auto" style={{ width: 64, height: 64, borderRadius: "50%" }} />
+          <div className="void-skeleton mx-auto" style={{ width: 180, height: 12 }} />
         </div>
       </div>
     );

@@ -389,7 +389,7 @@ function RewardsTab() {
               <select
                 value={form.contentType}
                 onChange={e => setForm(f => ({ ...f, contentType: e.target.value }))}
-                className="w-full px-2 py-1.5 rounded bg-secondary/30 border border-border/30 text-xs font-mono"
+                className="w-full void-btn text-xs font-mono"
               >
                 <option value="episode">Episode</option>
                 <option value="conexus_game">CoNexus Game</option>
@@ -404,7 +404,7 @@ function RewardsTab() {
                 value={form.contentId}
                 onChange={e => setForm(f => ({ ...f, contentId: e.target.value }))}
                 placeholder="e.g., ep-001 or *"
-                className="w-full px-2 py-1.5 rounded bg-secondary/30 border border-border/30 text-xs font-mono"
+                className="w-full void-btn text-xs font-mono"
               />
             </div>
             <div>
@@ -412,7 +412,7 @@ function RewardsTab() {
               <select
                 value={form.rewardType}
                 onChange={e => setForm(f => ({ ...f, rewardType: e.target.value }))}
-                className="w-full px-2 py-1.5 rounded bg-secondary/30 border border-border/30 text-xs font-mono"
+                className="w-full void-btn text-xs font-mono"
               >
                 <option value="card">Card</option>
                 <option value="dream">Dream Tokens</option>
@@ -426,7 +426,7 @@ function RewardsTab() {
                 value={form.rewardValue}
                 onChange={e => setForm(f => ({ ...f, rewardValue: e.target.value }))}
                 placeholder="Card ID or amount"
-                className="w-full px-2 py-1.5 rounded bg-secondary/30 border border-border/30 text-xs font-mono"
+                className="w-full void-btn text-xs font-mono"
               />
             </div>
           </div>
@@ -443,7 +443,7 @@ function RewardsTab() {
             </button>
             <button
               onClick={() => setShowForm(false)}
-              className="px-3 py-1.5 rounded bg-secondary/30 border border-border/30 text-muted-foreground text-xs font-mono"
+              className="void-btn text-muted-foreground text-xs font-mono"
             >
               CANCEL
             </button>
@@ -866,7 +866,7 @@ function ContentTab() {
                 value={createForm.id}
                 onChange={e => setCreateForm(f => ({ ...f, id: e.target.value }))}
                 placeholder="e.g., char_new_name"
-                className="w-full px-2 py-1.5 rounded bg-secondary/30 border border-border/30 text-xs font-mono"
+                className="w-full void-btn text-xs font-mono"
               />
             </div>
             <div>
@@ -874,7 +874,7 @@ function ContentTab() {
               <select
                 value={createForm.type}
                 onChange={e => setCreateForm(f => ({ ...f, type: e.target.value }))}
-                className="w-full px-2 py-1.5 rounded bg-secondary/30 border border-border/30 text-xs font-mono"
+                className="w-full void-btn text-xs font-mono"
               >
                 <option value="character">Character</option>
                 <option value="location">Location</option>
@@ -889,7 +889,7 @@ function ContentTab() {
                 value={createForm.name}
                 onChange={e => setCreateForm(f => ({ ...f, name: e.target.value }))}
                 placeholder="Entry name"
-                className="w-full px-2 py-1.5 rounded bg-secondary/30 border border-border/30 text-xs font-mono"
+                className="w-full void-btn text-xs font-mono"
               />
             </div>
             <div>
@@ -898,7 +898,7 @@ function ContentTab() {
                 value={createForm.era}
                 onChange={e => setCreateForm(f => ({ ...f, era: e.target.value }))}
                 placeholder="e.g., Pre-Fall"
-                className="w-full px-2 py-1.5 rounded bg-secondary/30 border border-border/30 text-xs font-mono"
+                className="w-full void-btn text-xs font-mono"
               />
             </div>
             <div>
@@ -907,7 +907,7 @@ function ContentTab() {
                 value={createForm.season}
                 onChange={e => setCreateForm(f => ({ ...f, season: e.target.value }))}
                 placeholder="e.g., Season 1"
-                className="w-full px-2 py-1.5 rounded bg-secondary/30 border border-border/30 text-xs font-mono"
+                className="w-full void-btn text-xs font-mono"
               />
             </div>
             <div>
@@ -916,7 +916,7 @@ function ContentTab() {
                 value={createForm.image}
                 onChange={e => setCreateForm(f => ({ ...f, image: e.target.value }))}
                 placeholder="https://..."
-                className="w-full px-2 py-1.5 rounded bg-secondary/30 border border-border/30 text-xs font-mono"
+                className="w-full void-btn text-xs font-mono"
               />
             </div>
             {createForm.type === "song" && (
@@ -927,7 +927,7 @@ function ContentTab() {
                     value={createForm.album}
                     onChange={e => setCreateForm(f => ({ ...f, album: e.target.value }))}
                     placeholder="Album name"
-                    className="w-full px-2 py-1.5 rounded bg-secondary/30 border border-border/30 text-xs font-mono"
+                    className="w-full void-btn text-xs font-mono"
                   />
                 </div>
                 <div>
@@ -936,7 +936,7 @@ function ContentTab() {
                     type="number"
                     value={createForm.track_number}
                     onChange={e => setCreateForm(f => ({ ...f, track_number: parseInt(e.target.value) || 0 }))}
-                    className="w-full px-2 py-1.5 rounded bg-secondary/30 border border-border/30 text-xs font-mono"
+                    className="w-full void-btn text-xs font-mono"
                   />
                 </div>
               </>
@@ -981,7 +981,7 @@ function ContentTab() {
             </button>
             <button
               onClick={() => setShowCreateForm(false)}
-              className="px-3 py-1.5 rounded bg-secondary/30 border border-border/30 text-muted-foreground text-xs font-mono"
+              className="void-btn text-muted-foreground text-xs font-mono"
             >
               CANCEL
             </button>
@@ -1009,7 +1009,7 @@ function ContentTab() {
                 <input
                   value={String(editForm[field] ?? "")}
                   onChange={e => setEditForm(f => ({ ...f, [field]: e.target.value }))}
-                  className="w-full px-2 py-1.5 rounded bg-secondary/30 border border-border/30 text-xs font-mono"
+                  className="w-full void-btn text-xs font-mono"
                 />
               </div>
             ))}
@@ -1030,7 +1030,7 @@ function ContentTab() {
                 <input
                   value={String(editForm.album ?? "")}
                   onChange={e => setEditForm(f => ({ ...f, album: e.target.value }))}
-                  className="w-full px-2 py-1.5 rounded bg-secondary/30 border border-border/30 text-xs font-mono"
+                  className="w-full void-btn text-xs font-mono"
                 />
               </div>
               <div>
@@ -1039,7 +1039,7 @@ function ContentTab() {
                   type="number"
                   value={Number(editForm.track_number ?? 0)}
                   onChange={e => setEditForm(f => ({ ...f, track_number: parseInt(e.target.value) || 0 }))}
-                  className="w-full px-2 py-1.5 rounded bg-secondary/30 border border-border/30 text-xs font-mono"
+                  className="w-full void-btn text-xs font-mono"
                 />
               </div>
               <div>
@@ -1047,7 +1047,7 @@ function ContentTab() {
                 <input
                   value={String(editForm.artist ?? "")}
                   onChange={e => setEditForm(f => ({ ...f, artist: e.target.value }))}
-                  className="w-full px-2 py-1.5 rounded bg-secondary/30 border border-border/30 text-xs font-mono"
+                  className="w-full void-btn text-xs font-mono"
                 />
               </div>
             </div>
@@ -1133,7 +1133,7 @@ function ContentTab() {
             </button>
             <button
               onClick={() => { setEditingId(null); setEditForm({}); }}
-              className="px-3 py-1.5 rounded bg-secondary/30 border border-border/30 text-muted-foreground text-xs font-mono"
+              className="void-btn text-muted-foreground text-xs font-mono"
             >
               CANCEL
             </button>

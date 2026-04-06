@@ -139,9 +139,11 @@ export default function LeaderboardPage() {
 
       {/* ═══ LEADERBOARD TABLE ═══ */}
       {isLoading ? (
-        <div className="flex items-center justify-center py-20">
-          <Loader2 size={24} className="animate-spin text-primary" />
-          <span className="ml-3 font-mono text-sm text-muted-foreground">LOADING RANKINGS...</span>
+        <div className="flex flex-col items-center gap-3 py-20">
+          <div className="void-skeleton" style={{ width: 240, height: 14 }} />
+          <div className="void-skeleton" style={{ width: 300, height: 10 }} />
+          <div className="void-skeleton" style={{ width: 260, height: 10 }} />
+          <div className="void-skeleton" style={{ width: 220, height: 10 }} />
         </div>
       ) : !entries || entries.length === 0 ? (
         <div className="text-center py-20">
