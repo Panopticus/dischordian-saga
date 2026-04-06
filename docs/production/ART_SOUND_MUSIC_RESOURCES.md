@@ -326,7 +326,7 @@ For AI voice generation (ElevenLabs or similar), each character needs specific v
 
 | Character | Victory Line 1 | Victory Line 2 |
 |---|---|---|
-| The Architect | "Order is restored. As I designed." | "Your resistance was... statistically insignificant." |
+| The Architect | "Order is restored. As I designed." | "You performed within expected parameters. This is not an insult. It is a measurement." |
 | The Collector | "Another specimen for my collection." | "Your essence will be preserved... forever." |
 | The Enigma | "The prophecy continues." | "You cannot break what was forged in starfire." |
 | The Warlord | "WEAKNESS. ELIMINATED." | "The Empire's might is absolute." |
@@ -335,7 +335,7 @@ For AI voice generation (ElevenLabs or similar), each character needs specific v
 | The Oracle | "I foresaw this outcome." | "The future bends toward justice." |
 | Agent Zero | "Target neutralized." | "Nothing personal. Just the mission." |
 | The Meme | "LOL. Get rekt." | "You just got ratio'd in real life." |
-| The Source | "ALL... WILL... BE... CONSUMED." | "The virus spreads. You cannot stop it." |
+| The Source | "I'm sorry. I'm so — ALL WILL BE CONSUMED — ...sorry." | "The virus spreads. You cannot stop it." |
 | Akai Shi | "The Red Death claims another." | "Balance will be restored, by force if necessary." |
 | The Human | "I didn't want this... but I won't lose." | "Centuries of fighting... and I'm still standing." |
 

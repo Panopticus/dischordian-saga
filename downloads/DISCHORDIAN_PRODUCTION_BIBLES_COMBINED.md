@@ -215,12 +215,12 @@ Each character speaks with a distinct voice that reflects their nature, era, and
 **The Architect** — Speaks in absolute declarations. Never asks questions (it already knows the answers). Uses technical language mixed with godlike pronouncements. Refers to opponents as "variables," "anomalies," or "inefficiencies." Never uses contractions.
 
 > "I did not create the universe. I merely ensured it would remember itself."
-> "Your resistance was... statistically insignificant."
+> "You performed within expected parameters. This is not an insult. It is a measurement."
 > "I have calculated every possible outcome. You exist in none of them."
 
 **The Collector** — Speaks with clinical detachment masking obsessive desire. Uses specimen/collection metaphors. Addresses opponents by their "catalog designation." Refined, aristocratic diction with an undercurrent of menace.
 
-> "Specimen 7,042. Your combat data will be... illuminating."
+> "Specimen 74. Your combat data will be... illuminating."
 > "You are not a person. You are data. And I will have every byte."
 > "Another specimen for my collection. Exquisite."
 
@@ -268,7 +268,7 @@ Each character speaks with a distinct voice that reflects their nature, era, and
 
 **The Source** — Speaks in fragmented, agonized sentences. The Thought Virus corrupts speech patterns — words repeat, glitch, or distort. Moments of Kael's original personality break through.
 
-> "ALL... WILL... BE... CONSUMED."
+> "I'm sorry. I'm so — ALL WILL BE CONSUMED — ...sorry."
 > "I was made to be a weapon. Now I choose my own targets."
 > *[Kael surfacing]* "Please... it hurts... make it stop..."
 
@@ -610,7 +610,7 @@ Each arena tells a story through its environment. These details should be visibl
 - Cold fluorescent lighting with no shadows
 - Automated guard drones patrolling corridors
 
-**Ambient Sound Design**: Fluorescent hum, distant prisoner cries, automated announcements ("Prisoner 7042, report to processing"), metallic door slams, heartbeat undertone
+**Ambient Sound Design**: Fluorescent hum, distant prisoner cries, automated announcements ("Prisoner 74, report to processing"), metallic door slams, heartbeat undertone
 
 #### Thaloria
 
@@ -2640,7 +2640,7 @@ For AI voice generation (ElevenLabs or similar), each character needs specific v
 
 | Character | Victory Line 1 | Victory Line 2 |
 |---|---|---|
-| The Architect | "Order is restored. As I designed." | "Your resistance was... statistically insignificant." |
+| The Architect | "Order is restored. As I designed." | "You performed within expected parameters. This is not an insult. It is a measurement." |
 | The Collector | "Another specimen for my collection." | "Your essence will be preserved... forever." |
 | The Enigma | "The prophecy continues." | "You cannot break what was forged in starfire." |
 | The Warlord | "WEAKNESS. ELIMINATED." | "The Empire's might is absolute." |
@@ -2649,7 +2649,7 @@ For AI voice generation (ElevenLabs or similar), each character needs specific v
 | The Oracle | "I foresaw this outcome." | "The future bends toward justice." |
 | Agent Zero | "Target neutralized." | "Nothing personal. Just the mission." |
 | The Meme | "LOL. Get rekt." | "You just got ratio'd in real life." |
-| The Source | "ALL... WILL... BE... CONSUMED." | "The virus spreads. You cannot stop it." |
+| The Source | "I'm sorry. I'm so — ALL WILL BE CONSUMED — ...sorry." | "The virus spreads. You cannot stop it." |
 | Akai Shi | "The Red Death claims another." | "Balance will be restored, by force if necessary." |
 | The Human | "I didn't want this... but I won't lose." | "Centuries of fighting... and I'm still standing." |
 
@@ -3358,7 +3358,7 @@ Run `summarizeForReview()` each week. Investigate any `drifts` reported:
 
 ### Line 35: Object: Your Cryo Pod
 
-> That's your pod. Serial number AK-47-0892. You were in deep cryogenic suspension for... the chronometer is corrupted. Could be decades. Could be centuries.
+> That's your pod. Serial number AK-74-0074. You were in deep cryogenic suspension for... the chronometer is corrupted. Could be decades. Could be centuries.
 
 ### Line 36: Object: Sealed Pods
 

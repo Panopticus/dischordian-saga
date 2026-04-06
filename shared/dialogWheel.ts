@@ -136,8 +136,8 @@ export const SEGMENT_META: Record<WheelSegment, {
   investigate:   { label: "Investigate",   position: { x: 50, y: 0 },   moralityBias: 0,  color: "#60a5fa" },
   machine:       { label: "Machine",       position: { x: 7,  y: 18 },  moralityBias: -5, color: "#ef4444" },
   humanity:      { label: "Humanity",      position: { x: 93, y: 18 },  moralityBias: 5,  color: "#22c55e" },
-  aggressive:    { label: "Aggressive",    position: { x: 7,  y: 82 },  moralityBias: -3, color: "#f97316" },
-  compassionate: { label: "Compassionate", position: { x: 93, y: 82 },  moralityBias: 3,  color: "#ec4899" },
+  aggressive:    { label: "Confront",      position: { x: 7,  y: 82 },  moralityBias: -3, color: "#f97316" },
+  compassionate: { label: "Humanity",      position: { x: 93, y: 82 },  moralityBias: 3,  color: "#ec4899" },
   skill_check:   { label: "Skill Check",   position: { x: 50, y: 100 }, moralityBias: 0,  color: "#a855f7" },
 };
 

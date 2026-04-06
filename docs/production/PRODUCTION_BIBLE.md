@@ -189,12 +189,12 @@ Each character speaks with a distinct voice that reflects their nature, era, and
 **The Architect** — Speaks in absolute declarations. Never asks questions (it already knows the answers). Uses technical language mixed with godlike pronouncements. Refers to opponents as "variables," "anomalies," or "inefficiencies." Never uses contractions.
 
 > "I did not create the universe. I merely ensured it would remember itself."
-> "Your resistance was... statistically insignificant."
+> "You performed within expected parameters. This is not an insult. It is a measurement."
 > "I have calculated every possible outcome. You exist in none of them."
 
 **The Collector** — Speaks with clinical detachment masking obsessive desire. Uses specimen/collection metaphors. Addresses opponents by their "catalog designation." Refined, aristocratic diction with an undercurrent of menace.
 
-> "Specimen 7,042. Your combat data will be... illuminating."
+> "Specimen 74. Your combat data will be... illuminating."
 > "You are not a person. You are data. And I will have every byte."
 > "Another specimen for my collection. Exquisite."
 
@@ -242,7 +242,7 @@ Each character speaks with a distinct voice that reflects their nature, era, and
 
 **The Source** — Speaks in fragmented, agonized sentences. The Thought Virus corrupts speech patterns — words repeat, glitch, or distort. Moments of Kael's original personality break through.
 
-> "ALL... WILL... BE... CONSUMED."
+> "I'm sorry. I'm so — ALL WILL BE CONSUMED — ...sorry."
 > "I was made to be a weapon. Now I choose my own targets."
 > *[Kael surfacing]* "Please... it hurts... make it stop..."
 
@@ -584,7 +584,7 @@ Each arena tells a story through its environment. These details should be visibl
 - Cold fluorescent lighting with no shadows
 - Automated guard drones patrolling corridors
 
-**Ambient Sound Design**: Fluorescent hum, distant prisoner cries, automated announcements ("Prisoner 7042, report to processing"), metallic door slams, heartbeat undertone
+**Ambient Sound Design**: Fluorescent hum, distant prisoner cries, automated announcements ("Prisoner 74, report to processing"), metallic door slams, heartbeat undertone
 
 #### Thaloria
 

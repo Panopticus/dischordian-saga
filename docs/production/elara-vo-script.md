@@ -173,7 +173,7 @@
 
 ### Line 35: Object: Your Cryo Pod
 
-> That's your pod. Serial number AK-47-0892. You were in deep cryogenic suspension for... the chronometer is corrupted. Could be decades. Could be centuries.
+> That's your pod. Serial number AK-74-0074. You were in deep cryogenic suspension for... the chronometer is corrupted. Could be decades. Could be centuries.
 
 ### Line 36: Object: Sealed Pods
 
