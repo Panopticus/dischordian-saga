@@ -42,6 +42,7 @@ import { useArchetypeDetection } from "./hooks/useArchetypeDetection";
 import { useSortingTrigger } from "./hooks/useSortingTrigger";
 import { useAuth } from "./_core/hooks/useAuth";
 import TitlePage from "./pages/TitlePage";
+import LoadingScreen from "./components/LoadingScreen";
 import SortingCeremony from "./components/SortingCeremony";
 import { ARCHON_VOICE_MAPPING } from "./game/archonTrainingVoices";
 import "./engine/void-materials.css";
@@ -164,14 +165,7 @@ const AllianceWarPage = lazy(() => import("./game/AllianceWarPage"));
 
 /* ═══ LOADING FALLBACK ═══ */
 function PageLoader() {
-  return (
-    <div className="min-h-[60vh] flex items-center justify-center">
-      <div className="flex flex-col items-center gap-3">
-        <div className="w-8 h-8 border-2 border-primary/30 border-t-primary rounded-full animate-spin" />
-        <span className="font-mono text-xs text-muted-foreground tracking-[0.2em] animate-pulse">LOADING MODULE...</span>
-      </div>
-    </div>
-  );
+  return <LoadingScreen />;
 }
 
 function Router() {
