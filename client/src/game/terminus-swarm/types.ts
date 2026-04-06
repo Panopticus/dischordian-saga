@@ -198,6 +198,7 @@ export interface MapDef {
   corePosition: Vec2;
   blockedTiles: Vec2[];  // pre-blocked tiles (terrain)
   lore: string;
+  backgroundImage?: string;
 }
 
 /* ─── CONVEYOR / AUTOMATION ─── */

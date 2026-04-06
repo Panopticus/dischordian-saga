@@ -441,6 +441,7 @@ export const MAPS: MapDef[] = [
       { x: 11, y: 7 }, { x: 11, y: 8 },
     ],
     lore: "The Inception Arks crashed on Terminus — the former Panopticon, the Architect's prison planet, now a rogue world drifting through the void. Every soul the Architect ever imprisoned is here. The Thought Virus turned them into the Swarm. This landing bay is all that stands between what remains of the Ark's systems and the rage of a planet full of the damned.",
+    backgroundImage: "/art/terminus/maps/map-landing-bay.png",
   },
   {
     name: "Ark #25 — Corridor B",
@@ -456,5 +457,64 @@ export const MAPS: MapDef[] = [
       { x: 16, y: 3 }, { x: 16, y: 4 },
     ],
     lore: "The interior corridors of the Ark are labyrinthine. The Swarm has burrowed through walls, creating new entry points.",
+    backgroundImage: "/art/terminus/maps/map-corridor-b.png",
+  },
+  {
+    name: "Reactor Core",
+    description: "Four corridors converge on the reactor. Defend from all directions simultaneously.",
+    width: 16,
+    height: 16,
+    spawnPoints: [
+      { x: 8, y: 0 },   // North
+      { x: 8, y: 15 },  // South
+      { x: 0, y: 8 },   // West
+      { x: 15, y: 8 },  // East
+    ],
+    corePosition: { x: 8, y: 8 },
+    blockedTiles: [
+      // Reactor chamber walls — leave corridors and inner ring open
+      // NW quadrant walls
+      { x: 3, y: 3 }, { x: 4, y: 3 }, { x: 3, y: 4 },
+      { x: 3, y: 5 }, { x: 4, y: 5 },
+      // NE quadrant walls
+      { x: 11, y: 3 }, { x: 12, y: 3 }, { x: 12, y: 4 },
+      { x: 11, y: 5 }, { x: 12, y: 5 },
+      // SW quadrant walls
+      { x: 3, y: 10 }, { x: 4, y: 10 }, { x: 3, y: 11 },
+      { x: 3, y: 12 }, { x: 4, y: 12 },
+      // SE quadrant walls
+      { x: 11, y: 10 }, { x: 12, y: 10 }, { x: 12, y: 11 },
+      { x: 11, y: 12 }, { x: 12, y: 12 },
+    ],
+    lore: "The reactor core is the heart of the Ark. Four corridors lead to it — north flooded with coolant, east on fire, west crawling with Thought Virus, south the only clean approach. Lose the reactor, lose everything.",
+    backgroundImage: "/art/terminus/maps/map-reactor-core.png",
+  },
+  {
+    name: "Terminus Surface",
+    description: "Exterior last stand. Open terrain, crashed wreckage as chokepoints. The most hostile map.",
+    width: 18,
+    height: 12,
+    spawnPoints: [
+      { x: 0, y: 2 },
+      { x: 0, y: 9 },
+      { x: 3, y: 0 },
+    ],
+    corePosition: { x: 16, y: 6 },
+    blockedTiles: [
+      // Crashed wing section (diagonal barrier)
+      { x: 6, y: 3 }, { x: 7, y: 3 }, { x: 8, y: 4 },
+      { x: 9, y: 4 }, { x: 10, y: 5 }, { x: 11, y: 5 },
+      // Shattered observation dome
+      { x: 4, y: 8 }, { x: 5, y: 8 }, { x: 4, y: 9 },
+      { x: 5, y: 9 }, { x: 6, y: 9 },
+      // Hull plates
+      { x: 12, y: 2 }, { x: 13, y: 2 },
+      { x: 9, y: 10 }, { x: 10, y: 10 },
+      // Ark hull wall (right edge partial)
+      { x: 17, y: 0 }, { x: 17, y: 1 }, { x: 17, y: 2 },
+      { x: 17, y: 10 }, { x: 17, y: 11 },
+    ],
+    lore: "The surface of Terminus itself. Toxic green sky, corrupted soil pulsing with viral circuitry. The Ark's hull has been breached. Wreckage creates natural chokepoints — use them or be overwhelmed. This is the last stand.",
+    backgroundImage: "/art/terminus/maps/map-terminus-surface.png",
   },
 ];

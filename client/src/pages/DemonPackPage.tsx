@@ -223,20 +223,97 @@ export default function DemonPackPage() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="flex flex-col items-center justify-center py-16"
+              className="relative flex flex-col items-center justify-center py-12 min-h-[400px]"
             >
+              {/* Ceremony background */}
+              <div className="absolute inset-0 -mx-6 overflow-hidden rounded-lg">
+                <img
+                  src="/art/card-game/card-pack-opening-ceremony.png"
+                  alt=""
+                  className="w-full h-full object-cover"
+                  style={{ opacity: 0.35, filter: "brightness(0.5) saturate(1.2)" }}
+                />
+                <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse at center, transparent 20%, rgba(0,0,0,0.8) 100%)" }} />
+              </div>
+
+              {/* Rarity-colored energy pillar particles */}
+              <div className="absolute inset-0 overflow-hidden pointer-events-none">
+                {Array.from({ length: 20 }).map((_, i) => {
+                  const colors = ["#9ca3af", "#3b82f6", "#a855f7", "#f59e0b", "#ef4444", "#06b6d4"];
+                  return (
+                    <motion.div
+                      key={i}
+                      className="absolute rounded-full"
+                      style={{
+                        width: 3 + Math.random() * 4,
+                        height: 3 + Math.random() * 4,
+                        background: colors[i % colors.length],
+                        left: `${35 + Math.random() * 30}%`,
+                        bottom: 0,
+                      }}
+                      animate={{
+                        y: [0, -(200 + Math.random() * 300)],
+                        opacity: [0, 0.7, 0],
+                        x: [0, (Math.random() - 0.5) * 60],
+                      }}
+                      transition={{
+                        duration: 2 + Math.random() * 2,
+                        repeat: Infinity,
+                        delay: i * 0.15,
+                        ease: "easeOut",
+                      }}
+                    />
+                  );
+                })}
+              </div>
+
+              {/* Golden light beam */}
+              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-40 h-full pointer-events-none" style={{
+                background: "linear-gradient(to bottom, rgba(251,191,36,0.08) 0%, rgba(251,191,36,0.15) 50%, transparent 100%)",
+              }} />
+
+              {/* Pack with dramatic animation phases */}
               <motion.div
+                className="relative z-10 mb-8"
                 animate={{
-                  scale: [1, 1.1, 1, 1.15, 1],
-                  rotate: [0, -2, 2, -1, 0],
+                  scale: [1, 1.08, 1, 1.12, 1, 1.2],
+                  rotate: [0, -3, 3, -2, 2, 0],
+                  y: [0, -5, 0, -8, 0, -15],
                 }}
-                transition={{ duration: 1.2, repeat: Infinity }}
-                className="w-32 h-44 rounded-xl border-2 border-red-500/50 bg-gradient-to-b from-red-950/40 to-black flex items-center justify-center shadow-[0_0_40px_rgba(239,68,68,0.3)] mb-6"
+                transition={{ duration: 2.5, ease: "easeInOut" }}
               >
-                <Skull size={48} className="text-red-400 animate-pulse" />
+                {/* Pack glow intensifies */}
+                <motion.div
+                  className="absolute inset-0 -m-6 rounded-2xl"
+                  animate={{ opacity: [0.2, 0.6, 0.2, 0.8, 1] }}
+                  transition={{ duration: 2.5, ease: "easeIn" }}
+                  style={{ background: "radial-gradient(circle, rgba(239,68,68,0.4) 0%, transparent 70%)", filter: "blur(20px)" }}
+                />
+                <div className="w-36 h-48 rounded-xl border-2 border-red-500/60 bg-gradient-to-b from-red-950/60 to-black flex items-center justify-center shadow-[0_0_60px_rgba(239,68,68,0.4)] relative overflow-hidden">
+                  {/* Crack effect */}
+                  <motion.div
+                    className="absolute inset-0 bg-gradient-to-br from-amber-400/0 via-amber-400/0 to-amber-400/0"
+                    animate={{ opacity: [0, 0, 0, 0.15, 0.3] }}
+                    transition={{ duration: 2.5 }}
+                    style={{ mixBlendMode: "overlay" }}
+                  />
+                  <motion.div
+                    animate={{ scale: [1, 1.2, 1, 1.3, 1.5], opacity: [0.6, 0.8, 0.6, 1, 1] }}
+                    transition={{ duration: 2.5 }}
+                  >
+                    <Skull size={56} className="text-red-400" />
+                  </motion.div>
+                </div>
               </motion.div>
-              <p className="font-mono text-sm text-red-400 animate-pulse">OPENING PACK...</p>
-              <p className="font-mono text-[10px] text-muted-foreground mt-2">The Blood Weave stirs...</p>
+
+              <motion.p
+                className="relative z-10 font-display text-lg text-red-400 tracking-wider"
+                animate={{ opacity: [0.5, 1, 0.5] }}
+                transition={{ duration: 1, repeat: Infinity }}
+              >
+                COMMUNING WITH THE BLOOD WEAVE...
+              </motion.p>
+              <p className="relative z-10 font-mono text-[10px] text-amber-400/60 mt-2 italic">The Collector's archive stirs. Rarity crystallizes.</p>
             </motion.div>
           ) : (
             <motion.div
@@ -246,38 +323,74 @@ export default function DemonPackPage() {
               exit={{ opacity: 0 }}
               className="space-y-6"
             >
-              {/* Revealed Cards */}
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 justify-items-center">
-                {revealedCards.map((card, i) => (
-                  <motion.div
-                    key={`${card.cardId}-${i}`}
-                    initial={{ opacity: 0, scale: 0.3, rotateY: 180 }}
-                    animate={i < currentRevealIdx ? {
-                      opacity: 1,
-                      scale: 1,
-                      rotateY: 0,
-                    } : {
-                      opacity: 0.3,
-                      scale: 0.8,
-                      rotateY: 180,
-                    }}
-                    transition={{
-                      duration: 0.5,
-                      type: "spring",
-                      stiffness: 200,
-                      damping: 20,
-                    }}
-                    className={`w-full max-w-[160px] ${i < currentRevealIdx ? RARITY_GLOW[card.rarity || "common"] : ""}`}
-                  >
-                    {i < currentRevealIdx ? (
-                      <GameCard card={card} size="sm" animated={false} />
-                    ) : (
-                      <div className="aspect-[2.5/3.5] rounded-lg border border-red-500/20 bg-gradient-to-b from-red-950/30 to-black flex items-center justify-center">
-                        <Skull size={24} className="text-red-400/30" />
-                      </div>
-                    )}
-                  </motion.div>
-                ))}
+              {/* Revealed Cards — dramatic sequential reveal */}
+              <div className="relative">
+                {/* Ceremony bg behind cards too */}
+                <div className="absolute inset-0 -m-4 overflow-hidden rounded-lg -z-10">
+                  <img src="/art/card-game/card-pack-opening-ceremony.png" alt="" className="w-full h-full object-cover" style={{ opacity: 0.12, filter: "brightness(0.3)" }} />
+                </div>
+
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 justify-items-center">
+                  {revealedCards.map((card, i) => {
+                    const isRevealed = i < currentRevealIdx;
+                    const isJustRevealed = i === currentRevealIdx - 1;
+                    const rarityIsHigh = ["legendary", "mythic", "neyon"].includes(card.rarity || "");
+                    const rarityGlowColors: Record<string, string> = {
+                      common: "rgba(156,163,175,0.3)",
+                      uncommon: "rgba(34,197,94,0.4)",
+                      rare: "rgba(59,130,246,0.5)",
+                      epic: "rgba(168,85,247,0.6)",
+                      legendary: "rgba(245,158,11,0.7)",
+                      mythic: "rgba(239,68,68,0.8)",
+                      neyon: "rgba(6,182,212,0.9)",
+                    };
+                    return (
+                      <motion.div
+                        key={`${card.cardId}-${i}`}
+                        initial={{ opacity: 0, scale: 0.3, rotateY: 180 }}
+                        animate={isRevealed ? {
+                          opacity: 1,
+                          scale: isJustRevealed && rarityIsHigh ? [1, 1.15, 1] : 1,
+                          rotateY: 0,
+                        } : {
+                          opacity: 0.3,
+                          scale: 0.8,
+                          rotateY: 180,
+                        }}
+                        transition={{
+                          duration: 0.6,
+                          type: "spring",
+                          stiffness: 180,
+                          damping: 18,
+                        }}
+                        className={`w-full max-w-[160px] relative ${isRevealed ? RARITY_GLOW[card.rarity || "common"] : ""}`}
+                      >
+                        {/* Flash burst on high-rarity reveal */}
+                        {isJustRevealed && rarityIsHigh && (
+                          <motion.div
+                            initial={{ opacity: 1, scale: 0.5 }}
+                            animate={{ opacity: 0, scale: 3 }}
+                            transition={{ duration: 0.8 }}
+                            className="absolute inset-0 rounded-lg pointer-events-none z-20"
+                            style={{ background: `radial-gradient(circle, ${rarityGlowColors[card.rarity || "common"]} 0%, transparent 70%)` }}
+                          />
+                        )}
+                        {isRevealed ? (
+                          <GameCard card={card} size="sm" animated={false} />
+                        ) : (
+                          <div className="aspect-[2.5/3.5] rounded-lg border border-red-500/20 bg-gradient-to-b from-red-950/30 to-black flex items-center justify-center relative overflow-hidden">
+                            <motion.div
+                              animate={{ opacity: [0.2, 0.5, 0.2] }}
+                              transition={{ duration: 1.5, repeat: Infinity }}
+                            >
+                              <Skull size={24} className="text-red-400/40" />
+                            </motion.div>
+                          </div>
+                        )}
+                      </motion.div>
+                    );
+                  })}
+                </div>
               </div>
 
               {/* Done state */}
@@ -288,9 +401,13 @@ export default function DemonPackPage() {
                   className="flex flex-col items-center gap-4"
                 >
                   <div className="flex items-center gap-2">
-                    <Sparkles size={16} className="text-amber-400" />
+                    <motion.div animate={{ rotate: [0, 15, -15, 0] }} transition={{ duration: 0.5, delay: 0.2 }}>
+                      <Sparkles size={16} className="text-amber-400" />
+                    </motion.div>
                     <span className="font-display text-sm font-bold text-foreground tracking-wider">PACK OPENED</span>
-                    <Sparkles size={16} className="text-amber-400" />
+                    <motion.div animate={{ rotate: [0, -15, 15, 0] }} transition={{ duration: 0.5, delay: 0.2 }}>
+                      <Sparkles size={16} className="text-amber-400" />
+                    </motion.div>
                   </div>
                   <div className="flex gap-3">
                     <Button

@@ -1218,9 +1218,19 @@ export default function CardGamePage() {
   };
 
   return (
-    <div className="h-screen flex flex-col overflow-hidden bg-background">
+    <div className="h-screen flex flex-col overflow-hidden bg-background relative">
+      {/* Card game board background */}
+      <div className="absolute inset-0 z-0 overflow-hidden">
+        <img
+          src="/art/card-game/card-table-tactical-board.png"
+          alt=""
+          className="w-full h-full object-cover"
+          style={{ opacity: 0.18, filter: "brightness(0.4) saturate(0.7)" }}
+        />
+        <div className="absolute inset-0" style={{ background: "linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0.5) 100%)" }} />
+      </div>
       {/* ── Top Bar: Opponent Info ── */}
-      <div className={`flex items-center justify-between px-2 sm:px-3 py-1.5 sm:py-2 border-b ${oFaction.borderClass} bg-card/30`}>
+      <div className={`relative z-10 flex items-center justify-between px-2 sm:px-3 py-1.5 sm:py-2 border-b ${oFaction.borderClass} bg-card/30`}>
         <div className="flex items-center gap-1.5 sm:gap-2">
           <div className={`w-6 h-6 sm:w-8 sm:h-8 rounded-full flex items-center justify-center border ${oFaction.borderClass} bg-card/50`}>
             <span className="text-xs sm:text-sm">{oFaction.icon}</span>

@@ -65,6 +65,8 @@ export default function TerminusSwarmPage() {
   const [conveyorState, setConveyorState] = useState<ConveyorState | null>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const gameRef = useRef<TerminusGameState | null>(null);
+  const bgImageRef = useRef<HTMLImageElement | null>(null);
+  const bgLoadedRef = useRef(false);
 
   // Server persistence
   const saveBase = trpc.terminusSwarm.saveBase.useMutation();
@@ -85,6 +87,15 @@ export default function TerminusSwarmPage() {
     gameRef.current = state;
     setView("playing");
     setRunning(false);
+
+    // Load map background image
+    bgLoadedRef.current = false;
+    bgImageRef.current = null;
+    if (map.backgroundImage) {
+      const img = new Image();
+      img.onload = () => { bgImageRef.current = img; bgLoadedRef.current = true; };
+      img.src = map.backgroundImage;
+    }
 
     // Show wave 1 narrative
     const wave = getWaveForNumber(1);
@@ -257,7 +268,26 @@ export default function TerminusSwarmPage() {
     ctx.fillStyle = "#0a0a0f";
     ctx.fillRect(0, 0, w, h);
 
-    // Grid
+    // Background image layer (if loaded)
+    if (bgLoadedRef.current && bgImageRef.current) {
+      ctx.save();
+      ctx.globalAlpha = 0.45;
+      ctx.drawImage(bgImageRef.current, 0, 0, w, h);
+      ctx.globalAlpha = 1;
+      ctx.restore();
+
+      // Ambient breathing overlay
+      const t = performance.now();
+      const breathe = 0.02 + 0.01 * Math.sin(t * 0.0008);
+      ctx.save();
+      ctx.globalAlpha = breathe;
+      ctx.fillStyle = "#ff4444";
+      ctx.fillRect(0, 0, w, h);
+      ctx.globalAlpha = 1;
+      ctx.restore();
+    }
+
+    // Grid overlay — semi-transparent tile indicators
     for (let r = 0; r < gameState.gridHeight; r++) {
       for (let c = 0; c < gameState.gridWidth; c++) {
         const cell = gameState.grid[r][c];
@@ -265,27 +295,33 @@ export default function TerminusSwarmPage() {
         const y = r * TILE_SIZE;
 
         if (cell.type === "blocked") {
-          ctx.fillStyle = "#1a1a2e";
+          ctx.fillStyle = bgLoadedRef.current ? "rgba(26, 26, 46, 0.5)" : "#1a1a2e";
           ctx.fillRect(x, y, TILE_SIZE, TILE_SIZE);
         } else if (cell.type === "spawn") {
-          ctx.fillStyle = "#331111";
+          ctx.fillStyle = bgLoadedRef.current ? "rgba(80, 20, 20, 0.55)" : "#331111";
+          ctx.fillRect(x, y, TILE_SIZE, TILE_SIZE);
+          // Pulsing spawn indicator
+          const pulse = 0.15 + 0.1 * Math.sin(performance.now() * 0.003);
+          ctx.fillStyle = `rgba(255, 60, 60, ${pulse})`;
           ctx.fillRect(x, y, TILE_SIZE, TILE_SIZE);
         } else if (cell.type === "core") {
-          ctx.fillStyle = "#113333";
+          ctx.fillStyle = bgLoadedRef.current ? "rgba(17, 51, 51, 0.5)" : "#113333";
           ctx.fillRect(x, y, TILE_SIZE, TILE_SIZE);
-        } else {
+        } else if (!bgLoadedRef.current) {
           ctx.fillStyle = (r + c) % 2 === 0 ? "#0f0f1a" : "#12121f";
           ctx.fillRect(x, y, TILE_SIZE, TILE_SIZE);
         }
 
-        // Grid lines
-        ctx.strokeStyle = "#1a1a2e";
+        // Grid lines — subtle when bg image present
+        ctx.strokeStyle = bgLoadedRef.current ? "rgba(100, 180, 255, 0.08)" : "#1a1a2e";
         ctx.strokeRect(x, y, TILE_SIZE, TILE_SIZE);
 
-        // Highlight placeable tiles
+        // Highlight placeable tiles with green edge glow
         if (selectedTurret && cell.type === "empty") {
-          ctx.fillStyle = "rgba(68, 136, 255, 0.1)";
+          ctx.fillStyle = bgLoadedRef.current ? "rgba(68, 255, 136, 0.08)" : "rgba(68, 136, 255, 0.1)";
           ctx.fillRect(x, y, TILE_SIZE, TILE_SIZE);
+          ctx.strokeStyle = "rgba(68, 255, 136, 0.15)";
+          ctx.strokeRect(x + 1, y + 1, TILE_SIZE - 2, TILE_SIZE - 2);
         }
       }
     }
