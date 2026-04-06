@@ -233,6 +233,52 @@ export const prestigeQuestRouter = router({
 
       return { success: true };
     }),
+
+  /* ─── CLAIM PRESTIGE — Apply multipliers from completed prestige class ─── */
+  claimPrestige: protectedProcedure
+    .input(z.object({ prestigeClassKey: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      const db = await getDb();
+      if (!db) return { success: false, error: "DB unavailable" };
+
+      // Verify prestige class exists
+      const prestige = await db.select().from(prestigeProgress)
+        .where(and(
+          eq(prestigeProgress.userId, ctx.user.id),
+          eq(prestigeProgress.prestigeClassKey, input.prestigeClassKey),
+        )).limit(1);
+
+      if (!prestige[0]) {
+        return { success: false, error: "Prestige class not unlocked" };
+      }
+
+      // Advance prestige rank (1→2→3 etc) and apply multipliers
+      const currentRank = prestige[0].prestigeRank ?? 1;
+      const newRank = Math.min(currentRank + 1, 7);
+
+      // Multipliers scale with rank: xp 1.10→2.50, resource 1.05→1.50, trust 1.05→1.50
+      const xpMultiplier = 1 + (newRank * 0.20);
+      const resourceMultiplier = 1 + (newRank * 0.07);
+      const trustMultiplier = 1 + (newRank * 0.07);
+
+      await db.update(prestigeProgress)
+        .set({
+          prestigeRank: newRank,
+          unlockedPerks: [
+            ...(prestige[0].unlockedPerks as string[] ?? []),
+            `rank_${newRank}_xp_${Math.round(xpMultiplier * 100)}`,
+            `rank_${newRank}_resource_${Math.round(resourceMultiplier * 100)}`,
+            `rank_${newRank}_trust_${Math.round(trustMultiplier * 100)}`,
+          ],
+        } as any)
+        .where(eq(prestigeProgress.id, prestige[0].id));
+
+      return {
+        success: true,
+        newRank,
+        multipliers: { xp: xpMultiplier, resource: resourceMultiplier, trust: trustMultiplier },
+      };
+    }),
 });
 
 /* ═══ HELPER: Unlock prestige class on quest completion ═══ */

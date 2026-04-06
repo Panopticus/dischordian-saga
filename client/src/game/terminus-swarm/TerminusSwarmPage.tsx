@@ -72,6 +72,7 @@ export default function TerminusSwarmPage() {
   const saveBase = trpc.terminusSwarm.saveBase.useMutation();
   const reportWave = trpc.terminusSwarm.reportWaveComplete.useMutation();
   const updateStats = trpc.terminusSwarm.updateStats.useMutation();
+  const updateQuestProgress = trpc.quests.updateProgress.useMutation();
 
   const league = getLeague(trophies);
 
@@ -209,6 +210,10 @@ export default function TerminusSwarmPage() {
                 sourceAvatarKilled: updated.wave === 20,
                 resourcesEarned: updated.resources,
               });
+              // Quest integration: increment swarm-related quests
+              updateQuestProgress.mutate({ questId: "d_survive_wave", increment: 1 });
+              if (isBoss) updateQuestProgress.mutate({ questId: "w_kill_boss", increment: 1 });
+              if (updated.wave >= 10) updateQuestProgress.mutate({ questId: "w_reach_wave_10", increment: 1 });
             }
 
             // Collect conveyor resources between waves

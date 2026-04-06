@@ -931,6 +931,12 @@ export default function CardGamePage() {
       ? generateFateResolution(currentUniverse, battle.winner, battle.player.faction, battle.winReason)
       : null;
 
+    // Quest integration: increment card battle quests
+    if (isWin) {
+      trpc.quests.updateProgress.mutate({ questId: "d_play_card_battle", increment: 1 }).catch(() => {});
+      trpc.quests.updateProgress.mutate({ questId: "w_win_card_matches", increment: 1 }).catch(() => {});
+    }
+
     // Record the outcome (only once)
     const handleRecordAndContinue = () => {
       if (currentUniverse && battle.winner) {

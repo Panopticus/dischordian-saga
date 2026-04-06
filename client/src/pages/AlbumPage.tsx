@@ -14,10 +14,10 @@ const ALBUM_SLUGS: Record<string, string> = {
 };
 
 const ALBUM_META: Record<string, { date: string; color: string }> = {
-  "Dischordian Logic": { date: "March 18, 2025", color: "#00f0ff" },
-  "The Age of Privacy": { date: "October 2, 2025", color: "#ffd700" },
-  "The Book of Daniel 2:47": { date: "December 15, 2025", color: "#c084fc" },
-  "Silence in Heaven": { date: "July 30, 2026", color: "#ff2d55" },
+  "Dischordian Logic": { date: "March 18, 2025", color: "var(--void-primary, #33E2E6)" },
+  "The Age of Privacy": { date: "October 2, 2025", color: "var(--void-gold, #eab308)" },
+  "The Book of Daniel 2:47": { date: "December 15, 2025", color: "var(--void-system, #a078ff)" },
+  "Silence in Heaven": { date: "July 30, 2026", color: "var(--void-error, #ff3c40)" },
 };
 
 export default function AlbumPage() {

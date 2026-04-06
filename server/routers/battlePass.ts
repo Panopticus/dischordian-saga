@@ -1,10 +1,12 @@
 import { z } from "zod";
 import { protectedProcedure, publicProcedure, router } from "../_core/trpc";
 import { getDb } from "../db";
-import { battlePassSeasons, battlePassProgress } from "../../drizzle/schema";
+import { battlePassSeasons, battlePassProgress, dreamBalance } from "../../drizzle/schema";
 import { eq, and, desc } from "drizzle-orm";
 import { TRPCError } from "@trpc/server";
 import { fetchCitizenData, fetchPotentialNftData, resolveQuestBonuses } from "../traitResolver";
+
+const PREMIUM_COST_DREAM = 500; // Dream tokens to upgrade to premium
 
 /* ═══ DEFAULT SEASON 1 TIER REWARDS ═══ */
 const SEASON_1_REWARDS: Record<string, { free?: Record<string, unknown>; premium?: Record<string, unknown> }> = {};
@@ -233,7 +235,21 @@ export const battlePassRouter = router({
       throw new TRPCError({ code: "CONFLICT", message: "Already premium" });
     }
 
-    // TODO: Integrate with Dream token deduction or Stripe payment
+    // Deduct Dream tokens for premium upgrade
+    const dreamRow = await db.select().from(dreamBalance)
+      .where(eq(dreamBalance.userId, ctx.user.id)).limit(1);
+    const currentDream = dreamRow[0]?.balance ?? 0;
+    if (currentDream < PREMIUM_COST_DREAM) {
+      throw new TRPCError({
+        code: "PRECONDITION_FAILED",
+        message: `Need ${PREMIUM_COST_DREAM} Dream tokens, have ${currentDream}`,
+      });
+    }
+
+    await db.update(dreamBalance)
+      .set({ balance: currentDream - PREMIUM_COST_DREAM })
+      .where(eq(dreamBalance.userId, ctx.user.id));
+
     await db.update(battlePassProgress)
       .set({ isPremium: true })
       .where(eq(battlePassProgress.id, progress[0].id));

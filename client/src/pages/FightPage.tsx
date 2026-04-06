@@ -150,6 +150,7 @@ export default function FightPage() {
   }, []);
 
   const recordMatch = trpc.fightLeaderboard.recordMatch.useMutation();
+  const updateQuestProgress = trpc.quests.updateProgress.useMutation();
 
   const handleMatchEnd = useCallback((winner: "p1" | "p2", perfect: boolean) => {
     setMatchResult({ winner, perfect });
@@ -171,6 +172,10 @@ export default function FightPage() {
     }
     if (winner === "p1") {
       gam.recordFightWin(selectedDifficulty.id, perfect);
+      // Quest integration: increment fight-related daily/weekly quests
+      updateQuestProgress.mutate({ questId: "d_win_fight", increment: 1 });
+      updateQuestProgress.mutate({ questId: "w_win_5_fights", increment: 1 });
+      if (perfect) updateQuestProgress.mutate({ questId: "w_perfect_win", increment: 1 });
       recordAndReward("fight_win", `fight-${Date.now()}`, true, {
         difficulty: selectedDifficulty.id,
         perfect,

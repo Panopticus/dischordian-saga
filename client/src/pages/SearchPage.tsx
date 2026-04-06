@@ -16,19 +16,19 @@ const TYPE_ICONS: Record<string, typeof Users> = {
 };
 
 const TYPE_COLORS: Record<string, string> = {
-  character: "text-[#00f0ff]",
-  location: "text-[#ffd700]",
-  faction: "text-[#c084fc]",
-  song: "text-[#ff2d55]",
-  concept: "text-[#4ade80]",
+  character: "void-text-primary",
+  location: "text-[var(--void-gold,#eab308)]",
+  faction: "text-[var(--void-system,#a078ff)]",
+  song: "text-[var(--void-error,#ff3c40)]",
+  concept: "text-[var(--void-success,#22c55e)]",
 };
 
 const TYPE_BG: Record<string, string> = {
-  character: "bg-[#00f0ff]/10 border-[#00f0ff]/20",
-  location: "bg-[#ffd700]/10 border-[#ffd700]/20",
-  faction: "bg-[#c084fc]/10 border-[#c084fc]/20",
-  song: "bg-[#ff2d55]/10 border-[#ff2d55]/20",
-  concept: "bg-[#4ade80]/10 border-[#4ade80]/20",
+  character: "bg-[var(--void-primary-subtle)] border-[var(--void-primary)]/20",
+  location: "bg-[var(--void-gold-subtle)] border-[var(--void-gold)]/20",
+  faction: "bg-[var(--void-system-subtle)] border-[var(--void-system)]/20",
+  song: "bg-[var(--void-error-subtle)] border-[var(--void-error)]/20",
+  concept: "bg-[var(--void-success-subtle)] border-[var(--void-success)]/20",
 };
 
 export default function SearchPage() {
