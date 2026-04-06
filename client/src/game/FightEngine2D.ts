@@ -3527,33 +3527,86 @@ export class FightEngine2D {
     }
   }
 
+  // Ambient background particles — initialized once, rendered every frame
+  private bgParticles: Array<{x: number; y: number; vx: number; vy: number; size: number; alpha: number; drift: number}> = [];
+  private bgParticlesInit = false;
+
+  private initBgParticles() {
+    if (this.bgParticlesInit) return;
+    this.bgParticlesInit = true;
+    for (let i = 0; i < 40; i++) {
+      this.bgParticles.push({
+        x: Math.random() * STAGE_WIDTH,
+        y: Math.random() * GAME_HEIGHT,
+        vx: (Math.random() - 0.5) * 0.3,
+        vy: -0.15 - Math.random() * 0.25,
+        size: 1 + Math.random() * 2.5,
+        alpha: 0.05 + Math.random() * 0.15,
+        drift: Math.random() * Math.PI * 2,
+      });
+    }
+  }
+
+  private renderBgParticles(ctx: CanvasRenderingContext2D, time: number) {
+    this.initBgParticles();
+    const col = this.ambientColor;
+    for (const p of this.bgParticles) {
+      p.x += p.vx + Math.sin(time * 0.001 + p.drift) * 0.15;
+      p.y += p.vy;
+      if (p.y < -10) { p.y = GAME_HEIGHT + 10; p.x = Math.random() * STAGE_WIDTH; }
+      if (p.x < -10) p.x = STAGE_WIDTH + 10;
+      if (p.x > STAGE_WIDTH + 10) p.x = -10;
+      ctx.globalAlpha = p.alpha * (0.6 + 0.4 * Math.sin(time * 0.002 + p.drift));
+      ctx.fillStyle = col;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    ctx.globalAlpha = 1;
+  }
+
   private renderBackground(ctx: CanvasRenderingContext2D) {
+    const time = performance.now();
+
     if (this.bgImageLoaded && this.bgImage) {
       // Draw the arena background image with parallax scrolling
       const img = this.bgImage;
       const imgAspect = img.width / img.height;
-      
-      // The background should cover the full visible area
+
       // Parallax: background moves slower than camera (0.3x factor)
       const parallaxFactor = 0.3;
       const cameraCenter = this.camera.x;
       const stageCenter = STAGE_WIDTH / 2;
       const parallaxOffset = (cameraCenter - stageCenter) * parallaxFactor;
-      
+
       // Calculate draw dimensions to cover the stage
       const drawHeight = GAME_HEIGHT + 400;
       const drawWidth = drawHeight * imgAspect;
-      
+
       // Center the image on the stage with parallax offset
       const drawX = stageCenter - drawWidth / 2 - parallaxOffset;
       const drawY = -200;
-      
+
+      // Breathing ambient light — subtle brightness oscillation
+      const breathe = 0.65 + 0.08 * Math.sin(time * 0.0008);
+
       ctx.save();
-      ctx.globalAlpha = 0.7;
+      ctx.globalAlpha = breathe;
       ctx.drawImage(img, drawX, drawY, drawWidth, drawHeight);
       ctx.globalAlpha = 1;
       ctx.restore();
-      
+
+      // Ambient color wash — arena's signature color bleeds into the scene
+      ctx.save();
+      ctx.globalAlpha = 0.04 + 0.02 * Math.sin(time * 0.001);
+      ctx.fillStyle = this.ambientColor;
+      ctx.fillRect(-200, -200, STAGE_WIDTH + 400, GAME_HEIGHT + 400);
+      ctx.globalAlpha = 1;
+      ctx.restore();
+
+      // Floating ambient particles
+      this.renderBgParticles(ctx, time);
+
       // Subtle vignette overlay
       const vignette = ctx.createRadialGradient(
         stageCenter, GAME_HEIGHT / 2, GAME_HEIGHT * 0.3,

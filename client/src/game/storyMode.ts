@@ -454,7 +454,7 @@ export const STORY_CHAPTERS: StoryChapter[] = [
     title: "THE WHISPERER",
     subtitle: "Dark truths echo through the arena corridors",
     opponentId: "shadow-tongue",
-    arenaId: "void",
+    arenaId: "shadow-sanctum",
     difficulty: "easy",
     unlocksFighter: "shadow-tongue",
     cutsceneVideoUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/shadow-tongue-cutscene_05e906fb.mp4",
@@ -507,7 +507,7 @@ export const STORY_CHAPTERS: StoryChapter[] = [
     title: "THE WATCHER'S GAZE",
     subtitle: "The All-Seeing Eye takes interest in the anomalous prisoner",
     opponentId: "watcher",
-    arenaId: "babylon",
+    arenaId: "new-babylon",
     difficulty: "normal",
     unlocksFighter: "watcher",
     preDialogue: [
@@ -531,7 +531,7 @@ export const STORY_CHAPTERS: StoryChapter[] = [
     title: "DEAD CODE RISING",
     subtitle: "The Necromancer tests the rising champion with armies of the undead",
     opponentId: "necromancer",
-    arenaId: "necropolis",
+    arenaId: "blood-weave",
     difficulty: "normal",
     unlocksFighter: "necromancer",
     preDialogue: [
@@ -582,7 +582,7 @@ export const STORY_CHAPTERS: StoryChapter[] = [
     title: "THE WARLORD'S CHALLENGE",
     subtitle: "The Commander of the Empire's armies enters the arena",
     opponentId: "warlord",
-    arenaId: "babylon",
+    arenaId: "new-babylon",
     difficulty: "hard",
     unlocksFighter: "warlord",
     preDialogue: [
@@ -632,7 +632,7 @@ export const STORY_CHAPTERS: StoryChapter[] = [
     title: "THE GAME MASTER'S GAMBIT",
     subtitle: "Reality itself becomes the opponent as the rules change mid-fight",
     opponentId: "game-master",
-    arenaId: "void",
+    arenaId: "shadow-sanctum",
     difficulty: "hard",
     unlocksFighter: "game-master",
     preDialogue: [
@@ -754,7 +754,7 @@ export const BONUS_CHAPTERS: StoryChapter[] = [
     title: "THE VIRAL SONG",
     subtitle: "The Source returns to claim what she once loved",
     opponentId: "source",
-    arenaId: "cathedral",
+    arenaId: "shadow-sanctum",
     difficulty: "hard",
     unlocksFighter: "source",
     preDialogue: [
@@ -805,7 +805,7 @@ export const BONUS_CHAPTERS: StoryChapter[] = [
     title: "THE OPERATIVE'S CODE",
     subtitle: "Agent Zero tests the Oracle's readiness for the Insurgency",
     opponentId: "agent-zero",
-    arenaId: "chapel",
+    arenaId: "shadow-sanctum",
     difficulty: "normal",
     unlocksFighter: "agent-zero",
     preDialogue: [
@@ -830,7 +830,7 @@ export const BONUS_CHAPTERS: StoryChapter[] = [
     title: "THE IMPOSSIBLE MACHINE",
     subtitle: "The Engineer offers a weapon — if you can handle the price",
     opponentId: "engineer",
-    arenaId: "forge",
+    arenaId: "crucible",
     difficulty: "normal",
     unlocksFighter: "engineer",
     preDialogue: [
@@ -855,7 +855,7 @@ export const BONUS_CHAPTERS: StoryChapter[] = [
     title: "JUSTICE WITHOUT MERCY",
     subtitle: "The Judge weighs the Oracle's crimes",
     opponentId: "judge",
-    arenaId: "courtroom",
+    arenaId: "new-babylon",
     difficulty: "hard",
     unlocksFighter: "judge",
     preDialogue: [
@@ -879,7 +879,7 @@ export const BONUS_CHAPTERS: StoryChapter[] = [
     title: "ALL IN",
     subtitle: "The Degen bets everything on the Oracle losing",
     opponentId: "degen",
-    arenaId: "casino",
+    arenaId: "new-babylon",
     difficulty: "normal",
     unlocksFighter: "degen",
     preDialogue: [
@@ -903,7 +903,7 @@ export const BONUS_CHAPTERS: StoryChapter[] = [
     title: "THE TRUTH ROOM",
     subtitle: "The Advocate offers no lies — only consequences",
     opponentId: "advocate",
-    arenaId: "archive",
+    arenaId: "mechronis",
     difficulty: "hard",
     unlocksFighter: "advocate",
     preDialogue: [
@@ -927,7 +927,7 @@ export const BONUS_CHAPTERS: StoryChapter[] = [
     title: "THE RETURN",
     subtitle: "The Resurrectionist offers the Oracle one trade",
     opponentId: "resurrectionist",
-    arenaId: "garden",
+    arenaId: "thaloria",
     difficulty: "nightmare",
     unlocksFighter: "resurrectionist",
     preDialogue: [

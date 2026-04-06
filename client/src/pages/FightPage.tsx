@@ -1255,41 +1255,145 @@ export default function FightPage() {
   /* ═══ ARENA SELECT ═══ */
   if (phase === "arena") {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center p-4"
-        style={{ background: "radial-gradient(ellipse at 50% 50%, #0d1a2e 0%, #070b14 60%, #030508 100%)" }}>
-        <button onClick={() => setPhase("difficulty")} className="absolute top-4 left-4 text-muted-foreground/70 hover:text-white font-mono text-sm flex items-center gap-1">
-          <ChevronLeft size={16} /> BACK
-        </button>
-        <h2 className="font-display text-xl tracking-[0.3em] text-foreground/85 mb-8">SELECT ARENA</h2>
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 max-w-3xl w-full mb-8">
-          {ARENAS.map((a) => (
-            <motion.button
-              key={a.id}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => setSelectedArena(a)}
-              className={`p-4 rounded-lg border-2 transition-all ${
-                selectedArena.id === a.id ? "ring-1 ring-white/20" : "border-border/60 hover:border-border"
-              }`}
-              style={{
-                background: a.bgGradient,
-                borderColor: selectedArena.id === a.id ? a.ambientColor : undefined,
-              }}
-            >
-              <div className="font-display text-sm tracking-wider text-white">{a.name}</div>
-              <div className="w-full h-2 rounded mt-2" style={{ background: a.floorColor, boxShadow: `0 0 8px ${a.ambientColor}40` }} />
-            </motion.button>
-          ))}
+      <div className="min-h-screen flex flex-col items-center justify-center p-4 relative overflow-hidden"
+        style={{ background: "#030508" }}>
+
+        {/* Full-screen selected arena preview behind everything */}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={selectedArena.id}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.5 }}
+            className="absolute inset-0"
+          >
+            {selectedArena.backgroundImage ? (
+              <img
+                src={selectedArena.backgroundImage}
+                alt=""
+                className="w-full h-full object-cover"
+                style={{ opacity: 0.3, filter: "brightness(0.6) contrast(1.2) saturate(1.3)" }}
+              />
+            ) : (
+              <div className="w-full h-full" style={{ background: selectedArena.bgGradient, opacity: 0.4 }} />
+            )}
+            {/* Ambient glow pulse */}
+            <div className="absolute inset-0" style={{
+              background: `radial-gradient(ellipse at 50% 80%, ${selectedArena.ambientColor}15 0%, transparent 60%)`,
+              animation: "arena-pulse 3s ease-in-out infinite",
+            }} />
+            {/* Vignette */}
+            <div className="absolute inset-0" style={{
+              background: "radial-gradient(ellipse at center, transparent 30%, rgba(0,0,0,0.85) 100%)",
+            }} />
+          </motion.div>
+        </AnimatePresence>
+
+        {/* Content layer */}
+        <div className="relative z-10 flex flex-col items-center w-full max-w-5xl">
+          <button onClick={() => setPhase("difficulty")} className="absolute top-0 left-0 text-muted-foreground/70 hover:text-white font-mono text-sm flex items-center gap-1 z-20">
+            <ChevronLeft size={16} /> BACK
+          </button>
+
+          {/* Title */}
+          <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-3">
+            <div className="font-mono text-xs tracking-[0.4em] text-muted-foreground/50 mb-1">COLLECTOR'S ARENA</div>
+            <h2 className="font-display text-2xl tracking-[0.3em] text-foreground/90">SELECT BATTLEGROUND</h2>
+          </motion.div>
+
+          {/* Selected arena name display */}
+          <motion.div
+            key={selectedArena.id + "-name"}
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="mb-6 text-center"
+          >
+            <div className="font-display text-3xl tracking-wider font-bold"
+              style={{ color: selectedArena.ambientColor, textShadow: `0 0 30px ${selectedArena.ambientColor}60` }}>
+              {selectedArena.name.toUpperCase()}
+            </div>
+          </motion.div>
+
+          {/* Arena grid — 4x2 with image cards */}
+          <div className="grid grid-cols-4 gap-3 w-full mb-8">
+            {ARENAS.map((a, i) => {
+              const isSelected = selectedArena.id === a.id;
+              return (
+                <motion.button
+                  key={a.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: i * 0.05 }}
+                  whileHover={{ scale: 1.04, y: -4 }}
+                  whileTap={{ scale: 0.97 }}
+                  onClick={() => setSelectedArena(a)}
+                  className="relative rounded-lg overflow-hidden transition-all group"
+                  style={{
+                    border: isSelected ? `2px solid ${a.ambientColor}` : "2px solid rgba(255,255,255,0.08)",
+                    boxShadow: isSelected ? `0 0 20px ${a.ambientColor}30, 0 0 60px ${a.ambientColor}10` : "none",
+                    aspectRatio: "16/10",
+                  }}
+                >
+                  {/* Arena image */}
+                  {a.backgroundImage ? (
+                    <img
+                      src={a.backgroundImage}
+                      alt={a.name}
+                      className="absolute inset-0 w-full h-full object-cover transition-all duration-300"
+                      style={{
+                        filter: isSelected ? "brightness(0.9) saturate(1.3)" : "brightness(0.4) saturate(0.7)",
+                      }}
+                    />
+                  ) : (
+                    <div className="absolute inset-0" style={{ background: a.bgGradient }} />
+                  )}
+                  {/* Hover brighten */}
+                  <div className="absolute inset-0 bg-white/0 group-hover:bg-white/5 transition-all duration-200" />
+                  {/* Bottom label */}
+                  <div className="absolute inset-x-0 bottom-0 p-2" style={{
+                    background: "linear-gradient(transparent, rgba(0,0,0,0.85))",
+                  }}>
+                    <div className="font-display text-xs tracking-wider text-white/90 text-center">{a.name}</div>
+                  </div>
+                  {/* Selected indicator glow bar */}
+                  {isSelected && (
+                    <motion.div
+                      layoutId="arena-indicator"
+                      className="absolute bottom-0 inset-x-0 h-[3px]"
+                      style={{ background: a.ambientColor, boxShadow: `0 0 12px ${a.ambientColor}` }}
+                    />
+                  )}
+                </motion.button>
+              );
+            })}
+          </div>
+
+          {/* Begin combat button */}
+          <motion.button
+            whileHover={{ scale: 1.06 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={startFight}
+            className="px-12 py-3.5 rounded-lg font-display text-xl tracking-wider transition-all"
+            style={{
+              background: `linear-gradient(135deg, ${selectedArena.ambientColor}20, ${selectedArena.ambientColor}08)`,
+              border: `2px solid ${selectedArena.ambientColor}60`,
+              color: selectedArena.ambientColor,
+              textShadow: `0 0 15px ${selectedArena.ambientColor}50`,
+              boxShadow: `0 0 30px ${selectedArena.ambientColor}15`,
+            }}
+          >
+            <Swords className="inline mr-2" size={20} /> ENTER THE ARENA
+          </motion.button>
         </div>
-        <motion.button
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          onClick={startFight}
-          className="px-10 py-3 rounded-lg bg-cyan-500/20 border-2 border-cyan-500/60 text-cyan-400 font-display text-xl tracking-wider hover:bg-cyan-500/30 transition-all"
-          style={{ textShadow: "0 0 10px rgba(34,211,238,0.5)" }}
-        >
-          <Swords className="inline mr-2" size={20} /> BEGIN COMBAT
-        </motion.button>
+
+        {/* Pulse animation */}
+        <style>{`
+          @keyframes arena-pulse {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+          }
+        `}</style>
       </div>
     );
   }
