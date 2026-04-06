@@ -559,6 +559,37 @@ function BetrayalEventCard({ event, onChoose }: {
   );
 }
 
+/* ─── CELEBRATION SCENE ART ─── */
+const MASCOTEER_SCENE_ART: Record<string, string> = {
+  the_conductor: "/art/celebration/celebration-chorus-pavilion.png",
+  mr_unblink: "/art/celebration/celebration-eye-garden.png",
+  little_corey: "/art/celebration/celebration-trading-jars.png",
+  vernon: "/art/celebration/celebration-door-row.png",
+  minnie: "/art/celebration/celebration-schoolhouse.png",
+  wanda_wee: "/art/celebration/celebration-town-square.png",
+  senator_sprout: "/art/celebration/celebration-promise-office.png",
+  wayne: "/art/celebration/celebration-locked-room.png",
+  gary: "/art/celebration/celebration-puzzle-garden.png",
+  thazu: "/art/celebration/celebration-tea-party.png",
+  the_prince: "/art/celebration/celebration-forge-yard.png",
+  the_seeker_child: "/art/celebration/celebration-schoolhouse.png",
+};
+
+const MASCOTEER_ACCENT: Record<string, string> = {
+  the_conductor: "#818cf8",  // indigo
+  mr_unblink: "#a1a1aa",     // silver
+  little_corey: "#fbbf24",   // amber
+  vernon: "#e879f9",         // fuchsia
+  minnie: "#f472b6",         // pink
+  wanda_wee: "#facc15",      // yellow
+  senator_sprout: "#c084fc", // purple
+  wayne: "#34d399",          // emerald
+  gary: "#60a5fa",           // blue
+  thazu: "#f87171",          // red
+  the_prince: "#fb923c",     // orange
+  the_seeker_child: "#38bdf8", // sky
+};
+
 /* ─── DAILY DECISION CARD ─── */
 function DailyDecisionCard({ decision, day, onChoose }: {
   decision: { mascoteerId: string; prompt: string; options: DecisionOption[] };
@@ -566,43 +597,161 @@ function DailyDecisionCard({ decision, day, onChoose }: {
   onChoose: (option: DecisionOption) => void;
 }) {
   const mascoteer = getMascoteer(decision.mascoteerId);
+  const sceneArt = MASCOTEER_SCENE_ART[decision.mascoteerId];
+  const accent = MASCOTEER_ACCENT[decision.mascoteerId] ?? "#c084fc";
+  const isNight = day >= 21; // Last week = night scenes
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      className="p-4 rounded-lg border border-purple-500/40 bg-gradient-to-br from-purple-950/20 to-indigo-950/10"
+      className="rounded-lg border overflow-hidden relative"
+      style={{ borderColor: `${accent}40` }}
     >
-      <div className="flex items-center justify-between mb-2">
-        <span className="font-mono text-[9px] uppercase tracking-wider text-purple-400">
-          Day {day} / {TRIAL_LENGTH_DAYS} · Celebration
-        </span>
-        {mascoteer && (
-          <span className="font-mono text-[9px] text-amber-300/80">
-            ◈ {mascoteer.mascotName}
-          </span>
-        )}
-      </div>
-      <p className="font-mono text-[10px] italic text-foreground/85 leading-relaxed mb-3">
-        {decision.prompt}
-      </p>
-      <div className="space-y-1.5">
-        {decision.options.map(opt => (
-          <button
-            key={opt.id}
-            onClick={() => onChoose(opt)}
-            className="w-full text-left p-2.5 rounded border border-border/40 bg-background/40 hover:border-purple-500/40 hover:bg-purple-500/5 transition-colors"
-            data-testid={`decision-option-${opt.id}`}
-          >
-            <div className="font-mono text-[10px] font-bold text-foreground mb-0.5">{opt.label}</div>
-            <div className="font-mono text-[9px] text-muted-foreground/70 leading-snug">{opt.description}</div>
-          </button>
+      {/* Scene art background */}
+      {sceneArt && (
+        <div className="absolute inset-0 z-0 overflow-hidden">
+          <img
+            src={isNight ? "/art/celebration/celebration-by-night.png" : sceneArt}
+            alt=""
+            className="w-[115%] h-[115%] object-cover celebration-drift"
+            style={{
+              position: "absolute",
+              top: "-7.5%",
+              left: "-7.5%",
+              opacity: 0.25,
+              filter: isNight
+                ? "brightness(0.3) saturate(0.5) hue-rotate(20deg)"
+                : "brightness(0.4) saturate(0.8)",
+            }}
+          />
+          {/* Gradient fade */}
+          <div className="absolute inset-0" style={{
+            background: `linear-gradient(to bottom, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.75) 100%)`,
+          }} />
+        </div>
+      )}
+
+      {/* Ambient glow pulse */}
+      <div
+        className="absolute inset-0 z-[1] pointer-events-none celebration-pulse"
+        style={{
+          background: `radial-gradient(ellipse at 50% 30%, ${accent}10 0%, transparent 60%)`,
+        }}
+      />
+
+      {/* Floating particles */}
+      <div className="absolute inset-0 z-[2] overflow-hidden pointer-events-none">
+        {Array.from({ length: 8 }).map((_, i) => (
+          <div
+            key={i}
+            className="absolute rounded-full celebration-particle"
+            style={{
+              width: 2 + Math.random() * 2,
+              height: 2 + Math.random() * 2,
+              background: accent,
+              opacity: 0.15 + Math.random() * 0.2,
+              left: `${10 + Math.random() * 80}%`,
+              top: `${10 + Math.random() * 80}%`,
+              animationDuration: `${4 + i * 0.6}s`,
+              animationDelay: `${i * 0.4}s`,
+            }}
+          />
         ))}
       </div>
-      {mascoteer && (
-        <p className="mt-3 pt-2 border-t border-border/20 font-mono text-[8px] italic text-red-300/60 leading-relaxed">
-          ⚠ {mascoteer.failureMethod}
+
+      {/* Content */}
+      <div className="relative z-10 p-4">
+        <div className="flex items-center justify-between mb-2">
+          <span className="font-mono text-[9px] uppercase tracking-wider" style={{ color: accent }}>
+            Day {day} / {TRIAL_LENGTH_DAYS} · Celebration
+          </span>
+          {mascoteer && (
+            <span className="font-mono text-[9px]" style={{ color: `${accent}cc` }}>
+              ◈ {mascoteer.mascotName}
+            </span>
+          )}
+        </div>
+
+        {/* Scene art hero strip */}
+        {sceneArt && (
+          <div className="relative h-28 -mx-4 mb-3 overflow-hidden">
+            <img
+              src={isNight ? "/art/celebration/celebration-by-night.png" : sceneArt}
+              alt={mascoteer?.mascotName || ""}
+              className="w-full h-full object-cover"
+              style={{
+                filter: isNight
+                  ? "brightness(0.5) saturate(0.6)"
+                  : "brightness(0.7) contrast(1.1)",
+              }}
+            />
+            <div className="absolute inset-0" style={{
+              background: `linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 50%), linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, transparent 30%)`,
+            }} />
+            {mascoteer && (
+              <div className="absolute bottom-2 left-4 right-4">
+                <div className="font-display text-sm font-bold tracking-wider" style={{ color: accent, textShadow: `0 2px 12px rgba(0,0,0,0.8)` }}>
+                  {mascoteer.dailyGame.split("—")[0].trim()}
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+
+        <p className="font-mono text-[10px] italic text-foreground/85 leading-relaxed mb-3">
+          {decision.prompt}
         </p>
-      )}
+        <div className="space-y-1.5">
+          {decision.options.map(opt => (
+            <button
+              key={opt.id}
+              onClick={() => onChoose(opt)}
+              className="w-full text-left p-2.5 rounded border transition-colors"
+              style={{
+                borderColor: "rgba(255,255,255,0.08)",
+                background: "rgba(0,0,0,0.4)",
+              }}
+              onMouseEnter={e => {
+                e.currentTarget.style.borderColor = `${accent}50`;
+                e.currentTarget.style.background = `${accent}08`;
+              }}
+              onMouseLeave={e => {
+                e.currentTarget.style.borderColor = "rgba(255,255,255,0.08)";
+                e.currentTarget.style.background = "rgba(0,0,0,0.4)";
+              }}
+              data-testid={`decision-option-${opt.id}`}
+            >
+              <div className="font-mono text-[10px] font-bold text-foreground mb-0.5">{opt.label}</div>
+              <div className="font-mono text-[9px] text-muted-foreground/70 leading-snug">{opt.description}</div>
+            </button>
+          ))}
+        </div>
+        {mascoteer && (
+          <p className="mt-3 pt-2 border-t font-mono text-[8px] italic text-red-300/60 leading-relaxed" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
+            ⚠ {mascoteer.failureMethod}
+          </p>
+        )}
+      </div>
+
+      <style>{`
+        @keyframes cel-drift {
+          0% { transform: translate(0, 0) scale(1); }
+          50% { transform: translate(-1.5%, -1%) scale(1.02); }
+          100% { transform: translate(0, 0) scale(1); }
+        }
+        @keyframes cel-pulse {
+          0%, 100% { opacity: 0.5; }
+          50% { opacity: 1; }
+        }
+        @keyframes cel-particle {
+          0%, 100% { transform: translateY(0) translateX(0); opacity: 0.1; }
+          50% { transform: translateY(-20px) translateX(8px); opacity: 0.35; }
+        }
+        .celebration-drift { animation: cel-drift 25s ease-in-out infinite; }
+        .celebration-pulse { animation: cel-pulse 4s ease-in-out infinite; }
+        .celebration-particle { animation: cel-particle 5s ease-in-out infinite; }
+      `}</style>
     </motion.div>
   );
 }
