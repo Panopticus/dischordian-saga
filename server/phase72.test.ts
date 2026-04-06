@@ -129,11 +129,11 @@ describe("Phase 72: Faction War Events", () => {
 });
 
 describe("Phase 72: Fight Game Story Mode Enhancements", () => {
-  it("story arenas (void, babylon, necropolis) should exist in ARENAS", () => {
+  it("core arenas should exist in ARENAS", () => {
     const arenaIds = ARENAS.map(a => a.id);
-    expect(arenaIds).toContain("void");
-    expect(arenaIds).toContain("babylon");
-    expect(arenaIds).toContain("necropolis");
+    expect(arenaIds).toContain("crucible");
+    expect(arenaIds).toContain("blood-weave");
+    expect(arenaIds).toContain("shadow-sanctum");
   });
 
   it("all story chapter arenaIds should reference valid arenas", () => {
@@ -157,22 +157,12 @@ describe("Phase 72: Fight Game Story Mode Enhancements", () => {
     });
   });
 
-  it("new arenas should have proper visual properties", () => {
-    const voidArena = ARENAS.find(a => a.id === "void");
-    const babylonArena = ARENAS.find(a => a.id === "babylon");
-    const necropolisArena = ARENAS.find(a => a.id === "necropolis");
-
-    expect(voidArena?.bgGradient).toBeTruthy();
-    expect(voidArena?.floorColor).toBeTruthy();
-    expect(voidArena?.ambientColor).toBeTruthy();
-
-    expect(babylonArena?.bgGradient).toBeTruthy();
-    expect(babylonArena?.floorColor).toBeTruthy();
-    expect(babylonArena?.ambientColor).toBeTruthy();
-
-    expect(necropolisArena?.bgGradient).toBeTruthy();
-    expect(necropolisArena?.floorColor).toBeTruthy();
-    expect(necropolisArena?.ambientColor).toBeTruthy();
+  it("all arenas should have proper visual properties", () => {
+    for (const arena of ARENAS) {
+      expect(arena.bgGradient, `${arena.id} missing bgGradient`).toBeTruthy();
+      expect(arena.floorColor, `${arena.id} missing floorColor`).toBeTruthy();
+      expect(arena.ambientColor, `${arena.id} missing ambientColor`).toBeTruthy();
+    }
   });
 
   it("story mode should have 13 chapters", () => {

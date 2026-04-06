@@ -711,33 +711,6 @@ export const FIGHTER_INTROS: FighterIntro[] = [
 
 export const ARENA_INTROS: ArenaIntro[] = [
   {
-    arenaId: "void",
-    revealLines: [
-      { text: "THE VOID", duration: 2000, delay: 500, color: "#4f46e5", sizeClass: "text-3xl", animation: "glitch" },
-      { text: "Where reality ends and the arena begins", duration: 2500, delay: 300, color: "#94a3b8", sizeClass: "text-sm", animation: "fade" },
-      { text: "No ground. No sky. Only combat.", duration: 2000, delay: 200, color: "#6366f1", sizeClass: "text-base", animation: "typewriter" },
-    ],
-    envEffect: "void_pulse",
-  },
-  {
-    arenaId: "babylon",
-    revealLines: [
-      { text: "BABYLON", duration: 2000, delay: 500, color: "#f59e0b", sizeClass: "text-3xl", animation: "zoom" },
-      { text: "The Golden City of the Empire", duration: 2500, delay: 300, color: "#fbbf24", sizeClass: "text-sm", animation: "fade" },
-      { text: "Where power is worshipped and the weak are consumed.", duration: 2500, delay: 200, color: "#94a3b8", sizeClass: "text-base", animation: "slide_left" },
-    ],
-    envEffect: "energy_surge",
-  },
-  {
-    arenaId: "necropolis",
-    revealLines: [
-      { text: "THE NECROPOLIS", duration: 2000, delay: 500, color: "#22c55e", sizeClass: "text-3xl", animation: "fade" },
-      { text: "Domain of the Necromancer", duration: 2500, delay: 300, color: "#4ade80", sizeClass: "text-sm", animation: "fade" },
-      { text: "The dead walk here. And they fight for their master.", duration: 2500, delay: 200, color: "#94a3b8", sizeClass: "text-base", animation: "typewriter" },
-    ],
-    envEffect: "fog_roll",
-  },
-  {
     arenaId: "new-babylon",
     revealLines: [
       { text: "NEW BABYLON", duration: 2000, delay: 500, color: "#6366f1", sizeClass: "text-3xl", animation: "zoom" },

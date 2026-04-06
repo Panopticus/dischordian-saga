@@ -711,30 +711,6 @@ export const ARENAS: ArenaData[] = [
     ambientColor: "#7c3aed",
     backgroundImage: "/art/arenas/arena-shadow-sanctum.jpg",
   },
-  {
-    id: "void",
-    name: "The Digital Void",
-    bgGradient: "linear-gradient(180deg, #000000 0%, #0a0a1a 30%, #0f0f2a 50%, #0a0a1a 70%, #000000 100%)",
-    floorColor: "#0a0a1a",
-    ambientColor: "#3b82f6",
-    backgroundImage: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/digital-void_bg-MXXbEFzrcPU2f6iCeSDG2N.webp",
-  },
-  {
-    id: "babylon",
-    name: "Old Babylon",
-    bgGradient: "linear-gradient(180deg, #1a1000 0%, #2a1a00 30%, #3d2800 50%, #2a1a00 70%, #1a1000 100%)",
-    floorColor: "#2a1a00",
-    ambientColor: "#eab308",
-    backgroundImage: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/resistance-base_bg-FfKoe3Z7EovPpm24P7DcoX.webp",
-  },
-  {
-    id: "necropolis",
-    name: "The Necropolis",
-    bgGradient: "linear-gradient(180deg, #0a0a00 0%, #1a1500 30%, #2a2000 50%, #1a1500 70%, #0a0a00 100%)",
-    floorColor: "#1a1500",
-    ambientColor: "#a3a3a3",
-    backgroundImage: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/necropolis_bg-FGT6JpTpUEJS36iuVerv7R.webp",
-  },
 ];
 
 /* ─── DIFFICULTY ─── */
