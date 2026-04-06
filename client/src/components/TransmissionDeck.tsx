@@ -347,7 +347,7 @@ function FeedTab() {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: i * 0.03 }}
-            className="p-3 rounded-lg border border-white/[0.04] bg-white/[0.01] hover:bg-white/[0.03] transition-all"
+            className="p-3 void-surface transition-all"
           >
             {/* Header */}
             <div className="flex items-center justify-between mb-1.5">

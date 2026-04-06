@@ -663,7 +663,7 @@ export default function SagaTimelinePage() {
             exit={{ opacity: 0, y: 20 }}
             className="mx-4 sm:mx-6 mt-2"
           >
-            <div className="rounded-lg border border-primary/20 bg-card/30 p-5">
+            <div className="void-surface border-primary/20 p-5">
               <div className="flex items-start gap-4">
                 <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
                   {isGameCompleted(selectedGame.id) ? (
@@ -737,7 +737,7 @@ export default function SagaTimelinePage() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.5 }}
-        className="mx-4 sm:mx-6 mt-8 rounded-lg border border-primary/20 bg-primary/5 p-5"
+        className="mx-4 sm:mx-6 mt-8 void-surface border-primary/20 p-5"
       >
         <h3 className="font-display text-xs font-bold tracking-[0.2em] text-primary flex items-center gap-2 mb-3">
           <Eye size={14} />

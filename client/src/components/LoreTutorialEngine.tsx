@@ -325,7 +325,7 @@ export default function LoreTutorialEngine({ tutorial, onComplete, onDismiss }: 
             </div>
 
             {/* Dialog box */}
-            <div className="rounded-xl border border-primary/20 bg-card/90 overflow-hidden shadow-[0_0_40px_rgba(0,200,255,0.08)]">
+            <div className="void-surface border-primary/20 overflow-hidden shadow-[0_0_40px_rgba(0,200,255,0.08)]">
               {/* Elara header */}
               <div className="flex items-center gap-3 px-5 py-3 border-b border-border/40 bg-primary/5">
                 <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center">
@@ -438,7 +438,7 @@ export default function LoreTutorialEngine({ tutorial, onComplete, onDismiss }: 
               ))}
             </div>
 
-            <div className="rounded-xl border border-primary/20 bg-card/90 overflow-hidden shadow-[0_0_40px_rgba(0,200,255,0.08)]">
+            <div className="void-surface border-primary/20 overflow-hidden shadow-[0_0_40px_rgba(0,200,255,0.08)]">
               {/* Elara response header */}
               <div className="flex items-center gap-3 px-5 py-3 border-b border-border/40 bg-primary/5">
                 <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center">

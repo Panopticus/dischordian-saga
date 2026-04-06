@@ -40,7 +40,7 @@ function DashboardSkeleton() {
       {/* Stat cards */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
         {Array.from({ length: 4 }).map((_, i) => (
-          <div key={i} className="rounded-lg border border-border/20 bg-card/20 p-4 space-y-2">
+          <div key={i} className="void-surface p-4 space-y-2">
             <div className="flex items-center gap-2">
               <Skeleton className="h-4 w-4 rounded bg-primary/10" />
               <Skeleton className="h-2 w-16 bg-primary/5" />
@@ -51,7 +51,7 @@ function DashboardSkeleton() {
       </div>
       {/* Content area */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-        <div className="rounded-lg border border-border/20 bg-card/20 p-5 space-y-3">
+        <div className="void-surface p-5 space-y-3">
           <Skeleton className="h-3 w-32 bg-primary/10" />
           <div className="space-y-2">
             {Array.from({ length: 5 }).map((_, i) => (
@@ -59,7 +59,7 @@ function DashboardSkeleton() {
             ))}
           </div>
         </div>
-        <div className="rounded-lg border border-border/20 bg-card/20 p-5 space-y-3">
+        <div className="void-surface p-5 space-y-3">
           <Skeleton className="h-3 w-28 bg-primary/10" />
           <Skeleton className="h-40 w-full bg-primary/5 rounded-lg" />
         </div>
@@ -72,7 +72,7 @@ function GridSkeleton() {
   return (
     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
       {Array.from({ length: 12 }).map((_, i) => (
-        <div key={i} className="rounded-lg border border-border/20 bg-card/20 overflow-hidden">
+        <div key={i} className="void-surface overflow-hidden">
           <Skeleton className="aspect-square w-full bg-primary/5" />
           <div className="p-2.5 space-y-1.5">
             <Skeleton className="h-3 w-3/4 bg-primary/10" />
@@ -88,7 +88,7 @@ function ListSkeleton() {
   return (
     <div className="space-y-2">
       {Array.from({ length: 8 }).map((_, i) => (
-        <div key={i} className="rounded-lg border border-border/20 bg-card/20 p-3 flex items-center gap-3">
+        <div key={i} className="void-surface p-3 flex items-center gap-3">
           <Skeleton className="w-10 h-10 rounded shrink-0 bg-primary/10" />
           <div className="flex-1 space-y-1.5">
             <Skeleton className="h-3 w-1/3 bg-primary/10" />
@@ -117,13 +117,13 @@ function DetailSkeleton() {
         </div>
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-        <div className="rounded-lg border border-border/20 bg-card/20 p-4 space-y-2">
+        <div className="void-surface p-4 space-y-2">
           <Skeleton className="h-3 w-24 bg-primary/10" />
           {Array.from({ length: 4 }).map((_, i) => (
             <Skeleton key={i} className="h-8 w-full bg-primary/5" />
           ))}
         </div>
-        <div className="rounded-lg border border-border/20 bg-card/20 p-4 space-y-2">
+        <div className="void-surface p-4 space-y-2">
           <Skeleton className="h-3 w-28 bg-primary/10" />
           {Array.from({ length: 4 }).map((_, i) => (
             <Skeleton key={i} className="h-8 w-full bg-primary/5" />
@@ -138,7 +138,7 @@ function GallerySkeleton() {
   return (
     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
       {Array.from({ length: 12 }).map((_, i) => (
-        <div key={i} className="rounded-lg border border-border/20 bg-card/20 overflow-hidden">
+        <div key={i} className="void-surface overflow-hidden">
           <Skeleton className="aspect-[3/4] w-full bg-primary/5" />
           <div className="p-2 space-y-1">
             <Skeleton className="h-2.5 w-3/4 bg-primary/10" />

@@ -74,7 +74,7 @@ export function MoralityMeter({ showDetails = true }: { showDetails?: boolean })
   const label = getMoralityLabel();
 
   return (
-    <div className="rounded-lg border border-border/30 bg-card/40 overflow-hidden">
+    <div className="void-surface overflow-hidden">
       {/* Header */}
       <button
         onClick={() => setExpanded(!expanded)}

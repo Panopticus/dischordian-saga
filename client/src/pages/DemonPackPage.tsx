@@ -459,7 +459,7 @@ export default function DemonPackPage() {
 
         {/* Error display */}
         {openPack.error && (
-          <div className="rounded-lg border border-red-500/30 bg-red-500/10 p-3 text-center">
+          <div className="void-surface border-red-500/30 p-3 text-center">
             <p className="font-mono text-xs text-red-400">{openPack.error.message}</p>
           </div>
         )}

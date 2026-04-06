@@ -381,7 +381,7 @@ function RewardsTab() {
         <motion.div
           initial={{ opacity: 0, height: 0 }}
           animate={{ opacity: 1, height: "auto" }}
-          className="rounded-lg border border-primary/30 bg-primary/5 p-4 space-y-3"
+          className="void-surface border-primary/30 p-4 space-y-3"
         >
           <div className="grid grid-cols-2 gap-3">
             <div>
@@ -548,28 +548,28 @@ function DiscoveryTab() {
     <div className="space-y-6">
       {/* Discovery Progress Overview */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
-        <div className="rounded-lg border border-primary/20 bg-primary/5 p-4">
+        <div className="void-surface border-primary/20 p-4">
           <div className="flex items-center gap-2 mb-2">
             <Compass size={14} className="text-primary" />
             <span className="font-mono text-[10px] text-muted-foreground tracking-wider">FEATURES UNLOCKED</span>
           </div>
           <p className="font-display text-2xl font-bold">{progress?.unlockedFeatures ?? 0} / {progress?.totalFeatures ?? 0}</p>
         </div>
-        <div className="rounded-lg border border-accent/20 bg-accent/5 p-4">
+        <div className="void-surface border-accent/20 p-4">
           <div className="flex items-center gap-2 mb-2">
             <Rocket size={14} className="text-accent" />
             <span className="font-mono text-[10px] text-muted-foreground tracking-wider">ROOMS VISITED</span>
           </div>
           <p className="font-display text-2xl font-bold">{progress?.roomsVisited ?? 0} / {progress?.totalRooms ?? 0}</p>
         </div>
-        <div className="rounded-lg border border-chart-4/20 bg-chart-4/5 p-4">
+        <div className="void-surface border-chart-4/20 p-4">
           <div className="flex items-center gap-2 mb-2">
             <Unlock size={14} className="text-chart-4" />
             <span className="font-mono text-[10px] text-muted-foreground tracking-wider">DISCOVERY %</span>
           </div>
           <p className="font-display text-2xl font-bold">{progress?.percentage ?? 0}%</p>
         </div>
-        <div className="rounded-lg border border-destructive/20 bg-destructive/5 p-4 flex items-center justify-center">
+        <div className="void-surface border-destructive/20 p-4 flex items-center justify-center">
           <button
             onClick={() => unlockAll.mutate(undefined, {
               onSuccess: () => utils.discovery.getProgress.invalidate(),
@@ -588,7 +588,7 @@ function DiscoveryTab() {
         <h3 className="font-display text-xs font-bold tracking-[0.2em] text-primary mb-4">ROOM → FEATURE MAPPING</h3>
         <div className="space-y-3">
           {Object.entries(ROOM_FEATURE_MAP).map(([room, features]) => (
-            <div key={room} className="rounded-md border border-border/20 bg-secondary/10 p-3">
+            <div key={room} className="void-surface p-3">
               <div className="flex items-center gap-2 mb-2">
                 <Rocket size={12} className="text-accent" />
                 <span className="font-mono text-xs font-bold tracking-wider text-foreground">{room.toUpperCase()}</span>
@@ -856,7 +856,7 @@ function ContentTab() {
         <motion.div
           initial={{ opacity: 0, height: 0 }}
           animate={{ opacity: 1, height: "auto" }}
-          className="rounded-lg border border-primary/30 bg-primary/5 p-4 space-y-3"
+          className="void-surface border-primary/30 p-4 space-y-3"
         >
           <h3 className="font-display text-xs font-bold tracking-[0.2em] text-primary">CREATE NEW ENTRY</h3>
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
@@ -994,7 +994,7 @@ function ContentTab() {
         <motion.div
           initial={{ opacity: 0, height: 0 }}
           animate={{ opacity: 1, height: "auto" }}
-          className="rounded-lg border border-accent/30 bg-accent/5 p-4 space-y-3"
+          className="void-surface border-accent/30 p-4 space-y-3"
         >
           <div className="flex items-center justify-between">
             <h3 className="font-display text-xs font-bold tracking-[0.2em] text-accent">EDITING: {editEntry.entry.name}</h3>

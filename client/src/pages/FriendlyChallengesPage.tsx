@@ -200,7 +200,7 @@ export default function FriendlyChallengesPage() {
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="rounded-lg border border-primary/20 bg-card/50 p-5 space-y-4"
+            className="void-surface border-primary/20 p-5 space-y-4"
           >
             <h3 className="font-display text-sm font-bold tracking-wide flex items-center gap-2">
               <Plus size={14} className="text-primary" />

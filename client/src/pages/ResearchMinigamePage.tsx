@@ -922,7 +922,7 @@ export default function ResearchMinigamePage() {
             {unlockedEntry && (
               <Link
                 href={`/entity/${unlockedEntry.id}`}
-                className="block p-3 rounded-lg border border-primary/20 bg-primary/5 mb-4 hover:bg-primary/10 transition-all"
+                className="block p-3 void-surface border-primary/20 mb-4 hover:bg-primary/10 transition-all"
               >
                 <div className="flex items-center gap-3 justify-center">
                   {unlockedEntry.image && (
@@ -983,14 +983,14 @@ export default function ResearchMinigamePage() {
             </p>
 
             {revealName && (
-              <div className="p-3 rounded-lg border border-destructive/20 bg-destructive/5 mb-4">
+              <div className="p-3 void-surface border-destructive/20 mb-4">
                 <p className="font-mono text-[10px] text-muted-foreground mb-1">THE ANSWER WAS:</p>
                 <p className="font-display text-lg font-bold text-foreground">{revealName}</p>
               </div>
             )}
 
             {puzzle?.type === "timeline" && (
-              <div className="p-3 rounded-lg border border-chart-4/20 bg-chart-4/5 mb-4 text-left">
+              <div className="p-3 void-surface border-chart-4/20 mb-4 text-left">
                 <p className="font-mono text-[10px] text-muted-foreground mb-2">CORRECT ORDER:</p>
                 {puzzle.correctOrder.map((id, i) => {
                   const entry = puzzle.entries.find(e => e.id === id);

@@ -275,7 +275,7 @@ export default function DiplomacyPage() {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: i * 0.1 }}
                   onClick={() => handleChoice(selectedEvent, choice)}
-                  className="w-full text-left rounded-lg border border-border/30 bg-card/20 p-4 hover:border-primary/30 hover:bg-primary/5 transition-all group"
+                  className="w-full text-left void-surface p-4 hover:border-primary/30 hover:bg-primary/5 transition-all group"
                 >
                   <p className="font-mono text-sm text-foreground font-bold mb-2 group-hover:text-primary transition-colors">
                     {choice.text}

@@ -252,11 +252,11 @@ export default function BridgeConsole() {
             <p className="font-display text-lg font-bold text-cyan-400">{discoveredRooms}</p>
             <p className="font-mono text-[7px] text-white/20 tracking-wider">SECTORS</p>
           </div>
-          <div className="p-2.5 rounded-lg border border-white/5 bg-white/[0.02]">
+          <div className="p-2.5 void-surface">
             <p className="font-display text-lg font-bold text-amber-400">{totalVisits}</p>
             <p className="font-mono text-[7px] text-white/20 tracking-wider">VISITS</p>
           </div>
-          <div className="p-2.5 rounded-lg border border-white/5 bg-white/[0.02]">
+          <div className="p-2.5 void-surface">
             <p className="font-display text-lg font-bold text-purple-400">{discoveredNPCs.length}</p>
             <p className="font-mono text-[7px] text-white/20 tracking-wider">CONTACTS</p>
           </div>

@@ -387,7 +387,7 @@ export default function SignalDecryption({ onComplete, onClose }: SignalDecrypti
           >
             <motion.div
               initial={{ scale: 0.9 }} animate={{ scale: 1 }} exit={{ scale: 0.9 }}
-              className="w-72 rounded-xl border border-zinc-700 bg-zinc-900 p-5"
+              className="w-72 void-surface p-5"
               onClick={(e) => e.stopPropagation()}
             >
               <h3 className="mb-3 text-center text-sm font-bold tracking-wider uppercase text-cyan-400">Statistics</h3>

@@ -74,7 +74,7 @@ export default function LeaderboardPage() {
   return (
     <div className="animate-fade-in space-y-6 pb-12">
       {/* ═══ HEADER ═══ */}
-      <div className="relative overflow-hidden rounded-lg border border-primary/20 bg-card/40 p-6">
+      <div className="relative overflow-hidden void-surface border-primary/20 p-6">
         <div className="absolute inset-0 grid-bg opacity-20" />
         <div className="relative">
           <div className="flex items-center gap-3 mb-2">

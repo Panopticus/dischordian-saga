@@ -490,7 +490,7 @@ export default function CompanionHubPage() {
 
               {/* The Human's Ark (for The Human) */}
               {!isElara && level >= 35 && (
-                <div className="rounded-lg border border-red-500/20 bg-red-950/10 p-4">
+                <div className="void-surface border-red-500/20 p-4">
                   <h3 className="font-display text-sm font-bold tracking-wider text-foreground mb-3 flex items-center gap-2">
                     <Radio size={14} className="text-red-400" />
                     THE ARCHON'S GAMBIT
@@ -1480,7 +1480,7 @@ function LoyaltyMissionsTab({
 
       {/* Unlocked Lore */}
       {loreUnlocked.length > 0 && (
-        <div className="rounded-lg border border-purple-500/30 bg-purple-500/5 p-3">
+        <div className="void-surface border-purple-500/30 p-3">
           <p className="font-mono text-[9px] text-purple-400/60 tracking-wider mb-2">PANOPTICON LORE UNLOCKED</p>
           {loreUnlocked.map(l => (
             <div key={l} className="flex items-center gap-2 mb-1">

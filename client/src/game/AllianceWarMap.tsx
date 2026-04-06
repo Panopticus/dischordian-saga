@@ -414,7 +414,7 @@ export function WarHeader({
     : "text-red-400";
 
   return (
-    <div className="flex flex-col gap-3 rounded-lg border border-slate-800 bg-slate-950/70 p-4 md:flex-row md:items-center md:justify-between">
+    <div className="flex flex-col gap-3 void-surface p-4 md:flex-row md:items-center md:justify-between">
       {/* Guild A */}
       <div className="flex flex-1 items-center gap-3">
         <Shield className="text-blue-400" size={28} />

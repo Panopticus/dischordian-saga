@@ -147,7 +147,7 @@ export default function PersonalQuartersPage() {
                       initial={{ opacity: 0, scale: 0.95 }}
                       animate={{ opacity: 1, scale: 1 }}
                       transition={{ delay: i * 0.03 }}
-                      className="rounded-lg border border-border/30 bg-card/40 p-3"
+                      className="void-surface p-3"
                     >
                       <div className="flex items-center justify-between mb-1">
                         <span className="font-mono text-xs font-semibold truncate">{dec.itemKey || dec.key}</span>
@@ -238,7 +238,7 @@ export default function PersonalQuartersPage() {
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="rounded-lg border border-primary/20 bg-card/50 p-4"
+                className="void-surface border-primary/20 p-4"
               >
                 <h3 className="font-display text-sm font-bold tracking-wide mb-3 flex items-center gap-2">
                   <Eye size={14} className="text-primary" />

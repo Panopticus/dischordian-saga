@@ -368,7 +368,7 @@ export default function PlayerProfilePage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="rounded-xl border border-border/30 bg-card/30 p-5"
+          className="void-surface p-5"
         >
           <div className="flex items-center gap-2 mb-4">
             <BarChart3 size={16} className="text-primary" />
@@ -398,7 +398,7 @@ export default function PlayerProfilePage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="rounded-xl border border-border/30 bg-card/30 p-5"
+          className="void-surface p-5"
         >
           <div className="flex items-center gap-2 mb-4">
             <Target size={16} className="text-red-400" />
@@ -431,7 +431,7 @@ export default function PlayerProfilePage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
-          className="rounded-xl border border-border/30 bg-card/30 p-5"
+          className="void-surface p-5"
         >
           <div className="flex items-center gap-2 mb-4">
             <Compass size={16} className="text-primary" />
@@ -456,7 +456,7 @@ export default function PlayerProfilePage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
-          className="rounded-xl border border-border/30 bg-card/30 p-5"
+          className="void-surface p-5"
         >
           <div className="flex items-center gap-2 mb-4">
             <Trophy size={16} className="text-amber-400" />
@@ -482,7 +482,7 @@ export default function PlayerProfilePage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.45 }}
-            className="rounded-xl border border-chart-5/20 bg-chart-5/5 p-5"
+            className="void-surface border-chart-5/20 p-5"
           >
             <div className="flex items-center gap-2 mb-4">
               <BookOpen size={16} className="text-chart-5" />
@@ -531,7 +531,7 @@ export default function PlayerProfilePage() {
             <Link
               key={link.href}
               href={link.href}
-              className="flex items-center gap-2 px-3 py-3 rounded-lg border border-border/30 bg-card/20 hover:bg-card/40 hover:border-primary/30 transition-all group"
+              className="flex items-center gap-2 px-3 py-3 void-surface hover:border-primary/30 transition-all group"
             >
               <link.icon size={16} className={`${link.color} group-hover:scale-110 transition-transform`} />
               <span className="font-mono text-[10px] text-muted-foreground group-hover:text-foreground transition-colors tracking-wider">

@@ -95,7 +95,7 @@ export default function FactionWarPage() {
 
         {/* War History Banner */}
         {fw.warHistory.length > 0 && phase === "lobby" && (
-          <div className="rounded-lg border border-amber-500/20 bg-amber-500/5 p-3">
+          <div className="void-surface border-amber-500/20 p-3">
             <div className="flex items-center gap-2 mb-2">
               <Trophy size={14} className="text-amber-400" />
               <span className="font-mono text-xs font-bold text-amber-400">WAR RECORD</span>
@@ -118,7 +118,7 @@ export default function FactionWarPage() {
 
         {/* Active Exclusive Routes */}
         {fw.activeExclusiveRoutes.length > 0 && phase === "lobby" && (
-          <div className="rounded-lg border border-green-500/20 bg-green-500/5 p-3">
+          <div className="void-surface border-green-500/20 p-3">
             <div className="flex items-center gap-2 mb-2">
               <Map size={14} className="text-green-400" />
               <span className="font-mono text-xs font-bold text-green-400">ACTIVE EXCLUSIVE ROUTES</span>
@@ -208,7 +208,7 @@ export default function FactionWarPage() {
             className="space-y-4"
           >
             {/* War Briefing */}
-            <div className="rounded-lg border border-amber-500/30 bg-card/30 p-5">
+            <div className="void-surface border-amber-500/30 p-5">
               <div className="flex items-center gap-2 mb-4">
                 <span className="text-2xl">{selectedWar.icon}</span>
                 <div>
@@ -463,7 +463,7 @@ export default function FactionWarPage() {
             animate={{ opacity: 1 }}
             className="space-y-4"
           >
-            <div className="rounded-lg border border-amber-500/30 bg-card/30 p-6">
+            <div className="void-surface border-amber-500/30 p-6">
               <div className="flex items-center gap-3 mb-4">
                 <Trophy size={24} className="text-amber-400" />
                 <div>

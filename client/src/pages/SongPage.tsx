@@ -179,7 +179,7 @@ export default function SongPage() {
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="rounded-lg border border-destructive/20 bg-destructive/5 p-4"
+            className="void-surface border-destructive/20 p-4"
           >
             <h2 className="font-display text-xs font-bold tracking-[0.2em] text-destructive mb-3 flex items-center gap-2">
               <Play size={13} /> OFFICIAL MUSIC VIDEO

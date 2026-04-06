@@ -76,7 +76,7 @@ export default function NPCInboxPage() {
   if (!commsDiscovered) {
     return (
       <div className="min-h-screen bg-black flex items-center justify-center p-6">
-        <div className="max-w-md text-center space-y-4 p-6 rounded-xl border border-cyan-500/20 bg-cyan-500/5">
+        <div className="max-w-md text-center space-y-4 p-6 void-surface border-cyan-500/20">
           <Lock size={32} className="mx-auto text-cyan-400/60" />
           <h1 className="font-display text-lg tracking-[0.2em] text-cyan-400">NO RECEIVER ONLINE</h1>
           <p className="font-mono text-[11px] text-white/50 leading-relaxed">
@@ -123,7 +123,7 @@ export default function NPCInboxPage() {
       </div>
 
       {/* Message list — phone-app style */}
-      <div className="max-w-3xl mx-auto rounded-xl border border-cyan-500/20 bg-black/60 backdrop-blur-sm overflow-hidden shadow-[0_0_40px_rgba(34,211,238,0.1)]">
+      <div className="max-w-3xl mx-auto void-surface border-cyan-500/20 backdrop-blur-sm overflow-hidden shadow-[0_0_40px_rgba(34,211,238,0.1)]">
         <div className="px-4 py-2 border-b border-cyan-500/20 bg-cyan-500/5 flex items-center gap-2">
           <Zap size={10} className="text-cyan-400" />
           <span className="font-mono text-[9px] tracking-widest text-cyan-400/70">ARK 1047 :: SECURE CHANNEL</span>

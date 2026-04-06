@@ -110,7 +110,7 @@ function AchievementModal({ achievement, earned, onClose }: {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
-              className="rounded-lg border border-amber-500/20 bg-amber-500/5 p-4"
+              className="void-surface border-amber-500/20 p-4"
             >
               <div className="flex items-center gap-2 mb-2">
                 <Scroll size={12} className="text-amber-400" />
@@ -224,7 +224,7 @@ export default function AchievementsGalleryPage() {
           </div>
 
           {/* Overall progress */}
-          <div className="rounded-lg border border-amber-500/20 bg-amber-500/5 p-4">
+          <div className="void-surface border-amber-500/20 p-4">
             <div className="flex items-center justify-between mb-2">
               <span className="font-mono text-[10px] text-amber-400/70 tracking-wider">SAGA COMPLETION</span>
               <span className="font-mono text-sm font-bold text-amber-300">{overallPercent}%</span>
@@ -419,7 +419,7 @@ export default function AchievementsGalleryPage() {
         )}
 
         {/* ═══ BOTTOM CTA ═══ */}
-        <div className="rounded-lg border border-purple-500/20 bg-purple-500/5 p-4 flex items-center gap-4">
+        <div className="void-surface border-purple-500/20 p-4 flex items-center gap-4">
           <div className="p-2 rounded-md bg-purple-500/10">
             <BookOpen size={20} className="text-purple-400" />
           </div>
@@ -465,7 +465,7 @@ export default function AchievementsGalleryPage() {
               animate={{ scale: 1, y: 0 }}
               exit={{ scale: 0.9, y: 20 }}
               onClick={e => e.stopPropagation()}
-              className="relative w-full max-w-2xl max-h-[80vh] overflow-y-auto rounded-xl border border-amber-500/30 bg-card shadow-2xl"
+              className="relative w-full max-w-2xl max-h-[80vh] overflow-y-auto void-surface border-amber-500/30 shadow-2xl"
             >
               <div className="sticky top-0 bg-card/95 backdrop-blur-sm border-b border-amber-500/20 p-4 flex items-center justify-between z-10">
                 <div className="flex items-center gap-2">

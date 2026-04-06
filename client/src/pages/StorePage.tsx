@@ -385,7 +385,7 @@ export default function StorePage() {
               <Package size={15} className="text-muted-foreground" />
               PURCHASE HISTORY
             </h2>
-            <div className="rounded-lg border border-border/30 bg-card/20 overflow-x-auto">
+            <div className="void-surface overflow-x-auto">
               <table className="w-full min-w-[320px]">
                 <thead>
                   <tr className="border-b border-border/20">

@@ -50,7 +50,7 @@ export function CardSkeleton({ count = 3 }: { count?: number }) {
           key={i}
           animate={{ opacity: [0.3, 0.6, 0.3] }}
           transition={{ duration: 1.5, repeat: Infinity, delay: i * 0.1 }}
-          className="p-3 rounded-lg border border-white/5 bg-white/[0.02]"
+          className="p-3 void-surface"
         >
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-md bg-white/5" />
@@ -82,7 +82,7 @@ export function ErrorDisplay({
       {onRetry && (
         <button
           onClick={onRetry}
-          className="mt-3 px-4 py-2 rounded-lg border border-red-500/30 bg-red-500/10 text-red-400 font-mono text-[10px] tracking-wider hover:bg-red-500/20 transition-colors"
+          className="mt-3 px-4 py-2 void-surface border-red-500/30 text-red-400 font-mono text-[10px] tracking-wider hover:bg-red-500/20 transition-colors"
         >
           RETRY CONNECTION
         </button>

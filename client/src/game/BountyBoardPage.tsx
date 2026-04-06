@@ -56,7 +56,7 @@ export default function BountyBoardPage() {
   if (!tradeHubDiscovered) {
     return (
       <div className="min-h-screen bg-black flex items-center justify-center p-6">
-        <div className="max-w-md text-center space-y-4 p-6 rounded-xl border border-amber-500/20 bg-amber-500/5">
+        <div className="max-w-md text-center space-y-4 p-6 void-surface border-amber-500/20">
           <Lock size={32} className="mx-auto text-amber-400/60" />
           <h1 className="font-display text-lg tracking-[0.2em] text-amber-400">BOARD SEALED</h1>
           <p className="font-mono text-[11px] text-white/50 leading-relaxed">

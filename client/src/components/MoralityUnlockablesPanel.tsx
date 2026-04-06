@@ -84,7 +84,7 @@ export default function MoralityUnlockablesPanel() {
   }, [score, nextUnlock]);
 
   return (
-    <div className="rounded-lg border border-border/30 bg-card/40 overflow-hidden">
+    <div className="void-surface overflow-hidden">
       {/* Header */}
       <button
         onClick={() => setExpanded(!expanded)}
@@ -152,7 +152,7 @@ export default function MoralityUnlockablesPanel() {
 
               {/* Next unlock progress */}
               {nextUnlock && progressToNext && (
-                <div className="rounded-md border border-border/20 bg-secondary/10 p-3">
+                <div className="void-surface p-3">
                   <div className="flex items-center gap-2 mb-2">
                     <ArrowRight size={12} style={{ color: nextUnlock.color }} />
                     <span className="font-mono text-[10px] tracking-wider" style={{ color: nextUnlock.color }}>

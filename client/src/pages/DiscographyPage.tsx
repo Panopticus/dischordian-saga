@@ -156,15 +156,15 @@ export default function DiscographyPage() {
 
             {/* Quick stats */}
             <div className="flex flex-wrap gap-3 mb-4">
-              <div className="flex items-center gap-2 px-3 py-1.5 rounded-md border border-border/60 bg-muted/25">
+              <div className="flex items-center gap-2 px-3 py-1.5 void-surface">
                 <Disc3 size={12} className="text-[var(--deep-purple)]" />
                 <span className="font-mono text-[10px] text-muted-foreground/80">4 ALBUMS</span>
               </div>
-              <div className="flex items-center gap-2 px-3 py-1.5 rounded-md border border-border/60 bg-muted/25">
+              <div className="flex items-center gap-2 px-3 py-1.5 void-surface">
                 <Music size={12} className="text-[var(--neon-cyan)]" />
                 <span className="font-mono text-[10px] text-muted-foreground/80">{totalSongs} TRACKS</span>
               </div>
-              <div className="flex items-center gap-2 px-3 py-1.5 rounded-md border border-border/60 bg-muted/25">
+              <div className="flex items-center gap-2 px-3 py-1.5 void-surface">
                 <Eye size={12} className="text-[var(--alert-red)]" />
                 <span className="font-mono text-[10px] text-muted-foreground/80">{totalVideos} VIDEOS</span>
               </div>

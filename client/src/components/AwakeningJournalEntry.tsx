@@ -188,7 +188,7 @@ export default function AwakeningJournalEntry() {
       className="space-y-4"
     >
       {/* ═══ CITIZEN DOSSIER HEADER ═══ */}
-      <div className="rounded-lg border border-primary/20 bg-primary/5 p-4">
+      <div className="void-surface border-primary/20 p-4">
         <div className="flex items-center gap-2 mb-3">
           <User size={14} className="text-primary" />
           <span className="font-display text-[10px] font-bold tracking-[0.2em] text-primary">
@@ -244,7 +244,7 @@ export default function AwakeningJournalEntry() {
       </div>
 
       {/* ═══ JOURNAL ENTRY ═══ */}
-      <div className="rounded-lg border border-border/20 bg-card/30 overflow-hidden">
+      <div className="void-surface overflow-hidden">
         <div className="flex items-center gap-2 px-4 py-2.5 border-b border-border/10 bg-card/50">
           <FileText size={14} className="text-accent" />
           <span className="font-display text-[10px] font-bold tracking-[0.15em] text-accent">
@@ -294,7 +294,7 @@ export default function AwakeningJournalEntry() {
       </div>
 
       {/* ═══ ELARA'S ANNOTATION ═══ */}
-      <div className="rounded-lg border border-[var(--neon-cyan)]/20 bg-[var(--neon-cyan)]/5 p-3">
+      <div className="void-surface p-3">
         <div className="flex items-start gap-2">
           <Sparkles size={14} className="text-[var(--neon-cyan)] shrink-0 mt-0.5" />
           <div>

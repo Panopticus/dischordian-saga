@@ -1068,7 +1068,7 @@ function MilestoneEntryCard({ milestone, ctx, index }: {
       </div>
 
       {/* Elara's Annotation */}
-      <div className="rounded-lg border border-[var(--neon-cyan)]/20 bg-[var(--neon-cyan)]/5 p-3">
+      <div className="void-surface p-3">
         <div className="flex items-start gap-2">
           <Sparkles size={14} className="text-[var(--neon-cyan)] shrink-0 mt-0.5" />
           <div>

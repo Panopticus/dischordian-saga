@@ -657,7 +657,7 @@ export default function CodexPage() {
               <span className="font-mono text-[10px] text-cyan-400 tracking-wider">ARCHITECT PROTOCOLS</span>
             </div>
             {abilityEntries.filter(a => a.faction === "architect").map(a => (
-              <div key={a.id} className="rounded-lg border border-cyan-500/20 bg-cyan-500/5 p-3">
+              <div key={a.id} className="void-surface border-cyan-500/20 p-3">
                 <p className="font-mono text-xs font-semibold text-cyan-400 mb-1">{a.name}</p>
                 <p className="font-mono text-[10px] text-foreground/70 mb-1.5">{a.description}</p>
                 <p className="font-mono text-[10px] text-cyan-400/50 italic">"{a.flavorText}"</p>
@@ -671,7 +671,7 @@ export default function CodexPage() {
               <span className="font-mono text-[10px] text-amber-400 tracking-wider">DREAMER DEFENSES</span>
             </div>
             {abilityEntries.filter(a => a.faction === "dreamer").map(a => (
-              <div key={a.id} className="rounded-lg border border-amber-500/20 bg-amber-500/5 p-3">
+              <div key={a.id} className="void-surface border-amber-500/20 p-3">
                 <p className="font-mono text-xs font-semibold text-amber-400 mb-1">{a.name}</p>
                 <p className="font-mono text-[10px] text-foreground/70 mb-1.5">{a.description}</p>
                 <p className="font-mono text-[10px] text-amber-400/50 italic">"{a.flavorText}"</p>

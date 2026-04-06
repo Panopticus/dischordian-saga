@@ -434,7 +434,7 @@ export default function FavoritesPage() {
           {/* Create Playlist */}
           <div>
             {showCreateForm ? (
-              <div className="flex items-center gap-2 p-3 rounded-lg border border-primary/30 bg-primary/5">
+              <div className="flex items-center gap-2 p-3 void-surface border-primary/30">
                 <input
                   type="text"
                   value={newPlaylistName}

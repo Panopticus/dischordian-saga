@@ -215,7 +215,7 @@ export default function IdeologyPage() {
                   )}
                 </motion.div>
               ) : (
-                <div className="p-8 rounded-lg border border-border/30 bg-card/20 text-center">
+                <div className="p-8 void-surface text-center">
                   <Flag size={32} className="text-muted-foreground/20 mx-auto mb-3" />
                   <p className="font-mono text-[10px] text-muted-foreground/60 italic">
                     Select a vision to study it. Understand what it promises and what it costs before you commit.

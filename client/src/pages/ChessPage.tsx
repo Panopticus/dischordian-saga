@@ -517,15 +517,15 @@ export default function ChessPage() {
 
             {/* Quick Links */}
             <div className="grid grid-cols-3 gap-3">
-              <button onClick={() => setView("ladder")} className="p-3 rounded-lg border border-border/30 bg-card/20 hover:bg-card/40 text-center hover-lift">
+              <button onClick={() => setView("ladder")} className="p-3 void-surface text-center hover-lift">
                 <Trophy size={18} className="text-primary mx-auto mb-1" />
                 <span className="font-mono text-[10px] text-muted-foreground">LADDER</span>
               </button>
-              <button onClick={() => setView("history")} className="p-3 rounded-lg border border-border/30 bg-card/20 hover:bg-card/40 text-center hover-lift">
+              <button onClick={() => setView("history")} className="p-3 void-surface text-center hover-lift">
                 <Clock size={18} className="text-accent mx-auto mb-1" />
                 <span className="font-mono text-[10px] text-muted-foreground">HISTORY</span>
               </button>
-              <button onClick={() => setView("story_select")} className="p-3 rounded-lg border border-border/30 bg-card/20 hover:bg-card/40 text-center hover-lift">
+              <button onClick={() => setView("story_select")} className="p-3 void-surface text-center hover-lift">
                 <BookOpen size={18} className="text-chart-4 mx-auto mb-1" />
                 <span className="font-mono text-[10px] text-muted-foreground">STORY</span>
               </button>
@@ -1005,7 +1005,7 @@ export default function ChessPage() {
             </div>
 
             {/* Coming Soon Notice */}
-            <div className="rounded-lg border border-rose-400/20 bg-rose-400/5 p-4 text-center">
+            <div className="void-surface border-rose-400/20 p-4 text-center">
               <Wifi size={24} className="text-rose-400 mx-auto mb-2" />
               <p className="font-display text-sm font-bold tracking-wider text-rose-400 mb-1">MULTIPLAYER COMING SOON</p>
               <p className="font-mono text-xs text-muted-foreground">

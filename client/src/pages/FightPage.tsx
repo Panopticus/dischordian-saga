@@ -785,7 +785,7 @@ export default function FightPage() {
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
-              className="text-center py-6 rounded-lg border border-amber-500/30 bg-amber-500/5"
+              className="text-center py-6 void-surface border-amber-500/30"
             >
               <Crown size={32} className="mx-auto text-amber-400 mb-2" />
               <div className="font-display text-xl text-amber-400" style={{ textShadow: "0 0 20px rgba(251,191,36,0.4)" }}>

@@ -871,7 +871,7 @@ export default function CardGamePage() {
 
           {/* Universe History */}
           {record.history.length > 0 ? (
-            <div className="rounded-xl border border-border/20 bg-card/20 overflow-hidden mb-6">
+            <div className="void-surface overflow-hidden mb-6">
               <div className="px-4 py-2 border-b border-border/10">
                 <span className="font-mono text-[10px] text-muted-foreground tracking-wider">DIMENSIONAL RECORDS</span>
               </div>
@@ -901,7 +901,7 @@ export default function CardGamePage() {
               </div>
             </div>
           ) : (
-            <div className="rounded-xl border border-border/20 bg-card/20 p-8 text-center mb-6">
+            <div className="void-surface p-8 text-center mb-6">
               <Globe size={32} className="mx-auto text-muted-foreground/30 mb-3" />
               <p className="font-mono text-xs text-muted-foreground">No battles fought yet.</p>
               <p className="font-mono text-[10px] text-muted-foreground/60 mt-1">Enter the Struggle to determine the fate of universes.</p>

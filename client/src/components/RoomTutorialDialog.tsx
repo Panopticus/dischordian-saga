@@ -477,7 +477,7 @@ export default function RoomTutorialDialog({
               <div className="space-y-4">
                 {/* Callback from previous room (if any) */}
                 {callbackText && (
-                  <div className="p-3 rounded-lg border border-cyan-500/20 bg-cyan-500/5 mb-3">
+                  <div className="p-3 void-surface border-cyan-500/20 mb-3">
                     <p className="font-mono text-[9px] text-cyan-400/50 tracking-wider mb-1">ELARA REMEMBERS</p>
                     <p className="text-xs text-cyan-200/80 italic leading-relaxed">{callbackText}</p>
                   </div>
@@ -514,7 +514,7 @@ export default function RoomTutorialDialog({
                     <button
                       key={choice.id}
                       onClick={() => handleRelationshipChoice(choice)}
-                      className="w-full text-left p-3 rounded-lg border border-border/30 bg-card/30 hover:border-primary/40 hover:bg-primary/5 transition-all group"
+                      className="w-full text-left p-3 void-surface hover:border-primary/40 hover:bg-primary/5 transition-all group"
                     >
                       <p className="text-xs text-foreground/90 font-medium">{choice.label}</p>
                       <p className="text-[10px] text-muted-foreground/50 mt-0.5 italic">{choice.fullText}</p>

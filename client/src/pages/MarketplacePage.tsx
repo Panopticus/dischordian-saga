@@ -157,7 +157,7 @@ function MarketStatsBar() {
           { label: "BUY ORDERS", value: stats?.activeBuyOrders || 0, color: "text-chart-4" },
           { label: "24H TRADES", value: stats?.recentTransactions || 0, color: "text-destructive" },
         ].map(s => (
-          <div key={s.label} className="rounded-lg border border-border/20 bg-card/30 p-2 text-center">
+          <div key={s.label} className="void-surface p-2 text-center">
             <p className={`font-display text-lg font-bold ${s.color}`}>{s.value}</p>
             <p className="font-mono text-[9px] text-muted-foreground tracking-wider">{s.label}</p>
           </div>
@@ -270,7 +270,7 @@ function BrowseTab() {
             {data.listings.map((listing) => (
               <div
                 key={listing.id}
-                className={`rounded-lg border border-border/30 bg-card/40 p-4 hover:border-primary/30 transition-colors ${
+                className={`void-surface p-4 hover:border-primary/30 transition-colors ${
                   RARITY_BG[listing.rarity || "Common"] || ""
                 }`}
               >
@@ -430,7 +430,7 @@ function CreateListingPanel() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="mt-4 rounded-lg border border-primary/30 bg-card/60 p-4 space-y-4"
+          className="mt-4 void-surface border-primary/30 p-4 space-y-4"
         >
           <div className="flex items-center justify-between">
             <h3 className="font-display text-sm font-bold tracking-wider text-primary">NEW LISTING</h3>
@@ -616,7 +616,7 @@ function AuctionsTab() {
             const minBid = auction.currentBid > 0 ? auction.currentBid + auction.bidIncrement : auction.startingBid;
 
             return (
-              <div key={auction.id} className="rounded-lg border border-border/30 bg-card/40 p-4">
+              <div key={auction.id} className="void-surface p-4">
                 <div className="flex items-start justify-between">
                   <div>
                     <p className="font-mono text-sm font-semibold">{auction.itemName}</p>
@@ -752,7 +752,7 @@ function BuyOrdersTab() {
       ) : (
         <div className="space-y-2">
           {data.orders.map((order) => (
-            <div key={order.id} className="rounded-lg border border-border/30 bg-card/40 p-3 flex items-center justify-between">
+            <div key={order.id} className="void-surface p-3 flex items-center justify-between">
               <div>
                 <p className="font-mono text-sm font-semibold">{order.itemName}</p>
                 <div className="flex items-center gap-3 mt-1">
@@ -875,7 +875,7 @@ function ExchangeTab() {
 
   return (
     <div className="space-y-4">
-      <div className="rounded-lg border border-primary/30 bg-card/60 p-4 space-y-4">
+      <div className="void-surface border-primary/30 p-4 space-y-4">
         <h3 className="font-display text-sm font-bold tracking-wider text-primary flex items-center gap-2">
           <ArrowLeftRight size={14} /> CURRENCY EXCHANGE
         </h3>
@@ -933,7 +933,7 @@ function ExchangeTab() {
           <h3 className="font-display text-xs font-bold tracking-wider text-muted-foreground mb-2">MY ORDERS</h3>
           <div className="space-y-2">
             {myOrders.map((order) => (
-              <div key={order.id} className="rounded-lg border border-border/30 bg-card/40 p-3 flex items-center justify-between">
+              <div key={order.id} className="void-surface p-3 flex items-center justify-between">
                 <div className="font-mono text-xs">
                   <span className="text-destructive">{order.sellAmount} {order.sellCurrency}</span>
                   {" → "}
@@ -957,7 +957,7 @@ function ExchangeTab() {
           <h3 className="font-display text-xs font-bold tracking-wider text-muted-foreground mb-2">OPEN EXCHANGE ORDERS</h3>
           <div className="space-y-2">
             {data.orders.map((order) => (
-              <div key={order.id} className="rounded-lg border border-border/20 bg-card/30 p-3 flex items-center justify-between">
+              <div key={order.id} className="void-surface p-3 flex items-center justify-between">
                 <div className="font-mono text-xs">
                   <span className="text-destructive">{order.sellAmount} {order.sellCurrency}</span>
                   {" → "}
@@ -1014,7 +1014,7 @@ function MyListingsTab() {
         ) : (
           <div className="space-y-2">
             {listings.map((listing) => (
-              <div key={listing.id} className="rounded-lg border border-border/30 bg-card/40 p-3 flex items-center justify-between">
+              <div key={listing.id} className="void-surface p-3 flex items-center justify-between">
                 <div>
                   <p className="font-mono text-sm font-semibold">{listing.itemName}</p>
                   <div className="flex items-center gap-2 mt-1">
@@ -1047,7 +1047,7 @@ function MyListingsTab() {
         ) : (
           <div className="space-y-2">
             {myBuyOrders.map((order) => (
-              <div key={order.id} className="rounded-lg border border-border/30 bg-card/40 p-3 flex items-center justify-between">
+              <div key={order.id} className="void-surface p-3 flex items-center justify-between">
                 <div>
                   <p className="font-mono text-sm font-semibold">{order.itemName}</p>
                   <div className="flex items-center gap-2 mt-1">
@@ -1097,7 +1097,7 @@ function HistoryTab() {
           {data.transactions.map((tx) => {
             const isSeller = tx.sellerId === user?.id;
             return (
-              <div key={tx.id} className="rounded-lg border border-border/20 bg-card/30 p-3">
+              <div key={tx.id} className="void-surface p-3">
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="font-mono text-sm font-semibold">{tx.itemName}</p>

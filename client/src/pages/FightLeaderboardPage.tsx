@@ -238,7 +238,7 @@ export default function FightLeaderboardPage() {
                     ].map(stat => {
                       const Icon = stat.icon;
                       return (
-                        <div key={stat.label} className="rounded-lg border border-border/40 bg-muted/15 p-4">
+                        <div key={stat.label} className="void-surface p-4">
                           <div className="flex items-center gap-1.5 mb-2">
                             <Icon size={12} className={stat.color} />
                             <span className="font-mono text-[9px] text-muted-foreground/50 tracking-wider">{stat.label}</span>
@@ -257,7 +257,7 @@ export default function FightLeaderboardPage() {
                       </h3>
                       <div className="space-y-2">
                         {myStats.topFighters.map((f: { fighter: string; matches: number; wins: number; winRate: number }) => (
-                          <div key={f.fighter} className="flex items-center gap-3 rounded-lg border border-border/40 bg-muted/15 p-3">
+                          <div key={f.fighter} className="flex items-center gap-3 void-surface p-3">
                             <img
                               src={getFighterImage(f.fighter)}
                               alt=""

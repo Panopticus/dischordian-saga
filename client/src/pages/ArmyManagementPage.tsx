@@ -127,7 +127,7 @@ function MissionBriefing({
 
   if (completed) {
     return (
-      <div className="p-4 rounded-lg border border-primary/20 bg-primary/5">
+      <div className="p-4 void-surface border-primary/20">
         <div className="flex items-center gap-2">
           <Check size={16} className="text-primary" />
           <span className="font-mono text-sm text-primary">MISSION COMPLETE</span>
@@ -220,7 +220,7 @@ function MissionBriefing({
         )}
         {briefingPhase === "ready" && (
           <motion.div key="ready" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
-            <div className="p-4 rounded-lg border border-accent/30 bg-accent/5">
+            <div className="p-4 void-surface border-accent/30">
               <h4 className="font-display text-sm font-bold tracking-wide mb-1">MISSION READY</h4>
               <p className="font-mono text-xs text-muted-foreground mb-3">{mission.testMissionDescription}</p>
               <div className="flex items-center gap-3 mb-3">
@@ -331,7 +331,7 @@ function DeployMissionDialog({
       <motion.div
         initial={{ scale: 0.9, y: 20 }}
         animate={{ scale: 1, y: 0 }}
-        className="w-full max-w-lg max-h-[80vh] overflow-y-auto rounded-lg border border-border/50 bg-card p-5"
+        className="w-full max-w-lg max-h-[80vh] overflow-y-auto void-surface p-5"
         onClick={(e: React.MouseEvent) => e.stopPropagation()}
       >
         <div className="flex items-center justify-between mb-4">
@@ -876,7 +876,7 @@ export default function ArmyManagementPage() {
             <motion.div
               initial={{ scale: 0.9, y: 20 }}
               animate={{ scale: 1, y: 0 }}
-              className="w-full max-w-md rounded-lg border border-border/50 bg-card p-5"
+              className="w-full max-w-md void-surface p-5"
               onClick={(e: React.MouseEvent) => e.stopPropagation()}
             >
               <div className="flex items-center gap-2 mb-4">

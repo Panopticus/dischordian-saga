@@ -61,7 +61,7 @@ export default function AutoTutorialPrompt({
             transition={{ type: "spring", stiffness: 300, damping: 30 }}
             className="fixed bottom-[140px] left-4 right-4 sm:left-auto sm:right-4 sm:bottom-4 sm:w-[380px] z-[44]"
           >
-            <div className="relative rounded-xl border border-primary/30 bg-card/95 backdrop-blur-xl overflow-hidden shadow-2xl shadow-primary/10">
+            <div className="relative void-surface border-primary/30 backdrop-blur-xl overflow-hidden shadow-2xl shadow-primary/10">
               {/* Glow accent line */}
               <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-primary to-transparent" />
 

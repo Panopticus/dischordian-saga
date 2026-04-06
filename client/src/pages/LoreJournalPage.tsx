@@ -321,7 +321,7 @@ export default function LoreJournalPage() {
             </div>
 
             {/* Writing stats summary */}
-            <div className="rounded-lg border border-primary/20 bg-card/40 p-4">
+            <div className="void-surface border-primary/20 p-4">
               <h4 className="font-display text-xs font-bold tracking-wide mb-2 flex items-center gap-2">
                 <Star size={12} className="text-primary" /> WRITING PROGRESS
               </h4>

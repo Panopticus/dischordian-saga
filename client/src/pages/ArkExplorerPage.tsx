@@ -1490,7 +1490,7 @@ export default function ArkExplorerPage() {
                 navigate(gameHint.route);
                 setGameHint(null);
               }}
-              className="w-full text-left p-3 rounded-xl border border-cyan-500/30 bg-black/90 backdrop-blur-md shadow-2xl hover:border-cyan-400/50 transition-all"
+              className="w-full text-left p-3 void-surface border-cyan-500/30 backdrop-blur-md shadow-2xl hover:border-cyan-400/50 transition-all"
             >
               <p className="font-mono text-[9px] text-cyan-400/60 tracking-wider mb-1">SYSTEM RECOMMENDATION</p>
               <p className="font-mono text-xs text-white/80">{gameHint.label}</p>

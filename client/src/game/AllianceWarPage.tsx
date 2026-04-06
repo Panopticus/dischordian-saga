@@ -210,7 +210,7 @@ export default function AllianceWarPage() {
         {/* Bottom row: contributors + log */}
         <div className="mt-4 grid gap-4 md:grid-cols-2">
           {/* Contributors */}
-          <div className="rounded-lg border border-slate-800 bg-slate-900/60 p-4">
+          <div className="void-surface p-4">
             <div className="mb-3 flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-amber-300">
               <Trophy size={16} /> Contribution Leaderboard
             </div>
@@ -245,7 +245,7 @@ export default function AllianceWarPage() {
           </div>
 
           {/* Attack log */}
-          <div className="rounded-lg border border-slate-800 bg-slate-900/60 p-4">
+          <div className="void-surface p-4">
             <div className="mb-3 flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-red-300">
               <Zap size={16} /> Attack History
             </div>

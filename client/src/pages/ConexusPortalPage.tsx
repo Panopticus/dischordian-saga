@@ -219,7 +219,7 @@ export default function ConexusPortalPage() {
             <motion.div
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
-              className="rounded-lg border border-amber-500/20 bg-amber-500/5 p-4"
+              className="void-surface border-amber-500/20 p-4"
             >
               <div className="flex items-start gap-3">
                 <div className="p-2 rounded-md bg-amber-500/10 mt-0.5">
@@ -302,7 +302,7 @@ export default function ConexusPortalPage() {
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
-              className="rounded-lg border border-purple-500/20 bg-purple-500/5 p-4"
+              className="void-surface border-purple-500/20 p-4"
             >
               <div className="flex items-start gap-3">
                 <div className="p-2 rounded-md bg-purple-500/10 mt-0.5">
@@ -562,7 +562,7 @@ export default function ConexusPortalPage() {
               animate={{ scale: 1, y: 0 }}
               exit={{ scale: 0.9, y: 20 }}
               onClick={e => e.stopPropagation()}
-              className="relative w-full max-w-lg max-h-[85vh] overflow-y-auto rounded-xl border border-purple-500/30 bg-card shadow-2xl"
+              className="relative w-full max-w-lg max-h-[85vh] overflow-y-auto void-surface border-purple-500/30 shadow-2xl"
             >
               {/* Header */}
               <div className="relative aspect-video bg-gradient-to-br from-purple-900/60 to-indigo-900/60 flex items-center justify-center overflow-hidden">
@@ -698,7 +698,7 @@ export default function ConexusPortalPage() {
 
                 {/* 18+ warning */}
                 {selectedGame.tags.includes("18+") && (
-                  <div className="rounded-lg border border-amber-500/30 bg-amber-500/5 p-3 flex items-start gap-2">
+                  <div className="void-surface border-amber-500/30 p-3 flex items-start gap-2">
                     <AlertTriangle size={14} className="text-amber-400 mt-0.5 shrink-0" />
                     <p className="text-xs text-amber-300/80">
                       This story contains mature content and is intended for players 18 years and older.
@@ -761,7 +761,7 @@ export default function ConexusPortalPage() {
               animate={{ scale: 1, y: 0 }}
               exit={{ scale: 0.9, y: 20 }}
               onClick={e => e.stopPropagation()}
-              className="relative w-full max-w-md rounded-xl border border-amber-500/30 bg-card shadow-2xl p-6"
+              className="relative w-full max-w-md void-surface border-amber-500/30 shadow-2xl p-6"
             >
               <button
                 onClick={() => setShowAchievementModal(null)}
@@ -780,7 +780,7 @@ export default function ConexusPortalPage() {
                 </div>
               </div>
 
-              <div className="rounded-lg border border-amber-500/20 bg-amber-500/5 p-4 mb-4">
+              <div className="void-surface border-amber-500/20 p-4 mb-4">
                 <p className="text-sm text-muted-foreground leading-relaxed italic">
                   "{showAchievementModal.loreFragment}"
                 </p>

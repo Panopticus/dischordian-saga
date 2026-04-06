@@ -96,7 +96,7 @@ export default function BestiaryPage() {
   if (!archivesDiscovered) {
     return (
       <div className="min-h-screen bg-black flex items-center justify-center p-6">
-        <div className="max-w-md text-center space-y-4 p-6 rounded-xl border border-amber-500/20 bg-amber-500/5">
+        <div className="max-w-md text-center space-y-4 p-6 void-surface border-amber-500/20">
           <Lock size={32} className="mx-auto text-amber-400/60" />
           <h2 className="text-xl font-bold tracking-wider text-amber-300">BESTIARY SEALED</h2>
           <p className="text-sm text-amber-200/70">

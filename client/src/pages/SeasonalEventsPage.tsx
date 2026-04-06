@@ -338,7 +338,7 @@ export default function SeasonalEventsPage() {
             </div>
 
             {/* Global Progress */}
-            <div className="mt-4 rounded-lg border border-border/30 bg-card/40 p-3">
+            <div className="mt-4 void-surface p-3">
               <div className="flex items-center justify-between mb-2">
                 <span className="font-mono text-[10px] text-muted-foreground tracking-wider">GLOBAL OBJECTIVE</span>
                 <span className="font-mono text-xs" style={{ color: activeEventDef.color }}>
@@ -353,19 +353,19 @@ export default function SeasonalEventsPage() {
 
             {/* Player Stats */}
             <div className="grid grid-cols-3 gap-2 mt-3">
-              <div className="rounded-lg border border-border/30 bg-card/40 p-2.5 text-center">
+              <div className="void-surface p-2.5 text-center">
                 <p className="font-display text-lg font-bold" style={{ color: activeEventDef.color }}>
                   {myContribution}
                 </p>
                 <p className="font-mono text-[9px] text-muted-foreground tracking-wider">CONTRIBUTION</p>
               </div>
-              <div className="rounded-lg border border-border/30 bg-card/40 p-2.5 text-center">
+              <div className="void-surface p-2.5 text-center">
                 <p className="font-display text-lg font-bold text-amber-400">{myTokens}</p>
                 <p className="font-mono text-[9px] text-muted-foreground tracking-wider">
                   {activeEventDef.tokenName.toUpperCase()}S
                 </p>
               </div>
-              <div className="rounded-lg border border-border/30 bg-card/40 p-2.5 text-center">
+              <div className="void-surface p-2.5 text-center">
                 <p className="font-display text-lg font-bold text-green-400">
                   {eventDetail?.milestones?.filter((_: any, i: number) =>
                     myContribution >= (activeEventDef.milestones[i]?.threshold || Infinity)
@@ -403,7 +403,7 @@ export default function SeasonalEventsPage() {
         {tab === "overview" && activeEventDef && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-4">
             {/* Contribute */}
-            <div className="rounded-lg border border-border/30 bg-card/40 p-4">
+            <div className="void-surface p-4">
               <h3 className="font-display text-xs font-bold tracking-[0.15em] mb-3 flex items-center gap-2">
                 <Zap size={14} style={{ color: activeEventDef.color }} />
                 CONTRIBUTE TO THE EVENT
@@ -430,7 +430,7 @@ export default function SeasonalEventsPage() {
 
             {/* RPG Bonuses */}
             {eventDetail?.bonuses && eventDetail.bonuses.sources.length > 0 && (
-              <div className="rounded-lg border border-accent/20 bg-accent/5 p-4">
+              <div className="void-surface border-accent/20 p-4">
                 <h3 className="font-display text-xs font-bold tracking-[0.15em] mb-2 flex items-center gap-2 text-accent">
                   <Crown size={14} />
                   YOUR RPG BONUSES
@@ -456,7 +456,7 @@ export default function SeasonalEventsPage() {
             )}
 
             {/* Quick Milestones Preview */}
-            <div className="rounded-lg border border-border/30 bg-card/40 p-4">
+            <div className="void-surface p-4">
               <div className="flex items-center justify-between mb-3">
                 <h3 className="font-display text-xs font-bold tracking-[0.15em] flex items-center gap-2">
                   <Trophy size={14} className="text-amber-400" />
@@ -566,7 +566,7 @@ export default function SeasonalEventsPage() {
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: i * 0.04 }}
-                  className="rounded-lg border border-border/30 bg-card/40 p-3"
+                  className="void-surface p-3"
                 >
                   <div className="flex items-start gap-3">
                     <div
@@ -614,7 +614,7 @@ export default function SeasonalEventsPage() {
         {/* ═══ QUESTS TAB ═══ */}
         {tab === "quests" && activeEventDef && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-3">
-            <div className="rounded-lg border border-border/30 bg-card/40 p-4">
+            <div className="void-surface p-4">
               <h3 className="font-display text-xs font-bold tracking-[0.15em] mb-1 flex items-center gap-2">
                 <Target size={14} style={{ color: activeEventDef.color }} />
                 EVENT QUESTS
@@ -738,7 +738,7 @@ export default function SeasonalEventsPage() {
         {/* ═══ LORE TAB ═══ */}
         {tab === "lore" && activeEventDef && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-4">
-            <div className="rounded-lg border border-border/30 bg-card/40 p-5">
+            <div className="void-surface p-5">
               <div className="flex items-center gap-2 mb-4">
                 <div className="h-px flex-1 max-w-8 bg-gradient-to-r from-transparent" style={{ borderColor: activeEventDef.color }} />
                 <span className="font-mono text-[10px] tracking-[0.3em]" style={{ color: activeEventDef.color }}>
@@ -992,7 +992,7 @@ function RecapCard({ data }: { data: any }) {
   }, [participation, rank]);
 
   return (
-    <div className="mt-2 rounded-lg border border-border/40 bg-card/50 overflow-hidden">
+    <div className="mt-2 void-surface overflow-hidden">
       {/* Recap Header */}
       <div
         className="p-4 relative overflow-hidden"

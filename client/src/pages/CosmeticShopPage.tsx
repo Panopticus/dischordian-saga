@@ -167,7 +167,7 @@ export default function CosmeticShopPage() {
                   initial={{ opacity: 0, y: 8 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: i * 0.03 }}
-                  className="rounded-lg border border-primary/20 bg-card/30 p-3 flex items-center gap-3"
+                  className="void-surface border-primary/20 p-3 flex items-center gap-3"
                 >
                   <Sparkles size={16} className="text-primary" />
                   <div className="flex-1 min-w-0">

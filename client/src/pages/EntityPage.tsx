@@ -210,7 +210,7 @@ export default function EntityPage() {
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.27 }}
-            className="rounded-lg border border-primary/20 bg-primary/5 p-5"
+            className="void-surface border-primary/20 p-5"
           >
             <h2 className="font-display text-xs font-bold tracking-[0.2em] text-primary mb-3 flex items-center gap-2">
               <Video size={13} /> CHARACTER REVEAL
@@ -234,7 +234,7 @@ export default function EntityPage() {
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
-            className="rounded-lg border border-destructive/20 bg-destructive/5 p-5"
+            className="void-surface border-destructive/20 p-5"
           >
             <h2 className="font-display text-xs font-bold tracking-[0.2em] text-destructive mb-3 flex items-center gap-2">
               <Play size={13} /> OFFICIAL MUSIC VIDEO
@@ -413,7 +413,7 @@ export default function EntityPage() {
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.41 }}
-            className="rounded-lg border border-chart-4/20 bg-chart-4/5 p-5"
+            className="void-surface border-chart-4/20 p-5"
           >
             <LoreAppearancesTimeline characterName={entry.name} />
           </motion.section>

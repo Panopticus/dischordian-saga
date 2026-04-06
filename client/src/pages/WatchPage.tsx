@@ -704,7 +704,7 @@ export default function WatchPage() {
               {nextUpEpoch && (
                 <button
                   onClick={() => scrollToEpoch(nextUpEpoch.id)}
-                  className="flex items-center gap-3 flex-1 p-3 rounded-lg border border-border/60 bg-muted/25 hover:bg-muted/50 hover:border-[var(--neon-cyan)]/20 transition-all text-left group"
+                  className="flex items-center gap-3 flex-1 p-3 void-surface hover:border-[var(--neon-cyan)]/20 transition-all text-left group"
                 >
                   <div
                     className="w-10 h-10 rounded-md flex items-center justify-center shrink-0"
@@ -726,7 +726,7 @@ export default function WatchPage() {
               {nextUpEpisode && (
                 <button
                   onClick={() => goToEpisode(nextUpEpisode.index)}
-                  className="flex items-center gap-3 flex-1 p-3 rounded-lg border border-border/60 bg-muted/25 hover:bg-muted/50 hover:border-[var(--alert-red)]/20 transition-all text-left group"
+                  className="flex items-center gap-3 flex-1 p-3 void-surface hover:border-[var(--alert-red)]/20 transition-all text-left group"
                 >
                   <div className="w-10 h-10 rounded-md flex items-center justify-center shrink-0 bg-[var(--alert-red)]/10 border border-[var(--alert-red)]/20">
                     <Film size={16} className="text-[var(--alert-red)]" />

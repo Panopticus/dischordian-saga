@@ -553,7 +553,7 @@ function WalletSection({
           {linkedWallets.map((w) => (
             <div
               key={w.walletAddress}
-              className="flex items-center justify-between p-3 rounded-lg border border-green-500/20 bg-green-500/5"
+              className="flex items-center justify-between p-3 void-surface border-green-500/20"
             >
               <div className="flex items-center gap-3">
                 <div className="w-8 h-8 rounded-full bg-green-500/20 flex items-center justify-center">
@@ -658,7 +658,7 @@ function WalletSection({
       </div>
 
       {/* Warning */}
-      <div className="flex items-start gap-3 p-3 rounded-lg border border-amber-500/20 bg-amber-500/5">
+      <div className="flex items-start gap-3 p-3 void-surface border-amber-500/20">
         <AlertTriangle size={16} className="text-amber-400 mt-0.5 shrink-0" />
         <p className="font-mono text-[11px] text-amber-300/80 leading-relaxed">
           Wallet linking only verifies ownership — we never request transaction approvals or access
@@ -1070,7 +1070,7 @@ function ClaimsSection({
           return (
             <div
               key={claim.tokenId}
-              className="rounded-lg border border-purple-500/30 bg-purple-500/5 overflow-hidden"
+              className="void-surface border-purple-500/30 overflow-hidden"
             >
               {claim.cardImageUrl ? (
                 <img

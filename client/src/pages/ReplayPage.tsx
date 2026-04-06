@@ -72,7 +72,7 @@ export default function ReplayPage() {
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="rounded-lg border border-primary/20 bg-card/50 p-4 space-y-3"
+            className="void-surface border-primary/20 p-4 space-y-3"
           >
             <div className="flex items-center justify-between">
               <h3 className="font-display text-sm font-bold tracking-wide flex items-center gap-2">

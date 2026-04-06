@@ -427,7 +427,7 @@ export default function NarrativeEngine({ tutorial, onComplete, onDismiss }: Nar
             {/* Dialog container */}
             <div
               ref={scrollRef}
-              className="rounded-xl border border-border/30 bg-card/95 overflow-hidden shadow-2xl max-h-[80vh] overflow-y-auto"
+              className="void-surface overflow-hidden shadow-2xl max-h-[80vh] overflow-y-auto"
             >
               {/* Speaker header */}
               <div className={`flex items-center gap-3 px-5 py-3 border-b border-border/30 ${getSpeakerBg(currentStep.speaker || "elara")}`}>
@@ -567,7 +567,7 @@ export default function NarrativeEngine({ tutorial, onComplete, onDismiss }: Nar
             animate={{ y: 0, opacity: 1 }}
             className="w-full max-w-2xl mx-4"
           >
-            <div className="rounded-xl border border-red-800/30 bg-card/95 overflow-hidden shadow-2xl">
+            <div className="void-surface border-red-800/30 overflow-hidden shadow-2xl">
               {/* Human header */}
               <div className="flex items-center gap-3 px-5 py-3 border-b border-red-800/30 bg-red-950/30">
                 <div className="w-8 h-8 rounded-full bg-red-950/50 border border-red-800/40 flex items-center justify-center">
@@ -628,7 +628,7 @@ export default function NarrativeEngine({ tutorial, onComplete, onDismiss }: Nar
             animate={{ y: 0, opacity: 1 }}
             className="w-full max-w-2xl mx-4"
           >
-            <div className="rounded-xl border border-cyan-800/30 bg-card/95 overflow-hidden shadow-2xl">
+            <div className="void-surface border-cyan-800/30 overflow-hidden shadow-2xl">
               {/* Elara header */}
               <div className="flex items-center gap-3 px-5 py-3 border-b border-cyan-800/30 bg-cyan-950/30">
                 <div className="w-8 h-8 rounded-full bg-cyan-950/50 border border-cyan-800/40 flex items-center justify-center">

@@ -54,7 +54,7 @@ class RouteErrorBoundary extends Component<Props, State> {
             </div>
 
             {/* Error detail */}
-            <div className="rounded-lg border border-border/30 bg-card/30 p-4 text-left">
+            <div className="void-surface p-4 text-left">
               <p className="font-mono text-xs text-destructive/80 break-all">
                 {this.state.error?.message || "Unknown error"}
               </p>
