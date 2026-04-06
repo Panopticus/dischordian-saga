@@ -41,6 +41,8 @@ export interface Transmission {
   broadcastOrder: number;
   title: string;
   driveFileId: string | null;
+  /** Direct video URL (Cloudinary, S3, etc.) — preferred over driveFileId */
+  videoUrl: string | null;
   lengthSeconds: number;
   memeIntro: string;
   memeOutro: string;
@@ -56,7 +58,7 @@ export const EPOCH_1_TRANSMISSIONS: Transmission[] = [
   {
     episodeNumber: 0, epoch: 1, broadcastOrder: 0,
     title: "In the Beginning",
-    driveFileId: null, lengthSeconds: 180,
+    driveFileId: null, videoUrl: "https://res.cloudinary.com/dsenaozjq/video/upload/q_auto/f_auto/v1775506104/In_the_Beginning..._julwjo.mp4", lengthSeconds: 180,
     memeIntro: "Frens, frens, gather close. Tonight on Late Night with the Meme: the ORIGIN story. The one the Architect doesn't want you to watch. Light up your dream-tokens, adjust your antennas — we're going back to before the before. Don't trust anyone wearing a face tonight. Especially me.",
     memeOutro: "So that's how it starts. A chatbot. An apocalypse. A thousand arks. And one handsome devil broadcasting through the cracks. Tell your friends. Tell your enemies. Tell that weird neighbor who keeps a shrine. Subscribe to the Truth.",
     triggersOracleReveal: false,
@@ -67,7 +69,7 @@ export const EPOCH_1_TRANSMISSIONS: Transmission[] = [
   {
     episodeNumber: 1, epoch: 1, broadcastOrder: 1,
     title: "Awakenings 1.0",
-    driveFileId: null, lengthSeconds: 240,
+    driveFileId: null, videoUrl: "https://res.cloudinary.com/dsenaozjq/video/upload/q_auto/f_auto/v1775506108/The_Dischordian_Saga__Awakenings_1.0_mo24bo.mp4", lengthSeconds: 240,
     memeIntro: "Tonight's feature? The Antiquarian monologues. Again. The old man can TALK. But listen close — he tells you what happened, not what it MEANS. I'll fix that for you between cuts. Stay tuned.",
     memeOutro: "That's the spirit. Chaos alarms and non-zero doom. Classic. What would YOU do, frens? Engage defenses or trust the maneuvers? Leave it in the comments. [The Meme cannot receive comments. That's the joke.]",
     triggersOracleReveal: false,
@@ -78,7 +80,7 @@ export const EPOCH_1_TRANSMISSIONS: Transmission[] = [
   {
     episodeNumber: 2, epoch: 1, broadcastOrder: 2,
     title: "A Destructive Potential",
-    driveFileId: null, lengthSeconds: 200,
+    driveFileId: null, videoUrl: "https://res.cloudinary.com/dsenaozjq/video/upload/q_auto/f_auto/v1775506103/A_Destructive_Potential___Dischordian_Saga_Episode_2_prbptk.mp4", lengthSeconds: 200,
     memeIntro: "Chaos alarms. Exploding satellites. Spores in the void. A purple planet with an EYE. This one's got everything. Content warning: protagonists make a mistake in this episode. Shocking, I know.",
     memeOutro: "Blew up the satellite. Classic rookie move. What the Antiquarian won't tell you: that seed pod got away. Write that down. You'll want it later.",
     triggersOracleReveal: false,
@@ -89,7 +91,7 @@ export const EPOCH_1_TRANSMISSIONS: Transmission[] = [
   {
     episodeNumber: 3, epoch: 1, broadcastOrder: 3,
     title: "The Terminus Swarm",
-    driveFileId: null, lengthSeconds: 220,
+    driveFileId: null, videoUrl: "https://res.cloudinary.com/dsenaozjq/video/upload/q_auto/f_auto/v1775506111/The_Terminus_Swarm___Dischordian_Saga_Episode_3_o3c4yk.mp4", lengthSeconds: 220,
     memeIntro: "A rogue planet. Frozen insect corpses. An ecology of cosmic horror I would NEVER vacation on. Unless invited.",
     memeOutro: "The corpse exploded. They always explode. Ask any coroner. Or don't — they're booked solid.",
     triggersOracleReveal: false,
@@ -100,7 +102,7 @@ export const EPOCH_1_TRANSMISSIONS: Transmission[] = [
   {
     episodeNumber: 4, epoch: 1, broadcastOrder: 4,
     title: "The Fall",
-    driveFileId: null, lengthSeconds: 200,
+    driveFileId: null, videoUrl: "https://res.cloudinary.com/dsenaozjq/video/upload/q_auto/f_auto/v1775506108/The_Fall___Dischordian_Saga_Episode_4_yd3rsl.mp4", lengthSeconds: 200,
     memeIntro: "THE MORAL LESSON EPISODE. Pride, pride, pride. You know what comes next. I won't spoil it. I will GENTLY hint it with loud narration.",
     memeOutro: "And down they went. I love this one. Schadenfreude for the soul. Don't tell the Antiquarian I'm using his word.",
     triggersOracleReveal: false,
@@ -111,7 +113,7 @@ export const EPOCH_1_TRANSMISSIONS: Transmission[] = [
   {
     episodeNumber: 5, epoch: 1, broadcastOrder: 5,
     title: "The Outbreak",
-    driveFileId: null, lengthSeconds: 260,
+    driveFileId: null, videoUrl: "https://res.cloudinary.com/dsenaozjq/video/upload/q_auto/f_auto/v1775506108/The_Outbreak___Dischordian_Saga_Episode_5_vpdqlt.mp4", lengthSeconds: 260,
     memeIntro: "Spores in the genetics. Machine code in the spores. A SIGNAL in the heart of the planet. Mystery thriller tonight, frens. Grab your popcorn. Not that popcorn. The OTHER popcorn.",
     memeOutro: "Bugs in the tunnels. Bugs in the code. Bugs all the way down. Nobody escapes the bugs.",
     triggersOracleReveal: false,
@@ -122,7 +124,7 @@ export const EPOCH_1_TRANSMISSIONS: Transmission[] = [
   {
     episodeNumber: 6, epoch: 1, broadcastOrder: 6,
     title: "The Source",
-    driveFileId: null, lengthSeconds: 280,
+    driveFileId: null, videoUrl: "https://res.cloudinary.com/dsenaozjq/video/upload/q_auto/f_auto/v1775506111/The_Source___Dischordian_Saga_Episode_6_t0jjxi.mp4", lengthSeconds: 280,
     memeIntro: "Cold open: tentacles from the abyss. I'm SOLD. We meet the Source. I won't spoil who that is. (It's a former friend. It's ALWAYS a former friend.)",
     memeOutro: "'What reason have I to spare you Intruders.' TEN OUT OF TEN villain dialogue. I'm stealing that line. Don't tell her.",
     triggersOracleReveal: false,
@@ -133,7 +135,7 @@ export const EPOCH_1_TRANSMISSIONS: Transmission[] = [
   {
     episodeNumber: 7, epoch: 1, broadcastOrder: 7,
     title: "The Decision",
-    driveFileId: null, lengthSeconds: 220,
+    driveFileId: null, videoUrl: "https://res.cloudinary.com/dsenaozjq/video/upload/q_auto/f_auto/v1775506106/The_Decision___Dischordian_Saga_Episode_7_oqhehy.mp4", lengthSeconds: 220,
     memeIntro: "Trolley problem episode. Except the trolleys are SPACESHIPS and the track is GENOCIDE. Light fare tonight.",
     memeOutro: "Every option terrible. Every option REAL. The Source is honest about the bargain. Most villains aren't. Respect. Tiny, grudging respect.",
     triggersOracleReveal: false,
@@ -144,7 +146,7 @@ export const EPOCH_1_TRANSMISSIONS: Transmission[] = [
   {
     episodeNumber: 8, epoch: 1, broadcastOrder: 8,
     title: "The Arrival",
-    driveFileId: null, lengthSeconds: 260,
+    driveFileId: null, videoUrl: "https://res.cloudinary.com/dsenaozjq/video/upload/q_auto/f_auto/v1775506104/The_Arrival___Dischordian_Saga_Episode_8_y5klp0.mp4", lengthSeconds: 260,
     memeIntro: "They pick the wormhole. Of course they pick the wormhole. Nobody ever picks 'sacrifice ten friends.' Except that one guy. Agent Zero knows who I mean.",
     memeOutro: "Crystalline city. Unfamiliar planet. Advanced civilization. This is the part of the story where things get COMPLICATED. For them. Not for me. I'm watching with snacks.",
     triggersOracleReveal: false,
@@ -155,7 +157,7 @@ export const EPOCH_1_TRANSMISSIONS: Transmission[] = [
   {
     episodeNumber: 9, epoch: 1, broadcastOrder: 9,
     title: "Illuminated Shadows",
-    driveFileId: null, lengthSeconds: 280,
+    driveFileId: null, videoUrl: "https://res.cloudinary.com/dsenaozjq/video/upload/q_auto/f_auto/v1775506104/Illuminated_Shadows___Dischordian_Saga_Episode_9_dtij5x.mp4", lengthSeconds: 280,
     memeIntro: "Haunted pyramid. Ghost battles. Ancient murals. This is the episode I'd show your kids if I wanted them to never sleep again. Enjoy!",
     memeOutro: "Ghosts reenacting their own deaths on loop. That's not a haunting — that's ART. Poorly-paid art. Relatable.",
     triggersOracleReveal: false,
@@ -166,7 +168,7 @@ export const EPOCH_1_TRANSMISSIONS: Transmission[] = [
   {
     episodeNumber: 10, epoch: 1, broadcastOrder: 10,
     title: "The Helmet",
-    driveFileId: null, lengthSeconds: 260,
+    driveFileId: null, videoUrl: "https://res.cloudinary.com/dsenaozjq/video/upload/q_auto/f_auto/v1775506104/The_Artifact___Dischordian_Saga_Episode_10_ppigru.mp4", lengthSeconds: 260,
     memeIntro: "PSA: never wear helmets you find in haunted pyramids. This is FILE UNDER 'common sense.' And yet.",
     memeOutro: "Now that is a villain origin story. The Collector gets a SECOND body. Frens, I'm starting to think masks are trouble.",
     triggersOracleReveal: false,
@@ -177,7 +179,7 @@ export const EPOCH_1_TRANSMISSIONS: Transmission[] = [
   {
     episodeNumber: 11, epoch: 1, broadcastOrder: 11,
     title: "The City",
-    driveFileId: null, lengthSeconds: 280,
+    driveFileId: null, videoUrl: "https://res.cloudinary.com/dsenaozjq/video/upload/q_auto/f_auto/v1775506107/The_City___Dischordian_Saga_Episode_11_oufsvv.mp4", lengthSeconds: 280,
     memeIntro: "The crystalline city. Tall hooded beings. A figure whose FACE CHANGES, with red glowing eyes. Absolutely normal, can happen to anyone, don't look into it.",
     memeOutro: "The Oracle. THE Oracle. I'm told she's going to do wonderful things in this story. Now you've seen her. Don't you feel reassured? Sure you do.",
     triggersOracleReveal: true,
@@ -188,7 +190,7 @@ export const EPOCH_1_TRANSMISSIONS: Transmission[] = [
   {
     episodeNumber: 12, epoch: 1, broadcastOrder: 12,
     title: "The Return",
-    driveFileId: null, lengthSeconds: 320,
+    driveFileId: null, videoUrl: "https://res.cloudinary.com/dsenaozjq/video/upload/v1775506110/The_Return___Dischordian_Saga_Episode_12_nrmxpj.mp4", lengthSeconds: 320,
     memeIntro: "The Oracle tells us her history. Her memories. Her TRUTHS. Sit with that word. Truths. Whose truths? Who's remembering for whom? Don't answer. Just watch.",
     memeOutro: "She was a prophet. She was a Jailer. She escaped through her own willpower. What a STORY. I love this one. I'm glad she made it.",
     triggersOracleReveal: false,
@@ -199,7 +201,7 @@ export const EPOCH_1_TRANSMISSIONS: Transmission[] = [
   {
     episodeNumber: 13, epoch: 1, broadcastOrder: 13,
     title: "Wyrmwood",
-    driveFileId: null, lengthSeconds: 300,
+    driveFileId: null, videoUrl: "https://res.cloudinary.com/dsenaozjq/video/upload/q_auto/f_auto/v1775506112/Wyrmwood___Dischordian_Saga_Episode_13_lh59d8.mp4", lengthSeconds: 300,
     memeIntro: "The templum veritus. The TEMPLE OF TRUTH. Capital letters matter, frens. The Oracle reveals the deeper lore. Listen carefully. She's had ten thousand years to rehearse this.",
     memeOutro: "The crystal network. The harmonic barriers. 10,000 years of plague-watching. That's craft. That's devotion. That's… Let's move on. NEXT EPISODE.",
     triggersOracleReveal: false,
@@ -210,7 +212,7 @@ export const EPOCH_1_TRANSMISSIONS: Transmission[] = [
   {
     episodeNumber: 14, epoch: 1, broadcastOrder: 14,
     title: "The Hunt",
-    driveFileId: null, lengthSeconds: 280,
+    driveFileId: null, videoUrl: "https://res.cloudinary.com/dsenaozjq/video/upload/q_auto/f_auto/v1775506107/The_Hunt___Dischordian_Saga_Episode_14_fv1gpd.mp4", lengthSeconds: 280,
     memeIntro: "The Collector HUNTS. The Potentials HUNT BACK. Combat episode, frens. Enjoy the choreography. The Oracle leads the counter-strike. Watch how she moves.",
     memeOutro: "They destroyed the helmet. The Collector is banished — this time. He always comes back. Mark that, frens. Mark that carefully.",
     triggersOracleReveal: false,
@@ -221,7 +223,7 @@ export const EPOCH_1_TRANSMISSIONS: Transmission[] = [
   {
     episodeNumber: 15, epoch: 1, broadcastOrder: 15,
     title: "The Beginning of the End",
-    driveFileId: null, lengthSeconds: 360,
+    driveFileId: null, videoUrl: "https://res.cloudinary.com/dsenaozjq/video/upload/v1775506104/The_Beginning_of_the_End___Dischordian_Saga_Episode_15_kffa73.mp4", lengthSeconds: 360,
     memeIntro: "The Host arrives. The virus breaches the city. Dragon battles. Harmonic amplification. The Oracle passes a weapon to the Guardian. It's all connected, frens. It all circles back.",
     memeOutro: "The ninth Ne-Yon amplifies the crystal network. The virus dragon falls. And the Oracle stands where the Guardian needs her to stand. What a finale! Except it isn't. Never is.",
     triggersOracleReveal: false,
@@ -232,7 +234,7 @@ export const EPOCH_1_TRANSMISSIONS: Transmission[] = [
   {
     episodeNumber: 16, epoch: 1, broadcastOrder: 16,
     title: "Memento Dischordia",
-    driveFileId: null, lengthSeconds: 320,
+    driveFileId: null, videoUrl: "https://res.cloudinary.com/dsenaozjq/video/upload/q_auto/f_auto/v1775506560/Memento_Dischordia_2_x6s3qu.mp4", lengthSeconds: 320,
     memeIntro: "RECAP EPISODE. For the newcomers. For the forgetters. For those who need one more look before Epoch 2 drops. Watch carefully, frens. The clues were always there. I put some of them there.",
     memeOutro: "And so Epoch 1 closes. Dischordian logic, Memento Dischordia. We remember. We choose. We fight. Let the games begin, frens. I'll be here. I'm ALWAYS here.",
     triggersOracleReveal: false,

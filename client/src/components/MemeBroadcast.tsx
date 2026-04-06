@@ -130,7 +130,16 @@ export default function MemeBroadcast({ transmission, onClose, onComplete, alrea
             {/* BROADCAST (video) */}
             {phase === "broadcast" && (
               <div className="relative aspect-video bg-black">
-                {transmission.driveFileId ? (
+                {transmission.videoUrl ? (
+                  <video
+                    src={transmission.videoUrl}
+                    className="w-full h-full"
+                    controls
+                    autoPlay
+                    onEnded={() => setPhase("outro")}
+                    title={transmission.title}
+                  />
+                ) : transmission.driveFileId ? (
                   <iframe
                     src={driveEmbedUrl(transmission.driveFileId)}
                     className="w-full h-full"
