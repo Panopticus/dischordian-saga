@@ -29,6 +29,14 @@ const GEAR_COLORS = [
   "#f06595", // pink
 ];
 
+const GEAR_IMAGES = [
+  "/art/gears/gear-01-copper-xs.png",
+  "/art/gears/gear-02-bronze-sm.png",
+  "/art/gears/gear-03-iron-md.png",
+  "/art/gears/gear-04-steel-lg.png",
+  "/art/gears/gear-05-gold-xl.png",
+];
+
 const SPINDLE_NAMES = ["Input Shaft", "Transfer Shaft", "Output Shaft"];
 
 export default function HanoiPuzzle({ numDiscs = 4, onComplete, onSkip }: HanoiPuzzleProps) {
@@ -159,29 +167,40 @@ export default function HanoiPuzzle({ numDiscs = 4, onComplete, onSkip }: HanoiP
 
               {/* Gears */}
               {spindle.map((size, gIdx) => {
-                const width = 20 + size * 16;
+                const imgSize = 32 + size * 20;
                 const color = GEAR_COLORS[size - 1] || GEAR_COLORS[0];
+                const gearImg = GEAR_IMAGES[size - 1] || GEAR_IMAGES[0];
+                const isTopOfSelected = gIdx === spindle.length - 1 && selectedSpindle === spIdx;
                 return (
                   <motion.div
                     key={`gear-${size}`}
                     layout
                     initial={{ scale: 0.8, opacity: 0 }}
-                    animate={{ scale: 1, opacity: 1 }}
-                    transition={{ type: "spring", stiffness: 300, damping: 25 }}
-                    className="relative z-10 rounded-lg flex items-center justify-center"
+                    animate={{
+                      scale: 1,
+                      opacity: 1,
+                      rotate: isTopOfSelected ? [0, 15, -15, 0] : 0,
+                    }}
+                    transition={isTopOfSelected
+                      ? { rotate: { duration: 1.5, repeat: Infinity }, type: "spring", stiffness: 300, damping: 25 }
+                      : { type: "spring", stiffness: 300, damping: 25 }
+                    }
+                    className="relative z-10 flex items-center justify-center"
                     style={{
-                      width: `${width}px`,
-                      height: "24px",
-                      backgroundColor: color + "30",
-                      border: `2px solid ${color}`,
-                      boxShadow: gIdx === spindle.length - 1 && selectedSpindle === spIdx
-                        ? `0 0 12px ${color}80`
-                        : "none",
+                      width: `${imgSize}px`,
+                      height: `${imgSize}px`,
+                      filter: isTopOfSelected ? `drop-shadow(0 0 12px ${color}80)` : "none",
                     }}
                   >
-                    {/* Gear teeth decoration */}
-                    <div className="flex gap-0.5">
-                      {Array.from({ length: size + 1 }, (_, i) => (
+                    <img
+                      src={gearImg}
+                      alt={`Gear ${size}`}
+                      className="w-full h-full object-contain select-none"
+                      draggable={false}
+                    />
+                    {/* Size number overlay */}
+                    <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                      {false && Array.from({ length: size + 1 }, (_, i) => (
                         <div key={i} className="w-1.5 h-3 rounded-full" style={{ backgroundColor: color }} />
                       ))}
                     </div>

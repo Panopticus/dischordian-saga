@@ -25,6 +25,7 @@ import { getArenaForOpponent, ARENA_THEMES, type ArenaTheme } from "@/lib/chessA
 import { useStockfish } from "@/hooks/useStockfish";
 import { AI_PRESETS } from "@/lib/stockfishWorker";
 import ChessCinematic from "@/components/ChessCinematic";
+import LivingBackground from "@/components/LivingBackground";
 
 /* ─── TIER CONFIG ─── */
 const TIER_CONFIG: Record<string, { color: string; bg: string; border: string; label: string; icon: string; glow?: string }> = {
@@ -414,7 +415,9 @@ export default function ChessPage() {
   }, [stockfish.evaluation]);
 
   return (
-    <div className="min-h-screen grid-bg">
+    <div className="min-h-screen grid-bg relative overflow-hidden">
+      <LivingBackground src="/art/chess/chess-holographic-board.png" accent="#f59e0b" opacity={0.15} voidRoomKey="gamemasters_arena" particleCount={8} />
+      <div className="relative z-10">
       <AnimatePresence mode="wait">
         {/* ═══ MAIN MENU ═══ */}
         {view === "menu" && (
@@ -1169,6 +1172,7 @@ export default function ChessPage() {
           </motion.div>
         )}
       </AnimatePresence>
+      </div>
     </div>
   );
 }

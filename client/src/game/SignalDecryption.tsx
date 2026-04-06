@@ -282,7 +282,9 @@ export default function SignalDecryption({ onComplete, onClose }: SignalDecrypti
 
   /* ═══ RENDER ═══ */
   return (
-    <div className="relative flex min-h-screen flex-col items-center justify-center bg-zinc-950 px-4 py-6 text-white select-none">
+    <div className="relative flex min-h-screen flex-col items-center justify-center bg-zinc-950 px-4 py-6 text-white select-none overflow-hidden">
+      {/* Background art */}
+      <img src="/art/minigames/minigame-signal-decryption.png" alt="" className="absolute inset-0 w-full h-full object-cover pointer-events-none" style={{ opacity: 0.12, filter: "brightness(0.35) saturate(0.7)" }} />
       <StaticNoise />
 
       {/* Header */}

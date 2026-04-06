@@ -247,7 +247,10 @@ export default function GamemastersArena({ onComplete, onClose }: Props) {
   const ANSWER_COLORS = ["#3b82f6", "#eab308", "#22c55e", "#ef4444"];
 
   return (
-    <div className="fixed inset-0 z-[60] bg-black flex flex-col">
+    <div className="fixed inset-0 z-[60] bg-black flex flex-col overflow-hidden">
+      {/* Coliseum background */}
+      <img src="/art/special-maps/special-gamemasters-coliseum.png" alt="" className="absolute inset-0 w-full h-full object-cover pointer-events-none" style={{ opacity: 0.15, filter: "brightness(0.35) saturate(0.8)" }} />
+      <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.8) 100%)" }} />
       {/* Header */}
       <div className="flex items-center justify-between px-4 py-2 border-b border-red-500/20 bg-black/90">
         <div className="flex items-center gap-2">

@@ -1802,7 +1802,9 @@ export default function TradeWarsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-black flex flex-col">
+    <div className="min-h-screen bg-black flex flex-col relative overflow-hidden">
+      {/* Trade route map background */}
+      <img src="/art/special-maps/special-trade-empire-routes.png" alt="" className="absolute inset-0 w-full h-full object-cover pointer-events-none" style={{ opacity: 0.1, filter: "brightness(0.3) saturate(0.6)" }} />
       {/* Warp Transition Effect */}
       <WarpTransition active={showWarpTransition} onComplete={() => setShowWarpTransition(false)} />
       {/* Header bar */}

@@ -344,6 +344,8 @@ export default function HackingPuzzle({
         background: "rgba(15, 12, 41, 0.92)", backdropFilter: "blur(8px)",
       }}
     >
+      {/* Background art */}
+      <img src="/art/minigames/minigame-hacking-pipes.png" alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", opacity: 0.12, filter: "brightness(0.4) saturate(0.6)", pointerEvents: "none" }} />
       <motion.div
         initial={{ scale: 0.85, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}

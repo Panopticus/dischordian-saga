@@ -13,6 +13,7 @@ import { getLoginUrl } from "@/const";
 import { ACHIEVEMENT_CHAINS, type AchievementChain } from "@/game/achievementChains";
 import { useGame } from "@/contexts/GameContext";
 import { useGamification } from "@/contexts/GamificationContext";
+import LivingBackground from "@/components/LivingBackground";
 
 // Trophy room themes
 const ROOM_THEMES = [
@@ -116,7 +117,9 @@ export default function TrophyRoomPage() {
   const displayCards = topCards?.cards ?? [];
 
   return (
-    <div className={`min-h-screen ${activeTheme.bg} transition-colors duration-700`}>
+    <div className={`min-h-screen ${activeTheme.bg} transition-colors duration-700 relative overflow-hidden`}>
+      <LivingBackground src="/art/rooms/room-trophy-room.png" accent="#f59e0b" opacity={0.15} particleCount={6} scanlines={false} />
+      <div className="relative z-10">
       {/* Header */}
       <div className="border-b border-border/20 bg-muted/50 backdrop-blur-sm">
         <div className="px-4 sm:px-6 py-4">
@@ -377,6 +380,7 @@ export default function TrophyRoomPage() {
           </motion.div>
         )}
       </AnimatePresence>
+    </div>
     </div>
   );
 }

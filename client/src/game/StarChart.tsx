@@ -107,6 +107,15 @@ const CONSTELLATIONS: Constellation[] = [
   },
 ];
 
+/** Constellation reference art (shown on completion) */
+const CONSTELLATION_ART: Record<string, string> = {
+  "The Architect's Eye": "/art/constellations/constellation-architects-eye.png",
+  "Iron Lion's Shield": "/art/constellations/constellation-iron-lions-shield.png",
+  "The Dreamer's Spiral": "/art/constellations/constellation-dreamers-spiral.png",
+  "Kael's Chain": "/art/constellations/constellation-kaels-chain.png",
+  "The Two Witnesses": "/art/constellations/constellation-two-witnesses.png",
+};
+
 /** Pick today's constellation via daily rotation. */
 function todaysConstellation(): Constellation {
   const dayIndex = Math.floor(Date.now() / 86_400_000) % CONSTELLATIONS.length;
@@ -357,6 +366,8 @@ export default function StarChart({ onComplete, onClose }: StarChartProps) {
         background: "#06060e",
       }}
     >
+      {/* Background art */}
+      <img src="/art/minigames/minigame-star-chart.png" alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", opacity: 0.1, filter: "brightness(0.3)", pointerEvents: "none", zIndex: 0 }} />
       {/* header */}
       <div
         style={{
@@ -417,6 +428,14 @@ export default function StarChart({ onComplete, onClose }: StarChartProps) {
               animation: "fadeIn 1s ease",
             }}
           >
+            {/* Constellation reference art */}
+            {CONSTELLATION_ART[constellation.name] && (
+              <img
+                src={CONSTELLATION_ART[constellation.name]}
+                alt={constellation.name}
+                style={{ width: 180, height: 120, objectFit: "contain", margin: "0 auto 12px", opacity: 0.8, borderRadius: 6 }}
+              />
+            )}
             <p style={{ margin: 0 }}>{constellation.loreText}</p>
             <p style={{ margin: "12px 0 0", fontSize: 12, color: "#8ec8e8" }}>
               +100 XP &middot; dream-token acquired
