@@ -108,6 +108,7 @@ const CardChallengePage = lazy(() => import("./pages/CardChallengePage"));
 const ConexusPortalPage = lazy(() => import("./pages/ConexusPortalPage"));
 const AchievementsGalleryPage = lazy(() => import("./pages/AchievementsGalleryPage"));
 const AdminPage = lazy(() => import("./pages/AdminPage"));
+const ArchitectConsolePage = lazy(() => import("./pages/ArchitectConsolePage"));
 const HierarchyPage = lazy(() => import("./pages/HierarchyPage"));
 const DemonPackPage = lazy(() => import("./pages/DemonPackPage"));
 const FightLeaderboardPage = lazy(() => import("./pages/FightLeaderboardPage"));
@@ -244,6 +245,7 @@ function Router() {
         <Route path="/conexus-portal" component={ConexusPortalPage} />
         <Route path="/achievements" component={AchievementsGalleryPage} />
         <Route path="/admin" component={AdminPage} />
+        <Route path="/architect-console" component={ArchitectConsolePage} />
         <Route path="/hierarchy" component={HierarchyPage} />
         <Route path="/demon-packs">{() => <Suspense fallback={<CardGridSkeleton />}><DemonPackPage /></Suspense>}</Route>
         <Route path="/fight-leaderboard" component={FightLeaderboardPage} />
