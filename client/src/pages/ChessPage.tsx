@@ -492,7 +492,7 @@ export default function ChessPage() {
             </div>
 
             {/* AI Tier Legend */}
-            <div className="rounded-lg border border-border/20 bg-card/20 p-4">
+            <div className="void-surface p-4">
               <h3 className="font-display text-xs font-bold tracking-[0.2em] mb-3 flex items-center gap-2">
                 <BarChart3 size={14} className="text-primary" /> AI DIFFICULTY TIERS
               </h3>
@@ -988,7 +988,7 @@ export default function ChessPage() {
                 ].map(({ key, label, type, icon: Icon, color }) => (
                   <button
                     key={key}
-                    className="p-3 rounded-lg border border-border/30 bg-card/30 hover:bg-card/60 hover:border-rose-400/30 transition-all text-center hover-lift"
+                    className="p-3 void-surface hover:bg-card/60 hover:border-rose-400/30 transition-all text-center hover-lift"
                     onClick={() => {
                       // TODO: Connect to WebSocket matchmaking
                       import("sonner").then(({ toast }) => {

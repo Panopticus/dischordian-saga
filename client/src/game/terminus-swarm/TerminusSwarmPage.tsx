@@ -165,6 +165,10 @@ export default function TerminusSwarmPage() {
     setRunning(true);
     setNarrativeText(null);
 
+    // Narrative effect: surge on wave start
+    canvasRef.current?.parentElement?.setAttribute("data-narrative", "surge");
+    setTimeout(() => canvasRef.current?.parentElement?.removeAttribute("data-narrative"), 700);
+
     // Show narrative for next wave
     const wave = getWaveForNumber(newState.wave);
     if (wave.narrative) {

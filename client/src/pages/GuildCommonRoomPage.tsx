@@ -18,7 +18,7 @@ import { Link } from "wouter";
 import { motion } from "framer-motion";
 import { ChevronLeft, Home, Users, Sparkles, Lock } from "lucide-react";
 import { useGame } from "@/contexts/GameContext";
-import { getAtmosphereForRoom, applyThemeToDOM } from "@/engine/voidEngine";
+import { AtmosphereScope } from "@/components/void";
 import { ARCHON_VOICE_MAPPING, getDominantGuild } from "@/game/archonTrainingVoices";
 import { SKILL_VOICES, type SkillId } from "@/game/innerVoices";
 import { getAbilityForArchon } from "@shared/guildSignatureAbilities";
@@ -169,16 +169,7 @@ export default function GuildCommonRoomPage() {
   const roomArt = GUILD_ROOM_ART[guild.name];
   const accentHex = GUILD_ACCENT_HEX[guild.name] ?? "#818cf8";
 
-  // Push guild-specific Void Energy atmosphere while in this room
-  useEffect(() => {
-    const guildKey = `guild_${guild.name.toLowerCase().replace(/[^a-z]/g, "_").replace(/_+/g, "_").replace(/^_|_$/g, "")}`;
-    const atmosphere = getAtmosphereForRoom(guildKey);
-    const prevAtmosphere = document.documentElement.dataset.atmosphere;
-    if (atmosphere) applyThemeToDOM(atmosphere);
-    return () => {
-      if (prevAtmosphere) applyThemeToDOM(prevAtmosphere);
-    };
-  }, [guild.name]);
+  const guildRoomKey = `guild_${guild.name.toLowerCase().replace(/[^a-z]/g, "_").replace(/_+/g, "_").replace(/^_|_$/g, "")}`;
   const voice = SKILL_VOICES[skillId];
   const ability = getAbilityForArchon(mentor.archonNumber);
   const professor = getProfessorByArchon(mentor.archonNumber);
@@ -186,6 +177,7 @@ export default function GuildCommonRoomPage() {
   const abilityUnlocked = ability ? playerSkillLevel >= ability.skillThreshold : false;
 
   return (
+    <AtmosphereScope roomKey={guildRoomKey}>
     <div className={`min-h-screen bg-gradient-to-br ${aesthetic.bg} text-foreground relative overflow-hidden`}>
       {/* Full-page room art background with slow drift */}
       {roomArt && (
@@ -423,5 +415,6 @@ export default function GuildCommonRoomPage() {
         )}
       </div>
     </div>
+    </AtmosphereScope>
   );
 }

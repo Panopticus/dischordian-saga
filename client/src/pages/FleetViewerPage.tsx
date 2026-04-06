@@ -459,7 +459,7 @@ export default function FleetViewerPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5 }}
-          className="mt-8 rounded-lg border border-border/30 bg-card/30 p-5"
+          className="mt-8 void-surface p-5"
         >
           <h3 className="font-display text-sm font-bold tracking-wider text-foreground mb-3 flex items-center gap-2">
             <Compass size={14} className="text-primary" />

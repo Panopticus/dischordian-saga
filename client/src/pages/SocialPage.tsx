@@ -116,7 +116,7 @@ export default function SocialPage() {
                     initial={{ opacity: 0, y: 8 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: i * 0.03 }}
-                    className="rounded-lg border border-border/30 bg-card/30 p-3 flex items-center gap-3"
+                    className="void-surface p-3 flex items-center gap-3"
                   >
                     <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
                       <Users size={14} className="text-primary" />
@@ -221,7 +221,7 @@ export default function SocialPage() {
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: i * 0.03 }}
                       onClick={() => setSelectedConvoId(msg.senderId)}
-                      className="rounded-lg border border-border/30 bg-card/30 p-3 flex items-center gap-3 cursor-pointer hover:border-primary/30 transition-all"
+                      className="void-surface p-3 flex items-center gap-3 cursor-pointer hover:border-primary/30 transition-all"
                     >
                       <MessageCircle size={14} className={msg.read ? "text-muted-foreground" : "text-primary"} />
                       <div className="flex-1 min-w-0">

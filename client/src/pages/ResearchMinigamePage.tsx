@@ -552,7 +552,7 @@ export default function ResearchMinigamePage() {
                     <Link
                       key={id}
                       href={`/entity/${id}`}
-                      className="flex items-center gap-2 p-2 rounded-lg border border-border/20 bg-card/20 hover:border-primary/30 transition-all"
+                      className="flex items-center gap-2 p-2 void-surface hover:border-primary/30 transition-all"
                     >
                       {entry.image ? (
                         <img src={entry.image} alt="" className="w-8 h-8 rounded object-cover" />

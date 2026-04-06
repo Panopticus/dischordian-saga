@@ -140,7 +140,7 @@ export default function FactionWarPage() {
             className="space-y-4"
           >
             {/* Available Wars */}
-            <div className="rounded-lg border border-border/30 bg-card/30 p-4">
+            <div className="void-surface p-4">
               <h2 className="font-display text-sm font-bold tracking-wider mb-4 flex items-center gap-2">
                 <AlertTriangle size={14} className="text-amber-400" />
                 AVAILABLE CONFLICTS
@@ -426,7 +426,7 @@ export default function FactionWarPage() {
             </div>
 
             {/* Contested Sectors Status */}
-            <div className="rounded-lg border border-border/30 bg-card/30 p-4">
+            <div className="void-surface p-4">
               <h3 className="font-display text-xs font-bold tracking-wider mb-3 flex items-center gap-2">
                 <Target size={12} className="text-primary" />
                 CONTESTED SECTORS

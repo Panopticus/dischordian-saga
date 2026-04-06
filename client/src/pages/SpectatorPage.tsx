@@ -139,7 +139,7 @@ function PvpSpectatorView({ matchId, onBack }: { matchId: string; onBack: () => 
       </div>
 
       {/* Match info */}
-      <div className="rounded-lg border border-border/30 bg-card/30 p-4">
+      <div className="void-surface p-4">
         <div className="flex items-center justify-between mb-4">
           <div className="text-center flex-1">
             <p className="font-display text-sm font-bold">{matchInfo.player1Name}</p>
@@ -233,7 +233,7 @@ function ChessSpectatorView({ gameId, onBack }: { gameId: number; onBack: () => 
       </div>
 
       {/* Player info */}
-      <div className="rounded-lg border border-border/30 bg-card/30 p-4">
+      <div className="void-surface p-4">
         <div className="flex items-center justify-between mb-4">
           <div className="text-center flex-1">
             <div className={`inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-[10px] font-mono ${data.turn === "white" && isLive ? "bg-primary/10 text-primary" : "text-muted-foreground"}`}>
@@ -466,7 +466,7 @@ export default function SpectatorPage() {
                       <button
                         key={game.id}
                         onClick={() => setWatchingChess(game.id)}
-                        className="group rounded-lg border border-border/30 bg-card/30 p-3 text-left hover:border-primary/30 hover:bg-card/50 transition-all"
+                        className="group void-surface p-3 text-left hover:border-primary/30 hover:bg-card/50 transition-all"
                       >
                         <div className="flex items-center justify-between mb-2">
                           <div className="flex items-center gap-2">
@@ -495,7 +495,7 @@ export default function SpectatorPage() {
                     ))}
                   </div>
                 ) : (
-                  <div className="text-center py-8 rounded-lg border border-border/20 bg-card/20">
+                  <div className="text-center py-8 void-surface">
                     <Gamepad2 size={24} className="text-muted-foreground/30 mx-auto mb-2" />
                     <p className="font-mono text-xs text-muted-foreground/50">No active chess games right now</p>
                     <p className="font-mono text-[10px] text-muted-foreground/30 mt-1">Check back later or start a game yourself!</p>
@@ -515,7 +515,7 @@ export default function SpectatorPage() {
                       <button
                         key={game.id}
                         onClick={() => setWatchingChess(game.id)}
-                        className="w-full group rounded-lg border border-border/20 bg-card/20 p-2.5 text-left hover:border-primary/20 transition-all flex items-center gap-3"
+                        className="w-full group void-surface p-2.5 text-left hover:border-primary/20 transition-all flex items-center gap-3"
                       >
                         <div className="flex items-center gap-2 flex-1">
                           {game.featured && <Star size={10} className="text-amber-400 fill-amber-400 shrink-0" />}
@@ -562,7 +562,7 @@ export default function SpectatorPage() {
                       <button
                         key={match.matchId}
                         onClick={() => setWatchingPvp(match.matchId)}
-                        className="group rounded-lg border border-border/30 bg-card/30 p-3 text-left hover:border-primary/30 hover:bg-card/50 transition-all"
+                        className="group void-surface p-3 text-left hover:border-primary/30 hover:bg-card/50 transition-all"
                       >
                         <div className="flex items-center justify-between mb-2">
                           <div className="flex items-center gap-1">
@@ -589,7 +589,7 @@ export default function SpectatorPage() {
                     ))}
                   </div>
                 ) : (
-                  <div className="text-center py-8 rounded-lg border border-border/20 bg-card/20">
+                  <div className="text-center py-8 void-surface">
                     <Swords size={24} className="text-muted-foreground/30 mx-auto mb-2" />
                     <p className="font-mono text-xs text-muted-foreground/50">No active PvP matches right now</p>
                     <p className="font-mono text-[10px] text-muted-foreground/30 mt-1">Queue up in the PvP Arena to start a match!</p>

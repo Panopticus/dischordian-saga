@@ -506,7 +506,7 @@ export default function ConexusPortalPage() {
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
-              className="rounded-lg border border-border/30 bg-card/30 p-4"
+              className="void-surface p-4"
             >
               <h3 className="font-display text-xs font-bold tracking-[0.2em] text-foreground flex items-center gap-2 mb-3">
                 <Gamepad2 size={14} className="text-purple-400" />

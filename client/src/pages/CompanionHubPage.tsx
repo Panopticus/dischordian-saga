@@ -237,7 +237,7 @@ export default function CompanionHubPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
-            className="mt-6 rounded-lg border border-border/30 bg-card/30 p-4"
+            className="mt-6 void-surface p-4"
           >
             <h3 className="font-display text-sm font-bold tracking-wider text-foreground mb-3 flex items-center gap-2">
               <Swords size={14} className="text-accent" />
@@ -413,7 +413,7 @@ export default function CompanionHubPage() {
               className="space-y-4"
             >
               {/* Personality Traits */}
-              <div className="rounded-lg border border-border/30 bg-card/30 p-4">
+              <div className="void-surface p-4">
                 <h3 className="font-display text-sm font-bold tracking-wider text-foreground mb-3 flex items-center gap-2">
                   <Sparkles size={14} className={isElara ? "text-cyan-400" : "text-red-400"} />
                   PERSONALITY PROFILE
@@ -429,7 +429,7 @@ export default function CompanionHubPage() {
               </div>
 
               {/* Relationship Milestones */}
-              <div className="rounded-lg border border-border/30 bg-card/30 p-4">
+              <div className="void-surface p-4">
                 <h3 className="font-display text-sm font-bold tracking-wider text-foreground mb-3 flex items-center gap-2">
                   <Star size={14} className="text-accent" />
                   RELATIONSHIP MILESTONES
@@ -471,7 +471,7 @@ export default function CompanionHubPage() {
 
               {/* Inception Ark Assignment (for Elara) */}
               {isElara && (
-                <div className="rounded-lg border border-border/30 bg-card/30 p-4">
+                <div className="void-surface p-4">
                   <h3 className="font-display text-sm font-bold tracking-wider text-foreground mb-3 flex items-center gap-2">
                     <Zap size={14} className="text-primary" />
                     INCEPTION ARK STATUS
@@ -1347,7 +1347,7 @@ function LoyaltyMissionsTab({
         </div>
 
         {/* Current Step */}
-        <div className="rounded-lg border border-border/30 bg-card/30 p-4">
+        <div className="void-surface p-4">
           {/* Step type indicator */}
           <div className="flex items-center gap-2 mb-3">
             {currentStep.type === "dialogue" && <MessageCircle size={12} className={accentText} />}

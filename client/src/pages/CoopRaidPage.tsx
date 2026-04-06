@@ -255,7 +255,7 @@ export default function CoopRaidPage() {
                   initial={{ opacity: 0, y: 8 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: i * 0.03 }}
-                  className="rounded-lg border border-border/30 bg-card/30 p-3 flex items-center gap-3"
+                  className="void-surface p-3 flex items-center gap-3"
                 >
                   <div className={`w-8 h-8 rounded-md flex items-center justify-center ${
                     raid.status === "completed" ? "bg-primary/10" : "bg-destructive/10"

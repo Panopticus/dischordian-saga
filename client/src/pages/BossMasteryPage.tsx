@@ -70,7 +70,7 @@ export default function BossMasteryPage() {
                     initial={{ opacity: 0, y: 8 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: i * 0.04 }}
-                    className="rounded-lg border border-border/30 bg-card/30 p-4"
+                    className="void-surface p-4"
                   >
                     <div className="flex items-center gap-3 mb-3">
                       <div className="w-10 h-10 rounded-lg bg-chart-4/10 flex items-center justify-center">
@@ -136,7 +136,7 @@ export default function BossMasteryPage() {
                     initial={{ opacity: 0, x: -10 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: i * 0.03 }}
-                    className="rounded-lg border border-border/30 bg-card/30 p-3 flex items-center gap-3"
+                    className="void-surface p-3 flex items-center gap-3"
                   >
                     <span className={`font-display text-sm font-bold w-8 text-center ${
                       i === 0 ? "text-chart-4" : i === 1 ? "text-muted-foreground" : i === 2 ? "text-accent" : "text-muted-foreground/60"
@@ -170,7 +170,7 @@ export default function BossMasteryPage() {
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.03 }}
-                className="rounded-lg border border-border/30 bg-card/30 p-3 flex items-center gap-3"
+                className="void-surface p-3 flex items-center gap-3"
               >
                 <div className="w-10 h-10 rounded-md bg-destructive/10 flex items-center justify-center">
                   <Skull size={18} className="text-destructive" />

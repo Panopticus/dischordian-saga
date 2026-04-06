@@ -148,7 +148,7 @@ export default function MoralityLeaderboardPage() {
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="rounded-lg border border-border/30 bg-card/30 p-4"
+          className="void-surface p-4"
         >
           <h2 className="font-display text-sm font-bold tracking-[0.15em] text-foreground mb-4 flex items-center gap-2">
             <BarChart3 size={14} className="text-primary" />

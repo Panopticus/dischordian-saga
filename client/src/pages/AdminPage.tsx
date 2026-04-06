@@ -128,7 +128,7 @@ function DashboardTab() {
           );
         })}
       </div>
-      <div className="rounded-lg border border-border/30 bg-card/30 p-5">
+      <div className="void-surface p-5">
         <h3 className="font-display text-xs font-bold tracking-[0.2em] text-primary mb-3">QUICK ACTIONS</h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
           <Link href="/admin" onClick={() => {}} className="flex items-center gap-2 p-3 rounded-md bg-secondary/30 border border-border/20 hover:border-primary/30 transition-all font-mono text-xs">
@@ -270,7 +270,7 @@ function CardsTab() {
 
       <div className="grid grid-cols-1 gap-2">
         {data?.cards.map(card => (
-          <div key={card.cardId} className="rounded-lg border border-border/30 bg-card/30 p-3 flex items-center gap-3">
+          <div key={card.cardId} className="void-surface p-3 flex items-center gap-3">
             {card.imageUrl && (
               <img src={card.imageUrl} alt={card.name} className="w-10 h-10 rounded object-cover shrink-0" />
             )}
@@ -350,7 +350,7 @@ function RewardsTab() {
   return (
     <div className="space-y-4">
       {/* Built-in reward definitions */}
-      <div className="rounded-lg border border-border/30 bg-card/30 p-4">
+      <div className="void-surface p-4">
         <h3 className="font-display text-xs font-bold tracking-[0.2em] text-primary mb-3">BUILT-IN CONTENT REWARDS</h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
           {rewardInfo && Object.entries(rewardInfo.rewards).map(([type, def]) => (
@@ -584,7 +584,7 @@ function DiscoveryTab() {
       </div>
 
       {/* Room → Feature Mapping */}
-      <div className="rounded-lg border border-border/30 bg-card/30 p-4">
+      <div className="void-surface p-4">
         <h3 className="font-display text-xs font-bold tracking-[0.2em] text-primary mb-4">ROOM → FEATURE MAPPING</h3>
         <div className="space-y-3">
           {Object.entries(ROOM_FEATURE_MAP).map(([room, features]) => (
@@ -610,7 +610,7 @@ function DiscoveryTab() {
       </div>
 
       {/* All Features List */}
-      <div className="rounded-lg border border-border/30 bg-card/30 p-4">
+      <div className="void-surface p-4">
         <h3 className="font-display text-xs font-bold tracking-[0.2em] text-accent mb-3">ALL DISCOVERABLE FEATURES ({allFeatures.length})</h3>
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2">
           {allFeatures.map(f => (
@@ -1147,7 +1147,7 @@ function ContentTab() {
           const TypeIcon = TYPE_ICONS[entry.type] || BookOpen;
           const typeColor = TYPE_COLORS[entry.type] || "text-foreground";
           return (
-            <div key={entry.id} className="rounded-lg border border-border/30 bg-card/30 p-3 flex items-center gap-3 hover:border-border/50 transition-all">
+            <div key={entry.id} className="void-surface p-3 flex items-center gap-3 hover:border-border/50 transition-all">
               {entry.image ? (
                 <img src={entry.image} alt={entry.name} className="w-10 h-10 rounded object-cover shrink-0" />
               ) : (

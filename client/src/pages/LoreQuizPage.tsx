@@ -301,7 +301,7 @@ export default function LoreQuizPage() {
                   animate={{ opacity: 1, y: 0 }}
                   whileHover={{ scale: 1.02 }}
                   onClick={() => startQuiz(diff)}
-                  className="rounded-lg border border-border/30 bg-card/30 p-5 text-left hover:border-primary/30 transition-all group"
+                  className="void-surface p-5 text-left hover:border-primary/30 transition-all group"
                 >
                   <div className="flex items-center gap-2 mb-3">
                     <Shield size={16} className={cfg.color} />
@@ -320,7 +320,7 @@ export default function LoreQuizPage() {
             })}
           </div>
 
-          <div className="rounded-lg border border-border/20 bg-card/20 p-4">
+          <div className="void-surface p-4">
             <p className="font-mono text-[10px] text-muted-foreground/50 mb-2">AVAILABLE QUESTIONS</p>
             <div className="flex flex-wrap gap-2">
               {(["character", "faction", "location", "song", "lore"] as const).map((cat) => {
@@ -386,7 +386,7 @@ export default function LoreQuizPage() {
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -20 }}
-              className="rounded-lg border border-border/30 bg-card/30 p-5"
+              className="void-surface p-5"
             >
               <div className="flex items-center gap-2 mb-3">
                 {(() => {

@@ -142,7 +142,7 @@ function MissionBriefing({
   if (!showBriefing) {
     return (
       <div className="space-y-3">
-        <div className="p-4 rounded-lg border border-border/30 bg-card/30">
+        <div className="p-4 void-surface">
           <h4 className="font-display text-sm font-bold tracking-wide mb-1">{mission.worldName}</h4>
           <p className="font-mono text-xs text-muted-foreground">{mission.worldDescription}</p>
           <div className="flex items-center gap-4 mt-3">
@@ -628,7 +628,7 @@ export default function ArmyManagementPage() {
                 </span>
               </div>
               {!isSectorUnlocked(activeSector, completedMissions) ? (
-                <div className="p-6 rounded-lg border border-border/20 bg-card/20 text-center">
+                <div className="p-6 void-surface text-center">
                   <Lock size={24} className="text-muted-foreground mx-auto mb-2" />
                   <p className="font-mono text-xs text-muted-foreground">
                     {SECTORS.find((s) => s.id === activeSector)?.unlockCondition}
@@ -723,7 +723,7 @@ export default function ArmyManagementPage() {
                 <span className="font-display text-xs font-bold tracking-[0.2em]">AVAILABLE MISSIONS</span>
               </div>
               {getAvailableUnits().length === 0 ? (
-                <div className="p-6 rounded-lg border border-border/20 bg-card/20 text-center">
+                <div className="p-6 void-surface text-center">
                   <Users size={24} className="text-muted-foreground mx-auto mb-2" />
                   <p className="font-mono text-xs text-muted-foreground">
                     {units.length === 0 ? "No units recruited yet. Visit the RECRUIT tab." : "All units are currently deployed."}
@@ -744,7 +744,7 @@ export default function ArmyManagementPage() {
                             <button
                               key={template.id}
                               onClick={() => setDeployDialog(template)}
-                              className="w-full text-left p-3 rounded-lg border border-border/30 bg-card/30 hover:border-accent/30 hover:bg-card/50 transition-all"
+                              className="w-full text-left p-3 void-surface hover:border-accent/30 hover:bg-card/50 transition-all"
                             >
                               <div className="flex items-center justify-between mb-1">
                                 <span className="font-mono text-xs font-semibold">{template.title}</span>
@@ -774,7 +774,7 @@ export default function ArmyManagementPage() {
               <span className="font-display text-xs font-bold tracking-[0.2em]">ARMY ROSTER</span>
             </div>
             {units.length === 0 ? (
-              <div className="p-8 rounded-lg border border-border/20 bg-card/20 text-center">
+              <div className="p-8 void-surface text-center">
                 <Shield size={32} className="text-muted-foreground mx-auto mb-3" />
                 <p className="font-mono text-sm text-muted-foreground mb-2">No units recruited</p>
                 <p className="font-mono text-xs text-muted-foreground/50">

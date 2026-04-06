@@ -180,7 +180,7 @@ export default function EntityPage() {
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="rounded-lg border border-border/30 bg-card/30 p-5"
+            className="void-surface p-5"
           >
             <h2 className="font-display text-xs font-bold tracking-[0.2em] text-primary mb-3 flex items-center gap-2">
               <Eye size={13} /> DOSSIER
@@ -195,7 +195,7 @@ export default function EntityPage() {
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.25 }}
-            className="rounded-lg border border-border/30 bg-card/30 p-5"
+            className="void-surface p-5"
           >
             <h2 className="font-display text-xs font-bold tracking-[0.2em] text-accent mb-3 flex items-center gap-2">
               <Clock size={13} /> HISTORY
@@ -262,7 +262,7 @@ export default function EntityPage() {
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.32 }}
-            className="rounded-lg border border-border/30 bg-card/30 p-5"
+            className="void-surface p-5"
           >
             <h2 className="font-display text-xs font-bold tracking-[0.2em] text-chart-5 mb-3 flex items-center gap-2">
               <Music size={13} /> LISTEN NOW
@@ -296,7 +296,7 @@ export default function EntityPage() {
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.32 }}
-            className="rounded-lg border border-border/30 bg-card/30 p-5"
+            className="void-surface p-5"
           >
             <StoryArc characterName={entry.name} />
           </motion.section>
@@ -309,7 +309,7 @@ export default function EntityPage() {
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.35 }}
-              className="rounded-lg border border-border/30 bg-card/30 p-5"
+              className="void-surface p-5"
             >
               <h2 className="font-display text-xs font-bold tracking-[0.2em] text-primary mb-4 flex items-center gap-2">
                 <Zap size={13} /> CONNECTIONS
@@ -357,7 +357,7 @@ export default function EntityPage() {
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4 }}
-              className="rounded-lg border border-border/30 bg-card/30 p-5"
+              className="void-surface p-5"
             >
               <h2 className="font-display text-xs font-bold tracking-[0.2em] text-destructive mb-4 flex items-center gap-2">
                 <Music size={13} /> SONG APPEARANCES

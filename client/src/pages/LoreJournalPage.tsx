@@ -102,7 +102,7 @@ export default function LoreJournalPage() {
                     initial={{ opacity: 0, y: 8 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: i * 0.03 }}
-                    className="rounded-lg border border-border/30 bg-card/30 p-3"
+                    className="void-surface p-3"
                   >
                     <div className="flex items-center gap-3">
                       <PenTool size={14} className="text-primary shrink-0" />
@@ -272,7 +272,7 @@ export default function LoreJournalPage() {
                   initial={{ opacity: 0, y: 8 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: i * 0.03 }}
-                  className="rounded-lg border border-border/30 bg-card/30 p-4"
+                  className="void-surface p-4"
                 >
                   <div className="flex items-center gap-2 mb-2">
                     <BookOpen size={12} className="text-primary" />
@@ -311,7 +311,7 @@ export default function LoreJournalPage() {
               ].map(stat => {
                 const Icon = stat.icon;
                 return (
-                  <div key={stat.label} className="rounded-lg border border-border/30 bg-card/30 p-3">
+                  <div key={stat.label} className="void-surface p-3">
                     <Icon size={16} className={`${stat.color} mb-2`} />
                     <p className="font-display text-lg font-bold">{stat.value}</p>
                     <p className="font-mono text-[10px] text-muted-foreground/60">{stat.label}</p>

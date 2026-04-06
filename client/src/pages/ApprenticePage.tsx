@@ -531,8 +531,9 @@ function BetrayalEventCard({ event, onChoose }: {
     <motion.div
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      className={`p-4 rounded-lg border-2 border-${stageColor}-500/60 bg-gradient-to-br from-${stageColor}-950/30 to-black/40`}
+      className={`p-4 void-surface border-2 border-${stageColor}-500/60`}
       data-testid={`betrayal-event-${event.stage}`}
+      data-narrative={event.stage === "betrayal" ? "quake" : event.stage === "declaration" ? "glitch" : event.stage === "turn" ? "shake" : "tremble"}
     >
       <div className="flex items-center gap-2 mb-2">
         <AlertTriangle size={14} className={`text-${stageColor}-400`} />

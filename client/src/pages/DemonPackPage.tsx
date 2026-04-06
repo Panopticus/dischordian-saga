@@ -399,6 +399,7 @@ export default function DemonPackPage() {
               {/* Done state */}
               {revealPhase === "done" && (
                 <motion.div
+                  data-narrative="surge"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   className="flex flex-col items-center gap-4"

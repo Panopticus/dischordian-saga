@@ -454,7 +454,7 @@ function LoginCalendarTab() {
       </div>
 
       {/* Login Rewards Info */}
-      <div className="rounded-lg border border-border/30 bg-card/30 p-4">
+      <div className="void-surface p-4">
         <h3 className="font-display text-sm font-bold tracking-wider mb-3 flex items-center gap-2">
           <Award size={14} className="text-accent" />
           STREAK REWARDS

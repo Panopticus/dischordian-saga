@@ -352,7 +352,7 @@ export default function FavoritesPage() {
                       >
                         <Link
                           href={`/entity/${char.id}`}
-                          className="group block rounded-lg border border-border/20 bg-card/20 overflow-hidden hover:border-primary/20 transition-all"
+                          className="group block void-surface overflow-hidden hover:border-primary/20 transition-all"
                         >
                           <div className="aspect-square overflow-hidden relative">
                             {char.image ? (
@@ -482,7 +482,7 @@ export default function FavoritesPage() {
                 const isExpanded = selectedPlaylist === playlist.id;
 
                 return (
-                  <div key={playlist.id} className="rounded-lg border border-border/20 bg-card/20 overflow-hidden">
+                  <div key={playlist.id} className="void-surface overflow-hidden">
                     <button
                       onClick={() => setSelectedPlaylist(isExpanded ? null : playlist.id)}
                       className="w-full flex items-center gap-3 p-3 hover:bg-secondary/20 transition-colors"
@@ -616,7 +616,7 @@ export default function FavoritesPage() {
                     >
                       <Link
                         href={entry.type === "song" ? `/song/${entry.id}` : `/entity/${entry.id}`}
-                        className="flex items-center gap-3 p-3 rounded-lg border border-border/20 bg-card/20 hover:bg-card/40 hover:border-primary/20 group transition-all"
+                        className="flex items-center gap-3 p-3 void-surface hover:bg-card/40 hover:border-primary/20 group transition-all"
                       >
                         {entry.image ? (
                           <img src={entry.image} alt="" className="w-10 h-10 rounded-md object-cover ring-1 ring-border/20 shrink-0" loading="lazy" />

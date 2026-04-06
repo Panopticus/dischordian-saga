@@ -158,7 +158,7 @@ export default function ReplayPage() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: i * 0.03 }}
                     onClick={() => setSelectedReplayId(replay.id)}
-                    className="rounded-lg border border-border/30 bg-card/30 p-3 flex items-center gap-3 cursor-pointer hover:border-primary/30 transition-all"
+                    className="void-surface p-3 flex items-center gap-3 cursor-pointer hover:border-primary/30 transition-all"
                   >
                     <div className={`w-10 h-10 rounded-md flex items-center justify-center ${
                       replay.winnerId === replay.player1Id ? "bg-accent/10" : "bg-destructive/10"

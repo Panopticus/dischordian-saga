@@ -112,7 +112,7 @@ export default function AlbumPage() {
 
       {/* Track List */}
       <div className="px-4 sm:px-6 mt-2">
-        <div className="rounded-lg border border-border/20 bg-card/20 overflow-hidden">
+        <div className="void-surface overflow-hidden">
           <div className="flex items-center gap-3 px-4 py-2 border-b border-border/15 text-[10px] font-mono text-muted-foreground/40 tracking-wider">
             <span className="w-8 text-right">#</span>
             <span className="flex-1">TITLE</span>

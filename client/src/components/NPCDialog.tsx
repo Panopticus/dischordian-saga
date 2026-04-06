@@ -82,6 +82,16 @@ const MANIFESTATION_CONFIG: Record<string, {
   },
 };
 
+/* ─── MANIFESTATION → NARRATIVE EFFECT ─── */
+const MANIFESTATION_NARRATIVE: Record<string, string> = {
+  hologram: "breathe",          // Elara — gentle presence pulse
+  comms_signal: "static",       // Agent Zero, Locke — radio interference
+  substrate: "flicker",         // The Human — digital flicker
+  possessed_system: "glitch",   // Source, Shadow Tongue — corruption
+  temporal_echo: "drift",       // Antiquarian — time-shifted motion
+  physical_trace: "tremble",    // physical remnants — unstable signal
+};
+
 /* ─── DIALOG CHOICE ─── */
 
 export interface NPCDialogChoice {
@@ -227,8 +237,9 @@ export default function NPCDialog({ npcId, scene, onClose, onChoice }: NPCDialog
           animate={{ y: 0, opacity: 1, scale: 1 }}
           exit={{ y: 40, opacity: 0, scale: 0.98 }}
           transition={{ type: "spring", damping: 25, stiffness: 300 }}
-          className={`relative w-full max-w-2xl ${manifest.bgClass} border ${manifest.borderClass} rounded-xl overflow-hidden backdrop-blur-md`}
+          className={`relative w-full max-w-2xl void-elevated overflow-hidden`}
           style={{ boxShadow: `0 0 40px ${npc.color}20, inset 0 0 20px ${npc.color}05` }}
+          data-narrative={MANIFESTATION_NARRATIVE[npc.manifestation] || "breathe"}
           onClick={handleSkip}
         >
           {/* Scanlines */}

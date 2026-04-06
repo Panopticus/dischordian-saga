@@ -940,7 +940,7 @@ function EventRecapSection({
                     exit={{ opacity: 0, height: 0 }}
                     className="overflow-hidden"
                   >
-                    <div className="mt-2 rounded-lg border border-border/30 bg-card/30 p-6 text-center">
+                    <div className="mt-2 void-surface p-6 text-center">
                       <LockIcon size={24} className="mx-auto text-muted-foreground/40 mb-2" />
                       <p className="font-mono text-xs text-muted-foreground">Log in to view your personal event recap</p>
                     </div>

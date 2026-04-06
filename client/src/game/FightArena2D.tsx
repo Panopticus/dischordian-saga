@@ -193,11 +193,22 @@ export default function FightArena2D({
       if (level === 3) hapticSP3();
       else if (level === 2) hapticSP2();
       else hapticSP1();
+      // Narrative effect on the canvas container
+      const canvas = canvasRef.current;
+      if (canvas?.parentElement) {
+        canvas.parentElement.setAttribute("data-narrative", level === 3 ? "quake" : "surge");
+        const h = () => { canvas.parentElement?.removeAttribute("data-narrative"); canvas.parentElement?.removeEventListener("animationend", h); };
+        canvas.parentElement.addEventListener("animationend", h);
+      }
     },
     onMatchEnd: (winner) => {
       const w = winner === 1 ? "p1" : "p2";
       const perfect = winner === 1 ? p1PerfectRef.current : false;
-      // Delay to show victory animation
+      // Narrative effect on KO
+      const canvas = canvasRef.current;
+      if (canvas?.parentElement) {
+        canvas.parentElement.setAttribute("data-narrative", "jolt");
+      }
       setTimeout(() => onMatchEndRef.current(w, perfect), 1500);
     },
   }), []); // empty deps — stable forever

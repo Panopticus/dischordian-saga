@@ -123,7 +123,12 @@ export default function AppShell({ children, elaraTTS: _elaraTTS }: { children: 
 
       {/* ═══ MAIN CONTENT ═══ */}
       <main
-        className={`flex-1 relative z-10 ${!isImmersive ? "pt-10" : ""} ${showPlayer ? "pb-32" : "pb-16"}`}
+        className="flex-1 relative z-10"
+        style={{
+          paddingTop: !isImmersive ? "2.5rem" : undefined,
+          paddingBottom: showPlayer ? "8rem" : "4rem",
+          transition: `padding var(--ve-transition-speed, 200ms) var(--ve-transition-ease, ease)`,
+        }}
       >
         {children}
       </main>

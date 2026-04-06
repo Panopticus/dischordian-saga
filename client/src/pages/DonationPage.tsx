@@ -140,7 +140,7 @@ export default function DonationPage() {
                   initial={{ opacity: 0, y: 8 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: i * 0.03 }}
-                  className="rounded-lg border border-border/30 bg-card/30 p-3 flex items-center gap-3"
+                  className="void-surface p-3 flex items-center gap-3"
                 >
                   <Heart size={14} className="text-accent" />
                   <div className="flex-1 min-w-0">
@@ -172,7 +172,7 @@ export default function DonationPage() {
                   initial={{ opacity: 0, x: -10 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: i * 0.03 }}
-                  className="rounded-lg border border-border/30 bg-card/30 p-3 flex items-center gap-3"
+                  className="void-surface p-3 flex items-center gap-3"
                 >
                   <span className={`font-display text-sm font-bold w-8 text-center ${
                     i === 0 ? "text-accent" : i === 1 ? "text-muted-foreground" : i === 2 ? "text-chart-4" : "text-muted-foreground/60"

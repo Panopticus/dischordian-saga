@@ -202,7 +202,7 @@ export default function SongPage() {
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.25 }}
-            className="rounded-lg border border-border/30 bg-card/30 p-5"
+            className="void-surface p-5"
           >
             <h2 className="font-display text-xs font-bold tracking-[0.2em] text-accent mb-3 flex items-center gap-2">
               <Clock size={13} /> LORE & HISTORY
@@ -216,7 +216,7 @@ export default function SongPage() {
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
-            className="rounded-lg border border-border/30 bg-card/30 p-5"
+            className="void-surface p-5"
           >
             <h2 className="font-display text-xs font-bold tracking-[0.2em] text-primary mb-3">DESCRIPTION</h2>
             <p className="text-sm text-foreground/80 leading-relaxed">{entry.bio}</p>
@@ -237,7 +237,7 @@ export default function SongPage() {
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.35 }}
-            className="rounded-lg border border-border/30 bg-card/30 p-5"
+            className="void-surface p-5"
           >
             <h2 className="font-display text-xs font-bold tracking-[0.2em] text-primary mb-4 flex items-center gap-2">
               <Users size={13} /> FEATURED CHARACTERS
@@ -277,7 +277,7 @@ export default function SongPage() {
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
-            className="rounded-lg border border-border/30 bg-card/30 p-5"
+            className="void-surface p-5"
           >
             <h2 className="font-display text-xs font-bold tracking-[0.2em] text-muted-foreground mb-3 flex items-center gap-2">
               <Disc3 size={13} /> MORE FROM {entry.album.toUpperCase()}

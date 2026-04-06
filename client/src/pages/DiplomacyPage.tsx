@@ -78,7 +78,7 @@ export default function DiplomacyPage() {
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="rounded-lg border border-border/30 bg-card/30 overflow-hidden"
+            className="void-surface overflow-hidden"
           >
             {/* Header */}
             <div className="p-5 bg-gradient-to-r from-primary/10 to-transparent border-b border-border/20">
@@ -215,7 +215,7 @@ export default function DiplomacyPage() {
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="rounded-lg border border-border/30 bg-card/30 overflow-hidden"
+            className="void-surface overflow-hidden"
           >
             {/* Event Header */}
             <div className="p-5 border-b border-border/20 bg-gradient-to-r from-amber-500/5 to-transparent">
@@ -729,7 +729,7 @@ export default function DiplomacyPage() {
               className="space-y-4"
             >
               {/* Morality Meter */}
-              <div className="rounded-lg border border-border/30 bg-card/30 p-5">
+              <div className="void-surface p-5">
                 <h3 className="font-display text-sm font-bold tracking-wider text-foreground mb-4 flex items-center gap-2">
                   <Scale size={14} className="text-primary" />
                   MORALITY SPECTRUM
@@ -804,7 +804,7 @@ export default function DiplomacyPage() {
 
               {/* Diplomacy History */}
               {state.diplomacyChoices.length > 0 && (
-                <div className="rounded-lg border border-border/30 bg-card/30 p-4">
+                <div className="void-surface p-4">
                   <h3 className="font-display text-sm font-bold tracking-wider text-foreground mb-3 flex items-center gap-2">
                     <MessageCircle size={14} className="text-primary" />
                     DECISION LOG
