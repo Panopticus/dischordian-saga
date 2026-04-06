@@ -709,7 +709,7 @@ export const ARENAS: ArenaData[] = [
     bgGradient: "linear-gradient(180deg, #0a0014 0%, #1a0033 30%, #2a004d 50%, #1a0033 70%, #0a0014 100%)",
     floorColor: "#1a0033",
     ambientColor: "#7c3aed",
-    backgroundImage: "https://res.cloudinary.com/dsenaozjq/image/upload/v1775505865/arena-the-crucible_nfnujk.jpg",
+    backgroundImage: "https://res.cloudinary.com/dsenaozjq/image/upload/v1775505917/arena-shadow-sanctum_kascod.jpg",
   },
 ];
 
