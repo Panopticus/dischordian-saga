@@ -417,16 +417,16 @@ export function getActiveBonuses(
 }
 
 /**
- * Calculate the total resource multiplier from premium sub + NFT + civil skills.
+ * Calculate the total resource multiplier from premium sub + species + civil skills.
  */
 export function getResourceMultiplier(
   isPremium: boolean,
-  nftLevel: number,
+  speciesLevel: number,
   civilSkillLevel: number,
 ): number {
   let mult = 1.0;
   if (isPremium) mult += 0.10; // +10% from premium
-  if (nftLevel > 0) mult += nftLevel * 0.05; // +5% per NFT level
+  if (speciesLevel > 0) mult += speciesLevel * 0.05; // +5% per species level
   if (civilSkillLevel > 0) mult += civilSkillLevel * 0.02; // +2% per civil skill level
   return mult;
 }

@@ -337,7 +337,7 @@ export default function TraitSummaryPanel({ isAuthenticated }: { isAuthenticated
                 </div>
               ) : (
                 <>
-                  {/* NFT Multiplier Banner */}
+                  {/* Species Multiplier Banner */}
                   {nftMultiplier > 1.0 && (
                     <div className="mb-4 p-2.5 rounded-lg bg-amber-500/5 border border-amber-400/15 flex items-center gap-2.5">
                       <div className="w-8 h-8 rounded-full bg-amber-500/10 border border-amber-400/20 flex items-center justify-center flex-shrink-0">

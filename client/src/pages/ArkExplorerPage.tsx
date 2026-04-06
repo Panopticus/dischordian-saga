@@ -38,7 +38,7 @@ import SecretTransmissionOverlay from "@/components/SecretTransmissionOverlay";
 import { getRoomTransmissions, getElaraVariant, type SecretTransmission } from "@/data/moralityStoryBranches";
 import AlienSymbolPuzzle from "@/components/AlienSymbolPuzzle";
 import FastTravelPanel from "@/components/FastTravelPanel";
-import CommsRelayImport from "@/components/CommsRelayImport";
+// CommsRelayImport removed — blockchain wallet linking no longer needed
 import ItemDetailModal from "@/components/ItemDetailModal";
 import LoreTutorialEngine from "@/components/LoreTutorialEngine";
 import NarrativeTrigger from "@/components/NarrativeTrigger";
@@ -1252,7 +1252,15 @@ export default function ArkExplorerPage() {
           />
         )}
         {showCommsRelay && (
-          <CommsRelayImport onClose={() => setShowCommsRelay(false)} />
+          <div className="fixed inset-0 z-[55] flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm" onClick={() => setShowCommsRelay(false)}>
+            <div className="void-elevated max-w-md w-full p-6 text-center" onClick={e => e.stopPropagation()}>
+              <div className="font-display text-lg font-bold tracking-wider text-cyan-400 mb-3">COMMS RELAY</div>
+              <p className="font-mono text-xs text-muted-foreground/70 leading-relaxed mb-4">
+                Scanning for dormant neural signatures across the fleet... No additional Potentials detected at this time. The relay will continue passive monitoring.
+              </p>
+              <button onClick={() => setShowCommsRelay(false)} className="void-btn void-btn-primary font-mono text-xs">CLOSE RELAY</button>
+            </div>
+          </div>
         )}
       </AnimatePresence>
 

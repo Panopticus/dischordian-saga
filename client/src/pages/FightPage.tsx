@@ -113,7 +113,7 @@ export default function FightPage() {
     return calculateTraitBonuses(traitBonuses.data.bonuses);
   }, [traitBonuses.data]);
 
-  // Citizen character sheet bonuses (stacks with NFT bonuses)
+  // Citizen character sheet bonuses (stacks with species bonuses)
   const allTraitBonuses = trpc.nft.getAllTraitBonuses.useQuery(undefined, {
     retry: false,
     refetchOnWindowFocus: false,
@@ -1467,7 +1467,7 @@ export default function FightPage() {
                 <div className="font-display text-lg text-amber-400">+{ptGain}</div>
                 {bonusPt > 0 && (
                   <div className="font-mono text-[8px] text-purple-400">
-                    +{bonusPt} POTENTIAL BONUS
+                    +{bonusPt} SPECIES BONUS
                   </div>
                 )}
               </div>

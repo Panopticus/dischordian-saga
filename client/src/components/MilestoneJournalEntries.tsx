@@ -182,9 +182,9 @@ export const MILESTONES: MilestoneEntry[] = [
         ``,
         `The Communication Relay was buried under layers of static — dead channels, encrypted frequencies, ghost signals from ships that went silent decades ago. Elara guided me through the process of re-establishing contact.`,
         ``,
-        `She asked me to link my wallet — the quantum signature tied to my neural pathway. When I did, the relay lit up. Frequencies I couldn't hear before suddenly became visible on the spectrum analyzer. Faint echoes. Subconscious memories encoded in the void between stars.`,
+        `She asked me to connect my neural link — the quantum signature tied to my consciousness. When I did, the relay lit up. Frequencies I couldn't hear before suddenly became visible on the spectrum analyzer. Faint echoes. Subconscious memories encoded in the void between stars.`,
         ``,
-        `My first Potential's identity card materialized on the display. A 1/1 — unique in all of existence. Their DNA, their story, their face. Now permanently bound to my collection. Elara says there may be more out there, scattered across other wallets, other vessels. I just need to keep scanning.`,
+        `My first Potential's identity card materialized on the display. A 1/1 — unique in all of existence. Their DNA, their story, their face. Now permanently bound to my collection. Elara says there may be more out there, scattered across other vessels, other dimensions. I just need to keep scanning.`,
         ``,
         `The fleet isn't dead. It's sleeping. And I'm waking it up, one signal at a time.`,
         ``,
@@ -192,7 +192,7 @@ export const MILESTONES: MilestoneEntry[] = [
       ].join("\n");
     },
     elaraNote: () =>
-      "COMMUNICATION RELAY ACTIVATED. The subject successfully linked their quantum signature and extracted their first Potential identity card. The neural pathway scan revealed intact subconscious memories — fragments of the transit that the conscious mind suppressed. Each wallet they link expands our network. Each Potential they claim brings us closer to understanding what happened to the first wave. I am... cautiously optimistic.",
+      "COMMUNICATION RELAY ACTIVATED. The subject successfully activated their neural link and extracted their first Potential identity card. The neural pathway scan revealed intact subconscious memories — fragments of the transit that the conscious mind suppressed. Each signal they trace expands our network. Each Potential they claim brings us closer to understanding what happened to the first wave. I am... cautiously optimistic.",
   },
 
   /* ── 3. First Card Battle ── */

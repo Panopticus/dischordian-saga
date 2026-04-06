@@ -890,7 +890,7 @@ export const LORE_TUTORIALS: LoreTutorial[] = [
   {
     id: "tut-potentials",
     title: "The Potential Protocol",
-    subtitle: "How to link your signet, claim Potential rewards, and unlock Ne-Yon characters",
+    subtitle: "How to link your neural link, claim Potential rewards, and unlock Ne-Yon characters",
     mechanic: "Potential Registry",
     triggerRoute: "/potentials",
     icon: "Wallet",
@@ -904,7 +904,7 @@ export const LORE_TUTORIALS: LoreTutorial[] = [
       },
       {
         id: "pot-2", type: "dialog",
-        elaraText: "Link your signet to verify Potential ownership. Each Potential you own generates a unique 1/1 card based on its traits — class, weapon, background. The first ten Potentials can unlock Ne-Yon characters, the most powerful beings in the Saga.",
+        elaraText: "Link your neural link to verify Potential ownership. Each Potential you own generates a unique 1/1 card based on its traits — class, weapon, background. The first ten Potentials can unlock Ne-Yon characters, the most powerful beings in the Saga.",
       },
       {
         id: "pot-3", type: "choice",
@@ -926,7 +926,7 @@ export const LORE_TUTORIALS: LoreTutorial[] = [
       },
       {
         id: "pot-4", type: "reward_summary",
-        elaraText: "The Potential Protocol is active. Link your signet to claim your rewards and unlock the full power of your Potentials.",
+        elaraText: "The Potential Protocol is active. Link your neural link to claim your rewards and unlock the full power of your Potentials.",
       },
     ],
   },
