@@ -1335,9 +1335,14 @@ export default function CardGamePage() {
               <p className={`font-mono text-[9px] sm:text-[10px] font-bold ${pFaction.textClass}`}>
                 {(user?.name || "YOU").slice(0, 8)} — {pFaction.subtitle}
               </p>
-              <p className="font-mono text-[8px] sm:text-[9px] text-muted-foreground">
-                D:{battle.player.deck.length} G:{battle.player.graveyard.length}
-              </p>
+              <div className="flex items-center gap-1.5 font-mono text-[8px] sm:text-[9px] text-muted-foreground">
+                <span className="flex items-center gap-0.5">
+                  <img src="/art/card-game/card-back-dischordia.png" alt="" className="w-3 h-4 object-cover rounded-[1px] opacity-60" />
+                  {battle.player.deck.length}
+                </span>
+                <span className="text-muted-foreground/40">|</span>
+                <span>G:{battle.player.graveyard.length}</span>
+              </div>
             </div>
             <div className="hidden sm:block">
               <MoralityCardSummaryPanel moralityScore={moralityScore} />

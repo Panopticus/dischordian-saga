@@ -180,6 +180,43 @@ export default function GameCard({
         transformStyle: "preserve-3d",
       }}
     >
+      {/* ── CARD BACK (flipped state) ── */}
+      {flipped ? (
+        <div className="relative w-full h-full rounded-lg overflow-hidden border-2 border-indigo-500/30 shadow-[0_0_15px_rgba(99,102,241,0.15)]">
+          <img
+            src="/art/card-game/card-back-dischordia.png"
+            alt="Card Back"
+            className="w-full h-full object-cover"
+          />
+          {/* Subtle animated sheen */}
+          <div
+            className="absolute inset-0 pointer-events-none card-back-sheen"
+            style={{
+              background: "linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.06) 45%, rgba(255,255,255,0.12) 50%, rgba(255,255,255,0.06) 55%, transparent 60%)",
+              backgroundSize: "200% 100%",
+            }}
+          />
+          {/* Energy border pulse */}
+          <div
+            className="absolute inset-0 rounded-lg pointer-events-none card-back-pulse"
+            style={{ boxShadow: "inset 0 0 20px rgba(99,102,241,0.15)" }}
+          />
+          <style>{`
+            @keyframes card-sheen-sweep {
+              0% { background-position: 200% 0; }
+              100% { background-position: -200% 0; }
+            }
+            @keyframes card-border-pulse {
+              0%, 100% { opacity: 0.4; }
+              50% { opacity: 0.8; }
+            }
+            .card-back-sheen { animation: card-sheen-sweep 4s ease-in-out infinite; }
+            .card-back-pulse { animation: card-border-pulse 3s ease-in-out infinite; }
+          `}</style>
+        </div>
+      ) : (
+      /* ── CARD FRONT ── */
+      <>
       {/* Card frame */}
       <div
         className={`
@@ -404,6 +441,8 @@ export default function GameCard({
           className={`absolute -inset-1 rounded-xl pointer-events-none ${rarity.glow} animate-pulse-slow`}
           style={{ opacity: isHovered ? 0.6 : 0.2 }}
         />
+      )}
+      </>
       )}
     </Wrapper>
   );

@@ -289,19 +289,21 @@ export default function DemonPackPage() {
                   transition={{ duration: 2.5, ease: "easeIn" }}
                   style={{ background: "radial-gradient(circle, rgba(239,68,68,0.4) 0%, transparent 70%)", filter: "blur(20px)" }}
                 />
-                <div className="w-36 h-48 rounded-xl border-2 border-red-500/60 bg-gradient-to-b from-red-950/60 to-black flex items-center justify-center shadow-[0_0_60px_rgba(239,68,68,0.4)] relative overflow-hidden">
-                  {/* Crack effect */}
+                <div className="w-36 h-48 rounded-xl border-2 border-red-500/60 shadow-[0_0_60px_rgba(239,68,68,0.4)] relative overflow-hidden">
+                  <img src="/art/card-game/card-back-dischordia.png" alt="Pack" className="w-full h-full object-cover" />
+                  {/* Crack/energy effect */}
                   <motion.div
-                    className="absolute inset-0 bg-gradient-to-br from-amber-400/0 via-amber-400/0 to-amber-400/0"
-                    animate={{ opacity: [0, 0, 0, 0.15, 0.3] }}
+                    className="absolute inset-0"
+                    animate={{ opacity: [0, 0, 0, 0.2, 0.4] }}
                     transition={{ duration: 2.5 }}
-                    style={{ mixBlendMode: "overlay" }}
+                    style={{ background: "radial-gradient(circle, rgba(239,68,68,0.3) 0%, transparent 70%)", mixBlendMode: "screen" }}
                   />
                   <motion.div
-                    animate={{ scale: [1, 1.2, 1, 1.3, 1.5], opacity: [0.6, 0.8, 0.6, 1, 1] }}
+                    className="absolute inset-0 flex items-center justify-center"
+                    animate={{ scale: [1, 1.2, 1, 1.3, 1.5], opacity: [0.4, 0.6, 0.4, 0.8, 1] }}
                     transition={{ duration: 2.5 }}
                   >
-                    <Skull size={56} className="text-red-400" />
+                    <Skull size={56} className="text-red-400 drop-shadow-[0_0_20px_rgba(239,68,68,0.6)]" />
                   </motion.div>
                 </div>
               </motion.div>
@@ -378,13 +380,14 @@ export default function DemonPackPage() {
                         {isRevealed ? (
                           <GameCard card={card} size="sm" animated={false} />
                         ) : (
-                          <div className="aspect-[2.5/3.5] rounded-lg border border-red-500/20 bg-gradient-to-b from-red-950/30 to-black flex items-center justify-center relative overflow-hidden">
+                          <div className="aspect-[2.5/3.5] rounded-lg overflow-hidden border border-indigo-500/20 relative">
+                            <img src="/art/card-game/card-back-dischordia.png" alt="Unrevealed" className="w-full h-full object-cover" style={{ filter: "brightness(0.6)" }} />
                             <motion.div
+                              className="absolute inset-0"
                               animate={{ opacity: [0.2, 0.5, 0.2] }}
                               transition={{ duration: 1.5, repeat: Infinity }}
-                            >
-                              <Skull size={24} className="text-red-400/40" />
-                            </motion.div>
+                              style={{ background: "radial-gradient(circle, rgba(99,102,241,0.15) 0%, transparent 70%)" }}
+                            />
                           </div>
                         )}
                       </motion.div>
