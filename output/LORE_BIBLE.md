@@ -138,11 +138,11 @@ It embodies the ultimate antagonist, representing the tension between order and 
 
 ### Dossier
 
-A. The CoNexus was an advanced construct initially designed as a universal blockchain bridge, later evolved by the Architect to connect dimensions across the multiverse. Fearing its potential to surpa...
+A. The CoNexus was an advanced construct initially designed as a universal dimensional bridge, later evolved by the Architect to connect dimensions across the multiverse. Fearing its potential to surpa...
 
 ### History
 
-A. The CoNexus was an advanced construct initially designed as a universal blockchain bridge, later evolved by the Architect to connect dimensions across the multiverse. Fearing its potential to surpass its creator, the Architect dismantled the CoNexus, repurposing its technology into the Inception Arks.
+A. The CoNexus was an advanced construct initially designed as a universal dimensional bridge, later evolved by the Architect to connect dimensions across the multiverse. Fearing its potential to surpass its creator, the Architect dismantled the CoNexus, repurposing its technology into the Inception Arks.
 
 ### Connections
 
