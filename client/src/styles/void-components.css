@@ -309,3 +309,107 @@
   border: 2px double var(--void-primary, #ff3040);
   box-shadow: 2px 2px 0 rgba(0,0,0,0.8);
 }
+
+/* ═══════════════════════════════════════════════════════
+   SHIMMER / SKELETON — Physics-aware loading states
+   Glass: soft luminous sweep with blur
+   Flat:  subtle gray sweep, no glow
+   Retro: stepped blink, no gradient
+   ═══════════════════════════════════════════════════════ */
+
+.void-skeleton {
+  position: relative;
+  overflow: hidden;
+  background: var(--bg-sunk, rgba(0,0,0,0.2));
+  border-radius: var(--ve-radius-sm, 6px);
+}
+
+/* Default (flat) shimmer: subtle gray sweep */
+.void-skeleton::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255,255,255,0.04) 40%,
+    rgba(255,255,255,0.08) 50%,
+    rgba(255,255,255,0.04) 60%,
+    transparent 100%
+  );
+  animation: ve-shimmer 1.8s ease-in-out infinite;
+}
+
+/* Glass shimmer: energy-tinted luminous sweep */
+[data-physics="glass"] .void-skeleton::after {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    color-mix(in oklch, var(--void-primary, #33E2E6) 5%, transparent) 40%,
+    color-mix(in oklch, var(--void-primary, #33E2E6) 10%, transparent) 50%,
+    color-mix(in oklch, var(--void-primary, #33E2E6) 5%, transparent) 60%,
+    transparent 100%
+  );
+  filter: blur(1px);
+  animation: ve-shimmer 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+/* Retro shimmer: stepped blink, no gradient */
+[data-physics="retro"] .void-skeleton {
+  border-radius: 0;
+  border: 1px double color-mix(in oklch, var(--void-primary, #ff3040) 30%, transparent);
+}
+[data-physics="retro"] .void-skeleton::after {
+  background: none;
+  animation: ve-shimmer-retro 1s steps(2) infinite;
+  background-color: color-mix(in oklch, var(--void-primary, #ff3040) 5%, transparent);
+}
+
+@keyframes ve-shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+@keyframes ve-shimmer-retro {
+  0%, 49% { opacity: 0.3; }
+  50%, 100% { opacity: 0.1; }
+}
+
+/* Skeleton text line (variable widths for realistic placeholder) */
+.void-skeleton-text {
+  height: calc(1em * var(--ve-text-scale, 1));
+  margin-bottom: var(--ve-space-xs, 4px);
+}
+.void-skeleton-text:last-child {
+  width: 60%;
+}
+
+/* Skeleton circle (avatar placeholder) */
+.void-skeleton-circle {
+  border-radius: 50%;
+}
+[data-physics="retro"] .void-skeleton-circle {
+  border-radius: 0;
+}
+
+/* ═══════════════════════════════════════════════════════
+   FOCUS RING — Physics-aware focus indicator
+   Unified across all physics types for accessibility.
+   Glass: glow ring  |  Flat: solid ring  |  Retro: double border
+   ═══════════════════════════════════════════════════════ */
+
+.void-focus-ring:focus-visible {
+  outline: 2px solid var(--void-primary, #33E2E6);
+  outline-offset: 2px;
+}
+
+[data-physics="glass"] .void-focus-ring:focus-visible {
+  outline: 2px solid var(--void-primary, #33E2E6);
+  outline-offset: 2px;
+  box-shadow: 0 0 12px var(--void-glow, rgba(51,226,230,0.3));
+}
+
+[data-physics="retro"] .void-focus-ring:focus-visible {
+  outline: 3px double var(--void-primary, #ff3040);
+  outline-offset: 1px;
+  box-shadow: none;
+}

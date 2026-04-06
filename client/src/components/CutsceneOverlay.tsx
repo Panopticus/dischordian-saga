@@ -1,6 +1,9 @@
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useCallback, useRef, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, SkipForward, Volume2, VolumeX } from "lucide-react";
+import { KineticText } from "@/components/void";
+import { VOID } from "@/engine/voidPresets";
+import type { NarrativeEffect } from "@/engine/voidNarrative";
 
 // ═══════════════════════════════════════════════════════
 // CUTSCENE DATA TYPES
@@ -153,34 +156,31 @@ export default function CutsceneOverlay({ cutscene, onComplete, onClose }: Cutsc
     return () => clearTimeout(timer);
   }, []);
 
-  // Typewriter effect
+  // KineticText speed based on mood
+  const kineticSpeed = useMemo(() => {
+    if (!currentLine) return 35;
+    return currentLine.mood === "intense" ? 25 : currentLine.mood === "tender" ? 45 : 35;
+  }, [currentLine]);
+
+  // Map mood to per-character kinetic effect
+  const moodEffect = useMemo((): NarrativeEffect => {
+    if (!currentLine) return null;
+    switch (currentLine.mood) {
+      case "intense": return "tremble";
+      case "mysterious": return "drift";
+      case "tender": return "breathe";
+      case "angry": return "static";
+      case "sad": return "fade";
+      case "triumphant": return "pulse";
+      default: return null;
+    }
+  }, [currentLine]);
+
+  // Reset typing state on line change
   useEffect(() => {
     if (showTitle || !currentLine) return;
-    
     setDisplayedText("");
     setIsTyping(true);
-    let charIndex = 0;
-    const text = currentLine.text;
-    const speed = currentLine.mood === "intense" ? 25 : currentLine.mood === "tender" ? 45 : 35;
-    
-    typewriterRef.current = setInterval(() => {
-      if (charIndex < text.length) {
-        setDisplayedText(text.slice(0, charIndex + 1));
-        charIndex++;
-      } else {
-        clearInterval(typewriterRef.current!);
-        setIsTyping(false);
-        // Trigger line effect
-        if (currentLine.effect) {
-          setActiveEffect(currentLine.effect);
-          setTimeout(() => setActiveEffect(null), 800);
-        }
-      }
-    }, speed);
-
-    return () => {
-      if (typewriterRef.current) clearInterval(typewriterRef.current);
-    };
   }, [currentLineIndex, showTitle, currentLine]);
 
   const advanceLine = useCallback(() => {
@@ -189,8 +189,7 @@ export default function CutsceneOverlay({ cutscene, onComplete, onClose }: Cutsc
       return;
     }
     if (isTyping) {
-      // Skip typewriter, show full text
-      if (typewriterRef.current) clearInterval(typewriterRef.current);
+      // Skip KineticText reveal, show full text instantly
       setDisplayedText(currentLine?.text || "");
       setIsTyping(false);
       return;
@@ -410,17 +409,30 @@ export default function CutsceneOverlay({ cutscene, onComplete, onClose }: Cutsc
                 )}
               </div>
 
-              {/* Dialog text with typewriter */}
-              <p className={`font-mono text-sm sm:text-base leading-relaxed ${getMoodColor(currentLine.mood)} min-h-[3rem]`}>
-                {displayedText}
-                {isTyping && (
-                  <motion.span
-                    className={`inline-block w-2 h-4 ml-0.5 ${cutscene.theme === "elara" ? "bg-cyan-400" : "bg-amber-400"}`}
-                    animate={{ opacity: [1, 0] }}
-                    transition={{ duration: 0.5, repeat: Infinity }}
+              {/* Dialog text with KineticText */}
+              <div className={`font-mono text-sm sm:text-base leading-relaxed ${getMoodColor(currentLine.mood)} min-h-[3rem]`}>
+                {isTyping ? (
+                  <KineticText
+                    key={currentLineIndex}
+                    text={currentLine.text}
+                    mode="char"
+                    speed={kineticSpeed}
+                    effect={moodEffect}
+                    perCharacter={!!moodEffect}
+                    onComplete={() => {
+                      setIsTyping(false);
+                      if (currentLine.effect) {
+                        setActiveEffect(currentLine.effect);
+                        setTimeout(() => setActiveEffect(null), 800);
+                      }
+                    }}
+                    showCursor
+                    as="p"
                   />
+                ) : (
+                  <p>{displayedText || currentLine.text}</p>
                 )}
-              </p>
+              </div>
 
               {/* Continue prompt */}
               {!isTyping && (

@@ -16,6 +16,10 @@ import TrainingModeOverlay from "./TrainingModeOverlay";
 import FighterIntroOverlay from "./FighterIntroOverlay";
 import { useSagaThemeBGM } from "@/contexts/SagaThemeBGMContext";
 import { getAtmosphereForRoom, applyThemeToDOM } from "@/engine/voidEngine";
+import {
+  dispatchCombatHit, dispatchCombatCritical, dispatchCombatDeath,
+  dispatchLimitBreak, dispatchNarrativeEffect,
+} from "@/hooks/useNarrativeEvents";
 
 /* ═══ PROPS ═══ */
 interface FightArena2DProps {
@@ -189,17 +193,36 @@ function FightArena2D({
       if (type === "blocked" || type === "parried") hapticBlock();
       else if (type === "heavy" || type === "launcher") hapticHeavyHit();
       else hapticMediumHit();
+
+      // Narrative effects — player taking damage triggers screen effects
+      if (attacker === 2) {
+        if (type === "heavy" || type === "launcher") dispatchCombatCritical();
+        else dispatchCombatHit();
+      }
     },
     onSpecialActivate: (player, level) => {
       if (player !== 1) return;
       if (level === 3) hapticSP3();
       else if (level === 2) hapticSP2();
       else hapticSP1();
+
+      // Narrative: limit break / special activation
+      if (level >= 2) dispatchLimitBreak();
+      else dispatchNarrativeEffect("jolt");
+    },
+    onFinishHim: () => {
+      // Narrative: finishing blow moment
+      dispatchNarrativeEffect("surge");
     },
     onMatchEnd: (winner) => {
       const w = winner === 1 ? "p1" : "p2";
       const perfect = winner === 1 ? p1PerfectRef.current : false;
       setAnnounceMessage(w === "p1" ? (perfect ? "You win! Perfect victory!" : "You win!") : "You lose!");
+
+      // Narrative: death/victory effects
+      if (w === "p2") dispatchCombatDeath();
+      else if (perfect) dispatchNarrativeEffect("surge");
+
       // Delay to show victory animation
       setTimeout(() => onMatchEndRef.current(w, perfect), 1500);
     },

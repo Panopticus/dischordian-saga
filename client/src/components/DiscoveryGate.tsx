@@ -8,6 +8,7 @@ import { useGame } from "@/contexts/GameContext";
 import { Link } from "wouter";
 import { motion } from "framer-motion";
 import { Lock, Rocket, Shield, ChevronRight } from "lucide-react";
+import { VOID } from "@/engine/voidPresets";
 
 interface DiscoveryGateProps {
   /** Room ID that must be unlocked (e.g., "bridge", "armory", "engineering") */
@@ -50,9 +51,7 @@ export default function DiscoveryGate({
   return (
     <div className="min-h-[60vh] flex items-center justify-center p-6">
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
+        {...VOID.fadeUp()}
         className="text-center max-w-md"
       >
         {/* Lock Icon */}

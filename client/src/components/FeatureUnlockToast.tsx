@@ -14,6 +14,7 @@ import { Sparkles, X } from "lucide-react";
 import { useGame } from "@/contexts/GameContext";
 import { FEATURE_ROADMAP, isFeatureUnlocked, FEATURE_CATEGORIES, type FeatureUnlock } from "@shared/featureRoadmap";
 import { Z } from "@/lib/zIndex";
+import { VOID } from "@/engine/voidPresets";
 
 const STORAGE_KEY = "feature_unlocks_seen";
 
@@ -78,10 +79,7 @@ export default function FeatureUnlockToast() {
   return (
     <AnimatePresence>
       <motion.div
-        initial={{ opacity: 0, y: -30, scale: 0.95 }}
-        animate={{ opacity: 1, y: 0, scale: 1 }}
-        exit={{ opacity: 0, y: -30, scale: 0.95 }}
-        transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+        {...VOID.scaleIn()}
         className={`fixed top-16 left-1/2 -translate-x-1/2 ${Z.DISCOVERY} max-w-md w-[90%]`}
       >
         <div

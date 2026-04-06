@@ -30,6 +30,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import NotificationBell from "@/components/NotificationBell";
 import { ShipThemeOverlay } from "@/components/ShipThemeOverlay";
 import TransmissionDeck from "@/components/TransmissionDeck";
+import { useNarrativeEvents } from "@/hooks/useNarrativeEvents";
 
 const ARK_CONTROL_ROOM = "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/ark_control_room_04cb4fe3.png";
 
@@ -52,6 +53,10 @@ export default function AppShell({ children, elaraTTS: _elaraTTS }: { children: 
   const { showPlayer } = usePlayer();
   const { state: gameState } = useGame();
   const [showTransmissions, setShowTransmissions] = useState(false);
+
+  // Activate narrative effects bridge — listens to game events (combat, NPC, room, etc.)
+  // and triggers physics-aware CSS narrative effects on the app body
+  useNarrativeEvents();
 
   // TransmissionDeck unlocks when Observation Deck OR Comms Array is discovered
   const hasMediaAccess = !!(gameState.rooms["observation-deck"]?.unlocked || gameState.rooms["comms-array"]?.unlocked);

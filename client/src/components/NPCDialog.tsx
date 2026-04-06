@@ -21,6 +21,9 @@ import { getNPCPortrait } from "@/game/npcPortraits";
 import { getAmbientReference } from "@/game/ambientStorytelling";
 import { getActiveVoices, SKILL_VOICES, type SkillId } from "@/game/innerVoices";
 import { ARCHON_VOICE_MAPPING } from "@/game/archonTrainingVoices";
+import { KineticText } from "@/components/void";
+import type { NarrativeEffect } from "@/engine/voidNarrative";
+import { VOID } from "@/engine/voidPresets";
 
 /* ─── MANIFESTATION STYLES ─── */
 
@@ -165,67 +168,78 @@ export default function NPCDialog({ npcId, scene, onClose, onChoice }: NPCDialog
   // Void Energy: shift document physics to match this NPC's manifestation while dialog is open
   useNPCPhysics(npc.manifestation, true);
 
-  // Typewriter effect
-  const [displayText, setDisplayText] = useState("");
+  // KineticText reveal state
   const [isTyping, setIsTyping] = useState(true);
   const [showChoices, setShowChoices] = useState(false);
   const [showGifts, setShowGifts] = useState(false);
   const [giftResult, setGiftResult] = useState<string | null>(null);
+  const [kineticKey, setKineticKey] = useState(0); // force re-mount on scene change
   const textRef = useRef<HTMLDivElement>(null);
 
+  // Reset state on scene change
   useEffect(() => {
-    setDisplayText("");
     setIsTyping(true);
     setShowChoices(false);
-    let idx = 0;
-    const interval = setInterval(() => {
-      if (idx < scene.text.length) {
-        setDisplayText(scene.text.slice(0, idx + 1));
-        idx++;
-      } else {
-        clearInterval(interval);
-        setIsTyping(false);
-        setShowChoices(true);
-      }
-    }, npc.typeSpeed);
-    return () => clearInterval(interval);
-  }, [scene.text, npc.typeSpeed]);
+    setKineticKey(k => k + 1);
+  }, [scene.text]);
+
+  // Map NPC manifestation to a per-character kinetic effect
+  const npcKineticEffect = useMemo((): NarrativeEffect => {
+    switch (npc.manifestation) {
+      case "hologram": return "drift";           // Elara: gentle holographic drift
+      case "possessed_system": return "static";   // Source, Shadow Tongue: CRT static
+      case "temporal_echo": return "breathe";     // Antiquarian: time-breathing
+      case "electrical_pattern": return "flicker"; // Voltari: electrical flicker
+      case "resurrection_echo": return "tremble"; // Necromancer: dead-frequency tremor
+      default: return null;                       // substrate, comms_signal: clean text
+    }
+  }, [npc.manifestation]);
+
+  const handleKineticComplete = useCallback(() => {
+    setIsTyping(false);
+    setShowChoices(true);
+  }, []);
 
   // Skip typewriter on click
   const handleSkip = useCallback(() => {
     if (isTyping) {
-      setDisplayText(scene.text);
       setIsTyping(false);
       setShowChoices(true);
+      setKineticKey(k => k + 1); // force instant display
     }
-  }, [isTyping, scene.text]);
+  }, [isTyping]);
 
-  // Corruption effect for possessed_system / viral
+  // Determine kinetic mode based on NPC personality and corruption
+  const kineticMode = useMemo(() => {
+    if (npc.corruption === "viral" && trust < 30) return "decode" as const;
+    if (npc.manifestation === "possessed_system") return "decode" as const;
+    return "char" as const;
+  }, [npc.corruption, npc.manifestation, trust]);
+
+  // Corruption effect for possessed_system / viral (applied to scene text before KineticText)
   const corruptedText = useMemo(() => {
-    if (npc.corruption === "none" || npc.corruption === "echo") return displayText;
+    if (npc.corruption === "none" || npc.corruption === "echo") return scene.text;
     if (npc.corruption === "whisper" && trust < 20) {
       // Shadow Tongue: corrupt random characters before discovery
-      return displayText.split("").map((c, i) =>
+      return scene.text.split("").map((c, i) =>
         Math.random() < 0.03 && c !== " " ? String.fromCharCode(c.charCodeAt(0) + Math.floor(Math.random() * 3) - 1) : c
       ).join("");
     }
     if (npc.corruption === "viral" && trust < 30) {
       // Source: viral glitch effect
-      return displayText.split("").map((c, i) =>
+      return scene.text.split("").map((c, i) =>
         Math.random() < 0.02 && c !== " " ? "█" : c
       ).join("");
     }
-    return displayText;
-  }, [displayText, npc.corruption, trust]);
+    return scene.text;
+  }, [scene.text, npc.corruption, trust]);
 
   const Icon = manifest.icon;
 
   return (
     <AnimatePresence>
       <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
+        {...VOID.fade()}
         className="fixed inset-0 z-[55] flex items-end sm:items-center justify-center p-2 sm:p-4"
       >
         {/* Backdrop */}
@@ -233,10 +247,7 @@ export default function NPCDialog({ npcId, scene, onClose, onChoice }: NPCDialog
 
         {/* Dialog Panel */}
         <motion.div
-          initial={{ y: 40, opacity: 0, scale: 0.98 }}
-          animate={{ y: 0, opacity: 1, scale: 1 }}
-          exit={{ y: 40, opacity: 0, scale: 0.98 }}
-          transition={{ type: "spring", damping: 25, stiffness: 300 }}
+          {...VOID.springUp()}
           className={`relative w-full max-w-2xl void-elevated overflow-hidden`}
           style={{ boxShadow: `0 0 40px ${npc.color}20, inset 0 0 20px ${npc.color}05` }}
           data-narrative={MANIFESTATION_NARRATIVE[npc.manifestation] || "breathe"}
@@ -309,15 +320,37 @@ export default function NPCDialog({ npcId, scene, onClose, onChoice }: NPCDialog
               {npc.title.toUpperCase()}
             </p>
 
-            {/* Dialog text with typewriter */}
-            <p className={`font-mono text-sm leading-relaxed ${manifest.textEffect}`}
+            {/* Dialog text with KineticText per-character reveal */}
+            <div className={`font-mono text-sm leading-relaxed ${manifest.textEffect}`}
               style={{ color: "rgba(255,255,255,0.85)" }}>
-              {corruptedText}
-              {isTyping && (
-                <span className="inline-block w-1.5 h-4 ml-0.5 animate-pulse"
-                  style={{ backgroundColor: npc.color }} />
+              {isTyping ? (
+                <KineticText
+                  key={kineticKey}
+                  text={corruptedText}
+                  mode={kineticMode}
+                  speed={npc.typeSpeed}
+                  effect={npcKineticEffect}
+                  perCharacter={!!npcKineticEffect}
+                  onComplete={handleKineticComplete}
+                  showCursor
+                  as="p"
+                  className="inline"
+                />
+              ) : (
+                <KineticText
+                  key={`done-${kineticKey}`}
+                  text={corruptedText}
+                  mode="char"
+                  speed={0}
+                  autoStart
+                  effect={npcKineticEffect}
+                  perCharacter={!!npcKineticEffect}
+                  as="p"
+                  className="inline"
+                  showCursor={false}
+                />
               )}
-            </p>
+            </div>
 
             {/* Revelation badge */}
             {scene.revelationId && (

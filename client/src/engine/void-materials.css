@@ -1,129 +1,406 @@
 /* ═══════════════════════════════════════════════════════
-   VOID MATERIALS — CSS consuming VoidEngine custom properties
+   VOID ENERGY — MATERIALS & PHYSICS ENGINE (Consolidated)
 
-   These classes use --void-* variables set by the VoidEngine.
-   When the morality score, room, or NPC changes, the entire
-   visual material shifts automatically.
+   Single source of truth for how VoidEngine CSS variables
+   are consumed. Merges the old void-materials.css (variable
+   bridge + utilities) with void-physics.css (material behavior).
+
+   Architecture:
+   1. Variable bridge: maps --void-* → semantic aliases
+   2. Physics presets: glass / flat / retro material behaviors
+   3. Depth tiers: sunk (-Z), float (+Z), lift (++Z)
+   4. Utilities: text, background, border, glow, transition classes
+   5. NPC physics override for dialog panels
+   6. Density scaling
+
+   Applied via [data-physics] attribute on <html>.
+   Components use .void-surface, .void-elevated, .void-sunk classes.
 
    "We do not paint pixels; we define materials."
    ═══════════════════════════════════════════════════════ */
 
-/* ── BASE MATERIAL (applies to all surfaces) ── */
+/* ─── VARIABLE BRIDGE ───
+   Maps VoidEngine's --void-* custom properties to semantic aliases
+   that game UI components consume. When morality, room, or NPC
+   changes, the entire visual material shifts automatically. */
 
 [data-atmosphere] {
   --bg-void: var(--void-canvas, #010020);
   --bg-surface: var(--void-surface, #060830);
   --bg-elevated: var(--void-elevated, #0c1040);
+  --bg-sunk: var(--void-sunk, color-mix(in oklch, var(--void-canvas, #010020) 85%, black 15%));
+  --bg-spotlight: var(--void-spotlight, color-mix(in oklch, var(--void-surface, #060830) 90%, white 10%));
   --text-primary: var(--void-text, #e2e8f0);
+  --text-dim: var(--void-text-dim, color-mix(in oklch, var(--void-text, #e2e8f0) 70%, transparent));
   --text-muted: var(--void-text-muted, #e2e8f060);
   --energy-primary: var(--void-primary, #33e2e6);
+  --energy-secondary: var(--void-secondary, var(--void-accent, #ff8c00));
   --energy-muted: var(--void-primary-muted, #33e2e640);
   --energy-accent: var(--void-accent, #ff8c00);
   --energy-success: var(--void-success, #22c55e);
   --energy-error: var(--void-error, #ef4444);
+  --energy-premium: var(--void-premium, #ff8c00);
+  --energy-system: var(--void-system, #a078ff);
   --material-border: var(--void-border, #33e2e620);
   --material-border-subtle: var(--void-border-subtle, #33e2e610);
   --material-glow: var(--void-glow, #33e2e630);
-  --material-blur: var(--void-blur, 12px);
-  --material-radius: var(--void-radius, 12px);
-  --material-opacity: var(--void-surface-opacity, 0.6);
-  --material-border-style: var(--void-border-style, solid);
   --speed-fast: var(--void-speed-fast, 150ms);
   --speed-base: var(--void-speed-base, 300ms);
   --speed-slow: var(--void-speed-slow, 500ms);
+
+  /* Atmosphere-specific typography */
+  --font-atmos-heading: var(--void-font-heading, 'Raleway', system-ui, sans-serif);
+  --font-atmos-body: var(--void-font-body, 'Inter', system-ui, sans-serif);
 }
 
-/* ── GLASS PHYSICS ── */
+/* ── ATMOSPHERE FONT APPLICATION ──
+   When a VoidEngine atmosphere is active, heading and body
+   elements inherit the atmosphere's typographic personality. */
 
+[data-atmosphere] h1,
+[data-atmosphere] h2,
+[data-atmosphere] h3,
+[data-atmosphere] h4,
+[data-atmosphere] h5,
+[data-atmosphere] h6,
+[data-atmosphere] .void-heading {
+  font-family: var(--font-atmos-heading);
+}
+
+[data-atmosphere] .void-body {
+  font-family: var(--font-atmos-body);
+}
+
+/* ═══════════════════════════════════════════════════════
+   BASE MATERIAL TOKENS
+   Overridden per physics type below.
+   ═══════════════════════════════════════════════════════ */
+
+:root {
+  --ve-radius-sm: 6px;
+  --ve-radius-md: 10px;
+  --ve-radius-lg: 16px;
+  --ve-radius-xl: 24px;
+  --ve-blur: 0px;
+  --ve-border-style: solid;
+  --ve-border-width: 1px;
+  --ve-transition-speed: 300ms;
+  --ve-transition-ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --ve-shadow-sunk: inset 0 1px 3px rgba(0,0,0,0.2);
+  --ve-shadow-float: 0 1px 3px rgba(0,0,0,0.12), 0 6px 20px -4px rgba(0,0,0,0.2);
+  --ve-shadow-lift: 0 8px 30px rgba(0,0,0,0.3);
+
+  /* Density system — 4px harmonic scale x multiplier */
+  --ve-density: 1;
+  --ve-space-xs: calc(4px * var(--ve-density));
+  --ve-space-sm: calc(8px * var(--ve-density));
+  --ve-space-md: calc(16px * var(--ve-density));
+  --ve-space-lg: calc(24px * var(--ve-density));
+  --ve-space-xl: calc(32px * var(--ve-density));
+  --ve-space-2xl: calc(48px * var(--ve-density));
+  --ve-space-3xl: calc(64px * var(--ve-density));
+  --ve-text-scale: 1;
+}
+
+
+/* ═══════════════════════════════════════════════════════
+   GLASS PHYSICS
+   Translucent, ethereal, holographic.
+   Backdrop blur, layered shadows, glow bleed, smooth springs.
+   Requires dark mode — enforced by constraint engine.
+   ═══════════════════════════════════════════════════════ */
+
+[data-physics="glass"] {
+  --ve-radius-sm: 8px;
+  --ve-radius-md: 12px;
+  --ve-radius-lg: 16px;
+  --ve-radius-xl: 24px;
+  --ve-blur: 12px;
+  --ve-border-style: solid;
+  --ve-border-width: 1px;
+  --ve-transition-speed: 300ms;
+  --ve-transition-ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --ve-shadow-sunk:
+    inset 0 2px 6px rgba(0,0,0,0.3),
+    inset 0 0 8px color-mix(in oklch, var(--void-primary, #33E2E6) 5%, transparent);
+  --ve-shadow-float:
+    0 1px 3px rgba(0,0,0,0.25),
+    0 6px 20px -4px rgba(0,0,0,0.35);
+  --ve-shadow-lift:
+    0 12px 40px rgba(0,0,0,0.4),
+    0 0 20px var(--void-glow, rgba(51,226,230,0.1));
+}
+
+/* Glass surfaces: energy-tinted gradient + backdrop blur */
 [data-physics="glass"] .void-surface {
-  background: color-mix(in srgb, var(--bg-surface) var(--material-opacity, 60%), transparent);
-  backdrop-filter: blur(var(--material-blur));
-  -webkit-backdrop-filter: blur(var(--material-blur));
-  border: 1px var(--material-border-style) var(--material-border);
-  border-radius: var(--material-radius);
-  box-shadow: 0 0 20px var(--material-glow), inset 0 0 10px color-mix(in srgb, var(--material-glow) 30%, transparent);
+  background: linear-gradient(
+    to bottom,
+    color-mix(in oklch, var(--void-surface, #0a0a1a) 90%, var(--void-primary, #33E2E6) 10%),
+    var(--void-surface, #0a0a1a)
+  );
+  backdrop-filter: blur(var(--ve-blur));
+  -webkit-backdrop-filter: blur(var(--ve-blur));
+  border: var(--ve-border-width) var(--ve-border-style) var(--material-border, rgba(255,255,255,0.08));
+  border-radius: var(--ve-radius-md);
+  box-shadow:
+    var(--ve-shadow-float),
+    inset 0 1px 0 rgba(255,255,255,0.04),
+    0 0 1px rgba(255,255,255,0.05);
+  transition: all var(--ve-transition-speed) var(--ve-transition-ease);
 }
 
 [data-physics="glass"] .void-elevated {
-  background: color-mix(in srgb, var(--bg-elevated) 70%, transparent);
-  backdrop-filter: blur(calc(var(--material-blur) * 1.5));
-  -webkit-backdrop-filter: blur(calc(var(--material-blur) * 1.5));
-  border: 1px var(--material-border-style) var(--material-border);
-  border-radius: var(--material-radius);
+  background: linear-gradient(
+    to bottom,
+    color-mix(in oklch, var(--void-elevated, #141428) 85%, var(--void-primary, #33E2E6) 15%),
+    var(--void-elevated, #141428)
+  );
+  backdrop-filter: blur(calc(var(--ve-blur) * 1.5));
+  -webkit-backdrop-filter: blur(calc(var(--ve-blur) * 1.5));
+  border: var(--ve-border-width) var(--ve-border-style)
+    color-mix(in oklch, var(--material-border, rgba(255,255,255,0.08)) 60%, var(--void-primary, #33E2E6) 40%);
+  border-radius: var(--ve-radius-lg);
+  box-shadow:
+    var(--ve-shadow-lift),
+    inset 0 1px 0 rgba(255,255,255,0.06);
+  transition: all var(--ve-transition-speed) var(--ve-transition-ease);
 }
 
-/* ── FLAT PHYSICS ── */
+[data-physics="glass"] .void-sunk {
+  background: color-mix(in oklch, var(--void-canvas, #010020) 92%, black);
+  border: var(--ve-border-width) var(--ve-border-style)
+    color-mix(in oklch, var(--material-border, rgba(255,255,255,0.08)) 40%, transparent);
+  border-radius: var(--ve-radius-sm);
+  box-shadow: var(--ve-shadow-sunk);
+  transition: all var(--ve-transition-speed) var(--ve-transition-ease);
+}
+
+[data-physics="glass"] .void-surface:hover {
+  box-shadow:
+    0 0 20px var(--void-glow, rgba(51,226,230,0.15)),
+    var(--ve-shadow-lift),
+    inset 0 1px 0 rgba(255,255,255,0.06);
+  border-color: color-mix(in oklch, var(--material-border, rgba(255,255,255,0.08)) 40%, var(--void-primary, #33E2E6) 60%);
+}
+
+/* Glass scrollbars — translucent + glow on hover */
+[data-physics="glass"] ::-webkit-scrollbar { width: 8px; }
+[data-physics="glass"] ::-webkit-scrollbar-track { background: transparent; }
+[data-physics="glass"] ::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.08);
+  border-radius: 4px;
+  border: 2px solid transparent;
+}
+[data-physics="glass"] ::-webkit-scrollbar-thumb:hover {
+  background: rgba(255,255,255,0.15);
+  box-shadow: 0 0 8px var(--void-glow, rgba(51,226,230,0.2));
+}
+
+
+/* ═══════════════════════════════════════════════════════
+   FLAT PHYSICS
+   Clean, digital, minimal.
+   No blur, subtle borders, sharp geometry, fast transitions.
+   ═══════════════════════════════════════════════════════ */
+
+[data-physics="flat"] {
+  --ve-radius-sm: 4px;
+  --ve-radius-md: 8px;
+  --ve-radius-lg: 12px;
+  --ve-radius-xl: 16px;
+  --ve-blur: 0px;
+  --ve-border-style: solid;
+  --ve-border-width: 1px;
+  --ve-transition-speed: 200ms;
+  --ve-transition-ease: cubic-bezier(0.25, 0.1, 0.25, 1);
+  --ve-shadow-sunk: inset 0 1px 2px rgba(0,0,0,0.1);
+  --ve-shadow-float: 0 1px 2px rgba(0,0,0,0.05);
+  --ve-shadow-lift: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+/* Dark mode flat: increase shadow opacity for visibility */
+[data-physics="flat"][data-mode="dark"] {
+  --ve-shadow-sunk: inset 0 2px 4px rgba(0,0,0,0.35);
+  --ve-shadow-float: 0 1px 3px rgba(0,0,0,0.3);
+  --ve-shadow-lift: 0 4px 12px rgba(0,0,0,0.4);
+}
 
 [data-physics="flat"] .void-surface {
-  background: var(--bg-surface);
-  border: 1px solid var(--material-border);
-  border-radius: var(--material-radius);
+  background: var(--void-surface, #0f0f1a);
+  border: var(--ve-border-width) var(--ve-border-style) var(--material-border, rgba(255,255,255,0.08));
+  border-radius: var(--ve-radius-md);
+  box-shadow: var(--ve-shadow-float);
+  transition: all var(--ve-transition-speed) var(--ve-transition-ease);
 }
 
 [data-physics="flat"] .void-elevated {
-  background: var(--bg-elevated);
-  border: 1px solid var(--material-border);
-  border-radius: var(--material-radius);
+  background: var(--void-elevated, #1a1a2e);
+  border: var(--ve-border-width) var(--ve-border-style) var(--material-border, rgba(255,255,255,0.08));
+  border-radius: var(--ve-radius-md);
+  box-shadow: var(--ve-shadow-lift);
+  transition: all var(--ve-transition-speed) var(--ve-transition-ease);
 }
 
-/* ── RETRO PHYSICS (CRT aesthetic) ── */
+[data-physics="flat"] .void-sunk {
+  background: var(--bg-sunk, #000010);
+  border: var(--ve-border-width) var(--ve-border-style) var(--material-border-subtle, rgba(255,255,255,0.04));
+  border-radius: var(--ve-radius-sm);
+  box-shadow: var(--ve-shadow-sunk);
+  transition: all var(--ve-transition-speed) var(--ve-transition-ease);
+}
+
+[data-physics="flat"] .void-surface:hover {
+  box-shadow: var(--ve-shadow-lift);
+  border-color: var(--void-primary, #33E2E6);
+}
+
+/* Flat scrollbars — solid, minimal */
+[data-physics="flat"] ::-webkit-scrollbar { width: 6px; }
+[data-physics="flat"] ::-webkit-scrollbar-track { background: transparent; }
+[data-physics="flat"] ::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.1);
+  border-radius: 3px;
+}
+[data-physics="flat"] ::-webkit-scrollbar-thumb:hover {
+  background: rgba(255,255,255,0.2);
+}
+
+
+/* ═══════════════════════════════════════════════════════
+   RETRO PHYSICS
+   CRT phosphor, pixelated, hard edges.
+   Zero border-radius, double borders, instant transitions,
+   stepped timing functions. Requires dark mode.
+   ═══════════════════════════════════════════════════════ */
+
+[data-physics="retro"] {
+  --ve-radius-sm: 0px;
+  --ve-radius-md: 0px;
+  --ve-radius-lg: 0px;
+  --ve-radius-xl: 0px;
+  --ve-blur: 0px;
+  --ve-border-style: double;
+  --ve-border-width: 3px;
+  --ve-transition-speed: 0ms;
+  --ve-transition-ease: steps(1);
+  --ve-shadow-sunk: inset 2px 2px 0 rgba(0,0,0,0.5);
+  --ve-shadow-float: none;
+  --ve-shadow-lift: 2px 2px 0 rgba(0,0,0,0.8);
+}
+
+/* RETRO OVERRIDE: Force all border-radius to 0 globally */
+[data-physics="retro"] * {
+  border-radius: 0 !important;
+}
 
 [data-physics="retro"] .void-surface {
-  background: var(--bg-surface);
-  border: 2px var(--material-border-style) var(--material-border);
-  border-radius: var(--material-radius);
+  background: var(--void-surface, #050010);
+  border: var(--ve-border-width) var(--ve-border-style) var(--void-primary, #ff3040);
+  box-shadow: var(--ve-shadow-lift);
   image-rendering: pixelated;
+  transition: none;
+  position: relative;
 }
 
-[data-physics="retro"] .void-surface::after {
+[data-physics="retro"] .void-elevated {
+  background: var(--void-elevated, #0a0015);
+  border: var(--ve-border-width) var(--ve-border-style) var(--void-primary, #ff3040);
+  box-shadow: 3px 3px 0 rgba(0,0,0,0.9);
+  image-rendering: pixelated;
+  transition: none;
+  position: relative;
+}
+
+[data-physics="retro"] .void-sunk {
+  background: black;
+  border: var(--ve-border-width) var(--ve-border-style)
+    color-mix(in oklch, var(--void-primary, #ff3040) 50%, transparent);
+  box-shadow: var(--ve-shadow-sunk);
+  image-rendering: pixelated;
+  transition: none;
+}
+
+[data-physics="retro"] .void-surface:hover {
+  box-shadow: 3px 3px 0 var(--void-primary, #ff3040);
+}
+
+/* Retro scanline overlay */
+[data-physics="retro"] .void-surface::after,
+[data-physics="retro"] .void-elevated::after {
   content: "";
   position: absolute;
   inset: 0;
   pointer-events: none;
   background: repeating-linear-gradient(
     0deg,
-    transparent,
+    transparent 0px,
     transparent 2px,
-    color-mix(in srgb, var(--energy-primary) 3%, transparent) 2px,
-    color-mix(in srgb, var(--energy-primary) 3%, transparent) 4px
+    rgba(255, 48, 64, 0.03) 2px,
+    rgba(255, 48, 64, 0.03) 4px
   );
-  border-radius: inherit;
+  z-index: 1;
 }
 
-[data-physics="retro"] .void-elevated {
-  background: var(--bg-elevated);
-  border: 2px var(--material-border-style) var(--material-border);
-  border-radius: var(--material-radius);
+/* Retro scrollbars — chunky, double-width, hard edges */
+[data-physics="retro"] ::-webkit-scrollbar { width: 12px; }
+[data-physics="retro"] ::-webkit-scrollbar-track {
+  background: var(--void-canvas, #000);
+  border-left: 2px double var(--void-primary, #ff3040);
+}
+[data-physics="retro"] ::-webkit-scrollbar-thumb {
+  background: var(--void-primary, #ff3040);
+  border: 2px double var(--void-canvas, #000);
 }
 
-/* ── UTILITY CLASSES ── */
 
+/* ═══════════════════════════════════════════════════════
+   UTILITY CLASSES
+   ═══════════════════════════════════════════════════════ */
+
+/* ── Text ── */
 .void-text { color: var(--text-primary); }
+.void-text-dim { color: var(--text-dim); }
 .void-text-muted { color: var(--text-muted); }
+.void-text-primary,
 .void-text-energy { color: var(--energy-primary); }
 .void-text-accent { color: var(--energy-accent); }
+.void-text-premium { color: var(--energy-premium); }
+.void-text-system { color: var(--energy-system); }
 
+/* ── Backgrounds ── */
 .void-bg-canvas { background-color: var(--bg-void); }
 .void-bg-surface { background-color: var(--bg-surface); }
 .void-bg-elevated { background-color: var(--bg-elevated); }
+.void-bg-sunk { background-color: var(--bg-sunk); }
 
+/* ── Borders ── */
 .void-border { border-color: var(--material-border); }
 .void-border-subtle { border-color: var(--material-border-subtle); }
 
+/* ── Glow ── */
 .void-glow { box-shadow: 0 0 20px var(--material-glow); }
 .void-glow-sm { box-shadow: 0 0 8px var(--material-glow); }
 .void-glow-lg { box-shadow: 0 0 40px var(--material-glow); }
+[data-physics="retro"] .void-glow {
+  box-shadow: 0 0 0 1px var(--void-primary, #ff3040), 2px 2px 0 rgba(0,0,0,0.8);
+}
 
-.void-radius { border-radius: var(--material-radius); }
+/* ── Radius ── */
+.void-radius { border-radius: var(--ve-radius-md); }
+.void-radius-sm { border-radius: var(--ve-radius-sm); }
+.void-radius-lg { border-radius: var(--ve-radius-lg); }
 
-/* ── TRANSITION SPEEDS ── */
-
+/* ── Transitions ── */
 .void-transition-fast { transition-duration: var(--speed-fast); }
 .void-transition-base { transition-duration: var(--speed-base); }
 .void-transition-slow { transition-duration: var(--speed-slow); }
 
-/* ── NPC PHYSICS OVERRIDE ── */
-/* When an NPC dialog is open, their physics type affects the dialog panel */
+
+/* ═══════════════════════════════════════════════════════
+   NPC PHYSICS OVERRIDE
+   When an NPC dialog is open, their manifestation type
+   affects the dialog panel via [data-npc-physics] on <html>.
+   ═══════════════════════════════════════════════════════ */
 
 [data-npc-physics="glass"] .npc-dialog-panel {
   backdrop-filter: blur(16px);
@@ -133,9 +410,10 @@
 
 [data-npc-physics="retro"] .npc-dialog-panel {
   backdrop-filter: none;
-  border-radius: 2px;
+  border-radius: 0;
   border-style: double;
   image-rendering: pixelated;
+  position: relative;
 }
 
 [data-npc-physics="retro"] .npc-dialog-panel::after {
@@ -155,4 +433,29 @@
 [data-npc-physics="flat"] .npc-dialog-panel {
   backdrop-filter: none;
   border-radius: 8px;
+}
+
+
+/* ═══════════════════════════════════════════════════════
+   DENSITY SCALING
+   ═══════════════════════════════════════════════════════ */
+
+[data-density="compact"] { --ve-density: 0.75; --ve-text-scale: 0.92; }
+[data-density="standard"] { --ve-density: 1; --ve-text-scale: 1; }
+[data-density="spacious"] { --ve-density: 1.25; --ve-text-scale: 1.08; }
+
+/* Apply text scale to body */
+html { font-size: calc(16px * var(--ve-text-scale, 1)); }
+
+/* Minimum touch targets at all densities */
+[data-density] button,
+[data-density] [role="button"],
+[data-density] a {
+  min-height: 44px;
+  min-width: 44px;
+}
+/* Exception for inline/tiny UI */
+[data-density] .ve-compact-ok {
+  min-height: unset;
+  min-width: unset;
 }

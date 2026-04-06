@@ -27,13 +27,19 @@ export interface VoidPalette {
   canvas: string;
   surface: string;
   elevated: string;
+  sunk: string;             // Recessed depth: inputs, wells, sidebars
+  spotlight: string;         // Ambient lighting for depth perception
   text: string;
+  textDim: string;           // Medium-emphasis text (labels, captions)
   textMuted: string;
   primary: string;
   primaryMuted: string;
+  secondary: string;         // Supporting accent (charts, secondary actions)
   accent: string;
   success: string;
   error: string;
+  premium: string;           // Premium/paid content gold
+  system: string;            // System-level UI purple
   border: string;
   borderSubtle: string;
   glow: string;
@@ -45,6 +51,11 @@ export interface VoidTheme {
   mode: ModeType;
   physics: PhysicsType;
   palette: VoidPalette;
+  /** Atmosphere-specific fonts (family strings with fallbacks) */
+  fonts: {
+    heading: string;
+    body: string;
+  };
   /** Particle effect type */
   particleEffect: string;
   /** NPC association (if any) */
@@ -202,65 +213,183 @@ export function getAtmosphereForRoom(roomId: string): string | null {
 
 /* ─── THEME REGISTRY ─── */
 
+/* ─── FONT FAMILIES ───
+   Atmosphere-specific font stacks. Each theme gets its own
+   typographic personality, matching the upstream void-energy-ui
+   font registry pattern. Fonts load from Google Fonts / system. */
+
+const FONTS = {
+  tech:      "'Hanken Grotesk', 'Inter', system-ui, sans-serif",
+  clean:     "'Inter', system-ui, sans-serif",
+  code:      "'Courier Prime', 'Courier New', monospace",
+  horror:    "'Merriweather', Georgia, serif",
+  nature:    "'Lora', Georgia, serif",
+  arcane:    "'Cinzel', 'Times New Roman', serif",
+  mystic:    "'Exo 2', 'Inter', sans-serif",
+  geometric: "'Poppins', system-ui, sans-serif",
+  sharp:     "'Space Grotesk', system-ui, sans-serif",
+  display:   "'Playfair Display', Georgia, serif",
+  elegant:   "'Raleway', system-ui, sans-serif",
+} as const;
+
 const THEMES: Record<string, VoidTheme> = {
   // ── MACHINE SIDE ──
   singularity_core: {
     id: "singularity_core", label: "Singularity Core", mode: "dark", physics: "retro",
-    palette: { canvas: "#050005", surface: "#0a000a", elevated: "#150015", text: "#ff3040", textMuted: "#ff304060", primary: "#ff0020", primaryMuted: "#ff002040", accent: "#ff4060", success: "#00ff80", error: "#ff0040", border: "#ff002030", borderSubtle: "#ff002015", glow: "#ff002040" },
+    fonts: { heading: FONTS.code, body: FONTS.code },
+    palette: {
+      canvas: "#050005", surface: "#0a000a", elevated: "#150015",
+      sunk: "#020002", spotlight: "#1a0010",
+      text: "#ff3040", textDim: "#ff3040b0", textMuted: "#ff304060",
+      primary: "#ff0020", primaryMuted: "#ff002040", secondary: "#ff6040",
+      accent: "#ff4060", success: "#00ff80", error: "#ff0040",
+      premium: "#ff8c00", system: "#ff4080",
+      border: "#ff002030", borderSubtle: "#ff002015", glow: "#ff002040",
+    },
     particleEffect: "static",
   },
   crimson_forge: {
     id: "crimson_forge", label: "Crimson Forge", mode: "dark", physics: "flat",
-    palette: { canvas: "#0a0205", surface: "#120308", elevated: "#1a050c", text: "#ff6070", textMuted: "#ff607060", primary: "#dc2626", primaryMuted: "#dc262640", accent: "#f87171", success: "#22c55e", error: "#ef4444", border: "#dc262625", borderSubtle: "#dc262612", glow: "#dc262630" },
+    fonts: { heading: FONTS.sharp, body: FONTS.tech },
+    palette: {
+      canvas: "#0a0205", surface: "#120308", elevated: "#1a050c",
+      sunk: "#060103", spotlight: "#200810",
+      text: "#ff6070", textDim: "#ff6070b0", textMuted: "#ff607060",
+      primary: "#dc2626", primaryMuted: "#dc262640", secondary: "#f87171",
+      accent: "#f87171", success: "#22c55e", error: "#ef4444",
+      premium: "#ff8c00", system: "#a078ff",
+      border: "#dc262625", borderSubtle: "#dc262612", glow: "#dc262630",
+    },
     particleEffect: "embers",
   },
   circuit_nexus: {
     id: "circuit_nexus", label: "Circuit Nexus", mode: "dark", physics: "flat",
-    palette: { canvas: "#050208", surface: "#0a0410", elevated: "#10061a", text: "#c084fc", textMuted: "#c084fc60", primary: "#a855f7", primaryMuted: "#a855f740", accent: "#c084fc", success: "#22c55e", error: "#ef4444", border: "#a855f720", borderSubtle: "#a855f710", glow: "#a855f730" },
+    fonts: { heading: FONTS.mystic, body: FONTS.tech },
+    palette: {
+      canvas: "#050208", surface: "#0a0410", elevated: "#10061a",
+      sunk: "#030105", spotlight: "#140818",
+      text: "#c084fc", textDim: "#c084fcb0", textMuted: "#c084fc60",
+      primary: "#a855f7", primaryMuted: "#a855f740", secondary: "#7c3aed",
+      accent: "#c084fc", success: "#22c55e", error: "#ef4444",
+      premium: "#ff8c00", system: "#a078ff",
+      border: "#a855f720", borderSubtle: "#a855f710", glow: "#a855f730",
+    },
     particleEffect: "sparks",
   },
   chrome_sentinel: {
     id: "chrome_sentinel", label: "Chrome Sentinel", mode: "dark", physics: "glass",
-    palette: { canvas: "#08080c", surface: "#0e0e14", elevated: "#16161e", text: "#c0c0c0", textMuted: "#c0c0c060", primary: "#94a3b8", primaryMuted: "#94a3b840", accent: "#cbd5e1", success: "#22c55e", error: "#ef4444", border: "#94a3b820", borderSubtle: "#94a3b810", glow: "#94a3b830" },
+    fonts: { heading: FONTS.sharp, body: FONTS.clean },
+    palette: {
+      canvas: "#08080c", surface: "#0e0e14", elevated: "#16161e",
+      sunk: "#050508", spotlight: "#1a1a24",
+      text: "#c0c0c0", textDim: "#c0c0c0b0", textMuted: "#c0c0c060",
+      primary: "#94a3b8", primaryMuted: "#94a3b840", secondary: "#64748b",
+      accent: "#cbd5e1", success: "#22c55e", error: "#ef4444",
+      premium: "#ff8c00", system: "#a078ff",
+      border: "#94a3b820", borderSubtle: "#94a3b810", glow: "#94a3b830",
+    },
     particleEffect: "static",
   },
   industrial_accent: {
     id: "industrial_accent", label: "Industrial Accent", mode: "dark", physics: "flat",
-    palette: { canvas: "#0a0a08", surface: "#10100c", elevated: "#181812", text: "#b0b090", textMuted: "#b0b09060", primary: "#78716c", primaryMuted: "#78716c40", accent: "#a8a29e", success: "#22c55e", error: "#ef4444", border: "#78716c20", borderSubtle: "#78716c10", glow: "#78716c30" },
+    fonts: { heading: FONTS.geometric, body: FONTS.clean },
+    palette: {
+      canvas: "#0a0a08", surface: "#10100c", elevated: "#181812",
+      sunk: "#060604", spotlight: "#1c1c16",
+      text: "#b0b090", textDim: "#b0b090b0", textMuted: "#b0b09060",
+      primary: "#78716c", primaryMuted: "#78716c40", secondary: "#a8a29e",
+      accent: "#a8a29e", success: "#22c55e", error: "#ef4444",
+      premium: "#ff8c00", system: "#a078ff",
+      border: "#78716c20", borderSubtle: "#78716c10", glow: "#78716c30",
+    },
     particleEffect: "sparks",
   },
 
   // ── NEUTRAL ──
   twilight_equilibrium: {
     id: "twilight_equilibrium", label: "Twilight Equilibrium", mode: "dark", physics: "glass",
-    palette: { canvas: "#010020", surface: "#060830", elevated: "#0c1040", text: "#e2e8f0", textMuted: "#e2e8f060", primary: "#33e2e6", primaryMuted: "#33e2e640", accent: "#ff8c00", success: "#22c55e", error: "#ef4444", border: "#33e2e620", borderSubtle: "#33e2e610", glow: "#33e2e630" },
+    fonts: { heading: FONTS.elegant, body: FONTS.clean },
+    palette: {
+      canvas: "#010020", surface: "#060830", elevated: "#0c1040",
+      sunk: "#000018", spotlight: "#101448",
+      text: "#e2e8f0", textDim: "#e2e8f0b0", textMuted: "#e2e8f060",
+      primary: "#33e2e6", primaryMuted: "#33e2e640", secondary: "#06b6d4",
+      accent: "#ff8c00", success: "#22c55e", error: "#ef4444",
+      premium: "#ff8c00", system: "#a078ff",
+      border: "#33e2e620", borderSubtle: "#33e2e610", glow: "#33e2e630",
+    },
     particleEffect: "data",
   },
 
   // ── HUMANITY SIDE ──
   verdant_growth: {
     id: "verdant_growth", label: "Verdant Growth", mode: "dark", physics: "flat",
-    palette: { canvas: "#020a04", surface: "#041208", elevated: "#061a0c", text: "#86efac", textMuted: "#86efac60", primary: "#22c55e", primaryMuted: "#22c55e40", accent: "#4ade80", success: "#22c55e", error: "#ef4444", border: "#22c55e20", borderSubtle: "#22c55e10", glow: "#22c55e30" },
+    fonts: { heading: FONTS.nature, body: FONTS.clean },
+    palette: {
+      canvas: "#020a04", surface: "#041208", elevated: "#061a0c",
+      sunk: "#010602", spotlight: "#081e10",
+      text: "#86efac", textDim: "#86efacb0", textMuted: "#86efac60",
+      primary: "#22c55e", primaryMuted: "#22c55e40", secondary: "#16a34a",
+      accent: "#4ade80", success: "#22c55e", error: "#ef4444",
+      premium: "#ff8c00", system: "#a078ff",
+      border: "#22c55e20", borderSubtle: "#22c55e10", glow: "#22c55e30",
+    },
     particleEffect: "leaves",
   },
   golden_sanctuary: {
     id: "golden_sanctuary", label: "Golden Sanctuary", mode: "dark", physics: "glass",
-    palette: { canvas: "#0a0804", surface: "#121008", elevated: "#1a180c", text: "#fde68a", textMuted: "#fde68a60", primary: "#f59e0b", primaryMuted: "#f59e0b40", accent: "#fbbf24", success: "#22c55e", error: "#ef4444", border: "#f59e0b20", borderSubtle: "#f59e0b10", glow: "#f59e0b30" },
+    fonts: { heading: FONTS.display, body: FONTS.nature },
+    palette: {
+      canvas: "#0a0804", surface: "#121008", elevated: "#1a180c",
+      sunk: "#060402", spotlight: "#1e1c10",
+      text: "#fde68a", textDim: "#fde68ab0", textMuted: "#fde68a60",
+      primary: "#f59e0b", primaryMuted: "#f59e0b40", secondary: "#d97706",
+      accent: "#fbbf24", success: "#22c55e", error: "#ef4444",
+      premium: "#ff8c00", system: "#a078ff",
+      border: "#f59e0b20", borderSubtle: "#f59e0b10", glow: "#f59e0b30",
+    },
     particleEffect: "fireflies",
   },
   aurora_bloom: {
     id: "aurora_bloom", label: "Aurora Bloom", mode: "dark", physics: "glass",
-    palette: { canvas: "#040208", surface: "#080410", elevated: "#0c0618", text: "#e9d5ff", textMuted: "#e9d5ff60", primary: "#c084fc", primaryMuted: "#c084fc40", accent: "#f0abfc", success: "#22c55e", error: "#ef4444", border: "#c084fc20", borderSubtle: "#c084fc10", glow: "#c084fc30" },
+    fonts: { heading: FONTS.arcane, body: FONTS.elegant },
+    palette: {
+      canvas: "#040208", surface: "#080410", elevated: "#0c0618",
+      sunk: "#020105", spotlight: "#10081c",
+      text: "#e9d5ff", textDim: "#e9d5ffb0", textMuted: "#e9d5ff60",
+      primary: "#c084fc", primaryMuted: "#c084fc40", secondary: "#a855f7",
+      accent: "#f0abfc", success: "#22c55e", error: "#ef4444",
+      premium: "#ff8c00", system: "#a078ff",
+      border: "#c084fc20", borderSubtle: "#c084fc10", glow: "#c084fc30",
+    },
     particleEffect: "fireflies",
   },
   celestial_garden: {
     id: "celestial_garden", label: "Celestial Garden", mode: "dark", physics: "glass",
-    palette: { canvas: "#020408", surface: "#040810", elevated: "#060c18", text: "#bae6fd", textMuted: "#bae6fd60", primary: "#38bdf8", primaryMuted: "#38bdf840", accent: "#7dd3fc", success: "#22c55e", error: "#ef4444", border: "#38bdf820", borderSubtle: "#38bdf810", glow: "#38bdf830" },
+    fonts: { heading: FONTS.elegant, body: FONTS.clean },
+    palette: {
+      canvas: "#020408", surface: "#040810", elevated: "#060c18",
+      sunk: "#010305", spotlight: "#08101c",
+      text: "#bae6fd", textDim: "#bae6fdb0", textMuted: "#bae6fd60",
+      primary: "#38bdf8", primaryMuted: "#38bdf840", secondary: "#0ea5e9",
+      accent: "#7dd3fc", success: "#22c55e", error: "#ef4444",
+      premium: "#ff8c00", system: "#a078ff",
+      border: "#38bdf820", borderSubtle: "#38bdf810", glow: "#38bdf830",
+    },
     particleEffect: "fireflies",
   },
   ascendant_light: {
     id: "ascendant_light", label: "Ascendant Light", mode: "dark", physics: "glass",
-    palette: { canvas: "#080804", surface: "#101008", elevated: "#18180c", text: "#fefce8", textMuted: "#fefce860", primary: "#fbbf24", primaryMuted: "#fbbf2440", accent: "#fde68a", success: "#22c55e", error: "#ef4444", border: "#fbbf2420", borderSubtle: "#fbbf2410", glow: "#fbbf2440" },
+    fonts: { heading: FONTS.display, body: FONTS.elegant },
+    palette: {
+      canvas: "#080804", surface: "#101008", elevated: "#18180c",
+      sunk: "#040402", spotlight: "#1c1c10",
+      text: "#fefce8", textDim: "#fefce8b0", textMuted: "#fefce860",
+      primary: "#fbbf24", primaryMuted: "#fbbf2440", secondary: "#f59e0b",
+      accent: "#fde68a", success: "#22c55e", error: "#ef4444",
+      premium: "#ff8c00", system: "#a078ff",
+      border: "#fbbf2420", borderSubtle: "#fbbf2410", glow: "#fbbf2440",
+    },
     particleEffect: "fireflies",
   },
 };
@@ -279,19 +408,40 @@ export function getAllThemes(): VoidTheme[] {
  * Apply a Void Energy theme to the document by setting CSS custom properties
  * on <html>. This is the bridge between the VoidEngine and the DOM.
  */
+/**
+ * Apply theme with optional View Transitions API for smooth cross-fade.
+ * Falls back to instant application when:
+ * - Browser doesn't support View Transitions
+ * - User prefers reduced motion
+ * - Called during initial boot (no existing atmosphere)
+ */
 export function applyThemeToDOM(themeId: string): void {
   const theme = THEMES[themeId];
   if (!theme) return;
 
   const html = document.documentElement;
+  const currentAtmosphere = html.getAttribute("data-atmosphere");
+  const supportsViewTransitions = typeof document !== "undefined" && "startViewTransition" in document;
+  const prefersReducedMotion = typeof matchMedia !== "undefined" && matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  // Use View Transitions for atmosphere changes (not initial boot)
+  if (supportsViewTransitions && currentAtmosphere && currentAtmosphere !== themeId && !prefersReducedMotion) {
+    (document as any).startViewTransition(() => applyThemeToDOM_inner(theme, html));
+    return;
+  }
+
+  applyThemeToDOM_inner(theme, html);
+}
+
+function applyThemeToDOM_inner(theme: VoidTheme, html: HTMLElement): void {
   const { physics, mode } = enforceGuardrails(theme.physics, theme.mode);
 
   // Set triad attributes (also persist for anti-FOUC bootloader)
-  html.setAttribute("data-atmosphere", themeId);
+  html.setAttribute("data-atmosphere", theme.id);
   html.setAttribute("data-physics", physics);
   html.setAttribute("data-mode", mode);
   try {
-    localStorage.setItem("ve-atmosphere", themeId);
+    localStorage.setItem("ve-atmosphere", theme.id);
     localStorage.setItem("ve-physics", physics);
     localStorage.setItem("ve-mode", mode);
   } catch { /* storage full or blocked */ }
@@ -301,21 +451,32 @@ export function applyThemeToDOM(themeId: string): void {
   html.style.setProperty("--void-canvas", p.canvas);
   html.style.setProperty("--void-surface", p.surface);
   html.style.setProperty("--void-elevated", p.elevated);
+  html.style.setProperty("--void-sunk", p.sunk);
+  html.style.setProperty("--void-spotlight", p.spotlight);
   html.style.setProperty("--void-text", p.text);
+  html.style.setProperty("--void-text-dim", p.textDim);
   html.style.setProperty("--void-text-muted", p.textMuted);
   html.style.setProperty("--void-primary", p.primary);
   html.style.setProperty("--void-primary-muted", p.primaryMuted);
+  html.style.setProperty("--void-secondary", p.secondary);
   html.style.setProperty("--void-accent", p.accent);
   html.style.setProperty("--void-success", p.success);
   html.style.setProperty("--void-error", p.error);
+  html.style.setProperty("--void-premium", p.premium);
+  html.style.setProperty("--void-system", p.system);
   html.style.setProperty("--void-border", p.border);
   html.style.setProperty("--void-border-subtle", p.borderSubtle);
   html.style.setProperty("--void-glow", p.glow);
 
-  // Physics-specific properties are now handled by void-physics.css
-  // via [data-physics] attribute selectors. The CSS file owns the
-  // material behavior — computed shadows, blur, radius, border-style,
-  // transitions, scrollbars. We only set the triad attributes here.
+  // Inject atmosphere-specific fonts
+  html.style.setProperty("--void-font-heading", theme.fonts.heading);
+  html.style.setProperty("--void-font-body", theme.fonts.body);
+
+  // Physics-specific properties are handled by void-materials.css
+  // (consolidated from the old void-physics.css + void-materials.css).
+  // The CSS file owns material behavior — computed shadows, blur,
+  // radius, border-style, transitions, scrollbars, depth tiers.
+  // We only set the triad attributes + palette variables here.
 
   // Remove any stale inline physics overrides from old system
   html.style.removeProperty("--void-blur");
