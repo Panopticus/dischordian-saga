@@ -6,9 +6,10 @@
 import { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLocation } from "wouter";
-import { ArrowLeft, X, Lock, Sparkles } from "lucide-react";
-import { SPECIMENS } from "./arkSpecimens";
+import { ArrowLeft, X, Lock } from "lucide-react";
+import { SPECIMENS, type SpecimenId, type EvolutionStage, getSpecimenArtPath } from "./arkSpecimens";
 import { ARCHON_SPECIMENS, NEYON_SPECIMENS, type ExpandedSpecimenDef } from "./specimenExpansion";
+import LiveSpecimen from "@/components/LiveSpecimen";
 
 type FilterTab = "all" | "owned" | "faction" | "archon" | "neyon";
 
@@ -68,6 +69,14 @@ function describeAcquisition(a: ExpandedSpecimenDef["acquisition"]): string {
     case "prestige": return `Prestige level ${a.level}`;
     case "achievement_chain": return `Achievement chain: ${a.chainId}`;
   }
+}
+
+function getOwnedStage(id: string): EvolutionStage {
+  try {
+    const raw = localStorage.getItem(`specimen_stage_${id}`);
+    if (raw === "ascended" || raw === "companion" || raw === "fragment") return raw;
+  } catch { /* ignore */ }
+  return "companion"; // default display stage
 }
 
 export default function SpecimenCollectionPage() {
@@ -177,9 +186,22 @@ export default function SpecimenCollectionPage() {
                   data-testid={`specimen-card-${s.id}`}
                   className={`relative p-4 bg-black/60 border-2 rounded-lg text-left transition ${RARITY_BORDERS[s.rarity]} ${!owned ? "opacity-40 grayscale" : ""}`}
                 >
-                  <div className="aspect-square mb-3 bg-gradient-to-br from-gray-900 to-black border border-gray-800 rounded flex items-center justify-center">
-                    {owned ? (
-                      <Sparkles className={`w-12 h-12 ${RARITY_TEXT[s.rarity]}`} />
+                  <div className="aspect-square mb-3 bg-gradient-to-br from-gray-900 to-black border border-gray-800 rounded flex items-center justify-center overflow-hidden">
+                    {owned && (s.id as string) in SPECIMENS ? (
+                      <LiveSpecimen
+                        specimenId={s.id as SpecimenId}
+                        stage={getOwnedStage(s.id)}
+                        size="sm"
+                        interactive={false}
+                        showThoughts={false}
+                      />
+                    ) : owned ? (
+                      <img
+                        src={getSpecimenArtPath(s.id, "companion")}
+                        alt={s.name}
+                        className="w-16 h-16 object-contain"
+                        onError={e => { (e.target as HTMLImageElement).style.display = "none"; }}
+                      />
                     ) : (
                       <div className="text-4xl text-gray-700">???</div>
                     )}
@@ -224,6 +246,19 @@ export default function SpecimenCollectionPage() {
                   <X className="w-6 h-6" />
                 </button>
               </div>
+              {/* Live specimen display in modal */}
+              {ownedSet.has(selected.id) && (selected.id as string) in SPECIMENS && (
+                <div className="flex justify-center my-4">
+                  <LiveSpecimen
+                    specimenId={selected.id as SpecimenId}
+                    stage={getOwnedStage(selected.id)}
+                    size="xl"
+                    interactive={true}
+                    showThoughts={true}
+                    bond={75}
+                  />
+                </div>
+              )}
               {ownedSet.has(selected.id) ? (
                 <div className="space-y-3 text-sm">
                   <div><span className="text-gray-500 uppercase text-xs">Associated With: </span><span className="text-cyan-300">{selected.associatedWith}</span></div>

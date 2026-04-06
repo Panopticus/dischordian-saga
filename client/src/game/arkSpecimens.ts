@@ -425,3 +425,10 @@ export const DEFAULT_SPECIMEN_COLLECTION: SpecimenCollection = {
   activeSpecimenId: null,
   totalDiscovered: 0,
 };
+
+/* ─── ART PATHS ─── */
+
+/** Returns the image path for a specimen at a given evolution stage */
+export function getSpecimenArtPath(id: string, stage: EvolutionStage): string {
+  return `/art/specimens/${id}-${stage}.png`;
+}
