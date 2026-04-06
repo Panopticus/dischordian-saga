@@ -13,7 +13,7 @@
    aesthetic leaning. Every Archon's personality shapes its
    space.
    ═══════════════════════════════════════════════════════ */
-import { useMemo } from "react";
+import { useMemo, useEffect, useRef } from "react";
 import { Link } from "wouter";
 import { motion } from "framer-motion";
 import { ChevronLeft, Home, Users, Sparkles, Lock } from "lucide-react";
@@ -22,6 +22,96 @@ import { ARCHON_VOICE_MAPPING, getDominantGuild } from "@/game/archonTrainingVoi
 import { SKILL_VOICES, type SkillId } from "@/game/innerVoices";
 import { getAbilityForArchon } from "@shared/guildSignatureAbilities";
 import { getProfessorByArchon } from "@shared/mechronisProfessors";
+
+/* ─── AMBIENT PARTICLES CANVAS ─── */
+function AmbientParticles({ color, count = 30 }: { color: string; count?: number }) {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    let raf: number;
+    const dpr = Math.min(window.devicePixelRatio, 2);
+
+    const resize = () => {
+      canvas.width = window.innerWidth * dpr;
+      canvas.height = window.innerHeight * dpr;
+      canvas.style.width = window.innerWidth + "px";
+      canvas.style.height = window.innerHeight + "px";
+      ctx.scale(dpr, dpr);
+    };
+    resize();
+    window.addEventListener("resize", resize);
+
+    const particles = Array.from({ length: count }, () => ({
+      x: Math.random() * window.innerWidth,
+      y: Math.random() * window.innerHeight,
+      vx: (Math.random() - 0.5) * 0.3,
+      vy: -0.2 - Math.random() * 0.4,
+      size: 1.5 + Math.random() * 3,
+      alpha: 0.08 + Math.random() * 0.18,
+      phase: Math.random() * Math.PI * 2,
+    }));
+
+    const draw = (t: number) => {
+      ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+      for (const p of particles) {
+        p.x += p.vx + Math.sin(t * 0.0008 + p.phase) * 0.2;
+        p.y += p.vy;
+        if (p.y < -10) { p.y = window.innerHeight + 10; p.x = Math.random() * window.innerWidth; }
+        if (p.x < -10) p.x = window.innerWidth + 10;
+        if (p.x > window.innerWidth + 10) p.x = -10;
+
+        const a = p.alpha * (0.5 + 0.5 * Math.sin(t * 0.002 + p.phase));
+        ctx.globalAlpha = a;
+        ctx.fillStyle = color;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Soft glow
+        ctx.globalAlpha = a * 0.3;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size * 3, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      ctx.globalAlpha = 1;
+      raf = requestAnimationFrame(draw);
+    };
+    raf = requestAnimationFrame(draw);
+
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener("resize", resize);
+    };
+  }, [color, count]);
+
+  return (
+    <canvas
+      ref={canvasRef}
+      className="absolute inset-0 z-[1] pointer-events-none"
+      style={{ opacity: 0.7 }}
+    />
+  );
+}
+
+const GUILD_ACCENT_HEX: Record<string, string> = {
+  "The Chorus": "#818cf8",
+  "The Eyes": "#a1a1aa",
+  "The Archive": "#fbbf24",
+  "The Between": "#e879f9",
+  "The Influencers": "#f472b6",
+  "The Yellow Coats": "#facc15",
+  "The Congress": "#c084fc",
+  "The Locks": "#34d399",
+  "The Grey Gamers": "#60a5fa",
+  "The Living": "#f87171",
+  "The Forge": "#fb923c",
+  "The Architect's Study": "#a8a29e",
+};
 
 const GUILD_AESTHETICS: Record<string, { bg: string; accent: string; borderColor: string }> = {
   "The Chorus": { bg: "from-indigo-950/30 to-purple-950/20", accent: "text-indigo-300", borderColor: "border-indigo-500/40" },
@@ -76,6 +166,7 @@ export default function GuildCommonRoomPage() {
   const { guild, mentor, skillId } = dominantGuild;
   const aesthetic = GUILD_AESTHETICS[guild.name] ?? GUILD_AESTHETICS["The Chorus"];
   const roomArt = GUILD_ROOM_ART[guild.name];
+  const accentHex = GUILD_ACCENT_HEX[guild.name] ?? "#818cf8";
   const voice = SKILL_VOICES[skillId];
   const ability = getAbilityForArchon(mentor.archonNumber);
   const professor = getProfessorByArchon(mentor.archonNumber);
@@ -84,13 +175,46 @@ export default function GuildCommonRoomPage() {
 
   return (
     <div className={`min-h-screen bg-gradient-to-br ${aesthetic.bg} text-foreground relative overflow-hidden`}>
-      {/* Full-page room art background */}
+      {/* Full-page room art background with slow drift */}
       {roomArt && (
-        <div className="absolute inset-0 z-0">
-          <img src={roomArt} alt="" className="w-full h-full object-cover" style={{ opacity: 0.15, filter: "brightness(0.5) saturate(0.8)" }} />
+        <div className="absolute inset-0 z-0 overflow-hidden">
+          <img
+            src={roomArt} alt=""
+            className="w-[110%] h-[110%] object-cover guild-room-drift"
+            style={{ opacity: 0.18, filter: "brightness(0.5) saturate(0.8)", position: "absolute", top: "-5%", left: "-5%" }}
+          />
           <div className="absolute inset-0" style={{ background: "linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.7) 100%)" }} />
         </div>
       )}
+
+      {/* Ambient floating particles */}
+      <AmbientParticles color={accentHex} count={25} />
+
+      {/* Ambient light pulse overlay */}
+      <div
+        className="absolute inset-0 z-[2] pointer-events-none guild-room-pulse"
+        style={{ background: `radial-gradient(ellipse at 50% 30%, ${accentHex}08 0%, transparent 70%)` }}
+      />
+
+      {/* Scanline overlay */}
+      <div className="absolute inset-0 z-[3] pointer-events-none" style={{
+        backgroundImage: "repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,0.008) 2px, rgba(255,255,255,0.008) 4px)",
+      }} />
+
+      {/* CSS animations */}
+      <style>{`
+        @keyframes guild-drift {
+          0% { transform: translate(0, 0) scale(1); }
+          50% { transform: translate(-2%, -1.5%) scale(1.02); }
+          100% { transform: translate(0, 0) scale(1); }
+        }
+        @keyframes guild-pulse {
+          0%, 100% { opacity: 0.4; }
+          50% { opacity: 1; }
+        }
+        .guild-room-drift { animation: guild-drift 30s ease-in-out infinite; }
+        .guild-room-pulse { animation: guild-pulse 4s ease-in-out infinite; }
+      `}</style>
 
       <div className="max-w-4xl mx-auto relative z-10 p-4 sm:p-6">
         {/* Header */}
