@@ -38,7 +38,6 @@ import SecretTransmissionOverlay from "@/components/SecretTransmissionOverlay";
 import { getRoomTransmissions, getElaraVariant, type SecretTransmission } from "@/data/moralityStoryBranches";
 import AlienSymbolPuzzle from "@/components/AlienSymbolPuzzle";
 import FastTravelPanel from "@/components/FastTravelPanel";
-import CommsRelayImport from "@/components/CommsRelayImport";
 import ItemDetailModal from "@/components/ItemDetailModal";
 import LoreTutorialEngine from "@/components/LoreTutorialEngine";
 import NarrativeTrigger from "@/components/NarrativeTrigger";
@@ -586,7 +585,7 @@ export default function ArkExplorerPage() {
 
   const [puzzleRoomId, setPuzzleRoomId] = useState<string | null>(null);
   const [showNavPuzzle, setShowNavPuzzle] = useState(false);
-  const [showCommsRelay, setShowCommsRelay] = useState(false);
+
   const [selectedItem, setSelectedItem] = useState<string | null>(null);
   const fastTravelUnlocked = !!state.narrativeFlags["fast_travel_unlocked"];
   const [solvedPuzzles, setSolvedPuzzles] = useState<Set<string>>(() => {
@@ -964,7 +963,6 @@ export default function ArkExplorerPage() {
         }
         if (hotspot.action === "comms-relay-import") {
           if (audioReady) playSFX("terminal_access");
-          setShowCommsRelay(true);
           break;
         }
         if (hotspot.elaraDialog) {
@@ -1262,9 +1260,6 @@ export default function ArkExplorerPage() {
             }}
             onClose={() => setShowNavPuzzle(false)}
           />
-        )}
-        {showCommsRelay && (
-          <CommsRelayImport onClose={() => setShowCommsRelay(false)} />
         )}
       </AnimatePresence>
 

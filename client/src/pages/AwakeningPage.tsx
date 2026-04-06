@@ -405,16 +405,6 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
         { value: "probability", label: "Probability — Chance bending", desc: "Manipulate probability to defy gravity." },
         { value: "reality", label: "Reality — Reality warping", desc: "Reshape local reality to negate damage." },
       ],
-      neyon: [
-        { value: "earth", label: "Earth", desc: "Stability and haste" },
-        { value: "fire", label: "Fire", desc: "Passion and immunity" },
-        { value: "water", label: "Water", desc: "Adaptability" },
-        { value: "air", label: "Air", desc: "Freedom and flight" },
-        { value: "space", label: "Space", desc: "Spatial manipulation" },
-        { value: "time", label: "Time", desc: "Temporal mastery" },
-        { value: "probability", label: "Probability", desc: "Chance bending" },
-        { value: "reality", label: "Reality", desc: "Reality warping" },
-      ],
     };
     return map[species] ?? [];
   }, [characterChoices.species]);
@@ -450,7 +440,6 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
           attrAttack: c.attrAttack,
           attrDefense: c.attrDefense,
           attrVitality: c.attrVitality,
-          ...(c.species === "neyon" && selectedNeyonTokenId ? { neyonTokenId: selectedNeyonTokenId } : {}),
         });
       }
     } catch (err) {
@@ -655,14 +644,11 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
               key="element"
               text={characterChoices.species === "demagi"
                 ? "Your DeMagi blood carries the arcane. Elemental forces are woven into your very DNA — a gift from modifications older than any civilization I have on record. Which element burns brightest in you?"
-                : characterChoices.species === "quarchon"
-                ? "Your Quarchon nature gives you dominion over one dimension of reality. Which dimension calls to you?"
-                : "As a Ne-Yon hybrid, you can attune to any force — elemental or dimensional. Choose your affinity."
+                : "Your Quarchon nature gives you dominion over one dimension of reality. Which dimension calls to you?"
               }
               voAudioUrl={
                 characterChoices.species === "demagi" ? STEP_VO_AUDIO.ELEMENT_QUESTION_DEMAGI
-                : characterChoices.species === "quarchon" ? STEP_VO_AUDIO.ELEMENT_QUESTION_QUARCHON
-                : STEP_VO_AUDIO.ELEMENT_QUESTION_NEYON
+                : STEP_VO_AUDIO.ELEMENT_QUESTION_QUARCHON
               }
               choices={availableElements.map(e => ({
                 label: e.label,
@@ -766,7 +752,7 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
           {awakeningStep === "FIRST_STEPS" && !showDeckReveal && (
             <ElaraDialogBox
               key="first-steps"
-              text={`Welcome aboard, ${characterChoices.name}. Your Citizen profile has been created. You are ${characterChoices.species === "demagi" ? "a DeMagi" : characterChoices.species === "quarchon" ? "a Quarchon" : "a Ne-Yon"} ${characterChoices.characterClass}, aligned with ${characterChoices.alignment}. Your quarters are through that door — the Cryo Bay. The rest of the ship... I'll need your help to restore power to the other decks. There's so much I need to show you. And so much I need to warn you about.`}
+              text={`Welcome aboard, ${characterChoices.name}. Your Citizen profile has been created. You are ${characterChoices.species === "demagi" ? "a DeMagi" : "a Quarchon"} ${characterChoices.characterClass}, aligned with ${characterChoices.alignment}. Your quarters are through that door — the Cryo Bay. The rest of the ship... I'll need your help to restore power to the other decks. There's so much I need to show you. And so much I need to warn you about.`}
               onContinue={handleCompleteCreation}
               voAudioUrl={STEP_VO_AUDIO.FIRST_STEPS}
             />
@@ -787,7 +773,7 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
               />
               {showCompanionSelect && (
                 <CompanionSelectionScene
-                  species={state.characterChoices.species || "neyon"}
+                  species={state.characterChoices.species || "demagi"}
                   onComplete={(companionId) => {
                     // Save first companion to localStorage
                     const owned = JSON.parse(localStorage.getItem("owned_specimens") || "[]");

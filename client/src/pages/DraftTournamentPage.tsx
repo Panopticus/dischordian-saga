@@ -203,7 +203,7 @@ export default function DraftTournamentPage() {
   // tRPC queries
   const myDrafts = trpc.draft.myHistory.useQuery(undefined, { enabled: isAuthenticated });
   const openDrafts = trpc.draft.listOpen.useQuery();
-  const allTraitBonuses = trpc.nft.getAllTraitBonuses.useQuery(undefined, { enabled: isAuthenticated, retry: false, refetchOnWindowFocus: false });
+  const allTraitBonuses = trpc.citizen.getAllTraitBonuses.useQuery(undefined, { enabled: isAuthenticated, retry: false, refetchOnWindowFocus: false });
   const draftBonuses = allTraitBonuses.data?.draft;
   const createDraft = trpc.draft.create.useMutation({
     onSuccess: () => utils.draft.myHistory.invalidate(),

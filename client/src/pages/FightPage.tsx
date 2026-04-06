@@ -96,25 +96,15 @@ export default function FightPage() {
   });
   const introVideoRef = useRef<HTMLVideoElement>(null);
 
-  // NFT holder perks
-  const arenaPerks = trpc.nft.getArenaPerks.useQuery(undefined, {
-    retry: false,
-    refetchOnWindowFocus: false,
-  });
-  const holderPerks = arenaPerks.data;
+  // NFT holder perks removed — blockchain backend stripped
+  const holderPerks = null as any;
 
-  // Trait bonuses from NFT Potentials
-  const traitBonuses = trpc.nft.getTraitBonuses.useQuery(undefined, {
-    retry: false,
-    refetchOnWindowFocus: false,
-  });
-  const activeBonuses = useMemo(() => {
-    if (!traitBonuses.data?.bonuses) return null;
-    return calculateTraitBonuses(traitBonuses.data.bonuses);
-  }, [traitBonuses.data]);
+  // Trait bonuses from NFT Potentials removed
+  const traitBonuses = { data: null as any };
+  const activeBonuses = null as { total: { hp: number; attack: number; defense: number; speed: number }; breakdown: { source: string; bonus: { attack: number; defense: number; hp: number; speed: number; label: string; color: string } }[] } | null;
 
-  // Citizen character sheet bonuses (stacks with NFT bonuses)
-  const allTraitBonuses = trpc.nft.getAllTraitBonuses.useQuery(undefined, {
+  // Citizen character sheet bonuses
+  const allTraitBonuses = trpc.citizen.getAllTraitBonuses.useQuery(undefined, {
     retry: false,
     refetchOnWindowFocus: false,
   });

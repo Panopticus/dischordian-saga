@@ -122,7 +122,7 @@ export default function PvpArenaPage() {
   const mySeasonRecord = trpc.pvp.getMySeasonRecord.useQuery(undefined, { enabled: isAuthenticated });
   const seasonLeaderboard = trpc.pvp.getSeasonLeaderboard.useQuery();
   const activeMatches = trpc.pvp.getActiveMatches.useQuery(undefined, { refetchInterval: phase === "lobby" && lobbyTab === "spectate" ? 5000 : false });
-  const allTraitBonuses = trpc.nft.getAllTraitBonuses.useQuery(undefined, { enabled: isAuthenticated, retry: false, refetchOnWindowFocus: false });
+  const allTraitBonuses = trpc.citizen.getAllTraitBonuses.useQuery(undefined, { enabled: isAuthenticated, retry: false, refetchOnWindowFocus: false });
   const pvpBonuses = allTraitBonuses.data?.pvp;
 
   const claimRewards = trpc.pvp.claimSeasonRewards.useMutation({

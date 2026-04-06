@@ -4,6 +4,7 @@ import { z } from "zod";
 import { getDb } from "../db";
 import { citizenCharacters, dreamBalance } from "../../drizzle/schema";
 import { eq, and } from "drizzle-orm";
+import { getPlayerTraitBonuses } from "../traitResolver";
 
 /* ═══════════════════════════════════════════════════
    Species / Class / Element configuration
@@ -111,6 +112,11 @@ function getStartingGear(characterClass: keyof typeof CLASS_CONFIG) {
 }
 
 export const citizenRouter = router({
+  /** Get all trait bonuses for the current player (citizen build bonuses across all systems) */
+  getAllTraitBonuses: protectedProcedure.query(async ({ ctx }) => {
+    return getPlayerTraitBonuses(ctx.user.id);
+  }),
+
   /** Get configuration data for character creation UI */
   getConfig: protectedProcedure.query(() => {
     return {
