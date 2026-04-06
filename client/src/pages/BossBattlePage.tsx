@@ -128,7 +128,7 @@ export default function BossBattlePage() {
   const [currentBoss, setCurrentBoss] = useState<BossEncounter | null>(null);
   const logRef = useRef<HTMLDivElement>(null);
 
-  const allTraitBonuses = trpc.nft.getAllTraitBonuses.useQuery(undefined, { retry: false, refetchOnWindowFocus: false });
+  const allTraitBonuses = trpc.citizen.getAllTraitBonuses.useQuery(undefined, { retry: false, refetchOnWindowFocus: false });
   const bossBonuses = allTraitBonuses.data?.bossMastery;
 
   const playerDeck = useMemo(() => {

@@ -21,7 +21,6 @@ import { cardChallengeRouter } from "./routers/cardChallenge";
 import { adminRouter } from "./routers/admin";
 import { contentRewardRouter } from "./routers/contentReward";
 import { fightLeaderboardRouter } from "./routers/fightLeaderboard";
-import { nftRouter } from "./routers/nft";
 import { pvpRouter } from "./routers/pvp";
 import { draftRouter } from "./routers/draft";
 import { tradingRouter } from "./routers/trading";
@@ -59,6 +58,8 @@ import { cosmeticShopRouter } from "./routers/cosmeticShop";
 import { donationSystemRouter } from "./routers/donationSystem";
 import { socialFeaturesRouter } from "./routers/socialFeatures";
 import { loreJournalRouter } from "./routers/loreJournal";
+import { promoCodesRouter } from "./routers/promoCodes";
+import { architectConsoleRouter } from "./routers/architectConsole";
 
 export const appRouter = router({
   system: systemRouter,
@@ -76,7 +77,6 @@ export const appRouter = router({
   admin: adminRouter,
   contentReward: contentRewardRouter,
   fightLeaderboard: fightLeaderboardRouter,
-  nft: nftRouter,
   pvp: pvpRouter,
   draft: draftRouter,
   trading: tradingRouter,
@@ -114,6 +114,8 @@ export const appRouter = router({
   donation: donationSystemRouter,
   social: socialFeaturesRouter,
   loreJournal: loreJournalRouter,
+  promoCodes: promoCodesRouter,
+  architectConsole: architectConsoleRouter,
   auth: router({
     me: publicProcedure.query(opts => opts.ctx.user),
     logout: publicProcedure.mutation(({ ctx }) => {

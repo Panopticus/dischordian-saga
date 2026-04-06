@@ -38,13 +38,11 @@ import SecretTransmissionOverlay from "@/components/SecretTransmissionOverlay";
 import { getRoomTransmissions, getElaraVariant, type SecretTransmission } from "@/data/moralityStoryBranches";
 import AlienSymbolPuzzle from "@/components/AlienSymbolPuzzle";
 import FastTravelPanel from "@/components/FastTravelPanel";
-// CommsRelayImport removed — blockchain wallet linking no longer needed
 import ItemDetailModal from "@/components/ItemDetailModal";
 import LoreTutorialEngine from "@/components/LoreTutorialEngine";
 import NarrativeTrigger from "@/components/NarrativeTrigger";
 import InlineShipMap from "@/components/InlineShipMap";
 import { getTutorialById, type TutorialReward } from "@/data/loreTutorials";
-import { useKinetic } from "@/hooks/useKinetic";
 
 const ELARA_PORTRAIT = "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/elara_portrait_speaking-J3GJUrfnNKzSBrxY2PfWrL.webp";
 
@@ -95,9 +93,8 @@ function getFeatureIcon(action: string | undefined) {
 
 /* ─── ELARA POPUP ─── */
 function ElaraPopup({ text, onClose, voUrl }: { text: string; onClose: () => void; voUrl?: string }) {
-  const kinetic = useKinetic({ mode: "word", text, speed: 18 });
-  const displayed = kinetic.displayText;
-  const done = kinetic.isComplete;
+  const [displayed, setDisplayed] = useState("");
+  const [done, setDone] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [voPlaying, setVoPlaying] = useState(false);
 
@@ -127,7 +124,21 @@ function ElaraPopup({ text, onClose, voUrl }: { text: string; onClose: () => voi
     onClose();
   };
 
-  // Typewriter replaced by useKinetic (physics-aware word-mode streaming)
+  useEffect(() => {
+    setDisplayed("");
+    setDone(false);
+    let i = 0;
+    const interval = setInterval(() => {
+      if (i < text.length) {
+        setDisplayed(text.slice(0, i + 1));
+        i++;
+      } else {
+        setDone(true);
+        clearInterval(interval);
+      }
+    }, 20);
+    return () => clearInterval(interval);
+  }, [text]);
 
   return (
     <motion.div
@@ -574,7 +585,7 @@ export default function ArkExplorerPage() {
 
   const [puzzleRoomId, setPuzzleRoomId] = useState<string | null>(null);
   const [showNavPuzzle, setShowNavPuzzle] = useState(false);
-  const [showCommsRelay, setShowCommsRelay] = useState(false);
+
   const [selectedItem, setSelectedItem] = useState<string | null>(null);
   const fastTravelUnlocked = !!state.narrativeFlags["fast_travel_unlocked"];
   const [solvedPuzzles, setSolvedPuzzles] = useState<Set<string>>(() => {
@@ -952,7 +963,6 @@ export default function ArkExplorerPage() {
         }
         if (hotspot.action === "comms-relay-import") {
           if (audioReady) playSFX("terminal_access");
-          setShowCommsRelay(true);
           break;
         }
         if (hotspot.elaraDialog) {
@@ -1251,17 +1261,6 @@ export default function ArkExplorerPage() {
             onClose={() => setShowNavPuzzle(false)}
           />
         )}
-        {showCommsRelay && (
-          <div className="fixed inset-0 z-[55] flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm" onClick={() => setShowCommsRelay(false)}>
-            <div className="void-elevated max-w-md w-full p-6 text-center" onClick={e => e.stopPropagation()}>
-              <div className="font-display text-lg font-bold tracking-wider text-cyan-400 mb-3">COMMS RELAY</div>
-              <p className="font-mono text-xs text-muted-foreground/70 leading-relaxed mb-4">
-                Scanning for dormant neural signatures across the fleet... No additional Potentials detected at this time. The relay will continue passive monitoring.
-              </p>
-              <button onClick={() => setShowCommsRelay(false)} className="void-btn void-btn-primary font-mono text-xs">CLOSE RELAY</button>
-            </div>
-          </div>
-        )}
       </AnimatePresence>
 
       {/* Fast Travel Panel — only visible after solving the nav puzzle */}
@@ -1498,7 +1497,7 @@ export default function ArkExplorerPage() {
                 navigate(gameHint.route);
                 setGameHint(null);
               }}
-              className="w-full text-left p-3 void-surface border-cyan-500/30 backdrop-blur-md shadow-2xl hover:border-cyan-400/50 transition-all"
+              className="w-full text-left p-3 rounded-xl border border-cyan-500/30 bg-black/90 backdrop-blur-md shadow-2xl hover:border-cyan-400/50 transition-all"
             >
               <p className="font-mono text-[9px] text-cyan-400/60 tracking-wider mb-1">SYSTEM RECOMMENDATION</p>
               <p className="font-mono text-xs text-white/80">{gameHint.label}</p>
@@ -1574,7 +1573,7 @@ export default function ArkExplorerPage() {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5, duration: 0.4 }}
-              className="max-w-xl w-full mx-4 void-elevated p-5 cursor-pointer"
+              className="max-w-xl w-full mx-4 rounded-lg border border-[var(--neon-cyan)]/30 bg-background/90 p-5 cursor-pointer"
               style={{ boxShadow: "0 0 30px rgba(51,226,230,0.1)" }}
             >
               <div className="flex items-center gap-2 mb-3">

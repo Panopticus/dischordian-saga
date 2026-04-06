@@ -238,7 +238,7 @@ function SystemCard({ config, data, isExpanded, onToggle }: {
 }
 
 export default function TraitSummaryPanel({ isAuthenticated }: { isAuthenticated: boolean }) {
-  const traitBonuses = trpc.nft.getAllTraitBonuses.useQuery(undefined, {
+  const traitBonuses = trpc.citizen.getAllTraitBonuses.useQuery(undefined, {
     enabled: isAuthenticated,
     staleTime: 30_000,
   });

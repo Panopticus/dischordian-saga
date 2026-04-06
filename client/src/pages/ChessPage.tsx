@@ -94,6 +94,202 @@ export default function ChessPage() {
   const [useClientAi, setUseClientAi] = useState(true);
   const [showEvalBar, setShowEvalBar] = useState(true);
 
+  // ── Multiplayer PvP state (lifted out of lobby IIFE) ──
+  const [mpState, setMpState] = useState<"idle" | "searching" | "matched" | "playing">("idle");
+  const [mpQueuePos, setMpQueuePos] = useState<number>(0);
+  const [mpPlayersInQueue, setMpPlayersInQueue] = useState<number>(0);
+  const [mpOpponent, setMpOpponent] = useState<{
+    matchId: string; color: "white" | "black"; opponentName: string; opponentElo: number; opponentCharacter: string; timeControl: number;
+  } | null>(null);
+  const [mpSearchElapsed, setMpSearchElapsed] = useState(0);
+  const [mpFen, setMpFen] = useState("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+  const [mpTurn, setMpTurn] = useState<"w" | "b">("w");
+  const [mpWhiteTime, setMpWhiteTime] = useState(600000);
+  const [mpBlackTime, setMpBlackTime] = useState(600000);
+  const [mpMoveHistory, setMpMoveHistory] = useState<string[]>([]);
+  const [mpLastMove, setMpLastMove] = useState<{ from: string; to: string } | null>(null);
+  const [mpGameOver, setMpGameOver] = useState<{ winner: "white" | "black" | "draw"; reason: string; eloChange: number; newElo: number } | null>(null);
+  const [mpDrawOffered, setMpDrawOffered] = useState(false);
+  const mpWsRef = useRef<WebSocket | null>(null);
+  const mpSearchTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const mpChessRef = useRef(new Chess());
+
+  // Clean up multiplayer WS on unmount
+  useEffect(() => {
+    return () => {
+      if (mpWsRef.current && mpWsRef.current.readyState === WebSocket.OPEN) {
+        mpWsRef.current.send(JSON.stringify({ type: "LEAVE_QUEUE" }));
+        mpWsRef.current.close();
+      }
+      if (mpSearchTimerRef.current) clearInterval(mpSearchTimerRef.current);
+    };
+  }, []);
+
+  const mpFormatTime = (ms: number) => {
+    const totalSec = Math.max(0, Math.floor(ms / 1000));
+    return `${Math.floor(totalSec / 60)}:${(totalSec % 60).toString().padStart(2, "0")}`;
+  };
+
+  const mpFormatSearchTime = (s: number) => `${Math.floor(s / 60)}:${(s % 60).toString().padStart(2, "0")}`;
+
+  const handleFindMatch = useCallback(() => {
+    if (!user || !isAuthenticated) return;
+
+    const protocol = window.location.protocol === "https:" ? "wss:" : "ws:";
+    const ws = new WebSocket(`${protocol}//${window.location.host}/api/chess-pvp`);
+    mpWsRef.current = ws;
+    setMpState("searching");
+    setMpSearchElapsed(0);
+    setMpGameOver(null);
+
+    mpSearchTimerRef.current = setInterval(() => {
+      setMpSearchElapsed(prev => prev + 1);
+    }, 1000);
+
+    ws.onopen = () => {
+      ws.send(JSON.stringify({
+        type: "JOIN_QUEUE",
+        userId: user.id,
+        userName: user.name || `Player ${user.id}`,
+        characterId: selectedCharacter || "default",
+      }));
+    };
+
+    ws.onmessage = (event) => {
+      try {
+        const msg = JSON.parse(event.data);
+        switch (msg.type) {
+          case "QUEUE_JOINED":
+            setMpQueuePos(msg.position);
+            break;
+          case "QUEUE_UPDATE":
+            setMpQueuePos(msg.position);
+            setMpPlayersInQueue(msg.playersInQueue);
+            break;
+          case "MATCH_FOUND":
+            setMpState("matched");
+            setMpOpponent(msg);
+            if (mpSearchTimerRef.current) { clearInterval(mpSearchTimerRef.current); mpSearchTimerRef.current = null; }
+            // Auto-transition to playing after showing match info
+            setTimeout(() => {
+              setMpState("playing");
+              setView("multiplayer_playing");
+            }, 2000);
+            break;
+          case "GAME_STATE":
+            setMpFen(msg.fen);
+            setMpTurn(msg.turn);
+            setMpWhiteTime(msg.whiteTimeMs);
+            setMpBlackTime(msg.blackTimeMs);
+            mpChessRef.current.load(msg.fen);
+            if (msg.lastMove) {
+              setMpLastMove({ from: msg.lastMove.from, to: msg.lastMove.to });
+              setMpMoveHistory(prev => [...prev, msg.lastMove.san]);
+            }
+            break;
+          case "GAME_OVER":
+            setMpGameOver(msg);
+            break;
+          case "DRAW_OFFERED":
+            setMpDrawOffered(true);
+            break;
+          case "DRAW_DECLINED":
+            setMpDrawOffered(false);
+            break;
+          case "MOVE_ERROR":
+            import("sonner").then(({ toast }) => toast.error(msg.message));
+            break;
+          case "OPPONENT_DISCONNECTED":
+            import("sonner").then(({ toast }) => toast.warning("Opponent disconnected. Waiting for reconnection..."));
+            break;
+          case "ERROR":
+            import("sonner").then(({ toast }) => toast.error(msg.message));
+            break;
+        }
+      } catch { /* ignore parse errors */ }
+    };
+
+    ws.onerror = () => {
+      import("sonner").then(({ toast }) => toast.error("Connection error. Please try again."));
+      handleCancelSearch();
+    };
+
+    ws.onclose = () => {
+      if (mpSearchTimerRef.current) { clearInterval(mpSearchTimerRef.current); mpSearchTimerRef.current = null; }
+    };
+  }, [user, isAuthenticated, selectedCharacter]);
+
+  const handleCancelSearch = useCallback(() => {
+    if (mpWsRef.current && mpWsRef.current.readyState === WebSocket.OPEN) {
+      mpWsRef.current.send(JSON.stringify({ type: "LEAVE_QUEUE" }));
+      mpWsRef.current.close();
+    }
+    mpWsRef.current = null;
+    if (mpSearchTimerRef.current) { clearInterval(mpSearchTimerRef.current); mpSearchTimerRef.current = null; }
+    setMpState("idle");
+    setMpOpponent(null);
+    setMpSearchElapsed(0);
+  }, []);
+
+  const handleMpMove = useCallback((from: string, to: string) => {
+    if (!mpWsRef.current || mpWsRef.current.readyState !== WebSocket.OPEN) return false;
+    if (!mpOpponent) return false;
+
+    // Check if it's our turn
+    const isWhite = mpOpponent.color === "white";
+    if ((mpTurn === "w" && !isWhite) || (mpTurn === "b" && isWhite)) return false;
+
+    // Validate locally first
+    const tempChess = new Chess(mpFen);
+    const piece = tempChess.get(from as any);
+    const needsPromotion = piece?.type === "p" && ((piece.color === "w" && to[1] === "8") || (piece.color === "b" && to[1] === "1"));
+    const promotion = needsPromotion ? "q" : undefined;
+
+    const moveResult = tempChess.move({ from, to, promotion });
+    if (!moveResult) return false;
+
+    mpWsRef.current.send(JSON.stringify({ type: "MOVE", from, to, promotion }));
+    return true;
+  }, [mpOpponent, mpTurn, mpFen]);
+
+  const handleMpResign = useCallback(() => {
+    if (!mpWsRef.current || mpWsRef.current.readyState !== WebSocket.OPEN) return;
+    mpWsRef.current.send(JSON.stringify({ type: "RESIGN" }));
+  }, []);
+
+  const handleMpOfferDraw = useCallback(() => {
+    if (!mpWsRef.current || mpWsRef.current.readyState !== WebSocket.OPEN) return;
+    mpWsRef.current.send(JSON.stringify({ type: "OFFER_DRAW" }));
+  }, []);
+
+  const handleMpAcceptDraw = useCallback(() => {
+    if (!mpWsRef.current || mpWsRef.current.readyState !== WebSocket.OPEN) return;
+    mpWsRef.current.send(JSON.stringify({ type: "ACCEPT_DRAW" }));
+    setMpDrawOffered(false);
+  }, []);
+
+  const handleMpDeclineDraw = useCallback(() => {
+    if (!mpWsRef.current || mpWsRef.current.readyState !== WebSocket.OPEN) return;
+    mpWsRef.current.send(JSON.stringify({ type: "DECLINE_DRAW" }));
+    setMpDrawOffered(false);
+  }, []);
+
+  const handleMpBackToMenu = useCallback(() => {
+    if (mpWsRef.current && mpWsRef.current.readyState === WebSocket.OPEN) {
+      mpWsRef.current.close();
+    }
+    mpWsRef.current = null;
+    setMpState("idle");
+    setMpOpponent(null);
+    setMpFen("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+    setMpMoveHistory([]);
+    setMpLastMove(null);
+    setMpGameOver(null);
+    setMpDrawOffered(false);
+    mpChessRef.current.reset();
+    setView("menu");
+  }, []);
+
   // Chess.js instance for client-side validation
   const chessRef = useRef(new Chess());
 
@@ -492,7 +688,7 @@ export default function ChessPage() {
             </div>
 
             {/* AI Tier Legend */}
-            <div className="void-surface p-4">
+            <div className="rounded-lg border border-border/20 bg-card/20 p-4">
               <h3 className="font-display text-xs font-bold tracking-[0.2em] mb-3 flex items-center gap-2">
                 <BarChart3 size={14} className="text-primary" /> AI DIFFICULTY TIERS
               </h3>
@@ -517,15 +713,15 @@ export default function ChessPage() {
 
             {/* Quick Links */}
             <div className="grid grid-cols-3 gap-3">
-              <button onClick={() => setView("ladder")} className="p-3 void-surface text-center hover-lift">
+              <button onClick={() => setView("ladder")} className="p-3 rounded-lg border border-border/30 bg-card/20 hover:bg-card/40 text-center hover-lift">
                 <Trophy size={18} className="text-primary mx-auto mb-1" />
                 <span className="font-mono text-[10px] text-muted-foreground">LADDER</span>
               </button>
-              <button onClick={() => setView("history")} className="p-3 void-surface text-center hover-lift">
+              <button onClick={() => setView("history")} className="p-3 rounded-lg border border-border/30 bg-card/20 hover:bg-card/40 text-center hover-lift">
                 <Clock size={18} className="text-accent mx-auto mb-1" />
                 <span className="font-mono text-[10px] text-muted-foreground">HISTORY</span>
               </button>
-              <button onClick={() => setView("story_select")} className="p-3 void-surface text-center hover-lift">
+              <button onClick={() => setView("story_select")} className="p-3 rounded-lg border border-border/30 bg-card/20 hover:bg-card/40 text-center hover-lift">
                 <BookOpen size={18} className="text-chart-4 mx-auto mb-1" />
                 <span className="font-mono text-[10px] text-muted-foreground">STORY</span>
               </button>
@@ -964,7 +1160,7 @@ export default function ChessPage() {
         {view === "multiplayer_lobby" && (
           <motion.div key="mp-lobby" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="p-4 sm:p-6 space-y-5">
             <div className="flex items-center gap-3">
-              <button onClick={() => setView("menu")} className="p-2 rounded-md bg-secondary/50 hover:bg-secondary"><ArrowLeft size={16} /></button>
+              <button onClick={() => { handleCancelSearch(); setView("menu"); }} className="p-2 rounded-md bg-secondary/50 hover:bg-secondary"><ArrowLeft size={16} /></button>
               <div>
                 <h2 className="font-display text-lg font-bold tracking-wider flex items-center gap-2">
                   <Users size={18} className="text-rose-400" /> MULTIPLAYER ARENA
@@ -973,51 +1169,375 @@ export default function ChessPage() {
               </div>
             </div>
 
-            {/* Time Controls */}
-            <div>
-              <h3 className="font-display text-sm font-bold tracking-wider mb-3">SELECT TIME CONTROL</h3>
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                {[
-                  { key: "bullet_1", label: "1+0", type: "Bullet", icon: Zap, color: "text-red-400" },
-                  { key: "bullet_2", label: "2+1", type: "Bullet", icon: Zap, color: "text-red-400" },
-                  { key: "blitz_3", label: "3+0", type: "Blitz", icon: Timer, color: "text-amber-400" },
-                  { key: "blitz_5", label: "5+0", type: "Blitz", icon: Timer, color: "text-amber-400" },
-                  { key: "rapid_10", label: "10+0", type: "Rapid", icon: Clock, color: "text-emerald-400" },
-                  { key: "rapid_15", label: "15+10", type: "Rapid", icon: Clock, color: "text-emerald-400" },
-                  { key: "classical_30", label: "30+0", type: "Classical", icon: Crown, color: "text-primary" },
-                ].map(({ key, label, type, icon: Icon, color }) => (
-                  <button
-                    key={key}
-                    className="p-3 void-surface hover:bg-card/60 hover:border-rose-400/30 transition-all text-center hover-lift"
-                    onClick={() => {
-                      // TODO: Connect to WebSocket matchmaking
-                      import("sonner").then(({ toast }) => {
-                        toast.info("Multiplayer matchmaking coming soon! Play against AI opponents for now.");
-                      });
-                    }}
-                  >
-                    <Icon size={20} className={`${color} mx-auto mb-1`} />
-                    <p className="font-display text-sm font-bold">{label}</p>
-                    <p className="font-mono text-[9px] text-muted-foreground">{type}</p>
-                  </button>
-                ))}
-              </div>
+            {/* Beta Notice */}
+            <div className="rounded-lg border border-amber-400/30 bg-amber-400/5 px-4 py-2 flex items-center gap-2">
+              <Wifi size={14} className="text-amber-400 shrink-0" />
+              <p className="font-mono text-xs text-amber-300/80">Multiplayer is in <span className="font-bold text-amber-400">BETA PREVIEW</span> — matchmaking is live. Expect occasional issues.</p>
             </div>
 
-            {/* Coming Soon Notice */}
-            <div className="void-surface border-rose-400/20 p-4 text-center">
-              <Wifi size={24} className="text-rose-400 mx-auto mb-2" />
-              <p className="font-display text-sm font-bold tracking-wider text-rose-400 mb-1">MULTIPLAYER COMING SOON</p>
-              <p className="font-mono text-xs text-muted-foreground">
-                WebSocket infrastructure is built and ready. Challenge other operatives once the player base grows.
-                <br />For now, test your skills against Stockfish-powered AI opponents.
-              </p>
-              <button
-                onClick={() => { setSelectedMode("casual"); setView("character_select"); }}
-                className="mt-3 px-5 py-2 rounded-md bg-primary/10 border border-primary/40 text-primary text-sm font-mono hover:bg-primary/20"
+            {/* ── IDLE: Find Match ── */}
+            {mpState === "idle" && (
+              <>
+                {/* Player Info */}
+                {ranking.data && (
+                  <div className="rounded-lg border border-rose-400/20 bg-card/30 p-4 flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-full bg-rose-400/20 flex items-center justify-center">
+                      <Swords size={18} className="text-rose-400" />
+                    </div>
+                    <div className="flex-1">
+                      <p className="font-display text-sm font-bold">{user?.name || "Operative"}</p>
+                      <p className="font-mono text-xs text-muted-foreground">ELO: {ranking.data.elo} // {ranking.data.wins}W - {ranking.data.losses}L - {ranking.data.draws}D</p>
+                    </div>
+                  </div>
+                )}
+
+                <div className="text-center space-y-4">
+                  <button
+                    onClick={handleFindMatch}
+                    disabled={!isAuthenticated}
+                    className="w-full sm:w-auto px-8 py-4 rounded-lg bg-rose-500/20 border-2 border-rose-400/50 text-rose-300 font-display text-lg font-bold tracking-wider hover:bg-rose-500/30 hover:border-rose-400/70 hover:scale-[1.02] transition-all disabled:opacity-40 disabled:cursor-not-allowed"
+                  >
+                    <div className="flex items-center justify-center gap-3">
+                      <Swords size={22} />
+                      FIND MATCH
+                    </div>
+                  </button>
+                  {!isAuthenticated && (
+                    <p className="font-mono text-xs text-muted-foreground">You must be logged in to play multiplayer.</p>
+                  )}
+                  <p className="font-mono text-xs text-muted-foreground">ELO-based matchmaking // 10 min per side</p>
+                </div>
+
+                <div className="text-center pt-2">
+                  <button
+                    onClick={() => { setSelectedMode("casual"); setView("character_select"); }}
+                    className="px-5 py-2 rounded-md bg-primary/10 border border-primary/40 text-primary text-sm font-mono hover:bg-primary/20"
+                  >
+                    PLAY VS AI INSTEAD
+                  </button>
+                </div>
+              </>
+            )}
+
+            {/* ── SEARCHING: Queue animation ── */}
+            {mpState === "searching" && (
+              <div className="text-center space-y-5 py-6">
+                <motion.div
+                  animate={{ rotate: 360 }}
+                  transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+                  className="mx-auto w-16 h-16 rounded-full border-2 border-rose-400/30 border-t-rose-400 flex items-center justify-center"
+                >
+                  <Swords size={24} className="text-rose-400" />
+                </motion.div>
+
+                <div>
+                  <p className="font-display text-lg font-bold tracking-wider text-rose-300">SEARCHING FOR OPPONENT</p>
+                  <p className="font-mono text-sm text-muted-foreground mt-1">Time elapsed: {mpFormatSearchTime(mpSearchElapsed)}</p>
+                </div>
+
+                {mpPlayersInQueue > 0 && (
+                  <div className="rounded-lg border border-border/30 bg-card/30 p-3 inline-block">
+                    <p className="font-mono text-xs text-muted-foreground">Queue position: <span className="text-rose-400 font-bold">{mpQueuePos}</span> // Players searching: <span className="text-rose-400 font-bold">{mpPlayersInQueue}</span></p>
+                  </div>
+                )}
+
+                <div className="flex items-center justify-center gap-1 mt-2">
+                  {[0, 1, 2].map(i => (
+                    <motion.div
+                      key={i}
+                      className="w-2 h-2 rounded-full bg-rose-400"
+                      animate={{ opacity: [0.3, 1, 0.3] }}
+                      transition={{ duration: 1.2, repeat: Infinity, delay: i * 0.3 }}
+                    />
+                  ))}
+                </div>
+
+                <button
+                  onClick={handleCancelSearch}
+                  className="px-6 py-2.5 rounded-lg border border-border/50 bg-secondary/30 text-muted-foreground font-display text-sm font-bold tracking-wider hover:bg-destructive/20 hover:border-destructive/40 hover:text-destructive transition-all"
+                >
+                  <div className="flex items-center justify-center gap-2">
+                    <X size={16} />
+                    CANCEL
+                  </div>
+                </button>
+              </div>
+            )}
+
+            {/* ── MATCHED: Opponent found (brief transition screen) ── */}
+            {mpState === "matched" && mpOpponent && (
+              <motion.div
+                initial={{ scale: 0.9, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                className="text-center space-y-5 py-6"
               >
-                PLAY VS AI INSTEAD
-              </button>
+                <motion.div
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                >
+                  <div className="mx-auto w-16 h-16 rounded-full bg-emerald-400/20 border-2 border-emerald-400/50 flex items-center justify-center">
+                    <Swords size={24} className="text-emerald-400" />
+                  </div>
+                </motion.div>
+
+                <div>
+                  <p className="font-display text-lg font-bold tracking-wider text-emerald-300">MATCH FOUND</p>
+                  <p className="font-mono text-xs text-muted-foreground mt-1">Prepare for battle</p>
+                </div>
+
+                <div className="rounded-lg border border-emerald-400/30 bg-emerald-400/5 p-4 max-w-xs mx-auto space-y-2">
+                  <div className="flex items-center justify-between">
+                    <span className="font-mono text-xs text-muted-foreground">Opponent</span>
+                    <span className="font-display text-sm font-bold text-emerald-300">{mpOpponent.opponentName}</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="font-mono text-xs text-muted-foreground">ELO</span>
+                    <span className="font-mono text-sm font-bold">{mpOpponent.opponentElo}</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="font-mono text-xs text-muted-foreground">You play</span>
+                    <span className="font-display text-sm font-bold">{mpOpponent.color === "white" ? "WHITE" : "BLACK"}</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="font-mono text-xs text-muted-foreground">Time</span>
+                    <span className="font-mono text-sm">{Math.floor(mpOpponent.timeControl / 60)} min</span>
+                  </div>
+                </div>
+
+                <p className="font-mono text-xs text-emerald-400 animate-pulse">Loading game board...</p>
+              </motion.div>
+            )}
+          </motion.div>
+        )}
+
+        {/* ═══ MULTIPLAYER PLAYING ═══ */}
+        {view === "multiplayer_playing" && mpOpponent && (
+          <motion.div
+            key="mp-playing"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="relative min-h-screen"
+          >
+            {/* Dark background for multiplayer */}
+            <div className="absolute inset-0 z-0 bg-gradient-to-b from-gray-900 via-gray-950 to-black" />
+
+            {/* Content Overlay */}
+            <div className="relative z-10 p-4 sm:p-6">
+              {/* Header */}
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center gap-3">
+                  <button
+                    onClick={handleMpBackToMenu}
+                    className="p-2 rounded-md bg-black/40 backdrop-blur-sm border border-white/10 hover:bg-black/60"
+                  >
+                    <ArrowLeft size={16} className="text-white/80" />
+                  </button>
+                  <div>
+                    <h2 className="font-display text-sm font-bold tracking-wider text-white flex items-center gap-2">
+                      <Swords size={14} className="text-rose-400" />
+                      MULTIPLAYER ARENA
+                    </h2>
+                    <p className="font-mono text-[10px] text-white/50">
+                      vs {mpOpponent.opponentName} ({mpOpponent.opponentElo} ELO) // You are {mpOpponent.color}
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="px-2 py-1 rounded bg-rose-400/10 border border-rose-400/20">
+                    <span className="font-mono text-[10px] text-rose-300">BETA</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Draw offer banner */}
+              {mpDrawOffered && !mpGameOver && (
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="mb-4 rounded-lg border border-amber-400/30 bg-amber-400/10 p-3 flex items-center justify-between"
+                >
+                  <div className="flex items-center gap-2">
+                    <HandshakeIcon size={16} className="text-amber-400" />
+                    <span className="font-mono text-sm text-amber-300">Opponent offers a draw</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={handleMpAcceptDraw}
+                      className="px-3 py-1 rounded bg-emerald-500/20 border border-emerald-400/40 text-emerald-300 font-mono text-xs hover:bg-emerald-500/30"
+                    >
+                      Accept
+                    </button>
+                    <button
+                      onClick={handleMpDeclineDraw}
+                      className="px-3 py-1 rounded bg-destructive/20 border border-destructive/40 text-destructive font-mono text-xs hover:bg-destructive/30"
+                    >
+                      Decline
+                    </button>
+                  </div>
+                </motion.div>
+              )}
+
+              {/* Game Over Overlay */}
+              {mpGameOver && (
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  className="mb-4 rounded-lg border p-4 text-center space-y-3"
+                  style={{
+                    borderColor: mpGameOver.winner === "draw" ? "rgba(234, 179, 8, 0.3)" :
+                      (mpGameOver.winner === mpOpponent.color ? "rgba(239, 68, 68, 0.3)" : "rgba(34, 197, 94, 0.3)"),
+                    backgroundColor: mpGameOver.winner === "draw" ? "rgba(234, 179, 8, 0.05)" :
+                      (mpGameOver.winner === mpOpponent.color ? "rgba(239, 68, 68, 0.05)" : "rgba(34, 197, 94, 0.05)"),
+                  }}
+                >
+                  <p className="font-display text-lg font-bold tracking-wider" style={{
+                    color: mpGameOver.winner === "draw" ? "#eab308" :
+                      (mpGameOver.winner === mpOpponent.color ? "#22c55e" : "#ef4444"),
+                  }}>
+                    {mpGameOver.winner === "draw" ? "DRAW" :
+                      mpGameOver.winner === mpOpponent.color ? "DEFEAT" : "VICTORY"}
+                  </p>
+                  <p className="font-mono text-xs text-muted-foreground capitalize">{mpGameOver.reason}</p>
+                  <div className="flex items-center justify-center gap-4 text-sm">
+                    <span className="font-mono text-muted-foreground">
+                      ELO: <span className={mpGameOver.eloChange >= 0 ? "text-emerald-400" : "text-red-400"}>
+                        {mpGameOver.eloChange >= 0 ? "+" : ""}{mpGameOver.eloChange}
+                      </span>
+                    </span>
+                    <span className="font-mono text-muted-foreground">New: <span className="text-white font-bold">{mpGameOver.newElo}</span></span>
+                  </div>
+                  <button
+                    onClick={handleMpBackToMenu}
+                    className="mt-2 px-6 py-2 rounded-lg bg-rose-500/20 border border-rose-400/40 text-rose-300 font-display text-sm font-bold tracking-wider hover:bg-rose-500/30"
+                  >
+                    BACK TO LOBBY
+                  </button>
+                </motion.div>
+              )}
+
+              {/* Main game layout */}
+              <div className="flex flex-col lg:flex-row gap-4 items-start justify-center">
+                {/* Board + clocks */}
+                <div className="w-full max-w-[560px] mx-auto lg:mx-0">
+                  {/* Opponent clock (top) */}
+                  <div className="flex items-center justify-between mb-2 px-1">
+                    <div className="flex items-center gap-2">
+                      <div className="w-6 h-6 rounded-full bg-rose-400/20 flex items-center justify-center">
+                        <Users size={12} className="text-rose-400" />
+                      </div>
+                      <span className="font-display text-sm font-bold text-white/80">{mpOpponent.opponentName}</span>
+                      <span className="font-mono text-[10px] text-muted-foreground">({mpOpponent.opponentElo})</span>
+                    </div>
+                    <div className={`px-3 py-1 rounded font-mono text-sm font-bold ${
+                      (mpOpponent.color === "white" ? mpTurn === "b" : mpTurn === "w")
+                        ? "bg-rose-400/20 text-rose-300 border border-rose-400/30"
+                        : "bg-black/40 text-white/50 border border-white/10"
+                    }`}>
+                      <Clock size={12} className="inline mr-1.5" />
+                      {mpFormatTime(mpOpponent.color === "white" ? mpBlackTime : mpWhiteTime)}
+                    </div>
+                  </div>
+
+                  {/* Chessboard */}
+                  <div className="rounded-lg overflow-hidden border border-white/10">
+                    <Chessboard
+                      options={{
+                        position: mpFen,
+                        pieces: customPieces,
+                        boardOrientation: mpOpponent.color === "white" ? "black" : "white",
+                        onPieceDrop: ({ sourceSquare, targetSquare }: any) => {
+                          if (!targetSquare) return false;
+                          return handleMpMove(sourceSquare, targetSquare);
+                        },
+                        canDragPiece: ({ piece }: any) => {
+                          if (mpGameOver) return false;
+                          const pt = piece?.pieceType || "";
+                          const isOurTurn = mpOpponent.color === "white"
+                            ? mpTurn === "w" : mpTurn === "b";
+                          const isOurPiece = mpOpponent.color === "white"
+                            ? pt.startsWith("w") : pt.startsWith("b");
+                          return isOurTurn && isOurPiece;
+                        },
+                        boardStyle: {
+                          borderRadius: "0",
+                        },
+                        darkSquareStyle: { backgroundColor: "#779952" },
+                        lightSquareStyle: { backgroundColor: "#edeed1" },
+                        dropSquareStyle: {
+                          boxShadow: "inset 0 0 1px 6px rgba(255, 255, 0, 0.4)",
+                        },
+                        animationDurationInMs: 200,
+                        showAnimations: true,
+                      }}
+                    />
+                  </div>
+
+                  {/* Player clock (bottom) */}
+                  <div className="flex items-center justify-between mt-2 px-1">
+                    <div className="flex items-center gap-2">
+                      <div className="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center">
+                        <Shield size={12} className="text-primary" />
+                      </div>
+                      <span className="font-display text-sm font-bold text-white">{user?.name || "You"}</span>
+                    </div>
+                    <div className={`px-3 py-1 rounded font-mono text-sm font-bold ${
+                      (mpOpponent.color === "white" ? mpTurn === "w" : mpTurn === "b")
+                        ? "bg-primary/20 text-primary border border-primary/30"
+                        : "bg-black/40 text-white/50 border border-white/10"
+                    }`}>
+                      <Clock size={12} className="inline mr-1.5" />
+                      {mpFormatTime(mpOpponent.color === "white" ? mpWhiteTime : mpBlackTime)}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Side panel: move history + actions */}
+                <div className="w-full lg:w-64 space-y-3">
+                  {/* Move history */}
+                  <div className="rounded-lg border border-white/10 bg-black/40 backdrop-blur-sm p-3">
+                    <h3 className="font-display text-xs font-bold tracking-wider text-white/60 mb-2 flex items-center gap-1.5">
+                      <Eye size={12} /> MOVE HISTORY
+                    </h3>
+                    <div className="max-h-48 overflow-y-auto font-mono text-xs space-y-0.5">
+                      {mpMoveHistory.length === 0 && (
+                        <p className="text-muted-foreground italic">Waiting for first move...</p>
+                      )}
+                      {mpMoveHistory.reduce<Array<[string, string | undefined]>>((pairs, move, i) => {
+                        if (i % 2 === 0) pairs.push([move, undefined]);
+                        else pairs[pairs.length - 1][1] = move;
+                        return pairs;
+                      }, []).map((pair, i) => (
+                        <div key={i} className="flex items-center gap-2">
+                          <span className="text-muted-foreground w-5 text-right">{i + 1}.</span>
+                          <span className="text-white/80 w-12">{pair[0]}</span>
+                          {pair[1] && <span className="text-white/60 w-12">{pair[1]}</span>}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Game actions */}
+                  {!mpGameOver && (
+                    <div className="rounded-lg border border-white/10 bg-black/40 backdrop-blur-sm p-3 space-y-2">
+                      <h3 className="font-display text-xs font-bold tracking-wider text-white/60 mb-2">ACTIONS</h3>
+                      <button
+                        onClick={handleMpOfferDraw}
+                        className="w-full px-3 py-2 rounded bg-amber-500/10 border border-amber-400/20 text-amber-300 font-mono text-xs hover:bg-amber-500/20 flex items-center justify-center gap-2"
+                      >
+                        <HandshakeIcon size={14} /> Offer Draw
+                      </button>
+                      <button
+                        onClick={handleMpResign}
+                        className="w-full px-3 py-2 rounded bg-destructive/10 border border-destructive/20 text-destructive font-mono text-xs hover:bg-destructive/20 flex items-center justify-center gap-2"
+                      >
+                        <Flag size={14} /> Resign
+                      </button>
+                    </div>
+                  )}
+                </div>
+              </div>
             </div>
           </motion.div>
         )}

@@ -2,7 +2,7 @@
    DISCHORDIA GAME UI — React wrapper for the tactical board
    with hand display, mana bar, action log, and controls
    ═══════════════════════════════════════════════════════ */
-import { useRef, useEffect, useState, useCallback } from "react";
+import React, { useRef, useEffect, useState, useCallback } from "react";
 import type { DuelystGameState, DuelystCard, BoardUnit, GameAction, Faction } from "./types";
 import { FACTION_COLORS, FACTION_NAMES } from "./types";
 import {
@@ -18,6 +18,7 @@ import {
   Swords, Heart, Zap, RotateCcw, SkipForward, Shield,
   Crosshair, Move, Sparkles, BookOpen, MessageCircle,
 } from "lucide-react";
+import { ScreenReaderOnly } from "@/components/a11y";
 
 interface DuelystGameUIProps {
   playerFaction: Faction;
@@ -32,7 +33,7 @@ type SelectionMode = "none" | "move" | "attack" | "summon" | "spell_target";
 
 interface LogEntry { text: string; type: "info" | "attack" | "spell" | "move" | "system"; }
 
-export default function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onGameEnd, onBack }: DuelystGameUIProps) {
+function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onGameEnd, onBack }: DuelystGameUIProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const rendererRef = useRef<BoardRenderer | null>(null);
   const [gameState, setGameState] = useState<DuelystGameState | null>(null);
@@ -425,7 +426,9 @@ export default function DuelystGameUI({ playerFaction, opponentFaction, isTutori
 
   /* ─── MAIN GAME UI — Mobile-first stacked layout ─── */
   return (
-    <div className="flex flex-col h-full max-h-screen overflow-hidden bg-black relative">
+    <div className="flex flex-col h-full max-h-screen overflow-hidden bg-black relative" role="application" aria-label="Card battle game">
+      <ScreenReaderOnly>Tactical card battle game. Summon units, cast spells, and defeat the enemy general.</ScreenReaderOnly>
+
       {/* Turn flash overlay */}
       {turnFlash && (
         <div className="absolute inset-0 z-50 flex items-center justify-center pointer-events-none animate-in fade-in zoom-in duration-300">
@@ -671,3 +674,5 @@ export default function DuelystGameUI({ playerFaction, opponentFaction, isTutori
     </div>
   );
 }
+
+export default React.memo(DuelystGameUI);

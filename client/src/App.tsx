@@ -1,4 +1,4 @@
-import { Suspense, lazy, type ReactNode } from "react";
+import { Suspense, lazy, type ReactNode, type ComponentType } from "react";
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/NotFound";
@@ -43,6 +43,7 @@ import { useSortingTrigger } from "./hooks/useSortingTrigger";
 import { useAuth } from "./_core/hooks/useAuth";
 import TitlePage from "./pages/TitlePage";
 import LoadingScreen from "./components/LoadingScreen";
+import { CardGridSkeleton, LeaderboardSkeleton, PageSkeleton } from "./components/SkeletonLoader";
 import SortingCeremony from "./components/SortingCeremony";
 import { ARCHON_VOICE_MAPPING } from "./game/archonTrainingVoices";
 import "./engine/void-materials.css";
@@ -107,6 +108,7 @@ const CardChallengePage = lazy(() => import("./pages/CardChallengePage"));
 const ConexusPortalPage = lazy(() => import("./pages/ConexusPortalPage"));
 const AchievementsGalleryPage = lazy(() => import("./pages/AchievementsGalleryPage"));
 const AdminPage = lazy(() => import("./pages/AdminPage"));
+const ArchitectConsolePage = lazy(() => import("./pages/ArchitectConsolePage"));
 const HierarchyPage = lazy(() => import("./pages/HierarchyPage"));
 const DemonPackPage = lazy(() => import("./pages/DemonPackPage"));
 const FightLeaderboardPage = lazy(() => import("./pages/FightLeaderboardPage"));
@@ -114,8 +116,6 @@ const PvpArenaPage = lazy(() => import("./pages/PvpArenaPage"));
 const DraftTournamentPage = lazy(() => import("./pages/DraftTournamentPage"));
 const CardTradingPage = lazy(() => import("./pages/CardTradingPage"));
 const CardAchievementsPage = lazy(() => import("./pages/CardAchievementsPage"));
-const PotentialsPage = lazy(() => import("./pages/PotentialsPage"));
-const PotentialsLeaderboardPage = lazy(() => import("./pages/PotentialsLeaderboardPage"));
 const SettingsPage = lazy(() => import("./pages/SettingsPage"));
 const ClueJournalPage = lazy(() => import("./pages/ClueJournalPage"));
 const ResearchMinigamePage = lazy(() => import("./pages/ResearchMinigamePage"));
@@ -171,6 +171,24 @@ function PageLoader() {
   return <LoadingScreen />;
 }
 
+/* ═══ GAME ERROR FALLBACK ═══ */
+const gameErrorFallback = (
+  <div className="min-h-screen bg-black flex items-center justify-center">
+    <p className="text-white/50 font-mono text-sm">Game crashed. Please refresh the page.</p>
+  </div>
+);
+
+/** Wraps a game page component in ErrorBoundary + Suspense for crash isolation */
+function GameRoute({ component: Comp }: { component: ComponentType }) {
+  return (
+    <ErrorBoundary fallback={gameErrorFallback}>
+      <Suspense fallback={<PageLoader />}>
+        <Comp />
+      </Suspense>
+    </ErrorBoundary>
+  );
+}
+
 function Router() {
   return (
     <RouteErrorBoundary>
@@ -185,23 +203,23 @@ function Router() {
         <Route path="/search" component={SearchPage} />
         <Route path="/character-timeline" component={CharacterTimeline} />
         <Route path="/watch" component={WatchPage} />
-        <Route path="/fight" component={FightPage} />
+        <Route path="/fight">{() => <GameRoute component={FightPage} />}</Route>
         <Route path="/console" component={ConsolePage} />
-        <Route path="/cards" component={CardBrowserPage} />
-        <Route path="/cards/play" component={CardGamePage} />
-        <Route path="/duelyst" component={DuelystPage} />
-        <Route path="/terminus-swarm" component={TerminusSwarmPage} />
+        <Route path="/cards">{() => <Suspense fallback={<CardGridSkeleton />}><CardBrowserPage /></Suspense>}</Route>
+        <Route path="/cards/play">{() => <GameRoute component={CardGamePage} />}</Route>
+        <Route path="/duelyst">{() => <GameRoute component={DuelystPage} />}</Route>
+        <Route path="/terminus-swarm">{() => <GameRoute component={TerminusSwarmPage} />}</Route>
         <Route path="/ark" component={ArkExplorerPage} />
         <Route path="/ark-legacy" component={InceptionArkPage} />
         <Route path="/ship-map" component={ShipSchematicMap} />
         <Route path="/trophy" component={TrophyRoomPage} />
-        <Route path="/trade-empire" component={TradeWarsPage} />
-        <Route path="/war-map" component={WarMapPage} />
+        <Route path="/trade-empire">{() => <GameRoute component={TradeWarsPage} />}</Route>
+        <Route path="/war-map">{() => <GameRoute component={WarMapPage} />}</Route>
         <Route path="/deck-builder" component={DeckBuilderPage} />
         <Route path="/create-citizen" component={CitizenCreationPage} />
         <Route path="/character-sheet" component={CharacterSheetPage} />
         <Route path="/ideology" component={IdeologyPage} />
-        <Route path="/pet-battles" component={PetBattlesPage} />
+        <Route path="/pet-battles">{() => <GameRoute component={PetBattlesPage} />}</Route>
         <Route path="/apprentice" component={ApprenticePage} />
         <Route path="/common-room" component={GuildCommonRoomPage} />
         <Route path="/house-cup" component={HouseCupPage} />
@@ -221,62 +239,61 @@ function Router() {
         <Route path="/quiz" component={LoreQuizPage} />
         <Route path="/codex" component={CodexPage} />
         <Route path="/store" component={StorePage} />
-        <Route path="/battle" component={CardBattlePage} />
-        <Route path="/card-gallery" component={CardGalleryPage} />
+        <Route path="/battle">{() => <GameRoute component={CardBattlePage} />}</Route>
+        <Route path="/card-gallery">{() => <Suspense fallback={<CardGridSkeleton />}><CardGalleryPage /></Suspense>}</Route>
         <Route path="/profile" component={PlayerProfilePage} />
-        <Route path="/leaderboard" component={LeaderboardPage} />
-        <Route path="/boss-battle" component={BossBattlePage} />
-        <Route path="/card-challenge" component={CardChallengePage} />
+        <Route path="/leaderboard">{() => <Suspense fallback={<LeaderboardSkeleton />}><LeaderboardPage /></Suspense>}</Route>
+        <Route path="/boss-battle">{() => <GameRoute component={BossBattlePage} />}</Route>
+        <Route path="/card-challenge">{() => <GameRoute component={CardChallengePage} />}</Route>
         <Route path="/conexus-portal" component={ConexusPortalPage} />
         <Route path="/achievements" component={AchievementsGalleryPage} />
         <Route path="/admin" component={AdminPage} />
+        <Route path="/architect-console" component={ArchitectConsolePage} />
         <Route path="/hierarchy" component={HierarchyPage} />
-        <Route path="/demon-packs" component={DemonPackPage} />
+        <Route path="/demon-packs">{() => <Suspense fallback={<CardGridSkeleton />}><DemonPackPage /></Suspense>}</Route>
         <Route path="/fight-leaderboard" component={FightLeaderboardPage} />
-        <Route path="/pvp" component={PvpArenaPage} />
-        <Route path="/draft" component={DraftTournamentPage} />
+        <Route path="/pvp">{() => <GameRoute component={PvpArenaPage} />}</Route>
+        <Route path="/draft">{() => <GameRoute component={DraftTournamentPage} />}</Route>
         <Route path="/trading" component={CardTradingPage} />
         <Route path="/card-achievements" component={CardAchievementsPage} />
-        <Route path="/potentials" component={PotentialsPage} />
-        <Route path="/potentials/leaderboard" component={PotentialsLeaderboardPage} />
         <Route path="/settings" component={SettingsPage} />
         <Route path="/clue-journal" component={ClueJournalPage} />
-        <Route path="/research-minigame" component={ResearchMinigamePage} />
+        <Route path="/research-minigame">{() => <GameRoute component={ResearchMinigamePage} />}</Route>
         {/* /lore-tutorials removed — Elara teaches naturally through room dialog */}
         <Route path="/morality-census" component={MoralityLeaderboardPage} />
         <Route path="/companions" component={CompanionHubPage} />
         <Route path="/fleet" component={FleetViewerPage} />
         <Route path="/diplomacy" component={DiplomacyPage} />
-        <Route path="/faction-wars" component={FactionWarPage} />
+        <Route path="/faction-wars">{() => <GameRoute component={FactionWarPage} />}</Route>
         <Route path="/marketplace" component={MarketplacePage} />
         <Route path="/quests" component={QuestBoardPage} />
         <Route path="/guild" component={GuildPage} />
         <Route path="/battle-pass" component={BattlePassPage} />
         <Route path="/inventory" component={InventoryPage} />
-        <Route path="/chess" component={ChessPage} />
-        <Route path="/duelyst-play" component={DuelystClassicPage} />
+        <Route path="/chess">{() => <GameRoute component={ChessPage} />}</Route>
+        <Route path="/duelyst-play">{() => <GameRoute component={DuelystClassicPage} />}</Route>
         <Route path="/spectate" component={SpectatorPage} />
-        <Route path="/gamemasters-arena" component={GamemastersArenaPage} />
-        <Route path="/casino" component={DegensCasinoPage} />
-        <Route path="/signal-decryption" component={SignalDecryptionPage} />
-        <Route path="/star-chart" component={StarChartPage} />
-        <Route path="/hacking" component={HackingPuzzlePage} />
-        <Route path="/specimens" component={SpecimenCollectionPage} />
-        <Route path="/bestiary" component={BestiaryPage} />
-        <Route path="/bounties" component={BountyBoardPage} />
+        <Route path="/gamemasters-arena">{() => <GameRoute component={GamemastersArenaPage} />}</Route>
+        <Route path="/casino">{() => <GameRoute component={DegensCasinoPage} />}</Route>
+        <Route path="/signal-decryption">{() => <GameRoute component={SignalDecryptionPage} />}</Route>
+        <Route path="/star-chart">{() => <GameRoute component={StarChartPage} />}</Route>
+        <Route path="/hacking">{() => <GameRoute component={HackingPuzzlePage} />}</Route>
+        <Route path="/specimens">{() => <GameRoute component={SpecimenCollectionPage} />}</Route>
+        <Route path="/bestiary">{() => <GameRoute component={BestiaryPage} />}</Route>
+        <Route path="/bounties">{() => <GameRoute component={BountyBoardPage} />}</Route>
         <Route path="/messages" component={NPCInboxPage} />
-        <Route path="/alliance-war" component={AllianceWarPage} />
+        <Route path="/alliance-war">{() => <GameRoute component={AllianceWarPage} />}</Route>
         <Route path="/space-station" component={SpaceStationPage} />
         <Route path="/syndicate-world" component={SyndicateWorldPage} />
-        <Route path="/tower-defense" component={TowerDefensePage} />
+        <Route path="/tower-defense">{() => <GameRoute component={TowerDefensePage} />}</Route>
         <Route path="/prestige-quests" component={PrestigeQuestPage} />
-        <Route path="/competitive-arena" component={CompetitiveArenaPage} />
+        <Route path="/competitive-arena">{() => <GameRoute component={CompetitiveArenaPage} />}</Route>
         <Route path="/seasonal-events" component={SeasonalEventsPage} />
         <Route path="/replays" component={ReplayPage} />
         <Route path="/personal-quarters" component={PersonalQuartersPage} />
-        <Route path="/friendly-challenges" component={FriendlyChallengesPage} />
-        <Route path="/coop-raids" component={CoopRaidPage} />
-        <Route path="/boss-mastery" component={BossMasteryPage} />
+        <Route path="/friendly-challenges">{() => <GameRoute component={FriendlyChallengesPage} />}</Route>
+        <Route path="/coop-raids">{() => <GameRoute component={CoopRaidPage} />}</Route>
+        <Route path="/boss-mastery">{() => <GameRoute component={BossMasteryPage} />}</Route>
         <Route path="/cosmetic-shop" component={CosmeticShopPage} />
         <Route path="/donations" component={DonationPage} />
         <Route path="/social" component={SocialPage} />

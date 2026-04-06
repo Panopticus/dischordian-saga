@@ -145,7 +145,7 @@ export default function RespecDialog({ isOpen, onClose, isAuthenticated }: {
       utils.citizen.getCharacter.invalidate();
       utils.citizen.getDreamBalance.invalidate();
       utils.citizen.getRespecCosts.invalidate();
-      utils.nft.getAllTraitBonuses.invalidate();
+      utils.citizen.getAllTraitBonuses.invalidate();
       setTimeout(() => setSuccess(null), 3000);
     },
   });
@@ -156,7 +156,7 @@ export default function RespecDialog({ isOpen, onClose, isAuthenticated }: {
       utils.citizen.getCharacter.invalidate();
       utils.citizen.getDreamBalance.invalidate();
       utils.citizen.getRespecCosts.invalidate();
-      utils.nft.getAllTraitBonuses.invalidate();
+      utils.citizen.getAllTraitBonuses.invalidate();
       setTimeout(() => setSuccess(null), 3000);
     },
   });
@@ -167,7 +167,7 @@ export default function RespecDialog({ isOpen, onClose, isAuthenticated }: {
       utils.citizen.getCharacter.invalidate();
       utils.citizen.getDreamBalance.invalidate();
       utils.citizen.getRespecCosts.invalidate();
-      utils.nft.getAllTraitBonuses.invalidate();
+      utils.citizen.getAllTraitBonuses.invalidate();
       setTimeout(() => setSuccess(null), 3000);
     },
   });

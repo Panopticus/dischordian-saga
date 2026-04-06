@@ -54,7 +54,7 @@ export default function TowerDefensePage() {
   const [raidHistoryLimit] = useState(20);
   const { data: raidHistory } = trpc.towerDefense.getRaidHistory.useQuery({ limit: raidHistoryLimit });
   const { data: stationBonuses } = trpc.spaceStation.getStationBonuses.useQuery();
-  const allTraitBonuses = trpc.nft.getAllTraitBonuses.useQuery(undefined, { retry: false, refetchOnWindowFocus: false });
+  const allTraitBonuses = trpc.citizen.getAllTraitBonuses.useQuery(undefined, { retry: false, refetchOnWindowFocus: false });
   const tdBonuses = allTraitBonuses.data?.towerDefense;
 
   const placeTower = trpc.towerDefense.placeTower.useMutation({

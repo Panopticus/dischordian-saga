@@ -50,14 +50,11 @@ function useTypewriter(text: string, speed = 30, enabled = true) {
 const STEP_VO_AUDIO: Partial<Record<string, string>> = {
   CRYO_OPEN: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/elara_vo_cryo_open_342b1153.mp3",
   ELARA_INTRO: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/awakening_02_c293c1e2.mp3",
-  // WALLET_CHECK removed — blockchain no longer required
   SPECIES_QUESTION: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/awakening_04_c9547bed.mp3",
-  NEYON_PICKER: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/awakening_05_be8d79bb.mp3",
   CLASS_QUESTION: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/awakening_06_a496049b.mp3",
   ALIGNMENT_QUESTION: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/awakening_07_e6fe06ac.mp3",
   ELEMENT_QUESTION_DEMAGI: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/awakening_08_50b7edb1.mp3",
   ELEMENT_QUESTION_QUARCHON: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/awakening_09_eb34b7d1.mp3",
-  ELEMENT_QUESTION_NEYON: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/awakening_10_8b7a2a3f.mp3",
   NAME_INPUT: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/awakening_11_b7436001.mp3",
   ATTRIBUTES: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/awakening_12_ced1dfea.mp3",
   FIRST_STEPS: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/awakening_13_2075d6bd.mp3",
@@ -408,16 +405,6 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
         { value: "probability", label: "Probability — Chance bending", desc: "Manipulate probability to defy gravity." },
         { value: "reality", label: "Reality — Reality warping", desc: "Reshape local reality to negate damage." },
       ],
-      neyon: [
-        { value: "earth", label: "Earth", desc: "Stability and haste" },
-        { value: "fire", label: "Fire", desc: "Passion and immunity" },
-        { value: "water", label: "Water", desc: "Adaptability" },
-        { value: "air", label: "Air", desc: "Freedom and flight" },
-        { value: "space", label: "Space", desc: "Spatial manipulation" },
-        { value: "time", label: "Time", desc: "Temporal mastery" },
-        { value: "probability", label: "Probability", desc: "Chance bending" },
-        { value: "reality", label: "Reality", desc: "Reality warping" },
-      ],
     };
     return map[species] ?? [];
   }, [characterChoices.species]);
@@ -453,7 +440,6 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
           attrAttack: c.attrAttack,
           attrDefense: c.attrDefense,
           attrVitality: c.attrVitality,
-          // neyonTokenId removed — blockchain no longer required
         });
       }
     } catch (err) {
@@ -598,8 +584,6 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
               voAudioUrl={STEP_VO_AUDIO.ELARA_INTRO}
             />
           )}
-          {/* Wallet/blockchain check removed — no longer needed */}
-
           {/* ─── SPECIES QUESTION ─── */}
           {awakeningStep === "SPECIES_QUESTION" && (
             <ElaraDialogBox
@@ -609,12 +593,10 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
               choices={[
                 { label: "I remember the fire in my blood, the arcane pulse in every cell...", value: "demagi", description: "DeMagi — Magically modified humans with elemental powers tied to the arcane. Still human at the core, but rewritten by forces older than science." },
                 { label: "I remember the quantum storms, the probability fields...", value: "quarchon", description: "Quarchon — Vast artificial intelligence. Cold, calculating machines that transcended their programming. Masters of dimensions and data." },
-                { label: "I remember both... fragments of everything...", value: "neyon", description: "Ne-Yon — The perfect hybrid of magic and machine. Neither fully organic nor synthetic. The rarest species, attuned to any force." },
               ]}
               onChoice={(v) => {
-                  setCharacterChoice("species", v as any);
-                  advanceAwakening();
-                }
+                setCharacterChoice("species", v as any);
+                advanceAwakening();
               }}
             />
           )}
@@ -662,14 +644,11 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
               key="element"
               text={characterChoices.species === "demagi"
                 ? "Your DeMagi blood carries the arcane. Elemental forces are woven into your very DNA — a gift from modifications older than any civilization I have on record. Which element burns brightest in you?"
-                : characterChoices.species === "quarchon"
-                ? "Your Quarchon nature gives you dominion over one dimension of reality. Which dimension calls to you?"
-                : "As a Ne-Yon hybrid, you can attune to any force — elemental or dimensional. Choose your affinity."
+                : "Your Quarchon nature gives you dominion over one dimension of reality. Which dimension calls to you?"
               }
               voAudioUrl={
                 characterChoices.species === "demagi" ? STEP_VO_AUDIO.ELEMENT_QUESTION_DEMAGI
-                : characterChoices.species === "quarchon" ? STEP_VO_AUDIO.ELEMENT_QUESTION_QUARCHON
-                : STEP_VO_AUDIO.ELEMENT_QUESTION_NEYON
+                : STEP_VO_AUDIO.ELEMENT_QUESTION_QUARCHON
               }
               choices={availableElements.map(e => ({
                 label: e.label,
@@ -773,7 +752,7 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
           {awakeningStep === "FIRST_STEPS" && !showDeckReveal && (
             <ElaraDialogBox
               key="first-steps"
-              text={`Welcome aboard, ${characterChoices.name}. Your Citizen profile has been created. You are ${characterChoices.species === "demagi" ? "a DeMagi" : characterChoices.species === "quarchon" ? "a Quarchon" : "a Ne-Yon"} ${characterChoices.characterClass}, aligned with ${characterChoices.alignment}. Your quarters are through that door — the Cryo Bay. The rest of the ship... I'll need your help to restore power to the other decks. There's so much I need to show you. And so much I need to warn you about.`}
+              text={`Welcome aboard, ${characterChoices.name}. Your Citizen profile has been created. You are ${characterChoices.species === "demagi" ? "a DeMagi" : "a Quarchon"} ${characterChoices.characterClass}, aligned with ${characterChoices.alignment}. Your quarters are through that door — the Cryo Bay. The rest of the ship... I'll need your help to restore power to the other decks. There's so much I need to show you. And so much I need to warn you about.`}
               onContinue={handleCompleteCreation}
               voAudioUrl={STEP_VO_AUDIO.FIRST_STEPS}
             />
@@ -794,7 +773,7 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
               />
               {showCompanionSelect && (
                 <CompanionSelectionScene
-                  species={state.characterChoices.species || "neyon"}
+                  species={state.characterChoices.species || "demagi"}
                   onComplete={(companionId) => {
                     // Save first companion to localStorage
                     const owned = JSON.parse(localStorage.getItem("owned_specimens") || "[]");

@@ -217,6 +217,12 @@ export default function TradeEmpirePage() {
             {selectedSectorData && selectedSectorFaction && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
                 className="p-4 rounded-xl bg-white/[0.02] border border-white/10">
+                {selectedSectorData.image && (
+                  <div className="relative h-32 -mx-4 -mt-4 mb-3 rounded-t-xl overflow-hidden">
+                    <img src={selectedSectorData.image} alt={selectedSectorData.name} className="w-full h-full object-cover" style={{ filter: "brightness(0.4) saturate(0.8)" }} />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 to-transparent" />
+                  </div>
+                )}
                 <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center gap-2">
                     <div className="w-4 h-4 rounded-full" style={{ backgroundColor: selectedSectorFaction.color }} />
@@ -359,7 +365,8 @@ export default function TradeEmpirePage() {
 
         {/* Diplomacy View */}
         {view === "diplomacy" && (
-          <div className="space-y-2">
+          <div className="relative space-y-2">
+            <img src="/art/special-maps/special-thaloria-debate-stage.png" alt="" className="absolute inset-0 w-full h-full object-cover pointer-events-none" style={{ opacity: 0.1, filter: "brightness(0.3) saturate(0.6)" }} />
             <p className="font-mono text-[10px] text-white/30 tracking-wider mb-3">FACTION RELATIONS</p>
             {Object.entries(empire.diplomacy).map(([fId, dip]) => {
               const faction = GALACTIC_FACTIONS[fId as GalacticFactionId];

@@ -96,25 +96,15 @@ export default function FightPage() {
   });
   const introVideoRef = useRef<HTMLVideoElement>(null);
 
-  // NFT holder perks
-  const arenaPerks = trpc.nft.getArenaPerks.useQuery(undefined, {
-    retry: false,
-    refetchOnWindowFocus: false,
-  });
-  const holderPerks = arenaPerks.data;
+  // NFT holder perks removed — blockchain backend stripped
+  const holderPerks = null as any;
 
-  // Trait bonuses from NFT Potentials
-  const traitBonuses = trpc.nft.getTraitBonuses.useQuery(undefined, {
-    retry: false,
-    refetchOnWindowFocus: false,
-  });
-  const activeBonuses = useMemo(() => {
-    if (!traitBonuses.data?.bonuses) return null;
-    return calculateTraitBonuses(traitBonuses.data.bonuses);
-  }, [traitBonuses.data]);
+  // Trait bonuses from NFT Potentials removed
+  const traitBonuses = { data: null as any };
+  const activeBonuses = null as { total: { hp: number; attack: number; defense: number; speed: number }; breakdown: { source: string; bonus: { attack: number; defense: number; hp: number; speed: number; label: string; color: string } }[] } | null;
 
-  // Citizen character sheet bonuses (stacks with species bonuses)
-  const allTraitBonuses = trpc.nft.getAllTraitBonuses.useQuery(undefined, {
+  // Citizen character sheet bonuses
+  const allTraitBonuses = trpc.citizen.getAllTraitBonuses.useQuery(undefined, {
     retry: false,
     refetchOnWindowFocus: false,
   });
@@ -785,7 +775,7 @@ export default function FightPage() {
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
-              className="text-center py-6 void-surface border-amber-500/30"
+              className="text-center py-6 rounded-lg border border-amber-500/30 bg-amber-500/5"
             >
               <Crown size={32} className="mx-auto text-amber-400 mb-2" />
               <div className="font-display text-xl text-amber-400" style={{ textShadow: "0 0 20px rgba(251,191,36,0.4)" }}>
@@ -1316,7 +1306,7 @@ export default function FightPage() {
           </motion.div>
 
           {/* Arena grid — 4x2 with image cards */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 w-full mb-8">
+          <div className="grid grid-cols-4 gap-3 w-full mb-8">
             {ARENAS.map((a, i) => {
               const isSelected = selectedArena.id === a.id;
               return (
@@ -1467,7 +1457,7 @@ export default function FightPage() {
                 <div className="font-display text-lg text-amber-400">+{ptGain}</div>
                 {bonusPt > 0 && (
                   <div className="font-mono text-[8px] text-purple-400">
-                    +{bonusPt} SPECIES BONUS
+                    +{bonusPt} POTENTIAL BONUS
                   </div>
                 )}
               </div>

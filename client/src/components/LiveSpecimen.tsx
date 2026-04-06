@@ -78,7 +78,7 @@ export default function LiveSpecimen({
   const [thought, setThought] = useState<string | null>(null);
   const [pokeCount, setPokeCount] = useState(0);
   const [isPoking, setIsPoking] = useState(false);
-  const thoughtTimer = useRef<ReturnType<typeof setTimeout>>();
+  const thoughtTimer = useRef<ReturnType<typeof setTimeout>>(undefined);
   const containerRef = useRef<HTMLDivElement>(null);
 
   // Mouse tracking for parallax
@@ -240,7 +240,7 @@ export default function LiveSpecimen({
           }}
           animate={isPoking ? {
             scale: [1, 1.06, 1],
-            brightness: [1, 1.3, 1],
+            opacity: [1, 0.85, 1],
           } : {
             scale: [1, 1.008, 1], // Micro-breathing
           }}

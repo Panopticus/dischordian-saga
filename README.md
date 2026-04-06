@@ -12,7 +12,7 @@ Built on the music of [Malkia Ukweli & the Panopticon](https://discord.gg/vGYfAE
 - **~228K lines** of TypeScript/React across 600+ files
 - **12 playable fighters**, **107 canonical tracks**, **43 companion specimens**, **12 chapters**, **20+ ship rooms**, **30+ NPCs** with BioWare-depth relationship arcs
 - **Disco Elysium-style inner voices**, **Persona-style social links**, **TFT-style trait synergies** for party composition
-- Blockchain-optional — a "Signet" (Ethereum wallet) unlocks 1/1 collectibles and the hybrid Ne-Yon species, but is never required to play
+- Rich progression systems — unlock rare species, cards, and content through gameplay and promotional codes
 
 ## Stack
 

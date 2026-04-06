@@ -116,7 +116,16 @@ export function validateLoredex(raw: unknown): ValidationResult {
     validEntries.push(entry);
   }
 
-  // Validate relationships + check references
+  // Build name→id lookup so relationships can reference by name or id
+  const knownNames = new Set<string>();
+  for (const entry of validEntries) {
+    knownNames.add(entry.name);
+    for (const alias of entry.aliases) {
+      if (alias) knownNames.add(alias);
+    }
+  }
+
+  // Validate relationships + check references (accept id OR name)
   for (const raw of rawRels) {
     const parsed = LoredexRelationshipSchema.safeParse(raw);
     if (!parsed.success) {
@@ -127,13 +136,13 @@ export function validateLoredex(raw: unknown): ValidationResult {
       continue;
     }
     const rel = parsed.data;
-    if (!seenIds.has(rel.source)) {
+    if (!seenIds.has(rel.source) && !knownNames.has(rel.source)) {
       issues.push({
         kind: "broken_reference", entryId: rel.source,
         message: `Relationship source "${rel.source}" not in entries`,
       });
     }
-    if (!seenIds.has(rel.target)) {
+    if (!seenIds.has(rel.target) && !knownNames.has(rel.target)) {
       issues.push({
         kind: "broken_reference", entryId: rel.target,
         message: `Relationship target "${rel.target}" not in entries`,

@@ -523,9 +523,9 @@ describe("Router integration verification", () => {
     expect(content).toContain("nftLevelMultiplier");
   });
 
-  it("nft router has getAllTraitBonuses endpoint", async () => {
+  it("citizen router has getAllTraitBonuses endpoint", async () => {
     const fs = await import("fs");
-    const content = fs.readFileSync("server/routers/nft.ts", "utf-8");
+    const content = fs.readFileSync("server/routers/citizen.ts", "utf-8");
     expect(content).toContain("getAllTraitBonuses");
     expect(content).toContain("getPlayerTraitBonuses");
   });

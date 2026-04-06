@@ -21,7 +21,7 @@ export default function FriendlyChallengesPage() {
 
   const { data: myChallenges, isLoading, refetch } = trpc.friendlyChallenge.getMyChallenges.useQuery({});
   const { data: dailyChallenge } = trpc.friendlyChallenge.getDailyChallenge.useQuery(undefined, { enabled: tab === "daily" });
-  const allTraitBonuses = trpc.nft.getAllTraitBonuses.useQuery(undefined, { retry: false, refetchOnWindowFocus: false });
+  const allTraitBonuses = trpc.citizen.getAllTraitBonuses.useQuery(undefined, { retry: false, refetchOnWindowFocus: false });
   const friendlyBonuses = allTraitBonuses.data?.friendlyChallenge;
 
   const createMut = trpc.friendlyChallenge.createChallenge.useMutation({

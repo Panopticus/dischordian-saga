@@ -25,7 +25,7 @@ interface BonusCategory {
 
 export default function CharacterBonusesPanel() {
   const { isAuthenticated } = useAuth();
-  const { data: traitData, isLoading } = trpc.nft.getAllTraitBonuses.useQuery(undefined, {
+  const { data: traitData, isLoading } = trpc.citizen.getAllTraitBonuses.useQuery(undefined, {
     enabled: isAuthenticated,
   });
   const [expandedCategory, setExpandedCategory] = useState<string | null>(null);

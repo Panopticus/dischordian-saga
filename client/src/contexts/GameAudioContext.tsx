@@ -63,6 +63,7 @@ class BGMEngine {
   private _ducked = false;
   private initialized = false;
   private loadingArea: GameArea | null = null;
+  private pendingTimers: Set<ReturnType<typeof setTimeout>> = new Set();
 
   async init() {
     if (this.initialized) return;
@@ -180,9 +181,11 @@ class BGMEngine {
       const oldSource = this.currentTrack.source;
       const fadeOutMs = config.fadeOutMs ?? fadeMs;
       oldGain.gain.setTargetAtTime(0, this.ctx.currentTime, fadeOutMs / 5000);
-      setTimeout(() => {
+      const timerId = setTimeout(() => {
+        this.pendingTimers.delete(timerId);
         try { oldSource.stop(); } catch {}
       }, fadeOutMs + 500);
+      this.pendingTimers.add(timerId);
     }
 
     // Start and fade in new track
@@ -200,9 +203,11 @@ class BGMEngine {
     if (!this.currentTrack || !this.ctx) return;
     const { gain, source } = this.currentTrack;
     gain.gain.setTargetAtTime(0, this.ctx.currentTime, fadeMs / 5000);
-    setTimeout(() => {
+    const timerId = setTimeout(() => {
+      this.pendingTimers.delete(timerId);
       try { source.stop(); } catch {}
     }, fadeMs + 500);
+    this.pendingTimers.add(timerId);
     this.currentTrack = null;
   }
 
@@ -239,6 +244,10 @@ class BGMEngine {
 
   destroy() {
     this.stop();
+    for (const id of this.pendingTimers) {
+      clearTimeout(id);
+    }
+    this.pendingTimers.clear();
     this.bufferCache.clear();
     this.ctx?.close();
   }

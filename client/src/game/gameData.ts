@@ -653,7 +653,7 @@ export const ARENAS: ArenaData[] = [
     bgGradient: "linear-gradient(180deg, #0a0a2e 0%, #1a0a3e 40%, #2d1b69 70%, #1a0a2e 100%)",
     floorColor: "#1e1b4b",
     ambientColor: "#6366f1",
-    backgroundImage: "/art/arenas/arena-new-babylon.jpg",
+    backgroundImage: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/new-babylon_bg-L5pBrrUTe6CFpHgUCnzGZc.webp",
   },
   {
     id: "panopticon",
@@ -661,7 +661,7 @@ export const ARENAS: ArenaData[] = [
     bgGradient: "linear-gradient(180deg, #0f0f0f 0%, #1a0000 40%, #3d0000 70%, #1a0000 100%)",
     floorColor: "#1c1917",
     ambientColor: "#ef4444",
-    backgroundImage: "/art/arenas/arena-panopticon.jpg",
+    backgroundImage: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/panopticon_bg-gApTAVKfeK2mH2t2EjSnXa.webp",
   },
   {
     id: "thaloria",
@@ -669,7 +669,7 @@ export const ARENAS: ArenaData[] = [
     bgGradient: "linear-gradient(180deg, #001a1a 0%, #003333 40%, #004d4d 70%, #001a1a 100%)",
     floorColor: "#134e4a",
     ambientColor: "#14b8a6",
-    backgroundImage: "/art/arenas/arena-thaloria.jpg",
+    backgroundImage: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/thaloria_bg-M7SWZHAJwr8fcXgRRMMax4.webp",
   },
   {
     id: "terminus",
@@ -677,7 +677,7 @@ export const ARENAS: ArenaData[] = [
     bgGradient: "linear-gradient(180deg, #0a0a0a 0%, #1a0a2a 40%, #2a1a4a 70%, #0a0a1a 100%)",
     floorColor: "#1e1b4b",
     ambientColor: "#a855f7",
-    backgroundImage: "/art/arenas/arena-terminus.jpg",
+    backgroundImage: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/terminus_bg-DX47zzMZ5k3JdifSRVmKhR.webp",
   },
   {
     id: "mechronis",
@@ -685,7 +685,7 @@ export const ARENAS: ArenaData[] = [
     bgGradient: "linear-gradient(180deg, #0a1a0a 0%, #1a2a1a 40%, #2a3a2a 70%, #0a1a0a 100%)",
     floorColor: "#1a2e1a",
     ambientColor: "#22c55e",
-    backgroundImage: "/art/arenas/arena-mechronis.jpg",
+    backgroundImage: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/mechronis_bg-CYQGpJMy45LhszadcxaySY.webp",
   },
   {
     id: "crucible",

@@ -21,9 +21,9 @@
 
 > I am Elara, the ship's intelligence. You've been in cryogenic suspension for... I can't determine how long. My chronometers are damaged. You are aboard Inception Ark Vessel 1047. You are a Potential. The others — the first wave — they're gone. I don't know where. All inter-Ark communications have been severed across every known universe. We are alone.
 
-### Line 3: Awakening: Wallet Check
+### Line 3: Awakening: Identity Verification
 
-> Wait... I'm detecting something. Your neural signature has an encrypted blockchain marker. If you carry a Potential or a Ne-Yon token on the Ethereum network, I can verify your identity and unlock enhanced capabilities. Do you have a wallet to connect?
+> Wait... I'm detecting something. Your neural signature has an encrypted data marker — a deep-layer cipher embedded in your consciousness. If you carry a Potential or Ne-Yon access code, I can verify your identity and unlock enhanced capabilities. Do you have a code to enter?
 
 ### Line 4: Awakening: Species Question
 

@@ -806,94 +806,6 @@ export const fightMatches = mysqlTable("fight_matches", {
 export type FightMatch = typeof fightMatches.$inferSelect;
 export type InsertFightMatch = typeof fightMatches.$inferInsert;
 
-/* ═══════════════════════════════════════════════════════
-   NFT WALLET INTEGRATION — The Potentials Collection
-   Links Ethereum wallets to users, tracks NFT claims,
-   and caches on-chain metadata for lore integration.
-   ═══════════════════════════════════════════════════════ */
-
-/**
- * Linked wallets — connects Ethereum addresses to user accounts.
- * A user can link multiple wallets; each wallet links to one user.
- */
-export const linkedWallets = mysqlTable("linked_wallets", {
-  id: int("id").autoincrement().primaryKey(),
-  userId: int("userId").notNull(),
-  /** Ethereum wallet address (checksummed) */
-  walletAddress: varchar("walletAddress", { length: 42 }).notNull().unique(),
-  /** Chain: ethereum, base, polygon */
-  chain: varchar("chain", { length: 32 }).notNull().default("ethereum"),
-  /** Signature used to verify ownership */
-  verificationSignature: text("verificationSignature"),
-  /** When the wallet was linked */
-  linkedAt: timestamp("linkedAt").defaultNow().notNull(),
-});
-
-export type LinkedWallet = typeof linkedWallets.$inferSelect;
-export type InsertLinkedWallet = typeof linkedWallets.$inferInsert;
-
-/**
- * NFT claims — one-time claim ledger for Potentials 1/1 cards.
- * Once a tokenId is claimed, it can NEVER be claimed again,
- * even if the NFT is sold to a new owner.
- */
-export const nftClaims = mysqlTable("nft_claims", {
-  id: int("id").autoincrement().primaryKey(),
-  /** Token ID from the Potentials contract (0-999) */
-  tokenId: int("tokenId").notNull().unique(),
-  /** The wallet that owned the NFT at claim time */
-  claimerWallet: varchar("claimerWallet", { length: 42 }).notNull(),
-  /** The Loredex user who claimed it */
-  claimerUserId: int("claimerUserId").notNull(),
-  /** The generated 1/1 card ID in our system */
-  cardId: varchar("cardId", { length: 128 }),
-  /** NFT metadata snapshot at claim time */
-  metadataSnapshot: json("metadataSnapshot").$type<Record<string, unknown>>(),
-  /** Generated card image URL */
-  cardImageUrl: text("cardImageUrl"),
-  claimedAt: timestamp("claimedAt").defaultNow().notNull(),
-});
-
-export type NftClaim = typeof nftClaims.$inferSelect;
-export type InsertNftClaim = typeof nftClaims.$inferInsert;
-
-/**
- * Cached NFT metadata — stores on-chain metadata for all 1000 Potentials.
- * Refreshed periodically; used for lore integration and card generation.
- */
-export const nftMetadataCache = mysqlTable("nft_metadata_cache", {
-  id: int("id").autoincrement().primaryKey(),
-  /** Token ID (0-999) */
-  tokenId: int("tokenId").notNull().unique(),
-  /** NFT name (e.g., "Potential #559") */
-  name: varchar("name", { length: 256 }),
-  /** Image URL (IPFS or HTTP) */
-  imageUrl: text("imageUrl"),
-  /** Class trait */
-  nftClass: varchar("nftClass", { length: 64 }),
-  /** Weapon trait */
-  weapon: varchar("weapon", { length: 128 }),
-  /** Background trait */
-  background: varchar("background", { length: 128 }),
-  /** Species trait */
-  specie: varchar("specie", { length: 64 }),
-  /** Gender trait */
-  gender: varchar("gender", { length: 32 }),
-  /** Level trait */
-  level: int("level"),
-  /** Body type trait */
-  body: varchar("body", { length: 64 }),
-  /** Full attributes JSON (all 20 trait categories) */
-  attributes: json("attributes").$type<Array<{ trait_type: string; value: string | number }>>(),
-  /** Current on-chain owner */
-  currentOwner: varchar("currentOwner", { length: 42 }),
-  /** Last time metadata was refreshed */
-  lastRefreshed: timestamp("lastRefreshed").defaultNow().notNull(),
-  createdAt: timestamp("createdAt").defaultNow().notNull(),
-});
-
-export type NftMetadataCache = typeof nftMetadataCache.$inferSelect;
-export type InsertNftMetadataCache = typeof nftMetadataCache.$inferInsert;
 
 /* ═══════════════════════════════════════════════════════
    PVP CARD BATTLES — Real-time multiplayer matchmaking
@@ -2402,3 +2314,101 @@ export const writingStreaks = mysqlTable("writing_streaks", {
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
 });
 export type WritingStreakRow = typeof writingStreaks.$inferSelect;
+
+/* ═══════════════════════════════════════════════════════
+   PROMO CODES — Warhammer Tacticus-style redemption system
+   ═══════════════════════════════════════════════════════ */
+
+export const promoCodes = mysqlTable("promo_codes", {
+  id: int("id").primaryKey().autoincrement(),
+  code: varchar("code", { length: 64 }).notNull().unique(),
+  description: text("description"),
+  rewardType: mysqlEnum("rewardType", ["cards", "dream_currency", "credits", "cosmetics", "mixed"]).notNull(),
+  rewardValue: json("rewardValue").notNull(), // { dream?: number, credits?: number, cards?: string[], cosmetics?: string[] }
+  maxRedemptions: int("maxRedemptions").default(-1), // -1 = unlimited
+  currentRedemptions: int("currentRedemptions").default(0).notNull(),
+  isActive: boolean("isActive").default(true).notNull(),
+  expiresAt: timestamp("expiresAt"),
+  createdBy: int("createdBy"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+export type PromoCodeRow = typeof promoCodes.$inferSelect;
+
+export const promoCodeRedemptions = mysqlTable("promo_code_redemptions", {
+  id: int("id").primaryKey().autoincrement(),
+  promoCodeId: int("promoCodeId").notNull(),
+  userId: int("userId").notNull(),
+  redeemedAt: timestamp("redeemedAt").defaultNow().notNull(),
+});
+export type PromoCodeRedemptionRow = typeof promoCodeRedemptions.$inferSelect;
+
+/* ═══════════════════════════════════════════════════════
+   ARCHITECT'S CONSOLE — Community Governance
+   Community votes, live events, and audit logging for the
+   lore-native admin panel themed as the Architect's
+   surveillance/control interface.
+   ═══════════════════════════════════════════════════════ */
+
+export const communityVotes = mysqlTable("community_votes", {
+  id: int("id").primaryKey().autoincrement(),
+  voteId: varchar("voteId", { length: 128 }).notNull().unique(),
+  title: varchar("title", { length: 255 }).notNull(),
+  description: text("description"),
+  category: mysqlEnum("category", ["lore", "event", "content", "quest", "sacrifice"]).notNull(),
+  status: mysqlEnum("status", ["active", "closed", "announced"]).default("active").notNull(),
+  startedAt: timestamp("startedAt").defaultNow().notNull(),
+  endsAt: timestamp("endsAt").notNull(),
+  impactType: varchar("impactType", { length: 128 }),
+  impactPayload: json("impactPayload"),
+  createdBy: int("createdBy"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export const voteOptions = mysqlTable("vote_options", {
+  id: int("id").primaryKey().autoincrement(),
+  voteId: varchar("voteId", { length: 128 }).notNull(),
+  optionNumber: int("optionNumber").notNull(),
+  optionText: varchar("optionText", { length: 255 }).notNull(),
+  description: text("description"),
+  rewardOnWin: json("rewardOnWin"),
+  voteCount: int("voteCount").default(0).notNull(),
+  isWinner: boolean("isWinner").default(false).notNull(),
+});
+
+export const playerVotes = mysqlTable("player_votes", {
+  id: int("id").primaryKey().autoincrement(),
+  voteId: varchar("voteId", { length: 128 }).notNull(),
+  userId: int("userId").notNull(),
+  optionNumber: int("optionNumber").notNull(),
+  votedAt: timestamp("votedAt").defaultNow().notNull(),
+});
+
+// ═══ ARCHITECT'S CONSOLE — Live Events ═══
+export const adminEvents = mysqlTable("admin_events", {
+  id: int("id").primaryKey().autoincrement(),
+  eventKey: varchar("eventKey", { length: 128 }).notNull().unique(),
+  eventName: varchar("eventName", { length: 255 }).notNull(),
+  eventType: mysqlEnum("eventType", ["notification", "living_universe", "seasonal_bonus", "instance_spawn", "narrative_trigger", "multiplier"]).notNull(),
+  message: text("message"),
+  targetAudience: mysqlEnum("targetAudience", ["all", "by_level", "by_guild", "specific"]).default("all").notNull(),
+  targetPayload: json("targetPayload"),
+  gameStateChanges: json("gameStateChanges"),
+  isActive: boolean("isActive").default(false).notNull(),
+  scheduledFor: timestamp("scheduledFor"),
+  activatedAt: timestamp("activatedAt"),
+  expiresAt: timestamp("expiresAt"),
+  createdBy: int("createdBy"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+// ═══ ARCHITECT'S CONSOLE — Audit Log ═══
+export const adminAuditLog = mysqlTable("admin_audit_log", {
+  id: int("id").primaryKey().autoincrement(),
+  adminId: int("adminId").notNull(),
+  action: varchar("action", { length: 128 }).notNull(),
+  details: json("details"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});

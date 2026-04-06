@@ -49,21 +49,19 @@ describe("Sprite Pose System", () => {
 
 /* ─── 2. Arena Backgrounds ─── */
 describe("Arena Background System", () => {
-  it("all arenas with backgroundImage have valid CDN URLs", () => {
+  it("all arenas with backgroundImage have valid URLs", () => {
     expect(ARENAS.length).toBeGreaterThanOrEqual(8);
     const withBg = ARENAS.filter(a => a.backgroundImage);
     expect(withBg.length).toBeGreaterThanOrEqual(8);
     for (const arena of withBg) {
-      expect(arena.backgroundImage).toMatch(/^https:\/\//);
+      expect(arena.backgroundImage).toMatch(/^(https:\/\/|\/art\/)/);
     }
   });
 
-  it("arena background URLs are valid CDN URLs", () => {
+  it("arena background URLs are valid image URLs", () => {
     for (const arena of ARENAS) {
       if (arena.backgroundImage) {
-        expect(arena.backgroundImage).toMatch(/cloudfront\.net/);
-        // URLs can be either old arena_*_bg_* or new *_bg-* format
-        expect(arena.backgroundImage).toMatch(/_bg/);
+        expect(arena.backgroundImage).toMatch(/\.(webp|png|jpg)$/);
       }
     }
   });

@@ -35,10 +35,9 @@ export default function PotentialsLeaderboardPage() {
   const [page, setPage] = useState(0);
   const limit = 50;
 
-  const { data, isLoading } = trpc.nft.potentialsLeaderboard.useQuery({
-    limit,
-    offset: page * limit,
-  });
+  // NFT leaderboard removed — blockchain backend stripped
+  const data = null as any;
+  const isLoading = false;
 
   return (
     <div className="min-h-screen grid-bg pb-24">
@@ -93,7 +92,7 @@ export default function PotentialsLeaderboardPage() {
               <div className="col-span-2 text-center">FEATURED</div>
             </div>
 
-            {data.entries.map((entry, i) => {
+            {data.entries.map((entry: any, i: number) => {
               const tier = entry.holderTier ? TIER_CONFIG[entry.holderTier] : null;
               const isMe = user && entry.userId === user.id;
               const rankColor = RANK_TIER_COLORS[entry.rankTier] || "text-muted-foreground/60";

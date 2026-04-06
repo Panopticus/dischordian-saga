@@ -7,8 +7,8 @@
    ═══════════════════════════════════════════════════════ */
 
 import { getDb } from "./db";
-import { citizenCharacters, nftClaims, nftMetadataCache } from "../drizzle/schema";
-import { eq, and, sql } from "drizzle-orm";
+import { citizenCharacters } from "../drizzle/schema";
+import { eq, and } from "drizzle-orm";
 import type { CitizenData, PotentialNftData } from "../shared/citizenTraits";
 import {
   resolveCardGameBonuses,
@@ -56,47 +56,10 @@ export async function fetchCitizenData(userId: number): Promise<CitizenData | nu
   return rows[0] as CitizenData;
 }
 
-/* ─── FETCH NFT DATA ─── */
+/* ─── FETCH NFT DATA (removed — NFT/blockchain backend stripped) ─── */
 
-export async function fetchPotentialNftData(userId: number): Promise<PotentialNftData | null> {
-  const db = await getDb();
-  if (!db) return null;
-
-  // Get the user's claimed NFTs
-  const claims = await db
-    .select({
-      tokenId: nftClaims.tokenId,
-    })
-    .from(nftClaims)
-    .where(eq(nftClaims.claimerUserId, userId));
-
-  if (claims.length === 0) return null;
-
-  // Get the highest-level NFT's metadata
-  const tokenIds = claims.map(c => c.tokenId);
-  const metadata = await db
-    .select({
-      tokenId: nftMetadataCache.tokenId,
-      level: nftMetadataCache.level,
-      nftClass: nftMetadataCache.nftClass,
-      weapon: nftMetadataCache.weapon,
-      specie: nftMetadataCache.specie,
-    })
-    .from(nftMetadataCache)
-    .where(sql`${nftMetadataCache.tokenId} IN (${sql.join(tokenIds.map(id => sql`${id}`), sql`, `)})`)
-    .orderBy(sql`${nftMetadataCache.level} DESC`)
-    .limit(1);
-
-  if (!metadata[0]) return null;
-
-  return {
-    tokenId: metadata[0].tokenId,
-    level: metadata[0].level ?? 1,
-    nftClass: metadata[0].nftClass,
-    weapon: metadata[0].weapon,
-    specie: metadata[0].specie,
-    claimCount: claims.length,
-  };
+export async function fetchPotentialNftData(_userId: number): Promise<PotentialNftData | null> {
+  return null;
 }
 
 /* ─── COMBINED FETCH + RESOLVE ─── */
