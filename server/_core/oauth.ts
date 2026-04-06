@@ -19,8 +19,11 @@ export function registerOAuthRoutes(app: Express) {
     }
 
     try {
-      // Google redirects back with just a code; we reconstruct the redirect URI
-      const redirectUri = `${req.protocol}://${req.get("host")}/api/oauth/callback`;
+      // Google redirects back with just a code; we reconstruct the redirect URI.
+      // Behind a reverse proxy (Railway, Render, etc.) req.protocol is "http"
+      // even though the public URL is https — use x-forwarded-proto header.
+      const proto = req.get("x-forwarded-proto") || req.protocol;
+      const redirectUri = `${proto}://${req.get("host")}/api/oauth/callback`;
 
       // Exchange code for access token
       const tokenResponse = await sdk.exchangeCodeForToken(code, redirectUri);
