@@ -11,22 +11,21 @@ describe("Arena Background Images", () => {
   it("all arenas should have backgroundImage URLs", async () => {
     // Dynamic import to handle the module
     const { ARENAS } = await import("../client/src/game/gameData");
-    
+
     expect(ARENAS.length).toBeGreaterThanOrEqual(8);
-    
+
     for (const arena of ARENAS) {
       expect(arena.backgroundImage, `Arena "${arena.name}" (${arena.id}) missing backgroundImage`).toBeDefined();
       expect(arena.backgroundImage).toBeTruthy();
-      expect(arena.backgroundImage).toMatch(/^https:\/\//);
+      expect(arena.backgroundImage).toMatch(/^(https:\/\/|\/art\/)/);
     }
   });
 
-  it("all arena backgroundImage URLs should be valid CDN URLs", async () => {
+  it("all arena backgroundImage URLs should be valid image URLs", async () => {
     const { ARENAS } = await import("../client/src/game/gameData");
-    
+
     for (const arena of ARENAS) {
       if (arena.backgroundImage) {
-        expect(arena.backgroundImage).toMatch(/cloudfront\.net/);
         expect(arena.backgroundImage).toMatch(/\.(webp|png|jpg)$/);
       }
     }

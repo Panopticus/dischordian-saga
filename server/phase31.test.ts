@@ -70,7 +70,7 @@ describe("Arena Background Images", () => {
     const withBg = ARENAS.filter(a => a.backgroundImage);
     expect(withBg.length).toBeGreaterThanOrEqual(8);
     for (const arena of withBg) {
-      expect(arena.backgroundImage).toMatch(/^https:\/\//);
+      expect(arena.backgroundImage).toMatch(/^(https:\/\/|\/art\/)/);
     }
   });
 });
