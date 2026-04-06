@@ -48,7 +48,7 @@ export default function TitlePage() {
       style={{
         position: "fixed",
         inset: 0,
-        background: "radial-gradient(ellipse at center, #0a0e1a 0%, #000000 70%)",
+        background: "#000000",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
@@ -58,6 +58,18 @@ export default function TitlePage() {
         zIndex: 9999,
       }}
     >
+      {/* Background image */}
+      <div
+        style={{
+          position: "absolute",
+          inset: 0,
+          backgroundImage: "url(/title-bg.jpg)",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          opacity: 0.45,
+          filter: "brightness(0.7) contrast(1.1)",
+        }}
+      />
       {/* Scanlines overlay */}
       <div
         style={{
