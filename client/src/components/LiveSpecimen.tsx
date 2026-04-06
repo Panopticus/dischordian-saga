@@ -1,17 +1,22 @@
 /**
- * LiveSpecimen — Animated, interactive companion display.
+ * LiveSpecimen — BioWare-quality companion portrait display.
  *
- * Renders the specimen art with lifelike behaviors:
- * - Idle breathing animation (gentle scale pulse)
- * - Ambient glow in specimen's energy color
- * - Floating particles in specimen's palette
- * - Mood-based posture shifts
- * - Tap/click interactions: poke → reaction animation + thought bubble
+ * Designed for hyper-realistic specimen art. Inspired by Mass Effect
+ * companion portraits and Dragon Age relationship panels:
+ *
+ * - Subtle idle breathing (micro-scale pulse, not bouncy)
+ * - Parallax mouse tracking (portrait follows cursor slightly)
+ * - Animated rim lighting in specimen's energy color
+ * - Specular eye-glint that shifts with mouse position
+ * - Bond-based warmth (warm filter at high bond, cold at low)
+ * - Mood-driven color temperature overlays
+ * - Species-specific ambient particles (photon dust, viral spores, etc.)
+ * - Tap: portrait brightens + reaction text, subtle zoom
  * - Contextual floating thoughts on idle timer
- * - Evolution stage visual differences (fragment=dim, companion=solid, ascended=radiant)
+ * - Evolution stage: fragment=faded/ghostly, companion=solid, ascended=radiant
  */
 import { useState, useEffect, useCallback, useRef } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useMotionValue, useTransform } from "framer-motion";
 import {
   type SpecimenId,
   type SpecimenMood,
@@ -53,16 +58,6 @@ const POKE_REACTIONS: Record<string, string[]> = {
   glyph: ["*wings spell 'HELLO'*", "*flutters excitedly*", "*lands on your finger*"],
 };
 
-const MOOD_ANIMATIONS: Record<SpecimenMood, { rotate: number; scale: number; y: number }> = {
-  content: { rotate: 0, scale: 1, y: 0 },
-  excited: { rotate: -3, scale: 1.05, y: -4 },
-  wary: { rotate: 2, scale: 0.95, y: 2 },
-  hostile: { rotate: -5, scale: 1.08, y: -2 },
-  curious: { rotate: -8, scale: 1.02, y: -6 },
-  sleeping: { rotate: 5, scale: 0.92, y: 4 },
-  playful: { rotate: -4, scale: 1.04, y: -8 },
-};
-
 export default function LiveSpecimen({
   specimenId,
   stage,
@@ -79,22 +74,37 @@ export default function LiveSpecimen({
   const px = SIZE_MAP[size];
   const artPath = getSpecimenArtPath(specimenId, stage);
   const palette = spec.basePalette;
-  const moodAnim = MOOD_ANIMATIONS[mood];
 
   const [thought, setThought] = useState<string | null>(null);
   const [pokeCount, setPokeCount] = useState(0);
   const [isPoking, setIsPoking] = useState(false);
   const thoughtTimer = useRef<ReturnType<typeof setTimeout>>();
+  const containerRef = useRef<HTMLDivElement>(null);
 
-  // Idle thoughts on timer
+  // Mouse tracking for parallax
+  const mouseX = useMotionValue(0.5);
+  const mouseY = useMotionValue(0.5);
+  const imgX = useTransform(mouseX, [0, 1], [-3, 3]);
+  const imgY = useTransform(mouseY, [0, 1], [-2, 2]);
+  const glintX = useTransform(mouseX, [0, 1], [20, 80]);
+  const glintY = useTransform(mouseY, [0, 1], [15, 45]);
+
+  const handleMouseMove = useCallback((e: React.MouseEvent) => {
+    if (!containerRef.current || !interactive) return;
+    const rect = containerRef.current.getBoundingClientRect();
+    mouseX.set((e.clientX - rect.left) / rect.width);
+    mouseY.set((e.clientY - rect.top) / rect.height);
+  }, [interactive, mouseX, mouseY]);
+
+  // Idle thoughts
   useEffect(() => {
     if (!showThoughts) return;
     const scheduleThought = () => {
-      const delay = 8000 + Math.random() * 15000; // 8-23 seconds
+      const delay = 10000 + Math.random() * 18000;
       thoughtTimer.current = setTimeout(() => {
         const thoughts = IDLE_THOUGHTS[specimenId] || IDLE_THOUGHTS.lux;
         setThought(thoughts[Math.floor(Math.random() * thoughts.length)]);
-        setTimeout(() => setThought(null), 3500);
+        setTimeout(() => setThought(null), 4000);
         scheduleThought();
       }, delay);
     };
@@ -107,189 +117,297 @@ export default function LiveSpecimen({
     if (!interactive) return;
     setIsPoking(true);
     setPokeCount(c => c + 1);
-
     const reactions = POKE_REACTIONS[specimenId] || POKE_REACTIONS.lux;
     setThought(reactions[Math.floor(Math.random() * reactions.length)]);
-
-    setTimeout(() => setIsPoking(false), 400);
-    setTimeout(() => setThought(null), 2500);
+    setTimeout(() => setIsPoking(false), 600);
+    setTimeout(() => setThought(null), 3000);
   }, [specimenId, interactive]);
 
-  // Stage-based visual intensity
-  const stageGlow = stage === "ascended" ? 0.6 : stage === "companion" ? 0.3 : 0.12;
-  const stageFilter = stage === "fragment"
-    ? "brightness(0.7) saturate(0.6)"
-    : stage === "ascended"
-    ? "brightness(1.1) saturate(1.3) contrast(1.05)"
-    : "brightness(1) saturate(1)";
+  // Bond-based color temperature (0=cold/blue, 100=warm/amber)
+  const bondWarmth = Math.max(0, Math.min(100, bond));
+  const warmthHue = bondWarmth > 50 ? 0 : 210; // warm vs cold tint
+  const warmthSat = Math.abs(bondWarmth - 50) * 0.4; // intensity
+  const warmthOverlay = bondWarmth > 50
+    ? `rgba(255, 200, 100, ${(bondWarmth - 50) * 0.003})`
+    : `rgba(100, 150, 255, ${(50 - bondWarmth) * 0.003})`;
 
-  // Breathing speed based on mood
-  const breatheSpeed = mood === "sleeping" ? 4 : mood === "excited" ? 1.2 : 2;
+  // Stage-based presentation
+  const stageStyles = {
+    fragment: {
+      opacity: 0.6,
+      filter: "brightness(0.6) saturate(0.4) contrast(0.9)",
+      rimOpacity: 0.1,
+      particleCount: 3,
+    },
+    companion: {
+      opacity: 1,
+      filter: "brightness(0.95) saturate(1) contrast(1)",
+      rimOpacity: 0.3,
+      particleCount: 6,
+    },
+    ascended: {
+      opacity: 1,
+      filter: "brightness(1.05) saturate(1.15) contrast(1.05)",
+      rimOpacity: 0.5,
+      particleCount: 10,
+    },
+  }[stage];
+
+  // Mood-based color shifts
+  const moodTint: Record<SpecimenMood, string> = {
+    content: "transparent",
+    excited: `${palette.energy}08`,
+    wary: "rgba(255, 200, 0, 0.04)",
+    hostile: "rgba(255, 50, 50, 0.06)",
+    curious: `${palette.accent}06`,
+    sleeping: "rgba(100, 100, 200, 0.05)",
+    playful: `${palette.energy}06`,
+  };
+
+  const imgSize = size === "sm" ? px * 0.85 : px * 0.8;
 
   return (
     <div
+      ref={containerRef}
       className={`relative inline-flex items-center justify-center ${className}`}
       style={{ width: px, height: px, cursor: interactive ? "pointer" : "default" }}
       onClick={handlePoke}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={() => { mouseX.set(0.5); mouseY.set(0.5); }}
     >
-      {/* Ambient glow */}
-      <div
-        className="absolute inset-0 rounded-full"
+      {/* Ambient rim glow — animated ring of energy color */}
+      <motion.div
+        className="absolute rounded-full"
         style={{
-          background: `radial-gradient(circle, ${palette.energy}${Math.round(stageGlow * 255).toString(16).padStart(2, "0")} 0%, transparent 70%)`,
-          animation: `specimen-glow ${breatheSpeed * 1.5}s ease-in-out infinite`,
-          filter: "blur(12px)",
+          inset: size === "sm" ? 2 : 4,
+          background: `radial-gradient(circle, transparent 55%, ${palette.energy}${Math.round(stageStyles.rimOpacity * 255).toString(16).padStart(2, "0")} 85%, transparent 100%)`,
+          filter: "blur(6px)",
         }}
+        animate={{ opacity: [0.5, 0.8, 0.5], scale: [1, 1.02, 1] }}
+        transition={{ duration: 3, ease: "easeInOut", repeat: Infinity }}
       />
 
-      {/* Floating particles (6 motes) */}
-      {stage !== "fragment" && (
-        <div className="absolute inset-0 overflow-hidden rounded-full">
-          {Array.from({ length: 6 }).map((_, i) => (
-            <div
-              key={i}
-              className="absolute rounded-full"
-              style={{
-                width: 2 + Math.random() * 3,
-                height: 2 + Math.random() * 3,
-                background: palette.energy,
-                opacity: 0.3 + Math.random() * 0.4,
-                left: `${20 + Math.random() * 60}%`,
-                top: `${20 + Math.random() * 60}%`,
-                animation: `specimen-particle ${3 + i * 0.7}s ease-in-out infinite`,
-                animationDelay: `${i * 0.5}s`,
-              }}
-            />
-          ))}
-        </div>
-      )}
+      {/* Species-specific ambient particles */}
+      <div className="absolute inset-0 overflow-hidden rounded-full pointer-events-none">
+        {Array.from({ length: stageStyles.particleCount }).map((_, i) => (
+          <motion.div
+            key={i}
+            className="absolute rounded-full"
+            style={{
+              width: 1.5 + Math.random() * 2,
+              height: 1.5 + Math.random() * 2,
+              background: palette.energy,
+            }}
+            initial={{
+              x: `${30 + Math.random() * 40}%`,
+              y: `${80 + Math.random() * 20}%`,
+              opacity: 0,
+            }}
+            animate={{
+              x: `${20 + Math.random() * 60}%`,
+              y: [`${70 + Math.random() * 20}%`, `${10 + Math.random() * 30}%`],
+              opacity: [0, 0.4 + Math.random() * 0.3, 0],
+            }}
+            transition={{
+              duration: 4 + Math.random() * 3,
+              repeat: Infinity,
+              delay: i * 0.6,
+              ease: "easeOut",
+            }}
+          />
+        ))}
+      </div>
 
-      {/* Specimen image */}
-      <motion.img
-        src={artPath}
-        alt={spec.name}
-        draggable={false}
-        animate={{
-          scale: isPoking
-            ? [1, 1.15, 0.9, 1.05, 1]
-            : [1 * moodAnim.scale, 1.02 * moodAnim.scale, 1 * moodAnim.scale],
-          rotate: isPoking ? [0, -10, 10, -5, 0] : moodAnim.rotate,
-          y: isPoking ? [0, -12, 0] : [moodAnim.y, moodAnim.y - 3, moodAnim.y],
-        }}
-        transition={
-          isPoking
-            ? { duration: 0.4, ease: "easeInOut" }
-            : { duration: breatheSpeed, ease: "easeInOut", repeat: Infinity }
-        }
-        className="relative z-10 select-none"
+      {/* Portrait image with parallax */}
+      <motion.div
+        className="relative z-10 overflow-hidden rounded-full"
         style={{
-          width: px * 0.75,
-          height: px * 0.75,
-          objectFit: "contain",
-          filter: stageFilter,
-          drop_shadow: `0 0 ${stageGlow * 20}px ${palette.energy}`,
+          width: imgSize,
+          height: imgSize,
+          x: imgX,
+          y: imgY,
         }}
-      />
+      >
+        {/* Main portrait */}
+        <motion.img
+          src={artPath}
+          alt={spec.name}
+          draggable={false}
+          className="w-full h-full object-cover select-none"
+          style={{
+            filter: stageStyles.filter,
+            opacity: stageStyles.opacity,
+          }}
+          animate={isPoking ? {
+            scale: [1, 1.06, 1],
+            brightness: [1, 1.3, 1],
+          } : {
+            scale: [1, 1.008, 1], // Micro-breathing
+          }}
+          transition={isPoking
+            ? { duration: 0.5, ease: "easeOut" }
+            : { duration: 4, ease: "easeInOut", repeat: Infinity }
+          }
+        />
 
-      {/* Sleeping Z's */}
-      {mood === "sleeping" && (
-        <div className="absolute top-1 right-1 z-20 font-mono text-xs" style={{ color: palette.energy, opacity: 0.6 }}>
-          <motion.span
-            animate={{ opacity: [0, 1, 0], y: [0, -8, -16] }}
+        {/* Specular eye-glint — follows mouse */}
+        {stage !== "fragment" && interactive && (
+          <motion.div
+            className="absolute pointer-events-none"
+            style={{
+              width: px * 0.06,
+              height: px * 0.06,
+              borderRadius: "50%",
+              background: "radial-gradient(circle, rgba(255,255,255,0.6) 0%, transparent 70%)",
+              filter: "blur(1px)",
+              left: glintX as any,
+              top: glintY as any,
+              transform: "translate(-50%, -50%)",
+            }}
+          />
+        )}
+
+        {/* Bond warmth overlay */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{ background: warmthOverlay, mixBlendMode: "soft-light" }}
+        />
+
+        {/* Mood tint */}
+        <div
+          className="absolute inset-0 pointer-events-none transition-colors duration-1000"
+          style={{ background: moodTint[mood] }}
+        />
+
+        {/* Fragment ghost effect */}
+        {stage === "fragment" && (
+          <div className="absolute inset-0 pointer-events-none specimen-ghost" />
+        )}
+
+        {/* Ascended radiance edge */}
+        {stage === "ascended" && (
+          <motion.div
+            className="absolute inset-0 pointer-events-none rounded-full"
+            style={{
+              boxShadow: `inset 0 0 ${px * 0.15}px ${palette.energy}30`,
+            }}
+            animate={{ opacity: [0.4, 0.7, 0.4] }}
             transition={{ duration: 2, repeat: Infinity }}
-          >
-            z
-          </motion.span>
-          <motion.span
-            animate={{ opacity: [0, 1, 0], y: [0, -8, -16] }}
-            transition={{ duration: 2, repeat: Infinity, delay: 0.5 }}
-            className="text-sm ml-0.5"
-          >
-            Z
-          </motion.span>
+          />
+        )}
+      </motion.div>
+
+      {/* Portrait frame ring */}
+      <div
+        className="absolute z-20 rounded-full pointer-events-none"
+        style={{
+          width: imgSize + 4,
+          height: imgSize + 4,
+          border: `1.5px solid ${palette.energy}${stage === "ascended" ? "60" : "25"}`,
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+        }}
+      />
+
+      {/* Sleeping indicator */}
+      {mood === "sleeping" && (
+        <div className="absolute top-1 right-1 z-30 font-mono text-xs" style={{ color: palette.energy, opacity: 0.5 }}>
+          <motion.span animate={{ opacity: [0, 0.8, 0], y: [0, -6, -14] }} transition={{ duration: 2.5, repeat: Infinity }}>z</motion.span>
+          <motion.span animate={{ opacity: [0, 0.8, 0], y: [0, -6, -14] }} transition={{ duration: 2.5, repeat: Infinity, delay: 0.7 }} className="text-sm ml-0.5">Z</motion.span>
         </div>
       )}
 
-      {/* Bond hearts (high bond indicator) */}
+      {/* Bond heart — BioWare style (small, subtle) */}
       {bond >= 80 && stage !== "fragment" && (
         <motion.div
-          className="absolute -top-1 -right-1 z-20"
-          animate={{ scale: [1, 1.2, 1] }}
-          transition={{ duration: 1.5, repeat: Infinity }}
-          style={{ color: palette.accent, fontSize: size === "sm" ? 10 : 14 }}
+          className="absolute z-30"
+          style={{
+            bottom: size === "sm" ? 0 : 4,
+            right: size === "sm" ? 0 : 4,
+            fontSize: size === "sm" ? 8 : 12,
+            color: palette.energy,
+            filter: `drop-shadow(0 0 4px ${palette.energy})`,
+          }}
+          animate={{ opacity: [0.5, 1, 0.5] }}
+          transition={{ duration: 2, repeat: Infinity }}
         >
           {"\u2764"}
         </motion.div>
       )}
 
-      {/* Thought bubble */}
+      {/* Thought bubble — refined */}
       <AnimatePresence>
         {thought && (
           <motion.div
-            initial={{ opacity: 0, y: 10, scale: 0.8 }}
+            initial={{ opacity: 0, y: 6, scale: 0.9 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: -8, scale: 0.9 }}
-            transition={{ duration: 0.3 }}
-            className="absolute z-30 pointer-events-none"
+            exit={{ opacity: 0, y: -6, scale: 0.95 }}
+            transition={{ duration: 0.35, ease: "easeOut" }}
+            className="absolute z-40 pointer-events-none"
             style={{
               bottom: "100%",
               left: "50%",
               transform: "translateX(-50%)",
-              marginBottom: 8,
+              marginBottom: size === "sm" ? 4 : 10,
               whiteSpace: "nowrap",
             }}
           >
             <div
-              className="px-3 py-1.5 rounded-lg font-mono text-[10px] italic"
+              className="px-3 py-1.5 rounded-md font-mono italic"
               style={{
-                background: "rgba(0,0,0,0.85)",
-                border: `1px solid ${palette.energy}40`,
+                fontSize: size === "sm" ? 8 : 10,
+                background: "rgba(0,0,0,0.9)",
+                border: `1px solid ${palette.energy}30`,
                 color: palette.energy,
-                boxShadow: `0 0 12px ${palette.energy}20`,
+                boxShadow: `0 0 16px ${palette.energy}15, 0 4px 12px rgba(0,0,0,0.5)`,
+                backdropFilter: "blur(8px)",
               }}
             >
               {thought}
             </div>
-            {/* Tail */}
             <div
               className="absolute left-1/2 -translate-x-1/2"
               style={{
                 top: "100%",
-                width: 0,
-                height: 0,
-                borderLeft: "5px solid transparent",
-                borderRight: "5px solid transparent",
-                borderTop: `5px solid ${palette.energy}40`,
+                width: 0, height: 0,
+                borderLeft: "4px solid transparent",
+                borderRight: "4px solid transparent",
+                borderTop: `4px solid ${palette.energy}30`,
               }}
             />
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* Poke counter (easter egg) */}
+      {/* Poke counter */}
       {pokeCount >= 10 && pokeCount % 10 === 0 && (
         <motion.div
-          initial={{ opacity: 1, scale: 1.5, y: -20 }}
-          animate={{ opacity: 0, y: -50 }}
-          transition={{ duration: 1 }}
-          className="absolute top-0 z-30 font-display text-xs font-bold"
-          style={{ color: palette.accent }}
+          initial={{ opacity: 1, scale: 1.3, y: -15 }}
+          animate={{ opacity: 0, y: -40 }}
+          transition={{ duration: 1.2 }}
+          className="absolute top-0 z-40 font-display text-xs font-bold"
+          style={{ color: palette.accent, filter: `drop-shadow(0 0 6px ${palette.accent})` }}
         >
           x{pokeCount}!
         </motion.div>
       )}
 
-      {/* CSS animations */}
       <style>{`
-        @keyframes specimen-glow {
-          0%, 100% { opacity: 0.5; transform: scale(1); }
-          50% { opacity: 1; transform: scale(1.08); }
+        .specimen-ghost {
+          background: repeating-linear-gradient(
+            0deg,
+            transparent 0px,
+            transparent 3px,
+            rgba(255,255,255,0.03) 3px,
+            rgba(255,255,255,0.03) 6px
+          );
+          animation: specimen-ghost-flicker 3s ease-in-out infinite;
         }
-        @keyframes specimen-particle {
-          0%, 100% { transform: translateY(0) translateX(0); opacity: 0.2; }
-          25% { transform: translateY(-15px) translateX(5px); opacity: 0.6; }
-          50% { transform: translateY(-25px) translateX(-3px); opacity: 0.4; }
-          75% { transform: translateY(-10px) translateX(8px); opacity: 0.5; }
+        @keyframes specimen-ghost-flicker {
+          0%, 100% { opacity: 0.3; }
+          30% { opacity: 0.1; }
+          70% { opacity: 0.4; }
         }
       `}</style>
     </div>
