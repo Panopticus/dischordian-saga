@@ -9,6 +9,7 @@
  * - Floating dust particles
  */
 import { useState, useEffect, useMemo } from "react";
+import { KineticText } from "@/components/void";
 
 const LOADING_SCREENS = [
   { id: "bridge", src: "/art/loading/loading-bridge.png", label: "INITIALIZING BRIDGE SYSTEMS", color: "#33E2E6" },
@@ -168,12 +169,12 @@ export default function LoadingScreen({ context, label }: LoadingScreenProps) {
 
       {/* Content */}
       <div className="relative z-10 text-center px-6 max-w-lg">
-        {/* System label */}
+        {/* System label — kinetic decode reveal */}
         <div
           className="font-mono text-xs tracking-[0.4em] uppercase mb-6"
           style={{ color: screen.color, opacity: 0.7 }}
         >
-          {label || screen.label}
+          <KineticText text={label || screen.label} mode="decode" speed={25} showCursor={false} />
         </div>
 
         {/* Spinner */}
@@ -207,7 +208,7 @@ export default function LoadingScreen({ context, label }: LoadingScreenProps) {
           className="font-mono text-[10px] tracking-[0.15em] italic"
           style={{ color: `${screen.color}90` }}
         >
-          {flavor}
+          <KineticText key={flavor} text={flavor} mode="char" speed={20} showCursor={false} />
         </p>
       </div>
 

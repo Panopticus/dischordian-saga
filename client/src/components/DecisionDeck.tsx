@@ -313,7 +313,7 @@ function DeckCard({ href, icon: Icon, color, title, subtitle, cta }: {
   return (
     <Link
       href={href}
-      className="block p-3 rounded-lg border border-border/30 bg-card/40 hover:border-border/60 hover:bg-card/60 transition-colors"
+      className="block p-3 void-surface"
     >
       <div className="flex items-start gap-3">
         <div className={`shrink-0 w-8 h-8 rounded-md border border-border/40 bg-background/60 flex items-center justify-center`}>

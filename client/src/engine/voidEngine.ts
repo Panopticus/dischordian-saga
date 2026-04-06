@@ -286,10 +286,15 @@ export function applyThemeToDOM(themeId: string): void {
   const html = document.documentElement;
   const { physics, mode } = enforceGuardrails(theme.physics, theme.mode);
 
-  // Set triad attributes
+  // Set triad attributes (also persist for anti-FOUC bootloader)
   html.setAttribute("data-atmosphere", themeId);
   html.setAttribute("data-physics", physics);
   html.setAttribute("data-mode", mode);
+  try {
+    localStorage.setItem("ve-atmosphere", themeId);
+    localStorage.setItem("ve-physics", physics);
+    localStorage.setItem("ve-mode", mode);
+  } catch { /* storage full or blocked */ }
 
   // Inject palette as CSS custom properties
   const p = theme.palette;

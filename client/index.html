@@ -30,6 +30,28 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-96x96.png" />
   </head>
   <body>
+    <!-- Void Energy Anti-FOUC Bootloader — runs BEFORE React mounts.
+         Reads saved theme/density preferences from localStorage and sets
+         data attributes on <html> so the CSS physics engine is active
+         from the very first paint. No flash of wrong theme. -->
+    <script>
+      (function(){
+        var h=document.documentElement;
+        try{
+          var a=localStorage.getItem('ve-atmosphere')||'twilight_equilibrium';
+          var p=localStorage.getItem('ve-physics')||'flat';
+          var m=localStorage.getItem('ve-mode')||'dark';
+          var d=localStorage.getItem('ve-density')||'standard';
+          // Enforce constraints
+          if(p==='glass'&&m==='light'){p='flat';}
+          if(p==='retro'&&m==='light'){m='dark';}
+          h.setAttribute('data-atmosphere',a);
+          h.setAttribute('data-physics',p);
+          h.setAttribute('data-mode',m);
+          h.setAttribute('data-density',d);
+        }catch(e){}
+      })();
+    </script>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
     <script>

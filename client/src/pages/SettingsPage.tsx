@@ -292,6 +292,21 @@ export default function SettingsPage() {
             ]}
           />
 
+          {/* Void Energy Density */}
+          <OptionSelector
+            label="UI DENSITY"
+            value={localStorage.getItem("ve-density") || "standard"}
+            onChange={(v) => {
+              localStorage.setItem("ve-density", v);
+              document.documentElement.setAttribute("data-density", v);
+            }}
+            options={[
+              { value: "compact", label: "Compact", desc: "0.75x spacing", icon: Type },
+              { value: "standard", label: "Standard", desc: "Default", icon: Type },
+              { value: "spacious", label: "Spacious", desc: "1.25x spacing", icon: Type },
+            ]}
+          />
+
           {/* Ark Themes */}
           <div>
             <p className="font-mono text-[10px] text-muted-foreground/60 tracking-wider mb-2">ARK THEME</p>

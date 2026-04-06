@@ -1,0 +1,311 @@
+/* ═══════════════════════════════════════════════════════
+   VOID ENERGY — COMPONENT MATERIAL SHEETS
+
+   Per-component physics overrides. These are NOT layout —
+   layout is Tailwind's job. These define how each component's
+   MATERIAL behaves under different physics types.
+
+   Pattern: [data-physics="X"] .component { physics-specific rules }
+   ═══════════════════════════════════════════════════════ */
+
+/* ─── ACTIVE TILE STATE ─── */
+.void-tile-active {
+  border-color: var(--void-primary, #33E2E6) !important;
+  box-shadow: 0 0 12px var(--void-glow, rgba(51,226,230,0.2));
+}
+[data-physics="retro"] .void-tile-active {
+  border-color: var(--void-primary, #ff3040) !important;
+  box-shadow: 2px 2px 0 var(--void-primary, #ff3040);
+}
+
+/* ─── BUTTONS ─── */
+.void-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--ve-space-sm, 8px);
+  padding: var(--ve-space-sm, 8px) var(--ve-space-md, 16px);
+  font-family: inherit;
+  font-size: calc(0.875rem * var(--ve-text-scale, 1));
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  cursor: pointer;
+  border: var(--ve-border-width, 1px) var(--ve-border-style, solid) var(--void-border, rgba(255,255,255,0.1));
+  border-radius: var(--ve-radius-sm, 6px);
+  background: var(--void-surface, #0f0f1a);
+  color: var(--void-text, #fff);
+  transition: all var(--ve-transition-speed, 200ms) var(--ve-transition-ease);
+  min-height: 44px;
+}
+
+.void-btn:hover {
+  border-color: var(--void-primary, #33E2E6);
+  box-shadow: 0 0 12px var(--void-glow, rgba(51,226,230,0.15));
+}
+
+.void-btn-primary {
+  background: color-mix(in oklch, var(--void-primary, #33E2E6) 15%, var(--void-surface, #0f0f1a));
+  border-color: color-mix(in oklch, var(--void-primary, #33E2E6) 50%, transparent);
+  color: var(--void-primary, #33E2E6);
+}
+.void-btn-primary:hover {
+  background: color-mix(in oklch, var(--void-primary, #33E2E6) 25%, var(--void-surface, #0f0f1a));
+}
+
+[data-physics="glass"] .void-btn {
+  backdrop-filter: blur(8px);
+  background: color-mix(in oklch, var(--void-surface, #0f0f1a) 80%, transparent);
+}
+[data-physics="glass"] .void-btn:hover {
+  box-shadow: 0 0 20px var(--void-glow, rgba(51,226,230,0.2)), inset 0 1px 0 rgba(255,255,255,0.05);
+}
+
+[data-physics="retro"] .void-btn {
+  border: 3px double var(--void-primary, #ff3040);
+  transition: none;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+}
+[data-physics="retro"] .void-btn:hover {
+  background: var(--void-primary, #ff3040);
+  color: var(--void-canvas, #000);
+  box-shadow: 2px 2px 0 rgba(0,0,0,0.8);
+}
+[data-physics="retro"] .void-btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: none;
+}
+
+/* ─── DIALOGS / MODALS ─── */
+.void-dialog-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+[data-physics="glass"] .void-dialog-overlay {
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(4px);
+}
+[data-physics="flat"] .void-dialog-overlay {
+  background: rgba(0,0,0,0.75);
+}
+[data-physics="retro"] .void-dialog-overlay {
+  background: rgba(0,0,0,0.9);
+}
+
+/* ─── TABS ─── */
+.void-tab {
+  padding: var(--ve-space-sm) var(--ve-space-md);
+  font-size: calc(0.75rem * var(--ve-text-scale, 1));
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--void-text-muted, rgba(255,255,255,0.5));
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  transition: all var(--ve-transition-speed) var(--ve-transition-ease);
+}
+.void-tab:hover {
+  color: var(--void-text, #fff);
+}
+.void-tab-active {
+  color: var(--void-primary, #33E2E6);
+  border-bottom-color: var(--void-primary, #33E2E6);
+}
+
+[data-physics="retro"] .void-tab {
+  border-bottom: 2px double transparent;
+  transition: none;
+}
+[data-physics="retro"] .void-tab-active {
+  border-bottom-color: var(--void-primary, #ff3040);
+  background: color-mix(in oklch, var(--void-primary, #ff3040) 10%, transparent);
+}
+
+/* ─── INPUTS ─── */
+.void-input {
+  width: 100%;
+  padding: var(--ve-space-sm) var(--ve-space-md);
+  font-family: inherit;
+  font-size: calc(0.875rem * var(--ve-text-scale, 1));
+  color: var(--void-text, #fff);
+  background: var(--void-canvas, #050510);
+  border: var(--ve-border-width) var(--ve-border-style) var(--void-border, rgba(255,255,255,0.1));
+  border-radius: var(--ve-radius-sm);
+  transition: border-color var(--ve-transition-speed) var(--ve-transition-ease);
+  min-height: 44px;
+}
+.void-input:focus {
+  outline: none;
+  border-color: var(--void-primary, #33E2E6);
+  box-shadow: 0 0 8px var(--void-glow, rgba(51,226,230,0.15));
+}
+
+[data-physics="glass"] .void-input {
+  background: color-mix(in oklch, var(--void-canvas, #050510) 80%, transparent);
+  backdrop-filter: blur(6px);
+}
+[data-physics="retro"] .void-input {
+  border: 3px double var(--void-border, rgba(255,255,255,0.1));
+  transition: none;
+}
+[data-physics="retro"] .void-input:focus {
+  border-color: var(--void-primary, #ff3040);
+  box-shadow: 2px 2px 0 rgba(0,0,0,0.5);
+}
+
+/* ─── SKELETON (Loading Shimmer) ─── */
+.void-skeleton {
+  position: relative;
+  overflow: hidden;
+}
+
+[data-physics="glass"] .void-skeleton {
+  background: color-mix(in oklch, var(--void-surface, #0f0f1a) 70%, transparent);
+}
+[data-physics="glass"] .void-skeleton::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255,255,255,0.04) 40%,
+    rgba(255,255,255,0.08) 50%,
+    rgba(255,255,255,0.04) 60%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  animation: ve-shimmer-glass 2s ease-in-out infinite;
+}
+
+[data-physics="flat"] .void-skeleton {
+  background: var(--void-surface, #0f0f1a);
+  animation: ve-shimmer-flat 1.5s ease-in-out infinite;
+}
+
+[data-physics="retro"] .void-skeleton {
+  background: var(--void-canvas, #050510);
+  border: 1px double var(--void-border, rgba(255,255,255,0.1));
+}
+[data-physics="retro"] .void-skeleton::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    0deg,
+    transparent 0%,
+    var(--void-primary, #ff3040) 2px,
+    transparent 4px
+  );
+  background-size: 100% 8px;
+  animation: ve-shimmer-retro 0.5s steps(4) infinite;
+}
+
+@keyframes ve-shimmer-glass {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+@keyframes ve-shimmer-flat {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+@keyframes ve-shimmer-retro {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(8px); }
+}
+
+/* ─── BADGES / PILLS ─── */
+.void-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  font-size: calc(0.625rem * var(--ve-text-scale, 1));
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border: 1px solid var(--void-border, rgba(255,255,255,0.1));
+  border-radius: var(--ve-radius-sm);
+  background: color-mix(in oklch, var(--void-surface, #0f0f1a) 80%, transparent);
+  color: var(--void-primary, #33E2E6);
+}
+[data-physics="retro"] .void-badge {
+  border: 2px double var(--void-primary, #ff3040);
+  font-family: monospace;
+}
+
+/* ─── PROGRESS BAR ─── */
+.void-progress {
+  width: 100%;
+  height: 4px;
+  border-radius: var(--ve-radius-sm);
+  background: color-mix(in oklch, var(--void-surface, #0f0f1a) 50%, transparent);
+  overflow: hidden;
+}
+.void-progress-fill {
+  height: 100%;
+  border-radius: inherit;
+  background: var(--void-primary, #33E2E6);
+  transition: width var(--ve-transition-speed) var(--ve-transition-ease);
+}
+
+[data-physics="glass"] .void-progress {
+  backdrop-filter: blur(4px);
+}
+[data-physics="glass"] .void-progress-fill {
+  box-shadow: 0 0 8px var(--void-glow, rgba(51,226,230,0.3));
+}
+[data-physics="retro"] .void-progress {
+  border: 1px double var(--void-border);
+  height: 6px;
+}
+[data-physics="retro"] .void-progress-fill {
+  transition: none;
+  box-shadow: none;
+}
+
+/* ─── DIVIDERS ─── */
+.void-divider {
+  height: 1px;
+  background: var(--void-border, rgba(255,255,255,0.08));
+}
+[data-physics="glass"] .void-divider {
+  background: linear-gradient(
+    to right,
+    transparent,
+    var(--void-border, rgba(255,255,255,0.08)) 20%,
+    var(--void-border, rgba(255,255,255,0.08)) 80%,
+    transparent
+  );
+}
+[data-physics="retro"] .void-divider {
+  height: 2px;
+  border-top: 1px double var(--void-primary, #ff3040);
+  background: none;
+}
+
+/* ─── TOOLTIP ─── */
+.void-tooltip {
+  padding: var(--ve-space-xs) var(--ve-space-sm);
+  font-size: calc(0.75rem * var(--ve-text-scale, 1));
+  border-radius: var(--ve-radius-sm);
+  border: 1px solid var(--void-border);
+  background: var(--void-elevated, #1a1a2e);
+  color: var(--void-text);
+  box-shadow: var(--ve-shadow-float);
+  z-index: 999;
+}
+[data-physics="glass"] .void-tooltip {
+  backdrop-filter: blur(12px);
+  background: color-mix(in oklch, var(--void-elevated, #1a1a2e) 85%, transparent);
+}
+[data-physics="retro"] .void-tooltip {
+  border: 2px double var(--void-primary, #ff3040);
+  box-shadow: 2px 2px 0 rgba(0,0,0,0.8);
+}
