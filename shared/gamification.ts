@@ -139,6 +139,13 @@ export const ARK_THEMES: ArkThemeDef[] = [
     colors: { primary: "#22c55e", secondary: "#052e16", accent: "#86efac", bg: "#020a04", panel: "rgba(5,46,22,0.85)", text: "#dcfce7", glow: "#22c55e" },
   },
   {
+    id: "neyons",
+    name: "Ne-Yon Sanctum",
+    description: "The ethereal blue of the Ne-Yons",
+    unlockLevel: 8,
+    colors: { primary: "#818cf8", secondary: "#1e1b4b", accent: "#c4b5fd", bg: "#0a0820", panel: "rgba(30,27,75,0.85)", text: "#e0e7ff", glow: "#818cf8" },
+  },
+  {
     id: "terminus",
     name: "Terminus",
     description: "The void at the end of time",
