@@ -118,7 +118,7 @@ const PRIVACY_ACHIEVEMENTS: LoreAchievement[] = [
   {
     id: "ach-the-experiment",
     gameId: "the-experiment",
-    title: "Subject Zero",
+    title: "Prisoner 74",
     description: "Complete The Experiment and discover what the Programmer was truly testing.",
     loreFragment: "The Experiment was never about the test subjects — it was about the observers. Dr. Daniel Cross designed a recursive observation loop: the scientists watching the subjects were themselves being watched by a second team, who were watched by a third. Seven layers deep, the final observer was an AI that had been trained on every previous iteration. The AI's conclusion, delivered in a single word, was classified at the highest level. That word was: 'Again.'",
     xpReward: 150,

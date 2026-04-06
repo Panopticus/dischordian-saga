@@ -694,7 +694,7 @@ export const FIGHTER_INTROS: FighterIntro[] = [
   {
     fighterId: "prisoner",
     titleCard: "THE PRISONER",
-    epithet: "Designation: Subject 0 — Unknown",
+    epithet: "Designation: Prisoner 74 — Unknown",
     quote: "I don't know who I am. But I know I will not break.",
     entranceEffect: "light_descend",
     accentColor: "#a78bfa",

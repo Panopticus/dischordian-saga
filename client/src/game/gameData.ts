@@ -378,7 +378,7 @@ export const STARTER_FIGHTERS: FighterData[] = [
   {
     id: "prisoner",
     name: "The Prisoner",
-    title: "Subject 0 — The Oracle Reborn",
+    title: "Prisoner 74 — The Oracle Reborn",
     loredexId: "entity_7",
     image: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/idle_15923b6e.png",
     faction: "neutral",

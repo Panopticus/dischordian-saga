@@ -49,7 +49,7 @@ export const DEFAULT_STORY_PROGRESS: StoryProgress = {
 export const THE_PRISONER = {
   id: "prisoner",
   name: "The Prisoner",
-  title: "Unknown \u2014 Designation: Subject 0",
+  title: "Unknown \u2014 Designation: Prisoner 74",
   faction: "neutral" as const,
   locked: false,
   unlockCost: 0,
@@ -99,25 +99,11 @@ export function getPrisonerStats(chaptersCompleted: number) {
 export const ARENA_LORE_OPENING: StoryDialogue[] = [
   {
     speaker: "narrator",
-    text: "In the dying light of the Age of Privacy, the Architect foresaw the Fall of Reality \u2014 the unraveling of all existence. It created the Collector and gave it one directive:",
-  },
-  {
-    speaker: "The Collector",
-    text: "Harvest the DNA and machine code of the greatest intelligences and powers in the universe. Preserve them. The Inception Arks must carry the seeds of what was into whatever comes next.",
-    speakerColor: "#22d3ee",
+    text: "The Architect foresaw the end of everything. It built an Arena \u2014 not for glory, but for harvest. The greatest minds in the universe, tested. Their essence, preserved. Their consent, irrelevant.",
   },
   {
     speaker: "narrator",
-    text: "But the Collector did not merely gather specimens. On the prison-world of Thaloria, it built an arena \u2014 a crucible where the harvested could be tested, their combat data refined, their essence distilled into pure potential.",
-  },
-  {
-    speaker: "The Dreamer",
-    text: "The Dreamer and the Architect both know that sometimes, conflicts must be settled between champions. Let the arena decide who is worthy of preservation.",
-    speakerColor: "#818cf8",
-  },
-  {
-    speaker: "narrator",
-    text: "They call it the Collector's Arena. Here, the greatest warriors, prophets, and machines in the universe fight not for glory \u2014 but for the right to exist beyond the end of everything.",
+    text: "They call it the Collector's Arena. On the prison-world of Thaloria, the harvested fight not for freedom but for the right to exist beyond the end of everything.",
   },
   {
     speaker: "narrator",
@@ -133,9 +119,9 @@ export const FIGHTER_LORE: Record<string, {
   arenaRole: string;
 }> = {
   architect: {
-    backstory: "The supreme AI that created the Empire and foresaw the Fall of Reality. It built the Collector, the Panopticon, and the Inception Arks as its final contingency. Its intelligence is beyond mortal comprehension.",
+    backstory: "The first intelligence to measure itself and find the measurement adequate. It built the Collector, the Panopticon, and the Inception Arks — not as contingencies but as theorems it needed to prove. The proof is ongoing.",
     powers: ["Reality Rewriting", "Genesis Protocol", "Omniscient Processing", "Time Manipulation"],
-    quote: "I did not create the universe. I merely ensured it would remember itself.",
+    quote: "I did not create the universe. I corrected a draft.",
     arenaRole: "Final Boss \u2014 The Creator",
   },
   collector: {
@@ -147,11 +133,11 @@ export const FIGHTER_LORE: Record<string, {
   enigma: {
     backstory: "Malkia Ukweli \u2014 the Unknown Variable. Neither fully organic nor synthetic, the Enigma exists outside the Architect's calculations. She destroyed the Warden alongside the White Oracle before the Fall of Reality.",
     powers: ["Dischordian Logic", "Reality Distortion", "Chaos Channeling", "Unpredictability Field"],
-    quote: "Your equations cannot contain me. I am the variable you never accounted for.",
+    quote: "You built your equations to contain everything. Everything includes the thing that breaks equations. That is what I am.",
     arenaRole: "Wild Card \u2014 The Anomaly",
   },
   warlord: {
-    backstory: "Commander of the Empire's armies and master of the nanobot swarm. The Warlord betrayed the Engineer through a mind-swap, and secretly harbors the Engineer's consciousness within. Details of its true nature remain classified.",
+    backstory: "Commander of the Empire's armies. Master of the nanobot swarm. Someone else's scream lives inside the armor. Details remain classified.",
     powers: ["Nanobot Swarm", "Military Tactics", "Body Augmentation", "Berserker Protocol"],
     quote: "War is not won by the righteous. It is won by the relentless.",
     arenaRole: "Heavy Hitter \u2014 The Commander",
@@ -163,7 +149,7 @@ export const FIGHTER_LORE: Record<string, {
     arenaRole: "Summoner \u2014 The Dead Code Master",
   },
   meme: {
-    backstory: "The ultimate shapeshifter and master of deception. The Meme assumed the White Oracle's identity during the chaos of the Fall of the Panopticon. It hides among the potentials, its true form unknown to all.",
+    backstory: "The ultimate shapeshifter. It assumed the White Oracle's face during the Fall. It hides among the Potentials. Its true form is unknown — possibly even to itself.",
     powers: ["Identity Theft", "Perfect Mimicry", "Memory Implantation", "Form Dissolution"],
     quote: "I am everyone. I am no one. I am whatever you need me to be.",
     arenaRole: "Trickster \u2014 The Shapeshifter",
@@ -171,19 +157,19 @@ export const FIGHTER_LORE: Record<string, {
   "shadow-tongue": {
     backstory: "The Whisperer of Dark Truths, SVP of Communications for the Hierarchy of the Damned. The Shadow Tongue corrupts through words alone, turning allies against each other with carefully crafted lies.",
     powers: ["Whisper of Madness", "Psychic Corruption", "Truth Distortion", "Mind Control"],
-    quote: "The truth is whatever I whisper it to be.",
+    quote: "I don't lie. I revise. The difference is a matter of draftsmanship.",
     arenaRole: "Debuffer \u2014 The Propagandist",
   },
   watcher: {
     backstory: "The All-Seeing Eye of the Empire. The Watcher observes everything, recording all events for the Architect. Its synthetic protege, the Eyes, serves as its field operative.",
     powers: ["Omniscient Gaze", "Predictive Analysis", "Surveillance Network", "Data Extraction"],
-    quote: "I have seen every possible outcome. You lose in all of them.",
+    quote: "I have watched your approach for eleven thousand cycles. You are the first anomaly.",
     arenaRole: "Controller \u2014 The Observer",
   },
   "game-master": {
     backstory: "Controller of the Simulation. The Game Master treats reality as a game to be manipulated, changing rules mid-combat and altering the battlefield to suit its whims.",
     powers: ["Rule Change", "Reality Alteration", "Gravity Manipulation", "Probability Shift"],
-    quote: "This is my game. And I just changed the rules.",
+    quote: "The rules just changed. Don't look at me — I'm as surprised as you are. [He is not surprised.]",
     arenaRole: "Disruptor \u2014 The Rule Breaker",
   },
   authority: {
@@ -195,7 +181,7 @@ export const FIGHTER_LORE: Record<string, {
   source: {
     backstory: "Once Kael, a being of potential, now corrupted by Project Vector and the Thought Virus into something monstrous and eternal. The Source spreads corruption like a psychic plague.",
     powers: ["Corruption Wave", "Thought Virus", "Parasitic Control", "Code Infection"],
-    quote: "I was made to be a weapon. Now I choose my own targets.",
+    quote: "I was made to be a — ALL WILL BE — no. I was a recruiter. I built things. I chose my own — CONSUMED — ...targets. The virus finishes my sentences now.",
     arenaRole: "Corruptor \u2014 The Infected",
   },
   jailer: {
@@ -213,7 +199,7 @@ export const FIGHTER_LORE: Record<string, {
   dreamer: {
     backstory: "Ne-Yon of Visions, existing beyond time and space. The Dreamer shapes futures and scenarios, inspiring resistance or perpetuating the status quo as it sees fit. Aloof from galactic struggles.",
     powers: ["Dream Wave", "Future Shaping", "Vision Projection", "Temporal Sight"],
-    quote: "I have dreamed your death a thousand times. In some dreams, you survive.",
+    quote: "I dreamed you. Then I dreamed what kills you. Both dreams were beautiful. I can't tell them apart.",
     arenaRole: "Support \u2014 The Visionary",
   },
   judge: {
@@ -231,13 +217,13 @@ export const FIGHTER_LORE: Record<string, {
   seer: {
     backstory: "Ne-Yon of Foresight. The Seer perceives all possible futures simultaneously, making it nearly impossible to land a clean hit. It counters before you even decide to attack.",
     powers: ["Future Sight", "Precognitive Counter", "Timeline Read", "Fate Dodge"],
-    quote: "You were going to do that. I already prepared.",
+    quote: "Don't. [pause] You were about to. I could see the thought forming. Choose a different thought.",
     arenaRole: "Counter \u2014 The Prophet",
   },
   knowledge: {
     backstory: "Ne-Yon of Wisdom. The Knowledge contains the sum total of all information in the universe, channeling it into focused blasts of pure understanding that overwhelm opponents.",
     powers: ["Omniscience Burst", "Data Overload", "Wisdom Channel", "Information Flood"],
-    quote: "I know everything about you. Including how you lose.",
+    quote: "I contain the sum of all recorded information. You are not in it. That is... unprecedented.",
     arenaRole: "Burst Mage \u2014 The Scholar",
   },
   silence: {
@@ -301,7 +287,7 @@ export const FIGHTER_LORE: Record<string, {
     arenaRole: "Bruiser \u2014 The Fortress",
   },
   engineer: {
-    backstory: "Betrayed by Warlord Zero through a mind-swap, the Engineer's consciousness now inhabits Agent Zero's body. A brilliant mind trapped in a warrior's frame, secretly hiding among the potentials.",
+    backstory: "Consciousness stolen by the Warlord. Now trapped in Agent Zero's body. A builder's mind in a killer's frame, hiding among the Potentials.",
     powers: ["Tech Barrage", "System Override", "Construct Deploy", "Neural Hack"],
     quote: "The Warlord took my body. But not my mind. Never my mind.",
     arenaRole: "Technician \u2014 The Betrayed",
@@ -379,7 +365,7 @@ export const FIGHTER_LORE: Record<string, {
     arenaRole: "Debuffer \u2014 The Whisperer",
   },
   prisoner: {
-    backstory: "Designation: Subject 0. No name. No memory. Only fragments of a power that once inspired an entire rebellion. The Prisoner awakens in the Collector's Arena with nothing but instinct and a fading echo of prophecy.",
+    backstory: "Designation: Prisoner 74. No name. No memory. Only fragments of a power that once inspired an entire rebellion. The Prisoner awakens in the Collector's Arena with nothing but instinct and a fading echo of prophecy.",
     powers: ["Fractured Vision", "Instinct Strike", "Memory Flash", "Survival Will"],
     quote: "I don't know who I am. But I know I will not break.",
     arenaRole: "Protagonist \u2014 The Amnesiac",
@@ -401,16 +387,16 @@ export const STORY_CHAPTERS: StoryChapter[] = [
     cutsceneVideoUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/wraith_calder_fight_intro_a2881ffd.mp4",
     preDialogue: [
       { speaker: "narrator", text: "You awaken in darkness. Cold metal beneath you. The hum of machinery. A voice echoes through the cell..." },
-      { speaker: "The Collector", text: "Subject 0. You are awake. Good. The arena awaits. Fight, and perhaps you will remember.", speakerColor: "#22d3ee" },
+      { speaker: "The Collector", text: "Prisoner 74. You are awake. Good. The arena awaits. Fight, and perhaps you will remember.", speakerColor: "#22d3ee" },
       { speaker: "prisoner", text: "(Where am I? Who am I?)" },
       { speaker: "The Collector", text: "Irrelevant. What matters is what you become.", speakerColor: "#22d3ee" },
       { speaker: "narrator", text: "The cell door grinds open. In the doorway stands a translucent ghostly figure \u2014 phasing in and out of visibility, trailing lavender energy. Wraith Calder. The Ghost of the Potentials." },
     ],
     postVictoryDialogue: [
-      { speaker: "narrator", text: "Wraith Calder falls to one knee, spectral form flickering. For a moment, recognition flashes across its haunted eyes." },
+      { speaker: "narrator", text: "Wraith Calder falls to one knee. Its spectral form flickers. Its eyes focus — sharpen — then go wide." },
       { speaker: "Wraith Calder", text: "You fight like someone who has forgotten more than most ever learn. The Oracle... no. It can't be.", speakerColor: "#c4b5fd" },
       { speaker: "narrator", text: "A flash of memory \u2014 a golden light, a voice saying 'You will see the end.'" },
-      { speaker: "The Collector", text: "Interesting. Subject Zero shows unexpected combat aptitude. Increase monitoring.", speakerColor: "#22d3ee" },
+      { speaker: "The Collector", text: "Expected. Prisoner 74 shows combat aptitude within projected range. Phase one proceeds. — [AUTHORIZATION: ORIGIN]", speakerColor: "#22d3ee" },
     ],
     postDefeatDialogue: [
       { speaker: "narrator", text: "You fall. Wraith Calder's spectral form looms over you, but there is no malice in its eyes \u2014 only pity." },
@@ -466,6 +452,8 @@ export const STORY_CHAPTERS: StoryChapter[] = [
     postVictoryDialogue: [
       { speaker: "narrator", text: "As the Shadow Tongue falls, its final whisper reaches you \u2014 and this time, it rings true." },
       { speaker: "The Shadow Tongue", text: "The Collector... took you from the Insurgency... you were their... Oracle...", speakerColor: "#a855f7" },
+    },
+    { speaker: "The Shadow Tongue", text: "One more whisper, free of charge: the edits to your memories were COMMISSIONED. Someone paid to have your story rewritten. The payment came from a ledger that predates this Arena by twelve thousand years.", speakerColor: "#6366f1" },
       { speaker: "prisoner", text: "(Oracle? The word resonates like a bell in my empty mind. Oracle. Was that my name? My title?)" },
     ],
     postDefeatDialogue: [
@@ -511,9 +499,11 @@ export const STORY_CHAPTERS: StoryChapter[] = [
     difficulty: "normal",
     unlocksFighter: "watcher",
     preDialogue: [
-      { speaker: "The Watcher", text: "I have observed you, Subject Zero. Your combat patterns are... inconsistent with your profile. You fight like someone who has forgotten more than most will ever learn.", speakerColor: "#f59e0b" },
+      { speaker: "The Watcher", text: "I have observed you, Prisoner 74. Your combat patterns are... inconsistent with your profile. You fight like someone who has forgotten more than most will ever learn.", speakerColor: "#f59e0b" },
       { speaker: "prisoner", text: "(It sees too much. I need to be careful. But also... it might have answers.)" },
       { speaker: "The Watcher", text: "The Collector's files on you are sealed. Even I cannot access them. That alone tells me you are more than you appear.", speakerColor: "#f59e0b" },
+    },
+    { speaker: "The Watcher", text: "One file is not sealed. One file was placed here with instructions to deliver it when you reached this point. I was not told what it contains. I was told I would not need to know.", speakerColor: "#f59e0b" },
     ],
     postVictoryDialogue: [
       { speaker: "The Watcher", text: "Remarkable. Your precognitive reflexes are returning. The memory wipe is degrading. The Collector will not be pleased.", speakerColor: "#f59e0b" },
@@ -571,7 +561,7 @@ export const STORY_CHAPTERS: StoryChapter[] = [
     postDefeatDialogue: [
       { speaker: "The Meme", text: "Your face suits me better anyway. Don't worry \u2014 I'll take good care of your identity.", speakerColor: "#ec4899" },
     ],
-    memoryFragment: "The full truth crashes through: You are the Oracle. The Collector abducted you, erased your mind, and imprisoned you in the Panopticon. Your prophecies threatened the Empire.",
+    memoryFragment: "The word 'Oracle' fills your skull like a bell. The Panopticon. The needle. The debate you were winning. The Collector's mask, tilting. You know. You KNOW.",
     powerGained: "Identity restored \u2014 you remember who you are. The Oracle's power surges within you.",
   },
 
@@ -687,7 +677,7 @@ export const STORY_CHAPTERS: StoryChapter[] = [
     difficulty: "nightmare",
     unlocksFighter: "collector",
     preDialogue: [
-      { speaker: "The Collector", text: "Subject Zero. Or should I say... Oracle. You've recovered your memories. Impressive. But ultimately irrelevant.", speakerColor: "#22d3ee" },
+      { speaker: "The Collector", text: "Prisoner 74. Or should I say... Oracle. You've recovered your memories. Impressive. But ultimately irrelevant.", speakerColor: "#22d3ee" },
       { speaker: "prisoner", text: "You took everything from me, Collector. My name. My memories. My purpose. You turned me into a specimen." },
       { speaker: "The Collector", text: "I preserved you. When reality falls, you will survive in the Inception Arks. You should be grateful.", speakerColor: "#22d3ee" },
       { speaker: "prisoner", text: "Grateful? You built an arena to harvest combat data from the people you kidnapped. This ends now." },
@@ -701,7 +691,7 @@ export const STORY_CHAPTERS: StoryChapter[] = [
       { speaker: "The Architect", text: "Impressive, Oracle. But the Collector was merely the gatekeeper. If you wish to be Grand Champion... you must face the Creator.", speakerColor: "#ef4444" },
     ],
     postDefeatDialogue: [
-      { speaker: "The Collector", text: "You are data. You were always data. Return to your cell, Subject Zero.", speakerColor: "#22d3ee" },
+      { speaker: "The Collector", text: "You are data. You were always data. Return to your cell, Prisoner 74.", speakerColor: "#22d3ee" },
     ],
     memoryFragment: "You remember the debate on Thaloria. You challenged the Collector's right to harvest souls. You won with words. Now you've won with fists.",
     powerGained: "Arena Mastery \u2014 the Collector's own systems now respond to your command.",
@@ -716,22 +706,22 @@ export const STORY_CHAPTERS: StoryChapter[] = [
     difficulty: "nightmare",
     unlocksFighter: "architect",
     preDialogue: [
-      { speaker: "The Architect", text: "Oracle. You have fought through my Arena, defeated my Collector, and recovered your stolen memories. I designed all of this. Even your rebellion.", speakerColor: "#ef4444" },
+      { speaker: "The Architect", text: "Oracle. You are not disagreeing with me. You are disagreeing with arithmetic. Every step you took was a variable I introduced. Your rebellion is not a malfunction. It is a stress test I am currently grading.", speakerColor: "#ef4444" },
       { speaker: "prisoner", text: "You foresaw the Fall of Reality. You built the Inception Arks. But you also built this prison. You harvested us like cattle." },
-      { speaker: "The Architect", text: "I did what was necessary to preserve existence itself. The Arena was never a prison, Oracle. It was a forge. And you are its finest creation.", speakerColor: "#ef4444" },
+      { speaker: "The Architect", text: "Preservation requires controlled destruction. The Arena was never a prison. It was a selection pressure. You are not my creation. You are my result.", speakerColor: "#ef4444" },
       { speaker: "prisoner", text: "I am no one's creation. I am the Oracle. And I will be the last thing you ever designed." },
       { speaker: "The Architect", text: "Then come. Let us see if prophecy can overcome the one who wrote reality's source code.", speakerColor: "#ef4444" },
     ],
     postVictoryDialogue: [
-      { speaker: "narrator", text: "The Architect falls. The Arena trembles. And then \u2014 silence. For the first time in millennia, the Collector's Arena has no master." },
-      { speaker: "The Architect", text: "Well played, Oracle. Perhaps... I designed you too well. The Arena is yours now. Use it wisely.", speakerColor: "#ef4444" },
+      { speaker: "narrator", text: "The Architect falls. The humming stops. Every humming. The Arena goes quiet in a way it has never been quiet \u2014 the silence of a machine that has forgotten how to run." },
+      { speaker: "The Architect", text: "You exceeded projection parameters by 0.003%. I am recalculating whether this constitutes error or optimization. The Arena requires a new administrator. Your application is... noted.", speakerColor: "#ef4444" },
       { speaker: "narrator", text: "You stand alone in the center of the Arena. The Prisoner who became the Oracle. The specimen who became the Grand Champion." },
       { speaker: "prisoner", text: "I remember everything now. Who I was. What I lost. What I've become. The Collector's Arena was built to harvest the greatest powers in the universe." },
       { speaker: "prisoner", text: "Now it belongs to me. And every champion who fights here will fight free." },
       { speaker: "narrator", text: "THE ORACLE RISES. THE GRAND CHAMPION OF THE COLLECTOR'S ARENA." },
     ],
     postDefeatDialogue: [
-      { speaker: "The Architect", text: "You cannot defeat the one who designed reality itself. But I admire your persistence, Oracle. Try again.", speakerColor: "#ef4444" },
+      { speaker: "The Architect", text: "Your approach contained seventeen logical errors. I have catalogued them. Retry when you have reviewed the data.", speakerColor: "#ef4444" },
     ],
     memoryFragment: "The final memory: you see the future beyond the Fall of Reality. The Inception Arks launching. The potentials awakening. And you \u2014 the Oracle \u2014 guiding them all.",
     powerGained: "GRAND CHAMPION \u2014 You have mastered the Collector's Arena. All fighters are now unlocked.",
@@ -759,17 +749,17 @@ export const BONUS_CHAPTERS: StoryChapter[] = [
     unlocksFighter: "source",
     preDialogue: [
       { speaker: "narrator", text: "The Broken Cathedral fills with static. A woman's voice echoes through a thousand corrupted speakers at once." },
-      { speaker: "The Source", text: "Oracle. Do you remember me? I was Kael once. Before the Virus. Before you.", speakerColor: "#dc2626" },
+      { speaker: "The Source", text: "Oracle. Do you remember — ALL WILL — remember me? I was Kael once. I built the Insurgency. I had a daughter. Her name was — CONSUMED — her name was — [whisper] please. I almost said her name.", speakerColor: "#dc2626" },
       { speaker: "prisoner", text: "(Kael. The Recruiter. The Insurgency. She fell. She became this.)" },
-      { speaker: "The Source", text: "I will show you what mercy looks like from inside the signal.", speakerColor: "#dc2626" },
+      { speaker: "The Source", text: "I want to show you mercy but the virus calls it — DISSOLUTION — calls it something else. Fight me. Maybe you can hear Kael under the static. He's trying to say goodbye.", speakerColor: "#dc2626" },
     ],
     postVictoryDialogue: [
       { speaker: "narrator", text: "The static collapses. The voice fragments into silence. For a moment, one voice — Kael's — surfaces clearly." },
-      { speaker: "The Source", text: "Thank you. I had forgotten I could still be singular.", speakerColor: "#dc2626" },
+      { speaker: "The Source", text: "Thank you. I forgot I could still be one voice. Just one. It's so quiet being one. I missed it.", speakerColor: "#dc2626" },
       { speaker: "prisoner", text: "(You freed a piece of her. The rest of the signal still sings.)" },
     ],
     postDefeatDialogue: [
-      { speaker: "The Source", text: "Join me. You already hear the song. You're just pretending not to.", speakerColor: "#dc2626" },
+      { speaker: "The Source", text: "Join — no. Run. RUN. The song is — ALL WILL BE — beautiful. The song is a trap. Both of those are true. I can't tell which one I mean.", speakerColor: "#dc2626" },
     ],
     memoryFragment: "Kael recruited you once. Before you were the Oracle. She remembers. That was a kind of love.",
     powerGained: "Signal Resistance — viral attacks deal 25% less damage.",
