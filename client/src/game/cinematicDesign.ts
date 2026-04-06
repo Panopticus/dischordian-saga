@@ -783,25 +783,25 @@ export const ARENA_INTROS: ArenaIntro[] = [
     envEffect: "dust_storm",
   },
   {
-    arenaId: "crucible",
+    arenaId: "necropolis",
     revealLines: [
-      { text: "THE CRUCIBLE", duration: 2000, delay: 500, color: "#f97316", sizeClass: "text-3xl", animation: "zoom" },
-      { text: "The Forge of Champions", duration: 2500, delay: 300, color: "#fb923c", sizeClass: "text-sm", animation: "fade" },
-      { text: "Heat. Pressure. Pain. Only the strongest survive the Crucible.", duration: 3000, delay: 200, color: "#94a3b8", sizeClass: "text-base", animation: "typewriter" },
+      { text: "THE NECROPOLIS", duration: 2000, delay: 500, color: "#f97316", sizeClass: "text-3xl", animation: "zoom" },
+      { text: "City of the Undying", duration: 2500, delay: 300, color: "#fb923c", sizeClass: "text-sm", animation: "fade" },
+      { text: "Heat. Pressure. Pain. Only the strongest survive the Necropolis.", duration: 3000, delay: 200, color: "#94a3b8", sizeClass: "text-base", animation: "typewriter" },
     ],
     envEffect: "fire_columns",
   },
   {
-    arenaId: "blood-weave",
+    arenaId: "void",
     revealLines: [
-      { text: "THE BLOOD WEAVE", duration: 2000, delay: 500, color: "#dc2626", sizeClass: "text-3xl", animation: "glitch" },
+      { text: "THE DIGITAL VOID", duration: 2000, delay: 500, color: "#dc2626", sizeClass: "text-3xl", animation: "glitch" },
       { text: "Domain of the Hierarchy of the Damned", duration: 2500, delay: 300, color: "#ef4444", sizeClass: "text-sm", animation: "fade" },
       { text: "The floor is stained with the blood of a thousand fallen. Yours will be next.", duration: 3000, delay: 200, color: "#94a3b8", sizeClass: "text-base", animation: "typewriter" },
     ],
     envEffect: "blood_rain",
   },
   {
-    arenaId: "shadow-sanctum",
+    arenaId: "babylon",
     revealLines: [
       { text: "SHADOW SANCTUM", duration: 2000, delay: 500, color: "#7c3aed", sizeClass: "text-3xl", animation: "fade" },
       { text: "The Hidden Temple of Dark Intelligence", duration: 2500, delay: 300, color: "#8b5cf6", sizeClass: "text-sm", animation: "fade" },
