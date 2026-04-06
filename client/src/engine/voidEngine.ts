@@ -67,13 +67,19 @@ export interface VoidEngineState {
  * These rules exist because CoNexus is narrative-driven;
  * broken physics breaks story immersion.
  */
+/**
+ * Active constraint enforcement — not just validation but correction.
+ * Immutable physics laws that the engine silently enforces:
+ * - Glass + Light is forbidden (glass requires darkness for translucency/glow)
+ * - Retro + Light is forbidden (CRT phosphor effects need black canvas)
+ */
 function enforceGuardrails(physics: PhysicsType, mode: ModeType): { physics: PhysicsType; mode: ModeType } {
   if (physics === "glass" && mode === "light") {
-    // Glass requires darkness for translucency effects
+    console.warn("[VoidEngine] Constraint: glass + light forbidden → corrected to flat + light");
     return { physics: "flat", mode: "light" };
   }
   if (physics === "retro" && mode === "light") {
-    // CRT effects need black canvas
+    console.warn("[VoidEngine] Constraint: retro + light forbidden → corrected to retro + dark");
     return { physics: "retro", mode: "dark" };
   }
   return { physics, mode };
@@ -301,31 +307,28 @@ export function applyThemeToDOM(themeId: string): void {
   html.style.setProperty("--void-border-subtle", p.borderSubtle);
   html.style.setProperty("--void-glow", p.glow);
 
-  // Physics-specific properties
-  if (physics === "glass") {
-    html.style.setProperty("--void-blur", "12px");
-    html.style.setProperty("--void-radius", "12px");
-    html.style.setProperty("--void-surface-opacity", "0.6");
-    html.style.setProperty("--void-border-style", "solid");
-  } else if (physics === "retro") {
-    html.style.setProperty("--void-blur", "0px");
-    html.style.setProperty("--void-radius", "2px");
-    html.style.setProperty("--void-surface-opacity", "0.9");
-    html.style.setProperty("--void-border-style", "double");
-  } else {
-    html.style.setProperty("--void-blur", "0px");
-    html.style.setProperty("--void-radius", "8px");
-    html.style.setProperty("--void-surface-opacity", "0.85");
-    html.style.setProperty("--void-border-style", "solid");
-  }
+  // Physics-specific properties are now handled by void-physics.css
+  // via [data-physics] attribute selectors. The CSS file owns the
+  // material behavior — computed shadows, blur, radius, border-style,
+  // transitions, scrollbars. We only set the triad attributes here.
 
-  // Animation speeds per physics
+  // Remove any stale inline physics overrides from old system
+  html.style.removeProperty("--void-blur");
+  html.style.removeProperty("--void-radius");
+  html.style.removeProperty("--void-surface-opacity");
+  html.style.removeProperty("--void-border-style");
+
+  // Animation speeds — kept as CSS vars for components that need them
   const speeds = physics === "glass" ? { fast: "150ms", base: "300ms", slow: "500ms" } :
-                 physics === "retro" ? { fast: "50ms", base: "100ms", slow: "200ms" } :
+                 physics === "retro" ? { fast: "0ms", base: "0ms", slow: "50ms" } :
                  { fast: "100ms", base: "200ms", slow: "350ms" };
   html.style.setProperty("--void-speed-fast", speeds.fast);
   html.style.setProperty("--void-speed-base", speeds.base);
   html.style.setProperty("--void-speed-slow", speeds.slow);
+
+  // Density (persisted from user preference)
+  const density = localStorage.getItem("ve-density") || "standard";
+  html.setAttribute("data-density", density);
 }
 
 /* ─── TEMPORARY THEME STACK ─── */

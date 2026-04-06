@@ -1,6 +1,8 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 @import url('https://fonts.cdnfonts.com/css/opendyslexic');
+@import "./styles/void-physics.css";
+@import "./styles/void-narrative.css";
 
 @custom-variant dark (&:is(.dark *));
 
