@@ -518,4 +518,182 @@ export const craftingRouter = router({
         },
       };
     }),
+
+  // ═══════════════════════════════════════════════════════
+  // RECIPE-BASED CRAFTING (bridges frontend craftingData.ts)
+  // Uses skill levels, materials, and Dream costs from the
+  // 80+ recipe system in client/src/data/craftingData.ts
+  // ═══════════════════════════════════════════════════════
+
+  /**
+   * Get player's crafting skill levels and material inventory.
+   * Stored in userProgress.gameData.craftingSkills / .materials
+   */
+  getCraftingProfile: protectedProcedure.query(async ({ ctx }) => {
+    const db = getDb();
+    const row = await db.select().from(userProgress)
+      .where(and(eq(userProgress.userId, ctx.user.id), eq(userProgress.franchiseId, "dischordian-saga")))
+      .limit(1);
+    const gameData = row[0]?.gameData as any ?? {};
+    return {
+      skills: gameData.craftingSkills ?? {
+        weaponsmith: { level: 1, xp: 0 },
+        armorsmith: { level: 1, xp: 0 },
+        enchanting: { level: 1, xp: 0 },
+        alchemy: { level: 1, xp: 0 },
+        engineering: { level: 1, xp: 0 },
+      },
+      materials: gameData.materials ?? {},
+      craftedItems: gameData.craftedItems ?? [],
+    };
+  }),
+
+  /**
+   * Execute a recipe-based craft. Validates skill level, material
+   * availability, Dream cost, and applies success rate with bonuses.
+   */
+  craftRecipe: protectedProcedure
+    .input(z.object({
+      recipeId: z.string(),
+      skill: z.enum(["weaponsmith", "armorsmith", "enchanting", "alchemy", "engineering"]),
+      requiredLevel: z.number(),
+      materials: z.record(z.string(), z.number()), // materialId -> amount needed
+      dreamCost: z.number(),
+      baseSuccessRate: z.number(),
+      xpGain: z.number(),
+      outputItemId: z.string(),
+      outputQuantity: z.number().default(1),
+    }))
+    .mutation(async ({ ctx, input }) => {
+      const db = getDb();
+      const row = await db.select().from(userProgress)
+        .where(and(eq(userProgress.userId, ctx.user.id), eq(userProgress.franchiseId, "dischordian-saga")))
+        .limit(1);
+      if (!row[0]) return { success: false, error: "No progress data" };
+
+      const gameData = row[0].gameData as any ?? {};
+      const skills = gameData.craftingSkills ?? {
+        weaponsmith: { level: 1, xp: 0 },
+        armorsmith: { level: 1, xp: 0 },
+        enchanting: { level: 1, xp: 0 },
+        alchemy: { level: 1, xp: 0 },
+        engineering: { level: 1, xp: 0 },
+      };
+      const materials = gameData.materials ?? {};
+      const craftedItems = gameData.craftedItems ?? [];
+
+      // Validate skill level
+      const playerSkillLevel = skills[input.skill]?.level ?? 1;
+      if (playerSkillLevel < input.requiredLevel) {
+        return { success: false, error: `Need ${input.skill} level ${input.requiredLevel}, have ${playerSkillLevel}` };
+      }
+
+      // Validate materials
+      for (const [matId, needed] of Object.entries(input.materials)) {
+        const have = materials[matId] ?? 0;
+        if (have < needed) {
+          return { success: false, error: `Need ${needed} ${matId}, have ${have}` };
+        }
+      }
+
+      // Validate Dream balance
+      const dreamRow = await db.select().from(dreamBalance)
+        .where(eq(dreamBalance.userId, ctx.user.id)).limit(1);
+      const currentDream = dreamRow[0]?.balance ?? 0;
+      if (currentDream < input.dreamCost) {
+        return { success: false, error: `Need ${input.dreamCost} Dream, have ${currentDream}` };
+      }
+
+      // Apply trait bonuses to success rate
+      let successRate = input.baseSuccessRate;
+      try {
+        const bonuses = await resolveCraftingBonuses(ctx.user.id);
+        successRate = Math.min(1, successRate + (bonuses.successRateBonus ?? 0));
+      } catch { /* no citizen data — use base rate */ }
+
+      // Deduct materials
+      for (const [matId, needed] of Object.entries(input.materials)) {
+        materials[matId] = (materials[matId] ?? 0) - needed;
+        if (materials[matId] <= 0) delete materials[matId];
+      }
+
+      // Deduct Dream
+      if (input.dreamCost > 0) {
+        if (dreamRow[0]) {
+          await db.update(dreamBalance)
+            .set({ balance: currentDream - input.dreamCost })
+            .where(eq(dreamBalance.userId, ctx.user.id));
+        }
+      }
+
+      // Roll for success
+      const roll = Math.random();
+      const succeeded = roll <= successRate;
+
+      // Award XP regardless of success (reduced on failure)
+      const xpAwarded = succeeded ? input.xpGain : Math.floor(input.xpGain * 0.3);
+      const skillData = skills[input.skill] ?? { level: 1, xp: 0 };
+      skillData.xp += xpAwarded;
+
+      // Level up check (XP thresholds: 0, 50, 120, 220, 360, 550, 800, 1100, 1500, 2000)
+      const XP_THRESHOLDS = [0, 50, 120, 220, 360, 550, 800, 1100, 1500, 2000];
+      while (skillData.level < 10 && skillData.xp >= (XP_THRESHOLDS[skillData.level] ?? Infinity)) {
+        skillData.level++;
+      }
+      skills[input.skill] = skillData;
+
+      // Add crafted item on success
+      if (succeeded) {
+        for (let i = 0; i < input.outputQuantity; i++) {
+          craftedItems.push({ itemId: input.outputItemId, craftedAt: Date.now() });
+        }
+      }
+
+      // Save state
+      await db.update(userProgress)
+        .set({ gameData: { ...gameData, craftingSkills: skills, materials, craftedItems } })
+        .where(and(eq(userProgress.userId, ctx.user.id), eq(userProgress.franchiseId, "dischordian-saga")));
+
+      // Log
+      await db.insert(craftingLog).values({
+        userId: ctx.user.id,
+        recipeId: input.recipeId,
+        result: succeeded ? "success" : "failure",
+      } as any).catch(() => {});
+
+      return {
+        success: true,
+        crafted: succeeded,
+        message: succeeded
+          ? `Crafted ${input.outputItemId.replace(/_/g, " ")}!`
+          : "Crafting failed — materials consumed, partial XP awarded.",
+        xpAwarded,
+        newSkillLevel: skillData.level,
+        newSkillXp: skillData.xp,
+      };
+    }),
+
+  /** Add materials to inventory (called from game mode rewards) */
+  addMaterials: protectedProcedure
+    .input(z.object({
+      materials: z.record(z.string(), z.number()),
+    }))
+    .mutation(async ({ ctx, input }) => {
+      const db = getDb();
+      const row = await db.select().from(userProgress)
+        .where(and(eq(userProgress.userId, ctx.user.id), eq(userProgress.franchiseId, "dischordian-saga")))
+        .limit(1);
+      const gameData = row[0]?.gameData as any ?? {};
+      const materials = gameData.materials ?? {};
+
+      for (const [matId, amount] of Object.entries(input.materials)) {
+        materials[matId] = (materials[matId] ?? 0) + amount;
+      }
+
+      await db.update(userProgress)
+        .set({ gameData: { ...gameData, materials } })
+        .where(and(eq(userProgress.userId, ctx.user.id), eq(userProgress.franchiseId, "dischordian-saga")));
+
+      return { success: true, materials };
+    }),
 });

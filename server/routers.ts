@@ -61,6 +61,10 @@ import { loreJournalRouter } from "./routers/loreJournal";
 import { promoCodesRouter } from "./routers/promoCodes";
 import { architectConsoleRouter } from "./routers/architectConsole";
 import { eidolonBondRouter } from "./routers/eidolonBond";
+import { techTreeRouter } from "./routers/techTree";
+import { masteryTreeRouter } from "./routers/masteryTree";
+import { guildHallRouter } from "./routers/guildHall";
+import { tradeEmpireRouter } from "./routers/tradeEmpire";
 
 export const appRouter = router({
   system: systemRouter,
@@ -118,6 +122,10 @@ export const appRouter = router({
   promoCodes: promoCodesRouter,
   architectConsole: architectConsoleRouter,
   eidolonBond: eidolonBondRouter,
+  techTree: techTreeRouter,
+  masteryTree: masteryTreeRouter,
+  guildHall: guildHallRouter,
+  tradeEmpire: tradeEmpireRouter,
   auth: router({
     me: publicProcedure.query(opts => opts.ctx.user),
     logout: publicProcedure.mutation(({ ctx }) => {
