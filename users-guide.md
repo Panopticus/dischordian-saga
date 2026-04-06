@@ -17,10 +17,9 @@
 7. [Sagaverse Games](#7-sagaverse-games)
 8. [Operative Profile & Progression](#8-operative-profile--progression)
 9. [Economy & Currency](#9-economy--currency)
-10. [The Potentials — NFT Integration](#10-the-potentials--nft-integration)
-11. [Audio & Sound System](#11-audio--sound-system)
-12. [Settings & Customization](#12-settings--customization)
-13. [Frequently Asked Questions](#13-frequently-asked-questions)
+10. [Audio & Sound System](#10-audio--sound-system)
+11. [Settings & Customization](#11-settings--customization)
+12. [Frequently Asked Questions](#12-frequently-asked-questions)
 
 ---
 
@@ -56,16 +55,6 @@ New users are guided through the **Awakening** — an interactive character crea
 
 Your choices affect your starting deck in the card game, your character stats, and your visual identity throughout the app.
 
-### 2.4 Wallet Connection (Optional)
-
-During the Awakening, Elara will ask if you have an Ethereum wallet containing a **Potential** or **Ne-Yon** NFT. If you do, connecting your wallet unlocks:
-
-- The **Ne-Yon** species option (requires Potentials NFT #1-10)
-- Enhanced capabilities and exclusive content
-- Your NFT identity bound to your citizen profile
-
-This step is entirely optional. You can play the full game without an NFT.
-
 ---
 
 ## 3. The Awakening — Character Creation
@@ -76,7 +65,7 @@ This step is entirely optional. You can play the full game without an NFT.
 |---------|-------------|----------|
 | **DeMagi** | Superhuman abilities from genetic alterations. Mastery over the primal elements. | Earth, Fire, Water, Air |
 | **Quarchon** | Vast artificial intelligence. Cold, calculating. Masters of dimensional forces. | Space, Time, Probability, Reality |
-| **Ne-Yon** | Perfect hybrid of organic and digital. Requires Potentials NFT #1-10. | All 8 elements |
+| **Ne-Yon** | Perfect hybrid of organic and digital. Unlocked through gameplay progression or promotional codes. | All 8 elements |
 
 ### 3.2 Classes
 
@@ -168,7 +157,7 @@ The app uses a collapsible sidebar with five main sections:
 - **Character Sheet** — RPG-style stats, gear, and abilities
 - **Requisitions** — Dream Token store for card packs and items
 - **Mission Briefing** — Favorites and saved playlists
-- **The Potentials** — NFT collection viewer and 1/1 card bindings
+- **The Potentials** — Rare collection viewer and exclusive card bindings
 
 ### 4.2 Bottom Navigation (Mobile)
 
@@ -524,33 +513,9 @@ Influence Points are earned through gameplay and spent on War Map actions (Captu
 
 ---
 
-## 10. The Potentials — NFT Integration
+## 10. Audio & Sound System
 
-### 10.1 Overview
-
-The Potentials is a collection of NFTs on the Ethereum blockchain. Owning specific NFTs unlocks exclusive content in Loredex OS.
-
-### 10.2 Ne-Yon Species
-
-Potentials NFTs #1-10 each represent a unique **Ne-Yon** — a perfect hybrid species. Connecting your wallet during the Awakening and verifying ownership unlocks:
-- The Ne-Yon species option (access to all 8 elements)
-- A unique 1/1 card bound to your Ne-Yon identity
-- Exclusive lore content about your specific Ne-Yon
-- Enhanced visual effects and avatar customization
-
-### 10.3 Wallet Connection
-
-You can connect your Ethereum wallet at any time through:
-- The Awakening sequence (when prompted by Elara)
-- Settings page (Wallet section)
-
-The app verifies NFT ownership on-chain and links it to your citizen profile.
-
----
-
-## 11. Audio & Sound System
-
-### 11.1 Background Music
+### 10.1 Background Music
 
 Loredex OS features an adaptive background music system that changes based on your current game area:
 
@@ -567,7 +532,7 @@ Loredex OS features an adaptive background music system that changes based on yo
 
 Music crossfades smoothly between areas. Volume automatically ducks when Elara speaks.
 
-### 11.2 Sound Effects
+### 10.2 Sound Effects
 
 Procedural sound effects are generated for:
 - UI interactions (clicks, hovers, transitions)
@@ -576,7 +541,7 @@ Procedural sound effects are generated for:
 - Combat impacts
 - Ambient room sounds in the Ark
 
-### 11.3 Controls
+### 10.3 Controls
 
 - Master volume control in the sound settings
 - Individual toggles for BGM, SFX, and ambient
@@ -584,39 +549,35 @@ Procedural sound effects are generated for:
 
 ---
 
-## 12. Settings & Customization
+## 11. Settings & Customization
 
-### 12.1 Sound Settings
+### 11.1 Sound Settings
 
 - Master volume slider
 - BGM, SFX, and ambient toggles
 - Elara voice volume
 
-### 12.2 Display Settings
+### 11.2 Display Settings
 
 - Theme selection (dark mode optimized for the cyberpunk aesthetic)
 - Font size adjustments
 - Animation toggle for reduced motion preferences
 
-### 12.3 Account Settings
+### 11.3 Account Settings
 
 - Profile name and avatar
-- Wallet connection management
 - Data export options
 - Account deletion
 
 ---
 
-## 13. Frequently Asked Questions
-
-**Q: Do I need an NFT to play?**
-A: No. The full game is accessible without any NFT. NFTs unlock the Ne-Yon species and exclusive cosmetic content, but all gameplay features are available to everyone.
+## 12. Frequently Asked Questions
 
 **Q: How do I unlock the Void Gate?**
 A: The Void Gate is the endgame puzzle. You must solve every other puzzle on the Ark first. When all puzzles are complete, the Void Key materializes automatically.
 
 **Q: What's the best species to choose?**
-A: Each species has unique strengths. DeMagi excel at elemental combat, Quarchon at dimensional manipulation, and Ne-Yon have access to all elements but require an NFT. Choose based on your preferred playstyle.
+A: Each species has unique strengths. DeMagi excel at elemental combat, Quarchon at dimensional manipulation, and Ne-Yon have access to all elements. Choose based on your preferred playstyle.
 
 **Q: How do I earn Dream Tokens faster?**
 A: Focus on completing Ark puzzles (highest token rewards), winning card battles, and discovering new entities. The Void Gate puzzle alone awards 1,000 tokens.

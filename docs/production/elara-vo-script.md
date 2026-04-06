@@ -23,7 +23,7 @@
 
 ### Line 3: Awakening: Wallet Check
 
-> Wait... I'm detecting something. Your neural signature has an encrypted blockchain marker. If you carry a Potential or a Ne-Yon token on the Ethereum network, I can verify your identity and unlock enhanced capabilities. Do you have a wallet to connect?
+> Wait... I'm detecting something. Your neural signature has an encrypted data marker — a deep-layer cipher embedded in your consciousness. If you carry a Potential or Ne-Yon access code, I can verify your identity and unlock enhanced capabilities. Do you have a code to enter?
 
 ### Line 4: Awakening: Species Question
 

@@ -115,8 +115,6 @@ const PvpArenaPage = lazy(() => import("./pages/PvpArenaPage"));
 const DraftTournamentPage = lazy(() => import("./pages/DraftTournamentPage"));
 const CardTradingPage = lazy(() => import("./pages/CardTradingPage"));
 const CardAchievementsPage = lazy(() => import("./pages/CardAchievementsPage"));
-const PotentialsPage = lazy(() => import("./pages/PotentialsPage"));
-const PotentialsLeaderboardPage = lazy(() => import("./pages/PotentialsLeaderboardPage"));
 const SettingsPage = lazy(() => import("./pages/SettingsPage"));
 const ClueJournalPage = lazy(() => import("./pages/ClueJournalPage"));
 const ResearchMinigamePage = lazy(() => import("./pages/ResearchMinigamePage"));
@@ -253,8 +251,6 @@ function Router() {
         <Route path="/draft">{() => <GameRoute component={DraftTournamentPage} />}</Route>
         <Route path="/trading" component={CardTradingPage} />
         <Route path="/card-achievements" component={CardAchievementsPage} />
-        <Route path="/potentials" component={PotentialsPage} />
-        <Route path="/potentials/leaderboard" component={PotentialsLeaderboardPage} />
         <Route path="/settings" component={SettingsPage} />
         <Route path="/clue-journal" component={ClueJournalPage} />
         <Route path="/research-minigame">{() => <GameRoute component={ResearchMinigamePage} />}</Route>

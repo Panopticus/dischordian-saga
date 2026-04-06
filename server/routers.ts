@@ -21,7 +21,6 @@ import { cardChallengeRouter } from "./routers/cardChallenge";
 import { adminRouter } from "./routers/admin";
 import { contentRewardRouter } from "./routers/contentReward";
 import { fightLeaderboardRouter } from "./routers/fightLeaderboard";
-import { nftRouter } from "./routers/nft";
 import { pvpRouter } from "./routers/pvp";
 import { draftRouter } from "./routers/draft";
 import { tradingRouter } from "./routers/trading";
@@ -76,7 +75,6 @@ export const appRouter = router({
   admin: adminRouter,
   contentReward: contentRewardRouter,
   fightLeaderboard: fightLeaderboardRouter,
-  nft: nftRouter,
   pvp: pvpRouter,
   draft: draftRouter,
   trading: tradingRouter,
