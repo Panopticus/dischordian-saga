@@ -38,6 +38,21 @@ const GUILD_AESTHETICS: Record<string, { bg: string; accent: string; borderColor
   "The Architect's Study": { bg: "from-stone-900/40 to-amber-950/15", accent: "text-stone-300", borderColor: "border-stone-500/40" },
 };
 
+const GUILD_ROOM_ART: Record<string, string> = {
+  "The Chorus": "/art/guilds/guild-the-chorus.jpg",
+  "The Eyes": "/art/guilds/guild-the-eyes.jpg",
+  "The Archive": "/art/guilds/guild-the-archive.jpg",
+  "The Between": "/art/guilds/guild-the-between.jpg",
+  "The Influencers": "/art/guilds/guild-the-influencers.jpg",
+  "The Yellow Coats": "/art/guilds/guild-the-yellow-coats.jpg",
+  "The Congress": "/art/guilds/guild-the-congress.jpg",
+  "The Locks": "/art/guilds/guild-the-locks.jpg",
+  "The Grey Gamers": "/art/guilds/guild-the-grey-gamers.jpg",
+  "The Living": "/art/guilds/guild-the-living.jpg",
+  "The Forge": "/art/guilds/guild-the-forge.jpg",
+  "The Architect's Study": "/art/guilds/guild-the-architects-study.jpg",
+};
+
 export default function GuildCommonRoomPage() {
   const { state } = useGame();
   const skills = (state.innerVoiceSkills ?? {}) as Record<SkillId, number>;
@@ -60,6 +75,7 @@ export default function GuildCommonRoomPage() {
 
   const { guild, mentor, skillId } = dominantGuild;
   const aesthetic = GUILD_AESTHETICS[guild.name] ?? GUILD_AESTHETICS["The Chorus"];
+  const roomArt = GUILD_ROOM_ART[guild.name];
   const voice = SKILL_VOICES[skillId];
   const ability = getAbilityForArchon(mentor.archonNumber);
   const professor = getProfessorByArchon(mentor.archonNumber);
@@ -67,8 +83,16 @@ export default function GuildCommonRoomPage() {
   const abilityUnlocked = ability ? playerSkillLevel >= ability.skillThreshold : false;
 
   return (
-    <div className={`min-h-screen bg-gradient-to-br ${aesthetic.bg} text-foreground p-4 sm:p-6`}>
-      <div className="max-w-4xl mx-auto">
+    <div className={`min-h-screen bg-gradient-to-br ${aesthetic.bg} text-foreground relative overflow-hidden`}>
+      {/* Full-page room art background */}
+      {roomArt && (
+        <div className="absolute inset-0 z-0">
+          <img src={roomArt} alt="" className="w-full h-full object-cover" style={{ opacity: 0.15, filter: "brightness(0.5) saturate(0.8)" }} />
+          <div className="absolute inset-0" style={{ background: "linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.7) 100%)" }} />
+        </div>
+      )}
+
+      <div className="max-w-4xl mx-auto relative z-10 p-4 sm:p-6">
         {/* Header */}
         <div className="flex items-center gap-3 mb-4">
           <Link href="/" className="text-muted-foreground hover:text-foreground transition-colors">
@@ -83,16 +107,33 @@ export default function GuildCommonRoomPage() {
           </div>
         </div>
 
-        {/* Guild banner */}
+        {/* Guild banner with room art hero */}
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          className={`p-5 rounded-lg border-2 ${aesthetic.borderColor} bg-background/40 mb-4`}
+          className={`rounded-lg border-2 ${aesthetic.borderColor} bg-background/40 mb-4 overflow-hidden`}
         >
-          <h2 className={`font-display text-3xl font-bold tracking-wider ${aesthetic.accent}`}>
-            {guild.name}
-          </h2>
-          <p className="font-mono text-xs italic text-foreground/70 mt-1">"{guild.motto}"</p>
+          {/* Room art hero */}
+          {roomArt && (
+            <div className="relative h-40 sm:h-52 overflow-hidden">
+              <img src={roomArt} alt={guild.name} className="w-full h-full object-cover" style={{ filter: "brightness(0.7) contrast(1.1)" }} />
+              <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 60%)" }} />
+              <div className="absolute bottom-0 inset-x-0 p-5">
+                <h2 className={`font-display text-3xl font-bold tracking-wider ${aesthetic.accent}`} style={{ textShadow: "0 2px 20px rgba(0,0,0,0.8)" }}>
+                  {guild.name}
+                </h2>
+                <p className="font-mono text-xs italic text-foreground/70 mt-1">"{guild.motto}"</p>
+              </div>
+            </div>
+          )}
+          {!roomArt && (
+            <div className="p-5">
+              <h2 className={`font-display text-3xl font-bold tracking-wider ${aesthetic.accent}`}>
+                {guild.name}
+              </h2>
+              <p className="font-mono text-xs italic text-foreground/70 mt-1">"{guild.motto}"</p>
+            </div>
+          )}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-4">
             <div>
               <span className="font-mono text-[9px] uppercase tracking-wider text-muted-foreground/60 block mb-1">
