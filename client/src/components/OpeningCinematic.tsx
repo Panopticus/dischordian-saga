@@ -20,8 +20,9 @@ export default function OpeningCinematic({ onComplete }: OpeningCinematicProps) 
   const videoRef = useRef<HTMLVideoElement>(null);
   const [fadeOut, setFadeOut] = useState(false);
   const [showSkip, setShowSkip] = useState(false);
-  const [videoState, setVideoState] = useState<"loading" | "playing-muted" | "playing-unmuted" | "needs-tap">("loading");
+  const [videoState, setVideoState] = useState<"loading" | "waiting-for-click" | "playing-muted" | "playing-unmuted" | "needs-tap">("loading");
   const completedRef = useRef(false);
+  const userClickedRef = useRef(false);
 
   // Show skip button after a short delay
   useEffect(() => {
@@ -29,23 +30,33 @@ export default function OpeningCinematic({ onComplete }: OpeningCinematicProps) 
     return () => clearTimeout(t);
   }, []);
 
-  // Try muted autoplay on mount — most browsers allow this
-  // IMPORTANT: Do NOT unmute programmatically after autoplay.
-  // In private browsing / strict browsers, unmuting causes the video to pause.
+  // Show a "BEGIN" splash first — the click creates a user gesture,
+  // which unlocks unmuted autoplay for the video.
   useEffect(() => {
+    setVideoState("waiting-for-click");
+  }, []);
+
+  /** Called when user clicks "BEGIN" — starts video with sound */
+  const handleBeginClick = useCallback(async () => {
+    userClickedRef.current = true;
     const video = videoRef.current;
     if (!video) return;
 
-    video.muted = true;
-    video.play()
-      .then(() => {
-        // Video is playing muted — show "TAP TO UNMUTE" prompt
+    // Try unmuted first — should work because we have a user gesture
+    video.muted = false;
+    try {
+      await video.play();
+      setVideoState("playing-unmuted");
+    } catch {
+      // Unmuted failed — fall back to muted
+      video.muted = true;
+      try {
+        await video.play();
         setVideoState("playing-muted");
-      })
-      .catch(() => {
-        // Even muted autoplay failed — need user tap to start
+      } catch {
         setVideoState("needs-tap");
-      });
+      }
+    }
   }, []);
 
   /** Start the Saga Theme looping, then fade out the cinematic */
@@ -114,6 +125,7 @@ export default function OpeningCinematic({ onComplete }: OpeningCinematicProps) 
   const isPlaying = videoState === "playing-muted" || videoState === "playing-unmuted";
   const showUnmutePrompt = videoState === "playing-muted";
   const showStartPrompt = videoState === "needs-tap";
+  const showBeginSplash = videoState === "waiting-for-click";
 
   return (
     <AnimatePresence>
@@ -122,7 +134,7 @@ export default function OpeningCinematic({ onComplete }: OpeningCinematicProps) 
         animate={{ opacity: fadeOut ? 0 : 1 }}
         transition={{ duration: fadeOut ? 1.5 : 0.5 }}
         className="fixed inset-0 z-[200] bg-black flex items-center justify-center"
-        onClick={handleTap}
+        onClick={showBeginSplash ? handleBeginClick : handleTap}
       >
         {/* Video — fullscreen cover */}
         <video
@@ -166,6 +178,33 @@ export default function OpeningCinematic({ onComplete }: OpeningCinematicProps) 
             THE DISCHORDIAN SAGA
           </h1>
         </motion.div>
+
+        {/* "BEGIN EXPERIENCE" splash — gets user gesture for unmuted playback */}
+        {showBeginSplash && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.3, duration: 1 }}
+            className="absolute inset-0 flex items-center justify-center z-50 cursor-pointer"
+          >
+            <div className="text-center">
+              <p className="font-mono text-[10px] tracking-[0.5em] text-cyan-400/40 mb-6">
+                A DEGENEROUS DAO PRODUCTION
+              </p>
+              <h1 className="font-display text-3xl sm:text-5xl font-black tracking-[0.15em] text-white/90 mb-8">
+                THE DISCHORDIAN SAGA
+              </h1>
+              <div className="w-20 h-20 rounded-full border-2 border-cyan-400/40 flex items-center justify-center mx-auto mb-4 hover:border-cyan-400/80 hover:bg-cyan-400/5 transition-all animate-pulse">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" className="text-cyan-400/80 ml-1">
+                  <path d="M8 5v14l11-7z" fill="currentColor" />
+                </svg>
+              </div>
+              <p className="font-mono text-xs text-cyan-400/60 tracking-[0.3em]">
+                TAP TO BEGIN
+              </p>
+            </div>
+          </motion.div>
+        )}
 
         {/* Click to start / unmute prompt */}
         {(showStartPrompt || showUnmutePrompt) && (
