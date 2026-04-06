@@ -3,7 +3,7 @@
    Manages XP, achievements, progress, trophy case.
    Uses localStorage for anonymous users, syncs to DB for logged-in users.
    ═══════════════════════════════════════════════════════ */
-import { createContext, useContext, useCallback, useEffect, useState, type ReactNode } from "react";
+import { createContext, useContext, useCallback, useEffect, useRef, useState, type ReactNode } from "react";
 import {
   type AchievementDef,
   type UserProgressData,
@@ -107,8 +107,13 @@ function saveState(state: GamificationState) {
 export function GamificationProvider({ children }: { children: ReactNode }) {
   const [state, setState] = useState<GamificationState>(loadState);
 
-  // Persist on every change
-  useEffect(() => { saveState(state); }, [state]);
+  // Persist with debounce (500ms) to avoid saving on every single state change
+  const saveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  useEffect(() => {
+    if (saveTimerRef.current) clearTimeout(saveTimerRef.current);
+    saveTimerRef.current = setTimeout(() => { saveState(state); }, 500);
+    return () => { if (saveTimerRef.current) clearTimeout(saveTimerRef.current); };
+  }, [state]);
 
   // Check achievements after state changes
   const checkAchievements = useCallback((s: GamificationState): GamificationState => {

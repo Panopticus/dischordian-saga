@@ -5,9 +5,10 @@
  * but renders on HTML5 Canvas with proper AABB hitbox collision, multi-frame
  * animation, and a camera system.
  */
-import { useRef, useEffect, useState, useCallback, useMemo } from "react";
+import React, { useRef, useEffect, useState, useCallback, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowLeft, Swords, Shield, Zap, ChevronUp, Hand, Timer } from "lucide-react";
+import { ScreenReaderOnly, LiveRegion } from "@/components/a11y";
 import type { FighterData, ArenaData, DifficultyLevel } from "./gameData";
 import { FightEngine2D, type FightCallbacks2D, type FightPhase2D, type TouchInput2D, type Difficulty2D, type TrainingData, type MoveListEntry } from "./FightEngine2D";
 import { hapticMediumHit, hapticHeavyHit, hapticBlock, hapticSP1, hapticSP2, hapticSP3 } from "./haptics";
@@ -118,7 +119,7 @@ function GestureTutorial({ onComplete, onSkip }: { onComplete: () => void; onSki
 }
 
 /* ═══ MAIN COMPONENT ═══ */
-export default function FightArena2D({
+function FightArena2D({
   player,
   opponent,
   arena,
@@ -141,6 +142,7 @@ export default function FightArena2D({
     if (typeof window === "undefined") return false;
     return !localStorage.getItem(TUTORIAL_DONE_KEY);
   });
+  const [announceMessage, setAnnounceMessage] = useState("");
 
   // Suppress BGM when fight starts, restore when leaving
   const bgm = useSagaThemeBGM();
@@ -197,6 +199,7 @@ export default function FightArena2D({
     onMatchEnd: (winner) => {
       const w = winner === 1 ? "p1" : "p2";
       const perfect = winner === 1 ? p1PerfectRef.current : false;
+      setAnnounceMessage(w === "p1" ? (perfect ? "You win! Perfect victory!" : "You win!") : "You lose!");
       // Delay to show victory animation
       setTimeout(() => onMatchEndRef.current(w, perfect), 1500);
     },
@@ -388,6 +391,8 @@ export default function FightArena2D({
   return (
     <div
       ref={containerRef}
+      role="application"
+      aria-label="Fighting game"
       className="w-full h-full relative bg-black select-none overflow-hidden"
       style={{ touchAction: "none" }}
       onTouchStart={showTutorial ? undefined : handleTouchStart}
@@ -395,6 +400,9 @@ export default function FightArena2D({
       onTouchEnd={showTutorial ? undefined : handleTouchEnd}
       onTouchCancel={showTutorial ? undefined : handleTouchCancel}
     >
+      <ScreenReaderOnly>2D fighting game arena. Use keyboard controls to fight.</ScreenReaderOnly>
+      <LiveRegion message={announceMessage} assertive />
+
       {/* Canvas — the engine renders everything here */}
       <canvas
         ref={canvasRef}
@@ -475,3 +483,5 @@ export default function FightArena2D({
     </div>
   );
 }
+
+export default React.memo(FightArena2D);

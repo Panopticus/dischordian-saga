@@ -961,10 +961,106 @@ export default function ChessPage() {
         })()}
 
         {/* ═══ MULTIPLAYER LOBBY ═══ */}
-        {view === "multiplayer_lobby" && (
+        {view === "multiplayer_lobby" && (() => {
+          /* ── Matchmaking state machine (local to this view) ── */
+          const [mpState, setMpState] = useState<"idle" | "searching" | "matched">("idle");
+          const [queuePos, setQueuePos] = useState<number>(0);
+          const [playersInQueue, setPlayersInQueue] = useState<number>(0);
+          const [opponentMatch, setOpponentMatch] = useState<{
+            matchId: string; color: "white" | "black"; opponentName: string; opponentElo: number; opponentCharacter: string; timeControl: number;
+          } | null>(null);
+          const [searchElapsed, setSearchElapsed] = useState(0);
+          const wsRef = useRef<WebSocket | null>(null);
+          const searchTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+          /* Clean up on unmount / view change */
+          useEffect(() => {
+            return () => {
+              if (wsRef.current && wsRef.current.readyState === WebSocket.OPEN) {
+                wsRef.current.send(JSON.stringify({ type: "LEAVE_QUEUE" }));
+                wsRef.current.close();
+              }
+              wsRef.current = null;
+              if (searchTimerRef.current) clearInterval(searchTimerRef.current);
+            };
+          }, []);
+
+          const handleFindMatch = () => {
+            if (!user || !isAuthenticated) return;
+
+            const protocol = window.location.protocol === "https:" ? "wss:" : "ws:";
+            const ws = new WebSocket(`${protocol}//${window.location.host}/api/chess-pvp`);
+            wsRef.current = ws;
+            setMpState("searching");
+            setSearchElapsed(0);
+
+            searchTimerRef.current = setInterval(() => {
+              setSearchElapsed(prev => prev + 1);
+            }, 1000);
+
+            ws.onopen = () => {
+              ws.send(JSON.stringify({
+                type: "JOIN_QUEUE",
+                userId: user.id,
+                userName: user.name || `Player ${user.id}`,
+                characterId: selectedCharacter || "default",
+              }));
+            };
+
+            ws.onmessage = (event) => {
+              try {
+                const msg = JSON.parse(event.data);
+                switch (msg.type) {
+                  case "QUEUE_JOINED":
+                    setQueuePos(msg.position);
+                    break;
+                  case "QUEUE_UPDATE":
+                    setQueuePos(msg.position);
+                    setPlayersInQueue(msg.playersInQueue);
+                    break;
+                  case "MATCH_FOUND":
+                    setMpState("matched");
+                    setOpponentMatch(msg);
+                    if (searchTimerRef.current) { clearInterval(searchTimerRef.current); searchTimerRef.current = null; }
+                    break;
+                  case "ERROR":
+                    import("sonner").then(({ toast }) => toast.error(msg.message));
+                    break;
+                }
+              } catch { /* ignore parse errors */ }
+            };
+
+            ws.onerror = () => {
+              import("sonner").then(({ toast }) => toast.error("Connection error. Please try again."));
+              handleCancelSearch();
+            };
+
+            ws.onclose = () => {
+              if (mpState !== "matched") {
+                setMpState("idle");
+              }
+              if (searchTimerRef.current) { clearInterval(searchTimerRef.current); searchTimerRef.current = null; }
+            };
+          };
+
+          const handleCancelSearch = () => {
+            if (wsRef.current && wsRef.current.readyState === WebSocket.OPEN) {
+              wsRef.current.send(JSON.stringify({ type: "LEAVE_QUEUE" }));
+              wsRef.current.close();
+            }
+            wsRef.current = null;
+            if (searchTimerRef.current) { clearInterval(searchTimerRef.current); searchTimerRef.current = null; }
+            setMpState("idle");
+            setOpponentMatch(null);
+            setSearchElapsed(0);
+          };
+
+          const formatTime = (s: number) => `${Math.floor(s / 60)}:${(s % 60).toString().padStart(2, "0")}`;
+
+          return (
           <motion.div key="mp-lobby" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="p-4 sm:p-6 space-y-5">
             <div className="flex items-center gap-3">
-              <button onClick={() => setView("menu")} className="p-2 rounded-md bg-secondary/50 hover:bg-secondary"><ArrowLeft size={16} /></button>
+              <button onClick={() => { handleCancelSearch(); setView("menu"); }} className="p-2 rounded-md bg-secondary/50 hover:bg-secondary"><ArrowLeft size={16} /></button>
               <div>
                 <h2 className="font-display text-lg font-bold tracking-wider flex items-center gap-2">
                   <Users size={18} className="text-rose-400" /> MULTIPLAYER ARENA
@@ -973,54 +1069,148 @@ export default function ChessPage() {
               </div>
             </div>
 
-            {/* Time Controls */}
-            <div>
-              <h3 className="font-display text-sm font-bold tracking-wider mb-3">SELECT TIME CONTROL</h3>
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                {[
-                  { key: "bullet_1", label: "1+0", type: "Bullet", icon: Zap, color: "text-red-400" },
-                  { key: "bullet_2", label: "2+1", type: "Bullet", icon: Zap, color: "text-red-400" },
-                  { key: "blitz_3", label: "3+0", type: "Blitz", icon: Timer, color: "text-amber-400" },
-                  { key: "blitz_5", label: "5+0", type: "Blitz", icon: Timer, color: "text-amber-400" },
-                  { key: "rapid_10", label: "10+0", type: "Rapid", icon: Clock, color: "text-emerald-400" },
-                  { key: "rapid_15", label: "15+10", type: "Rapid", icon: Clock, color: "text-emerald-400" },
-                  { key: "classical_30", label: "30+0", type: "Classical", icon: Crown, color: "text-primary" },
-                ].map(({ key, label, type, icon: Icon, color }) => (
-                  <button
-                    key={key}
-                    className="p-3 rounded-lg border border-border/30 bg-card/30 hover:bg-card/60 hover:border-rose-400/30 transition-all text-center hover-lift"
-                    onClick={() => {
-                      // TODO: Connect to WebSocket matchmaking
-                      import("sonner").then(({ toast }) => {
-                        toast.info("Multiplayer matchmaking coming soon! Play against AI opponents for now.");
-                      });
-                    }}
-                  >
-                    <Icon size={20} className={`${color} mx-auto mb-1`} />
-                    <p className="font-display text-sm font-bold">{label}</p>
-                    <p className="font-mono text-[9px] text-muted-foreground">{type}</p>
-                  </button>
-                ))}
-              </div>
+            {/* Beta Notice */}
+            <div className="rounded-lg border border-amber-400/30 bg-amber-400/5 px-4 py-2 flex items-center gap-2">
+              <Wifi size={14} className="text-amber-400 shrink-0" />
+              <p className="font-mono text-xs text-amber-300/80">Multiplayer is in <span className="font-bold text-amber-400">BETA PREVIEW</span> — matchmaking is live. Expect occasional issues.</p>
             </div>
 
-            {/* Coming Soon Notice */}
-            <div className="rounded-lg border border-rose-400/20 bg-rose-400/5 p-4 text-center">
-              <Wifi size={24} className="text-rose-400 mx-auto mb-2" />
-              <p className="font-display text-sm font-bold tracking-wider text-rose-400 mb-1">MULTIPLAYER COMING SOON</p>
-              <p className="font-mono text-xs text-muted-foreground">
-                WebSocket infrastructure is built and ready. Challenge other operatives once the player base grows.
-                <br />For now, test your skills against Stockfish-powered AI opponents.
-              </p>
-              <button
-                onClick={() => { setSelectedMode("casual"); setView("character_select"); }}
-                className="mt-3 px-5 py-2 rounded-md bg-primary/10 border border-primary/40 text-primary text-sm font-mono hover:bg-primary/20"
+            {/* ── IDLE: Find Match ── */}
+            {mpState === "idle" && (
+              <>
+                {/* Player Info */}
+                {ranking.data && (
+                  <div className="rounded-lg border border-rose-400/20 bg-card/30 p-4 flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-full bg-rose-400/20 flex items-center justify-center">
+                      <Swords size={18} className="text-rose-400" />
+                    </div>
+                    <div className="flex-1">
+                      <p className="font-display text-sm font-bold">{user?.name || "Operative"}</p>
+                      <p className="font-mono text-xs text-muted-foreground">ELO: {ranking.data.elo} // {ranking.data.wins}W - {ranking.data.losses}L - {ranking.data.draws}D</p>
+                    </div>
+                  </div>
+                )}
+
+                <div className="text-center space-y-4">
+                  <button
+                    onClick={handleFindMatch}
+                    disabled={!isAuthenticated}
+                    className="w-full sm:w-auto px-8 py-4 rounded-lg bg-rose-500/20 border-2 border-rose-400/50 text-rose-300 font-display text-lg font-bold tracking-wider hover:bg-rose-500/30 hover:border-rose-400/70 hover:scale-[1.02] transition-all disabled:opacity-40 disabled:cursor-not-allowed"
+                  >
+                    <div className="flex items-center justify-center gap-3">
+                      <Swords size={22} />
+                      FIND MATCH
+                    </div>
+                  </button>
+                  {!isAuthenticated && (
+                    <p className="font-mono text-xs text-muted-foreground">You must be logged in to play multiplayer.</p>
+                  )}
+                  <p className="font-mono text-xs text-muted-foreground">ELO-based matchmaking // 10 min per side</p>
+                </div>
+
+                <div className="text-center pt-2">
+                  <button
+                    onClick={() => { setSelectedMode("casual"); setView("character_select"); }}
+                    className="px-5 py-2 rounded-md bg-primary/10 border border-primary/40 text-primary text-sm font-mono hover:bg-primary/20"
+                  >
+                    PLAY VS AI INSTEAD
+                  </button>
+                </div>
+              </>
+            )}
+
+            {/* ── SEARCHING: Queue animation ── */}
+            {mpState === "searching" && (
+              <div className="text-center space-y-5 py-6">
+                <motion.div
+                  animate={{ rotate: 360 }}
+                  transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+                  className="mx-auto w-16 h-16 rounded-full border-2 border-rose-400/30 border-t-rose-400 flex items-center justify-center"
+                >
+                  <Swords size={24} className="text-rose-400" />
+                </motion.div>
+
+                <div>
+                  <p className="font-display text-lg font-bold tracking-wider text-rose-300">SEARCHING FOR OPPONENT</p>
+                  <p className="font-mono text-sm text-muted-foreground mt-1">Time elapsed: {formatTime(searchElapsed)}</p>
+                </div>
+
+                {playersInQueue > 0 && (
+                  <div className="rounded-lg border border-border/30 bg-card/30 p-3 inline-block">
+                    <p className="font-mono text-xs text-muted-foreground">Queue position: <span className="text-rose-400 font-bold">{queuePos}</span> // Players searching: <span className="text-rose-400 font-bold">{playersInQueue}</span></p>
+                  </div>
+                )}
+
+                <div className="flex items-center justify-center gap-1 mt-2">
+                  {[0, 1, 2].map(i => (
+                    <motion.div
+                      key={i}
+                      className="w-2 h-2 rounded-full bg-rose-400"
+                      animate={{ opacity: [0.3, 1, 0.3] }}
+                      transition={{ duration: 1.2, repeat: Infinity, delay: i * 0.3 }}
+                    />
+                  ))}
+                </div>
+
+                <button
+                  onClick={handleCancelSearch}
+                  className="px-6 py-2.5 rounded-lg border border-border/50 bg-secondary/30 text-muted-foreground font-display text-sm font-bold tracking-wider hover:bg-destructive/20 hover:border-destructive/40 hover:text-destructive transition-all"
+                >
+                  <div className="flex items-center justify-center gap-2">
+                    <X size={16} />
+                    CANCEL
+                  </div>
+                </button>
+              </div>
+            )}
+
+            {/* ── MATCHED: Opponent found ── */}
+            {mpState === "matched" && opponentMatch && (
+              <motion.div
+                initial={{ scale: 0.9, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                className="text-center space-y-5 py-6"
               >
-                PLAY VS AI INSTEAD
-              </button>
-            </div>
+                <motion.div
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                >
+                  <div className="mx-auto w-16 h-16 rounded-full bg-emerald-400/20 border-2 border-emerald-400/50 flex items-center justify-center">
+                    <Swords size={24} className="text-emerald-400" />
+                  </div>
+                </motion.div>
+
+                <div>
+                  <p className="font-display text-lg font-bold tracking-wider text-emerald-300">MATCH FOUND</p>
+                  <p className="font-mono text-xs text-muted-foreground mt-1">Prepare for battle</p>
+                </div>
+
+                <div className="rounded-lg border border-emerald-400/30 bg-emerald-400/5 p-4 max-w-xs mx-auto space-y-2">
+                  <div className="flex items-center justify-between">
+                    <span className="font-mono text-xs text-muted-foreground">Opponent</span>
+                    <span className="font-display text-sm font-bold text-emerald-300">{opponentMatch.opponentName}</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="font-mono text-xs text-muted-foreground">ELO</span>
+                    <span className="font-mono text-sm font-bold">{opponentMatch.opponentElo}</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="font-mono text-xs text-muted-foreground">You play</span>
+                    <span className="font-display text-sm font-bold">{opponentMatch.color === "white" ? "WHITE" : "BLACK"}</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="font-mono text-xs text-muted-foreground">Time</span>
+                    <span className="font-mono text-sm">{Math.floor(opponentMatch.timeControl / 60)} min</span>
+                  </div>
+                </div>
+
+                <p className="font-mono text-xs text-emerald-400 animate-pulse">Loading game board...</p>
+              </motion.div>
+            )}
           </motion.div>
-        )}
+          );
+        })()}
 
         {/* ═══ RANKED LADDER ═══ */}
         {view === "ladder" && (
