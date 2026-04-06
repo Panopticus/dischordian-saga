@@ -219,26 +219,60 @@ export interface NPCReaction {
 export const SPECIMEN_NPC_REACTIONS: NPCReaction[] = [
   // Lux reactions
   { specimenId: "lux", npcId: "elara", reaction: "playful", description: "Lux nuzzles against Elara's holographic form. Their light frequencies harmonize." },
+  { specimenId: "lux", npcId: "the_human", reaction: "curious", description: "Lux circles The Human's terminal, projecting tiny light patterns on the screen. It's trying to communicate in wavelengths." },
   { specimenId: "lux", npcId: "the_source", reaction: "hostile", description: "Lux's light turns harsh and white. It positions itself between you and The Source." },
+  { specimenId: "lux", npcId: "the_antiquarian", reaction: "content", description: "Lux settles into a warm glow near the Antiquarian's archive lamps. Old light recognizes old light." },
+  { specimenId: "lux", npcId: "agent_zero", reaction: "wary", description: "Lux flickers rapidly, cycling through camouflage patterns. It senses Agent Zero prefers not to be seen." },
+  { specimenId: "lux", npcId: "adjudicator_locke", reaction: "curious", description: "Lux refracts through Locke's monocle, scattering tiny rainbows. Locke appraises the light and nods approvingly." },
   { specimenId: "lux", npcId: "shadow_tongue", reaction: "wary", description: "Lux dims noticeably. Its ears flatten. It doesn't trust the words here." },
   // Cipher reactions
+  { specimenId: "cipher", npcId: "elara", reaction: "curious", description: "Cipher scans Elara's biosignature repeatedly, as if trying to solve something it can't quite parse. Organic leadership confuses it." },
   { specimenId: "cipher", npcId: "the_human", reaction: "excited", description: "Cipher wraps around the nearest console, data-streams syncing with the substrate. It's found a kindred mind." },
+  { specimenId: "cipher", npcId: "the_source", reaction: "hostile", description: "Cipher coils defensively, encrypting its own data-streams. The Source's viral code is an existential threat to clean data." },
+  { specimenId: "cipher", npcId: "the_antiquarian", reaction: "content", description: "Cipher slithers between the archive shelves, indexing. The Antiquarian's organizational systems are, to Cipher, a kind of paradise." },
+  { specimenId: "cipher", npcId: "agent_zero", reaction: "wary", description: "Cipher's scales display rapidly shifting encryption keys. It respects Agent Zero's operational security but doesn't trust the chaos." },
+  { specimenId: "cipher", npcId: "adjudicator_locke", reaction: "curious", description: "Cipher projects trade algorithms across its scales, mirroring Locke's market data. Two calculating minds, sizing each other up." },
   { specimenId: "cipher", npcId: "shadow_tongue", reaction: "hostile", description: "Cipher's code turns red. It's detected unauthorized edits. It hisses in binary." },
   // Spore reactions
-  { specimenId: "spore", npcId: "the_source", reaction: "content", description: "Spore's tendrils reach toward The Source's signal. It's hearing the swarm. It's... homesick." },
   { specimenId: "spore", npcId: "elara", reaction: "wary", description: "Spore contracts, pulling its tendrils tight. Elara's systems trigger its self-preservation instinct." },
+  { specimenId: "spore", npcId: "the_human", reaction: "curious", description: "Spore extends a cautious tendril toward The Human's substrate housing. It senses something neither fully organic nor fully digital." },
+  { specimenId: "spore", npcId: "the_source", reaction: "content", description: "Spore's tendrils reach toward The Source's signal. It's hearing the swarm. It's... homesick." },
+  { specimenId: "spore", npcId: "the_antiquarian", reaction: "wary", description: "Spore pulses nervously. The Antiquarian has catalogued its kind — classified, dissected, understood. Spore does not wish to be understood." },
+  { specimenId: "spore", npcId: "agent_zero", reaction: "curious", description: "Spore's bioluminescent veins pulse in Insurgency orange. It recognizes a fellow survivor of hostile environments." },
+  { specimenId: "spore", npcId: "adjudicator_locke", reaction: "hostile", description: "Spore recoils violently. Locke once approved a quarantine order on Spore's home biome. The memory is cellular." },
+  { specimenId: "spore", npcId: "shadow_tongue", reaction: "wary", description: "Spore goes perfectly still, tendrils retracted. The Shadow Tongue's words feel like a different kind of infection." },
   // Echo reactions
+  { specimenId: "echo", npcId: "elara", reaction: "playful", description: "Echo phases between kitten and elder cat, batting at Elara's holographic displays. It has known her in other timelines." },
+  { specimenId: "echo", npcId: "the_human", reaction: "content", description: "Echo purrs at a frequency that makes The Human's substrate resonate. It remembers when The Human was still organic." },
+  { specimenId: "echo", npcId: "the_source", reaction: "wary", description: "Echo exists across multiple timelines at once and in every single one, The Source is a threat. Its fur ripples with temporal static." },
   { specimenId: "echo", npcId: "the_antiquarian", reaction: "sleeping", description: "Echo curls up in the Antiquarian's temporal field and falls asleep across three timelines simultaneously." },
+  { specimenId: "echo", npcId: "agent_zero", reaction: "curious", description: "Echo stares at Agent Zero from three different moments in time. It has seen how this story ends. It looks... sympathetic." },
+  { specimenId: "echo", npcId: "adjudicator_locke", reaction: "playful", description: "Echo deposits a tiny golden coin from a future timeline at Locke's feet. Locke is delighted. Echo vanishes before the coin does." },
   { specimenId: "echo", npcId: "shadow_tongue", reaction: "hostile", description: "Echo's fur stands on end across all timelines. It sees what the Shadow Tongue does to text — even to its own description." },
   // Glyph reactions
-  { specimenId: "glyph", npcId: "shadow_tongue", reaction: "curious", description: "Glyph's wings flutter excitedly. New words. So many new words. It lands on the Shadow Tongue's text and starts reading." },
+  { specimenId: "glyph", npcId: "elara", reaction: "content", description: "Glyph's wings display Elara's name in seventeen scripts. A quiet tribute from a creature that speaks in text." },
+  { specimenId: "glyph", npcId: "the_human", reaction: "curious", description: "Glyph lands on The Human's terminal and begins reading the substrate's source code. Its wings rewrite themselves in machine language." },
+  { specimenId: "glyph", npcId: "the_source", reaction: "hostile", description: "Glyph's text scrambles into defensive glyphs. The Source's viral language is a corruption of everything Glyph holds sacred." },
   { specimenId: "glyph", npcId: "the_antiquarian", reaction: "wary", description: "Glyph's text goes still. The Antiquarian knows too many words. Glyph doesn't want to be read." },
+  { specimenId: "glyph", npcId: "agent_zero", reaction: "wary", description: "Glyph folds its wings tight, hiding its text. Agent Zero deals in secrets, and Glyph is made of legible ones." },
+  { specimenId: "glyph", npcId: "adjudicator_locke", reaction: "content", description: "Glyph displays contract law across its wings in elegant calligraphy. Locke reads every clause. They understand each other." },
+  { specimenId: "glyph", npcId: "shadow_tongue", reaction: "curious", description: "Glyph's wings flutter excitedly. New words. So many new words. It lands on the Shadow Tongue's text and starts reading." },
   // Gilt reactions
-  { specimenId: "gilt", npcId: "adjudicator_locke", reaction: "excited", description: "Gilt's shell literally glows brighter near Locke. It can smell the trade routes." },
+  { specimenId: "gilt", npcId: "elara", reaction: "playful", description: "Gilt rolls a tiny gold nugget toward Elara as an offering. She has no use for it. Gilt is confused but undeterred." },
+  { specimenId: "gilt", npcId: "the_human", reaction: "curious", description: "Gilt taps its golden shell against The Human's terminal. It's trying to assess the computational substrate's market value." },
+  { specimenId: "gilt", npcId: "the_source", reaction: "hostile", description: "Gilt's shell dulls to a defensive bronze. The Source consumes. Gilt hoards. They are natural enemies." },
+  { specimenId: "gilt", npcId: "the_antiquarian", reaction: "content", description: "Gilt nestles among the Antiquarian's collection, shell gleaming. It has found a fellow curator — someone who understands the value of keeping." },
   { specimenId: "gilt", npcId: "agent_zero", reaction: "wary", description: "Gilt buries itself in your pocket. The Insurgency doesn't value gold. Gilt feels... worthless." },
+  { specimenId: "gilt", npcId: "adjudicator_locke", reaction: "excited", description: "Gilt's shell literally glows brighter near Locke. It can smell the trade routes." },
+  { specimenId: "gilt", npcId: "shadow_tongue", reaction: "wary", description: "Gilt's antennae twitch nervously. The Shadow Tongue trades in words, not gold. An economy Gilt cannot comprehend." },
   // Flicker reactions
+  { specimenId: "flicker", npcId: "elara", reaction: "wary", description: "Flicker's static dampens to a low hum. Elara's authority reminds it of signal towers — necessary but constraining." },
+  { specimenId: "flicker", npcId: "the_human", reaction: "curious", description: "Flicker perches on The Human's antenna array, absorbing data frequencies. It chirps in modulated static — a crude handshake protocol." },
+  { specimenId: "flicker", npcId: "the_source", reaction: "hostile", description: "Flicker erupts in a burst of defensive static, jamming nearby frequencies. The Source's signal is everything Flicker was born to oppose." },
+  { specimenId: "flicker", npcId: "the_antiquarian", reaction: "content", description: "Flicker settles on the Antiquarian's shoulder, static quieting to a gentle hum. Old frequencies. Safe frequencies." },
   { specimenId: "flicker", npcId: "agent_zero", reaction: "excited", description: "Flicker's static spikes. It's picking up Agent Zero's frequency. The dead signal sounds like a lullaby to it." },
   { specimenId: "flicker", npcId: "adjudicator_locke", reaction: "hostile", description: "Flicker screeches in static. It recognizes Locke's signal encryption. New Babylon tried to jam Insurgency comms." },
+  { specimenId: "flicker", npcId: "shadow_tongue", reaction: "wary", description: "Flicker's feathers bristle with interference patterns. The Shadow Tongue speaks on frequencies Flicker can hear but cannot decode." },
 ];
 
 export function getSpecimenReaction(specimenId: SpecimenId, npcId: string): NPCReaction | null {
