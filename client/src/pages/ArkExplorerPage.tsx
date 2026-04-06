@@ -16,6 +16,8 @@ import { processArkEvent, type ArkEventResult } from "@/game/arkEventHandler";
 import NPCDialog, { buildFirstContactScene, type NPCDialogScene, type NPCDialogChoice } from "@/components/NPCDialog";
 import type { FactionNPCId } from "@/game/factionNPCs";
 import { getAvailableBanter, type CompanionBanter } from "@/game/companionDeepening";
+import { dispatchNarrativeEffect, dispatchRoomEnter } from "@/hooks/useNarrativeEvents";
+import { getActiveVoices, type VoiceUtterance } from "@/game/innerVoices";
 import { dispatchRememberThis } from "@/game/narrativeSystems";
 import { getActiveBreadcrumbs, type BreadcrumbChain } from "@/game/explorationSystems";
 import { getCluesForRoom, type EnvironmentalClue } from "@/game/puzzleClues";
@@ -551,6 +553,29 @@ export default function ArkExplorerPage() {
         // Auto-dismiss after reading time
         setTimeout(() => setBanterText(null), 12000);
       }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [state.currentRoomId]);
+
+  // Dispatch room-enter narrative effect for physics-aware screen animation
+  useEffect(() => {
+    if (state.currentRoomId) {
+      dispatchRoomEnter(state.currentRoomId);
+    }
+  }, [state.currentRoomId]);
+
+  // Inner voice whisper on room entry — skill voices comment on surroundings
+  const [voiceWhisper, setVoiceWhisper] = useState<VoiceUtterance | null>(null);
+  useEffect(() => {
+    if (!state.currentRoomId) return;
+    const roomKey = state.currentRoomId.replace(/-/g, "_");
+    const skills = (state as any).innerVoiceSkills ?? {};
+    const voices = getActiveVoices({ type: "room_enter", roomId: roomKey }, skills, 1);
+    if (voices.length > 0) {
+      const timer = setTimeout(() => {
+        setVoiceWhisper(voices[0]);
+        setTimeout(() => setVoiceWhisper(null), 8000);
+      }, 3000);
       return () => clearTimeout(timer);
     }
   }, [state.currentRoomId]);
@@ -1354,6 +1379,23 @@ export default function ArkExplorerPage() {
                   });
                 }
 
+                // Dispatch narrative effect based on event type
+                const eventEffects: Record<string, string> = {
+                  npc_conversation: "pulse",
+                  signal_fragment: "glitch",
+                  quarantine: "static",
+                  tome_discovered: "surge",
+                  music_transmission: "breathe",
+                  boss_challenge: "quake",
+                  system_anomaly: "distort",
+                  stargazing: "drift",
+                  research_complete: "jolt",
+                };
+                const narrativeEffect = eventEffects[activeRoomEvent.type];
+                if (narrativeEffect) {
+                  dispatchNarrativeEffect(narrativeEffect as any);
+                }
+
                 // Show toast
                 toast[result.toast.type](result.toast.title, {
                   description: result.toast.description,
@@ -1473,11 +1515,43 @@ export default function ArkExplorerPage() {
             exit={{ opacity: 0, y: 20 }}
             className="fixed bottom-24 left-1/2 -translate-x-1/2 z-[80] max-w-md w-full px-4"
           >
-            <div className="p-3 rounded-xl bg-black/90 border border-purple-500/20 backdrop-blur-md"
+            <div className="void-surface p-3 rounded-xl backdrop-blur-md"
+              style={{ borderColor: "var(--void-glow, rgba(168,85,247,0.2))" }}
               onClick={() => setBanterText(null)}>
-              <p className="font-mono text-[8px] text-purple-400/50 tracking-wider mb-2">OVERHEARD TRANSMISSION</p>
-              <pre className="font-mono text-[10px] text-white/60 whitespace-pre-wrap leading-relaxed">{banterText}</pre>
-              <p className="font-mono text-[7px] text-white/15 mt-2 text-right">tap to dismiss</p>
+              <p className="font-mono text-[8px] tracking-wider mb-2" style={{ color: "var(--void-primary-muted)" }}>OVERHEARD TRANSMISSION</p>
+              <pre className="font-mono text-[10px] whitespace-pre-wrap leading-relaxed void-text-muted">{banterText}</pre>
+              <p className="font-mono text-[7px] mt-2 text-right" style={{ color: "var(--void-text-muted, rgba(255,255,255,0.15))" }}>tap to dismiss</p>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Inner Voice Whisper (skill-based commentary on room entry) */}
+      <AnimatePresence>
+        {voiceWhisper && (
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 0.85, x: 0 }}
+            exit={{ opacity: 0, x: 20 }}
+            transition={{ duration: 0.5 }}
+            className="fixed top-20 right-4 z-[70] max-w-[240px]"
+          >
+            <div className="p-2.5 rounded-lg border backdrop-blur-sm"
+              style={{
+                background: "rgba(0,0,0,0.75)",
+                borderColor: voiceWhisper.isFalse
+                  ? "rgba(239,68,68,0.15)"
+                  : "var(--void-border-subtle, rgba(255,255,255,0.06))",
+              }}
+              onClick={() => setVoiceWhisper(null)}>
+              <p className="font-mono text-[7px] tracking-[0.2em] mb-1"
+                style={{ color: voiceWhisper.isFalse ? "rgba(239,68,68,0.4)" : "var(--void-primary-muted)" }}>
+                {voiceWhisper.isFalse ? "UNRELIABLE INSTINCT" : "INNER VOICE"}
+              </p>
+              <p className="font-mono text-[10px] leading-relaxed italic"
+                style={{ color: "var(--void-text-muted, rgba(255,255,255,0.5))" }}>
+                &ldquo;{voiceWhisper.text}&rdquo;
+              </p>
             </div>
           </motion.div>
         )}

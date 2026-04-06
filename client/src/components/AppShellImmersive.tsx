@@ -31,6 +31,7 @@ import NotificationBell from "@/components/NotificationBell";
 import { ShipThemeOverlay } from "@/components/ShipThemeOverlay";
 import TransmissionDeck from "@/components/TransmissionDeck";
 import { useNarrativeEvents } from "@/hooks/useNarrativeEvents";
+import VoiceWhisper from "@/components/VoiceWhisper";
 
 const ARK_CONTROL_ROOM = "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/ark_control_room_04cb4fe3.png";
 
@@ -101,6 +102,9 @@ export default function AppShell({ children, elaraTTS: _elaraTTS }: { children: 
       </div>
 
       <ShipThemeOverlay />
+
+      {/* ═══ VOICE WHISPER — Inner voice commentary across all contexts ═══ */}
+      <VoiceWhisper />
 
       {/* ═══ MINIMAL HEADER — Only shows Ark identity + notifications ═══ */}
       {!isImmersive && (

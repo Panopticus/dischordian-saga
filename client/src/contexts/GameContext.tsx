@@ -1157,13 +1157,20 @@ export function GameProvider({ children }: { children: ReactNode }) {
     const localRooms = Object.values((localState.rooms ?? {})).filter((r: any) => r?.unlocked).length;
     // Use server state if it has more progress
     if (serverRooms >= localRooms && serverState.characterCreated) {
-      const merged = { ...DEFAULT_GAME_STATE, ...serverState };
+      // Restore client-side state from server (gamification, minigame stats, etc.)
+      const clientState = (serverState as any)._clientState as Record<string, unknown> | null;
+      if (clientState) {
+        restoreClientState(clientState);
+      }
+      // Strip _clientState before setting game state (it's not part of GameState)
+      const { _clientState: _, ...cleanState } = serverState as any;
+      const merged = { ...DEFAULT_GAME_STATE, ...cleanState };
       setState(merged);
       saveGameState(merged);
       setSyncStatus("synced");
       setLastSyncedAt(loadQuery.data.savedAt);
     }
-  }, [loadQuery.data]);
+  }, [loadQuery.data, restoreClientState]);
 
   // Save to localStorage on every state change
   useEffect(() => { saveGameState(state); }, [state]);
@@ -1177,6 +1184,115 @@ export function GameProvider({ children }: { children: ReactNode }) {
     }, 5000);
     return () => { if (saveTimerRef.current) clearTimeout(saveTimerRef.current); };
   }, [state, authQuery.data]);
+
+  // Collect all critical localStorage state that needs to survive device switches.
+  // This supplements the gameState (which handles rooms, items, narrative flags, etc.)
+  // with data that individual pages/components store independently.
+  const collectClientState = useCallback((): Record<string, unknown> => {
+    const safeGet = (key: string) => {
+      try { const v = localStorage.getItem(key); return v ? JSON.parse(v) : null; } catch { return null; }
+    };
+    return {
+      // Gamification XP/level/achievements
+      gamification: safeGet("loredex-gamification"),
+      // Discovery & exploration
+      discovered: safeGet("loredex_discovered"),
+      discoveredSecrets: safeGet("loredex_discovered_secrets"),
+      roomEasterEggs: safeGet("loredex_room_easter_eggs"),
+      loreFragments: safeGet("loredex_lore_fragments"),
+      bonusCards: safeGet("loredex_bonus_cards"),
+      completedTutorials: safeGet("loredex_completed_tutorials"),
+      // Minigame stats
+      dischordiaElo: localStorage.getItem("dischordia_elo"),
+      dischordiaWins: localStorage.getItem("dischordia_wins"),
+      dischordiaLosses: localStorage.getItem("dischordia_losses"),
+      dischordiaTutorial: localStorage.getItem("dischordia_tutorial_complete"),
+      terminusHighestWave: localStorage.getItem("terminus_highest_wave"),
+      terminusKills: localStorage.getItem("terminus_kills"),
+      terminusTrophies: localStorage.getItem("terminus_trophies"),
+      terminusPuzzle: localStorage.getItem("terminus_puzzle_complete"),
+      // Card game
+      cardUpgrades: safeGet("card_upgrades"),
+      multiverseRecord: safeGet("loredex_multiverse_record"),
+      // Equipment
+      equipmentState: safeGet("equipment_state"),
+      // Specimens & companions
+      ownedSpecimens: safeGet("owned_specimens"),
+      activeSpecimen: localStorage.getItem("active_specimen"),
+      bestiaryKills: safeGet("bestiary_kills"),
+      bestiaryDiscovered: safeGet("bestiary_discovered"),
+      // Research
+      researchPuzzlesSolved: localStorage.getItem("research_puzzles_solved"),
+      researchEntriesUnlocked: safeGet("research_entries_unlocked"),
+      // Story mode (fight)
+      collectorsArenaStory: safeGet("collectors_arena_story"),
+      collectorsArenaIntroSeen: localStorage.getItem("collectors_arena_intro_seen"),
+      collectorsArenaLoreSeen: localStorage.getItem("collectors_arena_lore_seen"),
+      // Trade Empire
+      tradeEmpireState: safeGet("trade_empire_state"),
+      tradeEmpireTech: safeGet("trade_empire_tech"),
+      // Casino & misc
+      degenCasino: safeGet("degen_casino"),
+      gmArenaClones: safeGet("gm_arena_clones"),
+      // Watch progress
+      watchProgress: safeGet("loredex_watch_progress"),
+      // Cinematics seen
+      cryoOrientationSeen: localStorage.getItem("loredex_cryo_orientation_seen"),
+      cinematicSeen: localStorage.getItem("loredex_cinematic_seen"),
+      chessCinematicSeen: localStorage.getItem("loredex_chess_cinematic_seen"),
+      // Fight tutorials
+      fight2dTutorialDone: localStorage.getItem("loredex_fight2d_tutorial_done"),
+    };
+  }, []);
+
+  // Restore client state from server on login (if server has newer data)
+  const restoreClientState = useCallback((clientState: Record<string, unknown> | null) => {
+    if (!clientState) return;
+    const safeSet = (key: string, val: unknown) => {
+      if (val === null || val === undefined) return;
+      try { localStorage.setItem(key, typeof val === "string" ? val : JSON.stringify(val)); } catch { /* full */ }
+    };
+    // Only restore keys that don't already exist locally (don't overwrite fresher local data)
+    const restoreIfMissing = (key: string, val: unknown) => {
+      if (!localStorage.getItem(key) && val != null) safeSet(key, val);
+    };
+    restoreIfMissing("loredex-gamification", clientState.gamification);
+    restoreIfMissing("loredex_discovered", clientState.discovered);
+    restoreIfMissing("loredex_discovered_secrets", clientState.discoveredSecrets);
+    restoreIfMissing("loredex_room_easter_eggs", clientState.roomEasterEggs);
+    restoreIfMissing("loredex_lore_fragments", clientState.loreFragments);
+    restoreIfMissing("loredex_bonus_cards", clientState.bonusCards);
+    restoreIfMissing("loredex_completed_tutorials", clientState.completedTutorials);
+    restoreIfMissing("dischordia_elo", clientState.dischordiaElo);
+    restoreIfMissing("dischordia_wins", clientState.dischordiaWins);
+    restoreIfMissing("dischordia_losses", clientState.dischordiaLosses);
+    restoreIfMissing("dischordia_tutorial_complete", clientState.dischordiaTutorial);
+    restoreIfMissing("terminus_highest_wave", clientState.terminusHighestWave);
+    restoreIfMissing("terminus_kills", clientState.terminusKills);
+    restoreIfMissing("terminus_trophies", clientState.terminusTrophies);
+    restoreIfMissing("terminus_puzzle_complete", clientState.terminusPuzzle);
+    restoreIfMissing("card_upgrades", clientState.cardUpgrades);
+    restoreIfMissing("loredex_multiverse_record", clientState.multiverseRecord);
+    restoreIfMissing("equipment_state", clientState.equipmentState);
+    restoreIfMissing("owned_specimens", clientState.ownedSpecimens);
+    restoreIfMissing("active_specimen", clientState.activeSpecimen);
+    restoreIfMissing("bestiary_kills", clientState.bestiaryKills);
+    restoreIfMissing("bestiary_discovered", clientState.bestiaryDiscovered);
+    restoreIfMissing("research_puzzles_solved", clientState.researchPuzzlesSolved);
+    restoreIfMissing("research_entries_unlocked", clientState.researchEntriesUnlocked);
+    restoreIfMissing("collectors_arena_story", clientState.collectorsArenaStory);
+    restoreIfMissing("collectors_arena_intro_seen", clientState.collectorsArenaIntroSeen);
+    restoreIfMissing("collectors_arena_lore_seen", clientState.collectorsArenaLoreSeen);
+    restoreIfMissing("trade_empire_state", clientState.tradeEmpireState);
+    restoreIfMissing("trade_empire_tech", clientState.tradeEmpireTech);
+    restoreIfMissing("degen_casino", clientState.degenCasino);
+    restoreIfMissing("gm_arena_clones", clientState.gmArenaClones);
+    restoreIfMissing("loredex_watch_progress", clientState.watchProgress);
+    restoreIfMissing("loredex_cryo_orientation_seen", clientState.cryoOrientationSeen);
+    restoreIfMissing("loredex_cinematic_seen", clientState.cinematicSeen);
+    restoreIfMissing("loredex_chess_cinematic_seen", clientState.chessCinematicSeen);
+    restoreIfMissing("loredex_fight2d_tutorial_done", clientState.fight2dTutorialDone);
+  }, []);
 
   const doServerSave = useCallback(async (currentState: GameState) => {
     if (!authQuery.data) return;
@@ -1206,8 +1322,11 @@ export function GameProvider({ children }: { children: ReactNode }) {
       ];
       const rank = [...ranks].reverse().find(r => completionPercent >= r.min)?.name ?? "Unranked";
 
+      // Collect all client-side state for cross-device sync
+      const clientState = collectClientState();
+
       await saveMutation.mutateAsync({
-        gameState: currentState as any,
+        gameState: { ...currentState, _clientState: clientState } as any,
         stats: {
           roomsUnlocked, totalRooms, puzzlesSolved, totalPuzzles,
           easterEggsFound, totalEasterEggs, battlesWon: battleStats.won ?? 0,
