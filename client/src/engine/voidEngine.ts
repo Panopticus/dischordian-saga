@@ -408,19 +408,40 @@ export function getAllThemes(): VoidTheme[] {
  * Apply a Void Energy theme to the document by setting CSS custom properties
  * on <html>. This is the bridge between the VoidEngine and the DOM.
  */
+/**
+ * Apply theme with optional View Transitions API for smooth cross-fade.
+ * Falls back to instant application when:
+ * - Browser doesn't support View Transitions
+ * - User prefers reduced motion
+ * - Called during initial boot (no existing atmosphere)
+ */
 export function applyThemeToDOM(themeId: string): void {
   const theme = THEMES[themeId];
   if (!theme) return;
 
   const html = document.documentElement;
+  const currentAtmosphere = html.getAttribute("data-atmosphere");
+  const supportsViewTransitions = typeof document !== "undefined" && "startViewTransition" in document;
+  const prefersReducedMotion = typeof matchMedia !== "undefined" && matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  // Use View Transitions for atmosphere changes (not initial boot)
+  if (supportsViewTransitions && currentAtmosphere && currentAtmosphere !== themeId && !prefersReducedMotion) {
+    (document as any).startViewTransition(() => applyThemeToDOM_inner(theme, html));
+    return;
+  }
+
+  applyThemeToDOM_inner(theme, html);
+}
+
+function applyThemeToDOM_inner(theme: VoidTheme, html: HTMLElement): void {
   const { physics, mode } = enforceGuardrails(theme.physics, theme.mode);
 
   // Set triad attributes (also persist for anti-FOUC bootloader)
-  html.setAttribute("data-atmosphere", themeId);
+  html.setAttribute("data-atmosphere", theme.id);
   html.setAttribute("data-physics", physics);
   html.setAttribute("data-mode", mode);
   try {
-    localStorage.setItem("ve-atmosphere", themeId);
+    localStorage.setItem("ve-atmosphere", theme.id);
     localStorage.setItem("ve-physics", physics);
     localStorage.setItem("ve-mode", mode);
   } catch { /* storage full or blocked */ }

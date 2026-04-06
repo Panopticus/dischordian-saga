@@ -47,6 +47,28 @@
   --speed-fast: var(--void-speed-fast, 150ms);
   --speed-base: var(--void-speed-base, 300ms);
   --speed-slow: var(--void-speed-slow, 500ms);
+
+  /* Atmosphere-specific typography */
+  --font-atmos-heading: var(--void-font-heading, 'Raleway', system-ui, sans-serif);
+  --font-atmos-body: var(--void-font-body, 'Inter', system-ui, sans-serif);
+}
+
+/* ── ATMOSPHERE FONT APPLICATION ──
+   When a VoidEngine atmosphere is active, heading and body
+   elements inherit the atmosphere's typographic personality. */
+
+[data-atmosphere] h1,
+[data-atmosphere] h2,
+[data-atmosphere] h3,
+[data-atmosphere] h4,
+[data-atmosphere] h5,
+[data-atmosphere] h6,
+[data-atmosphere] .void-heading {
+  font-family: var(--font-atmos-heading);
+}
+
+[data-atmosphere] .void-body {
+  font-family: var(--font-atmos-body);
 }
 
 /* ═══════════════════════════════════════════════════════
