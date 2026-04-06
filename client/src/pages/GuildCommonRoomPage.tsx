@@ -406,7 +406,7 @@ export default function GuildCommonRoomPage() {
             </div>
             <div className="flex flex-wrap gap-2">
               {guild.notableStudents.map(s => (
-                <span key={s} className="font-mono text-[10px] px-2 py-1 rounded border border-border/30 bg-background/50 text-foreground/80">
+                <span key={s} className="font-mono text-[10px] px-2 py-1 void-surface text-foreground/80">
                   {s}
                 </span>
               ))}

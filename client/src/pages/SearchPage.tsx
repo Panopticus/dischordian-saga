@@ -130,7 +130,7 @@ export default function SearchPage() {
               <Link
                 href={href}
                 onClick={() => discoverEntry(entry.id)}
-                className="group block rounded-lg border border-border/15 bg-card/20 hover:bg-card/40 hover:border-primary/20 transition-all overflow-hidden"
+                className="group block void-surface hover:bg-card/40 hover:border-primary/20 transition-all overflow-hidden"
               >
                 <div className="aspect-square relative overflow-hidden bg-secondary/20">
                   {entry.image ? (

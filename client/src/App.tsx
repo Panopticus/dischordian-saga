@@ -162,6 +162,9 @@ const BestiaryPage = lazy(() => import("./game/BestiaryPage"));
 const BountyBoardPage = lazy(() => import("./game/BountyBoardPage"));
 const NPCInboxPage = lazy(() => import("./game/NPCInboxPage"));
 const AllianceWarPage = lazy(() => import("./game/AllianceWarPage"));
+const TermsPage = lazy(() => import("./pages/TermsPage"));
+const PrivacyPage = lazy(() => import("./pages/PrivacyPage"));
+const PlanetGalleryPage = lazy(() => import("./pages/PlanetGalleryPage"));
 
 /* ═══ LOADING FALLBACK ═══ */
 function PageLoader() {
@@ -280,6 +283,9 @@ function Router() {
         <Route path="/lore-journal" component={LoreJournalPage} />
         <Route path="/army" component={ArmyManagementPage} />
         <Route path="/awakening">{() => <AwakeningPage />}</Route>
+        <Route path="/terms" component={TermsPage} />
+        <Route path="/privacy" component={PrivacyPage} />
+        <Route path="/planets" component={PlanetGalleryPage} />
         <Route path="/404" component={NotFound} />
         <Route component={NotFound} />
       </Switch>

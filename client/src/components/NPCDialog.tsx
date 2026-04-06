@@ -17,7 +17,7 @@ import { FACTION_NPCS, type FactionNPCId, type FactionNPC } from "@/game/faction
 import { useGame } from "@/contexts/GameContext";
 import { GIFT_ITEMS, calculateGiftResult, type GiftItem, type NpcId, type GiftItemId } from "@/game/npcGifts";
 import { useNPCPhysics } from "@/engine/useVoidEngine";
-import { getRelationshipState } from "@/game/npcRelationships";
+import { getNPCPortrait } from "@/game/npcPortraits";
 import { getAmbientReference } from "@/game/ambientStorytelling";
 import { getActiveVoices, SKILL_VOICES, type SkillId } from "@/game/innerVoices";
 import { ARCHON_VOICE_MAPPING } from "@/game/archonTrainingVoices";
@@ -257,9 +257,16 @@ export default function NPCDialog({ npcId, scene, onClose, onChoice }: NPCDialog
           <div className="flex items-center justify-between px-4 py-2.5 border-b"
             style={{ borderColor: `${npc.color}25` }}>
             <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-full flex items-center justify-center"
+              <div className="w-10 h-10 rounded-full flex items-center justify-center overflow-hidden"
                 style={{ backgroundColor: `${npc.color}15`, boxShadow: `0 0 12px ${npc.color}30` }}>
-                <Icon size={14} style={{ color: npc.color }} />
+                {(() => {
+                  const portrait = getNPCPortrait(npc.id);
+                  return portrait ? (
+                    <img src={portrait.bustPortrait} alt={npc.name} className="w-full h-full object-cover" onError={e => { (e.target as HTMLImageElement).style.display = "none"; (e.target as HTMLImageElement).nextElementSibling && ((e.target as HTMLImageElement).parentElement!.innerHTML = `<span style="color:${npc.color}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/></svg></span>`); }} />
+                  ) : (
+                    <Icon size={14} style={{ color: npc.color }} />
+                  );
+                })()}
               </div>
               <div>
                 <p className="font-display text-sm font-bold tracking-wider" style={{ color: npc.color }}>

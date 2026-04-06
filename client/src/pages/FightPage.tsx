@@ -1316,7 +1316,7 @@ export default function FightPage() {
           </motion.div>
 
           {/* Arena grid — 4x2 with image cards */}
-          <div className="grid grid-cols-4 gap-3 w-full mb-8">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 w-full mb-8">
             {ARENAS.map((a, i) => {
               const isSelected = selectedArena.id === a.id;
               return (

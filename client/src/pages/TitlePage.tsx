@@ -284,6 +284,10 @@ export default function TitlePage() {
             />
             SIGNAL ACTIVE {'//'}  ARK 1047 STANDING BY
           </div>
+          <div style={{ display: "flex", gap: "1rem", marginTop: "0.5rem" }}>
+            <a href="/terms" style={{ color: "rgba(51,226,230,0.25)", fontSize: "0.5rem", letterSpacing: "0.15em" }}>TERMS</a>
+            <a href="/privacy" style={{ color: "rgba(51,226,230,0.25)", fontSize: "0.5rem", letterSpacing: "0.15em" }}>PRIVACY</a>
+          </div>
         </div>
       </div>
 
