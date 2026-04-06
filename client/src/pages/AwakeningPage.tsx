@@ -50,7 +50,7 @@ function useTypewriter(text: string, speed = 30, enabled = true) {
 const STEP_VO_AUDIO: Partial<Record<string, string>> = {
   CRYO_OPEN: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/elara_vo_cryo_open_342b1153.mp3",
   ELARA_INTRO: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/awakening_02_c293c1e2.mp3",
-  WALLET_CHECK: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/awakening_03_1d37bf05.mp3",
+  // WALLET_CHECK removed — blockchain no longer required
   SPECIES_QUESTION: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/awakening_04_c9547bed.mp3",
   NEYON_PICKER: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/awakening_05_be8d79bb.mp3",
   CLASS_QUESTION: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/awakening_06_a496049b.mp3",
@@ -313,13 +313,7 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
   });
 
   const createCitizen = trpc.citizen.createCharacter.useMutation();
-  const [selectedNeyonTokenId, setSelectedNeyonTokenId] = useState<number | null>(null);
-  const linkWalletMutation = trpc.nft.linkWallet.useMutation();
   const { awakeningStep, characterChoices } = state;
-  const neyonEligibility = trpc.citizen.checkNeyonEligibility.useQuery(undefined, {
-    enabled: awakeningStep === "SPECIES_QUESTION" || (awakeningStep as string) === "WALLET_CHECK",
-    staleTime: 60_000,
-  });
 
   // Initialize audio on first user interaction
   const handleInitAudio = useCallback(async () => {
@@ -459,7 +453,7 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
           attrAttack: c.attrAttack,
           attrDefense: c.attrDefense,
           attrVitality: c.attrVitality,
-          ...(c.species === "neyon" && selectedNeyonTokenId ? { neyonTokenId: selectedNeyonTokenId } : {}),
+          // neyonTokenId removed — blockchain no longer required
         });
       }
     } catch (err) {
@@ -600,58 +594,11 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
             <ElaraDialogBox
               key="intro"
               text="I am Elara, the ship's intelligence. You've been in cryogenic suspension for... I can't determine how long. My chronometers are damaged. You are aboard Inception Ark Vessel 1047. You are a Potential. The others — the first wave — they're gone. I don't know where. All inter-Ark communications have been severed across every known universe. We are alone."
-              onContinue={() => setAwakeningStep("WALLET_CHECK" as AwakeningStep)}
+              onContinue={() => setAwakeningStep("SPECIES_QUESTION")}
               voAudioUrl={STEP_VO_AUDIO.ELARA_INTRO}
             />
           )}
-          {/* ─── WALLET CHECK — Connect wallet for Potential/Neyon holders ─── */}
-          {awakeningStep === ("WALLET_CHECK" as AwakeningStep) && (
-            <ElaraDialogBox
-              key="wallet-check"
-              text="Wait... I'm detecting something. Your neural signature has an encrypted Registry marker. If you carry a Potential or a Ne-Yon, I can verify your identity and unlock enhanced capabilities. Do you have a signet to link?"
-              voAudioUrl={STEP_VO_AUDIO.WALLET_CHECK}
-              choices={[
-                { label: "Yes, I hold a Potential or Ne-Yon", value: "connect", description: "Link your signet to verify ownership and unlock Ne-Yon species." },
-                { label: "No, continue without linking", value: "skip", description: "You can always link your signet later in Settings → Signet." },
-              ]}
-              onChoice={async (v) => {
-                if (v === "connect") {
-                  // Try to connect wallet via MetaMask
-                  try {
-                    const ethereum = (window as any).ethereum;
-                    if (!ethereum) {
-                      toast.error("No signet detected. Install a compatible Ethereum wallet (e.g. MetaMask), or link later in Settings → Signet.");
-                      setAwakeningStep("SPECIES_QUESTION");
-                      return;
-                    }
-                    const accounts = await ethereum.request({ method: "eth_requestAccounts" });
-                    if (accounts && accounts.length > 0) {
-                      const walletAddress = accounts[0];
-                      const message = `Link wallet ${walletAddress} to Loredex OS at ${Date.now()}`;
-                      try {
-                        const signature = await ethereum.request({
-                          method: "personal_sign",
-                          params: [message, walletAddress],
-                        });
-                        await linkWalletMutation.mutateAsync({ walletAddress, message, signature });
-                        toast.success("Signet linked! Scanning for Potentials and Ne-Yons...");
-                        neyonEligibility.refetch();
-                      } catch (err: any) {
-                        if (err?.message?.includes("already linked")) {
-                          toast.success("Signet already linked. Proceeding...");
-                        } else {
-                          toast.error("Failed to link signet. You can try again later in Settings → Signet.");
-                        }
-                      }
-                    }
-                  } catch (err) {
-                    toast.error("Signet linking cancelled. You can link later in Settings → Signet.");
-                  }
-                }
-                setAwakeningStep("SPECIES_QUESTION");
-              }}
-            />
-          )}
+          {/* Wallet/blockchain check removed — no longer needed */}
 
           {/* ─── SPECIES QUESTION ─── */}
           {awakeningStep === "SPECIES_QUESTION" && (
@@ -662,33 +609,9 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
               choices={[
                 { label: "I remember the fire in my blood, the arcane pulse in every cell...", value: "demagi", description: "DeMagi — Magically modified humans with elemental powers tied to the arcane. Still human at the core, but rewritten by forces older than science." },
                 { label: "I remember the quantum storms, the probability fields...", value: "quarchon", description: "Quarchon — Vast artificial intelligence. Cold, calculating machines that transcended their programming. Masters of dimensions and data." },
-                ...(neyonEligibility.data?.eligible
-                  ? [{
-                      label: "I remember both... fragments of everything...",
-                      value: "neyon",
-                      description: `Ne-Yon — Perfect hybrid. 1/1 POTENTIAL VERIFIED ✦ ${neyonEligibility.data.availableNeyonIds.length} Ne-Yon(s) available to bind.`,
-                    }]
-                  : [{
-                      label: "[LOCKED] I remember both... fragments of everything...",
-                      value: "neyon_locked",
-                      description: neyonEligibility.data?.walletLinked === false
-                        ? "Ne-Yon — Requires Potential #1-10. Link your signet first in Settings → Signet."
-                        : "Ne-Yon — Requires ownership of Potential #1-10. Only 10 exist.",
-                    }]),
+                { label: "I remember both... fragments of everything...", value: "neyon", description: "Ne-Yon — The perfect hybrid of magic and machine. Neither fully organic nor synthetic. The rarest species, attuned to any force." },
               ]}
               onChoice={(v) => {
-                if (v === "neyon_locked") return; // Do nothing for locked option
-                if (v === "neyon" && neyonEligibility.data?.availableNeyonIds?.length === 1) {
-                  // Auto-select the only available Ne-Yon
-                  setSelectedNeyonTokenId(neyonEligibility.data.availableNeyonIds[0]);
-                  setCharacterChoice("species", "neyon" as any);
-                  advanceAwakening();
-                } else if (v === "neyon") {
-                  // Multiple Ne-Yons available — show picker (handled in NEYON_SELECT step)
-                  setCharacterChoice("species", "neyon" as any);
-                  // We'll handle token selection in the next step
-                  advanceAwakening();
-                } else {
                   setCharacterChoice("species", v as any);
                   advanceAwakening();
                 }
@@ -696,29 +619,8 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
             />
           )}
 
-          {/* ─── NE-YON TOKEN PICKER (only if species=neyon and multiple tokens available) ─── */}
-          {awakeningStep === "CLASS_QUESTION" && characterChoices.species === "neyon" && !selectedNeyonTokenId && neyonEligibility.data?.availableNeyonIds && neyonEligibility.data.availableNeyonIds.length > 1 && (
-            <ElaraDialogBox
-              key="neyon-picker"
-              text="I'm detecting multiple Ne-Yon signatures in your neural imprint. Each Ne-Yon is unique — a singular entity. Which one are you?"
-              voAudioUrl={STEP_VO_AUDIO.NEYON_PICKER}
-              choices={neyonEligibility.data.neyonDetails
-                ?.filter(n => !n.bound)
-                .map(n => ({
-                  label: n.name || `Ne-Yon #${n.tokenId}`,
-                  value: String(n.tokenId),
-                  description: `Potential #${n.tokenId} — Unique 1/1 Ne-Yon. This identity will be permanently bound to your citizen.`,
-                })) ?? []
-              }
-              onChoice={(v) => {
-                setSelectedNeyonTokenId(Number(v));
-                // Don't advance — let the CLASS_QUESTION render now
-              }}
-            />
-          )}
-
           {/* ─── CLASS QUESTION ─── */}
-          {awakeningStep === "CLASS_QUESTION" && (characterChoices.species !== "neyon" || selectedNeyonTokenId) && (
+          {awakeningStep === "CLASS_QUESTION" && (
             <ElaraDialogBox
               key="class"
               text="Interesting. Your skill matrices are partially intact — the cryogenic process preserved some of your training. I can see fragments of specialized knowledge. What comes naturally to you?"
