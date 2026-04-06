@@ -17,6 +17,7 @@ import { useMemo } from "react";
 import { Link } from "wouter";
 import { motion } from "framer-motion";
 import { Sparkles, Brain, Clock, Flag, Users, Swords, Home, Skull, Mail, Radio } from "lucide-react";
+import { VOID } from "@/engine/voidPresets";
 import { useGame } from "@/contexts/GameContext";
 import type { Apprentice } from "@shared/apprentices";
 import { TRIAL_LENGTH_DAYS } from "@shared/celebrationTrial";
@@ -299,7 +300,7 @@ export default function DecisionDeck() {
         <span className="font-mono text-[9px] text-muted-foreground/50">{cards.length} waiting</span>
       </div>
       {cards.map(c => (
-        <motion.div key={c.key} initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }}>
+        <motion.div key={c.key} {...VOID.cardReveal()}>
           {c.element}
         </motion.div>
       ))}

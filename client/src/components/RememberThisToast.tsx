@@ -6,6 +6,7 @@
    ═══════════════════════════════════════════════════════ */
 import { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { VOID } from "@/engine/voidPresets";
 import { FACTION_NPCS, type FactionNPCId } from "@/game/factionNPCs";
 
 interface RememberData {
@@ -50,10 +51,7 @@ export default function RememberThisToast() {
     <AnimatePresence>
       {current && (
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -10 }}
-          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          {...VOID.fadeUp()}
           className="fixed top-16 left-1/2 -translate-x-1/2 z-[95] pointer-events-none"
         >
           <div className="flex items-center gap-3 px-6 py-3 rounded-lg"
