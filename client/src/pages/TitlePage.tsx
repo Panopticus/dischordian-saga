@@ -63,7 +63,7 @@ export default function TitlePage() {
         style={{
           position: "absolute",
           inset: 0,
-          backgroundImage: "url(/title-bg.jpg)",
+          backgroundImage: "url(/title-bg.png)",
           backgroundSize: "cover",
           backgroundPosition: "center",
           opacity: 0.45,
