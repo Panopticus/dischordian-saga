@@ -40,6 +40,8 @@ import { useElaraTTS } from "./hooks/useElaraTTS";
 import { useVoidEngine } from "./engine/useVoidEngine";
 import { useArchetypeDetection } from "./hooks/useArchetypeDetection";
 import { useSortingTrigger } from "./hooks/useSortingTrigger";
+import { useAuth } from "./_core/hooks/useAuth";
+import TitlePage from "./pages/TitlePage";
 import SortingCeremony from "./components/SortingCeremony";
 import { ARCHON_VOICE_MAPPING } from "./game/archonTrainingVoices";
 import "./engine/void-materials.css";
@@ -292,7 +294,18 @@ function Router() {
   );
 }
 
-/* ─── GAME GATE ─── 
+/* ─── AUTH GATE ───
+   Shows TitlePage for unauthenticated users. */
+function AuthGate() {
+  const { isAuthenticated, loading } = useAuth();
+
+  if (loading) return <PageLoader />;
+  if (!isAuthenticated) return <TitlePage />;
+
+  return <GameGate />;
+}
+
+/* ─── GAME GATE ───
    Shows the Awakening sequence for first-time visitors.
    Once complete, shows the normal app with AppShell. */
 function GameGate() {
@@ -416,7 +429,7 @@ function App() {
                   <SagaThemeBGMProvider>
                   <TooltipProvider>
                     <Toaster position="bottom-left" />
-                    <GameGate />
+                    <AuthGate />
                   </TooltipProvider>
                   </SagaThemeBGMProvider>
                 </PlayerProvider>

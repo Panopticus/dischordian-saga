@@ -20,15 +20,9 @@ const queryClient = new QueryClient({
   },
 });
 
-const redirectToLoginIfUnauthorized = (error: unknown) => {
-  if (!(error instanceof TRPCClientError)) return;
-  if (typeof window === "undefined") return;
-
-  const isUnauthorized = error.message === UNAUTHED_ERR_MSG;
-
-  if (!isUnauthorized) return;
-
-  window.location.href = getLoginUrl();
+const redirectToLoginIfUnauthorized = (_error: unknown) => {
+  // Auth gating is now handled by AuthGate in App.tsx — no hard redirect needed.
+  // Unauthenticated users see TitlePage with a sign-in button.
 };
 
 queryClient.getQueryCache().subscribe(event => {

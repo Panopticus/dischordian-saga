@@ -35,6 +35,9 @@ async function startServer() {
   const app = express();
   const server = createServer(app);
 
+  // Trust Railway/Render reverse proxy — required for req.protocol to be "https"
+  app.set("trust proxy", 1);
+
   // Stripe webhook MUST be registered BEFORE express.json() for signature verification
   app.post("/api/stripe/webhook", express.raw({ type: "application/json" }), async (req, res) => {
     const stripeKey = process.env.STRIPE_SECRET_KEY;
@@ -119,12 +122,12 @@ async function startServer() {
   // Sprite proxy (before CSRF — it's a GET endpoint for images)
   registerSpriteProxy(app);
 
+  // OAuth callback — MUST be registered BEFORE CSRF middleware
+  registerOAuthRoutes(app);
+
   // CSRF protection
   const { csrfProtection } = await import("../csrf");
   app.use("/api", csrfProtection);
-
-  // OAuth callback under /api/oauth/callback
-  registerOAuthRoutes(app);
   // tRPC API
   app.use(
     "/api/trpc",
