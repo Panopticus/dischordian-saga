@@ -30,8 +30,6 @@ import {
   contentParticipation,
   fightLeaderboard,
   fightMatches,
-  linkedWallets,
-  nftClaims,
   pvpMatches,
   pvpLeaderboard,
   pvpDecks,
@@ -66,8 +64,6 @@ export const usersRelations = relations(users, ({ many }) => ({
   contentParticipation: many(contentParticipation),
   fightLeaderboard: many(fightLeaderboard),
   fightMatches: many(fightMatches),
-  linkedWallets: many(linkedWallets),
-  nftClaims: many(nftClaims),
   pvpLeaderboard: many(pvpLeaderboard),
   pvpDecks: many(pvpDecks),
   pvpSeasonRecords: many(pvpSeasonRecords),
@@ -199,15 +195,6 @@ export const fightLeaderboardRelations = relations(fightLeaderboard, ({ one }) =
 
 export const fightMatchesRelations = relations(fightMatches, ({ one }) => ({
   user: one(users, { fields: [fightMatches.userId], references: [users.id] }),
-}));
-
-// ═══ WALLETS & NFT ═══
-export const linkedWalletsRelations = relations(linkedWallets, ({ one }) => ({
-  user: one(users, { fields: [linkedWallets.userId], references: [users.id] }),
-}));
-
-export const nftClaimsRelations = relations(nftClaims, ({ one }) => ({
-  user: one(users, { fields: [nftClaims.userId], references: [users.id] }),
 }));
 
 // ═══ PVP SYSTEM ═══
