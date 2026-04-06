@@ -2412,3 +2412,45 @@ export const adminAuditLog = mysqlTable("admin_audit_log", {
   details: json("details"),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
 });
+
+// ═══ EIDOLON SOUL BOND ═══
+export const eidolonBonds = mysqlTable("eidolon_bonds", {
+  id: int("id").primaryKey().autoincrement(),
+  userId: int("userId").notNull(),
+  eidolonId: varchar("eidolonId", { length: 64 }).notNull(),
+  bond: int("bond").default(0).notNull(),
+  level: int("level").default(1).notNull(),
+  xp: int("xp").default(0).notNull(),
+  stage: mysqlEnum("stage", ["fragment", "companion", "ascended", "spectral"]).default("fragment").notNull(),
+  rarity: mysqlEnum("rarity", ["common", "uncommon", "rare", "epic", "legendary", "mythic"]).default("common").notNull(),
+  health: mysqlEnum("health", ["healthy", "hurt", "critical", "downed", "dead"]).default("healthy").notNull(),
+  injury: int("injury").default(0).notNull(),
+  deathCount: int("deathCount").default(0).notNull(),
+  isResonant: boolean("isResonant").default(false).notNull(),
+  isSoulBound: boolean("isSoulBound").default(true).notNull(),
+  nickname: varchar("nickname", { length: 64 }),
+  memories: json("memories").$type<string[]>().default([]),
+  unlockedSkills: json("unlockedSkills").$type<string[]>().default([]),
+  skillPoints: int("skillPoints").default(0).notNull(),
+  missionsShared: int("missionsShared").default(0).notNull(),
+  questsCompleted: json("questsCompleted").$type<string[]>().default([]),
+  moralityDissonance: int("moralityDissonance").default(0).notNull(),
+  lastFed: timestamp("lastFed"),
+  lastInteraction: timestamp("lastInteraction"),
+  boundAt: timestamp("boundAt").defaultNow().notNull(),
+  diedAt: timestamp("diedAt"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export const eidolonMemorial = mysqlTable("eidolon_memorial", {
+  id: int("id").primaryKey().autoincrement(),
+  userId: int("userId").notNull(),
+  eidolonId: varchar("eidolonId", { length: 64 }).notNull(),
+  eidolonName: varchar("eidolonName", { length: 128 }).notNull(),
+  bondAtDeath: int("bondAtDeath").notNull(),
+  causeOfDeath: varchar("causeOfDeath", { length: 255 }).notNull(),
+  daysActive: int("daysActive").notNull(),
+  flowers: int("flowers").default(0).notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});

@@ -60,6 +60,7 @@ import { socialFeaturesRouter } from "./routers/socialFeatures";
 import { loreJournalRouter } from "./routers/loreJournal";
 import { promoCodesRouter } from "./routers/promoCodes";
 import { architectConsoleRouter } from "./routers/architectConsole";
+import { eidolonBondRouter } from "./routers/eidolonBond";
 
 export const appRouter = router({
   system: systemRouter,
@@ -116,6 +117,7 @@ export const appRouter = router({
   loreJournal: loreJournalRouter,
   promoCodes: promoCodesRouter,
   architectConsole: architectConsoleRouter,
+  eidolonBond: eidolonBondRouter,
   auth: router({
     me: publicProcedure.query(opts => opts.ctx.user),
     logout: publicProcedure.mutation(({ ctx }) => {

@@ -8,10 +8,12 @@
    "Something in the archive responded to YOUR DNA specifically.
    This creature... it chose you."
 
-   The 3 options depend on the player's species — but Ne-Yons
-   can choose any.
+   The player gets exactly 3 choices:
+     1. Race pet  — one specimen from their race's archive
+     2. Class pet — based on their character class
+     3. Strain   — the Thought Virus pet, available to everyone
    ═══════════════════════════════════════════════════════ */
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLocation } from "wouter";
 import { ChevronRight, Sparkles } from "lucide-react";
@@ -46,26 +48,62 @@ const COMPANION_OPTIONS: Record<string, CompanionOption[]> = {
   ],
 };
 
+const CLASS_PETS: Record<string, CompanionOption> = {
+  soldier: { id: "auros", name: "Auros", species: "Gilded Lion", flavor: "A void-forged Nemean lion. Golden mane burning with contained plasma. The last of a species the Architect bred for war.", personality: "Noble, protective, judges cowardice", bonus: "+5% combat defense", color: "#fbbf24", portrait: "/art/specimens/auros-fragment.png" },
+  spy: { id: "nyx", name: "Nyx", species: "Umbral Raven", flavor: "Agent Zero's lost companion, found in stasis labeled 'DO NOT OPEN.' She carries fragments of a dead agent's memories in her neural lattice.", personality: "Paranoid, brilliant, fiercely loyal", bonus: "+5% espionage success", color: "#6366f1", portrait: "/art/specimens/nyx-fragment.png" },
+  assassin: { id: "toxis", name: "Toxis", species: "Blight Frog", flavor: "Found in the Viral Wastes — the only living thing in a Thought Virus dead zone. Its toxin exists 2 seconds in the future.", personality: "Patient, cold, efficient", bonus: "+5% critical hit chance", color: "#10b981", portrait: "/art/specimens/toxis-fragment.png" },
+  engineer: { id: "cog", name: "Cog", species: "Lattice Golem", flavor: "Not cloned — it assembled itself from nanobots while you slept. It has no DNA. It chose you because your neural patterns matched its swarm frequency.", personality: "Curious, builds gifts from scrap", bonus: "+5% crafting success", color: "#f97316", portrait: "/art/specimens/cog-fragment.png" },
+  oracle: { id: "sibyl", name: "Sibyl", species: "Dreaming Owl", flavor: "Eyes that show glimpses of futures that were supposed to happen. She doesn't sleep — she's already dreaming. Older than the Panopticon.", personality: "Cryptic, maternal, terrifyingly perceptive", bonus: "+5% lore discovery", color: "#8b5cf6", portrait: "/art/specimens/sibyl-fragment.png" },
+};
+
+const THOUGHT_VIRUS_PET: CompanionOption = {
+  id: "strain", name: "Strain", species: "Living Infection", flavor: "A piece of the Source that developed independent consciousness. The only Thought Virus entity to ever defect. Or it's a Trojan horse. You won't know for a long time.", personality: "Mute at first, then achingly curious", bonus: "+5% Terminus resistance", color: "#ef4444", portrait: "/art/specimens/strain-fragment.png",
+};
+
 const ELARA_INTRO = [
   "Before you leave the Cryo Bay — there's something you need to see.",
   "The cloning pods activated when you woke up. That shouldn't have happened.",
   "The Collector's genetic archive responded to YOUR DNA specifically. Out of billions of preserved specimens... three stepped forward.",
-  "Three chose you. You get to choose back.",
+  "Three souls responded to your awakening. One from the Collector's archive. One drawn by your training. And one... that shouldn't exist.",
 ];
 
 interface Props {
   species: string;
+  playerClass?: string;
   onComplete: (companionId: string) => void;
 }
 
-export default function CompanionSelectionScene({ species, onComplete }: Props) {
+/** Simple seeded random so the race pet pick is stable across re-renders. */
+function seededRandom(seed: string): number {
+  let h = 0;
+  for (let i = 0; i < seed.length; i++) {
+    h = Math.imul(31, h) + seed.charCodeAt(i) | 0;
+  }
+  return ((h >>> 0) % 1000) / 1000;
+}
+
+const BOND_LABELS: string[] = ["RACE BOND", "CLASS BOND", "THOUGHT VIRUS"];
+const BOND_LABEL_COLORS: string[] = ["#22d3ee", "#fbbf24", "#ef4444"];
+
+export default function CompanionSelectionScene({ species, playerClass, onComplete }: Props) {
   const [phase, setPhase] = useState<"intro" | "select" | "bonding">("intro");
   const [introStep, setIntroStep] = useState(0);
   const [typedText, setTypedText] = useState("");
   const [isTyping, setIsTyping] = useState(true);
   const [selected, setSelected] = useState<CompanionOption | null>(null);
 
-  const options = COMPANION_OPTIONS[species] || COMPANION_OPTIONS.default;
+  const options = useMemo(() => {
+    // Pick one race pet (randomly from the race's available specimens, with stable seed)
+    const racePets = COMPANION_OPTIONS[species] || COMPANION_OPTIONS.default;
+    const rng = seededRandom(species + (playerClass || ""));
+    const racePet = racePets[Math.floor(rng * racePets.length)];
+
+    // Get class pet
+    const classPet = playerClass ? CLASS_PETS[playerClass] : null;
+
+    // Build the 3 choices
+    return [racePet, classPet, THOUGHT_VIRUS_PET].filter(Boolean) as CompanionOption[];
+  }, [species, playerClass]);
 
   // Typewriter for intro
   useEffect(() => {
@@ -164,7 +202,7 @@ export default function CompanionSelectionScene({ species, onComplete }: Props) 
         >
           <div className="text-center mb-6 sm:mb-10">
             <p className="font-mono text-[9px] text-white/30 tracking-[0.3em] mb-2">CHOOSE YOUR COMPANION</p>
-            <h2 className="font-display text-2xl sm:text-3xl font-bold text-cyan-400 mb-1">Three chose you.</h2>
+            <h2 className="font-display text-2xl sm:text-3xl font-bold text-cyan-400 mb-1">Three souls await.</h2>
             <p className="font-mono text-xs text-white/40">Choose one back.</p>
           </div>
 
@@ -183,6 +221,16 @@ export default function CompanionSelectionScene({ species, onComplete }: Props) 
                   boxShadow: `0 0 40px ${option.color}15, 0 0 80px ${option.color}08`,
                 }}
               >
+                {/* Category label */}
+                <div className="py-2 text-center">
+                  <span
+                    className="font-mono text-[9px] tracking-[0.3em] font-bold"
+                    style={{ color: BOND_LABEL_COLORS[i] || option.color }}
+                  >
+                    {BOND_LABELS[i] || "EIDOLON"}
+                  </span>
+                </div>
+
                 {/* Portrait image — hero showcase */}
                 <div className="relative aspect-[3/4] overflow-hidden">
                   <img

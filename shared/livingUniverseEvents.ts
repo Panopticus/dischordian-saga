@@ -50,6 +50,9 @@ export interface EventNarrative {
   resolution: string;
 }
 
+// Pet deaths contribute to Necromancer pressure: each Eidolon death adds 100 to death counter
+export const EIDOLON_DEATH_PRESSURE = 100;
+
 /* ═══ EVENT 1: THE NECROMANCER RETURNS ═══ */
 
 export const NECROMANCER_RETURN_EVENT: EmergentEvent = {
