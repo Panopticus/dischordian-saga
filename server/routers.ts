@@ -58,6 +58,8 @@ import { cosmeticShopRouter } from "./routers/cosmeticShop";
 import { donationSystemRouter } from "./routers/donationSystem";
 import { socialFeaturesRouter } from "./routers/socialFeatures";
 import { loreJournalRouter } from "./routers/loreJournal";
+import { promoCodesRouter } from "./routers/promoCodes";
+import { architectConsoleRouter } from "./routers/architectConsole";
 
 export const appRouter = router({
   system: systemRouter,
@@ -112,6 +114,8 @@ export const appRouter = router({
   donation: donationSystemRouter,
   social: socialFeaturesRouter,
   loreJournal: loreJournalRouter,
+  promoCodes: promoCodesRouter,
+  architectConsole: architectConsoleRouter,
   auth: router({
     me: publicProcedure.query(opts => opts.ctx.user),
     logout: publicProcedure.mutation(({ ctx }) => {

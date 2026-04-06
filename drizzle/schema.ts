@@ -2314,3 +2314,101 @@ export const writingStreaks = mysqlTable("writing_streaks", {
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
 });
 export type WritingStreakRow = typeof writingStreaks.$inferSelect;
+
+/* ═══════════════════════════════════════════════════════
+   PROMO CODES — Warhammer Tacticus-style redemption system
+   ═══════════════════════════════════════════════════════ */
+
+export const promoCodes = mysqlTable("promo_codes", {
+  id: int("id").primaryKey().autoincrement(),
+  code: varchar("code", { length: 64 }).notNull().unique(),
+  description: text("description"),
+  rewardType: mysqlEnum("rewardType", ["cards", "dream_currency", "credits", "cosmetics", "mixed"]).notNull(),
+  rewardValue: json("rewardValue").notNull(), // { dream?: number, credits?: number, cards?: string[], cosmetics?: string[] }
+  maxRedemptions: int("maxRedemptions").default(-1), // -1 = unlimited
+  currentRedemptions: int("currentRedemptions").default(0).notNull(),
+  isActive: boolean("isActive").default(true).notNull(),
+  expiresAt: timestamp("expiresAt"),
+  createdBy: int("createdBy"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+export type PromoCodeRow = typeof promoCodes.$inferSelect;
+
+export const promoCodeRedemptions = mysqlTable("promo_code_redemptions", {
+  id: int("id").primaryKey().autoincrement(),
+  promoCodeId: int("promoCodeId").notNull(),
+  userId: int("userId").notNull(),
+  redeemedAt: timestamp("redeemedAt").defaultNow().notNull(),
+});
+export type PromoCodeRedemptionRow = typeof promoCodeRedemptions.$inferSelect;
+
+/* ═══════════════════════════════════════════════════════
+   ARCHITECT'S CONSOLE — Community Governance
+   Community votes, live events, and audit logging for the
+   lore-native admin panel themed as the Architect's
+   surveillance/control interface.
+   ═══════════════════════════════════════════════════════ */
+
+export const communityVotes = mysqlTable("community_votes", {
+  id: int("id").primaryKey().autoincrement(),
+  voteId: varchar("voteId", { length: 128 }).notNull().unique(),
+  title: varchar("title", { length: 255 }).notNull(),
+  description: text("description"),
+  category: mysqlEnum("category", ["lore", "event", "content", "quest", "sacrifice"]).notNull(),
+  status: mysqlEnum("status", ["active", "closed", "announced"]).default("active").notNull(),
+  startedAt: timestamp("startedAt").defaultNow().notNull(),
+  endsAt: timestamp("endsAt").notNull(),
+  impactType: varchar("impactType", { length: 128 }),
+  impactPayload: json("impactPayload"),
+  createdBy: int("createdBy"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export const voteOptions = mysqlTable("vote_options", {
+  id: int("id").primaryKey().autoincrement(),
+  voteId: varchar("voteId", { length: 128 }).notNull(),
+  optionNumber: int("optionNumber").notNull(),
+  optionText: varchar("optionText", { length: 255 }).notNull(),
+  description: text("description"),
+  rewardOnWin: json("rewardOnWin"),
+  voteCount: int("voteCount").default(0).notNull(),
+  isWinner: boolean("isWinner").default(false).notNull(),
+});
+
+export const playerVotes = mysqlTable("player_votes", {
+  id: int("id").primaryKey().autoincrement(),
+  voteId: varchar("voteId", { length: 128 }).notNull(),
+  userId: int("userId").notNull(),
+  optionNumber: int("optionNumber").notNull(),
+  votedAt: timestamp("votedAt").defaultNow().notNull(),
+});
+
+// ═══ ARCHITECT'S CONSOLE — Live Events ═══
+export const adminEvents = mysqlTable("admin_events", {
+  id: int("id").primaryKey().autoincrement(),
+  eventKey: varchar("eventKey", { length: 128 }).notNull().unique(),
+  eventName: varchar("eventName", { length: 255 }).notNull(),
+  eventType: mysqlEnum("eventType", ["notification", "living_universe", "seasonal_bonus", "instance_spawn", "narrative_trigger", "multiplier"]).notNull(),
+  message: text("message"),
+  targetAudience: mysqlEnum("targetAudience", ["all", "by_level", "by_guild", "specific"]).default("all").notNull(),
+  targetPayload: json("targetPayload"),
+  gameStateChanges: json("gameStateChanges"),
+  isActive: boolean("isActive").default(false).notNull(),
+  scheduledFor: timestamp("scheduledFor"),
+  activatedAt: timestamp("activatedAt"),
+  expiresAt: timestamp("expiresAt"),
+  createdBy: int("createdBy"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+// ═══ ARCHITECT'S CONSOLE — Audit Log ═══
+export const adminAuditLog = mysqlTable("admin_audit_log", {
+  id: int("id").primaryKey().autoincrement(),
+  adminId: int("adminId").notNull(),
+  action: varchar("action", { length: 128 }).notNull(),
+  details: json("details"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});

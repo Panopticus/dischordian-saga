@@ -14,12 +14,14 @@ import { useGame } from "@/contexts/GameContext";
 import { useAuth } from "@/_core/hooks/useAuth";
 import { getLoginUrl } from "@/const";
 import { ARK_THEMES } from "@shared/gamification";
+import { trpc } from "@/lib/trpc";
 import {
   Settings, Sun, Moon, Palette, Volume2, VolumeX, Music,
   Gamepad2, RotateCcw, Check, Lock, Monitor, Accessibility,
   Type, Zap, ChevronDown, ChevronUp, User, LogOut, LogIn,
   Download, Cloud, CloudOff, Shield, Eye, EyeOff, Sparkles,
-  Gauge, HelpCircle, SkipForward, MessageCircle, ExternalLink, Users
+  Gauge, HelpCircle, SkipForward, MessageCircle, ExternalLink, Users,
+  Gift, Ticket
 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -191,6 +193,94 @@ function OptionSelector<T extends string>({ label, options, value, onChange }: {
         })}
       </div>
     </div>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════
+   PROMO CODE SECTION
+   ═══════════════════════════════════════════════════════ */
+function PromoCodeSection({ isAuthenticated }: { isAuthenticated: boolean }) {
+  const [code, setCode] = useState("");
+  const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
+  const [message, setMessage] = useState("");
+
+  const redeemMutation = trpc.promoCodes.redeemCode.useMutation({
+    onSuccess: (data) => {
+      setStatus("success");
+      const reward = data.rewardValue as Record<string, unknown>;
+      const parts: string[] = [];
+      if (reward.dream) parts.push(`${reward.dream} Dream Currency`);
+      if (reward.credits) parts.push(`${reward.credits} Credits`);
+      if (Array.isArray(reward.cards) && reward.cards.length) parts.push(`${reward.cards.length} Card(s)`);
+      if (Array.isArray(reward.cosmetics) && reward.cosmetics.length) parts.push(`${reward.cosmetics.length} Cosmetic(s)`);
+      setMessage(
+        `Code redeemed! ${data.description ? data.description + " — " : ""}Rewards: ${parts.join(", ") || data.rewardType}`
+      );
+      setCode("");
+      toast.success("Promo code redeemed!");
+    },
+    onError: (err) => {
+      setStatus("error");
+      setMessage(err.message);
+    },
+  });
+
+  const handleRedeem = () => {
+    if (!code.trim()) return;
+    setStatus("idle");
+    setMessage("");
+    redeemMutation.mutate({ code: code.trim() });
+  };
+
+  return (
+    <SettingsSection title="Promo Codes" icon={Ticket}>
+      {!isAuthenticated ? (
+        <p className="font-mono text-[10px] text-muted-foreground/60">
+          Log in to redeem promo codes.
+        </p>
+      ) : (
+        <div className="space-y-3">
+          <p className="font-mono text-[10px] text-muted-foreground/60 tracking-wider">
+            Enter a promo code to claim rewards
+          </p>
+
+          <div className="flex gap-2">
+            <input
+              type="text"
+              value={code}
+              onChange={(e) => {
+                setCode(e.target.value.toUpperCase());
+                setStatus("idle");
+                setMessage("");
+              }}
+              onKeyDown={(e) => { if (e.key === "Enter") handleRedeem(); }}
+              placeholder="ENTER-CODE-HERE"
+              maxLength={64}
+              className="flex-1 px-3 py-2 rounded-md border border-white/10 bg-white/[0.02] font-mono text-xs tracking-widest text-cyan-400 placeholder:text-muted-foreground/30 focus:outline-none focus:border-cyan-400/40 focus:ring-1 focus:ring-cyan-400/20 transition-colors"
+            />
+            <button
+              onClick={handleRedeem}
+              disabled={!code.trim() || redeemMutation.isPending}
+              className="px-4 py-2 rounded-md border border-cyan-400/30 bg-cyan-400/5 text-cyan-400 font-mono text-[10px] tracking-[0.2em] hover:bg-cyan-400/10 hover:border-cyan-400/50 transition-colors disabled:opacity-30 disabled:cursor-not-allowed shrink-0"
+            >
+              {redeemMutation.isPending ? "..." : "REDEEM"}
+            </button>
+          </div>
+
+          {/* Feedback */}
+          {status !== "idle" && (
+            <div className={`flex items-start gap-2 px-3 py-2.5 rounded-md border font-mono text-[10px] leading-relaxed ${
+              status === "success"
+                ? "border-green-400/30 bg-green-400/5 text-green-400"
+                : "border-red-400/30 bg-red-400/5 text-red-400"
+            }`}>
+              {status === "success" ? <Gift size={13} className="shrink-0 mt-0.5" /> : <Shield size={13} className="shrink-0 mt-0.5" />}
+              <span>{message}</span>
+            </div>
+          )}
+        </div>
+      )}
+    </SettingsSection>
   );
 }
 
@@ -604,6 +694,9 @@ export default function SettingsPage() {
             </button>
           </div>
         </SettingsSection>
+
+        {/* ═══ PROMO CODES ═══ */}
+        <PromoCodeSection isAuthenticated={isAuthenticated} />
 
         {/* ═══ COMMUNITY ═══ */}
         <SettingsSection title="Community" icon={Users}>
