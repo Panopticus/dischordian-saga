@@ -25,25 +25,24 @@ interface CompanionOption {
   personality: string;
   bonus: string;
   color: string;
-  emoji: string;
+  portrait: string;
 }
 
 const COMPANION_OPTIONS: Record<string, CompanionOption[]> = {
   demagi: [
-    { id: "lux", name: "Lux", species: "Holographic Fox", flavor: "A creature of pure light given form. It phases between solid and luminous.", personality: "Curious, playful, bonds fast", bonus: "+5% XP gain", color: "#22d3ee", emoji: "🦊" },
-    { id: "echo", name: "Echo", species: "Temporal Kitten", flavor: "A kitten that exists slightly out of sync with time. It purrs 3 seconds before you pet it.", personality: "Sleepy, ancient, wise", bonus: "+5% lore discovery", color: "#10b981", emoji: "🐈" },
-    { id: "spore", name: "Spore", species: "Viral Symbiote", flavor: "A tendriled organism that bonds to its host. Not infectious. Just protective. Mostly.", personality: "Unsettling, fiercely loyal", bonus: "+5% Terminus defense", color: "#ef4444", emoji: "🌸" },
+    { id: "lux", name: "Lux", species: "Holographic Fox", flavor: "A creature of pure light given form. It phases between solid and luminous.", personality: "Curious, playful, bonds fast", bonus: "+5% XP gain", color: "#22d3ee", portrait: "/art/specimens/lux-fragment.png" },
+    { id: "echo", name: "Echo", species: "Temporal Kitten", flavor: "A kitten that exists slightly out of sync with time. It purrs 3 seconds before you pet it.", personality: "Sleepy, ancient, wise", bonus: "+5% lore discovery", color: "#10b981", portrait: "/art/specimens/echo-fragment.png" },
+    { id: "spore", name: "Spore", species: "Viral Symbiote", flavor: "A tendriled organism that bonds to its host. Not infectious. Just protective. Mostly.", personality: "Unsettling, fiercely loyal", bonus: "+5% Terminus defense", color: "#ef4444", portrait: "/art/specimens/spore-fragment.png" },
   ],
   quarchon: [
-    { id: "cipher", name: "Cipher", species: "Data Serpent", flavor: "A snake composed of moving data streams. Its scales are scrolling code.", personality: "Calculating, methodical", bonus: "+5% puzzle solve speed", color: "#a855f7", emoji: "🐍" },
-    { id: "flicker", name: "Flicker", species: "Static Bird", flavor: "A bird made of electromagnetic interference. It flickers in and out of visibility.", personality: "Alert, twitchy, brave", bonus: "+5% signal detection", color: "#f59e0b", emoji: "🦅" },
-    { id: "gilt", name: "Gilt", species: "Golden Beetle", flavor: "A beetle with a shell that grows more ornate the more treasure it's near.", personality: "Greedy, affectionate", bonus: "+5% Dream income", color: "#fbbf24", emoji: "🪲" },
+    { id: "cipher", name: "Cipher", species: "Data Serpent", flavor: "A snake composed of moving data streams. Its scales are scrolling code.", personality: "Calculating, methodical", bonus: "+5% puzzle solve speed", color: "#a855f7", portrait: "/art/specimens/cipher-fragment.png" },
+    { id: "flicker", name: "Flicker", species: "Static Bird", flavor: "A bird made of electromagnetic interference. It flickers in and out of visibility.", personality: "Alert, twitchy, brave", bonus: "+5% signal detection", color: "#f59e0b", portrait: "/art/specimens/flicker-fragment.png" },
+    { id: "gilt", name: "Gilt", species: "Golden Beetle", flavor: "A beetle with a shell that grows more ornate the more treasure it's near.", personality: "Greedy, affectionate", bonus: "+5% Dream income", color: "#fbbf24", portrait: "/art/specimens/gilt-fragment.png" },
   ],
-  neyon: [
-    { id: "lux", name: "Lux", species: "Holographic Fox", flavor: "A creature of pure light given form.", personality: "Curious, playful", bonus: "+5% XP gain", color: "#22d3ee", emoji: "🦊" },
-    { id: "cipher", name: "Cipher", species: "Data Serpent", flavor: "A snake composed of moving data streams.", personality: "Calculating", bonus: "+5% puzzle solve speed", color: "#a855f7", emoji: "🐍" },
-    { id: "echo", name: "Echo", species: "Temporal Kitten", flavor: "Exists slightly out of sync with time.", personality: "Ancient, wise", bonus: "+5% lore discovery", color: "#10b981", emoji: "🐈" },
-    { id: "glyph", name: "Glyph", species: "Text Moth", flavor: "A moth whose wings display living words.", personality: "Beautiful, dangerous", bonus: "+5% crafting success", color: "#6366f1", emoji: "🦋" },
+  default: [
+    { id: "lux", name: "Lux", species: "Holographic Fox", flavor: "A creature of pure light given form.", personality: "Curious, playful", bonus: "+5% XP gain", color: "#22d3ee", portrait: "/art/specimens/lux-fragment.png" },
+    { id: "cipher", name: "Cipher", species: "Data Serpent", flavor: "A snake composed of moving data streams.", personality: "Calculating", bonus: "+5% puzzle solve speed", color: "#a855f7", portrait: "/art/specimens/cipher-fragment.png" },
+    { id: "echo", name: "Echo", species: "Temporal Kitten", flavor: "Exists slightly out of sync with time.", personality: "Ancient, wise", bonus: "+5% lore discovery", color: "#10b981", portrait: "/art/specimens/echo-fragment.png" },
   ],
 };
 
@@ -66,7 +65,7 @@ export default function CompanionSelectionScene({ species, onComplete }: Props) 
   const [isTyping, setIsTyping] = useState(true);
   const [selected, setSelected] = useState<CompanionOption | null>(null);
 
-  const options = COMPANION_OPTIONS[species] || COMPANION_OPTIONS.neyon;
+  const options = COMPANION_OPTIONS[species] || COMPANION_OPTIONS.default;
 
   // Typewriter for intro
   useEffect(() => {
@@ -161,49 +160,76 @@ export default function CompanionSelectionScene({ species, onComplete }: Props) 
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          className="relative h-full flex flex-col items-center justify-center p-4"
+          className="relative h-full flex flex-col items-center justify-center p-4 sm:p-6"
         >
-          <div className="text-center mb-8">
+          <div className="text-center mb-6 sm:mb-10">
             <p className="font-mono text-[9px] text-white/30 tracking-[0.3em] mb-2">CHOOSE YOUR COMPANION</p>
-            <h2 className="font-display text-xl sm:text-2xl font-bold text-cyan-400 mb-1">Three chose you.</h2>
-            <p className="font-mono text-xs text-white/50">Choose one back.</p>
+            <h2 className="font-display text-2xl sm:text-3xl font-bold text-cyan-400 mb-1">Three chose you.</h2>
+            <p className="font-mono text-xs text-white/40">Choose one back.</p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 max-w-3xl w-full">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 max-w-4xl w-full">
             {options.slice(0, 3).map((option, i) => (
               <motion.button
                 key={option.id}
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.2 }}
+                transition={{ delay: 0.3 + i * 0.2, type: "spring", damping: 20 }}
                 onClick={() => handleSelect(option)}
-                whileHover={{ scale: 1.03, y: -4 }}
-                className="group p-4 rounded-xl border transition-all text-left"
+                whileHover={{ scale: 1.04, y: -8 }}
+                whileTap={{ scale: 0.98 }}
+                className="group relative rounded-2xl overflow-hidden transition-all cursor-pointer"
                 style={{
-                  background: `linear-gradient(135deg, ${option.color}08 0%, rgba(0,0,0,0.6) 100%)`,
-                  borderColor: `${option.color}30`,
-                  boxShadow: `0 0 30px ${option.color}10`,
+                  boxShadow: `0 0 40px ${option.color}15, 0 0 80px ${option.color}08`,
                 }}
               >
-                <div className="text-5xl mb-3 text-center animate-pulse" style={{ filter: `drop-shadow(0 0 12px ${option.color}80)` }}>
-                  {option.emoji}
-                </div>
-                <h3 className="font-display text-lg font-bold mb-1 text-center" style={{ color: option.color }}>
-                  {option.name}
-                </h3>
-                <p className="font-mono text-[9px] text-white/40 tracking-wider text-center mb-3">
-                  {option.species.toUpperCase()}
-                </p>
-                <p className="font-mono text-[10px] text-white/70 leading-relaxed mb-3 min-h-[48px]">
-                  {option.flavor}
-                </p>
-                <div className="space-y-1">
-                  <p className="font-mono text-[8px] text-white/30">Personality: <span className="text-white/50">{option.personality}</span></p>
-                  <p className="font-mono text-[8px]" style={{ color: `${option.color}CC` }}>{option.bonus}</p>
-                </div>
-                <div className="mt-3 flex items-center justify-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                  <span className="font-mono text-[9px]" style={{ color: option.color }}>CHOOSE</span>
-                  <ChevronRight size={10} style={{ color: option.color }} />
+                {/* Portrait image — hero showcase */}
+                <div className="relative aspect-[3/4] overflow-hidden">
+                  <img
+                    src={option.portrait}
+                    alt={option.name}
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  />
+                  {/* Gradient overlay — bottom fade for text */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
+                  {/* Side glow on hover */}
+                  <div
+                    className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                    style={{ boxShadow: `inset 0 0 60px ${option.color}30` }}
+                  />
+                  {/* Energy ring border */}
+                  <div
+                    className="absolute inset-0 rounded-2xl border-2 opacity-30 group-hover:opacity-80 transition-opacity duration-300"
+                    style={{ borderColor: option.color }}
+                  />
+
+                  {/* Name + info overlay at bottom */}
+                  <div className="absolute bottom-0 left-0 right-0 p-4">
+                    <h3 className="font-display text-2xl font-black tracking-wide mb-0.5" style={{ color: option.color, textShadow: `0 0 20px ${option.color}80` }}>
+                      {option.name}
+                    </h3>
+                    <p className="font-mono text-[9px] tracking-[0.2em] mb-3" style={{ color: `${option.color}99` }}>
+                      {option.species.toUpperCase()}
+                    </p>
+                    <p className="font-mono text-[10px] text-white/70 leading-relaxed mb-3">
+                      {option.flavor}
+                    </p>
+                    <div className="flex items-center justify-between">
+                      <p className="font-mono text-[8px] text-white/40">
+                        {option.personality}
+                      </p>
+                      <p className="font-mono text-[9px] font-bold" style={{ color: option.color }}>
+                        {option.bonus}
+                      </p>
+                    </div>
+
+                    {/* Choose prompt */}
+                    <div className="mt-3 flex items-center justify-center gap-1.5 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-2 group-hover:translate-y-0">
+                      <div className="px-4 py-1.5 rounded-full border font-mono text-[10px] tracking-[0.2em]" style={{ borderColor: `${option.color}60`, color: option.color, background: `${option.color}15` }}>
+                        CHOOSE {option.name.toUpperCase()}
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </motion.button>
             ))}
@@ -216,38 +242,67 @@ export default function CompanionSelectionScene({ species, onComplete }: Props) 
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          className="relative h-full flex items-center justify-center p-6"
+          className="relative h-full flex items-center justify-center p-6 overflow-hidden"
         >
-          <div className="text-center">
+          {/* Full-screen portrait background — blurred and dimmed */}
+          <motion.img
+            src={selected.portrait}
+            alt=""
+            initial={{ scale: 1.2, opacity: 0 }}
+            animate={{ scale: 1, opacity: 0.3 }}
+            transition={{ duration: 2 }}
+            className="absolute inset-0 w-full h-full object-cover"
+            style={{ filter: "blur(30px) saturate(1.5)" }}
+          />
+          <div className="absolute inset-0 bg-black/60" />
+
+          <div className="relative text-center z-10">
+            {/* Portrait circle reveal */}
             <motion.div
-              initial={{ scale: 0, rotate: -180 }}
-              animate={{ scale: 1, rotate: 0 }}
-              transition={{ type: "spring", damping: 12 }}
-              className="text-8xl mb-6"
-              style={{ filter: `drop-shadow(0 0 40px ${selected.color})` }}
+              initial={{ scale: 0, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ type: "spring", damping: 15, delay: 0.2 }}
+              className="w-40 h-40 sm:w-52 sm:h-52 rounded-full overflow-hidden mx-auto mb-6 border-2"
+              style={{
+                borderColor: selected.color,
+                boxShadow: `0 0 40px ${selected.color}60, 0 0 80px ${selected.color}30, inset 0 0 30px ${selected.color}20`,
+              }}
             >
-              {selected.emoji}
+              <img src={selected.portrait} alt={selected.name} className="w-full h-full object-cover" />
             </motion.div>
+
+            {/* Pulsing energy ring */}
+            <motion.div
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: [1, 1.1, 1], opacity: [0.6, 0.3, 0.6] }}
+              transition={{ duration: 2, repeat: Infinity }}
+              className="absolute top-0 left-1/2 -translate-x-1/2 w-44 h-44 sm:w-56 sm:h-56 rounded-full border"
+              style={{ borderColor: `${selected.color}30` }}
+            />
+
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5 }}
+              transition={{ delay: 0.8 }}
             >
-              <p className="font-mono text-[10px] text-white/30 tracking-[0.3em] mb-2">BOND FORGED</p>
-              <h2 className="font-display text-3xl font-bold mb-2" style={{ color: selected.color }}>
+              <p className="font-mono text-[10px] text-white/40 tracking-[0.4em] mb-2">BOND FORGED</p>
+              <h2 className="font-display text-4xl sm:text-5xl font-black mb-2" style={{ color: selected.color, textShadow: `0 0 30px ${selected.color}80` }}>
                 {selected.name}
               </h2>
-              <p className="font-mono text-sm text-white/60 italic">
-                "{selected.personality}"
+              <p className="font-mono text-[10px] tracking-[0.2em] mb-1" style={{ color: `${selected.color}99` }}>
+                {selected.species.toUpperCase()}
+              </p>
+              <p className="font-mono text-sm text-white/60 italic mt-3">
+                &ldquo;{selected.personality}&rdquo;
               </p>
             </motion.div>
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 2 }}
+              transition={{ delay: 2.5 }}
               className="mt-8"
             >
-              <p className="font-mono text-xs text-cyan-400/70">The Ark awaits, Operative.</p>
+              <p className="font-mono text-xs text-cyan-400/60 tracking-[0.15em]">The Ark awaits, Operative.</p>
             </motion.div>
           </div>
         </motion.div>
