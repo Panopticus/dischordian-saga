@@ -693,7 +693,7 @@ export const ARENAS: ArenaData[] = [
     bgGradient: "linear-gradient(180deg, #1a0a00 0%, #3d1a00 40%, #5a2a00 70%, #1a0a00 100%)",
     floorColor: "#431407",
     ambientColor: "#f97316",
-    backgroundImage: "/art/arenas/arena-the-crucible.jpg",
+    backgroundImage: "https://res.cloudinary.com/dsenaozjq/image/upload/v1775505865/arena-the-crucible_nfnujk.jpg",
   },
   {
     id: "blood-weave",
@@ -701,7 +701,7 @@ export const ARENAS: ArenaData[] = [
     bgGradient: "linear-gradient(180deg, #1a0000 0%, #330000 30%, #4d0000 50%, #660000 70%, #1a0000 100%)",
     floorColor: "#2d0000",
     ambientColor: "#dc2626",
-    backgroundImage: "/art/arenas/arena-the-blood-weave.jpg",
+    backgroundImage: "https://res.cloudinary.com/dsenaozjq/image/upload/v1775505882/arena-the-blood-weave_mnyxzj.jpg",
   },
   {
     id: "shadow-sanctum",
@@ -709,7 +709,7 @@ export const ARENAS: ArenaData[] = [
     bgGradient: "linear-gradient(180deg, #0a0014 0%, #1a0033 30%, #2a004d 50%, #1a0033 70%, #0a0014 100%)",
     floorColor: "#1a0033",
     ambientColor: "#7c3aed",
-    backgroundImage: "/art/arenas/arena-shadow-sanctum.jpg",
+    backgroundImage: "https://res.cloudinary.com/dsenaozjq/image/upload/v1775505865/arena-the-crucible_nfnujk.jpg",
   },
 ];
 
