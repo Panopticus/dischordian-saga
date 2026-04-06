@@ -130,17 +130,17 @@ describe("Demon Fighters in Game Data", () => {
     }
   });
 
-  it("should have the Digital Void arena for demon fights", async () => {
+  it("should have the Blood Weave arena for demon fights", async () => {
     const { ARENAS } = await import("../client/src/game/gameData");
-    const voidArena = ARENAS.find((a) => a.id === "void");
-    expect(voidArena).toBeDefined();
-    expect(voidArena!.name).toBe("The Digital Void");
+    const bloodWeave = ARENAS.find((a) => a.id === "blood-weave");
+    expect(bloodWeave).toBeDefined();
+    expect(bloodWeave!.name).toBe("The Blood Weave");
   });
 
-  it("should have the Old Babylon arena", async () => {
+  it("should have the Shadow Sanctum arena", async () => {
     const { ARENAS } = await import("../client/src/game/gameData");
-    const babylon = ARENAS.find((a) => a.id === "babylon");
-    expect(babylon).toBeDefined();
+    const shadowSanctum = ARENAS.find((a) => a.id === "shadow-sanctum");
+    expect(shadowSanctum).toBeDefined();
   });
 
   it("demon fighter names should use lore-accurate apostrophe format", async () => {

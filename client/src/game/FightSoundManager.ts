@@ -17,9 +17,9 @@ const ARENA_MUSIC: Record<string, { youtubeId: string; title: string }> = {
   "thaloria": { youtubeId: "Q6y2hrJumpQ", title: "Planet of the Wolf" },
   "terminus": { youtubeId: "Z6S-fGbZJJs", title: "Theft of All Time" },
   "mechronis": { youtubeId: "orDK07SbFFw", title: "Building the Architect" },
-  "necropolis": { youtubeId: "NamG72iwV3Y", title: "I Love War" },
-  "void": { youtubeId: "DsxATNW2GVM", title: "Welcome to Celebration" },
-  "babylon": { youtubeId: "VtYDgt4CG3k", title: "Ocularum" },
+  "crucible": { youtubeId: "NamG72iwV3Y", title: "I Love War" },
+  "blood-weave": { youtubeId: "DsxATNW2GVM", title: "Welcome to Celebration" },
+  "shadow-sanctum": { youtubeId: "VtYDgt4CG3k", title: "Ocularum" },
 };
 
 export class FightSoundManager {

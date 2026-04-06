@@ -425,7 +425,7 @@ export const STORY_CHAPTERS: StoryChapter[] = [
     title: "THE GAUNTLET",
     subtitle: "A corrupted Potential awaits in the Crucible",
     opponentId: "host",
-    arenaId: "necropolis",
+    arenaId: "crucible",
     difficulty: "easy",
     unlocksFighter: "host",
     cutsceneVideoUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/host-cutscene_8eab68f5.mp4",
@@ -454,7 +454,7 @@ export const STORY_CHAPTERS: StoryChapter[] = [
     title: "THE WHISPERER",
     subtitle: "Dark truths echo through the arena corridors",
     opponentId: "shadow-tongue",
-    arenaId: "babylon",
+    arenaId: "shadow-sanctum",
     difficulty: "easy",
     unlocksFighter: "shadow-tongue",
     cutsceneVideoUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/shadow-tongue-cutscene_05e906fb.mp4",
@@ -531,7 +531,7 @@ export const STORY_CHAPTERS: StoryChapter[] = [
     title: "DEAD CODE RISING",
     subtitle: "The Necromancer tests the rising champion with armies of the undead",
     opponentId: "necromancer",
-    arenaId: "void",
+    arenaId: "blood-weave",
     difficulty: "normal",
     unlocksFighter: "necromancer",
     preDialogue: [
@@ -632,7 +632,7 @@ export const STORY_CHAPTERS: StoryChapter[] = [
     title: "THE GAME MASTER'S GAMBIT",
     subtitle: "Reality itself becomes the opponent as the rules change mid-fight",
     opponentId: "game-master",
-    arenaId: "babylon",
+    arenaId: "shadow-sanctum",
     difficulty: "hard",
     unlocksFighter: "game-master",
     preDialogue: [
@@ -754,7 +754,7 @@ export const BONUS_CHAPTERS: StoryChapter[] = [
     title: "THE VIRAL SONG",
     subtitle: "The Source returns to claim what she once loved",
     opponentId: "source",
-    arenaId: "babylon",
+    arenaId: "shadow-sanctum",
     difficulty: "hard",
     unlocksFighter: "source",
     preDialogue: [
@@ -805,7 +805,7 @@ export const BONUS_CHAPTERS: StoryChapter[] = [
     title: "THE OPERATIVE'S CODE",
     subtitle: "Agent Zero tests the Oracle's readiness for the Insurgency",
     opponentId: "agent-zero",
-    arenaId: "babylon",
+    arenaId: "shadow-sanctum",
     difficulty: "normal",
     unlocksFighter: "agent-zero",
     preDialogue: [
@@ -830,7 +830,7 @@ export const BONUS_CHAPTERS: StoryChapter[] = [
     title: "THE IMPOSSIBLE MACHINE",
     subtitle: "The Engineer offers a weapon — if you can handle the price",
     opponentId: "engineer",
-    arenaId: "necropolis",
+    arenaId: "crucible",
     difficulty: "normal",
     unlocksFighter: "engineer",
     preDialogue: [

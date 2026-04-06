@@ -103,7 +103,7 @@ describe("FightSoundManager", () => {
   it("has arena music tracks for core arenas", async () => {
     const { FightSoundManager } = await import("../client/src/game/FightSoundManager");
     // Only test the 8 core arenas that were originally designed with music
-    const coreArenaIds = ["new-babylon", "panopticon", "thaloria", "terminus", "mechronis", "necropolis", "void", "babylon"];
+    const coreArenaIds = ["new-babylon", "panopticon", "thaloria", "terminus", "mechronis", "crucible", "blood-weave", "shadow-sanctum"];
     for (const arenaId of coreArenaIds) {
       const manager = new FightSoundManager(arenaId);
       const track = manager.getArenaTrack();
@@ -155,7 +155,7 @@ describe("ArenaData Interface", () => {
   it("arena IDs include all expected arenas", () => {
     const expectedCoreIds = [
       "new-babylon", "panopticon", "thaloria", "terminus",
-      "mechronis", "necropolis", "void", "babylon"
+      "mechronis", "crucible", "blood-weave", "shadow-sanctum"
     ];
     const actualIds = ARENAS.map(a => a.id);
     for (const id of expectedCoreIds) {
