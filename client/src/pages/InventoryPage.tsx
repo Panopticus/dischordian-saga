@@ -118,7 +118,7 @@ function OverviewTab() {
   return (
     <div className="space-y-6">
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-        <div className="p-4 rounded-lg bg-card/30 border border-border/20">
+        <div className="p-4 void-surface">
           <Sparkles size={18} className="text-cyan-400 mb-2" />
           <p className="font-display text-2xl font-bold">{summary?.cards || 0}</p>
           <p className="font-mono text-[10px] text-muted-foreground tracking-wider">TOTAL CARDS</p>
@@ -136,7 +136,7 @@ function OverviewTab() {
       </div>
 
       {/* Disenchant Values Reference */}
-      <div className="p-4 rounded-lg bg-card/30 border border-border/20">
+      <div className="p-4 void-surface">
         <h3 className="font-display text-xs font-bold tracking-[0.2em] text-muted-foreground mb-3 flex items-center gap-2">
           <Flame size={13} className="text-destructive" /> DISENCHANT VALUES
         </h3>
@@ -187,7 +187,7 @@ function CardsTab() {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: i * 0.02 }}
-            className="p-3 rounded-lg bg-card/30 border border-border/20 hover:border-primary/20 transition-all"
+            className="p-3 void-surface hover:border-primary/20 transition-all"
           >
             <p className="font-mono text-xs font-semibold truncate">{card.cardId}</p>
             <div className="flex items-center justify-between mt-1">
@@ -220,7 +220,7 @@ function DisenchantTab() {
 
   return (
     <div className="space-y-6">
-      <div className="p-4 rounded-lg bg-card/30 border border-border/20">
+      <div className="p-4 void-surface">
         <h3 className="font-display text-xs font-bold tracking-[0.2em] text-muted-foreground mb-3 flex items-center gap-2">
           <Flame size={13} className="text-destructive" /> DISENCHANT OVERVIEW
         </h3>

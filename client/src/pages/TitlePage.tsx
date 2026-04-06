@@ -5,6 +5,7 @@
  */
 import { useEffect, useState } from "react";
 import { getLoginUrl } from "@/const";
+import { KineticText } from "@/components/void";
 
 export default function TitlePage() {
   const [glitchText, setGlitchText] = useState(false);
@@ -112,7 +113,7 @@ export default function TitlePage() {
             opacity: 0.5,
           }}
         >
-          {'>'} INTERCEPTING SIGNAL... CLEARANCE: UNAUTHORIZED {'<'}
+          <KineticText text="> INTERCEPTING SIGNAL... CLEARANCE: UNAUTHORIZED <" mode="decode" speed={30} showCursor={false} />
         </div>
 
         {/* Main title */}

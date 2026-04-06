@@ -270,7 +270,7 @@ export default function StorePage() {
           {filteredProducts.map((product) => (
             <div
               key={product.key}
-              className="rounded-lg border border-border/30 bg-card/30 p-4 hover:border-primary/30 transition-all group"
+              className="void-surface p-4 group"
             >
               <div className="flex items-start justify-between mb-2">
                 <h3 className="font-display text-sm font-bold text-foreground group-hover:text-primary transition-colors">

@@ -99,11 +99,12 @@ export default function AppShell({ children, elaraTTS: _elaraTTS }: { children: 
 
       {/* ═══ MINIMAL HEADER — Only shows Ark identity + notifications ═══ */}
       {!isImmersive && (
-        <header className="fixed top-0 left-0 right-0 z-50 h-10 flex items-center justify-between px-4"
+        <header className="fixed top-0 left-0 right-0 z-50 h-10 flex items-center justify-between px-4 void-surface"
           style={{
-            background: "linear-gradient(180deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 100%)",
-            backdropFilter: "blur(12px)",
-            borderBottom: "1px solid rgba(255,255,255,0.05)",
+            borderRadius: 0,
+            borderLeft: "none",
+            borderRight: "none",
+            borderTop: "none",
           }}>
           {/* Ship identity */}
           <Link href="/ark" className="flex items-center gap-2 group">
@@ -130,11 +131,12 @@ export default function AppShell({ children, elaraTTS: _elaraTTS }: { children: 
       {/* ═══ BOTTOM NAV BAR — The only persistent navigation ═══ */}
       {!isImmersive && (
         <nav
-          className="fixed bottom-0 left-0 right-0 z-[49] safe-area-bottom"
+          className="fixed bottom-0 left-0 right-0 z-[49] safe-area-bottom void-surface"
           style={{
-            background: "linear-gradient(0deg, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.85) 100%)",
-            borderTop: "1px solid rgba(255,255,255,0.06)",
-            backdropFilter: "blur(20px)",
+            borderRadius: 0,
+            borderLeft: "none",
+            borderRight: "none",
+            borderBottom: "none",
           }}
         >
           <div className="flex items-center justify-around h-14 max-w-md mx-auto px-2">

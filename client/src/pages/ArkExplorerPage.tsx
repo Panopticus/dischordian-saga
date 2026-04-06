@@ -1578,7 +1578,7 @@ export default function ArkExplorerPage() {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5, duration: 0.4 }}
-              className="max-w-xl w-full mx-4 rounded-lg border border-[var(--neon-cyan)]/30 bg-background/90 p-5 cursor-pointer"
+              className="max-w-xl w-full mx-4 void-elevated p-5 cursor-pointer"
               style={{ boxShadow: "0 0 30px rgba(51,226,230,0.1)" }}
             >
               <div className="flex items-center gap-2 mb-3">

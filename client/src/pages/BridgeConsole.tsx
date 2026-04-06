@@ -38,7 +38,7 @@ function NPCSignalCard({ npcId, trust }: { npcId: string; trust: number }) {
   return (
     <Link href="/ark">
       <div
-        className="flex items-center gap-3 p-3 rounded-lg border transition-all hover:brightness-110 cursor-pointer"
+        className="flex items-center gap-3 p-3 void-surface transition-all hover:brightness-110 cursor-pointer"
         style={{
           borderColor: `${npc.color}20`,
           background: `${npc.color}05`,
@@ -77,7 +77,7 @@ function EventCard({ event, accent }: { event: RoomEvent; accent: string }) {
 
   return (
     <Link href="/ark">
-      <div className="p-3 rounded-lg border border-white/8 bg-white/[0.02] hover:bg-white/[0.04] transition-all cursor-pointer group">
+      <div className="p-3 void-surface hover:bg-white/[0.04] cursor-pointer group">
         <div className="flex items-start gap-3">
           <div className="w-8 h-8 rounded-md flex items-center justify-center shrink-0"
             style={{ background: `${accent}10`, border: `1px solid ${accent}25` }}>

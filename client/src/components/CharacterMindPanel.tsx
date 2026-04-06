@@ -228,7 +228,8 @@ function VoicesTab({ skills }: { skills: Record<SkillId, number> }) {
             return (
               <div
                 key={id}
-                className={`px-2 py-1.5 rounded border ${isActive ? "border-purple-500/40 bg-purple-500/5" : "border-border/20"}`}
+                className={`px-2 py-1.5 void-surface ${isActive ? "void-tile-active" : ""}`}
+                data-narrative={isActive ? "whisper" : undefined}
                 title={`${mentor.archonName} — ${mentor.discipline}`}
                 data-testid={`archon-voice-${id}`}
               >
