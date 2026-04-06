@@ -174,7 +174,7 @@ export default function TitlePage() {
               marginTop: "0.5rem",
             }}
           >
-            A TRANSMEDIA EXPERIENCE FROM THE FALL OF REALITY
+            A MULTIMEDIA EXPERIENCE FROM THE FALL OF REALITY
           </p>
         </div>
 
