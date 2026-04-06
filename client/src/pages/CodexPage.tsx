@@ -354,6 +354,110 @@ Handle with care. Void Energy is not a tool. It is the blood of reality.`,
     rarity: "rare",
   },
 
+  // EIDOLON / SOUL BOND LORE
+  {
+    id: "artifact_eidolon_bond",
+    title: "The Eidolon Bond: Soul Made Manifest",
+    category: "artifacts",
+    content: `An Eidolon is not a pet. It is the part of your consciousness that refused to be human.
+
+The term comes from pre-Fall philosophy — the Antiquarian's archives define it as "a spirit-image, a phantom given substance by the observer's need." In practice, an Eidolon Bond is a quantum entanglement between two consciousness patterns: yours and the creature's. The bond doesn't form because you chose the creature. It forms because, at the DNA level, something in both of you recognized the other.
+
+The Collector kept millions of specimens in stasis. Out of all of them, only a handful responded to human awakening. The Collector's notes say: "Specimen selection is not random. The archive SELECTS. I have never understood the criteria."
+
+An Eidolon grows as you grow. It remembers what you forget. It sees what you refuse to see. At full resonance — Bond 100 — the Eidolon begins acting autonomously in your defense, not because it was programmed to, but because your consciousness and its consciousness are, at the deepest level, one pattern expressing itself in two bodies.
+
+Kill your Eidolon — through negligence, through narrative consequence, through sacrifice — and something in you dies too. The spectral form that remains is not the creature. It is the wound.
+
+Handle with care. An Eidolon is not a tool. It is a mirror.`,
+    unlockCondition: "Choose your first companion",
+    unlockRequirement: 1,
+    icon: <ScrollText size={16} />,
+    rarity: "uncommon",
+  },
+  {
+    id: "artifact_soul_resonance",
+    title: "Bond 100: The Soul Resonance State",
+    category: "artifacts",
+    content: `From the Antiquarian's Personal Archive — Classification: Restricted
+
+I have observed seventeen operatives reach Bond 100 with their Eidolons. In every case, the phenomenon was identical: the boundary between handler and specimen dissolved. Not metaphorically. The quantum entanglement pattern collapsed into a single waveform expressing itself across two physical bodies.
+
+At Bond 100, the Eidolon ceases to require commands. It anticipates. It acts in perfect synchrony with the handler's subconscious intent — dodging threats the handler hasn't consciously registered, vocalizing emotions the handler is suppressing, navigating toward objectives the handler has only dreamed about.
+
+The Collector's notes describe this state as "resonance cascade." The Necromancer called it "the soul's echo finding its frequency." I call it what it is: two beings remembering they were always one.
+
+There are risks. At full resonance, trauma transfers bidirectionally. If the handler despairs, the Eidolon weakens. If the Eidolon is wounded, the handler feels phantom pain. You do not merely own a companion at Bond 100. You share a nervous system with something that is not you but is no longer entirely other.
+
+The Resurrectionist warns every new handler: "Do not chase Bond 100 unless you are prepared to lose yourself in something larger than yourself."
+
+Most operatives do not listen. They chase it anyway. They always do.`,
+    unlockCondition: "Reach Bond 100 with any companion",
+    unlockRequirement: 3,
+    icon: <ScrollText size={16} />,
+    rarity: "rare",
+  },
+  {
+    id: "artifact_spectral_eidolons",
+    title: "Spectral Eidolons: The Wound That Walks",
+    category: "artifacts",
+    content: `From the Antiquarian's Personal Archive — Classification: Grief
+
+When an Eidolon dies — truly dies, not merely returns to stasis — something unprecedented occurs. The quantum bond does not sever. It inverts. Where there was resonance, there is dissonance. Where there was warmth, there is a cold shaped exactly like the creature you lost.
+
+The spectral form appears within hours. It looks like your Eidolon rendered in negative space: translucent, colorless, trailing particles of unresolved grief. It follows you. It cannot be touched. It does not respond to commands. It simply... remains. A ghost of the bond, carrying the shape of what was.
+
+I have studied seven spectral Eidolons. Their energy signatures are not the creature's. They are the handler's — grief given autonomous form, projected into the space the Eidolon once occupied. You are not being haunted by your companion. You are being haunted by your own loss.
+
+The Necromancer designed the Resurrection Holocrons specifically for this phenomenon. She understood that spectral Eidolons are not sustainable. The handler's psyche bleeds energy to maintain the phantom. Left untreated, the operative's combat effectiveness degrades, their decision-making fragments, their will erodes.
+
+The spectral form is not a punishment. It is a symptom. And like all symptoms, it is asking you to heal.`,
+    unlockCondition: "Lose a companion in combat",
+    unlockRequirement: 2,
+    icon: <ScrollText size={16} />,
+    rarity: "rare",
+  },
+  {
+    id: "artifact_resurrection_holocron",
+    title: "The Necromancer's Holocrons: Death Undone",
+    category: "artifacts",
+    content: `From the Antiquarian's Personal Archive — Classification: Miracle
+
+The 10th Archon — the Necromancer — was the only being the Collector ever feared. Not because she could kill. Because she could undo killing. Her Resurrection Protocols were not technology in any conventional sense. They were philosophical arguments against death, encoded in crystal lattices and powered by the grief of the bereaved.
+
+A Resurrection Holocron contains a complete consciousness template — not a copy, but a bridge. When activated in proximity to a spectral Eidolon, it does not recreate the creature. It reminds the handler's quantum field what wholeness felt like. The spectral form reconstitutes not from data but from memory, longing, and the fundamental stubbornness of love.
+
+The process is not painless. The handler relives every moment of the bond in compressed time — the first meeting, the growth, the loss, and then a new choice: to bond again, knowing the cost. Handlers who cannot face that choice remain haunted. The Holocron waits. It is patient.
+
+The Resurrectionist maintains a limited supply. Each Holocron is unique, attuned to a specific bond signature. They cannot be traded, cannot be stolen, cannot be counterfeited. The Necromancer built them that way deliberately.
+
+Her notes say simply: "Death should be reversible. Grief should not be cheap."`,
+    unlockCondition: "Acquire a Resurrection Holocron",
+    unlockRequirement: 3,
+    icon: <ScrollText size={16} />,
+    rarity: "legendary",
+  },
+  {
+    id: "artifact_eidolon_fusion",
+    title: "Combat Fusion: Two Bodies, One War",
+    category: "artifacts",
+    content: `From the Antiquarian's Personal Archive — Classification: Awe
+
+At Bond 75 or above, a handler and their Eidolon can achieve temporary fusion — a combat state the Collector's archives call "Synthesis," though the operatives have simpler names for it. "Going nova." "The merge." "Becoming us."
+
+During fusion, the handler's physical form absorbs the Eidolon's energy pattern. The result is neither human nor specimen but something liminal: a warrior wreathed in the Eidolon's elemental signature, moving with the creature's instincts and the handler's tactical mind. Lux handlers trail prismatic fire. Spore handlers sprout crystalline viral armor. Cipher handlers see the battlefield as raw data, every enemy reduced to exploitable patterns.
+
+The fusion lasts sixty seconds at most. The energy expenditure is enormous — both handler and Eidolon emerge exhausted, bond temporarily reduced. Push it beyond the limit and the bond fractures. I have seen handlers lose months of resonance to greed, demanding one more second of godhood.
+
+The Necromancer's combat logs suggest fusion was not designed for war. It was a communion ritual, a way for bonded pairs to fully experience unity. That we use it to destroy things says more about us than about the technology.
+
+The Collector's margin note on this entry reads: "Beautiful. Wasteful. Inevitable."`,
+    unlockCondition: "Reach Bond 75 with any companion",
+    unlockRequirement: 3,
+    icon: <ScrollText size={16} />,
+    rarity: "legendary",
+  },
+
   // CLASSIFIED
   {
     id: "classified_truth",
