@@ -14,6 +14,7 @@ import { hapticMediumHit, hapticHeavyHit, hapticBlock, hapticSP1, hapticSP2, hap
 import TrainingModeOverlay from "./TrainingModeOverlay";
 import FighterIntroOverlay from "./FighterIntroOverlay";
 import { useSagaThemeBGM } from "@/contexts/SagaThemeBGMContext";
+import { getAtmosphereForRoom, applyThemeToDOM } from "@/engine/voidEngine";
 
 /* ═══ PROPS ═══ */
 interface FightArena2DProps {
@@ -227,6 +228,14 @@ export default function FightArena2D({
       engine.loadBackgroundImage(arena.backgroundImage);
     }
 
+    // Push arena-specific Void Energy atmosphere
+    const arenaRoomKey = `arena_${arena.id.replace(/-/g, "_")}`;
+    const arenaAtmosphere = getAtmosphereForRoom(arenaRoomKey);
+    const prevAtmosphere = document.documentElement.dataset.atmosphere;
+    if (arenaAtmosphere) {
+      applyThemeToDOM(arenaAtmosphere);
+    }
+
     // Enable hitbox display by default in training mode
     if (trainingMode) {
       engine.setShowHitboxes(true);
@@ -238,6 +247,10 @@ export default function FightArena2D({
     return () => {
       engine.destroy();
       engineRef.current = null;
+      // Restore previous atmosphere when leaving fight
+      if (prevAtmosphere) {
+        applyThemeToDOM(prevAtmosphere);
+      }
     };
   }, [player, opponent, arena, difficulty, callbacks, trainingMode]);
 

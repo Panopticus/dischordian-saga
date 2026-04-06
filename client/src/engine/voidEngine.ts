@@ -164,6 +164,30 @@ const ROOM_ATMOSPHERES: Record<string, string> = {
   violetta: "aurora_bloom",                // Voltari purple-storm planet
   necromancer_sanctum: "singularity_core", // dead-frequency chamber
   the_between: "ascendant_light",          // Ne-Yon liminal space
+
+  // ── Collector's Arena — per arena void atmosphere ──
+  arena_new_babylon: "circuit_nexus",       // corrupt trade city, electric purple
+  arena_panopticon: "singularity_core",     // surveillance megastructure, crimson CRT
+  arena_thaloria: "celestial_garden",       // crystal homeworld, ethereal blue
+  arena_terminus: "crimson_forge",          // viral megastructure, blood red
+  arena_mechronis: "verdant_growth",        // dark academy, institutional green
+  arena_crucible: "industrial_accent",      // gladiatorial, gritty orange-gray
+  arena_blood_weave: "crimson_forge",       // organic nightmare, pulsing red
+  arena_shadow_sanctum: "aurora_bloom",     // ancient temple, purple mysticism
+
+  // ── Guild Common Rooms — per guild atmosphere ──
+  guild_the_chorus: "aurora_bloom",         // orchestral, purple-indigo
+  guild_the_eyes: "chrome_sentinel",        // surveillance, cold silver
+  guild_the_archive: "golden_sanctuary",    // curator, warm amber
+  guild_the_between: "aurora_bloom",        // reality-shifting, purple
+  guild_the_influencers: "aurora_bloom",    // trending, pink-purple
+  guild_the_yellow_coats: "industrial_accent", // military, tactical gray
+  guild_the_congress: "circuit_nexus",      // political, purple-neon
+  guild_the_locks: "verdant_growth",        // containment, emerald
+  guild_the_grey_gamers: "twilight_equilibrium", // game design, cyan
+  guild_the_living: "singularity_core",     // resurrection, dark red
+  guild_the_forge: "crimson_forge",         // engineering, hot orange
+  guild_the_architects_study: "chrome_sentinel", // detective, cold stone
 };
 
 export function getAtmosphereForRoom(roomId: string): string | null {
