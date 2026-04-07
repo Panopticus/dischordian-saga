@@ -101,6 +101,131 @@ export const eidolonBondRouter = router({
       };
     }),
 
+  /* ─── FEED SOUL STONE (protected) — Hierarchy/Dreamer evolution ─── */
+  feedSoulStone: protectedProcedure
+    .input(
+      z.object({
+        stoneState: z.enum(["violet", "red", "gold"]),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const db = await getDb();
+      if (!db)
+        throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Database unavailable" });
+
+      const rows = await db
+        .select()
+        .from(eidolonBonds)
+        .where(
+          and(
+            eq(eidolonBonds.userId, ctx.user.id),
+            eq(eidolonBonds.isSoulBound, true),
+          ),
+        )
+        .limit(1);
+
+      const bond = rows[0];
+      if (!bond)
+        throw new TRPCError({ code: "NOT_FOUND", message: "No soul-bound Eidolon found" });
+
+      if (bond.health === "dead")
+        throw new TRPCError({ code: "BAD_REQUEST", message: "Your Eidolon has perished." });
+
+      if (input.stoneState === "red") {
+        const newRedCount = bond.redStonesAbsorbed + 1;
+        const shouldEvolve = newRedCount >= 10 && bond.transformState === "normal";
+
+        await db
+          .update(eidolonBonds)
+          .set({
+            redStonesAbsorbed: newRedCount,
+            xp: sql`${eidolonBonds.xp} + 20`,
+            ...(shouldEvolve
+              ? { transformState: "hierarchy_evolved" as const, rarity: "legendary" as const }
+              : {}),
+          })
+          .where(eq(eidolonBonds.id, bond.id));
+
+        if (shouldEvolve) {
+          return {
+            success: true,
+            evolved: true,
+            transformState: "hierarchy_evolved" as const,
+            newRarity: "legendary" as const,
+            redStonesAbsorbed: newRedCount,
+            narrative: `The stone dissolves into crimson fire. Your Eidolon screams — not in pain, but in recognition. The Hierarchy's mark blazes across its form. When the light fades, it is changed. Larger. Darker. Its eyes burn with foxfire green. The Necromancer watches from the shadows: "Ten souls consumed. The Hierarchy has noticed your pet. They've promoted it. Whether that's a gift or a collar depends on your perspective."`,
+          };
+        }
+
+        return {
+          success: true,
+          evolved: false,
+          transformState: bond.transformState,
+          redStonesAbsorbed: newRedCount,
+          narrative: newRedCount <= 3
+            ? "The red stone sinks into your Eidolon like a drop of blood into water. It shivers. Its eyes flash crimson for a moment. The corruption spreads — slowly, beautifully, like ink in milk."
+            : newRedCount <= 6
+              ? "Another soul consumed. Your Eidolon absorbs the corruption with something that looks disturbingly like hunger. The Hierarchy's mark is growing visible on its form — a faint corporate sigil, burning beneath the skin."
+              : "The stone barely touches your Eidolon before it's absorbed. The hunger is ravenous now. Dark veins trace across its body like circuitry. The Necromancer says nothing, but his glasses glow brighter.",
+        };
+      }
+
+      if (input.stoneState === "gold") {
+        const newGoldCount = bond.goldFragmentsAbsorbed + 1;
+        const shouldAscend = newGoldCount >= 10 && bond.transformState === "normal";
+
+        await db
+          .update(eidolonBonds)
+          .set({
+            goldFragmentsAbsorbed: newGoldCount,
+            xp: sql`${eidolonBonds.xp} + 15`,
+            ...(shouldAscend
+              ? { transformState: "dreamer_evolved" as const, rarity: "mythic" as const }
+              : {}),
+          })
+          .where(eq(eidolonBonds.id, bond.id));
+
+        if (shouldAscend) {
+          return {
+            success: true,
+            evolved: true,
+            transformState: "dreamer_evolved" as const,
+            newRarity: "mythic" as const,
+            goldFragmentsAbsorbed: newGoldCount,
+            narrative: `The golden fragment dissolves into pure light. Your Eidolon rises — not flying, ascending. The Dreamer's resonance fills the room like a chord struck on a cosmic instrument. When the light fades, your companion is transformed. Not larger — luminous. Not darker — radiant. Its form shimmers with golden fractals, and for a moment, you hear a melody. The Antiquarian writes: "The Dreamer's light has found a new vessel. Not a tool. Not a weapon. A song."`,
+          };
+        }
+
+        return {
+          success: true,
+          evolved: false,
+          transformState: bond.transformState,
+          goldFragmentsAbsorbed: newGoldCount,
+          narrative: newGoldCount <= 3
+            ? "The golden fragment dissolves gently into your Eidolon. A soft warmth spreads through its form. For a moment, it glows — not with power, but with something quieter. Something patient."
+            : newGoldCount <= 6
+              ? "Another fragment of purified light joins the others. Your Eidolon's form softens at the edges — not weaker, more refined. Like a rough stone becoming a lens. The Dreamer's frequency hums in its core."
+              : "The light enters without resistance. Your Eidolon has become a vessel for something it was always meant to carry. Golden motes orbit its form like tiny stars. The Antiquarian watches with visible hope.",
+        };
+      }
+
+      // Violet — neutral, minor bond boost
+      await db
+        .update(eidolonBonds)
+        .set({
+          bond: sql`LEAST(${eidolonBonds.bond} + 1, 100)`,
+          xp: sql`${eidolonBonds.xp} + 5`,
+        })
+        .where(eq(eidolonBonds.id, bond.id));
+
+      return {
+        success: true,
+        evolved: false,
+        transformState: bond.transformState,
+        narrative: "The violet stone dissolves into your Eidolon. It absorbs something — but what? The stone's potential was uncommitted. Neither corrupt nor pure. A question without an answer. Your bond deepens by a fraction.",
+      };
+    }),
+
   /* ─── GET MEMORIAL (public) — paginated memorial wall ─── */
   getMemorial: publicProcedure
     .input(

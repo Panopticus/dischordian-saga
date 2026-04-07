@@ -2435,6 +2435,12 @@ export const eidolonBonds = mysqlTable("eidolon_bonds", {
   missionsShared: int("missionsShared").default(0).notNull(),
   questsCompleted: json("questsCompleted").$type<string[]>().default([]),
   moralityDissonance: int("moralityDissonance").default(0).notNull(),
+  /** Soul Stone absorption tracking — Hierarchy path */
+  redStonesAbsorbed: int("redStonesAbsorbed").default(0).notNull(),
+  /** Soul Stone absorption tracking — Dreamer path */
+  goldFragmentsAbsorbed: int("goldFragmentsAbsorbed").default(0).notNull(),
+  /** Eidolon transformation state */
+  transformState: mysqlEnum("transformState", ["normal", "hierarchy_evolved", "dreamer_evolved"]).default("normal").notNull(),
   lastFed: timestamp("lastFed"),
   lastInteraction: timestamp("lastInteraction"),
   boundAt: timestamp("boundAt").defaultNow().notNull(),
