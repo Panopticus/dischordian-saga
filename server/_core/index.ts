@@ -173,6 +173,10 @@ async function startServer() {
   // Chess multiplayer WebSocket
   registerChessMultiplayer(server);
 
+  // Duelyst card game multiplayer WebSocket
+  const { setupDuelystWebSocket } = await import("../duelystWs");
+  setupDuelystWebSocket(server);
+
   server.listen(port, () => {
     console.log(`Server running on http://localhost:${port}/`);
   });

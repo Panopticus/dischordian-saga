@@ -398,4 +398,59 @@ export const eidolonBondRouter = router({
       daysBound,
     };
   }),
+
+  /** Bind a specimen as the player's soul-bound eidolon (first-time setup) */
+  bindSpecimen: protectedProcedure
+    .input(z.object({
+      eidolonId: z.string().min(1).max(64),
+      nickname: z.string().max(64).optional(),
+    }))
+    .mutation(async ({ ctx, input }) => {
+      const db = await getDb();
+      if (!db) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
+
+      // Check if player already has a soul-bound eidolon
+      const [existing] = await db.select().from(eidolonBonds)
+        .where(and(eq(eidolonBonds.userId, ctx.user.id), eq(eidolonBonds.isSoulBound, true)))
+        .limit(1);
+
+      if (existing) {
+        throw new TRPCError({ code: "CONFLICT", message: "You already have a soul-bound eidolon" });
+      }
+
+      await db.insert(eidolonBonds).values({
+        userId: ctx.user.id,
+        eidolonId: input.eidolonId,
+        bond: 10,
+        level: 1,
+        xp: 0,
+        stage: "fragment",
+        rarity: "common",
+        health: "healthy",
+        injury: 0,
+        deathCount: 0,
+        isResonant: false,
+        isSoulBound: true,
+        nickname: input.nickname || null,
+        memories: [],
+        unlockedSkills: [],
+        skillPoints: 0,
+        missionsShared: 0,
+        questsCompleted: [],
+        moralityDissonance: 0,
+        redStonesAbsorbed: 0,
+        goldFragmentsAbsorbed: 0,
+        transformState: "normal",
+      });
+
+      return { success: true, eidolonId: input.eidolonId };
+    }),
+
+  /** Get all eidolons for a player (not just soul-bound) */
+  getMyCollection: protectedProcedure.query(async ({ ctx }) => {
+    const db = await getDb();
+    if (!db) return [];
+    return db.select().from(eidolonBonds)
+      .where(eq(eidolonBonds.userId, ctx.user.id));
+  }),
 });
