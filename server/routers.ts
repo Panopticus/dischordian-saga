@@ -68,6 +68,7 @@ import { tradeEmpireRouter } from "./routers/tradeEmpire";
 import { petBattlesRouter } from "./routers/petBattles";
 import { seedDataRouter } from "./routers/seedData";
 import { analyticsRouter } from "./routers/analytics";
+import { settingsRouter } from "./routers/settings";
 
 export const appRouter = router({
   system: systemRouter,
@@ -132,6 +133,7 @@ export const appRouter = router({
   petBattles: petBattlesRouter,
   seedData: seedDataRouter,
   analytics: analyticsRouter,
+  settings: settingsRouter,
   auth: router({
     me: publicProcedure.query(opts => opts.ctx.user),
     logout: publicProcedure.mutation(({ ctx }) => {

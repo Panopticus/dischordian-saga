@@ -77,7 +77,14 @@ interface LoadingScreenProps {
   minDisplayMs?: number;
 }
 
-export default function LoadingScreen({ context, label }: LoadingScreenProps) {
+export default function LoadingScreen({
+  context,
+  label,
+  skippable = false,
+  onSkip,
+  onComplete,
+  minDisplayMs = 1200,
+}: LoadingScreenProps) {
   const screen = useMemo(() => {
     // Try route-based match
     if (context) {
@@ -93,23 +100,50 @@ export default function LoadingScreen({ context, label }: LoadingScreenProps) {
   }, [context]);
 
   const [flavor, setFlavor] = useState(FLAVOR_TEXT[Math.floor(Math.random() * FLAVOR_TEXT.length)]);
-  const [progress, setProgress] = useState(0);
 
-  // Cycle flavor text
+  // Real progress tracking (falls back to simulated when no tasks registered)
+  const { progress, label: taskLabel, isComplete, isReal } = useLoadingWithFallback();
+
+  // Minimum display time gate — prevents flash-of-loading
+  const [minTimeElapsed, setMinTimeElapsed] = useState(false);
   useEffect(() => {
+    const timer = setTimeout(() => setMinTimeElapsed(true), minDisplayMs);
+    return () => clearTimeout(timer);
+  }, [minDisplayMs]);
+
+  // Fire onComplete when real progress hits 100 and min time has passed
+  useEffect(() => {
+    if (isComplete && minTimeElapsed && onComplete) {
+      onComplete();
+    }
+  }, [isComplete, minTimeElapsed, onComplete]);
+
+  // Skip handler — keyboard (Escape / Space / Enter) and click
+  const handleSkip = useCallback(() => {
+    if (skippable && minTimeElapsed && onSkip) {
+      onSkip();
+    }
+  }, [skippable, minTimeElapsed, onSkip]);
+
+  useEffect(() => {
+    if (!skippable) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape" || e.key === " " || e.key === "Enter") {
+        handleSkip();
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [skippable, handleSkip]);
+
+  // Cycle flavor text — use real task label when available
+  useEffect(() => {
+    if (isReal) return; // real labels come from loadingManager
     const interval = setInterval(() => {
       setFlavor(FLAVOR_TEXT[Math.floor(Math.random() * FLAVOR_TEXT.length)]);
     }, 3000);
     return () => clearInterval(interval);
-  }, []);
-
-  // Fake progress bar
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setProgress(p => Math.min(p + 2 + Math.random() * 5, 95));
-    }, 200);
-    return () => clearInterval(interval);
-  }, []);
+  }, [isReal]);
 
   return (
     <div className="fixed inset-0 z-[100] bg-black flex items-center justify-center overflow-hidden">
@@ -212,13 +246,30 @@ export default function LoadingScreen({ context, label }: LoadingScreenProps) {
           />
         </div>
 
-        {/* Flavor text */}
+        {/* Flavor text / real task label */}
         <p
           className="font-mono text-[10px] tracking-[0.15em] italic"
           style={{ color: `${screen.color}90` }}
         >
-          <KineticText key={flavor} text={flavor} mode="char" speed={20} showCursor={false} />
+          <KineticText
+            key={isReal ? taskLabel : flavor}
+            text={isReal ? taskLabel : flavor}
+            mode="char"
+            speed={20}
+            showCursor={false}
+          />
         </p>
+
+        {/* Skip hint */}
+        {skippable && minTimeElapsed && (
+          <button
+            onClick={handleSkip}
+            className="mt-4 font-mono text-[9px] tracking-[0.2em] uppercase transition-opacity duration-500 opacity-60 hover:opacity-100 cursor-pointer bg-transparent border-none outline-none"
+            style={{ color: screen.color }}
+          >
+            Press ESC or click to skip
+          </button>
+        )}
       </div>
 
       {/* Bottom signal */}
