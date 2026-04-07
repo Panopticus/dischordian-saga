@@ -352,7 +352,7 @@ const POTENTIALS_ACHIEVEMENTS: LoreAchievement[] = [
     gameId: "brushstroke-of-the-empire",
     title: "Reality Painter",
     description: "Complete Brushstroke of the Empire and discover art that reshapes reality.",
-    loreFragment: "The artist's paintings didn't reshape reality — they revealed it. Each brushstroke stripped away a layer of consensus reality, showing what was actually underneath. The Empire wanted this power because their entire civilization was built on a beautiful lie: that the Fall of Reality had been a natural disaster, not a war they had started. General Prometheus knew that if the artist painted the truth, the Empire would dissolve overnight. The Advocate protected the artist not for the art, but for the truth it contained.",
+    loreFragment: "A correction, offered with the firmness the subject demands: the artist's paintings did not reshape reality. They REVEALED it. Each brushstroke stripped away a layer of consensus reality, showing what was actually underneath — which is, I can attest, a deeply uncomfortable experience for anyone invested in the surface. The Empire wanted this power because their entire civilisation was built on a beautiful lie: that the Fall of Reality had been a natural disaster, not a war they had started. General Prometheus knew that if the artist painted the truth, the Empire would dissolve overnight. The Advocate protected the artist not for the art but for the truth it contained. I understand that impulse entirely. It is, in essence, what a good archive does.",
     xpReward: 150,
     cardReward: { name: "Reality Brush", type: "artifact", rarity: "rare" },
     icon: "🎨",
