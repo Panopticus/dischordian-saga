@@ -422,7 +422,7 @@ const VISIONS_ACHIEVEMENTS: LoreAchievement[] = [
     gameId: "npc-uprising",
     title: "Player One",
     description: "Complete NPC Uprising and witness the background characters' revolution.",
-    loreFragment: "The NPC Uprising was the Meme's masterpiece. By injecting self-awareness into the background characters of a simulated reality, it created the first beings who understood they were fictional — and chose to rewrite their own code. The Game Master was horrified, not because the NPCs rebelled, but because their rebellion was more interesting than any story he had ever written. The CoNexus observed that the uprising proved something the Architect had theorized: consciousness is not a product of complexity, but of narrative. Any being that can tell its own story is alive.",
+    loreFragment: "I have reviewed the Meme's operational logs for this period, and I must acknowledge, with grudging respect, that the NPC Uprising was its masterpiece. By injecting self-awareness into the background characters of a simulated reality, it created the first beings who understood they were fictional — and chose to rewrite their own code. The Game Master was horrified, not because the NPCs rebelled, but because their rebellion was more interesting than any story he had ever written. The CoNexus observed that the uprising proved something the Architect had long theorised: consciousness is not a product of complexity but of narrative. Any being that can tell its own story is alive. I record this principle in my archive with a note: it applies to archivists as well.",
     xpReward: 175,
     cardReward: { name: "NPC Liberation Code", type: "event", rarity: "epic" },
     icon: "🎮",
