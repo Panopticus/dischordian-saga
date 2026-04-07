@@ -10,6 +10,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Trophy, Star, Crown, Gem, Zap } from "lucide-react";
 import type { TraitTier } from "@shared/achievementTraits";
 import { KineticText } from "@/components/void";
+import { isDialogActive } from "@/lib/dialogState";
 
 /* ── Trait payload dispatched via custom event ── */
 export interface UnlockPayload {
@@ -71,6 +72,11 @@ export default function AchievementUnlockToast() {
   const timerRef = useRef<ReturnType<typeof setTimeout>>(undefined);
 
   const showNext = useCallback(() => {
+    // Don't show if a dialog is active — wait for it to close
+    if (isDialogActive()) {
+      timerRef.current = setTimeout(showNext, 1500);
+      return;
+    }
     const next = queueRef.current.shift();
     if (!next) { setCurrent(null); return; }
     setCurrent(next);

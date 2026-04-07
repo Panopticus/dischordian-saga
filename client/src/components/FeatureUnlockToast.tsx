@@ -15,6 +15,7 @@ import { useGame } from "@/contexts/GameContext";
 import { FEATURE_ROADMAP, isFeatureUnlocked, FEATURE_CATEGORIES, type FeatureUnlock } from "@shared/featureRoadmap";
 import { Z } from "@/lib/zIndex";
 import { VOID } from "@/engine/voidPresets";
+import { isDialogActive } from "@/lib/dialogState";
 
 const STORAGE_KEY = "feature_unlocks_seen";
 
@@ -57,9 +58,9 @@ export default function FeatureUnlockToast() {
     }
   }, [state.rooms, state.narrativeFlags, state.elaraTrust, state.humanTrust, state.npcTrust, state.claimedQuestRewards]);
 
-  // Show next in queue
+  // Show next in queue (only if no dialog is active)
   useEffect(() => {
-    if (!current && queue.length > 0) {
+    if (!current && queue.length > 0 && !isDialogActive()) {
       setCurrent(queue[0]);
       setQueue(prev => prev.slice(1));
     }

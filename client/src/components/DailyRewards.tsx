@@ -7,6 +7,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Gift, Star, X, Sparkles, Package } from "lucide-react";
 import { DAILY_LOGIN_REWARDS } from "@/game/unifiedEconomy";
 import { trpc } from "@/lib/trpc";
+import { isDialogActive } from "@/lib/dialogState";
 
 interface DailyRewardsProps {
   currentDay: number;    // Which day of the cycle (1-30)
@@ -175,12 +176,33 @@ export function DailyRewardPopup() {
   const awardDream = trpc.citizen.awardDream.useMutation();
 
   useEffect(() => {
-    if (status.available) {
-      // Show after a short delay so it doesn't compete with page load
-      const t = setTimeout(() => setShow(true), 2000);
-      return () => clearTimeout(t);
-    }
+    if (!status.available) return;
+
+    // Wait for page to settle, then check dialog state before showing.
+    // If a dialog (Discovery overlay, Elara, etc.) is active, keep polling.
+    let cancelled = false;
+    const tryShow = () => {
+      if (cancelled) return;
+      if (isDialogActive()) {
+        // Dialog is active — wait and retry
+        setTimeout(tryShow, 2000);
+      } else {
+        setShow(true);
+      }
+    };
+    const t = setTimeout(tryShow, 4000); // 4s initial delay (was 2s)
+    return () => { cancelled = true; clearTimeout(t); };
   }, [status.available]);
+
+  // Also hide if a dialog opens while we're showing
+  useEffect(() => {
+    if (!show) return;
+    const handler = (e: Event) => {
+      if ((e as CustomEvent).detail?.active) setShow(false);
+    };
+    window.addEventListener("dialog-state-change", handler);
+    return () => window.removeEventListener("dialog-state-change", handler);
+  }, [show]);
 
   if (!show) return null;
 

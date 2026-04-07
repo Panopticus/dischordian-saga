@@ -8,6 +8,7 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { VOID } from "@/engine/voidPresets";
 import { FACTION_NPCS, type FactionNPCId } from "@/game/factionNPCs";
+import { isDialogActive } from "@/lib/dialogState";
 
 interface RememberData {
   npcId: FactionNPCId;
@@ -22,6 +23,10 @@ export default function RememberThisToast() {
   const timerRef = useRef<ReturnType<typeof setTimeout>>(undefined);
 
   const showNext = useCallback(() => {
+    if (isDialogActive()) {
+      timerRef.current = setTimeout(showNext, 1500);
+      return;
+    }
     const next = queueRef.current.shift();
     if (!next) { setCurrent(null); return; }
     setCurrent(next);

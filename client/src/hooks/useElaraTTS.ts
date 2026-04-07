@@ -157,13 +157,18 @@ export function useElaraTTS({ enabled, volume, muted }: ElaraTTSOptions): ElaraT
     utterance.pitch = options?.pitch ?? 0.8; // Lower pitch — eerie female AI
     utterance.volume = Math.min(volume * 1.5, 1); // Boost slightly relative to ambient
 
-    utterance.onstart = () => setIsSpeaking(true);
+    utterance.onstart = () => {
+      setIsSpeaking(true);
+      window.dispatchEvent(new Event("vo-start"));
+    };
     utterance.onend = () => {
       setIsSpeaking(false);
+      window.dispatchEvent(new Event("vo-end"));
       options?.onEnd?.();
     };
     utterance.onerror = () => {
       setIsSpeaking(false);
+      window.dispatchEvent(new Event("vo-end"));
       options?.onEnd?.();
     };
 

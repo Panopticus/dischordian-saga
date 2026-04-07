@@ -89,6 +89,16 @@ function ElaraDialogBox({
       : new Audio(voAudioUrl);
     audio.volume = 0.9;
     voAudioRef.current = audio;
+
+    // Duck BGM when VO starts, restore when it ends
+    const handlePlay = () => window.dispatchEvent(new Event("vo-start"));
+    const handleEnded = () => window.dispatchEvent(new Event("vo-end"));
+    const handleError = () => window.dispatchEvent(new Event("vo-end"));
+    audio.addEventListener("play", handlePlay);
+    audio.addEventListener("ended", handleEnded);
+    audio.addEventListener("pause", handleEnded);
+    audio.addEventListener("error", handleError);
+
     // Try to play immediately; if blocked by autoplay policy, retry on next user interaction
     const tryPlay = () => {
       audio.play().catch(() => {
@@ -103,7 +113,15 @@ function ElaraDialogBox({
       });
     };
     tryPlay();
-    return () => { audio.pause(); audio.src = ""; };
+    return () => {
+      audio.removeEventListener("play", handlePlay);
+      audio.removeEventListener("ended", handleEnded);
+      audio.removeEventListener("pause", handleEnded);
+      audio.removeEventListener("error", handleError);
+      window.dispatchEvent(new Event("vo-end"));
+      audio.pause();
+      audio.src = "";
+    };
   }, [voAudioUrl, preloadedAudio]);
 
   return (
@@ -356,10 +374,13 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
     }
   }, [awakeningStep, audioInitialized, playSFX]);
 
-  // Play dialog SFX on each step change + trigger Elara TTS
+  // Play dialog SFX on step change — but skip when VO audio handles the transition
   useEffect(() => {
     if (audioInitialized && awakeningStep !== "BLACKOUT" && awakeningStep !== "COMPLETE") {
-      playSFX("dialog_open");
+      // Don't play dialog_open SFX on steps that have VO audio (it clashes)
+      if (!STEP_VO_AUDIO[awakeningStep]) {
+        playSFX("dialog_open");
+      }
     }
   }, [awakeningStep, audioInitialized, playSFX]);
 

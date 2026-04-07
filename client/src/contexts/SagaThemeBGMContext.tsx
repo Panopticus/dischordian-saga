@@ -35,6 +35,7 @@ const SAGA_THEMES = [
 
 /* ─── VOLUME CONSTANTS ─── */
 const BGM_VOLUME = 0.12;        // Low background level for saga themes
+const BGM_DUCKED_VOLUME = 0.03; // Ducked volume when VO/TTS is playing
 const VO_VOLUME = 0.90;         // Significantly louder for Elara VO lines
 const FADE_DURATION_MS = 1500;  // Fade in/out duration
 const FADE_STEP_MS = 50;        // Fade step interval
@@ -59,6 +60,10 @@ interface SagaThemeBGMContextValue {
   suppress: () => void;
   /** Unsuppress BGM — resumes if it was playing before */
   unsuppress: () => void;
+  /** Duck BGM to near-silent when VO/TTS starts playing */
+  duckForVO: () => void;
+  /** Restore BGM volume when VO/TTS stops */
+  unduckForVO: () => void;
 }
 
 const SagaThemeBGMContext = createContext<SagaThemeBGMContextValue | null>(null);
@@ -230,13 +235,45 @@ export function SagaThemeBGMProvider({ children }: { children: ReactNode }) {
       if (audio.src && audio.src !== "") {
         audio.play().then(() => {
           setIsPlaying(true);
-          fadeIn(actualVolume);
+          fadeIn(duckedRef.current ? duckedVolume : actualVolume);
         }).catch(() => {});
       } else {
         playTheme(currentThemeIdx);
       }
     }
   }, [enabled, actualVolume, fadeIn, playTheme, currentThemeIdx]);
+
+  // VO ducking — reduces BGM to near-silent during voice lines
+  const duckedRef = useRef(false);
+  const duckedVolume = (bgmVolume / 100) * BGM_DUCKED_VOLUME;
+
+  const duckForVO = useCallback(() => {
+    duckedRef.current = true;
+    const audio = audioRef.current;
+    if (audio && isPlaying) {
+      fadeIn(duckedVolume);
+    }
+  }, [isPlaying, fadeIn, duckedVolume]);
+
+  const unduckForVO = useCallback(() => {
+    duckedRef.current = false;
+    const audio = audioRef.current;
+    if (audio && isPlaying) {
+      fadeIn(actualVolume);
+    }
+  }, [isPlaying, fadeIn, actualVolume]);
+
+  // Listen for global VO events (dispatched by ElaraDialogBox, TTS, etc.)
+  useEffect(() => {
+    const handleVOStart = () => duckForVO();
+    const handleVOEnd = () => unduckForVO();
+    window.addEventListener("vo-start", handleVOStart);
+    window.addEventListener("vo-end", handleVOEnd);
+    return () => {
+      window.removeEventListener("vo-start", handleVOStart);
+      window.removeEventListener("vo-end", handleVOEnd);
+    };
+  }, [duckForVO, unduckForVO]);
 
   // Pause/resume based on main player state
   useEffect(() => {
@@ -312,6 +349,8 @@ export function SagaThemeBGMProvider({ children }: { children: ReactNode }) {
       voVolume: VO_VOLUME,
       suppress,
       unsuppress,
+      duckForVO,
+      unduckForVO,
     }}>
       {children}
     </SagaThemeBGMContext.Provider>
