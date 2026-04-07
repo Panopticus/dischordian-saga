@@ -265,6 +265,28 @@ export default function SettingsPage() {
   const [settings, setSettings] = useState<AppSettings>(loadSettings);
   const [showResetConfirm, setShowResetConfirm] = useState(false);
   const [exporting, setExporting] = useState(false);
+  const [cloudSyncStatus, setCloudSyncStatus] = useState<"idle" | "syncing" | "synced" | "error">("idle");
+
+  // Initialize sync manager with tRPC utils
+  const utils = trpc.useUtils();
+  useEffect(() => {
+    initSync(utils);
+  }, [utils]);
+
+  // Sync settings from server on login
+  useEffect(() => {
+    if (isAuthenticated && !authLoading) {
+      setCloudSyncStatus("syncing");
+      syncFromServer()
+        .then((merged) => {
+          setSettings(merged);
+          setCloudSyncStatus("synced");
+        })
+        .catch(() => {
+          setCloudSyncStatus("error");
+        });
+    }
+  }, [isAuthenticated, authLoading]);
 
   const updateSetting = useCallback(<K extends keyof AppSettings>(key: K, value: AppSettings[K]) => {
     setSettings(prev => {

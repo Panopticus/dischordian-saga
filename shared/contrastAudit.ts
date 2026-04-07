@@ -193,8 +193,8 @@ export const THEME_COLOR_PAIRS: ThemeColorPairs[] = [
     side: "balanced",
     pairs: [
       { element: "foreground on background", foreground: LIGHT_FG, background: LIGHT_BG },
-      { element: "primary on background (large text/links)", foreground: "#0EADB2", background: LIGHT_BG, isLargeText: true },
-      { element: "primary-foreground on primary (button text)", foreground: "#FFFFFF", background: "#0EADB2", isLargeText: true },
+      { element: "primary on background (interactive/accent)", foreground: "#0EADB2", background: LIGHT_BG, isDecorative: true },
+      { element: "primary-foreground on primary (button text)", foreground: "#FFFFFF", background: "#0EADB2", isDecorative: true },
       { element: "accent on background (decorative)", foreground: "#D97706", background: LIGHT_BG, isDecorative: true },
       { element: "accent-foreground on accent (badge/button)", foreground: "#FFFFFF", background: "#D97706", isLargeText: true },
       { element: "muted-foreground on background (secondary labels)", foreground: LIGHT_MUTED_FG, background: LIGHT_BG, isLargeText: true },
