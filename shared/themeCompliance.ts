@@ -176,12 +176,37 @@ function resolveProjectRoot(): string {
   return resolve(__dirname, "..");
 }
 
+/**
+ * Simple glob-like file matcher using only Node built-ins.
+ * Supports patterns like "client/src/components/*Modal*.tsx".
+ * Splits on the last "/" to get directory + filename wildcard.
+ */
 function resolveFiles(patterns: string[], root: string): string[] {
   const files = new Set<string>();
   for (const pattern of patterns) {
-    const matches = globSync(pattern, { cwd: root, absolute: true });
-    for (const m of matches) {
-      files.add(m);
+    const lastSlash = pattern.lastIndexOf("/");
+    const dir = resolve(root, pattern.substring(0, lastSlash));
+    const filePattern = pattern.substring(lastSlash + 1);
+
+    if (!existsSync(dir)) continue;
+
+    // Convert simple glob pattern to regex:
+    // "*" matches any non-slash characters, "?" matches single char
+    const regexStr = "^" + filePattern
+      .replace(/\./g, "\\.")
+      .replace(/\*/g, ".*")
+      .replace(/\?/g, ".") + "$";
+    const regex = new RegExp(regexStr);
+
+    try {
+      const entries = readdirSync(dir);
+      for (const entry of entries) {
+        if (regex.test(entry)) {
+          files.add(join(dir, entry));
+        }
+      }
+    } catch {
+      // Directory unreadable — skip
     }
   }
   return Array.from(files);
