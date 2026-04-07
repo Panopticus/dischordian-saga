@@ -573,7 +573,7 @@ export function setupPvpWebSocket(server: Server) {
     let player: ConnectedPlayer | null = null;
     let isSpectator = false;
 
-    ws.on("message", (raw) => {
+    ws.on("message", async (raw) => {
       let msg: ClientMessage;
       try {
         msg = JSON.parse(raw.toString());
