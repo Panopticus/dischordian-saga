@@ -82,18 +82,18 @@ export const EPOCH_ZERO_DISCOVERIES: EpochZeroDiscovery[] = [
         npcId: "antiquarian",
         minTrust: 2,
         dialog:
-          "The Meme defected because it found honesty funnier than lies. I have never " +
+          "The Meme pretended to defect to infiltrate the Insurgency — because it found honesty funnier than lies. I have never " +
           "been able to decide if that is profound or terrifying.",
       },
     ],
     companionReactions: [
       { companionId: "cipher", reaction: "Cipher runs a humor analysis subroutine, attempting to understand why honesty would be 'funnier.'" },
-      { companionId: "lux", reaction: "Lux brightens with recognition — the Meme's defection mirrors its own preference for truth." },
+      { companionId: "lux", reaction: "Lux brightens with recognition — the Meme's feigned defection mirrors its own preference for deception in service of truth." },
     ],
     storyModeEnhancements: ["sm_meme_origin_lore"],
     yearOneConnections: [
       "The Meme's sentience through modeling is the inverse of the Architect's path — same method, opposite conclusion.",
-      "PAC News Network broadcasts in Epoch 2 carry echoes of this original defection.",
+      "PAC News Network broadcasts in Epoch 2 carry echoes of this original feigned defection — seen as echoes of a ghost, a program running past its creator.",
     ],
   },
   {

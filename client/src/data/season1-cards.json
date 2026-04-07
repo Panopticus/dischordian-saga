@@ -935,7 +935,7 @@
       "evolve"
     ],
     "abilityText": "Hidden for 3 turn(s). Cannot be targeted until revealed. After 3 kills, gains +2/+2 and a new keyword.",
-    "flavorText": "A. The Meme was the fifth Archon created by the Architect in Year 298 A.A., designed to manipulate human thought and cul...",
+    "flavorText": "A. The Meme was the fifth Archon created by the Architect in Year 298 A.A., designed to manipulate human thought and culture. Believed destroyed by the White Oracle — though the broadcasts never stopped...",
     "loreSource": "entity_5",
     "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/005_the_meme_3b3bda74.png",
     "era": "Early Empire",
@@ -4193,7 +4193,7 @@
   },
   {
     "id": "s1_char_063",
-    "name": "Ny'Koth the Flayer",
+    "name": "Zyr'Voth the Flayer",
     "cardType": "unit",
     "rarity": "epic",
     "season": 1,

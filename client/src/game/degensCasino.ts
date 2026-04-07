@@ -1,10 +1,15 @@
 /* ═══════════════════════════════════════════════════════
    THE DEGEN'S CASINO — Intergalactic Gambling in Ne-Yon Space
 
-   The Degen (11th Ne-Yon, domain: corruption, entropy) runs the
+   The Degen (Ne-Yon #8, domain: corruption, entropy) runs the
    only open zone in Ne-Yon space — a floating casino station.
    Every game uses Dream tokens. The house always has an edge.
    But the house also pays out legendary rewards.
+
+   LORE SECRET: The casino host IS the cosmic entity. The Degen
+   chose to manifest as a bartender and casino owner because
+   "entropy is the most honest game." Players gradually discover
+   the god behind the dealer through trust-gated reveals.
 
    "Chaos isn't the enemy of order. It's the soil order grows in.
    Now shut up and place your bet." — The Degen
@@ -212,9 +217,9 @@ export function getVIPLevel(totalWagered: number): typeof VIP_LEVELS[number] {
 
 export const DEGEN_QUOTES = {
   welcome: [
-    "Welcome to my little corner of chaos! Ne-Yon space is closed to outsiders, but the casino? The casino is ALWAYS open.",
-    "Ah, fresh blood! Or whatever you Potentials have instead of blood. Sit down. Let's make some bad decisions together.",
-    "The Degen's Casino — where dreams come to die and occasionally resurrect as jackpots!",
+    "Welcome to my little corner of chaos! Ne-Yon space is closed to outsiders, but the casino? The casino is ALWAYS open. I've been keeping it open for longer than you'd believe.",
+    "Ah, fresh blood! Or whatever you Potentials have instead of blood. Sit down. Let's make some bad decisions together. I've had... a lot of practice.",
+    "The Degen's Casino — where dreams come to die and occasionally resurrect as jackpots! I've been running games since before the Empire had a name. But who's counting?",
   ],
   win: [
     "HA! You won! I hate when that happens. Do it again.",
@@ -223,27 +228,27 @@ export const DEGEN_QUOTES = {
     "Winner! The house weeps. I'm the house. I'm weeping. Internally.",
   ],
   lose: [
-    "The void giveth, the void taketh. Mostly taketh. That's kind of the point.",
+    "The void giveth, the void taketh. Mostly taketh. That's kind of the point. I should know — I AM the point.",
     "Don't feel bad. The Architect himself lost 47 straight hands of Nebula Poker here. Then he built a whole empire out of spite.",
-    "Ah, entropy wins again. As it always does. As it ALWAYS does.",
-    "You know what they say — the house always wins. They say it because it's TRUE.",
+    "Ah, entropy wins again. As it always does. As it ALWAYS does. Trust me. I've watched it win since before your species drew its first breath.",
+    "You know what they say — the house always wins. They say it because it's TRUE. And the house is older than you think.",
   ],
   jackpot: [
-    "THREE DEGENS?! That's... that's my FACE on those reels! You magnificent lunatic!",
-    "JACKPOT! The casino trembles! Ne-Yon space itself acknowledges your absurd luck!",
-    "Impossible! Well, improbable. Very, very improbable. But not impossible. That's the beauty of entropy.",
+    "THREE DEGENS?! That's... that's my FACE on those reels! You magnificent lunatic! For a moment there, you saw the REAL me.",
+    "JACKPOT! The casino trembles! Ne-Yon space itself acknowledges your absurd luck! ...you feel something ancient stir behind those golden eyes.",
+    "Impossible! Well, improbable. Very, very improbable. But not impossible. That's the beauty of entropy. I've watched stars die with worse odds than that.",
   ],
   streak_win: [
-    "You're on a streak! The other Ne-Yons are watching. They don't like winners.",
-    "Keep going? Oh, you BEAUTIFUL disaster. Keep going.",
+    "You're on a streak! The other Ne-Yons are watching. They don't like winners. ...yes, I said 'other.' Don't read into it.",
+    "Keep going? Oh, you BEAUTIFUL disaster. Keep going. His eyes are older than the casino. Older than the Ark. Older than the Empire itself.",
   ],
   streak_lose: [
     "Four losses in a row? The Warlord lost six battles once. Then won the war. Perspective.",
     "The void is hungry today. Feed it a few more tokens and it might get full.",
   ],
   broke: [
-    "Out of Dream tokens? Come back tomorrow. The casino never closes, but your wallet apparently does.",
-    "No more funds? The Degen offers a line of credit. The interest rate is... creative.",
+    "Out of Dream tokens? Come back tomorrow. The casino never closes — it CAN'T close. It's been open since before your calendar started counting.",
+    "No more funds? The Degen offers a line of credit. The interest rate is... creative. I've been extending credit since before your species invented money.",
   ],
 };
 

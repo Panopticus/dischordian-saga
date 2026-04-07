@@ -1887,7 +1887,7 @@ export const LORE_TUTORIALS: LoreTutorial[] = [
             sideLabel: "machine",
             source: "neutral",
             skillCheck: { skill: "perception", threshold: 25 },
-            elaraResponse: "The neural nanobot network IS the weapon. Every bulkhead, every conduit — the operating system itself is laced with dormant Thought Virus code. Dr. Lyra Vox designed it that way. When Kael stole this Ark during his revenge, he thought he was escaping. But the Warlord let him take it. Kael was already infected. Every system he connected to, every port he docked at, every world he visited... the nanobots were spreading the Thought Virus through every network they touched. Vox's neural architecture turned Kael's rage into a delivery mechanism.",
+            elaraResponse: "The neural nanobot network IS the weapon. Every bulkhead, every conduit — the operating system itself became laced with Thought Virus code the moment Kael came aboard. The Warlord infected Kael through Project Vector — he was already Patient Zero when he stole this Ark. The Warlord possessed Dr. Lyra Vox to ensure the ship was prepared and available for Kael's theft. When Kael took the ship, the virus was IN him. Every system he touched, every port he docked at, every world he visited... his infected presence spread the Thought Virus through the nanobots and into every network they touched. The Warlord didn't need to separately infect the ship — she weaponized Kael himself, and Kael brought the virus aboard.",
             rewards: [{ type: "card", id: "thought-virus-schematic", name: "Thought Virus Schematic", amount: 1 }],
             cardReward: { name: "Thought Virus Schematic", rarity: "epic" },
           },

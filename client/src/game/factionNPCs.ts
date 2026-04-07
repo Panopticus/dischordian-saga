@@ -19,7 +19,7 @@
    - Elara represents The Potentials / Ne-Yons, NOT the Artificial Empire.
    - The Shadow Tongue (Hierarchy SVP Communications) is the hidden demon
      on the ship — woven into Ark 1047's language systems since construction.
-     Ny'Koth (SVP R&D) engineered the Thought Virus but is NOT on the ship.
+     Zyr'Voth (SVP R&D) engineered the Thought Virus but is NOT on the ship.
    ═══════════════════════════════════════════════════════ */
 
 /* ─── FACTION NPC DEFINITIONS ─── */
@@ -285,7 +285,7 @@ export interface FactionAlignment {
   new_babylon: number;    // Locke's faction (trade, knowledge, pragmatism)
   thought_virus: number;  // The Source's faction (nihilism, dissolution)
   antiquarian: number;    // The Antiquarian's faction (preservation, time)
-  hierarchy: number;      // Ny'Koth's faction (corruption, power)
+  hierarchy: number;      // Zyr'Voth's faction (corruption, power)
 }
 
 export function createInitialAlignment(): FactionAlignment {

@@ -105,8 +105,8 @@ const DEMON_LEADERS: DemonLeader[] = [
     specialAbility: "Linguistic Corruption — can rewrite the meaning of any text or speech",
   },
   {
-    id: "nykoth", entityId: "entity_95",
-    name: "Ny'Koth", title: "The Flayer",
+    id: "zyrvoth", entityId: "entity_95",
+    name: "Zyr'Voth", title: "The Flayer",
     corporateRole: "SVP of Research & Development",
     tier: "svp",
     image: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/5_7yZoLkIQZzpQYeFXB1y6sZ_1773778344979_na1fn_L2hvbWUvdWJ1bnR1L255X2tvdGhfdGhlX2ZsYXllcg_cb0ec125.png",

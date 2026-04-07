@@ -101,7 +101,7 @@ export const MECHRONIS_PROFESSORS: MechronisProfessor[] = [
     gradingStyle: "Grades are assigned by plurality vote among students. Popular students grade themselves.",
     signatureLesson: "The Rumor Garden: plant an idea. Harvest what grows from it.",
     hiddenAgenda: "Training belief-engineers — students will later seed the Thought Virus in foreign populations.",
-    divergenceFromReal: "The real Meme was destroyed for feeling too much. Mireille feels nothing and teaches that.",
+    divergenceFromReal: "The real Meme was believed destroyed for feeling too much — though the broadcasts never stopped. Mireille feels nothing and teaches that.",
   },
   {
     id: "prof_warlord", archonNumber: 6,

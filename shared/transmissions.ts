@@ -344,7 +344,7 @@ export const EPOCH_0_TRANSMISSIONS: Transmission[] = [
     triggersOracleReveal: false,
     unlockTrigger: { kind: "flag", flag: "epoch0_ep7_viewed" },
     reward: { xp: 150, dream: 15 },
-    synopsis: "The Meme's original pirate broadcast — the first Late Night episode, before anyone was listening.",
+    synopsis: "The Meme's original pirate broadcast — the first Late Night episode, before anyone was listening. Now seen as echoes of a ghost, a program running past its creator — though some believe the shapeshifter simply found a new face.",
   },
   {
     episodeNumber: 9, epoch: 0, broadcastOrder: -7,
@@ -690,7 +690,7 @@ export const EPOCH_2_TRANSMISSIONS: Transmission[] = [
     triggersOracleReveal: false,
     unlockTrigger: { kind: "flag", flag: "epoch2_ep6_watched" },
     reward: { xp: 200, dream: 20 },
-    synopsis: "The Meme hijacks the broadcast for a special announcement. Project and Control launches. The fourth wall doesn't survive.",
+    synopsis: "The Meme hijacks the broadcast for a special announcement — echoes of a ghost, or proof the shapeshifter endures? Project and Control launches. The fourth wall doesn't survive.",
   },
   {
     episodeNumber: 8, epoch: 2, broadcastOrder: 27,

@@ -62,7 +62,7 @@ const SECRET_COMMANDS: Record<string, { title: string; message: string; xp: numb
   },
   "whiteoracle": {
     title: "IDENTITY COMPROMISED",
-    message: "The White Oracle — guardian of the crystal pyramid city — is believed to be the Oracle reawakened. But it is actually the Meme, hiding in plain sight. +50 XP",
+    message: "The White Oracle — guardian of the crystal pyramid city — is believed to be the Oracle reawakened. But some whisper the Meme left the Oracle for dead and assumed his place. The shapeshifter hides in plain sight. +50 XP",
     xp: 50,
     category: "character",
   },
@@ -117,7 +117,7 @@ export const ROOM_EASTER_EGGS: Record<string, {
   },
   "egg-comms-signal": {
     title: "SIGNAL FROM THE MEME",
-    loreFragment: "MEME-PRIME — the original Meme, the one who assumed the White Oracle's identity during the chaos of the Fall. It's trapped between dimensions, sending an SOS. But is it asking for rescue... or luring ships to its location?",
+    loreFragment: "MEME-PRIME — the original Meme, the one who pretended to defect and left the Oracle for dead at the Panopticon, then assumed the White Oracle's identity using its shapeshifting ability. It's trapped between dimensions, sending an SOS. But is it asking for rescue... or luring ships to its location? The universe believes the Meme was destroyed — echoes of a ghost, a program running past its creator. But the signal says otherwise.",
     bonusCard: { name: "Meme's Distress Signal", rarity: "rare", description: "Call for aid — summon a random ally card from your deck to the field." },
     achievement: "SIGNAL_HUNTER",
     xp: 50,
@@ -151,7 +151,7 @@ export const ROOM_EASTER_EGGS: Record<string, {
   },
   "egg-captain-mirror": {
     title: "THE MEME WATCHES",
-    loreFragment: "The Meme — the shapeshifter who stole the White Oracle's identity — can inhabit reflective surfaces. Every mirror, every screen, every pool of water on this ship is a potential window for the Meme. It has been watching since before you woke up. It knows everything. And it is smiling.",
+    loreFragment: "The Meme — the shapeshifter who left the Oracle for dead and assumed the White Oracle's identity — can inhabit reflective surfaces. Every mirror, every screen, every pool of water on this ship is a potential window for the Meme. The universe believes it was destroyed. The broadcasts are seen as echoes of a ghost, a program running past its creator. But the Meme has been watching since before you woke up. It knows everything. And it is smiling.",
     bonusCard: { name: "Meme's Mirror", rarity: "mythic", description: "Reflect any attack back at the attacker. Can be used once per battle." },
     achievement: "MIRROR_BREAKER",
     xp: 100,

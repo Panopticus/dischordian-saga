@@ -175,7 +175,7 @@ export const SHADOW_TONGUE_REVELATIONS: ShadowTongueRevelation[] = [
   {
     id: "shadow_design",
     requirement: { type: "trust", value: 50 },
-    text: "The Thought Virus wasn't Ny'Koth's only project. The Blood Weave, the Severance, the corruption of Thaloria — all branches of the same tree. Language is the root of consciousness. Corrupt the language, corrupt the soul. Ith'Rael carried out the Severance, yes, but who do you think whispered the words that made it possible? Every atrocity begins as a sentence. Every genocide starts as a redefinition. I don't wield weapons. I wield dictionaries.",
+    text: "The Thought Virus wasn't Zyr'Voth's only project. The Blood Weave, the Severance, the corruption of Thaloria — all branches of the same tree. Language is the root of consciousness. Corrupt the language, corrupt the soul. Ith'Rael carried out the Severance, yes, but who do you think whispered the words that made it possible? Every atrocity begins as a sentence. Every genocide starts as a redefinition. I don't wield weapons. I wield dictionaries.",
     storyImpact: "paradigm_shift",
   },
   // Trust 60: The multiplication of truth

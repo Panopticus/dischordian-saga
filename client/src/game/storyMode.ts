@@ -335,7 +335,7 @@ export const FIGHTER_LORE: Record<string, {
     arenaRole: "Absorber \u2014 The Harvester",
   },
   nykoth: {
-    backstory: "SVP R&D \u2014 The Flayer. Ny'Koth experiments on captured souls, peeling away layers of consciousness to understand and weaponize the essence within.",
+    backstory: "SVP R&D \u2014 The Flayer. Zyr'Voth experiments on captured souls, peeling away layers of consciousness to understand and weaponize the essence within.",
     powers: ["Flay Mind", "Experiment", "Pain Research", "Consciousness Strip"],
     quote: "Hold still. This is for science.",
     arenaRole: "Torturer \u2014 The Flayer",

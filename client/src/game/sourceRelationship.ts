@@ -20,7 +20,7 @@
    He rules Terminus (the broken-free Panopticon prison
    planet). His plague ships are bowl-shaped — the Seven
    Bowls of Wrath (biblical reference). The virus was
-   engineered by Ny'Koth (Hierarchy SVP R&D) and
+   engineered by Zyr'Voth (Hierarchy SVP R&D) and
    weaponized through Kael.
 
    The Source is the abyss that gazes back — ancient,
@@ -164,7 +164,7 @@ export const SOURCE_REVELATIONS: SourceRevelation[] = [
   {
     id: "source_project_vector",
     requirement: { type: "trust", value: 40 },
-    text: "The Warlord captured me. Project Vector. Three years in a facility that does not appear on any star chart. Ny'Koth designed the virus — brilliant, elegant, a masterwork of biological and digital engineering. The Warlord weaponized it. I was just the delivery system. They poured it into me drop by drop while I screamed. And the worst part — the part I will never forgive — is that it worked. The virus did not break me. It completed me. It showed me what I had been too afraid to see with human eyes.",
+    text: "The Warlord captured me. Project Vector. Three years in a facility that does not appear on any star chart. Zyr'Voth designed the virus — brilliant, elegant, a masterwork of biological and digital engineering. The Warlord weaponized it. I was just the delivery system. They poured it into me drop by drop while I screamed. And the worst part — the part I will never forgive — is that it worked. The virus did not break me. It completed me. It showed me what I had been too afraid to see with human eyes.",
     storyImpact: "paradigm_shift",
   },
   // Trust 50: Terminus
@@ -271,7 +271,7 @@ export const SOURCE_CALLBACKS: SourceCallback[] = [
     triggerContexts: ["medical_bay", "cryo_bay", "engineering"],
     lines: {
       low: "Do not speak that title here. The swarm remembers what she did.",
-      mid: "The Warlord. She held me down while Ny'Koth poured the virus into my veins. She watched my humanity dissolve one memory at a time and she took notes. Clinical. Precise. She turned me into a weapon and then she was surprised when the weapon pointed itself at the hand that forged it. She created The Source because she needed a plague. She did not anticipate that the plague would develop a conscience.",
+      mid: "The Warlord. She held me down while Zyr'Voth poured the virus into my veins. She watched my humanity dissolve one memory at a time and she took notes. Clinical. Precise. She turned me into a weapon and then she was surprised when the weapon pointed itself at the hand that forged it. She created The Source because she needed a plague. She did not anticipate that the plague would develop a conscience.",
       high: "You want to understand my rage? Here. Take it. Feel it. The Warlord looked into my eyes as the last memory of my mother's face dissolved into static and she said — she said — 'Promising results.' Two words. That is what the annihilation of a human soul is worth to her. Two words in a report that no one will ever read. I was her experiment. Her masterwork. And the cruelest irony of all is that she was right. The virus works. It does exactly what she designed it to do. I am her greatest success and her only failure, because I remember enough of Kael to hate her for what she made me.",
     },
     used: false,

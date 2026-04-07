@@ -1458,7 +1458,7 @@ export const CHARACTER_CONFIGS: Record<string, CharacterConfig> = {
   },
   /* shadow-tongue already exists in base fighters above — demon variant uses same config */
   "nykoth": {
-    id: "nykoth", name: "Ny'Koth",
+    id: "nykoth", name: "Zyr'Voth",
     primaryColor: "#2a0a2a", secondaryColor: "#140014", accentColor: "#ec4899",
     eyeColor: "#f472b6", skinColor: "#3a1a3a",
     height: 2.15, bulk: 1.3,

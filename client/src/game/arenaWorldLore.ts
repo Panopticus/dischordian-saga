@@ -129,7 +129,7 @@ export const ARENA_STORY_MODES: ArenaStoryMode[] = [
     fighterId: "prisoner",
     title: "THE PRISONER",
     subtitle: "Memory, lost and found",
-    introText: "You wake with no memory. Not yours. The Prisoner's. Before they were the White Oracle. Before they brought down the Meme and the Warden. You are them. You will fight their way free.",
+    introText: "You wake with no memory. Not yours. The Prisoner's. Before they were the White Oracle. Before they confronted the Meme and the Warden at the Panopticon. You are them. You will fight their way free.",
     outroText: "Memory returns in fragments. You fought your way from cell to freedom. You remember now who you were. Who you will be. The White Oracle opens their eyes — and a hole tears in reality.",
     chapters: [
       { id: "ch1", number: 1, title: "The Cell", opponent: { name: "Panopticon Guard", era: "Fall Era", reason: "Your first obstacle. The cage door won't open itself." },
@@ -144,7 +144,7 @@ export const ARENA_STORY_MODES: ArenaStoryMode[] = [
         unlocks: "memory_jailer_identity" },
       { id: "ch4", number: 4, title: "The Meme", opponent: { name: "The Meme", era: "Fall Era", reason: "The 5th Archon. Cultural virus given flesh. Kills with thoughts." },
         preFightDialog: "The Meme's form shifts through a thousand faces. Some you recognize. Some are yours.",
-        postFightDialog: { win: "The Meme dissolves, screaming in every language simultaneously. You feel your memories returning.", lose: "She turns your own thoughts against you. You believe you can't win. And so you don't. Wake up." },
+        postFightDialog: { win: "The Meme dissolves, screaming in every language simultaneously — or so it appears. You feel your memories returning. But something lingers in the reflections.", lose: "She turns your own thoughts against you. You believe you can't win. And so you don't. Wake up." },
         unlocks: "memory_flood_1" },
       { id: "ch5", number: 5, title: "The Warden", opponent: { name: "The Warden", era: "Fall Era", reason: "8th Archon. Architect of the Thought Virus. Builder of the Inception Arks. The reason you exist." },
         preFightDialog: "The Warden smiles. 'I built you. I named you. I erased you. And still you return.'",

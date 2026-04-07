@@ -21,7 +21,7 @@ const QUESTIONS: Question[] = [
   { q: "Who stole Ark 1047 from the Panopticon's docking systems?", a: ["Agent Zero", "The Warlord", "Kael", "The Human"], c: 2 },
   { q: "What is Elara's true identity before her memory was wiped?", a: ["Dr. Lyra Vox", "Senator Elara Voss", "The Oracle", "The Dreamer"], c: 1 },
   { q: "How many sunrises has Elara watched from the Observation Deck?", a: ["1,351", "247", "93,847", "10,000"], c: 2 },
-  { q: "What is the name of the Thought Virus's patient zero?", a: ["The Warlord", "Ny'Koth", "The Source", "Agent Zero"], c: 2 },
+  { q: "What is the name of the Thought Virus's patient zero?", a: ["The Warlord", "Zyr'Voth", "The Source", "Agent Zero"], c: 2 },
   { q: "What project weaponized the Thought Virus through Kael's body?", a: ["Project Celebration", "Project Vector", "Project Genesis", "Project Terminus"], c: 1 },
   { q: "The Human served as the last organic Archon for how many years before the Fall?", a: ["247", "500", "1,351", "93,847"], c: 2 },
   { q: "What is Terminus?", a: ["A weapon", "A star system", "The broken-free Panopticon prison planet", "An Inception Ark"], c: 2 },

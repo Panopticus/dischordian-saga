@@ -138,8 +138,8 @@ const DEMON_CARDS = [
     unlockCondition: { type: "complete_game", gameId: "the-severance" },
   },
   {
-    cardId: "demon-nykoth-svp-0006",
-    name: "Ny'Koth the Flayer",
+    cardId: "demon-zyrvoth-svp-0006",
+    name: "Zyr'Voth the Flayer",
     cardType: "character",
     rarity: "legendary",
     alignment: "chaos",
@@ -160,7 +160,7 @@ const DEMON_CARDS = [
     disciplines: ["Dimensional Surgery", "Thought Virus Engineering", "Forbidden Research"],
     keywords: ["demon", "svp", "hierarchy", "scientist", "the-ninth"],
     unlockMethod: "fight",
-    unlockCondition: { type: "defeat_boss", bossId: "nykoth", difficulty: "epic" },
+    unlockCondition: { type: "defeat_boss", bossId: "zyrvoth", difficulty: "epic" },
   },
   {
     cardId: "demon-sylvex-svp-0007",
