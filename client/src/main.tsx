@@ -4,6 +4,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { httpBatchLink, TRPCClientError } from "@trpc/client";
 import { createRoot } from "react-dom/client";
 import superjson from "superjson";
+import { toast } from "sonner";
 import App from "./App";
 import { getLoginUrl } from "./const";
 import "./i18n"; // Initialize i18n before app renders
@@ -20,15 +21,44 @@ const queryClient = new QueryClient({
   },
 });
 
-const redirectToLoginIfUnauthorized = (_error: unknown) => {
-  // Auth gating is now handled by AuthGate in App.tsx — no hard redirect needed.
-  // Unauthenticated users see TitlePage with a sign-in button.
-};
+/** Show user-facing feedback for common API error codes */
+function handleApiError(error: unknown) {
+  if (error instanceof TRPCClientError) {
+    const code = error.data?.code;
+
+    if (code === "UNAUTHORIZED") {
+      toast.error("Session expired", {
+        id: "session-expired",
+        description: "Please sign in again to continue.",
+        duration: 5000,
+      });
+      return;
+    }
+
+    if (code === "TOO_MANY_REQUESTS") {
+      toast.warning("Slow down", {
+        id: "rate-limited",
+        description: "Too many requests — wait a moment and try again.",
+        duration: 4000,
+      });
+      return;
+    }
+
+    if (code === "FORBIDDEN") {
+      toast.error("Access denied", {
+        id: "forbidden",
+        description: "You don't have permission for this action.",
+        duration: 4000,
+      });
+      return;
+    }
+  }
+}
 
 queryClient.getQueryCache().subscribe(event => {
   if (event.type === "updated" && event.action.type === "error") {
     const error = event.query.state.error;
-    redirectToLoginIfUnauthorized(error);
+    handleApiError(error);
     console.error("[API Query Error]", error);
   }
 });
@@ -36,7 +66,7 @@ queryClient.getQueryCache().subscribe(event => {
 queryClient.getMutationCache().subscribe(event => {
   if (event.type === "updated" && event.action.type === "error") {
     const error = event.mutation.state.error;
-    redirectToLoginIfUnauthorized(error);
+    handleApiError(error);
     console.error("[API Mutation Error]", error);
   }
 });

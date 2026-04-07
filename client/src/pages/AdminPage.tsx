@@ -11,11 +11,12 @@ import {
   Shield, Users, Layers, Gift, BarChart3, Search,
   ChevronLeft, ChevronRight, Edit2, Check, X,
   Crown, UserCog, ArrowLeft, Plus, Trash2, Eye, Compass, Lock, Unlock, Rocket,
-  BookOpen, Music, MapPin, Swords, Lightbulb, Save
+  BookOpen, Music, MapPin, Swords, Lightbulb, Save,
+  Activity, Server, Database, Key, Clock, HardDrive, MemoryStick, CheckCircle2, XCircle
 } from "lucide-react";
 import { toast } from "sonner";
 
-type Tab = "dashboard" | "users" | "cards" | "rewards" | "discovery" | "content";
+type Tab = "dashboard" | "users" | "cards" | "rewards" | "discovery" | "content" | "system";
 
 export default function AdminPage() {
   const { user, isAuthenticated } = useAuth();
@@ -41,6 +42,7 @@ export default function AdminPage() {
     { id: "rewards", label: "REWARDS", icon: Gift },
     { id: "discovery", label: "DISCOVERY", icon: Compass },
     { id: "content", label: "CONTENT", icon: BookOpen },
+    { id: "system", label: "SYSTEM", icon: Activity },
   ];
 
   return (
@@ -94,6 +96,7 @@ export default function AdminPage() {
             {activeTab === "rewards" && <RewardsTab />}
             {activeTab === "discovery" && <DiscoveryTab />}
             {activeTab === "content" && <ContentTab />}
+            {activeTab === "system" && <SystemTab />}
           </motion.div>
         </AnimatePresence>
       </div>
@@ -1206,6 +1209,178 @@ function ContentTab() {
           </button>
         </div>
       )}
+    </div>
+  );
+}
+
+// ═══ SYSTEM TAB ═══
+function formatUptime(seconds: number): string {
+  const d = Math.floor(seconds / 86400);
+  const h = Math.floor((seconds % 86400) / 3600);
+  const m = Math.floor((seconds % 3600) / 60);
+  if (d > 0) return `${d}d ${h}h ${m}m`;
+  if (h > 0) return `${h}h ${m}m`;
+  return `${m}m`;
+}
+
+function SystemTab() {
+  const { data: health, isLoading } = trpc.admin.systemHealth.useQuery(undefined, {
+    refetchInterval: 30_000,
+  });
+
+  if (isLoading || !health) {
+    return (
+      <div className="flex items-center justify-center py-16">
+        <div className="font-mono text-xs text-muted-foreground animate-pulse tracking-wider">
+          RUNNING DIAGNOSTICS...
+        </div>
+      </div>
+    );
+  }
+
+  const StatusDot = ({ ok }: { ok: boolean }) => (
+    <span className={`inline-block w-2 h-2 rounded-full ${ok ? "bg-green-400" : "bg-red-400"}`} />
+  );
+
+  const securityChecklist = [
+    { label: "HTTPS / Secure Cookies", ok: health.env === "production", hint: "Ensure HTTPS in production" },
+    { label: "CSRF Protection", ok: true, hint: "Custom CSRF middleware active" },
+    { label: "Rate Limiting", ok: true, hint: "express-rate-limit + WS rate limiting" },
+    { label: "Google OAuth", ok: health.featureFlags.googleOAuth, hint: "GOOGLE_CLIENT_ID configured" },
+    { label: "Stripe Payments", ok: health.featureFlags.stripe, hint: "STRIPE_SECRET_KEY configured" },
+    { label: "CSP Headers", ok: false, hint: "Consider adding Content-Security-Policy headers" },
+    { label: "Error Monitoring (Sentry)", ok: false, hint: "No error reporting service configured" },
+  ];
+
+  return (
+    <div className="space-y-6">
+      {/* Server Stats */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+        <div className="void-surface border-green-500/20 p-4">
+          <div className="flex items-center gap-2 mb-2">
+            <Clock size={14} className="text-green-400" />
+            <span className="font-mono text-[10px] text-muted-foreground tracking-wider">UPTIME</span>
+          </div>
+          <p className="font-display text-2xl font-bold">{formatUptime(health.uptime)}</p>
+        </div>
+        <div className="void-surface border-blue-500/20 p-4">
+          <div className="flex items-center gap-2 mb-2">
+            <HardDrive size={14} className="text-blue-400" />
+            <span className="font-mono text-[10px] text-muted-foreground tracking-wider">MEMORY</span>
+          </div>
+          <p className="font-display text-2xl font-bold">{health.memoryMB}<span className="text-sm text-muted-foreground">/{health.memoryTotalMB} MB</span></p>
+        </div>
+        <div className="void-surface border-primary/20 p-4">
+          <div className="flex items-center gap-2 mb-2">
+            <Server size={14} className="text-primary" />
+            <span className="font-mono text-[10px] text-muted-foreground tracking-wider">ENVIRONMENT</span>
+          </div>
+          <p className="font-display text-lg font-bold">{health.env.toUpperCase()}</p>
+          <p className="font-mono text-[10px] text-muted-foreground">Node {health.nodeVersion} / {health.platform}</p>
+        </div>
+        <div className="void-surface border-accent/20 p-4">
+          <div className="flex items-center gap-2 mb-2">
+            <Users size={14} className="text-accent" />
+            <span className="font-mono text-[10px] text-muted-foreground tracking-wider">NEW USERS (24H)</span>
+          </div>
+          <p className="font-display text-2xl font-bold">{health.recentSignups}</p>
+        </div>
+      </div>
+
+      {/* Database Status */}
+      <div className="void-surface p-4">
+        <div className="flex items-center gap-2 mb-3">
+          <Database size={14} className="text-primary" />
+          <h3 className="font-display text-xs font-bold tracking-[0.2em] text-primary">DATABASE</h3>
+        </div>
+        <div className="flex items-center gap-3">
+          <StatusDot ok={health.dbConnected} />
+          <span className="font-mono text-xs">{health.dbConnected ? "MySQL connected" : "Database disconnected"}</span>
+        </div>
+      </div>
+
+      {/* Feature Flags */}
+      <div className="void-surface p-4">
+        <div className="flex items-center gap-2 mb-3">
+          <Key size={14} className="text-accent" />
+          <h3 className="font-display text-xs font-bold tracking-[0.2em] text-accent">FEATURE FLAGS / INTEGRATIONS</h3>
+        </div>
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+          {Object.entries(health.featureFlags).map(([key, enabled]) => (
+            <div key={key} className="flex items-center gap-2 p-2 rounded-md bg-secondary/20 border border-border/10">
+              {enabled ? (
+                <CheckCircle2 size={12} className="text-green-400 shrink-0" />
+              ) : (
+                <XCircle size={12} className="text-muted-foreground/40 shrink-0" />
+              )}
+              <span className={`font-mono text-[10px] ${enabled ? "text-foreground" : "text-muted-foreground/50"}`}>
+                {key.replace(/([A-Z])/g, " $1").toUpperCase().trim()}
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Security Checklist */}
+      <div className="void-surface p-4">
+        <div className="flex items-center gap-2 mb-3">
+          <Shield size={14} className="text-destructive" />
+          <h3 className="font-display text-xs font-bold tracking-[0.2em] text-destructive">SECURITY CHECKLIST</h3>
+        </div>
+        <div className="space-y-2">
+          {securityChecklist.map(item => (
+            <div key={item.label} className="flex items-center gap-3 p-2 rounded-md bg-secondary/10">
+              <StatusDot ok={item.ok} />
+              <span className="font-mono text-xs flex-1">{item.label}</span>
+              <span className="font-mono text-[10px] text-muted-foreground/50">{item.hint}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Missing Features Audit */}
+      <div className="void-surface p-4">
+        <div className="flex items-center gap-2 mb-3">
+          <Activity size={14} className="text-chart-4" />
+          <h3 className="font-display text-xs font-bold tracking-[0.2em] text-chart-4">PRODUCTION READINESS</h3>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[10px] font-mono">
+          {[
+            { label: "Cookie Consent Banner", status: "active" },
+            { label: "Offline Detection", status: "active" },
+            { label: "Session Expiry Feedback", status: "active" },
+            { label: "Rate Limit User Feedback", status: "active" },
+            { label: "Scroll Restoration", status: "active" },
+            { label: "Global Keyboard Shortcuts", status: "active" },
+            { label: "Unsaved Changes Warning", status: "active" },
+            { label: "Error Boundaries", status: "active" },
+            { label: "CSP Headers", status: "todo" },
+            { label: "Sentry Error Reporting", status: "todo" },
+            { label: "Redis Rate Limit Store", status: "todo" },
+            { label: "Automated DB Backups", status: "todo" },
+            { label: "WebSocket Reconnection", status: "todo" },
+            { label: "GDPR Data Export API", status: "todo" },
+          ].map(item => (
+            <div key={item.label} className="flex items-center gap-2 p-2 rounded-md bg-secondary/10">
+              {item.status === "active" ? (
+                <CheckCircle2 size={11} className="text-green-400 shrink-0" />
+              ) : (
+                <XCircle size={11} className="text-amber-400/60 shrink-0" />
+              )}
+              <span className={item.status === "active" ? "text-foreground" : "text-muted-foreground/60"}>
+                {item.label}
+              </span>
+              <span className={`ml-auto px-1.5 py-0.5 rounded text-[9px] ${
+                item.status === "active"
+                  ? "bg-green-500/10 text-green-400 border border-green-500/20"
+                  : "bg-amber-500/10 text-amber-400 border border-amber-500/20"
+              }`}>
+                {item.status === "active" ? "LIVE" : "TODO"}
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }

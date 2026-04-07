@@ -37,7 +37,11 @@ import { DailyRewardPopup } from "./components/DailyRewards";
 import RadioMode from "./components/RadioMode";
 import EasterEggs from "./components/EasterEggs";
 import SoundControls from "./components/SoundControls";
+import CookieConsent from "./components/CookieConsent";
 import { useElaraTTS } from "./hooks/useElaraTTS";
+import { useOnlineStatus } from "./hooks/useOnlineStatus";
+import { useGlobalShortcuts } from "./hooks/useGlobalShortcuts";
+import { useScrollRestoration } from "./hooks/useScrollRestoration";
 import { useVoidEngine } from "./engine/useVoidEngine";
 import { useArchetypeDetection } from "./hooks/useArchetypeDetection";
 import { useSortingTrigger } from "./hooks/useSortingTrigger";
@@ -332,6 +336,10 @@ function GameGate() {
   useVoidEngine();
   // Project Celebration runs in the Matrix of Dreams: auto-detect emerging archetypes
   useArchetypeDetection();
+  // Global UX hooks — online status, keyboard shortcuts, scroll restoration
+  useOnlineStatus();
+  useGlobalShortcuts();
+  useScrollRestoration();
   // Mechronis Sorting: watch skills, show ceremony when a dominant skill crosses threshold
   const sortingTrigger = useSortingTrigger();
   const handleSortingComplete = () => {
@@ -445,6 +453,7 @@ function App() {
                   <TooltipProvider>
                     <Toaster position="bottom-left" />
                     <AuthGate />
+                    <CookieConsent />
                   </TooltipProvider>
                   </SagaThemeBGMProvider>
                 </PlayerProvider>

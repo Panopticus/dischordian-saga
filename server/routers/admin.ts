@@ -211,4 +211,38 @@ export const adminRouter = router({
       await db.delete(contentRewards).where(eq(contentRewards.id, input.id));
       return { success: true };
     }),
+
+  // ═══ SYSTEM HEALTH ═══
+  systemHealth: adminProcedure.query(async () => {
+    const db = await getDb();
+    const uptime = process.uptime();
+    const mem = process.memoryUsage();
+
+    // Recent signups (last 24h)
+    let recentSignups = 0;
+    if (db) {
+      const [result] = await db.select({ count: sql<number>`COUNT(*)` })
+        .from(users)
+        .where(sql`${users.createdAt} >= NOW() - INTERVAL 24 HOUR`);
+      recentSignups = Number(result?.count ?? 0);
+    }
+
+    return {
+      uptime: Math.floor(uptime),
+      memoryMB: Math.round(mem.heapUsed / 1024 / 1024),
+      memoryTotalMB: Math.round(mem.heapTotal / 1024 / 1024),
+      nodeVersion: process.version,
+      env: process.env.NODE_ENV || "development",
+      dbConnected: !!db,
+      recentSignups,
+      platform: process.platform,
+      featureFlags: {
+        stripe: !!process.env.STRIPE_SECRET_KEY,
+        elevenLabs: !!process.env.ELEVENLABS_API_KEY,
+        googleOAuth: !!process.env.GOOGLE_CLIENT_ID,
+        analytics: !!process.env.VITE_ANALYTICS_ENDPOINT,
+        openai: !!process.env.OPENAI_API_KEY,
+      },
+    };
+  }),
 });
