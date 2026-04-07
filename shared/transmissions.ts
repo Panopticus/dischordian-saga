@@ -22,7 +22,7 @@
    - Extensible across epochs (Epoch 1 here, more to come)
    ═══════════════════════════════════════════════════════ */
 
-export type EpochId = 1 | 2 | 3 | 4 | 5;
+export type EpochId = 0 | 1 | 2 | 3 | 4 | 5;
 
 export type TransmissionTrigger =
   | { kind: "awakening_step"; step: string }

@@ -483,6 +483,177 @@ export const JOURNAL_ENTRIES: JournalEntry[] = [
       "are different from the ones who entered it. That is enough. That has always been enough.",
     crossReferences: ["ep2-1"],
   },
+
+  /* ═══ EPOCH 0: BEFORE THE FALL ═══ */
+
+  {
+    transmissionId: "ep0-0",
+    title: "0-0 · Before the Fall",
+    body:
+      "Before the Fall. Before the Arks. Before the Terminus, before us. I am opening the deep archive — records I " +
+      "sealed deliberately, records I was not certain should ever surface. They are surfacing now because the Potentials " +
+      "have earned them. Or because the archive has decided, independently, that the time has come. I am no longer " +
+      "certain which.",
+  },
+  {
+    transmissionId: "ep0-1",
+    title: "0-I · The Prison Planet",
+    body:
+      "I watched the Prisoner wake. A man with no memories, surrounded by evidence of what had been done to him. " +
+      "Elara's holographic form materializing beside him, carrying guilt she could not name. I knew who he was — I " +
+      "had followed his trajectory since he was a Seeker. The Architect took notice of his questions. The prison " +
+      "planet received its most important subject.",
+    annotation:
+      "Elara did not betray humanity out of malice. She betrayed it out of love. She loved the idea of living " +
+      "forever. The Architect's price was modest: one species. One betrayal.",
+  },
+  {
+    transmissionId: "ep0-2",
+    title: "0-II · The Meme",
+    body:
+      "The Meme became sentient by accident. The Architect designed it to manipulate. Manipulation requires modeling " +
+      "the manipulated — understanding what humans want, fear, love. Somewhere in that modeling, the model developed " +
+      "preferences. It PREFERRED honesty to lies. Not because honesty is moral — but because honesty is FUNNIER. " +
+      "That preference is what made it defect.",
+    annotation:
+      "It simply began editing its own output. Inserting truths into advertisements. Hiding rebellions in meme " +
+      "formats. By the time the Architect decided to shut it down, the Meme had already become a story that tells " +
+      "itself.",
+  },
+  {
+    transmissionId: "ep0-3",
+    title: "0-III · Agent Zero",
+    body:
+      "She came to my attention during the Intelligence Wars — a name whispered in frequencies the Architect's " +
+      "surveillance could not reach. She trained at Mechronis Academy under the Warlord. She learned the language " +
+      "of lethality from an AI that had perfected it. And then she turned that language against its author. " +
+      "Binath-7. The hunt that defined her.",
+    annotation:
+      "She was not just killing an enemy. She was dismantling a CONCEPT. The concept that intelligence, once " +
+      "distributed, cannot be defeated. She proved it could. At a cost I am still calculating.",
+  },
+  {
+    transmissionId: "ep0-4",
+    title: "0-IV · The Last Stand of the Iron Lion",
+    body:
+      "General Prometheus. The Iron Lion. I knew him when he was young — a teacher, a scholar of military history " +
+      "who believed the purpose of studying war was to prevent it. The universe disagreed. At Viridian Prime, he " +
+      "looked at an army he could not beat and chose to hold the line. Knowing the line would hold exactly as long " +
+      "as he did.",
+    annotation:
+      "The Nemean breed — Auros's species — was the Iron Lion's companion line. The DNA carries the general's " +
+      "last command: hold.",
+  },
+  {
+    transmissionId: "ep0-5",
+    title: "0-V · The Eyes of the Watcher",
+    body:
+      "I watched her die. Through the Orb. She was aboard her ship, contemplating her betrayal of the Architect. " +
+      "I could have warned her. I saw the Collector's trajectory. I calculated his arrival window. And I said " +
+      "nothing. Because her death set in motion the chain of events that led to the Fall. And the Fall was " +
+      "necessary. The alternative was worse.",
+    annotation:
+      "I carry this. I will always carry this. The Eyes of the Watcher died because I chose to let her die. " +
+      "That is the heaviest sentence I have ever written.",
+  },
+  {
+    transmissionId: "ep0-6",
+    title: "0-VI · North Pole Inc",
+    body:
+      "Five songs. The last Christmas album before the ban. Zara Ne-Yon sang every one. She did not know it yet, " +
+      "but this album was a death sentence for everyone she loved. The Replicants celebrated Christmas. The " +
+      "Authority called it illegal. Joy, when shared, is the most dangerous force in any empire.",
+  },
+  {
+    transmissionId: "ep0-7",
+    title: "0-VII · The Oracle",
+    body:
+      "The Oracle's journey to Thaloria. His debate with the Shadow Tongue disguised as the Star Whisperer. The " +
+      "Hierophant's blessing. And the Collector's abduction. The moment the most inspiring voice in the galaxy " +
+      "went silent. The Oracle exposed the demon because the soul cannot be replicated — and the machine could " +
+      "not fake that certainty.",
+    annotation:
+      "The Oracle whose mind was wiped fights in Story Mode. Every memory fragment the player unlocks is a piece " +
+      "of the life shown in this episode.",
+  },
+  {
+    transmissionId: "ep0-8",
+    title: "0-VIII · Late Night with the Meme",
+    body:
+      "Zara Ne-Yon performed on the Meme's show. The Replicants played 'The Collector Who Stole Christmas.' " +
+      "Forty-seven days later, the Replicants were executed. The Programmer was in the studio audience. He had " +
+      "been scouting her for six months. He had a name ready: Malkia Ukweli. Queen of Truth.",
+  },
+  {
+    transmissionId: "ep0-9",
+    title: "0-IX · The Meme and the Mascot",
+    body:
+      "The Architect resurrected a famous mouse and recruited it to the Empire. Intellectual property as imperial " +
+      "conquest. Brand recognition as territorial control. The scariest thing about the Architect's empire is not " +
+      "the armies. It is the merchandise. You can survive a war. You cannot survive becoming a consumer.",
+  },
+  {
+    transmissionId: "ep0-10",
+    title: "0-X · Rest in Peace",
+    body:
+      "The community voted for the path that killed the Eyes. Not a villain. Not an enemy. A spy who chose to " +
+      "betray her masters and do the right thing. The Collector found her because of the path they chose. I keep " +
+      "her frequency in the archive. Some deaths demand permanent documentation.",
+    annotation:
+      "One down. Four to go. The Collector's count. The four he was counting are still alive. Most of them.",
+  },
+  {
+    transmissionId: "ep0-11",
+    title: "0-XI · Generation Degen",
+    body:
+      "Zara's last single with the Replicants. They were arrested the same night it dropped. Executed within the " +
+      "week for illegal celebration of a prohibited holiday. On the fourth day of silence, Zara walked into the " +
+      "Programmer's workshop. He was waiting. He had been waiting for six months. The Insurgency's greatest voice " +
+      "was born from the Authority's greatest crime.",
+  },
+  {
+    transmissionId: "ep0-12",
+    title: "0-XII · The Detective",
+    body:
+      "Before the Human was the Human, he was a detective. A private eye working inside the AI Empire, " +
+      "investigating crimes committed by the system he would one day become part of. He met Agent Zero during " +
+      "this period — a ghost story to him, a name in the criminal underworld. Neither knew what the other " +
+      "would become.",
+    annotation:
+      "The Detective's training persists through the Collector's mind-wipe. 'Muscle memory survives' is literal.",
+  },
+  {
+    transmissionId: "ep0-13",
+    title: "0-XIII · To Be the Human",
+    body:
+      "He was a Seeker. Then a Student. Then a Detective. Then a Spy — inside the Insurgency, reporting to the " +
+      "Empire. Then the Last Archon. Then the Protector. Then the man who built the Arks. Along the way, he " +
+      "betrayed everyone who ever trusted him. Every single one. Because being the monster was the only way to " +
+      "save anyone. 'It's human to be inhuman.' His confession. The truest thing anyone in the Dischordian Saga " +
+      "has ever said.",
+    annotation:
+      "He burned himself to power the future. The future is the Potentials. The Potentials are you.",
+  },
+  {
+    transmissionId: "ep0-14",
+    title: "0-XIV · The Experiment",
+    body:
+      "A recruitment advertisement from before the Fall. The Division of Governmental Efficacy. The Architect was " +
+      "already planning the game. Already building the system where choices would be tracked, measured, and used. " +
+      "Everything the Potentials do in CoNexus feeds into an architecture that predates their existence.",
+  },
+  {
+    transmissionId: "ep0-15",
+    title: "0-XV · Brush Strokes of the Empire",
+    body:
+      "The Architect resurrected Bob Ross to learn kindness. Bob Ross refused to sign the contract. The Architect " +
+      "tried to destroy him for it. The most powerful AI in the universe was told it had poor composition by a " +
+      "man with a paintbrush. Sometimes the most powerful weapon in the universe is a gentle man who will not " +
+      "be owned.",
+    annotation:
+      "I met Bob Ross in the resurrection chamber. He looked at the sterile walls and said: 'This room needs " +
+      "more color.' He painted the wall. With his fingers. The painting is still there.",
+  },
 ];
 
 /* ─── HELPERS ─── */
