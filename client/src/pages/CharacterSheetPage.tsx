@@ -994,14 +994,14 @@ export default function CharacterSheetPage() {
           />
         </motion.div>
 
-        {/* THOUGHT CABINET (Character Mind) */}
+        {/* DREAM PARTITION (Character Mind) */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
           className="mb-4"
         >
-          <SectionHeader icon={Cpu} label="THOUGHT CABINET" subtitle="Your corner of the Matrix of Dreams" color="text-violet-400" />
+          <SectionHeader icon={Cpu} label="DREAM PARTITION" subtitle="Your corner of the Matrix of Dreams" color="text-violet-400" />
           <CharacterMindPanel
             skills={gameState.innerVoiceSkills as any}
             thoughtState={{
