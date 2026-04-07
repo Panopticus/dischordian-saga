@@ -116,3 +116,4 @@ temp/
 # Download bundles (build artifacts)
 downloads/*.tar.gz
 downloads/*.zip
+package-lock.json
