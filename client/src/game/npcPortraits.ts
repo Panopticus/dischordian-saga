@@ -129,9 +129,6 @@ export const NPC_PORTRAITS: Record<string, NPCPortrait> = {
  * static and interference. As trust grows and revelations unlock,
  * the portrait gradually resolves — from pure noise to a face.
  *
- * Use Cloudinary transformations on the base portrait to create
- * 4 stages of visual degradation → clarity.
- *
  * Stage 0 (Trust 0–9):   "signal-static"     — Pure interference, no face visible
  * Stage 1 (Trust 10–19): "signal-ghost"       — Faint silhouette bleeding through noise
  * Stage 2 (Trust 20–39): "signal-fragment"    — Features emerging, heavy scanlines
@@ -139,9 +136,6 @@ export const NPC_PORTRAITS: Record<string, NPCPortrait> = {
  *
  * At Trust 50+ ("I am The Human"), switch to the real portrait.
  */
-
-const HUMAN_BASE = "https://res.cloudinary.com/dsenaozjq/image/upload";
-const HUMAN_IMG = "v1775528038/the-human-base_tjxrdj.jpg";
 
 export interface HumanRevealStage {
   id: string;
@@ -157,28 +151,28 @@ export const HUMAN_REVEAL_STAGES: HumanRevealStage[] = [
     id: "signal-static",
     label: "SIGNAL STATIC",
     minTrust: 0, maxTrust: 9,
-    imageUrl: `${HUMAN_BASE}/e_pixelate:25,e_noise:80,e_colorize:60,co_rgb:991111,q_auto,f_auto/${HUMAN_IMG}`,
+    imageUrl: "https://res.cloudinary.com/dsenaozjq/image/upload/q_auto/f_auto/v1775534568/signal-static_rgwpso.jpg",
     description: "Pure interference. A corrupted signal with no discernible form.",
   },
   {
     id: "signal-ghost",
     label: "SIGNAL GHOST",
     minTrust: 10, maxTrust: 19,
-    imageUrl: `${HUMAN_BASE}/e_pixelate:15,e_noise:50,e_blur:6,e_colorize:40,co_rgb:991111,q_auto,f_auto/${HUMAN_IMG}`,
+    imageUrl: "https://res.cloudinary.com/dsenaozjq/image/upload/q_auto/f_auto/v1775534569/signal-ghost_m8sg2m.jpg",
     description: "A silhouette bleeds through the static. Something is there.",
   },
   {
     id: "signal-fragment",
     label: "SIGNAL FRAGMENT",
     minTrust: 20, maxTrust: 39,
-    imageUrl: `${HUMAN_BASE}/e_pixelate:8,e_noise:30,e_blur:3,e_colorize:20,co_rgb:991111,q_auto,f_auto/${HUMAN_IMG}`,
+    imageUrl: "https://res.cloudinary.com/dsenaozjq/image/upload/q_auto/f_auto/v1775534570/signal-fragment_k0qk9m.jpg",
     description: "Features emerging through heavy scanlines. A face, almost.",
   },
   {
     id: "signal-convergence",
     label: "SIGNAL CONVERGENCE",
     minTrust: 40, maxTrust: 49,
-    imageUrl: `${HUMAN_BASE}/e_noise:15,e_blur:1,e_colorize:10,co_rgb:991111,q_auto,f_auto/${HUMAN_IMG}`,
+    imageUrl: "https://res.cloudinary.com/dsenaozjq/image/upload/q_auto/f_auto/v1775534568/signal-convergence_zvkve1.jpg",
     description: "Nearly resolved. Eyes still lost in the red wash. Who is this?",
   },
 ];
