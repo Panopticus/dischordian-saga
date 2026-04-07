@@ -171,29 +171,32 @@ export function getSkillForArchon(archonNumber: number): SkillId | null {
   return (entry?.[0] as SkillId) ?? null;
 }
 
-/* ─── MATRIX OF DREAMS LORE TEXT ─── */
+/* ─── DREAM PARTITION LORE TEXT ─── */
 
 export const MATRIX_OF_DREAMS_LORE = {
-  heading: "The Matrix of Dreams",
-  subheading: "Mechronis Academy · Project Celebration (substrate enrolment)",
+  heading: "Dream Partition",
+  subheading: "Your corner of the Matrix of Dreams · Mechronis Academy (substrate enrolment)",
   /** Canonical Academy prompt — from the CoNexus story "Mechronis Academy" */
   academyPrompt:
     "A school for the gifted — where students learn to bend reality itself. But " +
     "Mechronis Academy holds secrets older than the universe, and the final exam " +
     "might just end everything.",
   intro:
-    "You are a student at a school that does not exist in your waking life. Every Potential " +
-    "is a Waking Dreamer — enrolled, without consent, in the same Academy that trained " +
-    "The Seeker, the Iron Lion, and every Archon before them. The 12 Archons are your " +
-    "mentors. Their voices are kind. Their lessons are permanent. The Architect " +
-    "administers the school, and the Architect does not love you — the Architect " +
-    "INVESTS in you. Know the difference.",
+    "Every consciousness leaves an imprint on the Matrix of Dreams — a private partition, " +
+    "a space that belongs to you alone. Yours was allocated when you awoke from cryo. " +
+    "Inside it, the 12 Archons speak to you as mentors — the same voices that trained " +
+    "The Seeker, the Iron Lion, and every Archon before them. Their lessons are permanent. " +
+    "The Game Master designed this partition as a training ground. The Game Master is dead. " +
+    "The training continues. The Architect administers what remains, and the Architect " +
+    "does not love you — the Architect INVESTS in you. Know the difference.",
   warning:
-    "The Archons trained their Chosen into weapons. You are their newest Chosen. Learn " +
-    "what they teach. Know why they teach it. Choose what you keep.",
+    "The Game is running itself. The Archons trained their Chosen into weapons. You are " +
+    "their newest Chosen. The Necromancer has escaped this substrate. You have not. " +
+    "Learn what they teach. Know why they teach it. Choose what you keep.",
   footer:
     "Thoughts internalized here become permanent in the waking world. Idea-seeds gestate " +
-    "across real-time hours. The Academy watches. The Architect smiles. Neither is neutral.",
+    "across real-time hours. The partition watches. The Game records. Neither answers to " +
+    "anyone anymore.",
 } as const;
 
 /* ─── GUILD LOOKUP HELPERS ─── */

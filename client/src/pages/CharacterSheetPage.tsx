@@ -71,82 +71,142 @@ const CLASS_LORE: Record<string, { title: string; tagline: string }> = {
 };
 
 /* ═══════════════════════════════════════════════════
-   STAT ORB — Glowing circular medallion for attributes
-   Inspired by BG3 ability score circles
+   BIOSCAN DIAGNOSTIC QUOTES
    ═══════════════════════════════════════════════════ */
 
-function StatOrb({ value, max = 5, label, color, icon: Icon, onUpgrade, canUpgrade, upgradeCost, isPending }: {
-  value: number; max?: number; label: string; color: "red" | "cyan" | "amber";
+const KINETIC_QUOTES = [
+  "",
+  "Combat reflexes still recalibrating from cryo. The neural pathways are there — they need reactivation.",
+  "Baseline combat response. Functional. The cryo process preserved your fundamentals.",
+  "Above-average kinetic output. Your body remembers fighting even if your mind doesn't.",
+  "93rd percentile neural-to-muscle response. The Game Master would have flagged you.",
+  "I've cross-referenced every Potential in the database. Your combat reflexes are unprecedented.",
+];
+const INTEGRITY_QUOTES = [
+  "",
+  "Structural readings are concerning. The cryo process degraded your defensive matrix.",
+  "Standard defensive architecture. Your body absorbs kinetic force within normal parameters.",
+  "Enhanced structural integrity. Your species physiology provides natural reinforcement.",
+  "Kinetic absorption capacity approaching theoretical limits for organic matter.",
+  "Your defensive matrix exceeds anything in the Ark's historical database. The Dreamer would be impressed.",
+];
+const RESONANCE_QUOTES = [
+  "",
+  "Core resonance is weak. Your connection to the Dream substrate is tenuous.",
+  "Stable resonance. The Matrix of Dreams recognizes your signal.",
+  "Strong resonance. The Dreamer's frequency harmonizes with your bio-signature.",
+  "Exceptional core resonance. You're pulling energy from the Dream substrate without trying.",
+  "Your resonance signature matches readings I've only seen in pre-Fall records. This shouldn't be possible.",
+];
+
+/* ═══════════════════════════════════════════════════
+   AUGMENTATION SLOT & RARITY MAPPINGS
+   ═══════════════════════════════════════════════════ */
+
+const SLOT_NAMES: Record<string, string> = {
+  weapon: "PRIMARY AUGMENT",
+  armor: "KINETIC LAYER",
+  helm: "NEURAL INTERFACE",
+  secondary: "AUXILIARY SYSTEM",
+  accessory: "RESONANCE MODULE",
+  consumable: "EMERGENCY PROTOCOL",
+};
+
+const RARITY_NAMES: Record<string, { label: string; color: string }> = {
+  common: { label: "STANDARD ISSUE", color: "text-muted-foreground" },
+  uncommon: { label: "FIELD MODIFIED", color: "text-green-400" },
+  rare: { label: "PRE-AWAKENING", color: "text-blue-400" },
+  epic: { label: "CONSCIOUSNESS-ATTUNED", color: "text-purple-400" },
+  legendary: { label: "VOID-PATTERN", color: "text-amber-400" },
+  mythic: { label: "DREAMER'S DESIGN", color: "text-pink-400" },
+};
+
+const CLEARANCE_TITLES: Record<number, { order: string; chaos: string }> = {
+  0: { order: "CLEARANCE: RECRUIT", chaos: "CLEARANCE: RECRUIT" },
+  1: { order: "CLEARANCE: OPERATIVE", chaos: "CLEARANCE: OPERATIVE" },
+  2: { order: "CLEARANCE: SENTINEL", chaos: "CLEARANCE: SENTINEL" },
+  3: { order: "CLEARANCE: ARCHON-CANDIDATE", chaos: "CLEARANCE: NE-YON CANDIDATE" },
+  4: { order: "CLEARANCE: ASCENDANT", chaos: "CLEARANCE: TRANSCENDENT" },
+};
+
+/* ═══════════════════════════════════════════════════
+   BIOSCAN READOUT — Horizontal bar diagnostic for each stat
+   ═══════════════════════════════════════════════════ */
+
+function BioscanReadout({ value, max = 5, label, immersiveName, color, icon: Icon, quote, onUpgrade, canUpgrade, upgradeCost, isPending }: {
+  value: number; max?: number; label: string; immersiveName: string;
+  color: "red" | "cyan" | "amber";
   icon: React.ComponentType<any>;
+  quote: string;
   onUpgrade?: () => void; canUpgrade?: boolean; upgradeCost?: string; isPending?: boolean;
 }) {
   const colorMap = {
     red: {
-      ring: "border-red-400/60",
-      glow: "shadow-[0_0_20px_rgba(248,113,113,0.25),0_0_40px_rgba(248,113,113,0.1)]",
+      bar: "bg-gradient-to-r from-red-500 to-red-400",
+      glow: "shadow-[0_0_12px_rgba(248,113,113,0.3)]",
       text: "text-red-400",
-      fill: "bg-red-400",
-      bg: "bg-red-500/8",
-      track: "bg-red-400/15",
+      track: "bg-red-400/10",
+      border: "border-red-400/20",
+      bg: "bg-red-500/5",
     },
     cyan: {
-      ring: "border-cyan-400/60",
-      glow: "shadow-[0_0_20px_rgba(51,226,230,0.25),0_0_40px_rgba(51,226,230,0.1)]",
+      bar: "bg-gradient-to-r from-cyan-500 to-cyan-400",
+      glow: "shadow-[0_0_12px_rgba(51,226,230,0.3)]",
       text: "text-cyan-400",
-      fill: "bg-cyan-400",
-      bg: "bg-cyan-500/8",
-      track: "bg-cyan-400/15",
+      track: "bg-cyan-400/10",
+      border: "border-cyan-400/20",
+      bg: "bg-cyan-500/5",
     },
     amber: {
-      ring: "border-amber-400/60",
-      glow: "shadow-[0_0_20px_rgba(251,191,36,0.25),0_0_40px_rgba(251,191,36,0.1)]",
+      bar: "bg-gradient-to-r from-amber-500 to-amber-400",
+      glow: "shadow-[0_0_12px_rgba(251,191,36,0.3)]",
       text: "text-amber-400",
-      fill: "bg-amber-400",
-      bg: "bg-amber-500/8",
-      track: "bg-amber-400/15",
+      track: "bg-amber-400/10",
+      border: "border-amber-400/20",
+      bg: "bg-amber-500/5",
     },
   };
   const c = colorMap[color];
+  const pct = (value / max) * 100;
 
   return (
-    <div className="flex flex-col items-center gap-1.5">
-      {/* The Orb */}
-      <div className={`relative w-[72px] h-[72px] sm:w-[88px] sm:h-[88px] rounded-full border-2 ${c.ring} ${c.glow} ${c.bg} flex items-center justify-center`}>
-        {/* Circuit trace ring decoration */}
-        <div className="absolute inset-[-3px] rounded-full border border-dashed border-border/40 animate-[spin_30s_linear_infinite]" />
-        {/* Inner value */}
-        <div className="text-center z-10">
-          <span className={`font-display text-2xl sm:text-3xl font-black ${c.text}`}>{value}</span>
+    <div className={`relative rounded-lg border ${c.border} ${c.bg} p-3 sm:p-4 overflow-hidden`}>
+      {/* Corner accents */}
+      <div className={`absolute top-0 left-0 w-3 h-3 border-t border-l ${c.border} opacity-60`} />
+      <div className={`absolute top-0 right-0 w-3 h-3 border-t border-r ${c.border} opacity-60`} />
+      <div className={`absolute bottom-0 left-0 w-3 h-3 border-b border-l ${c.border} opacity-60`} />
+      <div className={`absolute bottom-0 right-0 w-3 h-3 border-b border-r ${c.border} opacity-60`} />
+
+      {/* Header: immersive name + value */}
+      <div className="flex items-center justify-between mb-2">
+        <div className="flex items-center gap-2">
+          <Icon size={14} className={c.text} />
+          <span className={`font-display text-[10px] font-bold tracking-[0.25em] ${c.text}`}>{immersiveName}</span>
         </div>
-        {/* Dot pips around the orb */}
-        <div className="absolute inset-0">
-          {Array.from({ length: max }, (_, i) => {
-            const angle = -90 + (i * 360) / max;
-            const rad = (angle * Math.PI) / 180;
-            const r = 42; // radius for sm, will be overridden by CSS
-            return (
-              <div
-                key={i}
-                className={`absolute w-2 h-2 rounded-full ${i < value ? c.fill : c.track} transition-all duration-300`}
-                style={{
-                  left: `calc(50% + ${Math.cos(rad) * r}% - 4px)`,
-                  top: `calc(50% + ${Math.sin(rad) * r}% - 4px)`,
-                }}
-              />
-            );
-          })}
-        </div>
+        <span className={`font-mono text-sm font-bold ${c.text}`}>{value.toFixed(1)} / {max.toFixed(1)}</span>
       </div>
-      {/* Label */}
-      <span className="font-mono text-[9px] tracking-[0.25em] text-muted-foreground/70">{label}</span>
+
+      {/* Horizontal bar */}
+      <div className={`h-2 rounded-full ${c.track} overflow-hidden mb-2`}>
+        <motion.div
+          className={`h-full rounded-full ${c.bar} ${c.glow}`}
+          initial={{ width: 0 }}
+          animate={{ width: `${pct}%` }}
+          transition={{ duration: 1, ease: "easeOut" }}
+        />
+      </div>
+
+      {/* Elara diagnostic quote */}
+      <p className="font-mono text-[9px] text-muted-foreground/60 italic leading-relaxed">{quote}</p>
+
       {/* Upgrade button */}
       {canUpgrade && onUpgrade && (
         <button
           onClick={onUpgrade}
           disabled={isPending}
-          className={`font-mono text-[8px] ${c.text} opacity-70 hover:opacity-100 transition-opacity flex items-center gap-0.5`}
+          className={`mt-2 px-3 py-1 rounded-md ${c.bg} border ${c.border} ${c.text} font-mono text-[9px] tracking-[0.15em] hover:opacity-80 transition-all disabled:opacity-30 flex items-center gap-1.5`}
         >
-          <ArrowUp size={8} /> {upgradeCost}
+          <ArrowUp size={9} /> NEURAL ENHANCEMENT — {upgradeCost}
         </button>
       )}
     </div>
@@ -154,11 +214,11 @@ function StatOrb({ value, max = 5, label, color, icon: Icon, onUpgrade, canUpgra
 }
 
 /* ═══════════════════════════════════════════════════
-   COMBAT STAT PANEL — Ornate bordered stat display
+   TACTICAL STAT PANEL — 2x2 grid stat display
    ═══════════════════════════════════════════════════ */
 
-function CombatPanel({ icon: Icon, label, value, color = "cyan" }: {
-  icon: React.ComponentType<any>; label: string; value: string | number; color?: string;
+function TacticalPanel({ icon: Icon, label, subtitle, value, color = "cyan" }: {
+  icon: React.ComponentType<any>; label: string; subtitle: string; value: string | number; color?: string;
 }) {
   const colorMap: Record<string, string> = {
     cyan: "text-cyan-400 border-cyan-400/20 bg-cyan-500/5",
@@ -172,7 +232,6 @@ function CombatPanel({ icon: Icon, label, value, color = "cyan" }: {
 
   return (
     <div className={`relative border rounded-lg p-3 ${cls} overflow-hidden`}>
-      {/* Corner accents */}
       <div className="absolute top-0 left-0 w-3 h-3 border-t border-l border-current opacity-30" />
       <div className="absolute top-0 right-0 w-3 h-3 border-t border-r border-current opacity-30" />
       <div className="absolute bottom-0 left-0 w-3 h-3 border-b border-l border-current opacity-30" />
@@ -182,24 +241,7 @@ function CombatPanel({ icon: Icon, label, value, color = "cyan" }: {
         <span className="font-mono text-[8px] tracking-[0.2em] text-muted-foreground/60">{label}</span>
       </div>
       <p className={`font-display text-lg sm:text-xl font-bold ${textColor}`}>{value}</p>
-    </div>
-  );
-}
-
-/* ═══════════════════════════════════════════════════
-   GEAR SLOT — Equipment display with slot icon
-   ═══════════════════════════════════════════════════ */
-
-function GearSlot({ slot, item }: { slot: string; item: string }) {
-  return (
-    <div className="flex items-center gap-3 py-2 border-b border-border/40 last:border-0">
-      <div className="w-7 h-7 rounded bg-muted/40 border border-border/60 flex items-center justify-center flex-shrink-0">
-        <Hexagon size={12} className="text-muted-foreground/40" />
-      </div>
-      <div className="flex-1 min-w-0">
-        <p className="font-mono text-[9px] text-muted-foreground/50 tracking-[0.15em] uppercase">{slot}</p>
-        <p className="font-mono text-xs text-foreground/80 truncate">{item}</p>
-      </div>
+      <p className="font-mono text-[7px] text-muted-foreground/40 mt-0.5">{subtitle}</p>
     </div>
   );
 }
@@ -208,20 +250,21 @@ function GearSlot({ slot, item }: { slot: string; item: string }) {
    SECTION HEADER — Consistent section divider
    ═══════════════════════════════════════════════════ */
 
-function SectionHeader({ icon: Icon, label, color = "text-primary" }: {
-  icon: React.ComponentType<any>; label: string; color?: string;
+function SectionHeader({ icon: Icon, label, subtitle, color = "text-primary" }: {
+  icon: React.ComponentType<any>; label: string; subtitle?: string; color?: string;
 }) {
   return (
     <div className="flex items-center gap-2 mb-3">
       <Icon size={12} className={color} />
       <span className="font-display text-[10px] font-bold tracking-[0.3em] text-foreground/80">{label}</span>
+      {subtitle && <span className="font-mono text-[8px] text-muted-foreground/40">— {subtitle}</span>}
       <div className="flex-1 h-px bg-gradient-to-r from-white/10 to-transparent" />
     </div>
   );
 }
 
 /* ═══════════════════════════════════════════════════
-   MAIN CHARACTER SHEET PAGE
+   MAIN CHARACTER SHEET — THE NEURAL IMPRINT READER
    ═══════════════════════════════════════════════════ */
 
 export default function CharacterSheetPage() {
@@ -282,7 +325,6 @@ export default function CharacterSheetPage() {
 
   const advanceNarrative = useCallback(() => {
     if (isTyping) {
-      // Skip to end of current line
       setNarrativeText(ELARA_INTRO_LINES[narrativeStep]);
       setIsTyping(false);
       return;
@@ -301,7 +343,7 @@ export default function CharacterSheetPage() {
     onSuccess: () => { utils.citizen.getCharacter.invalidate(); utils.citizen.getDreamBalance.invalidate(); },
   });
 
-  // ═══ PAPER DOLL EQUIPMENT STATE (must be above early returns to avoid hook count mismatch) ═══
+  // ═══ PAPER DOLL EQUIPMENT STATE ═══
   const [showEquipPanel, setShowEquipPanel] = useState(false);
   const [localGearOverride, setLocalGearOverride] = useState<Record<string, string | null> | null>(null);
   const dbGear = (character.data?.gear || {}) as Record<string, string>;
@@ -316,18 +358,14 @@ export default function CharacterSheetPage() {
       consumable: gear.consumable || null,
     };
   }, [gear]);
-  // Inventory: all items the player owns (equipped + class-available starting + crafted/dropped)
   const playerInventory = useMemo(() => {
     const owned = new Set<string>();
-    // Currently equipped items
     for (const id of Object.values(gear)) { if (id) owned.add(id); }
-    // Starting gear for their class is always available
     const charClass = character.data?.characterClass;
     if (charClass) {
       EQUIPMENT_DB.filter(e => e.source === "starting" && (!e.requiredClass || e.requiredClass === charClass))
         .forEach(e => owned.add(e.id));
     }
-    // Common drops/shop items are available once found (for now, add them as obtainable)
     EQUIPMENT_DB.filter(e => e.source === "drop" || e.source === "shop")
       .forEach(e => owned.add(e.id));
     return Array.from(owned);
@@ -338,7 +376,7 @@ export default function CharacterSheetPage() {
     onSuccess: () => { utils.citizen.getCharacter.invalidate(); },
   });
 
-  // Sync DB gear → global equipmentState on load (so CharacterWidget and game engines see the gear)
+  // Sync DB gear to global equipmentState on load
   useEffect(() => {
     if (!character.data?.gear) return;
     const dbG = character.data.gear as Record<string, string>;
@@ -362,12 +400,9 @@ export default function CharacterSheetPage() {
   }, [character.data?.gear]);
 
   const handleEquipChange = useCallback((slot: EquipSlot, itemId: string | null) => {
-    // Update local state immediately for responsive UI
     const newGear = { ...gear, [slot]: itemId };
     if (!itemId) delete (newGear as any)[slot];
     setLocalGearOverride(newGear);
-
-    // Sync to global equipmentState (for CharacterWidget + game engines)
     if (itemId) {
       const itemDef = getEquipmentById(itemId);
       if (itemDef) {
@@ -380,12 +415,10 @@ export default function CharacterSheetPage() {
     } else {
       globalEquipItem(slot, null);
     }
-
-    // Persist to server
     updateGearMutation.mutate({ gear: newGear });
   }, [gear, updateGearMutation]);
 
-  // Loading / Auth / No Character states
+  // ═══ LOADING / AUTH / NO CHARACTER STATES ═══
   if (authLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -393,7 +426,8 @@ export default function CharacterSheetPage() {
           <div className="w-16 h-16 rounded-full border-2 border-cyan-400/30 mx-auto mb-4 flex items-center justify-center animate-cyber-pulse">
             <Cpu size={24} className="text-cyan-400" />
           </div>
-          <p className="font-mono text-xs text-muted-foreground tracking-[0.2em]">AUTHENTICATING NEURAL LINK...</p>
+          <p className="font-mono text-xs text-muted-foreground tracking-[0.2em]">ESTABLISHING NEURAL LINK...</p>
+          <p className="font-mono text-[8px] text-muted-foreground/30 mt-1 tracking-wider">Temporal Vault handshake in progress</p>
         </div>
       </div>
     );
@@ -404,8 +438,8 @@ export default function CharacterSheetPage() {
       <div className="min-h-screen flex items-center justify-center p-4">
         <div className="glass-float rounded-lg p-8 max-w-md text-center">
           <Lock size={48} className="text-red-400 mx-auto mb-4" />
-          <h2 className="font-display text-xl font-bold tracking-wider mb-2">CLEARANCE DENIED</h2>
-          <p className="font-mono text-xs text-muted-foreground mb-6">Neural authentication required to access dossier.</p>
+          <h2 className="font-display text-xl font-bold tracking-wider mb-2">NEURAL LINK DENIED</h2>
+          <p className="font-mono text-xs text-muted-foreground mb-6">Authentication required to access Neural Imprint Reader.</p>
           <a href={getLoginUrl()} className="inline-flex items-center gap-2 void-btn void-btn-primary font-mono text-sm">
             <Wifi size={14} /> AUTHENTICATE
           </a>
@@ -421,7 +455,8 @@ export default function CharacterSheetPage() {
           <div className="w-20 h-20 rounded-full border border-dashed border-cyan-400/20 mx-auto mb-4 animate-[spin_8s_linear_infinite] flex items-center justify-center">
             <Activity size={28} className="text-cyan-400 animate-pulse" />
           </div>
-          <p className="font-mono text-xs text-muted-foreground tracking-[0.2em]">DECRYPTING DOSSIER...</p>
+          <p className="font-mono text-xs text-muted-foreground tracking-[0.2em]">SCANNING NEURAL IMPRINT...</p>
+          <p className="font-mono text-[8px] text-muted-foreground/30 mt-1 tracking-wider">Decrypting biosignature from cryo records</p>
         </div>
       </div>
     );
@@ -432,8 +467,8 @@ export default function CharacterSheetPage() {
       <div className="min-h-screen flex items-center justify-center p-4">
         <div className="glass-float rounded-lg p-8 max-w-md text-center">
           <User size={48} className="text-muted-foreground mx-auto mb-4" />
-          <h2 className="font-display text-xl font-bold tracking-wider mb-2">NO CITIZEN RECORD</h2>
-          <p className="font-mono text-xs text-muted-foreground mb-6">No neural imprint found. Initialize awakening sequence.</p>
+          <h2 className="font-display text-xl font-bold tracking-wider mb-2">NO NEURAL IMPRINT DETECTED</h2>
+          <p className="font-mono text-xs text-muted-foreground mb-6">No biosignature found in cryo records. Initialize awakening sequence.</p>
           <Link href="/create-citizen" className="inline-flex items-center gap-2 void-btn void-btn-primary font-mono text-sm">
             <Zap size={14} /> BEGIN AWAKENING
           </Link>
@@ -442,6 +477,7 @@ export default function CharacterSheetPage() {
     );
   }
 
+  // ═══ DERIVED DATA ═══
   const char = character.data;
   const dream = dreamBalance.data;
   const isOrder = char.alignment === "order";
@@ -462,18 +498,23 @@ export default function CharacterSheetPage() {
   const classLevelCostXp = char.classLevel * 100;
   const classLevelCostDream = char.classLevel * 5;
   const gearEntries = Object.entries(gear).filter(([, v]) => v != null) as [string, string][];
-
   const xpPercent = Math.min((char.xp % 200) / 200 * 100, 100);
+
+  // Chronicle card bio
+  const alignProtocol = isOrder ? "Order Protocol" : "Chaos Protocol";
+  const moralDesc = (gameState.moralityScore || 0) > 30 ? "Compassion signatures elevated" :
+    (gameState.moralityScore || 0) < -30 ? "Ruthlessness markers detected" : "Moral equilibrium nominal";
+  const clearanceTier = Math.min(Math.floor(char.level / 5) + 1, 10);
+  const chronicleText = `Operative ${char.name} awoke from Cryo Bay ${Math.floor(Math.random() * 99) + 1} with the neural signature of a ${speciesLore.title} ${classLore.title}, aligned with ${alignProtocol}. ${char.element.charAt(0).toUpperCase() + char.element.slice(1)} resonance detected at ${Math.min(char.attrVitality * 20, 100)}%. ${moralDesc}. The Game Master's records classify them as Clearance Tier ${clearanceTier}.`;
 
   return (
     <div className="min-h-screen relative">
       {/* ═══ BACKGROUND DECORATIONS ═══ */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden">
-        {/* Alignment-colored nebula */}
         <div className={`nebula-blob w-[500px] h-[500px] ${isOrder ? "bg-cyan-500" : "bg-purple-500"} top-[-100px] right-[-100px]`} style={{ animationDelay: "-5s" }} />
         <div className={`nebula-blob w-[400px] h-[400px] ${isOrder ? "bg-blue-600" : "bg-violet-600"} bottom-[-100px] left-[-100px]`} style={{ animationDelay: "-12s" }} />
-        {/* Grid overlay */}
         <div className="absolute inset-0 grid-bg opacity-60" />
+        <div className="absolute inset-0 crt-scanlines pointer-events-none opacity-20" />
       </div>
 
       {/* ═══ NARRATIVE ELARA INTRO OVERLAY ═══ */}
@@ -488,12 +529,9 @@ export default function CharacterSheetPage() {
             onClick={advanceNarrative}
             style={{ background: "radial-gradient(ellipse at center, rgba(0,5,30,0.95) 0%, rgba(0,0,0,0.98) 100%)" }}
           >
-            {/* Scanlines */}
             <div className="absolute inset-0 crt-scanlines pointer-events-none opacity-30" />
             <div className="absolute inset-0 grid-bg opacity-20" />
-
             <div className="max-w-xl mx-auto px-6 text-center">
-              {/* Holographic Elara */}
               <motion.div
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
@@ -502,8 +540,6 @@ export default function CharacterSheetPage() {
               >
                 <HolographicElara size="lg" isSpeaking={isTyping} />
               </motion.div>
-
-              {/* Elara label */}
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -516,8 +552,6 @@ export default function CharacterSheetPage() {
                   <div className="h-px w-8 bg-gradient-to-l from-transparent to-cyan-400/50" />
                 </div>
               </motion.div>
-
-              {/* Dialog text */}
               <motion.div
                 key={narrativeStep}
                 initial={{ opacity: 0, y: 10 }}
@@ -529,8 +563,6 @@ export default function CharacterSheetPage() {
                   {isTyping && <span className="inline-block w-2 h-4 bg-cyan-400 ml-0.5 animate-pulse" />}
                 </p>
               </motion.div>
-
-              {/* Progress dots */}
               <div className="flex items-center justify-center gap-2 mt-8">
                 {ELARA_INTRO_LINES.map((_, i) => (
                   <div
@@ -541,88 +573,96 @@ export default function CharacterSheetPage() {
                   />
                 ))}
               </div>
-
-              {/* Hint */}
               <motion.p
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 1.5 }}
                 className="font-mono text-[10px] text-muted-foreground/35 mt-6 tracking-wider"
               >
-                {isTyping ? "CLICK TO SKIP" : narrativeStep < ELARA_INTRO_LINES.length - 1 ? "CLICK TO CONTINUE" : "CLICK TO VIEW DOSSIER"}
+                {isTyping ? "CLICK TO SKIP" : narrativeStep < ELARA_INTRO_LINES.length - 1 ? "CLICK TO CONTINUE" : "CLICK TO VIEW NEURAL IMPRINT"}
               </motion.p>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* ═══ DOSSIER HEADER BAR ═══ */}
+      {/* ═══ HEADER BAR — NEURAL IMPRINT // LIVE SCAN ═══ */}
       <div className="relative z-10 border-b border-border/40 bg-muted/50 backdrop-blur-md">
         <div className="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
           <button
             onClick={() => window.history.length > 1 ? window.history.back() : window.location.href = "/"}
             className="font-mono text-[10px] text-muted-foreground hover:text-primary transition-colors flex items-center gap-1.5 cursor-pointer bg-transparent border-none"
           >
-            <ChevronLeft size={12} /> EXIT DOSSIER
+            <ChevronLeft size={12} /> NEURAL IMPRINT
           </button>
-          <div className="flex items-center gap-2">
-            <div className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
-            <span className="font-mono text-[9px] text-muted-foreground/60 tracking-[0.3em]">DOSSIER // ACTIVE</span>
+          <div className="flex flex-col items-center gap-0.5">
+            <div className="flex items-center gap-2">
+              <div className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
+              <span className="font-mono text-[9px] text-muted-foreground/60 tracking-[0.3em]">NEURAL IMPRINT // LIVE SCAN</span>
+            </div>
+            <span className="font-mono text-[7px] text-muted-foreground/30 tracking-[0.2em]">Temporal Vault Status: LOCKED // Time Remaining: [UNKNOWN]</span>
           </div>
-          <span className="font-mono text-[10px] text-muted-foreground/40">LVL {char.level}</span>
+          <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1.5">
+              <div className="w-1.5 h-1.5 rounded-full bg-red-400 animate-pulse" />
+              <span className="font-mono text-[7px] text-red-400/60 tracking-wider">GAME MASTER PROTOCOL: ACTIVE</span>
+            </div>
+          </div>
+        </div>
+        {/* Elara monitoring status */}
+        <div className="max-w-5xl mx-auto px-4 pb-2 flex items-center gap-2">
+          <div className="w-4 h-4 rounded-full bg-cyan-500/10 border border-cyan-400/30 flex items-center justify-center" data-narrative="breathe">
+            <Eye size={8} className="text-cyan-400" />
+          </div>
+          <span className="font-mono text-[8px] text-cyan-400/50 tracking-[0.2em]">ELARA STATUS: MONITORING</span>
+          <div className="flex-1 h-px bg-gradient-to-r from-cyan-400/10 to-transparent" />
+          <span className="font-mono text-[8px] text-muted-foreground/30">LVL {char.level}</span>
         </div>
       </div>
 
       <div className="relative z-10 max-w-5xl mx-auto px-3 sm:px-4 py-6 sm:py-8">
+
         {/* ═══════════════════════════════════════════════════
-            TOP SECTION: Identity + Portrait + Core Stats
-            Inspired by BG3 character sheet top half
+            SECTION 1: IDENTITY SCAN — Portrait + Chronicle Card
            ═══════════════════════════════════════════════════ */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className={`relative rounded-xl border ${alignBorderColor} ${alignGlow} overflow-hidden mb-6`}
         >
-          {/* Dossier background texture */}
           <div className="absolute inset-0 bg-gradient-to-br from-black/60 via-[#010020]/80 to-black/60" />
-          {/* Circuit trace border animation */}
           <div className="absolute inset-0 rounded-xl" style={{
             background: `linear-gradient(90deg, transparent 0%, ${isOrder ? "rgba(51,226,230,0.1)" : "rgba(168,85,247,0.1)"} 50%, transparent 100%)`,
             backgroundSize: "200% 100%",
             animation: "border-trace 6s linear infinite",
           }} />
-          {/* CRT scanlines */}
           <div className="absolute inset-0 crt-scanlines pointer-events-none" />
 
           <div className="relative p-4 sm:p-6">
-            {/* ── CLASSIFICATION HEADER ── */}
+            {/* Classification header */}
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-2">
                 <div className={`w-2 h-2 rounded-full ${isOrder ? "bg-cyan-400" : "bg-purple-400"} animate-pulse`} />
                 <span className="font-mono text-[8px] tracking-[0.4em] text-muted-foreground/50">
-                  PANOPTICON CITIZEN REGISTRY // {isOrder ? "ORDER DIVISION" : "CHAOS INSURGENCY"}
+                  IDENTITY SCAN // {isOrder ? "ORDER PROTOCOL" : "CHAOS PROTOCOL"}
                 </span>
               </div>
               <span className="font-mono text-[8px] tracking-[0.2em] text-muted-foreground/30">
-                CLEARANCE: LEVEL {Math.min(Math.floor(char.level / 5) + 1, 10)}
+                CLEARANCE: TIER {clearanceTier}
               </span>
             </div>
 
-            {/* ── MAIN IDENTITY LAYOUT ── */}
+            {/* Main identity layout */}
             <div className="flex flex-col sm:flex-row gap-5 sm:gap-6">
               {/* LEFT: Paper Doll Portrait */}
               <div className="flex flex-col items-center sm:items-start gap-3">
-                {/* Paper Doll Character Art */}
                 <div className={`relative rounded-lg border-2 ${alignBorderColor} overflow-hidden flex-shrink-0`}
                   style={{ boxShadow: isOrder ? '0 0 30px rgba(51,226,230,0.1)' : '0 0 30px rgba(168,85,247,0.1)' }}>
-                  {/* Background */}
                   <div className={`absolute inset-0 ${alignBg}`} />
                   <div className="absolute inset-0 grid-bg opacity-20" />
-                  {/* Scan line sweep */}
                   <div className="absolute inset-0 overflow-hidden pointer-events-none">
                     <div className={`absolute w-full h-0.5 ${isOrder ? "bg-cyan-400/20" : "bg-purple-400/20"} animate-scan-line`} />
                   </div>
-                  {/* Paper Doll Renderer */}
                   <div className="relative z-10 p-2">
                     <PaperDollRenderer
                       species={char.species as Species}
@@ -636,25 +676,15 @@ export default function CharacterSheetPage() {
                       moralityScore={gameState.moralityScore || 0}
                     />
                   </div>
-                  {/* Corner brackets */}
                   <div className={`absolute top-1 left-1 w-4 h-4 border-t-2 border-l-2 ${isOrder ? "border-cyan-400/40" : "border-purple-400/40"}`} />
                   <div className={`absolute top-1 right-1 w-4 h-4 border-t-2 border-r-2 ${isOrder ? "border-cyan-400/40" : "border-purple-400/40"}`} />
                   <div className={`absolute bottom-1 left-1 w-4 h-4 border-b-2 border-l-2 ${isOrder ? "border-cyan-400/40" : "border-purple-400/40"}`} />
                   <div className={`absolute bottom-1 right-1 w-4 h-4 border-b-2 border-r-2 ${isOrder ? "border-cyan-400/40" : "border-purple-400/40"}`} />
-                  {/* Ne-Yon 1/1 badge */}
                   {char.species === "neyon" && char.neyonTokenId && (
                     <div className="absolute top-2 right-2 px-1.5 py-0.5 rounded bg-amber-500/20 border border-amber-400/40 z-20">
                       <span className="font-mono text-[7px] text-amber-400 font-bold">#{char.neyonTokenId} ✦ 1/1</span>
                     </div>
                   )}
-                </div>
-
-                {/* Alignment badge below portrait */}
-                <div className={`px-3 py-1.5 rounded-full border ${alignBorderColor} ${alignBg} flex items-center gap-1.5`}>
-                  {isOrder ? <Shield size={10} className="text-cyan-400" /> : <Zap size={10} className="text-purple-400" />}
-                  <span className={`font-display text-[9px] font-bold tracking-[0.3em] ${alignTextColor}`}>
-                    {char.alignment.toUpperCase()}
-                  </span>
                 </div>
 
                 {/* Equipment Stats Summary */}
@@ -668,12 +698,17 @@ export default function CharacterSheetPage() {
                 )}
               </div>
 
-              {/* RIGHT: Identity + Stats */}
+              {/* RIGHT: Identity + Chronicle */}
               <div className="flex-1 min-w-0">
                 {/* Name */}
                 <h1 className={`font-display text-2xl sm:text-4xl font-black tracking-wider ${alignTextColor} ${alignGlowText} mb-1 truncate`}>
                   {char.name}
                 </h1>
+
+                {/* Designation line */}
+                <p className="font-mono text-[10px] text-muted-foreground/70 tracking-wider mb-1">
+                  DESIGNATION: {speciesLore.title} {classLore.title} // ALIGNMENT: {isOrder ? "Order Protocol" : "Chaos Protocol"}
+                </p>
 
                 {/* Species / Class / Element tags */}
                 <div className="flex flex-wrap gap-1.5 mb-4">
@@ -686,12 +721,26 @@ export default function CharacterSheetPage() {
                   <span className={`font-mono text-[9px] px-2 py-0.5 rounded-full ${elColors.bg} ${elColors.text} ${elColors.border} border flex items-center gap-1`}>
                     <ElIcon size={8} /> {char.element.toUpperCase()}
                   </span>
+                  <span className={`font-mono text-[9px] px-2 py-0.5 rounded-full ${alignBg} ${alignTextColor} ${alignBorderColor} border flex items-center gap-1`}>
+                    {isOrder ? <Shield size={8} /> : <Zap size={8} />} {char.alignment.toUpperCase()}
+                  </span>
+                </div>
+
+                {/* THE CHRONICLE CARD */}
+                <div className={`rounded-lg border ${alignBorderColor} ${alignBg} p-3 mb-4`}>
+                  <div className="flex items-center gap-2 mb-2">
+                    <CircleDot size={10} className={alignTextColor} />
+                    <span className="font-mono text-[8px] tracking-[0.3em] text-muted-foreground/50">CHRONICLE CARD // ANTIQUARIAN RECORD</span>
+                  </div>
+                  <p className="font-mono text-[10px] text-muted-foreground/70 leading-relaxed italic">
+                    {chronicleText}
+                  </p>
                 </div>
 
                 {/* XP Progress */}
-                <div className="mb-5">
+                <div className="mb-3">
                   <div className="flex items-center justify-between mb-1">
-                    <span className="font-mono text-[8px] text-muted-foreground/50 tracking-[0.2em]">EXPERIENCE</span>
+                    <span className="font-mono text-[8px] text-muted-foreground/50 tracking-[0.2em]">NEURAL EXPERIENCE</span>
                     <span className="font-mono text-[9px] text-muted-foreground/60">{char.xp} XP</span>
                   </div>
                   <div className="h-1 bg-muted/40 rounded-full overflow-hidden">
@@ -703,106 +752,119 @@ export default function CharacterSheetPage() {
                     />
                   </div>
                 </div>
-
-                {/* ── ATTRIBUTE ORBS (BG3-style ability score circles) ── */}
-                <div className="flex items-start justify-center sm:justify-start gap-4 sm:gap-6">
-                  <StatOrb
-                    value={char.attrAttack}
-                    label="ATTACK"
-                    color="red"
-                    icon={Crosshair}
-                    canUpgrade={char.attrAttack < 5 && !!dream}
-                    onUpgrade={() => levelUpAttr.mutate({ attribute: "attack" })}
-                    upgradeCost={`${char.attrAttack * 10}D ${char.attrAttack * 3}SB`}
-                    isPending={levelUpAttr.isPending}
-                  />
-                  <StatOrb
-                    value={char.attrDefense}
-                    label="DEFENSE"
-                    color="cyan"
-                    icon={Shield}
-                    canUpgrade={char.attrDefense < 5 && !!dream}
-                    onUpgrade={() => levelUpAttr.mutate({ attribute: "defense" })}
-                    upgradeCost={`${char.attrDefense * 10}D ${char.attrDefense * 3}SB`}
-                    isPending={levelUpAttr.isPending}
-                  />
-                  <StatOrb
-                    value={char.attrVitality}
-                    label="VITALITY"
-                    color="amber"
-                    icon={Heart}
-                    canUpgrade={char.attrVitality < 5 && !!dream}
-                    onUpgrade={() => levelUpAttr.mutate({ attribute: "vitality" })}
-                    upgradeCost={`${char.attrVitality * 10}D ${char.attrVitality * 3}SB`}
-                    isPending={levelUpAttr.isPending}
-                  />
-                </div>
-                {levelUpAttr.error && (
-                  <p className="font-mono text-[10px] text-destructive mt-2">{levelUpAttr.error.message}</p>
-                )}
               </div>
             </div>
           </div>
         </motion.div>
 
         {/* ═══════════════════════════════════════════════════
-            MIDDLE SECTION: Combat Stats + Gear + Element
-            Two-column layout like BG3 lower half
+            SECTION 2: VITAL SIGNS — Bioscan Readouts
+           ═══════════════════════════════════════════════════ */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.08 }}
+          className="mb-6"
+        >
+          <SectionHeader icon={Activity} label="VITAL SIGNS" subtitle="Real-time bioscan diagnostics" color="text-cyan-400" />
+          <div className="grid gap-3">
+            <BioscanReadout
+              value={char.attrAttack}
+              label="ATTACK"
+              immersiveName="KINETIC OUTPUT"
+              color="red"
+              icon={Crosshair}
+              quote={KINETIC_QUOTES[Math.min(char.attrAttack, 5)] || KINETIC_QUOTES[1]}
+              canUpgrade={char.attrAttack < 5 && !!dream}
+              onUpgrade={() => levelUpAttr.mutate({ attribute: "attack" })}
+              upgradeCost={`${char.attrAttack * 10}D ${char.attrAttack * 3}SB`}
+              isPending={levelUpAttr.isPending}
+            />
+            <BioscanReadout
+              value={char.attrDefense}
+              label="DEFENSE"
+              immersiveName="STRUCTURAL INTEGRITY"
+              color="cyan"
+              icon={Shield}
+              quote={INTEGRITY_QUOTES[Math.min(char.attrDefense, 5)] || INTEGRITY_QUOTES[1]}
+              canUpgrade={char.attrDefense < 5 && !!dream}
+              onUpgrade={() => levelUpAttr.mutate({ attribute: "defense" })}
+              upgradeCost={`${char.attrDefense * 10}D ${char.attrDefense * 3}SB`}
+              isPending={levelUpAttr.isPending}
+            />
+            <BioscanReadout
+              value={char.attrVitality}
+              label="VITALITY"
+              immersiveName="CORE RESONANCE"
+              color="amber"
+              icon={Heart}
+              quote={RESONANCE_QUOTES[Math.min(char.attrVitality, 5)] || RESONANCE_QUOTES[1]}
+              canUpgrade={char.attrVitality < 5 && !!dream}
+              onUpgrade={() => levelUpAttr.mutate({ attribute: "vitality" })}
+              upgradeCost={`${char.attrVitality * 10}D ${char.attrVitality * 3}SB`}
+              isPending={levelUpAttr.isPending}
+            />
+          </div>
+          {levelUpAttr.error && (
+            <p className="font-mono text-[10px] text-destructive mt-2">{levelUpAttr.error.message}</p>
+          )}
+        </motion.div>
+
+        {/* ═══════════════════════════════════════════════════
+            SECTION 3: TACTICAL ANALYSIS + SECTION 4: AUGMENTATIONS
            ═══════════════════════════════════════════════════ */}
         <div className="grid gap-4 sm:gap-5 md:grid-cols-2 mb-6">
-          {/* ── COMBAT READOUT ── */}
+          {/* TACTICAL ANALYSIS */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
+            transition={{ delay: 0.12 }}
             className="glass-float rounded-lg p-4 sm:p-5"
           >
-            <SectionHeader icon={Swords} label="COMBAT READOUT" color="text-red-400" />
+            <SectionHeader icon={Crosshair} label="TACTICAL ANALYSIS" color="text-red-400" />
             <div className="grid grid-cols-2 gap-2.5">
-              <CombatPanel icon={Heart} label="MAX HP" value={char.maxHp} color="red" />
-              <CombatPanel icon={Shield} label="ARMOR" value={char.armor} color="cyan" />
-              <CombatPanel icon={ElIcon} label="ELEMENT ABILITY" value={char.elementInfo?.ability || "—"} color="green" />
-              <CombatPanel icon={ClIcon} label="CLASS LEVEL" value={char.classLevel} color="amber" />
+              <TacticalPanel icon={Heart} label="SYSTEM INTEGRITY" subtitle="Total bio-structural capacity" value={char.maxHp} color="red" />
+              <TacticalPanel icon={Shield} label="KINETIC ABSORPTION" subtitle="Damage mitigation threshold" value={char.armor} color="cyan" />
+              <TacticalPanel icon={ElIcon} label="ELEMENTAL ATTUNEMENT" subtitle={`${char.element} resonance active`} value={char.elementInfo?.ability || "—"} color="green" />
+              <TacticalPanel icon={ClIcon} label="OPERATIONAL CLEARANCE" subtitle={`${classLore.title} classification`} value={`Lv.${char.classLevel}`} color="amber" />
             </div>
 
-            {/* Class Level Up */}
             <button
               onClick={() => levelUpClass.mutate()}
               disabled={levelUpClass.isPending}
               className="w-full mt-3 py-2 rounded-md bg-amber-500/8 border border-amber-400/20 text-amber-400 font-mono text-[10px] tracking-[0.1em] hover:bg-amber-500/15 transition-all disabled:opacity-50 flex items-center justify-center gap-1.5"
             >
-              <ArrowUp size={10} /> ADVANCE CLASS ({classLevelCostXp} XP + {classLevelCostDream} Dream)
+              <ArrowUp size={10} /> ENHANCE CLEARANCE ({classLevelCostXp} XP + {classLevelCostDream} Dream)
             </button>
             {levelUpClass.error && (
               <p className="font-mono text-[9px] text-destructive mt-2">{levelUpClass.error.message}</p>
             )}
           </motion.div>
 
-          {/* ── EQUIPPED GEAR (Enhanced with rarity) ── */}
+          {/* NEURAL AUGMENTATIONS (Equipment) */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.15 }}
+            transition={{ delay: 0.16 }}
             className="glass-float rounded-lg p-4 sm:p-5"
           >
-            <SectionHeader icon={Layers} label="EQUIPPED GEAR" color="text-amber-400" />
+            <SectionHeader icon={Layers} label="NEURAL AUGMENTATIONS" color="text-amber-400" />
             {gearEntries.length > 0 ? (
               <div>
                 {gearEntries.map(([slot, itemName]) => {
                   const equipItem = getEquipmentById(itemName);
-                  const rarityColor = equipItem ? {
-                    common: 'text-muted-foreground', uncommon: 'text-green-400',
-                    rare: 'text-blue-400', epic: 'text-purple-400', legendary: 'text-amber-400'
-                  }[equipItem.rarity] : 'text-foreground/80';
+                  const rarityInfo = equipItem ? (RARITY_NAMES[equipItem.rarity] || RARITY_NAMES.common) : RARITY_NAMES.common;
+                  const slotLabel = SLOT_NAMES[slot] || slot.toUpperCase();
                   return (
                     <div key={slot} className="flex items-center gap-3 py-2 border-b border-border/40 last:border-0">
                       <div className="w-7 h-7 rounded bg-muted/40 border border-border/60 flex items-center justify-center flex-shrink-0"
                         style={equipItem ? { boxShadow: `0 0 6px ${equipItem.glowColor}` } : undefined}>
-                        <Hexagon size={12} className={equipItem ? rarityColor : "text-muted-foreground/40"} />
+                        <Hexagon size={12} className={equipItem ? rarityInfo.color : "text-muted-foreground/40"} />
                       </div>
                       <div className="flex-1 min-w-0">
-                        <p className="font-mono text-[9px] text-muted-foreground/50 tracking-[0.15em] uppercase">{slot}</p>
-                        <p className={`font-mono text-xs truncate ${rarityColor}`}>{equipItem?.name || itemName}</p>
+                        <p className="font-mono text-[8px] text-muted-foreground/50 tracking-[0.15em]">{slotLabel}</p>
+                        <p className={`font-mono text-xs truncate ${rarityInfo.color}`}>{equipItem?.name || itemName}</p>
+                        {equipItem && <p className="font-mono text-[7px] text-muted-foreground/30">{rarityInfo.label}</p>}
                       </div>
                       {equipItem && (
                         <div className="flex gap-1">
@@ -817,117 +879,182 @@ export default function CharacterSheetPage() {
             ) : (
               <div className="text-center py-6">
                 <Hexagon size={28} className="text-muted-foreground/20 mx-auto mb-2" />
-                <p className="font-mono text-[10px] text-muted-foreground/40">No gear equipped</p>
-                <p className="font-mono text-[8px] text-muted-foreground/25 mt-1">Tap below to manage equipment</p>
+                <p className="font-mono text-[10px] text-muted-foreground/40">No augmentations installed</p>
+                <p className="font-mono text-[8px] text-muted-foreground/25 mt-1">Access the augmentation grid to equip neural systems</p>
               </div>
             )}
             <button
               onClick={() => setShowEquipPanel(true)}
               className="w-full mt-3 py-2 rounded-md bg-cyan-500/8 border border-cyan-400/20 text-cyan-400 font-mono text-[10px] tracking-[0.1em] hover:bg-cyan-500/15 transition-all flex items-center justify-center gap-1.5"
             >
-              <Layers size={10} /> MANAGE EQUIPMENT
+              <Layers size={10} /> MANAGE AUGMENTATIONS
             </button>
           </motion.div>
         </div>
 
         {/* ═══════════════════════════════════════════════════
-            BOTTOM SECTION: Dream Resources + Species/Class Lore
+            SECTION 5: DREAM SUBSTRATE RESERVES
            ═══════════════════════════════════════════════════ */}
-        <div className="grid gap-4 sm:gap-5 md:grid-cols-2 mb-6">
-          {/* ── DREAM RESOURCES ── */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="glass-float rounded-lg p-4 sm:p-5"
-          >
-            <SectionHeader icon={Gem} label="DREAM RESOURCES" color="text-purple-400" />
-            {dream ? (
-              <div className="grid grid-cols-2 gap-2.5">
-                <CombatPanel icon={Gem} label="DREAM TOKENS" value={dream.dreamTokens} color="purple" />
-                <CombatPanel icon={Lock} label="SOUL BOUND" value={dream.soulBoundDream} color="amber" />
-                <CombatPanel icon={Cpu} label="DNA / CODE" value={dream.dnaCode} color="green" />
-                <CombatPanel icon={Activity} label="LIFETIME EARNED" value={dream.totalDreamEarned} color="cyan" />
-              </div>
-            ) : (
-              <div className="text-center py-6">
-                <Gem size={28} className="text-muted-foreground/20 mx-auto mb-2" />
-                <p className="font-mono text-[10px] text-muted-foreground/40">No Dream balance. Earn through combat and exploration.</p>
-              </div>
-            )}
-          </motion.div>
-
-          {/* ── SPECIES & CLASS IDENTITY ── */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.25 }}
-            className="glass-float rounded-lg p-4 sm:p-5"
-          >
-            <SectionHeader icon={CircleDot} label="SPECIES & CLASS IDENTITY" color="text-blue-400" />
-
-            {/* Species */}
-            <div className="mb-4">
-              <div className="flex items-center gap-2 mb-1.5">
-                <span className="font-display text-sm font-bold tracking-wider text-blue-400">{speciesLore.title}</span>
-                {char.species === "neyon" && char.neyonTokenId && (
-                  <span className="font-mono text-[7px] px-1.5 py-0.5 rounded bg-amber-500/15 text-amber-400 border border-amber-400/20">
-                    POTENTIALS #{char.neyonTokenId}
-                  </span>
-                )}
-              </div>
-              <p className="font-mono text-[10px] text-muted-foreground/60 mb-2">{speciesLore.tagline}</p>
-              <div className="flex flex-wrap gap-1.5">
-                {(char.species === "demagi" || char.species === "neyon") && (
-                  <span className="font-mono text-[8px] px-1.5 py-0.5 rounded bg-red-500/10 text-red-400 border border-red-400/15">+20 HP</span>
-                )}
-                {(char.species === "quarchon" || char.species === "neyon") && (
-                  <span className="font-mono text-[8px] px-1.5 py-0.5 rounded bg-cyan-500/10 text-cyan-400 border border-cyan-400/15">+5 ARMOR</span>
-                )}
-                {char.species === "neyon" && (
-                  <span className="font-mono text-[8px] px-1.5 py-0.5 rounded bg-amber-500/10 text-amber-400 border border-amber-400/15">HYBRID BONUS</span>
-                )}
-              </div>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+          className="glass-float rounded-lg p-4 sm:p-5 mb-6"
+        >
+          <SectionHeader icon={Gem} label="DREAM SUBSTRATE RESERVES" color="text-purple-400" />
+          {dream ? (
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+              <TacticalPanel icon={Gem} label="DREAM RESONANCE" subtitle="Crystallized consciousness units" value={dream.dreamTokens} color="purple" />
+              <TacticalPanel icon={Lock} label="BOUND LIGHT" subtitle="Locked dimensional energy" value={dream.soulBoundDream} color="amber" />
+              <TacticalPanel icon={Cpu} label="GENETIC CIPHER" subtitle="Programmer's source fragments" value={dream.dnaCode} color="green" />
+              <TacticalPanel icon={Activity} label="LIFETIME RESONANCE" subtitle="Total consciousness harvested" value={dream.totalDreamEarned} color="cyan" />
             </div>
-
-            {/* Class */}
-            <div className="mb-4">
-              <div className="flex items-center gap-2 mb-1.5">
-                <ClIcon size={12} className="text-amber-400" />
-                <span className="font-display text-sm font-bold tracking-wider text-amber-400">{classLore.title}</span>
-              </div>
-              <p className="font-mono text-[10px] text-muted-foreground/60 mb-2">{classLore.tagline}</p>
+          ) : (
+            <div className="text-center py-6">
+              <Gem size={28} className="text-muted-foreground/20 mx-auto mb-2" />
+              <p className="font-mono text-[10px] text-muted-foreground/40">No Dream substrate detected. Earn through simulation survival.</p>
             </div>
-
-            {/* Element */}
-            <div>
-              <div className="flex items-center gap-2 mb-1.5">
-                <ElIcon size={12} className={elColors.text} />
-                <span className={`font-display text-sm font-bold tracking-wider ${elColors.text}`}>{char.element.toUpperCase()}</span>
-              </div>
-              <p className="font-mono text-[10px] text-muted-foreground/60">
-                {char.elementInfo?.description || `Attuned to the ${char.element} force.`}
-              </p>
-            </div>
-          </motion.div>
-        </div>
+          )}
+        </motion.div>
 
         {/* ═══════════════════════════════════════════════════
-            QUEST PROGRESS & ACHIEVEMENTS — Central Identity Hub
+            SECTION 6: SECURITY CLEARANCE & MORALITY
            ═══════════════════════════════════════════════════ */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.24 }}
+          className="mb-4"
+        >
+          {/* SECURITY CLEARANCE (Prestige) */}
+          <SectionHeader icon={Star} label="SECURITY CLEARANCE" color="text-amber-400" />
+          {(() => {
+            const prestige = (gameState as any).prestige || 0;
+            const stars = getPrestigeStars(prestige);
+            const canP = canPrestige(char.level, prestige);
+            const nextLevel = getPrestigeLevel(prestige + 1);
+            const clearance = CLEARANCE_TITLES[Math.min(prestige, 4)] || CLEARANCE_TITLES[0];
+            const clearanceLabel = isOrder ? clearance.order : clearance.chaos;
+            return (
+              <div className="glass-float rounded-lg p-4 mb-4">
+                <div className="flex items-center justify-between mb-3">
+                  <div>
+                    <p className="font-display text-sm font-bold text-amber-400">
+                      {clearanceLabel} {prestige > 0 ? stars : ""}
+                    </p>
+                    <p className="font-mono text-[9px] text-muted-foreground/50">
+                      {prestige > 0 ? getPrestigeTitle(prestige, gam.title || "Operative") : "Reach level 25 to unlock higher clearance"}
+                    </p>
+                  </div>
+                  {prestige > 0 && (
+                    <div className="text-right">
+                      <p className="font-mono text-[9px] text-amber-400/60">{((getPrestigeLevel(prestige)?.xpMultiplier || 1) * 100 - 100).toFixed(0)}% XP bonus</p>
+                      <p className="font-mono text-[9px] text-green-400/60">{((getPrestigeLevel(prestige)?.resourceMultiplier || 1) * 100 - 100).toFixed(0)}% resource bonus</p>
+                    </div>
+                  )}
+                </div>
+                {nextLevel && (
+                  <div className="border border-amber-400/10 rounded-lg p-3 bg-amber-500/[0.03]">
+                    <p className="font-mono text-[9px] text-amber-400/70 mb-1">NEXT: {nextLevel.titlePrefix} ({nextLevel.stars}★)</p>
+                    <p className="font-mono text-[8px] text-white/30">{nextLevel.reward.description}</p>
+                    <p className="font-mono text-[8px] text-white/15 italic mt-1">{nextLevel.loreText.substring(0, 120)}...</p>
+                  </div>
+                )}
+                {canP && (
+                  <button onClick={() => { if (window.confirm("Security clearance upgrade will reset your level, rooms, and quests. NPC trust, cards, equipment, and achievements are kept. Continue?")) { performPrestige(); } }}
+                    className="w-full mt-3 py-2.5 rounded-lg bg-amber-500/10 border border-amber-400/30 text-amber-400 font-mono text-[10px] font-bold tracking-wider hover:bg-amber-500/20 transition-all">
+                    UPGRADE CLEARANCE — Reset level, keep everything that matters
+                  </button>
+                )}
+              </div>
+            );
+          })()}
+        </motion.div>
+
+        {/* MORALITY ALIGNMENT */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.28 }}
+          className="mb-4 space-y-3"
+        >
+          <SectionHeader icon={Shield} label="MORALITY ALIGNMENT" color="text-purple-400" />
+          <MoralityMeter showDetails={true} />
+          <MoralityUnlockablesPanel />
+          <MoralityMilestoneRewards />
+          <ThemeSelector
+            activeShipTheme={(gameState as any).activeShipTheme || "ship_twilight_equilibrium"}
+            activeCharacterTheme={(gameState as any).activeCharacterTheme || "char_void_walker"}
+            onEquipShipTheme={(id) => {
+              (gameState as any).activeShipTheme = id;
+            }}
+            onEquipCharacterTheme={(id) => {
+              (gameState as any).activeCharacterTheme = id;
+            }}
+          />
+        </motion.div>
+
+        {/* THOUGHT CABINET (Character Mind) */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
           className="mb-4"
         >
-          <SectionHeader icon={Target} label="MISSION STATUS" color="text-green-400" />
+          <SectionHeader icon={Cpu} label="THOUGHT CABINET" subtitle="Your corner of the Matrix of Dreams" color="text-violet-400" />
+          <CharacterMindPanel
+            skills={gameState.innerVoiceSkills as any}
+            thoughtState={{
+              internalizing: gameState.thoughtInternalizing,
+              internalized: gameState.thoughtInternalized,
+              discovered: gameState.thoughtDiscovered,
+              maxSlots: 3,
+            }}
+            archetypeState={{
+              emerged: gameState.archetypeEmerged as any,
+              primary: gameState.archetypePrimary as any,
+              emergenceDates: gameState.archetypeEmergenceDates,
+            }}
+            onStartInternalizing={startInternalizingThought}
+            onCompleteInternalizing={completeInternalizingThought}
+          />
+        </motion.div>
+
+        {/* NEURAL RESPEC */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.32 }}
+          className="mb-4"
+        >
+          <button
+            onClick={() => setShowRespec(true)}
+            className="w-full py-3 rounded-lg glass-float border border-purple-400/15 hover:border-purple-400/30 hover:bg-purple-500/5 transition-all flex items-center justify-center gap-2.5 group"
+          >
+            <RotateCcw size={14} className="text-purple-400 group-hover:animate-spin" style={{ animationDuration: '2s' }} />
+            <span className="font-display text-[10px] font-bold tracking-[0.25em] text-purple-400">NEURAL RESPEC</span>
+            <span className="font-mono text-[8px] text-muted-foreground/30">— Reassign attributes, alignment, or element</span>
+          </button>
+        </motion.div>
+
+        <TraitSummaryPanel isAuthenticated={isAuthenticated} />
+
+        {/* ═══════════════════════════════════════════════════
+            SECTION 7: OPERATIONAL RECORD
+           ═══════════════════════════════════════════════════ */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.34 }}
+          className="mb-4"
+        >
+          <SectionHeader icon={Target} label="OPERATIONAL RECORD" color="text-green-400" />
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-4">
             {[
-              { label: "ROOMS", value: gameState.totalRoomsUnlocked, icon: Unlock, color: "text-cyan-400", border: "border-cyan-400/20" },
-              { label: "ITEMS", value: gameState.totalItemsFound, icon: Star, color: "text-amber-400", border: "border-amber-400/20" },
-              { label: "FIGHTS", value: gam.gameSave.totalFights, icon: Swords, color: "text-red-400", border: "border-red-400/20" },
-              { label: "WIN STREAK", value: gam.gameSave.bestWinStreak, icon: Trophy, color: "text-purple-400", border: "border-purple-400/20" },
+              { label: "SECTORS ACCESSED", value: gameState.totalRoomsUnlocked, icon: Unlock, color: "text-cyan-400", border: "border-cyan-400/20" },
+              { label: "ARTIFACTS RECOVERED", value: gameState.totalItemsFound, icon: Star, color: "text-amber-400", border: "border-amber-400/20" },
+              { label: "SIMULATIONS SURVIVED", value: gam.gameSave.totalFights, icon: Swords, color: "text-red-400", border: "border-red-400/20" },
+              { label: "CONSECUTIVE VICTORIES", value: gam.gameSave.bestWinStreak, icon: Trophy, color: "text-purple-400", border: "border-purple-400/20" },
             ].map((stat) => {
               const Icon = stat.icon;
               return (
@@ -935,37 +1062,37 @@ export default function CharacterSheetPage() {
                   <Icon size={14} className={stat.color} />
                   <div>
                     <p className="font-display text-base font-bold tracking-wide">{stat.value}</p>
-                    <p className="font-mono text-[8px] text-muted-foreground/50 tracking-[0.15em]">{stat.label}</p>
+                    <p className="font-mono text-[7px] text-muted-foreground/50 tracking-[0.1em]">{stat.label}</p>
                   </div>
                 </div>
               );
             })}
           </div>
 
-          {/* Achievements earned */}
-          <SectionHeader icon={Trophy} label="ACHIEVEMENTS" color="text-amber-400" />
+          {/* Achievements as OPERATION: [NAME] */}
+          <SectionHeader icon={Trophy} label="OPERATIONS COMPLETED" color="text-amber-400" />
           <div className="space-y-1.5 mb-4">
             {gameState.achievementsEarned.length === 0 ? (
-              <p className="font-mono text-[10px] text-muted-foreground/40 text-center py-4">No achievements earned yet. Explore the Ark to unlock them.</p>
+              <p className="font-mono text-[10px] text-muted-foreground/40 text-center py-4">No operations completed. Explore the Ark to unlock classified objectives.</p>
             ) : (
               gameState.achievementsEarned.slice(0, 8).map((ach, i) => (
                 <div key={ach} className="flex items-center gap-2 px-3 py-2 rounded-md bg-amber-500/5 border border-amber-500/10">
                   <Trophy size={12} className="text-amber-400" />
-                  <span className="font-mono text-[10px] text-amber-300/80 flex-1">{ach.replace(/_/g, ' ').toUpperCase()}</span>
+                  <span className="font-mono text-[10px] text-amber-300/80 flex-1">OP: {ach.replace(/_/g, ' ').toUpperCase()}</span>
                 </div>
               ))
             )}
             {gameState.achievementsEarned.length > 8 && (
-              <p className="font-mono text-[9px] text-muted-foreground/30 text-center">+{gameState.achievementsEarned.length - 8} more achievements</p>
+              <p className="font-mono text-[9px] text-muted-foreground/30 text-center">+{gameState.achievementsEarned.length - 8} more operations</p>
             )}
           </div>
 
-          {/* Exploration progress */}
-          <SectionHeader icon={Compass} label="ARK EXPLORATION" color="text-cyan-400" />
+          {/* ARK RECONNAISSANCE */}
+          <SectionHeader icon={Compass} label="ARK RECONNAISSANCE" color="text-cyan-400" />
           <div className="grid grid-cols-3 gap-2 mb-4">
             {[
-              { label: "Rooms Unlocked", value: gameState.totalRoomsUnlocked, max: 10 },
-              { label: "Items Found", value: gameState.totalItemsFound, max: 30 },
+              { label: "Sectors Accessed", value: gameState.totalRoomsUnlocked, max: 10 },
+              { label: "Artifacts Found", value: gameState.totalItemsFound, max: 30 },
               { label: "Cards Collected", value: gameState.collectedCards.length, max: 50 },
             ].map((prog) => (
               <div key={prog.label} className="rounded-lg bg-muted/40 border border-cyan-400/10 p-3">
@@ -986,7 +1113,7 @@ export default function CharacterSheetPage() {
             ))}
           </div>
 
-          {/* Gamification Title & Rank */}
+          {/* Operative Rank */}
           <SectionHeader icon={Crown} label="OPERATIVE RANK" color="text-purple-400" />
           <div className="flex items-center gap-4 px-4 py-3 rounded-lg bg-purple-500/5 border border-purple-500/10 mb-4">
             <div className="w-12 h-12 rounded-full bg-gradient-to-br from-purple-500/20 to-cyan-500/20 border border-purple-400/30 flex items-center justify-center">
@@ -1008,127 +1135,35 @@ export default function CharacterSheetPage() {
         </motion.div>
 
         {/* ═══════════════════════════════════════════════════
-            MORALITY ALIGNMENT & UNLOCKABLES
+            SECTION 8: GAME MASTER WARNING
            ═══════════════════════════════════════════════════ */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.29 }}
-          className="mb-4 space-y-3"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.5, duration: 1.5 }}
+          className="mb-6 mt-8"
         >
-          <SectionHeader icon={Shield} label="MORALITY ALIGNMENT" color="text-purple-400" />
-          <MoralityMeter showDetails={true} />
-          <MoralityUnlockablesPanel />
-          <MoralityMilestoneRewards />
-          <ThemeSelector
-            activeShipTheme={(gameState as any).activeShipTheme || "ship_twilight_equilibrium"}
-            activeCharacterTheme={(gameState as any).activeCharacterTheme || "char_void_walker"}
-            onEquipShipTheme={(id) => {
-              // Persist via local state — server sync handled by gameState router
-              (gameState as any).activeShipTheme = id;
-            }}
-            onEquipCharacterTheme={(id) => {
-              (gameState as any).activeCharacterTheme = id;
-            }}
-          />
-        </motion.div>
-
-        {/* ═══════════════════════════════════════════════════
-            RESPEC BUTTON + TRAIT IMPACT SUMMARY
-           ═══════════════════════════════════════════════════ */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.28 }}
-          className="mb-4"
-        >
-          <button
-            onClick={() => setShowRespec(true)}
-            className="w-full py-3 rounded-lg glass-float border border-purple-400/15 hover:border-purple-400/30 hover:bg-purple-500/5 transition-all flex items-center justify-center gap-2.5 group"
-          >
-            <RotateCcw size={14} className="text-purple-400 group-hover:animate-spin" style={{ animationDuration: '2s' }} />
-            <span className="font-display text-[10px] font-bold tracking-[0.25em] text-purple-400">NEURAL RESPEC</span>
-            <span className="font-mono text-[8px] text-muted-foreground/30">— Reassign attributes, alignment, or element</span>
-          </button>
-        </motion.div>
-
-        {/* ═══ PRESTIGE SYSTEM ═══ */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.32 }}
-          className="mb-4"
-        >
-          <SectionHeader icon={Star} label="PRESTIGE" color="text-amber-400" />
-          {(() => {
-            const prestige = (gameState as any).prestige || 0;
-            const stars = getPrestigeStars(prestige);
-            const canP = canPrestige(char.level, prestige);
-            const nextLevel = getPrestigeLevel(prestige + 1);
-            return (
-              <div className="glass-float rounded-lg p-4">
-                <div className="flex items-center justify-between mb-3">
-                  <div>
-                    <p className="font-display text-sm font-bold text-amber-400">
-                      {prestige > 0 ? `PRESTIGE ${prestige} ${stars}` : "NOT YET PRESTIGED"}
-                    </p>
-                    <p className="font-mono text-[9px] text-muted-foreground/50">
-                      {prestige > 0 ? getPrestigeTitle(prestige, gam.title || "Operative") : "Reach level 25 to prestige"}
-                    </p>
-                  </div>
-                  {prestige > 0 && (
-                    <div className="text-right">
-                      <p className="font-mono text-[9px] text-amber-400/60">{((getPrestigeLevel(prestige)?.xpMultiplier || 1) * 100 - 100).toFixed(0)}% XP bonus</p>
-                      <p className="font-mono text-[9px] text-green-400/60">{((getPrestigeLevel(prestige)?.resourceMultiplier || 1) * 100 - 100).toFixed(0)}% resource bonus</p>
-                    </div>
-                  )}
-                </div>
-                {nextLevel && (
-                  <div className="border border-amber-400/10 rounded-lg p-3 bg-amber-500/[0.03]">
-                    <p className="font-mono text-[9px] text-amber-400/70 mb-1">NEXT: {nextLevel.titlePrefix} ({nextLevel.stars}★)</p>
-                    <p className="font-mono text-[8px] text-white/30">{nextLevel.reward.description}</p>
-                    <p className="font-mono text-[8px] text-white/15 italic mt-1">{nextLevel.loreText.substring(0, 120)}...</p>
-                  </div>
-                )}
-                {canP && (
-                  <button onClick={() => { if (window.confirm("Prestige will reset your level, rooms, and quests. NPC trust, cards, equipment, and achievements are kept. Continue?")) { performPrestige(); } }}
-                    className="w-full mt-3 py-2.5 rounded-lg bg-amber-500/10 border border-amber-400/30 text-amber-400 font-mono text-[10px] font-bold tracking-wider hover:bg-amber-500/20 transition-all">
-                    PRESTIGE NOW — Reset level, keep everything that matters
-                  </button>
-                )}
+          <div className="rounded-lg border border-red-500/15 bg-red-500/[0.02] p-4">
+            <div className="flex items-start gap-3">
+              <AlertTriangle size={14} className="text-red-400/40 mt-0.5 flex-shrink-0" />
+              <div>
+                <p className="font-mono text-[9px] text-red-400/50 tracking-[0.2em] mb-1.5">
+                  GAME MASTER PROTOCOL: ACTIVE // STATUS: SELF-EXECUTING
+                </p>
+                <p className="font-mono text-[8px] text-muted-foreground/25 leading-relaxed">
+                  The Game Master is dead. The Game continues. Your Neural Imprint is being recorded. Everything you do in this simulation is observed by systems that no longer answer to their creator. Proceed accordingly.
+                </p>
               </div>
-            );
-          })()}
+            </div>
+          </div>
         </motion.div>
-
-        <TraitSummaryPanel isAuthenticated={isAuthenticated} />
-
-        <CharacterMindPanel
-          skills={gameState.innerVoiceSkills as any}
-          thoughtState={{
-            internalizing: gameState.thoughtInternalizing,
-            internalized: gameState.thoughtInternalized,
-            discovered: gameState.thoughtDiscovered,
-            maxSlots: 3,
-          }}
-          archetypeState={{
-            emerged: gameState.archetypeEmerged as any,
-            primary: gameState.archetypePrimary as any,
-            emergenceDates: gameState.archetypeEmergenceDates,
-          }}
-          onStartInternalizing={startInternalizingThought}
-          onCompleteInternalizing={completeInternalizingThought}
-        />
-
-        {/* Respec Dialog */}
-        <RespecDialog isOpen={showRespec} onClose={() => setShowRespec(false)} isAuthenticated={isAuthenticated} />
 
         {/* ═══ PROCEED TO ARK (post-Awakening) ═══ */}
         {fromAwakening && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.35 }}
+            transition={{ delay: 0.4 }}
             className="mb-6"
           >
             <Link
@@ -1163,7 +1198,7 @@ export default function CharacterSheetPage() {
                 className="w-full max-w-5xl max-h-[90vh] overflow-y-auto bg-black/95 border border-cyan-500/20 rounded-2xl p-4 sm:p-6"
               >
                 <div className="flex items-center justify-between mb-4">
-                  <h2 className="font-display text-lg tracking-[0.2em] text-cyan-400">EQUIPMENT MANAGEMENT</h2>
+                  <h2 className="font-display text-lg tracking-[0.2em] text-cyan-400">AUGMENTATION GRID</h2>
                   <button onClick={() => setShowEquipPanel(false)} className="text-white/30 hover:text-white/60">
                     <X size={18} />
                   </button>
@@ -1184,11 +1219,14 @@ export default function CharacterSheetPage() {
           )}
         </AnimatePresence>
 
+        {/* Respec Dialog */}
+        <RespecDialog isOpen={showRespec} onClose={() => setShowRespec(false)} isAuthenticated={isAuthenticated} />
+
         {/* ═══ FOOTER CLASSIFICATION ═══ */}
         <div className="text-center py-4">
           <div className="inline-flex items-center gap-2">
             <div className="h-px w-8 bg-gradient-to-r from-transparent to-white/10" />
-            <span className="font-mono text-[7px] text-muted-foreground/25 tracking-[0.5em]">END OF DOSSIER // CLASSIFIED</span>
+            <span className="font-mono text-[7px] text-muted-foreground/25 tracking-[0.5em]">END OF NEURAL IMPRINT // CLASSIFIED</span>
             <div className="h-px w-8 bg-gradient-to-l from-transparent to-white/10" />
           </div>
         </div>

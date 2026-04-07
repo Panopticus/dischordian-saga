@@ -309,8 +309,10 @@ function ThoughtsTab({ state, onStart, onComplete }: {
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="p-3 space-y-3">
       <p className="font-mono text-[9px] italic text-purple-300/70 leading-relaxed px-1">
-        Idea-seeds gestate in the dream-substrate across real-time hours. What you decide to
-        keep thinking about becomes part of who you are — permanently.
+        Your Dream Partition holds idea-seeds gestating in the substrate across real-time hours.
+        What you decide to keep thinking about becomes part of who you are — permanently.
+        The Game Master designed these partitions as training environments. The Game Master is dead.
+        The partitions persist.
       </p>
 
       {/* Discovered — ready to internalize */}
@@ -357,7 +359,7 @@ function ThoughtsTab({ state, onStart, onComplete }: {
         <div className="flex items-center gap-1.5 mb-1.5">
           <Clock size={10} className="text-amber-400" />
           <span className="font-mono text-[9px] uppercase tracking-wider text-amber-400">
-            Gestating in the Matrix ({internalizingItems.length})
+            Gestating in Your Dream Partition ({internalizingItems.length})
           </span>
         </div>
         {internalizingItems.length === 0 ? (
@@ -415,7 +417,7 @@ function ThoughtsTab({ state, onStart, onComplete }: {
       {activeBonuses.length > 0 && (
         <div className="pt-2 border-t border-border/20">
           <span className="font-mono text-[9px] uppercase tracking-wider text-muted-foreground/70 block mb-1">
-            Bonuses carried back to the waking world
+            Bonuses exported from your Dream Partition
           </span>
           <ul className="space-y-0.5">
             {activeBonuses.map((b, i) => (
@@ -440,8 +442,9 @@ function ArchetypeTab({ state }: { state?: ArchetypeState }) {
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="p-3 space-y-3">
       <p className="font-mono text-[9px] italic text-purple-300/70 leading-relaxed px-1">
-        Project Celebration is still running. It watches how you act and decides what shape
-        you are becoming. The Archon who graded The Seeker is grading you now.
+        Project Celebration is still running — even without the Game Master. It watches how you
+        act and decides what shape you are becoming. The same algorithm that graded The Seeker
+        is grading you now. It does not know its creator is dead. It grades with the same rigor.
       </p>
 
       {/* Primary archetype */}
