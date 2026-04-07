@@ -433,7 +433,7 @@ const VISIONS_ACHIEVEMENTS: LoreAchievement[] = [
     gameId: "yakuza-the-prince",
     title: "Neon Ronin",
     description: "Complete Yakuza: The Prince and navigate the cyberpunk underworld.",
-    loreFragment: "Jericho Jones was not born into the Yakuza — he was placed there by the Antiquarian, who needed someone inside the organization to protect a specific artifact: a katana forged from the metal of a fallen Inception Ark. The blade could cut through consensus reality, revealing the truth beneath any illusion. Akai Shi recognized the blade because she had forged it in a previous life, before the Fall. The Judge presided over the trial of the Yakuza's oyabun, who had committed the only crime the underworld considered unforgivable: he had told the truth.",
+    loreFragment: "I shall be direct, as the matter involves my own hand in events: Jericho Jones was not born into the Yakuza. I placed him there. I needed someone inside the organisation to protect a specific artifact — a katana forged from the metal of a fallen Inception Ark. The blade could cut through consensus reality, revealing the truth beneath any illusion. Akai Shi recognised it because she had forged it in a previous life, before the Fall. The Judge presided over the trial of the Yakuza's oyabun, who had committed the only crime the underworld considered unforgivable: he had told the truth. I do not often intervene directly. When I do, I prefer not to discuss it. Consider this entry an exception I shall not repeat.",
     xpReward: 175,
     cardReward: { name: "Inception Katana", type: "artifact", rarity: "epic" },
     icon: "⚡",
