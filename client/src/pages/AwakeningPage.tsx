@@ -9,7 +9,7 @@ import { useSound } from "@/contexts/SoundContext";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLocation } from "wouter";
 import { trpc } from "@/lib/trpc";
-import StarterDeckViewer, { generateStarterDeck } from "@/components/StarterDeckViewer";
+
 import CompanionSelectionScene from "@/game/CompanionSelectionScene";
 import { toast } from "sonner";
 import HolographicElara from "@/components/HolographicElara";
@@ -316,7 +316,7 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
   const [screenOpacity, setScreenOpacity] = useState(0);
   const [showFrost, setShowFrost] = useState(true);
   const [heartbeat, setHeartbeat] = useState(true);
-  const [showDeckReveal, setShowDeckReveal] = useState(false);
+  // Starter deck reveal moved to Training Room discovery — not shown during awakening
   const [audioInitialized, setAudioInitialized] = useState(false);
   const lastSpokenRef = useRef<string>("");
   const themeAudioRef = useRef<HTMLAudioElement | null>(null);
@@ -430,16 +430,7 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
     return map[species] ?? [];
   }, [characterChoices.species]);
 
-  // Generate starter deck from choices
-  const starterDeck = useMemo(() => {
-    return generateStarterDeck({
-      species: characterChoices.species || undefined,
-      characterClass: characterChoices.characterClass || undefined,
-      alignment: characterChoices.alignment || undefined,
-      element: characterChoices.element || undefined,
-      name: characterChoices.name || undefined,
-    });
-  }, [characterChoices]);
+  // Starter deck generation moved to Training Room discovery flow
 
   const trpcUtils = trpc.useUtils();
 
@@ -469,8 +460,8 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
     }
 
     if (audioInitialized) playSFX("achievement");
-    // Show deck reveal before navigating
-    setShowDeckReveal(true);
+    // Go straight to companion selection (deck reveal moved to Training Room discovery)
+    setShowCompanionSelect(true);
   }, [characterChoices, createCitizen, audioInitialized, playSFX, trpcUtils]);
 
   // Handle cinematic completion — receive the looping theme audio
@@ -770,7 +761,7 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
           )}
 
           {/* ─── FIRST STEPS ─── */}
-          {awakeningStep === "FIRST_STEPS" && !showDeckReveal && (
+          {awakeningStep === "FIRST_STEPS" && !showCompanionSelect && (
             <ElaraDialogBox
               key="first-steps"
               text={`Welcome aboard, ${characterChoices.name}. Your Citizen profile has been created. You are ${characterChoices.species === "demagi" ? "a DeMagi" : "a Quarchon"} ${characterChoices.characterClass}, aligned with ${characterChoices.alignment}. Your quarters are through that door — the Cryo Bay. The rest of the ship... I'll need your help to restore power to the other decks. There's so much I need to show you. And so much I need to warn you about.`}
@@ -779,36 +770,29 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
             />
           )}
 
-          {/* ─── STARTER DECK REVEAL ─── */}
-          {showDeckReveal && (
+          {/* ─── COMPANION SELECTION (after FIRST_STEPS) ─── */}
+          {showCompanionSelect && (
             <motion.div
-              key="deck-reveal"
+              key="companion-select"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               className="w-full max-w-4xl mx-auto"
             >
-              <StarterDeckViewer
-                cards={starterDeck}
-                onClose={() => setShowCompanionSelect(true)}
-                onContinue={() => setShowCompanionSelect(true)}
+              <CompanionSelectionScene
+                species={state.characterChoices.species || "demagi"}
+                onComplete={(companionId) => {
+                  // Save first companion to localStorage
+                  const owned = JSON.parse(localStorage.getItem("owned_specimens") || "[]");
+                  if (!owned.includes(companionId)) {
+                    owned.push(companionId);
+                    localStorage.setItem("owned_specimens", JSON.stringify(owned));
+                    localStorage.setItem("active_specimen", companionId);
+                  }
+                  completeAwakening();
+                  discoverEntry("awakening-complete");
+                  navigate("/character-sheet?from=awakening");
+                }}
               />
-              {showCompanionSelect && (
-                <CompanionSelectionScene
-                  species={state.characterChoices.species || "demagi"}
-                  onComplete={(companionId) => {
-                    // Save first companion to localStorage
-                    const owned = JSON.parse(localStorage.getItem("owned_specimens") || "[]");
-                    if (!owned.includes(companionId)) {
-                      owned.push(companionId);
-                      localStorage.setItem("owned_specimens", JSON.stringify(owned));
-                      localStorage.setItem("active_specimen", companionId);
-                    }
-                    completeAwakening();
-                    discoverEntry("awakening-complete");
-                    navigate("/character-sheet?from=awakening");
-                  }}
-                />
-              )}
             </motion.div>
           )}
         </AnimatePresence>

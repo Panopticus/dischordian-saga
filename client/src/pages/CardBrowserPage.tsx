@@ -10,6 +10,7 @@ import { Link } from "wouter";
 import TutorialTrigger from "@/components/TutorialTrigger";
 import { useAutoTutorial } from "@/hooks/useAutoTutorial";
 import AutoTutorialPrompt from "@/components/AutoTutorialPrompt";
+import StarterDeckFirstReveal from "@/components/StarterDeckFirstReveal";
 
 const CARD_TYPES = ["character", "action", "combat", "reaction", "event", "item", "location", "master", "political"];
 const RARITIES = ["common", "uncommon", "rare", "epic", "legendary", "mythic", "neyon"];
@@ -84,6 +85,7 @@ export default function CardBrowserPage() {
 
   return (
     <>
+    <StarterDeckFirstReveal />
     {autoTutorial && (
       <AutoTutorialPrompt
         tutorial={autoTutorial}
