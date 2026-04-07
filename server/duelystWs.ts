@@ -11,6 +11,7 @@
 import { WebSocketServer, WebSocket } from "ws";
 import type { Server } from "http";
 import { checkWsRateLimit, sendRateLimitError, storeDisconnectedSession, recoverSession } from "./wsRateLimit";
+import { duelystClientMessageSchema } from "./wsSchemas";
 
 /* ─── TYPES ─── */
 
@@ -184,7 +185,15 @@ export function setupDuelystWebSocket(server: Server) {
 
     ws.on("message", (raw) => {
       let msg: ClientMessage;
-      try { msg = JSON.parse(raw.toString()); } catch {
+      try {
+        const parsed = JSON.parse(raw.toString());
+        const result = duelystClientMessageSchema.safeParse(parsed);
+        if (!result.success) {
+          send(ws, { type: "ERROR", message: "Invalid message format" });
+          return;
+        }
+        msg = result.data as ClientMessage;
+      } catch {
         send(ws, { type: "ERROR", message: "Invalid JSON" });
         return;
       }

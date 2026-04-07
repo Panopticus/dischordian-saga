@@ -12,6 +12,7 @@ import { WebSocketServer, WebSocket } from "ws";
 import type { Server } from "http";
 import { getDb } from "./db";
 import { randomUUID } from "crypto";
+import { terminusClientMessageSchema } from "./wsSchemas";
 
 /* ─── TYPES ─── */
 
@@ -148,7 +149,13 @@ export function setupTerminusPvpWebSocket(server: Server) {
 
     ws.on("message", async (data) => {
       try {
-        const msg: ClientMessage = JSON.parse(data.toString());
+        const parsed = JSON.parse(data.toString());
+        const result = terminusClientMessageSchema.safeParse(parsed);
+        if (!result.success) {
+          send(ws, { type: "ERROR", message: "Invalid message format" });
+          return;
+        }
+        const msg: ClientMessage = result.data as ClientMessage;
 
         switch (msg.type) {
           case "PING":

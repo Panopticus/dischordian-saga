@@ -51,6 +51,9 @@ export const ENV = {
   stripeSecretKey: optional("STRIPE_SECRET_KEY", process.env.STRIPE_SECRET_KEY),
   stripeWebhookSecret: optional("STRIPE_WEBHOOK_SECRET", process.env.STRIPE_WEBHOOK_SECRET),
 
+  // Redis (optional — enables caching layer)
+  redisUrl: optional("REDIS_URL", process.env.REDIS_URL),
+
   // CORS (defaults to production domain)
   corsOrigin: optional("CORS_ORIGIN", process.env.CORS_ORIGIN, isProduction ? "https://dischordian-saga.com" : "*"),
 

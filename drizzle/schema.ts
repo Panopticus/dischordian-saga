@@ -42,7 +42,10 @@ export const userProgress = mysqlTable("user_progress", {
   gameData: json("gameData").$type<Record<string, unknown>>(),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
-});
+}, (table) => ({
+  userIdx: index("idx_user_progress_user").on(table.userId),
+  uniqueUserFranchise: uniqueIndex("uq_user_progress_user_franchise").on(table.userId, table.franchiseId),
+}));
 
 export type UserProgress = typeof userProgress.$inferSelect;
 export type InsertUserProgress = typeof userProgress.$inferInsert;
@@ -78,7 +81,9 @@ export const userAchievements = mysqlTable("user_achievements", {
   userId: int("userId").notNull(),
   achievementId: varchar("achievementId", { length: 128 }).notNull(),
   earnedAt: timestamp("earnedAt").defaultNow().notNull(),
-});
+}, (table) => ({
+  userIdx: index("idx_user_achievements_user").on(table.userId),
+}));
 
 export type UserAchievement = typeof userAchievements.$inferSelect;
 
@@ -840,7 +845,11 @@ export const pvpMatches = mysqlTable("pvp_matches", {
   player2EloChange: int("player2EloChange").notNull().default(0),
   startedAt: timestamp("startedAt").defaultNow().notNull(),
   endedAt: timestamp("endedAt"),
-});
+}, (table) => ({
+  player1Idx: index("idx_pvp_matches_player1").on(table.player1Id),
+  player2Idx: index("idx_pvp_matches_player2").on(table.player2Id),
+  statusIdx: index("idx_pvp_matches_status").on(table.status),
+}));
 
 export type PvpMatch = typeof pvpMatches.$inferSelect;
 export type InsertPvpMatch = typeof pvpMatches.$inferInsert;
@@ -865,7 +874,9 @@ export const pvpLeaderboard = mysqlTable("pvp_leaderboard", {
   lastMatchAt: timestamp("lastMatchAt"),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
-});
+}, (table) => ({
+  eloIdx: index("idx_pvp_leaderboard_elo").on(table.elo),
+}));
 
 export type PvpLeaderboard = typeof pvpLeaderboard.$inferSelect;
 export type InsertPvpLeaderboard = typeof pvpLeaderboard.$inferInsert;
@@ -948,7 +959,9 @@ export const pvpSeasonRecords = mysqlTable("pvp_season_records", {
   rewardsClaimed: int("rewardsClaimed").notNull().default(0),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
-});
+}, (table) => ({
+  seasonUserIdx: index("idx_pvp_season_records_season_user").on(table.seasonId, table.userId),
+}));
 
 export type PvpSeasonRecord = typeof pvpSeasonRecords.$inferSelect;
 export type InsertPvpSeasonRecord = typeof pvpSeasonRecords.$inferInsert;
@@ -1188,7 +1201,11 @@ export const marketListings = mysqlTable("market_listings", {
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
   /** Auto-expire after this date */
   expiresAt: timestamp("expiresAt"),
-});
+}, (table) => ({
+  createdAtIdx: index("idx_market_listings_created_at").on(table.createdAt),
+  statusCreatedAtIdx: index("idx_market_listings_status_created").on(table.status, table.createdAt),
+  sellerIdx: index("idx_market_listings_seller").on(table.sellerId),
+}));
 export type MarketListing = typeof marketListings.$inferSelect;
 
 /**
@@ -1334,7 +1351,9 @@ export const dailyQuests = mysqlTable("daily_quests", {
   /** Date this quest is for (YYYY-MM-DD) */
   questDate: varchar("questDate", { length: 10 }).notNull(),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
-});
+}, (table) => ({
+  userQuestDateIdx: index("idx_daily_quests_user_date").on(table.userId, table.questDate),
+}));
 export type DailyQuest = typeof dailyQuests.$inferSelect;
 
 /**
@@ -1529,7 +1548,10 @@ export const guildMembers = mysqlTable("guild_members", {
   /** War points contributed through this guild */
   warPoints: int("warPoints").notNull().default(0),
   joinedAt: timestamp("joinedAt").defaultNow().notNull(),
-});
+}, (table) => ({
+  guildIdx: index("idx_guild_members_guild").on(table.guildId),
+  uniqueGuildUser: uniqueIndex("uq_guild_members_guild_user").on(table.guildId, table.userId),
+}));
 export type GuildMember = typeof guildMembers.$inferSelect;
 
 /**
@@ -1544,7 +1566,9 @@ export const guildChat = mysqlTable("guild_chat", {
   /** Message type */
   messageType: mysqlEnum("messageType", ["chat", "system", "war_update"]).notNull().default("chat"),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
-});
+}, (table) => ({
+  guildCreatedAtIdx: index("idx_guild_chat_guild_created").on(table.guildId, table.createdAt),
+}));
 export type GuildChatMessage = typeof guildChat.$inferSelect;
 
 /**
@@ -1591,7 +1615,9 @@ export const guildWarContributions = mysqlTable("guild_war_contributions", {
   points: int("points").notNull().default(0),
   source: mysqlEnum("source", ["fight_win", "pvp_win", "trade_volume", "quest_complete", "card_battle_win", "chess_win", "terminus_wave", "terminus_boss_kill", "terminus_pvp_star", "terminus_defense"]).notNull(),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
-});
+}, (table) => ({
+  warGuildIdx: index("idx_guild_war_contributions_war_guild").on(table.warId, table.guildId),
+}));
 export type GuildWarContribution = typeof guildWarContributions.$inferSelect;
 
 /** Marketplace tax pool — accumulates taxes for guild wars and season prizes */
@@ -1629,7 +1655,10 @@ export const chessGames = mysqlTable("chess_games", {
   startedAt: timestamp("startedAt"),
   endedAt: timestamp("endedAt"),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
-});
+}, (table) => ({
+  whitePlayerIdx: index("idx_chess_games_white_player").on(table.whitePlayerId),
+  blackPlayerIdx: index("idx_chess_games_black_player").on(table.blackPlayerId),
+}));
 export type ChessGame = typeof chessGames.$inferSelect;
 
 export const chessRankings = mysqlTable("chess_rankings", {
@@ -2452,7 +2481,9 @@ export const eidolonBonds = mysqlTable("eidolon_bonds", {
   diedAt: timestamp("diedAt"),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
-});
+}, (table) => ({
+  userIdx: index("idx_eidolon_bonds_user").on(table.userId),
+}));
 
 export const eidolonMemorial = mysqlTable("eidolon_memorial", {
   id: int("id").primaryKey().autoincrement(),

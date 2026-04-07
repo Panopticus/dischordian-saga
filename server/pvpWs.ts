@@ -13,6 +13,7 @@ import { trackPvpResult } from "./achievementTracker";
 import { randomUUID } from "crypto";
 import { checkWsRateLimit, sendRateLimitError, storeDisconnectedSession, recoverSession } from "./wsRateLimit";
 import { logger } from "./logger";
+import { pvpClientMessageSchema } from "./wsSchemas";
 
 /* ─── TYPES ─── */
 /* ─── PLACEMENT MATCH CONSTANTS ─── */
@@ -576,7 +577,13 @@ export function setupPvpWebSocket(server: Server) {
     ws.on("message", async (raw) => {
       let msg: ClientMessage;
       try {
-        msg = JSON.parse(raw.toString());
+        const parsed = JSON.parse(raw.toString());
+        const result = pvpClientMessageSchema.safeParse(parsed);
+        if (!result.success) {
+          send(ws, { type: "ERROR", message: "Invalid message format" });
+          return;
+        }
+        msg = result.data as ClientMessage;
       } catch {
         send(ws, { type: "ERROR", message: "Invalid JSON" });
         return;

@@ -3,7 +3,7 @@ import express from "express";
 import { createServer } from "http";
 import net from "net";
 import { createExpressMiddleware } from "@trpc/server/adapters/express";
-import { registerOAuthRoutes } from "./oauth";
+import { registerAuthRoutes, registerOAuthRoutes } from "./oauth";
 import { appRouter } from "../routers";
 import { createContext } from "./context";
 import { serveStatic, setupVite } from "./vite";
@@ -137,6 +137,9 @@ async function startServer() {
 
   // Sprite proxy (before CSRF — it's a GET endpoint for images)
   registerSpriteProxy(app);
+
+  // Auth routes (refresh endpoint) — MUST be registered BEFORE CSRF middleware
+  registerAuthRoutes(app);
 
   // OAuth callback — MUST be registered BEFORE CSRF middleware
   registerOAuthRoutes(app);

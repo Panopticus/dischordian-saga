@@ -9,6 +9,7 @@ import { getDb } from "./db";
 import { chessGames, chessRankings } from "../drizzle/schema";
 import { eq } from "drizzle-orm";
 import { randomUUID } from "crypto";
+import { chessClientMessageSchema } from "./wsSchemas";
 
 /* ─── TYPES ─── */
 interface ChessPlayer {
@@ -449,7 +450,13 @@ export function setupChessPvpWebSocket(server: Server) {
   wss.on("connection", (ws: WebSocket) => {
     ws.on("message", async (data) => {
       try {
-        const msg: ChessClientMessage = JSON.parse(data.toString());
+        const parsed = JSON.parse(data.toString());
+        const result = chessClientMessageSchema.safeParse(parsed);
+        if (!result.success) {
+          send(ws, { type: "ERROR", message: "Invalid message format" });
+          return;
+        }
+        const msg: ChessClientMessage = result.data as ChessClientMessage;
 
         switch (msg.type) {
           case "PING":

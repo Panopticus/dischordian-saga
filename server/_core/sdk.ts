@@ -1,6 +1,13 @@
-import { COOKIE_NAME, ONE_YEAR_MS } from "@shared/const";
+import {
+  COOKIE_NAME,
+  REFRESH_COOKIE_NAME,
+  ONE_YEAR_MS,
+  ACCESS_TOKEN_EXPIRY_MS,
+  REFRESH_TOKEN_EXPIRY_MS,
+} from "@shared/const";
 import { ForbiddenError } from "@shared/_core/errors";
 import { parse as parseCookieHeader } from "cookie";
+import crypto from "crypto";
 import type { Request } from "express";
 import { SignJWT, jwtVerify } from "jose";
 import type { User } from "../../drizzle/schema";
@@ -245,8 +252,19 @@ class SDKServer {
 
   /**
    * Create a session token for an authenticated user's openId.
+   * Now defaults to short-lived access token (15 min).
    */
   async createSessionToken(
+    openId: string,
+    options: { expiresInMs?: number; name?: string } = {}
+  ): Promise<string> {
+    return this.createAccessToken(openId, options);
+  }
+
+  /**
+   * Create a short-lived access token (15 min by default).
+   */
+  async createAccessToken(
     openId: string,
     options: { expiresInMs?: number; name?: string } = {}
   ): Promise<string> {
@@ -256,8 +274,84 @@ class SDKServer {
         appId: ENV.googleClientId || "dischordian-saga",
         name: options.name || "",
       },
-      options
+      { expiresInMs: options.expiresInMs ?? ACCESS_TOKEN_EXPIRY_MS }
     );
+  }
+
+  /**
+   * Create a long-lived refresh token (30 days) with a unique jti for rotation tracking.
+   */
+  async createRefreshToken(openId: string): Promise<string> {
+    const issuedAt = Date.now();
+    const expirationSeconds = Math.floor(
+      (issuedAt + REFRESH_TOKEN_EXPIRY_MS) / 1000
+    );
+    const secretKey = this.getSessionSecret();
+    const jti = crypto.randomUUID();
+
+    return new SignJWT({
+      openId,
+      type: "refresh",
+      jti,
+    })
+      .setProtectedHeader({ alg: "HS256", typ: "JWT" })
+      .setExpirationTime(expirationSeconds)
+      .sign(secretKey);
+  }
+
+  /**
+   * Verify a refresh token and return its payload.
+   */
+  async verifyRefreshToken(
+    token: string | undefined | null
+  ): Promise<{ openId: string; jti: string } | null> {
+    if (!token) return null;
+
+    try {
+      const secretKey = this.getSessionSecret();
+      const { payload } = await jwtVerify(token, secretKey, {
+        algorithms: ["HS256"],
+      });
+
+      const { openId, type, jti } = payload as Record<string, unknown>;
+
+      if (type !== "refresh" || !isNonEmptyString(openId) || !isNonEmptyString(jti)) {
+        console.warn("[Auth] Refresh token payload invalid");
+        return null;
+      }
+
+      return { openId, jti };
+    } catch (error) {
+      console.warn("[Auth] Refresh token verification failed", String(error));
+      return null;
+    }
+  }
+
+  /**
+   * Rotate tokens: verify the refresh token and issue new access + refresh tokens.
+   * Returns null if the refresh token is invalid/expired.
+   */
+  async rotateTokens(
+    refreshToken: string | undefined | null
+  ): Promise<{ accessToken: string; refreshToken: string; openId: string } | null> {
+    const refreshPayload = await this.verifyRefreshToken(refreshToken);
+    if (!refreshPayload) return null;
+
+    const { openId } = refreshPayload;
+
+    // Look up user name for the access token payload
+    const user = await db.getUserByOpenId(openId);
+    if (!user) {
+      console.warn("[Auth] Refresh token user not found");
+      return null;
+    }
+
+    const accessToken = await this.createAccessToken(openId, {
+      name: user.name || "",
+    });
+    const newRefreshToken = await this.createRefreshToken(openId);
+
+    return { accessToken, refreshToken: newRefreshToken, openId };
   }
 
   async signSession(
@@ -265,7 +359,7 @@ class SDKServer {
     options: { expiresInMs?: number } = {}
   ): Promise<string> {
     const issuedAt = Date.now();
-    const expiresInMs = options.expiresInMs ?? ONE_YEAR_MS;
+    const expiresInMs = options.expiresInMs ?? ACCESS_TOKEN_EXPIRY_MS;
     const expirationSeconds = Math.floor((issuedAt + expiresInMs) / 1000);
     const secretKey = this.getSessionSecret();
 
@@ -312,6 +406,14 @@ class SDKServer {
       console.warn("[Auth] Session verification failed", String(error));
       return null;
     }
+  }
+
+  /**
+   * Parse the refresh cookie from a request.
+   */
+  getRefreshCookie(req: Request): string | undefined {
+    const cookies = this.parseCookies(req.headers.cookie);
+    return cookies.get(REFRESH_COOKIE_NAME);
   }
 
   async authenticateRequest(req: Request): Promise<User> {
