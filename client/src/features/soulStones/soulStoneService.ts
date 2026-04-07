@@ -167,3 +167,18 @@ export function getPurityDisplay(): {
     color: tierData.color,
   };
 }
+
+/** Derive player stats from store state for display */
+export function getPlayerStats(store: {
+  stones: { id: string }[];
+  corruptionPoints: number;
+  divineLightFragments: number;
+  weeklyDropCount: number;
+}) {
+  return {
+    totalStones: store.stones.length,
+    corruptionPoints: store.corruptionPoints,
+    divineLightFragments: store.divineLightFragments,
+    weeklyCollected: store.weeklyDropCount,
+  };
+}
