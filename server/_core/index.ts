@@ -12,6 +12,7 @@ import { setupChessPvpWebSocket } from "../chessWs";
 import { registerSpriteProxy } from "../spriteProxy";
 import { registerChessMultiplayer } from "../chessMultiplayer";
 import { ENV } from "./env";
+import { performanceMiddleware } from "../performanceMonitor";
 
 function isPortAvailable(port: number): Promise<boolean> {
   return new Promise(resolve => {
@@ -95,6 +96,9 @@ async function startServer() {
       res.status(400).json({ error: `Webhook Error: ${err.message}` });
     }
   });
+
+  // Performance monitoring — mount before route handlers
+  app.use(performanceMiddleware);
 
   // CORS — restrict to production domains (wildcard in dev)
   app.use((req, res, next) => {

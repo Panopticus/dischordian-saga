@@ -12,6 +12,8 @@ import { ScreenReaderOnly, LiveRegion } from "@/components/a11y";
 import type { FighterData, ArenaData, DifficultyLevel } from "./gameData";
 import { FightEngine2D, type FightCallbacks2D, type FightPhase2D, type TouchInput2D, type Difficulty2D, type TrainingData, type MoveListEntry } from "./FightEngine2D";
 import { hapticMediumHit, hapticHeavyHit, hapticBlock, hapticSP1, hapticSP2, hapticSP3 } from "./haptics";
+import { useHaptics } from "@/hooks/useHaptics";
+import { screenShake, hitFlash, comboFlash, koSlowmo } from "@/lib/combatJuice";
 import TrainingModeOverlay from "./TrainingModeOverlay";
 import FighterIntroOverlay from "./FighterIntroOverlay";
 import { useSagaThemeBGM } from "@/contexts/SagaThemeBGMContext";
@@ -138,6 +140,7 @@ function FightArena2D({
   const engineRef = useRef<FightEngine2D | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const gesturesRef = useRef<Map<number, GestureTracker>>(new Map());
+  const { trigger: hapticTrigger } = useHaptics();
   const lastTapRef = useRef<{ time: number; side: "left" | "right"; count: number }>({ time: 0, side: "left", count: 0 });
 
   const [phase, setPhase] = useState<FightPhase2D>("intro");
@@ -196,6 +199,20 @@ function FightArena2D({
       else if (type === "heavy" || type === "launcher") hapticHeavyHit();
       else hapticMediumHit();
 
+      // useHaptics pattern-based feedback (augments existing haptics)
+      if (type === "heavy" || type === "launcher") {
+        hapticTrigger("heavyHit");
+        screenShake("heavy");
+        hitFlash();
+      } else if (type === "blocked" || type === "parried") {
+        hapticTrigger("lightHit");
+        screenShake("light");
+      } else {
+        hapticTrigger("lightHit");
+        screenShake("medium");
+        hitFlash();
+      }
+
       // Narrative effects — player taking damage triggers screen effects
       if (attacker === 2) {
         if (type === "heavy" || type === "launcher") dispatchCombatCritical();
@@ -212,6 +229,10 @@ function FightArena2D({
       if (level >= 2) dispatchLimitBreak();
       else dispatchNarrativeEffect("jolt");
     },
+    onCombo: (_player, count, _damage) => {
+      // Combat juice: combo flash feedback based on combo count
+      comboFlash(count);
+    },
     onFinishHim: () => {
       // Narrative: finishing blow moment
       dispatchNarrativeEffect("surge");
@@ -220,6 +241,12 @@ function FightArena2D({
       const w = winner === 1 ? "p1" : "p2";
       const perfect = winner === 1 ? p1PerfectRef.current : false;
       setAnnounceMessage(w === "p1" ? (perfect ? "You win! Perfect victory!" : "You win!") : "You lose!");
+
+      // Combat juice: KO slowmo + heavy screen shake
+      hapticTrigger("ko");
+      koSlowmo();
+      screenShake("ko");
+      hitFlash("#ff4444");
 
       // Narrative: death/victory effects
       if (w === "p2") dispatchCombatDeath();
