@@ -91,7 +91,14 @@ export const pvpRouter = router({
     }),
 
   getQueueStatus: publicProcedure.query(async () => {
-    return { playersInQueue: 0, activeMatches: 0 };
+    // Expose live counts from the WebSocket matchmaking state
+    // These are updated by pvpWs.ts — import if available, else fallback
+    try {
+      const { getMatchmakingStatus } = await import("../pvpWs");
+      return getMatchmakingStatus();
+    } catch {
+      return { playersInQueue: 0, activeMatches: 0 };
+    }
   }),
 
   /* ═══ PVP DECK BUILDER ═══ */

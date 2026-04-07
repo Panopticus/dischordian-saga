@@ -153,6 +153,27 @@ export const prestigeQuestRouter = router({
         }
       }
 
+      // Check class mastery rank requirement
+      if (step.requirement.kind === "class_mastery" && step.requirement.minRank) {
+        if ((rpgStats.masteryRank || 0) < step.requirement.minRank) {
+          return { success: false, error: `Requires class mastery rank ${step.requirement.minRank}` };
+        }
+      }
+
+      // Check citizen level requirement
+      if (step.requirement.kind === "citizen_level" && step.requirement.minLevel) {
+        if ((rpgStats.citizenLevel || 0) < step.requirement.minLevel) {
+          return { success: false, error: `Requires citizen level ${step.requirement.minLevel}` };
+        }
+      }
+
+      // Check prestige class requirement
+      if (step.requirement.kind === "prestige_class" && step.requirement.prestigeClass) {
+        if (rpgStats.prestigeClass !== step.requirement.prestigeClass) {
+          return { success: false, error: `Requires prestige class: ${step.requirement.prestigeClass}` };
+        }
+      }
+
       // Check if can be skipped by talent
       if (canSkipStep(step, rpgStats.talents)) {
         const newCompleted = [...completedSteps, input.stepId];

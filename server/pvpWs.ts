@@ -429,6 +429,14 @@ function handleSpectatorDisconnect(ws: WebSocket) {
   }
 }
 
+/** Expose live matchmaking status for the REST API */
+export function getMatchmakingStatus() {
+  return {
+    playersInQueue: matchmakingQueue.length,
+    activeMatches: activeMatches.size,
+  };
+}
+
 /* ─── WEBSOCKET SERVER ─── */
 export function setupPvpWebSocket(server: Server) {
   const wss = new WebSocketServer({ server, path: "/api/pvp" });

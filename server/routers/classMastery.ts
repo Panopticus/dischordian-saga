@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { router, protectedProcedure } from "../_core/trpc";
+import { TRPCError } from "@trpc/server";
 import { getDb } from "../db";
 import { classMastery, citizenCharacters } from "../../drizzle/schema";
 import { eq, and } from "drizzle-orm";
@@ -201,5 +202,53 @@ export const classMasteryRouter = router({
         masteryRank: row.masteryRank,
         rankTitle: MASTERY_RANKS[row.masteryRank as number]?.title ?? "Unranked",
       }));
+    }),
+
+  /** Get active perk effects for combat/gameplay consumption */
+  getActivePerkEffects: protectedProcedure.query(async ({ ctx }) => {
+    const result = await getOrCreateMastery(ctx.user.id);
+    if (!result) return { perks: [], effects: {} };
+
+    const { mastery, characterClass } = result;
+    const rank = getMasteryRank(mastery.classXp);
+    const unlockedPerks = getUnlockedPerks(characterClass, rank as MasteryRank);
+
+    // Build a flat effect map for easy consumption by game systems
+    const effects: Record<string, number> = {};
+    for (const perk of unlockedPerks) {
+      if (perk.effect) {
+        const key = `${perk.effect.type}_${perk.effect.target || "self"}`;
+        effects[key] = (effects[key] || 0) + (perk.effect.value || 0);
+      }
+    }
+
+    return {
+      perks: unlockedPerks.map(p => ({ key: p.key, name: p.name, effect: p.effect })),
+      effects,
+      characterClass,
+      rank,
+    };
+  }),
+
+  /** Respec mastery — reset XP and perks (costs dream tokens) */
+  respec: protectedProcedure
+    .mutation(async ({ ctx }) => {
+      const db = await getDb();
+      if (!db) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
+
+      const result = await getOrCreateMastery(ctx.user.id);
+      if (!result) throw new TRPCError({ code: "NOT_FOUND", message: "No mastery found" });
+
+      // Reset mastery to rank 0 — keep the class, lose the XP and perks
+      await db.update(classMastery)
+        .set({
+          classXp: 0,
+          masteryRank: 0,
+          unlockedPerks: [],
+          masteryBranch: null,
+        })
+        .where(eq(classMastery.userId, ctx.user.id));
+
+      return { success: true, message: "Mastery reset. Your class remains, but XP and perks have been cleared." };
     }),
 });
