@@ -165,7 +165,7 @@ export default function SyndicateWorldPage() {
           </div>
           <Button
             size="sm" variant="outline"
-            className={`text-[10px] h-7 ${biomeColors.border} ${biomeColors.text}`}
+            className={`text-xs h-9 ${biomeColors.border} ${biomeColors.text}`}
             onClick={() => collectResources.mutate({ worldId: world.id })}
             disabled={collectResources.isPending}
           >
@@ -278,7 +278,7 @@ export default function SyndicateWorldPage() {
           </span>
           <Button
             size="sm" variant="outline"
-            className={`text-[10px] h-7 ${biomeColors.border} ${biomeColors.text}`}
+            className={`text-xs h-9 ${biomeColors.border} ${biomeColors.text}`}
             onClick={() => setShowBuildMenu(!showBuildMenu)}
           >
             <Plus size={12} className="mr-1" />

@@ -6,6 +6,8 @@ import type { Server } from "http";
 import { initPvpBattle, processPvpAction, getPlayerView, calculateEloChange, getRankTier, type PvpBattleState, type PvpAction, type DeckCard } from "@shared/pvpBattle";
 import { getDb } from "./db";
 import { pvpMatches, pvpLeaderboard, pvpSeasons, pvpSeasonRecords } from "../drizzle/schema";
+import { classifyDeck, getArchetypeAdvantage } from "@shared/cardArchetypes";
+import { canSendEmote, recordEmoteSend, validateEmote, ALL_EMOTES, type EmoteRateState } from "@shared/pvpEmotes";
 import { eq, and } from "drizzle-orm";
 import { trackPvpResult } from "./achievementTracker";
 import { randomUUID } from "crypto";
@@ -13,6 +15,11 @@ import { checkWsRateLimit, sendRateLimitError, storeDisconnectedSession, recover
 import { logger } from "./logger";
 
 /* ─── TYPES ─── */
+/* ─── PLACEMENT MATCH CONSTANTS ─── */
+const PLACEMENT_MATCHES_REQUIRED = 5;
+const PLACEMENT_K_FACTOR = 64; // Doubled from normal K=32
+const NORMAL_K_FACTOR = 32;
+
 interface ConnectedPlayer {
   ws: WebSocket;
   userId: number;
@@ -20,6 +27,14 @@ interface ConnectedPlayer {
   deck: DeckCard[];
   elo: number;
   matchId: string | null;
+  /** Number of ranked matches played (for placement detection) */
+  placementMatchesPlayed: number;
+  /** Faction for emote filtering */
+  faction: string;
+  /** Companion ID for emote filtering */
+  companionId?: string;
+  /** Emote rate limit state */
+  emoteRateState: EmoteRateState;
 }
 
 interface Spectator {
@@ -35,13 +50,17 @@ interface ActiveMatch {
   spectators: Set<WebSocket>;
   turnTimeout: ReturnType<typeof setTimeout> | null;
   dbId: number | null;
+  /** Deck archetype classifications */
+  player1Archetype: string;
+  player2Archetype: string;
 }
 
 type ClientMessage =
-  | { type: "JOIN_QUEUE"; userId: number; userName: string; deck: DeckCard[]; token?: string }
+  | { type: "JOIN_QUEUE"; userId: number; userName: string; deck: DeckCard[]; token?: string; faction?: string; companionId?: string }
   | { type: "LEAVE_QUEUE" }
   | { type: "GAME_ACTION"; action: PvpAction }
   | { type: "SURRENDER" }
+  | { type: "SEND_EMOTE"; emoteId: string }
   | { type: "SPECTATE"; matchId: string }
   | { type: "STOP_SPECTATING" }
   | { type: "PING" };
@@ -58,6 +77,10 @@ type ServerMessage =
   | { type: "SPECTATE_STATE"; state: PvpBattleState }
   | { type: "SPECTATE_ENDED"; reason: string }
   | { type: "ACTIVE_MATCHES"; matches: Array<{ matchId: string; player1Name: string; player2Name: string; player1Elo: number; player2Elo: number; turnNumber: number; spectatorCount: number }> }
+  | { type: "EMOTE"; playerId: number; playerName: string; emoteId: string; emoteText: string }
+  | { type: "EMOTE_RATE_LIMITED"; cooldownSeconds: number }
+  | { type: "PLACEMENT_STATUS"; matchNumber: number; totalRequired: number; isPlacement: boolean }
+  | { type: "PLACEMENT_COMPLETE"; initialRank: string; finalElo: number; wins: number }
   | { type: "ERROR"; message: string }
   | { type: "PONG" };
 
@@ -133,15 +156,35 @@ function getActiveMatchesList() {
   return list;
 }
 
-async function getOrCreateLeaderboard(userId: number, userName: string): Promise<{ elo: number }> {
+async function getOrCreateLeaderboard(userId: number, userName: string): Promise<{ elo: number; matchesPlayed: number }> {
   const db = await getDb();
-  if (!db) return { elo: 1000 };
+  if (!db) return { elo: 1000, matchesPlayed: 0 };
 
   const rows = await db.select().from(pvpLeaderboard).where(eq(pvpLeaderboard.userId, userId)).limit(1);
-  if (rows.length > 0) return { elo: rows[0].elo };
+  if (rows.length > 0) {
+    const row = rows[0];
+    return { elo: row.elo, matchesPlayed: (row.wins || 0) + (row.losses || 0) };
+  }
 
   await db.insert(pvpLeaderboard).values({ userId, userName, elo: 1000 });
-  return { elo: 1000 };
+  return { elo: 1000, matchesPlayed: 0 };
+}
+
+/** Determine if a player is in placement phase */
+function isInPlacement(matchesPlayed: number): boolean {
+  return matchesPlayed < PLACEMENT_MATCHES_REQUIRED;
+}
+
+/** Get the appropriate K-factor based on placement status */
+function getKFactor(matchesPlayed: number): number {
+  return isInPlacement(matchesPlayed) ? PLACEMENT_K_FACTOR : NORMAL_K_FACTOR;
+}
+
+/** Determine initial rank after placement based on wins */
+function getPlacementRank(wins: number): { tier: string; elo: number } {
+  if (wins >= 5) return { tier: "gold", elo: 1400 };
+  if (wins >= 3) return { tier: "silver", elo: 1200 };
+  return { tier: "bronze", elo: 1000 };
 }
 
 /* ─── MATCHMAKING ─── */
@@ -179,6 +222,10 @@ async function startMatch(p1: ConnectedPlayer, p2: ConnectedPlayer) {
     { id: p2.userId, name: p2.userName, deck: p2.deck }
   );
 
+  // Classify deck archetypes for matchup analysis
+  const p1Archetype = classifyDeck(p1.deck.map(c => c.cardId));
+  const p2Archetype = classifyDeck(p2.deck.map(c => c.cardId));
+
   const match: ActiveMatch = {
     matchId,
     state,
@@ -187,6 +234,8 @@ async function startMatch(p1: ConnectedPlayer, p2: ConnectedPlayer) {
     spectators: new Set(),
     turnTimeout: null,
     dbId: null,
+    player1Archetype: p1Archetype,
+    player2Archetype: p2Archetype,
   };
 
   p1.matchId = matchId;
@@ -218,6 +267,18 @@ async function startMatch(p1: ConnectedPlayer, p2: ConnectedPlayer) {
   // Send initial game state
   send(p1.ws, { type: "GAME_STATE", state: getPlayerView(state, p1.userId) });
   send(p2.ws, { type: "GAME_STATE", state: getPlayerView(state, p2.userId) });
+
+  // Send placement status if applicable
+  for (const p of [p1, p2]) {
+    if (isInPlacement(p.placementMatchesPlayed)) {
+      send(p.ws, {
+        type: "PLACEMENT_STATUS",
+        matchNumber: p.placementMatchesPlayed + 1,
+        totalRequired: PLACEMENT_MATCHES_REQUIRED,
+        isPlacement: true,
+      });
+    }
+  }
 
   // Notify spectators of new match
   broadcastToSpectators(match, { type: "SPECTATE_STATE", state: getSpectatorView(state) });
@@ -257,7 +318,29 @@ async function endMatch(match: ActiveMatch) {
   const winnerPlayer = winnerId === match.player1.userId ? match.player1 : match.player2;
   const loserPlayer = winnerId === match.player1.userId ? match.player2 : match.player1;
 
-  const { winnerChange, loserChange } = calculateEloChange(winnerPlayer.elo, loserPlayer.elo);
+  // Determine K-factor based on placement status (doubled during placement)
+  const winnerK = getKFactor(winnerPlayer.placementMatchesPlayed);
+  const loserK = getKFactor(loserPlayer.placementMatchesPlayed);
+  const effectiveK = Math.max(winnerK, loserK); // Use higher K if either is in placement
+
+  // Calculate base ELO change
+  const { winnerChange: baseWinnerChange, loserChange: baseLoserChange } = calculateEloChange(winnerPlayer.elo, loserPlayer.elo);
+
+  // Apply K-factor scaling (calculateEloChange uses K=32 internally)
+  const kScale = effectiveK / NORMAL_K_FACTOR;
+  let winnerChange = Math.round(baseWinnerChange * kScale);
+  let loserChange = Math.round(baseLoserChange * kScale);
+
+  // Apply archetype matchup adjustment
+  const winnerArchetype = winnerId === match.player1.userId ? match.player1Archetype : match.player2Archetype;
+  const loserArchetype = winnerId === match.player1.userId ? match.player2Archetype : match.player1Archetype;
+  const archetypeAdj = getArchetypeAdvantage(winnerArchetype, loserArchetype);
+  winnerChange = Math.round(winnerChange * (1 + archetypeAdj));
+  loserChange = Math.round(loserChange * (1 - archetypeAdj));
+
+  // Track placement progression
+  winnerPlayer.placementMatchesPlayed++;
+  loserPlayer.placementMatchesPlayed++;
 
   // Update DB
   try {
@@ -313,6 +396,40 @@ async function endMatch(match: ActiveMatch) {
   // Notify players
   send(winnerPlayer.ws, { type: "GAME_OVER", winnerId, eloChange: winnerChange, newElo: winnerPlayer.elo + winnerChange });
   send(loserPlayer.ws, { type: "GAME_OVER", winnerId, eloChange: loserChange, newElo: loserPlayer.elo + loserChange });
+
+  // Check for placement completion (player just finished their 5th match)
+  for (const [player, won] of [
+    [winnerPlayer, true] as const,
+    [loserPlayer, false] as const,
+  ]) {
+    if (player.placementMatchesPlayed === PLACEMENT_MATCHES_REQUIRED) {
+      try {
+        const db = await getDb();
+        if (db) {
+          const rows = await db.select().from(pvpLeaderboard).where(eq(pvpLeaderboard.userId, player.userId)).limit(1);
+          if (rows.length > 0) {
+            const totalWins = rows[0].wins;
+            const { tier, elo } = getPlacementRank(totalWins);
+            // Set the player to their placement rank if it's higher than current
+            const finalElo = Math.max(rows[0].elo, elo);
+            await db.update(pvpLeaderboard).set({
+              elo: finalElo,
+              rankTier: getRankTier(finalElo) as any,
+            }).where(eq(pvpLeaderboard.userId, player.userId));
+
+            send(player.ws, {
+              type: "PLACEMENT_COMPLETE",
+              initialRank: tier,
+              finalElo,
+              wins: totalWins,
+            });
+          }
+        }
+      } catch (e) {
+        logger.error("[PvP] Placement completion error:", e);
+      }
+    }
+  }
 
   // Award class mastery XP
   import("./classMasteryHelper").then(({ awardClassXp }) => {
@@ -495,7 +612,7 @@ export function setupPvpWebSocket(server: Server) {
             playerConnections.delete(msg.userId);
           }
 
-          getOrCreateLeaderboard(msg.userId, msg.userName).then(({ elo }) => {
+          getOrCreateLeaderboard(msg.userId, msg.userName).then(({ elo, matchesPlayed }) => {
             player = {
               ws,
               userId: msg.userId,
@@ -503,6 +620,10 @@ export function setupPvpWebSocket(server: Server) {
               deck: msg.deck,
               elo,
               matchId: null,
+              placementMatchesPlayed: matchesPlayed,
+              faction: msg.faction || "neutral",
+              companionId: msg.companionId,
+              emoteRateState: { timestamps: [] },
             };
 
             playerConnections.set(msg.userId, player);
@@ -556,6 +677,57 @@ export function setupPvpWebSocket(server: Server) {
 
         case "SURRENDER": {
           if (player) handleSurrender(player);
+          break;
+        }
+
+        case "SEND_EMOTE": {
+          if (!player || !player.matchId) {
+            send(ws, { type: "ERROR", message: "Not in a match" });
+            return;
+          }
+
+          const emoteMatch = activeMatches.get(player.matchId);
+          if (!emoteMatch) {
+            send(ws, { type: "ERROR", message: "Match not found" });
+            return;
+          }
+
+          // Validate the emote is allowed for this player
+          const validation = validateEmote(msg.emoteId, player.faction, player.companionId);
+          if (!validation.valid) {
+            send(ws, { type: "ERROR", message: validation.error || "Invalid emote" });
+            return;
+          }
+
+          // Check rate limit
+          if (!canSendEmote(player.emoteRateState)) {
+            const { getEmoteCooldownSeconds } = await import("@shared/pvpEmotes");
+            const cooldown = getEmoteCooldownSeconds(player.emoteRateState);
+            send(ws, { type: "EMOTE_RATE_LIMITED", cooldownSeconds: cooldown });
+            return;
+          }
+
+          // Record the emote send
+          player.emoteRateState = recordEmoteSend(player.emoteRateState);
+
+          // Find the emote text
+          const emote = ALL_EMOTES.find(e => e.id === msg.emoteId);
+          if (!emote) {
+            send(ws, { type: "ERROR", message: "Unknown emote" });
+            return;
+          }
+
+          // Broadcast to both players and spectators
+          const emoteMsg: ServerMessage = {
+            type: "EMOTE",
+            playerId: player.userId,
+            playerName: player.userName,
+            emoteId: msg.emoteId,
+            emoteText: emote.text,
+          };
+          send(emoteMatch.player1.ws, emoteMsg);
+          send(emoteMatch.player2.ws, emoteMsg);
+          broadcastToSpectators(emoteMatch, emoteMsg);
           break;
         }
 

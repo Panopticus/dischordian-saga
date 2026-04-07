@@ -12,6 +12,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { showBonusToast } from "@/components/BonusToast";
+import { EmptyQuestLog } from "@/components/EmptyStates";
 
 const QUEST_TYPE_ICONS: Record<string, typeof Swords> = {
   fight: Swords, card_battle: Shield, trade: TrendingUp,
@@ -193,10 +194,7 @@ function QuestListTab({ period }: { period: "daily" | "weekly" | "epoch" }) {
 
       {/* Quest Cards */}
       {quests.length === 0 ? (
-        <div className="text-center py-12">
-          <Scroll className="mx-auto mb-3 text-muted-foreground/40" size={40} />
-          <p className="font-mono text-sm text-muted-foreground">No missions available</p>
-        </div>
+        <EmptyQuestLog />
       ) : (
         <div className="space-y-3">
           {quests.map((quest, i) => {

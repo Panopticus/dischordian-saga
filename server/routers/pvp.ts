@@ -10,6 +10,8 @@ import {
 import { eq, desc, and, or, sql, asc, inArray } from "drizzle-orm";
 import { logger } from "../logger";
 import { getRankTier } from "@shared/pvpBattle";
+import { getDecayStatus } from "@shared/rankDecay";
+import { classifyDeck, ARCHETYPES } from "@shared/cardArchetypes";
 
 /* ─── DECK RULES ─── */
 const MAX_DECK_SIZE = 30;
@@ -55,7 +57,20 @@ export const pvpRouter = router({
     const tier = row.rankTier;
     const thresholds = TIER_THRESHOLDS[tier] || TIER_THRESHOLDS.bronze;
     const progressInTier = Math.min(1, Math.max(0, (row.elo - thresholds.min) / (thresholds.max - thresholds.min + 1)));
-    return { ...row, progressInTier, nextTier: getNextTier(tier), eloToNextTier: Math.max(0, thresholds.max + 1 - row.elo) };
+    const totalMatches = (row.wins || 0) + (row.losses || 0);
+    const isPlacement = totalMatches < 5;
+    const placementMatchesPlayed = Math.min(totalMatches, 5);
+    const decay = row.lastMatchAt ? getDecayStatus(new Date(row.lastMatchAt), row.elo) : null;
+    return {
+      ...row,
+      progressInTier,
+      nextTier: getNextTier(tier),
+      eloToNextTier: Math.max(0, thresholds.max + 1 - row.elo),
+      isPlacement,
+      placementMatchesPlayed,
+      placementMatchesRequired: 5,
+      decayStatus: decay,
+    };
   }),
 
   getMatchHistory: protectedProcedure

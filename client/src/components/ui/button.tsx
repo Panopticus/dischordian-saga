@@ -43,17 +43,40 @@ function Button({
   variant,
   size,
   asChild = false,
+  onClick,
+  onMouseEnter,
   ...props
 }: React.ComponentProps<"button"> &
   VariantProps<typeof buttonVariants> & {
     asChild?: boolean;
   }) {
   const Comp = asChild ? Slot : "button";
+  const { trigger } = useHaptics();
+  const { play } = useUISounds();
+
+  const handleClick = React.useCallback(
+    (e: React.MouseEvent<HTMLButtonElement>) => {
+      play("buttonClick");
+      trigger("tap");
+      onClick?.(e);
+    },
+    [onClick, play, trigger],
+  );
+
+  const handleMouseEnter = React.useCallback(
+    (e: React.MouseEvent<HTMLButtonElement>) => {
+      play("buttonHover");
+      onMouseEnter?.(e);
+    },
+    [onMouseEnter, play],
+  );
 
   return (
     <Comp
       data-slot="button"
       className={cn(buttonVariants({ variant, size, className }))}
+      onClick={handleClick}
+      onMouseEnter={handleMouseEnter}
       {...props}
     />
   );

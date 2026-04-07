@@ -264,7 +264,7 @@ export default function TowerDefensePage() {
               </span>
               <Button
                 size="sm" variant="outline"
-                className="text-[10px] h-7 border-red-500/30 text-red-400"
+                className="text-xs h-9 border-red-500/30 text-red-400"
                 onClick={() => setShowBuildMenu(!showBuildMenu)}
                 disabled={towerList.length >= maxTowers}
               >

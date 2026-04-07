@@ -7,6 +7,7 @@ import { X, MessageCircle, ChevronRight, Loader2, Sparkles } from "lucide-react"
 import HolographicElara from "./HolographicElara";
 import { Streamdown } from "streamdown";
 import { getNPCPortrait } from "@/game/npcPortraits";
+import { AnimatedPortrait } from "@/components/AnimatedPortrait";
 
 const elaraPortrait = getNPCPortrait("elara");
 const ELARA_PORTRAIT = elaraPortrait?.fullPortrait ?? "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/elara_portrait_7ce2522f.png";
@@ -566,7 +567,12 @@ export default function ElaraDialog({ elaraTTS: _elaraTTS }: { elaraTTS?: any } 
                   <div key={i} className={`flex gap-3 ${msg.role === "user" ? "flex-row-reverse" : ""}`}>
                     {msg.role === "assistant" && (
                       <div className="w-8 h-8 rounded-full overflow-hidden border border-[var(--neon-cyan)]/30 flex-shrink-0 mt-1">
-                        <img src={i === history.length - 1 ? ELARA_SPEAKING : ELARA_AVATAR} alt="" className="w-full h-full object-cover" />
+                        <AnimatedPortrait
+                          npcId="elara"
+                          expression={i === history.length - 1 ? "speaking" : "neutral"}
+                          isSpeaking={i === history.length - 1}
+                          size="bust"
+                        />
                       </div>
                     )}
                     <div className={`max-w-[85%] rounded-lg px-3 py-2.5 text-sm leading-relaxed ${

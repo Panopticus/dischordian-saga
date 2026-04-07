@@ -159,7 +159,7 @@ export default function SpaceStationPage() {
           </div>
           <Button
             size="sm" variant="outline"
-            className="text-[10px] h-7 border-primary/30 text-primary"
+            className="text-xs h-9 border-primary/30 text-primary"
             onClick={() => collectResources.mutate()}
             disabled={collectResources.isPending}
           >
@@ -272,7 +272,7 @@ export default function SpaceStationPage() {
           </span>
           <Button
             size="sm" variant="outline"
-            className="text-[10px] h-7 border-primary/30 text-primary"
+            className="text-xs h-9 border-primary/30 text-primary"
             onClick={() => setShowBuildMenu(!showBuildMenu)}
           >
             <Plus size={12} className="mr-1" />

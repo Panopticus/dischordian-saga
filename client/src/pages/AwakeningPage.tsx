@@ -170,7 +170,7 @@ function ElaraDialogBox({
                     <span className="text-[var(--neon-cyan)]/70 mr-2">&gt;</span>
                     <span className="text-foreground/85 group-hover:text-white">{choice.label}</span>
                     {choice.description && (
-                      <span className="block text-[10px] sm:text-[11px] text-muted-foreground/50 mt-0.5 ml-4">{choice.description}</span>
+                      <span className="block text-xs text-muted-foreground/50 mt-0.5 ml-4">{choice.description}</span>
                     )}
                   </motion.button>
                 ))}
@@ -185,7 +185,7 @@ function ElaraDialogBox({
             ) : !done ? (
               <button
                 onClick={skip}
-                className="font-mono text-[10px] text-muted-foreground/35 hover:text-muted-foreground/60 transition-colors"
+                className="font-mono text-xs text-muted-foreground/35 hover:text-muted-foreground/60 transition-colors"
               >
                 [click to skip]
               </button>
@@ -254,17 +254,17 @@ function AttributeAllocator({
           <div key={attr.key} className="flex items-center justify-between mb-3">
             <div className="w-24">
               <p className="font-mono text-xs text-foreground/85">{attr.label}</p>
-              <p className="font-mono text-[9px] text-muted-foreground/50">{attr.desc}</p>
+              <p className="font-mono text-xs text-muted-foreground/50">{attr.desc}</p>
             </div>
             <div className="flex items-center gap-2">
               <button
                 onClick={() => adjust(attr.key, -1)}
-                className="w-6 h-6 rounded border border-border text-muted-foreground/60 hover:text-white hover:border-white/40 font-mono text-sm flex items-center justify-center transition-colors"
+                className="w-10 h-10 rounded border border-border text-muted-foreground/60 hover:text-white hover:border-white/40 font-mono text-sm flex items-center justify-center transition-colors"
               >-</button>
               {renderDots(attr.val)}
               <button
                 onClick={() => adjust(attr.key, 1)}
-                className="w-6 h-6 rounded border border-border text-muted-foreground/60 hover:text-white hover:border-white/40 font-mono text-sm flex items-center justify-center transition-colors"
+                className="w-10 h-10 rounded border border-border text-muted-foreground/60 hover:text-white hover:border-white/40 font-mono text-sm flex items-center justify-center transition-colors"
               >+</button>
             </div>
           </div>
@@ -539,7 +539,7 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
       <div className="absolute top-4 right-4 z-50">
         <button
           onClick={() => setAwakeningStep("COMPLETE")}
-          className="px-3 py-1.5 rounded-lg bg-black/40 backdrop-blur-sm border border-white/10 text-white/25 hover:text-white/50 font-mono text-[10px] transition-colors"
+          className="px-3 py-1.5 rounded-lg bg-black/40 backdrop-blur-sm border border-white/10 text-white/25 hover:text-white/50 font-mono text-xs transition-colors"
         >
           SKIP AWAKENING ▶▶
         </button>
@@ -804,7 +804,7 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
             setCharacterChoice("element", characterChoices.element || "earth");
             setCharacterChoice("name", characterChoices.name || "Operative");
           }}
-          className="fixed bottom-6 right-4 z-[55] font-mono text-[10px] text-muted-foreground/35 hover:text-muted-foreground/60 transition-colors px-3 py-1.5 rounded border border-border/60 hover:border-border"
+          className="fixed bottom-6 right-4 z-[55] font-mono text-xs text-muted-foreground/35 hover:text-muted-foreground/60 transition-colors px-3 py-1.5 rounded border border-border/60 hover:border-border"
         >
           SKIP INTRO &gt;&gt;
         </button>

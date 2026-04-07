@@ -252,21 +252,21 @@ export function TalentSelectionModal({ open, onClose, milestoneLevel }: TalentSe
                               <div className="space-y-2">
                                 <div className="flex items-center gap-1.5 text-amber-400">
                                   <AlertTriangle size={12} />
-                                  <span className="font-mono text-[10px]">
+                                  <span className="font-mono text-xs">
                                     This choice is permanent and cannot be undone!
                                   </span>
                                 </div>
                                 <div className="flex gap-2">
                                   <Button
                                     size="sm" variant="outline"
-                                    className="text-[10px] h-7 px-3"
+                                    className="text-xs h-9 px-3"
                                     onClick={(e) => { e.stopPropagation(); setConfirming(null); }}
                                   >
                                     Cancel
                                   </Button>
                                   <Button
                                     size="sm"
-                                    className={`text-[10px] h-7 px-4 ${tier.bg} border ${tier.border} ${tier.text} hover:opacity-80`}
+                                    className={`text-xs h-9 px-4 ${tier.bg} border ${tier.border} ${tier.text} hover:opacity-80`}
                                     onClick={(e) => {
                                       e.stopPropagation();
                                       selectTalent.mutate({ milestoneLevel, talentKey: talent.key });
@@ -287,7 +287,7 @@ export function TalentSelectionModal({ open, onClose, milestoneLevel }: TalentSe
                             ) : (
                               <Button
                                 size="sm" variant="outline"
-                                className={`text-[10px] h-7 px-4 w-full ${tier.border} ${tier.text} hover:${tier.bg}`}
+                                className={`text-xs h-9 px-4 w-full ${tier.border} ${tier.text} hover:${tier.bg}`}
                                 onClick={(e) => { e.stopPropagation(); setConfirming(talent.key); }}
                               >
                                 Select This Talent <ChevronRight size={10} className="ml-1" />

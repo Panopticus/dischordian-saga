@@ -84,7 +84,7 @@ export default function LandscapeEnforcer({ children, forceRotate = false, messa
         {/* Small floating reminder */}
         <button
           onClick={() => setDismissed(false)}
-          className="fixed bottom-4 right-4 z-[9998] flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-primary/30 bg-background/90 backdrop-blur-sm text-primary/70 font-mono text-[10px] tracking-wider hover:bg-primary/10 transition-all"
+          className="fixed bottom-4 right-4 z-[9998] flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-primary/30 bg-background/90 backdrop-blur-sm text-primary/70 font-mono text-xs tracking-wider hover:bg-primary/10 transition-all"
           style={{ boxShadow: "0 0 12px rgba(51,226,230,0.1)" }}
         >
           <RotateCcw size={10} />
@@ -157,7 +157,7 @@ export default function LandscapeEnforcer({ children, forceRotate = false, messa
           <div className="text-center space-y-3">
             <div className="flex items-center gap-2 justify-center">
               <div className="h-px w-8 bg-gradient-to-r from-transparent to-primary/50" />
-              <span className="font-mono text-[9px] text-primary/60 tracking-[0.4em]">SYSTEM NOTICE</span>
+              <span className="font-mono text-xs text-primary/60 tracking-[0.4em]">SYSTEM NOTICE</span>
               <div className="h-px w-8 bg-gradient-to-l from-transparent to-primary/50" />
             </div>
             <h2 className="font-display text-xl font-bold tracking-wider text-foreground">
@@ -171,13 +171,13 @@ export default function LandscapeEnforcer({ children, forceRotate = false, messa
           {/* Landscape icon hint */}
           <div className="flex items-center gap-3 px-5 py-2.5 rounded-md border border-primary/20 bg-primary/5">
             <MonitorSmartphone size={16} className="text-primary/70" />
-            <span className="font-mono text-[10px] text-primary/70 tracking-[0.15em]">LANDSCAPE MODE REQUIRED</span>
+            <span className="font-mono text-xs text-primary/70 tracking-[0.15em]">LANDSCAPE MODE REQUIRED</span>
           </div>
 
           {/* Continue anyway button */}
           <button
             onClick={() => setDismissed(true)}
-            className="font-mono text-[10px] text-muted-foreground/40 tracking-wider hover:text-muted-foreground/70 transition-colors mt-4"
+            className="font-mono text-xs text-muted-foreground/40 tracking-wider hover:text-muted-foreground/70 transition-colors mt-4"
           >
             CONTINUE IN PORTRAIT →
           </button>

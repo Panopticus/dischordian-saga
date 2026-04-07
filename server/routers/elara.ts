@@ -1,6 +1,7 @@
 import { logger } from "../logger";
 import { publicProcedure, router } from "../_core/trpc";
 import { invokeLLM } from "../_core/llm";
+import { sanitizePlayerInput, validateElaraResponse } from "../elaraGuardrails";
 import { z } from "zod";
 import * as fs from "fs";
 import * as path from "path";
@@ -216,8 +217,11 @@ export const elaraRouter = router({
         }
       }
 
+      // Sanitize player input to prevent prompt injection
+      const sanitizedMessage = sanitizePlayerInput(input.message);
+
       // Add current message
-      messages.push({ role: "user", content: input.message });
+      messages.push({ role: "user", content: sanitizedMessage });
 
       try {
         const response = await invokeLLM({ messages });
@@ -230,12 +234,18 @@ export const elaraRouter = router({
                 .join("")
             : "The dimensional static is interfering with my transmission. Try again, Operative.";
 
+        // Validate and sanitize Elara's response before returning to client
+        const validatedContent = validateElaraResponse(content, {
+          currentChapter: 1,
+          trustLevel: 50,
+        });
+
         // Determine follow-up choices based on category
         const category = input.category || "lore";
         const choices = getFollowupChoices(category);
 
         return {
-          message: content,
+          message: validatedContent,
           choices,
         };
       } catch (error) {

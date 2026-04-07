@@ -18,6 +18,8 @@ import { Streamdown } from "streamdown";
 import CutsceneOverlay, { QUEST_CUTSCENES, type CutsceneData } from "@/components/CutsceneOverlay";
 import { COMPANION_GIFTS, calculateGiftXp, canCraftGift, getRarityColor, type CompanionGift } from "@/data/companionGifts";
 import CompanionBondPanel from "@/components/CompanionBondPanel";
+import { EmptyCompanions } from "@/components/EmptyStates";
+import { AnimatedPortrait } from "@/components/AnimatedPortrait";
 import { getMaterialById } from "@/data/craftingData";
 import { ALL_LOYALTY_MISSIONS, getAvailableLoyaltyMissions, type LoyaltyMission, type LoyaltyMissionStep } from "@/data/loyaltyMissions";
 
@@ -123,6 +125,9 @@ export default function CompanionHubPage() {
           </div>
 
           {/* Companion Cards */}
+          {companions.length === 0 ? (
+            <EmptyCompanions />
+          ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {companions.map((companion, i) => {
               const level = state.companionRelationships[companion.id] || 0;
@@ -153,7 +158,7 @@ export default function CompanionHubPage() {
                         companion.id === "elara" ? "border-cyan-500/50" : "border-red-500/50"
                       }`}>
                         {avatar ? (
-                          <img src={avatar} alt={companion.name} className="w-full h-full object-cover" />
+                          <AnimatedPortrait npcId={companion.id} expression="neutral" trustLevel={level} size="bust" />
                         ) : isHumanLocked ? (
                           <div className="w-full h-full bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center">
                             <Lock size={20} className="text-red-500/50" />
@@ -231,6 +236,7 @@ export default function CompanionHubPage() {
               );
             })}
           </div>
+          )}
 
           {/* Morality Advisor Status */}
           <motion.div
@@ -314,7 +320,7 @@ export default function CompanionHubPage() {
                 isElara ? "border-cyan-500/50" : "border-red-500/50"
               }`}>
                 {isElara ? (
-                  <img src={ELARA_AVATAR} alt="Elara" className="w-full h-full object-cover" />
+                  <AnimatedPortrait npcId="elara" expression="neutral" trustLevel={level} size="bust" />
                 ) : level >= 50 ? (
                   <div className="w-full h-full bg-gradient-to-br from-gray-700 to-gray-900 flex items-center justify-center">
                     <Eye size={32} className="text-red-400" />

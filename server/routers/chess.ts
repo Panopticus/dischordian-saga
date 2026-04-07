@@ -13,6 +13,7 @@ import {
   dreamBalance, notifications,
 } from "../../drizzle/schema";
 import { fetchCitizenData, fetchPotentialNftData, resolveChessBonuses } from "../traitResolver";
+import { mapDifficultyToChessElo } from "@shared/dynamicDifficulty";
 
 // chess.js v1.4 — dynamic import to avoid ESM/CJS mismatch
 let Chess: any;
@@ -400,13 +401,17 @@ export const chessRouter = router({
       const opponent = CHESS_CHARACTERS[opponentId || "the_human"];
       if (!opponent) throw new Error("Invalid opponent");
 
-      // Calculate AI difficulty based on character + mode
+      // Calculate AI difficulty based on character + mode + dynamic difficulty
       let aiDifficulty = 3; // casual default
       if (input.mode === "ranked") {
         const ranking = await db.select().from(chessRankings)
           .where(eq(chessRankings.userId, ctx.user.id)).limit(1);
         const playerElo = ranking[0]?.elo || 1200;
-        aiDifficulty = Math.min(10, Math.max(1, Math.floor((playerElo + opponent.eloBonus) / 300)));
+        // Use dynamic difficulty mapping for Stockfish level: convert normalized
+        // difficulty (0-1) from player ELO to a target ELO, then scale to 1-10
+        const normalizedDifficulty = Math.min(1, Math.max(0, (playerElo - 400) / 1800));
+        const targetElo = mapDifficultyToChessElo(normalizedDifficulty) + opponent.eloBonus;
+        aiDifficulty = Math.min(10, Math.max(1, Math.floor(targetElo / 300)));
       } else if (input.mode === "story") {
         const ranking = await db.select().from(chessRankings)
           .where(eq(chessRankings.userId, ctx.user.id)).limit(1);

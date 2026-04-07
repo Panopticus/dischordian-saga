@@ -24,12 +24,15 @@ import { Link, useLocation } from "wouter";
 import { useGame } from "@/contexts/GameContext";
 import { usePlayer } from "@/contexts/PlayerContext";
 import {
-  Map, Shield, ScrollText, Radio, X,
+  Map, Shield, ScrollText, Radio, X, Camera, Home,
 } from "lucide-react";
+import ShaderOverlay from "@/components/ShaderOverlay";
+import { PhotoMode } from "@/components/PhotoMode";
 import { motion, AnimatePresence } from "framer-motion";
 import NotificationBell from "@/components/NotificationBell";
 import { ShipThemeOverlay } from "@/components/ShipThemeOverlay";
 import TransmissionDeck from "@/components/TransmissionDeck";
+import MobileBottomNav from "@/components/MobileBottomNav";
 import { useNarrativeEvents } from "@/hooks/useNarrativeEvents";
 import { useNarrativeIntegration } from "@/hooks/useNarrativeIntegration";
 import VoiceWhisper from "@/components/VoiceWhisper";
@@ -39,6 +42,7 @@ const ARK_CONTROL_ROOM = "https://d2xsxph8kpxj0f.cloudfront.net/3104196630320801
 /* ─── NAV BAR ITEMS ─── */
 const NAV_ITEMS = [
   { id: "map", path: "/ship-map", label: "MAP", icon: Map, color: "#33E2E6" },
+  { id: "cabin", path: "/cabin", label: "CABIN", icon: Home, color: "#34d399" },
   { id: "operative", path: "/character-sheet", label: "OPERATIVE", icon: Shield, color: "#a855f7" },
   { id: "journal", path: "/clue-journal", label: "JOURNAL", icon: ScrollText, color: "#f59e0b" },
   { id: "comms", path: "/comms-array", label: "COMMS", icon: Radio, color: "#f87171" },
@@ -55,6 +59,7 @@ export default function AppShell({ children, elaraTTS: _elaraTTS }: { children: 
   const { showPlayer } = usePlayer();
   const { state: gameState } = useGame();
   const [showTransmissions, setShowTransmissions] = useState(false);
+  const [photoModeOpen, setPhotoModeOpen] = useState(false);
 
   // Activate narrative effects bridge — listens to game events (combat, NPC, room, etc.)
   // and triggers physics-aware CSS narrative effects on the app body
@@ -93,6 +98,13 @@ export default function AppShell({ children, elaraTTS: _elaraTTS }: { children: 
 
   return (
     <div className="min-h-screen flex flex-col relative">
+      {/* ═══ SHADER OVERLAY — Corruption + morality post-processing ═══ */}
+      <ShaderOverlay
+        corruption={((gameState.narrativeFlags?.thought_virus_level as number) || 0) / 100}
+        morality={gameState.moralityScore || 0}
+        enabled={!isAwakening}
+      />
+
       {/* ═══ BACKGROUND ═══ */}
       <div className="fixed inset-0 z-0 pointer-events-none">
         <img
@@ -128,8 +140,15 @@ export default function AppShell({ children, elaraTTS: _elaraTTS }: { children: 
             </span>
           </Link>
 
-          {/* Right side: notifications only */}
+          {/* Right side: photo mode + notifications */}
           <div className="flex items-center gap-2">
+            <button
+              onClick={() => setPhotoModeOpen(true)}
+              className="p-1.5 rounded-md text-white/30 hover:text-white/60 transition-colors"
+              aria-label="Photo mode"
+            >
+              <Camera size={14} />
+            </button>
             <NotificationBell />
           </div>
         </header>
@@ -232,6 +251,16 @@ export default function AppShell({ children, elaraTTS: _elaraTTS }: { children: 
 
       {/* ═══ TRANSMISSION DECK (media hub) ═══ */}
       <TransmissionDeck isOpen={showTransmissions} onClose={() => setShowTransmissions(false)} />
+
+      {/* ═══ PHOTO MODE ═══ */}
+      <PhotoMode isOpen={photoModeOpen} onClose={() => setPhotoModeOpen(false)} />
+
+      {/* ═══ MOBILE BOTTOM NAV — 5-tab nav for <640px screens ═══ */}
+      <MobileBottomNav
+        pendingQuests={activeQuests}
+        newItems={0}
+        onMorePress={() => setShowTransmissions((v) => !v)}
+      />
 
       {/* ═══ CRT OVERLAY ═══ */}
       <div className="crt-overlay" />

@@ -1,8 +1,8 @@
-import { Suspense, lazy, type ReactNode, type ComponentType } from "react";
+import { Suspense, lazy, useState, useEffect, useRef, useCallback, type ReactNode, type ComponentType } from "react";
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/NotFound";
-import { Route, Switch } from "wouter";
+import { Route, Switch, useLocation } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import GameErrorBoundary from "./components/GameErrorBoundary";
 import RouteErrorBoundary from "./components/RouteErrorBoundary";
@@ -42,6 +42,12 @@ import { useVoidEngine } from "./engine/useVoidEngine";
 import { useArchetypeDetection } from "./hooks/useArchetypeDetection";
 import { useSortingTrigger } from "./hooks/useSortingTrigger";
 import { useAuth } from "./_core/hooks/useAuth";
+import { useAnalytics } from "./hooks/useAnalytics";
+import { useTutorialOrchestrator } from "./hooks/useTutorialOrchestrator";
+import { syncFromServer, initSync } from "@/lib/settingsSync";
+import RecapOverlay, { shouldShowRecap, RECAP_INACTIVITY_DAYS } from "./components/RecapOverlay";
+import { loadingManager, LOADING_TASKS } from "@/lib/loadingProgress";
+import { trpc } from "@/lib/trpc";
 import TitlePage from "./pages/TitlePage";
 import LoadingScreen from "./components/LoadingScreen";
 import { CardGridSkeleton, LeaderboardSkeleton, PageSkeleton } from "./components/SkeletonLoader";
@@ -169,6 +175,7 @@ const PlanetGalleryPage = lazy(() => import("./pages/PlanetGalleryPage"));
 const GovernanceHubPage = lazy(() => import("./pages/GovernanceHubPage"));
 const SoulStonesPage = lazy(() => import("./features/soulStones/SoulStonesPage"));
 const ChristmasCasinoPage = lazy(() => import("./features/events/christmasInJuly/CasinoFloor"));
+const PlayerCabinPage = lazy(() => import("./pages/PlayerCabinPage"));
 
 /* ═══ LOADING FALLBACK ═══ */
 function PageLoader() {
@@ -303,6 +310,7 @@ function Router() {
         <Route path="/governance" component={GovernanceHubPage} />
         <Route path="/soul-stones">{() => <GameRoute component={SoulStonesPage} />}</Route>
         <Route path="/christmas-in-july">{() => <GameRoute component={ChristmasCasinoPage} />}</Route>
+        <Route path="/cabin" component={PlayerCabinPage} />
         <Route path="/404" component={NotFound} />
         <Route component={NotFound} />
       </Switch>
@@ -329,6 +337,62 @@ function GameGate() {
   const { state, isServerSyncReady, completeSorting } = useGame();
   const { muted, volume } = useSoundForTTS();
   const elaraTTS = useElaraTTS({ enabled: true, volume, muted });
+  const [location] = useLocation();
+
+  // A.8 Analytics — session tracking and page views
+  useAnalytics();
+
+  // ── A.12 Tutorial Orchestrator — check tutorials on route changes
+  const { checkTutorial } = useTutorialOrchestrator();
+  useEffect(() => {
+    // Map route path to room context for the tutorial system
+    const roomMap: Record<string, string> = {
+      "/": "bridge", "/games": "games_page", "/inventory": "inventory_page",
+      "/fight": "fight_page", "/cards": "cards_page",
+    };
+    const currentRoom = roomMap[location] || location.replace(/^\//, "") || undefined;
+    checkTutorial({ currentRoom });
+  }, [location, checkTutorial]);
+
+  // ── A.13 Settings Sync — sync settings from server once after auth
+  const trpcUtils = trpc.useUtils();
+  const settingsSynced = useRef(false);
+  useEffect(() => {
+    if (!settingsSynced.current) {
+      settingsSynced.current = true;
+      initSync(trpcUtils);
+      syncFromServer().catch(() => {/* silent — local settings are fallback */});
+    }
+  }, [trpcUtils]);
+
+  // ── A.16 Recap Overlay — show "Previously on..." after 3+ days away
+  const [showRecap, setShowRecap] = useState(() => {
+    const lastLogin = localStorage.getItem("loredex_last_login");
+    return shouldShowRecap(lastLogin ? parseInt(lastLogin, 10) : null);
+  });
+  const handleRecapDismiss = useCallback(() => {
+    setShowRecap(false);
+    localStorage.setItem("loredex_last_login", String(Date.now()));
+  }, []);
+  // Update login timestamp on mount if recap not needed
+  useEffect(() => {
+    if (!showRecap) {
+      localStorage.setItem("loredex_last_login", String(Date.now()));
+    }
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // ── A.17 Loading Progress — register and track app init tasks
+  useEffect(() => {
+    loadingManager.registerTasks(LOADING_TASKS.appInit);
+    // Auth is already complete by this point (we're past AuthGate)
+    loadingManager.completeTask("auth");
+    loadingManager.completeTask("profile");
+    // Mark game data and assets as complete (loaded via context providers)
+    loadingManager.completeTask("gameData");
+    loadingManager.completeTask("assets");
+    // WebSocket is established by pvpWs/chessWs setup
+    loadingManager.completeTask("ws");
+  }, []);
 
   // Activate Void Energy design system — syncs morality/room/NPC to visual materials
   useVoidEngine();
@@ -362,6 +426,15 @@ function GameGate() {
   // Otherwise show the normal app
   return (
     <>
+      {/* A.16 Recap Overlay — "Previously on Dischordian Saga..." */}
+      {showRecap && (
+        <RecapOverlay
+          progressData={state as unknown as Record<string, unknown>}
+          gameData={state as unknown as Record<string, unknown>}
+          onComplete={handleRecapDismiss}
+          onClose={handleRecapDismiss}
+        />
+      )}
       <CommandConsole elaraTTS={elaraTTS}>
         <ProtectedRoute>
           <Router />
