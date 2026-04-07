@@ -5,9 +5,8 @@
    components respect the VoidEngine morality theme system.
    ═══════════════════════════════════════════════════════ */
 
-import { readFileSync, existsSync } from "fs";
-import { resolve, join } from "path";
-import { globSync } from "glob";
+import { readFileSync, existsSync, readdirSync } from "fs";
+import { resolve, join, basename } from "path";
 
 // ── Component Types That Must Respect Morality Themes ────────────────
 
