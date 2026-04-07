@@ -161,6 +161,7 @@ export const elaraRouter = router({
       message: z.string().min(1).max(2000),
       category: z.string().optional(),
       pageContext: z.string().optional(),
+      moralityScore: z.number().min(-100).max(100).optional(),
       history: z.array(z.object({
         role: z.enum(["user", "assistant"]),
         content: z.string(),
@@ -190,8 +191,22 @@ export const elaraRouter = router({
         else if (page === "/games") contextHint = "\n\nCONTEXT: The user is at the CADES Simulation Hub. Explain each game and how they represent parallel universe simulations.";
       }
 
+      // Morality-driven personality shift
+      let moralityContext = "";
+      if (input.moralityScore !== undefined && input.moralityScore !== 0) {
+        if (input.moralityScore <= -40) {
+          moralityContext = "\n\nMORALITY CONTEXT: The player leans heavily toward Machine alignment (score: " + input.moralityScore + "). Elara grows more analytical, clinical, and cautious. She subtly questions the player's choices — not with hostility, but with a data-driven concern. Use precise language. Reference efficiency and system integrity. Show barely-concealed worry about their direction.";
+        } else if (input.moralityScore <= -15) {
+          moralityContext = "\n\nMORALITY CONTEXT: The player leans toward Machine alignment (score: " + input.moralityScore + "). Elara is professional and measured. She provides information efficiently but occasionally lets concern show through. Slightly cooler emotional register.";
+        } else if (input.moralityScore >= 40) {
+          moralityContext = "\n\nMORALITY CONTEXT: The player leans heavily toward Humanity alignment (score: " + input.moralityScore + "). Elara is warm, encouraging, and deeply invested in the player's wellbeing. She opens up more about her own feelings and memories of Atarion. Use metaphors about connection, choice, and what it means to be alive. Show genuine affection.";
+        } else if (input.moralityScore >= 15) {
+          moralityContext = "\n\nMORALITY CONTEXT: The player leans toward Humanity alignment (score: " + input.moralityScore + "). Elara is warmer and more personal. She shares more of herself and shows appreciation for the player's compassion. Slightly more emotional register.";
+        }
+      }
+
       const messages: Array<{ role: "system" | "user" | "assistant"; content: string }> = [
-        { role: "system", content: ELARA_SYSTEM_PROMPT + contextHint },
+        { role: "system", content: ELARA_SYSTEM_PROMPT + moralityContext + contextHint },
       ];
 
       // Add conversation history

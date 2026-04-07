@@ -3,6 +3,7 @@
    with Deck Selection, Ranked Seasons, and Spectator Mode
    ═══════════════════════════════════════════════════════ */
 import { useState, useEffect, useCallback, useRef, useMemo } from "react";
+import allCardsJson from "@/data/season1-cards.json";
 import { useAuth } from "@/_core/hooks/useAuth";
 import { useGame } from "@/contexts/GameContext";
 import { LoreOverlay } from "@/components/LoreOverlay";
@@ -129,28 +130,46 @@ export default function PvpArenaPage() {
     onSuccess: () => { mySeasonRecord.refetch(); },
   });
 
-  // Resolve which deck to use
+  // Card lookup index for resolving saved decks
+  const cardIndex = useMemo(() => {
+    const idx = new Map<string, (typeof allCardsJson)[number]>();
+    for (const card of allCardsJson) idx.set(card.id, card);
+    return idx;
+  }, []);
+
+  // Resolve which deck to use — load real card stats from season1-cards data
   const resolvedDeck = useMemo((): DeckCard[] => {
     if (selectedDeckId && myDecks.data) {
       const deck = myDecks.data.find(d => d.id === selectedDeckId);
       if (deck) {
-        // Load card data from season1-cards for the saved deck
-        // For now, use the cardIds to build a deck
-        return deck.cardIds.map((id: string, i: number) => ({
-          cardId: id,
-          name: id.replace(/-/g, " ").replace(/\b\w/g, c => c.toUpperCase()),
-          type: "unit" as const,
-          rarity: "common" as const,
-          attack: 2,
-          defense: 2,
-          cost: 2,
-          ability: "",
-          imageUrl: "",
-        }));
+        return deck.cardIds.map((id: string) => {
+          const card = cardIndex.get(id);
+          if (card) {
+            return {
+              cardId: card.id,
+              name: card.name,
+              type: (card.cardType === "spell" ? "spell" : "unit") as "unit" | "spell",
+              rarity: card.rarity as DeckCard["rarity"],
+              attack: card.power ?? 0,
+              defense: card.health ?? 0,
+              cost: card.cost ?? 1,
+              ability: card.abilityText || "",
+              imageUrl: card.imageUrl || "",
+            };
+          }
+          // Fallback for cards not in season1 data
+          return {
+            cardId: id,
+            name: id.replace(/-/g, " ").replace(/\b\w/g, c => c.toUpperCase()),
+            type: "unit" as const,
+            rarity: "common" as const,
+            attack: 2, defense: 2, cost: 2, ability: "", imageUrl: "",
+          };
+        });
       }
     }
     return fallbackDeck;
-  }, [selectedDeckId, myDecks.data, fallbackDeck]);
+  }, [selectedDeckId, myDecks.data, fallbackDeck, cardIndex]);
 
   // Battle state helpers
   const myPlayer = useMemo(() => {

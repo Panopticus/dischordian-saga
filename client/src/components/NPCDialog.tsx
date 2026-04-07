@@ -332,6 +332,50 @@ export default function NPCDialog({ npcId, scene, onClose, onChoice }: NPCDialog
                     boxShadow: `inset 0 0 30px ${npc.color}15, inset -1px 0 0 ${npc.color}20`,
                   }}
                 />
+
+                {/* ── SUBSTRATE INTERFERENCE — The Human's reveal stages ── */}
+                {npcId === "the_human" && trust < 50 && (
+                  <>
+                    {/* CRT scanlines over the static image */}
+                    <div
+                      className="absolute inset-0 pointer-events-none z-10"
+                      style={{
+                        backgroundImage: "repeating-linear-gradient(0deg, transparent 0, transparent 2px, rgba(248,113,113,0.07) 2px, rgba(248,113,113,0.07) 4px)",
+                        mixBlendMode: "overlay",
+                      }}
+                    />
+                    {/* Red interference sweep — scans down the portrait */}
+                    <motion.div
+                      animate={{ top: ["-10%", "110%"] }}
+                      transition={{ duration: 2.5 + (trust / 20), repeat: Infinity, ease: "linear" }}
+                      className="absolute left-0 right-0 h-8 pointer-events-none z-10"
+                      style={{
+                        background: `linear-gradient(180deg, transparent 0%, rgba(248,113,113,${0.12 - trust * 0.002}) 40%, rgba(248,113,113,${0.12 - trust * 0.002}) 60%, transparent 100%)`,
+                      }}
+                    />
+                    {/* Random horizontal glitch bars — more frequent at low trust */}
+                    {trust < 30 && (
+                      <motion.div
+                        animate={{ opacity: [0, 1, 0], x: [0, -3, 2, 0] }}
+                        transition={{ duration: 0.15, repeat: Infinity, repeatDelay: 3 - (trust < 10 ? 0.5 : trust < 20 ? 1.5 : 2.3) }}
+                        className="absolute left-0 right-0 pointer-events-none z-10"
+                        style={{
+                          top: `${30 + Math.random() * 40}%`,
+                          height: `${trust < 10 ? 12 : 6}px`,
+                          background: `rgba(248,113,113,${trust < 10 ? 0.25 : 0.12})`,
+                          mixBlendMode: "screen",
+                        }}
+                      />
+                    )}
+                    {/* Stage label overlay at bottom */}
+                    <div className="absolute bottom-0 left-0 right-0 p-2 z-20"
+                      style={{ background: "linear-gradient(0deg, rgba(0,0,0,0.7) 0%, transparent 100%)" }}>
+                      <p className="font-mono text-[7px] tracking-[0.3em] text-red-400/60 text-center uppercase">
+                        {trust < 10 ? "SIGNAL STATIC" : trust < 20 ? "SIGNAL GHOST" : trust < 40 ? "SIGNAL FRAGMENT" : "SIGNAL CONVERGENCE"}
+                      </p>
+                    </div>
+                  </>
+                )}
               </motion.div>
             )}
 

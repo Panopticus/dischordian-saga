@@ -127,6 +127,8 @@ export default function BossBattlePage() {
   const [targetMode, setTargetMode] = useState(false);
   const [currentBoss, setCurrentBoss] = useState<BossEncounter | null>(null);
   const logRef = useRef<HTMLDivElement>(null);
+  const battleStartRef = useRef<number>(0);
+  const recordKill = trpc.bossMastery.recordKill.useMutation();
 
   const allTraitBonuses = trpc.citizen.getAllTraitBonuses.useQuery(undefined, { retry: false, refetchOnWindowFocus: false });
   const bossBonuses = allTraitBonuses.data?.bossMastery;
@@ -140,6 +142,7 @@ export default function BossBattlePage() {
   const startBossBattle = useCallback((boss: BossEncounter) => {
     setCurrentBoss(boss);
     setBattleState(initBossBattle(playerDeck, boss));
+    battleStartRef.current = Date.now();
     if (audioReady) playSFX("room_enter");
   }, [playerDeck, audioReady, playSFX]);
 
@@ -154,6 +157,12 @@ export default function BossBattlePage() {
       }
       if (next.winner === "player" && currentBoss) {
         discoverEntry(currentBoss.entityId);
+        // Record kill for mastery tracking
+        const fightDuration = Math.round((Date.now() - battleStartRef.current) / 1000);
+        recordKill.mutate(
+          { bossKey: currentBoss.key || currentBoss.entityId, difficulty: "normal", timeSeconds: fightDuration },
+          { onError: (err) => console.warn("[BossMastery] recordKill failed:", err.message) },
+        );
       }
       return next;
     });

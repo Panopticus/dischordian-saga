@@ -9,7 +9,7 @@ import { getDb } from "../db";
 import {
   coopRaids, raidContributions,
   citizenCharacters, classMastery, civilSkillProgress, prestigeProgress,
-  guildMembers,
+  guildMembers, userProgress,
 } from "../../drizzle/schema";
 import { eq, and, desc, sql } from "drizzle-orm";
 import {
@@ -178,9 +178,17 @@ export const coopRaidsRouter = router({
       const baseXp = 500;
       const baseCurrency = 200;
 
+      const xpEarned = Math.floor(baseXp * sharePercent * 3);
+      const currencyEarned = Math.floor(baseCurrency * sharePercent * 3);
+
+      // Persist rewards to player progress
+      await db.update(userProgress)
+        .set({ xp: sql`${userProgress.xp} + ${xpEarned}` })
+        .where(eq(userProgress.userId, ctx.user.id));
+
       return {
-        xpEarned: Math.floor(baseXp * sharePercent * 3),
-        currencyEarned: Math.floor(baseCurrency * sharePercent * 3),
+        xpEarned,
+        currencyEarned,
         sharePercent: Math.round(sharePercent * 100),
         contributionRank: allContributions.filter(c => c.contributionScore > contribution.contributionScore).length + 1,
       };

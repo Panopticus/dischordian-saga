@@ -4,6 +4,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/NotFound";
 import { Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
+import GameErrorBoundary from "./components/GameErrorBoundary";
 import RouteErrorBoundary from "./components/RouteErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import { LoredexProvider } from "./contexts/LoredexContext";
@@ -173,21 +174,14 @@ function PageLoader() {
   return <LoadingScreen />;
 }
 
-/* ═══ GAME ERROR FALLBACK ═══ */
-const gameErrorFallback = (
-  <div className="min-h-screen bg-black flex items-center justify-center">
-    <p className="text-white/50 font-mono text-sm">Game crashed. Please refresh the page.</p>
-  </div>
-);
-
 /** Wraps a game page component in ErrorBoundary + Suspense for crash isolation */
-function GameRoute({ component: Comp }: { component: ComponentType }) {
+function GameRoute({ component: Comp, name }: { component: ComponentType; name?: string }) {
   return (
-    <ErrorBoundary fallback={gameErrorFallback}>
+    <GameErrorBoundary pageName={name}>
       <Suspense fallback={<PageLoader />}>
         <Comp />
       </Suspense>
-    </ErrorBoundary>
+    </GameErrorBoundary>
   );
 }
 

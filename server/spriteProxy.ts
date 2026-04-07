@@ -24,13 +24,24 @@ const MAX_CACHE_SIZE = 200; // Max cached sprites
 const TARGET_WIDTH = 360;
 const TARGET_HEIGHT = 480;
 
-// Allowed CDN domain for security
-const ALLOWED_DOMAINS = ["d2xsxph8kpxj0f.cloudfront.net"];
+// Allowed CDN domains for security — SSRF protection
+const ALLOWED_DOMAINS = [
+  "d2xsxph8kpxj0f.cloudfront.net",
+  "res.cloudinary.com",
+];
 
 function isAllowedUrl(url: string): boolean {
   try {
     const parsed = new URL(url);
-    return ALLOWED_DOMAINS.some(d => parsed.hostname === d);
+    // Must be HTTPS
+    if (parsed.protocol !== "https:") return false;
+    // Must match allowed domain exactly
+    if (!ALLOWED_DOMAINS.some(d => parsed.hostname === d)) return false;
+    // Block internal network (SSRF prevention)
+    if (parsed.hostname === "localhost" || parsed.hostname.startsWith("127.") || parsed.hostname.startsWith("10.") || parsed.hostname.startsWith("192.168.") || parsed.hostname.startsWith("169.254.") || parsed.hostname === "[::1]") return false;
+    // Block path traversal
+    if (parsed.pathname.includes("..")) return false;
+    return true;
   } catch {
     return false;
   }
@@ -167,7 +178,7 @@ export function registerSpriteProxy(app: Express) {
       res.set({
         "Content-Type": "image/png",
         "Cache-Control": "public, max-age=86400",
-        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Origin": process.env.CORS_ORIGIN || "https://dischordian-saga.com",
       });
       return res.send(cached.buffer);
     }
@@ -195,7 +206,7 @@ export function registerSpriteProxy(app: Express) {
       res.set({
         "Content-Type": "image/png",
         "Cache-Control": "public, max-age=86400",
-        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Origin": process.env.CORS_ORIGIN || "https://dischordian-saga.com",
       });
       res.send(resultBuffer);
     } catch (err: any) {

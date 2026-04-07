@@ -11,6 +11,7 @@ import { setupPvpWebSocket } from "../pvpWs";
 import { setupChessPvpWebSocket } from "../chessWs";
 import { registerSpriteProxy } from "../spriteProxy";
 import { registerChessMultiplayer } from "../chessMultiplayer";
+import { ENV } from "./env";
 
 function isPortAvailable(port: number): Promise<boolean> {
   return new Promise(resolve => {
@@ -95,6 +96,17 @@ async function startServer() {
     }
   });
 
+  // CORS — restrict to production domains (wildcard in dev)
+  app.use((req, res, next) => {
+    const origin = ENV.isProduction ? ENV.corsOrigin : (req.headers.origin || "*");
+    res.header("Access-Control-Allow-Origin", origin);
+    res.header("Access-Control-Allow-Credentials", "true");
+    res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+    res.header("Access-Control-Allow-Headers", "Content-Type, Authorization, X-CSRF-Token");
+    if (req.method === "OPTIONS") return res.sendStatus(204);
+    next();
+  });
+
   // Configure body parser with larger size limit for file uploads
   app.use(express.json({ limit: "50mb" }));
   app.use(express.urlencoded({ limit: "50mb", extended: true }));
@@ -160,6 +172,10 @@ async function startServer() {
 
   // Chess multiplayer WebSocket
   registerChessMultiplayer(server);
+
+  // Duelyst card game multiplayer WebSocket
+  const { setupDuelystWebSocket } = await import("../duelystWs");
+  setupDuelystWebSocket(server);
 
   server.listen(port, () => {
     console.log(`Server running on http://localhost:${port}/`);

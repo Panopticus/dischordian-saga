@@ -26,6 +26,7 @@ import {
   type BattleLogEntry,
   type ArenaTier,
 } from "@/game/petBattles";
+import { trpc } from "@/lib/trpc";
 
 type Phase = "tier_select" | "matchup" | "battle" | "result";
 
@@ -38,7 +39,18 @@ export default function PetBattlesPage() {
   const [opponentPet, setOpponentPet] = useState<BattlePet | null>(null);
   const [isAutoPlaying, setIsAutoPlaying] = useState(false);
 
-  const availableTiers = useMemo(() => getAvailableTiers(2), []); // Assume stage 2
+  const [serverRewards, setServerRewards] = useState<{
+    bondGain: number; skillPoints: number; dream: number; xp: number; injury: number;
+  } | null>(null);
+
+  // Server persistence
+  const myPetsQuery = trpc.petBattles.getMyPets.useQuery(undefined, { retry: false });
+  const submitBattleMutation = trpc.petBattles.submitBattleResult.useMutation();
+
+  // Use server pets if available, fallback to hardcoded stage 2
+  const petEvolution = (myPetsQuery.data?.[0]?.evolutionStage ?? 2) as 1 | 2 | 3;
+  const petBond = myPetsQuery.data?.[0]?.bond ?? 60;
+  const availableTiers = useMemo(() => getAvailableTiers(petEvolution), [petEvolution]);
 
   // Auto-play turn loop
   useEffect(() => {
@@ -49,8 +61,13 @@ export default function PetBattlesPage() {
 
   const startMatchup = (tier: ArenaTier) => {
     setSelectedTier(tier);
-    const player = createBattlePet("lux", "holographic_fox", 2, 60);
-    const opponent = createBattlePet("shadow", "void_crawler", 2, 40);
+    setServerRewards(null);
+    const myPet = myPetsQuery.data?.[0];
+    const player = myPet
+      ? createBattlePet(myPet.petId, myPet.species, myPet.evolutionStage as 1|2|3, myPet.bond)
+      : createBattlePet("lux", "holographic_fox", petEvolution, petBond);
+    if (myPet) player.name = myPet.name;
+    const opponent = createBattlePet("shadow", "void_crawler", petEvolution, 40);
     opponent.name = "Opponent: Shadow";
     setPlayerPet(player);
     setOpponentPet(opponent);
@@ -89,23 +106,50 @@ export default function PetBattlesPage() {
     // Check for end
     if (defender.hp <= 0) {
       const winner = battle.turn === "player1" ? "player1" : "player2";
-      setBattle({ ...battle, status: "completed", winner });
+      const finalBattle = { ...battle, status: "completed" as const, winner };
+      setBattle(finalBattle);
       setIsAutoPlaying(false);
+      // Submit result to server
+      const won = winner === "player1";
+      const perfect = won && playerPet.hp === playerPet.maxHp;
+      submitBattleMutation.mutate({
+        petId: playerPet.petId,
+        opponentSpecies: opponentPet.petId,
+        arenaTier: selectedTier?.id || "bronze_gauntlet",
+        won, rounds: battle.round, perfectVictory: perfect,
+        battleLog: [...log, entry],
+      }, {
+        onSuccess: (data) => setServerRewards(data.rewards),
+        onError: (err) => console.warn("[PetBattles] Server submit failed:", err.message),
+      });
       setTimeout(() => setPhase("result"), 1500);
       return;
     }
 
     // Next turn
+    const nextRound = battle.turn === "player2" ? battle.round + 1 : battle.round;
     setBattle({
       ...battle,
       turn: battle.turn === "player1" ? "player2" : "player1",
-      round: battle.turn === "player2" ? battle.round + 1 : battle.round,
+      round: nextRound,
     });
 
     // Max rounds reached
-    if (battle.round >= battle.maxRounds) {
-      setBattle({ ...battle, status: "completed", winner: playerPet.hp > opponentPet.hp ? "player1" : "player2" });
+    if (nextRound > battle.maxRounds) {
+      const winner = playerPet.hp > opponentPet.hp ? "player1" : "player2";
+      setBattle({ ...battle, status: "completed", winner });
       setIsAutoPlaying(false);
+      const won = winner === "player1";
+      submitBattleMutation.mutate({
+        petId: playerPet.petId,
+        opponentSpecies: opponentPet.petId,
+        arenaTier: selectedTier?.id || "bronze_gauntlet",
+        won, rounds: battle.round, perfectVictory: false,
+        battleLog: log,
+      }, {
+        onSuccess: (data) => setServerRewards(data.rewards),
+        onError: (err) => console.warn("[PetBattles] Server submit failed:", err.message),
+      });
       setTimeout(() => setPhase("result"), 1500);
     }
   };
@@ -247,14 +291,22 @@ export default function PetBattlesPage() {
                   {playerPet?.name} {battle.winner === "player1" ? "wins" : "loses"} · {battle.round} rounds · {selectedTier?.name}
                 </p>
               </div>
-              {selectedTier && (() => {
-                const rewards = calculateBattleRewards(battle.winner === "player1", battle.round, playerPet!.hp === playerPet!.maxHp);
+              {(() => {
+                const rewards = serverRewards || calculateBattleRewards(battle.winner === "player1", battle.round, playerPet!.hp === playerPet!.maxHp);
                 return (
-                  <div className="inline-flex gap-4 px-4 py-2 rounded border border-border/40 bg-card/40 font-mono text-[10px]">
-                    <span className="text-amber-400">+{rewards.xp} XP</span>
-                    <span className="text-purple-400">+{rewards.dream} Dream</span>
-                    <span className="text-emerald-400">+{rewards.bondGain} Bond</span>
-                    {rewards.injury > 0 && <span className="text-orange-400">-{rewards.injury} HP injury</span>}
+                  <div className="space-y-1.5">
+                    <div className="inline-flex gap-4 px-4 py-2 rounded border border-border/40 bg-card/40 font-mono text-[10px]">
+                      <span className="text-amber-400">+{rewards.xp} XP</span>
+                      <span className="text-purple-400">+{rewards.dream} Dream</span>
+                      <span className="text-emerald-400">+{rewards.bondGain} Bond</span>
+                      {rewards.injury > 0 && <span className="text-orange-400">-{rewards.injury} HP injury</span>}
+                    </div>
+                    {serverRewards && (
+                      <p className="font-mono text-[8px] text-emerald-400/60 tracking-wider">✓ REWARDS SAVED TO SERVER</p>
+                    )}
+                    {submitBattleMutation.isPending && (
+                      <p className="font-mono text-[8px] text-amber-400/60 tracking-wider animate-pulse">SAVING RESULTS...</p>
+                    )}
                   </div>
                 );
               })()}

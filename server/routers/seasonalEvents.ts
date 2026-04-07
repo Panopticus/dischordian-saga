@@ -64,7 +64,7 @@ export const seasonalEventsRouter = router({
 
   /** Contribute to event */
   contribute: protectedProcedure
-    .input(z.object({ eventId: z.number(), amount: z.number().min(1) }))
+    .input(z.object({ eventId: z.number(), amount: z.number().min(1).max(1000) }))
     .mutation(async ({ ctx, input }) => {
       const db = await getDb();
       if (!db) throw new Error("DB unavailable");
@@ -126,6 +126,32 @@ export const seasonalEventsRouter = router({
         if (found) { item = found; break; }
       }
       if (!item) throw new Error("Item not found");
+
+      // Enforce shop item requirements (civil skill, prestige, etc.)
+      if ((item as any).requiredCivilSkill) {
+        const civilSkills = await db.select().from(civilSkillProgress).where(eq(civilSkillProgress.userId, ctx.user.id));
+        const req = (item as any).requiredCivilSkill as { skill: string; level: number };
+        const skill = civilSkills.find(s => s.skillKey === req.skill);
+        if (!skill || skill.level < req.level) {
+          throw new Error(`Requires ${req.skill} level ${req.level}`);
+        }
+      }
+      if ((item as any).requiredPrestige) {
+        const [prestige] = await db.select().from(prestigeProgress).where(eq(prestigeProgress.userId, ctx.user.id));
+        if (!prestige || (prestige as any).prestigeClass !== (item as any).requiredPrestige) {
+          throw new Error(`Requires prestige class: ${(item as any).requiredPrestige}`);
+        }
+      }
+
+      // Enforce max purchase limit
+      if ((item as any).maxPurchases) {
+        const pastPurchases = await db.select().from(eventShopPurchases)
+          .where(and(eq(eventShopPurchases.userId, ctx.user.id), eq(eventShopPurchases.itemKey, input.itemKey)));
+        const totalBought = pastPurchases.reduce((sum, p) => sum + p.quantity, 0);
+        if (totalBought + input.quantity > (item as any).maxPurchases) {
+          throw new Error(`Purchase limit reached (max ${(item as any).maxPurchases})`);
+        }
+      }
 
       const totalCost = item.cost * input.quantity;
 

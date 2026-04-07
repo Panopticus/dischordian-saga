@@ -9,6 +9,7 @@ import { pvpMatches, pvpLeaderboard, pvpSeasons, pvpSeasonRecords } from "../dri
 import { eq, and } from "drizzle-orm";
 import { trackPvpResult } from "./achievementTracker";
 import { randomUUID } from "crypto";
+import { checkWsRateLimit, sendRateLimitError, storeDisconnectedSession, recoverSession } from "./wsRateLimit";
 
 /* ─── TYPES ─── */
 interface ConnectedPlayer {
@@ -395,8 +396,18 @@ function handleDisconnect(player: ConnectedPlayer) {
       const opponent = match.player1.userId === player.userId ? match.player2 : match.player1;
       send(opponent.ws, { type: "OPPONENT_DISCONNECTED" });
 
+      // Store session for reconnection within grace period
+      storeDisconnectedSession(player.userId, player.matchId, {
+        side: match.player1.userId === player.userId ? "player1" : "player2",
+        deck: player.deck,
+        userName: player.userName,
+        elo: player.elo,
+      });
+
       setTimeout(() => {
         if (match.state.winner) return;
+        // Check if player reconnected during grace period
+        if (playerConnections.has(player.userId)) return;
         match.state.winner = opponent.userId;
         match.state.phase = "GAME_OVER";
         endMatch(match);
@@ -416,6 +427,14 @@ function handleSpectatorDisconnect(ws: WebSocket) {
     }
     spectatorConnections.delete(ws);
   }
+}
+
+/** Expose live matchmaking status for the REST API */
+export function getMatchmakingStatus() {
+  return {
+    playersInQueue: matchmakingQueue.length,
+    activeMatches: activeMatches.size,
+  };
 }
 
 /* ─── WEBSOCKET SERVER ─── */
@@ -442,6 +461,13 @@ export function setupPvpWebSocket(server: Server) {
         msg = JSON.parse(raw.toString());
       } catch {
         send(ws, { type: "ERROR", message: "Invalid JSON" });
+        return;
+      }
+
+      // Rate limiting — check per-user if identified, per-connection otherwise
+      const rateLimitKey = player?.userId ?? ws.url ?? "anon";
+      if (!checkWsRateLimit(rateLimitKey)) {
+        sendRateLimitError(ws);
         return;
       }
 
