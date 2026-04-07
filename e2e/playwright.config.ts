@@ -8,7 +8,15 @@ export default defineConfig({
   workers: process.env.CI ? 1 : undefined,
   timeout: 30_000,
 
+  snapshotPathTemplate: "{testDir}/__screenshots__/{testFilePath}/{arg}{ext}",
+
   reporter: "html",
+
+  expect: {
+    toHaveScreenshot: {
+      maxDiffPixelRatio: 0.01,
+    },
+  },
 
   use: {
     baseURL: "http://localhost:3000",
