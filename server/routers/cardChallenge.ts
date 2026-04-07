@@ -223,7 +223,7 @@ export const cardChallengeRouter = router({
 
       // Award civil skill XP (tactics) to winner
       const { awardCivilXp } = await import("../civilSkillHelper");
-      awardCivilXp(winnerId, "win_card_battle").catch(() => {});
+      awardCivilXp(winnerId, "win_card_battle").catch(e => logger.error("[CardChallenge] Civil XP award failed:", e));
 
       return {
         success: true,

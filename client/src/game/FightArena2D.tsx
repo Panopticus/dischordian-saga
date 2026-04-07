@@ -50,11 +50,13 @@ interface GestureTracker {
   startTime: number;
   side: "left" | "right";
   ended: boolean;
+  holdTimer: ReturnType<typeof setTimeout> | null;
 }
 
 const SWIPE_THRESHOLD = 30;
 const TAP_TIME = 250;
 const DOUBLE_TAP_TIME = 300;
+const HOLD_THRESHOLD = 300; // ms before hold_start fires
 
 /* ═══ TUTORIAL ═══ */
 const TUTORIAL_DONE_KEY = "loredex_fight2d_tutorial_done";
@@ -331,16 +333,26 @@ function FightArena2D({
       const rect = (e.target as HTMLElement).getBoundingClientRect();
       const relX = touch.clientX - rect.left;
       const side: "left" | "right" = relX < rect.width / 2 ? "left" : "right";
+      const touchId = touch.identifier;
+
+      // Schedule hold_start after threshold — fires block/heavy charge if finger stays down
+      const holdTimer = setTimeout(() => {
+        const tracked = gesturesRef.current.get(touchId);
+        if (tracked && !tracked.ended) {
+          engine.handleTouchInput({ type: "hold_start", side, timestamp: Date.now() });
+        }
+      }, HOLD_THRESHOLD);
 
       const tracker: GestureTracker = {
-        id: touch.identifier,
+        id: touchId,
         startX: touch.clientX,
         startY: touch.clientY,
         startTime: Date.now(),
         side,
         ended: false,
+        holdTimer,
       };
-      gesturesRef.current.set(touch.identifier, tracker);
+      gesturesRef.current.set(touchId, tracker);
     }
   }, []);
 
@@ -354,6 +366,7 @@ function FightArena2D({
       const tracker = gesturesRef.current.get(touch.identifier);
       if (!tracker || tracker.ended) continue;
       tracker.ended = true;
+      if (tracker.holdTimer) clearTimeout(tracker.holdTimer);
       gesturesRef.current.delete(touch.identifier);
 
       const dx = touch.clientX - tracker.startX;
@@ -407,6 +420,8 @@ function FightArena2D({
 
   const handleTouchCancel = useCallback((e: React.TouchEvent) => {
     for (let i = 0; i < e.changedTouches.length; i++) {
+      const tracker = gesturesRef.current.get(e.changedTouches[i].identifier);
+      if (tracker?.holdTimer) clearTimeout(tracker.holdTimer);
       gesturesRef.current.delete(e.changedTouches[i].identifier);
     }
   }, []);

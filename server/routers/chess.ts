@@ -4,6 +4,7 @@
    Game Master boss at the top. Rewards feed into economy.
    ═══════════════════════════════════════════════════════ */
 import { z } from "zod";
+import { logger } from "../logger";
 import { eq, and, desc, sql, gte, ne } from "drizzle-orm";
 import { protectedProcedure, router } from "../_core/trpc";
 import { getDb } from "../db";
@@ -1052,9 +1053,9 @@ async function processGameEnd(
   // Award civil skill XP (tactics)
   const { awardCivilXp } = await import("../civilSkillHelper");
   if (playerWon) {
-    awardCivilXp(playerId, "win_chess").catch(() => {});
+    awardCivilXp(playerId, "win_chess").catch(e => logger.error("[Chess] Civil XP award failed:", e));
     if (game.pgn?.includes("#")) {
-      awardCivilXp(playerId, "chess_checkmate").catch(() => {});
+      awardCivilXp(playerId, "chess_checkmate").catch(e => logger.error("[Chess] Civil XP award failed:", e));
     }
   }
 

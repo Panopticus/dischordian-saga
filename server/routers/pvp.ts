@@ -5,9 +5,10 @@ import { z } from "zod";
 import { router, publicProcedure, protectedProcedure } from "../_core/trpc";
 import { getDb } from "../db";
 import {
-  pvpMatches, pvpLeaderboard, pvpDecks, pvpSeasons, pvpSeasonRecords, users, notifications,
+  pvpMatches, pvpLeaderboard, pvpDecks, pvpSeasons, pvpSeasonRecords, users, notifications, cards,
 } from "../../drizzle/schema";
-import { eq, desc, and, or, sql, asc } from "drizzle-orm";
+import { eq, desc, and, or, sql, asc, inArray } from "drizzle-orm";
+import { logger } from "../logger";
 import { getRankTier } from "@shared/pvpBattle";
 
 /* ─── DECK RULES ─── */
@@ -70,24 +71,26 @@ export const pvpRouter = router({
         .orderBy(desc(pvpMatches.startedAt))
         .limit(limit);
 
-      const enriched = await Promise.all(
-        matches.map(async (match) => {
-          const opponentId = match.player1Id === ctx.user.id ? match.player2Id : match.player1Id;
-          let opponentName = "Unknown";
-          if (opponentId) {
-            const userRows = await db.select({ name: users.name }).from(users).where(eq(users.id, opponentId)).limit(1);
-            if (userRows[0]) opponentName = userRows[0].name || "Unknown";
-          }
-          const isPlayer1 = match.player1Id === ctx.user.id;
-          return {
-            ...match,
-            opponentName,
-            won: match.winnerId === ctx.user.id,
-            eloChange: isPlayer1 ? match.player1EloChange : match.player2EloChange,
-          };
-        })
-      );
-      return enriched;
+      // Batch-fetch all opponent names in a single query (avoids N+1)
+      const opponentIds = [...new Set(
+        matches.map(m => m.player1Id === ctx.user.id ? m.player2Id : m.player1Id).filter((id): id is number => id != null)
+      )];
+      const opponentNames = new Map<number, string>();
+      if (opponentIds.length > 0) {
+        const userRows = await db.select({ id: users.id, name: users.name }).from(users).where(inArray(users.id, opponentIds));
+        for (const row of userRows) opponentNames.set(row.id, row.name || "Unknown");
+      }
+
+      return matches.map(match => {
+        const opponentId = match.player1Id === ctx.user.id ? match.player2Id : match.player1Id;
+        const isPlayer1 = match.player1Id === ctx.user.id;
+        return {
+          ...match,
+          opponentName: (opponentId && opponentNames.get(opponentId)) || "Unknown",
+          won: match.winnerId === ctx.user.id,
+          eloChange: isPlayer1 ? match.player1EloChange : match.player2EloChange,
+        };
+      });
     }),
 
   getQueueStatus: publicProcedure.query(async () => {
@@ -134,17 +137,34 @@ export const pvpRouter = router({
       const db = await getDb();
       if (!db) return { success: false, error: "Database unavailable" };
 
-      // Validate deck rules
+      // Validate deck rules — copy limits
       const cardCounts = new Map<string, number>();
-      let legendaryCount = 0;
-      let epicCount = 0;
-
-      // We'd need card data to validate rarity — for now just check copy limits
       for (const cardId of input.cardIds) {
         cardCounts.set(cardId, (cardCounts.get(cardId) || 0) + 1);
         if ((cardCounts.get(cardId) || 0) > MAX_COPIES_PER_CARD) {
           return { success: false, error: `Too many copies of card ${cardId} (max ${MAX_COPIES_PER_CARD})` };
         }
+      }
+
+      // Validate rarity limits — fetch card data to count legendary/epic cards
+      const uniqueCardIds = [...new Set(input.cardIds)];
+      const cardData = uniqueCardIds.length > 0
+        ? await db.select({ cardId: cards.cardId, rarity: cards.rarity }).from(cards).where(inArray(cards.cardId, uniqueCardIds))
+        : [];
+      const rarityMap = new Map(cardData.map(c => [c.cardId, c.rarity]));
+
+      let legendaryCount = 0;
+      let epicCount = 0;
+      for (const cardId of input.cardIds) {
+        const rarity = rarityMap.get(cardId);
+        if (rarity === "legendary" || rarity === "mythic" || rarity === "neyon") legendaryCount++;
+        if (rarity === "epic") epicCount++;
+      }
+      if (legendaryCount > MAX_LEGENDARY) {
+        return { success: false, error: `Too many legendary+ cards (${legendaryCount}/${MAX_LEGENDARY})` };
+      }
+      if (epicCount > MAX_EPIC) {
+        return { success: false, error: `Too many epic cards (${epicCount}/${MAX_EPIC})` };
       }
 
       if (input.id) {
@@ -328,7 +348,7 @@ export const pvpRouter = router({
         title: "Season Rewards Claimed!",
         message: `You claimed ${record[0].peakTier} tier rewards for PvP Season ${input.seasonId}.`,
         actionUrl: "/pvp",
-      }).catch(() => {});
+      }).catch(e => logger.error("[PvP] Season reward notification failed:", e));
 
       return {
         success: true,
@@ -353,39 +373,30 @@ export const pvpRouter = router({
       .orderBy(desc(pvpMatches.startedAt))
       .limit(20);
 
-    // Enrich with player names and ELOs
-    const enriched = await Promise.all(
-      matches.map(async (match) => {
-        let p1Name = "Unknown", p2Name = "Unknown";
-        let p1Elo = 1000, p2Elo = 1000;
+    // Batch-fetch all player names and ELOs in two queries (avoids N+1)
+    const allPlayerIds = [...new Set(
+      matches.flatMap(m => [m.player1Id, m.player2Id]).filter((id): id is number => id != null)
+    )];
 
-        const p1User = await db.select({ name: users.name }).from(users).where(eq(users.id, match.player1Id)).limit(1);
-        if (p1User[0]) p1Name = p1User[0].name || "Unknown";
+    const nameMap = new Map<number, string>();
+    const eloMap = new Map<number, number>();
 
-        if (match.player2Id) {
-          const p2User = await db.select({ name: users.name }).from(users).where(eq(users.id, match.player2Id)).limit(1);
-          if (p2User[0]) p2Name = p2User[0].name || "Unknown";
-        }
+    if (allPlayerIds.length > 0) {
+      const [userRows, lbRows] = await Promise.all([
+        db.select({ id: users.id, name: users.name }).from(users).where(inArray(users.id, allPlayerIds)),
+        db.select({ userId: pvpLeaderboard.userId, elo: pvpLeaderboard.elo }).from(pvpLeaderboard).where(inArray(pvpLeaderboard.userId, allPlayerIds)),
+      ]);
+      for (const row of userRows) nameMap.set(row.id, row.name || "Unknown");
+      for (const row of lbRows) eloMap.set(row.userId, row.elo);
+    }
 
-        const p1Lb = await db.select({ elo: pvpLeaderboard.elo, rankTier: pvpLeaderboard.rankTier }).from(pvpLeaderboard).where(eq(pvpLeaderboard.userId, match.player1Id)).limit(1);
-        if (p1Lb[0]) p1Elo = p1Lb[0].elo;
-
-        if (match.player2Id) {
-          const p2Lb = await db.select({ elo: pvpLeaderboard.elo, rankTier: pvpLeaderboard.rankTier }).from(pvpLeaderboard).where(eq(pvpLeaderboard.userId, match.player2Id)).limit(1);
-          if (p2Lb[0]) p2Elo = p2Lb[0].elo;
-        }
-
-        return {
-          ...match,
-          player1Name: p1Name,
-          player2Name: p2Name,
-          player1Elo: p1Elo,
-          player2Elo: p2Elo,
-        };
-      })
-    );
-
-    return enriched;
+    return matches.map(match => ({
+      ...match,
+      player1Name: nameMap.get(match.player1Id) || "Unknown",
+      player2Name: match.player2Id ? (nameMap.get(match.player2Id) || "Unknown") : "Unknown",
+      player1Elo: eloMap.get(match.player1Id) ?? 1000,
+      player2Elo: match.player2Id ? (eloMap.get(match.player2Id) ?? 1000) : 1000,
+    }));
   }),
 });
 

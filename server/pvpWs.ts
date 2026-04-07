@@ -10,6 +10,7 @@ import { eq, and } from "drizzle-orm";
 import { trackPvpResult } from "./achievementTracker";
 import { randomUUID } from "crypto";
 import { checkWsRateLimit, sendRateLimitError, storeDisconnectedSession, recoverSession } from "./wsRateLimit";
+import { logger } from "./logger";
 
 /* ─── TYPES ─── */
 interface ConnectedPlayer {
@@ -315,9 +316,9 @@ async function endMatch(match: ActiveMatch) {
 
   // Award class mastery XP
   import("./classMasteryHelper").then(({ awardClassXp }) => {
-    awardClassXp(winnerId, "win_pvp").catch(() => {});
-    awardClassXp(loserId, "play_pvp").catch(() => {});
-  }).catch(() => {});
+    awardClassXp(winnerId, "win_pvp").catch(e => logger.error("[PvP] Class XP award failed:", e));
+    awardClassXp(loserId, "play_pvp").catch(e => logger.error("[PvP] Class XP award failed:", e));
+  }).catch(e => logger.error("[PvP] Class mastery import failed:", e));
 
   // Notify spectators
   broadcastToSpectators(match, { type: "SPECTATE_ENDED", reason: `${winnerPlayer.userName} wins!` });
