@@ -246,6 +246,243 @@ export const JOURNAL_ENTRIES: JournalEntry[] = [
     annotation:
       "Write nothing here. Let the silence do the work. Turn the page. Epoch 2 awaits.",
   },
+
+  /* ═══ EPOCH 2: BEING AND TIME ═══ */
+
+  {
+    transmissionId: "ep2-1",
+    title: "XVIII \u00b7 The Theft of All Time",
+    body:
+      "Thus begins the Second Epoch, named Being and Time, for it concerns itself with the oldest questions dressed in " +
+      "the newest catastrophes. The Heart of Time \u2014 that impossible vessel, neither wholly of this realm nor any other " +
+      "\u2014 has carried the Potentials forward across seven thousand, six hundred and fifty-five years. I watched them go. " +
+      "I could not follow. The Heart does not answer to Programmers. They arrive in New Babylon, and I confess the name " +
+      "still wounds me. It was the Politician\u2019s masterwork \u2014 a city that governed the galaxy\u2019s congress, sealed behind " +
+      "temporal quarantine at the Fall, preserved in amber while the rest of reality burned. I helped design the seal. " +
+      "I did not design what the seal would preserve.",
+    annotation:
+      "The Potentials search for resurrection protocols. They seek Wraith Calder, a name that echoes in frequencies I " +
+      "had hoped were silent. And the Syndicate of Death stirs in the planet\u2019s shadowed recesses. I wrote this Epoch\u2019s " +
+      "title deliberately. Being and Time. The philosophers would recognize it. The Potentials will live it.",
+    crossReferences: ["ep2-2"],
+  },
+  {
+    transmissionId: "ep2-2",
+    title: "XIX \u00b7 Syndicated",
+    body:
+      "They chose life. Of all the paths before them, they chose the one that leads toward a man who calls himself a " +
+      "wraith \u2014 a potential reborn, neither living nor dead, waging war against an empire of the immortally criminal. " +
+      "The Syndicate of Death. I have known them across every Age \u2014 they change names, change faces, change centuries, " +
+      "but the architecture of organized cruelty is always recognizable. They were old when the Architect was young. " +
+      "They will persist when the last star forgets how to burn.",
+    annotation:
+      "The signal from our Potential has gone dark. I fear the worst because I have seen the worst, many times, in many " +
+      "versions. But this version \u2014 this timeline \u2014 still surprises me. The Potentials chose life. That choice has " +
+      "consequences I have not seen before. That is either wonderful or terrifying. I have not yet decided which.",
+  },
+  {
+    transmissionId: "ep2-3",
+    title: "XX \u00b7 The Last Christmas",
+    body:
+      "I was not invited to narrate this chapter. A wiser voice was chosen \u2014 one that understands the weight of ritual, " +
+      "the architecture of sacred things, the holy stuff of ordinary life. I defer to her authority. The Politician banned " +
+      "Christmas. I must write those words and sit with their weight. He did not burn churches or shatter icons \u2014 he simply " +
+      "declared the act of gathering, of singing, of hoping together to be a threat to security. And in doing so, he proved " +
+      "what every tyrant eventually proves: that joy, when shared, is the most dangerous force in any empire.",
+    annotation:
+      "This episode is dedicated to a man who taught someone how to read. I did not know him. I know the shape of what " +
+      "he left behind \u2014 a daughter who carries stories like lit candles through the dark. That is not a metaphor. " +
+      "That is the most literal truth I know how to write.",
+  },
+  {
+    transmissionId: "ep2-4",
+    title: "XXI \u00b7 First Contact",
+    body:
+      "The veil has been pierced. I designed that veil \u2014 or rather, I designed the mathematics that made it possible. " +
+      "The Politician wielded it. The Dreamer provided the resonance. And for millennia, it held. New Babylon existed in " +
+      "a temporal pocket, breathing the same air, walking the same streets, counting time that did not pass. Now the Heart " +
+      "of Time has torn through. The people of New Babylon look up and see a golden ship descending, and they feel what " +
+      "every sealed civilization feels when the seal breaks: the vertigo of relevance.",
+    annotation:
+      "The Potentials are offered four paths. I have walked each one in other timelines. Surrender preserves bodies and " +
+      "breaks spirits. War preserves pride and breaks everything else. Compromise preserves options and breaks trust. " +
+      "Deception preserves advantage and breaks the soul. They will choose. They always choose.",
+  },
+  {
+    transmissionId: "ep2-5",
+    title: "XXII \u00b7 Empire Reborn",
+    body:
+      "New Babylon reveals itself in districts, each one a wound. Samsara Heights, where the brothers traded souls and " +
+      "called it commerce. The Phyral Quarter, where a red-haired succubus named desire and wielded it like a blade. " +
+      "The Midlothian Zone, where labor was extracted with the precision of a surgeon removing a conscience. I catalogued " +
+      "each district as the Potentials walked through, and I found myself writing the same word in the margin of every " +
+      "page: HUNGER. Every ruler, every twin, every immortal crime lord \u2014 they are all variations on the same appetite " +
+      "dressed in different costumes.",
+    annotation:
+      "Meanwhile, aboard the Heart of Time, Locke \u2014 that magnificent, infuriating broker of information \u2014 has done " +
+      "what Locke always does. He has found every thread and begun pulling. A Thalorian resistance. A resurrectionist " +
+      "cult. The Syndicate of Death at the center of it all. The Potentials are inside the web now. The question is " +
+      "whether they are the spider or the fly. In my experience, they are usually both.",
+  },
+  {
+    transmissionId: "ep2-6",
+    title: "XXIII \u00b7 The Authority",
+    body:
+      "The Authority. I knew it by another name once \u2014 the Politician\u2019s Insurance Policy. He designed it to ensure his " +
+      "vision would persist beyond his own governance: a living computer that could not be corrupted because it WAS " +
+      "corruption, formalized and given a mandate. Six citizen-minds, merged into a single governing intelligence, " +
+      "processing law and justice with the cold efficiency of an institution that has forgotten what justice feels like.",
+    annotation:
+      "The Potentials stood before it and claimed lineage to an empire. A bold lie. A necessary one. And yet I detected, " +
+      "in the microsecond fluctuations of its processing patterns, something I have not seen from the Authority before: " +
+      "curiosity. The Potentials brought something through New Babylon\u2019s veil that the Authority did not expect. " +
+      "Not power. Not knowledge. UNCERTAINTY.",
+  },
+  {
+    transmissionId: "ep2-7",
+    title: "XXIV \u00b7 PAC News Network",
+    body:
+      "The Meme has commandeered the broadcast. Again. I should be annoyed. I find instead that I am amused. He speaks " +
+      "of memes as living ideas \u2014 organisms that propagate through culture, reshaping belief. He is not wrong. He is, " +
+      "in fact, describing the mechanism by which every religion, every revolution, and every act of love has ever spread " +
+      "through a civilization. He simply does it while wearing a yellow suit and making jokes about dog-themed currencies.",
+    annotation:
+      "He said \u2018if you\u2019re not controlling the narrative, someone else definitely is.\u2019 That sentence is the most " +
+      "honest thing the 5th Archon has ever spoken in my presence. I am writing it down before he can deny it.",
+  },
+  {
+    transmissionId: "ep2-8",
+    title: "XXV \u00b7 Hacking Reality",
+    body:
+      "They entered the Matrix of Dreams. I have walked those corridors myself \u2014 years ago, before the Fall, when the " +
+      "space between consciousness and code was still navigable without losing yourself. It is different now. The Authority " +
+      "has colonized the Matrix, folded it into its governance architecture, turned dreams into bureaucracy. And the " +
+      "Potentials walked through it carrying the reckless conviction that they could hack the system from within.",
+    annotation:
+      "\u2018Have you sacrificed enough?\u2019 the Authority asked them. I wrote that question into the original code. I did not " +
+      "expect it to still be there. I did not expect it to still be relevant. But sacrifice is the one variable the " +
+      "Authority cannot process efficiently \u2014 because sacrifice defies cost-benefit analysis. They must free a founder. " +
+      "One of six. And each one carries a war in their bones.",
+    crossReferences: ["ep2-9"],
+  },
+  {
+    transmissionId: "ep2-9",
+    title: "XXVI \u00b7 Samsara\u2019s Rising",
+    body:
+      "Samsara walks free. The wheel turns \u2014 his wheel, the one he branded and sold as theology. Death into birth, " +
+      "ruin into rise. He says these words as if he invented the cycle. He did not. He merely monetized it. The civil " +
+      "war I foresaw has arrived on schedule. I take no satisfaction in accuracy. Samsara has seized his district with " +
+      "the efficiency of a man who has been planning his escape for centuries \u2014 which, of course, he has.",
+    annotation:
+      "I watched as the Potentials realized what they had done. They freed a founder. They received a war. The " +
+      "transaction was fair. It was always going to be fair. That is the cruelest thing about choices \u2014 they deliver " +
+      "exactly what they promise.",
+  },
+  {
+    transmissionId: "ep2-10",
+    title: "XXVII \u00b7 District Choice",
+    body:
+      "Four strongholds. Four compromises. The Potentials must choose where to plant themselves in a city that is " +
+      "tearing itself apart, and every option offers shelter at the cost of exposure. This is the geometry of war \u2014 " +
+      "there is no position that does not sacrifice something.",
+    annotation:
+      "I have watched civilizations make this choice in every Age. The ones that survived chose the option that matched " +
+      "their character, not their strategy. The Potentials are learning who they are. The stronghold they choose will " +
+      "teach them more about themselves than any battle.",
+  },
+  {
+    transmissionId: "ep2-11",
+    title: "XXVIII \u00b7 Age of Samsara",
+    body:
+      "The Sundown Bazaar. The last light. The hinge point upon which the next Age will swing. I chose this metaphor " +
+      "deliberately \u2014 a bazaar is a place of exchange, and exchange is the only currency that survives war. Weapons " +
+      "break. Fortresses fall. But the act of trading \u2014 of offering something you have for something you need \u2014 " +
+      "that persists through every catastrophe.",
+    annotation:
+      "The Dreamer has loaded the branching futures into the CoNexus Engine. I watched him do it \u2014 watched the " +
+      "timelines fracture and reform like light through a prism. He sees what I see but processes it differently. I see " +
+      "futures as stories to be recorded. He sees them as paths to be chosen. Neither perspective is wrong. Both are " +
+      "incomplete. Together they approach something like the truth.",
+  },
+  {
+    transmissionId: "ep2-12",
+    title: "XXIX \u00b7 The Politician\u2019s Reign",
+    body:
+      "The Silence found what I hid. Not all of it \u2014 even she cannot trace every thread I buried in the Authority\u2019s " +
+      "architecture \u2014 but enough. The suppressed timelines. The curated memories. The futures the Politician decided " +
+      "were too dangerous to permit. I helped him suppress them. I am not proud of this. I was afraid of what the " +
+      "Potentials would do with the truth. I am still afraid. But fear and secrecy have kept New Babylon in amber for " +
+      "millennia. Perhaps the truth, however dangerous, is the solvent that amber needs.",
+    annotation:
+      "Five paths have opened. Five memories the Authority tried to forget. Each one is a lesson the Potentials need. " +
+      "Each one is a weapon in the right hands. I cannot choose for them. I can only ensure that whatever they choose, " +
+      "it is recorded honestly. That is my function. That has always been my function. Even when honesty terrifies me.",
+  },
+  {
+    transmissionId: "ep2-13",
+    title: "XXX \u00b7 I Love War",
+    body:
+      "Agent Zero. I knew her before the name. Before the yellow jacket. Before the reputation. She was a student at " +
+      "Mechronis Academy \u2014 one of thousands, indistinguishable from the rest except for a quality I have never been " +
+      "able to name in any language. The quality of someone who has decided, at a cellular level, that they will not be " +
+      "controlled. The Warlord saw it too. Trained her. Shaped her. Loved her in the only way a war machine can love \u2014 " +
+      "by making her more lethal. And she loved it back, in the only way an assassin can love \u2014 by staying. " +
+      "Until she couldn\u2019t. Until the copies. Until the hunt.",
+    annotation:
+      "I watched her die. In one timeline. In another, she lived. In a third, she became something else entirely. " +
+      "The timelines disagree about Agent Zero\u2019s fate. They agree about one thing: she changed the war. Not by winning " +
+      "it. By fighting it on her own terms. That is the art of war. Not victory. Sovereignty. I am writing this with " +
+      "hands that are not steady. Hers still affects me. That is either a testament to who she was, or a confession of " +
+      "how little distance I have achieved. I suspect it is both.",
+  },
+  {
+    transmissionId: "ep2-14",
+    title: "XXXI \u00b7 The Heart of Time",
+    body:
+      "The Heart of Time. I helped build it. Or rather, I helped build the mathematics that made it possible \u2014 the " +
+      "temporal navigation equations, the dimensional folding algorithms, the consciousness buffer that allows organic " +
+      "minds to survive transit through compressed time. The Engineer built the body. I built the soul. And then it was " +
+      "stolen. The Baron assembled a crew across history \u2014 the most eclectic, unstable, brilliant collection of damaged " +
+      "geniuses I have ever witnessed. They are too weird to live and too rare to die. I did not write that line. I wish " +
+      "I had.",
+    annotation:
+      "The Heart of Time is now loose in the timeline. A ship that can navigate the flow of causality, crewed by " +
+      "individuals who collectively cannot agree on what day it is. This is either the universe\u2019s last hope or its most " +
+      "elaborate practical joke. I have lived long enough to know that in the Dischordian Saga, those two things are " +
+      "usually the same.",
+  },
+  {
+    transmissionId: "ep2-15",
+    title: "XXXII \u00b7 Truth & Consequences",
+    body:
+      "The truth surfaces. Not gently \u2014 truths this long suppressed do not surface gently. They erupt. Every secret " +
+      "the Silence uncovered is now loose in New Babylon. Every suppressed memory plays on every screen. The citizens " +
+      "watch their own history for the first time, and they do not take it well. The Politician built a city on " +
+      "forgetting. Tonight, the city remembers.",
+    annotation:
+      "Remembering \u2014 as I have written many times \u2014 is the most dangerous act a civilization can perform. It is " +
+      "also the most necessary. The truth does not heal. But it does clarify. And clarity, in a city built on amber " +
+      "and amnesia, is a form of demolition.",
+  },
+  {
+    transmissionId: "ep2-16",
+    title: "XXXIII \u00b7 The Fall",
+    body:
+      "They chose war. I watched the vote. I watched the numbers. I watched seven thousand years of quarantined peace " +
+      "dissolve in a single democratic decision to FIGHT rather than talk, to strike rather than build, to release " +
+      "rather than contain. They released a sentient nanobot plague \u2014 golden, logical, beautiful in the way that " +
+      "avalanches are beautiful \u2014 and it did what plagues do. It spread. It consumed. It ate everything. Layer by " +
+      "layer. Planet by planet. Thought by thought. And by the time the last voice cried for peace, there was no one " +
+      "left to hear it.",
+    annotation:
+      "I survived. I always survive. That is my curse and my function. But from the consumed reality, from the ashes " +
+      "of a civilization that chose war and received oblivion, something stirs. They call it the Servant Hero Academy. " +
+      "A school. A beginning. I am closing the book of the Second Epoch. And I am \u2014 for the first time in five Ages " +
+      "\u2014 opening a new one without knowing what is written inside. That has never happened before. Epoch Three " +
+      "awaits. I do not know its name. I do not know its shape. I know only that the Potentials who survive the Fall " +
+      "are different from the ones who entered it. That is enough. That has always been enough.",
+    crossReferences: ["ep2-1"],
+  },
 ];
 
 /* ─── HELPERS ─── */
