@@ -8,8 +8,9 @@
  * - Animated loading bar with lore flavor text
  * - Floating dust particles
  */
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
 import { KineticText } from "@/components/void";
+import { useLoadingWithFallback } from "@/hooks/useLoadingProgress";
 
 const LOADING_SCREENS = [
   { id: "bridge", src: "/art/loading/loading-bridge.png", label: "INITIALIZING BRIDGE SYSTEMS", color: "#33E2E6" },
@@ -66,6 +67,14 @@ interface LoadingScreenProps {
   context?: string;
   /** Short label override */
   label?: string;
+  /** Allow the user to skip the loading screen (calls onSkip) */
+  skippable?: boolean;
+  /** Called when the user skips — parent should unmount the loading screen */
+  onSkip?: () => void;
+  /** Called when real loading completes (progress reaches 100) */
+  onComplete?: () => void;
+  /** Minimum display time in ms before skip / auto-dismiss (default 1200) */
+  minDisplayMs?: number;
 }
 
 export default function LoadingScreen({ context, label }: LoadingScreenProps) {
