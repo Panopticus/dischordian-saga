@@ -77,6 +77,19 @@ export interface CabinItem {
   previewImage?: string;   // CDN URL for preview thumbnail
 }
 
+/* ─── LIGHTING PRESETS ─── */
+
+export const LIGHTING_PRESETS = [
+  { id: "void" as const, name: "Void Glow", background: "linear-gradient(180deg, #010030 0%, #020020 50%, #010010 100%)" },
+  { id: "warm" as const, name: "Atarion Sunset", background: "linear-gradient(180deg, #1a0f05 0%, #2a1508 50%, #0f0a03 100%)" },
+  { id: "cold" as const, name: "Clinical White", background: "linear-gradient(180deg, #0a0f15 0%, #0f1520 50%, #080d12 100%)" },
+  { id: "noir" as const, name: "Detective's Lamp", background: "linear-gradient(180deg, #050505 0%, #0a0a08 30%, #020202 100%)" },
+  { id: "candle" as const, name: "Candlelight", background: "linear-gradient(180deg, #0f0800 0%, #1a0e02 50%, #080400 100%)" },
+  { id: "neon" as const, name: "Neon Dreams", background: "linear-gradient(180deg, #0a0015 0%, #100520 50%, #050010 100%)" },
+  { id: "corruption" as const, name: "Corrupted", background: "linear-gradient(180deg, #150000 0%, #200505 50%, #0a0000 100%)" },
+  { id: "starlight" as const, name: "Starlight", background: "linear-gradient(180deg, #050810 0%, #081015 50%, #030508 100%)" },
+] as const;
+
 /* ─── CABIN ITEMS ─── */
 
 export const CABIN_ITEMS: CabinItem[] = [
