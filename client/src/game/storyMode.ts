@@ -452,8 +452,7 @@ export const STORY_CHAPTERS: StoryChapter[] = [
     postVictoryDialogue: [
       { speaker: "narrator", text: "As the Shadow Tongue falls, its final whisper reaches you \u2014 and this time, it rings true." },
       { speaker: "The Shadow Tongue", text: "The Collector... took you from the Insurgency... you were their... Oracle...", speakerColor: "#a855f7" },
-    },
-    { speaker: "The Shadow Tongue", text: "One more whisper, free of charge: the edits to your memories were COMMISSIONED. Someone paid to have your story rewritten. The payment came from a ledger that predates this Arena by twelve thousand years.", speakerColor: "#6366f1" },
+      { speaker: "The Shadow Tongue", text: "One more whisper, free of charge: the edits to your memories were COMMISSIONED. Someone paid to have your story rewritten. The payment came from a ledger that predates this Arena by twelve thousand years.", speakerColor: "#6366f1" },
       { speaker: "prisoner", text: "(Oracle? The word resonates like a bell in my empty mind. Oracle. Was that my name? My title?)" },
     ],
     postDefeatDialogue: [
@@ -502,8 +501,7 @@ export const STORY_CHAPTERS: StoryChapter[] = [
       { speaker: "The Watcher", text: "I have observed you, Prisoner 74. Your combat patterns are... inconsistent with your profile. You fight like someone who has forgotten more than most will ever learn.", speakerColor: "#f59e0b" },
       { speaker: "prisoner", text: "(It sees too much. I need to be careful. But also... it might have answers.)" },
       { speaker: "The Watcher", text: "The Collector's files on you are sealed. Even I cannot access them. That alone tells me you are more than you appear.", speakerColor: "#f59e0b" },
-    },
-    { speaker: "The Watcher", text: "One file is not sealed. One file was placed here with instructions to deliver it when you reached this point. I was not told what it contains. I was told I would not need to know.", speakerColor: "#f59e0b" },
+      { speaker: "The Watcher", text: "One file is not sealed. One file was placed here with instructions to deliver it when you reached this point. I was not told what it contains. I was told I would not need to know.", speakerColor: "#f59e0b" },
     ],
     postVictoryDialogue: [
       { speaker: "The Watcher", text: "Remarkable. Your precognitive reflexes are returning. The memory wipe is degrading. The Collector will not be pleased.", speakerColor: "#f59e0b" },
