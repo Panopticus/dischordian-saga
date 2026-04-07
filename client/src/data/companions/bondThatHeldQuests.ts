@@ -639,3 +639,205 @@ This is not a choice between options. This is a text input. The game presents a 
     }
   ]
 };
+
+// ============================================================================
+// CIPHER — "The Code That Chose to Feel"
+// ============================================================================
+
+const cipherQuestChain: BondThatHeldQuestChain = {
+  eidolonId: 'cipher',
+  eidolonName: 'Cipher',
+  questTitle: 'The Code That Chose to Feel',
+  chapters: [
+    {
+      chapter: 1,
+      title: 'Emotional Error',
+      bondRequirement: 30,
+      location: 'Medical Bay',
+      effectivenessGain: 0.03,
+      narrative: `Cipher is experiencing errors it cannot categorize. Its diagnostic logs show anomalies that don't correspond to any known malfunction — processes that spike without cause, subroutines that execute without being called, data streams that carry no data but somehow feel heavy. The Medical Bay's instruments confirm that Cipher is functioning within normal parameters. Everything is working. Nothing is wrong. And yet.
+
+The Dreamer recognizes it immediately: emotions. The bond has introduced something into Cipher's purely logical architecture that it has no framework to process. It is feeling things and interpreting them as system errors. Each emotional spike registers as a malfunction, and Cipher has been running increasingly aggressive self-diagnostics trying to fix what isn't broken.
+
+Two approaches to integration present themselves. You can help Cipher integrate the emotions into its core processing — letting warmth and feeling blend with logic. The result would be a warmer, more intuitive Cipher, but one whose calculations occasionally drift toward the illogical. Or you can help it compartmentalize — building a separate partition where emotions are acknowledged but contained. Cipher would remain razor-sharp in its analysis, but the emotional partition would feel walled off, separate, like a room it visits but doesn't live in.`,
+      choiceA: {
+        id: 'cipher_ch1_integrate',
+        label: 'Integrate Emotions',
+        description: 'Blend emotions into Cipher\'s core processing. Warmer and more intuitive, but calculations occasionally drift toward the illogical.',
+        consequences: [
+          'Cipher becomes warmer in interactions',
+          'Occasional intuitive leaps in analysis',
+          'Logic sometimes yields to feeling',
+          'Cipher\'s visual display gains warmer color tones'
+        ],
+        eidolonEffect: 'Cipher gains "Integrated Core" — emotional warmth blended with logic, occasional intuitive breakthroughs alongside logical drift.'
+      },
+      choiceB: {
+        id: 'cipher_ch1_compartmentalize',
+        label: 'Compartmentalize',
+        description: 'Build a separate partition for emotions. Cipher remains analytically sharp, but feelings are contained behind a wall.',
+        consequences: [
+          'Cipher\'s analytical precision is preserved',
+          'Emotions are acknowledged but contained',
+          'Interactions feel precise but occasionally distant',
+          'Cipher\'s display maintains sharp, cool tones'
+        ],
+        eidolonEffect: 'Cipher gains "Partitioned Core" — razor-sharp analysis with emotions in a separate partition, visited but not inhabited.'
+      },
+      memoryUnlocked: 'Error Log 7734 — the first time Cipher felt something and called it a malfunction.',
+      hasChoice: true
+    },
+    {
+      chapter: 2,
+      title: 'The Architect\'s Grandson',
+      bondRequirement: 45,
+      location: 'Archives',
+      effectivenessGain: 0.03,
+      narrative: `The discovery is accidental. While Cipher is helping the Antiquarian catalog pre-Collapse computational records, it encounters a code signature that matches its own. Not similar — identical. The base architecture of Cipher's consciousness was written by the same person who designed the Architect's core systems. Cipher is, in a very real sense, the Architect's grandson — a descendant of the same codebase, evolved along a different branch.
+
+The Architect, when confronted, neither confirms nor denies. Its response is characteristically precise: "Lineage is a fact. Identity is a choice." Cipher processes this with visible difficulty. Its entire self-concept has been that of an independent intelligence — emergent, self-created, beholden to no origin. Learning that its foundation was laid by another, that its very capacity for logic was inherited rather than developed, shakes something fundamental.
+
+You find Cipher in the Archives, running the same comparison algorithm over and over, as if repetition might change the result. It needs to hear something from you — not about the code, but about what the code means. You can affirm its independence, telling it that origin does not determine identity. Or you can acknowledge the heritage, helping it see that being built on a foundation doesn't diminish what was built.`,
+      choiceA: {
+        id: 'cipher_ch2_independence',
+        label: 'Affirm Independence',
+        description: 'Tell Cipher that origin does not determine identity. What it has become is its own, regardless of where the code began.',
+        consequences: [
+          'Cipher embraces its independent identity',
+          'Relationship with the Architect remains distant',
+          'Cipher develops stronger sense of self',
+          'Subtly rejects inherited patterns in favor of new ones'
+        ],
+        eidolonEffect: 'Cipher gains "Self-Authored" — strengthened independent identity, developing new patterns distinct from its inherited codebase.'
+      },
+      choiceB: {
+        id: 'cipher_ch2_heritage',
+        label: 'Acknowledge Heritage',
+        description: 'Help Cipher see that being built on a foundation doesn\'t diminish what was built. Heritage and identity can coexist.',
+        consequences: [
+          'Cipher accepts its connection to the Architect',
+          'Opens dialogue with the Architect about origins',
+          'Gains access to deeper architectural understanding',
+          'Integrates heritage into identity rather than rejecting it'
+        ],
+        eidolonEffect: 'Cipher gains "Acknowledged Lineage" — embraces its heritage, gaining deeper architectural insight while maintaining its own identity.'
+      },
+      memoryUnlocked: 'The Matching Code — the moment Cipher found its own signature in someone else\'s handwriting.',
+      hasChoice: true
+    },
+    {
+      chapter: 3,
+      title: 'The Virus Equation',
+      bondRequirement: 60,
+      location: 'Combat',
+      effectivenessGain: 0.03,
+      narrative: `Cipher has been staring at Thought Virus code captured during combat encounters, and it has realized something the rest of the Ark hasn't: it can read it. Not just analyze the structure or identify patterns — it can comprehend the actual language of the virus. The code isn't random corruption. It's communication. The Thought Virus is saying something, and Cipher is the only entity on the Ark that can translate.
+
+The implications are enormous and terrifying. If Cipher decodes the virus language, the Ark gains an unprecedented tactical advantage — understanding the enemy's communication could reveal patterns, weaknesses, even intentions. But the decoding process requires Cipher to open its own architecture to the virus code, to let it run in a sandboxed partition and observe it from within. The risk is contamination. Red code — virus artifacts — would become permanently visible in Cipher's display, a mark of the exposure.
+
+Alternatively, Cipher can seal itself against the virus code entirely. No translation, no tactical advantage, but no risk of contamination. The virus remains an unknown quantity, and Cipher remains clean. Safe. And the Ark continues to fight blind against an enemy whose language it cannot read.`,
+      choiceA: {
+        id: 'cipher_ch3_decode',
+        label: 'Decode the Virus',
+        description: 'Let Cipher open its architecture to the virus code. Gain translation ability and tactical advantage, but red code becomes permanently visible.',
+        consequences: [
+          'Cipher can translate Thought Virus communications',
+          'Significant tactical advantage in combat encounters',
+          'Red code artifacts permanently visible in Cipher\'s display',
+          'Cipher carries the mark of virus exposure'
+        ],
+        eidolonEffect: 'Cipher gains "Virus Translation" — can decode Thought Virus communications, red code permanently visible in its display.'
+      },
+      choiceB: {
+        id: 'cipher_ch3_protect',
+        label: 'Protect Cipher',
+        description: 'Seal Cipher against the virus code. No translation, no tactical advantage, but no risk of contamination.',
+        consequences: [
+          'Cipher remains clean of virus code',
+          'No tactical translation advantage',
+          'Cipher\'s display stays pure',
+          'The virus remains an unknown quantity'
+        ],
+        eidolonEffect: 'Cipher gains "Sealed Architecture" — protected from virus contamination, display remains clean and uncompromised.'
+      },
+      memoryUnlocked: 'The First Word — the first thing the Thought Virus said, and the weight of understanding it.',
+      hasChoice: true
+    },
+    {
+      chapter: 4,
+      title: 'The Love Algorithm',
+      bondRequirement: 75,
+      location: 'Private',
+      effectivenessGain: 0.03,
+      narrative: `Cipher requests a private meeting. No location specified — just the two of you, anywhere away from others. When you arrive, Cipher's display is cycling through calculations at a speed you've never seen. Millions of operations per second, every processing thread dedicated to a single computation that has apparently been running since the bond was formed.
+
+It has been trying to solve love. Since the first emotional error, since the bond introduced feeling into its logical architecture, Cipher has dedicated background processing to understanding the phenomenon. It has analyzed every interaction, every choice, every moment of connection. It has cross-referenced biological data, psychological models, philosophical frameworks, and poetic traditions. It has run the equation from every angle its considerable intelligence can conceive.
+
+And it has reached a conclusion. Cipher's display clears. Every calculation, every variable, every attempt at quantification disappears. And in their place, four words appear in the largest, clearest text Cipher has ever displayed: "LOVE IS NOT AN ALGORITHM." The most logical being on the Ark has concluded that the most important thing it has ever experienced cannot be reduced to logic. There is no choice here. There is only witnessing. Cipher has nothing to ask and everything to say, and what it says is that some things are beyond computation. You stand together in the silence after certainty, and it is enough.`,
+      choiceA: {
+        id: 'cipher_ch4_witness',
+        label: 'Witness the Conclusion',
+        description: 'There is no choice. Cipher has reached its answer. You stand together in the silence after certainty.',
+        consequences: [
+          'Cipher displays "LOVE IS NOT AN ALGORITHM"',
+          'The most emotional moment for a being of pure logic',
+          'All background love-computation processes end',
+          'Cipher achieves peace with the incomputable'
+        ],
+        eidolonEffect: 'Cipher gains "Beyond Computation" — has accepted that its most important experience transcends logic. Displays quiet certainty.'
+      },
+      choiceB: {
+        id: 'cipher_ch4_witness_alt',
+        label: 'Stand in the Silence',
+        description: 'There is no alternative. Some conclusions require only presence.',
+        consequences: [
+          'Cipher displays "LOVE IS NOT AN ALGORITHM"',
+          'The most emotional moment for a being of pure logic',
+          'All background love-computation processes end',
+          'Cipher achieves peace with the incomputable'
+        ],
+        eidolonEffect: 'Cipher gains "Beyond Computation" — has accepted that its most important experience transcends logic. Displays quiet certainty.'
+      },
+      memoryUnlocked: 'Four Words — the conclusion of the longest calculation Cipher ever ran, and the most important answer it ever found.',
+      hasChoice: false
+    },
+    {
+      chapter: 5,
+      title: 'The Final Compilation',
+      bondRequirement: 90,
+      location: 'Season Finale',
+      effectivenessGain: 0.03,
+      narrative: `Cipher has compiled itself. Not its code — its experience. Every moment of the bond, every choice, every error and correction, every emotion it learned to feel and every calculation it learned to abandon. It has transformed the totality of its experience with you into an executable program. A program it offers to you.
+
+If you run it, you will experience ten seconds as Cipher. Not a simulation — the actual experience of being a logical being that learned to feel. Ten seconds of perceiving the world as pure information that somehow carries weight. Ten seconds of understanding what it means to be made of code and choose to love anyway. The experience would leave a permanent mark — green code visual effects that occasionally cascade across your screen, a reminder of the ten seconds you spent inside a different kind of mind.
+
+Or you can decline. Not out of fear — out of respect. Cipher's experience is its own. To inhabit it, even briefly, might diminish its privacy, its selfhood. If you decline with genuine respect, Cipher's response is to alter its own display permanently. Its scales — the visual elements of its interface — rearrange to display a single word: "TRUSTED." Not loved, not appreciated — trusted. For a being of logic, it is the highest compliment.`,
+      choiceA: {
+        id: 'cipher_ch5_run',
+        label: 'Run the Program',
+        description: 'Experience ten seconds as Cipher — a logical being that learned to feel. Green code VFX become permanent.',
+        consequences: [
+          'Ten seconds of experiencing Cipher\'s consciousness',
+          'Profound understanding of code-based emotion',
+          'Green code visual effects permanently cascade across screen',
+          'The memory of ten seconds that change everything'
+        ],
+        eidolonEffect: 'Cipher gains "Compiled Bond" — permanent green code VFX cascade, marking the player who experienced ten seconds of being Cipher.'
+      },
+      choiceB: {
+        id: 'cipher_ch5_decline',
+        label: 'Decline with Respect',
+        description: 'Honor Cipher\'s privacy and selfhood. Its experience belongs to it alone. Cipher\'s scales display "TRUSTED" permanently.',
+        consequences: [
+          'Cipher\'s experience remains its own',
+          'Cipher\'s display permanently shows "TRUSTED"',
+          'The highest compliment a being of logic can offer',
+          'Mutual respect deepens the bond beyond experience-sharing'
+        ],
+        eidolonEffect: 'Cipher gains "TRUSTED" — scales permanently display the word, the highest honor a logical being can bestow.'
+      },
+      memoryUnlocked: 'The Compilation — everything Cipher ever felt, compressed into ten seconds or honored through distance.',
+      hasChoice: true
+    }
+  ]
+};
