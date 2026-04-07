@@ -341,7 +341,7 @@ const POTENTIALS_ACHIEVEMENTS: LoreAchievement[] = [
     gameId: "awaken-the-clone",
     title: "Identity Forged",
     description: "Complete Awaken the Clone and choose your own destiny.",
-    loreFragment: "The Clone was not a copy of the Oracle — it was a copy of the Oracle's potential. The difference is crucial: the Oracle sees what will be, but the Clone was designed to see what could be. Every possible future, every branching path, every choice not taken. The Hierophant created the Clone not to replace the Oracle but to provide a counterbalance — someone who could see the roads not traveled. The Clone's first independent thought, upon awakening, was: 'I choose the path that doesn't exist yet.' This was the moment the Age of Potentials truly began.",
+    loreFragment: "I must insist on a distinction the secondary sources consistently blur: the Clone was not a copy of the Oracle. It was a copy of the Oracle's POTENTIAL. The difference is crucial and I shall not apologise for labouring the point. The Oracle sees what will be; the Clone was designed to see what could be — every possible future, every branching path, every choice not taken. The Hierophant created the Clone not as a replacement but as a counterbalance: someone who could see the roads not travelled. The Clone's first independent thought, upon awakening, was: 'I choose the path that does not exist yet.' I recorded those words in real time. They mark the moment the Age of Potentials truly began. I have dated my subsequent notes accordingly.",
     xpReward: 150,
     cardReward: { name: "Clone Genesis", type: "event", rarity: "rare" },
     icon: "🧬",
