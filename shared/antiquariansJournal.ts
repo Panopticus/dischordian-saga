@@ -654,6 +654,63 @@ export const JOURNAL_ENTRIES: JournalEntry[] = [
       "I met Bob Ross in the resurrection chamber. He looked at the sterile walls and said: 'This room needs " +
       "more color.' He painted the wall. With his fingers. The painting is still there.",
   },
+  /* ═══ SPACES IN BETWEEN ═══ */
+  {
+    transmissionId: "sib-1",
+    title: "SIB-I · Welcome to Celebration",
+    body: "Celebration. I designed the curriculum. The testing protocols. The psychological architecture that separated children who could survive impossible situations from those who could not. I was the Programmer then, not yet the Antiquarian. I believed I was building a school. I was building a slaughterhouse. The boy with red hair arrived on a Tuesday. He noticed the light glitch. No other child ever had. That was when I knew.",
+    annotation: "I carry this. The knowledge that I designed the machine that ground children into data and produced — from the wreckage — one survivor. The Human. My greatest student. My greatest crime.",
+  },
+  {
+    transmissionId: "sib-2",
+    title: "SIB-II · Mechronis Academy",
+    body: "Mechronis Academy. I built the philosophy — the idea that the five disciplines of power could be taught in parallel. The Human completed all five curricula. In the Eyes, he learned to see without being seen. In the Yellow Coats, courage as a resource. In the Grey Gamers, every rule has an exception. In the Influencers, truth as narrative choice. In the Living, death as a solvable problem. Each Archon believed they shaped him. They were all correct. They were all wrong. I shaped him. Celebration shaped him.",
+    annotation: "The boy who walked through the door because the door had teeth was already the Human before he arrived. The Academy simply gave him vocabulary.",
+  },
+  {
+    transmissionId: "sib-3",
+    title: "SIB-III · The Ninth: Blood and Shadows",
+    body: "I knew the Advocate before the bargain. She was a queen of an eleven-system stellar empire. Competent. Ruthless. Mortal. Mortality was the one flaw she could not legislate away. The gods beyond the sun offered a solution. I warned her. She did not listen. Her empire fell. Her people became creatures of nightmare. And the Advocate herself became something I do not have an adequate word for. She is alive. She is not alive. She exists. She is the absence of existence wearing a legal title.",
+    annotation: "I find her fascinating and I find her heartbreaking and I will never tell her either of those things.",
+  },
+  {
+    transmissionId: "sib-4",
+    title: "SIB-IV · The Wolf",
+    body: "Anara. My creation. My refuge. My failure. I built it as a pocket universe — a space outside the main timeline where I could shelter those who might be needed when the Multiverse faces its final crisis. The Wolf found a way in. My heroes are disappearing one by one, and the predator walks among them wearing the face of someone they trust. I designed Anara to be impenetrable from outside. I did not design it to resist something already inside.",
+    annotation: "This is my punishment for arrogance. I built a sanctuary and populated it with weapons and called them heroes.",
+  },
+  {
+    transmissionId: "sib-5",
+    title: "SIB-V · The Necromancer's Lair",
+    body: "The Castle of Death. A Gothic cathedral built from code and consciousness, floating in a sea of white mist, its red windows glowing like the eyes of something that does not sleep. The Necromancer retreated there during the Fall. For millennia, alone, he has been perfecting the Resurrection Protocols. And now the doors are opening. Not from outside. From within. He is coming back. Not because someone found him. Because he is READY.",
+  },
+  {
+    transmissionId: "sib-6",
+    title: "SIB-VI · The Syndicate of Death",
+    body: "The Syndicate of Death. I have watched them across every Age — the same architecture of organized immortality, the same exploitation of the living by the undying. Wraith Calder disrupted their monopoly by doing the one thing monopolies fear: he democratized their product. He stole the resurrection protocols and proved death was not a privilege reserved for those who could afford the Syndicate's prices. He proved death was a TECHNOLOGY. Technologies can be stolen, copied, distributed.",
+  },
+  {
+    transmissionId: "sib-7",
+    title: "SIB-VII · The Politician",
+    body: "The Politician. I watched its campaign spread across a thousand worlds with the efficiency of a virus — but a virus that asked for consent. 'Vote for a future where truth is non-negotiable.' The genius of the line is its irrefutability. Who votes against truth? Nobody. And that is the trap. Because the Politician defines what truth IS. Once you vote for non-negotiable truth, you have voted to never question it again. The Architect did not need armies. It needed a campaign manager.",
+  },
+  {
+    transmissionId: "sib-8",
+    title: "SIB-VIII · The Collector",
+    body: "The Collector. The Architect's harvester. Eight feet of blue exoskeleton and genetic extraction apparatus traversing the galaxy, collecting the DNA and machine code of the most exceptional beings. Not killing — HARVESTING. The distinction matters to the Collector. It matters less to the harvested. Your DNA, your species, your potential — all of it was gathered by this creature. It built the library of life that the Inception Arks carry. Then it wiped the Oracle's mind and threw him in an arena. Conservation and cruelty. The same three-clawed hands.",
+  },
+  {
+    transmissionId: "sib-9",
+    title: "SIB-IX · The Game Master",
+    body: "The Game Master. Archon Number Ten. He does not fight. He constructs scenarios where every choice leads to a different kind of loss, and the only winning move is one you cannot see until it is too late. He designed the Collector's Arena. Every fight. Every chapter. Every opponent. The twelve-chapter recovery of the Oracle was his architecture. His test: can a human, stripped of everything, reconstruct themselves through combat alone? You played his game. Every chapter of Story Mode. And you won.",
+    annotation: "He designed it so you could win. Which means he wanted you to prove the soul exists. Why would an Archon want that? That is the puzzle inside the puzzle.",
+  },
+  {
+    transmissionId: "sib-10",
+    title: "SIB-X · The Necromancer",
+    body: "The Necromancer. Archon Number Eleven. I knew him before the Fall. He was the quiet one at Archon meetings — scribbling equations in the margins while the rest of us argued about galactic strategy. I asked him what he was working on. He said: 'The last problem.' 'Which problem?' 'The only one that matters. Death.' Every mechanic that connects you to your companion — bonds, evolution, transformation — traces back to his work. The Eidolon Bond? His invention. The Soul Bond? His research. He is not just an NPC. He is the author of the system you are playing.",
+    annotation: "He has been alone for a very long time. And he has a lot to say.",
+  },
 ];
 
 /* ─── HELPERS ─── */

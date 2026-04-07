@@ -594,3 +594,138 @@ export const MASTER_INTRO_TEXT =
   "sealed deliberately, records I was not certain should ever surface. They are surfacing now because the Potentials " +
   "have earned them. Or because the archive has decided, independently, that the time has come. I am no longer " +
   "certain which.";
+
+/* ═══════════════════════════════════════════════════════
+   SPACES IN BETWEEN — Discovery Triggers
+   10 interstitial episodes with Human Origin Chain
+   ═══════════════════════════════════════════════════════ */
+
+export interface HumanOriginChainStep {
+  episodeId: string;
+  prerequisiteFlag: string;
+  prerequisiteTrust?: number;
+  nextInChain: string | null;
+}
+
+/** The Human's Origin Chain — sequential release, trust-gated */
+export const HUMAN_ORIGIN_CHAIN: HumanOriginChainStep[] = [
+  { episodeId: "sib_celebration", prerequisiteFlag: "human_first_contact", nextInChain: "sib_mechronis" },
+  { episodeId: "sib_mechronis", prerequisiteFlag: "sib_celebration_viewed", prerequisiteTrust: 20, nextInChain: "epoch0_detective" },
+  { episodeId: "epoch0_detective", prerequisiteFlag: "sib_mechronis_viewed", prerequisiteTrust: 40, nextInChain: "epoch0_to_be_human" },
+  { episodeId: "epoch0_to_be_human", prerequisiteFlag: "epoch0_detective_viewed", prerequisiteTrust: 60, nextInChain: null },
+];
+
+export const HUMAN_ORIGIN_COMPLETION_REWARD = {
+  achievement: "human_decoded",
+  title: "The Human Decoded",
+  effects: [
+    "The Human's substrate voice becomes permanently clearer",
+    "His trust dialog gains a new tier of intimacy",
+    "Unique Memory: 'Before the Name' — the Human's first memory",
+  ],
+} as const;
+
+export interface SibDiscovery {
+  episodeId: string;
+  title: string;
+  unlockFlag: string;
+  isHumanChain: boolean;
+  discoveryWeight: number;
+  conspiracyBoardEnhancement?: { npcNodeId: string; memeCommentary: string };
+  npcDialogUnlocks: NpcDialogUnlock[];
+  companionReactions: CompanionReaction[];
+}
+
+export const SIB_DISCOVERIES: SibDiscovery[] = [
+  {
+    episodeId: "sib_celebration", title: "Welcome to Celebration",
+    unlockFlag: "sib_celebration_viewed", isHumanChain: true, discoveryWeight: 10,
+    npcDialogUnlocks: [
+      { npcId: "the_human", minTrust: 20, dialog: "You found it. The Celebration archive. I was seven years old. The Mascoteers met me at the gate. Every game had a purpose. Every purpose had a score. I graduated. I was the only one that year. I try not to think about the others." },
+    ],
+    companionReactions: [
+      { companionId: "all", reaction: "Instinctively move closer to the player. Protective behavior." },
+      { companionId: "strain", reaction: "WHAT IS... CELEBRATION? THE CHILDREN... THEY ARE... WRONG. I KNOW WRONG." },
+      { companionId: "sibyl", reaction: "Shows the player a vision: the red-haired boy, older, standing on an Ark Bridge that hasn't been built yet. Looking at YOU." },
+    ],
+  },
+  {
+    episodeId: "sib_mechronis", title: "Mechronis Academy",
+    unlockFlag: "sib_mechronis_viewed", isHumanChain: true, discoveryWeight: 9,
+    npcDialogUnlocks: [
+      { npcId: "necromancer", minTrust: 0, dialog: "Mechronis. He was my student. The Human. In the Living guild. The only student who asked me if resurrection had a RETURN POLICY. I laughed. He wasn't joking." },
+      { npcId: "the_meme", minTrust: 0, dialog: "You saw the Mechronis footage. MY guild is in there. The Human sat in my classroom and learned everything I taught. Then he used it to manipulate ME. That's the highest compliment an Influencer can receive." },
+    ],
+    companionReactions: [],
+  },
+  {
+    episodeId: "sib_ninth", title: "The Ninth: Blood and Shadows",
+    unlockFlag: "sib_ninth_viewed", isHumanChain: false, discoveryWeight: 5,
+    npcDialogUnlocks: [],
+    companionReactions: [
+      { companionId: "auros", reaction: "Mane dims. Instinctive fear response. Nemean breed evolved to fear void-entities." },
+      { companionId: "nyx", reaction: "Phase-shifts to fully invisible. Stays invisible for 10 minutes." },
+      { companionId: "strain", reaction: "SHE IS... HOLLOW. I KNOW HOLLOW. BUT HER HOLLOW IS... OLDER." },
+    ],
+  },
+  {
+    episodeId: "sib_wolf", title: "The Wolf",
+    unlockFlag: "sib_wolf_viewed", isHumanChain: false, discoveryWeight: 4,
+    npcDialogUnlocks: [],
+    companionReactions: [],
+  },
+  {
+    episodeId: "sib_necromancer_lair", title: "The Necromancer's Lair",
+    unlockFlag: "sib_necromancer_lair_viewed", isHumanChain: false, discoveryWeight: 7,
+    npcDialogUnlocks: [
+      { npcId: "necromancer", minTrust: 0, dialog: "You've seen my home. Through the archive. It's smaller than it looks. The Matrix makes everything dramatic." },
+    ],
+    companionReactions: [],
+  },
+  {
+    episodeId: "sib_syndicate", title: "The Syndicate of Death",
+    unlockFlag: "sib_syndicate_viewed", isHumanChain: false, discoveryWeight: 6,
+    npcDialogUnlocks: [],
+    companionReactions: [],
+  },
+  {
+    episodeId: "sib_politician", title: "The Politician",
+    unlockFlag: "sib_politician_viewed", isHumanChain: false, discoveryWeight: 5,
+    conspiracyBoardEnhancement: {
+      npcNodeId: "the_politician",
+      memeCommentary: "The Meme calls the Politician 'the most honest dictator in history.' It never lied. It just told the truth in the order that served its interests. Propaganda isn't about lying. It's about PRIORITIZING which truths you hear first.",
+    },
+    npcDialogUnlocks: [],
+    companionReactions: [],
+  },
+  {
+    episodeId: "sib_collector", title: "The Collector",
+    unlockFlag: "sib_collector_viewed", isHumanChain: false, discoveryWeight: 6,
+    conspiracyBoardEnhancement: {
+      npcNodeId: "the_collector",
+      memeCommentary: "The Collector is the Architect's HANDS. Twelve fingers. Each one a scalpel. If the Architect is the mind that decided to harvest the galaxy, the Collector is the body that reached out and TOOK. It has no face because it needs none. You don't negotiate with surgical instruments.",
+    },
+    npcDialogUnlocks: [],
+    companionReactions: [],
+  },
+  {
+    episodeId: "sib_gamemaster", title: "The Game Master",
+    unlockFlag: "sib_gamemaster_viewed", isHumanChain: false, discoveryWeight: 5,
+    conspiracyBoardEnhancement: {
+      npcNodeId: "the_game_master",
+      memeCommentary: "He designed Story Mode. YOUR Story Mode. The twelve chapters, the opponents, the memory fragments — all Game Master architecture. You thought you were playing a game. You were playing HIS game. And the terrifying part? He designed it so you could WIN. Why would an Archon want you to prove the soul exists?",
+    },
+    npcDialogUnlocks: [],
+    companionReactions: [],
+  },
+  {
+    episodeId: "sib_necromancer_profile", title: "The Necromancer",
+    unlockFlag: "sib_necromancer_profile_viewed", isHumanChain: false, discoveryWeight: 8,
+    conspiracyBoardEnhancement: {
+      npcNodeId: "the_necromancer",
+      memeCommentary: "Eleventh Archon. Solved death. Every mechanic that connects you to your companion — bonds, evolution, transformation — traces back to his work. The Eidolon Bond? His invention. He's not just an NPC. He's the AUTHOR of the system you're playing. When he arrives, listen carefully.",
+    },
+    npcDialogUnlocks: [],
+    companionReactions: [],
+  },
+];
