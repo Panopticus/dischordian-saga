@@ -4,6 +4,7 @@
    Also provides leaderboard data.
    ═══════════════════════════════════════════════════════ */
 import { z } from "zod";
+import { logger } from "../logger";
 import { publicProcedure, protectedProcedure, router } from "../_core/trpc";
 import { getDb } from "../db";
 import { userProgress, users } from "../../drizzle/schema";
@@ -153,7 +154,7 @@ export const gameStateRouter = router({
       }
       // Award civil skill XP for entity discovery (lore + perception)
       const { awardCivilXp } = await import("../civilSkillHelper");
-      awardCivilXp(ctx.user.id, "discover_entity").catch(() => {});
+      awardCivilXp(ctx.user.id, "discover_entity").catch(e => logger.error("[GameState] Civil XP award failed:", e));
 
       return { success: true };
     }),

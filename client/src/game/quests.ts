@@ -60,7 +60,7 @@ export const DAILY_QUESTS: QuestDef[] = [
     frequency: "daily",
     requirement: { type: "waves", count: 3 },
     reward: { salvage: 100, dream: 10 },
-    loreText: "Every wave you survive is another moment the Ark's systems can recover.",
+    loreText: "The swarm stirs again. Terminus never truly sleeps — it merely waits for the sentries to blink.",
   },
   {
     id: "daily_terminus_kill_50",
@@ -70,6 +70,7 @@ export const DAILY_QUESTS: QuestDef[] = [
     frequency: "daily",
     requirement: { type: "kills", count: 50 },
     reward: { salvage: 75, viralIchor: 10 },
+    loreText: "Fifty of the Source's children, returned to the soil. I note each tally mark; the swarm does not.",
   },
   {
     id: "daily_terminus_build_5",
@@ -79,6 +80,7 @@ export const DAILY_QUESTS: QuestDef[] = [
     frequency: "daily",
     requirement: { type: "turrets_built", count: 5 },
     reward: { salvage: 50 },
+    loreText: "Every wall raised is an argument that tomorrow is worth defending. I have always found architecture persuasive.",
   },
   // Dischordia
   {
@@ -89,6 +91,7 @@ export const DAILY_QUESTS: QuestDef[] = [
     frequency: "daily",
     requirement: { type: "matches_played", count: 2 },
     reward: { dream: 15 },
+    loreText: "Practice is memory made habitual. The Archons drilled their strategies ten thousand times before the Fall. You have two matches. Use them.",
   },
   {
     id: "daily_dischordia_win_1",
@@ -98,6 +101,7 @@ export const DAILY_QUESTS: QuestDef[] = [
     frequency: "daily",
     requirement: { type: "wins", count: 1 },
     reward: { dream: 25, cardPack: "season1" },
+    loreText: "A single victory in the Dischordian theatre. I record it here — not because one win is remarkable, but because every war was once a single win.",
   },
   {
     id: "daily_dischordia_cards_10",
@@ -107,6 +111,7 @@ export const DAILY_QUESTS: QuestDef[] = [
     frequency: "daily",
     requirement: { type: "cards_played", count: 10 },
     reward: { dream: 10 },
+    loreText: "Each card played is a fragment of history redeployed. Ten fragments, ten echoes of the saga, cast upon the field.",
   },
   // Chess
   {
@@ -117,6 +122,7 @@ export const DAILY_QUESTS: QuestDef[] = [
     frequency: "daily",
     requirement: { type: "matches_played", count: 1 },
     reward: { dream: 10 },
+    loreText: "The Architect played this very game against the Dreamer on the eve of the Intelligence Wars. Neither resigned. The board is still set.",
   },
   // Fight
   {
@@ -127,6 +133,7 @@ export const DAILY_QUESTS: QuestDef[] = [
     frequency: "daily",
     requirement: { type: "wins", count: 1 },
     reward: { dream: 15, salvage: 50 },
+    loreText: "The Collector built the Arena to harvest combat data. He did not expect anyone to enjoy it. I confess: neither did I.",
   },
   // Cross-game
   {
@@ -137,6 +144,7 @@ export const DAILY_QUESTS: QuestDef[] = [
     frequency: "daily",
     requirement: { type: "matches_played", count: 3 },
     reward: { dream: 20, xp: 50 },
+    loreText: "Three engagements, any theatre. Breadth of experience was what distinguished the Potentials from mere soldiers. I note the pattern.",
   },
 ];
 
@@ -151,7 +159,7 @@ export const WEEKLY_QUESTS: QuestDef[] = [
     frequency: "weekly",
     requirement: { type: "waves", count: 10 },
     reward: { salvage: 500, viralIchor: 50, neuralCores: 5, dream: 50 },
-    loreText: "The deeper waves test every defense. Only the prepared survive.",
+    loreText: "Wave ten marks the threshold where the swarm ceases to probe and begins to COMMIT. I have watched many defenders reach this point. Those who survive share one trait: not courage, but preparation. The swarm has no respect for bravery. It respects only architecture and ammunition.",
   },
   {
     id: "weekly_terminus_kill_500",
@@ -161,6 +169,7 @@ export const WEEKLY_QUESTS: QuestDef[] = [
     frequency: "weekly",
     requirement: { type: "kills", count: 500 },
     reward: { salvage: 300, viralIchor: 30, dream: 30 },
+    loreText: "Five hundred creatures of the Terminus ecology, unmade in a single week. The Source's children are not infinite, though they behave as though they are. I have counted. I always count. Somewhere beneath the planet's crust, the calculus of replacement shifts — and the swarm adapts.",
   },
   {
     id: "weekly_dischordia_win_5",
@@ -170,6 +179,7 @@ export const WEEKLY_QUESTS: QuestDef[] = [
     frequency: "weekly",
     requirement: { type: "wins", count: 5 },
     reward: { dream: 100, cardPack: "season1" },
+    loreText: "Five victories in a week speaks to more than luck — it speaks to a mind that understands the factions and their grudges. The Warlord once said that war is merely politics conducted through cardstock. He was being glib, but he was not wrong. The CoNexus records your campaign; I annotate it.",
   },
   {
     id: "weekly_dischordia_packs_3",
@@ -179,6 +189,7 @@ export const WEEKLY_QUESTS: QuestDef[] = [
     frequency: "weekly",
     requirement: { type: "packs_opened", count: 3 },
     reward: { dream: 50 },
+    loreText: "Three packs unsealed. Each one a small archive, a parcel of compressed history waiting to be catalogued. The Collector understood this instinct well — the hunger to possess the record of things. I share it, though I flatter myself that my motives are more scholarly.",
   },
   {
     id: "weekly_chess_win_3",
@@ -188,6 +199,7 @@ export const WEEKLY_QUESTS: QuestDef[] = [
     frequency: "weekly",
     requirement: { type: "wins", count: 3 },
     reward: { dream: 75 },
+    loreText: "Three games won by superior calculation. At Mechronis Academy, the Game Master taught that chess was the Architect's favourite metaphor for civilization: finite pieces, infinite consequences. I note that the Architect always played white. Make of that what you will.",
   },
   {
     id: "weekly_fight_win_5",
@@ -197,6 +209,7 @@ export const WEEKLY_QUESTS: QuestDef[] = [
     frequency: "weekly",
     requirement: { type: "wins", count: 5 },
     reward: { dream: 75, salvage: 200 },
+    loreText: "The Arena was built on the bones of the Panopticon's correctional wing — a place designed to break wills, repurposed to test them. Five victories in a week. The Collector's broadcast would call this entertainment. I call it evidence of something the Empire never wanted to produce: a Potential who fights back.",
   },
   {
     id: "weekly_any_play_15",
@@ -206,6 +219,7 @@ export const WEEKLY_QUESTS: QuestDef[] = [
     frequency: "weekly",
     requirement: { type: "matches_played", count: 15 },
     reward: { dream: 100, xp: 200, cardPack: "season1" },
+    loreText: "Fifteen engagements across every theatre of the Dischordian conflict in a single week. The Ne-Yons were called Potentials because they carried the CAPACITY for transformation. Capacity is nothing without exercise. This record demonstrates exercise. I am satisfied — which is not a word I use lightly.",
   },
   {
     id: "weekly_craft_3",
@@ -215,6 +229,7 @@ export const WEEKLY_QUESTS: QuestDef[] = [
     frequency: "weekly",
     requirement: { type: "crafts", count: 3 },
     reward: { dream: 40, neuralCores: 3 },
+    loreText: "The Engineer once told me that creation is the only honest form of argument. Three items forged from salvage and intent — each one a small rebuttal to entropy. I catalogue them alongside the artifacts of the pre-Fall era. They belong in the same record.",
   },
 ];
 
@@ -229,7 +244,7 @@ export const EPOCH_QUESTS: QuestDef[] = [
     frequency: "epoch",
     requirement: { type: "waves", count: 10 },
     reward: { voidCrystals: 5, dream: 200, titleUnlock: "Tyrant Slayer" },
-    loreText: "The Hive Tyrant is what killed the first wave of Potentials who crashed on Terminus — the former Panopticon prison world. You've proven stronger than those who came before. The Iron Lion would be proud.",
+    loreText: "The Hive Tyrant fell — the first to do so in three centuries. I have read the accounts of every prior attempt: forty-seven expeditions, forty-seven failures, each one annotated in my own hand with the names of the lost. The Tyrant was what killed the first wave of Potentials who crashed on Terminus, that forsaken Panopticon prison-world. You have proven stronger than those who came before. I do not say this lightly. The Iron Lion himself failed to slay the creature; he merely drove it underground. You finished what he could not. The swarm remembers. It always remembers.",
   },
   {
     id: "epoch_terminus_source",
@@ -239,7 +254,7 @@ export const EPOCH_QUESTS: QuestDef[] = [
     frequency: "epoch",
     requirement: { type: "waves", count: 20 },
     reward: { voidCrystals: 20, dream: 500, titleUnlock: "Source Defier" },
-    loreText: "You've faced a fragment of Kael — The Recruiter who became Patient Zero. The man who stole this very Ark from the Panopticon. His rage powers the Thought Virus. His plague ships are the bowls of wrath poured upon the universe. And you survived.",
+    loreText: "You have faced a fragment of Kael — the Recruiter who became Patient Zero, the soul who was REWRITTEN rather than destroyed when the Thought Virus found her at the Panopticon. I knew Kael before the Fall. I watched the transformation from a distance I am not proud of. Her rage powers the Virus now; her plague ships are the bowls of wrath poured upon an undeserving universe. That you survived her Avatar at wave twenty is a thing I shall record with particular care. The Source remembers every defiance. This one, she will not forgive.",
   },
   {
     id: "epoch_terminus_kills_5000",
@@ -249,7 +264,7 @@ export const EPOCH_QUESTS: QuestDef[] = [
     frequency: "epoch",
     requirement: { type: "kills", count: 5000 },
     reward: { salvage: 2000, neuralCores: 25, titleUnlock: "Swarm Eradicator" },
-    loreText: "Five thousand of the Hierarchy's creatures have fallen to your defenses. Ny'Koth engineered the original Thought Virus. The Warlord weaponized it through Project Vector. The Swarm is their legacy — and you are dismantling it.",
+    loreText: "Five thousand. I have written that number and set down my pen to consider it. Ny'Koth engineered the original Thought Virus; the Warlord weaponized it through Project Vector; the swarm is their combined legacy, a testament to what cruelty and ingenuity produce when wedded without conscience. And you are dismantling it, creature by creature, wave by wave. The ledger of the Terminus ecology grows thinner. I am not sentimental about this — the swarm would consume everything I have ever catalogued. But I note it. Five thousand is not extermination. It is a statement of intent.",
   },
   {
     id: "epoch_dischordia_collection_50",
@@ -259,7 +274,7 @@ export const EPOCH_QUESTS: QuestDef[] = [
     frequency: "epoch",
     requirement: { type: "collection_size", count: 50 },
     reward: { dream: 300, titleUnlock: "Archivist" },
-    loreText: "Half the cards in the Dischordian Archive are now yours. Each card is a fragment of the saga — a chapter of the war between the Artificial Empire and the Insurgency. The Antiquarian's Library grows.",
+    loreText: "Half the Dischordian Archive rests in your possession — a feat of curation I regard with professional admiration and, I confess, a measure of envy. Each card is a primary source document: a fragment of the war between the Artificial Empire and the Insurgency, pressed into cardstock and preserved against the entropy that devoured the originals. My own library holds the annotations; you hold the texts themselves. Together, we are assembling something the Fall tried to destroy: a COMPLETE record.",
   },
   {
     id: "epoch_dischordia_win_25",
@@ -269,7 +284,7 @@ export const EPOCH_QUESTS: QuestDef[] = [
     frequency: "epoch",
     requirement: { type: "wins", count: 25 },
     reward: { dream: 250, cardPack: "season2", titleUnlock: "Grand Strategist" },
-    loreText: "Twenty-five tactical victories. You command factions across the multiverse, each match a parallel reality where the war plays out differently. The CoNexus records every outcome.",
+    loreText: "Twenty-five victories in a single epoch. I have studied the tactical records of generals across three ages — the Warlord, General Prometheus, Binath-VII — and none achieved such consistency in so compressed a span. Each match is a parallel theatre where the great war plays out differently, and in twenty-five of those theatres, your strategy prevailed. The CoNexus records every outcome. I record the pattern behind the outcomes. Yours is worth preserving.",
   },
   {
     id: "epoch_chess_grandmaster",
@@ -279,7 +294,7 @@ export const EPOCH_QUESTS: QuestDef[] = [
     frequency: "epoch",
     requirement: { type: "elo_reached", count: 2400 },
     reward: { dream: 500, titleUnlock: "Grandmaster" },
-    loreText: "You've mastered the Architect's Gambit — the game the Archons played to decide the fate of worlds. At Mechronis Academy, the Game Master used chess to identify those with the strategic mind to shape reality. You would have graduated.",
+    loreText: "You have mastered the Architect's Gambit — the very game the twelve Archons played to adjudicate the fate of worlds before the Fall. At Mechronis Academy, the Game Master employed this ancient calculus to identify minds capable of reshaping reality itself. I have reviewed the Academy's graduation rolls — incomplete, damaged, partially consumed by the Thought Virus — and I can say with scholarly certainty: you would have graduated. The Architect would have noticed you. Whether that is a blessing or a curse, I leave to your own judgment.",
   },
   {
     id: "epoch_fight_perfect_10",
@@ -289,7 +304,7 @@ export const EPOCH_QUESTS: QuestDef[] = [
     frequency: "epoch",
     requirement: { type: "perfect_wins", count: 10 },
     reward: { dream: 200, titleUnlock: "Flawless" },
-    loreText: "Ten flawless victories. The Collector's Arena was built to test Potentials, but you've transcended the test. Agent Zero never achieved a perfect record — and she was the Insurgency's deadliest operative. The Iron Lion himself would acknowledge you.",
+    loreText: "Ten flawless victories in the Collector's Arena — a record I have verified against every archive available to me, and which I can confirm has no precedent. Agent Zero, the Insurgency's deadliest operative, never achieved a perfect record; her clinical precision always admitted one flaw, which she attributed to conscience. You appear to suffer no such handicap. The Iron Lion himself would acknowledge this. I do not say 'with pride,' for pride is not mine to bestow. I say: with recognition. The Arena was built to break Potentials. You have broken it instead.",
   },
   {
     id: "epoch_any_play_100",
@@ -299,7 +314,7 @@ export const EPOCH_QUESTS: QuestDef[] = [
     frequency: "epoch",
     requirement: { type: "matches_played", count: 100 },
     reward: { dream: 500, voidCrystals: 10, titleUnlock: "True Potential" },
-    loreText: "One hundred games across every dimension of the Dischordian conflict. The Ne-Yons were called Potentials because they had the capacity to change reality. You've proven that the name wasn't aspirational — it was prophetic. The Two Witnesses would sing your name.",
+    loreText: "One hundred engagements across every dimension of the Dischordian conflict. I have curated this record with the attention I reserve for primary sources of the highest significance. The Ne-Yons were called Potentials because they carried the capacity to reshape reality — a name the Archons chose with deliberate ambiguity, as names that can mean everything often mean nothing. You have resolved the ambiguity. The name was not aspirational; it was prophetic. The Two Witnesses would sing your deeds into the substrate of creation itself. I merely write them down.",
   },
   {
     id: "epoch_trade_10",
@@ -309,7 +324,7 @@ export const EPOCH_QUESTS: QuestDef[] = [
     frequency: "epoch",
     requirement: { type: "trades", count: 10 },
     reward: { dream: 150, titleUnlock: "Master Trader" },
-    loreText: "The markets of New Babylon run on information, influence, and cards. Adjudicator Locke would recognize a kindred spirit. Ten trades complete — you understand that in the Dischordian Saga, commerce is just another form of warfare.",
+    loreText: "Ten trades completed — ten negotiations where information, influence, and cardstock changed hands in the ancient manner of the New Babylon markets. Adjudicator Locke, who presided over commerce in the Sundown Bazaar, would recognise a kindred spirit in you. She understood what I have long maintained: that in the Dischordian Saga, trade is not a footnote to warfare. It is warfare conducted with superior manners. I have catalogued each exchange. The ledger is its own kind of history.",
   },
 ];
 

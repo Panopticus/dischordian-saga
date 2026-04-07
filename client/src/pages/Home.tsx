@@ -20,6 +20,7 @@ import { useEffect, useState, useMemo, useCallback, useRef } from "react";
 import { useGame, ROOM_DEFINITIONS } from "@/contexts/GameContext";
 import { Rocket } from "lucide-react";
 import DecisionDeck from "@/components/DecisionDeck";
+import ScrollIndicator from "@/components/ScrollIndicator";
 
 /* ─── BOOT SEQUENCE ─── */
 function BootSequence({ onComplete }: { onComplete: () => void }) {
@@ -595,14 +596,16 @@ export default function Home() {
 
       {/* ═══ QUICK ACTIONS — Horizontal scroll pills ═══ */}
       <div className="px-4 pt-4 pb-2">
-        <div className="flex gap-2 overflow-x-auto no-scrollbar pb-1">
-          <ActionPill href="/games" icon={<Gamepad2 size={12} />} label="GAMES" color="border-primary/30 bg-primary/5 text-primary hover:bg-primary/10" />
-          <ActionPill href="/board" icon={<Map size={12} />} label="BOARD" color="border-border/30 bg-secondary/50 text-foreground hover:bg-secondary" />
-          <ActionPill href="/search" icon={<Search size={12} />} label="SEARCH" color="border-border/30 bg-secondary/50 text-foreground hover:bg-secondary" />
-          <ActionPill href="/watch" icon={<Tv size={12} />} label="WATCH" color="border-chart-4/30 bg-chart-4/5 text-chart-4 hover:bg-chart-4/10" />
-          <ActionPill href="/timeline" icon={<Clock size={12} />} label="TIMELINE" color="border-accent/30 bg-accent/5 text-accent hover:bg-accent/10" />
-          <ActionPill href="/console" icon={<Crosshair size={12} />} label="CONSOLE" color="border-chart-5/30 bg-chart-5/5 text-chart-5 hover:bg-chart-5/10" />
-        </div>
+        <ScrollIndicator>
+          <div className="flex gap-2 no-scrollbar pb-1">
+            <ActionPill href="/games" icon={<Gamepad2 size={12} />} label="GAMES" color="border-primary/30 bg-primary/5 text-primary hover:bg-primary/10" />
+            <ActionPill href="/board" icon={<Map size={12} />} label="BOARD" color="border-border/30 bg-secondary/50 text-foreground hover:bg-secondary" />
+            <ActionPill href="/search" icon={<Search size={12} />} label="SEARCH" color="border-border/30 bg-secondary/50 text-foreground hover:bg-secondary" />
+            <ActionPill href="/watch" icon={<Tv size={12} />} label="WATCH" color="border-chart-4/30 bg-chart-4/5 text-chart-4 hover:bg-chart-4/10" />
+            <ActionPill href="/timeline" icon={<Clock size={12} />} label="TIMELINE" color="border-accent/30 bg-accent/5 text-accent hover:bg-accent/10" />
+            <ActionPill href="/console" icon={<Crosshair size={12} />} label="CONSOLE" color="border-chart-5/30 bg-chart-5/5 text-chart-5 hover:bg-chart-5/10" />
+          </div>
+        </ScrollIndicator>
       </div>
 
       {/* ═══ ARK EXPLORATION CTA ═══ */}

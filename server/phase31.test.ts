@@ -75,15 +75,7 @@ describe("Arena Background Images", () => {
   });
 });
 
-// ─── Training Mode ───
-describe.skip("Training Mode [DELETED ENGINE]", () => {
-  it("FightEngine3D should accept trainingMode parameter", async () => {
-    const mod = await import("../client/src/game/FightEngine3D");
-    expect(mod.FightEngine3D).toBeDefined();
-    // Constructor exists and is callable
-    expect(typeof mod.FightEngine3D).toBe("function");
-  });
-});
+/* FightEngine3D training mode tests removed — 3D engine was deleted in favor of FightEngine2D */
 
 // ─── Sound System ───
 describe("Fight Sound Manager", () => {

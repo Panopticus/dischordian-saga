@@ -181,30 +181,7 @@ describe("Trade Empire Narrative Content", () => {
 });
 
 /* ═══ ENHANCED LEVEL DESIGN ═══ */
-describe.skip("Enhanced Fight Arena Level Design [DELETED ENGINE]", () => {
-  it("should have enhanced stage building with pillars and archway", async () => {
-    const fs = await import("fs");
-    const content = fs.readFileSync("client/src/game/FightEngine3D.ts", "utf-8");
-    expect(content).toContain("PILLARS");
-    expect(content).toContain("ARCHWAY");
-    expect(content).toContain("TorusGeometry"); // emblem rings
-    expect(content).toContain("FLOATING PARTICLES");
-  });
-
-  it("should have floor glow energy channels", async () => {
-    const fs = await import("fs");
-    const content = fs.readFileSync("client/src/game/FightEngine3D.ts", "utf-8");
-    expect(content).toContain("FLOOR GLOW LINES");
-    expect(content).toContain("energy channels");
-  });
-
-  it("should have spectator barriers on sides", async () => {
-    const fs = await import("fs");
-    const content = fs.readFileSync("client/src/game/FightEngine3D.ts", "utf-8");
-    expect(content).toContain("SIDE DECORATIONS");
-    expect(content).toContain("barriers");
-  });
-});
+/* FightEngine3D tests removed — 3D engine was deleted in favor of FightEngine2D */
 
 /* ═══ GAME DATA REFERENCES ═══ */
 describe("Game Data - Trade Empire References", () => {

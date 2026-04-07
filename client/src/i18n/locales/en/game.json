@@ -1,0 +1,83 @@
+{
+  "classes": {
+    "voidWalker": "Void Walker",
+    "signalMage": "Signal Mage",
+    "arkwright": "Arkwright",
+    "driftBlade": "Drift Blade",
+    "echoSeer": "Echo Seer",
+    "nullAgent": "Null Agent",
+    "dreamShaper": "Dream Shaper",
+    "chronoWarden": "Chrono Warden"
+  },
+  "species": {
+    "human": "Human",
+    "synthoid": "Synthoid",
+    "voidborn": "Voidborn",
+    "archivist": "Archivist",
+    "neyonic": "Ne-Yonic",
+    "drifter": "Drifter",
+    "echoForm": "Echo Form",
+    "unknown": "Unknown"
+  },
+  "elements": {
+    "void": "Void",
+    "signal": "Signal",
+    "dream": "Dream",
+    "entropy": "Entropy",
+    "chrono": "Chrono",
+    "flux": "Flux",
+    "null": "Null",
+    "echo": "Echo"
+  },
+  "stats": {
+    "health": "Health",
+    "energy": "Energy",
+    "attack": "Attack",
+    "defense": "Defense",
+    "speed": "Speed",
+    "luck": "Luck",
+    "intelligence": "Intelligence",
+    "charisma": "Charisma",
+    "resilience": "Resilience",
+    "perception": "Perception",
+    "level": "Level",
+    "experience": "Experience",
+    "trust": "Trust"
+  },
+  "modes": {
+    "storyMode": "Story Mode",
+    "ranked": "Ranked",
+    "training": "Training",
+    "coop": "Co-Op",
+    "pvp": "PvP",
+    "exploration": "Exploration",
+    "survival": "Survival",
+    "arena": "Arena"
+  },
+  "currency": {
+    "dream": "Dream",
+    "dreamPlural": "Dreams",
+    "influence": "Influence",
+    "voidCrystals": "Void Crystals",
+    "salvage": "Salvage",
+    "arkTokens": "Ark Tokens"
+  },
+  "rarity": {
+    "common": "Common",
+    "uncommon": "Uncommon",
+    "rare": "Rare",
+    "epic": "Epic",
+    "legendary": "Legendary",
+    "mythic": "Mythic",
+    "neyon": "Ne-Yon"
+  },
+  "itemTypes": {
+    "weapon": "Weapon",
+    "armor": "Armor",
+    "accessory": "Accessory",
+    "consumable": "Consumable",
+    "material": "Material",
+    "keyItem": "Key Item",
+    "cosmetic": "Cosmetic"
+  }
+}

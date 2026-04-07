@@ -2547,3 +2547,22 @@ export const companionRelationships = mysqlTable("companion_relationships", {
 }, (table) => ({
   uniqueUserCompanion: uniqueIndex("uq_companion_rel_user").on(table.userId, table.companionId),
 }));
+
+/* ═══════════════════════════════════════════════════════
+   ANALYTICS — Privacy-first player event tracking
+   No PII stored — only user IDs and event data.
+   ═══════════════════════════════════════════════════════ */
+
+export const analyticsEvents = mysqlTable("analytics_events", {
+  id: int("id").primaryKey().autoincrement(),
+  userId: int("userId").notNull(),
+  event: varchar("event", { length: 128 }).notNull(),
+  properties: json("properties").$type<Record<string, string | number | boolean>>(),
+  sessionId: varchar("sessionId", { length: 64 }).notNull(),
+  clientTimestamp: timestamp("clientTimestamp").notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+}, (table) => ({
+  idxUserId: index("idx_analytics_user").on(table.userId),
+  idxEvent: index("idx_analytics_event").on(table.event),
+  idxCreatedAt: index("idx_analytics_created").on(table.createdAt),
+}));

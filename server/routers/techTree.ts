@@ -10,8 +10,9 @@
 import { z } from "zod";
 import { router, protectedProcedure } from "../_core/trpc";
 import { getDb } from "../db";
-import { userProgress } from "../../drizzle/schema";
-import { eq, and } from "drizzle-orm";
+import { userProgress, dreamBalance } from "../../drizzle/schema";
+import { eq, and, sql } from "drizzle-orm";
+import { logger } from "../logger";
 
 // Inline tech definitions (mirrors shared/techTree.ts) to avoid import issues
 // In a full refactor, shared/ types would be imported directly
@@ -69,28 +70,44 @@ const TECH_HOURS: Record<string, number> = {
   dip_architects_accord: 48,
 };
 
-interface TechTreeState {
-  researched: string[];
-  currentResearch: { techId: string; startedAt: number; endsAt: number } | null;
-}
+// Zod schema for TechTreeState — validates JSON blob data integrity
+const techTreeStateSchema = z.object({
+  researched: z.array(z.string()),
+  currentResearch: z.object({
+    techId: z.string(),
+    startedAt: z.number(),
+    endsAt: z.number(),
+  }).nullable(),
+});
+
+type TechTreeState = z.infer<typeof techTreeStateSchema>;
 
 const DEFAULT_STATE: TechTreeState = { researched: [], currentResearch: null };
 
 async function getTechState(userId: number): Promise<TechTreeState> {
-  const db = getDb();
+  const db = await getDb();
+  if (!db) return DEFAULT_STATE;
   const row = await db.select().from(userProgress)
     .where(and(eq(userProgress.userId, userId), eq(userProgress.franchiseId, "dischordian-saga")))
     .limit(1);
-  const gameData = row[0]?.gameData as any;
-  return gameData?.techTree ?? DEFAULT_STATE;
+  const gameData = (row[0]?.gameData ?? {}) as Record<string, unknown>;
+  const raw = gameData.techTree;
+  // Validate stored data against schema — fallback to default if corrupted
+  const parsed = techTreeStateSchema.safeParse(raw);
+  if (!parsed.success) {
+    if (raw !== undefined) logger.warn("[TechTree] Corrupted techTree data for user " + userId + ", using defaults");
+    return DEFAULT_STATE;
+  }
+  return parsed.data;
 }
 
 async function saveTechState(userId: number, state: TechTreeState) {
-  const db = getDb();
+  const db = await getDb();
+  if (!db) return;
   const row = await db.select().from(userProgress)
     .where(and(eq(userProgress.userId, userId), eq(userProgress.franchiseId, "dischordian-saga")))
     .limit(1);
-  const existing = row[0]?.gameData as any ?? {};
+  const existing = (row[0]?.gameData ?? {}) as Record<string, unknown>;
   await db.update(userProgress)
     .set({ gameData: { ...existing, techTree: state } })
     .where(and(eq(userProgress.userId, userId), eq(userProgress.franchiseId, "dischordian-saga")));
@@ -123,7 +140,42 @@ export const techTreeRouter = router({
         return { success: false, error: `Missing prerequisites: ${missingPrereqs.join(", ")}` };
       }
 
-      // TODO: Deduct influence/dream/voidCrystals from economy when unified economy is wired
+      // Deduct economy costs — Dream from dreamBalance table, influence/voidCrystals from gameData
+      const db = await getDb();
+      if (!db) return { success: false, error: "Database unavailable" };
+
+      // Check and deduct Dream tokens if required
+      if (cost.dream && cost.dream > 0) {
+        const balRow = await db.select().from(dreamBalance)
+          .where(eq(dreamBalance.userId, ctx.user.id)).limit(1);
+        const currentDream = balRow[0]?.dreamTokens ?? 0;
+        if (currentDream < cost.dream) {
+          return { success: false, error: `Need ${cost.dream} Dream, have ${currentDream}` };
+        }
+        await db.update(dreamBalance)
+          .set({ dreamTokens: sql`${dreamBalance.dreamTokens} - ${cost.dream}` })
+          .where(eq(dreamBalance.userId, ctx.user.id));
+      }
+
+      // Check and deduct influence + voidCrystals from gameData resources
+      const progressRow = await db.select().from(userProgress)
+        .where(and(eq(userProgress.userId, ctx.user.id), eq(userProgress.franchiseId, "dischordian-saga")))
+        .limit(1);
+      const gameData = (progressRow[0]?.gameData ?? {}) as Record<string, unknown>;
+      const resources = (gameData.resources ?? { influence: 0, voidCrystals: 0 }) as { influence: number; voidCrystals: number };
+
+      if (cost.influence > (resources.influence ?? 0)) {
+        return { success: false, error: `Need ${cost.influence} Influence, have ${resources.influence ?? 0}` };
+      }
+      if (cost.voidCrystals && cost.voidCrystals > (resources.voidCrystals ?? 0)) {
+        return { success: false, error: `Need ${cost.voidCrystals} Void Crystals, have ${resources.voidCrystals ?? 0}` };
+      }
+
+      resources.influence = (resources.influence ?? 0) - cost.influence;
+      if (cost.voidCrystals) {
+        resources.voidCrystals = (resources.voidCrystals ?? 0) - cost.voidCrystals;
+      }
+
       const hours = TECH_HOURS[techId] ?? 2;
       const now = Date.now();
       state.currentResearch = {
@@ -131,8 +183,13 @@ export const techTreeRouter = router({
         startedAt: now,
         endsAt: now + hours * 3600 * 1000,
       };
-      await saveTechState(ctx.user.id, state);
-      return { success: true, endsAt: state.currentResearch.endsAt };
+
+      // Save both tech state and updated resources atomically
+      await db.update(userProgress)
+        .set({ gameData: { ...gameData, techTree: state, resources } })
+        .where(and(eq(userProgress.userId, ctx.user.id), eq(userProgress.franchiseId, "dischordian-saga")));
+
+      return { success: true, endsAt: state.currentResearch.endsAt, cost };
     }),
 
   completeResearch: protectedProcedure.mutation(async ({ ctx }) => {

@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { logger } from "../logger";
 import { protectedProcedure, router } from "../_core/trpc";
 import { getDb } from "../db";
 import { dailyQuests, loginCalendar, dreamBalance, notifications } from "../../drizzle/schema";
@@ -294,7 +295,7 @@ export const dailyQuestsRouter = router({
 
       // Award civil skill XP (endurance + lore)
       const { awardCivilXp } = await import("../civilSkillHelper");
-      awardCivilXp(ctx.user.id, "complete_quest").catch(() => {});
+      awardCivilXp(ctx.user.id, "complete_quest").catch(e => logger.error("[DailyQuests] Civil XP award failed:", e));
 
       return {
         success: true,

@@ -32,6 +32,7 @@ import {
 } from "lucide-react";
 import LandscapeEnforcer from "@/components/LandscapeEnforcer";
 import { toast } from "sonner";
+import { useNotificationQueue } from "@/hooks/useNotificationQueue";
 import PuzzleModal, { ROOM_PUZZLES } from "@/components/PuzzleSystem";
 import RoomTransition from "@/components/RoomTransition";
 import RoomTutorialDialog, { hasRoomDialog } from "@/components/RoomTutorialDialog";
@@ -41,10 +42,12 @@ import { getRoomTransmissions, getElaraVariant, type SecretTransmission } from "
 import AlienSymbolPuzzle from "@/components/AlienSymbolPuzzle";
 import FastTravelPanel from "@/components/FastTravelPanel";
 import ItemDetailModal from "@/components/ItemDetailModal";
+import ParallaxRoom from "@/components/ParallaxRoom";
 import LoreTutorialEngine from "@/components/LoreTutorialEngine";
 import NarrativeTrigger from "@/components/NarrativeTrigger";
 import InlineShipMap from "@/components/InlineShipMap";
 import { getTutorialById, type TutorialReward } from "@/data/loreTutorials";
+import { crossfadeToRoom } from "@/lib/ambientSounds";
 
 const ELARA_PORTRAIT = "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/elara_portrait_speaking-J3GJUrfnNKzSBrxY2PfWrL.webp";
 
@@ -230,11 +233,10 @@ function RoomScene({
 
   return (
     <div className="relative w-full aspect-[16/9] sm:aspect-[21/9] rounded-lg overflow-hidden group">
-      {/* Room background image */}
-      <img
-        src={room.imageUrl}
-        alt={room.name}
-        className="w-full h-full object-cover"
+      {/* Room background image with parallax depth effect */}
+      <ParallaxRoom
+        layers={[{ src: room.imageUrl, depth: -0.3 }]}
+        className="absolute inset-0"
       />
 
       {/* Dark overlay for readability */}
@@ -489,6 +491,7 @@ export default function ArkExplorerPage() {
   } = useGame();
   const { discoverEntry } = useGamification();
   const { setRoomAmbience, playSFX, initAudio, audioReady } = useSound();
+  const { notify, notifyAchievement } = useNotificationQueue();
   useGameAreaBGM("ark");
   const [, navigate] = useLocation();
   const [elaraText, setElaraText] = useState<string | null>(null);
@@ -900,9 +903,7 @@ export default function ArkExplorerPage() {
       // (flags are stored via the dialog choice system)
       if (cardId) {
         // Collect the card reward
-        toast.success("Card Acquired!", {
-          description: `New card added to your collection.`,
-        });
+        notify("loot-drop", "Card Acquired!", "New card added to your collection.");
       }
     }
     setTutorialRoomId(null);
@@ -916,9 +917,7 @@ export default function ArkExplorerPage() {
     });
     setPuzzleRoomId(null);
     if (audioReady) playSFX("door_unlock");
-    toast.success(`ACCESS GRANTED — ${getRoomDef(roomId)?.name || roomId}`, {
-      description: "Puzzle solved! Room unlocked.",
-    });
+    notify("room-unlock", `ACCESS GRANTED — ${getRoomDef(roomId)?.name || roomId}`, "Puzzle solved! Room unlocked.");
     // Navigate with transition
     navigateWithTransition(roomId);
   }, [navigateWithTransition, audioReady, playSFX, getRoomDef]);
@@ -944,7 +943,7 @@ export default function ArkExplorerPage() {
           if (req?.type === "rooms_unlocked") reason = `Unlock ${req.value} rooms to access this area.`;
           if (req?.type === "items_collected") reason = `Collect ${req.value} items to access this area.`;
           if (audioReady) playSFX("door_locked");
-          toast.error("ACCESS DENIED", { description: reason });
+          notify("error", "ACCESS DENIED", reason);
           setElaraText(`That door is locked. ${reason} Keep exploring — you'll find a way.`);
         }
         break;
@@ -962,15 +961,13 @@ export default function ArkExplorerPage() {
           collectItem(hotspot.action);
           discoverEntry(`item-${hotspot.action}`);
           if (audioReady) playSFX("item_pickup");
-          toast.success("Item Collected!", {
-            description: hotspot.name,
-          });
+          notify("loot-drop", "Item Collected!", hotspot.name);
           if (hotspot.elaraDialog) {
             if (audioReady) playSFX("dialog_open");
             setElaraText(hotspot.elaraDialog);
           }
         } else {
-          toast.info("Already collected", { description: hotspot.name });
+          notify("info", "Already collected", hotspot.name);
         }
         break;
       }
@@ -978,7 +975,7 @@ export default function ArkExplorerPage() {
       case "interact": {
         if (hotspot.action === "nav-calibration") {
           if (fastTravelUnlocked) {
-            toast.info("Navigation system already calibrated", { description: "Fast-travel is online. Use the NAV tab on the right." });
+            notify("info", "Navigation system already calibrated", "Fast-travel is online. Use the NAV tab on the right.");
             if (hotspot.elaraDialog) setElaraText("The navigation system is already online. Use the NAV panel on the right side of your screen to jump to any discovered room.");
           } else {
             if (audioReady) playSFX("terminal_access");
@@ -1137,7 +1134,7 @@ export default function ArkExplorerPage() {
                           }
                         } else {
                           if (audioReady) playSFX("door_locked");
-                          toast.error("LOCKED", { description: "Explore more to unlock this area." });
+                          notify("error", "LOCKED", "Explore more to unlock this area.");
                         }
                       }}
                       className="flex items-center gap-3 px-4 py-3 rounded-lg font-mono text-[11px] transition-all group"
@@ -1232,9 +1229,7 @@ export default function ArkExplorerPage() {
         alreadyClaimed={activeTransmission ? isTransmissionDiscovered(activeTransmission.id) : false}
         onClaim={(t) => {
           discoverTransmission(t.id);
-          toast.success("Transmission Archived!", {
-            description: `+${t.reward.xp} XP, +${t.reward.dreamTokens} Dream Tokens${t.reward.title ? `, "${t.reward.title}" title unlocked` : ""}`,
-          });
+          notify("story-reveal", "Transmission Archived!", `+${t.reward.xp} XP, +${t.reward.dreamTokens} Dream Tokens${t.reward.title ? `, "${t.reward.title}" title unlocked` : ""}`);
           setActiveTransmission(null);
         }}
       />
@@ -1278,9 +1273,7 @@ export default function ArkExplorerPage() {
               setShowNavPuzzle(false);
               setNarrativeFlag("fast_travel_unlocked");
               if (audioReady) playSFX("door_unlock");
-              toast.success("NAVIGATION SYSTEM ONLINE", {
-                description: "Fast-travel unlocked! Use the NAV tab on the right to jump between discovered rooms.",
-              });
+              notify("room-unlock", "NAVIGATION SYSTEM ONLINE", "Fast-travel unlocked! Use the NAV tab on the right to jump between discovered rooms.");
               setElaraText("Excellent work! The navigation grid is online. You can now use the NAV panel on the right side of your screen to instantly travel to any room you've already discovered. No more backtracking through corridors.");
             }}
             onClose={() => setShowNavPuzzle(false)}
@@ -1374,9 +1367,7 @@ export default function ArkExplorerPage() {
 
                 // Equipment drop
                 if (result.equipmentDrop) {
-                  toast.success("Equipment Found!", {
-                    description: `You found ${result.equipmentDrop.replace(/_/g, " ")} while exploring.`,
-                  });
+                  notify("loot-drop", "Equipment Found!", `You found ${result.equipmentDrop.replace(/_/g, " ")} while exploring.`);
                 }
 
                 // Dispatch narrative effect based on event type
@@ -1396,10 +1387,8 @@ export default function ArkExplorerPage() {
                   dispatchNarrativeEffect(narrativeEffect as any);
                 }
 
-                // Show toast
-                toast[result.toast.type](result.toast.title, {
-                  description: result.toast.description,
-                });
+                // Show notification via priority queue
+                notify(result.toast.type, result.toast.title, result.toast.description);
 
                 setActiveRoomEvent(null);
               }}

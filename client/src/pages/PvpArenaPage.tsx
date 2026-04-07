@@ -24,6 +24,7 @@ import {
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "wouter";
+import { EmptyMatchHistory } from "@/components/EmptyStates";
 
 /* ─── RANK CONFIG ─── */
 const RANK_CONFIG: Record<string, { color: string; bg: string; border: string; label: string; icon: string; glow?: string }> = {
@@ -1021,7 +1022,7 @@ export default function PvpArenaPage() {
                   ))}
                 </div>
               ) : (
-                <p className="font-mono text-xs text-muted-foreground text-center py-8">No matches yet. Enter the arena!</p>
+                <EmptyMatchHistory />
               )}
             </div>
           )}

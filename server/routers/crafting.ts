@@ -495,14 +495,14 @@ export const craftingRouter = router({
 
       // Award class mastery XP for crafting
       const { awardClassXp } = await import("../classMasteryHelper");
-      awardClassXp(ctx.user.id, "craft_item").catch(() => {});
+      awardClassXp(ctx.user.id, "craft_item").catch(e => logger.error("[Crafting] Class XP award failed:", e));
 
       // Award civil skill XP (craftsmanship)
       const { awardCivilXp } = await import("../civilSkillHelper");
-      awardCivilXp(ctx.user.id, "craft_item").catch(() => {});
+      awardCivilXp(ctx.user.id, "craft_item").catch(e => logger.error("[Crafting] Civil XP award failed:", e));
       // Extra XP for rare+ crafts
       if (["rare", "epic", "legendary", "mythic"].includes(outputCard.rarity)) {
-        awardCivilXp(ctx.user.id, "craft_rare").catch(() => {});
+        awardCivilXp(ctx.user.id, "craft_rare").catch(e => logger.error("[Crafting] Rare craft XP award failed:", e));
       }
 
       return {
@@ -534,17 +534,17 @@ export const craftingRouter = router({
     const row = await db.select().from(userProgress)
       .where(and(eq(userProgress.userId, ctx.user.id), eq(userProgress.franchiseId, "dischordian-saga")))
       .limit(1);
-    const gameData = row[0]?.gameData as any ?? {};
+    const gameData = (row[0]?.gameData ?? {}) as Record<string, unknown>;
     return {
-      skills: gameData.craftingSkills ?? {
+      skills: (gameData.craftingSkills ?? {
         weaponsmith: { level: 1, xp: 0 },
         armorsmith: { level: 1, xp: 0 },
         enchanting: { level: 1, xp: 0 },
         alchemy: { level: 1, xp: 0 },
         engineering: { level: 1, xp: 0 },
-      },
-      materials: gameData.materials ?? {},
-      craftedItems: gameData.craftedItems ?? [],
+      }) as Record<string, { level: number; xp: number }>,
+      materials: (gameData.materials ?? {}) as Record<string, number>,
+      craftedItems: (gameData.craftedItems ?? []) as Array<{ itemId: string; craftedAt: number }>,
     };
   }),
 
@@ -571,16 +571,16 @@ export const craftingRouter = router({
         .limit(1);
       if (!row[0]) return { success: false, error: "No progress data" };
 
-      const gameData = row[0].gameData as any ?? {};
-      const skills = gameData.craftingSkills ?? {
+      const gameData = (row[0].gameData ?? {}) as Record<string, unknown>;
+      const skills = (gameData.craftingSkills ?? {
         weaponsmith: { level: 1, xp: 0 },
         armorsmith: { level: 1, xp: 0 },
         enchanting: { level: 1, xp: 0 },
         alchemy: { level: 1, xp: 0 },
         engineering: { level: 1, xp: 0 },
-      };
-      const materials = gameData.materials ?? {};
-      const craftedItems = gameData.craftedItems ?? [];
+      }) as Record<string, { level: number; xp: number }>;
+      const materials = (gameData.materials ?? {}) as Record<string, number>;
+      const craftedItems = (gameData.craftedItems ?? []) as Array<{ itemId: string; craftedAt: number }>;
 
       // Validate skill level
       const playerSkillLevel = skills[input.skill]?.level ?? 1;
@@ -654,12 +654,15 @@ export const craftingRouter = router({
         .set({ gameData: { ...gameData, craftingSkills: skills, materials, craftedItems } })
         .where(and(eq(userProgress.userId, ctx.user.id), eq(userProgress.franchiseId, "dischordian-saga")));
 
-      // Log
+      // Log — map to craftingLog schema fields
       await db.insert(craftingLog).values({
         userId: ctx.user.id,
-        recipeId: input.recipeId,
-        result: succeeded ? "success" : "failure",
-      } as any).catch(() => {});
+        recipeType: input.recipeId,
+        inputCards: Object.entries(input.materials).map(([id, qty]) => ({ cardId: id, quantity: qty })),
+        outputCardId: succeeded ? input.outputItemId : "FAILED",
+        success: succeeded ? 1 : 0,
+        creditsCost: input.dreamCost,
+      }).catch(e => logger.error("[Crafting] Craft log insert failed:", e));
 
       return {
         success: true,
@@ -683,8 +686,8 @@ export const craftingRouter = router({
       const row = await db.select().from(userProgress)
         .where(and(eq(userProgress.userId, ctx.user.id), eq(userProgress.franchiseId, "dischordian-saga")))
         .limit(1);
-      const gameData = row[0]?.gameData as any ?? {};
-      const materials = gameData.materials ?? {};
+      const gameData = (row[0]?.gameData ?? {}) as Record<string, unknown>;
+      const materials = (gameData.materials ?? {}) as Record<string, number>;
 
       for (const [matId, amount] of Object.entries(input.materials)) {
         materials[matId] = (materials[matId] ?? 0) + amount;

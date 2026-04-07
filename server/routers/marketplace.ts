@@ -4,6 +4,7 @@
    price history, and currency exchange.
    ═══════════════════════════════════════════════════════ */
 import { z } from "zod";
+import { logger } from "../logger";
 import { eq, and, or, desc, asc, sql, gte, lte, like, inArray } from "drizzle-orm";
 import { protectedProcedure, router } from "../_core/trpc";
 import { getDb } from "../db";
@@ -119,7 +120,7 @@ export const marketplaceRouter = router({
       await tryMatchBuyOrders(db, ctx.user.id, input.itemType, input.itemId, input.priceDream, input.priceCredits, input.quantity, Number(result.insertId));
 
       // Track marketplace listing achievement
-      trackIncrement(ctx.user.id, "market_listings", 1).catch(() => {});
+      trackIncrement(ctx.user.id, "market_listings", 1).catch(e => logger.error("[Marketplace] Listing tracking failed:", e));
       return { success: true, listingId: Number(result.insertId) };
     }),
 
@@ -186,80 +187,92 @@ export const marketplaceRouter = router({
       const adjustedTaxRate = TAX_RATE * sellerTb.taxReduction;
       const tax = Math.max(1, Math.floor(totalPrice * adjustedTaxRate));
       const sellerReceives = totalPrice - tax;
+      const sellerId = listing[0].sellerId;
 
-      // Deduct buyer's currency
-      if (input.payWith === "dream") {
-        const bal = await db.select().from(dreamBalance).where(eq(dreamBalance.userId, ctx.user.id)).limit(1);
-        if (!bal[0] || bal[0].dreamTokens < totalPrice) throw new Error("Insufficient Dream tokens");
-        await db.update(dreamBalance)
-          .set({ dreamTokens: sql`${dreamBalance.dreamTokens} - ${totalPrice}` })
-          .where(eq(dreamBalance.userId, ctx.user.id));
-        // Credit seller
-        const sellerBal = await db.select().from(dreamBalance).where(eq(dreamBalance.userId, listing[0].sellerId)).limit(1);
-        if (sellerBal[0]) {
-          await db.update(dreamBalance)
-            .set({ dreamTokens: sql`${dreamBalance.dreamTokens} + ${sellerReceives}` })
-            .where(eq(dreamBalance.userId, listing[0].sellerId));
-        } else {
-          await db.insert(dreamBalance).values({ userId: listing[0].sellerId, dreamTokens: sellerReceives, soulBoundDream: 0 });
-        }
-      } else {
-        const ps = await db.select().from(twPlayerState).where(eq(twPlayerState.userId, ctx.user.id)).limit(1);
-        if (!ps[0] || ps[0].credits < totalPrice) throw new Error("Insufficient credits");
-        await db.update(twPlayerState)
-          .set({ credits: sql`${twPlayerState.credits} - ${totalPrice}` })
-          .where(eq(twPlayerState.userId, ctx.user.id));
-        const sellerPs = await db.select().from(twPlayerState).where(eq(twPlayerState.userId, listing[0].sellerId)).limit(1);
-        if (sellerPs[0]) {
-          await db.update(twPlayerState)
-            .set({ credits: sql`${twPlayerState.credits} + ${sellerReceives}` })
-            .where(eq(twPlayerState.userId, listing[0].sellerId));
-        }
-      }
-
-      // Transfer item to buyer
-      if (listing[0].itemType === "card") {
-        const existing = await db.select().from(userCards)
-          .where(and(eq(userCards.userId, ctx.user.id), eq(userCards.cardId, listing[0].itemId)))
+      // Execute all financial mutations atomically
+      await db.transaction(async (tx) => {
+        // Re-verify listing is still active inside transaction (prevents double-purchase)
+        const fresh = await tx.select().from(marketListings)
+          .where(and(eq(marketListings.id, input.listingId), eq(marketListings.status, "active")))
           .limit(1);
-        if (existing[0]) {
-          await db.update(userCards)
-            .set({ quantity: sql`${userCards.quantity} + ${input.quantity}` })
-            .where(and(eq(userCards.userId, ctx.user.id), eq(userCards.cardId, listing[0].itemId)));
-        } else {
-          await db.insert(userCards).values({
-            userId: ctx.user.id, cardId: listing[0].itemId, quantity: input.quantity, obtainedVia: "marketplace",
-          });
+        if (!fresh[0] || fresh[0].quantity < input.quantity) {
+          throw new Error("Listing no longer available");
         }
-      }
 
-      // Update listing
-      const remainingQty = listing[0].quantity - input.quantity;
-      await db.update(marketListings)
-        .set({
-          quantity: remainingQty,
-          status: remainingQty <= 0 ? "sold" : "active",
-        })
-        .where(eq(marketListings.id, input.listingId));
+        // Deduct buyer's currency
+        if (input.payWith === "dream") {
+          const bal = await tx.select().from(dreamBalance).where(eq(dreamBalance.userId, ctx.user.id)).limit(1);
+          if (!bal[0] || bal[0].dreamTokens < totalPrice) throw new Error("Insufficient Dream tokens");
+          await tx.update(dreamBalance)
+            .set({ dreamTokens: sql`${dreamBalance.dreamTokens} - ${totalPrice}` })
+            .where(eq(dreamBalance.userId, ctx.user.id));
+          // Credit seller
+          const sellerBal = await tx.select().from(dreamBalance).where(eq(dreamBalance.userId, sellerId)).limit(1);
+          if (sellerBal[0]) {
+            await tx.update(dreamBalance)
+              .set({ dreamTokens: sql`${dreamBalance.dreamTokens} + ${sellerReceives}` })
+              .where(eq(dreamBalance.userId, sellerId));
+          } else {
+            await tx.insert(dreamBalance).values({ userId: sellerId, dreamTokens: sellerReceives, soulBoundDream: 0 });
+          }
+        } else {
+          const ps = await tx.select().from(twPlayerState).where(eq(twPlayerState.userId, ctx.user.id)).limit(1);
+          if (!ps[0] || ps[0].credits < totalPrice) throw new Error("Insufficient credits");
+          await tx.update(twPlayerState)
+            .set({ credits: sql`${twPlayerState.credits} - ${totalPrice}` })
+            .where(eq(twPlayerState.userId, ctx.user.id));
+          const sellerPs = await tx.select().from(twPlayerState).where(eq(twPlayerState.userId, sellerId)).limit(1);
+          if (sellerPs[0]) {
+            await tx.update(twPlayerState)
+              .set({ credits: sql`${twPlayerState.credits} + ${sellerReceives}` })
+              .where(eq(twPlayerState.userId, sellerId));
+          }
+        }
 
-      // Record transaction
-      await db.insert(marketTransactions).values({
-        listingId: input.listingId,
-        sellerId: listing[0].sellerId,
-        buyerId: ctx.user.id,
-        itemType: listing[0].itemType,
-        itemId: listing[0].itemId,
-        itemName: listing[0].itemName,
-        quantity: input.quantity,
-        priceDream: input.payWith === "dream" ? unitPrice : 0,
-        priceCredits: input.payWith === "credits" ? unitPrice : 0,
-        taxDream: input.payWith === "dream" ? tax : 0,
-        taxCredits: input.payWith === "credits" ? tax : 0,
+        // Transfer item to buyer
+        if (listing[0].itemType === "card") {
+          const existing = await tx.select().from(userCards)
+            .where(and(eq(userCards.userId, ctx.user.id), eq(userCards.cardId, listing[0].itemId)))
+            .limit(1);
+          if (existing[0]) {
+            await tx.update(userCards)
+              .set({ quantity: sql`${userCards.quantity} + ${input.quantity}` })
+              .where(and(eq(userCards.userId, ctx.user.id), eq(userCards.cardId, listing[0].itemId)));
+          } else {
+            await tx.insert(userCards).values({
+              userId: ctx.user.id, cardId: listing[0].itemId, quantity: input.quantity, obtainedVia: "marketplace",
+            });
+          }
+        }
+
+        // Update listing
+        const remainingQty = listing[0].quantity - input.quantity;
+        await tx.update(marketListings)
+          .set({
+            quantity: remainingQty,
+            status: remainingQty <= 0 ? "sold" : "active",
+          })
+          .where(eq(marketListings.id, input.listingId));
+
+        // Record transaction
+        await tx.insert(marketTransactions).values({
+          listingId: input.listingId,
+          sellerId,
+          buyerId: ctx.user.id,
+          itemType: listing[0].itemType,
+          itemId: listing[0].itemId,
+          itemName: listing[0].itemName,
+          quantity: input.quantity,
+          priceDream: input.payWith === "dream" ? unitPrice : 0,
+          priceCredits: input.payWith === "credits" ? unitPrice : 0,
+          taxDream: input.payWith === "dream" ? tax : 0,
+          taxCredits: input.payWith === "credits" ? tax : 0,
+        });
       });
 
-      // Feed tax into pool and guild treasury
+      // Non-critical operations outside transaction (tax pools, notifications, XP)
       await feedTaxPool(db, input.payWith === "dream" ? tax : 0, input.payWith === "credits" ? tax : 0);
-      await feedGuildTreasury(db, listing[0].sellerId, input.payWith === "dream" ? tax : 0, input.payWith === "credits" ? tax : 0);
+      await feedGuildTreasury(db, sellerId, input.payWith === "dream" ? tax : 0, input.payWith === "credits" ? tax : 0);
 
       // Notify seller
       await db.insert(notifications).values({
@@ -272,16 +285,16 @@ export const marketplaceRouter = router({
 
       // Award class mastery XP for marketplace activity
       const { awardClassXp } = await import("../classMasteryHelper");
-      awardClassXp(ctx.user.id, "market_trade").catch(() => {});
-      awardClassXp(listing[0].sellerId, "market_trade").catch(() => {});
+      awardClassXp(ctx.user.id, "market_trade").catch(e => logger.error("[Marketplace] Class XP award failed:", e));
+      awardClassXp(listing[0].sellerId, "market_trade").catch(e => logger.error("[Marketplace] Class XP award failed:", e));
 
       // Award civil skill XP for marketplace activity (negotiation)
       const { awardCivilXp } = await import("../civilSkillHelper");
-      awardCivilXp(ctx.user.id, "marketplace_buy").catch(() => {});
-       awardCivilXp(listing[0].sellerId, "marketplace_sell").catch(() => {});
+      awardCivilXp(ctx.user.id, "marketplace_buy").catch(e => logger.error("[Marketplace] Civil XP award failed:", e));
+       awardCivilXp(listing[0].sellerId, "marketplace_sell").catch(e => logger.error("[Marketplace] Civil XP award failed:", e));
       // Track marketplace achievements for both buyer and seller
-      trackIncrement(ctx.user.id, "market_purchases", 1).catch(() => {});
-      trackIncrement(listing[0].sellerId, "market_sales", 1).catch(() => {});
+      trackIncrement(ctx.user.id, "market_purchases", 1).catch(e => logger.error("[Marketplace] Purchase tracking failed:", e));
+      trackIncrement(listing[0].sellerId, "market_sales", 1).catch(e => logger.error("[Marketplace] Purchase tracking failed:", e));
       return { success: true, totalPaid: totalPrice, tax, sellerReceives };
     }),
 

@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { logger } from "../logger";
 import { protectedProcedure, publicProcedure, router } from "../_core/trpc";
 import { getDb } from "../db";
 import { guilds, guildMembers, guildChat, guildInvites, guildRecruitment, notifications, users } from "../../drizzle/schema";
@@ -331,7 +332,7 @@ export const guildRouter = router({
 
       // Award civil skill XP for guild donation (negotiation + diplomacy)
       const { awardCivilXp } = await import("../civilSkillHelper");
-      awardCivilXp(ctx.user.id, "guild_donation").catch(() => {});
+      awardCivilXp(ctx.user.id, "guild_donation").catch(e => logger.error("[Guild] Civil XP award failed:", e));
 
       return { success: true, xpGain };
     }),

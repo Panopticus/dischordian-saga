@@ -57,7 +57,7 @@ function StatRing({ value, max, label, icon: Icon, color, size = 80 }: {
           <span className="font-display text-sm font-bold mt-0.5">{value}/{max}</span>
         </div>
       </div>
-      <span className="font-mono text-[9px] text-muted-foreground tracking-wider uppercase">{label}</span>
+      <span className="font-mono text-xs text-muted-foreground tracking-wider uppercase">{label}</span>
     </div>
   );
 }
@@ -71,7 +71,7 @@ function AchievementBadge({ name, earned }: { name: string; earned: boolean }) {
         : "border-zinc-700/20 bg-zinc-900/30 opacity-40"
     }`}>
       <Trophy size={14} className={earned ? "text-amber-400" : "text-zinc-600"} />
-      <span className={`font-mono text-[10px] ${earned ? "text-amber-300" : "text-zinc-600"}`}>
+      <span className={`font-mono text-xs ${earned ? "text-amber-300" : "text-zinc-600"}`}>
         {earned ? name : "???"}
       </span>
     </div>
@@ -116,22 +116,22 @@ function RoomStatusRow({ room, state }: {
         </p>
         <div className="flex items-center gap-3 mt-0.5">
           {visited && (
-            <span className="font-mono text-[9px] text-muted-foreground">
+            <span className="font-mono text-xs text-muted-foreground">
               {visits} visit{visits !== 1 ? "s" : ""}
             </span>
           )}
           {items > 0 && (
-            <span className="font-mono text-[9px] text-accent">
+            <span className="font-mono text-xs text-accent">
               {items}/{totalHotspots} items
             </span>
           )}
           {hasPuzzle && (
-            <span className={`font-mono text-[9px] ${puzzleSolved ? "text-emerald-400" : "text-zinc-500"}`}>
+            <span className={`font-mono text-xs ${puzzleSolved ? "text-emerald-400" : "text-zinc-500"}`}>
               {puzzleSolved ? "PUZZLE ✓" : "PUZZLE"}
             </span>
           )}
           {eggFound && (
-            <span className="font-mono text-[9px] text-purple-400">EGG ✓</span>
+            <span className="font-mono text-xs text-purple-400">EGG ✓</span>
           )}
         </div>
       </div>
@@ -407,21 +407,21 @@ export default function PlayerProfilePage() {
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
             <div className="text-center p-3 rounded-lg bg-zinc-900/40 border border-zinc-700/20">
               <p className="font-display text-2xl font-bold text-foreground">{stats.battlesPlayed}</p>
-              <p className="font-mono text-[9px] text-muted-foreground tracking-wider">BATTLES</p>
+              <p className="font-mono text-xs text-muted-foreground tracking-wider">BATTLES</p>
             </div>
             <div className="text-center p-3 rounded-lg bg-emerald-950/20 border border-emerald-700/20">
               <p className="font-display text-2xl font-bold text-emerald-400">{stats.battlesWon}</p>
-              <p className="font-mono text-[9px] text-emerald-500/70 tracking-wider">VICTORIES</p>
+              <p className="font-mono text-xs text-emerald-500/70 tracking-wider">VICTORIES</p>
             </div>
             <div className="text-center p-3 rounded-lg bg-red-950/20 border border-red-700/20">
               <p className="font-display text-2xl font-bold text-red-400">{stats.battlesPlayed - stats.battlesWon}</p>
-              <p className="font-mono text-[9px] text-red-500/70 tracking-wider">DEFEATS</p>
+              <p className="font-mono text-xs text-red-500/70 tracking-wider">DEFEATS</p>
             </div>
             <div className="text-center p-3 rounded-lg bg-amber-950/20 border border-amber-700/20">
               <p className="font-display text-2xl font-bold text-amber-400">
                 {stats.battlesPlayed > 0 ? Math.round((stats.battlesWon / stats.battlesPlayed) * 100) : 0}%
               </p>
-              <p className="font-mono text-[9px] text-amber-500/70 tracking-wider">WIN RATE</p>
+              <p className="font-mono text-xs text-amber-500/70 tracking-wider">WIN RATE</p>
             </div>
           </div>
         </motion.div>
@@ -509,7 +509,7 @@ export default function PlayerProfilePage() {
         {/* Server Sync Status */}
         {isAuthenticated && serverData && (
           <div className="text-center">
-            <span className="font-mono text-[9px] text-muted-foreground/40">
+            <span className="font-mono text-xs text-muted-foreground/40">
               Last synced: {serverData.savedAt ? new Date(serverData.savedAt).toLocaleString() : "Never"}
             </span>
           </div>

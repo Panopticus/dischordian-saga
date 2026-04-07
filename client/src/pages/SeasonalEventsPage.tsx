@@ -17,7 +17,9 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { SEASONAL_EVENTS, type SeasonalEventDef } from "@shared/seasonalEvents";
 import { useGame } from "@/contexts/GameContext";
-import { Swords, Scale } from "lucide-react";
+import { Swords, Scale, Tv } from "lucide-react";
+import SeasonalReplayOverlay from "@/components/SeasonalReplayOverlay";
+import { generateReplay, getMissedEvents, MEME_REPLAY_TEMPLATES } from "@shared/seasonalReplay";
 
 type Tab = "overview" | "quests" | "milestones" | "shop" | "lore";
 
@@ -867,8 +869,63 @@ function EventRecapSection({
   recapData: any;
   isAuthenticated: boolean;
 }) {
+  const [replayEventKey, setReplayEventKey] = useState<string | null>(null);
+  const [replayChoices, setReplayChoices] = useState<Record<string, string>>({});
+
+  // Determine which events the player missed (have templates for replay)
+  const participatedKeys = endedEvents
+    .filter((ev: any) => ev.participated)
+    .map((ev: any) => ev.eventKey);
+  const allEndedKeys = endedEvents.map((ev: any) => ev.eventKey);
+  const missedKeys = getMissedEvents(allEndedKeys, participatedKeys)
+    .filter(key => MEME_REPLAY_TEMPLATES.some(t => t.eventKey === key));
+
+  const activeReplay = replayEventKey ? generateReplay(replayEventKey, replayChoices) : null;
+  const activeReplayDef = replayEventKey ? SEASONAL_EVENTS.find(e => e.key === replayEventKey) : null;
+
   return (
     <div className="space-y-4">
+      {/* Seasonal Replay Overlay */}
+      {activeReplay && activeReplayDef && replayEventKey && (
+        <SeasonalReplayOverlay
+          narration={activeReplay}
+          eventName={activeReplayDef.name}
+          eventColor={activeReplayDef.color}
+          onChoice={(choiceId, option) => setReplayChoices(prev => ({ ...prev, [choiceId]: option }))}
+          onClose={() => { setReplayEventKey(null); setReplayChoices({}); }}
+          onComplete={() => { setReplayEventKey(null); setReplayChoices({}); }}
+        />
+      )}
+
+      {/* Missed Events — Replay Section */}
+      {missedKeys.length > 0 && (
+        <div className="px-4 sm:px-6 mb-4">
+          <div className="flex items-center gap-2 mb-3">
+            <Tv size={14} className="text-accent" />
+            <span className="font-mono text-[10px] text-accent tracking-[0.3em]">MISSED EVENTS — THE MEME'S RERUNS</span>
+          </div>
+          <div className="grid gap-2">
+            {missedKeys.map(key => {
+              const def = SEASONAL_EVENTS.find(e => e.key === key);
+              return (
+                <button
+                  key={key}
+                  onClick={() => setReplayEventKey(key)}
+                  className="w-full text-left rounded-lg border border-accent/30 bg-accent/5 hover:bg-accent/10 p-3 transition-all flex items-center gap-3"
+                >
+                  <Tv size={16} className="text-accent shrink-0" />
+                  <div className="flex-1 min-w-0">
+                    <p className="font-mono text-xs font-bold">{def?.name || key}</p>
+                    <p className="font-mono text-[10px] text-muted-foreground">Watch The Meme's replay — XP & lore rewards</p>
+                  </div>
+                  <ChevronRight size={14} className="text-accent" />
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
       <div className="flex items-center gap-2">
         <div className="h-px flex-1 max-w-6 bg-gradient-to-r from-transparent to-muted-foreground/30" />
         <span className="font-mono text-[10px] text-muted-foreground/60 tracking-[0.3em]">PAST EVENTS</span>

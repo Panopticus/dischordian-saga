@@ -4,6 +4,7 @@
    quest completions, and chess wins toward their faction's score.
    ═══════════════════════════════════════════════════════ */
 import { z } from "zod";
+import { logger } from "../logger";
 import { eq, and, desc, sql, gte, lte } from "drizzle-orm";
 import { protectedProcedure, router } from "../_core/trpc";
 import { getDb } from "../db";
@@ -166,11 +167,11 @@ export const guildWarsRouter = router({
 
       // Award class mastery XP for guild war contribution
       const { awardClassXp } = await import("../classMasteryHelper");
-      awardClassXp(ctx.user.id, "guild_war_contribute").catch(() => {});
+      awardClassXp(ctx.user.id, "guild_war_contribute").catch(e => logger.error("[GuildWars] Class XP award failed:", e));
 
       // Award civil skill XP (tactics + endurance)
       const { awardCivilXp } = await import("../civilSkillHelper");
-      awardCivilXp(ctx.user.id, "guild_war_contribute").catch(() => {});
+      awardCivilXp(ctx.user.id, "guild_war_contribute").catch(e => logger.error("[GuildWars] Civil XP award failed:", e));
 
       return { success: true, points, faction: guildFaction, traitMultiplier: warTb.warPointMultiplier };
     }),
@@ -394,7 +395,7 @@ export const guildWarsRouter = router({
             title: "Faction War Victory!",
             message: `Your faction ${winnerFaction} won the war! Prize Dream has been distributed to your guild treasury.`,
             actionUrl: "/guild",
-          }).catch(() => {});
+          }).catch(e => logger.error("[GuildWars] Notification send failed:", e));
         }
       }
       return { success: true, winner: winnerFaction, distributed: war[0].prizePoolDream };

@@ -365,7 +365,7 @@ export default function PrestigeQuestPage() {
                           {!isActive && !isCompleted && chain.canStart && (
                             <Button
                               size="sm"
-                              className="text-[10px] h-7 px-4 bg-primary/20 border border-primary/30 text-primary hover:bg-primary/30"
+                              className="text-xs h-9 px-4 bg-primary/20 border border-primary/30 text-primary hover:bg-primary/30"
                               onClick={() => startQuest.mutate({ questChainKey: chain.key })}
                               disabled={startQuest.isPending}
                             >
