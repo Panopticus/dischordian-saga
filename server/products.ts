@@ -241,6 +241,26 @@ export const STORE_PRODUCTS: StoreProduct[] = [
     icon: "shield",
   },
 
+  // ═══ FIRST PURCHASE BUNDLE ═══
+  {
+    key: "first_purchase_starter",
+    name: "Operative's Welcome Bundle",
+    description: "200 Dream + 3 Card Packs + Exclusive Avatar Frame — available first 7 days only!",
+    category: "bundle",
+    priceUsd: 99, // $0.99
+    priceCredits: 0,
+    priceDream: 0,
+    rewards: {
+      dreamTokens: 200,
+      cardPacks: 3,
+      cardPackRarity: "rare",
+      cosmetic: "welcome_operative_frame",
+    },
+    featured: true,
+    sortOrder: 0, // Always show first
+    icon: "gift",
+  },
+
   // ═══ BUNDLES ═══
   {
     key: "starter_bundle",
