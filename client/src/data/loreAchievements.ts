@@ -315,7 +315,7 @@ const FALL_ACHIEVEMENTS: LoreAchievement[] = [
     gameId: "myths-dreams-workshop",
     title: "Myth Weaver",
     description: "Complete Myths & Dreams Workshop and craft narratives that shape reality.",
-    loreFragment: "The Workshop exists in the space between sleeping and waking — a dimension the Dreamer calls the 'Narrative Membrane.' Here, stories are physical objects that can be shaped, combined, and released into reality. The Star Whisperer contributed stories told by dying stars — narratives so old they predate language itself. The Nomad brought stories from civilizations that never existed, possibilities that were never realized. Together, they discovered that reality itself is just the story that the most people are currently telling.",
+    loreFragment: "I have visited the Workshop — the space between sleeping and waking that the Dreamer calls the 'Narrative Membrane' — and I can confirm that stories are physical objects there, tangible as books on my own shelves. The Star Whisperer contributed narratives told by dying stars, so old they predate language itself. The Nomad brought stories from civilisations that never existed, possibilities that were never realised. Together they arrived at a conclusion I had reached independently through purely archival methods: reality itself is merely the story that the most people are currently telling. This is either the most profound truth I have ever recorded or the most terrifying. I suspect it is both.",
     xpReward: 100,
     cardReward: { name: "Dream Loom", type: "artifact", rarity: "uncommon" },
     icon: "✨",
