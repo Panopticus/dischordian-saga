@@ -21,7 +21,7 @@ import {
   Type, Zap, ChevronDown, ChevronUp, User, LogOut, LogIn,
   Download, Cloud, CloudOff, Shield, Eye, EyeOff, Sparkles,
   Gauge, HelpCircle, SkipForward, MessageCircle, ExternalLink, Users,
-  Gift, Ticket
+  Gift, Ticket, Trash2
 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -193,6 +193,72 @@ function OptionSelector<T extends string>({ label, options, value, onChange }: {
         })}
       </div>
     </div>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════
+   GDPR DATA EXPORT SECTION — GDPR Article 20
+   ═══════════════════════════════════════════════════════ */
+function GdprExportSection() {
+  const exportData = trpc.gdpr.exportMyData.useMutation({
+    onSuccess: (data) => {
+      const json = JSON.stringify(data, null, 2);
+      const blob = new Blob([json], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `loredex-gdpr-export-${new Date().toISOString().slice(0, 10)}.json`;
+      a.click();
+      URL.revokeObjectURL(url);
+      toast.success("GDPR data exported");
+    },
+    onError: (e) => toast.error(e.message),
+  });
+
+  const requestDeletion = trpc.gdpr.requestDeletion.useMutation({
+    onSuccess: (data) => toast.success(data.message),
+    onError: (e) => toast.error(e.message),
+  });
+
+  return (
+    <>
+      <div className="flex items-center justify-between py-2 border-t border-border/40">
+        <div className="flex items-center gap-2.5">
+          <Shield size={14} className="text-muted-foreground/60" />
+          <div>
+            <p className="font-mono text-[11px] text-muted-foreground/90">GDPR Data Export</p>
+            <p className="font-mono text-[9px] text-muted-foreground/50">Download all personal data (Art. 20)</p>
+          </div>
+        </div>
+        <button
+          onClick={() => exportData.mutate()}
+          disabled={exportData.isPending}
+          className="px-3 py-1.5 rounded-md border border-border/60 text-muted-foreground/70 font-mono text-[10px] hover:bg-muted/50 transition-colors shrink-0 disabled:opacity-30"
+        >
+          {exportData.isPending ? "EXPORTING..." : "DOWNLOAD"}
+        </button>
+      </div>
+      <div className="flex items-center justify-between py-2 border-t border-border/40">
+        <div className="flex items-center gap-2.5">
+          <Trash2 size={14} className="text-destructive/60" />
+          <div>
+            <p className="font-mono text-[11px] text-muted-foreground/90">Delete Account</p>
+            <p className="font-mono text-[9px] text-muted-foreground/50">Request erasure of all data (Art. 17)</p>
+          </div>
+        </div>
+        <button
+          onClick={() => {
+            if (confirm("Are you sure? This will permanently delete all your data within 30 days.")) {
+              requestDeletion.mutate();
+            }
+          }}
+          disabled={requestDeletion.isPending}
+          className="px-3 py-1.5 rounded-md border border-destructive/30 text-destructive/70 font-mono text-[10px] hover:bg-destructive/10 transition-colors shrink-0 disabled:opacity-30"
+        >
+          {requestDeletion.isPending ? "REQUESTING..." : "DELETE"}
+        </button>
+      </div>
+    </>
   );
 }
 
@@ -708,6 +774,9 @@ export default function SettingsPage() {
               {exporting ? "EXPORTING..." : "EXPORT"}
             </button>
           </div>
+
+          {/* GDPR Data Export */}
+          {isAuthenticated && <GdprExportSection />}
         </SettingsSection>
 
         {/* ═══ PROMO CODES ═══ */}

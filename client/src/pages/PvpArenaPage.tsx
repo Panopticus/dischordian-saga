@@ -13,6 +13,7 @@ import { trpc } from "@/lib/trpc";
 import { getLoginUrl } from "@/const";
 import { generateStarterDeck, type StarterCard } from "@/components/StarterDeckViewer";
 import GameCard from "@/components/GameCard";
+import { createReconnectingSocket, wsUrl, type ReconnectingSocket } from "@/lib/wsReconnect";
 import { AmbientParticles } from "@/components/BattleVFX";
 import type { PvpBattleState, PvpCard, PvpAction, DeckCard } from "@shared/pvpBattle";
 import {
@@ -69,7 +70,7 @@ export default function PvpArenaPage() {
 
   const [phase, setPhase] = useState<Phase>("lobby");
   const [lobbyTab, setLobbyTab] = useState<LobbyTab>("overview");
-  const [ws, setWs] = useState<WebSocket | null>(null);
+  const [ws, setWs] = useState<ReconnectingSocket | null>(null);
   const [battleState, setBattleState] = useState<PvpBattleState | null>(null);
   const [mySide, setMySide] = useState<"player1" | "player2">("player1");
   const [opponentName, setOpponentName] = useState("");
@@ -192,9 +193,7 @@ export default function PvpArenaPage() {
   // WebSocket connection
   const connectWs = useCallback((mode: "play" | "spectate" = "play", matchId?: string) => {
     if (!user && mode === "play") return;
-    const protocol = window.location.protocol === "https:" ? "wss:" : "ws:";
-    const wsUrl = `${protocol}//${window.location.host}/api/pvp`;
-    const socket = new WebSocket(wsUrl);
+    const socket = createReconnectingSocket(wsUrl("/api/pvp"));
 
     socket.onopen = () => {
       console.log("[PvP] WebSocket connected");

@@ -3,6 +3,7 @@
    Connects to /api/terminus-pvp for matchmaking and combat.
    ═══════════════════════════════════════════════════════ */
 import { useState, useCallback, useRef, useEffect } from "react";
+import { createReconnectingSocket, wsUrl, type ReconnectingSocket } from "@/lib/wsReconnect";
 
 type PvPPhase = "idle" | "searching" | "base_found" | "attacking" | "results";
 
@@ -32,12 +33,11 @@ export function useTerminusPvP(userId: number, userName: string, trophies: numbe
   const [raidResult, setRaidResult] = useState<RaidResult | null>(null);
   const [raidId, setRaidId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const wsRef = useRef<WebSocket | null>(null);
+  const wsRef = useRef<ReconnectingSocket | null>(null);
   const startTimeRef = useRef(0);
 
   const connect = useCallback(() => {
-    const protocol = window.location.protocol === "https:" ? "wss:" : "ws:";
-    const ws = new WebSocket(`${protocol}//${window.location.host}/api/terminus-pvp`);
+    const ws = createReconnectingSocket(wsUrl("/api/terminus-pvp"));
     wsRef.current = ws;
 
     ws.onopen = () => {

@@ -12,6 +12,10 @@ import { setupChessPvpWebSocket } from "../chessWs";
 import { registerSpriteProxy } from "../spriteProxy";
 import { registerChessMultiplayer } from "../chessMultiplayer";
 import { ENV } from "./env";
+import { securityHeaders } from "../middleware/securityHeaders";
+import { initErrorReporter, requestContext, errorHandler } from "../middleware/errorReporter";
+import { createRateLimitStore } from "../middleware/redisRateLimit";
+import { startBackupScheduler } from "../middleware/dbBackup";
 
 function isPortAvailable(port: number): Promise<boolean> {
   return new Promise(resolve => {
@@ -33,11 +37,20 @@ async function findAvailablePort(startPort: number = 3000): Promise<number> {
 }
 
 async function startServer() {
+  // Initialize error reporting (Sentry if SENTRY_DSN is set, else console)
+  await initErrorReporter();
+
   const app = express();
   const server = createServer(app);
 
   // Trust Railway/Render reverse proxy — required for req.protocol to be "https"
   app.set("trust proxy", 1);
+
+  // Security headers (CSP, X-Frame-Options, etc.)
+  app.use(securityHeaders);
+
+  // Error reporter request context
+  app.use(requestContext());
 
   // Stripe webhook MUST be registered BEFORE express.json() for signature verification
   app.post("/api/stripe/webhook", express.raw({ type: "application/json" }), async (req, res) => {
@@ -111,14 +124,17 @@ async function startServer() {
   app.use(express.json({ limit: "50mb" }));
   app.use(express.urlencoded({ limit: "50mb", extended: true }));
 
-  // Rate limiting
+  // Rate limiting (Redis-backed if REDIS_URL is set, otherwise in-memory)
   const { default: rateLimit } = await import("express-rate-limit");
+  const generalStore = await createRateLimitStore(60_000);
+  const llmStore = await createRateLimitStore(60_000);
   const generalLimiter = rateLimit({
     windowMs: 60 * 1000,
     max: 120,
     standardHeaders: true,
     legacyHeaders: false,
     message: { error: "Too many requests, please try again later" },
+    ...(generalStore ? { store: generalStore } : {}),
   });
   const llmLimiter = rateLimit({
     windowMs: 60 * 1000,
@@ -126,6 +142,7 @@ async function startServer() {
     standardHeaders: true,
     legacyHeaders: false,
     message: { error: "LLM rate limit exceeded, please wait" },
+    ...(llmStore ? { store: llmStore } : {}),
   });
   app.use("/api/trpc", generalLimiter);
   app.use("/api/trpc/elara", llmLimiter);
@@ -176,6 +193,12 @@ async function startServer() {
   // Duelyst card game multiplayer WebSocket
   const { setupDuelystWebSocket } = await import("../duelystWs");
   setupDuelystWebSocket(server);
+
+  // Error handler (must be registered last — catches unhandled Express errors)
+  app.use(errorHandler());
+
+  // Start automated database backup scheduler
+  startBackupScheduler();
 
   server.listen(port, () => {
     console.log(`Server running on http://localhost:${port}/`);

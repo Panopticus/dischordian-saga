@@ -26,6 +26,7 @@ import { useStockfish } from "@/hooks/useStockfish";
 import { AI_PRESETS } from "@/lib/stockfishWorker";
 import ChessCinematic from "@/components/ChessCinematic";
 import LivingBackground from "@/components/LivingBackground";
+import { createReconnectingSocket, wsUrl, type ReconnectingSocket } from "@/lib/wsReconnect";
 
 /* ─── TIER CONFIG ─── */
 const TIER_CONFIG: Record<string, { color: string; bg: string; border: string; label: string; icon: string; glow?: string }> = {
@@ -110,14 +111,14 @@ export default function ChessPage() {
   const [mpLastMove, setMpLastMove] = useState<{ from: string; to: string } | null>(null);
   const [mpGameOver, setMpGameOver] = useState<{ winner: "white" | "black" | "draw"; reason: string; eloChange: number; newElo: number } | null>(null);
   const [mpDrawOffered, setMpDrawOffered] = useState(false);
-  const mpWsRef = useRef<WebSocket | null>(null);
+  const mpWsRef = useRef<ReconnectingSocket | null>(null);
   const mpSearchTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const mpChessRef = useRef(new Chess());
 
   // Clean up multiplayer WS on unmount
   useEffect(() => {
     return () => {
-      if (mpWsRef.current && mpWsRef.current.readyState === WebSocket.OPEN) {
+      if (mpWsRef.current && mpWsRef.current.connected) {
         mpWsRef.current.send(JSON.stringify({ type: "LEAVE_QUEUE" }));
         mpWsRef.current.close();
       }
@@ -135,8 +136,7 @@ export default function ChessPage() {
   const handleFindMatch = useCallback(() => {
     if (!user || !isAuthenticated) return;
 
-    const protocol = window.location.protocol === "https:" ? "wss:" : "ws:";
-    const ws = new WebSocket(`${protocol}//${window.location.host}/api/chess-pvp`);
+    const ws = createReconnectingSocket(wsUrl("/api/chess-pvp"));
     mpWsRef.current = ws;
     setMpState("searching");
     setMpSearchElapsed(0);
@@ -220,7 +220,7 @@ export default function ChessPage() {
   }, [user, isAuthenticated, selectedCharacter]);
 
   const handleCancelSearch = useCallback(() => {
-    if (mpWsRef.current && mpWsRef.current.readyState === WebSocket.OPEN) {
+    if (mpWsRef.current && mpWsRef.current.connected) {
       mpWsRef.current.send(JSON.stringify({ type: "LEAVE_QUEUE" }));
       mpWsRef.current.close();
     }
@@ -232,7 +232,7 @@ export default function ChessPage() {
   }, []);
 
   const handleMpMove = useCallback((from: string, to: string) => {
-    if (!mpWsRef.current || mpWsRef.current.readyState !== WebSocket.OPEN) return false;
+    if (!mpWsRef.current || !mpWsRef.current.connected) return false;
     if (!mpOpponent) return false;
 
     // Check if it's our turn
@@ -253,29 +253,29 @@ export default function ChessPage() {
   }, [mpOpponent, mpTurn, mpFen]);
 
   const handleMpResign = useCallback(() => {
-    if (!mpWsRef.current || mpWsRef.current.readyState !== WebSocket.OPEN) return;
+    if (!mpWsRef.current || !mpWsRef.current.connected) return;
     mpWsRef.current.send(JSON.stringify({ type: "RESIGN" }));
   }, []);
 
   const handleMpOfferDraw = useCallback(() => {
-    if (!mpWsRef.current || mpWsRef.current.readyState !== WebSocket.OPEN) return;
+    if (!mpWsRef.current || !mpWsRef.current.connected) return;
     mpWsRef.current.send(JSON.stringify({ type: "OFFER_DRAW" }));
   }, []);
 
   const handleMpAcceptDraw = useCallback(() => {
-    if (!mpWsRef.current || mpWsRef.current.readyState !== WebSocket.OPEN) return;
+    if (!mpWsRef.current || !mpWsRef.current.connected) return;
     mpWsRef.current.send(JSON.stringify({ type: "ACCEPT_DRAW" }));
     setMpDrawOffered(false);
   }, []);
 
   const handleMpDeclineDraw = useCallback(() => {
-    if (!mpWsRef.current || mpWsRef.current.readyState !== WebSocket.OPEN) return;
+    if (!mpWsRef.current || !mpWsRef.current.connected) return;
     mpWsRef.current.send(JSON.stringify({ type: "DECLINE_DRAW" }));
     setMpDrawOffered(false);
   }, []);
 
   const handleMpBackToMenu = useCallback(() => {
-    if (mpWsRef.current && mpWsRef.current.readyState === WebSocket.OPEN) {
+    if (mpWsRef.current && mpWsRef.current.connected) {
       mpWsRef.current.close();
     }
     mpWsRef.current = null;

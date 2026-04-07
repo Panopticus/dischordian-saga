@@ -1,6 +1,7 @@
 import { trpc } from "@/lib/trpc";
 import { useAuth } from "@/_core/hooks/useAuth";
 import { useState, useEffect, useRef, useCallback } from "react";
+import { createReconnectingSocket, wsUrl, type ReconnectingSocket } from "@/lib/wsReconnect";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "wouter";
 import {
@@ -64,11 +65,10 @@ function PvpSpectatorView({ matchId, onBack }: { matchId: string; onBack: () => 
   const [state, setState] = useState<any>(null);
   const [matchInfo, setMatchInfo] = useState<{ player1Name: string; player2Name: string; player1Elo: number; player2Elo: number } | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const wsRef = useRef<WebSocket | null>(null);
+  const wsRef = useRef<ReconnectingSocket | null>(null);
 
   useEffect(() => {
-    const protocol = window.location.protocol === "https:" ? "wss:" : "ws:";
-    const ws = new WebSocket(`${protocol}//${window.location.host}/api/pvp`);
+    const ws = createReconnectingSocket(wsUrl("/api/pvp"));
     wsRef.current = ws;
 
     ws.onopen = () => {
@@ -97,9 +97,7 @@ function PvpSpectatorView({ matchId, onBack }: { matchId: string; onBack: () => 
     ws.onclose = () => {};
 
     return () => {
-      if (ws.readyState === WebSocket.OPEN) {
-        ws.send(JSON.stringify({ type: "STOP_SPECTATING" }));
-      }
+      ws.send(JSON.stringify({ type: "STOP_SPECTATING" }));
       ws.close();
     };
   }, [matchId]);
@@ -316,7 +314,7 @@ export default function SpectatorPage() {
   const [watchingPvp, setWatchingPvp] = useState<string | null>(null);
   const [pvpMatches, setPvpMatches] = useState<PvpActiveMatch[]>([]);
   const [pvpLoading, setPvpLoading] = useState(false);
-  const wsRef = useRef<WebSocket | null>(null);
+  const wsRef = useRef<ReconnectingSocket | null>(null);
 
   // Chess data
   const { data: activeChessGames, isLoading: chessLoading, refetch: refetchChess } = trpc.chess.getActiveGames.useQuery(undefined, {
@@ -331,8 +329,7 @@ export default function SpectatorPage() {
   const fetchPvpMatches = useCallback(() => {
     if (tab !== "pvp" || watchingPvp !== null) return;
     setPvpLoading(true);
-    const protocol = window.location.protocol === "https:" ? "wss:" : "ws:";
-    const ws = new WebSocket(`${protocol}//${window.location.host}/api/pvp`);
+    const ws = createReconnectingSocket(wsUrl("/api/pvp"));
     wsRef.current = ws;
 
     ws.onopen = () => {

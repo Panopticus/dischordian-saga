@@ -227,6 +227,20 @@ export const adminRouter = router({
       recentSignups = Number(result?.count ?? 0);
     }
 
+    // Backup status
+    let backupStatus = { enabled: false, lastBackupTime: null as string | null, lastBackupStatus: "never" as string };
+    try {
+      const { getBackupStatus } = await import("../middleware/dbBackup");
+      backupStatus = getBackupStatus();
+    } catch { /* backup module not loaded */ }
+
+    // Error reporter status
+    let sentryActive = false;
+    try {
+      const { isReporterActive } = await import("../middleware/errorReporter");
+      sentryActive = isReporterActive();
+    } catch { /* reporter module not loaded */ }
+
     return {
       uptime: Math.floor(uptime),
       memoryMB: Math.round(mem.heapUsed / 1024 / 1024),
@@ -242,7 +256,12 @@ export const adminRouter = router({
         googleOAuth: !!process.env.GOOGLE_CLIENT_ID,
         analytics: !!process.env.VITE_ANALYTICS_ENDPOINT,
         openai: !!process.env.OPENAI_API_KEY,
+        redis: !!process.env.REDIS_URL,
+        sentry: !!process.env.SENTRY_DSN,
+        dbBackups: backupStatus.enabled,
       },
+      sentryActive,
+      backupStatus,
     };
   }),
 });

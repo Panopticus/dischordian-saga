@@ -67,6 +67,7 @@ import { guildHallRouter } from "./routers/guildHall";
 import { tradeEmpireRouter } from "./routers/tradeEmpire";
 import { petBattlesRouter } from "./routers/petBattles";
 import { seedDataRouter } from "./routers/seedData";
+import { gdprExportRouter } from "./routers/gdprExport";
 
 export const appRouter = router({
   system: systemRouter,
@@ -130,6 +131,7 @@ export const appRouter = router({
   tradeEmpire: tradeEmpireRouter,
   petBattles: petBattlesRouter,
   seedData: seedDataRouter,
+  gdpr: gdprExportRouter,
   auth: router({
     me: publicProcedure.query(opts => opts.ctx.user),
     logout: publicProcedure.mutation(({ ctx }) => {

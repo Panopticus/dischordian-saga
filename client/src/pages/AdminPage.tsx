@@ -1244,12 +1244,14 @@ function SystemTab() {
 
   const securityChecklist = [
     { label: "HTTPS / Secure Cookies", ok: health.env === "production", hint: "Ensure HTTPS in production" },
+    { label: "CSP Headers", ok: true, hint: "Content-Security-Policy + X-Frame-Options + HSTS" },
     { label: "CSRF Protection", ok: true, hint: "Custom CSRF middleware active" },
     { label: "Rate Limiting", ok: true, hint: "express-rate-limit + WS rate limiting" },
+    { label: "Redis Rate Limit Store", ok: health.featureFlags.redis, hint: health.featureFlags.redis ? "Redis-backed (horizontal scaling)" : "In-memory (set REDIS_URL)" },
     { label: "Google OAuth", ok: health.featureFlags.googleOAuth, hint: "GOOGLE_CLIENT_ID configured" },
     { label: "Stripe Payments", ok: health.featureFlags.stripe, hint: "STRIPE_SECRET_KEY configured" },
-    { label: "CSP Headers", ok: false, hint: "Consider adding Content-Security-Policy headers" },
-    { label: "Error Monitoring (Sentry)", ok: false, hint: "No error reporting service configured" },
+    { label: "Error Monitoring (Sentry)", ok: health.sentryActive, hint: health.sentryActive ? "Sentry connected" : "Set SENTRY_DSN to enable" },
+    { label: "Automated DB Backups", ok: health.backupStatus.enabled, hint: health.backupStatus.enabled ? `Last: ${health.backupStatus.lastBackupStatus}` : "Set DB_BACKUP_ENABLED=true" },
   ];
 
   return (
@@ -1354,12 +1356,12 @@ function SystemTab() {
             { label: "Global Keyboard Shortcuts", status: "active" },
             { label: "Unsaved Changes Warning", status: "active" },
             { label: "Error Boundaries", status: "active" },
-            { label: "CSP Headers", status: "todo" },
-            { label: "Sentry Error Reporting", status: "todo" },
-            { label: "Redis Rate Limit Store", status: "todo" },
-            { label: "Automated DB Backups", status: "todo" },
-            { label: "WebSocket Reconnection", status: "todo" },
-            { label: "GDPR Data Export API", status: "todo" },
+            { label: "CSP Security Headers", status: "active" },
+            { label: "Sentry Error Reporting", status: "active" },
+            { label: "Redis Rate Limit Store", status: "active" },
+            { label: "Automated DB Backups", status: "active" },
+            { label: "WebSocket Reconnection", status: "active" },
+            { label: "GDPR Data Export API", status: "active" },
           ].map(item => (
             <div key={item.label} className="flex items-center gap-2 p-2 rounded-md bg-secondary/10">
               {item.status === "active" ? (
