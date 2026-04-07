@@ -166,6 +166,7 @@ const TermsPage = lazy(() => import("./pages/TermsPage"));
 const PrivacyPage = lazy(() => import("./pages/PrivacyPage"));
 const PlanetGalleryPage = lazy(() => import("./pages/PlanetGalleryPage"));
 const GovernanceHubPage = lazy(() => import("./pages/GovernanceHubPage"));
+const SoulStonesPage = lazy(() => import("./features/soulStones/SoulStonesPage"));
 
 /* ═══ LOADING FALLBACK ═══ */
 function PageLoader() {
@@ -305,6 +306,7 @@ function Router() {
         <Route path="/privacy" component={PrivacyPage} />
         <Route path="/planets" component={PlanetGalleryPage} />
         <Route path="/governance" component={GovernanceHubPage} />
+        <Route path="/soul-stones">{() => <GameRoute component={SoulStonesPage} />}</Route>
         <Route path="/404" component={NotFound} />
         <Route component={NotFound} />
       </Switch>
