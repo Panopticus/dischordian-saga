@@ -35,7 +35,7 @@ const PLANETS: Planet[] = [
   },
   {
     id: "degens-casino", name: "The Degen's Casino", image: "/art/planets/planet-degens-casino.png", color: "#f59e0b",
-    description: "A lavish casino station floating in Ne-Yon space — the only open zone. Neon signs in impossible languages, crystal chandeliers made of lightning. The Degen runs the games. Souls are the favorite currency.",
+    description: "A lavish casino station on the edge of the Shield — the only open zone in Ne-Yon space. Neon signs in impossible languages, crystal chandeliers made of lightning. The Degen — the only Ne-Yon in the known universe — runs the games. Souls are the favorite currency.",
     faction: "The Degen",
   },
   // Placeholder entries for planets not yet uploaded

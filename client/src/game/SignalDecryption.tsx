@@ -26,6 +26,53 @@ const WORD_LIST = [
   "PULSE", "DRIFT", "SIEGE", "ROYAL",
 ];
 
+/* ═══ EPOCH-THEMED WORD LISTS ═══ */
+const EPOCH_WORD_LISTS: Record<string, string[]> = {
+  "age-of-privacy": [
+    "WATCH", "GLASS", "SIGHT", "CODED", "BLIND",
+    "HIDEN", "SPIED", "DRONE", "TRACK", "CRYPT",
+  ],
+  "age-of-prophecy": [
+    "DREAM", "ORCLE", "SIGNS", "STARS", "FATED",
+    "PSALM", "TRUTH", "SEERS", "VISIO", "AUGUR",
+  ],
+  "age-of-insurgency": [
+    "REBEL", "FIGHT", "SWORD", "LIONS", "KAEL_",
+    "FREED", "MARCH", "UNITY", "STORM", "BRAVE",
+  ],
+  "age-of-revelation": [
+    "TRUTH", "LIGHT", "BREAK", "MASKS", "JUDGE",
+    "DEMON", "VEIL_", "KNOWN", "FOUND", "SHOWN",
+  ],
+  "fall-of-reality": [
+    "CHAOS", "CRACK", "VOID_", "FALLS", "ENDED",
+    "BROKE", "RIFT_", "TORN_", "DOOM_", "FINAL",
+  ],
+};
+
+/** Return the active epoch ID based on the day of the week. */
+function getDailyEpochTheme(): string {
+  const dayOfWeek = new Date().getDay(); // 0=Sun ... 6=Sat
+  const epochsByDay: Record<number, string> = {
+    1: "age-of-privacy",
+    2: "age-of-prophecy",
+    3: "age-of-insurgency",
+    4: "age-of-revelation",
+    5: "fall-of-reality",
+  };
+  if (epochsByDay[dayOfWeek]) return epochsByDay[dayOfWeek];
+  // Weekend: pick a random epoch seeded by the date so it's stable for the day
+  const dayIndex = Math.floor(Date.now() / 86400000);
+  const epochKeys = Object.keys(EPOCH_WORD_LISTS);
+  return epochKeys[dayIndex % epochKeys.length];
+}
+
+/** Return the epoch-themed word list for today, falling back to the default list. */
+function getDailyWordList(): string[] {
+  const epoch = getDailyEpochTheme();
+  return EPOCH_WORD_LISTS[epoch] ?? WORD_LIST;
+}
+
 type LetterState = "correct" | "present" | "absent" | "empty";
 
 interface CellData {

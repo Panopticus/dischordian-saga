@@ -143,7 +143,7 @@ export const FIGHTER_LORE: Record<string, {
     arenaRole: "Heavy Hitter \u2014 The Commander",
   },
   necromancer: {
-    backstory: "The eleventh Archon, a dark elven magician who discovered the secrets of raising dead code. Clad in red and black robes with steampunk glasses, the Necromancer commands armies of digital undead from his lair.",
+    backstory: "The tenth Archon, a dark elven magician who discovered the secrets of raising dead code. Clad in red and black robes with steampunk glasses, the Necromancer commands armies of digital undead from his lair.",
     powers: ["Raise Dead Code", "Necrotic Corruption", "Undead Constructs", "Soul Binding"],
     quote: "Death is merely a state change. And I am the one who reverses it.",
     arenaRole: "Summoner \u2014 The Dead Code Master",
@@ -334,8 +334,8 @@ export const FIGHTER_LORE: Record<string, {
     quote: "You are an asset to be acquired. Resistance lowers your valuation.",
     arenaRole: "Absorber \u2014 The Harvester",
   },
-  nykoth: {
-    backstory: "SVP R&D \u2014 The Flayer. Ny'Koth experiments on captured souls, peeling away layers of consciousness to understand and weaponize the essence within.",
+  zyrkoth: {
+    backstory: "SVP R&D \u2014 The Flayer. Zyr'Koth experiments on captured souls, peeling away layers of consciousness to understand and weaponize the essence within.",
     powers: ["Flay Mind", "Experiment", "Pain Research", "Consciousness Strip"],
     quote: "Hold still. This is for science.",
     arenaRole: "Torturer \u2014 The Flayer",

@@ -1530,7 +1530,7 @@ export const CHARACTER_SPECIALS: Record<string, CharacterSpecials> = {
     },
   },
 
-  "nykoth": {
+  "zyrkoth": {
     sp1: {
       name: "SCALPEL SLASH",
       type: "rush",

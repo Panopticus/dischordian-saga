@@ -49,7 +49,7 @@ TEXT: "A. The Game Master was the tenth Archon created by the Architect in Year 
 TEXT: "A brilliant Black weapons engineer and inventor. "
 
 [15] ID: entity_20 NAME: The Necromancer
-TEXT: "A. The Necromancer was the eleventh Archon created by the Architect in Year 600 A.A., a dark elven magician with white spiky hair, clad in a red and black robe and red steampunk glasses. He discovered..."
+TEXT: "A. The Necromancer was the tenth Archon created by the Architect in Year 600 A.A., a dark elven magician with white spiky hair, clad in a red and black robe and red steampunk glasses. He discovered..."
 
 [16] ID: entity_21 NAME: The Human
 TEXT: "After graduating from Mechronis Academy, he served for centuries as the Architect's most trusted agent, solving the universe's greatest mysteries before being promoted to Archon 1,351 years before the..."
@@ -204,8 +204,8 @@ TEXT: "COO and Chief Operating Officer of the Hierarchy. Vex'Ahlia is the engine
 [66] ID: entity_94 NAME: Drael'Mon the Harvester
 TEXT: "SVP of Acquisitions. Drael'Mon is the Hierarchy's conqueror. When a new dimension is targeted for absorption, Drael'Mon is the first to arrive. He plants his tendrils into the fabric of reality itself, feeding on the dimension's fundamental forces until it collapses into the Abyss. A massive centaur-like entity whose lower body is a crawling mass of tendrils, his upper body covered in mouths whispering in the languages of consumed worlds. He wears a crown of collapsed stars."
 
-[67] ID: entity_95 NAME: Ny'Koth the Flayer
-TEXT: "SVP of Research & Development. Ny'Koth is the Hierarchy's scientist, philosopher, and torturer. He studies the fundamental structure of reality not to understand it but to find its weaknesses. His research division produced the Severance Protocol (the refined Blood Weave) and the Thought Virus Template. A skeletal figure in a lab coat of flayed dimensional membranes, his transparent skull reveals a brain that is a miniature universe where he conducts experiments."
+[67] ID: entity_95 NAME: Zyr'Koth the Flayer
+TEXT: "SVP of Research & Development. Zyr'Koth is the Hierarchy's scientist, philosopher, and torturer. He studies the fundamental structure of reality not to understand it but to find its weaknesses. His research division produced the Severance Protocol (the refined Blood Weave) and the Thought Virus Template. A skeletal figure in a lab coat of flayed dimensional membranes, his transparent skull reveals a brain that is a miniature universe where he conducts experiments."
 
 [68] ID: entity_96 NAME: Syl'Vex the Corruptor
 TEXT: "SVP of Human Resources. The most human-looking of the demon lords, Syl'Vex appears as a stunningly beautiful androgynous figure in a perfectly tailored business suit. They are the Hierarchy's recruiter — responsible for converting mortal souls into demonic servants. Syl'Vex does not use force or fear — they use understanding. They find what you want, what you need, what you're afraid of, and they offer you exactly what you desire. The price is always your soul, but Syl'Vex makes the transaction ..." [TRUNCATED — 517 chars total]

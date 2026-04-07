@@ -107,6 +107,67 @@ const CONSTELLATIONS: Constellation[] = [
   },
 ];
 
+/* ═══ EPOCH CONSTELLATION THEMES ═══ */
+interface EpochConstellationTheme {
+  epochName: string;
+  loreOverlay: string;
+}
+
+const EPOCH_CONSTELLATION_THEMES: Record<string, EpochConstellationTheme> = {
+  "age-of-privacy": {
+    epochName: "Age of Privacy",
+    loreOverlay:
+      "During the Surveillance Era, these constellations were used by The Eyes " +
+      "for covert navigation — each star a hidden relay in their panoptic network.",
+  },
+  "age-of-prophecy": {
+    epochName: "Age of Prophecy",
+    loreOverlay:
+      "The Seer mapped these stars to predict the Fall. Every alignment was a " +
+      "verse in a prophecy written across the heavens themselves.",
+  },
+  "age-of-insurgency": {
+    epochName: "Age of Insurgency",
+    loreOverlay:
+      "Rebels used these star patterns as coded meeting coordinates, turning " +
+      "the night sky into a battlefield map only the resistance could read.",
+  },
+  "age-of-revelation": {
+    epochName: "Age of Revelation",
+    loreOverlay:
+      "When the Revelation came, the true meaning of each constellation was " +
+      "exposed — names changed, histories rewritten in starlight.",
+  },
+  "fall-of-reality": {
+    epochName: "Fall of Reality",
+    loreOverlay:
+      "The constellations shifted when reality broke. Stars drifted from their " +
+      "ancient positions, tracing new shapes no chart had ever recorded.",
+  },
+};
+
+/** Return today's constellation theme overlay based on day of the week. */
+function getDailyConstellationTheme(): EpochConstellationTheme {
+  const dayOfWeek = new Date().getDay(); // 0=Sun ... 6=Sat
+  const epochsByDay: Record<number, string> = {
+    1: "age-of-privacy",
+    2: "age-of-prophecy",
+    3: "age-of-insurgency",
+    4: "age-of-revelation",
+    5: "fall-of-reality",
+  };
+  let epochId: string;
+  if (epochsByDay[dayOfWeek]) {
+    epochId = epochsByDay[dayOfWeek];
+  } else {
+    // Weekend: pick a random epoch seeded by the date so it's stable for the day
+    const dayIndex = Math.floor(Date.now() / 86400000);
+    const epochKeys = Object.keys(EPOCH_CONSTELLATION_THEMES);
+    epochId = epochKeys[dayIndex % epochKeys.length];
+  }
+  return EPOCH_CONSTELLATION_THEMES[epochId];
+}
+
 /** Constellation reference art (shown on completion) */
 const CONSTELLATION_ART: Record<string, string> = {
   "The Architect's Eye": "/art/constellations/constellation-architects-eye.png",

@@ -626,7 +626,7 @@ The Dischordian Saga is set in a universe where reality itself has fractured. Th
 - **Mol'Garath the Bound** — CEO. The First Fallen. Chained to the Abyss.
 - **Xal'Theron the Deceiver** — COO. The Silver Tongue. Master of contracts.
 - **Drael'Mon the Harvester** — SVP of Acquisitions. The World Eater.
-- **Ny'Koth the Flayer** — SVP of R&D. The Scientist of the Damned.
+- **Zyr'Koth the Flayer** — SVP of R&D. The Scientist of the Damned.
 - **Syl'Vex the Corruptor** — SVP of Human Resources. The Beautiful Lie.
 - **Ith'Rael the Whisperer** — Director of Special Projects. The Spymaster.
 

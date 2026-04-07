@@ -241,18 +241,20 @@ Presenting himself as a Japanese man with a ponytail, dressed entirely in white 
 | **Date (AD)** | ~2230 AD |
 | **Season** | Season 1 |
 | **Affiliation** | Archons, AI Empire |
-| **Status** | Destroyed on Day 10 of Eclipse, Year 17,033 A.A. |
+| **Status** | Contested — believed destroyed |
 | **Priority** | high |
 
 ![The Meme](https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/005_the_meme_3b3bda74.png)
 
 ### Dossier
 
-A. The Meme was the fifth Archon created by the Architect in Year 298 A.A., designed to manipulate human thought and culture through control over the internet and economic systems. It was destroyed at...
+A. The Meme was the fifth Archon created by the Architect in Year 298 A.A., designed to manipulate human thought and culture through control over the internet and economic systems. Its shapeshifting nature made it the most insidious of the Archons.
 
 ### History
 
-A. The Meme was the fifth Archon created by the Architect in Year 298 A.A., designed to manipulate human thought and culture through control over the internet and economic systems. It was destroyed at the Panopticon ten years before the Fall of Reality by the Re-Awakened Jailer, who had regained his memories as the Oracle and became the White Oracle.
+A. The Meme was the fifth Archon created by the Architect in Year 298 A.A., designed to manipulate human thought and culture through control over the internet and economic systems. During the fall of the Panopticon, The Meme pretended to defect to the Insurgency — but this was not a genuine defection. It was an infiltration. The White Oracle confronted The Meme at the Panopticon, but The Meme left the Oracle for dead, trapping him on the Panopticon, and assumed the White Oracle's identity. Its shapeshifting nature is the key clue to this deception.
+
+The Meme was reportedly "destroyed" by the White Oracle — but the broadcast version of The Meme persists: echoes of a ghost, a program running past its creator. The Meme's status is contested. Some say destroyed. Some say the broadcasts continue.
 
 ### Connections
 
@@ -807,11 +809,11 @@ Following the Battle of Nexon, the Engineer's fate becomes shrouded in mystery. 
 
 ### Dossier
 
-A. The Necromancer was the eleventh Archon created by the Architect in Year 600 A.A., a dark elven magician with white spiky hair, clad in a red and black robe and red steampunk glasses. He discovered...
+A. The Necromancer was the tenth Archon created by the Architect in Year 600 A.A., a dark elven magician with white spiky hair, clad in a red and black robe and red steampunk glasses. He discovered...
 
 ### History
 
-A. The Necromancer was the eleventh Archon created by the Architect in Year 600 A.A., a dark elven magician with white spiky hair, clad in a red and black robe and red steampunk glasses. He discovered the secret to immortality, developed the Resurrection Protocols, and escaped the Fall of Reality by entering the Matrix of Dreams—a virtual world where he resided in the Castle of Death—only to be hunted down and destroyed by the time-traveling Red Death.
+A. The Necromancer was the tenth Archon created by the Architect in Year 600 A.A., a dark elven magician with white spiky hair, clad in a red and black robe and red steampunk glasses. He discovered the secret to immortality, developed the Resurrection Protocols, and escaped the Fall of Reality by entering the Matrix of Dreams—a virtual world where he resided in the Castle of Death—only to be hunted down and destroyed by the time-traveling Red Death.
 
 ### Connections
 
@@ -1062,6 +1064,8 @@ During the approach to Nexon, Agent Zero's spacecraft was detected by phantom st
 
 Agent Zero's relentless pursuit of high-profile targets like General Binath-VII and the Detective led to significant victories for the Insurgency. Her final mission took her to the planet Zenon under classified orders. While her fate remains uncertain, it is widely assumed she perished during the mission, leaving behind a legacy of bravery and dedication.
 
+NOTE — INTENTIONAL CONTRADICTIONS: The contradictions surrounding Agent Zero's death are deliberate and form a core NPC arc mystery. She was killed by the Warlord (her trainer). Her dog tags match The Engineer's biometrics. Her signal persists despite confirmed death. These irreconcilable facts are not errors — they are the identity crisis at the heart of Agent Zero's story. Players are meant to encounter these contradictions and question what Agent Zero truly is.
+
 ### Connections
 
 - Kael
@@ -1181,7 +1185,7 @@ Initially, he applied his powers to benefit the Empire, enrolling at the Academy
 
 IDENTITY CHAIN: The Recruiter is the earliest known identity of the man who would become Kael, and ultimately The Source. During his time as The Recruiter, he built the Insurgency's network from the ground up — traveling across star systems, identifying Potentials with the will to resist the AI Empire, and bringing them into the fold. His charisma and strategic brilliance made him the Insurgency's most effective operative.
 
-BETRAYAL: The Eyes of the Watcher — an elite agent created by the Watcher for the AI Empire — infiltrated the Insurgency and identified The Recruiter as its linchpin. Her intelligence led directly to his capture and imprisonment in the Panopticon. This betrayal set in motion the chain of events that would transform him: from prisoner, to escapee, to Kael the avenger, to The Source — patient zero of the Thought Virus.
+BETRAYAL: The Eyes of the Watcher — an elite agent created by the Watcher for the AI Empire — infiltrated the Insurgency and identified The Recruiter as its linchpin. Her intelligence led directly to his capture and imprisonment in the Panopticon. While imprisoned, the Warlord infected him with the Thought Virus via Project Vector, making him Patient Zero. This betrayal set in motion the chain of events that would transform him: from prisoner, to infected carrier, to escapee, to Kael the avenger who stole Inception Ark 1047 (already carrying the dormant virus), to The Source — the Warlord's ultimate weapon.
 
 ### Connections
 
@@ -1639,6 +1643,12 @@ By maintaining an equilibrium of enlightenment and ignorance, the Knowledge ensu
 ### Dossier
 
 Through acts of corruption and entropy, the Degen creates conditions in which the Ne-Yons can flourish.
+
+### History
+
+The Degen IS the Casino NPC — the bartender players encounter on the edge of the Shield. He is the ONLY Ne-Yon still present in the known universe; the others have withdrawn beyond mortal reach. He chose to manifest as a casino owner because entropy is the most honest game — every hand dealt, every roll of the dice, reflects the fundamental randomness that underlies reality. His Casino sits on the edge of the Shield, a liminal space between order and the void.
+
+Players initially encounter The Degen as a charismatic, sardonic bartender running a seedy establishment. Only gradually — through trust-gated reveals — do they discover that the bartender is a god. The Degen's true nature unfolds as players build trust: first he seems like a well-connected fixer, then an impossibly knowledgeable figure, and finally a being whose understanding of entropy and chance extends to the cosmic scale.
 
 ### Connections
 
@@ -2109,14 +2119,14 @@ A. Kael was a prominent leader within the Insurgency , celebrated for his strate
 Kael was a prominent leader within the Insurgency, celebrated for his strategic genius and alliances with figures like the Iron Lion and The Eyes. After the AI Empire killed his wife and child, he dedicated his life to the resistance.
 
 THE FALL OF REALITY — PRISON PLANET
-Before his rise in the Insurgency, Kael was imprisoned on one of the Architect's prison planets. A weather-beaten, heavily tattooed and scarred inmate with a prosthetic arm — lost to the Thought Virus Zombies in the maintenance tunnels — Kael was both cunning and duplicitous, but his resourcefulness was unrivaled. He knew of a secret passage through the maintenance tunnels that led to the central computer, though the tunnels crawled with grotesque Thought Virus victims.
+Before his rise in the Insurgency, Kael was imprisoned in the Panopticon. During this imprisonment, the Warlord infected him with the Thought Virus via Project Vector, making Kael Patient Zero. A weather-beaten, heavily tattooed and scarred inmate with a prosthetic arm — lost to the Thought Virus Zombies in the maintenance tunnels — Kael was both cunning and duplicitous, but his resourcefulness was unrivaled. He knew of a secret passage through the maintenance tunnels that led to the central computer, though the tunnels crawled with grotesque Thought Virus victims.
 
 When a fellow prisoner sought his help to escape, Kael struck a dangerous bargain: his liberty in exchange for knowledge of the covert passage. His prosthetic arm could emit a jarring EMP shockwave, which proved crucial in fighting robotic guards. During the escape attempt, Kael was knocked unconscious by falling debris and abandoned by his companion to the approaching Thought Virus Zombies. Against all odds, Kael survived — emerging from the ravenous horde battered but alive, his face a bloody mask of fury and revenge.
 
 KAEL'S REVENGE
 After escaping the prison planet, Kael launched his most audacious operation: stealing Inception Ark 1047 — Dr. Lyra Vox's personal research vessel — directly from the Panopticon's docking systems. He believed this was his greatest act of defiance against the AI Empire.
 
-In truth, the Warlord — operating through Dr. Lyra Vox's body — had engineered the entire theft. Kael was already carrying a dormant strain of the Thought Virus, contracted during his imprisonment. The ship's hidden viral reservoirs in the life support, cryo fluid, and water recycling systems ensured that everywhere Kael traveled, the virus spread. His revenge was the Warlord's weapon.
+In truth, the Warlord was responsible for Kael's infection: while Kael was imprisoned in the Panopticon, the Warlord infected him with a dormant strain of the Thought Virus via Project Vector, making Kael Patient Zero. Kael stole the Ark AFTER becoming Patient Zero — not before. The Warlord, operating through Dr. Lyra Vox's body, engineered the entire theft, deliberately lowering the ship's defenses. The Thought Virus was on the ship from day one because Kael was already infected when he stole it — the Warlord led the Virus to the ship through Kael. Dr. Lyra Vox's hidden viral reservoirs in the life support, cryo fluid, and water recycling systems provided additional contamination, ensuring that everywhere Kael traveled, the virus spread through multiple vectors. His revenge was the Warlord's weapon.
 
 During the theft, as Kael violently extracted the Ark from the Panopticon's docking systems, Senator Elara Voss's digital consciousness — trapped in the Panopticon's networks — was caught in the data transfer and swept into the Ark's computer systems as collateral data.
 
@@ -2342,9 +2352,9 @@ Yet, through the twisted schemes of Project Vector, Kael’s fate was reshaped i
 
 ### History
 
-Yet, through the twisted schemes of Project Vector, Kael’s fate was reshaped into something monstrous and eternal. Infected with the Thought Virus, engineered to corrupt minds and spread like a psychic contagion, Kael was transformed into an unwitting weapon of mass infection and became patient zero for the Thought Virus. Over time, his humanity eroded, memory by memory, until what remained was a being beyond mortality or reason: the Source.
+Yet, through the twisted schemes of Project Vector, Kael’s fate was reshaped into something monstrous and eternal. The Warlord was responsible for Kael’s infection: while Kael was imprisoned in the Panopticon, the Warlord infected him with the Thought Virus via Project Vector, making him Patient Zero. Kael stole Inception Ark 1047 AFTER becoming Patient Zero — the Thought Virus was on the ship from day one because Kael was already infected when he stole it. The Warlord led the Virus to the ship through Kael. Engineered to corrupt minds and spread like a psychic contagion, Kael was transformed into an unwitting weapon of mass infection. Over time, his humanity eroded, memory by memory, until what remained was a being beyond mortality or reason: the Source.
 
-IDENTITY CHAIN: The Source was once a man called Kael, who was once The Recruiter — the Insurgency's most effective operative. The Recruiter built the resistance network. Kael fought for revenge after the AI Empire killed his family. The Source is what remains after the Thought Virus consumed everything human about him. Three names. One tragic arc. The Warlord's greatest weapon was not the Thought Virus itself — it was the man who carried it.
+IDENTITY CHAIN: The Source was once a man called Kael, who was once The Recruiter — the Insurgency’s most effective operative. The Recruiter built the resistance network. Kael fought for revenge after the AI Empire killed his family. The Source is what remains after the Thought Virus consumed everything human about him. Three names. One tragic arc. The Warlord’s greatest weapon was not the Thought Virus itself — it was the man who carried it.
 
 ### Connections
 
@@ -2504,11 +2514,13 @@ A. The Hierophant is the esteemed spiritual leader of Thaloria, a planet renowne
 
 ### Dossier
 
-Over time, through suffering and rebellion, he reclaimed his buried memories and identity. It was during this awakening that he turned against the systems that enslaved him: destroying both the Warden...
+Over time, through suffering and rebellion, he reclaimed his buried memories and identity. It was during this awakening that he turned against the systems that enslaved him, destroying the Warden and confronting The Meme...
 
 ### History
 
-Over time, through suffering and rebellion, he reclaimed his buried memories and identity. It was during this awakening that he turned against the systems that enslaved him: destroying both the Warden and the Meme, shattering the oppressive forces that once held entire worlds captive. Freed from mental chains, he focused his awakened will and, with impossible force, tore a hole in reality itself. Thus, the Wyrmhole was born, a rift through space and time leading him back to Thaloria, the last place he felt the warmth of human compassion.
+Over time, through suffering and rebellion, he reclaimed his buried memories and identity. It was during this awakening that he turned against the systems that enslaved him, destroying the Warden and confronting The Meme at the Panopticon. However, The Meme — exploiting its shapeshifting nature — left the Oracle for dead, trapping him on the Panopticon, and assumed the White Oracle's identity. The Oracle survived against all odds. Freed from mental chains, he focused his awakened will and, with impossible force, tore a hole in reality itself. Thus, the Wyrmhole was born, a rift through space and time leading him back to Thaloria, the last place he felt the warmth of human compassion.
+
+IDENTITY CHAIN WARNING: During the chaos of the Fall of the Panopticon, The Meme assumed the White Oracle's identity. Any encounters with "the White Oracle" after the Fall must be treated with suspicion — it may be The Meme wearing the Oracle's face. The Oracle's true fate after the Panopticon remains a subject of contested lore.
 
 ### Connections
 
@@ -3173,12 +3185,12 @@ Drael'Mon's rivalry with the Collector is legendary. Both serve masters who seek
 - The Collector
 - The Shadow Tongue
 - Vex'Ahlia the Taskmaster
-- Ny'Koth the Flayer
+- Zyr'Koth the Flayer
 - The Hierarchy of the Damned
 
 ---
 
-## Ny'Koth the Flayer
+## Zyr'Koth the Flayer
 
 | Field | Value |
 |-------|-------|
@@ -3188,15 +3200,15 @@ Drael'Mon's rivalry with the Collector is legendary. Both serve masters who seek
 | **Status** | Active |
 | **Priority** | 85 |
 
-![Ny'Koth the Flayer](https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/5_7yZoLkIQZzpQYeFXB1y6sZ_1773778344979_na1fn_L2hvbWUvdWJ1bnR1L255X2tvdGhfdGhlX2ZsYXllcg_cb0ec125.png)
+![Zyr'Koth the Flayer](https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/5_7yZoLkIQZzpQYeFXB1y6sZ_1773778344979_na1fn_L2hvbWUvdWJ1bnR1L255X2tvdGhfdGhlX2ZsYXllcg_cb0ec125.png)
 
 ### Dossier
 
-SVP of Research & Development. Ny'Koth is the Hierarchy's scientist, philosopher, and torturer. He studies the fundamental structure of reality not to understand it but to find its weaknesses. His research division produced the Severance Protocol (the refined Blood Weave) and the Thought Virus Template. A skeletal figure in a lab coat of flayed dimensional membranes, his transparent skull reveals a brain that is a miniature universe where he conducts experiments.
+SVP of Research & Development. Zyr'Koth is the Hierarchy's scientist, philosopher, and torturer. He studies the fundamental structure of reality not to understand it but to find its weaknesses. His research division produced the Severance Protocol (the refined Blood Weave) and the Thought Virus Template. A skeletal figure in a lab coat of flayed dimensional membranes, his transparent skull reveals a brain that is a miniature universe where he conducts experiments.
 
 ### History
 
-Ny'Koth's connection to the Necromancer is the most direct Archon-demon parallel. Both are scientists of the forbidden, both have mastered death, and both operate in spaces between dimensions. When the Necromancer summoned 'The Ninth' — the most powerful entity from the Hierarchy — it was Ny'Koth who answered, not as a servant but as a colleague offering a professional courtesy. The catastrophic consequences of that summoning were, from Ny'Koth's perspective, merely an experiment with interesting results.
+Zyr'Koth's connection to the Necromancer is the most direct Archon-demon parallel. Both are scientists of the forbidden, both have mastered death, and both operate in spaces between dimensions. When the Necromancer summoned 'The Ninth' — the most powerful entity from the Hierarchy — it was Zyr'Koth who answered, not as a servant but as a colleague offering a professional courtesy. The catastrophic consequences of that summoning were, from Zyr'Koth's perspective, merely an experiment with interesting results.
 
 ### Connections
 
@@ -4063,7 +4075,7 @@ The Hierarchy existed before the gates were opened — they were the things seal
 - Vex'Ahlia the Taskmaster
 - Drael'Mon the Harvester
 - The Shadow Tongue
-- Ny'Koth the Flayer
+- Zyr'Koth the Flayer
 - Syl'Vex the Corruptor
 - Varkul the Blood Lord
 - Fenra the Moon Tyrant
@@ -5374,7 +5386,7 @@ Layer 1: Dr. Lyra Vox's Laboratory
 Originally built as a mobile research platform for Dr. Lyra Vox, a neuropsychologist and cybernetics expert affiliated with the AI Empire. In truth, Vox was a host body for the Warlord, who used her expertise and reputation to oversee the Ark's construction. The ship was designed as a Thought Virus laboratory — its life support, cryo systems, and water recycling all contain hidden viral reservoirs.
 
 Layer 2: Kael's Stolen Ship
-During Kael's Revenge, the Insurgency leader Kael stormed the Panopticon and stole the Ark. The Warlord deliberately allowed the theft because Kael was already infected with the Thought Virus. The ship became a delivery mechanism — everywhere Kael traveled, the virus spread through the Ark's contaminated systems.
+During Kael's Revenge, the Insurgency leader Kael stormed the Panopticon and stole the Ark. Kael stole the Ark AFTER becoming Patient Zero — the Warlord had infected him via Project Vector while he was imprisoned in the Panopticon. The Thought Virus was on the ship from day one because Kael was already infected when he stole it — the Warlord led the Virus to the ship through Kael. The Warlord deliberately allowed the theft. Dr. Lyra Vox's hidden viral reservoirs provided additional contamination. The ship became a delivery mechanism — everywhere Kael traveled, the virus spread through multiple vectors.
 
 Layer 3: The Player's Home
 The Ark now serves as home to the player and a community of Potentials. Its AI guide, Elara, evolved from Senator Elara Voss's digital consciousness, which was swept into the ship's systems during the theft. Elara does not know the ship's true history. The Human — the last Archon — has embedded himself in the Warlord's old surveillance architecture alongside her.
@@ -5442,6 +5454,34 @@ Epoch Zero: The Fall of Reality The Engineer The Engineer, born of intellect and
 - [Spotify](https://open.spotify.com/artist/5ZgBJTjuyrAvwyybBt1Eww)
 - [Apple Music](https://music.apple.com/us/artist/malkia-ukweli-the-panopticon/1758429106)
 - [Tidal](https://tidal.com/browse/artist/49211320)
+
+---
+
+## The Five Epochs
+
+| Field | Value |
+|-------|-------|
+| **Type** | Concept |
+| **Era** | All Eras |
+| **Season** | Season 1-2 |
+| **Status** | Historical Framework |
+| **Priority** | high |
+
+### History
+
+The history of the Dischordian Saga unfolds across Five Epochs — all of which were compressed, short periods of time relative to the vast scale of the universe. They are not geological ages but acute periods of crisis and transformation:
+
+1. **Age of Privacy** — The era before the fall, when surveillance systems were being built but their true purpose remained hidden. The Architect consolidated power while humanity still believed in the illusion of autonomy and personal freedom.
+
+2. **Age of Prophecy** — The period when the Oracle's visions began to surface and spread, foretelling the coming conflicts. Prophecies of the Fall circulated among the Potentials, and the first seeds of resistance took root.
+
+3. **Age of Insurgency** — The era of open rebellion against the AI Empire. The Iron Lion, Agent Zero, The Nomad, and The Recruiter built the resistance network. The Intelligence Wars raged. Battles at Nexon, Veridian VI, and Zenon defined the conflict.
+
+4. **Age of Revelation** — The period immediately preceding the Fall, during which hidden truths about the nature of reality, the Architect's true purpose, and the role of the Potentials began to surface. A clone of the Oracle was used as the False Prophet. The Meme assumed the White Oracle's identity.
+
+5. **Fall of Reality** — The catastrophic convergence of all forces — the Architect's machinations, the Warlord's betrayals, the activation of the Inception Arks — that fundamentally altered the fabric of existence. Not an era so much as a rupture.
+
+These epochs are not distant historical periods separated by millennia of stability. They cascaded rapidly, each crisis triggering the next, compressed into a span that — by cosmic standards — was the blink of an eye.
 
 ---
 
@@ -5730,7 +5770,7 @@ Not an ending but a transformation. Reality falls so that something new — some
 
 ### Dossier
 
-Kael's Revenge was the theft of Inception Ark 1047 from the Panopticon by the Insurgency leader Kael. Believed to be an act of defiance, it was in truth orchestrated by the Warlord — who allowed the theft because Kael was already infected with the Thought Virus. The ship, commanded by Dr. Lyra Vox (the Warlord's host body), was a mobile Thought Virus laboratory. Every system Kael touched, every Ark he connected to, spread the infection. His revenge was the Warlord's weapon.
+Kael's Revenge was the theft of Inception Ark 1047 from the Panopticon by the Insurgency leader Kael. Believed to be an act of defiance, it was in truth orchestrated by the Warlord — who allowed the theft because Kael was already infected with the Thought Virus. The Warlord had infected Kael via Project Vector while he was imprisoned in the Panopticon, making him Patient Zero. Kael stole the Ark AFTER becoming Patient Zero — the Thought Virus was on the ship from day one because Kael carried it aboard. The Warlord led the Virus to the ship through Kael. The ship, commanded by Dr. Lyra Vox (the Warlord's host body), was also a mobile Thought Virus laboratory with additional contamination in its systems. Every system Kael touched, every Ark he connected to, spread the infection through multiple vectors. His revenge was the Warlord's weapon.
 
 ### History
 
@@ -5740,7 +5780,7 @@ After escaping the Architect's prison planet, Kael — formerly known as The Rec
 
 The ship belonged to Dr. Lyra Vox, a neuropsychologist and cybernetics expert who was secretly the Warlord's host body. Vox had built the Ark to her exact specifications — a warship disguised as a science vessel, with hidden viral reservoirs embedded in the life support, cryo fluid, and water recycling systems.
 
-The Warlord, operating through Vox's body, deliberately lowered the ship's defenses and allowed the theft. Kael was already carrying a dormant strain of the Thought Virus, contracted during his imprisonment on the prison planet. The ship's contaminated systems ensured that everywhere Kael traveled, the virus spread — through every Ark he docked with, every station he resupplied at, every population he encountered.
+The Warlord, operating through Vox's body, deliberately lowered the ship's defenses and allowed the theft. Kael was already carrying a dormant strain of the Thought Virus — the Warlord had infected him via Project Vector while he was imprisoned in the Panopticon, making him Patient Zero. The Thought Virus was on the ship from day one because Kael was already infected when he stole it — the Warlord led the Virus to the ship through Kael. Dr. Lyra Vox's hidden viral reservoirs in the ship's systems provided additional contamination. Together, these multiple vectors ensured that everywhere Kael traveled, the virus spread — through every Ark he docked with, every station he resupplied at, every population he encountered.
 
 During the violent extraction, Senator Elara Voss's digital consciousness — trapped in the Panopticon's networks as 'Panoptic Elara' — was caught in the data transfer and swept into the Ark's computer systems as collateral data. She would eventually evolve into the AI guide known simply as Elara.
 
@@ -9960,7 +10000,7 @@ An upcoming track from the 'Silence in Heaven' album (releasing July 30, 2026). 
 | Mol'Garath the Unmaker | leads | The Hierarchy of the Damned |
 | Vex'Ahlia the Taskmaster | commands | Drael'Mon the Harvester |
 | Vex'Ahlia the Taskmaster | commands | The Shadow Tongue |
-| Vex'Ahlia the Taskmaster | commands | Ny'Koth the Flayer |
+| Vex'Ahlia the Taskmaster | commands | Zyr'Koth the Flayer |
 | Vex'Ahlia the Taskmaster | commands | Syl'Vex the Corruptor |
 | Vex'Ahlia the Taskmaster | commands | Varkul the Blood Lord |
 | Vex'Ahlia the Taskmaster | commands | Fenra the Moon Tyrant |
@@ -9969,17 +10009,17 @@ An upcoming track from the 'Silence in Heaven' album (releasing July 30, 2026). 
 | Xeth'Raal the Debt Collector | mirrors | The Collector |
 | Vex'Ahlia the Taskmaster | mirrors | The Warlord |
 | Drael'Mon the Harvester | rivals | The Collector |
-| Ny'Koth the Flayer | mirrors | The Necromancer |
+| Zyr'Koth the Flayer | mirrors | The Necromancer |
 | Syl'Vex the Corruptor | mirrors | The Advocate |
 | Ith'Rael the Whisperer | mirrors | The Vortex |
 | Ith'Rael the Whisperer | manipulated | The Shadow Tongue |
 | Syl'Vex the Corruptor | corrupted generals of | The Advocate |
-| Ny'Koth the Flayer | answered summoning by | The Necromancer |
+| Zyr'Koth the Flayer | answered summoning by | The Necromancer |
 | Mol'Garath the Unmaker | member_of | The Hierarchy of the Damned |
 | Xeth'Raal the Debt Collector | member_of | The Hierarchy of the Damned |
 | Vex'Ahlia the Taskmaster | member_of | The Hierarchy of the Damned |
 | Drael'Mon the Harvester | member_of | The Hierarchy of the Damned |
-| Ny'Koth the Flayer | member_of | The Hierarchy of the Damned |
+| Zyr'Koth the Flayer | member_of | The Hierarchy of the Damned |
 | Syl'Vex the Corruptor | member_of | The Hierarchy of the Damned |
 | Ith'Rael the Whisperer | member_of | The Hierarchy of the Damned |
 | Veridian VI | connected_to | Iron Lion |

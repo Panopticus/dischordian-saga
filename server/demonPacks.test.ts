@@ -76,7 +76,7 @@ describe("Demon Fighter Sprites", () => {
     // Demon configs use base IDs (without -ceo/-cfo suffixes)
     const demonIds = [
       "molgrath", "xethraal", "vexahlia",
-      "draelmon", "nykoth", "sylvex",
+      "draelmon", "zyrkoth", "sylvex",
       "varkul", "fenra", "ithrael"
     ];
     for (const id of demonIds) {

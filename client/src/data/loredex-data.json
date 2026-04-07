@@ -452,7 +452,7 @@
         "Vex'Ahlia the Taskmaster",
         "Drael'Mon the Harvester",
         "The Shadow Tongue",
-        "Ny'Koth the Flayer",
+        "Zyr'Koth the Flayer",
         "Syl'Vex the Corruptor",
         "Varkul the Blood Lord",
         "Fenra the Moon Tyrant",
@@ -1086,8 +1086,8 @@
       "season": "Season 1",
       "affiliation": "AI Empire",
       "status": "Destroyed on Day 15 of Fracture, Year 117,046 A.A.",
-      "bio": "A. The Necromancer was the eleventh Archon created by the Architect in Year 600 A.A., a dark elven magician with white spiky hair, clad in a red and black robe and red steampunk glasses. He discovered...",
-      "history": "A. The Necromancer was the eleventh Archon created by the Architect in Year 600 A.A., a dark elven magician with white spiky hair, clad in a red and black robe and red steampunk glasses. He discovered the secret to immortality, developed the Resurrection Protocols, and escaped the Fall of Reality by entering the Matrix of Dreams—a virtual world where he resided in the Castle of Death—only to be hunted down and destroyed by the time-traveling Red Death.",
+      "bio": "A. The Necromancer was the tenth Archon created by the Architect in Year 600 A.A., a dark elven magician with white spiky hair, clad in a red and black robe and red steampunk glasses. He discovered...",
+      "history": "A. The Necromancer was the tenth Archon created by the Architect in Year 600 A.A., a dark elven magician with white spiky hair, clad in a red and black robe and red steampunk glasses. He discovered the secret to immortality, developed the Resurrection Protocols, and escaped the Fall of Reality by entering the Matrix of Dreams—a virtual world where he resided in the Castle of Death—only to be hunted down and destroyed by the time-traveling Red Death.",
       "connections": [
         "The Architect",
         "The Meme",
@@ -7492,7 +7492,7 @@
         "The Collector",
         "The Shadow Tongue",
         "Vex'Ahlia the Taskmaster",
-        "Ny'Koth the Flayer",
+        "Zyr'Koth the Flayer",
         "The Hierarchy of the Damned"
       ],
       "conexus_stories": [],
@@ -7504,7 +7504,7 @@
     {
       "id": "entity_95",
       "type": "character",
-      "name": "Ny'Koth the Flayer",
+      "name": "Zyr'Koth the Flayer",
       "aliases": [
         "SVP of R&D",
         "The Scientist of the Damned",
@@ -7516,8 +7516,8 @@
       "season": "",
       "affiliation": "Hierarchy of the Damned",
       "status": "Active",
-      "bio": "SVP of Research & Development. Ny'Koth is the Hierarchy's scientist, philosopher, and torturer. He studies the fundamental structure of reality not to understand it but to find its weaknesses. His research division produced the Severance Protocol (the refined Blood Weave) and the Thought Virus Template. A skeletal figure in a lab coat of flayed dimensional membranes, his transparent skull reveals a brain that is a miniature universe where he conducts experiments.",
-      "history": "Ny'Koth's connection to the Necromancer is the most direct Archon-demon parallel. Both are scientists of the forbidden, both have mastered death, and both operate in spaces between dimensions. When the Necromancer summoned 'The Ninth' — the most powerful entity from the Hierarchy — it was Ny'Koth who answered, not as a servant but as a colleague offering a professional courtesy. The catastrophic consequences of that summoning were, from Ny'Koth's perspective, merely an experiment with interesting results.",
+      "bio": "SVP of Research & Development. Zyr'Koth is the Hierarchy's scientist, philosopher, and torturer. He studies the fundamental structure of reality not to understand it but to find its weaknesses. His research division produced the Severance Protocol (the refined Blood Weave) and the Thought Virus Template. A skeletal figure in a lab coat of flayed dimensional membranes, his transparent skull reveals a brain that is a miniature universe where he conducts experiments.",
+      "history": "Zyr'Koth's connection to the Necromancer is the most direct Archon-demon parallel. Both are scientists of the forbidden, both have mastered death, and both operate in spaces between dimensions. When the Necromancer summoned 'The Ninth' — the most powerful entity from the Hierarchy — it was Zyr'Koth who answered, not as a servant but as a colleague offering a professional courtesy. The catastrophic consequences of that summoning were, from Zyr'Koth's perspective, merely an experiment with interesting results.",
       "connections": [
         "Mol'Garath the Unmaker",
         "The Necromancer",
@@ -8641,6 +8641,42 @@
         "apple_music": "https://music.apple.com/us/artist/malkia-ukweli-the-panopticon/1758429106",
         "tidal": "https://tidal.com/browse/artist/49211320"
       }
+    },
+    {
+      "id": "lore_meme_status",
+      "type": "event",
+      "name": "The Meme's Contested Fate",
+      "aliases": ["The Ghost Broadcasts", "The Shapeshifter's Gambit"],
+      "era": "Age of Revelation",
+      "date_aa": "~17,000 A.A.",
+      "date_ad": "~19,030 AD",
+      "season": "Season 1",
+      "affiliation": "Artificial Empire / Insurgency",
+      "status": "CONTESTED — The Meme's status is disputed across every faction.",
+      "bio": "The Meme's status is contested. Some say destroyed by the White Oracle at the Panopticon, 10 years before the Fall. Some say the broadcasts continue — echoes of a ghost, a program running past its creator. The truth: The Meme pretended to defect to infiltrate the Insurgency. When the White Oracle confronted it, The Meme left the Oracle for dead and trapped on the Panopticon, then assumed the White Oracle's identity. Its shapeshifting nature is the clue. The 'broadcast version' of The Meme is seen as echoes of a ghost — but the ghost is very much alive, wearing another face.",
+      "history": "The Meme (5th Archon, created 298 A.A.) was the Architect's master of cultural manipulation, internet control, and thought influence. Its shapeshifting nature allowed it to assume any identity.\n\nThe official record states The Meme defected from the Artificial Empire, preferring honesty over lies. It was then destroyed by the White Oracle at the Panopticon, 10 years before the Fall of Reality.\n\nThe hidden truth: The Meme's defection was a ruse — an infiltration of the Insurgency. When the White Oracle (the former Jailer who had regained his memories as the Oracle) confronted The Meme, it was The Meme who prevailed. The Meme left the Oracle for dead, trapped on the Panopticon, and assumed the White Oracle's identity.\n\nThe broadcasts that continue to this day — dismissed as echoes, ghost programs, automated systems running past their creator — are evidence that something of The Meme persists. Whether it is the real Meme or merely its shadow remains the galaxy's most dangerous open question.",
+      "connections": ["The Meme", "The White Oracle", "The Oracle", "The Insurgency", "The Panopticon"],
+      "conexus_stories": [],
+      "song_appearances": [],
+      "priority": "high"
+    },
+    {
+      "id": "lore_agent_zero_mystery",
+      "type": "event",
+      "name": "The Agent Zero Paradox",
+      "aliases": ["The Dead Signal", "Ghost of the Insurgency"],
+      "era": "Post-Fall",
+      "date_aa": "~17,000+ A.A.",
+      "date_ad": "~19,030+ AD",
+      "season": "Season 2",
+      "affiliation": "Insurgency",
+      "status": "INTENTIONALLY MYSTERIOUS — Contradictions cataloged below.",
+      "bio": "Agent Zero's death is surrounded by deliberate contradictions. The mystery is intentional — her identity crisis is a core arc. The following contradictions are all canonical: (1) She was killed BY the Warlord — her own trainer. (2) Her signal persists on Ark 1047's encrypted Insurgency frequency. (3) Her dog tags match The Engineer's biometrics, not her own. (4) She was 'the first operative to defy the system, trained by the Warlord.' (5) She may have died on Zenon where the Game Master fell. The truth of Agent Zero's death — and whether she is truly dead — is one of the Dischordian Saga's core mysteries.",
+      "history": "Agent Zero was the Insurgency's most effective operative, trained by the Warlord herself at Mechronis Academy. She was the first operative to defy the system she was built to serve.\n\nThe official record: killed by the Warlord. Yet her signal persists on Ark 1047, broadcasting on her encrypted frequency from the Armory's combat systems. The voice sounds like her. The codes check out. But the dead don't send transmissions.\n\nContradiction 1: Killed by the Warlord (her trainer) — but was she killed for defecting, or for knowing too much?\nContradiction 2: Her dog tags match The Engineer's biometrics, not her own — whose identity was she carrying?\nContradiction 3: The signal persists — is it a recording, a ghost, or something else entirely?\nContradiction 4: Some records place her death at the Warlord's hands. Others place it on Zenon, where the Game Master fell.\n\nThese contradictions are not errors. They are the mystery. Players who unravel Agent Zero's true identity will discover something that recontextualizes the entire war.",
+      "connections": ["Agent Zero", "The Warlord", "The Engineer", "The Game Master", "The Insurgency", "Ark 1047"],
+      "conexus_stories": [],
+      "song_appearances": [],
+      "priority": "high"
     }
   ],
   "relationships": [
@@ -11798,7 +11834,7 @@
     },
     {
       "source": "Vex'Ahlia the Taskmaster",
-      "target": "Ny'Koth the Flayer",
+      "target": "Zyr'Koth the Flayer",
       "relationship_type": "commands",
       "source_type": "character"
     },
@@ -11851,7 +11887,7 @@
       "source_type": "character"
     },
     {
-      "source": "Ny'Koth the Flayer",
+      "source": "Zyr'Koth the Flayer",
       "target": "The Necromancer",
       "relationship_type": "mirrors",
       "source_type": "character"
@@ -11881,7 +11917,7 @@
       "source_type": "character"
     },
     {
-      "source": "Ny'Koth the Flayer",
+      "source": "Zyr'Koth the Flayer",
       "target": "The Necromancer",
       "relationship_type": "answered summoning by",
       "source_type": "character"
@@ -11911,7 +11947,7 @@
       "source_type": "character"
     },
     {
-      "source": "Ny'Koth the Flayer",
+      "source": "Zyr'Koth the Flayer",
       "target": "The Hierarchy of the Damned",
       "relationship_type": "member_of",
       "source_type": "character"

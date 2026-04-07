@@ -72,7 +72,7 @@ TEXT: "War is not won by the righteous. It is won by the relentless."
 TEXT: "Heavy Hitter \u2014 The Commander"
 
 [23] FILE: client/src/game/storyMode.ts LINE: 160
-TEXT: "The eleventh Archon, a dark elven magician who discovered the secrets of raising dead code. Clad in red and black robes with steampunk glasses, the Necromancer commands armies of digital undead from his lair."
+TEXT: "The tenth Archon, a dark elven magician who discovered the secrets of raising dead code. Clad in red and black robes with steampunk glasses, the Necromancer commands armies of digital undead from his lair."
 
 [24] FILE: client/src/game/storyMode.ts LINE: 162
 TEXT: "Death is merely a state change. And I am the one who reverses it."
@@ -300,7 +300,7 @@ TEXT: "SVP Acquisitions \u2014 The Harvester. Drael'Mon acquires souls and terri
 TEXT: "You are an asset to be acquired. Resistance lowers your valuation."
 
 [99] FILE: client/src/game/storyMode.ts LINE: 352
-TEXT: "SVP R&D \u2014 The Flayer. Ny'Koth experiments on captured souls, peeling away layers of consciousness to understand and weaponize the essence within."
+TEXT: "SVP R&D \u2014 The Flayer. Zyr'Koth experiments on captured souls, peeling away layers of consciousness to understand and weaponize the essence within."
 
 [100] FILE: client/src/game/storyMode.ts LINE: 354
 TEXT: "Hold still. This is for science."

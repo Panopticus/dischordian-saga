@@ -21,6 +21,69 @@ interface HackingPuzzleProps {
 const GRID = 5;
 const TIMERS: Record<string, number> = { normal: 60, hard: 45, expert: 30 };
 
+/* ═══ EPOCH-THEMED PUZZLE THEMES ═══ */
+interface EpochPuzzleTheme {
+  name: string;
+  description: string;
+  timerModifier: number;
+  visualTheme: string;
+}
+
+const EPOCH_PUZZLE_THEMES: Record<string, EpochPuzzleTheme> = {
+  "age-of-privacy": {
+    name: "Watcher Protocol",
+    description: "Surveillance-era decryption under The Eyes' watchful gaze",
+    timerModifier: 0.8,
+    visualTheme: "green-tinted CRT aesthetic",
+  },
+  "age-of-prophecy": {
+    name: "Prophet's Code",
+    description: "Ancient cipher patterns foreseen by the Seers",
+    timerModifier: 1.0,
+    visualTheme: "purple mystical aesthetic",
+  },
+  "age-of-insurgency": {
+    name: "Rebel Hack",
+    description: "Field-grade intrusion tools forged by the resistance",
+    timerModifier: 0.9,
+    visualTheme: "orange/military aesthetic",
+  },
+  "age-of-revelation": {
+    name: "Truth Circuit",
+    description: "All firewalls crumble as hidden truths surface",
+    timerModifier: 1.2,
+    visualTheme: "red revelation aesthetic",
+  },
+  "fall-of-reality": {
+    name: "Void Breach",
+    description: "Reality fractures — the grid itself is unstable",
+    timerModifier: 0.7,
+    visualTheme: "glitching/fracturing aesthetic",
+  },
+};
+
+/** Return today's epoch puzzle theme based on day of the week. */
+function getDailyPuzzleTheme(): EpochPuzzleTheme {
+  const dayOfWeek = new Date().getDay(); // 0=Sun ... 6=Sat
+  const epochsByDay: Record<number, string> = {
+    1: "age-of-privacy",
+    2: "age-of-prophecy",
+    3: "age-of-insurgency",
+    4: "age-of-revelation",
+    5: "fall-of-reality",
+  };
+  let epochId: string;
+  if (epochsByDay[dayOfWeek]) {
+    epochId = epochsByDay[dayOfWeek];
+  } else {
+    // Weekend: pick a random epoch seeded by the date so it's stable for the day
+    const dayIndex = Math.floor(Date.now() / 86400000);
+    const epochKeys = Object.keys(EPOCH_PUZZLE_THEMES);
+    epochId = epochKeys[dayIndex % epochKeys.length];
+  }
+  return EPOCH_PUZZLE_THEMES[epochId];
+}
+
 // Directions: top=0, right=1, bottom=2, left=3
 type Dir = 0 | 1 | 2 | 3;
 const OPP: Record<Dir, Dir> = { 0: 2, 1: 3, 2: 0, 3: 1 };

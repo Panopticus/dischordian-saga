@@ -650,8 +650,8 @@ export const FIGHTER_INTROS: FighterIntro[] = [
     accentColor: "#6d28d9",
   },
   {
-    fighterId: "nykoth",
-    titleCard: "NY'KOTH",
+    fighterId: "zyrkoth",
+    titleCard: "ZYR'KOTH",
     epithet: "SVP R&D — The Flayer",
     quote: "Hold still. This is for science.",
     entranceEffect: "corruption_spread",

@@ -117,7 +117,7 @@ export const ARCHON_VOICE_MAPPING: Record<SkillId, ArchonMentor> = {
     mechronisGuild: "The Influencers",
     tagline: "Feel the wave before you ride it. Their emotions are a current.",
     discipline: "Emotional resonance, cultural waveforms, the virality of feeling",
-    mantra: "I was destroyed for feeling too much. You can feel too. Just don't spread it all.",
+    mantra: "They say I was destroyed. They say the broadcasts are echoes. They say a lot of things. I say: feel everything. Trust nothing. Especially me.",
   },
   paranoia: {
     archonName: "The Warden",
