@@ -32,6 +32,14 @@ export const ENV = {
   // Database (required for persistence)
   databaseUrl: required("DATABASE_URL", process.env.DATABASE_URL),
 
+  // Discord OAuth (optional — enables Discord login)
+  discordClientId: optional("DISCORD_CLIENT_ID", process.env.DISCORD_CLIENT_ID),
+  discordClientSecret: optional("DISCORD_CLIENT_SECRET", process.env.DISCORD_CLIENT_SECRET),
+
+  // GitHub OAuth (optional — enables GitHub login)
+  githubClientId: optional("GITHUB_CLIENT_ID", process.env.GITHUB_CLIENT_ID),
+  githubClientSecret: optional("GITHUB_CLIENT_SECRET", process.env.GITHUB_CLIENT_SECRET),
+
   // Admin
   ownerOpenId: optional("OWNER_OPEN_ID", process.env.OWNER_OPEN_ID),
 

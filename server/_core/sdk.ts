@@ -10,6 +10,14 @@ import type {
   GoogleTokenResponse,
   GoogleUserInfo,
 } from "./types/googleTypes";
+import type {
+  DiscordTokenResponse,
+  DiscordUserInfo,
+} from "./types/discordTypes";
+import type {
+  GitHubTokenResponse,
+  GitHubUserInfo,
+} from "./types/githubTypes";
 
 const isNonEmptyString = (value: unknown): value is string =>
   typeof value === "string" && value.length > 0;
@@ -20,8 +28,22 @@ export type SessionPayload = {
   name: string;
 };
 
+/** Normalized user info returned by all OAuth providers */
+export type OAuthUserInfo = {
+  openId: string;
+  name: string;
+  email: string | null;
+  provider: "google" | "discord" | "github";
+};
+
 const GOOGLE_TOKEN_URL = "https://oauth2.googleapis.com/token";
 const GOOGLE_USERINFO_URL = "https://www.googleapis.com/oauth2/v3/userinfo";
+
+const DISCORD_TOKEN_URL = "https://discord.com/api/oauth2/token";
+const DISCORD_USERINFO_URL = "https://discord.com/api/users/@me";
+
+const GITHUB_TOKEN_URL = "https://github.com/login/oauth/access_token";
+const GITHUB_USERINFO_URL = "https://api.github.com/user";
 
 class GoogleOAuthService {
   async exchangeCodeForToken(
@@ -64,28 +86,147 @@ class GoogleOAuthService {
   }
 }
 
-class SDKServer {
-  private readonly google: GoogleOAuthService;
-
-  constructor() {
-    this.google = new GoogleOAuthService();
-  }
-
-  /**
-   * Exchange Google authorization code for access token
-   */
+class DiscordOAuthService {
   async exchangeCodeForToken(
     code: string,
     redirectUri: string
-  ): Promise<GoogleTokenResponse> {
-    return this.google.exchangeCodeForToken(code, redirectUri);
+  ): Promise<DiscordTokenResponse> {
+    const body = new URLSearchParams({
+      code,
+      client_id: ENV.discordClientId,
+      client_secret: ENV.discordClientSecret,
+      redirect_uri: redirectUri,
+      grant_type: "authorization_code",
+    });
+
+    const response = await fetch(DISCORD_TOKEN_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: body.toString(),
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`Discord token exchange failed: ${response.status} – ${errorText}`);
+    }
+
+    return (await response.json()) as DiscordTokenResponse;
+  }
+
+  async getUserInfo(accessToken: string): Promise<DiscordUserInfo> {
+    const response = await fetch(DISCORD_USERINFO_URL, {
+      headers: { Authorization: `Bearer ${accessToken}` },
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`Discord userinfo failed: ${response.status} – ${errorText}`);
+    }
+
+    return (await response.json()) as DiscordUserInfo;
+  }
+}
+
+class GitHubOAuthService {
+  async exchangeCodeForToken(
+    code: string,
+    redirectUri: string
+  ): Promise<GitHubTokenResponse> {
+    const body = new URLSearchParams({
+      code,
+      client_id: ENV.githubClientId,
+      client_secret: ENV.githubClientSecret,
+      redirect_uri: redirectUri,
+    });
+
+    const response = await fetch(GITHUB_TOKEN_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        Accept: "application/json",
+      },
+      body: body.toString(),
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`GitHub token exchange failed: ${response.status} – ${errorText}`);
+    }
+
+    return (await response.json()) as GitHubTokenResponse;
+  }
+
+  async getUserInfo(accessToken: string): Promise<GitHubUserInfo> {
+    const response = await fetch(GITHUB_USERINFO_URL, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        Accept: "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`GitHub userinfo failed: ${response.status} – ${errorText}`);
+    }
+
+    return (await response.json()) as GitHubUserInfo;
+  }
+}
+
+class SDKServer {
+  private readonly google: GoogleOAuthService;
+  private readonly discord: DiscordOAuthService;
+  private readonly github: GitHubOAuthService;
+
+  constructor() {
+    this.google = new GoogleOAuthService();
+    this.discord = new DiscordOAuthService();
+    this.github = new GitHubOAuthService();
   }
 
   /**
-   * Get user information using Google access token
+   * Exchange authorization code for normalized user info, per provider.
    */
-  async getUserInfo(accessToken: string): Promise<GoogleUserInfo> {
-    return this.google.getUserInfo(accessToken);
+  async resolveOAuthUser(
+    provider: "google" | "discord" | "github",
+    code: string,
+    redirectUri: string
+  ): Promise<OAuthUserInfo> {
+    switch (provider) {
+      case "google": {
+        const token = await this.google.exchangeCodeForToken(code, redirectUri);
+        const info = await this.google.getUserInfo(token.access_token);
+        if (!info.sub) throw new Error("Google user ID missing from user info");
+        return {
+          openId: info.sub,
+          name: info.name || "",
+          email: info.email ?? null,
+          provider: "google",
+        };
+      }
+      case "discord": {
+        const token = await this.discord.exchangeCodeForToken(code, redirectUri);
+        const info = await this.discord.getUserInfo(token.access_token);
+        if (!info.id) throw new Error("Discord user ID missing from user info");
+        return {
+          openId: `discord:${info.id}`,
+          name: info.global_name || info.username,
+          email: info.email ?? null,
+          provider: "discord",
+        };
+      }
+      case "github": {
+        const token = await this.github.exchangeCodeForToken(code, redirectUri);
+        const info = await this.github.getUserInfo(token.access_token);
+        if (!info.id) throw new Error("GitHub user ID missing from user info");
+        return {
+          openId: `github:${info.id}`,
+          name: info.name || info.login,
+          email: info.email ?? null,
+          provider: "github",
+        };
+      }
+    }
   }
 
   private parseCookies(cookieHeader: string | undefined) {
@@ -103,7 +244,7 @@ class SDKServer {
   }
 
   /**
-   * Create a session token for a user's Google sub ID
+   * Create a session token for an authenticated user's openId.
    */
   async createSessionToken(
     openId: string,
@@ -112,7 +253,7 @@ class SDKServer {
     return this.signSession(
       {
         openId,
-        appId: ENV.googleClientId,
+        appId: ENV.googleClientId || "dischordian-saga",
         name: options.name || "",
       },
       options
