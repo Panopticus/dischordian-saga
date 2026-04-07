@@ -1,0 +1,60 @@
+{
+  "nav": {
+    "home": "Bridge",
+    "games": "Games",
+    "quests": "Missions",
+    "inventory": "Cargo Hold",
+    "settings": "Ship Systems",
+    "character": "Identity",
+    "loredex": "Loredex",
+    "marketplace": "Bazaar",
+    "guild": "Guild Hall",
+    "social": "Comms"
+  },
+  "actions": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "back": "Back",
+    "next": "Next",
+    "close": "Close",
+    "search": "Search",
+    "filter": "Filter",
+    "sort": "Sort",
+    "refresh": "Refresh",
+    "delete": "Delete",
+    "edit": "Edit",
+    "submit": "Submit",
+    "skip": "Skip"
+  },
+  "status": {
+    "loading": "Initializing systems...",
+    "error": "Signal disrupted. Please try again.",
+    "empty": "No data detected.",
+    "offline": "Connection to Ark lost.",
+    "saving": "Encoding to memory banks...",
+    "success": "Operation complete."
+  },
+  "auth": {
+    "login": "Authenticate",
+    "logout": "Disconnect",
+    "welcome": "Welcome aboard, {{name}}",
+    "sessionExpired": "Authentication expired. Please reconnect."
+  },
+  "rarity": {
+    "common": "Common",
+    "uncommon": "Uncommon",
+    "rare": "Rare",
+    "epic": "Epic",
+    "legendary": "Legendary",
+    "mythic": "Mythic",
+    "neyon": "Ne-Yon"
+  },
+  "time": {
+    "justNow": "Just now",
+    "minutesAgo": "{{count}} min ago",
+    "hoursAgo": "{{count}}h ago",
+    "daysAgo": "{{count}}d ago",
+    "never": "Never"
+  }
+}
