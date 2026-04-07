@@ -108,6 +108,7 @@ const BossBattlePage = lazy(() => import("./pages/BossBattlePage"));
 const CardChallengePage = lazy(() => import("./pages/CardChallengePage"));
 const ConexusPortalPage = lazy(() => import("./pages/ConexusPortalPage"));
 const AchievementsGalleryPage = lazy(() => import("./pages/AchievementsGalleryPage"));
+const AchievementBoardPage = lazy(() => import("./pages/AchievementBoardPage"));
 const AdminPage = lazy(() => import("./pages/AdminPage"));
 const ArchitectConsolePage = lazy(() => import("./pages/ArchitectConsolePage"));
 const HierarchyPage = lazy(() => import("./pages/HierarchyPage"));
@@ -243,6 +244,7 @@ function Router() {
         <Route path="/card-challenge">{() => <GameRoute component={CardChallengePage} />}</Route>
         <Route path="/conexus-portal" component={ConexusPortalPage} />
         <Route path="/achievements" component={AchievementsGalleryPage} />
+        <Route path="/achievement-board" component={AchievementBoardPage} />
         <Route path="/admin" component={AdminPage} />
         <Route path="/architect-console" component={ArchitectConsolePage} />
         <Route path="/hierarchy" component={HierarchyPage} />
