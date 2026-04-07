@@ -841,3 +841,428 @@ Or you can decline. Not out of fear — out of respect. Cipher's experience is i
     }
   ]
 };
+
+// ============================================================================
+// FLICKER — "The Signal That Refused to Die"
+// ============================================================================
+
+const flickerQuestChain: BondThatHeldQuestChain = {
+  eidolonId: 'flicker',
+  eidolonName: 'Flicker',
+  questTitle: 'The Signal That Refused to Die',
+  chapters: [
+    {
+      chapter: 1,
+      title: 'Feedback Loop',
+      bondRequirement: 30,
+      location: 'Engineering Bay',
+      effectivenessGain: 0.03,
+      narrative: `Flicker is causing problems. Not intentionally — its signal output is interfering with Ark systems. Door locks cycle randomly. Communication channels pick up ghost transmissions. The Observation Deck's display arrays flicker in patterns that match Flicker's emotional state. The bond has amplified Flicker's natural broadcast range beyond its ability to control, and the Ark's infrastructure is paying the price.
+
+The Architect is not amused. Three critical systems have required recalibration in the past week, and the interference is getting worse as the bond strengthens. Something must be done before Flicker accidentally broadcasts through a life-support relay. The engineering team presents two options, neither ideal.
+
+A dampener can be installed — a device that limits Flicker's output to a safe range. It would solve the interference problem completely, but at the cost of reducing Flicker's natural signal strength. Its abilities would be muted, its range shortened, its voice quieted. Alternatively, the Ark's shielding around sensitive systems can be boosted — an expensive solution at 500 Dream, but one that lets Flicker broadcast at full power without risking critical infrastructure. Full strength, full range, full Flicker. But the cost is real.`,
+      choiceA: {
+        id: 'flicker_ch1_dampener',
+        label: 'Install Dampener',
+        description: 'Limit Flicker\'s output to a safe range. Solves interference completely, but reduces Flicker\'s signal strength and abilities.',
+        consequences: [
+          'All Ark system interference ceases',
+          'Flicker\'s signal range and strength reduced',
+          'Abilities are muted but controlled',
+          'Flicker accepts the limitation with quiet resignation'
+        ],
+        eidolonEffect: 'Flicker gains "Dampened Signal" — reduced output prevents interference, but signal range and ability strength are diminished.'
+      },
+      choiceB: {
+        id: 'flicker_ch1_shielding',
+        label: 'Boost Shielding',
+        description: 'Spend 500 Dream to upgrade Ark shielding. Flicker broadcasts at full power without risking critical systems.',
+        consequences: [
+          'Costs 500 Dream currency',
+          'Flicker maintains full signal strength',
+          'Ark systems protected by upgraded shielding',
+          'Flicker broadcasts freely with visible joy'
+        ],
+        eidolonEffect: 'Flicker gains "Unbound Signal" — full broadcast power maintained, Ark shielding upgraded to compensate.'
+      },
+      memoryUnlocked: 'The First Interference — the moment Flicker realized its voice was too loud for the world it lived in.',
+      hasChoice: true
+    },
+    {
+      chapter: 2,
+      title: 'Agent Zero\'s Lullaby',
+      bondRequirement: 45,
+      location: 'Archives',
+      effectivenessGain: 0.03,
+      narrative: `Flicker has been receiving a signal that shouldn't exist. Buried in the static between frequencies, repeating on a cycle that matches no known broadcast pattern, is a lullaby. Not a song — a lullaby. The melody is simple, haunting, and unmistakably intentional. Someone recorded this. Someone hid it in the signal noise. And Flicker is the only entity on the Ark sensitive enough to hear it.
+
+The Antiquarian identifies the signal's encoding: it matches Agent Zero's personal encryption. The legendary operative who disappeared before the Collapse left a message in the one place no one would think to look — the gaps between signals. The lullaby is beautiful on its own, but it carries something more: coordinates. Embedded in the melody's structure are precise locations — Agent Zero's cache, hidden somewhere the Ark has never searched.
+
+Two paths diverge. You can follow the coordinates, leading to Agent Zero's cache — whatever the legendary agent considered worth hiding. The lullaby would be decoded and consumed, its purpose fulfilled. Or you can keep the lullaby intact. Flicker can learn to reproduce it, transforming it into a combat ability — a frequency that disrupts Thought Virus patterns. The coordinates would remain unextracted, the cache undiscovered, but the song would become a weapon.`,
+      choiceA: {
+        id: 'flicker_ch2_coordinates',
+        label: 'Follow the Coordinates',
+        description: 'Decode the lullaby to extract Agent Zero\'s cache location. The song is consumed in the process.',
+        consequences: [
+          'Agent Zero\'s hidden cache location revealed',
+          'Cache contains unique items and lore',
+          'The lullaby is decoded and can no longer be played',
+          'A piece of Agent Zero\'s story is recovered'
+        ],
+        eidolonEffect: 'Flicker gains "Zero\'s Frequency" — carries the decoded signal, unlocking access to Agent Zero\'s hidden cache.'
+      },
+      choiceB: {
+        id: 'flicker_ch2_lullaby',
+        label: 'Keep the Lullaby',
+        description: 'Preserve the song intact. Flicker learns to broadcast it as a combat ability that disrupts Thought Virus patterns.',
+        consequences: [
+          'Flicker learns to reproduce the lullaby',
+          'Gains combat ability disrupting Thought Virus patterns',
+          'Agent Zero\'s cache remains hidden',
+          'The lullaby becomes part of Flicker\'s repertoire'
+        ],
+        eidolonEffect: 'Flicker gains "Zero\'s Lullaby" — a combat broadcast ability that disrupts Thought Virus patterns with Agent Zero\'s melody.'
+      },
+      memoryUnlocked: 'The Hidden Song — a lullaby buried in static by someone who wanted to be found by the right listener.',
+      hasChoice: true
+    },
+    {
+      chapter: 3,
+      title: 'The Broadcast',
+      bondRequirement: 60,
+      location: 'Observation Deck',
+      effectivenessGain: 0.03,
+      narrative: `Flicker does something unprecedented: it broadcasts you. Not a message from you — your actual consciousness, transmitted for a fraction of a second through every device on the Ark. For one heartbeat, you exist in every screen, every speaker, every signal-carrying wire. You see through security cameras and hear through intercoms and feel the hum of power conduits. You are everywhere at once, and it is terrifying and magnificent.
+
+Flicker pulls you back immediately, vibrating with excitement and concern. It didn't know it could do that. The bond has given it the ability to transmit not just signals but consciousness — to use the Ark's infrastructure as an extension of perception. The potential is staggering. The danger is real.
+
+Two uses present themselves. You can harness the ability tactically — once per week, Flicker broadcasts your consciousness through the Ark's systems for a controlled reconnaissance sweep. You see everything, know everything, for exactly three seconds. A god's-eye view with a hard time limit. Or you can share the ability with Flicker — creating a mutual broadcast where you both experience the Ark's systems simultaneously. You see the world as Flicker does: as frequency, as signal, as the music between transmissions. Less tactically useful, but the shared perspective creates something no tactical advantage can match.`,
+      choiceA: {
+        id: 'flicker_ch3_tactical',
+        label: 'Tactical Use',
+        description: 'Harness the broadcast for weekly reconnaissance. Three seconds of omniscient perception across all Ark systems.',
+        consequences: [
+          'Weekly recon ability through Ark systems',
+          'Three seconds of total awareness',
+          'Significant tactical and intelligence advantage',
+          'Flicker serves as the transmission conduit'
+        ],
+        eidolonEffect: 'Flicker gains "Tactical Broadcast" — enables weekly consciousness sweep through Ark systems for reconnaissance.'
+      },
+      choiceB: {
+        id: 'flicker_ch3_share',
+        label: 'Share with Flicker',
+        description: 'Create a mutual broadcast — experience the world as Flicker does, as frequency and signal. See the music between transmissions.',
+        consequences: [
+          'Mutual broadcast ability unlocked',
+          'See the world as frequency and signal',
+          'Less tactical utility, deeper experiential bond',
+          'The world becomes visible as music between transmissions'
+        ],
+        eidolonEffect: 'Flicker gains "Mutual Broadcast" — shared perception of the world as frequency, seeing the music between signals together.'
+      },
+      memoryUnlocked: 'The Everywhere Moment — one heartbeat spent in every device on the Ark, and the vertigo of being infinite.',
+      hasChoice: true
+    },
+    {
+      chapter: 4,
+      title: 'The Jamming',
+      bondRequirement: 75,
+      location: 'Terminus',
+      effectivenessGain: 0.03,
+      narrative: `The Source broadcasts the virus directly. Not through the Shimmering Shield, not through corrupted data packets — a raw, focused transmission aimed at the Ark's communication array. If it reaches the systems, every signal-carrying device becomes a vector. Every screen, every speaker, every wire becomes a pathway for the Thought Virus. The Ark would be infected from the inside out.
+
+Flicker moves before anyone can react. It throws itself into the transmission path and does something it has never done before: it jams. Not blocks — jams. It matches the virus frequency and broadcasts the exact inverse, canceling the signal through destructive interference. The effort is enormous. Flicker's form destabilizes, its signal scattering and reforming as it absorbs and negates the broadcast. You can see it hurting.
+
+There is no choice here. There is nothing you can do but watch. Flicker is the only entity on the Ark capable of this, and it chose to act before permission could be given or denied. You stand at the Terminus and witness your companion sacrifice its stability to protect everything you both care about. The jamming takes ninety seconds. Each one is an eternity. When it ends, Flicker is diminished — quieter, its signal weaker — but alive. The virus transmission has been nullified. The Ark is safe. And Flicker, trembling in the aftermath, reaches for the bond like a hand reaching for a lifeline.`,
+      choiceA: {
+        id: 'flicker_ch4_witness',
+        label: 'Witness the Sacrifice',
+        description: 'There is no choice. Flicker acts before permission can be given. You watch. You wait. You catch it when it falls.',
+        consequences: [
+          'Flicker jams the virus broadcast through self-sacrifice',
+          'Ninety seconds of witnessed suffering',
+          'Flicker is diminished but alive',
+          'The Ark is saved from internal virus infection',
+          'Bond deepens through witnessed sacrifice'
+        ],
+        eidolonEffect: 'Flicker gains "Jamming Scar" — signal permanently altered by the sacrifice, carrying the inverse frequency of the virus it defeated.'
+      },
+      choiceB: {
+        id: 'flicker_ch4_witness_alt',
+        label: 'Be There When It Ends',
+        description: 'There is no alternative. Some moments only require presence and the promise of aftermath.',
+        consequences: [
+          'Flicker jams the virus broadcast through self-sacrifice',
+          'Ninety seconds of witnessed suffering',
+          'Flicker is diminished but alive',
+          'The Ark is saved from internal virus infection',
+          'Bond deepens through witnessed sacrifice'
+        ],
+        eidolonEffect: 'Flicker gains "Jamming Scar" — signal permanently altered by the sacrifice, carrying the inverse frequency of the virus it defeated.'
+      },
+      memoryUnlocked: 'Ninety Seconds — the longest minute and a half in the Ark\'s history, measured in signal and silence.',
+      hasChoice: false
+    },
+    {
+      chapter: 5,
+      title: 'The Frequency of Home',
+      bondRequirement: 90,
+      location: 'Season Finale',
+      effectivenessGain: 0.03,
+      narrative: `Flicker has been listening to the bond. Not metaphorically — literally listening. Every soul bond produces a frequency, a resonance unique to the specific connection between a specific player and a specific Eidolon. No two are alike. Since the bond was formed, Flicker has been isolating this frequency, separating it from the noise of existence, refining it until it can be heard by human-range perception.
+
+It is ready now. Flicker offers to play it for you. Your frequency. The sound your bond makes when nothing else is interfering. It has never been heard before — not by you, not by anyone. Flicker is the first being to isolate a soul bond's resonance, and yours is the first it will share.
+
+The tone is procedurally generated — unique to each player, shaped by the choices they've made, the time they've spent, the nature of their bond. No two players will ever hear the same frequency. It is, in the most literal sense possible, the sound of home. Not a place — a connection. The frequency that means "here is where I belong." When it plays, you understand why Flicker fights so hard to exist: because existence sounds like this. Because silence would mean this frequency stops. And some signals refuse to die.`,
+      choiceA: {
+        id: 'flicker_ch5_listen',
+        label: 'Listen to Your Frequency',
+        description: 'Hear the sound your bond makes. A procedurally generated tone unique to your specific connection. The sound of home.',
+        consequences: [
+          'Procedurally generated unique tone plays',
+          'No two players hear the same frequency',
+          'The sound of the soul bond made audible',
+          'Flicker\'s greatest gift — proof that the bond has a voice',
+          'Frequency becomes accessible in the player\'s audio menu'
+        ],
+        eidolonEffect: 'Flicker gains "Home Frequency" — carries and can replay the unique frequency of the soul bond, the sound of belonging.'
+      },
+      choiceB: {
+        id: 'flicker_ch5_listen_alt',
+        label: 'Hear the Signal',
+        description: 'There is no alternative to this gift. The frequency exists whether or not you listen — but listening changes everything.',
+        consequences: [
+          'Procedurally generated unique tone plays',
+          'No two players hear the same frequency',
+          'The sound of the soul bond made audible',
+          'Flicker\'s greatest gift — proof that the bond has a voice',
+          'Frequency becomes accessible in the player\'s audio menu'
+        ],
+        eidolonEffect: 'Flicker gains "Home Frequency" — carries and can replay the unique frequency of the soul bond, the sound of belonging.'
+      },
+      memoryUnlocked: 'The Frequency of Home — the first time you heard what belonging sounds like, played by a signal that refused to die.',
+      hasChoice: true
+    }
+  ]
+};
+
+// ============================================================================
+// GILT — "The Treasure That Chose to Stay"
+// ============================================================================
+
+const giltQuestChain: BondThatHeldQuestChain = {
+  eidolonId: 'gilt',
+  eidolonName: 'Gilt',
+  questTitle: 'The Treasure That Chose to Stay',
+  chapters: [
+    {
+      chapter: 1,
+      title: 'Appraising the Bond',
+      bondRequirement: 30,
+      location: 'Trading Post',
+      effectivenessGain: 0.03,
+      narrative: `Gilt's shell is doing something new. The golden carapace that serves as both armor and ledger has begun displaying a number — a value, expressed in a currency that doesn't exist on the Ark. It ticks upward constantly, incrementing by fractions too small to see but accumulating into a visible increase. Gilt is appraising the bond, and the appraisal is going up.
+
+The beetle is confused by its own behavior. Gilt has always understood value in terms of scarcity, utility, and exchange rate. But this number doesn't correspond to any economic model it knows. The bond isn't scarce — it's freely given. It isn't useful in any transactional sense — it produces no tradeable goods. And its exchange rate is undefined because it isn't for sale. By every metric Gilt understands, the bond should be worthless. And yet the number climbs.
+
+You can help Gilt understand. Explain the concept of value through time — that some things appreciate not because of market forces but because of accumulated meaning. Each day adds weight. Each shared experience compounds. The number climbs because the bond is growing, and growth is its own kind of value. Or you can let Gilt figure it out alone — watching as the most analytical mind on the Ark struggles with a variable that refuses to be quantified, eventually reaching its own conclusion about worth that transcends economy.`,
+      choiceA: {
+        id: 'gilt_ch1_explain',
+        label: 'Help Understand',
+        description: 'Explain value through time — that some things appreciate through accumulated meaning, not market forces.',
+        consequences: [
+          'Gilt gains the concept of sentimental value',
+          'Shell display begins incorporating non-economic metrics',
+          'Bond value number stabilizes with context',
+          'Gilt references your explanation in future interactions'
+        ],
+        eidolonEffect: 'Gilt gains "Taught Value" — understands sentimental worth through the player\'s explanation, display reflects emotional economics.'
+      },
+      choiceB: {
+        id: 'gilt_ch1_let_analyze',
+        label: 'Let Gilt Analyze',
+        description: 'Let Gilt reach its own conclusion. Watch the most analytical mind on the Ark wrestle with a variable beyond quantification.',
+        consequences: [
+          'Gilt struggles visibly with the concept',
+          'Eventually develops its own theory of emotional value',
+          'The conclusion is uniquely Gilt — mathematical but warm',
+          'Gilt\'s independent understanding runs deeper'
+        ],
+        eidolonEffect: 'Gilt gains "Self-Discovered Value" — independently develops emotional economics, a mathematical framework for worth beyond price.'
+      },
+      memoryUnlocked: 'The Rising Number — the first time Gilt\'s shell displayed a value it couldn\'t explain, and watched it climb.',
+      hasChoice: true
+    },
+    {
+      chapter: 2,
+      title: 'The Golden Scar',
+      bondRequirement: 45,
+      location: 'Medical Bay',
+      effectivenessGain: 0.03,
+      narrative: `Gilt's shell is cracking. Not breaking — cracking. Fine lines spider across the golden carapace, following patterns that correspond to moments of intense bond activity. Each crack represents a point where Gilt grew too fast for its own container — where emotion expanded faster than the shell could accommodate. The Medical Bay can find nothing wrong. The cracks are structural, not pathological. Gilt is outgrowing itself.
+
+But here is the beautiful part: the cracks are filling with something. A brighter gold, liquid and luminous, seeping up from within to fill each fissure. The effect is kintsugi — the Japanese art of repairing broken pottery with gold, treating the damage as part of the object's history rather than something to hide. Gilt's shell is becoming more beautiful because of its scars, each golden line a record of growth that hurt but mattered.
+
+You can polish the scars smooth — blending the repair lines into the existing shell until the surface is pristine again. Gilt would look unchanged, unmarked, as if the growth hadn't happened. Or you can leave the scars visible — letting the shell tell its story through its fractures, each golden line a chapter in the narrative of a beetle that grew beyond its boundaries. The shell becomes a map of everything Gilt has survived and everything it has become.`,
+      choiceA: {
+        id: 'gilt_ch2_polish',
+        label: 'Polish the Scars',
+        description: 'Blend the repair lines smooth. Gilt\'s shell returns to pristine condition, unmarked by its growth.',
+        consequences: [
+          'Shell surface restored to pristine gold',
+          'Growth lines invisible to casual observation',
+          'Gilt appears unchanged and perfect',
+          'The history is preserved but hidden'
+        ],
+        eidolonEffect: 'Gilt gains "Pristine Shell" — polished smooth, hiding its growth beneath flawless gold.'
+      },
+      choiceB: {
+        id: 'gilt_ch2_leave_visible',
+        label: 'Leave Scars Visible',
+        description: 'Let the shell tell its story. Each golden kintsugi line is a chapter — damage made beautiful, growth made visible.',
+        consequences: [
+          'Kintsugi pattern remains visible on shell',
+          'Each golden line tells part of Gilt\'s story',
+          'Shell becomes visually unique and striking',
+          'Gilt learns that scars can be beautiful'
+        ],
+        eidolonEffect: 'Gilt gains "Kintsugi Shell" — golden repair lines visible, each one a story of growth that hurt but mattered.'
+      },
+      memoryUnlocked: 'The First Crack — the moment Gilt\'s shell couldn\'t contain what it was becoming, and gold rushed in to fill the gap.',
+      hasChoice: true
+    },
+    {
+      chapter: 3,
+      title: 'Locke\'s Test',
+      bondRequirement: 60,
+      location: 'Trading Post',
+      effectivenessGain: 0.03,
+      narrative: `Locke wants to buy Gilt. The master trader, whose economic instincts have never been wrong, approaches you with an offer so staggering that the number alone takes a moment to process. A fortune in Dream, in materials, in favors owed. Enough to fund a player's activities for the rest of the season and beyond. Locke's expression is neutral, professional, giving nothing away. This is a business transaction, presented as such.
+
+Gilt sits on your shoulder, very still. Its shell displays nothing — no numbers, no valuations, no analysis. For the first time in its existence, the appraiser has no opinion on its own price. It is waiting to see what you do. Not what you decide — what you do. There is a difference Gilt has only recently learned to recognize.
+
+If you refuse, something unexpected happens. Locke smiles — genuinely, warmly, with an expression that transforms the trader's usually inscrutable face. "Good," Locke says. "That was the test." Locke's trust increases dramatically — you have proven that some things in your possession are not for sale, and a trader who knows what cannot be sold is a trader worth trusting. If you accept... Gilt is gone. Permanently. No take-backs, no quest to recover it. You chose a price, and Gilt learned that everything has one. The fortune is real and substantial. The absence is permanent.`,
+      choiceA: {
+        id: 'gilt_ch3_refuse',
+        label: 'Refuse the Offer',
+        description: 'Some things are not for sale. Refuse Locke\'s staggering offer, and discover it was a test of character all along.',
+        consequences: [
+          'Locke smiles — the offer was a test',
+          'Locke Trust increases by +10',
+          'Gilt\'s shell briefly displays "PRICELESS"',
+          'Gilt learns what it means to be beyond transaction'
+        ],
+        eidolonEffect: 'Gilt gains "Beyond Price" — shell occasionally displays "PRICELESS," having learned that its value transcends economy.'
+      },
+      choiceB: {
+        id: 'gilt_ch3_accept',
+        label: 'Accept the Offer',
+        description: 'Take the fortune. Gilt is sold. Permanently. The wealth is real. The loss is forever.',
+        consequences: [
+          'Gilt is permanently removed from your companion roster',
+          'Massive fortune in Dream and materials received',
+          'No recovery quest — the sale is final',
+          'Gilt\'s last shell display: a number equaling the price, followed by a question mark'
+        ],
+        eidolonEffect: 'Gilt is PERMANENTLY LOST. No reversal. The fortune funds the rest of the season, but the companion slot remains empty.'
+      },
+      memoryUnlocked: 'The Price Tag — the moment someone put a number on something beyond numbers, and what happened next.',
+      hasChoice: true
+    },
+    {
+      chapter: 4,
+      title: 'The Economy of Love',
+      bondRequirement: 75,
+      location: 'Private',
+      effectivenessGain: 0.03,
+      narrative: `Gilt has been processing something internally for days, its shell cycling through calculations that produce no visible output. When it finally comes to you, it is carrying something in its mandibles — something it made. A gemstone. Not found, not traded for, not appraised from existing stock. Created. Gilt has somehow compressed the emotional resonance of the bond into a physical crystal.
+
+The gemstone is unlike anything in the Ark's inventory. It has no stats, no combat applications, no crafting utility. It is, by every game-mechanical measure, useless. But it is beautiful — a color that shifts based on the bond's emotional state, warm when things are good, cool when distance grows, blazing when the connection peaks. Gilt presents it with the careful precision of a jeweler displaying a masterwork, and you understand: this is the first thing Gilt has ever created rather than evaluated. Its first act of production rather than assessment.
+
+You can keep the gemstone — equipping it in an accessory slot where it occupies space that could hold something mechanically useful. It provides no stats, no bonuses, no tactical advantage. It is purely sentimental, and wearing it is a statement that sentiment has value. Or you can give it to an NPC — any NPC. The gift generates a massive trust increase of fifteen points, because the gesture of giving away something irreplaceable speaks louder than any transaction. Gilt watches either choice with equal intensity, learning something new about value from whichever path you take.`,
+      choiceA: {
+        id: 'gilt_ch4_keep',
+        label: 'Keep the Gemstone',
+        description: 'Equip the gemstone. No stats, no bonuses — just a color-shifting crystal that reflects the bond\'s emotional state. Pure sentiment.',
+        consequences: [
+          'Gemstone equipped in accessory slot',
+          'No mechanical stats or bonuses',
+          'Color shifts with bond emotional state',
+          'A visible statement that sentiment has value',
+          'Occupies a slot that could hold useful gear'
+        ],
+        eidolonEffect: 'Gilt gains "Gemwright" — created its first object of pure emotional value. Gemstone is equippable with no stats but living color.'
+      },
+      choiceB: {
+        id: 'gilt_ch4_give',
+        label: 'Give to an NPC',
+        description: 'Gift the irreplaceable gemstone to an NPC. The gesture generates +15 trust — because giving away the priceless speaks volumes.',
+        consequences: [
+          'Gemstone given to chosen NPC',
+          '+15 trust with the recipient NPC',
+          'Gilt observes the act of giving with fascination',
+          'Gilt learns that value can increase through release',
+          'The NPC treasures the gift permanently'
+        ],
+        eidolonEffect: 'Gilt gains "Gift Economy" — learns that releasing value can create more of it. +15 trust with chosen NPC.'
+      },
+      memoryUnlocked: 'The First Creation — the moment a being that only measured value learned to make it.',
+      hasChoice: true
+    },
+    {
+      chapter: 5,
+      title: 'The Beetle and the Void',
+      bondRequirement: 90,
+      location: 'Season Finale',
+      effectivenessGain: 0.03,
+      narrative: `Gilt's shell has been acting strangely for weeks — displaying fragments of maps, coordinates, spatial data that doesn't correspond to any known location on the Ark. The fragments have been assembling themselves, piece by piece, and now the picture is complete. Gilt's shell is displaying a map of the dark sector — the space beyond the Shimmering Shield. Not a guess, not an extrapolation. An actual map, rendered in golden light on a beetle's back, showing what lies in the territory that no one has been able to scout.
+
+The implications are extraordinary. This map is a piece of the Year Two puzzle — information that would be invaluable when the Shield eventually opens and the Ark must confront whatever lies beyond. The data on Gilt's shell includes terrain features, energy signatures, and what appear to be structural remnants. Someone or something built in the dark sector, and Gilt's shell has been quietly mapping it through methods even the Architect can't explain.
+
+You can share the map with the community — broadcasting Gilt's shell display to the Ark's shared intelligence network. Every player benefits. The dark sector becomes less unknown, less terrifying. This is a Year Two piece, and sharing it early gives everyone a head start. Or you can keep the map private — maintaining exclusive access to the dark sector data. When the Shield eventually opens, you alone will know what waits beyond. A significant tactical advantage, paid for with communal ignorance.`,
+      choiceA: {
+        id: 'gilt_ch5_share',
+        label: 'Share with Community',
+        description: 'Broadcast the dark sector map to the entire Ark. Everyone benefits. A Year Two piece given freely.',
+        consequences: [
+          'Dark sector map shared with all players',
+          'Community gains early intelligence for Year Two',
+          'Gilt\'s generosity noted by the Ark\'s leadership',
+          'Reduces collective anxiety about the unknown',
+          'A Year Two quest piece enters communal knowledge'
+        ],
+        eidolonEffect: 'Gilt gains "Golden Cartographer" — shell permanently displays the shared map, a gift of knowledge to the community.'
+      },
+      choiceB: {
+        id: 'gilt_ch5_keep_private',
+        label: 'Keep Private',
+        description: 'Maintain exclusive access to the dark sector map. When the Shield opens, only you will know what lies beyond.',
+        consequences: [
+          'Dark sector map remains exclusive to you',
+          'Significant tactical advantage when Shield opens',
+          'Gilt\'s shell continues displaying the map privately',
+          'Other players enter Year Two blind to what you know',
+          'The advantage is real but the cost is communal'
+        ],
+        eidolonEffect: 'Gilt gains "Private Cartographer" — shell displays the exclusive map, a tactical advantage reserved for the bonded player.'
+      },
+      memoryUnlocked: 'The Golden Map — a beetle\'s shell displaying what lies beyond everything known, and the choice of who gets to see it.',
+      hasChoice: true
+    }
+  ]
+};
+
+// ============================================================================
+// Export
+// ============================================================================
+
+export const BOND_THAT_HELD_QUESTS: BondThatHeldQuestChain[] = [
+  luxQuestChain,
+  echoQuestChain,
+  glyphQuestChain,
+  cipherQuestChain,
+  flickerQuestChain,
+  giltQuestChain
+];
