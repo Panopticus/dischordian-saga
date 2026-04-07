@@ -4,7 +4,7 @@
    Surveillance Network. Analytics, governance, live ops,
    promo codes, and resource distribution.
    ═══════════════════════════════════════════════════════ */
-import { useState, useCallback } from "react";
+import { useState, useCallback, lazy, Suspense } from "react";
 import { trpc } from "@/lib/trpc";
 import { useAuth } from "@/_core/hooks/useAuth";
 import { Link } from "wouter";
@@ -12,11 +12,13 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   Eye, Shield, Vote, Zap, Gift, Radio, Users, BarChart3,
   Plus, X, Check, Power, PowerOff, Ticket, Clock, Target,
-  ChevronRight, AlertTriangle, Send,
+  ChevronRight, AlertTriangle, Send, Rewind,
 } from "lucide-react";
 import { toast } from "sonner";
 
-type ConsoleView = "surveillance" | "governance" | "live_ops" | "requisitions" | "awards";
+const TimeMachineView = lazy(() => import("@/components/TimeMachineView"));
+
+type ConsoleView = "surveillance" | "governance" | "live_ops" | "requisitions" | "awards" | "time_machine";
 
 /* ═══ VOID ENERGY STYLE HELPERS ═══ */
 const voidPanel = "bg-white/[0.02] border border-white/10 rounded-xl backdrop-blur";
@@ -451,6 +453,7 @@ const TABS: { id: ConsoleView; label: string; icon: typeof Eye }[] = [
   { id: "live_ops", label: "LIVE OPS", icon: Radio },
   { id: "requisitions", label: "REQUISITIONS", icon: Ticket },
   { id: "awards", label: "AWARDS", icon: Gift },
+  { id: "time_machine", label: "TIME MACHINE", icon: Rewind },
 ];
 
 export default function ArchitectConsolePage() {
@@ -510,6 +513,11 @@ export default function ArchitectConsolePage() {
             {view === "live_ops" && <LiveOpsView />}
             {view === "requisitions" && <RequisitionsView />}
             {view === "awards" && <AwardsView />}
+            {view === "time_machine" && (
+              <Suspense fallback={<p className="font-mono text-[10px] text-white/20 text-center py-12">Loading Time Machine...</p>}>
+                <TimeMachineView />
+              </Suspense>
+            )}
           </motion.div>
         </AnimatePresence>
       </div>
