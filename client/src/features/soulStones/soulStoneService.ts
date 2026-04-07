@@ -182,3 +182,61 @@ export function getPlayerStats(store: {
     weeklyCollected: store.weeklyDropCount,
   };
 }
+
+/* ─── STORE ACTION WRAPPERS ─── */
+
+/** Corrupt a stone by ID */
+export function corruptStone(
+  store: { corruptStone: (id: string) => boolean },
+  stoneId: string,
+) {
+  return store.corruptStone(stoneId);
+}
+
+/** Start purification on a stone */
+export function startPurification(
+  store: { startPurification: (id: string, trust: number) => unknown },
+  stoneId: string,
+  antiquarianTrust = 0,
+) {
+  return store.startPurification(stoneId, antiquarianTrust);
+}
+
+/** Summon a demon pet */
+export function summonDemon(
+  store: { summonDemon: (id: string) => boolean },
+  demonId: string,
+) {
+  return store.summonDemon(demonId);
+}
+
+/** Dismiss an active companion */
+export function dismissCompanion(
+  store: { dismissCompanion: (path: "demon" | "divine" | "dischordian") => void },
+  path: "demon" | "divine" | "dischordian" = "demon",
+) {
+  store.dismissCompanion(path);
+}
+
+/** Forge a divine companion */
+export function forgeDivineCompanion(
+  store: { forgeDivine: (id: string) => boolean },
+  companionId: string,
+) {
+  return store.forgeDivine(companionId);
+}
+
+/** Get alignment data for display */
+export function getAlignmentData(store: {
+  globalCorruption: number;
+  globalPurity: number;
+  activeDemonPet: unknown;
+  activeDivineCompanion: unknown;
+}) {
+  return {
+    corruptionLevel: store.globalCorruption,
+    purityLevel: store.globalPurity,
+    activeDemonPets: store.activeDemonPet ? 1 : 0,
+    activeDivineCompanions: store.activeDivineCompanion ? 1 : 0,
+  };
+}
