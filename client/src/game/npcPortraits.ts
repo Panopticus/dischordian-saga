@@ -79,8 +79,8 @@ export const NPC_PORTRAITS: Record<string, NPCPortrait> = {
     bustPortrait: "https://res.cloudinary.com/dsenaozjq/image/upload/q_auto/f_auto/v1775528042/the-source-empty_xt73mm.jpg",
     color: "#ff1744",
     expressions: {
-      neutral: "https://res.cloudinary.com/dsenaozjq/image/upload/q_auto/f_auto/v1775528042/the-source-empty_xt73mm.jpg",
-      emotional1: "https://res.cloudinary.com/dsenaozjq/image/upload/q_auto/f_auto/v1775528042/the-source-empty_xt73mm.jpg",
+      neutral: "https://res.cloudinary.com/dsenaozjq/image/upload/q_auto/f_auto/v1775528043/the-source-viral_zdtfui.jpg",
+      emotional1: "https://res.cloudinary.com/dsenaozjq/image/upload/q_auto/f_auto/v1775528042/the-source-grieving_hmqwzc.jpg",
       emotional2: "https://res.cloudinary.com/dsenaozjq/image/upload/q_auto/f_auto/v1775528042/the-source-prophetic_lhgucu.jpg",
       speaking: "https://res.cloudinary.com/dsenaozjq/image/upload/q_auto/f_auto/v1775528042/the-source-empty_xt73mm.jpg",
     },

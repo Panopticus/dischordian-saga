@@ -17,7 +17,7 @@ import { FACTION_NPCS, type FactionNPCId, type FactionNPC } from "@/game/faction
 import { useGame } from "@/contexts/GameContext";
 import { GIFT_ITEMS, calculateGiftResult, type GiftItem, type NpcId, type GiftItemId } from "@/game/npcGifts";
 import { useNPCPhysics } from "@/engine/useVoidEngine";
-import { getNPCPortrait } from "@/game/npcPortraits";
+import { getNPCPortrait, getHumanRevealImage } from "@/game/npcPortraits";
 import { getAmbientReference } from "@/game/ambientStorytelling";
 import { getActiveVoices, SKILL_VOICES, type SkillId } from "@/game/innerVoices";
 import { ARCHON_VOICE_MAPPING } from "@/game/archonTrainingVoices";
@@ -176,6 +176,25 @@ export default function NPCDialog({ npcId, scene, onClose, onChoice }: NPCDialog
   const [kineticKey, setKineticKey] = useState(0); // force re-mount on scene change
   const textRef = useRef<HTMLDivElement>(null);
 
+  // ─── BioWare-style cinematic portrait ───
+  // Expression shifts: speaking while typing, emotional on choice hover, neutral at rest
+  const portrait = useMemo(() => getNPCPortrait(npc.id), [npc.id]);
+  const [hoveredArchetype, setHoveredArchetype] = useState<string | null>(null);
+
+  const activeExpression = useMemo(() => {
+    if (!portrait) return null;
+    // The Human uses progressive reveal before Trust 50
+    if (npcId === "the_human" && trust < 50) return getHumanRevealImage(trust);
+    // While NPC is "talking", show speaking expression
+    if (isTyping) return portrait.expressions.speaking;
+    // Hovering a hostile/suspicious choice → emotional2 (tension)
+    if (hoveredArchetype === "suspicious" || hoveredArchetype === "manipulative") return portrait.expressions.emotional2;
+    // Hovering a compassionate/loyal choice → emotional1 (warmth)
+    if (hoveredArchetype === "compassionate" || hoveredArchetype === "loyal") return portrait.expressions.emotional1;
+    // At rest with choices visible → neutral
+    return portrait.expressions.neutral;
+  }, [portrait, npcId, trust, isTyping, hoveredArchetype]);
+
   // Reset state on scene change
   useEffect(() => {
     setIsTyping(true);
@@ -248,7 +267,7 @@ export default function NPCDialog({ npcId, scene, onClose, onChoice }: NPCDialog
         {/* Dialog Panel */}
         <motion.div
           {...VOID.springUp()}
-          className={`relative w-full max-w-2xl void-elevated overflow-hidden`}
+          className={`relative w-full max-w-4xl void-elevated overflow-hidden`}
           style={{ boxShadow: `0 0 40px ${npc.color}20, inset 0 0 20px ${npc.color}05` }}
           data-narrative={MANIFESTATION_NARRATIVE[npc.manifestation] || "breathe"}
           onClick={handleSkip}
@@ -264,54 +283,106 @@ export default function NPCDialog({ npcId, scene, onClose, onChoice }: NPCDialog
             </div>
           )}
 
-          {/* Header */}
-          <div className="flex items-center justify-between px-4 py-2.5 border-b"
-            style={{ borderColor: `${npc.color}25` }}>
-            <div className="flex items-center gap-2.5">
-              <div className="w-10 h-10 rounded-full flex items-center justify-center overflow-hidden"
-                style={{ backgroundColor: `${npc.color}15`, boxShadow: `0 0 12px ${npc.color}30` }}>
-                {(() => {
-                  const portrait = getNPCPortrait(npc.id);
-                  return portrait ? (
-                    <img src={portrait.bustPortrait} alt={npc.name} className="w-full h-full object-cover" onError={e => { (e.target as HTMLImageElement).style.display = "none"; (e.target as HTMLImageElement).nextElementSibling && ((e.target as HTMLImageElement).parentElement!.innerHTML = `<span style="color:${npc.color}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/></svg></span>`); }} />
-                  ) : (
-                    <Icon size={14} style={{ color: npc.color }} />
-                  );
-                })()}
-              </div>
-              <div>
-                <p className="font-display text-sm font-bold tracking-wider" style={{ color: npc.color }}>
-                  {npc.name}
-                </p>
-                <div className="flex items-center gap-2">
-                  <span className="font-mono text-[8px] tracking-[0.3em]" style={{ color: `${npc.color}80` }}>
-                    {manifest.label}
-                  </span>
-                  {/* Trust indicator */}
-                  <div className="flex items-center gap-1">
-                    <div className="w-12 h-1 rounded-full bg-white/10 overflow-hidden">
-                      <div className="h-full rounded-full transition-all duration-500"
-                        style={{ width: `${trust}%`, backgroundColor: npc.color }} />
-                    </div>
-                    <span className="font-mono text-[7px]" style={{ color: `${npc.color}60` }}>{trust}</span>
+          {/* ═══ BioWare-style layout: Portrait | Dialog ═══ */}
+          <div className="flex">
+            {/* ─── CINEMATIC PORTRAIT PANEL ─── */}
+            {activeExpression && (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.92 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.5, ease: "easeOut" }}
+                className="hidden sm:block relative w-[200px] shrink-0 overflow-hidden"
+                style={{ background: `linear-gradient(180deg, ${npc.color}08 0%, transparent 40%, ${npc.color}05 100%)` }}
+              >
+                {/* Portrait image with crossfade on expression change */}
+                <AnimatePresence mode="wait">
+                  <motion.img
+                    key={activeExpression}
+                    src={activeExpression}
+                    alt={npc.name}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.35 }}
+                    className="w-full h-full object-cover object-top"
+                    style={{
+                      minHeight: "320px",
+                      filter: isTyping ? `brightness(1.1) drop-shadow(0 0 8px ${npc.color}40)` : "brightness(1)",
+                      transition: "filter 0.4s ease",
+                    }}
+                  />
+                </AnimatePresence>
+
+                {/* Speaking glow pulse at bottom of portrait */}
+                {isTyping && (
+                  <motion.div
+                    animate={{ opacity: [0.3, 0.7, 0.3] }}
+                    transition={{ duration: 1.2, repeat: Infinity }}
+                    className="absolute bottom-0 left-0 right-0 h-16 pointer-events-none"
+                    style={{
+                      background: `linear-gradient(0deg, ${npc.color}25 0%, transparent 100%)`,
+                    }}
+                  />
+                )}
+
+                {/* Manifestation-specific portrait frame */}
+                <div
+                  className="absolute inset-0 pointer-events-none"
+                  style={{
+                    boxShadow: `inset 0 0 30px ${npc.color}15, inset -1px 0 0 ${npc.color}20`,
+                  }}
+                />
+              </motion.div>
+            )}
+
+            {/* ─── DIALOG CONTENT COLUMN ─── */}
+            <div className="flex-1 min-w-0">
+              {/* Header */}
+              <div className="flex items-center justify-between px-4 py-2.5 border-b"
+                style={{ borderColor: `${npc.color}25` }}>
+                <div className="flex items-center gap-2.5">
+                  {/* Small avatar for mobile / fallback */}
+                  <div className="w-10 h-10 rounded-full flex items-center justify-center overflow-hidden sm:hidden"
+                    style={{ backgroundColor: `${npc.color}15`, boxShadow: `0 0 12px ${npc.color}30` }}>
+                    {portrait ? (
+                      <img src={portrait.bustPortrait} alt={npc.name} className="w-full h-full object-cover" />
+                    ) : (
+                      <Icon size={14} style={{ color: npc.color }} />
+                    )}
                   </div>
-                  {relationship && (
-                    <span
-                      className="font-mono text-[7px] uppercase tracking-[0.2em] px-1.5 py-0.5 rounded border"
-                      style={{ color: npc.color, borderColor: `${npc.color}40`, backgroundColor: `${npc.color}0c` }}
-                      title={relationship.tierLabel}
-                      data-testid={`relationship-tier-${npcId}`}
-                    >
-                      {relationship.tier} · {relationship.personality}
-                    </span>
-                  )}
+                  <div>
+                    <p className="font-display text-sm font-bold tracking-wider" style={{ color: npc.color }}>
+                      {npc.name}
+                    </p>
+                    <div className="flex items-center gap-2">
+                      <span className="font-mono text-[8px] tracking-[0.3em]" style={{ color: `${npc.color}80` }}>
+                        {manifest.label}
+                      </span>
+                      {/* Trust indicator */}
+                      <div className="flex items-center gap-1">
+                        <div className="w-12 h-1 rounded-full bg-white/10 overflow-hidden">
+                          <div className="h-full rounded-full transition-all duration-500"
+                            style={{ width: `${trust}%`, backgroundColor: npc.color }} />
+                        </div>
+                        <span className="font-mono text-[7px]" style={{ color: `${npc.color}60` }}>{trust}</span>
+                      </div>
+                      {relationship && (
+                        <span
+                          className="font-mono text-[7px] uppercase tracking-[0.2em] px-1.5 py-0.5 rounded border"
+                          style={{ color: npc.color, borderColor: `${npc.color}40`, backgroundColor: `${npc.color}0c` }}
+                          title={relationship.tierLabel}
+                          data-testid={`relationship-tier-${npcId}`}
+                        >
+                          {relationship.tier} · {relationship.personality}
+                        </span>
+                      )}
+                    </div>
+                  </div>
                 </div>
+                <button onClick={onClose} className="text-white/20 hover:text-white/50 transition-colors">
+                  <X size={16} />
+                </button>
               </div>
-            </div>
-            <button onClick={onClose} className="text-white/20 hover:text-white/50 transition-colors">
-              <X size={16} />
-            </button>
-          </div>
 
           {/* Dialog Body */}
           <div className="px-4 py-4 min-h-[120px]" ref={textRef}>
@@ -423,6 +494,8 @@ export default function NPCDialog({ npcId, scene, onClose, onChoice }: NPCDialog
                       e.stopPropagation();
                       onChoice(choice);
                     }}
+                    onMouseEnter={() => setHoveredArchetype(choice.archetype)}
+                    onMouseLeave={() => setHoveredArchetype(null)}
                     className="w-full flex items-center gap-3 p-3 rounded-lg border transition-all text-left group hover:brightness-125"
                     style={{
                       borderColor: `${npc.color}15`,
@@ -507,6 +580,8 @@ export default function NPCDialog({ npcId, scene, onClose, onChoice }: NPCDialog
               </p>
             </div>
           )}
+            </div>{/* end dialog content column */}
+          </div>{/* end BioWare flex layout */}
         </motion.div>
       </motion.div>
     </AnimatePresence>
