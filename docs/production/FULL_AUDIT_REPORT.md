@@ -108,9 +108,9 @@ client/public/videos/
 | Fight SFX (.ogg) | 13 | ✅ All on CDN |
 | **TOTAL MUSIC** | **106 tracks** | **✅ COMPLETE** |
 
-## AUDIO — Voice Lines (119+ documented, 0 recorded)
+## AUDIO — Voice Lines (530+ lines / 50,000+ words documented, 0 recorded)
 
-Comprehensive VO script exists in `docs/production/elara-vo-script.md` (119 lines) and `VOICE_OVER_BIBLE.md` (8 character profiles). ElevenLabs voice cloning profiles defined. Hook infrastructure exists (`useElaraTTS.ts`). **No audio files produced.**
+Deep extraction revealed **530+ unique dialog lines totaling 50,000+ words** across 14 characters — far more than the 119 lines in the existing VO Bible. Major sources: roomDialogs.ts (100+ Elara monologues), yearOneEvents.ts (48 Antiquarian vote intros), transmissions.ts (40+ Meme broadcasts), companionData.ts (80+ quest lines), loyaltyMissions.ts (50+ deep lore lines). ElevenLabs profiles ready for 8/14 characters. Hook infrastructure exists (`useElaraTTS.ts`). **No audio files produced.**
 
 
 ---
@@ -612,34 +612,79 @@ The Antiquarian narrates ALL Chronicle entries in the Governance Hub. These are 
 
 ---
 
-## VO PRODUCTION SUMMARY
+## VO PRODUCTION SUMMARY — EXPANDED (Deep extraction complete)
 
-| Character | Total Lines | P0 | P1 | P2 | Voice Profile Ready |
-|-----------|------------|----|----|----|--------------------|
-| **Elara** | 119 | 40 | 50 | 29 | ✅ Yes |
-| **The Antiquarian** | 48+ (weekly votes) + Chronicle | 48 | 20+ | — | ✅ Yes |
-| **The Human** | 15+ | — | 15 | — | ✅ Yes |
-| **Locke** | 10+ | — | 10 | — | ✅ Yes |
-| **Agent Zero** | 8+ | — | 8 | — | ✅ Yes |
-| **Shadow Tongue** | 8+ | — | — | 8 | ✅ Yes |
-| **The Source** | 5+ | — | — | 5 | ✅ Yes |
-| **Narrator** | 10+ | — | 5 | 5 | ✅ Yes |
-| **TOTAL** | **~225+ lines** | **88** | **108+** | **47+** | **All ready** |
+The deep codebase audit revealed **50,000+ words** of spoken dialog — far more than the 225 lines in the existing VO Bible. Here is the full inventory:
 
-**Production Order:**
-1. Elara awakening (13 lines) — first thing players hear
-2. Elara room intros (10 lines) — exploration narration  
-3. Antiquarian Year One vote intros (48 lines) — Governance Hub
-4. Elara trust transitions (4 lines) — relationship arc
-5. The Human first contact (5 lines) — antagonist introduction
-6. All remaining P1 lines
-7. All P2 lines
+| Character | Lines | Words (est.) | Source Files | Voice Profile Ready |
+|-----------|-------|-------------|--------------|---------------------|
+| **Elara** | 200+ | 15,000+ | roomDialogs.ts, companionData.ts, loreTutorials.ts, loyaltyMissions.ts, awakening | ✅ Yes |
+| **The Antiquarian** | 100+ | 12,000+ | yearOneEvents.ts (48 vote intros), antiquarianChronicle.ts (20 entries), chronicle templates | ✅ Yes |
+| **The Meme** | 40+ transmissions | 8,000+ | shared/transmissions.ts (intro+outro pairs for 20+ episodes) | ❌ Needs profile |
+| **The Human** | 40+ | 5,000+ | companionData.ts, loyaltyMissions.ts, loreTutorials.ts (corrupted transmissions) | ✅ Yes |
+| **The Dreamer** | 20+ | 2,000+ | loyaltyMissions.ts, moralityStoryBranches.ts | ❌ Needs profile |
+| **Locke** | 10+ | 1,500+ | yearOneEvents.ts, companionData.ts | ✅ Yes |
+| **The Oracle** | 15+ | 1,500+ | yearOneEvents.ts, techTree.ts | ❌ Needs profile |
+| **The Collector** | 10+ | 1,000+ | loreTutorials.ts, quests.ts | ❌ Needs profile |
+| **Shadow Tongue** | 8+ | 1,000+ | yearOneEvents.ts, moralityStoryBranches.ts | ✅ Yes |
+| **The Source/Kael** | 10+ | 1,200+ | yearOneEvents.ts, loreTutorials.ts | ✅ Yes |
+| **Agent Zero** | 8+ | 800+ | existing VO Bible | ✅ Yes |
+| **The Eyes** | 5+ | 500+ | yearOneEvents.ts (if resurrected) | ❌ Needs profile |
+| **Narrator** | 10+ | 500+ | system alerts, vote announcements | ✅ Yes |
+| **Voltari** | 6+ | 600+ | shared/voltariTranslation.ts | ❌ Needs profile |
+| **Tech Tree Lore** | 40+ | 2,000+ | shared/techTree.ts (short flavor lines) | Various |
+| **TOTAL** | **~530+ lines** | **~50,000+ words** | | **8/14 ready** |
 
-**ElevenLabs Estimated Cost:**
-- ~225 lines × avg 50 words = ~11,250 words
-- At ElevenLabs Professional tier: ~$22/month covers generation
-- Voice cloning: 8 voices × $0 (included in Professional)
-- Total estimated: **$22-44/month during production**
+### KEY SOURCE FILES FOR RECORDING SCRIPT EXTRACTION
+
+| File | Content | Words |
+|------|---------|-------|
+| `client/src/game/roomDialogs.ts` | 100+ Elara room monologues (5 per room × 15+ rooms) | ~12,000 |
+| `client/src/data/yearOneEvents.ts` | 48 Antiquarian vote intros | ~8,000 |
+| `shared/transmissions.ts` | 20+ Meme broadcast intro/outro pairs | ~8,000 |
+| `client/src/data/companionData.ts` | 80+ companion quest dialog lines | ~6,000 |
+| `client/src/data/loyaltyMissions.ts` | 50+ deep lore loyalty dialog | ~5,000 |
+| `client/src/data/loreTutorials.ts` | 50+ tutorial narration lines (143KB file) | ~4,000 |
+| `client/src/data/moralityStoryBranches.ts` | 30+ morality-branched dialog | ~2,000 |
+| `client/src/data/antiquarianChronicle.ts` | 20+ Chronicle entries + templates | ~2,000 |
+| `shared/techTree.ts` | 40+ tech unlock flavor lines | ~2,000 |
+| `shared/voltariTranslation.ts` | 6+ Voltari translation milestones | ~600 |
+
+### PRODUCTION ORDER (revised)
+
+**Phase 1 — First Impression (Week 1-2)**
+1. Elara awakening sequence (13 lines) — first thing players hear
+2. Elara room introductions (10 lines) — exploration narration
+3. Elara trust tier transitions (4 lines) — relationship arc
+
+**Phase 2 — The Living Ark (Week 3-5)**
+4. Antiquarian Year One vote intros (48 lines) — Governance Hub narration
+5. Antiquarian Chronicle entries (20 lines) — ongoing narrative voice
+6. Antiquarian Chronicle open/close templates (20 phrases)
+
+**Phase 3 — Deep Narrative (Week 6-8)**
+7. Elara room dialogs (100+ lines across 15+ rooms, 5 trust tiers each)
+8. The Human companion dialog (40+ lines)
+9. Companion quest dialog (80+ lines across all characters)
+
+**Phase 4 — Broadcast & Lore (Week 9-12)**
+10. The Meme transmissions (40+ intro/outro pairs — high energy)
+11. Loyalty mission dialog (50+ lines — deep lore, emotional)
+12. Tutorial narration (50+ lines)
+
+**Phase 5 — Supporting Cast (Week 13-16)**
+13. Locke, The Oracle, The Collector, Shadow Tongue, The Source
+14. The Eyes (if resurrected path), Voltari, The Dreamer
+15. Tech tree flavor lines, quest narration, system alerts
+
+### ELEVENLABS COST ESTIMATE (revised)
+
+- ~530 lines × avg 95 words = ~50,000 words
+- ElevenLabs Scale tier ($99/mo): 2M characters/month = ~400K words
+- **All 50K words generateable in 1 month on Scale tier**
+- Voice cloning: 14 voices needed (8 profiled, 6 need creation)
+- Turnaround per voice: ~2-3 days for generation + QA
+- **Total estimated: $99-198 for complete VO generation (1-2 months)**
 
 
 ---
