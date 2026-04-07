@@ -120,7 +120,7 @@ When a player accumulates enough Corruption Points, they can visit the Castle of
 - **Ability:** DOUBLE Soul Stone drop rate from all combat sources. This is MASSIVE — it accelerates the entire system. BUT: 50% of bonus stones drop PRE-CORRUPTED (red). They cannot be purified. The Harvest Tendril feeds the Hierarchy's pipeline by ensuring you collect more — and keep more in the dark.
 - **Corruption Effect:** Other players can see your Harvest Tendril. It's visible. It's unsettling. NPCs comment. The community knows you've gone deep into the Hierarchy's pocket.
 
-**FLAYED LENS (Patron: Ny'Koth the Flayer)**
+**FLAYED LENS (Patron: Zyr'Koth the Flayer)**
 - **Visual:** A floating eyeball made of dimensional membrane, constantly dissecting reality. Shows the "code" beneath surfaces — damage numbers, hidden stats, enemy weaknesses made visible.
 - **Ability:** See enemy health bars, weaknesses, and attack patterns in all combat. A tactical advantage worth serious value. BUT: the Flayed Lens also shows YOU things — your own weakness. Random "insight events" flash text on screen: your failures, your lost votes, reminders of the paths you didn't take. The Flayer studies everything. Including you.
 - **Corruption Effect:** The loredex entries viewed while the Lens is active have a faint red tint. Shadow Tongue notices a kindred spirit.

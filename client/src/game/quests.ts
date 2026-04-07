@@ -264,7 +264,7 @@ export const EPOCH_QUESTS: QuestDef[] = [
     frequency: "epoch",
     requirement: { type: "kills", count: 5000 },
     reward: { salvage: 2000, neuralCores: 25, titleUnlock: "Swarm Eradicator" },
-    loreText: "Five thousand. I have written that number and set down my pen to consider it. Ny'Koth engineered the original Thought Virus; the Warlord weaponized it through Project Vector; the swarm is their combined legacy, a testament to what cruelty and ingenuity produce when wedded without conscience. And you are dismantling it, creature by creature, wave by wave. The ledger of the Terminus ecology grows thinner. I am not sentimental about this — the swarm would consume everything I have ever catalogued. But I note it. Five thousand is not extermination. It is a statement of intent.",
+    loreText: "Five thousand. I have written that number and set down my pen to consider it. Zyr'Koth engineered the original Thought Virus; the Warlord weaponized it through Project Vector; the swarm is their combined legacy, a testament to what cruelty and ingenuity produce when wedded without conscience. And you are dismantling it, creature by creature, wave by wave. The ledger of the Terminus ecology grows thinner. I am not sentimental about this — the swarm would consume everything I have ever catalogued. But I note it. Five thousand is not extermination. It is a statement of intent.",
   },
   {
     id: "epoch_dischordia_collection_50",

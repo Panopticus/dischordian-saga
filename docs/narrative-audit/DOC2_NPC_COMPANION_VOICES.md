@@ -705,7 +705,7 @@ TEXT: "LORE: You recognize this room from old records. The Architect wrote the f
 TEXT: "LORE: Kael. The Recruiter. Built the Insurgency's network. Captured by the Warlord at Zenon. This is what's left of him."
 
 [232] FILE: client/src/game/innerVoices.ts LINE: 190
-TEXT: "LORE: Ny'Koth's sibling. SVP of Communications in the Hierarchy. Has corrupted ship logs since construction."
+TEXT: "LORE: Zyr'Koth's sibling. SVP of Communications in the Hierarchy. Has corrupted ship logs since construction."
 
 [233] FILE: client/src/game/innerVoices.ts LINE: 194
 TEXT: "NEGOTIATION: She's offering 30% less than this is worth. Counter at 80% of her quote."

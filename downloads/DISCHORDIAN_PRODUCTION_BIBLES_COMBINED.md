@@ -2450,7 +2450,7 @@ This document provides production-ready specifications for all visual art, sound
 
 #### 5. THE NECROMANCER — Zoner Archetype
 
-**Loredex Description**: The eleventh Archon created by the Architect in Year 600 A.A. A dark elven magician with white spiky hair, clad in a red and black robe and red steampunk glasses. He discovered the secret of resurrection and commands armies of the undead.
+**Loredex Description**: The tenth Archon created by the Architect in Year 600 A.A. A dark elven magician with white spiky hair, clad in a red and black robe and red steampunk glasses. He discovered the secret of resurrection and commands armies of the undead.
 
 **Visual Reference**: Dark elf with white spiky hair, red steampunk glasses, red and black flowing robes, green necromantic energy swirling around hands, undead spirits visible in his aura.
 

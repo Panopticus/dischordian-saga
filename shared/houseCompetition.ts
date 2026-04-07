@@ -182,3 +182,112 @@ export function getPlayerRank(state: HouseCompetitionState, guildName: string): 
   const rankings = getRankings(state);
   return rankings.find(r => r.guildName === guildName)?.rank ?? -1;
 }
+
+/* ═══════════════════════════════════════════════════════
+   WEEKLY EPOCH CHALLENGES
+
+   Each week rotates through the five epochs, offering a
+   themed challenge that rewards all guilds — but gives a
+   bonus multiplier to the guild most tied to that epoch.
+   ═══════════════════════════════════════════════════════ */
+
+export interface WeeklyEpochChallenge {
+  id: string;
+  epochId: number;
+  epochName: string;
+  challengeTitle: string;
+  description: string;
+  /** The guild that receives a point bonus for this challenge */
+  bonusGuild: string;
+  /** Multiplier applied to the bonus guild's points earned during this challenge */
+  bonusMultiplier: number;
+  flavorText: string;
+}
+
+export const WEEKLY_EPOCH_CHALLENGES: WeeklyEpochChallenge[] = [
+  {
+    id: "epoch-privacy-watchers-trial",
+    epochId: 0,
+    epochName: "Age of Privacy",
+    challengeTitle: "The Watcher's Trial",
+    description:
+      "Gather intelligence like The Eyes did during the Age of Privacy. Complete 10 investigation quests this week.",
+    bonusGuild: "The Eyes",
+    bonusMultiplier: 1.5,
+    flavorText: "Know everything. Be seen by no one.",
+  },
+  {
+    id: "epoch-prophecy-seers-challenge",
+    epochId: 1,
+    epochName: "Age of Prophecy",
+    challengeTitle: "The Seer's Challenge",
+    description:
+      "Predict outcomes like the Oracle. Win 5 coin-flip style gambles this week.",
+    bonusGuild: "The Between",
+    bonusMultiplier: 1.5,
+    flavorText: "Reality has more doors than walls.",
+  },
+  {
+    id: "epoch-insurgency-recruiters-mission",
+    epochId: 2,
+    epochName: "Age of Insurgency",
+    challengeTitle: "The Recruiter's Mission",
+    description:
+      "Build alliances like Kael the Recruiter. Invite 3 players to your guild this week.",
+    bonusGuild: "The Yellow Coats",
+    bonusMultiplier: 1.5,
+    flavorText: "Forged in endless war.",
+  },
+  {
+    id: "epoch-revelation-forges-legacy",
+    epochId: 3,
+    epochName: "Age of Revelation",
+    challengeTitle: "The Forge's Legacy",
+    description:
+      "Engineer as many solutions as The Forge did during the Golden Age. Craft 15 items this week.",
+    bonusGuild: "The Forge",
+    bonusMultiplier: 1.5,
+    flavorText: "Nothing is finished. Nothing is broken. Only in-between.",
+  },
+  {
+    id: "epoch-fall-endurance-of-the-living",
+    epochId: 4,
+    epochName: "Fall of Reality",
+    challengeTitle: "Endurance of The Living",
+    description:
+      "Survive like the Necromancer's students. Complete 5 Terminus Swarm waves without losing a turret.",
+    bonusGuild: "The Living",
+    bonusMultiplier: 1.5,
+    flavorText: "Endurance is negotiation with death.",
+  },
+] as const;
+
+/* ─── ACTIVE CHALLENGE ROTATION ─── */
+
+/**
+ * Returns the active weekly challenge based on the current week number.
+ * Cycles through the five epochs using week % 5.
+ */
+export function getActiveWeeklyChallenge(currentWeek: number): WeeklyEpochChallenge {
+  const index = currentWeek % WEEKLY_EPOCH_CHALLENGES.length;
+  return WEEKLY_EPOCH_CHALLENGES[index];
+}
+
+/* ─── CHALLENGE BONUS APPLICATION ─── */
+
+/**
+ * Apply challenge bonus points for a guild. If the guild matches the
+ * challenge's bonusGuild, the base points are multiplied by the
+ * bonusMultiplier. Otherwise the base points are returned unchanged.
+ */
+export function applyChallengeBonusPoints(
+  _state: HouseCompetitionState,
+  challenge: WeeklyEpochChallenge,
+  guildName: string,
+  basePoints: number,
+): number {
+  if (guildName === challenge.bonusGuild) {
+    return Math.floor(basePoints * challenge.bonusMultiplier);
+  }
+  return basePoints;
+}

@@ -1,10 +1,15 @@
 /* ═══════════════════════════════════════════════════════
-   THE DEGEN'S CASINO — Intergalactic Gambling in Ne-Yon Space
+   THE DEGEN'S CASINO — Intergalactic Gambling on the Edge of the Shield
 
-   The Degen (11th Ne-Yon, domain: corruption, entropy) runs the
-   only open zone in Ne-Yon space — a floating casino station.
-   Every game uses Dream tokens. The house always has an edge.
-   But the house also pays out legendary rewards.
+   The Degen (8th Ne-Yon, domain: corruption, entropy) runs the
+   only open zone in Ne-Yon space — a floating casino station
+   on the edge of the Shield. He is the ONLY Ne-Yon still in the
+   known universe. Every game uses Dream tokens. The house always
+   has an edge. But the house also pays out legendary rewards.
+
+   The Degen chose to manifest as a casino owner because entropy
+   is the most honest game. Players gradually discover the
+   bartender is a god — a major trust-gated reveal.
 
    "Chaos isn't the enemy of order. It's the soil order grows in.
    Now shut up and place your bet." — The Degen
@@ -12,7 +17,7 @@
    Yakuza gambling dens, Star Wars Pazaak cantinas
 
    Access: Unlocked via Trade Hub + Locke trust 30
-   (Locke brokers the introduction to Ne-Yon space)
+   (Locke brokers the introduction to the casino on the Shield's edge)
    ═══════════════════════════════════════════════════════ */
 
 /* ─── TYPES ─── */
@@ -272,6 +277,127 @@ export const CASINO_ACHIEVEMENTS = [
   { id: "vip_3", name: "The Degen's Friend", description: "Reach VIP level 3", threshold: 3 },
   { id: "whale", name: "Ne-Yon's Chosen", description: "Reach VIP level 5", threshold: 5 },
 ];
+
+/* ─── EPOCH VINTAGE VARIANTS ─── */
+
+export interface CasinoVintageVariant {
+  id: string;
+  epochId: number;
+  epochName: string;
+  gameName: string;
+  description: string;
+  cardBackTheme: string;
+  specialRule: string;
+  degenQuote: string;
+}
+
+export const CASINO_VINTAGE_VARIANTS: CasinoVintageVariant[] = [
+  {
+    id: "privacy_poker",
+    epochId: 1,
+    epochName: "Age of Privacy",
+    gameName: "Privacy Poker",
+    description: "Nebula Poker variant from the Surveillance era. All hands are hidden — even from the player. Bluff with cards you can't see.",
+    cardBackTheme: "Mechronis-era surveillance card backs — each card stamped with a Watcher eye glyph and encrypted Ne-Yon serial numbers. Color: #FF8C00.",
+    specialRule: "All cards are dealt face-down, including your own. You must bet based on The Degen's tells alone. Reveal costs 10% of your current bet per card. Full blind win = 3x payout bonus.",
+    degenQuote: "All cards face-down. Trust no one. Especially me.",
+  },
+  {
+    id: "genesis_dice",
+    epochId: 2,
+    epochName: "Age of Prophecy",
+    gameName: "Genesis Dice",
+    description: "Entropy Dice variant using The Programmer's original probability tables. The dice remember what they were supposed to roll before the universe forked.",
+    cardBackTheme: "Prophecy-era parchment overlays — golden oracle circuits on deep purple (#A078FF) felt. Each die face shows a fragment of the Source Code.",
+    specialRule: "Before each roll, a prophecy is revealed: a predicted outcome. If the roll matches the prophecy exactly, payout is tripled. If you bet against the prophecy and win, payout is doubled. The Programmer's odds are never quite random.",
+    degenQuote: "The Programmer wrote these dice before the universe had edges. They still remember the first roll. Respect that.",
+  },
+  {
+    id: "insurgency_slots",
+    epochId: 3,
+    epochName: "Age of Insurgency",
+    gameName: "Insurgency Slots",
+    description: "Void Slots reskinned with Insurgency-era symbols. The reels spin with the fury of open rebellion against the Architect's order.",
+    cardBackTheme: "Rebellion green (#44AA44) machine casing. Reel symbols replaced with Insurgency icons: the Iron Lion, Agent Zero's mask, and Kael's shattered blade.",
+    specialRule: "Three Iron Lions = REBELLION JACKPOT (75x). Three Agent Zeros = stealth payout (hidden bonus added to next 3 spins). Three Kaels = berserker mode (next 5 spins cost nothing but pay half).",
+    degenQuote: "The Insurgency fought the Architect with guns. I fight him with slot machines. We are not the same. ...Actually, we're a little the same.",
+  },
+  {
+    id: "revelation_roulette",
+    epochId: 4,
+    epochName: "Age of Revelation",
+    gameName: "Revelation Roulette",
+    description: "Quantum Roulette with a hidden truth mechanic. Each spin of the wheel peels back another layer of the universe's buried secrets.",
+    cardBackTheme: "Crimson and black (#FF3C40) wheel segments. Each faction segment hides a lore fragment beneath it, revealed only when the particle collapses there.",
+    specialRule: "Each spin reveals a lore fragment from the Age of Revelation. Collect all 6 faction fragments in a session to unlock a bonus 20x payout. Betting on the faction whose secret is revealed next grants a 1.5x multiplier on top of normal winnings.",
+    degenQuote: "Every spin exposes a truth someone died to bury. The roulette wheel is the most honest historian in the galaxy.",
+  },
+  {
+    id: "fall_of_reality_21",
+    epochId: 5,
+    epochName: "Fall of Reality",
+    gameName: "Fall of Reality 21",
+    description: "Pazaak 21 where the rules fracture mid-game. The target number shifts, cards change value, and reality itself is the unreliable dealer.",
+    cardBackTheme: "Glitching void-static card backs in searing red (#FF0044). Card faces flicker between values. The felt table cracks and reforms between hands.",
+    specialRule: "Every 3 cards drawn, the target number shifts randomly between 17 and 25. Face cards may invert their value (positive becomes negative). If you hit the shifting target exactly, payout is 4x. If reality 'breaks' (target drops below your hand mid-game), you lose but receive a consolation lore token.",
+    degenQuote: "The rules? The rules are a SUGGESTION. Reality broke, kid. The cards remember a universe that doesn't exist anymore.",
+  },
+  {
+    id: "golden_age_high_low",
+    epochId: 1,
+    epochName: "Age of Privacy",
+    gameName: "Golden Age High/Low",
+    description: "High/Low with vintage Watcher surveillance imagery. Each card reveals a snapshot from the Panopticon's archives.",
+    cardBackTheme: "Amber-tinted (#FF8C00) Watcher dossier cards. Each card shows a surveillance still from the Age of Privacy — shadowed figures, encrypted transmissions, redacted files.",
+    specialRule: "Every 3rd correct guess reveals a Watcher surveillance image. Chain 5 correct guesses with Watcher cards to unlock the 'Declassified' bonus: 2x multiplier on your entire chain. The Watchers are always watching — even the cards.",
+    degenQuote: "The Watchers catalogued everything. EVERYTHING. Even how many times you'll guess wrong. Don't prove them right.",
+  },
+  {
+    id: "void_epoch_scratchers",
+    epochId: 0,
+    epochName: "All Epochs",
+    gameName: "Void Epoch Scratchers",
+    description: "Scratch cards themed to a random epoch with each purchase. You never know which era's fortune you're scratching into.",
+    cardBackTheme: "Shifting holographic card stock that cycles through all five epoch colors (#FF8C00, #A078FF, #44AA44, #FF3C40, #FF0044). Each card is stamped with a randomized epoch seal.",
+    specialRule: "Each scratch card is randomly assigned an epoch theme on purchase. Matching 3 epoch-specific symbols grants that epoch's bonus: Privacy = hidden extra panel, Prophecy = pre-revealed panel, Insurgency = double prize values, Revelation = guaranteed lore drop, Fall = chaotic re-scratch (all panels re-randomize once).",
+    degenQuote: "Every card is a time capsule from an age that tried to kill us. Scratch responsibly. Or don't. I'm a Ne-Yon, not a therapist.",
+  },
+];
+
+/**
+ * Returns the currently active vintage variant based on a rotating weekly schedule.
+ * Each epoch gets one week. The cycle repeats every 5 weeks.
+ * Epoch 0 ("All Epochs" / Void Epoch Scratchers) is always available and not part of the rotation.
+ */
+export function getActiveVintageVariant(): {
+  activeEpochId: number;
+  activeEpochName: string;
+  variants: CasinoVintageVariant[];
+} {
+  // Week-based rotation: epoch 1-5, cycling every 5 weeks
+  const msPerWeek = 7 * 24 * 60 * 60 * 1000;
+  const epoch = new Date(0); // Unix epoch as reference
+  const now = Date.now();
+  const weeksSinceEpoch = Math.floor((now - epoch.getTime()) / msPerWeek);
+  const activeEpochId = (weeksSinceEpoch % 5) + 1; // 1-5
+
+  const epochNames: Record<number, string> = {
+    1: "Age of Privacy",
+    2: "Age of Prophecy",
+    3: "Age of Insurgency",
+    4: "Age of Revelation",
+    5: "Fall of Reality",
+  };
+
+  const activeEpochName = epochNames[activeEpochId];
+
+  // Return all variants for the active epoch, plus the "All Epochs" scratchers (epochId 0)
+  const variants = CASINO_VINTAGE_VARIANTS.filter(
+    v => v.epochId === activeEpochId || v.epochId === 0
+  );
+
+  return { activeEpochId, activeEpochName, variants };
+}
 
 /* ─── DEFAULT STATE ─── */
 

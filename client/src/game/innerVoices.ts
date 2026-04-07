@@ -187,7 +187,7 @@ export const VOICE_UTTERANCES: VoiceUtterance[] = [
   { id: "lore_source", skillId: "lore", trigger: { type: "npc_dialog", npcId: "the_source" }, minSkillLevel: 3,
     text: "LORE: Kael. The Recruiter. Built the Insurgency's network. Captured by the Warlord at Zenon. This is what's left of him." },
   { id: "lore_shadow", skillId: "lore", trigger: { type: "npc_dialog", npcId: "shadow_tongue" }, minSkillLevel: 4,
-    text: "LORE: Ny'Koth's sibling. SVP of Communications in the Hierarchy. Has corrupted ship logs since construction." },
+    text: "LORE: Zyr'Koth's sibling. SVP of Communications in the Hierarchy. Has corrupted ship logs since construction." },
 
   // Negotiation — reading deals
   { id: "negotiation_locke_1", skillId: "negotiation", trigger: { type: "trade_offered" }, minSkillLevel: 3,

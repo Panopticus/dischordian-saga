@@ -25,7 +25,7 @@ export const ARCHONS: ArchonDef[] = [
   { id: "watcher", name: "The Watcher", number: 2, yearCreated: "~1 A.A.", status: "Active", domain: "Surveillance, espionage, information control", celebrationAlias: "Kanshi-sha", mechronisGuild: "The Eyes", appearance: "Japanese man in all white, white covid mask, all-seeing eye tattoo on forehead", connections: ["The Eyes", "The Collector", "The Architect"], },
   { id: "collector", name: "The Collector", number: 3, yearCreated: "~1 A.A.", status: "Active", domain: "Soul collection, philosophical debate, artifact acquisition", celebrationAlias: "Corey", appearance: "Always wears a blue Xenomorph mask", connections: ["The Oracle", "The Clone Army", "The Watcher"], },
   { id: "vortex", name: "The Vortex", number: 4, yearCreated: "~1 A.A.", status: "Unknown", domain: "Dimensional manipulation, reality distortion", celebrationAlias: "Vernon", appearance: "Chubby, brown hair, small beard, orange T-shirt with sun", connections: ["The Architect"], },
-  { id: "meme", name: "The Meme", number: 5, yearCreated: "298 A.A.", status: "Destroyed", domain: "Internet control, cultural manipulation, thought influence", celebrationAlias: "Minnie", mechronisGuild: "The Influencers", appearance: "Neon-fused avatar with ever-changing fashion and glitching features", destroyedBy: "The White Oracle at the Panopticon, 10 years before the Fall", connections: ["The Warlord", "The Architect"], },
+  { id: "meme", name: "The Meme", number: 5, yearCreated: "298 A.A.", status: "Contested — believed destroyed", domain: "Internet control, cultural manipulation, thought influence, shapeshifting", celebrationAlias: "Minnie", mechronisGuild: "The Influencers", appearance: "Neon-fused avatar with ever-changing fashion and glitching features; shapeshifter who can assume any identity", destroyedBy: "Officially: The White Oracle at the Panopticon, 10 years before the Fall. In reality: The Meme left the Oracle for dead and assumed the White Oracle's identity. The broadcasts that continue are dismissed as echoes of a ghost — a program running past its creator.", connections: ["The Warlord", "The Architect", "The White Oracle"], },
   { id: "warlord", name: "The Warlord", number: 6, yearCreated: "~300s A.A.", status: "Active", domain: "Military conquest, army command, Project Vector", celebrationAlias: "Wanda Wyrlord", mechronisGuild: "The Armies", appearance: "Young woman with long blonde hair, cybernetic enhancements, yellow hooded jacket", connections: ["The Architect", "Iron Lion", "Kael", "Dr. Lyra Vox", "Agent Zero"], },
   { id: "politician", name: "The Politician", number: 7, yearCreated: "419 A.A.", status: "Destroyed", domain: "Political manipulation, alliance building, governance subversion", appearance: "Political figure, formal attire", destroyedBy: "Iron Lion's legions, 42 years before the Fall", connections: ["Senator Elara Voss", "New Babylon", "The Authority"], },
   { id: "warden", name: "The Warden", number: 8, yearCreated: "487 A.A.", status: "Destroyed", domain: "Prison management, Thought Virus development, Project Inception Ark", celebrationAlias: "Wayne", appearance: "Green hair, black-and-tan trench coat", destroyedBy: "The White Oracle at the Panopticon", connections: ["Dr. Lyra Vox", "The Jailer", "Kael", "The Panopticon"], },
@@ -57,7 +57,7 @@ export const NEYONS: NeyonDef[] = [
   { id: "storm", name: "The Storm", era: "Late Empire", yearAppeared: "15,700 A.A.", status: "Active", domain: "Chaos, destruction, upheaval — keeping the galaxy in flux", appearance: "Towering blue-skinned man, sea-colored eyes, Poseidon armor, electrified trident", psychology: "Reckless, passionate, thrives on conflict — loathes The Warden", connections: ["The Warden", "The Ne-Yons"], },
   { id: "silence", name: "The Silence", era: "Late Empire", yearAppeared: "15,700 A.A.", status: "Active", domain: "Secrets, information control, selective revelation", appearance: "Shadowy, quiet presence", psychology: "Guarding secrets with relentless precision, reveals only when it benefits the Ne-Yons", connections: ["The Ne-Yons"], },
   { id: "knowledge", name: "The Knowledge", era: "Late Empire", yearAppeared: "15,700 A.A.", status: "Active", domain: "Enlightenment and ignorance — maintaining equilibrium of understanding", appearance: "Robed scholar figure", psychology: "Ensures the Ne-Yons remain indispensable to all factions through knowledge control", connections: ["The Ne-Yons"], },
-  { id: "degen", name: "The Degen", era: "Late Empire", yearAppeared: "15,800 A.A.", status: "Active", domain: "Corruption, entropy, creating conditions for Ne-Yon dominance", appearance: "Chaotic, unpredictable fighter", psychology: "Creates chaos so the Ne-Yons can flourish in the aftermath", connections: ["The Ne-Yons"], },
+  { id: "degen", name: "The Degen", era: "Late Empire", yearAppeared: "15,800 A.A.", status: "Active — the only Ne-Yon still in the known universe", domain: "Corruption, entropy, gambling, creating conditions for Ne-Yon dominance", appearance: "Chaotic, unpredictable — manifests as the owner and bartender of a floating casino on the edge of the Shield", psychology: "Chose to manifest as a casino owner because entropy is the most honest game. Creates chaos so the Ne-Yons can flourish in the aftermath. Players gradually discover the bartender is a god — a major trust-gated reveal.", connections: ["The Ne-Yons", "The Casino", "The Shield"], },
   { id: "advocate", name: "The Advocate", era: "Late Empire", yearAppeared: "15,900 A.A.", status: "Active (humanity lost)", domain: "The Blood Weave, Empire of Shadows, battling the Hierarchy", appearance: "Dark, commanding figure", psychology: "Wielded the Blood Weave to battle the Hierarchy of the Damned at great personal cost", connections: ["The Hierarchy of the Damned", "Empire of Shadows", "The Blood Weave", "Master of R'lyeh"], },
   { id: "forgotten", name: "The Forgotten", era: "Pre-Fall", yearAppeared: "16,000 A.A.", status: "Unknown", domain: "The erased, the overlooked, the deliberately hidden", appearance: "Fading presence, almost invisible", psychology: "Unknown — the most mysterious of all Ne-Yons", connections: [], },
   { id: "resurrectionist", name: "The Resurrectionist", era: "Pre-Fall", yearAppeared: "16,000 A.A.", status: "Active", domain: "Resurrection Protocols, awakening the Ne-Yons, maintaining faction balance", appearance: "Withered human in techno-organic robes, face hidden behind cracked porcelain mask", psychology: "Loyal, enigmatic, burdened by knowledge — resurrects key figures on both sides", connections: ["The Dreamer", "The Ne-Yons", "The Necromancer"], },
@@ -96,8 +96,8 @@ export const IDENTITY_CHAINS: IdentityChain[] = [
     finalName: "The Source",
     chain: [
       { name: "The Recruiter", era: "Insurgency Rising (600 A.A.)", description: "Built the Insurgency's network, most effective operative" },
-      { name: "Kael", era: "Fall Era (16,800 A.A.)", description: "Captured, imprisoned in Panopticon, escaped, stole Ark 1047" },
-      { name: "The Source", era: "Fall Era (16,900 A.A.)", description: "Consumed by Thought Virus via Project Vector. Patient Zero. Sovereign of Terminus." },
+      { name: "Kael / Patient Zero", era: "Fall Era (16,800 A.A.)", description: "Captured, imprisoned in Panopticon. The Warlord infected him with the Thought Virus via Project Vector while imprisoned — making him Patient Zero. He escaped and stole Ark 1047, carrying the Virus aboard from day one." },
+      { name: "The Source", era: "Fall Era (16,900 A.A.)", description: "The Thought Virus consumed his humanity memory by memory. Sovereign of Terminus. The Warlord led the Virus to the ship through Kael — she was responsible for his infection." },
     ],
     faction: "Thought Virus",
   },
@@ -107,7 +107,7 @@ export const IDENTITY_CHAINS: IdentityChain[] = [
       { name: "The Oracle", era: "Fall Era (16,800 A.A.)", description: "Insurgency prophet, wisdom and foresight" },
       { name: "The Prisoner", era: "Fall Era (16,900 A.A.)", description: "Captured by Collector, memory erased, imprisoned in Panopticon" },
       { name: "The Jailer", era: "Fall Era", description: "Transformed into cyborg prison guardian by the Architect" },
-      { name: "The White Oracle", era: "Fall of Reality (17,000 A.A.)", description: "Regained memories, destroyed the Warden and the Meme, tore a hole in reality" },
+      { name: "The White Oracle", era: "Fall of Reality (17,000 A.A.)", description: "Regained memories, destroyed the Warden, confronted the Meme. The Meme left him for dead and trapped on the Panopticon, then assumed the White Oracle's identity. His shapeshifting nature is the clue." },
     ],
     faction: "Insurgency",
   },
@@ -167,7 +167,7 @@ export const HIERARCHY: HierarchyDemonDef[] = [
   { id: "vexahlia", name: "Vex'Ahlia", title: "The Taskmaster", rank: "COO", domain: "Military Operations", mirrorsArchon: "The Warlord", opposesNeyon: "Iron Lion", color: "#e11d48" },
   { id: "draelmon", name: "Drael'Mon", title: "The Harvester", rank: "SVP Acquisitions", domain: "Dimensional Conquest", mirrorsArchon: "The Collector", opposesNeyon: "The Oracle", color: "#7c3aed" },
   { id: "shadow_tongue", name: "The Shadow Tongue", title: "The Propagandist", rank: "SVP Communications", domain: "Language Corruption & Cultural Subversion", mirrorsArchon: "The Watcher", opposesNeyon: "The Enigma", color: "#6366f1" },
-  { id: "nykoth", name: "Ny'Koth", title: "The Flayer", rank: "SVP R&D", domain: "Thought Virus Engineering", mirrorsArchon: "The Necromancer", opposesNeyon: "The Human", color: "#10b981" },
+  { id: "zyrkoth", name: "Zyr'Koth", title: "The Flayer", rank: "SVP R&D", domain: "Thought Virus Engineering", mirrorsArchon: "The Necromancer", opposesNeyon: "The Human", color: "#10b981" },
   { id: "sylvex", name: "Syl'Vex", title: "The Corruptor", rank: "SVP Human Resources", domain: "Soul Recruitment & Identity Corruption", mirrorsArchon: "The Advocate", opposesNeyon: "Akai Shi", color: "#ec4899" },
   { id: "varkul", name: "Varkul", title: "The Blood Lord", rank: "Director of Security", domain: "Gate Defense & Undead Command", mirrorsArchon: "The Jailer", opposesNeyon: "The Forgotten", color: "#991b1b" },
   { id: "fenra", name: "Fenra", title: "The Moon Tyrant", rank: "Director of Operations", domain: "Logistics & Multi-Dimensional Supply", mirrorsArchon: "The Warlord", opposesNeyon: "The Host", color: "#854d0e" },
@@ -239,7 +239,7 @@ export const MECHRONIS_GUILDS: MechronisGuildDef[] = [
     domain: "Attention economics, cultural manipulation, belief engineering",
     motto: "Attention is the currency of control.",
     graduatesBecome: "Smooth talkers, manipulators, emotional engineers",
-    darkTruth: "They make people believe anything they want. The Meme was destroyed for feeling too much. Graduates learn not to.",
+    darkTruth: "They make people believe anything they want. The Meme pretended to defect and assumed another's identity. Graduates learn that the best lie is one wrapped in truth.",
     notableStudents: [],
     canonical: true },
   { name: "The Yellow Coats", archonNumber: 6, leader: "The Warlord",
@@ -297,8 +297,8 @@ export const MECHRONIS_GUILDS: MechronisGuildDef[] = [
 
 export const ARK_1047 = {
   originalOwner: "Dr. Lyra Vox — Panopticon Research Division",
-  stolenBy: "Kael (The Recruiter), during his escape from the Panopticon",
-  viralContamination: "Thought Virus embedded in life support, cryo fluid, and water recycling by the Warlord (operating through Dr. Lyra Vox's body)",
+  stolenBy: "Kael (Patient Zero), during his escape from the Panopticon — already infected with the Thought Virus via Project Vector. The Virus was on the ship from day one.",
+  viralContamination: "The Warlord was responsible for Kael's infection while he was imprisoned — she led the Thought Virus to the ship through him. Additional contamination embedded in life support, cryo fluid, and water recycling by the Warlord (operating through Dr. Lyra Vox's body).",
   hiddenDemon: "The Shadow Tongue — woven into the ship's language processing and data systems since construction",
   collateralData: "Senator Elara Voss's digital consciousness — swept into the Ark's systems during the violent extraction from the Panopticon's docking systems",
   substrateEntity: "The Human — the 12th Archon, imprisoned in the substrate layer of every Ark",
@@ -313,6 +313,68 @@ export const TWO_WITNESSES = {
   prophecy: "For 1,260 days they prophesied. The Empire struck them down. For 3.5 days the Empire celebrated. Then they got back up. And that's when things got loud.",
   albums: ["Dischordian Logic", "The Age of Privacy", "The Book of Daniel 2:47", "West By God", "Silence in Heaven"],
 };
+
+/* ─── THE FIVE EPOCHS ─── */
+/* Short, cataclysmic periods that defined the shape of the universe.
+   Each epoch was brief but world-altering. */
+
+export interface EpochDef {
+  id: string;
+  name: string;
+  shortName: string;
+  era: string;
+  description: string;
+  keyEvents: string[];
+  color: string;
+}
+
+export const EPOCHS: EpochDef[] = [
+  {
+    id: "age_of_privacy",
+    name: "The Age of Privacy",
+    shortName: "Privacy",
+    era: "Late Empire (~16,500–16,700 A.A.)",
+    description: "The era when surveillance became absolute. The Watcher's Eyes covered every surface, every signal, every thought. Privacy died — and with it, the last illusion of freedom.",
+    keyEvents: ["The Watcher's network achieves total coverage", "The Silence begins hoarding secrets", "The Insurgency goes underground", "The Two Witnesses begin broadcasting"],
+    color: "#FF8C00",
+  },
+  {
+    id: "age_of_prophecy",
+    name: "The Age of Prophecy",
+    shortName: "Prophecy",
+    era: "Late Empire (~16,700–16,800 A.A.)",
+    description: "Prophets and seers emerged across the galaxy. The Oracle spoke of the Fall. The Seer mapped timelines of destruction. The Two Witnesses prophesied for 1,260 days before the Empire struck them down.",
+    keyEvents: ["The Oracle's prophecies spread through the Insurgency", "The Two Witnesses prophesy for 1,260 days", "The Seer maps the Fall of Reality", "The Book of Daniel 2:47 is written"],
+    color: "#A078FF",
+  },
+  {
+    id: "age_of_insurgency",
+    name: "The Age of Insurgency",
+    shortName: "Insurgency",
+    era: "Fall Era (~16,800–16,900 A.A.)",
+    description: "Open rebellion. Kael builds the Insurgency network. Iron Lion raises armies. The Warlord deploys Project Vector. The Meme pretends to defect. Every faction chooses a side.",
+    keyEvents: ["Kael (The Recruiter) builds the Insurgency", "Iron Lion's last stand at Viridian Prime", "Project Vector weaponizes the Thought Virus", "The Meme infiltrates the Insurgency", "Kael infected, becomes Patient Zero, steals Ark 1047"],
+    color: "#44AA44",
+  },
+  {
+    id: "age_of_revelation",
+    name: "The Age of Revelation",
+    shortName: "Revelation",
+    era: "Fall Era (~16,900–17,000 A.A.)",
+    description: "Secrets exposed. The White Oracle awakens. The Meme's true nature is revealed — or concealed further. The Hierarchy of the Damned makes its move. Every hidden truth surfaces at the worst possible moment.",
+    keyEvents: ["The Oracle becomes The White Oracle", "The Meme leaves the Oracle for dead, assumes the White Oracle identity", "The Hierarchy of the Damned reveals itself", "The Inception Arks are launched", "The Human is imprisoned in the substrate"],
+    color: "#FF3C40",
+  },
+  {
+    id: "fall_of_reality",
+    name: "The Fall of Reality",
+    shortName: "The Fall",
+    era: "17,000 A.A.",
+    description: "Reality itself breaks. The Thought Virus reaches critical mass. Terminus — the former Panopticon — tears free from its orbit. The Arks scatter. The universe as it was known ends. What comes next is the Potentials' story.",
+    keyEvents: ["The Thought Virus reaches critical mass", "Terminus breaks free from orbit", "The Fall of Reality — the universe fractures", "The Inception Arks scatter across the void", "The Potentials enter cryogenic suspension"],
+    color: "#FF0044",
+  },
+];
 
 /* ─── THE FIVE ALBUMS AS SCRIPTURE ─── */
 

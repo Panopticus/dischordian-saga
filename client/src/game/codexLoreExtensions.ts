@@ -231,7 +231,9 @@ const systemLoreEntries: CodexLoreExtension[] = [
     title: "Degen's Casino",
     category: "multiverse",
     content: [
-      "An intergalactic gambling station in Ne-Yon space. Stakes are",
+      "An intergalactic gambling station on the edge of the Shield,",
+      "the only open zone in Ne-Yon space. The Degen — the only",
+      "Ne-Yon in the known universe — runs the house. Stakes are",
       "Dream tokens — the currency of unrealized potential. Games",
       "include Pazaak-style card duels, dice of probability, and the",
       "Roulette of Realities.",

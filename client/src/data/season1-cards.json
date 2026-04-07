@@ -960,7 +960,7 @@
       "drain"
     ],
     "abilityText": "Returns to the field with 3 HP after first death. Heals for 3% of damage dealt.",
-    "flavorText": "A. The Necromancer was the eleventh Archon created by the Architect in Year 600 A.A., a dark elven magician with white s...",
+    "flavorText": "A. The Necromancer was the tenth Archon created by the Architect in Year 600 A.A., a dark elven magician with white s...",
     "loreSource": "entity_20",
     "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/018_the_necromancer_d6de1da3.png",
     "era": "Insurgency Rising",
@@ -4193,7 +4193,7 @@
   },
   {
     "id": "s1_char_063",
-    "name": "Ny'Koth the Flayer",
+    "name": "Zyr'Koth the Flayer",
     "cardType": "unit",
     "rarity": "epic",
     "season": 1,

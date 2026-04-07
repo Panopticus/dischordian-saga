@@ -256,3 +256,111 @@ export const ARENA_TIERS: ArenaTier[] = [
 export function getAvailableTiers(petEvolution: 1 | 2 | 3): ArenaTier[] {
   return ARENA_TIERS.filter(t => t.minEvolution <= petEvolution);
 }
+
+/* ─── EVOLUTION EPOCH THEMING ─── */
+
+export interface EvolutionEpochTheme {
+  stage: 1 | 2 | 3;
+  epochName: string;
+  title: string;
+  description: string;
+  statBonusType: "attack" | "defense" | "speed" | "hp";
+  visualEffect: string;
+}
+
+export const EVOLUTION_EPOCH_THEMES: EvolutionEpochTheme[] = [
+  {
+    stage: 1,
+    epochName: "Age of Privacy",
+    title: "Echo of Genesis",
+    description:
+      "The pet's primal form, connected to the creation era. Born from the raw data of a world still learning to hide its secrets, it carries the spark of origin — fragile, watchful, and full of latent potential.",
+    statBonusType: "defense",
+    visualEffect: "flickering_silhouette",
+  },
+  {
+    stage: 2,
+    epochName: "Age of Prophecy",
+    title: "Expansion Form",
+    description:
+      "The pet's growth mirrors the empire's expansion. Fueled by prophetic visions and the momentum of an age that believed it could see all possible futures, the pet unfolds into something larger, bolder, and far more dangerous.",
+    statBonusType: "attack",
+    visualEffect: "radiant_growth_aura",
+  },
+  {
+    stage: 3,
+    epochName: "Fall of Reality",
+    title: "Post-Fall Ascension",
+    description:
+      "The pet reaches its final form in the aftermath of the Fall. Reality has shattered and rebuilt itself around this creature. It is no longer bound by the rules that once defined it — ascended, luminous, and terrifying.",
+    statBonusType: "hp",
+    visualEffect: "reality_fracture_halo",
+  },
+];
+
+/* ─── EPOCH ARENA MODIFIERS ─── */
+
+export interface EpochArenaModifier {
+  epochName: string;
+  modifierName: string;
+  description: string;
+  effect: {
+    stat?: "attack" | "defense" | "speed" | "dodge" | "critChance";
+    value?: number;
+    condition?: string;
+    special?: string;
+  };
+  arenaDecoration: string;
+}
+
+export const EPOCH_ARENA_MODIFIERS: EpochArenaModifier[] = [
+  {
+    epochName: "Age of Privacy",
+    modifierName: "Surveillance Protocol",
+    description:
+      "All pets gain +10% dodge chance — hiding from the ever-present watchers has made them elusive.",
+    effect: { stat: "dodge", value: 10 },
+    arenaDecoration: "Watcher's Eyes line the arena walls, their unblinking gaze following every movement.",
+  },
+  {
+    epochName: "Age of Prophecy",
+    modifierName: "Prophet's Blessing",
+    description:
+      "Critical hit chance doubled for all combatants. Fate favors the bold.",
+    effect: { stat: "critChance", value: 200, condition: "multiplier" },
+    arenaDecoration: "Oracle flames burn at the four corners of the arena, casting visions of strikes yet to land.",
+  },
+  {
+    epochName: "Age of Insurgency",
+    modifierName: "Rebel Spirit",
+    description:
+      "Pets gain +15% attack when below 50% HP. The fighting spirit of the rebellion burns brightest when cornered.",
+    effect: { stat: "attack", value: 15, condition: "hp_below_50_percent" },
+    arenaDecoration: "Tattered rebel banners hang from the rafters, stained with the ink of forbidden manifestos.",
+  },
+  {
+    epochName: "Age of Revelation",
+    modifierName: "Truth Revealed",
+    description:
+      "All status effects are visible. No hidden buffs or debuffs — every secret is laid bare.",
+    effect: { special: "reveal_all_status_effects" },
+    arenaDecoration: "The arena floor is a mirror. Everything is reflected. Nothing can hide.",
+  },
+  {
+    epochName: "Fall of Reality",
+    modifierName: "Reality Fracture",
+    description:
+      "Random stat swaps occur each round. Chaos rules — attack may become defense, speed may become HP. Nothing is certain.",
+    effect: { special: "random_stat_swap_per_round" },
+    arenaDecoration: "The arena shimmers and glitches. Walls phase in and out. The ground is not always there.",
+  },
+];
+
+/** Returns the active arena modifier for the current week, rotating through epochs. */
+export function getActiveArenaModifier(now: Date = new Date()): EpochArenaModifier {
+  const epochMs = new Date("2024-01-01T00:00:00Z").getTime();
+  const weekMs = 7 * 24 * 60 * 60 * 1000;
+  const weeksSinceEpoch = Math.floor((now.getTime() - epochMs) / weekMs);
+  const index = weeksSinceEpoch % EPOCH_ARENA_MODIFIERS.length;
+  return EPOCH_ARENA_MODIFIERS[index];
+}

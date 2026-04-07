@@ -82,18 +82,18 @@ export const EPOCH_ZERO_DISCOVERIES: EpochZeroDiscovery[] = [
         npcId: "antiquarian",
         minTrust: 2,
         dialog:
-          "The Meme defected because it found honesty funnier than lies. I have never " +
-          "been able to decide if that is profound or terrifying.",
+          "The Meme pretended to defect because it found deception more useful than loyalty. It infiltrated the Insurgency. " +
+          "I have never been able to decide if that is brilliant or terrifying.",
       },
     ],
     companionReactions: [
-      { companionId: "cipher", reaction: "Cipher runs a humor analysis subroutine, attempting to understand why honesty would be 'funnier.'" },
-      { companionId: "lux", reaction: "Lux brightens with recognition — the Meme's defection mirrors its own preference for truth." },
+      { companionId: "cipher", reaction: "Cipher runs a deception analysis subroutine, attempting to model how honesty could be weaponized as cover for infiltration." },
+      { companionId: "lux", reaction: "Lux dims with unease — the Meme's 'defection' was a mask. Trust becomes harder to calculate." },
     ],
     storyModeEnhancements: ["sm_meme_origin_lore"],
     yearOneConnections: [
       "The Meme's sentience through modeling is the inverse of the Architect's path — same method, opposite conclusion.",
-      "PAC News Network broadcasts in Epoch 2 carry echoes of this original defection.",
+      "PAC News Network broadcasts in Epoch 2 carry echoes of The Meme — dismissed as ghost programs, but possibly something more.",
     ],
   },
   {
@@ -723,7 +723,7 @@ export const SIB_DISCOVERIES: SibDiscovery[] = [
     unlockFlag: "sib_necromancer_profile_viewed", isHumanChain: false, discoveryWeight: 8,
     conspiracyBoardEnhancement: {
       npcNodeId: "the_necromancer",
-      memeCommentary: "Eleventh Archon. Solved death. Every mechanic that connects you to your companion — bonds, evolution, transformation — traces back to his work. The Eidolon Bond? His invention. He's not just an NPC. He's the AUTHOR of the system you're playing. When he arrives, listen carefully.",
+      memeCommentary: "Tenth Archon. Solved death. Every mechanic that connects you to your companion — bonds, evolution, transformation — traces back to his work. The Eidolon Bond? His invention. He's not just an NPC. He's the AUTHOR of the system you're playing. When he arrives, listen carefully.",
     },
     npcDialogUnlocks: [],
     companionReactions: [],

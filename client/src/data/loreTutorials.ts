@@ -1909,7 +1909,7 @@ export const LORE_TUTORIALS: LoreTutorial[] = [
       },
       {
         id: "ec-4", type: "wheel_choice",
-        elaraText: "There's more. The data chip references someone called 'The Recruiter.' Before he became Kael the insurgent, before his family was killed, he was recruiting soldiers for the Insurgency across dozens of worlds. The Eyes of the Watcher betrayed him to the Panopticon. That's where they infected him with the Thought Virus. His entire revenge — stealing this ship, fleeing across the galaxy — it was all orchestrated.",
+        elaraText: "There's more. The data chip references someone called 'The Recruiter.' Kael — that was his name — recruited soldiers for the Insurgency across dozens of worlds. The Eyes of the Watcher betrayed him to the Panopticon. The Warlord had him imprisoned and infected him with the Thought Virus. That's when he became Patient Zero. His escape — stealing this ship, fleeing across the galaxy — it was all orchestrated. The Warlord let him go.",
         corruptionLevel: 25,
         choices: [
           {
