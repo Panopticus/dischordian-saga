@@ -2460,3 +2460,83 @@ export const eidolonMemorial = mysqlTable("eidolon_memorial", {
   flowers: int("flowers").default(0).notNull(),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
 });
+
+// ═══════════════════════════════════════════════════════
+//  PET BATTLES — Server-Persisted Arena Combat
+// ═══════════════════════════════════════════════════════
+
+/** Player's pet roster — acquired specimens ready for battle */
+export const playerPets = mysqlTable("player_pets", {
+  id: int("id").primaryKey().autoincrement(),
+  userId: int("userId").notNull(),
+  petId: varchar("petId", { length: 64 }).notNull(),
+  species: varchar("species", { length: 64 }).notNull(),
+  name: varchar("name", { length: 128 }).notNull(),
+  evolutionStage: int("evolutionStage").default(1).notNull(),
+  bond: int("bond").default(0).notNull(),
+  skillPoints: int("skillPoints").default(0).notNull(),
+  /** Current HP (injury tracking between battles) */
+  currentHp: int("currentHp").default(100).notNull(),
+  maxHp: int("maxHp").default(100).notNull(),
+  /** Unlocked moves beyond the standard 3 */
+  unlockedMoves: json("unlockedMoves").$type<string[]>(),
+  /** Total wins / losses / kills */
+  wins: int("wins").default(0).notNull(),
+  losses: int("losses").default(0).notNull(),
+  kills: int("kills").default(0).notNull(),
+  /** Injury cooldown — timestamp when pet can fight again */
+  injuredUntil: timestamp("injuredUntil"),
+  acquiredAt: timestamp("acquiredAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+/** Battle history — persisted match results */
+export const petBattleHistory = mysqlTable("pet_battle_history", {
+  id: int("id").primaryKey().autoincrement(),
+  userId: int("userId").notNull(),
+  petId: varchar("petId", { length: 64 }).notNull(),
+  opponentSpecies: varchar("opponentSpecies", { length: 64 }).notNull(),
+  arenaTier: varchar("arenaTier", { length: 64 }).notNull(),
+  won: boolean("won").notNull(),
+  rounds: int("rounds").notNull(),
+  perfectVictory: boolean("perfectVictory").default(false).notNull(),
+  /** Rewards granted */
+  bondGain: int("bondGain").default(0).notNull(),
+  dreamEarned: int("dreamEarned").default(0).notNull(),
+  xpEarned: int("xpEarned").default(0).notNull(),
+  injuryDealt: int("injuryDealt").default(0).notNull(),
+  /** Full battle log (JSON array of BattleLogEntry) */
+  battleLog: json("battleLog"),
+  foughtAt: timestamp("foughtAt").defaultNow().notNull(),
+});
+
+// ═══════════════════════════════════════════════════════
+//  COMPANION CHAT — Persistent Message History
+// ═══════════════════════════════════════════════════════
+
+/** Chat messages between player and NPC companions (Elara, The Human) */
+export const companionMessages = mysqlTable("companion_messages", {
+  id: int("id").primaryKey().autoincrement(),
+  userId: int("userId").notNull(),
+  companionId: varchar("companionId", { length: 64 }).notNull(),
+  role: mysqlEnum("role", ["user", "assistant"]).notNull(),
+  content: text("content").notNull(),
+  /** Relationship level at time of message (for context) */
+  relationshipLevel: int("relationshipLevel").default(0).notNull(),
+  /** Category of conversation */
+  category: varchar("category", { length: 64 }),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+/** Companion relationship progression (server-authoritative) */
+export const companionRelationships = mysqlTable("companion_relationships", {
+  id: int("id").primaryKey().autoincrement(),
+  userId: int("userId").notNull(),
+  companionId: varchar("companionId", { length: 64 }).notNull(),
+  relationshipLevel: int("relationshipLevel").default(0).notNull(),
+  totalMessages: int("totalMessages").default(0).notNull(),
+  backstoryUnlocked: json("backstoryUnlocked").$type<string[]>(),
+  questsCompleted: json("questsCompleted").$type<string[]>(),
+  romanceActive: boolean("romanceActive").default(false).notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});

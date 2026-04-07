@@ -22,6 +22,7 @@ import {
 } from "lucide-react";
 import { KineticText, AtmosphereScope } from "@/components/void";
 import { useGovernanceStore } from "@/stores/governanceStore";
+import { trpc } from "@/lib/trpc";
 import {
   generateFeedItem, nextAIVoteInterval, calculatePaddedTally,
   type VoteFeedItem,
@@ -135,13 +136,23 @@ function ActiveVotePanel() {
   const liveVoters = useLiveVoterFeed();
 
   const playerVote = vote ? store.getPlayerVote(vote.id) : null;
+  const submitVoteMutation = trpc.architectConsole.submitVote.useMutation();
 
   const handleCast = useCallback(
     (optionId: string) => {
       if (!vote || playerVote) return;
+      // Update local state immediately (optimistic)
       store.castVote(vote.id, optionId);
+      // Persist to server — optionNumber derived from option index + 1
+      const optionIndex = vote.options.findIndex(o => o.id === optionId);
+      if (optionIndex >= 0) {
+        submitVoteMutation.mutate(
+          { voteId: vote.id, optionNumber: optionIndex + 1 },
+          { onError: (err) => console.warn("[Governance] Server vote failed (local still counted):", err.message) },
+        );
+      }
     },
-    [vote, playerVote, store],
+    [vote, playerVote, store, submitVoteMutation],
   );
 
   // Padded tally for display

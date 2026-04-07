@@ -65,6 +65,7 @@ import { techTreeRouter } from "./routers/techTree";
 import { masteryTreeRouter } from "./routers/masteryTree";
 import { guildHallRouter } from "./routers/guildHall";
 import { tradeEmpireRouter } from "./routers/tradeEmpire";
+import { petBattlesRouter } from "./routers/petBattles";
 
 export const appRouter = router({
   system: systemRouter,
@@ -126,6 +127,7 @@ export const appRouter = router({
   masteryTree: masteryTreeRouter,
   guildHall: guildHallRouter,
   tradeEmpire: tradeEmpireRouter,
+  petBattles: petBattlesRouter,
   auth: router({
     me: publicProcedure.query(opts => opts.ctx.user),
     logout: publicProcedure.mutation(({ ctx }) => {

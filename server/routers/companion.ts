@@ -1,9 +1,12 @@
 import { logger } from "../logger";
-import { publicProcedure, router } from "../_core/trpc";
+import { publicProcedure, protectedProcedure, router } from "../_core/trpc";
 import { invokeLLM } from "../_core/llm";
 import { z } from "zod";
 import * as fs from "fs";
 import * as path from "path";
+import { getDb } from "../db";
+import { companionMessages, companionRelationships } from "../../drizzle/schema";
+import { eq, and, desc, sql } from "drizzle-orm";
 
 const ROOT = process.cwd();
 
@@ -164,8 +167,8 @@ function getHumanFollowupChoices(category: string, level: number) {
 }
 
 export const companionRouter = router({
-  // Chat with The Human
-  chatWithHuman: publicProcedure
+  // Chat with The Human — persists messages + loads history from DB
+  chatWithHuman: protectedProcedure
     .input(z.object({
       message: z.string().min(1).max(2000),
       history: z.array(z.object({
@@ -176,7 +179,8 @@ export const companionRouter = router({
       moralityScore: z.number().min(-100).max(100).default(0),
       category: z.string().optional(),
     }))
-    .mutation(async ({ input }) => {
+    .mutation(async ({ ctx, input }) => {
+      const db = await getDb();
       const systemPrompt = getHumanSystemPrompt(input.relationshipLevel);
 
       // Add morality context
@@ -189,17 +193,31 @@ export const companionRouter = router({
         moralityContext = "\n\nCONTEXT: The player is morally neutral. You find this interesting — they haven't committed to either side. Probe their reasoning. Ask them hard questions about what they'd sacrifice for survival.";
       }
 
+      // Load persisted history from DB if no client history provided
+      let conversationHistory = input.history || [];
+      if (conversationHistory.length === 0 && db) {
+        const dbMessages = await db
+          .select({ role: companionMessages.role, content: companionMessages.content })
+          .from(companionMessages)
+          .where(and(
+            eq(companionMessages.userId, ctx.user.id),
+            eq(companionMessages.companionId, "the_human"),
+          ))
+          .orderBy(desc(companionMessages.createdAt))
+          .limit(10);
+        conversationHistory = dbMessages.reverse().map(m => ({
+          role: m.role as "user" | "assistant",
+          content: m.content,
+        }));
+      }
+
       const messages: Array<{ role: "system" | "user" | "assistant"; content: string }> = [
         { role: "system", content: systemPrompt + moralityContext },
       ];
 
-      // Add conversation history
-      if (input.history) {
-        for (const msg of input.history.slice(-10)) {
-          messages.push({ role: msg.role, content: msg.content });
-        }
+      for (const msg of conversationHistory.slice(-10)) {
+        messages.push({ role: msg.role, content: msg.content });
       }
-
       messages.push({ role: "user", content: input.message });
 
       try {
@@ -213,23 +231,87 @@ export const companionRouter = router({
                 .join("")
             : "Static on the line, kid. The relay's acting up. Try again.";
 
-        const choices = getHumanFollowupChoices(input.category || "lore", input.relationshipLevel);
+        // Persist both messages to DB
+        if (db) {
+          await db.insert(companionMessages).values([
+            { userId: ctx.user.id, companionId: "the_human", role: "user", content: input.message, relationshipLevel: input.relationshipLevel, category: input.category },
+            { userId: ctx.user.id, companionId: "the_human", role: "assistant", content, relationshipLevel: input.relationshipLevel, category: input.category },
+          ]);
 
-        return {
-          message: content,
-          choices,
-        };
+          // Increment relationship on every interaction (diminishing returns)
+          const relGain = input.relationshipLevel < 20 ? 2 : input.relationshipLevel < 50 ? 1 : 0;
+          if (relGain > 0) {
+            await db.insert(companionRelationships).values({
+              userId: ctx.user.id,
+              companionId: "the_human",
+              relationshipLevel: input.relationshipLevel + relGain,
+              totalMessages: 1,
+            }).onDuplicateKeyUpdate({
+              set: {
+                relationshipLevel: sql`LEAST(100, ${companionRelationships.relationshipLevel} + ${relGain})`,
+                totalMessages: sql`${companionRelationships.totalMessages} + 1`,
+              },
+            });
+          }
+        }
+
+        const choices = getHumanFollowupChoices(input.category || "lore", input.relationshipLevel);
+        return { message: content, choices, relationshipGain: input.relationshipLevel < 50 ? (input.relationshipLevel < 20 ? 2 : 1) : 0 };
       } catch (error) {
         logger.error("[Companion] The Human LLM error:", error);
         return {
           message: "The subspace relay just went dark. Interference — or someone's jamming us. Give it a minute and try again, partner.",
           choices: HUMAN_DIALOG_CHOICES.greeting_low,
+          relationshipGain: 0,
         };
       }
     }),
 
+  /** Get chat message history for a companion */
+  getMessageHistory: protectedProcedure
+    .input(z.object({
+      companionId: z.string().min(1),
+      limit: z.number().min(1).max(100).default(50),
+      offset: z.number().min(0).default(0),
+    }))
+    .query(async ({ ctx, input }) => {
+      const db = await getDb();
+      if (!db) return { messages: [], total: 0 };
+
+      const messages = await db
+        .select()
+        .from(companionMessages)
+        .where(and(
+          eq(companionMessages.userId, ctx.user.id),
+          eq(companionMessages.companionId, input.companionId),
+        ))
+        .orderBy(desc(companionMessages.createdAt))
+        .limit(input.limit)
+        .offset(input.offset);
+
+      return { messages: messages.reverse(), total: messages.length };
+    }),
+
+  /** Get relationship status for a companion */
+  getRelationship: protectedProcedure
+    .input(z.object({ companionId: z.string() }))
+    .query(async ({ ctx, input }) => {
+      const db = await getDb();
+      if (!db) return null;
+
+      const [rel] = await db
+        .select()
+        .from(companionRelationships)
+        .where(and(
+          eq(companionRelationships.userId, ctx.user.id),
+          eq(companionRelationships.companionId, input.companionId),
+        ));
+
+      return rel || null;
+    }),
+
   // Get initial greeting based on relationship level
-  getHumanGreeting: publicProcedure
+  getHumanGreeting: protectedProcedure
     .input(z.object({
       relationshipLevel: z.number().min(0).max(100).default(0),
     }))

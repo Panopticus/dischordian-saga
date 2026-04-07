@@ -942,18 +942,35 @@ function CompanionChatTab({
     { enabled: !isElara && chatMessages.length === 0 }
   );
 
+  // Load persisted message history from server
+  const messageHistory = trpc.companion.getMessageHistory.useQuery(
+    { companionId: companion.id, limit: 30 },
+    { enabled: chatMessages.length === 0, retry: false }
+  );
+
   // Auto-scroll to bottom
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [chatMessages, isTyping]);
 
-  // Load initial greeting
+  // Load persisted history on mount (before greeting)
   useEffect(() => {
-    if (!isElara && humanGreeting.data && chatMessages.length === 0) {
+    if (messageHistory.data?.messages.length && chatMessages.length === 0) {
+      const restored = messageHistory.data.messages.map(m => ({
+        role: m.role as "user" | "assistant",
+        content: m.content,
+      }));
+      setChatMessages(restored);
+    }
+  }, [messageHistory.data, chatMessages.length]);
+
+  // Load initial greeting (only if no history exists)
+  useEffect(() => {
+    if (!isElara && humanGreeting.data && chatMessages.length === 0 && !messageHistory.data?.messages.length) {
       setChatMessages([{ role: "assistant", content: humanGreeting.data.greeting }]);
       setChoices(humanGreeting.data.choices);
     }
-  }, [humanGreeting.data, isElara, chatMessages.length]);
+  }, [humanGreeting.data, isElara, chatMessages.length, messageHistory.data]);
 
   // Reset chat when companion changes
   useEffect(() => {
