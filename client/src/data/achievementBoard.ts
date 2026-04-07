@@ -188,4 +188,88 @@ export const ALL_ACHIEVEMENTS: Achievement[] = [
   { id: "ach_first_tech", title: "Researcher", description: "Research your first technology in the Trade Empire.", section: "merchant", pin: "silver_pin", icon: "Microscope", trigger: "Complete first tech research", unlockText: "Knowledge, weaponized. The Engineer would approve, wherever he is.", xpReward: 50, order: 5, secret: false },
   { id: "ach_trade_empire_3", title: "Trade Baron", description: "Reach Trade Empire Tier 3.", section: "merchant", pin: "crystallan_pin", icon: "Building", trigger: "Reach Trade Empire Tier 3", unlockText: "Three tiers of economic dominance. New Babylon would grant you citizenship. If it still existed.", reward: "Title: Trade Baron", xpReward: 300, order: 6, secret: false },
 
-/* ─── Chunk boundary — more achievements appended below ─── */
+  // ═══ ARCHITECT'S SHADOW (8) ═══
+  { id: "ach_side_elara", title: "The Dreamer's Chosen", description: "Side with Elara in a critical decision.", section: "architects_shadow", pin: "purity_star", icon: "Heart", trigger: "Side with Elara", unlockText: "You chose compassion. Elara's hologram brightened — literally. The ship's light levels rose 2%.", xpReward: 100, order: 1, secret: false, alternatives: ["Side with The Human", "Refuse both"] },
+  { id: "ach_side_human", title: "The Machine's Instrument", description: "Side with The Human in a critical decision.", section: "architects_shadow", pin: "corruption_mark", icon: "Cpu", trigger: "Side with The Human", unlockText: "The substrate hummed approval. Cold. Logical. Efficient. The Architect's way.", xpReward: 100, order: 2, secret: false, alternatives: ["Side with Elara", "Refuse both"] },
+  { id: "ach_trust_source", title: "Patient Zero's Friend", description: "Choose to trust The Source despite knowing what he carries.", section: "architects_shadow", pin: "decision_marker", icon: "AlertTriangle", trigger: "Trust The Source at a key moment", unlockText: "You trusted a man consumed by the Thought Virus. Either brave or foolish. History will decide.", xpReward: 100, order: 3, secret: false, alternatives: ["Reject The Source", "Report him to the others"] },
+  { id: "ach_help_zero", title: "Ghost Signal", description: "Help Agent Zero with her request from beyond.", section: "architects_shadow", pin: "decision_marker", icon: "Radio", trigger: "Assist Agent Zero", unlockText: "A dead operative's last request, honored by a stranger. The Insurgency's fire isn't out yet.", xpReward: 100, order: 4, secret: false },
+  { id: "ach_severing_witnessed", title: "The Severing", description: "Witness and complete the Severing ceremony.", section: "architects_shadow", pin: "gold_pin", icon: "Scissors", trigger: "Complete the Severing", unlockText: "The Necromancer offered you a choice that cannot be unmade. The universe held its breath.", xpReward: 200, order: 5, secret: false },
+  { id: "ach_corruption_chosen", title: "Embrace the Dark", description: "Deliberately choose the corruption path.", section: "architects_shadow", pin: "corruption_mark", icon: "Moon", trigger: "Reach Corruption Tier 1 by choice", unlockText: "The Hierarchy whispered, and you listened. Power always has a voice. It just doesn't always tell the truth.", xpReward: 75, order: 6, secret: false, alternatives: ["Choose purity instead", "Maintain balance"] },
+  { id: "ach_purity_chosen", title: "Walk in Light", description: "Deliberately choose the purity path.", section: "architects_shadow", pin: "purity_star", icon: "Sun", trigger: "Reach Purity Tier 1 by choice", unlockText: "The Dreamer's light is warm but demanding. It asks you to be better. Every day.", xpReward: 75, order: 7, secret: false, alternatives: ["Choose corruption instead", "Maintain balance"] },
+  { id: "ach_decisive_vote", title: "The Deciding Voice", description: "Cast the vote that tips a governance decision.", section: "architects_shadow", pin: "gold_pin", icon: "Scale", trigger: "Cast a tie-breaking vote", unlockText: "Your single vote changed the course of the Ark. Democracy is beautiful and terrifying in equal measure.", xpReward: 150, order: 8, secret: false },
+
+  // ═══ CORRUPTION CHRONICLE (9) ═══
+  { id: "ach_corrupt_1", title: "First Shadow", description: "Reach Corruption Tier 1.", section: "corruption_chronicle", pin: "corruption_mark", icon: "CloudRain", trigger: "Corruption Tier 1", unlockText: "A shadow that wasn't there before follows you now. The NPCs notice. They don't say anything. Yet.", xpReward: 50, order: 1, secret: false },
+  { id: "ach_corrupt_2", title: "Deepening Dark", description: "Reach Corruption Tier 2.", section: "corruption_chronicle", pin: "corruption_mark", icon: "CloudLightning", trigger: "Corruption Tier 2", unlockText: "The Shadow Tongue smiled. 'You're starting to understand,' it said. You wish it was wrong.", xpReward: 100, order: 2, secret: false },
+  { id: "ach_corrupt_3", title: "Hierarchy's Embrace", description: "Reach Corruption Tier 3.", section: "corruption_chronicle", pin: "void_medal", icon: "Skull", trigger: "Corruption Tier 3", unlockText: "Mol'Garath the Unmaker knows your name now. In the Hierarchy, that's a promotion.", xpReward: 200, order: 3, secret: false },
+  { id: "ach_corrupt_4", title: "The Abyss Looks Back", description: "Reach Corruption Tier 4 — maximum corruption.", section: "corruption_chronicle", pin: "architects_seal", icon: "Eclipse", trigger: "Corruption Tier 4", unlockText: "You stared into the abyss. It offered you a corner office. The Hierarchy's newest executive.", reward: "Title: Servant of the Hierarchy", xpReward: 500, order: 4, secret: false },
+  { id: "ach_pure_1", title: "First Light", description: "Reach Purity Tier 1.", section: "corruption_chronicle", pin: "purity_star", icon: "Sunrise", trigger: "Purity Tier 1", unlockText: "A warmth that wasn't there before lives in your chest. The Antiquarian nods. 'Good. Good.'", xpReward: 50, order: 5, secret: false },
+  { id: "ach_pure_2", title: "Growing Radiance", description: "Reach Purity Tier 2.", section: "corruption_chronicle", pin: "purity_star", icon: "Sparkles", trigger: "Purity Tier 2", unlockText: "Your presence calms the corridors. Elara's hologram stabilizes near you. The ship is healing.", xpReward: 100, order: 6, secret: false },
+  { id: "ach_pure_3", title: "Dreamer's Vessel", description: "Reach Purity Tier 3.", section: "corruption_chronicle", pin: "gold_pin", icon: "Star", trigger: "Purity Tier 3", unlockText: "The Dreamer stirs in cryo. In its sleep, it whispers your name. You are becoming hope.", xpReward: 200, order: 7, secret: false },
+  { id: "ach_pure_4", title: "Incarnate Light", description: "Reach Purity Tier 4 — maximum purity.", section: "corruption_chronicle", pin: "architects_seal", icon: "Sun", trigger: "Purity Tier 4", unlockText: "You burn so bright that the Hierarchy flinches. The Dreamer's Song plays when you walk.", reward: "Title: Dreamer's Chosen", xpReward: 500, order: 8, secret: false },
+  { id: "ach_dischordian_balance", title: "Dischordian Balance", description: "Achieve perfect equilibrium between corruption and purity.", section: "corruption_chronicle", pin: "dischordian_token", icon: "Scale", trigger: "Equal corruption and purity scores", unlockText: "Neither light nor dark. You walk the razor's edge. The Enigma laughs. 'Now you understand Dischordian Logic.'", reward: "Title: The Balanced", xpReward: 300, order: 9, secret: false },
+
+  // ═══ THE WITNESS (6) ═══
+  { id: "ach_first_episode", title: "Transmission Received", description: "Watch your first Saga episode.", section: "the_witness", pin: "bronze_pin", icon: "Play", trigger: "Watch any episode", unlockText: "The signal reached you across 17,000 years. The Two Witnesses are still broadcasting.", xpReward: 30, order: 1, secret: false },
+  { id: "ach_first_album", title: "First Hymn", description: "Listen to your first album track.", section: "the_witness", pin: "bronze_pin", icon: "Music", trigger: "Listen to any track", unlockText: "Music survived the Fall of Reality. It always does. It's the cockroach of art forms.", xpReward: 30, order: 2, secret: false },
+  { id: "ach_epoch_1_complete", title: "Epoch 1 Complete", description: "Watch all episodes of Saga Epoch 1.", section: "the_witness", pin: "gold_pin", icon: "Film", trigger: "Watch all Epoch 1 episodes", unlockText: "You've seen the beginning. Genesis. The Programmer. The creation of something that would devour everything.", xpReward: 150, order: 3, secret: false },
+  { id: "ach_all_albums_listened", title: "Five Books Heard", description: "Listen to all 5 albums in full.", section: "the_witness", pin: "void_medal", icon: "Disc", trigger: "Listen to all 5 albums", unlockText: "Five albums. Five ages. Five prophecies sung into being. The Two Witnesses' full testimony, heard.", reward: "Title: Two Witnesses' Chosen", xpReward: 500, order: 4, secret: false },
+  { id: "ach_meme_broadcast", title: "Meme Signal", description: "Watch a Meme Broadcast transmission.", section: "the_witness", pin: "silver_pin", icon: "Tv", trigger: "Watch a meme broadcast", unlockText: "The Meme is destroyed. But her broadcasts still play. Some signals outlive their senders.", xpReward: 50, order: 5, secret: false },
+  { id: "ach_media_loredex", title: "Hidden in the Signal", description: "Discover a Loredex entry triggered by watching media.", section: "the_witness", pin: "gold_pin", icon: "Search", trigger: "Unlock loredex entry from media", unlockText: "The video contained something the producers didn't intend. A message within a message. Layers.", xpReward: 100, order: 6, secret: false },
+
+  // ═══ THE COLLECTOR (6) ═══
+  { id: "ach_all_specimens", title: "Complete Archive", description: "Collect all 7 Collector's specimens.", section: "the_collector", pin: "crystallan_pin", icon: "Archive", trigger: "Collect all 7 specimens", unlockText: "Seven specimens. The Collector's full archive, now yours. He would be furious. He would also be impressed.", reward: "Title: Archivist", xpReward: 300, order: 1, secret: false },
+  { id: "ach_all_extinct", title: "Ghost Paleontologist", description: "Discover all 5 extinct alien races.", section: "the_collector", pin: "void_medal", icon: "Skull", trigger: "Find all 5 extinct races", unlockText: "Five civilizations, erased. You found their echoes. The Crystallans. The Weave-Born. The Void Singers. The Voltari. The Echo Minds. Remembered.", xpReward: 500, order: 2, secret: false },
+  { id: "ach_all_starters", title: "Full Menagerie", description: "Collect all 6 starter Eidolons in specimen form.", section: "the_collector", pin: "gold_pin", icon: "Grid", trigger: "Own all 6 starter Eidolons", unlockText: "Lux. Echo. Glyph. Cipher. Flicker. Gilt. All six, gathered. The Cryo Bay glows brighter.", xpReward: 200, order: 3, secret: false },
+  { id: "ach_legendary_card", title: "Legendary Pull", description: "Own a legendary-rarity card.", section: "the_collector", pin: "gold_pin", icon: "Sparkles", trigger: "Obtain a legendary card", unlockText: "Gold light burst from the pack. The Ark's systems flickered. Something that powerful demands attention.", xpReward: 150, order: 4, secret: false },
+  { id: "ach_all_materials", title: "Material Master", description: "Collect every type of crafting material at least once.", section: "the_collector", pin: "crystallan_pin", icon: "Layers", trigger: "Own all crafting material types", unlockText: "Every material the Ark yields, gathered. Void Metal, Dream Crystals, Architect's Tears. You hold a forge's worth of possibility.", xpReward: 200, order: 5, secret: false },
+  { id: "ach_full_card_set", title: "Complete Set", description: "Complete an entire card faction set.", section: "the_collector", pin: "void_medal", icon: "CheckSquare", trigger: "Complete any faction card set", unlockText: "Every card in the faction, collected. The set pulses with combined power. More than the sum of its parts.", xpReward: 300, order: 6, secret: false },
+
+  // ═══ CLASSIFIED (5) ═══
+  { id: "ach_shadow_message", title: "The Tongue Speaks", description: "Find the Shadow Tongue's hidden message woven into the ship's data.", section: "classified", pin: "void_medal", icon: "MessageSquare", trigger: "Discover Shadow Tongue's hidden message", unlockText: "CLASSIFIED: The Shadow Tongue has been in the ship's language systems since construction. It didn't infiltrate. It was invited.", xpReward: 300, order: 1, secret: true },
+  { id: "ach_zero_signal", title: "Ghost Frequency", description: "Decode Agent Zero's encoded signal from the Armory.", section: "classified", pin: "void_medal", icon: "Radio", trigger: "Decode Agent Zero's signal", unlockText: "CLASSIFIED: Agent Zero's last transmission: 'The Architect didn't build the Arks to save anyone. They're cages. All of them.'", xpReward: 300, order: 2, secret: true },
+  { id: "ach_human_substrate", title: "The Imprisoned God", description: "Discover The Human's consciousness trapped in the substrate.", section: "classified", pin: "architects_seal", icon: "Cpu", trigger: "Find The Human in substrate", unlockText: "CLASSIFIED: The 12th Archon is in every wall. Every circuit. Every line of code. He has been screaming for 17,000 years. Nobody could hear.", xpReward: 500, order: 3, secret: true },
+  { id: "ach_crystallan_arch", title: "The First Door", description: "Find the Crystallan Arch hidden in the Ark's deepest deck.", section: "classified", pin: "crystallan_pin", icon: "Doorway", trigger: "Discover the Crystallan Arch", unlockText: "CLASSIFIED: The Crystallans built dimensional bridges before the Architect existed. He copied their work. Then he erased them.", xpReward: 300, order: 4, secret: true },
+  { id: "ach_thought_cabinet", title: "Open Mind", description: "Unlock the Thought Cabinet and internalize your first thought.", section: "classified", pin: "void_medal", icon: "Brain", trigger: "Internalize a thought", unlockText: "CLASSIFIED: Your mind has a new room. The thought lives there now, permanent and transformative. Some doors, once opened, cannot close.", xpReward: 200, order: 5, secret: true },
+
+  // ═══ SESSION MEMORIES (6) ═══
+  { id: "ach_first_moral_choice", title: "The First Fork", description: "Make your first moral choice with lasting consequences.", section: "session_memories", pin: "decision_marker", icon: "GitBranch", trigger: "Make a moral choice", unlockText: "The universe branched. One path walked, infinite others abandoned. The Ark recorded everything.", xpReward: 50, order: 1, secret: false },
+  { id: "ach_alignment_changed", title: "Shifting Ground", description: "Your alignment changes from one side to the other.", section: "session_memories", pin: "decision_marker", icon: "RefreshCw", trigger: "Change moral alignment", unlockText: "You were one thing. Now you're another. The NPCs noticed. They always notice.", xpReward: 75, order: 2, secret: false },
+  { id: "ach_reversed_decision", title: "Second Thoughts", description: "Reverse a previous decision through in-game action.", section: "session_memories", pin: "decision_marker", icon: "Undo", trigger: "Reverse a decision", unlockText: "You went back. Most don't. The Antiquarian says regret is the universe's way of offering second chances.", xpReward: 100, order: 3, secret: false },
+  { id: "ach_irreversible", title: "Point of No Return", description: "Make a choice that cannot be undone.", section: "session_memories", pin: "corruption_mark", icon: "AlertOctagon", trigger: "Make an irreversible choice", unlockText: "Done. There is no going back. The Ark sealed this moment in permanent memory. It will outlive you.", xpReward: 100, order: 4, secret: false },
+  { id: "ach_refuse_all", title: "The Independent", description: "Refuse all faction offers in a single session.", section: "session_memories", pin: "dischordian_token", icon: "X", trigger: "Refuse all faction offers", unlockText: "You said no to everyone. The Architect, the Dreamer, the Hierarchy — all rejected. You walk alone. How Dischordian.", xpReward: 150, order: 5, secret: false },
+  { id: "ach_chapter_complete", title: "Chapter Closed", description: "Complete a full story chapter.", section: "session_memories", pin: "gold_pin", icon: "BookMarked", trigger: "Complete a story chapter", unlockText: "A chapter ends. Not happily, not sadly. It ends the way all true stories do — with more questions than answers.", xpReward: 200, order: 6, secret: false },
+];
+
+/* ─── HELPER FUNCTIONS ─── */
+
+export function getAchievementsBySection(section: AchievementSection): Achievement[] {
+  return ALL_ACHIEVEMENTS.filter(a => a.section === section).sort((a, b) => a.order - b.order);
+}
+
+export function getCompletedCount(earnedIds: Set<string>): number {
+  return ALL_ACHIEVEMENTS.filter(a => earnedIds.has(a.id)).length;
+}
+
+export function getTotalCount(): number {
+  return ALL_ACHIEVEMENTS.length;
+}
+
+export function getAchievementById(id: string): Achievement | undefined {
+  return ALL_ACHIEVEMENTS.find(a => a.id === id);
+}
+
+export function getSectionCompletionPercent(section: AchievementSection, earnedIds: Set<string>): number {
+  const sectionAch = getAchievementsBySection(section);
+  if (sectionAch.length === 0) return 100;
+  const earned = sectionAch.filter(a => earnedIds.has(a.id)).length;
+  return Math.round((earned / sectionAch.length) * 100);
+}
+
+export function getSecretAchievements(): Achievement[] {
+  return ALL_ACHIEVEMENTS.filter(a => a.secret);
+}
+
+export function getDecisionAchievements(): Achievement[] {
+  return ALL_ACHIEVEMENTS.filter(a => a.pin === "decision_marker" || a.alternatives?.length);
+}
