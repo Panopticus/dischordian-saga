@@ -9,6 +9,7 @@ import {
   CheckCircle, XCircle
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import ScrollIndicator from "@/components/ScrollIndicator";
 // Toast via simple alert for now
 
 type Category = "all" | "dream" | "cards" | "ship" | "cosmetic" | "bundle";
@@ -245,7 +246,7 @@ export default function StorePage() {
         )}
 
         {/* Category Filter */}
-        <div className="flex items-center gap-2 overflow-x-auto pb-2">
+        <ScrollIndicator><div className="flex items-center gap-2 pb-2">
           {(["all", "dream", "cards", "ship", "cosmetic", "bundle"] as Category[]).map((cat) => {
             const Icon = CATEGORY_ICONS[cat];
             return (
@@ -263,7 +264,7 @@ export default function StorePage() {
               </button>
             );
           })}
-        </div>
+        </div></ScrollIndicator>
 
         {/* Products Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
@@ -337,7 +338,7 @@ export default function StorePage() {
                   <Button
                     size="sm"
                     variant="outline"
-                    className="font-mono text-[11px] h-7 border-accent/30 text-accent hover:bg-accent/10"
+                    className="font-mono text-[11px] h-9 border-accent/30 text-accent hover:bg-accent/10"
                     disabled={purchasing === product.key}
                     onClick={() => handleBuyWithStripe(product.key)}
                   >
@@ -353,7 +354,7 @@ export default function StorePage() {
                   <Button
                     size="sm"
                     variant="outline"
-                    className="font-mono text-[11px] h-7 border-purple-500/30 text-purple-400 hover:bg-purple-500/10"
+                    className="font-mono text-[11px] h-9 border-purple-500/30 text-purple-400 hover:bg-purple-500/10"
                     disabled={purchasing === product.key}
                     onClick={() => handleBuyWithDream(product.key)}
                   >

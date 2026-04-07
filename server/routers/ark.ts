@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { logger } from "../logger";
 import { publicProcedure, protectedProcedure, router } from "../_core/trpc";
 import { getDb } from "../db";
 import { arkRooms, userArkProgress } from "../../drizzle/schema";
@@ -96,7 +97,7 @@ export const arkRouter = router({
 
       // Award civil skill XP for room exploration (perception + lore)
       const { awardCivilXp } = await import("../civilSkillHelper");
-      awardCivilXp(ctx.user.id, "explore_room").catch(() => {});
+      awardCivilXp(ctx.user.id, "explore_room").catch(e => logger.error("[Ark] Civil XP award failed:", e));
 
       return { success: true, room: room[0], firstVisit: true };
     }),

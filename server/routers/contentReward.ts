@@ -3,6 +3,7 @@
    Watching episodes, completing CoNexus games, solving quizzes → rewards
    ═══════════════════════════════════════════════════════ */
 import { z } from "zod";
+import { logger } from "../logger";
 import { publicProcedure, protectedProcedure, router } from "../_core/trpc";
 import { getDb } from "../db";
 import { contentParticipation, contentRewards, userCards, dreamBalance, cards } from "../../drizzle/schema";
@@ -244,7 +245,7 @@ export const contentRewardRouter = router({
 
       // Award civil skill XP for content participation (lore)
       const { awardCivilXp } = await import("../civilSkillHelper");
-      awardCivilXp(ctx.user.id, "listen_song").catch(() => {});
+      awardCivilXp(ctx.user.id, "listen_song").catch(e => logger.error("[ContentReward] Civil XP award failed:", e));
 
       return { success: true, rewards: null };
     }),

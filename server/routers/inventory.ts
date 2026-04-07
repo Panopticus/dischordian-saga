@@ -1,8 +1,8 @@
 import { z } from "zod";
 import { protectedProcedure, router } from "../_core/trpc";
 import { getDb } from "../db";
-import { userCards, dreamBalance } from "../../drizzle/schema";
-import { eq, and, sql } from "drizzle-orm";
+import { userCards, dreamBalance, cards } from "../../drizzle/schema";
+import { eq, and, sql, inArray } from "drizzle-orm";
 import { TRPCError } from "@trpc/server";
 
 /* ═══ DISENCHANT VALUES BY RARITY ═══ */
@@ -59,13 +59,17 @@ export const inventoryRouter = router({
 
       const allCards = await query;
 
-      // Filter by rarity if specified (rarity is stored in cardData or cardId pattern)
+      // Filter by rarity using the cards table
       let filtered = allCards;
       if (input?.rarity) {
-        filtered = allCards.filter(c => {
-          // Card IDs often contain rarity hints, or we check metadata
-          return true; // All cards pass for now — rarity filtering needs card data lookup
-        });
+        const cardIds = allCards.map(c => c.cardId);
+        if (cardIds.length > 0) {
+          const matchingCards = await db.select({ cardId: cards.cardId })
+            .from(cards)
+            .where(and(inArray(cards.cardId, cardIds), eq(cards.rarity, input.rarity as any)));
+          const matchingSet = new Set(matchingCards.map(c => c.cardId));
+          filtered = allCards.filter(c => matchingSet.has(c.cardId));
+        }
       }
 
       return { cards: filtered, total: filtered.length };
@@ -82,50 +86,55 @@ export const inventoryRouter = router({
       const db = await getDb();
       if (!db) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
 
-      // Check ownership
-      const owned = await db.select().from(userCards)
-        .where(and(
-          eq(userCards.userId, ctx.user.id),
-          eq(userCards.cardId, input.cardId),
-        ))
-        .limit(1);
-
-      if (!owned[0] || owned[0].quantity < input.quantity) {
-        throw new TRPCError({ code: "FORBIDDEN", message: "Not enough cards to disenchant" });
-      }
-
       // Calculate rewards
       const values = DISENCHANT_VALUES[input.rarity] || DISENCHANT_VALUES.common;
       const totalDream = values.dream * input.quantity;
       const totalDust = values.dust * input.quantity;
       const totalEssence = values.essence * input.quantity;
 
-      // Remove cards
-      const newQty = owned[0].quantity - input.quantity;
-      if (newQty <= 0) {
-        await db.delete(userCards).where(eq(userCards.id, owned[0].id));
-      } else {
-        await db.update(userCards)
-          .set({ quantity: newQty })
-          .where(eq(userCards.id, owned[0].id));
-      }
+      // Execute card removal + Dream grant atomically
+      const result = await db.transaction(async (tx) => {
+        // Check ownership inside transaction
+        const owned = await tx.select().from(userCards)
+          .where(and(
+            eq(userCards.userId, ctx.user.id),
+            eq(userCards.cardId, input.cardId),
+          ))
+          .limit(1);
 
-      // Add Dream tokens
-      if (totalDream > 0) {
-        const bal = await db.select().from(dreamBalance)
-          .where(eq(dreamBalance.userId, ctx.user.id)).limit(1);
-        if (bal[0]) {
-          await db.update(dreamBalance)
-            .set({ dreamTokens: bal[0].dreamTokens + totalDream, totalDreamEarned: bal[0].totalDreamEarned + totalDream })
-            .where(eq(dreamBalance.id, bal[0].id));
-        } else {
-          await db.insert(dreamBalance).values({
-            userId: ctx.user.id,
-            dreamTokens: totalDream,
-            totalDreamEarned: totalDream,
-          });
+        if (!owned[0] || owned[0].quantity < input.quantity) {
+          throw new TRPCError({ code: "FORBIDDEN", message: "Not enough cards to disenchant" });
         }
-      }
+
+        // Remove cards
+        const newQty = owned[0].quantity - input.quantity;
+        if (newQty <= 0) {
+          await tx.delete(userCards).where(eq(userCards.id, owned[0].id));
+        } else {
+          await tx.update(userCards)
+            .set({ quantity: newQty })
+            .where(eq(userCards.id, owned[0].id));
+        }
+
+        // Add Dream tokens
+        if (totalDream > 0) {
+          const bal = await tx.select().from(dreamBalance)
+            .where(eq(dreamBalance.userId, ctx.user.id)).limit(1);
+          if (bal[0]) {
+            await tx.update(dreamBalance)
+              .set({ dreamTokens: bal[0].dreamTokens + totalDream, totalDreamEarned: bal[0].totalDreamEarned + totalDream })
+              .where(eq(dreamBalance.id, bal[0].id));
+          } else {
+            await tx.insert(dreamBalance).values({
+              userId: ctx.user.id,
+              dreamTokens: totalDream,
+              totalDreamEarned: totalDream,
+            });
+          }
+        }
+
+        return newQty > 0 ? newQty : 0;
+      });
 
       return {
         success: true,
@@ -134,7 +143,7 @@ export const inventoryRouter = router({
           dust: totalDust,
           essence: totalEssence,
         },
-        remainingCards: newQty > 0 ? newQty : 0,
+        remainingCards: result,
       };
     }),
 

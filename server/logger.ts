@@ -66,6 +66,19 @@ function log(level: LogLevel, message: string, context?: string, data?: Record<s
   switch (level) {
     case "error":
       console.error(formatted);
+      // Forward errors to Sentry when available
+      try {
+        const { captureException, captureMessage, sentryInitialized } = require("./sentry");
+        if (sentryInitialized) {
+          if (error) {
+            captureException(error, data);
+          } else {
+            captureMessage(message, "error");
+          }
+        }
+      } catch {
+        // Sentry module not available — ignore silently
+      }
       break;
     case "warn":
       console.warn(formatted);

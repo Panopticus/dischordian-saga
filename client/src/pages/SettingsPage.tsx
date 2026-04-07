@@ -6,7 +6,7 @@
  * reduce motion, dyslexia font, reduce glow), Game (skip tutorials, show hints,
  * difficulty), Account (login/logout, sync status, export save data).
  */
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { useTheme } from "@/contexts/ThemeContext";
 import { useGamification } from "@/contexts/GamificationContext";
 import { useSound } from "@/contexts/SoundContext";
@@ -15,6 +15,15 @@ import { useAuth } from "@/_core/hooks/useAuth";
 import { getLoginUrl } from "@/const";
 import { ARK_THEMES } from "@shared/gamification";
 import { trpc } from "@/lib/trpc";
+import {
+  loadSettings as syncLoadSettings,
+  saveSettings as syncSaveSettings,
+  syncFromServer,
+  initSync,
+  exportSettings as syncExportSettings,
+  importSettings as syncImportSettings,
+} from "@/lib/settingsSync";
+import { DEFAULT_SETTINGS as SHARED_DEFAULTS, type GameSettings } from "@shared/settingsSchema";
 import {
   Settings, Sun, Moon, Palette, Volume2, VolumeX, Music,
   Gamepad2, RotateCcw, Check, Lock, Monitor, Accessibility,
@@ -25,57 +34,16 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 
-/* ─── SETTINGS STORAGE ─── */
-interface AppSettings {
-  // Accessibility
-  highContrast: boolean;
-  reduceMotion: boolean;
-  dyslexiaFont: boolean;
-  reduceGlow: boolean;
-  // Display
-  fontSize: "small" | "medium" | "large";
-  // Audio
-  musicVolume: number;
-  sfxVolume: number;
-  ambientEnabled: boolean;
-  // Game
-  skipTutorials: boolean;
-  showHints: boolean;
-  difficulty: "casual" | "standard" | "hardcore";
-}
-
-const DEFAULT_SETTINGS: AppSettings = {
-  highContrast: false,
-  reduceMotion: false,
-  dyslexiaFont: false,
-  reduceGlow: false,
-  fontSize: "medium",
-  musicVolume: 0.5,
-  sfxVolume: 0.5,
-  ambientEnabled: true,
-  skipTutorials: false,
-  showHints: true,
-  difficulty: "standard",
-};
+/* ─── SETTINGS STORAGE (delegates to settingsSync) ─── */
+type AppSettings = GameSettings;
+const DEFAULT_SETTINGS = SHARED_DEFAULTS;
 
 function loadSettings(): AppSettings {
-  try {
-    const saved = localStorage.getItem("loredex-settings");
-    return saved ? { ...DEFAULT_SETTINGS, ...JSON.parse(saved) } : { ...DEFAULT_SETTINGS };
-  } catch { return { ...DEFAULT_SETTINGS }; }
+  return syncLoadSettings();
 }
 
 function saveSettings(settings: AppSettings) {
-  localStorage.setItem("loredex-settings", JSON.stringify(settings));
-  // Apply accessibility to document
-  const root = document.documentElement;
-  root.classList.toggle("high-contrast", settings.highContrast);
-  root.classList.toggle("reduce-motion", settings.reduceMotion);
-  root.classList.toggle("dyslexia-font", settings.dyslexiaFont);
-  root.classList.toggle("reduce-glow", settings.reduceGlow);
-  // Font size
-  root.classList.remove("font-size-small", "font-size-medium", "font-size-large");
-  root.classList.add(`font-size-${settings.fontSize}`);
+  syncSaveSettings(settings);
 }
 
 /* ─── SECTION COMPONENT ─── */
@@ -297,6 +265,28 @@ export default function SettingsPage() {
   const [settings, setSettings] = useState<AppSettings>(loadSettings);
   const [showResetConfirm, setShowResetConfirm] = useState(false);
   const [exporting, setExporting] = useState(false);
+  const [cloudSyncStatus, setCloudSyncStatus] = useState<"idle" | "syncing" | "synced" | "error">("idle");
+
+  // Initialize sync manager with tRPC utils
+  const utils = trpc.useUtils();
+  useEffect(() => {
+    initSync(utils);
+  }, [utils]);
+
+  // Sync settings from server on login
+  useEffect(() => {
+    if (isAuthenticated && !authLoading) {
+      setCloudSyncStatus("syncing");
+      syncFromServer()
+        .then((merged) => {
+          setSettings(merged);
+          setCloudSyncStatus("synced");
+        })
+        .catch(() => {
+          setCloudSyncStatus("error");
+        });
+    }
+  }, [isAuthenticated, authLoading]);
 
   const updateSetting = useCallback(<K extends keyof AppSettings>(key: K, value: AppSettings[K]) => {
     setSettings(prev => {

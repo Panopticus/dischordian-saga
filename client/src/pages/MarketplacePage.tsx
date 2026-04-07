@@ -314,7 +314,7 @@ function BrowseTab() {
                       <Button
                         size="sm"
                         variant="outline"
-                        className="font-mono text-[10px] h-7 px-2 border-accent/30 text-accent hover:bg-accent/10"
+                        className="font-mono text-xs h-9 px-2 border-accent/30 text-accent hover:bg-accent/10"
                         disabled={buyMutation.isPending}
                         onClick={() => {
                           setBuyingId(listing.id);
@@ -329,7 +329,7 @@ function BrowseTab() {
                       <Button
                         size="sm"
                         variant="outline"
-                        className="font-mono text-[10px] h-7 px-2 border-chart-4/30 text-chart-4 hover:bg-chart-4/10"
+                        className="font-mono text-xs h-9 px-2 border-chart-4/30 text-chart-4 hover:bg-chart-4/10"
                         disabled={buyMutation.isPending}
                         onClick={() => {
                           setBuyingId(listing.id);
@@ -1025,7 +1025,7 @@ function MyListingsTab() {
                 </div>
                 <Button
                   size="sm" variant="ghost"
-                  className="h-7 px-2 font-mono text-[10px] text-destructive hover:bg-destructive/10"
+                  className="h-9 px-2 font-mono text-xs text-destructive hover:bg-destructive/10"
                   disabled={cancelListingMutation.isPending}
                   onClick={() => cancelListingMutation.mutate({ listingId: listing.id })}
                 >
@@ -1060,7 +1060,7 @@ function MyListingsTab() {
                 </div>
                 <Button
                   size="sm" variant="ghost"
-                  className="h-7 px-2 font-mono text-[10px] text-destructive hover:bg-destructive/10"
+                  className="h-9 px-2 font-mono text-xs text-destructive hover:bg-destructive/10"
                   disabled={cancelBuyOrderMutation.isPending}
                   onClick={() => cancelBuyOrderMutation.mutate({ orderId: order.id })}
                 >

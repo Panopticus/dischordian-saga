@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { logger } from "../logger";
 import { publicProcedure, protectedProcedure, router } from "../_core/trpc";
 import { getDb } from "../db";
 import { twSectors, twPlayerState, twGameLog, twColonies, cards, userCards, users, shipUpgrades, playerBases } from "../../drizzle/schema";
@@ -360,8 +361,8 @@ export const tradeWarsRouter = router({
         
         // Award civil skill XP (negotiation)
         const { awardCivilXp } = await import("../civilSkillHelper");
-        awardCivilXp(ctx.user.id, "complete_trade").catch(() => {});
-        awardCivilXp(ctx.user.id, "marketplace_buy").catch(() => {});
+        awardCivilXp(ctx.user.id, "complete_trade").catch(e => logger.error("[TradeWars] Civil XP award failed:", e));
+        awardCivilXp(ctx.user.id, "marketplace_buy").catch(e => logger.error("[TradeWars] Civil XP award failed:", e));
 
         return {
           success: true,
@@ -402,8 +403,8 @@ export const tradeWarsRouter = router({
         
         // Award civil skill XP (negotiation)
         const { awardCivilXp: awardSellXp } = await import("../civilSkillHelper");
-        awardSellXp(ctx.user.id, "complete_trade").catch(() => {});
-        awardSellXp(ctx.user.id, "marketplace_sell").catch(() => {});
+        awardSellXp(ctx.user.id, "complete_trade").catch(e => logger.error("[TradeWars] Sell XP award failed:", e));
+        awardSellXp(ctx.user.id, "marketplace_sell").catch(e => logger.error("[TradeWars] Sell XP award failed:", e));
 
         return {
           success: true,
@@ -464,7 +465,7 @@ export const tradeWarsRouter = router({
     
     // Award civil skill XP (perception)
     const { awardCivilXp: awardScanXp } = await import("../civilSkillHelper");
-    awardScanXp(ctx.user.id, "scan_system").catch(() => {});
+    awardScanXp(ctx.user.id, "scan_system").catch(e => logger.error("[TradeWars] Scan XP award failed:", e));
 
     return {
       success: true,
@@ -682,9 +683,9 @@ export const tradeWarsRouter = router({
     // Award civil skill XP (tactics for win, endurance for survive)
     const { awardCivilXp: awardCombatXp } = await import("../civilSkillHelper");
     if (won) {
-      awardCombatXp(ctx.user.id, "win_fight").catch(() => {});
+      awardCombatXp(ctx.user.id, "win_fight").catch(e => logger.error("[TradeWars] Combat XP award failed:", e));
     }
-    awardCombatXp(ctx.user.id, "survive_fight").catch(() => {});
+    awardCombatXp(ctx.user.id, "survive_fight").catch(e => logger.error("[TradeWars] Combat XP award failed:", e));
 
     return {
       success: true,

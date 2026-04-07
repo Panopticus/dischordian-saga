@@ -12,6 +12,8 @@ import { ScreenReaderOnly, LiveRegion } from "@/components/a11y";
 import type { FighterData, ArenaData, DifficultyLevel } from "./gameData";
 import { FightEngine2D, type FightCallbacks2D, type FightPhase2D, type TouchInput2D, type Difficulty2D, type TrainingData, type MoveListEntry } from "./FightEngine2D";
 import { hapticMediumHit, hapticHeavyHit, hapticBlock, hapticSP1, hapticSP2, hapticSP3 } from "./haptics";
+import { useHaptics } from "@/hooks/useHaptics";
+import { screenShake, hitFlash, comboFlash, koSlowmo } from "@/lib/combatJuice";
 import TrainingModeOverlay from "./TrainingModeOverlay";
 import FighterIntroOverlay from "./FighterIntroOverlay";
 import { useSagaThemeBGM } from "@/contexts/SagaThemeBGMContext";
@@ -50,11 +52,13 @@ interface GestureTracker {
   startTime: number;
   side: "left" | "right";
   ended: boolean;
+  holdTimer: ReturnType<typeof setTimeout> | null;
 }
 
 const SWIPE_THRESHOLD = 30;
 const TAP_TIME = 250;
 const DOUBLE_TAP_TIME = 300;
+const HOLD_THRESHOLD = 300; // ms before hold_start fires
 
 /* ═══ TUTORIAL ═══ */
 const TUTORIAL_DONE_KEY = "loredex_fight2d_tutorial_done";
@@ -136,6 +140,7 @@ function FightArena2D({
   const engineRef = useRef<FightEngine2D | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const gesturesRef = useRef<Map<number, GestureTracker>>(new Map());
+  const { trigger: hapticTrigger } = useHaptics();
   const lastTapRef = useRef<{ time: number; side: "left" | "right"; count: number }>({ time: 0, side: "left", count: 0 });
 
   const [phase, setPhase] = useState<FightPhase2D>("intro");
@@ -194,6 +199,20 @@ function FightArena2D({
       else if (type === "heavy" || type === "launcher") hapticHeavyHit();
       else hapticMediumHit();
 
+      // useHaptics pattern-based feedback (augments existing haptics)
+      if (type === "heavy" || type === "launcher") {
+        hapticTrigger("heavyHit");
+        screenShake("heavy");
+        hitFlash();
+      } else if (type === "blocked" || type === "parried") {
+        hapticTrigger("lightHit");
+        screenShake("light");
+      } else {
+        hapticTrigger("lightHit");
+        screenShake("medium");
+        hitFlash();
+      }
+
       // Narrative effects — player taking damage triggers screen effects
       if (attacker === 2) {
         if (type === "heavy" || type === "launcher") dispatchCombatCritical();
@@ -210,6 +229,10 @@ function FightArena2D({
       if (level >= 2) dispatchLimitBreak();
       else dispatchNarrativeEffect("jolt");
     },
+    onCombo: (_player, count, _damage) => {
+      // Combat juice: combo flash feedback based on combo count
+      comboFlash(count);
+    },
     onFinishHim: () => {
       // Narrative: finishing blow moment
       dispatchNarrativeEffect("surge");
@@ -218,6 +241,12 @@ function FightArena2D({
       const w = winner === 1 ? "p1" : "p2";
       const perfect = winner === 1 ? p1PerfectRef.current : false;
       setAnnounceMessage(w === "p1" ? (perfect ? "You win! Perfect victory!" : "You win!") : "You lose!");
+
+      // Combat juice: KO slowmo + heavy screen shake
+      hapticTrigger("ko");
+      koSlowmo();
+      screenShake("ko");
+      hitFlash("#ff4444");
 
       // Narrative: death/victory effects
       if (w === "p2") dispatchCombatDeath();
@@ -331,16 +360,26 @@ function FightArena2D({
       const rect = (e.target as HTMLElement).getBoundingClientRect();
       const relX = touch.clientX - rect.left;
       const side: "left" | "right" = relX < rect.width / 2 ? "left" : "right";
+      const touchId = touch.identifier;
+
+      // Schedule hold_start after threshold — fires block/heavy charge if finger stays down
+      const holdTimer = setTimeout(() => {
+        const tracked = gesturesRef.current.get(touchId);
+        if (tracked && !tracked.ended) {
+          engine.handleTouchInput({ type: "hold_start", side, timestamp: Date.now() });
+        }
+      }, HOLD_THRESHOLD);
 
       const tracker: GestureTracker = {
-        id: touch.identifier,
+        id: touchId,
         startX: touch.clientX,
         startY: touch.clientY,
         startTime: Date.now(),
         side,
         ended: false,
+        holdTimer,
       };
-      gesturesRef.current.set(touch.identifier, tracker);
+      gesturesRef.current.set(touchId, tracker);
     }
   }, []);
 
@@ -354,6 +393,7 @@ function FightArena2D({
       const tracker = gesturesRef.current.get(touch.identifier);
       if (!tracker || tracker.ended) continue;
       tracker.ended = true;
+      if (tracker.holdTimer) clearTimeout(tracker.holdTimer);
       gesturesRef.current.delete(touch.identifier);
 
       const dx = touch.clientX - tracker.startX;
@@ -407,6 +447,8 @@ function FightArena2D({
 
   const handleTouchCancel = useCallback((e: React.TouchEvent) => {
     for (let i = 0; i < e.changedTouches.length; i++) {
+      const tracker = gesturesRef.current.get(e.changedTouches[i].identifier);
+      if (tracker?.holdTimer) clearTimeout(tracker.holdTimer);
       gesturesRef.current.delete(e.changedTouches[i].identifier);
     }
   }, []);

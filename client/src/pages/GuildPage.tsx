@@ -9,6 +9,7 @@ import {
   Trophy, Swords, UserPlus, LogOut, Check, X, ArrowUp, Clock
 } from "lucide-react";
 import { getLoginUrl } from "@/const";
+import { EmptyGuildHall } from "@/components/EmptyStates";
 
 /* ═══ FACTION COLORS ═══ */
 const FACTION_STYLE: Record<string, { color: string; bg: string; border: string }> = {
@@ -176,8 +177,8 @@ function NoGuildView({ invites, onJoined }: { invites: any[]; onJoined: () => vo
   return (
     <div className="min-h-screen grid-bg px-4 sm:px-6 py-8">
       <div className="max-w-2xl mx-auto">
+        <EmptyGuildHall className="mb-8" />
         <div className="text-center mb-8">
-          <Shield size={40} className="text-primary mx-auto mb-3 opacity-70" />
           <h1 className="font-display text-2xl font-bold tracking-wider mb-2">SYNDICATE OPERATIONS</h1>
           <p className="font-mono text-sm text-muted-foreground">Join or create a Syndicate to unlock cooperative missions, shared treasury, and faction warfare.</p>
         </div>

@@ -2,6 +2,7 @@
    CARD TRADING ROUTER — Create, accept, decline trades
    ═══════════════════════════════════════════════════════ */
 import { z } from "zod";
+import { logger } from "../logger";
 import { eq, and, or, desc, sql } from "drizzle-orm";
 import { protectedProcedure, router } from "../_core/trpc";
 import { getDb } from "../db";
@@ -62,7 +63,7 @@ export const tradingRouter = router({
         title: "New Trade Offer",
         message: `${ctx.user.name || "An operative"} sent you a trade offer.`,
         actionUrl: "/trading",
-      }).catch(() => {});
+      }).catch(e => logger.error("[Trading] Notification send failed:", e));
       return { success: true, tradeId: Number(result.insertId) };
     }),
   /** Accept a trade offer */
@@ -160,7 +161,7 @@ export const tradingRouter = router({
         title: "Trade Accepted!",
         message: `Your trade offer was accepted by ${ctx.user.name || "another operative"}.`,
         actionUrl: "/trading",
-      }).catch(() => {});
+      }).catch(e => logger.error("[Trading] Notification send failed:", e));
       // Achievement auto-tracking for both parties (outside transaction)
       trackTradeComplete(trade.senderId).catch(e => console.error("[Trading] Achievement error:", e));
       trackTradeComplete(ctx.user.id).catch(e => console.error("[Trading] Achievement error:", e));
@@ -169,13 +170,13 @@ export const tradingRouter = router({
 
       // Award class mastery XP for trading
       const { awardClassXp } = await import("../classMasteryHelper");
-      awardClassXp(trade.senderId, "trade_card").catch(() => {});
-      awardClassXp(ctx.user.id, "trade_card").catch(() => {});
+      awardClassXp(trade.senderId, "trade_card").catch(e => logger.error("[Trading] Class XP award failed:", e));
+      awardClassXp(ctx.user.id, "trade_card").catch(e => logger.error("[Trading] Class XP award failed:", e));
 
       // Award civil skill XP for completed trade (negotiation + diplomacy)
       const { awardCivilXp } = await import("../civilSkillHelper");
-      awardCivilXp(trade.senderId, "complete_trade").catch(() => {});
-      awardCivilXp(ctx.user.id, "complete_trade").catch(() => {});
+      awardCivilXp(trade.senderId, "complete_trade").catch(e => logger.error("[Trading] Civil XP award failed:", e));
+      awardCivilXp(ctx.user.id, "complete_trade").catch(e => logger.error("[Trading] Civil XP award failed:", e));
 
       return { success: true };
     }),

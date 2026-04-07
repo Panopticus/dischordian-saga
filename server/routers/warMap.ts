@@ -5,6 +5,7 @@
    Insurgency (Dreamer) with weekly season resets.
    ═══════════════════════════════════════════════════════ */
 import { z } from "zod";
+import { logger } from "../logger";
 import { eq, and, desc, sql, count, sum } from "drizzle-orm";
 import { protectedProcedure, router } from "../_core/trpc";
 import { getDb } from "../db";
@@ -392,9 +393,9 @@ export const warMapRouter = router({
       // Award civil skill XP based on action type
       const { awardCivilXp } = await import("../civilSkillHelper");
       if (actionType === "capture") {
-        awardCivilXp(ctx.user.id, "capture_territory").catch(() => {});
+        awardCivilXp(ctx.user.id, "capture_territory").catch(e => logger.error("[WarMap] Civil XP award failed:", e));
       } else if (actionType === "sabotage") {
-        awardCivilXp(ctx.user.id, "sabotage_territory").catch(() => {});
+        awardCivilXp(ctx.user.id, "sabotage_territory").catch(e => logger.error("[WarMap] Civil XP award failed:", e));
       }
 
       return { success: true, message, pointsEarned: pointsChange };

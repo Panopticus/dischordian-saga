@@ -23,6 +23,7 @@ import { getCombatDrops, type LootDrop } from "@/data/lootTables";
 import { getMaterialById } from "@/data/craftingData";
 import { getMoralityTierDef } from "@/components/MoralityMeter";
 import { toast } from "sonner";
+import { useNotificationQueue } from "@/hooks/useNotificationQueue";
 import {
   STARTER_FIGHTERS, UNLOCKABLE_FIGHTERS, DEMON_FIGHTERS, ALL_FIGHTERS,
   ARENAS, DIFFICULTIES,
@@ -30,6 +31,7 @@ import {
 } from "@/game/gameData";
 import FightArena2D from "@/game/FightArena2D";
 import { triggerFailureRevelation } from "@/lib/failureRevelations";
+import { mapDifficultyToFightAI, createDefaultPerformance, type PlayerPerformance } from "@shared/dynamicDifficulty";
 import LandscapeEnforcer from "@/components/LandscapeEnforcer";
 import TutorialTrigger from "@/components/TutorialTrigger";
 import { useAutoTutorial } from "@/hooks/useAutoTutorial";
@@ -69,6 +71,7 @@ export default function FightPage() {
   const { autoTutorial, showAutoTutorial, launchTutorial, dismissTutorial, snoozeTutorial } = useAutoTutorial("/fight");
   const { recordAndReward } = useContentReward();
   const { state: gameState, addMaterial } = useGame();
+  const { notify: nqNotify, notifyLootDrop, notifyAchievement } = useNotificationQueue();
   useGameAreaBGM("arena_battle");
   const [phase, setPhase] = useState<Phase>("title");
   const [selectedPlayer, setSelectedPlayer] = useState<FighterData | null>(null);
@@ -191,7 +194,7 @@ export default function FightPage() {
           const mat = getMaterialById(d.materialId);
           return `${mat?.icon || ""} ${mat?.name || d.materialId} x${d.quantity}`;
         }).join(", ");
-        toast.success(`Loot: ${dropNames}`, { duration: 3000 });
+        nqNotify("loot-drop", `Loot: ${dropNames}`);
       }
     } else {
       gam.recordFightLoss();
@@ -214,7 +217,7 @@ export default function FightPage() {
           const mat = getMaterialById(d.materialId);
           return `${mat?.icon || ""} ${mat?.name || d.materialId} x${d.quantity}`;
         }).join(", ");
-        toast.success(`Loot: ${dropNames}`, { duration: 3000 });
+        nqNotify("loot-drop", `Loot: ${dropNames}`);
       }
     } else {
       gam.recordFightLoss();
@@ -323,10 +326,10 @@ export default function FightPage() {
         saveStoryProgress(newProgress);
         // Also unlock in gamification
         gam.unlockFighter(currentStoryChapter.unlocksFighter);
-        toast.success(`${ALL_FIGHTERS.find(f => f.id === currentStoryChapter.unlocksFighter)?.name || "Fighter"} Unlocked!`, {
-          description: currentStoryChapter.powerGained || "A new challenger joins your roster.",
-          duration: 4000,
-        });
+        notifyAchievement(
+          `${ALL_FIGHTERS.find(f => f.id === currentStoryChapter.unlocksFighter)?.name || "Fighter"} Unlocked!`,
+          currentStoryChapter.powerGained || "A new challenger joins your roster.",
+        );
         setPhase("story");
       } else {
         // Post-defeat — back to story select

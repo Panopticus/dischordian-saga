@@ -9,6 +9,7 @@ import {
 import { getLoginUrl } from "@/const";
 import { toast } from "sonner";
 import { useSwipeTabs } from "@/hooks/useSwipeTabs";
+import { EmptyInventory } from "@/components/EmptyStates";
 
 /* ═══ DISENCHANT RARITY CONFIG ═══ */
 const RARITY_CONFIG: Record<string, { label: string; color: string; dream: number; dust: number; essence: number }> = {
@@ -168,13 +169,7 @@ function CardsTab() {
   const cards = data?.cards || [];
 
   if (cards.length === 0) {
-    return (
-      <div className="text-center py-12">
-        <Sparkles size={32} className="text-muted-foreground/30 mx-auto mb-2" />
-        <p className="font-mono text-xs text-muted-foreground">No cards in your collection yet.</p>
-        <p className="font-mono text-[10px] text-muted-foreground/60 mt-1">Win battles, open packs, or trade to collect cards.</p>
-      </div>
-    );
+    return <EmptyInventory />;
   }
 
   return (
