@@ -168,6 +168,7 @@ const PrivacyPage = lazy(() => import("./pages/PrivacyPage"));
 const PlanetGalleryPage = lazy(() => import("./pages/PlanetGalleryPage"));
 const GovernanceHubPage = lazy(() => import("./pages/GovernanceHubPage"));
 const SoulStonesPage = lazy(() => import("./features/soulStones/SoulStonesPage"));
+const ChristmasCasinoPage = lazy(() => import("./features/events/christmasInJuly/CasinoFloor"));
 
 /* ═══ LOADING FALLBACK ═══ */
 function PageLoader() {
@@ -301,6 +302,7 @@ function Router() {
         <Route path="/planets" component={PlanetGalleryPage} />
         <Route path="/governance" component={GovernanceHubPage} />
         <Route path="/soul-stones">{() => <GameRoute component={SoulStonesPage} />}</Route>
+        <Route path="/christmas-in-july">{() => <GameRoute component={ChristmasCasinoPage} />}</Route>
         <Route path="/404" component={NotFound} />
         <Route component={NotFound} />
       </Switch>
