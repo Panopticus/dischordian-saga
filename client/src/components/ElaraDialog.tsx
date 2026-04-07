@@ -6,9 +6,14 @@ import { motion, AnimatePresence } from "framer-motion";
 import { X, MessageCircle, ChevronRight, Loader2, Sparkles } from "lucide-react";
 import HolographicElara from "./HolographicElara";
 import { Streamdown } from "streamdown";
+import { getNPCPortrait } from "@/game/npcPortraits";
 
-const ELARA_PORTRAIT = "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/elara_portrait_7ce2522f.png";
-const ELARA_AVATAR = "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/elara_avatar_dark_hair_small_2fcb00b8.png";
+const elaraPortrait = getNPCPortrait("elara");
+const ELARA_PORTRAIT = elaraPortrait?.fullPortrait ?? "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/elara_portrait_7ce2522f.png";
+const ELARA_AVATAR = elaraPortrait?.expressions.neutral ?? "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/elara_avatar_dark_hair_small_2fcb00b8.png";
+const ELARA_SPEAKING = elaraPortrait?.expressions.speaking ?? ELARA_AVATAR;
+const ELARA_CONCERNED = elaraPortrait?.expressions.emotional1 ?? ELARA_AVATAR;
+const ELARA_VULNERABLE = elaraPortrait?.expressions.emotional2 ?? ELARA_AVATAR;
 
 interface DialogChoice {
   id: string;
@@ -561,7 +566,7 @@ export default function ElaraDialog({ elaraTTS: _elaraTTS }: { elaraTTS?: any } 
                   <div key={i} className={`flex gap-3 ${msg.role === "user" ? "flex-row-reverse" : ""}`}>
                     {msg.role === "assistant" && (
                       <div className="w-8 h-8 rounded-full overflow-hidden border border-[var(--neon-cyan)]/30 flex-shrink-0 mt-1">
-                        <img src={ELARA_AVATAR} alt="" className="w-full h-full object-cover" />
+                        <img src={i === history.length - 1 ? ELARA_SPEAKING : ELARA_AVATAR} alt="" className="w-full h-full object-cover" />
                       </div>
                     )}
                     <div className={`max-w-[85%] rounded-lg px-3 py-2.5 text-sm leading-relaxed ${
@@ -582,7 +587,7 @@ export default function ElaraDialog({ elaraTTS: _elaraTTS }: { elaraTTS?: any } 
                 {isLoading && (
                   <div className="flex gap-3">
                     <div className="w-8 h-8 rounded-full overflow-hidden border border-[var(--neon-cyan)]/30 flex-shrink-0 mt-1">
-                      <img src={ELARA_AVATAR} alt="" className="w-full h-full object-cover" />
+                      <img src={ELARA_CONCERNED} alt="" className="w-full h-full object-cover" />
                     </div>
                     <div className="bg-[var(--glass-base)] border border-[var(--glass-border)] rounded-lg px-4 py-3">
                       <div className="flex items-center gap-2 text-[var(--neon-cyan)]/70">
@@ -600,8 +605,9 @@ export default function ElaraDialog({ elaraTTS: _elaraTTS }: { elaraTTS?: any } 
                 
                 {/* Portrait bar — hidden on mobile to save space */}
                 <div className="flex items-end gap-3 px-4 pt-3">
-                  <div className="hidden sm:block w-20 h-20 rounded-lg overflow-hidden border border-[var(--neon-cyan)]/30 shadow-[0_0_15px_rgba(51,226,230,0.15)] flex-shrink-0">
-                    <img src={ELARA_PORTRAIT} alt="Elara" className="w-full h-full object-cover object-top" />
+                  <div className="hidden sm:block w-20 h-20 rounded-lg overflow-hidden border border-[var(--neon-cyan)]/30 shadow-[0_0_15px_rgba(51,226,230,0.15)] flex-shrink-0 transition-all duration-300"
+                    style={isLoading ? { boxShadow: "0 0 20px rgba(51,226,230,0.3)" } : undefined}>
+                    <img src={isLoading ? ELARA_SPEAKING : ELARA_PORTRAIT} alt="Elara" className="w-full h-full object-cover object-top transition-all duration-300" />
                   </div>
                   <div className="flex-1 pb-1">
                     <div className="flex items-center gap-1.5 mb-1">

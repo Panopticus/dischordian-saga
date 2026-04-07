@@ -19,6 +19,7 @@ import { driveEmbedUrl, type Transmission } from "@shared/transmissions";
 import { getLoredexUnlocksForTransmission } from "@shared/transmissionLoredexUnlocks";
 import { useKinetic } from "@/hooks/useKinetic";
 import { emitDiscoveryNotification } from "@/components/DiscoveryNotification";
+import { getNPCPortrait } from "@/game/npcPortraits";
 
 interface Props {
   transmission: Transmission;
@@ -90,6 +91,14 @@ export default function MemeBroadcast({ transmission, onClose, onComplete, alrea
   const borderColor = oracleRevealActive ? "border-purple-400/60" : "border-pink-500/60";
   const glowColor = oracleRevealActive ? "rgba(168,85,247,0.2)" : "rgba(236,72,153,0.2)";
   const memeColor = oracleRevealActive ? "#c084fc" : "#f472b6";
+
+  // Meme portrait expressions — shifts face based on broadcast phase
+  const memePortrait = getNPCPortrait("the_meme");
+  const memeExpression = phase === "intro"
+    ? memePortrait?.expressions.neutral    // broadcasting — his default on-air face
+    : phase === "outro"
+      ? memePortrait?.expressions.emotional1 // sympathetic — wrapping up, warmer
+      : memePortrait?.bustPortrait;           // base fallback
 
   // Static noise component
   const StaticBurst = () => (
@@ -203,20 +212,22 @@ export default function MemeBroadcast({ transmission, onClose, onComplete, alrea
               {phase === "intro" && (
                 <div className="p-5 sm:p-6">
                   <div className="flex gap-3 items-start mb-5">
-                    {/* Meme avatar — shifting face */}
+                    {/* Meme avatar — broadcasting expression */}
                     <motion.div
                       animate={{ rotate: [0, 2, -2, 0], scale: [1, 1.03, 1] }}
                       transition={{ duration: 4, repeat: Infinity }}
-                      className="shrink-0 w-11 h-11 rounded-full overflow-hidden"
+                      className="shrink-0 w-14 h-14 rounded-full overflow-hidden"
                       style={{
                         border: `2px solid ${memeColor}60`,
                         background: `linear-gradient(135deg, ${memeColor}20, transparent)`,
-                        boxShadow: `0 0 12px ${memeColor}30`,
+                        boxShadow: `0 0 16px ${memeColor}40`,
                       }}
                     >
-                      <div className="w-full h-full flex items-center justify-center font-display font-black text-lg" style={{ color: memeColor }}>
-                        M
-                      </div>
+                      {memeExpression ? (
+                        <img src={memeExpression} alt="The Meme" className="w-full h-full object-cover object-top" />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center font-display font-black text-lg" style={{ color: memeColor }}>M</div>
+                      )}
                     </motion.div>
                     <div className="flex-1 min-w-0">
                       <div className={`font-mono text-[8px] uppercase tracking-[0.3em] ${accent} mb-1.5`}>
@@ -309,10 +320,14 @@ export default function MemeBroadcast({ transmission, onClose, onComplete, alrea
                     <motion.div
                       animate={{ rotate: [0, -2, 2, 0] }}
                       transition={{ duration: 3, repeat: Infinity }}
-                      className="shrink-0 w-11 h-11 rounded-full flex items-center justify-center font-display font-black text-lg"
-                      style={{ border: `2px solid ${memeColor}60`, color: memeColor, boxShadow: `0 0 12px ${memeColor}30` }}
+                      className="shrink-0 w-14 h-14 rounded-full overflow-hidden"
+                      style={{ border: `2px solid ${memeColor}60`, boxShadow: `0 0 16px ${memeColor}40` }}
                     >
-                      M
+                      {memeExpression ? (
+                        <img src={memeExpression} alt="The Meme" className="w-full h-full object-cover object-top" />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center font-display font-black text-lg" style={{ color: memeColor }}>M</div>
+                      )}
                     </motion.div>
                     <div className="flex-1 min-w-0">
                       <div className={`font-mono text-[8px] uppercase tracking-[0.3em] ${accent} mb-1.5`}>
