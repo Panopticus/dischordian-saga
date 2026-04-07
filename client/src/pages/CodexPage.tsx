@@ -423,7 +423,7 @@ The spectral form is not a punishment. It is a symptom. And like all symptoms, i
     category: "artifacts",
     content: `From the Antiquarian's Personal Archive — Classification: Miracle
 
-The 10th Archon — the Necromancer — was the only being the Collector ever feared. Not because she could kill. Because she could undo killing. Her Resurrection Protocols were not technology in any conventional sense. They were philosophical arguments against death, encoded in crystal lattices and powered by the grief of the bereaved.
+The 11th Archon — the Necromancer — was the only being the Collector ever feared. Not because she could kill. Because she could undo killing. Her Resurrection Protocols were not technology in any conventional sense. They were philosophical arguments against death, encoded in crystal lattices and powered by the grief of the bereaved.
 
 A Resurrection Holocron contains a complete consciousness template — not a copy, but a bridge. When activated in proximity to a spectral Eidolon, it does not recreate the creature. It reminds the handler's quantum field what wholeness felt like. The spectral form reconstitutes not from data but from memory, longing, and the fundamental stubbornness of love.
 

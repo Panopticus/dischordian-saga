@@ -44,7 +44,7 @@ const MAP_NODES: Deployment[] = [
 
   // Trade routes
   { id: "trade_1", role: "trade_1", name: "Route I: Violetta Run", x: 80, y: 75, icon: Flag, color: "text-green-400", description: "Voltari trade. Diplomatic posting." },
-  { id: "trade_2", role: "trade_2", name: "Route II: Degens Spiral", x: 70, y: 35, icon: Flag, color: "text-green-500", description: "Casino station deals. Slippery envoy work." },
+  { id: "trade_2", role: "trade_2", name: "Route II: Degens Spiral", x: 70, y: 35, icon: Flag, color: "text-green-500", description: "Casino station deals. Slippery envoy work. The host knows your name before you introduce yourself." },
 
   // Tower garrison
   { id: "tower", role: "tower", name: "Terminus Swarm Defense", x: 30, y: 65, icon: Zap, color: "text-yellow-400", description: "Tower Captain's post. Defends the supply lines." },

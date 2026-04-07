@@ -146,7 +146,7 @@ export const WHEEL_PRIZES: WheelPrize[] = [
   {
     id: "wheel_degens_jackpot",
     name: "THE DEGEN'S JACKPOT",
-    description: "The legendary jackpot. 500 Dream Tokens, a unique 'High Roller' title, and the Degen personally appears to shake your hand and tell you his real name. Nobody has ever heard the Degen's real name. The Antiquarian inscribes it in the Chronicle with visible surprise.",
+    description: "The legendary jackpot. 500 Dream Tokens, a unique 'High Roller' title, and the Degen personally appears to shake your hand and tell you his real name. Nobody has ever heard the Degen's real name. When the Antiquarian inscribes it in the Chronicle, his pen trembles — he recognizes the name. It is very, very old. It is not a mortal name.",
     weight: 0.005,
     prizeType: "jackpot",
     amount: 500,

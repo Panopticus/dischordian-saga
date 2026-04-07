@@ -269,12 +269,12 @@ const CHARACTER_DETAILS = {
   },
   "The Degen": {
     rarity: "rare", alignment: "chaos", element: "air", dimension: "probability",
-    species: "human", characterClass: "spy", faction: "Independent",
+    species: "ne-yon", characterClass: "cosmic_entity", faction: "Ne-Yons",
     power: 5, health: 5, cost: 3,
-    disciplines: ["Chaos Theory", "Luck", "Disruption"],
-    keywords: ["degen", "chaos", "luck"],
-    abilityText: "CHAOS THEORY: Flip a coin. Heads: draw 2 cards. Tails: discard 2 cards. DISRUPTION: Once per turn, force target player to shuffle their hand into their library and draw the same number of cards.",
-    flavorText: "\"In a world of calculated moves, I choose random.\"",
+    disciplines: ["Entropy", "Luck", "Disruption"],
+    keywords: ["degen", "entropy", "luck", "casino"],
+    abilityText: "ENTROPY'S EDGE: Flip a coin. Heads: draw 2 cards. Tails: discard 2 cards. DISRUPTION: Once per turn, force target player to shuffle their hand into their library and draw the same number of cards.",
+    flavorText: "\"The house always wins. And the house is older than you think.\"",
   },
   "The Game Master": {
     rarity: "legendary", alignment: "chaos", element: "air", dimension: "reality",
@@ -1053,7 +1053,7 @@ const CHARACTER_VARIANTS = [
   { base: "The Detective", variant: "The Detective (Noir)", rarity: "rare", power: 7, health: 6, cost: 5, text: "CASE CLOSED: If you correctly name 3 cards in opponent's hand, draw 5 cards.", flavor: "\"Every case has a solution. Every mystery, an answer.\"" },
   { base: "The Hierophant", variant: "The Hierophant (Dark)", rarity: "epic", power: 7, health: 6, cost: 6, text: "DARK BLESSING: Target character gains +3/+3 but changes alignment to Chaos.", flavor: "\"Knowledge has a price. Power demands sacrifice.\"" },
   { base: "Wraith Calder", variant: "Wraith Calder (Reaper Form)", rarity: "epic", power: 9, health: 4, cost: 6, text: "REAPER: Instantly defeat any character with 4 or less health. No reactions allowed.", flavor: "\"The reaper doesn't negotiate.\"" },
-  { base: "The Degen", variant: "The Degen (Lucky)", rarity: "epic", power: 6, health: 6, cost: 4, text: "JACKPOT: Flip 3 coins. For each heads, draw 2 cards and gain 2 energy.", flavor: "\"Sometimes chaos pays off.\"" },
+  { base: "The Degen", variant: "The Degen (Lucky)", rarity: "epic", power: 6, health: 6, cost: 4, text: "JACKPOT: Flip 3 coins. For each heads, draw 2 cards and gain 2 energy.", flavor: "\"Sometimes entropy pays off. Ask the casino host — he's been paying out since before the Empire had a name.\"" },
   { base: "The Game Master", variant: "The Game Master (Final Boss)", rarity: "mythic", power: 10, health: 10, cost: 10, text: "FINAL BOSS: Cannot be defeated by combat. Can only be defeated by Event cards or special abilities.", flavor: "\"You cannot beat the game. You can only survive it.\"" },
 ];
 

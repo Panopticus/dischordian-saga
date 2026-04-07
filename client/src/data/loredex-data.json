@@ -1938,21 +1938,26 @@
       "id": "entity_38",
       "type": "character",
       "name": "The Degen",
-      "aliases": [],
+      "aliases": [
+        "The Casino Host",
+        "The Bartender",
+        "Ne-Yon #8"
+      ],
       "era": "Late Empire",
       "date_aa": "15800 A.A.",
       "date_ad": "~17830 AD",
       "season": "Season 2",
       "affiliation": "Ne-Yons",
       "status": "Active",
-      "bio": "Through acts of corruption and entropy, the Degen creates conditions in which the Ne-Yons can flourish.",
-      "history": "Through acts of corruption and entropy, the Degen creates conditions in which the Ne-Yons can flourish.",
+      "bio": "Ne-Yon #8, cosmic entity embodying entropy and corruption. The Degen is an ancient being who chose to manifest as the proprietor of an intergalactic gambling station in Ne-Yon space — Degen's Casino. He believes entropy is the most honest game, and that every roll of the dice is a microcosm of universal decay. Through acts of corruption and entropy, the Degen creates conditions in which the Ne-Yons can flourish. Players who frequent his casino may gradually discover that the charismatic bartender and casino host is, in truth, a cosmic god — the reveal is trust-gated, earned through loyalty and observation.",
+      "history": "The Degen appeared in 15,800 A.A. as the eighth Ne-Yon, embodying entropy and corruption on a cosmic scale. Unlike other Ne-Yons who operate through grand celestial gestures, the Degen chose a subtler manifestation: he built a casino. The only open zone in Ne-Yon space, Degen's Casino is where the cosmic entity deals cards, pours drinks, and watches civilizations wager their futures one bet at a time. He found gambling to be the purest expression of his domain — the house edge is just entropy wearing a suit. His eyes are older than the casino, older than the Ark, older than the Empire itself. Those who earn his trust begin to glimpse the god behind the bartender.",
       "connections": [
         "The Inventor",
         "The Judge",
         "The Seer",
         "The Dreamer",
-        "The Storm"
+        "The Storm",
+        "Degen's Casino"
       ],
       "conexus_stories": [],
       "song_appearances": [
@@ -7966,7 +7971,9 @@
       "name": "The Degen",
       "aliases": [
         "The Pleasure Seeker",
-        "The Escapist"
+        "The Escapist",
+        "The Casino Host",
+        "Ne-Yon #8"
       ],
       "album": "Silence in Heaven",
       "track_number": 5,
@@ -7975,10 +7982,10 @@
       "era": "The Reckoning",
       "season": "Season 2",
       "artist": "Malkia Ukweli & the Panopticon",
-      "affiliation": "Unaligned",
+      "affiliation": "Ne-Yons",
       "status": "active",
-      "bio": "The Degen and The Nomad find temporary escape in the pleasure districts, but even hedonism cannot silence the approaching reckoning. The song captures the last moments of willful ignorance.",
-      "history": "A wanderer who chose pleasure over purpose, only to discover that the end comes for the distracted and the devoted alike.",
+      "bio": "The Degen and The Nomad find temporary escape in the pleasure districts, but even hedonism cannot silence the approaching reckoning. The song captures the last moments of willful ignorance — though the Degen's indulgence masks something far older and more deliberate than mere escapism.",
+      "history": "A cosmic entity who chose pleasure districts and gambling halls as his domain long before the reckoning approached. What others mistake for aimless hedonism is the deliberate work of Ne-Yon #8 — entropy made flesh, wearing the mask of a casino host. The end comes for the distracted and the devoted alike, and the Degen has watched it come more times than any mortal could count.",
       "characters_featured": [
         "The Degen",
         "The Nomad"

@@ -95,7 +95,7 @@ export const DISCOVERY_STAGES: DiscoveryStage[] = [
   {
     id: "resurrection_protocols",
     energyThreshold: 500_000,
-    elaraDiscovery: "I found it. In a file the Shadow Tongue hasn't edited yet. The Resurrection Protocols. Designed by the Necromancer — 10th Archon, currently in the Matrix of Dreams. The energy we're seeing is DESIGNED. Every death feeds it. And when it reaches critical mass... he returns.",
+    elaraDiscovery: "I found it. In a file the Shadow Tongue hasn't edited yet. The Resurrection Protocols. Designed by the Necromancer — 11th Archon, currently in the Matrix of Dreams. The energy we're seeing is DESIGNED. Every death feeds it. And when it reaches critical mass... he returns.",
     anomalies: ["Confirmed: Resurrection Protocols", "Necromancer designed the field as his return mechanism"],
     investigation: "Verify with the Antiquarian. Consult The Human — he served alongside the Necromancer as an Archon.",
   },

@@ -461,7 +461,7 @@ export const UNLOCKABLE_FIGHTERS: FighterData[] = [
     frameProfile: { archetype: "glass_cannon", walkSpeedMult: 1.1, dashSpeedMult: 1.1, jumpForceMult: 1.05, lightStartup: 4, lightRecovery: 6, mediumStartup: 8, mediumRecovery: 14, heavyStartup: 7, heavyRecovery: 20, damageMult: 1.2, hitstunMult: 1.0, pushbackMult: 1.1, rangeMult: 1.1, meterGainMult: 1.0, maxComboHits: 12 },
   },
   {
-    id: "degen", loredexId: "entity_38", name: "The Degen", title: "Ne-Yon of Chaos",
+    id: "degen", loredexId: "entity_38", name: "The Degen", title: "Ne-Yon of Entropy — The Casino God",
     image: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/026_the_degen_d6b8727a.png",
     faction: "neyons", locked: true, unlockCost: 500, hp: 85, attack: 8, defense: 4, speed: 10,
     special: { name: "DEGEN GAMBIT", damage: 40, description: "All-in attack — massive damage but costs HP", cooldown: 200, color: "#fb923c" },

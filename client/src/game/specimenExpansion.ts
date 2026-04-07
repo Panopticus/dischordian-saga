@@ -150,7 +150,7 @@ export const NEYON_SPECIMENS: ExpandedSpecimenDef[] = [
     rarity: "epic", bonus: { stat: "lore_discovery", value: 5, percent: true },
     acquisition: { type: "game_mastery", game: "star_chart", requirement: "Map all 5 constellations" } },
   { id: "chaos_ferret", name: "Chaos Ferret", species: "Entropy Mustelid", associatedWith: "The Degen", associationType: "neyon",
-    description: "A ferret that causes small catastrophes wherever it goes. Knocked over a vase? That was the ferret. Lost your keys? Ferret. Economic collapse? ...also the ferret.",
+    description: "A ferret that causes small catastrophes wherever it goes. Knocked over a vase? That was the ferret. Lost your keys? Ferret. Economic collapse? ...also the ferret. The Degen keeps one behind the casino bar. It knocked over a drink once and three star systems experienced simultaneous power outages. Coincidence, he said. His eyes suggested otherwise.",
     rarity: "legendary", bonus: { stat: "casino_luck", value: 10, percent: true },
     acquisition: { type: "casino_jackpot" } },
   { id: "blood_raven", name: "Blood Raven", species: "Shadow Corvid", associatedWith: "The Advocate", associationType: "neyon",

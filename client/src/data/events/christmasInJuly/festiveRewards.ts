@@ -27,7 +27,7 @@ export const FESTIVE_REWARDS: FestiveReward[] = [
   { id: "tinsel_trail", name: "Tinsel Trail", description: "Your companion leaves a sparkling trail of holographic tinsel wherever it goes.", rarity: "rare", type: "pet_accessory",
     artPrompt: "Horizontal trail of holographic tinsel in red, green, gold, sparkling and flowing, festive particle effect. Transparent background. 256x64.",
     howToObtain: "14-day consecutive daily challenge bonus" },
-  { id: "degens_party_hat", name: "The Degen's Party Hat", description: "Gold and purple with dice patterns. One gold eye, one purple eye. Over-the-top casino luxury miniaturized.", rarity: "legendary", type: "pet_accessory",
+  { id: "degens_party_hat", name: "The Degen's Party Hat", description: "Gold and purple with dice patterns. One gold eye, one purple eye — ancient and knowing, like the host himself. Over-the-top casino luxury miniaturized. Pets who wear it occasionally stare into the middle distance as if glimpsing something cosmic.", rarity: "legendary", type: "pet_accessory",
     artPrompt: "Tiny extravagant party hat, gold and purple with dice pattern, one gold eye one purple eye watermark, confetti bursting from top, casino luxury miniaturized. Transparent background. 128x128.",
     howToObtain: "Casino Jackpot (0.5% wheel)" },
 

@@ -59,7 +59,7 @@ export const NECROMANCER_RETURN_EVENT: EmergentEvent = {
   id: "necromancer_return",
   name: "The Necromancer Returns",
   tagline: "When enough die, he wakes.",
-  drivingForce: "The Necromancer (10th Archon) via Resurrection Protocols",
+  drivingForce: "The Necromancer (11th Archon) via Resurrection Protocols",
   fuelSource: "Community deaths across all game modes",
   counterForce: "Coalition banishment quests + reclaiming Death Worlds",
   loreTheme: "Death as currency, resurrection as systemic force",

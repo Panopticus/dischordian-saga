@@ -13,7 +13,7 @@
    through Void Energy dyeing.
 
    Lore: The Collector (3rd Archon) spent millennia gathering.
-   The Necromancer (10th Archon) designed the resurrection tech.
+   The Necromancer (11th Archon) designed the resurrection tech.
    The Resurrectionist (Ne-Yon) maintains the protocols.
    Dr. Lyra Vox built the cloning pods into every Ark.
    ═══════════════════════════════════════════════════════ */

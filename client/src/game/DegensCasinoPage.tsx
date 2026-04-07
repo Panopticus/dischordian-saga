@@ -67,7 +67,7 @@ export default function DegensCasinoPage() {
           </div>
           <div>
             <h1 className="font-display text-lg tracking-[0.2em] text-amber-400">THE DEGEN'S CASINO</h1>
-            <p className="font-mono text-[8px] text-amber-400/40">NE-YON SPACE // OPEN ZONE</p>
+            <p className="font-mono text-[8px] text-amber-400/40">NE-YON SPACE // OPEN ZONE // THE HOST WATCHES</p>
           </div>
         </div>
         <div className="flex items-center gap-4">

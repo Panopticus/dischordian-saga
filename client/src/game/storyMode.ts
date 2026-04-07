@@ -239,9 +239,9 @@ export const FIGHTER_LORE: Record<string, {
     arenaRole: "AoE Damage \u2014 The Tempest",
   },
   degen: {
-    backstory: "Ne-Yon of Chaos. The Degen gambles everything on every attack, dealing massive damage at the cost of its own health. High risk, high reward \u2014 pure chaos incarnate.",
-    powers: ["Degen Gambit", "All-In Strike", "Chaos Surge", "Risk Amplifier"],
-    quote: "All in. No regrets. Let's see who breaks first.",
+    backstory: "Ne-Yon #8, cosmic entity of entropy and corruption. The Degen is an ancient being who manifests as a charismatic casino host \u2014 but in the arena, the mask slips. He gambles everything on every attack, dealing massive damage at the cost of his own health. His eyes are older than the Empire. High risk, high reward \u2014 entropy incarnate.",
+    powers: ["Degen Gambit", "All-In Strike", "Entropy Surge", "Risk Amplifier"],
+    quote: "All in. No regrets. Let's see who breaks first. I've been breaking things since before your species learned to count.",
     arenaRole: "Glass Cannon \u2014 The Gambler",
   },
   advocate: {
@@ -872,7 +872,7 @@ export const BONUS_CHAPTERS: StoryChapter[] = [
     unlocksFighter: "degen",
     preDialogue: [
       { speaker: "The Degen", text: "Oracle. I put my house on you folding in round two. Don't make me right.", speakerColor: "#f43f5e" },
-      { speaker: "prisoner", text: "(Chaos-aligned Ne-Yon. Betting against themselves to make it interesting.)" },
+      { speaker: "prisoner", text: "(Ne-Yon #8 \u2014 the casino host himself. Entropy made flesh, betting against himself to make it interesting.)" },
       { speaker: "The Degen", text: "If I win, I lose. If you win, I lose better. Go.", speakerColor: "#f43f5e" },
     ],
     postVictoryDialogue: [
@@ -882,7 +882,7 @@ export const BONUS_CHAPTERS: StoryChapter[] = [
     postDefeatDialogue: [
       { speaker: "The Degen", text: "I called it. What a terrible win. Rematch?", speakerColor: "#f43f5e" },
     ],
-    memoryFragment: "The Ne-Yon of Chaos bet against reality once. Reality lost. So did they. Both of them laughed.",
+    memoryFragment: "The Ne-Yon of Entropy bet against reality once. Reality lost. So did he. Both of them laughed. Somewhere, a casino's lights flickered in recognition.",
     powerGained: "Dream's Luck — 15% chance to critically succeed on any random roll.",
   },
   {

@@ -92,10 +92,10 @@ const MILESTONES: Milestone[] = [
 
 /* ─── CRAPS OUTCOMES ─── */
 const DEGEN_COMMENTARY: Record<string, string[]> = {
-  win:  ["Ho ho ho! The Degen smiles upon you!", "Merry Crit-mas! You crushed it!", "Even Santa couldn't roll that clean!"],
-  lose: ["Coal for you, degenerate!", "The house always wins... eventually.", "Degen giveth, Degen taketh away."],
-  jackpot: ["BY THE VOID — DOUBLE SIXES! JACKPOT BABY!", "The Degen is SHOOK! Legendary roll!"],
-  snake: ["Snake eyes... the Degen cackles from the shadows.", "Ouch. That's gonna leave a mark on your soul."],
+  win:  ["Ho ho ho! The Degen smiles upon you!", "Merry Crit-mas! You crushed it!", "Even Santa couldn't roll that clean!", "The host raises his glass. For a moment, his eyes flash with something ancient and golden."],
+  lose: ["Coal for you, degenerate!", "The house always wins... eventually. It has had a VERY long time to practice.", "Degen giveth, Degen taketh away. Entropy is generous like that."],
+  jackpot: ["BY THE VOID — DOUBLE SIXES! JACKPOT BABY!", "The Degen is SHOOK! Something cosmic flickers behind those golden eyes. Legendary roll!"],
+  snake: ["Snake eyes... the Degen cackles from the shadows. The sound is older than it should be.", "Ouch. That's gonna leave a mark on your soul. The host knows about soul-marks. He's collected a few."],
 };
 
 /* ─── DICE ICON MAP ─── */

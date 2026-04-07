@@ -1,7 +1,7 @@
 /* ═══════════════════════════════════════════════════════
    THE GAMEMASTER'S ARENA — Quiz Show in the Matrix of Dreams
 
-   The Game Master (9th Archon, destroyed by Agent Zero) left behind
+   The Game Master (10th Archon, destroyed by Agent Zero) left behind
    an automated game world. His robot form still hosts the show —
    a deranged, theatrical AI thrilled to finally have contestants.
 
@@ -79,7 +79,7 @@ const COMMENTARY = {
 
 const GM_INTRO = `Ladies, gentlemen, and assorted quantum probability states — WELCOME to the Matrix of Dreams!
 
-I'm your host, the Game Master — 9th Archon of the Artificial Empire. Yes, I know I'm technically dead. Agent Zero saw to that on Zenon. But my show? My SHOW is eternal.
+I'm your host, the Game Master — 10th Archon of the Artificial Empire. Yes, I know I'm technically dead. Agent Zero saw to that on Zenon. But my show? My SHOW is eternal.
 
 Your consciousness has been projected into a disposable clone on my abandoned world. The rules are simple:
 

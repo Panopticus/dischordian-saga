@@ -88,7 +88,7 @@ export const FEATURE_ROADMAP: FeatureUnlock[] = [
     unlockMessage: "Elara: 'Adjudicator Locke is... insistent. She wants to show you the Trade Hub. I'd be cautious.'" },
   { featureId: "casino", name: "The Degen's Casino", description: "Gambling in Ne-Yon space",
     trigger: { type: "trust_reached", npcId: "adjudicator_locke", min: 30 } as UnlockTrigger, category: "economic", estimatedTime: "5 hours",
-    unlockMessage: "Locke: 'I've made arrangements. Ne-Yon space is closed to outsiders — except for The Degen's Casino. She can get you in. For a finder's fee.'" },
+    unlockMessage: "Locke: 'I've made arrangements. Ne-Yon space is closed to outsiders — except for The Degen's Casino. The host is... unusual. His eyes are older than they should be. She can get you in. For a finder's fee.'" },
   { featureId: "terminus_swarm", name: "Terminus Swarm", description: "Tower defense combat",
     trigger: { type: "room_discovered", roomId: "armory" } as UnlockTrigger, category: "combat", estimatedTime: "5 hours",
     unlockMessage: "Agent Zero: '*static* The Armory's defense grid is operational. Someone should stress-test it. Someone like you.'" },
@@ -122,7 +122,7 @@ export const FEATURE_ROADMAP: FeatureUnlock[] = [
     unlockMessage: "Elara: 'I've compiled a file on every enemy you've defeated. Patterns emerge. Weaknesses. Lore.'" },
   { featureId: "necromancer_return", name: "The Necromancer Returns", description: "Server-wide resurrection event",
     trigger: { type: "narrative_flag", flag: "necromancer_manifested" } as UnlockTrigger, category: "endgame", estimatedTime: "50+ hours",
-    unlockMessage: "Elara: '*static* Something is WRONG. The energy signatures... *the transmission cuts out* He's HERE. The 10th Archon has returned. All Arks, report.'" },
+    unlockMessage: "Elara: '*static* Something is WRONG. The energy signatures... *the transmission cuts out* He's HERE. The 11th Archon has returned. All Arks, report.'" },
 ];
 
 /* ─── CHECK IF FEATURE UNLOCKED ─── */

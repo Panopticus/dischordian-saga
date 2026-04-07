@@ -241,7 +241,7 @@ export const ARENA_STORY_MODES: ArenaStoryMode[] = [
       { id: "ch4", number: 4, title: "The Game Master's Trap", opponent: { name: "Game Master Clone", era: "Late Empire", reason: "He sends a clone to test you. Classic tactic." },
         preFightDialog: "The Game Master's clone grins. 'Finally. Someone who might actually matter.'",
         postFightDialog: { win: "You kill the clone. The real Game Master takes the field.", lose: "The clone wins. The real one never needs to appear. Wake up." } },
-      { id: "ch5", number: 5, title: "The Game Master Himself", opponent: { name: "The Game Master (9th Archon)", era: "Late Empire", reason: "The final fight. You came here to end him. End him." },
+      { id: "ch5", number: 5, title: "The Game Master Himself", opponent: { name: "The Game Master (10th Archon)", era: "Late Empire", reason: "The final fight. You came here to end him. End him." },
         preFightDialog: "The Game Master adjusts his red goggles. 'I predicted this encounter 47 times. You survived 2 of them. This is one of those.'",
         postFightDialog: { win: "The Game Master falls. You are the first being in history to kill an Archon. The Warlord will hunt you now. You don't have long.", lose: "You fall. Zenon falls. Wake up." },
         unlocks: "zero_kills_game_master" },
