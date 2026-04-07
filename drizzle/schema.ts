@@ -1,4 +1,4 @@
-import { bigint, boolean, int, json, mysqlEnum, mysqlTable, text, timestamp, varchar } from "drizzle-orm/mysql-core";
+import { bigint, boolean, int, json, mysqlEnum, mysqlTable, text, timestamp, varchar, uniqueIndex, index } from "drizzle-orm/mysql-core";
 
 /**
  * Core user table backing auth flow.
@@ -2383,7 +2383,12 @@ export const playerVotes = mysqlTable("player_votes", {
   userId: int("userId").notNull(),
   optionNumber: int("optionNumber").notNull(),
   votedAt: timestamp("votedAt").defaultNow().notNull(),
-});
+}, (table) => ({
+  /** Prevent duplicate votes — one vote per user per poll */
+  uniqueUserVote: uniqueIndex("uq_player_votes_user_vote").on(table.voteId, table.userId),
+  /** Fast lookup by vote */
+  voteIdx: index("idx_player_votes_vote").on(table.voteId),
+}));
 
 // ═══ ARCHITECT'S CONSOLE — Live Events ═══
 export const adminEvents = mysqlTable("admin_events", {
@@ -2521,12 +2526,12 @@ export const companionMessages = mysqlTable("companion_messages", {
   companionId: varchar("companionId", { length: 64 }).notNull(),
   role: mysqlEnum("role", ["user", "assistant"]).notNull(),
   content: text("content").notNull(),
-  /** Relationship level at time of message (for context) */
   relationshipLevel: int("relationshipLevel").default(0).notNull(),
-  /** Category of conversation */
   category: varchar("category", { length: 64 }),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
-});
+}, (table) => ({
+  userCompanionIdx: index("idx_companion_messages_user").on(table.userId, table.companionId, table.createdAt),
+}));
 
 /** Companion relationship progression (server-authoritative) */
 export const companionRelationships = mysqlTable("companion_relationships", {
@@ -2539,4 +2544,6 @@ export const companionRelationships = mysqlTable("companion_relationships", {
   questsCompleted: json("questsCompleted").$type<string[]>(),
   romanceActive: boolean("romanceActive").default(false).notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
-});
+}, (table) => ({
+  uniqueUserCompanion: uniqueIndex("uq_companion_rel_user").on(table.userId, table.companionId),
+}));

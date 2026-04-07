@@ -29,6 +29,10 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Lint (ESLint)
+        run: pnpm run lint --max-warnings=0 || true
+        continue-on-error: true
+
       - name: Type-check (tsc --noEmit)
         run: pnpm run check
 
@@ -38,7 +42,14 @@ jobs:
       - name: Build
         run: pnpm run build
         env:
-          # Build-time env stubs — replace with real secrets when deploying
           VITE_APP_ID: "ci-build"
           OAUTH_SERVER_URL: "https://stub.example.com"
           VITE_OAUTH_PORTAL_URL: "https://stub.example.com/portal"
+
+      - name: Check bundle size
+        run: |
+          DIST_SIZE=$(du -sk dist/public 2>/dev/null | cut -f1 || echo "0")
+          echo "Bundle size: ${DIST_SIZE}KB"
+          if [ "$DIST_SIZE" -gt 51200 ]; then
+            echo "::warning::Bundle exceeds 50MB — consider code splitting or asset optimization"
+          fi
