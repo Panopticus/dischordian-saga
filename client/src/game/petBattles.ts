@@ -206,6 +206,97 @@ export function calculateBattleRewards(win: boolean, rounds: number, perfectVict
   };
 }
 
+/* ─── ARENA BACKGROUNDS ─── */
+
+export interface ArenaBackground {
+  id: string;
+  name: string;
+  imageUrl: string;
+  /** Which tier this is the default for (null = special/event) */
+  defaultForTier: string | null;
+  /** Living Universe event that activates this as override */
+  activatedByEvent: string | null;
+  /** Lore description shown in arena header */
+  lore: string;
+  /** CSS overlay color for text readability */
+  overlayColor: string;
+  /** Accent color for UI elements on this background */
+  accentColor: string;
+}
+
+export const ARENA_BACKGROUNDS: ArenaBackground[] = [
+  {
+    id: "cargo_pit",
+    name: "The Cargo Pit",
+    imageUrl: "https://res.cloudinary.com/dsenaozjq/image/upload/q_auto/f_auto/v1775667108/PB-001_THE_CARGO_PIT_khjygj.jpg",
+    defaultForTier: "bronze_gauntlet",
+    activatedByEvent: null,
+    lore: "Deep in the Cargo Bay, crates are shoved aside to form a makeshift ring. This is where specimens cut their teeth — no glory, no audience, just survival.",
+    overlayColor: "rgba(0,0,0,0.55)",
+    accentColor: "#d97706",
+  },
+  {
+    id: "specimen_lab",
+    name: "The Specimen Lab",
+    imageUrl: "https://res.cloudinary.com/dsenaozjq/image/upload/q_auto/f_auto/v1775667105/PB-002_THE_SPECIMEN_LAB_bwwufn.jpg",
+    defaultForTier: "silver_circle",
+    activatedByEvent: null,
+    lore: "The Collector's laboratory doubles as an arena. Containment fields keep the combatants in; observation glass lets the scientists watch. Clinical. Precise. Lethal.",
+    overlayColor: "rgba(0,0,0,0.5)",
+    accentColor: "#06b6d4",
+  },
+  {
+    id: "matrix_ring",
+    name: "The Matrix Ring",
+    imageUrl: "https://res.cloudinary.com/dsenaozjq/image/upload/q_auto/f_auto/v1775667103/PB-003_THE_MATRIX_RING_yhd9jy.jpg",
+    defaultForTier: "gold_coliseum",
+    activatedByEvent: "dreamer_awakening",
+    lore: "The Dreamer's frequency resonates through the Matrix Ring. Reality bends here — the arena exists in the space between timelines. Only Ascended specimens fight in this light.",
+    overlayColor: "rgba(0,0,0,0.45)",
+    accentColor: "#a855f7",
+  },
+  {
+    id: "necromancers_pit",
+    name: "The Necromancer's Pit",
+    imageUrl: "https://res.cloudinary.com/dsenaozjq/image/upload/q_auto/f_auto/v1775667102/PB-004_THE_NECROMANCER_S_PIT_jvdrmj.jpg",
+    defaultForTier: null,
+    activatedByEvent: "necromancer_return",
+    lore: "When the Necromancer stirs, the arena transforms. Bone and void replace steel and glass. Every death here feeds the Resurrection Protocols. He is watching.",
+    overlayColor: "rgba(0,0,0,0.6)",
+    accentColor: "#dc2626",
+  },
+  {
+    id: "champions_dome",
+    name: "The Champion's Dome",
+    imageUrl: "https://res.cloudinary.com/dsenaozjq/image/upload/q_auto/f_auto/v1775667106/PB-005_THE_CHAMPION_S_DOME_gwxzuz.jpg",
+    defaultForTier: null,
+    activatedByEvent: "antiquarian_revelation",
+    lore: "The Antiquarian opened this dome across seven timelines. Champions from every age converge here. The ceiling shows constellations from worlds that no longer exist.",
+    overlayColor: "rgba(0,0,0,0.5)",
+    accentColor: "#f59e0b",
+  },
+];
+
+/**
+ * Select the arena background based on tier + active Living Universe events.
+ * Event-activated backgrounds override tier defaults — the world shapes the arena.
+ */
+export function getArenaBackground(tierId: string, activeEventIds: string[] = []): ArenaBackground {
+  // 1. Check for event-activated override (highest priority)
+  for (const bg of ARENA_BACKGROUNDS) {
+    if (bg.activatedByEvent && activeEventIds.includes(bg.activatedByEvent)) {
+      return bg;
+    }
+  }
+
+  // 2. Fall back to tier default
+  const tierDefault = ARENA_BACKGROUNDS.find(bg => bg.defaultForTier === tierId);
+  if (tierDefault) return tierDefault;
+
+  // 3. Ultimate fallback
+  return ARENA_BACKGROUNDS[0];
+}
+
 /* ─── ARENA BRACKETS ─── */
 
 export interface ArenaTier {

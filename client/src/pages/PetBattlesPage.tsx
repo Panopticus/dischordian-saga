@@ -20,11 +20,14 @@ import {
   executeMove,
   calculateBattleRewards,
   ARENA_TIERS,
+  ARENA_BACKGROUNDS,
+  getArenaBackground,
   getAvailableTiers,
   type BattlePet,
   type PetBattle,
   type BattleLogEntry,
   type ArenaTier,
+  type ArenaBackground,
 } from "@/game/petBattles";
 import { trpc } from "@/lib/trpc";
 
@@ -46,6 +49,19 @@ export default function PetBattlesPage() {
   // Server persistence
   const myPetsQuery = trpc.petBattles.getMyPets.useQuery(undefined, { retry: false });
   const submitBattleMutation = trpc.petBattles.submitBattleResult.useMutation();
+
+  // Living Universe — active events drive arena background
+  const universeQuery = trpc.dailyBrief.getUniverseState.useQuery(undefined, { staleTime: 60_000, retry: false });
+  const activeEventIds = useMemo(
+    () => (universeQuery.data?.activeEvents ?? []).map((e: { eventId: string }) => e.eventId),
+    [universeQuery.data],
+  );
+
+  // Arena background — driven by tier selection + active Living Universe events
+  const arenaBackground = useMemo<ArenaBackground>(
+    () => getArenaBackground(selectedTier?.id ?? "bronze_gauntlet", activeEventIds),
+    [selectedTier, activeEventIds],
+  );
 
   // Use server pets if available, fallback to hardcoded stage 2
   const petEvolution = (myPetsQuery.data?.[0]?.evolutionStage ?? 2) as 1 | 2 | 3;
@@ -164,51 +180,100 @@ export default function PetBattlesPage() {
     setIsAutoPlaying(false);
   };
 
+  /** Whether we're in an active battle phase (matchup/battle/result) that should show the arena background */
+  const showArenaBackground = phase !== "tier_select";
+
   return (
-    <div className="min-h-screen bg-background text-foreground p-4 sm:p-6">
+    <div className="min-h-screen text-foreground relative overflow-hidden">
+      {/* Arena background — visible during matchup/battle/result */}
+      {showArenaBackground && (
+        <div className="absolute inset-0 z-0">
+          <img
+            src={arenaBackground.imageUrl}
+            alt={arenaBackground.name}
+            className="w-full h-full object-cover"
+            loading="eager"
+          />
+          <div className="absolute inset-0" style={{ background: arenaBackground.overlayColor }} />
+        </div>
+      )}
+      {/* Default background for tier select */}
+      {!showArenaBackground && <div className="absolute inset-0 z-0 bg-background" />}
+
+      <div className="relative z-10 p-4 sm:p-6">
       <div className="max-w-4xl mx-auto">
         <div className="flex items-center gap-3 mb-4">
           <Link href="/" className="text-muted-foreground hover:text-foreground transition-colors">
             <ChevronLeft size={20} />
           </Link>
-          <Swords size={18} className="text-rose-400" />
+          <Swords size={18} style={{ color: showArenaBackground ? arenaBackground.accentColor : undefined }} className={showArenaBackground ? "" : "text-rose-400"} />
           <div>
-            <h1 className="font-display text-lg font-bold tracking-wider">ARENA OF SMALL THINGS</h1>
-            <p className="font-mono text-[10px] text-muted-foreground tracking-wider">
-              Specimen spectator combat · text-based · injuries carry forward
+            <h1 className="font-display text-lg font-bold tracking-wider">
+              {showArenaBackground ? arenaBackground.name.toUpperCase() : "ARENA OF SMALL THINGS"}
+            </h1>
+            <p className="font-mono text-[10px] text-white/50 tracking-wider">
+              {showArenaBackground ? arenaBackground.lore.slice(0, 80) + "..." : "Specimen spectator combat · text-based · injuries carry forward"}
             </p>
           </div>
         </div>
 
         <AnimatePresence mode="wait">
           {phase === "tier_select" && (
-            <motion.div key="tiers" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="space-y-2">
+            <motion.div key="tiers" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="space-y-3">
+              {/* Active event arena override notice */}
+              {activeEventIds.length > 0 && (() => {
+                const eventBg = ARENA_BACKGROUNDS.find(bg => bg.activatedByEvent && activeEventIds.includes(bg.activatedByEvent));
+                if (!eventBg) return null;
+                return (
+                  <div className="p-2 rounded border text-center" style={{ borderColor: `${eventBg.accentColor}40`, background: `${eventBg.accentColor}10` }}>
+                    <p className="font-mono text-[9px] uppercase tracking-wider" style={{ color: eventBg.accentColor }}>
+                      Living Universe Event Active — Arena Override: {eventBg.name}
+                    </p>
+                  </div>
+                );
+              })()}
+
               <h2 className="font-display text-sm font-bold tracking-wider mb-2">SELECT TIER</h2>
               {ARENA_TIERS.map(tier => {
                 const available = availableTiers.some(t => t.id === tier.id);
+                const bg = getArenaBackground(tier.id, activeEventIds);
                 return (
                   <button
                     key={tier.id}
                     onClick={() => available && startMatchup(tier)}
                     disabled={!available}
-                    className={`w-full p-3 rounded border text-left transition-all ${
+                    className={`w-full rounded border text-left transition-all overflow-hidden ${
                       available
-                        ? "border-border/40 bg-card/40 hover:border-rose-500/40 hover:bg-rose-500/5"
-                        : "border-border/20 bg-background/20 opacity-40 cursor-not-allowed"
+                        ? "border-border/40 hover:border-rose-500/40"
+                        : "border-border/20 opacity-40 cursor-not-allowed"
                     }`}
                     data-testid={`tier-${tier.id}`}
                   >
-                    <div className="flex items-center justify-between mb-1">
-                      <span className="font-display text-sm font-bold text-foreground">{tier.name}</span>
-                      <span className="font-mono text-[9px] uppercase tracking-wider text-muted-foreground">
-                        {tier.minEvolution === 1 ? "BRONZE" : tier.minEvolution === 2 ? "SILVER" : "GOLD"}
-                      </span>
+                    {/* Arena preview thumbnail */}
+                    <div className="relative h-20 overflow-hidden">
+                      <img src={bg.imageUrl} alt={bg.name} className="w-full h-full object-cover" loading="lazy" />
+                      <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.2) 100%)" }} />
+                      <div className="absolute bottom-0 left-0 right-0 p-2">
+                        <div className="flex items-center justify-between">
+                          <span className="font-display text-sm font-bold text-white">{tier.name}</span>
+                          <span className="font-mono text-[8px] uppercase tracking-wider px-1.5 py-0.5 rounded" style={{ background: `${bg.accentColor}30`, color: bg.accentColor }}>
+                            {bg.name}
+                          </span>
+                        </div>
+                      </div>
                     </div>
-                    <p className="font-mono text-[10px] text-muted-foreground/70 leading-relaxed italic">
-                      {tier.lore}
-                    </p>
-                    <div className="mt-1 font-mono text-[9px] text-amber-400">
-                      Rewards: +{tier.rewards.champion.xp} XP · +{tier.rewards.champion.dream} Dream
+                    <div className="p-2.5 bg-card/60">
+                      <p className="font-mono text-[10px] text-muted-foreground/70 leading-relaxed italic">
+                        {tier.lore}
+                      </p>
+                      <div className="mt-1 flex items-center justify-between">
+                        <span className="font-mono text-[9px] text-amber-400">
+                          +{tier.rewards.champion.xp} XP · +{tier.rewards.champion.dream} Dream
+                        </span>
+                        <span className="font-mono text-[8px] uppercase tracking-wider text-muted-foreground/50">
+                          Evo {tier.minEvolution}+
+                        </span>
+                      </div>
                     </div>
                   </button>
                 );
@@ -319,6 +384,7 @@ export default function PetBattlesPage() {
             </motion.div>
           )}
         </AnimatePresence>
+      </div>
       </div>
     </div>
   );
