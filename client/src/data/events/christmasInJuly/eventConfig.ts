@@ -20,4 +20,19 @@ export const CHRISTMAS_EVENT_CONFIG = {
   wheelSpinCost: 5,
   crapsCost: 1, // 1 Soul Stone
   giftBoxCraftCost: 5, // Festive Tokens
+  /** Crew system integration — active when crew_system_unlocked flag is set */
+  crewIntegration: {
+    /** Crew morale base boost while event is active */
+    moraleBoost: 10,
+    /** Daily autonomous crew gift exchange chance (0-1) */
+    crewGiftExchangeChance: 0.6,
+    /** Crew casino event chance per day (0-1) */
+    crewCasinoEventChance: 0.4,
+    /** Crew holiday danger event chance per day (0-1) */
+    crewDangerChance: 0.15,
+    /** Crew activity feed key for seasonal template injection */
+    feedEventKey: "christmas_in_july" as const,
+    /** Number of extra crew feed entries during the event */
+    extraFeedEntries: 3,
+  },
 } as const;

@@ -141,7 +141,7 @@ const TEMPLATES: FeedTemplate[] = [
 
 /* ─── SEASONAL/HOLIDAY EVENT TEMPLATES ─── */
 
-export type SeasonalEventKey = "shadow_convergence" | "chrono_harvest" | "forge_of_nations" | "panopticon_infiltration" | "lore_symposium" | "guild_war_tournament" | "fall_of_reality";
+export type SeasonalEventKey = "shadow_convergence" | "chrono_harvest" | "forge_of_nations" | "panopticon_infiltration" | "lore_symposium" | "guild_war_tournament" | "fall_of_reality" | "christmas_in_july";
 
 interface SeasonalFeedTemplate {
   eventKey: SeasonalEventKey;
@@ -230,6 +230,26 @@ export const SEASONAL_FEED_TEMPLATES: SeasonalFeedTemplate[] = [
       { category: "crew_life", room: "captains_quarters", text: "Captain's Quarters: Elara broadcast a ship-wide message: 'We remember so that we can build something worth remembering.' The crew applauded.", severity: "info", needsCrew: 0 },
     ],
   },
+  // ══════ CHRISTMAS IN JULY (The Degen's Casino) ══════
+  {
+    eventKey: "christmas_in_july",
+    templates: [
+      { category: "crew_life", room: "trade_hub", text: "Trade Hub: [CREW_NAME] lost 15 Festive Tokens at the Degen's wheel. The Degen poured them a complimentary eggnog. [CREW_NAME] suspects the eggnog costs more than 15 tokens.", severity: "info", needsCrew: 1 },
+      { category: "crew_life", room: "trade_hub", text: "Trade Hub: [CREW_NAME] won a Candy Cane at the craps table. They gave it to [CREW_NAME]. The Degen wept openly. 'THAT'S the spirit!'", severity: "info", needsCrew: 2 },
+      { category: "social", room: "cargo_bay", text: "Mess Hall: Crew Secret Santa exchange complete. [CREW_NAME] received a hand-carved figurine. [CREW_NAME] received socks. Both claim to be happy.", severity: "info", needsCrew: 2 },
+      { category: "crew_life", room: "observation_deck", text: "Observation Deck: [CREW_NAME] strung holiday lights across the viewport. The stars now twinkle in red and green. Elara: 'Unauthorized. Beautiful. Keeping it.'", severity: "info", needsCrew: 1 },
+      { category: "ship_systems", room: "engineering", text: "Engineering: Holiday decorations are drawing 3% additional power. [CREW_NAME] rerouted non-essential systems to compensate. 'It's Christmas. The recycler can wait.'", severity: "warning", needsCrew: 1 },
+      { category: "crew_life", room: "cryo_bay", text: "Cryo Bay: [CREW_NAME] left a tiny gift-wrapped box at Pod 47-B. The neural patterns spiked briefly. Coincidence. Probably.", severity: "info", foreshadows: "pod_47b_christmas", needsCrew: 1 },
+      { category: "medical", room: "medical_bay", text: "Medical Bay: [CREW_NAME] diagnosed with 'acute festive overexertion.' Symptoms: sore cheeks from smiling. Prescribed: more eggnog.", severity: "info", needsCrew: 1 },
+      { category: "social", room: "trade_hub", text: "Trade Hub: [CREW_NAME] challenged the Degen to craps. Rolled boxcars. The Degen's scream was picked up by the Comms Array as an 'anomalous signal.'", severity: "info", needsCrew: 1 },
+      { category: "crew_life", room: "captains_quarters", text: "Captain's Quarters: Your crew left a gift outside your door. A hand-made ornament with everyone's name etched in. Note: 'For the one who cloned us. — Your Crew.'", severity: "info", needsCrew: 0 },
+      { category: "crew_life", room: "cargo_bay", text: "Mess Hall: [CREW_NAME] cooked Christmas dinner using Demagi spices and Voltari thermal techniques. Reviews: 'tastes like someone set joy on fire.' Second helpings requested.", severity: "info", needsCrew: 1 },
+      { category: "social", room: "observation_deck", text: "Observation Deck: [CREW_NAME] and [CREW_NAME] found singing carols at 0400. Neither knows the words. Both know the melody. Pre-Fall genetic memory, or just eggnog? The Antiquarian says both.", severity: "info", needsCrew: 2 },
+      { category: "ominous", room: "comms_array", text: "Comms Array: Holiday transmission received from an unknown Ark. Message: 'Merry Christmas from Ark 2049. We're still here.' Elara has gone very quiet.", severity: "alert", foreshadows: "other_arks_alive", needsCrew: 0 },
+      { category: "crew_life", room: "trade_hub", text: "Trade Hub: The Degen hung a sign: 'HOUSE MOL'KARI CREW DRINK FREE.' The Abyssal crew members are confused by generosity. They're adapting.", severity: "info", needsCrew: 0 },
+      { category: "player_echo", room: "trade_hub", text: "Trade Hub: [PLAYER_NAME]'s gift-giving streak is legendary. The Degen added a plaque: 'Most Generous Captain in the Sector.' Crew morale: through the roof.", severity: "info", needsCrew: 0 },
+    ],
+  },
 ];
 
 /* ─── CHAINED EVENTS (multi-part stories in the feed) ─── */
@@ -278,6 +298,14 @@ const CHAINED_EVENTS: ChainedEventDef[] = [
       { text: "Medical Bay: [CREW_NAME] presented with unusual symptoms: mild aphasia, synesthesia.", delayHours: 0, severity: "warning", room: "medical_bay" },
       { text: "Medical Bay: Tests inconclusive. [CREW_NAME] claims to 'hear colors' near the Comms Array. Monitoring.", delayHours: 6, severity: "warning", room: "medical_bay" },
       { text: "Medical Bay: Symptoms resolved spontaneously. [CREW_NAME] has no memory of the episode. Source noted this is 'familiar.'", delayHours: 12, severity: "info", room: "medical_bay" },
+    ],
+  },
+  {
+    id: "christmas_degen_gift_pod",
+    steps: [
+      { text: "Cargo Bay: Unregistered cargo pod docked at Bay 3. Gift-wrapped. Tag reads: 'FROM: THE DEGEN. DO NOT OPEN UNTIL CHRISTMAS.'", delayHours: 0, severity: "alert", room: "cargo_bay" },
+      { text: "Cargo Bay: [CREW_NAME] scanned the pod. Contents: non-hazardous. Organic compounds. Possibly... food? The pod is humming 'Jingle Bells.'", delayHours: 3, severity: "info", room: "cargo_bay" },
+      { text: "Cargo Bay: Pod opened. Inside: 200 servings of eggnog, 50 candy canes, a karaoke machine, and a note: 'You didn't think I'd forget my favorite Ark, did you? — D.' Crew morale: maximum.", delayHours: 6, severity: "info", room: "cargo_bay" },
     ],
   },
 ];
