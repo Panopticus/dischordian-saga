@@ -2863,3 +2863,17 @@ export const graduateDeployments = mysqlTable("graduate_deployments", {
 }));
 
 export type GraduateDeployment = typeof graduateDeployments.$inferSelect;
+
+/* ═══════════════════════════════════════════════════════
+   FEATURE FLAGS — Toggle game features without deploys
+   ═══════════════════════════════════════════════════════ */
+
+export const featureFlags = mysqlTable("feature_flags", {
+  id: int("id").autoincrement().primaryKey(),
+  featureName: varchar("featureName", { length: 128 }).notNull().unique(),
+  enabled: int("enabled").notNull().default(1),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+  updatedBy: varchar("updatedBy", { length: 255 }),
+});
+
+export type FeatureFlag = typeof featureFlags.$inferSelect;
