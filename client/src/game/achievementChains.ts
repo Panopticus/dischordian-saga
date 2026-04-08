@@ -13,9 +13,11 @@ export type AchievementChainId =
   | 'combat_legend'
   | 'lore_keeper'
   | 'master_crafter'
-  | 'the_witness';
+  | 'the_witness'
+  | 'casino_royale'
+  | 'the_hidden_history';
 
-export type RewardType = 'ship_theme' | 'title' | 'weapon' | 'room_access';
+export type RewardType = 'ship_theme' | 'title' | 'weapon' | 'room_access' | 'cosmetic' | 'companion' | 'lore_entry';
 
 export interface ChainRequirement {
   id: string;
@@ -79,6 +81,7 @@ export const ALL_NPC_IDS = [
   'the_source',
   'the_antiquarian',
   'shadow_tongue',
+  'the_degen',
 ] as const;
 
 // ---------------------------------------------------------------------------
@@ -225,6 +228,51 @@ export const ACHIEVEMENT_CHAINS: Record<AchievementChainId, AchievementChain> = 
       name: 'The Hidden Forge',
       description:
         'Access to a secret chamber deep within the Ark\'s engineering core. The Hidden Forge allows crafting of unique items unavailable anywhere else.',
+    },
+  },
+
+  casino_royale: {
+    id: 'casino_royale',
+    name: 'Casino Royale',
+    description: 'Master every game in The Degen\'s Casino and earn the respect of entropy itself.',
+    icon: 'dice_skull',
+    requirements: [
+      { id: 'play_all_casino_games', label: 'Play all 13 casino games', description: 'Play at least one round of every casino game, including expansion games.', target: 13 },
+      { id: 'reach_vip_3', label: 'Reach VIP Level 3', description: 'Earn VIP status through total Dream wagered.', target: 1 },
+      { id: 'win_tournament', label: 'Win a Blackjack Tournament', description: 'Win a Void Blackjack Tournament.', target: 1 },
+      { id: 'collect_5_tales', label: 'Collect 5 Degen\'s Tales', description: 'Discover 5 lore micro-stories from casino games.', target: 5 },
+      { id: 'degen_favor_50', label: 'Reach Degen\'s Favor 50', description: 'Build enough trust with The Degen for him to reveal Ne-Yon space.', target: 50 },
+      { id: 'win_streak_5', label: 'Achieve a 5-win streak', description: 'Win 5 casino games in a row.', target: 1 },
+    ],
+    reward: {
+      type: 'cosmetic',
+      id: 'golden_chip_pendant',
+      name: 'Golden Chip Pendant',
+      description: 'A golden casino chip cosmetic worn as a pendant. Inscribed with The Degen\'s skull-dice emblem. Marks you as a master of Ne-Yon space gambling.',
+    },
+  },
+
+  the_hidden_history: {
+    id: 'the_hidden_history',
+    name: 'The Hidden History',
+    description: 'Discover every environmental storytelling object across the Ark\'s rooms and piece together the ship\'s true history.',
+    icon: 'magnifying_glass',
+    requirements: [
+      { id: 'find_cryo_scratches', label: 'Find scratch marks in Cryo Bay', description: 'Discover Kael\'s message scratched inside the cryo pod.', target: 1 },
+      { id: 'find_vector_vial', label: 'Find Project Vector vial', description: 'Discover the Thought Virus prototype in Medical Bay.', target: 1 },
+      { id: 'find_maintenance_log', label: 'Find maintenance log', description: 'Discover Elara\'s 93,847 power reroutes in Engineering.', target: 1 },
+      { id: 'find_changing_book', label: 'Find the changing book', description: 'Discover Shadow Tongue\'s influence in the Archives.', target: 1 },
+      { id: 'find_zero_weapon', label: 'Find Agent Zero\'s empty slot', description: 'Discover the active weapon status in the Armory.', target: 1 },
+      { id: 'find_channel_7', label: 'Listen to Channel 7', description: 'Hear The Meme\'s last broadcast in the Comms Array.', target: 1 },
+      { id: 'find_constellation', label: 'Map the unnamed constellation', description: 'Decode the Voltari warning on the Observation Deck.', target: 1 },
+      { id: 'find_ghost_process', label: 'Find ghost processes', description: 'Discover The Human\'s hidden presence on the Bridge.', target: 1 },
+      { id: 'find_biohazard', label: 'Find biohazard container', description: 'Discover the Warlord\'s insurance policy in the Cargo Hold.', target: 1 },
+    ],
+    reward: {
+      type: 'lore_entry',
+      id: 'programmers_ghost',
+      name: "The Programmer's Ghost",
+      description: 'A legendary Loredex entry containing The Programmer\'s personal log — his final thoughts before vanishing from creation. Reveals the deepest layer of the Ark\'s true purpose.',
     },
   },
 
