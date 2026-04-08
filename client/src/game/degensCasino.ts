@@ -886,6 +886,411 @@ export const DEGEN_QUOTES_EXPANSION = {
   ],
 };
 
+/* ═══════════════════════════════════════════════════════
+   VOID CASES — CS:GO-style Case Opening
+   ═══════════════════════════════════════════════════════ */
+
+export interface VoidCaseDrop {
+  tier: "common" | "uncommon" | "rare" | "epic" | "legendary" | "mythic";
+  chance: number;
+  label: string;
+  color: string;
+  dreamReturn: { min: number; max: number };
+  description: string;
+}
+
+export const VOID_CASE_DROP_TABLE: VoidCaseDrop[] = [
+  { tier: "common", chance: 0.60, label: "Common", color: "#94a3b8", dreamReturn: { min: 0.25, max: 0.75 }, description: "Small Dream return + common cosmetic" },
+  { tier: "uncommon", chance: 0.25, label: "Uncommon", color: "#22c55e", dreamReturn: { min: 1.0, max: 1.5 }, description: "Dream return + uncommon card variant" },
+  { tier: "rare", chance: 0.10, label: "Rare", color: "#3b82f6", dreamReturn: { min: 2.0, max: 5.0 }, description: "Big Dream return + rare cosmetic + card pack" },
+  { tier: "epic", chance: 0.04, label: "Epic", color: "#a855f7", dreamReturn: { min: 5.0, max: 10.0 }, description: "Massive return + epic cosmetic set + rare card" },
+  { tier: "legendary", chance: 0.009, label: "Legendary", color: "#eab308", dreamReturn: { min: 20.0, max: 50.0 }, description: "Jackpot return + legendary cosmetic + exclusive title" },
+  { tier: "mythic", chance: 0.001, label: "Mythic", color: "#ef4444", dreamReturn: { min: 50.0, max: 100.0 }, description: "The Degen's Personal Collection — one-of-a-kind cosmetic" },
+];
+
+export interface VoidCaseResult {
+  tier: VoidCaseDrop["tier"];
+  label: string;
+  color: string;
+  dreamReturnMultiplier: number;
+  dreamReturned: number;
+  description: string;
+  pityTriggered: boolean;
+}
+
+/**
+ * Roll a Void Case opening.
+ * @param betAmount - The amount wagered on the case (50-500 Dream)
+ * @param casesSinceRarePlus - Number of cases opened since last rare+ drop (for pity timer)
+ * @returns The case result including tier, dream return, and whether pity was triggered
+ */
+export function rollVoidCase(betAmount: number, casesSinceRarePlus: number = 0): VoidCaseResult {
+  let pityTriggered = false;
+  let selectedDrop: VoidCaseDrop;
+
+  // Pity timer: guarantee rare+ after 20 cases with no rare+
+  if (casesSinceRarePlus >= 20) {
+    // Force a rare+ drop — weighted among rare/epic/legendary/mythic
+    const rareAndAbove = VOID_CASE_DROP_TABLE.filter(d =>
+      d.tier === "rare" || d.tier === "epic" || d.tier === "legendary" || d.tier === "mythic"
+    );
+    const totalChance = rareAndAbove.reduce((sum, d) => sum + d.chance, 0);
+    let roll = Math.random() * totalChance;
+    selectedDrop = rareAndAbove[rareAndAbove.length - 1]; // fallback to last (mythic)
+    for (const drop of rareAndAbove) {
+      roll -= drop.chance;
+      if (roll <= 0) {
+        selectedDrop = drop;
+        break;
+      }
+    }
+    pityTriggered = true;
+  } else {
+    // Normal roll — walk the drop table
+    let roll = Math.random();
+    selectedDrop = VOID_CASE_DROP_TABLE[0]; // fallback to common
+    for (const drop of VOID_CASE_DROP_TABLE) {
+      roll -= drop.chance;
+      if (roll <= 0) {
+        selectedDrop = drop;
+        break;
+      }
+    }
+  }
+
+  // Calculate dream return within the tier's range
+  const { min, max } = selectedDrop.dreamReturn;
+  const returnMultiplier = min + Math.random() * (max - min);
+  const dreamReturned = Math.round(betAmount * returnMultiplier * 100) / 100;
+
+  return {
+    tier: selectedDrop.tier,
+    label: selectedDrop.label,
+    color: selectedDrop.color,
+    dreamReturnMultiplier: Math.round(returnMultiplier * 100) / 100,
+    dreamReturned,
+    description: selectedDrop.description,
+    pityTriggered,
+  };
+}
+
+export const VOID_CASE_DEGEN_QUOTES = {
+  opening: [
+    "The case trembles. The universe holds its breath. Your wallet holds nothing.",
+    "Every case is Schrödinger's jackpot. Until you open it, it's both legendary AND garbage.",
+    "Published odds. No secrets. I'm the god of chaos, not the god of lies. Different department.",
+  ],
+  common: [
+    "Common! The universe's way of saying 'try again.' And by that, I mean give me more Dream.",
+    "Ah, common tier. Like gravity — predictable, boring, but ultimately the foundation of everything.",
+  ],
+  uncommon: [
+    "Uncommon! You're above average. Statistically. Personally, I can't comment.",
+    "Not bad! The universe gave you a nod. Not a wink. A nod. Winks cost more.",
+  ],
+  rare: [
+    "RARE! Now we're talking. The probability curves are sitting up and paying attention.",
+    "Blue glow! That's the good glow. Not the reactor meltdown glow. Different blue entirely.",
+  ],
+  epic: [
+    "EPIC! Purple rain! The case practically exploded with value. I felt that one in my Ne-Yon bones.",
+    "Epic tier! The other patrons are staring. Let them. You've earned the attention.",
+  ],
+  legendary: [
+    "LEGENDARY! GOLD! THE CASE IS SINGING! I... I need to sit down. You've hit the big one.",
+    "LEGENDARY DROP! In 15,000 years, I've seen this maybe... often enough to know it's special. Every. Single. Time.",
+  ],
+  mythic: [
+    "M Y T H I C. The casino goes silent. Every Ne-Yon in the cosmos just felt that. YOU just pulled a one-in-a-thousand. The Degen's Personal Collection. I... I'm proud of you. And furious. Mostly proud.",
+    "MYTHIC! THE RAREST OF THE RARE! I made this collection from the remnants of dead universes. And you just... won a piece of it. For the price of a case. I need new pricing.",
+  ],
+  pity: [
+    "Twenty cases and nothing rare? The universe owes you. I'm collecting on your behalf.",
+    "Pity timer triggered. Don't look at me like that — even chaos has a conscience. Sometimes.",
+  ],
+};
+
+/* ═══════════════════════════════════════════════════════
+   DISCHORDIAN MAHJONG — The Antiquarian's Pattern Game
+   "The Antiquarian taught this game to the first Potentials.
+    He said it teaches pattern recognition across timelines."
+   ═══════════════════════════════════════════════════════ */
+
+export type MahjongTileCategory = "archon" | "neyon" | "faction" | "epoch" | "lore";
+
+export interface MahjongTileDef {
+  id: string;
+  name: string;
+  category: MahjongTileCategory;
+  icon: string;
+  color: string;
+}
+
+export const MAHJONG_TILES: MahjongTileDef[] = [
+  // Archon symbols (8 tiles)
+  { id: "archon_architect", name: "The Architect", category: "archon", icon: "🏛️", color: "#22d3ee" },
+  { id: "archon_warlord", name: "The Warlord", category: "archon", icon: "⚔️", color: "#ef4444" },
+  { id: "archon_politician", name: "The Politician", category: "archon", icon: "🎭", color: "#a855f7" },
+  { id: "archon_collector", name: "The Collector", category: "archon", icon: "💎", color: "#eab308" },
+  { id: "archon_seer", name: "The Seer", category: "archon", icon: "👁️", color: "#818cf8" },
+  { id: "archon_antiquarian", name: "The Antiquarian", category: "archon", icon: "📜", color: "#f59e0b" },
+  { id: "archon_programmer", name: "The Programmer", category: "archon", icon: "💻", color: "#06b6d4" },
+  { id: "archon_human", name: "The Human", category: "archon", icon: "🫀", color: "#f43f5e" },
+
+  // Ne-Yon icons (8 tiles)
+  { id: "neyon_degen", name: "The Degen", category: "neyon", icon: "🎰", color: "#ffd700" },
+  { id: "neyon_meme", name: "The Meme", category: "neyon", icon: "✨", color: "#fbbf24" },
+  { id: "neyon_source", name: "The Source", category: "neyon", icon: "🔮", color: "#a855f7" },
+  { id: "neyon_void", name: "The Void", category: "neyon", icon: "🕳️", color: "#1a1a2e" },
+  { id: "neyon_dream", name: "Dream", category: "neyon", icon: "💫", color: "#c084fc" },
+  { id: "neyon_entropy", name: "Entropy", category: "neyon", icon: "🌀", color: "#f97316" },
+  { id: "neyon_harmony", name: "Harmony", category: "neyon", icon: "🎵", color: "#22c55e" },
+  { id: "neyon_shield", name: "The Shield", category: "neyon", icon: "🛡️", color: "#3b82f6" },
+
+  // Faction emblems (6 tiles)
+  { id: "faction_empire", name: "AI Empire", category: "faction", icon: "👑", color: "#ef4444" },
+  { id: "faction_insurgency", name: "Insurgency", category: "faction", icon: "🦁", color: "#22c55e" },
+  { id: "faction_new_babylon", name: "New Babylon", category: "faction", icon: "🏙️", color: "#eab308" },
+  { id: "faction_hierarchy", name: "Hierarchy", category: "faction", icon: "☠️", color: "#991b1b" },
+  { id: "faction_thought_virus", name: "Thought Virus", category: "faction", icon: "🧠", color: "#d946ef" },
+  { id: "faction_iron_lions", name: "Iron Lions", category: "faction", icon: "🦁", color: "#b45309" },
+
+  // Epoch images (5 tiles)
+  { id: "epoch_privacy", name: "Age of Privacy", category: "epoch", icon: "🔒", color: "#FF8C00" },
+  { id: "epoch_prophecy", name: "Age of Prophecy", category: "epoch", icon: "🔮", color: "#A078FF" },
+  { id: "epoch_insurgency", name: "Age of Insurgency", category: "epoch", icon: "⚡", color: "#44AA44" },
+  { id: "epoch_revelation", name: "Age of Revelation", category: "epoch", icon: "👁️", color: "#FF3C40" },
+  { id: "epoch_fall", name: "Fall of Reality", category: "epoch", icon: "💥", color: "#FF0044" },
+
+  // Lore symbols (5 tiles)
+  { id: "lore_ark", name: "Inception Ark", category: "lore", icon: "🚀", color: "#22d3ee" },
+  { id: "lore_castle", name: "Castle of Death", category: "lore", icon: "🏰", color: "#991b1b" },
+  { id: "lore_matrix", name: "Matrix of Dreams", category: "lore", icon: "🌐", color: "#06b6d4" },
+  { id: "lore_panopticon", name: "The Panopticon", category: "lore", icon: "🏢", color: "#FF8C00" },
+  { id: "lore_nexus", name: "The CoNexus", category: "lore", icon: "🔗", color: "#818cf8" },
+];
+
+export type MahjongDifficulty = "easy" | "medium" | "hard";
+
+export interface MahjongLayoutDef {
+  id: string;
+  name: string;
+  difficulty: MahjongDifficulty;
+  rows: number;
+  cols: number;
+  /** Total tile count (must be even for pairing) */
+  tileCount: number;
+  description: string;
+  loreQuote: string;
+  /** Time limit in seconds */
+  timeLimit: number;
+  /** Base XP reward for completion */
+  baseXpReward: number;
+}
+
+export const MAHJONG_LAYOUTS: MahjongLayoutDef[] = [
+  {
+    id: "the_ark",
+    name: "The Ark",
+    difficulty: "easy",
+    rows: 4,
+    cols: 8,
+    tileCount: 32,
+    description: "The Inception Ark's navigation console. A beginner's arrangement — the Antiquarian uses this layout to teach new Potentials.",
+    loreQuote: "Start here. If you can see patterns in chaos, you might survive what comes next.",
+    timeLimit: 300,
+    baseXpReward: 50,
+  },
+  {
+    id: "the_panopticon",
+    name: "The Panopticon",
+    difficulty: "medium",
+    rows: 6,
+    cols: 10,
+    tileCount: 60,
+    description: "The Watcher's surveillance grid. Tiles are layered like the Panopticon's monitoring levels — some are hidden beneath others.",
+    loreQuote: "The Watchers saw everything. Can you? The patterns are there. They've always been there.",
+    timeLimit: 480,
+    baseXpReward: 100,
+  },
+  {
+    id: "the_matrix",
+    name: "The Matrix",
+    difficulty: "hard",
+    rows: 8,
+    cols: 12,
+    tileCount: 96,
+    description: "The Matrix of Dreams. The ultimate test — tiles stacked three layers deep, lore connections hidden in the arrangement itself.",
+    loreQuote: "The Programmer built the Matrix to contain all possible timelines. You're playing with fragments of every reality that ever was.",
+    timeLimit: 600,
+    baseXpReward: 200,
+  },
+];
+
+export interface MahjongTile {
+  id: number;
+  tileDefId: string;
+  row: number;
+  col: number;
+  layer: number;
+  matched: boolean;
+}
+
+export interface MahjongGameState {
+  layout: MahjongLayoutDef;
+  tiles: MahjongTile[];
+  matchedPairs: number;
+  totalPairs: number;
+  selectedTileId: number | null;
+  startTime: number;
+  timeRemaining: number;
+  completed: boolean;
+  /** Daily challenge seed (YYYYMMDD) */
+  dailySeed: string | null;
+  /** Bonus for matching same-faction tiles consecutively */
+  factionCombo: number;
+}
+
+/**
+ * Generate a seeded daily challenge seed string.
+ */
+export function getMahjongDailySeed(): string {
+  const now = new Date();
+  return `${now.getFullYear()}${String(now.getMonth() + 1).padStart(2, "0")}${String(now.getDate()).padStart(2, "0")}`;
+}
+
+/**
+ * Simple seeded random number generator for daily challenges.
+ */
+function seededRandom(seed: string): () => number {
+  let hash = 0;
+  for (let i = 0; i < seed.length; i++) {
+    const char = seed.charCodeAt(i);
+    hash = ((hash << 5) - hash) + char;
+    hash = hash & hash; // Convert to 32-bit integer
+  }
+  return () => {
+    hash = (hash * 1103515245 + 12345) & 0x7fffffff;
+    return hash / 0x7fffffff;
+  };
+}
+
+/**
+ * Generate a Mahjong board for a given layout.
+ * @param layoutId - Which layout to use
+ * @param dailySeed - Optional seed for daily challenge (deterministic layout)
+ */
+export function generateMahjongBoard(layoutId: string, dailySeed?: string): MahjongTile[] {
+  const layout = MAHJONG_LAYOUTS.find(l => l.id === layoutId);
+  if (!layout) throw new Error(`Unknown mahjong layout: ${layoutId}`);
+
+  const rng = dailySeed ? seededRandom(dailySeed + layoutId) : Math.random;
+  const pairCount = layout.tileCount / 2;
+
+  // Select tile definitions, repeating as needed to fill pair count
+  const availableTiles = MAHJONG_TILES;
+  const selectedDefs: string[] = [];
+  for (let i = 0; i < pairCount; i++) {
+    selectedDefs.push(availableTiles[i % availableTiles.length].id);
+  }
+
+  // Double them up for pairs
+  const allTileDefIds = [...selectedDefs, ...selectedDefs];
+
+  // Shuffle using the RNG
+  for (let i = allTileDefIds.length - 1; i > 0; i--) {
+    const j = Math.floor(rng() * (i + 1));
+    [allTileDefIds[i], allTileDefIds[j]] = [allTileDefIds[j], allTileDefIds[i]];
+  }
+
+  // Place tiles on the grid
+  const tiles: MahjongTile[] = [];
+  let tileIdx = 0;
+  let idCounter = 0;
+
+  // For hard difficulty, create multiple layers
+  const layers = layout.difficulty === "hard" ? 3 : layout.difficulty === "medium" ? 2 : 1;
+  const tilesPerLayer = Math.floor(layout.tileCount / layers);
+
+  for (let layer = 0; layer < layers; layer++) {
+    const layerRows = layer === 0 ? layout.rows : layout.rows - (layer * 2);
+    const layerCols = layer === 0 ? layout.cols : layout.cols - (layer * 2);
+    const layerTileCount = layer < layers - 1 ? tilesPerLayer : layout.tileCount - (tilesPerLayer * layer);
+    const startRow = layer;
+    const startCol = layer;
+
+    let placed = 0;
+    for (let r = 0; r < layerRows && placed < layerTileCount; r++) {
+      for (let c = 0; c < layerCols && placed < layerTileCount; c++) {
+        if (tileIdx < allTileDefIds.length) {
+          tiles.push({
+            id: idCounter++,
+            tileDefId: allTileDefIds[tileIdx++],
+            row: startRow + r,
+            col: startCol + c,
+            layer,
+            matched: false,
+          });
+          placed++;
+        }
+      }
+    }
+  }
+
+  return tiles;
+}
+
+/**
+ * Check if a mahjong tile is free to be selected (no tile on top, at least one open side).
+ */
+export function isMahjongTileFree(tile: MahjongTile, allTiles: MahjongTile[]): boolean {
+  if (tile.matched) return false;
+
+  const activeTiles = allTiles.filter(t => !t.matched && t.id !== tile.id);
+
+  // Check if any tile is directly on top (same row, same col, higher layer)
+  const hasAbove = activeTiles.some(t =>
+    t.layer > tile.layer &&
+    Math.abs(t.row - tile.row) <= 0 &&
+    Math.abs(t.col - tile.col) <= 0
+  );
+  if (hasAbove) return false;
+
+  // Check if at least one side (left or right) is open
+  const blockedLeft = activeTiles.some(t =>
+    t.layer === tile.layer && t.row === tile.row && t.col === tile.col - 1
+  );
+  const blockedRight = activeTiles.some(t =>
+    t.layer === tile.layer && t.row === tile.row && t.col === tile.col + 1
+  );
+  if (blockedLeft && blockedRight) return false;
+
+  return true;
+}
+
+/**
+ * Calculate XP reward for completing a Mahjong game.
+ * @param layout - The layout that was completed
+ * @param timeUsed - Seconds taken to complete
+ * @param factionCombo - Consecutive same-faction matches
+ */
+export function calculateMahjongXpReward(layout: MahjongLayoutDef, timeUsed: number, factionCombo: number): number {
+  let xp = layout.baseXpReward;
+
+  // Time bonus: up to 2x for completing in under half the time limit
+  const timeRatio = timeUsed / layout.timeLimit;
+  if (timeRatio < 0.5) {
+    xp = Math.round(xp * 2.0);
+  } else if (timeRatio < 0.75) {
+    xp = Math.round(xp * 1.5);
+  }
+
+  // Faction combo bonus: +10 XP per consecutive faction match
+  xp += factionCombo * 10;
+
+  return xp;
+}
+
 /* ─── DEFAULT STATE ─── */
 
 export const DEFAULT_CASINO_STATE: CasinoState = {

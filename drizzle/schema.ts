@@ -712,7 +712,9 @@ export const playerBases = mysqlTable("player_bases", {
   productionBonus: int("productionBonus").notNull().default(0),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
-});
+}, (table) => ({
+  userIdIdx: index("idx_player_bases_user_id").on(table.userId),
+}));
 
 export type PlayerBase = typeof playerBases.$inferSelect;
 
@@ -739,7 +741,9 @@ export const contentParticipation = mysqlTable("content_participation", {
   metadata: json("metadata").$type<Record<string, unknown>>(),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
-});
+}, (table) => ({
+  userIdIdx: index("idx_content_participation_user_id").on(table.userId),
+}));
 
 export type ContentParticipation = typeof contentParticipation.$inferSelect;
 
@@ -836,7 +840,9 @@ export const fightMatches = mysqlTable("fight_matches", {
   /** Points earned */
   pointsEarned: int("pointsEarned").notNull().default(0),
   playedAt: timestamp("playedAt").defaultNow().notNull(),
-});
+}, (table) => ({
+  userIdIdx: index("idx_fight_matches_user_id").on(table.userId),
+}));
 
 export type FightMatch = typeof fightMatches.$inferSelect;
 export type InsertFightMatch = typeof fightMatches.$inferInsert;
