@@ -6,7 +6,7 @@ import { useState, useMemo, useEffect } from "react";
 import { useLocation } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Skull, Star, Zap, Dice1 as Dice, Trophy } from "lucide-react";
-import LivingBackground from "@/components/LivingBackground";
+import ParallaxDepthBackground from "@/components/ParallaxDepthBackground";
 import {
   CASINO_GAMES, spinSlots, rollDice, getVIPLevel, getDegenQuote,
   DEFAULT_CASINO_STATE, type CasinoState, type CasinoGame,
@@ -19,6 +19,8 @@ import {
 } from "./degensCasino";
 
 const CASINO_FLOOR_BG = "https://res.cloudinary.com/dsenaozjq/image/upload/q_auto/f_auto/v1775678427/DC-001_THE_CASINO_FLOOR_mp3os6.jpg";
+const CASINO_PARALLAX_COLOR = "https://res.cloudinary.com/dsenaozjq/image/upload/q_auto/f_auto/v1775681916/Vast_open_casino_202604081640_drbpia.jpg";
+const CASINO_PARALLAX_DEPTH = "https://res.cloudinary.com/dsenaozjq/image/upload/q_auto/f_auto/v1775681913/Vast_open_casino_202604081640_disparity_quhlae.png";
 
 export default function DegensCasinoPage() {
   const [, navigate] = useLocation();
@@ -169,13 +171,12 @@ export default function DegensCasinoPage() {
 
   return (
     <div className="min-h-screen bg-black relative overflow-hidden">
-      {/* Casino Floor Background */}
-      <LivingBackground
-        src={CASINO_FLOOR_BG}
-        accent="#d97706"
-        opacity={0.12}
-        particleCount={6}
-        scanlines={false}
+      {/* Casino Floor — 3D Parallax Depth Background */}
+      <ParallaxDepthBackground
+        colorUrl={CASINO_PARALLAX_COLOR}
+        depthUrl={CASINO_PARALLAX_DEPTH}
+        intensity={0.03}
+        opacity={0.22}
       />
 
       {/* Header */}
