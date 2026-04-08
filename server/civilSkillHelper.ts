@@ -8,6 +8,7 @@ import { getDb } from "./db";
 import { civilSkillProgress } from "../drizzle/schema";
 import { eq, and } from "drizzle-orm";
 import { calculateCivilSkillXp, getCivilSkillLevel } from "../shared/civilSkills";
+import { getPrestigeMultiplier } from "./services/prestigeMultiplier";
 
 /**
  * Award civil skill XP for a game action.
@@ -21,8 +22,14 @@ export async function awardCivilXp(
   userId: number,
   action: string
 ): Promise<Record<string, { awarded: number; newLevel: number; levelUp: boolean }>> {
-  const xpGains = calculateCivilSkillXp(action);
-  if (Object.keys(xpGains).length === 0) return {};
+  const baseXpGains = calculateCivilSkillXp(action);
+  if (Object.keys(baseXpGains).length === 0) return {};
+  // Apply prestige multiplier to all XP gains
+  const prestigeMult = await getPrestigeMultiplier(userId);
+  const xpGains: Record<string, number> = {};
+  for (const [k, v] of Object.entries(baseXpGains)) {
+    xpGains[k] = Math.round(v * prestigeMult);
+  }
 
   const db = await getDb();
   if (!db) return {};

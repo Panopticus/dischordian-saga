@@ -297,6 +297,15 @@ export const characterSheets = mysqlTable("character_sheets", {
   equipment: json("equipment").$type<Record<string, unknown>>(),
   /** Unlocked abilities */
   abilities: json("abilities").$type<string[]>(),
+  /** Prestige tier: 0 = never prestiged, 1-7 = prestige level */
+  prestigeTier: int("prestigeTier").notNull().default(0),
+  /** Prestige state JSON (history, lifetime stats) */
+  prestigeState: json("prestigeState").$type<{
+    totalPrestiges: number;
+    lifetimeXp: number;
+    lifetimeResources: { dream: number; salvage: number; voidCrystals: number };
+    prestigeHistory: { level: number; date: string; playerLevel: number }[];
+  }>(),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
   deletedAt: timestamp("deletedAt"),

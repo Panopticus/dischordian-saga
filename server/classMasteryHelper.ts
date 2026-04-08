@@ -19,6 +19,7 @@ import {
   type CharacterClass,
   type MasteryRank,
 } from "../shared/classMastery";
+import { getPrestigeMultiplier } from "./services/prestigeMultiplier";
 
 export interface ClassXpResult {
   awarded: number;
@@ -53,9 +54,11 @@ export async function awardClassXp(userId: number, action: string): Promise<Clas
   const characterClass = chars[0].characterClass as CharacterClass;
   if (!characterClass) return null;
 
-  // Calculate XP
-  const xpEarned = calculateClassXp(action, characterClass);
-  if (xpEarned === 0) return null;
+  // Calculate XP (with prestige multiplier)
+  const baseXp = calculateClassXp(action, characterClass);
+  if (baseXp === 0) return null;
+  const prestigeMult = await getPrestigeMultiplier(userId);
+  const xpEarned = Math.round(baseXp * prestigeMult);
 
   // Get or create mastery record
   let records = await db

@@ -70,6 +70,7 @@ import { seedDataRouter } from "./routers/seedData";
 import { analyticsRouter } from "./routers/analytics";
 import { settingsRouter } from "./routers/settings";
 import { dailyBriefRouter } from "./routers/dailyBrief";
+import { prestigeRouter } from "./routers/prestige";
 
 export const appRouter = router({
   system: systemRouter,
@@ -136,6 +137,7 @@ export const appRouter = router({
   analytics: analyticsRouter,
   settings: settingsRouter,
   dailyBrief: dailyBriefRouter,
+  prestige: prestigeRouter,
   auth: router({
     me: publicProcedure.query(opts => opts.ctx.user),
     logout: publicProcedure.mutation(({ ctx }) => {
