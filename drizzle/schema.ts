@@ -989,7 +989,10 @@ export const pvpSeasonRecords = mysqlTable("pvp_season_records", {
   rewardsClaimed: int("rewardsClaimed").notNull().default(0),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
-});
+}, (table) => ({
+  seasonIdIdx: index("idx_pvp_season_records_season_id").on(table.seasonId),
+  userIdIdx: index("idx_pvp_season_records_user_id").on(table.userId),
+}));
 
 export type PvpSeasonRecord = typeof pvpSeasonRecords.$inferSelect;
 export type InsertPvpSeasonRecord = typeof pvpSeasonRecords.$inferInsert;
@@ -1229,7 +1232,11 @@ export const marketListings = mysqlTable("market_listings", {
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
   /** Auto-expire after this date */
   expiresAt: timestamp("expiresAt"),
-});
+}, (table) => ({
+  createdAtIdx: index("idx_market_listings_created_at").on(table.createdAt),
+  statusIdx: index("idx_market_listings_status").on(table.status),
+  sellerIdIdx: index("idx_market_listings_seller_id").on(table.sellerId),
+}));
 export type MarketListing = typeof marketListings.$inferSelect;
 
 /**
@@ -1570,7 +1577,10 @@ export const guildMembers = mysqlTable("guild_members", {
   /** War points contributed through this guild */
   warPoints: int("warPoints").notNull().default(0),
   joinedAt: timestamp("joinedAt").defaultNow().notNull(),
-});
+}, (table) => ({
+  guildIdIdx: index("idx_guild_members_guild_id").on(table.guildId),
+  userIdIdx: index("idx_guild_members_user_id").on(table.userId),
+}));
 export type GuildMember = typeof guildMembers.$inferSelect;
 
 /**
