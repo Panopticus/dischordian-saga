@@ -6,7 +6,7 @@ buildCommand = "pnpm install --frozen-lockfile && pnpm run build"
 nixPkgs = ["nodejs_20", "pnpm"]
 
 [deploy]
-startCommand = "pnpm db:push && pnpm start"
+startCommand = "pnpm db:migrate && pnpm start"
 healthcheckPath = "/"
 restartPolicyType = "on_failure"
 restartPolicyMaxRetries = 10
