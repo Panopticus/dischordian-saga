@@ -2,10 +2,11 @@
    THE DEGEN'S CASINO — Page wrapper with game selection
    Accessible via Trade Hub (Locke trust 30 required)
    ═══════════════════════════════════════════════════════ */
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { useLocation } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Skull, Star, Zap, Dice1 as Dice, Trophy } from "lucide-react";
+import LivingBackground from "@/components/LivingBackground";
 import {
   CASINO_GAMES, spinSlots, rollDice, getVIPLevel, getDegenQuote,
   DEFAULT_CASINO_STATE, type CasinoState, type CasinoGame,
@@ -17,12 +18,25 @@ import {
   LIARS_DICE_NPCS, SAMPLE_FACTION_BETS, BINGO_LORE_EVENTS,
 } from "./degensCasino";
 
+const CASINO_FLOOR_BG = "https://res.cloudinary.com/dsenaozjq/image/upload/q_auto/f_auto/v1775678427/DC-001_THE_CASINO_FLOOR_mp3os6.jpg";
+
 export default function DegensCasinoPage() {
   const [, navigate] = useLocation();
+  const [entering, setEntering] = useState(true);
   const [casinoState, setCasinoState] = useState<CasinoState>(() => {
     const saved = localStorage.getItem("degen_casino");
     return saved ? JSON.parse(saved) : DEFAULT_CASINO_STATE;
   });
+
+  // Auto-dismiss loading screen after image loads + brief cinematic pause
+  useEffect(() => {
+    if (!entering) return;
+    const img = new Image();
+    img.src = CASINO_FLOOR_BG;
+    const timer = setTimeout(() => setEntering(false), 3000);
+    img.onload = () => { setTimeout(() => setEntering(false), 1500); clearTimeout(timer); };
+    return () => clearTimeout(timer);
+  }, []);
   const [selectedGame, setSelectedGame] = useState<CasinoGame | null>(null);
   const [casinoFloor, setCasinoFloor] = useState<"main" | "cards" | "dice" | "slots" | "vip" | "betting" | "bingo" | "roulette">("main");
   const [degenText, setDegenText] = useState(() => getDegenQuote("welcome"));
@@ -106,10 +120,66 @@ export default function DegensCasinoPage() {
     processGameResult("entropy_dice", bet, won, payout);
   };
 
+  // ─── LOADING / ENTRY SCREEN ───
+  if (entering) {
+    return (
+      <div className="min-h-screen bg-black flex flex-col items-center justify-center relative overflow-hidden">
+        <img
+          src={CASINO_FLOOR_BG}
+          alt="The Degen's Casino"
+          className="absolute inset-0 w-full h-full object-cover"
+          style={{ filter: "brightness(0.35) saturate(1.2)" }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent" />
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="relative z-10 text-center"
+        >
+          <motion.div
+            animate={{ rotate: [0, 5, -5, 0] }}
+            transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+          >
+            <Skull size={48} className="text-amber-400 mx-auto mb-4" />
+          </motion.div>
+          <h1 className="font-display text-3xl sm:text-4xl tracking-[0.3em] text-amber-400 mb-2">
+            THE DEGEN'S CASINO
+          </h1>
+          <p className="font-mono text-[10px] text-amber-400/40 tracking-[0.2em] mb-6">
+            EDGE OF THE SHIELD // NE-YON SPACE // THE HOST WATCHES
+          </p>
+          <motion.div
+            initial={{ scaleX: 0 }}
+            animate={{ scaleX: 1 }}
+            transition={{ duration: 1.5, ease: "easeInOut" }}
+            className="w-48 h-0.5 bg-gradient-to-r from-transparent via-amber-500/60 to-transparent mx-auto mb-4"
+          />
+          <motion.p
+            animate={{ opacity: [0.3, 1, 0.3] }}
+            transition={{ duration: 2, repeat: Infinity }}
+            className="font-mono text-[9px] text-amber-400/50"
+          >
+            ENTERING THE FLOOR...
+          </motion.p>
+        </motion.div>
+      </div>
+    );
+  }
+
   return (
-    <div className="min-h-screen bg-black">
+    <div className="min-h-screen bg-black relative overflow-hidden">
+      {/* Casino Floor Background */}
+      <LivingBackground
+        src={CASINO_FLOOR_BG}
+        accent="#d97706"
+        opacity={0.12}
+        particleCount={6}
+        scanlines={false}
+      />
+
       {/* Header */}
-      <div className="flex items-center justify-between px-4 py-3 border-b border-amber-500/20 bg-gradient-to-r from-black via-amber-950/20 to-black">
+      <div className="flex items-center justify-between px-4 py-3 border-b border-amber-500/20 bg-gradient-to-r from-black via-amber-950/20 to-black relative z-10">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-full bg-amber-500/10 border border-amber-500/30 flex items-center justify-center">
             <Skull size={20} className="text-amber-400" />
