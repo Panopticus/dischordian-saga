@@ -39,6 +39,9 @@ import {
 import {
   getSourceTrustTier, SOURCE_TRUST_DESCRIPTIONS, getSourcePersonality,
 } from "./sourceRelationship";
+import {
+  getDegenTrustTier, DEGEN_TRUST_DESCRIPTIONS, getDegenPersonality,
+} from "./degenRelationship";
 
 export type { PlayerArchetype } from "./elaraRelationship";
 
@@ -49,7 +52,8 @@ export type NpcRelationshipId =
   | "the_antiquarian"
   | "adjudicator_locke"
   | "shadow_tongue"
-  | "the_source";
+  | "the_source"
+  | "the_degen";
 
 export interface RelationshipState {
   npcId: NpcRelationshipId;
@@ -135,6 +139,16 @@ const NPC_RELATIONSHIP_RESOLVERS: Record<NpcRelationshipId, ResolverFn> = {
       tier,
       tierLabel: SOURCE_TRUST_DESCRIPTIONS[tier],
       personality: getSourcePersonality(trust, archetype),
+      trust, archetype,
+    };
+  },
+  the_degen: (trust, archetype) => {
+    const tier = getDegenTrustTier(trust);
+    return {
+      npcId: "the_degen",
+      tier,
+      tierLabel: DEGEN_TRUST_DESCRIPTIONS[tier],
+      personality: getDegenPersonality(trust, archetype),
       trust, archetype,
     };
   },
