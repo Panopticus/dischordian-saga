@@ -38,6 +38,8 @@ export interface RaidBossDef {
   minPlayers: number;
   /** Duration limit in minutes */
   timeLimitMinutes: number;
+  /** Background image URL for the raid environment */
+  backgroundImage?: string;
 }
 
 export interface RaidLootItem {
@@ -74,6 +76,7 @@ export const RAID_BOSSES: RaidBossDef[] = [
     ],
     minPlayers: 3,
     timeLimitMinutes: 15,
+    backgroundImage: "https://res.cloudinary.com/dsenaozjq/image/upload/q_auto/f_auto/v1775676914/CR-001_THE_SYNDICATE_VAULT_ppgmsq.jpg",
   },
   {
     key: "chrono_wyrm",
@@ -98,6 +101,7 @@ export const RAID_BOSSES: RaidBossDef[] = [
     ],
     minPlayers: 3,
     timeLimitMinutes: 12,
+    backgroundImage: "https://res.cloudinary.com/dsenaozjq/image/upload/q_auto/f_auto/v1775676912/CR-002_THE_AUTHORITY_MAINFRAME_bxi8tx.jpg",
   },
   {
     key: "void_leviathan",
@@ -122,6 +126,7 @@ export const RAID_BOSSES: RaidBossDef[] = [
     ],
     minPlayers: 5,
     timeLimitMinutes: 20,
+    backgroundImage: "https://res.cloudinary.com/dsenaozjq/image/upload/q_auto/f_auto/v1775676916/CR-003_THE_SHIELD_GENERATOR_vfcipd.jpg",
   },
   {
     key: "shadow_colossus",
@@ -145,6 +150,7 @@ export const RAID_BOSSES: RaidBossDef[] = [
     ],
     minPlayers: 4,
     timeLimitMinutes: 18,
+    backgroundImage: "https://res.cloudinary.com/dsenaozjq/image/upload/q_auto/f_auto/v1775676911/CR-004_THE_HIERARCHY_BOARDROOM_jlfg4o.jpg",
   },
 ];
 

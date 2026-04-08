@@ -12,6 +12,8 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
+import LivingBackground from "@/components/LivingBackground";
+import { RAID_BOSSES } from "@shared/coopRaids";
 
 type Tab = "bosses" | "active" | "history";
 
@@ -33,6 +35,12 @@ export default function CoopRaidPage() {
     onError: (e: any) => toast.error(e.message),
   });
 
+  // Resolve background from selected boss or first available
+  const activeBoss = selectedBossKey
+    ? RAID_BOSSES.find(b => b.key === selectedBossKey)
+    : RAID_BOSSES[0];
+  const raidBg = activeBoss?.backgroundImage;
+
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -42,9 +50,20 @@ export default function CoopRaidPage() {
   }
 
   return (
-    <div className="min-h-screen pb-20">
+    <div className="min-h-screen pb-20 relative overflow-hidden">
+      {/* Raid environment background */}
+      {raidBg && (
+        <LivingBackground
+          key={raidBg}
+          src={raidBg}
+          accent={activeBoss?.color || "#ef4444"}
+          opacity={0.14}
+          particleCount={8}
+          scanlines={false}
+        />
+      )}
       {/* Header */}
-      <div className="border-b border-border/30 bg-card/30 backdrop-blur-sm sticky top-0 z-20">
+      <div className="border-b border-border/30 bg-card/30 backdrop-blur-sm sticky top-0 z-20 relative">
         <div className="px-4 sm:px-6 py-3 flex items-center gap-3">
           <Link href="/ark" className="text-muted-foreground hover:text-primary transition-colors">
             <ChevronLeft size={20} />
@@ -67,7 +86,7 @@ export default function CoopRaidPage() {
         </div>
       </div>
 
-      <div className="px-4 sm:px-6 pt-4 space-y-4">
+      <div className="px-4 sm:px-6 pt-4 space-y-4 relative z-10">
         {tab === "bosses" && (
           <>
             <p className="font-mono text-[10px] text-muted-foreground/60 tracking-wider">
