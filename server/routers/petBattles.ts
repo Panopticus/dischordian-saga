@@ -13,6 +13,7 @@ import { eq, and, sql, desc, isNull, lte } from "drizzle-orm";
 import { companionCombat } from "../services/companionCombat";
 import { petEvolution } from "../services/petEvolution";
 import { pressureService } from "../services/pressureService";
+import { battlePassXp } from "../services/battlePassXp";
 
 export const petBattlesRouter = router({
   /** Get player's full pet roster */
@@ -188,6 +189,9 @@ export const petBattlesRouter = router({
       if (!input.won) {
         pressureService.recordAction(ctx.user.id, "pet_death").catch(() => {});
       }
+
+      // Battle pass XP: every pet battle
+      battlePassXp.award(ctx.user.id, "pet_battle").catch(() => {});
 
       return {
         success: true,

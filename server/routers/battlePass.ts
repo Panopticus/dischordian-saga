@@ -1,46 +1,19 @@
 import { z } from "zod";
 import { protectedProcedure, publicProcedure, router } from "../_core/trpc";
 import { getDb } from "../db";
-import { battlePassSeasons, battlePassProgress, dreamBalance } from "../../drizzle/schema";
-import { eq, and, desc } from "drizzle-orm";
+import { battlePassSeasons, battlePassProgress, dreamBalance, notifications } from "../../drizzle/schema";
+import { eq, and, desc, sql } from "drizzle-orm";
 import { TRPCError } from "@trpc/server";
 import { fetchCitizenData, fetchPotentialNftData, resolveQuestBonuses } from "../traitResolver";
-
-const PREMIUM_COST_DREAM = 500; // Dream tokens to upgrade to premium
-
-/* ═══ DEFAULT SEASON 1 TIER REWARDS ═══ */
-const SEASON_1_REWARDS: Record<string, { free?: Record<string, unknown>; premium?: Record<string, unknown> }> = {};
-for (let i = 1; i <= 50; i++) {
-  const free: Record<string, unknown> = {};
-  const premium: Record<string, unknown> = {};
-
-  // Free track rewards every 5 tiers
-  if (i % 5 === 0) {
-    free.credits = i * 100;
-    if (i % 10 === 0) free.cardPack = i >= 30 ? "rare" : "common";
-    if (i === 25) free.title = "Operative";
-    if (i === 50) free.title = "Veteran Operative";
-  }
-  if (i % 2 === 0) free.xp = 50;
-
-  // Premium track — better rewards
-  premium.dream = Math.floor(i * 5);
-  if (i % 5 === 0) {
-    premium.cardPack = i >= 30 ? "legendary" : "rare";
-    premium.materials = { type: i >= 40 ? "void_crystal" : "star_dust", amount: i };
-  }
-  if (i === 10) premium.title = "Shadow Agent";
-  if (i === 20) premium.emblem = "gold_star";
-  if (i === 30) premium.title = "Elite Operative";
-  if (i === 40) premium.fighter = "shadow_agent";
-  if (i === 50) {
-    premium.title = "Panopticon Ascendant";
-    premium.emblem = "panopticon_sigil";
-    premium.cardPack = "mythic";
-  }
-
-  SEASON_1_REWARDS[String(i)] = { free: Object.keys(free).length > 0 ? free : undefined, premium };
-}
+import { logger } from "../logger";
+import {
+  getTierFromXp, getTierProgress, getXpSource, MAX_TIER,
+  PREMIUM_COST_DREAM, XP_SOURCES, TOTAL_PASS_XP, SEASON_LENGTH_DAYS,
+  generateSeasonRewards, getSeasonThemeFromPressure, SEASONAL_THEMES,
+  type SeasonTheme,
+} from "@shared/battlePassConfig";
+import { pressureService } from "../services/pressureService";
+import { getPrestigeMultiplier } from "../services/prestigeMultiplier";
 
 export const battlePassRouter = router({
   /* ─── Get current active season ─── */
@@ -143,16 +116,96 @@ export const battlePassRouter = router({
       const bpTb = resolveQuestBonuses(bpCitizen, bpNft);
       const adjustedXp = Math.round(input.xp * bpTb.battlePassXpMultiplier);
 
-      const newXp = p.currentXp + adjustedXp;
-      const xpPerTier = season[0].xpPerTier;
-      const newTier = Math.min(Math.floor(newXp / xpPerTier), season[0].totalTiers);
+      // Apply prestige multiplier on top of trait bonus
+      const prestigeMult = await getPrestigeMultiplier(ctx.user.id);
+      const finalXp = Math.round(adjustedXp * prestigeMult);
+
+      const newXp = p.currentXp + finalXp;
+      // Use variable XP curve instead of flat xpPerTier
+      const newTier = Math.min(getTierFromXp(newXp), season[0].totalTiers);
       const tiersGained = newTier - p.currentTier;
 
       await db.update(battlePassProgress)
         .set({ currentXp: newXp, currentTier: newTier })
         .where(eq(battlePassProgress.id, p.id));
 
-      return { success: true, newXp, newTier, tiersGained };
+      const progress2 = getTierProgress(newXp);
+
+      // Notify on tier-up
+      if (tiersGained > 0) {
+        await db.insert(notifications).values({
+          userId: ctx.user.id,
+          type: "battle_pass_tier_up",
+          title: `Battle Pass Tier ${newTier}!`,
+          message: `You've reached tier ${newTier}. ${newTier < MAX_TIER ? `Next tier: ${progress2.xpNeeded - progress2.xpInTier} XP to go.` : "Maximum tier reached!"}`,
+        }).catch(() => {});
+      }
+
+      return {
+        success: true,
+        xpAdded: finalXp,
+        newXp,
+        newTier,
+        tiersGained,
+        tierProgress: progress2,
+      };
+    }),
+
+  /* ─── Add XP from a specific game action (uses XP_SOURCES config) ─── */
+  addXpFromAction: protectedProcedure
+    .input(z.object({ actionId: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      const source = getXpSource(input.actionId);
+      if (!source) return { success: false, message: "Unknown action" };
+
+      const db = await getDb();
+      if (!db) return { success: false, message: "Database unavailable" };
+
+      const season = await db.select().from(battlePassSeasons)
+        .where(eq(battlePassSeasons.status, "active"))
+        .limit(1);
+      if (!season[0]) return { success: false, message: "No active season" };
+
+      let progress = await db.select().from(battlePassProgress)
+        .where(and(
+          eq(battlePassProgress.userId, ctx.user.id),
+          eq(battlePassProgress.seasonId, season[0].id),
+        ))
+        .limit(1);
+
+      if (!progress[0]) {
+        await db.insert(battlePassProgress).values({
+          userId: ctx.user.id,
+          seasonId: season[0].id,
+          currentXp: 0,
+          currentTier: 0,
+          isPremium: false,
+          claimedFreeTiers: [],
+          claimedPremiumTiers: [],
+        });
+        progress = await db.select().from(battlePassProgress)
+          .where(and(
+            eq(battlePassProgress.userId, ctx.user.id),
+            eq(battlePassProgress.seasonId, season[0].id),
+          ))
+          .limit(1);
+      }
+
+      const p = progress[0]!;
+      if (p.currentTier >= MAX_TIER) return { success: true, maxed: true };
+
+      // Apply prestige multiplier
+      const prestigeMult = await getPrestigeMultiplier(ctx.user.id);
+      const finalXp = Math.round(source.xp * prestigeMult);
+
+      const newXp = p.currentXp + finalXp;
+      const newTier = Math.min(getTierFromXp(newXp), season[0].totalTiers);
+
+      await db.update(battlePassProgress)
+        .set({ currentXp: newXp, currentTier: newTier })
+        .where(eq(battlePassProgress.id, p.id));
+
+      return { success: true, actionId: input.actionId, xpAdded: finalXp, newXp, newTier };
     }),
 
   /* ─── Claim tier reward ─── */
@@ -257,6 +310,89 @@ export const battlePassRouter = router({
     return { success: true };
   }),
 
-  /* ─── Get tier rewards preview ─── */
-  tierRewards: publicProcedure.query(() => SEASON_1_REWARDS),
+  /* ─── Get tier rewards for current season ─── */
+  tierRewards: publicProcedure.query(async () => {
+    const db = await getDb();
+    if (!db) return {};
+
+    const season = await db.select().from(battlePassSeasons)
+      .where(eq(battlePassSeasons.status, "active"))
+      .limit(1);
+
+    if (!season[0]?.tierRewards) {
+      // Generate default rewards if none stored
+      const theme = SEASONAL_THEMES.dreamer;
+      return generateSeasonRewards(theme);
+    }
+
+    return season[0].tierRewards;
+  }),
+
+  /* ─── Get XP sources info for client display ─── */
+  xpSources: publicProcedure.query(() => XP_SOURCES),
+
+  /* ─── Generate a new season (admin/automated — themes from community pressure) ─── */
+  generateSeason: protectedProcedure
+    .input(z.object({
+      seasonNumber: z.number().min(1),
+      /** Override theme (optional — defaults to community pressure) */
+      themeOverride: z.string().optional(),
+    }))
+    .mutation(async ({ ctx, input }) => {
+      const db = await getDb();
+      if (!db) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
+
+      // Determine theme from Living Universe pressure (or override)
+      let theme: SeasonTheme;
+      if (input.themeOverride && SEASONAL_THEMES[input.themeOverride]) {
+        theme = SEASONAL_THEMES[input.themeOverride];
+      } else {
+        // Get community pressure from pressureService
+        const pressure = await pressureService.getAllPressures();
+        theme = getSeasonThemeFromPressure(pressure as Record<string, number>);
+      }
+
+      // Generate rewards based on theme
+      const rewards = generateSeasonRewards(theme);
+
+      // End any currently active season
+      await db.update(battlePassSeasons)
+        .set({ status: "ended" })
+        .where(eq(battlePassSeasons.status, "active"));
+
+      const now = new Date();
+      const endsAt = new Date(now.getTime() + SEASON_LENGTH_DAYS * 86400000);
+
+      // Create new season
+      await db.insert(battlePassSeasons).values({
+        seasonNumber: input.seasonNumber,
+        name: theme.name,
+        description: theme.narrativeHook,
+        totalTiers: MAX_TIER,
+        xpPerTier: 315, // Average — actual curve is variable via getTierFromXp
+        premiumPriceDream: PREMIUM_COST_DREAM,
+        tierRewards: rewards,
+        status: "active",
+        startsAt: now,
+        endsAt,
+      });
+
+      logger.info(`[BattlePass] Season ${input.seasonNumber} created: ${theme.name} (pressure: ${theme.pressureSource})`);
+
+      return {
+        success: true,
+        seasonNumber: input.seasonNumber,
+        theme: {
+          id: theme.id,
+          name: theme.name,
+          description: theme.description,
+          pressureSource: theme.pressureSource,
+          primaryColor: theme.primaryColor,
+          accentColor: theme.accentColor,
+          narrativeHook: theme.narrativeHook,
+        },
+        startsAt: now.toISOString(),
+        endsAt: endsAt.toISOString(),
+      };
+    }),
 });

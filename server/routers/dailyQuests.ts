@@ -3,6 +3,7 @@ import { logger } from "../logger";
 import { protectedProcedure, router } from "../_core/trpc";
 import { getDb } from "../db";
 import { dailyQuests, loginCalendar, dreamBalance, notifications } from "../../drizzle/schema";
+import { battlePassXp } from "../services/battlePassXp";
 import { eq, and, sql } from "drizzle-orm";
 import { fetchCitizenData, fetchPotentialNftData, resolveQuestBonuses } from "../traitResolver";
 
@@ -228,6 +229,8 @@ export const dailyQuestsRouter = router({
           title: `Quest Complete: ${record.title}`,
           message: `You completed "${record.title}"! Claim your reward.`,
         });
+        // Battle pass XP: daily quest completion
+        battlePassXp.award(ctx.user.id, "daily_quest").catch(() => {});
       }
 
       return { success: true, currentCount: newCount, completed };

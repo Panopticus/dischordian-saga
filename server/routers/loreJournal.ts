@@ -14,6 +14,7 @@ import {
   type JournalCategory,
 } from "../../shared/loreJournal";
 import { pressureService } from "../services/pressureService";
+import { battlePassXp } from "../services/battlePassXp";
 
 export const loreJournalRouter = router({
   /** Get my journal entries */
@@ -67,6 +68,8 @@ export const loreJournalRouter = router({
 
       // Record pressure: lore writing feeds Antiquarian/Timelines event
       pressureService.increment(ctx.user.id, "loreDiscoveries", 3, "lore_journal_entry").catch(() => {});
+      // Battle pass XP: lore discovery
+      battlePassXp.award(ctx.user.id, "lore_discovery").catch(() => {});
 
       return { entryId: result.id, wordCount, xpEarned };
     }),
