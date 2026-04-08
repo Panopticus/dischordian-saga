@@ -50,6 +50,8 @@ export interface Transmission {
   unlockTrigger: TransmissionTrigger;
   reward: { xp: number; dream: number; achievement?: string };
   synopsis: string;
+  /** Loredex entries this episode relates to — enables bidirectional discovery */
+  relatedLoredexEntries?: string[];
 }
 
 /* ─── EPOCH 1: THE FALL ─── */
@@ -65,6 +67,7 @@ export const EPOCH_1_TRANSMISSIONS: Transmission[] = [
     unlockTrigger: { kind: "always" },
     reward: { xp: 100, dream: 10, achievement: "first_transmission" },
     synopsis: "The origin of the Architect, the Intelligence Wars, and the launch of the Inception Arks.",
+    relatedLoredexEntries: ["entity_2", "entity_architect", "inception_arks", "intelligence_wars"],
   },
   {
     episodeNumber: 1, epoch: 1, broadcastOrder: 1,
@@ -76,6 +79,7 @@ export const EPOCH_1_TRANSMISSIONS: Transmission[] = [
     unlockTrigger: { kind: "awakening_step", step: "COMPLETE" },
     reward: { xp: 150, dream: 15 },
     synopsis: "The Antiquarian introduces the Potentials — the first stirrings aboard the Inception Arks.",
+    relatedLoredexEntries: ["entity_antiquarian", "potentials", "inception_arks"],
   },
   {
     episodeNumber: 2, epoch: 1, broadcastOrder: 2,
@@ -98,6 +102,7 @@ export const EPOCH_1_TRANSMISSIONS: Transmission[] = [
     unlockTrigger: { kind: "level", minLevel: 3 },
     reward: { xp: 200, dream: 20 },
     synopsis: "The Arks enter the Terminus Swarm — a planet of frozen insect leviathans.",
+    relatedLoredexEntries: ["terminus", "terminus_swarm", "thought_virus"],
   },
   {
     episodeNumber: 4, epoch: 1, broadcastOrder: 4,
@@ -120,6 +125,7 @@ export const EPOCH_1_TRANSMISSIONS: Transmission[] = [
     unlockTrigger: { kind: "level", minLevel: 5 },
     reward: { xp: 250, dream: 25 },
     synopsis: "The Potentials discover the Thought Virus signal — mutated, machine-coded, calling.",
+    relatedLoredexEntries: ["thought_virus", "terminus", "entity_source"],
   },
   {
     episodeNumber: 6, epoch: 1, broadcastOrder: 6,
