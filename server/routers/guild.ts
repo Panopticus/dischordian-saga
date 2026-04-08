@@ -5,6 +5,7 @@ import { getDb } from "../db";
 import { guilds, guildMembers, guildChat, guildInvites, guildRecruitment, notifications, users } from "../../drizzle/schema";
 import { eq, and, desc, sql, like, ne } from "drizzle-orm";
 import { TRPCError } from "@trpc/server";
+import { ripple } from "../services/rippleEngine";
 
 /* ═══ GUILD EMBLEMS ═══ */
 const GUILD_EMBLEMS = [
@@ -206,6 +207,8 @@ export const guildRouter = router({
         message: `${ctx.user.name || "Unknown"} has joined ${guild[0].name}.`,
         actionUrl: "/guild",
       });
+
+      await ripple.emit("guild_joined", { userId: ctx.user.id });
 
       return { success: true };
     }),

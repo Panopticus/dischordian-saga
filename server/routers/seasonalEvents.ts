@@ -6,6 +6,7 @@
 import { z } from "zod";
 import { router, protectedProcedure, publicProcedure } from "../_core/trpc";
 import { getDb } from "../db";
+import { ripple } from "../services/rippleEngine";
 import {
   seasonalEvents, eventParticipation, eventShopPurchases,
   citizenCharacters, civilSkillProgress, classMastery,
@@ -108,6 +109,8 @@ export const seasonalEventsRouter = router({
       await db.update(seasonalEvents)
         .set({ globalProgress: event.globalProgress + boostedAmount })
         .where(eq(seasonalEvents.id, input.eventId));
+
+      await ripple.emit("seasonal_event_participation", { userId: ctx.user.id, eventKey: event.eventKey, contribution: input.amount });
 
       return { contributed: boostedAmount, tokensEarned, bonuses };
     }),

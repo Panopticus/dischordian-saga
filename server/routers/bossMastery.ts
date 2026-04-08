@@ -12,6 +12,7 @@ import {
   BOSS_MASTERY_DEFS, getBossMasteryLevel, getNextMasteryReward,
   type BossMasteryDef, type BossMasteryLevel,
 } from "../../shared/bossMastery";
+import { ripple } from "../services/rippleEngine";
 
 export const bossMasteryRouter = router({
   /** Get my mastery for all bosses */
@@ -86,6 +87,8 @@ export const bossMasteryRouter = router({
           })
           .where(eq(bossMastery.id, existing.id));
 
+        await ripple.emit("boss_defeated", { userId: ctx.user.id, bossKey: input.bossKey, difficulty: input.difficulty });
+
         return {
           kills: newKills,
           leveledUp,
@@ -101,6 +104,9 @@ export const bossMasteryRouter = router({
           bestTime: input.timeSeconds ?? null,
           highestDifficulty: input.difficulty,
         });
+
+        await ripple.emit("boss_defeated", { userId: ctx.user.id, bossKey: input.bossKey, difficulty: input.difficulty });
+
         return { kills: 1, leveledUp: false, newMasteryLevel: 0, reward: null };
       }
     }),

@@ -10,6 +10,7 @@ import {
   friends, directMessages, users,
 } from "../../drizzle/schema";
 import { eq, and, desc, or, sql } from "drizzle-orm";
+import { ripple } from "../services/rippleEngine";
 
 export const socialFeaturesRouter = router({
   /** Send friend request */
@@ -49,6 +50,9 @@ export const socialFeaturesRouter = router({
       await db.update(friends)
         .set({ status: "accepted" })
         .where(eq(friends.id, input.friendshipId));
+
+      await ripple.emit("friend_accepted", { userId: ctx.user.id, friendId: friendship.userId });
+
       return { accepted: true };
     }),
 

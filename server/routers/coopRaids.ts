@@ -16,6 +16,7 @@ import {
   RAID_BOSSES, resolveRaidBonuses,
   type RaidDifficulty,
 } from "../../shared/coopRaids";
+import { ripple } from "../services/rippleEngine";
 
 export const coopRaidsRouter = router({
   /** Get active raids */
@@ -140,6 +141,12 @@ export const coopRaidsRouter = router({
           contributionScore: damage.totalDamage,
           role: input.role,
         });
+      }
+
+      await ripple.emit("raid_boss_damaged", { userId: ctx.user.id, bossKey: raid.bossKey, damage: damage.totalDamage });
+
+      if (newHp === 0) {
+        await ripple.emit("raid_boss_defeated", { userId: ctx.user.id, bossKey: raid.bossKey });
       }
 
       return {

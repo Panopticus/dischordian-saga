@@ -12,6 +12,7 @@ import { logger } from "../logger";
 import { getRankTier } from "@shared/pvpBattle";
 import { getDecayStatus } from "@shared/rankDecay";
 import { classifyDeck, ARCHETYPES } from "@shared/cardArchetypes";
+import { ripple } from "../services/rippleEngine";
 
 /* ─── DECK RULES ─── */
 const MAX_DECK_SIZE = 30;
@@ -364,6 +365,8 @@ export const pvpRouter = router({
         message: `You claimed ${record[0].peakTier} tier rewards for PvP Season ${input.seasonId}.`,
         actionUrl: "/pvp",
       }).catch(e => logger.error("[PvP] Season reward notification failed:", e));
+
+      await ripple.emit("pvp_match_result", { userId: ctx.user.id, won: true });
 
       return {
         success: true,

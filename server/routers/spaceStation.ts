@@ -16,6 +16,7 @@ import {
   STATION_TIERS, STATION_MODULES, resolveStationBonuses,
   getAvailableModules, getStationTier, MODULE_SYNERGIES,
 } from "../../shared/spaceStations";
+import { ripple } from "../services/rippleEngine";
 
 /* ═══ HELPER — Reusable RPG stats loader ═══ */
 async function getUserRpgStats(userId: number) {
@@ -265,6 +266,8 @@ export const spaceStationRouter = router({
           .set({ totalDefense, stealthRating, activeSynergies: synergies })
           .where(eq(spaceStations.id, station.id));
       }
+
+      await ripple.emit("station_module_complete", { userId: ctx.user.id, moduleKey: mod.moduleKey || "module" });
 
       return { success: true, newLevel };
     }),

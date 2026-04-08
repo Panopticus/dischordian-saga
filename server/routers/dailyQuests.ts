@@ -6,6 +6,7 @@ import { dailyQuests, loginCalendar, dreamBalance, notifications } from "../../d
 import { battlePassXp } from "../services/battlePassXp";
 import { eq, and, sql } from "drizzle-orm";
 import { fetchCitizenData, fetchPotentialNftData, resolveQuestBonuses } from "../traitResolver";
+import { ripple } from "../services/rippleEngine";
 
 /* ═══════════════════════════════════════════════════════
    QUEST TEMPLATES — Daily, Weekly, Epoch (Season)
@@ -300,6 +301,8 @@ export const dailyQuestsRouter = router({
       const { awardCivilXp } = await import("../civilSkillHelper");
       awardCivilXp(ctx.user.id, "complete_quest").catch(e => logger.error("[DailyQuests] Civil XP award failed:", e));
 
+      await ripple.emit("daily_quest_complete", { userId: ctx.user.id });
+
       return {
         success: true,
         rewardDream: adjustedDream,
@@ -439,6 +442,11 @@ export const dailyQuestsRouter = router({
       title: `Day ${newStreak} Login Reward!`,
       message: `You received ${reward.label}. Keep your streak going!`,
     });
+
+    // Emit streak milestone ripple for key thresholds
+    if ([3, 7, 14, 30].includes(newStreak)) {
+      await ripple.emit("daily_streak_milestone", { userId: ctx.user.id, streak: newStreak });
+    }
 
     return {
       success: true,

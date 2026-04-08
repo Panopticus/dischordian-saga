@@ -1145,6 +1145,57 @@ export function GameProvider({ children }: { children: ReactNode }) {
       loadQuery.isError // Auth'd but load failed
     );
 
+  // Restore client-side localStorage keys from server-saved snapshot.
+  // Declared BEFORE the useEffect that references it to avoid TDZ errors
+  // in the production Rollup bundle (dependency arrays are evaluated at render time).
+  const restoreClientState = useCallback((clientState: Record<string, unknown> | null) => {
+    if (!clientState) return;
+    const safeSet = (key: string, val: unknown) => {
+      if (val === null || val === undefined) return;
+      try { localStorage.setItem(key, typeof val === "string" ? val : JSON.stringify(val)); } catch { /* full */ }
+    };
+    // Only restore keys that don't already exist locally (don't overwrite fresher local data)
+    const restoreIfMissing = (key: string, val: unknown) => {
+      if (!localStorage.getItem(key) && val != null) safeSet(key, val);
+    };
+    restoreIfMissing("loredex-gamification", clientState.gamification);
+    restoreIfMissing("loredex_discovered", clientState.discovered);
+    restoreIfMissing("loredex_discovered_secrets", clientState.discoveredSecrets);
+    restoreIfMissing("loredex_room_easter_eggs", clientState.roomEasterEggs);
+    restoreIfMissing("loredex_lore_fragments", clientState.loreFragments);
+    restoreIfMissing("loredex_bonus_cards", clientState.bonusCards);
+    restoreIfMissing("loredex_completed_tutorials", clientState.completedTutorials);
+    restoreIfMissing("dischordia_elo", clientState.dischordiaElo);
+    restoreIfMissing("dischordia_wins", clientState.dischordiaWins);
+    restoreIfMissing("dischordia_losses", clientState.dischordiaLosses);
+    restoreIfMissing("dischordia_tutorial_complete", clientState.dischordiaTutorial);
+    restoreIfMissing("terminus_highest_wave", clientState.terminusHighestWave);
+    restoreIfMissing("terminus_kills", clientState.terminusKills);
+    restoreIfMissing("terminus_trophies", clientState.terminusTrophies);
+    restoreIfMissing("terminus_puzzle_complete", clientState.terminusPuzzle);
+    restoreIfMissing("card_upgrades", clientState.cardUpgrades);
+    restoreIfMissing("loredex_multiverse_record", clientState.multiverseRecord);
+    restoreIfMissing("equipment_state", clientState.equipmentState);
+    restoreIfMissing("owned_specimens", clientState.ownedSpecimens);
+    restoreIfMissing("active_specimen", clientState.activeSpecimen);
+    restoreIfMissing("bestiary_kills", clientState.bestiaryKills);
+    restoreIfMissing("bestiary_discovered", clientState.bestiaryDiscovered);
+    restoreIfMissing("research_puzzles_solved", clientState.researchPuzzlesSolved);
+    restoreIfMissing("research_entries_unlocked", clientState.researchEntriesUnlocked);
+    restoreIfMissing("collectors_arena_story", clientState.collectorsArenaStory);
+    restoreIfMissing("collectors_arena_intro_seen", clientState.collectorsArenaIntroSeen);
+    restoreIfMissing("collectors_arena_lore_seen", clientState.collectorsArenaLoreSeen);
+    restoreIfMissing("trade_empire_state", clientState.tradeEmpireState);
+    restoreIfMissing("trade_empire_tech", clientState.tradeEmpireTech);
+    restoreIfMissing("degen_casino", clientState.degenCasino);
+    restoreIfMissing("gm_arena_clones", clientState.gmArenaClones);
+    restoreIfMissing("loredex_watch_progress", clientState.watchProgress);
+    restoreIfMissing("loredex_cryo_orientation_seen", clientState.cryoOrientationSeen);
+    restoreIfMissing("loredex_cinematic_seen", clientState.cinematicSeen);
+    restoreIfMissing("loredex_chess_cinematic_seen", clientState.chessCinematicSeen);
+    restoreIfMissing("loredex_fight2d_tutorial_done", clientState.fight2dTutorialDone);
+  }, []);
+
   // Load from server on login (merge with localStorage — server wins if newer)
   useEffect(() => {
     if (!loadQuery.data || hasLoadedFromServer.current) return;
@@ -1243,55 +1294,6 @@ export function GameProvider({ children }: { children: ReactNode }) {
       // Fight tutorials
       fight2dTutorialDone: localStorage.getItem("loredex_fight2d_tutorial_done"),
     };
-  }, []);
-
-  // Restore client state from server on login (if server has newer data)
-  const restoreClientState = useCallback((clientState: Record<string, unknown> | null) => {
-    if (!clientState) return;
-    const safeSet = (key: string, val: unknown) => {
-      if (val === null || val === undefined) return;
-      try { localStorage.setItem(key, typeof val === "string" ? val : JSON.stringify(val)); } catch { /* full */ }
-    };
-    // Only restore keys that don't already exist locally (don't overwrite fresher local data)
-    const restoreIfMissing = (key: string, val: unknown) => {
-      if (!localStorage.getItem(key) && val != null) safeSet(key, val);
-    };
-    restoreIfMissing("loredex-gamification", clientState.gamification);
-    restoreIfMissing("loredex_discovered", clientState.discovered);
-    restoreIfMissing("loredex_discovered_secrets", clientState.discoveredSecrets);
-    restoreIfMissing("loredex_room_easter_eggs", clientState.roomEasterEggs);
-    restoreIfMissing("loredex_lore_fragments", clientState.loreFragments);
-    restoreIfMissing("loredex_bonus_cards", clientState.bonusCards);
-    restoreIfMissing("loredex_completed_tutorials", clientState.completedTutorials);
-    restoreIfMissing("dischordia_elo", clientState.dischordiaElo);
-    restoreIfMissing("dischordia_wins", clientState.dischordiaWins);
-    restoreIfMissing("dischordia_losses", clientState.dischordiaLosses);
-    restoreIfMissing("dischordia_tutorial_complete", clientState.dischordiaTutorial);
-    restoreIfMissing("terminus_highest_wave", clientState.terminusHighestWave);
-    restoreIfMissing("terminus_kills", clientState.terminusKills);
-    restoreIfMissing("terminus_trophies", clientState.terminusTrophies);
-    restoreIfMissing("terminus_puzzle_complete", clientState.terminusPuzzle);
-    restoreIfMissing("card_upgrades", clientState.cardUpgrades);
-    restoreIfMissing("loredex_multiverse_record", clientState.multiverseRecord);
-    restoreIfMissing("equipment_state", clientState.equipmentState);
-    restoreIfMissing("owned_specimens", clientState.ownedSpecimens);
-    restoreIfMissing("active_specimen", clientState.activeSpecimen);
-    restoreIfMissing("bestiary_kills", clientState.bestiaryKills);
-    restoreIfMissing("bestiary_discovered", clientState.bestiaryDiscovered);
-    restoreIfMissing("research_puzzles_solved", clientState.researchPuzzlesSolved);
-    restoreIfMissing("research_entries_unlocked", clientState.researchEntriesUnlocked);
-    restoreIfMissing("collectors_arena_story", clientState.collectorsArenaStory);
-    restoreIfMissing("collectors_arena_intro_seen", clientState.collectorsArenaIntroSeen);
-    restoreIfMissing("collectors_arena_lore_seen", clientState.collectorsArenaLoreSeen);
-    restoreIfMissing("trade_empire_state", clientState.tradeEmpireState);
-    restoreIfMissing("trade_empire_tech", clientState.tradeEmpireTech);
-    restoreIfMissing("degen_casino", clientState.degenCasino);
-    restoreIfMissing("gm_arena_clones", clientState.gmArenaClones);
-    restoreIfMissing("loredex_watch_progress", clientState.watchProgress);
-    restoreIfMissing("loredex_cryo_orientation_seen", clientState.cryoOrientationSeen);
-    restoreIfMissing("loredex_cinematic_seen", clientState.cinematicSeen);
-    restoreIfMissing("loredex_chess_cinematic_seen", clientState.chessCinematicSeen);
-    restoreIfMissing("loredex_fight2d_tutorial_done", clientState.fight2dTutorialDone);
   }, []);
 
   const doServerSave = useCallback(async (currentState: GameState) => {

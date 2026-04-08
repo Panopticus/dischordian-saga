@@ -13,6 +13,7 @@ import {
   dreamBalance, notifications,
 } from "../../drizzle/schema";
 import { fetchCitizenData, fetchPotentialNftData, resolveChessBonuses } from "../traitResolver";
+import { ripple } from "../services/rippleEngine";
 import { mapDifficultyToChessElo } from "@shared/dynamicDifficulty";
 
 // chess.js v1.4 — dynamic import to avoid ESM/CJS mismatch
@@ -550,6 +551,7 @@ export const chessRouter = router({
         const result = await processGameEnd(db, ctx.user.id, game[0], status, winnerId);
         rewards = result.rewards;
         eloChange = result.eloChange;
+        await ripple.emit("chess_result", { userId: ctx.user.id, won: winnerId === ctx.user.id });
       }
 
       return {
@@ -631,6 +633,7 @@ export const chessRouter = router({
         const result = await processGameEnd(db, ctx.user.id, game[0], status, winnerId);
         rewards = result.rewards;
         eloChange = result.eloChange;
+        await ripple.emit("chess_result", { userId: ctx.user.id, won: winnerId === ctx.user.id });
       }
 
       return {
@@ -660,6 +663,7 @@ export const chessRouter = router({
         .where(eq(chessGames.id, input.gameId));
 
       const result = await processGameEnd(db, ctx.user.id, game[0], "resigned", null);
+      await ripple.emit("chess_result", { userId: ctx.user.id, won: false });
       return { success: true, eloChange: result.eloChange };
     }),
 

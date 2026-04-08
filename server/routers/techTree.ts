@@ -13,6 +13,7 @@ import { getDb } from "../db";
 import { userProgress, dreamBalance } from "../../drizzle/schema";
 import { eq, and, sql } from "drizzle-orm";
 import { logger } from "../logger";
+import { ripple } from "../services/rippleEngine";
 
 // Inline tech definitions (mirrors shared/techTree.ts) to avoid import issues
 // In a full refactor, shared/ types would be imported directly
@@ -204,6 +205,9 @@ export const techTreeRouter = router({
     const completedTech = state.currentResearch.techId;
     state.currentResearch = null;
     await saveTechState(ctx.user.id, state);
+
+    await ripple.emit("tech_researched", { userId: ctx.user.id, techId: completedTech });
+
     return { success: true, completedTech };
   }),
 
