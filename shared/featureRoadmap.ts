@@ -48,6 +48,12 @@ export const FEATURE_ROADMAP: FeatureUnlock[] = [
   { featureId: "companion_selection", name: "First Companion", description: "Pick your first specimen companion",
     trigger: { type: "narrative_flag", flag: "awakening_complete" } as UnlockTrigger, category: "core", estimatedTime: "15 min",
     unlockMessage: "The cloning pods responded to your DNA. Choose your companion." },
+  { featureId: "crew_cloning", name: "Crew Cloning System", description: "Clone crew from the Collector's genetic archive. Build bloodlines.",
+    trigger: { type: "narrative_flag", flag: "crew_system_unlocked" } as UnlockTrigger, category: "core", estimatedTime: "20 min",
+    unlockMessage: "Elara: 'The Resurrection Protocols are online. The incubators are ready. It's time to build a crew, Captain.'" },
+  { featureId: "crew_activity_feed", name: "Crew Activity Feed", description: "Ambient ticker showing crew life aboard the Ark",
+    trigger: { type: "narrative_flag", flag: "first_crew_member_born" } as UnlockTrigger, category: "core", estimatedTime: "25 min",
+    unlockMessage: "The Ark is no longer silent. Your crew is alive — and the ship knows it." },
 
   // ═══ HOUR 1-2: First explorable systems ═══
   { featureId: "medical_bay_games", name: "Combat Simulator", description: "Fight game unlocks in Medical Bay",
@@ -70,6 +76,17 @@ export const FEATURE_ROADMAP: FeatureUnlock[] = [
   { featureId: "guild_system", name: "Syndicates", description: "Join or create a guild",
     trigger: { type: "room_discovered", roomId: "bridge" } as UnlockTrigger, category: "social", estimatedTime: "1 hour",
     unlockMessage: "Elara: 'Other Potentials are surviving on other Arks. You can form Syndicates with them.'" },
+
+  // ═══ HOUR 2-4: Crew Development ═══
+  { featureId: "crew_roles", name: "Crew Role Assignment", description: "Assign crew to ship roles for passive bonuses",
+    trigger: { type: "narrative_flag", flag: "first_crew_member_born" } as UnlockTrigger, category: "core", estimatedTime: "1.5 hours",
+    unlockMessage: "Elara: 'Your crew needs assignments. Each role strengthens the ship — and every empty seat is a vulnerability.'" },
+  { featureId: "crew_breeding", name: "Bloodline Continuation", description: "Breed crew members to create next-generation offspring with inherited traits",
+    trigger: { type: "narrative_flag", flag: "crew_generation_2" } as UnlockTrigger, category: "core", estimatedTime: "3 hours",
+    unlockMessage: "The Resurrectionist: 'Your crew has reached maturity. The bloodlines can continue. Children inherit their parents' strengths — and weaknesses.'" },
+  { featureId: "crew_missions", name: "Crew Mission Dispatch", description: "Send crew on Trade Empire missions. They may not come back.",
+    trigger: { type: "room_discovered", roomId: "trade_hub" } as UnlockTrigger, category: "economic", estimatedTime: "4 hours",
+    unlockMessage: "Elara: 'The Trade Empire needs boots on the ground. Your crew can staff these missions. But Captain... missions have consequences.'" },
 
   // ═══ HOUR 4-8: Deeper systems ═══
   { featureId: "crafting", name: "Research Lab", description: "Craft items and cards",

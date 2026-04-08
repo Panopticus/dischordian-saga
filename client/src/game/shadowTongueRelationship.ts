@@ -1,6 +1,6 @@
 /* ═══════════════════════════════════════════════════════
    THE SHADOW TONGUE — Parallel relationship system
-   Ny'Koth / SVP of Communications, Hierarchy of the Damned
+   The Shadow Tongue / SVP of Communications, Hierarchy of the Damned
 
    A demon woven into Ark 1047's language processing and
    data systems since Dr. Lyra Vox's construction — centuries

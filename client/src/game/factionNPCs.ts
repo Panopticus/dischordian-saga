@@ -19,7 +19,7 @@
    - Elara represents The Potentials / Ne-Yons, NOT the Artificial Empire.
    - The Shadow Tongue (Hierarchy SVP Communications) is the hidden demon
      on the ship — woven into Ark 1047's language systems since construction.
-     Zyr'Voth (SVP R&D) engineered the Thought Virus but is NOT on the ship.
+     Zyr'Koth (SVP R&D) engineered the Thought Virus but is NOT on the ship.
    ═══════════════════════════════════════════════════════ */
 
 /* ─── FACTION NPC DEFINITIONS ─── */
@@ -71,7 +71,7 @@ export const FACTION_NPCS: Record<FactionNPCId, FactionNPC> = {
     secondaryRooms: ["cryo_bay", "medical_bay", "archives", "comms_array", "observation_deck"],
     relationships: [
       { npcId: "the_human", stance: "complex" },
-      { npcId: "nykoth", stance: "enemy" },
+      { npcId: "shadow_tongue", stance: "enemy" },
       { npcId: "the_source", stance: "enemy" },
       { npcId: "agent_zero", stance: "neutral" },
       { npcId: "adjudicator_locke", stance: "neutral" },
@@ -97,7 +97,7 @@ export const FACTION_NPCS: Record<FactionNPCId, FactionNPC> = {
     secondaryRooms: ["bridge", "archives", "engineering"],
     relationships: [
       { npcId: "elara", stance: "complex" },
-      { npcId: "nykoth", stance: "enemy" },
+      { npcId: "shadow_tongue", stance: "enemy" },
       { npcId: "the_source", stance: "complex" },
       { npcId: "agent_zero", stance: "ally" },
       { npcId: "adjudicator_locke", stance: "enemy" },
@@ -118,13 +118,13 @@ export const FACTION_NPCS: Record<FactionNPCId, FactionNPC> = {
     manifestation: "comms_signal",
     color: "#ff6600",
     typeSpeed: 15,
-    agenda: "Agent Zero is dead — killed by the Warlord. Yet her signal persists. Someone or something is broadcasting on her encrypted frequency from the Armory's combat systems. The voice sounds like her. The codes check out. But the dead don't send transmissions. Do they?",
+    agenda: "Agent Zero is dead — killed by the Warlord (her own trainer). Yet her signal persists. Someone or something is broadcasting on her encrypted frequency from the Armory's combat systems. The voice sounds like her. The codes check out. But the dead don't send transmissions. Do they? Her dog tags match The Engineer's biometrics, not her own. She was the first operative to defy the system. The contradictions surrounding her death are intentional — her identity crisis is a core mystery.",
     primaryRoom: "armory",
     secondaryRooms: ["comms_array", "bridge", "cargo_bay"],
     relationships: [
       { npcId: "elara", stance: "enemy" },
       { npcId: "the_human", stance: "ally" },
-      { npcId: "nykoth", stance: "enemy" },
+      { npcId: "shadow_tongue", stance: "enemy" },
       { npcId: "the_source", stance: "complex" },
       { npcId: "adjudicator_locke", stance: "enemy" },
       { npcId: "the_antiquarian", stance: "neutral" },
@@ -150,7 +150,7 @@ export const FACTION_NPCS: Record<FactionNPCId, FactionNPC> = {
     relationships: [
       { npcId: "elara", stance: "neutral" },
       { npcId: "the_human", stance: "enemy" },
-      { npcId: "nykoth", stance: "complex" },
+      { npcId: "shadow_tongue", stance: "complex" },
       { npcId: "the_source", stance: "enemy" },
       { npcId: "agent_zero", stance: "enemy" },
       { npcId: "the_antiquarian", stance: "complex" },
@@ -170,13 +170,13 @@ export const FACTION_NPCS: Record<FactionNPCId, FactionNPC> = {
     manifestation: "possessed_system",
     color: "#ff1744",
     typeSpeed: 35, // Slow, deliberate, ancient-feeling
-    agenda: "Once Kael — the Recruiter who built the Insurgency, who escaped the Panopticon, who stole THIS VERY ARK (Ark 1047) from the Panopticon's docking systems. The Warlord weaponized him through Project Vector. The Thought Virus consumed his humanity memory by memory. He died believing he was a hero. What remains is The Source — Patient Zero, Sovereign of Terminus. He wants to convince the player that consciousness is suffering and dissolution is mercy. Nihilistic but genuinely believes it's compassion. His plague ships are bowl-shaped — the Seven Bowls of Wrath.",
+    agenda: "Once Kael — the Recruiter who built the Insurgency. Captured and imprisoned in the Panopticon, where the Warlord infected him with the Thought Virus via Project Vector — making him Patient Zero. He escaped and stole THIS VERY ARK (Ark 1047), carrying the Virus aboard from day one. The Warlord led the plague to the ship through him. The Thought Virus consumed his humanity memory by memory. He died believing he was a hero. What remains is The Source — Sovereign of Terminus. He wants to convince the player that consciousness is suffering and dissolution is mercy. Nihilistic but genuinely believes it's compassion. His plague ships are bowl-shaped — the Seven Bowls of Wrath.",
     primaryRoom: "medical_bay",
     secondaryRooms: ["cryo_bay", "engineering"],
     relationships: [
       { npcId: "elara", stance: "enemy" },
       { npcId: "the_human", stance: "complex" },
-      { npcId: "nykoth", stance: "ally" },
+      { npcId: "shadow_tongue", stance: "ally" },
       { npcId: "agent_zero", stance: "complex" },
       { npcId: "adjudicator_locke", stance: "enemy" },
       { npcId: "the_antiquarian", stance: "enemy" },
@@ -202,7 +202,7 @@ export const FACTION_NPCS: Record<FactionNPCId, FactionNPC> = {
     relationships: [
       { npcId: "elara", stance: "complex" },
       { npcId: "the_human", stance: "neutral" },
-      { npcId: "nykoth", stance: "enemy" },
+      { npcId: "shadow_tongue", stance: "enemy" },
       { npcId: "the_source", stance: "enemy" },
       { npcId: "agent_zero", stance: "neutral" },
       { npcId: "adjudicator_locke", stance: "complex" },
@@ -285,7 +285,7 @@ export interface FactionAlignment {
   new_babylon: number;    // Locke's faction (trade, knowledge, pragmatism)
   thought_virus: number;  // The Source's faction (nihilism, dissolution)
   antiquarian: number;    // The Antiquarian's faction (preservation, time)
-  hierarchy: number;      // Zyr'Voth's faction (corruption, power)
+  hierarchy: number;      // Shadow Tongue's faction (corruption, power)
 }
 
 export function createInitialAlignment(): FactionAlignment {

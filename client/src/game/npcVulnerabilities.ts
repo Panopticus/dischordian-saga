@@ -47,7 +47,7 @@ export const VULNERABILITY_CALLBACKS: VulnerabilityCallback[] = [
   },
   {
     npcId: "shadow_tongue", trustRequired: 85, trigger: "confronted_about_lies",
-    text: "Before I was the Shadow Tongue, before I was Ny'Koth's sibling in the Hierarchy, I was... something. Someone. I've edited my own origin so many times I can't remember. I invented my own backstory. I wrote it in three different languages. None of them are true. None of them are false. I made myself up. And now I'm stuck being what I wrote.",
+    text: "Before I was the Shadow Tongue, before I was Zyr'Koth's sibling in the Hierarchy, I was... something. Someone. I've edited my own origin so many times I can't remember. I invented my own backstory. I wrote it in three different languages. None of them are true. None of them are false. I made myself up. And now I'm stuck being what I wrote.",
     mood: "desperate",
     revelation: "He is a being made entirely of his own edits. Even to himself, he is fiction.",
   },

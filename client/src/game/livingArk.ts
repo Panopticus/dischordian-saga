@@ -5,14 +5,14 @@
    ═══════════════════════════════════════════════════════ */
 
 export type RoomId = "cryo_bay" | "medical_bay" | "bridge" | "archives" | "comms_array" | "observation_deck" | "armory" | "engineering" | "trade_hub" | "cargo_bay" | "trophy_room" | "captains_quarters";
-export type EventType = "npc_conversation" | "signal_fragment" | "quarantine" | "tome_discovered" | "music_transmission" | "lore_discovery" | "army_recruit" | "trade_opportunity" | "doom_scroll_news" | "pod_activity" | "system_anomaly" | "stargazing" | "diagnostic_scan" | "research_complete" | "boss_challenge" | "draft_open" | "guild_war_update";
+export type EventType = "npc_conversation" | "signal_fragment" | "quarantine" | "tome_discovered" | "music_transmission" | "lore_discovery" | "army_recruit" | "trade_opportunity" | "doom_scroll_news" | "pod_activity" | "system_anomaly" | "stargazing" | "diagnostic_scan" | "research_complete" | "boss_challenge" | "draft_open" | "guild_war_update" | "crew_cloning" | "crew_danger" | "crew_activity" | "bloodline_event" | "incubator_ready";
 
 export interface RoomEvent { id: string; roomId: RoomId; type: EventType; title: string; description: string; npcId?: string; song?: string; minTrust?: number; minAct?: number; reward?: { dream?: number; xp?: number; cardId?: string; material?: string; trust?: number }; repeating: boolean; priority: number; }
 
 export interface RoomDef { id: RoomId; name: string; deck: string; primaryNPC: string | null; features: string[]; defaultTome: string | null; discoverySong: string | null; }
 
 export const ROOMS: Record<RoomId, RoomDef> = {
-  cryo_bay: { id: "cryo_bay", name: "Cryo Bay", deck: "Deck 1", primaryNPC: null, features: ["character_sheet", "army_recruitment", "pod_mysteries"], defaultTome: "welcome-to-celebration", discoverySong: "Seeds of Inception" },
+  cryo_bay: { id: "cryo_bay", name: "Cryo Bay", deck: "Deck 1", primaryNPC: null, features: ["character_sheet", "army_recruitment", "pod_mysteries", "crew_cloning", "incubator_pods", "genetic_archive"], defaultTome: "welcome-to-celebration", discoverySong: "Seeds of Inception" },
   medical_bay: { id: "medical_bay", name: "Medical Bay", deck: "Deck 1", primaryNPC: "the_source", features: ["citizen_stats", "diagnostics", "class_mastery", "combat_sim"], defaultTome: "the-necromancers-lair", discoverySong: "The Prisoner" },
   bridge: { id: "bridge", name: "Bridge", deck: "Deck 2", primaryNPC: "elara", features: ["conspiracy_board", "quests", "guild_hall", "daily_brief", "architects_gambit"], defaultTome: "mechronis-academy", discoverySong: "Building the Architect" },
   archives: { id: "archives", name: "Archives", deck: "Deck 2", primaryNPC: "the_antiquarian", features: ["loredex_search", "codex", "lore_quiz", "dischordia"], defaultTome: "the-detective", discoverySong: "The Book of Daniel 2.0" },
@@ -51,6 +51,8 @@ function buildPool(act: number, completed: Set<string>): RoomEvent[] {
     if (r === "cargo_bay") ev.push({ id: "draft", roomId: r, type: "draft_open", title: "Draft open", description: "Build from random cards.", reward: { xp: 30, dream: 20 }, repeating: true, priority: 4 });
     if (r === "trade_hub") ev.push({ id: "trade", roomId: r, type: "trade_opportunity", title: "Market shift", description: "Locke has a proposition.", npcId: "adjudicator_locke", reward: { dream: 15 }, repeating: true, priority: 5 });
     if (r === "cryo_bay") ev.push({ id: "pod", roomId: r, type: "pod_activity", title: "Pod anomaly", description: "Cryo pod showed activity.", reward: { xp: 20 }, repeating: true, priority: 6 });
+    if (r === "cryo_bay") ev.push({ id: "crew_clone", roomId: r, type: "crew_cloning", title: "Incubator ready", description: "A cloning pod has completed its cycle. New crew member awaiting activation.", reward: { xp: 30 }, repeating: true, priority: 7 });
+    if (r === "cryo_bay") ev.push({ id: "bloodline", roomId: r, type: "bloodline_event", title: "Bloodline milestone", description: "A new generation has been born. The genetic legacy continues.", reward: { xp: 25, dream: 15 }, repeating: true, priority: 6 });
     if (r === "engineering") ev.push({ id: "research", roomId: r, type: "research_complete", title: "Research ready", description: "Blueprint synthesized.", reward: { xp: 25 }, repeating: true, priority: 5 });
     if (r === "medical_bay") ev.push({ id: "diag", roomId: r, type: "diagnostic_scan", title: "Diagnostic available", description: "Elara wants to run your scan.", npcId: "elara", reward: { xp: 10, trust: 1 }, repeating: true, priority: 7 });
   }

@@ -461,7 +461,7 @@ export const UNLOCKABLE_FIGHTERS: FighterData[] = [
     frameProfile: { archetype: "glass_cannon", walkSpeedMult: 1.1, dashSpeedMult: 1.1, jumpForceMult: 1.05, lightStartup: 4, lightRecovery: 6, mediumStartup: 8, mediumRecovery: 14, heavyStartup: 7, heavyRecovery: 20, damageMult: 1.2, hitstunMult: 1.0, pushbackMult: 1.1, rangeMult: 1.1, meterGainMult: 1.0, maxComboHits: 12 },
   },
   {
-    id: "degen", loredexId: "entity_38", name: "The Degen", title: "Ne-Yon of Entropy — The Casino God",
+    id: "degen", loredexId: "entity_38", name: "The Degen", title: "Ne-Yon #8 — The Only Ne-Yon in the Known Universe",
     image: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/026_the_degen_d6b8727a.png",
     faction: "neyons", locked: true, unlockCost: 500, hp: 85, attack: 8, defense: 4, speed: 10,
     special: { name: "DEGEN GAMBIT", damage: 40, description: "All-in attack — massive damage but costs HP", cooldown: 200, color: "#fb923c" },
@@ -602,7 +602,7 @@ export const DEMON_FIGHTERS: FighterData[] = [
     frameProfile: { archetype: "tricky", walkSpeedMult: 1.1, dashSpeedMult: 1.1, jumpForceMult: 1.0, lightStartup: 5, lightRecovery: 7, mediumStartup: 8, mediumRecovery: 14, heavyStartup: 8, heavyRecovery: 21, damageMult: 0.95, hitstunMult: 1.0, pushbackMult: 0.9, rangeMult: 1.0, meterGainMult: 1.1, maxComboHits: 12 },
   },
   {
-    id: "zyrvoth", loredexId: "entity_95", name: "Zyr'Voth", title: "SVP R&D — The Flayer",
+    id: "zyrkoth", loredexId: "entity_95", name: "Zyr'Koth", title: "SVP R&D — The Flayer",
     image: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/5_7yZoLkIQZzpQYeFXB1y6sZ_1773778344979_na1fn_L2hvbWUvdWJ1bnR1L255X2tvdGhfdGhlX2ZsYXllcg_cb0ec125.png",
     faction: "hierarchy", locked: true, unlockCost: 1500, hp: 100, attack: 9, defense: 6, speed: 8,
     special: { name: "THOUGHT VIRUS", damage: 33, description: "Injects a thought virus that deals damage over time for 5 seconds", cooldown: 280, color: "#10b981" },

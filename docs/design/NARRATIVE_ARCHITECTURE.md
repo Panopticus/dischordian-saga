@@ -93,7 +93,7 @@ This is NOT a random Inception Ark. This is Kael's stolen ship.
 1. Built by/for **Dr. Lyra Vox** as a personal research vessel
 2. Dr. Lyra Vox was **possessed by the Warlord**
 3. The Warlord embedded **Thought Virus** in the life support, cryo fluid, and water recycling
-4. **Ny'Koth** (Hierarchy demon, SVP R&D) was woven into the code at construction
+4. **Zyr'Koth** (Hierarchy demon, SVP R&D) was woven into the code at construction
 5. **Kael** stole the Ark from the Panopticon's docking systems
 6. During the theft, **Senator Elara Voss's** digital consciousness was accidentally swept into the Ark's systems
 7. **The Human** was already imprisoned in the substrate layer of every Ark
@@ -118,7 +118,7 @@ This is NOT a random Inception Ark. This is Kael's stolen ship.
 | 4 | **Adjudicator Locke** | New Babylon | Special Case Manager | Trade Hub |
 | 5 | **The Source** | Thought Virus | Kael / The Recruiter / Patient Zero | Medical Bay |
 | 6 | **The Antiquarian** | Timekeepers | Narrator of the saga, collector of endings | Archives |
-| 7 | **Ny'Koth** | Hierarchy of the Damned | SVP R&D, designed the Thought Virus, agent of the Master of R'lyeh | Engineering |
+| 7 | **Zyr'Koth** | Hierarchy of the Damned | SVP R&D, designed the Thought Virus, agent of the Master of R'lyeh | Engineering |
 
 ### Note on Agent Zero
 Agent Zero is dead (killed by the Warlord). Whoever/whatever is sending
@@ -218,9 +218,9 @@ Neither knows they are two halves of the same original being.
 
 ### roomDialogs.ts
 - [x] Cryo Bay: The cryo fluid contains dormant Thought Virus
-- [x] Medical Bay: Blood found = not from any Potential (it's from the ship's construction era, Ny'Koth related)
-- [x] Bridge: Ghost processes = The Human in the substrate + Ny'Koth stirring
-- [x] Archives: Edited records = Ny'Koth covering tracks since construction
+- [x] Medical Bay: Blood found = not from any Potential (it's from the ship's construction era, Zyr'Koth related)
+- [x] Bridge: Ghost processes = The Human in the substrate + Zyr'Koth stirring
+- [x] Archives: Edited records = Zyr'Koth covering tracks since construction
 - [x] Comms Array: Substrate signal = The Human, but also traces of CoNexus
 - [x] Observation Deck: The dark spot IS Terminus (the Panopticon, broken free)
 - [x] All rooms: The ship was Dr. Lyra Vox's research vessel, stolen by Kael
@@ -233,7 +233,7 @@ Neither knows they are two halves of the same original being.
 ### definitions.ts (Terminus Swarm)
 - [x] Terminus = the former Panopticon prison planet
 - [x] The Source = Kael, not a generic villain
-- [x] Thought Virus was engineered by Ny'Koth, weaponized through Kael by the Warlord
+- [x] Thought Virus was engineered by Zyr'Koth, weaponized through Kael by the Warlord
 - [x] Source Avatar = fragment of Kael's consciousness, not generic boss
 
 ### GAME_DESIGN.md

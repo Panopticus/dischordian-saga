@@ -101,7 +101,7 @@ describe("Fighter Character Sprites", () => {
     for (const [id, config] of Object.entries(CHARACTER_CONFIGS)) {
       if (config.imageUrl) {
         // All sprites should be fighter_ prefixed, character-specific, or demon sprites
-        const demonIds = ["molgrath", "xethraal", "vexahlia", "draelmon", "nykoth", "sylvex", "varkul", "fenra", "ithrael"];
+        const demonIds = ["molgrath", "xethraal", "vexahlia", "draelmon", "zyrkoth", "sylvex", "varkul", "fenra", "ithrael"];
         if (demonIds.includes(id)) {
           // Demon sprites use CDN URLs from generated images
           expect(config.imageUrl).toMatch(/cloudfront\.net|cdn/);

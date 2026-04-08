@@ -531,12 +531,12 @@ export const SPACES_IN_BETWEEN_TRANSMISSIONS: Transmission[] = [
     episodeNumber: 10, epoch: 0, broadcastOrder: -21,
     title: "The Necromancer",
     driveFileId: null, videoUrl: null, lengthSeconds: 0,
-    memeIntro: "The Necromancer. Archon Eleven. Dark elf. Red steampunk glasses. He solved death. Every mechanic that connects you to your companion \u2014 bonds, evolution, transformation \u2014 traces back to his work. He\u2019s coming back. He has a lot to say.",
+    memeIntro: "The Necromancer. Archon Ten. Dark elf. Red steampunk glasses. He solved death. Every mechanic that connects you to your companion \u2014 bonds, evolution, transformation \u2014 traces back to his work. He\u2019s coming back. He has a lot to say.",
     memeOutro: "I knew him before the Fall. He was the quiet one at Archon meetings, always scribbling equations. I asked what he was working on. He said: \u2018The last problem.\u2019 \u2018Which problem?\u2019 \u2018The only one that matters. Death.\u2019 He wasn\u2019t wrong. He\u2019s never been wrong about death. It\u2019s the living he has trouble with.",
     triggersOracleReveal: false,
     unlockTrigger: { kind: "always" },
     reward: { xp: 200, dream: 20, achievement: "necromancer_origin" },
-    synopsis: "The eleventh Archon solved death. Then he hid from the Fall inside a castle made of dreams.",
+    synopsis: "The tenth Archon solved death. Then he hid from the Fall inside a castle made of dreams.",
   },
 ];
 

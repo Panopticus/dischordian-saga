@@ -130,7 +130,7 @@ export const ARENA_STORY_MODES: ArenaStoryMode[] = [
     title: "THE PRISONER",
     subtitle: "Memory, lost and found",
     introText: "You wake with no memory. Not yours. The Prisoner's. Before they were the White Oracle. Before they confronted the Meme and the Warden at the Panopticon. You are them. You will fight their way free.",
-    outroText: "Memory returns in fragments. You fought your way from cell to freedom. You remember now who you were. Who you will be. The White Oracle opens their eyes — and a hole tears in reality.",
+    outroText: "Memory returns in fragments. You fought your way from cell to freedom. You remember now who you were. Who you will be. The White Oracle opens their eyes — but someone else is watching through them. The Meme left you for dead. Or did it?",
     chapters: [
       { id: "ch1", number: 1, title: "The Cell", opponent: { name: "Panopticon Guard", era: "Fall Era", reason: "Your first obstacle. The cage door won't open itself." },
         preFightDialog: "You don't know who you are. You don't know where you are. You know only that you have to get past this guard.",

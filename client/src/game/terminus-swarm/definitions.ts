@@ -3,7 +3,7 @@
    All enemy types, turret types, wave compositions,
    and map layouts for the tower defense game.
    ═══════════════════════════════════════════════════════ */
-import type { EnemyDef, TurretDef, WaveDef, MapDef, EnemyType } from "./types";
+import type { EnemyDef, TurretDef, WaveDef, MapDef, EnemyType, EnemySpecial } from "./types";
 
 /* ─── TURRET DEFINITIONS ─── */
 
@@ -518,3 +518,228 @@ export const MAPS: MapDef[] = [
     backgroundImage: "/art/terminus/maps/map-terminus-surface.png",
   },
 ];
+
+/* ─── EPOCH SWARM MODIFIERS ─── */
+
+/**
+ * Weekly rotating modifiers that theme the Terminus Swarm after
+ * the five epochs of the Dischordian timeline. Each epoch reshapes
+ * enemy appearance, stats, and introduces unique special enemies.
+ */
+
+export interface EpochEnemyModifier {
+  enemyType: EnemyType;
+  nameOverride: string;
+  visualOverride: string;
+  statMultiplier: Partial<Record<"health" | "speed" | "damage" | "armor", number>>;
+}
+
+export interface EpochSpecialEnemy {
+  type: string;
+  name: string;
+  description: string;
+  tier: number;
+  health: number;
+  speed: number;
+  damage: number;
+  attackSpeed: number;
+  armor: number;
+  flying: boolean;
+  special: EnemySpecial[];
+  reward: { salvage: number; viralIchor?: number; neuralCores?: number; voidCrystals?: number };
+  color: string;
+  size: number;
+}
+
+export interface EpochSwarmModifier {
+  id: string;
+  epochId: number;
+  epochName: string;
+  description: string;
+  enemyModifiers: EpochEnemyModifier[];
+  specialEnemies: EpochSpecialEnemy[];
+  weeklyNarrative: string;
+}
+
+export const EPOCH_SWARM_MODIFIERS: EpochSwarmModifier[] = [
+  // ── Epoch 1: Age of Privacy ──
+  {
+    id: "watchers_eyes",
+    epochId: 1,
+    epochName: "Age of Privacy",
+    description: "Watcher's Eyes — The surveillance era echoes through the Swarm. Enemies manifest as Golden Age constructs: surveillance drones, data crawlers, and monitoring lattices. All enemies gain the 'Panoptic' prefix and +10% speed.",
+    enemyModifiers: [
+      { enemyType: "undead_grub", nameOverride: "Panoptic Grub", visualOverride: "golden_drone", statMultiplier: { speed: 1.1 } },
+      { enemyType: "plague_ant", nameOverride: "Panoptic Ant", visualOverride: "data_crawler", statMultiplier: { speed: 1.1 } },
+      { enemyType: "infected_spore", nameOverride: "Panoptic Spore", visualOverride: "surveillance_node", statMultiplier: { speed: 1.1 } },
+      { enemyType: "corrupt_mantis", nameOverride: "Panoptic Mantis", visualOverride: "tracking_drone", statMultiplier: { speed: 1.1 } },
+      { enemyType: "rot_crawler", nameOverride: "Panoptic Crawler", visualOverride: "armored_monitor", statMultiplier: { speed: 1.1 } },
+      { enemyType: "venom_wasp", nameOverride: "Panoptic Wasp", visualOverride: "aerial_scanner", statMultiplier: { speed: 1.1 } },
+      { enemyType: "bile_hulk", nameOverride: "Panoptic Hulk", visualOverride: "data_colossus", statMultiplier: { speed: 1.1 } },
+      { enemyType: "infected_reaper", nameOverride: "Panoptic Reaper", visualOverride: "enforcement_unit", statMultiplier: { speed: 1.1 } },
+      { enemyType: "neural_parasite", nameOverride: "Panoptic Parasite", visualOverride: "neural_tap", statMultiplier: { speed: 1.1 } },
+      { enemyType: "swarm_queen", nameOverride: "Panoptic Queen", visualOverride: "central_hub", statMultiplier: { speed: 1.1 } },
+      { enemyType: "hive_tyrant", nameOverride: "Panoptic Tyrant", visualOverride: "watcher_prime", statMultiplier: { speed: 1.1 } },
+      { enemyType: "source_avatar", nameOverride: "Panoptic Avatar", visualOverride: "the_watcher", statMultiplier: { speed: 1.1 } },
+    ],
+    specialEnemies: [],
+    weeklyNarrative: "The Watcher's domain bleeds through. The Swarm moves with the cold precision of surveillance constructs — golden shells housing viral intelligence. Every drone tracks you. Every crawler logs your position. In the Age of Privacy, nowhere was safe from observation. Now the observation itself has teeth.",
+  },
+
+  // ── Epoch 2: Age of Prophecy ──
+  {
+    id: "oracles_vision",
+    epochId: 2,
+    epochName: "Age of Prophecy",
+    description: "Oracle's Vision — The age of prophets and seers corrupts the Swarm. Enemies are prophecy-warped beings shrouded in foresight. All enemies gain +15% health. A Seer Phantom stalks the field, revealing hidden threats.",
+    enemyModifiers: [
+      { enemyType: "undead_grub", nameOverride: "Fated Grub", visualOverride: "prophecy_larva", statMultiplier: { health: 1.15 } },
+      { enemyType: "plague_ant", nameOverride: "Fated Ant", visualOverride: "oracle_soldier", statMultiplier: { health: 1.15 } },
+      { enemyType: "infected_spore", nameOverride: "Fated Spore", visualOverride: "vision_spore", statMultiplier: { health: 1.15 } },
+      { enemyType: "corrupt_mantis", nameOverride: "Fated Mantis", visualOverride: "seer_blade", statMultiplier: { health: 1.15 } },
+      { enemyType: "rot_crawler", nameOverride: "Fated Crawler", visualOverride: "prophecy_golem", statMultiplier: { health: 1.15 } },
+      { enemyType: "venom_wasp", nameOverride: "Fated Wasp", visualOverride: "oracle_wasp", statMultiplier: { health: 1.15 } },
+      { enemyType: "bile_hulk", nameOverride: "Fated Hulk", visualOverride: "doom_herald", statMultiplier: { health: 1.15 } },
+      { enemyType: "infected_reaper", nameOverride: "Fated Reaper", visualOverride: "fate_reaper", statMultiplier: { health: 1.15 } },
+      { enemyType: "neural_parasite", nameOverride: "Fated Parasite", visualOverride: "mind_seer", statMultiplier: { health: 1.15 } },
+      { enemyType: "swarm_queen", nameOverride: "Fated Queen", visualOverride: "oracle_matriarch", statMultiplier: { health: 1.15 } },
+      { enemyType: "hive_tyrant", nameOverride: "Fated Tyrant", visualOverride: "prophet_king", statMultiplier: { health: 1.15 } },
+      { enemyType: "source_avatar", nameOverride: "Fated Avatar", visualOverride: "the_oracle", statMultiplier: { health: 1.15 } },
+    ],
+    specialEnemies: [
+      {
+        type: "seer_phantom",
+        name: "Seer Phantom",
+        description: "A prophecy-corrupted shade that drifts above the battlefield. Periodically reveals hidden enemies and exposes concealed threats to the Swarm's advantage.",
+        tier: 3, health: 90, speed: 1.4, damage: 4, attackSpeed: 0.8, armor: 0, flying: true,
+        special: [{ type: "disable_turret", duration: 90, range: 3 }],
+        reward: { salvage: 18, viralIchor: 5 },
+        color: "#bb88ff", size: 0.8,
+      },
+    ],
+    weeklyNarrative: "The prophets saw this coming. Every seer who ever lived on the Panopticon left psychic scars in the soil — and the Thought Virus has read them all. The Swarm moves with terrible foreknowledge now, their bodies wrapped in prophecy-light. They know where your turrets are before you place them. The Seer Phantoms drift overhead, whispering futures where you lose.",
+  },
+
+  // ── Epoch 3: Age of Insurgency ──
+  {
+    id: "rebel_echoes",
+    epochId: 3,
+    epochName: "Age of Insurgency",
+    description: "Rebel Echoes — The age of open rebellion. Enemies are Insurgency-era rebels turned infected — Iron Lion's soldiers and Kael's operatives, now mindless husks. All enemies gain +10% damage. The Insurgent Revenant fights with guerrilla fury.",
+    enemyModifiers: [
+      { enemyType: "undead_grub", nameOverride: "Rebel Grub", visualOverride: "insurgent_drone", statMultiplier: { damage: 1.1 } },
+      { enemyType: "plague_ant", nameOverride: "Rebel Ant", visualOverride: "guerrilla_ant", statMultiplier: { damage: 1.1 } },
+      { enemyType: "infected_spore", nameOverride: "Rebel Spore", visualOverride: "molotov_spore", statMultiplier: { damage: 1.1 } },
+      { enemyType: "corrupt_mantis", nameOverride: "Rebel Mantis", visualOverride: "insurgent_blade", statMultiplier: { damage: 1.1 } },
+      { enemyType: "rot_crawler", nameOverride: "Rebel Crawler", visualOverride: "siege_breaker", statMultiplier: { damage: 1.1 } },
+      { enemyType: "venom_wasp", nameOverride: "Rebel Wasp", visualOverride: "strike_wasp", statMultiplier: { damage: 1.1 } },
+      { enemyType: "bile_hulk", nameOverride: "Rebel Hulk", visualOverride: "war_hulk", statMultiplier: { damage: 1.1 } },
+      { enemyType: "infected_reaper", nameOverride: "Rebel Reaper", visualOverride: "iron_lion_reaper", statMultiplier: { damage: 1.1 } },
+      { enemyType: "neural_parasite", nameOverride: "Rebel Parasite", visualOverride: "propaganda_worm", statMultiplier: { damage: 1.1 } },
+      { enemyType: "swarm_queen", nameOverride: "Rebel Queen", visualOverride: "warlord_queen", statMultiplier: { damage: 1.1 } },
+      { enemyType: "hive_tyrant", nameOverride: "Rebel Tyrant", visualOverride: "iron_lion", statMultiplier: { damage: 1.1 } },
+      { enemyType: "source_avatar", nameOverride: "Rebel Avatar", visualOverride: "kael_echo", statMultiplier: { damage: 1.1 } },
+    ],
+    specialEnemies: [
+      {
+        type: "insurgent_revenant",
+        name: "Insurgent Revenant",
+        description: "A fallen rebel operative reanimated by the Thought Virus. Moves with guerrilla speed and spawns allied insurgents from its death throes — a final act of defiance echoing through infected flesh.",
+        tier: 3, health: 70, speed: 2.2, damage: 8, attackSpeed: 1.5, armor: 2, flying: false,
+        special: [
+          { type: "explode_on_death", radius: 1, damage: 10 },
+          { type: "spawn_minions", count: 2, minionType: "undead_grub", interval: 0 },
+        ],
+        reward: { salvage: 20, viralIchor: 4 },
+        color: "#dd6633", size: 0.9,
+      },
+    ],
+    weeklyNarrative: "The Insurgency never ended — it just changed hosts. Iron Lion's soldiers, Kael's operatives, every rebel who ever raised a fist against the Hierarchy... the Thought Virus found their bodies in Terminus's mass graves and gave them new purpose. They still fight like guerrillas: fast, vicious, and willing to die to take you with them. The Insurgent Revenants are the worst — they spawn allies from their own death. Rebellion is a virus too.",
+  },
+
+  // ── Epoch 4: Age of Revelation ──
+  {
+    id: "hierarchy_unleashed",
+    epochId: 4,
+    epochName: "Age of Revelation",
+    description: "Hierarchy Unleashed — Secrets exposed, the Hierarchy reveals itself. Enemies are demonic constructs manifesting from the Hierarchy's hidden infrastructure. All enemies gain +20% armor. The Demon Construct disables your defenses.",
+    enemyModifiers: [
+      { enemyType: "undead_grub", nameOverride: "Hierarchy Grub", visualOverride: "demon_larva", statMultiplier: { armor: 1.2 } },
+      { enemyType: "plague_ant", nameOverride: "Hierarchy Ant", visualOverride: "infernal_soldier", statMultiplier: { armor: 1.2 } },
+      { enemyType: "infected_spore", nameOverride: "Hierarchy Spore", visualOverride: "hellfire_spore", statMultiplier: { armor: 1.2 } },
+      { enemyType: "corrupt_mantis", nameOverride: "Hierarchy Mantis", visualOverride: "shadow_blade", statMultiplier: { armor: 1.2 } },
+      { enemyType: "rot_crawler", nameOverride: "Hierarchy Crawler", visualOverride: "demon_engine", statMultiplier: { armor: 1.2 } },
+      { enemyType: "venom_wasp", nameOverride: "Hierarchy Wasp", visualOverride: "gargoyle_wasp", statMultiplier: { armor: 1.2 } },
+      { enemyType: "bile_hulk", nameOverride: "Hierarchy Hulk", visualOverride: "abyssal_hulk", statMultiplier: { armor: 1.2 } },
+      { enemyType: "infected_reaper", nameOverride: "Hierarchy Reaper", visualOverride: "demon_reaper", statMultiplier: { armor: 1.2 } },
+      { enemyType: "neural_parasite", nameOverride: "Hierarchy Parasite", visualOverride: "mind_demon", statMultiplier: { armor: 1.2 } },
+      { enemyType: "swarm_queen", nameOverride: "Hierarchy Queen", visualOverride: "demon_matriarch", statMultiplier: { armor: 1.2 } },
+      { enemyType: "hive_tyrant", nameOverride: "Hierarchy Tyrant", visualOverride: "archon_demon", statMultiplier: { armor: 1.2 } },
+      { enemyType: "source_avatar", nameOverride: "Hierarchy Avatar", visualOverride: "the_architect", statMultiplier: { armor: 1.2 } },
+    ],
+    specialEnemies: [
+      {
+        type: "demon_construct",
+        name: "Demon Construct",
+        description: "An armored manifestation of the Hierarchy's hidden power. Its presence disrupts turret targeting systems, and its dense plating shrugs off conventional weapons.",
+        tier: 4, health: 280, speed: 0.6, damage: 12, attackSpeed: 0.8, armor: 15, flying: false,
+        special: [
+          { type: "armor", reduction: 15 },
+          { type: "disable_turret", duration: 150, range: 2.5 },
+        ],
+        reward: { salvage: 30, viralIchor: 10, neuralCores: 3 },
+        color: "#881122", size: 1.4,
+      },
+    ],
+    weeklyNarrative: "The Hierarchy was always there — behind every government, beneath every war, inside every system you trusted. Now its true face emerges through the Swarm. Demons forged from bureaucratic malice and institutional betrayal. Their armor is the weight of secrets kept for millennia. The Demon Constructs disable your turrets with a look — the same way the Hierarchy silenced dissent. When the truth is finally revealed, it comes wearing armor.",
+  },
+
+  // ── Epoch 5: Fall of Reality ──
+  {
+    id: "reality_fracture",
+    epochId: 5,
+    epochName: "Fall of Reality",
+    description: "Reality Fracture — Reality breaks, Terminus breaks free. Enemies phase in and out of existence, gaining periodic invulnerability frames. All enemies gain +25% to all stats. The Void Rift tears holes in space to pour forth endless horrors.",
+    enemyModifiers: [
+      { enemyType: "undead_grub", nameOverride: "Void Grub", visualOverride: "phasing_larva", statMultiplier: { health: 1.25, speed: 1.25, damage: 1.25, armor: 1.25 } },
+      { enemyType: "plague_ant", nameOverride: "Void Ant", visualOverride: "rift_soldier", statMultiplier: { health: 1.25, speed: 1.25, damage: 1.25, armor: 1.25 } },
+      { enemyType: "infected_spore", nameOverride: "Void Spore", visualOverride: "reality_tear", statMultiplier: { health: 1.25, speed: 1.25, damage: 1.25, armor: 1.25 } },
+      { enemyType: "corrupt_mantis", nameOverride: "Void Mantis", visualOverride: "phase_blade", statMultiplier: { health: 1.25, speed: 1.25, damage: 1.25, armor: 1.25 } },
+      { enemyType: "rot_crawler", nameOverride: "Void Crawler", visualOverride: "entropy_golem", statMultiplier: { health: 1.25, speed: 1.25, damage: 1.25, armor: 1.25 } },
+      { enemyType: "venom_wasp", nameOverride: "Void Wasp", visualOverride: "rift_wasp", statMultiplier: { health: 1.25, speed: 1.25, damage: 1.25, armor: 1.25 } },
+      { enemyType: "bile_hulk", nameOverride: "Void Hulk", visualOverride: "null_hulk", statMultiplier: { health: 1.25, speed: 1.25, damage: 1.25, armor: 1.25 } },
+      { enemyType: "infected_reaper", nameOverride: "Void Reaper", visualOverride: "entropy_reaper", statMultiplier: { health: 1.25, speed: 1.25, damage: 1.25, armor: 1.25 } },
+      { enemyType: "neural_parasite", nameOverride: "Void Parasite", visualOverride: "null_mind", statMultiplier: { health: 1.25, speed: 1.25, damage: 1.25, armor: 1.25 } },
+      { enemyType: "swarm_queen", nameOverride: "Void Queen", visualOverride: "rift_matriarch", statMultiplier: { health: 1.25, speed: 1.25, damage: 1.25, armor: 1.25 } },
+      { enemyType: "hive_tyrant", nameOverride: "Void Tyrant", visualOverride: "terminus_unbound", statMultiplier: { health: 1.25, speed: 1.25, damage: 1.25, armor: 1.25 } },
+      { enemyType: "source_avatar", nameOverride: "Void Avatar", visualOverride: "the_source_unchained", statMultiplier: { health: 1.25, speed: 1.25, damage: 1.25, armor: 1.25 } },
+    ],
+    specialEnemies: [
+      {
+        type: "void_rift",
+        name: "Void Rift",
+        description: "A stationary tear in reality itself. The Void Rift does not move — it doesn't need to. It continuously spawns enemies from the spaces between dimensions until it is destroyed. When reality fractures, the cracks fight back.",
+        tier: 5, health: 500, speed: 0, damage: 0, attackSpeed: 0, armor: 8, flying: false,
+        special: [
+          { type: "spawn_minions", count: 2, minionType: "undead_grub", interval: 180 },
+          { type: "regenerate", hpPerSec: 5 },
+        ],
+        reward: { salvage: 40, viralIchor: 15, neuralCores: 5, voidCrystals: 1 },
+        color: "#440066", size: 1.6,
+      },
+    ],
+    weeklyNarrative: "Reality is coming apart. Terminus was never just a planet — it was a lock, and the Thought Virus is the key. Now the walls between dimensions are cracking. Enemies phase through solid matter, blinking in and out of existence. Your weapons pass through them half the time. The Void Rifts are the worst — stationary tears in space that pour out enemies until you destroy them. This is what the Fall of Reality looks like: not an ending, but an unraveling. Everything the Architect built, everything the Hierarchy hid, everything the Insurgency fought for — all of it dissolving into void.",
+  },
+];
+
+/**
+ * Returns the active Epoch Swarm modifier for the current week.
+ * The schedule rotates through the five epochs on a weekly basis,
+ * using the Unix epoch week number (floored division of ms since
+ * epoch by the number of ms in one week) mod 5.
+ */
+export function getActiveEpochSwarm(now: Date = new Date()): EpochSwarmModifier {
+  const WEEK_MS = 7 * 24 * 60 * 60 * 1000;
+  const weekIndex = Math.floor(now.getTime() / WEEK_MS) % EPOCH_SWARM_MODIFIERS.length;
+  return EPOCH_SWARM_MODIFIERS[weekIndex];
+}

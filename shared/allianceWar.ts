@@ -419,3 +419,126 @@ export function determineMvp(attackLog: AttackResult[]): string | null {
   }
   return mvp;
 }
+
+/* ─── EPOCH SEASONS ─── */
+
+export interface AllianceWarEpochSeason {
+  id: string;
+  epochId: number;
+  epochName: string;
+  battleName: string;
+  description: string;
+  mapNarrative: string;
+  nodeBuffModifiers?: Partial<Record<WarNodeType, { attack?: number; defense?: number; hp?: number; damage?: number }>>;
+  specialRules: string[];
+  color: string;
+}
+
+export const ALLIANCE_WAR_EPOCH_SEASONS: AllianceWarEpochSeason[] = [
+  {
+    id: "epoch-1-privacy",
+    epochId: 1,
+    epochName: "Age of Privacy",
+    battleName: "The Battle of Nexon",
+    description:
+      "A famous surveillance-state siege where The Watcher's panopticon towers loomed over every approach. Attackers fought blind while defenders tracked their every move.",
+    mapNarrative:
+      "The fortress city of Nexon bristles with watchtowers. Searchlights sweep the hex grid, and every gate node is reinforced with fortified observation posts.",
+    nodeBuffModifiers: {
+      gate: { defense: 0.3 },
+    },
+    specialRules: [
+      "Fog of War — defender positions hidden until adjacent node cleared.",
+    ],
+    color: "#6B7280", // surveillance grey
+  },
+  {
+    id: "epoch-2-prophecy",
+    epochId: 2,
+    epochName: "Age of Prophecy",
+    battleName: "The Siege of the Oracle's Temple",
+    description:
+      "Prophets and seers defended their sanctuary against those who would silence the future. The temple's visions granted extraordinary power to those who held its shrines.",
+    mapNarrative:
+      "Incense smoke drifts across the hex grid as oracle flames burn atop every buff shrine. The temple's prophecy stones pulse with doubled energy.",
+    nodeBuffModifiers: {
+      buff: { attack: 1.0, defense: 1.0, hp: 1.0 },
+    },
+    specialRules: [
+      "Prophecy — one random node revealed at start.",
+    ],
+    color: "#7C3AED", // mystic purple
+  },
+  {
+    id: "epoch-3-insurgency",
+    epochId: 3,
+    epochName: "Age of Insurgency",
+    battleName: "The Fall of Viridian Prime",
+    description:
+      "Iron Lion's legendary last stand during the open rebellion. Outnumbered insurgents fought with desperate fury, turning every loss into a rallying cry.",
+    mapNarrative:
+      "Smoke rises from the shattered walls of Viridian Prime. Rebel banners fly on every conquered node, and the fury of the insurgency empowers every attacker.",
+    nodeBuffModifiers: {
+      path: { attack: 0.1 },
+      gate: { attack: 0.1 },
+      buff: { attack: 0.1 },
+      trap: { attack: 0.1 },
+      boss: { attack: 0.1 },
+    },
+    specialRules: [
+      "Last Stand — defenders at 25% HP deal double damage.",
+    ],
+    color: "#DC2626", // rebel red
+  },
+  {
+    id: "epoch-4-revelation",
+    epochId: 4,
+    epochName: "Age of Revelation",
+    battleName: "The Hierarchy's Gambit",
+    description:
+      "Demons within The Hierarchy reveal themselves at last, weaponising long-hidden secrets. Trap nodes conceal deadlier snares as the truth becomes a weapon.",
+    mapNarrative:
+      "Glyphs of revelation etch themselves into the hex grid. Every trap node crackles with amplified malice, and clearing a gate tears the veil from adjacent dangers.",
+    nodeBuffModifiers: {
+      trap: { damage: 0.5 },
+    },
+    specialRules: [
+      "Unmasking — clearing a gate node reveals all adjacent trap nodes.",
+    ],
+    color: "#F59E0B", // revelation gold
+  },
+  {
+    id: "epoch-5-fall",
+    epochId: 5,
+    epochName: "Fall of Reality",
+    battleName: "The Final Convergence",
+    description:
+      "Reality fractures on the battlefield as the final battles reshape existence itself. Every combatant is supercharged — and nothing stays as it seems.",
+    mapNarrative:
+      "Cracks in reality spider across the hex grid, leaking raw energy. Every node hums with amplified power, and at the midpoint the map itself shifts.",
+    nodeBuffModifiers: {
+      path: { attack: 0.15, defense: 0.15, hp: 0.15, damage: 0.15 },
+      gate: { attack: 0.15, defense: 0.15, hp: 0.15, damage: 0.15 },
+      buff: { attack: 0.15, defense: 0.15, hp: 0.15, damage: 0.15 },
+      trap: { attack: 0.15, defense: 0.15, hp: 0.15, damage: 0.15 },
+      boss: { attack: 0.15, defense: 0.15, hp: 0.15, damage: 0.15 },
+    },
+    specialRules: [
+      "Reality Fracture — node types randomly swap at the midpoint of the attack phase.",
+    ],
+    color: "#0EA5E9", // fracture blue
+  },
+];
+
+/**
+ * Returns the active epoch season for the current week.
+ * Seasons rotate weekly, cycling through all five epochs in order.
+ * Uses a fixed epoch (2024-01-01) so the rotation is deterministic.
+ */
+export function getActiveWarSeason(now: Date = new Date()): AllianceWarEpochSeason {
+  const epochStart = new Date("2024-01-01T00:00:00Z").getTime();
+  const msPerWeek = 7 * 24 * 60 * 60 * 1000;
+  const weekIndex = Math.floor((now.getTime() - epochStart) / msPerWeek);
+  const seasonIndex = ((weekIndex % ALLIANCE_WAR_EPOCH_SEASONS.length) + ALLIANCE_WAR_EPOCH_SEASONS.length) % ALLIANCE_WAR_EPOCH_SEASONS.length;
+  return ALLIANCE_WAR_EPOCH_SEASONS[seasonIndex];
+}

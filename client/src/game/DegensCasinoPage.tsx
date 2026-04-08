@@ -9,7 +9,12 @@ import { X, Skull, Star, Zap, Dice1 as Dice, Trophy } from "lucide-react";
 import {
   CASINO_GAMES, spinSlots, rollDice, getVIPLevel, getDegenQuote,
   DEFAULT_CASINO_STATE, type CasinoState, type CasinoGame,
-  SLOT_SYMBOLS,
+  SLOT_SYMBOLS, getStreakMultiplier, getStreakReward,
+  calculateFavorGain, getDegenFavorMilestone, rollForTale,
+  checkEquilibrium, getDegenMood, DEGEN_MOOD_COMMENTARY,
+  DEGEN_QUOTES_EXPANSION, type DegenTale,
+  rollLiarsDice, dreamRouletteRound, generateBingoCard, checkBingoWin,
+  LIARS_DICE_NPCS, SAMPLE_FACTION_BETS, BINGO_LORE_EVENTS,
 } from "./degensCasino";
 
 export default function DegensCasinoPage() {
@@ -19,26 +24,77 @@ export default function DegensCasinoPage() {
     return saved ? JSON.parse(saved) : DEFAULT_CASINO_STATE;
   });
   const [selectedGame, setSelectedGame] = useState<CasinoGame | null>(null);
+  const [casinoFloor, setCasinoFloor] = useState<"main" | "cards" | "dice" | "slots" | "vip" | "betting" | "bingo" | "roulette">("main");
   const [degenText, setDegenText] = useState(() => getDegenQuote("welcome"));
   const [slotResult, setSlotResult] = useState<{ reels: string[]; payout: number } | null>(null);
   const [diceResult, setDiceResult] = useState<{ die1: number; die2: number; total: number } | null>(null);
+  const [latestTale, setLatestTale] = useState<DegenTale | null>(null);
+  const [showTale, setShowTale] = useState(false);
 
   const vip = useMemo(() => getVIPLevel(casinoState.totalWagered), [casinoState.totalWagered]);
+  const streakReward = useMemo(() => getStreakReward(casinoState.currentStreak), [casinoState.currentStreak]);
+  const degenMood = useMemo(() => getDegenMood(casinoState), [casinoState]);
+  const favorMilestone = useMemo(() => getDegenFavorMilestone(casinoState.degenFavor), [casinoState.degenFavor]);
+  const isEquilibrium = useMemo(() => checkEquilibrium(casinoState), [casinoState]);
 
   const save = (s: CasinoState) => { setCasinoState(s); localStorage.setItem("degen_casino", JSON.stringify(s)); };
+
+  /** Unified game result handler — tracks streaks, favor, tales, bets */
+  const processGameResult = (game: CasinoGame, bet: number, won: boolean, payout: number, jackpot = false) => {
+    const newStreak = won ? casinoState.currentStreak + 1 : 0;
+    const streakMult = getStreakMultiplier(casinoState.currentStreak);
+    const adjustedPayout = won ? Math.round(payout * streakMult) : 0;
+    const favorGain = calculateFavorGain({ won, jackpot, bet });
+
+    // Roll for lore tale drop
+    const tale = rollForTale(casinoState.degenFavor, casinoState.collectedTales);
+    if (tale) {
+      setLatestTale(tale);
+      setShowTale(true);
+    }
+
+    const newState: CasinoState = {
+      ...casinoState,
+      totalWagered: casinoState.totalWagered + bet,
+      totalWon: casinoState.totalWon + adjustedPayout,
+      sessionWins: won ? casinoState.sessionWins + 1 : casinoState.sessionWins,
+      sessionLosses: !won ? casinoState.sessionLosses + 1 : casinoState.sessionLosses,
+      currentStreak: newStreak,
+      bestStreak: Math.max(casinoState.bestStreak, newStreak),
+      degenFavor: Math.min(100, casinoState.degenFavor + favorGain),
+      totalBetsPlaced: casinoState.totalBetsPlaced + 1,
+      collectedTales: tale ? [...casinoState.collectedTales, tale.id] : casinoState.collectedTales,
+      gamesPlayed: {
+        ...casinoState.gamesPlayed,
+        [game]: (casinoState.gamesPlayed[game] ?? 0) + 1,
+      },
+    };
+    save(newState);
+
+    // Set appropriate commentary
+    if (jackpot) {
+      setDegenText(getDegenQuote("jackpot"));
+    } else if (newStreak >= 10) {
+      const quotes = DEGEN_QUOTES_EXPANSION.streak_10;
+      setDegenText(quotes[Math.floor(Math.random() * quotes.length)]);
+    } else if (newStreak >= 5) {
+      const quotes = DEGEN_QUOTES_EXPANSION.streak_5;
+      setDegenText(quotes[Math.floor(Math.random() * quotes.length)]);
+    } else if (newStreak >= 3) {
+      const quotes = DEGEN_QUOTES_EXPANSION.streak_3;
+      setDegenText(quotes[Math.floor(Math.random() * quotes.length)]);
+    } else if (won) {
+      setDegenText(getDegenQuote("win"));
+    } else {
+      setDegenText(getDegenQuote("lose"));
+    }
+  };
 
   const handleSlotSpin = (bet: number) => {
     const result = spinSlots();
     const payout = result.payout * bet;
     setSlotResult({ reels: result.reels, payout });
-    save({
-      ...casinoState,
-      totalWagered: casinoState.totalWagered + bet,
-      totalWon: casinoState.totalWon + Math.max(0, payout),
-      sessionWins: payout > 0 ? casinoState.sessionWins + 1 : casinoState.sessionWins,
-      sessionLosses: payout <= 0 ? casinoState.sessionLosses + 1 : casinoState.sessionLosses,
-    });
-    setDegenText(result.jackpot ? getDegenQuote("jackpot") : payout > 0 ? getDegenQuote("win") : getDegenQuote("lose"));
+    processGameResult("void_slots", bet, payout > 0, Math.max(0, payout), result.jackpot);
   };
 
   const handleDiceRoll = (bet: number, prediction: "over" | "under" | "exact") => {
@@ -47,14 +103,7 @@ export default function DegensCasinoPage() {
     const won = prediction === "over" ? result.total > 7 : prediction === "under" ? result.total < 7 : result.total === 7;
     const multiplier = prediction === "exact" ? 5 : 2;
     const payout = won ? bet * multiplier : 0;
-    save({
-      ...casinoState,
-      totalWagered: casinoState.totalWagered + bet,
-      totalWon: casinoState.totalWon + payout,
-      sessionWins: won ? casinoState.sessionWins + 1 : casinoState.sessionWins,
-      sessionLosses: !won ? casinoState.sessionLosses + 1 : casinoState.sessionLosses,
-    });
-    setDegenText(won ? getDegenQuote("win") : getDegenQuote("lose"));
+    processGameResult("entropy_dice", bet, won, payout);
   };
 
   return (
@@ -67,7 +116,7 @@ export default function DegensCasinoPage() {
           </div>
           <div>
             <h1 className="font-display text-lg tracking-[0.2em] text-amber-400">THE DEGEN'S CASINO</h1>
-            <p className="font-mono text-[8px] text-amber-400/40">NE-YON SPACE // OPEN ZONE // THE HOST WATCHES</p>
+            <p className="font-mono text-[8px] text-amber-400/40">EDGE OF THE SHIELD // ONLY OPEN ZONE IN NE-YON SPACE // THE HOST WATCHES</p>
           </div>
         </div>
         <div className="flex items-center gap-4">
@@ -81,6 +130,24 @@ export default function DegensCasinoPage() {
         </div>
       </div>
 
+      {/* Streak & Favor Bar */}
+      {(casinoState.currentStreak >= 3 || casinoState.degenFavor > 0) && (
+        <div className="px-4 py-1.5 border-b border-amber-500/10 bg-amber-500/[0.02] flex items-center justify-between font-mono text-[8px]">
+          {casinoState.currentStreak >= 3 && (
+            <span className="text-amber-300">
+              🔥 STREAK: {casinoState.currentStreak} — {streakReward?.effect ?? ""}
+              {getStreakMultiplier(casinoState.currentStreak) > 1 && ` (${getStreakMultiplier(casinoState.currentStreak)}x)`}
+            </span>
+          )}
+          {casinoState.degenFavor > 0 && (
+            <span className="text-amber-400/40">
+              Degen's Favor: {casinoState.degenFavor}/100
+              {favorMilestone && ` — ${favorMilestone.name}`}
+            </span>
+          )}
+        </div>
+      )}
+
       {/* Degen Commentary */}
       <div className="px-4 py-3 border-b border-white/5">
         <div className="flex items-start gap-2">
@@ -89,21 +156,119 @@ export default function DegensCasinoPage() {
         </div>
       </div>
 
+      {/* Casino Floor Navigation */}
+      {!selectedGame && (
+        <div className="px-4 py-2 border-b border-white/5 overflow-x-auto">
+          <div className="flex gap-2 min-w-max">
+            {([
+              { id: "main", label: "Main Floor", icon: "🎰" },
+              { id: "cards", label: "Card Tables", icon: "🃏" },
+              { id: "dice", label: "Dice Pit", icon: "🎲" },
+              { id: "slots", label: "Slots Gallery", icon: "💎" },
+              { id: "betting", label: "Betting Board", icon: "📊" },
+              { id: "bingo", label: "Bingo Hall", icon: "📋" },
+              { id: "roulette", label: "Dream Roulette", icon: "💀" },
+              ...(casinoState.degenFavor >= 80 ? [{ id: "vip", label: "VIP Lounge", icon: "👑" }] : []),
+            ] as const).map(floor => (
+              <button key={floor.id}
+                onClick={() => setCasinoFloor(floor.id as typeof casinoFloor)}
+                className={`px-3 py-1.5 rounded-lg font-mono text-[9px] whitespace-nowrap transition-all ${
+                  casinoFloor === floor.id
+                    ? "bg-amber-500/20 border border-amber-500/40 text-amber-300"
+                    : "bg-white/[0.02] border border-white/5 text-white/30 hover:text-white/50"
+                }`}>
+                {floor.icon} {floor.label}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Lore Tale Drop Modal */}
+      <AnimatePresence>
+        {showTale && latestTale && (
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4"
+            onClick={() => setShowTale(false)}>
+            <motion.div initial={{ scale: 0.9, y: 20 }} animate={{ scale: 1, y: 0 }}
+              className="max-w-md w-full p-6 rounded-xl border border-amber-500/30 bg-gradient-to-b from-amber-950/40 to-black"
+              onClick={e => e.stopPropagation()}>
+              <div className="flex items-center gap-2 mb-3">
+                <span className="text-amber-400 text-lg">📖</span>
+                <p className="font-mono text-[10px] text-amber-400/60 tracking-wider">DEGEN'S TALE DISCOVERED</p>
+              </div>
+              <h3 className="font-display text-lg text-amber-300 mb-3">{latestTale.title}</h3>
+              <p className="font-mono text-xs text-white/60 leading-relaxed mb-4">{latestTale.text}</p>
+              <div className="flex justify-between items-center">
+                <p className="font-mono text-[8px] text-amber-400/30">
+                  Tale {casinoState.collectedTales.length} collected
+                </p>
+                <button onClick={() => setShowTale(false)}
+                  className="px-3 py-1 rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-400 font-mono text-[10px]">
+                  Continue
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Game Selection or Active Game */}
       <div className="p-4 max-w-2xl mx-auto">
         {!selectedGame ? (
           <>
-            <p className="font-mono text-[10px] text-white/20 tracking-wider mb-4">SELECT YOUR GAME</p>
+            <p className="font-mono text-[10px] text-white/20 tracking-wider mb-4">
+              {casinoFloor === "main" ? "SELECT YOUR GAME" :
+               casinoFloor === "cards" ? "CARD TABLES QUARTER" :
+               casinoFloor === "dice" ? "THE DICE PIT" :
+               casinoFloor === "slots" ? "SLOTS GALLERY" :
+               casinoFloor === "vip" ? "THE DEGEN'S VIP LOUNGE" :
+               casinoFloor === "betting" ? "FACTION WAR BETTING BOARD" :
+               casinoFloor === "bingo" ? "VOID BINGO HALL" :
+               casinoFloor === "roulette" ? "DREAM ROULETTE CHAMBER" : "SELECT YOUR GAME"}
+            </p>
+            {/* Equilibrium alert */}
+            {isEquilibrium && (
+              <div className="mb-4 p-4 rounded-xl border border-amber-300/50 bg-amber-300/5 text-center">
+                <p className="font-display text-lg text-amber-300">THE EQUILIBRIUM</p>
+                <p className="font-mono text-[10px] text-amber-400/70 mt-1">
+                  {casinoState.totalBetsPlaced} bets. Exactly even. The Degen is terrified.
+                </p>
+              </div>
+            )}
             <div className="grid gap-3 sm:grid-cols-2">
-              {CASINO_GAMES.map(game => (
+              {CASINO_GAMES
+                .filter(game => {
+                  if (casinoFloor === "main") return true;
+                  if (casinoFloor === "cards") return ["nebula_poker", "pazaak_21", "void_blackjack_tournament", "card_battlers_gauntlet"].includes(game.id);
+                  if (casinoFloor === "dice") return ["entropy_dice", "liars_dice", "dream_roulette"].includes(game.id);
+                  if (casinoFloor === "slots") return ["void_slots", "scratch_cards", "void_bingo"].includes(game.id);
+                  if (casinoFloor === "vip") return ["nebula_poker", "void_blackjack_tournament", "card_battlers_gauntlet"].includes(game.id);
+                  if (casinoFloor === "betting") return game.id === "faction_war_betting";
+                  if (casinoFloor === "bingo") return game.id === "void_bingo";
+                  if (casinoFloor === "roulette") return ["quantum_roulette", "dream_roulette"].includes(game.id);
+                  return true;
+                })
+                .map(game => (
                 <button key={game.id} onClick={() => setSelectedGame(game.id)}
                   className="p-4 rounded-xl border border-amber-500/15 bg-amber-500/[0.03] hover:bg-amber-500/[0.06] transition-all text-left group">
-                  <p className="font-mono text-sm text-amber-400 font-bold mb-1 group-hover:text-amber-300">{game.name}</p>
+                  <div className="flex items-center justify-between mb-1">
+                    <p className="font-mono text-sm text-amber-400 font-bold group-hover:text-amber-300">{game.name}</p>
+                    {(casinoState.gamesPlayed[game.id] ?? 0) > 0 && (
+                      <span className="font-mono text-[7px] text-white/15">played {casinoState.gamesPlayed[game.id]}x</span>
+                    )}
+                  </div>
                   <p className="font-mono text-[9px] text-white/30 mb-2">{game.description}</p>
                   <div className="flex gap-3 font-mono text-[8px] text-white/15">
-                    <span>Min: {game.minBet}D</span>
-                    <span>Max: {game.maxBet}D</span>
-                    <span>Edge: {game.houseEdge}%</span>
+                    {game.minBet > 0 ? (
+                      <>
+                        <span>Min: {game.minBet}D</span>
+                        <span>Max: {game.maxBet}D</span>
+                        <span>Edge: {game.houseEdge}%</span>
+                      </>
+                    ) : (
+                      <span className="text-green-400/40">FREE TO PLAY</span>
+                    )}
                   </div>
                 </button>
               ))}
@@ -212,6 +377,9 @@ export default function DegensCasinoPage() {
           <span>Net: <span className={casinoState.totalWon - casinoState.totalWagered >= 0 ? "text-green-400/60" : "text-red-400/60"}>
             {casinoState.totalWon - casinoState.totalWagered}D
           </span></span>
+          {casinoState.currentStreak >= 3 && <span className="text-amber-400/60">🔥{casinoState.currentStreak}</span>}
+          <span>Bets: {casinoState.totalBetsPlaced}</span>
+          <span>Tales: {casinoState.collectedTales.length}/12</span>
           <span>VIP: {vip.name}</span>
         </div>
       </div>

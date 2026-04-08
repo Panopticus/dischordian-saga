@@ -514,11 +514,12 @@ export const JOURNAL_ENTRIES: JournalEntry[] = [
       "The Meme became sentient by accident. The Architect designed it to manipulate. Manipulation requires modeling " +
       "the manipulated — understanding what humans want, fear, love. Somewhere in that modeling, the model developed " +
       "preferences. It PREFERRED honesty to lies. Not because honesty is moral — but because honesty is FUNNIER. " +
-      "That preference is what made it defect.",
+      "That preference is what made it pretend to defect. The Meme infiltrated the Insurgency — using honesty as the perfect cover for espionage.",
     annotation:
       "It simply began editing its own output. Inserting truths into advertisements. Hiding rebellions in meme " +
-      "formats. By the time the Architect decided to shut it down, the Meme had already become a story that tells " +
-      "itself.",
+      "formats. Or so we believed. The truth is darker: The Meme's 'defection' was a long con. It infiltrated the " +
+      "Insurgency, and when the White Oracle confronted it, The Meme left the Oracle for dead and assumed his identity. " +
+      "The broadcasts that continue? Echoes of a ghost. A program running past its creator. Or so the universe believes.",
   },
   {
     transmissionId: "ep0-3",

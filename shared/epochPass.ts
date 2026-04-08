@@ -104,7 +104,13 @@ function generateSeasonTiers(xpPerTier: number): EpochTier[] {
     } else if (i === 45) {
       premiumReward = { type: "card", id: "season_card_45", name: "Season Legendary Card", rarity: "legendary", description: "Ultra-rare season exclusive" };
     } else if (i === 50) {
-      premiumReward = { type: "cosmetic", id: "season_skin_50", name: "Season Legendary Skin", rarity: "legendary", description: "The ultimate season reward — exclusive animated character skin" };
+      premiumReward = {
+        type: "cosmetic",
+        id: "season_ascendant_50",
+        name: "Ascendant Form",
+        rarity: "legendary",
+        description: "The ULTIMATE season reward — a full-body animated transformation with unique particle effects, custom idle animation, and glowing aura. Only obtainable by completing the premium track. The single most visually striking cosmetic in the game.",
+      };
     } else if (i % 5 === 0) {
       premiumReward = { type: "dream", amount: 50 + i * 2, name: `${50 + i * 2} Dream (Premium)`, description: "Bonus premium currency" };
     } else if (i % 2 === 0) {

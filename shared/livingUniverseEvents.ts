@@ -167,7 +167,7 @@ export const SHADOW_TONGUE_EDIT_EVENT: EmergentEvent = {
   id: "shadow_tongue_edit",
   name: "The Grand Edit",
   tagline: "The story is being rewritten. Keep up.",
-  drivingForce: "The Shadow Tongue (Ny'Koth, Hierarchy of the Damned)",
+  drivingForce: "The Shadow Tongue (Zyr'Koth, Hierarchy of the Damned)",
   fuelSource: "Community corruption (lies, betrayals, broken promises, cult joining)",
   counterForce: "Community truth-telling, exposing corruption, Archives purification",
   loreTheme: "Language as weapon, narrative as reality, meaning under attack",

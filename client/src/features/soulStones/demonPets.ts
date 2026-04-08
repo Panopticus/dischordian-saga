@@ -194,7 +194,7 @@ export const DEMON_PETS: DemonPet[] = [
   {
     id: "flayed_lens",
     name: "Flayed Lens",
-    patron: "Zyr'Voth",
+    patron: "Zyr'Koth",
     patronTitle: "the Flayer",
     tier: 2,
     corruptionCost: 15,
@@ -220,9 +220,9 @@ export const DEMON_PETS: DemonPet[] = [
     visual:
       "An eye that floats at shoulder height, lidless and unblinking. Its iris is a fractal spiral of orange and black. The pupil is a window into somewhere else. Occasionally, it turns to look at YOU instead of your enemies.",
     description:
-      "A sensory organ of Zyr'Voth the Flayer. It strips away the veil, revealing enemy health, weaknesses, and hidden abilities. But the Lens sees everything — including your own failures. Expect random 'insight events' replaying your worst moments in vivid detail.",
+      "A sensory organ of Zyr'Koth the Flayer. It strips away the veil, revealing enemy health, weaknesses, and hidden abilities. But the Lens sees everything — including your own failures. Expect random 'insight events' replaying your worst moments in vivid detail.",
     necromancerDialog:
-      "The Flayer's eye sees all truth. Enemy weaknesses, hidden traps, secret doors — nothing is hidden from it. But Zyr'Voth believes that all truth should be seen, including yours. It will show you things you've failed at. Things you've lost. Are you prepared to see clearly?",
+      "The Flayer's eye sees all truth. Enemy weaknesses, hidden traps, secret doors — nothing is hidden from it. But Zyr'Koth believes that all truth should be seen, including yours. It will show you things you've failed at. Things you've lost. Are you prepared to see clearly?",
     artPrompt:
       "A floating lidless eye with a fractal spiral iris of orange and black, the pupil a window to another dimension, dark fantasy all-seeing horror, eldritch perception entity",
   },
