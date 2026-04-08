@@ -8,6 +8,7 @@ import { getDb } from "../db";
 import { fightLeaderboard, fightMatches, users } from "../../drizzle/schema";
 import { eq, desc, sql, and, gte } from "drizzle-orm";
 import { fetchCitizenData, fetchPotentialNftData, resolveFightGameBonuses, nftLevelMultiplier } from "../traitResolver";
+import { pressureService } from "../services/pressureService";
 
 /* ─── ELO Calculation ─── */
 function calculateElo(playerElo: number, opponentElo: number, won: boolean, kFactor = 32): number {
@@ -225,6 +226,11 @@ export const fightLeaderboardRouter = router({
           lastFightAt: new Date(),
         })
         .where(eq(fightLeaderboard.userId, userId));
+
+      // Record pressure: every loss feeds the Necromancer
+      if (!input.won) {
+        pressureService.recordAction(userId, "fight_death").catch(() => {});
+      }
 
       return {
         eloChange,

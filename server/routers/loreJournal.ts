@@ -13,6 +13,7 @@ import {
   JOURNAL_CATEGORIES, calculateWritingXP, resolveWritingBonuses,
   type JournalCategory,
 } from "../../shared/loreJournal";
+import { pressureService } from "../services/pressureService";
 
 export const loreJournalRouter = router({
   /** Get my journal entries */
@@ -63,6 +64,9 @@ export const loreJournalRouter = router({
         xpEarned,
         published: input.published,
       }).$returningId();
+
+      // Record pressure: lore writing feeds Antiquarian/Timelines event
+      pressureService.increment(ctx.user.id, "loreDiscoveries", 3, "lore_journal_entry").catch(() => {});
 
       return { entryId: result.id, wordCount, xpEarned };
     }),

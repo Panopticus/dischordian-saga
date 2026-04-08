@@ -14,12 +14,14 @@
 import { z } from "zod";
 import { router, protectedProcedure } from "../_core/trpc";
 import { getDb } from "../db";
+import { logger } from "../logger";
 import {
   citizenCharacters, classMastery, masteryBranches,
   citizenTalentSelections, civilSkillProgress,
   prestigeProgress, achievementTraitProgress,
+  characterSheets, pressureEvents, analyticsEvents, notifications,
 } from "../../drizzle/schema";
-import { eq, and } from "drizzle-orm";
+import { eq, and, sql } from "drizzle-orm";
 
 // Shared modules
 import type { CitizenData } from "../../shared/citizenTraits";
@@ -659,6 +661,185 @@ export const rpgSystemsRouter = router({
 
       return { success: true, equippedTraits: newEquipped };
     }),
+
+  /* ═══════════════════════════════════════════════════════
+     9. MORALITY CHOICE PROCESSING
+     The core pipeline: player choices → DB morality score
+     → threshold flags → pressure events → analytics
+     ═══════════════════════════════════════════════════════ */
+
+  /** Apply a morality choice from dialog, quest, event, or governance.
+   *  This is THE endpoint that makes "your choices reshape reality" mechanically true. */
+  applyMoralityChoice: protectedProcedure
+    .input(z.object({
+      choiceId: z.string().min(1).max(256),
+      moralityDelta: z.number().min(-50).max(50),
+      sourceContext: z.enum(["dialog", "quest", "event", "governance", "companion", "diplomacy", "celebration_trial"]),
+      /** Optional NPC involved */
+      npcId: z.string().optional(),
+      /** Optional metadata for analytics */
+      metadata: z.record(z.string(), z.unknown()).optional(),
+    }))
+    .mutation(async ({ ctx, input }) => {
+      const db = await getDb();
+      if (!db) throw new Error("Database unavailable");
+
+      if (input.moralityDelta === 0) {
+        return { success: true, oldScore: 0, newScore: 0, delta: 0, thresholdsCrossed: [] };
+      }
+
+      // 1. Get current character sheet
+      const [sheet] = await db.select()
+        .from(characterSheets)
+        .where(eq(characterSheets.userId, ctx.user.id))
+        .limit(1);
+
+      if (!sheet) throw new Error("No character sheet found — create a character first");
+
+      const oldScore = sheet.moralityScore;
+
+      // 2. Update moralityScore with clamping to [-100, +100]
+      const rawNew = oldScore + input.moralityDelta;
+      const newScore = Math.max(-100, Math.min(100, rawNew));
+      const actualDelta = newScore - oldScore;
+
+      await db.update(characterSheets)
+        .set({ moralityScore: newScore })
+        .where(eq(characterSheets.id, sheet.id));
+
+      // 3. Check morality thresholds
+      const thresholdsCrossed: string[] = [];
+
+      if (oldScore > -50 && newScore <= -50) thresholdsCrossed.push("dark_path_available");
+      if (oldScore < 50 && newScore >= 50) thresholdsCrossed.push("light_path_available");
+      if (oldScore > -75 && newScore <= -75) thresholdsCrossed.push("hierarchy_noticed");
+      if (oldScore < 75 && newScore >= 75) thresholdsCrossed.push("dreamer_noticed");
+      // Also check crossing back over thresholds
+      if (oldScore <= -50 && newScore > -50) thresholdsCrossed.push("dark_path_retreated");
+      if (oldScore >= 50 && newScore < 50) thresholdsCrossed.push("light_path_retreated");
+
+      // 4. Send notifications for threshold crossings
+      for (const threshold of thresholdsCrossed) {
+        const messages: Record<string, { title: string; message: string }> = {
+          dark_path_available: {
+            title: "The Machine Beckons",
+            message: "Your choices have drawn the attention of those who value efficiency over compassion. New paths open in the darkness.",
+          },
+          light_path_available: {
+            title: "Humanity's Light Grows",
+            message: "Your compassion has not gone unnoticed. The Dreamer stirs in response to your choices.",
+          },
+          hierarchy_noticed: {
+            title: "The Hierarchy Takes Notice",
+            message: "The Hierarchy of the Damned has noticed your descent. Zyr'Koth whispers your name.",
+          },
+          dreamer_noticed: {
+            title: "The Dreamer's Frequency Strengthens",
+            message: "Your humanity has woken something ancient. The Dreamer's signal grows clearer.",
+          },
+          dark_path_retreated: {
+            title: "Stepping Back From the Edge",
+            message: "Your recent choices suggest a change of heart. The Machine's grip loosens.",
+          },
+          light_path_retreated: {
+            title: "Doubt Creeps In",
+            message: "Your convictions waver. The light dims, but doesn't go out.",
+          },
+        };
+        const msg = messages[threshold];
+        if (msg) {
+          await db.insert(notifications).values({
+            userId: ctx.user.id,
+            type: "morality_threshold",
+            title: msg.title,
+            message: msg.message,
+          });
+        }
+      }
+
+      // 5. Record pressure events (integrates with Living Universe from Wave 1)
+      // Positive morality → feeds Dreamer Awakening pressure
+      // Negative morality → feeds Shadow Tongue / Grand Edit pressure
+      if (actualDelta > 0) {
+        await db.insert(pressureEvents).values({
+          userId: ctx.user.id,
+          pressureType: "moralityHumanity",
+          amount: Math.abs(actualDelta),
+          source: `morality_choice_${input.sourceContext}`,
+          metadata: { choiceId: input.choiceId, npcId: input.npcId },
+        });
+      } else if (actualDelta < 0) {
+        await db.insert(pressureEvents).values({
+          userId: ctx.user.id,
+          pressureType: "moralityMachine",
+          amount: Math.abs(actualDelta),
+          source: `morality_choice_${input.sourceContext}`,
+          metadata: { choiceId: input.choiceId, npcId: input.npcId },
+        });
+      }
+
+      // 6. Log to analytics
+      await db.insert(analyticsEvents).values({
+        userId: ctx.user.id,
+        event: "morality_choice",
+        properties: {
+          choiceId: input.choiceId,
+          delta: actualDelta,
+          oldScore,
+          newScore,
+          sourceContext: input.sourceContext,
+          npcId: input.npcId ?? "",
+        },
+        sessionId: "server",
+        clientTimestamp: new Date(),
+      }).catch(e => logger.error("[Morality] Analytics insert failed:", e));
+
+      return {
+        success: true,
+        oldScore,
+        newScore,
+        delta: actualDelta,
+        thresholdsCrossed,
+      };
+    }),
+
+  /** Get current morality state for display */
+  getMoralityState: protectedProcedure.query(async ({ ctx }) => {
+    const db = await getDb();
+    if (!db) return null;
+
+    const [sheet] = await db.select({
+      moralityScore: characterSheets.moralityScore,
+    }).from(characterSheets)
+      .where(eq(characterSheets.userId, ctx.user.id))
+      .limit(1);
+
+    if (!sheet) return null;
+
+    const score = sheet.moralityScore;
+    const abs = Math.abs(score);
+    const side = score <= 0 ? "machine" : "humanity";
+
+    return {
+      score,
+      label: score <= -80 ? "Machine Ascendant" :
+             score <= -60 ? "Machine Devoted" :
+             score <= -40 ? "Machine Aligned" :
+             score <= -20 ? "Machine Leaning" :
+             score < 20 ? "Balanced" :
+             score < 40 ? "Humanity Leaning" :
+             score < 60 ? "Humanity Aligned" :
+             score < 80 ? "Humanity Devoted" :
+             "Humanity Ascendant",
+      tier: { side: abs < 20 ? "balanced" : side, level: abs >= 80 ? 5 : abs >= 60 ? 4 : abs >= 40 ? 3 : abs >= 20 ? 2 : 1 },
+      flags: {
+        darkPathAvailable: score <= -50,
+        lightPathAvailable: score >= 50,
+        hierarchyNoticed: score <= -75,
+        dreamerNoticed: score >= 75,
+      },
+    };
+  }),
 
   /** Increment an achievement counter (called by other game systems) */
   incrementCounter: protectedProcedure

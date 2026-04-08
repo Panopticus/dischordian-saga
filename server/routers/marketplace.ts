@@ -16,6 +16,8 @@ import {
 } from "../../drizzle/schema";
 import { fetchCitizenData, fetchPotentialNftData, resolveMarketBonuses } from "../traitResolver";
 import { trackIncrement } from "../achievementTracker";
+import { characterSheets } from "../../drizzle/schema";
+import { pressureService } from "../services/pressureService";
 
 /** 5% marketplace tax */
 const TAX_RATE = 0.05;
@@ -176,7 +178,33 @@ export const marketplaceRouter = router({
 
       const unitPrice = input.payWith === "dream" ? listing[0].priceDream : listing[0].priceCredits;
       if (unitPrice <= 0) throw new Error(`This listing doesn't accept ${input.payWith}`);
-      const totalPrice = unitPrice * input.quantity;
+      let totalPrice = unitPrice * input.quantity;
+
+      // Apply morality price modifier — player alignment affects what they pay
+      // Humanity-aligned: organic/natural items cheaper, tech items more expensive
+      // Machine-aligned: tech items cheaper, organic/natural items more expensive
+      const [buyerSheet] = await db.select({ moralityScore: characterSheets.moralityScore })
+        .from(characterSheets).where(eq(characterSheets.userId, ctx.user.id)).limit(1);
+      const moralityScore = buyerSheet?.moralityScore ?? 0;
+      let moralityModifier = 0;
+      if (moralityScore !== 0) {
+        const category = (listing[0].category ?? listing[0].itemType ?? "").toLowerCase();
+        // Determine item alignment: tech/machine items vs organic/natural items
+        const techTerms = ["tech", "machine", "circuit", "neural", "data", "virus", "synthetic", "mech"];
+        const organicTerms = ["organic", "natural", "soul", "dream", "compassion", "healing", "gift", "life"];
+        const isTech = techTerms.some(t => category.includes(t) || (listing[0].itemName ?? "").toLowerCase().includes(t));
+        const isOrganic = organicTerms.some(t => category.includes(t) || (listing[0].itemName ?? "").toLowerCase().includes(t));
+        // itemAlignmentFactor: +1 for items that match your alignment (cheaper), -1 for opposed (more expensive)
+        let itemAlignmentFactor = 0;
+        if (moralityScore > 0 && isOrganic) itemAlignmentFactor = 1;   // Humanity player, organic item → cheaper
+        if (moralityScore > 0 && isTech) itemAlignmentFactor = -1;     // Humanity player, tech item → more expensive
+        if (moralityScore < 0 && isTech) itemAlignmentFactor = 1;      // Machine player, tech item → cheaper
+        if (moralityScore < 0 && isOrganic) itemAlignmentFactor = -1;  // Machine player, organic item → more expensive
+        // Max 15% modifier at score ±100
+        moralityModifier = (moralityScore / 100) * 0.15 * itemAlignmentFactor;
+        // Negative moralityModifier = discount, positive = surcharge (inverted because alignment)
+        totalPrice = Math.max(1, Math.round(totalPrice * (1 - moralityModifier)));
+      }
 
       // Apply seller trait bonuses — reduced marketplace fees
       const [sellerCitizen, sellerNft] = await Promise.all([
@@ -294,8 +322,33 @@ export const marketplaceRouter = router({
        awardCivilXp(listing[0].sellerId, "marketplace_sell").catch(e => logger.error("[Marketplace] Civil XP award failed:", e));
       // Track marketplace achievements for both buyer and seller
       trackIncrement(ctx.user.id, "market_purchases", 1).catch(e => logger.error("[Marketplace] Purchase tracking failed:", e));
+
+      // Narrative hook: first time player sees morality price effect, Elara comments
+      if (moralityModifier !== 0) {
+        const existing = await db.select().from(notifications)
+          .where(and(eq(notifications.userId, ctx.user.id), eq(notifications.type, "morality_market_notice")))
+          .limit(1);
+        if (!existing[0]) {
+          await db.insert(notifications).values({
+            userId: ctx.user.id,
+            type: "morality_market_notice",
+            title: "Elara's Observation",
+            message: "Interesting. The marketplace prices are adjusting to your reputation. The traders are... responding to who you've been becoming.",
+          });
+        }
+      }
       trackIncrement(listing[0].sellerId, "market_sales", 1).catch(e => logger.error("[Marketplace] Purchase tracking failed:", e));
-      return { success: true, totalPaid: totalPrice, tax, sellerReceives };
+      return {
+        success: true,
+        totalPaid: totalPrice,
+        tax,
+        sellerReceives,
+        moralityModifier: moralityModifier !== 0 ? {
+          discount: moralityModifier > 0,
+          percentage: Math.round(Math.abs(moralityModifier) * 100),
+          alignment: moralityScore > 0 ? "humanity" : "machine",
+        } : null,
+      };
     }),
 
   /** Search marketplace listings */

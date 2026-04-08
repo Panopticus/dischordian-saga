@@ -7,6 +7,7 @@ import * as path from "path";
 import { getDb } from "../db";
 import { companionMessages, companionRelationships } from "../../drizzle/schema";
 import { eq, and, desc, sql } from "drizzle-orm";
+import { pressureService } from "../services/pressureService";
 
 const ROOT = process.cwd();
 
@@ -252,6 +253,8 @@ export const companionRouter = router({
                 totalMessages: sql`${companionRelationships.totalMessages} + 1`,
               },
             });
+            // Record pressure: NPC trust gains feed the Dreamer
+            pressureService.increment(ctx.user.id, "trustGains", relGain, "npc_trust_the_human").catch(() => {});
           }
         }
 

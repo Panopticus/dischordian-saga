@@ -1800,7 +1800,9 @@ export function GameProvider({ children }: { children: ReactNode }) {
   }, []);
 
   /* ─── MORALITY METER ─── */
-  const shiftMorality = useCallback((amount: number, tutorialId?: string, choiceId?: string) => {
+  const applyMoralityMutation = trpc.rpg.applyMoralityChoice.useMutation();
+
+  const shiftMorality = useCallback((amount: number, tutorialId?: string, choiceId?: string, sourceContext?: "dialog" | "quest" | "event" | "governance" | "companion" | "diplomacy" | "celebration_trial") => {
     setState(prev => {
       const newScore = Math.max(-100, Math.min(100, prev.moralityScore + amount));
       const newChoices = tutorialId && choiceId
@@ -1808,7 +1810,15 @@ export function GameProvider({ children }: { children: ReactNode }) {
         : prev.moralityChoices;
       return { ...prev, moralityScore: newScore, moralityChoices: newChoices };
     });
-  }, []);
+    // Sync morality change to server (writes to characterSheets + pressure events)
+    if (amount !== 0) {
+      applyMoralityMutation.mutate({
+        choiceId: choiceId || tutorialId || `morality_shift_${Date.now()}`,
+        moralityDelta: amount,
+        sourceContext: sourceContext || "dialog",
+      });
+    }
+  }, [applyMoralityMutation]);
 
   const getMoralityLabel = useCallback(() => {
     const s = state.moralityScore;
@@ -2247,7 +2257,15 @@ export function GameProvider({ children }: { children: ReactNode }) {
         moralityScore: newMorality,
       };
     });
-  }, []);
+    // Sync diplomacy morality choice to server
+    if (moralityDelta !== 0) {
+      applyMoralityMutation.mutate({
+        choiceId: `diplomacy_${eventId}_${choiceId}`,
+        moralityDelta,
+        sourceContext: "diplomacy",
+      });
+    }
+  }, [applyMoralityMutation]);
 
   // ── Faction War callbacks ──
   const startFactionWar = useCallback((warId: string, faction: "empire" | "insurgency") => {

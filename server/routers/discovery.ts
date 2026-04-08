@@ -7,6 +7,7 @@ import { publicProcedure, protectedProcedure, router } from "../_core/trpc";
 import { getDb } from "../db";
 import { featureUnlocks, userArkProgress, arkRooms, userProgress } from "../../drizzle/schema";
 import { eq, and, sql } from "drizzle-orm";
+import { pressureService } from "../services/pressureService";
 
 /* ─── ROOM → FEATURE MAPPING ─── */
 const ROOM_FEATURE_MAP: Record<string, string[]> = {
@@ -171,6 +172,11 @@ export const discoveryRouter = router({
           });
           newlyUnlocked.push(feature);
         }
+      }
+
+      // Record pressure: room exploration feeds Antiquarian/Timelines event
+      if (newlyUnlocked.length > 0) {
+        pressureService.recordAction(ctx.user.id, "room_visited").catch(() => {});
       }
 
       return { unlocked: newlyUnlocked };
