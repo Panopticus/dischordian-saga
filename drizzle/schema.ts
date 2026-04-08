@@ -497,7 +497,9 @@ export const twColonies = mysqlTable("tw_colonies", {
   cardBonuses: json("cardBonuses").$type<string[]>(),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
-});
+}, (table) => ({
+  userIdIdx: index("idx_tw_colonies_user_id").on(table.userId),
+}));
 
 export type TWColony = typeof twColonies.$inferSelect;
 
@@ -511,7 +513,9 @@ export const twGameLog = mysqlTable("tw_game_log", {
   details: json("details").$type<Record<string, unknown>>(),
   sectorId: int("sectorId"),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
-});
+}, (table) => ({
+  userIdIdx: index("idx_tw_game_log_user_id").on(table.userId),
+}));
 
 /* ═══════════════════════════════════════════════════════
    CARD CRAFTING — Research Lab fusion system
@@ -534,7 +538,9 @@ export const craftingLog = mysqlTable("crafting_log", {
   /** Credits spent */
   creditsCost: int("creditsCost").notNull().default(0),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
-});
+}, (table) => ({
+  userIdIdx: index("idx_crafting_log_user_id").on(table.userId),
+}));
 
 export type CraftingLog = typeof craftingLog.$inferSelect;
 
@@ -577,7 +583,9 @@ export const citizenCharacters = mysqlTable("citizen_characters", {
   isPrimary: int("isPrimary").notNull().default(1),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
-});
+}, (table) => ({
+  userIdIdx: index("idx_citizen_characters_user_id").on(table.userId),
+}));
 
 export type CitizenCharacter = typeof citizenCharacters.$inferSelect;
 export type InsertCitizenCharacter = typeof citizenCharacters.$inferInsert;
@@ -601,7 +609,9 @@ export const dreamBalance = mysqlTable("dream_balance", {
   totalDreamEarned: int("totalDreamEarned").notNull().default(0),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
-});
+}, (table) => ({
+  userIdIdx: index("idx_dream_balance_user_id").on(table.userId),
+}));
 
 export type DreamBalance = typeof dreamBalance.$inferSelect;
 
@@ -650,7 +660,9 @@ export const storePurchases = mysqlTable("store_purchases", {
   /** Whether the purchase has been fulfilled (items granted) */
   fulfilled: int("fulfilled").notNull().default(0),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
-});
+}, (table) => ({
+  userIdIdx: index("idx_store_purchases_user_id").on(table.userId),
+}));
 
 export type StorePurchase = typeof storePurchases.$inferSelect;
 
@@ -668,7 +680,9 @@ export const shipUpgrades = mysqlTable("ship_upgrades", {
   obtainedVia: varchar("obtainedVia", { length: 64 }).default("purchase"),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
-});
+}, (table) => ({
+  userIdIdx: index("idx_ship_upgrades_user_id").on(table.userId),
+}));
 
 export type ShipUpgrade = typeof shipUpgrades.$inferSelect;
 
