@@ -2556,7 +2556,9 @@ export const eidolonBonds = mysqlTable("eidolon_bonds", {
   diedAt: timestamp("diedAt"),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
-});
+}, (table) => ({
+  userIdIdx: index("idx_eidolon_bonds_user_id").on(table.userId),
+}));
 
 export const eidolonMemorial = mysqlTable("eidolon_memorial", {
   id: int("id").primaryKey().autoincrement(),
@@ -2568,7 +2570,9 @@ export const eidolonMemorial = mysqlTable("eidolon_memorial", {
   daysActive: int("daysActive").notNull(),
   flowers: int("flowers").default(0).notNull(),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
-});
+}, (table) => ({
+  userIdIdx: index("idx_eidolon_memorial_user_id").on(table.userId),
+}));
 
 // ═══════════════════════════════════════════════════════
 //  PET BATTLES — Server-Persisted Arena Combat
@@ -2597,7 +2601,9 @@ export const playerPets = mysqlTable("player_pets", {
   injuredUntil: timestamp("injuredUntil"),
   acquiredAt: timestamp("acquiredAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
-});
+}, (table) => ({
+  userIdIdx: index("idx_player_pets_user_id").on(table.userId),
+}));
 
 /** Battle history — persisted match results */
 export const petBattleHistory = mysqlTable("pet_battle_history", {
@@ -2617,7 +2623,9 @@ export const petBattleHistory = mysqlTable("pet_battle_history", {
   /** Full battle log (JSON array of BattleLogEntry) */
   battleLog: json("battleLog"),
   foughtAt: timestamp("foughtAt").defaultNow().notNull(),
-});
+}, (table) => ({
+  userIdIdx: index("idx_pet_battle_history_user_id").on(table.userId),
+}));
 
 // ═══════════════════════════════════════════════════════
 //  COMPANION CHAT — Persistent Message History
