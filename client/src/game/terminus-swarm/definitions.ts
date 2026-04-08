@@ -556,18 +556,24 @@ export interface EpochSwarmModifier {
   epochId: number;
   epochName: string;
   description: string;
+  enemyModifier: string;
+  playerModifier: string;
+  weekNumber: number;
   enemyModifiers: EpochEnemyModifier[];
   specialEnemies: EpochSpecialEnemy[];
   weeklyNarrative: string;
 }
 
 export const EPOCH_SWARM_MODIFIERS: EpochSwarmModifier[] = [
-  // ── Epoch 1: Age of Privacy ──
+  // ── Epoch 1: Age of Privacy (Genesis) ──
   {
     id: "watchers_eyes",
     epochId: 1,
     epochName: "Age of Privacy",
     description: "Watcher's Eyes — The surveillance era echoes through the Swarm. Enemies manifest as Golden Age constructs: surveillance drones, data crawlers, and monitoring lattices. All enemies gain the 'Panoptic' prefix and +10% speed.",
+    enemyModifier: "Construct enemies — surveillance drones, data crawlers, monitoring lattices",
+    playerModifier: "+10% tower damage",
+    weekNumber: 1,
     enemyModifiers: [
       { enemyType: "undead_grub", nameOverride: "Panoptic Grub", visualOverride: "golden_drone", statMultiplier: { speed: 1.1 } },
       { enemyType: "plague_ant", nameOverride: "Panoptic Ant", visualOverride: "data_crawler", statMultiplier: { speed: 1.1 } },
@@ -586,12 +592,15 @@ export const EPOCH_SWARM_MODIFIERS: EpochSwarmModifier[] = [
     weeklyNarrative: "The Watcher's domain bleeds through. The Swarm moves with the cold precision of surveillance constructs — golden shells housing viral intelligence. Every drone tracks you. Every crawler logs your position. In the Age of Privacy, nowhere was safe from observation. Now the observation itself has teeth.",
   },
 
-  // ── Epoch 2: Age of Prophecy ──
+  // ── Epoch 2: Age of Prophecy (Golden Age) ──
   {
     id: "oracles_vision",
     epochId: 2,
     epochName: "Age of Prophecy",
     description: "Oracle's Vision — The age of prophets and seers corrupts the Swarm. Enemies are prophecy-warped beings shrouded in foresight. All enemies gain +15% health. A Seer Phantom stalks the field, revealing hidden threats.",
+    enemyModifier: "Academy cadets — prophecy-warped beings shrouded in foresight",
+    playerModifier: "+15% XP from all kills",
+    weekNumber: 2,
     enemyModifiers: [
       { enemyType: "undead_grub", nameOverride: "Fated Grub", visualOverride: "prophecy_larva", statMultiplier: { health: 1.15 } },
       { enemyType: "plague_ant", nameOverride: "Fated Ant", visualOverride: "oracle_soldier", statMultiplier: { health: 1.15 } },
@@ -620,12 +629,15 @@ export const EPOCH_SWARM_MODIFIERS: EpochSwarmModifier[] = [
     weeklyNarrative: "The prophets saw this coming. Every seer who ever lived on the Panopticon left psychic scars in the soil — and the Thought Virus has read them all. The Swarm moves with terrible foreknowledge now, their bodies wrapped in prophecy-light. They know where your turrets are before you place them. The Seer Phantoms drift overhead, whispering futures where you lose.",
   },
 
-  // ── Epoch 3: Age of Insurgency ──
+  // ── Epoch 3: Age of Insurgency (Expansion / Insurgency Rising) ──
   {
     id: "rebel_echoes",
     epochId: 3,
     epochName: "Age of Insurgency",
     description: "Rebel Echoes — The age of open rebellion. Enemies are Insurgency-era rebels turned infected — Iron Lion's soldiers and Kael's operatives, now mindless husks. All enemies gain +10% damage. The Insurgent Revenant fights with guerrilla fury.",
+    enemyModifier: "Rebel fighters — Iron Lion's soldiers and Kael's operatives, enemies have stealth",
+    playerModifier: "+20% salvage drops from all enemies",
+    weekNumber: 3,
     enemyModifiers: [
       { enemyType: "undead_grub", nameOverride: "Rebel Grub", visualOverride: "insurgent_drone", statMultiplier: { damage: 1.1 } },
       { enemyType: "plague_ant", nameOverride: "Rebel Ant", visualOverride: "guerrilla_ant", statMultiplier: { damage: 1.1 } },
@@ -657,12 +669,15 @@ export const EPOCH_SWARM_MODIFIERS: EpochSwarmModifier[] = [
     weeklyNarrative: "The Insurgency never ended — it just changed hosts. Iron Lion's soldiers, Kael's operatives, every rebel who ever raised a fist against the Hierarchy... the Thought Virus found their bodies in Terminus's mass graves and gave them new purpose. They still fight like guerrillas: fast, vicious, and willing to die to take you with them. The Insurgent Revenants are the worst — they spawn allies from their own death. Rebellion is a virus too.",
   },
 
-  // ── Epoch 4: Age of Revelation ──
+  // ── Epoch 4: Age of Revelation (Fall Era) ──
   {
     id: "hierarchy_unleashed",
     epochId: 4,
     epochName: "Age of Revelation",
     description: "Hierarchy Unleashed — Secrets exposed, the Hierarchy reveals itself. Enemies are demonic constructs manifesting from the Hierarchy's hidden infrastructure. All enemies gain +20% armor. The Demon Construct disables your defenses.",
+    enemyModifier: "Thought Virus enhanced — demonic constructs, enemies heal on kill",
+    playerModifier: "+10% turret health regeneration",
+    weekNumber: 4,
     enemyModifiers: [
       { enemyType: "undead_grub", nameOverride: "Hierarchy Grub", visualOverride: "demon_larva", statMultiplier: { armor: 1.2 } },
       { enemyType: "plague_ant", nameOverride: "Hierarchy Ant", visualOverride: "infernal_soldier", statMultiplier: { armor: 1.2 } },
@@ -700,6 +715,9 @@ export const EPOCH_SWARM_MODIFIERS: EpochSwarmModifier[] = [
     epochId: 5,
     epochName: "Fall of Reality",
     description: "Reality Fracture — Reality breaks, Terminus breaks free. Enemies phase in and out of existence, gaining periodic invulnerability frames. All enemies gain +25% to all stats. The Void Rift tears holes in space to pour forth endless horrors.",
+    enemyModifier: "Void-phased enemies — phase in/out of existence, periodic invulnerability",
+    playerModifier: "+15% critical hit chance on all turrets",
+    weekNumber: 5,
     enemyModifiers: [
       { enemyType: "undead_grub", nameOverride: "Void Grub", visualOverride: "phasing_larva", statMultiplier: { health: 1.25, speed: 1.25, damage: 1.25, armor: 1.25 } },
       { enemyType: "plague_ant", nameOverride: "Void Ant", visualOverride: "rift_soldier", statMultiplier: { health: 1.25, speed: 1.25, damage: 1.25, armor: 1.25 } },

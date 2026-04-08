@@ -1,8 +1,9 @@
-import { COOKIE_NAME, ONE_YEAR_MS } from "@shared/const";
+import { COOKIE_NAME, REFRESH_COOKIE_NAME, ONE_YEAR_MS, ACCESS_TOKEN_MS, REFRESH_TOKEN_MS } from "@shared/const";
 import { ForbiddenError } from "@shared/_core/errors";
 import { parse as parseCookieHeader } from "cookie";
 import type { Request } from "express";
 import { SignJWT, jwtVerify } from "jose";
+import { randomUUID } from "crypto";
 import type { User } from "../../drizzle/schema";
 import * as db from "../db";
 import { ENV } from "./env";
@@ -26,6 +27,12 @@ export type SessionPayload = {
   openId: string;
   appId: string;
   name: string;
+};
+
+export type RefreshPayload = {
+  openId: string;
+  name: string;
+  jti: string; // unique token ID for rotation
 };
 
 /** Normalized user info returned by all OAuth providers */
@@ -337,6 +344,95 @@ class SDKServer {
     });
 
     return user;
+  }
+
+  /* ─── REFRESH TOKEN SUPPORT ─── */
+
+  /** Set of invalidated refresh token JTIs (rotated tokens). */
+  private readonly invalidatedRefreshTokens = new Set<string>();
+
+  /**
+   * Create a refresh token (30 days). Each token gets a unique `jti` for rotation.
+   */
+  async createRefreshToken(openId: string, name: string): Promise<string> {
+    const jti = randomUUID();
+    const secretKey = this.getSessionSecret();
+    const expirationSeconds = Math.floor((Date.now() + REFRESH_TOKEN_MS) / 1000);
+
+    return new SignJWT({ openId, name, jti })
+      .setProtectedHeader({ alg: "HS256", typ: "JWT" })
+      .setExpirationTime(expirationSeconds)
+      .sign(secretKey);
+  }
+
+  /**
+   * Verify a refresh token. Returns the payload or null if invalid/expired/revoked.
+   */
+  async verifyRefreshToken(token: string | undefined | null): Promise<RefreshPayload | null> {
+    if (!token) return null;
+
+    try {
+      const secretKey = this.getSessionSecret();
+      const { payload } = await jwtVerify(token, secretKey, { algorithms: ["HS256"] });
+      const { openId, name, jti } = payload as Record<string, unknown>;
+
+      if (!isNonEmptyString(openId) || !isNonEmptyString(jti)) {
+        return null;
+      }
+
+      // Check if this token has been revoked (already rotated)
+      if (this.invalidatedRefreshTokens.has(jti)) {
+        console.warn("[Auth] Attempted reuse of rotated refresh token:", jti);
+        return null;
+      }
+
+      return { openId, name: (name as string) || "", jti };
+    } catch {
+      return null;
+    }
+  }
+
+  /**
+   * Invalidate a refresh token by its JTI so it cannot be reused.
+   */
+  invalidateRefreshToken(jti: string): void {
+    this.invalidatedRefreshTokens.add(jti);
+
+    // Prevent unbounded growth — prune old entries every 10k additions
+    if (this.invalidatedRefreshTokens.size > 50_000) {
+      const entries = Array.from(this.invalidatedRefreshTokens);
+      // Keep only the most recent 25k
+      this.invalidatedRefreshTokens.clear();
+      for (const entry of entries.slice(-25_000)) {
+        this.invalidatedRefreshTokens.add(entry);
+      }
+    }
+  }
+
+  /**
+   * Issue a new short-lived access token (15 min) + rotated refresh token.
+   * Invalidates the old refresh token.
+   */
+  async rotateTokens(oldRefreshToken: string): Promise<{
+    accessToken: string;
+    refreshToken: string;
+  } | null> {
+    const payload = await this.verifyRefreshToken(oldRefreshToken);
+    if (!payload) return null;
+
+    // Invalidate the old refresh token
+    this.invalidateRefreshToken(payload.jti);
+
+    // Issue new access token (15 min)
+    const accessToken = await this.createSessionToken(payload.openId, {
+      name: payload.name,
+      expiresInMs: ACCESS_TOKEN_MS,
+    });
+
+    // Issue new refresh token (30 days)
+    const refreshToken = await this.createRefreshToken(payload.openId, payload.name);
+
+    return { accessToken, refreshToken };
   }
 }
 

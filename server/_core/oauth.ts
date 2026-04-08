@@ -1,4 +1,4 @@
-import { COOKIE_NAME, ONE_YEAR_MS } from "@shared/const";
+import { COOKIE_NAME, REFRESH_COOKIE_NAME, ACCESS_TOKEN_MS, REFRESH_TOKEN_MS } from "@shared/const";
 import type { Express, Request, Response } from "express";
 import * as db from "../db";
 import { getSessionCookieOptions } from "./cookies";
@@ -17,6 +17,42 @@ function isValidProvider(value: string): value is OAuthProvider {
 }
 
 export function registerOAuthRoutes(app: Express) {
+  // ── Refresh token endpoint ──
+  // Validates the refresh token, rotates it, and issues new access + refresh tokens.
+  app.post("/api/refresh", async (req: Request, res: Response) => {
+    try {
+      const { parse: parseCookieHeader } = await import("cookie");
+      const cookies = req.headers.cookie
+        ? new Map(Object.entries(parseCookieHeader(req.headers.cookie)))
+        : new Map<string, string>();
+
+      const oldRefreshToken = cookies.get(REFRESH_COOKIE_NAME);
+      if (!oldRefreshToken) {
+        res.status(401).json({ error: "Missing refresh token" });
+        return;
+      }
+
+      const tokens = await sdk.rotateTokens(oldRefreshToken);
+      if (!tokens) {
+        // Clear stale cookies
+        const cookieOptions = getSessionCookieOptions(req);
+        res.clearCookie(COOKIE_NAME, cookieOptions);
+        res.clearCookie(REFRESH_COOKIE_NAME, cookieOptions);
+        res.status(401).json({ error: "Invalid or expired refresh token" });
+        return;
+      }
+
+      const cookieOptions = getSessionCookieOptions(req);
+      res.cookie(COOKIE_NAME, tokens.accessToken, { ...cookieOptions, maxAge: ACCESS_TOKEN_MS });
+      res.cookie(REFRESH_COOKIE_NAME, tokens.refreshToken, { ...cookieOptions, maxAge: REFRESH_TOKEN_MS });
+
+      res.json({ ok: true });
+    } catch (error: any) {
+      console.error("[Auth] Refresh token error:", error?.message || error);
+      res.status(500).json({ error: "Token refresh failed" });
+    }
+  });
+
   // Unified callback: /api/oauth/callback/:provider
   // Also keeps /api/oauth/callback for backward-compat (defaults to Google)
   app.get("/api/oauth/callback/:provider?", async (req: Request, res: Response) => {
@@ -53,14 +89,16 @@ export function registerOAuthRoutes(app: Express) {
         lastSignedIn: new Date(),
       });
 
-      // Create session JWT and set cookie
-      const sessionToken = await sdk.createSessionToken(userInfo.openId, {
+      // Issue short-lived access token (15 min) and refresh token (30 days)
+      const accessToken = await sdk.createSessionToken(userInfo.openId, {
         name: userInfo.name,
-        expiresInMs: ONE_YEAR_MS,
+        expiresInMs: ACCESS_TOKEN_MS,
       });
+      const refreshToken = await sdk.createRefreshToken(userInfo.openId, userInfo.name);
 
       const cookieOptions = getSessionCookieOptions(req);
-      res.cookie(COOKIE_NAME, sessionToken, { ...cookieOptions, maxAge: ONE_YEAR_MS });
+      res.cookie(COOKIE_NAME, accessToken, { ...cookieOptions, maxAge: ACCESS_TOKEN_MS });
+      res.cookie(REFRESH_COOKIE_NAME, refreshToken, { ...cookieOptions, maxAge: REFRESH_TOKEN_MS });
 
       res.redirect(302, "/");
     } catch (error: any) {
