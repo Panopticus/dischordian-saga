@@ -1797,7 +1797,9 @@ export const masteryBranches = mysqlTable("mastery_branches", {
   branchKey: varchar("branchKey", { length: 64 }).notNull(),
   /** When the branch was chosen */
   chosenAt: timestamp("chosenAt").defaultNow().notNull(),
-});
+}, (table) => ({
+  userIdIdx: index("idx_mastery_branches_user_id").on(table.userId),
+}));
 export type MasteryBranch = typeof masteryBranches.$inferSelect;
 
 /** Citizen talents — powerful passives chosen at milestone levels */
@@ -1809,7 +1811,9 @@ export const citizenTalentSelections = mysqlTable("citizen_talent_selections", {
   /** Milestone level at which this was chosen */
   milestoneLevel: int("milestoneLevel").notNull(),
   selectedAt: timestamp("selectedAt").defaultNow().notNull(),
-});
+}, (table) => ({
+  userIdIdx: index("idx_citizen_talent_selections_user_id").on(table.userId),
+}));
 export type CitizenTalentSelection = typeof citizenTalentSelections.$inferSelect;
 
 /** Civil skill proficiency levels — non-combat skills leveled by use */
@@ -1825,7 +1829,9 @@ export const civilSkillProgress = mysqlTable("civil_skill_progress", {
   /** Total actions performed for this skill */
   actionsPerformed: int("actionsPerformed").notNull().default(0),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
-});
+}, (table) => ({
+  userIdIdx: index("idx_civil_skill_progress_user_id").on(table.userId),
+}));
 export type CivilSkillProgress = typeof civilSkillProgress.$inferSelect;
 
 /** Prestige class selection and progression */
@@ -1842,7 +1848,9 @@ export const prestigeProgress = mysqlTable("prestige_progress", {
   unlockedPerks: json("unlockedPerks").$type<string[]>(),
   selectedAt: timestamp("selectedAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
-});
+}, (table) => ({
+  userIdIdx: index("idx_prestige_progress_user_id").on(table.userId),
+}));
 export type PrestigeProgressRow = typeof prestigeProgress.$inferSelect;
 
 /** Achievement trait tracking — unlocked traits and equipped slots */
@@ -1856,7 +1864,9 @@ export const achievementTraitProgress = mysqlTable("achievement_trait_progress",
   /** Currently equipped trait keys (max 3, JSON array) */
   equippedTraits: json("equippedTraits").$type<string[]>(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
-});
+}, (table) => ({
+  userIdIdx: index("idx_achievement_trait_progress_user_id").on(table.userId),
+}));
 export type AchievementTraitProgressRow = typeof achievementTraitProgress.$inferSelect;
 
 
@@ -2098,7 +2108,9 @@ export const prestigeQuestProgress = mysqlTable("prestige_quest_progress", {
   startedAt: timestamp("startedAt").defaultNow().notNull(),
   completedAt: timestamp("completedAt"),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
-});
+}, (table) => ({
+  userIdIdx: index("idx_prestige_quest_progress_user_id").on(table.userId),
+}));
 export type PrestigeQuestProgressRow = typeof prestigeQuestProgress.$inferSelect;
 
 
@@ -2191,7 +2203,10 @@ export const eventParticipation = mysqlTable("event_participation", {
   milestonesReached: json("milestonesReached").$type<number[]>(),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
-});
+}, (table) => ({
+  userIdIdx: index("idx_event_participation_user_id").on(table.userId),
+  eventIdIdx: index("idx_event_participation_event_id").on(table.eventId),
+}));
 export type EventParticipationRow = typeof eventParticipation.$inferSelect;
 
 export const eventShopPurchases = mysqlTable("event_shop_purchases", {
@@ -2202,7 +2217,9 @@ export const eventShopPurchases = mysqlTable("event_shop_purchases", {
   quantity: int("quantity").notNull().default(1),
   tokensCost: int("tokensCost").notNull(),
   purchasedAt: timestamp("purchasedAt").defaultNow().notNull(),
-});
+}, (table) => ({
+  userIdIdx: index("idx_event_shop_purchases_user_id").on(table.userId),
+}));
 export type EventShopPurchaseRow = typeof eventShopPurchases.$inferSelect;
 
 /* ─── GAME REPLAYS ─── */

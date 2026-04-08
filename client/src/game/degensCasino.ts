@@ -369,7 +369,7 @@ export const CASINO_ACHIEVEMENTS: CasinoAchievementDef[] = [
   { id: "high_roller", name: "High Roller", description: "Wager 1,000 Dream total", threshold: 1000, tier: "silver" },
   { id: "jackpot", name: "The Jackpot", description: "Hit the progressive jackpot", threshold: 1, tier: "legendary", hidden: true },
   { id: "streak_5", name: "Hot Hand", description: "Win 5 games in a row", threshold: 5, tier: "gold" },
-  { id: "all_games", name: "Game Tourist", description: "Play every casino game", threshold: 13, tier: "gold" },
+  { id: "all_games", name: "Game Tourist", description: "Play every casino game", threshold: 15, tier: "gold" },
   { id: "poker_flush", name: "Card Shark", description: "Get a flush in Nebula Poker", threshold: 1, tier: "gold" },
   { id: "perfect_21", name: "Pazaak Master", description: "Get exactly 21 three times", threshold: 3, tier: "gold" },
   { id: "chain_10", name: "Chain Lightning", description: "Chain 10 correct in High/Low", threshold: 10, tier: "platinum" },
