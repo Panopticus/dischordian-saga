@@ -2829,3 +2829,37 @@ export const roomStates = mysqlTable("room_states", {
 }));
 
 export type RoomState = typeof roomStates.$inferSelect;
+
+/* ═══════════════════════════════════════════════════════
+   GRADUATE LEGION — Deployed apprentice army system
+   Graduated apprentices fill roles: army_leader, trade_envoy,
+   tower_captain, companion, cryo_vault, sacrificed, relationship_gift.
+   ═══════════════════════════════════════════════════════ */
+
+export const graduateDeployments = mysqlTable("graduate_deployments", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  /** Apprentice ID (from client-side apprentice system) */
+  graduateId: varchar("graduateId", { length: 128 }).notNull(),
+  /** Graduate's name for display */
+  graduateName: varchar("graduateName", { length: 128 }).notNull(),
+  /** Archetype of the apprentice */
+  archetype: varchar("archetype", { length: 64 }).notNull(),
+  /** Rarity tier */
+  rarity: varchar("rarity", { length: 32 }).notNull(),
+  /** Deployed role */
+  role: varchar("role", { length: 64 }).notNull(),
+  /** Whether this deployment is currently active */
+  active: boolean("active").default(true).notNull(),
+  /** Computed bonuses JSON */
+  bonuses: json("bonuses").$type<{ target: string; value: number; label: string }[]>(),
+  /** Role-specific deployment payload */
+  payload: json("payload").$type<Record<string, unknown>>(),
+  deployedAt: timestamp("deployedAt").defaultNow().notNull(),
+  recalledAt: timestamp("recalledAt"),
+}, (table) => ({
+  idxUserId: index("idx_graduate_deployments_user").on(table.userId),
+  idxRole: index("idx_graduate_deployments_role").on(table.role),
+}));
+
+export type GraduateDeployment = typeof graduateDeployments.$inferSelect;

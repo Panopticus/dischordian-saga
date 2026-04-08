@@ -71,6 +71,7 @@ import { analyticsRouter } from "./routers/analytics";
 import { settingsRouter } from "./routers/settings";
 import { dailyBriefRouter } from "./routers/dailyBrief";
 import { prestigeRouter } from "./routers/prestige";
+import { graduateLegionRouter } from "./routers/graduateLegion";
 
 export const appRouter = router({
   system: systemRouter,
@@ -138,6 +139,7 @@ export const appRouter = router({
   settings: settingsRouter,
   dailyBrief: dailyBriefRouter,
   prestige: prestigeRouter,
+  graduateLegion: graduateLegionRouter,
   auth: router({
     me: publicProcedure.query(opts => opts.ctx.user),
     logout: publicProcedure.mutation(({ ctx }) => {
