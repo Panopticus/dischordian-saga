@@ -265,6 +265,72 @@ export const STATION_MODULES: StationModule[] = [
 ];
 
 /* ═══════════════════════════════════════════════════════
+   STATION MODULE BACKGROUNDS — Environment art per category
+   Maps module categories to Cloudinary-hosted environment art.
+   SS-001 Command Module is the station overview background.
+   ═══════════════════════════════════════════════════════ */
+
+export interface StationBackground {
+  id: string;
+  name: string;
+  imageUrl: string;
+  accent: string;
+  /** Which module category uses this background */
+  category: ModuleCategory | "overview";
+}
+
+export const STATION_BACKGROUNDS: StationBackground[] = [
+  {
+    id: "command-module",
+    name: "Command Module",
+    imageUrl: "https://res.cloudinary.com/dsenaozjq/image/upload/q_auto/f_auto/v1775673614/SS-001_COMMAND_MODULE_vepcoq.jpg",
+    accent: "#33E2E6",
+    category: "overview",
+  },
+  {
+    id: "resource-processor",
+    name: "Resource Processor",
+    imageUrl: "https://res.cloudinary.com/dsenaozjq/image/upload/q_auto/f_auto/v1775673618/SS-002_RESOURCE_PROCESSOR_m45s5h.jpg",
+    accent: "#f59e0b",
+    category: "production",
+  },
+  {
+    id: "research-lab",
+    name: "Research Lab Module",
+    imageUrl: "https://res.cloudinary.com/dsenaozjq/image/upload/q_auto/f_auto/v1775673620/SS-003_RESEARCH_LAB_MODULE_mdgyy0.jpg",
+    accent: "#8b5cf6",
+    category: "research",
+  },
+  {
+    id: "defense-array",
+    name: "Defense Array",
+    imageUrl: "https://res.cloudinary.com/dsenaozjq/image/upload/q_auto/f_auto/v1775673615/SS-004_DEFENSE_ARRAY_xnlwqo.jpg",
+    accent: "#dc2626",
+    category: "defense",
+  },
+  {
+    id: "habitation-ring",
+    name: "Habitation Ring",
+    imageUrl: "https://res.cloudinary.com/dsenaozjq/image/upload/q_auto/f_auto/v1775673617/SS-005_HABITATION_RING_bkmk03.jpg",
+    accent: "#10b981",
+    category: "living",
+  },
+  {
+    id: "docking-bay",
+    name: "Docking Bay",
+    imageUrl: "https://res.cloudinary.com/dsenaozjq/image/upload/q_auto/f_auto/v1775673621/SS-006_DOCKING_BAY_q40qc6.jpg",
+    accent: "#06b6d4",
+    category: "special",
+  },
+];
+
+/** Get the background for a module category (prestige falls back to command module) */
+export function getStationBackground(category: ModuleCategory | "overview"): StationBackground {
+  const cat = category === "prestige" ? "overview" : category;
+  return STATION_BACKGROUNDS.find(bg => bg.category === cat) || STATION_BACKGROUNDS[0];
+}
+
+/* ═══════════════════════════════════════════════════════
    RPG BONUS RESOLVERS — How character builds affect stations
    ═══════════════════════════════════════════════════════ */
 

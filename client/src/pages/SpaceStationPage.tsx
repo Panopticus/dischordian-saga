@@ -16,6 +16,8 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
+import LivingBackground from "@/components/LivingBackground";
+import { getStationBackground, type ModuleCategory } from "@shared/spaceStations";
 
 const MODULE_CATEGORY_ICONS: Record<string, React.ComponentType<any>> = {
   production: Package,
@@ -93,8 +95,10 @@ export default function SpaceStationPage() {
 
   // No station yet — creation screen
   if (!stationData || !station) {
+    const commandBg = getStationBackground("overview");
     return (
-      <div className="min-h-screen flex items-center justify-center p-4">
+      <div className="min-h-screen flex items-center justify-center p-4 relative overflow-hidden">
+        <LivingBackground src={commandBg.imageUrl} accent={commandBg.accent} opacity={0.18} particleCount={8} voidRoomKey="space_station" />
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -134,9 +138,25 @@ export default function SpaceStationPage() {
 
   const resources = (station.storedResources || {}) as Record<string, number>;
 
+  // Dynamic background based on selected build category
+  const activeBg = getStationBackground(
+    (selectedCategory as ModuleCategory) || "overview"
+  );
+
   return (
-    <div className="min-h-screen p-4 sm:p-6 animate-fade-in">
-      <div className="max-w-5xl mx-auto">
+    <div className="min-h-screen p-4 sm:p-6 animate-fade-in relative overflow-hidden">
+      {/* Station Module Background */}
+      <LivingBackground
+        key={activeBg.id}
+        src={activeBg.imageUrl}
+        accent={activeBg.accent}
+        opacity={0.15}
+        particleCount={6}
+        scanlines={false}
+        voidRoomKey="space_station"
+      />
+
+      <div className="max-w-5xl mx-auto relative z-10">
         {/* Header */}
         <div className="flex items-center gap-3 mb-6">
           <Link href="/ark" className="p-1.5 rounded-lg hover:bg-card/40 transition-colors">
