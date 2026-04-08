@@ -3,6 +3,7 @@
    ═══════════════════════════════════════════════════════ */
 import { WebSocketServer, WebSocket } from "ws";
 import type { Server } from "http";
+import { z } from "zod";
 import { initPvpBattle, processPvpAction, getPlayerView, calculateEloChange, getRankTier, type PvpBattleState, type PvpAction, type DeckCard } from "@shared/pvpBattle";
 import { getDb } from "./db";
 import { pvpMatches, pvpLeaderboard, pvpSeasons, pvpSeasonRecords } from "../drizzle/schema";
@@ -13,6 +14,36 @@ import { trackPvpResult } from "./achievementTracker";
 import { randomUUID } from "crypto";
 import { checkWsRateLimit, sendRateLimitError, storeDisconnectedSession, recoverSession } from "./wsRateLimit";
 import { logger } from "./logger";
+
+/* ─── ZOD MESSAGE SCHEMAS ─── */
+const DeckCardSchema = z.object({
+  cardId: z.string(),
+  name: z.string(),
+  type: z.string(),
+  rarity: z.string(),
+  attack: z.number(),
+  defense: z.number(),
+  cost: z.number(),
+  ability: z.string(),
+}).passthrough();
+
+const PvpActionSchema = z.union([
+  z.object({ type: z.literal("PLAY_CARD"), cardInstanceId: z.string() }),
+  z.object({ type: z.literal("ATTACK"), attackerInstanceId: z.string(), targetInstanceId: z.string() }),
+  z.object({ type: z.literal("END_TURN") }),
+  z.object({ type: z.literal("USE_ABILITY"), cardInstanceId: z.string(), targetInstanceId: z.string().optional() }),
+]);
+
+const ClientMessageSchema = z.union([
+  z.object({ type: z.literal("JOIN_QUEUE"), userId: z.number(), userName: z.string(), deck: z.array(DeckCardSchema), token: z.string().optional(), faction: z.string().optional(), companionId: z.string().optional() }),
+  z.object({ type: z.literal("LEAVE_QUEUE") }),
+  z.object({ type: z.literal("GAME_ACTION"), action: PvpActionSchema }),
+  z.object({ type: z.literal("SURRENDER") }),
+  z.object({ type: z.literal("SEND_EMOTE"), emoteId: z.string() }),
+  z.object({ type: z.literal("SPECTATE"), matchId: z.string() }),
+  z.object({ type: z.literal("STOP_SPECTATING") }),
+  z.object({ type: z.literal("PING") }),
+]);
 
 /* ─── TYPES ─── */
 /* ─── PLACEMENT MATCH CONSTANTS ─── */
@@ -576,7 +607,13 @@ export function setupPvpWebSocket(server: Server) {
     ws.on("message", async (raw) => {
       let msg: ClientMessage;
       try {
-        msg = JSON.parse(raw.toString());
+        const parsed = JSON.parse(raw.toString());
+        const result = ClientMessageSchema.safeParse(parsed);
+        if (!result.success) {
+          send(ws, { type: "ERROR", message: `Invalid message: ${result.error.issues[0]?.message || "validation failed"}` });
+          return;
+        }
+        msg = result.data as ClientMessage;
       } catch {
         send(ws, { type: "ERROR", message: "Invalid JSON" });
         return;

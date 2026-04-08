@@ -8,7 +8,7 @@ export interface AchievementDef {
   name: string;
   description: string;
   icon: string;
-  category: "explore" | "watch" | "fight" | "discover" | "collect" | "social" | "master";
+  category: "explore" | "watch" | "fight" | "discover" | "collect" | "social" | "master" | "crossgame" | "chess" | "swarm" | "lore" | "fighting" | "card" | "guild" | "misc";
   tier: "bronze" | "silver" | "gold" | "platinum" | "legendary";
   xpReward: number;
   pointsReward: number;
@@ -223,4 +223,60 @@ export const DISCHORDIAN_ACHIEVEMENTS: AchievementDef[] = [
   { achievementId: "level-5", name: "Rising Star", description: "Reach Level 5", icon: "⭐", category: "master", tier: "bronze", xpReward: 0, pointsReward: 200, condition: { type: "reach_level", count: 5 } },
   { achievementId: "level-10", name: "Veteran", description: "Reach Level 10", icon: "🎖️", category: "master", tier: "silver", xpReward: 0, pointsReward: 500, condition: { type: "reach_level", count: 10 } },
   { achievementId: "level-20", name: "Architect of Reality", description: "Reach the maximum level", icon: "🏛️", category: "master", tier: "legendary", xpReward: 0, pointsReward: 5000, condition: { type: "reach_level", count: 20 } },
+
+  // CROSS-GAME
+  { achievementId: "renaissance_potential", name: "Renaissance Potential", description: "Win a match in Chess, Card Battle, Terminus Swarm, Fighting, and Pet Battles within 24 hours", icon: "🌟", category: "crossgame", tier: "legendary", xpReward: 500, pointsReward: 2000, condition: { type: "crossgame_wins_24h", count: 5 }, hidden: true },
+  { achievementId: "full_spectrum", name: "Full Spectrum", description: "Have all 5 cross-game synergy buffs active simultaneously", icon: "🌈", category: "crossgame", tier: "platinum", xpReward: 300, pointsReward: 1000, condition: { type: "synergy_buffs_active", count: 5 } },
+  { achievementId: "master_of_none", name: "Master of None", description: "Reach mid-rank in all game modes without reaching top rank in any", icon: "🃏", category: "crossgame", tier: "gold", xpReward: 200, pointsReward: 750, condition: { type: "mid_rank_all_modes" }, hidden: true },
+  { achievementId: "the_investor", name: "The Investor", description: "Earn 10,000 Dream purely from marketplace trades", icon: "💰", category: "crossgame", tier: "platinum", xpReward: 400, pointsReward: 1500, condition: { type: "marketplace_dream_earned", count: 10000 } },
+  { achievementId: "board_remembers", name: "The Board Remembers", description: "Play 1,000 total games across all modes", icon: "📋", category: "crossgame", tier: "legendary", xpReward: 500, pointsReward: 2500, condition: { type: "total_games_all_modes", count: 1000 } },
+
+  // CHESS (expanded)
+  { achievementId: "scholars_mate", name: "Scholar's Mate", description: "Win a chess match in 4 moves or fewer", icon: "♟️", category: "chess", tier: "gold", xpReward: 200, pointsReward: 500, condition: { type: "chess_win_moves", count: 4 }, hidden: true },
+  { achievementId: "the_long_game", name: "The Long Game", description: "Win a chess match lasting 100+ moves", icon: "♜", category: "chess", tier: "silver", xpReward: 100, pointsReward: 300, condition: { type: "chess_win_long", count: 100 } },
+  { achievementId: "architects_gambit", name: "Architect's Gambit Accepted", description: "Defeat The Architect (highest AI)", icon: "♚", category: "chess", tier: "platinum", xpReward: 400, pointsReward: 1000, condition: { type: "chess_defeat_architect" } },
+  { achievementId: "immortal_game", name: "Immortal Game", description: "Sacrifice your queen and still win", icon: "♛", category: "chess", tier: "legendary", xpReward: 500, pointsReward: 2000, condition: { type: "chess_queen_sacrifice_win" }, hidden: true },
+  { achievementId: "stalemate_specialist", name: "Stalemate Specialist", description: "Force a stalemate from a losing position", icon: "🤝", category: "chess", tier: "gold", xpReward: 200, pointsReward: 500, condition: { type: "chess_stalemate_losing" } },
+
+  // TERMINUS SWARM
+  { achievementId: "wave_50", name: "Wave 50", description: "Reach wave 50 in Terminus Swarm", icon: "🌊", category: "swarm", tier: "platinum", xpReward: 400, pointsReward: 1500, condition: { type: "swarm_wave_reached", count: 50 } },
+  { achievementId: "untouched_core", name: "Untouched Core", description: "Complete 20 waves without the core taking damage", icon: "🛡️", category: "swarm", tier: "gold", xpReward: 200, pointsReward: 800, condition: { type: "swarm_no_damage_waves", count: 20 } },
+  { achievementId: "one_tower_army", name: "One Tower Army", description: "Clear 10 waves using only 1 tower type", icon: "🗼", category: "swarm", tier: "gold", xpReward: 200, pointsReward: 750, condition: { type: "swarm_single_tower_waves", count: 10 }, hidden: true },
+  { achievementId: "elemental_master", name: "Elemental Master", description: "Activate all elemental synergy combinations in a single run", icon: "🔮", category: "swarm", tier: "platinum", xpReward: 300, pointsReward: 1000, condition: { type: "swarm_all_synergies" } },
+  { achievementId: "source_slayer", name: "Source Slayer", description: "Defeat the Source Avatar boss on first encounter", icon: "⚡", category: "swarm", tier: "gold", xpReward: 250, pointsReward: 800, condition: { type: "swarm_source_first_kill" } },
+
+  // LORE / SOCIAL
+  { achievementId: "shadow_tongues_nightmare", name: "Shadow Tongue's Nightmare", description: "Reach Trust 100 with every NPC simultaneously", icon: "👁️", category: "lore", tier: "legendary", xpReward: 1000, pointsReward: 5000, condition: { type: "all_npc_trust_max" }, hidden: true },
+  { achievementId: "epoch_zero_complete", name: "Epoch Zero Complete", description: "View all 15 Epoch Zero episodes", icon: "📺", category: "lore", tier: "gold", xpReward: 300, pointsReward: 750, condition: { type: "epoch_zero_episodes", count: 15 } },
+  { achievementId: "the_senator_remembers", name: "The Senator Remembers", description: "Trigger all 9 Elara callbacks in a single playthrough", icon: "💬", category: "lore", tier: "legendary", xpReward: 500, pointsReward: 2000, condition: { type: "elara_callbacks", count: 9 }, hidden: true },
+  { achievementId: "kaels_regret", name: "Kael's Regret", description: "Reach Trust 100 with The Source choosing compassion every time", icon: "💚", category: "lore", tier: "platinum", xpReward: 400, pointsReward: 1500, condition: { type: "source_compassion_trust_max" }, hidden: true },
+  { achievementId: "perfectly_balanced", name: "Perfectly Balanced", description: "Have exactly 0 morality score", icon: "⚖️", category: "lore", tier: "platinum", xpReward: 300, pointsReward: 1000, condition: { type: "morality_zero" }, hidden: true },
+  { achievementId: "playing_both_sides", name: "Playing Both Sides", description: "Reach trust 50+ with both Elara and The Human simultaneously", icon: "🎭", category: "lore", tier: "gold", xpReward: 200, pointsReward: 600, condition: { type: "dual_trust_50", target: "elara_human" } },
+  { achievementId: "the_betrayed", name: "The Betrayed", description: "Have an apprentice reach Betrayal stage 4", icon: "🗡️", category: "lore", tier: "silver", xpReward: 100, pointsReward: 400, condition: { type: "apprentice_betrayal_stage", count: 4 }, hidden: true },
+  { achievementId: "the_merciful", name: "The Merciful", description: "Forgive an apprentice at Betrayal stage 3", icon: "🕊️", category: "lore", tier: "gold", xpReward: 200, pointsReward: 600, condition: { type: "apprentice_forgive_stage3" }, hidden: true },
+  { achievementId: "what_have_i_done", name: "What Have I Done", description: "Reach 100 corruption then immediately purge to 0", icon: "🔥", category: "lore", tier: "legendary", xpReward: 500, pointsReward: 2000, condition: { type: "corruption_purge_full" }, hidden: true },
+  { achievementId: "canon", name: "Canon", description: "Reach Level 50 and complete the Breaking Point", icon: "📖", category: "lore", tier: "legendary", xpReward: 1000, pointsReward: 5000, condition: { type: "canon_breaking_point" } },
+
+  // FIGHTING GAME
+  { achievementId: "combo_master", name: "Combo Master", description: "Land a 20+ hit combo", icon: "💥", category: "fighting", tier: "platinum", xpReward: 300, pointsReward: 800, condition: { type: "fight_combo_hits", count: 20 } },
+  { achievementId: "glass_cannon", name: "Glass Cannon", description: "Win a fight with 1 HP remaining", icon: "💔", category: "fighting", tier: "gold", xpReward: 200, pointsReward: 500, condition: { type: "fight_win_1hp" }, hidden: true },
+  { achievementId: "pacifist", name: "Pacifist", description: "Win a fight using only blocks and counters", icon: "✋", category: "fighting", tier: "legendary", xpReward: 500, pointsReward: 2000, condition: { type: "fight_blocks_only_win" }, hidden: true },
+  { achievementId: "training_complete", name: "Training Complete", description: "Spend 1 hour total in Training Mode", icon: "🥋", category: "fighting", tier: "silver", xpReward: 100, pointsReward: 200, condition: { type: "training_time_minutes", count: 60 } },
+  { achievementId: "every_fighter", name: "Every Fighter", description: "Win at least once with every character", icon: "🏅", category: "fighting", tier: "gold", xpReward: 200, pointsReward: 750, condition: { type: "fight_win_all_characters" } },
+
+  // CARD GAME (expanded)
+  { achievementId: "david_vs_goliath", name: "David vs Goliath", description: "Win a card battle with only Common cards", icon: "🪨", category: "card", tier: "gold", xpReward: 200, pointsReward: 600, condition: { type: "card_win_commons_only" }, hidden: true },
+  { achievementId: "overkill", name: "Overkill", description: "Deal 50+ damage in a single turn", icon: "☄️", category: "card", tier: "gold", xpReward: 200, pointsReward: 500, condition: { type: "card_damage_single_turn", count: 50 } },
+  { achievementId: "topdeck_miracle", name: "Topdeck Miracle", description: "Win with 0 cards in hand and 1 HP", icon: "🎴", category: "card", tier: "legendary", xpReward: 500, pointsReward: 2000, condition: { type: "card_topdeck_win" }, hidden: true },
+
+  // GUILD
+  { achievementId: "grand_patron", name: "Grand Patron", description: "Reach Grand Patron guild donation tier", icon: "🏦", category: "guild", tier: "gold", xpReward: 200, pointsReward: 600, condition: { type: "guild_donation_tier", target: "grand_patron" } },
+  { achievementId: "war_hero", name: "War Hero", description: "Top contributor in an Alliance War victory", icon: "🎖️", category: "guild", tier: "platinum", xpReward: 300, pointsReward: 1000, condition: { type: "alliance_war_top_contributor" } },
+  { achievementId: "secret_santa", name: "Secret Santa", description: "Give an NPC their favorite gift without being told what it is", icon: "🎁", category: "guild", tier: "gold", xpReward: 200, pointsReward: 500, condition: { type: "npc_favorite_gift_blind" }, hidden: true },
+
+  // MISC
+  { achievementId: "i_remember", name: "I Remember", description: "Visit the Observation Deck between 3:00-3:15 AM real time", icon: "🌌", category: "misc", tier: "platinum", xpReward: 300, pointsReward: 1000, condition: { type: "observation_deck_3am" }, hidden: true },
+  { achievementId: "speed_runner", name: "Speed Runner", description: "Complete the Awakening sequence in under 3 minutes", icon: "⏱️", category: "misc", tier: "silver", xpReward: 100, pointsReward: 300, condition: { type: "awakening_speed_run", count: 180 }, hidden: true },
+  { achievementId: "degens_nightmare", name: "The Equilibrium", description: "Break exactly even over 1000 casino bets", icon: "⚖️", category: "misc", tier: "legendary", xpReward: 500, pointsReward: 2500, condition: { type: "casino_equilibrium", count: 1000 }, hidden: true },
+  { achievementId: "five_albums", name: "The Five Albums", description: "Listen to every track from all five Dischordian Saga albums", icon: "🎵", category: "misc", tier: "gold", xpReward: 300, pointsReward: 750, condition: { type: "listen_all_albums", count: 5 } },
 ];

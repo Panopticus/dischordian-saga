@@ -5,10 +5,25 @@
    ═══════════════════════════════════════════════════════ */
 import { WebSocketServer, WebSocket } from "ws";
 import type { Server } from "http";
+import { z } from "zod";
 import { getDb } from "./db";
 import { chessGames, chessRankings } from "../drizzle/schema";
 import { eq } from "drizzle-orm";
 import { randomUUID } from "crypto";
+
+/* ─── ZOD MESSAGE SCHEMAS ─── */
+const ChessClientMessageSchema = z.union([
+  z.object({ type: z.literal("JOIN_QUEUE"), userId: z.number(), userName: z.string(), characterId: z.string() }),
+  z.object({ type: z.literal("LEAVE_QUEUE") }),
+  z.object({ type: z.literal("MOVE"), from: z.string(), to: z.string(), promotion: z.string().optional() }),
+  z.object({ type: z.literal("RESIGN") }),
+  z.object({ type: z.literal("OFFER_DRAW") }),
+  z.object({ type: z.literal("ACCEPT_DRAW") }),
+  z.object({ type: z.literal("DECLINE_DRAW") }),
+  z.object({ type: z.literal("SPECTATE"), matchId: z.string() }),
+  z.object({ type: z.literal("STOP_SPECTATING") }),
+  z.object({ type: z.literal("PING") }),
+]);
 
 /* ─── TYPES ─── */
 interface ChessPlayer {
@@ -449,7 +464,13 @@ export function setupChessPvpWebSocket(server: Server) {
   wss.on("connection", (ws: WebSocket) => {
     ws.on("message", async (data) => {
       try {
-        const msg: ChessClientMessage = JSON.parse(data.toString());
+        const parsed = JSON.parse(data.toString());
+        const result = ChessClientMessageSchema.safeParse(parsed);
+        if (!result.success) {
+          send(ws, { type: "ERROR", message: `Invalid message: ${result.error.issues[0]?.message || "validation failed"}` });
+          return;
+        }
+        const msg = result.data as ChessClientMessage;
 
         switch (msg.type) {
           case "PING":

@@ -334,6 +334,77 @@ export function canPetLeave(dissonance: number, bond: number): boolean {
 
 /* ─── DEFAULT STATE ─── */
 
+/* ─── EVOLUTION EPOCH NAMES ─── */
+
+/**
+ * Epoch-themed evolution stage names. Each stage maps to a
+ * different era of the Dischordian timeline, grounding your
+ * pet's growth in the lore of the 17,033-year history.
+ */
+
+export interface EvolutionEpochStage {
+  stage: 1 | 2 | 3;
+  name: string;
+  epochReference: string;
+  description: string;
+}
+
+export const EVOLUTION_EPOCH_STAGES: EvolutionEpochStage[] = [
+  {
+    stage: 1,
+    name: "Echo of Genesis",
+    epochReference: "Genesis (Year 0 — The Beginning)",
+    description: "Base form. Born from the raw data of creation, the pet carries the primordial spark of the Dischordian timeline's origin. Fragile, watchful, and full of latent potential — an echo of the first breath of civilization.",
+  },
+  {
+    stage: 2,
+    name: "Expansion Form",
+    epochReference: "Expansion Era (Years 3,000 — 8,000)",
+    description: "Intermediate form. The pet's growth mirrors the expansion of empires across the stars. It unfolds into something larger, bolder, and far more dangerous — carrying the ambition and reach of an age that believed it could conquer everything.",
+  },
+  {
+    stage: 3,
+    name: "Post-Fall Ascension",
+    epochReference: "Post-Fall (Year 17,033 — The Aftermath)",
+    description: "Final form. The pet reaches its ultimate evolution in the aftermath of the Fall. Reality has shattered and rebuilt itself around this creature. It is no longer bound by the rules that once defined it — ascended, luminous, and terrifying.",
+  },
+];
+
+/**
+ * EVOLUTION_EPOCH_LORE — flavor text mapping each evolution
+ * stage to epoch-appropriate narrative. Used in UI tooltips,
+ * evolution cinematics, and the Loredex journal.
+ */
+export const EVOLUTION_EPOCH_LORE: Record<number, {
+  stageName: string;
+  epochName: string;
+  flavorText: string;
+  evolutionQuote: string;
+  visualDescription: string;
+}> = {
+  1: {
+    stageName: "Echo of Genesis",
+    epochName: "Genesis",
+    flavorText: "In the beginning, before the Hierarchy, before the Arks, before the Thought Virus — there was only potential. Your companion exists in that state now. A seed carrying the DNA of every future it might become. The oldest epoch whispers through its code: 'You are the first word of a story that has not yet been written.'",
+    evolutionQuote: "\"Every civilization begins as a single heartbeat.\" — The Antiquarian",
+    visualDescription: "Small, translucent form with a faint inner glow. Occasionally flickers as if not fully rendered into reality. Eyes wide, curious, absorbing everything.",
+  },
+  2: {
+    stageName: "Expansion Form",
+    epochName: "Expansion",
+    flavorText: "The empires grew. The Arks launched. Humanity reached further than it had any right to — and your companion has done the same. The Expansion Form carries the swagger of an age drunk on its own momentum. It is larger, brighter, and moves with the confidence of a species that believed the stars were its birthright. But expansion always carries the seeds of overreach.",
+    evolutionQuote: "\"We built towers to touch heaven. Heaven did not want to be touched.\" — Iron Lion's Last Speech",
+    visualDescription: "Noticeably larger, with defined features and confident bearing. Aura stabilizes into a steady glow. Movement is purposeful. Armor-like plating or fur patterns begin to form.",
+  },
+  3: {
+    stageName: "Post-Fall Ascension",
+    epochName: "Post-Fall",
+    flavorText: "Everything fell. The Hierarchy was exposed. Reality fractured. The Thought Virus consumed worlds. And in the wreckage, something new emerged — something that had passed through the fire and come out transformed. Your companion has ascended beyond the categories that once defined it. It is not what it was. It is what survives when everything else doesn't. The Post-Fall epoch is not an ending. It is a becoming.",
+    evolutionQuote: "\"Ascension is not rising above. It is falling so far that you break through the floor and discover there was sky beneath you all along.\" — The Human (Final Transmission)",
+    visualDescription: "Full-size form wreathed in shifting energy. Fracture-lines of light trace its body like healed scars. Eyes burn with quiet intensity. Particle effects — motes of light, temporal echoes, reality-bending distortions — trail its every movement.",
+  },
+};
+
 export const DEFAULT_PET_BOND: Omit<PetBond, "petId"> = {
   bond: 10,
   sharedMissions: 0,

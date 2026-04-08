@@ -530,6 +530,88 @@ export const ALLIANCE_WAR_EPOCH_SEASONS: AllianceWarEpochSeason[] = [
   },
 ];
 
+/* ─── ALLIANCE WAR EPOCHS (Extended Epoch Theming) ─── */
+
+/**
+ * Epoch-themed Alliance War seasons. Each war season is themed to a
+ * historical epoch from the Dischordian timeline (17,033 years).
+ * Map names reference famous battles from that epoch. This is the
+ * user-facing summary array — the detailed season data above drives
+ * the actual game mechanics.
+ */
+
+export interface AllianceWarEpoch {
+  seasonId: string;
+  epochName: string;
+  mapName: string;
+  historicalBattle: string;
+  specialRules: string[];
+  description: string;
+}
+
+export const ALLIANCE_WAR_EPOCHS: AllianceWarEpoch[] = [
+  {
+    seasonId: "aw-epoch-1",
+    epochName: "Insurgency Rising",
+    mapName: "Viridian Prime Warzone",
+    historicalBattle: "Battle of Nexon",
+    specialRules: [
+      "Fog of War — defender positions hidden until adjacent node cleared.",
+      "Last Stand — defenders at 25% HP deal double damage.",
+      "Guerrilla Tactics — attackers gain +10% attack on all nodes.",
+    ],
+    description: "The Battle of Nexon was the first open engagement of the Insurgency. Iron Lion's rebels struck the Hierarchy's surveillance fortress at dawn, exploiting blind spots in the Panopticon's coverage grid. Outnumbered ten to one, the rebels fought with desperate ingenuity — turning the Hierarchy's own infrastructure against it. This season recreates that chaos: fog of war hides defenders, and cornered units fight with the fury of those who have nothing left to lose.",
+  },
+  {
+    seasonId: "aw-epoch-2",
+    epochName: "Fall Era",
+    mapName: "New Babylon Siege Grid",
+    historicalBattle: "Siege of New Babylon",
+    specialRules: [
+      "Reality Fracture — node types randomly swap at the midpoint of the attack phase.",
+      "Thought Virus — cleared nodes have a 15% chance to re-infect after 6 hours.",
+      "Entropic Decay — all defender stats decrease by 5% per hour.",
+    ],
+    description: "New Babylon was the Hierarchy's crown jewel — the capital of the known galaxy, a city built on secrets and sustained by control. When the Fall came, the Thought Virus turned New Babylon's own population into weapons. The siege lasted seventeen days. By the end, the attackers couldn't tell friend from enemy, and the city's defenses had turned against its own citizens. This season captures that horror: nothing stays where you put it, and what you conquer can turn against you.",
+  },
+  {
+    seasonId: "aw-epoch-3",
+    epochName: "Golden Age",
+    mapName: "Academy Proving Grounds",
+    historicalBattle: "The Academy Schism",
+    specialRules: [
+      "Prophecy — one random node revealed at start.",
+      "Scholar's Edge — buff nodes grant double bonuses.",
+      "Wisdom of Ages — XP from war battles increased by 25%.",
+    ],
+    description: "During the Golden Age, the Academies trained the finest minds in the galaxy. But when the Insurgency began to recruit from within, the Academies split — half loyal to the Hierarchy, half sympathetic to the rebellion. The Schism turned lecture halls into battlegrounds and mentors against students. This season recreates the intellectual warfare: knowledge is power, and buff nodes are worth fighting for.",
+  },
+  {
+    seasonId: "aw-epoch-4",
+    epochName: "Genesis",
+    mapName: "Foundation Citadel",
+    historicalBattle: "The Founding War",
+    specialRules: [
+      "Primal Rules — only tier 1 and tier 2 units may be placed as defenders.",
+      "Creation Forge — trap nodes convert to buff nodes when cleared.",
+      "First Principles — no debuffs can be applied to any unit.",
+    ],
+    description: "Before the empires, before the Arks, the first civilizations fought over the foundational principles that would shape all of history. The Founding War was not fought with advanced weapons — it was fought with conviction and raw strength. This season strips away complexity: only basic units, no debuffs, and every obstacle contains hidden potential.",
+  },
+  {
+    seasonId: "aw-epoch-5",
+    epochName: "Age of Potentials",
+    mapName: "Ark 1047 Warfront",
+    historicalBattle: "The Convergence",
+    specialRules: [
+      "All Stats Amplified — every unit gains +15% to all stats.",
+      "Adaptive Grid — map layout shifts every 8 hours.",
+      "Legacy Bonus — players who completed previous seasons gain +5% offense.",
+    ],
+    description: "The Convergence is happening now. Every epoch, every war, every betrayal — they all led here. Ark 1047 is the fulcrum point, and the Alliance War fought across its hull will determine whether the Potentials inherit a future worth having. This season is the culmination: everything is amplified, the battlefield itself evolves, and the legacies of previous seasons carry forward. The final war is always the loudest.",
+  },
+];
+
 /**
  * Returns the active epoch season for the current week.
  * Seasons rotate weekly, cycling through all five epochs in order.

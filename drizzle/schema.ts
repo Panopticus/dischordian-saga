@@ -14,7 +14,10 @@ export const users = mysqlTable("users", {
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
   lastSignedIn: timestamp("lastSignedIn").defaultNow().notNull(),
   deletedAt: timestamp("deletedAt"),
-});
+}, (table) => ({
+  createdAtIdx: index("idx_users_created_at").on(table.createdAt),
+  lastSignedInIdx: index("idx_users_last_signed_in").on(table.lastSignedIn),
+}));
 
 export type User = typeof users.$inferSelect;
 export type InsertUser = typeof users.$inferInsert;
@@ -42,7 +45,9 @@ export const userProgress = mysqlTable("user_progress", {
   gameData: json("gameData").$type<Record<string, unknown>>(),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
-});
+}, (table) => ({
+  userIdIdx: index("idx_user_progress_user_id").on(table.userId),
+}));
 
 export type UserProgress = typeof userProgress.$inferSelect;
 export type InsertUserProgress = typeof userProgress.$inferInsert;
@@ -78,7 +83,9 @@ export const userAchievements = mysqlTable("user_achievements", {
   userId: int("userId").notNull(),
   achievementId: varchar("achievementId", { length: 128 }).notNull(),
   earnedAt: timestamp("earnedAt").defaultNow().notNull(),
-});
+}, (table) => ({
+  userIdIdx: index("idx_user_achievements_user_id").on(table.userId),
+}));
 
 export type UserAchievement = typeof userAchievements.$inferSelect;
 
@@ -93,7 +100,9 @@ export const arkThemes = mysqlTable("ark_themes", {
   /** JSON blob: custom colors, background, accent, etc. */
   customization: json("customization").$type<Record<string, unknown>>(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
-});
+}, (table) => ({
+  userIdIdx: index("idx_ark_themes_user_id").on(table.userId),
+}));
 
 export type ArkTheme = typeof arkThemes.$inferSelect;
 
@@ -193,7 +202,9 @@ export const userCards = mysqlTable("user_cards", {
   /** How was this card obtained */
   obtainedVia: varchar("obtainedVia", { length: 64 }).default("starter"),
   obtainedAt: timestamp("obtainedAt").defaultNow().notNull(),
-});
+}, (table) => ({
+  userIdIdx: index("idx_user_cards_user_id").on(table.userId),
+}));
 
 export type UserCard = typeof userCards.$inferSelect;
 
@@ -214,7 +225,9 @@ export const decks = mysqlTable("decks", {
   losses: int("losses").notNull().default(0),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
-});
+}, (table) => ({
+  userIdIdx: index("idx_decks_user_id").on(table.userId),
+}));
 
 export type Deck = typeof decks.$inferSelect;
 
@@ -287,7 +300,9 @@ export const characterSheets = mysqlTable("character_sheets", {
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
   deletedAt: timestamp("deletedAt"),
-});
+}, (table) => ({
+  userIdIdx: index("idx_character_sheets_user_id").on(table.userId),
+}));
 export type CharacterSheet = typeof characterSheets.$inferSelect;;
 
 /* ═══════════════════════════════════════════════════════
@@ -342,7 +357,9 @@ export const userArkProgress = mysqlTable("user_ark_progress", {
   roomState: json("roomState").$type<Record<string, unknown>>(),
   firstVisitedAt: timestamp("firstVisitedAt"),
   lastVisitedAt: timestamp("lastVisitedAt"),
-});
+}, (table) => ({
+  userIdIdx: index("idx_user_ark_progress_user_id").on(table.userId),
+}));
 
 export type UserArkProgress = typeof userArkProgress.$inferSelect;
 
@@ -365,7 +382,9 @@ export const trophyDisplays = mysqlTable("trophy_displays", {
   isPublic: int("isPublic").notNull().default(1),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
-});
+}, (table) => ({
+  userIdIdx: index("idx_trophy_displays_user_id").on(table.userId),
+}));
 
 export type TrophyDisplay = typeof trophyDisplays.$inferSelect;
 
@@ -403,7 +422,7 @@ export type TWSector = typeof twSectors.$inferSelect;
  */
 export const twPlayerState = mysqlTable("tw_player_state", {
   id: int("id").autoincrement().primaryKey(),
-  userId: int("userId").notNull(),
+  userId: int("userId").notNull(),  // indexed below
   /** Current sector */
   currentSector: int("currentSector").notNull().default(1),
   /** Ship type */
@@ -443,7 +462,9 @@ export const twPlayerState = mysqlTable("tw_player_state", {
   lastTurnReset: timestamp("lastTurnReset").defaultNow().notNull(),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
-});
+}, (table) => ({
+  userIdIdx: index("idx_tw_player_state_user_id").on(table.userId),
+}));
 
 export type TWPlayerState = typeof twPlayerState.$inferSelect;
 
@@ -452,7 +473,7 @@ export type TWPlayerState = typeof twPlayerState.$inferSelect;
  */
 export const twColonies = mysqlTable("tw_colonies", {
   id: int("id").autoincrement().primaryKey(),
-  userId: int("userId").notNull(),
+  userId: int("userId").notNull(),  // indexed below
   sectorId: int("sectorId").notNull(),
   planetName: varchar("planetName", { length: 256 }).notNull(),
   /** Colony level (1-5) determines income multiplier */

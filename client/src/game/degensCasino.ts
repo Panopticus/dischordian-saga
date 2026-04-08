@@ -28,7 +28,9 @@ export type CasinoGame =
   | "pazaak_21" | "high_low" | "scratch_cards"
   // Expansion games
   | "void_blackjack_tournament" | "liars_dice" | "faction_war_betting"
-  | "dream_roulette" | "card_battlers_gauntlet" | "void_bingo";
+  | "dream_roulette" | "card_battlers_gauntlet" | "void_bingo"
+  // New expansion games
+  | "void_cases" | "dischordian_mahjong";
 
 export interface CasinoBet {
   game: CasinoGame;
@@ -200,6 +202,23 @@ export const CASINO_GAMES: CasinoGameDef[] = [
     minBet: 0, maxBet: 0, houseEdge: 0, baseMultiplier: 0,
     degenPitch: "Free bingo! I call out moments from history, you mark your card. Winner gets 50 Dream. Runs every 4 hours. The stories are the real prize.",
     rules: "5x5 grid with lore events replacing numbers. Events called by The Degen with flavor commentary. First to complete a line wins 50 Dream. Free to play. Sessions run every 4 hours.",
+  },
+  // ─── NEW EXPANSION GAMES ───
+  {
+    id: "void_cases",
+    name: "Void Cases",
+    description: "Crack open a Void Case and see what the universe has for you. Published drop rates. No secrets.",
+    minBet: 50, maxBet: 500, houseEdge: 20, baseMultiplier: 1,
+    degenPitch: "Every case is a tiny universe of possibility. Most of them are boring. Some of them are transcendent. All of them cost Dream. Published odds — I'm chaotic, not dishonest.",
+    rules: "Purchase a Void Case for 50-500 Dream. The case contains a random tier drop: Common (60%), Uncommon (25%), Rare (10%), Epic (4%), Legendary (0.9%), Mythic (0.1%). Each tier returns a Dream multiplier plus cosmetic/card rewards. Pity timer guarantees Rare+ after 20 cases with no Rare or above.",
+  },
+  {
+    id: "dischordian_mahjong",
+    name: "Dischordian Mahjong",
+    description: "The Antiquarian's pattern recognition training. Match lore-themed tiles before time runs out.",
+    minBet: 0, maxBet: 0, houseEdge: 0, baseMultiplier: 1,
+    degenPitch: "The Antiquarian taught this game to the first Potentials. He said it teaches pattern recognition across timelines. I say it's a nice break from losing Dream at my other tables.",
+    rules: "Match pairs of identical lore-themed tiles. Tiles must have at least one free side (left or right) and no tile on top. Three layouts: The Ark (easy, 4x8), The Panopticon (medium, 6x10), The Matrix (hard, 8x12). Rewards XP based on time + completion. Daily challenge with leaderboard seed. Bonus XP for faction-only matches.",
   },
 ];
 

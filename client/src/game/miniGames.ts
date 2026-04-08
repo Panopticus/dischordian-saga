@@ -270,3 +270,133 @@ export function getDifficulty(
 ): DifficultyConfig | undefined {
   return game.difficulties.find((d) => d.tier === tier);
 }
+
+// ---------------------------------------------------------------------------
+// DAILY EPOCH ROTATION
+// Each day of the week themes ALL minigames to a historical epoch from the
+// Dischordian timeline (17,033 years, 10 epochs). The epoch affects:
+//   - Signal Decryption: word lists drawn from that epoch's vocabulary
+//   - Hacking Puzzle: pipe configurations themed to that era's technology
+//   - Star Chart: constellation patterns from that epoch's sky maps
+// ---------------------------------------------------------------------------
+
+export interface DailyEpochEntry {
+  /** 0 = Monday, 6 = Sunday */
+  dayIndex: number;
+  dayName: string;
+  epochId: number;
+  epochName: string;
+  themeDescription: string;
+  /** Signal Decryption word pool for this epoch */
+  sampleWordList: string[];
+  /** Hacking puzzle visual theme */
+  hackingTheme: string;
+  /** Star Chart constellation set */
+  constellationSet: string;
+}
+
+export const DAILY_EPOCH_ROTATION: DailyEpochEntry[] = [
+  {
+    dayIndex: 0,
+    dayName: "Monday",
+    epochId: 1,
+    epochName: "Genesis",
+    themeDescription: "The origin of all things. Before the Arks, before the empires, before the Hierarchy — there was only the first breath of civilization. Monday's challenges draw from the vocabulary of creation: foundational terms, elemental forces, and the raw language of beginnings.",
+    sampleWordList: ["SPARK", "FORGE", "BIRTH", "PRIME", "CODED", "NEXUS", "STEEL", "NERVE", "PULSE", "LIGHT", "HELIX", "MERGE", "CRAFT", "VITAL", "ARISE"],
+    hackingTheme: "primitive_circuits",
+    constellationSet: "genesis_sky",
+  },
+  {
+    dayIndex: 1,
+    dayName: "Tuesday",
+    epochId: 2,
+    epochName: "Early Empire",
+    themeDescription: "The first great governments rise. Bureaucracy takes form, surveillance infrastructure spreads, and the seeds of the Panopticon are planted. Tuesday's challenges use the language of statecraft, control, and the cold architecture of power.",
+    sampleWordList: ["WATCH", "ORDER", "CROWN", "EDICT", "TOWER", "GUARD", "LOYAL", "BOUND", "CHAIN", "RANKS", "JUDGE", "REIGN", "TITHE", "WALLS", "VAULT"],
+    hackingTheme: "imperial_conduits",
+    constellationSet: "empire_sky",
+  },
+  {
+    dayIndex: 2,
+    dayName: "Wednesday",
+    epochId: 3,
+    epochName: "Golden Age",
+    themeDescription: "The pinnacle of civilization. Art, science, and philosophy flourish. The Academies train the brightest minds. Wednesday's challenges shimmer with the vocabulary of enlightenment, discovery, and the hubris of a culture that believed it had conquered darkness.",
+    sampleWordList: ["DREAM", "GLORY", "LEARN", "THINK", "SHINE", "NOBLE", "QUEST", "TRUTH", "GRACE", "HONOR", "SAGE", "MIRTH", "BLOOM", "IVORY", "LYRIC"],
+    hackingTheme: "golden_filigree_pipes",
+    constellationSet: "golden_age_sky",
+  },
+  {
+    dayIndex: 3,
+    dayName: "Thursday",
+    epochId: 4,
+    epochName: "Expansion",
+    themeDescription: "The Inception Arks launch. Humanity scatters across the stars. Warlords carve out territories and the galaxy becomes a frontier. Thursday's challenges carry the weight of ambition, distance, and the language of conquest.",
+    sampleWordList: ["FLEET", "ORBIT", "CLAIM", "SCOUT", "DRIFT", "REACH", "CARGO", "ROUTE", "STARK", "FRONT", "SIEGE", "TROOP", "YIELD", "MARCH", "EXPAT"],
+    hackingTheme: "ark_engineering",
+    constellationSet: "expansion_sky",
+  },
+  {
+    dayIndex: 4,
+    dayName: "Friday",
+    epochId: 5,
+    epochName: "Insurgency Rising",
+    themeDescription: "The rebellion ignites. Iron Lion raises the banner. Agent Zero broadcasts from hidden frequencies. The Hierarchy's grip tightens but cracks appear. Friday's challenges burn with the vocabulary of resistance, sabotage, and desperate hope.",
+    sampleWordList: ["REBEL", "FIGHT", "SMOKE", "CRACK", "FREED", "RALLY", "COVERT", "BLAZE", "SNEAK", "RISEN", "DEFY", "TORCH", "BROKE", "AGENT", "GHOST"],
+    hackingTheme: "insurgent_jury_rigs",
+    constellationSet: "insurgency_sky",
+  },
+  {
+    dayIndex: 5,
+    dayName: "Saturday",
+    epochId: 6,
+    epochName: "Fall Era",
+    themeDescription: "Reality fractures. The Thought Virus spreads. Terminus emerges. Everything the civilization built begins to unravel. Saturday's challenges are steeped in the vocabulary of entropy, collapse, and the terrible beauty of endings.",
+    sampleWordList: ["VIRUS", "CRACK", "DECAY", "RUINS", "SHADE", "DRIFT", "HAUNT", "WRECK", "TOXIC", "VOID", "SHARD", "GRIEF", "DREAD", "ABYSS", "BREAK"],
+    hackingTheme: "corrupted_systems",
+    constellationSet: "fall_era_sky",
+  },
+  {
+    dayIndex: 6,
+    dayName: "Sunday",
+    epochId: 7,
+    epochName: "Age of Potentials",
+    themeDescription: "The current age. You are the Potentials — the last generation trained to survive what's coming. Sunday's challenges use the vocabulary of possibility, transformation, and the weight of being the ones who decide what comes next.",
+    sampleWordList: ["AWAKE", "SHIFT", "MORPH", "TRIAL", "SWORN", "PHASE", "BRIDGE", "TRUST", "MERGE", "ADAPT", "SCION", "NEXUS", "FORGE", "RISEN", "BONDS"],
+    hackingTheme: "potential_hybrid_tech",
+    constellationSet: "potentials_sky",
+  },
+];
+
+/**
+ * Returns today's epoch rotation entry.
+ * Uses ISO day-of-week (Monday = 1 ... Sunday = 7), mapped to dayIndex 0-6.
+ */
+export function getDailyEpochRotation(now: Date = new Date()): DailyEpochEntry {
+  // getDay() returns 0 (Sunday) through 6 (Saturday)
+  // Convert to Monday=0 ... Sunday=6
+  const jsDay = now.getDay();
+  const dayIndex = jsDay === 0 ? 6 : jsDay - 1;
+  return DAILY_EPOCH_ROTATION[dayIndex];
+}
+
+/**
+ * Returns the epoch-themed word list for Signal Decryption today.
+ */
+export function getDailyWordList(now: Date = new Date()): string[] {
+  return getDailyEpochRotation(now).sampleWordList;
+}
+
+/**
+ * Returns the epoch-themed hacking visual for today.
+ */
+export function getDailyHackingTheme(now: Date = new Date()): string {
+  return getDailyEpochRotation(now).hackingTheme;
+}
+
+/**
+ * Returns the epoch-themed constellation set for today.
+ */
+export function getDailyConstellationSet(now: Date = new Date()): string {
+  return getDailyEpochRotation(now).constellationSet;
+}
