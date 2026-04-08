@@ -9,6 +9,7 @@ import { fightLeaderboard, fightMatches, users } from "../../drizzle/schema";
 import { eq, desc, sql, and, gte } from "drizzle-orm";
 import { fetchCitizenData, fetchPotentialNftData, resolveFightGameBonuses, nftLevelMultiplier } from "../traitResolver";
 import { pressureService } from "../services/pressureService";
+import { companionCombat } from "../services/companionCombat";
 
 /* ─── ELO Calculation ─── */
 function calculateElo(playerElo: number, opponentElo: number, won: boolean, kFactor = 32): number {
@@ -181,9 +182,13 @@ export const fightLeaderboardRouter = router({
       ]);
       const fightTb = resolveFightGameBonuses(fightCitizen, fightNft);
       const nftMult = nftLevelMultiplier(fightNft);
-      // Higher citizen level + NFT level = slightly higher K-factor (more ELO gained/lost)
+
+      // Companion combat bonus — bond level affects ELO gain
+      const companionBonus = await companionCombat.getCombatBonus(userId);
+      // Higher citizen level + NFT level + companion bond = slightly higher K-factor
       const traitKBonus = Math.floor(fightTb.speedBonus / 2) + Math.floor((nftMult - 1) * 8);
-      const adjustedK = 32 + traitKBonus;
+      const companionKBonus = Math.floor(companionBonus.attack / 2);
+      const adjustedK = 32 + traitKBonus + companionKBonus;
       const opponentElo = DIFFICULTY_ELO[input.difficulty] ?? 1000;
       const newElo = calculateElo(entry.elo, opponentElo, input.won, adjustedK);
       const eloChange = newElo - entry.elo;
@@ -240,6 +245,13 @@ export const fightLeaderboardRouter = router({
         bestStreak,
         tierChanged: newTier !== entry.rankTier,
         previousTier: entry.rankTier,
+        companionBonus: companionBonus.attack > 0 ? {
+          attack: companionBonus.attack,
+          defense: companionBonus.defense,
+          speed: companionBonus.speed,
+          companionId: companionBonus.companionId,
+          description: companionCombat.formatBreakdown(companionBonus),
+        } : null,
       };
     }),
 

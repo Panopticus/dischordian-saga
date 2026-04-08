@@ -2562,6 +2562,14 @@ export const eidolonBonds = mysqlTable("eidolon_bonds", {
   missionsShared: int("missionsShared").default(0).notNull(),
   questsCompleted: json("questsCompleted").$type<string[]>().default([]),
   moralityDissonance: int("moralityDissonance").default(0).notNull(),
+  /** Evolution XP — separate from regular XP, tracks progress toward next stage */
+  evolutionXp: int("evolutionXp").default(0).notNull(),
+  /** Death cause for narrative purposes */
+  deathCause: varchar("deathCause", { length: 64 }),
+  /** Whether eidolon exists as spectral form (ghost-blue overlay) */
+  isSpectral: boolean("isSpectral").default(false).notNull(),
+  /** Game system where companion died — gets +10% spectral bonus */
+  spectralBonusSystem: varchar("spectralBonusSystem", { length: 64 }),
   /** Soul Stone absorption tracking — Hierarchy path */
   redStonesAbsorbed: int("redStonesAbsorbed").default(0).notNull(),
   /** Soul Stone absorption tracking — Dreamer path */
@@ -2611,6 +2619,8 @@ export const playerPets = mysqlTable("player_pets", {
   maxHp: int("maxHp").default(100).notNull(),
   /** Unlocked moves beyond the standard 3 */
   unlockedMoves: json("unlockedMoves").$type<string[]>(),
+  /** Evolution XP for pet evolution tracking */
+  evolutionXp: int("evolutionXp").default(0).notNull(),
   /** Total wins / losses / kills */
   wins: int("wins").default(0).notNull(),
   losses: int("losses").default(0).notNull(),

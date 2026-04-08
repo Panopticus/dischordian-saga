@@ -9,6 +9,9 @@ import { TRPCError } from "@trpc/server";
 import { getDb } from "../db";
 import { eidolonBonds, eidolonMemorial, dreamBalance } from "../../drizzle/schema";
 import { eq, and, sql, desc } from "drizzle-orm";
+import { petEvolution } from "../services/petEvolution";
+import { companionDeath } from "../services/companionDeath";
+import { pressureService } from "../services/pressureService";
 
 export const eidolonBondRouter = router({
   /* ─── GET MY BOND (protected) ─── */
@@ -93,11 +96,21 @@ export const eidolonBondRouter = router({
         })
         .where(eq(eidolonBonds.id, bond.id));
 
+      // Evolution XP: bond actions grant evolution XP at 50% rate
+      const evoXp = Math.floor(reward.bond * 0.5) + (input.action === "train" ? 5 : input.action === "feed" ? 5 : 2);
+      const evoResult = await petEvolution.addEidolonEvolutionXp(ctx.user.id, evoXp, `eidolon_${input.action}`);
+
+      // Pressure: trust gains feed the Dreamer
+      pressureService.increment(ctx.user.id, "trustGains", reward.bond, `eidolon_${input.action}`).catch(() => {});
+
       return {
         success: true,
         action: input.action,
         bondGained: reward.bond,
         xpGained: reward.xp,
+        evolutionXpGained: evoXp,
+        evolved: evoResult.evolved,
+        newStage: evoResult.newStage,
       };
     }),
 
@@ -453,4 +466,41 @@ export const eidolonBondRouter = router({
     return db.select().from(eidolonBonds)
       .where(eq(eidolonBonds.userId, ctx.user.id));
   }),
+
+  /** Get evolution progress for soul-bound eidolon */
+  getEvolutionProgress: protectedProcedure.query(async ({ ctx }) => {
+    return petEvolution.getEidolonProgress(ctx.user.id);
+  }),
+
+  /** Kill companion — marks dead, creates spectral form, feeds Necromancer */
+  kill: protectedProcedure
+    .input(z.object({
+      cause: z.enum(["combat", "severing", "sacrifice", "death_hook", "strain_symbiosis"]),
+      context: z.string().optional(),
+    }))
+    .mutation(async ({ ctx, input }) => {
+      return companionDeath.killCompanion(ctx.user.id, input.cause, input.context);
+    }),
+
+  /** Resurrect companion — requires Necromancer Holocron or quest */
+  resurrect: protectedProcedure
+    .input(z.object({
+      method: z.enum(["holocron", "quest", "admin"]),
+    }))
+    .mutation(async ({ ctx, input }) => {
+      return companionDeath.resurrect(ctx.user.id, input.method);
+    }),
+
+  /** Check if companion is spectral */
+  isSpectral: protectedProcedure.query(async ({ ctx }) => {
+    return { spectral: await companionDeath.isSpectral(ctx.user.id) };
+  }),
+
+  /** Get spectral bonus for a game system */
+  getSpectralBonus: protectedProcedure
+    .input(z.object({ gameSystem: z.string() }))
+    .query(async ({ ctx, input }) => {
+      const bonus = await companionDeath.getSpectralBonus(ctx.user.id, input.gameSystem);
+      return { system: input.gameSystem, bonusPercent: bonus };
+    }),
 });

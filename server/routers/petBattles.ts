@@ -10,6 +10,9 @@ import { TRPCError } from "@trpc/server";
 import { getDb } from "../db";
 import { playerPets, petBattleHistory, userProgress } from "../../drizzle/schema";
 import { eq, and, sql, desc, isNull, lte } from "drizzle-orm";
+import { companionCombat } from "../services/companionCombat";
+import { petEvolution } from "../services/petEvolution";
+import { pressureService } from "../services/pressureService";
 
 export const petBattlesRouter = router({
   /** Get player's full pet roster */
@@ -160,18 +163,41 @@ export const petBattlesRouter = router({
         battleLog: input.battleLog as any,
       });
 
+      // Get companion combat bonus for pet battles
+      const companionBonus = await companionCombat.getCombatBonus(ctx.user.id);
+      // Companion bond amplifies pet battle XP reward
+      const companionXpBoost = companionBonus.attack > 0 ? Math.round(xpReward * companionBonus.attack / 100) : 0;
+      const totalXp = xpReward + companionXpBoost;
+
       // Grant XP + Dream tokens to player progress
       await db
         .update(userProgress)
         .set({
-          xp: sql`${userProgress.xp} + ${xpReward}`,
+          xp: sql`${userProgress.xp} + ${totalXp}`,
         })
         .where(eq(userProgress.userId, ctx.user.id));
 
+      // Evolution XP: winning grants +20, losing grants +5
+      const evoXp = input.won ? 20 : 5;
+      const evoResult = await petEvolution.addPetEvolutionXp(ctx.user.id, input.petId, evoXp);
+
+      // Also feed Eidolon evolution XP (bond action at 50% rate)
+      petEvolution.addEidolonEvolutionXp(ctx.user.id, Math.floor(bondGain * 0.5), "pet_battle").catch(() => {});
+
+      // Pressure: pet battle loss feeds Necromancer
+      if (!input.won) {
+        pressureService.recordAction(ctx.user.id, "pet_death").catch(() => {});
+      }
+
       return {
         success: true,
-        rewards: { bondGain, skillPoints: skillGain, dream: dreamReward, xp: xpReward, injury },
+        rewards: { bondGain, skillPoints: skillGain, dream: dreamReward, xp: totalXp, injury },
         petStatus: { currentHp: newHp, injuredUntil, bond: pet.bond + bondGain },
+        companionBonus: companionBonus.attack > 0 ? {
+          description: companionCombat.formatBreakdown(companionBonus),
+          xpBoost: companionXpBoost,
+        } : null,
+        evolution: evoResult.evolved ? { newStage: evoResult.newStage } : null,
       };
     }),
 
