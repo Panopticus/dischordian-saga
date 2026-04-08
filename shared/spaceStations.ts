@@ -322,12 +322,18 @@ export const STATION_BACKGROUNDS: StationBackground[] = [
     accent: "#06b6d4",
     category: "special",
   },
+  {
+    id: "archons-sanctum",
+    name: "The Archon's Sanctum",
+    imageUrl: "https://res.cloudinary.com/dsenaozjq/image/upload/q_auto/f_auto/v1775674484/SS-007_-_Archon_s_Sanctum_cmqfjp.jpg",
+    accent: "#d4a017",
+    category: "prestige",
+  },
 ];
 
-/** Get the background for a module category (prestige falls back to command module) */
+/** Get the background for a module category */
 export function getStationBackground(category: ModuleCategory | "overview"): StationBackground {
-  const cat = category === "prestige" ? "overview" : category;
-  return STATION_BACKGROUNDS.find(bg => bg.category === cat) || STATION_BACKGROUNDS[0];
+  return STATION_BACKGROUNDS.find(bg => bg.category === category) || STATION_BACKGROUNDS[0];
 }
 
 /* ═══════════════════════════════════════════════════════
