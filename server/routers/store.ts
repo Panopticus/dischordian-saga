@@ -4,6 +4,7 @@ import { getDb } from "../db";
 import { STORE_PRODUCTS, getProduct, getProductsByCategory, getFeaturedProducts } from "../products";
 import { storePurchases, dreamBalance, shipUpgrades, playerBases, userCards, cards, type StorePurchase } from "../../drizzle/schema";
 import { eq, and, desc, sql } from "drizzle-orm";
+import { ripple } from "../services/rippleEngine";
 
 export const storeRouter = router({
   /** List all products, optionally filtered by category */
@@ -91,6 +92,9 @@ export const storeRouter = router({
       });
 
       await fulfillPurchase(ctx.user.id, input.productKey, input.quantity);
+
+      await ripple.emit("store_purchase", { userId: ctx.user.id, amount: totalCost });
+
       return { success: true, message: `Purchased ${product.name}!` };
     }),
 
@@ -127,6 +131,9 @@ export const storeRouter = router({
           fulfilled: 1,
         });
         await fulfillPurchase(ctx.user.id, input.productKey, input.quantity);
+
+        await ripple.emit("store_purchase", { userId: ctx.user.id, amount: totalCost });
+
         return { success: true, message: `Purchased ${product.name}!` };
       });
     }),

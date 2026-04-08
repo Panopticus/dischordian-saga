@@ -9,6 +9,7 @@ import { getDb } from "../db";
 import { friendlyChallenges, users } from "../../drizzle/schema";
 import { eq, and, desc, or } from "drizzle-orm";
 import { CHALLENGE_RULES, getDailyChallenge } from "../../shared/friendlyChallenges";
+import { ripple } from "../services/rippleEngine";
 
 export const friendlyChallengesRouter = router({
   /** Create a challenge */
@@ -55,6 +56,9 @@ export const friendlyChallengesRouter = router({
     .mutation(async ({ ctx, input }) => {
       const db = await getDb();
       if (!db) throw new Error("DB unavailable");
+      const [challenge] = await db.select().from(friendlyChallenges).where(eq(friendlyChallenges.id, input.challengeId));
+      if (!challenge) throw new Error("Challenge not found");
+
       await db.update(friendlyChallenges)
         .set({
           status: "completed",
@@ -62,6 +66,12 @@ export const friendlyChallengesRouter = router({
           completedAt: new Date(),
         })
         .where(eq(friendlyChallenges.id, input.challengeId));
+
+      if (input.winnerId) {
+        const loserId = input.winnerId === challenge.challengerId ? challenge.opponentId : challenge.challengerId;
+        await ripple.emit("challenge_complete", { userId: input.winnerId, opponentId: loserId, won: true });
+      }
+
       return { completed: true };
     }),
 

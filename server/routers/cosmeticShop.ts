@@ -16,6 +16,7 @@ import {
   COSMETIC_ITEMS, getShopItems, getBossMasteryCosmetics,
   type CosmeticItem,
 } from "../../shared/cosmeticShop";
+import { ripple } from "../services/rippleEngine";
 
 export const cosmeticShopRouter = router({
   /** Get shop items with availability based on RPG state */
@@ -116,6 +117,8 @@ export const cosmeticShopRouter = router({
         itemKey: input.itemKey,
         price: item.price,
       });
+
+      await ripple.emit("store_purchase", { userId: ctx.user.id, amount: item.price });
 
       return { purchased: true, item: item.name, priceCharged: item.price };
     }),

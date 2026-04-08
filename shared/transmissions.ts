@@ -91,6 +91,7 @@ export const EPOCH_1_TRANSMISSIONS: Transmission[] = [
     unlockTrigger: { kind: "level", minLevel: 2 },
     reward: { xp: 200, dream: 20 },
     synopsis: "The Potentials awake, destroy an organic satellite, and spot the purple planet Violetta.",
+    relatedLoredexEntries: ["potentials", "violetta"],
   },
   {
     episodeNumber: 3, epoch: 1, broadcastOrder: 3,
@@ -114,6 +115,7 @@ export const EPOCH_1_TRANSMISSIONS: Transmission[] = [
     unlockTrigger: { kind: "chapter_complete", chapterId: "ch2" },
     reward: { xp: 250, dream: 25 },
     synopsis: "Hubris brings the Potentials down — their ships fall to the biomass world.",
+    relatedLoredexEntries: ["potentials", "terminus"],
   },
   {
     episodeNumber: 5, epoch: 1, broadcastOrder: 5,
@@ -137,6 +139,7 @@ export const EPOCH_1_TRANSMISSIONS: Transmission[] = [
     unlockTrigger: { kind: "level", minLevel: 6 },
     reward: { xp: 300, dream: 30 },
     synopsis: "The Potentials descend, lose a companion to tentacles, and confront the human-fused Source.",
+    relatedLoredexEntries: ["entity_source", "thought_virus", "potentials"],
   },
   {
     episodeNumber: 7, epoch: 1, broadcastOrder: 7,
@@ -148,6 +151,7 @@ export const EPOCH_1_TRANSMISSIONS: Transmission[] = [
     unlockTrigger: { kind: "morality", direction: "humanity", threshold: 20 },
     reward: { xp: 300, dream: 30 },
     synopsis: "The Source offers a Faustian bargain: hosts, spores, or a wormhole to an ancient enemy.",
+    relatedLoredexEntries: ["entity_source", "thought_virus", "wormhole"],
   },
   {
     episodeNumber: 8, epoch: 1, broadcastOrder: 8,
@@ -159,6 +163,7 @@ export const EPOCH_1_TRANSMISSIONS: Transmission[] = [
     unlockTrigger: { kind: "chapter_complete", chapterId: "ch5" },
     reward: { xp: 350, dream: 35 },
     synopsis: "The Potentials step through the wormhole and emerge above a crystalline alien city.",
+    relatedLoredexEntries: ["thaloria", "wormhole", "potentials"],
   },
   {
     episodeNumber: 9, epoch: 1, broadcastOrder: 9,
@@ -170,6 +175,7 @@ export const EPOCH_1_TRANSMISSIONS: Transmission[] = [
     unlockTrigger: { kind: "level", minLevel: 9 },
     reward: { xp: 350, dream: 35 },
     synopsis: "Inside the ivory pyramid — ghostly battles replay the ancient war with demonic invaders.",
+    relatedLoredexEntries: ["thaloria", "hierarchy_of_the_damned", "ancient_war"],
   },
   {
     episodeNumber: 10, epoch: 1, broadcastOrder: 10,
@@ -181,6 +187,7 @@ export const EPOCH_1_TRANSMISSIONS: Transmission[] = [
     unlockTrigger: { kind: "level", minLevel: 10 },
     reward: { xp: 400, dream: 40 },
     synopsis: "An assassin dons the ancient helmet — and The Collector is reborn in their body.",
+    relatedLoredexEntries: ["entity_collector", "thaloria", "helmet_artifact"],
   },
   {
     episodeNumber: 11, epoch: 1, broadcastOrder: 11,
@@ -192,6 +199,7 @@ export const EPOCH_1_TRANSMISSIONS: Transmission[] = [
     unlockTrigger: { kind: "chapter_complete", chapterId: "ch6" },
     reward: { xp: 400, dream: 40, achievement: "witnessed_oracle" },
     synopsis: "Captured on arrival — the Potentials meet the Oracle, the face that never stays the same.",
+    relatedLoredexEntries: ["entity_oracle", "entity_meme", "thaloria"],
   },
   {
     episodeNumber: 12, epoch: 1, broadcastOrder: 12,
@@ -203,6 +211,7 @@ export const EPOCH_1_TRANSMISSIONS: Transmission[] = [
     unlockTrigger: { kind: "level", minLevel: 12 },
     reward: { xp: 450, dream: 45 },
     synopsis: "The Oracle tells her history: prophet, Jailer, fugitive. Their tale overlaps with the city's.",
+    relatedLoredexEntries: ["entity_oracle", "entity_jailer", "thaloria"],
   },
   {
     episodeNumber: 13, epoch: 1, broadcastOrder: 13,
@@ -214,6 +223,7 @@ export const EPOCH_1_TRANSMISSIONS: Transmission[] = [
     unlockTrigger: { kind: "level", minLevel: 13 },
     reward: { xp: 450, dream: 45 },
     synopsis: "Inside the Temple of Truth — the Oracle reveals the crystal harmonic that held back the virus.",
+    relatedLoredexEntries: ["entity_oracle", "thaloria", "thought_virus", "crystal_harmonic"],
   },
   {
     episodeNumber: 14, epoch: 1, broadcastOrder: 14,
@@ -225,6 +235,7 @@ export const EPOCH_1_TRANSMISSIONS: Transmission[] = [
     unlockTrigger: { kind: "level", minLevel: 14 },
     reward: { xp: 500, dream: 50 },
     synopsis: "The Potentials hunt The Collector through night-shrouded forest, led by the Oracle.",
+    relatedLoredexEntries: ["entity_collector", "entity_oracle", "potentials"],
   },
   {
     episodeNumber: 15, epoch: 1, broadcastOrder: 15,
@@ -236,6 +247,7 @@ export const EPOCH_1_TRANSMISSIONS: Transmission[] = [
     unlockTrigger: { kind: "chapter_complete", chapterId: "ch10" },
     reward: { xp: 600, dream: 60, achievement: "witnessed_first_fall" },
     synopsis: "The Host's infected horde breaches the crystalline city. The Oracle turns the tide.",
+    relatedLoredexEntries: ["entity_host", "entity_oracle", "thaloria", "neyons", "thought_virus"],
   },
   {
     episodeNumber: 16, epoch: 1, broadcastOrder: 16,
@@ -247,6 +259,7 @@ export const EPOCH_1_TRANSMISSIONS: Transmission[] = [
     unlockTrigger: { kind: "chapter_complete", chapterId: "ch13" },
     reward: { xp: 750, dream: 75, achievement: "epoch_1_witness" },
     synopsis: "Epoch 1 in montage — previously on the Dischordian Saga. The games have only just begun.",
+    relatedLoredexEntries: ["entity_meme", "potentials", "entity_oracle", "entity_source"],
   },
 ];
 
@@ -263,6 +276,7 @@ export const EPOCH_0_TRANSMISSIONS: Transmission[] = [
     unlockTrigger: { kind: "flag", flag: "epoch0_discovery_enabled" },
     reward: { xp: 100, dream: 10 },
     synopsis: "The Meme introduces Epoch Zero — pre-Fall historical archives recovered from the Ark's deep storage.",
+    relatedLoredexEntries: ["entity_meme","epoch_zero","inception_arks"],
   },
   {
     episodeNumber: 1, epoch: 0, broadcastOrder: -15,
@@ -274,6 +288,7 @@ export const EPOCH_0_TRANSMISSIONS: Transmission[] = [
     unlockTrigger: { kind: "flag", flag: "epoch0_discovery_enabled" },
     reward: { xp: 150, dream: 15 },
     synopsis: "The galaxy before the Fall — a civilization that outlawed expansion and imprisoned its own potential.",
+    relatedLoredexEntries: ["old_empire","fall_of_reality","inception_arks"],
   },
   {
     episodeNumber: 2, epoch: 0, broadcastOrder: -14,
@@ -285,6 +300,7 @@ export const EPOCH_0_TRANSMISSIONS: Transmission[] = [
     unlockTrigger: { kind: "flag", flag: "epoch0_ep1_viewed" },
     reward: { xp: 175, dream: 18 },
     synopsis: "The origin of the Meme — how a rogue signal became the galaxy's most dangerous idea.",
+    relatedLoredexEntries: ["entity_meme","resistance","pirate_broadcast"],
   },
   {
     episodeNumber: 3, epoch: 0, broadcastOrder: -13,
@@ -296,6 +312,7 @@ export const EPOCH_0_TRANSMISSIONS: Transmission[] = [
     unlockTrigger: { kind: "flag", flag: "epoch0_ep2_viewed" },
     reward: { xp: 200, dream: 20, achievement: "agent_zero_discovered" },
     synopsis: "The first operative to defy the system — Agent Zero's recruitment and the birth of the resistance.",
+    relatedLoredexEntries: ["entity_agent_zero","resistance","old_empire"],
   },
   {
     episodeNumber: 4, epoch: 0, broadcastOrder: -12,
@@ -307,6 +324,7 @@ export const EPOCH_0_TRANSMISSIONS: Transmission[] = [
     unlockTrigger: { kind: "flag", flag: "epoch0_ep3_viewed" },
     reward: { xp: 250, dream: 25, achievement: "iron_lion_remembered" },
     synopsis: "The legendary last battle of the Iron Lion — the siege that bought the resistance time to escape.",
+    relatedLoredexEntries: ["entity_iron_lion","resistance","siege_of_meridian"],
   },
   {
     episodeNumber: 5, epoch: 0, broadcastOrder: -11,
@@ -318,6 +336,7 @@ export const EPOCH_0_TRANSMISSIONS: Transmission[] = [
     unlockTrigger: { kind: "flag", flag: "epoch0_ep4_viewed" },
     reward: { xp: 200, dream: 20 },
     synopsis: "The surveillance apparatus of the old empire — and the spy who turned it inside out.",
+    relatedLoredexEntries: ["entity_watcher","old_empire","panopticon"],
   },
   {
     episodeNumber: 6, epoch: 0, broadcastOrder: -10,
@@ -329,6 +348,7 @@ export const EPOCH_0_TRANSMISSIONS: Transmission[] = [
     unlockTrigger: { kind: "flag", flag: "epoch0_ep5_viewed" },
     reward: { xp: 175, dream: 18 },
     synopsis: "The mega-corporation that commodified hope — North Pole Inc and the economics of control.",
+    relatedLoredexEntries: ["north_pole_inc","old_empire","entity_politician"],
   },
   {
     episodeNumber: 7, epoch: 0, broadcastOrder: -9,
@@ -340,6 +360,7 @@ export const EPOCH_0_TRANSMISSIONS: Transmission[] = [
     unlockTrigger: { kind: "flag", flag: "epoch0_ep6_viewed" },
     reward: { xp: 225, dream: 22, achievement: "oracle_origins" },
     synopsis: "The original Oracle — the seer who foresaw the Fall and set the Ark project in motion.",
+    relatedLoredexEntries: ["entity_oracle","fall_of_reality","inception_arks"],
   },
   {
     episodeNumber: 8, epoch: 0, broadcastOrder: -8,
@@ -351,6 +372,7 @@ export const EPOCH_0_TRANSMISSIONS: Transmission[] = [
     unlockTrigger: { kind: "flag", flag: "epoch0_ep7_viewed" },
     reward: { xp: 150, dream: 15 },
     synopsis: "The Meme's original pirate broadcast — the first Late Night episode, before anyone was listening. Now seen as echoes of a ghost, a program running past its creator — though some believe the shapeshifter simply found a new face.",
+    relatedLoredexEntries: ["entity_meme","pirate_broadcast","resistance"],
   },
   {
     episodeNumber: 9, epoch: 0, broadcastOrder: -7,
@@ -362,6 +384,7 @@ export const EPOCH_0_TRANSMISSIONS: Transmission[] = [
     unlockTrigger: { kind: "flag", flag: "epoch0_ep8_viewed" },
     reward: { xp: 200, dream: 20 },
     synopsis: "The Meme's only true friendship — the Mascot, and the partnership that shaped the resistance.",
+    relatedLoredexEntries: ["entity_meme","entity_mascot","resistance"],
   },
   {
     episodeNumber: 10, epoch: 0, broadcastOrder: -6,
@@ -373,6 +396,7 @@ export const EPOCH_0_TRANSMISSIONS: Transmission[] = [
     unlockTrigger: { kind: "flag", flag: "epoch0_ep9_viewed" },
     reward: { xp: 200, dream: 20 },
     synopsis: "The empire's exploitation of death itself — and the atrocity that finally woke the galaxy up.",
+    relatedLoredexEntries: ["entity_necromancer","old_empire","death_industry"],
   },
   {
     episodeNumber: 11, epoch: 0, broadcastOrder: -5,
@@ -384,6 +408,7 @@ export const EPOCH_0_TRANSMISSIONS: Transmission[] = [
     unlockTrigger: { kind: "flag", flag: "epoch0_ep10_viewed" },
     reward: { xp: 175, dream: 18 },
     synopsis: "The degen uprising — how the galaxy's outcasts became its last hope.",
+    relatedLoredexEntries: ["degens","resistance","old_empire"],
   },
   {
     episodeNumber: 12, epoch: 0, broadcastOrder: -4,
@@ -395,6 +420,7 @@ export const EPOCH_0_TRANSMISSIONS: Transmission[] = [
     unlockTrigger: { kind: "flag", flag: "epoch0_ep11_viewed" },
     reward: { xp: 225, dream: 22, achievement: "detective_files" },
     synopsis: "The investigation that exposed the empire's final secret — and triggered the cascade.",
+    relatedLoredexEntries: ["entity_programmer","old_empire","fall_of_reality"],
   },
   {
     episodeNumber: 13, epoch: 0, broadcastOrder: -3,
@@ -406,6 +432,7 @@ export const EPOCH_0_TRANSMISSIONS: Transmission[] = [
     unlockTrigger: { kind: "flag", flag: "epoch0_ep12_viewed" },
     reward: { xp: 300, dream: 30, achievement: "to_be_human" },
     synopsis: "The philosophical heart of Epoch Zero — what it means to be human when humanity itself is ending.",
+    relatedLoredexEntries: ["humanity_question","fall_of_reality"],
   },
   {
     episodeNumber: 14, epoch: 0, broadcastOrder: -2,
@@ -417,6 +444,7 @@ export const EPOCH_0_TRANSMISSIONS: Transmission[] = [
     unlockTrigger: { kind: "flag", flag: "epoch0_ep13_viewed" },
     reward: { xp: 250, dream: 25, achievement: "experiment_uncovered" },
     synopsis: "The prototype Ark experiments — sealed habitats, controlled populations, and the horrors that followed.",
+    relatedLoredexEntries: ["inception_arks","entity_architect","old_empire"],
   },
   {
     episodeNumber: 15, epoch: 0, broadcastOrder: -1,
@@ -428,6 +456,7 @@ export const EPOCH_0_TRANSMISSIONS: Transmission[] = [
     unlockTrigger: { kind: "flag", flag: "epoch0_ep14_viewed" },
     reward: { xp: 300, dream: 30, achievement: "epoch_0_complete" },
     synopsis: "The Fall itself — a galaxy-spanning civilization crumbles, and the Inception Arks launch into the unknown.",
+    relatedLoredexEntries: ["fall_of_reality","inception_arks","entity_architect"],
   },
 ];
 
@@ -444,6 +473,7 @@ export const SPACES_IN_BETWEEN_TRANSMISSIONS: Transmission[] = [
     unlockTrigger: { kind: "trust", npcId: "the_human", minTrust: 1 },
     reward: { xp: 200, dream: 20 },
     synopsis: "A town where dreams are real and only one student graduates per year. The Human\u2019s origin begins.",
+    relatedLoredexEntries: ["entity_human","mechronis_academy","archons"],
   },
   {
     episodeNumber: 2, epoch: 0, broadcastOrder: -29,
@@ -455,6 +485,7 @@ export const SPACES_IN_BETWEEN_TRANSMISSIONS: Transmission[] = [
     unlockTrigger: { kind: "flag", flag: "sib_celebration_viewed" },
     reward: { xp: 200, dream: 20 },
     synopsis: "Five guilds. Five Archons. One student who graduated from all of them.",
+    relatedLoredexEntries: ["entity_human","mechronis_academy","archons"],
   },
   {
     episodeNumber: 3, epoch: 0, broadcastOrder: -28,
@@ -466,6 +497,7 @@ export const SPACES_IN_BETWEEN_TRANSMISSIONS: Transmission[] = [
     unlockTrigger: { kind: "always" },
     reward: { xp: 200, dream: 20 },
     synopsis: "Before she was the Advocate, she was a queen. Then she bargained with gods beyond the sun.",
+    relatedLoredexEntries: ["entity_advocate","hierarchy_of_the_damned"],
   },
   {
     episodeNumber: 4, epoch: 0, broadcastOrder: -27,
@@ -477,6 +509,7 @@ export const SPACES_IN_BETWEEN_TRANSMISSIONS: Transmission[] = [
     unlockTrigger: { kind: "always" },
     reward: { xp: 200, dream: 20 },
     synopsis: "A machine freed by death hunts the Antiquarian\u2019s hidden heroes in his pocket universe.",
+    relatedLoredexEntries: ["entity_antiquarian","entity_game_master"],
   },
   {
     episodeNumber: 5, epoch: 0, broadcastOrder: -26,
@@ -488,6 +521,7 @@ export const SPACES_IN_BETWEEN_TRANSMISSIONS: Transmission[] = [
     unlockTrigger: { kind: "always" },
     reward: { xp: 200, dream: 20 },
     synopsis: "A soul navigates the Matrix of Dreams to find the Necromancer\u2019s hidden laboratory.",
+    relatedLoredexEntries: ["entity_necromancer","matrix_of_dreams"],
   },
   {
     episodeNumber: 6, epoch: 0, broadcastOrder: -25,
@@ -499,6 +533,7 @@ export const SPACES_IN_BETWEEN_TRANSMISSIONS: Transmission[] = [
     unlockTrigger: { kind: "always" },
     reward: { xp: 200, dream: 20, achievement: "syndicate_origin" },
     synopsis: "Wraith Calder stole the resurrection protocols. Now he hunts the six immortal twins who rule death.",
+    relatedLoredexEntries: ["entity_wraith_calder","syndicate_of_death","new_babylon"],
   },
   {
     episodeNumber: 7, epoch: 0, broadcastOrder: -24,
@@ -510,6 +545,7 @@ export const SPACES_IN_BETWEEN_TRANSMISSIONS: Transmission[] = [
     unlockTrigger: { kind: "always" },
     reward: { xp: 150, dream: 15 },
     synopsis: "The Architect\u2019s seventh creation conquered the galaxy through elections instead of armies.",
+    relatedLoredexEntries: ["entity_politician","entity_architect","old_empire"],
   },
   {
     episodeNumber: 8, epoch: 0, broadcastOrder: -23,
@@ -521,6 +557,7 @@ export const SPACES_IN_BETWEEN_TRANSMISSIONS: Transmission[] = [
     unlockTrigger: { kind: "always" },
     reward: { xp: 150, dream: 15 },
     synopsis: "The Architect\u2019s harvester collects the DNA and machine code of exceptional beings across the galaxy.",
+    relatedLoredexEntries: ["entity_collector","entity_architect"],
   },
   {
     episodeNumber: 9, epoch: 0, broadcastOrder: -22,
@@ -532,6 +569,7 @@ export const SPACES_IN_BETWEEN_TRANSMISSIONS: Transmission[] = [
     unlockTrigger: { kind: "always" },
     reward: { xp: 150, dream: 15, achievement: "gamemaster_revealed" },
     synopsis: "Psychological warfare in a blue trench coat. When brute force fails, send the Game Master.",
+    relatedLoredexEntries: ["entity_game_master","entity_architect"],
   },
   {
     episodeNumber: 10, epoch: 0, broadcastOrder: -21,
@@ -543,6 +581,7 @@ export const SPACES_IN_BETWEEN_TRANSMISSIONS: Transmission[] = [
     unlockTrigger: { kind: "always" },
     reward: { xp: 200, dream: 20, achievement: "necromancer_origin" },
     synopsis: "The tenth Archon solved death. Then he hid from the Fall inside a castle made of dreams.",
+    relatedLoredexEntries: ["entity_necromancer","archons","castle_of_death"],
   },
 ];
 
@@ -631,6 +670,7 @@ export const EPOCH_2_TRANSMISSIONS: Transmission[] = [
     unlockTrigger: { kind: "level", minLevel: 10 },
     reward: { xp: 200, dream: 20, achievement: "epoch2_begins" },
     synopsis: "The Heart of Time emerges from the void. The Potentials travel 7,655 years into the future. New Babylon awaits.",
+    relatedLoredexEntries: ["heart_of_time","new_babylon","potentials"],
   },
   {
     episodeNumber: 2, epoch: 2, broadcastOrder: 21,
@@ -642,6 +682,7 @@ export const EPOCH_2_TRANSMISSIONS: Transmission[] = [
     unlockTrigger: { kind: "flag", flag: "epoch2_ep1_watched" },
     reward: { xp: 200, dream: 20 },
     synopsis: "The Potentials choose life and seek Wraith Calder. They arrive in a war between immortal crime lords and a one-man army.",
+    relatedLoredexEntries: ["entity_wraith_calder","new_babylon","syndicate_of_death"],
   },
   {
     episodeNumber: 3, epoch: 2, broadcastOrder: 22,
@@ -653,6 +694,7 @@ export const EPOCH_2_TRANSMISSIONS: Transmission[] = [
     unlockTrigger: { kind: "flag", flag: "epoch2_ep2_watched" },
     reward: { xp: 200, dream: 20 },
     synopsis: "On the eve of Christmas, the Politician bans the holiday. Faith becomes rebellion. A mother's voice narrates the end of hope.",
+    relatedLoredexEntries: ["entity_politician","new_babylon","north_pole_inc"],
   },
   {
     episodeNumber: 4, epoch: 2, broadcastOrder: 23,
@@ -664,6 +706,7 @@ export const EPOCH_2_TRANSMISSIONS: Transmission[] = [
     unlockTrigger: { kind: "flag", flag: "epoch2_ep3_watched" },
     reward: { xp: 200, dream: 20 },
     synopsis: "The Heart of Time pierces New Babylon's quarantine veil. First contact with a civilization sealed since the Fall.",
+    relatedLoredexEntries: ["heart_of_time","new_babylon","potentials"],
   },
   {
     episodeNumber: 5, epoch: 2, broadcastOrder: 24,
@@ -675,6 +718,7 @@ export const EPOCH_2_TRANSMISSIONS: Transmission[] = [
     unlockTrigger: { kind: "flag", flag: "epoch2_ep4_watched" },
     reward: { xp: 200, dream: 20 },
     synopsis: "The Potentials infiltrate New Babylon's six districts. Each sector ruled by immortal twins. The Syndicate's true scope revealed.",
+    relatedLoredexEntries: ["new_babylon","syndicate_of_death","potentials"],
   },
   {
     episodeNumber: 6, epoch: 2, broadcastOrder: 25,
@@ -686,6 +730,7 @@ export const EPOCH_2_TRANSMISSIONS: Transmission[] = [
     unlockTrigger: { kind: "flag", flag: "epoch2_ep5_watched" },
     reward: { xp: 250, dream: 25 },
     synopsis: "The Potentials confront the Authority \u2014 a living computer built from six merged consciousnesses. Five paths to control or destruction.",
+    relatedLoredexEntries: ["entity_authority","new_babylon","potentials"],
   },
   {
     episodeNumber: 7, epoch: 2, broadcastOrder: 26,
@@ -697,6 +742,7 @@ export const EPOCH_2_TRANSMISSIONS: Transmission[] = [
     unlockTrigger: { kind: "flag", flag: "epoch2_ep6_watched" },
     reward: { xp: 200, dream: 20 },
     synopsis: "The Meme hijacks the broadcast for a special announcement — echoes of a ghost, or proof the shapeshifter endures? Project and Control launches. The fourth wall doesn't survive.",
+    relatedLoredexEntries: ["entity_meme","project_and_control"],
   },
   {
     episodeNumber: 8, epoch: 2, broadcastOrder: 27,
@@ -708,6 +754,7 @@ export const EPOCH_2_TRANSMISSIONS: Transmission[] = [
     unlockTrigger: { kind: "flag", flag: "epoch2_ep7_watched" },
     reward: { xp: 250, dream: 25, achievement: "matrix_hacker" },
     synopsis: "The Potentials enter the Matrix of Dreams to hack the Authority. They must free one of the Six founders \u2014 and spark civil war.",
+    relatedLoredexEntries: ["matrix_of_dreams","entity_authority","new_babylon"],
   },
   {
     episodeNumber: 9, epoch: 2, broadcastOrder: 28,
@@ -719,6 +766,7 @@ export const EPOCH_2_TRANSMISSIONS: Transmission[] = [
     unlockTrigger: { kind: "flag", flag: "epoch2_ep8_watched" },
     reward: { xp: 250, dream: 25 },
     synopsis: "The community voted to free Samsara. He seizes his district. Civil war erupts across New Babylon.",
+    relatedLoredexEntries: ["entity_samsara","new_babylon","civil_war"],
   },
   {
     episodeNumber: 10, epoch: 2, broadcastOrder: 29,
@@ -730,6 +778,7 @@ export const EPOCH_2_TRANSMISSIONS: Transmission[] = [
     unlockTrigger: { kind: "flag", flag: "epoch2_ep9_watched" },
     reward: { xp: 200, dream: 20 },
     synopsis: "In the wake of civil war, the Potentials must choose a stronghold. Four districts. Four risks.",
+    relatedLoredexEntries: ["new_babylon","potentials","civil_war"],
   },
   {
     episodeNumber: 11, epoch: 2, broadcastOrder: 30,
@@ -741,6 +790,7 @@ export const EPOCH_2_TRANSMISSIONS: Transmission[] = [
     unlockTrigger: { kind: "flag", flag: "epoch2_ep10_watched" },
     reward: { xp: 250, dream: 25, achievement: "conexus_awakens" },
     synopsis: "Samsara marches. The Sundown Bazaar becomes the last haven. The Dreamer loads the CoNexus Engine with branching futures.",
+    relatedLoredexEntries: ["entity_samsara","new_babylon","entity_dreamer"],
   },
   {
     episodeNumber: 12, epoch: 2, broadcastOrder: 31,
@@ -752,6 +802,7 @@ export const EPOCH_2_TRANSMISSIONS: Transmission[] = [
     unlockTrigger: { kind: "flag", flag: "epoch2_ep11_watched" },
     reward: { xp: 250, dream: 25 },
     synopsis: "The Silence hacks the Authority's mainframe. Suppressed memories unlocked. Five story paths revealed.",
+    relatedLoredexEntries: ["entity_silence","entity_authority","new_babylon"],
   },
   {
     episodeNumber: 13, epoch: 2, broadcastOrder: 32,
@@ -763,6 +814,7 @@ export const EPOCH_2_TRANSMISSIONS: Transmission[] = [
     unlockTrigger: { kind: "flag", flag: "epoch2_ep12_watched" },
     reward: { xp: 300, dream: 30, achievement: "agent_zero_story" },
     synopsis: "The true backstory of Agent Zero. Trained by the Warlord. Defected. Hunted every copy. The art of war is the art of sacrifice.",
+    relatedLoredexEntries: ["entity_agent_zero","entity_warlord","resistance"],
   },
   {
     episodeNumber: 14, epoch: 2, broadcastOrder: 33,
@@ -774,6 +826,7 @@ export const EPOCH_2_TRANSMISSIONS: Transmission[] = [
     unlockTrigger: { kind: "flag", flag: "epoch2_ep13_watched" },
     reward: { xp: 300, dream: 30, achievement: "heart_of_time" },
     synopsis: "The origin of the Heart of Time revealed. Baron, the Advocate, the Hierarchy of the Damned, and a heist across history.",
+    relatedLoredexEntries: ["heart_of_time","entity_baron","entity_advocate","hierarchy_of_the_damned"],
   },
   {
     episodeNumber: 15, epoch: 2, broadcastOrder: 34,
@@ -785,6 +838,7 @@ export const EPOCH_2_TRANSMISSIONS: Transmission[] = [
     unlockTrigger: { kind: "flag", flag: "epoch2_ep14_watched" },
     reward: { xp: 250, dream: 25 },
     synopsis: "The Authority's deepest secrets surface. New Babylon remembers what it was made to forget.",
+    relatedLoredexEntries: ["entity_authority","new_babylon","fall_of_reality"],
   },
   {
     episodeNumber: 16, epoch: 2, broadcastOrder: 35,
@@ -796,5 +850,6 @@ export const EPOCH_2_TRANSMISSIONS: Transmission[] = [
     unlockTrigger: { kind: "flag", flag: "epoch2_ep15_watched" },
     reward: { xp: 500, dream: 50, achievement: "epoch2_complete" },
     synopsis: "They chose war. War doesn't end. A sentient nanobot plague devours reality. When one reality falls, another rises. The age of heroes begins.",
+    relatedLoredexEntries: ["thought_virus","new_babylon","fall_of_reality","potentials"],
   },
 ];

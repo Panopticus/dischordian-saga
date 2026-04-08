@@ -6,6 +6,7 @@ import { cards, userCards, decks, cardGameMatches, characterSheets, dreamBalance
 import { eq, and, like, inArray, sql, desc, asc, type SQL } from "drizzle-orm";
 import { fetchCitizenData, fetchPotentialNftData, resolveCardGameBonuses } from "../traitResolver";
 import { trackAiResult, trackCollectionSize } from "../achievementTracker";
+import { ripple } from "../services/rippleEngine";
 
 // ═══════════════════════════════════════════════════════
 // CARD GAME STATE TYPES
@@ -716,6 +717,7 @@ export const cardGameRouter = router({
       if (matchStatus === "completed") {
         trackAiResult(ctx.user.id, winnerId === ctx.user.id)
           .catch(e => logger.error("[CardGame] Achievement tracking error:", e));
+        await ripple.emit("card_battle_result", { userId: ctx.user.id, won: winnerId === ctx.user.id });
       }
 
       return {
@@ -809,6 +811,7 @@ export const cardGameRouter = router({
       if (matchStatus === "completed") {
         trackAiResult(ctx.user.id, winnerId === ctx.user.id)
           .catch(e => logger.error("[CardGame] Achievement tracking error:", e));
+        await ripple.emit("card_battle_result", { userId: ctx.user.id, won: winnerId === ctx.user.id });
       }
 
       return { success: true, gameState: state, logEntry, matchStatus };
@@ -878,6 +881,7 @@ export const cardGameRouter = router({
       if (matchStatus === "completed") {
         trackAiResult(ctx.user.id, winnerId === ctx.user.id)
           .catch(e => logger.error("[CardGame] Achievement tracking error:", e));
+        await ripple.emit("card_battle_result", { userId: ctx.user.id, won: winnerId === ctx.user.id });
       }
 
       return { success: true, gameState: state, matchStatus };

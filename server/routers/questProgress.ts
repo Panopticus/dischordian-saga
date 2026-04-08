@@ -6,6 +6,7 @@ import { z } from "zod";
 import { protectedProcedure, router } from "../_core/trpc";
 import { getDb } from "../db";
 import { eq, and } from "drizzle-orm";
+import { ripple } from "../services/rippleEngine";
 
 export const questProgressRouter = router({
   /** Get all quest progress for the current player */
@@ -97,6 +98,8 @@ export const questProgressRouter = router({
         // Award Dream tokens if quest has dream reward
         // (The actual reward amounts are defined client-side in quests.ts)
         // This endpoint just marks the claim — client applies the reward
+
+        await ripple.emit("quest_completed", { userId: ctx.user.id, questId: input.questId });
 
         return { success: true };
       } catch { return { success: false }; }

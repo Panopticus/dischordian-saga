@@ -6,6 +6,7 @@ import { trackCraftAction, trackDisenchant, trackCollectionSize } from "../achie
 import { cards, userCards, craftingLog, dreamBalance } from "../../drizzle/schema";
 import { eq, and, sql, desc, inArray } from "drizzle-orm";
 import { fetchCitizenData, fetchPotentialNftData, resolveCraftingBonuses } from "../traitResolver";
+import { ripple } from "../services/rippleEngine";
 
 // ═══════════════════════════════════════════════════════
 // CRAFTING RECIPES
@@ -416,6 +417,8 @@ export const craftingRouter = router({
           creditsCost: recipe.creditsCost,
         });
 
+        await ripple.emit("craft_result", { userId: ctx.user.id, success: false, recipeId: input.recipeId, rarity: recipe.outputRarity });
+
         return {
           success: false,
           message: `Crafting failed! Materials were consumed. (${Math.round(boostedRate * 100)}% chance${craftTb.successRateBonus > 0 ? ` — trait bonus: +${Math.round(craftTb.successRateBonus * 100)}%` : ""})`,
@@ -504,6 +507,8 @@ export const craftingRouter = router({
       if (["rare", "epic", "legendary", "mythic"].includes(outputCard.rarity)) {
         awardCivilXp(ctx.user.id, "craft_rare").catch(e => logger.error("[Crafting] Rare craft XP award failed:", e));
       }
+
+      await ripple.emit("craft_result", { userId: ctx.user.id, success: true, recipeId: input.recipeId, rarity: outputCard.rarity });
 
       return {
         success: true,
@@ -663,6 +668,8 @@ export const craftingRouter = router({
         success: succeeded ? 1 : 0,
         creditsCost: input.dreamCost,
       }).catch(e => logger.error("[Crafting] Craft log insert failed:", e));
+
+      await ripple.emit("craft_result", { userId: ctx.user.id, success: succeeded, recipeId: input.recipeId, rarity: "crafted" });
 
       return {
         success: true,

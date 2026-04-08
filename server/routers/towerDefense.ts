@@ -20,6 +20,7 @@ import {
   calculateRaidStars, calculateRaidLoot,
   getAvailableTowers, getAvailableRaidUnits,
 } from "../../shared/towerDefense";
+import { ripple } from "../services/rippleEngine";
 
 /* ═══ RPG STATS LOADER ═══ */
 async function getUserRpgStats(userId: number) {
@@ -481,6 +482,8 @@ export const towerDefenseRouter = router({
             : myTrophyRow?.bestWinStreak || 0,
         })
         .where(eq(raidTrophies.userId, ctx.user.id));
+
+      await ripple.emit("defense_wave_complete", { userId: ctx.user.id, wave: stars });
 
       // Log the raid
       await db.insert(raidLogs).values({

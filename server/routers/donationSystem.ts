@@ -14,6 +14,7 @@ import {
   WEEKLY_LIMITS, REPUTATION_PER_DONATION, getReputationEarned,
   type DonationType,
 } from "../../shared/donationSystem";
+import { ripple } from "../services/rippleEngine";
 
 export const donationSystemRouter = router({
   /** Get my donation reputation for a guild */
@@ -85,6 +86,8 @@ export const donationSystemRouter = router({
           weeklyDonations: newWeekly,
         });
       }
+
+      await ripple.emit("guild_donation", { userId: ctx.user.id, amount: input.amount, resourceType: input.donationType || "dream" });
 
       return { donated: true, reputationEarned: repEarned };
     }),

@@ -9,6 +9,7 @@ import { getDb, type DrizzleDb } from "../db";
 import { contentParticipation, contentRewards, userCards, dreamBalance, cards } from "../../drizzle/schema";
 import { eq, and, sql } from "drizzle-orm";
 import { fetchCitizenData, fetchPotentialNftData, resolveExplorationBonuses, nftLevelMultiplier } from "../traitResolver";
+import { ripple } from "../services/rippleEngine";
 
 // ═══ REWARD DEFINITIONS (in-code for fast access) ═══
 // These define what rewards are given for each content type
@@ -220,6 +221,8 @@ export const contentRewardRouter = router({
             eq(contentParticipation.contentType, input.contentType),
             eq(contentParticipation.contentId, input.contentId),
           ));
+
+        await ripple.emit("episode_watched", { userId: ctx.user.id, episodeNumber: 0, epoch: 0 });
 
         // Check milestones
         const [totalCompleted] = await db.select({ count: sql<number>`COUNT(*)` })

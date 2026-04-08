@@ -8,6 +8,7 @@ import { protectedProcedure, router } from "../_core/trpc";
 import { getDb } from "../db";
 import { trackTradeComplete, trackCollectionSize } from "../achievementTracker";
 import { cardTrades, userCards, dreamBalance, users, notifications } from "../../drizzle/schema";
+import { ripple } from "../services/rippleEngine";
 
 const tradeCardSchema = z.object({ cardId: z.string(), quantity: z.number().min(1).max(10) });
 
@@ -177,6 +178,8 @@ export const tradingRouter = router({
       const { awardCivilXp } = await import("../civilSkillHelper");
       awardCivilXp(trade.senderId, "complete_trade").catch(e => logger.error("[Trading] Civil XP award failed:", e));
       awardCivilXp(ctx.user.id, "complete_trade").catch(e => logger.error("[Trading] Civil XP award failed:", e));
+
+      await ripple.emit("card_trade_complete", { userId: ctx.user.id, partnerId: trade.senderId });
 
       return { success: true };
     }),

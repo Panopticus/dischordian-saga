@@ -4,6 +4,7 @@ import { TRPCError } from "@trpc/server";
 import { getDb } from "../db";
 import { classMastery, citizenCharacters } from "../../drizzle/schema";
 import { eq, and } from "drizzle-orm";
+import { ripple } from "../services/rippleEngine";
 import {
   getMasteryRank,
   getXpToNextRank,
@@ -135,6 +136,10 @@ export const classMasteryRouter = router({
           actionsPerformed: mastery.actionsPerformed + 1,
         })
         .where(eq(classMastery.id, mastery.id));
+
+      if (rankUp) {
+        await ripple.emit("class_rank_up", { userId: ctx.user.id, className: characterClass, newRank });
+      }
 
       const rankUpInfo = rankUp
         ? {

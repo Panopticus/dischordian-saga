@@ -18,6 +18,7 @@ import { fetchCitizenData, fetchPotentialNftData, resolveMarketBonuses } from ".
 import { trackIncrement } from "../achievementTracker";
 import { characterSheets } from "../../drizzle/schema";
 import { pressureService } from "../services/pressureService";
+import { ripple } from "../services/rippleEngine";
 
 /** 5% marketplace tax */
 const TAX_RATE = 0.05;
@@ -338,6 +339,9 @@ export const marketplaceRouter = router({
         }
       }
       trackIncrement(listing[0].sellerId, "market_sales", 1).catch(e => logger.error("[Marketplace] Purchase tracking failed:", e));
+
+      await ripple.emit("market_transaction", { userId: ctx.user.id, buyerId: ctx.user.id, sellerId, amount: totalPrice });
+
       return {
         success: true,
         totalPaid: totalPrice,

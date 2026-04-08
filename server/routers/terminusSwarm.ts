@@ -6,6 +6,7 @@ import { z } from "zod";
 import { protectedProcedure, router } from "../_core/trpc";
 import { getDb } from "../db";
 import { eq, and, desc } from "drizzle-orm";
+import { ripple } from "../services/rippleEngine";
 
 // We'll use the progressData JSON column in userProgress
 // For now, use localStorage on client + optional server sync
@@ -132,6 +133,8 @@ export const terminusSwarmRouter = router({
           points,
           source: input.bossKilled ? "terminus_boss_kill" : "terminus_wave",
         });
+
+        await ripple.emit("terminus_wave_survived", { userId: ctx.user.id, wave: input.wave });
 
         // Award class mastery XP
         try {
