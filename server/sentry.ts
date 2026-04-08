@@ -2,16 +2,28 @@
    SENTRY ERROR MONITORING — Server-side integration.
    Captures unhandled exceptions and error-level logs
    for production observability.
+
+   @sentry/node is an optional dependency — the module
+   gracefully no-ops when the package is not installed
+   or SENTRY_DSN is not set.
    ═══════════════════════════════════════════════════════ */
 
-import * as Sentry from "@sentry/node";
 import type { Request, Response, NextFunction } from "express";
 
-const DSN = process.env.SENTRY_DSN;
-
+let Sentry: typeof import("@sentry/node") | undefined;
 let initialized = false;
 
-if (DSN) {
+async function initSentry() {
+  const DSN = process.env.SENTRY_DSN;
+  if (!DSN) return;
+
+  try {
+    Sentry = await import("@sentry/node");
+  } catch {
+    // @sentry/node is not installed — skip silently
+    return;
+  }
+
   Sentry.init({
     dsn: DSN,
     environment: process.env.NODE_ENV || "development",
@@ -22,11 +34,21 @@ if (DSN) {
   initialized = true;
 }
 
+// Fire-and-forget; callers check `initialized` before using Sentry.
+const _ready = initSentry();
+
+/**
+ * Wait for Sentry initialization to complete (useful at startup).
+ */
+export function waitForSentry(): Promise<void> {
+  return _ready;
+}
+
 /**
  * Capture an exception in Sentry. No-op when Sentry is not configured.
  */
 export function captureException(error: unknown, context?: Record<string, unknown>): void {
-  if (!initialized) return;
+  if (!initialized || !Sentry) return;
   Sentry.captureException(error, context ? { extra: context } : undefined);
 }
 
@@ -37,7 +59,7 @@ export function captureMessage(
   message: string,
   level: "fatal" | "error" | "warning" | "info" | "debug" = "info",
 ): void {
-  if (!initialized) return;
+  if (!initialized || !Sentry) return;
   Sentry.captureMessage(message, level);
 }
 
