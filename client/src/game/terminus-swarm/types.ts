@@ -185,6 +185,7 @@ export interface TerminusGameState {
   score: number;
   kills: number;
   frameCount: number;
+  mapIndex: number;
 }
 
 /* ─── MAP DEFINITIONS ─── */

@@ -711,6 +711,30 @@ export const ARENAS: ArenaData[] = [
     ambientColor: "#7c3aed",
     backgroundImage: "https://res.cloudinary.com/dsenaozjq/image/upload/v1775505917/arena-shadow-sanctum_kascod.jpg",
   },
+  {
+    id: "ranked-table",
+    name: "The Ranked Table",
+    bgGradient: "linear-gradient(180deg, #030310 0%, #0a0a2e 30%, #0d1033 50%, #0a0a2e 70%, #030310 100%)",
+    floorColor: "#0a0a2e",
+    ambientColor: "#33E2E6",
+    backgroundImage: "https://res.cloudinary.com/dsenaozjq/image/upload/q_auto/f_auto/v1775669323/PVP-001_THE_RANKED_TABLE_rkljqj.jpg",
+  },
+  {
+    id: "tournament-hall",
+    name: "The Tournament Hall",
+    bgGradient: "linear-gradient(180deg, #0a0508 0%, #1a0a14 30%, #2d0f1f 50%, #1a0a14 70%, #0a0508 100%)",
+    floorColor: "#1a0a14",
+    ambientColor: "#f59e0b",
+    backgroundImage: "https://res.cloudinary.com/dsenaozjq/image/upload/q_auto/f_auto/v1775669326/PVP-002_THE_TOURNAMENT_HALL_mytr5n.jpg",
+  },
+  {
+    id: "draft-chamber",
+    name: "The Draft Chamber",
+    bgGradient: "linear-gradient(180deg, #0a0804 0%, #1a1408 30%, #2d1f0a 50%, #1a1408 70%, #0a0804 100%)",
+    floorColor: "#1a1408",
+    ambientColor: "#d97706",
+    backgroundImage: "https://res.cloudinary.com/dsenaozjq/image/upload/q_auto/f_auto/v1775669324/PVP-003_THE_DRAFT_CHAMBER_j5wkve.jpg",
+  },
 ];
 
 /* ─── DIFFICULTY ─── */

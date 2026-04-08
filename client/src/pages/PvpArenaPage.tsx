@@ -14,6 +14,8 @@ import { getLoginUrl } from "@/const";
 import { generateStarterDeck, type StarterCard } from "@/components/StarterDeckViewer";
 import GameCard from "@/components/GameCard";
 import { AmbientParticles } from "@/components/BattleVFX";
+import LivingBackground from "@/components/LivingBackground";
+import { ARENAS } from "@/game/gameData";
 import type { PvpBattleState, PvpCard, PvpAction, DeckCard } from "@shared/pvpBattle";
 import {
   Swords, Shield, Zap, Crown, Trophy, Users, Clock,
@@ -526,9 +528,16 @@ export default function PvpArenaPage() {
     const seasonRecord = mySeasonRecord.data;
     const matches = activeMatches.data || [];
 
+    const tournamentArena = ARENAS.find(a => a.id === "tournament-hall");
+
     return (
-      <div className="min-h-screen grid-bg">
-        <div className="px-4 sm:px-6 py-8 max-w-6xl mx-auto space-y-6">
+      <div className="min-h-screen grid-bg relative overflow-hidden">
+        {/* Tournament Hall Background */}
+        {tournamentArena?.backgroundImage && (
+          <LivingBackground src={tournamentArena.backgroundImage} accent={tournamentArena.ambientColor} opacity={0.12} particleCount={6} />
+        )}
+
+        <div className="px-4 sm:px-6 py-8 max-w-6xl mx-auto space-y-6 relative z-10">
           {/* Header */}
           <div className="flex items-center justify-between">
             <div>
@@ -1197,8 +1206,15 @@ export default function PvpArenaPage() {
     );
   }
 
+  const rankedArena = ARENAS.find(a => a.id === "ranked-table");
+
   return (
     <div className={`min-h-screen grid-bg relative overflow-hidden ${screenShake ? "animate-screen-shake" : ""}`} ref={boardRef}>
+      {/* PVP Arena Background */}
+      {rankedArena?.backgroundImage && (
+        <LivingBackground src={rankedArena.backgroundImage} accent={rankedArena.ambientColor} opacity={0.15} voidRoomKey="pvp_arena" particleCount={8} />
+      )}
+
       {/* VFX Layer */}
       <AmbientParticles count={15} color="rgba(51,226,230,0.2)" />
 

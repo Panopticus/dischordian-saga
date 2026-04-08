@@ -44,7 +44,7 @@ const TURRET_ICONS: Record<string, typeof Shield> = {
 const TILE_SIZE = 40;
 
 export default function TerminusSwarmPage() {
-  const { isAuthenticated } = useAuth();
+  const { user, isAuthenticated } = useAuth();
   const [view, setView] = useState<View>(() => {
     return localStorage.getItem("terminus_puzzle_complete") === "true" ? "map_select" : "intro";
   });
@@ -73,17 +73,19 @@ export default function TerminusSwarmPage() {
   const reportWave = trpc.terminusSwarm.reportWaveComplete.useMutation();
   const updateStats = trpc.terminusSwarm.updateStats.useMutation();
   const updateQuestProgress = trpc.quests.updateProgress.useMutation();
+  const battlePassProgress = trpc.battlePass.myProgress.useQuery(undefined, { enabled: isAuthenticated });
+  const seasonPassPremium = battlePassProgress.data?.progress?.isPremium ?? false;
 
   const league = getLeague(trophies);
 
   // PvP WebSocket connection
-  const pvp = useTerminusPvP(1, "Potential", trophies); // TODO: use real userId/userName from auth
+  const pvp = useTerminusPvP(user?.id ?? 0, user?.name ?? "Potential", trophies);
   const animRef = useRef<number>(0);
 
   // Start game on map
   const handleStartMap = useCallback((mapIndex: number) => {
     const map = MAPS[mapIndex] || MAPS[0];
-    const state = createGameState(map);
+    const state = createGameState(map, mapIndex);
     setGameState(state);
     gameRef.current = state;
     setView("playing");
@@ -903,7 +905,7 @@ export default function TerminusSwarmPage() {
       {showSeasonPass && (
         <SeasonPass
           currentPoints={totalKills + highestWave * 10} // Simple point calculation from gameplay
-          isPremium={false} // TODO: connect to server purchase status
+          isPremium={seasonPassPremium}
           claimedTiers={new Set()}
           onClaimTier={(tier) => { console.log("Claim tier:", tier); }}
           onPurchasePremium={() => { console.log("Purchase premium"); }}

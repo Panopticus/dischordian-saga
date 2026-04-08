@@ -113,7 +113,7 @@ export function findPath(
 
 /* ─── GAME STATE CREATION ─── */
 
-export function createGameState(map: MapDef): TerminusGameState {
+export function createGameState(map: MapDef, mapIndex: number = 0): TerminusGameState {
   _uid = 0;
   const grid: GridCell[][] = [];
 
@@ -149,6 +149,7 @@ export function createGameState(map: MapDef): TerminusGameState {
     score: 0,
     kills: 0,
     frameCount: 0,
+    mapIndex,
   };
 }
 
@@ -248,7 +249,7 @@ export function removeBarricade(state: TerminusGameState, row: number, col: numb
   const cell = state.grid[row][col];
   if (cell.type !== "blocked") return state;
   // Don't remove original map blocked tiles
-  const map = MAPS[0]; // TODO: track which map is active
+  const map = MAPS[state.mapIndex] || MAPS[0];
   if (map.blockedTiles.some((t: { x: number; y: number }) => t.x === col && t.y === row)) return state;
 
   cell.type = "empty";

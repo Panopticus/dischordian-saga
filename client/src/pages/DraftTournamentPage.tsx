@@ -13,6 +13,8 @@ import {
   Crown, Target, RotateCcw, Check, X, Eye, Loader2
 } from "lucide-react";
 import season1Cards from "@/data/season1-cards.json";
+import LivingBackground from "@/components/LivingBackground";
+import { ARENAS } from "@/game/gameData";
 
 /* ─── TYPES ─── */
 interface DraftCard {
@@ -336,10 +338,17 @@ export default function DraftTournamentPage() {
     );
   }
 
+  const draftArena = ARENAS.find(a => a.id === "draft-chamber");
+
   return (
-    <div className="min-h-screen pb-24">
+    <div className="min-h-screen pb-24 relative overflow-hidden">
+      {/* Draft Chamber Background */}
+      {draftArena?.backgroundImage && (
+        <LivingBackground src={draftArena.backgroundImage} accent={draftArena.ambientColor} opacity={0.12} particleCount={6} />
+      )}
+
       {/* Header */}
-      <div className="px-4 sm:px-6 pt-6 pb-4">
+      <div className="px-4 sm:px-6 pt-6 pb-4 relative z-10">
         <div className="flex items-center gap-3 mb-2">
           <Link href="/games" className="text-muted-foreground hover:text-primary transition-colors">
             <ArrowLeft size={18} />

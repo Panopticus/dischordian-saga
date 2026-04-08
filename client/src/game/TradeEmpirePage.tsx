@@ -10,6 +10,7 @@ import {
   ArrowLeft, Clock, Star, AlertTriangle, MapPin, Send, Eye,
 } from "lucide-react";
 import GalacticMap from "./GalacticMap";
+import { useGame } from "@/contexts/GameContext";
 import { getEquipmentGameBonuses } from "./equipmentState";
 import {
   GALACTIC_MAP, GALACTIC_FACTIONS, STARTER_MISSIONS,
@@ -34,6 +35,7 @@ const DIFFICULTY_COLORS: Record<string, string> = {
 };
 
 export default function TradeEmpirePage() {
+  const { state: gameState } = useGame();
   const [view, setView] = useState<View>("map");
   const [empire, setEmpire] = useState<EmpireState>(() => {
     const saved = localStorage.getItem("trade_empire_state");
@@ -92,10 +94,10 @@ export default function TradeEmpirePage() {
   // Available missions based on narrative flags
   const availableMissions = useMemo(() => {
     return STARTER_MISSIONS.filter(m => {
-      if (m.requiresFlag) return false; // TODO: check actual flags
+      if (m.requiresFlag && !gameState.narrativeFlags[m.requiresFlag]) return false;
       return !empire.completedMissions.includes(m.id);
     });
-  }, [empire.completedMissions]);
+  }, [empire.completedMissions, gameState.narrativeFlags]);
 
   // Active mission sectors
   const activeMissionSectors = useMemo(() => {

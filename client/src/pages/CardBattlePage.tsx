@@ -31,6 +31,8 @@ import {
   EnergyFieldOverlay, FactionBanners, WeatherEffects,
   DynamicBoardLighting, GraveyardSouls, ComboCounter,
 } from "@/components/BoardEffects";
+import LivingBackground from "@/components/LivingBackground";
+import { ARENAS } from "@/game/gameData";
 
 /* ─── ELEMENT COLORS ─── */
 const ELEMENT_COLORS: Record<string, string> = {
@@ -884,6 +886,9 @@ export default function CardBattlePage() {
         background: "linear-gradient(180deg, #030308 0%, #080820 30%, #0a0a2e 50%, #080820 70%, #030308 100%)",
       }}
     >
+      {/* ── PVP Arena Background ── */}
+      {(() => { const arena = ARENAS.find(a => a.id === "ranked-table"); return arena?.backgroundImage ? <LivingBackground src={arena.backgroundImage} accent={arena.ambientColor} opacity={0.1} particleCount={0} scanlines={false} /> : null; })()}
+
       {/* ── VFX Layers ── */}
       <FloatingNumbers texts={vfx.floatingTexts} onComplete={vfx.removeFloatingText} />
       <ScreenFlash effects={vfx.screenEffects} onComplete={vfx.removeScreenEffect} />

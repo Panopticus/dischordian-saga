@@ -13,6 +13,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Sparkles, X } from "lucide-react";
 import { useGame } from "@/contexts/GameContext";
 import { FEATURE_ROADMAP, isFeatureUnlocked, FEATURE_CATEGORIES, type FeatureUnlock } from "@shared/featureRoadmap";
+import { getSessionDuration } from "@/lib/analytics";
 import { Z } from "@/lib/zIndex";
 import { VOID } from "@/engine/voidPresets";
 
@@ -41,9 +42,9 @@ export default function FeatureUnlockToast() {
       elaraTrust: state.elaraTrust || 0,
       humanTrust: state.humanTrust || 0,
       npcTrust: state.npcTrust || {},
-      level: 1,  // TODO: wire to actual character level
+      level: Math.max(1, Math.floor((state.conexusXp || 0) / 100) + 1),
       questsCompleted: (state.claimedQuestRewards || []).length,
-      playtimeHours: 0,  // TODO: wire to playtime tracker
+      playtimeHours: getSessionDuration() / 3_600_000,
     };
 
     const newlyUnlocked = FEATURE_ROADMAP.filter(f =>
@@ -55,7 +56,7 @@ export default function FeatureUnlockToast() {
       newlyUnlocked.forEach(f => seenRef.current.add(f.featureId));
       localStorage.setItem(STORAGE_KEY, JSON.stringify([...seenRef.current]));
     }
-  }, [state.rooms, state.narrativeFlags, state.elaraTrust, state.humanTrust, state.npcTrust, state.claimedQuestRewards]);
+  }, [state.rooms, state.narrativeFlags, state.elaraTrust, state.humanTrust, state.npcTrust, state.claimedQuestRewards, state.conexusXp]);
 
   // Show next in queue
   useEffect(() => {
