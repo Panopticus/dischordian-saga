@@ -21,6 +21,46 @@ import {
   type Technology, type TechBranch, type TechTreeState, DEFAULT_TECH_STATE,
 } from "./techTree";
 import { FlaskConical } from "lucide-react";
+import LivingBackground from "@/components/LivingBackground";
+
+/* ─── TRADE EMPIRE BACKGROUNDS ─── */
+const TRADE_BACKGROUNDS: Record<string, { url: string; accent: string }> = {
+  map: {
+    url: "https://res.cloudinary.com/dsenaozjq/image/upload/q_auto/f_auto/v1775675352/TE-001_THE_TRADE_MAP_a5bppy.jpg",
+    accent: "#33E2E6",
+  },
+  market: {
+    url: "https://res.cloudinary.com/dsenaozjq/image/upload/q_auto/f_auto/v1775675353/TE-002_THE_MARKET_FLOOR_gvqfsj.jpg",
+    accent: "#f59e0b",
+  },
+  colony: {
+    url: "https://res.cloudinary.com/dsenaozjq/image/upload/q_auto/f_auto/v1775675348/TE-003_THE_COLONY_VIEW_bkon59.jpg",
+    accent: "#22c55e",
+  },
+  office: {
+    url: "https://res.cloudinary.com/dsenaozjq/image/upload/q_auto/f_auto/v1775675350/TE-004_LOCKES_OFFICE_sqkcmx.jpg",
+    accent: "#a855f7",
+  },
+};
+
+/** Map each view to its background key */
+function getTradeBackground(view: View) {
+  switch (view) {
+    case "map":
+    case "sector_detail":
+      return TRADE_BACKGROUNDS.map;
+    case "missions":
+    case "fleet":
+      return TRADE_BACKGROUNDS.market;
+    case "agents":
+    case "research":
+      return TRADE_BACKGROUNDS.colony;
+    case "diplomacy":
+      return TRADE_BACKGROUNDS.office;
+    default:
+      return TRADE_BACKGROUNDS.map;
+  }
+}
 
 type View = "map" | "missions" | "agents" | "diplomacy" | "fleet" | "research" | "sector_detail";
 
@@ -162,10 +202,22 @@ export default function TradeEmpirePage() {
   const selectedSectorData = selectedSector ? GALACTIC_MAP.find(s => s.id === selectedSector) : null;
   const selectedSectorFaction = selectedSectorData ? GALACTIC_FACTIONS[selectedSectorData.controlledBy] : null;
 
+  const activeBg = getTradeBackground(view);
+
   return (
-    <div className="min-h-screen bg-black p-4">
+    <div className="min-h-screen bg-black p-4 relative overflow-hidden">
+      {/* Dynamic view background */}
+      <LivingBackground
+        key={activeBg.url}
+        src={activeBg.url}
+        accent={activeBg.accent}
+        opacity={0.12}
+        particleCount={6}
+        scanlines={false}
+      />
+
       {/* Header */}
-      <div className="flex items-center justify-between mb-4 max-w-6xl mx-auto">
+      <div className="flex items-center justify-between mb-4 max-w-6xl mx-auto relative z-10">
         <div>
           <h1 className="font-display text-xl tracking-[0.2em] text-white">GALACTIC COMMAND</h1>
           <p className="font-mono text-[10px] text-white/30">Ark Collective • Empire Level {empire.empireLevel}</p>
@@ -180,7 +232,7 @@ export default function TradeEmpirePage() {
       </div>
 
       {/* Navigation tabs */}
-      <div className="flex gap-1 mb-4 max-w-6xl mx-auto overflow-x-auto">
+      <div className="flex gap-1 mb-4 max-w-6xl mx-auto overflow-x-auto relative z-10">
         {[
           { id: "map" as View, label: "GALAXY MAP", icon: Globe },
           { id: "missions" as View, label: "MISSIONS", icon: Target },
@@ -204,7 +256,7 @@ export default function TradeEmpirePage() {
         })}
       </div>
 
-      <div className="max-w-6xl mx-auto">
+      <div className="max-w-6xl mx-auto relative z-10">
         {/* Galaxy Map View */}
         {view === "map" && (
           <div className="space-y-4">
@@ -368,7 +420,6 @@ export default function TradeEmpirePage() {
         {/* Diplomacy View */}
         {view === "diplomacy" && (
           <div className="relative space-y-2">
-            <img src="/art/special-maps/special-thaloria-debate-stage.png" alt="" className="absolute inset-0 w-full h-full object-cover pointer-events-none" style={{ opacity: 0.1, filter: "brightness(0.3) saturate(0.6)" }} />
             <p className="font-mono text-[10px] text-white/30 tracking-wider mb-3">FACTION RELATIONS</p>
             {Object.entries(empire.diplomacy).map(([fId, dip]) => {
               const faction = GALACTIC_FACTIONS[fId as GalacticFactionId];
