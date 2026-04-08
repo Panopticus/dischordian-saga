@@ -933,7 +933,9 @@ export const pvpDecks = mysqlTable("pvp_decks", {
   cardCount: int("cardCount").notNull().default(0),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
-});
+}, (table) => ({
+  userIdIdx: index("idx_pvp_decks_user_id").on(table.userId),
+}));
 
 export type PvpDeck = typeof pvpDecks.$inferSelect;
 export type InsertPvpDeck = typeof pvpDecks.$inferInsert;
@@ -1108,7 +1110,9 @@ export const cardGameAchievements = mysqlTable("card_game_achievements", {
   completedAt: timestamp("completedAt"),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
-});
+}, (table) => ({
+  userIdIdx: index("idx_card_game_achievements_user_id").on(table.userId),
+}));
 export type CardGameAchievement = typeof cardGameAchievements.$inferSelect;
 export type InsertCardGameAchievement = typeof cardGameAchievements.$inferInsert;
 
@@ -1128,7 +1132,9 @@ export const featureUnlocks = mysqlTable("feature_unlocks", {
   /** Source identifier (room ID, achievement ID, etc.) */
   sourceId: varchar("sourceId", { length: 128 }),
   unlockedAt: timestamp("unlockedAt").defaultNow().notNull(),
-});
+}, (table) => ({
+  userIdIdx: index("idx_feature_unlocks_user_id").on(table.userId),
+}));
 export type FeatureUnlock = typeof featureUnlocks.$inferSelect;
 export type InsertFeatureUnlock = typeof featureUnlocks.$inferInsert;
 
@@ -1150,7 +1156,9 @@ export const warTerritories = mysqlTable("war_territories", {
   /** Last capture event timestamp */
   lastCaptured: timestamp("lastCaptured"),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
-});
+}, (table) => ({
+  seasonIdIdx: index("idx_war_territories_season_id").on(table.seasonId),
+}));
 export type WarTerritory = typeof warTerritories.$inferSelect;
 
 /**
@@ -1175,7 +1183,10 @@ export const warContributions = mysqlTable("war_contributions", {
   points: int("points").notNull().default(1),
   seasonId: int("seasonId").notNull().default(1),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
-});
+}, (table) => ({
+  userIdIdx: index("idx_war_contributions_user_id").on(table.userId),
+  seasonIdIdx: index("idx_war_contributions_season_id").on(table.seasonId),
+}));
 export type WarContribution = typeof warContributions.$inferSelect;
 
 /**
@@ -1344,7 +1355,10 @@ export const currencyExchange = mysqlTable("currency_exchange", {
   filledAmount: int("filledAmount").notNull().default(0),
   status: mysqlEnum("status", ["active", "filled", "cancelled"]).notNull().default("active"),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
-});
+}, (table) => ({
+  userIdIdx: index("idx_currency_exchange_user_id").on(table.userId),
+  statusIdx: index("idx_currency_exchange_status").on(table.status),
+}));
 export type CurrencyExchangeOrder = typeof currencyExchange.$inferSelect;
 
 /* ═══════════════════════════════════════════════════════
@@ -1382,7 +1396,9 @@ export const dailyQuests = mysqlTable("daily_quests", {
   /** Date this quest is for (YYYY-MM-DD) */
   questDate: varchar("questDate", { length: 10 }).notNull(),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
-});
+}, (table) => ({
+  userIdIdx: index("idx_daily_quests_user_id").on(table.userId),
+}));
 export type DailyQuest = typeof dailyQuests.$inferSelect;
 
 /**
@@ -1405,7 +1421,9 @@ export const loginCalendar = mysqlTable("login_calendar", {
   currentMonth: varchar("currentMonth", { length: 7 }),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
-});
+}, (table) => ({
+  userIdIdx: index("idx_login_calendar_user_id").on(table.userId),
+}));
 export type LoginCalendar = typeof loginCalendar.$inferSelect;
 
 /* ═══════════════════════════════════════════════════════
@@ -1439,7 +1457,9 @@ export const notifications = mysqlTable("notifications", {
   /** Extra data (trade ID, auction ID, etc.) */
   metadata: json("metadata").$type<Record<string, unknown>>(),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
-});
+}, (table) => ({
+  userIdIdx: index("idx_notifications_user_id").on(table.userId),
+}));
 export type Notification = typeof notifications.$inferSelect;
 
 /* ═══════════════════════════════════════════════════════
@@ -1491,7 +1511,10 @@ export const battlePassProgress = mysqlTable("battle_pass_progress", {
   claimedPremiumTiers: json("claimedPremiumTiers").$type<number[]>(),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
-});
+}, (table) => ({
+  userIdIdx: index("idx_battle_pass_progress_user_id").on(table.userId),
+  seasonIdIdx: index("idx_battle_pass_progress_season_id").on(table.seasonId),
+}));
 export type BattlePassProgress = typeof battlePassProgress.$inferSelect;
 
 /* ═══════════════════════════════════════════════════════
@@ -1513,7 +1536,9 @@ export const disenchantLog = mysqlTable("disenchant_log", {
   /** Dream tokens received */
   dreamReceived: int("dreamReceived").notNull().default(0),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
-});
+}, (table) => ({
+  userIdIdx: index("idx_disenchant_log_user_id").on(table.userId),
+}));
 export type DisenchantLog = typeof disenchantLog.$inferSelect;
 
 /* ═══════════════════════════════════════════════════════
@@ -1595,7 +1620,9 @@ export const guildChat = mysqlTable("guild_chat", {
   /** Message type */
   messageType: mysqlEnum("messageType", ["chat", "system", "war_update"]).notNull().default("chat"),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
-});
+}, (table) => ({
+  guildIdIdx: index("idx_guild_chat_guild_id").on(table.guildId),
+}));
 export type GuildChatMessage = typeof guildChat.$inferSelect;
 
 /**
@@ -1610,7 +1637,10 @@ export const guildInvites = mysqlTable("guild_invites", {
   invitedBy: int("invitedBy").notNull(),
   status: mysqlEnum("status", ["pending", "accepted", "declined"]).notNull().default("pending"),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
-});
+}, (table) => ({
+  guildIdIdx: index("idx_guild_invites_guild_id").on(table.guildId),
+  invitedUserIdIdx: index("idx_guild_invites_invited_user_id").on(table.invitedUserId),
+}));
 export type GuildInvite = typeof guildInvites.$inferSelect;
 
 
@@ -1642,7 +1672,11 @@ export const guildWarContributions = mysqlTable("guild_war_contributions", {
   points: int("points").notNull().default(0),
   source: mysqlEnum("source", ["fight_win", "pvp_win", "trade_volume", "quest_complete", "card_battle_win", "chess_win", "terminus_wave", "terminus_boss_kill", "terminus_pvp_star", "terminus_defense"]).notNull(),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
-});
+}, (table) => ({
+  warIdIdx: index("idx_guild_war_contributions_war_id").on(table.warId),
+  guildIdIdx: index("idx_guild_war_contributions_guild_id").on(table.guildId),
+  userIdIdx: index("idx_guild_war_contributions_user_id").on(table.userId),
+}));
 export type GuildWarContribution = typeof guildWarContributions.$inferSelect;
 
 /** Marketplace tax pool — accumulates taxes for guild wars and season prizes */
@@ -1743,7 +1777,9 @@ export const classMastery = mysqlTable("class_mastery", {
   actionsPerformed: int("actionsPerformed").notNull().default(0),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
-});
+}, (table) => ({
+  userIdIdx: index("idx_class_mastery_user_id").on(table.userId),
+}));
 export type ClassMastery = typeof classMastery.$inferSelect;
 
 /* ═══════════════════════════════════════════════════════
