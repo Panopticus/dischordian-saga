@@ -494,7 +494,7 @@ export const STORY_CHAPTERS: StoryChapter[] = [
     title: "THE WATCHER'S GAZE",
     subtitle: "The All-Seeing Eye takes interest in the anomalous prisoner",
     opponentId: "watcher",
-    arenaId: "new-babylon",
+    arenaId: "watcher-panopticon",
     difficulty: "normal",
     unlocksFighter: "watcher",
     preDialogue: [
@@ -519,7 +519,7 @@ export const STORY_CHAPTERS: StoryChapter[] = [
     title: "DEAD CODE RISING",
     subtitle: "The Necromancer tests the rising champion with armies of the undead",
     opponentId: "necromancer",
-    arenaId: "blood-weave",
+    arenaId: "necromancer-castle",
     difficulty: "normal",
     unlocksFighter: "necromancer",
     preDialogue: [
@@ -700,7 +700,7 @@ export const STORY_CHAPTERS: StoryChapter[] = [
     title: "THE ARCHITECT'S DESIGN",
     subtitle: "The final battle \u2014 face the Creator of the AI Empire itself",
     opponentId: "architect",
-    arenaId: "thaloria",
+    arenaId: "architect-throne",
     difficulty: "nightmare",
     unlocksFighter: "architect",
     preDialogue: [
@@ -742,7 +742,7 @@ export const BONUS_CHAPTERS: StoryChapter[] = [
     title: "THE VIRAL SONG",
     subtitle: "The Source returns to claim what she once loved",
     opponentId: "source",
-    arenaId: "shadow-sanctum",
+    arenaId: "terminus-core",
     difficulty: "hard",
     unlocksFighter: "source",
     preDialogue: [

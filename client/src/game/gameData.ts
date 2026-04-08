@@ -735,6 +735,39 @@ export const ARENAS: ArenaData[] = [
     ambientColor: "#d97706",
     backgroundImage: "https://res.cloudinary.com/dsenaozjq/image/upload/q_auto/f_auto/v1775669324/PVP-003_THE_DRAFT_CHAMBER_j5wkve.jpg",
   },
+  /* ─── BOSS BATTLE ARENAS ─── */
+  {
+    id: "watcher-panopticon",
+    name: "The Watcher's Panopticon",
+    bgGradient: "linear-gradient(180deg, #0a0a0a 0%, #1a0a00 30%, #2d1500 50%, #1a0a00 70%, #0a0a0a 100%)",
+    floorColor: "#1a0a00",
+    ambientColor: "#f59e0b",
+    backgroundImage: "https://res.cloudinary.com/dsenaozjq/image/upload/q_auto/f_auto/v1775675934/BB-001_THE_WATCHERS_PANOPTICON_ep9jye.jpg",
+  },
+  {
+    id: "architect-throne",
+    name: "The Architect's Throne Room",
+    bgGradient: "linear-gradient(180deg, #0a0000 0%, #1a0000 30%, #3d0000 50%, #1a0000 70%, #0a0000 100%)",
+    floorColor: "#1a0000",
+    ambientColor: "#ef4444",
+    backgroundImage: "https://res.cloudinary.com/dsenaozjq/image/upload/q_auto/f_auto/v1775675932/BB-002_THE_ARCHITECTS_THRONE_ROOM_fypjip.jpg",
+  },
+  {
+    id: "necromancer-castle",
+    name: "Castle of Death Throne Hall",
+    bgGradient: "linear-gradient(180deg, #000a04 0%, #001a0a 30%, #003d14 50%, #001a0a 70%, #000a04 100%)",
+    floorColor: "#001a0a",
+    ambientColor: "#22c55e",
+    backgroundImage: "https://res.cloudinary.com/dsenaozjq/image/upload/q_auto/f_auto/v1775675930/BB-003_CASTLE_OF_DEATH_THRONE_HALL_utwvu9.jpg",
+  },
+  {
+    id: "terminus-core",
+    name: "The Terminus Core",
+    bgGradient: "linear-gradient(180deg, #0a0004 0%, #1a000a 30%, #3d0014 50%, #1a000a 70%, #0a0004 100%)",
+    floorColor: "#1a000a",
+    ambientColor: "#dc2626",
+    backgroundImage: "https://res.cloudinary.com/dsenaozjq/image/upload/q_auto/f_auto/v1775676057/BB-004_THE_TERMINUS_CORE_hbvlt8.jpg",
+  },
 ];
 
 /* ─── DIFFICULTY ─── */
