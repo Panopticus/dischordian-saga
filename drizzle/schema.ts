@@ -1053,7 +1053,10 @@ export const draftParticipants = mysqlTable("draft_participants", {
   /** Eliminated flag */
   eliminated: int("eliminated").notNull().default(0),
   joinedAt: timestamp("joinedAt").defaultNow().notNull(),
-});
+}, (table) => ({
+  userIdIdx: index("idx_draft_participants_user_id").on(table.userId),
+  tournamentIdIdx: index("idx_draft_participants_tournament_id").on(table.tournamentId),
+}));
 export type DraftParticipant = typeof draftParticipants.$inferSelect;
 export type InsertDraftParticipant = typeof draftParticipants.$inferInsert;
 
@@ -1084,7 +1087,10 @@ export const cardTrades = mysqlTable("card_trades", {
   message: varchar("message", { length: 256 }),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
-});
+}, (table) => ({
+  senderIdIdx: index("idx_card_trades_sender_id").on(table.senderId),
+  receiverIdIdx: index("idx_card_trades_receiver_id").on(table.receiverId),
+}));
 export type CardTrade = typeof cardTrades.$inferSelect;
 export type InsertCardTrade = typeof cardTrades.$inferInsert;
 
