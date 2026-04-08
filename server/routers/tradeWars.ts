@@ -5,6 +5,8 @@ import { getDb } from "../db";
 import { twSectors, twPlayerState, twGameLog, twColonies, cards, userCards, users, shipUpgrades, playerBases } from "../../drizzle/schema";
 import { eq, and, sql, inArray, desc, gt } from "drizzle-orm";
 import { fetchCitizenData, fetchPotentialNftData, resolveTradeEmpireBonuses } from "../traitResolver";
+import { resolveCrewTradeBonuses, mergeCrewBonuses } from "../../shared/crewTradeIntegration";
+import type { CrewTradeInput } from "../../shared/crewTradeIntegration";
 
 // ═══════════════════════════════════════════════════════
 // SHIP DEFINITIONS
@@ -98,6 +100,47 @@ function getColonyIncome(colonyType: string, level: number, population: number) 
 }
 
 // ═══════════════════════════════════════════════════════
+// CREW BONUS INTEGRATION
+// ═══════════════════════════════════════════════════════
+
+/**
+ * Fetch crew bonus data from player's game state (localStorage-synced).
+ * Returns a CrewTradeInput if crew data exists, null otherwise.
+ * The crew state is stored in the userProgress.gameData JSON field.
+ */
+async function fetchCrewTradeInput(db: any, userId: number): Promise<CrewTradeInput | null> {
+  try {
+    const result = await db.select().from(twPlayerState).where(eq(twPlayerState.userId, userId)).limit(1);
+    // Crew data would be stored in player's game state — for now, return null
+    // until the crew system is fully persisted server-side.
+    // This is the integration point: when crewRoster is persisted,
+    // extract filledRoles, bloodlinePowers, activeTraits, overallEfficiency, crewCount.
+    return null;
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Resolve trade empire bonuses WITH crew bonuses layered on top.
+ * This is the unified resolver that should replace direct resolveTradeEmpireBonuses calls.
+ */
+async function resolveTradeEmpireBonusesWithCrew(
+  db: any,
+  userId: number,
+  citizen: any,
+  nft: any,
+) {
+  const baseBonuses = resolveTradeEmpireBonuses(citizen, nft);
+  const crewInput = await fetchCrewTradeInput(db, userId);
+  if (crewInput) {
+    const crewBonuses = resolveCrewTradeBonuses(crewInput);
+    mergeCrewBonuses(baseBonuses, crewBonuses);
+  }
+  return baseBonuses;
+}
+
+// ═══════════════════════════════════════════════════════
 // TRADE EMPIRE ROUTER
 // ═══════════════════════════════════════════════════════
 
@@ -113,7 +156,7 @@ export const tradeWarsRouter = router({
       fetchCitizenData(ctx.user.id),
       fetchPotentialNftData(ctx.user.id),
     ]);
-    const traitBonuses = resolveTradeEmpireBonuses(citizen, nft);
+    const traitBonuses = await resolveTradeEmpireBonusesWithCrew(db, ctx.user.id, citizen, nft);
     return { ...player, shipInfo: ship, cargoUsed: getCargoUsed(player), traitBonuses };
   }),
 
