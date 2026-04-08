@@ -24,7 +24,7 @@ export type GeneticStat = "resilience" | "intellect" | "reflexes" | "empathy" | 
 
 export const GENETIC_STATS: GeneticStat[] = ["resilience", "intellect", "reflexes", "empathy", "immunity", "adaptability"];
 
-export type CrewSpecies = "human" | "demagi" | "quarchon" | "neyon" | "voltari" | "construct";
+export type CrewSpecies = "human" | "demagi" | "quarchon" | "neyon" | "voltari" | "construct" | "abyssal";
 
 /* ─── GENETIC TEMPLATES (The Collector's Archive) ─── */
 
@@ -63,11 +63,11 @@ export const GENETIC_TEMPLATES: GeneticTemplate[] = [
     rarity: "uncommon", lifespanRange: [100, 200], markers: ["dimensional_perception", "quantum_memory", "phase_shift"],
   },
   {
-    id: "tpl_neyon_bridge", name: "Ne-Yon Bridge", species: "neyon",
-    origin: "Liminal beings — neither one thing nor another",
-    description: "Ne-Yons exist between categories. Half-organic, half-digital, half-present, half-elsewhere. The Collector tried to classify them for 400 years before giving up and creating a new category: 'Yes.'",
-    baseStats: { resilience: 45, intellect: 65, reflexes: 60, empathy: 75, immunity: 55, adaptability: 60 },
-    rarity: "rare", lifespanRange: [70, 150], markers: ["liminal_existence", "empathic_bridge", "hybrid_vigor"],
+    id: "tpl_abyssal_bloodsworn", name: "Abyssal Bloodsworn", species: "abyssal",
+    origin: "Hierarchy of the Damned — demonic genetic stock harvested from the Blood Weave itself",
+    description: "The Collector's most controversial acquisition. He infiltrated the Abyss through Hell Gate and extracted genetic material from the Blood Weave — the Hierarchy's living nervous system. Mol'Garath's rage when he discovered the theft could be measured in destroyed star systems. These templates carry the raw genetic power of demonkind: immense resilience, predatory reflexes, near-zero empathy. The Collector's notes: 'Handle with extreme caution. Soul contract clauses may be encoded at the cellular level.'",
+    baseStats: { resilience: 75, intellect: 55, reflexes: 70, empathy: 15, immunity: 70, adaptability: 40 },
+    rarity: "exotic", lifespanRange: [150, 400], markers: ["blood_weave_infused", "soul_contract_remnant", "abyssal_vitality", "predator_instinct"],
   },
   {
     id: "tpl_voltari_storm", name: "Voltari Stormborn", species: "voltari",
@@ -105,7 +105,7 @@ export function getTemplate(id: string): GeneticTemplate | undefined {
 
 /* ─── BLOODLINES (Dynasty Houses) ─── */
 
-export type BloodlineId = "void_resonance" | "iron_memory" | "crimson_vigil" | "temporal_echo" | "storm_circuit" | "lattice_prime" | "echo_synthesis" | "terminus_aegis";
+export type BloodlineId = "void_resonance" | "iron_memory" | "crimson_vigil" | "temporal_echo" | "storm_circuit" | "lattice_prime" | "echo_synthesis" | "terminus_aegis" | "blood_weave";
 
 export interface BloodlinePower {
   name: string;
@@ -178,6 +178,12 @@ export const FOUNDING_BLOODLINES: Record<BloodlineId, Omit<Bloodline, "generatio
     color: "#f59e0b",
     power: { name: "Terminus Aegis", description: "Quarantine resistance and viral immunity run in the blood.", stat: "quarantine_resistance", baseValue: 12, perGeneration: 3 },
   },
+  blood_weave: {
+    id: "blood_weave", founderTemplateId: "tpl_abyssal_bloodsworn",
+    name: "House Mol'Kari", motto: "We were forged in the Abyss. Everything else is a vacation.",
+    color: "#991b1b",
+    power: { name: "Blood Weave Resonance", description: "The demonic heritage grants raw combat power and intimidation that makes enemies hesitate. Xeth'Raal's soul economics run in the blood — every trade deal carries the weight of an infernal contract. +combat power, +trade intimidation.", stat: "combat_power", baseValue: 12, perGeneration: 4 },
+  },
 };
 
 export function createBloodline(id: BloodlineId): Bloodline {
@@ -241,6 +247,15 @@ export const GENETIC_TRAITS: GeneticTrait[] = [
   { id: "collectors_eye", name: "Collector's Eye", description: "Catalogues everything. Notices what others miss. Bonus lore discoveries and salvage on exploration missions.", category: "special", rarity: "rare", statModifiers: { intellect: 10, empathy: 5 }, inheritanceChance: 0.15, mutationChance: 0.008, incompatibleWith: [] },
   { id: "void_walker", name: "Void Walker", description: "Something went wrong — or right — in the incubator. They phase slightly out of reality under stress. Cannot be targeted by boarding actions.", category: "special", rarity: "mythic", statModifiers: { reflexes: 15, resilience: -10 }, inheritanceChance: 0.05, mutationChance: 0.003, incompatibleWith: [] },
   { id: "clone_degradation", name: "Clone Degradation", description: "Repeated cloning from the same template. Neural pathways fragment. Lifespan reduced by 30%. A reminder: diversity matters.", category: "special", rarity: "common", statModifiers: { resilience: -10, intellect: -5, immunity: -10 }, inheritanceChance: 0.7, mutationChance: 0, incompatibleWith: [] },
+
+  // ── Abyssal / Hierarchy Traits ──
+  { id: "blood_weave_veins", name: "Blood Weave Veins", description: "The Blood Weave pulses visibly beneath their skin. Other crew find it unsettling. Enemies find it terrifying. +20% combat power, -15% crew morale in their vicinity.", category: "physical", rarity: "rare", statModifiers: { resilience: 15, reflexes: 10, empathy: -15 }, inheritanceChance: 0.4, mutationChance: 0.01, incompatibleWith: ["empath"] },
+  { id: "soul_contract_echo", name: "Soul Contract Echo", description: "Xeth'Raal's accounting runs in the blood. They instinctively know the value of everything — and the cost. +25% trade negotiation, but they always extract a personal price.", category: "mental", rarity: "rare", statModifiers: { intellect: 12, empathy: -8, adaptability: 8 }, inheritanceChance: 0.3, mutationChance: 0.008, incompatibleWith: [] },
+  { id: "abyssal_vitality", name: "Abyssal Vitality", description: "Their cells regenerate at rates that make the Medical Bay nervous. Injuries that would kill others are inconveniences. The Resurrectionist calls it 'borrowed time from the Abyss.'", category: "physical", rarity: "rare", statModifiers: { resilience: 20, immunity: 10 }, inheritanceChance: 0.35, mutationChance: 0.01, incompatibleWith: ["frail", "weak_immune"] },
+  { id: "predator_instinct", name: "Predator Instinct", description: "Vex'Ahlia's combat genetics. They don't fight — they hunt. Reflexes fire before conscious thought. Terrifying in combat. Problematic at dinner.", category: "physical", rarity: "uncommon", statModifiers: { reflexes: 15, empathy: -10 }, inheritanceChance: 0.5, mutationChance: 0.02, incompatibleWith: ["slow_twitch", "panicker"] },
+  { id: "infernal_charisma", name: "Infernal Charisma", description: "Syl'Vex's recruitment protocols encoded at the genetic level. They don't persuade — they compel. Diplomacy missions succeed more often, but the deals always feel... wrong.", category: "social", rarity: "rare", statModifiers: { empathy: 18, adaptability: 5 }, inheritanceChance: 0.25, mutationChance: 0.006, incompatibleWith: ["abrasive", "lone_wolf"] },
+  { id: "dimensional_anchor", name: "Dimensional Anchor", description: "Drael'Mon's harvesting genetics. They're rooted in reality more firmly than other beings — dimensional anomalies, phase shifts, and teleportation effects wash over them. Immune to boarding actions and quarantine spread.", category: "special", rarity: "mythic", statModifiers: { resilience: 10, adaptability: -10 }, inheritanceChance: 0.08, mutationChance: 0.003, incompatibleWith: ["void_walker"] },
+  { id: "the_hunger", name: "The Hunger", description: "Mol'Garath's entropy made flesh. They consume more resources than other crew members but their output is proportionally devastating. +30% mission success, +50% resource consumption.", category: "special", rarity: "rare", statModifiers: { resilience: 10, reflexes: 10, empathy: -20 }, inheritanceChance: 0.2, mutationChance: 0.005, incompatibleWith: ["stoic"] },
 ];
 
 export function getTrait(id: string): GeneticTrait | undefined {

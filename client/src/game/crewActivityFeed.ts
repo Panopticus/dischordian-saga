@@ -139,6 +139,99 @@ const TEMPLATES: FeedTemplate[] = [
   { category: "player_echo", room: "cargo_bay", text: "Mess Hall: [PLAYER_NAME] is being discussed at dinner. Consensus: enigmatic.", severity: "info", needsCrew: 0 },
 ];
 
+/* ─── SEASONAL/HOLIDAY EVENT TEMPLATES ─── */
+
+export type SeasonalEventKey = "shadow_convergence" | "chrono_harvest" | "forge_of_nations" | "panopticon_infiltration" | "lore_symposium" | "guild_war_tournament" | "fall_of_reality";
+
+interface SeasonalFeedTemplate {
+  eventKey: SeasonalEventKey;
+  templates: FeedTemplate[];
+}
+
+export const SEASONAL_FEED_TEMPLATES: SeasonalFeedTemplate[] = [
+  // ══════ SHADOW CONVERGENCE ══════
+  {
+    eventKey: "shadow_convergence",
+    templates: [
+      { category: "ominous", room: "engineering", text: "Engineering: Dark energy readings spiking across all decks. [CREW_NAME] reports shadows moving independently of light sources.", severity: "alert", needsCrew: 1 },
+      { category: "security", room: "armory", text: "Armory: Shadow Fragment containment at 73%. [CREW_NAME] doubled the guard rotation.", severity: "warning", needsCrew: 1 },
+      { category: "crew_life", room: "observation_deck", text: "Observation Deck: The stars look wrong during the Convergence. [CREW_NAME] says they're 'breathing.' Nobody corrects them.", severity: "info", needsCrew: 1 },
+      { category: "medical", room: "medical_bay", text: "Medical Bay: Three crew members reporting shadow-related nightmares. [CREW_NAME] prescribed extra lighting. It didn't help.", severity: "warning", needsCrew: 1 },
+      { category: "ominous", room: "cryo_bay", text: "Cryo Bay: Incubator pods casting shadows that don't match their shapes. The Resurrectionist says it's 'cosmetic.' Elara disagrees.", severity: "alert", foreshadows: "convergence_deepening", needsCrew: 0 },
+      { category: "crew_life", room: "cargo_bay", text: "Mess Hall: [CREW_NAME] organized a 'lights-on dinner' during the Convergence. Attendance: everyone.", severity: "info", needsCrew: 1 },
+    ],
+  },
+  // ══════ THE CHRONO HARVEST ══════
+  {
+    eventKey: "chrono_harvest",
+    templates: [
+      { category: "research", room: "archives", text: "Archives: Temporal anomalies causing Loredex entries to display future dates. [CREW_NAME] is cataloguing the paradoxes.", severity: "warning", needsCrew: 1 },
+      { category: "crew_life", room: "observation_deck", text: "Observation Deck: [CREW_NAME] swears they saw themselves walking past the viewport. From outside.", severity: "alert", needsCrew: 1 },
+      { category: "ship_systems", room: "engineering", text: "Engineering: Chrono Seeds detected in the ventilation system. [CREW_NAME] collecting them with temporal-shielded gloves.", severity: "info", needsCrew: 1 },
+      { category: "medical", room: "medical_bay", text: "Medical Bay: [CREW_NAME] aged 2 hours in 30 seconds near the Comms Array, then reverted. Chrono Harvest side effects.", severity: "warning", needsCrew: 1 },
+      { category: "social", room: "cargo_bay", text: "Mess Hall: [CREW_NAME] brought dessert from 'tomorrow's menu.' Tasted correct. Nobody asks how.", severity: "info", needsCrew: 1 },
+      { category: "ominous", room: "bridge", text: "Bridge: Navigation clock desynchronized by 4.7 seconds. During the Chrono Harvest, 4.7 seconds is a lifetime.", severity: "alert", needsCrew: 0 },
+    ],
+  },
+  // ══════ THE FORGE OF NATIONS ══════
+  {
+    eventKey: "forge_of_nations",
+    templates: [
+      { category: "ship_systems", room: "engineering", text: "Engineering: Forge temperatures running 200% above normal during the Festival. [CREW_NAME] says the metal is 'eager.'", severity: "info", needsCrew: 1 },
+      { category: "crew_life", room: "engineering", text: "Engineering: [CREW_NAME] forged a personal blade during off-hours. Quality: exceptional. Agent Zero requested one.", severity: "info", needsCrew: 1 },
+      { category: "social", room: "cargo_bay", text: "Mess Hall: Forge of Nations feast. [CREW_NAME] cooked over an actual forge. Reviews: scorched but sincere.", severity: "info", needsCrew: 1 },
+      { category: "trade", room: "trade_hub", text: "Trade Hub: Forge Ember prices surging. [CREW_NAME] negotiated bulk purchase before the spike.", severity: "info", needsCrew: 1 },
+      { category: "crew_life", room: "trophy_room", text: "Trophy Room: Forge of Nations crafting competition. Winner: [CREW_NAME]. Prize: bragging rights and a slightly larger dessert ration.", severity: "info", needsCrew: 1 },
+    ],
+  },
+  // ══════ PANOPTICON INFILTRATION ══════
+  {
+    eventKey: "panopticon_infiltration",
+    templates: [
+      { category: "security", room: "armory", text: "Armory: Infiltration protocols active. [CREW_NAME] running counter-surveillance sweeps every 30 minutes.", severity: "warning", needsCrew: 1 },
+      { category: "ominous", room: "comms_array", text: "Comms Array: Panopticon frequencies detected. They're scanning us. [CREW_NAME] deployed signal masking.", severity: "alert", needsCrew: 1 },
+      { category: "crew_life", room: "captains_quarters", text: "Captain's Quarters: [CREW_NAME] requested transfer to infiltration duty. 'I want to see the inside of that place.' Denied. For now.", severity: "info", needsCrew: 1 },
+      { category: "research", room: "archives", text: "Archives: Intel Chips decoded revealing Panopticon floor plans. [CREW_NAME] cross-referencing with The Human's substrate memories.", severity: "info", needsCrew: 1 },
+      { category: "ominous", room: "bridge", text: "Bridge: A Panopticon surveillance drone passed within 2 AU. It didn't stop. It didn't need to.", severity: "alert", foreshadows: "panopticon_awareness", needsCrew: 0 },
+    ],
+  },
+  // ══════ LORE SYMPOSIUM ══════
+  {
+    eventKey: "lore_symposium",
+    templates: [
+      { category: "research", room: "archives", text: "Archives: Lore Symposium in session. [CREW_NAME] presented findings on pre-Fall agricultural records. Standing ovation from the Antiquarian.", severity: "info", needsCrew: 1 },
+      { category: "social", room: "observation_deck", text: "Observation Deck: Late-night Symposium discussion between [CREW_NAME] and [CREW_NAME]. Topic: 'Did the Architect deserve the Fall?'", severity: "info", needsCrew: 2 },
+      { category: "crew_life", room: "archives", text: "Archives: [CREW_NAME] submitted a 40-page paper on Voltari linguistics during the Symposium. The Antiquarian wept.", severity: "info", needsCrew: 1 },
+      { category: "crew_life", room: "cargo_bay", text: "Mess Hall: Symposium participants debating loudly over dinner. [CREW_NAME] defending a controversial thesis about the Dreamer's motives.", severity: "info", needsCrew: 1 },
+      { category: "ominous", room: "archives", text: "Archives: A Lore Scroll manifested during the Symposium containing text in a language no database recognizes. The Antiquarian went very quiet.", severity: "alert", foreshadows: "unknown_language", needsCrew: 0 },
+    ],
+  },
+  // ══════ GUILD WAR TOURNAMENT ══════
+  {
+    eventKey: "guild_war_tournament",
+    templates: [
+      { category: "security", room: "armory", text: "Armory: Tournament sparring matches running around the clock. [CREW_NAME] has won 7 consecutive bouts.", severity: "info", needsCrew: 1 },
+      { category: "social", room: "cargo_bay", text: "Mess Hall: Tournament brackets posted. [CREW_NAME] and [CREW_NAME] drawn against each other. Tension at dinner.", severity: "info", needsCrew: 2 },
+      { category: "medical", room: "medical_bay", text: "Medical Bay: Tournament injuries up 40%. [CREW_NAME] treating bruises, pride, and one dislocated ego.", severity: "info", needsCrew: 1 },
+      { category: "crew_life", room: "observation_deck", text: "Observation Deck: [CREW_NAME] practicing combat forms against the starfield. Beautiful and terrifying.", severity: "info", needsCrew: 1 },
+      { category: "trade", room: "trade_hub", text: "Trade Hub: War Medal speculation driving market activity. [CREW_NAME] cornered the supply. Locke is impressed.", severity: "info", needsCrew: 1 },
+    ],
+  },
+  // ══════ THE FALL OF REALITY (Anniversary) ══════
+  {
+    eventKey: "fall_of_reality",
+    templates: [
+      { category: "ominous", room: "bridge", text: "Bridge: Anniversary of the Fall. Ship-wide moment of silence observed. Even The Human's substrate went quiet.", severity: "info", needsCrew: 0 },
+      { category: "crew_life", room: "trophy_room", text: "Trophy Room: [CREW_NAME] added a memorial candle to the display. For people they never met, from a universe they never knew.", severity: "info", needsCrew: 1 },
+      { category: "ominous", room: "comms_array", text: "Comms Array: Reality Shards materializing throughout the ship. [CREW_NAME] says they feel 'warm, like someone else's memory.'", severity: "alert", needsCrew: 1 },
+      { category: "crew_life", room: "observation_deck", text: "Observation Deck: [CREW_NAME] and [CREW_NAME] found a Reality Shard that plays music from a dead world. They listened for an hour.", severity: "info", needsCrew: 2 },
+      { category: "ominous", room: "cryo_bay", text: "Cryo Bay: Pod 47-B neural patterns spiking during the anniversary. Whatever's in there remembers the Fall.", severity: "critical", foreshadows: "pod_47b_fall_memory", needsCrew: 0, actionable: true },
+      { category: "medical", room: "medical_bay", text: "Medical Bay: [CREW_NAME] experienced a 'memory flash' — saw Atarion burning. They've never been to Atarion. Neither has anyone alive.", severity: "alert", foreshadows: "reality_bleed", needsCrew: 1 },
+      { category: "crew_life", room: "captains_quarters", text: "Captain's Quarters: Elara broadcast a ship-wide message: 'We remember so that we can build something worth remembering.' The crew applauded.", severity: "info", needsCrew: 0 },
+    ],
+  },
+];
+
 /* ─── CHAINED EVENTS (multi-part stories in the feed) ─── */
 
 interface ChainedEventDef {
@@ -257,6 +350,7 @@ export function generateDailyFeed(
   playerName: string,
   activeFlags: Set<string>,
   recentPlayerActions: string[],
+  activeSeasonalEvent?: SeasonalEventKey,
 ): FeedEntry[] {
   const entryCount = 8 + Math.floor(seededRandom(daySeed) * 5); // 8-12 entries per day
   const entries: FeedEntry[] = [];
@@ -294,6 +388,31 @@ export function generateDailyFeed(
       foreshadows: template.foreshadows,
       actionable: template.actionable || false,
     });
+  }
+
+  // Inject seasonal event templates (2-4 extra entries during active events)
+  if (activeSeasonalEvent) {
+    const seasonal = SEASONAL_FEED_TEMPLATES.find(s => s.eventKey === activeSeasonalEvent);
+    if (seasonal) {
+      const seasonalCount = 2 + Math.floor(seededRandom(daySeed * 53) * 3);
+      const shuffledSeasonal = [...seasonal.templates].sort((a, b) => seededRandom(daySeed + a.text.length) - seededRandom(daySeed + b.text.length));
+      for (let i = 0; i < Math.min(seasonalCount, shuffledSeasonal.length); i++) {
+        const template = shuffledSeasonal[i];
+        if (template.needsCrew > crewNames.length) continue;
+        const shuffled = [...crewNames].sort((a, b) => seededRandom(daySeed + a.length + i * 99) - seededRandom(daySeed + b.length + i * 99));
+        const text = fillTemplate(template.text, shuffled, playerName, daySeed * 200 + i);
+        entries.push({
+          id: `seasonal-${activeSeasonalEvent}-${daySeed}-${i}`,
+          timestamp: Date.now() + (i + entryCount) * 3600000,
+          roomId: template.room,
+          category: template.category,
+          text,
+          severity: template.severity,
+          foreshadows: template.foreshadows,
+          actionable: template.actionable || false,
+        });
+      }
+    }
   }
 
   // 20% chance to start a chained event

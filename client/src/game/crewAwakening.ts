@@ -231,8 +231,28 @@ const AWAKENING_NODES: CutsceneNode[] = [
       { label: "House Resonance (Human — Adaptable, trade-focused)", tone: "pragmatic", nextNodeId: "first_clone", flag: "bloodline_void_resonance" },
       { label: "House Ashkari (Demagi — Resilient, fire-forged)", tone: "aggressive", nextNodeId: "first_clone", flag: "bloodline_iron_memory" },
       { label: "House Parallax (Quarchon — Brilliant, dimensional sight)", tone: "investigate", nextNodeId: "first_clone", flag: "bloodline_temporal_echo" },
-      { label: "House Synthesis (Hybrid — Unstable, limitless potential)", tone: "investigate", nextNodeId: "first_clone", flag: "bloodline_echo_synthesis" },
+      { label: "House Mol'Kari (Abyssal — Demonic, devastating power)", tone: "aggressive", nextNodeId: "first_clone_abyssal_warning", flag: "bloodline_blood_weave" },
     ],
+  },
+
+  // ═══ SCENE 4B: ABYSSAL WARNING (only if Hierarchy bloodline chosen) ═══
+
+  {
+    id: "first_clone_abyssal_warning",
+    type: "dialog",
+    speaker: "The Resurrectionist",
+    portrait: "resurrectionist_alarmed",
+    text: "You... are certain? The Abyssal templates were sealed by the Collector himself. His notes are explicit: 'Blood Weave genetic material carries residual soul contract encoding at the cellular level. Hierarchy of the Damned influence may persist across generations. Use only if the alternative is extinction.' ...I suppose that describes our situation precisely.",
+    nextNodeId: "first_clone_abyssal_elara",
+  },
+  {
+    id: "first_clone_abyssal_elara",
+    type: "dialog",
+    speaker: "Elara",
+    portrait: "elara_worried",
+    text: "Captain. The Hierarchy of the Damned is not a faction you borrow from without consequence. Mol'Garath's genetic legacy... their crew will be powerful. Devastatingly so. But the Blood Weave remembers its debts. And Xeth'Raal — the Debt Collector — has a very long memory. *pause* ...But if you're willing to carry that weight, I'll stand beside you.",
+    nextNodeId: "first_clone",
+    flag: "abyssal_bloodline_warning_seen",
   },
 
   // ═══ SCENE 5: FIRST BREATH ═══

@@ -194,6 +194,11 @@ const CREW_NAMES: Record<CrewSpecies, { female: string[]; male: string[]; unisex
     male: ["Archivist", "Custos", "Guardian-Mk4", "Keeper", "Warden-3", "Module-7"],
     unisex: ["Frame", "Lattice", "Mesh", "Module", "Unit", "Core"],
   },
+  abyssal: {
+    female: ["Vex'Thara", "Mol'Kirra", "Syl'Vessa", "Fen'Rael", "Zyr'Katha", "Drael'Nyx", "Ith'Serai"],
+    male: ["Varkul-Son", "Mol'Kren", "Xeth'Gar", "Drael'Voss", "Fen'Roth", "Zyr'Mal", "Ith'Kaen"],
+    unisex: ["Blood-Sworn", "Weave-Born", "Abyss-Touched", "Gate-Walker", "Void-Claimed", "Soul-Marked"],
+  },
 };
 
 function pickCrewName(species: CrewSpecies, gender: Gender, seed: number): string {
@@ -211,6 +216,7 @@ const SPECIES_LIFESPAN: Record<CrewSpecies, [number, number]> = {
   neyon: [70, 150],
   voltari: [50, 80],
   construct: [200, 500],
+  abyssal: [150, 400],
 };
 
 /* ─── CREW GENERATION ─── */
@@ -451,6 +457,73 @@ const DANGER_TEMPLATES: DangerTemplate[] = [
       { label: "Emergency repair team", description: "Send the engineer. Fast response, risky for the repair crew.", successChance: 0.85, cost: { materials: 50 } },
       { label: "Reroute from Deck 1", description: "Buy time. Less O2 for the rest of the ship. Buys 8 more hours.", successChance: 0.70 },
       { label: "Vent and bypass", description: "Sacrifice the section. Save the ship. Lose the crew.", successChance: 1.0 },
+    ],
+  },
+
+  // ── Governance Hub Crisis Events (tie into year-long story arcs) ──
+  { type: "mutiny", severity: "critical",
+    description: "GOVERNANCE CRISIS: The community vote to restrict rations has hit the crew hard. [CREW_NAME] is organizing a petition. Three others are talking about something louder than a petition.",
+    choices: [
+      { label: "Hold an emergency assembly", description: "Address the crew. Explain the vote. Democracy means accepting outcomes you don't like.", successChance: 0.70 },
+      { label: "Reverse the policy", description: "Override the community vote. The crew is happy. The governance system loses credibility.", successChance: 0.95 },
+      { label: "Offer a compromise", description: "Partial reversal. Nobody gets everything they want. That's politics.", successChance: 0.80, cost: { dream: 30 } },
+    ],
+  },
+  { type: "boarding_action", severity: "critical",
+    description: "GOVERNANCE FALLOUT: Last month's vote to probe the Dark Sector has consequences. An unknown vessel — shield signatures matching the probe's return signal — has latched onto Deck 2. [CREW_NAME] is closest.",
+    choices: [
+      { label: "Full combat alert", description: "Every crew member to battle stations. This is what the Armory trained for.", successChance: 0.85, cost: { materials: 50 } },
+      { label: "Attempt communication", description: "The probe was a greeting. Maybe this is a response. Maybe not.", successChance: 0.40 },
+      { label: "Seal and observe", description: "Lock down Deck 2. Study whatever this is before engaging.", successChance: 0.65, cost: { dream: 20 } },
+    ],
+  },
+  { type: "thought_virus_exposure", severity: "fatal",
+    description: "GOVERNANCE CRISIS: The vote to study Terminus samples has backfired. The containment field in the Archives failed. [CREW_NAME] was exposed to raw Thought Virus material for 47 seconds. The Source says that's 44 seconds too many.",
+    choices: [
+      { label: "Emergency cryo-stasis", description: "Freeze them before the Virus integrates. Buys time. Maybe enough.", successChance: 0.60, cost: { dream: 80, materials: 40 } },
+      { label: "The Source's protocol", description: "Kael says he can speak to the Virus within them. His success rate is... undefined.", successChance: 0.45 },
+      { label: "Quarantine and pray", description: "Seal them in. Monitor. Hope their genetic immunity holds.", successChance: 0.30 },
+    ],
+  },
+  { type: "system_malfunction", severity: "serious",
+    description: "GOVERNANCE FALLOUT: The vote to divert power to shields left Engineering running on backup. Backup has failed. [CREW_NAME] is trapped in a section with failing life support.",
+    choices: [
+      { label: "Emergency power reroute", description: "Pull power from the Trade Hub. Locke won't be happy. [CREW_NAME] survives.", successChance: 0.90, cost: { dream: 40 } },
+      { label: "Manual repair", description: "Send the Engineer in through the maintenance tunnels. Risky but doesn't cost systems.", successChance: 0.65 },
+      { label: "Vent and retrieve", description: "Decompress the section, send a suited team. Fast but brutal.", successChance: 0.80 },
+    ],
+  },
+  { type: "mutiny", severity: "fatal",
+    description: "GOVERNANCE CRISIS: The Necromancer's Echo vote — to activate resurrection protocols — has divided the crew. [CREW_NAME] believes the protocols are an abomination. They've locked themselves in the Armory with three others and weapons.",
+    choices: [
+      { label: "Negotiate personally", description: "Go to the Armory yourself. Talk them down. Captain to crew.", successChance: 0.55 },
+      { label: "Send Elara", description: "Let the AI who's been alone for 93,847 sunrises explain why resurrection matters.", successChance: 0.70 },
+      { label: "Cut life support to the Armory", description: "They'll surrender when the air gets thin. Effective. Unforgivable.", successChance: 0.95 },
+    ],
+  },
+  { type: "genetic_degradation", severity: "critical",
+    description: "GOVERNANCE FALLOUT: The vote to accelerate cloning cycles is showing consequences. [CREW_NAME] — third generation, same bloodline as the last four clones — is showing neural fragmentation. The Resurrectionist warned about this.",
+    choices: [
+      { label: "Slow the program", description: "Halt accelerated cloning. Accept the delay. Respect the genetics.", successChance: 0.85 },
+      { label: "Gene therapy from outside bloodlines", description: "Bring in new genetic stock. Expensive but addresses the root cause.", successChance: 0.75, cost: { dream: 100, materials: 60 } },
+      { label: "Experimental stabilization", description: "The Resurrectionist has an untested protocol. 'Untested' is doing a lot of work in that sentence.", successChance: 0.45 },
+    ],
+  },
+  // ── Abyssal/Hierarchy-specific events ──
+  { type: "boarding_action", severity: "fatal",
+    description: "BLOOD WEAVE ACTIVATION: [CREW_NAME]'s Abyssal heritage has triggered a response. The Blood Weave — the Hierarchy's interdimensional nervous system — has detected its own genetic material aboard the Ark. Mol'Garath knows you're breeding his soldiers. A soul-contract enforcement drone has materialized on Deck 4.",
+    choices: [
+      { label: "Abyssal crew fights Abyssal threat", description: "Send your Blood Weave-blooded crew against the drone. They understand its nature. It's personal.", successChance: 0.75, cost: { salvage: 60 } },
+      { label: "Void crystal containment", description: "Trap it in a void crystal field. The Collector left protocols for exactly this scenario.", successChance: 0.65, cost: { dream: 80 } },
+      { label: "Shadow Tongue negotiation", description: "The Shadow Tongue on your ship IS Hierarchy. Let the demon talk to its kin.", successChance: 0.50 },
+    ],
+  },
+  { type: "genetic_degradation", severity: "serious",
+    description: "SOUL DEBT SURFACING: [CREW_NAME]'s bloodwork shows something impossible — contract glyphs forming in their cellular structure. Xeth'Raal's soul economics are activating across generations. The Blood Weave is calling in a debt that was encoded before [CREW_NAME] was born.",
+    choices: [
+      { label: "Genetic purge", description: "Strip the contract encoding from their DNA. Painful. May remove beneficial Abyssal traits too.", successChance: 0.80, cost: { dream: 60 } },
+      { label: "Counter-contract", description: "The Antiquarian knows contract law across 17 dimensions. He may be able to void it.", successChance: 0.60 },
+      { label: "Accept and monitor", description: "The contract glyphs are there. They might not activate. Might.", successChance: 0.40 },
     ],
   },
 ];
