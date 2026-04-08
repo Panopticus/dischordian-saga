@@ -1,7 +1,8 @@
 import { z } from "zod";
 import { logger } from "../logger";
 import { publicProcedure, protectedProcedure, router } from "../_core/trpc";
-import { getDb } from "../db";
+import { getDb, type DrizzleDb } from "../db";
+import type { TWPlayerState } from "../../drizzle/schema";
 import { twSectors, twPlayerState, twGameLog, twColonies, cards, userCards, users, shipUpgrades, playerBases } from "../../drizzle/schema";
 import { eq, and, sql, inArray, desc, gt } from "drizzle-orm";
 import { fetchCitizenData, fetchPotentialNftData, resolveTradeEmpireBonuses } from "../traitResolver";
@@ -25,7 +26,7 @@ const SHIPS: Record<string, { name: string; holds: number; fighters: number; shi
 // HELPER FUNCTIONS
 // ═══════════════════════════════════════════════════════
 
-async function getOrCreatePlayer(db: any, userId: number) {
+async function getOrCreatePlayer(db: DrizzleDb, userId: number) {
   const existing = await db.select().from(twPlayerState).where(eq(twPlayerState.userId, userId)).limit(1);
   if (existing.length > 0) {
     // Reset turns if new day
@@ -70,11 +71,11 @@ async function getOrCreatePlayer(db: any, userId: number) {
   return newPlayer[0];
 }
 
-async function logAction(db: any, userId: number, action: string, details: Record<string, unknown>, sectorId?: number) {
+async function logAction(db: DrizzleDb, userId: number, action: string, details: Record<string, unknown>, sectorId?: number) {
   await db.insert(twGameLog).values({ userId, action, details, sectorId });
 }
 
-function getCargoUsed(player: any): number {
+function getCargoUsed(player: TWPlayerState): number {
   return (player.fuelOre || 0) + (player.organics || 0) + (player.equipment || 0);
 }
 
@@ -108,7 +109,7 @@ function getColonyIncome(colonyType: string, level: number, population: number) 
  * Returns a CrewTradeInput if crew data exists, null otherwise.
  * The crew state is stored in the userProgress.gameData JSON field.
  */
-async function fetchCrewTradeInput(db: any, userId: number): Promise<CrewTradeInput | null> {
+async function fetchCrewTradeInput(db: DrizzleDb, userId: number): Promise<CrewTradeInput | null> {
   try {
     const result = await db.select().from(twPlayerState).where(eq(twPlayerState.userId, userId)).limit(1);
     // Crew data would be stored in player's game state — for now, return null
@@ -126,10 +127,10 @@ async function fetchCrewTradeInput(db: any, userId: number): Promise<CrewTradeIn
  * This is the unified resolver that should replace direct resolveTradeEmpireBonuses calls.
  */
 async function resolveTradeEmpireBonusesWithCrew(
-  db: any,
+  db: DrizzleDb,
   userId: number,
-  citizen: any,
-  nft: any,
+  citizen: Parameters<typeof resolveTradeEmpireBonuses>[0],
+  nft: Parameters<typeof resolveTradeEmpireBonuses>[1],
 ) {
   const baseBonuses = resolveTradeEmpireBonuses(citizen, nft);
   const crewInput = await fetchCrewTradeInput(db, userId);
@@ -177,7 +178,7 @@ export const tradeWarsRouter = router({
       
       // Get connected sector names
       const warpIds = (sector.warps as number[]) || [];
-      let connectedSectors: any[] = [];
+      let connectedSectors: { sectorId: number; name: string | null; sectorType: typeof twSectors.$inferSelect["sectorType"] }[] = [];
       if (warpIds.length > 0) {
         connectedSectors = await db.select({
           sectorId: twSectors.sectorId,
@@ -386,7 +387,7 @@ export const tradeWarsRouter = router({
         if (input.quantity > freeHolds) return { success: false, message: `Not enough cargo space. Free holds: ${freeHolds}` };
         
         // Execute trade
-        const updates: any = {
+        const updates: Partial<typeof twPlayerState.$inferInsert> = {
           credits: player.credits - totalCost,
           turnsRemaining: player.turnsRemaining - 1,
           experience: player.experience + Math.floor(input.quantity / 10),
@@ -427,7 +428,7 @@ export const tradeWarsRouter = router({
         const sellTb = resolveTradeEmpireBonuses(sellCitizen, sellNft);
         const totalRevenue = price * input.quantity + sellTb.tradeCreditsBonus;
         
-        const updates: any = {
+        const updates: Partial<typeof twPlayerState.$inferInsert> = {
           credits: player.credits + totalRevenue,
           turnsRemaining: player.turnsRemaining - 1,
           experience: player.experience + Math.floor(input.quantity / 10),
@@ -1369,7 +1370,7 @@ export const tradeWarsRouter = router({
 
       await db.update(twPlayerState).set({ credits: player.credits - cost }).where(eq(twPlayerState.userId, ctx.user.id));
 
-      const updates: any = {};
+      const updates: Partial<typeof playerBases.$inferInsert> = {};
       let bonusDesc = "";
       if (input.upgradeType === "storage") {
         updates.storageCapacity = b.storageCapacity + 50;
@@ -1526,14 +1527,14 @@ export const tradeWarsRouter = router({
       }
 
       // Deduct from player
-      const playerUpdate: any = {};
+      const playerUpdate: Partial<typeof twPlayerState.$inferInsert> = {};
       if (input.resource === "ore") playerUpdate.fuelOre = player.fuelOre - input.amount;
       else if (input.resource === "organics") playerUpdate.organics = player.organics - input.amount;
       else playerUpdate.equipment = player.equipment - input.amount;
       await db.update(twPlayerState).set(playerUpdate).where(eq(twPlayerState.userId, ctx.user.id));
 
       // Add to base
-      const baseUpdate: any = {};
+      const baseUpdate: Partial<typeof playerBases.$inferInsert> = {};
       if (input.resource === "ore") baseUpdate.storedOre = b.storedOre + input.amount;
       else if (input.resource === "organics") baseUpdate.storedOrganics = b.storedOrganics + input.amount;
       else baseUpdate.storedEquipment = b.storedEquipment + input.amount;

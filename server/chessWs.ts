@@ -97,7 +97,7 @@ const playerConnections = new Map<number, ChessPlayer>();
 const spectatorConnections = new Map<WebSocket, string>();
 
 /* ─── CHESS.JS DYNAMIC IMPORT ─── */
-let Chess: any;
+let Chess: typeof import("chess.js").Chess;
 const chessReady = import("chess.js").then(m => {
   Chess = m.Chess;
 }).catch(() => {

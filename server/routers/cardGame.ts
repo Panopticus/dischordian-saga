@@ -3,9 +3,46 @@ import { z } from "zod";
 import { publicProcedure, protectedProcedure, router } from "../_core/trpc";
 import { getDb } from "../db";
 import { cards, userCards, decks, cardGameMatches, characterSheets, dreamBalance } from "../../drizzle/schema";
-import { eq, and, like, inArray, sql, desc, asc } from "drizzle-orm";
+import { eq, and, like, inArray, sql, desc, asc, type SQL } from "drizzle-orm";
 import { fetchCitizenData, fetchPotentialNftData, resolveCardGameBonuses } from "../traitResolver";
 import { trackAiResult, trackCollectionSize } from "../achievementTracker";
+
+// ═══════════════════════════════════════════════════════
+// CARD GAME STATE TYPES
+// ═══════════════════════════════════════════════════════
+
+interface CardInPlay {
+  cardId: string;
+  cardType: string;
+  name: string;
+  power: number;
+  health: number;
+  cost: number;
+  tapped: boolean;
+  [key: string]: unknown;
+}
+
+interface PlayerState {
+  health: number;
+  energy: number;
+  maxEnergy: number;
+  hand: CardInPlay[];
+  field: CardInPlay[];
+  graveyard: CardInPlay[];
+  drawPile: CardInPlay[];
+  difficulty?: string;
+  [key: string]: unknown;
+}
+
+interface GameState {
+  player1: PlayerState;
+  player2: PlayerState;
+  turn: number;
+  phase: string;
+  log: string[];
+  traitBonuses?: Record<string, number>;
+  [key: string]: unknown;
+}
 
 // ═══════════════════════════════════════════════════════
 // CARD BROWSING & COLLECTION
@@ -39,7 +76,7 @@ export const cardGameRouter = router({
       const offset = (page - 1) * limit;
 
       // Build WHERE conditions
-      const conditions: any[] = [eq(cards.isActive, 1)];
+      const conditions: SQL[] = [eq(cards.isActive, 1)];
       if (input?.search) conditions.push(like(cards.name, `%${input.search}%`));
       if (input?.cardType) conditions.push(eq(cards.cardType, input.cardType as any));
       if (input?.rarity) conditions.push(eq(cards.rarity, input.rarity as any));
@@ -204,7 +241,7 @@ export const cardGameRouter = router({
       if (!db) return { success: false, cards: [] };
 
       // 5 cards per pack: 3 common, 1 uncommon, 1 rare+
-      const conditions: any[] = [eq(cards.isActive, 1)];
+      const conditions: SQL[] = [eq(cards.isActive, 1)];
       if (input?.season) conditions.push(eq(cards.season, input.season));
 
       const allCards = await db.select().from(cards).where(and(...conditions));
@@ -522,12 +559,12 @@ export const cardGameRouter = router({
         return { success: false, message: "Match not found or not active" };
       }
 
-      const state = match[0].gameState as any;
+      const state = match[0].gameState as unknown as GameState;
       const player = state.player1;
       const opponent = state.player2;
 
       // Find card in hand
-      const handIdx = player.hand.findIndex((c: any) => c.cardId === input.cardId);
+      const handIdx = player.hand.findIndex((c: CardInPlay) => c.cardId === input.cardId);
       if (handIdx === -1) return { success: false, message: "Card not in hand" };
 
       // Get card details
@@ -615,7 +652,7 @@ export const cardGameRouter = router({
         for (const enemy of opponent.field) {
           enemy.health -= Math.ceil(card.power / 2);
         }
-        opponent.field = opponent.field.filter((e: any) => {
+        opponent.field = opponent.field.filter((e: CardInPlay) => {
           if (e.health <= 0) {
             opponent.graveyard.push(e);
             return false;
@@ -710,7 +747,7 @@ export const cardGameRouter = router({
         return { success: false, message: "Match not found" };
       }
 
-      const state = match[0].gameState as any;
+      const state = match[0].gameState as unknown as GameState;
       const player = state.player1;
       const opponent = state.player2;
 
@@ -792,7 +829,7 @@ export const cardGameRouter = router({
 
       if (!match[0] || match[0].status !== "active") return { success: false };
 
-      const state = match[0].gameState as any;
+      const state = match[0].gameState as unknown as GameState;
 
       // Untap all player characters
       for (const char of state.player1.field) {
@@ -1026,7 +1063,7 @@ export const cardGameRouter = router({
 // AI TURN RESOLUTION
 // ═══════════════════════════════════════════════════════
 
-function resolveAITurn(state: any): string[] {
+function resolveAITurn(state: GameState): string[] {
   const ai = state.player2;
   const player = state.player1;
   const log: string[] = [];
@@ -1038,7 +1075,7 @@ function resolveAITurn(state: any): string[] {
   }
 
   // AI plays cards from hand
-  const playableCards = [...ai.hand].sort((a: any, b: any) => {
+  const playableCards = [...ai.hand].sort((a: CardInPlay, b: CardInPlay) => {
     // Prioritize characters, then combat, then actions
     const priority: Record<string, number> = { character: 0, combat: 1, action: 2, item: 3 };
     return (priority[a.cardType] ?? 5) - (priority[b.cardType] ?? 5);
@@ -1116,7 +1153,7 @@ function resolveAITurn(state: any): string[] {
   }
 
   // Remove dead AI characters
-  ai.field = ai.field.filter((c: any) => {
+  ai.field = ai.field.filter((c: CardInPlay) => {
     if (c.health <= 0) {
       ai.graveyard.push(c);
       return false;

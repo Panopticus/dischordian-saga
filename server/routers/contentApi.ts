@@ -9,9 +9,14 @@ import path from "path";
 
 const ROOT = process.cwd();
 
+interface LoredexEntry { id: string; name?: string; bio?: string; aliases?: string[]; type?: string; [key: string]: unknown }
+interface CardEntry { id: string; name?: string; character?: string; rarity?: string; faction?: string; [key: string]: unknown }
+type LoredexData = LoredexEntry[] | { entries: LoredexEntry[]; [key: string]: unknown };
+type CardsData = CardEntry[] | { cards: CardEntry[]; [key: string]: unknown };
+
 // In-memory cache for JSON data
-let loredexCache: any = null;
-let cardsCache: any = null;
+let loredexCache: LoredexData | null = null;
+let cardsCache: CardsData | null = null;
 let loredexCacheTime = 0;
 let cardsCacheTime = 0;
 const CACHE_TTL = 5 * 60 * 1000; // 5 minutes
@@ -49,7 +54,7 @@ export const contentApiRouter = router({
     .query(({ input }) => {
       const data = getLoredexData();
       const entries = Array.isArray(data) ? data : data.entries || [];
-      return entries.find((e: any) => e.id === input.id) || null;
+      return entries.find((e: LoredexEntry) => e.id === input.id) || null;
     }),
 
   searchEntries: publicProcedure
@@ -64,11 +69,11 @@ export const contentApiRouter = router({
       let entries = Array.isArray(data) ? data : data.entries || [];
 
       if (input.type) {
-        entries = entries.filter((e: any) => e.type === input.type);
+        entries = entries.filter((e: LoredexEntry) => e.type === input.type);
       }
       if (input.query) {
         const q = input.query.toLowerCase();
-        entries = entries.filter((e: any) =>
+        entries = entries.filter((e: LoredexEntry) =>
           e.name?.toLowerCase().includes(q) ||
           e.bio?.toLowerCase().includes(q) ||
           e.aliases?.some((a: string) => a.toLowerCase().includes(q))
@@ -92,7 +97,7 @@ export const contentApiRouter = router({
     .query(({ input }) => {
       const data = getCardsData();
       const cards = Array.isArray(data) ? data : data.cards || [];
-      return cards.find((c: any) => c.id === input.id) || null;
+      return cards.find((c: CardEntry) => c.id === input.id) || null;
     }),
 
   searchCards: publicProcedure
@@ -108,14 +113,14 @@ export const contentApiRouter = router({
       let cards = Array.isArray(data) ? data : data.cards || [];
 
       if (input.rarity) {
-        cards = cards.filter((c: any) => c.rarity === input.rarity);
+        cards = cards.filter((c: CardEntry) => c.rarity === input.rarity);
       }
       if (input.faction) {
-        cards = cards.filter((c: any) => c.faction === input.faction);
+        cards = cards.filter((c: CardEntry) => c.faction === input.faction);
       }
       if (input.query) {
         const q = input.query.toLowerCase();
-        cards = cards.filter((c: any) =>
+        cards = cards.filter((c: CardEntry) =>
           c.name?.toLowerCase().includes(q) ||
           c.character?.toLowerCase().includes(q)
         );

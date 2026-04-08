@@ -33,6 +33,26 @@ export default defineConfig({
   build: {
     outDir: path.resolve(ROOT, "dist/public"),
     emptyOutDir: true,
+    chunkSizeWarningLimit: 800,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          "vendor-pixi": ["pixi.js"],
+          "vendor-three": ["three"],
+          "vendor-chess": ["chess.js", "stockfish"],
+          "vendor-radix": [
+            "@radix-ui/react-dialog",
+            "@radix-ui/react-dropdown-menu",
+            "@radix-ui/react-tabs",
+            "@radix-ui/react-tooltip",
+            "@radix-ui/react-select",
+            "@radix-ui/react-slot",
+          ],
+          "vendor-recharts": ["recharts"],
+          "vendor-framer": ["framer-motion"],
+        },
+      },
+    },
   },
   server: {
     host: true,

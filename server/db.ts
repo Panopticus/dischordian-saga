@@ -4,7 +4,10 @@ import { createPool } from "mysql2/promise";
 import { InsertUser, users } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
-let _db: ReturnType<typeof drizzle> | null = null;
+/** Re-usable type for the drizzle DB instance */
+export type DrizzleDb = ReturnType<typeof drizzle>;
+
+let _db: DrizzleDb | null = null;
 
 // Lazily create the drizzle instance so local tooling can run without a DB.
 export async function getDb() {

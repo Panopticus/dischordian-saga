@@ -369,8 +369,8 @@ export const guildWarsRouter = router({
 
       // Distribute prize proportionally to contribution
       const totalWinnerPoints = winningGuilds
-        .filter((g: any) => winnerGuildIds.has(g.guildId))
-        .reduce((sum: number, g: any) => sum + g.totalPoints, 0);
+        .filter((g) => winnerGuildIds.has(g.guildId))
+        .reduce((sum: number, g) => sum + g.totalPoints, 0);
 
       if (totalWinnerPoints > 0) {
         for (const gc of winningGuilds) {

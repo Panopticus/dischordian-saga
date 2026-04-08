@@ -7,7 +7,7 @@ import { protectedProcedure, router } from "../_core/trpc";
 import { TRPCError } from "@trpc/server";
 import { getDb } from "../db";
 import { users, cards, userCards, userProgress, contentRewards, contentParticipation } from "../../drizzle/schema";
-import { eq, sql, desc, like, and } from "drizzle-orm";
+import { eq, sql, desc, like, and, type SQL } from "drizzle-orm";
 
 // Admin guard middleware
 const adminProcedure = protectedProcedure.use(({ ctx, next }) => {
@@ -50,7 +50,7 @@ export const adminRouter = router({
       const limit = input?.limit ?? 25;
       const offset = (page - 1) * limit;
 
-      const conditions: any[] = [];
+      const conditions: SQL[] = [];
       if (input?.search) {
         conditions.push(like(users.name, `%${input.search}%`));
       }
@@ -101,7 +101,7 @@ export const adminRouter = router({
       const limit = input?.limit ?? 25;
       const offset = (page - 1) * limit;
 
-      const conditions: any[] = [];
+      const conditions: SQL[] = [];
       if (input?.search) {
         conditions.push(like(cards.name, `%${input.search}%`));
       }

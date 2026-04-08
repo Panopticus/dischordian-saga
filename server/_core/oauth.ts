@@ -47,8 +47,9 @@ export function registerOAuthRoutes(app: Express) {
       res.cookie(REFRESH_COOKIE_NAME, tokens.refreshToken, { ...cookieOptions, maxAge: REFRESH_TOKEN_MS });
 
       res.json({ ok: true });
-    } catch (error: any) {
-      console.error("[Auth] Refresh token error:", error?.message || error);
+    } catch (error: unknown) {
+      const errMsg = error instanceof Error ? error.message : String(error);
+      console.error("[Auth] Refresh token error:", errMsg);
       res.status(500).json({ error: "Token refresh failed" });
     }
   });
@@ -101,8 +102,9 @@ export function registerOAuthRoutes(app: Express) {
       res.cookie(REFRESH_COOKIE_NAME, refreshToken, { ...cookieOptions, maxAge: REFRESH_TOKEN_MS });
 
       res.redirect(302, "/");
-    } catch (error: any) {
-      console.error(`[OAuth] ${provider} callback failed:`, error?.message || error);
+    } catch (error: unknown) {
+      const errMsg = error instanceof Error ? error.message : String(error);
+      console.error(`[OAuth] ${provider} callback failed:`, errMsg);
       res.status(500).json({
         error: "OAuth callback failed",
         detail: error?.message || "Unknown error",

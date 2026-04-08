@@ -7,7 +7,7 @@ import { z } from "zod";
 import { logger } from "../logger";
 import { eq, and, desc, sql, gte, ne } from "drizzle-orm";
 import { protectedProcedure, router } from "../_core/trpc";
-import { getDb } from "../db";
+import { getDb, type DrizzleDb } from "../db";
 import {
   chessGames, chessRankings, chessTournaments,
   dreamBalance, notifications,
@@ -16,7 +16,8 @@ import { fetchCitizenData, fetchPotentialNftData, resolveChessBonuses } from "..
 import { mapDifficultyToChessElo } from "@shared/dynamicDifficulty";
 
 // chess.js v1.4 — dynamic import to avoid ESM/CJS mismatch
-let Chess: any;
+type ChessInstance = import("chess.js").Chess;
+let Chess: typeof import("chess.js").Chess;
 const chessReady = import("chess.js").then(m => { Chess = m.Chess; });
 
 const STARTING_FEN = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
@@ -216,7 +217,7 @@ function getTier(elo: number): string {
 }
 
 /* ─── AI MOVE GENERATION ─── */
-function getAiMove(game: any, difficulty: number, style: string): string {
+function getAiMove(game: ChessInstance, difficulty: number, style: string): string {
   const moves = game.moves();
   if (moves.length === 0) return "";
 
@@ -290,7 +291,7 @@ function getAiMove(game: any, difficulty: number, style: string): string {
     return { move, score };
   });
 
-  scored.sort((a: any, b: any) => b.score - a.score);
+  scored.sort((a: { move: string; score: number }, b: { move: string; score: number }) => b.score - a.score);
 
   // At higher difficulties, more likely to pick top moves
   const topN = Math.max(1, Math.floor(moves.length * Math.max(0.05, 1 - difficulty * 0.09)));
@@ -458,8 +459,10 @@ export const chessRouter = router({
         aiDifficulty,
         traitBonuses: chessTb,
       };
-      } catch (err: any) {
-        console.error("[Chess] startGame error:", err?.message, err?.stack);
+      } catch (err: unknown) {
+        const errMsg = err instanceof Error ? err.message : String(err);
+        const errStack = err instanceof Error ? err.stack : undefined;
+        console.error("[Chess] startGame error:", errMsg, errStack);
         throw err;
       }
     }),
@@ -782,7 +785,7 @@ export const chessRouter = router({
         isDraw: chess.isDraw(),
         moveCount: history.length,
         lastMove: history.length > 0 ? history[history.length - 1] : null,
-        recentMoves: history.slice(-10).map((m: any) => m.san),
+        recentMoves: history.slice(-10).map((m: { san: string }) => m.san),
         whiteCharacter: { id: g.whiteCharacter, ...whiteChar, elo: whiteElo },
         blackCharacter: { id: g.blackCharacter, ...blackChar, elo: blackElo },
         isVsAI: !g.blackPlayerId,
@@ -945,7 +948,7 @@ export const chessRouter = router({
 
 /** Process game end — update ELO, give rewards, advance story */
 async function processGameEnd(
-  db: any, playerId: number, game: any, status: string, winnerId: number | null
+  db: DrizzleDb, playerId: number, game: typeof chessGames.$inferSelect, status: string, winnerId: number | null
 ) {
   const playerWon = winnerId === playerId;
   const isDraw = status === "stalemate" || status === "draw";

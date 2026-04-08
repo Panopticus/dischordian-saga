@@ -520,7 +520,7 @@ export const contentAdminRouter = router({
       const before = data.entries.length;
       data.entries = data.entries.filter((e: LoredexEntry) => !idSet.has(e.id));
       // Also remove relationships involving deleted entries
-      data.relationships = data.relationships.filter((r: any) => !idSet.has(r.source) && !idSet.has(r.target));
+      data.relationships = data.relationships.filter((r: { source: string; target: string }) => !idSet.has(r.source) && !idSet.has(r.target));
       // Recalculate stats
       data.stats.total_entries = data.entries.length;
       data.stats.characters = data.entries.filter((e: LoredexEntry) => e.type === "character").length;

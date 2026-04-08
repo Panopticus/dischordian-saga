@@ -7,7 +7,7 @@ import { z } from "zod";
 import { logger } from "../logger";
 import { eq, and, or, desc, asc, sql, gte, lte, like, inArray } from "drizzle-orm";
 import { protectedProcedure, router } from "../_core/trpc";
-import { getDb } from "../db";
+import { getDb, type DrizzleDb } from "../db";
 import {
   marketListings, marketBuyOrders, marketTransactions,
   marketAuctions, auctionBids, currencyExchange,
@@ -25,7 +25,7 @@ function calcTax(amount: number): number {
 }
 
 /** Feed tax revenue into the marketplace tax pool (for guild wars + season prizes) */
-async function feedTaxPool(db: any, taxDream: number, taxCredits: number) {
+async function feedTaxPool(db: DrizzleDb, taxDream: number, taxCredits: number) {
   if (taxDream <= 0 && taxCredits <= 0) return;
   // Upsert: create row if not exists, otherwise increment
   const existing = await db.select().from(marketTaxPool).limit(1);
@@ -45,7 +45,7 @@ async function feedTaxPool(db: any, taxDream: number, taxCredits: number) {
 }
 
 /** Feed tax into the seller's guild treasury */
-async function feedGuildTreasury(db: any, sellerId: number, taxDream: number, taxCredits: number) {
+async function feedGuildTreasury(db: DrizzleDb, sellerId: number, taxDream: number, taxCredits: number) {
   if (taxDream <= 0 && taxCredits <= 0) return;
   const guildShare = Math.floor(taxDream * 0.2); // 20% of tax goes to guild
   const creditShare = Math.floor(taxCredits * 0.2);
@@ -779,7 +779,7 @@ export const marketplaceRouter = router({
    HELPER: Try to match buy orders when a listing is created
    ────────────────────────────────────────────── */
 async function tryMatchBuyOrders(
-  db: any, sellerId: number, itemType: string, itemId: string,
+  db: DrizzleDb, sellerId: number, itemType: string, itemId: string,
   priceDream: number, priceCredits: number, quantity: number, listingId: number,
 ) {
   // Find matching buy orders
@@ -874,7 +874,7 @@ async function tryMatchBuyOrders(
 }
 
 /** Resolve an auction (called on buyout or when time expires) */
-async function resolveAuction(db: any, auctionId: number) {
+async function resolveAuction(db: DrizzleDb, auctionId: number) {
   const auction = await db.select().from(marketAuctions)
     .where(eq(marketAuctions.id, auctionId)).limit(1);
   if (!auction[0] || auction[0].status !== "active") return;
@@ -966,7 +966,7 @@ async function resolveAuction(db: any, auctionId: number) {
 }
 
 /** Try to match currency exchange orders */
-async function tryMatchExchangeOrders(db: any, orderId: number, userId: number, input: any) {
+async function tryMatchExchangeOrders(db: DrizzleDb, orderId: number, userId: number, input: { sellCurrency: string; buyCurrency: string; sellAmount: number; buyAmount: number }) {
   // Find complementary orders (someone selling what we want to buy)
   const matches = await db.select().from(currencyExchange)
     .where(and(

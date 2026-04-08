@@ -66,9 +66,9 @@ type ServerMessage =
   | { type: "BASE_FOUND"; raidId: string; defenderBase: SavedBaseLayout }
   | { type: "NO_BASE_FOUND"; reason: string }
   | { type: "RAID_STARTED"; timeLimit: number }
-  | { type: "RAID_RESULT"; stars: 0 | 1 | 2 | 3; loot: any; trophyChange: number; newTrophies: number }
+  | { type: "RAID_RESULT"; stars: 0 | 1 | 2 | 3; loot: Record<string, number>; trophyChange: number; newTrophies: number }
   | { type: "RAID_CANCELLED" }
-  | { type: "DEFENSE_LOG"; attackerName: string; stars: number; lootLost: any; trophyChange: number }
+  | { type: "DEFENSE_LOG"; attackerName: string; stars: number; lootLost: Record<string, number>; trophyChange: number }
   | { type: "SHIELD_ACTIVATED"; durationHours: number; expiresAt: number }
   | { type: "ERROR"; message: string }
   | { type: "PONG" };
@@ -94,7 +94,7 @@ function calculateStars(coreDestroyed: boolean, turretsDestroyedPct: number, dur
   return 0;
 }
 
-function calculateLoot(defResources: any, stars: number): any {
+function calculateLoot(defResources: Record<string, number>, stars: number): Record<string, number> {
   const rate = 0.05 + stars * 0.05;
   return {
     salvage: Math.floor((defResources.salvage || 0) * rate),

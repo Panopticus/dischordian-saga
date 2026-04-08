@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { protectedProcedure, publicProcedure, router } from "../_core/trpc";
 import { getDb } from "../db";
-import { trophyDisplays, userCards, cards } from "../../drizzle/schema";
+import { trophyDisplays, userCards, cards, type Card } from "../../drizzle/schema";
 import { eq, and, inArray, desc, sql } from "drizzle-orm";
 
 export const trophyRouter = router({
@@ -31,7 +31,7 @@ export const trophyRouter = router({
 
       // Resolve card details for displayed cards
       const cardIds = (rows[0].displayedCards ?? []) as string[];
-      let cardDetails: any[] = [];
+      let cardDetails: Card[] = [];
       if (cardIds.length > 0) {
         cardDetails = await db
           .select()

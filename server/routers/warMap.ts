@@ -150,7 +150,7 @@ export const warMapRouter = router({
 
     // Get sector info for named sectors
     const sectors = await db.select().from(twSectors);
-    const sectorMap = new Map<number, any>(sectors.map((s: any) => [s.sectorId, s]));
+    const sectorMap = new Map(sectors.map((s) => [s.sectorId, s] as const));
 
     // Get faction totals
     let empireCount = 0;
@@ -224,8 +224,8 @@ export const warMapRouter = router({
         startedAt: season.startedAt,
         endsAt: new Date(new Date(season.startedAt).getTime() + 7 * 24 * 60 * 60 * 1000),
       },
-      territories: territories.map((t: any) => {
-        const sector = sectorMap.get(t.sectorId) as any;
+      territories: territories.map((t) => {
+        const sector = sectorMap.get(t.sectorId);
         return {
           sectorId: t.sectorId,
           sectorName: sector?.name || `Sector ${t.sectorId}`,
@@ -411,7 +411,7 @@ export const warMapRouter = router({
       .orderBy(desc(warSeasons.seasonNumber))
       .limit(10);
 
-    return seasons.map((s: any) => ({
+    return seasons.map((s) => ({
       number: s.seasonNumber,
       name: s.name,
       winner: s.winner,
@@ -435,7 +435,7 @@ export const warMapRouter = router({
       .where(eq(warContributions.userId, ctx.user.id))
       .groupBy(warContributions.seasonId, warContributions.actionType);
 
-    return contributions.map((c: any) => ({
+    return contributions.map((c) => ({
       seasonId: c.seasonId,
       actionType: c.actionType,
       totalPoints: Number(c.totalPoints || 0),

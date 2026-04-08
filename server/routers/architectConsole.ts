@@ -23,7 +23,7 @@ import {
   adminEvents,
   adminAuditLog,
 } from "../../drizzle/schema";
-import { eq, sql, desc, and, lte, gte, or, isNull } from "drizzle-orm";
+import { eq, sql, desc, and, lte, gte, or, isNull, type SQL } from "drizzle-orm";
 
 /* ─── Helper: write audit log ─── */
 async function auditLog(db: NonNullable<Awaited<ReturnType<typeof getDb>>>, adminId: number, action: string, details?: unknown) {
@@ -206,7 +206,7 @@ export const architectConsoleRouter = router({
       const limit = input?.limit ?? 25;
       const offset = (page - 1) * limit;
 
-      const conditions: any[] = [];
+      const conditions: SQL[] = [];
       if (input?.status) {
         conditions.push(eq(communityVotes.status, input.status));
       }
@@ -451,7 +451,7 @@ export const architectConsoleRouter = router({
       const limit = input?.limit ?? 25;
       const offset = (page - 1) * limit;
 
-      const conditions: any[] = [];
+      const conditions: SQL[] = [];
       if (input?.activeOnly) {
         conditions.push(eq(adminEvents.isActive, true));
       }

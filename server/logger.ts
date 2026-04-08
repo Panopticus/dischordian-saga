@@ -89,19 +89,19 @@ function log(level: LogLevel, message: string, context?: string, data?: Record<s
 }
 
 export const logger = {
-  debug: (message: string, ...args: any[]) => {
+  debug: (message: string, ...args: unknown[]) => {
     const extra = args.length ? ` ${args.map(a => typeof a === 'object' ? JSON.stringify(a) : String(a)).join(' ')}` : '';
     log("debug", message + extra);
   },
-  info: (message: string, ...args: any[]) => {
+  info: (message: string, ...args: unknown[]) => {
     const extra = args.length ? ` ${args.map(a => typeof a === 'object' ? JSON.stringify(a) : String(a)).join(' ')}` : '';
     log("info", message + extra);
   },
-  warn: (message: string, ...args: any[]) => {
+  warn: (message: string, ...args: unknown[]) => {
     const extra = args.length ? ` ${args.map(a => typeof a === 'object' ? JSON.stringify(a) : String(a)).join(' ')}` : '';
     log("warn", message + extra);
   },
-  error: (message: string, ...args: any[]) => {
+  error: (message: string, ...args: unknown[]) => {
     const errObj = args.find(a => a instanceof Error) as Error | undefined;
     const extra = args.filter(a => !(a instanceof Error)).map(a => typeof a === 'object' ? JSON.stringify(a) : String(a)).join(' ');
     log("error", message + (extra ? ` ${extra}` : ''), undefined, undefined, errObj);

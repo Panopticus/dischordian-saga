@@ -5,7 +5,7 @@
 import { z } from "zod";
 import { logger } from "../logger";
 import { publicProcedure, protectedProcedure, router } from "../_core/trpc";
-import { getDb } from "../db";
+import { getDb, type DrizzleDb } from "../db";
 import { contentParticipation, contentRewards, userCards, dreamBalance, cards } from "../../drizzle/schema";
 import { eq, and, sql } from "drizzle-orm";
 import { fetchCitizenData, fetchPotentialNftData, resolveExplorationBonuses, nftLevelMultiplier } from "../traitResolver";
@@ -43,7 +43,7 @@ const MILESTONES = [
   { threshold: 100, reward: "mythic", dream: 1000, label: "100 completions" },
 ];
 
-async function grantRandomCard(db: any, userId: number, rarityPool: string): Promise<string | null> {
+async function grantRandomCard(db: DrizzleDb, userId: number, rarityPool: string): Promise<string | null> {
   // Pick a random card from the pool
   const pool = await db.select()
     .from(cards)
@@ -77,7 +77,7 @@ async function grantRandomCard(db: any, userId: number, rarityPool: string): Pro
   return randomCard.cardId;
 }
 
-async function grantDream(db: any, userId: number, amount: number) {
+async function grantDream(db: DrizzleDb, userId: number, amount: number) {
   const existing = await db.select()
     .from(dreamBalance)
     .where(eq(dreamBalance.userId, userId))

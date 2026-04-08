@@ -91,9 +91,10 @@ async function startServer() {
       }
 
       res.json({ received: true });
-    } catch (err: any) {
-      console.error(`[Webhook] Error: ${err.message}`);
-      res.status(400).json({ error: `Webhook Error: ${err.message}` });
+    } catch (err: unknown) {
+      const errMsg = err instanceof Error ? err.message : String(err);
+      console.error(`[Webhook] Error: ${errMsg}`);
+      res.status(400).json({ error: `Webhook Error: ${errMsg}` });
     }
   });
 

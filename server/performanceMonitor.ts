@@ -123,8 +123,7 @@ export function performanceMiddleware(req: Request, res: Response, next: NextFun
   const start = performance.now();
 
   const originalEnd = res.end;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  res.end = function (this: Response, ...args: any[]) {
+  res.end = function (this: Response, ...args: unknown[]) {
     const durationMs = performance.now() - start;
     const key = routeKey(req.method, req.path);
 

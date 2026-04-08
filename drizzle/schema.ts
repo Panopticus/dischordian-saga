@@ -422,7 +422,7 @@ export type TWSector = typeof twSectors.$inferSelect;
  */
 export const twPlayerState = mysqlTable("tw_player_state", {
   id: int("id").autoincrement().primaryKey(),
-  userId: int("userId").notNull(),  // indexed below
+  userId: int("userId").notNull(),
   /** Current sector */
   currentSector: int("currentSector").notNull().default(1),
   /** Ship type */
@@ -473,7 +473,7 @@ export type TWPlayerState = typeof twPlayerState.$inferSelect;
  */
 export const twColonies = mysqlTable("tw_colonies", {
   id: int("id").autoincrement().primaryKey(),
-  userId: int("userId").notNull(),  // indexed below
+  userId: int("userId").notNull(),
   sectorId: int("sectorId").notNull(),
   planetName: varchar("planetName", { length: 256 }).notNull(),
   /** Colony level (1-5) determines income multiplier */
@@ -1340,7 +1340,10 @@ export const auctionBids = mysqlTable("auction_bids", {
   bidderId: int("bidderId").notNull(),
   bidAmount: int("bidAmount").notNull(),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
-});
+}, (table) => ({
+  auctionIdIdx: index("idx_auction_bids_auction_id").on(table.auctionId),
+  bidderIdIdx: index("idx_auction_bids_bidder_id").on(table.bidderId),
+}));
 export type AuctionBid = typeof auctionBids.$inferSelect;
 
 /**

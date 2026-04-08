@@ -18,7 +18,7 @@ interface LiveGame {
   id: string;
   white: Player;
   black: Player | null;
-  chess: any; // Chess instance
+  chess: InstanceType<typeof Chess>;
   timeControl: { initial: number; increment: number }; // seconds
   whiteTime: number; // ms remaining
   blackTime: number; // ms remaining

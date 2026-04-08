@@ -209,8 +209,9 @@ export function registerSpriteProxy(app: Express) {
         "Access-Control-Allow-Origin": process.env.CORS_ORIGIN || "https://dischordian-saga.com",
       });
       res.send(resultBuffer);
-    } catch (err: any) {
-      console.error(`[SpriteProxy] Error processing ${url}: ${err.message}`);
+    } catch (err: unknown) {
+      const errMsg = err instanceof Error ? err.message : String(err);
+      console.error(`[SpriteProxy] Error processing ${url}: ${errMsg}`);
       
       // Fallback: try to serve the original image
       try {

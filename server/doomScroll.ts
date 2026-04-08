@@ -108,7 +108,7 @@ Timestamps should be recent dates in ISO format.`,
     }
 
     const parsed = JSON.parse(content);
-    const stories: DoomStory[] = (parsed.stories || []).map((s: any, i: number) => ({
+    const stories: DoomStory[] = (parsed.stories || []).map((s: Record<string, unknown>, i: number) => ({
       id: `doom-${Date.now()}-${i}`,
       headline: s.headline,
       summary: s.summary,
