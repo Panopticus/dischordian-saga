@@ -2687,3 +2687,126 @@ export const analyticsEvents = mysqlTable("analytics_events", {
   idxEvent: index("idx_analytics_event").on(table.event),
   idxCreatedAt: index("idx_analytics_created").on(table.createdAt),
 }));
+
+/* ═══════════════════════════════════════════════════════
+   DAILY BRIEF — The Living Ark's daily event system
+   3 events/day (gameplay, story, relationship) seeded
+   deterministically per user per day.
+   ═══════════════════════════════════════════════════════ */
+
+/**
+ * Daily brief events — generated and persisted per user per day.
+ * Each brief contains exactly 3 events (gameplay, story, relationship).
+ */
+export const dailyBriefs = mysqlTable("daily_briefs", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  /** Date string YYYY-MM-DD */
+  briefDate: varchar("briefDate", { length: 10 }).notNull(),
+  /** The 3 events as JSON */
+  events: json("events").$type<{
+    gameplay: { id: string; roomId: string; type: string; title: string; description: string; npcId?: string; song?: string };
+    story: { id: string; roomId: string; type: string; title: string; description: string; npcId?: string; song?: string };
+    relationship: { id: string; roomId: string; type: string; title: string; description: string; npcId?: string; song?: string };
+  }>().notNull(),
+  /** Which events the user has interacted with */
+  completedEvents: json("completedEvents").$type<string[]>(),
+  /** Result data from processing events (trust changes, rewards given) */
+  results: json("results").$type<Record<string, unknown>>(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+}, (table) => ({
+  idxUserDate: uniqueIndex("uq_daily_brief_user_date").on(table.userId, table.briefDate),
+  idxBriefDate: index("idx_daily_brief_date").on(table.briefDate),
+}));
+
+export type DailyBrief = typeof dailyBriefs.$inferSelect;
+
+/* ═══════════════════════════════════════════════════════
+   PRESSURE EVENTS — Living Universe behavior tracking
+   Records individual player actions that feed community
+   pressure meters for emergent events.
+   ═══════════════════════════════════════════════════════ */
+
+/**
+ * Pressure events — every death, betrayal, trust gain, etc.
+ * Aggregated community-wide to determine emergent events.
+ */
+export const pressureEvents = mysqlTable("pressure_events", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  /** Pressure type: deaths, trustGains, viralExposures, loreDiscoveries, betrayals,
+   *  moralityHumanity, moralityMachine, truthRevealed, healingDone, exploration */
+  pressureType: varchar("pressureType", { length: 64 }).notNull(),
+  /** How much pressure this event contributes */
+  amount: int("amount").notNull().default(1),
+  /** Source context: what caused this (fight_death, npc_trust_elara, tome_found, etc.) */
+  source: varchar("source", { length: 128 }).notNull(),
+  /** Optional metadata */
+  metadata: json("metadata").$type<Record<string, unknown>>(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+}, (table) => ({
+  idxPressureType: index("idx_pressure_type").on(table.pressureType),
+  idxCreatedAt: index("idx_pressure_created").on(table.createdAt),
+  idxUserId: index("idx_pressure_user").on(table.userId),
+}));
+
+export type PressureEvent = typeof pressureEvents.$inferSelect;
+
+/**
+ * Universe event state — tracks which emergent events are active,
+ * their accumulated pressure, and when they were last triggered.
+ */
+export const universeEventState = mysqlTable("universe_event_state", {
+  id: int("id").autoincrement().primaryKey(),
+  eventId: varchar("eventId", { length: 64 }).notNull().unique(),
+  /** Is this event currently active */
+  isActive: int("isActive").notNull().default(0),
+  /** Accumulated pressure score */
+  pressureScore: int("pressureScore").notNull().default(0),
+  /** When the event was last activated */
+  activatedAt: timestamp("activatedAt"),
+  /** When the event was last resolved */
+  resolvedAt: timestamp("resolvedAt"),
+  /** Number of times this event has occurred */
+  occurrenceCount: int("occurrenceCount").notNull().default(0),
+  /** Current cycle data (consequences applied, player participation) */
+  cycleData: json("cycleData").$type<Record<string, unknown>>(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type UniverseEventState = typeof universeEventState.$inferSelect;
+
+/* ═══════════════════════════════════════════════════════
+   ROOM STATES — Visual evolution of Ark rooms based
+   on player actions. Rooms change over time.
+   ═══════════════════════════════════════════════════════ */
+
+/**
+ * Room states — per-user visual/functional state for each Ark room.
+ * Tracks decorations, damage, crew presence, upgrades.
+ */
+export const roomStates = mysqlTable("room_states", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  roomId: varchar("roomId", { length: 64 }).notNull(),
+  /** Visual tier: 0=default, 1=decorated, 2=upgraded, 3=masterwork */
+  visualTier: int("visualTier").notNull().default(0),
+  /** Damage level from Terminus/quarantine events: 0=pristine, 1=scuffed, 2=damaged, 3=critical */
+  damageLevel: int("damageLevel").notNull().default(0),
+  /** Number of times crafted in this room (for Engineering evolution) */
+  craftCount: int("craftCount").notNull().default(0),
+  /** Number of quarantine events weathered */
+  quarantineCount: int("quarantineCount").notNull().default(0),
+  /** Crew members assigned to this room (NPC IDs after Crew Awakening) */
+  crewAssigned: json("crewAssigned").$type<string[]>(),
+  /** Active decorations/modifications */
+  decorations: json("decorations").$type<string[]>(),
+  /** Room-specific state (e.g., conspiracy board pins for Bridge, tools for Engineering) */
+  roomData: json("roomData").$type<Record<string, unknown>>(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  idxUserRoom: uniqueIndex("uq_room_state_user_room").on(table.userId, table.roomId),
+  idxUserId: index("idx_room_state_user").on(table.userId),
+}));
+
+export type RoomState = typeof roomStates.$inferSelect;

@@ -69,6 +69,7 @@ import { petBattlesRouter } from "./routers/petBattles";
 import { seedDataRouter } from "./routers/seedData";
 import { analyticsRouter } from "./routers/analytics";
 import { settingsRouter } from "./routers/settings";
+import { dailyBriefRouter } from "./routers/dailyBrief";
 
 export const appRouter = router({
   system: systemRouter,
@@ -134,6 +135,7 @@ export const appRouter = router({
   seedData: seedDataRouter,
   analytics: analyticsRouter,
   settings: settingsRouter,
+  dailyBrief: dailyBriefRouter,
   auth: router({
     me: publicProcedure.query(opts => opts.ctx.user),
     logout: publicProcedure.mutation(({ ctx }) => {

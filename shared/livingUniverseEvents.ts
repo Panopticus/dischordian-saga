@@ -330,3 +330,169 @@ export function getEmergingEvent(pressure: PressureTracker): { eventId: string; 
   if (scores[0].score < 1000) return null; // Not close yet
   return { eventId: scores[0].eventId, proximity: Math.min(100, scores[0].score / 100) };
 }
+
+/* ─── PRESSURE SOURCE MAPPING ─── */
+
+/**
+ * Maps game actions to pressure types for automatic recording.
+ * Use this when integrating pressure recording into other game systems.
+ */
+export const PRESSURE_SOURCE_MAP: Record<string, { pressureType: keyof PressureTracker; amount: number }> = {
+  // Deaths feed Necromancer
+  fight_death: { pressureType: "deaths", amount: 1 },
+  chess_loss: { pressureType: "deaths", amount: 1 },
+  terminus_death: { pressureType: "deaths", amount: 2 },
+  pet_death: { pressureType: "deaths", amount: 3 },
+  pvp_death: { pressureType: "deaths", amount: 1 },
+  card_battle_loss: { pressureType: "deaths", amount: 1 },
+  // Trust gains feed Dreamer
+  npc_trust_gain: { pressureType: "trustGains", amount: 3 },
+  companion_gift: { pressureType: "trustGains", amount: 5 },
+  stargazing: { pressureType: "trustGains", amount: 5 },
+  quest_complete: { pressureType: "trustGains", amount: 2 },
+  // Viral exposure feeds Terminus
+  viral_infection: { pressureType: "viralExposures", amount: 5 },
+  terminus_wave: { pressureType: "viralExposures", amount: 2 },
+  quarantine_failed: { pressureType: "viralExposures", amount: 10 },
+  thought_virus_accept: { pressureType: "viralExposures", amount: 15 },
+  // Lore feeds Antiquarian
+  tome_complete: { pressureType: "loreDiscoveries", amount: 10 },
+  loredex_entry: { pressureType: "loreDiscoveries", amount: 3 },
+  lore_quiz_pass: { pressureType: "loreDiscoveries", amount: 5 },
+  signal_decrypt: { pressureType: "loreDiscoveries", amount: 5 },
+  // Betrayals feed Shadow Tongue
+  npc_betrayal: { pressureType: "betrayals", amount: 10 },
+  broken_promise: { pressureType: "betrayals", amount: 5 },
+  dark_morality_choice: { pressureType: "betrayals", amount: 3 },
+  cult_join: { pressureType: "betrayals", amount: 15 },
+  // Counter-forces
+  humanity_choice: { pressureType: "moralityHumanity", amount: 5 },
+  machine_choice: { pressureType: "moralityMachine", amount: 5 },
+  corruption_purified: { pressureType: "truthRevealed", amount: 10 },
+  archive_restored: { pressureType: "truthRevealed", amount: 5 },
+  healing_action: { pressureType: "healingDone", amount: 3 },
+  quarantine_cleared: { pressureType: "healingDone", amount: 5 },
+  sector_explored: { pressureType: "exploration", amount: 3 },
+  room_visited: { pressureType: "exploration", amount: 1 },
+};
+
+/* ─── EVENT CONSEQUENCE SYSTEM ─── */
+
+/** Consequences that apply to game systems when an event is active */
+export interface EventConsequence {
+  eventId: string;
+  /** Multiplier for market prices in affected categories */
+  marketMultipliers: Record<string, number>;
+  /** Combat stat modifiers */
+  combatModifiers: { attack?: number; defense?: number; speed?: number };
+  /** NPC dialog pool override key */
+  dialogOverride: string;
+  /** Music atmosphere override */
+  musicOverride?: string;
+  /** XP multiplier for specific actions */
+  xpMultipliers: Record<string, number>;
+}
+
+export const EVENT_CONSEQUENCES: EventConsequence[] = [
+  {
+    eventId: "necromancer_return",
+    marketMultipliers: { soul_fragment: 5, dream_token: 0.7, weapon: 1.5 },
+    combatModifiers: { attack: 1.2, defense: 0.9 },
+    dialogOverride: "necromancer_active",
+    musicOverride: "Judgment Day",
+    xpMultipliers: { fight: 1.5, healing: 2.0 },
+  },
+  {
+    eventId: "dreamer_awakening",
+    marketMultipliers: { gift_item: 2, weapon: 0.75, compassion_item: 3 },
+    combatModifiers: { defense: 1.3 },
+    dialogOverride: "dreamer_active",
+    musicOverride: "The Dreamer",
+    xpMultipliers: { social: 2.0, exploration: 1.5 },
+  },
+  {
+    eventId: "terminus_advance",
+    marketMultipliers: { viral_ichor: 10, medical_supply: 4, shield_mod: 3 },
+    combatModifiers: { attack: 0.8, defense: 0.8, speed: 1.3 },
+    dialogOverride: "terminus_active",
+    musicOverride: "The Source (Reprise)",
+    xpMultipliers: { terminus: 2.0, healing: 1.5 },
+  },
+  {
+    eventId: "antiquarian_revelation",
+    marketMultipliers: { lore_item: 5, rare_card: 2 },
+    combatModifiers: {},
+    dialogOverride: "antiquarian_active",
+    musicOverride: "Silence in Heaven",
+    xpMultipliers: { exploration: 3.0, lore: 2.0 },
+  },
+  {
+    eventId: "shadow_tongue_edit",
+    marketMultipliers: { archive_access: 4, truth_serum: 10 },
+    combatModifiers: { attack: 1.1 },
+    dialogOverride: "shadow_tongue_active",
+    xpMultipliers: { exploration: 0.8, social: 0.8 },
+  },
+];
+
+/**
+ * Get active consequences for a set of active event IDs.
+ * Merges consequences from multiple active events + applies synergy bonuses.
+ */
+export function getActiveConsequences(activeEventIds: string[]): {
+  marketMultipliers: Record<string, number>;
+  combatModifiers: { attack: number; defense: number; speed: number };
+  dialogOverrides: string[];
+  musicOverride?: string;
+  xpMultipliers: Record<string, number>;
+} {
+  const result = {
+    marketMultipliers: {} as Record<string, number>,
+    combatModifiers: { attack: 1.0, defense: 1.0, speed: 1.0 },
+    dialogOverrides: [] as string[],
+    musicOverride: undefined as string | undefined,
+    xpMultipliers: {} as Record<string, number>,
+  };
+
+  for (const eventId of activeEventIds) {
+    const consequence = EVENT_CONSEQUENCES.find(c => c.eventId === eventId);
+    if (!consequence) continue;
+
+    // Merge market multipliers (multiply if both events affect same item)
+    for (const [item, mult] of Object.entries(consequence.marketMultipliers)) {
+      result.marketMultipliers[item] = (result.marketMultipliers[item] ?? 1) * mult;
+    }
+
+    // Merge combat modifiers (multiply)
+    if (consequence.combatModifiers.attack) result.combatModifiers.attack *= consequence.combatModifiers.attack;
+    if (consequence.combatModifiers.defense) result.combatModifiers.defense *= consequence.combatModifiers.defense;
+    if (consequence.combatModifiers.speed) result.combatModifiers.speed *= consequence.combatModifiers.speed;
+
+    // Collect dialog overrides
+    result.dialogOverrides.push(consequence.dialogOverride);
+
+    // Last music override wins (most dramatic event)
+    if (consequence.musicOverride) result.musicOverride = consequence.musicOverride;
+
+    // Merge XP multipliers
+    for (const [action, mult] of Object.entries(consequence.xpMultipliers)) {
+      result.xpMultipliers[action] = (result.xpMultipliers[action] ?? 1) * mult;
+    }
+  }
+
+  // Apply synergy bonuses
+  const activeSynergies = EVENT_SYNERGIES.filter(s =>
+    s.events.every(eId => activeEventIds.includes(eId))
+  );
+  for (const synergy of activeSynergies) {
+    // Synergies amplify all multipliers by 1.5x
+    for (const key of Object.keys(result.marketMultipliers)) {
+      result.marketMultipliers[key] *= 1.5;
+    }
+    for (const key of Object.keys(result.xpMultipliers)) {
+      result.xpMultipliers[key] *= 1.5;
+    }
+  }
+
+  return result;
+}
