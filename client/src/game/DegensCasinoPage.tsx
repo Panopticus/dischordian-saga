@@ -17,8 +17,12 @@ import {
   rollLiarsDice, dreamRouletteRound, generateBingoCard, checkBingoWin,
   LIARS_DICE_NPCS, SAMPLE_FACTION_BETS, BINGO_LORE_EVENTS,
 } from "./degensCasino";
+import {
+  CASINO_ENVIRONMENTS, FLOOR_BACKGROUNDS, CASINO_GAME_TABLES,
+  getDegenPortrait, getVipChip, getTrustMilestoneArt,
+} from "@/lib/casinoAssets";
 
-const CASINO_FLOOR_BG = "https://res.cloudinary.com/dsenaozjq/image/upload/q_auto/f_auto/v1775678427/DC-001_THE_CASINO_FLOOR_mp3os6.jpg";
+const CASINO_FLOOR_BG = CASINO_ENVIRONMENTS.mainFloor;
 const CASINO_PARALLAX_COLOR = "https://res.cloudinary.com/dsenaozjq/image/upload/q_auto/f_auto/v1775681916/Vast_open_casino_202604081640_drbpia.jpg";
 const CASINO_PARALLAX_DEPTH = "https://res.cloudinary.com/dsenaozjq/image/upload/q_auto/f_auto/v1775681913/Vast_open_casino_202604081640_disparity_quhlae.png";
 
@@ -52,6 +56,9 @@ export default function DegensCasinoPage() {
   const degenMood = useMemo(() => getDegenMood(casinoState), [casinoState]);
   const favorMilestone = useMemo(() => getDegenFavorMilestone(casinoState.degenFavor), [casinoState.degenFavor]);
   const isEquilibrium = useMemo(() => checkEquilibrium(casinoState), [casinoState]);
+  const floorBg = useMemo(() => FLOOR_BACKGROUNDS[casinoFloor] ?? CASINO_FLOOR_BG, [casinoFloor]);
+  const degenPortrait = useMemo(() => getDegenPortrait(casinoState.degenFavor, degenMood), [casinoState.degenFavor, degenMood]);
+  const vipChipImg = useMemo(() => getVipChip(vip.name), [vip.name]);
 
   const save = (s: CasinoState) => { setCasinoState(s); localStorage.setItem("degen_casino", JSON.stringify(s)); };
 
@@ -171,29 +178,45 @@ export default function DegensCasinoPage() {
 
   return (
     <div className="min-h-screen bg-black relative overflow-hidden">
-      {/* Casino Floor — 3D Parallax Depth Background */}
+      {/* Casino Floor — environment background per area */}
+      <div className="absolute inset-0 z-0 transition-opacity duration-700">
+        <img
+          key={casinoFloor}
+          src={floorBg}
+          alt=""
+          className="w-full h-full object-cover"
+          style={{ filter: "brightness(0.25) saturate(1.2)" }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-transparent" />
+      </div>
+      {/* Parallax depth overlay */}
       <ParallaxDepthBackground
         colorUrl={CASINO_PARALLAX_COLOR}
         depthUrl={CASINO_PARALLAX_DEPTH}
         intensity={0.03}
-        opacity={0.22}
+        opacity={0.12}
       />
 
       {/* Header */}
       <div className="flex items-center justify-between px-4 py-3 border-b border-amber-500/20 bg-gradient-to-r from-black via-amber-950/20 to-black relative z-10">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-full bg-amber-500/10 border border-amber-500/30 flex items-center justify-center">
-            <Skull size={20} className="text-amber-400" />
-          </div>
+          <img
+            src={degenPortrait}
+            alt="The Degen"
+            className="w-10 h-10 rounded-full object-cover bg-amber-500/10 border border-amber-500/30"
+          />
           <div>
             <h1 className="font-display text-lg tracking-[0.2em] text-amber-400">THE DEGEN'S CASINO</h1>
             <p className="font-mono text-[8px] text-amber-400/40">EDGE OF THE SHIELD // ONLY OPEN ZONE IN NE-YON SPACE // THE HOST WATCHES</p>
           </div>
         </div>
         <div className="flex items-center gap-4">
-          <div className="text-right">
-            <p className="font-mono text-[9px] text-amber-400/50">VIP: {vip.name}</p>
-            <p className="font-mono text-[8px] text-white/20">Wagered: {casinoState.totalWagered}D</p>
+          <div className="flex items-center gap-2">
+            <img src={vipChipImg} alt={vip.name} className="w-6 h-6 object-contain" />
+            <div className="text-right">
+              <p className="font-mono text-[9px] text-amber-400/50">VIP: {vip.name}</p>
+              <p className="font-mono text-[8px] text-white/20">Wagered: {casinoState.totalWagered}D</p>
+            </div>
           </div>
           <button onClick={() => navigate("/ark")} className="text-white/20 hover:text-white/50">
             <X size={18} />
@@ -221,8 +244,12 @@ export default function DegensCasinoPage() {
 
       {/* Degen Commentary */}
       <div className="px-4 py-3 border-b border-white/5">
-        <div className="flex items-start gap-2">
-          <Skull size={14} className="text-amber-400/60 mt-0.5 shrink-0" />
+        <div className="flex items-start gap-3">
+          <img
+            src={degenPortrait}
+            alt="The Degen"
+            className="w-10 h-10 rounded-full object-cover border border-amber-500/30 shrink-0"
+          />
           <p className="font-mono text-xs text-amber-400/70 italic leading-relaxed">"{degenText}"</p>
         </div>
       </div>
@@ -424,10 +451,28 @@ export default function DegensCasinoPage() {
               </div>
             )}
 
-            {/* Other games — placeholder */}
+            {/* Other games — placeholder with table art */}
             {selectedGame !== "void_slots" && selectedGame !== "entropy_dice" && (
               <div className="text-center py-12">
-                <Skull size={32} className="text-amber-400/30 mx-auto mb-3" />
+                {(() => {
+                  const GAME_TABLE_ART: Partial<Record<CasinoGame, string>> = {
+                    nebula_poker: CASINO_ENVIRONMENTS.cardTables,
+                    pazaak_21: CASINO_ENVIRONMENTS.cardTables,
+                    void_blackjack_tournament: CASINO_GAME_TABLES.blackjackTable,
+                    liars_dice: CASINO_GAME_TABLES.liarsDiceTable,
+                    faction_war_betting: CASINO_GAME_TABLES.factionBettingBoard,
+                    card_battlers_gauntlet: CASINO_GAME_TABLES.cardBattlersTable,
+                    void_bingo: CASINO_ENVIRONMENTS.bingoHall,
+                    dream_roulette: CASINO_GAME_TABLES.voidChargeDevice,
+                    quantum_roulette: CASINO_ENVIRONMENTS.rouletteChamber,
+                  };
+                  const tableImg = selectedGame ? GAME_TABLE_ART[selectedGame] : undefined;
+                  return tableImg ? (
+                    <img src={tableImg} alt="" className="w-full max-w-sm mx-auto rounded-xl mb-4 opacity-40" style={{ filter: "saturate(0.7)" }} />
+                  ) : (
+                    <Skull size={32} className="text-amber-400/30 mx-auto mb-3" />
+                  );
+                })()}
                 <p className="font-mono text-sm text-white/40">
                   {CASINO_GAMES.find(g => g.id === selectedGame)?.name}
                 </p>

@@ -28,6 +28,7 @@ const TARGET_HEIGHT = 480;
 const ALLOWED_DOMAINS = [
   "d2xsxph8kpxj0f.cloudfront.net",
   "res.cloudinary.com",
+  "dgrsart.s3.us-east-2.amazonaws.com",
 ];
 
 function isAllowedUrl(url: string): boolean {
