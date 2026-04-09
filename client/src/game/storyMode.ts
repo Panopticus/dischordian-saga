@@ -384,7 +384,7 @@ export const STORY_CHAPTERS: StoryChapter[] = [
     arenaId: "thaloria",
     difficulty: "easy",
     unlocksFighter: "wraith-calder",
-    cutsceneVideoUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/wraith_calder_fight_intro_a2881ffd.mp4",
+    cutsceneVideoUrl: "/videos/epochs/epoch-0/the-prisoner.mp4",
     preDialogue: [
       { speaker: "narrator", text: "You awaken in darkness. Cold metal beneath you. The hum of machinery. A voice echoes through the cell..." },
       { speaker: "The Collector", text: "Prisoner 74. You are awake. Good. The arena awaits. Fight, and perhaps you will remember.", speakerColor: "#22d3ee" },

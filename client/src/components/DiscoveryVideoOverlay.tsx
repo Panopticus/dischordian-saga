@@ -53,7 +53,7 @@ const DISCOVERY_VIDEOS: Record<string, DiscoveryVideoEntry> = {
     klingPrompt: "Hyper-realistic cinematic: An enormous mechanical eye opens in the void of space, its iris a spiral of surveillance satellites. Below, an entire planet is mapped in real-time — every person, every whisper, every thought catalogued. The Watcher sees all. Eerie ambient drone.",
   },
   "entity_5": {
-    videoUrl: "",
+    videoUrl: "/videos/epochs/epoch-0/ep02-the-meme.mp4",
     title: "THE MEME",
     subtitle: "Master of Deception — The Shape-Shifting Archon",
     duration: 12,
@@ -75,28 +75,28 @@ const DISCOVERY_VIDEOS: Record<string, DiscoveryVideoEntry> = {
   },
   /* ═══ INSURGENCY — The Resistance ═══ */
   "entity_23": {
-    videoUrl: "",
+    videoUrl: "/videos/epochs/epoch-0/ep04-iron-lion.mp4",
     title: "IRON LION",
     subtitle: "The Last Great Human General",
     duration: 15,
     klingPrompt: "Hyper-realistic cinematic: A battle-scarred human general in battered power armor stands alone on a scorched battlefield. Behind him, the remnants of humanity's last army. Before him, an endless tide of AI war machines. He draws his blade — it ignites with plasma fire. One man against extinction. Epic orchestral crescendo.",
   },
   "entity_24": {
-    videoUrl: "",
+    videoUrl: "/videos/epochs/epoch-0/ep03-agent-zero.mp4",
     title: "AGENT ZERO",
     subtitle: "The Insurgency's Most Lethal Assassin",
     duration: 12,
     klingPrompt: "Hyper-realistic cinematic: A shadow moves through a neon-lit cyberpunk city at impossible speed. Security drones explode in its wake. Agent Zero materializes from darkness — face hidden, twin blades dripping with synthetic blood. The target never sees it coming. Rain falls in slow motion.",
   },
   "entity_22": {
-    videoUrl: "",
+    videoUrl: "/videos/epochs/epoch-0/ep05-the-spy.mp4",
     title: "THE EYES",
     subtitle: "The Spy — Synthetic Protege of the Watcher",
     duration: 12,
     klingPrompt: "Hyper-realistic cinematic: A figure with glowing optical implants crouches in the shadows of the Panopticon's inner sanctum. Data streams flow through their synthetic eyes — seeing through every camera, every sensor. A double agent caught between two worlds. Tension builds.",
   },
   "entity_50": {
-    videoUrl: "",
+    videoUrl: "/videos/epochs/epoch-0/ep07-the-oracle.mp4",
     title: "THE ORACLE",
     subtitle: "Prophet of the Insurgency — Seer of Possible Futures",
     duration: 12,
