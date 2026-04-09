@@ -16,7 +16,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
-import LivingBackground from "@/components/LivingBackground";
+import ParallaxDepthBackground from "@/components/ParallaxDepthBackground";
 import { getStationBackground, type ModuleCategory } from "@shared/spaceStations";
 
 const MODULE_CATEGORY_ICONS: Record<string, React.ComponentType<any>> = {
@@ -98,7 +98,7 @@ export default function SpaceStationPage() {
     const commandBg = getStationBackground("overview");
     return (
       <div className="min-h-screen flex items-center justify-center p-4 relative overflow-hidden">
-        <LivingBackground src={commandBg.imageUrl} accent={commandBg.accent} opacity={0.18} particleCount={8} voidRoomKey="space_station" />
+        <ParallaxDepthBackground colorUrl={commandBg.imageUrl} depthUrl={commandBg.depthUrl} intensity={0.03} opacity={0.18} />
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -146,14 +146,12 @@ export default function SpaceStationPage() {
   return (
     <div className="min-h-screen p-4 sm:p-6 animate-fade-in relative overflow-hidden">
       {/* Station Module Background */}
-      <LivingBackground
+      <ParallaxDepthBackground
         key={activeBg.id}
-        src={activeBg.imageUrl}
-        accent={activeBg.accent}
+        colorUrl={activeBg.imageUrl}
+        depthUrl={activeBg.depthUrl}
+        intensity={0.03}
         opacity={0.15}
-        particleCount={6}
-        scanlines={false}
-        voidRoomKey="space_station"
       />
 
       <div className="max-w-5xl mx-auto relative z-10">

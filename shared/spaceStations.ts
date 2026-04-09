@@ -274,6 +274,8 @@ export interface StationBackground {
   id: string;
   name: string;
   imageUrl: string;
+  /** Depth/disparity map for parallax effect */
+  depthUrl: string;
   accent: string;
   /** Which module category uses this background */
   category: ModuleCategory | "overview";
@@ -284,6 +286,7 @@ export const STATION_BACKGROUNDS: StationBackground[] = [
     id: "command-module",
     name: "Command Module",
     imageUrl: "https://res.cloudinary.com/dsenaozjq/image/upload/q_auto/f_auto/v1775673614/SS-001_COMMAND_MODULE_vepcoq.jpg",
+    depthUrl: "https://res.cloudinary.com/dsenaozjq/image/upload/q_auto/f_auto/v1775695562/SS-001_COMMAND_MODULE_disparity_rwi2ir.png",
     accent: "#33E2E6",
     category: "overview",
   },
@@ -291,6 +294,7 @@ export const STATION_BACKGROUNDS: StationBackground[] = [
     id: "resource-processor",
     name: "Resource Processor",
     imageUrl: "https://res.cloudinary.com/dsenaozjq/image/upload/q_auto/f_auto/v1775673618/SS-002_RESOURCE_PROCESSOR_m45s5h.jpg",
+    depthUrl: "https://res.cloudinary.com/dsenaozjq/image/upload/q_auto/f_auto/v1775695566/SS-002_RESOURCE_PROCESSOR_disparity_ubnnks.png",
     accent: "#f59e0b",
     category: "production",
   },
@@ -298,6 +302,7 @@ export const STATION_BACKGROUNDS: StationBackground[] = [
     id: "research-lab",
     name: "Research Lab Module",
     imageUrl: "https://res.cloudinary.com/dsenaozjq/image/upload/q_auto/f_auto/v1775673620/SS-003_RESEARCH_LAB_MODULE_mdgyy0.jpg",
+    depthUrl: "https://res.cloudinary.com/dsenaozjq/image/upload/q_auto/f_auto/v1775695564/SS-003_RESEARCH_LAB_MODULE_disparity_ibqzwm.png",
     accent: "#8b5cf6",
     category: "research",
   },
@@ -305,6 +310,7 @@ export const STATION_BACKGROUNDS: StationBackground[] = [
     id: "defense-array",
     name: "Defense Array",
     imageUrl: "https://res.cloudinary.com/dsenaozjq/image/upload/q_auto/f_auto/v1775673615/SS-004_DEFENSE_ARRAY_xnlwqo.jpg",
+    depthUrl: "https://res.cloudinary.com/dsenaozjq/image/upload/q_auto/f_auto/v1775695554/SS-004_DEFENSE_ARRAY_disparity_ppxrtb.png",
     accent: "#dc2626",
     category: "defense",
   },
@@ -312,6 +318,7 @@ export const STATION_BACKGROUNDS: StationBackground[] = [
     id: "habitation-ring",
     name: "Habitation Ring",
     imageUrl: "https://res.cloudinary.com/dsenaozjq/image/upload/q_auto/f_auto/v1775673617/SS-005_HABITATION_RING_bkmk03.jpg",
+    depthUrl: "https://res.cloudinary.com/dsenaozjq/image/upload/q_auto/f_auto/v1775695556/SS-005_HABITATION_RING_disparity_ba1nnu.png",
     accent: "#10b981",
     category: "living",
   },
@@ -319,6 +326,7 @@ export const STATION_BACKGROUNDS: StationBackground[] = [
     id: "docking-bay",
     name: "Docking Bay",
     imageUrl: "https://res.cloudinary.com/dsenaozjq/image/upload/q_auto/f_auto/v1775673621/SS-006_DOCKING_BAY_q40qc6.jpg",
+    depthUrl: "https://res.cloudinary.com/dsenaozjq/image/upload/q_auto/f_auto/v1775695558/SS-006_DOCKING_BAY_disparity_ceosdh.png",
     accent: "#06b6d4",
     category: "special",
   },
@@ -326,6 +334,7 @@ export const STATION_BACKGROUNDS: StationBackground[] = [
     id: "archons-sanctum",
     name: "The Archon's Sanctum",
     imageUrl: "https://res.cloudinary.com/dsenaozjq/image/upload/q_auto/f_auto/v1775674484/SS-007_-_Archon_s_Sanctum_cmqfjp.jpg",
+    depthUrl: "https://res.cloudinary.com/dsenaozjq/image/upload/q_auto/f_auto/v1775695560/SS-007_-_Archon_s_Sanctum__disparity_l3zuh5.png",
     accent: "#d4a017",
     category: "prestige",
   },
