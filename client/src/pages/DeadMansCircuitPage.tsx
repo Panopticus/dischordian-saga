@@ -18,6 +18,7 @@ import {
   getNilmorgLine, type CloneStats,
 } from "@shared/deadMansCircuit";
 import { useNilmorgVO } from "@/hooks/useNilmorgVO";
+import { DMC_ENVIRONMENTS, DMC_MUSIC } from "@/data/dmcAssets";
 
 type Phase = "lobby" | "racing" | "results";
 
@@ -101,9 +102,10 @@ export default function DeadMansCircuitPage() {
   // ─── NO ACTIVE SEASON ───
   if (!season.data) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center p-4" style={{ background: CIRCUIT_PALETTE.TRENCH_DARK }}>
-        <Skull size={64} style={{ color: CIRCUIT_PALETTE.NILMORG_ORANGE }} className="mb-6 opacity-30" />
-        <h1 className="font-display text-2xl tracking-[0.3em] mb-2" style={{ color: CIRCUIT_PALETTE.NILMORG_ORANGE }}>
+      <div className="min-h-screen flex flex-col items-center justify-center p-4 relative" style={{ background: CIRCUIT_PALETTE.TRENCH_DARK }}>
+        <img src={DMC_ENVIRONMENTS.cloneVat} alt="" className="absolute inset-0 w-full h-full object-cover opacity-20 pointer-events-none" />
+        <Skull size={64} style={{ color: CIRCUIT_PALETTE.NILMORG_ORANGE }} className="relative z-10 mb-6 opacity-30" />
+        <h1 className="relative z-10 font-display text-2xl tracking-[0.3em] mb-2" style={{ color: CIRCUIT_PALETTE.NILMORG_ORANGE }}>
           THE CIRCUIT IS CLOSED
         </h1>
         <p className="font-mono text-xs text-white/30 mb-8 text-center max-w-md">
@@ -123,10 +125,11 @@ export default function DeadMansCircuitPage() {
       <div className="min-h-screen relative" style={{ background: CIRCUIT_PALETTE.VOID_BLACK }}>
         {!gameReady && (
           <div className="absolute inset-0 flex flex-col items-center justify-center z-10" style={{ background: CIRCUIT_PALETTE.TRENCH_DARK }}>
-            <motion.div animate={{ opacity: [0.3, 1, 0.3] }} transition={{ duration: 2, repeat: Infinity }}>
+            <img src={DMC_ENVIRONMENTS.startingGrid} alt="" className="absolute inset-0 w-full h-full object-cover opacity-15 pointer-events-none" />
+            <motion.div animate={{ opacity: [0.3, 1, 0.3] }} transition={{ duration: 2, repeat: Infinity }} className="relative z-10">
               <Skull size={48} style={{ color: CIRCUIT_PALETTE.NILMORG_ORANGE }} className="mb-4 mx-auto" />
             </motion.div>
-            <p className="font-mono text-sm tracking-[0.3em]" style={{ color: CIRCUIT_PALETTE.NILMORG_ORANGE }}>
+            <p className="relative z-10 font-mono text-sm tracking-[0.3em]" style={{ color: CIRCUIT_PALETTE.NILMORG_ORANGE }}>
               THE TRENCH IS OPENING
             </p>
           </div>
@@ -150,8 +153,9 @@ export default function DeadMansCircuitPage() {
     const cpBreakdown = calculateCP(pos, season.data.phase, survived, false, raceResult.rival_kills || 0);
 
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center p-4" style={{ background: CIRCUIT_PALETTE.TRENCH_DARK }}>
-        <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="max-w-md w-full text-center">
+      <div className="min-h-screen flex flex-col items-center justify-center p-4 relative" style={{ background: CIRCUIT_PALETTE.TRENCH_DARK }}>
+        <img src={DMC_ENVIRONMENTS.nilmorgPlatform} alt="" className="absolute inset-0 w-full h-full object-cover opacity-15 pointer-events-none" />
+        <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="max-w-md w-full text-center relative z-10">
           {/* Position */}
           <div className="mb-6">
             <p className="font-display text-6xl font-black" style={{ color: pos === 1 ? CIRCUIT_PALETTE.VICTORY_GOLD : CIRCUIT_PALETTE.NILMORG_ORANGE }}>
@@ -213,7 +217,8 @@ export default function DeadMansCircuitPage() {
   const clone = cloneConfig.data;
 
   return (
-    <div className="min-h-screen pb-24" style={{ background: CIRCUIT_PALETTE.TRENCH_DARK }}>
+    <div className="min-h-screen pb-24 relative" style={{ background: CIRCUIT_PALETTE.TRENCH_DARK }}>
+      <img src={DMC_ENVIRONMENTS.trench} alt="" className="absolute inset-0 w-full h-full object-cover opacity-10 pointer-events-none" />
       {/* Header */}
       <div className="px-4 sm:px-6 pt-6 pb-4 border-b" style={{ borderColor: CIRCUIT_PALETTE.NILMORG_ORANGE + "20" }}>
         <div className="flex items-center gap-3 mb-2">
