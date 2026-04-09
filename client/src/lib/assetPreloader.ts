@@ -137,6 +137,19 @@ const ROUTE_ASSETS: Record<string, () => Promise<void>[]> = {
   ],
   "/codex": () => [
     preloadImage("/art/loading/loading-archives.png"),
+    // Lore gallery card frames
+    preloadImage("/art/lore-gallery/card-frames/common.png"),
+    preloadImage("/art/lore-gallery/card-frames/uncommon.png"),
+    preloadImage("/art/lore-gallery/card-frames/rare.png"),
+    preloadImage("/art/lore-gallery/card-frames/epic.png"),
+    preloadImage("/art/lore-gallery/card-frames/legendary.png"),
+    preloadImage("/art/lore-gallery/overlays/locked-classified.png"),
+    // Era backgrounds
+    preloadImage("/art/lore-gallery/era-backgrounds/foundation.jpg"),
+    preloadImage("/art/lore-gallery/era-backgrounds/privacy.jpg"),
+    preloadImage("/art/lore-gallery/era-backgrounds/fall.jpg"),
+    preloadImage("/art/lore-gallery/era-backgrounds/potentials.jpg"),
+    preloadImage("/art/lore-gallery/era-backgrounds/visions.jpg"),
   ],
   "/common-room": () => [
     preloadImage("/art/loading/loading-matrix-of-dreams.png"),

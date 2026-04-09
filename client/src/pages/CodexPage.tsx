@@ -538,6 +538,17 @@ const RARITY_BG: Record<string, string> = {
   classified: "bg-red-500/5",
 };
 
+const CODEX_RARITY_FRAMES: Record<string, string> = {
+  common: "/art/lore-gallery/card-frames/common.png",
+  uncommon: "/art/lore-gallery/card-frames/uncommon.png",
+  rare: "/art/lore-gallery/card-frames/rare.png",
+  epic: "/art/lore-gallery/card-frames/epic.png",
+  legendary: "/art/lore-gallery/card-frames/legendary.png",
+  classified: "/art/lore-gallery/card-frames/legendary.png",
+};
+
+const CODEX_LOCKED_OVERLAY = "/art/lore-gallery/overlays/locked-classified.png";
+
 export default function CodexPage() {
   const { stats } = useLoredex();
   const gamification = useGamification();
@@ -678,15 +689,33 @@ export default function CodexPage() {
               key={entry.id}
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              className={`rounded-lg border ${isUnlocked ? rarityColor : "border-border/10 opacity-60"} ${rarityBg} overflow-hidden`}
+              className={`relative rounded-lg border ${isUnlocked ? rarityColor : "border-border/10 opacity-60"} ${rarityBg} overflow-hidden`}
             >
+              {/* Rarity card frame overlay */}
+              {CODEX_RARITY_FRAMES[entry.rarity] && (
+                <img
+                  src={CODEX_RARITY_FRAMES[entry.rarity]}
+                  alt=""
+                  className="absolute inset-0 w-full h-full object-cover pointer-events-none"
+                  style={{ opacity: isUnlocked ? 0.08 : 0.04, mixBlendMode: "screen" }}
+                />
+              )}
+              {/* Locked classified overlay */}
+              {!isUnlocked && (
+                <img
+                  src={CODEX_LOCKED_OVERLAY}
+                  alt=""
+                  className="absolute inset-0 w-full h-full object-cover pointer-events-none"
+                  style={{ opacity: 0.3, mixBlendMode: "multiply" }}
+                />
+              )}
               <button
                 onClick={() => {
                   if (isUnlocked) {
                     setExpandedEntry(isExpanded ? null : entry.id);
                   }
                 }}
-                className="w-full px-4 py-3 flex items-center gap-3 text-left hover:bg-muted/15 transition-colors"
+                className="relative w-full px-4 py-3 flex items-center gap-3 text-left hover:bg-muted/15 transition-colors"
               >
                 <div className={`p-1.5 rounded-md ${isUnlocked ? rarityBg : "bg-secondary/20"}`}>
                   {isUnlocked ? entry.icon : <Lock size={16} className="text-muted-foreground/40" />}

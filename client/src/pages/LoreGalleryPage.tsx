@@ -71,6 +71,26 @@ const ERAS: LoreEra[] = [
 
 const ERA_MAP = Object.fromEntries(ERAS.map((e) => [e.id, e]));
 
+/* ─── ASSET PATHS ─── */
+
+const ERA_BACKGROUNDS: Record<string, string> = {
+  foundation: "/art/lore-gallery/era-backgrounds/foundation.jpg",
+  privacy: "/art/lore-gallery/era-backgrounds/privacy.jpg",
+  fall: "/art/lore-gallery/era-backgrounds/fall.jpg",
+  potentials: "/art/lore-gallery/era-backgrounds/potentials.jpg",
+  visions: "/art/lore-gallery/era-backgrounds/visions.jpg",
+};
+
+const RARITY_FRAMES: Record<string, string> = {
+  common: "/art/lore-gallery/card-frames/common.png",
+  uncommon: "/art/lore-gallery/card-frames/uncommon.png",
+  rare: "/art/lore-gallery/card-frames/rare.png",
+  epic: "/art/lore-gallery/card-frames/epic.png",
+  legendary: "/art/lore-gallery/card-frames/legendary.png",
+};
+
+const LOCKED_OVERLAY = "/art/lore-gallery/overlays/locked-classified.png";
+
 /* ─── LORE FRAGMENT ─── */
 
 export interface LoreFragment {
@@ -264,20 +284,29 @@ export default function LoreGalleryPage({ unlockedAchievements = new Set() }: Pr
 
         return (
           <div key={era.id} className="space-y-3">
-            {/* Era header */}
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <span className="text-lg">{era.icon}</span>
-                <h3 className={`font-display text-sm font-bold ${era.color}`}>
-                  {era.name}
-                </h3>
-                <span className="font-mono text-[9px] text-muted-foreground/60">
-                  {stats.discovered}/{stats.total}
-                </span>
+            {/* Era header with background */}
+            <div className="relative rounded-lg overflow-hidden">
+              <img
+                src={ERA_BACKGROUNDS[era.id]}
+                alt=""
+                className="absolute inset-0 w-full h-full object-cover"
+                style={{ opacity: 0.25, filter: "brightness(0.6) saturate(1.2)" }}
+              />
+              <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-black/70" />
+              <div className="relative flex items-center justify-between px-4 py-3">
+                <div className="flex items-center gap-2">
+                  <span className="text-lg">{era.icon}</span>
+                  <h3 className={`font-display text-sm font-bold ${era.color}`}>
+                    {era.name}
+                  </h3>
+                  <span className="font-mono text-[9px] text-muted-foreground/60">
+                    {stats.discovered}/{stats.total}
+                  </span>
+                </div>
+                <p className="text-[10px] text-muted-foreground/50 italic hidden sm:block">
+                  {era.description}
+                </p>
               </div>
-              <p className="text-[10px] text-muted-foreground/50 italic hidden sm:block">
-                {era.description}
-              </p>
             </div>
 
             {/* Fragments grid */}
@@ -297,7 +326,7 @@ export default function LoreGalleryPage({ unlockedAchievements = new Set() }: Pr
                       unlocked && setExpandedFragment(expanded ? null : fragment.id)
                     }
                     className={`
-                      border rounded-lg p-3 transition-colors
+                      relative border rounded-lg overflow-hidden transition-colors
                       ${
                         unlocked
                           ? "border-border/20 bg-card/30 cursor-pointer hover:bg-card/50"
@@ -305,73 +334,95 @@ export default function LoreGalleryPage({ unlockedAchievements = new Set() }: Pr
                       }
                     `}
                   >
-                    <div className="flex items-start justify-between gap-2 mb-1.5">
-                      <div className="flex items-center gap-2 min-w-0">
-                        {unlocked ? (
-                          <BookOpen size={14} className={era.color} />
-                        ) : (
-                          <Lock size={14} className="text-muted-foreground/30" />
-                        )}
+                    {/* Rarity card frame overlay */}
+                    {RARITY_FRAMES[fragment.rarity] && (
+                      <img
+                        src={RARITY_FRAMES[fragment.rarity]}
+                        alt=""
+                        className="absolute inset-0 w-full h-full object-cover pointer-events-none"
+                        style={{ opacity: unlocked ? 0.12 : 0.06, mixBlendMode: "screen" }}
+                      />
+                    )}
+
+                    {/* Locked classified overlay */}
+                    {!unlocked && (
+                      <img
+                        src={LOCKED_OVERLAY}
+                        alt=""
+                        className="absolute inset-0 w-full h-full object-cover pointer-events-none"
+                        style={{ opacity: 0.35, mixBlendMode: "multiply" }}
+                      />
+                    )}
+
+                    <div className="relative p-3">
+                      <div className="flex items-start justify-between gap-2 mb-1.5">
+                        <div className="flex items-center gap-2 min-w-0">
+                          {unlocked ? (
+                            <BookOpen size={14} className={era.color} />
+                          ) : (
+                            <Lock size={14} className="text-muted-foreground/30" />
+                          )}
+                          <span
+                            className={`text-sm font-semibold truncate ${
+                              unlocked ? "text-white" : "text-muted-foreground/30"
+                            }`}
+                          >
+                            {unlocked ? fragment.title : "???"}
+                          </span>
+                        </div>
                         <span
-                          className={`text-sm font-semibold truncate ${
-                            unlocked ? "text-white" : "text-muted-foreground/30"
-                          }`}
+                          className={`shrink-0 font-mono text-[8px] uppercase px-1.5 py-0.5 rounded ${rarityConf.color} ${rarityConf.bg}`}
                         >
-                          {unlocked ? fragment.title : "???"}
+                          {rarityConf.label}
                         </span>
                       </div>
-                      <span
-                        className={`shrink-0 font-mono text-[8px] uppercase px-1.5 py-0.5 rounded ${rarityConf.color} ${rarityConf.bg}`}
-                      >
-                        {rarityConf.label}
-                      </span>
-                    </div>
 
-                    {unlocked ? (
-                      <>
-                        <p
-                          className={`text-xs leading-relaxed text-white/70 ${
-                            expanded ? "" : "line-clamp-2"
-                          }`}
-                        >
-                          {fragment.content}
-                        </p>
-                        <AnimatePresence>
-                          {expanded && (
-                            <motion.div
-                              initial={{ opacity: 0, height: 0 }}
-                              animate={{ opacity: 1, height: "auto" }}
-                              exit={{ opacity: 0, height: 0 }}
-                              className="mt-2 pt-2 border-t border-border/10"
-                            >
-                              <div className="flex items-center gap-1.5">
-                                <Sparkles size={10} className="text-amber-400" />
-                                <span className="font-mono text-[9px] text-muted-foreground">
-                                  Unlocked via:{" "}
-                                  <span className="text-amber-400">
-                                    {fragment.achievementName}
+                      {unlocked ? (
+                        <>
+                          <p
+                            className={`text-xs leading-relaxed text-white/70 ${
+                              expanded ? "" : "line-clamp-2"
+                            }`}
+                          >
+                            {fragment.content}
+                          </p>
+                          <AnimatePresence>
+                            {expanded && (
+                              <motion.div
+                                initial={{ opacity: 0, height: 0 }}
+                                animate={{ opacity: 1, height: "auto" }}
+                                exit={{ opacity: 0, height: 0 }}
+                                className="mt-2 pt-2 border-t border-border/10"
+                              >
+                                <div className="flex items-center gap-1.5">
+                                  <Sparkles size={10} className="text-amber-400" />
+                                  <span className="font-mono text-[9px] text-muted-foreground">
+                                    Unlocked via:{" "}
+                                    <span className="text-amber-400">
+                                      {fragment.achievementName}
+                                    </span>
                                   </span>
-                                </span>
-                              </div>
-                            </motion.div>
+                                </div>
+                              </motion.div>
+                            )}
+                          </AnimatePresence>
+                          {!expanded && (
+                            <div className="flex items-center gap-1 mt-1.5">
+                              <Eye size={10} className="text-muted-foreground/40" />
+                              <span className="font-mono text-[8px] text-muted-foreground/40">
+                                Click to expand
+                              </span>
+                            </div>
                           )}
-                        </AnimatePresence>
-                        {!expanded && (
-                          <div className="flex items-center gap-1 mt-1.5">
-                            <Eye size={10} className="text-muted-foreground/40" />
-                            <span className="font-mono text-[8px] text-muted-foreground/40">
-                              Click to expand
-                            </span>
-                          </div>
-                        )}
-                      </>
-                    ) : (
-                      <div className="mt-1">
-                        <p className="text-[10px] text-muted-foreground/40 italic">
-                          Hint: {fragment.hint}
-                        </p>
-                      </div>
-                    )}
+                        </>
+                      ) : (
+                        <div className="mt-1">
+                          <p className="text-[10px] text-muted-foreground/40 italic">
+                            Hint: {fragment.hint}
+                          </p>
+                        </div>
+                      )}
+                    </div>
                   </motion.div>
                 );
               })}
