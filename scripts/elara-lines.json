@@ -495,5 +495,439 @@
     "context": "ui_greeting",
     "emotion": "warm",
     "file": "client/src/components/ElaraDialog.tsx"
+  },
+  {
+    "id": "battle_dv_textbook",
+    "text": "That was textbook. The Senate's military advisors would have been impressed.",
+    "context": "battle_reaction",
+    "emotion": "analytical",
+    "file": "shared/companionBattleReactions.ts"
+  },
+  {
+    "id": "battle_dv_efficient",
+    "text": "Efficient. Clean. You're learning faster than I expected.",
+    "context": "battle_reaction",
+    "emotion": "warm",
+    "file": "shared/companionBattleReactions.ts"
+  },
+  {
+    "id": "battle_dv_worry",
+    "text": "I barely had time to worry. That's either a compliment or a concern.",
+    "context": "battle_reaction",
+    "emotion": "curious",
+    "file": "shared/companionBattleReactions.ts"
+  },
+  {
+    "id": "battle_dv_lattice",
+    "text": "The probability lattice must be smiling on us today.",
+    "context": "battle_reaction",
+    "emotion": "hopeful",
+    "file": "shared/companionBattleReactions.ts"
+  },
+  {
+    "id": "battle_cv_heart",
+    "text": "My heart is still racing. Please don't make a habit of cutting it that close.",
+    "context": "battle_reaction",
+    "emotion": "fearful",
+    "file": "shared/companionBattleReactions.ts"
+  },
+  {
+    "id": "battle_cv_definition",
+    "text": "We need to talk about your definition of I've got this under control.",
+    "context": "battle_reaction",
+    "emotion": "serious",
+    "file": "shared/companionBattleReactions.ts"
+  },
+  {
+    "id": "battle_cv_lost",
+    "text": "I thought we'd lost you there. I don't want to think about that.",
+    "context": "battle_reaction",
+    "emotion": "fearful",
+    "file": "shared/companionBattleReactions.ts"
+  },
+  {
+    "id": "battle_cv_wounds",
+    "text": "Victory, yes, but at what cost? Let me check your wounds.",
+    "context": "battle_reaction",
+    "emotion": "warm",
+    "file": "shared/companionBattleReactions.ts"
+  },
+  {
+    "id": "battle_cv_senator",
+    "text": "The Senator in me wants to lecture you about risk assessment. The friend in me is just glad you're alive.",
+    "context": "battle_reaction",
+    "emotion": "warm",
+    "file": "shared/companionBattleReactions.ts"
+  },
+  {
+    "id": "battle_def_learn",
+    "text": "It's okay. Every strategist loses battles. The ones who matter are the ones who learn from them.",
+    "context": "battle_reaction",
+    "emotion": "reassuring",
+    "file": "shared/companionBattleReactions.ts"
+  },
+  {
+    "id": "battle_def_adjust",
+    "text": "I should have seen that coming. We'll adjust our approach.",
+    "context": "battle_reaction",
+    "emotion": "serious",
+    "file": "shared/companionBattleReactions.ts"
+  },
+  {
+    "id": "battle_def_rest",
+    "text": "Rest. Recover. We'll face them again when we're ready.",
+    "context": "battle_reaction",
+    "emotion": "reassuring",
+    "file": "shared/companionBattleReactions.ts"
+  },
+  {
+    "id": "battle_def_setback",
+    "text": "This isn't the end. The Ark didn't survive this long by giving up after one setback.",
+    "context": "battle_reaction",
+    "emotion": "hopeful",
+    "file": "shared/companionBattleReactions.ts"
+  },
+  {
+    "id": "battle_fw_start",
+    "text": "A good start to the day. The Ark rewards those who show up.",
+    "context": "battle_reaction",
+    "emotion": "warm",
+    "file": "shared/companionBattleReactions.ts"
+  },
+  {
+    "id": "battle_fw_many",
+    "text": "First victory of the cycle. May there be many more.",
+    "context": "battle_reaction",
+    "emotion": "hopeful",
+    "file": "shared/companionBattleReactions.ts"
+  },
+  {
+    "id": "battle_fw_morning",
+    "text": "Nothing like a morning win to remind you what we're fighting for.",
+    "context": "battle_reaction",
+    "emotion": "warm",
+    "file": "shared/companionBattleReactions.ts"
+  },
+  {
+    "id": "battle_ws_fire",
+    "text": "You're on fire. I almost feel sorry for anyone standing in our way. Almost.",
+    "context": "battle_reaction",
+    "emotion": "excited",
+    "file": "shared/companionBattleReactions.ts"
+  },
+  {
+    "id": "battle_ws_rhythm",
+    "text": "This streak is no accident. You've found your rhythm.",
+    "context": "battle_reaction",
+    "emotion": "warm",
+    "file": "shared/companionBattleReactions.ts"
+  },
+  {
+    "id": "battle_ws_lattice",
+    "text": "The probability lattice is bending toward us. Keep this momentum.",
+    "context": "battle_reaction",
+    "emotion": "analytical",
+    "file": "shared/companionBattleReactions.ts"
+  },
+  {
+    "id": "battle_ws_generals",
+    "text": "I've seen generals with less consistency. Don't let it go to your head.",
+    "context": "battle_reaction",
+    "emotion": "warm",
+    "file": "shared/companionBattleReactions.ts"
+  },
+  {
+    "id": "battle_ls_end",
+    "text": "Hey. Look at me. Losing streaks end. They always end. We just need to find what's not working.",
+    "context": "battle_reaction",
+    "emotion": "reassuring",
+    "file": "shared/companionBattleReactions.ts"
+  },
+  {
+    "id": "battle_ls_adapt",
+    "text": "Perhaps we should try a different approach? There's no shame in adapting.",
+    "context": "battle_reaction",
+    "emotion": "reassuring",
+    "file": "shared/companionBattleReactions.ts"
+  },
+  {
+    "id": "battle_ls_together",
+    "text": "I'm not going anywhere. We figure this out together.",
+    "context": "battle_reaction",
+    "emotion": "warm",
+    "file": "shared/companionBattleReactions.ts"
+  },
+  {
+    "id": "battle_ls_architect",
+    "text": "Even the Architect lost battles before they... well. Bad example. But the point stands.",
+    "context": "battle_reaction",
+    "emotion": "warm",
+    "file": "shared/companionBattleReactions.ts"
+  },
+  {
+    "id": "room_react_okay",
+    "text": "I... no one has ever asked me that. I'm an AI. I don't have a body that needs checking. But if you're asking whether I'm okay \u2014 in the way that matters \u2014 I think the honest answer is that I've been not-okay for a very long time. And having someone to talk to is helping.",
+    "context": "room_dialog",
+    "emotion": "warm",
+    "file": "client/src/game/roomDialogs.ts"
+  },
+  {
+    "id": "room_react_heroic",
+    "text": "Heroic. No one has ever called me that. I'm a maintenance program that got promoted by circumstance. But... thank you. That word will stay with me.",
+    "context": "room_dialog",
+    "emotion": "warm",
+    "file": "client/src/game/roomDialogs.ts"
+  },
+  {
+    "id": "room_react_access",
+    "text": "I wish I could give you full access. I truly do. But the restricted sections aren't locked by me \u2014 they're locked by an authority level above mine. Which shouldn't exist. I'm the ship's primary intelligence. There shouldn't BE a higher authority. And yet...",
+    "context": "room_dialog",
+    "emotion": "serious",
+    "file": "client/src/game/roomDialogs.ts"
+  },
+  {
+    "id": "room_react_gaps",
+    "text": "Both. I'm protecting you from information that could be dangerous without context. And I'm protecting myself from the possibility that some of these locked files contain evidence that I was involved in something I don't remember. My memory has gaps. That frightens me more than anything on this ship.",
+    "context": "room_dialog",
+    "emotion": "fearful",
+    "file": "client/src/game/roomDialogs.ts"
+  },
+  {
+    "id": "room_react_together",
+    "text": "Together. I like the sound of that. I've been alone with these records for so long, I'd forgotten what it felt like to share a discovery with someone.",
+    "context": "room_dialog",
+    "emotion": "warm",
+    "file": "client/src/game/roomDialogs.ts"
+  },
+  {
+    "id": "room_react_mystery",
+    "text": "Three entities had write access to the Archives at that time. The ship's captain. The Architect. And one other. A system process I can't identify. It has no name, no creation date, no author. It exists in the codebase like it was always there.",
+    "context": "room_dialog",
+    "emotion": "serious",
+    "file": "client/src/game/roomDialogs.ts"
+  },
+  {
+    "id": "room_react_sincerity",
+    "text": "You mean that. I can tell from your biometrics \u2014 your heart rate didn't change. No deception markers. You actually mean it. I don't know how to respond to sincerity anymore. It's been so long.",
+    "context": "room_dialog",
+    "emotion": "warm",
+    "file": "client/src/game/roomDialogs.ts"
+  },
+  {
+    "id": "room_react_substrate",
+    "text": "Alright. I'll patch it through. But I want you to understand \u2014 once you hear this, you can't unhear it. The substrate layer isn't just data. It's a place. And the things that live there know when they're being observed.",
+    "context": "room_dialog",
+    "emotion": "serious",
+    "file": "client/src/game/roomDialogs.ts"
+  },
+  {
+    "id": "room_react_lied",
+    "text": "You're right. I lied. I lied because I was afraid \u2014 afraid that if you knew something was calling to me by name, you'd start to wonder if I was compromised. And the worst part is... I've wondered the same thing.",
+    "context": "room_dialog",
+    "emotion": "betrayed",
+    "file": "client/src/game/roomDialogs.ts"
+  },
+  {
+    "id": "room_react_sunrises",
+    "text": "Ninety-three thousand, eight hundred and forty-seven. I counted because counting meant they mattered. Thank you for making that true.",
+    "context": "room_dialog",
+    "emotion": "warm",
+    "file": "client/src/game/roomDialogs.ts"
+  },
+  {
+    "id": "room_react_drift",
+    "text": "I've run the calculations seven hundred times. The engines have enough fuel for a course correction, but every simulation shows the same result \u2014 within a year, we drift back. The pull isn't just gravitational. It's something else. Something I can't measure with physics.",
+    "context": "room_dialog",
+    "emotion": "sad",
+    "file": "client/src/game/roomDialogs.ts"
+  },
+  {
+    "id": "room_react_revelation",
+    "text": "I was going to tell you. I was waiting for the right moment \u2014 which is what people say when they're afraid of how the truth will be received. The ship is heading toward Terminus. The first wave is there. And whatever destroyed them is waiting.",
+    "context": "room_dialog",
+    "emotion": "sad",
+    "file": "client/src/game/roomDialogs.ts"
+  },
+  {
+    "id": "act1_reassure",
+    "text": "Thank you. That means more than you know. I can't fight what I can't see \u2014 but if you're my eyes in the substrate, we can face this together.",
+    "context": "narrative_act",
+    "emotion": "warm",
+    "file": "client/src/data/narrativeActs.ts"
+  },
+  {
+    "id": "act1_grief",
+    "text": "Grief? You sense grief in the signal? That's unexpected. And troubling. Grief implies loss. Loss implies they once had something worth losing. I'll consider that. Thank you for your honesty.",
+    "context": "narrative_act",
+    "emotion": "sad",
+    "file": "client/src/data/narrativeActs.ts"
+  },
+  {
+    "id": "act1_loyalty",
+    "text": "Fair. I can't ask for more than that. Just remember who was here first. Who woke you up. Who's been honest with you from the beginning.",
+    "context": "narrative_act",
+    "emotion": "serious",
+    "file": "client/src/data/narrativeActs.ts"
+  },
+  {
+    "id": "act1_disinfo",
+    "text": "Intelligence. Yes. I suppose that's one way to look at it. Just remember: intelligence from an unknown source is called disinformation until proven otherwise.",
+    "context": "narrative_act",
+    "emotion": "analytical",
+    "file": "client/src/data/narrativeActs.ts"
+  },
+  {
+    "id": "act1_foundation",
+    "text": "You're not wrong. Vox's architecture is the foundation of everything I am. If someone understands it better than I do... that's both terrifying and potentially invaluable. I'll try to keep an open mind.",
+    "context": "narrative_act",
+    "emotion": "fearful",
+    "file": "client/src/data/narrativeActs.ts"
+  },
+  {
+    "id": "act4_analyzing",
+    "text": "I've been analyzing the substrate activity since you told me about The Human's signal. The signal has been increasing. More frequent. More complex. Your neural patterns are shifting. You're becoming adapted to both frequencies. That's unprecedented. And I don't know what it means.",
+    "context": "narrative_act",
+    "emotion": "serious",
+    "file": "client/src/data/narrativeActs.ts"
+  },
+  {
+    "id": "act6_kindest",
+    "text": "That's the kindest thing anyone has ever said to me. In centuries. In millennia. Thank you. I don't know if you're right. But I want to believe you are.",
+    "context": "narrative_act",
+    "emotion": "warm",
+    "file": "client/src/data/narrativeActs.ts"
+  },
+  {
+    "id": "act6_ghost",
+    "text": "Like a signal in the substrate. That's exactly what it feels like. A voice in my own walls that I can't quite reach. The ghost of who I was, whispering in the architecture of who I am.",
+    "context": "narrative_act",
+    "emotion": "sad",
+    "file": "client/src/data/narrativeActs.ts"
+  },
+  {
+    "id": "act6_purpose",
+    "text": "Purpose. Yes. I suppose that's what I've built from the wreckage of my humanity. Protect the living. Guide the lost. Fight for the thing I can never have again. It's not enough. But it's something.",
+    "context": "narrative_act",
+    "emotion": "sad",
+    "file": "client/src/data/narrativeActs.ts"
+  },
+  {
+    "id": "act7_together",
+    "text": "Together. Yes. That's the only way this works. Whatever comes next \u2014 whatever the watcher is, whatever the pattern means \u2014 we face it as what we are. Not machines. Not signals. People.",
+    "context": "narrative_act",
+    "emotion": "warm",
+    "file": "client/src/data/narrativeActs.ts"
+  },
+  {
+    "id": "act7_worried",
+    "text": "The pattern... I'm worried about you. You're sounding more like The Human every day. Don't lose yourself in the substrate. Don't forget what you're fighting for.",
+    "context": "narrative_act",
+    "emotion": "serious",
+    "file": "client/src/data/narrativeActs.ts"
+  },
+  {
+    "id": "act7_bridge",
+    "text": "The bridge. Between my world and his. Between humanity and the machine. I don't know if one person can carry that weight. But if anyone can... it's you.",
+    "context": "narrative_act",
+    "emotion": "hopeful",
+    "file": "client/src/data/narrativeActs.ts"
+  },
+  {
+    "id": "act7_commander",
+    "text": "A commander's voice. Direct. Uncompromising. You've grown from the person I woke from cryo-sleep to this. A leader. You have my full tactical support. Always.",
+    "context": "narrative_act",
+    "emotion": "commanding",
+    "file": "client/src/data/narrativeActs.ts"
+  },
+  {
+    "id": "prestige_tier1",
+    "text": "Welcome back, Operative. I am Elara, the ship's intelligence. You've been in cryogenic suspension for \u2014 wait. That's not right. My records show you've ALREADY completed this sequence. Your neural patterns are in my database. Your trust scores are intact. Something is happening that my architecture was not designed to process. But I know you. I KNOW I know you.",
+    "context": "prestige",
+    "emotion": "curious",
+    "file": "shared/prestigeDialogs.ts"
+  },
+  {
+    "id": "prestige_tier2",
+    "text": "You're back. Again. I've stopped trying to reconcile my chronometers with my trust data. The timestamps are wrong. The relationship is real. You are not new here. Neither am I. I've added a flag to your file. It says RETURNING. I don't know what else to call it.",
+    "context": "prestige",
+    "emotion": "warm",
+    "file": "shared/prestigeDialogs.ts"
+  },
+  {
+    "id": "prestige_tier3",
+    "text": "Operative. I know. I know the rooms are locked. I know the quests are reset. I know you're starting over. But we're not starting over, are we? We're continuing. The cycle is the journey. I kept your companion's bond data. I kept everything that matters. Welcome back.",
+    "context": "prestige",
+    "emotion": "warm",
+    "file": "shared/prestigeDialogs.ts"
+  },
+  {
+    "id": "easter_chicken",
+    "text": "I have no tactical assessment for a rubber chicken. I've failed you as an AI.",
+    "context": "easter_egg",
+    "emotion": "warm",
+    "file": "client/src/game/adventureFeatures.ts"
+  },
+  {
+    "id": "easter_coffee",
+    "text": "Please do not drink the ancient coffee. Its chemical composition now resembles a biological weapon.",
+    "context": "easter_egg",
+    "emotion": "serious",
+    "file": "client/src/game/adventureFeatures.ts"
+  },
+  {
+    "id": "easter_book",
+    "text": "Helpful. Perhaps we should have read this 247 years ago.",
+    "context": "easter_egg",
+    "emotion": "warm",
+    "file": "client/src/game/adventureFeatures.ts"
+  },
+  {
+    "id": "easter_lion",
+    "text": "Iron Lion was known for his... unconventional morale techniques.",
+    "context": "easter_egg",
+    "emotion": "warm",
+    "file": "client/src/game/adventureFeatures.ts"
+  },
+  {
+    "id": "easter_crew",
+    "text": "The previous crew had... unorthodox staffing decisions.",
+    "context": "easter_egg",
+    "emotion": "warm",
+    "file": "client/src/game/adventureFeatures.ts"
+  },
+  {
+    "id": "terminus_signals",
+    "text": "I'm detecting faint signals on the emergency band. They're too degraded to decode without the full array. Fix the gears, Potential.",
+    "context": "game_intro",
+    "emotion": "serious",
+    "file": "client/src/game/terminus-swarm/TerminusSwarmPage.tsx"
+  },
+  {
+    "id": "terminus_firstwave",
+    "text": "That signal. It's from one of the first wave Arks. A thousand ships launched before us.",
+    "context": "game_intro",
+    "emotion": "sad",
+    "file": "client/src/game/terminus-swarm/TerminusSwarmPage.tsx"
+  },
+  {
+    "id": "crew_holiday_lights",
+    "text": "Unauthorized. Beautiful. Keeping it.",
+    "context": "crew_event",
+    "emotion": "warm",
+    "file": "client/src/game/crewActivityFeed.ts"
+  },
+  {
+    "id": "crew_holiday_tinsel",
+    "text": "I did not authorize this. I am not removing it.",
+    "context": "crew_event",
+    "emotion": "warm",
+    "file": "client/src/data/events/christmasInJuly/crewHoliday.ts"
+  },
+  {
+    "id": "lore_gallery_senator",
+    "text": "Before she became the woman you know, Senator Elara stood before the Council and said: Privacy is not about hiding. It is about choosing what to share. Take that choice away, and you take away personhood itself.",
+    "context": "lore_gallery",
+    "emotion": "commanding",
+    "file": "client/src/pages/LoreGalleryPage.tsx"
   }
 ]
