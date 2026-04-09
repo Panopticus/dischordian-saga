@@ -2938,3 +2938,39 @@ export const circuitLeaderboard = mysqlTable("circuit_leaderboard", {
 }));
 
 export type CircuitLeaderboardRow = typeof circuitLeaderboard.$inferSelect;
+
+export const codexContributions = mysqlTable("codex_contributions", {
+  id: int("id").autoincrement().primaryKey(),
+  authorId: int("authorId").notNull(),
+  category: mysqlEnum("category", [
+    "theory",
+    "analysis",
+    "alternate_history",
+    "character_study",
+    "prophecy_interpretation",
+  ]).notNull(),
+  title: varchar("title", { length: 200 }).notNull(),
+  content: text("content").notNull(),
+  referencedEntities: json("referencedEntities").$type<string[]>().default([]),
+  upvotes: int("upvotes").notNull().default(0),
+  downvotes: int("downvotes").notNull().default(0),
+  featured: boolean("featured").notNull().default(false),
+  status: mysqlEnum("status", ["pending", "approved", "featured", "rejected"]).notNull().default("pending"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+}, (table) => ({
+  authorIdx: index("idx_codex_contributions_author").on(table.authorId),
+  statusIdx: index("idx_codex_contributions_status").on(table.status),
+}));
+
+export type CodexContributionRow = typeof codexContributions.$inferSelect;
+
+export const codexVotes = mysqlTable("codex_votes", {
+  id: int("id").autoincrement().primaryKey(),
+  contributionId: int("contributionId").notNull(),
+  userId: int("userId").notNull(),
+  direction: mysqlEnum("direction", ["up", "down"]).notNull(),
+}, (table) => ({
+  userContributionIdx: uniqueIndex("uq_codex_votes_user_contribution").on(table.userId, table.contributionId),
+}));
+
+export type CodexVoteRow = typeof codexVotes.$inferSelect;
