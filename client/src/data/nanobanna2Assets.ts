@@ -50,21 +50,26 @@ export const EIDOLON_CLASS_META: Record<typeof EIDOLON_CLASSES[number], { name: 
   toxis: { name: "Toxis",  title: "Plague Bloom",      class: "Alchemist" },
 };
 
-/* ─── STRAIN (12) ─── */
+/* ─── STRAIN (12) — same alignment+stage pattern as eidolons ─── */
 export const STRAIN_ART: Record<string, string> = {
-  auros:   "/art/strain/strain-auros.png",
-  nyx:     "/art/strain/strain-nyx.png",
-  cog:     "/art/strain/strain-cog.png",
-  sibyl:   "/art/strain/strain-sibyl.png",
-  toxis:   "/art/strain/strain-toxis.png",
-  lux:     "/art/strain/strain-lux.png",
-  echo:    "/art/strain/strain-echo.png",
-  glyph:   "/art/strain/strain-glyph.png",
-  cipher:  "/art/strain/strain-cipher.png",
-  flicker: "/art/strain/strain-flicker.png",
-  gilt:    "/art/strain/strain-gilt.png",
-  spore:   "/art/strain/strain-spore.png",
+  "norm-frag":  "/art/strain/strain-norm-frag.png",
+  "norm-comp":  "/art/strain/strain-norm-comp.png",
+  "norm-asc":   "/art/strain/strain-norm-asc.png",
+  "hier-frag":  "/art/strain/strain-hier-frag.png",
+  "hier-comp":  "/art/strain/strain-hier-comp.png",
+  "hier-asc":   "/art/strain/strain-hier-asc.png",
+  "dream-frag": "/art/strain/strain-dream-frag.png",
+  "dream-comp": "/art/strain/strain-dream-comp.png",
+  "dream-asc":  "/art/strain/strain-dream-asc.png",
+  "scar-frag":  "/art/strain/strain-scar-frag.png",
+  "scar-comp":  "/art/strain/strain-scar-comp.png",
+  "scar-asc":   "/art/strain/strain-scar-asc.png",
 };
+
+/** Get STRAIN art by alignment and stage (same pattern as eidolons) */
+export function getStrainArt(alignment: Alignment, stage: Stage): string {
+  return `/art/strain/strain-${alignment}-${stage}.png`;
+}
 
 /* ─── SPECTRAL FORMS (13) ─── */
 export const SPECTRAL_ART: Record<string, string> = {
