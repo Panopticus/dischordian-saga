@@ -1408,6 +1408,7 @@ export const architectConsoleRouter = router({
       { id: "space_station", name: "Space Station", path: "/space-station", category: "strategy" },
       { id: "bounties", name: "Bounty Board", path: "/bounties", category: "combat" },
       { id: "christmas_casino", name: "Christmas Casino", path: "/christmas-in-july", category: "social" },
+      { id: "dead_mans_circuit", name: "Dead Man's Circuit", path: "/circuit", category: "combat" },
     ];
   }),
 

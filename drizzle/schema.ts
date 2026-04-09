@@ -2877,3 +2877,64 @@ export const featureFlags = mysqlTable("feature_flags", {
 });
 
 export type FeatureFlag = typeof featureFlags.$inferSelect;
+
+/* ═══════════════════════════════════════════════════════
+   DEAD MAN'S CIRCUIT — Seasonal kart racing on bone-tracks
+   ═══════════════════════════════════════════════════════ */
+
+export const circuitSeasons = mysqlTable("circuit_seasons", {
+  id: int("id").autoincrement().primaryKey(),
+  seasonNumber: int("seasonNumber").notNull(),
+  name: varchar("name", { length: 128 }).notNull(),
+  phase: int("phase").notNull().default(1), // 1, 2, or 3
+  startsAt: timestamp("startsAt").notNull(),
+  endsAt: timestamp("endsAt").notNull(),
+  status: mysqlEnum("status", ["upcoming", "active", "ended"]).default("upcoming").notNull(),
+  trackPreset: varchar("trackPreset", { length: 64 }).default("the_first_circuit"),
+  boneObstacles: json("boneObstacles").$type<{x:number,z:number}[]>().default([]),
+  totalRaces: int("totalRaces").default(0).notNull(),
+  totalDeaths: int("totalDeaths").default(0).notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export type CircuitSeasonRow = typeof circuitSeasons.$inferSelect;
+
+export const circuitRaceResults = mysqlTable("circuit_race_results", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  seasonId: int("seasonId").notNull(),
+  cloneDesignation: varchar("cloneDesignation", { length: 64 }).notNull(),
+  finishPosition: int("finishPosition").notNull(),
+  totalTimeMs: int("totalTimeMs").notNull(),
+  bestLapMs: int("bestLapMs"),
+  cloneSurvived: int("cloneSurvived").notNull().default(1),
+  rivalKills: int("rivalKills").notNull().default(0),
+  abilitiesUsed: json("abilitiesUsed").$type<string[]>().default([]),
+  cpEarned: int("cpEarned").notNull().default(0),
+  cpBreakdown: json("cpBreakdown").$type<Record<string, number>>(),
+  phase: int("phase").notNull().default(1),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+}, (table) => ({
+  userIdx: index("idx_circuit_results_user").on(table.userId),
+  seasonIdx: index("idx_circuit_results_season").on(table.seasonId),
+}));
+
+export type CircuitRaceResultRow = typeof circuitRaceResults.$inferSelect;
+
+export const circuitLeaderboard = mysqlTable("circuit_leaderboard", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  seasonId: int("seasonId").notNull(),
+  totalCp: int("totalCp").notNull().default(0),
+  racesCompleted: int("racesCompleted").notNull().default(0),
+  bestPosition: int("bestPosition").notNull().default(99),
+  bestLapMs: int("bestLapMs"),
+  totalKills: int("totalKills").notNull().default(0),
+  clonesSurvived: int("clonesSurvived").notNull().default(0),
+  clonesLost: int("clonesLost").notNull().default(0),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  userSeasonIdx: uniqueIndex("uq_circuit_lb_user_season").on(table.userId, table.seasonId),
+}));
+
+export type CircuitLeaderboardRow = typeof circuitLeaderboard.$inferSelect;

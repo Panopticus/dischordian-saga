@@ -609,6 +609,17 @@ on("raid_boss_defeated", async (ev) => {
 });
 
 /* ═══════════════════════════════════════════════════════
+   TIER 7: DEAD MAN'S CIRCUIT HANDLERS
+   ═══════════════════════════════════════════════════════ */
+
+on("circuit_race_complete", async (ev) => {
+  const { userId, position, survived, kills } = ev as RippleEvent & { position: number; survived: boolean; kills: number };
+  await pressureService.increment(userId, "exploration", 5, "circuit_race");
+  if (kills > 0) await pressureService.increment(userId, "deaths", kills, "circuit_kills");
+  if (!survived) await pressureService.increment(userId, "deaths", 3, "circuit_death");
+});
+
+/* ═══════════════════════════════════════════════════════
    EXPORT — Single public interface
    ═══════════════════════════════════════════════════════ */
 

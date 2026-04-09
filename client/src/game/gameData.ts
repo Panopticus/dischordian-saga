@@ -768,6 +768,14 @@ export const ARENAS: ArenaData[] = [
     ambientColor: "#dc2626",
     backgroundImage: "https://res.cloudinary.com/dsenaozjq/image/upload/q_auto/f_auto/v1775676057/BB-004_THE_TERMINUS_CORE_hbvlt8.jpg",
   },
+  /* ─── CIRCUIT ARENA ─── */
+  {
+    id: "the-trench",
+    name: "The Trench",
+    bgGradient: "linear-gradient(180deg, #0f172a 0%, #1c1917 40%, #1c1917 70%, #0f172a 100%)",
+    floorColor: "#1c1917",
+    ambientColor: "#f97316",
+  },
 ];
 
 /* ─── DIFFICULTY ─── */

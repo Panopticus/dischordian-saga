@@ -176,6 +176,7 @@ const GovernanceHubPage = lazy(() => import("./pages/GovernanceHubPage"));
 const SoulStonesPage = lazy(() => import("./features/soulStones/SoulStonesPage"));
 const ChristmasCasinoPage = lazy(() => import("./features/events/christmasInJuly/CasinoFloor"));
 const PlayerCabinPage = lazy(() => import("./pages/PlayerCabinPage"));
+const DeadMansCircuitPage = lazy(() => import("./pages/DeadMansCircuitPage"));
 
 /* ═══ LOADING FALLBACK ═══ */
 function PageLoader() {
@@ -279,6 +280,7 @@ function Router() {
         <Route path="/spectate" component={SpectatorPage} />
         <Route path="/gamemasters-arena">{() => <GameRoute component={GamemastersArenaPage} />}</Route>
         <Route path="/casino">{() => <GameRoute component={DegensCasinoPage} />}</Route>
+        <Route path="/circuit">{() => <GameRoute component={DeadMansCircuitPage} />}</Route>
         <Route path="/signal-decryption">{() => <GameRoute component={SignalDecryptionPage} />}</Route>
         <Route path="/star-chart">{() => <GameRoute component={StarChartPage} />}</Route>
         <Route path="/hacking">{() => <GameRoute component={HackingPuzzlePage} />}</Route>
