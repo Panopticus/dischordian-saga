@@ -25,6 +25,7 @@ import {
   corruptStone, startPurification, summonDemon, dismissCompanion,
   forgeDivineCompanion, getAlignmentData, getPlayerStats,
 } from "./soulStoneService";
+import { SOUL_STONE_ART } from "@/data/nanobanna2Assets";
 
 /* ─── TAB TYPE ─── */
 type Tab = "inventory" | "summoning" | "purification" | "alignment";
@@ -38,10 +39,10 @@ const TAB_ROOMS: Record<Tab, string> = {
 };
 
 /* ─── STONE COLOR MAP ─── */
-const STONE_COLORS: Record<StoneState, { text: string; border: string; bg: string; glow: string }> = {
-  violet: { text: "text-purple-400", border: "border-purple-500/30", bg: "bg-purple-500/10", glow: "shadow-purple-500/20" },
-  red:    { text: "text-red-400",    border: "border-red-500/30",    bg: "bg-red-500/10",    glow: "shadow-red-500/20" },
-  gold:   { text: "text-amber-400",  border: "border-amber-500/30",  bg: "bg-amber-500/10",  glow: "shadow-amber-500/20" },
+const STONE_COLORS: Record<StoneState, { text: string; border: string; bg: string; glow: string; art: string }> = {
+  violet: { text: "text-purple-400", border: "border-purple-500/30", bg: "bg-purple-500/10", glow: "shadow-purple-500/20", art: SOUL_STONE_ART.violet },
+  red:    { text: "text-red-400",    border: "border-red-500/30",    bg: "bg-red-500/10",    glow: "shadow-red-500/20",    art: SOUL_STONE_ART.red },
+  gold:   { text: "text-amber-400",  border: "border-amber-500/30",  bg: "bg-amber-500/10",  glow: "shadow-amber-500/20",  art: SOUL_STONE_ART.gold },
 };
 
 /* ─── TIER BADGE COLORS ─── */
