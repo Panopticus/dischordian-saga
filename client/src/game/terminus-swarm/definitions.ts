@@ -441,7 +441,7 @@ export const MAPS: MapDef[] = [
       { x: 11, y: 7 }, { x: 11, y: 8 },
     ],
     lore: "The Inception Arks crashed on Terminus — the former Panopticon, the Architect's prison planet, now a rogue world drifting through the void. Every soul the Architect ever imprisoned is here. The Thought Virus turned them into the Swarm. This landing bay is all that stands between what remains of the Ark's systems and the rage of a planet full of the damned.",
-    backgroundImage: "/art/terminus/maps/map-landing-bay.png",
+    backgroundImage: "/art/terminus/maps/map-landing-bay.jpg",
   },
   {
     name: "Ark #25 — Corridor B",
@@ -457,7 +457,7 @@ export const MAPS: MapDef[] = [
       { x: 16, y: 3 }, { x: 16, y: 4 },
     ],
     lore: "The interior corridors of the Ark are labyrinthine. The Swarm has burrowed through walls, creating new entry points.",
-    backgroundImage: "/art/terminus/maps/map-corridor-b.png",
+    backgroundImage: "/art/terminus/maps/map-corridor-b.jpg",
   },
   {
     name: "Reactor Core",

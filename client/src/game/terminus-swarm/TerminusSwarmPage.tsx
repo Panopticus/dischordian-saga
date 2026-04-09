@@ -26,7 +26,7 @@ import { useAuth } from "@/_core/hooks/useAuth";
 import { useTerminusPvP } from "./pvpClient";
 import type { TerminusGameState, TurretDef, GamePhase } from "./types";
 
-type View = "intro" | "puzzle" | "signal" | "map_select" | "playing" | "game_over" | "pvp_search" | "pvp_attack";
+type View = "intro" | "cinematic" | "puzzle" | "signal" | "map_select" | "playing" | "game_over" | "pvp_search" | "pvp_attack";
 
 const TURRET_LIST: TurretDef[] = Object.values(TURRETS);
 
@@ -39,6 +39,44 @@ const TURRET_ICONS: Record<string, typeof Shield> = {
   shield_pylon: Shield,
   emp_mine: AlertTriangle,
   nanite_swarm: Heart,
+};
+
+/* ─── SPRITE PATHS ─── */
+
+const ENEMY_SPRITES: Record<string, string> = {
+  undead_grub: "/art/terminus/enemies/undead-grub.png",
+  plague_ant: "/art/terminus/enemies/plague-ant.png",
+  infected_spore: "/art/terminus/enemies/infected-spore.png",
+  corrupt_mantis: "/art/terminus/enemies/corrupt-mantis.png",
+  rot_crawler: "/art/terminus/enemies/rot-crawler.png",
+  venom_wasp: "/art/terminus/enemies/venom-wasp.png",
+  bile_hulk: "/art/terminus/enemies/bile-hulk.png",
+  infected_reaper: "/art/terminus/enemies/infected-reaper.png",
+  neural_parasite: "/art/terminus/enemies/neural-parasite.png",
+  swarm_queen: "/art/terminus/enemies/swarm-queen.png",
+  hive_tyrant: "/art/terminus/enemies/hive-tyrant.png",
+  source_avatar: "/art/terminus/enemies/avatar-source.png",
+};
+
+const TURRET_SPRITES: Record<string, string> = {
+  pulse_cannon: "/art/terminus/turrets/pulse-cannon.png",
+  arc_emitter: "/art/terminus/turrets/arc-emitter.png",
+  cryo_array: "/art/terminus/turrets/cryo-array.png",
+  flame_projector: "/art/terminus/turrets/flame-projector.png",
+  missile_battery: "/art/terminus/turrets/missile-battery.png",
+  shield_pylon: "/art/terminus/turrets/shield-pylon.png",
+  emp_mine: "/art/terminus/turrets/emp-mine.png",
+  nanite_swarm: "/art/terminus/turrets/nanite-swarm.png",
+};
+
+/* ─── CINEMATIC VIDEOS ─── */
+
+const TERMINUS_CINEMATICS = {
+  comms_discovery: "/videos/game-modes/tower-defense/cin01_comms_room_discovery.mp4",
+  first_view: "/videos/game-modes/tower-defense/cin02_first_view_terminus.mp4",
+  hive_tyrant: "/videos/game-modes/tower-defense/cin03_hive_tyrant_intro.mp4",
+  source_reveal: "/videos/game-modes/tower-defense/cin04_source_reveal.mp4",
+  first_wave: "/videos/game-modes/tower-defense/cin05_first_wave_discovery.mp4",
 };
 
 const TILE_SIZE = 40;
@@ -67,6 +105,10 @@ export default function TerminusSwarmPage() {
   const gameRef = useRef<TerminusGameState | null>(null);
   const bgImageRef = useRef<HTMLImageElement | null>(null);
   const bgLoadedRef = useRef(false);
+  const spriteCache = useRef<Record<string, HTMLImageElement>>({});
+  const [cinematicUrl, setCinematicUrl] = useState<string | null>(null);
+  const [cinematicNext, setCinematicNext] = useState<(() => void) | null>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
   // Server persistence
   const saveBase = trpc.terminusSwarm.saveBase.useMutation();
@@ -81,6 +123,29 @@ export default function TerminusSwarmPage() {
   // PvP WebSocket connection
   const pvp = useTerminusPvP(user?.id ?? 0, user?.name ?? "Potential", trophies);
   const animRef = useRef<number>(0);
+
+  // Preload enemy + turret sprites on mount
+  useEffect(() => {
+    const load = (key: string, src: string) => {
+      const img = new Image();
+      img.onload = () => { spriteCache.current[key] = img; };
+      img.src = src;
+    };
+    Object.entries(ENEMY_SPRITES).forEach(([k, v]) => load(`enemy_${k}`, v));
+    Object.entries(TURRET_SPRITES).forEach(([k, v]) => load(`turret_${k}`, v));
+  }, []);
+
+  // Play a cinematic video, then call onDone
+  const playCinematic = useCallback((url: string, onDone: () => void) => {
+    setCinematicUrl(url);
+    setCinematicNext(() => onDone);
+  }, []);
+
+  const skipCinematic = useCallback(() => {
+    setCinematicUrl(null);
+    cinematicNext?.();
+    setCinematicNext(null);
+  }, [cinematicNext]);
 
   // Start game on map
   const handleStartMap = useCallback((mapIndex: number) => {
@@ -159,8 +224,8 @@ export default function TerminusSwarmPage() {
     }
   }, [gameState, selectedTurret]);
 
-  // Start next wave
-  const handleStartWave = useCallback(() => {
+  // Actually launch the wave (after any cinematic)
+  const launchWave = useCallback(() => {
     if (!gameState) return;
     const newState = startWave({ ...gameState, turrets: new Map(gameState.turrets), enemies: new Map(gameState.enemies), projectiles: [...gameState.projectiles] });
     setGameState(newState);
@@ -176,9 +241,23 @@ export default function TerminusSwarmPage() {
     const wave = getWaveForNumber(newState.wave);
     if (wave.narrative) {
       setNarrativeText(wave.narrative);
-      // No auto-dismiss — player taps the docked panel to continue
     }
   }, [gameState]);
+
+  // Start next wave — play boss cinematics first if applicable
+  const handleStartWave = useCallback(() => {
+    if (!gameState) return;
+    const nextWave = gameState.wave + 1;
+    if (nextWave === 10) {
+      playCinematic(TERMINUS_CINEMATICS.hive_tyrant, launchWave);
+    } else if (nextWave === 20) {
+      playCinematic(TERMINUS_CINEMATICS.source_reveal, launchWave);
+    } else if (nextWave === 1) {
+      playCinematic(TERMINUS_CINEMATICS.first_wave, launchWave);
+    } else {
+      launchWave();
+    }
+  }, [gameState, launchWave, playCinematic]);
 
   // Game loop
   useEffect(() => {
@@ -367,14 +446,20 @@ export default function TerminusSwarmPage() {
         ctx.stroke();
       }
 
-      // Turret body
-      ctx.beginPath();
-      ctx.arc(tx, ty, TILE_SIZE * 0.35, 0, Math.PI * 2);
-      ctx.fillStyle = turret.def.color + "60";
-      ctx.fill();
-      ctx.strokeStyle = turret.def.color;
-      ctx.lineWidth = 2;
-      ctx.stroke();
+      // Turret body — use sprite if loaded, fallback to circle
+      const turretSprite = spriteCache.current[`turret_${turret.def.type}`];
+      if (turretSprite) {
+        const spriteSize = TILE_SIZE * 0.8;
+        ctx.drawImage(turretSprite, tx - spriteSize / 2, ty - spriteSize / 2, spriteSize, spriteSize);
+      } else {
+        ctx.beginPath();
+        ctx.arc(tx, ty, TILE_SIZE * 0.35, 0, Math.PI * 2);
+        ctx.fillStyle = turret.def.color + "60";
+        ctx.fill();
+        ctx.strokeStyle = turret.def.color;
+        ctx.lineWidth = 2;
+        ctx.stroke();
+      }
 
       // Health bar
       if (turret.health < turret.maxHealth) {
@@ -396,10 +481,17 @@ export default function TerminusSwarmPage() {
       const ey = enemy.y * TILE_SIZE + TILE_SIZE / 2;
       const size = TILE_SIZE * 0.3 * enemy.def.size;
 
-      ctx.beginPath();
-      ctx.arc(ex, ey, size, 0, Math.PI * 2);
-      ctx.fillStyle = enemy.def.color;
-      ctx.fill();
+      // Enemy body — use sprite if loaded, fallback to circle
+      const enemySprite = spriteCache.current[`enemy_${enemy.def.type}`];
+      if (enemySprite) {
+        const spriteW = size * 2;
+        ctx.drawImage(enemySprite, ex - spriteW / 2, ey - spriteW / 2, spriteW, spriteW);
+      } else {
+        ctx.beginPath();
+        ctx.arc(ex, ey, size, 0, Math.PI * 2);
+        ctx.fillStyle = enemy.def.color;
+        ctx.fill();
+      }
 
       // Flying indicator
       if (enemy.def.flying) {
@@ -444,6 +536,35 @@ export default function TerminusSwarmPage() {
 
   return (
     <div className="min-h-screen bg-black">
+      {/* ═══ CINEMATIC VIDEO OVERLAY ═══ */}
+      <AnimatePresence>
+        {cinematicUrl && (
+          <motion.div
+            key="cinematic"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 bg-black flex items-center justify-center"
+          >
+            <video
+              ref={videoRef}
+              src={cinematicUrl}
+              autoPlay
+              playsInline
+              onEnded={skipCinematic}
+              poster={cinematicUrl.replace(/\.mp4$/, "").replace(/.*\/(cin\d+).*/, "/art/terminus/cinematics/$1_start.png")}
+              className="w-full h-full object-contain"
+            />
+            <button
+              onClick={skipCinematic}
+              className="absolute bottom-8 right-8 px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white/60 font-mono text-xs hover:bg-white/20 hover:text-white transition-all"
+            >
+              SKIP ›
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <AnimatePresence mode="wait">
         {/* ═══ INTRO — Comms Room ═══ */}
         {view === "intro" && (
@@ -456,7 +577,7 @@ export default function TerminusSwarmPage() {
               <p>If you can repair it, you might be able to reach other Arks... if any survived.</p>
               <p className="text-amber-400/60 italic">Elara: "I'm detecting faint signals on the emergency band. They're too degraded to decode without the full array. Fix the gears, Potential."</p>
             </div>
-            <button onClick={() => setView("puzzle")}
+            <button onClick={() => playCinematic(TERMINUS_CINEMATICS.comms_discovery, () => setView("puzzle"))}
               className="flex items-center gap-2 px-6 py-3 rounded-lg bg-amber-500/10 border border-amber-500/40 text-amber-400 font-mono text-sm hover:bg-amber-500/20 transition-all">
               <Wrench size={16} /> REPAIR COMMS ARRAY
             </button>
@@ -503,7 +624,7 @@ export default function TerminusSwarmPage() {
                 Something called The Source. We need to help them reactivate their defenses."
               </p>
             </div>
-            <button onClick={() => setView("map_select")}
+            <button onClick={() => playCinematic(TERMINUS_CINEMATICS.first_view, () => setView("map_select"))}
               className="flex items-center gap-2 px-6 py-3 rounded-lg bg-red-500/10 border border-red-500/40 text-red-400 font-mono text-sm hover:bg-red-500/20 transition-all">
               <Play size={16} /> LAUNCH TERMINUS SWARM
             </button>
@@ -514,7 +635,7 @@ export default function TerminusSwarmPage() {
         {view === "map_select" && (
           <motion.div key="map" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}
             className="p-6 max-w-2xl mx-auto">
-            <h2 className="font-display text-xl tracking-[0.2em] text-red-400 mb-2">TERMINUS SWARM</h2>
+            <img src="/art/logos/terminus-swarm.png" alt="Terminus Swarm" className="h-10 object-contain mb-3 opacity-90" />
 
             {/* League + stats bar */}
             <div className="flex items-center gap-3 mb-4 p-3 rounded-xl bg-white/5 border border-white/10">
@@ -541,7 +662,10 @@ export default function TerminusSwarmPage() {
               </button>
             </div>
 
-            <p className="font-mono text-xs text-white/40 mb-3">DEFEND — Choose a section of the crashed Ark</p>
+            <div className="flex items-center gap-3 mb-3">
+              <img src="/art/terminus/maps/terminus-planet.png" alt="Terminus" className="w-10 h-10 rounded-full border border-red-500/30 shadow-[0_0_12px_rgba(239,68,68,0.3)]" />
+              <p className="font-mono text-xs text-white/40">DEFEND — Choose a section of the crashed Ark</p>
+            </div>
             <div className="space-y-2 mb-6">
               {MAPS.map((map, i) => (
                 <button key={i} onClick={() => handleStartMap(i)}

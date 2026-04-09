@@ -24,6 +24,7 @@ const PACK_TYPES = [
     borderColor: "border-red-500/30",
     bgColor: "bg-red-500/10",
     glowColor: "shadow-[0_0_20px_rgba(239,68,68,0.2)]",
+    artworkUrl: "/art/card-game/pack-genesis.png",
   },
   {
     id: "premium" as const,
@@ -37,6 +38,7 @@ const PACK_TYPES = [
     borderColor: "border-orange-500/30",
     bgColor: "bg-orange-500/10",
     glowColor: "shadow-[0_0_20px_rgba(249,115,22,0.2)]",
+    artworkUrl: "/art/card-game/pack-schism.png",
   },
   {
     id: "infernal" as const,
@@ -50,6 +52,7 @@ const PACK_TYPES = [
     borderColor: "border-amber-500/30",
     bgColor: "bg-amber-500/10",
     glowColor: "shadow-[0_0_20px_rgba(245,158,11,0.3)]",
+    artworkUrl: "/art/card-game/pack-convergence.png",
   },
 ];
 
@@ -138,9 +141,12 @@ export default function DemonPackPage() {
               <div className="h-px flex-1 max-w-8 bg-gradient-to-r from-transparent to-red-500/50" />
               <span className="font-mono text-[10px] text-red-400/70 tracking-[0.3em]">HIERARCHY OF THE DAMNED</span>
             </div>
-            <h1 className="font-display text-2xl sm:text-3xl font-black tracking-wider text-foreground">
-              DEMON <span className="text-red-400">CARD PACKS</span>
-            </h1>
+            <div className="flex items-center gap-3">
+              <img src="/art/logos/dischordia-card.png" alt="" className="h-8 object-contain opacity-80 hidden sm:block" />
+              <h1 className="font-display text-2xl sm:text-3xl font-black tracking-wider text-foreground">
+                DEMON <span className="text-red-400">CARD PACKS</span>
+              </h1>
+            </div>
           </div>
           {isAuthenticated && (
             <div className="flex items-center gap-2 px-3 py-1.5 rounded-md bg-purple-500/10 border border-purple-500/20">
@@ -194,8 +200,9 @@ export default function DemonPackPage() {
                     {/* Pack visual */}
                     <div className="flex flex-col items-center text-center">
                       <div className={`w-20 h-28 rounded-lg border-2 ${pack.borderColor} ${pack.bgColor} flex items-center justify-center mb-4 relative overflow-hidden group-hover:border-opacity-100 transition-all`}>
+                        <img src={pack.artworkUrl} alt={pack.name} className="absolute inset-0 w-full h-full object-cover" />
                         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/40" />
-                        <Icon size={36} className={`${pack.color} relative z-10`} />
+                        <Icon size={36} className={`${pack.color} relative z-10 drop-shadow-[0_0_8px_rgba(0,0,0,0.8)]`} />
                         <div className="absolute bottom-1 left-0 right-0 text-center">
                           <span className="font-mono text-[8px] text-muted-foreground/70">{pack.cardCount} CARDS</span>
                         </div>

@@ -119,7 +119,17 @@ export default function TitlePage() {
           <KineticText text="> INTERCEPTING SIGNAL... CLEARANCE: UNAUTHORIZED <" mode="decode" speed={30} showCursor={false} />
         </div>
 
-        {/* Main title */}
+        {/* Main logo + title */}
+        <img
+          src="/art/logos/dischordian-saga.png"
+          alt=""
+          style={{
+            maxWidth: "min(400px, 80vw)",
+            height: "auto",
+            marginBottom: "0.75rem",
+            filter: "drop-shadow(0 0 30px rgba(51, 226, 230, 0.3))",
+          }}
+        />
         <h1
           style={{
             fontSize: "clamp(2rem, 6vw, 4.5rem)",
