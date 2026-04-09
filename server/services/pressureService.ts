@@ -19,6 +19,7 @@ import { getDb } from "../db";
 import { pressureEvents, universeEventState } from "../../drizzle/schema";
 import { eq, sql, gte } from "drizzle-orm";
 import { logger } from "../logger";
+import { broadcastEventActivation, invalidateConsequenceCache } from "./universeConsequences";
 import {
   type PressureTracker,
   DEFAULT_PRESSURE,
@@ -137,6 +138,8 @@ export const pressureService = {
           })
           .where(eq(universeEventState.id, existing[0].id));
         logger.info(`[LivingUniverse] Event ACTIVATED: ${emerging.eventId}`);
+        await broadcastEventActivation(emerging.eventId);
+        invalidateConsequenceCache();
       }
     } else {
       await db.insert(universeEventState).values({
@@ -147,6 +150,8 @@ export const pressureService = {
         occurrenceCount: 1,
       });
       logger.info(`[LivingUniverse] Event ACTIVATED (first time): ${emerging.eventId}`);
+      await broadcastEventActivation(emerging.eventId);
+      invalidateConsequenceCache();
     }
 
     return emerging;
@@ -162,5 +167,6 @@ export const pressureService = {
       .where(eq(universeEventState.eventId, eventId));
 
     logger.info(`[LivingUniverse] Event RESOLVED: ${eventId}`);
+    invalidateConsequenceCache();
   },
 };

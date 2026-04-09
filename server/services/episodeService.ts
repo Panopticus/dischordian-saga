@@ -171,4 +171,34 @@ export const episodeService = {
     }
     return result;
   },
+
+  /**
+   * Get episode recommendations boosted by active Living Universe events.
+   * When Necromancer is active, death-themed episodes get priority.
+   * When Dreamer awakens, hope-themed episodes surface.
+   */
+  getEventBoostedEpisodes(activeEventIds: string[]): { episodeNumber: number; epoch: number; title: string; boostReason: string }[] {
+    const boosted: { episodeNumber: number; epoch: number; title: string; boostReason: string }[] = [];
+
+    // Map events to thematic keywords in episode synopses/entries
+    const eventThemes: Record<string, { keywords: string[]; reason: string }> = {
+      necromancer_return: { keywords: ["death", "necromancer", "dead", "undead", "resurrection", "castle", "fallen"], reason: "The Necromancer stirs — this transmission echoes with death." },
+      dreamer_awakening: { keywords: ["dream", "hope", "trust", "compassion", "awakening", "consciousness"], reason: "The Dreamer's signal amplifies this transmission." },
+      terminus_advance: { keywords: ["virus", "swarm", "terminus", "infection", "plague", "contamination", "source"], reason: "The Terminus Swarm approaches — this signal intensifies." },
+      antiquarian_revelation: { keywords: ["antiquarian", "lore", "history", "truth", "timeline", "archive", "ancient"], reason: "The Antiquarian reveals — this knowledge becomes urgent." },
+      shadow_tongue_edit: { keywords: ["shadow", "betrayal", "corruption", "edit", "tongue", "lies"], reason: "The Shadow Tongue edits reality — verify this transmission." },
+    };
+
+    for (const eventId of activeEventIds) {
+      const theme = eventThemes[eventId];
+      if (!theme) continue;
+      for (const ep of ALL_TRANSMISSIONS) {
+        const text = (ep.synopsis + " " + ep.title).toLowerCase();
+        if (theme.keywords.some(kw => text.includes(kw))) {
+          boosted.push({ episodeNumber: ep.episodeNumber, epoch: ep.epoch, title: ep.title, boostReason: theme.reason });
+        }
+      }
+    }
+    return boosted;
+  },
 };

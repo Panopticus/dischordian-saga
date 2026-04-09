@@ -21,6 +21,7 @@ import { useGame, ROOM_DEFINITIONS } from "@/contexts/GameContext";
 import { Rocket } from "lucide-react";
 import DecisionDeck from "@/components/DecisionDeck";
 import ScrollIndicator from "@/components/ScrollIndicator";
+import { useLivingUniverse } from "@/hooks/useDailyBrief";
 
 /* ─── BOOT SEQUENCE ─── */
 function BootSequence({ onComplete }: { onComplete: () => void }) {
@@ -131,6 +132,7 @@ function BootSequence({ onComplete }: { onComplete: () => void }) {
 
 /* ─── SIGNAL HEADER ─── */
 function SignalHeader({ stats }: { stats: Record<string, number> }) {
+  const { universeState } = useLivingUniverse();
   const [signalStrength, setSignalStrength] = useState(87);
   const [timestamp, setTimestamp] = useState("");
 
@@ -179,7 +181,7 @@ function SignalHeader({ stats }: { stats: Record<string, number> }) {
             animate={{ x: [0, -1200] }}
             transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
           >
-            ▸ {stats.total_entries} ENTITIES CATALOGUED ▸ {stats.relationships} CONNECTIONS MAPPED ▸ {stats.songs} TRANSMISSIONS DECODED ▸ {stats.characters} OPERATIVES IDENTIFIED ▸ {stats.locations} SITES GEOTAGGED ▸ {stats.factions} ORGANIZATIONS TRACKED ▸ SIGNAL ORIGIN: UNKNOWN ▸ ENCRYPTION: BROKEN ▸ CLASSIFICATION: ABOVE TOP SECRET ▸
+            {universeState?.signalContent?.map((s, i) => <span key={i} className="text-primary font-bold">{s} </span>)}▸ {stats.total_entries} ENTITIES CATALOGUED ▸ {stats.relationships} CONNECTIONS MAPPED ▸ {stats.songs} TRANSMISSIONS DECODED ▸ {stats.characters} OPERATIVES IDENTIFIED ▸ {stats.locations} SITES GEOTAGGED ▸ {stats.factions} ORGANIZATIONS TRACKED ▸ SIGNAL ORIGIN: UNKNOWN ▸ ENCRYPTION: BROKEN ▸ CLASSIFICATION: ABOVE TOP SECRET ▸
           </motion.div>
         </div>
       </div>

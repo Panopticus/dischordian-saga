@@ -19,6 +19,7 @@ import { trackIncrement } from "../achievementTracker";
 import { characterSheets } from "../../drizzle/schema";
 import { pressureService } from "../services/pressureService";
 import { ripple } from "../services/rippleEngine";
+import { getConsequences } from "../services/universeConsequences";
 
 /** 5% marketplace tax */
 const TAX_RATE = 0.05;
@@ -180,6 +181,13 @@ export const marketplaceRouter = router({
       const unitPrice = input.payWith === "dream" ? listing[0].priceDream : listing[0].priceCredits;
       if (unitPrice <= 0) throw new Error(`This listing doesn't accept ${input.payWith}`);
       let totalPrice = unitPrice * input.quantity;
+
+      // Living Universe event market multipliers
+      const fx = await getConsequences();
+      const categoryMult = fx.marketMultipliers[listing[0].category ?? ""] ?? fx.marketMultipliers[listing[0].itemType] ?? 1;
+      if (categoryMult !== 1) {
+        totalPrice = Math.max(1, Math.round(totalPrice * categoryMult));
+      }
 
       // Apply morality price modifier — player alignment affects what they pay
       // Humanity-aligned: organic/natural items cheaper, tech items more expensive

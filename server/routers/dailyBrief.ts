@@ -12,6 +12,7 @@ import {
   type PressureTracker,
   DEFAULT_PRESSURE,
 } from "@shared/livingUniverseEvents";
+import { getEventSignalContent } from "../services/universeConsequences";
 
 /* ═══════════════════════════════════════════════════════
    DAILY BRIEF + LIVING UNIVERSE + ROOM STATE ROUTER
@@ -323,6 +324,8 @@ export const dailyBriefRouter = router({
       s.events.every(eId => activeEventIds.includes(eId))
     );
 
+    const signalContent = getEventSignalContent(activeEventIds);
+
     return {
       pressure,
       activeEvents: activeEvents.map(e => ({
@@ -334,6 +337,7 @@ export const dailyBriefRouter = router({
       })),
       emergingEvent,
       synergies: activeSynergies,
+      signalContent,
     };
   }),
 

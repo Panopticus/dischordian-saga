@@ -14,6 +14,7 @@ import {
 } from "@shared/battlePassConfig";
 import { pressureService } from "../services/pressureService";
 import { getPrestigeMultiplier } from "../services/prestigeMultiplier";
+import { getConsequences } from "../services/universeConsequences";
 
 export const battlePassRouter = router({
   /* ─── Get current active season ─── */
@@ -118,7 +119,14 @@ export const battlePassRouter = router({
 
       // Apply prestige multiplier on top of trait bonus
       const prestigeMult = await getPrestigeMultiplier(ctx.user.id);
-      const finalXp = Math.round(adjustedXp * prestigeMult);
+      let finalXp = Math.round(adjustedXp * prestigeMult);
+
+      // Apply Living Universe event XP multiplier
+      const fx = await getConsequences();
+      const xpMult = fx.xpMultipliers["fight"] ?? fx.xpMultipliers["social"] ?? 1;
+      if (xpMult !== 1) {
+        finalXp = Math.round(finalXp * xpMult);
+      }
 
       const newXp = p.currentXp + finalXp;
       // Use variable XP curve instead of flat xpPerTier
@@ -196,7 +204,14 @@ export const battlePassRouter = router({
 
       // Apply prestige multiplier
       const prestigeMult = await getPrestigeMultiplier(ctx.user.id);
-      const finalXp = Math.round(source.xp * prestigeMult);
+      let finalXp = Math.round(source.xp * prestigeMult);
+
+      // Apply Living Universe event XP multiplier
+      const fxAction = await getConsequences();
+      const actionXpMult = fxAction.xpMultipliers[input.actionId] ?? fxAction.xpMultipliers["fight"] ?? fxAction.xpMultipliers["social"] ?? 1;
+      if (actionXpMult !== 1) {
+        finalXp = Math.round(finalXp * actionXpMult);
+      }
 
       const newXp = p.currentXp + finalXp;
       const newTier = Math.min(getTierFromXp(newXp), season[0].totalTiers);

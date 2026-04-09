@@ -32,6 +32,7 @@ import {
 import FightArena2D from "@/game/FightArena2D";
 import { triggerFailureRevelation } from "@/lib/failureRevelations";
 import { mapDifficultyToFightAI, createDefaultPerformance, type PlayerPerformance } from "@shared/dynamicDifficulty";
+import { useLivingUniverse } from "@/hooks/useDailyBrief";
 import LandscapeEnforcer from "@/components/LandscapeEnforcer";
 import TutorialTrigger from "@/components/TutorialTrigger";
 import { useAutoTutorial } from "@/hooks/useAutoTutorial";
@@ -77,6 +78,9 @@ export default function FightPage() {
   const [selectedPlayer, setSelectedPlayer] = useState<FighterData | null>(null);
   const [selectedOpponent, setSelectedOpponent] = useState<FighterData | null>(null);
   const [selectedDifficulty, setSelectedDifficulty] = useState<DifficultyLevel>(DIFFICULTIES[1]);
+
+  // Living Universe combat modifiers
+  const { activeConsequences: universeFx } = useLivingUniverse();
   const [selectedArena, setSelectedArena] = useState<ArenaData>(ARENAS[0]);
   const [selectingFor, setSelectingFor] = useState<"player" | "opponent">("player");
   const [matchResult, setMatchResult] = useState<{ winner: "p1" | "p2"; perfect: boolean } | null>(null);
@@ -166,7 +170,7 @@ export default function FightPage() {
         difficulty: selectedDifficulty.id,
         perfect,
         bestCombo: 0,
-        pointsEarned: winner === "p1" ? selectedDifficulty.pointsMultiplier * 100 : 0,
+        pointsEarned: winner === "p1" ? Math.round(selectedDifficulty.pointsMultiplier * 100 * (universeFx?.xpMultipliers?.fight ?? 1)) : 0,
       });
       // Failure reveals lore: if player lost, surface a failure revelation
       if (winner === "p2" && selectedOpponent) {

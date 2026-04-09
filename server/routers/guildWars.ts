@@ -13,6 +13,7 @@ import {
   notifications, dreamBalance, marketTaxPool,
 } from "../../drizzle/schema";
 import { fetchCitizenData, fetchPotentialNftData, resolveGuildWarBonuses } from "../traitResolver";
+import { getConsequences } from "../services/universeConsequences";
 
 /** Territory names tied to Dischordian Saga lore */
 const TERRITORIES = [
@@ -147,6 +148,10 @@ export const guildWarsRouter = router({
       if (war[0].territory && warTb.boostedTerritories.includes(war[0].territory)) {
         points = Math.round(points * (1 + warTb.elementTerritoryBonus));
       }
+
+      // Apply Living Universe guild war score multiplier
+      const fx = await getConsequences();
+      points = Math.round(points * fx.guildWarScoreMultiplier);
 
       if (points <= 0) return { success: false, message: "No points earned" };
 

@@ -33,6 +33,7 @@ import {
 } from "@/components/BoardEffects";
 import LivingBackground from "@/components/LivingBackground";
 import { ARENAS } from "@/game/gameData";
+import { useLivingUniverse } from "@/hooks/useDailyBrief";
 
 /* ─── ELEMENT COLORS ─── */
 const ELEMENT_COLORS: Record<string, string> = {
@@ -669,6 +670,10 @@ export default function CardBattlePage() {
   const { playSFX, initAudio, audioReady } = useSound();
   const { discoverEntry } = useGamification();
   const [, navigate] = useLocation();
+
+  // Living Universe card stat modifiers
+  const { activeConsequences: universeFx } = useLivingUniverse();
+  const cardStatMult = universeFx?.combatModifiers?.attack ?? 1;
 
   const [battleState, setBattleState] = useState<BattleState | null>(null);
   const [selectedCard, setSelectedCard] = useState<string | null>(null);

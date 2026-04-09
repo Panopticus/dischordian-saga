@@ -5,6 +5,7 @@ import { sanitizePlayerInput, validateElaraResponse } from "../elaraGuardrails";
 import { z } from "zod";
 import * as fs from "fs";
 import * as path from "path";
+import { getConsequences, getEventDialogContext } from "../services/universeConsequences";
 
 const ROOT = process.cwd();
 
@@ -206,8 +207,12 @@ export const elaraRouter = router({
         }
       }
 
+      // Append Living Universe event dialog context
+      const fx = await getConsequences();
+      const eventContext = getEventDialogContext(fx.activeEventIds);
+
       const messages: Array<{ role: "system" | "user" | "assistant"; content: string }> = [
-        { role: "system", content: ELARA_SYSTEM_PROMPT + moralityContext + contextHint },
+        { role: "system", content: ELARA_SYSTEM_PROMPT + moralityContext + contextHint + eventContext },
       ];
 
       // Add conversation history

@@ -7,6 +7,7 @@ import { battlePassXp } from "../services/battlePassXp";
 import { eq, and, sql } from "drizzle-orm";
 import { fetchCitizenData, fetchPotentialNftData, resolveQuestBonuses } from "../traitResolver";
 import { ripple } from "../services/rippleEngine";
+import { getConsequences, getEventDailyQuests } from "../services/universeConsequences";
 
 /* ═══════════════════════════════════════════════════════
    QUEST TEMPLATES — Daily, Weekly, Epoch (Season)
@@ -181,8 +182,34 @@ export const dailyQuestsRouter = router({
       ensureQuestsExist(db, ctx.user.id, EPOCH_TEMPLATES, epoch, 5),
     ]);
 
+    // Append Living Universe event quests to the daily pool
+    const fx = await getConsequences();
+    const eventQuests = getEventDailyQuests(fx.activeEventIds);
+    const eventQuestRows = eventQuests.map(eq => ({
+      id: 0,
+      userId: ctx.user.id,
+      questId: eq.questId,
+      title: eq.title,
+      description: `[EVENT] ${eq.title}`,
+      questType: eq.type,
+      targetCount: eq.targetCount,
+      currentCount: 0,
+      rewardDream: eq.rewardDream,
+      rewardXp: eq.rewardXp,
+      rewardCredits: 0,
+      bonusReward: null,
+      claimed: false,
+      questDate: today,
+      createdAt: new Date(),
+      completed: false,
+      isEvent: true,
+    }));
+
     return {
-      daily: daily.map(q => ({ ...q, completed: q.currentCount >= q.targetCount })),
+      daily: [
+        ...daily.map(q => ({ ...q, completed: q.currentCount >= q.targetCount })),
+        ...eventQuestRows,
+      ],
       weekly: weekly.map(q => ({ ...q, completed: q.currentCount >= q.targetCount })),
       epoch: epochQuests.map(q => ({ ...q, completed: q.currentCount >= q.targetCount })),
       today,

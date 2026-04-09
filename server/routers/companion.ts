@@ -8,6 +8,7 @@ import { getDb } from "../db";
 import { companionMessages, companionRelationships } from "../../drizzle/schema";
 import { eq, and, desc, sql } from "drizzle-orm";
 import { pressureService } from "../services/pressureService";
+import { getConsequences, getEventDialogContext } from "../services/universeConsequences";
 
 const ROOT = process.cwd();
 
@@ -212,8 +213,12 @@ export const companionRouter = router({
         }));
       }
 
+      // Append Living Universe event dialog context
+      const fx = await getConsequences();
+      const eventContext = getEventDialogContext(fx.activeEventIds);
+
       const messages: Array<{ role: "system" | "user" | "assistant"; content: string }> = [
-        { role: "system", content: systemPrompt + moralityContext },
+        { role: "system", content: systemPrompt + moralityContext + eventContext },
       ];
 
       for (const msg of conversationHistory.slice(-10)) {

@@ -7,6 +7,7 @@ import { cards, userCards, craftingLog, dreamBalance } from "../../drizzle/schem
 import { eq, and, sql, desc, inArray } from "drizzle-orm";
 import { fetchCitizenData, fetchPotentialNftData, resolveCraftingBonuses } from "../traitResolver";
 import { ripple } from "../services/rippleEngine";
+import { getConsequences } from "../services/universeConsequences";
 
 // ═══════════════════════════════════════════════════════
 // CRAFTING RECIPES
@@ -382,8 +383,11 @@ export const craftingRouter = router({
 
       // Roll for success — trait bonus increases success rate
       const boostedRate = Math.min(1, recipe.successRate + craftTb.successRateBonus);
+      // Apply Living Universe crafting multiplier
+      const fx = await getConsequences();
+      const adjustedRate = Math.min(1, boostedRate * fx.craftingMultiplier);
       const roll = Math.random();
-      const succeeded = roll <= boostedRate;
+      const succeeded = roll <= adjustedRate;
 
       // Deduct Dream
       if (recipe.dreamCost > 0) {
@@ -615,6 +619,10 @@ export const craftingRouter = router({
         const bonuses = await resolveCraftingBonuses(ctx.user.id);
         successRate = Math.min(1, successRate + (bonuses.successRateBonus ?? 0));
       } catch { /* no citizen data — use base rate */ }
+
+      // Apply Living Universe crafting multiplier
+      const fxRecipe = await getConsequences();
+      successRate = Math.min(1, successRate * fxRecipe.craftingMultiplier);
 
       // Deduct materials
       for (const [matId, needed] of Object.entries(input.materials)) {
