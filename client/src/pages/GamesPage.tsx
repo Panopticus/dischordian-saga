@@ -63,6 +63,17 @@ const SIMULATIONS: GameTile[] = [
     primary: true,
   },
   {
+    href: "/cades-fps",
+    title: "CADES UNIT",
+    subtitle: "First-Person Combat Operations",
+    description: "Three operational scenarios: hold the Bridge of Kael as Iron Lion, defend Inception Ark 1047 from three factions, or explore the Matrix of Dreams and its archived consciousness-imprints. The Game Masters are watching.",
+    loreContext: "CADES DIMENSION: Consciousness Archive",
+    icon: Skull,
+    color: "#f59e0b",
+    badge: "ENTER SIMULATION",
+    primary: true,
+  },
+  {
     href: "/fight",
     title: "COMBAT SIMULATOR",
     subtitle: "Dimensional Combat Training",

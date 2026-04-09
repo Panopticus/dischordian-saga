@@ -235,4 +235,56 @@ export const gameStateRouter = router({
 
       return entries.slice(0, limit).map((e, i) => ({ ...e, rank_position: i + 1 }));
     }),
+
+  /* ─── CADES FPS STATE ─── */
+
+  getCadesData: protectedProcedure.query(async ({ ctx }) => {
+    const db = getDb();
+    const rows = await db.select().from(userProgress).where(eq(userProgress.userId, ctx.user.id));
+    if (!rows.length) return { loopCount: 0, awarenessLevel: 0, bestTimeHeld: 0, canonAchieved: false, scenariosCompleted: [] as string[], ironLionContacted: false, gmContactLevel: 0 };
+    const state = rows[0].state as Record<string, unknown> | null;
+    const cades = (state?.cades ?? {}) as Record<string, unknown>;
+    return {
+      loopCount: (cades.loopCount as number) ?? 0,
+      awarenessLevel: (cades.awarenessLevel as number) ?? 0,
+      bestTimeHeld: (cades.bestTimeHeld as number) ?? 0,
+      canonAchieved: (cades.canonAchieved as boolean) ?? false,
+      scenariosCompleted: (cades.scenariosCompleted as string[]) ?? [],
+      ironLionContacted: (cades.ironLionContacted as boolean) ?? false,
+      gmContactLevel: (cades.gmContactLevel as number) ?? 0,
+    };
+  }),
+
+  saveCadesResult: protectedProcedure
+    .input(z.record(z.string(), z.unknown()))
+    .mutation(async ({ ctx, input }) => {
+      const db = getDb();
+      const rows = await db.select().from(userProgress).where(eq(userProgress.userId, ctx.user.id));
+      if (!rows.length) return { ok: false };
+      const state = (rows[0].state as Record<string, unknown>) ?? {};
+      const cades = ((state.cades ?? {}) as Record<string, unknown>);
+
+      // Merge results
+      if (input.mode === "last_stand") {
+        cades.loopCount = (input.loop_count as number) ?? cades.loopCount ?? 0;
+        cades.awarenessLevel = (input.awareness_level as number) ?? cades.awarenessLevel ?? 0;
+        const timeHeld = (input.time_held as number) ?? 0;
+        cades.bestTimeHeld = Math.max((cades.bestTimeHeld as number) ?? 0, timeHeld);
+        if (input.canon_achieved) cades.canonAchieved = true;
+        if (input.iron_lion_contacted) cades.ironLionContacted = true;
+      }
+      if (input.mode === "ship_defense") {
+        if (input.thoughtborn_contacted) cades.thoughtbornContacted = true;
+      }
+      if (input.mode === "historical_incursions") {
+        const existing = (cades.scenariosCompleted as string[]) ?? [];
+        const completed = (input.scenarios_total_completed as string[]) ?? [];
+        cades.scenariosCompleted = [...new Set([...existing, ...completed])];
+        cades.gmContactLevel = Math.max((cades.gmContactLevel as number) ?? 0, (input.game_masters_contact_level as number) ?? 0);
+      }
+
+      state.cades = cades;
+      await db.update(userProgress).set({ state }).where(eq(userProgress.userId, ctx.user.id));
+      return { ok: true };
+    }),
 });
