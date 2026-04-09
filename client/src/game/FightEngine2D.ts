@@ -15,7 +15,7 @@ import type { FighterData, FrameProfile, FighterArchetype } from "./gameData";
 import { getCharacterSpecials, type CharacterSpecials, type SpecialMove } from "./specialMoves";
 import { getCharacterConfig } from "./CharacterModel3D";
 import { FightSoundManager } from "./FightSoundManager";
-import { getOrSynthesizeAnimation, resolveFrame, clearAnimationCache, type PoseAnimation, type SpriteFrame } from "./SpriteAnimator";
+import { getAnimation2D, resolveFrame, clearAnimationCache, preloadFighterSheets, type PoseAnimation, type SpriteFrame } from "./SpriteAnimator";
 
 type PoseKey = "idle" | "attack" | "block" | "hit" | "ko" | "victory"
   | "walkForward" | "walkBack" | "crouch" | "dash"
@@ -1130,9 +1130,13 @@ export class FightEngine2D {
     this.p1 = this.createFighter(p1Data, STAGE_WIDTH / 2 - 200, true);
     this.p2 = this.createFighter(p2Data, STAGE_WIDTH / 2 + 200, false);
 
-    // Load sprites
+    // Load sprites (single images as fallback)
     this.loadSprites(this.p1, p1Data);
     this.loadSprites(this.p2, p2Data);
+
+    // Preload sprite sheets (real multi-frame animations)
+    preloadFighterSheets(p1Data.id.replace(/-/g, "_"));
+    preloadFighterSheets(p2Data.id.replace(/-/g, "_"));
 
     // Bind input handlers
     this.bindInputs();
@@ -3712,9 +3716,9 @@ export class FightEngine2D {
     }
 
     // ═══ MULTI-FRAME SPRITE ANIMATION (SFII-style) ═══
-    // Get synthesized animation for the current pose
+    // Try sprite sheet frames first, fall back to synthesis
     const moveData = this.getMoveData(f);
-    const anim = sprite ? getOrSynthesizeAnimation(f.data.id, effectivePose, sprite) : null;
+    const anim = getAnimation2D(f.data.id, effectivePose, sprite ?? null);
     const frame: SpriteFrame | null = anim ? resolveFrame(
       anim,
       f.stateFrame,

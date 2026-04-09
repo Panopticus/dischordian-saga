@@ -5,16 +5,21 @@
    Each pose can have multiple animation frames that cycle
    based on the move's startup/active/recovery timing.
 
-   For poses with only a single source image, the system
-   synthesizes intermediate frames using canvas manipulation
-   (shift, stretch, tint) to create visual phases:
-   - Anticipation (wind-up)
-   - Active (impact)
-   - Recovery (return to neutral)
+   Supports TWO modes:
+   1. Sprite sheet mode: Real multi-frame animations from
+      sprite sheets (172×256 cells in a 16×6 grid).
+   2. Synthesis mode: Single-image sprites transformed via
+      canvas manipulation (shift, stretch, tint) as fallback.
 
-   When actual multi-frame sprite sheets are available,
-   they override the synthesized frames entirely.
+   Sprite sheet data always takes priority when available.
    ═══════════════════════════════════════════════════════ */
+import {
+  SPRITE_SHEET_GRID,
+  FIGHTER_SPRITE_SHEETS,
+  getFrameRect,
+  getAnimation,
+  type SpriteSheetAnimation,
+} from "./spriteSheetConfig";
 
 /** A single animation frame within a pose */
 export interface SpriteFrame {
@@ -484,4 +489,128 @@ export function getOrSynthesizeAnimation(
  */
 export function clearAnimationCache() {
   animationCache.clear();
+  spriteSheetImageCache.clear();
+}
+
+/* ═══════════════════════════════════════════════════════
+   SPRITE SHEET MODE — Real multi-frame animations
+   from 16×6 grid sprite sheets (172×256 per cell).
+   ═══════════════════════════════════════════════════════ */
+
+/** Cache of loaded sprite sheet HTMLImageElements */
+const spriteSheetImageCache = new Map<string, HTMLImageElement>();
+
+/** Preload all sprite sheets for a fighter. Call once when selecting a character. */
+export function preloadFighterSheets(fighterId: string): Promise<void[]> {
+  const data = FIGHTER_SPRITE_SHEETS[fighterId];
+  if (!data) return Promise.resolve([]);
+
+  const basePath = `/art/fighters/${fighterId}/`;
+  return Promise.all(
+    data.sheets.map(
+      (sheet) =>
+        new Promise<void>((resolve) => {
+          const key = `${fighterId}/${sheet}`;
+          if (spriteSheetImageCache.has(key)) {
+            resolve();
+            return;
+          }
+          const img = new Image();
+          img.onload = () => {
+            spriteSheetImageCache.set(key, img);
+            resolve();
+          };
+          img.onerror = () => resolve(); // non-blocking
+          img.src = basePath + sheet;
+        }),
+    ),
+  );
+}
+
+/**
+ * Build a PoseAnimation from a sprite sheet animation definition.
+ * Extracts individual cells from the cached sheet image as OffscreenCanvas frames.
+ */
+function buildSheetAnimation(
+  fighterId: string,
+  anim: SpriteSheetAnimation,
+): PoseAnimation | null {
+  const key = `${fighterId}/${anim.sheet}`;
+  const sheetImg = spriteSheetImageCache.get(key);
+  if (!sheetImg || !sheetImg.complete) return null;
+
+  const { cellWidth, cellHeight } = SPRITE_SHEET_GRID;
+  const frames: SpriteFrame[] = [];
+
+  for (let i = 0; i < anim.frameCount; i++) {
+    const col = anim.startCol + i;
+    const sx = col * cellWidth;
+    const sy = anim.row * cellHeight;
+
+    // Extract frame to OffscreenCanvas for efficient per-frame rendering
+    const canvas = new OffscreenCanvas(cellWidth, cellHeight);
+    const ctx = canvas.getContext("2d");
+    if (ctx) {
+      ctx.drawImage(sheetImg, sx, sy, cellWidth, cellHeight, 0, 0, cellWidth, cellHeight);
+    }
+
+    frames.push({
+      image: canvas,
+      duration: anim.frameDuration,
+      offsetX: 0,
+      offsetY: 0,
+      scaleX: 1,
+      scaleY: 1,
+      rotation: 0,
+    });
+  }
+
+  const totalDuration = anim.loop
+    ? frames.reduce((sum, f) => sum + (f.duration || 6), 0)
+    : 0;
+
+  return { frames, loop: anim.loop, totalDuration };
+}
+
+/**
+ * Try to get a real sprite sheet animation for a fighter + pose.
+ * Returns null if no sprite sheet data exists or sheets aren't loaded.
+ */
+export function getSpriteSheetAnimation(
+  fighterId: string,
+  poseKey: string,
+): PoseAnimation | null {
+  // Normalize fighter ID: the sprite config uses underscores (iron_lion)
+  // but gameData may use hyphens (iron-lion)
+  const normalizedId = fighterId.replace(/-/g, "_");
+
+  const anim = getAnimation(normalizedId, poseKey);
+  if (!anim) return null;
+
+  const cacheKey = `sheet_${normalizedId}_${poseKey}`;
+  const cached = animationCache.get(cacheKey);
+  if (cached) return cached;
+
+  const built = buildSheetAnimation(normalizedId, anim);
+  if (built) {
+    animationCache.set(cacheKey, built);
+  }
+  return built;
+}
+
+/**
+ * Primary animation resolver: sprite sheet first, synthesis fallback.
+ * This replaces getOrSynthesizeAnimation as the main entry point.
+ */
+export function getAnimation2D(
+  characterId: string,
+  poseKey: string,
+  fallbackImage: HTMLImageElement | null,
+): PoseAnimation | null {
+  // Try sprite sheet first
+  const sheetAnim = getSpriteSheetAnimation(characterId, poseKey);
+  if (sheetAnim) return sheetAnim;
+
+  // Fall back to synthesis from single image
+  return getOrSynthesizeAnimation(characterId, poseKey, fallbackImage);
 }
