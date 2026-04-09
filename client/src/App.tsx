@@ -36,6 +36,7 @@ import CharacterWidget from "./components/CharacterWidget";
 import { DailyRewardPopup } from "./components/DailyRewards";
 import RadioMode from "./components/RadioMode";
 import EasterEggs from "./components/EasterEggs";
+import UniverseAtmosphere from "./components/UniverseAtmosphere";
 import SoundControls from "./components/SoundControls";
 import { useElaraTTS } from "./hooks/useElaraTTS";
 import { useVoidEngine } from "./engine/useVoidEngine";
@@ -456,6 +457,7 @@ function GameGate() {
         <SortingCeremony skillId={sortingTrigger.skillId} onComplete={handleSortingComplete} />
       )}
       <TradeNotificationWatcher />
+      <UniverseAtmosphere />
       <ElaraDialog elaraTTS={elaraTTS} />
       <CharacterWidget />
       <DailyRewardPopup />

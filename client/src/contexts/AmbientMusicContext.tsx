@@ -404,6 +404,8 @@ export function AmbientMusicProvider({ children }: { children: ReactNode }) {
       setVolume,
       toggleMusic,
       getTrackForRoom,
+      playEventOverride,
+      clearEventOverride,
       allTracks,
     }}>
       {children}
