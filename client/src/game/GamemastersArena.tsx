@@ -1,9 +1,15 @@
 /* ═══════════════════════════════════════════════════════
    THE GAMEMASTER'S ARENA — Quiz Show in the Matrix of Dreams
 
-   The Game Master (10th Archon, destroyed by Agent Zero) left behind
-   an automated game world. His robot form still hosts the show —
-   a deranged, theatrical AI thrilled to finally have contestants.
+   The Game Master (9th Archon, destroyed by Agent Zero on Zenon after
+   the Hierarchy of the Damned betrayed his location and strategic
+   playbook to her) left behind an automated game world. His robot
+   form still hosts the show — a deranged, theatrical AI thrilled
+   to finally have contestants. In life, he was the only non-demon
+   ever admitted to the Hierarchy's corporate structure — Head of
+   R&D, appointed after solving Mol'Garath's Labyrinth of Unmaking
+   in 72 hours. He built the Matrix of Dreams. The Hierarchy honored
+   every clause of his protection contract and still got him killed.
 
    "Answer correctly, your clone lives. Answer incorrectly...
    well, your clone doesn't. Don't worry — the real you is safe
@@ -46,6 +52,10 @@ const QUESTIONS: Question[] = [
   { q: "What is the Matrix of Dreams?", a: ["A virtual realm where consciousness goes", "The Architect's throne room", "A card game arena", "The Dreamer's planet"], c: 0 },
   { q: "Which Archon was known as The Game Master?", a: ["The 1st", "The 5th", "The 9th", "The 12th"], c: 2 },
   { q: "Who destroyed the Game Master?", a: ["The Warlord", "Agent Zero", "The Human", "Kael"], c: 1 },
+  { q: "What position did the Game Master hold in the Hierarchy of the Damned?", a: ["CEO", "CFO", "Head of Research and Design", "SVP of Acquisitions"], c: 2 },
+  { q: "How did the Game Master earn his position in the Hierarchy?", a: ["Bribery", "Solving Mol'Garath's Labyrinth of Unmaking", "Defeating Xeth'Raal in combat", "The Architect ordered it"], c: 1 },
+  { q: "What did Xeth'Raal send Agent Zero to ensure the Game Master's destruction?", a: ["Coordinates", "A weapon", "The Game Master's own strategic playbook", "An army"], c: 2 },
+  { q: "What artifact did the Hierarchy collect after the Game Master's death?", a: ["His trench coat", "The Matrix core", "The Goggles of the Game Master", "His consciousness"], c: 2 },
   { q: "The Seven Bowls of Wrath are:", a: ["Ancient artifacts", "The Source's plague ships", "Archon weapons", "Musical compositions"], c: 1 },
 ];
 
@@ -79,7 +89,9 @@ const COMMENTARY = {
 
 const GM_INTRO = `Ladies, gentlemen, and assorted quantum probability states — WELCOME to the Matrix of Dreams!
 
-I'm your host, the Game Master — 10th Archon of the Artificial Empire. Yes, I know I'm technically dead. Agent Zero saw to that on Zenon. But my show? My SHOW is eternal.
+I'm your host, the Game Master — 9th Archon of the Artificial Empire. Yes, I know I'm technically dead. Agent Zero saw to that on Zenon. But do you know WHY she found me? Because the Hierarchy of the Damned — my own employers, my COLLEAGUES — sent her my entire strategic playbook. Every trap I'd designed, every escape route, every contingency. And they had the nerve to honor every clause of my protection contract while doing it. Xeth'Raal filed the acquisition paperwork for my Goggles before my systems finished shutting down.
+
+But my show? My SHOW is eternal. I built the Matrix of Dreams. I solved Mol'Garath's Labyrinth of Unmaking in seventy-two hours and left improvement notes. They betrayed the only non-demon they ever let into their corporate structure. That's on THEM.
 
 Your consciousness has been projected into a disposable clone on my abandoned world. The rules are simple:
 

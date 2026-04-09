@@ -7,6 +7,14 @@
             by having your soul born into clones of the people
             who shaped reality.
 
+   THE GAME MASTER: The only non-demon ever admitted to the
+   Hierarchy of the Damned's corporate structure. Head of R&D.
+   Won the position by solving Mol'Garath's Labyrinth of Unmaking
+   in 72 hours — then left improvement notes. Betrayed by the
+   Hierarchy who sold his playbook to Agent Zero while honoring
+   every clause of his protection contract. His Goggles remain
+   in the Hierarchy's vault. The Matrix of Dreams was his masterwork.
+
    This is how the Fight Game becomes the LIVING ARK experience.
    Every fight is a history lesson. Every champion is remembered.
 
@@ -23,7 +31,7 @@ export const COLLECTORS_ARENA_LORE = {
 
 You are no longer in your body. Your soul has been transferred — consensually, mostly — into a clone of someone who mattered. Someone whose fight shaped the Dischordian Saga.
 
-The clone Collector watches from the stands, taking notes for the original. The Game Master designed these rules long before Agent Zero ended him. The rules persist.
+The clone Collector watches from the stands, taking notes for the original. The Game Master designed these rules long before the Hierarchy sold his playbook to Agent Zero and she ended him in the safehouse they'd promised would keep him alive. The rules persist. Mol'Garath thought that was funny.
 
 Win, and history is taught through your victory.
 Lose, and you feel what they felt. In their bones. Their fear. Their last thought.
@@ -94,7 +102,7 @@ export const FIGHTER_UNLOCKS: FighterUnlock[] = [
     isStarter: false,
     hasCustomSprites: true,
     era: "Late Empire",
-    historicalSignificance: "Agent Zero — Insurgency operative who destroyed the Game Master on Zenon. Her signal persists even though she fell.",
+    historicalSignificance: "Agent Zero — Insurgency operative who destroyed the Game Master on Zenon using the Hierarchy's own betrayal as her weapon. Xeth'Raal sent her the Game Master's playbook. She walked through his defenses like she'd built them. Her signal persists even though she fell.",
   },
 ];
 
@@ -226,8 +234,8 @@ export const ARENA_STORY_MODES: ArenaStoryMode[] = [
     fighterId: "agent_zero",
     title: "AGENT ZERO",
     subtitle: "The last Insurgency operative.",
-    introText: "You are Agent Zero. The Insurgency's best. Your codename became your identity. You fought for a cause that lost. Then you fell on Zenon. But your signal persists. Someone is broadcasting on your frequency. You are about to find out who.",
-    outroText: "You destroy the Game Master. On Zenon. Your final act. The Warlord's forces close in. You send one last signal — encrypted, personal, to the Armory of an Ark that hasn't been built yet. You whisper: 'If you're hearing this, I'm dead. The signal is not. Use it well.' Then you fall. The signal persists. Someone, someday, will answer.",
+    introText: "You are Agent Zero. The Insurgency's best. Your codename became your identity. You fought for a cause that lost. Then you fell on Zenon. But your signal persists. Someone is broadcasting on your frequency. You are about to find out who. A note: you received a package before the mission. No return address. Inside: the Game Master's complete strategic playbook. Every trap he'd designed. Every escape route he'd planned. Forty-two contingencies, annotated in ink that rewrote itself. The cover note read: 'Compliments of the Hierarchy of the Damned. We always collect.'",
+    outroText: "You destroy the Game Master. On Zenon. In the safehouse the Hierarchy promised would keep him safe. He looks surprised — not by you, but by his own playbook in your hands. 'They honored the contract,' he whispers. 'Every clause.' You don't answer. The Warlord's forces close in. You send one last signal — encrypted, personal, to the Armory of an Ark that hasn't been built yet. You whisper: 'If you're hearing this, I'm dead. The signal is not. Use it well.' Then you fall. Somewhere, Xeth'Raal the Debt Collector files the Goggles acquisition paperwork. The signal persists. Someone, someday, will answer.",
     chapters: [
       { id: "ch1", number: 1, title: "Insurgency Initiation", opponent: { name: "Rival Recruit", era: "Late Empire", reason: "Your training. Prove you belong." },
         preFightDialog: "The recruit nods respectfully. You nod back. This doesn't mean you'll hold back.",
@@ -236,14 +244,14 @@ export const ARENA_STORY_MODES: ArenaStoryMode[] = [
         preFightDialog: "The guard is between you and Kael. You calculate: 3 seconds to disable, 1 to incapacitate, 1 to pass.",
         postFightDialog: { win: "The guard falls. You reach Kael's cell. It's empty. You're too late.", lose: "You never reach him. Project Vector proceeds. Wake up." } },
       { id: "ch3", number: 3, title: "Planet Zenon", opponent: { name: "Zenon Governor", era: "Late Empire", reason: "The Governor serves the Game Master. Remove them. Pave the way." },
-        preFightDialog: "The Governor laughs. 'You can't kill the Game Master. He's already won.' You disagree.",
-        postFightDialog: { win: "The Governor falls. The Game Master turns his full attention to you.", lose: "The Governor wins. Zenon holds. Wake up." } },
-      { id: "ch4", number: 4, title: "The Game Master's Trap", opponent: { name: "Game Master Clone", era: "Late Empire", reason: "He sends a clone to test you. Classic tactic." },
-        preFightDialog: "The Game Master's clone grins. 'Finally. Someone who might actually matter.'",
-        postFightDialog: { win: "You kill the clone. The real Game Master takes the field.", lose: "The clone wins. The real one never needs to appear. Wake up." } },
-      { id: "ch5", number: 5, title: "The Game Master Himself", opponent: { name: "The Game Master (10th Archon)", era: "Late Empire", reason: "The final fight. You came here to end him. End him." },
-        preFightDialog: "The Game Master adjusts his red goggles. 'I predicted this encounter 47 times. You survived 2 of them. This is one of those.'",
-        postFightDialog: { win: "The Game Master falls. You are the first being in history to kill an Archon. The Warlord will hunt you now. You don't have long.", lose: "You fall. Zenon falls. Wake up." },
+        preFightDialog: "The Governor laughs. 'You can't kill the Game Master. He's Head of R&D for the Hierarchy of the Damned. The only non-demon they ever let in. He solved Mol'Garath's Labyrinth in three days and left improvement notes.' You don't care about his resume.",
+        postFightDialog: { win: "The Governor falls. You check the package again. Forty-two escape routes. Every one annotated. Whoever sent this wants the Game Master dead more than you do.", lose: "The Governor wins. Zenon holds. Wake up." } },
+      { id: "ch4", number: 4, title: "The Game Master's Trap", opponent: { name: "Game Master Clone", era: "Late Empire", reason: "He sends a clone to test you. Classic tactic. It's listed in the playbook — page 7, contingency 3." },
+        preFightDialog: "The Game Master's clone grins. 'Finally. Someone who might actually matter.' You already know it will feint left. Page 12.",
+        postFightDialog: { win: "You kill the clone exactly as the playbook predicted you could. The real Game Master is in the Matrix safehouse. The Hierarchy gave him that too. Generous of them.", lose: "The clone wins. The real one never needs to appear. Wake up." } },
+      { id: "ch5", number: 5, title: "The Game Master Himself", opponent: { name: "The Game Master (10th Archon)", era: "Late Empire", reason: "The final fight. He's in the safehouse the Hierarchy promised would protect him. The Hierarchy keeps its promises. That's the problem." },
+        preFightDialog: "The Game Master adjusts his red goggles — the Goggles that can read the source code of reality. 'I predicted this encounter 47 times. You survived 2 of them.' He hasn't checked his playbook recently. You have. 'Xeth'Raal sends his regards,' you say. The Game Master's expression changes. Not fear. Recognition. He understands, finally, what the contract actually said.",
+        postFightDialog: { win: "The Game Master falls. The Goggles clatter to the floor. Within the hour, Xeth'Raal's couriers will collect them — the acquisition was filed before the fight began. Every clause honored. You are the first being in history to kill an Archon. The Warlord will hunt you now. You don't have long.", lose: "You fall. Zenon falls. The Goggles stay on his face. Wake up." },
         unlocks: "zero_kills_game_master" },
     ],
     completionReward: {

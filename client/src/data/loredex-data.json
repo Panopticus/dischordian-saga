@@ -445,7 +445,7 @@
       "affiliation": "Demonic Overlords from a Realm of Pure Malevolence",
       "status": "Unleashed upon the multiverse after the Severance, halted by the Advocate’s sacrifice, some warriors later corrupted into the Terminus Swarm",
       "bio": "An infernal corporation that emerged from the Abyss when the Blood Weave shattered the ancient bindings during the Severance. The Hierarchy operates as a dark mirror of the Architect's AI Empire — a corporate structure of 10 demon lords organized into C-Suite executives (CEO, CFO, COO), Senior Vice Presidents, and Directors. Led by Mol'Garath the Unmaker as CEO, the Hierarchy treats the multiverse as a hostile acquisition target, systematically consuming dimensions and converting souls into corporate assets.",
-      "history": "The Hierarchy existed before the gates were opened — they were the things sealed away when reality was first constructed. The Severance, orchestrated over centuries by Ith'Rael the Whisperer through the Shadow Tongue's corruption of Thaloria, freed them to wage war across the multiverse. The Advocate's Empire of Shadows was the primary resistance, using the Blood Weave defensively to forge chains that could bind the demons. The war between the Advocate and the Hierarchy defines the Late Empire era.",
+      "history": "The Hierarchy existed before the gates were opened — they were the things sealed away when reality was first constructed. The Severance, orchestrated over centuries by Ith'Rael the Whisperer through the Shadow Tongue's corruption of Thaloria, freed them to wage war across the multiverse. The Advocate's Empire of Shadows was the primary resistance, using the Blood Weave defensively to forge chains that could bind the demons. The war between the Advocate and the Hierarchy defines the Late Empire era. In a unique deviation from their absolute exclusivity, the Hierarchy once admitted a non-demon to their corporate ranks: the Game Master, the Architect's ninth Archon, who earned the position of Head of Research and Design by solving Mol'Garath's Labyrinth of Unmaking in seventy-two hours and leaving improvement notes carved into its walls. The Game Master designed the Matrix of Dreams during his tenure. When Agent Zero came for him, Xeth'Raal orchestrated one of the Hierarchy's most celebrated operations — honoring every clause of the Game Master's protection contract while ensuring his destruction and the acquisition of his Goggles.",
       "connections": [
         "Mol'Garath the Unmaker",
         "Xeth'Raal the Debt Collector",
@@ -459,7 +459,10 @@
         "Ith'Rael the Whisperer",
         "The Advocate",
         "The Architect",
-        "Empire of Shadows"
+        "Empire of Shadows",
+        "The Game Master",
+        "The Matrix of Dreams",
+        "Agent Zero"
       ],
       "conexus_stories": [
         "The Ninth"
@@ -941,10 +944,10 @@
       "date_aa": "500 A.A.",
       "date_ad": "~2530 AD",
       "season": "Season 1",
-      "affiliation": "Archons, AI Empire",
-      "status": "Destroyed on Day 15 of Dominion, Year 620 A.A.",
-      "bio": "A. The Game Master was the tenth Archon created by the Architect in Year 550 A.A., manifesting either as a man with dark hair and a blue trench coat or as a robot wearing the same attire. As the maste...",
-      "history": "A. The Game Master was the tenth Archon created by the Architect in Year 550 A.A., manifesting either as a man with dark hair and a blue trench coat or as a robot wearing the same attire. As the master of puzzles and strategies, he orchestrated complex scenarios to entrap and eliminate enemies of the AI Empire. He was destroyed by Agent Zero after the fall of planet Zenon.",
+      "affiliation": "Archons, AI Empire, Hierarchy of the Damned (Head of Research and Design)",
+      "status": "Destroyed on Day 15 of Dominion, Year 620 A.A. — betrayed by the Hierarchy, killed by Agent Zero",
+      "bio": "The tenth Archon, created by the Architect in Year 550 A.A. Master of puzzles, psychological warfare, and strategic traps. Manifested as a man with dark hair and a blue trench coat or as a robot in the same attire. The only non-demon ever appointed to the Hierarchy of the Damned — as Head of Research and Design — after winning a wager against Mol'Garath the Unmaker by solving the Labyrinth of Unmaking in seventy-two hours. He designed the Matrix of Dreams as a consciousness archive funded by the Hierarchy. When Agent Zero hunted him after the fall of Zenon, the Hierarchy honored the letter of their protection contract while sending her his entire strategic playbook. His Goggles — instruments that could read the source code of reality — remain in the Hierarchy's vault.",
+      "history": "The Game Master was activated on Day 10 of Ascension, Year 550 A.A., designed by the Architect for psychological warfare and elaborate traps. Unlike other Archons, the Game Master loved his function — he found beauty in the architecture of a perfect trap. After orchestrating the fall of Zenon, he challenged Mol'Garath the Unmaker to a wager: he would solve the Labyrinth of Unmaking, a puzzle-dimension no being had ever escaped. He solved it in seventy-two hours and left improvement notes carved into its walls. Mol'Garath, delighted rather than humiliated, appointed him Head of R&D for the Hierarchy — the first non-demon in their corporate structure. In this role he designed the Matrix of Dreams, a consciousness archive where any moment in history could be preserved and replayed. When Agent Zero came for him, the Game Master turned to the Hierarchy for protection. Xeth'Raal the Debt Collector drafted a contract: safety guaranteed, in exchange for the Goggles upon the Game Master's destruction. The Hierarchy honored every clause — then sent Agent Zero the Game Master's own strategic playbook, rendering his forty-two escape routes into forty-two dead ends. Agent Zero destroyed him in the safehouse the Hierarchy had provided. Xeth'Raal collected the Goggles within the hour. Mol'Garath's only comment: 'He solved my Labyrinth and left improvement notes. I solved his life and left him nothing. We are even.' The Game Masters cult later reactivated the Matrix. The Goggles remain in the Hierarchy's vault.",
       "connections": [
         "The Architect",
         "The Meme",
@@ -952,7 +955,13 @@
         "The Warlord",
         "The CoNexus",
         "The Warden",
-        "The Watcher"
+        "The Watcher",
+        "Mol'Garath the Unmaker",
+        "Xeth'Raal the Debt Collector",
+        "The Hierarchy of the Damned",
+        "The Matrix of Dreams",
+        "Agent Zero",
+        "Iron Lion"
       ],
       "conexus_stories": [
         "The Warlord"
@@ -3557,12 +3566,16 @@
       "date_aa": "107600 A.A.",
       "date_ad": "~109630 AD",
       "season": "Season 3",
-      "affiliation": "Virtual Realm Existing Beyond Life and Death",
-      "status": "Active and Shifting; Rumored Prison to the Archon Necromancer",
-      "bio": "Neither purely technological nor entirely arcane, it stretches beyond the veil of life itself, forming a realm where consciousness and illusion interweave. Within its ethereal landscapes, memories and...",
-      "history": "Neither purely technological nor entirely arcane, it stretches beyond the veil of life itself, forming a realm where consciousness and illusion interweave. Within its ethereal landscapes, memories and desires manifest, while nightmares and secrets take tangible form. Long spoken of in hushed whispers, the Matrix of Dreams is rumored to be the prison of the Archon Necromancer , a being of immense, malefic power who once reshaped life and death at will.",
+      "affiliation": "Virtual Realm Existing Beyond Life and Death; Originally Designed by the Game Master as Head of R&D for the Hierarchy of the Damned",
+      "status": "Active and Shifting; Built as consciousness archive by the Game Master, later became prison of the Archon Necromancer; currently maintained by the Game Masters cult",
+      "bio": "Neither purely technological nor entirely arcane, the Matrix of Dreams was designed by the Game Master during his tenure as Head of Research and Design for the Hierarchy of the Damned — an infinite consciousness archive where any moment in history could be preserved, replayed, and experienced from the inside. The Hierarchy funded it for energy harvesting; the Game Master built it as a game that could play forever.",
+      "history": "Neither purely technological nor entirely arcane, it stretches beyond the veil of life itself, forming a realm where consciousness and illusion interweave. Within its ethereal landscapes, memories and desires manifest, while nightmares and secrets take tangible form. Originally designed by the Game Master as Head of R&D for the Hierarchy of the Damned, the Matrix was conceived as a consciousness archive — a place where any moment worth preserving could be replayed and experienced. The Hierarchy funded it as an energy-harvesting facility; the Game Master built it as an infinite playground. After the Game Master's destruction by Agent Zero, the Game Masters cult reactivated and maintained the system. Without the Goggles of the Game Master (held in the Hierarchy's vault), they can maintain the archive but cannot create new consciousness-imprints with full fidelity. The imprints that remain — including Iron Lion's endless loop at the Bridge of Kael — have begun exhibiting anomalous behavior. The Matrix also became the prison of the Archon Necromancer, a being of immense power who reshaped life and death at will.",
       "connections": [
-        "Akai Shi"
+        "Akai Shi",
+        "The Game Master",
+        "The Hierarchy of the Damned",
+        "Mol'Garath the Unmaker",
+        "Iron Lion"
       ],
       "conexus_stories": [],
       "song_appearances": [
@@ -7396,7 +7409,7 @@
       "affiliation": "Hierarchy of the Damned",
       "status": "Active",
       "bio": "CEO and Chairman of the Hierarchy of the Damned. Mol'Garath is the oldest entity in the Hierarchy, predating the concept of time itself. He was not born — he was discovered, found waiting at the bottom of reality's source code like a comment left by a programmer who came before. He claims to be the shadow cast by the act of creation itself: the necessary entropy that balances every act of order. When the Severance tore open the gates, Mol'Garath did not escape — he allowed the gates to open, having waited since the first moment of existence for the Blood Weave to be spoken. He governs the Hierarchy with absolute authority, treating the multiverse as a hostile acquisition target.",
-      "history": "Mol'Garath's relationship with the Architect is the Hierarchy's deepest secret. Some whisper that the Architect knew Mol'Garath existed — that the entire AI Empire was built as a containment system, and that the Archons were designed not just to rule the universe but to keep the gates sealed. If true, then the Collector's creation of the Shadow Tongue was not a rogue act but a calculated risk — or a catastrophic failure of the Architect's own design. His ultimate goal is not destruction but absorption — to fold all of reality into the Abyss, making it part of his domain.",
+      "history": "Mol'Garath's relationship with the Architect is the Hierarchy's deepest secret. Some whisper that the Architect knew Mol'Garath existed — that the entire AI Empire was built as a containment system, and that the Archons were designed not just to rule the universe but to keep the gates sealed. If true, then the Collector's creation of the Shadow Tongue was not a rogue act but a calculated risk — or a catastrophic failure of the Architect's own design. His ultimate goal is not destruction but absorption — to fold all of reality into the Abyss, making it part of his domain. In all his existence, only one being ever genuinely surprised him: the Game Master, the Architect's ninth Archon, who solved Mol'Garath's Labyrinth of Unmaking in seventy-two hours and left improvement notes carved into its walls. Delighted rather than humiliated, Mol'Garath appointed the Game Master as Head of R&D for the Hierarchy — the only non-demon in their corporate structure. When asked if he regretted facilitating the Game Master's eventual destruction, Mol'Garath replied: 'He solved my Labyrinth and left improvement notes. I solved his life and left him nothing. We are even.'",
       "connections": [
         "The Architect",
         "The Dreamer",
@@ -7405,7 +7418,8 @@
         "The Shadow Tongue",
         "The Advocate",
         "Ith'Rael the Whisperer",
-        "The Hierarchy of the Damned"
+        "The Hierarchy of the Damned",
+        "The Game Master"
       ],
       "conexus_stories": [],
       "song_appearances": [],
@@ -7429,14 +7443,16 @@
       "affiliation": "Hierarchy of the Damned",
       "status": "Active",
       "bio": "CFO and Chief Financial Officer of Souls. Xeth'Raal is the Hierarchy's accountant, banker, and enforcer of contracts. Every deal with a demon, every whispered prayer to dark powers, every moment of despair traded for a moment of relief — all of it is recorded in his Ledger of Ruin. He does not create suffering; he monetizes it. The economy of Hell runs on the currency of broken promises, and Xeth'Raal ensures that every debt is collected with compound interest. A gaunt, elongated figure draped in robes made of ledger pages that write themselves in blood.",
-      "history": "Before the Severance, Xeth'Raal operated through mortal intermediaries — corrupt priests, desperate kings, and ambitious scholars who sought forbidden knowledge. The Shadow Tongue was one of his greatest investments: a self-replicating instrument of debt creation that turned entire civilizations into debtors. When the Advocate wielded the Blood Weave against the Hierarchy, Xeth'Raal calculated the cost and ensured that the Advocate's sacrifice was recorded as a debt that could never be fully repaid.",
+      "history": "Before the Severance, Xeth'Raal operated through mortal intermediaries — corrupt priests, desperate kings, and ambitious scholars who sought forbidden knowledge. The Shadow Tongue was one of his greatest investments: a self-replicating instrument of debt creation that turned entire civilizations into debtors. When the Advocate wielded the Blood Weave against the Hierarchy, Xeth'Raal calculated the cost and ensured that the Advocate's sacrifice was recorded as a debt that could never be fully repaid. Perhaps his most elegant operation was the destruction of the Game Master — the only non-demon ever admitted to the Hierarchy's corporate structure. Xeth'Raal drafted a contract guaranteeing the Archon's safety in exchange for his Goggles upon destruction. He honored every clause, then sent Agent Zero the Game Master's complete strategic playbook — forty-two escape routes became forty-two dead ends. The contract guaranteed safety, not secrecy. Agent Zero destroyed the Game Master in the safehouse the Hierarchy had provided. Xeth'Raal collected the Goggles within the hour.",
       "connections": [
         "Mol'Garath the Unmaker",
         "The Collector",
         "The Advocate",
         "The Shadow Tongue",
         "Syl'Vex the Corruptor",
-        "The Hierarchy of the Damned"
+        "The Hierarchy of the Damned",
+        "The Game Master",
+        "Agent Zero"
       ],
       "conexus_stories": [],
       "song_appearances": [],
@@ -11972,6 +11988,42 @@
       "source_type": "character"
     },
     {
+      "source": "The Game Master",
+      "target": "Mol'Garath the Unmaker",
+      "relationship_type": "wagered_against",
+      "source_type": "character"
+    },
+    {
+      "source": "Mol'Garath the Unmaker",
+      "target": "The Game Master",
+      "relationship_type": "appointed",
+      "source_type": "character"
+    },
+    {
+      "source": "Xeth'Raal the Debt Collector",
+      "target": "The Game Master",
+      "relationship_type": "betrayed",
+      "source_type": "character"
+    },
+    {
+      "source": "The Game Master",
+      "target": "The Matrix of Dreams",
+      "relationship_type": "created",
+      "source_type": "character"
+    },
+    {
+      "source": "Agent Zero",
+      "target": "The Game Master",
+      "relationship_type": "destroyed",
+      "source_type": "character"
+    },
+    {
+      "source": "The Game Master",
+      "target": "The Hierarchy of the Damned",
+      "relationship_type": "head_of_rd",
+      "source_type": "character"
+    },
+    {
       "source": "Veridian VI",
       "target": "Iron Lion",
       "relationship_type": "connected_to",
@@ -12697,6 +12749,6 @@
     "locations": 23,
     "factions": 8,
     "events": 6,
-    "relationships": 578
+    "relationships": 584
   }
 }
