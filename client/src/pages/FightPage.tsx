@@ -44,6 +44,7 @@ import {
   type StoryChapter, type StoryProgress, type StoryDialogue,
 } from "@/game/storyMode";
 import { getStorySceneEffect, getArenaIntro, GAME_OPENING_CINEMATIC } from "@/game/cinematicDesign";
+import PostBattleDialog from "@/components/PostBattleDialog";
 
 type Phase = "title" | "intro-video" | "lore" | "story" | "story-cutscene" | "story-dialogue" | "select" | "difficulty" | "arena" | "fighting" | "results" | "story-results";
 
@@ -88,6 +89,7 @@ export default function FightPage() {
   const [isTrainingMode, setIsTrainingMode] = useState(false);
   const [showLorePopup, setShowLorePopup] = useState<FighterData | null>(null);
   const [invasionDefeated, setInvasionDefeated] = useState(false);
+  const [showPostBattleDialog, setShowPostBattleDialog] = useState(false);
 
   // Story mode state
   const [storyProgress, setStoryProgress] = useState<StoryProgress>(loadStoryProgress);
@@ -204,6 +206,7 @@ export default function FightPage() {
       gam.recordFightLoss();
     }
     setPhase("results");
+    setShowPostBattleDialog(true);
   }, [gam, selectedDifficulty, recordAndReward, selectedOpponent, selectedPlayer, selectedArena, recordMatch, addMaterial]);
 
   // Story mode match end
@@ -1499,6 +1502,16 @@ export default function FightPage() {
             </motion.button>
           </div>
         </motion.div>
+
+        {/* Companion battle reaction with Elara VO */}
+        {showPostBattleDialog && (
+          <PostBattleDialog
+            outcome={isVictory ? (matchResult.perfect ? "victory" : "close") : "defeat"}
+            companionId="elara"
+            companionName="Elara"
+            onDismiss={() => setShowPostBattleDialog(false)}
+          />
+        )}
       </div>
     );
   }

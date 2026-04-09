@@ -4,6 +4,7 @@ import { X, SkipForward, Volume2, VolumeX } from "lucide-react";
 import { KineticText } from "@/components/void";
 import { VOID } from "@/engine/voidPresets";
 import type { NarrativeEffect } from "@/engine/voidNarrative";
+import { useElaraVO } from "@/hooks/useElaraVO";
 
 // ═══════════════════════════════════════════════════════
 // CUTSCENE DATA TYPES
@@ -149,6 +150,21 @@ export default function CutsceneOverlay({ cutscene, onComplete, onClose }: Cutsc
   const typewriterRef = useRef<NodeJS.Timeout | null>(null);
   const currentLine = cutscene.lines[currentLineIndex];
   const isLastLine = currentLineIndex >= cutscene.lines.length - 1;
+  const { speak: speakElara, stop: stopElara } = useElaraVO();
+
+  // Play Elara VO when an ELARA line is displayed.
+  // Derives a VO ID from cutscene.id + line index (e.g. "cq_elara_trust_0").
+  // The hook no-ops gracefully if the ID isn't in the VO manifest.
+  useEffect(() => {
+    if (showTitle || !currentLine) return;
+    if (currentLine.speaker === "ELARA") {
+      // Try cutscene-specific ID first, then a generic index-based ID
+      speakElara(`${cutscene.id}_${currentLineIndex}`);
+    } else {
+      // Stop Elara VO when another speaker takes over
+      stopElara();
+    }
+  }, [currentLineIndex, showTitle, currentLine, cutscene.id, speakElara, stopElara]);
 
   // Title screen fade
   useEffect(() => {

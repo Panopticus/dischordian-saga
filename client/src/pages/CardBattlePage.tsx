@@ -34,6 +34,7 @@ import {
 import LivingBackground from "@/components/LivingBackground";
 import { ARENAS } from "@/game/gameData";
 import { useLivingUniverse } from "@/hooks/useDailyBrief";
+import PostBattleDialog from "@/components/PostBattleDialog";
 
 /* ─── ELEMENT COLORS ─── */
 const ELEMENT_COLORS: Record<string, string> = {
@@ -522,6 +523,7 @@ function GameOverScreen({
   const { addMaterial } = useGame();
   const [drops, setDrops] = useState<{ materialId: string; quantity: number; name: string; icon: string }[]>([]);
   const dropsGiven = useRef(false);
+  const [showPostBattleDialog, setShowPostBattleDialog] = useState(true);
 
   useEffect(() => {
     if (isVictory && !dropsGiven.current) {
@@ -638,6 +640,16 @@ function GameOverScreen({
           </motion.button>
         </div>
       </motion.div>
+
+      {/* Companion battle reaction with Elara VO */}
+      {showPostBattleDialog && (
+        <PostBattleDialog
+          outcome={isVictory ? "victory" : "defeat"}
+          companionId="elara"
+          companionName="Elara"
+          onDismiss={() => setShowPostBattleDialog(false)}
+        />
+      )}
     </motion.div>
   );
 }

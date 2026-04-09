@@ -7,6 +7,7 @@ import { useEffect, useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
 import { AnimatedPortrait } from "@/components/AnimatedPortrait";
+import { useElaraVO } from "@/hooks/useElaraVO";
 
 /* ── Dialog lines per outcome ── */
 type Outcome = "victory" | "defeat" | "close";
@@ -103,6 +104,15 @@ interface PostBattleDialogProps {
   onDismiss: () => void;
 }
 
+/* ── Elara VO line ID mapping ──
+   Maps the PostBattleDialog outcome to the VO manifest IDs.
+   "victory" maps to decisive_victory, "defeat" to defeat, "close" to close_victory. */
+const ELARA_OUTCOME_VO: Record<Outcome, string> = {
+  victory: "battle_decisive_victory",
+  defeat: "battle_defeat",
+  close: "battle_close_victory",
+};
+
 export default function PostBattleDialog({
   outcome,
   companionId,
@@ -110,6 +120,7 @@ export default function PostBattleDialog({
   onDismiss,
 }: PostBattleDialogProps) {
   const [visible, setVisible] = useState(true);
+  const { speak } = useElaraVO();
 
   const dismiss = useCallback(() => {
     setVisible(false);
@@ -124,6 +135,13 @@ export default function PostBattleDialog({
 
   const lines = COMPANION_DIALOG[companionId] ?? DEFAULT_LINES;
   const line = pickRandom(lines[outcome]);
+
+  // Play Elara VO when she's the reacting companion
+  useEffect(() => {
+    if (companionId === "elara") {
+      speak(ELARA_OUTCOME_VO[outcome]);
+    }
+  }, [companionId, outcome, speak]);
 
   const displayName =
     companionName ??
