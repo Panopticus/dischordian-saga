@@ -1,0 +1,86 @@
+[
+  {
+    "id": "degen_tale_00",
+    "text": "Senator Meridia of the Outer Reach sat at this very table. She bet her planet \u2014 all 8 billion souls \u2014 on a hand of Nebula Poker. She had a full house. The Degen had four aces. The planet still exists. The Senator doesn't. Some debts are paid in personhood.",
+    "context": "casino_tale",
+    "emotion": "knowing",
+    "file": "client/src/game/degensCasino.ts"
+  },
+  {
+    "id": "degen_tale_01",
+    "text": "Warlord General Kresh rolled dice for his army. Not metaphorically \u2014 literally. 40,000 soldiers wagered on a single throw. He rolled snake eyes. The Degen offered double-or-nothing. Kresh accepted. He rolled again. Snake eyes. Some people carry their fate in their bones.",
+    "context": "casino_tale",
+    "emotion": "knowing",
+    "file": "client/src/game/degensCasino.ts"
+  },
+  {
+    "id": "degen_tale_02",
+    "text": "An Archon came to gamble once. Not which Archon \u2014 that's classified. It wagered an entire universe. Not a planet, not a system \u2014 a universe. The Degen won. He keeps it in a bottle behind the bar. Sometimes, if you listen closely, you can hear it. All those lives. Still going.",
+    "context": "casino_tale",
+    "emotion": "knowing",
+    "file": "client/src/game/degensCasino.ts"
+  },
+  {
+    "id": "degen_tale_03",
+    "text": "A Terminus drone wandered into the casino during the Swarm Wars. Sat down at the slots. Nobody stopped it \u2014 the casino is neutral ground. It played 47 consecutive rounds. Won 12. Lost 35. When it left, it had developed a preference for the star symbol. The Source recalled it. Too human.",
+    "context": "casino_tale",
+    "emotion": "knowing",
+    "file": "client/src/game/degensCasino.ts"
+  },
+  {
+    "id": "degen_tale_04",
+    "text": "There is a chair at the corner table that is always empty. A plaque reads 'Reserved \u2014 The Equilibrium.' The Degen keeps it set for someone who may never come \u2014 a gambler who breaks exactly even across a thousand bets. He's terrified of that person. Gods fear balance.",
+    "context": "casino_tale",
+    "emotion": "knowing",
+    "file": "client/src/game/degensCasino.ts"
+  },
+  {
+    "id": "degen_tale_05",
+    "text": "The Politician sat where you're sitting. Lost his entire sector to The Collector over a game of Pazaak. That's how the Trade Wars started. One bad hand. One bruised ego. Three billion casualties. The chips are still warm.",
+    "context": "casino_tale",
+    "emotion": "knowing",
+    "file": "client/src/game/degensCasino.ts"
+  },
+  {
+    "id": "degen_tale_06",
+    "text": "Iron Lion played chess against the Warlord for 17 hours before the final battle. He knew he'd lose \u2014 the chess game and the war. He played anyway. When asked why, he said: 'Every hour I sit here is an hour the Arks have to launch.' He lost the game. He won the war. He died at the table.",
+    "context": "casino_tale",
+    "emotion": "knowing",
+    "file": "client/src/game/degensCasino.ts"
+  },
+  {
+    "id": "degen_tale_07",
+    "text": "A child walked into the casino once. Golden light for skin. A song for a voice. It played every game in one hour and won them all. The Degen didn't mind \u2014 he was laughing too hard. When it left, every patron felt inexplicably happy for exactly 7 minutes. The Meme's idea of a tip.",
+    "context": "casino_tale",
+    "emotion": "knowing",
+    "file": "client/src/game/degensCasino.ts"
+  },
+  {
+    "id": "degen_tale_08",
+    "text": "Agent Zero came to kill The Degen once. Professional hit. Insurgency contract. She sat at the poker table, weapon under the table, waiting for the right moment. They played 5 hands. She won 4. On the 5th, The Degen dealt her a card that read 'I know.' She holstered the weapon. They finished the game. She comes back every year. Same table.",
+    "context": "casino_tale",
+    "emotion": "knowing",
+    "file": "client/src/game/degensCasino.ts"
+  },
+  {
+    "id": "degen_tale_09",
+    "text": "Before the casino existed, before Ne-Yon space had a name, The Programmer sat across from entropy itself and proposed a wager. 'I'll build a universe,' he said. 'If consciousness emerges, I win.' 'And if it doesn't?' asked entropy. 'Then nothing was lost.' The Programmer smiled. 'Nothing is never lost.' The casino was built to honor that bet. It's still being settled.",
+    "context": "casino_tale",
+    "emotion": "knowing",
+    "file": "client/src/game/degensCasino.ts"
+  },
+  {
+    "id": "degen_tale_10",
+    "text": "A hologram walked into the casino. Not a projection \u2014 a person made of light. She couldn't hold the cards so The Degen held them for her. She couldn't roll the dice so The Degen rolled them for her. She won 3 games in a row. 'How does it feel?' he asked. 'I don't remember,' she said. The Degen's smile faltered. He remembered for both of them.",
+    "context": "casino_tale",
+    "emotion": "knowing",
+    "file": "client/src/game/degensCasino.ts"
+  },
+  {
+    "id": "degen_tale_11",
+    "text": "The Necromancer plays cards with the dead. Not metaphorically. He reanimates the greatest gamblers in history and makes them play until they lose again. His personal table in the Castle of Death has hosted senators, generals, gods, and one particularly persistent accountant who has won 47 consecutive posthumous tournaments. Death is not the end. It's not even the intermission.",
+    "context": "casino_tale",
+    "emotion": "knowing",
+    "file": "client/src/game/degensCasino.ts"
+  }
+]
