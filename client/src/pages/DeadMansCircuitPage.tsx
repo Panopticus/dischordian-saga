@@ -19,6 +19,7 @@ import {
 } from "@shared/deadMansCircuit";
 import { useNilmorgVO } from "@/hooks/useNilmorgVO";
 import { DMC_ENVIRONMENTS, DMC_MUSIC } from "@/data/dmcAssets";
+import { getNilmorgPortrait } from "@shared/nilmorgPortraits";
 
 type Phase = "lobby" | "racing" | "results";
 
@@ -192,11 +193,18 @@ export default function DeadMansCircuitPage() {
 
           {/* Nilmorg */}
           <div className={`${voidPanel} p-4 mb-6`}>
-            <div className="flex items-center gap-2 mb-2">
-              <Skull size={14} style={{ color: CIRCUIT_PALETTE.NILMORG_ORANGE }} />
-              <span className="font-mono text-[9px] tracking-wider" style={{ color: CIRCUIT_PALETTE.NILMORG_ORANGE }}>NILMORG</span>
+            <div className="flex items-start gap-3">
+              <img
+                src={getNilmorgPortrait(pos === 1 ? "player_wins" : survived ? "player_losing" : "player_died")}
+                alt="Nilmorg"
+                className="w-10 h-10 rounded-lg object-cover border shrink-0"
+                style={{ borderColor: CIRCUIT_PALETTE.NILMORG_ORANGE + "40" }}
+              />
+              <div>
+                <span className="font-mono text-[9px] tracking-wider" style={{ color: CIRCUIT_PALETTE.NILMORG_ORANGE }}>NILMORG</span>
+                <p className="font-mono text-xs text-white/60 italic mt-1">"{nilmorgQuote}"</p>
+              </div>
             </div>
-            <p className="font-mono text-xs text-white/60 italic">"{nilmorgQuote}"</p>
           </div>
 
           <button
@@ -237,15 +245,22 @@ export default function DeadMansCircuitPage() {
       <div className="px-4 sm:px-6 pt-4 space-y-4 max-w-2xl mx-auto">
         {/* Nilmorg Commentary */}
         <div className={`${voidPanel} p-4`}>
-          <div className="flex items-center gap-2 mb-2">
-            <Skull size={12} style={{ color: CIRCUIT_PALETTE.NILMORG_ORANGE }} />
-            <span className="font-mono text-[8px] tracking-[0.2em]" style={{ color: CIRCUIT_PALETTE.NILMORG_ORANGE }}>
-              NILMORG, SVP OF KINETIC ACQUISITION
-            </span>
+          <div className="flex items-start gap-3">
+            <img
+              src={getNilmorgPortrait(phase === "results" && raceResult ? (raceResult.finish_position === 1 ? "player_wins" : raceResult.clone_survived ? "player_losing" : "player_died") : "circuit_begins")}
+              alt="Nilmorg"
+              className="w-12 h-12 rounded-lg object-cover border shrink-0"
+              style={{ borderColor: CIRCUIT_PALETTE.NILMORG_ORANGE + "40" }}
+            />
+            <div>
+              <span className="font-mono text-[8px] tracking-[0.2em] block mb-1" style={{ color: CIRCUIT_PALETTE.NILMORG_ORANGE }}>
+                NILMORG, SVP OF KINETIC ACQUISITION
+              </span>
+              <p className="font-mono text-[11px] text-white/50 italic leading-relaxed">
+                "{nilmorgQuote}"
+              </p>
+            </div>
           </div>
-          <p className="font-mono text-[11px] text-white/50 italic leading-relaxed">
-            "{nilmorgQuote}"
-          </p>
         </div>
 
         {/* Clone Configuration */}
