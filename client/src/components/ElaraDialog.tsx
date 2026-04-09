@@ -8,6 +8,7 @@ import HolographicElara from "./HolographicElara";
 import { Streamdown } from "streamdown";
 import { getNPCPortrait } from "@/game/npcPortraits";
 import { AnimatedPortrait } from "@/components/AnimatedPortrait";
+import { useElaraVO } from "@/hooks/useElaraVO";
 
 const elaraPortrait = getNPCPortrait("elara");
 const ELARA_PORTRAIT = elaraPortrait?.fullPortrait ?? "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/elara_portrait_7ce2522f.png";
@@ -335,6 +336,7 @@ function getPageChoices(path: string): { greeting: string; choices: DialogChoice
 }
 
 export default function ElaraDialog({ elaraTTS: _elaraTTS }: { elaraTTS?: any } = {}) {
+  const { speak: speakElara } = useElaraVO();
   const [isOpen, setIsOpen] = useState(false);
   const [history, setHistory] = useState<ChatMessage[]>([]);
   const [choices, setChoices] = useState<DialogChoice[]>([]);
@@ -405,6 +407,9 @@ export default function ElaraDialog({ elaraTTS: _elaraTTS }: { elaraTTS?: any } 
       setCurrentMessage(pageContext.greeting);
       setChoices(pageContext.choices);
       setHistory([{ role: "assistant", content: pageContext.greeting }]);
+      // Play Elara VO for this page greeting
+      const voKey = `greeting_${location.replace(/^\//, "").replace(/\//g, "_") || "default"}`;
+      speakElara(voKey);
       setHasGreeted(true);
     }
   }, [hasGreeted, pageContext, location]);

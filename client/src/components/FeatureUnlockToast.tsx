@@ -16,11 +16,13 @@ import { FEATURE_ROADMAP, isFeatureUnlocked, FEATURE_CATEGORIES, type FeatureUnl
 import { getSessionDuration } from "@/lib/analytics";
 import { Z } from "@/lib/zIndex";
 import { VOID } from "@/engine/voidPresets";
+import { useElaraVO } from "@/hooks/useElaraVO";
 
 const STORAGE_KEY = "feature_unlocks_seen";
 
 export default function FeatureUnlockToast() {
   const { state } = useGame();
+  const { speak } = useElaraVO();
   const [queue, setQueue] = useState<FeatureUnlock[]>([]);
   const [current, setCurrent] = useState<FeatureUnlock | null>(null);
   const seenRef = useRef<Set<string>>(new Set());
@@ -58,13 +60,16 @@ export default function FeatureUnlockToast() {
     }
   }, [state.rooms, state.narrativeFlags, state.elaraTrust, state.humanTrust, state.npcTrust, state.claimedQuestRewards, state.conexusXp]);
 
-  // Show next in queue
+  // Show next in queue + play Elara VO
   useEffect(() => {
     if (!current && queue.length > 0) {
-      setCurrent(queue[0]);
+      const next = queue[0];
+      setCurrent(next);
       setQueue(prev => prev.slice(1));
+      // Play Elara's voice for this feature unlock
+      speak(`feature_${next.featureId}`);
     }
-  }, [current, queue]);
+  }, [current, queue, speak]);
 
   // Auto-dismiss after 8 seconds
   useEffect(() => {
