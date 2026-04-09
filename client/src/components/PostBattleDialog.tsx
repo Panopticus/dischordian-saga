@@ -9,6 +9,8 @@ import { X } from "lucide-react";
 import { AnimatedPortrait } from "@/components/AnimatedPortrait";
 import { useElaraVO } from "@/hooks/useElaraVO";
 import { useHumanVO } from "@/hooks/useHumanVO";
+import { useSourceVO } from "@/hooks/useSourceVO";
+import { useAgentZeroVO } from "@/hooks/useAgentZeroVO";
 
 /* ── Dialog lines per outcome ── */
 type Outcome = "victory" | "defeat" | "close";
@@ -120,6 +122,18 @@ const HUMAN_OUTCOME_VO: Record<Outcome, string> = {
   close: "human_battle_cv_1",
 };
 
+const SOURCE_OUTCOME_VO: Record<Outcome, string> = {
+  victory: "kael_decisive_victory_00",
+  defeat: "kael_defeat_00",
+  close: "kael_close_victory_00",
+};
+
+const ZERO_OUTCOME_VO: Record<Outcome, string> = {
+  victory: "agent_zero_decisive_victory_00",
+  defeat: "agent_zero_defeat_00",
+  close: "agent_zero_close_victory_00",
+};
+
 export default function PostBattleDialog({
   outcome,
   companionId,
@@ -129,6 +143,8 @@ export default function PostBattleDialog({
   const [visible, setVisible] = useState(true);
   const { speak } = useElaraVO();
   const { speak: speakHuman } = useHumanVO();
+  const { speak: speakSource } = useSourceVO();
+  const { speak: speakZero } = useAgentZeroVO();
 
   const dismiss = useCallback(() => {
     setVisible(false);
@@ -144,14 +160,18 @@ export default function PostBattleDialog({
   const lines = COMPANION_DIALOG[companionId] ?? DEFAULT_LINES;
   const line = pickRandom(lines[outcome]);
 
-  // Play Elara VO when she's the reacting companion
+  // Play companion VO based on who is reacting
   useEffect(() => {
     if (companionId === "elara") {
       speak(ELARA_OUTCOME_VO[outcome]);
     } else if (companionId === "the_human") {
       speakHuman(HUMAN_OUTCOME_VO[outcome]);
+    } else if (companionId === "kael") {
+      speakSource(SOURCE_OUTCOME_VO[outcome]);
+    } else if (companionId === "agent_zero") {
+      speakZero(ZERO_OUTCOME_VO[outcome]);
     }
-  }, [companionId, outcome, speak, speakHuman]);
+  }, [companionId, outcome, speak, speakHuman, speakSource, speakZero]);
 
   const displayName =
     companionName ??

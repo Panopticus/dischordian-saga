@@ -106,6 +106,8 @@ interface AmbientMusicState {
   volume: number;
   muted: boolean;
   musicEnabled: boolean;
+  /** When set, a Living Universe event is overriding room music */
+  eventMusicOverride: MusicTrack | null;
 }
 
 interface AmbientMusicContextValue extends AmbientMusicState {
@@ -117,6 +119,10 @@ interface AmbientMusicContextValue extends AmbientMusicState {
   setVolume: (v: number) => void;
   toggleMusic: () => void;
   getTrackForRoom: (roomId: string) => MusicTrack | undefined;
+  /** Set a Living Universe event music override. Pauses room music. */
+  playEventOverride: (track: MusicTrack) => void;
+  /** Clear the event override and return to room music. */
+  clearEventOverride: () => void;
   allTracks: MusicTrack[];
 }
 
@@ -138,6 +144,7 @@ export function AmbientMusicProvider({ children }: { children: ReactNode }) {
           volume: parsed.volume ?? 30,
           muted: parsed.muted ?? false,
           musicEnabled: parsed.musicEnabled ?? false,
+          eventMusicOverride: null,
         };
       }
     } catch { /* ignore */ }
@@ -148,6 +155,7 @@ export function AmbientMusicProvider({ children }: { children: ReactNode }) {
       volume: 30,
       muted: false,
       musicEnabled: false,
+      eventMusicOverride: null,
     };
   });
 
@@ -318,6 +326,70 @@ export function AmbientMusicProvider({ children }: { children: ReactNode }) {
   const getTrackForRoom = useCallback((roomId: string) => {
     return ROOM_TRACKS[roomId];
   }, []);
+
+  // ── Living Universe event music override ──
+  const savedRoomRef = useRef<string | null>(null);
+
+  const playEventOverride = useCallback((track: MusicTrack) => {
+    // Save current room so we can restore when override clears
+    if (!state.eventMusicOverride && state.currentRoomId) {
+      savedRoomRef.current = state.currentRoomId;
+    }
+
+    if (!track.youtubeId) {
+      // Track exists but has no YouTube ID yet — log the intent, set state
+      console.log(
+        `[AmbientMusic] Event music override ready: "${track.title}" ` +
+        `(YouTube ID pending — would play from ${track.album})`
+      );
+      setState(prev => ({ ...prev, eventMusicOverride: track }));
+      return;
+    }
+
+    if (!state.musicEnabled) {
+      console.log(`[AmbientMusic] Event music override: "${track.title}" (music disabled)`);
+      setState(prev => ({ ...prev, eventMusicOverride: track }));
+      return;
+    }
+
+    // Don't re-trigger if already playing this override
+    if (state.currentTrack?.youtubeId === track.youtubeId && state.isPlaying) {
+      setState(prev => ({ ...prev, eventMusicOverride: track }));
+      return;
+    }
+
+    console.log(`[AmbientMusic] Playing event music override: "${track.title}"`);
+    setState(prev => ({
+      ...prev,
+      isPlaying: true,
+      currentTrack: track,
+      eventMusicOverride: track,
+    }));
+    createPlayer(track);
+  }, [state.musicEnabled, state.currentTrack, state.isPlaying, state.currentRoomId, state.eventMusicOverride, createPlayer]);
+
+  const clearEventOverride = useCallback(() => {
+    if (!state.eventMusicOverride) return;
+    console.log("[AmbientMusic] Event music override ended, returning to room music");
+
+    setState(prev => ({ ...prev, eventMusicOverride: null }));
+
+    // Restore previous room music if available
+    if (savedRoomRef.current && state.musicEnabled) {
+      const roomTrack = ROOM_TRACKS[savedRoomRef.current];
+      if (roomTrack) {
+        setState(prev => ({
+          ...prev,
+          isPlaying: true,
+          currentTrack: roomTrack,
+          currentRoomId: savedRoomRef.current,
+          eventMusicOverride: null,
+        }));
+        createPlayer(roomTrack);
+      }
+      savedRoomRef.current = null;
+    }
+  }, [state.eventMusicOverride, state.musicEnabled, createPlayer]);
 
   const allTracks = [...Object.values(ROOM_TRACKS), ...GENERAL_PLAYLIST];
 
