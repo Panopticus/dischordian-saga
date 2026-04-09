@@ -45,6 +45,8 @@ import {
 } from "@/game/storyMode";
 import { getStorySceneEffect, getArenaIntro, GAME_OPENING_CINEMATIC } from "@/game/cinematicDesign";
 import PostBattleDialog from "@/components/PostBattleDialog";
+import { useSourceVO } from "@/hooks/useSourceVO";
+import { useNecromancerVO } from "@/hooks/useNecromancerVO";
 
 type Phase = "title" | "intro-video" | "lore" | "story" | "story-cutscene" | "story-dialogue" | "select" | "difficulty" | "arena" | "fighting" | "results" | "story-results";
 
@@ -75,6 +77,8 @@ export default function FightPage() {
   const { state: gameState, addMaterial } = useGame();
   const { notify: nqNotify, notifyLootDrop, notifyAchievement } = useNotificationQueue();
   useGameAreaBGM("arena_battle");
+  const { speak: speakSource } = useSourceVO();
+  const { speak: speakNecromancer } = useNecromancerVO();
   const [phase, setPhase] = useState<Phase>("title");
   const [selectedPlayer, setSelectedPlayer] = useState<FighterData | null>(null);
   const [selectedOpponent, setSelectedOpponent] = useState<FighterData | null>(null);
