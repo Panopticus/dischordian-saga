@@ -23,6 +23,8 @@ import { AnimatedPortrait } from "@/components/AnimatedPortrait";
 import { getMaterialById } from "@/data/craftingData";
 import { ALL_LOYALTY_MISSIONS, getAvailableLoyaltyMissions, type LoyaltyMission, type LoyaltyMissionStep } from "@/data/loyaltyMissions";
 
+import LivingBackground from "@/components/LivingBackground";
+
 interface ChatMessage {
   role: "user" | "assistant";
   content: string;
@@ -107,7 +109,8 @@ export default function CompanionHubPage() {
   // ═══ COMPANION SELECTION VIEW ═══
   if (!selectedCompanion) {
     return (
-      <div className="min-h-screen p-4 sm:p-6 pb-24">
+      <div className="min-h-screen relative overflow-hidden p-4 sm:p-6 pb-24">
+      <LivingBackground src="https://dgrsart.s3.us-east-2.amazonaws.com/page-backgrounds/CMP-001_companion-quarters.jpg" accent="#8b5cf6" opacity={0.13} particleCount={4} scanlines={false} />
         <div className="max-w-4xl mx-auto">
           {/* Header */}
           <div className="mb-8">

@@ -10,6 +10,8 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import ScrollIndicator from "@/components/ScrollIndicator";
+import LivingBackground from "@/components/LivingBackground";
+
 // Toast via simple alert for now
 
 type Category = "all" | "dream" | "cards" | "ship" | "cosmetic" | "bundle";
@@ -106,7 +108,8 @@ export default function StorePage() {
   const showCanceled = urlParams.get("canceled") === "true";
 
   return (
-    <div className="min-h-screen animate-fade-in">
+    <div className="min-h-screen relative overflow-hidden animate-fade-in">
+      <LivingBackground src="https://dgrsart.s3.us-east-2.amazonaws.com/page-backgrounds/STR-001_requisition-terminal.jpg" accent="#f59e0b" opacity={0.13} particleCount={4} scanlines={false} />
       {/* Header */}
       <div className="border-b border-border/30 bg-card/20 backdrop-blur-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4">

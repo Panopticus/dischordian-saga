@@ -34,6 +34,8 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 
+import LivingBackground from "@/components/LivingBackground";
+
 /* ─── SETTINGS STORAGE (delegates to settingsSync) ─── */
 type AppSettings = GameSettings;
 const DEFAULT_SETTINGS = SHARED_DEFAULTS;

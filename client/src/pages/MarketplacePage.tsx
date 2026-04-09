@@ -14,6 +14,8 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import season1Cards from "@/data/season1-cards.json";
 
+import LivingBackground from "@/components/LivingBackground";
+
 type CardData = (typeof season1Cards)[number];
 
 const RARITY_COLORS: Record<string, string> = {
@@ -55,7 +57,8 @@ export default function MarketplacePage() {
 
   if (authLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen relative overflow-hidden flex items-center justify-center">
+      <LivingBackground src="https://dgrsart.s3.us-east-2.amazonaws.com/page-backgrounds/MKT-001_marketplace.jpg" accent="#f59e0b" opacity={0.13} particleCount={4} scanlines={false} />
         <Loader2 className="animate-spin text-primary" size={32} />
       </div>
     );

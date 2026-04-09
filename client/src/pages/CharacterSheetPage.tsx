@@ -32,6 +32,8 @@ import { equipItem as globalEquipItem, type EquippedItem } from "@/game/equipmen
 import { canPrestige, getPrestigeLevel, getPrestigeStars, getPrestigeTitle, PRESTIGE_LEVELS, type PrestigeLevel } from "@shared/prestigeSystem";
 import { MASTERY_BRANCHES } from "@shared/masteryTree";
 
+import LivingBackground from "@/components/LivingBackground";
+
 /* ═══════════════════════════════════════════════════
    CONSTANTS & MAPPINGS
    ═══════════════════════════════════════════════════ */
@@ -421,7 +423,8 @@ export default function CharacterSheetPage() {
   // ═══ LOADING / AUTH / NO CHARACTER STATES ═══
   if (authLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen relative overflow-hidden flex items-center justify-center">
+      <LivingBackground src="https://dgrsart.s3.us-east-2.amazonaws.com/page-backgrounds/CHR-001_operative-dossier.jpg" accent="#33E2E6" opacity={0.13} particleCount={4} scanlines={false} />
         <div className="text-center">
           <div className="w-16 h-16 rounded-full border-2 border-cyan-400/30 mx-auto mb-4 flex items-center justify-center animate-cyber-pulse">
             <Cpu size={24} className="text-cyan-400" />

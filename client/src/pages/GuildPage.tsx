@@ -11,6 +11,8 @@ import {
 import { getLoginUrl } from "@/const";
 import { EmptyGuildHall } from "@/components/EmptyStates";
 
+import LivingBackground from "@/components/LivingBackground";
+
 /* ═══ FACTION COLORS ═══ */
 const FACTION_STYLE: Record<string, { color: string; bg: string; border: string }> = {
   empire: { color: "text-red-400", bg: "bg-red-400/10", border: "border-red-400/30" },
@@ -35,7 +37,8 @@ export default function GuildPage() {
 
   if (!isAuthenticated) {
     return (
-      <div className="min-h-screen flex items-center justify-center p-8 grid-bg">
+      <div className="min-h-screen relative overflow-hidden flex items-center justify-center p-8 grid-bg">
+      <LivingBackground src="https://dgrsart.s3.us-east-2.amazonaws.com/page-backgrounds/GLD-001_guild-hall.jpg" accent="#dc2626" opacity={0.13} particleCount={4} scanlines={false} />
         <div className="text-center">
           <Shield size={48} className="text-primary mx-auto mb-4 opacity-50" />
           <h2 className="font-display text-xl font-bold mb-2">SYNDICATE ACCESS</h2>

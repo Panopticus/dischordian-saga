@@ -11,6 +11,8 @@ import { toast } from "sonner";
 import { useSwipeTabs } from "@/hooks/useSwipeTabs";
 import { EmptyInventory } from "@/components/EmptyStates";
 
+import LivingBackground from "@/components/LivingBackground";
+
 /* ═══ DISENCHANT RARITY CONFIG ═══ */
 const RARITY_CONFIG: Record<string, { label: string; color: string; dream: number; dust: number; essence: number }> = {
   common: { label: "Common", color: "text-zinc-400", dream: 5, dust: 10, essence: 0 },
@@ -35,7 +37,8 @@ export default function InventoryPage() {
 
   if (!isAuthenticated) {
     return (
-      <div className="min-h-screen flex items-center justify-center p-8 grid-bg">
+      <div className="min-h-screen relative overflow-hidden flex items-center justify-center p-8 grid-bg">
+      <LivingBackground src="https://dgrsart.s3.us-east-2.amazonaws.com/page-backgrounds/INV-001_cargo-hold.jpg" accent="#f97316" opacity={0.13} particleCount={4} scanlines={false} />
         <div className="text-center">
           <Package size={48} className="text-primary mx-auto mb-4 opacity-50" />
           <h2 className="font-display text-xl font-bold mb-2">INVENTORY</h2>

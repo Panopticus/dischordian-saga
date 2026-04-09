@@ -12,6 +12,8 @@ import { FACTION_LORE } from "@/game/CardGameLore";
 import { ALL_FACTION_ABILITIES } from "@/game/FactionAbilities";
 import { CODEX_LORE_EXTENSIONS } from "@/game/codexLoreExtensions";
 
+import LivingBackground from "@/components/LivingBackground";
+
 // ── Codex Entry Types ──
 
 interface CodexEntry {

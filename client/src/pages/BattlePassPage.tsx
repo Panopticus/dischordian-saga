@@ -9,6 +9,8 @@ import {
 import { getLoginUrl } from "@/const";
 import { toast } from "sonner";
 
+import LivingBackground from "@/components/LivingBackground";
+
 const TIER_COLORS: Record<string, string> = {
   common: "border-zinc-500/30 bg-zinc-500/5",
   rare: "border-cyan-400/30 bg-cyan-400/5",
@@ -103,7 +105,8 @@ export default function BattlePassPage() {
 
   if (!isAuthenticated) {
     return (
-      <div className="min-h-screen flex items-center justify-center p-8 grid-bg">
+      <div className="min-h-screen relative overflow-hidden flex items-center justify-center p-8 grid-bg">
+      <LivingBackground src="https://dgrsart.s3.us-east-2.amazonaws.com/page-backgrounds/BTP-001_season-command.jpg" accent="#fbbf24" opacity={0.13} particleCount={4} scanlines={false} />
         <div className="text-center">
           <Star size={48} className="text-amber-400 mx-auto mb-4 opacity-50" />
           <h2 className="font-display text-xl font-bold mb-2">EPOCH PASS</h2>

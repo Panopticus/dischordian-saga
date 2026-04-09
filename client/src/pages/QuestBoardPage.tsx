@@ -14,6 +14,8 @@ import { toast } from "sonner";
 import { showBonusToast } from "@/components/BonusToast";
 import { EmptyQuestLog } from "@/components/EmptyStates";
 
+import LivingBackground from "@/components/LivingBackground";
+
 const QUEST_TYPE_ICONS: Record<string, typeof Swords> = {
   fight: Swords, card_battle: Shield, trade: TrendingUp,
   craft: Zap, explore: Target, social: Star,
@@ -44,7 +46,8 @@ export default function QuestBoardPage() {
 
   if (authLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center grid-bg">
+      <div className="min-h-screen relative overflow-hidden flex items-center justify-center grid-bg">
+      <LivingBackground src="https://dgrsart.s3.us-east-2.amazonaws.com/page-backgrounds/QST-001_mission-briefing.jpg" accent="#ef4444" opacity={0.13} particleCount={4} scanlines={false} />
         <Loader2 className="animate-spin text-primary" size={32} />
       </div>
     );
