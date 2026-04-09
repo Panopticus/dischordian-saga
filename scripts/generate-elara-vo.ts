@@ -18,8 +18,8 @@ import fs from "fs";
 import path from "path";
 
 // ─── CONFIG ───
-const ELEVENLABS_KEY = process.env.ELEVENLABS_API_KEY || "sk_804379c9213fa704164d27e7a510606c6c595ea690b6f85a";
-const VOICE_ID = process.env.ELEVENLABS_VOICE_ID || "xMyNDrPFEtQN8iZtT7l2";
+const ELEVENLABS_KEY = process.env.ELEVENLABS_API_KEY || "";
+const VOICE_ID = process.env.ELEVENLABS_VOICE_ID || "";
 const BUCKET = process.env.S3_BUCKET || "dgrsvoices";
 const REGION = process.env.AWS_REGION || "us-east-2";
 const S3_PREFIX = "Elara Voices";
@@ -156,7 +156,7 @@ async function uploadToS3(buffer: Buffer, key: string): Promise<string> {
   const s3 = new S3Client({
     region: REGION,
     credentials: {
-      accessKeyId: process.env.AWS_ACCESS_KEY_ID || "AKIAXVUF3MYGPHAK2KUZ",
+      accessKeyId: process.env.AWS_ACCESS_KEY_ID || "",
       secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY || "",
     },
   });
