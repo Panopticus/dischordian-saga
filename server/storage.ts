@@ -100,3 +100,48 @@ export async function storageGet(relKey: string): Promise<{ key: string; url: st
     url: await buildDownloadUrl(baseUrl, key, apiKey),
   };
 }
+
+export type StorageListItem = {
+  key: string;
+  size: number;
+  lastModified: string;
+};
+
+export type StorageListResult = {
+  items: StorageListItem[];
+  cursor: string | null;
+};
+
+export async function storageList(
+  prefix = "",
+  cursor?: string,
+  limit = 100
+): Promise<StorageListResult> {
+  const { baseUrl, apiKey } = getStorageConfig();
+  const listUrl = new URL("v1/storage/list", ensureTrailingSlash(baseUrl));
+  if (prefix) listUrl.searchParams.set("prefix", normalizeKey(prefix));
+  if (cursor) listUrl.searchParams.set("cursor", cursor);
+  listUrl.searchParams.set("limit", String(limit));
+
+  const response = await fetch(listUrl, {
+    method: "GET",
+    headers: buildAuthHeaders(apiKey),
+  });
+
+  if (!response.ok) {
+    const message = await response.text().catch(() => response.statusText);
+    throw new Error(
+      `Storage list failed (${response.status} ${response.statusText}): ${message}`
+    );
+  }
+
+  const body = await response.json();
+  return {
+    items: (body.items ?? []).map((item: Record<string, unknown>) => ({
+      key: String(item.key ?? ""),
+      size: Number(item.size ?? 0),
+      lastModified: String(item.lastModified ?? ""),
+    })),
+    cursor: body.cursor ?? null,
+  };
+}

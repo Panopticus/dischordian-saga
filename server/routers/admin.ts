@@ -8,6 +8,7 @@ import { TRPCError } from "@trpc/server";
 import { getDb } from "../db";
 import { users, cards, userCards, userProgress, contentRewards, contentParticipation } from "../../drizzle/schema";
 import { eq, sql, desc, like, and, type SQL } from "drizzle-orm";
+import { storageList } from "../storage";
 
 // Admin guard middleware
 const adminProcedure = protectedProcedure.use(({ ctx, next }) => {
@@ -210,5 +211,19 @@ export const adminRouter = router({
       if (!db) return { success: false };
       await db.delete(contentRewards).where(eq(contentRewards.id, input.id));
       return { success: true };
+    }),
+
+  // ═══ STORAGE (S3) LIST ═══
+  storageLs: adminProcedure
+    .input(z.object({
+      prefix: z.string().default(""),
+      cursor: z.string().optional(),
+      limit: z.number().min(1).max(1000).default(100),
+    }).optional())
+    .query(async ({ input }) => {
+      const prefix = input?.prefix ?? "";
+      const cursor = input?.cursor;
+      const limit = input?.limit ?? 100;
+      return storageList(prefix, cursor, limit);
     }),
 });
