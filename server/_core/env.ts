@@ -51,6 +51,9 @@ export const ENV = {
   stripeSecretKey: optional("STRIPE_SECRET_KEY", process.env.STRIPE_SECRET_KEY),
   stripeWebhookSecret: optional("STRIPE_WEBHOOK_SECRET", process.env.STRIPE_WEBHOOK_SECRET),
 
+  // ElevenLabs TTS (optional — enables voice generation)
+  elevenLabsApiKey: optional("ELEVENLABS_API_KEY", process.env.ELEVENLABS_API_KEY),
+
   // CORS (defaults to production domain)
   corsOrigin: optional("CORS_ORIGIN", process.env.CORS_ORIGIN, isProduction ? "https://dischordian-saga.com" : "*"),
 
