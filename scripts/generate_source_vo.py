@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 """SOURCE VO GENERATOR
-Voice: hfq5qawrYj4SvnKQ6Mk4
+Voice: hfq5qawrYj4gqFsfoE28
 Run: python3 scripts/generate_source_vo.py"""
 import json, os, sys, time, requests, boto3
 
 ELEVENLABS_KEY = os.environ.get("ELEVENLABS_API_KEY", "")
-VOICE_ID = "hfq5qawrYj4SvnKQ6Mk4"
+VOICE_ID = "hfq5qawrYj4gqFsfoE28"
 BUCKET = "dgrsvoices"
 REGION = "us-east-2"
 S3_PREFIX = "Source Voices"
