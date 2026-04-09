@@ -8,6 +8,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
 import { AnimatedPortrait } from "@/components/AnimatedPortrait";
 import { useElaraVO } from "@/hooks/useElaraVO";
+import { useHumanVO } from "@/hooks/useHumanVO";
 
 /* ── Dialog lines per outcome ── */
 type Outcome = "victory" | "defeat" | "close";
@@ -113,6 +114,12 @@ const ELARA_OUTCOME_VO: Record<Outcome, string> = {
   close: "battle_close_victory",
 };
 
+const HUMAN_OUTCOME_VO: Record<Outcome, string> = {
+  victory: "human_battle_dv_1",
+  defeat: "human_battle_def_1",
+  close: "human_battle_cv_1",
+};
+
 export default function PostBattleDialog({
   outcome,
   companionId,
@@ -121,6 +128,7 @@ export default function PostBattleDialog({
 }: PostBattleDialogProps) {
   const [visible, setVisible] = useState(true);
   const { speak } = useElaraVO();
+  const { speak: speakHuman } = useHumanVO();
 
   const dismiss = useCallback(() => {
     setVisible(false);
@@ -140,8 +148,10 @@ export default function PostBattleDialog({
   useEffect(() => {
     if (companionId === "elara") {
       speak(ELARA_OUTCOME_VO[outcome]);
+    } else if (companionId === "the_human") {
+      speakHuman(HUMAN_OUTCOME_VO[outcome]);
     }
-  }, [companionId, outcome, speak]);
+  }, [companionId, outcome, speak, speakHuman]);
 
   const displayName =
     companionName ??
