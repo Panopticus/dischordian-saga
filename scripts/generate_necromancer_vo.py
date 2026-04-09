@@ -53,7 +53,7 @@ def upload_to_s3(data, key):
 def main():
     with open(os.path.join(os.path.dirname(__file__), "necromancer-lines.json")) as f:
         lines = json.load(f)
-    print(f"=== {char_id.upper()} VO GENERATOR ===\n  {len(lines)} lines | Voice: {VOICE_ID}\n")
+    print(f"=== {'NECROMANCER'} VO GENERATOR ===\n  {len(lines)} lines | Voice: {VOICE_ID}\n")
     if not ELEVENLABS_KEY: print("ERROR: export ELEVENLABS_API_KEY=your_key"); sys.exit(1)
     manifest = {}
     for i, line in enumerate(lines):
@@ -69,7 +69,7 @@ def main():
         except Exception as e:
             print(f"FAIL {e}")
             if "429" in str(e): print("  Rate limited — waiting 30s..."); time.sleep(30)
-    manifest_path = os.path.join(os.path.dirname(__file__), "..", "shared", f"{char_id}VoManifest.json")
+    manifest_path = os.path.join(os.path.dirname(__file__), "..", "shared", f"necromancerVoManifest.json")
     with open(manifest_path, "w") as f:
         json.dump(manifest, f, indent=2)
     print(f"\n=== COMPLETE: {len(manifest)}/{len(lines)} ===")

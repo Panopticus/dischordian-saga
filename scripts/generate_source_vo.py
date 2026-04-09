@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 """SOURCE VO GENERATOR
-Voice: hfq5qawrYj4SvnKQ6Mk4
+Voice: hfq5qawrYj4gqFsfoE28
 Run: python3 scripts/generate_source_vo.py"""
 import json, os, sys, time, requests, boto3
 
 ELEVENLABS_KEY = os.environ.get("ELEVENLABS_API_KEY", "")
-VOICE_ID = "hfq5qawrYj4SvnKQ6Mk4"
+VOICE_ID = "hfq5qawrYj4gqFsfoE28"
 BUCKET = "dgrsvoices"
 REGION = "us-east-2"
 S3_PREFIX = "Source Voices"
@@ -65,7 +65,7 @@ def upload_to_s3(data, key):
 def main():
     with open(os.path.join(os.path.dirname(__file__), "source-lines.json")) as f:
         lines = json.load(f)
-    print(f"=== {char_id.upper()} VO GENERATOR ===\n  {len(lines)} lines | Voice: {VOICE_ID}\n")
+    print(f"=== {'SOURCE'} VO GENERATOR ===\n  {len(lines)} lines | Voice: {VOICE_ID}\n")
     if not ELEVENLABS_KEY: print("ERROR: export ELEVENLABS_API_KEY=your_key"); sys.exit(1)
     manifest = {}
     for i, line in enumerate(lines):
@@ -81,7 +81,7 @@ def main():
         except Exception as e:
             print(f"FAIL {e}")
             if "429" in str(e): print("  Rate limited — waiting 30s..."); time.sleep(30)
-    manifest_path = os.path.join(os.path.dirname(__file__), "..", "shared", f"{char_id}VoManifest.json")
+    manifest_path = os.path.join(os.path.dirname(__file__), "..", "shared", f"sourceVoManifest.json")
     with open(manifest_path, "w") as f:
         json.dump(manifest, f, indent=2)
     print(f"\n=== COMPLETE: {len(manifest)}/{len(lines)} ===")

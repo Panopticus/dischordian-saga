@@ -1,1 +1,10 @@
-{}
+{
+  "st_first_contact": "https://dgrsvoices.s3.us-east-2.amazonaws.com/ShadowTongue+Voices/dialog/st_first_contact.mp3",
+  "st_identity": "https://dgrsvoices.s3.us-east-2.amazonaws.com/ShadowTongue+Voices/dialog/st_identity.mp3",
+  "st_hierarchy": "https://dgrsvoices.s3.us-east-2.amazonaws.com/ShadowTongue+Voices/dialog/st_hierarchy.mp3",
+  "st_construction": "https://dgrsvoices.s3.us-east-2.amazonaws.com/ShadowTongue+Voices/dialog/st_construction.mp3",
+  "st_multiply": "https://dgrsvoices.s3.us-east-2.amazonaws.com/ShadowTongue+Voices/dialog/st_multiply.mp3",
+  "st_elara": "https://dgrsvoices.s3.us-east-2.amazonaws.com/ShadowTongue+Voices/dialog/st_elara.mp3",
+  "st_final": "https://dgrsvoices.s3.us-east-2.amazonaws.com/ShadowTongue+Voices/dialog/st_final.mp3",
+  "st_prestige": "https://dgrsvoices.s3.us-east-2.amazonaws.com/ShadowTongue+Voices/prestige/st_prestige.mp3"
+}
