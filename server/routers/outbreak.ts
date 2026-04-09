@@ -30,6 +30,7 @@ import {
   type OutbreakPhase, type OutbreakState,
 } from "@shared/awakeningProtocol";
 import { pressureService } from "../services/pressureService";
+import { ripple } from "../services/rippleEngine";
 import { battlePassXp } from "../services/battlePassXp";
 
 /** Get or create outbreak state from userProgress.gameData */
@@ -187,12 +188,8 @@ export const outbreakRouter = router({
       await saveOutbreakState(db, ctx.user.id, progressId, state);
       await saveNarrativeFlags(db, ctx.user.id, flags);
 
-      // Sync morality to Wave 1 morality endpoint via pressure system
-      if (chosen.moralityDelta > 0) {
-        await pressureService.increment(ctx.user.id, "moralityHumanity", Math.abs(chosen.moralityDelta), `outbreak_choice_${input.choiceId}`);
-      } else if (chosen.moralityDelta < 0) {
-        await pressureService.increment(ctx.user.id, "moralityMachine", Math.abs(chosen.moralityDelta), `outbreak_choice_${input.choiceId}`);
-      }
+      // Ripple: morality choice event handles pressure + morality-specific effects
+      await ripple.emit("morality_choice", { userId: ctx.user.id, delta: chosen.moralityDelta, source: `outbreak_choice_${input.choiceId}` });
 
       // Check for crew cloning triggered by this choice
       const crewEvents = CREW_CLONING_EVENTS.filter(e =>

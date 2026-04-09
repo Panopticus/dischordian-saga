@@ -73,6 +73,8 @@ import { dailyBriefRouter } from "./routers/dailyBrief";
 import { prestigeRouter } from "./routers/prestige";
 import { graduateLegionRouter } from "./routers/graduateLegion";
 import { outbreakRouter } from "./routers/outbreak";
+import { communityCodexRouter } from "./routers/communityCodex";
+import { performanceRouter } from "./routers/performance";
 
 export const appRouter = router({
   system: systemRouter,
@@ -142,6 +144,8 @@ export const appRouter = router({
   prestige: prestigeRouter,
   graduateLegion: graduateLegionRouter,
   outbreak: outbreakRouter,
+  communityCodex: communityCodexRouter,
+  performance: performanceRouter,
   auth: router({
     me: publicProcedure.query(opts => opts.ctx.user),
     logout: publicProcedure.mutation(({ ctx }) => {

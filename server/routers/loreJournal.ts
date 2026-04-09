@@ -13,7 +13,7 @@ import {
   JOURNAL_CATEGORIES, calculateWritingXP, resolveWritingBonuses,
   type JournalCategory,
 } from "../../shared/loreJournal";
-import { pressureService } from "../services/pressureService";
+import { ripple } from "../services/rippleEngine";
 import { battlePassXp } from "../services/battlePassXp";
 
 export const loreJournalRouter = router({
@@ -66,8 +66,8 @@ export const loreJournalRouter = router({
         published: input.published,
       }).$returningId();
 
-      // Record pressure: lore writing feeds Antiquarian/Timelines event
-      pressureService.increment(ctx.user.id, "loreDiscoveries", 3, "lore_journal_entry").catch(() => {});
+      // Ripple: lore discovery triggers Antiquarian/Timelines event
+      await ripple.emit("loredex_entry_discovered", { userId: ctx.user.id, entryId: input.linkedEntityId || "journal_entry", entryType: "journal" });
       // Battle pass XP: lore discovery
       battlePassXp.award(ctx.user.id, "lore_discovery").catch(() => {});
 

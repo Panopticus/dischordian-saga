@@ -7,6 +7,7 @@ import { z } from "zod";
 import { router, protectedProcedure, publicProcedure } from "../_core/trpc";
 import { getDb } from "../db";
 import { ripple } from "../services/rippleEngine";
+import { checkFeatureFlag } from "../middleware/featureFlag";
 import {
   seasonalEvents, eventParticipation, eventShopPurchases,
   citizenCharacters, civilSkillProgress, classMastery,
@@ -19,7 +20,7 @@ import {
 
 export const seasonalEventsRouter = router({
   /** Get active events */
-  getActiveEvents: publicProcedure.query(async () => {
+  getActiveEvents: publicProcedure.use(checkFeatureFlag("seasonal_events")).query(async () => {
     const db = await getDb();
     if (!db) throw new Error("DB unavailable");
     const events = await db.select().from(seasonalEvents).where(eq(seasonalEvents.active, true)).orderBy(desc(seasonalEvents.startsAt));

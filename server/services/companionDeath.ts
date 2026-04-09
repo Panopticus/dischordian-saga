@@ -21,6 +21,7 @@ import { eidolonBonds, eidolonMemorial, notifications } from "../../drizzle/sche
 import { eq, and } from "drizzle-orm";
 import { logger } from "../logger";
 import { pressureService } from "./pressureService";
+import { ripple } from "./rippleEngine";
 import { EIDOLON_DEATH_PRESSURE } from "@shared/livingUniverseEvents";
 
 export type DeathCause = "combat" | "severing" | "sacrifice" | "death_hook" | "strain_symbiosis";
@@ -98,8 +99,9 @@ export const companionDeath = {
         : `${name} has been sacrificed. Their bond is severed permanently. The Necromancer takes notice.`,
     });
 
-    // 4. Pressure: companion deaths STRONGLY feed Necromancer
-    await pressureService.increment(userId, "deaths", EIDOLON_DEATH_PRESSURE, `companion_death_${cause}`);
+    // 4. Ripple: companion death handles pressure + soul-bond lore notification
+    const bondData = bond;
+    await ripple.emit("companion_died", { userId, eidolonId: bondData.eidolonId, name, cause, wasSoulBound: bondData.isSoulBound, bond: bondData.bond });
 
     logger.info(`[CompanionDeath] ${name} died for user ${userId}, cause: ${cause}, spectral: ${becomesSpectral}`);
 

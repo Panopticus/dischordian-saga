@@ -26,7 +26,7 @@ import {
   canPrestige, getPrestigeLevel, getPrestigeMultipliers,
   getPrestigeTitle, PRESTIGE_LEVELS, type PrestigeState,
 } from "@shared/prestigeSystem";
-import { pressureService } from "../services/pressureService";
+import { ripple } from "../services/rippleEngine";
 import { onPrestigeComplete } from "../services/prestigeNarrative";
 
 export const prestigeRouter = router({
@@ -199,9 +199,8 @@ export const prestigeRouter = router({
           .where(eq(userProgress.userId, ctx.user.id));
       }
 
-      // 7. Emit to pressure system: prestige IS a timeline convergence
-      await pressureService.increment(ctx.user.id, "loreDiscoveries", 50, `prestige_tier_${newTier}`);
-      await pressureService.increment(ctx.user.id, "exploration", 25, `prestige_tier_${newTier}`);
+      // 7. Emit to ripple engine: prestige IS a timeline convergence
+      await ripple.emit("prestige_reset", { userId: ctx.user.id, newTier });
 
       // 8. Trigger NPC acknowledgment narrative sequences
       const narrative = await onPrestigeComplete(ctx.user.id, newTier, input.companionId);

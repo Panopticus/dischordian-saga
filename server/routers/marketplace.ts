@@ -20,6 +20,7 @@ import { characterSheets } from "../../drizzle/schema";
 import { pressureService } from "../services/pressureService";
 import { ripple } from "../services/rippleEngine";
 import { getConsequences } from "../services/universeConsequences";
+import { checkFeatureFlag } from "../middleware/featureFlag";
 
 /** 5% marketplace tax */
 const TAX_RATE = 0.05;
@@ -71,6 +72,7 @@ export const marketplaceRouter = router({
 
   /** Create a new sell listing */
   createListing: protectedProcedure
+    .use(checkFeatureFlag("marketplace"))
     .input(z.object({
       itemType: z.enum(["card", "material", "crafted_item"]),
       itemId: z.string(),

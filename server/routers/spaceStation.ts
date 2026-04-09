@@ -17,6 +17,8 @@ import {
   getAvailableModules, getStationTier, MODULE_SYNERGIES,
 } from "../../shared/spaceStations";
 import { ripple } from "../services/rippleEngine";
+import { checkFeatureFlag } from "../middleware/featureFlag";
+import { getConsequences } from "../services/universeConsequences";
 
 /* ═══ HELPER — Reusable RPG stats loader ═══ */
 async function getUserRpgStats(userId: number) {
@@ -48,7 +50,7 @@ async function getUserRpgStats(userId: number) {
 
 export const spaceStationRouter = router({
   /* ─── GET STATION ─── */
-  getStation: protectedProcedure.query(async ({ ctx }) => {
+  getStation: protectedProcedure.use(checkFeatureFlag("space_station")).query(async ({ ctx }) => {
     const db = await getDb();
     if (!db) return null;
     const [station] = await db.select().from(spaceStations)

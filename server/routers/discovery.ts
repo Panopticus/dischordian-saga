@@ -8,6 +8,7 @@ import { getDb } from "../db";
 import { featureUnlocks, userArkProgress, arkRooms, userProgress } from "../../drizzle/schema";
 import { eq, and, sql } from "drizzle-orm";
 import { pressureService } from "../services/pressureService";
+import { ripple } from "../services/rippleEngine";
 
 /* ─── ROOM → FEATURE MAPPING ─── */
 const ROOM_FEATURE_MAP: Record<string, string[]> = {
@@ -171,6 +172,9 @@ export const discoveryRouter = router({
             sourceId: input.roomType,
           });
           newlyUnlocked.push(feature);
+
+          // Ripple: feature unlocked event
+          await ripple.emit("feature_unlocked", { userId: ctx.user.id, featureId: feature });
         }
       }
 

@@ -14,10 +14,11 @@ import { companionCombat } from "../services/companionCombat";
 import { petEvolution } from "../services/petEvolution";
 import { pressureService } from "../services/pressureService";
 import { battlePassXp } from "../services/battlePassXp";
+import { checkFeatureFlag } from "../middleware/featureFlag";
 
 export const petBattlesRouter = router({
   /** Get player's full pet roster */
-  getMyPets: protectedProcedure.query(async ({ ctx }) => {
+  getMyPets: protectedProcedure.use(checkFeatureFlag("pet_battles")).query(async ({ ctx }) => {
     const db = await getDb();
     if (!db) return [];
     return db

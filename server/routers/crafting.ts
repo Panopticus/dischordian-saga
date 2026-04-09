@@ -8,6 +8,7 @@ import { eq, and, sql, desc, inArray } from "drizzle-orm";
 import { fetchCitizenData, fetchPotentialNftData, resolveCraftingBonuses } from "../traitResolver";
 import { ripple } from "../services/rippleEngine";
 import { getConsequences } from "../services/universeConsequences";
+import { checkFeatureFlag } from "../middleware/featureFlag";
 
 // ═══════════════════════════════════════════════════════
 // CRAFTING RECIPES
@@ -174,7 +175,7 @@ const DREAM_PER_RARITY: Record<string, number> = {
 
 export const craftingRouter = router({
   // Get all available recipes
-  getRecipes: protectedProcedure.query(() => {
+  getRecipes: protectedProcedure.use(checkFeatureFlag("crafting")).query(() => {
     return RECIPES.map(r => ({
       id: r.id,
       name: r.name,

@@ -42,6 +42,7 @@ import {
 } from "../../drizzle/schema";
 import { eq, sql, desc, and, lte, gte, or, isNull, type SQL } from "drizzle-orm";
 import { pressureService } from "../services/pressureService";
+import { ripple } from "../services/rippleEngine";
 import { invalidateFeatureFlagCache } from "../middleware/featureFlag";
 
 /* ─── Helper: write audit log ─── */
@@ -331,6 +332,9 @@ export const architectConsoleRouter = router({
       await db.update(voteOptions)
         .set({ voteCount: sql`${voteOptions.voteCount} + 1` })
         .where(and(eq(voteOptions.voteId, input.voteId), eq(voteOptions.optionNumber, input.optionNumber)));
+
+      // Ripple: governance vote cast
+      await ripple.emit("governance_vote_cast", { userId: ctx.user.id, voteId: input.voteId, optionNumber: input.optionNumber });
 
       return { success: true };
     }),

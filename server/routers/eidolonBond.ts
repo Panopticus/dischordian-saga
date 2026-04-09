@@ -11,7 +11,7 @@ import { eidolonBonds, eidolonMemorial, dreamBalance } from "../../drizzle/schem
 import { eq, and, sql, desc } from "drizzle-orm";
 import { petEvolution } from "../services/petEvolution";
 import { companionDeath } from "../services/companionDeath";
-import { pressureService } from "../services/pressureService";
+import { ripple } from "../services/rippleEngine";
 
 export const eidolonBondRouter = router({
   /* ─── GET MY BOND (protected) ─── */
@@ -100,8 +100,8 @@ export const eidolonBondRouter = router({
       const evoXp = Math.floor(reward.bond * 0.5) + (input.action === "train" ? 5 : input.action === "feed" ? 5 : 2);
       const evoResult = await petEvolution.addEidolonEvolutionXp(ctx.user.id, evoXp, `eidolon_${input.action}`);
 
-      // Pressure: trust gains feed the Dreamer
-      pressureService.increment(ctx.user.id, "trustGains", reward.bond, `eidolon_${input.action}`).catch(() => {});
+      // Ripple: eidolon trust gain triggers pressure + trust-specific effects
+      await ripple.emit("npc_trust_gained", { userId: ctx.user.id, npcId: `eidolon_${bond.eidolonId}`, newTrust: 0, amount: reward.bond });
 
       return {
         success: true,

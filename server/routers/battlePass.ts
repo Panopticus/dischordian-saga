@@ -15,10 +15,11 @@ import {
 import { pressureService } from "../services/pressureService";
 import { getPrestigeMultiplier } from "../services/prestigeMultiplier";
 import { getConsequences } from "../services/universeConsequences";
+import { checkFeatureFlag } from "../middleware/featureFlag";
 
 export const battlePassRouter = router({
   /* ─── Get current active season ─── */
-  currentSeason: publicProcedure.query(async () => {
+  currentSeason: publicProcedure.use(checkFeatureFlag("battle_pass")).query(async () => {
     const db = await getDb();
     if (!db) return null;
 

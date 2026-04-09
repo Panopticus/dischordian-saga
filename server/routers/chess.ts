@@ -14,6 +14,8 @@ import {
 } from "../../drizzle/schema";
 import { fetchCitizenData, fetchPotentialNftData, resolveChessBonuses } from "../traitResolver";
 import { ripple } from "../services/rippleEngine";
+import { checkFeatureFlag } from "../middleware/featureFlag";
+import { getConsequences } from "../services/universeConsequences";
 import { mapDifficultyToChessElo } from "@shared/dynamicDifficulty";
 
 // chess.js v1.4 — dynamic import to avoid ESM/CJS mismatch
@@ -329,7 +331,7 @@ chessReady.catch(e => console.error("[Chess] Failed to load chess.js:", e));
 
 export const chessRouter = router({
   /** Get available characters and their styles */
-  getCharacters: protectedProcedure.query(async ({ ctx }) => {
+  getCharacters: protectedProcedure.use(checkFeatureFlag("chess")).query(async ({ ctx }) => {
     await chessReady;
     const db = (await getDb())!;
     const ranking = await db.select().from(chessRankings)

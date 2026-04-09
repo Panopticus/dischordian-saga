@@ -7,6 +7,7 @@ import { eq, and, like, inArray, sql, desc, asc, type SQL } from "drizzle-orm";
 import { fetchCitizenData, fetchPotentialNftData, resolveCardGameBonuses } from "../traitResolver";
 import { trackAiResult, trackCollectionSize } from "../achievementTracker";
 import { ripple } from "../services/rippleEngine";
+import { getConsequences } from "../services/universeConsequences";
 
 // ═══════════════════════════════════════════════════════
 // CARD GAME STATE TYPES
@@ -491,6 +492,10 @@ export const cardGameRouter = router({
         fetchPotentialNftData(ctx.user.id),
       ]);
       const traitBonuses = resolveCardGameBonuses(citizen, nft);
+
+      // Apply Living Universe consequences to card stats
+      const fx = await getConsequences();
+      const cardStatMultiplier = fx.cardStatMultiplier ?? 1;
 
       // Initial game state — traits modify starting stats
       const gameState = {

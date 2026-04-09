@@ -7,6 +7,7 @@ import { protectedProcedure, router } from "../_core/trpc";
 import { getDb } from "../db";
 import { eq, and, desc } from "drizzle-orm";
 import { ripple } from "../services/rippleEngine";
+import { getConsequences } from "../services/universeConsequences";
 
 // We'll use the progressData JSON column in userProgress
 // For now, use localStorage on client + optional server sync

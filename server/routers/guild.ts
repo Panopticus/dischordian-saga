@@ -6,6 +6,7 @@ import { guilds, guildMembers, guildChat, guildInvites, guildRecruitment, notifi
 import { eq, and, desc, sql, like, ne } from "drizzle-orm";
 import { TRPCError } from "@trpc/server";
 import { ripple } from "../services/rippleEngine";
+import { checkFeatureFlag } from "../middleware/featureFlag";
 
 /* ═══ GUILD EMBLEMS ═══ */
 const GUILD_EMBLEMS = [
@@ -26,6 +27,7 @@ function guildLevelFromXp(xp: number): number {
 export const guildRouter = router({
   /* ─── List all guilds (public browsing) ─── */
   list: publicProcedure
+    .use(checkFeatureFlag("guild_system"))
     .input(z.object({
       search: z.string().optional(),
       faction: z.enum(["empire", "insurgency", "neutral", "all"]).optional(),

@@ -13,6 +13,7 @@ import { getRankTier } from "@shared/pvpBattle";
 import { getDecayStatus } from "@shared/rankDecay";
 import { classifyDeck, ARCHETYPES } from "@shared/cardArchetypes";
 import { ripple } from "../services/rippleEngine";
+import { checkFeatureFlag } from "../middleware/featureFlag";
 
 /* ─── DECK RULES ─── */
 const MAX_DECK_SIZE = 30;
@@ -35,7 +36,7 @@ const TIER_THRESHOLDS: Record<string, { min: number; max: number }> = {
 
 export const pvpRouter = router({
   /* ═══ LEADERBOARD ═══ */
-  getLeaderboard: publicProcedure.query(async () => {
+  getLeaderboard: publicProcedure.use(checkFeatureFlag("pvp_arena")).query(async () => {
     const db = await getDb();
     if (!db) return [];
     return db

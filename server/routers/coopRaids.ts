@@ -17,10 +17,12 @@ import {
   type RaidDifficulty,
 } from "../../shared/coopRaids";
 import { ripple } from "../services/rippleEngine";
+import { checkFeatureFlag } from "../middleware/featureFlag";
+import { getConsequences } from "../services/universeConsequences";
 
 export const coopRaidsRouter = router({
   /** Get active raids */
-  getActiveRaids: protectedProcedure.query(async () => {
+  getActiveRaids: protectedProcedure.use(checkFeatureFlag("coop_raids")).query(async () => {
     const db = await getDb();
     if (!db) throw new Error("DB unavailable");
     return db.select().from(coopRaids)

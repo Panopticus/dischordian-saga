@@ -21,6 +21,7 @@ import {
   getAvailableTowers, getAvailableRaidUnits,
 } from "../../shared/towerDefense";
 import { ripple } from "../services/rippleEngine";
+import { getConsequences } from "../services/universeConsequences";
 
 /* ═══ RPG STATS LOADER ═══ */
 async function getUserRpgStats(userId: number) {

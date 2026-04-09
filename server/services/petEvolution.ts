@@ -16,6 +16,7 @@ import { eidolonBonds, playerPets, notifications } from "../../drizzle/schema";
 import { eq, and, sql } from "drizzle-orm";
 import { logger } from "../logger";
 import { pressureService } from "./pressureService";
+import { ripple } from "./rippleEngine";
 
 /** Evolution stage names matching eidolonBonds.stage enum */
 type EidolonStage = "fragment" | "companion" | "ascended" | "spectral";
@@ -120,8 +121,8 @@ export const petEvolution = {
       message: `Your companion ${name} has reached the ${nextStage} stage. New abilities unlocked: ${newAbilities.join(", ")}.`,
     });
 
-    // Pressure: evolution feeds hope → Dreamer
-    await pressureService.increment(userId, "trustGains", 10, `eidolon_evolution_${nextStage}`);
+    // Ripple: evolution event handles pressure + evolution-specific effects
+    await ripple.emit("companion_evolved", { userId, eidolonId: bond.eidolonId, newStage: nextStage, bond: bond.bond });
 
     logger.info(`[PetEvolution] Eidolon ${bond.eidolonId} evolved to ${nextStage} for user ${userId}`);
 
@@ -162,7 +163,7 @@ export const petEvolution = {
         message: `${pet.name} has reached evolution stage ${newStage}!`,
       });
 
-      await pressureService.increment(userId, "trustGains", 10, `pet_evolution_stage_${newStage}`);
+      await ripple.emit("companion_evolved", { userId, eidolonId: pet.petId, newStage, bond: 0 });
 
       return { added: 0, evolved: true, newStage };
     }
