@@ -1,1 +1,9 @@
-{}
+{
+  "locke_intro": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Locke+Voices/dialog/locke_intro.mp3",
+  "locke_babylon": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Locke+Voices/dialog/locke_babylon.mp3",
+  "locke_detective": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Locke+Voices/dialog/locke_detective.mp3",
+  "locke_virus": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Locke+Voices/dialog/locke_virus.mp3",
+  "locke_network": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Locke+Voices/dialog/locke_network.mp3",
+  "locke_endgame": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Locke+Voices/dialog/locke_endgame.mp3",
+  "locke_prestige": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Locke+Voices/prestige/locke_prestige.mp3"
+}
