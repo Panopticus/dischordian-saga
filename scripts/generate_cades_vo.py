@@ -17,10 +17,10 @@ S3_PREFIX = "CADES Voices"
 # Iron Lion, Thoughtborn, Game Masters, Narrator need custom voices
 VOICE_IDS = {
     "elara": "xMyNDrPFEtQN8iZtT7l2",  # Engineer Zero
-    "iron_lion": os.environ.get("IRON_LION_VOICE_ID", ""),
-    "thoughtborn": os.environ.get("THOUGHTBORN_VOICE_ID", ""),
-    "game_masters": os.environ.get("GAME_MASTERS_VOICE_ID", ""),
-    "narrator": os.environ.get("NARRATOR_VOICE_ID", ""),
+    "iron_lion": os.environ.get("IRON_LION_VOICE_ID", "UFc00HkV4yTNA1eMW99e"),
+    "thoughtborn": os.environ.get("THOUGHTBORN_VOICE_ID", "dyc1L3GAWDC51vAN1Co9"),
+    "game_masters": os.environ.get("GAME_MASTERS_VOICE_ID", "BCJrrrZvds7k3qzM9nXU"),
+    "narrator": os.environ.get("NARRATOR_VOICE_ID", "VgFgBh5TnWeBhCBvCJ1E"),
 }
 
 # Emotion settings per character + emotion
