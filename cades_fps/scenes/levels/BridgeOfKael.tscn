@@ -1,0 +1,95 @@
+[gd_scene load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://scenes/levels/BridgeOfKael.gd" id="1_scr"]
+[ext_resource type="PackedScene" path="res://objects/player.tscn" id="2_player"]
+[ext_resource type="PackedScene" path="res://scenes/ui/HUD.tscn" id="3_hud"]
+
+[sub_resource type="ProceduralSkyMaterial" id="sky_mat"]
+sky_top_color = Color(0, 0, 0, 1)
+sky_horizon_color = Color(0, 0, 0, 1)
+ground_bottom_color = Color(0, 0, 0, 1)
+ground_horizon_color = Color(0.039, 0, 0.02, 1)
+
+[sub_resource type="Sky" id="sky"]
+sky_material = SubResource("sky_mat")
+
+[sub_resource type="Environment" id="env"]
+background_mode = 2
+sky = SubResource("sky")
+fog_enabled = true
+fog_light_color = Color(0.039, 0, 0.02, 1)
+fog_density = 0.015
+ambient_light_color = Color(0.973, 0.451, 0.086, 1)
+ambient_light_energy = 0.3
+
+[node name="BridgeOfKael" type="Node3D"]
+script = ExtResource("1_scr")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("env")
+
+[node name="DirectionalLight" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.866, -0.5, 0, 0.5, 0.866, 0, 10, 0)
+light_color = Color(0.973, 0.451, 0.086, 1)
+light_energy = 0.4
+
+[node name="Floor" type="MeshInstance3D" parent="."]
+mesh = BoxMesh.new()
+transform = Transform3D(40, 0, 0, 0, 0.1, 0, 0, 0, 60, 0, -0.05, 0)
+
+[node name="Player" parent="." instance=ExtResource("2_player")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -25)
+
+[node name="HUD" parent="." instance=ExtResource("3_hud")]
+
+[node name="SpawnPoints" type="Node3D" parent="."]
+
+[node name="SP1" type="Marker3D" parent="SpawnPoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 2, 25)
+
+[node name="SP2" type="Marker3D" parent="SpawnPoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 2, 25)
+
+[node name="SP3" type="Marker3D" parent="SpawnPoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 25)
+
+[node name="SP4" type="Marker3D" parent="SpawnPoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 2, 25)
+
+[node name="SP5" type="Marker3D" parent="SpawnPoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 2, 25)
+
+[node name="SP6" type="Marker3D" parent="SpawnPoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 2, 28)
+
+[node name="SP7" type="Marker3D" parent="SpawnPoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 2, 28)
+
+[node name="SP8" type="Marker3D" parent="SpawnPoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 2, 28)
+
+[node name="EdgeLights" type="Node3D" parent="."]
+
+[node name="Light1" type="OmniLight3D" parent="EdgeLights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 1, -20)
+light_color = Color(0.984, 0.749, 0.165, 1)
+light_energy = 0.3
+omni_range = 2.0
+
+[node name="Light2" type="OmniLight3D" parent="EdgeLights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 1, -20)
+light_color = Color(0.984, 0.749, 0.165, 1)
+light_energy = 0.3
+omni_range = 2.0
+
+[node name="Light3" type="OmniLight3D" parent="EdgeLights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 1, 0)
+light_color = Color(0.984, 0.749, 0.165, 1)
+light_energy = 0.3
+omni_range = 2.0
+
+[node name="Light4" type="OmniLight3D" parent="EdgeLights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 1, 0)
+light_color = Color(0.984, 0.749, 0.165, 1)
+light_energy = 0.3
+omni_range = 2.0

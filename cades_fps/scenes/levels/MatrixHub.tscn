@@ -1,0 +1,26 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://scenes/levels/MatrixHub.gd" id="1_scr"]
+[ext_resource type="PackedScene" path="res://objects/player.tscn" id="2_player"]
+[ext_resource type="PackedScene" path="res://scenes/ui/HUD.tscn" id="3_hud"]
+
+[sub_resource type="Environment" id="env"]
+background_mode = 1
+background_color = Color(0, 0, 0, 1)
+ambient_light_color = Color(0.545, 0.361, 0.965, 1)
+ambient_light_energy = 0.3
+
+[node name="MatrixHub" type="Node3D"]
+script = ExtResource("1_scr")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("env")
+
+[node name="Floor" type="MeshInstance3D" parent="."]
+mesh = BoxMesh.new()
+transform = Transform3D(20, 0, 0, 0, 0.01, 0, 0, 0, 20, 0, -0.005, 0)
+
+[node name="Player" parent="." instance=ExtResource("2_player")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="HUD" parent="." instance=ExtResource("3_hud")]
