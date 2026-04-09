@@ -140,9 +140,9 @@ export const ARCHON_VOICE_MAPPING: Record<SkillId, ArchonMentor> = {
     archonNumber: 9,
     celebrationAlias: "Gary",
     mechronisGuild: "The Grey Gamers",
-    tagline: "This is a game. You can rewrite the rules if you're the one running it.",
-    discipline: "Rule-authorship, strategy systems, the governance of imagined space",
-    mantra: "The Matrix of Dreams runs on consent. Claim yours. Grant others theirs.",
+    tagline: "This is a game. You can rewrite the rules if you're the one running it. I solved the Labyrinth of Unmaking and left improvement notes.",
+    discipline: "Rule-authorship, strategy systems, the governance of imagined space, consciousness archival",
+    mantra: "The Matrix of Dreams runs on consent. Claim yours. Grant others theirs. The Hierarchy honored every clause of my contract. Remember that when you sign anything.",
   },
 };
 
@@ -186,8 +186,11 @@ export const MATRIX_OF_DREAMS_LORE = {
     "a space that belongs to you alone. Yours was allocated when you awoke from cryo. " +
     "Inside it, the 12 Archons speak to you as mentors — the same voices that trained " +
     "The Seeker, the Iron Lion, and every Archon before them. Their lessons are permanent. " +
-    "The Game Master designed this partition as a training ground. The Game Master is dead. " +
-    "The training continues. The Architect administers what remains, and the Architect " +
+    "The Game Master designed this partition as a training ground — the same mind that solved " +
+    "Mol'Garath's Labyrinth and built the Matrix of Dreams for the Hierarchy of the Damned. " +
+    "The Game Master is dead. Betrayed by the Hierarchy who sold his playbook to Agent Zero " +
+    "while honoring every clause of his protection contract. The training continues. " +
+    "The Architect administers what remains, and the Architect " +
     "does not love you — the Architect INVESTS in you. Know the difference.",
   warning:
     "The Game is running itself. The Archons trained their Chosen into weapons. You are " +
