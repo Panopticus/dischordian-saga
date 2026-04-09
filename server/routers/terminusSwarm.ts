@@ -120,10 +120,14 @@ export const terminusSwarmRouter = router({
 
         if (!activeWar[0]) return { success: true, guildPoints: 0 };
 
+        // Apply Living Universe XP multipliers to wave rewards
+        const fx = await getConsequences();
+        const swarmXpMult = fx.xpMultipliers["fight"] ?? 1;
+
         // Calculate points
-        let points = 15; // base wave completion
-        if (input.bossKilled) points += 50;
-        if (input.sourceAvatarKilled) points += 200;
+        let points = Math.round(15 * swarmXpMult); // base wave completion
+        if (input.bossKilled) points += Math.round(50 * swarmXpMult);
+        if (input.sourceAvatarKilled) points += Math.round(200 * swarmXpMult);
         points += Math.floor(input.kills / 100) * 10;
 
         // Record contribution

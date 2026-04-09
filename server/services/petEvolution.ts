@@ -15,7 +15,6 @@ import { getDb } from "../db";
 import { eidolonBonds, playerPets, notifications } from "../../drizzle/schema";
 import { eq, and, sql } from "drizzle-orm";
 import { logger } from "../logger";
-import { pressureService } from "./pressureService";
 import { ripple } from "./rippleEngine";
 
 /** Evolution stage names matching eidolonBonds.stage enum */

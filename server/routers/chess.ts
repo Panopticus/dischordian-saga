@@ -1017,7 +1017,10 @@ async function processGameEnd(
   const baseRewards = calculateRewards(game.mode, game.aiDifficulty || 3, playerWon, eloChange);
   const rewards = { ...baseRewards } as typeof baseRewards & { traitMultiplier: number; traitSources: string[] };
   const combinedMultiplier = endChessTb.rewardMultiplier * endChessTb.dreamMultiplier;
-  rewards.dream = Math.round(baseRewards.dream * combinedMultiplier);
+  // Apply Living Universe XP multiplier to chess rewards
+  const fx = await getConsequences();
+  const chessXpMult = fx.xpMultipliers["fight"] ?? 1;
+  rewards.dream = Math.round(baseRewards.dream * combinedMultiplier * chessXpMult);
   // Attach trait info for frontend bonus toast
   rewards.traitMultiplier = combinedMultiplier;
   const traitSources: string[] = [];

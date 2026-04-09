@@ -144,8 +144,10 @@ export const spaceStationRouter = router({
         }
       }
 
-      // Build time
-      const buildTimeMinutes = Math.ceil(moduleDef.baseBuildTime / Math.max(bonuses.buildSpeedMultiplier, 0.5));
+      // Build time — apply Living Universe crafting multiplier
+      const fx = await getConsequences();
+      const adjustedBuildSpeed = Math.max(bonuses.buildSpeedMultiplier, 0.5) * fx.craftingMultiplier;
+      const buildTimeMinutes = Math.ceil(moduleDef.baseBuildTime / adjustedBuildSpeed);
       const completesAt = new Date(Date.now() + buildTimeMinutes * 60 * 1000);
 
       // Deduct resources

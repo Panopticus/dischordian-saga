@@ -109,9 +109,13 @@ export const coopRaidsRouter = router({
         prestigeClass: prestRows[0]?.prestigeClassKey,
         bossElement: RAID_BOSSES.find(b => b.key === raid.bossKey)?.element,
       });
+      // Apply Living Universe combat modifiers
+      const fx = await getConsequences();
+      const combatDamageMult = fx.combatModifiers?.damageMultiplier ?? 1;
+
       // Base damage is 100-300 scaled by bonuses
       const baseDmg = 100 + Math.floor(Math.random() * 200);
-      const damage = { totalDamage: Math.floor(baseDmg * bonuses.damageMultiplier), sources: bonuses.sources };
+      const damage = { totalDamage: Math.floor(baseDmg * bonuses.damageMultiplier * combatDamageMult), sources: bonuses.sources };
 
       const newHp = Math.max(0, raid.currentHp - damage.totalDamage);
 

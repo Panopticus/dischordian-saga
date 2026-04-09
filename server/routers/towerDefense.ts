@@ -379,6 +379,11 @@ export const towerDefenseRouter = router({
           eq(towerPlacements.status, "active"),
         ));
 
+      // Apply Living Universe combat modifiers
+      const fx = await getConsequences();
+      const combatDamageMult = fx.combatModifiers?.damageMultiplier ?? 1;
+      const combatDefenseMult = fx.combatModifiers?.defenseMultiplier ?? 1;
+
       // Calculate attack power
       let totalAttackPower = 0;
       let totalUnitHp = 0;
@@ -386,8 +391,8 @@ export const towerDefenseRouter = router({
       for (const unit of input.units) {
         const unitDef = RAID_UNITS.find(u => u.key === unit.key);
         if (!unitDef) continue;
-        totalAttackPower += unitDef.baseDamage * unit.count * tdBonuses.raidUnitDamageMultiplier;
-        totalUnitHp += unitDef.baseHp * unit.count * tdBonuses.raidUnitHpMultiplier;
+        totalAttackPower += unitDef.baseDamage * unit.count * tdBonuses.raidUnitDamageMultiplier * combatDamageMult;
+        totalUnitHp += unitDef.baseHp * unit.count * tdBonuses.raidUnitHpMultiplier * combatDefenseMult;
         totalUnits += unit.count;
       }
 
