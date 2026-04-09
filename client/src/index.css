@@ -1351,6 +1351,34 @@ html.font-size-large .font-mono {
   font-size: inherit;
 }
 
+/* ═══════════════════════════════════════════════════════
+   LIVING UNIVERSE — Event Atmosphere Overrides
+   When a universe event is active, UniverseAtmosphere.tsx
+   sets data-universe-event on <html>. These selectors
+   override the Void Energy glow and accent to reflect
+   the event's mood across the entire UI.
+   ═══════════════════════════════════════════════════════ */
+[data-universe-event="necromancer_revival"] {
+  --void-glow: rgba(139, 0, 0, 0.3);
+  --void-accent: #8b0000;
+}
+[data-universe-event="ascendant_light"] {
+  --void-glow: rgba(74, 144, 226, 0.3);
+  --void-accent: #4a90d9;
+}
+[data-universe-event="virus_encounter"] {
+  --void-glow: rgba(34, 197, 94, 0.3);
+  --void-accent: #22c55e;
+}
+[data-universe-event="cosmic_dawn"] {
+  --void-glow: rgba(184, 134, 11, 0.3);
+  --void-accent: #b8860b;
+}
+[data-universe-event="digital_decay"] {
+  --void-glow: rgba(75, 0, 130, 0.3);
+  --void-accent: #4b0082;
+}
+
 /* MK-Inspired: FINISH HIM pulse animation */
 @keyframes finishHimPulse {
   0% { transform: translate(-50%, -50%) scale(1); filter: brightness(1); }

@@ -21,6 +21,7 @@ import {
   CASINO_ENVIRONMENTS, FLOOR_BACKGROUNDS, CASINO_GAME_TABLES,
   getDegenPortrait, getVipChip, getTrustMilestoneArt,
 } from "@/lib/casinoAssets";
+import { useDegenVO } from "@/hooks/useDegenVO";
 
 const CASINO_FLOOR_BG = CASINO_ENVIRONMENTS.mainFloor;
 const CASINO_PARALLAX_COLOR = "https://res.cloudinary.com/dsenaozjq/image/upload/q_auto/f_auto/v1775681916/Vast_open_casino_202604081640_drbpia.jpg";
@@ -43,8 +44,12 @@ export default function DegensCasinoPage() {
     img.onload = () => { setTimeout(() => setEntering(false), 1500); clearTimeout(timer); };
     return () => clearTimeout(timer);
   }, []);
+
+  // Play welcome VO on first load
+  useEffect(() => { speakDegen("degen_welcome_00"); }, []);
   const [selectedGame, setSelectedGame] = useState<CasinoGame | null>(null);
   const [casinoFloor, setCasinoFloor] = useState<"main" | "cards" | "dice" | "slots" | "vip" | "betting" | "bingo" | "roulette">("main");
+  const { speak: speakDegen } = useDegenVO();
   const [degenText, setDegenText] = useState(() => getDegenQuote("welcome"));
   const [slotResult, setSlotResult] = useState<{ reels: string[]; payout: number } | null>(null);
   const [diceResult, setDiceResult] = useState<{ die1: number; die2: number; total: number } | null>(null);
@@ -94,22 +99,28 @@ export default function DegensCasinoPage() {
     };
     save(newState);
 
-    // Set appropriate commentary
+    // Set appropriate commentary and play VO
     if (jackpot) {
       setDegenText(getDegenQuote("jackpot"));
+      speakDegen("degen_jackpot_00");
     } else if (newStreak >= 10) {
       const quotes = DEGEN_QUOTES_EXPANSION.streak_10;
       setDegenText(quotes[Math.floor(Math.random() * quotes.length)]);
+      speakDegen("degen_win_00");
     } else if (newStreak >= 5) {
       const quotes = DEGEN_QUOTES_EXPANSION.streak_5;
       setDegenText(quotes[Math.floor(Math.random() * quotes.length)]);
+      speakDegen("degen_win_00");
     } else if (newStreak >= 3) {
       const quotes = DEGEN_QUOTES_EXPANSION.streak_3;
       setDegenText(quotes[Math.floor(Math.random() * quotes.length)]);
+      speakDegen("degen_win_00");
     } else if (won) {
       setDegenText(getDegenQuote("win"));
+      speakDegen("degen_win_00");
     } else {
       setDegenText(getDegenQuote("lose"));
+      speakDegen("degen_lose_00");
     }
   };
 

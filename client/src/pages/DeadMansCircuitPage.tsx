@@ -17,7 +17,7 @@ import {
   CIRCUIT_PALETTE, CIRCUIT_ABILITIES, calculateCP,
   getNilmorgLine, type CloneStats,
 } from "@shared/deadMansCircuit";
-import { DMC_ENVIRONMENTS, DMC_MUSIC, DMC_CINEMATICS } from "@/data/dmcAssets";
+import { useNilmorgVO } from "@/hooks/useNilmorgVO";
 
 type Phase = "lobby" | "racing" | "results";
 
@@ -26,30 +26,13 @@ const voidPanel = "bg-white/[0.02] border border-white/10 rounded-xl backdrop-bl
 export default function DeadMansCircuitPage() {
   const { user, isAuthenticated } = useAuth();
   const { state: gameState } = useGame();
+  const { speak: speakNilmorg } = useNilmorgVO();
 
   const [phase, setPhase] = useState<Phase>("lobby");
   const [gameReady, setGameReady] = useState(false);
   const [raceResult, setRaceResult] = useState<any>(null);
   const [nilmorgQuote, setNilmorgQuote] = useState(() => getNilmorgLine("circuit_begins"));
   const iframeRef = useRef<HTMLIFrameElement>(null);
-  const audioRef = useRef<HTMLAudioElement | null>(null);
-
-  // Lobby music — play "Nilmorg Watches" when in lobby, stop otherwise
-  useEffect(() => {
-    if (phase === "lobby") {
-      const audio = new Audio(DMC_MUSIC.nilmorgWatches);
-      audio.loop = true;
-      audio.volume = 0.3;
-      audio.play().catch(() => {});
-      audioRef.current = audio;
-    }
-    return () => {
-      if (audioRef.current) {
-        audioRef.current.pause();
-        audioRef.current = null;
-      }
-    };
-  }, [phase]);
 
   const season = trpc.deadMansCircuit.getCurrentSeason.useQuery();
   const leaderboard = trpc.deadMansCircuit.getLeaderboard.useQuery();
@@ -104,9 +87,11 @@ export default function DeadMansCircuitPage() {
           abilitiesUsed: result.abilities_used || [],
         });
         // Nilmorg reacts
+        const nilmorgVoId = `nilmorg_${String(Math.floor(Math.random() * 28)).padStart(2, '0')}`;
         if (!result.clone_survived) setNilmorgQuote(getNilmorgLine("player_died"));
         else if (result.finish_position === 1) setNilmorgQuote(getNilmorgLine("player_wins"));
         else setNilmorgQuote(getNilmorgLine("player_losing"));
+        speakNilmorg(nilmorgVoId);
       }
     };
     window.addEventListener("message", handler);
@@ -116,9 +101,7 @@ export default function DeadMansCircuitPage() {
   // ─── NO ACTIVE SEASON ───
   if (!season.data) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center p-4 relative" style={{ background: CIRCUIT_PALETTE.TRENCH_DARK }}>
-        <img src={DMC_ENVIRONMENTS.cloneVat} alt="" className="absolute inset-0 w-full h-full object-cover opacity-20 pointer-events-none" />
-        <div className="relative z-10 flex flex-col items-center">
+      <div className="min-h-screen flex flex-col items-center justify-center p-4" style={{ background: CIRCUIT_PALETTE.TRENCH_DARK }}>
         <Skull size={64} style={{ color: CIRCUIT_PALETTE.NILMORG_ORANGE }} className="mb-6 opacity-30" />
         <h1 className="font-display text-2xl tracking-[0.3em] mb-2" style={{ color: CIRCUIT_PALETTE.NILMORG_ORANGE }}>
           THE CIRCUIT IS CLOSED
@@ -130,7 +113,6 @@ export default function DeadMansCircuitPage() {
         <Link href="/casino" className="font-mono text-xs px-4 py-2 rounded-lg border" style={{ color: CIRCUIT_PALETTE.NILMORG_ORANGE, borderColor: CIRCUIT_PALETTE.NILMORG_ORANGE + "40" }}>
           RETURN TO THE CASINO
         </Link>
-        </div>
       </div>
     );
   }
@@ -141,11 +123,10 @@ export default function DeadMansCircuitPage() {
       <div className="min-h-screen relative" style={{ background: CIRCUIT_PALETTE.VOID_BLACK }}>
         {!gameReady && (
           <div className="absolute inset-0 flex flex-col items-center justify-center z-10" style={{ background: CIRCUIT_PALETTE.TRENCH_DARK }}>
-            <img src={DMC_ENVIRONMENTS.startingGrid} alt="" className="absolute inset-0 w-full h-full object-cover opacity-15 pointer-events-none" />
-            <motion.div animate={{ opacity: [0.3, 1, 0.3] }} transition={{ duration: 2, repeat: Infinity }} className="relative z-10">
+            <motion.div animate={{ opacity: [0.3, 1, 0.3] }} transition={{ duration: 2, repeat: Infinity }}>
               <Skull size={48} style={{ color: CIRCUIT_PALETTE.NILMORG_ORANGE }} className="mb-4 mx-auto" />
             </motion.div>
-            <p className="relative z-10 font-mono text-sm tracking-[0.3em]" style={{ color: CIRCUIT_PALETTE.NILMORG_ORANGE }}>
+            <p className="font-mono text-sm tracking-[0.3em]" style={{ color: CIRCUIT_PALETTE.NILMORG_ORANGE }}>
               THE TRENCH IS OPENING
             </p>
           </div>
@@ -169,9 +150,8 @@ export default function DeadMansCircuitPage() {
     const cpBreakdown = calculateCP(pos, season.data.phase, survived, false, raceResult.rival_kills || 0);
 
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center p-4 relative" style={{ background: CIRCUIT_PALETTE.TRENCH_DARK }}>
-        <img src={DMC_ENVIRONMENTS.nilmorgPlatform} alt="" className="absolute inset-0 w-full h-full object-cover opacity-15 pointer-events-none" />
-        <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="max-w-md w-full text-center relative z-10">
+      <div className="min-h-screen flex flex-col items-center justify-center p-4" style={{ background: CIRCUIT_PALETTE.TRENCH_DARK }}>
+        <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="max-w-md w-full text-center">
           {/* Position */}
           <div className="mb-6">
             <p className="font-display text-6xl font-black" style={{ color: pos === 1 ? CIRCUIT_PALETTE.VICTORY_GOLD : CIRCUIT_PALETTE.NILMORG_ORANGE }}>
@@ -233,8 +213,7 @@ export default function DeadMansCircuitPage() {
   const clone = cloneConfig.data;
 
   return (
-    <div className="min-h-screen pb-24 relative" style={{ background: CIRCUIT_PALETTE.TRENCH_DARK }}>
-      <img src={DMC_ENVIRONMENTS.trench} alt="" className="absolute inset-0 w-full h-full object-cover opacity-10 pointer-events-none" />
+    <div className="min-h-screen pb-24" style={{ background: CIRCUIT_PALETTE.TRENCH_DARK }}>
       {/* Header */}
       <div className="px-4 sm:px-6 pt-6 pb-4 border-b" style={{ borderColor: CIRCUIT_PALETTE.NILMORG_ORANGE + "20" }}>
         <div className="flex items-center gap-3 mb-2">

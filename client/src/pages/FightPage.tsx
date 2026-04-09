@@ -45,6 +45,8 @@ import {
 } from "@/game/storyMode";
 import { getStorySceneEffect, getArenaIntro, GAME_OPENING_CINEMATIC } from "@/game/cinematicDesign";
 import PostBattleDialog from "@/components/PostBattleDialog";
+import { useSourceVO } from "@/hooks/useSourceVO";
+import { useNecromancerVO } from "@/hooks/useNecromancerVO";
 
 type Phase = "title" | "intro-video" | "lore" | "story" | "story-cutscene" | "story-dialogue" | "select" | "difficulty" | "arena" | "fighting" | "results" | "story-results";
 
@@ -75,6 +77,8 @@ export default function FightPage() {
   const { state: gameState, addMaterial } = useGame();
   const { notify: nqNotify, notifyLootDrop, notifyAchievement } = useNotificationQueue();
   useGameAreaBGM("arena_battle");
+  const { speak: speakSource } = useSourceVO();
+  const { speak: speakNecromancer } = useNecromancerVO();
   const [phase, setPhase] = useState<Phase>("title");
   const [selectedPlayer, setSelectedPlayer] = useState<FighterData | null>(null);
   const [selectedOpponent, setSelectedOpponent] = useState<FighterData | null>(null);
@@ -344,6 +348,31 @@ export default function FightPage() {
       }
     }
   }, [currentStoryChapter, storyDialogueType, storyDialogueIndex, storyProgress, gam]);
+
+  // Play Source / Necromancer VO when they speak in story dialogue
+  useEffect(() => {
+    if (phase !== "story-dialogue" || !currentStoryChapter) return;
+    const dialogues = storyDialogueType === "pre"
+      ? currentStoryChapter.preDialogue
+      : storyDialogueType === "post-win"
+      ? currentStoryChapter.postVictoryDialogue
+      : currentStoryChapter.postDefeatDialogue;
+    const currentLine = dialogues[storyDialogueIndex];
+    if (!currentLine) return;
+
+    const speaker = currentLine.speaker.toLowerCase();
+    if (speaker === "the source") {
+      const voId = storyDialogueType === "pre" ? "source_prefight"
+        : storyDialogueType === "post-win" ? "source_postwin"
+        : "source_postloss";
+      speakSource(voId);
+    } else if (speaker === "the necromancer") {
+      const voId = storyDialogueType === "pre" ? "necro_prefight"
+        : storyDialogueType === "post-win" ? "necro_postwin"
+        : "necro_postloss";
+      speakNecromancer(voId);
+    }
+  }, [phase, currentStoryChapter, storyDialogueType, storyDialogueIndex, speakSource, speakNecromancer]);
 
   // Apply trait bonuses to player fighter data (must be top-level, not inside conditional)
   const boostedPlayer = useMemo(() => {
