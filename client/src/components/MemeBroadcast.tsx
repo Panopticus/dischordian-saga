@@ -20,6 +20,7 @@ import { getLoredexUnlocksForTransmission } from "@shared/transmissionLoredexUnl
 import { useKinetic } from "@/hooks/useKinetic";
 import { emitDiscoveryNotification } from "@/components/DiscoveryNotification";
 import { getNPCPortrait } from "@/game/npcPortraits";
+import { useMemeVO } from "@/hooks/useMemeVO";
 
 interface Props {
   transmission: Transmission;
@@ -52,9 +53,24 @@ export default function MemeBroadcast({ transmission, onClose, onComplete, alrea
     }
   }, [phase]);
 
+  // Meme VO playback
+  const { speak: speakMeme, stop: stopMeme } = useMemeVO();
+
   // Kinetic typography for Meme commentary
   const intro = useKinetic({ mode: "word", text: transmission.memeIntro, speed: 18, autoStart: phase === "intro" });
   const outro = useKinetic({ mode: "word", text: transmission.memeOutro, speed: 18, autoStart: phase === "outro" });
+
+  // Play Meme VO when intro/outro phase starts
+  useEffect(() => {
+    if (phase === "intro") {
+      speakMeme(`meme_intro_ep${transmission.epoch}_${transmission.episodeNumber}`);
+    } else if (phase === "outro") {
+      stopMeme();
+      speakMeme(`meme_outro_ep${transmission.epoch}_${transmission.episodeNumber}`);
+    } else if (phase === "broadcast" || phase === "static-to-video") {
+      stopMeme(); // Stop VO when video starts
+    }
+  }, [phase, transmission.epoch, transmission.episodeNumber, speakMeme, stopMeme]);
 
   const transmissionId = `ep${transmission.epoch}-${transmission.episodeNumber}`;
 
