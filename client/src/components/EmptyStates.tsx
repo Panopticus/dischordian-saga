@@ -36,6 +36,23 @@ import { Button } from "@/components/ui/button";
 
 /* ─── SHARED SHELL ─── */
 
+/** Maps each empty-state to its optional art-bible image under /art/empty-states/ */
+const EMPTY_STATE_IMAGES: Record<string, string> = {
+  questLog:       "/art/empty-states/empty-quest-log.png",
+  inventory:      "/art/empty-states/empty-inventory.png",
+  cardCollection: "/art/empty-states/empty-card-collection.png",
+  loreJournal:    "/art/empty-states/empty-lore-journal.png",
+  guildHall:      "/art/empty-states/empty-guild-hall.png",
+  petCollection:  "/art/empty-states/empty-pet-collection.png",
+  matchHistory:   "/art/empty-states/empty-match-history.png",
+  notifications:  "/art/empty-states/empty-notifications.png",
+  companions:     "/art/empty-states/empty-companions.png",
+  achievements:   "/art/empty-states/empty-achievements.png",
+  tradeHistory:   "/art/empty-states/empty-trade-history.png",
+  apprentices:    "/art/empty-states/empty-apprentices.png",
+  leaderboard:    "/art/empty-states/empty-leaderboard.png",
+};
+
 interface EmptyStateShellProps {
   icon: ReactNode;
   title: string;
@@ -43,6 +60,7 @@ interface EmptyStateShellProps {
   actionLabel?: string;
   onAction?: () => void;
   className?: string;
+  imageKey?: keyof typeof EMPTY_STATE_IMAGES;
 }
 
 function EmptyStateShell({
@@ -52,7 +70,10 @@ function EmptyStateShell({
   actionLabel,
   onAction,
   className,
+  imageKey,
 }: EmptyStateShellProps) {
+  const imageSrc = imageKey ? EMPTY_STATE_IMAGES[imageKey] : undefined;
+
   return (
     <motion.div
       {...VOID.fadeUp(16)}
@@ -61,23 +82,39 @@ function EmptyStateShell({
         className,
       )}
     >
-      {/* Floating icon */}
-      <motion.div
-        animate={{ y: [0, -6, 0] }}
-        transition={{
-          duration: 4,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
-        className="flex items-center justify-center rounded-full p-4"
-        style={{
-          background:
-            "color-mix(in oklch, var(--energy-primary, #33e2e6) 10%, transparent)",
-          boxShadow: "0 0 24px var(--material-glow, rgba(51,226,230,0.15))",
-        }}
-      >
-        {icon}
-      </motion.div>
+      {/* Art illustration (if available) or floating icon fallback */}
+      {imageSrc ? (
+        <motion.img
+          src={imageSrc}
+          alt=""
+          loading="lazy"
+          animate={{ y: [0, -4, 0] }}
+          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+          className="size-32 rounded-full object-cover"
+          style={{
+            boxShadow: "0 0 32px var(--material-glow, rgba(51,226,230,0.2))",
+            border: "1px solid var(--material-border)",
+          }}
+          onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
+        />
+      ) : (
+        <motion.div
+          animate={{ y: [0, -6, 0] }}
+          transition={{
+            duration: 4,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+          className="flex items-center justify-center rounded-full p-4"
+          style={{
+            background:
+              "color-mix(in oklch, var(--energy-primary, #33e2e6) 10%, transparent)",
+            boxShadow: "0 0 24px var(--material-glow, rgba(51,226,230,0.15))",
+          }}
+        >
+          {icon}
+        </motion.div>
+      )}
 
       {/* Title */}
       <h3 className="void-heading text-lg font-semibold" style={{ color: "var(--text-primary)" }}>
@@ -121,6 +158,7 @@ interface EmptyStateProps {
 export function EmptyQuestLog({ className, onAction }: EmptyStateProps) {
   return (
     <EmptyStateShell
+      imageKey="questLog"
       icon={<Radio className="size-8" style={{ color: "var(--energy-primary)" }} />}
       title="The signal is quiet. No transmissions detected."
       description="Elara hasn't identified any objectives yet. Explore the Ark to uncover what needs doing."
@@ -134,6 +172,7 @@ export function EmptyQuestLog({ className, onAction }: EmptyStateProps) {
 export function EmptyInventory({ className, onAction }: EmptyStateProps) {
   return (
     <EmptyStateShell
+      imageKey="inventory"
       icon={<Package className="size-8" style={{ color: "var(--energy-primary)" }} />}
       title="The cargo hold echoes. Nothing but shadows and dust."
       description="Your collection awaits its first artifact. Complete quests or visit the marketplace."
@@ -147,6 +186,7 @@ export function EmptyInventory({ className, onAction }: EmptyStateProps) {
 export function EmptyCardCollection({ className, onAction }: EmptyStateProps) {
   return (
     <EmptyStateShell
+      imageKey="cardCollection"
       icon={<Layers className="size-8" style={{ color: "var(--energy-primary)" }} />}
       title="The deck case is empty. Every commander needs cards to play."
       description="Win battles, open packs, or trade with other Potentials."
@@ -160,6 +200,7 @@ export function EmptyCardCollection({ className, onAction }: EmptyStateProps) {
 export function EmptyLoreJournal({ className, onAction }: EmptyStateProps) {
   return (
     <EmptyStateShell
+      imageKey="loreJournal"
       icon={<BookOpen className="size-8" style={{ color: "var(--energy-primary)" }} />}
       title="The pages are blank. Your story hasn't been written yet."
       description="Record your discoveries, theories, and reflections as you uncover the truth."
@@ -173,6 +214,7 @@ export function EmptyLoreJournal({ className, onAction }: EmptyStateProps) {
 export function EmptyGuildHall({ className, onAction }: EmptyStateProps) {
   return (
     <EmptyStateShell
+      imageKey="guildHall"
       icon={<Shield className="size-8" style={{ color: "var(--energy-primary)" }} />}
       title="No guild banner hangs here. You walk alone."
       description="Join a guild to build something greater, or found one yourself."
@@ -186,6 +228,7 @@ export function EmptyGuildHall({ className, onAction }: EmptyStateProps) {
 export function EmptyPetCollection({ className, onAction }: EmptyStateProps) {
   return (
     <EmptyStateShell
+      imageKey="petCollection"
       icon={<Bug className="size-8" style={{ color: "var(--energy-primary)" }} />}
       title="The specimen bay is silent. No creatures have been bonded."
       description="Explore Terminus to discover and capture alien specimens."
@@ -199,6 +242,7 @@ export function EmptyPetCollection({ className, onAction }: EmptyStateProps) {
 export function EmptyMatchHistory({ className, onAction }: EmptyStateProps) {
   return (
     <EmptyStateShell
+      imageKey="matchHistory"
       icon={<Swords className="size-8" style={{ color: "var(--energy-primary)" }} />}
       title="No battles recorded in the archive."
       description="Step into the arena to test your strategy against other Potentials."
@@ -212,6 +256,7 @@ export function EmptyMatchHistory({ className, onAction }: EmptyStateProps) {
 export function EmptyNotifications({ className, onAction }: EmptyStateProps) {
   return (
     <EmptyStateShell
+      imageKey="notifications"
       icon={<Bell className="size-8" style={{ color: "var(--energy-primary)" }} />}
       title="No signals pending. The void is peaceful... for now."
       description="When something stirs aboard the Ark, you'll be the first to know."
@@ -224,6 +269,7 @@ export function EmptyNotifications({ className, onAction }: EmptyStateProps) {
 export function EmptyCompanions({ className, onAction }: EmptyStateProps) {
   return (
     <EmptyStateShell
+      imageKey="companions"
       icon={<Users className="size-8" style={{ color: "var(--energy-primary)" }} />}
       title="The crew quarters are empty. The Ark feels vast and lonely."
       description="Meet the inhabitants of the Ark as you explore its decks."
@@ -237,6 +283,7 @@ export function EmptyCompanions({ className, onAction }: EmptyStateProps) {
 export function EmptyAchievements({ className, onAction }: EmptyStateProps) {
   return (
     <EmptyStateShell
+      imageKey="achievements"
       icon={<Trophy className="size-8" style={{ color: "var(--energy-primary)" }} />}
       title="Your record is clean. A fresh start on a stolen ship."
       description="Every action aboard the Ark leaves its mark. Start exploring."
@@ -249,6 +296,7 @@ export function EmptyAchievements({ className, onAction }: EmptyStateProps) {
 export function EmptyTradeHistory({ className, onAction }: EmptyStateProps) {
   return (
     <EmptyStateShell
+      imageKey="tradeHistory"
       icon={<ArrowLeftRight className="size-8" style={{ color: "var(--energy-primary)" }} />}
       title="No transactions recorded. The marketplace awaits."
       description="Buy, sell, and trade with Potentials across the fleet."
@@ -261,6 +309,7 @@ export function EmptyTradeHistory({ className, onAction }: EmptyStateProps) {
 export function EmptyApprentices({ className, onAction }: EmptyStateProps) {
   return (
     <EmptyStateShell
+      imageKey="apprentices"
       icon={<GraduationCap className="size-8" style={{ color: "var(--energy-primary)" }} />}
       title="The training hall stands ready. No apprentices have been recruited."
       description="Seek out promising souls in Celebration and recruit them to your cause."
@@ -274,6 +323,7 @@ export function EmptyApprentices({ className, onAction }: EmptyStateProps) {
 export function EmptyLeaderboard({ className, onAction }: EmptyStateProps) {
   return (
     <EmptyStateShell
+      imageKey="leaderboard"
       icon={<Crown className="size-8" style={{ color: "var(--energy-primary)" }} />}
       title="No rankings established. The competition hasn't begun."
       description="Be the first to stake your claim on the leaderboard."
