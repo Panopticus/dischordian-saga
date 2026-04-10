@@ -3211,11 +3211,185 @@ amount — if nobody is reading, the page is being forgotten. The
 community must *tell the truth continuously* to keep it lit.
 Silence is Shadow Tongue's friend.
 
+### C.2 — The Four Contestants
+
+Every episode of The Palimpsest features four seats. Three are
+fixed cast. One is **always the player, always on their current
+clone.** When the player's clone dies on the show, the next
+episode reboots them as the same character on a new clone body
+with all their memories intact and a new clone number next to
+their name. (*Existing system: `quizSpectator.ts` already tracks
+`cloneNumber` per player.*) The show does not stop.
+
+#### **Contestant 1 — DARREN FESSLER, Assistant Dream Engineer**
+
+**Lore anchor:** net-new NPC introduced here. Darren is a
+mid-level bureaucrat from the canonical **Dreams Workshop** — an
+office-complex sub-department of the Matrix of Dreams where
+Dream Engineers hand-build scenario content for the Game
+Master's infinite playground. He is the Dischordian Saga's
+**Dwight Schrute**: humorless, pedantic, uncomfortable with
+ambiguity, freakishly and inexplicably good at recalling isolated
+facts, unable to use any of them creatively, fiercely loyal to
+whichever middle-manager most recently praised him. He wears a
+short-sleeve dress shirt with a clip-on tie and an HR-compliant
+laminated employee badge at all times, even in a clone body.
+
+> *"I am not technically a dream engineer. I am an
+> **assistant** dream engineer, second class, Celebration
+> Building sub-basement four. My middle name is Nelson. It is
+> Welsh. You are not allowed to ask how I know the answers.
+> I do not know how I know the answers. The answers are in me."*
+> — Darren, Episode 1
+
+**Gameplay role:** Darren is the player's **reluctant quiz
+partner**. In team rounds he carries hard factual trivia —
+recall-based questions the player cannot beat him on. In
+creative or lateral rounds he falls apart completely. His
+weakness is **any question that requires imagination**. He will
+attempt to look up the answer to "what is your favorite color?"
+
+**Narrative function:** Darren is the audience's surrogate
+inside the Hierarchy of the Damned. He works for them and does
+not know it. His boss is General Alaric. Alaric has praised him
+twice in ten years. Darren would die for him. Darren **will**
+die for him — but not in the way Alaric expects.
+
+**Canonical link:** Darren's name will appear in the Dreams
+Workshop memo log accessible through the canonical Archives
+room dialog system (main proposal §1.4). Players who dig can
+find his employee reviews, his two favorable performance
+memos, and a single handwritten resignation letter he wrote
+three years ago and never submitted. The letter is blank except
+for the words *"I want to make something up."* It has never
+been sent. It is on his desk.
+
+#### **Contestant 2 — GENERAL ALARIC VESSE, Esq.**
+
+**Lore anchor:** net-new NPC. Officially introduced as a
+**Senior Partner at Vesse, Vesse & Mol'Garath LLP** — a
+corporate legal firm that handles contract law for New Babylon,
+the Artificial Empire, and "certain offshore principals." His
+business card is printed in black ink on black paper and is
+only readable in ultraviolet light, where it spells the word
+**MOL'GARATH**.
+
+He presents as a soft-spoken, immaculately groomed corporate
+lawyer in his late fifties. Grey suit. Silver cufflinks. A
+fountain pen that never runs out of ink because it is **not
+full of ink**. He speaks in clauses. He never raises his voice.
+He is, canonically, a **General of the Artificial Empire** —
+one of the Architect's few direct military commanders — and
+simultaneously the **SVP of Communications** at the Hierarchy
+of the Damned, *because Mol'Garath the Unmaker monetized his
+entire consciousness and leased it to the Architect's war
+effort as a cross-dimensional managed service.*
+
+In plain language: **General Alaric is Shadow Tongue wearing
+a law degree.** (*Canonical: the Lore Bible places Shadow
+Tongue as SVP of Communications and Propaganda in the
+Hierarchy of the Damned, created by the Collector, evolved
+beyond its creator's control — see Lore Bible §356.*)
+
+He is literally the devil, and he is on a quiz show.
+
+> *"I must, in the interest of full disclosure, remind the
+> audience that I am contractually obligated to be honest
+> within the four corners of the specific question I have been
+> asked, and not one inch beyond. Next question. I believe we
+> were discussing the ethical disposition of prisoners of war.
+> Please, Darren. You had a point."*
+> — General Alaric, Episode 1
+
+**Gameplay role:** Alaric is the player's **primary opponent**.
+He is calm, patient, terrifyingly well-sourced. He cites cases.
+He quotes legislation. **Every answer he gives is technically
+true and completely misleading.** His special ability is
+**"Objection"** — once per episode, he can reframe any question
+into a form the player did not study for. The player's only
+defense is the Palimpsest meter: if Signal is high, Alaric's
+Objection fails.
+
+**Narrative function:** Alaric is how the player learns the
+Hierarchy of the Damned is a *corporation*. Not a warband. Not
+a cult. A **firm**. With contracts and quarterly reports. Every
+scene he's in should feel like the player is being legally
+foreclosed on. When the Inventor's hack gets through (§C.4),
+the player will see, for a single frame, the thing behind the
+suit. It will not look like a man.
+
+#### **Contestant 3 — THE INVENTOR** *(initially absent, then progressively invading)*
+
+**Lore anchor:** **canonical — Lore Bible §1485.** The Inventor
+is one of the Ne-Yons, driven by the Dreamer's visions,
+"crafts tools and innovations that can empower or undermine any
+faction, depending on the Ne-Yons' inscrutable goals. They are
+both a giver of gifts and a bringer of destruction, beholden
+only to the art of creation."
+
+**How they enter the show:** they do not. They are not listed
+on the credits. They are not a registered contestant. **They
+hack in.** Starting in Episode 2, the player begins to notice
+that one of the on-screen graphics — the scoreboard glyph, the
+commercial bumper, the host's necktie pattern — has been
+*quietly replaced* with a Ne-Yon engineering rune that was not
+there last week. Then the bumpers start stuttering. Then a
+voice that is not the Host's bleeds under an ad break and
+says *"Don't trust him. Don't trust any of them. Count the
+rings on his pen."*
+
+The Inventor is trying to warn the player about Alaric through
+the only channel that still works: **the Matrix of Dreams
+broadcast infrastructure itself.** They are hacking it from
+outside. The show's producers keep patching it. The patches
+keep failing. The hack gets louder each episode. (*Progressive
+reveal: see §C.4.*)
+
+**Gameplay role:** a **meta-contestant**. Starting Episode 3,
+the player can "tune in" to Inventor-hijacked frequencies in
+the in-show moments by rapidly tapping a sequence that is only
+explained once, in a stutter of static, at the end of Episode 2.
+If the player catches the hack in time, they get a hint on the
+next question that overrides Alaric's Objection. If they miss
+it, the hack fizzles and the Inventor gets a little weaker.
+
+**Narrative function:** the Inventor is the player's **ally
+they never meet**. The whole game show arc is constructed so
+that **the player and the Inventor build trust across several
+episodes without ever speaking to each other face-to-face.**
+The Inventor is on the outside trying to get in. The player is
+on the inside trying to hear. Their relationship is the single
+clearest example in the game of how the Dreamer's faction works
+— the Inventor cannot show up in person because that is not
+what the Ne-Yons do. **They leave tools in places you will find
+them later.**
+
+#### **Contestant 4 — THE PLAYER**
+
+The player, always on their current clone, always seated in the
+same chair, always introduced by the Host with a slightly
+different joke about their death count. The Host knows they are
+the one watching.
+
+> *"And returning for her tenth body is our special guest from
+> Ark 1047 — the Potential known only by the name she chose
+> for herself. Please welcome — oh I'm sorry, I'm being told in
+> my earpiece that your ninth clone died off-camera in a
+> Substrate Dungeon last Tuesday. A moment of silence. *(beat)*
+> Thank you. Moving on."*
+> — the Host, Episode 4
+
+**The player's seat is the only seat where the camera occasionally
+cuts away to show the *audience* — and the audience is Elara and
+the Human, watching. They are in the studio. They do not speak.
+They take notes.** Which narrator is leaning forward more
+visibly depends on which one is currently active as the player's
+companion. Their reaction shots are the player's scorecard.
+
 ---
 
-*[Appendix C continues — C.2 The Four Contestants, C.3 The Game
-Shows, C.4 Inventor Hack, C.5 Darren, C.6 Meme Reveal, C.7
-Integration, C.8 Prompts. Drafted in chunks.]*
+*[Appendix C continues — C.3 Game Show Formats, C.4 Inventor
+Hack, C.5 Darren, C.6 Meme Reveal, C.7 Integration, C.8 Prompts.]*
 
 ---
 
