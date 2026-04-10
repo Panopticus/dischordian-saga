@@ -16,7 +16,7 @@
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
-import { S3Client, PutObjectCommand, HeadBucketCommand } from "@aws-sdk/client-s3";
+import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 
 // ─── ESM __dirname shim ───
 const __filename = fileURLToPath(import.meta.url);
@@ -141,10 +141,25 @@ async function uploadToS3(buffer: Buffer, key: string): Promise<string> {
   return `https://${BUCKET}.s3.${REGION}.amazonaws.com/${encodeURIComponent(fullKey)}`;
 }
 
-// ─── PREFLIGHT: verify AWS creds + bucket access BEFORE any TTS call ───
+// ─── PREFLIGHT: verify AWS creds + PutObject access BEFORE any TTS call ───
+// We test PutObject specifically (not HeadBucket) because HeadBucket requires
+// s3:ListBucket permission, which a properly least-privileged IAM policy
+// scoped only to uploads will NOT have. PutObject is the exact permission the
+// real workload needs, so this is the correct preflight.
 async function preflightS3(): Promise<void> {
+  const heartbeatKey = `${S3_PREFIX}/.preflight-heartbeat.txt`;
+  const heartbeatBody = Buffer.from(
+    `story-mode-vo-generator preflight ${new Date().toISOString()}\n`,
+  );
   try {
-    await s3.send(new HeadBucketCommand({ Bucket: BUCKET }));
+    await s3.send(
+      new PutObjectCommand({
+        Bucket: BUCKET,
+        Key: heartbeatKey,
+        Body: heartbeatBody,
+        ContentType: "text/plain",
+      }),
+    );
   } catch (err: any) {
     console.error(`\nERROR: S3 preflight failed for bucket "${BUCKET}" in region "${REGION}".`);
     console.error(`  name:         ${err.name || "(none)"}`);
@@ -162,7 +177,7 @@ async function preflightS3(): Promise<void> {
     console.error(`  • Wrong region?           Set AWS_REGION to the bucket's actual region.`);
     console.error(`  • Wrong credentials?      Double-check AWS_ACCESS_KEY_ID / AWS_SECRET_ACCESS_KEY.`);
     console.error(`  • Bucket does not exist?  Verify the bucket "${BUCKET}" in the AWS S3 console.`);
-    console.error(`  • IAM permission denied?  Ensure the user has s3:ListBucket + s3:PutObject on "${BUCKET}".`);
+    console.error(`  • IAM permission denied?  Ensure the user has s3:PutObject on "arn:aws:s3:::${BUCKET}/*".`);
     console.error(`\nAborting BEFORE any ElevenLabs TTS calls are made (protects your credit balance).`);
     process.exit(1);
   }
