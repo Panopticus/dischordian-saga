@@ -3883,9 +3883,137 @@ the dead one (absent, remembered), the Meme wearing him
 scene in Episode 6). The player meets the third one without
 knowing they are in the presence of the second.
 
+### C.7 — Integration Map (What Already Exists, What Is New)
+
+Appendix C, like Appendix B, is architected to run on
+infrastructure the game already ships. Here is the exact
+mapping.
+
+#### Canonical systems used by Appendix C (no changes)
+
+| System | File | How Appendix C uses it |
+|---|---|---|
+| Gamemaster's Arena (spectator + betting) | `client/src/game/quizSpectator.ts` | The **entire show runs on it**. Clone numbers, `dies_on_round`, `survives_round`, `perfect_run` bets, spectator messages, 💀 RIP clone reactions — all canonical. Zero changes needed. |
+| Loredex Quiz | `client/src/pages/LoreQuizPage.tsx` | Round 1 of every episode draws questions directly from the existing quiz engine. |
+| Thaloria Debate Stage (art) | `client/public/art/special-maps/special-thaloria-debate-stage.png` | The Round 2 Debate and the Episode 10 full Debate episode are set here. Single existing asset. |
+| Matrix of Dreams broadcast framing | (conceptual — canonical) | The show is broadcast "to all connected Arks" via the Matrix of Dreams infrastructure, matching the existing `quizSpectator.ts` framing comment. |
+| Ripple Engine | `server/services/rippleEngine.ts` | All Palimpsest meter changes are emitted as ripple events; the Episode casualty crawl pulls from the existing `combat_death` stream. |
+| Living Ark daily brief | `client/src/game/livingArk.ts` | Host cold opens reference whatever event happened on the player's ship today. |
+| Transmissions | `shared/transmissions.ts` | All ads during the broadcasts are existing transmissions. Inventor hacks piggyback on the transmission delivery pipeline. |
+| Signal Beacons | `shared/signalBeacons.ts` | The Inventor's posthumous message after Darren's death is delivered as a canonical Signal Beacon. |
+| Mechronis Professors | `shared/mechronisProfessors.ts` | Episode 6 Survivor: Mechronis uses canonical Kanevas, Aoki, Halverez. Episode 6 introduces the previously-unwritten **Professor Glinn Vyre** (the Game Master Professor) as a guest judge — this is a *single new Professor entry* added to the existing canonical data file. |
+| Apprentice Betrayal | `shared/apprenticeBetrayal.ts` | Episode 4's Auction memory-loss mechanic uses the existing Apprentice Betrayal memory-tracking system. |
+| Syndicate Worlds | `shared/syndicateWorlds.ts` | Episode 7 Railroad episode's legal filings become Syndicate contracts the player has canonically signed. |
+| Cryo Dreams | `shared/cryoDreams.ts` | Darren's posthumous half-finished scenarios get finished by the player and appear as new cryoDreams entries credited "story by [player] and Darren Fessler." |
+| Archives room | (canonical room system, main proposal §1.4) | The Archives auto-unlock Darren's mother's file the morning after Episode 12. Darren's UV-readable Alaric business card is hinted at via the canonical UV filter Archives lore item. |
+| Governance Hub | (canonical, Year One V2 §1.1) | The Palimpsest Signal/Noise bars are rendered as a new panel on the existing Governance Hub. |
+| Antiquarian's Journal | `shared/antiquariansJournal.ts` | Every Palimpsest-relevant event generates a Chronicle entry in the canonical voice. |
+| Elara + Human dialog | (canonical callback pool) | Both narrators get new between-episode speculation lines and post-episode reaction banter. |
+| Dischordia card pool | `shared/cardArchetypes.ts` | The **ASSISTANT** card (Darren's memorial) is added to the existing card pool. Zero new art — card face reuses Darren's employee badge render. |
+
+#### New code required for Appendix C
+
+The entire appendix adds approximately **12 small code
+changes** on top of existing systems:
+
+1. **One new NPC file** — `shared/darrenFessler.ts` — with his
+   dialog, letters, and office-hours review prompts.
+2. **One new NPC file** — `shared/generalAlaric.ts` — with his
+   contestant dialog, Objection ability, and the cross-faction
+   metadata linking him to Shadow Tongue.
+3. **One new Mechronis Professor entry** in
+   `shared/mechronisProfessors.ts` — Professor Glinn Vyre.
+4. **One new meter** — `shared/palimpsest.ts` — modeled on the
+   existing `shared/necromancerCycle.ts` two-bar pattern. The
+   file already exists as a template.
+5. **Six new ripple event types** in `rippleEngine.ts`:
+   `palimpsest_signal_gain`, `palimpsest_noise_gain`,
+   `inventor_hack_landed`, `inventor_hack_blocked`,
+   `show_casualty_rolled`, `host_mask_slipped`.
+6. **One new page** for the show episodes themselves — reuses
+   the `quizSpectator.ts` UI components.
+7. **Thirteen episode configurations** (data-only, not code) —
+   one JSON per episode defining the Round 3 format, theme,
+   casualty rules, and Inventor hack level.
+8. **One new room object** — Darren's desk in the Dreams
+   Workshop (accessible post-Episode 12). Single scene.
+9. **One new Signal Beacon entry** — the Inventor's posthumous
+   message.
+10. **One new Dischordia card** — THE ASSISTANT, using
+    Darren's badge render as the face.
+11. **Twelve new between-episode letter templates** (mailroom
+    content) — data-only.
+12. **One new Governance Hub panel** — the Palimpsest bars,
+    rendered as an illuminated-manuscript page component.
+
+That is the complete build list for Appendix C. Everything
+else is writing: dialog, Chronicle entries, episode themes,
+Host monologues. **No new engines. No new cinematic systems.
+No new combat.**
+
+#### How Appendix C cross-links with Appendix B
+
+The game show arc and the Kael questline are designed to run
+in parallel without stepping on each other. Key intersections:
+
+- **Episode 6 Survivor: Mechronis** references the Mechronis
+  Professors, who also appear in Appendix A.2 and main proposal
+  §4.4. Professor Vyre's introduction here pays off a gap in
+  the canonical system.
+- **Episode 9 casualty crawl** uses the names of Kael's
+  original Insurgency crew, which were established in
+  Appendix B §B.7.8 phantom crew. The Inventor is explicitly
+  saying these are the dead the Hierarchy wants forgotten.
+  **Players who have progressed in Appendix B will recognize
+  the names. Players who haven't will not.** The hack rewards
+  cross-arc engagement without requiring it.
+- **The Inventor's final message** after Darren's death is a
+  Signal Beacon. Signal Beacons are the delivery channel for
+  the Kael Fragments in Appendix B §B.3. The infrastructure is
+  shared. A player who has transcribed Fragment beacons will
+  have an easier time decoding the Inventor's posthumous
+  message — it uses the same cipher format.
+- **Darren's mother on a Celebration grave in Trade Empire**
+  is reachable through the same sector exploration that
+  Appendix B §B.7.9 uses for Beacon-17 (Kael's safehouse).
+  The Celebration apprentice graves and Kael's safehouse are
+  in the same cluster of sectors. A player visiting one will
+  find a signpost pointing toward the other.
+- **The Palimpsest Signal meter interacts with the Kael
+  questline Light/Dark meter**. High Signal shields the
+  player's completed Kael Loredex entries from Shadow Tongue
+  editing. High Noise accelerates Shadow Tongue's editing of
+  the Kael pamphlet in Month 12 of Appendix B §B.6. **If both
+  arcs are failing simultaneously, the player loses Kael's
+  real name permanently.** If both are succeeding, the Chronicle
+  entry about the Recruiter becomes two paragraphs longer.
+
+#### How Appendix C cross-links with the main proposal
+
+- The Mailroom outside the Captain's Quarters is the same room
+  where the player's authored cards, dead pets, and dismissed
+  companion lines are displayed (main proposal Appendix A.10).
+  Darren's letters go on the same wall as the player's identity
+  chain from §10.1.
+- The show's **audience of Elara and the Human** extends the
+  yin-yang narrator system from main proposal §13. Their
+  between-episode speculation uses the same callback infra.
+- The **Palimpsest** meter is the **third** global meter in
+  the game, joining (1) the canonical Necromancer Cycle's
+  Resurrection/Life bars (`shared/necromancerCycle.ts`) and
+  (2) the main proposal §11 Light/Dark Energy meter. All three
+  meters are cross-queried by the Living Universe events
+  system so that certain combinations unlock rare events. A
+  world where Signal is high, Light Energy is high, and Life
+  Energy is high simultaneously triggers a canonical rare
+  event: **"The Antiquarian Stops Writing"** — the Chronicle
+  goes blank for 24 real hours because, for the first time in
+  five Ages, the Antiquarian is watching the story unfold too
+  gratefully to interrupt it.
+
 ---
 
-*[Appendix C continues — C.7 Integration, C.8 Prompts.]*
+*[Appendix C continues — C.8 Cinematic Prompts. Final chunk.]*
 
 ---
 
