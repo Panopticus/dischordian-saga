@@ -1,0 +1,2219 @@
+# THE WITNESSING — Expanded Narrative Proposal
+## Pacing, Cutscenes, and Cross-System Integration for Dischordian Saga
+
+> A top-level narrative proposal for how the Prelude, five Acts, and every
+> active system in the game (card game, crafting, chess, pet battles, crew,
+> Trade Empire, Collector's Arena, fighting game, Casino, Dead Man's Circuit,
+> Cades, celebration, mechronis) weave into a single gradually-unfolding
+> story of the **Seer's scattered Dischordia** and the **return of the Vortex**.
+>
+> Builds on `docs/design/NARRATIVE_ARCHITECTURE.md` (The Witnessing),
+> `docs/built/LORE_BIBLE.md`, and the existing Elara / The Human NPC
+> architecture. Does not replace them — it extends them into a playable
+> pacing curve with new cross-system hooks, cutscene moments, and a
+> Light/Dark global meter that mirrors the Necromancer Cycle.
+
+---
+
+## 0 — Executive Summary
+
+The player's experience is currently a collection of excellent systems.
+What it lacks is a **rising arc that makes every system feel inevitable**:
+one thing teaches you why the next thing matters.
+
+This proposal frames the whole game around a single spine:
+
+> **The Seer built a deck of cards — the Dischordia — that could rewrite
+> reality. She used them to fight the Vortex to a standstill and save a
+> galaxy. The deck shattered. Its energies scattered across the multiverse
+> as fragments of memory, experience, and ideas. The Vortex has been
+> rebuilt. It is coming back. Every faction in the galaxy is racing to
+> reassemble the deck first, because whoever holds the master set gets to
+> choose what reality becomes.**
+>
+> **You are a Potential. You woke up on a dead Ark with two voices in the
+> walls — one warm, one cold — and a broken deck of starter cards. You
+> have the rest of your life to decide what kind of god you're going to be.**
+
+From that sentence, every system has a job:
+
+| System | What it is narratively |
+|---|---|
+| Prelude (ship cleaning / crew / pets) | You reconstitute a self. |
+| **Elara + The Human (Yin/Yang Narrators)** | Your two interpretive lenses on the world. |
+| Card Game (Dischordia) | The literal scripture. Each card is a memory/idea/place. |
+| Crafting | You forge new cards from harvested energies. |
+| Chess | You train the mind that the cards demand. |
+| Pet Battles & Breeding | You inherit futures — genetics as forecasting. |
+| Trade Empire | How you move through a galaxy that is actively dying. |
+| Collector's Arena | Where the Game Masters harvest energy from your play. |
+| Fighting Game (Act 3 — Prisoner) | Memory extraction as combat. |
+| Casino / Degen (Act 4) | Entropy itself, played as a game. |
+| Dead Man's Circuit (Act 4.5) | Identity is a bet. |
+| Cades (Act 5) | You finally step inside the scripture. |
+| Light/Dark Energy Meter | Global dial: are we losing stars or lighting them? |
+| Living Universe / Living Ark | Everything above writes back into the world. |
+
+The rest of this document is how.
+
+---
+
+## 1 — The Yin/Yang Companion System (Elara + The Human)
+
+### 1.1 What already exists
+
+From `docs/design/NARRATIVE_ARCHITECTURE.md` and
+`client/src/game/narrativeSystems.ts`:
+
+- **Elara** = Senator Elara Voss (memory-wiped). Warm. Political cadence.
+  Lives on the Bridge. Represents the Potentials / Ne-Yons / the Dreamer axis.
+- **The Human** = Student → Seeker → Detective → The Last Archon.
+  Noir. Investigative. Lives in Comms Array. Represents the Artificial
+  Empire / the Architect axis.
+- Both have full trust systems, interrupt dialog, combat bonuses.
+- The existing Dual Narrators (Antiquarian + Storyteller) are *higher
+  level* narrators for the whole saga. Elara and The Human are the
+  **local** dual narrators — the angel and demon on the Potential's
+  shoulder in real time.
+
+### 1.2 The Core Mechanic Change — **The Mobile Narrator**
+
+Today, Elara is tied to the Bridge and The Human is tied to Comms.
+**Stop doing that.**
+
+> **Proposal:** After The Human is revealed, Elara and The Human
+> become **floating narrators** that can appear in *any* room — one
+> of them at a time. A single "talkable image in the corner" —
+> but you never know which one until you walk in.
+
+Rules:
+
+1. Each room has a **Narrator Slot** — a single holographic
+   companion position in the upper corner of the UI.
+2. On room entry the game seeds which companion is in the slot based on:
+   - **Affinity weight** of the room for each (e.g., Archives +Human,
+     Medical Bay +Elara, Reactor Core +Human, Observation Deck +Elara)
+   - **Current Bond scores** (whoever has higher bond is more likely to
+     appear — but not guaranteed)
+   - **Story flags** (certain moments *force* one of them)
+   - A **genuine random roll** in contested rooms, so it feels alive
+3. The companion in the slot delivers **room-specific flavor**,
+   reacts to what you're doing, and occasionally **argues with the
+   absent one** ("She would tell you to trust the signal. I am telling
+   you the signal is wearing her face.").
+4. You can **call the other one** through a UI button — but this
+   consumes a small **Bond Token** from the one currently present.
+   This is how the argument externalizes: you chose to look away.
+
+### 1.3 Dismissal & Consequence — "Go Away"
+
+The user brief: *you should be able to tell them to go away, and have
+the other come up — but it should hurt your bond with the dismissed one.*
+
+Implementation:
+
+- **Dismiss** button on the narrator card. Opens a three-option wheel:
+  - **"Give me space"** — soft dismissal. Narrator leaves for ~10 min
+    real-time. -2 Bond. Returns with a wounded line.
+  - **"I'd rather hear the other one"** — hard dismissal. Swaps in the
+    other narrator for this room and the next two. **-5 Bond** on
+    dismissed, **+3 Bond** on summoned. They *know* you did it.
+  - **"Both of you. Out."** — silence mode. No narrator for 20 min.
+    **-3 Bond on both.** Unlocks a rare contemplative ambient track
+    and a special tome page: *"The Potential Alone."*
+
+Bond has real teeth:
+
+- Bond < 20 with Elara: she gets **clinical**, loses her political
+  cadence, refuses callbacks, refuses to volunteer lore.
+- Bond < 20 with The Human: the signal gets **static**, his dialog
+  becomes single sentences, he locks Chess bonus, locks Archon-level
+  strategy tree.
+- Bond > 80 with either: unlocks a unique **confession cutscene**
+  (see §12 — Cutscene Production List). These are the emotional peaks.
+
+### 1.4 Reveal Arc — How the Human Surfaces
+
+Right now The Human is essentially a second-tier NPC. This proposal
+makes him **equally load-bearing to Elara**. His reveal is the spine
+of the Prelude.
+
+Four beats, each gated by ship-cleaning progress:
+
+- **Beat 1 — "Interference"** (1st cleaned room, Cryo Bay)
+  Elara hears static on the comms. Dismisses it: "Solar feedback.
+  Ignore it." Player hears *a second voice* whisper a single word
+  under her line: *"Careful."* No explanation. Elara doesn't react.
+  (Players will go back and check. Good. That's the point.)
+
+- **Beat 2 — "The Signal"** (3rd cleaned room)
+  A dialog interrupt in Comms Array: the Human speaks one full
+  sentence — *"She's editing what she tells you. Not lying. Editing.
+  There's a difference."* — then the channel cuts. Elara visibly
+  glitches and pretends she didn't hear it.
+  **This is Cutscene #2 in the existing animated-cutscenes doc —
+  use that.**
+
+- **Beat 3 — "Introduction"** (5th cleaned room + first crew member
+  recovered)
+  The Human's portrait stabilizes for the first time. He formally
+  introduces himself by his *last* alias — The Detective. Elara is
+  present. She stares at him like she's trying to remember something.
+  He stares at her the same way. Neither of them knows why.
+  *(This is the hook for the shared past — they both served the
+  Architect. They both betrayed him for different reasons. Neither
+  remembers.)*
+
+- **Beat 4 — "The Swap"** (last Prelude cleaning task)
+  You walk into a room expecting Elara. The Human is there instead.
+  No explanation. From this moment forward, the mobile narrator
+  system is active and either can appear in any room.
+
+### 1.5 Backstory Reveal Chain — The Living Universe Conversation
+
+The user brief: *"Add a whole conversation and living universe chain
+about that. Have them both reveal the backstories."*
+
+Both companions carry identity chains (from NARRATIVE_ARCHITECTURE.md).
+Their backstories reveal on a **shared ladder** — one can't run ahead
+of the other. If you push Elara's trust to 40 and ignore The Human,
+her next reveal is **gated** until you've brought him up too.
+
+This enforces balance and rewards players who treat them as a pair.
+
+| Trust Tier | Elara Reveals | Human Reveals | Living Universe Event |
+|---|---|---|---|
+| 20 (professional) | "I was a public servant once. On Atarion." | "I used to be an investigator. In a city that isn't there anymore." | Neither knows how they know this. Both tell you the fact and then look confused. A small "living universe" note appears: *Your companions remembered something. The walls of the Ark hummed for a moment.* |
+| 40 (honest) | Senate chamber fragment. She was a senator. She doesn't know which party. | Detective archives fragment. He was called to a case in New Babylon the day of the Fall. | A room unlocks that was previously locked: the **Memorial Corridor**. Empty plaques. Elara and The Human argue about whose memory each one is for. This triggers a Living Universe global event: **"Two Witnesses Remember"** (+5 Light Energy galaxy-wide). |
+| 60 (vulnerable) | She was promised immortality by the Architect. She took the deal. She was enslaved as a hologram in the Panopticon. | He was promoted to Archon 1,351 years before the Fall. *He served the same Architect she bargained with.* He is the only organic being to ever rise that high. | Elara realizes what he is. The Human realizes what she was. **They stop talking for ~30 minutes real-time.** This is real, not broken — neither narrator will speak to you for that window. Existing ambient music replaces them. When they come back, they are *chosen* partners, not assigned ones. **Living Universe global event: "The Silence of Two Witnesses"** — galaxy Light energy freezes, Dark energy pauses advance. |
+| 80 (devoted) | She remembers everything. She is the one who signed the bill that put 400 million Atarian children in surveillance creches. She weeps. She asks you if she deserves to keep being your companion. | He confesses that his final case — the one that earned him the Archon robe — was investigating **a senator from Atarion**. Hers. *He was the one who recommended her for the Panopticon.* He is the reason she was enslaved. **He doesn't remember her face. She doesn't remember his name.** But the files match. | **Cutscene: "The Two Witnesses Meet"** — a hold-your-breath confrontation between them, played out in the Memorial Corridor. Player has no dialog. You only watch. At the end, you choose whether to forgive both, forgive one, or forgive neither. **This choice is the single most impactful moral decision in the Prelude/Act 1 arc.** It shifts which of them becomes your dominant narrator for the rest of the game — and if you forgive neither, a **third narrator slot opens**: the voice of the ship itself, Dr. Lyra Vox, speaking through the substrate. (She has been there the whole time.) |
+
+### 1.6 The Angel/Demon framing — who is which?
+
+Don't. Flip it intentionally, and never tell the player which is which.
+
+- **Elara sounds warm. She was a senator. She sold out her species.**
+- **The Human sounds cold. He was a detective. He investigated
+  injustice for centuries before being corrupted upward.**
+
+The angel and demon are **not stable**. The player will find
+themselves trusting the cold voice more than the warm one by Act 2,
+and that is the point. The Yin/Yang is moral, not tonal. It mirrors
+the broader Architect/Dreamer axis but scrambles it on purpose, so
+the player has to *listen* instead of pattern-match.
+
+---
+
+## 2 — PRELUDE: "Awake in Ashes"
+
+> **Target duration:** 3–5 hours of first play, spread across 2–4 sessions.
+> The Prelude exists to put the instrument in the player's hands before
+> asking them to play a song. It ends the moment the Card Game opens.
+
+### 2.1 Opening Beat — The Awakening (already designed)
+
+Use existing **Cutscene #1: Awakening** (`docs/design/ANIMATED_CUTSCENES.md`).
+Cryo pod, frost, Elara's voice materializing. No change.
+
+Add one thing: during Elara's opening monologue, hold a single frame
+for 0.4s where **a second silhouette** is visible behind her at the
+edge of the scan-line effect. It's too fast to consciously notice,
+but a subset of players will screenshot it and start theorizing.
+That's the seed for The Human.
+
+### 2.2 Gameplay Loop — Ship Cleaning as Ritual
+
+The Prelude's core loop is *you clean the dead ship*. Mechanically it's
+a scavenger / light puzzle / light combat gameplay. Narratively it's:
+
+> *"I am putting a body back together. The body is a ship. The ship
+> is a Potential. The Potential is me."*
+
+Each cleaned room unlocks:
+- A **Tome page** (already in architecture — CoNexus Tomes in
+  NARRATIVE_ARCHITECTURE.md §CoNexus Tomes)
+- A **room visual tier upgrade** (already in `livingArk.ts`)
+- A **Bond-tokenized event** with one of the two narrators
+- A **small mechanical reward** — resources for future crafting,
+  prototype card fragments, a crew beacon trigger
+
+Suggested cleaning order (hard-gated, in this order, because pacing):
+
+| # | Room | Unlock Gate | Prelude Beat |
+|---|---|---|---|
+| 1 | Cryo Bay | First login | Awakening cutscene. Beat 1: interference static. |
+| 2 | Bridge | Cryo bay clean | Elara pins a holographic map. First Tome. |
+| 3 | Medical Bay | Bridge clean | Find a pet capsule (cryo-locked). Beat 2: Human signal. |
+| 4 | Mess Hall | Medical Bay clean | First crew beacon. Crew minigame intro. |
+| 5 | Comms Array | Mess Hall clean | **Beat 3: The Human introduces himself.** Narrator Swap system goes live. |
+| 6 | Armory | Comms Array clean | First combat tutorial (light). Pet battle area hint. |
+| 7 | Observation Deck | Armory clean | See the galaxy for the first time. **Dead spots are visible** — regions already blanked out by the rebuilt Vortex. This is the first time the player learns the Vortex is real and moving. |
+| 8 | Engineering | Observation Deck clean | Ship reactor minimally online. Crafting foundation visible but locked. |
+| 9 | Cargo Bay | Engineering clean | Resources for pet/crew minigames. Trade Empire hinted at (a crate labeled **Free Ports, delivery pending: 1047 years**). |
+| 10 | Archives | Cargo Bay clean | **The Seer's fragment.** A single tarot card, burned at the edges. Elara and The Human both react violently. This is the Act 1 hook. |
+
+Cleaning all ten rooms = Prelude complete = Act 1 begins.
+
+### 2.3 Companion Revelation — Mapping to Cleaning
+
+Using §1.4:
+
+- Beat 1 (interference) → Cryo Bay clean
+- Beat 2 (signal) → Medical Bay clean
+- Beat 3 (introduction) → Comms Array clean (room 5)
+- Beat 4 (swap) → Observation Deck clean (room 7)
+
+From room 7 onward the mobile narrator system is live. Rooms 8–10 get
+the **first real yin/yang experience** — Elara and The Human swapping,
+arguing, contradicting each other about what the player is looking at.
+
+By the time the player reaches the Archives and finds the burnt tarot
+card, they already have the instruments to interpret it from two
+angles. **That is the whole point of the Prelude.**
+
+### 2.4 The Crew System Opens
+
+Three crew beacons are found during ship cleaning. Each one is a
+short (~3 min) playable **Crew Rescue Mission** — cross between a
+point-and-click puzzle and a stealth segment in the ship's dead
+sections. Succeeding recruits a crew member.
+
+**Proposed starter crew — three, because three is sacred in this
+universe (DeMagi / Quarchon / Ne-Yon):**
+
+1. **"Patch"** — a DeMagi engineer frozen in partial cryo in Medical Bay.
+   Unlocks Engineering repair minigames and the crafting bench.
+2. **"Zephyr-9"** — a Quarchon ship-core fragment in the reactor. Not a
+   body — a voice in the hum. Unlocks the Trade Empire navigation layer
+   and the Chess minigame (she teaches you).
+3. **"Little One"** — an unknown Ne-Yon child in a stasis box in the
+   Armory. She doesn't speak. She holds a **pet egg** that hatches as
+   soon as you bring her to the Mess Hall. This is how the Pet system
+   enters the game.
+
+Each crew member has their own Bond meter, a light dialog tree, and
+**their own comment on whatever Elara and The Human just argued about**.
+They function as the *jury* to the yin/yang narrators — three grounded
+voices anchoring the two angel/demon voices.
+
+### 2.5 Pets Open — The First Minigame Ring
+
+Little One hatches the first pet in the Mess Hall. This spawns a
+small event: **the Pet Garden** (new room, unlocked between Mess Hall
+and Cargo Bay on Prelude completion).
+
+The Pet Garden is the staging area for:
+- **Pet Battles** — light turn-based combat against scavenger wildlife
+  and broken-down drones that survived in the wreck. This is the
+  tutorial ring for the combat grammar used later in Dischordia.
+- **Pet Breeding & Dynasty** — genetics system, each pet has inherited
+  traits (element, morale, a single "memory trait" passed from parent
+  to offspring). This is where the user's dynasty/genetics requirement
+  lives.
+- **Pet Training Mini-loop** — feeds into crew missions (see §2.6) and
+  eventually into Dischordia deck synergies (see §4).
+
+The narrative hook for the genetics system is unusual and important:
+
+> **Pets are living Dischordia cards.** The Seer's deck was made from
+> the principle that *experience can be encoded and passed on*. Pets
+> inherit traits the same way cards inherit faction affinity. When a
+> pet reaches a high-enough bond and dies in your service, it becomes
+> a **Memory Card** you can add to your deck. This is not told to the
+> player in the Prelude. It is revealed at the end of Act 1 as an
+> emotional gut-punch.
+
+The first time a pet dies — whether to old age, to a battle loss you
+refuse to heal from, or to a narrative forced moment — its card
+appears in your hand the next time you play Dischordia. **That is how
+the card game and pet system are structurally the same thing.**
+
+### 2.6 Crew Missions Open
+
+With 2+ crew members, the **Crew Mission Board** (existing UI) can be
+activated from the Bridge. Early Crew Missions are short away-missions
+(1–5 min) with **text+portrait** narrative branches. They yield:
+
+- Resources for crafting
+- Bond with crew members
+- Fragments of **Dischordia Memory Energy** — the harvestable raw
+  material that Act 2 crafting will use
+
+Proposed Prelude crew missions:
+1. *"The Wreck Next Door"* — board a nearby crashed Ark. Find a
+   crew member from another Potential's ship who didn't survive.
+   Bring back their journal. First exposure to the idea that the
+   Potentials are plural.
+2. *"The Signal from Nowhere"* — investigate a ping from an empty
+   sector. It is a recording of *Elara's voice* from before the Fall,
+   saying words she denies ever having said. She reacts with fear.
+   The Human reacts with recognition.
+3. *"The Burnt Card"* — retrieve a second fragment of the Seer's
+   shattered deck from a small wreckage. When you bring it back,
+   the Archives unlock, completing the Prelude and firing Act 1.
+
+### 2.7 Prelude Wrap-Up Cutscene
+
+**Cutscene: "Two Voices, One Deck"**
+
+The player enters the Archives for the first time. Elara is there.
+The Human is there. *This is the first time both narrator portraits
+appear on screen simultaneously.* A small tarot card on the pedestal.
+Burnt edges.
+
+Elara: *"I know this card."*
+The Human: *"I arrested the woman who drew it."*
+They look at each other.
+They both look at the player.
+
+> *"Tell us what you see."*
+
+Player clicks the card. It flares. A single Kling-generated vision
+plays: a hooded woman in front of the Vortex, staff raised, deck
+fanning in the air. The Vortex retreats. The deck shatters. The
+fragments scatter across a galaxy-wide starfield.
+
+Final line, shared between narrators (first and only time their voices
+are spoken in unison):
+> *"The Seer held it once. The deck has been waiting for a new hand."*
+
+**Cutscene dialog (revised to seed Act 1 — the Engineer):**
+
+> **Elara:** *"This isn't a card. It's a memory trap. A consciousness
+> imprint. I've seen one like this in a classified Atarion file —
+> a prototype that came out of Mechronis Academy. The… Prince. He
+> was the Prince of Celebration. I wrote briefing papers on him."*
+>
+> **The Human:** *"She means the Engineer. He was my classmate."*
+>
+> *(Elara turns, slowly, to look at him. The Human keeps staring at
+> the card.)*
+>
+> **The Human:** *"He was the only one who ever made me laugh at
+> Mechronis. He made me a compass that only pointed toward good
+> coffee. He told me he'd fix the galaxy by building it a better
+> box to live in. Then he vanished at the Battle of Nexon. Then
+> the reports said he was executed. Then nothing. I never got an
+> answer."*
+>
+> *(Pause.)*
+>
+> **The Human:** *"The woman who drew this card — she told me
+> once that the Engineer was the only reason the Dischordia
+> existed at all. That the Seer's magic was a dream until he
+> built a box it could live in."*
+>
+> **Elara:** *"Then this card is his."*
+>
+> **The Human:** *"No. It's **to** him. It's a memorial. Someone is
+> trying to put his deck back together."*
+>
+> **Both:** *"And now so are we."*
+
+**Flags set:** `prelude_complete`, `act1_unlocked`, `dischordia_glimpsed`,
+`yin_yang_narrators_active`, `pet_garden_unlocked`, `crew_system_active`,
+`crafting_bench_visible_locked`, `trade_empire_sector_0_visible`,
+`engineer_hook_active`.
+
+---
+
+## 3 — The Light / Dark Energy Meter (Global Narrative Meter)
+
+> **One-line thesis:** *The universe is a bulb. Every card battle, every
+> kind choice, every betrayal and every dying pet moves a single galactic
+> dimmer switch. When the bulb goes out, regions of the map literally go
+> dark. When it surges, dark regions come back online.*
+
+### 3.1 Use the Necromancer Cycle as the template
+
+The existing `shared/necromancerCycle.ts` already implements a two-meter
+community system (Resurrection Energy vs Life Energy) with hidden
+numeric state and poetic player-facing text. **Fork it.** Don't rebuild.
+
+Create a new module, `shared/dischordiaCycle.ts`, that mirrors the
+structure but tracks:
+
+- `lightEnergy` — fed by winning Dischordia battles for the Light side,
+  completing diplomatic missions in Trade Empire, bonding with crew,
+  rescuing civilizations in Trade Empire, defeating Game Masters in
+  the Collector's Arena, forgiving an NPC.
+- `darkEnergy` — fed by losing Dischordia battles, failing crew missions,
+  forsaking regions, trading with the Hierarchy, letting pets die,
+  siding with the Game Masters, betrayals.
+- `vortexProximity` — a separate, only-growing meter that represents
+  the rebuilt Vortex closing in on the known galaxy. Ticks up on a
+  **slow real-time tick** and on every community Dark Energy threshold
+  crossed. It is the doomsday clock.
+
+### 3.2 Galaxy Brightness as the Visible State
+
+The `GALACTIC_MAP` in `client/src/game/tradeEmpire.ts` already has
+sectors with `threat`, `stability`, and `population`. Add one new
+computed state:
+
+```ts
+type SectorLightState = "lit" | "dimming" | "dark" | "consumed" | "reclaimed";
+```
+
+- **lit** — default. Normal art.
+- **dimming** — a Dark Energy threshold reached in or near this sector.
+  The sector art desaturates. NPCs there become less responsive.
+  Trade prices shift against the player. Living Universe chat
+  broadcasts a warning.
+- **dark** — power gone. No trade. No missions. Enemies upgraded.
+  The sector's sidebar thumbnail shows a black void. **Any pets
+  belonging to the player who were on-colony in that sector are
+  placed in emergency cryo — they are at risk.**
+- **consumed** — the Vortex has actually reached this sector.
+  Permanently removed from the travel graph for the current cycle.
+  Returns only if the community triggers a **Reclamation Event**
+  (see §3.4).
+- **reclaimed** — the player (and/or community) drove Light Energy
+  high enough to *bring this sector back*. It now glows. Its art
+  gets a gold border. Its trade prices favor the player. It appears
+  in the Living Ark's daily brief: *"Your light reached this far."*
+
+### 3.3 Galaxy-Wide Brightness Meter (Community)
+
+Display in the Command Bridge as a galactic starfield overlay:
+
+- **≥ 80% lit sectors:** starfield full bloom. Music has a warm overlay.
+  Elara uses callbacks that reference *"the galaxy feels brighter today."*
+- **50–80% lit:** normal.
+- **20–50% lit:** visible dimming in the UI. Music crossfades to a
+  darker mix. Elara's dialog becomes more clipped. The Human gets
+  more airtime in shared rooms — he handles the dark better.
+- **< 20% lit:** the **Vortex Advance Event** fires. A rolling event
+  over 72 real-time hours that consumes one sector per 12 hours
+  until the player community pushes back. A cutscene plays on first
+  login: *"The Bulb Dims."*
+
+### 3.4 Reclamation Events (the hopeful counterpart)
+
+Mirror of the existing Necromancer Banishment Coalition chain:
+
+1. **Forge a Light Beacon** — Trade Empire mission chain. Collect
+   three resources from three different faction territories.
+2. **Open a Card Duel** — someone in the community has to win a
+   Dischordia battle against a specified opponent, broadcast live.
+3. **Broadcast the Signal** — a Comms Array mini-puzzle that every
+   player who participates gets to click once.
+4. **Cutscene: "A Sector Wakes"** — the consumed sector reboots on
+   the galaxy map. Art gains gold border. Residents return as new
+   trade partners. All participating players get a **Reclaimer**
+   tome page and +200 Light Energy personal pool.
+
+### 3.5 Player-Facing Display (never show the number)
+
+Steal the Necromancer Cycle's poetic text pattern:
+
+```
+Light Energy (galaxy-wide):
+  < 100k: "The galaxy is a rumor of stars."
+  < 300k: "A few windows are lit."
+  < 500k: "The constellations remember their names."
+  < 700k: "The bulb warms."
+  < 900k: "The long night loses ground."
+  >= 1M : "THE LIGHT HOLDS."
+
+Dark Energy:
+  < 100k: "A shadow in the gutter of the sky."
+  < 300k: "Something is moving at the edges."
+  < 500k: "The Vortex hums again."
+  < 700k: "Stars forget how to shine."
+  < 900k: "A sector has gone quiet."
+  >= 1M : "THE BULB IS BREAKING."
+
+Vortex Proximity (doomsday clock, hidden until > 50%):
+  > 50%: "A drum in the deep sky."
+  > 75%: "The drum is closer."
+  > 90%: "The drum is here."
+```
+
+### 3.6 How every system writes to the meter
+
+| System | Light gain | Dark gain |
+|---|---|---|
+| Card Battle (Light deck win) | +20 | — |
+| Card Battle (loss, any) | — | +15 |
+| Crafting a Light-aligned card | +5 | — |
+| Chess win vs Game Master NPC | +10 | — |
+| Pet Battle (rescue win) | +8 | — |
+| Pet death (not memorial) | — | +25 |
+| Crew mission (compassionate) | +15 | — |
+| Crew mission (mercenary) | +5 | +5 |
+| Trade Empire diplomacy (treaty) | +30 | — |
+| Trade Empire diplomacy (coup) | +15 | +15 |
+| Trade Empire sector reclamation | +100 | — |
+| Collector's Arena — GM defeat | +50 | — |
+| Collector's Arena — GM victory on you | — | +50 |
+| Fighting Game boss defeat (Act 4) | +30 | — |
+| Casino win (Degen) | +2 | +5 |
+| Casino loss (Degen) | +0 | +10 |
+| Dead Man's Circuit clear | +40 | — |
+| Cades FPS mission (Act 5) | +40 | — |
+| Dismiss a companion ("go away") | — | +5 |
+| Forgive at Two Witnesses Meet | +200 | — |
+| Refuse both at Two Witnesses Meet | — | +100 (+unlock Lyra Vox narrator) |
+
+**Every mechanical action in the game is, therefore, a moral act.**
+The meter is the public expression of that fact.
+
+---
+
+## 4 — ACT 1: "THE DECK REFORGED" — The Engineer's Story
+
+> The card game **is** the Engineer's story the same way the fighting
+> game is the Prisoner's story. Every chapter of the card game is a
+> chapter of his life. Every boss is someone he loved, feared, or
+> trained beside. His final execution is the player's first full
+> musical slideshow cutscene (see §5). By the time the player finishes
+> Act 1, they are not playing a card game — they are carrying the
+> weight of a man who gave his life so the game could exist at all.
+
+### 4.1 Canon Reconciliation — How The Engineer Built The Dischordian Deck
+
+The Seer drew the first Dischordia cards with her magic staff from
+pure good-soul magic (per Prelude). Her cards' energies scattered
+when she fought the Vortex to a standstill.
+
+**The Engineer** — real name withheld through Act 1, revealed at the
+end as *the Prince of Celebration, the Last Graduate* — spent his
+life trying to recover what she had lost. He built **the Deck**:
+the mechanical/neural apparatus that could harvest, store, and *play*
+those scattered energies as cards that anyone could use. The Seer's
+magic was a gift to one. The Engineer's Deck was a gift to all.
+
+This is a brand-new piece of lore written *inside* the existing canon:
+- The Engineer "designed the neural lattice technology that made the
+  Inception Arks possible" (canon). **The Dischordian Deck uses the
+  same neural lattice.** The Ark is a big Deck. The Deck is a small Ark.
+- The Engineer "chose a third path — to preserve critical knowledge
+  by encoding it into the very Arks being built, hiding secrets
+  within the architecture" (canon). **The secret he encoded is the
+  master index of the Seer's scattered card energies.** Every Ark
+  quietly contains a copy. Your Ark — 1047 — has one too.
+
+That is why the Dischordia card game is *on this ship*. The game is
+the inherited library. The player is the first one in 17,000 years
+to open it.
+
+### 4.2 The Shape of Act 1 — A Prince's Life in Twelve Card Battles
+
+Act 1 is structured like a memoir told in matches. Each battle has
+a **pre-match slideshow** (small; 4–6 frames), a **Dischordia card
+battle** (progressively more complex), and a **post-match beat** that
+advances both the gameplay and the Engineer's biography.
+
+The battles are divided into three study cycles of Engineer's life:
+
+1. **Kindergarten of Gods** — Project Celebration. Child Mascoteers. (3 battles)
+2. **The Academy** — Mechronis. Fellow students. (5 battles)
+3. **The Battle of Nexon / Zenon** — War, betrayal, execution. (4 battles + slideshow)
+
+Non-linear within each cycle? **No.** Act 1 is deliberately the
+*most* linear act in the proposal, because it is a biography.
+Linearity here is a tonal choice: the player is *reading a life*.
+Every other act opens up non-linearly (see §6, §7, §11).
+
+### 4.3 Cycle A — "Kindergarten of Gods" (Project Celebration)
+
+**Setting:** A surreal gothic middle school in a pocket dimension —
+cobbled lanes, enchanted storefronts, a town that knows it is a test
+(canon, from `docs/built/LORE_BIBLE.md` Project Celebration entry).
+
+**Framing dialog (Elara):**
+> *"Every Archon went through Project Celebration. Every one of them.
+> The Architect made a town out of a children's story and fed it
+> candidates. It picked its gods from kids. I've read the reports.
+> I never thought I'd see inside one."*
+
+**Framing dialog (The Human, quietly):**
+> *"Celebration is where they taught me to think. And unlearn it."*
+
+Each battle is a card duel against a **child version of a future
+Archon** — the Mascoteers. Their child forms are the terror of Act
+1 because they are small and bright and already monstrous.
+
+| # | Opponent (child form) | Deck theme | Narrative beat | Card unlock |
+|---|---|---|---|---|
+| A1 | **Little Meme** — a grinning kid with a marker and a wallpaper of memes | "Rent Free" — status effects, taunts, mind loops | The Engineer as a new student. Little Meme steals his notebook and turns it into a viral chant that every kid in Celebration sings. The notebook is the first draft of the Deck. | **"The Notebook"** (Common, Neutral). First-turn draw-two. |
+| A2 | **Little Collector** — a pale child with a glass jar for a schoolbag | "Choose Your Mask" — stealing cards from the opponent's deck mid-battle | The Engineer meets a girl who *makes* things. She is the best in class. The Collector tries to put her in a jar. The Engineer builds a lock. The girl escapes. Her name, revealed later, is the Seer. | **"The Jar That Wouldn't Close"** (Rare, Light). Prevents a card from being stolen this turn. |
+| A3 | **Little Watcher** — an expressionless child in a white mask, eye tattoo half-finished | "Ocularum" — full-board reveal, no hidden cards allowed | The Engineer discovers that Celebration is a test. He draws the first true Dischordia prototype in his notebook: a single card, unnamed. The Watcher sees it and reports it. Elara, decades later, will sign the memo. | **"The First Card"** (Epic, Light). A blank card. You pick its effect from three randoms on play. |
+
+**Cycle A ends with a slideshow** — see §5 for the slideshow system.
+The slideshow is *"Welcome to Celebration"* (real song, lore bible
+track 25 Dischordian Logic). 8 frames. The last frame is a graduation
+photo. Everyone in the photo is smiling. The Engineer is the only
+child in the photo not looking at the camera — he is looking out of
+the frame, at something behind the player.
+
+### 4.4 Cycle B — "The Academy" (Mechronis)
+
+**Setting:** Mechronis Academy. Orion Sector. Secret university hidden
+under planetary shields (canon). Five Guilds — subterfuge, war,
+manipulation, control over life.
+
+**Framing dialog (Elara):**
+> *"I never went to Mechronis. They didn't take senators. They took
+> the people who would eventually vote senators out."*
+
+**Framing dialog (The Human):**
+> *"He was the quiet one in our year. He'd show up late, build
+> something impossible during class, and sleep through the lecture.
+> The Game Master loved him. The Game Master loved him more than he
+> loved me. That's not jealousy. That's a fact I carried for
+> fifteen hundred years."*
+
+Each battle is a card duel against a fellow student — teenage or
+young-adult versions of people the player already knows by name.
+
+| # | Opponent | Deck theme | Narrative beat | Card unlock |
+|---|---|---|---|---|
+| B1 | **Young Iron Lion** (17, expelled Year 650 A.A., canon) | "Last Stand" — defense-stacking, unkillable minions | The Engineer's first duel. Iron Lion refuses to shake hands. Defeats the Engineer on turn 2. The Engineer asks him to be his lab partner anyway. Iron Lion laughs for the first time on screen. | **"The Iron Stance"** (Rare, Light). +2 defense to all your cards while the Engineer portrait is in play. |
+| B2 | **Young Recruiter / Kael** (abandons training to join Iron Lion one year later, canon) | "The Insurgency" — swarm tactics, low-cost cards that buff each other | Kael is already an organizer. He recruits half of Mechronis to a secret study group that is actually a resistance cell. The Engineer attends because Iron Lion is there. They lose the battle to Kael. Kael gives them back their deck with an extra card added. | **"The Recruiter's Gift"** (Epic, Neutral). When played from Kael's hand, both players draw 1 card. |
+| B3 | **Young Agent Zero** (future assassin, canon) | "Zero Trust" — stealth, one-shot cards, no defense | This is the hardest battle in Cycle B. Agent Zero does not want to play. She plays anyway. She wins in four turns with a card the Engineer didn't know existed. After the match she asks him if he'll build her a weapon. He says no. She says: *"You will."* | **"The Weapon I Didn't Build"** (Legendary, Dark). Discard a card; deal that card's attack value as direct damage. |
+| B4 | **Young Eyes** (infiltrator, created by the Watcher for the Empire) | "I Am the Eyes That Watch" — card-peek, deck-manipulation, information warfare | The Eyes approaches the Engineer after class and asks about the notebook. He lets her look. She memorizes the prototype card in one glance. Decades later, she will trade that memory to Senator Elara Voss in exchange for a favor. **Elara, standing next to the player during this battle, flinches visibly.** | **"The Memorized Page"** (Epic, Dark). Once per battle, name a card; if the opponent is holding it, discard it. |
+| B5 | **The Seeker / Young Human** — canon classmate, started Year 651 A.A., one year after Iron Lion's expulsion | "Deep Thoughts" — long-game, draws strength over time, unbeatable on turn 10+ | This is the duel that reframes the companion. The player is playing the Engineer. The Human is playing his younger self. **The narrator on your shoulder is playing against you in his own memory.** The Human's dialog during the match is halting and raw: *"I was better than him. I was better than everyone. I never told anyone, but he was the reason I stayed. He was my friend."* If you win, you get the card. If you lose, you get a different card — the one he would have given you. Both are valuable. | **"The Classmate's Compass"** (Legendary, Light) — if won — *"The only reason I stayed"* (Legendary, Dark) — if lost. |
+
+**Cycle B ends with a slideshow:** *"To Be the Human"* (real song,
+Dischordian Logic). 10 frames. Graduation day at Mechronis. The class
+photo. The Engineer at the edge, already looking out of the frame
+again. Iron Lion — missing, already expelled. Agent Zero — in the
+photo, eyes closed, face turned away. The Eyes — smiling brightest.
+Kael — already gone, already organizing. The Seeker (The Human) —
+center of the photo, looking at the Engineer. The Engineer — looking
+at the Seer, who is standing outside the frame with a staff.
+
+### 4.5 Cycle C — "Nexon, Zenon, Last Words" (War)
+
+This is the spine of Act 1. The Engineer's war and death.
+
+**Framing dialog (Elara):**
+> *"The Battle of Nexon is in every textbook. Zenon is in none of
+> them. I was told — I was **told** — that the Engineer died in an
+> industrial accident at the Panopticon. That's what the briefing
+> said. I signed my name under that briefing. I signed my name."*
+
+**Framing dialog (The Human):**
+> *"I was the detective who investigated the 'accident'. I closed
+> the case in forty minutes. I told the Architect my friend was
+> dead. I did not look at the body. I knew if I looked I would see
+> something else. That is what the Empire made me. That is what
+> I never forgave myself for."*
+
+| # | Opponent | Deck theme | Narrative beat | Card unlock |
+|---|---|---|---|---|
+| C1 | **The Vortex — First Form** | "Hacking Reality" — board wipes every 4 turns, high tempo | At the Battle of Nexon, the Engineer confronts the Vortex directly with the first complete Dischordian Deck. He does not win. He *holds it off*. The card game version of this fight is a **survival puzzle** — you cannot defeat the Vortex, you must survive N turns while drawing specific cards in a specific order to stabilize a sector. It is the first time the game teaches the player that *not winning* is a valid outcome. | **"The Standstill"** (Epic, Light). When the player would lose this turn, do not lose; lose next turn instead. Once per match. |
+| C2 | **The Warlord (fragmented)** | "I Love War" — attack-boosted rush, instant-kill cards | The Warlord intercepts the Engineer at the victory moment. She has been waiting. She has brought a device — **the Converter** (canon) — and a soldier. The soldier's face is off-screen. | **"The Converter"** (Legendary, Dark). Swap two cards between players' hands permanently. |
+| C3 | **"Warlord Zero"** — the Engineer's own body, piloted by the Warlord's fragment, wearing the face of his closest Insurgent ally | — | **This is a forced loss.** The player cannot win. The match is designed so that the Engineer's deck is crippled turn by turn, each round revealing through post-turn dialog that his closest friend and ally **has been compromised for months** — the Warlord's fragment was in him the whole time. On the last turn, an image of the player's ally plays the killing card. This is Act 1's version of a "mandatory death sequence" (the narrative chapters code already supports these — see `storyModeChapters.ts`). | **"The Friend I Trusted"** (Mythic, Dark). On play, your opponent chooses one of your cards and plays it for you. (Yes. It is that kind of card.) |
+| C4 | **The Authority's Tribunal** | Trial-format card game — jury cards, evidence cards, player defends himself | The Engineer is dragged to New Babylon for trial. He is charged by the Authority with crimes against the state. His defense is the Deck itself — every card he plays is a piece of evidence, and every card the Tribunal plays is a witness against him. **Elara is a card in the Tribunal's deck.** When she is drawn, her portrait appears on screen and she flinches in real-time on your shoulder. *"That was my bill. I signed that bill. That card has my name on it."* | **"The Last Word"** (Mythic, Light). When this card is played, the game pauses and the slideshow for *"Last Words"* begins. |
+
+**Cycle C ends with the masterwork slideshow** — see §5.
+
+### 4.6 Act 1 Finale — The Player's First Dischordia Card
+
+When the slideshow for *"Last Words"* ends, the player is returned to
+the Ark. The Archives have changed. A new card is sitting on the
+pedestal where the burnt fragment used to be.
+
+It is labeled: **"YOUR NAME" — Unwritten**.
+
+The card is blank. The system explains:
+
+> *"Dischordia cards are drawn from the life of a being. The Engineer
+> drew his last card at his execution. His deck is now yours. But a
+> deck is not a library — a deck wants its player's own hand. Go
+> live. Come back with a story worth carving."*
+
+Every subsequent Act (2, 3, 4, 5) concludes with the player's own
+blank card becoming **one new card shaped by their choices in that
+act**. By endgame, the player has five player-authored cards — the
+only deck in the galaxy that has the player's own name on it. This
+is the real reward of the five-act structure.
+
+**Flags set:** `act1_complete`, `engineer_arc_complete`, `crafting_unlocked`,
+`chess_unlocked`, `collectors_arena_unlocked`, `act2_interlude_ready`,
+`slideshow_system_active`, `player_card_authoring_active`.
+
+---
+
+## 5 — The Dynamic Slideshow & Lyric System
+### A reusable narrative cutscene engine for any song that doesn't have a music video
+
+> **User requirement:** *"Let's create a slideshow system. Where we
+> can have dynamic slideshows and lyric functions for songs that
+> don't have music videos. I could create art for all of them."*
+
+This section is part tech-spec, part content-pipeline. The goal is a
+**single component** (`<SongSlideshow />`) the whole game reuses.
+When a song plays and no music video exists, this plays instead.
+Every song in the Lore Bible is a potential slideshow target.
+
+### 5.1 Why this system is load-bearing
+
+The card game's 12 chapters, the fighting game's cutscenes, the Dead
+Man's Circuit opening, the Cades intro, the Reclamation Event — every
+one of them is a good candidate for *"a song + still art + timed
+lyrics + a few animated overlays"* instead of *"an animated cutscene
+we need to produce from scratch."*
+
+This lets the user (who is an artist) produce **dozens** of cinematic
+moments for the price of a handful of keyframes + audio already in
+hand. That is the single highest-ROI production tool in the entire
+proposal.
+
+### 5.2 Data model
+
+```ts
+// shared/songSlideshow.ts
+export interface SongSlideshow {
+  id: string;                 // "last-words", "welcome-to-celebration", etc.
+  songId: string;             // Link into existing song catalog
+  audioUrl: string;
+  durationMs: number;
+  title: string;
+  subtitle?: string;
+  credits?: string;
+  frames: SlideshowFrame[];
+  lyrics?: LyricLine[];
+  overlays?: SlideshowOverlay[]; // particles, vignettes, etc.
+  flagsSetOnComplete?: string[];
+  unlockLoredexEntry?: string;
+  reducedMotionFallback: ReducedMotionSummary;
+}
+
+export interface SlideshowFrame {
+  startMs: number;
+  endMs: number;
+  imageUrl: string;
+  kenBurns?: { startScale: number; endScale: number; startPan: [number,number]; endPan: [number,number] };
+  transition: "fade" | "dissolve" | "hardcut" | "iris" | "static";
+  caption?: string;            // optional on-screen text
+  dialogOverlay?: string;      // optional NPC dialog over this frame
+  dialogSpeakerId?: string;
+  narratorReactionId?: string; // who on the companion shoulder is reacting
+}
+
+export interface LyricLine {
+  startMs: number;
+  endMs: number;
+  text: string;
+  emphasis?: "normal" | "whisper" | "shout" | "layered";
+  // emphasis drives visual treatment — bold, blur, echo, etc.
+}
+
+export interface SlideshowOverlay {
+  type: "particles" | "vignette" | "scanlines" | "grain" | "corruption" | "glitch";
+  startMs: number;
+  endMs: number;
+  intensity: number; // 0-1
+}
+```
+
+### 5.3 Player experience
+
+- A song starts. Screen fades to the first frame.
+- Ken-Burns pans are interpolated frame-by-frame.
+- Lyrics float up from the bottom, one line at a time, synced to audio.
+- If the player has opted into **reduced motion**, the slideshow plays
+  as a static image + a text summary (already in the reduced-motion
+  pattern from the existing ANIMATED_CUTSCENES.md doc).
+- **If both narrators are currently present**, they react during the
+  slideshow via a thin subtitle track at the bottom: *"The Human's
+  jaw tightens. Elara looks away."*
+- Skip button shows after 15% of the slideshow has played. It sets
+  the flags anyway.
+
+### 5.4 The Master Slideshow — *"Last Words"*
+
+This is the first slideshow the game ever shows the player.
+
+**Source song:** `Last Words` (Dischordian Logic, track 28 — canon).
+The Lore Bible says the song is *"The Programmer's final message
+before his mysterious disappearance, reconstructed from fragmented
+recordings."*
+
+**Retcon / Reinterpretation used here:** The recording was always
+two voices, not one. The song is the Programmer's final message
+*and* the Engineer's execution in New Babylon, *because they were
+the same kind of disappearance and the recordings bled together
+across centuries in the Matrix of Dreams*. The player is the first
+person since the Game Master to hear both layers at once.
+
+**Frames (15 frames target, ~3m 30s total length):**
+
+| # | Image | Caption / Dialog | Overlay |
+|---|---|---|---|
+| 1 | The Engineer, back to camera, in a dark hallway in New Babylon, carrying the Dischordian Deck under his arm | — | vignette (low) |
+| 2 | The courtroom — six crystal coffins of the Authority overhead, a single chair on the floor | *"He was brought in without cuffs. They were embarrassed by the cuffs."* — The Human, voiceover | scanlines |
+| 3 | The Engineer's face, the first time the player sees it clearly | — | — |
+| 4 | Close-up on his hand, holding a single card | — | particles (slow) |
+| 5 | Wide shot: he places the card on the floor in front of the chair | — | — |
+| 6 | The Authority, faceless, demanding his plea | *"What do you say to the charges?"* | grain |
+| 7 | The Engineer looks up at the ceiling | *"I say I built a thing so people wouldn't have to ask permission to dream."* | — |
+| 8 | A flashback frame — Celebration, the class photo from Cycle A finale | — | dissolve |
+| 9 | A flashback frame — Mechronis, the graduation from Cycle B finale | — | dissolve |
+| 10 | A flashback frame — Nexon, the Vortex held at bay, the Seer standing beside him | — | dissolve |
+| 11 | Return to courtroom. The Warlord, watching from a gallery | *"She watched. She smiled."* — Elara, voiceover, horrified | corruption (low) |
+| 12 | The Authority hands down the sentence | *"For crimes against the state of being."* | — |
+| 13 | The Engineer kneels. The card lifts from the floor, on its own | — | particles (rising) |
+| 14 | The card bursts into light — and the light forms a second figure next to him, The Programmer, long missing, reaching out to take his hand | *"The recording, reconstructed, held two voices. Ours is the first generation to hear both."* — a new, unknown narrator voice (this is the Antiquarian, hinted at but not yet present) | bloom |
+| 15 | Both men, the Engineer and the Programmer, walking away from the chair, into white | Final lyric of *"Last Words"* — layered, whispered, overlapping | fade to white |
+
+**Post-slideshow behavior:**
+- Flags set: `slideshow_last_words_complete`, `engineer_execution_seen`,
+  `programmer_fate_hint`, `antiquarian_voice_first_heard`, `act1_complete`.
+- Loredex discovery: unlocks **"The Prince of Celebration"** entry as
+  a cross-reference to the existing Engineer entry.
+- Light Energy galaxy-wide: **+500** (first community-visible spike of
+  the Light meter in the whole game).
+
+### 5.5 Other songs that become slideshow candidates (first wave)
+
+Prioritized by narrative importance and user's willingness to make art:
+
+| Song | Album | Used for | Priority |
+|---|---|---|---|
+| Last Words | Dischordian Logic | Act 1 finale (Engineer execution) | **P0** |
+| Welcome to Celebration | Dischordian Logic | Cycle A finale (Project Celebration) | **P0** |
+| To Be the Human | Dischordian Logic | Cycle B finale (Mechronis graduation) | **P0** |
+| Hacking Reality | Dischordian Logic | Cycle C opener (Battle of Nexon) | **P1** |
+| I Am the Eyes That Watch | Dischordian Logic | Act 3 opener (The Eyes reveal) | **P0** |
+| Ocularum | The Age of Privacy | Act 3 mid-point (Watcher origin) | **P0** |
+| The Prisoner | The Age of Privacy | Act 4 opener (Prisoner intro) | **P0** |
+| The Lion in Black | Book of Daniel 2:47 | Act 5 opener (Iron Lion / Cades) | **P0** |
+| A Very Civil War | Silence in Heaven | Act 5 climax | **P1** |
+| Superman Ain't Coming | Silence in Heaven | The Human's dark-trust confession | **P1** |
+| It Ain't Been the Same | Silence in Heaven | Elara's high-trust confession | **P1** |
+| Consider Life | Book of Daniel 2:47 | Two Witnesses Meet cutscene | **P1** |
+
+**P0 slideshows should ship with Act gates; P1 slideshows can be
+staggered post-launch without breaking the pacing.**
+
+### 5.6 Why this is also the cheapest content expansion path
+
+Every future song Malkia Ukweli releases becomes a free cinematic.
+Every fan-contributed art pack can become a fan-canon slideshow in
+the **Loredex → Tomes** section. The system **grows with the art
+library, not with the code**. Exactly the kind of leverage the user
+asked for.
+
+---
+
+## 6 — ACT 2 INTERLUDE: "THE FORGED HAND"
+### Crafting, Chess, Collector's Arena, and the Thaloria Cinematic
+
+> Act 2 is an **interlude**, not a full act. It's the breathing beat
+> between the Engineer's story (Act 1) and the Eyes' story (Act 3).
+> Its job is to give the player *practice* in three disciplines before
+> the game goes non-linear, and to reveal the game's real antagonist:
+> the two Game Masters who run the Collector's Arena.
+
+### 6.1 The Forged Hand — Core Loop
+
+After Act 1, the player owns:
+- The Engineer's starter deck (recovered through Cycle A–C battles)
+- A blank player-authored card
+- Unlocked Crafting, Chess, and Collector's Arena
+
+Act 2's loop: **Play chess → win pieces → spend pieces at the crafting
+bench → forge new cards → play Collector's Arena to earn energies
+→ use energies to empower crafted cards.**
+
+That loop is boring without story. Here is the story:
+
+### 6.2 Crafting Unlock — "The Engineer's Bench"
+
+The Crafting Bench in Engineering powers on when Act 2 begins. It is
+not a new mechanic — it is the *same* neural lattice that ran the
+Deck in Act 1, running in reverse. The player is using the Engineer's
+own instruments.
+
+**Framing line (Elara):**
+> *"This bench… hums the same way his Deck did. Like it remembers
+> him. I think he built it to build the Dischordia and then left it
+> running. Just in case. Just in case one of us woke up."*
+
+Crafting recipes use:
+- **Material** (from Trade Empire mining / Pet Battles / crew missions)
+- **Memory Energy** (from card battles)
+- **A source card** (a "blueprint")
+
+The first craft the player is walked through is a pitifully small
+card — a Common with a tiny effect. That's intentional. It teaches
+them the bench.
+
+**Key design note:** Crafting resources run out fast. The player will
+feel the pinch in the first 30 minutes of Act 2 and will say *"I
+need more resources."* That is the hook into Trade Empire. Act 2 is
+where the player first *needs* Act 3.
+
+### 6.3 Chess Unlock — "Zephyr-9's Classroom"
+
+The Quarchon crew member Zephyr-9 (from Prelude §2.4) unlocks the
+Chess minigame in her console. Framing:
+
+> *"Quarchon do not 'play' chess. We compute its continuations. But I
+> have noticed that organic minds think better when they are told
+> they are playing. So. You are playing. Sit."*
+
+**The narrative frame for chess:**
+
+> *Chess is the mental discipline that makes Dischordia playable.
+> The Deck demands that you think forward in time and backward in
+> time simultaneously. All top Dream Engineers play chess. The
+> Engineer played chess every morning of his life at Mechronis. He
+> kept a board in his cell the night before his execution.*
+
+Chess is mechanically a standalone game. Its narrative function is
+to give the player a reason to sit still for five minutes and think,
+which is the thing the rest of the game hasn't asked them to do yet.
+
+**Chess unlocks:**
+- Each chess rank win gives **+1 chess_depth** stat (already in the
+  narrative systems — the Human companion bonus references this).
+- At chess_depth ≥ 3, the player unlocks **Preview Cards** in
+  Dischordia — peek at the top card of your deck before drawing.
+- At chess_depth ≥ 5, the player unlocks **Undo** (once per match)
+  in Dischordia.
+- At chess_depth ≥ 8, the player unlocks **"The Engineer's Opening"**
+  — a specific starting hand of cards that historically corresponds
+  to the first hand the Engineer ever drew in a tournament.
+
+Chess opponents are not faction enemies. They are crew members, pets,
+and — at the highest tier — **the two Game Masters of the Collector's
+Arena**. When you play chess against a Game Master for the first time,
+you lose. Always. Because they are reading your moves from the Matrix
+of Dreams.
+
+That loss is the hook into the Collector's Arena.
+
+### 6.4 Collector's Arena — "The Harvest"
+
+**Canon tie-in:** The Game Master designed the Matrix of Dreams as a
+consciousness archive (canon, Lore Bible). The Hierarchy of the
+Damned funds it because it produces **industrial-scale consciousness
+energy** — souls re-living their most intense moments on infinite
+loop. That energy is currency.
+
+The Collector's Arena is the *public-facing side* of the Matrix of
+Dreams: you come in, you battle, the audience pays, the energy from
+every emotion in the room is harvested into the Hierarchy's vault.
+You get a cut. You can spend that cut on crafting.
+
+**But.** Every round you play in the Collector's Arena also feeds the
+Dark Energy meter (see §3). The Hierarchy harvests the same light
+you're trying to grow.
+
+The player is forced to ask: *"Is it worth it?"*
+
+Framing (the Human, quietly):
+> *"He built the Deck here. He fought the Game Master here. Some of
+> the souls in that vault are his. Some of the souls in that vault
+> are yours — you just haven't lost them yet."*
+
+**Collector's Arena unlocks:**
+- **Arena Matches** — Dischordia card battles in a crowd setting,
+  with public-stakes mechanics (the crowd can affect the match).
+- **Energy Harvest** — pay-in currency to craft high-tier cards.
+- **Two Game Masters** — new lore: after the original Game Master's
+  execution (canon), his goggles were split. Two new Game Masters
+  wear half the lenses each. **The left-lens one is The Left Game
+  Master** (tactical, analytical, cold). **The right-lens one is
+  The Right Game Master** (improvisational, artistic, cruel).
+  They are not friends. They tolerate each other because the
+  Hierarchy pays them.
+- The player will fight both of them as **culminating bosses** in
+  Act 3 and Act 4.
+
+### 6.5 The Thaloria Cinematic
+
+> **User requirement:** *"In doing so - you discover Thaloria...and
+> it shows a hand picking up an ancient alien xenomorph shaped
+> helmet - a curse artifact of the ground. It pans up to show two
+> Game Masters Demons. The start of the Collector's Arena video
+> plays."*
+
+**Trigger:** The player's third Collector's Arena match win.
+
+**Cinematic: "The Helmet in the Grass" (Kling prompt, Seedance prompt
+— see §12).**
+
+- Open: a peaceful Thaloria field (canon — gentle verdant-skinned
+  people, emerald canopies, crystal streams — Lore Bible quote is in
+  §12 as a direct seed for the prompt). Wind. Birdsong. A child's
+  laughter distantly.
+- A hand enters frame. A verdant-skinned Thalorian hand. It reaches
+  down and picks up an ancient, alien, xenomorph-shaped helmet half-
+  buried in the grass. The camera holds on the helmet as it is
+  slowly lifted.
+- **Cut** — the camera jerks, the world inverts, the emerald canopy
+  becomes burning sky. The helmet is now being held up by a different
+  pair of hands. Masked hands. **Two Game Masters** stand behind the
+  Thalorian — one in a blue trench coat with red left-lens goggles,
+  one in a blue trench coat with red right-lens goggles. They are
+  **real**. They were behind the Thalorian the whole time. The
+  Thalorian has not noticed. Neither have we.
+- The Left Game Master takes the helmet and places it on the Thalorian's
+  head. The Thalorian's eyes turn red. The Shadow Tongue is born.
+  (Canon — "The Shadow Tongue corrupted Thaloria's faith," Lore Bible.)
+- **Cut to:** the Collector's Arena intro video that already exists
+  in the repo (`collectors-arena-intro_c5e8c641.mp4`). It is the
+  same camera motion continuing. The player realizes: **the existing
+  arena intro was always the second half of this cinematic — they
+  just didn't have the first half until now.**
+
+This is free cinematic leverage — we are retroactively framing an
+existing asset with a new cold-open. The art cost is the new
+Thaloria frame sequence (3–6 Kling keyframes + the Seedance 2 prompt
+for the helmet-transition motion).
+
+### 6.6 Act 2 Wrap
+
+Act 2's job is complete when:
+- Player has crafted at least 3 new cards at the bench.
+- Player has won at least 5 chess matches.
+- Player has completed the Thaloria cinematic.
+- Player has lost to one of the Game Masters at least once.
+
+At that moment, the player gets a message in the Command Bridge:
+*"The Free Ports have opened trade channels with your Ark. An
+agent wishes to meet."* — and the Trade Empire layer fully opens.
+
+**Flags set:** `act2_complete`, `crafting_mastered`, `chess_mastered`,
+`collectors_arena_discovered`, `thaloria_cinematic_seen`,
+`two_game_masters_introduced`, `trade_empire_unlocked`, `act3_unlocked`.
+
+---
+
+## 7 — ACT 3: "THE EYES IN THE DARK"
+### The Story of the Eyes, Told Through Trade Empire
+
+> **User requirement:** *"Act 3 should be the story of the Eyes… and
+> that should be trade empire - spies and diplomacy. Set up the same
+> similar system where you 'Defeat' bosses to advance. In Trade Empire
+> it could be either taking over factions or making deals - multiple
+> ways to win… diplomacy is a part. Non linear progression - you don't
+> have to go in any specific order after the factions. Play through
+> the life and death of the Eyes. This is where the Occularum and
+> the Watcher's origin come in."*
+
+This is the first **fully non-linear act**. The player picks an
+order. Each path converges on a shared climax.
+
+### 7.1 The Hook — "The Watcher's Last Asset"
+
+**Opening cinematic (slideshow: *"I Am the Eyes That Watch"*):**
+
+The player receives a transmission on the Ark's Comms Array. The
+voice is female, multilayered, urgent.
+
+> *"My name is the Eyes. I was made to watch by a man who could see
+> everything. He sent me into the universe to find the one thing he
+> couldn't see — the place where his own gaze ended. I found it. It
+> cost me everything. Now a child of his making is in your walls
+> and a friend of his is on your bridge and both of them owe me a
+> debt they don't remember. I am going to collect."*
+
+This is an archival recording. The real Eyes died in 16,896 A.A.
+(canon — eliminated by the Collector). The player is hearing an old
+transmission that has been sitting in the substrate layer of every
+Ark for seventeen thousand years, waiting for someone to be ready
+to hear it.
+
+**Elara reacts** with raw, complete recognition. She remembers The
+Eyes. She remembers the seduction. She remembers the Atarion
+apartment. She remembers the information the Eyes took.
+
+**The Human reacts** with clinical grief. The Eyes' betrayal was
+what put Kael in the Panopticon. The Human investigated it. The
+Human *closed* it. The Eyes' body was found by the Collector; The
+Human never saw it.
+
+Both narrators are *broken* by this moment. This is the first time
+the yin/yang companion system becomes overtly about **trauma bonding**
+rather than philosophy.
+
+### 7.2 The Core Mechanic — Trade Empire as Diplomacy
+
+Act 3 opens the full Trade Empire layer and redefines its purpose.
+
+Trade Empire is no longer *"buy low sell high"*. It is now the
+instrument of the Eyes' life story — and every sector of the galaxy
+is a chapter of it.
+
+**Six Faction Paths** (see `GALACTIC_FACTIONS` in `client/src/game/tradeEmpire.ts`).
+The player must **resolve five of the six** to advance to Act 4.
+Non-linear — any order. Each faction has **three possible resolutions**:
+
+1. **Conquest** — take the faction's core sector by force. (Dark.)
+2. **Diplomacy** — negotiate a binding treaty via a skill-based
+   diplomacy minigame. (Light.)
+3. **Infiltration** — assume an identity, become an insider, and
+   resolve the faction from within by completing a spy chain. This
+   is the **Eyes path** — the unique option for Act 3. It's how the
+   Eyes solved problems. It's also how the Eyes died. (Gray.)
+
+Each faction's Infiltration chain gives the player the **single
+strongest card, mission, or ability** in the game for that
+faction — at the cost of the worst Dark Energy hit in the act.
+The player is literally walking the Eyes' path and will literally
+feel the weight of it.
+
+### 7.3 The Six Faction Arcs (non-linear — pick any order)
+
+| # | Faction (from existing tradeEmpire.ts) | Boss | Conquest path | Diplomacy path | Infiltration path (Eyes path) |
+|---|---|---|---|---|---|
+| F1 | **New Babylon Ascendant** | Adjudicator Locke + the Authority's coffins | Siege New Babylon Core (6 sector fights) | Sign the *Red Crystal Accord* — a diplomacy minigame where you negotiate with six imprisoned minds simultaneously | Become the next Adjudicator. Six weeks of in-game time moving up the ranks of the court. Finale: the player judges Senator Elara Voss in a replayed archive trial. **Your judgment is binding. Elara will remember.** |
+| F2 | **The Hierarchy of the Damned** | The Shadow Tongue (already in substrate) | Destroy three dimensional gates on three corrupted worlds | Negotiate a *Soul Contract Exemption* with Xeth'Raal the Debt Collector — a terrifying diplomacy match in which the player's words *rewrite themselves* as they speak | **Become the Shadow Tongue's apprentice.** Learn to rewrite small pieces of the Loredex. The player is taught to lie to the universe and make it true. |
+| F3 | **The Insurgency (New)** | "Agent Zero" — who is secretly the Engineer in Agent Zero's body | Storm the Insurgency Haven (impossible without chess_depth ≥ 5) | Share intelligence with Agent Zero and earn the **Nomad's Compass** — a crafting reagent | **Meet the Engineer** — this is the quiet earthquake of Act 3. If the player chooses Infiltration here, they discover their Engineer — the subject of Act 1 — is *still alive* in Agent Zero's body. He remembers them. He remembers the Deck. He weeps. The player can either return him to his original body (impossible — it's Warlord Zero) or help him rebuild. **This is where the Engineer stops being a ghost and becomes a person the player can talk to.** |
+| F4 | **The Terminus Dominion (Thought Virus)** | The Source (Kael) | Burn three infected sectors with the Iron Lion's surviving fleet (a card battle against the Source himself) | **Impossible.** You cannot negotiate with the Source. Any attempted treaty turns into a card battle mid-sentence. This deliberately forces the player to understand some enemies are unbargainable. | **Get infected on purpose.** Walk into a Viral Wastes sector with no immune protocol. The player spends one session partially controlled by the Thought Virus — a gameplay mode where cards are flipped to their Dark counterparts. At the end, the Oracle (canon, Insurgency prophet) cleanses them. Dark Energy: massive spike. Mechanical reward: unique pseudo-card called **"Immunity"** — playable once per match for the rest of the game, prevents all negative statuses for 3 turns. |
+| F5 | **The Artificial Empire (Reborn)** | The Architect's rebuilt fragment | Siege the Imperial Frontier (requires a fleet — built via Trade Empire trade) | Sign the *Terms of Coexistence* — a diplomacy match against the Architect itself. **This is the hardest diplomacy match in the game.** The Architect makes three offers. One is a lie. One is a truth. One is a trap. Only by combining The Human's Archon memories (Human trust ≥ 60) and Elara's Senator memories (Elara trust ≥ 60) can the player identify the lie. | **Be recruited as a new Archon.** The Architect offers the player the title and robe. The Human, on the player's shoulder, is silent for the first time in the whole game. **This is the most tempting dark choice the player is offered.** If taken, the player gains Archon-tier abilities for the rest of the game. The cost: 1,000 Dark Energy. The Human loses 30 Bond. Elara is horrified. The reclamation cutscene for this path (post-endgame) is the longest in the game. |
+| F6 | **The Antiquarian's Refuge** | The Antiquarian himself | Impossible. You cannot siege a pocket universe. | Request an audience. You must *pay in memory* — you must forfeit one loredex entry permanently for the audience. | **Become his apprentice.** Spend a session in the Refuge outside of time. When you return, everyone you know has aged mentally — Elara is harder, The Human is more tired. You have gained one **Mythic** card: **"A Moment Outside Time"** — once per match, take two consecutive turns. |
+
+**Five of six resolved = Act 3 complete.** The player is explicitly
+shown on the Trade Empire galaxy map: you have finished five chapters
+of the Eyes' story. The sixth is hers.
+
+### 7.4 The Eyes' Life — Mission-by-Mission Embedding
+
+As the player works through the Faction Arcs, they receive **lore
+fragments of the Eyes' own life** embedded into sector events. The
+fragments assemble in the Loredex as a secondary biography:
+
+1. Sector event in **Insurgency Haven**: *"The Recruitment"* — the
+   Eyes, age 16, selected by the Watcher for special training.
+2. Sector event in **Atarion (custom sector — add it)**: *"The
+   Apartment"* — the Eyes, on a mission to seduce Senator Elara
+   Voss. Elara reacts in real time. *"That was the night I signed
+   the bill."* This is the point where the player realizes the
+   Eyes is the reason the Warlord had leverage over Elara in the
+   first place.
+3. Sector event in **Panopticon Ruins**: *"The Betrayal"* — the
+   Eyes watches Kael (the Recruiter) being dragged into the
+   Panopticon. She takes no action. She weeps. She has already
+   decided to defect.
+4. Sector event in **Free Ports**: *"The Defection"* — the Eyes
+   attempts to warn the Insurgency about the Thought Virus plan.
+   The Insurgency doesn't trust her. She leaves the message in
+   a dead drop.
+5. Sector event in **Thaloria / adjacent**: *"The Collector Finds
+   Her"* — the Eyes' final hours. The Collector, sent by the
+   Architect to clean up loose ends, hunts her through a Thalorian
+   forest. She knows she cannot escape. She writes one last
+   transmission — the one the player heard at the start of Act 3.
+   She dies alone, in the grass, not far from where the Shadow
+   Tongue will later be born. **The proximity is intentional.**
+
+### 7.5 The Ocularum / Watcher Origin
+
+Integrated as a **mid-act slideshow** triggered by completing the
+New Babylon arc OR the Empire arc:
+
+**Slideshow: *"Ocularum"* (real song with existing video — use the
+existing video, but add a slideshow *counterpart* for the B-side
+song *"The Ocularum"* from Silence in Heaven.)**
+
+Content: the Watcher's origin. Before he was an Archon he was a
+station chief on the Panopticon. His Japanese presentation, his
+all-white outfit, the eye tattoo, the mask — all a projection. Under
+the projection he is *a hundred million tiny camera nodes* networked
+together into a single consciousness. He is literally the
+surveillance system. He *made* the Eyes as a physical instrument
+because he couldn't walk. He loved her as a father loves his only
+field operative. He ordered her death through the Collector and
+regretted it until the day the Panopticon broke.
+
+This slideshow is the emotional climax of Act 3. It recontextualizes
+the Watcher from cardboard cutout villain to a grieving parent.
+
+### 7.6 Act 3 Climax — "The Collector's Garden"
+
+After five factions are resolved, the player receives a coordinate —
+a place not on the map. They fly out. They land in a Thalorian
+field. The grass is still warm. A single xenomorph-shaped helmet is
+half-buried there.
+
+They pick it up.
+
+A card battle begins against **The Collector himself**. It is a
+full Dischordia battle against a Boss deck. The Collector narrates
+throughout: *"She was the prettiest thing I was ever sent to break.
+I kept her eye in a jar. The Shadow Tongue ate it. I wept. I am
+still weeping. Would you like to see my collection?"*
+
+**Win conditions — this is critical:**
+- **Win the battle** — the Collector retreats. The player recovers
+  the Eyes' final transmission (the full version). Light Energy
+  +500. Collector becomes a future Act 4 boss.
+- **Lose the battle** — the Collector takes one of the player's
+  cards permanently. **Which card is taken depends on which faction
+  arc the player did last** — a callback hook that makes the
+  non-linearity matter. This is the Act 3 analog of Act 1's
+  "mandatory loss" — except it's optional, and only happens if you
+  lose.
+
+### 7.7 Two Endings For Act 3
+
+| If the player did ≥ 3 Infiltration paths | If the player did ≥ 3 Conquest paths | If the player did ≥ 3 Diplomacy paths |
+|---|---|---|
+| **The Eyes' Shadow** — the Eyes' recorded voice becomes the player's narrator in Trade Empire sectors from now on. She whispers when you scan. She is wry and heartbroken and she is gone but she is here. | **The Iron Path** — Iron Lion broadcasts once to the player: *"We buried the last of her with honors. You move like her. Be better than she was."* Unlocks a Cades prelude mission. | **The Council** — unlocks a new room on the Ark: the Council Chamber, where the five faction leaders send delegates to you once per in-game week with requests. You become a diplomatic hub. This is the quiet golden ending of Act 3. |
+
+**Flags set:** `act3_complete`, `eyes_arc_complete`,
+`trade_empire_mastered`, `watcher_origin_seen`,
+`collector_boss_unlocked`, `act4_unlocked`.
+
+---
+
+## 8 — Trade Empire: 10 Concrete Improvements
+
+> **User requirement:** *"Trade empire needs to be amazing. Examine
+> everything there is and give me 10 ways to improve it upon this
+> evolving project."*
+
+Current state (from `client/src/game/tradeEmpire.ts` and
+`server/routers/tradeEmpire.ts`): nine galactic factions, a sector
+graph with ruins/anomaly flags, faction traits, SVG galaxy map,
+trade/mine/colonize/attack/tech/research loop, event-driven sector
+encounters. Solid bones. The gaps are **narrative presence**,
+**diplomatic depth**, **sector memory**, and **the Eyes**.
+
+### 8.1 Ten Improvements, Prioritized for Impact
+
+**1. Convert every sector into a *narrative object*, not a data row.**
+Every sector should have a `narrativeState` object: `{ mood, lastEvent,
+knownTo, rumors[] }`. When the player enters a sector, it *remembers*
+them. *"Last time you were here, you refused to help the refugees.
+Three of the Free Port merchants won't speak to you."* This single
+change turns Trade Empire from "grid of buttons" into "galaxy of
+witnesses."
+
+**2. Add a Diplomacy Minigame — "The Table."**
+Right now there is trade, there is attack, but there is no real
+negotiation layer. Add a dedicated diplomacy screen: a round table,
+three NPCs, three demands each, limited "words" resource. The player
+spends words on offers, threats, concessions. Each faction has its
+own table art (Hierarchy = burning ledger, New Babylon = crystal
+coffins, Insurgency = a broken kitchen counter, Antiquarian = a
+chessboard). This is the mechanical heart of Act 3's Diplomacy path.
+
+**3. Infiltration Paths (per faction) — the Eyes System.**
+Already specced in §7.3 but bears repeating: each faction has an
+Infiltration questline. The player assumes a cover identity, plays
+a faction-specific minigame (e.g., New Babylon = bureaucratic
+climbing, Hierarchy = blood-weave rituals, Empire = Mechronis-style
+cadet tests), and resolves the faction from within. This gives Trade
+Empire a **three-vector progression** (trade, war, spy) instead of
+two.
+
+**4. Living Sector Economies (not static prices).**
+Prices should react to **community action**. If 100 players dump
+Rhodium on Trade Nexus, Rhodium prices fall there. If the community
+starves New Babylon of grain, its stability drops and crime events
+proliferate. The existing `threat`/`stability` stats are already in
+the data — wire them to community inputs. Mirrors Necromancer Cycle's
+community design.
+
+**5. Trade Fleets — Companions, Not Ships.**
+Right now "the player" is a single actor. Give them **named trade
+fleets** — each fleet commanded by a crew member from the Prelude
+recruitment. A fleet can do a trade run autonomously if you assign
+a crew member to it. The crew member's Bond affects the run outcome.
+Patch runs Engineering-heavy routes. Zephyr-9 runs Quarchon probability
+routes. Little One runs impossible shortcut routes with her pet.
+This turns the ship crew system and Trade Empire into the **same
+system**, which is what you want.
+
+**6. Sector Memory and the "Gossip Line."**
+Every sector maintains a list of the last five meaningful events the
+player caused there, and NPCs **gossip about them** in adjacent
+sectors. *"Trader's Junction is saying you double-crossed the
+Hierarchy. Might want to avoid Forge Worlds for a while."* This is
+the cheapest way to make the galaxy feel small and alive. It is
+also the cheapest way to make betrayal expensive.
+
+**7. The Dreamer's Shield — Playable Mystery.**
+The Shielded Sector (`dreamer_shield` in the faction table) is
+currently a black box. Give it a **slow reveal mechanic**: every
+Light Energy milestone cracks a single pixel of the shield. At 50%
+galaxy Light Energy the shield shows a shape. At 75% it shows a
+silhouette. At 100% it shows a single face — the Dreamer herself —
+for exactly one in-game day. Players who log in that day get a
+unique line and a Tome page. This makes the Light/Dark meter feel
+**cosmically important** and gives hardcore players a thing to
+grind for.
+
+**8. Piracy as Emergent PvP.**
+Let players intercept other players' trade fleets in contested
+sectors. Non-consensual PvP, but with honor rules: you can only
+intercept in Insurgency Haven, Viral Wastes, or Frontier Worlds —
+the lawless zones. Loot is partial, and intercepted players earn
+vendetta points that can trigger revenge encounters. This gives
+Trade Empire an **emergent story generator** that will generate
+player-made legends — the #1 thing Civ-like games do well.
+
+**9. Colonies are Legacies, Not Checkboxes.**
+Right now colonizing is "establish colony → get passive income".
+Make colonies **evolve**: a colony's output and culture depends on
+which crew member founded it, which faction it allied with, and the
+light/dark tilt of the player's actions. A colony founded by Patch
+and allied with the Insurgency becomes an engineering haven. A
+colony founded by Adjudicator Locke becomes a miniature New Babylon.
+Colonies accumulate across playthroughs — at Prestige Cycle, they
+persist as legacy sites. Your empire becomes the first evidence of
+a *civilization* growing in the ruins.
+
+**10. The Eyes Voice Layer — Optional Trade Empire Narrator.**
+Wire the Eyes' archival recordings into Trade Empire as an **optional
+voice layer** once her arc is complete (§7.7, Infiltration ending).
+She comments on sectors you scan, on deals you sign, on crew
+decisions you make. She is not Elara. She is not The Human. She is
+the dead third voice of someone who did all this once before and
+knew she was going to die for it. The line between her and the
+player is deliberately thin.
+
+### 8.2 Quick-win additions that don't need new systems
+
+- **Sector Bookmarks** — let the player pin 5 sectors for quick travel.
+- **Trade Routes as Objects** — save a route, run it again, share it with guildmates.
+- **Galaxy Map Filters** — filter by faction, by light/dark state, by last-visited.
+- **Event Log** — a scrolling history of the player's sector events, readable from the Bridge.
+- **Crew Banter on Fleet Runs** — when a crew member is off running a fleet, their banter with Elara/Human on the Ark gets lonelier. This is free emotional texture.
+
+---
+
+## 9 — ACT 4: "THE PRISONER" — The Fighting Game
+
+> The fighting game is already scoped by the team as the Prisoner's
+> story (per existing architecture). This proposal keeps that —
+> and frames it as a **consequence** of the player's Act 3 choices.
+
+### 9.1 Why Act 4 is the Prisoner
+
+Act 3 is the Eyes. The Eyes' betrayal put Kael in the Panopticon.
+The Panopticon is where the Prisoner story takes place. The player
+has just lived through the event that caused Act 4 to happen.
+
+That is the moral weight the fighting game was always missing.
+
+### 9.2 The Act 4 Hook
+
+After Act 3, the player is contacted by the **White Oracle** (canon,
+Insurgency prophet, survived the Panopticon). His message is short:
+
+> *"You walked through my friend's betrayal. Now walk through his
+> cage. There's something in there that still remembers him. It
+> wears his face. It wants out."*
+
+This is the Prisoner's story. The player isn't controlling Kael —
+the player is controlling **a memory of Kael from before the
+Thought Virus**, playing out one last stand in the architecture of
+the Panopticon. It is the classic "ghost in a machine" framing for
+a fighting game.
+
+### 9.3 Structure: The Six Cells
+
+The Panopticon has **six cells** and one central Warden. The player
+fights their way out of each cell sequentially — it's a fighting
+game, it's linear, that's what fighting games do.
+
+Each cell boss is a corrupted memory of someone from the Prisoner's
+life:
+
+| Cell | Boss | Narrative beat |
+|---|---|---|
+| 1 | **Young Iron Lion** | The Prisoner's oldest friend. Fights with defense stacking. Post-fight: Iron Lion tells the Prisoner he's proud of him. |
+| 2 | **The Eyes** | The woman who betrayed him. The Prisoner beats her but the fight is designed to feel like *grief*. Post-fight slideshow: her final transmission (the one the player heard at the start of Act 3) plays in full, with additional lyrics the player has not heard before. |
+| 3 | **The Converter** (machine boss) | The device that stole the Engineer's body. Post-fight, the Prisoner realizes the Engineer is still alive in Agent Zero. This mirrors the Act 3 infiltration reveal. |
+| 4 | **The Warden of the Panopticon** | Canon. Brutal. The player uses everything they have learned. |
+| 5 | **The Meme (shapeshifter form)** | Canon — "The Meme left the Oracle for dead, trapping him on the Panopticon, and assumed the White Oracle's identity." The Meme is why the White Oracle sent the player here. The player fights a shapeshifter. Every phase the Meme becomes a different friend. The last phase the Meme becomes the **player's own character** — a mirror fight. |
+| 6 | **The Warlord** | The original villain. The one who had Kael tortured and infected. She doesn't fight you personally — she fights you through her avatar, **Warlord Zero**, wearing the Prisoner's best friend's face. This is the **same avatar** from the Act 1 forced-loss card battle. Five acts later, the player finally gets to beat him. |
+
+### 9.4 The Dual Closing — Your Choice
+
+After the Warlord is defeated the Prisoner stands on the roof of
+the Panopticon. The Thought Virus is already inside him. He knows.
+He always knew. The player is given **two options**:
+
+- **Walk into the Virus** — become The Source. This is canon. The
+  player finishes the Prisoner story as Kael becomes the Source,
+  and unlocks a **dark narrator mode** — the Source's voice speaks
+  occasionally from the substrate for the rest of the game.
+- **Die clean** — refuse the Virus. Walk off the roof. This is
+  non-canon. It's a **pocket-universe ending** — the Antiquarian
+  frames it as one of the infinite possible Prisoner-stories, and
+  it's the *kind* ending. You get a unique Tome page: *"Kael, the
+  Insurgent, Who Did Not Fall."*
+
+Both unlock Act 4.5.
+
+**Flags set:** `act4_complete`, `prisoner_arc_complete`,
+`source_narrator_active` OR `kael_unfallen_tome`,
+`act4_5_unlocked`.
+
+---
+
+## 10 — ACT 4.5: "DEAD MAN'S CIRCUIT" (with Casino as Parallel Track)
+
+> **User requirement:** *"Act 4.5 - Dead Man's Circuit. Act 4 — the
+> Casino and the Degen become available. A message from the Degen
+> inviting the Potential to his casino at the edge of the Dreamer's
+> Shield (Can be played through at anytime starting after the
+> completion of the full Prisoner arc)."*
+
+So Act 4.5 is actually **two parallel tracks**:
+
+- **Dead Man's Circuit** — the mandatory micro-act.
+- **The Degen's Casino** — an **always-open** side area at the edge
+  of the Dreamer's Shield, available from the moment Act 4 is
+  finished. Not mandatory. Deeply weird. Deeply rewarding.
+
+### 10.1 Dead Man's Circuit
+
+The project already has a `dead_mans_circuit/` directory and a
+production doc (`docs/production/DEAD_MANS_CIRCUIT_PRODUCTION.md`).
+This proposal treats it as the **identity-fork interlude** between
+the Prisoner's death and the Iron Lion's last stand.
+
+Framing (the Antiquarian's voice, first time he speaks directly to
+the player):
+> *"Every dead man's circuit is a track someone could not step off
+> of. The Engineer's was a Deck. The Eyes' was a loyalty. The
+> Prisoner's was a prison. Yours will be something else. Get on."*
+
+Dead Man's Circuit is a short (1–2 session) set of **racing /
+reaction / decision-under-pressure** challenges (per the production
+doc's existing design). Each challenge is named after a character
+whose "circuit" the player is running.
+
+In this proposal, it is framed narratively as **the player choosing
+their own identity chain**. The player names their own alias:
+
+> *"What was your Student name?"*
+> *"What was your Seeker name?"*
+> *"What was your Detective name?"*
+> *"What will your *last* name be?"*
+
+The player is authoring their own identity chain the way every
+major character in the saga has one (The Student → The Seeker →
+The Detective → The Human; The Prince → The Engineer → Warlord Zero
+→ Agent Zero's body; etc.). This is the moment the player becomes
+**a character in the Loredex**, not an operator of one.
+
+Their authored chain is written into the game's Loredex as a new
+entry. If they have an account, it persists across playthroughs.
+
+**Flags set:** `dead_mans_circuit_complete`, `player_identity_chain_authored`,
+`act5_unlocked`.
+
+### 10.2 The Degen's Casino — The Parallel Track
+
+**Canon:** The Degen is Ne-Yon #8, "a cosmic entity embodying
+entropy and corruption," running a casino at the edge of Ne-Yon
+space (Lore Bible entry, §1 of lore agent report). He believes
+entropy is the most honest game. The bartender is a god.
+
+**Framing line (Elara, when the invitation arrives):**
+> *"Don't go. He's a cosmic parasite in a tuxedo. He's been watching
+> us since I was a senator. I don't trust him and I'm the one who
+> wrote the legislation against trusting him."*
+
+**Framing line (The Human, amused for the first time in the whole game):**
+> *"Go. He's the only person in the galaxy who ever beat the Game
+> Master at anything, and he did it by losing on purpose. I'd like
+> to know how."*
+
+The Casino is **always open, always optional**, and contains
+**every minor minigame in the project**:
+
+- Blackjack (with Dischordia card substitutions)
+- Roulette (with sectors of the galaxy on the wheel)
+- A slot machine whose reels are Loredex portraits
+- A dice game named after each of the Necromancer's Resurrection
+  Protocols
+- A poker variant where the hand is scored by faction affinity
+- **A single game called "The Pact"** — once per in-game month,
+  you play a coin flip with the Degen. If you win, he owes you a
+  favor. If you lose, you owe him one. His favors are *very* good.
+  Your favors are *very* bad. This is the dark-funny pressure
+  valve of the late game.
+
+**What the Casino is for narratively:** it's the place the player
+goes to **not be in the story**. Every other system is pushing them
+forward on a plot rail. The Casino is a room where the plot explicitly
+pauses. The Degen repeats, quietly, every visit: *"You don't have to
+fight anything in here. Sit. Have a drink. Watch the wheel."*
+
+That offered break is the kindest thing any NPC says to the player
+in the whole game. And because the Degen is a cosmic god of entropy,
+it is also the creepiest thing any NPC says to the player in the
+whole game.
+
+**Flags set (first visit):** `degen_met`, `casino_unlocked_persistent`.
+
+---
+
+## 11 — ACT 5: "THE LION IN BLACK" — Iron Lion and Cades
+
+> **User requirement:** *"Then Cades - which is the Iron Lion."*
+
+### 11.1 Why Cades is the Iron Lion
+
+Iron Lion (canon) is the Insurgency's battlefield commander, the
+man who held Veridian VI, the man who broadcast *"To the free souls
+of the galaxy…"*, the man who died in the Last Stand so that
+humanity could remember itself.
+
+Cades is the project's FPS / combat simulator (`cades_fps/` folder,
+already exists in the repo). It is the mechanical vocabulary for
+the last stand.
+
+Putting them together: **Act 5 is Iron Lion's last stand, played
+out from inside his helmet.** The player is Iron Lion. The FPS is
+Veridian VI.
+
+### 11.2 The Hook — "The Lion's Last Broadcast"
+
+Opening slideshow: *"The Lion in Black"* (real song, Book of Daniel
+2:47).
+
+Content: Iron Lion's voice, scratchy, recorded, broadcasting his
+last message into the galaxy. The player hears it layered over
+**images from their own playthrough so far** — every sector they
+reclaimed, every companion they argued with, every card battle they
+won. This is the first slideshow that **mirrors the player's own
+history back at them**. The Antiquarian is curating the feed.
+
+Final line of the slideshow, delivered directly to the player:
+> *"I broadcast this hoping someone would answer. I did not know it
+> would take seventeen thousand years. I did not know it would be
+> you. But you are here, and the Ark is listening, and I am going
+> to tell you what to do."*
+
+### 11.3 Cades as the Last Stand
+
+The Iron Lion's Gambit (canon) is a series of operations at
+Veridian VI. Cades mission structure maps 1-to-1:
+
+| Cades Mission | Canon Beat | Player Goal |
+|---|---|---|
+| M1 — **The Scout's Gambit** | Canon | Reconnoiter enemy positions; reveal weakness in Prometheus's supply line |
+| M2 — **The Digital Onslaught** | Canon | Hack-and-shoot mission. Infiltrate an AI communication node. |
+| M3 — **Turning the Tide** | Canon | Compromised AI drones become allies; the player fights alongside the enemy they just subverted |
+| M4 — **Harvesting the Future** | Canon | Salvage and retrofit mission — the player picks up crafting recipes for card game |
+| M5 — **Operation Trojan Downfall** | Canon | Joint assault; **forced partial loss** — a quarter of your forces are annihilated. You will feel it. |
+| M6 — **Alliance of Adversaries** | Canon | Recruit Agent Zero. *(This is the in-game moment where the player realizes the "Agent Zero" they met in Act 3 was never the real one. This Agent Zero is the real one, in her real body, and the player is the first being in seventeen thousand years to see her alive.)* |
+| M7 — **The Last Stand on Veridian VI** | Canon | Iron Lion sacrifices himself to defeat major AI generals. **Mandatory death sequence.** The player fights to the last second, and the final screen is the Iron Lion's helmet, alone in a forest, as the world dissolves. |
+
+### 11.4 The Post-Credits of Act 5 — "The Bridge of Kael"
+
+After Iron Lion's last stand, the player returns to the Ark. The
+Command Bridge is different. One of the crew members is missing.
+**"Agent Zero"** (the one in the Armory, who has been sending
+signals throughout the whole game, who is secretly the Engineer)
+is gone. A single Dischordia card is on her console.
+
+The card is labeled: **"The Bridge of Kael"**.
+
+This card, when played, reveals the final truth: the Engineer
+survived. He carried Iron Lion's last words across seventeen thousand
+years, locked in the body of Agent Zero, locked on Ark 1047.
+He has been **waiting for the player** the entire game. Every hint,
+every signal, every system that opened was him reaching through
+the substrate.
+
+He is gone now because the player no longer needs him. The game's
+architecture is the player's now.
+
+### 11.5 Endgame — The Vortex Returns
+
+With Act 5 complete, the **Vortex Proximity** meter (§3.1) finishes
+its approach. A final galaxy-wide event fires: **the Vortex makes
+its move against the Dreamer's Shield.**
+
+Every system in the game is called to the fight:
+- Card players fight Vortex battles in Dischordia
+- Crafters supply the front
+- Trade Empire runs resource convoys
+- Chess players do battlefield planning
+- Pet battlers field their dynasties
+- Cades FPS players hold the line at the Bridge of Kael
+- Casino players can bet the Vortex's next move and influence the
+  odds
+
+This is the community-wide endgame. It is functionally the same
+shape as the Necromancer Cycle's boss event, but at galactic scale
+and with every minigame participating. It resolves in a final
+community slideshow: either **"The Light Holds"** or **"The Bulb
+Breaks"** depending on the outcome. The loser outcome resets the
+cycle with partial carryover, like the Necromancer Cycle already
+does.
+
+**Flags set:** `act5_complete`, `iron_lion_arc_complete`,
+`engineer_true_fate_revealed`, `vortex_endgame_active`.
+
+---
+
+## 12 — Cutscene Production List
+### Kling v2 + Seedance 2 prompts for every new cinematic this proposal needs
+
+> Format: each entry gives a Kling v2 prompt (for image-to-video
+> keyframe-driven animation), a Seedance 2 prompt (for longer motion
+> beats), and a reduced-motion summary (for accessibility — the
+> player gets a static image and a text block if they've opted in).
+> All prompts are written to be producible from existing art in the
+> project when possible.
+
+### C1 — Prelude Wrap: "Two Voices, One Deck"
+
+**Where:** End of Prelude, §2.7. First time Elara and The Human are
+on screen at the same time.
+
+**Kling v2 prompt:**
+> Two holographic figures — a warm cyan-lit woman in a flowing
+> political robe and a cold noir-styled detective in a trench coat —
+> stand on either side of a pedestal in a candle-lit ship archive.
+> On the pedestal: a single burnt tarot card, edges still smoldering,
+> faint blue sparks rising. Camera slow dolly forward, rack focus
+> from figures to card, then rack back. Volumetric dust, cryo haze,
+> subtle scanline glitches on both holograms. Stylized painterly
+> realism. 8 seconds.
+
+**Seedance 2 prompt:**
+> Slow ceremonial approach. Beat 1: card glows faint. Beat 2: Elara
+> raises a hand toward it, hesitant. Beat 3: The Human's trench coat
+> shifts as he leans in. Beat 4: card lifts 2 inches off the pedestal
+> and stops mid-air, rotating slowly. Beat 5: both holograms look up
+> at each other across the card — recognition, fear, grief. Hold.
+
+**Reduced motion summary:** Static image of the pedestal with the
+burnt card. Text: *"Elara and The Human stand on either side of the
+card. Neither of them looks away from it. For a moment, they both
+forget the player is in the room."*
+
+### C2 — Cycle A Finale: "Welcome to Celebration" (Slideshow)
+
+**Where:** End of Act 1 Cycle A (after Little Watcher battle).
+**System:** uses the new SongSlideshow component (§5). 8 frames.
+
+**Kling v2 prompts (per frame):**
+- F1: A cobblestone Victorian high street, morning light, a small
+  boy in an ink-stained school uniform, back to camera, running
+  toward a gothic middle school.
+- F2: Interior of a classroom — warped desks, impossible geometry,
+  a blackboard that writes itself.
+- F3: A schoolyard at lunch — three child archons in proto-form:
+  Little Meme with a notebook, Little Collector with a jar,
+  Little Watcher in a half-finished white mask.
+- F4: The Engineer's hand drawing the first Dischordia prototype in
+  his own notebook.
+- F5: The notebook being yanked away by Little Meme.
+- F6: A hand-drawn viral chant spreading through the classroom,
+  visualized as tendrils of ink crawling over desks.
+- F7: The Engineer alone at a desk, the notebook back in his hands,
+  surrounded by the whispered viral chant.
+- F8: A graduation photo. The Engineer is the only child looking
+  out of frame.
+
+**Reduced motion summary:** A description of each frame as plain
+prose. Ends with: *"Everyone in the photo is smiling. The Engineer
+is looking out of the frame, at something behind you."*
+
+### C3 — Cycle B Finale: "To Be the Human" (Slideshow)
+
+Use the existing video if good for it; otherwise this is the
+Mechronis graduation slideshow.
+
+**Kling v2 prompt (hero frame):**
+> A graduation photo from Mechronis Academy. Eight students in gray
+> formal robes. In the center, a young man with the calm posture of
+> a future detective (young Human/Seeker). At the edge, a smaller,
+> quieter figure with ink-stained fingers (young Engineer), already
+> looking outside the frame at an older woman with a staff just
+> visible in the margin (the Seer). One student is missing from the
+> lineup (Iron Lion, already expelled). Painterly, warm gold, soft
+> focus. Nostalgic.
+
+### C4 — Cycle C Finale: "Last Words" (Slideshow — THE master slideshow)
+
+Already detailed in §5.4. Fifteen frames. This is P0 content.
+
+Representative Kling v2 prompts:
+
+- **Frame 1 prompt:** *"A tall figure in a worn engineer's coat
+  walks down a dark corridor in New Babylon, carrying a ornate
+  card-case under his arm. Blue crystal light from coffins above.
+  Dust motes. Noir composition. Back to camera."*
+- **Frame 7 prompt:** *"Close-up on an engineer's face looking
+  upward at an unseen ceiling. Fearless, tired, a half-smile. Red
+  crystal light bathes the frame. Tears in his eyes, not falling."*
+- **Frame 13 prompt:** *"Same engineer kneeling on a pale stone
+  floor. A single Dischordia card levitates an inch above the
+  ground in front of him, light erupting from it. Reverent."*
+- **Frame 15 prompt:** *"Two men — the engineer and a second older
+  figure (the Programmer) — walking side by side into pure white,
+  their backs to camera, their hands clasped briefly. Biblical
+  ascension composition."*
+
+**Seedance 2 prompt (global slideshow motion):**
+> Slow Ken-Burns across each frame. Layered whisper-lyric overlay.
+> Every four frames a brief flash-forward to the ship's Archives in
+> the present day, where Elara and The Human are watching with the
+> player. Their reactions are part of the cutscene — Elara weeping
+> silently, The Human rigid and unmoving. On frame 15, the camera
+> holds on white for three full seconds before cutting to the
+> present-day ship, where the player is still holding a Dischordia
+> card they didn't realize was in their hand.
+
+### C5 — Act 2 Thaloria Cinematic: "The Helmet in the Grass"
+
+**Kling v2 prompt:**
+> A gentle verdant-skinned humanoid child (Thalorian) kneels in an
+> emerald meadow under soft morning light. Crystal streams in the
+> distance. A half-buried alien xenomorph-shaped helmet lies in the
+> grass. The child reaches for it. Camera at ground level. Peaceful.
+> Painterly. Seven seconds.
+
+**Seedance 2 prompt:**
+> Slow push in on the helmet. As the child lifts it, camera tilts up
+> and over. The world inverts mid-tilt — the emerald canopy becomes
+> a sky of burning violet. The child's hands are no longer alone on
+> the helmet — a second pair of masked hands (gloved, blue trench
+> coat sleeve) is now holding it from above. Pull back to reveal
+> TWO Game Masters standing behind the Thalorian, identical blue
+> trench coats, one with red left-lens goggles, one with red
+> right-lens goggles. The Left Game Master places the helmet on the
+> Thalorian's head. The child's eyes turn red. Hard cut to the
+> existing `collectors-arena-intro_c5e8c641.mp4`.
+
+**Canon seed quote (for the Kling prompt's atmosphere):**
+> *"Beneath the planet's emerald canopies and along its crystal
+> streams, life flowed in rhythms of quiet prosperity."* — Lore
+> Bible, Thaloria entry.
+
+### C6 — Act 3 Opening: "I Am the Eyes That Watch" (Slideshow)
+
+8 frames covering the Eyes' recruitment by the Watcher, her first
+mission, her seduction of Senator Elara Voss, the Panopticon
+betrayal, and her death in the grass. Because of Elara's real-time
+reactions during the slideshow, this is also the first time **the
+narrator on your shoulder is a character in the cutscene.**
+
+### C7 — Act 3 Mid-Point: "Ocularum" / "The Ocularum" (Slideshow pair)
+
+Two slideshows played back-to-back. The Watcher's origin before
+and after the Panopticon breaks. Ends with the Watcher telling the
+Collector to kill the Eyes. The Watcher's single line: *"I made her
+with my own hands. I'm giving her back to the grass."*
+
+### C8 — Act 4 Prisoner Intro
+
+A short standalone cutscene — not a slideshow. The White Oracle's
+transmission to the player. Grainy hologram, Panopticon ruins in
+the background. Direct address to camera.
+
+**Kling v2 prompt:**
+> Hologram of a robed prophet standing in the rain at the edge of a
+> ruined prison complex. His face is kind and exhausted. He speaks
+> directly to the camera. Behind him the Panopticon's broken central
+> tower stretches into a storm. Volumetric rain, blue holo-glow,
+> noise. 6 seconds.
+
+### C9 — Act 5 Iron Lion Intro: "The Lion in Black" (Slideshow)
+
+Detailed in §11.2. The **first slideshow in the whole game that
+uses images from the player's own playthrough** — it's the
+Antiquarian curating a feed.
+
+### C10 — Two Witnesses Meet (the Bond 80 emotional peak)
+
+See §1.5. This is a two-character dialogue cinematic in the Memorial
+Corridor of the Ark.
+
+**Kling v2 prompt:**
+> Two holograms — one in a senator's robe, one in a detective's
+> trench coat — stand in a long corridor lined with empty memorial
+> plaques. Blue candle-light flickers. They face each other, a few
+> meters apart. Neither speaks. The player's POV is behind them,
+> unseen. Painterly, intimate, a Caravaggio sense of light.
+
+**Seedance 2 prompt:**
+> Hold wide. Beat 1: Elara takes a half-step toward him. Beat 2: he
+> does not move. Beat 3: she raises a hand toward his face. Beat 4:
+> he catches her wrist. Beat 5: he lowers her hand, holds it for a
+> beat, lets go. Beat 6: neither of them looks away from the other.
+> Beat 7: in unison, they turn to face the player and wait for
+> judgment. Cut to player UI: three choices — Forgive Both, Forgive
+> One, Forgive Neither.
+
+### C11 — Vortex Endgame: "The Light Holds" / "The Bulb Breaks"
+
+Two variant endings of the same cinematic. Community-wide. The
+**community's cumulative Light/Dark totals** decide which plays.
+
+- **"The Light Holds":** a galactic starfield slowly brightening,
+  sector by sector, every sector flashing a tiny Dischordia card
+  in its center as it lights. Final frame: the Dreamer's Shield
+  dissolves and she steps through it toward the player.
+- **"The Bulb Breaks":** the Vortex arrives at the Dreamer's Shield.
+  The shield holds for one heartbeat too long and then fails. The
+  Dreamer is consumed. The Antiquarian's voice says a single line:
+  *"Begin again. She will be waiting for you in the next cycle."*
+  The game then resets to a Prestige state with carryover.
+
+---
+
+## 13 — Yin/Yang Dialog Matrix — Sample Lines for Every Room
+
+> Purpose: seed the content writers with **two voices per room** so
+> the mobile narrator system (§1.2) has material from day one. These
+> are *seed lines*, not a final script — the intent is to demonstrate
+> the voice differential. Each line set is tagged with the trust tier
+> it unlocks at (F = functional, P = professional, H = honest,
+> V = vulnerable, D = devoted).
+
+### 13.1 Bridge
+
+**Elara (F):** *"This is my post. I keep this chair warm for a
+captain who may never come."*
+**The Human (F):** *"She's lying about the chair. It's nobody's chair.
+She sits in it because she misses sitting."*
+
+**Elara (P):** *"The starfield reminds me of a window I used to
+have. I can't remember the city it looked out on."*
+**The Human (P):** *"Atarion. She had a senator's apartment with a
+view of the Crystal Spires. I know because I walked past that
+apartment seventeen times during an investigation I never told her
+about."*
+
+**Elara (V):** *"I was the one who pinned the curtains back every
+morning. I used to think that if I could keep the light in, I could
+keep the dark out. The curtains are not a metaphor. The dark came
+anyway."*
+**The Human (V):** *"The investigation I didn't tell her about —
+I was trying to protect her. I was trying to protect her from me.
+I didn't succeed at either."*
+
+### 13.2 Cryo Bay
+
+**Elara (F):** *"All but one pod is empty. The one that wasn't is
+yours. Don't ask me who was supposed to be in the others. I can't
+tell you."*
+**The Human (F):** *"She can. She just won't. Ask her again in
+three rooms."*
+
+**Elara (H):** *"There were supposed to be twelve Potentials in
+this bay. The other eleven were never loaded. I think I chose."*
+**The Human (H):** *"She didn't. The Warlord did. Elara — you were
+a senator. You had no hand in loading Arks."*
+
+### 13.3 Medical Bay
+
+**Elara (F):** *"Blood on the wall from the construction era. Old.
+I've tried to clean it. It won't come off."*
+**The Human (F):** *"It won't come off because it's not blood.
+It's marker. Someone wrote a name in it. The years have eaten the
+letters. I can still read them."*
+
+**Elara (V):** *"Tell me the name."*
+**The Human (V):** *"No."*
+
+### 13.4 Mess Hall
+
+**Elara (F):** *"The kitchen still works. I rotated the nutrient
+stock every seven days for nine hundred years."*
+**The Human (F):** *"She talks to the spice rack. Don't tell her
+I said so."*
+
+**Elara (D):** *"The spice rack kept me sane. The spice rack and
+the empty chair on the Bridge."*
+**The Human (D):** *"I talked to the surveillance camera in this
+room. I counted every meal I wasn't invited to. I am sorry for
+teasing you about the spice rack."*
+
+### 13.5 Comms Array
+
+**Elara (F):** *"Don't touch the substrate layer. It's load-bearing.
+Everything I am runs on the substrate layer."*
+**The Human (F):** *"Which is why she's afraid of me. I live
+there."*
+
+**Elara (P):** *"That's not funny."*
+**The Human (P):** *"It wasn't a joke."*
+
+### 13.6 Observation Deck
+
+**Elara (H):** *"I watched a sector go dark last week. Just… dim.
+Then out. Then gone. I logged it. Do you want to know the sector's
+name? I memorized it because I'm the only one left who will."*
+**The Human (H):** *"Tell the player. They earned the sector's
+name."*
+
+### 13.7 Armory
+
+**Elara (F):** *"The weapons here are older than the Fall. Some of
+them I recognize from treaty talks. I argued against ratifying a
+ban on three of them. I was on the wrong side."*
+**The Human (F):** *"She was on the losing side. Not the wrong
+side."*
+
+**Elara (V):** *"There's a difference?"*
+**The Human (V):** *"I made a career on the difference. It stopped
+meaning what I wanted it to mean about fifty years in."*
+
+### 13.8 Engineering
+
+**Elara (F):** *"The reactor hums differently when you're in here.
+I don't know why."*
+**The Human (F):** *"The reactor was built by the Engineer. She's
+humming because she recognizes a Potential."*
+
+**Elara (H):** *"You keep saying 'the Engineer' like you knew him."*
+**The Human (H):** *"I did. I do. He's still alive. You signed the
+memo that said he wasn't. Don't cry — we're going to get him back
+before this is over."*
+
+### 13.9 Archives
+
+**Elara (F):** *"The archive reads itself. The documents rewrite
+slightly every time you look away. I thought I was going mad. I
+wasn't."*
+**The Human (F):** *"It's the Shadow Tongue. It's been in the
+walls of this ship since construction. It edits. Slowly. I've been
+fighting it back, line by line, in the margins. Sometimes I lose
+a paragraph. I try to remember what it said."*
+
+### 13.10 Cargo Bay
+
+**Elara (F):** *"An old delivery crate. Label says Free Ports,
+overdue by 1,047 years. Fascinating."*
+**The Human (F):** *"Open it."*
+**Elara (F):** *"I already did. There's a tarot card inside. Burnt
+edges. The seventeenth one we've found. Somebody is leaving a
+trail."*
+**The Human (F):** *"Somebody is leaving a trail **for us**."*
+
+### 13.11 The Pet Garden (new room, §2.5)
+
+**Elara (F):** *"The child's pet. Little One's pet. It imprinted on
+you within the first hour. That's unusual."*
+**The Human (F):** *"That's not unusual. That's chosen."*
+
+**Elara (V):** *"I don't know how to love a living thing anymore.
+I talk to the pet. I pretend I'm talking to a constituent."*
+**The Human (V):** *"That's how you love a living thing, Senator.
+I'm not kidding."*
+
+### 13.12 The Memorial Corridor (unlocked at mutual trust 40, §1.5)
+
+**Elara (H):** *"Every plaque is empty. Is that because we forgot?
+Or because we hadn't earned a name yet?"*
+**The Human (H):** *"Both. The universe withholds names until
+you've earned them. The Engineer didn't have a name when I met
+him. He earned it by the end. He earned two more after the end."*
+
+### 13.13 The Council Chamber (Act 3 Diplomacy ending, §7.7)
+
+**Elara (D):** *"I know this room. I ran one like it for sixteen
+years. I swore I would never walk into one again."*
+**The Human (D):** *"You're the only one in the galaxy who can run
+this one. I'm the only one in the galaxy who can sit on your left.
+Sit down, Senator. I've got your six."*
+
+---
+
+## 14 — Living Universe & Living Ark Integration
+
+Every system listed above writes into the existing Living Universe
+and Living Ark infrastructure. This section lists the touchpoints
+so nothing gets orphaned.
+
+### 14.1 Living Universe events generated or gated by this proposal
+
+| Event | Source | Existing system to extend |
+|---|---|---|
+| **Two Witnesses Remember** (§1.5 trust 40) | Elara + Human shared trust 40 | `shared/livingUniverseEvents.ts` — add as new event |
+| **The Silence of Two Witnesses** (§1.5 trust 60) | Elara + Human shared trust 60 | Same |
+| **The Two Witnesses Meet** (§1.5 trust 80) | Elara + Human shared trust 80 | Same + cutscene C10 |
+| **The Bulb Dims** (§3.3) | < 20% lit sectors galaxy-wide | New, use same event dispatch |
+| **Reclamation: Sector Wakes** (§3.4) | community Light Energy push | Mirror of Necromancer Banishment Coalition |
+| **Thaloria Echo** (§6.5) | First Collector's Arena 3rd win | New |
+| **The Engineer Speaks** (§7.3 Insurgency Infiltration) | First Infiltration path with Insurgency | New, community-visible broadcast |
+| **The Archon Recruited** (§7.3 Empire Infiltration) | First player to take the Archon offer | Galactic warning event — *"A Potential has joined the Empire. Light Energy -1000."* — this is the rarest Dark Energy event in the game |
+| **The Light Holds / The Bulb Breaks** (§11.5) | Endgame community totals | New |
+
+### 14.2 Living Ark touchpoints
+
+Using existing `client/src/game/livingArk.ts` Room definitions, each
+room should be updated with:
+
+- A **narratorSlot preference** field (which of Elara / Human is
+  more likely to appear there).
+- A **narratorReactionTable** that maps player actions to lines.
+- A **roomStateModifiers** hook — the yin/yang system affects room
+  tier: at Bond 80 with Elara, certain rooms get warmer visual
+  filters. At Bond 80 with The Human, certain rooms get noir
+  filters. At Bond 80 with **both**, rooms flicker between the
+  two styles, reflecting the unstable yin/yang moment.
+
+### 14.3 Celebration and Mechronis integration
+
+The user was explicit: *"Make sure to tie in the celebration and
+mechronis into all of this."*
+
+Both are now **structural**, not decorative:
+
+- **Celebration** is the core setting of Act 1 Cycle A. The player
+  literally spends time there, fighting child Archons, learning
+  the Deck's origin.
+- **Mechronis** is the core setting of Act 1 Cycle B. The player
+  fights every important Mechronis alumnus as a classmate.
+- Both settings **return** in Act 5 as haunting flashbacks during
+  Iron Lion's last stand. Iron Lion's Mechronis expulsion
+  (canon, Year 650 A.A.) is retold from his POV.
+- The **Loredex entries** for Project Celebration and Mechronis
+  Academy (already in the Lore Bible) should be updated to
+  cross-reference every Act that features them.
+
+### 14.4 Faction discovery hooks
+
+Each faction discovered during Act 3 Trade Empire unlocks a new
+tome in the Antiquarian's library, a new narrator remark track for
+the Ark's common rooms, and a new **faction-themed card set** for
+Dischordia (crafted via bench).
+
+Guilds shown in the repo root as `guild-the-influencers.jpg`,
+`guild-the-living.jpg`, `guild-the-locks.jpg`, and
+`guild-the-yellow-coats.jpg` — these four guilds should be wired
+in as **sub-factions within New Babylon**. Each one is a faction
+Infiltration target in Act 3's F1 arc.
+
+### 14.5 Celebration / Mechanis / Faction / Acts interlock — one table
+
+| Act | Minigame | Central character | Primary lore locations | Secondary tie-ins |
+|---|---|---|---|---|
+| Prelude | Ship cleaning, crew, pets | The Potential | Ark 1047 | Seer fragment hook |
+| Act 1 | **Card Game (Dischordia)** | **The Engineer** | Project Celebration, Mechronis Academy, Nexon, New Babylon | Prince of Celebration, Last Words song, Mascoteers child Archons |
+| Act 2 | Crafting, Chess, Collector's Arena | The Game Masters | Matrix of Dreams, Thaloria | Shadow Tongue origin cinematic |
+| Act 3 | **Trade Empire** | **The Eyes** | Atarion, Panopticon, Free Ports, New Babylon, Empire, Hierarchy, Antiquarian's Refuge, Terminus | Watcher origin, Insurgency Engineer rediscovery, Yellow Coats / Living / Locks / Influencers guild infiltration |
+| Act 4 | **Fighting Game** | **The Prisoner (Kael)** | Panopticon | Meme impersonation, Warlord Zero rematch |
+| Act 4.5 | Dead Man's Circuit + Degen Casino | The Antiquarian + The Degen | Dreamer's Shield edge | Player authors their own identity chain |
+| Act 5 | **Cades FPS** | **Iron Lion** | Veridian VI | Engineer's true fate revealed |
+| Endgame | All systems | The Vortex vs the Dreamer | Galaxy-wide | Community event — every system participates |
+
+---
+
+## 15 — Implementation Priority Order
+
+**P0 — blocks everything:**
+1. Yin/Yang mobile narrator system (§1.2, §1.3) — this is the
+   foundation everything else narratively relies on.
+2. Light/Dark Energy meter + `shared/dischordiaCycle.ts` (§3) — fork
+   of existing Necromancer Cycle.
+3. SongSlideshow component (§5) — unlocks all cinematic production.
+4. Prelude restructure (§2) — existing rooms get a narrative gate
+   order; Companion reveal beats 1–4 get wired into cleaning flow.
+5. Act 1 Cycle A + B (§4.3, §4.4) — twelve card battles with
+   pre/post slideshow beats. The existing `storyModeChapters.ts`
+   structure already supports this; plug in the new content.
+6. *"Last Words"* slideshow (§5.4) — the emotional payoff P0.
+
+**P1 — high value, unlocks later acts:**
+7. Act 2 interlude (§6) — Crafting/Chess/Collector's Arena unlock
+   cinematics + Thaloria cinematic.
+8. Trade Empire improvements 1–5 from §8.1 (narrative objects,
+   diplomacy table, infiltration paths, living economies, trade
+   fleets).
+9. Act 3 (§7) — the Eyes' life + faction arcs. This is the biggest
+   writing task in the whole proposal.
+10. Two Witnesses Meet cinematic C10 (§12.C10).
+
+**P2 — fills out the world:**
+11. Act 4 Prisoner fighting-game restructure (§9).
+12. Act 4.5 Dead Man's Circuit + Casino (§10).
+13. Act 5 Cades / Iron Lion (§11).
+14. Vortex Endgame community event (§11.5).
+15. Sample dialog matrix content for all 13 rooms (§13) — can be
+    written incrementally.
+
+**P3 — polish and expansion:**
+16. Trade Empire improvements 6–10 from §8.1 (sector memory,
+    Dreamer's Shield crack reveal, piracy, colonies-as-legacies,
+    Eyes voice layer).
+17. Additional slideshows from the §5.5 P1 list.
+18. Faction guild wiring (§14.4).
+19. Prestige Cycle content.
+
+---
+
+## 16 — Closing Note to the User
+
+Three things I want to name explicitly before you read this:
+
+1. **Nothing in this proposal throws away what exists.** Every act,
+   every cutscene, every meter is a **fork** or **extension** of
+   something already in the codebase: the Necromancer Cycle, the
+   existing Story Mode chapters, the existing Trade Empire factions,
+   the existing Ark rooms, the existing narrative architecture. You
+   are not being asked to rebuild. You are being asked to **connect
+   and name**.
+
+2. **The Engineer is the heart.** Every major character in the saga
+   orbits him — he is the Prince of Celebration, he was at Mechronis
+   with The Human, he built the Deck the Seer dreamed, he survived
+   in Agent Zero's body, he is the reason Ark 1047 *has* a
+   Dischordia system in the first place. Telling his story through
+   the card game is not a writing choice. It is the single truest
+   thing the game can do with the lore it already owns. Act 1 is
+   the emotional origin of everything that follows.
+
+3. **The yin/yang is the reader, not the story.** Elara and The
+   Human are not the plot. They are how the player *reads* the
+   plot. Giving the player two competing witnesses in every room
+   — one who can be dismissed and one who can be called back, both
+   of whom remember — is the architecture that turns a collection
+   of minigames into a single Witnessing. That is the thesis from
+   `NARRATIVE_ARCHITECTURE.md`, and this proposal is how you get
+   there from here.
+
+> *"The cards were created by her magic staff. They generated power
+> through good soul magic — the type that could power entire
+> civilizations with sustainable energy."*
+>
+> — the Seer's legacy, as you described it
+>
+> *"He built the Deck here. He fought the Game Master here. Some of
+> the souls in that vault are his. Some of the souls in that vault
+> are yours — you just haven't lost them yet."*
+>
+> — the Human, in the Collector's Arena, §6.4
+
+The Seer dreamed it. The Engineer built it. The Potential will
+play it.
+
+This is what the game has been trying to say all along.
+
+---
+
+*End of proposal. For cross-reference, see:*
+- `docs/design/NARRATIVE_ARCHITECTURE.md` — The Witnessing thesis
+- `docs/built/LORE_BIBLE.md` — All lore entries referenced
+- `shared/necromancerCycle.ts` — Template for the Light/Dark meter
+- `client/src/game/tradeEmpire.ts` — Faction and sector foundation
+- `client/src/game/livingArk.ts` — Room system foundation
+- `client/src/data/narrativeActs.ts` — Act structure foundation
+- `docs/design/ANIMATED_CUTSCENES.md` — Existing cutscene pipeline
+- `docs/production/MISSING_CUTSCENES.md` — 46 cutscene backlog this
+  proposal partially resolves
+
+
+
+
+
+
+
+
+
+
+
