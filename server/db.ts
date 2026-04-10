@@ -7,6 +7,25 @@ import { ENV } from './_core/env';
 /** Re-usable type for the drizzle DB instance */
 export type DrizzleDb = ReturnType<typeof drizzle>;
 
+/**
+ * Detect MySQL duplicate-key errors so routers can convert them into
+ * user-facing messages ("already exists") instead of leaking driver
+ * internals. mysql2 surfaces these as `{ code: 'ER_DUP_ENTRY', errno: 1062 }`.
+ *
+ * Routers that rely on unique indexes to enforce concurrency invariants
+ * (e.g. promo_code_redemptions, store_purchases) should wrap the insert
+ * in try/catch and use this helper to map the error.
+ */
+export function isDuplicateKeyError(err: unknown): boolean {
+  if (!err || typeof err !== "object") return false;
+  const e = err as { code?: string; errno?: number; cause?: unknown };
+  if (e.code === "ER_DUP_ENTRY" || e.errno === 1062) return true;
+  // drizzle-orm sometimes wraps the underlying driver error in a
+  // DrizzleError with the original on `cause`.
+  if (e.cause) return isDuplicateKeyError(e.cause);
+  return false;
+}
+
 let _db: DrizzleDb | null = null;
 
 // Lazily create the drizzle instance so local tooling can run without a DB.

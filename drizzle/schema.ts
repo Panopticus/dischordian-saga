@@ -2400,6 +2400,78 @@ export const directMessages = mysqlTable("direct_messages", {
 });
 export type DirectMessageRow = typeof directMessages.$inferSelect;
 
+/* ─── TRUST & SAFETY — blocks, reports, moderator audit ─── */
+/**
+ * user_blocks — a player blocking another player.
+ * socialFeatures.sendMessage checks this table before delivering a DM, and
+ * moderation.block.add is the single write-path. Unique (userId, blockedUserId)
+ * means adding the same block twice is a no-op.
+ */
+export const userBlocks = mysqlTable("user_blocks", {
+  id: int("id").primaryKey().autoincrement(),
+  userId: int("userId").notNull(),
+  blockedUserId: int("blockedUserId").notNull(),
+  reason: varchar("reason", { length: 255 }),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+}, (table) => ({
+  uqUserBlocked: uniqueIndex("uq_user_blocks_user_blocked").on(
+    table.userId,
+    table.blockedUserId,
+  ),
+  userIdx: index("idx_user_blocks_user").on(table.userId),
+  blockedIdx: index("idx_user_blocks_blocked").on(table.blockedUserId),
+}));
+export type UserBlockRow = typeof userBlocks.$inferSelect;
+
+/**
+ * user_reports — player-filed reports against abusive content or players.
+ * Category is deliberately a free-form varchar so product can iterate on
+ * the taxonomy (harassment, spam, hate_speech, csam, impersonation, etc.)
+ * without a schema migration.
+ */
+export const userReports = mysqlTable("user_reports", {
+  id: int("id").primaryKey().autoincrement(),
+  reporterUserId: int("reporterUserId").notNull(),
+  reportedUserId: int("reportedUserId").notNull(),
+  category: varchar("category", { length: 64 }).notNull(),
+  details: text("details"),
+  /** Optional pointer to the offending content: 'direct_message', 'guild_post', etc. */
+  contextType: varchar("contextType", { length: 64 }),
+  contextId: varchar("contextId", { length: 128 }),
+  /** pending | triaged | resolved | dismissed */
+  status: varchar("status", { length: 20 }).notNull().default("pending"),
+  resolvedByUserId: int("resolvedByUserId"),
+  resolvedAt: timestamp("resolvedAt"),
+  resolutionNotes: text("resolutionNotes"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+}, (table) => ({
+  reporterIdx: index("idx_user_reports_reporter").on(table.reporterUserId),
+  reportedIdx: index("idx_user_reports_reported").on(table.reportedUserId),
+  statusIdx: index("idx_user_reports_status").on(table.status, table.createdAt),
+}));
+export type UserReportRow = typeof userReports.$inferSelect;
+
+/**
+ * moderator_audit_log — append-only record of every moderator action.
+ * Every mutation in routers/moderation.ts that changes state on another
+ * user's behalf writes one row here so we have a compliance trail.
+ */
+export const moderatorAuditLog = mysqlTable("moderator_audit_log", {
+  id: int("id").primaryKey().autoincrement(),
+  moderatorUserId: int("moderatorUserId").notNull(),
+  action: varchar("action", { length: 64 }).notNull(),
+  targetUserId: int("targetUserId"),
+  targetType: varchar("targetType", { length: 64 }),
+  targetId: varchar("targetId", { length: 128 }),
+  payload: json("payload").$type<Record<string, unknown>>(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+}, (table) => ({
+  moderatorIdx: index("idx_moderator_audit_moderator").on(table.moderatorUserId),
+  targetIdx: index("idx_moderator_audit_target").on(table.targetUserId),
+  createdIdx: index("idx_moderator_audit_created").on(table.createdAt),
+}));
+export type ModeratorAuditLogRow = typeof moderatorAuditLog.$inferSelect;
+
 export const guildRecruitment = mysqlTable("guild_recruitment", {
   id: int("id").primaryKey().autoincrement(),
   guildId: int("guildId").notNull().unique(),
@@ -2467,7 +2539,17 @@ export const promoCodeRedemptions = mysqlTable("promo_code_redemptions", {
   promoCodeId: int("promoCodeId").notNull(),
   userId: int("userId").notNull(),
   redeemedAt: timestamp("redeemedAt").defaultNow().notNull(),
-});
+}, (table) => ({
+  // Concurrency guard — the previous existence-check-then-insert pattern
+  // in promoCodes.redeemCode was racy, allowing a single user to redeem
+  // the same code twice if two requests arrived simultaneously. This
+  // unique index plus a transaction + SELECT ... FOR UPDATE lock in the
+  // router closes the race at the DB layer.
+  uqCodeUser: uniqueIndex("uq_promo_code_redemptions_code_user").on(
+    table.promoCodeId,
+    table.userId,
+  ),
+}));
 export type PromoCodeRedemptionRow = typeof promoCodeRedemptions.$inferSelect;
 
 /* ═══════════════════════════════════════════════════════

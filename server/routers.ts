@@ -57,6 +57,7 @@ import { bossMasteryRouter } from "./routers/bossMastery";
 import { cosmeticShopRouter } from "./routers/cosmeticShop";
 import { donationSystemRouter } from "./routers/donationSystem";
 import { socialFeaturesRouter } from "./routers/socialFeatures";
+import { moderationRouter } from "./routers/moderation";
 import { loreJournalRouter } from "./routers/loreJournal";
 import { promoCodesRouter } from "./routers/promoCodes";
 import { architectConsoleRouter } from "./routers/architectConsole";
@@ -130,6 +131,7 @@ export const appRouter = router({
   cosmeticShop: cosmeticShopRouter,
   donation: donationSystemRouter,
   social: socialFeaturesRouter,
+  moderation: moderationRouter,
   loreJournal: loreJournalRouter,
   promoCodes: promoCodesRouter,
   architectConsole: architectConsoleRouter,

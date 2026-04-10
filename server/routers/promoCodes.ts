@@ -5,9 +5,9 @@
 import { z } from "zod";
 import { protectedProcedure, router } from "../_core/trpc";
 import { TRPCError } from "@trpc/server";
-import { getDb } from "../db";
+import { getDb, isDuplicateKeyError } from "../db";
 import { promoCodes, promoCodeRedemptions } from "../../drizzle/schema";
-import { eq, and, sql, desc } from "drizzle-orm";
+import { eq, sql, desc } from "drizzle-orm";
 
 // Admin guard middleware (same pattern as admin.ts)
 const adminProcedure = protectedProcedure.use(({ ctx, next }) => {
@@ -19,65 +19,87 @@ const adminProcedure = protectedProcedure.use(({ ctx, next }) => {
 
 export const promoCodesRouter = router({
   /* ─── REDEEM A CODE (player) ─── */
+  //
+  // Concurrency notes:
+  //  1. The whole redemption runs inside a DB transaction so any failure
+  //     past the row-lock rolls back the counter increment.
+  //  2. `SELECT ... FOR UPDATE` on the promo_codes row serializes concurrent
+  //     redemptions of the same code so the cap check + increment are
+  //     effectively atomic.
+  //  3. The `uq_promo_code_redemptions_code_user` unique index (see
+  //     drizzle/0036_promo_code_redemption_unique.sql) is a defence-in-depth
+  //     guarantee against duplicate redemption by the same user even if
+  //     the row lock is bypassed by a different code path.
   redeemCode: protectedProcedure
     .input(z.object({ code: z.string().min(1).max(64).transform(s => s.trim().toUpperCase()) }))
     .mutation(async ({ ctx, input }) => {
       const db = await getDb();
       if (!db) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Database unavailable" });
 
-      // Find the code
-      const rows = await db.select().from(promoCodes)
-        .where(eq(promoCodes.code, input.code))
-        .limit(1);
+      return await db.transaction(async (tx) => {
+        // Acquire a row-level lock on the promo_codes row for the duration
+        // of this transaction. Any concurrent redemption of the same code
+        // blocks here until we COMMIT/ROLLBACK.
+        await tx.execute(
+          sql`SELECT id FROM promo_codes WHERE code = ${input.code} FOR UPDATE`,
+        );
 
-      const promo = rows[0];
-      if (!promo) {
-        throw new TRPCError({ code: "NOT_FOUND", message: "Invalid promo code" });
-      }
+        // Now read the (locked) promo row with typed columns.
+        const rows = await tx.select().from(promoCodes)
+          .where(eq(promoCodes.code, input.code))
+          .limit(1);
 
-      // Check active
-      if (!promo.isActive) {
-        throw new TRPCError({ code: "BAD_REQUEST", message: "This code is no longer active" });
-      }
+        const promo = rows[0];
+        if (!promo) {
+          throw new TRPCError({ code: "NOT_FOUND", message: "Invalid promo code" });
+        }
+        if (!promo.isActive) {
+          throw new TRPCError({ code: "BAD_REQUEST", message: "This code is no longer active" });
+        }
+        if (promo.expiresAt && new Date(promo.expiresAt) < new Date()) {
+          throw new TRPCError({ code: "BAD_REQUEST", message: "This code has expired" });
+        }
+        if (
+          promo.maxRedemptions !== null &&
+          promo.maxRedemptions !== -1 &&
+          promo.currentRedemptions >= promo.maxRedemptions
+        ) {
+          throw new TRPCError({
+            code: "BAD_REQUEST",
+            message: "This code has reached its maximum redemptions",
+          });
+        }
 
-      // Check expiry
-      if (promo.expiresAt && new Date(promo.expiresAt) < new Date()) {
-        throw new TRPCError({ code: "BAD_REQUEST", message: "This code has expired" });
-      }
+        // Insert the redemption. The unique index on (promoCodeId, userId)
+        // is our second defence against double-redemption — if the same
+        // user somehow bypasses the row lock, this still throws.
+        try {
+          await tx.insert(promoCodeRedemptions).values({
+            promoCodeId: promo.id,
+            userId: ctx.user.id,
+          });
+        } catch (err) {
+          if (isDuplicateKeyError(err)) {
+            throw new TRPCError({
+              code: "BAD_REQUEST",
+              message: "You have already redeemed this code",
+            });
+          }
+          throw err;
+        }
 
-      // Check max redemptions
-      if (promo.maxRedemptions !== null && promo.maxRedemptions !== -1 && promo.currentRedemptions >= promo.maxRedemptions) {
-        throw new TRPCError({ code: "BAD_REQUEST", message: "This code has reached its maximum redemptions" });
-      }
+        // Increment the counter. Safe because the row is locked FOR UPDATE.
+        await tx.update(promoCodes)
+          .set({ currentRedemptions: sql`${promoCodes.currentRedemptions} + 1` })
+          .where(eq(promoCodes.id, promo.id));
 
-      // Check if user already redeemed
-      const existing = await db.select().from(promoCodeRedemptions)
-        .where(and(
-          eq(promoCodeRedemptions.promoCodeId, promo.id),
-          eq(promoCodeRedemptions.userId, ctx.user.id),
-        ))
-        .limit(1);
-
-      if (existing.length > 0) {
-        throw new TRPCError({ code: "BAD_REQUEST", message: "You have already redeemed this code" });
-      }
-
-      // Record redemption and increment counter
-      await db.insert(promoCodeRedemptions).values({
-        promoCodeId: promo.id,
-        userId: ctx.user.id,
+        return {
+          success: true,
+          description: promo.description,
+          rewardType: promo.rewardType,
+          rewardValue: promo.rewardValue as Record<string, unknown>,
+        };
       });
-
-      await db.update(promoCodes)
-        .set({ currentRedemptions: sql`${promoCodes.currentRedemptions} + 1` })
-        .where(eq(promoCodes.id, promo.id));
-
-      return {
-        success: true,
-        description: promo.description,
-        rewardType: promo.rewardType,
-        rewardValue: promo.rewardValue as Record<string, unknown>,
-      };
     }),
 
   /* ─── LIST MY REDEEMED CODES (player) ─── */
