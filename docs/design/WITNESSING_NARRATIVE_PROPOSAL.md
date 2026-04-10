@@ -2986,10 +2986,120 @@ qualifying whether it was good.
 Daniel 2:47*, listed in Kael's lore entry) plays under the
 silhouette speech. The song is already in the game.
 
+### B.9 — Production Prompts (Seedance 2 / Kling / Key Frames)
+
+Ready-to-send prompts for the nine cinematics in Appendix B
+(six Fragment openers + three Payoffs). Each prompt is
+structured for Seedance 2 first (video), with a Kling fallback,
+and includes three key-frame stills for pre-viz.
+
+#### **F1 — "What You Are Fighting"** *(22s)*
+
+> **Seedance 2:** *Dystopian tower-defense battlefield at dusk, bowl-shaped plague ships dropping swarms of Thought-Virus creatures onto a crystalline Ark base. In slow motion an Oracle Spire's light passes over a leaping Source Avatar. For a single frame the creature's face resolves into a human man in his forties: heavily scarred, tattooed, prosthetic left arm, eyes exhausted. The light moves on; the creature's face returns to a mask of viral growth. Cinematic depth of field, volumetric light, muted palette except for the spire's cold blue reveal. No dialog.*
+
+> **Kling fallback:** *Animated comic panel sequence. Panel 1: the Ark base, wide establishing shot. Panel 2: the swarm attacking. Panel 3: the spire's beam sweeping across the creature. Panel 4: the human face revealed for a single beat. Panel 5: the face is gone. Noir lighting throughout.*
+
+> **Key frames:** (a) the bowl ships descending, silhouetted against a ringed planet (b) the spire beam mid-sweep (c) the human face in one frozen frame, eyes meeting the camera.
+
+#### **F2 — "The Recorded Voice"** *(25s)*
+
+> **Seedance 2:** *A dark Comms Array room on the Ark. A waveform oscilloscope on screen — an old audio recording playing. The waveform distorts and re-stabilizes. Subtitled dialog appears as typewriter text, pale cyan: "You will not be alone. The resistance remembers you. Bring what you have. Come home." Camera slowly pushes in on a reflective console surface where a figure with a prosthetic arm is faintly visible as a ghostly reflection, listening to himself. He does not move. He does not know he is being watched. No music for the first twelve seconds, then the opening bars of an Insurgency recruitment theme fade in.*
+
+> **Kling fallback:** *Waveform animation over a Comms Array background image. Subtitle typewriter text. Single still of the prosthetic-armed figure at the end.*
+
+> **Key frames:** (a) the oscilloscope close-up (b) the subtitle midway through (c) the ghost-reflection of Kael listening.
+
+#### **F3 — "The Theft Route"** *(30s)*
+
+> **Seedance 2:** *Aerial tracking shot following a small stolen ship threading through the docking bays of a prison-planet megastructure. The ship's flight path traces a precise route — the player recognizes it as matching their own Trade Empire flight logs. Security turrets pivot but do not fire. Docking clamps retract too smoothly. A visible interior shot: the pilot is Kael, face bloodied, prosthetic arm sparking, eyes alive with something between triumph and delirium. Behind him, unseen by him, a faint golden data-silhouette flickers in the passenger seat — Elara, caught in the transfer, wide-eyed, silent. Dramatic cinematic scoring.*
+
+> **Kling fallback:** *Ship flight through docking bays, single interior cutaway of Kael at the helm, golden data-ghost of Elara ghosted in.*
+
+> **Key frames:** (a) the ship threading the docking maze (b) Kael's face inside, lit by cockpit red (c) the Elara data-silhouette in the passenger seat behind him.
+
+#### **F4 — "The Tunnels"** *(35s)*
+
+> **Seedance 2:** *A first-person substrate-dungeon walk through a maintenance tunnel lit by pulsing red emergency lights. The walls are coated in a living thought-virus substrate. Fresh claw marks gouge the metal — someone came this way recently, running the wrong direction. At the edge of the light, a silhouette retreats around a corner. The camera stops. From the darkness ahead comes the sound of a man's voice — quiet, worn, familiar — speaking a single phrase in a language that decodes on screen as: "I know you came back. I wasn't ready." Silence. The tunnel empties. The camera pulls back.*
+
+> **Kling fallback:** *Static first-person tunnel shot with animated claw marks and retreating silhouette. Audio with subtitle.*
+
+> **Key frames:** (a) the red-lit tunnel with fresh claw marks (b) the silhouette mid-retreat (c) the empty frame with the subtitle.
+
+#### **F5 — "The Apprentice Who Ran"** *(40s)*
+
+> **Seedance 2:** *Split composition. Left: the player's Apprentice, young, still in Celebration uniform, standing in a collapsing chamber with a wounded teacher trapped under debris. The teacher is Kael. He says "Go. Come back with a crew." The Apprentice must choose. Right: a ghost-overlay of the same scene 17,000 years earlier, where the young Prisoner is the one standing and Kael is already pinned and already dying. The two scenes are synchronized frame for frame until the choice. Whichever option the player picks, both Apprentices make the same choice at the same moment in both timelines. Cinematic depth, parallel editing, mournful piano score.*
+
+> **Kling fallback:** *Side-by-side split screen, synchronized beats. Single still at the moment of choice.*
+
+> **Key frames:** (a) the two Apprentices standing in parallel, framed identically (b) the two Kaels, young and old, pinned in parallel (c) the moment of divergence — if stayed, both kneel beside him; if ran, both turn to the door.
+
+#### **F6 — "The Recruiter's Pamphlet"** *(35s)*
+
+> **Seedance 2:** *An unadorned desk in a small apartment. A single overhead bulb. A young man sits writing on a cheap tablet. His arms are both flesh; no prosthetic yet. A framed photograph of his wife and child on the desk. He writes slowly, pauses, looks at the photograph, writes more. The camera gradually pushes in on his hands. The text on the tablet resolves into a readable paragraph: "What is left when they take everything but the fact of your love?" He signs it with his real name. The camera holds on the signature for exactly three seconds. Then the signature dissolves into pixels. The pixels reform into the word 'The Recruiter.' The bulb goes out.*
+
+> **Kling fallback:** *Fixed camera on a desk, animated tablet text, animated signature dissolve.*
+
+> **Key frames:** (a) the man at the desk, photograph visible (b) the pamphlet text mid-write (c) the signature dissolving into 'The Recruiter.'
+
+#### **P1 — "The Eyes Were Watching"** *(45s, Payoff 1)*
+
+> **Seedance 2:** *A warm-lit Insurgency safehouse kitchen. Kael, unscarred, both arms flesh except for a new bare prosthetic on his left, laughs at something off-screen. The Eyes sits close to him, elegant, smiling. She hands him a cup of tea. As he takes it, the camera catches the reflection on the surface of the tea: the Watcher's all-white masked face, eye-tattoo glowing on the forehead. Cut to an extreme close-up of The Eyes' left eye, which is momentarily replaced with a telemetry readout showing Kael's face as a camera feed. She blinks. The readout clears. Cut back to wide shot: Kael drinks the tea. He smiles at her. She smiles back. Her smile does not reach her eyes. Fade to black. Title card: "He never saw her move the cup."*
+
+> **Kling fallback:** *Three panels: the laughing Kael, the tea reflection of the Watcher, The Eyes' telemetry retina. Sound design from "I am the Eyes that Watch" over all three.*
+
+> **Key frames:** (a) Kael laughing (b) the tea reflecting the Watcher's face (c) The Eyes' retina readout close-up.
+
+#### **P2 — "The Tunnel"** *(90s, Payoff 2)*
+
+> **Seedance 2:** *A maintenance tunnel deep inside the Panopticon substrate, lit by slow-pulsing red emergency strips. Kael (scarred, prosthetic arm sparking from an EMP discharge) and the Prisoner (young, terrified, unmarked) crawl forward shoulder to shoulder. Kael's arm fires a blue EMP pulse; two robotic guards at a junction drop mid-stride. Kael grins at the Prisoner: "Three junctions. We get through, we get out." The ceiling collapses behind them in a dust-and-rebar cascade. Kael is pinned, a length of rebar through his thigh, alive but immobile. The Prisoner freezes. The groan of Thought-Virus zombies echoes through the walls — closer than they should be. Kael, calm: "Go. Come back with a crew." The Prisoner does not move. Kael, softer, looking directly at him: "Brother. Go." The Prisoner runs. The last frame holds on Kael's face in the red light as the first virus-zombie crawls around the corner. He is not afraid. He is tired. He looks straight at the camera — at the player — and mouths one word. The audio of the word is garbled past recognition. Fade to black. Title card: "He survived. The other one kept running."*
+
+> **Kling fallback:** *Seven-panel sequence: the crawl, the EMP, the collapse, the pinning, the Prisoner frozen, the Prisoner running, Kael alone with the zombie. "The Prisoner" song plays over everything.*
+
+> **Key frames:** (a) the EMP pulse at the junction (b) Kael pinned under the rebar, Prisoner frozen (c) Kael alone in the red light, mouthing the final word.
+
+#### **P3 — "The Third Voice"** *(60s, Payoff 3)*
+
+> **Seedance 2:** *Begins as the canonical Breaking Point split-screen cinematic — Elara on the left in warm cyan holographic glow, the Human on the right in cold orange surveillance-display lighting, the morality meter at center. Both are mid-breath, about to speak. Static breaks across the entire frame — a data interference neither of them caused. The static resolves into a third portrait dead-center: a blurred silhouette of a man with a prosthetic arm, no face distinguishable, a single wilted flower visible in his breast pocket. Kael's voice speaks, weary and steady: "You don't have to choose between them. They don't have to choose between you. I chose once. I chose for the right reasons. I chose for revenge for my wife and my boy. It was the last clean thing I ever did and it killed me. Whatever you do next, don't do it because someone left you in a tunnel. Do it because you're still here." The silhouette collapses into static. The Breaking Point choice interface appears — but where there were three buttons, there are now four. The fourth reads: "Don't choose. Go make something."*
+
+> **Kling fallback:** *Use the canonical split-screen render. Composite the central silhouette and the new button. Voice-over handles the rest.*
+
+> **Key frames:** (a) the canonical Elara/Human split screen (b) the static eruption revealing Kael's silhouette at center (c) the four-button interface with the new fourth option highlighted.
+
 ---
 
-*[Appendix B continues — B.9 Cutscene Production Prompts.
-Final chunk.]*
+### B.10 — What This Appendix Costs to Build
+
+**Zero new systems.** Every referenced file already exists in the
+repo. The total new work is:
+
+- 1 new table in the towerDefense.ts `TowerDef` struct (hover
+  inscription)
+- 6 new ripple event types in `rippleEngine.ts`
+- 6 new Fragment unlock hooks (already plugged into existing
+  canonical systems: terminusSwarm.ts, substrateDungeon.ts,
+  celebrationTrial.ts, transmissions.ts, etc.)
+- 6 new Loredex entries
+- 9 new cinematics (per B.9 prompts)
+- 1 new Substrate Dungeon enemy tag (`echo_of_kael`)
+- 1 new Trade Empire route unlock (`kael_corridor`)
+- 1 new Coop Raid (`project_vector`)
+- 1 new Strand Contract type (`beacon_chain`)
+- 1 new Dark Arts skill tree branch (gated behind F5 tragic outcome)
+- 12 new Antiquarian Chronicle template strings
+- 12 lines of new narrator callback content per fragment per narrator
+- 1 new Breaking Point fourth-option branch
+
+**Everything else is narrative routing through systems that already
+ship.** The ripple engine makes this possible. The Living Universe
+design already pre-supposes exactly this kind of cross-system event
+propagation. Kael's questline is not a new feature — **it is the
+first feature in the game that uses every system the game already
+has, on purpose, for a single story.** That is the thesis of the
+Witnessing made real.
+
+---
+
+*End of Appendix B. End of proposal.*
 
 
 
