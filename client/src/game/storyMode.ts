@@ -55,6 +55,13 @@ export interface StoryDialogue {
   internal?: boolean;
   /** Voice effect applied to this line */
   voiceEffect?: "echo" | "static" | "glitch" | "clinical";
+  /**
+   * Optional VO line ID. When set, UI playback code should look this ID up in
+   * shared/storyModeVoManifest.json and play the matching S3 MP3 during this
+   * line. See useStoryModeVO() hook and scripts/story-mode-lines.json for the
+   * source-of-truth line catalog.
+   */
+  voiceId?: string;
 }
 
 export type PortraitDirection =
@@ -288,9 +295,9 @@ export function getPrisonerStats(chaptersCompleted: number) {
 // ─── LORE OPENING ─────────────────────────────────────
 
 export const ARENA_LORE_OPENING: StoryDialogue[] = [
-  { speaker: "narrator", text: "The Architect foresaw the end of everything. It built an Arena — not for glory, but for harvest. The greatest minds in the universe, tested. Their essence, preserved. Their consent, irrelevant." },
-  { speaker: "narrator", text: "They call it the Collector's Arena. On the prison-world of Thaloria, the harvested fight not for freedom but for the right to exist beyond the end of everything." },
-  { speaker: "narrator", text: "And in the deepest cell of the Panopticon, a prisoner awakens. No name. No memory. Only the faintest echo of a power that once shook empires. And the cameras are already rolling." },
+  { speaker: "narrator", text: "The Architect foresaw the end of everything. It built an Arena — not for glory, but for harvest. The greatest minds in the universe, tested. Their essence, preserved. Their consent, irrelevant.", voiceId: "narrator_arena_lore_00" },
+  { speaker: "narrator", text: "They call it the Collector's Arena. On the prison-world of Thaloria, the harvested fight not for freedom but for the right to exist beyond the end of everything.", voiceId: "narrator_arena_lore_01" },
+  { speaker: "narrator", text: "And in the deepest cell of the Panopticon, a prisoner awakens. No name. No memory. Only the faintest echo of a power that once shook empires. And the cameras are already rolling.", voiceId: "narrator_arena_lore_02" },
 ];
 
 // ═══════════════════════════════════════════════════════
