@@ -15,6 +15,11 @@
 
 import fs from "fs";
 import path from "path";
+import { fileURLToPath } from "url";
+
+// ─── ESM __dirname shim ───
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // ─── CONFIG ───
 const ELEVENLABS_KEY = process.env.ELEVENLABS_API_KEY || "";
