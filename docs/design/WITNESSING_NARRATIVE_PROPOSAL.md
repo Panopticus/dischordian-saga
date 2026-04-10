@@ -2390,7 +2390,70 @@ quarters, they get one free Bond point with each companion for
 
 ---
 
-*End of appendix. End of proposal.*
+## APPENDIX B — The Kael Asynchronous Questline & Terminus Swarm
+
+> *"You are playing inside a dead man's ship. Every wall remembers
+> him. Every wave of the Swarm is him, reaching backwards through
+> time, still trying to escape the prison that ate him. You are not
+> fighting the Source. You are watching Kael die, one wave at a
+> time."*
+> — The Antiquarian, Chronicle entry for anyone who reaches Wave 50
+
+### B.0 — The Thesis
+
+The player is living aboard **Inception Ark 1047 — Dr. Lyra Vox's
+personal research vessel, stolen by Kael during his escape from the
+Panopticon.** Every single system in this proposal takes place
+inside a crime scene. The player has been told (by Elara, by the
+Human) that the ship is broken, haunted, infected, cold. They have
+*not* been told — and should not be told until they earn it — that
+the ship was **stolen by the man who is now the enemy they fight in
+Terminus Swarm.**
+
+Kael's story is not an act. It is not a chapter. It is **an
+asynchronous questline delivered exclusively during the clean-up
+phase** (Prelude + early Act 1 downtime), unlocked entirely by
+playing existing systems the player would already be playing, and
+resolved only when the player has done enough of those activities to
+*deserve* the ending. It is the first long narrative in the game
+that is gated **by attention, not by progress**.
+
+It is also the **single biggest Living-Universe payoff in Year One**:
+the moment the player understands what Kael is to them retroactively
+reframes every hour they have already played. The whole ship is
+different after. The whole war is different after. Both narrators
+flinch.
+
+### B.1 — Why Terminus Swarm Is the Perfect Vehicle
+
+The canonical `shared/towerDefense.ts` and `server/routers/terminusSwarm.ts`
+already ship a full tower-defense system with these facts:
+
+- The player builds a **base** on a grid, with turrets, barricades,
+  traps, healing pylons, and class-locked towers
+- Waves of **Terminus enemies** (the Source's Swarm) assault the
+  base. Each wave scales.
+- Wave completion awards **salvage, viral ichor, neural cores,
+  void crystals** — and is logged through the **ripple engine**
+  via `ripple.emit("terminus_wave_survived", ...)`
+- Boss waves can include a **Source Avatar** — a fragment of Kael's
+  consciousness — whose kill awards a huge trophy payout
+- Guild war contribution points are auto-awarded per wave
+
+The player already thinks of this as a Clash-of-Clans base defense
+with a cosmic-horror paint job. **That's the cover story. The truth
+is that every wave is a memory Kael is trying to forward to the
+player through the only interface he still has — the Terminus
+Swarm itself.** The base they are defending is not just the Ark.
+**The base is the Panopticon.** Kael is trying to rebuild his
+prison from outside so that the player can figure out how he got
+out.
+
+---
+
+*[Appendix B continues — B.2 The Reverse-Chronology Questline,
+B.3 The Six Fragments, B.4 Tower Lore, B.5 Ripple Integration,
+B.6 Year One Ripple Effect, B.7 Other Systems. Drafted in chunks.]*
 
 
 
