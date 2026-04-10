@@ -1,0 +1,21 @@
+# Task 9.3 — robots.txt
+#
+# Dischordian Saga is an SPA. The marketing + loredex pages are
+# publicly indexable; the /admin, /architect, and auth routes
+# are not. Since the SPA resolves everything client-side, search
+# engines render the shell and see meta tags set by the PageMeta
+# component on the active route.
+
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /architect
+Disallow: /settings
+Disallow: /auth
+Disallow: /login
+Disallow: /api/
+
+# Be nice to our backend — crawl at a human pace.
+Crawl-delay: 5
+
+Sitemap: https://dischordian-saga.com/sitemap.xml

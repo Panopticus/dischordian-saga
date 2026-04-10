@@ -14,6 +14,7 @@ import { useAmbientMusic } from "@/contexts/AmbientMusicContext";
 import { generateDailyBrief, type RoomEvent } from "@/game/livingArk";
 import { processArkEvent, type ArkEventResult } from "@/game/arkEventHandler";
 import { useDailyBrief } from "@/hooks/useDailyBrief";
+import PageMeta from "@/components/PageMeta";
 import NPCDialog, { buildFirstContactScene, type NPCDialogScene, type NPCDialogChoice } from "@/components/NPCDialog";
 import type { FactionNPCId } from "@/game/factionNPCs";
 import { getAvailableBanter, type CompanionBanter } from "@/game/companionDeepening";
@@ -1028,6 +1029,11 @@ export default function ArkExplorerPage() {
 
   return (
     <LandscapeEnforcer message="The Ark's systems are best navigated in landscape mode. Rotate your device to explore the ship.">
+    {/* Task 9.3 — per-route SEO meta. */}
+    <PageMeta
+      title="Ark Explorer"
+      description="Walk the Ark's decks, meet the crew, and uncover the ship's daily secrets. The Living Universe is always in motion."
+    />
     <div ref={fullscreenRef} className={`min-h-screen ${isFullscreen ? 'bg-background overflow-auto' : ''} pb-8`}>
       {/* Header */}
       <div className="px-4 sm:px-6 pt-4 pb-3">
@@ -1367,7 +1373,7 @@ export default function ArkExplorerPage() {
                 // Task 2.2 — Server grants (dream/xp/materials) are handled
                 // by the completeLivingArkEvent mutation above; the client
                 // now only handles client-local effects (dialog, visuals,
-                // cards, notifications). The old TODO comment lived here.
+                // cards, notifications).
 
                 // Trigger NPC dialog
                 if (result.npcDialog) {

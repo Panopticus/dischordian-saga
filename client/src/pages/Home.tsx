@@ -21,6 +21,7 @@ import { useGame, ROOM_DEFINITIONS } from "@/contexts/GameContext";
 import { Rocket } from "lucide-react";
 import DecisionDeck from "@/components/DecisionDeck";
 import ScrollIndicator from "@/components/ScrollIndicator";
+import PageMeta from "@/components/PageMeta";
 import { useLivingUniverse } from "@/hooks/useDailyBrief";
 
 /* ─── BOOT SEQUENCE ─── */
@@ -588,6 +589,12 @@ export default function Home() {
 
   return (
     <div className="animate-fade-in pb-4">
+      {/* Task 9.3 — per-route SEO meta. Home is the landing page,
+          so it carries the canonical title + site-wide description. */}
+      <PageMeta
+        title="The Feed"
+        description="A classified intelligence feed into the true history of the Dischordian Saga universe — characters, songs, factions, and the fall of reality."
+      />
       {/* Signal header */}
       <SignalHeader stats={stats} />
 
