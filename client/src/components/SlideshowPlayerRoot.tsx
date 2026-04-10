@@ -16,11 +16,13 @@ import { useCallback } from "react";
 import { SongSlideshow } from "./SongSlideshow";
 import { useWitnessingStore } from "@/stores/witnessingStore";
 import { applySlideshowReward } from "@/stores/dischordiaCycleStore";
+import { useGame } from "@/contexts/GameContext";
 
 export function SlideshowPlayerRoot() {
   const active = useWitnessingStore((s) => s.activeSlideshow);
   const completeActive = useWitnessingStore((s) => s.completeActiveSlideshow);
   const closeActive = useWitnessingStore((s) => s.closeActiveSlideshow);
+  const { setNarrativeFlag } = useGame();
 
   const handleComplete = useCallback(() => {
     // Apply the slideshow's registered light-energy reward (if any)
@@ -29,9 +31,18 @@ export function SlideshowPlayerRoot() {
     // actually lands on the meter.
     if (active) {
       applySlideshowReward(active.def.lightEnergyReward);
+      // §5 — every slideshow declares a set of narrative flags it
+      // raises on completion. SlideshowPlayerRoot is the single
+      // site that applies them so callers don't each have to
+      // duplicate the flag wiring.
+      if (active.def.flagsSetOnComplete) {
+        for (const flag of active.def.flagsSetOnComplete) {
+          setNarrativeFlag(flag, true);
+        }
+      }
     }
     completeActive();
-  }, [active, completeActive]);
+  }, [active, completeActive, setNarrativeFlag]);
 
   const handleClose = useCallback(() => {
     closeActive();

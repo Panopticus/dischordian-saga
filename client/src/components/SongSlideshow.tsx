@@ -11,8 +11,8 @@
    Usage:
      <SongSlideshow
        def={LAST_WORDS_SLIDESHOW}
-       onComplete={() => setFlag("act1_complete")}
-       onSkip={() => setFlag("act1_complete")}
+       onComplete={() => setFlag("slideshow_last_words_complete")}
+       onSkip={() => setFlag("slideshow_last_words_complete")}
        autoplay
      />
    ═══════════════════════════════════════════════════════ */

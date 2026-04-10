@@ -163,13 +163,22 @@ describe("songSlideshows registry", () => {
   });
 
   it("Last Words sets the expected completion flags", () => {
-    expect(LAST_WORDS_SLIDESHOW.flagsSetOnComplete).toContain("act1_complete");
     expect(LAST_WORDS_SLIDESHOW.flagsSetOnComplete).toContain(
       "slideshow_last_words_complete",
     );
     expect(LAST_WORDS_SLIDESHOW.flagsSetOnComplete).toContain(
       "antiquarian_voice_first_heard",
     );
+    expect(LAST_WORDS_SLIDESHOW.flagsSetOnComplete).toContain(
+      "engineer_execution_seen",
+    );
+  });
+
+  it("Last Words does NOT set act_1_complete itself (the caller sets it)", () => {
+    // The slideshow is TRIGGERED by act_1_complete already being true.
+    // If it set the flag itself we'd have a causal loop.
+    expect(LAST_WORDS_SLIDESHOW.flagsSetOnComplete).not.toContain("act_1_complete");
+    expect(LAST_WORDS_SLIDESHOW.flagsSetOnComplete).not.toContain("act1_complete");
   });
 
   it("Last Words unlocks the Prince of Celebration entry", () => {

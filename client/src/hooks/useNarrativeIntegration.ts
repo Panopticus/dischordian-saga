@@ -14,6 +14,7 @@ import { useGame } from "@/contexts/GameContext";
 import { toast } from "sonner";
 import { dispatchNarrativeEffect, dispatchMoralityShift } from "@/hooks/useNarrativeEvents";
 import { getAtmosphereForMorality, pushTemporaryTheme, popTemporaryTheme } from "@/engine/voidEngine";
+import { playSlideshow } from "@/stores/witnessingStore";
 
 /* ─── LORE DISCOVERY TRIGGERS ───
    Automatically discover lore entries based on game state changes.
@@ -140,6 +141,7 @@ export function useNarrativeIntegration() {
   const prevTrustRef = useRef<Record<string, number>>({});
   const prevRoomsRef = useRef<Set<string>>(new Set());
   const discoveredRef = useRef<Set<string>>(new Set());
+  const lastWordsFiredRef = useRef(false);
 
   // Initialize discovered set from localStorage
   useEffect(() => {
@@ -241,6 +243,29 @@ export function useNarrativeIntegration() {
       }
     }
   }, [state.rooms, discoverLore]);
+
+  // ─── WITNESSING §5.4 — ACT 1 PAYOFF SLIDESHOW ───
+  // When Act 1 completes, fire "Last Words" — the P0 master
+  // slideshow (15 frames, 3m 30s) that pays off the Engineer's
+  // execution arc and delivers +500 community Light Energy.
+  //
+  // Two dedupe layers:
+  //   1. `slideshow_last_words_complete` narrative flag — set
+  //      by SlideshowPlayerRoot on completion. Prevents replay
+  //      across sessions.
+  //   2. In-session useRef — prevents the effect from re-firing
+  //      during the brief window between queueing the slideshow
+  //      and the completion flag being written back to state.
+  useEffect(() => {
+    if (!state.narrativeFlags?.act_1_complete) return;
+    if (state.narrativeFlags?.slideshow_last_words_complete) return;
+    if (lastWordsFiredRef.current) return;
+    lastWordsFiredRef.current = true;
+    playSlideshow("last-words");
+  }, [
+    state.narrativeFlags?.act_1_complete,
+    state.narrativeFlags?.slideshow_last_words_complete,
+  ]);
 
   // ─── CROSS-GAME NARRATIVE FLAGS ───
   useEffect(() => {

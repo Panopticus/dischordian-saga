@@ -245,7 +245,9 @@ export const LAST_WORDS_SLIDESHOW: SongSlideshowDef = {
     "engineer_execution_seen",
     "programmer_fate_hint",
     "antiquarian_voice_first_heard",
-    "act1_complete",
+    // Note: the caller sets `act_1_complete` BEFORE the slideshow
+    // plays (that's what triggers it via useNarrativeIntegration).
+    // The slideshow does not set it itself.
   ],
   unlockLoredexEntry: "the-prince-of-celebration",
   lightEnergyReward: 500,
