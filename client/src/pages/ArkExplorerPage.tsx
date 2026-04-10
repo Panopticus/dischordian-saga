@@ -45,6 +45,7 @@ import AlienSymbolPuzzle from "@/components/AlienSymbolPuzzle";
 import FastTravelPanel from "@/components/FastTravelPanel";
 import ItemDetailModal from "@/components/ItemDetailModal";
 import ParallaxRoom from "@/components/ParallaxRoom";
+import { MobileNarratorSlot } from "@/components/MobileNarratorSlot";
 import LoreTutorialEngine from "@/components/LoreTutorialEngine";
 import NarrativeTrigger from "@/components/NarrativeTrigger";
 import InlineShipMap from "@/components/InlineShipMap";
@@ -1077,15 +1078,24 @@ export default function ArkExplorerPage() {
       <div className="px-4 sm:px-6 flex gap-4">
         {/* Main scene */}
         <div className="flex-1">
-          {/* Room scene */}
-          <RoomScene
-            room={currentRoom}
-            onHotspotClick={handleHotspotClick}
-            itemsCollected={state.itemsCollected}
-            fastTravelUnlocked={fastTravelUnlocked}
-            commsRelayComplete={!!state.narrativeFlags["comms_relay_first_claim"]}
-            roomsWithEvents={roomsWithEvents}
-          />
+          {/* Room scene — wrapped in a relative container so the
+              Witnessing mobile narrator slot (§1.2) can overlay. */}
+          <div className="relative">
+            <RoomScene
+              room={currentRoom}
+              onHotspotClick={handleHotspotClick}
+              itemsCollected={state.itemsCollected}
+              fastTravelUnlocked={fastTravelUnlocked}
+              commsRelayComplete={!!state.narrativeFlags["comms_relay_first_claim"]}
+              roomsWithEvents={roomsWithEvents}
+            />
+            {/* Witnessing §1.2 — floating narrator slot. First mount
+                is the Cryo Bay. Additional rooms will opt in as the
+                §1.4 Prelude reveal beats ship. */}
+            {state.currentRoomId === "cryo-bay" && (
+              <MobileNarratorSlot roomId="cryo_bay" />
+            )}
+          </div>
 
           {/* Room description */}
           <div className="mt-3 rounded-lg p-4" style={{
