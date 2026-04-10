@@ -2852,10 +2852,144 @@ are canonical.
 > today."* That's it. Twelve words. They mean nothing on first
 > play. They mean everything on the Month 12 re-listen.
 
+### B.8 — Three Payoff Cinematics
+
+The questline has three hard emotional landings. Each is a full
+short cinematic (not a slideshow — animated, voiced, under 90
+seconds). These are the moments the rest of the infrastructure
+exists to support.
+
+#### **Payoff 1 — "The Eyes Were Watching" (triggers on F1 cascade into Month 2)**
+
+**Duration:** 45 seconds
+**Characters:** Kael (young, pre-Panopticon), The Eyes, the Watcher (glimpsed)
+**Visual spine:**
+A quiet Insurgency safehouse. Kael is alive and unscarred, his
+prosthetic arm a new and obvious thing he is still learning to
+use. He is laughing. The Eyes is at his shoulder, close, trusted.
+She passes him a data slate. He looks at it. He says *"We've got
+him — we've got the Watcher's signal path."* She smiles and
+hands him a cup of tea.
+
+**The smile doesn't reach her eyes.**
+
+Cut to: the Watcher's white-masked face, visible only in a
+reflection in her cup.
+
+Cut to: a single clean snapshot of Kael's face, mid-laugh, as a
+camera feed inside her left retina. She blinks. The feed
+refreshes.
+
+Cut to black. Text: *"He never saw her move the cup."*
+
+**Narrator overlay:** no dialog. Only Kael's laugh, cut off
+mid-sound on the final frame.
+
+**Song cue:** *"I am the Eyes that Watch"* (canonical — from
+*Dischordian Logic*, listed in The Eyes' lore entry). The song
+is already in the game. Play the opening 15 seconds. That's the
+whole soundtrack.
+
+#### **Payoff 2 — "The Tunnel" (triggers on F5 completion)**
+
+**Duration:** 90 seconds
+**Characters:** Kael (prison-era, tattooed and scarred), The
+Prisoner (young, unmasked, recognizable as the future White
+Oracle)
+**Visual spine:**
+A maintenance tunnel in the Panopticon's substrate. Low red
+emergency lighting. Kael and the Prisoner are crawling. We see
+Kael's prosthetic arm EMP pulse take out two robotic guards at
+a junction. The Prisoner is breathing hard. Kael grins at him —
+*"Keep up. The central computer is three junctions. We get
+through, we get out."*
+
+Something massive collapses behind them. Kael is pinned.
+Rebar through his leg. Not dead, but cannot move. The Prisoner
+freezes.
+
+We hear the zombies before we see them. A groan that travels
+through the walls.
+
+Kael, very calm: *"Go. Come back with a crew."*
+
+The Prisoner nods. Does not move.
+
+Kael, softer: *"Brother. Go."*
+
+The Prisoner runs.
+
+The last thing we see is Kael's face in the red light as the
+first Thought Virus zombie crawls around the corner. He is not
+scared. He is **tired**. He looks straight at the camera — at
+the player — and says **one word, which is unintelligible.**
+
+Cut to black. Text: *"He survived. The other one kept running."*
+
+**Narrator overlay:** a single line from the Antiquarian,
+delivered in his canonical voice from Year One V2 §1.4:
+*"You have seen what was done. I have been trying not to see it
+for seventeen thousand years. The Second Coming will remember
+this. I no longer have to do it alone."*
+
+**Song cue:** *"The Prisoner"* (canonical music video at
+https://www.youtube.com/watch?v=Cujw3s-D6yU, listed in Kael's
+lore entry). The song was literally written about this moment.
+Play it from the start; let it bleed into the next scene.
+
+#### **Payoff 3 — "The Third Voice" (triggers at the Breaking Point, Month 10)**
+
+**Duration:** 60 seconds
+**Characters:** Elara, The Human, and — for the first and last
+time in Year One — **Kael himself, as a voice with no face.**
+**Visual spine:**
+The canonical Breaking Point split-screen from
+`docs/design/ANIMATED_CUTSCENES.md` (Cutscene 4). Elara on the
+left (warm glow, Humanity theme). The Human on the right (cold,
+Machine theme). The center is the morality meter.
+
+Both of them are about to speak.
+
+Static breaks across the entire frame — neither of them caused
+it. The static resolves into a third portrait in the exact
+center of the split screen: **a blurred silhouette with a
+prosthetic arm.**
+
+Kael speaks. Just once. In a voice the Human recognizes and
+Elara does not.
+
+> *"You don't have to choose between them. They don't have to
+> choose between you. I chose once. I chose for the right
+> reasons. I chose for revenge for my wife and my boy. It was
+> the last clean thing I ever did and it killed me. Whatever
+> you do next, don't do it because someone left you in a
+> tunnel. Do it because you're still here."*
+
+Kael's silhouette collapses into static. The Breaking Point
+choice buttons appear.
+
+**But there is now a fourth button**, which was never supposed
+to exist, sitting below the other three:
+
+**"Don't choose. Go make something."**
+
+If the player picks the fourth button, the Breaking Point is
+deferred. Elara and the Human do not resent the player. Both
+narrators quietly gain bond. A new side quest opens the next
+day: **"Build something the Insurgency would be proud of."**
+It can be anything — a Terminus Swarm base, a crafted weapon,
+a Dischordia card. The player defines it. The Antiquarian
+writes about whatever they made in the Chronicle, without
+qualifying whether it was good.
+
+**Song cue:** *"Identity"* (canonical — from *The Book of
+Daniel 2:47*, listed in Kael's lore entry) plays under the
+silhouette speech. The song is already in the game.
+
 ---
 
-*[Appendix B continues — B.8 Payoff Cinematics, B.9 Prompts.
-Drafted in chunks.]*
+*[Appendix B continues — B.9 Cutscene Production Prompts.
+Final chunk.]*
 
 
 
