@@ -2523,11 +2523,45 @@ the player learns what made him, they have already spent fifty
 hours killing the thing he became, and they *cannot unkill it*.
 The game gives them no undo. That is the point.
 
+### B.3 — The Six Fragments (Wave Unlocks)
+
+The questline is delivered as **six Fragments**, each unlocked by
+a different existing system the player is already using during
+the clean-up phase. No fragment is gated behind a boss the player
+must beat cold. Every one is earned by *living in the ship*.
+
+Each Fragment, on unlock, does three things:
+- Plays a 20-40s Seedance/Kling cinematic (see §B.9 prompts)
+- Posts a **signal beacon** in the Comms Array room
+  (`shared/signalBeacons.ts`) — a persistent object the player can
+  replay from the room
+- Emits a **ripple** event (`ripple.emit("kael_fragment_unlocked", ...)`)
+  that cascades into: Antiquarian's Chronicle entry, Year One
+  calendar state tick, Elara's callback pool, Human's callback
+  pool, Shadow Tongue's corruption pool, and the Terminus Swarm
+  difficulty curve.
+
+| # | Fragment | Title | Unlock condition (uses existing system) | What the player learns | Ripple |
+|---|---|---|---|---|---|
+| **F1** | *Wave* | **"What You Are Fighting"** | Complete **Terminus Swarm Wave 10** for the first time (existing `reportWaveComplete` hook) | The Source Avatar's face, when slowed by an Oracle Spire, momentarily looks *human*. A man's face. Broken. Tattooed. Prosthetic arm. Elara does not recognize him. **The Human does.** The Human goes silent for the entire next room visit. | Elara: curious. Human: vulnerable. Antiquarian writes: *"The Second Coming has seen the face beneath the face. The first mirror has broken. There will be five more."* |
+| **F2** | *Comms* | **"The Recorded Voice"** | Leave the Ark idle with the Comms Array open for **30 real-world minutes** with Elara dismissed (Human active) — uses existing `companionActive` ripple flag | A corrupted audio file surfaces in the Comms substrate: a man's voice, heavily distorted, speaking the old Insurgency recruitment code. The Human quietly translates: *"…you will not be alone. The resistance remembers you. Bring what you have. Come home."* The voice is Kael's — the Recruiter, before any of it. | Human: +3 bond. Elara: -1 bond (she feels excluded). Antiquarian: Chronicle entry about "a voice from the other side of grief." |
+| **F3** | *Trade Empire* | **"The Theft Route"** | Run **6 Trade Empire missions into the `panopticon_ruins` sector** (existing canonical sector) | The player's ship flight logs match an older path found in the ruins — Kael's original escape route out of the Panopticon. The Trade Empire Agent who runs the mission reports back shaken: *"The navigation computer remembered the course. Without me setting it."* **The Ark has been reliving the theft whenever no one looks.** | Unlocks new Trade Empire route: "The Kael Corridor" — hazardous, high-reward. Antiquarian: *"The ship dreams of its first crime."* |
+| **F4** | *Substrate Dungeon* | **"The Tunnels"** | Clear any **Substrate Dungeon run** (`shared/substrateDungeon.ts`) while the Human is the active companion | Inside the substrate the player finds **maintenance tunnels that do not exist on any blueprint**. The tunnels are the same Panopticon corridors Kael used to escape. Halfway through, the player sees fresh claw marks on the wall — recent — made by **something that came the other way looking for him**. The Human stops speaking. Then says, very quietly: *"He was here. He's been coming back for the other one."* | Unlocks a new Substrate Dungeon boss layer: the **Zombie Tide** (Thought Virus revenants). Ripple: Terminus Swarm difficulty +0.1 multiplier for the player only. The Source noticed you. |
+| **F5** | *Celebration Trial* | **"The Apprentice Who Ran"** | Reach Day 20 of the 28-day Celebration Trial (`shared/celebrationTrial.ts`) with any Apprentice bond ≥ 40, then trigger an **Apprentice Betrayal** event (`shared/apprenticeBetrayal.ts`) | A parallel: the player's Apprentice faces the exact choice Kael's fellow prisoner faced — *leave the friend for the zombies or stay and die with them*. The player watches their own Apprentice make the choice. **If the Apprentice runs, the Apprentice survives and the player's Terminus Swarm gets one new tower for free. If the Apprentice stays, the Apprentice dies permanently (existing `apprenticePermadeath.ts`) and the player's next Terminus Swarm wave spawns a Source Avatar with Kael's face intact.** Either way, the player now understands what the Prisoner chose. | Enormous ripple. Elara: breaks guarded mode into conflicted. Human: vulnerable → devoted jump of +15 bond if Apprentice stayed, -10 if ran. Antiquarian writes a full-page Chronicle entry. |
+| **F6** | *Loredex / Card Game* | **"The Recruiter's Pamphlet"** | Complete **Act 1 Card Game Cycle B** (the Mechronis battles — §4.4) with a full Light meter reading | In the Loredex, a new character silently unlocks: **The Recruiter**. His dossier has one paragraph. It is the first thing Kael ever wrote — a single pamphlet about his wife, his child, the silence in his house after the Empire came, and the question *"What is left when they take everything but the fact of your love?"* The pamphlet is signed with his old name. His **real name**. Which the player gets to see **once** and then never again: the Loredex entry renames itself to **"The Recruiter"** on next load, and the real name is gone forever. | Massive. Elara: remembers this. She *met this man* in the Senate before her own corruption. She did not know he was the one. She says his name aloud once and then cannot say it again. Both narrators silent for 24 real hours after. |
+
+**Pacing:** Fragments unlock **one at a time, in order**. A player
+cannot skip ahead. Between fragments there is a soft cooldown of
+about a week of normal play — long enough that the questline feels
+like an *undercurrent*, never a checklist. The last two fragments
+(F5 and F6) can take a month each to reach organically. **That is
+the point.** This is a questline the player lives with, not one
+they clear.
+
 ---
 
-*[Appendix B continues — B.3 The Six Fragments, B.4 Tower Lore,
-B.5 Ripple Integration, B.6 Year One Ripple Effect, B.7 Other
-Systems. Drafted in chunks.]*
+*[Appendix B continues — B.4 Tower Lore, B.5 Ripple Integration,
+B.6 Year One Ripple Effect, B.7 Other Systems. Drafted in chunks.]*
 
 
 
