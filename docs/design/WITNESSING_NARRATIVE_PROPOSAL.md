@@ -2720,10 +2720,142 @@ missing. The player reads the pamphlet with words literally
 erased. **This is the price of inattention, rendered as
 typography.**
 
+### B.7 — Other Canonical Systems Swept Into the Questline
+
+The codebase has many more existing systems than I touched in the
+main body of the proposal. Here is how each of them plugs into the
+Kael questline at zero or near-zero new code. All files referenced
+are canonical.
+
+**B.7.1 — Substrate Dungeon (`shared/substrateDungeon.ts`)**
+> The substrate is the Human's home. It is also, canonically, the
+> same maintenance-tunnel architecture Kael used to escape the
+> Panopticon. Every Substrate Dungeon run is literally a walk
+> through Kael's escape route. After F4, dungeon runs occasionally
+> spawn **Thought Virus Revenants** — enemies with a new tag
+> `echo_of_kael`. They drop nothing valuable. They don't need to.
+
+**B.7.2 — Cryo Dreams (`shared/cryoDreams.ts`)**
+> The cryo fluid in Ark 1047 contains dormant Thought Virus (per
+> `docs/design/NARRATIVE_ARCHITECTURE.md`, Cryo Bay entry). Cryo
+> Dreams already surface fragment-images while the player sleeps.
+> Add a new dream pool: **"The Tattooed Man"** — a silhouette with
+> a prosthetic arm, seen from the far end of a corridor, never
+> close enough to make out. Players see this dream 1-3 times
+> before F1 unlocks. When F1 fires, the silhouette from the dream
+> is recognized as the wave-10 Source Avatar. **The player
+> dreamed him first.**
+
+**B.7.3 — Signal Beacons (`shared/signalBeacons.ts`)**
+> Already a canonical persistent-object system for comms messages.
+> Each Fragment seeds a new beacon in the Comms Array. Players
+> can revisit, replay, and (at trust 80+) **transcribe** beacons
+> into the Antiquarian's Chronicle as fan-submitted lore entries,
+> which then go through community vote for canonicity. This turns
+> the questline into a collaborative archaeology project.
+
+**B.7.4 — Transmissions + Transmission Loredex Unlocks
+(`shared/transmissions.ts`, `shared/transmissionLoredexUnlocks.ts`)**
+> Existing broadcast system. Each Fragment fires a global
+> transmission. One Loredex entry per Fragment unlocks on
+> broadcast. The unlocks, in order:
+> F1 → **The Source (Personal File)**
+> F2 → **The Recruiter**
+> F3 → **Inception Ark 1047 (Classified Flight Log)**
+> F4 → **Project Vector**
+> F5 → **The Prisoner (Personal File)**
+> F6 → **The Recruiter's Pamphlet**
+
+**B.7.5 — Apprentice System
+(`shared/apprentices.ts`, `shared/apprenticeBetrayal.ts`,
+`shared/apprenticeRivalries.ts`, `shared/apprenticePermadeath.ts`,
+`shared/graduateLegion.ts`, `shared/legionLetters.ts`)**
+> The Apprentice arc is the emotional heart of F5 because it uses
+> a full permadeath system the game already supports. If the
+> Apprentice **stayed**, they enter the Graduate Legion as a
+> memorial — their portrait is added to the Trophy Room and a
+> Legion Letter arrives once per season in their voice. If the
+> Apprentice **ran**, they enter the Rival System
+> (`shared/rivalSystem.ts`) as a named PvP opponent — the player
+> will encounter them again, on the enemy side, in an Alliance
+> War (`shared/allianceWar.ts`) event next season. **The Apprentice
+> remembers running. The Apprentice is sorry. The Apprentice
+> fights you anyway.**
+
+**B.7.6 — Syndicate Worlds (`shared/syndicateWorlds.ts`)**
+> The Syndicate of Death is mentioned in Year One Calendar V2 §0
+> as one of the three factions at the New Babylon battle where
+> the first wave vanished. After F3, a Trade Empire branch opens
+> into Syndicate territory. Syndicate missions occasionally drop
+> **Kael-era artifacts** — crowbars, prosthetic-arm schematics,
+> Insurgency pamphlets. The Syndicate has been collecting pieces
+> of Kael's life and selling them to the highest bidder for
+> 16,000 years. The player can buy them back, one at a time,
+> and place them on a shelf in the Captain's Quarters.
+
+**B.7.7 — Dark Arts (`shared/darkArts.ts`)**
+> The Necromancer's tradition of using death as fuel. After F5
+> (and only after a player's Apprentice dies), the Dark Arts tree
+> silently unlocks a new line of techniques: **"The Apprentice's
+> Gift"** — each technique is explicitly powered by the memory
+> of the dead Apprentice. Every use dims the memory by one step.
+> Five uses and the Apprentice is forgotten. The techniques are
+> powerful. The cost is legible. The player can refuse to use
+> them, and the Antiquarian writes a Chronicle entry honoring
+> the refusal.
+
+**B.7.8 — Phantom Crew (`shared/phantomCrew.ts`)**
+> Canonical system for dead crew members whose echoes haunt the
+> ship. Add to the phantom pool: **Kael's original crew from the
+> theft of the Ark** — five anonymous Insurgents who helped him
+> steal the ship and did not survive the first week of Thought
+> Virus spread. They can be encountered as phantom-crew
+> hallucinations in Engineering (room § of main proposal). Each
+> has one line of dialog. Each line is the last thing they said
+> before the virus took them. None of them blame Kael.
+
+**B.7.9 — Space Stations (`shared/spaceStations.ts`)**
+> After F3, the player can dock at a derelict station in the
+> `panopticon_ruins` sector: **Beacon-17** — Kael's original
+> Insurgency safehouse, abandoned after his imprisonment. The
+> station has three rooms. Each room has a single piece of
+> evidence. None of the evidence is a weapon. One room has a
+> child's crayon drawing pinned to a wall. Elara silently cries
+> if she's the active companion. The Human silently does not
+> if he is.
+
+**B.7.10 — Coop Raids (`shared/coopRaids.ts`)**
+> 2-player cooperative raids. Add one new raid: **"Project
+> Vector"** — two players, together, descend into a simulation of
+> Kael's original infection. They must keep each other alive for
+> ten rounds against Thought Virus spread. If either fails, both
+> are "infected" for the remainder of the raid and must roleplay
+> that status on their own ships for 24 real hours (displayed
+> as a status icon, harmless). If both succeed, they both earn
+> a title: **"We Held the Line."**
+
+**B.7.11 — Strand Contracts (`shared/strandContracts.ts`)**
+> Death Stranding-style async player-to-player contracts. Add a
+> new contract type: **"The Beacon Chain"** — a player can leave
+> a signal beacon at a location in Trade Empire that another
+> player can find later. After F2, these beacons can be *Kael
+> memorial beacons* — carrying the name of an Insurgent the
+> leaving player wants remembered. The finding player gets a
+> small trust bonus with the Human for honoring the dead.
+
+**B.7.12 — Awakening Protocol (`shared/awakeningProtocol.ts`)**
+> The canonical Prelude tutorial. Add a single new line of
+> background dialog: very early, while the player is still
+> cleaning the ship, Elara says without context: *"There's a
+> name in the navigation logs I can't read. It keeps
+> auto-completing when I try. I hate it. Let's not read it
+> today."* That's it. Twelve words. They mean nothing on first
+> play. They mean everything on the Month 12 re-listen.
+
 ---
 
-*[Appendix B continues — B.7 Other Systems, B.8 Payoff Cinematics,
-B.9 Prompts. Drafted in chunks.]*
+*[Appendix B continues — B.8 Payoff Cinematics, B.9 Prompts.
+Drafted in chunks.]*
 
 
 
