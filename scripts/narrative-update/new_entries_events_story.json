@@ -1,0 +1,150 @@
+{
+  "entries": [
+    {
+      "id": "event_iron_lion_contact",
+      "type": "event",
+      "name": "The Open Channel",
+      "aliases": ["Iron Lion's First Contact", "The Salute That Wasn't Written"],
+      "era": "Post-Fall (ongoing narrative event)",
+      "date_aa": "Triggered by player action",
+      "date_ad": "Triggered by player action",
+      "season": "Season 1 (Expansion)",
+      "affiliation": "The CADES Unit / Matrix of Dreams anomaly",
+      "status": "Active — any Potential can trigger this",
+      "bio": "The moment when Iron Lion, a consciousness-imprint who should be a deterministic replay, addresses the player directly through the CADES Unit and performs a military salute that was never in his scenario script. Achieved by holding the Bridge of Kael for the canonical time (3:47:00), letting the ships escape, and keeping the Open Channel ready when the loop resets. Iron Lion asks, 'Did they make it? The ships?' The player can answer. He replies, 'Then this was worth it. Whatever this is. It was worth it.' Then he salutes. And then he asks, 'When I'm done — I'd like to have a word with you.' The crew of Ark 1047 salute without being told.",
+      "history": "Before the Open Channel, no one had ever held the Last Stand scenario to canonical length AND kept the Open Channel ready at reset. Most players played to win; few understood that the scenario could be held open. Elara noticed the anomaly first: 'He paused at the parapet. He looked at his hands. Then he went back.' After the Open Channel triggers, the Bridge of Ark 1047 goes quiet for exactly forty-seven minutes. Elara does not speak during those minutes. The crew morale spikes to its highest recorded value. Someone finds the old pilot's jacket that was left behind in the Cargo Hold and hangs it back up. Nobody tells them to.",
+      "connections": [
+        "entity_iron_lion_imprint",
+        "Iron Lion",
+        "concept_cades_unit",
+        "location_bridge_of_kael",
+        "The Matrix of Dreams",
+        "concept_iron_lion_signal",
+        "Elara"
+      ],
+      "conexus_stories": ["The Ships Escaped", "Dawn Comes Again"],
+      "song_appearances": [
+        { "song": "The Torch and The Voice", "album": "CADES (Instrumental Suite)", "music_video": {} }
+      ],
+      "image": "https://dgrsart.s3.us-east-2.amazonaws.com/loredex/event_iron_lion_contact.png",
+      "priority": "critical"
+    },
+    {
+      "id": "event_game_masters_offer",
+      "type": "event",
+      "name": "The Game Masters' Offer",
+      "aliases": ["The Four Contacts", "The Offer You Must Not Accept Immediately", "Anchor Point 7's Escalation"],
+      "era": "Post-Fall (ongoing narrative event)",
+      "date_aa": "Triggered by CADES scenario access count",
+      "date_ad": "Triggered by player action",
+      "season": "Season 1 (Expansion)",
+      "affiliation": "The Game Masters (cult)",
+      "status": "Active — escalates across four stages",
+      "bio": "A four-stage contact protocol by which The Game Masters (cult) reach out to any Potential who accesses the Matrix of Dreams scenarios through the CADES Unit. Stage 1 is a quiet log note: 'Unauthorized observer presence detected.' Stage 2 escalates to 'We do not wish you harm. We do wish you would stop.' Stage 3 admits interest: 'That question has never appeared in any previous run.' Stage 4 is the Offer itself: 'We can give you access to everything. Every scenario. Every archived consciousness. Every moment he preserved. We'll wait for your answer.' Elara's warning is unambiguous: don't answer. Not because they're lying. Because they're not.",
+      "history": "The Game Masters have run this protocol on every anomalous observer they have ever detected. Most observers either stop accessing the Matrix (ending the protocol at Stage 1 or 2) or accept the Offer and vanish into the archive's architecture — becoming components, optimizable by whoever holds the Goggles. The Hierarchy holds the Goggles. The Hierarchy always collects. Elara's theory is that the same thing happened to the original Game Master: someone offered him something and he accepted, and the accepting made him part of the Matrix's architecture, and something inside the Matrix then unmade him.",
+      "connections": [
+        "faction_game_masters_cult",
+        "concept_cades_unit",
+        "concept_goggles_of_game_master",
+        "location_matrix_anchor_point_7",
+        "The Matrix of Dreams",
+        "The Game Master",
+        "Elara"
+      ],
+      "conexus_stories": ["Don't Answer Yet", "We Will Wait"],
+      "song_appearances": [
+        { "song": "Secondary Channel", "album": "CADES (Instrumental Suite)", "music_video": {} }
+      ],
+      "image": "https://dgrsart.s3.us-east-2.amazonaws.com/loredex/event_game_masters_offer.png",
+      "priority": "high"
+    },
+    {
+      "id": "event_dmc_season_opens",
+      "type": "event",
+      "name": "The Circuit Opens",
+      "aliases": ["Season Start", "Nilmorg's Welcome"],
+      "era": "Post-Fall",
+      "date_aa": "Bi-monthly from ~19,150 A.A.",
+      "date_ad": "Bi-monthly",
+      "season": "Season 1 (Expansion)",
+      "affiliation": "Dead Man's Circuit / Hierarchy of the Damned",
+      "status": "Recurring seasonal event",
+      "bio": "The bi-monthly opening of Dead Man's Circuit. For 28 days, The Trench fills with spectators, the vats produce a new cohort of Wired Clones, and Nilmorg takes his seat at the observation platform. 'Welcome, welcome, WELCOME to the Dead Man's Circuit! I am Nilmorg, your host, your judge, your undertaker! The bones are fresh, the clones are twitching, and the track is HUNGRY. Let us begin!' The Bone Lane welcomes new additions. The Severance Prize is paid at season's end.",
+      "history": "Circuit openings coincide with Hierarchy accounting quarters and with periods of low galactic stability — the Hierarchy has observed that desperate populations race harder. Each season escalates across three phases: The Warm-Up (1x CP), The Escalation (2.5x CP), and The Dead Run (10x CP). The 10x multiplier is a deliberate desperation incentive. The season closes with a ceremony at the observation platform: Nilmorg extracts the winner's soul fragment, places it in a crystalline container, and seals it. The winner smiles. The soul will become a companion. The Trench empties. The Bone Lane has grown.",
+      "connections": [
+        "location_dead_mans_circuit",
+        "entity_nilmorg",
+        "concept_wired_clones",
+        "concept_severance_prize",
+        "location_the_trench",
+        "location_bone_lane"
+      ],
+      "conexus_stories": ["The Circuit Opens"],
+      "song_appearances": [
+        { "song": "Terminal Velocity", "album": "Dead Man's Circuit OST", "music_video": {} }
+      ],
+      "image": "https://dgrsart.s3.us-east-2.amazonaws.com/loredex/event_dmc_season_opens.png",
+      "priority": "high"
+    },
+    {
+      "id": "event_human_confession",
+      "type": "event",
+      "name": "The Human's Confession",
+      "aliases": ["The Villain Cover", "Act 6 Revelation", "The Role He Plays"],
+      "era": "Post-Fall",
+      "date_aa": "Triggered at Narrative Act 6",
+      "date_ad": "Triggered at Narrative Act 6",
+      "season": "Season 1 (Expansion)",
+      "affiliation": "The Human's private confession to the player",
+      "status": "Triggered by narrative progression",
+      "bio": "At Narrative Act 6, after Elara confesses that she sacrificed her humanity for immortality and regrets it every day, The Human confesses his own secret: he sacrificed everything to PLAY the villain. The war between the Architect and the Dreamer is a cover. The real enemy — the All-Seeing One — can only be fought from inside, and only if it never realizes the war is a cover. The Human plays the role perfectly. He pays the cost every day. He asks the player to understand, not agree, not forgive — just understand why Elara can never know.",
+      "history": "The Confession is the pivot of the player's moral arc. Before Act 6, the player believes the Architect is the enemy and The Human serves him. After Act 6, the player knows The Human is the only agent working against the real enemy, and that Elara — the player's closest ally — must never be told, because if Elara knows, the All-Seeing One 'would instantly know the war is a cover.' The player becomes the Bridge: the only one who can see both wars at once. The Confession changes how every subsequent ambient line, every room dialog, every companion reaction reads. The war you thought you were fighting was always a distraction.",
+      "connections": [
+        "The Human",
+        "Elara",
+        "concept_the_watcher_hidden",
+        "The Architect",
+        "The Dreamer"
+      ],
+      "conexus_stories": ["The Role I Play", "The Bridge Between"],
+      "song_appearances": [],
+      "image": "https://dgrsart.s3.us-east-2.amazonaws.com/loredex/event_human_confession.png",
+      "priority": "critical"
+    },
+    {
+      "id": "event_warlord_bet",
+      "type": "event",
+      "name": "The Warlord's Bet",
+      "aliases": ["The Arena Wager"],
+      "era": "Post-Fall",
+      "date_aa": "Triggered during active Circuit season",
+      "date_ad": "Triggered by player action",
+      "season": "Season 1 (Expansion)",
+      "affiliation": "Dead Man's Circuit / The Warlord / Arena side quest",
+      "status": "Triggered when player wins 3 Arena fights during an active Circuit season",
+      "bio": "A side-bet between The Warlord and Nilmorg: the Warlord wagers that a given Arena fighter cannot also excel in the Circuit. Nilmorg takes the bet whenever he sees a fighter worth watching. When a player wins three fights during an active Circuit season, the Warlord loses the wager and pays Nilmorg in Circuit Points. Nilmorg's commentary: 'The Warlord placed a wager on you. He lost. I collected.'",
+      "history": "The Warlord and Nilmorg have an arrangement: combat performance in the Arena feeds into Circuit rankings, and both parties bet on the results. It is one of several standing arrangements between Hierarchy executives and the Circuit. The Degen has a similar arrangement for casino performance. Adjudicar Locke has one for trade missions. The Warlord's is the oldest. She still believes — somehow, after all these centuries — that her bets can be won.",
+      "connections": [
+        "The Warlord",
+        "entity_nilmorg",
+        "location_dead_mans_circuit"
+      ],
+      "conexus_stories": [],
+      "song_appearances": [],
+      "image": "https://dgrsart.s3.us-east-2.amazonaws.com/loredex/event_warlord_bet.png",
+      "priority": "normal"
+    }
+  ],
+  "relationships": [
+    { "source": "event_iron_lion_contact", "target": "entity_iron_lion_imprint", "relationship_type": "initiated_by" },
+    { "source": "event_iron_lion_contact", "target": "concept_cades_unit", "relationship_type": "triggered_through" },
+    { "source": "event_game_masters_offer", "target": "faction_game_masters_cult", "relationship_type": "issued_by" },
+    { "source": "event_game_masters_offer", "target": "concept_cades_unit", "relationship_type": "delivered_via" },
+    { "source": "event_dmc_season_opens", "target": "location_dead_mans_circuit", "relationship_type": "opens" },
+    { "source": "event_dmc_season_opens", "target": "entity_nilmorg", "relationship_type": "hosted_by" },
+    { "source": "event_human_confession", "target": "The Human", "relationship_type": "confessor" },
+    { "source": "event_human_confession", "target": "concept_the_watcher_hidden", "relationship_type": "reveals_true_enemy" },
+    { "source": "event_warlord_bet", "target": "entity_nilmorg", "relationship_type": "collected_by" },
+    { "source": "event_warlord_bet", "target": "The Warlord", "relationship_type": "paid_by" }
+  ]
+}

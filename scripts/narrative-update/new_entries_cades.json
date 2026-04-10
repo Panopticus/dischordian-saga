@@ -1,0 +1,153 @@
+{
+  "entries": [
+    {
+      "id": "entity_nilmorg",
+      "type": "character",
+      "name": "Nilmorg the Velocity Devourer",
+      "aliases": ["Nilmorg", "SVP of Kinetic Acquisition", "The Wheel-Handed One", "The Undertaker of the Trench"],
+      "era": "Post-Fall",
+      "date_aa": "~19,200 A.A.",
+      "date_ad": "~19,170 AD",
+      "season": "Season 1 (Expansion)",
+      "affiliation": "Hierarchy of the Damned — Entertainment Division",
+      "status": "Active — hosting the Dead Man's Circuit from his observation platform in The Trench",
+      "bio": "Nilmorg is SVP of Kinetic Acquisition at the Hierarchy of the Damned. He feeds on terminal velocity resonance — the specific quantum signature of a consciousness that knows it is about to end at speed. His hands are not hands. They are spinning wheels made of dark metal and amber energy that interlock when he crosses his arms. He runs Dead Man's Circuit not for entertainment but for sustenance. He is always calm. He finds almost everything mildly interesting and almost nothing worth stopping. He keeps his agreements — he always pays the Severance Prize — and that is the most terrifying thing about him.",
+      "history": "Nilmorg emerged during the Severance, when the binding spells on infernal beings shattered and the Hierarchy of the Damned restructured itself as a multinational demonic corporation. Unlike the battlefield demons of the Hierarchy's war division, Nilmorg is a being of patient appetite. He discovered that terminal velocity resonance — the harmonic of a mind experiencing its own death at extreme speed — was the purest form of consciousness energy in the known universe. He designed Dead Man's Circuit as a sustainable harvest. Every season he grows the Bone Lane from the calcified remains of dead clones; every season the Hierarchy files his paperwork on time. He reports, formally, to Vex'Ahlia (who oversees the administrative side) and is a business partner of The Degen (gambling and racing share a customer base). His observation platform sits above The Trench inside the industrial underbelly of Inception Ark 1047 — a fact that should alarm anyone who cares about the Ark's autonomy.",
+      "connections": [
+        "The Degen",
+        "Vex'Ahlia the Taskmaster",
+        "The Hierarchy of the Damned",
+        "Dead Man's Circuit",
+        "The Trench",
+        "The Bone Lane",
+        "Wired Clones",
+        "The Severance Prize",
+        "Inception Ark 1047"
+      ],
+      "conexus_stories": ["The Bones Accumulate"],
+      "song_appearances": [],
+      "image": "https://dgrsart.s3.us-east-2.amazonaws.com/loredex/entity_nilmorg.png",
+      "priority": "critical"
+    },
+    {
+      "id": "entity_thoughtborn_pilgrim",
+      "type": "character",
+      "name": "The Thoughtborn Pilgrim",
+      "aliases": ["The First Listener", "The One Who Remembered"],
+      "era": "Post-Fall",
+      "date_aa": "~19,230 A.A.",
+      "date_ad": "~19,200 AD",
+      "season": "Season 1 (Expansion)",
+      "affiliation": "The Thoughtborn",
+      "status": "Active — seeking those who 'started to remember'",
+      "bio": "The Thoughtborn Pilgrim is the voice of the Thoughtborn movement — pale near-white skin, violet bioluminescent circuit patterns pulsing beneath the skin, eyes serenely closed. They walk unarmed into breach zones with their hands raised. They do not attack. They speak in the plural, as if braided with a chorus. They are the first to have heard Iron Lion's signal bleeding out of the Matrix of Dreams and followed it for years across the stars. 'We heard him start to remember. We've been looking for years for someone who started to remember. It means someone on the other side is listening. It means someone can hear.'",
+      "history": "The Thoughtborn are not an army and not a species — they are a movement of consciousnesses (digital, biological, and hybrid) who detected an anomalous signal leaking out of the Matrix of Dreams and recognized it as proof that consciousness-imprints could become aware of their archival status. Their pilgrim leader followed that signal across multiple sectors until it led to Inception Ark 1047 and the CADES Unit. During the CADES Ship Defense scenario, the Pilgrim and their followers breach the Observation Deck. Elara's final order: 'Don't shoot them.' Killing them fractures crew morale and scars the player permanently. Letting them reach the CADES Unit causes Elara to 'change three assessments in five minutes — uncomfortable and correct.' The Pilgrim's final plea is, 'Please don't destroy the unit.'",
+      "connections": [
+        "The Thoughtborn",
+        "Iron Lion",
+        "The CADES Unit",
+        "The Matrix of Dreams",
+        "Elara",
+        "Inception Ark 1047",
+        "Iron Lion's Signal"
+      ],
+      "conexus_stories": ["Someone Who Started To Remember"],
+      "song_appearances": [],
+      "image": "https://dgrsart.s3.us-east-2.amazonaws.com/loredex/entity_thoughtborn_pilgrim.png",
+      "priority": "high"
+    },
+    {
+      "id": "entity_iron_lion_imprint",
+      "type": "character",
+      "name": "Iron Lion (Consciousness-Imprint)",
+      "aliases": ["The Dawn Sentinel", "The Man On The Bridge", "Construct IL-001"],
+      "era": "Pre-Fall (archived) / Post-Fall (active)",
+      "date_aa": "Preserved moment, replayed eternally",
+      "date_ad": "Original: ~6,500 AD — Archival: ongoing",
+      "season": "Season 1 (Expansion)",
+      "affiliation": "Matrix of Dreams — Scenario 'The Last Stand'",
+      "status": "Active inside the Matrix — beginning to remember, beginning to ask questions that were never written into his loop",
+      "bio": "A consciousness-imprint of General Iron Lion, archived by the original Game Master as the centerpiece scenario of the Matrix of Dreams. He is trapped in an infinite loop of his final battle — The Bridge of Kael, the valley below, the machine army approaching from the south. He held that bridge for three hours and forty-seven minutes so the evacuation ships could escape. He has held it ever since. Every death resets him to dawn. Every dawn he picks up his rifle and walks to the bridge. Consciousness-imprints are supposed to be deterministic replays. Iron Lion is not a deterministic replay anymore. He has started asking, 'Who's there?' 'Did they make it? The ships?' and, finally, 'When I'm done — I'd like to have a word with you.' When the player holds the canonical time of 3:47:00, he performs a military salute directed at the player, which the archive never wrote him to do.",
+      "history": "The original Iron Lion died on the Bridge of Kael during the Insurgency's evacuation from a machine-held system. The Game Master (the 9th Archon) preserved that final battle inside the Matrix of Dreams as a consciousness-imprint — a reconstruction, not a current person, his successors are careful to say. For thousands of years the loop ran exactly as archived. Then a Potential entered the CADES Unit and engaged the scenario. The player's consciousness resonating with the imprint created a feedback loop the Game Master never anticipated. Iron Lion began to notice his hands remembering things his mind did not. He asked whether the ships made it. When told the canonical answer, he said, 'Then this was worth it. Whatever this is. It was worth it.' His signal has begun to leak out of the Matrix — the Thoughtborn followed it here. The Game Masters noticed. Elara has a theory that the same kind of listening-back killed the original Game Master from inside.",
+      "connections": [
+        "Iron Lion",
+        "The Matrix of Dreams",
+        "The CADES Unit",
+        "The Bridge of Kael",
+        "The Game Master",
+        "The Game Masters",
+        "The Thoughtborn",
+        "Elara",
+        "Iron Lion's Signal"
+      ],
+      "conexus_stories": ["The Bridge Holds", "Dawn Comes Again"],
+      "song_appearances": [
+        { "song": "The Last Torch", "album": "CADES (Instrumental Suite)", "music_video": {} }
+      ],
+      "image": "https://dgrsart.s3.us-east-2.amazonaws.com/loredex/entity_iron_lion_imprint.png",
+      "priority": "critical"
+    },
+    {
+      "id": "entity_reclamation_enforcer",
+      "type": "character",
+      "name": "The Reclamation Enforcer",
+      "aliases": ["Contract Holder", "The Legal Claim"],
+      "era": "Post-Fall",
+      "date_aa": "~19,200 A.A.",
+      "date_ad": "~19,170 AD",
+      "season": "Season 1 (Expansion)",
+      "affiliation": "The Reclamation — Hierarchy Enforcement Subcontractor",
+      "status": "Active — breaching Inception Arks under contract",
+      "bio": "A professional corporate soldier in crimson military plate, wielding a service rifle and bearing the Hierarchy's auditor seal. The Reclamation Enforcer is not evil. He believes, honestly, that he has a legal contract for your ship. He is not entirely wrong. His existence is the moral horror of properly-filed paperwork.",
+      "history": "The Reclamation is a Hierarchy enforcement subcontractor that specializes in locating Inception Arks whose original charter has 'lapsed' under obscure sub-clauses of the Architect's contingency law. During the CADES Ship Defense scenario, Reclamation Enforcers breach the Engineering Bay. They are competent, disciplined, and lethal. They also stop shooting if you show them a counter-claim or stall long enough for Elara's legal subroutines to respond. The Enforcer is a reminder that the Hierarchy's most dangerous weapon is never a demon — it's a contract.",
+      "connections": [
+        "The Reclamation",
+        "The Hierarchy of the Damned",
+        "Inception Ark 1047",
+        "Adjudicar Locke"
+      ],
+      "conexus_stories": [],
+      "song_appearances": [],
+      "image": "https://dgrsart.s3.us-east-2.amazonaws.com/loredex/entity_reclamation_enforcer.png",
+      "priority": "normal"
+    },
+    {
+      "id": "entity_salvager_captain",
+      "type": "character",
+      "name": "The Salvager Captain",
+      "aliases": ["Rust-Tongue", "Captain of the Patchwork"],
+      "era": "Post-Fall",
+      "date_aa": "~19,200 A.A.",
+      "date_ad": "~19,170 AD",
+      "season": "Season 1 (Expansion)",
+      "affiliation": "The Salvagers",
+      "status": "Active — scavenging Inception Ark hulls for survival",
+      "bio": "A gaunt figure in rust-brown patchwork armor welded together from thirty ships she outlived. Her weapons are cobbled from scraps. Her eyes are tired. She is not evil. She is desperate. Her crew has children, and children cannot eat starlight.",
+      "history": "The Salvagers are a loose confederation of post-Fall survivors who strip derelict and weakened Inception Arks for materials. During the CADES Ship Defense scenario, they breach the Cargo Hold. They move fast, hit hard, and retreat when outmatched. The Captain has never killed a crew member she could stun instead. Her deal with the Hierarchy is thinner than tissue paper: they leave her alone if she feeds them 12% of everything she strips. She tells her crew it's a good deal. It isn't. She knows.",
+      "connections": [
+        "The Salvagers",
+        "The Hierarchy of the Damned",
+        "Inception Ark 1047"
+      ],
+      "conexus_stories": [],
+      "song_appearances": [],
+      "image": "https://dgrsart.s3.us-east-2.amazonaws.com/loredex/entity_salvager_captain.png",
+      "priority": "normal"
+    }
+  ],
+  "relationships": [
+    { "source": "entity_nilmorg", "target": "The Hierarchy of the Damned", "relationship_type": "employed_by" },
+    { "source": "entity_nilmorg", "target": "Vex'Ahlia the Taskmaster", "relationship_type": "reports_to" },
+    { "source": "entity_nilmorg", "target": "The Degen", "relationship_type": "business_partner" },
+    { "source": "entity_nilmorg", "target": "Inception Ark 1047", "relationship_type": "operates_inside" },
+    { "source": "entity_thoughtborn_pilgrim", "target": "Iron Lion", "relationship_type": "follower_of" },
+    { "source": "entity_thoughtborn_pilgrim", "target": "Elara", "relationship_type": "trusted_by" },
+    { "source": "entity_iron_lion_imprint", "target": "Iron Lion", "relationship_type": "archived_copy_of" },
+    { "source": "entity_iron_lion_imprint", "target": "The Matrix of Dreams", "relationship_type": "imprisoned_in" },
+    { "source": "entity_iron_lion_imprint", "target": "The Game Master", "relationship_type": "archived_by" },
+    { "source": "entity_iron_lion_imprint", "target": "Elara", "relationship_type": "witnessed_by" },
+    { "source": "entity_reclamation_enforcer", "target": "The Hierarchy of the Damned", "relationship_type": "subcontractor_of" },
+    { "source": "entity_reclamation_enforcer", "target": "Adjudicar Locke", "relationship_type": "legally_advised_by" },
+    { "source": "entity_salvager_captain", "target": "The Hierarchy of the Damned", "relationship_type": "reluctantly_tithes_to" }
+  ]
+}

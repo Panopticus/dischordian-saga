@@ -1,0 +1,155 @@
+{
+  "entries": [
+    {
+      "id": "location_dead_mans_circuit",
+      "type": "location",
+      "name": "Dead Man's Circuit",
+      "aliases": ["The Circuit", "The Trench Race", "Nilmorg's Theatre"],
+      "era": "Post-Fall",
+      "date_aa": "Seasonal, bi-monthly since ~19,150 A.A.",
+      "date_ad": "Ongoing",
+      "season": "Season 1 (Expansion)",
+      "affiliation": "Hierarchy of the Damned — Entertainment Division",
+      "status": "Seasonal — 28 days on, off-season dormant",
+      "bio": "A seasonal racing event held inside The Trench — the industrial underbelly of Inception Ark 1047 — operated by Nilmorg, SVP of Kinetic Acquisition. Drivers are Wired Clones, conscious beings grown in vats and raced until they die or win. The track changes every season as dead clones calcify into the Bone Lane. The Severance Prize grants the season champion a fragment of their own soul transferred to a new body. He always pays. That is the worst part.",
+      "history": "Nilmorg founded Dead Man's Circuit when he realized that terminal velocity resonance — the quantum signature of a consciousness experiencing its own death at extreme speed — was the purest form of consciousness energy in the known universe. The Circuit runs bi-monthly on a 28-day cycle: Phase 1 'The Warm-Up' (days 1-10, 1x CP), Phase 2 'The Escalation' (days 11-20, 2.5x CP, Bone Corridor unlocks), Phase 3 'The Dead Run' (days 21-28, 10x CP, The Dead Run track). Three canonical tracks exist: The First Circuit, Bone Corridor, and The Dead Run. The fact that the Circuit runs INSIDE an Inception Ark should alarm anyone who cares about the Ark's autonomy. It does not alarm enough people.",
+      "connections": [
+        "entity_nilmorg",
+        "The Trench",
+        "The Bone Lane",
+        "Wired Clones",
+        "The Severance Prize",
+        "Inception Ark 1047",
+        "The Hierarchy of the Damned",
+        "Vex'Ahlia the Taskmaster",
+        "The Degen"
+      ],
+      "conexus_stories": ["The Bones Accumulate", "The First Circuit"],
+      "song_appearances": [
+        { "song": "Terminal Velocity", "album": "Dead Man's Circuit OST", "music_video": {} },
+        { "song": "The Bone Lane", "album": "Dead Man's Circuit OST", "music_video": {} },
+        { "song": "Nilmorg Watches", "album": "Dead Man's Circuit OST", "music_video": {} },
+        { "song": "Phase Three", "album": "Dead Man's Circuit OST", "music_video": {} }
+      ],
+      "image": "https://dgrsart.s3.us-east-2.amazonaws.com/loredex/location_dead_mans_circuit.png",
+      "priority": "critical"
+    },
+    {
+      "id": "location_the_trench",
+      "type": "location",
+      "name": "The Trench",
+      "aliases": ["The Undercarriage", "The Industrial Below", "Nilmorg's Cathedral"],
+      "era": "Post-Fall",
+      "date_aa": "Ongoing",
+      "date_ad": "Ongoing",
+      "season": "Season 1 (Expansion)",
+      "affiliation": "Inception Ark 1047 (lower decks) / Hierarchy-occupied",
+      "status": "Active — Dead Man's Circuit venue",
+      "bio": "A massive industrial trench carved into the lower decks of Inception Ark 1047. Dark metal walls rise hundreds of meters on both sides, tiered observation galleries line the walls, and a bone-white racing track winds through the darkness below. The ceiling is lost in shadow — there is no sky here. This is underground, inside a ship. Orange neon trim lines the track. Nilmorg watches from a corporate platform above.",
+      "history": "The Trench was not built for racing. It was originally Inception Ark 1047's secondary hull-maintenance chamber — an enormous internal void where engineers could access the Ark's substructure. When the Hierarchy of the Damned infiltrated the Ark's lower decks through one of the Thought Virus's earliest incursions, they found The Trench empty, silent, and perfect for their purposes. Nilmorg installed the observation platform, the spectator galleries, the starting grid, and the first bone-white track. The Architect never noticed. Or noticed and didn't care. No one is sure which is worse.",
+      "connections": [
+        "Inception Ark 1047",
+        "location_dead_mans_circuit",
+        "entity_nilmorg",
+        "The Bone Lane",
+        "The Hierarchy of the Damned"
+      ],
+      "conexus_stories": [],
+      "song_appearances": [],
+      "image": "https://dgrsart.s3.us-east-2.amazonaws.com/loredex/location_the_trench.png",
+      "priority": "high"
+    },
+    {
+      "id": "location_bone_lane",
+      "type": "location",
+      "name": "The Bone Lane",
+      "aliases": ["Nilmorg's Art Installation", "The Memorial That Races", "The Track That Grows"],
+      "era": "Post-Fall",
+      "date_aa": "Ongoing (accumulative)",
+      "date_ad": "Ongoing",
+      "season": "Season 1 (Expansion)",
+      "affiliation": "Dead Man's Circuit",
+      "status": "Active — growing with every clone death",
+      "bio": "The ever-growing obstacle field within Dead Man's Circuit, composed of the calcified remains of dead Wired Clones. Each season adds new obstacles as clones die. The Bone Lane is both memorial and hazard. Some veterans claim the bones still resonate with Neural Splice frequencies. Nilmorg considers the Bone Lane his finest art installation.",
+      "history": "The Bone Lane began as a single stretch of track where the first season's dead clones were allowed to calcify in place rather than being cleaned up. Nilmorg called it 'an aesthetic experiment.' By the third season it was a feature. By the tenth season it was a hazard. By the twentieth season it had its own gravitational signature. Memorial plaques with clone designations (WIRED-XXXX format) are embedded in the walls along the Bone Lane's edges. Some of them are legible. Some have been overgrown by newer deaths. Nilmorg visits the Bone Lane between seasons, alone. No one knows what he does there.",
+      "connections": [
+        "location_dead_mans_circuit",
+        "location_the_trench",
+        "entity_nilmorg",
+        "Wired Clones",
+        "Neural Splice"
+      ],
+      "conexus_stories": ["The Bones Accumulate"],
+      "song_appearances": [
+        { "song": "The Bone Lane", "album": "Dead Man's Circuit OST", "music_video": {} }
+      ],
+      "image": "https://dgrsart.s3.us-east-2.amazonaws.com/loredex/location_bone_lane.png",
+      "priority": "high"
+    },
+    {
+      "id": "location_bridge_of_kael",
+      "type": "location",
+      "name": "The Bridge of Kael",
+      "aliases": ["The Last Stand", "Iron Lion's Bridge", "The Dawn Bridge"],
+      "era": "Pre-Fall (original) / Post-Fall (archived)",
+      "date_aa": "Original moment: ~6,500 A.A. — Archival: ongoing",
+      "date_ad": "Original: ~6,500 AD — Archival: ongoing",
+      "season": "Season 1 (Expansion)",
+      "affiliation": "The Insurgency (historically) / Matrix of Dreams (archived)",
+      "status": "Archived inside the Matrix of Dreams — replayed eternally",
+      "bio": "The bridge where General Iron Lion held the line for three hours and forty-seven minutes against the machine army, buying the evacuation ships the time they needed to escape the system. The real bridge collapsed after the battle. The archived bridge still stands — preserved inside the Matrix of Dreams by the original Game Master as the centerpiece scenario of 'The Last Stand.' Every dawn, Iron Lion picks up his rifle and walks to it again.",
+      "history": "The historical Bridge of Kael was a strategic crossing over a valley on a machine-contested world. During the Insurgency's evacuation, Iron Lion volunteered to hold the crossing so the slower transport ships could escape. He held it for exactly 3:47:00 before being overrun. The ships escaped. Iron Lion did not. The Game Master, cataloguing the defining moments of the Dischordian age, preserved the battle as a consciousness-imprint inside the Matrix of Dreams. For thousands of years the scenario replayed identically. Recently, Iron Lion has begun asking questions that were never written into his loop. The bridge, the valley, the army, the dawn — all still the same. The man on the bridge is not.",
+      "connections": [
+        "Iron Lion",
+        "entity_iron_lion_imprint",
+        "The Matrix of Dreams",
+        "The Game Master",
+        "The CADES Unit",
+        "Elara"
+      ],
+      "conexus_stories": ["The Bridge Holds", "Dawn Comes Again"],
+      "song_appearances": [
+        { "song": "The Last Torch", "album": "CADES (Instrumental Suite)", "music_video": {} },
+        { "song": "The Ships Escaped", "album": "CADES (Instrumental Suite)", "music_video": {} }
+      ],
+      "image": "https://dgrsart.s3.us-east-2.amazonaws.com/loredex/location_bridge_of_kael.png",
+      "priority": "critical"
+    },
+    {
+      "id": "location_matrix_anchor_point_7",
+      "type": "location",
+      "name": "Matrix Anchor Point 7",
+      "aliases": ["Anchor 7", "The Seventh Relay", "The Game Masters' Address"],
+      "era": "Post-Fall",
+      "date_aa": "Active since the end of the Second Epoch",
+      "date_ad": "~11,000 AD onward",
+      "season": "Season 1 (Expansion)",
+      "affiliation": "The Game Masters (cult) / Matrix of Dreams",
+      "status": "Active — all Game Masters communications route through here",
+      "bio": "A dimensional fold deep inside the Matrix of Dreams' architecture. Matrix Anchor Point 7 is the relay through which the Game Masters route all their transmissions to the outside world. To find it, you cross-reference the signal through seven dimensional bounce points. The final address is inside a fold of the Matrix itself, which is inside a pocket universe built by a dead Archon. The Hierarchy's vault is also inside a dimensional fold. This is not a coincidence.",
+      "history": "When the original Game Master designed the Matrix of Dreams, he built seven Anchor Points — load-bearing dimensional locks that held the archive's shape against the probabilistic erosion of consciousness archival. Six of the Anchor Points are still doing exactly what they were designed to do. The seventh has been quietly appropriated by his inheritors as their communications relay. The Game Masters chose it not for secrecy but because it was the only Anchor Point still synced with the Game Master's original transmission credentials. When they broadcast, the Matrix itself believes the signal is coming from him.",
+      "connections": [
+        "The Matrix of Dreams",
+        "faction_game_masters_cult",
+        "The Game Master",
+        "The CADES Unit",
+        "The Hierarchy of the Damned"
+      ],
+      "conexus_stories": [],
+      "song_appearances": [],
+      "image": "https://dgrsart.s3.us-east-2.amazonaws.com/loredex/location_matrix_anchor_point_7.png",
+      "priority": "normal"
+    }
+  ],
+  "relationships": [
+    { "source": "location_dead_mans_circuit", "target": "entity_nilmorg", "relationship_type": "operated_by" },
+    { "source": "location_dead_mans_circuit", "target": "location_the_trench", "relationship_type": "held_inside" },
+    { "source": "location_dead_mans_circuit", "target": "Inception Ark 1047", "relationship_type": "located_within" },
+    { "source": "location_the_trench", "target": "Inception Ark 1047", "relationship_type": "lower_deck_of" },
+    { "source": "location_bone_lane", "target": "location_dead_mans_circuit", "relationship_type": "component_of" },
+    { "source": "location_bridge_of_kael", "target": "The Matrix of Dreams", "relationship_type": "archived_inside" },
+    { "source": "location_bridge_of_kael", "target": "Iron Lion", "relationship_type": "defended_by" },
+    { "source": "location_matrix_anchor_point_7", "target": "The Matrix of Dreams", "relationship_type": "anchor_node_of" },
+    { "source": "location_matrix_anchor_point_7", "target": "faction_game_masters_cult", "relationship_type": "communications_relay_for" }
+  ]
+}
