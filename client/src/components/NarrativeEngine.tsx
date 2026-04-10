@@ -81,7 +81,7 @@ interface NarrativeEngineProps {
 }
 
 export default function NarrativeEngine({ tutorial, onComplete, onDismiss }: NarrativeEngineProps) {
-  const { state, setNarrativeFlag } = useGame();
+  const { state, setNarrativeFlag, shiftMorality } = useGame();
   const characterChoices = state.characterChoices;
   const [stepIndex, setStepIndex] = useState(-1); // -1 = intro phase
   const [phase, setPhase] = useState<"intro" | "dialog" | "human_response" | "elara_response" | "wheel" | "summary">("intro");
@@ -211,7 +211,16 @@ export default function NarrativeEngine({ tutorial, onComplete, onDismiss }: Nar
   const handleChoice = useCallback((choice: TutorialChoice) => {
     setSelectedChoice(choice);
     setTotalMoralityShift(prev => prev + choice.moralityShift);
-    
+
+    // Apply morality to server immediately (per-choice, not batched at tutorial end).
+    // This ensures threshold notifications, pressure events, and analytics fire at
+    // the moment the player makes the decision — and persist even if the player
+    // abandons the tutorial mid-way. Parent handlers receive 0 from onComplete to
+    // avoid double-application.
+    if (choice.moralityShift !== 0) {
+      shiftMorality(choice.moralityShift, tutorial.id, choice.id, "dialog");
+    }
+
     if (choice.rewards) {
       setCollectedRewards(prev => [...prev, ...choice.rewards!]);
     }
@@ -234,7 +243,7 @@ export default function NarrativeEngine({ tutorial, onComplete, onDismiss }: Nar
       advanceStep();
     }
     setTransmissionComplete(false);
-  }, [setNarrativeFlag, advanceStep]);
+  }, [setNarrativeFlag, advanceStep, shiftMorality, tutorial.id]);
 
   // Handle human response complete -> show elara response if exists
   const handleHumanResponseComplete = useCallback(() => {
@@ -246,10 +255,14 @@ export default function NarrativeEngine({ tutorial, onComplete, onDismiss }: Nar
     }
   }, [selectedChoice]);
 
-  // Handle final completion
+  // Handle final completion.
+  // NOTE: moralityTotal is passed as 0 because shifts are now applied per-choice
+  // inside handleChoice (see above). Parent handlers check `moralityTotal !== 0`
+  // before calling shiftMorality, so passing 0 prevents double-application.
+  // totalMoralityShift is still tracked locally for the summary display.
   const handleComplete = useCallback(() => {
-    onComplete(collectedRewards, totalMoralityShift, localFlags);
-  }, [collectedRewards, totalMoralityShift, localFlags, onComplete]);
+    onComplete(collectedRewards, 0, localFlags);
+  }, [collectedRewards, localFlags, onComplete]);
 
   // Player-triggered start (no auto-advance)
   const [introReady, setIntroReady] = useState(false);

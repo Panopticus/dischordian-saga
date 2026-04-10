@@ -1005,7 +1005,12 @@ interface GameContextValue {
   // Quest rewards
   claimQuestReward: (questId: string) => void;
   // Morality meter
-  shiftMorality: (amount: number, tutorialId?: string, choiceId?: string) => void;
+  shiftMorality: (
+    amount: number,
+    tutorialId?: string,
+    choiceId?: string,
+    sourceContext?: "dialog" | "quest" | "event" | "governance" | "companion" | "diplomacy" | "celebration_trial",
+  ) => void;
   getMoralityLabel: () => string;
   getMoralityTier: () => { tier: string; level: number };
   unlockMoralityReward: (rewardId: string) => void;
@@ -1802,7 +1807,16 @@ export function GameProvider({ children }: { children: ReactNode }) {
   }, []);
 
   /* ─── MORALITY METER ─── */
-  const applyMoralityMutation = trpc.rpg.applyMoralityChoice.useMutation();
+  const trpcUtils = trpc.useUtils();
+  const applyMoralityMutation = trpc.rpg.applyMoralityChoice.useMutation({
+    onSuccess: () => {
+      // Invalidate queries that read morality so downstream UI (leaderboards,
+      // morality state panels) reflects the new score without a page refresh.
+      trpcUtils.moralityLeaderboard.getMyRank.invalidate();
+      trpcUtils.moralityLeaderboard.getDistribution.invalidate();
+      trpcUtils.rpg.getMoralityState.invalidate();
+    },
+  });
 
   const shiftMorality = useCallback((amount: number, tutorialId?: string, choiceId?: string, sourceContext?: "dialog" | "quest" | "event" | "governance" | "companion" | "diplomacy" | "celebration_trial") => {
     setState(prev => {
