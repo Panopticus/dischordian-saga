@@ -100,6 +100,19 @@
   --ve-space-2xl: calc(48px * var(--ve-density));
   --ve-space-3xl: calc(64px * var(--ve-density));
   --ve-text-scale: 1;
+
+  /* ─── PALETTE TOKENS (Task 7.1) ───
+     Canonical --ve-* names for the upstream void-energy-ui palette.
+     These are derived from the semantic aliases exposed under
+     [data-atmosphere] above, with baseline fallbacks for pages
+     that render outside an atmosphere scope. Components can use
+     either the --ve-* name or the atmosphere alias — both resolve
+     to the same value at runtime. */
+  --ve-bg-sunk: var(--bg-sunk, color-mix(in oklch, var(--void-canvas, #010020) 85%, black 15%));
+  --ve-bg-spotlight: var(--bg-spotlight, color-mix(in oklch, var(--void-surface, #060830) 90%, white 10%));
+  --ve-energy-secondary: var(--energy-secondary, var(--void-secondary, var(--void-accent, #ff8c00)));
+  --ve-color-premium: var(--energy-premium, var(--void-premium, #ffbf66));
+  --ve-color-system: var(--energy-system, var(--void-system, #a078ff));
 }
 
 

@@ -14,6 +14,7 @@
 
 import { useState, useCallback, useEffect, useRef, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { materialize } from "@/lib/motionPrimitives";
 import {
   ChevronRight, Gift, Zap, Star, Layers, X,
   CircuitBoard, Heart, MessageSquare, Award,
@@ -417,12 +418,17 @@ export default function NarrativeEngine({ tutorial, onComplete, onDismiss }: Nar
         )}
 
         {/* ═══ DIALOG PHASE ═══ */}
+        {/* Task 7.2 — physics-aware materialize. Glass shows the
+            blur-clear modal entrance, flat plays a clean ease-out,
+            retro shows the dialog instantly so the player isn't
+            blocked on a transition. */}
         {phase === "dialog" && currentStep && (
           <motion.div
             key={`step-${stepIndex}`}
-            initial={{ y: 30, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            exit={{ y: -30, opacity: 0 }}
+            variants={materialize()}
+            initial="initial"
+            animate="animate"
+            exit="exit"
             className="w-full max-w-2xl mx-4"
           >
             {/* Step progress */}
