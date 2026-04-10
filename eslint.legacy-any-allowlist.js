@@ -1,0 +1,207 @@
+/**
+ * Legacy `any` allowlist — grandfathered offenders for
+ *   @typescript-eslint/no-explicit-any
+ *
+ * Background:
+ *   The project had 167 files using `as any` / `as unknown as` / `: any`
+ *   at the time the rule was turned on. Fixing them all in one pass was
+ *   too risky (GameContext alone has ~6 uses wired into the main state
+ *   machine), so we grandfathered existing offenders here and enabled
+ *   the rule at `error` level for every file not in the list.
+ *
+ * How this works:
+ *   - eslint.config.js imports this list and uses it as a `files`
+ *     override whose rule is `@typescript-eslint/no-explicit-any: "off"`.
+ *   - Any file NOT in the list gets the rule as an error, so new code
+ *     can never introduce a new `any`.
+ *   - When a file is cleaned up, remove it from this list in the same
+ *     PR that cleans it. A ratchet test (server/anyAllowlist.test.ts)
+ *     fails if the allowlist grows — you can only shrink it.
+ *
+ * Do NOT add new entries casually. Removing one is welcomed; adding one
+ * requires justification in the PR description.
+ */
+export const LEGACY_ANY_ALLOWLIST = [
+  // ─── server ─────────────────────────────────────────
+  "server/task7-design-system.test.ts",
+  "server/task9-qa-infrastructure.test.ts",
+  "server/task4-resilience.test.ts",
+  "server/tradeWars.test.ts",
+  "server/rpgSystems.test.ts",
+  "server/pvp.test.ts",
+  "server/phase21.test.ts",
+  "server/phase22.test.ts",
+  "server/phase25.test.ts",
+  "server/phase31.test.ts",
+  "server/phase60.test.ts",
+  "server/phase66.test.ts",
+  "server/phase67.test.ts",
+  "server/newFeatures.test.ts",
+  "server/crafting.test.ts",
+  "server/performanceMonitor.ts",
+  "server/storage.ts",
+  "server/chessWs.ts",
+  "server/pvpWs.ts",
+  "server/duelystWs.ts",
+  "server/_core/index.ts",
+  "server/middleware/featureFlag.ts",
+  "server/services/episodeService.ts",
+  "server/routers/crafting.ts",
+  "server/routers/gameState.ts",
+  "server/routers/marketplace.ts",
+  "server/routers/petBattles.ts",
+  "server/routers/architectConsole.ts",
+  "server/routers/store.ts",
+  "server/routers/towerDefense.ts",
+  "server/routers/tradeEmpire.ts",
+  "server/routers/tradeWars.ts",
+  "server/routers/trading.ts",
+  "server/routers/warMap.ts",
+  "server/routers/masteryTree.ts",
+  "server/routers/personalQuarters.ts",
+  "server/routers/prestigeQuests.ts",
+  "server/routers/seasonalEvents.ts",
+  "server/routers/seedData.ts",
+  "server/routers/guildHall.ts",
+  "server/routers/inventory.ts",
+  "server/routers/citizen.ts",
+  "server/routers/communityCodex.ts",
+  "server/routers/contentAdmin.ts",
+  "server/routers/contentReward.ts",
+  "server/routers/deadMansCircuit.ts",
+  "server/routers/ark.ts",
+  "server/routers/cardGame.ts",
+  "server/routers/chess.ts",
+
+  // ─── shared ─────────────────────────────────────────
+  "shared/contentIntegrity.test.ts",
+  "shared/narrativeValidator.ts",
+  "shared/playerHousing.ts",
+  "shared/prestigeClasses.ts",
+  "shared/loredexSchema.ts",
+  "shared/crewTradeIntegration.ts",
+  "shared/apprenticeRivalries.ts",
+  "shared/apprentices.test.ts",
+  "shared/assetPromptTemplates.ts",
+
+  // ─── scripts ────────────────────────────────────────
+  "scripts/generate-story-mode-vo.ts",
+  "scripts/generate-elara-vo.ts",
+
+  // ─── client — pages ─────────────────────────────────
+  "client/src/pages/GuildPage.tsx",
+  "client/src/pages/MarketplacePage.tsx",
+  "client/src/pages/QuestBoardPage.tsx",
+  "client/src/pages/ArkExplorerPage.tsx",
+  "client/src/pages/CharacterSheetPage.tsx",
+  "client/src/pages/DeadMansCircuitPage.tsx",
+  "client/src/pages/FightPage.tsx",
+  "client/src/pages/TransmissionInboxPage.tsx",
+  "client/src/pages/TrophyRoomPage.tsx",
+  "client/src/pages/SyndicateWorldPage.tsx",
+  "client/src/pages/SystemsLibraryPage.tsx",
+  "client/src/pages/TowerDefensePage.tsx",
+  "client/src/pages/TradeWarsPage.tsx",
+  "client/src/pages/SeasonalEventsPage.tsx",
+  "client/src/pages/SocialPage.tsx",
+  "client/src/pages/SongPage.tsx",
+  "client/src/pages/SpaceStationPage.tsx",
+  "client/src/pages/SpectatorPage.tsx",
+  "client/src/pages/ReplayPage.tsx",
+  "client/src/pages/ResearchLabPage.tsx",
+  "client/src/pages/PersonalQuartersPage.tsx",
+  "client/src/pages/PlayerCabinPage.tsx",
+  "client/src/pages/PlayerProfilePage.tsx",
+  "client/src/pages/PotentialsLeaderboardPage.tsx",
+  "client/src/pages/PrestigeQuestPage.tsx",
+  "client/src/pages/LegionMapPage.tsx",
+  "client/src/pages/LoreJournalPage.tsx",
+  "client/src/pages/GraduateLegionPage.tsx",
+  "client/src/pages/InceptionArkPage.tsx",
+  "client/src/pages/FriendlyChallengesPage.tsx",
+  "client/src/pages/DonationPage.tsx",
+  "client/src/pages/DraftTournamentPage.tsx",
+  "client/src/pages/ConsolePage.tsx",
+  "client/src/pages/CoopRaidPage.tsx",
+  "client/src/pages/CosmeticShopPage.tsx",
+  "client/src/pages/DeckBuilderPage.tsx",
+  "client/src/pages/CohortPage.tsx",
+  "client/src/pages/CompetitiveArenaPage.tsx",
+  "client/src/pages/ConexusPortalPage.tsx",
+  "client/src/pages/ChessPage.tsx",
+  "client/src/pages/CitizenCreationPage.tsx",
+  "client/src/pages/CardBattlePage.tsx",
+  "client/src/pages/CardBrowserPage.tsx",
+  "client/src/pages/CardGalleryPage.tsx",
+  "client/src/pages/CardGamePage.tsx",
+  "client/src/pages/CardTradingPage.tsx",
+  "client/src/pages/AwakeningPage.tsx",
+  "client/src/pages/BossMasteryPage.tsx",
+  "client/src/pages/CardAchievementsPage.tsx",
+  "client/src/pages/AdminPage.tsx",
+  "client/src/pages/ApprenticePage.tsx",
+  "client/src/pages/ArchitectConsolePage.tsx",
+  "client/src/pages/ArmyManagementPage.tsx",
+
+  // ─── client — contexts ──────────────────────────────
+  "client/src/contexts/GameContext.tsx",
+  "client/src/contexts/AmbientMusicContext.tsx",
+  "client/src/contexts/PlayerContext.tsx",
+
+  // ─── client — hooks ─────────────────────────────────
+  "client/src/hooks/usePersistFn.ts",
+  "client/src/hooks/usePhysicsTransition.ts",
+  "client/src/hooks/useAnalytics.ts",
+  "client/src/hooks/useChessMultiplayer.ts",
+  "client/src/hooks/useKinetic.ts",
+  "client/src/hooks/useNarrativeIntegration.ts",
+
+  // ─── client — lib / engine / game ───────────────────
+  "client/src/App.tsx",
+  "client/src/lib/ambientSounds.ts",
+  "client/src/engine/voidEngine.ts",
+  "client/src/engine/AtmosphereScope.tsx",
+  "client/src/data/yearOneEvents.ts",
+  "client/src/data/armyRecruitment.ts",
+  "client/src/game/terminus-swarm/pvpClient.ts",
+  "client/src/game/terminus-swarm/HanoiPuzzle.tsx",
+  "client/src/game/systemsIntegration.ts",
+  "client/src/game/passiveBonusAggregator.ts",
+  "client/src/game/duelyst/cardAdapter.ts",
+  "client/src/game/duelyst/CollectionView.tsx",
+  "client/src/game/duelyst/DuelystPage.tsx",
+  "client/src/game/FightSoundManager.ts",
+
+  // ─── client — components ────────────────────────────
+  "client/src/components/void/KineticText.tsx",
+  "client/src/components/void/VoidTile.tsx",
+  "client/src/components/ui/textarea.tsx",
+  "client/src/components/ui/dialog.tsx",
+  "client/src/components/ui/input.tsx",
+  "client/src/components/TimeMachineView.tsx",
+  "client/src/components/TradeNotificationWatcher.tsx",
+  "client/src/components/TraitSummaryPanel.tsx",
+  "client/src/components/RoomTutorialDialog.tsx",
+  "client/src/components/ShipSchematicMap.tsx",
+  "client/src/components/ShipThemeOverlay.tsx",
+  "client/src/components/RespecDialog.tsx",
+  "client/src/components/ParallaxRoom.tsx",
+  "client/src/components/PrestigeClassPanel.tsx",
+  "client/src/components/PreviouslyOn.tsx",
+  "client/src/components/MoralityMilestoneRewards.tsx",
+  "client/src/components/LiveSpecimen.tsx",
+  "client/src/components/LyricsViewer.tsx",
+  "client/src/components/GameCard.tsx",
+  "client/src/components/InlineShipMap.tsx",
+  "client/src/components/LandscapeEnforcer.tsx",
+  "client/src/components/ElaraDialog.tsx",
+  "client/src/components/DecisionDeck.tsx",
+  "client/src/components/CommandConsole.tsx",
+  "client/src/components/CompanionBondPanel.tsx",
+  "client/src/components/CompanionSynergyPanel.tsx",
+  "client/src/components/CharacterMindPanel.tsx",
+  "client/src/components/ChessBoard.tsx",
+  "client/src/components/CivilSkillsDashboardWidget.tsx",
+  "client/src/components/AppShell.tsx",
+  "client/src/components/AppShellImmersive.tsx",
+];
