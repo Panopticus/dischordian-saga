@@ -62,30 +62,75 @@ async function startServer() {
 
       console.log(`[Webhook] Received event: ${event.type} (${event.id})`);
 
-      // Handle checkout completion
+      // Handle checkout completion.
+      //
+      // Task 6.1 — Webhook idempotency.
+      //
+      // Stripe retries webhook delivery on any 5xx response, so the
+      // same `checkout.session.completed` event can arrive multiple
+      // times. Before Task 6.1 this handler unconditionally inserted
+      // a new `store_purchases` row AND called `fulfillPurchase`
+      // each time, which meant a retried webhook could grant the
+      // same items twice. Now the flow is:
+      //
+      //   1. Try to insert the row. A unique index on
+      //      `stripePaymentIntentId` (migration 0035) causes the
+      //      second insert to fail, which we treat as "already
+      //      handled" and return a 200.
+      //   2. Only call `fulfillPurchase` after a successful insert.
+      //   3. Credits / dream purchases don't carry a payment intent
+      //      id so they fall through to a plain insert + fulfill.
       if (event.type === "checkout.session.completed") {
         const session = event.data.object as any;
         const userId = parseInt(session.metadata?.user_id || session.client_reference_id || "0");
         const productKey = session.metadata?.product_key || "";
         const quantity = parseInt(session.metadata?.quantity || "1");
+        const stripePaymentIntentId: string | null = session.payment_intent ?? null;
 
         if (userId && productKey) {
           const { fulfillPurchase } = await import("../routers/store");
           const { getDb } = await import("../db");
           const { storePurchases } = await import("../../drizzle/schema");
+          const { eq } = await import("drizzle-orm");
           const db = await getDb();
           if (db) {
-            await db.insert(storePurchases).values({
-              userId,
-              stripePaymentIntentId: session.payment_intent || null,
-              productKey,
-              paymentMethod: "stripe",
-              quantity,
-              amount: session.amount_total || 0,
-              fulfilled: 1,
-            });
+            // Idempotency check: if we already have a row for this
+            // payment intent, the webhook is a replay — skip.
+            if (stripePaymentIntentId) {
+              const existing = await db.select({ id: storePurchases.id })
+                .from(storePurchases)
+                .where(eq(storePurchases.stripePaymentIntentId, stripePaymentIntentId))
+                .limit(1);
+              if (existing[0]) {
+                console.log(`[Webhook] Duplicate delivery for intent ${stripePaymentIntentId} — already fulfilled. Skipping.`);
+                return res.json({ received: true, duplicate: true });
+              }
+            }
+
+            try {
+              await db.insert(storePurchases).values({
+                userId,
+                stripePaymentIntentId,
+                productKey,
+                paymentMethod: "stripe",
+                quantity,
+                amount: session.amount_total || 0,
+                fulfilled: 1,
+              });
+            } catch (err: unknown) {
+              // If the unique index caught a race (two workers got
+              // the same webhook delivery), treat it as already
+              // handled.
+              const msg = err instanceof Error ? err.message : String(err);
+              if (/duplicate|unique/i.test(msg)) {
+                console.log(`[Webhook] Race on intent ${stripePaymentIntentId} — unique index caught it. Skipping fulfillment.`);
+                return res.json({ received: true, duplicate: true });
+              }
+              throw err;
+            }
+
             await fulfillPurchase(userId, productKey, quantity);
-            console.log(`[Webhook] Fulfilled purchase: user=${userId} product=${productKey} qty=${quantity}`);
+            console.log(`[Webhook] Fulfilled purchase: user=${userId} product=${productKey} qty=${quantity} intent=${stripePaymentIntentId ?? "-"}`);
           }
         }
       }
@@ -101,11 +146,52 @@ async function startServer() {
   // Performance monitoring — mount before route handlers
   app.use(performanceMiddleware);
 
-  // CORS — restrict to production domains (wildcard in dev)
+  // Task 6.1 — CORS hardening.
+  //
+  // Previously this middleware reflected the request `Origin` header
+  // straight back in dev and set a single-origin header in prod,
+  // which meant:
+  //   1. Multiple prod origins couldn't be supported (only one string).
+  //   2. `Access-Control-Allow-Origin: *` paired with
+  //      `Allow-Credentials: true` is a spec violation the browser
+  //      rejects — nothing actually worked in that combo.
+  //   3. No origin validation at all in dev, so any site could
+  //      open the dev endpoint with cookies.
+  //
+  // The new middleware:
+  //   - Reads the configured allowlist from `ENV.corsAllowlist`.
+  //   - Only echoes the request `Origin` back if it's on the
+  //     allowlist (or `*` is configured).
+  //   - Sets `Vary: Origin` so caches don't poison cross-origin
+  //     responses.
+  //   - Sends credentials with a specific origin, never with `*`.
+  //   - Drops the header entirely for unrecognized origins, which
+  //     makes the browser block the request cleanly instead of
+  //     half-working.
+  const corsAllowlist = ENV.corsAllowlist;
+  const corsAllowAny = corsAllowlist.includes("*");
   app.use((req, res, next) => {
-    const origin = ENV.isProduction ? ENV.corsOrigin : (req.headers.origin || "*");
-    res.header("Access-Control-Allow-Origin", origin);
-    res.header("Access-Control-Allow-Credentials", "true");
+    const reqOrigin = req.headers.origin;
+    let resolvedOrigin: string | null = null;
+
+    if (reqOrigin && (corsAllowAny || corsAllowlist.includes(reqOrigin))) {
+      resolvedOrigin = reqOrigin;
+    } else if (!reqOrigin && corsAllowlist.length === 1 && !corsAllowAny) {
+      // Same-origin / server-to-server call — use the single
+      // configured origin if there's exactly one.
+      resolvedOrigin = corsAllowlist[0];
+    }
+
+    if (resolvedOrigin) {
+      res.header("Access-Control-Allow-Origin", resolvedOrigin);
+      res.header("Vary", "Origin");
+      // Credentials are safe to advertise only when we've pinned a
+      // specific origin — never alongside `*`.
+      if (resolvedOrigin !== "*") {
+        res.header("Access-Control-Allow-Credentials", "true");
+      }
+    }
+
     res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
     res.header("Access-Control-Allow-Headers", "Content-Type, Authorization, X-CSRF-Token");
     if (req.method === "OPTIONS") return res.sendStatus(204);

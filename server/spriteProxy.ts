@@ -24,6 +24,12 @@ const MAX_CACHE_SIZE = 200; // Max cached sprites
 const TARGET_WIDTH = 360;
 const TARGET_HEIGHT = 480;
 
+// Task 6.1 — hard cap on the proxied fetch so an attacker can't
+// point the proxy at a legitimate CDN endpoint returning a 4 GB
+// file and exhaust the server. 25 MB comfortably covers our
+// largest sprite source (~6 MB) with room for future growth.
+const MAX_FETCH_BYTES = 25 * 1024 * 1024;
+
 // Allowed CDN domains for security — SSRF protection
 const ALLOWED_DOMAINS = [
   "d2xsxph8kpxj0f.cloudfront.net",
@@ -191,7 +197,18 @@ export function registerSpriteProxy(app: Express) {
         return res.status(response.status).json({ error: `CDN returned ${response.status}` });
       }
 
+      // Task 6.1 — reject oversized responses both up-front (via
+      // Content-Length) and defensively after the download (in case
+      // the CDN lies about the length).
+      const contentLength = Number(response.headers.get("content-length"));
+      if (Number.isFinite(contentLength) && contentLength > MAX_FETCH_BYTES) {
+        return res.status(413).json({ error: "Image too large" });
+      }
+
       const arrayBuffer = await response.arrayBuffer();
+      if (arrayBuffer.byteLength > MAX_FETCH_BYTES) {
+        return res.status(413).json({ error: "Image too large" });
+      }
       const imageBuffer = Buffer.from(arrayBuffer);
 
       // Always process through our pipeline (resize + bg removal)

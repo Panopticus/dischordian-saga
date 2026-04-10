@@ -659,7 +659,7 @@ export const storePurchases = mysqlTable("store_purchases", {
   paymentMethod: mysqlEnum("paymentMethod", ["credits", "dream", "stripe"]).notNull(),
   /** Stripe checkout session ID */
   stripeSessionId: varchar("stripeSessionId", { length: 256 }),
-  /** Stripe payment intent ID */
+  /** Stripe payment intent ID — unique when present, for webhook idempotency */
   stripePaymentIntentId: varchar("stripePaymentIntentId", { length: 256 }),
   /** Product key from our products catalog */
   productKey: varchar("productKey", { length: 128 }),
@@ -671,6 +671,11 @@ export const storePurchases = mysqlTable("store_purchases", {
   createdAt: timestamp("createdAt").defaultNow().notNull(),
 }, (table) => ({
   userIdIdx: index("idx_store_purchases_user_id").on(table.userId),
+  // Task 6.1 — unique index on stripePaymentIntentId so a replayed
+  // Stripe webhook cannot create a second fulfillment row. MySQL
+  // treats multiple NULLs as non-conflicting, which is what we want
+  // for credits/dream purchases that never carry an intent id.
+  uqStripeIntent: uniqueIndex("uq_store_purchases_stripe_intent").on(table.stripePaymentIntentId),
 }));
 
 export type StorePurchase = typeof storePurchases.$inferSelect;
