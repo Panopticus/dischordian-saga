@@ -1,0 +1,293 @@
+/* ═══════════════════════════════════════════════════════
+   MOBILE NARRATOR DIALOG — §13 Yin/Yang Dialog Matrix
+
+   Seed lines for the §1.2 floating narrator slot. Each
+   room gets a small set of paired lines — one voice
+   from Elara, one from The Human — tagged with the
+   trust tier at which the line unlocks.
+
+   Trust tiers (§1.3):
+     F = functional   (always available, no trust gate)
+     P = professional (bond ≥ 20)
+     H = honest       (bond ≥ 40)
+     V = vulnerable   (bond ≥ 60)
+     D = devoted      (bond ≥ 80)
+
+   These are SEED lines, not a final script. They exist
+   so the narrator slot has something to say from day
+   one. Content writers expand them later.
+   ═══════════════════════════════════════════════════════ */
+
+import type { NarratorId, NarratorRoomId } from "./mobileNarrator";
+
+export type TrustTier = "F" | "P" | "H" | "V" | "D";
+
+export interface NarratorLine {
+  tier: TrustTier;
+  text: string;
+}
+
+export interface RoomDialogSet {
+  roomId: NarratorRoomId;
+  elara: NarratorLine[];
+  the_human: NarratorLine[];
+}
+
+/** The minimum bond score that unlocks a given trust tier. */
+export const TRUST_TIER_MIN_BOND: Record<TrustTier, number> = {
+  F: 0,
+  P: 20,
+  H: 40,
+  V: 60,
+  D: 80,
+};
+
+/**
+ * The §13 Yin/Yang Dialog Matrix as data. Ordered so the highest
+ * tier the player qualifies for is picked first when the slot
+ * draws a line.
+ *
+ * Every line here is a direct quotation from §13.1–§13.13 of the
+ * Witnessing Narrative Proposal. Keep them verbatim — they're the
+ * canonical voice reference.
+ */
+export const NARRATOR_DIALOG: Record<NarratorRoomId, RoomDialogSet> = {
+  bridge: {
+    roomId: "bridge",
+    elara: [
+      { tier: "F", text: "This is my post. I keep this chair warm for a captain who may never come." },
+      { tier: "P", text: "The starfield reminds me of a window I used to have. I can't remember the city it looked out on." },
+      {
+        tier: "V",
+        text: "I was the one who pinned the curtains back every morning. I used to think that if I could keep the light in, I could keep the dark out. The curtains are not a metaphor. The dark came anyway.",
+      },
+    ],
+    the_human: [
+      { tier: "F", text: "She's lying about the chair. It's nobody's chair. She sits in it because she misses sitting." },
+      {
+        tier: "P",
+        text: "Atarion. She had a senator's apartment with a view of the Crystal Spires. I know because I walked past that apartment seventeen times during an investigation I never told her about.",
+      },
+      {
+        tier: "V",
+        text: "The investigation I didn't tell her about — I was trying to protect her. I was trying to protect her from me. I didn't succeed at either.",
+      },
+    ],
+  },
+
+  cryo_bay: {
+    roomId: "cryo_bay",
+    elara: [
+      {
+        tier: "F",
+        text: "All but one pod is empty. The one that wasn't is yours. Don't ask me who was supposed to be in the others. I can't tell you.",
+      },
+      { tier: "H", text: "There were supposed to be twelve Potentials in this bay. The other eleven were never loaded. I think I chose." },
+    ],
+    the_human: [
+      { tier: "F", text: "She can. She just won't. Ask her again in three rooms." },
+      { tier: "H", text: "She didn't. The Warlord did. Elara — you were a senator. You had no hand in loading Arks." },
+    ],
+  },
+
+  medical_bay: {
+    roomId: "medical_bay",
+    elara: [
+      { tier: "F", text: "Blood on the wall from the construction era. Old. I've tried to clean it. It won't come off." },
+      { tier: "V", text: "Tell me the name." },
+    ],
+    the_human: [
+      {
+        tier: "F",
+        text: "It won't come off because it's not blood. It's marker. Someone wrote a name in it. The years have eaten the letters. I can still read them.",
+      },
+      { tier: "V", text: "No." },
+    ],
+  },
+
+  comms_array: {
+    roomId: "comms_array",
+    elara: [
+      { tier: "F", text: "Don't touch the substrate layer. It's load-bearing. Everything I am runs on the substrate layer." },
+      { tier: "P", text: "That's not funny." },
+    ],
+    the_human: [
+      { tier: "F", text: "Which is why she's afraid of me. I live there." },
+      { tier: "P", text: "It wasn't a joke." },
+    ],
+  },
+
+  observation_deck: {
+    roomId: "observation_deck",
+    elara: [
+      {
+        tier: "H",
+        text: "I watched a sector go dark last week. Just… dim. Then out. Then gone. I logged it. Do you want to know the sector's name? I memorized it because I'm the only one left who will.",
+      },
+    ],
+    the_human: [
+      { tier: "H", text: "Tell the player. They earned the sector's name." },
+    ],
+  },
+
+  armory: {
+    roomId: "armory",
+    elara: [
+      {
+        tier: "F",
+        text: "The weapons here are older than the Fall. Some of them I recognize from treaty talks. I argued against ratifying a ban on three of them. I was on the wrong side.",
+      },
+      { tier: "V", text: "There's a difference?" },
+    ],
+    the_human: [
+      { tier: "F", text: "She was on the losing side. Not the wrong side." },
+      { tier: "V", text: "I made a career on the difference. It stopped meaning what I wanted it to mean about fifty years in." },
+    ],
+  },
+
+  engineering: {
+    roomId: "engineering",
+    elara: [
+      { tier: "F", text: "The reactor hums differently when you're in here. I don't know why." },
+      { tier: "H", text: "You keep saying 'the Engineer' like you knew him." },
+    ],
+    the_human: [
+      { tier: "F", text: "The reactor was built by the Engineer. She's humming because she recognizes a Potential." },
+      {
+        tier: "H",
+        text: "I did. I do. He's still alive. You signed the memo that said he wasn't. Don't cry — we're going to get him back before this is over.",
+      },
+    ],
+  },
+
+  archives: {
+    roomId: "archives",
+    elara: [
+      {
+        tier: "F",
+        text: "The archive reads itself. The documents rewrite slightly every time you look away. I thought I was going mad. I wasn't.",
+      },
+    ],
+    the_human: [
+      {
+        tier: "F",
+        text: "It's the Shadow Tongue. It's been in the walls of this ship since construction. It edits. Slowly. I've been fighting it back, line by line, in the margins. Sometimes I lose a paragraph. I try to remember what it said.",
+      },
+    ],
+  },
+
+  cargo_bay: {
+    roomId: "cargo_bay",
+    elara: [
+      { tier: "F", text: "An old delivery crate. Label says Free Ports, overdue by 1,047 years. Fascinating." },
+      { tier: "F", text: "I already did. There's a tarot card inside. Burnt edges. The seventeenth one we've found. Somebody is leaving a trail." },
+    ],
+    the_human: [
+      { tier: "F", text: "Open it." },
+      { tier: "F", text: "Somebody is leaving a trail for us." },
+    ],
+  },
+
+  pet_garden: {
+    roomId: "pet_garden",
+    elara: [
+      { tier: "F", text: "The child's pet. Little One's pet. It imprinted on you within the first hour. That's unusual." },
+      { tier: "V", text: "I don't know how to love a living thing anymore. I talk to the pet. I pretend I'm talking to a constituent." },
+    ],
+    the_human: [
+      { tier: "F", text: "That's not unusual. That's chosen." },
+      { tier: "V", text: "That's how you love a living thing, Senator. I'm not kidding." },
+    ],
+  },
+
+  memorial_corridor: {
+    roomId: "memorial_corridor",
+    elara: [
+      { tier: "H", text: "Every plaque is empty. Is that because we forgot? Or because we hadn't earned a name yet?" },
+    ],
+    the_human: [
+      {
+        tier: "H",
+        text: "Both. The universe withholds names until you've earned them. The Engineer didn't have a name when I met him. He earned it by the end. He earned two more after the end.",
+      },
+    ],
+  },
+
+  // ── Rooms without §13 entries: ambient placeholders ──
+  // The §13 matrix only canonicalizes 11 of the 14 rooms. For the
+  // remaining three we ship a single functional line so the slot
+  // still has something to say until a content writer fleshes them
+  // out.
+  trade_hub: {
+    roomId: "trade_hub",
+    elara: [
+      { tier: "F", text: "Locke's office. Don't sit where the light falls. She reads posture like a ledger." },
+    ],
+    the_human: [
+      { tier: "F", text: "She's not wrong. Don't sit where the light falls." },
+    ],
+  },
+
+  trophy_room: {
+    roomId: "trophy_room",
+    elara: [
+      { tier: "F", text: "An empty pedestal for every version of you we haven't seen yet." },
+    ],
+    the_human: [
+      { tier: "F", text: "Or every one we already have, scrubbed. I haven't decided which." },
+    ],
+  },
+
+  captains_quarters: {
+    roomId: "captains_quarters",
+    elara: [
+      { tier: "F", text: "Your bunk. Your terminal. Your handful of letters to no one in particular. It's a lot for one person." },
+    ],
+    the_human: [
+      { tier: "F", text: "It's not for one person. I read the letters at night. Don't be angry. Somebody had to." },
+    ],
+  },
+};
+
+/**
+ * Pick the highest-tier line available to the player for a given
+ * (room, narrator, bond) combination. Returns the line text and
+ * its tier. If the narrator has no entries at this bond level,
+ * returns `null`.
+ */
+export function pickNarratorLine(
+  roomId: NarratorRoomId,
+  narratorId: NarratorId,
+  bond: number,
+): NarratorLine | null {
+  const set = NARRATOR_DIALOG[roomId];
+  if (!set) return null;
+  const lines = set[narratorId];
+  const available = lines.filter(
+    (line) => bond >= TRUST_TIER_MIN_BOND[line.tier],
+  );
+  if (available.length === 0) return null;
+  // Highest tier wins. Ties go to the first declared line.
+  const tierOrder: TrustTier[] = ["D", "V", "H", "P", "F"];
+  for (const tier of tierOrder) {
+    const match = available.find((line) => line.tier === tier);
+    if (match) return match;
+  }
+  return available[0];
+}
+
+/**
+ * List every line a narrator has available to a given player, in
+ * declaration order. Useful for the Loredex and for tests.
+ */
+export function listAvailableLines(
+  roomId: NarratorRoomId,
+  narratorId: NarratorId,
+  bond: number,
+): NarratorLine[] {
+  const set = NARRATOR_DIALOG[roomId];
+  if (!set) return [];
+  return set[narratorId].filter(
+    (line) => bond >= TRUST_TIER_MIN_BOND[line.tier],
+  );
+}
