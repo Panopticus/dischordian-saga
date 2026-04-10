@@ -9,7 +9,7 @@ export const users = mysqlTable("users", {
   name: text("name"),
   email: varchar("email", { length: 320 }),
   loginMethod: varchar("loginMethod", { length: 64 }),
-  role: mysqlEnum("role", ["user", "admin"]).default("user").notNull(),
+  role: mysqlEnum("role", ["user", "moderator", "admin"]).default("user").notNull(),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
   lastSignedIn: timestamp("lastSignedIn").defaultNow().notNull(),
@@ -3022,5 +3022,34 @@ export const codexVotes = mysqlTable("codex_votes", {
 }, (table) => ({
   userContributionIdx: uniqueIndex("uq_codex_votes_user_contribution").on(table.userId, table.contributionId),
 }));
+
+/* ═══════════════════════════════════════════════════════
+   ADMIN RBAC — Two-admin approval flow for economy knobs
+   Moderators submit requests; two distinct admins must
+   approve before the dispatcher applies the change.
+   ═══════════════════════════════════════════════════════ */
+
+export const adminApprovalRequests = mysqlTable("admin_approval_requests", {
+  id: int("id").autoincrement().primaryKey(),
+  requestedBy: int("requestedBy").notNull(),
+  action: varchar("action", { length: 64 }).notNull(),
+  targetKey: varchar("targetKey", { length: 128 }).notNull(),
+  newValue: json("newValue"),
+  reason: text("reason"),
+  status: mysqlEnum("status", ["pending", "executed", "rejected"]).default("pending").notNull(),
+  approvals: json("approvals").$type<Array<{ adminId: number; approvedAt: string }>>().default([]).notNull(),
+  rejectedBy: int("rejectedBy"),
+  rejectionReason: text("rejectionReason"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  executedAt: timestamp("executedAt"),
+  rejectedAt: timestamp("rejectedAt"),
+}, (table) => ({
+  statusIdx: index("idx_admin_approval_status").on(table.status),
+  requestedByIdx: index("idx_admin_approval_requested_by").on(table.requestedBy),
+  createdAtIdx: index("idx_admin_approval_created_at").on(table.createdAt),
+}));
+
+export type AdminApprovalRequest = typeof adminApprovalRequests.$inferSelect;
+export type InsertAdminApprovalRequest = typeof adminApprovalRequests.$inferInsert;
 
 export type CodexVoteRow = typeof codexVotes.$inferSelect;

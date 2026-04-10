@@ -4,7 +4,7 @@
    live event management, resource awards, audit logging.
    ═══════════════════════════════════════════════════════ */
 import { z } from "zod";
-import { protectedProcedure, adminProcedure, router } from "../_core/trpc";
+import { protectedProcedure, adminProcedure, moderatorProcedure, router } from "../_core/trpc";
 import { TRPCError } from "@trpc/server";
 import { getDb } from "../db";
 import {
@@ -22,6 +22,7 @@ import {
   playerVotes,
   adminEvents,
   adminAuditLog,
+  adminApprovalRequests,
   citizenCharacters,
   companionRelationships,
   eidolonBonds,
@@ -1667,4 +1668,266 @@ export const architectConsoleRouter = router({
       const limit = input?.limit ?? 50;
       return db.select().from(adminAuditLog).orderBy(desc(adminAuditLog.createdAt)).limit(limit);
     }),
+
+  // ═══════════════════════════════════════════════════
+  //  MODERATOR APPROVAL FLOW
+  //  Two distinct admins must approve before a
+  //  moderator-submitted change executes.
+  // ═══════════════════════════════════════════════════
+
+  /**
+   * Submit a feature-flag change for two-admin approval.
+   * Moderators use this instead of calling setFeatureFlag directly;
+   * admins can still call setFeatureFlag for immediate execution.
+   */
+  requestFeatureFlag: moderatorProcedure
+    .input(
+      z.object({
+        name: z.string().min(1).max(128),
+        enabled: z.boolean(),
+        reason: z.string().min(1).max(1000),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const db = await getDb();
+      if (!db) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
+
+      const [result] = await db
+        .insert(adminApprovalRequests)
+        .values({
+          requestedBy: ctx.user.id,
+          action: "setFeatureFlag",
+          targetKey: input.name,
+          newValue: { enabled: input.enabled },
+          reason: input.reason,
+          status: "pending",
+          approvals: [],
+        })
+        .$returningId();
+
+      await auditLog(db, ctx.user.id, "request_feature_flag", {
+        requestId: result.id,
+        name: input.name,
+        enabled: input.enabled,
+      });
+
+      return { id: result.id, status: "pending" as const };
+    }),
+
+  /**
+   * List approval requests. Moderators see only their own requests;
+   * admins see every request across the system.
+   */
+  listApprovalRequests: moderatorProcedure
+    .input(
+      z
+        .object({
+          status: z.enum(["pending", "executed", "rejected"]).optional(),
+          limit: z.number().min(1).max(200).default(50),
+        })
+        .optional()
+    )
+    .query(async ({ ctx, input }) => {
+      const db = await getDb();
+      if (!db) return [];
+
+      const limit = input?.limit ?? 50;
+      const isAdmin = ctx.user.role === "admin";
+
+      const whereClauses: SQL[] = [];
+      if (input?.status) {
+        whereClauses.push(eq(adminApprovalRequests.status, input.status));
+      }
+      if (!isAdmin) {
+        whereClauses.push(eq(adminApprovalRequests.requestedBy, ctx.user.id));
+      }
+
+      const rows = await db
+        .select()
+        .from(adminApprovalRequests)
+        .where(whereClauses.length === 1 ? whereClauses[0] : whereClauses.length > 1 ? and(...whereClauses) : undefined)
+        .orderBy(desc(adminApprovalRequests.createdAt))
+        .limit(limit);
+
+      return rows;
+    }),
+
+  /**
+   * Approve a pending request. A request needs TWO distinct admin
+   * approvals before it's dispatched. Admins cannot approve their
+   * own requests, and cannot approve the same request twice.
+   */
+  approveApprovalRequest: adminProcedure
+    .input(z.object({ id: z.number().int().positive() }))
+    .mutation(async ({ ctx, input }) => {
+      const db = await getDb();
+      if (!db) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
+
+      const [request] = await db
+        .select()
+        .from(adminApprovalRequests)
+        .where(eq(adminApprovalRequests.id, input.id))
+        .limit(1);
+
+      if (!request) {
+        throw new TRPCError({ code: "NOT_FOUND", message: "Approval request not found." });
+      }
+      if (request.status !== "pending") {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: `Request is already ${request.status}.`,
+        });
+      }
+      if (request.requestedBy === ctx.user.id) {
+        throw new TRPCError({
+          code: "FORBIDDEN",
+          message: "You cannot approve your own request.",
+        });
+      }
+
+      const existingApprovals = (request.approvals ?? []) as Array<{ adminId: number; approvedAt: string }>;
+      if (existingApprovals.some(a => a.adminId === ctx.user.id)) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "You have already approved this request.",
+        });
+      }
+
+      const nextApprovals = [
+        ...existingApprovals,
+        { adminId: ctx.user.id, approvedAt: new Date().toISOString() },
+      ];
+
+      // Second approval triggers execution through the dispatcher.
+      if (nextApprovals.length >= 2) {
+        await dispatchApprovedRequest(db, request, ctx.user.id);
+        await db
+          .update(adminApprovalRequests)
+          .set({
+            approvals: nextApprovals,
+            status: "executed",
+            executedAt: new Date(),
+          })
+          .where(eq(adminApprovalRequests.id, input.id));
+
+        await auditLog(db, ctx.user.id, "execute_approval_request", {
+          requestId: input.id,
+          action: request.action,
+          targetKey: request.targetKey,
+        });
+
+        return { id: input.id, status: "executed" as const, approvalCount: nextApprovals.length };
+      }
+
+      await db
+        .update(adminApprovalRequests)
+        .set({ approvals: nextApprovals })
+        .where(eq(adminApprovalRequests.id, input.id));
+
+      await auditLog(db, ctx.user.id, "approve_approval_request", {
+        requestId: input.id,
+        approvalCount: nextApprovals.length,
+      });
+
+      return { id: input.id, status: "pending" as const, approvalCount: nextApprovals.length };
+    }),
+
+  /**
+   * Reject a pending request. A single admin can reject; rejection
+   * is terminal and cannot be undone.
+   */
+  rejectApprovalRequest: adminProcedure
+    .input(
+      z.object({
+        id: z.number().int().positive(),
+        reason: z.string().min(1).max(1000),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const db = await getDb();
+      if (!db) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
+
+      const [request] = await db
+        .select()
+        .from(adminApprovalRequests)
+        .where(eq(adminApprovalRequests.id, input.id))
+        .limit(1);
+
+      if (!request) {
+        throw new TRPCError({ code: "NOT_FOUND", message: "Approval request not found." });
+      }
+      if (request.status !== "pending") {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: `Request is already ${request.status}.`,
+        });
+      }
+
+      await db
+        .update(adminApprovalRequests)
+        .set({
+          status: "rejected",
+          rejectedBy: ctx.user.id,
+          rejectionReason: input.reason,
+          rejectedAt: new Date(),
+        })
+        .where(eq(adminApprovalRequests.id, input.id));
+
+      await auditLog(db, ctx.user.id, "reject_approval_request", {
+        requestId: input.id,
+        reason: input.reason,
+      });
+
+      return { id: input.id, status: "rejected" as const };
+    }),
 });
+
+/**
+ * Apply an approved request. Called only after two distinct admins
+ * have signed off. Throws TRPCError for unknown action types so a
+ * future moderator request for an unimplemented action fails loudly.
+ */
+async function dispatchApprovedRequest(
+  db: NonNullable<Awaited<ReturnType<typeof getDb>>>,
+  request: typeof adminApprovalRequests.$inferSelect,
+  executingAdminId: number
+): Promise<void> {
+  switch (request.action) {
+    case "setFeatureFlag": {
+      const newValue = request.newValue as { enabled: boolean } | null;
+      if (!newValue || typeof newValue.enabled !== "boolean") {
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "Approval request has no valid newValue for setFeatureFlag.",
+        });
+      }
+
+      const [existing] = await db
+        .select()
+        .from(featureFlags)
+        .where(eq(featureFlags.featureName, request.targetKey))
+        .limit(1);
+
+      if (existing) {
+        await db
+          .update(featureFlags)
+          .set({ enabled: newValue.enabled ? 1 : 0, updatedBy: String(executingAdminId) })
+          .where(eq(featureFlags.id, existing.id));
+      } else {
+        await db.insert(featureFlags).values({
+          featureName: request.targetKey,
+          enabled: newValue.enabled ? 1 : 0,
+          updatedBy: String(executingAdminId),
+        });
+      }
+
+      invalidateFeatureFlagCache(request.targetKey);
+      return;
+    }
+    default:
+      throw new TRPCError({
+        code: "NOT_IMPLEMENTED",
+        message: `Dispatcher has no handler for action "${request.action}".`,
+      });
+  }
+}

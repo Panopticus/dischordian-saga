@@ -43,3 +43,26 @@ export const adminProcedure = t.procedure.use(
     });
   }),
 );
+
+/**
+ * Staff procedure: allows either `moderator` or `admin`. Moderators
+ * can view analytics and submit approval requests for economy
+ * changes, but cannot execute those changes directly — that still
+ * requires two admin approvals via the architectConsole flow.
+ */
+export const moderatorProcedure = t.procedure.use(
+  t.middleware(async opts => {
+    const { ctx, next } = opts;
+
+    if (!ctx.user || (ctx.user.role !== "moderator" && ctx.user.role !== "admin")) {
+      throw new TRPCError({ code: "FORBIDDEN", message: NOT_ADMIN_ERR_MSG });
+    }
+
+    return next({
+      ctx: {
+        ...ctx,
+        user: ctx.user,
+      },
+    });
+  }),
+);
