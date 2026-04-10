@@ -2449,11 +2449,85 @@ Swarm itself.** The base they are defending is not just the Ark.
 prison from outside so that the player can figure out how he got
 out.
 
+### B.2 — The Reverse Chronology
+
+Kael's canonical story runs in six beats (all from Lore Bible
+entries for *Kael*, *The Source*, *The Eyes*, *Kael's Revenge*,
+and *The Prisoner*):
+
+1. **The Recruiter** — built the Insurgency's network, most
+   effective operative the resistance ever had
+2. **The Rise** — as Kael, strategic genius; alliances with
+   **Iron Lion** and **The Eyes**; AI Empire kills his wife and
+   child; the resistance becomes his religion
+3. **The Betrayal** — **The Eyes**, an elite agent *created by
+   the Watcher*, identifies Kael and hands him to the Empire.
+   Her intel leads directly to his capture and imprisonment in
+   the Panopticon. (*Lore Bible, The Eyes §995*)
+4. **Patient Zero** — while imprisoned, the Warlord infects him
+   with the Thought Virus via **Project Vector**. Kael does not
+   know. He thinks he is only starving and watched.
+5. **The Abandonment** — Kael bargains with a **fellow prisoner**
+   for escape: his liberty in exchange for knowledge of the
+   maintenance-tunnel passage to the central computer. During the
+   escape, Kael is knocked unconscious by falling debris.
+   **The fellow prisoner leaves him for the Thought Virus Zombies
+   and runs.** Kael survives against all odds — "emerging from
+   the ravenous horde battered but alive, his face a bloody mask
+   of fury and revenge." (*Lore Bible, Kael §2192*)
+
+   **That fellow prisoner is canonically the same being who will
+   later become The White Oracle — the man whose identity chain
+   is Oracle → Prisoner → Jailer → White Oracle.** The Prisoner
+   left Kael for dead. The player will meet the White Oracle in
+   Act 3's fighting game, and until this questline is resolved,
+   the player will have no idea they are speaking to the man who
+   murdered Kael by abandonment. **When the questline completes,
+   the Act 3 White Oracle dialog tree silently grows a fourth
+   option that did not exist before the player finished
+   Appendix B: *"I know what you did in the maintenance tunnels."***
+6. **The Theft / The Revenge** — Kael steals Inception Ark 1047
+   from the Panopticon docking bays, believing it to be his
+   greatest act of defiance. The theft is secretly engineered
+   by the Warlord (through Dr. Lyra Vox's body), who lowers the
+   ship's defenses. Senator Elara Voss's digital consciousness
+   is caught in the data transfer as **collateral data** and
+   swept into the Ark's systems. **Kael has unknowingly kidnapped
+   Elara at the exact moment she thinks she's being saved.** The
+   ship's viral reservoirs are already primed. Kael sails out
+   believing himself victorious. He is already dying of Thought
+   Virus on the inside.
+7. **The Decay** — across weeks and years, the Thought Virus
+   consumes Kael memory by memory. He forgets his wife's name.
+   He forgets his own name. He forgets whether his revenge
+   worked. What remains is **The Source** — the sovereign of
+   Terminus, mass-producer of plague ships, the bowl-shaped
+   fleet of wrath the player now sees assaulting the Ark on the
+   star map.
+
+**The questline tells these seven beats in reverse order.**
+The player meets the Source first (as an enemy in Terminus
+Swarm, already canon). They learn he is Kael. They learn he
+was the Recruiter. They learn about the theft. They learn about
+the abandonment. They learn about the betrayal. They learn about
+the wife and child. **They end on the Recruiter writing his
+first pamphlet — the man before any of it happened, building the
+resistance out of nothing but grief and hope.** That is the
+last thing the player discovers about Kael, and it is the
+quietest moment in the whole game.
+
+This reverse structure matters because **the player's emotional
+arc toward Kael inverts as they play.** Wave 1 he is a monster.
+Wave 50 he is a tragedy. Wave 100 he is a mirror. By the time
+the player learns what made him, they have already spent fifty
+hours killing the thing he became, and they *cannot unkill it*.
+The game gives them no undo. That is the point.
+
 ---
 
-*[Appendix B continues — B.2 The Reverse-Chronology Questline,
-B.3 The Six Fragments, B.4 Tower Lore, B.5 Ripple Integration,
-B.6 Year One Ripple Effect, B.7 Other Systems. Drafted in chunks.]*
+*[Appendix B continues — B.3 The Six Fragments, B.4 Tower Lore,
+B.5 Ripple Integration, B.6 Year One Ripple Effect, B.7 Other
+Systems. Drafted in chunks.]*
 
 
 
