@@ -3708,10 +3708,184 @@ written the morning after Episode 12 airs. It begins:
 > written somewhere. I am the Antiquarian. This is what I do.
 > Today I am grateful to do it."*
 
+### C.6 — The Host is the Meme (Episode 13 Reveal + White Oracle Foreshadow)
+
+This is the reveal the whole season has been engineering.
+
+#### The canonical basis
+
+From the Lore Bible (§234-258), **The Meme** is the fifth
+Archon, created by the Architect in Year 298 A.A., designed to
+manipulate human thought and culture. **Its signature ability
+is shapeshifting and impersonation.** The canonical Lore Bible
+passage is the most important single quote in Appendix C:
+
+> *"A. The Meme was the fifth Archon created by the Architect
+> in Year 298 A.A., designed to manipulate human thought and
+> culture through control over the internet and economic
+> systems. During the fall of the Panopticon, The Meme
+> pretended to defect to the Insurgency — but this was not a
+> genuine defection. It was an infiltration. The White Oracle
+> confronted The Meme at the Panopticon, but The Meme left
+> the Oracle for dead, trapping him on the Panopticon, and
+> assumed the White Oracle's identity. Its shapeshifting
+> nature is the key clue to this deception."*
+> — Lore Bible §255
+
+**The Meme impersonating the White Oracle is already canon.**
+Appendix C's reveal is that *the Meme has also been impersonating
+the Game Master*, on live television, for twelve weeks,
+hosting a game show from inside the Matrix of Dreams. This is
+**exactly the kind of thing the Meme does.** The player has
+been talking to the Meme the whole season. Every piece of the
+reveal must feel, in retrospect, *obvious*.
+
+#### The Episode 13 cold open
+
+**"THE RECKONING"** — the only episode without a game.
+
+- The show's theme music plays. Nobody is on stage.
+- The Host walks out in the middle of the theme music, two
+  minutes early. This has never happened before.
+- The Host is holding a sealed envelope.
+- The Host does not introduce tonight's episode. The Host does
+  not roast the player's clone count. The Host does not
+  acknowledge the audience.
+- The Host opens the envelope. Reads it. Reads it again.
+- The Host looks directly at the camera — at the player — and
+  says: *"Well, that's very funny. That's actually very, very
+  funny."*
+- The Host begins to laugh. The laugh is wrong. The laugh has
+  a second voice under it — the Meme's signature harmonic,
+  visible in the waveform overlay, and every player who has
+  ever played the card game will recognize it instantly
+  because **the Meme's canonical voice sample is already in
+  the game.**
+- The Host's face begins to *scroll*. Not melt. Not shift.
+  **Scroll**, like a web page being read by a very fast eye.
+  Faces flicker through the Host's position in rapid order:
+  - The Game Master (current mask)
+  - The White Oracle (Lore Bible canon)
+  - The Jailer
+  - The Prisoner
+  - The Oracle
+  - The Recruiter *(← the player's breath catches — that is
+    Kael before the scars)*
+  - An ordinary face the player does not recognize
+  - Elara's face *(← every narrator dismisses this immediately,
+    both in-universe and in the player's head — the Meme could
+    never hold that mask, but for a single frame the fact that
+    the Meme TRIED is more terrifying than any of the other
+    frames)*
+  - The Human's face *(← the same thing. The Meme is showing
+    off.)*
+  - The player's own chosen avatar *(← held for a full second.
+    the Meme is answering the question nobody has asked yet:
+    "Could I be you?" The answer is yes.)*
+- The scroll ends on the Meme's **true face** — which is
+  canonically a pulsing, rapidly-mutating internet meme
+  aesthetic that defies photographic stability, rendered as a
+  chaotic layered composite of every image the player has seen
+  in the game up to this point.
+- The Meme speaks directly to the player in the Meme's real
+  voice:
+  > *"Thank you for coming. I've enjoyed our time together.
+  > I'm going to tell you three true things, because it costs
+  > me nothing and it will ruin you. One: the Inventor was
+  > right. Alaric is the Shadow Tongue, and the Shadow Tongue
+  > has been editing everything you've read for twelve weeks.
+  > Two: the Game Master, the real Game Master, has been dead
+  > for sixteen thousand years. You have been watching me wear
+  > him. Three: I have done this before. I am doing it again
+  > in a different room. You will meet the man I am pretending
+  > to be, and you will trust him, and you will be wrong. His
+  > robes are white. Count the pulses in his halo. They are
+  > the same pulses in my voice right now. Listen carefully.
+  > You will not be warned twice."*
+- The Meme drops the envelope. The envelope hits the floor of
+  the stage. We cut to the envelope.
+- **The envelope is addressed to the player's real account
+  name.** Not their character name. The name on their login.
+  This is the second fourth-wall break in the entire game,
+  and it is done here because the Meme is the only character
+  canonically capable of reaching out through the medium of
+  the game itself.
+- Inside the envelope is a single page. The page is blank.
+  At the bottom of the page, in very small print, is the
+  phrase: *"TO BE CONTINUED IN THE ORACLE'S ROOM."*
+
+**Cut to black. Season over.**
+
+#### Why the reveal foreshadows the White Oracle without spoiling it
+
+The Meme's monologue does three precise things, in this order:
+1. Confirms Alaric is Shadow Tongue (payoff for §C.4 and the
+   whole season).
+2. Confirms the real Game Master is dead (foreshadows the
+   Game Master cameo in Appendix B's §11 main body — the
+   player now has a reason to mistrust every Game Master they
+   meet from this point forward).
+3. **Warns that the Meme is currently wearing another mask
+   somewhere else, and describes that mask vaguely but
+   correctly.** The description — white robes, halo pulses,
+   the Oracle's room — matches **The White Oracle**, whom the
+   player will meet in Act 3's Prisoner arc (canonical, main
+   proposal §7.1). The Meme does not say the name. The Meme
+   is *warning the player*, not spoiling the next act. The
+   player is being told **to not trust the next white-robed
+   figure they meet,** and they have to remember to not trust
+   them for *months of play* before they actually meet them.
+
+This is a long-distance foreshadow of extraordinary risk and
+payoff. If the player remembers: the Act 3 Prisoner arc
+becomes a slow-burn dread rather than a reveal — they watch
+the White Oracle closely, they catch inconsistencies, they
+see the Meme's signature harmonic in his voice, and they get
+to *solve the impersonation themselves* without the game
+telling them. If the player forgets: Act 3 plays out with a
+clean reveal that still works, and the player feels the
+guilt of having been warned and ignoring it.
+
+#### The Game Masters (plural) clarification
+
+The user specifically asked that "the Game Masters" plural be
+written into this. Here is how they enter:
+
+- **The Meme wears the Game Master mask publicly** — this is
+  the Host of The Palimpsest, the on-screen villain of
+  Appendix C.
+- **The real Game Master is dead** — canonically, the Lore
+  Bible places his death at Day 15 of Dominion, Year 620 A.A.
+  (§682). His Matrix of Dreams still runs. His Goggles are
+  still in the Hierarchy's vault.
+- **A third "Game Master" exists as a Mechronis Professor** —
+  canonically, the real Game Master had a Professor version
+  programmed into the Academy after his death. (This is
+  implied by the Mechronis Professors system design in
+  `shared/mechronisProfessors.ts`, which I confirmed
+  exists for the Conductor, Watcher, Collector, and Vortex.
+  The Game Master Professor is unwritten. Appendix C names
+  it: **Professor Glinn Vyre**, the Academy's "Lecturer in
+  Adversarial Structures," teaching labyrinth theory to
+  unfortunate students who fail his class by dying inside
+  the exam.) This Professor shows up in one between-episode
+  scene in Episode 6 (Survivor: Mechronis) as a guest judge.
+  He grades Darren harshly. He speaks only in the exact
+  tone of the real Game Master's canonical quotes from the
+  Lore Bible. **The Meme, watching from the Host's chair,
+  visibly bristles when Professor Vyre steps into frame.**
+  The Meme does not like being reminded that the man he is
+  wearing is dead.
+
+All three Game Masters are therefore present in Appendix C:
+the dead one (absent, remembered), the Meme wearing him
+(the Host), and the Academy Professor wearing him (a single
+scene in Episode 6). The player meets the third one without
+knowing they are in the presence of the second.
+
 ---
 
-*[Appendix C continues — C.6 Meme Reveal, C.7 Integration, C.8
-Prompts.]*
+*[Appendix C continues — C.7 Integration, C.8 Prompts.]*
 
 ---
 
