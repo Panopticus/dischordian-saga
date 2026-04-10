@@ -184,7 +184,7 @@ export const fightLeaderboardRouter = router({
       const fightTb = resolveFightGameBonuses(fightCitizen, fightNft);
       const nftMult = nftLevelMultiplier(fightNft);
 
-      // Companion combat bonus — bond level affects ELO gain
+      // Companion combat bonus — bond level affects ELO gain AND points
       const companionBonus = await companionCombat.getCombatBonus(userId);
       // Higher citizen level + NFT level + companion bond = slightly higher K-factor
       const traitKBonus = Math.floor(fightTb.speedBonus / 2) + Math.floor((nftMult - 1) * 8);
@@ -193,6 +193,16 @@ export const fightLeaderboardRouter = router({
       const opponentElo = DIFFICULTY_ELO[input.difficulty] ?? 1000;
       const newElo = calculateElo(entry.elo, opponentElo, input.won, adjustedK);
       const eloChange = newElo - entry.elo;
+
+      // Task 5.1 — scale the raw pointsEarned by the companion attack
+      // bonus too, so a Deep-Bond Eidolon actually *pays out* instead
+      // of only nudging the K-factor. Previously, a player with a
+      // Transcendent companion got the same score reward as one with
+      // no companion at all.
+      const companionScaled = await companionCombat.applyCompanionBonusesToRewards(userId, {
+        points: input.pointsEarned,
+      });
+      const adjustedPointsEarned = input.won ? companionScaled.points : input.pointsEarned;
 
       // Update streak
       const newStreak = input.won ? entry.winStreak + 1 : 0;
@@ -212,7 +222,7 @@ export const fightLeaderboardRouter = router({
         perfect: input.perfect ? 1 : 0,
         bestCombo: input.bestCombo,
         eloChange,
-        pointsEarned: input.pointsEarned,
+        pointsEarned: adjustedPointsEarned,
       });
 
       // Update leaderboard entry
@@ -251,12 +261,17 @@ export const fightLeaderboardRouter = router({
         bestStreak,
         tierChanged: newTier !== entry.rankTier,
         previousTier: entry.rankTier,
+        pointsEarned: adjustedPointsEarned,
+        pointsBasePreBonus: input.pointsEarned,
         companionBonus: companionBonus.attack > 0 ? {
           attack: companionBonus.attack,
           defense: companionBonus.defense,
           speed: companionBonus.speed,
           companionId: companionBonus.companionId,
+          tierLabel: companionBonus.tierLabel,
+          bondLevel: companionBonus.bondLevel,
           description: companionCombat.formatBreakdown(companionBonus),
+          pointsBoostApplied: input.won ? adjustedPointsEarned - input.pointsEarned : 0,
         } : null,
       };
     }),

@@ -112,4 +112,38 @@ export const companionCombat = {
     if (bonus.speed > 0) parts.push(`+${bonus.speed}% speed`);
     return `${bonus.companionId} contributed ${parts.join(", ")}`;
   },
+
+  /**
+   * Task 5.1 — One-shot helper that applies the companion's attack
+   * bonus to an arbitrary reward payload (points, xp, dream, etc.).
+   *
+   * Mirrors the shape of `applyPrestigeBonuses` in prestigeMultiplier.ts
+   * so routers have a consistent "scale this reward" pattern no matter
+   * which system they're in.
+   *
+   * `attack` is used as the single scalar because combat rewards are
+   * attack-driven; defense/speed already apply to other stats. For
+   * non-combat systems the caller can still read `getCombatBonus` and
+   * pick whichever axis is relevant.
+   */
+  async applyCompanionBonusesToRewards(
+    userId: number,
+    rewards: { points?: number; xp?: number; dream?: number; credits?: number },
+  ): Promise<{
+    points: number;
+    xp: number;
+    dream: number;
+    credits: number;
+    bonus: CompanionCombatBonus;
+  }> {
+    const bonus = await this.getCombatBonus(userId);
+    const mult = 1 + bonus.attack / 100;
+    return {
+      points: Math.round((rewards.points ?? 0) * mult),
+      xp: Math.round((rewards.xp ?? 0) * mult),
+      dream: Math.round((rewards.dream ?? 0) * mult),
+      credits: Math.round((rewards.credits ?? 0) * mult),
+      bonus,
+    };
+  },
 };

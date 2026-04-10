@@ -14,6 +14,7 @@ import {
 } from "../../drizzle/schema";
 import { fetchCitizenData, fetchPotentialNftData, resolveGuildWarBonuses } from "../traitResolver";
 import { getConsequences } from "../services/universeConsequences";
+import { pressureService } from "../services/pressureService";
 
 /** Territory names tied to Dischordian Saga lore */
 const TERRITORIES = [
@@ -389,7 +390,44 @@ export const guildWarsRouter = router({
         }
       }
 
-      // Notify all contributing members of winning guilds
+      // Notify all contributing members of winning guilds.
+      // Task 5.3 — Include the faction shift in the message so players
+      // see the cross-system consequence ("your guild's victory shifted
+      // the empire faction balance by +N"), and record an analytics
+      // event so admin tooling can chart the shifts over time.
+      const factionShiftPoints = Math.max(1, Math.floor((war[0].scoreA + war[0].scoreB) / 100));
+
+      // Task 5.3 — Bump community pressure for the winning faction.
+      // Empire victories push the `exploration` dimension (feeds
+      // Antiquarian's Revelation); insurgency victories push
+      // `betrayals` (feeds Shadow Tongue). This is the first real
+      // cross-system pull between guild wars and the Living Universe
+      // event system — guild-level outcomes now nudge community-wide
+      // narrative meters.
+      try {
+        // Use one of the contributors as the pressure owner so the
+        // entry links to a real userId. If there are no contributors
+        // (shouldn't happen post-resolution), skip the bump.
+        const pressureOwner = winningGuilds.find((g) => winnerGuildIds.has(g.guildId));
+        if (pressureOwner) {
+          const [anyMember] = await db.select({ userId: guildMembers.userId })
+            .from(guildMembers)
+            .where(eq(guildMembers.guildId, pressureOwner.guildId))
+            .limit(1);
+          if (anyMember) {
+            const pressureType = winnerFaction === "insurgency" ? "betrayals" : "exploration";
+            await pressureService.increment(
+              anyMember.userId,
+              pressureType,
+              factionShiftPoints,
+              `guild_war_resolved_${input.warId}_${winnerFaction}`,
+            );
+          }
+        }
+      } catch (e) {
+        logger.error("[GuildWars] Faction pressure increment failed:", e);
+      }
+
       for (const guildId of Array.from(winnerGuildIds)) {
         const members = await db.select({ userId: guildMembers.userId }).from(guildMembers)
           .where(eq(guildMembers.guildId, guildId));
@@ -398,12 +436,18 @@ export const guildWarsRouter = router({
             userId: m.userId,
             type: "guild_war_victory",
             title: "Faction War Victory!",
-            message: `Your faction ${winnerFaction} won the war! Prize Dream has been distributed to your guild treasury.`,
+            message: `Your faction ${winnerFaction} won the war! Prize Dream distributed to your guild treasury, and your victory shifted the ${winnerFaction} faction balance by +${factionShiftPoints}.`,
             actionUrl: "/guild",
           }).catch(e => logger.error("[GuildWars] Notification send failed:", e));
         }
       }
-      return { success: true, winner: winnerFaction, distributed: war[0].prizePoolDream };
+      return {
+        success: true,
+        winner: winnerFaction,
+        distributed: war[0].prizePoolDream,
+        factionShiftPoints,
+        factionShiftMessage: `Your guild's victory shifted the ${winnerFaction} faction balance by +${factionShiftPoints}`,
+      };
     }),
 
   /** Register guild for a war — costs treasury Dream as entry fee */
