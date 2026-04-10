@@ -29,6 +29,7 @@ import {
   contentParticipation,
   pressureEvents,
   universeEventState,
+  universeEventHistory,
   battlePassProgress,
   battlePassSeasons,
   guildMembers,
@@ -39,6 +40,8 @@ import {
   marketListings,
   storePurchases,
   loreJournalEntries,
+  userAchievements,
+  prestigeProgress,
 } from "../../drizzle/schema";
 import { eq, sql, desc, and, lte, gte, or, isNull, type SQL } from "drizzle-orm";
 import { pressureService } from "../services/pressureService";
@@ -743,6 +746,59 @@ export const architectConsoleRouter = router({
   //  7.1 — PLAYER STATE INSPECTOR
   // ═══════════════════════════════════════════════════
 
+  /**
+   * Task 8.1 — Search players by username, email, or numeric id.
+   *
+   * Returns a lightweight result list (max 20) sorted by most-
+   * recently-active first. Admins use this to find a user before
+   * calling `inspectPlayer` for the full state dump. The query is
+   * case-insensitive on name and email.
+   */
+  searchPlayers: adminProcedure
+    .input(z.object({
+      query: z.string().min(1).max(128),
+      limit: z.number().int().min(1).max(50).default(20),
+    }))
+    .query(async ({ input }) => {
+      const db = await getDb();
+      if (!db) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
+
+      // Numeric ids hit exact match; strings do substring match on
+      // both name and email. Drizzle's `or` + `like` keeps it
+      // parameterized and SQL-injection safe.
+      const asNumber = Number.parseInt(input.query, 10);
+      const isNumeric = Number.isFinite(asNumber) && String(asNumber) === input.query.trim();
+
+      const rows = await db
+        .select({
+          id: users.id,
+          name: users.name,
+          email: users.email,
+          role: users.role,
+          loginMethod: users.loginMethod,
+          createdAt: users.createdAt,
+          lastSignedIn: users.lastSignedIn,
+        })
+        .from(users)
+        .where(
+          isNumeric
+            ? eq(users.id, asNumber)
+            : or(
+                sql`LOWER(${users.name}) LIKE LOWER(${`%${input.query}%`})`,
+                sql`LOWER(${users.email}) LIKE LOWER(${`%${input.query}%`})`,
+              ),
+        )
+        .orderBy(desc(users.lastSignedIn))
+        .limit(input.limit);
+
+      return {
+        query: input.query,
+        isNumeric,
+        count: rows.length,
+        results: rows,
+      };
+    }),
+
   /** Complete player state in one response (read-only) */
   inspectPlayer: adminProcedure
     .input(z.object({ userId: z.number().int() }))
@@ -765,6 +821,11 @@ export const architectConsoleRouter = router({
         guildMembership,
         unlockedFeatures,
         journalEntries,
+        // Task 8.1 additions ↓
+        cardCollection,
+        cardCollectionTotal,
+        achievementRows,
+        [prestigeRow],
       ] = await Promise.all([
         db.select().from(users).where(eq(users.id, input.userId)).limit(1),
         db.select().from(userProgress).where(eq(userProgress.userId, input.userId)).limit(1),
@@ -782,6 +843,36 @@ export const architectConsoleRouter = router({
         db.select().from(guildMembers).where(eq(guildMembers.userId, input.userId)).limit(1),
         db.select().from(featureUnlocks).where(eq(featureUnlocks.userId, input.userId)),
         db.select({ count: sql<number>`COUNT(*)` }).from(loreJournalEntries).where(eq(loreJournalEntries.userId, input.userId)),
+        // Task 8.1 — top 20 card collection rows (most recently obtained first)
+        db.select({
+          cardId: userCards.cardId,
+          quantity: userCards.quantity,
+          isFoil: userCards.isFoil,
+          cardLevel: userCards.cardLevel,
+          obtainedVia: userCards.obtainedVia,
+          obtainedAt: userCards.obtainedAt,
+        })
+          .from(userCards)
+          .where(eq(userCards.userId, input.userId))
+          .orderBy(desc(userCards.obtainedAt))
+          .limit(20),
+        db.select({
+          totalUniqueCards: sql<number>`COUNT(DISTINCT ${userCards.cardId})`,
+          totalCopies: sql<number>`COALESCE(SUM(${userCards.quantity}), 0)`,
+        }).from(userCards).where(eq(userCards.userId, input.userId)),
+        // Task 8.1 — achievement unlock list
+        db.select({
+          achievementId: userAchievements.achievementId,
+          unlockedAt: userAchievements.unlockedAt,
+        })
+          .from(userAchievements)
+          .where(eq(userAchievements.userId, input.userId))
+          .orderBy(desc(userAchievements.unlockedAt)),
+        // Task 8.1 — prestige progress detail
+        db.select()
+          .from(prestigeProgress)
+          .where(eq(prestigeProgress.userId, input.userId))
+          .limit(1),
       ]);
 
       if (!user) throw new TRPCError({ code: "NOT_FOUND", message: "User not found" });
@@ -886,6 +977,35 @@ export const architectConsoleRouter = router({
           cardsCollected: progressData.cardsCollected ?? 0,
           roomsUnlocked: progressData.roomsUnlocked ?? 0,
         },
+
+        // Task 8.1 — enriched state for the admin inspector.
+
+        /** Recent card acquisitions (top 20 by obtainedAt). */
+        recentCards: cardCollection.map(c => ({
+          cardId: c.cardId,
+          quantity: c.quantity,
+          isFoil: Boolean(c.isFoil),
+          cardLevel: c.cardLevel,
+          obtainedVia: c.obtainedVia,
+          obtainedAt: c.obtainedAt,
+        })),
+        /** Collection totals for the "X of Y" display. */
+        cardCollection: {
+          uniqueCards: Number(cardCollectionTotal[0]?.totalUniqueCards ?? 0),
+          totalCopies: Number(cardCollectionTotal[0]?.totalCopies ?? 0),
+        },
+        /** Full achievement unlock list (id + unlockedAt). */
+        achievements: achievementRows.map(a => ({
+          achievementId: a.achievementId,
+          unlockedAt: a.unlockedAt,
+        })),
+        /** Prestige progress row (null for non-prestiged players). */
+        prestigeDetail: prestigeRow ? {
+          prestigeClassKey: prestigeRow.prestigeClassKey,
+          prestigeXp: prestigeRow.prestigeXp,
+          prestigeRank: prestigeRow.prestigeRank,
+          unlockedPerks: prestigeRow.unlockedPerks,
+        } : null,
       };
     }),
 
@@ -1217,6 +1337,132 @@ export const architectConsoleRouter = router({
       marketplaceTransactions: Number(marketTxCountResult?.count ?? 0),
     };
   }),
+
+  /**
+   * Task 8.2 — Economy timeseries for the admin chart.
+   *
+   * Returns one row per day for the last N days (default 30)
+   * derived from `marketTransactions` and `storePurchases` so
+   * we get a live rolling picture of Dream velocity without
+   * needing a separate snapshot table. Each row carries:
+   *
+   *   - day (YYYY-MM-DD)
+   *   - marketVolumeDream (player-to-player Dream flow)
+   *   - storeSpendDream   (Dream sinks via the store)
+   *   - marketTxCount
+   *
+   * Plus a header with:
+   *   - totalCirculation (point-in-time SUM of dreamBalance)
+   *   - inflationIndex30d — totalCirculation / (totalCirculation 30d ago,
+   *     approximated by subtracting `sum(totalDreamEarned)` from rows
+   *     updated in the last 30 days). A value > 1 means more Dream
+   *     entered circulation than left it in the window; < 1 means
+   *     the sinks caught up. Defaults to 1 when the denominator is 0.
+   *
+   * Series math runs in a single SQL pass so the chart is cheap.
+   */
+  economyTimeseries: adminProcedure
+    .input(z.object({
+      days: z.number().int().min(7).max(90).default(30),
+    }))
+    .query(async ({ input }) => {
+      const db = await getDb();
+      if (!db) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
+
+      const now = new Date();
+      const since = new Date(now.getTime() - input.days * 24 * 60 * 60 * 1000);
+
+      const [
+        [circulationResult],
+        marketDaily,
+        storeDaily,
+        [earnedInWindow],
+      ] = await Promise.all([
+        db.select({
+          totalDream: sql<number>`COALESCE(SUM(${dreamBalance.dreamTokens}), 0)`,
+        }).from(dreamBalance),
+        // Per-day marketplace volume + tx count
+        db.select({
+          day: sql<string>`DATE(${marketTransactions.createdAt})`,
+          volume: sql<number>`COALESCE(SUM(${marketTransactions.priceDream}), 0)`,
+          count: sql<number>`COUNT(*)`,
+        })
+          .from(marketTransactions)
+          .where(gte(marketTransactions.createdAt, since))
+          .groupBy(sql`DATE(${marketTransactions.createdAt})`),
+        // Per-day store spend
+        db.select({
+          day: sql<string>`DATE(${storePurchases.createdAt})`,
+          spent: sql<number>`COALESCE(SUM(${storePurchases.amount}), 0)`,
+        })
+          .from(storePurchases)
+          .where(gte(storePurchases.createdAt, since))
+          .groupBy(sql`DATE(${storePurchases.createdAt})`),
+        // Rough approximation of "Dream minted" in the window so we can
+        // compute a crude inflation index. `totalDreamEarned` is
+        // cumulative per-user; summing rows whose `updatedAt` falls in
+        // the window gives us the players who earned anything in that
+        // span. It's not a perfect counter but it's the only signal we
+        // have without a dedicated snapshot table.
+        db.select({
+          mintedApprox: sql<number>`COALESCE(SUM(${dreamBalance.totalDreamEarned}), 0)`,
+        })
+          .from(dreamBalance)
+          .where(gte(dreamBalance.updatedAt, since)),
+      ]);
+
+      // Build a day map and zero-fill missing days so the chart draws
+      // a continuous line.
+      const byDay = new Map<string, {
+        day: string;
+        marketVolumeDream: number;
+        marketTxCount: number;
+        storeSpendDream: number;
+      }>();
+      for (let i = 0; i < input.days; i++) {
+        const d = new Date(since.getTime() + i * 24 * 60 * 60 * 1000);
+        const key = d.toISOString().slice(0, 10);
+        byDay.set(key, {
+          day: key,
+          marketVolumeDream: 0,
+          marketTxCount: 0,
+          storeSpendDream: 0,
+        });
+      }
+      for (const row of marketDaily) {
+        const day = String(row.day).slice(0, 10);
+        const entry = byDay.get(day);
+        if (entry) {
+          entry.marketVolumeDream = Number(row.volume) || 0;
+          entry.marketTxCount = Number(row.count) || 0;
+        }
+      }
+      for (const row of storeDaily) {
+        const day = String(row.day).slice(0, 10);
+        const entry = byDay.get(day);
+        if (entry) {
+          entry.storeSpendDream = Number(row.spent) || 0;
+        }
+      }
+
+      const totalCirculation = Number(circulationResult?.totalDream ?? 0);
+      const mintedApprox = Number(earnedInWindow?.mintedApprox ?? 0);
+
+      // Inflation index: current circulation ÷ circulation N days ago.
+      // We approximate the "then" value by subtracting the windowed
+      // mint from today's total. Clamped to avoid div-by-zero and
+      // nonsense negative denominators.
+      const thenApprox = Math.max(1, totalCirculation - mintedApprox);
+      const inflationIndex = Number((totalCirculation / thenApprox).toFixed(4));
+
+      return {
+        days: input.days,
+        totalCirculation,
+        mintedApprox,
+        inflationIndex,
+        series: Array.from(byDay.values()).sort((a, b) => a.day.localeCompare(b.day)),
+      };
+    }),
 
   // ═══════════════════════════════════════════════════
   //  7.4 — LIVING UNIVERSE CONTROL PANEL
