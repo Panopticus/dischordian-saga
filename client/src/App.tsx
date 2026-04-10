@@ -38,6 +38,7 @@ import RadioMode from "./components/RadioMode";
 import EasterEggs from "./components/EasterEggs";
 import UniverseAtmosphere from "./components/UniverseAtmosphere";
 import SoundControls from "./components/SoundControls";
+import { SlideshowPlayerRoot } from "./components/SlideshowPlayerRoot";
 import { useElaraTTS } from "./hooks/useElaraTTS";
 import { useVoidEngine } from "./engine/useVoidEngine";
 import { useArchetypeDetection } from "./hooks/useArchetypeDetection";
@@ -530,6 +531,11 @@ function App() {
                   <SagaThemeBGMProvider>
                   <TooltipProvider>
                     <Toaster position="bottom-left" />
+                    {/* Witnessing §5 — global slideshow host. Mounts
+                        whenever any caller queues a slideshow via
+                        playSlideshow(id). Must be above AuthGate so
+                        the overlay covers the whole app surface. */}
+                    <SlideshowPlayerRoot />
                     <AuthGate />
                   </TooltipProvider>
                   </SagaThemeBGMProvider>

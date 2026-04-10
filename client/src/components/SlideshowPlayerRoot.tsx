@@ -15,6 +15,7 @@
 import { useCallback } from "react";
 import { SongSlideshow } from "./SongSlideshow";
 import { useWitnessingStore } from "@/stores/witnessingStore";
+import { applySlideshowReward } from "@/stores/dischordiaCycleStore";
 
 export function SlideshowPlayerRoot() {
   const active = useWitnessingStore((s) => s.activeSlideshow);
@@ -22,8 +23,15 @@ export function SlideshowPlayerRoot() {
   const closeActive = useWitnessingStore((s) => s.closeActiveSlideshow);
 
   const handleComplete = useCallback(() => {
+    // Apply the slideshow's registered light-energy reward (if any)
+    // to the Dischordia Cycle store before firing the caller's
+    // onComplete. This is how §5.4's "+500 community Light Energy"
+    // actually lands on the meter.
+    if (active) {
+      applySlideshowReward(active.def.lightEnergyReward);
+    }
     completeActive();
-  }, [completeActive]);
+  }, [active, completeActive]);
 
   const handleClose = useCallback(() => {
     closeActive();
