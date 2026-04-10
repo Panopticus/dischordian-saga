@@ -15,6 +15,7 @@ import PackOpening, { type PackCard } from "./PackOpening";
 import CollectionView from "./CollectionView";
 import DeckBuilder from "./DeckBuilder";
 import { dischordiaSounds } from "./SoundManager";
+import { applyDischordiaEnergy } from "@/stores/dischordiaCycleStore";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Swords, Shield, Zap, Eye, Skull, Clock, Bug,
@@ -138,6 +139,8 @@ export default function DuelystPage() {
       const newElo = elo + gain;
       setElo(newElo);
       localStorage.setItem("dischordia_elo", String(newElo));
+      // Witnessing §3.6 — a card battle win feeds the galactic bulb.
+      applyDischordiaEnergy("card_battle_light_win");
     } else {
       const l = losses + 1;
       setLosses(l);
@@ -147,6 +150,8 @@ export default function DuelystPage() {
       const loss = 10 + Math.floor(Math.random() * 8);
       const newElo = Math.max(100, elo - loss);
       setElo(newElo);
+      // Witnessing §3.6 — a card battle loss moves the Dark needle.
+      applyDischordiaEnergy("card_battle_loss");
       localStorage.setItem("dischordia_elo", String(newElo));
     }
     setView("result");

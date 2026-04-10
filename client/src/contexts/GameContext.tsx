@@ -9,6 +9,7 @@ import { LORE_ACHIEVEMENTS } from "@/data/loreAchievements";
 // Task 3.1 — sync status moved out of context into its own store so the 77
 // GameContext consumers don't re-render every 5 seconds during debounced save.
 import { useSyncStatusStore } from "@/stores/syncStatusStore";
+import { applyDischordiaEnergy } from "@/stores/dischordiaCycleStore";
 
 /* ─── TYPES ─── */
 export type GamePhase = "FIRST_VISIT" | "AWAKENING" | "QUARTERS_UNLOCKED" | "EXPLORING" | "FULL_ACCESS";
@@ -2094,6 +2095,11 @@ export function GameProvider({ children }: { children: ReactNode }) {
         armyTotalMissionsFailed: prev.armyTotalMissionsFailed + (success ? 0 : 1),
       };
     });
+    // Witnessing §3.6 — a successful crew mission feeds the Light
+    // meter (+15). We use the compassionate row as the default; the
+    // mercenary variant is reserved for deployments explicitly flagged
+    // as such (not yet threaded through the deployment schema).
+    if (success) applyDischordiaEnergy("crew_mission_compassionate");
   }, []);
 
   const updateSectorControl = useCallback((sectorId: string, updates: Partial<SectorControl>) => {

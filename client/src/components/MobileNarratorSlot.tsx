@@ -26,6 +26,7 @@ import {
 } from "@shared/mobileNarrator";
 import { pickNarratorLine } from "@shared/mobileNarratorDialog";
 import { useWitnessingStore } from "@/stores/witnessingStore";
+import { applyDischordiaEnergy } from "@/stores/dischordiaCycleStore";
 import { useGame } from "@/contexts/GameContext";
 import { getNPCBust } from "@/game/npcPortraits";
 
@@ -91,6 +92,13 @@ export function MobileNarratorSlot({ roomId, flags, className }: MobileNarratorS
       );
       if (deltas.elaraBond) adjustElara(deltas.elaraBond);
       if (deltas.humanBond) adjustHuman(deltas.humanBond);
+      // Witnessing §3.6 — dismissing a companion feeds the Dark
+      // meter. All three wheel options count; the third ("silence")
+      // is a harsher dismissal of BOTH, so we apply it twice.
+      applyDischordiaEnergy("dismiss_companion");
+      if (choice === "both_out") {
+        applyDischordiaEnergy("dismiss_companion");
+      }
       setWheelOpen(false);
     },
     [dismiss, elaraBond, humanBond, flags, adjustElara, adjustHuman],
