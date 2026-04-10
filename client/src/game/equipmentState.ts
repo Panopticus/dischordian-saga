@@ -3,10 +3,20 @@
    Persists equipped items, calculates stat bonuses,
    and provides bonuses to all game engines.
 
+   Source of truth is the server (citizenCharacters.gear JSON column,
+   read/written via citizen.getCharacter / citizen.updateGear). This
+   module is a localStorage cache that is hydrated on app load via
+   seedEquippedItems() so legacy consumers (CharacterWidget,
+   TradeEmpirePage, fight/card engines) keep working across devices.
+
    BG3-style: equipment affects everything, accessible everywhere.
    ═══════════════════════════════════════════════════════ */
 
+import { getEquipmentById } from "@/data/equipmentData";
+
 export type EquipmentSlot = "helm" | "armor" | "weapon" | "secondary" | "accessory" | "consumable";
+
+const ALL_SLOTS: EquipmentSlot[] = ["helm", "armor", "weapon", "secondary", "accessory", "consumable"];
 
 export interface EquippedItem {
   id: string;
@@ -48,6 +58,47 @@ export function equipItem(slot: EquipmentSlot, item: EquippedItem | null): void 
 
 export function unequipSlot(slot: EquipmentSlot): void {
   equipItem(slot, null);
+}
+
+/**
+ * Hydrate the localStorage equipment cache from a server-sourced gear map
+ * (slot → itemId, as returned by citizen.getCharacter). Resolves each item
+ * against EQUIPMENT_DB to rebuild full EquippedItem records and dispatches
+ * a single `equipment-changed` event so listeners re-render once.
+ *
+ * Call this after fetching citizen.getCharacter on app load — see useGearSync.
+ */
+export function seedEquippedItems(
+  dbGear: Record<string, string | null | undefined> | null | undefined,
+): void {
+  const next: Record<EquipmentSlot, EquippedItem | null> = {
+    helm: null, armor: null, weapon: null,
+    secondary: null, accessory: null, consumable: null,
+  };
+
+  if (dbGear) {
+    for (const slot of ALL_SLOTS) {
+      const itemId = dbGear[slot];
+      if (!itemId) continue;
+      const def = getEquipmentById(itemId);
+      if (!def) continue;
+      next[slot] = {
+        id: def.id,
+        name: def.name,
+        slot,
+        rarity: def.rarity,
+        stats: {
+          atk: def.stats.atk,
+          def: def.stats.def,
+          hp: def.stats.hp,
+          speed: def.stats.speed,
+        },
+      };
+    }
+  }
+
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
+  window.dispatchEvent(new CustomEvent("equipment-changed", { detail: next }));
 }
 
 /* ─── STAT CALCULATION ─── */

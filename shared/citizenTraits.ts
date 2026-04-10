@@ -81,6 +81,9 @@ export interface TradeEmpireBonuses {
   scanRangeBonus: number;
   /** Colony income multiplier (1.0 = no bonus) */
   colonyIncomeMultiplier: number;
+  /** Mission dispatch time reduction, as a percent (0-100).
+   *  Sourced from equipment speed stats. */
+  missionSpeedBonus: number;
   /** Breakdown for UI display */
   breakdown: Array<{ source: string; effect: string }>;
 }
@@ -371,6 +374,26 @@ export function resolveCardGameBonuses(
     breakdown.push({ source: `Potential Lv.${nft!.level}`, effect: `${Math.round((multi - 1) * 100)}% bonus to all stats` });
   }
 
+  // Equipment gear — translate physical stats into card game bonuses.
+  // Conversion rate mirrors the old client-side getEquipmentGameBonuses formula:
+  //   3 ATK → +1 unit ATK, 3 DEF → +1 unit HP, 1 HP stat → +2 player HP.
+  if (citizen.gear) {
+    const gearStats = calculateGearStats(citizen.gear as Record<string, unknown>);
+    const unitAtk = Math.floor(gearStats.totalAtk / 3);
+    const unitHp = Math.floor(gearStats.totalDef / 3);
+    const playerHp = gearStats.totalHp * 2;
+    if (unitAtk || unitHp || playerHp) {
+      result.globalAttackBonus += unitAtk;
+      result.globalHealthBonus += unitHp;
+      result.hpBonus += playerHp;
+      const parts: string[] = [];
+      if (unitAtk) parts.push(`+${unitAtk} unit ATK`);
+      if (unitHp) parts.push(`+${unitHp} unit HP`);
+      if (playerHp) parts.push(`+${playerHp} player HP`);
+      breakdown.push({ source: "Equipment", effect: parts.join(", ") });
+    }
+  }
+
   return result;
 }
 
@@ -384,7 +407,7 @@ export function resolveTradeEmpireBonuses(
     tradePriceDiscount: 0, tradeCreditsBonus: 0,
     hazardResistance: 0, xpBonus: 0, bonusTurns: 0,
     cardDropRateBonus: 0, scanRangeBonus: 0,
-    colonyIncomeMultiplier: 1.0, breakdown,
+    colonyIncomeMultiplier: 1.0, missionSpeedBonus: 0, breakdown,
   };
 
   if (!citizen) return result;
@@ -450,6 +473,20 @@ export function resolveTradeEmpireBonuses(
     result.tradeCreditsBonus = Math.round(result.tradeCreditsBonus * multi);
     result.xpBonus = Math.round(result.xpBonus * multi);
     breakdown.push({ source: `Potential Lv.${nft!.level}`, effect: `${Math.round((multi - 1) * 100)}% bonus to combat & trade` });
+  }
+
+  // Equipment gear — fleet combat power and mission dispatch speed.
+  // Mirrors the old client formula: +1 combat per ATK, +1% mission speed per SPD.
+  if (citizen.gear) {
+    const gearStats = calculateGearStats(citizen.gear as Record<string, unknown>);
+    if (gearStats.totalAtk || gearStats.totalSpeed) {
+      result.combatPowerBonus += gearStats.totalAtk;
+      result.missionSpeedBonus += gearStats.totalSpeed;
+      const parts: string[] = [];
+      if (gearStats.totalAtk) parts.push(`+${gearStats.totalAtk} fleet combat`);
+      if (gearStats.totalSpeed) parts.push(`${gearStats.totalSpeed}% mission speed`);
+      breakdown.push({ source: "Equipment", effect: parts.join(", ") });
+    }
   }
 
   return result;
@@ -533,6 +570,24 @@ export function resolveFightGameBonuses(
     result.xpMultiplier *= multi;
     result.dreamMultiplier *= multi;
     breakdown.push({ source: `Potential Lv.${nft!.level}`, effect: `${Math.round((multi - 1) * 100)}% bonus to all fight stats` });
+  }
+
+  // Equipment gear — direct stat application (ATK/DEF/HP/SPD from equipped items).
+  // Applied AFTER the NFT multiplier so gear bonuses aren't silently double-scaled.
+  if (citizen.gear) {
+    const gearStats = calculateGearStats(citizen.gear as Record<string, unknown>);
+    if (gearStats.totalAtk || gearStats.totalDef || gearStats.totalHp || gearStats.totalSpeed) {
+      result.attackBonus += gearStats.totalAtk;
+      result.defenseBonus += gearStats.totalDef;
+      result.hpBonus += gearStats.totalHp;
+      result.speedBonus += gearStats.totalSpeed;
+      const parts: string[] = [];
+      if (gearStats.totalAtk) parts.push(`+${gearStats.totalAtk} ATK`);
+      if (gearStats.totalDef) parts.push(`+${gearStats.totalDef} DEF`);
+      if (gearStats.totalHp) parts.push(`+${gearStats.totalHp} HP`);
+      if (gearStats.totalSpeed) parts.push(`+${gearStats.totalSpeed} SPD`);
+      breakdown.push({ source: "Equipment", effect: parts.join(", ") });
+    }
   }
 
   return result;
