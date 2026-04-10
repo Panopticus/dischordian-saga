@@ -23,10 +23,29 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // ─── CONFIG ───
-const ELEVENLABS_KEY = process.env.ELEVENLABS_API_KEY || "";
-const BUCKET = process.env.S3_BUCKET || "dgrsvoices";
-const REGION = process.env.AWS_REGION || "us-east-2";
+// Trim whitespace defensively. Copy-paste of credentials from a browser or
+// text editor commonly introduces trailing \n or \r, which Node's HTTP layer
+// rejects with ERR_INVALID_CHAR when the AWS SDK builds the Authorization
+// header. This .trim() is the cheapest guard against that failure mode.
+const ELEVENLABS_KEY = (process.env.ELEVENLABS_API_KEY || "").trim();
+const AWS_KEY_ID = (process.env.AWS_ACCESS_KEY_ID || "").trim();
+const AWS_SECRET = (process.env.AWS_SECRET_ACCESS_KEY || "").trim();
+const BUCKET = (process.env.S3_BUCKET || "dgrsvoices").trim();
+const REGION = (process.env.AWS_REGION || "us-east-2").trim();
 const S3_PREFIX = "Story Mode Voices";
+
+// Warn loudly if a credential is suspiciously sized. These are the canonical
+// widths for standard AWS IAM user keys; if the user's values are shorter or
+// longer, it's almost always a copy-paste error with extra whitespace or a
+// truncated paste.
+function warnIfOddSize(label: string, value: string, expected: number): void {
+  if (value && value.length !== expected) {
+    console.warn(
+      `  WARN: ${label} is ${value.length} chars, expected ${expected}. ` +
+      `Likely copy-paste error (extra whitespace or truncation).`,
+    );
+  }
+}
 
 // ─── EMOTION → ELEVENLABS VOICE SETTINGS ───
 const EMOTION_SETTINGS: Record<string, {
@@ -120,8 +139,8 @@ async function generateSpeech(text: string, voiceId: string, emotion: string): P
 const s3 = new S3Client({
   region: REGION,
   credentials: {
-    accessKeyId: process.env.AWS_ACCESS_KEY_ID || "",
-    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY || "",
+    accessKeyId: AWS_KEY_ID,
+    secretAccessKey: AWS_SECRET,
   },
 });
 
@@ -195,10 +214,14 @@ async function main() {
     console.error("ERROR: ELEVENLABS_API_KEY not set.");
     process.exit(1);
   }
-  if (!process.env.AWS_ACCESS_KEY_ID || !process.env.AWS_SECRET_ACCESS_KEY) {
+  if (!AWS_KEY_ID || !AWS_SECRET) {
     console.error("ERROR: AWS_ACCESS_KEY_ID / AWS_SECRET_ACCESS_KEY not set.");
     process.exit(1);
   }
+
+  // Sanity-check credential sizes so copy-paste whitespace gets caught loudly.
+  warnIfOddSize("AWS_ACCESS_KEY_ID", AWS_KEY_ID, 20);
+  warnIfOddSize("AWS_SECRET_ACCESS_KEY", AWS_SECRET, 40);
 
   // Preflight: verify S3 bucket is reachable & writable BEFORE spending any TTS credit.
   console.log("Preflight: verifying S3 bucket access...");
