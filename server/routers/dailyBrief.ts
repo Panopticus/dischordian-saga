@@ -2,7 +2,10 @@ import { z } from "zod";
 import { logger } from "../logger";
 import { protectedProcedure, publicProcedure, router } from "../_core/trpc";
 import { getDb } from "../db";
-import { dailyBriefs, pressureEvents, universeEventState, roomStates, notifications } from "../../drizzle/schema";
+import {
+  dailyBriefs, pressureEvents, universeEventState, roomStates, notifications,
+  dreamBalance, citizenCharacters, userProgress,
+} from "../../drizzle/schema";
 import { eq, and, sql, gte, desc } from "drizzle-orm";
 import {
   ALL_EMERGENT_EVENTS,
@@ -12,6 +15,12 @@ import {
   type PressureTracker,
   DEFAULT_PRESSURE,
 } from "@shared/livingUniverseEvents";
+import {
+  processArkEvent,
+  type RoomEvent as ArkRoomEvent,
+  type RoomId as ArkRoomId,
+  type EventType as ArkEventType,
+} from "@shared/arkEventHandler";
 import { getEventSignalContent } from "../services/universeConsequences";
 
 /* ═══════════════════════════════════════════════════════
@@ -180,7 +189,13 @@ export const dailyBriefRouter = router({
     return created[0] ?? null;
   }),
 
-  /** Mark a daily brief event as completed and get cross-room chain alerts */
+  /**
+   * Mark a daily brief event as completed, run it through the shared
+   * Ark event handler (`processArkEvent`), apply server-authoritative
+   * grants (dream, xp, crafting materials), and return the full
+   * ArkEventResult so the client can apply client-side effects
+   * (NPC trust, narrative flags, dialog triggers, music, toasts).
+   */
   completeEvent: protectedProcedure
     .input(z.object({
       eventId: z.string(),
@@ -189,18 +204,18 @@ export const dailyBriefRouter = router({
     }))
     .mutation(async ({ ctx, input }) => {
       const db = await getDb();
-      if (!db) return { success: false };
+      if (!db) return { success: false as const };
 
       const today = getTodayStr();
       const brief = await db.select().from(dailyBriefs)
         .where(and(eq(dailyBriefs.userId, ctx.user.id), eq(dailyBriefs.briefDate, today)))
         .limit(1);
 
-      if (!brief[0]) return { success: false, error: "No brief for today" };
+      if (!brief[0]) return { success: false as const, error: "No brief for today" };
 
       const completed = brief[0].completedEvents ?? [];
       if (completed.includes(input.eventId)) {
-        return { success: true, alreadyCompleted: true, crossRoomAlerts: [] };
+        return { success: true as const, alreadyCompleted: true, crossRoomAlerts: [], arkResult: null };
       }
 
       // Mark event completed
@@ -219,11 +234,114 @@ export const dailyBriefRouter = router({
           description: c.description,
         }));
 
-      // Update room state based on event
+      // Update room state based on event (visual tiers, damage, etc.)
       await updateRoomStateFromEvent(db, ctx.user.id, input.roomId, input.eventType);
 
       // Record pressure events based on event type
       await recordPressureFromEvent(db, ctx.user.id, input.eventType, input.roomId);
+
+      // ── Process the event through the shared Ark handler ──
+      // Look up the stored event details so we can pass title/description/npc/song
+      // (the brief.events column contains { gameplay, story, relationship }).
+      const storedEvents = (brief[0].events ?? {}) as Record<string, Partial<ArkRoomEvent> | undefined>;
+      const storedEvent =
+        (storedEvents.gameplay?.id === input.eventId && storedEvents.gameplay) ||
+        (storedEvents.story?.id === input.eventId && storedEvents.story) ||
+        (storedEvents.relationship?.id === input.eventId && storedEvents.relationship) ||
+        null;
+
+      const arkEvent: ArkRoomEvent = {
+        id: input.eventId,
+        roomId: input.roomId as ArkRoomId,
+        type: input.eventType as ArkEventType,
+        title: storedEvent?.title ?? "Ark Event",
+        description: storedEvent?.description ?? "",
+        npcId: storedEvent?.npcId,
+        song: storedEvent?.song,
+        repeating: false,
+        priority: 1,
+      };
+
+      // Fetch the cumulative quarantine count for the milestone flag.
+      // quarantine_count sits on roomStates, but it's per-room in this schema;
+      // we sum across rooms to match the legacy "global" counter semantics.
+      let quarantineCount = 0;
+      try {
+        const rows = await db.select({ q: roomStates.quarantineCount })
+          .from(roomStates)
+          .where(eq(roomStates.userId, ctx.user.id));
+        quarantineCount = rows.reduce((sum, r) => sum + (r.q ?? 0), 0);
+      } catch (e) {
+        logger.error("[Ark] Failed to aggregate quarantine count:", e);
+      }
+
+      const daySeed = daySeedFromDate(today) + ctx.user.id;
+      const arkResult = processArkEvent(arkEvent, daySeed, quarantineCount);
+
+      // ── Apply server-authoritative grants ──
+      // (Trust, narrative flags, NPC dialog, music hints stay client-side
+      //  because they live in GameContext — the hook forwards them.)
+
+      // Dream tokens
+      if (arkResult.resources.dream && arkResult.resources.dream > 0) {
+        const dreamRows = await db.select().from(dreamBalance)
+          .where(eq(dreamBalance.userId, ctx.user.id)).limit(1);
+        if (dreamRows[0]) {
+          await db.update(dreamBalance)
+            .set({
+              dreamTokens: dreamRows[0].dreamTokens + arkResult.resources.dream,
+              totalDreamEarned: dreamRows[0].totalDreamEarned + arkResult.resources.dream,
+            })
+            .where(eq(dreamBalance.userId, ctx.user.id));
+        } else {
+          await db.insert(dreamBalance).values({
+            userId: ctx.user.id,
+            dreamTokens: arkResult.resources.dream,
+            soulBoundDream: 0,
+            dnaCode: 0,
+            totalDreamEarned: arkResult.resources.dream,
+          });
+        }
+      }
+
+      // Character XP (citizen)
+      if (arkResult.resources.xp && arkResult.resources.xp > 0) {
+        const chars = await db.select().from(citizenCharacters)
+          .where(and(eq(citizenCharacters.userId, ctx.user.id), eq(citizenCharacters.isPrimary, 1)))
+          .limit(1);
+        if (chars[0]) {
+          const newXp = chars[0].xp + arkResult.resources.xp;
+          const newLevel = Math.max(chars[0].level, Math.floor(newXp / 200) + 1);
+          await db.update(citizenCharacters)
+            .set({ xp: newXp, level: newLevel })
+            .where(eq(citizenCharacters.id, chars[0].id));
+        }
+      }
+
+      // Crafting materials (uses the same userProgress.gameData.materials
+      // bag that crafting.craftRecipe reads/writes — events now feed the
+      // crafting economy directly).
+      if (arkResult.materials && arkResult.materials.length > 0) {
+        const rows = await db.select().from(userProgress)
+          .where(and(eq(userProgress.userId, ctx.user.id), eq(userProgress.franchiseId, "dischordian-saga")))
+          .limit(1);
+        const gameData = (rows[0]?.gameData ?? {}) as Record<string, unknown>;
+        const materials = { ...((gameData.materials ?? {}) as Record<string, number>) };
+        for (const mat of arkResult.materials) {
+          materials[mat.id] = (materials[mat.id] ?? 0) + mat.amount;
+        }
+        if (rows[0]) {
+          await db.update(userProgress)
+            .set({ gameData: { ...gameData, materials } })
+            .where(and(eq(userProgress.userId, ctx.user.id), eq(userProgress.franchiseId, "dischordian-saga")));
+        } else {
+          await db.insert(userProgress).values({
+            userId: ctx.user.id,
+            franchiseId: "dischordian-saga",
+            gameData: { materials },
+          });
+        }
+      }
 
       // Notify if all 3 events completed
       if (updatedCompleted.length >= 3) {
@@ -235,7 +353,13 @@ export const dailyBriefRouter = router({
         });
       }
 
-      return { success: true, crossRoomAlerts: alerts };
+      return {
+        success: true as const,
+        crossRoomAlerts: alerts,
+        /** Full handler output — the client applies trust/flags/dialog
+         *  effects from this, and displays the toast. */
+        arkResult,
+      };
     }),
 
   /** Get brief history for past N days */

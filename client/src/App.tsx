@@ -42,6 +42,7 @@ import { useElaraTTS } from "./hooks/useElaraTTS";
 import { useVoidEngine } from "./engine/useVoidEngine";
 import { useArchetypeDetection } from "./hooks/useArchetypeDetection";
 import { useSortingTrigger } from "./hooks/useSortingTrigger";
+import { useGearSync } from "./hooks/useGearSync";
 import { useAuth } from "./_core/hooks/useAuth";
 import { useAnalytics } from "./hooks/useAnalytics";
 import { useTutorialOrchestrator } from "./hooks/useTutorialOrchestrator";
@@ -401,6 +402,10 @@ function GameGate() {
 
   // Activate Void Energy design system — syncs morality/room/NPC to visual materials
   useVoidEngine();
+  // Hydrate localStorage equipment cache from server-side citizenCharacters.gear
+  // so CharacterWidget / TradeEmpirePage / other legacy consumers of
+  // getEquippedItems() get fresh data on every device.
+  useGearSync();
   // Project Celebration runs in the Matrix of Dreams: auto-detect emerging archetypes
   useArchetypeDetection();
   // Mechronis Sorting: watch skills, show ceremony when a dominant skill crosses threshold

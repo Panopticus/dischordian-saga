@@ -11,8 +11,9 @@ import {
   Rocket, Sparkles, Lock, Check, X, Clock, AlertTriangle,
   ChevronRight, Star, Zap, ArrowUp, Package, Info, Wrench,
 } from "lucide-react";
-import { useGame } from "@/contexts/GameContext";
-import { useGamification } from "@/contexts/GamificationContext";
+import { toast } from "sonner";
+import { trpc } from "@/lib/trpc";
+import { useAuth } from "@/_core/hooks/useAuth";
 import {
   CRAFTING_SKILLS, CRAFTING_RECIPES, MATERIALS, CATEGORY_INFO,
   type CraftingSkillId, type CraftingRecipe, type RecipeCategory,
@@ -146,9 +147,7 @@ function RecipeCard({ recipe, skillLevels, materials, dreamTokens, onSelect, isS
    MAIN FORGE PAGE
    ═══════════════════════════════════════════════════ */
 export default function ForgePage() {
-  const gameCtx = useGame();
-  const gameState = gameCtx.state;
-  const gam = useGamification();
+  const { isAuthenticated } = useAuth();
 
   // Crafting state
   const [selectedCategory, setSelectedCategory] = useState<RecipeCategory | "all">("all");
@@ -158,30 +157,75 @@ export default function ForgePage() {
   const [craftResult, setCraftResult] = useState<"success" | "failure" | null>(null);
   const [showSkills, setShowSkills] = useState(false);
 
-  // Player crafting data from game state
+  // ── Server-sourced crafting profile (skills, materials, crafted items) ──
+  const utils = trpc.useUtils();
+  const profileQuery = trpc.crafting.getCraftingProfile.useQuery(undefined, {
+    enabled: isAuthenticated,
+    staleTime: 10_000,
+  });
+  const dreamQuery = trpc.crafting.getDreamBalance.useQuery(undefined, {
+    enabled: isAuthenticated,
+    staleTime: 10_000,
+  });
+
+  const profile = profileQuery.data;
+
   const skillLevels = useMemo<Record<CraftingSkillId, number>>(() => ({
-    weaponsmith: gameState.craftingSkills?.weaponsmith || 0,
-    armorsmith: gameState.craftingSkills?.armorsmith || 0,
-    enchanting: gameState.craftingSkills?.enchanting || 0,
-    alchemy: gameState.craftingSkills?.alchemy || 0,
-    engineering: gameState.craftingSkills?.engineering || 0,
-  }), [gameState.craftingSkills]);
+    weaponsmith: profile?.skills.weaponsmith?.level ?? 0,
+    armorsmith: profile?.skills.armorsmith?.level ?? 0,
+    enchanting: profile?.skills.enchanting?.level ?? 0,
+    alchemy: profile?.skills.alchemy?.level ?? 0,
+    engineering: profile?.skills.engineering?.level ?? 0,
+  }), [profile]);
 
   const skillXp = useMemo<Record<CraftingSkillId, number>>(() => ({
-    weaponsmith: gameState.craftingXp?.weaponsmith || 0,
-    armorsmith: gameState.craftingXp?.armorsmith || 0,
-    enchanting: gameState.craftingXp?.enchanting || 0,
-    alchemy: gameState.craftingXp?.alchemy || 0,
-    engineering: gameState.craftingXp?.engineering || 0,
-  }), [gameState.craftingXp]);
+    weaponsmith: profile?.skills.weaponsmith?.xp ?? 0,
+    armorsmith: profile?.skills.armorsmith?.xp ?? 0,
+    enchanting: profile?.skills.enchanting?.xp ?? 0,
+    alchemy: profile?.skills.alchemy?.xp ?? 0,
+    engineering: profile?.skills.engineering?.xp ?? 0,
+  }), [profile]);
 
-  const materials = useMemo<Record<string, number>>(() => {
-    return gameState.craftingMaterials || {};
-  }, [gameState.craftingMaterials]);
+  const materials = useMemo<Record<string, number>>(
+    () => profile?.materials ?? {},
+    [profile],
+  );
 
-  // Dream tokens come from server-side dream balance, not game state
-  // For crafting, we track a local crafting-specific dream pool
-  const dreamTokens = 0; // Will be populated from tRPC dream balance query
+  // Dream tokens from the authoritative server-side balance.
+  const dreamTokens = dreamQuery.data?.dream ?? 0;
+
+  // ── Server-side craft mutation ──
+  // The server is the source of truth for success rolls, XP grants,
+  // level-ups and material deductions. We keep the client-side craftTime
+  // animation so the UI feels responsive, but the actual outcome comes
+  // from the server's response.
+  const craftMutation = trpc.crafting.craftRecipe.useMutation({
+    onSuccess: (res) => {
+      // res.success is "did the RPC complete" (e.g. validation passed);
+      // res.crafted is "did the success roll land".
+      if (!res.success) {
+        setIsCrafting(false);
+        setCraftProgress(0);
+        toast.error(res.error ?? "Crafting failed");
+        return;
+      }
+      setCraftResult(res.crafted ? "success" : "failure");
+      setIsCrafting(false);
+      setCraftProgress(1);
+      if (res.crafted) {
+        toast.success(res.message);
+      } else {
+        toast.error(res.message);
+      }
+      void utils.crafting.getCraftingProfile.invalidate();
+      void utils.crafting.getDreamBalance.invalidate();
+    },
+    onError: (err) => {
+      setIsCrafting(false);
+      setCraftProgress(0);
+      toast.error(err.message);
+    },
+  });
 
   // Filtered recipes
   const filteredRecipes = useMemo(() => {
@@ -189,7 +233,9 @@ export default function ForgePage() {
     return getRecipesByCategory(selectedCategory);
   }, [selectedCategory]);
 
-  // Craft handler
+  // Craft handler — fires the server mutation immediately and plays a
+  // client-side progress animation of length recipe.craftTime (capped so
+  // the UI never stalls longer than the server takes).
   const handleCraft = useCallback(() => {
     if (!selectedRecipe || isCrafting) return;
 
@@ -200,51 +246,29 @@ export default function ForgePage() {
     setCraftProgress(0);
     setCraftResult(null);
 
-    // Simulate crafting progress
-    const totalTime = selectedRecipe.craftTime * 100; // Speed up for demo (10x)
-    const interval = 50;
+    // Visual progress animation — the real outcome is decided server-side.
+    const totalTime = Math.max(500, selectedRecipe.craftTime * 100); // 10x speed-up, 0.5s floor
+    const intervalMs = 50;
     let elapsed = 0;
-
     const timer = setInterval(() => {
-      elapsed += interval;
-      setCraftProgress(Math.min(elapsed / totalTime, 1));
+      elapsed += intervalMs;
+      setCraftProgress(Math.min(elapsed / totalTime, 0.95)); // cap at 95% until server responds
+      if (elapsed >= totalTime) clearInterval(timer);
+    }, intervalMs);
 
-      if (elapsed >= totalTime) {
-        clearInterval(timer);
-
-        // Calculate success
-        const successRate = calculateSuccessRate(selectedRecipe, skillLevels[selectedRecipe.skill] || 0);
-        const success = Math.random() < successRate;
-
-        setCraftResult(success ? "success" : "failure");
-        setIsCrafting(false);
-
-        if (success) {
-          // Crafting success — update game state
-          gameCtx.craftItem(
-            selectedRecipe.id,
-            selectedRecipe.materials,
-            selectedRecipe.dreamCost,
-            selectedRecipe.skill,
-            selectedRecipe.xpGain,
-            selectedRecipe.outputItemId,
-            selectedRecipe.outputQuantity,
-          );
-        } else {
-          // On failure, still consume half materials
-          gameCtx.craftFailed(
-            selectedRecipe.id,
-            Object.fromEntries(
-              Object.entries(selectedRecipe.materials).map(([k, v]) => [k, Math.ceil(v / 2)])
-            ),
-            Math.ceil(selectedRecipe.dreamCost / 2),
-            selectedRecipe.skill,
-            Math.ceil(selectedRecipe.xpGain / 3), // Still get some XP on failure
-          );
-        }
-      }
-    }, interval);
-  }, [selectedRecipe, isCrafting, skillLevels, materials, dreamTokens, gameCtx]);
+    // Fire the server mutation — success/failure comes from res.crafted.
+    craftMutation.mutate({
+      recipeId: selectedRecipe.id,
+      skill: selectedRecipe.skill,
+      requiredLevel: selectedRecipe.requiredLevel,
+      materials: selectedRecipe.materials,
+      dreamCost: selectedRecipe.dreamCost,
+      baseSuccessRate: selectedRecipe.baseSuccessRate,
+      xpGain: selectedRecipe.xpGain,
+      outputItemId: selectedRecipe.outputItemId,
+      outputQuantity: selectedRecipe.outputQuantity,
+    });
+  }, [selectedRecipe, isCrafting, skillLevels, materials, dreamTokens, craftMutation]);
 
   const craftCheck = selectedRecipe
     ? canCraftRecipe(selectedRecipe, skillLevels, materials, dreamTokens)
