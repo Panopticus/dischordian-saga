@@ -182,6 +182,19 @@ async function startServer() {
   const { setupDuelystWebSocket } = await import("../duelystWs");
   setupDuelystWebSocket(server);
 
+  // Living Universe tick — expires stale events and re-checks thresholds
+  // once per hour. Safe to run in all environments because it short-circuits
+  // when there are no active events.
+  if (process.env.NODE_ENV !== "test") {
+    const { runUniverseTick } = await import("../routers/livingUniverse");
+    const ONE_HOUR_MS = 60 * 60 * 1000;
+    setInterval(() => {
+      runUniverseTick().catch(e => console.error("[LivingUniverse] tick error:", e));
+    }, ONE_HOUR_MS);
+    // Run once on startup so the first expiry doesn't wait an hour
+    runUniverseTick().catch(e => console.error("[LivingUniverse] initial tick error:", e));
+  }
+
   server.listen(port, () => {
     console.log(`Server running on http://localhost:${port}/`);
   });

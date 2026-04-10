@@ -16,8 +16,8 @@
    ═══════════════════════════════════════════════════════ */
 
 import { getDb } from "../db";
-import { pressureEvents, universeEventState } from "../../drizzle/schema";
-import { eq, sql, gte } from "drizzle-orm";
+import { pressureEvents, universeEventState, universeEventHistory } from "../../drizzle/schema";
+import { eq, and, sql, gte, lte, isNotNull } from "drizzle-orm";
 import { logger } from "../logger";
 import { broadcastEventActivation, invalidateConsequenceCache } from "./universeConsequences";
 import {
@@ -26,6 +26,7 @@ import {
   getEmergingEvent,
   MAX_CONCURRENT_EVENTS,
   PRESSURE_SOURCE_MAP,
+  ALL_EMERGENT_EVENTS,
 } from "@shared/livingUniverseEvents";
 
 /** Valid pressure types (matches PressureTracker keys) */
@@ -127,17 +128,22 @@ export const pressureService = {
       .where(eq(universeEventState.eventId, emerging.eventId))
       .limit(1);
 
+    const now = new Date();
+    const expiresAt = computeExpiry(emerging.eventId, now);
+
     if (existing[0]) {
       if (!existing[0].isActive) {
         await db.update(universeEventState)
           .set({
             isActive: 1,
             pressureScore: Math.round(emerging.proximity * 100),
-            activatedAt: new Date(),
+            activatedAt: now,
+            expiresAt,
+            playerParticipation: 0,
             occurrenceCount: existing[0].occurrenceCount + 1,
           })
           .where(eq(universeEventState.id, existing[0].id));
-        logger.info(`[LivingUniverse] Event ACTIVATED: ${emerging.eventId}`);
+        logger.info(`[LivingUniverse] Event ACTIVATED: ${emerging.eventId} (expires ${expiresAt.toISOString()})`);
         await broadcastEventActivation(emerging.eventId);
         invalidateConsequenceCache();
       }
@@ -146,10 +152,12 @@ export const pressureService = {
         eventId: emerging.eventId,
         isActive: 1,
         pressureScore: Math.round(emerging.proximity * 100),
-        activatedAt: new Date(),
+        activatedAt: now,
+        expiresAt,
+        playerParticipation: 0,
         occurrenceCount: 1,
       });
-      logger.info(`[LivingUniverse] Event ACTIVATED (first time): ${emerging.eventId}`);
+      logger.info(`[LivingUniverse] Event ACTIVATED (first time): ${emerging.eventId} (expires ${expiresAt.toISOString()})`);
       await broadcastEventActivation(emerging.eventId);
       invalidateConsequenceCache();
     }
@@ -157,16 +165,116 @@ export const pressureService = {
     return emerging;
   },
 
-  /** Deactivate an event (admin or community resolution) */
-  async resolveEvent(eventId: string): Promise<void> {
+  /**
+   * Deactivate an event. Writes a history row and clears the active flag.
+   * @param eventId   The emergent event key (e.g. "necromancer_return")
+   * @param resolution How it ended — "community_success" | "community_failure" | "expired" | "admin"
+   */
+  async resolveEvent(
+    eventId: string,
+    resolution: "community_success" | "community_failure" | "expired" | "admin" = "admin",
+  ): Promise<void> {
     const db = await getDb();
     if (!db) return;
 
+    const [existing] = await db.select().from(universeEventState)
+      .where(eq(universeEventState.eventId, eventId))
+      .limit(1);
+
+    if (!existing || !existing.isActive) return;
+
+    const now = new Date();
+
     await db.update(universeEventState)
-      .set({ isActive: 0, resolvedAt: new Date() })
+      .set({ isActive: 0, resolvedAt: now })
       .where(eq(universeEventState.eventId, eventId));
 
-    logger.info(`[LivingUniverse] Event RESOLVED: ${eventId}`);
+    // Archive to history so we have a permanent record
+    await db.insert(universeEventHistory).values({
+      eventId,
+      activatedAt: existing.activatedAt ?? now,
+      resolvedAt: now,
+      resolution,
+      finalPressureScore: existing.pressureScore,
+      totalParticipants: existing.playerParticipation,
+      effectsSummary: (existing.cycleData as Record<string, unknown> | null) ?? null,
+    }).catch(e => logger.error(`[LivingUniverse] Failed to archive history for ${eventId}:`, e));
+
+    logger.info(`[LivingUniverse] Event RESOLVED: ${eventId} (${resolution})`);
     invalidateConsequenceCache();
   },
+
+  /**
+   * Periodic universe tick.
+   *
+   * Runs on a schedule (once per hour in production) and performs three jobs:
+   *   1. Expires any active event whose expiresAt has passed.
+   *   2. Archives resolved events into universe_event_history.
+   *   3. Re-checks pressure thresholds so new events can activate even when
+   *      player ripples have been quiet.
+   *
+   * Returns a summary of what it did so tests and admin tooling can observe
+   * the results without having to query the DB directly.
+   */
+  async tick(): Promise<{ expired: string[]; emerged: string | null }> {
+    const db = await getDb();
+    if (!db) return { expired: [], emerged: null };
+
+    const now = new Date();
+
+    // 1. Find active events whose expiresAt has passed
+    const expiringRows = await db.select().from(universeEventState)
+      .where(
+        and(
+          eq(universeEventState.isActive, 1),
+          isNotNull(universeEventState.expiresAt),
+          lte(universeEventState.expiresAt, now),
+        ),
+      );
+
+    const expired: string[] = [];
+    for (const row of expiringRows) {
+      await this.resolveEvent(row.eventId, "expired");
+      expired.push(row.eventId);
+    }
+
+    // 2. Check thresholds — this may activate a new event (up to MAX_CONCURRENT_EVENTS)
+    const emerging = await this.checkThresholds();
+
+    return {
+      expired,
+      emerged: emerging && emerging.proximity >= 100 ? emerging.eventId : null,
+    };
+  },
+
+  /**
+   * Record that a player participated in resolving an active event.
+   * Called when a player completes an event-specific quest, kills an event
+   * boss, purifies archive entries, etc. Increments playerParticipation so
+   * the archive knows how many people helped.
+   */
+  async recordParticipation(eventId: string, userId: number, amount = 1): Promise<void> {
+    const db = await getDb();
+    if (!db) return;
+    void userId; // currently tracked aggregate-only; per-user logs live in pressureEvents
+    await db.update(universeEventState)
+      .set({ playerParticipation: sql`${universeEventState.playerParticipation} + ${amount}` })
+      .where(and(
+        eq(universeEventState.eventId, eventId),
+        eq(universeEventState.isActive, 1),
+      ))
+      .catch(e => logger.error(`[LivingUniverse] recordParticipation failed for ${eventId}:`, e));
+  },
 };
+
+/**
+ * Compute when a newly-activated event should expire based on the shared
+ * typicalCycleDays for that event.
+ */
+function computeExpiry(eventId: string, activatedAt: Date): Date {
+  const def = ALL_EMERGENT_EVENTS.find(e => e.id === eventId);
+  const days = def?.typicalCycleDays ?? 7;
+  const expiresAt = new Date(activatedAt);
+  expiresAt.setDate(expiresAt.getDate() + days);
+  return expiresAt;
+}
