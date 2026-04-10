@@ -635,11 +635,31 @@ Each battle is a card duel against a **child version of a future
 Archon** — the Mascoteers. Their child forms are the terror of Act
 1 because they are small and bright and already monstrous.
 
-| # | Opponent (child form) | Deck theme | Narrative beat | Card unlock |
-|---|---|---|---|---|
-| A1 | **Little Meme** — a grinning kid with a marker and a wallpaper of memes | "Rent Free" — status effects, taunts, mind loops | The Engineer as a new student. Little Meme steals his notebook and turns it into a viral chant that every kid in Celebration sings. The notebook is the first draft of the Deck. | **"The Notebook"** (Common, Neutral). First-turn draw-two. |
-| A2 | **Little Collector** — a pale child with a glass jar for a schoolbag | "Choose Your Mask" — stealing cards from the opponent's deck mid-battle | The Engineer meets a girl who *makes* things. She is the best in class. The Collector tries to put her in a jar. The Engineer builds a lock. The girl escapes. Her name, revealed later, is the Seer. | **"The Jar That Wouldn't Close"** (Rare, Light). Prevents a card from being stolen this turn. |
-| A3 | **Little Watcher** — an expressionless child in a white mask, eye tattoo half-finished | "Ocularum" — full-board reveal, no hidden cards allowed | The Engineer discovers that Celebration is a test. He draws the first true Dischordia prototype in his notebook: a single card, unnamed. The Watcher sees it and reports it. Elara, decades later, will sign the memo. | **"The First Card"** (Epic, Light). A blank card. You pick its effect from three randoms on play. |
+> **Canonical integration:** the Mascoteers already exist in
+> `shared/celebrationTrial.ts` as a daily 28-day decision system.
+> Act 1 Cycle A runs the **daily trial in parallel with three card
+> battles** — the card battles are the "graduation exams" at days
+> 10, 20, and 28. Every day between fights the player gets one
+> Mascoteer decision card (existing system). **Their cumulative
+> bond/corruption/morality scores from the trial are passed into
+> the deck the Engineer fights with**, so good daily choices buff
+> the card battles and bad ones make the boss fights harder. This
+> is the first time the ongoing Celebration Trial system becomes
+> structurally connected to the main act progression.
+
+| # | Opponent (canonical Mascoteer) | Graduation day | Deck theme | Narrative beat | Card unlock |
+|---|---|---|---|---|---|
+| A1 | **Conni the Conductor** (child form of Archon #1, the Conductor/CoNexus) — canonical | Day 10 | "Rent Free" hybrid — forced-unison mechanics; every turn the Engineer's hand is *made to rhyme* with Conni's hand, and whoever plays the more harmonious sequence wins the turn | The Engineer's first Celebration exam. Conni hands the Engineer a baton. She hums a hymn he is supposed to conduct the whole class to. Instead he improvises a new song — **the first draft of what will become the Dischordian Deck** is scratched into his conductor's score as countermelody. Conni's smile thins. Her mask is too still. | **"The Countermelody"** (Common, Neutral). When played, your next card's effect gets to be played *and* the opponent plays theirs — both resolve. |
+| A2 | **Little Corey** (child form of Archon #3, the Collector) — canonical | Day 20 | "Choose Your Mask" — card sacrifice economy; Corey's deck trades memory-cards back and forth with yours mid-battle | Corey opens his jar of "favorite things" and asks for a memory. The Engineer meets another student — a quiet girl with a staff — and realizes Corey is trying to *collect her*. The Engineer trades Corey his own memory of the hymn from Day 10 to get her released. He will never remember that hymn again. The girl's name is the Seer. | **"The Jar That Wouldn't Close"** (Rare, Light). Prevents a card from being stolen or discarded by an opponent's effect this turn. |
+| A3 | **Mr. Unblink** (child form of Archon #2, the Watcher) — canonical | Day 28 | "Ocularum" — full-board reveal, every card played or held is visible to both players; there are no hidden cards at all | Graduation day. Mr. Unblink's mask tilts at the Engineer. "I see everything. Today, tell me what YOU see." The Engineer draws the first *true* Dischordia prototype in his notebook mid-battle. Mr. Unblink sees it. He reports it — not to the Architect, but to a file marked `CONTINGENCY: ENGINEER` that will not be read for seventeen thousand years. **The file is still in the Ark's Archives. The player unlocks it here.** | **"The First Card"** (Epic, Light). A blank card. You pick its effect from three random options on play. |
+
+**Bonus Mascoteer battles (post-credits, optional):** two additional
+canonical Mascoteers — **Wanda Wee** (the team-splitter, child form
+of the Warlord) and **Gary the Ninth** (the puzzle-box master with
+goggles that glint, child form of the Necromancer) — are unlockable
+optional duels for players who completed the 28-day trial with a
+perfect-bond score. Their cards are Legendary. Their battles are
+optional because they are *hard*.
 
 **Cycle A ends with a slideshow** — see §5 for the slideshow system.
 The slideshow is *"Welcome to Celebration"* (real song, lore bible
@@ -664,6 +684,20 @@ manipulation, control over life.
 > The Game Master loved him. The Game Master loved him more than he
 > loved me. That's not jealousy. That's a fact I carried for
 > fifteen hundred years."*
+
+> **Canonical integration:** The Mechronis Academy professors already
+> exist in `shared/mechronisProfessors.ts` — each Archon has a
+> Professor form (Architect-programmed adult teaching version).
+> The **classrooms** the player's card battles take place in are
+> taught by canonical Professors: **Headmaster Kanevas** (Archon #1,
+> "every answer must be given in unison") grades B1's background
+> class, **Professor Aoki** (Archon #2, surgical mask, third-eye
+> tattoo, "never blink first") grades B3, **Curator Halverez**
+> (Archon #3, blue xenomorph mask, "every question costs you a
+> memory") grades B2. Halverez's xenomorph mask is the **same
+> helmet** the Thalorian child picks up in §6.5 — retroactively
+> linking the Mechronis teaching line to the Thaloria cinematic.
+> The player discovers this in a post-match Loredex unlock.
 
 Each battle is a card duel against a fellow student — teenage or
 young-adult versions of people the player already knows by name.
@@ -2196,16 +2230,167 @@ This is what the game has been trying to say all along.
 
 ---
 
-*End of proposal. For cross-reference, see:*
+*End of proposal body. For cross-reference, see:*
 - `docs/design/NARRATIVE_ARCHITECTURE.md` — The Witnessing thesis
 - `docs/built/LORE_BIBLE.md` — All lore entries referenced
 - `shared/necromancerCycle.ts` — Template for the Light/Dark meter
+- `shared/celebrationTrial.ts` — Canonical Mascoteer daily trial
+- `shared/mechronisProfessors.ts` — Canonical Mechronis Professors
 - `client/src/game/tradeEmpire.ts` — Faction and sector foundation
 - `client/src/game/livingArk.ts` — Room system foundation
 - `client/src/data/narrativeActs.ts` — Act structure foundation
 - `docs/design/ANIMATED_CUTSCENES.md` — Existing cutscene pipeline
 - `docs/production/MISSING_CUTSCENES.md` — 46 cutscene backlog this
   proposal partially resolves
+
+---
+
+## APPENDIX A — Cross-System Integration Notes (from codebase audit)
+
+> This appendix folds in specific existing subsystems that were not
+> called out individually in the main body. None of these need new
+> code — they need **narrative binding** to the spine above.
+
+### A.1 Matrix of Dreams — wire it into Acts 2 and 4
+
+Canonical: the Matrix of Dreams is the Game Master's consciousness
+archive, a pocket universe where moments in history can be preserved,
+replayed, and experienced from the inside (Lore Bible). There is
+already a Sorting Arena (card minigame) and a `MatrixHub.tscn` Cades
+FPS level that uses it.
+
+Integrate it as **the underlying substrate for all cutscene
+slideshows in the proposal**. Every slideshow the player watches is
+framed as the Antiquarian (or the two Game Masters) pulling an
+archived moment from the Matrix and playing it for the player. This
+gives a diegetic reason for *why* the game can show you the
+Engineer's execution 17,000 years later — someone is *replaying a
+file*. The game doesn't have flashbacks. It has **Matrix pulls**.
+
+In Act 4, the Prisoner's cell-by-cell structure is literally *inside*
+the Matrix: the White Oracle sends the player into an archived
+version of the Panopticon. This dovetails exactly with the existing
+`MatrixHub.tscn` Cades level as the hub between cells.
+
+### A.2 Incursions (co-op dungeon mode) = the Vortex Endgame vehicle
+
+The `shared/incursions.ts` system already supports 2-player co-op
+through 10 randomized rooms with alternating turns and boss rooms
+at 5 and 10. **This is the mechanical instrument for the §11.5
+Vortex Endgame community event.** The endgame "community pushes back
+the Vortex" becomes a series of Incursions where Room 5 is a
+mini-Vortex encounter and Room 10 is the Vortex itself. Weekly-reset
+already built in. Minimal new code, maximal community surface area.
+
+### A.3 Bonus Objectives (2-hour refresh) = narrative callback vehicle
+
+The bonus objective system (`shared/livingUniverseEvents.ts` + daily
+quests) refreshes every 2 hours with light one-off objectives. Use
+this as the delivery channel for **companion callback objectives**:
+*"Elara asked you yesterday about the Memorial Corridor. Visit it in
+the next 2 hours to hear her thoughts."* Yin/yang dialog matrix
+content (§13) plugs directly into this system and costs the team
+nothing extra.
+
+### A.4 Trade Empire Agents = the Eyes' Network
+
+The existing Trade Empire Agent system (5 skills, loyalty, recruit
+via missions, up to 3 active) is the mechanical form of Act 3's
+spy-network flavor. When the player picks the Infiltration path for
+a faction in §7.3, they are **recruiting that faction's agents into
+the Eyes' dead network** — the Eyes left hundreds of assets scattered
+across the galaxy before her death. Every Infiltration success adds
+one agent to the player's permanent roster. **The Eyes' final
+transmission (§7.1) is a list of names** — the agents you can
+eventually find.
+
+### A.5 The Four Guilds (The Living / The Locks / The Yellow Coats / The Influencers)
+
+Guild art exists at the repo root (`guild-the-living.jpg`,
+`guild-the-locks.jpg`, `guild-the-yellow-coats.jpg`,
+`guild-the-influencers.jpg`) and they're referenced in
+`factionWarData.ts`. Wire them in as **four sub-factions of New
+Babylon** (the F1 Trade Empire faction in §7.3):
+
+- **The Living** — biology and preservation faction. Their Infiltration
+  path gives the player access to **organic crafting** (materials
+  derived from pet-bred genetics, an actual use for the §2.5 dynasty
+  mechanic).
+- **The Locks** — containment and rule-enforcement faction. Their
+  Infiltration path unlocks **puzzle-box cards** in Dischordia —
+  cards that require a specific sequence to resolve, rewarding chess
+  depth.
+- **The Yellow Coats** — commerce faction. Their Infiltration path
+  unlocks **market manipulation** in Trade Empire — you can move
+  prices with rumors, a direct hook into the sector gossip line
+  (§8.1 improvement #6).
+- **The Influencers** — narrative control faction. Their Infiltration
+  path unlocks **loredex rewriting** — the player can mark a single
+  Loredex entry per week as "contested" and propose an alternate
+  history. Community votes decide canon. This is the riskiest and
+  best hook in the whole document for the Shadow Tongue lore payoff.
+
+Each Guild Infiltration becomes a sub-quest **inside** the New Babylon
+F1 Infiltration path in §7.3. The F1 path now has **four routes
+inside it**, one per guild. The player picks one per cycle. The
+other three persist until the next cycle.
+
+### A.6 Crew Genetics × Pet Dynasty — one system, two presentations
+
+`shared/crewGenetics.ts` and the Pet Garden (§2.5) already share the
+same underlying genetics model (Intellect, Reflexes, Empathy,
+Resilience, Adaptability — 5 stats, 60% inheritance + variation).
+**Present them to the player as one system.** A pet raised in the
+Garden can eventually breed with a crew member's lineage (narratively
+framed as a "bond descendant" — the pet's trained traits pass to
+the crew member's next-generation child). This is the emotional
+bridge between the Pet Garden and the Crew dynasty and turns two
+parallel systems into one continuous legacy mechanic.
+
+### A.7 Celebration Trial × Act 1 Cycle A — already updated inline
+
+The 28-day daily Celebration decision system (`shared/celebrationTrial.ts`)
+is now Act 1 Cycle A's parallel mechanic. See §4.3 revisions above.
+
+### A.8 Mechronis Professors × Act 1 Cycle B — already updated inline
+
+The canonical Mechronis Professors (`shared/mechronisProfessors.ts`)
+are now the teachers grading the player's battles in Cycle B. See
+§4.4 revisions above. Curator Halverez's xenomorph mask is the same
+helmet as the Thaloria cinematic (§6.5). This is a retroactive link
+made at zero code cost — just a Loredex cross-reference.
+
+### A.9 Dead Man's Circuit — integrating with the identity-chain author
+
+The existing `dead_mans_circuit/` Godot project is a bone-track
+racing game narrated by Nilmorg. Per §10.1, the player authors their
+own four-name identity chain in Dead Man's Circuit. **Implementation
+detail:** each of the four naming prompts is delivered *between*
+three-race blocks. Race three, name the Student. Race three, name
+the Seeker. Race three, name the Detective. Race one, name your
+Last. Nilmorg narrates each naming as a eulogy for a clone you
+"used to be". The racing gameplay is unchanged; it just gains a
+four-beat narrative spine.
+
+### A.10 Personal Quarters and the Trophy Room
+
+Not called out elsewhere but worth noting: the **Trophy Room** and
+**Captain's Quarters** exist as rooms. The Memorial Corridor from
+§1.5 trust-40 is a *new* room between them. The Trophy Room should
+display:
+- Every Dischordia card the player authored (§4.6, Act 1 finale)
+- Every pet that died in service
+- Every dismissed companion line, as a quiet wall of text
+- The player's self-authored identity chain from §10.1
+
+The Captain's Quarters becomes the **only room where both narrators
+are always present together** — when the player sleeps in the
+quarters, they get one free Bond point with each companion for
+"letting them watch over you." A tiny gesture. It's enormous.
+
+---
+
+*End of appendix. End of proposal.*
 
 
 
