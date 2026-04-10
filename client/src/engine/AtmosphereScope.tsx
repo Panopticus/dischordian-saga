@@ -7,8 +7,9 @@
 
    Usage:
      <AtmosphereScope atmosphere="singularity_core">
-       <NPCDialog />  {/* renders with Singularity Core theme */}
+       <NPCDialog />
      </AtmosphereScope>
+     // NPCDialog renders with Singularity Core theme
 
    How it works:
    - Sets data-atmosphere, data-physics, data-mode on the wrapper div
