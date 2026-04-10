@@ -44,6 +44,43 @@ export type NarratorRoomId =
   | "memorial_corridor" // unlocks at trust 40, §1.5
   | "pet_garden";       // unlocks after Prelude, §2.5
 
+/* ─── ROOM ID BRIDGE ─── */
+
+/**
+ * Map a GameContext room id (e.g. "cryo-bay", "comms-array") to a
+ * canonical NarratorRoomId (e.g. "cryo_bay", "comms_array"). Returns
+ * null for rooms that are NOT part of the §1.2 narrator slot system
+ * — many of GameContext's specialized rooms (forge-workshop,
+ * antiquarian-library, shadow-vault, etc.) deliberately have no
+ * narrator because they're mini-game venues, not ship rooms.
+ *
+ * The mapping is mostly `.replace(/-/g, "_")` with one legacy
+ * exception: the Ark's cargo area is called `cargo-hold` in
+ * GameContext but `cargo_bay` in the Witnessing Narrative
+ * Proposal (§13.10) and the livingArk.ts RoomId union.
+ *
+ * Callers should treat a null return as "slot suppressed here."
+ */
+export function toNarratorRoomId(gameRoomId: string | null | undefined): NarratorRoomId | null {
+  if (!gameRoomId) return null;
+  switch (gameRoomId) {
+    case "cryo-bay":          return "cryo_bay";
+    case "medical-bay":       return "medical_bay";
+    case "bridge":            return "bridge";
+    case "archives":          return "archives";
+    case "comms-array":       return "comms_array";
+    case "observation-deck":  return "observation_deck";
+    case "engineering":       return "engineering";
+    case "armory":            return "armory";
+    case "cargo-hold":        return "cargo_bay";
+    case "captains-quarters": return "captains_quarters";
+    // §2.5 pet garden + §1.5 memorial corridor + §6 trade hub +
+    // trophy room aren't yet primary rooms in GameContext. When they
+    // land, add them here. Until then the slot is simply suppressed.
+    default:                  return null;
+  }
+}
+
 /* ─── ROOM AFFINITY ─── */
 
 /**

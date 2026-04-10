@@ -46,6 +46,7 @@ import FastTravelPanel from "@/components/FastTravelPanel";
 import ItemDetailModal from "@/components/ItemDetailModal";
 import ParallaxRoom from "@/components/ParallaxRoom";
 import { MobileNarratorSlot } from "@/components/MobileNarratorSlot";
+import { toNarratorRoomId } from "@shared/mobileNarrator";
 import LoreTutorialEngine from "@/components/LoreTutorialEngine";
 import NarrativeTrigger from "@/components/NarrativeTrigger";
 import InlineShipMap from "@/components/InlineShipMap";
@@ -1089,12 +1090,16 @@ export default function ArkExplorerPage() {
               commsRelayComplete={!!state.narrativeFlags["comms_relay_first_claim"]}
               roomsWithEvents={roomsWithEvents}
             />
-            {/* Witnessing §1.2 — floating narrator slot. First mount
-                is the Cryo Bay. Additional rooms will opt in as the
-                §1.4 Prelude reveal beats ship. */}
-            {state.currentRoomId === "cryo-bay" && (
-              <MobileNarratorSlot roomId="cryo_bay" />
-            )}
+            {/* Witnessing §1.2 — floating narrator slot. Appears in
+                every canonicalized ship room. Specialized mini-game
+                venues (forge, libraries, vaults, etc.) return null
+                from toNarratorRoomId and suppress the slot. */}
+            {(() => {
+              const narratorRoomId = toNarratorRoomId(state.currentRoomId);
+              return narratorRoomId ? (
+                <MobileNarratorSlot roomId={narratorRoomId} />
+              ) : null;
+            })()}
           </div>
 
           {/* Room description */}

@@ -9,6 +9,7 @@ import {
   ROOM_AFFINITY,
   seedNarratorSlot,
   tickSwapRoom,
+  toNarratorRoomId,
   type DismissalState,
   type NarratorSlotSeedInput,
 } from "./mobileNarrator";
@@ -264,6 +265,67 @@ describe("mobileNarrator.getBondLocks", () => {
   it("each BOND_TIER_EFFECT row declares at least one lock", () => {
     for (const effect of BOND_TIER_EFFECTS) {
       expect(effect.locks.length).toBeGreaterThan(0);
+    }
+  });
+});
+
+describe("mobileNarrator.toNarratorRoomId", () => {
+  it("maps the ten GameContext ship rooms to their canonical ids", () => {
+    expect(toNarratorRoomId("cryo-bay")).toBe("cryo_bay");
+    expect(toNarratorRoomId("medical-bay")).toBe("medical_bay");
+    expect(toNarratorRoomId("bridge")).toBe("bridge");
+    expect(toNarratorRoomId("archives")).toBe("archives");
+    expect(toNarratorRoomId("comms-array")).toBe("comms_array");
+    expect(toNarratorRoomId("observation-deck")).toBe("observation_deck");
+    expect(toNarratorRoomId("engineering")).toBe("engineering");
+    expect(toNarratorRoomId("armory")).toBe("armory");
+    expect(toNarratorRoomId("captains-quarters")).toBe("captains_quarters");
+  });
+
+  it("bridges the legacy cargo-hold id to cargo_bay", () => {
+    expect(toNarratorRoomId("cargo-hold")).toBe("cargo_bay");
+  });
+
+  it("returns null for GameContext specialized rooms", () => {
+    // These rooms are mini-game venues, not ship rooms. The §1.2
+    // slot is intentionally suppressed.
+    expect(toNarratorRoomId("forge-workshop")).toBeNull();
+    expect(toNarratorRoomId("antiquarian-library")).toBeNull();
+    expect(toNarratorRoomId("engineering-core")).toBeNull();
+    expect(toNarratorRoomId("oracle-sanctum")).toBeNull();
+    expect(toNarratorRoomId("shadow-vault")).toBeNull();
+    expect(toNarratorRoomId("war-room")).toBeNull();
+    expect(toNarratorRoomId("cipher-den")).toBeNull();
+    expect(toNarratorRoomId("order-tribunal")).toBeNull();
+    expect(toNarratorRoomId("chaos-forge")).toBeNull();
+    expect(toNarratorRoomId("elemental-nexus")).toBeNull();
+  });
+
+  it("returns null for null, undefined, and empty string", () => {
+    expect(toNarratorRoomId(null)).toBeNull();
+    expect(toNarratorRoomId(undefined)).toBeNull();
+    expect(toNarratorRoomId("")).toBeNull();
+  });
+
+  it("every mapped NarratorRoomId has a ROOM_AFFINITY entry", () => {
+    const mapped = [
+      "cryo-bay",
+      "medical-bay",
+      "bridge",
+      "archives",
+      "comms-array",
+      "observation-deck",
+      "engineering",
+      "armory",
+      "cargo-hold",
+      "captains-quarters",
+    ];
+    for (const gameId of mapped) {
+      const narratorId = toNarratorRoomId(gameId);
+      expect(narratorId).not.toBeNull();
+      if (narratorId) {
+        expect(ROOM_AFFINITY).toHaveProperty(narratorId);
+      }
     }
   });
 });
