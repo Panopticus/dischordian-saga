@@ -22,7 +22,24 @@ Instead, we're doing a **parallel migration**:
 ## Current stores
 
 - **`apprenticeStore.ts`** — Apprentice roster (current + fallen + cohort state). Replaces the `state.apprentice` + `state.apprenticeFallen` + `state.legionGraduates` fields from GameContext.
+- **`armyStore.ts`** — Apprentice army deployments (commanders, squads, missions).
 - **`darkArtsStore.ts`** — Corruption level + purge history + dark-ability usage. Replaces `state.corruptionLevel` + `state.purgeRitualsCompleted` + `state.darkAbilitiesUsed`.
+- **`governanceStore.ts`** — Senate votes, faction politics, decree cooldowns.
+- **`moralityStore.ts`** — Morality score, choice history, alignment unlocks, secret transmission discovery.
+- **`progressionStore.ts`** — Civil skills, talent picks, prestige tier display cache.
+- **`syncStatusStore.ts`** *(Task 3.1)* — Cross-device save sync state (`status`, `lastSyncedAt`, `lastError`). Extracted from `GameContext.syncStatus`/`lastSyncedAt` because the debounced save fires every ~5s, and under the old architecture every fire re-rendered all 77 GameContext consumers.
+
+## Task 3.1 — Extraction candidates for future passes
+
+These GameContext slices are good next targets (isolated, high-frequency or high-fanout):
+
+| Slice | Consumers | Frequency | Notes |
+|-------|-----------|-----------|-------|
+| `characterChoices` | ~15 | Low (character creation) | Could move alongside the citizen character server query |
+| `companionTrust` / `elaraTrust` / `humanTrust` | ~20 | Med (dialog-driven) | Already has scattered `adjust*Trust` setters — clean wrap candidate |
+| `narrativeFlags` | 30+ | Med (choices fire flags) | Largest re-render fan-out; worth benchmarking first |
+| `petBonds` | ~8 | High (pet battles) | Isolated, few consumers, clear extraction win |
+| `corruptionLevel` | ~6 | Med | Small enough to lift with darkArtsStore |
 
 ## Adding a new store
 
