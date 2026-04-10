@@ -10,6 +10,9 @@ import { getDb } from "./db";
 import { chessGames, chessRankings } from "../drizzle/schema";
 import { eq } from "drizzle-orm";
 import { randomUUID } from "crypto";
+// Task 6.1 — per-user token bucket for every WS message.
+// Shared with pvpWs + duelystWs via the `wsRateLimit` module.
+import { checkWsRateLimit, sendRateLimitError } from "./wsRateLimit";
 
 /* ─── ZOD MESSAGE SCHEMAS ─── */
 const ChessClientMessageSchema = z.union([
@@ -471,6 +474,19 @@ export function setupChessPvpWebSocket(server: Server) {
           return;
         }
         const msg = result.data as ChessClientMessage;
+
+        // Task 6.1 — per-user WS message rate limit. Uses the
+        // payload's userId when present; otherwise falls back to a
+        // pointer-based key so unauthenticated pings still get
+        // bucketed. Drops the message cleanly if the bucket is
+        // empty — the client should back off.
+        const rateLimitKey = "userId" in msg && typeof (msg as { userId?: unknown }).userId === "number"
+          ? `chess:${(msg as { userId: number }).userId}`
+          : `chess:anon:${data.toString().length}`;
+        if (!checkWsRateLimit(rateLimitKey)) {
+          sendRateLimitError(ws);
+          return;
+        }
 
         switch (msg.type) {
           case "PING":

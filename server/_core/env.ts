@@ -51,8 +51,18 @@ export const ENV = {
   stripeSecretKey: optional("STRIPE_SECRET_KEY", process.env.STRIPE_SECRET_KEY),
   stripeWebhookSecret: optional("STRIPE_WEBHOOK_SECRET", process.env.STRIPE_WEBHOOK_SECRET),
 
-  // CORS (defaults to production domain)
+  // CORS (defaults to production domain).
+  //
+  // Task 6.1 — `corsOrigin` is a raw string for back-compat.
+  // `corsAllowlist` is the parsed, comma-separated allowlist that
+  // the CORS middleware actually checks against. Multiple origins
+  // can be configured via a comma in CORS_ORIGIN:
+  //   CORS_ORIGIN=https://dischordian-saga.com,https://www.dischordian-saga.com
   corsOrigin: optional("CORS_ORIGIN", process.env.CORS_ORIGIN, isProduction ? "https://dischordian-saga.com" : "*"),
+  corsAllowlist: (optional("CORS_ORIGIN", process.env.CORS_ORIGIN, isProduction ? "https://dischordian-saga.com" : "*")
+    .split(",")
+    .map((s) => s.trim())
+    .filter(Boolean)),
 
   // Server
   port: parseInt(process.env.PORT || "3000", 10),

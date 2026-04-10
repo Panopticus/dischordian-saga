@@ -12,7 +12,14 @@ import { WebSocketServer, WebSocket } from "ws";
 import type { Server } from "http";
 import { getDb } from "./db";
 import { randomUUID } from "crypto";
-import { storeDisconnectedSession, recoverSession } from "./wsRateLimit";
+// Task 4.1 — grace-period session storage.
+// Task 6.1 — per-user message rate limit.
+import {
+  storeDisconnectedSession,
+  recoverSession,
+  checkWsRateLimit,
+  sendRateLimitError,
+} from "./wsRateLimit";
 
 /* ─── TYPES ─── */
 
@@ -150,6 +157,18 @@ export function setupTerminusPvpWebSocket(server: Server) {
     ws.on("message", async (data) => {
       try {
         const msg: ClientMessage = JSON.parse(data.toString());
+
+        // Task 6.1 — per-user token-bucket rate limit. Client
+        // messages carry the userId in the payload for every
+        // interesting type; PING pre-authentication uses a shared
+        // anon bucket.
+        const rateLimitKey = "userId" in msg && typeof (msg as { userId?: unknown }).userId === "number"
+          ? `terminus:${(msg as { userId: number }).userId}`
+          : "terminus:anon";
+        if (!checkWsRateLimit(rateLimitKey)) {
+          sendRateLimitError(ws);
+          return;
+        }
 
         switch (msg.type) {
           case "PING":
