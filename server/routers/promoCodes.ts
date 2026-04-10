@@ -3,19 +3,11 @@
    Supports player redemption + admin CRUD / stats.
    ═══════════════════════════════════════════════════════ */
 import { z } from "zod";
-import { protectedProcedure, router } from "../_core/trpc";
+import { adminProcedure, protectedProcedure, router } from "../_core/trpc";
 import { TRPCError } from "@trpc/server";
 import { getDb } from "../db";
 import { promoCodes, promoCodeRedemptions } from "../../drizzle/schema";
 import { eq, and, sql, desc } from "drizzle-orm";
-
-// Admin guard middleware (same pattern as admin.ts)
-const adminProcedure = protectedProcedure.use(({ ctx, next }) => {
-  if (ctx.user.role !== "admin") {
-    throw new TRPCError({ code: "FORBIDDEN", message: "Admin access required" });
-  }
-  return next({ ctx });
-});
 
 export const promoCodesRouter = router({
   /* ─── REDEEM A CODE (player) ─── */

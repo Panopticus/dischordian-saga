@@ -2,7 +2,7 @@ import { z } from "zod";
 import { logger } from "../logger";
 import { protectedProcedure, router } from "../_core/trpc";
 import { getDb } from "../db";
-import { dailyQuests, loginCalendar, dreamBalance, notifications } from "../../drizzle/schema";
+import { dailyQuests, loginCalendar, dreamBalance, notifications, characterSheets } from "../../drizzle/schema";
 import { battlePassXp } from "../services/battlePassXp";
 import { eq, and, sql } from "drizzle-orm";
 import { fetchCitizenData, fetchPotentialNftData, resolveQuestBonuses } from "../traitResolver";
@@ -115,19 +115,64 @@ function getEpochStr() {
 
 /* ═══════════════════════════════════════════════════════
    LOGIN CALENDAR REWARDS
+   Server-authoritative 30-day cycle. A reward is defined
+   for every day; the streak modulo LOGIN_CYCLE_LENGTH picks
+   today's reward. Lookups never fall back to a neighbouring
+   day, so each claim grants exactly one reward.
    ═══════════════════════════════════════════════════════ */
-const LOGIN_REWARDS = [
-  { day: 1, type: "credits", amount: 500, label: "500 Credits" },
-  { day: 2, type: "dream", amount: 3, label: "3 Dream Tokens" },
-  { day: 3, type: "credits", amount: 1000, label: "1,000 Credits" },
-  { day: 4, type: "dream", amount: 5, label: "5 Dream Tokens" },
-  { day: 5, type: "credits", amount: 2000, label: "2,000 Credits" },
-  { day: 6, type: "dream", amount: 8, label: "8 Dream Tokens" },
-  { day: 7, type: "dream", amount: 15, label: "15 Dream Tokens" },
-  { day: 14, type: "dream", amount: 30, label: "30 Dream Tokens" },
-  { day: 21, type: "dream", amount: 50, label: "50 Dream Tokens" },
-  { day: 28, type: "dream", amount: 100, label: "100 Dream Tokens + Title" },
+const LOGIN_CYCLE_LENGTH = 30;
+
+type LoginRewardType = "credits" | "dream";
+interface LoginReward {
+  day: number;
+  type: LoginRewardType;
+  amount: number;
+  label: string;
+}
+
+const LOGIN_REWARDS: LoginReward[] = [
+  { day: 1,  type: "credits", amount: 500,   label: "500 Credits" },
+  { day: 2,  type: "dream",   amount: 3,     label: "3 Dream Tokens" },
+  { day: 3,  type: "credits", amount: 1000,  label: "1,000 Credits" },
+  { day: 4,  type: "dream",   amount: 5,     label: "5 Dream Tokens" },
+  { day: 5,  type: "credits", amount: 2000,  label: "2,000 Credits" },
+  { day: 6,  type: "dream",   amount: 8,     label: "8 Dream Tokens" },
+  { day: 7,  type: "dream",   amount: 15,    label: "Week 1 Bonus — 15 Dream Tokens" },
+  { day: 8,  type: "credits", amount: 800,   label: "800 Credits" },
+  { day: 9,  type: "dream",   amount: 10,    label: "10 Dream Tokens" },
+  { day: 10, type: "credits", amount: 1500,  label: "1,500 Credits" },
+  { day: 11, type: "dream",   amount: 12,    label: "12 Dream Tokens" },
+  { day: 12, type: "credits", amount: 2500,  label: "2,500 Credits" },
+  { day: 13, type: "dream",   amount: 18,    label: "18 Dream Tokens" },
+  { day: 14, type: "dream",   amount: 30,    label: "Week 2 Bonus — 30 Dream Tokens" },
+  { day: 15, type: "credits", amount: 1200,  label: "1,200 Credits" },
+  { day: 16, type: "dream",   amount: 15,    label: "15 Dream Tokens" },
+  { day: 17, type: "credits", amount: 2000,  label: "2,000 Credits" },
+  { day: 18, type: "dream",   amount: 18,    label: "18 Dream Tokens" },
+  { day: 19, type: "credits", amount: 3000,  label: "3,000 Credits" },
+  { day: 20, type: "dream",   amount: 22,    label: "22 Dream Tokens" },
+  { day: 21, type: "dream",   amount: 50,    label: "Week 3 Bonus — 50 Dream Tokens" },
+  { day: 22, type: "credits", amount: 1500,  label: "1,500 Credits" },
+  { day: 23, type: "dream",   amount: 20,    label: "20 Dream Tokens" },
+  { day: 24, type: "credits", amount: 2500,  label: "2,500 Credits" },
+  { day: 25, type: "dream",   amount: 25,    label: "25 Dream Tokens" },
+  { day: 26, type: "credits", amount: 3500,  label: "3,500 Credits" },
+  { day: 27, type: "dream",   amount: 30,    label: "30 Dream Tokens" },
+  { day: 28, type: "dream",   amount: 100,   label: "Week 4 Bonus — 100 Dream Tokens" },
+  { day: 29, type: "credits", amount: 5000,  label: "5,000 Credits" },
+  { day: 30, type: "dream",   amount: 150,   label: "Monthly Jackpot — 150 Dream Tokens" },
 ];
+
+/** Map a streak to its reward slot (1..LOGIN_CYCLE_LENGTH). */
+function streakToCycleDay(streak: number): number {
+  if (streak <= 0) return 1;
+  return ((streak - 1) % LOGIN_CYCLE_LENGTH) + 1;
+}
+
+function rewardForStreak(streak: number): LoginReward {
+  const cycleDay = streakToCycleDay(streak);
+  return LOGIN_REWARDS.find(r => r.day === cycleDay) ?? LOGIN_REWARDS[0];
+}
 
 /** Helper: generate quests for a period if they don't exist yet */
 async function ensureQuestsExist(
@@ -368,33 +413,57 @@ export const dailyQuestsRouter = router({
   /* ─── Login Calendar ─── */
   getLoginCalendar: protectedProcedure.query(async ({ ctx }) => {
     const db = await getDb();
-    if (!db) return { streak: 0, totalDays: 0, claimedToday: false, rewards: LOGIN_REWARDS, lastLoginDate: null, monthClaims: [] as number[] };
+    const today = getTodayStr();
+
+    const emptyState = {
+      streak: 0,
+      totalDays: 0,
+      claimedToday: false,
+      rewards: LOGIN_REWARDS,
+      lastLoginDate: null as string | null,
+      monthClaims: [] as number[],
+      cycleLength: LOGIN_CYCLE_LENGTH,
+      // What the NEXT claim will award (streak 1 for a brand-new user).
+      nextClaimDay: 1,
+      nextReward: rewardForStreak(1),
+    };
+
+    if (!db) return emptyState;
 
     const record = await db.select().from(loginCalendar)
       .where(eq(loginCalendar.userId, ctx.user.id))
       .limit(1);
 
-    const today = getTodayStr();
     const row = record[0];
 
-    if (!row) {
-      return {
-        streak: 0,
-        totalDays: 0,
-        claimedToday: false,
-        rewards: LOGIN_REWARDS,
-        lastLoginDate: null,
-        monthClaims: [] as number[],
-      };
+    if (!row) return emptyState;
+
+    // Compute what the NEXT claim's streak would be. If the player already
+    // claimed today, the "next" preview is tomorrow (streak + 1). Otherwise
+    // it's today (streak + 1 if they claimed yesterday, else 1 after reset).
+    const claimedToday = row.lastLoginDate === today;
+    let nextClaimStreak: number;
+    if (claimedToday) {
+      nextClaimStreak = row.currentStreak + 1;
+    } else if (row.lastLoginDate) {
+      const lastDate = new Date(row.lastLoginDate);
+      const todayDate = new Date(today);
+      const diffDays = Math.floor((todayDate.getTime() - lastDate.getTime()) / 86400000);
+      nextClaimStreak = diffDays === 1 ? row.currentStreak + 1 : 1;
+    } else {
+      nextClaimStreak = 1;
     }
 
     return {
       streak: row.currentStreak,
       totalDays: row.totalDays,
-      claimedToday: row.lastLoginDate === today,
+      claimedToday,
       rewards: LOGIN_REWARDS,
       lastLoginDate: row.lastLoginDate,
       monthClaims: row.monthClaims ?? [],
+      cycleLength: LOGIN_CYCLE_LENGTH,
+      nextClaimDay: streakToCycleDay(nextClaimStreak),
+      nextReward: rewardForStreak(nextClaimStreak),
     };
   }),
 
@@ -439,8 +508,8 @@ export const dailyQuestsRouter = router({
       monthClaims = [dayOfMonth];
     }
 
-    // Find reward tier
-    const reward = [...LOGIN_REWARDS].reverse().find(r => newStreak >= r.day) || LOGIN_REWARDS[0];
+    // Find reward tier — cycles through the 30-day table by streak.
+    const reward = rewardForStreak(newStreak);
 
     if (row) {
       await db.update(loginCalendar)
@@ -465,19 +534,29 @@ export const dailyQuestsRouter = router({
       });
     }
 
-    // Grant reward
+    // Grant reward. The server — not the client — decides the amount and type.
     if (reward.type === "dream") {
       const bal = await db.select().from(dreamBalance)
         .where(eq(dreamBalance.userId, ctx.user.id)).limit(1);
       if (bal[0]) {
         await db.update(dreamBalance)
-          .set({ dreamTokens: sql`${dreamBalance.dreamTokens} + ${reward.amount}` })
+          .set({
+            dreamTokens: sql`${dreamBalance.dreamTokens} + ${reward.amount}`,
+            totalDreamEarned: sql`${dreamBalance.totalDreamEarned} + ${reward.amount}`,
+          })
           .where(eq(dreamBalance.userId, ctx.user.id));
       } else {
         await db.insert(dreamBalance).values({
-          userId: ctx.user.id, dreamTokens: reward.amount, soulBoundDream: 0,
+          userId: ctx.user.id,
+          dreamTokens: reward.amount,
+          soulBoundDream: 0,
+          totalDreamEarned: reward.amount,
         });
       }
+    } else if (reward.type === "credits") {
+      await db.update(characterSheets)
+        .set({ credits: sql`${characterSheets.credits} + ${reward.amount}` })
+        .where(eq(characterSheets.userId, ctx.user.id));
     }
 
     // Send notification
@@ -496,6 +575,7 @@ export const dailyQuestsRouter = router({
     return {
       success: true,
       streak: newStreak,
+      cycleDay: streakToCycleDay(newStreak),
       rewardType: reward.type,
       rewardAmount: reward.amount,
       rewardLabel: reward.label,

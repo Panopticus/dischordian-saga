@@ -211,6 +211,48 @@
       "when": 1774172578176,
       "tag": "0029_easy_mindworm",
       "breakpoints": true
+    },
+    {
+      "idx": 30,
+      "version": "5",
+      "when": 1774172638176,
+      "tag": "0030_daily_brief_system",
+      "breakpoints": true
+    },
+    {
+      "idx": 31,
+      "version": "5",
+      "when": 1774172698176,
+      "tag": "0031_prestige_system",
+      "breakpoints": true
+    },
+    {
+      "idx": 32,
+      "version": "5",
+      "when": 1774172758176,
+      "tag": "0032_companion_combat_bridge",
+      "breakpoints": true
+    },
+    {
+      "idx": 33,
+      "version": "5",
+      "when": 1774172818176,
+      "tag": "0033_graduate_legion",
+      "breakpoints": true
+    },
+    {
+      "idx": 34,
+      "version": "5",
+      "when": 1774172878176,
+      "tag": "0034_living_universe_expiry_history",
+      "breakpoints": true
+    },
+    {
+      "idx": 35,
+      "version": "5",
+      "when": 1774172938176,
+      "tag": "0035_store_purchase_stripe_idempotency",
+      "breakpoints": true
     }
   ]
 }
