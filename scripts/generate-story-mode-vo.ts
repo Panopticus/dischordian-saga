@@ -16,6 +16,7 @@
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
+import { S3Client, PutObjectCommand, HeadBucketCommand } from "@aws-sdk/client-s3";
 
 // ─── ESM __dirname shim ───
 const __filename = fileURLToPath(import.meta.url);
@@ -115,18 +116,16 @@ async function generateSpeech(text: string, voiceId: string, emotion: string): P
   return Buffer.from(await response.arrayBuffer());
 }
 
-// ─── S3 UPLOAD ───
+// ─── S3 CLIENT (instantiated once, reused per upload) ───
+const s3 = new S3Client({
+  region: REGION,
+  credentials: {
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID || "",
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY || "",
+  },
+});
+
 async function uploadToS3(buffer: Buffer, key: string): Promise<string> {
-  const { S3Client, PutObjectCommand } = await import("@aws-sdk/client-s3");
-
-  const s3 = new S3Client({
-    region: REGION,
-    credentials: {
-      accessKeyId: process.env.AWS_ACCESS_KEY_ID || "",
-      secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY || "",
-    },
-  });
-
   const fullKey = `${S3_PREFIX}/${key}`;
 
   await s3.send(
@@ -142,6 +141,20 @@ async function uploadToS3(buffer: Buffer, key: string): Promise<string> {
   return `https://${BUCKET}.s3.${REGION}.amazonaws.com/${encodeURIComponent(fullKey)}`;
 }
 
+// ─── PREFLIGHT: verify AWS creds + bucket access BEFORE any TTS call ───
+async function preflightS3(): Promise<void> {
+  try {
+    await s3.send(new HeadBucketCommand({ Bucket: BUCKET }));
+  } catch (err: any) {
+    console.error(`\nERROR: S3 preflight failed for bucket "${BUCKET}" in region "${REGION}".`);
+    console.error(`  ${err.name}: ${err.message}`);
+    console.error(`\nCheck that AWS_ACCESS_KEY_ID / AWS_SECRET_ACCESS_KEY / AWS_REGION / S3_BUCKET are set,`);
+    console.error(`and that the IAM user has s3:PutObject + s3:ListBucket on "${BUCKET}".`);
+    console.error(`Aborting BEFORE any ElevenLabs TTS calls are made (protects your credit balance).`);
+    process.exit(1);
+  }
+}
+
 // ─── MAIN ───
 async function main() {
   console.log("═══════════════════════════════════════");
@@ -154,6 +167,15 @@ async function main() {
     console.error("ERROR: ELEVENLABS_API_KEY not set.");
     process.exit(1);
   }
+  if (!process.env.AWS_ACCESS_KEY_ID || !process.env.AWS_SECRET_ACCESS_KEY) {
+    console.error("ERROR: AWS_ACCESS_KEY_ID / AWS_SECRET_ACCESS_KEY not set.");
+    process.exit(1);
+  }
+
+  // Preflight: verify S3 bucket is reachable & writable BEFORE spending any TTS credit.
+  console.log("Preflight: verifying S3 bucket access...");
+  await preflightS3();
+  console.log(`Preflight OK: s3://${BUCKET} reachable in ${REGION}.\n`);
 
   // Filter: skip lines already in manifest
   const manifestPath = path.join(__dirname, "..", "shared", "storyModeVoManifest.json");
