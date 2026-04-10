@@ -13,6 +13,7 @@ import { useSound } from "@/contexts/SoundContext";
 import { useAmbientMusic } from "@/contexts/AmbientMusicContext";
 import { generateDailyBrief, type RoomEvent } from "@/game/livingArk";
 import { processArkEvent, type ArkEventResult } from "@/game/arkEventHandler";
+import { useDailyBrief } from "@/hooks/useDailyBrief";
 import NPCDialog, { buildFirstContactScene, type NPCDialogScene, type NPCDialogChoice } from "@/components/NPCDialog";
 import type { FactionNPCId } from "@/game/factionNPCs";
 import { getAvailableBanter, type CompanionBanter } from "@/game/companionDeepening";
@@ -500,7 +501,19 @@ export default function ArkExplorerPage() {
   const [activeTransmission, setActiveTransmission] = useState<SecretTransmission | null>(null);
   const { discoverTransmission, isTransmissionDiscovered } = useGame();
 
-  // Living Ark: daily events that drive room revisits
+  // Living Ark: daily events that drive room revisits.
+  //
+  // Task 2.2 — The `completeEvent` mutation is how we land server-authoritative
+  // rewards when the player taps the Living Ark notification. Its onSuccess
+  // handler (inside useDailyBrief) also takes care of fanning out trust
+  // changes, narrative flags, and reward toasts, so the local click handler
+  // below only has to do visual-effect work.
+  //
+  // We still generate the *display* events client-side from narrativeFlags +
+  // elaraTrust, because the server daily brief pool lives in dailyBrief.ts
+  // and uses a different generator — the visible notification ids need to
+  // match whatever the player is looking at in this page.
+  const { completeEvent: completeLivingArkEvent } = useDailyBrief();
   const dailyBrief = useMemo(() => {
     const daySeed = Math.floor(Date.now() / 86400000);
     const act = state.narrativeFlags?.act_1_complete ? (state.narrativeFlags?.act_2_complete ? 2 : 1) : 0;
@@ -1322,6 +1335,18 @@ export default function ArkExplorerPage() {
                 const daySeed = Math.floor(Date.now() / 86400000);
                 const result = processArkEvent(activeRoomEvent, daySeed);
 
+                // Task 2.2 — Fire the server-authoritative reward mutation.
+                // The server applies dream / xp / crafting materials, updates
+                // room state, records pressure, and the useDailyBrief hook's
+                // onSuccess handler shows reward toasts + cross-room alerts.
+                // Safe to call even when the event id isn't on the server's
+                // brief today — the mutation falls through gracefully.
+                completeLivingArkEvent(
+                  activeRoomEvent.id,
+                  activeRoomEvent.type,
+                  activeRoomEvent.roomId,
+                );
+
                 // Apply trust changes
                 for (const tc of result.trustChanges) {
                   if (tc.npcId === "elara") {
@@ -1339,10 +1364,10 @@ export default function ArkExplorerPage() {
                   setNarrativeFlag(flag, true);
                 }
 
-                // Award resources (via existing mutation or local state)
-                if (result.resources.xp) {
-                  // XP tracked in gamification context
-                }
+                // Task 2.2 — Server grants (dream/xp/materials) are handled
+                // by the completeLivingArkEvent mutation above; the client
+                // now only handles client-local effects (dialog, visuals,
+                // cards, notifications). The old TODO comment lived here.
 
                 // Trigger NPC dialog
                 if (result.npcDialog) {

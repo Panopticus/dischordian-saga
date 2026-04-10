@@ -10,7 +10,18 @@ import { getDb } from "../db";
 import { userProgress, users } from "../../drizzle/schema";
 import { eq, desc, sql } from "drizzle-orm";
 
-// Schema for the game state that gets saved
+// Schema for the game state that gets saved.
+//
+// NOTE: `.passthrough()` is important. The client sends an extra
+// `_clientState` field under `gameState` containing a flat bag of
+// critical localStorage keys (dischordia ELO, card upgrades,
+// equipment state, trade empire state, terminus high water mark,
+// loredex discovery sets, cinematics seen, active specimen, etc.).
+// Those keys are persisted per-player so they survive a browser
+// clear or device switch (Task 2.1). Without .passthrough() zod
+// would strip `_clientState` before it reaches userProgress.gameData
+// and every one of those localStorage keys would be silently lost
+// on every save.
 const gameStateSchema = z.object({
   phase: z.string(),
   awakeningStep: z.string(),
@@ -69,7 +80,9 @@ const gameStateSchema = z.object({
   // Equipment persistence
   equippedItems: z.record(z.string(), z.string().nullable()).optional(),
   inventoryItems: z.array(z.string()).optional(),
-});
+  // Client-side state bag (see note above).
+  _clientState: z.record(z.string(), z.unknown()).optional(),
+}).passthrough();
 
 // Stats that get stored alongside game state for leaderboard queries
 const statsSchema = z.object({

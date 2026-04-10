@@ -1170,6 +1170,11 @@ export function GameProvider({ children }: { children: ReactNode }) {
     restoreIfMissing("loredex_lore_fragments", clientState.loreFragments);
     restoreIfMissing("loredex_bonus_cards", clientState.bonusCards);
     restoreIfMissing("loredex_completed_tutorials", clientState.completedTutorials);
+    // Task 2.1 — restore the four loredex arrays the stats path relies on.
+    restoreIfMissing("loredex_puzzles_solved", clientState.puzzlesSolved);
+    restoreIfMissing("loredex_easter_eggs", clientState.easterEggsFound);
+    restoreIfMissing("loredex_battle_stats", clientState.battleStats);
+    restoreIfMissing("loredex_cards_collected", clientState.cardsCollected);
     restoreIfMissing("dischordia_elo", clientState.dischordiaElo);
     restoreIfMissing("dischordia_wins", clientState.dischordiaWins);
     restoreIfMissing("dischordia_losses", clientState.dischordiaLosses);
@@ -1258,6 +1263,13 @@ export function GameProvider({ children }: { children: ReactNode }) {
       loreFragments: safeGet("loredex_lore_fragments"),
       bonusCards: safeGet("loredex_bonus_cards"),
       completedTutorials: safeGet("loredex_completed_tutorials"),
+      // Puzzles, easter eggs, battle stats, and card collection are
+      // read here (not just the length for stats) so they survive a
+      // device switch. See Task 2.1.
+      puzzlesSolved: safeGet("loredex_puzzles_solved"),
+      easterEggsFound: safeGet("loredex_easter_eggs"),
+      battleStats: safeGet("loredex_battle_stats"),
+      cardsCollected: safeGet("loredex_cards_collected"),
       // Minigame stats
       dischordiaElo: localStorage.getItem("dischordia_elo"),
       dischordiaWins: localStorage.getItem("dischordia_wins"),
