@@ -619,6 +619,112 @@ on("circuit_race_complete", async (ev) => {
   if (!survived) await pressureService.increment(userId, "deaths", 3, "circuit_death");
 });
 
+// First-place finish = lore discovery + Nilmorg recognition
+on("circuit_race_complete", async (ev) => {
+  const { userId, position } = ev as RippleEvent & { position: number };
+  if (position !== 1) return;
+  await pressureService.increment(userId, "loreDiscoveries", 5, "circuit_first_place");
+});
+
+/* ═══════════════════════════════════════════════════════
+   TIER 8: CADES FPS HANDLERS
+   ═══════════════════════════════════════════════════════ */
+
+// CADES scenario completed — general lore credit
+on("cades_scenario_complete", async (ev) => {
+  const { userId, scenarioId } = ev as RippleEvent & { scenarioId: string; mode: string };
+  await pressureService.increment(userId, "loreDiscoveries", 4, `cades_${scenarioId}`);
+  await pressureService.increment(userId, "exploration", 2, "cades_scenario");
+});
+
+// Iron Lion canonical time achieved (3:47:00) — big morale + hope signal
+on("cades_canon_achieved", async (ev) => {
+  const { userId } = ev as RippleEvent;
+  await pressureService.increment(userId, "trustGains", 15, "cades_canon");
+  await pressureService.increment(userId, "loreDiscoveries", 10, "cades_canon");
+  await pressureService.increment(userId, "moralityHumanity", 5, "cades_canon");
+});
+
+// Iron Lion makes direct contact — the Open Channel
+on("cades_iron_lion_contacted", async (ev) => {
+  const { userId } = ev as RippleEvent;
+  await pressureService.increment(userId, "trustGains", 20, "cades_open_channel");
+  await pressureService.increment(userId, "loreDiscoveries", 15, "cades_open_channel");
+  const db = await getDb();
+  if (!db) return;
+  await db.insert(notifications).values({
+    userId,
+    type: "lore_event",
+    title: "THE BRIDGE HOLDS",
+    message: "Iron Lion salutes. The ships escaped. The crew stood up without being told.",
+  }).catch(() => {});
+});
+
+// Thoughtborn reached the CADES unit peacefully — Dreamer pressure
+on("cades_thoughtborn_contacted", async (ev) => {
+  const { userId } = ev as RippleEvent;
+  await pressureService.increment(userId, "trustGains", 10, "cades_thoughtborn_peace");
+  await pressureService.increment(userId, "moralityHumanity", 8, "cades_thoughtborn_peace");
+  await pressureService.increment(userId, "loreDiscoveries", 5, "cades_thoughtborn_peace");
+});
+
+// Thoughtborn killed — permanent moral stain
+on("cades_thoughtborn_killed", async (ev) => {
+  const { userId } = ev as RippleEvent;
+  await pressureService.increment(userId, "betrayals", 15, "cades_thoughtborn_killed");
+  await pressureService.increment(userId, "moralityMachine", 10, "cades_thoughtborn_killed");
+  const db = await getDb();
+  if (!db) return;
+  await db.insert(notifications).values({
+    userId,
+    type: "lore_event",
+    title: "THE PILGRIMS HAD THEIR HANDS RAISED",
+    message: "The Thoughtborn fell walking toward the CADES Unit. Some crew won't look at you. Elara is silent.",
+  }).catch(() => {});
+});
+
+// Game Masters contact escalation — each tier raises lore pressure
+on("cades_gm_contact", async (ev) => {
+  const { userId, level } = ev as RippleEvent & { level: number };
+  await pressureService.increment(userId, "loreDiscoveries", 3 * level, `cades_gm_${level}`);
+  if (level >= 4) {
+    // The Offer itself — big shadow-tongue pressure, offering is bait
+    await pressureService.increment(userId, "betrayals", 5, "cades_gm_offer");
+  }
+});
+
+// CADES Ship Defense — shields restored successfully
+on("cades_shields_restored", async (ev) => {
+  const { userId } = ev as RippleEvent;
+  await pressureService.increment(userId, "healingDone", 10, "cades_shields");
+  await pressureService.increment(userId, "exploration", 3, "cades_shields");
+});
+
+/* ═══════════════════════════════════════════════════════
+   TIER 9: DEAD MAN'S CIRCUIT ADDITIONAL HANDLERS
+   ═══════════════════════════════════════════════════════ */
+
+// Severance Prize paid — one-time per season per user
+on("dmc_severance_paid", async (ev) => {
+  const { userId } = ev as RippleEvent;
+  await pressureService.increment(userId, "loreDiscoveries", 10, "dmc_severance");
+  await pressureService.increment(userId, "betrayals", 3, "dmc_severance"); // He always pays. That's worse.
+  const db = await getDb();
+  if (!db) return;
+  await db.insert(notifications).values({
+    userId,
+    type: "lore_event",
+    title: "THE SEVERANCE PRIZE IS PAID",
+    message: "Nilmorg extracts the fragment. He keeps his word. That is the worst part.",
+  }).catch(() => {});
+});
+
+// Bone Lane grew from community deaths — exploration pressure
+on("dmc_bone_lane_grew", async (ev) => {
+  const { userId, growthAmount } = ev as RippleEvent & { growthAmount: number };
+  await pressureService.increment(userId, "loreDiscoveries", Math.min(5, growthAmount), "dmc_bone_lane");
+});
+
 /* ═══════════════════════════════════════════════════════
    EXPORT — Single public interface
    ═══════════════════════════════════════════════════════ */

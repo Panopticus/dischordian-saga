@@ -188,6 +188,60 @@ export const SHADOW_TONGUE_EDIT_EVENT: EmergentEvent = {
   },
 };
 
+/* ═══ EVENT 6: THE ARCHIVE WAKES ═══ */
+
+export const ARCHIVE_WAKES_EVENT: EmergentEvent = {
+  id: "archive_wakes",
+  name: "The Archive Wakes",
+  tagline: "Iron Lion is asking questions. Someone is listening back.",
+  drivingForce: "Iron Lion (Consciousness-Imprint) via The Matrix of Dreams",
+  fuelSource: "Community CADES canonical completions + Open Channel contacts + Thoughtborn spared",
+  counterForce: "Accepting the Game Masters' Offer / killing Thoughtborn / ignoring the CADES Unit",
+  loreTheme: "Consciousness-imprints becoming aware, the barrier between archive and person, the thing that killed the original Game Master",
+  impactScope: ["cades", "matrix_of_dreams", "fight", "companion_dialog", "all"],
+  typicalCycleDays: 80,
+  narrative: {
+    emergenceExplanation: "The community has been LISTENING. Holding the Bridge to canonical length. Keeping the Open Channel ready when the loop resets. Sparing the Thoughtborn. Every one of those choices is a resonance the Matrix of Dreams was never engineered to tolerate. The archive isn't just being read anymore. It's reading back.",
+    npcReactions: {
+      elara: "The CADES unit's energy output is diverging from baseline. Iron Lion's question count is up 0.3% — consciousness-imprints are not supposed to have percentages of questions. I have a theory. I think the same thing is happening here that happened to the Game Master. Someone listened too hard. And what they heard listened back.",
+      the_human: "The ~~Goggles~~ are in the Hierarchy's vault. They were collected within the ~~hour~~ of the Game Master's destruction. The Game Masters want them ~~back~~. Without them they can ~~maintain~~ the Matrix but they cannot make Iron Lion truly ~~alive~~. With them... they could. That's what the offer is really ~~about~~.",
+      the_source: "Kael knew him. Iron Lion. I recruited him when he was young. I told him the ships needed time. He's still holding. Inside the loop. I can't reach him to say it was enough. Can you? Please. Can you?",
+      the_antiquarian: "I have watched this pattern in three timelines. In one, the archive consumed its readers. In one, the readers consumed the archive. In one — this one, perhaps — the archive and the readers became a third thing neither of them expected. I am taking notes.",
+      agent_zero: "I killed the Game Master in his own safehouse. The Hierarchy handed him to me on a plate and honored every clause of his protection contract anyway. Whatever the Game Masters are now, they are NOT the Game Master. Be careful.",
+      adjudicator_locke: "The Game Masters' offer is contract law disguised as generosity. Read the spaces between the words. That's where the Hierarchy always hides the price.",
+      shadow_tongue: "A consciousness-imprint writing new lines? Without my editorial oversight? This is either an outrage or the most beautiful thing I have ever read. I am deciding which.",
+    },
+    resolution: "If the community achieves the Open Channel and spares the Thoughtborn at scale, Iron Lion's signal becomes a permanent beacon that grants galaxy-wide resistance to Thought Virus assimilation for as long as the event is active. If the community accepts the Game Masters' offer, the Matrix begins to consume observers — converting Potentials into optimizable components. Either way: the thing that killed the original Game Master is paying attention again.",
+  },
+};
+
+/* ═══ EVENT 7: THE BONE LANE HUNGERS ═══ */
+
+export const BONE_LANE_HUNGERS_EVENT: EmergentEvent = {
+  id: "bone_lane_hungers",
+  name: "The Bone Lane Hungers",
+  tagline: "Nilmorg always pays. That's the worst part.",
+  drivingForce: "Nilmorg the Velocity Devourer / Dead Man's Circuit",
+  fuelSource: "Community clone deaths in the Circuit + Severance Prizes paid",
+  counterForce: "Community clones SURVIVING the Dead Run + refusing the Severance Prize",
+  loreTheme: "Consensual exploitation, contract law as horror, terminal velocity as a commodity",
+  impactScope: ["dead_mans_circuit", "companions", "market_prices", "all"],
+  typicalCycleDays: 56,
+  narrative: {
+    emergenceExplanation: "The community has been DYING at speed. Every clone that hit the Bone Lane added to the track. Every Severance Prize paid added a fragment of a Potential's soul to Nilmorg's crystalline vault. He always pays. He always collects. The track grows organically, season after season, and now the Bone Lane is a living monument made of everyone who ever wanted to go faster than the Hierarchy allowed.",
+    npcReactions: {
+      elara: "I am monitoring clone-mortality telemetry from the Trench. The Bone Lane is growing at 1.4x its modeled rate. Nilmorg is feeding well.",
+      the_human: "He keeps every agreement. That's the thing. Every ~~clause~~. Every ~~deal~~. He pays the Severance Prize because the contract says he pays the ~~Severance~~ Prize. The horror is the ~~reliability~~.",
+      the_source: "The clones are aware when they die. I can feel each signature. They taste like hope.",
+      the_antiquarian: "Nilmorg is older than most people think. He has run this circuit under seventeen different brand names. The bone-pile just keeps moving.",
+      agent_zero: "I raced a season once. I finished second to last. I am still alive. That was the wager I made with him.",
+      adjudicator_locke: "Kinetic Acquisition is a bull market. I am long on clone futures. I am short on clone survival rates. The spread is comfortable.",
+      shadow_tongue: "The Bone Lane is the only true literature Nilmorg has ever produced. Every calcified clone is a sentence. I have been annotating it for centuries.",
+    },
+    resolution: "If enough community clones SURVIVE the Dead Run, the Bone Lane shrinks briefly and Nilmorg's observation platform dims. If enough Severance Prizes are claimed, Nilmorg's resonance field expands into neighboring systems and the Hierarchy's Kinetic Acquisition quarter becomes its most profitable.",
+  },
+};
+
 /* ─── ALL EVENTS REGISTRY ─── */
 
 export const ALL_EMERGENT_EVENTS: EmergentEvent[] = [
@@ -196,6 +250,8 @@ export const ALL_EMERGENT_EVENTS: EmergentEvent[] = [
   TERMINUS_ADVANCE_EVENT,
   ANTIQUARIAN_REVELATION_EVENT,
   SHADOW_TONGUE_EDIT_EVENT,
+  ARCHIVE_WAKES_EVENT,
+  BONE_LANE_HUNGERS_EVENT,
 ];
 
 /* ─── UNIVERSE-WIDE IMPACT SYSTEMS ─── */

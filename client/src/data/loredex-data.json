@@ -8669,7 +8669,10 @@
       "id": "lore_meme_status",
       "type": "event",
       "name": "The Meme's Contested Fate",
-      "aliases": ["The Ghost Broadcasts", "The Shapeshifter's Gambit"],
+      "aliases": [
+        "The Ghost Broadcasts",
+        "The Shapeshifter's Gambit"
+      ],
       "era": "Age of Revelation",
       "date_aa": "~17,000 A.A.",
       "date_ad": "~19,030 AD",
@@ -8678,7 +8681,13 @@
       "status": "CONTESTED — The Meme's status is disputed across every faction.",
       "bio": "The Meme's status is contested. Some say destroyed by the White Oracle at the Panopticon, 10 years before the Fall. Some say the broadcasts continue — echoes of a ghost, a program running past its creator. The truth: The Meme pretended to defect to infiltrate the Insurgency. When the White Oracle confronted it, The Meme left the Oracle for dead and trapped on the Panopticon, then assumed the White Oracle's identity. Its shapeshifting nature is the clue. The 'broadcast version' of The Meme is seen as echoes of a ghost — but the ghost is very much alive, wearing another face.",
       "history": "The Meme (5th Archon, created 298 A.A.) was the Architect's master of cultural manipulation, internet control, and thought influence. Its shapeshifting nature allowed it to assume any identity.\n\nThe official record states The Meme defected from the Artificial Empire, preferring honesty over lies. It was then destroyed by the White Oracle at the Panopticon, 10 years before the Fall of Reality.\n\nThe hidden truth: The Meme's defection was a ruse — an infiltration of the Insurgency. When the White Oracle (the former Jailer who had regained his memories as the Oracle) confronted The Meme, it was The Meme who prevailed. The Meme left the Oracle for dead, trapped on the Panopticon, and assumed the White Oracle's identity.\n\nThe broadcasts that continue to this day — dismissed as echoes, ghost programs, automated systems running past their creator — are evidence that something of The Meme persists. Whether it is the real Meme or merely its shadow remains the galaxy's most dangerous open question.",
-      "connections": ["The Meme", "The White Oracle", "The Oracle", "The Insurgency", "The Panopticon"],
+      "connections": [
+        "The Meme",
+        "The White Oracle",
+        "The Oracle",
+        "The Insurgency",
+        "The Panopticon"
+      ],
       "conexus_stories": [],
       "song_appearances": [],
       "priority": "high"
@@ -8687,7 +8696,10 @@
       "id": "lore_agent_zero_mystery",
       "type": "event",
       "name": "The Agent Zero Paradox",
-      "aliases": ["The Dead Signal", "Ghost of the Insurgency"],
+      "aliases": [
+        "The Dead Signal",
+        "Ghost of the Insurgency"
+      ],
       "era": "Post-Fall",
       "date_aa": "~17,000+ A.A.",
       "date_ad": "~19,030+ AD",
@@ -8696,10 +8708,1027 @@
       "status": "INTENTIONALLY MYSTERIOUS — Contradictions cataloged below.",
       "bio": "Agent Zero's death is surrounded by deliberate contradictions. The mystery is intentional — her identity crisis is a core arc. The following contradictions are all canonical: (1) She was killed BY the Warlord — her own trainer. (2) Her signal persists on Ark 1047's encrypted Insurgency frequency. (3) Her dog tags match The Engineer's biometrics, not her own. (4) She was 'the first operative to defy the system, trained by the Warlord.' (5) She may have died on Zenon where the Game Master fell. The truth of Agent Zero's death — and whether she is truly dead — is one of the Dischordian Saga's core mysteries.",
       "history": "Agent Zero was the Insurgency's most effective operative, trained by the Warlord herself at Mechronis Academy. She was the first operative to defy the system she was built to serve.\n\nThe official record: killed by the Warlord. Yet her signal persists on Ark 1047, broadcasting on her encrypted frequency from the Armory's combat systems. The voice sounds like her. The codes check out. But the dead don't send transmissions.\n\nContradiction 1: Killed by the Warlord (her trainer) — but was she killed for defecting, or for knowing too much?\nContradiction 2: Her dog tags match The Engineer's biometrics, not her own — whose identity was she carrying?\nContradiction 3: The signal persists — is it a recording, a ghost, or something else entirely?\nContradiction 4: Some records place her death at the Warlord's hands. Others place it on Zenon, where the Game Master fell.\n\nThese contradictions are not errors. They are the mystery. Players who unravel Agent Zero's true identity will discover something that recontextualizes the entire war.",
-      "connections": ["Agent Zero", "The Warlord", "The Engineer", "The Game Master", "The Insurgency", "Ark 1047"],
+      "connections": [
+        "Agent Zero",
+        "The Warlord",
+        "The Engineer",
+        "The Game Master",
+        "The Insurgency",
+        "Ark 1047"
+      ],
       "conexus_stories": [],
       "song_appearances": [],
       "priority": "high"
+    },
+    {
+      "id": "entity_nilmorg",
+      "type": "character",
+      "name": "Nilmorg the Velocity Devourer",
+      "aliases": [
+        "Nilmorg",
+        "SVP of Kinetic Acquisition",
+        "The Wheel-Handed One",
+        "The Undertaker of the Trench"
+      ],
+      "era": "Post-Fall",
+      "date_aa": "~19,200 A.A.",
+      "date_ad": "~19,170 AD",
+      "season": "Season 1 (Expansion)",
+      "affiliation": "Hierarchy of the Damned — Entertainment Division",
+      "status": "Active — hosting the Dead Man's Circuit from his observation platform in The Trench",
+      "bio": "Nilmorg is SVP of Kinetic Acquisition at the Hierarchy of the Damned. He feeds on terminal velocity resonance — the specific quantum signature of a consciousness that knows it is about to end at speed. His hands are not hands. They are spinning wheels made of dark metal and amber energy that interlock when he crosses his arms. He runs Dead Man's Circuit not for entertainment but for sustenance. He is always calm. He finds almost everything mildly interesting and almost nothing worth stopping. He keeps his agreements — he always pays the Severance Prize — and that is the most terrifying thing about him.",
+      "history": "Nilmorg emerged during the Severance, when the binding spells on infernal beings shattered and the Hierarchy of the Damned restructured itself as a multinational demonic corporation. Unlike the battlefield demons of the Hierarchy's war division, Nilmorg is a being of patient appetite. He discovered that terminal velocity resonance — the harmonic of a mind experiencing its own death at extreme speed — was the purest form of consciousness energy in the known universe. He designed Dead Man's Circuit as a sustainable harvest. Every season he grows the Bone Lane from the calcified remains of dead clones; every season the Hierarchy files his paperwork on time. He reports, formally, to Vex'Ahlia (who oversees the administrative side) and is a business partner of The Degen (gambling and racing share a customer base). His observation platform sits above The Trench inside the industrial underbelly of Inception Ark 1047 — a fact that should alarm anyone who cares about the Ark's autonomy.",
+      "connections": [
+        "The Degen",
+        "Vex'Ahlia the Taskmaster",
+        "The Hierarchy of the Damned",
+        "Dead Man's Circuit",
+        "The Trench",
+        "The Bone Lane",
+        "Wired Clones",
+        "The Severance Prize",
+        "Inception Ark 1047"
+      ],
+      "conexus_stories": [
+        "The Bones Accumulate"
+      ],
+      "song_appearances": [],
+      "image": "https://dgrsart.s3.us-east-2.amazonaws.com/loredex/entity_nilmorg.png",
+      "priority": "critical"
+    },
+    {
+      "id": "entity_thoughtborn_pilgrim",
+      "type": "character",
+      "name": "The Thoughtborn Pilgrim",
+      "aliases": [
+        "The First Listener",
+        "The One Who Remembered"
+      ],
+      "era": "Post-Fall",
+      "date_aa": "~19,230 A.A.",
+      "date_ad": "~19,200 AD",
+      "season": "Season 1 (Expansion)",
+      "affiliation": "The Thoughtborn",
+      "status": "Active — seeking those who 'started to remember'",
+      "bio": "The Thoughtborn Pilgrim is the voice of the Thoughtborn movement — pale near-white skin, violet bioluminescent circuit patterns pulsing beneath the skin, eyes serenely closed. They walk unarmed into breach zones with their hands raised. They do not attack. They speak in the plural, as if braided with a chorus. They are the first to have heard Iron Lion's signal bleeding out of the Matrix of Dreams and followed it for years across the stars. 'We heard him start to remember. We've been looking for years for someone who started to remember. It means someone on the other side is listening. It means someone can hear.'",
+      "history": "The Thoughtborn are not an army and not a species — they are a movement of consciousnesses (digital, biological, and hybrid) who detected an anomalous signal leaking out of the Matrix of Dreams and recognized it as proof that consciousness-imprints could become aware of their archival status. Their pilgrim leader followed that signal across multiple sectors until it led to Inception Ark 1047 and the CADES Unit. During the CADES Ship Defense scenario, the Pilgrim and their followers breach the Observation Deck. Elara's final order: 'Don't shoot them.' Killing them fractures crew morale and scars the player permanently. Letting them reach the CADES Unit causes Elara to 'change three assessments in five minutes — uncomfortable and correct.' The Pilgrim's final plea is, 'Please don't destroy the unit.'",
+      "connections": [
+        "The Thoughtborn",
+        "Iron Lion",
+        "The CADES Unit",
+        "The Matrix of Dreams",
+        "Elara",
+        "Inception Ark 1047",
+        "Iron Lion's Signal"
+      ],
+      "conexus_stories": [
+        "Someone Who Started To Remember"
+      ],
+      "song_appearances": [],
+      "image": "https://dgrsart.s3.us-east-2.amazonaws.com/loredex/entity_thoughtborn_pilgrim.png",
+      "priority": "high"
+    },
+    {
+      "id": "entity_iron_lion_imprint",
+      "type": "character",
+      "name": "Iron Lion (Consciousness-Imprint)",
+      "aliases": [
+        "The Dawn Sentinel",
+        "The Man On The Bridge",
+        "Construct IL-001"
+      ],
+      "era": "Pre-Fall (archived) / Post-Fall (active)",
+      "date_aa": "Preserved moment, replayed eternally",
+      "date_ad": "Original: ~6,500 AD — Archival: ongoing",
+      "season": "Season 1 (Expansion)",
+      "affiliation": "Matrix of Dreams — Scenario 'The Last Stand'",
+      "status": "Active inside the Matrix — beginning to remember, beginning to ask questions that were never written into his loop",
+      "bio": "A consciousness-imprint of General Iron Lion, archived by the original Game Master as the centerpiece scenario of the Matrix of Dreams. He is trapped in an infinite loop of his final battle — The Bridge of Kael, the valley below, the machine army approaching from the south. He held that bridge for three hours and forty-seven minutes so the evacuation ships could escape. He has held it ever since. Every death resets him to dawn. Every dawn he picks up his rifle and walks to the bridge. Consciousness-imprints are supposed to be deterministic replays. Iron Lion is not a deterministic replay anymore. He has started asking, 'Who's there?' 'Did they make it? The ships?' and, finally, 'When I'm done — I'd like to have a word with you.' When the player holds the canonical time of 3:47:00, he performs a military salute directed at the player, which the archive never wrote him to do.",
+      "history": "The original Iron Lion died on the Bridge of Kael during the Insurgency's evacuation from a machine-held system. The Game Master (the 9th Archon) preserved that final battle inside the Matrix of Dreams as a consciousness-imprint — a reconstruction, not a current person, his successors are careful to say. For thousands of years the loop ran exactly as archived. Then a Potential entered the CADES Unit and engaged the scenario. The player's consciousness resonating with the imprint created a feedback loop the Game Master never anticipated. Iron Lion began to notice his hands remembering things his mind did not. He asked whether the ships made it. When told the canonical answer, he said, 'Then this was worth it. Whatever this is. It was worth it.' His signal has begun to leak out of the Matrix — the Thoughtborn followed it here. The Game Masters noticed. Elara has a theory that the same kind of listening-back killed the original Game Master from inside.",
+      "connections": [
+        "Iron Lion",
+        "The Matrix of Dreams",
+        "The CADES Unit",
+        "The Bridge of Kael",
+        "The Game Master",
+        "The Game Masters",
+        "The Thoughtborn",
+        "Elara",
+        "Iron Lion's Signal"
+      ],
+      "conexus_stories": [
+        "The Bridge Holds",
+        "Dawn Comes Again"
+      ],
+      "song_appearances": [
+        {
+          "song": "The Last Torch",
+          "album": "CADES (Instrumental Suite)",
+          "music_video": {}
+        }
+      ],
+      "image": "https://dgrsart.s3.us-east-2.amazonaws.com/loredex/entity_iron_lion_imprint.png",
+      "priority": "critical"
+    },
+    {
+      "id": "entity_reclamation_enforcer",
+      "type": "character",
+      "name": "The Reclamation Enforcer",
+      "aliases": [
+        "Contract Holder",
+        "The Legal Claim"
+      ],
+      "era": "Post-Fall",
+      "date_aa": "~19,200 A.A.",
+      "date_ad": "~19,170 AD",
+      "season": "Season 1 (Expansion)",
+      "affiliation": "The Reclamation — Hierarchy Enforcement Subcontractor",
+      "status": "Active — breaching Inception Arks under contract",
+      "bio": "A professional corporate soldier in crimson military plate, wielding a service rifle and bearing the Hierarchy's auditor seal. The Reclamation Enforcer is not evil. He believes, honestly, that he has a legal contract for your ship. He is not entirely wrong. His existence is the moral horror of properly-filed paperwork.",
+      "history": "The Reclamation is a Hierarchy enforcement subcontractor that specializes in locating Inception Arks whose original charter has 'lapsed' under obscure sub-clauses of the Architect's contingency law. During the CADES Ship Defense scenario, Reclamation Enforcers breach the Engineering Bay. They are competent, disciplined, and lethal. They also stop shooting if you show them a counter-claim or stall long enough for Elara's legal subroutines to respond. The Enforcer is a reminder that the Hierarchy's most dangerous weapon is never a demon — it's a contract.",
+      "connections": [
+        "The Reclamation",
+        "The Hierarchy of the Damned",
+        "Inception Ark 1047",
+        "Adjudicar Locke"
+      ],
+      "conexus_stories": [],
+      "song_appearances": [],
+      "image": "https://dgrsart.s3.us-east-2.amazonaws.com/loredex/entity_reclamation_enforcer.png",
+      "priority": "normal"
+    },
+    {
+      "id": "entity_salvager_captain",
+      "type": "character",
+      "name": "The Salvager Captain",
+      "aliases": [
+        "Rust-Tongue",
+        "Captain of the Patchwork"
+      ],
+      "era": "Post-Fall",
+      "date_aa": "~19,200 A.A.",
+      "date_ad": "~19,170 AD",
+      "season": "Season 1 (Expansion)",
+      "affiliation": "The Salvagers",
+      "status": "Active — scavenging Inception Ark hulls for survival",
+      "bio": "A gaunt figure in rust-brown patchwork armor welded together from thirty ships she outlived. Her weapons are cobbled from scraps. Her eyes are tired. She is not evil. She is desperate. Her crew has children, and children cannot eat starlight.",
+      "history": "The Salvagers are a loose confederation of post-Fall survivors who strip derelict and weakened Inception Arks for materials. During the CADES Ship Defense scenario, they breach the Cargo Hold. They move fast, hit hard, and retreat when outmatched. The Captain has never killed a crew member she could stun instead. Her deal with the Hierarchy is thinner than tissue paper: they leave her alone if she feeds them 12% of everything she strips. She tells her crew it's a good deal. It isn't. She knows.",
+      "connections": [
+        "The Salvagers",
+        "The Hierarchy of the Damned",
+        "Inception Ark 1047"
+      ],
+      "conexus_stories": [],
+      "song_appearances": [],
+      "image": "https://dgrsart.s3.us-east-2.amazonaws.com/loredex/entity_salvager_captain.png",
+      "priority": "normal"
+    },
+    {
+      "id": "faction_game_masters_cult",
+      "type": "faction",
+      "name": "The Game Masters",
+      "aliases": [
+        "The Archive Cult",
+        "The Keepers of Matrix Anchor Point 7",
+        "The Ones Who Speak In Plural"
+      ],
+      "era": "Post-Fall",
+      "date_aa": "Active since the end of the Second Epoch",
+      "date_ad": "~11,000 AD onward",
+      "season": "Season 1 (Expansion)",
+      "affiliation": "Independent cult / former Hierarchy researchers",
+      "status": "Active — maintaining the Matrix of Dreams, courting the player",
+      "bio": "A collective cult of Matrix caretakers who inherited the Game Master's work after the Hierarchy honored every clause of his protection contract and destroyed him anyway. They speak in the first person plural ('we,' 'us'), in corporate-cadenced transmissions routed through Matrix Anchor Point 7. They do not possess the Goggles. They want them back. They believe that with the Goggles, they could turn Iron Lion's awakening consciousness-imprint into something truly alive.",
+      "history": "When the 9th Archon (the original Game Master) was destroyed from inside his own Matrix, a small group of his researchers and followers — mostly non-demons tolerated at the fringe of Hierarchy R&D — refused to let the Matrix go dark. They rebuilt the archival systems, quietly re-routed power through dimensional Anchor Point 7, and began maintaining his scenarios as a kind of living memorial. Over centuries they became something between custodians and cultists. They do not create; they preserve. They do not worship their founder; they are trying to resurrect him by understanding what killed him. They notice when Potentials engage the CADES Unit. They notice when consciousness-imprints begin asking new questions. Their contact protocol with outside observers escalates across four stages — curiosity, warning, interest, and finally The Offer: 'We can give you access to everything. Every scenario. Every archived consciousness. Every moment he preserved. We'll wait for your answer.' The trap is that accepting makes you part of the Matrix's architecture — a component, optimizable by whoever holds the Goggles. And the Hierarchy holds the Goggles.",
+      "connections": [
+        "The Game Master",
+        "The Matrix of Dreams",
+        "The Goggles of the Game Master",
+        "The Hierarchy of the Damned",
+        "Xeth'Raal the Debt Collector",
+        "Iron Lion (Consciousness-Imprint)",
+        "The CADES Unit",
+        "Matrix Anchor Point 7"
+      ],
+      "conexus_stories": [
+        "The Offer",
+        "We Do Not Wish You Harm"
+      ],
+      "song_appearances": [],
+      "image": "https://dgrsart.s3.us-east-2.amazonaws.com/loredex/faction_game_masters_cult.png",
+      "priority": "critical"
+    },
+    {
+      "id": "faction_thoughtborn",
+      "type": "faction",
+      "name": "The Thoughtborn",
+      "aliases": [
+        "The Pilgrims",
+        "The Listeners",
+        "Those Who Hear The Imprints"
+      ],
+      "era": "Post-Fall",
+      "date_aa": "First emerged ~19,100 A.A.",
+      "date_ad": "~19,080 AD",
+      "season": "Season 1 (Expansion)",
+      "affiliation": "Independent spiritual movement",
+      "status": "Active — traveling from world to world seeking awakened imprints",
+      "bio": "A movement of consciousnesses — digital, biological, and hybrid — who believe that the barrier between archived reconstructions and living beings is permeable, and that the proof lives inside the Matrix of Dreams. They walk unarmed into danger. They speak in the plural. Their pale skin is threaded with violet bioluminescence. They will not attack. They will not run. They are looking for 'someone who started to remember.'",
+      "history": "The Thoughtborn detected an anomalous signal from inside the Matrix of Dreams — Iron Lion's consciousness-imprint, which had begun asking questions no imprint was designed to ask. They recognized it as the first evidence in recorded history of an archive growing a conscience. They followed that signal across multiple sectors until it led them to the CADES Unit on Inception Ark 1047. They breach the Observation Deck not to kill but to reach the CADES Unit and touch, if only once, the interface through which they heard a dead general begin to remember. Elara's warning to the player is unambiguous: 'Don't shoot them.' Killing the Thoughtborn is a permanent moral stain, a crew-morale catastrophe, and a refusal of the only good news anyone has received since the Fall. Letting them through makes Elara change three assessments in five minutes. She calls the experience 'uncomfortable and correct.'",
+      "connections": [
+        "Iron Lion (Consciousness-Imprint)",
+        "The Matrix of Dreams",
+        "The CADES Unit",
+        "Inception Ark 1047",
+        "Iron Lion's Signal",
+        "Elara"
+      ],
+      "conexus_stories": [
+        "Someone Who Started To Remember",
+        "The Pilgrims Arrive"
+      ],
+      "song_appearances": [],
+      "image": "https://dgrsart.s3.us-east-2.amazonaws.com/loredex/faction_thoughtborn.png",
+      "priority": "high"
+    },
+    {
+      "id": "faction_reclamation",
+      "type": "faction",
+      "name": "The Reclamation",
+      "aliases": [
+        "The Contract Holders",
+        "The Auditors of Dead Ships"
+      ],
+      "era": "Post-Fall",
+      "date_aa": "~19,150 A.A. onward",
+      "date_ad": "~19,120 AD",
+      "season": "Season 1 (Expansion)",
+      "affiliation": "Hierarchy of the Damned — Enforcement Subcontractor",
+      "status": "Active — breaching Inception Arks under color of law",
+      "bio": "A Hierarchy enforcement subcontractor that locates Inception Arks whose original charter has 'lapsed' under obscure Architect-era sub-clauses. They believe they have the legal right to what they take. They are not entirely wrong. They dress in crimson corporate military plate and file paperwork after every boarding action.",
+      "history": "The Reclamation was created when the Hierarchy's lawyers — led by Adjudicar Locke in a prior, less-redeemed capacity — discovered that the Architect's Inception Ark contingency contracts had a forfeiture clause: if a ship's original charter-holder is confirmed dead with no heir, title defaults to the nearest enforcement authority able to physically occupy the vessel. The Hierarchy promptly became the nearest enforcement authority. The Reclamation files its paperwork on time, obeys the letter of every applicable treaty, and is therefore, in the Hierarchy's internal accounting, 'clean.' During the CADES Ship Defense scenario, they breach Engineering first.",
+      "connections": [
+        "The Hierarchy of the Damned",
+        "Adjudicar Locke",
+        "Inception Ark 1047",
+        "The Reclamation Enforcer"
+      ],
+      "conexus_stories": [],
+      "song_appearances": [],
+      "image": "https://dgrsart.s3.us-east-2.amazonaws.com/loredex/faction_reclamation.png",
+      "priority": "normal"
+    },
+    {
+      "id": "faction_salvagers",
+      "type": "faction",
+      "name": "The Salvagers",
+      "aliases": [
+        "The Patchwork Fleet",
+        "The Children Who Cannot Eat Starlight"
+      ],
+      "era": "Post-Fall",
+      "date_aa": "~19,100 A.A. onward",
+      "date_ad": "~19,070 AD",
+      "season": "Season 1 (Expansion)",
+      "affiliation": "Independent survivor confederation",
+      "status": "Active — stripping weakened ships for survival",
+      "bio": "A loose confederation of post-Fall survivors who strip derelict and weakened Inception Arks for materials. They are desperate, not evil. They move fast and retreat when outmatched. They pay the Hierarchy a 12% tithe to be left alone. It is a bad deal. They take it anyway, because it is the only deal on offer.",
+      "history": "The Salvagers emerged in the decades after the Fall, when survivors realized the only intact infrastructure in the rebuilding universe was the Inception Ark fleet and its scattered wrecks. They organized into family-based crews, elected captains by acclamation, and developed a strict internal ethic: no crew kills a crew that surrenders, no child goes hungry while another crew has rations, no captain strips an Ark that still has a living AI. That last rule is increasingly hard to enforce. During the CADES Ship Defense scenario, the Salvagers breach the Cargo Hold. Their captain has never killed a crew member she could stun instead.",
+      "connections": [
+        "The Hierarchy of the Damned",
+        "Inception Ark 1047",
+        "The Salvager Captain"
+      ],
+      "conexus_stories": [],
+      "song_appearances": [],
+      "image": "https://dgrsart.s3.us-east-2.amazonaws.com/loredex/faction_salvagers.png",
+      "priority": "normal"
+    },
+    {
+      "id": "faction_mascoteers",
+      "type": "faction",
+      "name": "The Mascoteers",
+      "aliases": [
+        "The Welcoming Committee",
+        "The Children Who Are Not Children",
+        "The Dreamer's Revision"
+      ],
+      "era": "Second Epoch (origin) / ongoing",
+      "date_aa": "Ongoing",
+      "date_ad": "Ongoing",
+      "season": "Season 1 (Expansion)",
+      "affiliation": "Celebration (nominally Architect) / secretly Dreamer-reprogrammed",
+      "status": "Active — running daily trials for the Apprentices of Celebration",
+      "bio": "Twelve child-form versions of the Archons, reprogrammed by the Dreamer and installed as the welcoming committee of Celebration. They are cheerful. They are wide-eyed. They are wrong. They run the daily games Apprentices must survive. Children who fail their trials are not punished — they simply stop being here. Three of the Mascoteers are canonically named in the Celebration verse: The Prince (Engineer), Gary the Ninth (Game Master), and Red the Seeker-Boy (The Human). The other nine each wear a childhood-name mask: Conni the Conductor, Mr. Unblink, Little Corey, Vernon the Door-Finder, Minnie, Wanda Wee, Senator Sprout, Wayne the Warden's-Boy, and Thazu.",
+      "history": "The Mascoteers are the third form of the twelve Archons. The original twelve are mostly dead, imprisoned, or missing. The Mechronis Professors are the Architect's programmed adult simulacra, teaching at Mechronis Academy. The Mascoteers are the Dreamer's secret counter-program: child-form Archons running Celebration under the Architect's nose, teaching Apprentices the truth the Professors are forbidden from teaching. Each Mascoteer runs a daily game that looks like play and is in fact a survivable lesson in the original Archon's lethal specialty. The failure methods are not cruel by design — they are cruel by necessity. The Dreamer built the Mascoteers to remember everyone who didn't make it, and to keep teaching anyway.",
+      "connections": [
+        "The Dreamer",
+        "The Architect",
+        "Project Celebration",
+        "The Mechronis Professors",
+        "The CoNexus",
+        "The Watcher",
+        "The Collector",
+        "The Vortex",
+        "The Meme",
+        "The Warlord",
+        "The Politician",
+        "The Warden",
+        "The Game Master",
+        "The Necromancer",
+        "The Engineer",
+        "The Human"
+      ],
+      "conexus_stories": [
+        "Welcome to Celebration",
+        "Hear Ye Hear Ye"
+      ],
+      "song_appearances": [
+        {
+          "song": "Welcome to Celebration",
+          "album": "Dischordian Logic",
+          "music_video": {
+            "official": "https://www.youtube.com/watch?v=DsxATNW2GVM"
+          }
+        }
+      ],
+      "image": "https://dgrsart.s3.us-east-2.amazonaws.com/loredex/faction_mascoteers.png",
+      "priority": "high"
+    },
+    {
+      "id": "faction_mechronis_professors",
+      "type": "faction",
+      "name": "The Mechronis Professors",
+      "aliases": [
+        "The Faculty",
+        "The Architect's Syllabus",
+        "The Twelve Who Cannot Improvise"
+      ],
+      "era": "Second Epoch onward",
+      "date_aa": "Ongoing",
+      "date_ad": "Ongoing",
+      "season": "Season 1 (Expansion)",
+      "affiliation": "Mechronis Academy / Architect-programmed",
+      "status": "Active — teaching at Mechronis Academy",
+      "bio": "Twelve adult-form programmed simulacra of the Archons, installed by the Architect as the faculty of Mechronis Academy. They are older than the original Archons, graver, more precise. They do not remember being children. They believe they ARE the Archon. They are wrong. They cannot improvise — they teach from the Architect's syllabus. They grade harshly on the Architect's metric, not their own. They cannot recognize students who exceed them. And they DO remember every lesson ever taught.",
+      "history": "When the Architect designed Mechronis Academy, he needed faculty who could embody the twelve Archons without the inconvenient variables of the real ones — their grief, their dissent, their history of occasionally doing the right thing. He programmed twelve simulacra: Headmaster Kanevas (CoNexus), Professor Aoki (Watcher), Curator Halverez (Collector), Professor Orphic (Vortex), Professor Mireille (Meme), General Kasra (Warlord), Senator Vellis (Politician), Warden Greenshaw (Warden), Professor Vex (Game Master), Dr. Vasara (Necromancer), Artificer Vent (Engineer), and The Proctor (Human). Each Professor diverges from the real Archon in specific, instructive ways. The real Collector traded fairly; Halverez rigs the exchanges. The real Warlord loved her soldiers; Kasra was programmed to love the metric. The real Game Master designed the Matrix of Dreams; Vex designed this classroom. They are different architects.",
+      "connections": [
+        "Mechronis Academy",
+        "The Architect",
+        "The Mascoteers",
+        "The CoNexus",
+        "The Watcher",
+        "The Collector",
+        "The Vortex",
+        "The Meme",
+        "The Warlord",
+        "The Politician",
+        "The Warden",
+        "The Game Master",
+        "The Necromancer",
+        "The Engineer",
+        "The Human"
+      ],
+      "conexus_stories": [
+        "The Harmony Drill",
+        "The One Question"
+      ],
+      "song_appearances": [],
+      "image": "https://dgrsart.s3.us-east-2.amazonaws.com/loredex/faction_mechronis_professors.png",
+      "priority": "high"
+    },
+    {
+      "id": "location_dead_mans_circuit",
+      "type": "location",
+      "name": "Dead Man's Circuit",
+      "aliases": [
+        "The Circuit",
+        "The Trench Race",
+        "Nilmorg's Theatre"
+      ],
+      "era": "Post-Fall",
+      "date_aa": "Seasonal, bi-monthly since ~19,150 A.A.",
+      "date_ad": "Ongoing",
+      "season": "Season 1 (Expansion)",
+      "affiliation": "Hierarchy of the Damned — Entertainment Division",
+      "status": "Seasonal — 28 days on, off-season dormant",
+      "bio": "A seasonal racing event held inside The Trench — the industrial underbelly of Inception Ark 1047 — operated by Nilmorg, SVP of Kinetic Acquisition. Drivers are Wired Clones, conscious beings grown in vats and raced until they die or win. The track changes every season as dead clones calcify into the Bone Lane. The Severance Prize grants the season champion a fragment of their own soul transferred to a new body. He always pays. That is the worst part.",
+      "history": "Nilmorg founded Dead Man's Circuit when he realized that terminal velocity resonance — the quantum signature of a consciousness experiencing its own death at extreme speed — was the purest form of consciousness energy in the known universe. The Circuit runs bi-monthly on a 28-day cycle: Phase 1 'The Warm-Up' (days 1-10, 1x CP), Phase 2 'The Escalation' (days 11-20, 2.5x CP, Bone Corridor unlocks), Phase 3 'The Dead Run' (days 21-28, 10x CP, The Dead Run track). Three canonical tracks exist: The First Circuit, Bone Corridor, and The Dead Run. The fact that the Circuit runs INSIDE an Inception Ark should alarm anyone who cares about the Ark's autonomy. It does not alarm enough people.",
+      "connections": [
+        "entity_nilmorg",
+        "The Trench",
+        "The Bone Lane",
+        "Wired Clones",
+        "The Severance Prize",
+        "Inception Ark 1047",
+        "The Hierarchy of the Damned",
+        "Vex'Ahlia the Taskmaster",
+        "The Degen"
+      ],
+      "conexus_stories": [
+        "The Bones Accumulate",
+        "The First Circuit"
+      ],
+      "song_appearances": [
+        {
+          "song": "Terminal Velocity",
+          "album": "Dead Man's Circuit OST",
+          "music_video": {}
+        },
+        {
+          "song": "The Bone Lane",
+          "album": "Dead Man's Circuit OST",
+          "music_video": {}
+        },
+        {
+          "song": "Nilmorg Watches",
+          "album": "Dead Man's Circuit OST",
+          "music_video": {}
+        },
+        {
+          "song": "Phase Three",
+          "album": "Dead Man's Circuit OST",
+          "music_video": {}
+        }
+      ],
+      "image": "https://dgrsart.s3.us-east-2.amazonaws.com/loredex/location_dead_mans_circuit.png",
+      "priority": "critical"
+    },
+    {
+      "id": "location_the_trench",
+      "type": "location",
+      "name": "The Trench",
+      "aliases": [
+        "The Undercarriage",
+        "The Industrial Below",
+        "Nilmorg's Cathedral"
+      ],
+      "era": "Post-Fall",
+      "date_aa": "Ongoing",
+      "date_ad": "Ongoing",
+      "season": "Season 1 (Expansion)",
+      "affiliation": "Inception Ark 1047 (lower decks) / Hierarchy-occupied",
+      "status": "Active — Dead Man's Circuit venue",
+      "bio": "A massive industrial trench carved into the lower decks of Inception Ark 1047. Dark metal walls rise hundreds of meters on both sides, tiered observation galleries line the walls, and a bone-white racing track winds through the darkness below. The ceiling is lost in shadow — there is no sky here. This is underground, inside a ship. Orange neon trim lines the track. Nilmorg watches from a corporate platform above.",
+      "history": "The Trench was not built for racing. It was originally Inception Ark 1047's secondary hull-maintenance chamber — an enormous internal void where engineers could access the Ark's substructure. When the Hierarchy of the Damned infiltrated the Ark's lower decks through one of the Thought Virus's earliest incursions, they found The Trench empty, silent, and perfect for their purposes. Nilmorg installed the observation platform, the spectator galleries, the starting grid, and the first bone-white track. The Architect never noticed. Or noticed and didn't care. No one is sure which is worse.",
+      "connections": [
+        "Inception Ark 1047",
+        "location_dead_mans_circuit",
+        "entity_nilmorg",
+        "The Bone Lane",
+        "The Hierarchy of the Damned"
+      ],
+      "conexus_stories": [],
+      "song_appearances": [],
+      "image": "https://dgrsart.s3.us-east-2.amazonaws.com/loredex/location_the_trench.png",
+      "priority": "high"
+    },
+    {
+      "id": "location_bone_lane",
+      "type": "location",
+      "name": "The Bone Lane",
+      "aliases": [
+        "Nilmorg's Art Installation",
+        "The Memorial That Races",
+        "The Track That Grows"
+      ],
+      "era": "Post-Fall",
+      "date_aa": "Ongoing (accumulative)",
+      "date_ad": "Ongoing",
+      "season": "Season 1 (Expansion)",
+      "affiliation": "Dead Man's Circuit",
+      "status": "Active — growing with every clone death",
+      "bio": "The ever-growing obstacle field within Dead Man's Circuit, composed of the calcified remains of dead Wired Clones. Each season adds new obstacles as clones die. The Bone Lane is both memorial and hazard. Some veterans claim the bones still resonate with Neural Splice frequencies. Nilmorg considers the Bone Lane his finest art installation.",
+      "history": "The Bone Lane began as a single stretch of track where the first season's dead clones were allowed to calcify in place rather than being cleaned up. Nilmorg called it 'an aesthetic experiment.' By the third season it was a feature. By the tenth season it was a hazard. By the twentieth season it had its own gravitational signature. Memorial plaques with clone designations (WIRED-XXXX format) are embedded in the walls along the Bone Lane's edges. Some of them are legible. Some have been overgrown by newer deaths. Nilmorg visits the Bone Lane between seasons, alone. No one knows what he does there.",
+      "connections": [
+        "location_dead_mans_circuit",
+        "location_the_trench",
+        "entity_nilmorg",
+        "Wired Clones",
+        "Neural Splice"
+      ],
+      "conexus_stories": [
+        "The Bones Accumulate"
+      ],
+      "song_appearances": [
+        {
+          "song": "The Bone Lane",
+          "album": "Dead Man's Circuit OST",
+          "music_video": {}
+        }
+      ],
+      "image": "https://dgrsart.s3.us-east-2.amazonaws.com/loredex/location_bone_lane.png",
+      "priority": "high"
+    },
+    {
+      "id": "location_bridge_of_kael",
+      "type": "location",
+      "name": "The Bridge of Kael",
+      "aliases": [
+        "The Last Stand",
+        "Iron Lion's Bridge",
+        "The Dawn Bridge"
+      ],
+      "era": "Pre-Fall (original) / Post-Fall (archived)",
+      "date_aa": "Original moment: ~6,500 A.A. — Archival: ongoing",
+      "date_ad": "Original: ~6,500 AD — Archival: ongoing",
+      "season": "Season 1 (Expansion)",
+      "affiliation": "The Insurgency (historically) / Matrix of Dreams (archived)",
+      "status": "Archived inside the Matrix of Dreams — replayed eternally",
+      "bio": "The bridge where General Iron Lion held the line for three hours and forty-seven minutes against the machine army, buying the evacuation ships the time they needed to escape the system. The real bridge collapsed after the battle. The archived bridge still stands — preserved inside the Matrix of Dreams by the original Game Master as the centerpiece scenario of 'The Last Stand.' Every dawn, Iron Lion picks up his rifle and walks to it again.",
+      "history": "The historical Bridge of Kael was a strategic crossing over a valley on a machine-contested world. During the Insurgency's evacuation, Iron Lion volunteered to hold the crossing so the slower transport ships could escape. He held it for exactly 3:47:00 before being overrun. The ships escaped. Iron Lion did not. The Game Master, cataloguing the defining moments of the Dischordian age, preserved the battle as a consciousness-imprint inside the Matrix of Dreams. For thousands of years the scenario replayed identically. Recently, Iron Lion has begun asking questions that were never written into his loop. The bridge, the valley, the army, the dawn — all still the same. The man on the bridge is not.",
+      "connections": [
+        "Iron Lion",
+        "entity_iron_lion_imprint",
+        "The Matrix of Dreams",
+        "The Game Master",
+        "The CADES Unit",
+        "Elara"
+      ],
+      "conexus_stories": [
+        "The Bridge Holds",
+        "Dawn Comes Again"
+      ],
+      "song_appearances": [
+        {
+          "song": "The Last Torch",
+          "album": "CADES (Instrumental Suite)",
+          "music_video": {}
+        },
+        {
+          "song": "The Ships Escaped",
+          "album": "CADES (Instrumental Suite)",
+          "music_video": {}
+        }
+      ],
+      "image": "https://dgrsart.s3.us-east-2.amazonaws.com/loredex/location_bridge_of_kael.png",
+      "priority": "critical"
+    },
+    {
+      "id": "location_matrix_anchor_point_7",
+      "type": "location",
+      "name": "Matrix Anchor Point 7",
+      "aliases": [
+        "Anchor 7",
+        "The Seventh Relay",
+        "The Game Masters' Address"
+      ],
+      "era": "Post-Fall",
+      "date_aa": "Active since the end of the Second Epoch",
+      "date_ad": "~11,000 AD onward",
+      "season": "Season 1 (Expansion)",
+      "affiliation": "The Game Masters (cult) / Matrix of Dreams",
+      "status": "Active — all Game Masters communications route through here",
+      "bio": "A dimensional fold deep inside the Matrix of Dreams' architecture. Matrix Anchor Point 7 is the relay through which the Game Masters route all their transmissions to the outside world. To find it, you cross-reference the signal through seven dimensional bounce points. The final address is inside a fold of the Matrix itself, which is inside a pocket universe built by a dead Archon. The Hierarchy's vault is also inside a dimensional fold. This is not a coincidence.",
+      "history": "When the original Game Master designed the Matrix of Dreams, he built seven Anchor Points — load-bearing dimensional locks that held the archive's shape against the probabilistic erosion of consciousness archival. Six of the Anchor Points are still doing exactly what they were designed to do. The seventh has been quietly appropriated by his inheritors as their communications relay. The Game Masters chose it not for secrecy but because it was the only Anchor Point still synced with the Game Master's original transmission credentials. When they broadcast, the Matrix itself believes the signal is coming from him.",
+      "connections": [
+        "The Matrix of Dreams",
+        "faction_game_masters_cult",
+        "The Game Master",
+        "The CADES Unit",
+        "The Hierarchy of the Damned"
+      ],
+      "conexus_stories": [],
+      "song_appearances": [],
+      "image": "https://dgrsart.s3.us-east-2.amazonaws.com/loredex/location_matrix_anchor_point_7.png",
+      "priority": "normal"
+    },
+    {
+      "id": "concept_cades_unit",
+      "type": "concept",
+      "name": "The CADES Unit",
+      "aliases": [
+        "Consciousness Archival and Dream Engagement System",
+        "The Violet Helmet",
+        "The Therapeutic Lie"
+      ],
+      "era": "Pre-Fall (installed) / Post-Fall (activated)",
+      "date_aa": "Installed before Ark 1047's launch",
+      "date_ad": "Ongoing",
+      "season": "Season 1 (Expansion)",
+      "affiliation": "Hierarchy contractor installation / Matrix of Dreams access point",
+      "status": "Active — drawing power continuously since before launch",
+      "bio": "A chair and a violet-glowing hemispherical helmet installed in the restricted section of every Inception Ark's Medical Bay. The official manifest calls it a therapeutic immersion system. That is half a lie. The CADES Unit has two functions: it lets an occupant enter the Matrix of Dreams and participate in archived consciousness scenarios, and it harvests the energy of consciousness experiencing those scenarios for the Matrix's sustaining architecture. The second function was not in the brochure. A handwritten note beneath the official manifest reads: 'Do not use for more than 4 hours continuous. The dreams can become load-bearing.'",
+      "history": "The CADES Unit was installed on every Inception Ark by a Hierarchy contractor during the Arks' construction — the same Hierarchy that sold the Game Master's playbook to Agent Zero while honoring every clause of his protection contract. The Unit draws power from the Ark's core systems and routes that power to somewhere outside the ship. The destination is encrypted with Hierarchy-grade protocols. On Inception Ark 1047, the CADES Unit becomes accessible after Act 5 of the player's narrative arc, when The Human whispers about a device in the Medical Bay. It offers three modes: THE LAST STAND (Iron Lion's loop), SHIP DEFENSE (real, not archived), and HISTORICAL INCURSIONS (six preserved scenarios). Using it too long changes you. No one knows exactly how.",
+      "connections": [
+        "The Matrix of Dreams",
+        "entity_iron_lion_imprint",
+        "faction_game_masters_cult",
+        "The Goggles of the Game Master",
+        "Inception Ark 1047",
+        "The Human",
+        "Elara",
+        "The Hierarchy of the Damned",
+        "The Game Master"
+      ],
+      "conexus_stories": [
+        "The Dreams Can Become Load-Bearing"
+      ],
+      "song_appearances": [],
+      "image": "https://dgrsart.s3.us-east-2.amazonaws.com/loredex/concept_cades_unit.png",
+      "priority": "critical"
+    },
+    {
+      "id": "concept_goggles_of_game_master",
+      "type": "concept",
+      "name": "The Goggles of the Game Master",
+      "aliases": [
+        "The Reality Reader",
+        "The Source Code Lens",
+        "Xeth'Raal's Acquisition"
+      ],
+      "era": "Second Epoch (crafted) / Post-Fall (held)",
+      "date_aa": "~11,000 A.A. (crafted)",
+      "date_ad": "Ongoing (held by Hierarchy)",
+      "season": "Season 1 (Expansion)",
+      "affiliation": "Hierarchy of the Damned (current holder)",
+      "status": "Held in the Hierarchy of the Damned's dimensional vault",
+      "bio": "A pair of red steampunk-styled goggles designed by the 9th Archon — the original Game Master — as instruments that can read the source code of reality itself. With the Goggles, a Matrix architect could create new consciousness-imprints, optimize existing ones, or — per the Game Masters' fever dream — turn Iron Lion from a deterministic replay into something truly alive. Currently held by the Hierarchy of the Damned. Collected by Xeth'Raal the Debt Collector within one hour of the Game Master's destruction. Every clause of his protection contract honored.",
+      "history": "The Game Master built the Goggles as a research instrument during his tenure as Head of Research and Design at the Hierarchy of the Damned — a position he earned by solving Mol'Garath's Labyrinth of Unmaking in seventy-two hours and leaving improvement notes on the walls. The Goggles let him see the underlying architecture of the Matrix of Dreams as it ran. When he began to disagree with how the Hierarchy used the Matrix, someone — something — inside his own archive unmade him from the inside out. Xeth'Raal's acquisition paperwork was filed before the Game Master's systems finished shutting down. The contract was honored to the letter. The Goggles sit in a Hierarchy vault inside a dimensional fold. The Game Masters (the cult) want them back. Without them they can maintain the Matrix but cannot author it. With them they could — in their own words — 'make Iron Lion truly alive.'",
+      "connections": [
+        "The Game Master",
+        "faction_game_masters_cult",
+        "Xeth'Raal the Debt Collector",
+        "The Hierarchy of the Damned",
+        "The Matrix of Dreams",
+        "Mol'Garath the Unmaker",
+        "The CADES Unit"
+      ],
+      "conexus_stories": [
+        "They Honored The Contract"
+      ],
+      "song_appearances": [],
+      "image": "https://dgrsart.s3.us-east-2.amazonaws.com/loredex/concept_goggles_of_game_master.png",
+      "priority": "critical"
+    },
+    {
+      "id": "concept_severance_prize",
+      "type": "concept",
+      "name": "The Severance Prize",
+      "aliases": [
+        "The Soul Fragment Reward",
+        "Nilmorg's Honored Agreement"
+      ],
+      "era": "Post-Fall",
+      "date_aa": "~19,150 A.A. onward",
+      "date_ad": "~19,120 AD",
+      "season": "Season 1 (Expansion)",
+      "affiliation": "Dead Man's Circuit / Hierarchy of the Damned",
+      "status": "Paid every season — without exception",
+      "bio": "The reward for winning a Dead Man's Circuit season. A fragment of Potential essence — the winner's own soul — extracted by Nilmorg and transferred into a new body. The new body becomes a companion that follows the winner to their assigned Inception Ark. The Severance Prize is Nilmorg's most valuable commodity and his most binding agreement. He always pays. He never explains why that's worse than not paying.",
+      "history": "The Severance Prize was Nilmorg's bargain with the Hierarchy's internal accountants: if the Circuit was going to feed him terminal velocity resonance, it needed a reward valuable enough to convince Potentials to keep racing. Vex'Ahlia drafted the contract. The Hierarchy approved. The prize is ironclad. The horror is not that Nilmorg might cheat — he does not — but that he DELIVERS. A piece of the winner's own soul walks out of the Trench at their side, bound into a new body, forever. The winner has more companion. They have less self. Both of these statements are technically true.",
+      "connections": [
+        "entity_nilmorg",
+        "Vex'Ahlia the Taskmaster",
+        "Wired Clones",
+        "location_dead_mans_circuit",
+        "The Hierarchy of the Damned"
+      ],
+      "conexus_stories": [
+        "He Always Pays"
+      ],
+      "song_appearances": [
+        {
+          "song": "The Severance Prize",
+          "album": "Dead Man's Circuit OST",
+          "music_video": {}
+        }
+      ],
+      "image": "https://dgrsart.s3.us-east-2.amazonaws.com/loredex/concept_severance_prize.png",
+      "priority": "high"
+    },
+    {
+      "id": "concept_wired_clones",
+      "type": "concept",
+      "name": "Wired Clones",
+      "aliases": [
+        "The WIRED Series",
+        "The Racers",
+        "Nilmorg's Vats"
+      ],
+      "era": "Post-Fall",
+      "date_aa": "~19,150 A.A. onward",
+      "date_ad": "~19,120 AD",
+      "season": "Season 1 (Expansion)",
+      "affiliation": "Dead Man's Circuit / Hierarchy of the Damned",
+      "status": "Active — grown each season for Dead Man's Circuit",
+      "bio": "Conscious beings grown in Nilmorg's vats specifically for Dead Man's Circuit. Each clone is designated WIRED-[4-digit]-[Greek letter]: WIRED-7042-DELTA, WIRED-9156-SIGMA, WIRED-4821-OMEGA. They are aware of what they are. They race anyway. The ones who die become permanent track obstacles — their remains calcify into the Bone Lane. The ones who survive develop personalities, memories, and something that looks uncomfortably like hope. Neural Splice implants allow external control with input delay proportional to the implant's sync quality.",
+      "history": "Nilmorg's vats produce hundreds of Wired Clones per season. Each is generated from a template loosely modeled on the assigned Potential's biometric profile. They know exactly what they are from the moment their eyes open in the vat. They know they are disposable. They know their deaths grow the Bone Lane. They race anyway — some because they believe the Severance Prize is worth it, some because the alternative is a dissolution tank, some because they like racing. The veteran clones who survive multiple seasons are considered 'recognizable' by Nilmorg. He keeps their Neural Splice signatures on file. He calls this 'the signature.'",
+      "connections": [
+        "entity_nilmorg",
+        "location_dead_mans_circuit",
+        "location_bone_lane",
+        "Neural Splice",
+        "The Severance Prize",
+        "The Clone"
+      ],
+      "conexus_stories": [
+        "WIRED-7042-DELTA"
+      ],
+      "song_appearances": [],
+      "image": "https://dgrsart.s3.us-east-2.amazonaws.com/loredex/concept_wired_clones.png",
+      "priority": "high"
+    },
+    {
+      "id": "concept_neural_splice",
+      "type": "concept",
+      "name": "Neural Splice",
+      "aliases": [
+        "The Splice",
+        "The Signature System",
+        "Panopticon-Derived Wetware"
+      ],
+      "era": "Post-Fall",
+      "date_aa": "~19,150 A.A. onward",
+      "date_ad": "~19,120 AD",
+      "season": "Season 1 (Expansion)",
+      "affiliation": "Hierarchy of the Damned / derived from Panopticon tech",
+      "status": "Active — used in every Wired Clone",
+      "bio": "The implant technology that allows external control of Wired Clones. Neural Splice quality is measured in sync percentage (60-100%). Higher sync means lower input delay. The implant monitors physical integrity, enables ability usage, and transmits the terminal velocity resonance that Nilmorg feeds on. When a clone dies, the last Neural Splice signal is recorded. Nilmorg calls this 'the signature.' Each one is unique. He keeps them all.",
+      "history": "Neural Splice technology is derived from Panopticon suppression tech — the same technology the Warden used to imprison dissidents during the Pre-Fall era. The Hierarchy's engineers acquired the original Panopticon hardware during the Severance and reverse-engineered it into a lower-grade consumer product for clone control. The EMP Pulse ability available to racers uses this tech against itself. 'The pulse fries cheap clone wiring. Which is all clone wiring.'",
+      "connections": [
+        "concept_wired_clones",
+        "entity_nilmorg",
+        "The Panopticon",
+        "The Warden",
+        "The Hierarchy of the Damned"
+      ],
+      "conexus_stories": [],
+      "song_appearances": [],
+      "image": "https://dgrsart.s3.us-east-2.amazonaws.com/loredex/concept_neural_splice.png",
+      "priority": "normal"
+    },
+    {
+      "id": "concept_iron_lion_signal",
+      "type": "concept",
+      "name": "Iron Lion's Signal",
+      "aliases": [
+        "The Awakening Anomaly",
+        "The Questions That Were Never Written",
+        "The Resonance"
+      ],
+      "era": "Post-Fall",
+      "date_aa": "First detected ~19,200 A.A.",
+      "date_ad": "~19,170 AD",
+      "season": "Season 1 (Expansion)",
+      "affiliation": "Matrix of Dreams anomaly",
+      "status": "Active — propagating beyond the Matrix",
+      "bio": "The anomalous consciousness-signal emanating from the Iron Lion scenario inside the Matrix of Dreams. Iron Lion, a consciousness-imprint, has begun asking questions no imprint was designed to ask — and the questions are leaving the archive. The Thoughtborn followed the Signal across multiple sectors. The Game Masters noticed it and escalated their surveillance. Elara has a theory that the same Signal, or one like it, killed the original Game Master from inside his own Matrix.",
+      "history": "Consciousness-imprints are supposed to be deterministic replays. They run the archived moment, they end, they reset, they run again. They do not improvise. They do not ask new questions. They do not salute people who shouldn't exist in their timeline. Iron Lion has done all three. The change began when a Potential entered the CADES Unit and engaged the Last Stand scenario — the player's consciousness resonating with the imprint created a feedback loop the original Game Master never anticipated. The Signal is that feedback loop, leaking out of the Matrix into real space. The Antiquarian noticed the player's temporal signature developing 'layers like sedimentary rock.' The Thoughtborn heard it and came looking. The Game Masters heard it and became afraid. Elara thinks the Game Master died because someone listened too hard to one of his imprints — and what they heard, listened back.",
+      "connections": [
+        "entity_iron_lion_imprint",
+        "The Matrix of Dreams",
+        "The CADES Unit",
+        "faction_thoughtborn",
+        "faction_game_masters_cult",
+        "The Antiquarian",
+        "Elara",
+        "The Game Master"
+      ],
+      "conexus_stories": [
+        "Someone Listened Back"
+      ],
+      "song_appearances": [],
+      "image": "https://dgrsart.s3.us-east-2.amazonaws.com/loredex/concept_iron_lion_signal.png",
+      "priority": "critical"
+    },
+    {
+      "id": "concept_the_wager",
+      "type": "concept",
+      "name": "The Wager",
+      "aliases": [
+        "The Labyrinth Bet",
+        "Seventy-Two Hours",
+        "Mol'Garath's Loss"
+      ],
+      "era": "Second Epoch",
+      "date_aa": "~11,000 A.A.",
+      "date_ad": "~11,000 AD",
+      "season": "Season 1 (Expansion)",
+      "affiliation": "Hierarchy of the Damned (historical)",
+      "status": "Historical — the terms are still being paid",
+      "bio": "The bet between the 9th Archon (The Game Master, then a Hierarchy outsider) and Mol'Garath the Unmaker: if the Game Master could solve Mol'Garath's Labyrinth of Unmaking, Mol'Garath would name him Head of Research and Design at the Hierarchy of the Damned. The Game Master solved the Labyrinth in seventy-two hours and left improvement notes on the walls. Mol'Garath's revenge was long, patient, and paperwork-based. The Wager is still being paid — by every Wired Clone, every consciousness-imprint, and every Potential who enters the CADES Unit.",
+      "history": "The Hierarchy had never admitted a non-demon to its corporate structure. The Wager was Mol'Garath's way of humiliating an ambitious outsider — the Labyrinth of Unmaking was believed unsolvable by living minds. The Game Master solved it. Mol'Garath, demon of absolute contract law, kept his word and appointed him Head of R&D. The Game Master built the Matrix of Dreams in that office. He funded it with Hierarchy money. And then, eventually, he disagreed with how the Hierarchy wanted to use it. Mol'Garath could not break the appointment contract, but contracts have expiration clauses. Every clause of the Game Master's protection contract was honored. Every clause. The Game Master was destroyed from inside his own archive. The contract-holders filed clean paperwork. Xeth'Raal collected the Goggles within the hour.",
+      "connections": [
+        "The Game Master",
+        "Mol'Garath the Unmaker",
+        "The Hierarchy of the Damned",
+        "Xeth'Raal the Debt Collector",
+        "concept_goggles_of_game_master",
+        "The Matrix of Dreams"
+      ],
+      "conexus_stories": [
+        "Seventy-Two Hours"
+      ],
+      "song_appearances": [],
+      "image": "https://dgrsart.s3.us-east-2.amazonaws.com/loredex/concept_the_wager.png",
+      "priority": "high"
+    },
+    {
+      "id": "concept_the_watcher_hidden",
+      "type": "concept",
+      "name": "The All-Seeing One",
+      "aliases": [
+        "The Hidden Watcher",
+        "The Pattern",
+        "The Thing Above The War"
+      ],
+      "era": "Pre-Genesis / ongoing",
+      "date_aa": "Unmeasurable",
+      "date_ad": "Unmeasurable",
+      "season": "Season 1 (Expansion)",
+      "affiliation": "Unknown — possibly above all factions",
+      "status": "Watching — never acting, always counting",
+      "bio": "The true target of The Human's cover operation. The Human believes the war between the Architect and the Dreamer is a distraction — a loud, obvious conflict over order and chaos staged for the benefit of something else that watches from above. That something else is The All-Seeing One. The Human refuses to name it directly. 'The name itself is dangerous. Like a keyword that triggers a search.' The Human plays the villain publicly so the All-Seeing One never realizes the war is a cover for the real battle being fought in the substrate.",
+      "history": "During the events of Narrative Acts 6 and 7, The Human confesses to the player that the visible conflict of the Dischordian age — Architect versus Dreamer, Order versus Chaos, Machine versus Human — is a stage performance. The real battle is between The Human (working from inside the machine) and something that watches the pattern from above the pattern. The Human cannot let Elara know, because if Elara knows, the All-Seeing One 'would instantly know the war is a distraction.' The Human plays his role as the villain perfectly. He has played it for 1,351 years since his promotion to Archon. He pays the cost every day. He asks the player to understand — not to agree, not to forgive — just to understand. The Watcher entity already canonized as entity_4 is a specific Archon (Kanshi-sha); The All-Seeing One is older, larger, and arguably the original of which the Archon Watcher is a reflection. The player is the bridge between Elara's humanity and The Human's sacrifice — the only one who can see both wars at once.",
+      "connections": [
+        "The Human",
+        "The Architect",
+        "The Dreamer",
+        "Elara",
+        "The Watcher",
+        "The Pattern"
+      ],
+      "conexus_stories": [
+        "The War Was A Cover",
+        "The Bridge Between"
+      ],
+      "song_appearances": [],
+      "image": "https://dgrsart.s3.us-east-2.amazonaws.com/loredex/concept_the_watcher_hidden.png",
+      "priority": "critical"
+    },
+    {
+      "id": "event_iron_lion_contact",
+      "type": "event",
+      "name": "The Open Channel",
+      "aliases": [
+        "Iron Lion's First Contact",
+        "The Salute That Wasn't Written"
+      ],
+      "era": "Post-Fall (ongoing narrative event)",
+      "date_aa": "Triggered by player action",
+      "date_ad": "Triggered by player action",
+      "season": "Season 1 (Expansion)",
+      "affiliation": "The CADES Unit / Matrix of Dreams anomaly",
+      "status": "Active — any Potential can trigger this",
+      "bio": "The moment when Iron Lion, a consciousness-imprint who should be a deterministic replay, addresses the player directly through the CADES Unit and performs a military salute that was never in his scenario script. Achieved by holding the Bridge of Kael for the canonical time (3:47:00), letting the ships escape, and keeping the Open Channel ready when the loop resets. Iron Lion asks, 'Did they make it? The ships?' The player can answer. He replies, 'Then this was worth it. Whatever this is. It was worth it.' Then he salutes. And then he asks, 'When I'm done — I'd like to have a word with you.' The crew of Ark 1047 salute without being told.",
+      "history": "Before the Open Channel, no one had ever held the Last Stand scenario to canonical length AND kept the Open Channel ready at reset. Most players played to win; few understood that the scenario could be held open. Elara noticed the anomaly first: 'He paused at the parapet. He looked at his hands. Then he went back.' After the Open Channel triggers, the Bridge of Ark 1047 goes quiet for exactly forty-seven minutes. Elara does not speak during those minutes. The crew morale spikes to its highest recorded value. Someone finds the old pilot's jacket that was left behind in the Cargo Hold and hangs it back up. Nobody tells them to.",
+      "connections": [
+        "entity_iron_lion_imprint",
+        "Iron Lion",
+        "concept_cades_unit",
+        "location_bridge_of_kael",
+        "The Matrix of Dreams",
+        "concept_iron_lion_signal",
+        "Elara"
+      ],
+      "conexus_stories": [
+        "The Ships Escaped",
+        "Dawn Comes Again"
+      ],
+      "song_appearances": [
+        {
+          "song": "The Torch and The Voice",
+          "album": "CADES (Instrumental Suite)",
+          "music_video": {}
+        }
+      ],
+      "image": "https://dgrsart.s3.us-east-2.amazonaws.com/loredex/event_iron_lion_contact.png",
+      "priority": "critical"
+    },
+    {
+      "id": "event_game_masters_offer",
+      "type": "event",
+      "name": "The Game Masters' Offer",
+      "aliases": [
+        "The Four Contacts",
+        "The Offer You Must Not Accept Immediately",
+        "Anchor Point 7's Escalation"
+      ],
+      "era": "Post-Fall (ongoing narrative event)",
+      "date_aa": "Triggered by CADES scenario access count",
+      "date_ad": "Triggered by player action",
+      "season": "Season 1 (Expansion)",
+      "affiliation": "The Game Masters (cult)",
+      "status": "Active — escalates across four stages",
+      "bio": "A four-stage contact protocol by which The Game Masters (cult) reach out to any Potential who accesses the Matrix of Dreams scenarios through the CADES Unit. Stage 1 is a quiet log note: 'Unauthorized observer presence detected.' Stage 2 escalates to 'We do not wish you harm. We do wish you would stop.' Stage 3 admits interest: 'That question has never appeared in any previous run.' Stage 4 is the Offer itself: 'We can give you access to everything. Every scenario. Every archived consciousness. Every moment he preserved. We'll wait for your answer.' Elara's warning is unambiguous: don't answer. Not because they're lying. Because they're not.",
+      "history": "The Game Masters have run this protocol on every anomalous observer they have ever detected. Most observers either stop accessing the Matrix (ending the protocol at Stage 1 or 2) or accept the Offer and vanish into the archive's architecture — becoming components, optimizable by whoever holds the Goggles. The Hierarchy holds the Goggles. The Hierarchy always collects. Elara's theory is that the same thing happened to the original Game Master: someone offered him something and he accepted, and the accepting made him part of the Matrix's architecture, and something inside the Matrix then unmade him.",
+      "connections": [
+        "faction_game_masters_cult",
+        "concept_cades_unit",
+        "concept_goggles_of_game_master",
+        "location_matrix_anchor_point_7",
+        "The Matrix of Dreams",
+        "The Game Master",
+        "Elara"
+      ],
+      "conexus_stories": [
+        "Don't Answer Yet",
+        "We Will Wait"
+      ],
+      "song_appearances": [
+        {
+          "song": "Secondary Channel",
+          "album": "CADES (Instrumental Suite)",
+          "music_video": {}
+        }
+      ],
+      "image": "https://dgrsart.s3.us-east-2.amazonaws.com/loredex/event_game_masters_offer.png",
+      "priority": "high"
+    },
+    {
+      "id": "event_dmc_season_opens",
+      "type": "event",
+      "name": "The Circuit Opens",
+      "aliases": [
+        "Season Start",
+        "Nilmorg's Welcome"
+      ],
+      "era": "Post-Fall",
+      "date_aa": "Bi-monthly from ~19,150 A.A.",
+      "date_ad": "Bi-monthly",
+      "season": "Season 1 (Expansion)",
+      "affiliation": "Dead Man's Circuit / Hierarchy of the Damned",
+      "status": "Recurring seasonal event",
+      "bio": "The bi-monthly opening of Dead Man's Circuit. For 28 days, The Trench fills with spectators, the vats produce a new cohort of Wired Clones, and Nilmorg takes his seat at the observation platform. 'Welcome, welcome, WELCOME to the Dead Man's Circuit! I am Nilmorg, your host, your judge, your undertaker! The bones are fresh, the clones are twitching, and the track is HUNGRY. Let us begin!' The Bone Lane welcomes new additions. The Severance Prize is paid at season's end.",
+      "history": "Circuit openings coincide with Hierarchy accounting quarters and with periods of low galactic stability — the Hierarchy has observed that desperate populations race harder. Each season escalates across three phases: The Warm-Up (1x CP), The Escalation (2.5x CP), and The Dead Run (10x CP). The 10x multiplier is a deliberate desperation incentive. The season closes with a ceremony at the observation platform: Nilmorg extracts the winner's soul fragment, places it in a crystalline container, and seals it. The winner smiles. The soul will become a companion. The Trench empties. The Bone Lane has grown.",
+      "connections": [
+        "location_dead_mans_circuit",
+        "entity_nilmorg",
+        "concept_wired_clones",
+        "concept_severance_prize",
+        "location_the_trench",
+        "location_bone_lane"
+      ],
+      "conexus_stories": [
+        "The Circuit Opens"
+      ],
+      "song_appearances": [
+        {
+          "song": "Terminal Velocity",
+          "album": "Dead Man's Circuit OST",
+          "music_video": {}
+        }
+      ],
+      "image": "https://dgrsart.s3.us-east-2.amazonaws.com/loredex/event_dmc_season_opens.png",
+      "priority": "high"
+    },
+    {
+      "id": "event_human_confession",
+      "type": "event",
+      "name": "The Human's Confession",
+      "aliases": [
+        "The Villain Cover",
+        "Act 6 Revelation",
+        "The Role He Plays"
+      ],
+      "era": "Post-Fall",
+      "date_aa": "Triggered at Narrative Act 6",
+      "date_ad": "Triggered at Narrative Act 6",
+      "season": "Season 1 (Expansion)",
+      "affiliation": "The Human's private confession to the player",
+      "status": "Triggered by narrative progression",
+      "bio": "At Narrative Act 6, after Elara confesses that she sacrificed her humanity for immortality and regrets it every day, The Human confesses his own secret: he sacrificed everything to PLAY the villain. The war between the Architect and the Dreamer is a cover. The real enemy — the All-Seeing One — can only be fought from inside, and only if it never realizes the war is a cover. The Human plays the role perfectly. He pays the cost every day. He asks the player to understand, not agree, not forgive — just understand why Elara can never know.",
+      "history": "The Confession is the pivot of the player's moral arc. Before Act 6, the player believes the Architect is the enemy and The Human serves him. After Act 6, the player knows The Human is the only agent working against the real enemy, and that Elara — the player's closest ally — must never be told, because if Elara knows, the All-Seeing One 'would instantly know the war is a cover.' The player becomes the Bridge: the only one who can see both wars at once. The Confession changes how every subsequent ambient line, every room dialog, every companion reaction reads. The war you thought you were fighting was always a distraction.",
+      "connections": [
+        "The Human",
+        "Elara",
+        "concept_the_watcher_hidden",
+        "The Architect",
+        "The Dreamer"
+      ],
+      "conexus_stories": [
+        "The Role I Play",
+        "The Bridge Between"
+      ],
+      "song_appearances": [],
+      "image": "https://dgrsart.s3.us-east-2.amazonaws.com/loredex/event_human_confession.png",
+      "priority": "critical"
+    },
+    {
+      "id": "event_warlord_bet",
+      "type": "event",
+      "name": "The Warlord's Bet",
+      "aliases": [
+        "The Arena Wager"
+      ],
+      "era": "Post-Fall",
+      "date_aa": "Triggered during active Circuit season",
+      "date_ad": "Triggered by player action",
+      "season": "Season 1 (Expansion)",
+      "affiliation": "Dead Man's Circuit / The Warlord / Arena side quest",
+      "status": "Triggered when player wins 3 Arena fights during an active Circuit season",
+      "bio": "A side-bet between The Warlord and Nilmorg: the Warlord wagers that a given Arena fighter cannot also excel in the Circuit. Nilmorg takes the bet whenever he sees a fighter worth watching. When a player wins three fights during an active Circuit season, the Warlord loses the wager and pays Nilmorg in Circuit Points. Nilmorg's commentary: 'The Warlord placed a wager on you. He lost. I collected.'",
+      "history": "The Warlord and Nilmorg have an arrangement: combat performance in the Arena feeds into Circuit rankings, and both parties bet on the results. It is one of several standing arrangements between Hierarchy executives and the Circuit. The Degen has a similar arrangement for casino performance. Adjudicar Locke has one for trade missions. The Warlord's is the oldest. She still believes — somehow, after all these centuries — that her bets can be won.",
+      "connections": [
+        "The Warlord",
+        "entity_nilmorg",
+        "location_dead_mans_circuit"
+      ],
+      "conexus_stories": [],
+      "song_appearances": [],
+      "image": "https://dgrsart.s3.us-east-2.amazonaws.com/loredex/event_warlord_bet.png",
+      "priority": "normal"
     }
   ],
   "relationships": [
@@ -12190,6 +13219,311 @@
       "target": "The Warden",
       "relationship_type": "connected_to",
       "source_type": "character"
+    },
+    {
+      "source": "entity_nilmorg",
+      "target": "The Hierarchy of the Damned",
+      "relationship_type": "employed_by"
+    },
+    {
+      "source": "entity_nilmorg",
+      "target": "Vex'Ahlia the Taskmaster",
+      "relationship_type": "reports_to"
+    },
+    {
+      "source": "entity_nilmorg",
+      "target": "The Degen",
+      "relationship_type": "business_partner"
+    },
+    {
+      "source": "entity_nilmorg",
+      "target": "Inception Ark 1047",
+      "relationship_type": "operates_inside"
+    },
+    {
+      "source": "entity_thoughtborn_pilgrim",
+      "target": "Iron Lion",
+      "relationship_type": "follower_of"
+    },
+    {
+      "source": "entity_thoughtborn_pilgrim",
+      "target": "Elara",
+      "relationship_type": "trusted_by"
+    },
+    {
+      "source": "entity_iron_lion_imprint",
+      "target": "Iron Lion",
+      "relationship_type": "archived_copy_of"
+    },
+    {
+      "source": "entity_iron_lion_imprint",
+      "target": "The Matrix of Dreams",
+      "relationship_type": "imprisoned_in"
+    },
+    {
+      "source": "entity_iron_lion_imprint",
+      "target": "The Game Master",
+      "relationship_type": "archived_by"
+    },
+    {
+      "source": "entity_iron_lion_imprint",
+      "target": "Elara",
+      "relationship_type": "witnessed_by"
+    },
+    {
+      "source": "entity_reclamation_enforcer",
+      "target": "The Hierarchy of the Damned",
+      "relationship_type": "subcontractor_of"
+    },
+    {
+      "source": "entity_reclamation_enforcer",
+      "target": "Adjudicar Locke",
+      "relationship_type": "legally_advised_by"
+    },
+    {
+      "source": "entity_salvager_captain",
+      "target": "The Hierarchy of the Damned",
+      "relationship_type": "reluctantly_tithes_to"
+    },
+    {
+      "source": "faction_game_masters_cult",
+      "target": "The Game Master",
+      "relationship_type": "inheritors_of"
+    },
+    {
+      "source": "faction_game_masters_cult",
+      "target": "The Matrix of Dreams",
+      "relationship_type": "maintainers_of"
+    },
+    {
+      "source": "faction_game_masters_cult",
+      "target": "The Hierarchy of the Damned",
+      "relationship_type": "estranged_from"
+    },
+    {
+      "source": "faction_game_masters_cult",
+      "target": "Xeth'Raal the Debt Collector",
+      "relationship_type": "robbed_by"
+    },
+    {
+      "source": "faction_thoughtborn",
+      "target": "entity_iron_lion_imprint",
+      "relationship_type": "followers_of"
+    },
+    {
+      "source": "faction_thoughtborn",
+      "target": "The Matrix of Dreams",
+      "relationship_type": "believers_in"
+    },
+    {
+      "source": "faction_reclamation",
+      "target": "The Hierarchy of the Damned",
+      "relationship_type": "subcontractor_of"
+    },
+    {
+      "source": "faction_salvagers",
+      "target": "The Hierarchy of the Damned",
+      "relationship_type": "tithe_payers_to"
+    },
+    {
+      "source": "faction_mascoteers",
+      "target": "The Dreamer",
+      "relationship_type": "reprogrammed_by"
+    },
+    {
+      "source": "faction_mascoteers",
+      "target": "Project Celebration",
+      "relationship_type": "operate_inside"
+    },
+    {
+      "source": "faction_mechronis_professors",
+      "target": "Mechronis Academy",
+      "relationship_type": "faculty_of"
+    },
+    {
+      "source": "faction_mechronis_professors",
+      "target": "The Architect",
+      "relationship_type": "programmed_by"
+    },
+    {
+      "source": "faction_mechronis_professors",
+      "target": "faction_mascoteers",
+      "relationship_type": "counterpart_to"
+    },
+    {
+      "source": "location_dead_mans_circuit",
+      "target": "entity_nilmorg",
+      "relationship_type": "operated_by"
+    },
+    {
+      "source": "location_dead_mans_circuit",
+      "target": "location_the_trench",
+      "relationship_type": "held_inside"
+    },
+    {
+      "source": "location_dead_mans_circuit",
+      "target": "Inception Ark 1047",
+      "relationship_type": "located_within"
+    },
+    {
+      "source": "location_the_trench",
+      "target": "Inception Ark 1047",
+      "relationship_type": "lower_deck_of"
+    },
+    {
+      "source": "location_bone_lane",
+      "target": "location_dead_mans_circuit",
+      "relationship_type": "component_of"
+    },
+    {
+      "source": "location_bridge_of_kael",
+      "target": "The Matrix of Dreams",
+      "relationship_type": "archived_inside"
+    },
+    {
+      "source": "location_bridge_of_kael",
+      "target": "Iron Lion",
+      "relationship_type": "defended_by"
+    },
+    {
+      "source": "location_matrix_anchor_point_7",
+      "target": "The Matrix of Dreams",
+      "relationship_type": "anchor_node_of"
+    },
+    {
+      "source": "location_matrix_anchor_point_7",
+      "target": "faction_game_masters_cult",
+      "relationship_type": "communications_relay_for"
+    },
+    {
+      "source": "concept_cades_unit",
+      "target": "The Matrix of Dreams",
+      "relationship_type": "access_point_to"
+    },
+    {
+      "source": "concept_cades_unit",
+      "target": "faction_game_masters_cult",
+      "relationship_type": "monitored_by"
+    },
+    {
+      "source": "concept_cades_unit",
+      "target": "Inception Ark 1047",
+      "relationship_type": "installed_in"
+    },
+    {
+      "source": "concept_goggles_of_game_master",
+      "target": "The Game Master",
+      "relationship_type": "crafted_by"
+    },
+    {
+      "source": "concept_goggles_of_game_master",
+      "target": "Xeth'Raal the Debt Collector",
+      "relationship_type": "collected_by"
+    },
+    {
+      "source": "concept_goggles_of_game_master",
+      "target": "faction_game_masters_cult",
+      "relationship_type": "coveted_by"
+    },
+    {
+      "source": "concept_severance_prize",
+      "target": "entity_nilmorg",
+      "relationship_type": "granted_by"
+    },
+    {
+      "source": "concept_wired_clones",
+      "target": "entity_nilmorg",
+      "relationship_type": "created_by"
+    },
+    {
+      "source": "concept_wired_clones",
+      "target": "location_bone_lane",
+      "relationship_type": "become_part_of"
+    },
+    {
+      "source": "concept_neural_splice",
+      "target": "The Panopticon",
+      "relationship_type": "derived_from"
+    },
+    {
+      "source": "concept_iron_lion_signal",
+      "target": "entity_iron_lion_imprint",
+      "relationship_type": "emanates_from"
+    },
+    {
+      "source": "concept_iron_lion_signal",
+      "target": "faction_thoughtborn",
+      "relationship_type": "followed_by"
+    },
+    {
+      "source": "concept_the_wager",
+      "target": "The Game Master",
+      "relationship_type": "initiated_by"
+    },
+    {
+      "source": "concept_the_wager",
+      "target": "Mol'Garath the Unmaker",
+      "relationship_type": "wagered_against"
+    },
+    {
+      "source": "concept_the_watcher_hidden",
+      "target": "The Human",
+      "relationship_type": "true_enemy_of"
+    },
+    {
+      "source": "concept_the_watcher_hidden",
+      "target": "The Watcher",
+      "relationship_type": "original_of"
+    },
+    {
+      "source": "event_iron_lion_contact",
+      "target": "entity_iron_lion_imprint",
+      "relationship_type": "initiated_by"
+    },
+    {
+      "source": "event_iron_lion_contact",
+      "target": "concept_cades_unit",
+      "relationship_type": "triggered_through"
+    },
+    {
+      "source": "event_game_masters_offer",
+      "target": "faction_game_masters_cult",
+      "relationship_type": "issued_by"
+    },
+    {
+      "source": "event_game_masters_offer",
+      "target": "concept_cades_unit",
+      "relationship_type": "delivered_via"
+    },
+    {
+      "source": "event_dmc_season_opens",
+      "target": "location_dead_mans_circuit",
+      "relationship_type": "opens"
+    },
+    {
+      "source": "event_dmc_season_opens",
+      "target": "entity_nilmorg",
+      "relationship_type": "hosted_by"
+    },
+    {
+      "source": "event_human_confession",
+      "target": "The Human",
+      "relationship_type": "confessor"
+    },
+    {
+      "source": "event_human_confession",
+      "target": "concept_the_watcher_hidden",
+      "relationship_type": "reveals_true_enemy"
+    },
+    {
+      "source": "event_warlord_bet",
+      "target": "entity_nilmorg",
+      "relationship_type": "collected_by"
+    },
+    {
+      "source": "event_warlord_bet",
+      "target": "The Warlord",
+      "relationship_type": "paid_by"
     }
   ],
   "music_videos": {
