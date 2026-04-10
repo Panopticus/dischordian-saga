@@ -3386,10 +3386,118 @@ They take notes.** Which narrator is leaning forward more
 visibly depends on which one is currently active as the player's
 companion. Their reaction shots are the player's scorecard.
 
+### C.3 — The Game Show Formats (Episode Structure)
+
+Each season of The Palimpsest is **13 episodes**, aligned to a
+quarter of Year One. Episodes air weekly. Between-episode time
+on the ship is canonical — the player can walk around, talk to
+their companions, read the Chronicle, place bets on OTHER
+players' Palimpsest runs (using the canonical `quizSpectator.ts`
+betting system), and hear NPCs speculate about what next week's
+game will be. **The between-game content is not filler. It is
+where the player actually learns the lore.**
+
+#### Episode structure (every episode)
+
+1. **Cold Open** (30s) — the Host addresses the camera directly.
+   Roasts the player's clone count. References a specific event
+   from the player's ship this week (reads from the canonical
+   `livingArk.ts` daily brief system). Introduces a theme.
+2. **Round 1 — Quiz** — 10 canonical Loredex questions,
+   rotating categories. Darren carries. Player answers. Alaric
+   Objections once.
+3. **Ad Break** — canonical Dischordian Saga "ads" from the
+   `transmissions.ts` system — but starting Episode 2, one of
+   the ads is the Inventor's hack (see §C.4).
+4. **Round 2 — Debate** — two contestants face off on a
+   proposition. Judging by audience applause (actual spectators
+   via `quizSpectator.ts`). Set on **Thaloria** per the canonical
+   `special-thaloria-debate-stage.png` asset — the debate stage
+   is the same ruined council chamber where the Shadow Tongue
+   corrupted Thalorian faith. The *set* is a crime scene.
+5. **Ad Break 2** — more ads, more hacking.
+6. **Round 3 — The Game** — a different psychological reality-TV
+   game each episode. **This is the variable.** See the list
+   below.
+7. **The Weakest Link / Vote Out** — one contestant is
+   eliminated each episode. Elimination = the clone dies on
+   camera. Darren, Alaric, and the player cycle through the
+   elimination seat. The Inventor cannot be eliminated because
+   the Inventor is not legally on the show.
+8. **Credits & Casualty List** — the episode ends with a
+   rolling list of **other players across the server who died
+   during tonight's broadcast** (pulled from the canonical
+   `ripple.emit("combat_death", ...)` event stream during the
+   episode window). The Host reads their Ark numbers aloud.
+   The Antiquarian writes a single line about each in the
+   Chronicle the next morning.
+
+#### The weekly game rotation (Round 3)
+
+The show's hook is that **every episode's Round 3 is a different
+psychological reality-TV parody**, and the player never knows
+which one until it starts. Between episodes, the player can
+overhear their companions **speculating about what's next**
+using a canonical `shared/transmissions.ts` NPC radio system.
+Elara and the Human each have *different theories*, revealing
+their personalities.
+
+| Ep | Game format | Riff on | Core mechanic | What dies |
+|---|---|---|---|---|
+| **1** | **"SAFE/UNSAFE"** | Squid Game Red Light Green Light | Every contestant stands on a tile. A question appears. The player whose answer is furthest from truth drops through the floor. | The clone. On camera. No blood. Very clean. |
+| **2** | **"THE LINK"** | The Weakest Link | Audience votes out one contestant per round. Votes are live. Players on other Arks are voting in real time. | The clone *and* a randomly-rolled online player whose Ark was spectating — their Ark reports a "spectator cascade failure" as a Substrate Dungeon event |
+| **3** | **"THE LIAR"** | To Tell the Truth | Each contestant answers the same personal question. One must lie. Audience picks the liar. If the audience is wrong, **the accused tells the next truth about themselves regardless of whether they wanted to.** | One contestant's *identity secret* is exposed. In Episode 3, the exposed contestant is Darren. |
+| **4** | **"THE AUCTION"** | Mr. Beast's "Would You Sell Your" | Contestants bid parts of their memory for Dream tokens. High bid wins the tokens. The won tokens are real. The lost memories are real. **Paste-in to the canonical `shared/apprenticeBetrayal.ts` system** — memory loss is mechanically tracked. | Nothing. This is the one episode nobody dies. That makes it the scariest one. |
+| **5** | **"THE ORACLE"** | The Chase | Contestants race a pre-recorded version of an Archon answering the same questions. If you beat the Archon, you live. If you lose, the Archon appears on stage to read your eulogy. | The eulogy is real. The Archons used here are Meme, Watcher, Collector, Necromancer, on rotation. |
+| **6** | **"SURVIVOR: MECHRONIS"** | Survivor | Week-long format. Contestants live on the Mechronis Academy grounds (canonical) and are taught by the Mechronis Professors (canonical, from `shared/mechronisProfessors.ts`). They vote each other out based on coursework. | The losers are given to the professors. The professors are not nice about it. |
+| **7** | **"RAILROAD"** | Hell's Kitchen × The Apprentice | Contestants work in a fake corporate office. General Alaric is the "boss." Contestants are fired each round. Each firing is a small legal filing. The paperwork is binding. | Nothing dies. The filings go into the canonical `syndicateWorlds.ts` contract pool. You have now *legally* signed something with the Hierarchy. |
+| **8** | **"HOUSE OF CARDS"** | Big Brother | Contestants live together in a sealed house. Cameras watch everything. Two-week format. **The Matrix of Dreams hosts the house.** Every action is archived. At the end, the audience votes who to delete from the archive. | The deleted person's *entire* Loredex entry is wiped from the player's client until the next Signal threshold is reached. |
+| **9** | **"THE GAUNTLET"** | Takeshi's Castle / Fall Guys | Physical obstacle course. Clones explode on contact with failed jumps. High camp. High body count. | Many clones. Very many. Audiences chant. This is the most popular episode. |
+| **10** | **"THE DEBATE"** | Presidential Debate | A single two-person debate. Proposition is chosen by community vote. Set on Thaloria. Inventor's hack is at maximum strength this episode. | The loser is remembered wrong. Their Loredex entry gains a small permanent scar. |
+| **11** | **"INTERVIEWS"** | Nathan Fielder's *The Rehearsal* | Contestants are interviewed in private. The interviews are edited. The edits become the next question. Nothing the contestants say is shown the way they said it. | Trust in the show dies. Meta-episode. The player learns they cannot believe anything they've seen. |
+| **12** | **"THE ELIMINATION"** | Top Chef Finale | Darren, Alaric, and the Player are the final three. One is eliminated by judges' decision. (*Canonical setup for §C.5 — Darren's sacrifice.*) | Whoever is eliminated. |
+| **13** | **"THE RECKONING"** | Anticlimax | There is no game. The Host walks out. Opens an envelope. Reads it. Drops it. The Inventor finishes the hack (§C.4). The Meme is revealed (§C.6). Season ends. | The Host's mask. Not the Host. Just the mask. |
+
+#### Between-episode content (where the lore lives)
+
+Between episodes, the player spends time on the Ark as normal.
+The game show intrudes into the normal game in three specific
+ways:
+
+1. **Ship Mailroom.** A new canonical room object: a physical
+   mail slot outside the Captain's Quarters. Every Monday after
+   an episode airs, **a letter arrives** — from Darren, from
+   Alaric, from the Inventor (encrypted), or from an anonymous
+   fan. Each letter is a piece of between-episode character
+   work. Darren's letters are the best because he has nobody
+   else to write to.
+
+2. **Companion Speculation.** Every Thursday before a new
+   episode, Elara and the Human each offer a theory about
+   what next week's Round 3 game will be. Elara guesses gently
+   and is usually wrong in an optimistic way. The Human guesses
+   precisely and is usually correct, and visibly hates that he
+   is. If the player bets in the spectator system on the
+   correct game format, they win a small bonus. **This is the
+   only in-game use of the show's existing betting system for
+   the player's own shows, turning the spectator betting into
+   part of the main-character loop.**
+
+3. **Darren's Office Hours.** Starting Episode 3, Darren
+   sends the player a weekly *"feedback form"* — literally a
+   corporate performance-review template. Filling it out gives
+   Darren an alignment shift. **If the player gives him honest
+   feedback, his Round 1 recall starts to slip slightly (he is
+   becoming a person) and his Round 3 performance starts to
+   improve (he is becoming brave). If the player gives him
+   empty corporate flattery, he hardens. He becomes better at
+   trivia and worse at dying.** His arc is authored by the
+   player's review answers.
+
 ---
 
-*[Appendix C continues — C.3 Game Show Formats, C.4 Inventor
-Hack, C.5 Darren, C.6 Meme Reveal, C.7 Integration, C.8 Prompts.]*
+*[Appendix C continues — C.4 Inventor Hack, C.5 Darren, C.6 Meme
+Reveal, C.7 Integration, C.8 Prompts.]*
 
 ---
 
