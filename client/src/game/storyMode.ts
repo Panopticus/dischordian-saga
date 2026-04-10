@@ -303,6 +303,17 @@ export const ARENA_LORE_OPENING: StoryDialogue[] = [
 // companion file to keep each file under 100KB.
 // ═══════════════════════════════════════════════════════
 
+// Re-export the chapter array so tests and consumers can import it
+// from the canonical `@/game/storyMode` entry point without knowing
+// which file holds the actual data.
+export { STORY_CHAPTERS } from "./storyModeChapters";
+
+// Legacy alias — historic code + tests used ALL_CHAPTERS before the
+// rename to STORY_CHAPTERS. Keep the alias so those imports don't
+// silently resolve to undefined.
+import { STORY_CHAPTERS as _STORY_CHAPTERS } from "./storyModeChapters";
+export const ALL_CHAPTERS = _STORY_CHAPTERS;
+
 // ─── GAME MODES ───────────────────────────────────────
 
 export const GAME_MODES: GameModeDefinition[] = [

@@ -112,7 +112,7 @@ export const EPOCH_1_TRANSMISSIONS: Transmission[] = [
     memeIntro: "THE MORAL LESSON EPISODE. Pride, pride, pride. You know what comes next. I won't spoil it. I will GENTLY hint it with loud narration.",
     memeOutro: "And down they went. I love this one. Schadenfreude for the soul. Don't tell the Antiquarian I'm using his word.",
     triggersOracleReveal: false,
-    unlockTrigger: { kind: "chapter_complete", chapterId: "ch2" },
+    unlockTrigger: { kind: "chapter_complete", chapterId: "ch2_arenas_law" },
     reward: { xp: 250, dream: 25 },
     synopsis: "Hubris brings the Potentials down — their ships fall to the biomass world.",
     relatedLoredexEntries: ["potentials", "terminus"],
@@ -585,13 +585,9 @@ export const SPACES_IN_BETWEEN_TRANSMISSIONS: Transmission[] = [
   },
 ];
 
-export const ALL_TRANSMISSIONS: Transmission[] = [
-  ...SPACES_IN_BETWEEN_TRANSMISSIONS,
-  ...EPOCH_0_TRANSMISSIONS,
-  ...EPOCH_1_TRANSMISSIONS,
-  ...EPOCH_2_TRANSMISSIONS,
-];
-
+// ALL_TRANSMISSIONS is defined AFTER every EPOCH_* constant (further down the
+// file) so the spread initializer doesn't hit a temporal-dead-zone ReferenceError
+// on EPOCH_2_TRANSMISSIONS. See bottom of file.
 export function getTransmissionsByEpoch(epoch: EpochId): Transmission[] {
   return ALL_TRANSMISSIONS.filter(t => t.epoch === epoch);
 }
@@ -852,4 +848,14 @@ export const EPOCH_2_TRANSMISSIONS: Transmission[] = [
     synopsis: "They chose war. War doesn't end. A sentient nanobot plague devours reality. When one reality falls, another rises. The age of heroes begins.",
     relatedLoredexEntries: ["thought_virus","new_babylon","fall_of_reality","potentials"],
   },
+];
+
+// Declared AFTER every EPOCH_* constant so the spread references resolve at
+// module-evaluation time. If you add a new EPOCH_* constant below this block,
+// move ALL_TRANSMISSIONS further down the file.
+export const ALL_TRANSMISSIONS: Transmission[] = [
+  ...SPACES_IN_BETWEEN_TRANSMISSIONS,
+  ...EPOCH_0_TRANSMISSIONS,
+  ...EPOCH_1_TRANSMISSIONS,
+  ...EPOCH_2_TRANSMISSIONS,
 ];

@@ -28,12 +28,26 @@ const TransmissionTriggerSchema = z.discriminatedUnion("kind", [
 
 export const TransmissionSchema = z.object({
   episodeNumber: z.number().int().min(0),
-  epoch: z.union([z.literal(1), z.literal(2), z.literal(3), z.literal(4), z.literal(5)]),
-  broadcastOrder: z.number().int().min(0),
+  // Epoch 0 covers pre-Season / "Spaces in Between" + EPOCH_0 backstories.
+  // The airing seasons are 1–5. Keep 0 in the union so validator accepts
+  // the backdated episodes instead of rejecting the whole archive.
+  epoch: z.union([
+    z.literal(0),
+    z.literal(1),
+    z.literal(2),
+    z.literal(3),
+    z.literal(4),
+    z.literal(5),
+  ]),
+  // broadcastOrder can be NEGATIVE for pre-broadcast / backdated transmissions
+  // (the "Spaces in Between" prequels start at -30). Integer only.
+  broadcastOrder: z.number().int(),
   title: nonEmpty,
   driveFileId: z.string().nullable(),
   videoUrl: z.string().nullable(),
-  lengthSeconds: z.number().positive(),
+  // lengthSeconds may be 0 for transmissions whose video asset hasn't
+  // been produced yet — they still have a canonical entry in the archive.
+  lengthSeconds: z.number().nonnegative(),
   memeIntro: nonEmpty,
   memeOutro: nonEmpty,
   triggersOracleReveal: z.boolean(),
@@ -44,7 +58,7 @@ export const TransmissionSchema = z.object({
     achievement: z.string().optional(),
   }),
   synopsis: nonEmpty,
-});
+}).passthrough(); // let future optional fields through without rewriting the schema
 
 /* ─── APPRENTICE ARCHETYPES ─── */
 
@@ -156,11 +170,24 @@ export const QuestSchema = z.object({
 
 /* ─── STORY CHAPTERS ─── */
 
+// Dialog items come in two flavors: plain StoryDialogue lines and
+// DialogWheel choice nodes. Both are valid entries in the preFight /
+// postFight arrays, so the schema accepts either shape.
 const StoryDialogueSchema = z.object({
   speaker: nonEmpty,
   text: nonEmpty,
   speakerColor: z.string().optional(),
-});
+}).passthrough();
+
+const DialogWheelSchema = z.object({
+  // A DialogWheel node carries `options` (the four cardinal choices).
+  // We don't exhaustively validate each option — we just confirm the
+  // shape is array-like so the integrity test can distinguish it from
+  // a malformed StoryDialogue.
+  options: z.array(z.any()),
+}).passthrough();
+
+const DialogOrWheelSchema = z.union([StoryDialogueSchema, DialogWheelSchema]);
 
 export const StoryChapterSchema = z.object({
   id: nonEmpty,
@@ -170,14 +197,19 @@ export const StoryChapterSchema = z.object({
   opponentId: nonEmpty,
   arenaId: nonEmpty,
   difficulty: z.enum(["easy", "normal", "hard", "nightmare"]),
-  unlocksFighter: nonEmpty,
-  preDialogue: z.array(StoryDialogueSchema).min(1),
-  postVictoryDialogue: z.array(StoryDialogueSchema).min(1),
+  // unlocksFighter is optional per the StoryChapter interface.
+  unlocksFighter: z.string().optional(),
+  // Canonical field names from `client/src/game/storyMode.ts`.
+  // The old schema used preDialogue / postVictoryDialogue which no
+  // longer exist; these (preFight / postFight / postDefeatDialogue)
+  // are the actual fields every chapter ships with.
+  preFight: z.array(DialogOrWheelSchema).min(1),
+  postFight: z.array(DialogOrWheelSchema).min(1).optional(),
   postDefeatDialogue: z.array(StoryDialogueSchema).min(1),
   memoryFragment: z.string().optional(),
   powerGained: z.string().optional(),
   cutsceneVideoUrl: z.string().url().optional(),
-});
+}).passthrough(); // allow the many optional chapter fields (isBoss, branches, etc.)
 
 /* ─── MORALITY THEMES ─── */
 
@@ -291,7 +323,11 @@ export const LoredexEntrySchema = z.object({
   connections: z.array(z.string()).optional(),
   conexus_stories: z.array(z.string()).optional(),
   song_appearances: z.array(SongAppearanceSchema).optional(),
-  image: z.string(),
+  // Some meta/paradox entries (e.g. "The Meme's Contested Fate", "The
+  // Agent Zero Paradox") are canonically imageless — they live in the
+  // archive as disputed/unresolved canon. Keep the field optional so
+  // they pass validation without needing a placeholder image.
+  image: z.string().optional(),
   priority: z.union([z.string(), z.number()]).optional(),
   streaming_links: z.record(z.string(), z.string()).optional(),
 });
