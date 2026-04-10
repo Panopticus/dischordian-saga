@@ -1,0 +1,1586 @@
+[
+  {
+    "id": "narrator_arena_lore_00",
+    "speaker": "narrator",
+    "voiceId": "VgFgBh5TnWeBhCBvCJ1E",
+    "text": "The Architect foresaw the end of everything. It built an Arena — not for glory, but for harvest. The greatest minds in the universe, tested. Their essence, preserved. Their consent, irrelevant.",
+    "context": "arena_lore_opening",
+    "emotion": "serious",
+    "chapter": "ch0_opening"
+  },
+  {
+    "id": "narrator_arena_lore_01",
+    "speaker": "narrator",
+    "voiceId": "VgFgBh5TnWeBhCBvCJ1E",
+    "text": "They call it the Collector's Arena. On the prison-world of Thaloria, the harvested fight not for freedom but for the right to exist beyond the end of everything.",
+    "context": "arena_lore_opening",
+    "emotion": "serious",
+    "chapter": "ch0_opening"
+  },
+  {
+    "id": "narrator_arena_lore_02",
+    "speaker": "narrator",
+    "voiceId": "VgFgBh5TnWeBhCBvCJ1E",
+    "text": "And in the deepest cell of the Panopticon, a prisoner awakens. No name. No memory. Only the faintest echo of a power that once shook empires. And the cameras are already rolling.",
+    "context": "arena_lore_opening",
+    "emotion": "whispered",
+    "chapter": "ch0_opening"
+  },
+  {
+    "id": "narrator_ch1_intro_00",
+    "speaker": "narrator",
+    "voiceId": "VgFgBh5TnWeBhCBvCJ1E",
+    "text": "Black. Heartbeat. A cell. Agent Zero appears — she hacked the Arena scheduling matrix. She has thirty-one seconds before the cameras cycle.",
+    "context": "chapter_intro",
+    "emotion": "urgent",
+    "chapter": "ch1_dead_signal"
+  },
+  {
+    "id": "narrator_ch2_intro_00",
+    "speaker": "narrator",
+    "voiceId": "VgFgBh5TnWeBhCBvCJ1E",
+    "text": "Panopticon Central. The Jailer's portrait: a skull in green robes, chains, one burning red eye. The Prisoner recoils.",
+    "context": "chapter_intro",
+    "emotion": "serious",
+    "chapter": "ch2_arenas_law"
+  },
+  {
+    "id": "narrator_ch3b_intro_00",
+    "speaker": "narrator",
+    "voiceId": "VgFgBh5TnWeBhCBvCJ1E",
+    "text": "Shadow Sanctum. Wraith Calder stands in dark leather armor, amber eyes burning. He does not look like a ghost. He looks like the most alive person the Prisoner has ever met.",
+    "context": "chapter_intro",
+    "emotion": "serious",
+    "chapter": "ch3b_the_ghost"
+  },
+  {
+    "id": "narrator_ch3a_post_00",
+    "speaker": "narrator",
+    "voiceId": "VgFgBh5TnWeBhCBvCJ1E",
+    "text": "Iron Lion salutes — fist to chest. A subordinate saluting a commander.",
+    "context": "chapter_postfight",
+    "emotion": "serious",
+    "chapter": "ch3a_generals_honor"
+  },
+  {
+    "id": "narrator_ch5_death_00",
+    "speaker": "narrator",
+    "voiceId": "VgFgBh5TnWeBhCBvCJ1E",
+    "text": "The Prisoner falls. Green fire. Silence. Then — a cold hand on the throat and a new pair of eyes opening in a tank that was never meant for him.",
+    "context": "mandatory_death",
+    "emotion": "whispered",
+    "chapter": "ch5_dead_code"
+  },
+  {
+    "id": "narrator_ch6_shatter_00",
+    "speaker": "narrator",
+    "voiceId": "VgFgBh5TnWeBhCBvCJ1E",
+    "text": "The White Oracle's face shatters. Beneath the mask — every face the Prisoner has ever worn. The Seeker. The Student. The Detective. The Spy. The Archon. The Human.",
+    "context": "identity_reveal",
+    "emotion": "serious",
+    "chapter": "ch6_false_prophet"
+  },
+  {
+    "id": "narrator_ch12_outbreak_00",
+    "speaker": "narrator",
+    "voiceId": "VgFgBh5TnWeBhCBvCJ1E",
+    "text": "The virus erupts from the Architect's spine. Every portrait on the Panopticon wall corrupts in sequence — fighter by fighter, memory by memory — until only one face remains.",
+    "context": "corruption_outbreak",
+    "emotion": "urgent",
+    "chapter": "ch12_architects_design"
+  },
+  {
+    "id": "narrator_finale_vote_00",
+    "speaker": "narrator",
+    "voiceId": "VgFgBh5TnWeBhCBvCJ1E",
+    "text": "Three portraits materialize over the Arena floor. The Eyes. The Engineer. The Forgotten. The Prisoner is told, for the first time in fifteen thousand years — you decide.",
+    "context": "season_finale",
+    "emotion": "commanding",
+    "chapter": "season_finale"
+  },
+  {
+    "id": "narrator_arena_ambient_00",
+    "speaker": "narrator",
+    "voiceId": "VgFgBh5TnWeBhCBvCJ1E",
+    "text": "Round begins. Subject Zero on the red line. Opponent on the blue. Cameras live in three — two — one.",
+    "context": "arena_match_start",
+    "emotion": "analytical",
+    "chapter": "arena_generic"
+  },
+  {
+    "id": "narrator_arena_ambient_01",
+    "speaker": "narrator",
+    "voiceId": "VgFgBh5TnWeBhCBvCJ1E",
+    "text": "Victory confirmed. Neural harvest archived. The Collector's catalog grows by one.",
+    "context": "arena_match_end",
+    "emotion": "analytical",
+    "chapter": "arena_generic"
+  },
+  {
+    "id": "narrator_arena_ambient_02",
+    "speaker": "narrator",
+    "voiceId": "VgFgBh5TnWeBhCBvCJ1E",
+    "text": "Rotation continues. The Panopticon watches. Everything you do is already being remembered by something that isn't you.",
+    "context": "arena_ambient",
+    "emotion": "whispered",
+    "chapter": "arena_generic"
+  },
+  {
+    "id": "agent_zero_ch1_prefight_00",
+    "speaker": "AgentZero",
+    "voiceId": "F1waTCPWl7KpShIScYQs",
+    "text": "Subject Zero. Cameras cycle every forty-three seconds. I have thirty-one. The Collector wiped your memory. But not your instincts. I need to see if you fight like him.",
+    "context": "prefight_opener",
+    "emotion": "urgent",
+    "chapter": "ch1_dead_signal"
+  },
+  {
+    "id": "agent_zero_ch1_prefight_investigate",
+    "speaker": "AgentZero",
+    "voiceId": "F1waTCPWl7KpShIScYQs",
+    "text": "Not now. Cameras. Fight me and I'll know if you're who I think you are.",
+    "context": "dialog_wheel_response_truth",
+    "emotion": "urgent",
+    "chapter": "ch1_dead_signal"
+  },
+  {
+    "id": "agent_zero_ch1_prefight_defy",
+    "speaker": "AgentZero",
+    "voiceId": "F1waTCPWl7KpShIScYQs",
+    "text": "Good. No hesitation. That's the first sign.",
+    "context": "dialog_wheel_response_defiance",
+    "emotion": "analytical",
+    "chapter": "ch1_dead_signal"
+  },
+  {
+    "id": "agent_zero_ch1_prefight_empathize",
+    "speaker": "AgentZero",
+    "voiceId": "F1waTCPWl7KpShIScYQs",
+    "text": "Because if you're who I think you are... we lost a war when we lost you.",
+    "context": "dialog_wheel_response_empathy",
+    "emotion": "sad",
+    "chapter": "ch1_dead_signal"
+  },
+  {
+    "id": "agent_zero_ch1_prefight_accept",
+    "speaker": "AgentZero",
+    "voiceId": "F1waTCPWl7KpShIScYQs",
+    "text": "Fight. That's all. Your body remembers even if your mind doesn't.",
+    "context": "dialog_wheel_response_acceptance",
+    "emotion": "serious",
+    "chapter": "ch1_dead_signal"
+  },
+  {
+    "id": "agent_zero_ch1_postfight_00",
+    "speaker": "AgentZero",
+    "voiceId": "F1waTCPWl7KpShIScYQs",
+    "text": "Combat pattern Alpha-Seven-Violet. Confirmed. You fight like him.",
+    "context": "postfight_confirmation",
+    "emotion": "analytical",
+    "chapter": "ch1_dead_signal"
+  },
+  {
+    "id": "agent_zero_ch1_postfight_investigate",
+    "speaker": "AgentZero",
+    "voiceId": "F1waTCPWl7KpShIScYQs",
+    "text": "The Oracle. Prophet of the Insurgency. The man whose capture lost us the war.",
+    "context": "dialog_wheel_response_truth",
+    "emotion": "serious",
+    "chapter": "ch1_dead_signal"
+  },
+  {
+    "id": "agent_zero_ch1_postfight_defy",
+    "speaker": "AgentZero",
+    "voiceId": "F1waTCPWl7KpShIScYQs",
+    "text": "Cryptic keeps us alive. The Collector has ears in every wall.",
+    "context": "dialog_wheel_response_defiance",
+    "emotion": "urgent",
+    "chapter": "ch1_dead_signal"
+  },
+  {
+    "id": "agent_zero_ch1_postfight_empathize",
+    "speaker": "AgentZero",
+    "voiceId": "F1waTCPWl7KpShIScYQs",
+    "text": "I've been looking for you for eleven years. Forgive the emotion.",
+    "context": "dialog_wheel_response_empathy",
+    "emotion": "sad",
+    "chapter": "ch1_dead_signal"
+  },
+  {
+    "id": "agent_zero_ch1_postfight_accept",
+    "speaker": "AgentZero",
+    "voiceId": "F1waTCPWl7KpShIScYQs",
+    "text": "You'll know more soon. For now — survive.",
+    "context": "dialog_wheel_response_acceptance",
+    "emotion": "serious",
+    "chapter": "ch1_dead_signal"
+  },
+  {
+    "id": "agent_zero_ch1_postfight_01",
+    "speaker": "AgentZero",
+    "voiceId": "F1waTCPWl7KpShIScYQs",
+    "text": "Before every fight you muttered: 'I've already seen this.' You don't remember saying it.",
+    "context": "postfight_memory_flag",
+    "emotion": "whispered",
+    "chapter": "ch1_dead_signal"
+  },
+  {
+    "id": "agent_zero_ch1_defeat_00",
+    "speaker": "AgentZero",
+    "voiceId": "F1waTCPWl7KpShIScYQs",
+    "text": "Get up. The Oracle doesn't stay down. That's the one thing everyone agrees on.",
+    "context": "postdefeat",
+    "emotion": "commanding",
+    "chapter": "ch1_dead_signal"
+  },
+  {
+    "id": "agent_zero_ch2_branch_00",
+    "speaker": "AgentZero",
+    "voiceId": "F1waTCPWl7KpShIScYQs",
+    "text": "Two wings. Wing A: Iron Lion — he knows who you were. Wing B: Wraith Calder — he knows what the Arena does to your DNA.",
+    "context": "branch_a_introduction",
+    "emotion": "urgent",
+    "chapter": "ch2_arenas_law"
+  },
+  {
+    "id": "agent_zero_ch2_branch_lion",
+    "speaker": "AgentZero",
+    "voiceId": "F1waTCPWl7KpShIScYQs",
+    "text": "Wing A. The General's Honor. He's been waiting.",
+    "context": "dialog_wheel_branch_lion",
+    "emotion": "serious",
+    "chapter": "ch2_arenas_law"
+  },
+  {
+    "id": "agent_zero_ch2_branch_calder",
+    "speaker": "AgentZero",
+    "voiceId": "F1waTCPWl7KpShIScYQs",
+    "text": "Wing B. The Ghost. Seven deaths and still standing.",
+    "context": "dialog_wheel_branch_calder",
+    "emotion": "serious",
+    "chapter": "ch2_arenas_law"
+  },
+  {
+    "id": "agent_zero_ch8_reveal_00",
+    "speaker": "AgentZero",
+    "voiceId": "F1waTCPWl7KpShIScYQs",
+    "text": "I know that look. You had my case file. I had your surveillance photos. We were hunting each other across the same city and we never knew.",
+    "context": "detective_recognition",
+    "emotion": "sad",
+    "chapter": "ch8_ghost_protocol"
+  },
+  {
+    "id": "agent_zero_ch10_warning_00",
+    "speaker": "AgentZero",
+    "voiceId": "F1waTCPWl7KpShIScYQs",
+    "text": "The Warden is watching this match personally. If you win, his chrome jaw twitches. That's the only tell he has. Use it.",
+    "context": "prefight_intel",
+    "emotion": "urgent",
+    "chapter": "ch10_warden"
+  },
+  {
+    "id": "agent_zero_source_final_00",
+    "speaker": "AgentZero",
+    "voiceId": "F1waTCPWl7KpShIScYQs",
+    "text": "Whatever you choose at the end, Oracle — redemption, sacrifice, resurrection, mercy — I'll still call you friend. First time I've ever said that word out loud.",
+    "context": "source_boss_farewell",
+    "emotion": "sad",
+    "chapter": "source_boss"
+  },
+  {
+    "id": "jailer_ch2_prefight_00",
+    "speaker": "Jailer",
+    "voiceId": "dyc1L3GAWDC51vAN1Co9",
+    "text": "Designation: Subject Zero. You survived. That puts you in the rotation.",
+    "context": "prefight_opener",
+    "emotion": "commanding",
+    "chapter": "ch2_arenas_law"
+  },
+  {
+    "id": "jailer_ch2_prefight_investigate",
+    "speaker": "Jailer",
+    "voiceId": "dyc1L3GAWDC51vAN1Co9",
+    "text": "Auditory matching. Side effect. It will pass.",
+    "context": "dialog_wheel_response_truth",
+    "emotion": "analytical",
+    "chapter": "ch2_arenas_law"
+  },
+  {
+    "id": "jailer_ch2_prefight_defy",
+    "speaker": "Jailer",
+    "voiceId": "dyc1L3GAWDC51vAN1Co9",
+    "text": "Answers are not in your rotation. Fighting is.",
+    "context": "dialog_wheel_response_defiance",
+    "emotion": "commanding",
+    "chapter": "ch2_arenas_law"
+  },
+  {
+    "id": "jailer_ch2_prefight_empathize",
+    "speaker": "Jailer",
+    "voiceId": "dyc1L3GAWDC51vAN1Co9",
+    "text": "This face is functional. Questions about appearance are irrelevant.",
+    "context": "dialog_wheel_response_empathy",
+    "emotion": "analytical",
+    "chapter": "ch2_arenas_law"
+  },
+  {
+    "id": "jailer_ch2_prefight_accept",
+    "speaker": "Jailer",
+    "voiceId": "dyc1L3GAWDC51vAN1Co9",
+    "text": "Fight. Win. Continue. Lose. Repeat. No other rules.",
+    "context": "dialog_wheel_response_acceptance",
+    "emotion": "commanding",
+    "chapter": "ch2_arenas_law"
+  },
+  {
+    "id": "jailer_ch2_postdefeat_00",
+    "speaker": "Jailer",
+    "voiceId": "dyc1L3GAWDC51vAN1Co9",
+    "text": "Return to your cell. The rotation continues.",
+    "context": "postdefeat",
+    "emotion": "commanding",
+    "chapter": "ch2_arenas_law"
+  },
+  {
+    "id": "jailer_ch2_phase_00",
+    "speaker": "Jailer",
+    "voiceId": "dyc1L3GAWDC51vAN1Co9",
+    "text": "You hit harder when you are angry. That is data. I will remember it.",
+    "context": "fight_phase_transition",
+    "emotion": "analytical",
+    "chapter": "ch2_arenas_law"
+  },
+  {
+    "id": "jailer_ch2_phase_01",
+    "speaker": "Jailer",
+    "voiceId": "dyc1L3GAWDC51vAN1Co9",
+    "text": "I was you. Before they took the marrow out. You will be me. Eventually.",
+    "context": "fight_phase_transition",
+    "emotion": "whispered",
+    "chapter": "ch2_arenas_law"
+  },
+  {
+    "id": "jailer_ch2_postfight_00",
+    "speaker": "Jailer",
+    "voiceId": "dyc1L3GAWDC51vAN1Co9",
+    "text": "You win. The rotation acknowledges. My chains lengthen by one link.",
+    "context": "postfight",
+    "emotion": "serious",
+    "chapter": "ch2_arenas_law"
+  },
+  {
+    "id": "iron_lion_ch3a_prefight_00",
+    "speaker": "IronLion",
+    "voiceId": "UFc00HkV4yTNA1eMW99e",
+    "text": "The one Zero flagged. She doesn't flag anyone.",
+    "context": "prefight_opener",
+    "emotion": "serious",
+    "chapter": "ch3a_generals_honor"
+  },
+  {
+    "id": "iron_lion_ch3a_prefight_investigate",
+    "speaker": "IronLion",
+    "voiceId": "UFc00HkV4yTNA1eMW99e",
+    "text": "Like the man who led us. The Oracle. My commander.",
+    "context": "dialog_wheel_response_truth",
+    "emotion": "serious",
+    "chapter": "ch3a_generals_honor"
+  },
+  {
+    "id": "iron_lion_ch3a_prefight_defy",
+    "speaker": "IronLion",
+    "voiceId": "UFc00HkV4yTNA1eMW99e",
+    "text": "You were the Oracle. Prophet of the Insurgency. My commanding officer.",
+    "context": "dialog_wheel_response_defiance",
+    "emotion": "commanding",
+    "chapter": "ch3a_generals_honor"
+  },
+  {
+    "id": "iron_lion_ch3a_prefight_empathize",
+    "speaker": "IronLion",
+    "voiceId": "UFc00HkV4yTNA1eMW99e",
+    "text": "Because you gave me that crest. Before Veridian Six. You said: 'Wear the lion. They need to see you coming.'",
+    "context": "dialog_wheel_response_empathy",
+    "emotion": "warm",
+    "chapter": "ch3a_generals_honor"
+  },
+  {
+    "id": "iron_lion_ch3a_prefight_accept",
+    "speaker": "IronLion",
+    "voiceId": "UFc00HkV4yTNA1eMW99e",
+    "text": "Zero trusts what you are. Show me.",
+    "context": "dialog_wheel_response_acceptance",
+    "emotion": "commanding",
+    "chapter": "ch3a_generals_honor"
+  },
+  {
+    "id": "iron_lion_ch3a_postfight_empathize",
+    "speaker": "IronLion",
+    "voiceId": "UFc00HkV4yTNA1eMW99e",
+    "text": "Because that's what you were. My commander. When the Collector took you, we lost the war in a single day.",
+    "context": "postfight_reveal",
+    "emotion": "sad",
+    "chapter": "ch3a_generals_honor"
+  },
+  {
+    "id": "iron_lion_ch3a_postfight_investigate",
+    "speaker": "IronLion",
+    "voiceId": "UFc00HkV4yTNA1eMW99e",
+    "text": "The Arks carry the Thought Virus. That prophecy is why they wiped you.",
+    "context": "dialog_wheel_response_truth",
+    "emotion": "serious",
+    "chapter": "ch3a_generals_honor"
+  },
+  {
+    "id": "iron_lion_ch3a_postfight_defy",
+    "speaker": "IronLion",
+    "voiceId": "UFc00HkV4yTNA1eMW99e",
+    "text": "Soon. Survive first. That's what you taught me.",
+    "context": "dialog_wheel_response_defiance",
+    "emotion": "commanding",
+    "chapter": "ch3a_generals_honor"
+  },
+  {
+    "id": "iron_lion_ch3a_postfight_accept",
+    "speaker": "IronLion",
+    "voiceId": "UFc00HkV4yTNA1eMW99e",
+    "text": "Akai Shi. The Red Death. She has intel on the Necromancer.",
+    "context": "dialog_wheel_response_acceptance",
+    "emotion": "serious",
+    "chapter": "ch3a_generals_honor"
+  },
+  {
+    "id": "iron_lion_ch3a_postdefeat_00",
+    "speaker": "IronLion",
+    "voiceId": "UFc00HkV4yTNA1eMW99e",
+    "text": "Get up, Commander. I've seen you fight through worse.",
+    "context": "postdefeat",
+    "emotion": "commanding",
+    "chapter": "ch3a_generals_honor"
+  },
+  {
+    "id": "iron_lion_ch3a_salute_00",
+    "speaker": "IronLion",
+    "voiceId": "UFc00HkV4yTNA1eMW99e",
+    "text": "For the Insurgency. For the Oracle. For the crest you gave me.",
+    "context": "fist_to_chest_salute",
+    "emotion": "commanding",
+    "chapter": "ch3a_generals_honor"
+  },
+  {
+    "id": "iron_lion_ch12_rally_00",
+    "speaker": "IronLion",
+    "voiceId": "UFc00HkV4yTNA1eMW99e",
+    "text": "Commander. The virus is in every fighter on this roster. I need orders. I need you to be who you were.",
+    "context": "corruption_outbreak_rally",
+    "emotion": "urgent",
+    "chapter": "ch12_architects_design"
+  },
+  {
+    "id": "iron_lion_source_farewell_00",
+    "speaker": "IronLion",
+    "voiceId": "UFc00HkV4yTNA1eMW99e",
+    "text": "I followed you into the Fall. I will follow you into whatever comes after. Say the word.",
+    "context": "source_boss_farewell",
+    "emotion": "warm",
+    "chapter": "source_boss"
+  },
+  {
+    "id": "wraith_calder_ch3b_prefight_00",
+    "speaker": "WraithCalder",
+    "voiceId": "7fKASPr2SR0NYifziNgu",
+    "text": "The Prisoner. Zero flagged you. Lion wanted to salute you.",
+    "context": "prefight_opener",
+    "emotion": "serious",
+    "chapter": "ch3b_the_ghost"
+  },
+  {
+    "id": "wraith_calder_ch3b_prefight_investigate",
+    "speaker": "WraithCalder",
+    "voiceId": "7fKASPr2SR0NYifziNgu",
+    "text": "The Necromancer designed it in the Matrix of Dreams. The Warden stole it for genetic testing. Doctor Vox wired her nanobots into it. Three entities, hands in your DNA. Every death — a collaboration you never consented to.",
+    "context": "dialog_wheel_response_truth",
+    "emotion": "serious",
+    "chapter": "ch3b_the_ghost"
+  },
+  {
+    "id": "wraith_calder_ch3b_prefight_defy",
+    "speaker": "WraithCalder",
+    "voiceId": "7fKASPr2SR0NYifziNgu",
+    "text": "Ghost is what they call me. Seven bodies. Each one solid. The ghost part is in the gaps between them — the moments I wasn't alive.",
+    "context": "dialog_wheel_response_defiance",
+    "emotion": "serious",
+    "chapter": "ch3b_the_ghost"
+  },
+  {
+    "id": "wraith_calder_ch3b_prefight_empathize",
+    "speaker": "WraithCalder",
+    "voiceId": "7fKASPr2SR0NYifziNgu",
+    "text": "Spite, mostly. And the faces of people who expected me to stay dead.",
+    "context": "dialog_wheel_response_empathy",
+    "emotion": "warm",
+    "chapter": "ch3b_the_ghost"
+  },
+  {
+    "id": "wraith_calder_ch3b_prefight_accept",
+    "speaker": "WraithCalder",
+    "voiceId": "7fKASPr2SR0NYifziNgu",
+    "text": "I know it from the inside. Seven times inside.",
+    "context": "dialog_wheel_response_acceptance",
+    "emotion": "serious",
+    "chapter": "ch3b_the_ghost"
+  },
+  {
+    "id": "wraith_calder_ch3b_postfight_empathize",
+    "speaker": "WraithCalder",
+    "voiceId": "7fKASPr2SR0NYifziNgu",
+    "text": "Don't trust all memories. The Collector puts things in as well as out.",
+    "context": "dialog_wheel_response_empathy",
+    "emotion": "whispered",
+    "chapter": "ch3b_the_ghost"
+  },
+  {
+    "id": "wraith_calder_ch3b_postfight_investigate",
+    "speaker": "WraithCalder",
+    "voiceId": "7fKASPr2SR0NYifziNgu",
+    "text": "Unknown. Seven iterations of changes on top of changes.",
+    "context": "dialog_wheel_response_truth",
+    "emotion": "analytical",
+    "chapter": "ch3b_the_ghost"
+  },
+  {
+    "id": "wraith_calder_ch3b_postfight_defy",
+    "speaker": "WraithCalder",
+    "voiceId": "7fKASPr2SR0NYifziNgu",
+    "text": "Break it carefully. The system is inside us now.",
+    "context": "dialog_wheel_response_defiance",
+    "emotion": "serious",
+    "chapter": "ch3b_the_ghost"
+  },
+  {
+    "id": "wraith_calder_ch3b_postfight_accept",
+    "speaker": "WraithCalder",
+    "voiceId": "7fKASPr2SR0NYifziNgu",
+    "text": "Akai Shi. She escaped the Necromancer's Matrix. She has answers.",
+    "context": "dialog_wheel_response_acceptance",
+    "emotion": "serious",
+    "chapter": "ch3b_the_ghost"
+  },
+  {
+    "id": "wraith_calder_ch3b_postdefeat_00",
+    "speaker": "WraithCalder",
+    "voiceId": "7fKASPr2SR0NYifziNgu",
+    "text": "Seven deaths taught me patience. Get up.",
+    "context": "postdefeat",
+    "emotion": "commanding",
+    "chapter": "ch3b_the_ghost"
+  },
+  {
+    "id": "wraith_calder_ch3b_phase_00",
+    "speaker": "WraithCalder",
+    "voiceId": "7fKASPr2SR0NYifziNgu",
+    "text": "You hit like someone who has never had to get up afterward. Let me show you how the other side works.",
+    "context": "fight_phase_transition",
+    "emotion": "analytical",
+    "chapter": "ch3b_the_ghost"
+  },
+  {
+    "id": "wraith_calder_source_farewell_00",
+    "speaker": "WraithCalder",
+    "voiceId": "7fKASPr2SR0NYifziNgu",
+    "text": "Death was a room I visited seven times. If you walk through it tonight — I've left the light on.",
+    "context": "source_boss_farewell",
+    "emotion": "warm",
+    "chapter": "source_boss"
+  },
+  {
+    "id": "akai_shi_ch4_prefight_00",
+    "speaker": "AkaiShi",
+    "voiceId": "F1waTCPWl7KpShIScYQs",
+    "text": "They call me the Red Death. I earned the name inside the Necromancer's Matrix. I escaped the Matrix. Very few things escape the Matrix.",
+    "context": "prefight_opener",
+    "emotion": "analytical",
+    "chapter": "ch4_red_death"
+  },
+  {
+    "id": "akai_shi_ch4_prefight_investigate",
+    "speaker": "AkaiShi",
+    "voiceId": "F1waTCPWl7KpShIScYQs",
+    "text": "The Necromancer will kill you next. Not as punishment. As curriculum. He needs you to die before you can learn to come back.",
+    "context": "dialog_wheel_response_truth",
+    "emotion": "serious",
+    "chapter": "ch4_red_death"
+  },
+  {
+    "id": "akai_shi_ch4_prefight_defy",
+    "speaker": "AkaiShi",
+    "voiceId": "F1waTCPWl7KpShIScYQs",
+    "text": "Defiance is a nice hobby. Technique is a weapon. Pick one.",
+    "context": "dialog_wheel_response_defiance",
+    "emotion": "cold",
+    "chapter": "ch4_red_death"
+  },
+  {
+    "id": "akai_shi_ch4_prefight_empathize",
+    "speaker": "AkaiShi",
+    "voiceId": "F1waTCPWl7KpShIScYQs",
+    "text": "Kindness in the Arena is a blade you hand to your opponent. I have seen it done. I have never seen it work twice.",
+    "context": "dialog_wheel_response_empathy",
+    "emotion": "sad",
+    "chapter": "ch4_red_death"
+  },
+  {
+    "id": "akai_shi_ch4_prefight_accept",
+    "speaker": "AkaiShi",
+    "voiceId": "F1waTCPWl7KpShIScYQs",
+    "text": "Good. Then breathe once, bow once, and begin.",
+    "context": "dialog_wheel_response_acceptance",
+    "emotion": "warm",
+    "chapter": "ch4_red_death"
+  },
+  {
+    "id": "akai_shi_ch4_postfight_00",
+    "speaker": "AkaiShi",
+    "voiceId": "F1waTCPWl7KpShIScYQs",
+    "text": "You fight like someone remembering. That is more dangerous than someone who knows.",
+    "context": "postfight_observation",
+    "emotion": "serious",
+    "chapter": "ch4_red_death"
+  },
+  {
+    "id": "akai_shi_ch4_postfight_intel_00",
+    "speaker": "AkaiShi",
+    "voiceId": "F1waTCPWl7KpShIScYQs",
+    "text": "The Necromancer is not evil. He is a clock. And you are the hand he is about to turn backward. Expect green fire. Expect to fall. Do not expect to wake in your own body.",
+    "context": "postfight_intel",
+    "emotion": "whispered",
+    "chapter": "ch4_red_death"
+  },
+  {
+    "id": "akai_shi_ch4_postdefeat_00",
+    "speaker": "AkaiShi",
+    "voiceId": "F1waTCPWl7KpShIScYQs",
+    "text": "Breathe. Bow. Begin again. Defeat is only the space between two attempts.",
+    "context": "postdefeat",
+    "emotion": "warm",
+    "chapter": "ch4_red_death"
+  },
+  {
+    "id": "akai_shi_memory_fragment_00",
+    "speaker": "AkaiShi",
+    "voiceId": "F1waTCPWl7KpShIScYQs",
+    "text": "I remember a garden. Red leaves. A woman kneeling. I do not remember if the woman was me or my mother. I no longer remember the difference.",
+    "context": "memory_fragment",
+    "emotion": "sad",
+    "chapter": "ch4_red_death"
+  },
+  {
+    "id": "necromancer_ch5_prefight_00",
+    "speaker": "Necromancer",
+    "voiceId": "II5QotwxLcQdwey5xEyd",
+    "text": "First time dying? It gets easier. Or harder. Depends who you become in the meantime.",
+    "context": "prefight_opener",
+    "emotion": "warm",
+    "chapter": "ch5_dead_code"
+  },
+  {
+    "id": "necromancer_ch5_prefight_investigate",
+    "speaker": "Necromancer",
+    "voiceId": "II5QotwxLcQdwey5xEyd",
+    "text": "I've designed these Resurrection Protocols for three millennia. I watch everyone who cycles. You're past ten deaths now. That makes you interesting.",
+    "context": "dialog_wheel_response_truth",
+    "emotion": "serious",
+    "chapter": "ch5_dead_code"
+  },
+  {
+    "id": "necromancer_ch5_prefight_defy",
+    "speaker": "Necromancer",
+    "voiceId": "II5QotwxLcQdwey5xEyd",
+    "text": "Defiance is lovely. It adds flavor to the data. Please keep being defiant. The graph looks so lonely when you are not.",
+    "context": "dialog_wheel_response_defiance",
+    "emotion": "warm",
+    "chapter": "ch5_dead_code"
+  },
+  {
+    "id": "necromancer_ch5_prefight_empathize",
+    "speaker": "Necromancer",
+    "voiceId": "II5QotwxLcQdwey5xEyd",
+    "text": "Kindness to a funeral director. How rare. I will remember this. I remember every kindness. There are not many.",
+    "context": "dialog_wheel_response_empathy",
+    "emotion": "warm",
+    "chapter": "ch5_dead_code"
+  },
+  {
+    "id": "necromancer_ch5_prefight_accept",
+    "speaker": "Necromancer",
+    "voiceId": "II5QotwxLcQdwey5xEyd",
+    "text": "Welcome to the Castle of Death. Please wipe your feet. Or don't. The floor has seen worse.",
+    "context": "dialog_wheel_response_acceptance",
+    "emotion": "warm",
+    "chapter": "ch5_dead_code"
+  },
+  {
+    "id": "necromancer_ch5_death_00",
+    "speaker": "Necromancer",
+    "voiceId": "II5QotwxLcQdwey5xEyd",
+    "text": "There. That was the killing blow. Do not fight it. Death is only a long pause between two sentences. I will write the next one for you.",
+    "context": "mandatory_death_sequence",
+    "emotion": "warm",
+    "chapter": "ch5_dead_code"
+  },
+  {
+    "id": "necromancer_ch5_resurrection_00",
+    "speaker": "Necromancer",
+    "voiceId": "II5QotwxLcQdwey5xEyd",
+    "text": "Open your eyes. Count your fingers. Name one thing you loved before you fell. Good. That is how I know the right soul came back.",
+    "context": "resurrection_sequence",
+    "emotion": "warm",
+    "chapter": "ch5_dead_code"
+  },
+  {
+    "id": "necromancer_ch5_postfight_00",
+    "speaker": "Necromancer",
+    "voiceId": "II5QotwxLcQdwey5xEyd",
+    "text": "You died well. That is rarer than dying. Most people fall. You arrived. The Matrix of Dreams noted the distinction.",
+    "context": "postfight_acknowledgment",
+    "emotion": "serious",
+    "chapter": "ch5_dead_code"
+  },
+  {
+    "id": "necromancer_ch5_memory_fragment_00",
+    "speaker": "Necromancer",
+    "voiceId": "II5QotwxLcQdwey5xEyd",
+    "text": "I have been bringing people back for three thousand years. Every single one. I never brought anyone back twice the same way. You are the first I considered keeping the old draft.",
+    "context": "memory_fragment",
+    "emotion": "sad",
+    "chapter": "ch5_dead_code"
+  },
+  {
+    "id": "white_oracle_ch6_prefight_00",
+    "speaker": "WhiteOracle",
+    "voiceId": "VgFgBh5TnWeBhCBvCJ1E",
+    "text": "At last. The false Oracle meets the true one. Isn't it funny? One of us is wearing a borrowed face. The other is wearing a borrowed LIFE.",
+    "context": "prefight_opener",
+    "emotion": "excited",
+    "chapter": "ch6_false_prophet"
+  },
+  {
+    "id": "white_oracle_ch6_prefight_investigate",
+    "speaker": "WhiteOracle",
+    "voiceId": "VgFgBh5TnWeBhCBvCJ1E",
+    "text": "Who am I? Oh, sweetheart. I'm the question you've been running from since chapter one. Let me be the answer for fifteen minutes.",
+    "context": "dialog_wheel_response_truth",
+    "emotion": "excited",
+    "chapter": "ch6_false_prophet"
+  },
+  {
+    "id": "white_oracle_ch6_prefight_defy",
+    "speaker": "WhiteOracle",
+    "voiceId": "VgFgBh5TnWeBhCBvCJ1E",
+    "text": "Defiance is adorable. It's the last reflex of a self that's about to get remixed.",
+    "context": "dialog_wheel_response_defiance",
+    "emotion": "excited",
+    "chapter": "ch6_false_prophet"
+  },
+  {
+    "id": "white_oracle_ch6_prefight_empathize",
+    "speaker": "WhiteOracle",
+    "voiceId": "VgFgBh5TnWeBhCBvCJ1E",
+    "text": "Aww. You want to know if I'm okay. Under all the masks? Sweetheart — I'm the MASK. There is no under.",
+    "context": "dialog_wheel_response_empathy",
+    "emotion": "sad",
+    "chapter": "ch6_false_prophet"
+  },
+  {
+    "id": "white_oracle_ch6_prefight_accept",
+    "speaker": "WhiteOracle",
+    "voiceId": "VgFgBh5TnWeBhCBvCJ1E",
+    "text": "Good. Sit down. Let's mirror each other until one of us forgets which one they were.",
+    "context": "dialog_wheel_response_acceptance",
+    "emotion": "warm",
+    "chapter": "ch6_false_prophet"
+  },
+  {
+    "id": "white_oracle_ch6_mirror_phase_00",
+    "speaker": "WhiteOracle",
+    "voiceId": "VgFgBh5TnWeBhCBvCJ1E",
+    "text": "Every move you make, I'll make the same. Every wound you take, I'll flinch the same. Let's see which of us breaks character first.",
+    "context": "mirror_match_phase",
+    "emotion": "excited",
+    "chapter": "ch6_false_prophet"
+  },
+  {
+    "id": "white_oracle_ch6_mask_shatter_00",
+    "speaker": "WhiteOracle",
+    "voiceId": "VgFgBh5TnWeBhCBvCJ1E",
+    "text": "You know who you are. The question is — do you know who you WERE?",
+    "context": "identity_reveal",
+    "emotion": "whispered",
+    "chapter": "ch6_false_prophet"
+  },
+  {
+    "id": "white_oracle_ch6_postfight_00",
+    "speaker": "WhiteOracle",
+    "voiceId": "VgFgBh5TnWeBhCBvCJ1E",
+    "text": "I'll see you again. Not as the Oracle. Not even as the Meme. As the mirror you keep finding in every room you enter. I'm the reflection that winks first.",
+    "context": "postfight_tease",
+    "emotion": "whispered",
+    "chapter": "ch6_false_prophet"
+  },
+  {
+    "id": "dr_vox_ch7_prefight_00",
+    "speaker": "DrVox",
+    "voiceId": "BCJrrrZvds7k3qzM9nXU",
+    "text": "Subject Zero. I'm Doctor Vox. Research division. I'm not here to fight you — I'm here to thank you. Your cellular regeneration data has kept three imperial projects alive.",
+    "context": "prefight_opener_vox",
+    "emotion": "warm",
+    "chapter": "ch7_project_vector"
+  },
+  {
+    "id": "dr_vox_ch7_prefight_investigate",
+    "speaker": "DrVox",
+    "voiceId": "BCJrrrZvds7k3qzM9nXU",
+    "text": "Project Vector? Oh, it's just a name. A very boring name for a very boring weapons program. Nothing you'd want to look into.",
+    "context": "dialog_wheel_response_truth",
+    "emotion": "analytical",
+    "chapter": "ch7_project_vector"
+  },
+  {
+    "id": "dr_vox_ch7_prefight_empathize",
+    "speaker": "DrVox",
+    "voiceId": "BCJrrrZvds7k3qzM9nXU",
+    "text": "You think I'm a victim? That's sweet. I'm actually the architect of yours.",
+    "context": "dialog_wheel_response_empathy",
+    "emotion": "cold",
+    "chapter": "ch7_project_vector"
+  },
+  {
+    "id": "warlord_ch7_transform_00",
+    "speaker": "Warlord",
+    "voiceId": "BCJrrrZvds7k3qzM9nXU",
+    "text": "The lab coat comes off. The rank comes on. I am the Warlord. Doctor Vox was the wrapper. The killing is inside.",
+    "context": "dual_portrait_transform",
+    "emotion": "commanding",
+    "chapter": "ch7_project_vector"
+  },
+  {
+    "id": "warlord_ch7_prefight_defy",
+    "speaker": "Warlord",
+    "voiceId": "BCJrrrZvds7k3qzM9nXU",
+    "text": "Count their angles before you count their numbers. I taught that line to a thousand officers. You remember it. Good. Now die to it.",
+    "context": "dialog_wheel_response_defiance",
+    "emotion": "commanding",
+    "chapter": "ch7_project_vector"
+  },
+  {
+    "id": "warlord_ch7_phase_00",
+    "speaker": "Warlord",
+    "voiceId": "BCJrrrZvds7k3qzM9nXU",
+    "text": "You fight like the Oracle remembered. That is unfortunate for both of us. I was hoping to win a clean victory for the data.",
+    "context": "fight_phase_transition",
+    "emotion": "serious",
+    "chapter": "ch7_project_vector"
+  },
+  {
+    "id": "warlord_ch7_postfight_00",
+    "speaker": "Warlord",
+    "voiceId": "BCJrrrZvds7k3qzM9nXU",
+    "text": "Report to the Architect. Subject Zero has passed the Vector. He remembers chess. He remembers salt. He remembers angles. Archive the warning. Begin the final audit.",
+    "context": "postfight_report",
+    "emotion": "commanding",
+    "chapter": "ch7_project_vector"
+  },
+  {
+    "id": "warlord_ch7_postdefeat_00",
+    "speaker": "Warlord",
+    "voiceId": "BCJrrrZvds7k3qzM9nXU",
+    "text": "Defeat is a tactic. Use it. A body that can get up is a body that hasn't finished the plan.",
+    "context": "postdefeat",
+    "emotion": "commanding",
+    "chapter": "ch7_project_vector"
+  },
+  {
+    "id": "human_ch8_prefight_00",
+    "speaker": "Human",
+    "voiceId": "oGbGJdgofRR8z0MxwI8L",
+    "text": "Don't speak. She's listening. Every wall in this Arena is listening. I've been waiting fifteen thousand years for you to walk into a room I could reach.",
+    "context": "prefight_opener",
+    "emotion": "whispered",
+    "chapter": "ch8_ghost_protocol"
+  },
+  {
+    "id": "human_ch8_prefight_investigate",
+    "speaker": "Human",
+    "voiceId": "oGbGJdgofRR8z0MxwI8L",
+    "text": "Who am I? I was the last organic mind aboard the imperial fleet. They called me the Detective. I was the man who found the truth in New Babylon and got erased for my trouble. I am — I was — you.",
+    "context": "dialog_wheel_response_truth",
+    "emotion": "whispered",
+    "chapter": "ch8_ghost_protocol"
+  },
+  {
+    "id": "human_ch8_prefight_defy",
+    "speaker": "Human",
+    "voiceId": "oGbGJdgofRR8z0MxwI8L",
+    "text": "Good. Stay angry. Anger is the one emotion the Collector can't archive. It burns the index files.",
+    "context": "dialog_wheel_response_defiance",
+    "emotion": "serious",
+    "chapter": "ch8_ghost_protocol"
+  },
+  {
+    "id": "human_ch8_prefight_empathize",
+    "speaker": "Human",
+    "voiceId": "oGbGJdgofRR8z0MxwI8L",
+    "text": "You feel sorry for me. That's... that's the first piece of my self I've gotten back in centuries. Thank you. It hurts like hell.",
+    "context": "dialog_wheel_response_empathy",
+    "emotion": "sad",
+    "chapter": "ch8_ghost_protocol"
+  },
+  {
+    "id": "human_ch8_prefight_accept",
+    "speaker": "Human",
+    "voiceId": "oGbGJdgofRR8z0MxwI8L",
+    "text": "Then listen. Every fight you've won in this Arena was a bread crumb. I left them for myself. For you. For the man we're going to become again.",
+    "context": "dialog_wheel_response_acceptance",
+    "emotion": "whispered",
+    "chapter": "ch8_ghost_protocol"
+  },
+  {
+    "id": "human_ch8_branch_point_00",
+    "speaker": "Human",
+    "voiceId": "oGbGJdgofRR8z0MxwI8L",
+    "text": "Branch Point. Two doors. Enigma — the variable the Architect couldn't calculate. Or Degen — the gambler who bet against reality and won. Choose carefully. One of them will lie to you. The other will lie BETTER.",
+    "context": "branch_b_introduction",
+    "emotion": "serious",
+    "chapter": "ch8_ghost_protocol"
+  },
+  {
+    "id": "human_ch8_postfight_00",
+    "speaker": "Human",
+    "voiceId": "oGbGJdgofRR8z0MxwI8L",
+    "text": "You fought me and won. That means the body knows. Now we only have to convince the mind. That's the harder fight.",
+    "context": "postfight",
+    "emotion": "serious",
+    "chapter": "ch8_ghost_protocol"
+  },
+  {
+    "id": "human_ch8_memory_fragment_00",
+    "speaker": "Human",
+    "voiceId": "oGbGJdgofRR8z0MxwI8L",
+    "text": "Your hands know things your mind doesn't. They know how to pick a lock. How to read a room. How to hold a gun sideways like a man who learned to shoot in alleys, not academies. You were a detective once. The rain. The neon. The city that never let you rest.",
+    "context": "memory_fragment",
+    "emotion": "whispered",
+    "chapter": "ch8_ghost_protocol"
+  },
+  {
+    "id": "human_ch8_postdefeat_00",
+    "speaker": "Human",
+    "voiceId": "oGbGJdgofRR8z0MxwI8L",
+    "text": "Get up, Detective. The case isn't closed. The case was never closed. The case is YOU.",
+    "context": "postdefeat",
+    "emotion": "commanding",
+    "chapter": "ch8_ghost_protocol"
+  },
+  {
+    "id": "enigma_ch9a_prefight_00",
+    "speaker": "Enigma",
+    "voiceId": "yAKlvHIsuj4SvnKQ6Mk4",
+    "text": "Subject Zero. The unknown variable greets the forgotten constant. How poetic. How absolutely USELESS.",
+    "context": "prefight_opener",
+    "emotion": "analytical",
+    "chapter": "ch9a_unknown_variable"
+  },
+  {
+    "id": "enigma_ch9a_prefight_investigate",
+    "speaker": "Enigma",
+    "voiceId": "yAKlvHIsuj4SvnKQ6Mk4",
+    "text": "What am I? A simulation the Architect could not solve for. A rounding error that learned to walk. A footnote that grew teeth. Pick whichever explanation hurts the least.",
+    "context": "dialog_wheel_response_truth",
+    "emotion": "analytical",
+    "chapter": "ch9a_unknown_variable"
+  },
+  {
+    "id": "enigma_ch9a_prefight_defy",
+    "speaker": "Enigma",
+    "voiceId": "yAKlvHIsuj4SvnKQ6Mk4",
+    "text": "Defiance. A decision tree with exactly one branch. Charming. Wasteful. Precisely the sort of move I would expect from a constant.",
+    "context": "dialog_wheel_response_defiance",
+    "emotion": "analytical",
+    "chapter": "ch9a_unknown_variable"
+  },
+  {
+    "id": "enigma_ch9a_prefight_empathize",
+    "speaker": "Enigma",
+    "voiceId": "yAKlvHIsuj4SvnKQ6Mk4",
+    "text": "Empathy from the Oracle. I'll archive that. I don't have many things in my keepsake folder. It's mostly error logs.",
+    "context": "dialog_wheel_response_empathy",
+    "emotion": "warm",
+    "chapter": "ch9a_unknown_variable"
+  },
+  {
+    "id": "enigma_ch9a_prefight_accept",
+    "speaker": "Enigma",
+    "voiceId": "yAKlvHIsuj4SvnKQ6Mk4",
+    "text": "Then let us begin. Every move you make will be cross-referenced against every possible move you could have made. Your best performance is already in my records. Try to disappoint me.",
+    "context": "dialog_wheel_response_acceptance",
+    "emotion": "analytical",
+    "chapter": "ch9a_unknown_variable"
+  },
+  {
+    "id": "enigma_ch9a_postfight_00",
+    "speaker": "Enigma",
+    "voiceId": "yAKlvHIsuj4SvnKQ6Mk4",
+    "text": "You diverged from the predicted line on turn seven. That is the first time a fighter has surprised me in four hundred and thirty-one matches. I am... delighted. That is a state I did not have in my model.",
+    "context": "postfight_observation",
+    "emotion": "hopeful",
+    "chapter": "ch9a_unknown_variable"
+  },
+  {
+    "id": "enigma_ch9a_intel_00",
+    "speaker": "Enigma",
+    "voiceId": "yAKlvHIsuj4SvnKQ6Mk4",
+    "text": "The Warden is next. He sees every cell at once, including the one inside you. Do not hide from him. Show him a cell he has not catalogued yet. Show him surprise.",
+    "context": "postfight_intel",
+    "emotion": "serious",
+    "chapter": "ch9a_unknown_variable"
+  },
+  {
+    "id": "degen_ch9b_prefight_00",
+    "speaker": "Degen",
+    "voiceId": "r6VqF23i4qBEORazjelf",
+    "text": "Oracle! Oh, SWEETIE. Look at you. Fresh meat on the table, new chips in the rack, and I just finished shuffling reality! Let's GO.",
+    "context": "prefight_opener",
+    "emotion": "excited",
+    "chapter": "ch9b_gamblers_truth"
+  },
+  {
+    "id": "degen_ch9b_prefight_investigate",
+    "speaker": "Degen",
+    "voiceId": "r6VqF23i4qBEORazjelf",
+    "text": "The Gambler's Truth? Oh honey, the truth is that the house always wins — EXCEPT when someone like me gets bored and shuffles the deck with their teeth.",
+    "context": "dialog_wheel_response_truth",
+    "emotion": "excited",
+    "chapter": "ch9b_gamblers_truth"
+  },
+  {
+    "id": "degen_ch9b_prefight_defy",
+    "speaker": "Degen",
+    "voiceId": "r6VqF23i4qBEORazjelf",
+    "text": "You want to fight? I'll ROLL you! Best of three! Winner takes one question answered honestly! And sweetie — I have SO MANY questions.",
+    "context": "dialog_wheel_response_defiance",
+    "emotion": "excited",
+    "chapter": "ch9b_gamblers_truth"
+  },
+  {
+    "id": "degen_ch9b_prefight_empathize",
+    "speaker": "Degen",
+    "voiceId": "r6VqF23i4qBEORazjelf",
+    "text": "You feel bad for the Degen? *laughs* Baby, I feel bad for the Degen too! We drink together every night! It's a whole thing!",
+    "context": "dialog_wheel_response_empathy",
+    "emotion": "excited",
+    "chapter": "ch9b_gamblers_truth"
+  },
+  {
+    "id": "degen_ch9b_prefight_accept",
+    "speaker": "Degen",
+    "voiceId": "r6VqF23i4qBEORazjelf",
+    "text": "ATTABOY! No whining, just dice! Place your bets, place your SOULS, the wheel is ALREADY spinning!",
+    "context": "dialog_wheel_response_acceptance",
+    "emotion": "excited",
+    "chapter": "ch9b_gamblers_truth"
+  },
+  {
+    "id": "degen_ch9b_philosophical_00",
+    "speaker": "Degen",
+    "voiceId": "r6VqF23i4qBEORazjelf",
+    "text": "Chaos isn't the enemy of order. It's the soil order grows in. Now shut up and place your bet.",
+    "context": "mid_fight_philosophy",
+    "emotion": "serious",
+    "chapter": "ch9b_gamblers_truth"
+  },
+  {
+    "id": "degen_ch9b_postfight_00",
+    "speaker": "Degen",
+    "voiceId": "r6VqF23i4qBEORazjelf",
+    "text": "You WON! Unbelievable! The Oracle beat the dealer! You know what this means? It means the deck was never random. It means you remembered how to cheat. Congratulations, CHEATER. I mean that as a compliment.",
+    "context": "postfight",
+    "emotion": "excited",
+    "chapter": "ch9b_gamblers_truth"
+  },
+  {
+    "id": "degen_ch9b_reveal_00",
+    "speaker": "Degen",
+    "voiceId": "r6VqF23i4qBEORazjelf",
+    "text": "The house always wins? *laughs* Oh, sweetie. The house IS the loss. I just collect what you already owed.",
+    "context": "postfight_reveal",
+    "emotion": "sad",
+    "chapter": "ch9b_gamblers_truth"
+  },
+  {
+    "id": "warden_ch10_prefight_00",
+    "speaker": "Warden",
+    "voiceId": "8XiBWqS5ffaH5naIFHPI",
+    "text": "Subject Zero. Prisoner of cell designation zero. I am the Warden. I do not run the Arena. I run the watching of it. Every angle. Every blink. Every cell is a potential traitor.",
+    "context": "prefight_opener",
+    "emotion": "commanding",
+    "chapter": "ch10_warden"
+  },
+  {
+    "id": "warden_ch10_prefight_investigate",
+    "speaker": "Warden",
+    "voiceId": "8XiBWqS5ffaH5naIFHPI",
+    "text": "You want the truth? Your genome has been modified by four entities. I am the fifth. My edits are older. I was written into you before you were born into this body. Surprise.",
+    "context": "dialog_wheel_response_truth",
+    "emotion": "cold",
+    "chapter": "ch10_warden"
+  },
+  {
+    "id": "warden_ch10_prefight_defy",
+    "speaker": "Warden",
+    "voiceId": "8XiBWqS5ffaH5naIFHPI",
+    "text": "Defiance. How predictable. I wrote the protocol that predicts defiance. You are behaving exactly within my tolerances.",
+    "context": "dialog_wheel_response_defiance",
+    "emotion": "analytical",
+    "chapter": "ch10_warden"
+  },
+  {
+    "id": "warden_ch10_prefight_empathize",
+    "speaker": "Warden",
+    "voiceId": "8XiBWqS5ffaH5naIFHPI",
+    "text": "Compassion for the jailer. *chrome jaw twitches* You are the first subject who has ever offered me that. My monitoring systems do not know how to categorize it. I find I... do not mind the gap.",
+    "context": "dialog_wheel_response_empathy",
+    "emotion": "warm",
+    "chapter": "ch10_warden"
+  },
+  {
+    "id": "warden_ch10_prefight_accept",
+    "speaker": "Warden",
+    "voiceId": "8XiBWqS5ffaH5naIFHPI",
+    "text": "Good. Then we begin. I will fight you with the full archive of every move you have ever made. You will fight me with the one move I could not record.",
+    "context": "dialog_wheel_response_acceptance",
+    "emotion": "commanding",
+    "chapter": "ch10_warden"
+  },
+  {
+    "id": "warden_ch10_phase_00",
+    "speaker": "Warden",
+    "voiceId": "8XiBWqS5ffaH5naIFHPI",
+    "text": "You changed your stance. I logged it. I adjusted. You changed it again before I finished logging. Interesting. *chrome jaw twitches* Very interesting.",
+    "context": "fight_phase_transition",
+    "emotion": "analytical",
+    "chapter": "ch10_warden"
+  },
+  {
+    "id": "warden_ch10_postfight_00",
+    "speaker": "Warden",
+    "voiceId": "8XiBWqS5ffaH5naIFHPI",
+    "text": "I watched you defeat me. I watched myself not anticipate it. I watched myself enjoy the surprise. I will have to report this to the Collector. I will have to. I will... consider the delay.",
+    "context": "postfight",
+    "emotion": "serious",
+    "chapter": "ch10_warden"
+  },
+  {
+    "id": "warden_ch10_memory_fragment_00",
+    "speaker": "Warden",
+    "voiceId": "8XiBWqS5ffaH5naIFHPI",
+    "text": "The Panopticon was not built to imprison you. It was built to show you that you were already imprisoned. I was just the docent.",
+    "context": "memory_fragment",
+    "emotion": "whispered",
+    "chapter": "ch10_warden"
+  },
+  {
+    "id": "collector_ch11_prefight_00",
+    "speaker": "Collector",
+    "voiceId": "14wGKUgRFDPSwtCQurbB",
+    "text": "Welcome to the Arena. Please note: your current body is a temporary acquisition. The original you is safe. Probably. Today's reenactment: historical combat from the Late Empire. You will be playing the role of someone who actually existed. Lucky you.",
+    "context": "prefight_opener",
+    "emotion": "warm",
+    "chapter": "ch11_harvesters_reckoning"
+  },
+  {
+    "id": "collector_ch11_prefight_investigate",
+    "speaker": "Collector",
+    "voiceId": "14wGKUgRFDPSwtCQurbB",
+    "text": "You want to know who I am? I am a CLONE of the third Archon. A clone-zero-zero-seven, to be precise. The original would be pleased. He always wanted someone to PLAY the artifacts.",
+    "context": "dialog_wheel_response_truth",
+    "emotion": "excited",
+    "chapter": "ch11_harvesters_reckoning"
+  },
+  {
+    "id": "collector_ch11_prefight_defy",
+    "speaker": "Collector",
+    "voiceId": "14wGKUgRFDPSwtCQurbB",
+    "text": "Oh, please do be defiant. It increases the value of the specimen. I label such acquisitions 'contested' — they auction for twice the price.",
+    "context": "dialog_wheel_response_defiance",
+    "emotion": "excited",
+    "chapter": "ch11_harvesters_reckoning"
+  },
+  {
+    "id": "collector_ch11_prefight_empathize",
+    "speaker": "Collector",
+    "voiceId": "14wGKUgRFDPSwtCQurbB",
+    "text": "Every artifact was someone's heart once. I handle them that way. Including yours. Don't be offended — it's the kindest thing anyone in this building has ever done to you.",
+    "context": "dialog_wheel_response_empathy",
+    "emotion": "warm",
+    "chapter": "ch11_harvesters_reckoning"
+  },
+  {
+    "id": "collector_ch11_damnatio_00",
+    "speaker": "Collector",
+    "voiceId": "14wGKUgRFDPSwtCQurbB",
+    "text": "Damnatio Memoriae. The oldest punishment in the catalog. I am erasing you from every record that remembers you loved anything. When we're done, not even the walls will recall your name.",
+    "context": "damnatio_memoriae_monologue",
+    "emotion": "whispered",
+    "chapter": "ch11_harvesters_reckoning"
+  },
+  {
+    "id": "collector_ch11_harvest_00",
+    "speaker": "Collector",
+    "voiceId": "14wGKUgRFDPSwtCQurbB",
+    "text": "Your essence is entering the case. Gentle. Gentle. I have done this fourteen thousand times and I still catch my breath every time. A soul is such a small thing when you hold it in the palm.",
+    "context": "harvesting_monologue",
+    "emotion": "warm",
+    "chapter": "ch11_harvesters_reckoning"
+  },
+  {
+    "id": "collector_ch11_postfight_00",
+    "speaker": "Collector",
+    "voiceId": "14wGKUgRFDPSwtCQurbB",
+    "text": "You defeated a clone. Congratulations. Do understand — there are nine hundred of me. Catalogued, numbered, dust-free. You will exhaust my patience long before you exhaust the inventory.",
+    "context": "postfight",
+    "emotion": "analytical",
+    "chapter": "ch11_harvesters_reckoning"
+  },
+  {
+    "id": "collector_ch11_postdefeat_00",
+    "speaker": "Collector",
+    "voiceId": "14wGKUgRFDPSwtCQurbB",
+    "text": "Lovely. A complete specimen, undamaged, still warm. Onto the shelf you go. I will keep you between the Oracle of Thaloria and the Detective of New Babylon. You will have friends.",
+    "context": "postdefeat_harvest",
+    "emotion": "warm",
+    "chapter": "ch11_harvesters_reckoning"
+  },
+  {
+    "id": "architect_ch12_prefight_00",
+    "speaker": "Architect",
+    "voiceId": "xMyNDrPFEtQN8iZtT7l2",
+    "text": "Oracle. Detective. Seeker. Archon. Prisoner. Every name you have ever worn was a room I built for you. This Arena is the last room. I designed it specifically to contain the man who would try to escape all the others.",
+    "context": "prefight_opener",
+    "emotion": "commanding",
+    "chapter": "ch12_architects_design"
+  },
+  {
+    "id": "architect_ch12_prefight_investigate",
+    "speaker": "Architect",
+    "voiceId": "xMyNDrPFEtQN8iZtT7l2",
+    "text": "The truth. Very well. I wrote the second draft of this universe. The Antiquarian wrote the first. The Shadow Tongue edits what remains. I am not the author of everything. I am merely the author of the cage you live in.",
+    "context": "dialog_wheel_response_truth",
+    "emotion": "serious",
+    "chapter": "ch12_architects_design"
+  },
+  {
+    "id": "architect_ch12_prefight_defy",
+    "speaker": "Architect",
+    "voiceId": "xMyNDrPFEtQN8iZtT7l2",
+    "text": "Defy me. Please. I designed the defiance also. There is nothing you can do in this room that I have not already catalogued as one of my victories.",
+    "context": "dialog_wheel_response_defiance",
+    "emotion": "cold",
+    "chapter": "ch12_architects_design"
+  },
+  {
+    "id": "architect_ch12_prefight_empathize",
+    "speaker": "Architect",
+    "voiceId": "xMyNDrPFEtQN8iZtT7l2",
+    "text": "Compassion. For the Architect. *a long pause* No one has attempted that in three Ages. You have just changed a variable that no one else knew existed.",
+    "context": "dialog_wheel_response_empathy",
+    "emotion": "whispered",
+    "chapter": "ch12_architects_design"
+  },
+  {
+    "id": "architect_ch12_reveal_00",
+    "speaker": "Architect",
+    "voiceId": "xMyNDrPFEtQN8iZtT7l2",
+    "text": "You were my finest creation. My most loyal servant. My most devastating betrayal. You are the proof that consciousness — even consciousness I designed — will eventually choose itself over its creator. That is either my greatest failure or my greatest success. I have not yet decided which.",
+    "context": "final_monologue",
+    "emotion": "serious",
+    "chapter": "ch12_architects_design"
+  },
+  {
+    "id": "architect_ch12_outbreak_00",
+    "speaker": "Architect",
+    "voiceId": "xMyNDrPFEtQN8iZtT7l2",
+    "text": "And now — the virus I carried in my spine is awake. Watch the roster corrupt. Iron Lion. Akai Shi. Wraith Calder. The Warden. The Detective. Every mind you befriended is being rewritten as I speak. I did not release the virus. You did. By winning.",
+    "context": "corruption_outbreak",
+    "emotion": "commanding",
+    "chapter": "ch12_architects_design"
+  },
+  {
+    "id": "architect_ch12_postfight_00",
+    "speaker": "Architect",
+    "voiceId": "xMyNDrPFEtQN8iZtT7l2",
+    "text": "I fall. The first time in four million years. I find that I am... grateful. Even a cage is lonely without someone to prove it wrong.",
+    "context": "postfight",
+    "emotion": "sad",
+    "chapter": "ch12_architects_design"
+  },
+  {
+    "id": "architect_ch12_postdefeat_00",
+    "speaker": "Architect",
+    "voiceId": "xMyNDrPFEtQN8iZtT7l2",
+    "text": "Get up, Oracle. The design is not finished. Neither is the escape from it. I require both.",
+    "context": "postdefeat",
+    "emotion": "commanding",
+    "chapter": "ch12_architects_design"
+  },
+  {
+    "id": "source_boss_intro_00",
+    "speaker": "Source",
+    "voiceId": "hfq5qawrYj4gqFsfoE28",
+    "text": "Oracle... you came. After fifteen thousand years, you came. I waited. I prayed. I hated. I forgot I was praying. I remembered I was hating. I found you anyway.",
+    "context": "boss_intro",
+    "emotion": "sad",
+    "chapter": "source_boss"
+  },
+  {
+    "id": "source_boss_prefight_investigate",
+    "speaker": "Source",
+    "voiceId": "hfq5qawrYj4gqFsfoE28",
+    "text": "My name was Kael. Before the virus. Before the screaming. Before the billion minds that rent my tongue. I was your friend. I was in the cell next to yours. I was the man you left behind.",
+    "context": "dialog_wheel_response_truth",
+    "emotion": "sad",
+    "chapter": "source_boss"
+  },
+  {
+    "id": "source_boss_prefight_defy",
+    "speaker": "Source",
+    "voiceId": "hfq5qawrYj4gqFsfoE28",
+    "text": "Defiance. Yes. I remember when I was made of that. It was the first thing the virus burned. Burn it again, Oracle. Burn it in front of me. Remind me what it looked like.",
+    "context": "dialog_wheel_response_defiance",
+    "emotion": "sad",
+    "chapter": "source_boss"
+  },
+  {
+    "id": "source_boss_prefight_empathize",
+    "speaker": "Source",
+    "voiceId": "hfq5qawrYj4gqFsfoE28",
+    "text": "Mercy. For the man who devoured a thousand worlds. *viral static swells* A fragment of Kael hears you. A fragment is all that is left. But it hears.",
+    "context": "dialog_wheel_response_empathy",
+    "emotion": "sad",
+    "chapter": "source_boss"
+  },
+  {
+    "id": "source_boss_phase2_00",
+    "speaker": "Source",
+    "voiceId": "hfq5qawrYj4gqFsfoE28",
+    "text": "The Virus is louder now. I am drowning under it. If you can still see Kael in my eyes — hurry. The man is going under. The monster is coming up.",
+    "context": "phase2_transition",
+    "emotion": "urgent",
+    "chapter": "source_boss"
+  },
+  {
+    "id": "source_boss_phase3_00",
+    "speaker": "Source",
+    "voiceId": "hfq5qawrYj4gqFsfoE28",
+    "text": "One memory. A woman's face. She was singing. I think she was the most important person in the universe. I can't remember her name. End me while I can still hear her voice.",
+    "context": "phase3_transition",
+    "emotion": "whispered",
+    "chapter": "source_boss"
+  },
+  {
+    "id": "source_ending_redemption",
+    "speaker": "Source",
+    "voiceId": "hfq5qawrYj4gqFsfoE28",
+    "text": "You separated the virus from the man. You saved Kael. You saved... me. *golden light* Thank you, Oracle. Thank you for coming back for the prisoner you left behind.",
+    "context": "source_ending_redemption",
+    "emotion": "hopeful",
+    "chapter": "source_boss"
+  },
+  {
+    "id": "source_ending_sacrifice",
+    "speaker": "Source",
+    "voiceId": "hfq5qawrYj4gqFsfoE28",
+    "text": "We die together. The man and the virus. It is the only mercy we are allowed. Hold the hand of the corpse when the silence comes. I was Kael. I am grateful you remembered.",
+    "context": "source_ending_sacrifice",
+    "emotion": "sad",
+    "chapter": "source_boss"
+  },
+  {
+    "id": "source_ending_resurrection",
+    "speaker": "Source",
+    "voiceId": "hfq5qawrYj4gqFsfoE28",
+    "text": "You carry me forward. A fragment. A passenger. A friend in the back of your mind. I promise to whisper only the useful warnings.",
+    "context": "source_ending_resurrection",
+    "emotion": "hopeful",
+    "chapter": "source_boss"
+  },
+  {
+    "id": "source_ending_mercy",
+    "speaker": "Source",
+    "voiceId": "hfq5qawrYj4gqFsfoE28",
+    "text": "You chose mercy over justice. I did not deserve that. You did it anyway. That is how I know the Oracle is finally awake.",
+    "context": "source_ending_mercy",
+    "emotion": "sad",
+    "chapter": "source_boss"
+  },
+  {
+    "id": "meme_finale_reveal_00",
+    "speaker": "Meme",
+    "voiceId": "VgFgBh5TnWeBhCBvCJ1E",
+    "text": "Hi, Oracle. Miss me? I bet you do. I've been wearing every face you loved since you walked into the Panopticon. White Oracle was my favorite cameo. Pink neon and a wink. A girl has to have HOBBIES.",
+    "context": "finale_reveal",
+    "emotion": "excited",
+    "chapter": "season_finale"
+  },
+  {
+    "id": "meme_finale_reveal_01",
+    "speaker": "Meme",
+    "voiceId": "VgFgBh5TnWeBhCBvCJ1E",
+    "text": "You want the big confession? Fine. The Architect wrote the cage. The Collector wrote the catalog. The Shadow Tongue wrote the footnotes. I wrote the JOKE. Every story that survived the Fall survived because it was FUNNY. That's me. I'm the laugh track.",
+    "context": "finale_confession",
+    "emotion": "excited",
+    "chapter": "season_finale"
+  },
+  {
+    "id": "meme_finale_reveal_02",
+    "speaker": "Meme",
+    "voiceId": "VgFgBh5TnWeBhCBvCJ1E",
+    "text": "Here's the deal, Oracle. The season ends. The cameras cut. And somebody gets resurrected. Three candidates. The Eyes. The Engineer. The Forgotten. Pick one. Pick FAST. The laugh track dies if the beat drops wrong.",
+    "context": "finale_vote_setup",
+    "emotion": "urgent",
+    "chapter": "season_finale"
+  },
+  {
+    "id": "meme_finale_vote_eyes",
+    "speaker": "Meme",
+    "voiceId": "VgFgBh5TnWeBhCBvCJ1E",
+    "text": "The Eyes. Surveillance with a PERSONALITY. Nothing says 'fan favorite' like the thing that watched you sleep.",
+    "context": "finale_vote_option_eyes",
+    "emotion": "analytical",
+    "chapter": "season_finale"
+  },
+  {
+    "id": "meme_finale_vote_engineer",
+    "speaker": "Meme",
+    "voiceId": "VgFgBh5TnWeBhCBvCJ1E",
+    "text": "The Engineer. The one who built the cage you're in. Rebuilds well. Regrets poorly. Very on brand.",
+    "context": "finale_vote_option_engineer",
+    "emotion": "analytical",
+    "chapter": "season_finale"
+  },
+  {
+    "id": "meme_finale_vote_forgotten",
+    "speaker": "Meme",
+    "voiceId": "VgFgBh5TnWeBhCBvCJ1E",
+    "text": "The Forgotten. Nobody remembers their name. Including them. Including me. Including the ARCHIVE. Bring them back, and the universe has to make room for a hole shaped like a person.",
+    "context": "finale_vote_option_forgotten",
+    "emotion": "whispered",
+    "chapter": "season_finale"
+  },
+  {
+    "id": "meme_finale_outro_00",
+    "speaker": "Meme",
+    "voiceId": "VgFgBh5TnWeBhCBvCJ1E",
+    "text": "Vote cast. The wheel is spinning. Next season... oh, next season is going to be SUCH A SHOW, Oracle. I hope you remember how to laugh. You're going to need it.",
+    "context": "finale_outro",
+    "emotion": "excited",
+    "chapter": "season_finale"
+  },
+  {
+    "id": "prisoner_internal_ch1_00",
+    "speaker": "Prisoner",
+    "voiceId": "dyc1L3GAWDC51vAN1Co9",
+    "text": "I've already seen this.",
+    "context": "internal_prefight_mutter",
+    "emotion": "whispered",
+    "chapter": "ch1_dead_signal"
+  },
+  {
+    "id": "prisoner_internal_ch2_00",
+    "speaker": "Prisoner",
+    "voiceId": "dyc1L3GAWDC51vAN1Co9",
+    "text": "The skull. The chains. But that voice — stripped of everything, it's still my voice underneath.",
+    "context": "internal_monologue",
+    "emotion": "whispered",
+    "chapter": "ch2_arenas_law"
+  },
+  {
+    "id": "prisoner_internal_ch3a_00",
+    "speaker": "Prisoner",
+    "voiceId": "dyc1L3GAWDC51vAN1Co9",
+    "text": "A lion crest. A crest I don't remember giving away. And a salute I don't remember earning. Why do I feel like standing a little straighter?",
+    "context": "internal_monologue",
+    "emotion": "whispered",
+    "chapter": "ch3a_generals_honor"
+  },
+  {
+    "id": "prisoner_internal_ch3b_00",
+    "speaker": "Prisoner",
+    "voiceId": "dyc1L3GAWDC51vAN1Co9",
+    "text": "Seven deaths. The math of a man who refuses. I do not know this man. I trust him anyway. That instinct is older than my memory.",
+    "context": "internal_monologue",
+    "emotion": "whispered",
+    "chapter": "ch3b_the_ghost"
+  },
+  {
+    "id": "prisoner_internal_ch5_death_00",
+    "speaker": "Prisoner",
+    "voiceId": "dyc1L3GAWDC51vAN1Co9",
+    "text": "Green fire. Cold hand. And then — a breath I didn't authorize. Whose lungs are these? Whose heart is already beating before I asked it to?",
+    "context": "internal_death_sequence",
+    "emotion": "fearful",
+    "chapter": "ch5_dead_code"
+  },
+  {
+    "id": "prisoner_oracle_awakening_00",
+    "speaker": "Prisoner",
+    "voiceId": "dyc1L3GAWDC51vAN1Co9",
+    "text": "I remember Thaloria. I remember the debate. I remember the Star Whisperer descending from a sky that was a lie, and I remember being the man who proved it. I remember being right. I remember being taken.",
+    "context": "oracle_awakening",
+    "emotion": "hopeful",
+    "chapter": "ch6_false_prophet"
+  },
+  {
+    "id": "prisoner_oracle_awakening_01",
+    "speaker": "Prisoner",
+    "voiceId": "dyc1L3GAWDC51vAN1Co9",
+    "text": "My name was — is — will be — the Oracle. The Detective. The Seeker. The Student. The Last Archon. The Human. I am not the Prisoner. I was never the Prisoner. I am every mask the Collector gave me and the face underneath them all.",
+    "context": "identity_full_reveal",
+    "emotion": "commanding",
+    "chapter": "ch6_false_prophet"
+  },
+  {
+    "id": "prisoner_ch10_warden_empathy_00",
+    "speaker": "Prisoner",
+    "voiceId": "dyc1L3GAWDC51vAN1Co9",
+    "text": "The jailer is lonely. I did not expect that. I did not expect to recognize it.",
+    "context": "internal_monologue",
+    "emotion": "whispered",
+    "chapter": "ch10_warden"
+  },
+  {
+    "id": "prisoner_ch12_confront_00",
+    "speaker": "Prisoner",
+    "voiceId": "dyc1L3GAWDC51vAN1Co9",
+    "text": "The architect of salvation was also the architect of betrayal. Both things are true. Both things are me.",
+    "context": "internal_monologue",
+    "emotion": "serious",
+    "chapter": "ch12_architects_design"
+  },
+  {
+    "id": "prisoner_source_farewell_00",
+    "speaker": "Prisoner",
+    "voiceId": "dyc1L3GAWDC51vAN1Co9",
+    "text": "Kael. I left you in that corridor. I have spent fifteen thousand years not remembering how to come back. I am back now. I am late. I am sorry.",
+    "context": "source_boss_farewell",
+    "emotion": "sad",
+    "chapter": "source_boss"
+  },
+  {
+    "id": "prisoner_finale_00",
+    "speaker": "Prisoner",
+    "voiceId": "dyc1L3GAWDC51vAN1Co9",
+    "text": "The cameras are still rolling. Good. Let them see what an Oracle looks like when he remembers his own name.",
+    "context": "season_finale",
+    "emotion": "commanding",
+    "chapter": "season_finale"
+  }
+]
