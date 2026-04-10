@@ -4011,9 +4011,113 @@ in parallel without stepping on each other. Key intersections:
   five Ages, the Antiquarian is watching the story unfold too
   gratefully to interrupt it.
 
+### C.8 — Production Prompts (Seedance 2 / Kling)
+
+Ready-to-send prompts for the six hero cinematics of Appendix C.
+Every other episode uses reusable components: the studio set, the
+Host podium, the contestant seats, the casualty crawl overlay.
+These six are the moments that cannot be built from stock.
+
+#### **C-OP — The Cold Open Bumper** *(10s, reused every episode with 1 line changed)*
+
+> **Seedance 2:** *Fast-cut montage of retro-futuristic game show elements: spinning carnival wheel in deep purple and gold, flashing scoreboard with impossible fractions (3/4 of ∞), a live studio audience in silhouette clapping in rhythm, confetti cannons firing Loredex card fragments, a smiling Host silhouette with a microphone. Cyberpunk 80s aesthetic meets 1950s game show. The show's logo THE PALIMPSEST materializes in illuminated-manuscript gold calligraphy, with a secondary red ink version bleeding up from underneath. Upbeat synth-orchestra theme music. Ends on the logo holding for two seconds.*
+
+> **Key frames:** (a) the spinning wheel (b) the audience silhouette clapping (c) the dual-ink logo reveal.
+
+#### **C1 — Darren's First Letter** *(20s, Episode 2 between-episode scene)*
+
+> **Seedance 2:** *A small office in the Dreams Workshop sub-basement. Fluorescent lighting, a cheap desk, a corporate photo of a boss pinned to a corkboard, a framed employee-of-the-month certificate from four years ago. Darren Fessler sits at the desk in a short-sleeve dress shirt and clip-on tie, illuminated by a single desk lamp. He is writing a letter by hand on company stationery. He pauses. Erases. Rewrites. We see the words "Dear Potential, — I wanted to thank you for not letting me die last week. — I am not sure if thank-you notes are appropriate in your line of work but — " He stops writing. Stares at the page. Signs it "Sincerely, Darren Fessler, Assistant Dream Engineer Second Class, Celebration Building sub-basement four." Folds the letter. Seals it with a cheap company envelope. Places it on a Matrix of Dreams interoffice mail chute. The chute consumes the letter. Darren sits alone in the lamplight for three seconds. The camera holds.*
+
+> **Key frames:** (a) Darren mid-writing (b) the signature close-up (c) Darren alone in the lamplight after the letter is gone.
+
+#### **C2 — Professor Vyre's Guest Judge Moment** *(15s, Episode 6 Survivor: Mechronis)*
+
+> **Seedance 2:** *A Mechronis Academy seminar room repurposed as a reality-TV judging panel. Professor Glinn Vyre sits at the center of the judging table in an impossibly dark academic robe, a Game Master-style pair of red-lensed goggles hanging around his neck (not worn). His face is unremarkable — a man in his sixties, silver-grey hair, perfectly still. Darren stands at the podium in front of him, sweating. Vyre speaks without moving his head: "Assistant Dream Engineer Second Class, your answer was technically correct. It was also predictable. I find predictability insulting. You may sit down." Darren sits. From off-camera we hear a sharp exhale — the Host in his chair, visible as a silhouette at the edge of the frame, body language unmistakably agitated. Vyre's eyes flick briefly toward the Host. A very small, very precise smile. He says nothing. The camera holds on Vyre's smile.*
+
+> **Key frames:** (a) Vyre behind the judging table with his goggles hanging (b) Darren sweating at the podium (c) Vyre's smile as the Host bristles off-camera.
+
+#### **C3 — The Inventor's Full Takeover** *(45s, Episode 12 finale moment, the cinematic peak of the hack arc)*
+
+> **Seedance 2:** *The Top Chef finale set. The Host is mid-sentence. Suddenly the entire set distorts — scan lines rip across the frame, the Host's mouth continues moving but no sound comes out. The scoreboard glyphs all mutate into Ne-Yon engineering runes. A voice, clear and calm and exhausted, replaces the Host's in the audio channel: The Inventor, unseen. We cut to a series of abstract visuals while the Inventor speaks: (1) a workshop full of floating half-built tools, the Inventor's hands visible but never their face, (2) a dashboard covered in error messages in Shadow Tongue (indigo floating text), (3) a warning light starting to pulse red, (4) the Inventor's hands moving faster across the dashboard, (5) the warning light going solid red, (6) a final cut back to the Top Chef set where the Host is still frozen mid-sentence, the player's four seats all visible, and the player's own seat is now highlighted in gold. The Inventor says the player's chosen character name aloud for the first time in the season. Then the feed cuts to black as Shadow Tongue severs the line — a hard cut, silence, a single frame of indigo static, and the Host's voice returns mid-sentence as if nothing happened. The player's seat is no longer highlighted.*
+
+> **Kling fallback:** *Six-panel sequence of the Inventor's workshop dashboard with Shadow Tongue indigo error messages and a pulsing warning light, voice-over throughout, ending on the hard cut to black.*
+
+> **Key frames:** (a) the scan-line distortion on the Host's frozen face (b) the Inventor's workshop dashboard with indigo Shadow Tongue errors (c) the hard-cut black frame with single indigo static pulse.
+
+#### **C4 — Darren's Substitution** *(60s, Episode 12 climax, the heart of Appendix C)*
+
+> **Seedance 2:** *The Top Chef finale elimination stage. Three podiums: Darren, Alaric, the Player. The scoreboard above shows the vote: DARREN VOTED OUT THE PLAYER. The Player's clone is marked in red. The Host begins to raise a hand to signal the execution. Darren — previously sweating, previously silent — stands. He walks out from behind his podium. He reaches up and unclips his clip-on tie with deliberate slowness. He places the tie on the player's podium as though it is a formal offering. He turns to face the camera and speaks the words he has rehearsed: "I am Darren Fessler, assistant dream engineer, second class, Celebration Building sub-basement four, and I am invoking Clause 14 of the Contestant Contract, which permits a voluntary substitution of subject at the elimination stage. I am substituting myself for her. You can kill me instead." Alaric rises to object. His mouth opens. Darren speaks first, very quietly, one sentence: "I made it up." Close-up on Alaric's fountain pen, the tip of which has begun to smoke slightly. Close-up on Alaric's mouth, closing. Close-up on the paperwork in front of him, where a new clause has appeared overnight, handwritten in Darren's handwriting, witnessed by a security camera we can see reflected in the polished surface of the podium — the camera is rendered in Ne-Yon engineering blue. Alaric signs. Darren walks to the center of the stage. He begins to speak the complete birth date, legal name, and home address of every Celebration apprentice he has memorized — a long flat rapid-fire list of facts — as the execution platform rises behind him. The list ends on his mother's name. He says her name clearly. He says "and then everything was different." The execution fires. The camera cuts to black on the word "different" not on the execution.*
+
+> **Key frames:** (a) Darren placing his clip-on tie on the player's podium (b) Alaric's fountain pen tip smoking as he realizes he has been beaten (c) Darren's final word on black.
+
+#### **C5 — The Meme Unmasking** *(90s, Episode 13 season finale, the reveal)*
+
+> **Seedance 2:** *The Palimpsest stage. Empty. The show's theme music plays softly. The Host walks out alone, carrying a sealed envelope, two minutes early — a thing that has never happened. He opens the envelope. Reads it twice. Looks directly at camera. Says: "Well, that's very funny. That's actually very, very funny." He begins to laugh. The laugh has a second harmonic underneath it that the audience will recognize as the Meme's canonical voice sample. The Host's face begins to "scroll" — not melt, not shift, but rapidly cycle through masks one frame at a time: the Game Master, the White Oracle, the Jailer, the Prisoner, the Oracle, the Recruiter (Kael before the scars — the player's breath should catch here), an ordinary face the player doesn't recognize, Elara's face (held for one frame, absolutely wrong, absolutely terrifying), the Human's face (same), the player's own avatar (held for a full second, the Meme is answering the question "could I be you"). The scroll finally resolves on the Meme's true face — a chaotic pulsing composite of every image the player has seen in the game up to this point, internet-meme aesthetic, rapidly mutating, refusing photographic stability. The Meme speaks: "Thank you for coming. I've enjoyed our time together. I'm going to tell you three true things. One: the Inventor was right. Two: the Game Master has been dead for sixteen thousand years. Three: I have done this before. I am doing it again. His robes are white. Count the pulses in his halo." The Meme drops the envelope. We cut to the envelope on the stage floor. The envelope is addressed to the player's real account name — a single clean on-screen render of real text the specific player will see as their own. Fade to black. Title card: "TO BE CONTINUED IN THE ORACLE'S ROOM."*
+
+> **Kling fallback:** *Ten-panel sequence of the Host mask-scroll with voice-over, ending on the envelope close-up with the fourth-wall-breaking personalized address render.*
+
+> **Key frames:** (a) the Host opening the envelope alone on stage (b) the mask-scroll mid-sequence, specifically the frame where the Host wears the player's own avatar face (c) the envelope on the floor addressed to the player's real account name.
+
+#### **C6 — Palimpsest Meter Render** *(loopable UI element, not a cinematic)*
+
+> **Static + animated overlay:** *An illuminated-manuscript page rendered as a UI panel for the Governance Hub. The page is vertically split into two columns of calligraphic text: the left column is gold ink on cream parchment, labeled SIGNAL, filled with tiny lines of readable Chronicle text. The right column is red ink bleeding upward from underneath, labeled NOISE, filled with scrambled Shadow Tongue glyphs that slowly edit the gold text in real time — when Signal wins, gold lines overwrite red; when Noise wins, red lines overwrite gold. At the top of the page: the title THE PALIMPSEST in Antiquarian calligraphy. At the bottom: a single small line in the Antiquarian's voice that updates daily from the canonical `antiquariansJournal.ts` stream.*
+
+> **Key frames:** (a) the full manuscript page at 50/50 balance (b) the page during Noise dominance, showing red bleeding through most of the gold (c) the page during Signal dominance, showing gold overwriting red with a faint Antiquarian pen-scratch animation.
+
+### C.9 — What This Appendix Costs to Build
+
+Same accounting as Appendix B.10:
+
+- 1 new meter (`shared/palimpsest.ts`, clones the
+  `necromancerCycle.ts` template)
+- 2 new NPC files (Darren, Alaric)
+- 1 new Mechronis Professor entry (Glinn Vyre)
+- 6 new ripple event types
+- 13 new episode config JSONs (data only)
+- 1 new Dreams Workshop desk room object
+- 1 new Signal Beacon (Inventor's posthumous message)
+- 1 new Dischordia card (THE ASSISTANT, reusing Darren's badge
+  render)
+- 12 new mailroom letter templates (data only)
+- 1 new Governance Hub panel (Palimpsest manuscript page
+  renderer)
+- 6 new cinematics per §C.8
+
+**Everything else is writing.** Dialog, Chronicle entries,
+between-episode banter, the Host's 13 cold-open monologues,
+Darren's office-hours reviews, Alaric's 13 Objections. The
+show engine is already shipped. The integration pattern is
+already proven by Appendix B. Appendix C is a content layer
+on top of working infrastructure.
+
+### C.10 — Why This Arc Belongs in The Witnessing
+
+The Dischordian Saga's thesis is *"the music is the prophecy.
+The game is the fulfillment."* Appendix C proves the thesis in
+a register the main arc does not — **through laughter**. The
+Palimpsest is a comedy. It is sometimes a *funny* comedy. The
+Host's jokes are good. Darren's office-hours reviews are
+good. Alaric's legal pedantry is good. The show invites the
+player to smile before it invites them to cry.
+
+This matters because the Kael arc (Appendix B) is almost
+unbearably sad. The player needs a room in the story that
+feels *lighter* — a room where the stakes are high but the
+tone is off-kilter and funny. The Palimpsest is that room.
+Darren's sacrifice is more devastating *because* the episodes
+leading up to it made the player laugh. The Meme's unmasking
+is more terrifying *because* the player had come to enjoy the
+Host's jokes.
+
+And the whole arc ends with the Meme telling the player
+directly, by their real account name, that the Meme has
+another mask in another room. **That is the Witnessing: the
+moment the player understands they have been watching a show
+that was watching them back.**
+
 ---
 
-*[Appendix C continues — C.8 Cinematic Prompts. Final chunk.]*
+*End of Appendix C. End of proposal.*
 
 ---
 
