@@ -28,6 +28,7 @@
 
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import { dissolve } from "@/lib/motionPrimitives";
 
 export interface ReconnectingOverlayProps {
   /** Whether the overlay should be rendered. */
@@ -76,10 +77,14 @@ export function ReconnectingOverlay({
   return (
     <AnimatePresence>
       {visible && (
+        // Task 7.2 — physics-aware dissolve. Glass shows the
+        // gentle fade, retro pops in instantly so the player
+        // sees the countdown immediately.
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
+          variants={dissolve()}
+          initial="initial"
+          animate="animate"
+          exit="exit"
           className="fixed inset-0 z-[200] flex items-center justify-center bg-black/80 backdrop-blur-sm p-6"
           role="dialog"
           aria-label="Reconnecting to server"
