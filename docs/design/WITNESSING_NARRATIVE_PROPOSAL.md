@@ -3572,10 +3572,146 @@ the Dischordian Saga. It is earned because:
    warned me this was a pattern. I just didn't listen past the
    Meme.*
 
+### C.5 — Darren's Arc: The Assistant Dream Engineer Who Made Something Up
+
+Darren Fessler's entire arc is a single, awful, beautiful answer
+to the question written on his unsent resignation letter:
+
+> *"I want to make something up."*
+
+He has wanted this for three years. He has not been allowed to.
+The Hierarchy of the Damned does not employ creative dream
+engineers — they employ **assistant** dream engineers, second
+class, who are given specifications and who deliver on them.
+Darren is very good at delivering on specifications. He has
+never made anything up in his life.
+
+The game show gives him his first real audience.
+
+#### Darren's emotional arc (across 12 episodes)
+
+| Ep | Darren is | Player can | Palimpsest signal |
+|---|---|---|---|
+| **1** | A nervous bureaucrat who cites his employee badge at every opportunity | Ignore him or be polite | +0 |
+| **2** | Surprised to be still alive. Sends the player a *formal thank-you email* for not letting him die in Round 3 | Reply (warm / formal / ignored) | +1 if warm |
+| **3** | Exposed on "The Liar" — the audience learns he has written an entire unpublished novel about dragons that do paperwork. He is humiliated. | Send a reply through the mailroom — any reply at all | +2 if any reply |
+| **4** | Watches the Auction episode from the audience seats. Writes the player a handwritten letter that night. The letter is about his *mother* — she was a Celebration graduate, and she told him stories. He stopped telling stories when she died. | Read the letter | +3 |
+| **5** | Gets a question about his mother wrong. He knows the answer. He doesn't say it. Alaric glances at him. | Notice the moment | +5 |
+| **6** | In the Mechronis episode, refuses to vote another contestant out. Is penalized with a full episode of Professor Aoki's Observation Triangulation drill. Professor Aoki grades him on how well he is watched. He fails. | Visit him in the infirmary between episodes. He is in a hospital bed on the Ark. He is very tired. | +5 |
+| **7** | Refuses to fire the player during The Apprentice episode. This is the first time Darren has ever refused an order from Alaric. Alaric does not react. | Offer him a cup of tea in the mailroom next week. (Darren has never been offered a cup of tea by another human being.) | +10 |
+| **8** | Inside the Big Brother house, writes the player a note in lipstick on the bathroom mirror. The note says *"I am writing a new pamphlet. Do not read it yet."* The note is on a mirror. The mirror is canonical — it is the same mirror Kael used in Appendix B to write his last message to the Insurgency before the theft. The art asset is shared. Darren does not know. | Not read the pamphlet | +10 |
+| **9** | During the Gauntlet episode, Darren **saves another contestant's clone** from a bone-crushing pit. He uses his own body to catch them. He survives. His clone is rebuilt. He looks different in Episode 10 — the clone tech overcorrected and he is *slightly taller.* He is delighted. | Congratulate him | +15 |
+| **10** | At the Thaloria debate, argues for the proposition *"A being that has never told the truth can still be redeemed by telling one."* He is arguing about himself. He wins the debate by one vote. The one vote is Alaric's. Nobody understands why Alaric voted for him. | Understand that the player also voted for him | +20 |
+| **11** | In the Nathan Fielder episode, Darren watches himself on-screen, edited into a villain. He does not protest. After the episode, he sends the player a single line: *"I know you know that wasn't me. That is enough."* | Have one last meal with him in the Mess Hall | +25 |
+| **12** | **The Top Chef finale. Darren, Alaric, and the Player are the last three contestants.** | See below. | — |
+
+#### The finale — The Weakest Link Parody
+
+The finale is a parody of the Weakest Link elimination format,
+played as a one-on-one-on-one Q&A where **each contestant must
+vote another out at the end.** The vote is binding. The voted
+contestant's clone is executed on camera.
+
+This is what happens:
+
+1. **Darren votes out the Player.** He does this first. He is
+   breathing hard. Alaric smiles — this is the outcome Alaric
+   has engineered across 12 episodes.
+2. **The camera cuts to the player's chair.** The player sees
+   the vote go through on the scoreboard. Their clone is
+   marked for termination. The Host is already raising a hand.
+3. **Darren stands up.** He walks to the player's podium. He
+   places his clip-on tie on the podium. He says:
+   > *"I am Darren Fessler, assistant dream engineer, second
+   > class, Celebration Building sub-basement four, and I am
+   > invoking Clause 14 of the Contestant Contract, which
+   > permits a voluntary substitution of subject at the
+   > elimination stage. I am substituting myself for her.
+   > You can kill me instead."*
+4. **Alaric objects.** He cites case law. He cites thirty-seven
+   relevant precedents. His fountain pen writes so fast it
+   begins to smoke.
+5. **Darren answers him with a single sentence that he wrote
+   himself, on a scrap of paper the night before, and rehearsed
+   until he could say it without his voice breaking:**
+   > *"I made it up."*
+6. He has invented a rule. The rule is legally binding because
+   the contestant contract canonically gives contestants the
+   right to propose amendments, and Darren has proposed one, in
+   writing, signed and witnessed by the Inventor's hacked
+   camera, which caught the handwritten draft last night.
+7. **Darren took three years to make something up, and the
+   thing he made up is a clause that lets him die in the
+   player's place.**
+8. Alaric is silent for the first time in the season. He
+   accepts the substitution. He reaches for his fountain pen.
+   He signs the paperwork. He says, very quietly: *"Congratulations, Darren. You have finally written something."* It is the closest thing to a compliment Alaric has ever given anyone.
+9. **Darren's clone is executed on camera.** His last words are
+   a long list of facts — the encyclopedic trivia he has known
+   his whole life — spoken rapidly, as though he is trying to
+   empty himself of all the correct answers before he goes, so
+   that **he dies with nothing but the one sentence he made up.**
+10. The last correct fact Darren cites is the birth date of a
+    Celebration apprentice nobody has ever heard of. The camera
+    cuts to the player's Archives room on the Ark the next
+    morning — the apprentice's file auto-unlocks. It is Darren's
+    mother. She survived Celebration. Her grave is on a planet
+    the player can visit in Trade Empire. **This is how the
+    player finds it.**
+
+#### The consequences
+
+- Darren does not respawn. The canonical `quizSpectator.ts`
+  clone system permits substitution — once the Contestant
+  Contract is amended, the substitution is legal and
+  permanent. **Darren is gone from the show forever.** He is
+  not in Episode 13. He is not in next season.
+- The player can visit **Darren's empty desk** in the Dreams
+  Workshop via a new canonical room (one minor art asset, a
+  single desk with a nameplate). The desk has a stack of
+  Celebration dream scenarios Darren was supposed to be
+  writing. They are all half-finished. They all end with the
+  words "and then everything was different," which is the
+  same phrase Darren used on his unsent resignation letter.
+  **The player can finish one of them.** Whatever they write
+  becomes a canonical cryo-dream event (`shared/cryoDreams.ts`)
+  seen by some future player, marked "story by [player's
+  chosen name] and Darren Fessler."
+- The Inventor, still locked out after Shadow Tongue's severance,
+  sends a single posthumous message to the player's ship via
+  an existing Signal Beacon. It reads:
+  > *"I have been trying to save him for six weeks. I did not
+  > save him. You did. He made something up and it was beautiful
+  > and it cost him everything. This is how the Ne-Yons honor
+  > the dead: we put their name in a tool. His name is now on
+  > one of the new Dischordia cards you will find in the next
+  > pack you open. It is the card called **THE ASSISTANT**.
+  > The rules text reads: 'Once per game, break one of your
+  > own rules.' I think he would have liked that."*
+
+The card is real. It enters the player's collection the next
+time they open any pack. **Zero new art — reuse Darren's badge
+render as the card face.** The card is permanent. Every use
+of it in a card battle is canonically Darren's one invention
+paying off again.
+
+#### The Palimpsest consequence
+
+Darren's sacrifice is the single largest Signal contribution
+in the season: **+200 Signal**, applied globally to every
+player's Palimpsest meter. The Antiquarian writes one of the
+longest Chronicle entries of Year One about it. The entry is
+written the morning after Episode 12 airs. It begins:
+
+> *"There was a man. He wanted to make something up. He
+> succeeded once. I am writing it down now so that it is
+> written somewhere. I am the Antiquarian. This is what I do.
+> Today I am grateful to do it."*
+
 ---
 
-*[Appendix C continues — C.5 Darren, C.6 Meme Reveal, C.7
-Integration, C.8 Prompts.]*
+*[Appendix C continues — C.6 Meme Reveal, C.7 Integration, C.8
+Prompts.]*
 
 ---
 
