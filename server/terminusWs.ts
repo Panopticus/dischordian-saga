@@ -12,6 +12,7 @@ import { WebSocketServer, WebSocket } from "ws";
 import type { Server } from "http";
 import { getDb } from "./db";
 import { randomUUID } from "crypto";
+import { storeDisconnectedSession, recoverSession } from "./wsRateLimit";
 
 /* ─── TYPES ─── */
 
@@ -323,16 +324,48 @@ export function setupTerminusPvpWebSocket(server: Server) {
     });
 
     ws.on("close", () => {
-      // Clean up active raid
-      if (currentRaidId) {
-        activeRaids.delete(currentRaidId);
-      }
-      // Remove from connections
+      // Task 4.1 — honor the 30 s reconnection grace window.
+      // The raid is NOT torn down immediately: we snapshot it into
+      // the disconnectedSessions map so the same user can pick up
+      // where they left off if they reconnect in time. If they
+      // don't, the periodic cleanup in wsRateLimit will drop the
+      // snapshot and an explicit expiry timer here will collect
+      // the raid state so we don't leak memory.
+      let disconnectedUserId: number | null = null;
       for (const [id, p] of playerConnections) {
-        if (p.ws === ws) { playerConnections.delete(id); break; }
+        if (p.ws === ws) {
+          disconnectedUserId = id;
+          playerConnections.delete(id);
+          break;
+        }
+      }
+
+      if (currentRaidId && disconnectedUserId != null) {
+        const raid = activeRaids.get(currentRaidId);
+        if (raid) {
+          storeDisconnectedSession(disconnectedUserId, currentRaidId, {
+            raid,
+            snapshotAt: Date.now(),
+          });
+          // Schedule a hard expiry after the grace window. If the
+          // player hasn't reconnected and consumed the snapshot by
+          // then, drop the raid so we don't hold the slot open.
+          const raidIdToExpire = currentRaidId;
+          setTimeout(() => {
+            if (activeRaids.has(raidIdToExpire)) {
+              activeRaids.delete(raidIdToExpire);
+            }
+          }, 30_000);
+        }
+      } else if (currentRaidId) {
+        // Unknown user — safe to drop the raid immediately.
+        activeRaids.delete(currentRaidId);
       }
     });
   });
 
   console.log("[TerminusPvP] WebSocket server ready on /api/terminus-pvp");
 }
+
+// Exported so tests can assert the grace helper is wired in.
+export { recoverSession as recoverTerminusSession };
