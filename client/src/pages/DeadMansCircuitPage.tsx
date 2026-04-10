@@ -18,10 +18,55 @@ import {
   getNilmorgLine, type CloneStats,
 } from "@shared/deadMansCircuit";
 import { useNilmorgVO } from "@/hooks/useNilmorgVO";
-import { DMC_ENVIRONMENTS, DMC_MUSIC } from "@/data/dmcAssets";
+import { DMC_ENVIRONMENTS, DMC_MUSIC, DMC_CINEMATICS } from "@/data/dmcAssets";
 import { getNilmorgPortrait } from "@shared/nilmorgPortraits";
 
 type Phase = "lobby" | "racing" | "results";
+
+/* ═══════════════════════════════════════════════════════
+   CinematicOverlay — fullscreen cutscene player
+   Auto-plays the given video, fades in, lets the user
+   skip at any time, and fires onComplete when finished.
+   ═══════════════════════════════════════════════════════ */
+function CinematicOverlay({
+  src,
+  caption,
+  onComplete,
+}: { src: string; caption?: string; onComplete: () => void }) {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  useEffect(() => {
+    const v = videoRef.current;
+    if (!v) return;
+    v.play().catch(() => onComplete());
+  }, []);
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.35 }}
+      className="fixed inset-0 z-[100] flex items-center justify-center"
+      style={{ background: "#000" }}
+      onClick={onComplete}
+    >
+      <video
+        ref={videoRef}
+        src={src}
+        className="w-full h-full object-contain"
+        playsInline
+        onEnded={onComplete}
+      />
+      {caption && (
+        <div className="absolute top-6 left-6 font-mono text-[10px] tracking-[0.3em]" style={{ color: CIRCUIT_PALETTE.NILMORG_ORANGE }}>
+          {caption}
+        </div>
+      )}
+      <div className="absolute bottom-6 right-6 font-mono text-[9px] tracking-[0.2em] text-white/40 pointer-events-none">
+        CLICK TO SKIP
+      </div>
+    </motion.div>
+  );
+}
 
 const voidPanel = "bg-white/[0.02] border border-white/10 rounded-xl backdrop-blur";
 
@@ -34,7 +79,17 @@ export default function DeadMansCircuitPage() {
   const [gameReady, setGameReady] = useState(false);
   const [raceResult, setRaceResult] = useState<any>(null);
   const [nilmorgQuote, setNilmorgQuote] = useState(() => getNilmorgLine("circuit_begins"));
+  const [cinematic, setCinematic] = useState<{ src: string; caption?: string; next: () => void } | null>(null);
   const iframeRef = useRef<HTMLIFrameElement>(null);
+
+  // Helper: play a cinematic, then run `after()` when done/skipped
+  const playCinematic = useCallback((src: string, caption: string, after: () => void) => {
+    setCinematic({
+      src,
+      caption,
+      next: () => { setCinematic(null); after(); },
+    });
+  }, []);
 
   const season = trpc.deadMansCircuit.getCurrentSeason.useQuery();
   const leaderboard = trpc.deadMansCircuit.getLeaderboard.useQuery();
@@ -77,7 +132,6 @@ export default function DeadMansCircuitPage() {
       if (e.data.type === "CIRCUIT_RESULT") {
         const result = e.data.payload;
         setRaceResult(result);
-        setPhase("results");
         // Submit to server
         submitResult.mutate({
           cloneDesignation: result.designation || "WIRED-0000-UNKNOWN",
@@ -94,6 +148,15 @@ export default function DeadMansCircuitPage() {
         else if (result.finish_position === 1) setNilmorgQuote(getNilmorgLine("player_wins"));
         else setNilmorgQuote(getNilmorgLine("player_losing"));
         speakNilmorg(nilmorgVoId);
+        // Play the appropriate outro cinematic, then show the results screen
+        const gotoResults = () => setPhase("results");
+        if (!result.clone_survived) {
+          playCinematic(DMC_CINEMATICS.signalLostV2, "SIGNAL LOST", gotoResults);
+        } else if (result.finish_position === 1) {
+          playCinematic(DMC_CINEMATICS.severancePodium, "THE SEVERANCE PRIZE", gotoResults);
+        } else {
+          gotoResults();
+        }
       }
     };
     window.addEventListener("message", handler);
@@ -143,6 +206,9 @@ export default function DeadMansCircuitPage() {
           title="Dead Man's Circuit"
           allow="autoplay; fullscreen"
         />
+        <AnimatePresence>
+          {cinematic && <CinematicOverlay key="cin" src={cinematic.src} caption={cinematic.caption} onComplete={cinematic.next} />}
+        </AnimatePresence>
       </div>
     );
   }
@@ -191,18 +257,27 @@ export default function DeadMansCircuitPage() {
             </div>
           </div>
 
-          {/* Nilmorg */}
-          <div className={`${voidPanel} p-4 mb-6`}>
-            <div className="flex items-start gap-3">
+          {/* Nilmorg — corporate-chair loop as portrait backdrop */}
+          <div className={`${voidPanel} mb-6 relative overflow-hidden`}>
+            <video
+              src={DMC_CINEMATICS.nilmorgChair}
+              autoPlay
+              muted
+              loop
+              playsInline
+              className="absolute inset-0 w-full h-full object-cover opacity-40"
+            />
+            <div className="absolute inset-0" style={{ background: `linear-gradient(to right, ${CIRCUIT_PALETTE.TRENCH_DARK}f0 0%, ${CIRCUIT_PALETTE.TRENCH_DARK}80 60%, transparent 100%)` }} />
+            <div className="relative p-4 flex items-start gap-3 text-left">
               <img
                 src={getNilmorgPortrait(pos === 1 ? "player_wins" : survived ? "player_losing" : "player_died")}
                 alt="Nilmorg"
                 className="w-10 h-10 rounded-lg object-cover border shrink-0"
-                style={{ borderColor: CIRCUIT_PALETTE.NILMORG_ORANGE + "40" }}
+                style={{ borderColor: CIRCUIT_PALETTE.NILMORG_ORANGE + "60" }}
               />
-              <div>
+              <div className="min-w-0">
                 <span className="font-mono text-[9px] tracking-wider" style={{ color: CIRCUIT_PALETTE.NILMORG_ORANGE }}>NILMORG</span>
-                <p className="font-mono text-xs text-white/60 italic mt-1">"{nilmorgQuote}"</p>
+                <p className="font-mono text-xs italic mt-1" style={{ color: CIRCUIT_PALETTE.BONE_WHITE + "cc" }}>"{nilmorgQuote}"</p>
               </div>
             </div>
           </div>
@@ -215,6 +290,9 @@ export default function DeadMansCircuitPage() {
             RETURN TO THE TRENCH
           </button>
         </motion.div>
+        <AnimatePresence>
+          {cinematic && <CinematicOverlay key="cin" src={cinematic.src} caption={cinematic.caption} onComplete={cinematic.next} />}
+        </AnimatePresence>
       </div>
     );
   }
@@ -225,8 +303,17 @@ export default function DeadMansCircuitPage() {
   const clone = cloneConfig.data;
 
   return (
-    <div className="min-h-screen pb-24 relative" style={{ background: CIRCUIT_PALETTE.TRENCH_DARK }}>
-      <img src={DMC_ENVIRONMENTS.trench} alt="" className="absolute inset-0 w-full h-full object-cover opacity-10 pointer-events-none" />
+    <div className="min-h-screen pb-24 relative overflow-hidden" style={{ background: CIRCUIT_PALETTE.TRENCH_DARK }}>
+      {/* Hero background — 4K race gameplay loop, muted, behind everything */}
+      <video
+        src={DMC_CINEMATICS.raceGameplay}
+        autoPlay
+        muted
+        loop
+        playsInline
+        className="absolute inset-0 w-full h-full object-cover opacity-20 pointer-events-none"
+      />
+      <img src={DMC_ENVIRONMENTS.trench} alt="" className="absolute inset-0 w-full h-full object-cover opacity-10 pointer-events-none mix-blend-multiply" />
       {/* Header */}
       <div className="px-4 sm:px-6 pt-6 pb-4 border-b" style={{ borderColor: CIRCUIT_PALETTE.NILMORG_ORANGE + "20" }}>
         <div className="flex items-center gap-3 mb-2">
@@ -242,21 +329,60 @@ export default function DeadMansCircuitPage() {
         </p>
       </div>
 
-      <div className="px-4 sm:px-6 pt-4 space-y-4 max-w-2xl mx-auto">
-        {/* Nilmorg Commentary */}
-        <div className={`${voidPanel} p-4`}>
-          <div className="flex items-start gap-3">
+      <div className="px-4 sm:px-6 pt-4 space-y-4 max-w-2xl mx-auto relative">
+        {/* Nilmorg Sermon — lip-sync hero panel */}
+        <div className={`${voidPanel} overflow-hidden`}>
+          <button
+            type="button"
+            onClick={() => playCinematic(DMC_CINEMATICS.nilmorgLipSync, "NILMORG — THE VELOCITY SERMON", () => {})}
+            className="group relative w-full aspect-video block"
+          >
+            <video
+              src={DMC_CINEMATICS.nilmorgLipSync}
+              autoPlay
+              muted
+              loop
+              playsInline
+              className="absolute inset-0 w-full h-full object-cover"
+            />
+            <div className="absolute inset-0" style={{ background: `linear-gradient(to top, ${CIRCUIT_PALETTE.TRENCH_DARK}ee 0%, transparent 60%)` }} />
+            <div className="absolute bottom-0 left-0 right-0 p-3">
+              <p className="font-mono text-[8px] tracking-[0.25em] mb-1" style={{ color: CIRCUIT_PALETTE.NILMORG_ORANGE }}>
+                NILMORG — SVP OF KINETIC ACQUISITION
+              </p>
+              <p className="font-display text-[13px] sm:text-sm italic leading-snug" style={{ color: CIRCUIT_PALETTE.BONE_WHITE }}>
+                "The universe runs on power. Power runs on desire. And desire — desire is driven by velocity and vanity."
+              </p>
+            </div>
+            <div className="absolute top-3 right-3 font-mono text-[9px] px-2 py-1 rounded" style={{ background: "#000a", color: CIRCUIT_PALETTE.NILMORG_ORANGE }}>
+              ▶ SERMON
+            </div>
+          </button>
+        </div>
+
+        {/* Nilmorg Commentary (dynamic VO lines, corporate-chair loop as portrait) */}
+        <div className={`${voidPanel} relative overflow-hidden`}>
+          <video
+            src={DMC_CINEMATICS.nilmorgChair}
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="absolute inset-0 w-full h-full object-cover opacity-40"
+          />
+          <div className="absolute inset-0" style={{ background: `linear-gradient(to right, ${CIRCUIT_PALETTE.TRENCH_DARK}f0 0%, ${CIRCUIT_PALETTE.TRENCH_DARK}80 60%, transparent 100%)` }} />
+          <div className="relative p-4 flex items-start gap-3">
             <img
               src={getNilmorgPortrait(phase === "results" && raceResult ? (raceResult.finish_position === 1 ? "player_wins" : raceResult.clone_survived ? "player_losing" : "player_died") : "circuit_begins")}
               alt="Nilmorg"
               className="w-12 h-12 rounded-lg object-cover border shrink-0"
-              style={{ borderColor: CIRCUIT_PALETTE.NILMORG_ORANGE + "40" }}
+              style={{ borderColor: CIRCUIT_PALETTE.NILMORG_ORANGE + "60" }}
             />
-            <div>
+            <div className="min-w-0">
               <span className="font-mono text-[8px] tracking-[0.2em] block mb-1" style={{ color: CIRCUIT_PALETTE.NILMORG_ORANGE }}>
                 NILMORG, SVP OF KINETIC ACQUISITION
               </span>
-              <p className="font-mono text-[11px] text-white/50 italic leading-relaxed">
+              <p className="font-mono text-[11px] italic leading-relaxed" style={{ color: CIRCUIT_PALETTE.BONE_WHITE + "cc" }}>
                 "{nilmorgQuote}"
               </p>
             </div>
@@ -295,7 +421,7 @@ export default function DeadMansCircuitPage() {
 
         {/* Start Race */}
         <button
-          onClick={() => setPhase("racing")}
+          onClick={() => playCinematic(DMC_CINEMATICS.cloneAwakeningV2, "CLONE AWAKENING", () => setPhase("racing"))}
           className="w-full py-4 rounded-xl font-display text-lg tracking-[0.2em] transition-all hover:scale-[1.01]"
           style={{
             color: CIRCUIT_PALETTE.TRENCH_DARK,
@@ -354,6 +480,9 @@ export default function DeadMansCircuitPage() {
           </div>
         </div>
       </div>
+      <AnimatePresence>
+        {cinematic && <CinematicOverlay key="cin" src={cinematic.src} caption={cinematic.caption} onComplete={cinematic.next} />}
+      </AnimatePresence>
     </div>
   );
 }

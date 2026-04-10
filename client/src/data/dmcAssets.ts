@@ -61,6 +61,15 @@ export const DMC_CINEMATICS = {
   signalLost:      "/videos/dmc/dmc_cin_signal-lost.mp4",
   severancePrize:  "/videos/dmc/dmc_cin_severance-prize.mp4",
   nilmorgSpeaks:   "/videos/dmc/dmc_cin_nilmorg-speaks.mp4",
+
+  // V2 — Seedance 20 4K shots (2026-04-10)
+  cloneAwakeningV2: "/videos/dmc/dmc_cin_clone-awakening-v2.mp4",
+  raceGameplay:     "/videos/dmc/dmc_cin_race-gameplay.mp4",
+  raceTracking:     "/videos/dmc/dmc_cin_race-tracking.mp4",
+  severancePodium:  "/videos/dmc/dmc_cin_severance-podium.mp4",
+  signalLostV2:     "/videos/dmc/dmc_cin_signal-lost-v2.mp4",
+  nilmorgLipSync:   "/videos/dmc/dmc_cin_nilmorg-lipsync.mp4",
+  nilmorgChair:     "/videos/dmc/dmc_cin_nilmorg-chair.mp4",
 } as const;
 
 export const DMC_CINEMATIC_META: Record<keyof typeof DMC_CINEMATICS, { title: string; duration: string; usage: string }> = {
@@ -70,6 +79,14 @@ export const DMC_CINEMATIC_META: Record<keyof typeof DMC_CINEMATICS, { title: st
   signalLost:      { title: "Signal Lost",         duration: "8s",  usage: "Death sequence" },
   severancePrize:  { title: "The Severance Prize", duration: "12s", usage: "Season winner" },
   nilmorgSpeaks:   { title: "Nilmorg Speaks",      duration: "15s", usage: "Character introduction" },
+
+  cloneAwakeningV2: { title: "Clone Awakening (Seedance 4K)",  duration: "10s", usage: "Pre-race cinematic — overlays when player clicks ENTER THE TRENCH" },
+  raceGameplay:     { title: "Race Gameplay POV (Seedance 4K)", duration: "20s", usage: "Hero video — lobby background loop" },
+  raceTracking:     { title: "Race Tracking Shot (Seedance 4K)", duration: "15s", usage: "Lobby secondary background / marketing loop" },
+  severancePodium:  { title: "Severance Prize Podium (Seedance 4K)", duration: "12s", usage: "Victory overlay — plays on 1st place finish" },
+  signalLostV2:     { title: "Signal Lost (Seedance 4K)",       duration: "8s",  usage: "Death overlay — plays when clone fails to survive" },
+  nilmorgLipSync:   { title: "Nilmorg Sermon (Lip Sync)",       duration: "12s", usage: "'The universe runs on power...' velocity-and-vanity sermon — hero panel on lobby" },
+  nilmorgChair:     { title: "Nilmorg in Chair (Seedance 4K)",  duration: "15s", usage: "Ambient Nilmorg talking-head loop — commentary panel portrait" },
 };
 
 /* ─── CINEMATIC KEYFRAMES (PNG — start/end for Kling generation) ─── */
