@@ -620,6 +620,241 @@ on("circuit_race_complete", async (ev) => {
 });
 
 /* ═══════════════════════════════════════════════════════
+   TIER 8: YIN/YANG NARRATOR + DISCHORDIA CYCLE HANDLERS
+   "The Witnessing" — Elara/Human bond, Light/Dark meter,
+   Two Witnesses Meet milestones.
+   ═══════════════════════════════════════════════════════ */
+
+export interface NarratorBondChangedEvent extends RippleEvent {
+  narrator: "elara" | "human" | "lyra_vox";
+  newBond: number;
+  delta: number;
+  trigger: string;
+}
+
+export interface NarratorDismissedEvent extends RippleEvent {
+  narrator: "elara" | "human";
+  method: "give_me_space" | "prefer_other" | "silence";
+  roomId: string;
+}
+
+export interface NarratorTrustTierEvent extends RippleEvent {
+  narrator: "elara" | "human";
+  newTier: 0 | 20 | 40 | 60 | 80;
+}
+
+export interface TwoWitnessesMilestoneEvent extends RippleEvent {
+  tier: 40 | 60 | 80;
+}
+
+export interface LightDarkEnergyEvent extends RippleEvent {
+  amount: number;
+  source: string;
+  sector?: string;
+}
+
+// ── NARRATOR BOND CHANGED ──
+on("narrator_bond_changed", async (ev) => {
+  const { userId, narrator, delta } = ev as NarratorBondChangedEvent;
+  if (delta > 0) {
+    await pressureService.increment(userId, "trustGains", Math.abs(delta), `narrator_${narrator}_bond_up`);
+  } else if (delta < 0) {
+    await pressureService.increment(userId, "betrayals", Math.abs(delta), `narrator_${narrator}_bond_down`);
+  }
+});
+
+// ── NARRATOR DISMISSED ──
+on("narrator_dismissed", async (ev) => {
+  const { userId, narrator, method } = ev as NarratorDismissedEvent;
+  // Hard / silence dismissals carry the heaviest pressure — they reveal
+  // a player's emotional state on the Ark.
+  const weight = method === "give_me_space" ? 1 : method === "prefer_other" ? 3 : 4;
+  await pressureService.increment(userId, "betrayals", weight, `dismiss_${narrator}_${method}`);
+});
+
+// ── NARRATOR TRUST TIER ADVANCED ──
+on("narrator_trust_tier_advanced", async (ev) => {
+  const { userId, narrator, newTier } = ev as NarratorTrustTierEvent;
+  await pressureService.increment(userId, "loreDiscoveries", newTier / 10, `narrator_${narrator}_tier_${newTier}`);
+  const db = await getDb();
+  if (!db) return;
+  const messages: Record<number, string> = {
+    20: `${narrator === "elara" ? "Elara" : "The Human"} speaks more openly now. The Professional tier has been reached.`,
+    40: `${narrator === "elara" ? "Elara" : "The Human"} has begun to tell the honest version of things. Tier: Honest.`,
+    60: `${narrator === "elara" ? "Elara" : "The Human"} has allowed themselves to be seen. Tier: Vulnerable.`,
+    80: `${narrator === "elara" ? "Elara" : "The Human"} is Devoted. The Two Witnesses Meet is near.`,
+  };
+  const message = messages[newTier];
+  if (message) {
+    await db.insert(notifications).values({
+      userId,
+      type: "companion_milestone",
+      title: "A NARRATOR CROSSES A THRESHOLD",
+      message,
+    }).catch(() => {});
+  }
+});
+
+// ── TWO WITNESSES MILESTONES ──
+on("two_witnesses_remember", async (ev) => {
+  const { userId } = ev as TwoWitnessesMilestoneEvent;
+  await pressureService.increment(userId, "loreDiscoveries", 25, "two_witnesses_remember");
+  const db = await getDb();
+  if (!db) return;
+  await db.insert(notifications).values({
+    userId,
+    type: "lore_event",
+    title: "TWO WITNESSES REMEMBER",
+    message: "Elara and The Human have filled eight plaques in the Memorial Corridor. The rest are waiting.",
+  }).catch(() => {});
+});
+
+on("silence_of_two_witnesses", async (ev) => {
+  const { userId } = ev as TwoWitnessesMilestoneEvent;
+  await pressureService.increment(userId, "loreDiscoveries", 50, "silence_of_two_witnesses");
+  const db = await getDb();
+  if (!db) return;
+  await db.insert(notifications).values({
+    userId,
+    type: "lore_event",
+    title: "THE SILENCE OF TWO WITNESSES",
+    message: "Neither narrator is speaking. The Ark's Light/Dark meter has frozen for twenty-four hours. The Antiquarian is writing something in his Chronicle that he will not show you until later.",
+  }).catch(() => {});
+});
+
+on("two_witnesses_meet", async (ev) => {
+  const { userId } = ev as TwoWitnessesMilestoneEvent;
+  await pressureService.increment(userId, "loreDiscoveries", 100, "two_witnesses_meet");
+  const db = await getDb();
+  if (!db) return;
+  await db.insert(notifications).values({
+    userId,
+    type: "lore_event",
+    title: "THE TWO WITNESSES MEET",
+    message: "They are looking at each other across the Memorial Corridor. They are asking you to decide something. This is the most important moment in your Act 1.",
+  }).catch(() => {});
+});
+
+// ── LIGHT / DARK ENERGY ──
+on("light_energy_gained", async (ev) => {
+  const { userId, amount } = ev as LightDarkEnergyEvent;
+  await pressureService.increment(userId, "healingDone", Math.min(10, Math.ceil(amount / 20)), "light_energy");
+});
+
+on("dark_energy_gained", async (ev) => {
+  const { userId, amount } = ev as LightDarkEnergyEvent;
+  await pressureService.increment(userId, "deaths", Math.min(10, Math.ceil(amount / 20)), "dark_energy");
+});
+
+on("sector_state_changed", async (ev) => {
+  const { userId, newState } = ev as RippleEvent & { sector: string; oldState: string; newState: string };
+  if (newState === "reclaimed") {
+    await pressureService.increment(userId, "exploration", 10, "sector_reclaimed");
+  } else if (newState === "consumed") {
+    await pressureService.increment(userId, "deaths", 10, "sector_consumed");
+  }
+});
+
+on("vortex_proximity_increased", async (ev) => {
+  const { userId, newLevel } = ev as RippleEvent & { newLevel: number };
+  // Once the drum crosses 50, it becomes audible — that's worth noting.
+  if (newLevel >= 50 && newLevel < 55) {
+    const db = await getDb();
+    if (!db) return;
+    await db.insert(notifications).values({
+      userId,
+      type: "lore_event",
+      title: "A DRUM IN THE DEEP SKY",
+      message: "Something is moving at the edges of the galaxy. The Antiquarian has started listening to the walls.",
+    }).catch(() => {});
+  }
+});
+
+// ── SLIDESHOW COMPLETED ──
+on("slideshow_completed", async (ev) => {
+  const { userId, slideshowId } = ev as RippleEvent & { slideshowId: string };
+  await pressureService.increment(userId, "loreDiscoveries", 8, `slideshow_${slideshowId}`);
+});
+
+/* ═══════════════════════════════════════════════════════
+   TIER 9: THE GALACTIC DANCE HANDLERS
+   Voltari transmissions, faction first contacts, unity votes.
+   See docs/design/THE_GALACTIC_DANCE.md.
+   ═══════════════════════════════════════════════════════ */
+
+export interface VoltariTransmissionEvent extends RippleEvent {
+  /** Which word arrived: "awake" | "remember" | "before" | "you" | "coordinate" */
+  word: string;
+  /** Decoding state — how much has been understood? */
+  decoded: boolean;
+}
+
+export interface FactionFirstContactEvent extends RippleEvent {
+  factionId: string;
+  npcId: string;
+  outcome: "warm" | "cautious" | "hostile" | "transactional";
+}
+
+export interface UnityVoteEvent extends RippleEvent {
+  voteId: string;
+  choice: string;
+  /** Is this the "generous" response to Voltari? */
+  generous?: boolean;
+}
+
+// ── VOLTARI TRANSMISSION RECEIVED ──
+on("voltari_transmission_received", async (ev) => {
+  const { userId, word } = ev as VoltariTransmissionEvent;
+  await pressureService.increment(userId, "loreDiscoveries", 12, `voltari_${word}`);
+  const db = await getDb();
+  if (!db) return;
+  const titleByWord: Record<string, string> = {
+    awake: "A WORD IN THE STORM",
+    remember: "THE EYES MOUTH A WORD",
+    before: "A SIGNAL IN WHITE NOISE",
+    you: "THE SENTENCE ASSEMBLES",
+    coordinate: "THE VOLTARI SHARE A COORDINATE",
+  };
+  const messages: Record<string, string> = {
+    awake: "A single syllable compressed to 47 petabytes. Every being who looks at it understands: AWAKE.",
+    remember: "The Eyes' surveillance screens mouthed it. REMEMBER.",
+    before: "Someone has been hiding a signal in the white noise for two months. BEFORE.",
+    you: "The grammar is ambiguous in every language. YOU. That is either accidental or the most important thing about it.",
+    coordinate: "Not a word. A coordinate. Inside the shield. Where the Dreamer is waiting.",
+  };
+  const title = titleByWord[word] ?? "VOLTARI TRANSMISSION";
+  const message = messages[word] ?? "The Voltari have transmitted.";
+  await db.insert(notifications).values({
+    userId,
+    type: "lore_event",
+    title,
+    message,
+  }).catch(() => {});
+});
+
+// ── FACTION FIRST CONTACT ──
+on("faction_first_contact", async (ev) => {
+  const { userId, factionId, outcome } = ev as FactionFirstContactEvent;
+  await pressureService.increment(userId, "loreDiscoveries", 10, `first_contact_${factionId}`);
+  // Warm outcomes build trust; hostile outcomes build betrayal pressure.
+  if (outcome === "warm") {
+    await pressureService.increment(userId, "trustGains", 5, `first_contact_warm_${factionId}`);
+  } else if (outcome === "hostile") {
+    await pressureService.increment(userId, "betrayals", 5, `first_contact_hostile_${factionId}`);
+  }
+});
+
+// ── UNITY VOTE CAST ──
+on("unity_vote_cast", async (ev) => {
+  const { userId, voteId, generous } = ev as UnityVoteEvent;
+  await pressureService.increment(userId, "loreDiscoveries", 4, `unity_vote_${voteId}`);
+  if (generous) {
+    // The ~37% gesture — the Voltari have been looking for this.
+    await pressureService.increment(userId, "trustGains", 10, "unity_vote_generous");
+  }
+});
+
+/* ═══════════════════════════════════════════════════════
    EXPORT — Single public interface
    ═══════════════════════════════════════════════════════ */
 

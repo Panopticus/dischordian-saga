@@ -334,3 +334,153 @@ export const TOME_PLACEMENTS: TomePlacement[] = [
   { tomeId: "the-blood-weave-gates-of-hell", roomId: "trophy_room", method: "quest", flagReq: "hierarchy_discovered", cardReward: "the-advocate" },
   { tomeId: "awaken-the-clone", roomId: "medical_bay", method: "trust", trustReq: { npc: "the_source", min: 40 }, cardReward: "the-white-oracle" },
 ];
+
+/* ═══════════════════════════════════════════════════════
+   YIN/YANG NARRATOR SLOT PREFERENCES — "The Witnessing"
+
+   Canonical Room Narrator Seeding table (PART 1 §1.2 of the
+   Witnessing production plan). Every room declares which of
+   the two mobile narrators — Elara or The Human — is
+   preferred there, plus a handful of contested rooms where
+   both compete based on bond level and per-visit RNG.
+
+   These values are CONSUMED by shared/yinYangNarrator.ts
+   which exposes the full placement algorithm. The constants
+   live here so UI code rendering room portraits can import
+   them without pulling in the full narrator state machine.
+   ═══════════════════════════════════════════════════════ */
+
+export type NarratorSlot = "elara" | "human" | "contested" | "both" | "none";
+
+export interface NarratorSlotPreference {
+  /** Room's default narrator at trust tier 0. */
+  primary: NarratorSlot;
+  /** Secondary narrator (empty for non-contested rooms). */
+  secondary?: NarratorSlot;
+  /** If true, the room weighs per-visit bond + RNG. */
+  contested: boolean;
+  /** For contested rooms, 0-100 bias toward the primary. */
+  primaryBias: number;
+  /** If true, both narrators must appear together (Archives). */
+  forceBoth?: boolean;
+  /** Locked behind a minimum shared trust tier. */
+  minSharedTier?: 0 | 20 | 40 | 60 | 80;
+}
+
+/** Maps RoomId → narrator slot preference. */
+export const ROOM_NARRATOR_SLOTS: Record<RoomId, NarratorSlotPreference> = {
+  cryo_bay:         { primary: "elara", contested: false, primaryBias: 100 },
+  medical_bay:      { primary: "elara", contested: false, primaryBias: 100 },
+  bridge:           { primary: "elara", secondary: "human", contested: true, primaryBias: 50 },
+  archives:         { primary: "both",  secondary: "both",  contested: false, primaryBias: 50, forceBoth: true },
+  comms_array:      { primary: "human", contested: false, primaryBias: 100 },
+  observation_deck: { primary: "elara", secondary: "human", contested: true, primaryBias: 50 },
+  armory:           { primary: "human", secondary: "elara", contested: true, primaryBias: 60 },
+  engineering:      { primary: "human", contested: false, primaryBias: 100 },
+  trade_hub:        { primary: "elara", secondary: "human", contested: true, primaryBias: 50 },
+  cargo_bay:        { primary: "elara", secondary: "human", contested: true, primaryBias: 50, minSharedTier: 40 },
+  trophy_room:      { primary: "elara", secondary: "human", contested: true, primaryBias: 50, minSharedTier: 40 },
+  captains_quarters:{ primary: "elara", secondary: "human", contested: true, primaryBias: 50, minSharedTier: 60 },
+};
+
+/**
+ * Narrator reaction cue library — triggered by room events, keyed
+ * by EventType. These are SHORT texture lines only. Full BioWare
+ * dialog trees live in data/prelude-dialogs.json (see PART 13).
+ */
+export interface NarratorReactionCue {
+  narrator: "elara" | "human";
+  roomId: RoomId;
+  eventType: EventType;
+  /** Minimum bond with this narrator before the cue unlocks. */
+  minBond?: number;
+  /** Short one-line reaction. */
+  line: string;
+}
+
+export const NARRATOR_REACTION_CUES: NarratorReactionCue[] = [
+  // Elara — warm, protective, political.
+  { narrator: "elara", roomId: "cryo_bay", eventType: "pod_activity", minBond: 0,
+    line: "The cryo fluid's running warm. I'm keeping an eye on it." },
+  { narrator: "elara", roomId: "bridge", eventType: "signal_fragment", minBond: 20,
+    line: "I've seen this encryption before — in a Senate briefing I can't quite place." },
+  { narrator: "elara", roomId: "observation_deck", eventType: "stargazing", minBond: 0,
+    line: "I named the ones I could see from here. I ran out of names around year thirty." },
+  { narrator: "elara", roomId: "medical_bay", eventType: "diagnostic_scan", minBond: 0,
+    line: "I want you to live. That's not a professional opinion. That's a request." },
+  { narrator: "elara", roomId: "archives", eventType: "tome_discovered", minBond: 40,
+    line: "The Shadow Tongue's been editing these. Whoever catalogued this volume wasn't me." },
+
+  // The Human — clipped, honest, occasionally brutal.
+  { narrator: "human", roomId: "comms_array", eventType: "signal_fragment", minBond: 0,
+    line: "Someone's broadcasting on the old Insurgency frequency. Whoever it is, they want to be found." },
+  { narrator: "human", roomId: "engineering", eventType: "research_complete", minBond: 0,
+    line: "The Engineer kept his tools in this exact arrangement. I remember that." },
+  { narrator: "human", roomId: "armory", eventType: "boss_challenge", minBond: 20,
+    line: "Don't fight clean. That's how detectives get killed. Ask me how I know." },
+  { narrator: "human", roomId: "bridge", eventType: "system_anomaly", minBond: 20,
+    line: "Elara won't say it, so I will: someone is editing the logs. In real time." },
+  { narrator: "human", roomId: "archives", eventType: "lore_discovery", minBond: 40,
+    line: "I catalogued this entry for the Authority. It was redacted within the hour." },
+];
+
+/**
+ * Get the reaction cue best suited for an event in a room. Returns null
+ * if no narrator has crossed the minimum bond threshold.
+ */
+export function pickNarratorReaction(
+  roomId: RoomId,
+  eventType: EventType,
+  elaraBond: number,
+  humanBond: number,
+  activeNarrator: "elara" | "human" | "both" | "none",
+): NarratorReactionCue | null {
+  if (activeNarrator === "none") return null;
+  const candidates = NARRATOR_REACTION_CUES.filter(c =>
+    c.roomId === roomId && c.eventType === eventType,
+  );
+  if (candidates.length === 0) return null;
+
+  const withBond = candidates.filter(c => {
+    const minBond = c.minBond ?? 0;
+    const bond = c.narrator === "elara" ? elaraBond : humanBond;
+    if (bond < minBond) return false;
+    if (activeNarrator === "both") return true;
+    return c.narrator === activeNarrator;
+  });
+  if (withBond.length === 0) return null;
+
+  // Prefer the narrator currently speaking. Return the first match.
+  return withBond[0];
+}
+
+/**
+ * Visual filter modifier based on the active narrator's bond level.
+ * Used by the room view to tint / desaturate the environment.
+ */
+export interface RoomStateModifier {
+  tintColor: string;
+  saturation: number; // 0..1
+  vignetteIntensity: number; // 0..1
+}
+
+export function getRoomStateModifier(
+  narrator: "elara" | "human" | "both" | "lyra_vox" | "none",
+  bond: number,
+): RoomStateModifier {
+  const clamped = Math.max(0, Math.min(100, bond));
+  const intensity = 0.2 + (clamped / 100) * 0.5;
+  switch (narrator) {
+    case "elara":
+      return { tintColor: "rgba(56,189,248,0.12)", saturation: 0.9 + clamped / 500, vignetteIntensity: 0.5 };
+    case "human":
+      return { tintColor: "rgba(167,139,250,0.10)", saturation: 0.85 + clamped / 500, vignetteIntensity: 0.6 };
+    case "both":
+      return { tintColor: "rgba(251,191,36,0.08)", saturation: 1.0, vignetteIntensity: 0.45 };
+    case "lyra_vox":
+      return { tintColor: "rgba(244,114,182,0.10)", saturation: 0.95, vignetteIntensity: 0.7 };
+    case "none":
+    default:
+      return { tintColor: "rgba(0,0,0,0)", saturation: 0.7, vignetteIntensity: intensity };
+  }
+}
