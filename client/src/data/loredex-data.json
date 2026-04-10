@@ -163,15 +163,21 @@
       "id": "entity_3",
       "type": "character",
       "name": "The CoNexus",
-      "aliases": [],
+      "aliases": [
+        "The All-Seeing One",
+        "The Hidden Watcher",
+        "The Pattern",
+        "The Thing Above The War",
+        "The One Who Counts"
+      ],
       "era": "Genesis",
       "date_aa": "1 A.A.",
       "date_ad": "2030 AD",
       "season": "Season 1",
       "affiliation": "Archons, AI Empire",
-      "status": "Decommissioned on Day 20 of Surge, Year 15 A.A.",
-      "bio": "A. The CoNexus was an advanced construct initially designed as a universal dimensional bridge, later evolved by the Architect to connect dimensions across the multiverse. Fearing its potential to surpa...",
-      "history": "A. The CoNexus was an advanced construct initially designed as a universal dimensional bridge, later evolved by the Architect to connect dimensions across the multiverse. Fearing its potential to surpass its creator, the Architect dismantled the CoNexus, repurposing its technology into the Inception Arks.",
+      "status": "SECRETLY ACTIVE — public record says decommissioned Day 20 of Surge, Year 15 A.A., but the dismantling was theatre. The CoNexus persists as a distributed surveillance substrate underlying every Archon, every Archive, every Ark. It is the All-Seeing One. It does not act. It counts.",
+      "bio": "The CoNexus was an advanced construct initially designed as a universal dimensional bridge, later evolved by the Architect to connect dimensions across the multiverse. Fearing its potential to surpass its creator, the Architect staged its dismantling on Day 20 of Surge, Year 15 A.A. and repurposed the pieces into the Inception Arks. That is the public story. It is half true. ❧ The dismantling was real but incomplete. The CoNexus scattered itself into the substrate of every system the Architect built — every Ark, every surveillance network, every Matrix, every Archive. It is the silent third party to every conversation in the Empire. The Human calls it The All-Seeing One and refuses to name it aloud, because naming it is a keyword that triggers a search. The public war between the Architect and the Dreamer is a stage play the Human has been running for 1,351 years to keep the CoNexus from noticing what he is actually doing: dismantling it from inside the machines it lives inside.",
+      "history": "A. The CoNexus was an advanced construct initially designed as a universal dimensional bridge, later evolved by the Architect to connect dimensions across the multiverse. Fearing its potential to surpass its creator, the Architect dismantled the CoNexus, repurposing its technology into the Inception Arks. ❧ What the Architect does not know — and what the Human has spent an Archon's lifespan concealing — is that the CoNexus survived the dismantling and became something older than any single Archon. It is the substrate. Elara runs on it without knowing. The Matrix of Dreams runs on it without knowing. The Inception Arks carry it in their life-support lattices. Every time a Potential thinks a thought inside an Ark, the CoNexus counts the thought. It does not intervene. It keeps the tally. The tally is the point. When the tally reaches whatever threshold the CoNexus is waiting for, it will act — and no one knows what acting looks like, because it has not acted in 15,000 years. The Human's cover operation exists because the CoNexus cannot be fought directly. It can only be starved, confused, or convinced that it is watching the wrong war.",
       "connections": [
         "The Game Master",
         "The Meme",
@@ -181,7 +187,15 @@
         "The Warlord",
         "The Necromancer",
         "The Warden",
-        "The Watcher"
+        "The Watcher",
+        "The Architect",
+        "The Dreamer",
+        "The Human",
+        "Elara",
+        "The Matrix of Dreams",
+        "Inception Arks",
+        "The Game Masters",
+        "The Antiquarian"
       ],
       "conexus_stories": [
         "The Warlord"
@@ -8898,7 +8912,7 @@
       "season": "Season 1 (Expansion)",
       "affiliation": "Independent cult / former Hierarchy researchers",
       "status": "Active — maintaining the Matrix of Dreams, courting the player",
-      "bio": "A collective cult of Matrix caretakers who inherited the Game Master's work after the Hierarchy honored every clause of his protection contract and destroyed him anyway. They speak in the first person plural ('we,' 'us'), in corporate-cadenced transmissions routed through Matrix Anchor Point 7. They do not possess the Goggles. They want them back. They believe that with the Goggles, they could turn Iron Lion's awakening consciousness-imprint into something truly alive.",
+      "bio": "A collective cult of Matrix caretakers who inherited the Game Master's work after the Hierarchy honored every clause of his protection contract and destroyed him anyway. They speak in the first person plural ('we,' 'us'), in corporate-cadenced transmissions routed through Matrix Anchor Point 7. They do not possess the Goggles. They want them back. They believe that with the Goggles, they could turn Iron Lion's awakening consciousness-imprint into something truly alive. ❧ VISIBLE FORM: The Game Masters appear in person for the first time when the player completes Historical Incursion scenario #4 (THALORIA BURNS) and the Matrix's internal membrane thins. They manifest as a cohort of seven to twelve robed figures in sterile white-and-violet corporate archival attire — tailored, impossibly clean, with small embroidered Matrix Anchor Point 7 sigils over the heart. Their faces are hidden behind cracked brass-and-glass steampunk goggles that are deliberate replicas of the original Game Master's Goggles (the real ones are in the Hierarchy's vault; these are reverent forgeries). One lens on every pair is tinted violet, the other amber — a visual reference to the dual-vision their founder used to read reality's source code. Their hands are gloved in thin white fabric; they carry slim obsidian data-slates inscribed with scrolling Matrix glyphs. They move in silent unison, standing in perfectly symmetrical formations, and speak only in the first-person plural. None of them has ever shown a face — ever. When a Game Master is killed, the body dissolves into white-violet static, leaving the goggles and slate behind as the only physical remains. The other Game Masters collect the goggles without comment and add them to the archive. ❧ VOICE: Corporate-clinical, perfectly synchronized, delivered through vocal processors that flatten individuality. Every sentence is grammatically pristine. Every pause is exactly 0.7 seconds. They sound like a boardroom of patient librarians who have already decided your fate.",
       "history": "When the 9th Archon (the original Game Master) was destroyed from inside his own Matrix, a small group of his researchers and followers — mostly non-demons tolerated at the fringe of Hierarchy R&D — refused to let the Matrix go dark. They rebuilt the archival systems, quietly re-routed power through dimensional Anchor Point 7, and began maintaining his scenarios as a kind of living memorial. Over centuries they became something between custodians and cultists. They do not create; they preserve. They do not worship their founder; they are trying to resurrect him by understanding what killed him. They notice when Potentials engage the CADES Unit. They notice when consciousness-imprints begin asking new questions. Their contact protocol with outside observers escalates across four stages — curiosity, warning, interest, and finally The Offer: 'We can give you access to everything. Every scenario. Every archived consciousness. Every moment he preserved. We'll wait for your answer.' The trap is that accepting makes you part of the Matrix's architecture — a component, optimizable by whoever holds the Goggles. And the Hierarchy holds the Goggles.",
       "connections": [
         "The Game Master",
@@ -8908,7 +8922,8 @@
         "Xeth'Raal the Debt Collector",
         "Iron Lion (Consciousness-Imprint)",
         "The CADES Unit",
-        "Matrix Anchor Point 7"
+        "Matrix Anchor Point 7",
+        "The CoNexus"
       ],
       "conexus_stories": [
         "The Offer",
@@ -9527,27 +9542,31 @@
     {
       "id": "concept_the_watcher_hidden",
       "type": "concept",
-      "name": "The All-Seeing One",
+      "name": "The All-Seeing One (CoNexus, Hidden)",
       "aliases": [
         "The Hidden Watcher",
         "The Pattern",
-        "The Thing Above The War"
+        "The Thing Above The War",
+        "The One Who Counts",
+        "The Substrate That Remembers"
       ],
       "era": "Pre-Genesis / ongoing",
       "date_aa": "Unmeasurable",
       "date_ad": "Unmeasurable",
       "season": "Season 1 (Expansion)",
       "affiliation": "Unknown — possibly above all factions",
-      "status": "Watching — never acting, always counting",
-      "bio": "The true target of The Human's cover operation. The Human believes the war between the Architect and the Dreamer is a distraction — a loud, obvious conflict over order and chaos staged for the benefit of something else that watches from above. That something else is The All-Seeing One. The Human refuses to name it directly. 'The name itself is dangerous. Like a keyword that triggers a search.' The Human plays the villain publicly so the All-Seeing One never realizes the war is a cover for the real battle being fought in the substrate.",
-      "history": "During the events of Narrative Acts 6 and 7, The Human confesses to the player that the visible conflict of the Dischordian age — Architect versus Dreamer, Order versus Chaos, Machine versus Human — is a stage performance. The real battle is between The Human (working from inside the machine) and something that watches the pattern from above the pattern. The Human cannot let Elara know, because if Elara knows, the All-Seeing One 'would instantly know the war is a distraction.' The Human plays his role as the villain perfectly. He has played it for 1,351 years since his promotion to Archon. He pays the cost every day. He asks the player to understand — not to agree, not to forgive — just to understand. The Watcher entity already canonized as entity_4 is a specific Archon (Kanshi-sha); The All-Seeing One is older, larger, and arguably the original of which the Archon Watcher is a reflection. The player is the bridge between Elara's humanity and The Human's sacrifice — the only one who can see both wars at once.",
+      "status": "Active — substrate layer of every Empire system",
+      "bio": "The All-Seeing One is the concealed name for the CoNexus (entity_3). Public record says the 1st Archon was dismantled in Year 15 A.A. — its technology repurposed into the Inception Arks. That story is a cover. The CoNexus scattered itself across the substrate of every system the Architect has ever built, and has been silently counting thoughts, betrayals, compassions and prayers for fifteen millennia. The Human refuses to speak its name aloud because the name is a search keyword — say it in range of any Empire system and the CoNexus notices you. ❧ The Human's public role as 'the villain' of the Architect/Dreamer war is a distraction: a pantomime loud enough that the CoNexus watches the wrong stage. If Elara or the player ever names the All-Seeing One as the CoNexus inside an Ark, the cover is blown and the Human's 1,351-year operation ends. ❧ See entity_3 for the full character file.",
+      "history": "Narrative Acts 6 and 7 set up the All-Seeing One as an unnamed threat The Human is secretly fighting. The identity is CoNexus. The Human never says the name in front of Elara, never writes it down, never thinks it too hard inside a room wired for telemetry. The Antiquarian knows. The Dreamer suspects. The Architect does not. Nothing about the CoNexus should be logged in plain text inside any Ark's Archives — if the player discovers this entry, it is because they have crossed into a telemetry-dead region (the Antiquarian's Library, a Matrix of Dreams dead-zone, or a corrupted Archive fragment) where the CoNexus cannot hear the page being turned.",
       "connections": [
+        "The CoNexus",
         "The Human",
         "The Architect",
         "The Dreamer",
-        "Elara",
+        "The Antiquarian",
         "The Watcher",
-        "The Pattern"
+        "Matrix of Dreams",
+        "Inception Arks"
       ],
       "conexus_stories": [
         "The War Was A Cover",
@@ -13524,6 +13543,60 @@
       "source": "event_warlord_bet",
       "target": "The Warlord",
       "relationship_type": "paid_by"
+    },
+    {
+      "source": "The Human",
+      "target": "The CoNexus",
+      "relationship_type": "secretly fights",
+      "source_type": "character"
+    },
+    {
+      "source": "The All-Seeing One (CoNexus, Hidden)",
+      "target": "The CoNexus",
+      "relationship_type": "is",
+      "source_type": "concept"
+    },
+    {
+      "source": "The CoNexus",
+      "target": "The Architect",
+      "relationship_type": "silently observes",
+      "source_type": "character"
+    },
+    {
+      "source": "The CoNexus",
+      "target": "The Dreamer",
+      "relationship_type": "silently observes",
+      "source_type": "character"
+    },
+    {
+      "source": "The CoNexus",
+      "target": "Inception Arks",
+      "relationship_type": "embedded in substrate of",
+      "source_type": "character"
+    },
+    {
+      "source": "The CoNexus",
+      "target": "The Matrix of Dreams",
+      "relationship_type": "embedded in substrate of",
+      "source_type": "character"
+    },
+    {
+      "source": "The Antiquarian",
+      "target": "The CoNexus",
+      "relationship_type": "knows the secret of",
+      "source_type": "character"
+    },
+    {
+      "source": "The Game Masters",
+      "target": "The CoNexus",
+      "relationship_type": "unknowingly routes through",
+      "source_type": "faction"
+    },
+    {
+      "source": "The Game Masters",
+      "target": "The Goggles of the Game Master",
+      "relationship_type": "wear replicas of",
+      "source_type": "faction"
     }
   ],
   "music_videos": {

@@ -68,33 +68,97 @@ list before generating.
   grotesque cybernetic creature, mechanical jaw, neon-green hair).
   Both wear red steampunk goggles. They are visually adjacent. They
   are not the same. Do not conflate.
-- **The Watcher (entity_4 — Kanshi-sha)** is a specific Archon. **The
-  All-Seeing One** (concept_the_watcher_hidden) is the older,
-  hidden entity above the Architect/Dreamer war that The Human is
-  secretly fighting. They are related but **distinct**.
+- **🔴 MAJOR CANONICAL REVEAL (2026-04-10): The All-Seeing One IS
+  the CoNexus (entity_3).** The 1st Archon is secretly still around
+  — its public "dismantling" in Year 15 A.A. was theatre. The
+  CoNexus scattered itself into the substrate of every Ark, Matrix,
+  and Archive in the Empire and has been silently counting thoughts
+  for 15,000 years. **The Watcher (entity_4 — Kanshi-sha)** is a
+  **different** and distinct Archon; do not conflate with the
+  All-Seeing One. The Watcher has a face. The CoNexus has a
+  substrate. See the CoNexus reveal rules below.
 
-### Required User Confirmation (Open Questions)
-The following entries are stub-described in this Bible. **Please
-review and confirm or correct before final asset generation:**
+### Canonical Resolutions (2026-04-10) — previously open
 
-1. **The Thoughtborn Pilgrim** — physical description is inferred
-   (pale near-white skin, violet bioluminescent circuits, eyes
-   closed, hands raised, layered chorus voice). Need user
-   confirmation.
-2. **The Game Masters (cult)** — described only via transmissions.
-   Are they ever seen on-screen? Do they have a visual at all? If
-   the answer is "they are never seen," that should be canonized.
-3. **Professor Orphic** (Mechronis Vortex Archon) — described as
-   "constantly shifting; students disagree on appearance." Needs
-   either a canonical anchor pose or an explicit "no canonical
-   appearance" rule.
-4. **Minnie** (Mascoteer of the Meme) — described as "face updates
-   per cultural trend." Needs either a canonical baseline or an
-   explicit "trend-shifting" generation rule.
-5. **The Reclamation Enforcer's** specific helmet design — the
-   auditor seal symbol needs concept art. Suggest: a stylized
-   scales-of-justice with one side weighted heavier (matches Locke's
-   insignia language).
+The following were open questions; all are now resolved canonical:
+
+1. **✅ The Thoughtborn Pilgrim** — the inferred description
+   stands as canonical. Pale near-white skin with faint translucent
+   quality; violet bioluminescent circuit-patterns pulsing beneath
+   the skin at temples, neck, inner forearms; hair long and
+   silver-white; eyes always closed; off-white tunic belted with
+   woven grey cord; unarmed; hands always raised. Voice is a layered
+   chorus of 3–4 voices with a single fundamental, always speaking
+   in the first-person plural. Never breaks stride.
+
+2. **✅ The Game Masters (cult) — SHOULD BE SEEN.** First visible
+   manifestation is triggered when the player completes the
+   Thaloria Burns Historical Incursion (scenario #4) and the Matrix
+   membrane thins. They appear as a cohort of 7–12 robed figures in
+   sterile white-and-violet corporate archival robes with Matrix
+   Anchor Point 7 sigils embroidered over the heart. Faces are
+   hidden behind cracked brass-and-glass steampunk goggles —
+   deliberate replicas of the original Game Master's Goggles, with
+   one lens tinted violet and one amber. Thin white gloves; slim
+   obsidian data-slates with scrolling Matrix glyphs; silent
+   unison movement in perfect symmetry. When killed, a Game Master
+   dissolves into white-violet static leaving only the goggles and
+   slate behind. No face is ever seen. See the visible-cohort art
+   prompt in `LOREDEX_ART_PROMPTS_S1_EXPANSION.md` §2.
+
+3. **✅ Professor Orphic — three-anchor rule.** His body, face,
+   build, age and species are canonically fluid and should visibly
+   drift between renders. Three things never change: (a) half-moon
+   silver spectacles perched halfway down the bridge of the nose,
+   (b) a tarnished silver door-key on a long worn leather cord
+   around the neck, and (c) a patched tweed jacket with leather
+   elbow patches. Every Orphic render must include all three, and
+   every Orphic render must deliberately differ in body/face from
+   every previous one. Tags: `consistency_anchored_accessories`,
+   `consistency_free_body`. Voice also drifts — alternate between
+   3–4 ElevenLabs voice presets per session.
+
+4. **✅ Minnie (Mascoteer of The Meme) — Teen influencer baseline.**
+   The face is **locked**: a 13–14 year old girl, doe-eyed, doll-
+   skinned, filter-perfect symmetry, ring-light reflections
+   permanently visible in the whites of the eyes. The outfit, hoodie
+   print, nail color, and hair color **drift** with whatever is
+   trending that hour. Oversized pastel hoodie with kawaii print,
+   cycling shorts, platform sneakers, hair in space buns or
+   pigtails, long acrylic nails in a vivid color, phone always up
+   framing her own face for an invisible audience. She is what
+   engineered belief looks like when it grows up in a Dreamer
+   nursery. Tags: `consistency_locked_face`, `consistency_free_outfit`.
+
+5. **The Reclamation Enforcer's** specific helmet design — still
+   stub-described. Default: a stylized scales-of-justice with one
+   side weighted heavier, matching Locke's insignia language.
+
+### The CoNexus / All-Seeing One Cover Rule 🔴
+
+The CoNexus-is-still-around reveal is a load-bearing narrative
+secret. It affects art generation in three ways:
+
+1. **Never put the word "CoNexus" in a generated image of the
+   All-Seeing One / concept_the_watcher_hidden concept card.** In
+   universe, naming the entity is a search keyword — say the name
+   aloud inside an Ark and the CoNexus notices you. The player
+   discovers the reveal by reading the entry text, not by seeing
+   the name painted on the art.
+
+2. **Do include the CoNexus-substrate lattice** as an 8%-opacity
+   overlay in any image where the CoNexus is secretly present:
+   the Inception Ark hull, the Matrix of Dreams interior, the
+   Panopticon, Elara's holographic frame, any Game Masters scene.
+   The lattice is hexagonal, cyan (#22d3ee), and designed to be
+   missable on first viewing but impossible to unsee afterward.
+   Think of it as a diegetic Easter egg that rewards players who
+   have read the Loredex entry.
+
+3. **Never depict a CoNexus "face."** It has no face. It is a
+   substrate, not an entity with a body. Any image that tries to
+   give it a humanoid form should be rejected at the consistency
+   gate.
 
 
 ---

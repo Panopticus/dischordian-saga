@@ -85,7 +85,7 @@ export const MASCOTEERS: Mascoteer[] = [
   {
     id: "minnie", mascotName: "Minnie",
     archonNumber: 5, originalArchon: "The Meme", celebrationAlias: "Minnie",
-    appearance: "A constantly-changing child whose face updates with every laugh in the crowd",
+    appearance: "BASELINE: A 13-to-14-year-old teen influencer — doe-eyed, doll-skinned, filter-perfect symmetry, ring-light reflections permanently visible in the whites of the eyes. Wears an oversized pastel hoodie with kawaii print (the print updates to match whatever is trending that hour), cycling-shorts, oversized platform sneakers. Hair in space buns or pigtails depending on the week. Long acrylic nails in a different color every session (black cherry → hot pink → chrome → viral green → black cherry again). A phone is always up, framing her own face for an audience nobody else can see. The face itself stays the same; the outfit, the print, the nails, the hair color all update live with the crowd's laughter. When she speaks she pauses mid-sentence to check her reflection in the phone. When she laughs the laugh is perfectly timed for a clip. — She is what 'engineered belief' looks like when it grows up in a Dreamer-reprogrammed nursery: a 15-year-old with a better marketing instinct than anyone in the Empire's propaganda division, and she doesn't know yet that her trials kill people.",
     playSurface: "Leads the chants, the cheers, the 'Frens, frens, gather close'",
     hiddenTruth: "Teaches Apprentices that belief can be engineered and that they too will be engineered",
     dailyGame: "The Chant Game — start a rumor. See if it returns to you transformed.",

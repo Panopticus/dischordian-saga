@@ -125,8 +125,11 @@ aesthetic. Vertical 1024x1536 portrait.
 ## 2. FACTIONS (6 new)
 
 ### faction_game_masters_cult — The Game Masters
-**S3:** `faction_game_masters_cult.png`  
-**Resolution:** 1024×1024
+**S3 (primary — emblem):** `faction_game_masters_cult.png`  
+**S3 (secondary — visible cohort):** `faction_game_masters_cult_visible.png`  
+**Resolution:** 1024×1024 (emblem), 1024×1536 (cohort portrait)
+
+**PROMPT 1 — Archive Seal (emblem):**
 
 ```
 A faction emblem / archive seal for The Game Masters cult. Central
@@ -139,6 +142,32 @@ background is deep black void (#0a0a1a). The overall feeling is
 academic preservation cult — a corporate archive department that
 survived its own founder. No text inside the hexagons. 1024x1024.
 ```
+
+**PROMPT 2 — Visible Cohort (🔴 CANONICAL, resolved 2026-04-10):**
+
+```
+A cohort of seven to twelve robed figures standing in a perfectly
+symmetrical semicircle inside a violet-lit Matrix of Dreams archive
+vault. They wear sterile tailored white-and-violet corporate
+archival robes — impossibly clean, long sleeves with narrow cuffs,
+small embroidered "Matrix Anchor Point 7" sigils over the heart.
+Their faces are completely hidden behind cracked brass-and-glass
+steampunk goggles — one lens tinted violet, the other amber, each
+pair a reverent handmade replica of the original Game Master's
+Goggles. Thin white gloves, each figure holding a slim obsidian
+data-slate inscribed with scrolling Matrix glyphs glowing faintly
+violet. All figures stand in identical posture, identical spacing,
+as if they are one entity wearing twelve bodies. Behind them, the
+membrane of the Matrix of Dreams ripples faintly. Corporate horror,
+academic cult, sterile menace. Lighting is cool violet with a
+single warm amber accent from the goggles. Style: clean high-
+detail concept art, reverent and unsettling, #a855f7 and #fbbf24
+and #0a0a1a palette, centered composition. 1024x1536.
+```
+
+**Composition note:** The cohort is never seen with faces uncovered.
+If the pipeline generates variants, every variant must preserve the
+goggles. The cohort is the face; the cohort is the uniform.
 
 ---
 
@@ -465,22 +494,52 @@ corporate horror, 1024x1024.
 
 ---
 
-### concept_the_watcher_hidden — The All-Seeing One
+### concept_the_watcher_hidden — The All-Seeing One (CoNexus, Hidden) 🔴 REVEAL
 **S3:** `concept_the_watcher_hidden.png`  
 **Resolution:** 1024×1024
 
+> **Canonical reveal (2026-04-10):** The All-Seeing One IS The
+> CoNexus (entity_3) — the 1st Archon, still secretly around, its
+> "dismantling" was theatre. The prompt below treats this as a
+> CROSS-REFERENCE CARD. It is only discoverable in telemetry-dead
+> regions (Antiquarian's Library, Matrix dead-zone, corrupted
+> Archive). The art must suggest the reveal WITHOUT writing the
+> name "CoNexus" in the image — in-universe, naming it is a
+> search keyword.
+
 ```
-An abstract impossible presence above a battlefield. In the lower
-third of the frame: a visible war — two armies (machine and
-rebellion) engaged in combat in silhouette. In the middle third:
-a layer of violet haze. In the upper third and dominating the
-composition: a vast unblinking presence, suggested only by its
+An abstract impossible presence woven through machinery. In the
+lower third of the frame: a visible war — two armies (machine and
+rebellion) engaged in combat in silhouette on the surface of a
+starship hull. In the middle third: a layer of violet haze and
+faint scrolling Matrix glyphs. In the upper third and dominating
+the composition: a vast unblinking presence, suggested only by its
 absence — a single perfectly round empty circle of pure black void
 surrounded by a corona of stars, with thousands of faint tallies
-scratched in the void's edge as if counting something. The
-background is deep blue-black. No face. No features. Only
-watching. Only counting. Dark cosmic horror aesthetic. 1024x1024.
+scratched in the void's edge as if counting something. Threaded
+through every surface of the ship below (the hull plating, the
+battle, the haze) are faint hexagonal CoNexus-substrate lattice
+lines in near-invisible cyan (#22d3ee at 8% opacity) — the same
+lattice found embedded in every Ark, every Matrix, every Archive.
+The implication: the thing above the war is also the thing
+beneath it. It is the substrate. It has always been the substrate.
+The background is deep blue-black. No face. No features. No name.
+Only watching. Only counting. Dark cosmic horror + surveillance
+lattice aesthetic. 1024x1024.
 ```
+
+**DO NOT include in this image:**
+- The word "CoNexus" anywhere visible
+- An Archon portrait
+- Any human face
+- Any direct reference to "The All-Seeing One"
+
+**DO include:**
+- The hexagonal CoNexus-substrate lattice (8% opacity, easy to
+  miss on first view, impossible to unsee on second)
+- Tally marks
+- The void / circle motif
+- The visible war far below the presence
 
 
 ---
@@ -619,14 +678,100 @@ Before running any of these prompts:
 
 ---
 
+## 6.5 MASCOTEER & PROFESSOR CANONICAL ANCHORS (added 2026-04-10)
+
+These two entities live in `shared/mascoteers.ts` and
+`shared/mechronisProfessors.ts`, not the loredex JSON, but their
+art anchors were resolved during the 2026-04-10 conflict review
+and belong here so the art pipeline has them.
+
+### Minnie (Mascoteer of The Meme) — Teen Influencer Baseline 🔴
+**S3:** `mascoteer_minnie.png`
+**Resolution:** 1024×1536
+
+```
+A 13-to-14-year-old teen influencer posing for a selfie camera
+the viewer cannot see. Doe-eyed, doll-skinned, filter-perfect
+symmetry. Ring-light reflections PERMANENTLY visible as two small
+perfect circles in the whites of her eyes — this is a canonical
+feature, not a lighting accident. She wears an oversized pastel
+hoodie with a kawaii print (cats, mushrooms, or clouds — artist's
+choice, but the print is visible), cycling shorts, oversized
+platform sneakers. Hair in space buns with loose strands. Long
+acrylic nails in a vivid color (hot pink, chrome, or viral green).
+Her phone is up, framing her own face, catching light. Her other
+hand is making a peace sign. Background: blurred pastel
+conference-room bokeh suggesting a brightly-lit Celebration play-
+area. She is smiling too perfectly, too timed, too staged. The
+overall impression: sweet, viral-ready, slightly wrong. Dark
+sci-fi + kawaii + childlike horror crossed with influencer
+aesthetic. Do NOT include any visible weapon, blood, or explicit
+menace — her horror is that she has no idea her games kill people.
+Style: clean high-detail concept art, #ec4899 and #f9a8d4 palette
+with cool pastel accents. 1024x1536.
+```
+
+**Consistency rules:**
+- `consistency_locked_face` — the face is THE anchor
+- `consistency_free_outfit` — print, nails, hair color may drift
+  between renders (that's the point)
+- Must include: ring-light eye reflections, phone up, oversized
+  hoodie, peace sign OR phone selfie pose
+
+---
+
+### Professor Orphic (Mechronis Vortex Archon) — Three-Anchor Portrait 🔴
+**S3:** `professor_orphic.png`
+**Resolution:** 1024×1536
+
+```
+A portrait of a lecturer in liminal physics standing in a stone
+archway that opens onto several doors simultaneously. The figure
+is deliberately ambiguous — the body is soft, middle-distance,
+neither heavyset nor gaunt, neither young nor old, skin-tone and
+apparent species left indistinct as if the lighting itself is
+making up its mind. THREE ELEMENTS ARE ABSOLUTELY SHARP AND
+CLEAR: (1) a pair of half-moon silver spectacles perched halfway
+down the bridge of the nose, lenses crystal-clean, silver frame
+polished; (2) a tarnished silver DOOR-KEY on a long worn leather
+cord around the neck, the bit of the key smooth from being
+turned; (3) a patched tweed jacket with leather elbow patches,
+wool in soft grey-brown, patches in cognac leather. Background:
+the archway behind him leads to seven doors arranged in a soft
+diminishing perspective — each door a different color, each
+slightly ajar, each suggesting a different room that cannot all
+exist simultaneously. Everything EXCEPT the three anchors should
+feel slightly unstable, as if the figure's outline is shifting
+one frame ahead of the viewer. Academic, unsettling, cosmic.
+Style: high-detail dark academia portrait meets dimensional
+physics, #78716c and #d6d3d1 palette with warm leather accents.
+1024x1536.
+```
+
+**Consistency rules:**
+- `consistency_anchored_accessories` — spectacles + key + jacket
+  are locked across every render
+- `consistency_free_body` — face, build, age, species must
+  deliberately differ between renders (no two Orphic portraits
+  should look like the same person)
+- Must include: half-moon silver spectacles halfway down the
+  nose, silver door-key on leather cord, patched tweed jacket
+
+---
+
 ## 7. SUMMARY
 
 **Total new loredex entries needing art:** 29
 - Characters: 5
-- Factions: 6
+- Factions: 6 (+ 1 visible-cohort variant for Game Masters)
 - Locations: 5
 - Concepts: 8
 - Events: 5
+
+**Plus canonical anchor portraits (mascoteer/professor, 2026-04-10):**
+- Minnie (teen influencer baseline) — 1024×1536
+- Professor Orphic (three-anchor portrait) — 1024×1536
+- Game Masters visible cohort — 1024×1536
 
 **All prompts in this document target NanoBanna 2** as the primary
 generation model, with Magnific AI upscaling and the standard

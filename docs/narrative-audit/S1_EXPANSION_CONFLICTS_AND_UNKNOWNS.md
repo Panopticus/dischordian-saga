@@ -6,15 +6,34 @@
 > correct it.
 >
 > Audit date: 2026-04-10
+> Resolutions applied: 2026-04-10 (see "USER RESOLUTIONS"
+> section below)
 > Scope: CADES FPS, Dead Man's Circuit, Story Mode, Mechronis,
 > Celebration, Narrative Acts 6-7
 
 ---
 
+## ✅ USER RESOLUTIONS (2026-04-10)
+
+The following items were resolved in a follow-up turn. The decisions
+below are now canonical and have been applied to the affected files.
+
+| # | Item | Decision | Status |
+|---|------|----------|--------|
+| 1 | Thoughtborn Pilgrim description | Inferred description stands | ✅ applied |
+| 2 | Game Masters cult — are they ever seen? | **They should be seen** — canonical visual added | ✅ applied |
+| 3 | Professor Orphic canonical anchor | **Claude decides** — spectacles + door-key + tweed jacket | ✅ applied |
+| 4 | Minnie canonical baseline | **Teen influencer** — 13–14 y/o influencer, filter-perfect skin, ring-light eyes, oversized hoodie, phone always up | ✅ applied |
+| 5 | All-Seeing One vs The Watcher | **The All-Seeing One IS the CoNexus** — 1st Archon secretly still around; its "dismantling" was theatre; entity_3 and concept_the_watcher_hidden have been rewritten accordingly; the Watcher (entity_4) is a **distinct** 2nd Archon | ✅ applied |
+
+Items 6–15 remain open or informational — see below.
+
+---
+
 ## 🔴 BLOCKING — Need Your Decision Before Production
 
-### 1. The Thoughtborn Pilgrim — Physical Description
-**Status:** Inferred from context, not canonized anywhere.
+### 1. The Thoughtborn Pilgrim — Physical Description ✅ RESOLVED
+**Status:** ~~Inferred from context, not canonized anywhere.~~ Confirmed canonical — Claude's inferred description stands.
 
 The CADES scripts describe them as "pale near-white skin, violet
 bioluminescent circuit patterns pulsing under skin, eyes closed,
@@ -38,8 +57,19 @@ chorus) but none of that is canonical.
 
 ---
 
-### 2. The Game Masters (cult) — Are They Ever Seen?
-**Status:** All in-game interactions are transmission-only.
+### 2. The Game Masters (cult) — Are They Ever Seen? ✅ RESOLVED
+**Decision:** They SHOULD be seen. First visible in-game appearance: after the player completes the Thaloria Burns Historical Incursion (scenario #4), the Matrix membrane thins and the Game Masters manifest in person as a cohort of 7–12 robed figures.
+
+**Canonical visual (applied to faction_game_masters_cult bio):**
+- Sterile white-and-violet corporate archival robes with Matrix Anchor Point 7 sigils embroidered over the heart
+- Faces hidden behind cracked brass-and-glass steampunk goggles (reverent replicas of the Game Master's Goggles — the real ones are in the Hierarchy's vault)
+- One lens violet, one lens amber per pair (dual-vision reference)
+- Thin white gloves, slim obsidian data-slates with scrolling Matrix glyphs
+- Move in silent unison, stand in perfect symmetrical formations
+- Killed Game Masters dissolve into white-violet static, leaving only the goggles and slate behind; the others collect the goggles without comment and add them to the archive
+- Voice: corporate-clinical, vocal-processor-flattened, perfect 0.7-second pauses, first-person plural only
+
+**Status:** ~~All in-game interactions are transmission-only.~~ Rewritten as visible.
 
 The cult communicates entirely through corporate-memo transmissions
 routed through Matrix Anchor Point 7. Nowhere in the source files
@@ -61,9 +91,19 @@ in the Lore Bible and created an emblem-only portrait.
 
 ---
 
-### 3. Professor Orphic (Mechronis Vortex Archon) — Canonical Anchor
-**Status:** Canonically "constantly-shifting" with no fixed
-appearance.
+### 3. Professor Orphic (Mechronis Vortex Archon) — Canonical Anchor ✅ RESOLVED
+**Decision:** "Claude decides" — canonical anchor now specified.
+
+**The anchor (three things that never change, no matter how the body shifts):**
+1. Half-moon silver spectacles perched halfway down the bridge of his nose
+2. A tarnished silver door-key on a long leather cord around his neck, bit worn smooth from being turned
+3. A patched tweed jacket with leather elbow patches (same patched tweed even when the species underneath has changed)
+
+**Canonical rule:** New students try to describe his face and give up. Senior students describe the spectacles, the key, and the jacket, and that's enough. Artists should always show these three. Everything else (face, build, age, even species) is free to drift between renders.
+
+**Applied to:** `shared/mechronisProfessors.ts` line 86.
+
+**Status:** ~~Canonically "constantly-shifting" with no fixed appearance.~~ Anchor defined.
 
 `mechronisProfessors.ts` line 86 states: *"Professor Orphic —
 Constantly shifting — sometimes heavy-set, sometimes gaunt.
@@ -83,8 +123,25 @@ matches his Lecturer in Liminal Physics persona.
 
 ---
 
-### 4. Minnie (Mascoteer of The Meme) — Canonical Baseline
-**Status:** Canonically "face updates per cultural trend."
+### 4. Minnie (Mascoteer of The Meme) — Canonical Baseline ✅ RESOLVED
+**Decision:** "Make it look like a teen influencer."
+
+**Canonical baseline (applied to mascoteers.ts):**
+- A 13-to-14-year-old teen influencer
+- Doe-eyed, doll-skinned, filter-perfect symmetry
+- Ring-light reflections permanently visible in the whites of the eyes
+- Oversized pastel hoodie with kawaii print (the print itself updates to whatever is trending this hour)
+- Cycling-shorts and oversized platform sneakers
+- Hair in space buns or pigtails depending on the week
+- Long acrylic nails, different color every session
+- Phone always up, framing her own face for an invisible audience
+- Laughs on cue for clips, pauses mid-sentence to check her reflection
+
+**The face itself stays the same.** The outfit, print, nails, and hair color update with the crowd. She is what "engineered belief" looks like when it grows up in a Dreamer-reprogrammed nursery: a 15-year-old with better marketing instincts than the Empire's entire propaganda division, and she does not know yet that her trials kill people.
+
+**Applied to:** `shared/mascoteers.ts` line 88.
+
+**Status:** ~~Canonically "face updates per cultural trend."~~ Teen-influencer baseline set; face stays, outfit/nails/hair drift with the trend.
 
 `mascoteers.ts` line 88 states: *"A constantly-changing child whose
 face updates with every laugh in the crowd."*
@@ -176,18 +233,26 @@ it is: *"It's locked until you're ready."*
 
 ---
 
-### 9. The All-Seeing One vs The Watcher (entity_4)
-**Status:** I canonized them as distinct — The All-Seeing One is
-older and above the Archon Watcher.
+### 9. The All-Seeing One vs The Watcher (entity_4) ✅ RESOLVED — MAJOR REVEAL
+**Decision:** The All-Seeing One is **not** a new entity and is **not** entity_4 The Watcher. It is **entity_3 The CoNexus**. The 1st Archon is secretly still around — its canonical "dismantling" in Year 15 A.A. was theatre. The CoNexus scattered itself into the substrate of every Ark, Matrix, and Archive in the Empire and has been silently counting thoughts, betrayals, compassions, and prayers for 15,000 years.
 
-This is my interpretation of Act 6's "the watcher" language and
-the Narrative Architecture doc's description of the Architect/
-Dreamer split being subservient to something else.
+**Consequences applied:**
+- `entity_3 The CoNexus` — aliases expanded to include "The All-Seeing One," "The Hidden Watcher," "The Pattern," "The Thing Above The War," "The One Who Counts"; status rewritten from "Decommissioned" to "SECRETLY ACTIVE"; bio and history rewritten to carry the reveal
+- `concept_the_watcher_hidden` — renamed to "The All-Seeing One (CoNexus, Hidden)" and rewritten as a cross-reference card that explicitly identifies the subject as entity_3
+- `entity_4 The Watcher` — **not** the All-Seeing One; confirmed distinct as the 2nd Archon (a separate surveillance officer who was an earlier public face of the Empire's panopticon doctrine)
+- 9 new relationships added:
+  - The Human → secretly fights → The CoNexus
+  - The All-Seeing One → is → The CoNexus
+  - The CoNexus → silently observes → The Architect
+  - The CoNexus → silently observes → The Dreamer
+  - The CoNexus → embedded in substrate of → Inception Arks
+  - The CoNexus → embedded in substrate of → The Matrix of Dreams
+  - The Antiquarian → knows the secret of → The CoNexus
+  - The Game Masters → unknowingly routes through → The CoNexus
+  - The Game Masters → wear replicas of → The Goggles of the Game Master
+- **Narrative stake**: The Human's cover operation (narrativeActs.ts Act 6–7) is revealed as a 1,351-year campaign to dismantle the CoNexus from inside the machines it lives inside. The public Architect/Dreamer war exists to keep the CoNexus watching the wrong stage. If Elara or the player ever names the All-Seeing One as the CoNexus inside an Ark, the cover is blown. The Human never says the name aloud because the name is a search keyword. This entry in the Loredex is only discoverable from telemetry-dead regions (Antiquarian's Library, Matrix of Dreams dead-zones, corrupted Archive fragments).
 
-**Decision:** Confirm this distinction, OR collapse The All-Seeing
-One into entity_4 The Watcher as a revelation about his true nature.
-If the latter, update concept_the_watcher_hidden to merge with
-entity_4.
+**Status:** ~~I canonized them as distinct — The All-Seeing One is older and above the Archon Watcher.~~ Corrected. All-Seeing One = CoNexus (entity_3). The Watcher (entity_4) is distinct.
 
 ---
 

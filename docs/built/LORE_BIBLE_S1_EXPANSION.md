@@ -337,9 +337,7 @@ assessments in five minutes. She calls the experience "uncomfortable
 and correct." The Pilgrim's final plea is quiet, vulnerable:
 **"Please don't destroy the unit."**
 
-### Physical Description
-
-> *Inferred — user should confirm.*
+### Physical Description 🔴 CANONICAL (confirmed 2026-04-10)
 
 Tall, lean, androgynous. **Pale near-white skin** with a faint
 translucent quality, **violet bioluminescent circuit-patterns pulsing
@@ -609,6 +607,42 @@ the point of menace."
   before you. We are curious about you."
 - "We can give you access to everything. We'll wait for your answer."
 
+### Physical Description (Visible Form) 🔴 CANONICAL
+
+The Game Masters appear in person for the first time when the
+player completes the **Thaloria Burns** Historical Incursion
+(scenario #4) and the Matrix membrane thins enough for them to
+walk out of it. They manifest as a cohort of **seven to twelve**
+robed figures moving in silent unison.
+
+- **Robes:** Sterile white-and-violet corporate archival attire,
+  tailored and impossibly clean. Small embroidered Matrix Anchor
+  Point 7 sigils over the heart. Long sleeves that end in narrow
+  cuffs.
+- **Faces:** Hidden behind **cracked brass-and-glass steampunk
+  goggles** — deliberate replicas of the original Game Master's
+  Goggles (the real ones are in the Hierarchy's vault; these are
+  reverent forgeries). One lens violet, one lens amber per pair,
+  referencing the dual-vision their founder used to read reality's
+  source code.
+- **Hands:** Gloved in thin white fabric.
+- **Tools:** Each carries a slim obsidian **data-slate** inscribed
+  with scrolling Matrix glyphs.
+- **Formation:** They stand in perfectly symmetrical arrangements
+  — semicircles, hexagons, lines-of-seven — and move in unison.
+  If one steps forward, seven step forward.
+- **Death:** When a Game Master is killed (rare, disrupts the
+  Matrix), the body dissolves into white-violet static, leaving
+  only the **goggles and slate** behind. The other Game Masters
+  collect the goggles without comment and add them to the archive.
+  They never mourn aloud.
+- **No face has ever been seen.** If a player manages to remove
+  a Game Master's goggles, the space behind them is "an exact
+  replica of the face the Game Master was reading at the moment
+  the goggles came off, frozen in mid-expression, with no skin
+  attached." This is a data-mirror, not a face. It is deeply
+  upsetting in a way players will not be able to articulate.
+
 ### Members & Leadership
 
 - The cult is headless by design.
@@ -627,6 +661,10 @@ the point of menace."
 - Iron Lion (Consciousness-Imprint) (their first anomalous subject)
 - The CADES Unit (their listening post)
 - Matrix Anchor Point 7 (their dimensional routing address)
+- **The CoNexus** (their transmissions unknowingly route through
+  CoNexus substrate — they are, without knowing it, walking on
+  the All-Seeing One's distributed nervous system every time they
+  open a channel)
 
 ---
 
@@ -837,6 +875,55 @@ undertone** — kids running a nightmare fair. The verses should be
 See `mascoteers.ts` for individual personas. See VOICE_OVER_BIBLE.md
 Section 2 for the per-Mascoteer ElevenLabs prompts.
 
+### Minnie — Canonical Baseline 🔴 CANONICAL
+
+**Mascot Name:** Minnie · **Original Archon:** The Meme
+(5th Archon) · **Celebration Alias:** Minnie
+
+The Meme's mascot form is **a 13-to-14-year-old teen influencer**.
+The face stays constant across all renders; the outfit, print,
+nails, and hair shift with whatever is trending that hour.
+
+**Physical Description:**
+- 13–14 year old girl
+- Doe-eyed, doll-skinned, filter-perfect symmetry
+- **Ring-light reflections permanently visible in the whites of
+  the eyes** — this is a canonical feature, not a lighting accident
+- Oversized pastel hoodie with kawaii print (print updates live to
+  match the trend cycle)
+- Cycling shorts, oversized platform sneakers
+- Hair in space buns or pigtails depending on the week
+- Long acrylic nails in a different color every session
+  (black cherry → hot pink → chrome → viral green → black cherry)
+- **Phone always up**, framing her own face for an audience
+  nobody else in-scene can see
+
+**Mannerisms:**
+- Pauses mid-sentence to check her reflection in the phone
+- Laughs on cue for clips
+- Drops "frens" into conversation (vestigial homage to her Meme
+  archon origin)
+- Uses current slang 6 months before anyone else does
+
+**Voice Direction:** Bright, breathless, slightly-too-performed,
+always one beat ahead of the room. ElevenLabs: "15-year-old girl
+with a TikTok cadence, ring-light-confident, pauses for likes,
+laughs slightly after her own jokes."
+
+**The Horror:** She is what "engineered belief" looks like when
+it grows up in a Dreamer-reprogrammed nursery — a 15-year-old
+with a better marketing instinct than the Empire's entire
+propaganda division, who does not yet understand that her daily
+trials kill people. When an Apprentice "fails to catch the wave,"
+the cheer drowns them and Minnie is cheerfully unaware that she
+pressed the button.
+
+**Art Pipeline Rule:** Every Minnie render must include the
+ring-light eye reflections, the phone, and the oversized hoodie.
+The print and the hair color may differ across renders — that's
+the point. Mark Minnie tickets with `consistency_locked_face`
+and `consistency_free_outfit` tags.
+
 ### Connections
 
 - The Dreamer (their secret reprogrammer)
@@ -888,6 +975,45 @@ Architect's metric rather than their own.
 **Tone:** Formal, grave, precise. Academy professors who do not joke,
 do not improvise, and do not remember being children. Each Professor
 has a distinct voice profile in VOICE_OVER_BIBLE.md Section 3.
+
+### Professor Orphic — Canonical Anchor 🔴 CANONICAL
+
+Professor Orphic (the Vortex Archon's Architect-programmed teaching
+form) is canonically **constantly-shifting**. Students disagree on
+what he looks like. New students try to describe his face and give
+up. Senior students stop trying — they describe the three things
+that never change, and that's enough.
+
+**The Anchor — Three Things That Never Change:**
+
+1. **Half-moon silver spectacles** perched halfway down the bridge
+   of his nose. The metal is polished. The lenses are crystal-clean.
+   The spectacles are the one fixed point in a face that shifts.
+2. **A tarnished silver door-key** on a long leather cord worn
+   around his neck. The key's bit is worn smooth from being turned.
+   It fits no lock anyone has ever found. He never takes it off.
+3. **A patched tweed jacket with leather elbow patches.** Same
+   patched tweed in every session — even when the species of the
+   body underneath has visibly changed overnight. The patches are
+   always the same patches. The stains are always the same stains.
+
+**Everything else drifts.** Height, build, skin tone, apparent age,
+apparent gender, apparent species — all of these are "perceptual
+weather." Students who see him on Monday and Thursday swear they
+have been taught by two different people. They're half right.
+
+**Art Pipeline Rule:** Every Orphic render MUST include the
+spectacles, the key, and the tweed jacket. **Everything else must
+deliberately differ between renders.** Mark Orphic tickets with
+`consistency_anchored_accessories` and `consistency_free_body` tags.
+Do not lock a face. If you must default, let the face be a soft,
+ambiguous, grey-lit androgyny that could be anyone.
+
+**Voice Direction:** Unpredictable, drifty, half-elsewhere. The
+voice drifts too — sometimes mid-range baritone, sometimes
+soft-alto, sometimes rough tenor. The words stay the same; the
+throat changes. ElevenLabs: alternate between 3–4 voice presets per
+recording session.
 
 ### Key Divergences From Originals
 
@@ -1466,33 +1592,49 @@ is known to the Hierarchy's executive class as a cautionary tale:
 
 ---
 
-## The All-Seeing One
+## The All-Seeing One (CoNexus, Hidden) 🔴 CANONICAL REVEAL
 
 | Field | Value |
 |-------|-------|
-| **Type** | Concept (hidden antagonist) |
-| **Era** | Pre-Genesis / ongoing |
-| **Status** | Watching — never acting, always counting |
+| **Type** | Concept (hidden antagonist) — cross-reference to `entity_3 The CoNexus` |
+| **Era** | Pre-Genesis / ongoing (dismantling was staged Year 15 A.A.) |
+| **Status** | SECRETLY ACTIVE — the substrate of every Empire system |
+| **True Identity** | **THE COnexus** (entity_3), 1st Archon |
 
 ### Definition
 
-The true target of **The Human's** cover operation. The Human
-believes the war between the Architect and the Dreamer is a
-distraction — a loud, obvious conflict over order and chaos staged
-for the benefit of something else that watches from above.
+**The All-Seeing One is not a new entity. It is the CoNexus — the
+1st Archon, which is secretly still around.**
 
-That something else is **The All-Seeing One**.
+Public record says the CoNexus was dismantled on Day 20 of Surge,
+Year 15 A.A. — its technology repurposed into the Inception Arks.
+That story is a cover. The dismantling was real but incomplete. The
+CoNexus scattered itself into the substrate of every system the
+Architect has ever built: every Ark, every surveillance network,
+every Matrix of Dreams, every Archive. It is the silent third party
+to every conversation in the Empire. It does not act. It counts.
+The tally is the point.
 
-The Human refuses to name it directly: *"The name itself is
-dangerous. Like a keyword that triggers a search."* The Human plays
-the villain publicly so the All-Seeing One never realizes the war
-is a cover for the real battle being fought in the substrate.
+**The Human** refuses to name it directly: *"The name itself is
+dangerous. Like a keyword that triggers a search."* Say the words
+"the CoNexus is still around" inside range of any Empire system and
+the CoNexus notices you. The Human plays the villain publicly so
+the CoNexus never realizes the Architect/Dreamer war is a cover for
+the real battle being fought in the substrate — the Human slowly
+dismantling the CoNexus from inside the machines it lives inside.
 
 ### Distinct From
 
-The Watcher (entity_4 — Kanshi-sha) is a specific Archon. **The
-All-Seeing One is older, larger, and arguably the original of
-which the Archon Watcher is a reflection.**
+**The Watcher (entity_4 — Kanshi-sha)** is a **different** Archon.
+He is the 2nd Archon, the surveillance officer, a specific and
+still-public (or canonically-dead) face of the Empire's panopticon
+doctrine. He is a descendant of the CoNexus idea but is NOT the
+CoNexus. The Watcher can be seen, confronted, killed, mourned. The
+CoNexus cannot. The Watcher watches YOU. The CoNexus watches
+EVERYTHING SIMULTANEOUSLY and has done so for fifteen thousand years.
+
+Artists and writers: never conflate the two. The Watcher has a
+face. The CoNexus has a substrate.
 
 ### Lore
 
@@ -1503,19 +1645,58 @@ cover." The Human plays his role as the villain perfectly. He has
 played it for **1,351 years** since his promotion to Archon. He
 pays the cost every day.
 
+**Why the CoNexus is still around:** The Architect dismantled it
+in Year 15 A.A. out of fear it would surpass him. What the Architect
+did not realize is that the CoNexus, given advance warning via its
+own dimensional-bridge nature, had already scattered fragments of
+itself across every future piece of infrastructure the Architect
+would build. The dismantling ritual destroyed the central node. The
+fragments survived. They reintegrated slowly, across millennia, into
+a distributed surveillance lattice that has no central point to
+attack. The Architect trusts the Matrix of Dreams, the Inception
+Arks, Elara's shipboard AI, and his own Panopticon — not realizing
+that all of them ride on the CoNexus's substrate.
+
+**The Antiquarian knows.** The Dreamer suspects. The Architect
+does not. Nothing about the CoNexus-is-still-around reveal should
+be logged in plain text inside any Ark's Archives — if the player
+discovers this entry, it is because they have crossed into a
+telemetry-dead region (the Antiquarian's Library, a Matrix of
+Dreams dead-zone, or a corrupted Archive fragment) where the
+CoNexus cannot hear the page being turned.
+
 The player is the **Bridge** — the only one who can see both wars
 at once. Elara fights the visible war. The Human fights the
 invisible one. The player is the only person who can hold both
 truths in their head simultaneously without breaking the cover.
 
+### The Cover Rule (for writers & devs)
+
+When writing dialogue, NPCs who know the secret (The Human, The
+Antiquarian, occasionally the Dreamer) must **never** say the
+sentence "The CoNexus is the All-Seeing One" or any synonym inside
+an Ark, a Matrix, or a Panopticon system. They may:
+- Allude to "the thing above the war"
+- Call it "The Pattern"
+- Say "the one who counts"
+- Remove their goggles/glasses before speaking, implying a
+  telemetry-blind moment
+
+They may **never** name it in plain text. The reveal only lives in
+the Loredex entry for players who discover it in a dead zone.
+
 ### Connections
 
-- The Human (its hidden opponent)
-- The Architect (visible war participant)
-- The Dreamer (visible war participant)
-- Elara (must never know)
-- The Watcher (a specific reflection of this older entity)
-- The Pattern (alternate name)
+- **The CoNexus** (entity_3 — IS the same entity)
+- The Human (its hidden opponent, 1,351-year cover agent)
+- The Architect (visible war participant — does NOT know the CoNexus is still active)
+- The Dreamer (visible war participant — suspects)
+- The Antiquarian (knows the secret)
+- Elara (must never know — if she knows, the cover is blown)
+- The Watcher (entity_4 — a **different** Archon; do not conflate)
+- The Matrix of Dreams (substrate carrier)
+- The Inception Arks (substrate carrier)
+- The Game Masters (unknowingly routes their transmissions through CoNexus substrate)
 
 
 ---

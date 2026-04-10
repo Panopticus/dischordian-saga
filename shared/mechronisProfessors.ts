@@ -83,7 +83,7 @@ export const MECHRONIS_PROFESSORS: MechronisProfessor[] = [
     id: "prof_vortex", archonNumber: 4,
     teacherName: "Professor Orphic",
     title: "Lecturer in Liminal Physics",
-    appearance: "Constantly shifting — sometimes heavy-set, sometimes gaunt. Students disagree on what he looks like.",
+    appearance: "Constantly shifting — sometimes heavy-set, sometimes gaunt, sometimes young, sometimes ancient. Students disagree on what he looks like. THREE THINGS NEVER CHANGE (the canonical anchor, the rule students learn to recognize him by): (1) a pair of half-moon silver spectacles perched halfway down the bridge of his nose; (2) a tarnished silver door-key on a long leather cord worn around his neck, the key's bit worn smooth from being turned; and (3) a patched tweed jacket with leather elbow patches, always the same patched tweed even when the body underneath has visibly changed species overnight. New students try to describe his face and give up. Senior students describe the spectacles, the key, and the jacket, and that is enough.",
     philosophy: "There is no room you cannot leave. There is no room you will not enter. Both of these are lies.",
     classroomRule: "The classroom door changes location each session. Find it.",
     gradingStyle: "Students who arrive at lectures automatically pass. Students who arrive LATE vanish.",
