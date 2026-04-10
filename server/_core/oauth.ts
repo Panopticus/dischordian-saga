@@ -107,7 +107,7 @@ export function registerOAuthRoutes(app: Express) {
       console.error(`[OAuth] ${provider} callback failed:`, errMsg);
       res.status(500).json({
         error: "OAuth callback failed",
-        detail: error?.message || "Unknown error",
+        detail: errMsg || "Unknown error",
       });
     }
   });

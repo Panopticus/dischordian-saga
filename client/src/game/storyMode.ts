@@ -93,6 +93,16 @@ export interface StoryChapter {
   preFight: (StoryDialogue | DialogWheel)[];
   postFight: (StoryDialogue | DialogWheel)[];
   postDefeatDialogue: StoryDialogue[];
+  /** Pure-dialogue variant consumed by FightPage's story mode for
+   *  pre-fight exposition. Optional because legacy chapters still
+   *  use the mixed `preFight` array. */
+  preDialogue?: StoryDialogue[];
+  /** Pure-dialogue variant for the post-victory beat. Optional for
+   *  the same reason as `preDialogue`. */
+  postVictoryDialogue?: StoryDialogue[];
+  /** Opening cutscene URL played before the pre-fight dialogue.
+   *  Distinct from `unlocksVideo` (which is the post-fight reward). */
+  cutsceneVideoUrl?: string;
   memoryFragment?: string;
   powerGained?: string;
   cinematicId?: string;
@@ -221,6 +231,48 @@ export interface StoryProgress {
   moralScore: { truth: number; defiance: number; empathy: number; acceptance: number };
   isComplete: boolean;
   playthroughCount: number;
+}
+
+/** Fighter lore entry shown in the FightPage lore popup. Keyed by
+ *  fighter id. Entries are optional — absent fighters simply skip
+ *  the lore section in the UI. */
+export interface FighterLore {
+  backstory: string;
+  quote: string;
+  powers: string[];
+  arenaRole: string;
+}
+
+/** Fighter lore registry. Currently empty; populate per-fighter as
+ *  content is written. Consumers already guard with `if (lore)`. */
+export const FIGHTER_LORE: Record<string, FighterLore | undefined> = {};
+
+const STORY_PROGRESS_STORAGE_KEY = "fight_story_progress";
+
+/** Load the player's fight-story progress from localStorage.
+ *  Returns `DEFAULT_STORY_PROGRESS` if storage is unavailable or
+ *  the payload can't be parsed. */
+export function loadStoryProgress(): StoryProgress {
+  if (typeof localStorage === "undefined") return DEFAULT_STORY_PROGRESS;
+  try {
+    const raw = localStorage.getItem(STORY_PROGRESS_STORAGE_KEY);
+    if (!raw) return DEFAULT_STORY_PROGRESS;
+    const parsed = JSON.parse(raw) as Partial<StoryProgress>;
+    return { ...DEFAULT_STORY_PROGRESS, ...parsed };
+  } catch {
+    return DEFAULT_STORY_PROGRESS;
+  }
+}
+
+/** Persist the player's fight-story progress to localStorage. */
+export function saveStoryProgress(progress: StoryProgress): void {
+  if (typeof localStorage === "undefined") return;
+  try {
+    localStorage.setItem(STORY_PROGRESS_STORAGE_KEY, JSON.stringify(progress));
+  } catch {
+    // Quota / privacy mode — silently swallow. The caller keeps
+    // the in-memory state, so the current session still works.
+  }
 }
 
 export const DEFAULT_STORY_PROGRESS: StoryProgress = {

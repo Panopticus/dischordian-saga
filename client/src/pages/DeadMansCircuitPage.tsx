@@ -124,7 +124,7 @@ export default function DeadMansCircuitPage() {
           ai_count: 7,
           ai_difficulty: 0.5,
           abilities: ["emp_pulse", "overclock"],
-          track_sequence: trackConfig.data?.trackSequence || ["STRAIGHT", "CURVE_LIGHT", "STRAIGHT", "BONE_LANE", "CURVE_HARD", "SPEED_CONDUIT", "STRAIGHT", "DEAD_STRAIGHT"],
+          track_sequence: trackConfig.data?.track.tileSequence || ["STRAIGHT", "CURVE_LIGHT", "STRAIGHT", "BONE_LANE", "CURVE_HARD", "SPEED_CONDUIT", "STRAIGHT", "DEAD_STRAIGHT"],
           bone_obstacles: trackConfig.data?.boneObstacles || [],
         };
         iframeRef.current?.contentWindow?.postMessage({ type: "CIRCUIT_CONFIG", payload: config }, "*");
@@ -217,7 +217,7 @@ export default function DeadMansCircuitPage() {
   if (phase === "results" && raceResult) {
     const pos = raceResult.finish_position || 0;
     const survived = raceResult.clone_survived;
-    const cpBreakdown = calculateCP(pos, season.data.phase, survived, false, raceResult.rival_kills || 0);
+    const cpBreakdown = calculateCP(pos, ((season.data?.phase ?? 1) as 1 | 2 | 3), survived, false, raceResult.rival_kills || 0);
 
     return (
       <div className="min-h-screen flex flex-col items-center justify-center p-4 relative" style={{ background: CIRCUIT_PALETTE.TRENCH_DARK }}>
@@ -300,7 +300,8 @@ export default function DeadMansCircuitPage() {
   // ─── LOBBY PHASE ───
   const lb = leaderboard.data || [];
   const stats = myStats.data;
-  const clone = cloneConfig.data;
+  const cloneData = cloneConfig.data;
+  const clone = cloneData?.clone;
 
   return (
     <div className="min-h-screen pb-24 relative overflow-hidden" style={{ background: CIRCUIT_PALETTE.TRENCH_DARK }}>
@@ -398,22 +399,22 @@ export default function DeadMansCircuitPage() {
                 <Zap size={20} style={{ color: CIRCUIT_PALETTE.NILMORG_ORANGE }} />
               </div>
               <div>
-                <p className="font-mono text-sm font-bold" style={{ color: CIRCUIT_PALETTE.BONE_WHITE }}>{clone.designation}</p>
-                <p className="font-mono text-[9px] text-white/30">{clone.chassisColor} Chassis • {clone.species}</p>
+                <p className="font-mono text-sm font-bold" style={{ color: CIRCUIT_PALETTE.BONE_WHITE }}>{clone?.designation}</p>
+                <p className="font-mono text-[9px] text-white/30">{clone?.chassisColor} Chassis • {cloneData?.species}</p>
               </div>
             </div>
             <div className="grid grid-cols-3 gap-2 font-mono text-[10px]">
               <div className="bg-white/[0.03] rounded p-2">
                 <span className="text-white/30 text-[8px] block">SYNC</span>
-                <span style={{ color: CIRCUIT_PALETTE.NILMORG_ORANGE }}>{clone.neural_sync}%</span>
+                <span style={{ color: CIRCUIT_PALETTE.NILMORG_ORANGE }}>{clone?.neural_sync}%</span>
               </div>
               <div className="bg-white/[0.03] rounded p-2">
                 <span className="text-white/30 text-[8px] block">SPEED</span>
-                <span style={{ color: CIRCUIT_PALETTE.DEMAGI_BLUE }}>{clone.velocity_ceiling}%</span>
+                <span style={{ color: CIRCUIT_PALETTE.DEMAGI_BLUE }}>{clone?.velocity_ceiling_pct}%</span>
               </div>
               <div className="bg-white/[0.03] rounded p-2">
                 <span className="text-white/30 text-[8px] block">GRIP</span>
-                <span style={{ color: CIRCUIT_PALETTE.QUARCHON_VIOLET }}>{clone.surface_grip}%</span>
+                <span style={{ color: CIRCUIT_PALETTE.QUARCHON_VIOLET }}>{clone?.surface_grip_pct}%</span>
               </div>
             </div>
           </div>
@@ -438,10 +439,10 @@ export default function DeadMansCircuitPage() {
           <div className={`${voidPanel} p-4`}>
             <h3 className="font-mono text-[9px] tracking-wider text-white/30 mb-3">YOUR SEASON</h3>
             <div className="grid grid-cols-4 gap-2 font-mono text-xs text-center">
-              <div><span className="text-white/30 text-[8px] block">RACES</span>{stats.racesCompleted}</div>
-              <div><span className="text-white/30 text-[8px] block">BEST</span>P{stats.bestPosition}</div>
-              <div><span className="text-white/30 text-[8px] block">KILLS</span>{stats.totalKills}</div>
-              <div><span className="text-white/30 text-[8px] block" style={{ color: CIRCUIT_PALETTE.VICTORY_GOLD }}>CP</span><span style={{ color: CIRCUIT_PALETTE.VICTORY_GOLD }}>{stats.totalCp}</span></div>
+              <div><span className="text-white/30 text-[8px] block">RACES</span>{stats.leaderboard?.racesCompleted ?? 0}</div>
+              <div><span className="text-white/30 text-[8px] block">BEST</span>P{stats.leaderboard?.bestPosition ?? "-"}</div>
+              <div><span className="text-white/30 text-[8px] block">KILLS</span>{stats.leaderboard?.totalKills ?? 0}</div>
+              <div><span className="text-white/30 text-[8px] block" style={{ color: CIRCUIT_PALETTE.VICTORY_GOLD }}>CP</span><span style={{ color: CIRCUIT_PALETTE.VICTORY_GOLD }}>{stats.leaderboard?.totalCp ?? 0}</span></div>
             </div>
           </div>
         )}

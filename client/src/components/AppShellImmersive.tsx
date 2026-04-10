@@ -100,7 +100,7 @@ export default function AppShell({ children, elaraTTS: _elaraTTS }: { children: 
     <div className="min-h-screen flex flex-col relative">
       {/* ═══ SHADER OVERLAY — Corruption + morality post-processing ═══ */}
       <ShaderOverlay
-        corruption={((gameState.narrativeFlags?.thought_virus_level as number) || 0) / 100}
+        corruption={((gameState.narrativeFlags?.thought_virus_level as unknown as number) || 0) / 100}
         morality={gameState.moralityScore || 0}
         enabled={!isAwakening}
       />

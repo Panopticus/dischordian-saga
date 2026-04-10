@@ -250,7 +250,6 @@ export const classMasteryRouter = router({
           classXp: 0,
           masteryRank: 0,
           unlockedPerks: [],
-          masteryBranch: null,
         })
         .where(eq(classMastery.userId, ctx.user.id));
 

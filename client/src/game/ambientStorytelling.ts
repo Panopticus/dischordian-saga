@@ -29,7 +29,7 @@ export interface AmbientReference {
 export type AmbientContext =
   | "during_combat_briefing" | "during_trade" | "during_puzzle_help"
   | "during_quest_handoff" | "small_talk" | "waiting" | "room_entry"
-  | "shared_silence" | "victory_reaction" | "defeat_reaction";
+  | "shared_silence" | "victory_reaction" | "defeat_reaction" | "deep_trust";
 
 export const AMBIENT_REFERENCES: AmbientReference[] = [
   // Elara leaks her past in unexpected moments

@@ -111,7 +111,7 @@ export const coopRaidsRouter = router({
       });
       // Apply Living Universe combat modifiers
       const fx = await getConsequences();
-      const combatDamageMult = fx.combatModifiers?.damageMultiplier ?? 1;
+      const combatDamageMult = fx.combatModifiers?.attack ?? 1;
 
       // Base damage is 100-300 scaled by bonuses
       const baseDmg = 100 + Math.floor(Math.random() * 200);

@@ -863,11 +863,11 @@ export const architectConsoleRouter = router({
         // Task 8.1 — achievement unlock list
         db.select({
           achievementId: userAchievements.achievementId,
-          unlockedAt: userAchievements.unlockedAt,
+          unlockedAt: userAchievements.earnedAt,
         })
           .from(userAchievements)
           .where(eq(userAchievements.userId, input.userId))
-          .orderBy(desc(userAchievements.unlockedAt)),
+          .orderBy(desc(userAchievements.earnedAt)),
         // Task 8.1 — prestige progress detail
         db.select()
           .from(prestigeProgress)

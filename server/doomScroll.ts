@@ -114,7 +114,7 @@ Timestamps should be recent dates in ISO format.`,
       summary: s.summary,
       category: s.category,
       sagaConnection: s.sagaConnection,
-      severity: Math.min(5, Math.max(1, Math.round(s.severity))) as 1 | 2 | 3 | 4 | 5,
+      severity: Math.min(5, Math.max(1, Math.round(Number(s.severity) || 1))) as 1 | 2 | 3 | 4 | 5,
       timestamp: new Date(Date.now() - Math.random() * 86400000 * 3).toISOString(),
       source: s.source,
     }));

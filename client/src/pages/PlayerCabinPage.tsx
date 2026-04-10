@@ -18,6 +18,8 @@ import {
   getDefaultLayout,
   type CabinLayout,
   type CabinItem,
+  type PlacedItem,
+  type DisplayItem,
 } from "@shared/playerHousing";
 
 /* ─── SLOT DEFINITIONS ─── */
@@ -47,7 +49,7 @@ export default function PlayerCabinPage() {
     const map = new Map<string, CabinItem>();
     for (const placed of [...layout.wallDecor, ...layout.furniture, ...layout.displayCase]) {
       const item = allItems.find((i) => i.id === placed.itemId);
-      if (item) map.set(placed.slot, item);
+      if (item && placed.slot) map.set(placed.slot, item);
     }
     return map;
   }, [layout, allItems]);
@@ -56,21 +58,29 @@ export default function PlayerCabinPage() {
 
   /* ─── PLACE ITEM ─── */
   const placeItem = (slotId: string, item: CabinItem) => {
-    const placed = { itemId: item.id, slot: slotId, obtained: item.source as any };
-    const removeFromSlot = (arr: typeof layout.wallDecor) =>
-      arr.filter((p) => p.slot !== slotId);
+    const placed: PlacedItem = {
+      itemId: item.id,
+      slot: slotId as PlacedItem["slot"],
+      obtained: item.source as PlacedItem["obtained"],
+      placedAt: Date.now(),
+    };
+    const displayPlaced: DisplayItem = {
+      itemId: item.id,
+      label: item.name,
+      slot: slotId,
+    };
 
     setLayout((prev) => ({
       ...prev,
       wallDecor: item.slot === "wall"
-        ? [...removeFromSlot(prev.wallDecor), placed]
-        : removeFromSlot(prev.wallDecor),
+        ? [...prev.wallDecor.filter((p) => p.slot !== slotId), placed]
+        : prev.wallDecor.filter((p) => p.slot !== slotId),
       furniture: item.slot === "desk" || item.slot === "floor"
-        ? [...removeFromSlot(prev.furniture), placed]
-        : removeFromSlot(prev.furniture),
+        ? [...prev.furniture.filter((p) => p.slot !== slotId), placed]
+        : prev.furniture.filter((p) => p.slot !== slotId),
       displayCase: item.slot === "shelf"
-        ? [...removeFromSlot(prev.displayCase), placed]
-        : removeFromSlot(prev.displayCase),
+        ? [...prev.displayCase.filter((p) => p.slot !== slotId), displayPlaced]
+        : prev.displayCase.filter((p) => p.slot !== slotId),
     }));
     setSelectedSlot(null);
   };

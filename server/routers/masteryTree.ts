@@ -7,10 +7,15 @@
  * Validates prerequisites, point costs, and available points server-side.
  */
 import { z } from "zod";
+import { TRPCError } from "@trpc/server";
 import { router, protectedProcedure } from "../_core/trpc";
 import { getDb } from "../db";
 import { userProgress } from "../../drizzle/schema";
 import { eq, and } from "drizzle-orm";
+
+function dbUnavailable(): never {
+  throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Database unavailable" });
+}
 
 // Node definitions (mirrors shared/masteryTree.ts)
 interface NodeDef {
@@ -54,7 +59,8 @@ interface MasteryState {
 const DEFAULT_STATE: MasteryState = { unlockedNodeIds: [], totalPointsSpent: 0 };
 
 async function getMasteryState(userId: number): Promise<MasteryState> {
-  const db = getDb();
+  const db = await getDb();
+  if (!db) dbUnavailable();
   const row = await db.select().from(userProgress)
     .where(and(eq(userProgress.userId, userId), eq(userProgress.franchiseId, "dischordian-saga")))
     .limit(1);
@@ -63,7 +69,8 @@ async function getMasteryState(userId: number): Promise<MasteryState> {
 }
 
 async function saveMasteryState(userId: number, state: MasteryState) {
-  const db = getDb();
+  const db = await getDb();
+  if (!db) dbUnavailable();
   const row = await db.select().from(userProgress)
     .where(and(eq(userProgress.userId, userId), eq(userProgress.franchiseId, "dischordian-saga")))
     .limit(1);
@@ -95,7 +102,8 @@ export const masteryTreeRouter = router({
       }
 
       // Check available points (from player level — 1 point per 5 levels)
-      const db = getDb();
+      const db = await getDb();
+  if (!db) dbUnavailable();
       const row = await db.select().from(userProgress)
         .where(and(eq(userProgress.userId, ctx.user.id), eq(userProgress.franchiseId, "dischordian-saga")))
         .limit(1);

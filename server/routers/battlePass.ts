@@ -307,7 +307,7 @@ export const battlePassRouter = router({
     // Deduct Dream tokens for premium upgrade
     const dreamRow = await db.select().from(dreamBalance)
       .where(eq(dreamBalance.userId, ctx.user.id)).limit(1);
-    const currentDream = dreamRow[0]?.balance ?? 0;
+    const currentDream = dreamRow[0]?.dreamTokens ?? 0;
     if (currentDream < PREMIUM_COST_DREAM) {
       throw new TRPCError({
         code: "PRECONDITION_FAILED",
@@ -316,7 +316,7 @@ export const battlePassRouter = router({
     }
 
     await db.update(dreamBalance)
-      .set({ balance: currentDream - PREMIUM_COST_DREAM })
+      .set({ dreamTokens: currentDream - PREMIUM_COST_DREAM })
       .where(eq(dreamBalance.userId, ctx.user.id));
 
     await db.update(battlePassProgress)
@@ -365,7 +365,7 @@ export const battlePassRouter = router({
       } else {
         // Get community pressure from pressureService
         const pressure = await pressureService.getAllPressures();
-        theme = getSeasonThemeFromPressure(pressure as Record<string, number>);
+        theme = getSeasonThemeFromPressure(pressure as unknown as Record<string, number>);
       }
 
       // Generate rewards based on theme

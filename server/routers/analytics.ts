@@ -15,7 +15,7 @@ import { eq, sql, and, gte, lte, desc, count } from "drizzle-orm";
 
 const analyticsEventSchema = z.object({
   event: z.string().max(128),
-  properties: z.record(z.union([z.string(), z.number(), z.boolean()])).optional(),
+  properties: z.record(z.string(), z.union([z.string(), z.number(), z.boolean()])).optional(),
   timestamp: z.number(),
   sessionId: z.string().max(64),
 });

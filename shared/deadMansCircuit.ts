@@ -110,6 +110,10 @@ export interface CircuitAbility {
   rangeMeters: number;
   /** Which class benefits most from this ability */
   classAffinity: string;
+  /** UI display label (defaults to `name` if unset). */
+  display_name?: string;
+  /** Accent color used in the ability chip. */
+  color?: string;
 }
 
 export const CIRCUIT_ABILITIES: CircuitAbility[] = [

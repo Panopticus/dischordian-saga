@@ -98,7 +98,7 @@ export const pressureService = {
     const pressure: PressureTracker = { ...DEFAULT_PRESSURE };
     for (const row of aggregated) {
       if (row.pressureType in pressure) {
-        (pressure as Record<string, number>)[row.pressureType] = Number(row.total) || 0;
+        (pressure as unknown as Record<string, number>)[row.pressureType] = Number(row.total) || 0;
       }
     }
     return pressure;

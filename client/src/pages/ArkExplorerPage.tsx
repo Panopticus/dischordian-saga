@@ -1377,7 +1377,7 @@ export default function ArkExplorerPage() {
 
                 // Trigger NPC dialog
                 if (result.npcDialog) {
-                  const scene = buildFirstContactScene(result.npcDialog.npcId);
+                  const scene = buildFirstContactScene(result.npcDialog.npcId as FactionNPCId);
                   setNpcDialogScene(scene);
                 }
 

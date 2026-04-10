@@ -1469,7 +1469,22 @@ export const notifications = mysqlTable("notifications", {
     "daily_reset", "daily_login", "quest_complete", "weekly_quest", "epoch_quest",
     "achievement", "battle_pass_reward", "syndicate_quest",
     "boss_mastery", "seasonal_event", "recruitment",
-    "system"
+    "system",
+    // ── Ripple-engine narrative notifications (server/services/rippleEngine.ts) ──
+    "feature_hint", "lore_event", "combat_achievement", "streak_milestone",
+    "progression", "crafting_achievement", "npc_reaction", "archetype_emergence",
+    // ── Prestige narrative (server/services/prestigeNarrative.ts) ──
+    "prestige_dialog", "prestige_deferred_dialog", "prestige_conditional_dialog",
+    "companion_prestige_gesture", "meme_broadcast", "prestige_complete",
+    // ── Universe / living-universe events (server/services/universeConsequences.ts) ──
+    "universe_event",
+    // ── Companion / eidolon / pet lifecycle ──
+    "companion_death", "companion_resurrected", "eidolon_evolved", "pet_evolved",
+    "apprentice_sacrificed", "crew_cloned",
+    // ── Morality + content discovery ──
+    "morality_threshold", "morality_market_notice", "content_discovery",
+    "deep_trust", "daily_brief_complete", "outbreak_completed",
+    "outbreak_component", "battle_pass_tier_up",
   ]).notNull(),
   title: varchar("title", { length: 256 }).notNull(),
   message: text("message").notNull(),

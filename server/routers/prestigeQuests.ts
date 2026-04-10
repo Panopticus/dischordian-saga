@@ -17,10 +17,24 @@ import {
   PRESTIGE_QUEST_CHAINS, canStartPrestigeQuest, canSkipStep, getQuestXpMultiplier,
 } from "../../shared/prestigeQuests";
 
+interface RpgStats {
+  characterClass: string;
+  classRank: number;
+  masteryRank: number;
+  citizenLevel: number;
+  talents: string[];
+  achievementTraits: string[];
+  civilSkills: Record<string, number>;
+  prestigeClass: string;
+}
+
 /* ═══ RPG STATS LOADER ═══ */
-async function getUserRpgStats(userId: number) {
+async function getUserRpgStats(userId: number): Promise<RpgStats> {
   const db = await getDb();
-  if (!db) return { characterClass: "", classRank: 0, citizenLevel: 1, talents: [] as string[], achievementTraits: [] as string[], civilSkills: {} as Record<string, number> };
+  if (!db) return {
+    characterClass: "", classRank: 0, masteryRank: 0, citizenLevel: 1,
+    talents: [], achievementTraits: [], civilSkills: {}, prestigeClass: "",
+  };
   const [citizen] = await db.select().from(citizenCharacters)
     .where(and(eq(citizenCharacters.userId, userId), eq(citizenCharacters.isPrimary, 1))).limit(1);
   const [mastery] = await db.select().from(classMastery).where(eq(classMastery.userId, userId)).limit(1);
@@ -31,13 +45,16 @@ async function getUserRpgStats(userId: number) {
   const talentKeys = talentRows.map(t => t.talentKey);
   const [traits] = await db.select().from(achievementTraitProgress).where(eq(achievementTraitProgress.userId, userId)).limit(1);
 
+  const masteryRankValue = mastery?.masteryRank || 0;
   return {
     characterClass: citizen?.characterClass || "",
-    classRank: mastery?.masteryRank || 0,
+    classRank: masteryRankValue,
+    masteryRank: masteryRankValue,
     citizenLevel: citizen?.level || 1,
     talents: talentKeys,
     achievementTraits: (traits?.equippedTraits as string[]) || [],
     civilSkills: civilSkillMap,
+    prestigeClass: (citizen as { prestigeClass?: string } | undefined)?.prestigeClass || "",
   };
 }
 

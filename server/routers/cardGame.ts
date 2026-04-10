@@ -21,6 +21,11 @@ interface CardInPlay {
   health: number;
   cost: number;
   tapped: boolean;
+  /** Filled in when a card is summoned; used for damage + heal capping. */
+  maxHealth?: number;
+  element?: string;
+  /** Used on in-hand stubs pushed back after a failed equip. */
+  quantity?: number;
   [key: string]: unknown;
 }
 
@@ -36,13 +41,23 @@ interface PlayerState {
   [key: string]: unknown;
 }
 
+interface TraitBonuses {
+  globalAttackBonus?: number;
+  globalHealthBonus?: number;
+  elementAffinity?: string;
+  alignmentEffect?: { type: "order_structure" | "chaos_wildcard"; value: number };
+  extraDrawEveryNTurns?: number;
+  costReductionChance?: number;
+  [key: string]: unknown;
+}
+
 interface GameState {
   player1: PlayerState;
   player2: PlayerState;
   turn: number;
   phase: string;
   log: string[];
-  traitBonuses?: Record<string, number>;
+  traitBonuses?: TraitBonuses;
   [key: string]: unknown;
 }
 
@@ -582,7 +597,8 @@ export const cardGameRouter = router({
       // Apply cost reduction from traits
       const tb = state.traitBonuses || { costReductionChance: 0 };
       let effectiveCost = card.cost;
-      if (tb.costReductionChance > 0 && Math.random() < tb.costReductionChance) {
+      const costRed = tb.costReductionChance ?? 0;
+      if (costRed > 0 && Math.random() < costRed) {
         effectiveCost = Math.max(0, effectiveCost - 1);
         state.log.push(`[TRAIT] Class instinct reduced cost by 1!`);
       }
@@ -614,10 +630,12 @@ export const cardGameRouter = router({
         }
         player.field.push({
           cardId: card.cardId,
+          cardType: card.cardType ?? "character",
           name: card.name,
           power: summonPower,
           health: summonHealth,
           maxHealth: summonHealth,
+          cost: card.cost ?? 0,
           tapped: false,
         });
         logEntry = `Summoned ${card.name} (${card.power}/${card.health})`;
@@ -642,11 +660,20 @@ export const cardGameRouter = router({
           const target = player.field[0]; // Buff first character
           target.power += Math.ceil(card.power / 2);
           target.health += Math.ceil(card.health / 2);
-          target.maxHealth += Math.ceil(card.health / 2);
+          target.maxHealth = (target.maxHealth ?? target.health) + Math.ceil(card.health / 2);
           logEntry = `${card.name} buffed ${target.name} (+${Math.ceil(card.power / 2)}/${Math.ceil(card.health / 2)})`;
         } else {
           player.energy += card.cost; // Refund if no target
-          player.hand.push({ cardId: card.cardId, quantity: 1 });
+          player.hand.push({
+            cardId: card.cardId,
+            cardType: card.cardType ?? "item",
+            name: card.name,
+            power: card.power,
+            health: card.health,
+            cost: card.cost,
+            tapped: false,
+            quantity: 1,
+          });
           return { success: false, message: "No characters to equip" };
         }
       } else if (card.cardType === "reaction") {
@@ -671,7 +698,15 @@ export const cardGameRouter = router({
         logEntry = `Played ${card.name}`;
       }
 
-      player.graveyard.push({ cardId: card.cardId });
+      player.graveyard.push({
+        cardId: card.cardId,
+        cardType: card.cardType ?? "unknown",
+        name: card.name,
+        power: card.power,
+        health: card.health,
+        cost: card.cost,
+        tapped: false,
+      });
       state.log.push(logEntry);
 
       // AI turn
@@ -679,15 +714,17 @@ export const cardGameRouter = router({
       state.log.push(...aiLog);
 
       // Draw a card for player
-      if (player.drawPile.length > 0) {
-        player.hand.push(player.drawPile.shift());
-      }
+      const drawn = player.drawPile.shift();
+      if (drawn) player.hand.push(drawn);
 
       // Extra draw from Oracle/Spy class trait
       const extraDraw = state.traitBonuses?.extraDrawEveryNTurns || 0;
-      if (extraDraw > 0 && state.turn % extraDraw === 0 && player.drawPile.length > 0) {
-        player.hand.push(player.drawPile.shift());
-        state.log.push(`[TRAIT] Class ability granted an extra card draw!`);
+      if (extraDraw > 0 && state.turn % extraDraw === 0) {
+        const extra = player.drawPile.shift();
+        if (extra) {
+          player.hand.push(extra);
+          state.log.push(`[TRAIT] Class ability granted an extra card draw!`);
+        }
       }
 
       // Regenerate some energy
@@ -850,9 +887,8 @@ export const cardGameRouter = router({
       state.log.push(...aiLog);
 
       // Draw
-      if (state.player1.drawPile.length > 0) {
-        state.player1.hand.push(state.player1.drawPile.shift());
-      }
+      const endTurnDraw = state.player1.drawPile.shift();
+      if (endTurnDraw) state.player1.hand.push(endTurnDraw);
 
       // Regen energy
       state.player1.energy = Math.min(10 + state.turn, state.player1.energy + 3);
@@ -1108,10 +1144,12 @@ function resolveAITurn(state: GameState): string[] {
         const health = difficulty === "hard" ? 5 + Math.floor(Math.random() * 4) : 3 + Math.floor(Math.random() * 3);
         ai.field.push({
           cardId: handCard.cardId,
+          cardType: handCard.cardType ?? "character",
           name: `AI Unit ${ai.field.length + 1}`,
           power,
           health,
           maxHealth: health,
+          cost: handCard.cost ?? 0,
           tapped: false,
         });
         log.push(`AI summoned a unit (${power}/${health})`);
@@ -1157,9 +1195,8 @@ function resolveAITurn(state: GameState): string[] {
   }
 
   // AI draws
-  if (ai.drawPile.length > 0) {
-    ai.hand.push(ai.drawPile.shift());
-  }
+  const aiDrawn = ai.drawPile.shift();
+  if (aiDrawn) ai.hand.push(aiDrawn);
 
   // Remove dead AI characters
   ai.field = ai.field.filter((c: CardInPlay) => {

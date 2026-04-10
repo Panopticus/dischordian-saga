@@ -19,6 +19,7 @@ import { GIFT_ITEMS, calculateGiftResult, type GiftItem, type NpcId, type GiftIt
 import { useNPCPhysics } from "@/engine/useVoidEngine";
 import { getNPCPortrait, getHumanRevealImage } from "@/game/npcPortraits";
 import { getAmbientReference } from "@/game/ambientStorytelling";
+import { getRelationshipState } from "@/game/npcRelationships";
 import { getActiveVoices, SKILL_VOICES, type SkillId } from "@/game/innerVoices";
 import { ARCHON_VOICE_MAPPING } from "@/game/archonTrainingVoices";
 import { KineticText } from "@/components/void";

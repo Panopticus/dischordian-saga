@@ -121,8 +121,8 @@ export default function PetBattlesPage() {
 
     // Check for end
     if (defender.hp <= 0) {
-      const winner = battle.turn === "player1" ? "player1" : "player2";
-      const finalBattle = { ...battle, status: "completed" as const, winner };
+      const winner: "player1" | "player2" = battle.turn === "player1" ? "player1" : "player2";
+      const finalBattle: PetBattle = { ...battle, status: "completed" as const, winner };
       setBattle(finalBattle);
       setIsAutoPlaying(false);
       // Submit result to server

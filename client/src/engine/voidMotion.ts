@@ -22,6 +22,7 @@
    "We do not paint pixels; we define materials."
    ═══════════════════════════════════════════════════════ */
 
+import { cubicBezier, type Easing } from "framer-motion";
 import type { PhysicsType } from "./voidEngine";
 
 /* ─── PHYSICS DETECTION ─── */
@@ -39,10 +40,12 @@ export function getCurrentPhysics(): PhysicsType {
 
 /* ─── TIMING CONSTANTS ─── */
 
-const PHYSICS_TIMING: Record<PhysicsType, { base: number; fast: number; ease: number[] }> = {
-  glass: { base: 0.3, fast: 0.15, ease: [0.4, 0, 0.2, 1] },
-  flat:  { base: 0.2, fast: 0.1,  ease: [0.25, 0.1, 0.25, 1] },
-  retro: { base: 0,   fast: 0,    ease: [0, 0, 1, 1] },
+const CUBIC_IN: Easing = cubicBezier(0.33, 0, 0.67, 1);
+
+const PHYSICS_TIMING: Record<PhysicsType, { base: number; fast: number; ease: Easing }> = {
+  glass: { base: 0.3, fast: 0.15, ease: cubicBezier(0.4, 0, 0.2, 1) },
+  flat:  { base: 0.2, fast: 0.1,  ease: cubicBezier(0.25, 0.1, 0.25, 1) },
+  retro: { base: 0,   fast: 0,    ease: cubicBezier(0, 0, 1, 1) },
 };
 
 /* ─── REDUCED MOTION ─── */
@@ -127,7 +130,7 @@ export function dematerialize(physics?: PhysicsType) {
     },
     transition: {
       duration: t.base,
-      ease: [0.33, 0, 0.67, 1], // cubicIn equivalent
+      ease: CUBIC_IN, // cubicIn equivalent
     },
   };
 }
@@ -216,7 +219,7 @@ export function dissolve(physics?: PhysicsType) {
     },
     transition: {
       duration: t.base,
-      ease: [0.33, 0, 0.67, 1],
+      ease: CUBIC_IN,
     },
   };
 }
@@ -292,7 +295,7 @@ export function voidListItem(physics?: PhysicsType) {
         opacity: 0,
         scale: 0.95,
         filter: p === "glass" ? "blur(8px)" : "blur(0px)",
-        transition: { duration: t.fast, ease: [0.33, 0, 0.67, 1] },
+        transition: { duration: t.fast, ease: CUBIC_IN },
       },
     },
   };

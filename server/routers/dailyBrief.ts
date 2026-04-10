@@ -431,7 +431,7 @@ export const dailyBriefRouter = router({
     const pressure: PressureTracker = { ...DEFAULT_PRESSURE };
     for (const row of aggregated) {
       if (row.pressureType in pressure) {
-        (pressure as Record<string, number>)[row.pressureType] = Number(row.total) || 0;
+        (pressure as unknown as Record<string, number>)[row.pressureType] = Number(row.total) || 0;
       }
     }
 
@@ -686,7 +686,7 @@ async function checkEmergingEvents(db: Db): Promise<{ eventId: string; proximity
   const pressure: PressureTracker = { ...DEFAULT_PRESSURE };
   for (const row of aggregated) {
     if (row.pressureType in pressure) {
-      (pressure as Record<string, number>)[row.pressureType] = Number(row.total) || 0;
+      (pressure as unknown as Record<string, number>)[row.pressureType] = Number(row.total) || 0;
     }
   }
 

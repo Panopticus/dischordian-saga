@@ -193,28 +193,27 @@ function FightArena2D({
       if (p1Hp < p1Max) setP1Perfect(false);
     },
     onHit: (attacker, type) => {
-      // Haptic feedback on player 1 hits (mobile)
-      if (attacker !== 1) return;
-      if (type === "blocked" || type === "parried") hapticBlock();
-      else if (type === "heavy" || type === "launcher") hapticHeavyHit();
-      else hapticMediumHit();
+      if (attacker === 1) {
+        // Haptic feedback fires on player 1 hits (mobile).
+        if (type === "blocked" || type === "parried") hapticBlock();
+        else if (type === "heavy" || type === "launcher") hapticHeavyHit();
+        else hapticMediumHit();
 
-      // useHaptics pattern-based feedback (augments existing haptics)
-      if (type === "heavy" || type === "launcher") {
-        hapticTrigger("heavyHit");
-        screenShake("heavy");
-        hitFlash();
-      } else if (type === "blocked" || type === "parried") {
-        hapticTrigger("lightHit");
-        screenShake("light");
+        // useHaptics pattern-based feedback (augments existing haptics)
+        if (type === "heavy" || type === "launcher") {
+          hapticTrigger("heavyHit");
+          screenShake("heavy");
+          hitFlash();
+        } else if (type === "blocked" || type === "parried") {
+          hapticTrigger("lightHit");
+          screenShake("light");
+        } else {
+          hapticTrigger("lightHit");
+          screenShake("medium");
+          hitFlash();
+        }
       } else {
-        hapticTrigger("lightHit");
-        screenShake("medium");
-        hitFlash();
-      }
-
-      // Narrative effects — player taking damage triggers screen effects
-      if (attacker === 2) {
+        // Narrative effects — player 2 hitting us triggers screen effects.
         if (type === "heavy" || type === "launcher") dispatchCombatCritical();
         else dispatchCombatHit();
       }

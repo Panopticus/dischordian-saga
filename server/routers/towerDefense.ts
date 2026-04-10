@@ -381,8 +381,8 @@ export const towerDefenseRouter = router({
 
       // Apply Living Universe combat modifiers
       const fx = await getConsequences();
-      const combatDamageMult = fx.combatModifiers?.damageMultiplier ?? 1;
-      const combatDefenseMult = fx.combatModifiers?.defenseMultiplier ?? 1;
+      const combatDamageMult = fx.combatModifiers?.attack ?? 1;
+      const combatDefenseMult = fx.combatModifiers?.defense ?? 1;
 
       // Calculate attack power
       let totalAttackPower = 0;

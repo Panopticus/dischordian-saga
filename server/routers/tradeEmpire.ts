@@ -7,10 +7,15 @@
  * State stored in userProgress.gameData.tradeEmpire
  */
 import { z } from "zod";
+import { TRPCError } from "@trpc/server";
 import { router, protectedProcedure } from "../_core/trpc";
 import { getDb } from "../db";
 import { userProgress, dreamBalance } from "../../drizzle/schema";
 import { eq, and } from "drizzle-orm";
+
+function dbUnavailable(): never {
+  throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Database unavailable" });
+}
 
 interface MissionState {
   id: string;
@@ -48,7 +53,8 @@ const DEFAULT_STATE: TradeEmpireState = {
 };
 
 async function getEmpireState(userId: number): Promise<TradeEmpireState> {
-  const db = getDb();
+  const db = await getDb();
+  if (!db) dbUnavailable();
   const row = await db.select().from(userProgress)
     .where(and(eq(userProgress.userId, userId), eq(userProgress.franchiseId, "dischordian-saga")))
     .limit(1);
@@ -57,7 +63,8 @@ async function getEmpireState(userId: number): Promise<TradeEmpireState> {
 }
 
 async function saveEmpireState(userId: number, state: TradeEmpireState) {
-  const db = getDb();
+  const db = await getDb();
+  if (!db) dbUnavailable();
   const row = await db.select().from(userProgress)
     .where(and(eq(userProgress.userId, userId), eq(userProgress.franchiseId, "dischordian-saga")))
     .limit(1);
@@ -150,7 +157,8 @@ export const tradeEmpireRouter = router({
 
       // Grant rewards
       const r = mission.reward;
-      const db = getDb();
+      const db = await getDb();
+  if (!db) dbUnavailable();
 
       // Dream
       if (r.dream && r.dream > 0) {
@@ -159,7 +167,7 @@ export const tradeEmpireRouter = router({
           .where(eq(dreamBalance.userId, ctx.user.id)).limit(1);
         if (dreamRow[0]) {
           await db.update(dreamBalance)
-            .set({ balance: (dreamRow[0].balance ?? 0) + r.dream })
+            .set({ dreamTokens: (dreamRow[0].dreamTokens ?? 0) + r.dream })
             .where(eq(dreamBalance.userId, ctx.user.id));
         }
       }

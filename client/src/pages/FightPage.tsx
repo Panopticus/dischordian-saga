@@ -277,11 +277,11 @@ export default function FightPage() {
   // Advance story dialogue
   const advanceStoryDialogue = useCallback(() => {
     if (!currentStoryChapter) return;
-    const dialogues = storyDialogueType === "pre"
+    const dialogues = (storyDialogueType === "pre"
       ? currentStoryChapter.preDialogue
       : storyDialogueType === "post-win"
       ? currentStoryChapter.postVictoryDialogue
-      : currentStoryChapter.postDefeatDialogue;
+      : currentStoryChapter.postDefeatDialogue) ?? [];
 
     if (storyDialogueIndex < dialogues.length - 1) {
       setStoryDialogueIndex(prev => prev + 1);
@@ -323,10 +323,13 @@ export default function FightPage() {
         }
       } else if (storyDialogueType === "post-win") {
         // Update story progress
+        const unlocked = currentStoryChapter.unlocksFighter;
         const newProgress: StoryProgress = {
           ...storyProgress,
           completedChapters: Array.from(new Set([...storyProgress.completedChapters, currentStoryChapter.id])),
-          unlockedFighters: Array.from(new Set([...storyProgress.unlockedFighters, currentStoryChapter.unlocksFighter])),
+          unlockedFighters: unlocked
+            ? Array.from(new Set([...storyProgress.unlockedFighters, unlocked]))
+            : storyProgress.unlockedFighters,
           memoriesRecovered: currentStoryChapter.memoryFragment
             ? Array.from(new Set([...storyProgress.memoriesRecovered, currentStoryChapter.memoryFragment]))
             : storyProgress.memoriesRecovered,
@@ -336,11 +339,13 @@ export default function FightPage() {
         setStoryProgress(newProgress);
         saveStoryProgress(newProgress);
         // Also unlock in gamification
-        gam.unlockFighter(currentStoryChapter.unlocksFighter);
-        notifyAchievement(
-          `${ALL_FIGHTERS.find(f => f.id === currentStoryChapter.unlocksFighter)?.name || "Fighter"} Unlocked!`,
-          currentStoryChapter.powerGained || "A new challenger joins your roster.",
-        );
+        if (unlocked) {
+          gam.unlockFighter(unlocked);
+          notifyAchievement(
+            `${ALL_FIGHTERS.find(f => f.id === unlocked)?.name || "Fighter"} Unlocked!`,
+            currentStoryChapter.powerGained || "A new challenger joins your roster.",
+          );
+        }
         setPhase("story");
       } else {
         // Post-defeat — back to story select
@@ -352,11 +357,11 @@ export default function FightPage() {
   // Play Source / Necromancer VO when they speak in story dialogue
   useEffect(() => {
     if (phase !== "story-dialogue" || !currentStoryChapter) return;
-    const dialogues = storyDialogueType === "pre"
+    const dialogues = (storyDialogueType === "pre"
       ? currentStoryChapter.preDialogue
       : storyDialogueType === "post-win"
       ? currentStoryChapter.postVictoryDialogue
-      : currentStoryChapter.postDefeatDialogue;
+      : currentStoryChapter.postDefeatDialogue) ?? [];
     const currentLine = dialogues[storyDialogueIndex];
     if (!currentLine) return;
 
@@ -861,11 +866,11 @@ export default function FightPage() {
      STORY DIALOGUE — Pre/Post fight narrative
      ═══════════════════════════════════════════════════════ */
   if (phase === "story-dialogue" && currentStoryChapter) {
-    const dialogues = storyDialogueType === "pre"
+    const dialogues = (storyDialogueType === "pre"
       ? currentStoryChapter.preDialogue
       : storyDialogueType === "post-win"
       ? currentStoryChapter.postVictoryDialogue
-      : currentStoryChapter.postDefeatDialogue;
+      : currentStoryChapter.postDefeatDialogue) ?? [];
     const currentLine = dialogues[storyDialogueIndex];
 
     if (!currentLine) {
@@ -998,10 +1003,13 @@ export default function FightPage() {
               advanceStoryDialogue();
             } else {
               if (storyDialogueType === "post-win") {
+                const unlocked = currentStoryChapter.unlocksFighter;
                 const newProgress: StoryProgress = {
                   ...storyProgress,
                   completedChapters: Array.from(new Set([...storyProgress.completedChapters, currentStoryChapter.id])),
-                  unlockedFighters: Array.from(new Set([...storyProgress.unlockedFighters, currentStoryChapter.unlocksFighter])),
+                  unlockedFighters: unlocked
+                    ? Array.from(new Set([...storyProgress.unlockedFighters, unlocked]))
+                    : storyProgress.unlockedFighters,
                   memoriesRecovered: currentStoryChapter.memoryFragment
                     ? Array.from(new Set([...storyProgress.memoriesRecovered, currentStoryChapter.memoryFragment]))
                     : storyProgress.memoriesRecovered,
@@ -1010,7 +1018,7 @@ export default function FightPage() {
                 };
                 setStoryProgress(newProgress);
                 saveStoryProgress(newProgress);
-                gam.unlockFighter(currentStoryChapter.unlocksFighter);
+                if (unlocked) gam.unlockFighter(unlocked);
               }
               setPhase("story");
             }

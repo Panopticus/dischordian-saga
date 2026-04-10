@@ -32,7 +32,15 @@ export interface FactionNPC {
   title: string;
   faction: string;
   /** How they appear on the ship */
-  manifestation: "hologram" | "comms_signal" | "substrate" | "possessed_system" | "physical_trace" | "temporal_echo";
+  manifestation:
+    | "hologram"
+    | "comms_signal"
+    | "substrate"
+    | "possessed_system"
+    | "physical_trace"
+    | "temporal_echo"
+    | "electrical_pattern"
+    | "resurrection_echo";
   /** Primary color for their dialog UI */
   color: string;
   /** Typewriter speed (lower = faster, more confident) */

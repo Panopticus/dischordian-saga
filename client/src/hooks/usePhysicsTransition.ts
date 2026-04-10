@@ -13,7 +13,11 @@
  *   <motion.div variants={variants} initial="hidden" animate="visible" exit="exit" />
  */
 import { useMemo } from "react";
-import type { Variants, Transition } from "framer-motion";
+import { cubicBezier, type Variants, type Transition, type Easing } from "framer-motion";
+
+const EASE_GLASS_STANDARD: Easing = cubicBezier(0.4, 0, 0.2, 1);
+const EASE_FLAT_STANDARD: Easing = cubicBezier(0.25, 0.1, 0.25, 1);
+const EASE_EXPO_OUT: Easing = cubicBezier(0.16, 1, 0.3, 1);
 
 export type TransitionType =
   | "materialize"   // appear from nothing
@@ -48,14 +52,14 @@ function getConfig(type: TransitionType, physics: string): PhysicsTransitionConf
         hidden: { opacity: 0, y: 12, scale: 0.97, filter: "blur(8px)" },
         visible: { opacity: 1, y: 0, scale: 1, filter: "blur(0px)" },
         exit: { opacity: 0, y: -8, scale: 0.98, filter: "blur(4px)" },
-        transition: { duration: 0.35, ease: [0.4, 0, 0.2, 1] },
+        transition: { duration: 0.35, ease: EASE_GLASS_STANDARD },
       };
       // flat
       return {
         hidden: { opacity: 0, y: 8 },
         visible: { opacity: 1, y: 0 },
         exit: { opacity: 0, y: -6 },
-        transition: { duration: 0.2, ease: [0.25, 0.1, 0.25, 1] },
+        transition: { duration: 0.2, ease: EASE_FLAT_STANDARD },
       };
 
     case "emerge":
@@ -69,13 +73,13 @@ function getConfig(type: TransitionType, physics: string): PhysicsTransitionConf
         hidden: { opacity: 0, y: 24, scale: 0.95, filter: "blur(6px)" },
         visible: { opacity: 1, y: 0, scale: 1, filter: "blur(0px)" },
         exit: { opacity: 0, y: 24, scale: 0.95, filter: "blur(6px)" },
-        transition: { duration: 0.4, ease: [0.16, 1, 0.3, 1] },
+        transition: { duration: 0.4, ease: EASE_EXPO_OUT },
       };
       return {
         hidden: { opacity: 0, y: 16 },
         visible: { opacity: 1, y: 0 },
         exit: { opacity: 0, y: 16 },
-        transition: { duration: 0.25, ease: [0.25, 0.1, 0.25, 1] },
+        transition: { duration: 0.25, ease: EASE_FLAT_STANDARD },
       };
 
     case "dissolve":
@@ -109,7 +113,7 @@ function getConfig(type: TransitionType, physics: string): PhysicsTransitionConf
         hidden: { opacity: 0, scale: 0.85, filter: "blur(10px)" },
         visible: { opacity: 1, scale: 1, filter: "blur(0px)" },
         exit: { opacity: 0, scale: 0.7, filter: "blur(16px)" },
-        transition: { duration: 0.4, ease: [0.4, 0, 0.2, 1] },
+        transition: { duration: 0.4, ease: EASE_GLASS_STANDARD },
       };
       return {
         hidden: { opacity: 0, scale: 0.9 },
@@ -129,7 +133,7 @@ function getConfig(type: TransitionType, physics: string): PhysicsTransitionConf
         hidden: { opacity: 0, x: -12, filter: "blur(8px)" },
         visible: { opacity: 1, x: 0, filter: "blur(0px)" },
         exit: { opacity: 0, x: 12, filter: "blur(8px)", scale: 0.95 },
-        transition: { duration: 0.35, ease: [0.4, 0, 0.2, 1] },
+        transition: { duration: 0.35, ease: EASE_GLASS_STANDARD },
       };
       return {
         hidden: { opacity: 0, x: -8 },
@@ -164,7 +168,7 @@ export function usePhysicsTransition(type: TransitionType): Variants & { transit
       visible: config.visible,
       exit: config.exit,
       transition: config.transition,
-    };
+    } as unknown as Variants & { transition: Transition };
   }, [type, physics]);
 }
 

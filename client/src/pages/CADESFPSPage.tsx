@@ -93,7 +93,7 @@ export default function CADESFPSPage() {
         setResult(r);
         setPhase("result");
         // Persist
-        saveCadesResult.mutate(r);
+        saveCadesResult.mutate(r as unknown as Record<string, unknown>);
       }
 
       if (e.data.type === "IRON_LION_CHANNEL_OPEN") {

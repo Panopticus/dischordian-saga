@@ -87,13 +87,13 @@ export const graduateLegionRouter = router({
         race: "human",
         combatClass: "soldier",
         corruption: 0,
-        isCorrupted: false,
-        loyalty: 100,
-        injuries: 0,
-        daysSinceCelebration: 0,
-        celebrationResults: [],
-        personalityTraits: [],
+        stage: "graduated",
+        trialDay: 28,
+        recruitedAt: Date.now(),
         backstory: "",
+        missedDays: 0,
+        alive: true,
+        evilFromStart: false,
       };
       const bonuses = computeRoleBonus(fakeApprentice, input.role);
 

@@ -13,7 +13,10 @@ export type NpcId =
 
 export interface EidolonRelation {
   from: EidolonId;
-  to: EidolonId;
+  /** Usually another eidolon, but a handful of relations point at
+   *  faction NPCs (Shadow Tongue, Locke) where the sentiment
+   *  describes eidolon \u2192 NPC feelings. */
+  to: EidolonId | NpcId;
   description: string;
   sentiment: "positive" | "negative" | "neutral" | "complex";
 }

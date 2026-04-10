@@ -160,7 +160,7 @@ export default function BossBattlePage() {
         // Record kill for mastery tracking
         const fightDuration = Math.round((Date.now() - battleStartRef.current) / 1000);
         recordKill.mutate(
-          { bossKey: currentBoss.key || currentBoss.entityId, difficulty: "normal", timeSeconds: fightDuration },
+          { bossKey: currentBoss.entityId, difficulty: "normal", timeSeconds: fightDuration },
           { onError: (err) => console.warn("[BossMastery] recordKill failed:", err.message) },
         );
       }

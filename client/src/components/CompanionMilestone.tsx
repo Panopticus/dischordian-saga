@@ -7,7 +7,9 @@
    tier, plus faction-colored celebration particles.
    ═══════════════════════════════════════════════════════ */
 import { useEffect, useState, useMemo, useCallback } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, cubicBezier } from "framer-motion";
+
+const EASE_EXPO_OUT = cubicBezier(0.16, 1, 0.3, 1);
 import { Heart, Sparkles, Star, Crown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -229,7 +231,7 @@ export default function CompanionMilestone() {
           initial={{ scale: 0.8, opacity: 0, y: 30 }}
           animate={{ scale: 1, opacity: 1, y: 0 }}
           exit={{ scale: 0.9, opacity: 0, y: -20 }}
-          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 0.6, ease: EASE_EXPO_OUT }}
           className="relative z-10 max-w-md w-full mx-4 text-center"
         >
           {/* Portrait */}

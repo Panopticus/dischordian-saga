@@ -101,7 +101,7 @@ export function PhotoMode({ isOpen, onClose, captureTargetRef }: PhotoModeProps)
         useCORS: true,
       });
 
-      canvas.toBlob(async (blob) => {
+      canvas.toBlob(async (blob: Blob | null) => {
         if (!blob) return;
         await navigator.clipboard.write([
           new ClipboardItem({ "image/png": blob }),

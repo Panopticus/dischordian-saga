@@ -10,7 +10,7 @@ export type DrizzleDb = ReturnType<typeof drizzle>;
 let _db: DrizzleDb | null = null;
 
 // Lazily create the drizzle instance so local tooling can run without a DB.
-export async function getDb() {
+export async function getDb(): Promise<DrizzleDb | null> {
   if (!_db && process.env.DATABASE_URL) {
     try {
       const pool = createPool({
@@ -19,7 +19,10 @@ export async function getDb() {
         waitForConnections: true,
         queueLimit: 0,
       });
-      _db = drizzle(pool);
+      // pnpm hoists two distinct mysql2 Pool types (regular + promise).
+      // drizzle accepts either at runtime but the nominal types don't
+      // overlap at compile time, so we bridge through `unknown`.
+      _db = drizzle(pool) as unknown as DrizzleDb;
     } catch (error) {
       console.warn("[Database] Failed to connect:", error);
       _db = null;

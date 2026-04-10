@@ -23,21 +23,21 @@ const CACHE_TTL = 5 * 60 * 1000; // 5 minutes
 
 const DATA_DIR = path.resolve(ROOT, "client/src/data");
 
-function getLoredexData() {
+function getLoredexData(): LoredexData {
   const now = Date.now();
   if (!loredexCache || now - loredexCacheTime > CACHE_TTL) {
     const raw = fs.readFileSync(path.join(DATA_DIR, "loredex-data.json"), "utf-8");
-    loredexCache = JSON.parse(raw);
+    loredexCache = JSON.parse(raw) as LoredexData;
     loredexCacheTime = now;
   }
   return loredexCache;
 }
 
-function getCardsData() {
+function getCardsData(): CardsData {
   const now = Date.now();
   if (!cardsCache || now - cardsCacheTime > CACHE_TTL) {
     const raw = fs.readFileSync(path.join(DATA_DIR, "season1-cards.json"), "utf-8");
-    cardsCache = JSON.parse(raw);
+    cardsCache = JSON.parse(raw) as CardsData;
     cardsCacheTime = now;
   }
   return cardsCache;
@@ -142,7 +142,8 @@ export const contentApiRouter = router({
 
     const typeCounts: Record<string, number> = {};
     for (const e of entries) {
-      typeCounts[e.type] = (typeCounts[e.type] || 0) + 1;
+      const t = e.type ?? "unknown";
+      typeCounts[t] = (typeCounts[t] || 0) + 1;
     }
 
     return {

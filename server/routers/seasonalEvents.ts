@@ -11,6 +11,7 @@ import { checkFeatureFlag } from "../middleware/featureFlag";
 import {
   seasonalEvents, eventParticipation, eventShopPurchases,
   citizenCharacters, civilSkillProgress, classMastery,
+  prestigeProgress,
 } from "../../drizzle/schema";
 import { eq, and, desc } from "drizzle-orm";
 import {

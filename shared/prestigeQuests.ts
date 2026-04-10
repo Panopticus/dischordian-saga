@@ -25,6 +25,10 @@ export interface PrestigeQuestStep {
     target?: string;
     count?: number;
     minLevel?: number;
+    /** Minimum class mastery rank (for kind "mastery_rank"). */
+    minRank?: number;
+    /** Prestige class that must already be unlocked (for kind "prestige_class"). */
+    prestigeClass?: string;
     civilSkill?: { skill: string; level: number };
     /** Can be skipped if player has this talent */
     skipWithTalent?: string;

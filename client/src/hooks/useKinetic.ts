@@ -73,7 +73,7 @@ export function useKinetic(options: KineticOptions) {
   const [displayText, setDisplayText] = useState("");
   const [isComplete, setIsComplete] = useState(false);
   const [isRunning, setIsRunning] = useState(false);
-  const timerRef = useRef<ReturnType<typeof setTimeout>>();
+  const timerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   const frameRef = useRef<number>(0);
   const indexRef = useRef(0);
   const completeCalled = useRef(false);

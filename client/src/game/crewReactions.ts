@@ -38,7 +38,7 @@ export interface CrewReaction {
   roleFilter?: string;
   /** Only applies to specific bloodlines */
   bloodlineFilter?: string;
-  severity: "info" | "warning" | "alert" | "critical";
+  severity: "info" | "warning" | "alert" | "critical" | "celebration";
   room: string;
   category: "combat" | "social" | "economic" | "story" | "moral" | "crisis" | "celebration" | "exploration" | "meta";
 }
@@ -391,7 +391,7 @@ export interface ReactionEffects {
   loyaltyChange: number;
   healthChange: number;
   feedEntry: string;
-  severity: "info" | "warning" | "alert" | "critical";
+  severity: "info" | "warning" | "alert" | "critical" | "celebration";
   room: string;
   category: string;
 }

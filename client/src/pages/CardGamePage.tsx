@@ -121,6 +121,8 @@ export default function CardGamePage() {
   const logRef = useRef<HTMLDivElement>(null);
   const prevEventCount = useRef(0);
 
+  const updateQuestProgress = trpc.quests.updateProgress.useMutation();
+
   // Fetch cards for deck building
   const { data: allCards } = trpc.cardGame.browse.useQuery({
     page: 1,
@@ -933,8 +935,8 @@ export default function CardGamePage() {
 
     // Quest integration: increment card battle quests
     if (isWin) {
-      trpc.quests.updateProgress.mutate({ questId: "d_play_card_battle", increment: 1 }).catch(() => {});
-      trpc.quests.updateProgress.mutate({ questId: "w_win_card_matches", increment: 1 }).catch(() => {});
+      updateQuestProgress.mutate({ questId: "d_play_card_battle", increment: 1 });
+      updateQuestProgress.mutate({ questId: "w_win_card_matches", increment: 1 });
     }
 
     // Record the outcome (only once)

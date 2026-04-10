@@ -4,11 +4,16 @@
    Also provides leaderboard data.
    ═══════════════════════════════════════════════════════ */
 import { z } from "zod";
+import { TRPCError } from "@trpc/server";
 import { logger } from "../logger";
 import { publicProcedure, protectedProcedure, router } from "../_core/trpc";
 import { getDb } from "../db";
 import { userProgress, users } from "../../drizzle/schema";
 import { eq, desc, sql } from "drizzle-orm";
+
+function dbUnavailable(): never {
+  throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Database unavailable" });
+}
 
 // Schema for the game state that gets saved.
 //
@@ -252,10 +257,11 @@ export const gameStateRouter = router({
   /* ─── CADES FPS STATE ─── */
 
   getCadesData: protectedProcedure.query(async ({ ctx }) => {
-    const db = getDb();
+    const db = await getDb();
+    if (!db) dbUnavailable();
     const rows = await db.select().from(userProgress).where(eq(userProgress.userId, ctx.user.id));
     if (!rows.length) return { loopCount: 0, awarenessLevel: 0, bestTimeHeld: 0, canonAchieved: false, scenariosCompleted: [] as string[], ironLionContacted: false, gmContactLevel: 0 };
-    const state = rows[0].state as Record<string, unknown> | null;
+    const state = rows[0].gameData as Record<string, unknown> | null;
     const cades = (state?.cades ?? {}) as Record<string, unknown>;
     return {
       loopCount: (cades.loopCount as number) ?? 0,
@@ -271,10 +277,11 @@ export const gameStateRouter = router({
   saveCadesResult: protectedProcedure
     .input(z.record(z.string(), z.unknown()))
     .mutation(async ({ ctx, input }) => {
-      const db = getDb();
+      const db = await getDb();
+    if (!db) dbUnavailable();
       const rows = await db.select().from(userProgress).where(eq(userProgress.userId, ctx.user.id));
       if (!rows.length) return { ok: false };
-      const state = (rows[0].state as Record<string, unknown>) ?? {};
+      const state = (rows[0].gameData as Record<string, unknown>) ?? {};
       const cades = ((state.cades ?? {}) as Record<string, unknown>);
 
       // Merge results
@@ -297,7 +304,7 @@ export const gameStateRouter = router({
       }
 
       state.cades = cades;
-      await db.update(userProgress).set({ state }).where(eq(userProgress.userId, ctx.user.id));
+      await db.update(userProgress).set({ gameData: state }).where(eq(userProgress.userId, ctx.user.id));
       return { ok: true };
     }),
 });

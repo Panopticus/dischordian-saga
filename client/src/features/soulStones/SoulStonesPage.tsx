@@ -222,7 +222,8 @@ function SoulStoneCard({ stone }: { stone: SoulStone }) {
    TAB 1: INVENTORY
    ═══════════════════════════════════════════════════════ */
 function InventoryTab() {
-  const { stones, activeCompanion } = useSoulStoneStore();
+  const { stones, activeDemonPet, activeDivineCompanion, activeDischordian } = useSoulStoneStore();
+  const activeCompanion = activeDemonPet ?? activeDivineCompanion ?? activeDischordian;
 
   return (
     <div>
@@ -341,7 +342,7 @@ function DemonPetCard({ pet, canAfford, isEquipped }: {
 function SummoningCircleTab() {
   const store = useSoulStoneStore();
   const stats = useMemo(() => getPlayerStats(store), [store]);
-  const equippedDemon = store.activeCompanion?.path === "demon" ? store.activeCompanion : null;
+  const equippedDemon = store.activeDemonPet;
 
   const petsByTier = useMemo(() => {
     const grouped: Record<CompanionTier, DemonPet[]> = { 1: [], 2: [], 3: [] };
@@ -532,7 +533,7 @@ function PurificationProgress({ stone, now }: { stone: SoulStone; now: number })
       <div className="flex items-center justify-between mt-1">
         <span className="font-mono text-[8px] text-muted-foreground/40">0h</span>
         <span className="font-mono text-[8px] text-muted-foreground/40">
-          {PURIFICATION_CONFIG.durationHours}h
+          {Math.round(PURIFICATION_CONFIG.durationMs / (60 * 60 * 1000))}h
         </span>
       </div>
     </motion.div>
@@ -546,7 +547,7 @@ function PurificationChamberTab() {
   const store = useSoulStoneStore();
   const stats = useMemo(() => getPlayerStats(store), [store]);
   const [now, setNow] = useState(Date.now());
-  const equippedDivine = store.activeCompanion?.path === "divine" ? store.activeCompanion : null;
+  const equippedDivine = store.activeDivineCompanion;
 
   // Tick every second for countdown timers
   useEffect(() => {

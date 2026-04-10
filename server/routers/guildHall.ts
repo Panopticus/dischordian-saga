@@ -5,10 +5,15 @@
  * Guild hall state stored in guilds table (hallTier, hallData JSON).
  */
 import { z } from "zod";
+import { TRPCError } from "@trpc/server";
 import { router, protectedProcedure } from "../_core/trpc";
 import { getDb } from "../db";
 import { guilds, guildMembers } from "../../drizzle/schema";
 import { eq, and } from "drizzle-orm";
+
+function dbUnavailable(): never {
+  throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Database unavailable" });
+}
 
 // Hall tier costs (Dream from guild treasury)
 const TIER_COSTS = [0, 0, 500, 2000, 5000, 15000]; // index = tier to upgrade TO
@@ -46,7 +51,8 @@ interface HallData {
 const DEFAULT_HALL: HallData = { unlockedRooms: ["main_hall", "mess_hall"], decorations: [] };
 
 async function getGuildForMember(userId: number) {
-  const db = getDb();
+  const db = await getDb();
+  if (!db) dbUnavailable();
   const membership = await db.select().from(guildMembers)
     .where(eq(guildMembers.userId, userId)).limit(1);
   if (!membership[0]) return null;
@@ -69,7 +75,8 @@ export const guildHallRouter = router({
     if (!guild) return { success: false, error: "Not in a guild" };
 
     // Check leadership
-    const db = getDb();
+    const db = await getDb();
+  if (!db) dbUnavailable();
     const membership = await db.select().from(guildMembers)
       .where(and(eq(guildMembers.userId, ctx.user.id), eq(guildMembers.guildId, guild.id)))
       .limit(1);
@@ -137,7 +144,8 @@ export const guildHallRouter = router({
         y: input.y,
       });
 
-      const db = getDb();
+      const db = await getDb();
+  if (!db) dbUnavailable();
       await db.update(guilds)
         .set({
           treasury: treasury - dreamCost,
@@ -162,7 +170,8 @@ export const guildHallRouter = router({
 
       hallData.decorations.splice(idx, 1);
 
-      const db = getDb();
+      const db = await getDb();
+  if (!db) dbUnavailable();
       await db.update(guilds)
         .set({ hallData: hallData } as any)
         .where(eq(guilds.id, guild.id));

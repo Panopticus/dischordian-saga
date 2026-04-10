@@ -62,7 +62,10 @@ export default function DegensCasinoPage() {
   const favorMilestone = useMemo(() => getDegenFavorMilestone(casinoState.degenFavor), [casinoState.degenFavor]);
   const isEquilibrium = useMemo(() => checkEquilibrium(casinoState), [casinoState]);
   const floorBg = useMemo(() => FLOOR_BACKGROUNDS[casinoFloor] ?? CASINO_FLOOR_BG, [casinoFloor]);
-  const degenPortrait = useMemo(() => getDegenPortrait(casinoState.degenFavor, degenMood), [casinoState.degenFavor, degenMood]);
+  const degenPortrait = useMemo(
+    () => getDegenPortrait(casinoState.degenFavor, degenMood as unknown as "impressed" | "amused" | "predatory" | "philosophical" | "nervous" | "bored" | undefined),
+    [casinoState.degenFavor, degenMood],
+  );
   const vipChipImg = useMemo(() => getVipChip(vip.name), [vip.name]);
 
   const save = (s: CasinoState) => { setCasinoState(s); localStorage.setItem("degen_casino", JSON.stringify(s)); };

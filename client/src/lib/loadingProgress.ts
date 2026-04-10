@@ -57,7 +57,7 @@ function createLoadingManager() {
       return tasks;
     },
 
-    registerTasks(defs: Pick<LoadingTask, "id" | "label" | "weight">[]) {
+    registerTasks(defs: ReadonlyArray<Pick<LoadingTask, "id" | "label" | "weight">>) {
       tasks = defs.map((d) => ({ ...d, status: "pending" as const }));
       notify();
     },

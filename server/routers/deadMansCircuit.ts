@@ -196,7 +196,7 @@ export const deadMansCircuitRouter = router({
         .set({
           totalRaces: sql`${circuitSeasons.totalRaces} + 1`,
           totalDeaths: input.cloneSurvived
-            ? circuitSeasons.totalDeaths
+            ? sql`${circuitSeasons.totalDeaths}`
             : sql`${circuitSeasons.totalDeaths} + 1`,
           phase,
         })

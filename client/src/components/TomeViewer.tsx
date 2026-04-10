@@ -4,7 +4,9 @@
    Replaces window.open with an immersive in-app experience.
    ═══════════════════════════════════════════════════════ */
 import { useState, useEffect, useCallback } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, cubicBezier } from "framer-motion";
+
+const EASE_EXPO_OUT = cubicBezier(0.16, 1, 0.3, 1);
 import {
   BookOpen, X, ExternalLink, Clock, Users, Sparkles,
   CheckCircle2, BookMarked, ChevronRight, Scroll, Star,
@@ -96,7 +98,7 @@ export default function TomeViewer({ game, isCompleted, onComplete, onClose }: T
               className="relative"
               initial={{ rotateY: 90, scale: 0.5, opacity: 0 }}
               animate={{ rotateY: 0, scale: 1, opacity: 1 }}
-              transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: 1.2, ease: EASE_EXPO_OUT }}
               style={{ perspective: "800px" }}
             >
               <div className={`w-48 h-64 sm:w-56 sm:h-72 rounded-lg ${ageColor.border} border-2 ${ageColor.bg} flex flex-col items-center justify-center p-6`}

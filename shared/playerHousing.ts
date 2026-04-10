@@ -45,6 +45,8 @@ export interface DisplayItem {
   achievementId?: string;
   cardId?: string;
   label: string;
+  /** Optional slot id when a display item is placed in a wall/shelf slot. */
+  slot?: string;
 }
 
 export interface GiftItem {

@@ -252,6 +252,10 @@ export const marketplaceRouter = router({
         listing[0].category ?? listing[0].itemType,
         listing[0].itemName,
       );
+      // `moralityModifier` is the signed discount/surcharge fraction
+      // (> 0 → discount, < 0 → surcharge). Downstream notification and
+      // response payload use it to describe the effect.
+      const moralityModifier = 1 - moralityPriceMult;
       if (moralityPriceMult !== 1) {
         totalPrice = Math.max(1, Math.round(totalPrice * moralityPriceMult));
       }
@@ -1106,7 +1110,7 @@ async function resolveAuction(db: DrizzleDb, auctionId: number) {
 }
 
 /** Try to match currency exchange orders */
-async function tryMatchExchangeOrders(db: DrizzleDb, orderId: number, userId: number, input: { sellCurrency: string; buyCurrency: string; sellAmount: number; buyAmount: number }) {
+async function tryMatchExchangeOrders(db: DrizzleDb, orderId: number, userId: number, input: { sellCurrency: "credits" | "dream"; buyCurrency: "credits" | "dream"; sellAmount: number; buyAmount: number }) {
   // Find complementary orders (someone selling what we want to buy)
   const matches = await db.select().from(currencyExchange)
     .where(and(

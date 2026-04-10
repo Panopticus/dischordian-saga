@@ -91,7 +91,7 @@ export function AtmosphereScope({
       "--void-font-body": theme.fonts.body,
       // Store resolved triad for children that read attributes
       "dataAttributes": { atmosphere, physics, mode },
-    } as Record<string, string> & { dataAttributes: { atmosphere: string; physics: PhysicsType; mode: ModeType } };
+    } as unknown as Record<string, string> & { dataAttributes: { atmosphere: string; physics: PhysicsType; mode: ModeType } };
   }, [atmosphere, physicsOverride, modeOverride]);
 
   if (!scopedStyle) return <>{children}</>;

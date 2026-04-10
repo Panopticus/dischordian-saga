@@ -17,17 +17,22 @@
    when read. Physics is resolved at call time.
    ═══════════════════════════════════════════════════════ */
 
+import { cubicBezier, type Easing } from "framer-motion";
 import { getCurrentPhysics } from "./voidMotion";
 import type { PhysicsType } from "./voidEngine";
 
 /* ─── TIMING TABLES ─── */
 
+const EASE_GLASS: Easing = cubicBezier(0.4, 0, 0.2, 1);
+const EASE_FLAT: Easing = cubicBezier(0.25, 0.1, 0.25, 1);
+const EASE_RETRO: Easing = cubicBezier(0, 0, 1, 1);
+
 function timing(p?: PhysicsType) {
   const physics = p ?? getCurrentPhysics();
   return {
-    glass: { fast: 0.15, base: 0.3, slow: 0.5, ease: [0.4, 0, 0.2, 1] as number[] },
-    flat:  { fast: 0.1,  base: 0.2, slow: 0.35, ease: [0.25, 0.1, 0.25, 1] as number[] },
-    retro: { fast: 0,    base: 0,   slow: 0.05, ease: [0, 0, 1, 1] as number[] },
+    glass: { fast: 0.15, base: 0.3, slow: 0.5, ease: EASE_GLASS },
+    flat:  { fast: 0.1,  base: 0.2, slow: 0.35, ease: EASE_FLAT },
+    retro: { fast: 0,    base: 0,   slow: 0.05, ease: EASE_RETRO },
   }[physics];
 }
 

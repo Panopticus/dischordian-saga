@@ -68,7 +68,9 @@ describe("Task 8.1 — inspectPlayer enrichment", () => {
 
   it("fetches the full achievement unlock list", () => {
     expect(ROUTER_SRC).toContain("userAchievements");
-    expect(ROUTER_SRC).toMatch(/orderBy\(desc\(userAchievements\.unlockedAt\)\)/);
+    // Schema field is `earnedAt`; the query aliases it to `unlockedAt`
+    // in the select shape for backwards-compat with the admin UI.
+    expect(ROUTER_SRC).toMatch(/orderBy\(desc\(userAchievements\.earnedAt\)\)/);
   });
 
   it("fetches the prestige progress row", () => {

@@ -90,7 +90,7 @@ export const PHANTOM_SIGNAL_TTL_MS = 7 * 24 * 60 * 60 * 1000;
  */
 function interpolateTemplate(template: string, context: PhantomActionContext): string {
   return template.replace(/\{(\w+)\}/g, (_match, key: string) => {
-    const value = (context as Record<string, unknown>)[key];
+    const value = (context as unknown as Record<string, unknown>)[key];
     if (value !== undefined && value !== null) return String(value);
     return "the unknown";
   });
