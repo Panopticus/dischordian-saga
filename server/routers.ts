@@ -76,6 +76,7 @@ import { outbreakRouter } from "./routers/outbreak";
 import { communityCodexRouter } from "./routers/communityCodex";
 import { performanceRouter } from "./routers/performance";
 import { deadMansCircuitRouter } from "./routers/deadMansCircuit";
+import { livingUniverseRouter } from "./routers/livingUniverse";
 
 export const appRouter = router({
   system: systemRouter,
@@ -148,6 +149,7 @@ export const appRouter = router({
   communityCodex: communityCodexRouter,
   performance: performanceRouter,
   deadMansCircuit: deadMansCircuitRouter,
+  livingUniverse: livingUniverseRouter,
   auth: router({
     me: publicProcedure.query(opts => opts.ctx.user),
     logout: publicProcedure.mutation(({ ctx }) => {

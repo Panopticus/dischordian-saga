@@ -706,13 +706,21 @@ async function checkEmergingEvents(db: Db): Promise<{ eventId: string; proximity
       .where(eq(universeEventState.eventId, emerging.eventId))
       .limit(1);
 
+    const now = new Date();
+    const def = ALL_EMERGENT_EVENTS.find(e => e.id === emerging.eventId);
+    const cycleDays = def?.typicalCycleDays ?? 7;
+    const expiresAt = new Date(now);
+    expiresAt.setDate(expiresAt.getDate() + cycleDays);
+
     if (existing[0]) {
       if (!existing[0].isActive) {
         await db.update(universeEventState)
           .set({
             isActive: 1,
             pressureScore: Math.round(emerging.proximity * 100),
-            activatedAt: new Date(),
+            activatedAt: now,
+            expiresAt,
+            playerParticipation: 0,
             occurrenceCount: existing[0].occurrenceCount + 1,
           })
           .where(eq(universeEventState.id, existing[0].id));
@@ -722,12 +730,14 @@ async function checkEmergingEvents(db: Db): Promise<{ eventId: string; proximity
         eventId: emerging.eventId,
         isActive: 1,
         pressureScore: Math.round(emerging.proximity * 100),
-        activatedAt: new Date(),
+        activatedAt: now,
+        expiresAt,
+        playerParticipation: 0,
         occurrenceCount: 1,
       });
     }
 
-    logger.info(`[LivingUniverse] Event activated: ${emerging.eventId} (pressure: ${emerging.proximity})`);
+    logger.info(`[LivingUniverse] Event activated: ${emerging.eventId} (pressure: ${emerging.proximity}, expires: ${expiresAt.toISOString()})`);
   }
 
   return emerging;

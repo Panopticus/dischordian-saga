@@ -2784,8 +2784,12 @@ export const universeEventState = mysqlTable("universe_event_state", {
   pressureScore: int("pressureScore").notNull().default(0),
   /** When the event was last activated */
   activatedAt: timestamp("activatedAt"),
+  /** When this active event should expire (community has a window to resolve) */
+  expiresAt: timestamp("expiresAt"),
   /** When the event was last resolved */
   resolvedAt: timestamp("resolvedAt"),
+  /** How many players have interacted with the event (quests completed, counter-actions) */
+  playerParticipation: int("playerParticipation").notNull().default(0),
   /** Number of times this event has occurred */
   occurrenceCount: int("occurrenceCount").notNull().default(0),
   /** Current cycle data (consequences applied, player participation) */
@@ -2794,6 +2798,32 @@ export const universeEventState = mysqlTable("universe_event_state", {
 });
 
 export type UniverseEventState = typeof universeEventState.$inferSelect;
+
+/**
+ * Universe event history — append-only log of resolved events.
+ * Every time an event concludes (community success, community failure, or
+ * expiry), a row is written here so we keep a permanent record of how the
+ * Living Universe has evolved.
+ */
+export const universeEventHistory = mysqlTable("universe_event_history", {
+  id: int("id").autoincrement().primaryKey(),
+  eventId: varchar("eventId", { length: 64 }).notNull(),
+  activatedAt: timestamp("activatedAt").notNull(),
+  resolvedAt: timestamp("resolvedAt").defaultNow().notNull(),
+  /** How the event ended: "community_success", "community_failure", "expired", "admin" */
+  resolution: varchar("resolution", { length: 32 }).notNull(),
+  /** Final accumulated pressure score at resolution */
+  finalPressureScore: int("finalPressureScore").notNull().default(0),
+  /** Total players who participated in the event */
+  totalParticipants: int("totalParticipants").notNull().default(0),
+  /** Summary of effects applied during the event (cached for fast lookup) */
+  effectsSummary: json("effectsSummary").$type<Record<string, unknown>>(),
+}, (table) => ({
+  idxEventId: index("idx_universe_history_event").on(table.eventId),
+  idxResolvedAt: index("idx_universe_history_resolved").on(table.resolvedAt),
+}));
+
+export type UniverseEventHistory = typeof universeEventHistory.$inferSelect;
 
 /* ═══════════════════════════════════════════════════════
    ROOM STATES — Visual evolution of Ark rooms based
