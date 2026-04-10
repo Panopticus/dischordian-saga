@@ -172,7 +172,7 @@ interface LoreTutorialEngineProps {
 }
 
 export default function LoreTutorialEngine({ tutorial, onComplete, onDismiss }: LoreTutorialEngineProps) {
-  const { state } = useGame();
+  const { state, shiftMorality } = useGame();
   const characterChoices = state.characterChoices;
   const [stepIndex, setStepIndex] = useState(0);
   const [phase, setPhase] = useState<"intro" | "dialog" | "response" | "summary">("intro");
@@ -218,6 +218,16 @@ export default function LoreTutorialEngine({ tutorial, onComplete, onDismiss }: 
   const handleChoice = useCallback((choice: TutorialChoice) => {
     setSelectedChoice(choice);
     setTotalMoralityShift(prev => prev + choice.moralityShift);
+
+    // Apply morality to server immediately (per-choice, not batched at tutorial end).
+    // This ensures threshold notifications, pressure events, and analytics fire at
+    // the moment the player makes the decision — and persist even if the player
+    // abandons the tutorial mid-way. Parent handlers receive 0 from onComplete to
+    // avoid double-application.
+    if (choice.moralityShift !== 0) {
+      shiftMorality(choice.moralityShift, tutorial.id, choice.id, "dialog");
+    }
+
     if (choice.rewards) {
       setCollectedRewards(prev => [...prev, ...choice.rewards!]);
     }
@@ -226,12 +236,16 @@ export default function LoreTutorialEngine({ tutorial, onComplete, onDismiss }: 
     }
     setPhase("response");
     setTextComplete(false);
-  }, []);
+  }, [shiftMorality, tutorial.id]);
 
-  // Handle final completion
+  // Handle final completion.
+  // NOTE: moralityTotal is passed as 0 because shifts are now applied per-choice
+  // inside handleChoice (see above). Parent handlers check `moralityTotal !== 0`
+  // before calling shiftMorality, so passing 0 prevents double-application.
+  // totalMoralityShift is still tracked locally for the summary display.
   const handleComplete = useCallback(() => {
-    onComplete(collectedRewards, totalMoralityShift, collectedFlags);
-  }, [collectedRewards, totalMoralityShift, collectedFlags, onComplete]);
+    onComplete(collectedRewards, 0, collectedFlags);
+  }, [collectedRewards, collectedFlags, onComplete]);
 
   // Player clicks intro to proceed (no auto-advance)
   const [introReady, setIntroReady] = useState(false);
