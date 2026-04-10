@@ -2608,11 +2608,61 @@ sacrifices itself to stop one wave entirely. Its inscription
 reads simply *"[Apprentice's chosen name]. Who did not run."* It
 can only be built once per account. Ever.
 
+### B.5 — The Ripple Engine Is the Spine
+
+The canonical `server/services/rippleEngine.ts` is a central pub/sub
+event bus whose comment reads:
+
+> *"Every action ripples through at least 2 systems. Central pub/sub
+> event bus that routes game events to multiple systems simultaneously."*
+
+It already ships with event types: `CombatDeathEvent`,
+`NPCTrustEvent`, `MoralityChoiceEvent`, `CompanionEvolvedEvent`,
+`CompanionDiedEvent`, `PrestigeResetEvent`, `GiftSentEvent`. Terminus
+Swarm already emits `terminus_wave_survived`. The entire
+infrastructure for what Appendix B wants is already built.
+
+**Appendix B adds six new ripple event types, one per Fragment:**
+
+```
+kael_fragment_unlocked   { userId, fragment: 1-6, choice?: string }
+kael_mirror_seen         { userId, source_form: "avatar" | "voice" | "name" }
+kael_name_spoken         { userId, timestamp, narrator: "elara" | "human" }
+kael_memorial_noticed    { userId, tower_key, first_time: boolean }
+kael_apprentice_choice   { userId, choice: "ran" | "stayed", apprentice_id }
+kael_questline_complete  { userId, path: "full" | "partial" | "refused" }
+```
+
+Each ripple cascades into **every relevant existing system** without
+requiring new glue code — the ripple handler registry already
+supports this pattern. The subscribers are:
+
+| Ripple event | Subscriber | What happens |
+|---|---|---|
+| `kael_fragment_unlocked` | **Antiquarian's Journal** (`shared/antiquariansJournal.ts`) | New Chronicle entry written in canonical Antiquarian voice from §1.4 of Year One Calendar |
+| `kael_fragment_unlocked` | **Transmissions system** (`shared/transmissions.ts`) | Broadcasts the Fragment cutscene globally as a server event; every online player sees a "transmission incoming" marker |
+| `kael_fragment_unlocked` | **Loredex unlocks** (`shared/transmissionLoredexUnlocks.ts`) | One new Loredex entry becomes visible to the player |
+| `kael_fragment_unlocked` | **Elara + Human callback pools** | New callback lines seeded into both narrators' pools for the next 7 days |
+| `kael_mirror_seen` | **Shadow Tongue corruption pool** | Shadow Tongue's grand-edit queue gets one new option: to *erase* Kael from the Loredex entirely. This option is not taken automatically; it sits as a permanent threat |
+| `kael_name_spoken` | **Breaking Point system** (`shared/breakingPoint.ts`) | Adds a new Breaking Point trigger: if both narrators have spoken Kael's name within 48 real hours, the Breaking Point moment fires early and includes Kael as a third voice |
+| `kael_memorial_noticed` | **Terminus Swarm difficulty** | Each tower whose memorial the player notices permanently buffs that tower by +5% damage on this account — the Insurgents fight harder when remembered |
+| `kael_apprentice_choice` | **Apprentice permadeath** (`shared/apprenticePermadeath.ts`) + **Graduate Legion** (`shared/graduateLegion.ts`) | If stayed-and-died, Apprentice enters the Graduate Legion as a memorial NPC. If ran, Apprentice becomes a permanent rival (`shared/rivalSystem.ts`) who will eventually show up as an opposing force in PvP |
+| `kael_questline_complete` | **Year One Events Calendar** | Marks the questline as complete in the Chronicle and the Orb of Worlds; unlocks the final payoff cinematic (§B.8) |
+| `kael_questline_complete` | **Epoch Pass** (`shared/epochPass.ts`) | The player earns a unique battle-pass cosmetic unavailable any other way: **"Kael's Flower"** — a single wilted flower that appears on the player's ship cabin, clickable, does nothing |
+
+**Why the ripple engine matters narratively, not just technically:**
+the entire thesis of the Witnessing is that *every action ripples
+through at least two systems.* Kael's story is the **longest single
+ripple in the game** — a chain of cascades that begins at Wave 10
+of Terminus Swarm and ends at the Breaking Point, six months later,
+when both narrators realize they have been speaking around the same
+man the entire time. The questline is not a side quest. **It is the
+game's central proof of its own thesis.**
+
 ---
 
-*[Appendix B continues — B.5 Ripple Integration, B.6 Year One
-Ripple Effect, B.7 Other Systems, B.8 Payoff Cinematics, B.9
-Prompts. Drafted in chunks.]*
+*[Appendix B continues — B.6 Year One Ripple Effect, B.7 Other
+Systems, B.8 Payoff Cinematics, B.9 Prompts. Drafted in chunks.]*
 
 
 
