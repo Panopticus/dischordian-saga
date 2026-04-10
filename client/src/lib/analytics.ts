@@ -14,39 +14,162 @@ export interface AnalyticsEvent {
 }
 
 // ─── Pre-defined game events for key funnels ───────────
+//
+// See docs/analytics/EVENT_SPEC.md for the canonical list, payload
+// shapes, and guidance on when to fire each event. New events MUST be
+// added to both this const AND the spec doc in the same PR so product,
+// design, and engineering stay aligned.
 
 export const GameEvents = {
-  // Onboarding funnel
+  /* ─── Lifecycle ──────────────────────────────────── */
+  SESSION_START: "session_start",
+  SESSION_END: "session_end",
+  PAGE_VIEW: "page_view",
+  DAILY_RETURN: "daily_return",
+  STREAK_MAINTAINED: "streak_maintained",
+  STREAK_BROKEN: "streak_broken",
+
+  /* ─── Onboarding funnel ──────────────────────────── */
   LANDING_VIEWED: "landing_viewed",
+  AUTH_STARTED: "auth_started",
+  AUTH_COMPLETED: "auth_completed",
   AWAKENING_STARTED: "awakening_started",
+  AWAKENING_STEP_COMPLETED: "awakening_step_completed",
+  AWAKENING_ABANDONED: "awakening_abandoned",
   AWAKENING_COMPLETED: "awakening_completed",
   FIRST_ROOM_EXPLORED: "first_room_explored",
   FIRST_DIALOG_COMPLETED: "first_dialog_completed",
   FIRST_FIGHT_STARTED: "first_fight_started",
   FIRST_FIGHT_WON: "first_fight_won",
+  TUTORIAL_STARTED: "tutorial_started",
+  TUTORIAL_STEP_COMPLETED: "tutorial_step_completed",
+  TUTORIAL_SKIPPED: "tutorial_skipped",
+  TUTORIAL_COMPLETED: "tutorial_completed",
 
-  // Engagement
-  SESSION_START: "session_start",
-  SESSION_END: "session_end",
+  /* ─── Engagement (per-mode entry) ────────────────── */
   GAME_MODE_ENTERED: "game_mode_entered",
+  GAME_MODE_EXITED: "game_mode_exited",
+  QUEST_STARTED: "quest_started",
   QUEST_COMPLETED: "quest_completed",
+  QUEST_ABANDONED: "quest_abandoned",
   ACHIEVEMENT_UNLOCKED: "achievement_unlocked",
   LEVEL_UP: "level_up",
+  PRESTIGE_CLAIMED: "prestige_claimed",
+  LORE_DISCOVERED: "lore_discovered",
+  ROOM_UNLOCKED: "room_unlocked",
 
-  // Retention
-  DAILY_RETURN: "daily_return",
-  STREAK_MAINTAINED: "streak_maintained",
+  /* ─── Combat telemetry ───────────────────────────── */
+  FIGHT_STARTED: "fight_started",
+  FIGHT_ENDED: "fight_ended",
+  FIGHT_RAGE_QUIT: "fight_rage_quit",
+  CARD_MATCH_STARTED: "card_match_started",
+  CARD_MATCH_ENDED: "card_match_ended",
+  PVP_MATCH_QUEUED: "pvp_match_queued",
+  PVP_MATCH_PLAYED: "pvp_match_played",
+  TERMINUS_WAVE_COMPLETED: "terminus_wave_completed",
+  TERMINUS_RUN_ENDED: "terminus_run_ended",
+  CHESS_GAME_ENDED: "chess_game_ended",
+  BOSS_ATTEMPT_STARTED: "boss_attempt_started",
+  BOSS_ATTEMPT_ENDED: "boss_attempt_ended",
 
-  // Monetization
+  /* ─── Economy — faucets (currency in) ────────────── */
+  CURRENCY_EARNED: "currency_earned",   // { currency, amount, source }
+  ITEM_GRANTED: "item_granted",         // { itemType, itemId, source }
+  REWARD_CLAIMED: "reward_claimed",     // { rewardType, source }
+
+  /* ─── Economy — sinks (currency out) ─────────────── */
+  CURRENCY_SPENT: "currency_spent",     // { currency, amount, destination }
+  ITEM_CONSUMED: "item_consumed",       // { itemType, itemId, destination }
+  ITEM_CRAFTED: "item_crafted",         // { recipeId, inputCost }
+  ITEM_LISTED: "item_listed",           // marketplace
+  ITEM_PURCHASED: "item_purchased",     // marketplace
+
+  /* ─── Monetization ───────────────────────────────── */
   STORE_VIEWED: "store_viewed",
+  STORE_PRODUCT_VIEWED: "store_product_viewed",
   PURCHASE_STARTED: "purchase_started",
   PURCHASE_COMPLETED: "purchase_completed",
+  PURCHASE_FAILED: "purchase_failed",
+  PROMO_CODE_REDEEMED: "promo_code_redeemed",
+  BATTLE_PASS_UNLOCKED: "battle_pass_unlocked",
 
-  // Social
+  /* ─── Social graph ───────────────────────────────── */
+  FRIEND_REQUEST_SENT: "friend_request_sent",
+  FRIEND_REQUEST_ACCEPTED: "friend_request_accepted",
+  FRIEND_REMOVED: "friend_removed",
+  DM_SENT: "dm_sent",
+  USER_BLOCKED: "user_blocked",
+  USER_REPORTED: "user_reported",
   GUILD_JOINED: "guild_joined",
-  PVP_MATCH_PLAYED: "pvp_match_played",
+  GUILD_LEFT: "guild_left",
   TRADE_COMPLETED: "trade_completed",
+
+  /* ─── Error + performance ────────────────────────── */
+  CLIENT_ERROR: "client_error",
+  TRPC_ERROR: "trpc_error",
+  SOCKET_DISCONNECT: "socket_disconnect",
+  FPS_DROP: "fps_drop",
+  ASSET_LOAD_FAILED: "asset_load_failed",
+  ASSET_LOAD_SLOW: "asset_load_slow",
 } as const;
+
+/**
+ * All valid event names as a union type — prefer `trackEvent(GameEvents.X, …)`
+ * over raw strings so typos are caught at compile time.
+ */
+export type GameEventName = typeof GameEvents[keyof typeof GameEvents];
+
+/* ─── Strongly-typed helpers for the high-traffic events ─── */
+
+/** Canonical currency identifiers. Keep in sync with shared/unifiedEconomy. */
+export type CurrencyId =
+  | "dream"       // soft currency, primary earn
+  | "soulbound_dream" // soft currency, bound variant (cannot trade)
+  | "credits"     // hard currency, Stripe-purchased
+  | "essence"
+  | "dust"
+  | "shards";
+
+/**
+ * Emit a currency-earned event. Every faucet in the game should call this
+ * so the economy dashboard can compute source attribution.
+ */
+export function trackCurrencyEarned(
+  currency: CurrencyId,
+  amount: number,
+  source: string,
+): void {
+  trackEvent(GameEvents.CURRENCY_EARNED, { currency, amount, source });
+}
+
+/**
+ * Emit a currency-spent event. Every sink should call this so the
+ * economy dashboard can compute destination attribution.
+ */
+export function trackCurrencySpent(
+  currency: CurrencyId,
+  amount: number,
+  destination: string,
+): void {
+  trackEvent(GameEvents.CURRENCY_SPENT, { currency, amount, destination });
+}
+
+/** Match result for combat telemetry. */
+export interface MatchResultProps {
+  mode: string;           // "fight" | "card" | "pvp" | "terminus" | "chess" | "boss"
+  result: "win" | "loss" | "draw" | "quit";
+  durationMs: number;
+  opponentId?: string;
+}
+export function trackMatchEnded(props: MatchResultProps): void {
+  const payload: Record<string, string | number | boolean> = {
+    mode: props.mode,
+    result: props.result,
+    durationMs: props.durationMs,
+  };
+  if (props.opponentId) payload.opponentId = props.opponentId;
+  trackEvent("match_ended", payload);
+}
 
 // ─── Internal state ────────────────────────────────────
 
