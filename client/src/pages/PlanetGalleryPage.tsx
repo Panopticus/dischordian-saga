@@ -7,6 +7,7 @@ import { Link } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, Globe, X } from "lucide-react";
 import LivingBackground from "@/components/LivingBackground";
+import ResponsiveImage from "@/components/ResponsiveImage";
 
 interface Planet {
   id: string;
@@ -96,10 +97,9 @@ export default function PlanetGalleryPage() {
               {/* Planet image */}
               <div className="aspect-square rounded-lg overflow-hidden mb-3 bg-black/50 flex items-center justify-center">
                 {planet.image ? (
-                  <img
+                  <ResponsiveImage
                     src={planet.image}
                     alt={planet.name}
-                    loading="lazy"
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                   />
                 ) : (
@@ -137,7 +137,7 @@ export default function PlanetGalleryPage() {
 
               {/* Hero image */}
               <div className="relative h-64 overflow-hidden">
-                <img src={selected.image} alt={selected.name} className="w-full h-full object-cover" style={{ filter: "brightness(0.7)" }} />
+                <ResponsiveImage src={selected.image} alt={selected.name} eager className="w-full h-full object-cover" style={{ filter: "brightness(0.7)" }} />
                 <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 50%)" }} />
                 <button onClick={() => setSelected(null)} className="absolute top-3 right-3 text-white/50 hover:text-white">
                   <X size={20} />

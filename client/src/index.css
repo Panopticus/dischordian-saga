@@ -1145,9 +1145,32 @@ html:not(.dark) .box-glow-purple { box-shadow: 0 0 8px rgba(124, 58, 237, 0.1); 
     line-height: 1.5 !important;
   }
   
-  /* Larger touch targets for interactive elements */
-  .dossier-card, [role="button"] {
+  /* Task 3.3 — 44px minimum touch target on mobile.
+     Covers every interactive element type so no hand-wired
+     button falls below Apple/Google's guideline. Components
+     that need smaller hit boxes must explicitly opt out
+     with `.touch-compact`. */
+  .dossier-card,
+  [role="button"],
+  button:not(.touch-compact),
+  a:not(.touch-compact),
+  [role="link"],
+  [role="menuitem"],
+  [role="tab"],
+  [role="option"],
+  input[type="checkbox"]:not(.touch-compact),
+  input[type="radio"]:not(.touch-compact),
+  .clickable {
     min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* Prevent double-tap zoom and make taps feel instant
+     on touch surfaces. The explicit touch-action lets
+     nested scrollers still work because they use their
+     own touch-action: pan-y. */
+  button, a, [role="button"], .clickable {
+    touch-action: manipulation;
   }
   
   /* Ensure card grids are readable with proper gaps */

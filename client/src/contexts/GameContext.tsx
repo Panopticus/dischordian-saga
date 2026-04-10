@@ -6,6 +6,9 @@
 import { createContext, useContext, useCallback, useEffect, useState, useRef, type ReactNode } from "react";
 import { trpc } from "@/lib/trpc";
 import { LORE_ACHIEVEMENTS } from "@/data/loreAchievements";
+// Task 3.1 — sync status moved out of context into its own store so the 77
+// GameContext consumers don't re-render every 5 seconds during debounced save.
+import { useSyncStatusStore } from "@/stores/syncStatusStore";
 
 /* ─── TYPES ─── */
 export type GamePhase = "FIRST_VISIT" | "AWAKENING" | "QUARTERS_UNLOCKED" | "EXPLORING" | "FULL_ACCESS";
@@ -1074,8 +1077,10 @@ interface GameContextValue {
   getActiveDeployments: () => ArmyDeployment[];
   checkDeploymentCompletion: () => CompletedDeployment[];
   // Server sync
-  syncStatus: "idle" | "saving" | "loading" | "synced" | "error";
-  lastSyncedAt: string | null;
+  // Task 3.1 — syncStatus / lastSyncedAt moved to useSyncStatusStore.
+  // Read them with:
+  //   import { useSyncStatusStore, selectStatus } from "@/stores/syncStatusStore";
+  //   const status = useSyncStatusStore(selectStatus);
   forceSave: () => void;
   /** True once the server state load attempt has completed (or auth check determined no user) */
   isServerSyncReady: boolean;
@@ -1127,8 +1132,12 @@ function saveGameState(state: GameState) {
 
 export function GameProvider({ children }: { children: ReactNode }) {
   const [state, setState] = useState<GameState>(loadGameState);
-  const [syncStatus, setSyncStatus] = useState<"idle" | "saving" | "loading" | "synced" | "error">("idle");
-  const [lastSyncedAt, setLastSyncedAt] = useState<string | null>(null);
+  // Task 3.1 — sync status now lives in useSyncStatusStore. These imperative
+  // handles keep the existing call sites one-liners while allowing selector-
+  // level subscriptions on the consumer side.
+  const setSyncStatus = useSyncStatusStore((s) => s.setStatus);
+  const markSynced = useSyncStatusStore((s) => s.markSynced);
+  const markError = useSyncStatusStore((s) => s.markError);
   const saveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const hasLoadedFromServer = useRef(false);
 
@@ -1228,10 +1237,9 @@ export function GameProvider({ children }: { children: ReactNode }) {
       const merged = { ...DEFAULT_GAME_STATE, ...cleanState };
       setState(merged);
       saveGameState(merged);
-      setSyncStatus("synced");
-      setLastSyncedAt(loadQuery.data.savedAt);
+      markSynced(loadQuery.data.savedAt ?? undefined);
     }
-  }, [loadQuery.data, restoreClientState]);
+  }, [loadQuery.data, restoreClientState, markSynced]);
 
   // Save to localStorage on every state change
   useEffect(() => { saveGameState(state); }, [state]);
@@ -1353,12 +1361,11 @@ export function GameProvider({ children }: { children: ReactNode }) {
           completionPercent, rank,
         },
       });
-      setSyncStatus("synced");
-      setLastSyncedAt(new Date().toISOString());
-    } catch {
-      setSyncStatus("error");
+      markSynced();
+    } catch (e) {
+      markError(e instanceof Error ? e.message : undefined);
     }
-  }, [authQuery.data, saveMutation]);
+  }, [authQuery.data, saveMutation, setSyncStatus, markSynced, markError, collectClientState]);
 
   const forceSave = useCallback(() => {
     doServerSave(state);
@@ -2514,8 +2521,6 @@ export function GameProvider({ children }: { children: ReactNode }) {
       getAvailableUnits,
       getActiveDeployments,
       checkDeploymentCompletion,
-      syncStatus,
-      lastSyncedAt,
       forceSave,
       isServerSyncReady,
       startInternalizingThought,

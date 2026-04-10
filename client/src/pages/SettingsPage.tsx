@@ -11,6 +11,7 @@ import { useTheme } from "@/contexts/ThemeContext";
 import { useGamification } from "@/contexts/GamificationContext";
 import { useSound } from "@/contexts/SoundContext";
 import { useGame } from "@/contexts/GameContext";
+import { useSyncStatusStore, selectStatus, selectLastSyncedAt } from "@/stores/syncStatusStore";
 import { useAuth } from "@/_core/hooks/useAuth";
 import { getLoginUrl } from "@/const";
 import { ARK_THEMES } from "@shared/gamification";
@@ -262,7 +263,12 @@ export default function SettingsPage() {
   const gam = useGamification();
   const gamSetTheme = gam.setTheme;
   const { muted, setMuted, volume, setVolume } = useSound();
-  const { state: gameState, resetGame, syncStatus, lastSyncedAt, forceSave } = useGame();
+  const { state: gameState, resetGame, forceSave } = useGame();
+  // Task 3.1 — sync status is now in its own Zustand store so this page
+  // is the only thing that re-renders when it changes. Selector-level
+  // subscriptions mean a save tick no longer walks the 77-consumer tree.
+  const syncStatus = useSyncStatusStore(selectStatus);
+  const lastSyncedAt = useSyncStatusStore(selectLastSyncedAt);
   const { user, isAuthenticated, loading: authLoading, logout } = useAuth();
   const [settings, setSettings] = useState<AppSettings>(loadSettings);
   const [showResetConfirm, setShowResetConfirm] = useState(false);
