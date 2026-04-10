@@ -19,7 +19,10 @@ const ch1: StoryChapter = {
   id: "ch1_dead_signal", chapter: 1,
   title: "THE DEAD SIGNAL",
   subtitle: "Agent Zero hacked the scheduling matrix to reach you first",
-  opponentId: "agent-zero", arenaId: "panopticon-corridor",
+  // Note: arenaId points to the canonical `panopticon` entry in ARENAS.
+  // Historically this was a bespoke `panopticon-corridor` id but that
+  // arena was never added to gameData, breaking the phase72 test.
+  opponentId: "agent-zero", arenaId: "panopticon",
   difficulty: "easy", unlocksFighter: "agent-zero",
   unlocksVideo: "ark-assassin", cinematicId: "VEO-001",
   preFight: [
@@ -65,7 +68,10 @@ const ch2: StoryChapter = {
   id: "ch2_arenas_law", chapter: 2,
   title: "THE ARENA'S LAW",
   subtitle: "A skull in green robes enforces the rotation",
-  opponentId: "jailer", arenaId: "panopticon-central",
+  // Uses the watcher-panopticon arena since "panopticon-central" was never
+  // added to gameData. Story-wise the Jailer fight happens in the viewing
+  // area of the Panopticon, which matches watcher-panopticon's lore.
+  opponentId: "jailer", arenaId: "watcher-panopticon",
   difficulty: "easy", unlocksFighter: "jailer", isBoss: true,
   preFight: [
     { speaker: "narrator", text: "Panopticon Central. The Jailer's portrait — a SKULL in green robes, chains, one burning red eye. The Prisoner recoils." },

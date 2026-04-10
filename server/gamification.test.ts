@@ -130,7 +130,12 @@ describe("DISCHORDIAN_ACHIEVEMENTS", () => {
       expect(ach.name).toBeTruthy();
       expect(ach.description).toBeTruthy();
       expect(ach.icon).toBeTruthy();
-      expect(["explore", "watch", "fight", "discover", "collect", "social", "master"]).toContain(ach.category);
+      // Category enum must match the union in shared/gamification.ts. If
+      // you extend the union there, add the new value here too.
+      expect([
+        "explore", "watch", "fight", "discover", "collect", "social", "master",
+        "crossgame", "chess", "swarm", "lore", "fighting", "card", "guild", "misc",
+      ]).toContain(ach.category);
       expect(["bronze", "silver", "gold", "platinum", "legendary"]).toContain(ach.tier);
       expect(ach.xpReward).toBeGreaterThanOrEqual(0);
       // Level achievements give points instead of XP, but all should give something
