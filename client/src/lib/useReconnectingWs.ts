@@ -24,11 +24,17 @@ interface ReconnectingWsState {
   connected: boolean;
   reconnecting: boolean;
   retryCount: number;
+  /** True once max retries have been exhausted and we gave up. */
+  gaveUp: boolean;
+  /** Timestamp at which grace period expires (matches server 30 s window). */
+  gracePeriodExpiresAt: number | null;
 }
 
 const INITIAL_DELAY_MS = 500;
 const MAX_DELAY_MS = 16_000;
 const JITTER_FACTOR = 0.3;
+/** Must match the server-side window in `server/wsRateLimit.ts` */
+const GRACE_PERIOD_MS = 30_000;
 
 function backoffDelay(attempt: number): number {
   const base = Math.min(INITIAL_DELAY_MS * Math.pow(2, attempt), MAX_DELAY_MS);
@@ -48,8 +54,14 @@ export function useReconnectingWs({
   const retryCountRef = useRef(0);
   const retryTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const intentionalCloseRef = useRef(false);
+  /** First timestamp in this disconnect streak — used to compute grace countdown. */
+  const firstDisconnectAtRef = useRef<number | null>(null);
   const [state, setState] = useState<ReconnectingWsState>({
-    connected: false, reconnecting: false, retryCount: 0,
+    connected: false,
+    reconnecting: false,
+    retryCount: 0,
+    gaveUp: false,
+    gracePeriodExpiresAt: null,
   });
 
   const connect = useCallback(() => {
@@ -62,7 +74,14 @@ export function useReconnectingWs({
 
       ws.onopen = () => {
         retryCountRef.current = 0;
-        setState({ connected: true, reconnecting: false, retryCount: 0 });
+        firstDisconnectAtRef.current = null;
+        setState({
+          connected: true,
+          reconnecting: false,
+          retryCount: 0,
+          gaveUp: false,
+          gracePeriodExpiresAt: null,
+        });
         onOpen?.();
       };
 
@@ -77,17 +96,35 @@ export function useReconnectingWs({
         setState(s => ({ ...s, connected: false }));
         onClose?.(event.code, event.reason);
 
-        // Don't reconnect if intentionally closed or max retries exceeded
+        // Don't reconnect if intentionally closed
         if (intentionalCloseRef.current) return;
+
+        // Record the start of this disconnect streak so the UI can count
+        // down against the 30 s grace window the server honors.
+        if (firstDisconnectAtRef.current == null) {
+          firstDisconnectAtRef.current = Date.now();
+        }
+        const graceExpiresAt = firstDisconnectAtRef.current + GRACE_PERIOD_MS;
+
         if (retryCountRef.current >= maxRetries) {
-          setState(s => ({ ...s, reconnecting: false }));
+          setState(s => ({
+            ...s,
+            reconnecting: false,
+            gaveUp: true,
+            gracePeriodExpiresAt: graceExpiresAt,
+          }));
           return;
         }
 
         // Schedule reconnection with exponential backoff
         const delay = backoffDelay(retryCountRef.current);
         retryCountRef.current++;
-        setState(s => ({ ...s, reconnecting: true, retryCount: retryCountRef.current }));
+        setState(s => ({
+          ...s,
+          reconnecting: true,
+          retryCount: retryCountRef.current,
+          gracePeriodExpiresAt: graceExpiresAt,
+        }));
 
         retryTimerRef.current = setTimeout(() => {
           connect();
@@ -118,7 +155,14 @@ export function useReconnectingWs({
     if (retryTimerRef.current) clearTimeout(retryTimerRef.current);
     wsRef.current?.close(1000, "Intentional disconnect");
     wsRef.current = null;
-    setState({ connected: false, reconnecting: false, retryCount: 0 });
+    firstDisconnectAtRef.current = null;
+    setState({
+      connected: false,
+      reconnecting: false,
+      retryCount: 0,
+      gaveUp: false,
+      gracePeriodExpiresAt: null,
+    });
   }, []);
 
   // Connect on mount, disconnect on unmount
