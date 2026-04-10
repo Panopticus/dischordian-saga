@@ -3099,6 +3099,126 @@ Witnessing made real.
 
 ---
 
+## APPENDIX C — The Game Show Arc: "THE PALIMPSEST"
+
+> *"Welcome back, dreamers. Tonight's episode is sponsored by
+> nothing, brought to you by nobody, and broadcast from a station
+> that does not legally exist. Please enjoy responsibly. Please
+> die gracefully."*
+> — the Host, opening every episode
+
+### C.0 — The Thesis
+
+The canonical `client/src/game/quizSpectator.ts` already ships a
+system called **"GAMEMASTER'S ARENA"** — a spectator + betting
+layer for live quiz games, explicitly framed as *"The Matrix of
+Dreams broadcasts to all connected Arks."* Players have **clone
+numbers**. Bet types already include `dies_on_round`,
+`survives_round`, and `perfect_run`. The 💀 RIP clone reaction
+emoji is already in the quick-reactions list. **Everything the
+user is asking for is already built into the engine.** What is
+missing is the *show*.
+
+Appendix C writes the show. It turns the existing Game Master's
+Arena into a **reality-TV psychological game show sub-arc** that
+runs in parallel to the Kael questline (Appendix B) and the main
+act spine (§1-§12). It introduces a new global meter, two new
+cast members, a progressive fourth-wall collapse, and the first
+time the player gets a clear look at the Hierarchy of the Damned.
+
+**It also does something none of the other arcs do: it kills
+strangers.** Real other players on other Arks die during
+episodes. They are rolled from the async spectator pool. The
+player knows the names. The names appear in the Antiquarian's
+Chronicle the next morning. Every episode has a casualty list.
+
+The show's name is **The Palimpsest** — in-universe, it's a
+cheery prime-time trivia show with a chirpy theme song. Out of
+universe, a palimpsest is a manuscript page where earlier text
+has been erased and written over. This is, canonically, exactly
+what **Shadow Tongue** does to the Loredex and what **the
+Antiquarian** does to the Chronicle. Every question answered on
+the show writes one line onto the page. Every lie told on the
+show erases one. The scoreboard everyone sees during the show
+tracks dollars. The scoreboard the player learns to read tracks
+what is still true.
+
+### C.1 — The Palimpsest Meter (Truth vs Corruption)
+
+**Name:** THE PALIMPSEST — *"The page underneath the page. What
+is written. What is erased. What is written again."*
+
+**Two bars, displayed as opposing columns on the Governance Hub
+(canonical Year One V2 §1.1), rendered as an illuminated
+manuscript page:**
+
+- **SIGNAL** (Truth / Canon / Light) — gold ink, written left-to-right
+- **NOISE** (Corruption / Apocrypha / Shadow Tongue) — red ink, bleeding up from underneath
+
+The two bars are the same bar, viewed from opposite sides. When
+Signal rises, Noise is erased. When Noise rises, Signal is
+overwritten. Both are always visible. Neither ever reaches
+zero. This is the second global meter in the game alongside the
+Light/Dark Energy meter from §11 of the main body — but where
+Light/Dark tracks *action* (winning card battles vs losing
+regions to the Vortex), **the Palimpsest tracks *knowledge*.**
+One is a war of arms. The other is a war of attention.
+
+**Contributions to SIGNAL:**
+- Correct Loredex Quiz answers (+1 each)
+- Research Puzzle completions (+5 each)
+- Crafting success at high rarity (+2 per Epic, +5 per Legendary)
+- Winning a Palimpsest game show episode (+50)
+- Transcribing a Signal Beacon into the Chronicle (+10)
+- Community vote to preserve a Shadow Tongue-threatened Loredex entry (shared +1 per vote)
+- Choosing the *truth* option in any dialog wheel (+1)
+- Catching a Meme disguise on the show (+25 — see §C.3)
+
+**Contributions to NOISE:**
+- Wrong Loredex Quiz answers (+1 each)
+- Failing a Research Puzzle (+2)
+- Crafting failures (+1)
+- Losing a Palimpsest episode (+25)
+- Ignoring a Signal Beacon for >7 days (+5)
+- Community vote to sacrifice a Loredex entry (shared +1 per vote)
+- Choosing the *lie* option in any dialog wheel (+1)
+- Agreeing with General Alaric on the show (+10 per agreement — see §C.2)
+
+**What Signal enables, globally:**
+- When Signal > Noise by a wide margin: a new Chronicle entry
+  is published; Elara gains one new dialog line; Loredex entries
+  partially corrupted by Shadow Tongue auto-repair at a steady
+  trickle; The Inventor can successfully hack Alaric's broadcast
+  (see §C.4); the Antiquarian writes more frequently.
+- When Signal > Noise narrowly: neutral state, the show runs,
+  the world holds.
+
+**What Noise enables, globally:**
+- When Noise > Signal narrowly: Shadow Tongue begins editing
+  the Loredex faster; some entries go permanently red; Elara's
+  callback pool gets a new "I can't remember this" line.
+- When Noise > Signal by a wide margin: **the Host's face
+  briefly slips during an episode and the player sees the Meme
+  underneath the Game Master mask** (see §C.6); one Loredex
+  entry per week is edited into a lie and the player has no
+  way to tell which; the Antiquarian writes entries with visible
+  holes in them.
+
+**Why this meter is named after an erasure:**
+the Palimpsest is the only meter in the game where *doing
+nothing* hurts. Signal decays passively over time by a tiny
+amount — if nobody is reading, the page is being forgotten. The
+community must *tell the truth continuously* to keep it lit.
+Silence is Shadow Tongue's friend.
+
+---
+
+*[Appendix C continues — C.2 The Four Contestants, C.3 The Game
+Shows, C.4 Inventor Hack, C.5 Darren, C.6 Meme Reveal, C.7
+Integration, C.8 Prompts. Drafted in chunks.]*
+
+---
+
 *End of Appendix B. End of proposal.*
 
 
