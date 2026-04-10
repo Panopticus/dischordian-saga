@@ -2558,10 +2558,61 @@ like an *undercurrent*, never a checklist. The last two fragments
 the point.** This is a questline the player lives with, not one
 they clear.
 
+### B.4 — Tower Lore: Every Tower Is an Insurgent
+
+The existing `shared/towerDefense.ts` already defines class-locked
+towers: **Artillery Cannon** (Soldier), **Tesla Coil** (Engineer),
+**Oracle Spire** (Oracle), **Shadow Trap** (Spy), **Venom Spire**
+(Assassin), plus elemental and prestige tiers. These exist today
+with no backstory — they are purely mechanical.
+
+**Appendix B retroactively writes the backstory.** Every class
+tower is revealed — through a new short one-line inscription
+that appears when the player hovers over it in build mode — to
+be a **memorial to a specific Insurgent from Kael's resistance**.
+The player has been building a graveyard of Kael's friends and
+not knowing it.
+
+| Tower (existing) | Memorial to | One-line hover inscription (new) |
+|---|---|---|
+| **Artillery Cannon** (Soldier) | **Iron Lion** — Kael's closest ally, the resistance's hammer. Died at the second siege of Zenon. | *"He broke the line so the others could cross. We fire where he fell."* |
+| **Tesla Coil** (Engineer) | **The Engineer** (the Prince of Celebration, before he became the Warlord's vessel) — Kael's workshop partner, who taught him to turn prison tools into weapons | *"He could make a lightning storm out of a prison baton. He made three."* |
+| **Oracle Spire** (Oracle) | **The Oracle** (before the Prisoner, before the Jailer, before the White Oracle) — Kael's prophet, who warned him about the Eyes and was not believed | *"She said don't trust the quiet one. He did. She was right."* |
+| **Shadow Trap** (Spy) | **The Eyes** — placed here by Kael *after* her betrayal, as a contract on her ghost. The trap was designed to kill her specifically if she ever returned. The Collector killed her first. | *"I built this for her. It never went off. I still check it every night."* — Kael, undated note |
+| **Venom Spire** (Assassin) | **The Recruiter's first agent**, name lost to time. Poisoned herself before she could be broken. | *"We never wrote her name down. We knew the Watcher was listening."* |
+| **Artillery Cannon +** (prestige) | The full Insurgency dead, aggregated | *"For the forty-three I can still name."* |
+| **Void Rift** (elemental — canonical) | The CoNexus, the dimensional bridge the Architect dismantled and reused for the Arks | *"The same door that made this ship also made the Swarm. We cannot seal one without sealing both."* |
+| **Shadow Obelisk** (elemental — canonical) | The dead sector behind the Dreamer's Shield — the place the first wave of Potentials went and never returned from. (*Year One Calendar V2, §0*) | *"A door that opens outward and will never open back."* |
+| **Healing Pylon** (basic) | Kael's wife. Unmarked. Always unmarked. | *"There is no inscription on this tower. There is only a single flower engraved on its base. The player can click it. Nothing happens. That is the point."* |
+
+**Implementation is a single-file change:** add a `kael_memorial`
+field to each `TowerDef` in `shared/towerDefense.ts` and render the
+inscription on hover tooltip. **Zero new systems. Zero new art.**
+The player discovers these slowly during F2 and F3 of the questline
+— the inscriptions are **invisible until the player has unlocked
+at least Fragment F2**, then they silently appear one day, and
+Elara says, into the middle of whatever room the player is in:
+*"…when did those get there?"*
+
+She does not know either. Neither does the Human. Both narrators
+are equally uncertain, for the first time in the whole game. That
+tiny symmetry — both of them blind to something the player now
+sees — is the first moment in the game where the player is the
+most informed being in the room. It is a gift.
+
+**Bonus — the hidden tower the player can build after F5:**
+if the player's Apprentice stayed in F5 (and died), a new
+**unique** tower appears in the Terminus Swarm build menu one week
+later: **The Apprentice's Stand** — a single-use tower that
+sacrifices itself to stop one wave entirely. Its inscription
+reads simply *"[Apprentice's chosen name]. Who did not run."* It
+can only be built once per account. Ever.
+
 ---
 
-*[Appendix B continues — B.4 Tower Lore, B.5 Ripple Integration,
-B.6 Year One Ripple Effect, B.7 Other Systems. Drafted in chunks.]*
+*[Appendix B continues — B.5 Ripple Integration, B.6 Year One
+Ripple Effect, B.7 Other Systems, B.8 Payoff Cinematics, B.9
+Prompts. Drafted in chunks.]*
 
 
 
