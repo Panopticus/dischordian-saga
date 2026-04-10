@@ -3494,10 +3494,88 @@ ways:
    trivia and worse at dying.** His arc is authored by the
    player's review answers.
 
+### C.4 — The Inventor's Progressive Hack
+
+The Inventor's hack is the narrative spine of the season. It is
+the *only* storytelling device in the game that explicitly breaks
+the fourth wall, and it must be earned.
+
+**Rule #1:** The hack always feels like a glitch first, a
+message second, and an ally third. The player should, in the
+early episodes, **not be sure the hack is real**. Most of the
+initial incidents are plausibly explicable as normal bugs: a
+dead pixel, a buffer underrun, a mistranslated subtitle. **The
+Inventor is good at this.** They have been hacking reality
+their entire career (*canonical: "They are both a giver of
+gifts and a bringer of destruction, beholden only to the art
+of creation" — Lore Bible §1506*). They know how to hide a
+message inside a rendering error.
+
+**Rule #2:** The hack grows in exact step with the Palimpsest
+meter. If Signal is high, the Inventor gets through cleaner.
+If Noise is high, the hack is corrupted — **the Inventor may
+actually lie**, because Shadow Tongue is editing the signal
+between the Inventor's mouth and the player's ear. The player
+must learn to tell when the Inventor is being overwritten.
+
+**Rule #3:** The hack always warns about Alaric — never
+directly, always obliquely. The Inventor says things like
+*"count the rings on his pen"* and *"the card is only readable
+in ultraviolet"* and *"ask him what his middle name is, and
+then ask him the next five words he thinks."* The player must
+do the detective work. **This is the first time in the game
+the player is treated as an investigator, not a soldier.**
+
+#### The hack progression (episode by episode)
+
+| Ep | Hack intensity | Delivery mechanism | What the Inventor actually says | How Shadow Tongue fights back |
+|---|---|---|---|---|
+| **1** | 0% — None | — | (nothing yet) | — |
+| **2** | 5% — First glyph | Scoreboard glyph in the bottom-right corner flickers for 2 frames. It is a Ne-Yon engineering rune. | *(glyph only)* | Not yet aware. |
+| **3** | 10% — Ad bumper corruption | One ad during the break is the wrong ad. It is an old Ne-Yon propaganda reel from the Insurgency era that should not exist. | *"Don't trust him. Don't trust any of them. Count the rings on his pen."* | The show's producers air a bland "please stand by" card for 5 seconds. They do not acknowledge what just happened. |
+| **4** | 15% — Host stutter | The Host's audio stutters mid-sentence and the wrong mouth shape plays for half a second. | *"His card is only readable in ultraviolet. You have a UV filter in your own ship's archives. Look."* (**true hint — the canonical Archives room has a UV filter lore item**) | A Vesse, Vesse & Mol'Garath legal notice scrolls across the bottom of the screen claiming the "stutter" was an editorial choice. |
+| **5** | 25% — Subtitle injection | During Round 1, a question appears on screen. The subtitle underneath the question briefly says something different from the audio. | *"Ask him what his middle name is. Then ask him the next five words he thinks. He cannot help himself. He has to answer."* | The subtitle is scrubbed on replay. Players watching a VOD cannot see it. **Only live viewers.** |
+| **6** | 35% — Second voice | During the Survivor: Mechronis episode, one of the professors' lectures has a *second voice* underneath it, speaking in parallel. | *"They are teaching you to hate the quiet ones. They are teaching Alaric's grandchildren to grade you. Your Apprentice is being graded too."* | Professor Aoki (canonical §5 of main proposal, from mechronisProfessors.ts) suddenly turns to the camera and says *"Who is talking in my classroom?"* — a player-visible canonical NPC is made aware of the hack. The Inventor shuts up for five seconds. |
+| **7** | 40% — Objection override | During an Alaric Objection, the Inventor cuts in and **completes the question honestly** before Alaric can reframe it. | *"He is going to rephrase this as a question about property law. The real question is about whether a being can be owned. The answer is no. Say no."* | Alaric does not object to the override. He simply smiles — a very small, very patient smile — and says *"Noted."* Shadow Tongue is *letting the Inventor win this one.* The Inventor knows. The player sees the Inventor's rune glitch with worry. |
+| **8** | 50% — House bug | During the Big Brother house, a camera angle that doesn't exist in the house's camera system begins broadcasting. It is from *inside a wall*. It shows the legal filings Alaric has been signing off-screen. | *"Every person he fires at the Apprentice episode is being conscripted. Read the fine print. The fine print is in Shadow Tongue. I am translating in real time. You will see a typo. The typo is me."* | Shadow Tongue edits the fine print on the player's screen after the fact. The typo is fixed on reload. A screenshot saved before reload will still show it. **The first time the game asks the player to screenshot something.** |
+| **9** | 55% — Gauntlet names | During the Takeshi's Castle episode, the names of the dead clones on the casualty crawl are **wrong**. The Inventor has replaced them with **the names of Kael's original Insurgency crew** (see Appendix B §B.7.8 phantom crew list). | *"These are the ones who died on the ship before you woke up. They are still here. You are building on top of them. Do not forget their names. The firm wants them forgotten."* | Shadow Tongue overwrites the casualty crawl on re-broadcast. Live viewers got the Insurgency names. VOD viewers get the clone numbers. Everyone on the server chat is fighting about whether the names were real. |
+| **10** | 70% — Debate parallel | During the Thaloria debate, the Inventor has taken over the **teleprompter**. General Alaric now sees a different set of arguments than the audience sees. He answers the ones on his prompter. The player sees both. | *"Watch him try to answer a question he is not being asked. Watch the pauses. The pauses are where the lie is."* | Shadow Tongue fires the hidden prompter system and Alaric speaks extemporaneously for the first time in the series. He is very good at it. The Inventor goes silent for a beat — the bird has learned to fly without the cage. |
+| **11** | 80% — The cut | Nathan Fielder episode. The Inventor takes over the *editing booth*. Every re-edited soundbite is restored to its original context. **The player sees how each contestant's words were being twisted.** Including the player's own words from earlier episodes. | *"I have been the only honest editor in this building for six weeks. I am very tired. I want you to know I did not enjoy the Apprentice episode either."* | Shadow Tongue closes the editing booth. The Inventor moves to the control room. The fight is now explicit and the show is running on emergency broadcast. |
+| **12** | 95% — Full takeover | Top Chef finale. The Inventor **takes the Host's microphone** in the last 90 seconds. The Host stops talking mid-sentence. A Ne-Yon voice replaces them. The Inventor speaks directly to the player for the first time, by the player's chosen name. | *"I have to go soon. The firm is about to cut the line. Listen carefully. [SAYS FIVE THINGS THAT MATTER MOST — SEE §C.6]. The man in the grey suit is a demon from the Hierarchy of the Damned. The show's Host is not the Game Master. The show's Host has been the Meme the entire time. He pretended to defect to the Insurgency once before and he has done it again, in costume, on your television. The costume is the Game Master. The man underneath is the thing the White Oracle never actually killed. You have been speaking with the Meme for twelve episodes. Do you understand? Count the rings."* | **Shadow Tongue severs the connection at exactly the 90-second mark.** The line goes dead. The Inventor is gone. Alaric stands. He walks off the set. He takes the envelope with him. The show's credits roll over an empty stage. |
+| **13** | — | — | The Inventor is not heard from again this season. | — |
+
+#### Why the hack works narratively
+
+The Inventor's hack is the first sustained fourth-wall break in
+the Dischordian Saga. It is earned because:
+
+1. **It targets Shadow Tongue's exact weakness.** Shadow Tongue
+   corrupts communication. The Inventor is a communication
+   medium in the hands of someone smarter. Every hack is a
+   counterpunch in the same weight class.
+2. **It requires the player to pay attention.** Ignoring the
+   hack raises Noise. Catching the hack raises Signal. The
+   Palimpsest meter is *the hack's scoreboard*.
+3. **It ends with a severed line.** The player does not get a
+   clean victory. The Inventor is cut off mid-sentence. **This
+   is the first time in the game where an ally tries to save
+   the player and is silenced on-camera.** It prepares the
+   player emotionally for every subsequent loss, including
+   Kael's tunnel scene in Appendix B and Darren's sacrifice in
+   §C.5.
+4. **It foreshadows the White Oracle reveal without spoiling
+   it.** The Inventor tells the player the Meme has pretended
+   to be the Game Master. The player does not yet know the
+   Meme has also pretended to be the White Oracle (canonical
+   Lore Bible §255-258). When the White Oracle reveal happens
+   in a later act, the player will think: *oh. The Inventor
+   warned me this was a pattern. I just didn't listen past the
+   Meme.*
+
 ---
 
-*[Appendix C continues — C.4 Inventor Hack, C.5 Darren, C.6 Meme
-Reveal, C.7 Integration, C.8 Prompts.]*
+*[Appendix C continues — C.5 Darren, C.6 Meme Reveal, C.7
+Integration, C.8 Prompts.]*
 
 ---
 
