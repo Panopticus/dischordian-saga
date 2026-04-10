@@ -2659,10 +2659,71 @@ when both narrators realize they have been speaking around the same
 man the entire time. The questline is not a side quest. **It is the
 game's central proof of its own thesis.**
 
+### B.6 — Year One Events Calendar: The Ripple Effect
+
+The existing `docs/design/YEAR_ONE_EVENTS_CALENDAR_V2.md` is the
+governance spine of the whole living universe: weekly votes,
+monthly community votes, daily micro-votes, seasonal events,
+architect-triggered events, and the Antiquarian's Chronicle
+inscribing every community decision. Per Section 1.6, the calendar
+already operates on a **"true branching consequences"** model —
+"choices must HURT and choices must HEAL" — with scars that
+persist visibly in rooms and NPC dialog.
+
+**Appendix B fits inside the calendar as a year-long sub-arc** that
+runs underneath every other Year One event without replacing any
+of them. It is not a month. It is an *undercurrent across all
+twelve months*. Here is how the ripple effect propagates through
+the existing calendar:
+
+**Monthly cadence (community-shared, not per-player):**
+
+| Month | Community-level Kael state | Antiquarian Chronicle entry pulse | Calendar-level effect |
+|---|---|---|---|
+| **Month 1** — The Cold Ship | No Fragments unlocked. The Source is just an enemy. | *"There is a man in the static. I will not name him yet."* | None. Pure clean-up phase. |
+| **Month 2** — The Voice | Community unlocks F1 (first player to hit Wave 10 triggers a global transmission) | *"The first mirror has broken. The Second Coming has seen a face I thought long forgotten."* | F1 transmission fires as a one-time global event. Every online player sees it. Global Shadow Tongue corruption tick +1. |
+| **Month 3** — The Tunnels | F2 + F3 accessible. Community begins running Trade Empire into `panopticon_ruins`. | *"The ship has begun to dream of its first crime. Some of you have noticed the dreams."* | Weekly micro-vote: **"Should the Ark's deep systems be sealed?"** — the Engineer says yes, Elara says yes, the Human says *no*. The first vote the two narrators publicly disagree on. |
+| **Month 4** — The Abandonment | F4 accessible via Substrate Dungeon runs. F5 begins unlocking as Apprentice bonds reach threshold. | *"He was not alone in there. Someone ran. The Second Coming will understand this before I am ready to write it down."* | Monthly community vote: **"Do we tell the Human what we have learned?"** — options: tell him everything / tell him nothing / let Elara decide. Every option has a permanent scar. |
+| **Month 5** — The Prisoner's Face | F5 playable. The Apprentice Betrayal event fires for any player who meets the conditions. The *community* learns which way the majority of Apprentices chose. | Public pulse statistic on the Governance Hub: **"Of the Second Coming's apprentices, X% stayed. Y% ran."** The number is broadcast. Both numbers hurt. | Calendar event: **"The Graduate Legion Expands"** — any player whose Apprentice stayed-and-died gets a letter from the Graduate Legion (`shared/legionLetters.ts`) thanking them. The letter is signed by an Apprentice who ran, a generation earlier, and regrets it. |
+| **Month 6** — The Midyear Pinch Point | F6 accessible. The Recruiter's Pamphlet is unlockable. This coincides with the existing **seasonal event** at the Act 2 turn. | *"Today one of you will learn his real name. I cannot tell you if you are ready. No one ever is."* | Seasonal event tentpole: a simultaneous **Light/Dark meter spike** tied to whether the majority of the community has unlocked F6. If >50% have, global Light Energy surges. If <25%, global Dark Energy surges. The energy is real — it modifies all Terminus Swarm drops for the next week. |
+| **Months 7–9** — The Rumor Phase | Community is split. Some players know everything, some nothing. Rumors spread through the chat and the lore channels. | *"I have watched this kind of silence before. It is the silence of a thing that has not yet chosen what it remembers."* | Shadow Tongue begins its grand-edit attempt on the Loredex. Community must **vote weekly** to preserve or sacrifice individual Kael memories. Each vote costs resources. Each vote that loses is permanent. |
+| **Month 10** — The Breaking Point | Both narrators have spoken Kael's name. Community Breaking Point fires. | *"The two voices in your walls have finally said the same name. I had given up hope they ever would."* | Canonical Breaking Point event (`shared/breakingPoint.ts`) fires *early* for any player who has completed the full questline. Kael appears as a **third voice** in the moment. His line is written but withheld here — see §B.8. |
+| **Month 11** — The Abandoned Tower | The "Apprentice's Stand" unique tower is now live for anyone who earned it. | *"I have been writing this entry for three years. I did not know I was."* | No new vote. A month of grief. The game is quieter than usual on purpose. |
+| **Month 12** — The Recruiter's Pamphlet (Public) | The full text of Kael's pamphlet is published as a Chronicle addendum, signed with his old name, viewable **once per account**. | *"Here is what he wrote before any of it. Read it carefully. You will not see it again."* | Year One closes. The dead sector behind the Dreamer's Shield stays dark — the Kael questline does not explain what happened there. That is for Year Two. |
+
+**Ripple into existing calendar features that are already built:**
+
+- **Daily micro-votes** — for the entire questline, one daily
+  micro-vote slot is reserved for Kael-adjacent questions
+  (*"Should today's Trade Empire run go through the Kael
+  Corridor?"*, *"Should the comm logs be decrypted tonight?"*).
+  These are low-stakes but constant. They keep the undercurrent
+  always on-screen.
+- **Weekly votes** — exactly one weekly vote per month references
+  the questline directly, phrased so new players can still vote
+  without having unlocked it. (*"Should the Ark's old navigation
+  files be preserved or overwritten?"* — veterans understand this
+  means Kael's theft route.)
+- **Architect-triggered events** (Section 1.7 of Year One V2) —
+  the admin console can manually trigger any Kael ripple at any
+  time as a surprise. This is the game architect's emergency
+  lever to accelerate or delay pacing based on community mood.
+- **AI vote padding** (Section 1.3) — the AI-generated vote names
+  drawn from lore can include *Kael* himself in the padding pool
+  once F1 has been unlocked. Players will see his name casting
+  ghost votes and not know why. *That is the point.*
+
+**The scars:** if the community fails to preserve Kael's Loredex
+memories during Months 7–9 Shadow Tongue edits, the final
+Chronicle entry in Month 12 has holes in it. Whole sentences
+missing. The player reads the pamphlet with words literally
+erased. **This is the price of inattention, rendered as
+typography.**
+
 ---
 
-*[Appendix B continues — B.6 Year One Ripple Effect, B.7 Other
-Systems, B.8 Payoff Cinematics, B.9 Prompts. Drafted in chunks.]*
+*[Appendix B continues — B.7 Other Systems, B.8 Payoff Cinematics,
+B.9 Prompts. Drafted in chunks.]*
 
 
 
