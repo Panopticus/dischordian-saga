@@ -3,7 +3,7 @@ import { z } from "zod";
 import { protectedProcedure, router } from "../_core/trpc";
 import { getDb } from "../db";
 import { trackCraftAction, trackDisenchant, trackCollectionSize } from "../achievementTracker";
-import { cards, userCards, craftingLog, dreamBalance } from "../../drizzle/schema";
+import { cards, userCards, craftingLog, dreamBalance, userProgress } from "../../drizzle/schema";
 import { eq, and, sql, desc, inArray } from "drizzle-orm";
 import { fetchCitizenData, fetchPotentialNftData, resolveCraftingBonuses } from "../traitResolver";
 import { ripple } from "../services/rippleEngine";
@@ -537,23 +537,65 @@ export const craftingRouter = router({
 
   /**
    * Get player's crafting skill levels and material inventory.
-   * Stored in userProgress.gameData.craftingSkills / .materials
+   * Stored in userProgress.gameData.craftingSkills / .materials / .craftedItems.
+   *
+   * NOTE: `gameState.save` (see routers/gameState.ts) historically wrote
+   * `gameData.craftingSkills` as `Record<string, number>` (just level values),
+   * while `craftRecipe` writes the new `Record<string, {level, xp}>` shape.
+   * We detect the old format on read and migrate it in memory so existing
+   * player data survives the upgrade.
    */
   getCraftingProfile: protectedProcedure.query(async ({ ctx }) => {
-    const db = getDb();
+    const DEFAULT_SKILLS = (): Record<string, { level: number; xp: number }> => ({
+      weaponsmith: { level: 1, xp: 0 },
+      armorsmith: { level: 1, xp: 0 },
+      enchanting: { level: 1, xp: 0 },
+      alchemy: { level: 1, xp: 0 },
+      engineering: { level: 1, xp: 0 },
+    });
+
+    const db = await getDb();
+    if (!db) {
+      return {
+        skills: DEFAULT_SKILLS(),
+        materials: {} as Record<string, number>,
+        craftedItems: [] as Array<{ itemId: string; craftedAt: number }>,
+      };
+    }
+
     const row = await db.select().from(userProgress)
       .where(and(eq(userProgress.userId, ctx.user.id), eq(userProgress.franchiseId, "dischordian-saga")))
       .limit(1);
     const gameData = (row[0]?.gameData ?? {}) as Record<string, unknown>;
+
+    // Migrate skills: accept either Record<string, number> or
+    // Record<string, {level, xp}>, normalise to the new shape.
+    const skills = DEFAULT_SKILLS();
+    const rawSkills = gameData.craftingSkills;
+    if (rawSkills && typeof rawSkills === "object") {
+      for (const [skillId, value] of Object.entries(rawSkills as Record<string, unknown>)) {
+        if (typeof value === "number") {
+          skills[skillId] = { level: Math.max(1, value), xp: 0 };
+        } else if (value && typeof value === "object" && "level" in value) {
+          const v = value as { level?: unknown; xp?: unknown };
+          skills[skillId] = {
+            level: typeof v.level === "number" ? v.level : 1,
+            xp: typeof v.xp === "number" ? v.xp : 0,
+          };
+        }
+      }
+    }
+
+    // Materials may live under gameData.materials (new) or
+    // gameData.craftingMaterials (old gameState.save format).
+    const rawMaterials =
+      (gameData.materials as Record<string, number> | undefined) ??
+      (gameData.craftingMaterials as Record<string, number> | undefined) ??
+      {};
+
     return {
-      skills: (gameData.craftingSkills ?? {
-        weaponsmith: { level: 1, xp: 0 },
-        armorsmith: { level: 1, xp: 0 },
-        enchanting: { level: 1, xp: 0 },
-        alchemy: { level: 1, xp: 0 },
-        engineering: { level: 1, xp: 0 },
-      }) as Record<string, { level: number; xp: number }>,
-      materials: (gameData.materials ?? {}) as Record<string, number>,
+      skills,
+      materials: { ...rawMaterials },
       craftedItems: (gameData.craftedItems ?? []) as Array<{ itemId: string; craftedAt: number }>,
     };
   }),
@@ -561,6 +603,10 @@ export const craftingRouter = router({
   /**
    * Execute a recipe-based craft. Validates skill level, material
    * availability, Dream cost, and applies success rate with bonuses.
+   *
+   * Skills, materials, and crafted items live on
+   * userProgress.gameData.{craftingSkills, materials, craftedItems}
+   * for the dischordian-saga franchise.
    */
   craftRecipe: protectedProcedure
     .input(z.object({
@@ -575,22 +621,56 @@ export const craftingRouter = router({
       outputQuantity: z.number().default(1),
     }))
     .mutation(async ({ ctx, input }) => {
-      const db = getDb();
-      const row = await db.select().from(userProgress)
+      const db = await getDb();
+      if (!db) return { success: false, error: "Database unavailable" };
+
+      // Load or bootstrap the user_progress row for this franchise.
+      const rows = await db.select().from(userProgress)
         .where(and(eq(userProgress.userId, ctx.user.id), eq(userProgress.franchiseId, "dischordian-saga")))
         .limit(1);
-      if (!row[0]) return { success: false, error: "No progress data" };
 
-      const gameData = (row[0].gameData ?? {}) as Record<string, unknown>;
-      const skills = (gameData.craftingSkills ?? {
+      if (!rows[0]) {
+        // No progress row yet — bootstrap an empty one so crafting can proceed.
+        await db.insert(userProgress).values({
+          userId: ctx.user.id,
+          franchiseId: "dischordian-saga",
+          gameData: {},
+        });
+      }
+      const existing = rows[0];
+      const gameData = (existing?.gameData ?? {}) as Record<string, unknown>;
+
+      // Migrate skills from either Record<string, number> (old gameState.save
+      // format) or Record<string, {level, xp}> (new format).
+      const skills: Record<string, { level: number; xp: number }> = {
         weaponsmith: { level: 1, xp: 0 },
         armorsmith: { level: 1, xp: 0 },
         enchanting: { level: 1, xp: 0 },
         alchemy: { level: 1, xp: 0 },
         engineering: { level: 1, xp: 0 },
-      }) as Record<string, { level: number; xp: number }>;
-      const materials = (gameData.materials ?? {}) as Record<string, number>;
-      const craftedItems = (gameData.craftedItems ?? []) as Array<{ itemId: string; craftedAt: number }>;
+      };
+      const rawSkills = gameData.craftingSkills;
+      if (rawSkills && typeof rawSkills === "object") {
+        for (const [skillId, value] of Object.entries(rawSkills as Record<string, unknown>)) {
+          if (typeof value === "number") {
+            skills[skillId] = { level: Math.max(1, value), xp: 0 };
+          } else if (value && typeof value === "object" && "level" in value) {
+            const v = value as { level?: unknown; xp?: unknown };
+            skills[skillId] = {
+              level: typeof v.level === "number" ? v.level : 1,
+              xp: typeof v.xp === "number" ? v.xp : 0,
+            };
+          }
+        }
+      }
+
+      // Materials may live under .materials (new) or .craftingMaterials (old).
+      const rawMaterials =
+        (gameData.materials as Record<string, number> | undefined) ??
+        (gameData.craftingMaterials as Record<string, number> | undefined) ??
+        {};
+      const materials = { ...rawMaterials };
+      const craftedItems = [...((gameData.craftedItems ?? []) as Array<{ itemId: string; craftedAt: number }>)];
 
       // Validate skill level
       const playerSkillLevel = skills[input.skill]?.level ?? 1;
@@ -609,17 +689,24 @@ export const craftingRouter = router({
       // Validate Dream balance
       const dreamRow = await db.select().from(dreamBalance)
         .where(eq(dreamBalance.userId, ctx.user.id)).limit(1);
-      const currentDream = dreamRow[0]?.balance ?? 0;
+      const currentDream = dreamRow[0]?.dreamTokens ?? 0;
       if (currentDream < input.dreamCost) {
         return { success: false, error: `Need ${input.dreamCost} Dream, have ${currentDream}` };
       }
 
-      // Apply trait bonuses to success rate
+      // Apply citizen trait bonuses to success rate.
+      // resolveCraftingBonuses takes (citizen, nft) objects, not a userId.
       let successRate = input.baseSuccessRate;
       try {
-        const bonuses = await resolveCraftingBonuses(ctx.user.id);
+        const [citizen, nft] = await Promise.all([
+          fetchCitizenData(ctx.user.id),
+          fetchPotentialNftData(ctx.user.id),
+        ]);
+        const bonuses = resolveCraftingBonuses(citizen, nft);
         successRate = Math.min(1, successRate + (bonuses.successRateBonus ?? 0));
-      } catch { /* no citizen data — use base rate */ }
+      } catch (e) {
+        logger.error("[Crafting] Trait bonus resolve failed:", e);
+      }
 
       // Apply Living Universe crafting multiplier
       const fxRecipe = await getConsequences();
@@ -632,12 +719,10 @@ export const craftingRouter = router({
       }
 
       // Deduct Dream
-      if (input.dreamCost > 0) {
-        if (dreamRow[0]) {
-          await db.update(dreamBalance)
-            .set({ balance: currentDream - input.dreamCost })
-            .where(eq(dreamBalance.userId, ctx.user.id));
-        }
+      if (input.dreamCost > 0 && dreamRow[0]) {
+        await db.update(dreamBalance)
+          .set({ dreamTokens: currentDream - input.dreamCost })
+          .where(eq(dreamBalance.userId, ctx.user.id));
       }
 
       // Roll for success
@@ -646,7 +731,7 @@ export const craftingRouter = router({
 
       // Award XP regardless of success (reduced on failure)
       const xpAwarded = succeeded ? input.xpGain : Math.floor(input.xpGain * 0.3);
-      const skillData = skills[input.skill] ?? { level: 1, xp: 0 };
+      const skillData = { ...(skills[input.skill] ?? { level: 1, xp: 0 }) };
       skillData.xp += xpAwarded;
 
       // Level up check (XP thresholds: 0, 50, 120, 220, 360, 550, 800, 1100, 1500, 2000)
@@ -698,20 +783,32 @@ export const craftingRouter = router({
       materials: z.record(z.string(), z.number()),
     }))
     .mutation(async ({ ctx, input }) => {
-      const db = getDb();
-      const row = await db.select().from(userProgress)
+      const db = await getDb();
+      if (!db) return { success: false, materials: {} };
+
+      const rows = await db.select().from(userProgress)
         .where(and(eq(userProgress.userId, ctx.user.id), eq(userProgress.franchiseId, "dischordian-saga")))
         .limit(1);
-      const gameData = (row[0]?.gameData ?? {}) as Record<string, unknown>;
-      const materials = (gameData.materials ?? {}) as Record<string, number>;
+
+      const gameData = (rows[0]?.gameData ?? {}) as Record<string, unknown>;
+      const materials = { ...((gameData.materials ?? {}) as Record<string, number>) };
 
       for (const [matId, amount] of Object.entries(input.materials)) {
         materials[matId] = (materials[matId] ?? 0) + amount;
       }
 
-      await db.update(userProgress)
-        .set({ gameData: { ...gameData, materials } })
-        .where(and(eq(userProgress.userId, ctx.user.id), eq(userProgress.franchiseId, "dischordian-saga")));
+      if (rows[0]) {
+        await db.update(userProgress)
+          .set({ gameData: { ...gameData, materials } })
+          .where(and(eq(userProgress.userId, ctx.user.id), eq(userProgress.franchiseId, "dischordian-saga")));
+      } else {
+        // Bootstrap a progress row if the player has none yet.
+        await db.insert(userProgress).values({
+          userId: ctx.user.id,
+          franchiseId: "dischordian-saga",
+          gameData: { materials },
+        });
+      }
 
       return { success: true, materials };
     }),
