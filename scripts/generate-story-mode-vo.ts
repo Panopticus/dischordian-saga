@@ -147,10 +147,23 @@ async function preflightS3(): Promise<void> {
     await s3.send(new HeadBucketCommand({ Bucket: BUCKET }));
   } catch (err: any) {
     console.error(`\nERROR: S3 preflight failed for bucket "${BUCKET}" in region "${REGION}".`);
-    console.error(`  ${err.name}: ${err.message}`);
-    console.error(`\nCheck that AWS_ACCESS_KEY_ID / AWS_SECRET_ACCESS_KEY / AWS_REGION / S3_BUCKET are set,`);
-    console.error(`and that the IAM user has s3:PutObject + s3:ListBucket on "${BUCKET}".`);
-    console.error(`Aborting BEFORE any ElevenLabs TTS calls are made (protects your credit balance).`);
+    console.error(`  name:         ${err.name || "(none)"}`);
+    console.error(`  message:      ${err.message || "(none)"}`);
+    console.error(`  Code:         ${err.Code || err.code || "(none)"}`);
+    console.error(`  $metadata:    ${JSON.stringify(err.$metadata || {}, null, 2)}`);
+    if (err.$response?.statusCode) {
+      console.error(`  HTTP status:  ${err.$response.statusCode}`);
+    }
+    if (err.$response?.headers?.["x-amz-bucket-region"]) {
+      console.error(`  Actual bucket region (from AWS): ${err.$response.headers["x-amz-bucket-region"]}`);
+      console.error(`  ^ Your AWS_REGION env var says "${REGION}". Set AWS_REGION to the value above and retry.`);
+    }
+    console.error(`\nCommon fixes:`);
+    console.error(`  • Wrong region?           Set AWS_REGION to the bucket's actual region.`);
+    console.error(`  • Wrong credentials?      Double-check AWS_ACCESS_KEY_ID / AWS_SECRET_ACCESS_KEY.`);
+    console.error(`  • Bucket does not exist?  Verify the bucket "${BUCKET}" in the AWS S3 console.`);
+    console.error(`  • IAM permission denied?  Ensure the user has s3:ListBucket + s3:PutObject on "${BUCKET}".`);
+    console.error(`\nAborting BEFORE any ElevenLabs TTS calls are made (protects your credit balance).`);
     process.exit(1);
   }
 }
