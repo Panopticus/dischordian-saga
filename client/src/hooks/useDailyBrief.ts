@@ -28,11 +28,16 @@ import {
   type EventType,
   type RoomVisualState,
 } from "@/game/livingArk";
+import { useGame } from "@/contexts/GameContext";
 
 /* ─── DAILY BRIEF HOOK ─── */
 
 export function useDailyBrief() {
   const utils = trpc.useUtils();
+  // GameContext holds client-side state that server grants can't touch:
+  // NPC trust, narrative flags, inventory. processArkEvent's result is
+  // forwarded into these on event completion.
+  const game = useGame();
 
   // Fetch today's brief
   const { data: todayBrief, isLoading: briefLoading } = trpc.dailyBrief.getToday.useQuery(
@@ -46,10 +51,16 @@ export function useDailyBrief() {
     { staleTime: 10 * 60 * 1000 },
   );
 
-  // Complete event mutation
+  // Complete event mutation — server applies dream/xp/materials grants,
+  // returns the full ArkEventResult so we can fan out client-side effects.
   const completeMutation = trpc.dailyBrief.completeEvent.useMutation({
     onSuccess: (result) => {
-      utils.dailyBrief.getToday.invalidate();
+      if (!result.success) return;
+      void utils.dailyBrief.getToday.invalidate();
+      // Server grants may have touched dream + crafting profile + citizen xp.
+      void utils.citizen?.getDreamBalance.invalidate?.();
+      void utils.citizen?.getCharacter.invalidate?.();
+      void utils.crafting?.getCraftingProfile.invalidate?.();
 
       // Show cross-room alerts
       if (result.crossRoomAlerts && result.crossRoomAlerts.length > 0) {
@@ -59,6 +70,56 @@ export function useDailyBrief() {
             duration: 5000,
           });
         }
+      }
+
+      // Apply the rich ArkEventResult from processArkEvent.
+      const ark = result.arkResult;
+      if (!ark) return;
+
+      // NPC trust changes — stored client-side in GameContext.
+      for (const tc of ark.trustChanges) {
+        game.adjustNpcTrust?.(tc.npcId, tc.delta);
+      }
+
+      // Narrative flags — ditto.
+      for (const flag of ark.flagsToSet) {
+        game.setNarrativeFlag?.(flag, true);
+      }
+
+      // Main event toast.
+      const t = ark.toast;
+      if (t) {
+        const showToast =
+          t.type === "success" ? toast.success :
+          t.type === "warning" ? toast.warning :
+          toast.info;
+        showToast(t.title, { description: t.description });
+      }
+
+      // Resource summary toast (so players see the concrete reward).
+      const r = ark.resources;
+      const resourceParts: string[] = [];
+      if (r.dream) resourceParts.push(`+${r.dream} Dream`);
+      if (r.xp) resourceParts.push(`+${r.xp} XP`);
+      if (r.salvage) resourceParts.push(`+${r.salvage} Salvage`);
+      if (ark.materials && ark.materials.length > 0) {
+        resourceParts.push(...ark.materials.map(m => `+${m.amount} ${m.id.replace(/_/g, " ")}`));
+      }
+      if (resourceParts.length > 0) {
+        toast.success("Rewards", { description: resourceParts.join(" · ") });
+      }
+
+      // Equipment drop — just announce; the equipment inventory table
+      // is a separate system that doesn't exist server-side yet.
+      if (ark.equipmentDrop) {
+        toast.success("Equipment drop", {
+          description: `Recovered: ${ark.equipmentDrop.replace(/_/g, " ")}`,
+        });
+      }
+
+      // Game hint — suggest a destination to the player.
+      if (ark.gameHint) {
+        toast.info(ark.gameHint.label, { duration: 6000 });
       }
     },
   });
