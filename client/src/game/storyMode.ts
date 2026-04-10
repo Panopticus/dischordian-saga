@@ -13,6 +13,12 @@
    TWO PLAYTHROUGHS MINIMUM to unlock all fighters.
    ═══════════════════════════════════════════════════════ */
 
+// Re-export the chapter data so tests & validators can import a
+// single ALL_CHAPTERS symbol from "@/game/storyMode" without having
+// to know whether the data lives in storyMode.ts or
+// storyModeChapters.ts.
+export { STORY_CHAPTERS as ALL_CHAPTERS } from "./storyModeChapters";
+
 // ─── DIALOG WHEEL SYSTEM ───────────────────────────────
 
 export type ToneAxis = "truth" | "defiance" | "empathy" | "acceptance";

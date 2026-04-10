@@ -585,13 +585,9 @@ export const SPACES_IN_BETWEEN_TRANSMISSIONS: Transmission[] = [
   },
 ];
 
-export const ALL_TRANSMISSIONS: Transmission[] = [
-  ...SPACES_IN_BETWEEN_TRANSMISSIONS,
-  ...EPOCH_0_TRANSMISSIONS,
-  ...EPOCH_1_TRANSMISSIONS,
-  ...EPOCH_2_TRANSMISSIONS,
-];
-
+// ALL_TRANSMISSIONS is declared after EPOCH_2_TRANSMISSIONS (end of file)
+// to avoid a temporal dead zone (TDZ) error — the Epoch 2 array is
+// declared below on line ~662. See the bottom of this file.
 export function getTransmissionsByEpoch(epoch: EpochId): Transmission[] {
   return ALL_TRANSMISSIONS.filter(t => t.epoch === epoch);
 }
@@ -852,4 +848,16 @@ export const EPOCH_2_TRANSMISSIONS: Transmission[] = [
     synopsis: "They chose war. War doesn't end. A sentient nanobot plague devours reality. When one reality falls, another rises. The age of heroes begins.",
     relatedLoredexEntries: ["thought_virus","new_babylon","fall_of_reality","potentials"],
   },
+];
+
+/* ─── ALL TRANSMISSIONS REGISTRY ─── */
+/** Moved to the end of the file to avoid a temporal dead zone on
+ *  EPOCH_2_TRANSMISSIONS, which is declared below the old location
+ *  of this constant. All consumers import ALL_TRANSMISSIONS by name
+ *  so declaration position does not affect them. */
+export const ALL_TRANSMISSIONS: Transmission[] = [
+  ...SPACES_IN_BETWEEN_TRANSMISSIONS,
+  ...EPOCH_0_TRANSMISSIONS,
+  ...EPOCH_1_TRANSMISSIONS,
+  ...EPOCH_2_TRANSMISSIONS,
 ];
