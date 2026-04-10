@@ -117,3 +117,7 @@ temp/
 downloads/*.tar.gz
 downloads/*.zip
 package-lock.json
+
+# Full-source dumps (used for LLM feeding) — never commit, too large
+dischordian-saga-full-source.txt
+*-full-source.txt
