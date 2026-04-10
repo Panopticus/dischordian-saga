@@ -8,6 +8,7 @@ import { eq, and, sql } from "drizzle-orm";
 import { fetchCitizenData, fetchPotentialNftData, resolveQuestBonuses } from "../traitResolver";
 import { ripple } from "../services/rippleEngine";
 import { getConsequences, getEventDailyQuests } from "../services/universeConsequences";
+import { applyPrestigeBonuses } from "../services/prestigeMultiplier";
 
 /* ═══════════════════════════════════════════════════════
    QUEST TEMPLATES — Daily, Weekly, Epoch (Season)
@@ -295,9 +296,21 @@ export const dailyQuestsRouter = router({
       const questTb = resolveQuestBonuses(questCitizen, questNft);
 
       // Apply trait multipliers to quest rewards
-      const adjustedDream = Math.round(record[0].rewardDream * questTb.rewardMultiplier);
-      const adjustedXp = Math.round(record[0].rewardXp * questTb.rewardMultiplier + questTb.completionXpBonus);
-      const adjustedCredits = Math.round(record[0].rewardCredits * questTb.rewardMultiplier);
+      const traitDream = Math.round(record[0].rewardDream * questTb.rewardMultiplier);
+      const traitXp = Math.round(record[0].rewardXp * questTb.rewardMultiplier + questTb.completionXpBonus);
+      const traitCredits = Math.round(record[0].rewardCredits * questTb.rewardMultiplier);
+
+      // Apply prestige multipliers on top of trait multipliers. Non-prestiged
+      // players get the same numbers back and `tier: 0`.
+      const prestige = await applyPrestigeBonuses(ctx.user.id, {
+        xp: traitXp,
+        resource: traitDream,
+      });
+      const adjustedDream = prestige.resource;
+      const adjustedXp = prestige.xp;
+      // Credits use the resource multiplier too, since "resource" is the
+      // generic non-XP scalar in the shared prestige spec.
+      const adjustedCredits = Math.round(traitCredits * prestige.multipliers.resource);
 
       // Grant Dream reward (with trait bonus)
       if (adjustedDream > 0) {
@@ -343,6 +356,11 @@ export const dailyQuestsRouter = router({
           battlePassXpMultiplier: questTb.battlePassXpMultiplier,
           completionXpBonus: questTb.completionXpBonus,
         },
+        prestigeBonus: prestige.tier > 0 ? {
+          tier: prestige.tier,
+          xpMultiplier: prestige.multipliers.xp,
+          resourceMultiplier: prestige.multipliers.resource,
+        } : null,
         classXpResult,
       };
     }),

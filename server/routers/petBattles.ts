@@ -14,6 +14,7 @@ import { companionCombat } from "../services/companionCombat";
 import { petEvolution } from "../services/petEvolution";
 import { pressureService } from "../services/pressureService";
 import { battlePassXp } from "../services/battlePassXp";
+import { applyPrestigeBonuses } from "../services/prestigeMultiplier";
 import { checkFeatureFlag } from "../middleware/featureFlag";
 
 export const petBattlesRouter = router({
@@ -169,7 +170,12 @@ export const petBattlesRouter = router({
       const companionBonus = await companionCombat.getCombatBonus(ctx.user.id);
       // Companion bond amplifies pet battle XP reward
       const companionXpBoost = companionBonus.attack > 0 ? Math.round(xpReward * companionBonus.attack / 100) : 0;
-      const totalXp = xpReward + companionXpBoost;
+      const preMultXp = xpReward + companionXpBoost;
+
+      // Apply prestige multipliers on top of the companion-boosted XP.
+      // Non-prestiged players get the same number back (tier: 0).
+      const prestige = await applyPrestigeBonuses(ctx.user.id, { xp: preMultXp });
+      const totalXp = prestige.xp;
 
       // Grant XP + Dream tokens to player progress
       await db
@@ -201,6 +207,11 @@ export const petBattlesRouter = router({
         companionBonus: companionBonus.attack > 0 ? {
           description: companionCombat.formatBreakdown(companionBonus),
           xpBoost: companionXpBoost,
+        } : null,
+        prestigeBonus: prestige.tier > 0 ? {
+          tier: prestige.tier,
+          xpMultiplier: prestige.multipliers.xp,
+          preMultXp,
         } : null,
         evolution: evoResult.evolved ? { newStage: evoResult.newStage } : null,
       };
