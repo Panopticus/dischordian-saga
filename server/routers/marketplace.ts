@@ -3,6 +3,56 @@
    Player-to-player economy: listings, buy orders, auctions,
    price history, and currency exchange.
    ═══════════════════════════════════════════════════════ */
+
+/**
+ * Task 5.2 — Morality alignment price modifier.
+ *
+ * Humanity-aligned players pay less for organic/natural/compassion
+ * items and more for tech/machine items. Machine-aligned players get
+ * the inverse. Maxes out at ±15% at score ±100, scales linearly.
+ *
+ * The modifier is applied at purchase time in `buyListing` AND at
+ * display time in `listListings` so the price shown to the player is
+ * the price they'll actually pay.
+ *
+ * Returns 1.0 (no change) for neutral alignment (-20 … +20) or for
+ * items that aren't tagged as tech or organic.
+ */
+function computeMoralityPriceModifier(
+  moralityScore: number,
+  category: string | null | undefined,
+  itemName: string | null | undefined,
+): number {
+  if (!moralityScore) return 1;
+  const cat = (category ?? "").toLowerCase();
+  const name = (itemName ?? "").toLowerCase();
+  const techTerms = ["tech", "machine", "circuit", "neural", "data", "virus", "synthetic", "mech"];
+  const organicTerms = ["organic", "natural", "soul", "dream", "compassion", "healing", "gift", "life"];
+  const isTech = techTerms.some((t) => cat.includes(t) || name.includes(t));
+  const isOrganic = organicTerms.some((t) => cat.includes(t) || name.includes(t));
+  if (!isTech && !isOrganic) return 1;
+  // itemAlignmentFactor: +1 when the item matches the player's alignment
+  // (discount), -1 when opposed (surcharge), 0 when the item is neutral.
+  let itemAlignmentFactor = 0;
+  if (moralityScore > 0 && isOrganic) itemAlignmentFactor = 1;
+  if (moralityScore > 0 && isTech) itemAlignmentFactor = -1;
+  if (moralityScore < 0 && isTech) itemAlignmentFactor = 1;
+  if (moralityScore < 0 && isOrganic) itemAlignmentFactor = -1;
+  if (itemAlignmentFactor === 0) return 1;
+  // Use the *magnitude* of morality, not the signed value. Otherwise a
+  // machine-aligned player (score = -100) doubles the sign when we
+  // multiply by itemAlignmentFactor, producing a surcharge where we
+  // wanted a discount. This was a pre-existing bug in `buyListing`'s
+  // inline implementation — Task 5.2 caught it because we now run the
+  // same helper at both display and purchase time.
+  const intensity = Math.abs(moralityScore) / 100; // 0 … 1
+  const moralityModifier = intensity * 0.15 * itemAlignmentFactor;
+  // Return the multiplier players will actually be charged:
+  //   factor = +1 (discount)  →  multiplier 1 - 0.15 = 0.85
+  //   factor = -1 (surcharge) →  multiplier 1 + 0.15 = 1.15
+  return 1 - moralityModifier;
+}
+
 import { z } from "zod";
 import { logger } from "../logger";
 import { eq, and, or, desc, asc, sql, gte, lte, like, inArray } from "drizzle-orm";
@@ -191,30 +241,19 @@ export const marketplaceRouter = router({
         totalPrice = Math.max(1, Math.round(totalPrice * categoryMult));
       }
 
-      // Apply morality price modifier — player alignment affects what they pay
-      // Humanity-aligned: organic/natural items cheaper, tech items more expensive
-      // Machine-aligned: tech items cheaper, organic/natural items more expensive
+      // Apply morality price modifier — player alignment affects what they pay.
+      // Uses the shared `computeMoralityPriceModifier` helper so the same
+      // math runs at display time in `listListings` (Task 5.2).
       const [buyerSheet] = await db.select({ moralityScore: characterSheets.moralityScore })
         .from(characterSheets).where(eq(characterSheets.userId, ctx.user.id)).limit(1);
       const moralityScore = buyerSheet?.moralityScore ?? 0;
-      let moralityModifier = 0;
-      if (moralityScore !== 0) {
-        const category = (listing[0].category ?? listing[0].itemType ?? "").toLowerCase();
-        // Determine item alignment: tech/machine items vs organic/natural items
-        const techTerms = ["tech", "machine", "circuit", "neural", "data", "virus", "synthetic", "mech"];
-        const organicTerms = ["organic", "natural", "soul", "dream", "compassion", "healing", "gift", "life"];
-        const isTech = techTerms.some(t => category.includes(t) || (listing[0].itemName ?? "").toLowerCase().includes(t));
-        const isOrganic = organicTerms.some(t => category.includes(t) || (listing[0].itemName ?? "").toLowerCase().includes(t));
-        // itemAlignmentFactor: +1 for items that match your alignment (cheaper), -1 for opposed (more expensive)
-        let itemAlignmentFactor = 0;
-        if (moralityScore > 0 && isOrganic) itemAlignmentFactor = 1;   // Humanity player, organic item → cheaper
-        if (moralityScore > 0 && isTech) itemAlignmentFactor = -1;     // Humanity player, tech item → more expensive
-        if (moralityScore < 0 && isTech) itemAlignmentFactor = 1;      // Machine player, tech item → cheaper
-        if (moralityScore < 0 && isOrganic) itemAlignmentFactor = -1;  // Machine player, organic item → more expensive
-        // Max 15% modifier at score ±100
-        moralityModifier = (moralityScore / 100) * 0.15 * itemAlignmentFactor;
-        // Negative moralityModifier = discount, positive = surcharge (inverted because alignment)
-        totalPrice = Math.max(1, Math.round(totalPrice * (1 - moralityModifier)));
+      const moralityPriceMult = computeMoralityPriceModifier(
+        moralityScore,
+        listing[0].category ?? listing[0].itemType,
+        listing[0].itemName,
+      );
+      if (moralityPriceMult !== 1) {
+        totalPrice = Math.max(1, Math.round(totalPrice * moralityPriceMult));
       }
 
       // Apply seller trait bonuses — reduced marketplace fees
@@ -404,7 +443,41 @@ export const marketplaceRouter = router({
       const countResult = await db.select({ count: sql<number>`count(*)` }).from(marketListings)
         .where(and(...conditions));
 
-      return { listings, total: countResult[0]?.count || 0, page: input.page };
+      // Task 5.2 — Apply the buyer's morality price modifier to every
+      // listing before returning so the displayed price matches the
+      // price `buyListing` will actually charge. We surface the
+      // original `listPriceDream`/`listPriceCredits` alongside the
+      // adjusted values so the client can render "Discount: 10%" or
+      // "Premium: 10%" badges next to the marketplace row.
+      const [buyerSheet] = await db.select({ moralityScore: characterSheets.moralityScore })
+        .from(characterSheets).where(eq(characterSheets.userId, ctx.user.id)).limit(1);
+      const buyerMorality = buyerSheet?.moralityScore ?? 0;
+
+      const adjusted = listings.map((listing) => {
+        const mult = computeMoralityPriceModifier(
+          buyerMorality,
+          listing.category ?? listing.itemType,
+          listing.itemName,
+        );
+        if (mult === 1) {
+          return {
+            ...listing,
+            listPriceDream: listing.priceDream,
+            listPriceCredits: listing.priceCredits,
+            moralityPriceMult: 1,
+          };
+        }
+        return {
+          ...listing,
+          listPriceDream: listing.priceDream,
+          listPriceCredits: listing.priceCredits,
+          priceDream: Math.max(1, Math.round((listing.priceDream ?? 0) * mult)),
+          priceCredits: Math.max(0, Math.round((listing.priceCredits ?? 0) * mult)),
+          moralityPriceMult: mult,
+        };
+      });
+
+      return { listings: adjusted, total: countResult[0]?.count || 0, page: input.page };
     }),
 
   /** Get my active listings */
