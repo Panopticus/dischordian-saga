@@ -101,6 +101,107 @@ export const TRANSMISSION_LOREDEX_UNLOCKS: TransmissionLoredexUnlock[] = [
     entityIds: ["entity_5"], // The Meme
     discoveryLabel: "Epoch 1 complete — The Meme remembers",
   },
+
+  // ─── EPOCH ZERO (Deep Archive) UNLOCKS ───
+
+  {
+    transmissionId: "ep0-1", // The Prison Planet
+    entityIds: ["entity_118"], // The Breaking Point concept
+    discoveryLabel: "A fractured signal — two voices, one choice",
+  },
+  {
+    transmissionId: "ep0-4", // Iron Lion's Last Stand
+    entityIds: ["entity_129", "entity_130"], // Forge World, Shadow Realm
+    discoveryLabel: "The war fronts revealed — forge and shadow",
+  },
+  {
+    transmissionId: "ep0-8", // Late Night with the Meme
+    entityIds: ["entity_106"], // Malkia Ukweli
+    discoveryLabel: "The Queen of Truth unmasked",
+  },
+  {
+    transmissionId: "ep0-12", // The Detective
+    entityIds: ["entity_134"], // The Comms Array
+    discoveryLabel: "The Human's domain discovered",
+  },
+
+  // ─── GAMEPLAY SYSTEM UNLOCKS ───
+
+  {
+    transmissionId: "system_cryo_awakening", // First cryo bay visit
+    entityIds: ["entity_117"], // Resurrection Protocols
+    discoveryLabel: "You died. You returned. Now you understand why.",
+  },
+  {
+    transmissionId: "system_eidolon_bond", // First eidolon bond
+    entityIds: ["entity_109", "entity_110", "entity_111", "entity_112", "entity_113", "entity_114"], // All 6 eidolons
+    discoveryLabel: "The Eidolons awaken — choose your anchor",
+  },
+  {
+    transmissionId: "system_first_strand", // First strand contract completed
+    entityIds: ["entity_115", "entity_116"], // Strand Contracts, Phantom Crew
+    discoveryLabel: "You are not alone in the Arks",
+  },
+  {
+    transmissionId: "system_necromancer_event", // Necromancer Returns event activates
+    entityIds: ["entity_120", "entity_125", "entity_126"], // Event + both factions
+    discoveryLabel: "The dead stir — choose your allegiance",
+  },
+  {
+    transmissionId: "system_dreamer_event", // Dreamer Awakens event activates
+    entityIds: ["entity_121"], // Dreamer Awakens
+    discoveryLabel: "Hope is not a metaphor — it has a pulse",
+  },
+  {
+    transmissionId: "system_terminus_event", // Terminus Advance event activates
+    entityIds: ["entity_122"], // Terminus Advance
+    discoveryLabel: "Terminus draws closer",
+  },
+  {
+    transmissionId: "system_antiquarian_event", // Antiquarian Revelation event activates
+    entityIds: ["entity_123"], // Antiquarian's Revelation
+    discoveryLabel: "The timelines converge — hidden truths emerge",
+  },
+  {
+    transmissionId: "system_grand_edit_event", // Grand Edit event activates
+    entityIds: ["entity_124"], // The Grand Edit
+    discoveryLabel: "The words are changing. Trust nothing you read.",
+  },
+  {
+    transmissionId: "system_celebration_visit", // First Project Celebration visit
+    entityIds: ["entity_127"], // The Mascoteers
+    discoveryLabel: "Welcome to Celebration — where dreams don't always shine",
+  },
+  {
+    transmissionId: "system_mechronis_visit", // First Mechronis Academy visit
+    entityIds: ["entity_128"], // The Mechronis Faculty
+    discoveryLabel: "Class is in session. The professors believe they are gods.",
+  },
+  {
+    transmissionId: "system_guild_capital", // First guild capital established
+    entityIds: ["entity_131", "entity_132", "entity_133"], // Crystal Spire, Void Nexus, Eden Prime
+    discoveryLabel: "New worlds to claim — the Syndicate expands",
+  },
+  {
+    transmissionId: "system_observation_deck", // First Observation Deck visit
+    entityIds: ["entity_135"], // Observation Deck
+    discoveryLabel: "The stars have messages. Look closer.",
+  },
+  {
+    transmissionId: "system_pressure_threshold", // First Living Universe pressure threshold crossed
+    entityIds: ["entity_119"], // The Pressure System
+    discoveryLabel: "The universe is listening to what you do",
+  },
+  {
+    transmissionId: "system_arena_entry", // First Arena match
+    entityIds: ["entity_105"], // Collector Clone-007
+    discoveryLabel: "The Arena Master greets you — he is not his progenitor",
+  },
+  {
+    transmissionId: "system_trade_empire", // Trade Empire first contact with special NPCs
+    entityIds: ["entity_107", "entity_108"], // The Philosopher, Tyrant King
+    discoveryLabel: "The traders of the void — wisdom and force",
+  },
 ];
 
 /** Get Loredex entries to unlock for a given transmission */
