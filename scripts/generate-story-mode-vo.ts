@@ -53,13 +53,26 @@ interface VoLine {
   chapter: string;
 }
 
-// ─── LOAD LINES ───
-const LINES_FILE = path.join(__dirname, "story-mode-lines.json");
-if (!fs.existsSync(LINES_FILE)) {
-  console.error(`ERROR: ${LINES_FILE} not found.`);
-  process.exit(1);
+// ─── LOAD LINES (supports single file or split parts) ───
+function loadLines(): VoLine[] {
+  const singleFile = path.join(__dirname, "story-mode-lines.json");
+  if (fs.existsSync(singleFile)) {
+    return JSON.parse(fs.readFileSync(singleFile, "utf-8"));
+  }
+  // Merge split parts
+  const parts: VoLine[] = [];
+  for (let i = 1; ; i++) {
+    const partFile = path.join(__dirname, `story-mode-lines-part${i}.json`);
+    if (!fs.existsSync(partFile)) break;
+    parts.push(...JSON.parse(fs.readFileSync(partFile, "utf-8")));
+  }
+  if (parts.length === 0) {
+    console.error("ERROR: No story-mode-lines*.json files found.");
+    process.exit(1);
+  }
+  return parts;
 }
-const ALL_LINES: VoLine[] = JSON.parse(fs.readFileSync(LINES_FILE, "utf-8"));
+const ALL_LINES = loadLines();
 console.log(`Loaded ${ALL_LINES.length} story mode lines`);
 
 // ─── ELEVENLABS TTS ───
