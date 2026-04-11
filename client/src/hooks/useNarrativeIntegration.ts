@@ -375,6 +375,51 @@ export function useNarrativeIntegration() {
       toast.info(ev.toast.title, { description: ev.toast.desc });
     }
 
+    // Witnessing §4.2 — Act 1 cycle progression tied to card-
+    // battle wins. The proposal frames Act 1 as 12 battles
+    // across three cycles (3 + 5 + 4). We use the accumulated
+    // Dischordia win counter as a canonical proxy:
+    //
+    //   cycle A done → 3 wins   → Welcome to Celebration
+    //   cycle B done → 8 wins   → To Be the Human
+    //   act 1 done   → 12 wins  → Last Words
+    //
+    // Each flag is only raised once and only while the player
+    // is still in Act 1 (narrativeAct < 2) so later campaign
+    // win grinding doesn't re-fire the cycle cinematics.
+    const inAct1 = (state.narrativeAct ?? 0) < 2;
+    if (inAct1 && cardWins >= 3 && !state.narrativeFlags?.act_1_cycle_a_complete) {
+      setNarrativeFlag("act_1_cycle_a_complete", true);
+      toast.info("Cycle A — Kindergarten of Gods", {
+        description: "The Little Watcher falls. The Engineer's childhood ends.",
+      });
+    }
+    if (inAct1 && cardWins >= 8 && !state.narrativeFlags?.act_1_cycle_b_complete) {
+      setNarrativeFlag("act_1_cycle_b_complete", true);
+      toast.info("Cycle B — Mechronis Academy", {
+        description: "The graduation photo. One student is missing.",
+      });
+    }
+    if (inAct1 && cardWins >= 12 && !state.narrativeFlags?.act_1_complete) {
+      setNarrativeFlag("act_1_complete", true);
+      toast.info("Cycle C — The Deck Reforged", {
+        description: "New Babylon. A tall figure in a worn engineer's coat.",
+      });
+    }
+
+    // Witnessing §7 — Act 3 starts when the narrative act state
+    // crosses 3. Gameplay sets `narrativeAct = 3` via the
+    // existing `advanceNarrativeAct` action when the player
+    // finishes Act 2. We translate that into the dedicated
+    // trigger flag the SLIDESHOW_TRIGGERS table watches.
+    if (
+      (state.narrativeAct ?? 0) >= 3 &&
+      !state.narrativeFlags?.act_3_starting &&
+      !state.narrativeFlags?.slideshow_i_am_the_eyes_that_watch_complete
+    ) {
+      setNarrativeFlag("act_3_starting", true);
+    }
+
     // Check terminus
     const terminusWave = parseInt(localStorage.getItem("terminus_highest_wave") || "0");
     if (terminusWave >= 20 && !state.narrativeFlags?.terminus_champion) {
@@ -382,5 +427,5 @@ export function useNarrativeIntegration() {
       setNarrativeFlag(ev.flag, true);
       toast.info(ev.toast.title, { description: ev.toast.desc });
     }
-  }, [state.narrativeFlags, setNarrativeFlag]);
+  }, [state.narrativeFlags, state.narrativeAct, setNarrativeFlag]);
 }
