@@ -768,6 +768,122 @@ export const INFILTRATION_STAGES: Record<string, InfiltrationStage> = {
     flagsOnComplete: ["in_choice_of_return_made", "insurgency_infiltration_complete"],
   },
 
+  /* ═══════════════════════════════════════════════════════
+     F4 — TERMINUS DOMINION — "Get Infected on Purpose"
+     §7.3 F4 Infiltration path. Walk into the Viral Wastes
+     with shields down. One session partially controlled by
+     the Thought Virus. Cards flip to their Dark counterparts.
+     The Oracle pulls you out at the end.
+     ═══════════════════════════════════════════════════════ */
+
+  tv_i_1: {
+    stageId: "tv_i_1",
+    factionId: "thought_virus",
+    type: "ritual",
+    title: "Drop Your Shields",
+    intro:
+      "The Ark is parked at the edge of the Viral Wastes. Elara is asking you for the fourth time if you are sure. The Human is saying nothing — he has already said everything and been ignored. The only barrier between you and the Thought Virus is a shield you are about to manually disable. There is no button. There is a ritual. Every step is you declaring, on the record, that you are doing this on purpose.",
+    beats: [
+      {
+        label: "STEP ONE — STATE OF INTENT",
+        text:
+          "Elara asks you to record a short statement for the ship's log. 'Standard procedure,' she says, in the voice of someone who has already decided to lose this argument. You record it. The recording is kept for Act 5 dialogue. She will reference it.",
+        buttonLabel: "RECORD THE STATEMENT",
+      },
+      {
+        label: "STEP TWO — HAND OFF THE HELM",
+        text:
+          "You give the Ark's navigation keys to Elara. She will hold them until you come back. If you do not come back, she will fly the Ark to a pre-arranged coordinate in neutral space and wait exactly three days before making her own decision about what to do next. You both know what her decision will be. You do not speak about it.",
+        buttonLabel: "HAND OVER THE KEYS",
+      },
+      {
+        label: "STEP THREE — DISABLE THE SHIELD",
+        text:
+          "You walk to the shield panel. You enter the administrator override. You type your own name as the override signatory. You press execute. The shield comes down in layers: outer, mid, inner, skin. The Thought Virus is in the air before the inner layer has finished collapsing. You feel something land on the back of your tongue that tastes like a word you do not remember learning.",
+        buttonLabel: "EXECUTE OVERRIDE",
+      },
+    ],
+    closingLine:
+      "Elara stops asking if you are sure. She starts counting. You asked her to count the exposure time out loud. She is at one. You are at zero.",
+    flagsOnComplete: ["tv_shields_down", "tv_exposure_started"],
+  },
+
+  tv_i_2: {
+    stageId: "tv_i_2",
+    factionId: "thought_virus",
+    type: "dark_flip",
+    title: "The Session of Flipping",
+    intro:
+      "The Virus takes your hand. Not metaphorically. The cards in your deck begin to flip, one at a time, to their Dark counterparts. You watch it happen. You are not allowed to stop it. The Human is shouting at you from the substrate — actual words now, not just hums — and you cannot hear him properly. The Virus is gentle. The Virus is patient. The Virus is very, very interested in what you have been building.",
+    pairs: [
+      {
+        light: "The Navigator",
+        dark: "The Lost Navigator",
+        note:
+          "Still knows all the routes. Just favors the ones that end in nowhere. Your star charts rearrange themselves while you watch.",
+      },
+      {
+        light: "The Healer",
+        dark: "The Quiet Healer",
+        note:
+          "Still touches people gently. Now the touch feels like an apology in advance. You do not remember when it happened.",
+      },
+      {
+        light: "Elara's Intervention",
+        dark: "Elara's Permission",
+        note:
+          "The card still triggers on the same condition. It no longer stops you from making the choice. It just tells you that Elara would understand, which is worse.",
+      },
+      {
+        light: "The Human's Doubt",
+        dark: "The Human's Silence",
+        note:
+          "He stops showing up on the substrate. He does not come back to this card until the Oracle cleanses you. You do not realize how loud his doubt was until it is gone.",
+      },
+      {
+        light: "Seeds of Inception",
+        dark: "Seeds of Erasure",
+        note:
+          "The song changes two notes on this card. Just two. The two notes are the ones you cannot unhear for the rest of the session.",
+      },
+    ],
+    closingLine:
+      "You hear yourself laugh at something that wasn't funny. That's how you know the session is ending. The Virus begins to let go, slowly, one finger at a time, the way someone politely gets up from a conversation they intend to resume.",
+    flagsOnComplete: ["tv_session_flipped", "tv_dark_cards_witnessed"],
+  },
+
+  tv_i_3: {
+    stageId: "tv_i_3",
+    factionId: "thought_virus",
+    type: "ritual",
+    title: "The Oracle Cleanses You",
+    intro:
+      "The Ark makes a hard burn to Insurgency Haven. The Oracle is waiting on the landing deck — the Insurgency prophet, the one person in the post-Fall universe the Virus genuinely fears. She does not speak at first. She takes your hand. She leads you to a small room that smells like old water and iron.",
+    beats: [
+      {
+        label: "BEAT ONE — THE WATER",
+        text:
+          "The Oracle pours water over your head. It is cold. It tastes, when it runs past your mouth, like it knows your name. You think she has blessed it somehow. She has not. She has just remembered enough things about who you used to be to remind you of them. You feel the Dark-flipped cards begin to breathe the other direction.",
+        buttonLabel: "LET HER WORK",
+      },
+      {
+        label: "BEAT TWO — THE WORD",
+        text:
+          "She whispers a word into your ear. The word is not in any language you know. You feel the Virus inside your head lose its grip on whatever it was counting. It does not leave. It simply stops paying attention. That is the most the Oracle can do with one session.",
+        buttonLabel: "LET THE WORD PASS THROUGH",
+      },
+      {
+        label: "BEAT THREE — THE PROMISE",
+        text:
+          "The Oracle says, aloud and on the record: 'This is one of three cleansings I can give you in your lifetime. This is the first. If you take the second, you lose a memory. If you take the third, you lose the name you are using.' You nod. She lets you go.",
+        buttonLabel: "ACCEPT THE TERMS",
+      },
+    ],
+    closingLine:
+      "You walk out of the small room. The Human is back. The Human is crying. Elara is waiting at the bottom of the landing ramp and does not ask any questions. You have been changed. The change is permanent. You now hold the Immunity card — playable once per match for the rest of the game, prevents all negative statuses for 3 turns.",
+    flagsOnComplete: ["tv_oracle_cleansed", "tv_immunity_card_obtained", "thought_virus_infiltration_complete", "oracle_cleansing_1_used"],
+  },
+
   nb_i_4: {
     stageId: "nb_i_4",
     factionId: "new_babylon",
