@@ -69,9 +69,13 @@ describe("appRouter wiring", () => {
     // @ts-expect-error
     expect(appRouter._def.procedures["christmasInJuly.getConfig"]).toBeDefined();
     // @ts-expect-error
+    expect(appRouter._def.procedures["christmasInJuly.isActive"]).toBeDefined();
+    // @ts-expect-error
     expect(appRouter._def.procedures["christmasInJuly.getCharityPool"]).toBeDefined();
     // @ts-expect-error
     expect(appRouter._def.procedures["christmasInJuly.getMyProgress"]).toBeDefined();
+    // @ts-expect-error
+    expect(appRouter._def.procedures["christmasInJuly.getMyRewards"]).toBeDefined();
     // @ts-expect-error
     expect(appRouter._def.procedures["christmasInJuly.claimDailyTokens"]).toBeDefined();
     // @ts-expect-error

@@ -5,7 +5,7 @@
 import { useState, useMemo, useEffect } from "react";
 import { useLocation } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Skull } from "lucide-react";
+import { X, Skull, Trophy } from "lucide-react";
 import ParallaxDepthBackground from "@/components/ParallaxDepthBackground";
 import {
   CASINO_GAMES, getVIPLevel, getDegenQuote,
@@ -27,6 +27,37 @@ import { trpc } from "@/lib/trpc";
 const CASINO_FLOOR_BG = CASINO_ENVIRONMENTS.mainFloor;
 const CASINO_PARALLAX_COLOR = "https://res.cloudinary.com/dsenaozjq/image/upload/q_auto/f_auto/v1775681916/Vast_open_casino_202604081640_drbpia.jpg";
 const CASINO_PARALLAX_DEPTH = "https://res.cloudinary.com/dsenaozjq/image/upload/q_auto/f_auto/v1775681913/Vast_open_casino_202604081640_disparity_quhlae.png";
+
+/** Compact banner showing the live progressive jackpot pool. Auto-refreshes
+ *  every 10s so spinning players see the pool climb in real time. */
+function JackpotPoolBanner() {
+  const poolQuery = trpc.casino.getJackpotPool.useQuery(undefined, {
+    refetchInterval: 10_000,
+    retry: false,
+  });
+  const balance = poolQuery.data?.balance ?? 0;
+  return (
+    <div className="px-4 py-2 border-b border-amber-500/10">
+      <div className="flex items-center justify-between gap-3 bg-gradient-to-r from-amber-950/40 via-amber-900/20 to-amber-950/40 border border-amber-500/30 rounded-lg px-4 py-2">
+        <div className="flex items-center gap-2">
+          <Trophy size={14} className="text-amber-300" />
+          <span className="font-display text-[11px] tracking-widest text-amber-300 uppercase">
+            Progressive Jackpot
+          </span>
+        </div>
+        <motion.span
+          key={balance}
+          initial={{ scale: 0.9 }}
+          animate={{ scale: 1 }}
+          className="font-mono text-sm text-amber-200 font-bold"
+        >
+          {balance.toLocaleString()}
+          <span className="text-amber-400/60 text-[10px] ml-1">DREAM</span>
+        </motion.span>
+      </div>
+    </div>
+  );
+}
 
 export default function DegensCasinoPage() {
   const [, navigate] = useLocation();
@@ -244,6 +275,9 @@ export default function DegensCasinoPage() {
           )}
         </div>
       )}
+
+      {/* Progressive jackpot banner — hits all paid games, not just slots */}
+      <JackpotPoolBanner />
 
       {/* Christmas in July ticker — active only during the event window */}
       <div className="px-4 py-2">

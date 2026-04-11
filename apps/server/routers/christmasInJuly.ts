@@ -24,6 +24,7 @@ import { checkEventWindow, CHRISTMAS_IN_JULY_WINDOW } from "../middleware/eventW
 import {
   xmasJulyProgress, xmasJulyGifts, xmasJulyCharityPool,
   xmasJulyCrapsRolls, xmasJulyWheelSpins, notifications, users,
+  featureFlags,
 } from "../../db/schema";
 import { eq, and, desc, sql, or, like, ne } from "drizzle-orm";
 import { createRng, randomSeed, rollCraps, spinWheel } from "../../shared/casinoGames";
@@ -88,6 +89,27 @@ async function ensureProgress(db: DbLike, userId: number) {
 
 /** Daily gift send cap — anti-farm. */
 const DAILY_GIFT_CAP = 50;
+
+/** Minimum interval between gifts to the same recipient, in ms.
+ *  Prevents a single player from spamming one friend to farm tokens. */
+const GIFT_COOLDOWN_PER_RECIPIENT_MS = 60_000;
+
+/** Token-bucket rate limit on user-search queries — prevents using
+ *  this endpoint to enumerate the user table. */
+const searchBuckets = new Map<number, { tokens: number; refillAt: number }>();
+const SEARCH_BUCKET_MAX = 20;
+const SEARCH_BUCKET_REFILL_MS = 60_000;
+function consumeSearchToken(userId: number): boolean {
+  const now = Date.now();
+  const b = searchBuckets.get(userId);
+  if (!b || now > b.refillAt) {
+    searchBuckets.set(userId, { tokens: SEARCH_BUCKET_MAX - 1, refillAt: now + SEARCH_BUCKET_REFILL_MS });
+    return true;
+  }
+  if (b.tokens <= 0) return false;
+  b.tokens -= 1;
+  return true;
+}
 
 async function ensureCharityPool(
   db: DbLike,
@@ -178,6 +200,38 @@ export const christmasInJulyRouter = router({
       currentDay: currentEventDay(),
     })),
 
+  /** Is the event currently active? Uses the server clock AND respects
+   *  the `xmas_july_testing` admin override so QA can activate the event
+   *  outside the July 1-14 window. Surfaces on the client as the
+   *  authoritative gate for HolidayDialogTicker and in-event UI. */
+  isActive: publicProcedure
+    .use(checkFeatureFlag("christmas_in_july"))
+    .query(async () => {
+      const db = await getDb();
+      const now = Date.now();
+      const start = new Date(CHRISTMAS_EVENT_CONFIG.startDate).getTime();
+      const end = new Date(CHRISTMAS_EVENT_CONFIG.endDate).getTime();
+      const windowActive = now >= start && now <= end;
+      let overrideActive = false;
+      if (db) {
+        const [flag] = await db
+          .select()
+          .from(featureFlags)
+          .where(eq(featureFlags.featureName, "xmas_july_testing"))
+          .limit(1);
+        overrideActive = Boolean(flag && flag.enabled === 1);
+      }
+      const active = windowActive || overrideActive;
+      return {
+        active,
+        windowActive,
+        overrideActive,
+        currentDay: active ? currentEventDay() : null,
+        startDate: CHRISTMAS_EVENT_CONFIG.startDate,
+        endDate: CHRISTMAS_EVENT_CONFIG.endDate,
+      };
+    }),
+
   /** Global charity pool progress — public. */
   getCharityPool: publicProcedure
     .use(checkFeatureFlag("christmas_in_july"))
@@ -194,6 +248,30 @@ export const christmasInJulyRouter = router({
       const db = await getDb();
       if (!db) throw new Error("DB unavailable");
       return ensureProgress(db, ctx.user.id);
+    }),
+
+  /** User-facing inventory of rewards earned during the event.
+   *  Decorates the raw `unlockedRewards` id list with display names
+   *  and rarities so the client can render a real collection tab. */
+  getMyRewards: protectedProcedure
+    .use(checkFeatureFlag("christmas_in_july"))
+    .query(async ({ ctx }) => {
+      const db = await getDb();
+      if (!db) throw new Error("DB unavailable");
+      const progress = await ensureProgress(db, ctx.user.id);
+      const ids = (progress.unlockedRewards ?? []) as string[];
+      return ids.map((id) => {
+        // ids we persist look like "badge_Halfway Hero", "item_Gift Box",
+        // "title_high_roller". Decode the prefix for the UI.
+        const separatorIdx = id.indexOf("_");
+        const kind = separatorIdx >= 0 ? id.slice(0, separatorIdx) : "item";
+        const rest = separatorIdx >= 0 ? id.slice(separatorIdx + 1) : id;
+        return {
+          id,
+          kind: (kind === "badge" || kind === "item" || kind === "title" ? kind : "item") as "badge" | "item" | "title",
+          label: rest.replace(/_/g, " "),
+        };
+      });
     }),
 
   /** Claim the daily free 10 tokens (once per UTC day). */
@@ -377,6 +455,22 @@ export const christmasInJulyRouter = router({
         // Rate limit: max DAILY_GIFT_CAP gifts per user per UTC day
         if (progress.giftsSentToday >= DAILY_GIFT_CAP) {
           throw new Error(`Daily gift limit reached (${DAILY_GIFT_CAP}/day).`);
+        }
+
+        // Per-recipient cooldown — prevents round-tripping one friend
+        // for the send/receive token bonus.
+        const cooldownCutoff = new Date(Date.now() - GIFT_COOLDOWN_PER_RECIPIENT_MS);
+        const [recentSameRecipient] = await tx
+          .select({ id: xmasJulyGifts.id })
+          .from(xmasJulyGifts)
+          .where(and(
+            eq(xmasJulyGifts.senderId, ctx.user.id),
+            eq(xmasJulyGifts.recipientId, input.recipientId),
+            sql`${xmasJulyGifts.sentAt} > ${cooldownCutoff}`,
+          ))
+          .limit(1);
+        if (recentSameRecipient) {
+          throw new Error("Slow down — you can only send one gift per minute to the same player.");
         }
 
         // Verify recipient exists
@@ -615,11 +709,15 @@ export const christmasInJulyRouter = router({
       });
     }),
 
-  /** Search for users to gift by name prefix. Excludes self. */
+  /** Search for users to gift by name prefix. Excludes self.
+   *  Rate-limited to 20 queries/minute/user to prevent enumeration. */
   searchGiftRecipients: protectedProcedure
     .use(checkFeatureFlag("christmas_in_july"))
-    .input(z.object({ query: z.string().min(1).max(64) }))
+    .input(z.object({ query: z.string().min(2).max(64) }))
     .query(async ({ ctx, input }) => {
+      if (!consumeSearchToken(ctx.user.id)) {
+        throw new Error("Too many searches — slow down.");
+      }
       const db = await getDb();
       if (!db) return [];
       const rows = await db

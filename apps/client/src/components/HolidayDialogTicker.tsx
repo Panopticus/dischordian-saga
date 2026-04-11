@@ -10,7 +10,10 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Gift } from "lucide-react";
 import { NPC_HOLIDAY_DIALOG } from "@/data/events/christmasInJuly/npcHolidayDialog";
 import { CHRISTMAS_EVENT_CONFIG } from "@/data/events/christmasInJuly/eventConfig";
+import { trpc } from "@/lib/trpc";
 
+/** Client-side clock check. Used as an instant fallback while
+ *  the server-side `isActive` query is in flight. */
 export function isChristmasInJulyActive(now = Date.now()): boolean {
   const start = new Date(CHRISTMAS_EVENT_CONFIG.startDate).getTime();
   const end = new Date(CHRISTMAS_EVENT_CONFIG.endDate).getTime();
@@ -24,7 +27,14 @@ interface HolidayTickerProps {
 }
 
 export function HolidayDialogTicker({ npcId, className }: HolidayTickerProps) {
-  const active = isChristmasInJulyActive();
+  // Use the server-side `isActive` query as the authoritative source so
+  // admins can toggle the `xmas_july_testing` flag for QA. Fall back to
+  // the client clock until the query resolves.
+  const statusQuery = trpc.christmasInJuly.isActive.useQuery(undefined, {
+    retry: false,
+    staleTime: 60_000,
+  });
+  const active = statusQuery.data ? statusQuery.data.active : isChristmasInJulyActive();
   const lines = useMemo(() => {
     if (!active) return [];
     const npcs = npcId ? [npcId] : (Object.keys(NPC_HOLIDAY_DIALOG) as (keyof typeof NPC_HOLIDAY_DIALOG)[]);

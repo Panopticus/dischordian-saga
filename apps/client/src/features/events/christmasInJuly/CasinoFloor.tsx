@@ -22,6 +22,7 @@ import {
 import { useSoulStoneStore } from "@/features/soulStones/soulStoneStore";
 import { trpc } from "@/lib/trpc";
 import { useIsChristmasActive, getNpcHolidayLines } from "./holidayDialog";
+import { CHRISTMAS_EVENT_CONFIG } from "@/data/events/christmasInJuly/eventConfig";
 
 /* ─── TAB TYPE ─── */
 type Tab = "floor" | "wheel" | "craps" | "calendar" | "charity";
@@ -234,6 +235,62 @@ function GiftSendBar() {
 }
 
 /* ═══════════════════════════════════════════════════════
+   REWARDS PANEL — Displays badges, items, and titles the
+   player has earned during the event. Reads the decorated
+   unlockedRewards list from `christmasInJuly.getMyRewards`.
+   ═══════════════════════════════════════════════════════ */
+function RewardsPanel() {
+  const rewardsQuery = trpc.christmasInJuly.getMyRewards.useQuery();
+  const rewards = rewardsQuery.data ?? [];
+  if (rewards.length === 0) {
+    return (
+      <div className="bg-gray-900/30 border border-gray-700/20 rounded-xl p-4 text-center text-xs text-gray-500 font-mono">
+        No holiday rewards earned yet. Spin, roll, and claim daily challenges to collect them.
+      </div>
+    );
+  }
+  const byKind = {
+    title: rewards.filter(r => r.kind === "title"),
+    badge: rewards.filter(r => r.kind === "badge"),
+    item: rewards.filter(r => r.kind === "item"),
+  };
+  return (
+    <div className="bg-gradient-to-br from-amber-950/20 to-red-950/20 border border-amber-500/20 rounded-xl p-4">
+      <div className="flex items-center gap-2 mb-3">
+        <Star className="w-4 h-4 text-amber-400" />
+        <span className="font-display text-sm text-amber-300">Holiday Rewards Earned</span>
+        <span className="ml-auto text-xs text-amber-400/50 font-mono">{rewards.length} total</span>
+      </div>
+      {(["title", "badge", "item"] as const).map((kind) =>
+        byKind[kind].length > 0 ? (
+          <div key={kind} className="mb-3 last:mb-0">
+            <p className="text-[10px] uppercase tracking-widest text-gray-500 font-mono mb-1">
+              {kind}s
+            </p>
+            <div className="flex flex-wrap gap-2">
+              {byKind[kind].map((r) => (
+                <span
+                  key={r.id}
+                  className={`text-xs px-3 py-1 rounded-full border font-mono ${
+                    kind === "title"
+                      ? "bg-amber-500/10 border-amber-500/30 text-amber-300"
+                      : kind === "badge"
+                      ? "bg-red-500/10 border-red-500/30 text-red-300"
+                      : "bg-green-500/10 border-green-500/30 text-green-300"
+                  }`}
+                >
+                  {r.label}
+                </span>
+              ))}
+            </div>
+          </div>
+        ) : null,
+      )}
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════
    GIFT INBOX — lists the current user's received gifts
    with a Claim button for unclaimed ones.
    ═══════════════════════════════════════════════════════ */
@@ -390,13 +447,24 @@ export default function CasinoFloor() {
   const communityGifts = charityPool?.totalGifts ?? 0;
   const [animatedGifts, setAnimatedGifts] = useState(communityGifts);
 
-  /* ─── GIVING TREE ─── */
-  const treeGoal = 5000;
-  const [treeGifts, setTreeGifts] = useState(2847);
+  /* ─── GIVING TREE ─── Pulled live from the charity pool. The
+   *  tree fills up against the next uncleared milestone; each
+   *  community milestone effectively "reseeds" the tree with a
+   *  higher goal so there's always something to aim at. */
+  const treeGoal = useMemo(() => {
+    const milestones = configQuery.data?.milestones ?? [];
+    const next = milestones.find(m => communityGifts < m.threshold);
+    return next?.threshold ?? (milestones[milestones.length - 1]?.threshold ?? 250_000);
+  }, [configQuery.data, communityGifts]);
+  const treeGifts = communityGifts;
   const treeProgress = Math.min((treeGifts / treeGoal) * 100, 100);
 
-  /* ─── EVENT TIMER ─── */
-  const daysRemaining = 7;
+  /* ─── EVENT TIMER ─── Real days remaining until event end. */
+  const daysRemaining = useMemo(() => {
+    const end = new Date(CHRISTMAS_EVENT_CONFIG.endDate).getTime();
+    const now = Date.now();
+    return Math.max(0, Math.ceil((end - now) / (24 * 60 * 60 * 1000)));
+  }, []);
 
   /* ─── SOUL STONE STORE ─── */
   const stoneStore = useSoulStoneStore();
@@ -703,9 +771,10 @@ export default function CasinoFloor() {
                   <p className="text-center text-xs text-red-400/80 font-mono">{claimTokensMut.error?.message}</p>
                 )}
 
-                {/* Quick gift dispatcher + inbox */}
+                {/* Quick gift dispatcher + inbox + holiday rewards */}
                 <GiftSendBar />
                 <GiftInbox userId={progress?.userId ?? 0} />
+                <RewardsPanel />
 
                 {/* Quick Access Grid */}
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-3">

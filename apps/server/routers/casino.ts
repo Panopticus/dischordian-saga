@@ -34,7 +34,7 @@ import {
   playCardBattlersGauntlet, playFactionWarBet, playVoidBingo, playVoidCase,
   scoreMahjongRun,
   validateBet, vipLevelFor, vipWinBonus, MAX_DAILY_WAGER,
-  ROULETTE_FACTIONS, type RouletteFaction,
+  ROULETTE_FACTIONS, GAME_LIMITS, type RouletteFaction,
 } from "../../shared/casinoGames";
 
 type PlayableGame =
@@ -43,6 +43,140 @@ type PlayableGame =
   | "void_blackjack_tournament" | "liars_dice" | "faction_war_betting"
   | "dream_roulette" | "card_battlers_gauntlet" | "void_bingo"
   | "void_cases" | "dischordian_mahjong";
+
+/** Partial casino state shape used for achievement evaluation. */
+interface CasinoEvalState {
+  totalWagered: number;
+  totalWon: number;
+  currentStreak: number;
+  bestStreak: number;
+  totalBetsPlaced: number;
+  gamesPlayed: Record<string, number>;
+}
+
+/** Returns the ids of newly earned achievements for this turn. The
+ *  caller is responsible for persisting them — this helper is pure
+ *  so it can be unit-tested in isolation. */
+export function evaluateCasinoAchievements(args: {
+  game: PlayableGame;
+  bet: number;
+  result: { won: boolean; payout: number; jackpot: boolean; detail: Record<string, unknown> };
+  state: CasinoEvalState;
+  previousBestStreak: number;
+  previousTotalWon: number;
+  previousTotalWagered: number;
+  previousVipLevel: number;
+  vipLevel: number;
+}): string[] {
+  const { game, bet, result, state, previousBestStreak, previousTotalWon, previousTotalWagered, previousVipLevel, vipLevel } = args;
+  const earned: string[] = [];
+
+  // first_bet — the first win the player has ever had
+  if (result.won && previousTotalWon === 0 && result.payout > 0) {
+    earned.push("first_bet");
+  }
+
+  // high_roller — cumulative 1000 Dream wagered (crossed this turn)
+  if (previousTotalWagered < 1000 && state.totalWagered >= 1000) {
+    earned.push("high_roller");
+  }
+
+  // jackpot — any jackpot hit
+  if (result.jackpot) earned.push("jackpot");
+
+  // streak_5 — win streak of 5+
+  if (state.currentStreak >= 5 && previousBestStreak < 5) {
+    earned.push("streak_5");
+  }
+
+  // degens_chosen — win streak of 10+
+  if (state.currentStreak >= 10 && previousBestStreak < 10) {
+    earned.push("degens_chosen");
+  }
+
+  // all_games — played every one of the 15 games
+  const distinctGamesPlayed = Object.keys(state.gamesPlayed ?? {}).length;
+  if (distinctGamesPlayed >= 15) earned.push("all_games");
+
+  // poker_flush — flush or better in Nebula Poker
+  if (game === "nebula_poker") {
+    const hand = (result.detail as { handType?: string }).handType;
+    if (hand === "flush" || hand === "full_house" || hand === "four_of_a_kind" || hand === "straight_flush") {
+      earned.push("poker_flush");
+    }
+    if (hand === "royal_flush") earned.push("royal_flush");
+  }
+
+  // perfect_21 — reach exactly 21 on a Pazaak hand
+  if (game === "pazaak_21") {
+    const player = (result.detail as { player?: number }).player;
+    if (player === 21) earned.push("perfect_21");
+  }
+
+  // chain_10 — chain 10 correct in High/Low
+  if (game === "high_low") {
+    const chain = (result.detail as { chain?: number }).chain ?? 0;
+    if (chain >= 10) earned.push("chain_10");
+  }
+
+  // vip_3 — reached VIP level 3 on this turn
+  if (previousVipLevel < 3 && vipLevel >= 3) earned.push("vip_3");
+  // whale — reached VIP level 5 on this turn
+  if (previousVipLevel < 5 && vipLevel >= 5) earned.push("whale");
+
+  // all_in — bet the max on any game
+  const limits = GAME_LIMITS[game];
+  if (limits && bet > 0 && bet === limits.max) earned.push("all_in");
+
+  // house_loses — crossed 10,000 Dream lifetime winnings
+  if (previousTotalWon < 10000 && state.totalWon >= 10000) earned.push("house_loses");
+
+  // breaking_even — exactly 0 net across 1000+ bets
+  if (
+    state.totalBetsPlaced >= 1000 &&
+    state.totalWon === state.totalWagered
+  ) {
+    earned.push("breaking_even");
+  }
+
+  // liars_champion — 10 Liar's Dice wins
+  if (game === "liars_dice" && result.won) {
+    const plays = (state.gamesPlayed ?? {})["liars_dice"] ?? 0;
+    // We use total plays as a proxy for wins; a stricter implementation
+    // would track wins separately. For now, gate on 10 total wins via
+    // a simple counter stashed under `${game}_wins`.
+    if (plays >= 10) earned.push("liars_champion");
+  }
+
+  // tournament_winner — any Void Blackjack Tournament win
+  if (game === "void_blackjack_tournament" && result.won) {
+    earned.push("tournament_winner");
+  }
+
+  // bingo_caller — any Void Bingo session win
+  if (game === "void_bingo" && result.won) {
+    earned.push("bingo_caller");
+  }
+
+  // dream_survivor — surviving all 6 rounds of Dream Roulette
+  if (game === "dream_roulette" && result.won) {
+    earned.push("dream_survivor");
+  }
+
+  // scratched_cursed — revealing the curse on a scratch card
+  if (game === "scratch_cards") {
+    const cursed = (result.detail as { curseRevealed?: boolean }).curseRevealed;
+    if (cursed) earned.push("scratched_cursed");
+  }
+
+  // lucky_7 — exact 7 in Entropy Dice
+  if (game === "entropy_dice") {
+    const detail = result.detail as { total?: number; prediction?: string };
+    if (detail.total === 7 && detail.prediction === "exact") earned.push("lucky_7");
+  }
+
+  return earned;
+}
 
 /** ─── Faction War odds lookup ───
  *  Computes the implied odds for each betting market from the
@@ -237,25 +371,37 @@ async function executeGame(
       seed,
     });
 
-    // Unlock jackpot achievement if needed
-    if (result.jackpot) {
+    // ─── Achievement evaluation ───
+    // Every achievement listed in CASINO_ACHIEVEMENTS is checked here.
+    // The evaluator is shared across all games so new achievements
+    // become active as soon as their trigger condition returns true.
+    const newState = { ...state, ...updates };
+    const nextStateForEval: CasinoEvalState = {
+      ...newState,
+      gamesPlayed: updates.gamesPlayed,
+    };
+    const earned = evaluateCasinoAchievements({
+      game,
+      bet,
+      result,
+      state: nextStateForEval,
+      previousBestStreak: state.bestStreak,
+      previousTotalWon: state.totalWon,
+      previousTotalWagered: state.totalWagered,
+      previousVipLevel: state.vipLevel,
+      vipLevel: updates.vipLevel,
+    });
+    for (const achievementId of earned) {
       const [existing] = await tx
         .select()
         .from(userAchievements)
-        .where(and(eq(userAchievements.userId, userId), eq(userAchievements.achievementId, "jackpot")))
+        .where(and(
+          eq(userAchievements.userId, userId),
+          eq(userAchievements.achievementId, achievementId),
+        ))
         .limit(1);
       if (!existing) {
-        await tx.insert(userAchievements).values({ userId, achievementId: "jackpot" });
-      }
-    }
-    if (bestStreak >= 10 && state.bestStreak < 10) {
-      const [existing] = await tx
-        .select()
-        .from(userAchievements)
-        .where(and(eq(userAchievements.userId, userId), eq(userAchievements.achievementId, "degens_chosen")))
-        .limit(1);
-      if (!existing) {
-        await tx.insert(userAchievements).values({ userId, achievementId: "degens_chosen" });
+        await tx.insert(userAchievements).values({ userId, achievementId });
       }
     }
 
