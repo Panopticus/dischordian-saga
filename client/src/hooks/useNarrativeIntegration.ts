@@ -16,6 +16,7 @@ import { dispatchNarrativeEffect, dispatchMoralityShift } from "@/hooks/useNarra
 import { getAtmosphereForMorality, pushTemporaryTheme, popTemporaryTheme } from "@/engine/voidEngine";
 import { playSlideshow } from "@/stores/witnessingStore";
 import { useDischordiaCycleStore } from "@/stores/dischordiaCycleStore";
+import { recordMemorableMoment } from "@/stores/memorableMomentsStore";
 import {
   WITNESSING_MILESTONES,
   type WitnessingMilestoneId,
@@ -404,6 +405,13 @@ export function useNarrativeIntegration() {
         !state.narrativeFlags?.slideshow_two_witnesses_meet_complete
       ) {
         setNarrativeFlag("bond_80_mutual_peak", true);
+        // Witnessing §11.2 — feed slot: "The letter you never
+        // sent in the Captain's Quarters". Fires exactly once
+        // when both bonds first land at 80 together.
+        recordMemorableMoment(
+          "bond_peak",
+          "The night you trusted both of them at once. A page of a letter you never sent.",
+        );
       }
     }
   }, [
@@ -493,6 +501,25 @@ export function useNarrativeIntegration() {
     state.narrativeFlags?.vortex_endgame_dark_variant,
     cycleLight,
     cycleDark,
+    setNarrativeFlag,
+  ]);
+
+  // ─── WITNESSING §11.2 — TAROT FOUND FEED SLOT ───
+  // When gameplay sets `prelude_burnt_card_found` (the §2.6
+  // crew mission 3 reward — recovering the burnt Seer's card),
+  // record a `tarot_found` memorable moment. The Antiquarian's
+  // Lion in Black feed slot 9 consumes this directly.
+  useEffect(() => {
+    if (!state.narrativeFlags?.prelude_burnt_card_found) return;
+    if (state.narrativeFlags?.memorable_tarot_recorded) return;
+    setNarrativeFlag("memorable_tarot_recorded", true);
+    recordMemorableMoment(
+      "tarot_found",
+      "The tarot card you didn't know you'd been carrying.",
+    );
+  }, [
+    state.narrativeFlags?.prelude_burnt_card_found,
+    state.narrativeFlags?.memorable_tarot_recorded,
     setNarrativeFlag,
   ]);
 

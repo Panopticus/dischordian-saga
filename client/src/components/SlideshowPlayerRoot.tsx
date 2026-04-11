@@ -16,7 +16,10 @@ import { useCallback, useMemo } from "react";
 import { SongSlideshow } from "./SongSlideshow";
 import { useWitnessingStore } from "@/stores/witnessingStore";
 import { applySlideshowReward } from "@/stores/dischordiaCycleStore";
-import { useMemorableMomentsStore } from "@/stores/memorableMomentsStore";
+import {
+  recordMemorableMoment,
+  useMemorableMomentsStore,
+} from "@/stores/memorableMomentsStore";
 import { getDynamicLionFrames } from "@shared/memorableMoments";
 import { useGame } from "@/contexts/GameContext";
 
@@ -55,6 +58,17 @@ export function SlideshowPlayerRoot() {
           setNarrativeFlag(flag, true);
         }
       }
+      // Witnessing §11.2 — record the watched cinematic as a
+      // memorable moment. The Antiquarian's Lion in Black feed
+      // consumes `slideshow_watched` moments into its three
+      // slideshow-themed slots (Observation Deck Vortex, Engineer
+      // execution, Eyes falling in the grass).
+      recordMemorableMoment(
+        "slideshow_watched",
+        `The moment you watched ${active.def.title}.`,
+        undefined,
+        { slideshowId: active.def.id },
+      );
     }
     completeActive();
   }, [active, completeActive, setNarrativeFlag]);

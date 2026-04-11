@@ -172,6 +172,15 @@ export const useDischordiaCycleStore = create<DischordiaCycleStore>((set, get) =
 
   triggerReclamation: () => {
     set({ state: triggerReclamation(get().state) });
+    // Witnessing §11.2 — record the reclamation as a memorable
+    // moment so the Antiquarian can slot it into the Lion in
+    // Black feed. Imported lazily to avoid a cross-store cycle.
+    void import("./memorableMomentsStore").then(({ recordMemorableMoment }) => {
+      recordMemorableMoment(
+        "sector_reclaimed",
+        "A sector you reclaimed. You know which one.",
+      );
+    });
   },
 
   checkVortexTrigger: (litSectorRatio) => {
