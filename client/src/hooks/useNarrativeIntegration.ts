@@ -179,6 +179,15 @@ export const SLIDESHOW_TRIGGERS: ReadonlyArray<{
     slideshowId: "i-am-the-eyes-that-watch",
     completionFlag: "slideshow_i_am_the_eyes_that_watch_complete",
   },
+  {
+    // §1.5 / §12 C10 — Bond 80 emotional peak. The watcher
+    // effect below sets `bond_80_mutual_peak` when both
+    // elaraTrustLevel and humanTrustLevel cross 80 for the
+    // first time.
+    triggerFlag: "bond_80_mutual_peak",
+    slideshowId: "two-witnesses-meet",
+    completionFlag: "slideshow_two_witnesses_meet_complete",
+  },
 ];
 
 export function useNarrativeIntegration() {
@@ -289,6 +298,25 @@ export function useNarrativeIntegration() {
       }
     }
   }, [state.rooms, discoverLore]);
+
+  // ─── WITNESSING §1.5 — BOND 80 MUTUAL PEAK DETECTOR ───
+  // When both elaraTrustLevel AND humanTrustLevel cross 80 for
+  // the first time, set `bond_80_mutual_peak` so the fan-out
+  // below fires the "Two Witnesses Meet" cinematic (§12 C10).
+  // Guarded by the completion flag so it only fires once.
+  useEffect(() => {
+    if (state.narrativeFlags?.bond_80_mutual_peak) return;
+    if (state.narrativeFlags?.slideshow_two_witnesses_meet_complete) return;
+    if ((state.elaraTrustLevel ?? 0) < 80) return;
+    if ((state.humanTrustLevel ?? 0) < 80) return;
+    setNarrativeFlag("bond_80_mutual_peak", true);
+  }, [
+    state.elaraTrustLevel,
+    state.humanTrustLevel,
+    state.narrativeFlags?.bond_80_mutual_peak,
+    state.narrativeFlags?.slideshow_two_witnesses_meet_complete,
+    setNarrativeFlag,
+  ]);
 
   // ─── WITNESSING §5 — SLIDESHOW TRIGGER FAN-OUT ───
   // Every §5.5 P0 slideshow has:

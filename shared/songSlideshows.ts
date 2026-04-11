@@ -860,6 +860,125 @@ export const THE_LION_IN_BLACK_SLIDESHOW: SongSlideshowDef = {
   },
 };
 
+/* ─── TWO WITNESSES MEET (§1.5 + §12 C10) ─── */
+
+/**
+ * "Two Witnesses Meet" — the Bond 80 emotional peak cinematic
+ * from §1.5 and §12 C10. Seven beats of wordless choreography
+ * between Elara and The Human in the Memorial Corridor, ending
+ * with both narrators turning to face the player and waiting
+ * for judgment.
+ *
+ * Triggered when mutual bond crosses 80 (both `elaraTrustLevel`
+ * and `humanTrustLevel` ≥ 80). The player's choice after the
+ * cinematic ends — Forgive Both / Forgive One / Forgive Neither
+ * — is the single most impactful moral decision in the Prelude
+ * and Act 1 arc, and shifts which narrator becomes dominant
+ * for the rest of the game. Refusing both unlocks the third
+ * narrator slot — the voice of the ship itself, Dr. Lyra Vox,
+ * speaking through the substrate.
+ *
+ * Song choice: `Consider Life` from §5.5 P1 (Book of Daniel 2:47).
+ * No lyrics in the slideshow itself — the song plays under
+ * silent choreography per §12 C10.
+ */
+const TWO_WITNESSES_FRAME_MS = 10_000;
+
+export const TWO_WITNESSES_MEET_SLIDESHOW: SongSlideshowDef = {
+  id: "two-witnesses-meet",
+  songId: "consider_life",
+  audioUrl: "/assets/audio/songs/consider-life.mp3",
+  durationMs: 7 * TWO_WITNESSES_FRAME_MS, // 70_000ms = 1m 10s
+  title: "Two Witnesses Meet",
+  subtitle: "The Memorial Corridor. A Caravaggio sense of light. Seven beats.",
+  credits: "Album: Book of Daniel 2:47 · Track 14",
+  priority: "P1",
+  frames: [
+    {
+      startMs: 0,
+      endMs: TWO_WITNESSES_FRAME_MS,
+      imageUrl: "/assets/slideshows/two-witnesses-meet/frame01.webp",
+      transition: "fade",
+      caption: "A long corridor of empty memorial plaques.",
+      kenBurns: {
+        startScale: 1.0,
+        endScale: 1.03,
+        startPan: [0, 0],
+        endPan: [0.01, 0.0],
+      },
+    },
+    {
+      startMs: TWO_WITNESSES_FRAME_MS,
+      endMs: TWO_WITNESSES_FRAME_MS * 2,
+      imageUrl: "/assets/slideshows/two-witnesses-meet/frame02.webp",
+      transition: "dissolve",
+      caption: "Elara takes a half-step toward him.",
+      narratorReactionId: "elara",
+    },
+    {
+      startMs: TWO_WITNESSES_FRAME_MS * 2,
+      endMs: TWO_WITNESSES_FRAME_MS * 3,
+      imageUrl: "/assets/slideshows/two-witnesses-meet/frame03.webp",
+      transition: "dissolve",
+      caption: "He does not move.",
+      narratorReactionId: "the_human",
+    },
+    {
+      startMs: TWO_WITNESSES_FRAME_MS * 3,
+      endMs: TWO_WITNESSES_FRAME_MS * 4,
+      imageUrl: "/assets/slideshows/two-witnesses-meet/frame04.webp",
+      transition: "dissolve",
+      caption: "She raises a hand toward his face.",
+      narratorReactionId: "elara",
+    },
+    {
+      startMs: TWO_WITNESSES_FRAME_MS * 4,
+      endMs: TWO_WITNESSES_FRAME_MS * 5,
+      imageUrl: "/assets/slideshows/two-witnesses-meet/frame05.webp",
+      transition: "dissolve",
+      caption: "He catches her wrist.",
+      narratorReactionId: "the_human",
+    },
+    {
+      startMs: TWO_WITNESSES_FRAME_MS * 5,
+      endMs: TWO_WITNESSES_FRAME_MS * 6,
+      imageUrl: "/assets/slideshows/two-witnesses-meet/frame06.webp",
+      transition: "dissolve",
+      caption: "He lowers her hand. Holds it for a beat. Lets go.",
+    },
+    {
+      startMs: TWO_WITNESSES_FRAME_MS * 6,
+      endMs: TWO_WITNESSES_FRAME_MS * 7,
+      imageUrl: "/assets/slideshows/two-witnesses-meet/frame07.webp",
+      transition: "fade",
+      caption: "In unison, they turn to face the player. And wait.",
+    },
+  ],
+  lyrics: [
+    // §12 C10 is explicit that this cinematic is silent
+    // choreography — no lyric overlays. The song carries it.
+  ],
+  overlays: [
+    { type: "vignette", startMs: 0, endMs: 70_000, intensity: 0.4 },
+    { type: "bloom", startMs: 0, endMs: 70_000, intensity: 0.3 },
+    { type: "particles", startMs: 56_000, endMs: 70_000, intensity: 0.25 },
+  ],
+  flagsSetOnComplete: [
+    "slideshow_two_witnesses_meet_complete",
+    "two_witnesses_met",
+    "forgiveness_choice_unlocked",
+  ],
+  unlockLoredexEntry: "the-two-witnesses",
+  lightEnergyReward: 0, // §3.6 ties the reward to the player's CHOICE after the cinematic
+  reducedMotionFallback: {
+    heroImageUrl: "/assets/slideshows/two-witnesses-meet/hero.webp",
+    prose:
+      "Two holograms stand in the Memorial Corridor of the Ark — Elara in a senator's robe, The Human in a detective's trench coat — facing each other a few meters apart. Blue candle-light flickers. Neither speaks. Elara takes a half-step toward him. He does not move. She raises a hand toward his face. He catches her wrist. He lowers her hand, holds it for a beat, lets go. Neither of them looks away from the other. In unison, they turn to face the player and wait for judgment.",
+    closingLine:
+      "Your choice: Forgive Both. Forgive One. Forgive Neither. It is the single most impactful moral decision in the Prelude and Act 1 arc.",
+  },
+};
+
 /* ─── REGISTRY ─── */
 
 /**
@@ -875,6 +994,7 @@ export const SONG_SLIDESHOWS: Record<string, SongSlideshowDef> = {
   [OCULARUM_SLIDESHOW.id]: OCULARUM_SLIDESHOW,
   [THE_PRISONER_SLIDESHOW.id]: THE_PRISONER_SLIDESHOW,
   [THE_LION_IN_BLACK_SLIDESHOW.id]: THE_LION_IN_BLACK_SLIDESHOW,
+  [TWO_WITNESSES_MEET_SLIDESHOW.id]: TWO_WITNESSES_MEET_SLIDESHOW,
 };
 
 export function getSlideshow(id: string): SongSlideshowDef | undefined {

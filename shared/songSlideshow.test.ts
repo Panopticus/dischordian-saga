@@ -17,6 +17,7 @@ import {
   THE_LION_IN_BLACK_SLIDESHOW,
   THE_PRISONER_SLIDESHOW,
   TO_BE_THE_HUMAN_SLIDESHOW,
+  TWO_WITNESSES_MEET_SLIDESHOW,
   WELCOME_TO_CELEBRATION_SLIDESHOW,
 } from "./songSlideshows";
 
@@ -467,9 +468,52 @@ describe("The Lion in Black slideshow (§11.2 / §12 C9)", () => {
   });
 });
 
+describe("Two Witnesses Meet slideshow (§1.5 / §12 C10)", () => {
+  it("has 7 beats per the §12 C10 Seedance prompt", () => {
+    expect(TWO_WITNESSES_MEET_SLIDESHOW.frames.length).toBe(7);
+  });
+
+  it("has no lyrics (silent choreography per §12 C10)", () => {
+    expect(TWO_WITNESSES_MEET_SLIDESHOW.lyrics).toEqual([]);
+  });
+
+  it("sets the forgiveness_choice_unlocked flag", () => {
+    const flags = TWO_WITNESSES_MEET_SLIDESHOW.flagsSetOnComplete;
+    expect(flags).toContain("forgiveness_choice_unlocked");
+    expect(flags).toContain("two_witnesses_met");
+  });
+
+  it("reward is deferred to the player's choice (reward=0 here)", () => {
+    // §3.6 — the +200 light or -100 dark landing depends on
+    // which of "Forgive Both / Forgive One / Forgive Neither"
+    // the player chooses. The slideshow itself doesn't award
+    // energy.
+    expect(TWO_WITNESSES_MEET_SLIDESHOW.lightEnergyReward).toBe(0);
+  });
+
+  it("alternates narrator reactors across the choreography beats", () => {
+    // Per §12 C10 Seedance prompt, the camera follows each
+    // narrator's movement in alternation. Beats 2-5 should
+    // attribute reactions to the corresponding narrator.
+    const reactors = TWO_WITNESSES_MEET_SLIDESHOW.frames.map(
+      (f) => f.narratorReactionId,
+    );
+    expect(reactors).toContain("elara");
+    expect(reactors).toContain("the_human");
+  });
+
+  it("validates cleanly", () => {
+    expect(validateSlideshow(TWO_WITNESSES_MEET_SLIDESHOW)).toEqual([]);
+  });
+
+  it("unlocks the Two Witnesses loredex entry", () => {
+    expect(TWO_WITNESSES_MEET_SLIDESHOW.unlockLoredexEntry).toBe("the-two-witnesses");
+  });
+});
+
 describe("Full registry invariants", () => {
-  it("registry has 8 slideshows total (4 from §5.5 P0 + 4 from this wave)", () => {
-    expect(Object.keys(SONG_SLIDESHOWS).length).toBe(8);
+  it("registry has 9 slideshows total (4 P0 openers + 4 second wave + Two Witnesses Meet)", () => {
+    expect(Object.keys(SONG_SLIDESHOWS).length).toBe(9);
   });
 
   it("every registered slideshow validates cleanly (second-wave audit)", () => {

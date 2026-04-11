@@ -11,6 +11,15 @@ describe("useNarrativeIntegration.SLIDESHOW_TRIGGERS", () => {
     expect(ids).toContain("i-am-the-eyes-that-watch");
   });
 
+  it("has the Two Witnesses Meet trigger wired to bond_80_mutual_peak", () => {
+    const entry = SLIDESHOW_TRIGGERS.find(
+      (t) => t.slideshowId === "two-witnesses-meet",
+    );
+    expect(entry).toBeDefined();
+    expect(entry?.triggerFlag).toBe("bond_80_mutual_peak");
+    expect(entry?.completionFlag).toBe("slideshow_two_witnesses_meet_complete");
+  });
+
   it("every slideshow id resolves to a registered slideshow", () => {
     for (const trigger of SLIDESHOW_TRIGGERS) {
       const def = getSlideshow(trigger.slideshowId);
