@@ -58,4 +58,13 @@ export const CREW_BALANCE = {
 
   /** Relationship delta when a crewmate is lost on a shared mission (affects survivors). */
   relationshipDeltaOnSharedLoss: 4,
+
+  /** Score at which a pair is considered "rivals" — they refuse to serve
+   *  on missions together without a morale hit, and surface in the UI as
+   *  hostile pairs. */
+  rivalryThreshold: -40,
+
+  /** Score at which a pair is considered "close" — they unlock small
+   *  cohesion bonuses and get relationship flavor text. */
+  closeBondThreshold: 50,
 };

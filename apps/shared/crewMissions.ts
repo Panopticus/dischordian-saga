@@ -249,6 +249,49 @@ export function calculateSquadCohesionBonus(crew: SerializedCrewMember[]): numbe
   return Math.max(-0.10, Math.min(0.10, meanScore / 1000));
 }
 
+/**
+ * Detect rival pairs in a squad — pairs whose mutual relationship score is
+ * at or below CREW_BALANCE.rivalryThreshold. Returns an array of
+ * [memberA, memberB] tuples for UI display.
+ */
+export function findRivalPairs(
+  crew: SerializedCrewMember[],
+): Array<[SerializedCrewMember, SerializedCrewMember]> {
+  const pairs: Array<[SerializedCrewMember, SerializedCrewMember]> = [];
+  for (let i = 0; i < crew.length; i++) {
+    for (let j = i + 1; j < crew.length; j++) {
+      const a = crew[i].relationships?.[crew[j].id] ?? 0;
+      const b = crew[j].relationships?.[crew[i].id] ?? 0;
+      const avg = (a + b) / 2;
+      if (avg <= CREW_BALANCE.rivalryThreshold) {
+        pairs.push([crew[i], crew[j]]);
+      }
+    }
+  }
+  return pairs;
+}
+
+/**
+ * Detect close bonds — mirror of findRivalPairs for UI purposes. Used to
+ * surface friendly pairings as a cohesion boost.
+ */
+export function findCloseBondPairs(
+  crew: SerializedCrewMember[],
+): Array<[SerializedCrewMember, SerializedCrewMember]> {
+  const pairs: Array<[SerializedCrewMember, SerializedCrewMember]> = [];
+  for (let i = 0; i < crew.length; i++) {
+    for (let j = i + 1; j < crew.length; j++) {
+      const a = crew[i].relationships?.[crew[j].id] ?? 0;
+      const b = crew[j].relationships?.[crew[i].id] ?? 0;
+      const avg = (a + b) / 2;
+      if (avg >= CREW_BALANCE.closeBondThreshold) {
+        pairs.push([crew[i], crew[j]]);
+      }
+    }
+  }
+  return pairs;
+}
+
 /* ─── CASUALTY RESOLUTION ─── */
 
 const DEATH_CHANCE = CREW_BALANCE.missionDeathChance;

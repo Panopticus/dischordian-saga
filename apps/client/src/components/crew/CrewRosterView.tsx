@@ -6,10 +6,11 @@ import { useMemo, useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
-import { Heart, Shield, Brain, Zap, Droplet, Wind, Users } from "lucide-react";
+import { Heart, Shield, Brain, Zap, Droplet, Wind, Users, Crown } from "lucide-react";
 import { CREW_ROLES, type CrewRoleId } from "@/game/crewManagement";
 import { FOUNDING_BLOODLINES, getTrait, type BloodlineId } from "@/game/crewGenetics";
 import type { CrewState, SerializedCrewMember } from "@shared/crewPersistence";
+import CrewPortrait from "./CrewPortrait";
 
 interface Props {
   state: CrewState;
@@ -77,35 +78,34 @@ export default function CrewRosterView({ state, onAssignRole }: Props) {
           <button
             key={m.id}
             onClick={() => setSelectedId(m.id)}
-            className={`w-full text-left bg-card/50 border rounded p-3 transition ${
+            className={`w-full text-left bg-card/50 border rounded p-3 transition flex gap-3 ${
               selectedId === m.id ? "border-primary" : "border-border/30 hover:border-border"
             }`}
           >
-            <div className="flex items-center justify-between mb-1">
-              <div className="flex items-center gap-2">
-                <span
-                  className="inline-block w-2 h-2 rounded-full"
-                  style={{
-                    background:
-                      FOUNDING_BLOODLINES[m.bloodlineId as BloodlineId]?.color ?? "#666",
-                  }}
-                />
-                <span className="font-display font-semibold">{m.name}</span>
-                <span className="font-mono text-[10px] text-muted-foreground">
-                  gen {m.generation}
+            <CrewPortrait member={m} size={44} className="shrink-0" />
+            <div className="flex-1 min-w-0">
+              <div className="flex items-center justify-between mb-1">
+                <div className="flex items-center gap-2 min-w-0">
+                  {m.isFounder && (
+                    <Crown size={11} className="text-yellow-400 shrink-0" aria-label="founder" />
+                  )}
+                  <span className="font-display font-semibold truncate">{m.name}</span>
+                  <span className="font-mono text-[10px] text-muted-foreground shrink-0">
+                    gen {m.generation}
+                  </span>
+                </div>
+                <StatusBadge status={m.status} />
+              </div>
+              <div className="flex items-center justify-between text-[11px] font-mono text-muted-foreground">
+                <span className="truncate">
+                  {m.role ? CREW_ROLES[m.role].name : "unassigned"} · {m.species} · age{" "}
+                  {m.age}/{m.maxAge}
+                </span>
+                <span className="flex gap-2 shrink-0">
+                  <span>♥ {m.health}</span>
+                  <span>☼ {m.morale}</span>
                 </span>
               </div>
-              <StatusBadge status={m.status} />
-            </div>
-            <div className="flex items-center justify-between text-[11px] font-mono text-muted-foreground">
-              <span>
-                {m.role ? CREW_ROLES[m.role].name : "unassigned"} · {m.species} · age{" "}
-                {m.age}/{m.maxAge}
-              </span>
-              <span className="flex gap-2">
-                <span>♥ {m.health}</span>
-                <span>☼ {m.morale}</span>
-              </span>
             </div>
           </button>
         ))}
@@ -130,12 +130,19 @@ export default function CrewRosterView({ state, onAssignRole }: Props) {
       <div className="bg-card/30 border border-border/30 rounded p-4 sticky top-24 self-start max-h-[calc(100vh-8rem)] overflow-y-auto">
         {selected ? (
           <>
-            <div className="mb-3">
-              <div className="font-display text-lg font-bold">{selected.name}</div>
-              <div className="font-mono text-[11px] text-muted-foreground">
-                {FOUNDING_BLOODLINES[selected.bloodlineId as BloodlineId]?.name ??
-                  selected.bloodlineId}{" "}
-                · gen {selected.generation} · {selected.species}
+            <div className="mb-3 flex items-start gap-3">
+              <CrewPortrait member={selected} size={72} className="shrink-0" />
+              <div className="flex-1 min-w-0">
+                <div className="font-display text-lg font-bold flex items-center gap-2">
+                  {selected.isFounder && <Crown size={14} className="text-yellow-400" />}
+                  {selected.name}
+                </div>
+                <div className="font-mono text-[11px] text-muted-foreground">
+                  {FOUNDING_BLOODLINES[selected.bloodlineId as BloodlineId]?.name ??
+                    selected.bloodlineId}{" "}
+                  · gen {selected.generation} · {selected.species}
+                  {selected.isFounder && " · founder"}
+                </div>
               </div>
             </div>
 

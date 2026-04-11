@@ -15,8 +15,9 @@ import {
 } from "lucide-react";
 import {
   CIRCUIT_PALETTE, CIRCUIT_ABILITIES, calculateCP,
-  getNilmorgLine, SPECIES_CHASSIS_COLOR, type CloneStats,
+  getNilmorgLine, type CloneStats,
 } from "@shared/deadMansCircuit";
+import { crewMemberToCloneStats } from "@shared/crewDmcBridge";
 import { useNilmorgVO } from "@/hooks/useNilmorgVO";
 import { DMC_ENVIRONMENTS, DMC_MUSIC, DMC_CINEMATICS } from "@/data/dmcAssets";
 import { getNilmorgPortrait } from "@shared/nilmorgPortraits";
@@ -98,23 +99,7 @@ export default function DeadMansCircuitPage() {
       (m: any) => m.id === crewRunner.memberId,
     );
     if (!member) return null;
-    // Map crew genetic stats → DMC clone stats
-    const neural = Math.max(60, Math.min(100, 60 + Math.round(member.stats.intellect * 0.4)));
-    const velocity = Math.max(80, Math.min(120, 80 + Math.round(member.stats.reflexes * 0.4)));
-    const grip = Math.max(40, Math.min(80, 40 + Math.round(member.stats.adaptability * 0.4)));
-    // Higher resilience = higher survival instinct (less suicidal AI)
-    const survival = Math.max(10, Math.min(40, 10 + Math.round(member.stats.resilience * 0.3)));
-    return {
-      designation: crewRunner.designation,
-      neural_sync: neural,
-      physical_integrity: Math.max(60, Math.min(100, member.health)),
-      velocity_ceiling_pct: velocity,
-      surface_grip_pct: grip,
-      survival_instinct: survival,
-      chassisColor:
-        SPECIES_CHASSIS_COLOR[member.species as keyof typeof SPECIES_CHASSIS_COLOR] ??
-        CIRCUIT_PALETTE.NILMORG_ORANGE,
-    };
+    return crewMemberToCloneStats(member, crewRunner.designation);
   }, [crewRunner, crewQuery.data]);
 
   // Helper: play a cinematic, then run `after()` when done/skipped

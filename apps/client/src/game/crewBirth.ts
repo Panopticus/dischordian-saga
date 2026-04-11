@@ -98,6 +98,7 @@ export function buildPendingOffspring(
   parent2: CrewMember | SerializedCrewMember,
   roster: Array<CrewMember | SerializedCrewMember> = [],
   seed: number = Date.now(),
+  chosenBloodline?: BloodlineId,
 ): PendingOffspring {
   const gensShared = generationsSinceShared(parent1, parent2, roster);
   const result: BreedingResult = breedCrewMembers(
@@ -110,9 +111,10 @@ export function buildPendingOffspring(
     gensShared,
     seed,
   );
-  // Child inherits parent1's bloodline by default. A future UI could let the
-  // player choose which side the child belongs to.
-  const bloodlineId = parent1.bloodlineId;
+  // Child inherits parent1's bloodline by default; the caller can override
+  // via `chosenBloodline` to let the player pick which parent's house the
+  // child belongs to.
+  const bloodlineId = chosenBloodline ?? parent1.bloodlineId;
   const generation = Math.max(parent1.generation, parent2.generation) + 1;
 
   return {

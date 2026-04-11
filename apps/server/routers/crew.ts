@@ -20,6 +20,7 @@ import { eq, and } from "drizzle-orm";
 import {
   ensureCrewState,
   createDefaultCrewState,
+  canBootstrapCrew,
   trimFeed,
   MAX_CREW_CAPACITY,
   MAX_INCUBATOR_PODS,
@@ -40,6 +41,7 @@ import {
 } from "../../shared/crewMissions";
 import { CREW_BALANCE } from "../../shared/crewBalance";
 import { applyTick as sharedApplyTick } from "../../shared/crewTick";
+import { syncCrewStateToTables } from "./crewTableSync";
 
 const FRANCHISE = "dischordian-saga";
 
@@ -84,6 +86,9 @@ async function saveState(userId: number, state: CrewState): Promise<void> {
       gameData: next,
     });
   }
+  // Best-effort projection into native tables for cross-user queries.
+  // Fire-and-forget — the JSON blob is authoritative.
+  void syncCrewStateToTables(userId, state);
 }
 
 /* ─── FULL TICK (applied on every major query/mutation)
@@ -614,70 +619,186 @@ export const crewRouter = router({
 
   /* ─── Bootstrap: seed one starter crew member when the Ark first wakes ───
      Called by the CrewRosterPage when the roster is empty and the system
-     is unlocked. Creates one Terran Prime founder in House Resonance —
-     lore-wise, the Collector's archive preserved a single "first-breath"
-     template that activated automatically during the awakening. */
+     is unlocked. Rotates between three "first-breath" variants the
+     Collector's archive preserved for exactly this moment. */
   bootstrap: protectedProcedure.mutation(async ({ ctx }) => {
     const state = await loadState(ctx.user.id);
-    if (!state.crewSystemUnlocked) {
-      return { success: false, error: "crew system not unlocked" };
-    }
-    if (state.roster.members.length > 0 || state.roster.deceased.length > 0) {
-      return { success: false, error: "already bootstrapped" };
+    const guard = canBootstrapCrew(state);
+    if (!guard.ok) {
+      return { success: false, error: guard.error };
     }
 
+    // Three variants, rolled deterministically from the user id so the same
+    // player always gets the same first-breath companion.
+    const variants: Array<{
+      member: Omit<SerializedCrewMember, "id" | "isFounder" | "birthCycle">;
+      bloodline: SerializedBloodline;
+      introLine: string;
+    }> = [
+      {
+        member: {
+          name: "Vale Resonance",
+          nickname: "the First",
+          species: "human",
+          gender: "non-binary",
+          bloodlineId: "void_resonance",
+          generation: 1,
+          parentIds: null,
+          children: [],
+          geneticTraits: ["hardy", "calm_under_fire"],
+          role: null,
+          stats: {
+            resilience: 62,
+            intellect: 68,
+            reflexes: 55,
+            empathy: 70,
+            immunity: 52,
+            adaptability: 78,
+          },
+          morale: 80,
+          health: 100,
+          loyalty: 60,
+          status: "active",
+          age: 24,
+          maxAge: 82,
+          missionHistory: [],
+          relationships: {},
+        },
+        bloodline: {
+          id: "void_resonance",
+          founderTemplateId: "tpl_terran_prime",
+          name: "House Resonance",
+          motto: "We echo forward.",
+          color: "#22d3ee",
+          generationCount: 1,
+          geneticDrift: 0,
+          diversityIndex: 0,
+          activeTraits: ["hardy", "calm_under_fire"],
+          recessiveTraits: [],
+          power: {
+            name: "Void Resonance",
+            description: "Trade routes hum with an efficiency others can't explain.",
+            stat: "trade_income",
+            baseValue: 5,
+            perGeneration: 2,
+          },
+        },
+        introLine:
+          `Cryo Bay: Vale Resonance stirred in Pod 01. They were listed in the archive as "the first willing volunteer." Elara knew their name before they opened their eyes.`,
+      },
+      {
+        member: {
+          name: "Kesh Vigil",
+          nickname: "the Watcher",
+          species: "demagi",
+          gender: "female",
+          bloodlineId: "crimson_vigil",
+          generation: 1,
+          parentIds: null,
+          children: [],
+          geneticTraits: ["iron_constitution", "focused"],
+          role: null,
+          stats: {
+            resilience: 75,
+            intellect: 55,
+            reflexes: 62,
+            empathy: 45,
+            immunity: 70,
+            adaptability: 48,
+          },
+          morale: 72,
+          health: 100,
+          loyalty: 55,
+          status: "active",
+          age: 31,
+          maxAge: 105,
+          missionHistory: [],
+          relationships: {},
+        },
+        bloodline: {
+          id: "crimson_vigil",
+          founderTemplateId: "tpl_demagi_ashborn",
+          name: "House Vigil",
+          motto: "The watch does not end.",
+          color: "#dc2626",
+          generationCount: 1,
+          geneticDrift: 0,
+          diversityIndex: 0,
+          activeTraits: ["iron_constitution", "focused"],
+          recessiveTraits: [],
+          power: {
+            name: "Crimson Vigil",
+            description:
+              "Security systems respond faster. Threats are detected before they materialize.",
+            stat: "security_rating",
+            baseValue: 10,
+            perGeneration: 2,
+          },
+        },
+        introLine:
+          `Cryo Bay: Kesh Vigil opened her eyes in Pod 01 and immediately asked where the weapons were. Elara told her. Kesh approved.`,
+      },
+      {
+        member: {
+          name: "Cipher Parallax",
+          nickname: "the Observer",
+          species: "quarchon",
+          gender: "non-binary",
+          bloodlineId: "temporal_echo",
+          generation: 1,
+          parentIds: null,
+          children: [],
+          geneticTraits: ["eidetic", "brilliant"],
+          role: null,
+          stats: {
+            resilience: 40,
+            intellect: 82,
+            reflexes: 50,
+            empathy: 58,
+            immunity: 45,
+            adaptability: 72,
+          },
+          morale: 68,
+          health: 100,
+          loyalty: 50,
+          status: "active",
+          age: 42,
+          maxAge: 160,
+          missionHistory: [],
+          relationships: {},
+        },
+        bloodline: {
+          id: "temporal_echo",
+          founderTemplateId: "tpl_quarchon_observer",
+          name: "House Parallax",
+          motto: "We have already seen tomorrow.",
+          color: "#a855f7",
+          generationCount: 1,
+          geneticDrift: 0,
+          diversityIndex: 0,
+          activeTraits: ["eidetic", "brilliant"],
+          recessiveTraits: [],
+          power: {
+            name: "Temporal Echo",
+            description:
+              "Research completes faster, as if the answers were already known.",
+            stat: "research_speed",
+            baseValue: 6,
+            perGeneration: 3,
+          },
+        },
+        introLine:
+          `Cryo Bay: Cipher Parallax rose from Pod 01 mid-sentence, as if they'd been talking the whole time. Elara caught the second half: "...so the course is already plotted."`,
+      },
+    ];
+
+    const variant = variants[ctx.user.id % variants.length];
     const founderId = `crew-bootstrap-${Date.now()}`;
     const founder: SerializedCrewMember = {
+      ...variant.member,
       id: founderId,
-      name: "Vale Resonance",
-      nickname: "the First",
-      species: "human",
-      gender: "non-binary",
-      bloodlineId: "void_resonance",
-      generation: 1,
-      parentIds: null,
-      children: [],
-      geneticTraits: ["hardy", "calm_under_fire"],
-      role: null,
-      stats: {
-        resilience: 62,
-        intellect: 68,
-        reflexes: 55,
-        empathy: 70,
-        immunity: 52,
-        adaptability: 78,
-      },
-      morale: 80,
-      health: 100,
-      loyalty: 60,
-      status: "active",
-      age: 24,
-      maxAge: 82,
-      missionHistory: [],
-      relationships: {},
       birthCycle: 0,
       isFounder: true,
-    };
-
-    // Auto-found the House Resonance bloodline
-    const bloodline: SerializedBloodline = {
-      id: "void_resonance",
-      founderTemplateId: "tpl_terran_prime",
-      name: "House Resonance",
-      motto: "We echo forward.",
-      color: "#22d3ee",
-      generationCount: 1,
-      geneticDrift: 0,
-      diversityIndex: 0,
-      activeTraits: ["hardy", "calm_under_fire"],
-      recessiveTraits: [],
-      power: {
-        name: "Void Resonance",
-        description: "Trade routes hum with an efficiency others can't explain.",
-        stat: "trade_income",
-        baseValue: 5,
-        perGeneration: 2,
-      },
     };
 
     const next: CrewState = {
@@ -688,7 +809,10 @@ export const crewRouter = router({
         totalCloned: state.roster.totalCloned + 1,
         generationRecord: 1,
       },
-      bloodlines: { ...state.bloodlines, void_resonance: bloodline },
+      bloodlines: {
+        ...state.bloodlines,
+        [variant.bloodline.id]: variant.bloodline,
+      },
       firstCrewMemberBorn: true,
       feed: trimFeed([
         ...state.feed,
@@ -697,7 +821,7 @@ export const crewRouter = router({
           timestamp: Date.now(),
           roomId: "cryo_bay",
           category: "crew_life",
-          text: `Cryo Bay: ${founder.name} stirred in Pod 01. Elara was there. The Collector's archive has given us our first-breath.`,
+          text: variant.introLine,
           severity: "info",
           actionable: false,
         },

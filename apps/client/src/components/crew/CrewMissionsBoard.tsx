@@ -7,9 +7,14 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { toast } from "sonner";
-import { Rocket, Skull, Clock, Target } from "lucide-react";
+import { Rocket, Skull, Clock, Target, AlertTriangle, Heart } from "lucide-react";
 import { trpc } from "@/lib/trpc";
-import { CREW_MISSION_TEMPLATES, calculateMissionSuccess } from "@shared/crewMissions";
+import {
+  CREW_MISSION_TEMPLATES,
+  calculateMissionSuccess,
+  findRivalPairs,
+  findCloseBondPairs,
+} from "@shared/crewMissions";
 import type { CrewState, CrewMissionDifficulty } from "@shared/crewPersistence";
 
 interface Props {
@@ -60,6 +65,8 @@ export default function CrewMissionsBoard({ state, onRefetch }: Props) {
 
   const assigned = eligible.filter(m => selectedCrew.includes(m.id));
   const successPreview = template ? calculateMissionSuccess(template, assigned as any) : 0;
+  const rivalPairs = findRivalPairs(assigned as any);
+  const bondedPairs = findCloseBondPairs(assigned as any);
 
   const active = state.missions.filter(m => m.status === "dispatched");
   const resolved = state.missions.filter(m => m.status !== "dispatched");
@@ -224,11 +231,34 @@ export default function CrewMissionsBoard({ state, onRefetch }: Props) {
                   ))}
                 </div>
 
-                <div className="p-2 bg-background/40 rounded border border-border/30 mb-3">
+                <div className="p-2 bg-background/40 rounded border border-border/30 mb-3 space-y-1">
                   <div className="flex items-center gap-1 text-[10px] font-mono">
                     <Target size={10} className="text-primary" />
                     success projection: {Math.round(successPreview * 100)}%
                   </div>
+                  {rivalPairs.length > 0 && (
+                    <div className="text-[9px] font-mono text-red-300 flex items-start gap-1">
+                      <AlertTriangle size={9} className="mt-0.5 shrink-0" />
+                      <span>
+                        Rivals on squad:{" "}
+                        {rivalPairs
+                          .map(([a, b]) => `${a.name} × ${b.name}`)
+                          .join(", ")}
+                        . Expect friction.
+                      </span>
+                    </div>
+                  )}
+                  {bondedPairs.length > 0 && (
+                    <div className="text-[9px] font-mono text-cyan-300 flex items-start gap-1">
+                      <Heart size={9} className="mt-0.5 shrink-0" />
+                      <span>
+                        Close bonds:{" "}
+                        {bondedPairs
+                          .map(([a, b]) => `${a.name} + ${b.name}`)
+                          .join(", ")}
+                      </span>
+                    </div>
+                  )}
                 </div>
 
                 <Button

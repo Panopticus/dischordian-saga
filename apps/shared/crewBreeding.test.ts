@@ -26,6 +26,7 @@ import {
   ensureCrewState,
   createDefaultCrewState,
   countActiveCrew,
+  canBootstrapCrew,
   CREW_STATE_VERSION,
   type CrewState,
   type SerializedCrewMember,
@@ -287,6 +288,38 @@ describe("ensureCrewState()", () => {
     base.roster.members.push(fakeMember("dead", { status: "dead" }));
     base.roster.members.push(fakeMember("hurt", { status: "injured" }));
     expect(countActiveCrew(base)).toBe(1);
+  });
+});
+
+describe("canBootstrapCrew() — idempotency guard", () => {
+  it("refuses when the crew system is locked", () => {
+    const state = createDefaultCrewState();
+    const result = canBootstrapCrew(state);
+    expect(result.ok).toBe(false);
+    if (!result.ok) expect(result.error).toContain("not unlocked");
+  });
+
+  it("allows when unlocked and the roster is completely empty", () => {
+    const state = createDefaultCrewState();
+    state.crewSystemUnlocked = true;
+    expect(canBootstrapCrew(state).ok).toBe(true);
+  });
+
+  it("refuses a second call after a member is hatched", () => {
+    const state = createDefaultCrewState();
+    state.crewSystemUnlocked = true;
+    state.roster.members.push(fakeMember("founder"));
+    const result = canBootstrapCrew(state);
+    expect(result.ok).toBe(false);
+    if (!result.ok) expect(result.error).toContain("already");
+  });
+
+  it("refuses when only deceased members exist (Ark has history)", () => {
+    const state = createDefaultCrewState();
+    state.crewSystemUnlocked = true;
+    state.roster.deceased.push(fakeMember("gone", { status: "dead" }));
+    const result = canBootstrapCrew(state);
+    expect(result.ok).toBe(false);
   });
 });
 
@@ -670,6 +703,70 @@ describe("applyTick() combined pipeline", () => {
     expect(next.incubator.pods[0].status).toBe("ready");
     // Aging advanced 1 year
     expect(next.roster.members[0].age).toBe(31);
+  });
+});
+
+/* ─── DMC bridge ─── */
+import { crewMemberToCloneStats } from "./crewDmcBridge";
+
+describe("crewMemberToCloneStats()", () => {
+  it("maps intellect → neural_sync in the 60-100 range", () => {
+    const low = crewMemberToCloneStats(
+      { ...fakeMember("a", { stats: { ...BASE_STATS, intellect: 0 } }) } as any,
+      "WIRED-1-X",
+    );
+    const high = crewMemberToCloneStats(
+      { ...fakeMember("b", { stats: { ...BASE_STATS, intellect: 100 } }) } as any,
+      "WIRED-2-X",
+    );
+    expect(low.neural_sync).toBeGreaterThanOrEqual(60);
+    expect(high.neural_sync).toBeLessThanOrEqual(100);
+    expect(high.neural_sync).toBeGreaterThan(low.neural_sync);
+  });
+
+  it("maps reflexes → velocity_ceiling in the 80-120 range", () => {
+    const slow = crewMemberToCloneStats(
+      { ...fakeMember("a", { stats: { ...BASE_STATS, reflexes: 10 } }) } as any,
+      "WIRED-3-X",
+    );
+    const fast = crewMemberToCloneStats(
+      { ...fakeMember("b", { stats: { ...BASE_STATS, reflexes: 95 } }) } as any,
+      "WIRED-4-X",
+    );
+    expect(slow.velocity_ceiling_pct).toBeGreaterThanOrEqual(80);
+    expect(fast.velocity_ceiling_pct).toBeLessThanOrEqual(120);
+    expect(fast.velocity_ceiling_pct).toBeGreaterThan(slow.velocity_ceiling_pct);
+  });
+
+  it("maps adaptability → surface_grip in the 40-80 range", () => {
+    const clumsy = crewMemberToCloneStats(
+      { ...fakeMember("a", { stats: { ...BASE_STATS, adaptability: 20 } }) } as any,
+      "WIRED-5-X",
+    );
+    expect(clumsy.surface_grip_pct).toBeGreaterThanOrEqual(40);
+    expect(clumsy.surface_grip_pct).toBeLessThanOrEqual(80);
+  });
+
+  it("clamps physical_integrity to 60-100 even when health is 0 or 150", () => {
+    const hurt = crewMemberToCloneStats(
+      { ...fakeMember("a", { health: 0 }) } as any,
+      "WIRED-6-X",
+    );
+    const overhealed = crewMemberToCloneStats(
+      { ...fakeMember("b", { health: 150 }) } as any,
+      "WIRED-7-X",
+    );
+    expect(hurt.physical_integrity).toBe(60);
+    expect(overhealed.physical_integrity).toBe(100);
+  });
+
+  it("assigns a chassis color by species and preserves the designation", () => {
+    const result = crewMemberToCloneStats(
+      { ...fakeMember("a", { species: "voltari" }) } as any,
+      "WIRED-9999-OMEGA",
+    );
+    expect(result.designation).toBe("WIRED-9999-OMEGA");
+    expect(result.chassisColor).toMatch(/^#/);
   });
 });
 

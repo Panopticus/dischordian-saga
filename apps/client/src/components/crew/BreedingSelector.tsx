@@ -5,17 +5,17 @@
    and projected stat ranges before committing.
    ═══════════════════════════════════════════════════════ */
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { AlertTriangle, Heart, Dna } from "lucide-react";
+import { AlertTriangle, Heart, Dna, Crown } from "lucide-react";
 import { FOUNDING_BLOODLINES, getTrait, calculateInbreedingPenalty, type BloodlineId } from "@/game/crewGenetics";
 import { generationsSinceShared } from "@/game/crewBirth";
 import type { CrewState } from "@shared/crewPersistence";
 
 interface Props {
   state: CrewState;
-  onBreed: (parent1Id: string, parent2Id: string) => void;
+  onBreed: (parent1Id: string, parent2Id: string, chosenBloodline?: BloodlineId) => void;
 }
 
 export default function BreedingSelector({ state, onBreed }: Props) {
@@ -25,9 +25,15 @@ export default function BreedingSelector({ state, onBreed }: Props) {
   );
   const [p1, setP1] = useState<string | null>(null);
   const [p2, setP2] = useState<string | null>(null);
+  const [chosenBloodline, setChosenBloodline] = useState<BloodlineId | null>(null);
 
   const parent1 = eligible.find(m => m.id === p1);
   const parent2 = eligible.find(m => m.id === p2);
+
+  // Reset the bloodline choice whenever the parent selection changes
+  useEffect(() => {
+    setChosenBloodline(null);
+  }, [p1, p2]);
 
   const gen2Available = state.generation2Reached || state.roster.members.some(m => m.generation >= 2);
 
@@ -213,6 +219,39 @@ export default function BreedingSelector({ state, onBreed }: Props) {
               </div>
             </div>
 
+            {parent1.bloodlineId !== parent2.bloodlineId && (
+              <div>
+                <div className="text-[10px] font-mono uppercase text-muted-foreground mb-1 flex items-center gap-1">
+                  <Crown size={10} />
+                  Child's bloodline
+                </div>
+                <div className="grid grid-cols-2 gap-1">
+                  {[parent1, parent2].map(p => {
+                    const bl = FOUNDING_BLOODLINES[p.bloodlineId as BloodlineId];
+                    const selected =
+                      (chosenBloodline ?? parent1.bloodlineId) === p.bloodlineId;
+                    return (
+                      <button
+                        key={p.id}
+                        onClick={() => setChosenBloodline(p.bloodlineId as BloodlineId)}
+                        className={`text-left p-2 border rounded text-[9px] font-mono transition ${
+                          selected ? "border-primary bg-primary/10" : "border-border/30"
+                        }`}
+                        style={{ borderLeftWidth: "3px", borderLeftColor: bl?.color }}
+                      >
+                        <div className="font-display text-[10px]" style={{ color: bl?.color }}>
+                          {bl?.name ?? p.bloodlineId}
+                        </div>
+                        <div className="text-muted-foreground mt-0.5">
+                          via {p.name}
+                        </div>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+
             <div className="text-[9px] font-mono text-muted-foreground italic border-t border-border/30 pt-2">
               12% chance of spontaneous mutation. Incompatible traits resolve by rarity.
             </div>
@@ -221,9 +260,13 @@ export default function BreedingSelector({ state, onBreed }: Props) {
               className="w-full gap-1"
               size="sm"
               onClick={() => {
-                if (parent1 && parent2) onBreed(parent1.id, parent2.id);
+                if (parent1 && parent2) {
+                  const bl = chosenBloodline ?? (parent1.bloodlineId as BloodlineId);
+                  onBreed(parent1.id, parent2.id, bl);
+                }
                 setP1(null);
                 setP2(null);
+                setChosenBloodline(null);
               }}
             >
               <Heart size={14} />

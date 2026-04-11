@@ -348,3 +348,17 @@ export function trimFeed(entries: SerializedFeedEntry[]): SerializedFeedEntry[] 
   if (entries.length <= MAX_FEED_ENTRIES) return entries;
   return entries.slice(entries.length - MAX_FEED_ENTRIES);
 }
+
+/** Returns true if crew.bootstrap should be allowed to run. The mutation
+ *  requires the crew system to be unlocked AND a roster that has never
+ *  held a member (living or dead). Used by the router's bootstrap
+ *  procedure and unit tests. */
+export function canBootstrapCrew(state: CrewState): { ok: true } | { ok: false; error: string } {
+  if (!state.crewSystemUnlocked) {
+    return { ok: false, error: "crew system not unlocked" };
+  }
+  if (state.roster.members.length > 0 || state.roster.deceased.length > 0) {
+    return { ok: false, error: "already bootstrapped" };
+  }
+  return { ok: true };
+}

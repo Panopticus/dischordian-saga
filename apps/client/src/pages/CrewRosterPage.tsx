@@ -25,6 +25,7 @@ import {
   Radio,
   Crown,
   AlertTriangle,
+  GitBranch,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -44,6 +45,7 @@ const CrewRosterView = lazy(() => import("@/components/crew/CrewRosterView"));
 const IncubatorMonitor = lazy(() => import("@/components/crew/IncubatorMonitor"));
 const BreedingSelector = lazy(() => import("@/components/crew/BreedingSelector"));
 const BloodlineViewer = lazy(() => import("@/components/crew/BloodlineViewer"));
+const FamilyTreeView = lazy(() => import("@/components/crew/FamilyTreeView"));
 const CrewMissionsBoard = lazy(() => import("@/components/crew/CrewMissionsBoard"));
 const MemorialWall = lazy(() => import("@/components/crew/MemorialWall"));
 const CrewActivityFeed = lazy(() => import("@/components/crew/CrewActivityFeed"));
@@ -56,6 +58,7 @@ type Tab =
   | "incubator"
   | "breeding"
   | "bloodlines"
+  | "tree"
   | "missions"
   | "memorial"
   | "feed";
@@ -208,14 +211,24 @@ export default function CrewRosterPage() {
     setShowCloneModal(false);
   };
 
-  const handleBreed = async (parent1Id: string, parent2Id: string) => {
+  const handleBreed = async (
+    parent1Id: string,
+    parent2Id: string,
+    chosenBloodline?: BloodlineId,
+  ) => {
     if (!cs) return;
     const p1 = cs.roster.members.find(m => m.id === parent1Id);
     const p2 = cs.roster.members.find(m => m.id === parent2Id);
     if (!p1 || !p2) return;
     // Pass living + deceased roster so the LCA walk can reach dead ancestors
     const fullRoster = [...cs.roster.members, ...cs.roster.deceased];
-    const pending = buildPendingOffspring(p1, p2, fullRoster);
+    const pending = buildPendingOffspring(
+      p1,
+      p2,
+      fullRoster,
+      Date.now(),
+      chosenBloodline,
+    );
     await recordOffspring.mutateAsync({ pending: pending as any });
     setReviewOffspringId(pending.id);
     toast.success("Breeding complete — review the offspring");
@@ -321,7 +334,7 @@ export default function CrewRosterPage() {
 
       <div className="max-w-6xl mx-auto px-4 pt-4">
         <Tabs value={tab} onValueChange={v => setTab(v as Tab)}>
-          <TabsList className="grid grid-cols-7 w-full">
+          <TabsList className="grid grid-cols-8 w-full">
             <TabsTrigger value="roster" className="gap-1">
               <Users size={14} />
               Roster
@@ -342,6 +355,10 @@ export default function CrewRosterPage() {
             <TabsTrigger value="bloodlines" className="gap-1">
               <Crown size={14} />
               Houses
+            </TabsTrigger>
+            <TabsTrigger value="tree" className="gap-1">
+              <GitBranch size={14} />
+              Tree
             </TabsTrigger>
             <TabsTrigger value="missions" className="gap-1">
               <Rocket size={14} />
@@ -390,6 +407,9 @@ export default function CrewRosterPage() {
               </TabsContent>
               <TabsContent value="bloodlines">
                 <BloodlineViewer state={cs} />
+              </TabsContent>
+              <TabsContent value="tree">
+                <FamilyTreeView state={cs} />
               </TabsContent>
               <TabsContent value="missions">
                 <CrewMissionsBoard state={cs} onRefetch={() => refetch()} />
