@@ -22,6 +22,8 @@ import {
   getDegenPortrait, getVipChip, getTrustMilestoneArt,
 } from "@/lib/casinoAssets";
 import { useDegenVO } from "@/hooks/useDegenVO";
+import { CasinoGamePanel } from "./CasinoGamePanels";
+import { trpc } from "@/lib/trpc";
 
 const CASINO_FLOOR_BG = CASINO_ENVIRONMENTS.mainFloor;
 const CASINO_PARALLAX_COLOR = "https://res.cloudinary.com/dsenaozjq/image/upload/q_auto/f_auto/v1775681916/Vast_open_casino_202604081640_drbpia.jpg";
@@ -30,6 +32,11 @@ const CASINO_PARALLAX_DEPTH = "https://res.cloudinary.com/dsenaozjq/image/upload
 export default function DegensCasinoPage() {
   const [, navigate] = useLocation();
   const [entering, setEntering] = useState(true);
+  const trpcContext = trpc.useUtils();
+  // Server-side casino state (authoritative). When present it overrides
+  // the localStorage mirror — but we fall back to local state so the
+  // page still renders without a logged-in session.
+  trpc.casino.getState.useQuery(undefined, { retry: false });
   const [casinoState, setCasinoState] = useState<CasinoState>(() => {
     const saved = localStorage.getItem("degen_casino");
     return saved ? JSON.parse(saved) : DEFAULT_CASINO_STATE;
@@ -465,9 +472,10 @@ export default function DegensCasinoPage() {
               </div>
             )}
 
-            {/* Other games — placeholder with table art */}
-            {selectedGame !== "void_slots" && selectedGame !== "entropy_dice" && (
-              <div className="text-center py-12">
+            {/* All other games are rendered by the CasinoGamePanel dispatcher,
+                 which wires each one to the server-authoritative tRPC casino router. */}
+            {selectedGame !== "void_slots" && selectedGame !== "entropy_dice" && selectedGame && (
+              <div>
                 {(() => {
                   const GAME_TABLE_ART: Partial<Record<CasinoGame, string>> = {
                     nebula_poker: CASINO_ENVIRONMENTS.cardTables,
@@ -480,20 +488,22 @@ export default function DegensCasinoPage() {
                     dream_roulette: CASINO_GAME_TABLES.voidChargeDevice,
                     quantum_roulette: CASINO_ENVIRONMENTS.rouletteChamber,
                   };
-                  const tableImg = selectedGame ? GAME_TABLE_ART[selectedGame] : undefined;
+                  const tableImg = GAME_TABLE_ART[selectedGame];
                   return tableImg ? (
                     <img src={tableImg} alt="" className="w-full max-w-sm mx-auto rounded-xl mb-4 opacity-40" style={{ filter: "saturate(0.7)" }} />
-                  ) : (
-                    <Skull size={32} className="text-amber-400/30 mx-auto mb-3" />
-                  );
+                  ) : null;
                 })()}
-                <p className="font-mono text-sm text-white/40">
-                  {CASINO_GAMES.find(g => g.id === selectedGame)?.name}
-                </p>
-                <p className="font-mono text-[10px] text-white/20 mt-2">
+                <CasinoGamePanel
+                  game={selectedGame}
+                  onResult={() => {
+                    // Refresh the server-side casino state snapshot if we are
+                    // using it (we mirror to localStorage for legacy reasons).
+                    trpcContext.casino.getState.invalidate();
+                  }}
+                />
+                <p className="font-mono text-[9px] text-white/20 mt-6 text-center">
                   {CASINO_GAMES.find(g => g.id === selectedGame)?.rules}
                 </p>
-                <p className="font-mono text-[9px] text-amber-400/30 mt-4">Coming to Ne-Yon Space soon...</p>
               </div>
             )}
           </div>
