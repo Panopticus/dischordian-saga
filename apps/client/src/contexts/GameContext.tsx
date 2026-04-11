@@ -1416,6 +1416,13 @@ export function GameProvider({ children }: { children: ReactNode }) {
         },
       },
       totalRoomsUnlocked: 1,
+      // Awakening gives the player access to the Collector's archive + the
+      // Resurrectionist's pods — the crew cloning system unlocks here.
+      narrativeFlags: {
+        ...prev.narrativeFlags,
+        awakening_complete: true,
+        crew_system_unlocked: true,
+      },
     }));
   }, []);
 

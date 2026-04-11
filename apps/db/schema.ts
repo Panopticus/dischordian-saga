@@ -3117,3 +3117,128 @@ export type AdminApprovalRequest = typeof adminApprovalRequests.$inferSelect;
 export type InsertAdminApprovalRequest = typeof adminApprovalRequests.$inferInsert;
 
 export type CodexVoteRow = typeof codexVotes.$inferSelect;
+
+/* ═══════════════════════════════════════════════════════
+   CREW SYSTEM — Bloodlines, Clones, Pods, Missions
+
+   NOTE: The crew system's runtime state lives in
+   userProgress.gameData.crew as a JSON blob (see
+   apps/shared/crewPersistence.ts). These tables are
+   provided for cross-user queries, server-side analytics,
+   and future migration away from the JSON blob. The router
+   does not require them — they're opt-in promotion
+   targets. Run db:push to materialize.
+   ═══════════════════════════════════════════════════════ */
+
+export const crewMembers = mysqlTable("crew_members", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  /** Stable client-side id, e.g. "crew-1710000000000-12345" */
+  memberKey: varchar("memberKey", { length: 64 }).notNull(),
+  name: varchar("name", { length: 128 }).notNull(),
+  nickname: varchar("nickname", { length: 64 }),
+  species: varchar("species", { length: 32 }).notNull(),
+  gender: varchar("gender", { length: 16 }).notNull(),
+  bloodlineKey: varchar("bloodlineKey", { length: 64 }).notNull(),
+  generation: int("generation").notNull().default(1),
+  parentIds: json("parentIds").$type<[string, string] | null>(),
+  children: json("children").$type<string[]>().default([]).notNull(),
+  geneticTraits: json("geneticTraits").$type<string[]>().default([]).notNull(),
+  role: varchar("role", { length: 32 }),
+  stats: json("stats").$type<Record<string, number>>().notNull(),
+  morale: int("morale").notNull().default(70),
+  health: int("health").notNull().default(100),
+  loyalty: int("loyalty").notNull().default(50),
+  status: varchar("status", { length: 24 }).notNull().default("active"),
+  age: int("age").notNull().default(0),
+  maxAge: int("maxAge").notNull().default(80),
+  birthCycle: int("birthCycle").notNull().default(0),
+  missionHistory: json("missionHistory").$type<string[]>().default([]).notNull(),
+  relationships: json("relationships").$type<Record<string, number>>().default({}).notNull(),
+  deathRecord: json("deathRecord").$type<{ cycle: number; cause: string; lastWords: string } | null>(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  userMemberIdx: uniqueIndex("uq_crew_member_user_key").on(table.userId, table.memberKey),
+  userIdx: index("idx_crew_member_user").on(table.userId),
+  bloodlineIdx: index("idx_crew_member_bloodline").on(table.bloodlineKey),
+  statusIdx: index("idx_crew_member_status").on(table.status),
+}));
+
+export type CrewMemberRow = typeof crewMembers.$inferSelect;
+export type InsertCrewMember = typeof crewMembers.$inferInsert;
+
+export const crewBloodlines = mysqlTable("crew_bloodlines", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  bloodlineKey: varchar("bloodlineKey", { length: 64 }).notNull(),
+  foundedAt: timestamp("foundedAt").defaultNow().notNull(),
+  generationCount: int("generationCount").notNull().default(1),
+  geneticDrift: int("geneticDrift").notNull().default(0),
+  diversityIndex: int("diversityIndex").notNull().default(0),
+  activeTraits: json("activeTraits").$type<string[]>().default([]).notNull(),
+  recessiveTraits: json("recessiveTraits").$type<string[]>().default([]).notNull(),
+  /** Derived — bloodline data may mirror the immutable FOUNDING_BLOODLINES template */
+  metadata: json("metadata").$type<Record<string, unknown>>(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  userBloodlineIdx: uniqueIndex("uq_crew_bloodline_user_key").on(table.userId, table.bloodlineKey),
+  userIdx: index("idx_crew_bloodline_user").on(table.userId),
+}));
+
+export type CrewBloodlineRow = typeof crewBloodlines.$inferSelect;
+export type InsertCrewBloodline = typeof crewBloodlines.$inferInsert;
+
+export const crewIncubatorPods = mysqlTable("crew_incubator_pods", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  /** 1..6 — stable slot index shown in the UI */
+  podSlot: int("podSlot").notNull(),
+  status: varchar("status", { length: 24 }).notNull().default("empty"),
+  templateId: varchar("templateId", { length: 64 }),
+  bloodlineKey: varchar("bloodlineKey", { length: 64 }),
+  generation: int("generation").notNull().default(1),
+  parentIds: json("parentIds").$type<[string, string] | null>(),
+  timeRemainingSeconds: int("timeRemainingSeconds").notNull().default(0),
+  totalTimeSeconds: int("totalTimeSeconds").notNull().default(0),
+  geneticIntegrity: int("geneticIntegrity").notNull().default(100),
+  traits: json("traits").$type<string[]>().default([]).notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  userSlotIdx: uniqueIndex("uq_crew_pod_user_slot").on(table.userId, table.podSlot),
+  userIdx: index("idx_crew_pod_user").on(table.userId),
+  statusIdx: index("idx_crew_pod_status").on(table.status),
+}));
+
+export type CrewIncubatorPodRow = typeof crewIncubatorPods.$inferSelect;
+export type InsertCrewIncubatorPod = typeof crewIncubatorPods.$inferInsert;
+
+export const crewMissions = mysqlTable("crew_missions", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  missionKey: varchar("missionKey", { length: 96 }).notNull(),
+  templateId: varchar("templateId", { length: 64 }).notNull(),
+  name: varchar("name", { length: 128 }).notNull(),
+  sectorId: varchar("sectorId", { length: 64 }).notNull(),
+  difficulty: varchar("difficulty", { length: 24 }).notNull(),
+  status: varchar("status", { length: 24 }).notNull().default("dispatched"),
+  assignedCrewIds: json("assignedCrewIds").$type<string[]>().default([]).notNull(),
+  successChance: int("successChance").notNull().default(50),
+  dispatchedAt: timestamp("dispatchedAt").defaultNow().notNull(),
+  completesAt: timestamp("completesAt").notNull(),
+  resolvedAt: timestamp("resolvedAt"),
+  resolution: json("resolution").$type<{
+    success: boolean;
+    narrative: string;
+    casualties: string[];
+    injured: string[];
+    survived: string[];
+    rewardGranted: Record<string, unknown>;
+  } | null>(),
+}, (table) => ({
+  userMissionIdx: uniqueIndex("uq_crew_mission_user_key").on(table.userId, table.missionKey),
+  userStatusIdx: index("idx_crew_mission_user_status").on(table.userId, table.status),
+}));
+
+export type CrewMissionRow = typeof crewMissions.$inferSelect;
+export type InsertCrewMission = typeof crewMissions.$inferInsert;
