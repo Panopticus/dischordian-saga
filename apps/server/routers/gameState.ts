@@ -288,7 +288,7 @@ export const gameStateRouter = router({
     const db = await getDb();
     if (!db) dbUnavailable();
     const rows = await db.select().from(userProgress).where(eq(userProgress.userId, ctx.user.id));
-    if (!rows.length) return { loopCount: 0, awarenessLevel: 0, bestTimeHeld: 0, canonAchieved: false, scenariosCompleted: [] as string[], ironLionContacted: false, gmContactLevel: 0 };
+    if (!rows.length) return { loopCount: 0, awarenessLevel: 0, bestTimeHeld: 0, canonAchieved: false, scenariosCompleted: [] as string[], ironLionContacted: false, gmContactLevel: 0, thoughtbornContacted: false, openChannelChoice: "" };
     const state = rows[0].gameData as Record<string, unknown> | null;
     const cades = (state?.cades ?? {}) as Record<string, unknown>;
     return {
@@ -299,6 +299,8 @@ export const gameStateRouter = router({
       scenariosCompleted: (cades.scenariosCompleted as string[]) ?? [],
       ironLionContacted: (cades.ironLionContacted as boolean) ?? false,
       gmContactLevel: (cades.gmContactLevel as number) ?? 0,
+      thoughtbornContacted: (cades.thoughtbornContacted as boolean) ?? false,
+      openChannelChoice: (cades.openChannelChoice as string) ?? "",
     };
   }),
 
@@ -320,6 +322,9 @@ export const gameStateRouter = router({
         cades.bestTimeHeld = Math.max((cades.bestTimeHeld as number) ?? 0, timeHeld);
         if (input.canon_achieved) cades.canonAchieved = true;
         if (input.iron_lion_contacted) cades.ironLionContacted = true;
+        if (typeof input.open_channel_choice === "string" && input.open_channel_choice.length > 0) {
+          cades.openChannelChoice = input.open_channel_choice;
+        }
       }
       if (input.mode === "ship_defense") {
         if (input.thoughtborn_contacted) cades.thoughtbornContacted = true;
@@ -328,7 +333,13 @@ export const gameStateRouter = router({
         const existing = (cades.scenariosCompleted as string[]) ?? [];
         const completed = (input.scenarios_total_completed as string[]) ?? [];
         cades.scenariosCompleted = [...new Set([...existing, ...completed])];
-        cades.gmContactLevel = Math.max((cades.gmContactLevel as number) ?? 0, (input.game_masters_contact_level as number) ?? 0);
+        // Accept both `gm_contact_level` (from CADES_GM_CONTACT postMessage)
+        // and `game_masters_contact_level` (from CADES_RESULT payload).
+        const newLevel =
+          (input.gm_contact_level as number) ??
+          (input.game_masters_contact_level as number) ??
+          0;
+        cades.gmContactLevel = Math.max((cades.gmContactLevel as number) ?? 0, newLevel);
       }
 
       state.cades = cades;

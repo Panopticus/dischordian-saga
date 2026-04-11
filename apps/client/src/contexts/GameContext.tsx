@@ -10,6 +10,8 @@ import { SIB_WATCHED_FLAGS } from "@shared/transmissions";
 // Task 3.1 — sync status moved out of context into its own store so the 77
 // GameContext consumers don't re-render every 5 seconds during debounced save.
 import { useSyncStatusStore } from "@/stores/syncStatusStore";
+import { applyDischordiaEnergy } from "@/stores/dischordiaCycleStore";
+import { recordMemorableMoment } from "@/stores/memorableMomentsStore";
 
 /* ─── TYPES ─── */
 export type GamePhase = "FIRST_VISIT" | "AWAKENING" | "QUARTERS_UNLOCKED" | "EXPLORING" | "FULL_ACCESS";
@@ -2226,6 +2228,19 @@ export function GameProvider({ children }: { children: ReactNode }) {
         armyTotalMissionsFailed: prev.armyTotalMissionsFailed + (success ? 0 : 1),
       };
     });
+    // Witnessing §3.6 — a successful crew mission feeds the Light
+    // meter (+15). We use the compassionate row as the default; the
+    // mercenary variant is reserved for deployments explicitly flagged
+    // as such (not yet threaded through the deployment schema).
+    if (success) {
+      applyDischordiaEnergy("crew_mission_compassionate");
+      // Witnessing §11.2 — feed slot: "A crew mission you completed".
+      // Captured for the Antiquarian's Lion in Black feed.
+      recordMemorableMoment(
+        "crew_mission_completed",
+        "A crew mission your units brought home alive.",
+      );
+    }
   }, []);
 
   const updateSectorControl = useCallback((sectorId: string, updates: Partial<SectorControl>) => {

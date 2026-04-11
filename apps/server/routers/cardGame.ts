@@ -2,8 +2,8 @@ import { logger } from "../logger";
 import { z } from "zod";
 import { publicProcedure, protectedProcedure, router } from "../_core/trpc";
 import { getDb } from "../db";
-import { cards, userCards, decks, cardGameMatches, characterSheets, dreamBalance } from "../../db/schema";
-import { eq, and, like, inArray, sql, desc, asc, type SQL } from "drizzle-orm";
+import { cards, userCards, decks, cardGameMatches, characterSheets, dreamBalance, userProgress, pvpMatches } from "../../db/schema";
+import { eq, and, or, like, inArray, sql, desc, asc, type SQL } from "drizzle-orm";
 import { fetchCitizenData, fetchPotentialNftData, resolveCardGameBonuses } from "../traitResolver";
 import { trackAiResult, trackCollectionSize } from "../achievementTracker";
 import { ripple } from "../services/rippleEngine";
@@ -247,17 +247,70 @@ export const cardGameRouter = router({
       });
     }
 
-    return { success: true, message: `Received ${pack.length} starter cards!`, count: pack.length };
+    // Also create a pre-built "Starter Deck" so new players can jump
+    // straight into a match without opening the deck builder first.
+    // Only create one if the player doesn't already have a deck.
+    const existingDecks = await db
+      .select({ count: sql<number>`COUNT(*)` })
+      .from(decks)
+      .where(eq(decks.userId, ctx.user.id));
+    if (Number(existingDecks[0]?.count ?? 0) === 0 && pack.length > 0) {
+      await db.insert(decks).values({
+        userId: ctx.user.id,
+        name: "Starter Deck",
+        description: "Pre-built starter deck. Edit freely in the Deck Builder.",
+        deckType: "combined",
+        cardList: pack.map(c => ({ cardId: c.cardId, quantity: 1 })),
+      });
+    }
+
+    return {
+      success: true,
+      message: `Received ${pack.length} starter cards + a pre-built deck!`,
+      count: pack.length,
+      deckCreated: Number(existingDecks[0]?.count ?? 0) === 0,
+    };
   }),
 
-  // Open a booster pack (earn random cards)
+  // Open a booster pack (earn random cards). Charges the player in
+  // credits from their characterSheet balance. Three tiers:
+  //  - standard: 100 credits, 3 common + 1 uncommon + 1 rare+
+  //  - premium:  250 credits, guaranteed rare, chance at legendary+
+  //  - ultra:    500 credits, guaranteed epic, higher legendary+ chance
   openBoosterPack: protectedProcedure
-    .input(z.object({ season: z.string().optional() }))
+    .input(z.object({
+      season: z.string().optional(),
+      tier: z.enum(["standard", "premium", "ultra"]).default("standard"),
+    }))
     .mutation(async ({ ctx, input }) => {
       const db = await getDb();
-      if (!db) return { success: false, cards: [] };
+      if (!db) return { success: false, cards: [], message: "Database unavailable" };
 
-      // 5 cards per pack: 3 common, 1 uncommon, 1 rare+
+      const PACK_PRICES = { standard: 100, premium: 250, ultra: 500 } as const;
+      const cost = PACK_PRICES[input.tier];
+
+      // Charge the player's credit balance up front.
+      const sheetRows = await db
+        .select()
+        .from(characterSheets)
+        .where(eq(characterSheets.userId, ctx.user.id))
+        .limit(1);
+      const sheet = sheetRows[0];
+      if (!sheet) {
+        return { success: false, cards: [], message: "Create a character first" };
+      }
+      if ((sheet.credits ?? 0) < cost) {
+        return {
+          success: false,
+          cards: [],
+          message: `Not enough credits (need ${cost}, have ${sheet.credits ?? 0})`,
+        };
+      }
+      await db.update(characterSheets)
+        .set({ credits: sheet.credits - cost })
+        .where(eq(characterSheets.userId, ctx.user.id));
+
+      // 5 cards per pack: 3 common, 1 uncommon, 1 rare+ (tier scales the rare slot)
       const conditions: SQL[] = [eq(cards.isActive, 1)];
       if (input?.season) conditions.push(eq(cards.season, input.season));
 
@@ -282,13 +335,29 @@ export const cardGameRouter = router({
       }
       // 1 uncommon
       if (byRarity.uncommon.length > 0) packCards.push(pick(byRarity.uncommon));
-      // 1 rare+ (weighted)
+      // 1 rare+ slot, weighted by tier
       const roll = Math.random();
-      if (roll < 0.01 && byRarity.neyon.length > 0) packCards.push(pick(byRarity.neyon));
-      else if (roll < 0.03 && byRarity.mythic.length > 0) packCards.push(pick(byRarity.mythic));
-      else if (roll < 0.08 && byRarity.legendary.length > 0) packCards.push(pick(byRarity.legendary));
-      else if (roll < 0.25 && byRarity.epic.length > 0) packCards.push(pick(byRarity.epic));
-      else if (byRarity.rare.length > 0) packCards.push(pick(byRarity.rare));
+      if (input.tier === "ultra") {
+        // Guaranteed epic, 40% shot at legendary+, 5% shot at mythic/neyon
+        if (roll < 0.02 && byRarity.neyon.length > 0) packCards.push(pick(byRarity.neyon));
+        else if (roll < 0.05 && byRarity.mythic.length > 0) packCards.push(pick(byRarity.mythic));
+        else if (roll < 0.40 && byRarity.legendary.length > 0) packCards.push(pick(byRarity.legendary));
+        else if (byRarity.epic.length > 0) packCards.push(pick(byRarity.epic));
+        else if (byRarity.rare.length > 0) packCards.push(pick(byRarity.rare));
+      } else if (input.tier === "premium") {
+        // Guaranteed rare, 15% shot at epic+, 2% shot at legendary+
+        if (roll < 0.01 && byRarity.mythic.length > 0) packCards.push(pick(byRarity.mythic));
+        else if (roll < 0.02 && byRarity.legendary.length > 0) packCards.push(pick(byRarity.legendary));
+        else if (roll < 0.15 && byRarity.epic.length > 0) packCards.push(pick(byRarity.epic));
+        else if (byRarity.rare.length > 0) packCards.push(pick(byRarity.rare));
+      } else {
+        // Standard distribution
+        if (roll < 0.01 && byRarity.neyon.length > 0) packCards.push(pick(byRarity.neyon));
+        else if (roll < 0.03 && byRarity.mythic.length > 0) packCards.push(pick(byRarity.mythic));
+        else if (roll < 0.08 && byRarity.legendary.length > 0) packCards.push(pick(byRarity.legendary));
+        else if (roll < 0.25 && byRarity.epic.length > 0) packCards.push(pick(byRarity.epic));
+        else if (byRarity.rare.length > 0) packCards.push(pick(byRarity.rare));
+      }
 
       // Add to user collection
       for (const card of packCards) {
@@ -319,8 +388,486 @@ export const cardGameRouter = router({
       trackCollectionSize(ctx.user.id)
         .catch(e => logger.error("[CardGame] Collection tracking error:", e));
 
-      return { success: true, cards: packCards };
+      return {
+        success: true,
+        cards: packCards,
+        cost,
+        tier: input.tier,
+        remainingCredits: sheet.credits - cost,
+      };
     }),
+
+  /** Return the current pack shop prices and rarity tiers. */
+  getPackPrices: publicProcedure.query(() => {
+    return {
+      standard: { price: 100, currency: "credits", description: "5 cards • guaranteed rare+" },
+      premium: { price: 250, currency: "credits", description: "5 cards • 15% chance epic+" },
+      ultra: { price: 500, currency: "credits", description: "5 cards • guaranteed epic+" },
+    };
+  }),
+
+  // ═══════════════════════════════════════════════════════
+  // PREMIUM CURRENCY — gems
+  // ═══════════════════════════════════════════════════════
+
+  /** Get the caller's gem balance + lifetime purchased total. */
+  getGemBalance: protectedProcedure.query(async ({ ctx }) => {
+    const db = await getDb();
+    if (!db) return { gems: 0, totalGemsPurchased: 0 };
+
+    const rows = await db.select().from(dreamBalance)
+      .where(eq(dreamBalance.userId, ctx.user.id)).limit(1);
+    if (rows.length === 0) {
+      return { gems: 0, totalGemsPurchased: 0 };
+    }
+    return {
+      gems: rows[0].gems ?? 0,
+      totalGemsPurchased: rows[0].totalGemsPurchased ?? 0,
+    };
+  }),
+
+  /**
+   * Spend gems to buy an in-game bundle. This is the server-authoritative
+   * sink for premium currency — actual gem acquisition happens elsewhere
+   * (Stripe purchases) and only credits the `gems` column. Bundles
+   * deliver credits, Dream, or booster packs.
+   */
+  spendGems: protectedProcedure
+    .input(z.object({
+      bundleId: z.enum([
+        "credits_small", "credits_large",
+        "dream_small", "dream_large",
+        "pack_bundle_3", "pack_bundle_10",
+      ]),
+    }))
+    .mutation(async ({ ctx, input }) => {
+      const db = await getDb();
+      if (!db) return { success: false, message: "Database unavailable" };
+
+      // Pricing table — tuned so gems feel premium relative to credits.
+      const BUNDLES = {
+        credits_small:  { gemCost: 50,  grants: { credits: 2500 }, label: "2,500 credits" },
+        credits_large:  { gemCost: 200, grants: { credits: 12000 }, label: "12,000 credits" },
+        dream_small:    { gemCost: 100, grants: { dream: 50 }, label: "50 Dream" },
+        dream_large:    { gemCost: 400, grants: { dream: 250 }, label: "250 Dream" },
+        pack_bundle_3:  { gemCost: 150, grants: { packs: 3 }, label: "3 standard packs" },
+        pack_bundle_10: { gemCost: 450, grants: { packs: 10 }, label: "10 standard packs" },
+      } as const;
+
+      const bundle = BUNDLES[input.bundleId];
+      if (!bundle) return { success: false, message: "Unknown bundle" };
+
+      const balRows = await db.select().from(dreamBalance)
+        .where(eq(dreamBalance.userId, ctx.user.id)).limit(1);
+      const bal = balRows[0];
+      if (!bal || (bal.gems ?? 0) < bundle.gemCost) {
+        return { success: false, message: `Not enough gems (need ${bundle.gemCost}, have ${bal?.gems ?? 0})` };
+      }
+
+      // Deduct gems first.
+      await db.update(dreamBalance)
+        .set({ gems: (bal.gems ?? 0) - bundle.gemCost })
+        .where(eq(dreamBalance.userId, ctx.user.id));
+
+      // Grant the bundle payload.
+      if ("credits" in bundle.grants) {
+        const [sheet] = await db.select().from(characterSheets)
+          .where(eq(characterSheets.userId, ctx.user.id)).limit(1);
+        if (sheet) {
+          await db.update(characterSheets)
+            .set({ credits: (sheet.credits ?? 0) + bundle.grants.credits })
+            .where(eq(characterSheets.userId, ctx.user.id));
+        }
+      }
+      if ("dream" in bundle.grants) {
+        await db.update(dreamBalance)
+          .set({ dreamTokens: sql`${dreamBalance.dreamTokens} + ${bundle.grants.dream}` })
+          .where(eq(dreamBalance.userId, ctx.user.id));
+      }
+      if ("packs" in bundle.grants) {
+        // Stash as a virtual inventory entry on userProgress for now.
+        const rows = await db.select().from(userProgress)
+          .where(and(eq(userProgress.userId, ctx.user.id), eq(userProgress.franchiseId, "dischordian-saga")))
+          .limit(1);
+        const existing = rows[0];
+        const gameData = (existing?.gameData ?? {}) as Record<string, unknown>;
+        const pendingPacks = Number(gameData.pendingPacks ?? 0) + bundle.grants.packs;
+        const nextGameData = { ...gameData, pendingPacks };
+        if (existing) {
+          await db.update(userProgress)
+            .set({ gameData: nextGameData })
+            .where(and(eq(userProgress.userId, ctx.user.id), eq(userProgress.franchiseId, "dischordian-saga")));
+        } else {
+          await db.insert(userProgress).values({
+            userId: ctx.user.id,
+            franchiseId: "dischordian-saga",
+            gameData: nextGameData,
+          });
+        }
+      }
+
+      return {
+        success: true,
+        message: `Purchased ${bundle.label} for ${bundle.gemCost} gems`,
+        bundleId: input.bundleId,
+        remainingGems: (bal.gems ?? 0) - bundle.gemCost,
+      };
+    }),
+
+  /** List purchasable gem bundles so the UI stays in sync with the server. */
+  getGemBundles: publicProcedure.query(() => {
+    return [
+      { bundleId: "credits_small",  gemCost: 50,  label: "2,500 credits" },
+      { bundleId: "credits_large",  gemCost: 200, label: "12,000 credits" },
+      { bundleId: "dream_small",    gemCost: 100, label: "50 Dream" },
+      { bundleId: "dream_large",    gemCost: 400, label: "250 Dream" },
+      { bundleId: "pack_bundle_3",  gemCost: 150, label: "3 standard packs" },
+      { bundleId: "pack_bundle_10", gemCost: 450, label: "10 standard packs" },
+    ];
+  }),
+
+  // ═══════════════════════════════════════════════════════
+  // META ANALYTICS — card usage + archetype win-rates
+  // ═══════════════════════════════════════════════════════
+
+  /**
+   * Aggregate card usage and win-rate stats across completed PvP matches.
+   * Scans the last `sampleSize` matches (default 500) so the query stays
+   * O(sampleSize) and the UI can render a "most-played cards" leaderboard.
+   * Returns the top `limit` cards by play count.
+   */
+  getMetaCardStats: publicProcedure
+    .input(z.object({
+      sampleSize: z.number().min(50).max(2000).default(500),
+      limit: z.number().min(1).max(50).default(20),
+    }).optional())
+    .query(async ({ input }) => {
+      const db = await getDb();
+      if (!db) return { sampleSize: 0, cards: [] };
+
+      const sampleSize = input?.sampleSize ?? 500;
+      const limit = input?.limit ?? 20;
+
+      const recent = await db
+        .select({
+          player1Deck: pvpMatches.player1Deck,
+          player2Deck: pvpMatches.player2Deck,
+          winnerId: pvpMatches.winnerId,
+          player1Id: pvpMatches.player1Id,
+          player2Id: pvpMatches.player2Id,
+        })
+        .from(pvpMatches)
+        .where(eq(pvpMatches.status, "completed"))
+        .orderBy(desc(pvpMatches.id))
+        .limit(sampleSize);
+
+      const counts = new Map<string, { plays: number; wins: number }>();
+      for (const match of recent) {
+        const p1Won = match.winnerId != null && match.winnerId === match.player1Id;
+        const p2Won = match.winnerId != null && match.winnerId === match.player2Id;
+        const bump = (cardId: string, won: boolean) => {
+          const entry = counts.get(cardId) ?? { plays: 0, wins: 0 };
+          entry.plays += 1;
+          if (won) entry.wins += 1;
+          counts.set(cardId, entry);
+        };
+        for (const cardId of match.player1Deck ?? []) bump(cardId, p1Won);
+        for (const cardId of match.player2Deck ?? []) bump(cardId, p2Won);
+      }
+
+      if (counts.size === 0) {
+        return { sampleSize: recent.length, cards: [] };
+      }
+
+      const topIds = [...counts.entries()]
+        .sort((a, b) => b[1].plays - a[1].plays)
+        .slice(0, limit)
+        .map(([id]) => id);
+
+      const cardRows = topIds.length > 0
+        ? await db
+            .select({
+              cardId: cards.cardId,
+              name: cards.name,
+              rarity: cards.rarity,
+              cardType: cards.cardType,
+              imageUrl: cards.imageUrl,
+            })
+            .from(cards)
+            .where(inArray(cards.cardId, topIds))
+        : [];
+
+      const nameMap = new Map(cardRows.map(r => [r.cardId, r]));
+
+      const topCards = topIds.map(cardId => {
+        const stats = counts.get(cardId)!;
+        const meta = nameMap.get(cardId);
+        return {
+          cardId,
+          name: meta?.name ?? cardId,
+          rarity: meta?.rarity ?? "common",
+          cardType: meta?.cardType ?? null,
+          imageUrl: meta?.imageUrl ?? null,
+          plays: stats.plays,
+          wins: stats.wins,
+          winRate: stats.plays > 0 ? Math.round((stats.wins / stats.plays) * 1000) / 10 : 0,
+        };
+      });
+
+      return {
+        sampleSize: recent.length,
+        cards: topCards,
+      };
+    }),
+
+  /**
+   * Group decks by their top-rarity "archetype signature" (the 3 rarest
+   * cards) and return each archetype's win/loss totals. Uses the decks
+   * table directly because that's where wins/losses already aggregate.
+   */
+  getMetaArchetypes: publicProcedure
+    .input(z.object({
+      limit: z.number().min(1).max(20).default(10),
+      minGames: z.number().min(1).max(200).default(5),
+    }).optional())
+    .query(async ({ input }) => {
+      const db = await getDb();
+      if (!db) return { archetypes: [] };
+
+      const limit = input?.limit ?? 10;
+      const minGames = input?.minGames ?? 5;
+
+      const allDecks = await db
+        .select({
+          deckId: decks.id,
+          cardList: decks.cardList,
+          wins: decks.wins,
+          losses: decks.losses,
+        })
+        .from(decks)
+        .where(eq(decks.isActive, 1));
+
+      if (allDecks.length === 0) return { archetypes: [] };
+
+      const uniqueCardIds = new Set<string>();
+      for (const d of allDecks) {
+        for (const entry of d.cardList ?? []) uniqueCardIds.add(entry.cardId);
+      }
+
+      const rarityLookup = new Map<string, { rarity: string; name: string }>();
+      if (uniqueCardIds.size > 0) {
+        const cardRows = await db
+          .select({ cardId: cards.cardId, rarity: cards.rarity, name: cards.name })
+          .from(cards)
+          .where(inArray(cards.cardId, [...uniqueCardIds]));
+        for (const r of cardRows) rarityLookup.set(r.cardId, { rarity: r.rarity, name: r.name });
+      }
+
+      const rarityRank: Record<string, number> = {
+        neyon: 6, mythic: 5, legendary: 4, epic: 3, rare: 2, uncommon: 1, common: 0,
+      };
+
+      const archetypeStats = new Map<string, {
+        signature: string[];
+        names: string[];
+        wins: number;
+        losses: number;
+        deckCount: number;
+      }>();
+
+      for (const d of allDecks) {
+        const sorted = (d.cardList ?? [])
+          .map(c => ({
+            cardId: c.cardId,
+            rarity: rarityLookup.get(c.cardId)?.rarity ?? "common",
+            name: rarityLookup.get(c.cardId)?.name ?? c.cardId,
+          }))
+          .sort((a, b) => (rarityRank[b.rarity] ?? 0) - (rarityRank[a.rarity] ?? 0))
+          .slice(0, 3);
+        if (sorted.length === 0) continue;
+        const signature = sorted.map(c => c.cardId).sort();
+        const key = signature.join("|");
+        const entry = archetypeStats.get(key) ?? {
+          signature,
+          names: sorted.map(c => c.name),
+          wins: 0,
+          losses: 0,
+          deckCount: 0,
+        };
+        entry.wins += d.wins;
+        entry.losses += d.losses;
+        entry.deckCount += 1;
+        archetypeStats.set(key, entry);
+      }
+
+      const archetypes = [...archetypeStats.values()]
+        .filter(a => a.wins + a.losses >= minGames)
+        .map(a => ({
+          signature: a.signature,
+          names: a.names,
+          wins: a.wins,
+          losses: a.losses,
+          games: a.wins + a.losses,
+          deckCount: a.deckCount,
+          winRate: a.wins + a.losses > 0
+            ? Math.round((a.wins / (a.wins + a.losses)) * 1000) / 10
+            : 0,
+        }))
+        .sort((a, b) => b.winRate - a.winRate || b.games - a.games)
+        .slice(0, limit);
+
+      return { archetypes };
+    }),
+
+  // ═══════════════════════════════════════════════════════
+  // DAILY FREE PACK — Once per 24 hours
+  // ═══════════════════════════════════════════════════════
+
+  /**
+   * Returns the cooldown status for the daily free pack.
+   * `canClaim` is true when the last claim was > 24 hours ago (or never).
+   * `nextClaimAt` is the ISO timestamp when the next claim unlocks.
+   */
+  getDailyPackStatus: protectedProcedure.query(async ({ ctx }) => {
+    const db = await getDb();
+    if (!db) return { canClaim: false, nextClaimAt: null as string | null };
+
+    const rows = await db.select().from(userProgress)
+      .where(and(eq(userProgress.userId, ctx.user.id), eq(userProgress.franchiseId, "dischordian-saga")))
+      .limit(1);
+
+    const gameData = (rows[0]?.gameData ?? {}) as Record<string, unknown>;
+    const lastClaimRaw = gameData.lastDailyCardPackAt;
+    const lastClaim = typeof lastClaimRaw === "string" ? new Date(lastClaimRaw) : null;
+
+    const now = new Date();
+    const DAY_MS = 24 * 60 * 60 * 1000;
+
+    if (!lastClaim || Number.isNaN(lastClaim.getTime())) {
+      return { canClaim: true, nextClaimAt: null };
+    }
+
+    const nextClaim = new Date(lastClaim.getTime() + DAY_MS);
+    const canClaim = now.getTime() >= nextClaim.getTime();
+    return {
+      canClaim,
+      nextClaimAt: canClaim ? null : nextClaim.toISOString(),
+    };
+  }),
+
+  /**
+   * Claim the daily free booster pack. Enforces a 24-hour cooldown
+   * via `userProgress.gameData.lastDailyCardPackAt` so this route is
+   * safe against repeated calls.
+   */
+  claimDailyPack: protectedProcedure.mutation(async ({ ctx }) => {
+    const db = await getDb();
+    if (!db) return { success: false, message: "Database unavailable", cards: [] };
+
+    // Load (or bootstrap) the user's progress row for this franchise.
+    const rows = await db.select().from(userProgress)
+      .where(and(eq(userProgress.userId, ctx.user.id), eq(userProgress.franchiseId, "dischordian-saga")))
+      .limit(1);
+
+    const existing = rows[0];
+    const gameData = (existing?.gameData ?? {}) as Record<string, unknown>;
+    const lastClaimRaw = gameData.lastDailyCardPackAt;
+    const lastClaim = typeof lastClaimRaw === "string" ? new Date(lastClaimRaw) : null;
+
+    const now = new Date();
+    const DAY_MS = 24 * 60 * 60 * 1000;
+
+    if (lastClaim && !Number.isNaN(lastClaim.getTime())) {
+      const diff = now.getTime() - lastClaim.getTime();
+      if (diff < DAY_MS) {
+        const nextClaim = new Date(lastClaim.getTime() + DAY_MS);
+        return {
+          success: false,
+          message: `Daily pack already claimed. Next claim at ${nextClaim.toISOString()}`,
+          nextClaimAt: nextClaim.toISOString(),
+          cards: [],
+        };
+      }
+    }
+
+    // Generate a standard 5-card pack (same distribution as openBoosterPack).
+    const allCards = await db.select().from(cards).where(eq(cards.isActive, 1));
+    if (allCards.length === 0) {
+      return { success: false, message: "No cards available", cards: [] };
+    }
+
+    const byRarity = {
+      common: allCards.filter(c => c.rarity === "common"),
+      uncommon: allCards.filter(c => c.rarity === "uncommon"),
+      rare: allCards.filter(c => c.rarity === "rare"),
+      epic: allCards.filter(c => c.rarity === "epic"),
+      legendary: allCards.filter(c => c.rarity === "legendary"),
+      mythic: allCards.filter(c => c.rarity === "mythic"),
+      neyon: allCards.filter(c => c.rarity === "neyon"),
+    };
+
+    const pick = (arr: typeof allCards) => arr[Math.floor(Math.random() * arr.length)];
+    const packCards: typeof allCards = [];
+    for (let i = 0; i < 3; i++) {
+      if (byRarity.common.length > 0) packCards.push(pick(byRarity.common));
+    }
+    if (byRarity.uncommon.length > 0) packCards.push(pick(byRarity.uncommon));
+    const roll = Math.random();
+    if (roll < 0.01 && byRarity.neyon.length > 0) packCards.push(pick(byRarity.neyon));
+    else if (roll < 0.03 && byRarity.mythic.length > 0) packCards.push(pick(byRarity.mythic));
+    else if (roll < 0.08 && byRarity.legendary.length > 0) packCards.push(pick(byRarity.legendary));
+    else if (roll < 0.25 && byRarity.epic.length > 0) packCards.push(pick(byRarity.epic));
+    else if (byRarity.rare.length > 0) packCards.push(pick(byRarity.rare));
+
+    // Add cards to user's collection.
+    for (const card of packCards) {
+      const own = await db
+        .select()
+        .from(userCards)
+        .where(and(eq(userCards.userId, ctx.user.id), eq(userCards.cardId, card.cardId)))
+        .limit(1);
+
+      if (own.length > 0) {
+        await db
+          .update(userCards)
+          .set({ quantity: sql`${userCards.quantity} + 1` })
+          .where(eq(userCards.id, own[0].id));
+      } else {
+        await db.insert(userCards).values({
+          userId: ctx.user.id,
+          cardId: card.cardId,
+          quantity: 1,
+          isFoil: Math.random() < 0.05 ? 1 : 0,
+          cardLevel: 1,
+          obtainedVia: "daily_pack",
+        });
+      }
+    }
+
+    // Stamp the claim time. Bootstrap the progress row if it's missing.
+    const nextGameData = { ...gameData, lastDailyCardPackAt: now.toISOString() };
+    if (existing) {
+      await db.update(userProgress)
+        .set({ gameData: nextGameData })
+        .where(and(eq(userProgress.userId, ctx.user.id), eq(userProgress.franchiseId, "dischordian-saga")));
+    } else {
+      await db.insert(userProgress).values({
+        userId: ctx.user.id,
+        franchiseId: "dischordian-saga",
+        gameData: nextGameData,
+      });
+    }
+
+    trackCollectionSize(ctx.user.id)
+      .catch(e => logger.error("[CardGame] Collection tracking error:", e));
+
+    return {
+      success: true,
+      message: `Claimed ${packCards.length} free cards!`,
+      nextClaimAt: new Date(now.getTime() + DAY_MS).toISOString(),
+      cards: packCards,
+    };
+  }),
 
   // ═══════════════════════════════════════════════════════
   // DECK MANAGEMENT
@@ -953,6 +1500,90 @@ export const cardGameRouter = router({
         .where(eq(cardGameMatches.player1Id, ctx.user.id))
         .orderBy(desc(cardGameMatches.startedAt))
         .limit(input?.limit ?? 10);
+    }),
+
+  /**
+   * Unified match history — merges PvE (cardGameMatches) and PvP
+   * (pvpMatches) into a single normalized shape so the UI can render
+   * one "Recent Matches" list without juggling two endpoints.
+   *
+   * Addresses the TCG audit "PvE vs PvP match table split" finding:
+   * the two tables stay separate for ownership/relations reasons but
+   * are presented as one stream to the client.
+   */
+  getUnifiedMatchHistory: protectedProcedure
+    .input(z.object({ limit: z.number().min(1).max(100).default(20) }).optional())
+    .query(async ({ ctx, input }) => {
+      const db = await getDb();
+      if (!db) return [];
+
+      const limit = input?.limit ?? 20;
+
+      // Pull a generous window from each table, then merge + sort in JS.
+      // Each table's individual limit is the requested limit so the merged
+      // set has enough candidates from either side.
+      const pveRows = await db
+        .select()
+        .from(cardGameMatches)
+        .where(eq(cardGameMatches.player1Id, ctx.user.id))
+        .orderBy(desc(cardGameMatches.startedAt))
+        .limit(limit);
+
+      const pvpRows = await db
+        .select()
+        .from(pvpMatches)
+        .where(or(
+          eq(pvpMatches.player1Id, ctx.user.id),
+          eq(pvpMatches.player2Id, ctx.user.id),
+        ))
+        .orderBy(desc(pvpMatches.id))
+        .limit(limit);
+
+      const pveNormalized = pveRows.map(r => ({
+        kind: "pve" as const,
+        matchId: String(r.id),
+        opponentUserId: r.player2Id,
+        opponentName: r.player2Id === 0 ? "AI" : `user_${r.player2Id}`,
+        status: r.status ?? "unknown",
+        result: r.winnerId === ctx.user.id
+          ? "win"
+          : r.winnerId != null
+            ? "loss"
+            : "pending",
+        startedAt: r.startedAt,
+        endedAt: r.endedAt,
+        eloChange: 0,
+      }));
+
+      const pvpNormalized = pvpRows.map(r => {
+        const isPlayer1 = r.player1Id === ctx.user.id;
+        const opponentId = isPlayer1 ? r.player2Id : r.player1Id;
+        return {
+          kind: "pvp" as const,
+          matchId: r.matchId,
+          opponentUserId: opponentId ?? 0,
+          opponentName: `user_${opponentId ?? 0}`,
+          status: r.status ?? "unknown",
+          result: r.winnerId === ctx.user.id
+            ? "win"
+            : r.winnerId != null
+              ? "loss"
+              : "pending",
+          startedAt: r.startedAt ?? null,
+          endedAt: r.endedAt ?? null,
+          eloChange: isPlayer1 ? (r.player1EloChange ?? 0) : (r.player2EloChange ?? 0),
+        };
+      });
+
+      const merged = [...pveNormalized, ...pvpNormalized]
+        .sort((a, b) => {
+          const aTime = a.startedAt ? new Date(a.startedAt).getTime() : 0;
+          const bTime = b.startedAt ? new Date(b.startedAt).getTime() : 0;
+          return bTime - aTime;
+        })
+        .slice(0, limit);
+
+      return merged;
     }),
 
   // ═══════════════════════════════════════════════════════
