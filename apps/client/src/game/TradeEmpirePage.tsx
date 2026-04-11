@@ -29,6 +29,9 @@ import OcularumSlideshow from "./OcularumSlideshow";
 import CollectorGarden from "./CollectorGarden";
 import Act3EndingReveal from "./Act3EndingReveal";
 import EyesNarratorWhisper from "./EyesNarratorWhisper";
+import InfiltrationRunner from "./InfiltrationRunner";
+import { getInfiltrationStage, type InfiltrationStageResult } from "./infiltrationContent";
+import { applyLoredexOverride } from "./loredexRewrite";
 import {
   getTechsByBranch, canResearch, getTechById,
   type TechBranch, type TechTreeState, DEFAULT_TECH_STATE,
@@ -249,6 +252,10 @@ export default function TradeEmpirePage() {
   const [showCollector, setShowCollector] = useState(false);
   const [showEndingReveal, setShowEndingReveal] = useState(false);
   const [activeDiplomacyTable, setActiveDiplomacyTable] = useState<string | null>(null);
+  /** Active infiltration stage id — when non-null, the runner modal is open. */
+  const [activeInfiltrationStage, setActiveInfiltrationStage] = useState<string | null>(null);
+  /** Which faction the active infiltration stage belongs to (for callbacks) */
+  const [activeInfiltrationFaction, setActiveInfiltrationFaction] = useState<Act3FactionId | null>(null);
 
   // Act 3 selections
   const [selectedArc, setSelectedArc] = useState<Act3FactionId | null>(null);
@@ -368,6 +375,65 @@ export default function TradeEmpirePage() {
       return next;
     });
   }, []);
+
+  // ─── Act 3: fail an in-progress arc (used by infiltration fail choices) ───
+  // Some choices in the infiltration runner explicitly close the path — e.g.
+  // ae_i_1 refusing the Architect's invitation. Flag the arc as failed so
+  // the Act 3 UI stops offering it.
+  const failArc = useCallback((factionId: Act3FactionId) => {
+    setEmpire(prev => {
+      if (!prev.act3) return prev;
+      const arc = prev.act3.arcs[factionId];
+      if (!arc) return prev;
+      const nextArc = { ...arc, status: "failed" as const };
+      const next: EmpireState = {
+        ...prev,
+        act3: { ...prev.act3, arcs: { ...prev.act3.arcs, [factionId]: nextArc } },
+      };
+      localStorage.setItem("trade_empire_state", JSON.stringify(next));
+      return next;
+    });
+  }, []);
+
+  // ─── Act 3: the infiltration runner posts results back here ───
+  // Applies flags, writes any loredex override, advances or fails the stage,
+  // and logs an event to the §8.2 sector event feed.
+  const handleInfiltrationResolve = useCallback((result: InfiltrationStageResult) => {
+    const factionId = activeInfiltrationFaction;
+    const stageId = activeInfiltrationStage;
+    if (!factionId || !stageId) return;
+
+    // Flags first — the runner doesn't set anything directly.
+    for (const flag of result.flagsToSet ?? []) setNarrativeFlag(flag);
+
+    // Loredex override, if the runner produced one (binding rewrite stages).
+    // The runner already wrote it to localStorage; this ensures a second
+    // persistence path if the runner's write ever fails (defense in depth).
+    if (result.loredexOverride) {
+      applyLoredexOverride(result.loredexOverride);
+    }
+
+    // Advance or fail the arc.
+    if (result.success) {
+      completeArcStage(factionId, stageId);
+    } else {
+      failArc(factionId);
+    }
+
+    // Event log entry.
+    logEvent({
+      sectorId: factionId,
+      label: result.logLabel ?? `Infiltration: ${stageId}`,
+      detail: result.success
+        ? "Stage resolved via the infiltration runner."
+        : "Path closed by player choice.",
+      tone: result.success ? "neutral" : "dark",
+    });
+
+    // Close the runner.
+    setActiveInfiltrationStage(null);
+    setActiveInfiltrationFaction(null);
+  }, [activeInfiltrationFaction, activeInfiltrationStage, setNarrativeFlag, completeArcStage, failArc, logEvent]);
 
   // ─── Act 3: mark the Collector boss result ───
   // On defeat the Collector permanently takes a card keyed to the player's last
@@ -1183,32 +1249,47 @@ export default function TradeEmpirePage() {
                                     </div>
                                     <p className="font-mono text-[9px] text-white/50 mt-0.5">{stage.description}</p>
                                     <p className="font-mono text-[8px] text-white/30 italic mt-0.5">→ {stage.objective}</p>
-                                    {available && (
-                                      <div className="flex gap-2 mt-2">
-                                        {isDiplomacy && idx === 0 && !done && (
+                                    {available && (() => {
+                                      const isInfiltration = chosen === "infiltration";
+                                      const infiltrationContent = isInfiltration ? getInfiltrationStage(stage.id) : null;
+                                      return (
+                                        <div className="flex gap-2 mt-2 flex-wrap">
+                                          {isDiplomacy && idx === 0 && !done && (
+                                            <button
+                                              onClick={() => {
+                                                // Launch the diplomacy minigame for this faction if a table exists
+                                                const table = DIPLOMACY_TABLES_AVAILABLE[fId];
+                                                if (table) {
+                                                  setActiveDiplomacyTable(table);
+                                                } else {
+                                                  completeArcStage(fId, stage.id);
+                                                }
+                                              }}
+                                              className="px-2 py-1 rounded bg-amber-500/10 border border-amber-500/30 text-amber-400 font-mono text-[9px] hover:bg-amber-500/20"
+                                            >
+                                              OPEN THE TABLE
+                                            </button>
+                                          )}
+                                          {isInfiltration && infiltrationContent && (
+                                            <button
+                                              onClick={() => {
+                                                setActiveInfiltrationFaction(fId);
+                                                setActiveInfiltrationStage(stage.id);
+                                              }}
+                                              className="px-2 py-1 rounded bg-purple-500/10 border border-purple-500/30 text-purple-400 font-mono text-[9px] hover:bg-purple-500/20"
+                                            >
+                                              ENTER INFILTRATION
+                                            </button>
+                                          )}
                                           <button
-                                            onClick={() => {
-                                              // Launch the diplomacy minigame for this faction if a table exists
-                                              const table = DIPLOMACY_TABLES_AVAILABLE[fId];
-                                              if (table) {
-                                                setActiveDiplomacyTable(table);
-                                              } else {
-                                                completeArcStage(fId, stage.id);
-                                              }
-                                            }}
-                                            className="px-2 py-1 rounded bg-amber-500/10 border border-amber-500/30 text-amber-400 font-mono text-[9px] hover:bg-amber-500/20"
+                                            onClick={() => completeArcStage(fId, stage.id)}
+                                            className="px-2 py-1 rounded bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 font-mono text-[9px] hover:bg-cyan-500/20"
                                           >
-                                            OPEN THE TABLE
+                                            MARK STAGE COMPLETE
                                           </button>
-                                        )}
-                                        <button
-                                          onClick={() => completeArcStage(fId, stage.id)}
-                                          className="px-2 py-1 rounded bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 font-mono text-[9px] hover:bg-cyan-500/20"
-                                        >
-                                          MARK STAGE COMPLETE
-                                        </button>
-                                      </div>
-                                    )}
+                                        </div>
+                                      );
+                                    })()}
                                   </div>
                                 );
                               })}
@@ -1380,6 +1461,16 @@ export default function TradeEmpirePage() {
                   tone: "dark",
                 });
               }
+            }}
+          />
+        )}
+        {activeInfiltrationStage && (
+          <InfiltrationRunner
+            stageId={activeInfiltrationStage}
+            onResolve={handleInfiltrationResolve}
+            onClose={() => {
+              setActiveInfiltrationStage(null);
+              setActiveInfiltrationFaction(null);
             }}
           />
         )}
