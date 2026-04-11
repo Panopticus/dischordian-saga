@@ -12,7 +12,8 @@
    ═══════════════════════════════════════════════════════ */
 
 import { useMemo } from "react";
-import { Scroll } from "lucide-react";
+import { Link } from "wouter";
+import { Scroll, ExternalLink } from "lucide-react";
 import { useGame } from "@/contexts/GameContext";
 import { useMemorableMomentsStore } from "@/stores/memorableMomentsStore";
 import {
@@ -92,6 +93,16 @@ export function WitnessingWallPanel() {
     });
   }, [gameState.narrativeFlags, moments]);
 
+  const hubLink = (
+    <Link
+      href="/witnessing"
+      className="mt-3 flex items-center justify-center gap-1.5 rounded-sm border border-amber-700/60 bg-amber-900/20 px-3 py-1.5 font-mono text-[10px] uppercase tracking-wider text-amber-100 hover:border-amber-500/80 hover:bg-amber-900/40 transition-colors"
+    >
+      Open the Witnessing Hub
+      <ExternalLink size={11} />
+    </Link>
+  );
+
   if (entries.length === 0) {
     return (
       <div className="rounded-md border border-amber-900/40 bg-stone-950/60 p-4 font-mono text-[11px] text-amber-300/70">
@@ -102,6 +113,7 @@ export function WitnessingWallPanel() {
         <p className="text-amber-300/60">
           The wall is blank. It is waiting for something to happen.
         </p>
+        {hubLink}
       </div>
     );
   }
@@ -136,6 +148,7 @@ export function WitnessingWallPanel() {
           </li>
         ))}
       </ul>
+      {hubLink}
     </div>
   );
 }
