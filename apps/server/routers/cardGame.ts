@@ -385,6 +385,126 @@ export const cardGameRouter = router({
   }),
 
   // ═══════════════════════════════════════════════════════
+  // PREMIUM CURRENCY — gems
+  // ═══════════════════════════════════════════════════════
+
+  /** Get the caller's gem balance + lifetime purchased total. */
+  getGemBalance: protectedProcedure.query(async ({ ctx }) => {
+    const db = await getDb();
+    if (!db) return { gems: 0, totalGemsPurchased: 0 };
+
+    const rows = await db.select().from(dreamBalance)
+      .where(eq(dreamBalance.userId, ctx.user.id)).limit(1);
+    if (rows.length === 0) {
+      return { gems: 0, totalGemsPurchased: 0 };
+    }
+    return {
+      gems: rows[0].gems ?? 0,
+      totalGemsPurchased: rows[0].totalGemsPurchased ?? 0,
+    };
+  }),
+
+  /**
+   * Spend gems to buy an in-game bundle. This is the server-authoritative
+   * sink for premium currency — actual gem acquisition happens elsewhere
+   * (Stripe purchases) and only credits the `gems` column. Bundles
+   * deliver credits, Dream, or booster packs.
+   */
+  spendGems: protectedProcedure
+    .input(z.object({
+      bundleId: z.enum([
+        "credits_small", "credits_large",
+        "dream_small", "dream_large",
+        "pack_bundle_3", "pack_bundle_10",
+      ]),
+    }))
+    .mutation(async ({ ctx, input }) => {
+      const db = await getDb();
+      if (!db) return { success: false, message: "Database unavailable" };
+
+      // Pricing table — tuned so gems feel premium relative to credits.
+      const BUNDLES = {
+        credits_small:  { gemCost: 50,  grants: { credits: 2500 }, label: "2,500 credits" },
+        credits_large:  { gemCost: 200, grants: { credits: 12000 }, label: "12,000 credits" },
+        dream_small:    { gemCost: 100, grants: { dream: 50 }, label: "50 Dream" },
+        dream_large:    { gemCost: 400, grants: { dream: 250 }, label: "250 Dream" },
+        pack_bundle_3:  { gemCost: 150, grants: { packs: 3 }, label: "3 standard packs" },
+        pack_bundle_10: { gemCost: 450, grants: { packs: 10 }, label: "10 standard packs" },
+      } as const;
+
+      const bundle = BUNDLES[input.bundleId];
+      if (!bundle) return { success: false, message: "Unknown bundle" };
+
+      const balRows = await db.select().from(dreamBalance)
+        .where(eq(dreamBalance.userId, ctx.user.id)).limit(1);
+      const bal = balRows[0];
+      if (!bal || (bal.gems ?? 0) < bundle.gemCost) {
+        return { success: false, message: `Not enough gems (need ${bundle.gemCost}, have ${bal?.gems ?? 0})` };
+      }
+
+      // Deduct gems first.
+      await db.update(dreamBalance)
+        .set({ gems: (bal.gems ?? 0) - bundle.gemCost })
+        .where(eq(dreamBalance.userId, ctx.user.id));
+
+      // Grant the bundle payload.
+      if ("credits" in bundle.grants) {
+        const [sheet] = await db.select().from(characterSheets)
+          .where(eq(characterSheets.userId, ctx.user.id)).limit(1);
+        if (sheet) {
+          await db.update(characterSheets)
+            .set({ credits: (sheet.credits ?? 0) + bundle.grants.credits })
+            .where(eq(characterSheets.userId, ctx.user.id));
+        }
+      }
+      if ("dream" in bundle.grants) {
+        await db.update(dreamBalance)
+          .set({ dreamTokens: sql`${dreamBalance.dreamTokens} + ${bundle.grants.dream}` })
+          .where(eq(dreamBalance.userId, ctx.user.id));
+      }
+      if ("packs" in bundle.grants) {
+        // Stash as a virtual inventory entry on userProgress for now.
+        const rows = await db.select().from(userProgress)
+          .where(and(eq(userProgress.userId, ctx.user.id), eq(userProgress.franchiseId, "dischordian-saga")))
+          .limit(1);
+        const existing = rows[0];
+        const gameData = (existing?.gameData ?? {}) as Record<string, unknown>;
+        const pendingPacks = Number(gameData.pendingPacks ?? 0) + bundle.grants.packs;
+        const nextGameData = { ...gameData, pendingPacks };
+        if (existing) {
+          await db.update(userProgress)
+            .set({ gameData: nextGameData })
+            .where(and(eq(userProgress.userId, ctx.user.id), eq(userProgress.franchiseId, "dischordian-saga")));
+        } else {
+          await db.insert(userProgress).values({
+            userId: ctx.user.id,
+            franchiseId: "dischordian-saga",
+            gameData: nextGameData,
+          });
+        }
+      }
+
+      return {
+        success: true,
+        message: `Purchased ${bundle.label} for ${bundle.gemCost} gems`,
+        bundleId: input.bundleId,
+        remainingGems: (bal.gems ?? 0) - bundle.gemCost,
+      };
+    }),
+
+  /** List purchasable gem bundles so the UI stays in sync with the server. */
+  getGemBundles: publicProcedure.query(() => {
+    return [
+      { bundleId: "credits_small",  gemCost: 50,  label: "2,500 credits" },
+      { bundleId: "credits_large",  gemCost: 200, label: "12,000 credits" },
+      { bundleId: "dream_small",    gemCost: 100, label: "50 Dream" },
+      { bundleId: "dream_large",    gemCost: 400, label: "250 Dream" },
+      { bundleId: "pack_bundle_3",  gemCost: 150, label: "3 standard packs" },
+      { bundleId: "pack_bundle_10", gemCost: 450, label: "10 standard packs" },
+    ];
+  }),
+
+  // ═══════════════════════════════════════════════════════
   // META ANALYTICS — card usage + archetype win-rates
   // ═══════════════════════════════════════════════════════
 

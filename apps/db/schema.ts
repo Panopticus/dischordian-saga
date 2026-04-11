@@ -614,6 +614,10 @@ export const dreamBalance = mysqlTable("dream_balance", {
   soulBoundDream: int("soulBoundDream").notNull().default(0),
   /** DNA/CODE resource for attribute leveling */
   dnaCode: int("dnaCode").notNull().default(0),
+  /** Premium currency — purchased with real money (or granted by admin). */
+  gems: int("gems").notNull().default(0),
+  /** Lifetime gems purchased via real-money; read-only rollup for rank perks. */
+  totalGemsPurchased: int("totalGemsPurchased").notNull().default(0),
   /** Total Dream ever earned (for milestones) */
   totalDreamEarned: int("totalDreamEarned").notNull().default(0),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
