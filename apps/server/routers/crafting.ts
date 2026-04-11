@@ -485,22 +485,60 @@ export const craftingRouter = router({
         };
       }
 
-      // Handle upgrade (same card, boosted stats)
+      // Handle upgrade (same card, boosted stats persist via cardLevel)
       if (recipe.type === "upgrade") {
-        // Just boost — we don't actually change the card in DB since cards are shared
-        // Instead, we log it and the UI can show "enhanced" status
+        // NOTE: the input card was removed above as part of "remove input cards"
+        // even though upgrades should keep the row. Restore it by either
+        // incrementing the existing target row or inserting a fresh one at
+        // the new cardLevel. We fetch the current level first so we can
+        // bump to level+1.
+        const upgradeCardId = input.inputCardIds[0];
+        const currentRow = await db
+          .select()
+          .from(userCards)
+          .where(and(
+            eq(userCards.userId, ctx.user.id),
+            eq(userCards.cardId, upgradeCardId),
+            eq(userCards.isFoil, targetIsFoil),
+          ))
+          .limit(1);
+
+        const prevLevel = ownedCards.find(c => c.cardId === upgradeCardId)?.cardLevel ?? 1;
+        const newLevel = Math.min(10, prevLevel + 1);
+
+        if (currentRow.length > 0) {
+          // Row still exists (quantity was > 1). Bump its level.
+          await db.update(userCards)
+            .set({ cardLevel: newLevel })
+            .where(and(
+              eq(userCards.userId, ctx.user.id),
+              eq(userCards.cardId, upgradeCardId),
+              eq(userCards.isFoil, targetIsFoil),
+            ));
+        } else {
+          // Row was fully consumed; re-insert at the upgraded level.
+          await db.insert(userCards).values({
+            userId: ctx.user.id,
+            cardId: upgradeCardId,
+            quantity: 1,
+            isFoil: targetIsFoil,
+            cardLevel: newLevel,
+            obtainedVia: "crafting_upgrade",
+          });
+        }
+
         await db.insert(craftingLog).values({
           userId: ctx.user.id,
           recipeType: recipe.id,
           inputCards: input.inputCardIds.map(id => ({ cardId: id, quantity: 1 })),
-          outputCardId: input.inputCardIds[0],
+          outputCardId: `${upgradeCardId}_lvl${newLevel}`,
           success: 1,
           creditsCost: recipe.creditsCost,
         });
 
         return {
           success: true,
-          message: "Card enhanced! +1 Power, +1 Health permanently.",
+          message: `Card enhanced to level ${newLevel}! +1 Power, +1 Health.`,
           outputCard: null,
         };
       }

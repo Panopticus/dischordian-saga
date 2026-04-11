@@ -198,16 +198,26 @@ export function cardToBattleCard(card: {
   characterClass?: string | null;
   abilityText?: string | null;
   imageUrl?: string | null;
+  /** Optional userCard metadata used to apply persistent upgrades. */
+  userCard?: { cardLevel?: number | null; isFoil?: number | null } | null;
 }): BattleCard {
   const kws = assignKeywords(card);
+  // Each cardLevel above 1 grants +1 power and +1 health, matching the
+  // "Card Enhancement" crafting recipe description. Foil cards get an
+  // additional +1/+1 glory bonus so owning a foil is always a power-up.
+  const level = Math.max(1, card.userCard?.cardLevel ?? 1);
+  const levelBonus = level - 1;
+  const foilBonus = card.userCard?.isFoil ? 1 : 0;
+  const power = card.power + levelBonus + foilBonus;
+  const health = card.health + levelBonus + foilBonus;
   return {
     uid: genUid(),
     cardId: card.cardId,
     name: card.name,
     cardType: card.cardType,
     rarity: card.rarity,
-    basePower: card.power,
-    baseHealth: card.health,
+    basePower: power,
+    baseHealth: health,
     cost: card.cost,
     element: (card.element as Element) || null,
     alignment: card.alignment || null,
@@ -216,8 +226,8 @@ export function cardToBattleCard(card: {
     abilityText: card.abilityText || null,
     imageUrl: card.imageUrl || null,
     keywords: kws,
-    currentHealth: card.health,
-    currentPower: card.power,
+    currentHealth: health,
+    currentPower: power,
     armor: 0,
     isExhausted: false,
     stealthTurns: kws.includes("stealth") ? 1 : 0,

@@ -183,8 +183,13 @@ export default function CardGamePage() {
     const available = allCards.cards.filter(c => c.power > 0 && c.health > 0);
     const shuffled = [...available].sort(() => Math.random() - 0.5);
 
+    // Player deck carries the persisted cardLevel + isFoil bonuses from
+    // userCard. The AI opponent gets the base version of each card.
     const playerCards = shuffled.slice(0, 25).map(c => cardToBattleCard(c));
-    const opponentCards = shuffled.slice(25, 50).map(c => cardToBattleCard(c));
+    const opponentCards = shuffled.slice(25, 50).map(c => cardToBattleCard({
+      ...c,
+      userCard: null,
+    }));
 
     const state = createBattle(playerCards, opponentCards, selectedFaction, selectedDifficulty);
     const withDraw = drawCards(state, "player", selectedFaction === "dreamer" ? 2 : 1);
