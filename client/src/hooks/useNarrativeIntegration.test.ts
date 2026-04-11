@@ -29,6 +29,22 @@ describe("useNarrativeIntegration.SLIDESHOW_TRIGGERS", () => {
     expect(entry?.completionFlag).toBe("slideshow_the_helmet_in_the_grass_complete");
   });
 
+  it("has Superman Ain't Coming wired to the asymmetric Human confession flag", () => {
+    const entry = SLIDESHOW_TRIGGERS.find(
+      (t) => t.slideshowId === "superman-aint-coming",
+    );
+    expect(entry).toBeDefined();
+    expect(entry?.triggerFlag).toBe("human_dark_confession_unlocked");
+  });
+
+  it("has It Ain't Been the Same wired to the Elara high-trust confession flag", () => {
+    const entry = SLIDESHOW_TRIGGERS.find(
+      (t) => t.slideshowId === "it-aint-been-the-same",
+    );
+    expect(entry).toBeDefined();
+    expect(entry?.triggerFlag).toBe("elara_high_confession_unlocked");
+  });
+
   it("every slideshow id resolves to a registered slideshow", () => {
     for (const trigger of SLIDESHOW_TRIGGERS) {
       const def = getSlideshow(trigger.slideshowId);

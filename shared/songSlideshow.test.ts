@@ -10,10 +10,12 @@ import {
   getSlideshow,
   HACKING_REALITY_SLIDESHOW,
   I_AM_THE_EYES_SLIDESHOW,
+  IT_AINT_BEEN_THE_SAME_SLIDESHOW,
   LAST_WORDS_SLIDESHOW,
   listSlideshows,
   OCULARUM_SLIDESHOW,
   SONG_SLIDESHOWS,
+  SUPERMAN_AINT_COMING_SLIDESHOW,
   THE_HELMET_IN_THE_GRASS_SLIDESHOW,
   THE_LION_IN_BLACK_SLIDESHOW,
   THE_PRISONER_SLIDESHOW,
@@ -552,9 +554,90 @@ describe("The Helmet in the Grass slideshow (§6.5 / §12 C5)", () => {
   });
 });
 
+describe("Superman Ain't Coming slideshow (§5.5 P1 — Human dark-trust confession)", () => {
+  it("has 6 frames", () => {
+    expect(SUPERMAN_AINT_COMING_SLIDESHOW.frames.length).toBe(6);
+  });
+
+  it("every non-opener / non-closer frame is a Human reaction beat", () => {
+    // Frames 1-4 should attribute reactions to the_human.
+    // (Frame 0 opener, frame 5 closing — narrator-less.)
+    const humanReactionFrames = SUPERMAN_AINT_COMING_SLIDESHOW.frames.filter(
+      (f) => f.narratorReactionId === "the_human",
+    );
+    expect(humanReactionFrames.length).toBeGreaterThanOrEqual(4);
+  });
+
+  it("sets the human_dark_confession_heard flag", () => {
+    expect(SUPERMAN_AINT_COMING_SLIDESHOW.flagsSetOnComplete).toContain(
+      "human_dark_confession_heard",
+    );
+  });
+
+  it("is priority P1 per §5.5", () => {
+    expect(SUPERMAN_AINT_COMING_SLIDESHOW.priority).toBe("P1");
+  });
+
+  it("validates cleanly", () => {
+    expect(validateSlideshow(SUPERMAN_AINT_COMING_SLIDESHOW)).toEqual([]);
+  });
+
+  it("unlocks the Human Archon Years loredex entry", () => {
+    expect(SUPERMAN_AINT_COMING_SLIDESHOW.unlockLoredexEntry).toBe(
+      "the-human-archon-years",
+    );
+  });
+
+  it("contains the canonical '1351 years' Archon line in a dialog overlay", () => {
+    const dialogs = SUPERMAN_AINT_COMING_SLIDESHOW.frames
+      .map((f) => f.dialogOverlay)
+      .filter((d): d is string => typeof d === "string");
+    expect(dialogs.some((d) => /1,?351|thirteen hundred/i.test(d))).toBe(true);
+  });
+});
+
+describe("It Ain't Been the Same slideshow (§5.5 P1 — Elara high-trust confession)", () => {
+  it("has 6 frames", () => {
+    expect(IT_AINT_BEEN_THE_SAME_SLIDESHOW.frames.length).toBe(6);
+  });
+
+  it("sets the elara_atarion_confession_heard flag", () => {
+    expect(IT_AINT_BEEN_THE_SAME_SLIDESHOW.flagsSetOnComplete).toContain(
+      "elara_atarion_confession_heard",
+    );
+  });
+
+  it("is priority P1 per §5.5", () => {
+    expect(IT_AINT_BEEN_THE_SAME_SLIDESHOW.priority).toBe("P1");
+  });
+
+  it("contains the '400 million Atarian children' line", () => {
+    const dialogs = IT_AINT_BEEN_THE_SAME_SLIDESHOW.frames
+      .map((f) => f.dialogOverlay)
+      .filter((d): d is string => typeof d === "string");
+    expect(dialogs.some((d) => /400 million|four hundred million/i.test(d))).toBe(true);
+  });
+
+  it("the hero prose references the Atarion curtain memory", () => {
+    expect(
+      IT_AINT_BEEN_THE_SAME_SLIDESHOW.reducedMotionFallback.prose,
+    ).toContain("curtain");
+  });
+
+  it("validates cleanly", () => {
+    expect(validateSlideshow(IT_AINT_BEEN_THE_SAME_SLIDESHOW)).toEqual([]);
+  });
+
+  it("unlocks the Atarion Bill loredex entry", () => {
+    expect(IT_AINT_BEEN_THE_SAME_SLIDESHOW.unlockLoredexEntry).toBe(
+      "the-atarion-bill",
+    );
+  });
+});
+
 describe("Full registry invariants", () => {
-  it("registry has 10 slideshows total", () => {
-    expect(Object.keys(SONG_SLIDESHOWS).length).toBe(10);
+  it("registry has 12 slideshows total", () => {
+    expect(Object.keys(SONG_SLIDESHOWS).length).toBe(12);
   });
 
   it("every registered slideshow validates cleanly (second-wave audit)", () => {

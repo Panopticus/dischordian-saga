@@ -201,6 +201,23 @@ export const SLIDESHOW_TRIGGERS: ReadonlyArray<{
     slideshowId: "the-helmet-in-the-grass",
     completionFlag: "slideshow_the_helmet_in_the_grass_complete",
   },
+  {
+    // §5.5 P1 — Human dark-trust confession. Watcher below
+    // raises `human_dark_confession_unlocked` when Human bond
+    // > 60 AND Elara bond < 20 (asymmetric trust shape).
+    triggerFlag: "human_dark_confession_unlocked",
+    slideshowId: "superman-aint-coming",
+    completionFlag: "slideshow_superman_aint_coming_complete",
+  },
+  {
+    // §5.5 P1 — Elara high-trust confession. Watcher below
+    // raises `elara_high_confession_unlocked` when Elara
+    // bond > 80 (symmetric check — Elara carries this one
+    // regardless of how the player feels about The Human).
+    triggerFlag: "elara_high_confession_unlocked",
+    slideshowId: "it-aint-been-the-same",
+    completionFlag: "slideshow_it_aint_been_the_same_complete",
+  },
 ];
 
 export function useNarrativeIntegration() {
@@ -377,6 +394,48 @@ export function useNarrativeIntegration() {
     state.narrativeFlags?.slideshow_two_witnesses_meet_complete,
     setNarrativeFlag,
     fireMilestone,
+  ]);
+
+  // ─── WITNESSING §5.5 P1 — ASYMMETRIC CONFESSION CINEMATICS ───
+  // Two P1 slideshows fire on asymmetric trust shapes:
+  //
+  //   Human bond > 60 AND Elara bond < 20 → Superman Ain't Coming
+  //     (the player has leaned hard into the noir voice; The
+  //      Human confesses what his Archon years cost him)
+  //
+  //   Elara bond > 80 → It Ain't Been the Same
+  //     (the player has earned Elara's highest trust tier; she
+  //      confesses what she signed on Atarion)
+  //
+  // Both are gated by their own completion flags for cross-
+  // session dedupe. Setting the trigger flag hands off to the
+  // SLIDESHOW_TRIGGERS fan-out.
+  useEffect(() => {
+    const elaraBond = state.elaraTrustLevel ?? 0;
+    const humanBond = state.humanTrustLevel ?? 0;
+    if (
+      humanBond > 60 &&
+      elaraBond < 20 &&
+      !state.narrativeFlags?.human_dark_confession_unlocked &&
+      !state.narrativeFlags?.slideshow_superman_aint_coming_complete
+    ) {
+      setNarrativeFlag("human_dark_confession_unlocked", true);
+    }
+    if (
+      elaraBond > 80 &&
+      !state.narrativeFlags?.elara_high_confession_unlocked &&
+      !state.narrativeFlags?.slideshow_it_aint_been_the_same_complete
+    ) {
+      setNarrativeFlag("elara_high_confession_unlocked", true);
+    }
+  }, [
+    state.elaraTrustLevel,
+    state.humanTrustLevel,
+    state.narrativeFlags?.human_dark_confession_unlocked,
+    state.narrativeFlags?.slideshow_superman_aint_coming_complete,
+    state.narrativeFlags?.elara_high_confession_unlocked,
+    state.narrativeFlags?.slideshow_it_aint_been_the_same_complete,
+    setNarrativeFlag,
   ]);
 
   // ─── WITNESSING §3.3 / §14.1 — DISCHORDIA PHASE MILESTONES ───

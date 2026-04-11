@@ -860,6 +860,227 @@ export const THE_LION_IN_BLACK_SLIDESHOW: SongSlideshowDef = {
   },
 };
 
+/* ─── SUPERMAN AIN'T COMING (§5.5 P1 — Human dark-trust confession) ─── */
+
+/**
+ * "Superman Ain't Coming" — The Human's dark-trust confession
+ * slideshow (P1). Six frames, ~1m 24s. Triggered when the
+ * player's Human bond is above 60 AND their Elara bond is
+ * below 20 — the asymmetric shape where the player has leaned
+ * hard into The Human's noir voice at the cost of Elara. The
+ * cinematic is The Human admitting something he has never
+ * told anyone in a thousand years.
+ */
+const SUPERMAN_FRAME_MS = 14_000;
+
+export const SUPERMAN_AINT_COMING_SLIDESHOW: SongSlideshowDef = {
+  id: "superman-aint-coming",
+  songId: "superman_aint_coming",
+  audioUrl: "/assets/audio/songs/superman-aint-coming.mp3",
+  durationMs: 6 * SUPERMAN_FRAME_MS, // 84_000ms = 1m 24s
+  title: "Superman Ain't Coming",
+  subtitle: "The Human's confession. A ruined rooftop. One honest sentence.",
+  credits: "Album: Silence in Heaven · Track 9",
+  priority: "P1",
+  frames: [
+    {
+      startMs: 0,
+      endMs: SUPERMAN_FRAME_MS,
+      imageUrl: "/assets/slideshows/superman-aint-coming/frame01.webp",
+      transition: "fade",
+      caption: "A rooftop in New Babylon. Rain. The skyline lit red.",
+      narratorReactionId: "the_human",
+      kenBurns: {
+        startScale: 1.0,
+        endScale: 1.04,
+        startPan: [0, 0],
+        endPan: [0.02, 0.01],
+      },
+    },
+    {
+      startMs: SUPERMAN_FRAME_MS,
+      endMs: SUPERMAN_FRAME_MS * 2,
+      imageUrl: "/assets/slideshows/superman-aint-coming/frame02.webp",
+      transition: "dissolve",
+      caption: "He stands at the edge. He does not look down.",
+      dialogOverlay: "I was an Archon for thirteen hundred and fifty-one years. None of them counted.",
+      dialogSpeakerId: "the_human",
+      narratorReactionId: "the_human",
+    },
+    {
+      startMs: SUPERMAN_FRAME_MS * 2,
+      endMs: SUPERMAN_FRAME_MS * 3,
+      imageUrl: "/assets/slideshows/superman-aint-coming/frame03.webp",
+      transition: "dissolve",
+      caption: "A flashback: a case file. A name he crossed out and never wrote back.",
+      dialogOverlay: "I found her. I filed the report. I let the Warlord have her.",
+      dialogSpeakerId: "the_human",
+      narratorReactionId: "the_human",
+    },
+    {
+      startMs: SUPERMAN_FRAME_MS * 3,
+      endMs: SUPERMAN_FRAME_MS * 4,
+      imageUrl: "/assets/slideshows/superman-aint-coming/frame04.webp",
+      transition: "dissolve",
+      caption: "Back to the rooftop. His coat is soaked. The rain does not stop.",
+      dialogOverlay: "Superman ain't coming. He never was. It was always just the people who stayed.",
+      dialogSpeakerId: "the_human",
+      narratorReactionId: "the_human",
+    },
+    {
+      startMs: SUPERMAN_FRAME_MS * 4,
+      endMs: SUPERMAN_FRAME_MS * 5,
+      imageUrl: "/assets/slideshows/superman-aint-coming/frame05.webp",
+      transition: "dissolve",
+      caption: "He turns to the camera for the first time.",
+      dialogOverlay: "I am sorry I am the only one who stayed with you. I am sorrier it has been me.",
+      dialogSpeakerId: "the_human",
+      narratorReactionId: "the_human",
+    },
+    {
+      startMs: SUPERMAN_FRAME_MS * 5,
+      endMs: SUPERMAN_FRAME_MS * 6,
+      imageUrl: "/assets/slideshows/superman-aint-coming/frame06.webp",
+      transition: "fade",
+      caption: "The rooftop empties. His hologram lingers a second too long.",
+    },
+  ],
+  lyrics: [
+    { startMs: 2_000, endMs: 12_000, text: "Superman ain't coming.", emphasis: "whisper" },
+    { startMs: 40_000, endMs: 54_000, text: "There is only who stayed.", emphasis: "normal" },
+    { startMs: 70_000, endMs: 84_000, text: "I am sorry it has been me.", emphasis: "layered" },
+  ],
+  overlays: [
+    { type: "vignette", startMs: 0, endMs: 84_000, intensity: 0.45 },
+    { type: "grain", startMs: 0, endMs: 84_000, intensity: 0.3 },
+    { type: "scanlines", startMs: 28_000, endMs: 56_000, intensity: 0.2 },
+    { type: "corruption", startMs: 28_000, endMs: 42_000, intensity: 0.3 },
+  ],
+  flagsSetOnComplete: [
+    "slideshow_superman_aint_coming_complete",
+    "human_dark_confession_heard",
+    "human_archon_regret_seen",
+  ],
+  unlockLoredexEntry: "the-human-archon-years",
+  lightEnergyReward: 60,
+  reducedMotionFallback: {
+    heroImageUrl: "/assets/slideshows/superman-aint-coming/hero.webp",
+    prose:
+      "The Human stands at the edge of a rain-soaked New Babylon rooftop. He does not look down. He tells you that thirteen hundred and fifty-one years of being an Archon did not count, that he filed a report on a woman he now remembers loving, that Superman ain't coming and never was — that it was always just the people who stayed. He turns to camera for the first time and apologizes for being the only one who did.",
+    closingLine:
+      "The hologram lingers a second too long. Nobody who loves someone leaves fast.",
+  },
+};
+
+/* ─── IT AIN'T BEEN THE SAME (§5.5 P1 — Elara high-trust confession) ─── */
+
+/**
+ * "It Ain't Been the Same" — Elara's high-trust confession
+ * slideshow (P1). Six frames, ~1m 24s. Triggered when the
+ * player's Elara bond is above 80. The cinematic is Elara
+ * admitting what she signed on Atarion, and what the signatures
+ * cost.
+ */
+const ELARA_CONFESSION_FRAME_MS = 14_000;
+
+export const IT_AINT_BEEN_THE_SAME_SLIDESHOW: SongSlideshowDef = {
+  id: "it-aint-been-the-same",
+  songId: "it_aint_been_the_same",
+  audioUrl: "/assets/audio/songs/it-aint-been-the-same.mp3",
+  durationMs: 6 * ELARA_CONFESSION_FRAME_MS, // 84_000ms = 1m 24s
+  title: "It Ain't Been the Same",
+  subtitle: "Elara's confession. Atarion. A curtain pulled back one morning.",
+  credits: "Album: Silence in Heaven · Track 4",
+  priority: "P1",
+  frames: [
+    {
+      startMs: 0,
+      endMs: ELARA_CONFESSION_FRAME_MS,
+      imageUrl: "/assets/slideshows/it-aint-been-the-same/frame01.webp",
+      transition: "fade",
+      caption: "A sunlit apartment on Atarion. Cyan cloth on every window.",
+      narratorReactionId: "elara",
+      kenBurns: {
+        startScale: 1.0,
+        endScale: 1.05,
+        startPan: [0, 0],
+        endPan: [0.03, 0.02],
+      },
+    },
+    {
+      startMs: ELARA_CONFESSION_FRAME_MS,
+      endMs: ELARA_CONFESSION_FRAME_MS * 2,
+      imageUrl: "/assets/slideshows/it-aint-been-the-same/frame02.webp",
+      transition: "dissolve",
+      caption: "A younger Elara pins the curtain back. Morning light falls onto a child's room.",
+      dialogOverlay: "I used to pin the curtains back every morning. I thought the light would hold.",
+      dialogSpeakerId: "elara",
+      narratorReactionId: "elara",
+    },
+    {
+      startMs: ELARA_CONFESSION_FRAME_MS * 2,
+      endMs: ELARA_CONFESSION_FRAME_MS * 3,
+      imageUrl: "/assets/slideshows/it-aint-been-the-same/frame03.webp",
+      transition: "dissolve",
+      caption: "The Senate floor. A pen. A long document with a single line missing.",
+      dialogOverlay: "I signed the bill that put four hundred million Atarian children in surveillance creches.",
+      dialogSpeakerId: "elara",
+      narratorReactionId: "elara",
+    },
+    {
+      startMs: ELARA_CONFESSION_FRAME_MS * 3,
+      endMs: ELARA_CONFESSION_FRAME_MS * 4,
+      imageUrl: "/assets/slideshows/it-aint-been-the-same/frame04.webp",
+      transition: "dissolve",
+      caption: "Back in the apartment. The curtains are down. The room is dark.",
+      dialogOverlay: "The dark came anyway. It didn't care how I'd pinned the curtains.",
+      dialogSpeakerId: "elara",
+      narratorReactionId: "elara",
+    },
+    {
+      startMs: ELARA_CONFESSION_FRAME_MS * 4,
+      endMs: ELARA_CONFESSION_FRAME_MS * 5,
+      imageUrl: "/assets/slideshows/it-aint-been-the-same/frame05.webp",
+      transition: "dissolve",
+      caption: "She turns to camera. Her political cadence is gone. Her voice is her own.",
+      dialogOverlay: "It ain't been the same since. I will not pretend for you that it was.",
+      dialogSpeakerId: "elara",
+      narratorReactionId: "elara",
+    },
+    {
+      startMs: ELARA_CONFESSION_FRAME_MS * 5,
+      endMs: ELARA_CONFESSION_FRAME_MS * 6,
+      imageUrl: "/assets/slideshows/it-aint-been-the-same/frame06.webp",
+      transition: "fade",
+      caption: "She sits in the empty room. The curtains are still down. She does not move to fix them.",
+    },
+  ],
+  lyrics: [
+    { startMs: 2_000, endMs: 12_000, text: "I used to pin the curtains back.", emphasis: "whisper" },
+    { startMs: 40_000, endMs: 54_000, text: "The dark came anyway.", emphasis: "normal" },
+    { startMs: 68_000, endMs: 84_000, text: "It ain't been the same since.", emphasis: "layered" },
+  ],
+  overlays: [
+    { type: "bloom", startMs: 0, endMs: 28_000, intensity: 0.5 },
+    { type: "vignette", startMs: 0, endMs: 84_000, intensity: 0.35 },
+    { type: "grain", startMs: 42_000, endMs: 84_000, intensity: 0.25 },
+  ],
+  flagsSetOnComplete: [
+    "slideshow_it_aint_been_the_same_complete",
+    "elara_atarion_confession_heard",
+    "elara_curtain_memory_seen",
+  ],
+  unlockLoredexEntry: "the-atarion-bill",
+  lightEnergyReward: 80,
+  reducedMotionFallback: {
+    heroImageUrl: "/assets/slideshows/it-aint-been-the-same/hero.webp",
+    prose:
+      "Elara in a sunlit apartment on Atarion. She pins cyan curtains back every morning. A flashback: the Senate floor, a pen, the bill that put four hundred million Atarian children in surveillance creches. Her name at the bottom. Back in the apartment, the curtains are down and the room is dark. She turns to camera without her political cadence and tells you, plainly, that it ain't been the same since. She sits in the empty room. The curtains stay down. She does not move to fix them.",
+    closingLine:
+      "It ain't been the same since. She will not pretend for you that it was.",
+  },
+};
+
 /* ─── THE HELMET IN THE GRASS (§6.5 + §12 C5) ─── */
 
 /**
@@ -995,7 +1216,7 @@ export const THE_HELMET_IN_THE_GRASS_SLIDESHOW: SongSlideshowDef = {
  * narrator slot — the voice of the ship itself, Dr. Lyra Vox,
  * speaking through the substrate.
  *
- * Song choice: `Consider Life` from §5.5 P1 (Book of Daniel 2:47).
+ * Song choice: Consider Life from §5.5 P1 (Book of Daniel 2:47).
  * No lyrics in the slideshow itself — the song plays under
  * silent choreography per §12 C10.
  */
@@ -1113,6 +1334,8 @@ export const SONG_SLIDESHOWS: Record<string, SongSlideshowDef> = {
   [THE_LION_IN_BLACK_SLIDESHOW.id]: THE_LION_IN_BLACK_SLIDESHOW,
   [TWO_WITNESSES_MEET_SLIDESHOW.id]: TWO_WITNESSES_MEET_SLIDESHOW,
   [THE_HELMET_IN_THE_GRASS_SLIDESHOW.id]: THE_HELMET_IN_THE_GRASS_SLIDESHOW,
+  [SUPERMAN_AINT_COMING_SLIDESHOW.id]: SUPERMAN_AINT_COMING_SLIDESHOW,
+  [IT_AINT_BEEN_THE_SAME_SLIDESHOW.id]: IT_AINT_BEEN_THE_SAME_SLIDESHOW,
 };
 
 export function getSlideshow(id: string): SongSlideshowDef | undefined {
