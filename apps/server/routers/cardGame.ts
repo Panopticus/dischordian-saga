@@ -2,7 +2,7 @@ import { logger } from "../logger";
 import { z } from "zod";
 import { publicProcedure, protectedProcedure, router } from "../_core/trpc";
 import { getDb } from "../db";
-import { cards, userCards, decks, cardGameMatches, characterSheets, dreamBalance } from "../../db/schema";
+import { cards, userCards, decks, cardGameMatches, characterSheets, dreamBalance, userProgress } from "../../db/schema";
 import { eq, and, like, inArray, sql, desc, asc, type SQL } from "drizzle-orm";
 import { fetchCitizenData, fetchPotentialNftData, resolveCardGameBonuses } from "../traitResolver";
 import { trackAiResult, trackCollectionSize } from "../achievementTracker";
@@ -321,6 +321,156 @@ export const cardGameRouter = router({
 
       return { success: true, cards: packCards };
     }),
+
+  // ═══════════════════════════════════════════════════════
+  // DAILY FREE PACK — Once per 24 hours
+  // ═══════════════════════════════════════════════════════
+
+  /**
+   * Returns the cooldown status for the daily free pack.
+   * `canClaim` is true when the last claim was > 24 hours ago (or never).
+   * `nextClaimAt` is the ISO timestamp when the next claim unlocks.
+   */
+  getDailyPackStatus: protectedProcedure.query(async ({ ctx }) => {
+    const db = await getDb();
+    if (!db) return { canClaim: false, nextClaimAt: null as string | null };
+
+    const rows = await db.select().from(userProgress)
+      .where(and(eq(userProgress.userId, ctx.user.id), eq(userProgress.franchiseId, "dischordian-saga")))
+      .limit(1);
+
+    const gameData = (rows[0]?.gameData ?? {}) as Record<string, unknown>;
+    const lastClaimRaw = gameData.lastDailyCardPackAt;
+    const lastClaim = typeof lastClaimRaw === "string" ? new Date(lastClaimRaw) : null;
+
+    const now = new Date();
+    const DAY_MS = 24 * 60 * 60 * 1000;
+
+    if (!lastClaim || Number.isNaN(lastClaim.getTime())) {
+      return { canClaim: true, nextClaimAt: null };
+    }
+
+    const nextClaim = new Date(lastClaim.getTime() + DAY_MS);
+    const canClaim = now.getTime() >= nextClaim.getTime();
+    return {
+      canClaim,
+      nextClaimAt: canClaim ? null : nextClaim.toISOString(),
+    };
+  }),
+
+  /**
+   * Claim the daily free booster pack. Enforces a 24-hour cooldown
+   * via `userProgress.gameData.lastDailyCardPackAt` so this route is
+   * safe against repeated calls.
+   */
+  claimDailyPack: protectedProcedure.mutation(async ({ ctx }) => {
+    const db = await getDb();
+    if (!db) return { success: false, message: "Database unavailable", cards: [] };
+
+    // Load (or bootstrap) the user's progress row for this franchise.
+    const rows = await db.select().from(userProgress)
+      .where(and(eq(userProgress.userId, ctx.user.id), eq(userProgress.franchiseId, "dischordian-saga")))
+      .limit(1);
+
+    const existing = rows[0];
+    const gameData = (existing?.gameData ?? {}) as Record<string, unknown>;
+    const lastClaimRaw = gameData.lastDailyCardPackAt;
+    const lastClaim = typeof lastClaimRaw === "string" ? new Date(lastClaimRaw) : null;
+
+    const now = new Date();
+    const DAY_MS = 24 * 60 * 60 * 1000;
+
+    if (lastClaim && !Number.isNaN(lastClaim.getTime())) {
+      const diff = now.getTime() - lastClaim.getTime();
+      if (diff < DAY_MS) {
+        const nextClaim = new Date(lastClaim.getTime() + DAY_MS);
+        return {
+          success: false,
+          message: `Daily pack already claimed. Next claim at ${nextClaim.toISOString()}`,
+          nextClaimAt: nextClaim.toISOString(),
+          cards: [],
+        };
+      }
+    }
+
+    // Generate a standard 5-card pack (same distribution as openBoosterPack).
+    const allCards = await db.select().from(cards).where(eq(cards.isActive, 1));
+    if (allCards.length === 0) {
+      return { success: false, message: "No cards available", cards: [] };
+    }
+
+    const byRarity = {
+      common: allCards.filter(c => c.rarity === "common"),
+      uncommon: allCards.filter(c => c.rarity === "uncommon"),
+      rare: allCards.filter(c => c.rarity === "rare"),
+      epic: allCards.filter(c => c.rarity === "epic"),
+      legendary: allCards.filter(c => c.rarity === "legendary"),
+      mythic: allCards.filter(c => c.rarity === "mythic"),
+      neyon: allCards.filter(c => c.rarity === "neyon"),
+    };
+
+    const pick = (arr: typeof allCards) => arr[Math.floor(Math.random() * arr.length)];
+    const packCards: typeof allCards = [];
+    for (let i = 0; i < 3; i++) {
+      if (byRarity.common.length > 0) packCards.push(pick(byRarity.common));
+    }
+    if (byRarity.uncommon.length > 0) packCards.push(pick(byRarity.uncommon));
+    const roll = Math.random();
+    if (roll < 0.01 && byRarity.neyon.length > 0) packCards.push(pick(byRarity.neyon));
+    else if (roll < 0.03 && byRarity.mythic.length > 0) packCards.push(pick(byRarity.mythic));
+    else if (roll < 0.08 && byRarity.legendary.length > 0) packCards.push(pick(byRarity.legendary));
+    else if (roll < 0.25 && byRarity.epic.length > 0) packCards.push(pick(byRarity.epic));
+    else if (byRarity.rare.length > 0) packCards.push(pick(byRarity.rare));
+
+    // Add cards to user's collection.
+    for (const card of packCards) {
+      const own = await db
+        .select()
+        .from(userCards)
+        .where(and(eq(userCards.userId, ctx.user.id), eq(userCards.cardId, card.cardId)))
+        .limit(1);
+
+      if (own.length > 0) {
+        await db
+          .update(userCards)
+          .set({ quantity: sql`${userCards.quantity} + 1` })
+          .where(eq(userCards.id, own[0].id));
+      } else {
+        await db.insert(userCards).values({
+          userId: ctx.user.id,
+          cardId: card.cardId,
+          quantity: 1,
+          isFoil: Math.random() < 0.05 ? 1 : 0,
+          cardLevel: 1,
+          obtainedVia: "daily_pack",
+        });
+      }
+    }
+
+    // Stamp the claim time. Bootstrap the progress row if it's missing.
+    const nextGameData = { ...gameData, lastDailyCardPackAt: now.toISOString() };
+    if (existing) {
+      await db.update(userProgress)
+        .set({ gameData: nextGameData })
+        .where(and(eq(userProgress.userId, ctx.user.id), eq(userProgress.franchiseId, "dischordian-saga")));
+    } else {
+      await db.insert(userProgress).values({
+        userId: ctx.user.id,
+        franchiseId: "dischordian-saga",
+        gameData: nextGameData,
+      });
+    }
+
+    trackCollectionSize(ctx.user.id)
+      .catch(e => logger.error("[CardGame] Collection tracking error:", e));
+
+    return {
+      success: true,
+      message: `Claimed ${packCards.length} free cards!`,
+      nextClaimAt: new Date(now.getTime() + DAY_MS).toISOString(),
+      cards: packCards,
+    };
+  }),
 
   // ═══════════════════════════════════════════════════════
   // DECK MANAGEMENT
