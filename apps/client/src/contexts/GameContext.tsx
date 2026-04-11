@@ -9,6 +9,8 @@ import { LORE_ACHIEVEMENTS } from "@/data/loreAchievements";
 // Task 3.1 — sync status moved out of context into its own store so the 77
 // GameContext consumers don't re-render every 5 seconds during debounced save.
 import { useSyncStatusStore } from "@/stores/syncStatusStore";
+import { applyDischordiaEnergy } from "@/stores/dischordiaCycleStore";
+import { recordMemorableMoment } from "@/stores/memorableMomentsStore";
 
 /* ─── TYPES ─── */
 export type GamePhase = "FIRST_VISIT" | "AWAKENING" | "QUARTERS_UNLOCKED" | "EXPLORING" | "FULL_ACCESS";
@@ -835,6 +837,33 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       { id: "door-bridge-war", name: "Return to Bridge", description: "The corridor back to the Command Bridge.", x: 2, y: 40, width: 8, height: 25, type: "door", action: "bridge" },
     ],
   },
+  /* ═══ DREAMS WORKSHOP SUB-BASEMENT ═══
+     Unlocked after Palimpsest Episode 12 completes. The sub-basement
+     exists on no official deck plan — Elara has to re-index her
+     own floor layout to find it. It houses Darren Fessler's desk
+     (the memorial interactable) and the door the Inventor promised
+     in his post-finale Signal Beacon.                              */
+  {
+    id: "dreams-workshop-subbasement",
+    name: "Dreams Workshop (Sub-Basement)",
+    deck: 0,
+    deckName: "Uncharted",
+    description: "A low-ceilinged maintenance level that does not appear on any official deck plan. The air is warm. The fluorescents hum. Nine post-its and a polaroid wait on a cluttered desk at the back wall. Nobody has been here in a while — except whoever keeps the dust off the corkboard.",
+    elaraIntro: "I am... re-indexing my floor plan right now to account for this room. I did not have a record of it before Episode 12 completed. I am going to be honest with you: that fact frightens me. Please be gentle in here. This was Darren's space.",
+    imageUrl: "",
+    features: ["Darren's Desk", "The Inventor's Door", "Blue Folder"],
+    featureRoutes: [],
+    unlockRequirement: { type: "narrative_event", value: "palimpsest_ep12_completed" },
+    connections: ["bridge"],
+    hotspots: [
+      { id: "darrens-desk", name: "Darren's Desk", description: "A cluttered metal desk. The blue folder the Host banned from broadcast sits on top. Nine hand-written post-its cover the lamp. A polaroid of Marguerite Fessler is tucked into the corkboard. You realize you are the first visitor since Darren stopped coming to work.", x: 55, y: 45, width: 28, height: 35, type: "interact", action: "dreams_workshop_darrens_desk", elaraDialog: "That's the desk. The blue folder is on top. I'm going to stop narrating for a moment. You should get to meet him yourself." },
+      { id: "blue-folder", name: "The Blue Folder", description: "A plain blue manila folder. Eight Loredex entries, cross-referenced with corruption markers, the red-ink corrections Professor Vyre made on Episode 6, and Darren's handwriting in the margin.", x: 60, y: 38, width: 10, height: 8, type: "item", action: "darren-blue-folder", elaraDialog: "All eight entries are genuinely corrupted in my copy of the Chronicle. Darren was right about every one. I cross-referenced them twice because I couldn't believe it the first time." },
+      { id: "marguerite-polaroid", name: "Polaroid of Marguerite", description: "A small polaroid. Marguerite Fessler, Celebration sector cemetery, 14 years before the Fall. Her handwriting on the back says 'Don't forget to eat, D.'", x: 80, y: 32, width: 6, height: 8, type: "examine", elaraDialog: "His mother. Her birthday is Thursday. I am going to put a recurring reminder on the Ark's master clock. Every Thursday, in perpetuity, I will tell one crew member it is Marguerite Fessler's birthday. I do not know if that counts as a substitute for a son. I am going to do it anyway." },
+      { id: "inventors-door", name: "The Inventor's Door", description: "A door that was not here before. It is propped open with a brick. The brick has the Inventor's signature on it in red ink: '—I.'", x: 10, y: 40, width: 12, height: 35, type: "door", action: "inventor-door", elaraDialog: "I have never seen this door before. It is not on any deck plan I have ever been given. The brick propping it open was not manufactured on this Ark. I am going to be direct with you: I think this door leads somewhere I cannot follow you. Please come back." },
+      { id: "post-it-wall", name: "Nine Post-It Notes", description: "Nine hand-written post-its in Darren's uneven block-caps. They cover the lamp base and the corkboard edge.", x: 40, y: 40, width: 12, height: 15, type: "examine", elaraDialog: "Applause light. Vyre's red ink. Alaric's cufflink. Call the Antiquarian back. Marguerite's birthday. Leave earlier tonight. He was keeping score of every lie on the show and reminding himself of one real thing per day." },
+      { id: "door-exit-workshop", name: "Return to Bridge", description: "A narrow stairwell leading back up to the Bridge.", x: 2, y: 25, width: 8, height: 50, type: "door", action: "bridge" },
+    ],
+  },
 ];
 
 /* ─── DEFAULT STATE ─── */
@@ -1060,6 +1089,10 @@ interface GameContextValue {
   setElaraKnowsAboutHuman: (knows: boolean, path: "told" | "discovered" | "betrayed") => void;
   adjustHumanTrust: (delta: number) => void;
   adjustElaraTrust: (delta: number) => void;
+  /** Set a flat Elara callback flag (used by roomDialogs + Palimpsest episode callbacks). */
+  setElaraCallback: (flag: string, value?: boolean) => void;
+  /** Set a flat Human callback flag (parallel to Elara's, for The Human's whispers). */
+  setHumanCallback: (flag: string, value?: boolean) => void;
   // ═══ NPC RELATIONSHIPS ═══
   adjustNpcTrust: (npcId: string, delta: number) => void;
   discoverNpc: (npcId: string) => void;
@@ -1414,6 +1447,13 @@ export function GameProvider({ children }: { children: ReactNode }) {
         },
       },
       totalRoomsUnlocked: 1,
+      // Awakening gives the player access to the Collector's archive + the
+      // Resurrectionist's pods — the crew cloning system unlocks here.
+      narrativeFlags: {
+        ...prev.narrativeFlags,
+        awakening_complete: true,
+        crew_system_unlocked: true,
+      },
     }));
   }, []);
 
@@ -1991,6 +2031,20 @@ export function GameProvider({ children }: { children: ReactNode }) {
     }));
   }, []);
 
+  const setElaraCallback = useCallback((flag: string, value: boolean = true) => {
+    setState(prev => ({
+      ...prev,
+      elaraCallbacks: { ...prev.elaraCallbacks, [flag]: value },
+    }));
+  }, []);
+
+  const setHumanCallback = useCallback((flag: string, value: boolean = true) => {
+    setState(prev => ({
+      ...prev,
+      humanCallbacks: { ...prev.humanCallbacks, [flag]: value },
+    }));
+  }, []);
+
   const revealNpcSecret = useCallback((npcId: string, revelationId: string) => {
     setState(prev => {
       const existing = prev.npcRevealed[npcId] || [];
@@ -2094,6 +2148,19 @@ export function GameProvider({ children }: { children: ReactNode }) {
         armyTotalMissionsFailed: prev.armyTotalMissionsFailed + (success ? 0 : 1),
       };
     });
+    // Witnessing §3.6 — a successful crew mission feeds the Light
+    // meter (+15). We use the compassionate row as the default; the
+    // mercenary variant is reserved for deployments explicitly flagged
+    // as such (not yet threaded through the deployment schema).
+    if (success) {
+      applyDischordiaEnergy("crew_mission_compassionate");
+      // Witnessing §11.2 — feed slot: "A crew mission you completed".
+      // Captured for the Antiquarian's Lion in Black feed.
+      recordMemorableMoment(
+        "crew_mission_completed",
+        "A crew mission your units brought home alive.",
+      );
+    }
   }, []);
 
   const updateSectorControl = useCallback((sectorId: string, updates: Partial<SectorControl>) => {
@@ -2505,6 +2572,8 @@ export function GameProvider({ children }: { children: ReactNode }) {
       setElaraKnowsAboutHuman: setElaraKnowsAboutHumanFn,
       adjustHumanTrust,
       adjustElaraTrust,
+      setElaraCallback,
+      setHumanCallback,
       // ═══ NPC RELATIONSHIPS ═══
       adjustNpcTrust,
       discoverNpc,

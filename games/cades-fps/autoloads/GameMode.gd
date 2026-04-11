@@ -23,6 +23,7 @@ var thoughtborn_killed: int = 0
 # Mode 3 — Historical Incursions
 var scenarios_completed: Array[String] = []
 var game_masters_contact_level: int = 0
+var current_scenario: String = ""
 
 # Shared
 var game_active: bool = false
@@ -48,15 +49,19 @@ func on_scenario_completed(scenario_id: String) -> void:
 	if scenario_id not in scenarios_completed:
 		scenarios_completed.append(scenario_id)
 	var completed = scenarios_completed.size()
-	if completed == 1 and game_masters_contact_level == 0:
-		game_masters_contact_level = 1
-		HistoricalManager.trigger_gm_contact(1)
-	elif completed == 2 and game_masters_contact_level == 1:
-		game_masters_contact_level = 2
-		HistoricalManager.trigger_gm_contact(2)
-	elif completed == 4 and game_masters_contact_level == 2:
-		game_masters_contact_level = 3
-		HistoricalManager.trigger_gm_contact(3)
-	elif completed == 6 and game_masters_contact_level == 3:
+	# Thresholds escalate: 1 → level 1, 2 → level 2, 4 → level 3, 6 → level 4.
+	# Using >= avoids skipping levels if the player reaches a higher count
+	# without passing through the exact value (e.g. if the counter ever
+	# jumps by more than one).
+	if completed >= 6 and game_masters_contact_level < 4:
 		game_masters_contact_level = 4
 		HistoricalManager.trigger_gm_contact(4)
+	elif completed >= 4 and game_masters_contact_level < 3:
+		game_masters_contact_level = 3
+		HistoricalManager.trigger_gm_contact(3)
+	elif completed >= 2 and game_masters_contact_level < 2:
+		game_masters_contact_level = 2
+		HistoricalManager.trigger_gm_contact(2)
+	elif completed >= 1 and game_masters_contact_level < 1:
+		game_masters_contact_level = 1
+		HistoricalManager.trigger_gm_contact(1)

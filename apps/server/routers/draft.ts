@@ -276,6 +276,77 @@ export const draftRouter = router({
     return result;
   }),
 
+  /**
+   * Report a single draft battle result inside a tournament. Called by
+   * the card battle page when the match ends between two drafted decks.
+   * Increments the winner's tournamentWins and the loser's
+   * tournamentLosses; completeTournament reads these to determine the
+   * overall tournament champion.
+   *
+   * Only accepted while the tournament is in the "battling" phase.
+   * Either participant (or the creator) may report, to minimise
+   * client-side coupling.
+   */
+  reportBattleResult: protectedProcedure
+    .input(z.object({
+      tournamentId: z.number(),
+      winnerId: z.number(),
+      loserId: z.number(),
+    }))
+    .mutation(async ({ ctx, input }) => {
+      const db = await getDb();
+      if (!db) return { success: false, error: "DB unavailable" };
+
+      if (input.winnerId === input.loserId) {
+        return { success: false, error: "Winner and loser cannot be the same player" };
+      }
+
+      const [tournament] = await db.select().from(draftTournaments)
+        .where(eq(draftTournaments.id, input.tournamentId)).limit(1);
+      if (!tournament) return { success: false, error: "Tournament not found" };
+      if (tournament.status !== "battling") {
+        return { success: false, error: "Tournament is not in the battling phase" };
+      }
+
+      const participants = await db.select().from(draftParticipants)
+        .where(eq(draftParticipants.tournamentId, input.tournamentId));
+      const winner = participants.find(p => p.userId === input.winnerId);
+      const loser = participants.find(p => p.userId === input.loserId);
+      if (!winner || !loser) {
+        return { success: false, error: "Both players must be tournament participants" };
+      }
+
+      // Only participants or the tournament creator can report a result.
+      const callerId = ctx.user.id;
+      const isCaller = callerId === winner.userId
+        || callerId === loser.userId
+        || callerId === tournament.creatorId;
+      if (!isCaller) {
+        return { success: false, error: "Only participants or the tournament creator can report a result" };
+      }
+
+      await db.update(draftParticipants)
+        .set({ tournamentWins: winner.tournamentWins + 1 })
+        .where(eq(draftParticipants.id, winner.id));
+      await db.update(draftParticipants)
+        .set({ tournamentLosses: loser.tournamentLosses + 1 })
+        .where(eq(draftParticipants.id, loser.id));
+
+      return {
+        success: true,
+        winnerRecord: {
+          userId: winner.userId,
+          wins: winner.tournamentWins + 1,
+          losses: winner.tournamentLosses,
+        },
+        loserRecord: {
+          userId: loser.userId,
+          wins: loser.tournamentWins,
+          losses: loser.tournamentLosses + 1,
+        },
+      };
+    }),
+
   /** Mark tournament as ready for battles (when all players done drafting) */
   startBattles: protectedProcedure
     .input(z.object({ tournamentId: z.number() }))

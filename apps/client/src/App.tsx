@@ -38,6 +38,9 @@ import RadioMode from "./components/RadioMode";
 import EasterEggs from "./components/EasterEggs";
 import UniverseAtmosphere from "./components/UniverseAtmosphere";
 import SoundControls from "./components/SoundControls";
+import { SlideshowPlayerRoot } from "./components/SlideshowPlayerRoot";
+import { DischordiaCycleSync } from "./components/DischordiaCycleSync";
+import { ForgivenessChoicePanel } from "./components/ForgivenessChoicePanel";
 import { useElaraTTS } from "./hooks/useElaraTTS";
 import { useVoidEngine } from "./engine/useVoidEngine";
 import { useArchetypeDetection } from "./hooks/useArchetypeDetection";
@@ -78,7 +81,11 @@ const TerminusSwarmPage = lazy(() => import("./game/terminus-swarm/TerminusSwarm
 // CardGamePage removed — Dischordia is the only card game now
 const CardGamePage = lazy(() => import("./game/duelyst/DuelystPage"));
 const InceptionArkPage = lazy(() => import("./pages/InceptionArkPage"));
+const CrewRosterPage = lazy(() => import("./pages/CrewRosterPage"));
 const TrophyRoomPage = lazy(() => import("./pages/TrophyRoomPage"));
+const WitnessingHubPage = lazy(() => import("./pages/WitnessingHubPage"));
+const Act1CardLadderPage = lazy(() => import("./pages/Act1CardLadderPage"));
+const VortexIncursionPage = lazy(() => import("./pages/VortexIncursionPage"));
 const TradeWarsPage = lazy(() => import("./game/TradeEmpirePage"));
 const WarMapPage = lazy(() => import("./pages/WarMapPage"));
 const DeckBuilderPage = lazy(() => import("./pages/DeckBuilderPage"));
@@ -162,7 +169,9 @@ const LoreJournalPage = lazy(() => import("./pages/LoreJournalPage"));
 const ArmyManagementPage = lazy(() => import("./pages/ArmyManagementPage"));
 const ShipSchematicMap = lazy(() => import("./components/ShipSchematicMap"));
 const GamemastersArenaPage = lazy(() => import("./game/GamemastersArenaPage"));
+const PalimpsestEpisodesPage = lazy(() => import("./game/PalimpsestEpisodesPage"));
 const DegensCasinoPage = lazy(() => import("./game/DegensCasinoPage"));
+const CasinoLeaderboardPage = lazy(() => import("./game/CasinoLeaderboardPage"));
 const SignalDecryptionPage = lazy(() => import("./game/SignalDecryptionPage"));
 const StarChartPage = lazy(() => import("./game/StarChartPage"));
 const HackingPuzzlePage = lazy(() => import("./game/HackingPuzzlePage"));
@@ -219,8 +228,12 @@ function Router() {
         <Route path="/terminus-swarm">{() => <GameRoute component={TerminusSwarmPage} />}</Route>
         <Route path="/ark" component={ArkExplorerPage} />
         <Route path="/ark-legacy" component={InceptionArkPage} />
+        <Route path="/crew" component={CrewRosterPage} />
         <Route path="/ship-map" component={ShipSchematicMap} />
         <Route path="/trophy" component={TrophyRoomPage} />
+        <Route path="/witnessing" component={WitnessingHubPage} />
+        <Route path="/act1-ladder" component={Act1CardLadderPage} />
+        <Route path="/vortex-incursion" component={VortexIncursionPage} />
         <Route path="/trade-empire">{() => <GameRoute component={TradeWarsPage} />}</Route>
         <Route path="/war-map">{() => <GameRoute component={WarMapPage} />}</Route>
         <Route path="/deck-builder" component={DeckBuilderPage} />
@@ -282,7 +295,9 @@ function Router() {
         <Route path="/duelyst-play">{() => <GameRoute component={DuelystClassicPage} />}</Route>
         <Route path="/spectate" component={SpectatorPage} />
         <Route path="/gamemasters-arena">{() => <GameRoute component={GamemastersArenaPage} />}</Route>
+        <Route path="/palimpsest">{() => <GameRoute component={PalimpsestEpisodesPage} />}</Route>
         <Route path="/casino">{() => <GameRoute component={DegensCasinoPage} />}</Route>
+        <Route path="/casino/leaderboard">{() => <GameRoute component={CasinoLeaderboardPage} />}</Route>
         <Route path="/circuit">{() => <GameRoute component={DeadMansCircuitPage} />}</Route>
         <Route path="/cades-fps">{() => <GameRoute component={CADESFPSPage} />}</Route>
         <Route path="/signal-decryption">{() => <GameRoute component={SignalDecryptionPage} />}</Route>
@@ -530,6 +545,23 @@ function App() {
                   <SagaThemeBGMProvider>
                   <TooltipProvider>
                     <Toaster position="bottom-left" />
+                    {/* Witnessing §3 — hydrate the community
+                        Light/Dark meter from the server on mount
+                        and install fire-and-forget write-through
+                        for every subsequent applyEnergy call. */}
+                    <DischordiaCycleSync />
+                    {/* Witnessing §5 — global slideshow host. Mounts
+                        whenever any caller queues a slideshow via
+                        playSlideshow(id). Must be above AuthGate so
+                        the overlay covers the whole app surface. */}
+                    <SlideshowPlayerRoot />
+                    {/* Witnessing §1.5 — the Bond-80 Forgive/Refuse
+                        three-option wheel. Mounts only when the
+                        forgiveness_choice_unlocked flag is set (by
+                        the Two Witnesses Meet slideshow's
+                        flagsSetOnComplete) AND the player hasn't
+                        already chosen. Fires-and-clears. */}
+                    <ForgivenessChoicePanel />
                     <AuthGate />
                   </TooltipProvider>
                   </SagaThemeBGMProvider>

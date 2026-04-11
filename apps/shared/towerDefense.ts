@@ -242,6 +242,30 @@ export const TOWERS: TowerDef[] = [
     specialAbility: { name: "Resource Drain", description: "Each kill steals 5% of raider's carried loot", cooldown: 0 },
     requiredPrestige: "shadow_broker", gridSize: [2, 2],
   },
+
+  /* ─── WITNESSING APPENDIX B §B.4 — APPRENTICE'S STAND ───
+     Once-per-account-ever sacrificial tower. Unlocked after
+     Kael Fragment F5 ("The Apprentice Who Ran"), but ONLY when
+     the player's Apprentice chose to stay and die rather than
+     run. The inscription is the Apprentice's chosen name
+     followed by "Who did not run." */
+  {
+    key: "apprentices_stand",
+    name: "Apprentice's Stand",
+    description:
+      "A sacrificial monument, not a weapon. Costs nothing to place but cannot be moved or sold. The inscription reads the Apprentice's chosen name — once only, ever.",
+    category: "ultimate", icon: "Flag", color: "#fbbf24",
+    baseDamage: 0, baseRange: 6, baseFireRate: 0, baseHp: 1,
+    maxLevel: 1, damagePerLevel: 0,
+    baseCost: {}, costMultiplier: 1.0,
+    specialAbility: {
+      name: "They Did Not Run",
+      description:
+        "Adjacent towers gain +50% damage and cannot be destroyed while this monument stands. The monument itself crumbles at 0 HP and is never rebuilt on this account.",
+      cooldown: 0,
+    },
+    gridSize: [1, 1],
+  },
 ];
 
 /* ═══════════════════════════════════════════════════════

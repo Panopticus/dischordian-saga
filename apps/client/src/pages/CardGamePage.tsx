@@ -122,6 +122,13 @@ export default function CardGamePage() {
   const prevEventCount = useRef(0);
 
   const updateQuestProgress = trpc.quests.updateProgress.useMutation();
+  const saveReplayMut = trpc.replay.saveReplay.useMutation();
+  const replaySavedRef = useRef(false);
+  const battleStartedAtRef = useRef<number | null>(null);
+  // Track whether the current battle was started from the tutorial flow
+  // so we can layer extra hint toasts on top of the normal UI.
+  const [tutorialBattle, setTutorialBattle] = useState(false);
+  const tutorialHintsShownRef = useRef<Set<number>>(new Set());
 
   // Fetch cards for deck building
   const { data: allCards } = trpc.cardGame.browse.useQuery({
@@ -131,6 +138,41 @@ export default function CardGamePage() {
     sortBy: "power",
     sortDir: "desc",
   });
+
+  // Save a replay when the battle ends. Only fires once per match
+  // because the winner mutation path happens in multiple places (player
+  // turn end, AI turn end) and we don't want duplicates.
+  useEffect(() => {
+    if (!battle || !battle.winner || replaySavedRef.current) return;
+    if (!user) return;
+    replaySavedRef.current = true;
+    const startedAt = battleStartedAtRef.current ?? Date.now();
+    const duration = Math.max(1, Math.floor((Date.now() - startedAt) / 1000));
+    try {
+      saveReplayMut.mutate({
+        gameType: "card_battle",
+        winnerId: battle.winner === "player" ? user.id : 0,
+        moveData: JSON.stringify({
+          faction: battle.player.faction,
+          difficulty: selectedDifficulty,
+          events: battle.events,
+          turnCount: battle.turn,
+          winReason: battle.winReason ?? null,
+        }),
+        totalMoves: battle.events.length,
+        duration,
+        tags: [
+          battle.winner === "player" ? "win" : "loss",
+          battle.player.faction,
+          selectedDifficulty,
+          ...(battle.turn <= 10 ? ["fast"] : []),
+          ...(battle.turn >= 20 ? ["long"] : []),
+        ],
+      });
+    } catch {
+      // Replay save is best-effort — never block the result screen.
+    }
+  }, [battle?.winner, battle, user, selectedDifficulty, saveReplayMut]);
 
   // Track new events for animation
   useEffect(() => {
@@ -176,6 +218,58 @@ export default function CardGamePage() {
     }, 200);
   }, [allCards, selectedFaction]);
 
+  // Start a guided tutorial battle: Architect faction, easiest AI, and
+  // a set of scripted hint toasts that fire on the first few turns so
+  // new players learn the loop while actually playing.
+  const startTutorialBattle = useCallback(() => {
+    if (!allCards?.cards) return;
+
+    const available = allCards.cards.filter(c => c.power > 0 && c.health > 0);
+    const shuffled = [...available].sort(() => Math.random() - 0.5);
+    const playerCards = shuffled.slice(0, 25).map(c => cardToBattleCard(c));
+    const opponentCards = shuffled.slice(25, 50).map(c => cardToBattleCard({
+      ...c,
+      userCard: null,
+    }));
+
+    setSelectedFaction("architect");
+    setSelectedDifficulty("recruit");
+    setTutorialBattle(true);
+    tutorialHintsShownRef.current = new Set();
+
+    const state = createBattle(playerCards, opponentCards, "architect", "recruit");
+    const withDraw = drawCards(state, "player", 1);
+    setBattle(withDraw);
+    prevEventCount.current = withDraw.events.length;
+    battleStartedAtRef.current = Date.now();
+    replaySavedRef.current = false;
+
+    setNarrativeToast(
+      "Elara: Welcome to your first battle, Operative. Select a card from your hand, then choose a lane to deploy it.",
+    );
+    setTimeout(() => setNarrativeToast(null), 6000);
+    setScreen("playing");
+  }, [allCards]);
+
+  // Show contextual hint toasts during a tutorial battle. Each turn
+  // fires at most once (tracked via tutorialHintsShownRef) so the
+  // player isn't spammed if they revisit the same turn via events.
+  useEffect(() => {
+    if (!tutorialBattle || !battle) return;
+    const hints: Record<number, string> = {
+      2: "Elara: Turn 2. Attack with Vanguard units for +1 damage, or place cards in Flank to chip away at enemy Influence.",
+      4: "Elara: Watch your energy — it grows each turn. Save it for big plays on the Core lane.",
+      6: "Elara: Element matchups matter. Fire beats Air, Air beats Water, Water beats Earth, Earth beats Fire — 1.5x damage.",
+    };
+    const message = hints[battle.turn];
+    if (message && !tutorialHintsShownRef.current.has(battle.turn)) {
+      tutorialHintsShownRef.current.add(battle.turn);
+      setNarrativeToast(message);
+      const t = setTimeout(() => setNarrativeToast(null), 5000);
+      return () => clearTimeout(t);
+    }
+  }, [battle?.turn, tutorialBattle]);
+
   // Start game after briefing
   const startGame = useCallback(() => {
     if (!allCards?.cards || !selectedFaction) return;
@@ -183,13 +277,20 @@ export default function CardGamePage() {
     const available = allCards.cards.filter(c => c.power > 0 && c.health > 0);
     const shuffled = [...available].sort(() => Math.random() - 0.5);
 
+    // Player deck carries the persisted cardLevel + isFoil bonuses from
+    // userCard. The AI opponent gets the base version of each card.
     const playerCards = shuffled.slice(0, 25).map(c => cardToBattleCard(c));
-    const opponentCards = shuffled.slice(25, 50).map(c => cardToBattleCard(c));
+    const opponentCards = shuffled.slice(25, 50).map(c => cardToBattleCard({
+      ...c,
+      userCard: null,
+    }));
 
     const state = createBattle(playerCards, opponentCards, selectedFaction, selectedDifficulty);
     const withDraw = drawCards(state, "player", selectedFaction === "dreamer" ? 2 : 1);
     setBattle(withDraw);
     prevEventCount.current = withDraw.events.length;
+    battleStartedAtRef.current = Date.now();
+    replaySavedRef.current = false;
 
     // Show narrative toast on battle start
     const narrative = getNarrative("battle_start", selectedFaction);
@@ -502,7 +603,7 @@ export default function CardGamePage() {
               <div className="flex-1" />
               {isLast ? (
                 <button
-                  onClick={() => setScreen("menu")}
+                  onClick={startTutorialBattle}
                   className="flex items-center gap-2 px-4 py-2 rounded-md font-mono text-sm font-bold transition-all hover:brightness-110"
                   style={{
                     background: "color-mix(in oklch, var(--neon-cyan) 15%, transparent)",
@@ -511,7 +612,7 @@ export default function CardGamePage() {
                   }}
                 >
                   <Swords size={14} />
-                  READY TO FIGHT
+                  START PRACTICE BATTLE
                 </button>
               ) : (
                 <button
@@ -948,6 +1049,8 @@ export default function CardGamePage() {
       setScreen("factionSelect");
       setBattle(null);
       setCurrentUniverse(null);
+      setTutorialBattle(false);
+      tutorialHintsShownRef.current = new Set();
     };
 
     return (

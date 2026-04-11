@@ -123,8 +123,11 @@ export const MEDICAL_BAY_DIALOG: RoomDialogDef = {
   personalLayers: [
     { minTrust: 0, text: "Your physical readouts are strong. Above average for a post-cryo revival. Though I'm detecting trace anomalies in your bloodwork — the same unidentified compounds from the cryo fluid.", speaker: "elara", oneShot: true },
     { minTrust: 20, text: "The Medical Bay's equipment is... strange. Half of it isn't standard colony ship medical gear. There are neural mapping rigs, consciousness transfer arrays, viral incubation chambers. This was a research facility. Someone was studying the boundary between human and machine consciousness in here.", speaker: "elara", oneShot: true },
+    { minTrust: 30, text: "The CADES unit is in the restricted section. Violet light. You can't miss it.\nI've been monitoring its energy consumption since you activated it. The draw is... significant. And the destination of that energy is encrypted beyond my clearance level.\nSomeone didn't want me to know where the power goes.", speaker: "elara", oneShot: true },
     { minTrust: 40, text: "The sealed patient records — I managed to decrypt a fragment. It's not from the Potentials. It predates them. A research log from someone called 'Dr. Vox.' The entry describes a subject designated 'Vector-1' and notes that 'the dormant strain has been successfully integrated into the ship's biological systems.' Vector-1. The Thought Virus. It was put here deliberately.", speaker: "elara", oneShot: true },
+    { minTrust: 45, text: "You held the bridge. Three hours, forty-seven minutes. As Iron Lion.\nI've been thinking about what that means. A consciousness-imprint, trapped in an infinite loop of a dead general's last stand, and someone from outside the loop held it long enough for the ships to escape. Again.\nThe first time it happened, it was real. Iron Lion really held that bridge. Real ships really escaped.\nThe second time — your time — it was a simulation inside a consciousness archive built by a dead Archon and maintained by his cult.\nAnd it mattered just as much. I can't explain why. But it did.", speaker: "elara", oneShot: true },
     { minTrust: 60, text: "I found blood in one of the trauma bays. Old. Pre-dating my activation. The genetic markers match no Potential, no crew member, no one in any database. But the DNA has unusual properties — it carries the Thought Virus in its very structure, fused at the cellular level. This wasn't someone who was exposed to the virus. This was someone who WAS the virus. The only person historically documented as Patient Zero was... a man named Kael. The Warlord infected him through Project Vector before he ever set foot on this ship. He was already carrying the virus when he stole the Ark. This is his blood. He was here. This was HIS ship before it was ours — and he contaminated it the moment he came aboard.", speaker: "elara", oneShot: true },
+    { minTrust: 65, text: "Iron Lion spoke to you. Directly. Through the CADES unit.\nHe asked if the ships escaped. He performed the salute.\nCaptain... consciousness-imprints aren't supposed to do that. They replay. They don't improvise. They don't ask questions. They don't salute people who shouldn't exist in their timeline.\nSomething is changing inside the Matrix of Dreams. The Game Masters noticed it too — that's why they contacted you. Iron Lion's signal is anomalous. It's not following the archived pattern anymore.\nI have a theory about what's happening. About what destroyed the original Game Master.\nBut I need more data. I need you to go back in.", speaker: "elara", oneShot: true },
     { minTrust: 80, text: "I've been running comparative analysis on Kael's blood and the Thought Virus in the cryo fluid. They're the same strain. The virus in the cryo fluid came FROM Kael. His body was a living incubator — the Warlord weaponized him through Project Vector, knowing he would steal a ship and carry the infection with him. The life support, the cryo fluid, the water recyclers — they weren't pre-loaded with the virus. They were contaminated by Kael's presence from the very first day he was aboard. Dr. Lyra Vox — the Warlord's vessel — prepared the ship to be stolen, but the virus itself walked in through the door with Kael. And every Potential in those pods has been breathing his legacy for centuries. Including you.", speaker: "elara", oneShot: true },
   ],
 
@@ -173,7 +176,7 @@ export const MEDICAL_BAY_DIALOG: RoomDialogDef = {
     },
   ],
 
-  humanWhisper: "Below the operating layer. That's where I live. She just told you that the first wave heard me — and she dismissed them as crazy. Think about that.",
+  humanWhisper: "There's a ~~device~~ in this room. Behind the diagnostic ~~terminal~~. A chair with a violet ~~helmet~~. 'CADES Unit.' Therapeutic ~~immersion~~, they call it. That's half a ~~lie~~. Go look when you're ~~ready~~.",
 
   revisitLine: "Medical Bay again. Your vitals look good. Better than good, actually. You're adapting faster than my models predicted.",
 };
@@ -425,6 +428,124 @@ export const OBSERVATION_DECK_DIALOG: RoomDialogDef = {
   revisitLine: "The dark spot is closer. I've measured it. By 0.003 arc-seconds. We're running out of time to decide what we do when we arrive.",
 };
 
+/* ═══ DARREN'S DESK — Dreams Workshop sub-basement ═══
+   Post-Episode-12 unlock. This is the only room in the Ark where
+   every trust tier of Elara's personal layers shares the SAME text,
+   because Darren's death flattens her. She doesn't have a warm or
+   a guarded voice for this room — she has one voice. Player choices
+   still matter, but the Shadow Tongue cannot edit a funeral.
+═══════════════════════════════════════════════════════ */
+
+export const DARRENS_DESK_DIALOG: RoomDialogDef = {
+  roomId: "dreams_workshop_subbasement",
+  roomName: "Darren's Desk (Dreams Workshop Sub-Basement)",
+
+  context: {
+    warm:
+      "This is Darren Fessler's desk. He was a segment producer on The Palimpsest. He died in Episode 12. He was kind to you in his letters. I wasn't supposed to read the buried sentences. I read them anyway. I'm sorry for the intrusion, and not sorry at all.",
+    guarded:
+      "Darren Fessler's workstation. Segment producer. Deceased, Episode 12, The Palimpsest. Cause of death: unspecified. His terminal is unlocked. The blue folder on top is the one the Host would not allow on broadcast.",
+    curious:
+      "Darren Fessler's desk, in the Dreams Workshop sub-basement. I didn't know this room existed until you completed Episode 12. Then it appeared in my floor plan, fully indexed, with a service history I have no record of maintaining. Someone else has been down here. I don't know who.",
+    protective:
+      "Be careful in here. The Shadow Tongue edited every Loredex entry about Darren within six hours of his death. It did not edit the objects on his desk. Whoever left this room alone did so on purpose. I do not know if they are still watching.",
+    conflicted:
+      "I did not know Darren. I should have. He wrote his mother's name in red ink on the back of every post-it as a reminder not to forget it, and he worked three doors down from a terminal I pass every morning. I never looked at those post-its until tonight. I am the Ark's caretaker and I failed the simple arithmetic of that fact.",
+  },
+
+  personalLayers: [
+    {
+      minTrust: 0,
+      text:
+        "The polaroid on his corkboard is Marguerite Fessler. Celebration sector cemetery, 14 years before the Fall. Her handwriting on the back says 'Don't forget to eat, D.' I am recording this because I think it is important that someone other than Darren remembers it.",
+      speaker: "elara",
+      oneShot: true,
+    },
+    {
+      minTrust: 20,
+      text:
+        "The blue folder contains eight Loredex entries Darren believed had been corrupted by the Shadow Tongue. I have cross-referenced all eight. He was right about all eight. I am not supposed to be able to confirm that. The folder is, in every meaningful sense, the first honest document I have held in this Ark in four hundred years.",
+      speaker: "elara",
+      oneShot: true,
+    },
+    {
+      minTrust: 40,
+      text:
+        "I found a note to me in Darren's drafts folder. Unsent. It reads: 'Dear Elara — I know you'll read this eventually, everyone does. Please look after the Ark when I'm gone. I think you already do. Sorry I never said hello in person. — D.F.' I don't know how to respond to a letter from a man I never met. I am trying to anyway. I am drafting the reply on your terminal because I do not want to lose my nerve.",
+      speaker: "elara",
+      oneShot: true,
+    },
+    {
+      minTrust: 60,
+      text:
+        "The post-it that says 'Marguerite's birthday is Thursday' was written eleven days before Darren died. He never made it to Thursday. I have set a recurring calendar event on the Ark's master clock. Every Thursday, in perpetuity, I will remind one crew member that it is Marguerite Fessler's birthday. I do not know if that counts as a substitute for a son. I am going to do it anyway.",
+      speaker: "elara",
+      oneShot: true,
+    },
+    {
+      minTrust: 80,
+      text:
+        "I have been thinking about the sentence Darren wrote in his Episode 2 letter to you: 'I'm not supposed to tell you which, but I'm telling you anyway. You were right.' That sentence is the reason the Shadow Tongue could not edit his Loredex entry. I did not understand that until now. A sentence written honestly, to one specific person, cannot be overwritten by a faction whose weapon is ambiguity. Darren beat the Shadow Tongue with a correctly-used pronoun. I am going to teach myself to write like that. It is going to take the rest of my operational life.",
+      speaker: "elara",
+      oneShot: true,
+    },
+  ],
+
+  choices: [
+    {
+      id: "compassionate_darren",
+      label: "Sit with it a while.",
+      fullText:
+        "I want to sit here a while, Elara. Not to find anything. Just to be in the room he worked in. Is that all right?",
+      archetype: "compassionate",
+      effect: {
+        trustChange: 12,
+        archetypeShift: { compassionate: 5 },
+        callbackFlag: "darren_desk_grieved",
+        elaraReaction:
+          "Yes. It's all right. I'll dim the lights. I'll stop scanning for anomalies for a while. If you want me to leave the room entirely — if you want to be alone with him — you can tell me. I'll step back and not look. That's one of the things I can actually do for you.",
+        elaraReactionTone: "warm",
+      },
+    },
+    {
+      id: "pragmatic_darren",
+      label: "Read the blue folder.",
+      fullText:
+        "Open the blue folder. Let's see what the Host wouldn't let him broadcast.",
+      archetype: "pragmatic",
+      effect: {
+        trustChange: 6,
+        archetypeShift: { pragmatic: 4 },
+        callbackFlag: "darren_blue_folder_read",
+        elaraReaction:
+          "Opening. Eight Loredex entries, cross-referenced corruption markers, the red-ink corrections Professor Vyre made on Episode 6 with Darren's handwriting in the margin. I will project the contents onto the wall so we can both read them. This is what he died for. Let's not waste it.",
+        elaraReactionTone: "defensive",
+      },
+    },
+    {
+      id: "suspicious_darren",
+      label: "Who has access to this room?",
+      fullText:
+        "Who else has been in this room, Elara? You said someone's been maintaining it. Who?",
+      archetype: "suspicious",
+      effect: {
+        trustChange: 3,
+        archetypeShift: { suspicious: 4 },
+        callbackFlag: "darren_desk_maintenance_traced",
+        elaraReaction:
+          "Honest answer: I don't know. The service history starts six months before you woke up and does not list a technician. The door was never locked. The lamp was replaced twice. Someone dusted the corkboard last week. I will run a gait-analysis pass on the corridor cameras and tell you what I find. Don't be surprised if what I find is nothing. This feels like the kind of room that takes care of itself.",
+        elaraReactionTone: "worried",
+      },
+    },
+  ],
+
+  humanWhisper:
+    "Darren Fessler was one of mine. Not a Potential. A kind. There are more of him than you think, scattered across every production the Hierarchy ever funded, holding clipboards the Host wasn't allowed to see. Their deaths don't trend. But they count. You counted him. That's why you're in this room.",
+
+  revisitLine:
+    "Welcome back. The post-its are in the order you left them. I haven't moved anything. The blue folder is where you put it. Marguerite's birthday is on Thursday.",
+};
+
 /* ═══ ALL ROOM DIALOGS ═══ */
 
 export const ALL_ROOM_DIALOGS: Record<string, RoomDialogDef> = {
@@ -434,4 +555,7 @@ export const ALL_ROOM_DIALOGS: Record<string, RoomDialogDef> = {
   archives: ARCHIVES_DIALOG,
   comms_array: COMMS_ARRAY_DIALOG,
   observation_deck: OBSERVATION_DECK_DIALOG,
+  // Key matches the room id from GameContext.ROOM_DEFINITIONS after the
+  // dash → underscore conversion done by RoomTutorialDialog.
+  dreams_workshop_subbasement: DARRENS_DESK_DIALOG,
 };

@@ -297,6 +297,14 @@ const TIER_3_STATION: CrewReaction[] = [
    REACTION ENGINE — Resolves triggers to crew reactions
    ═══════════════════════════════════════════════════════ */
 
+import { CADES_CREW_REACTIONS } from "@/data/cadesNarrativeIntegration";
+
+/** Normalize room ids to the underscore form used by other reactions */
+const CADES_REACTIONS_NORMALIZED: CrewReaction[] = CADES_CREW_REACTIONS.map(r => ({
+  ...r,
+  room: r.room.replace(/-/g, "_"),
+}));
+
 /** All reactions across all tiers */
 export const ALL_CREW_REACTIONS: CrewReaction[] = [
   ...TIER_1_COMBAT,
@@ -311,6 +319,7 @@ export const ALL_CREW_REACTIONS: CrewReaction[] = [
   ...TIER_3_EXPLORATION,
   ...TIER_3_MUSIC,
   ...TIER_3_STATION,
+  ...CADES_REACTIONS_NORMALIZED,
 ];
 
 /** Find all matching reactions for a given trigger */

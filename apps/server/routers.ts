@@ -33,6 +33,8 @@ import { moralityLeaderboardRouter } from "./routers/moralityLeaderboard";
 import { companionRouter } from "./routers/companion";
 import { marketplaceRouter } from "./routers/marketplace";
 import { dailyQuestsRouter } from "./routers/dailyQuests";
+import { bonusObjectivesRouter } from "./routers/bonusObjectives";
+import { vortexIncursionRouter } from "./routers/vortexIncursion";
 import { marketAchievementsRouter } from "./routers/marketAchievements";
 import { notificationRouter } from "./routers/notificationRouter";
 import { guildRouter } from "./routers/guild";
@@ -77,6 +79,12 @@ import { communityCodexRouter } from "./routers/communityCodex";
 import { performanceRouter } from "./routers/performance";
 import { deadMansCircuitRouter } from "./routers/deadMansCircuit";
 import { livingUniverseRouter } from "./routers/livingUniverse";
+import { palimpsestRouter } from "./routers/palimpsest";
+import { thoughtVirusRouter } from "./routers/thoughtVirus";
+import { casinoRouter } from "./routers/casino";
+import { christmasInJulyRouter } from "./routers/christmasInJuly";
+import { dischordiaCycleRouter } from "./routers/dischordiaCycle";
+import { crewRouter } from "./routers/crew";
 
 export const appRouter = router({
   system: systemRouter,
@@ -106,6 +114,8 @@ export const appRouter = router({
   companion: companionRouter,
   marketplace: marketplaceRouter,
   quests: dailyQuestsRouter,
+  bonusObjectives: bonusObjectivesRouter,
+  vortexIncursion: vortexIncursionRouter,
   marketAchievements: marketAchievementsRouter,
   notifications: notificationRouter,
   guild: guildRouter,
@@ -150,6 +160,12 @@ export const appRouter = router({
   performance: performanceRouter,
   deadMansCircuit: deadMansCircuitRouter,
   livingUniverse: livingUniverseRouter,
+  palimpsest: palimpsestRouter,
+  thoughtVirus: thoughtVirusRouter,
+  casino: casinoRouter,
+  christmasInJuly: christmasInJulyRouter,
+  dischordiaCycle: dischordiaCycleRouter,
+  crew: crewRouter,
   auth: router({
     me: publicProcedure.query(opts => opts.ctx.user),
     logout: publicProcedure.mutation(({ ctx }) => {

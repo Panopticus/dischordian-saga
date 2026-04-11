@@ -110,6 +110,18 @@ export default function ChessPage() {
   const [mpLastMove, setMpLastMove] = useState<{ from: string; to: string } | null>(null);
   const [mpGameOver, setMpGameOver] = useState<{ winner: "white" | "black" | "draw"; reason: string; eloChange: number; newElo: number } | null>(null);
   const [mpDrawOffered, setMpDrawOffered] = useState(false);
+
+  // ── Pawn promotion dialog state ──
+  // When a pawn reaches the last rank, we suspend the move until the player
+  // picks a promotion piece. Shared between SP (`isMp: false`) and PvP.
+  const [pendingPromotion, setPendingPromotion] = useState<{
+    from: string;
+    to: string;
+    color: "w" | "b";
+    isMp: boolean;
+    piece: string; // raw piece string from react-chessboard (e.g. "wP")
+  } | null>(null);
+
   const mpWsRef = useRef<WebSocket | null>(null);
   const mpSearchTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const mpChessRef = useRef(new Chess());
@@ -231,7 +243,7 @@ export default function ChessPage() {
     setMpSearchElapsed(0);
   }, []);
 
-  const handleMpMove = useCallback((from: string, to: string) => {
+  const handleMpMove = useCallback((from: string, to: string, promoOverride?: string) => {
     if (!mpWsRef.current || mpWsRef.current.readyState !== WebSocket.OPEN) return false;
     if (!mpOpponent) return false;
 
@@ -243,8 +255,23 @@ export default function ChessPage() {
     const tempChess = new Chess(mpFen);
     const piece = tempChess.get(from as any);
     const needsPromotion = piece?.type === "p" && ((piece.color === "w" && to[1] === "8") || (piece.color === "b" && to[1] === "1"));
-    const promotion = needsPromotion ? "q" : undefined;
 
+    // If promotion is needed and we don't yet know which piece, open dialog.
+    if (needsPromotion && !promoOverride) {
+      // Sanity-check the move is actually legal before prompting.
+      const test = tempChess.move({ from, to, promotion: "q" });
+      if (!test) return false;
+      setPendingPromotion({
+        from,
+        to,
+        color: piece!.color as "w" | "b",
+        isMp: true,
+        piece: (piece!.color === "w" ? "wP" : "bP"),
+      });
+      return false;
+    }
+
+    const promotion = needsPromotion ? promoOverride : undefined;
     const moveResult = tempChess.move({ from, to, promotion });
     if (!moveResult) return false;
 
@@ -374,17 +401,38 @@ export default function ChessPage() {
     return bestMove;
   }, [stockfish.isReady]);
 
-  const handleDrop = useCallback(async (sourceSquare: string, targetSquare: string, piece: string) => {
+  const handleDrop = useCallback(async (sourceSquare: string, targetSquare: string, piece: string, promoOverride?: string) => {
     if (!activeGameId || gameStatus !== "active" || isThinking) return false;
 
     const isPromotion = piece[1] === "P" && (targetSquare[1] === "8" || targetSquare[1] === "1");
+
+    // If promotion is needed and no explicit choice yet, open the dialog
+    // and defer the actual move. The piece will snap back on next render
+    // because we don't update gameFen here.
+    if (isPromotion && !promoOverride) {
+      // Validate the move is actually legal before prompting.
+      const test = new Chess(chessRef.current.fen());
+      if (!test.move({ from: sourceSquare, to: targetSquare, promotion: "q" })) {
+        return false;
+      }
+      setPendingPromotion({
+        from: sourceSquare,
+        to: targetSquare,
+        color: piece[0] as "w" | "b",
+        isMp: false,
+        piece,
+      });
+      return false;
+    }
+
+    const promotionPiece = isPromotion ? promoOverride : undefined;
 
     // Validate move locally first
     const chess = chessRef.current;
     const moveResult = chess.move({
       from: sourceSquare,
       to: targetSquare,
-      promotion: isPromotion ? "q" : undefined,
+      promotion: promotionPiece,
     });
     if (!moveResult) return false;
 
@@ -401,7 +449,7 @@ export default function ChessPage() {
           gameId: activeGameId,
           from: sourceSquare,
           to: targetSquare,
-          promotion: isPromotion ? "q" : undefined,
+          promotion: promotionPiece,
         });
         setGameStatus(result.status);
         if (result.rewards) {
@@ -452,7 +500,7 @@ export default function ChessPage() {
                 gameId: activeGameId,
                 from: sourceSquare,
                 to: targetSquare,
-                promotion: isPromotion ? "q" : undefined,
+                promotion: promotionPiece,
               });
               setGameStatus(result.status);
               if (result.rewards) setRewards(result.rewards);
@@ -466,7 +514,7 @@ export default function ChessPage() {
                 gameId: activeGameId,
                 from: sourceSquare,
                 to: targetSquare,
-                promotion: isPromotion ? "q" : undefined,
+                promotion: promotionPiece,
               }).catch(e => console.warn("Background sync error:", e));
             }
           }
@@ -478,7 +526,7 @@ export default function ChessPage() {
           gameId: activeGameId,
           from: sourceSquare,
           to: targetSquare,
-          promotion: isPromotion ? "q" : undefined,
+          promotion: promotionPiece,
         });
         setGameFen(result.fen);
         chess.load(result.fen);
@@ -504,7 +552,7 @@ export default function ChessPage() {
           gameId: activeGameId,
           from: sourceSquare,
           to: targetSquare,
-          promotion: isPromotion ? "q" : undefined,
+          promotion: promotionPiece,
         });
         setGameFen(result.fen);
         chess.load(result.fen);
@@ -544,6 +592,19 @@ export default function ChessPage() {
     return true;
   }, [activeGameId, gameStatus, isThinking, makeMove, utils, useClientAi, stockfish.isReady, requestAiMove]);
 
+  /** Commit a pending pawn promotion after the player picks a piece. */
+  const commitPromotion = useCallback((pieceLetter: "q" | "r" | "b" | "n") => {
+    if (!pendingPromotion) return;
+    const p = pendingPromotion;
+    setPendingPromotion(null);
+    if (p.isMp) {
+      handleMpMove(p.from, p.to, pieceLetter);
+    } else {
+      // Fire-and-forget — handleDrop is async but we don't await here
+      handleDrop(p.from, p.to, p.piece, pieceLetter);
+    }
+  }, [pendingPromotion, handleDrop, handleMpMove]);
+
   const handleResign = async () => {
     if (!activeGameId) return;
     try {
@@ -582,6 +643,107 @@ export default function ChessPage() {
     utils.chess.getActiveGame.invalidate();
     setView("character_select");
   };
+
+  /* ─── Board orientation (flip with 'F' key or button) ─── */
+  const [boardFlipped, setBoardFlipped] = useState(false);
+  const handleFlipBoard = useCallback(() => setBoardFlipped(f => !f), []);
+
+  /* ─── Last-move highlight ───
+     Tracks the last player and last AI move so we can paint both
+     squares in the active color via Chessboard's `squareStyles`. */
+  const [lastPlayerMove, setLastPlayerMove] = useState<{ from: string; to: string } | null>(null);
+
+  /** Square highlight overlay map for the SP board. */
+  const squareStyles = useMemo(() => {
+    const styles: Record<string, React.CSSProperties> = {};
+    const playerHighlight = "rgba(120, 220, 120, 0.42)";
+    const aiHighlight = "rgba(220, 140, 70, 0.42)";
+    if (lastPlayerMove) {
+      styles[lastPlayerMove.from] = { background: playerHighlight };
+      styles[lastPlayerMove.to] = { background: playerHighlight };
+    }
+    if (lastAiMove) {
+      styles[lastAiMove.from] = { background: aiHighlight };
+      styles[lastAiMove.to] = { background: aiHighlight };
+    }
+    return styles;
+  }, [lastPlayerMove, lastAiMove]);
+
+  /** Square highlight overlay map for the multiplayer board. */
+  const mpSquareStyles = useMemo(() => {
+    const styles: Record<string, React.CSSProperties> = {};
+    if (mpLastMove) {
+      styles[mpLastMove.from] = { background: "rgba(255, 255, 0, 0.38)" };
+      styles[mpLastMove.to] = { background: "rgba(255, 255, 0, 0.38)" };
+    }
+    return styles;
+  }, [mpLastMove]);
+
+  /** PGN export — copies current game's PGN to the clipboard. */
+  const handleExportPgn = useCallback(async () => {
+    try {
+      const ref = view === "multiplayer_playing" ? mpChessRef.current : chessRef.current;
+      const pgn = ref.pgn() || "(empty)";
+      await navigator.clipboard.writeText(pgn);
+      const { toast } = await import("sonner");
+      toast.success("PGN copied to clipboard");
+    } catch (e) {
+      const { toast } = await import("sonner");
+      toast.error("Failed to copy PGN");
+      console.error("PGN export failed:", e);
+    }
+  }, [view]);
+
+  /* ─── Keyboard shortcuts ───
+     F = flip board, R = resign, D = offer draw, C = copy PGN, Esc = close
+     promotion dialog. We only react when an action is meaningful in the
+     current view to avoid surprising the player elsewhere. */
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      // Ignore typing in inputs.
+      const target = e.target as HTMLElement | null;
+      if (target && (target.tagName === "INPUT" || target.tagName === "TEXTAREA" || target.isContentEditable)) {
+        return;
+      }
+      if (e.key === "Escape" && pendingPromotion) {
+        setPendingPromotion(null);
+        return;
+      }
+      if (view !== "playing" && view !== "multiplayer_playing") return;
+      if (e.metaKey || e.ctrlKey || e.altKey) return;
+      switch (e.key.toLowerCase()) {
+        case "f":
+          e.preventDefault();
+          handleFlipBoard();
+          break;
+        case "r":
+          e.preventDefault();
+          if (view === "playing" && gameStatus === "active") void handleResign();
+          if (view === "multiplayer_playing" && !mpGameOver) handleMpResign();
+          break;
+        case "d":
+          e.preventDefault();
+          if (view === "multiplayer_playing" && !mpGameOver) handleMpOfferDraw();
+          break;
+        case "c":
+          e.preventDefault();
+          void handleExportPgn();
+          break;
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [view, gameStatus, mpGameOver, pendingPromotion, handleFlipBoard, handleExportPgn, handleMpResign, handleMpOfferDraw]);
+
+  // Track player moves for highlighting (alongside the existing lastAiMove).
+  useEffect(() => {
+    if (!moveHistory.length || !chessRef.current) return;
+    const history = chessRef.current.history({ verbose: true });
+    const lastWhite = [...history].reverse().find(m => m.color === "w");
+    if (lastWhite) {
+      setLastPlayerMove({ from: lastWhite.from, to: lastWhite.to });
+    }
+  }, [moveHistory]);
 
   /* ─── Evaluation bar calculation ───
      Must run before any conditional early-return so hook order
@@ -916,6 +1078,20 @@ export default function ChessPage() {
                     <BarChart3 size={12} className={showEvalBar ? "text-primary" : "text-white/40"} />
                   </button>
                   <button
+                    onClick={handleFlipBoard}
+                    className="p-1.5 rounded-md bg-black/30 backdrop-blur-sm border border-white/10 hover:bg-black/50"
+                    title="Flip board (F)"
+                  >
+                    <RotateCcw size={12} className="text-white/60" />
+                  </button>
+                  <button
+                    onClick={handleExportPgn}
+                    className="px-2 py-1.5 rounded-md bg-black/30 backdrop-blur-sm border border-white/10 hover:bg-black/50 font-mono text-[9px] text-white/60"
+                    title="Copy PGN to clipboard (C)"
+                  >
+                    PGN
+                  </button>
+                  <button
                     onClick={handleNewGame}
                     className="px-3 py-1.5 rounded-md backdrop-blur-sm border text-xs font-mono"
                     style={{
@@ -971,6 +1147,9 @@ export default function ChessPage() {
                       options={{
                         position: gameFen,
                         pieces: customPieces,
+                        boardOrientation: boardFlipped ? "black" : "white",
+                        showNotation: true,
+                        squareStyles,
                         onPieceDrop: ({ piece, sourceSquare, targetSquare }: any) => {
                           if (!targetSquare) return false;
                           handleDrop(sourceSquare, targetSquare, piece?.pieceType || "");
@@ -1449,6 +1628,8 @@ export default function ChessPage() {
                         position: mpFen,
                         pieces: customPieces,
                         boardOrientation: mpOpponent.color === "white" ? "black" : "white",
+                        showNotation: true,
+                        squareStyles: mpSquareStyles,
                         onPieceDrop: ({ sourceSquare, targetSquare }: any) => {
                           if (!targetSquare) return false;
                           return handleMpMove(sourceSquare, targetSquare);
@@ -1691,6 +1872,64 @@ export default function ChessPage() {
                 );
               })}
             </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* ═══ PAWN PROMOTION DIALOG ═══ */}
+      <AnimatePresence>
+        {pendingPromotion && (
+          <motion.div
+            key="promotion-dialog"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm"
+            onClick={() => setPendingPromotion(null)}
+          >
+            <motion.div
+              initial={{ scale: 0.85, y: 16 }}
+              animate={{ scale: 1, y: 0 }}
+              exit={{ scale: 0.85, y: 16 }}
+              onClick={(e) => e.stopPropagation()}
+              className="rounded-lg border border-primary/40 bg-card/95 backdrop-blur-md p-5 shadow-2xl"
+            >
+              <p className="font-display text-sm font-bold tracking-wider text-center mb-3 text-primary">
+                PROMOTE PAWN
+              </p>
+              <p className="font-mono text-[10px] text-center text-muted-foreground mb-4">
+                Choose a piece to promote to
+              </p>
+              <div className="flex gap-2">
+                {(["q", "r", "b", "n"] as const).map((p) => {
+                  const labels: Record<typeof p, string> = { q: "Queen", r: "Rook", b: "Bishop", n: "Knight" };
+                  const unicode: Record<string, string> = pendingPromotion.color === "w"
+                    ? { q: "\u2655", r: "\u2656", b: "\u2657", n: "\u2658" }
+                    : { q: "\u265B", r: "\u265C", b: "\u265D", n: "\u265E" };
+                  return (
+                    <button
+                      key={p}
+                      onClick={() => commitPromotion(p)}
+                      className="flex flex-col items-center gap-1 p-3 rounded-md bg-secondary/40 border border-border/40 hover:bg-primary/10 hover:border-primary/40 transition min-w-[70px]"
+                      aria-label={`Promote to ${labels[p]}`}
+                    >
+                      <span className={`text-4xl leading-none ${pendingPromotion.color === "w" ? "text-white" : "text-black [text-shadow:0_0_2px_white]"}`}>
+                        {unicode[p]}
+                      </span>
+                      <span className="font-mono text-[9px] tracking-wider uppercase text-muted-foreground">
+                        {labels[p]}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+              <button
+                onClick={() => setPendingPromotion(null)}
+                className="mt-3 w-full py-1.5 rounded-md bg-secondary/30 border border-border/30 font-mono text-[10px] text-muted-foreground hover:bg-secondary/50"
+              >
+                CANCEL
+              </button>
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>

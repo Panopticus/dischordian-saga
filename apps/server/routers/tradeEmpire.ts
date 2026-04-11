@@ -309,6 +309,13 @@ export const tradeEmpireRouter = router({
       }
       state.sectors[mission.sectorId] = sector;
 
+      // Thought Virus integration — running the Vox Corridor adds real viral
+      // exposure on top of the normal reward, per thoughtVirus.ts lore.
+      if (mission.id.startsWith("vox_corridor")) {
+        const { addLoad } = await import("../services/thoughtVirusService");
+        await addLoad(ctx.user.id, 6, "mission_vox_corridor");
+      }
+
       await saveEmpireState(ctx.user.id, state);
 
       return {
