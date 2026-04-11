@@ -1,10 +1,16 @@
 extends Node3D
 
+const OPEN_CHANNEL_SCENE := "res://scenes/ui/OpenChannelSequence.tscn"
+
 var spoke_1h: bool = false
 var spoke_2h: bool = false
 var canon_done: bool = false
+var open_channel_active: bool = false
 
 func _ready() -> void:
+	# BridgeOfKael is always "last_stand" combat, whether entered directly
+	# from Mode Select or re-entered from the Matrix Hub as a historical replay.
+	GameMode.current_mode = "last_stand"
 	Elara.flush_run_start_queue()
 	LoopManager.check_open_channel_unlock()
 	# Set up wave manager
@@ -26,6 +32,10 @@ func _ready() -> void:
 	hud.set_mode_ui("last_stand")
 	hud.update_tokens(GameMode.reinforcement_tokens)
 	$Player.health_updated.connect(hud._on_health_updated)
+	# If the channel is already primed for this run, let Elara say so.
+	if GameMode.awareness_level >= 5 and not GameMode.open_channel_used:
+		Elara.queue_for_run_start("open_channel_ready")
+		Elara.queue_for_run_start("iron_lion_channel")
 	# Start first wave after countdown
 	await get_tree().create_timer(3.0).timeout
 	GameMode.game_active = true
@@ -51,6 +61,9 @@ func _process(delta: float) -> void:
 	# Reinforcement input
 	if Input.is_action_just_pressed("call_reinforcement"):
 		_call_reinforcement()
+	# Iron Lion — Open Channel interaction
+	if Input.is_action_just_pressed("interact"):
+		_try_open_channel()
 
 func _call_reinforcement() -> void:
 	if GameMode.reinforcement_tokens <= 0: return
@@ -65,3 +78,27 @@ func _call_reinforcement() -> void:
 	for enemy in get_tree().get_nodes_in_group("machine_army"):
 		if enemy.global_position.distance_to($Player.global_position) < 18.0:
 			enemy.damage(15)
+
+func _try_open_channel() -> void:
+	if open_channel_active: return
+	if GameMode.awareness_level < 5: return
+	if GameMode.open_channel_used: return
+	open_channel_active = true
+	GameMode.game_active = false
+	# Hide the prompt — we're committing to the conversation now.
+	var hud = $HUD
+	if hud and hud.has_node("OpenChannelPrompt"):
+		hud.get_node("OpenChannelPrompt").visible = false
+	Audio.play("sounds/weapon_change.ogg") # placeholder until channel_open.ogg exists
+	var scene: PackedScene = load(OPEN_CHANNEL_SCENE)
+	if scene == null:
+		_finish_open_channel()
+		return
+	var sequence = scene.instantiate()
+	add_child(sequence)
+	if sequence.has_signal("conversation_complete"):
+		sequence.conversation_complete.connect(_finish_open_channel)
+
+func _finish_open_channel() -> void:
+	LoopManager.on_open_channel_activated()
+	GameMode.game_active = true

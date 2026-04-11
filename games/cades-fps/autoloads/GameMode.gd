@@ -23,6 +23,7 @@ var thoughtborn_killed: int = 0
 # Mode 3 — Historical Incursions
 var scenarios_completed: Array[String] = []
 var game_masters_contact_level: int = 0
+var current_scenario: String = ""
 
 # Shared
 var game_active: bool = false
