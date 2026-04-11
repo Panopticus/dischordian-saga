@@ -15,6 +15,11 @@ import { toast } from "sonner";
 import { dispatchNarrativeEffect, dispatchMoralityShift } from "@/hooks/useNarrativeEvents";
 import { getAtmosphereForMorality, pushTemporaryTheme, popTemporaryTheme } from "@/engine/voidEngine";
 import { playSlideshow } from "@/stores/witnessingStore";
+import { useDischordiaCycleStore } from "@/stores/dischordiaCycleStore";
+import {
+  WITNESSING_MILESTONES,
+  type WitnessingMilestoneId,
+} from "@shared/witnessingEvents";
 
 /* ─── LORE DISCOVERY TRIGGERS ───
    Automatically discover lore entries based on game state changes.
@@ -197,6 +202,34 @@ export function useNarrativeIntegration() {
   const prevRoomsRef = useRef<Set<string>>(new Set());
   const discoveredRef = useRef<Set<string>>(new Set());
   const slideshowFiredRef = useRef<Set<string>>(new Set());
+  const dischordiaCyclePhase = useDischordiaCycleStore((s) => s.state.phase);
+  const applyRawDelta = useDischordiaCycleStore((s) => s.applyRawDelta);
+
+  /**
+   * Fire a §14.1 Witnessing milestone event: raise its flag,
+   * show the toast, and apply any light/dark energy to the
+   * Dischordia Cycle store. Dedupe is provided by the flag
+   * — if the flag is already set, the effect is a no-op.
+   */
+  const fireMilestone = useCallback(
+    (id: WitnessingMilestoneId) => {
+      const milestone = WITNESSING_MILESTONES[id];
+      if (!milestone) return;
+      if (state.narrativeFlags?.[milestone.raisesFlag]) return;
+      setNarrativeFlag(milestone.raisesFlag, true);
+      toast.info(milestone.title, {
+        description: milestone.description,
+        duration: 8000,
+      });
+      if (milestone.lightEnergyReward || milestone.darkEnergyCost) {
+        applyRawDelta({
+          light: milestone.lightEnergyReward,
+          dark: milestone.darkEnergyCost,
+        });
+      }
+    },
+    [state.narrativeFlags, setNarrativeFlag, applyRawDelta],
+  );
 
   // Initialize discovered set from localStorage
   useEffect(() => {
@@ -299,24 +332,61 @@ export function useNarrativeIntegration() {
     }
   }, [state.rooms, discoverLore]);
 
-  // ─── WITNESSING §1.5 — BOND 80 MUTUAL PEAK DETECTOR ───
-  // When both elaraTrustLevel AND humanTrustLevel cross 80 for
-  // the first time, set `bond_80_mutual_peak` so the fan-out
-  // below fires the "Two Witnesses Meet" cinematic (§12 C10).
-  // Guarded by the completion flag so it only fires once.
+  // ─── WITNESSING §1.5 / §14.1 — MUTUAL BOND MILESTONES ───
+  // Three tiers of shared bond fire scripted Living Universe
+  // milestones. Each is guarded by the milestone's narrative
+  // flag so it only fires once per save.
+  //
+  //   bond 40 → "Two Witnesses Remember"  (+5 community light)
+  //   bond 60 → "The Silence of Two Witnesses" (bonds freeze,
+  //              neither narrator speaks for 30 min real-time)
+  //   bond 80 → "The Two Witnesses Meet" (triggers §12 C10
+  //              cinematic via the SLIDESHOW_TRIGGERS fan-out)
+  //
+  // All three use the minimum of the two bond scores so the
+  // milestones fire on TRUE mutual trust, not on one narrator
+  // lopsidedly carrying the total.
   useEffect(() => {
-    if (state.narrativeFlags?.bond_80_mutual_peak) return;
-    if (state.narrativeFlags?.slideshow_two_witnesses_meet_complete) return;
-    if ((state.elaraTrustLevel ?? 0) < 80) return;
-    if ((state.humanTrustLevel ?? 0) < 80) return;
-    setNarrativeFlag("bond_80_mutual_peak", true);
+    const mutualBond = Math.min(
+      state.elaraTrustLevel ?? 0,
+      state.humanTrustLevel ?? 0,
+    );
+    if (mutualBond >= 40) fireMilestone("two_witnesses_remember");
+    if (mutualBond >= 60) fireMilestone("silence_of_two_witnesses");
+    if (mutualBond >= 80) {
+      fireMilestone("two_witnesses_meet");
+      if (
+        !state.narrativeFlags?.bond_80_mutual_peak &&
+        !state.narrativeFlags?.slideshow_two_witnesses_meet_complete
+      ) {
+        setNarrativeFlag("bond_80_mutual_peak", true);
+      }
+    }
   }, [
     state.elaraTrustLevel,
     state.humanTrustLevel,
     state.narrativeFlags?.bond_80_mutual_peak,
     state.narrativeFlags?.slideshow_two_witnesses_meet_complete,
     setNarrativeFlag,
+    fireMilestone,
   ]);
+
+  // ─── WITNESSING §3.3 / §14.1 — DISCHORDIA PHASE MILESTONES ───
+  // The community Dischordia Cycle phase change is a Living
+  // Universe event. When the server pushes the phase into
+  // vortex_advance, fire "The Bulb Dims". When it pushes into
+  // light_holds (community-visible Light ≥ 1M) or completes a
+  // reclamation, fire "A Sector Wakes".
+  useEffect(() => {
+    if (dischordiaCyclePhase === "vortex_advance") {
+      fireMilestone("bulb_dims");
+    } else if (
+      dischordiaCyclePhase === "light_holds" ||
+      dischordiaCyclePhase === "reclamation"
+    ) {
+      fireMilestone("sector_wakes");
+    }
+  }, [dischordiaCyclePhase, fireMilestone]);
 
   // ─── WITNESSING §5 — SLIDESHOW TRIGGER FAN-OUT ───
   // Every §5.5 P0 slideshow has:
