@@ -23,6 +23,13 @@ export default function BreedingSelector({ state, onBreed }: Props) {
     () => state.roster.members.filter(m => m.status === "active"),
     [state.roster.members],
   );
+  // Hooks MUST run unconditionally on every render. Keep fullRoster's
+  // useMemo above any early-return branches so hook call order is
+  // stable regardless of gen2Available / eligible.length.
+  const fullRoster = useMemo(
+    () => [...state.roster.members, ...state.roster.deceased],
+    [state.roster.members, state.roster.deceased],
+  );
   const [p1, setP1] = useState<string | null>(null);
   const [p2, setP2] = useState<string | null>(null);
   const [chosenBloodline, setChosenBloodline] = useState<BloodlineId | null>(null);
@@ -49,10 +56,6 @@ export default function BreedingSelector({ state, onBreed }: Props) {
     );
   }
 
-  const fullRoster = useMemo(
-    () => [...state.roster.members, ...state.roster.deceased],
-    [state.roster.members, state.roster.deceased],
-  );
   const gensShared =
     parent1 && parent2 ? generationsSinceShared(parent1, parent2, fullRoster) : Infinity;
   const inbreeding =
