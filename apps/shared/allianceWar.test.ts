@@ -38,9 +38,10 @@ describe("allianceWar — Thought Virus reinfection", () => {
     const map = generateWarMap();
     const clearedNode = map.nodes[0];
     clearedNode.cleared = true;
+    clearedNode.clearedAt = 0;
     const result = applyThoughtVirusReinfection(
       map,
-      [{ nodeId: clearedNode.id, clearedAt: 0 }],
+      undefined,
       otherEpoch,
       THOUGHT_VIRUS_REINFECT_WINDOW_MS * 100,
       () => 0,
@@ -53,10 +54,8 @@ describe("allianceWar — Thought Virus reinfection", () => {
     const clearedNode = map.nodes[0];
     clearedNode.cleared = true;
     const now = 1_000_000;
-    const clearLog: NodeClearRecord[] = [
-      { nodeId: clearedNode.id, clearedAt: now - 1000 }, // 1 second ago
-    ];
-    const result = applyThoughtVirusReinfection(map, clearLog, fallEra, now, () => 0);
+    clearedNode.clearedAt = now - 1000; // 1 second ago
+    const result = applyThoughtVirusReinfection(map, undefined, fallEra, now, () => 0);
     expect(result.reinfectedNodeIds).toHaveLength(0);
   });
 
@@ -65,28 +64,35 @@ describe("allianceWar — Thought Virus reinfection", () => {
     const nonBoss = map.nodes.find(n => n.type !== "boss")!;
     nonBoss.cleared = true;
     const now = 1_000_000_000;
+    nonBoss.clearedAt = now - THOUGHT_VIRUS_REINFECT_WINDOW_MS - 1;
+    // rng = 0 → always under the 0.15 chance
+    const result = applyThoughtVirusReinfection(map, undefined, fallEra, now, () => 0);
+    expect(result.reinfectedNodeIds).toContain(nonBoss.id);
+    const reinfectedNode = result.nextMap.nodes.find(n => n.id === nonBoss.id)!;
+    expect(reinfectedNode.cleared).toBe(false);
+    expect(reinfectedNode.clearedAt).toBeNull();
+  });
+
+  it("falls back to the legacy clearLog when a node has no clearedAt", () => {
+    const map = generateWarMap();
+    const nonBoss = map.nodes.find(n => n.type !== "boss")!;
+    nonBoss.cleared = true;
+    nonBoss.clearedAt = null; // legacy record missing the timestamp
+    const now = 1_000_000_000;
     const clearLog: NodeClearRecord[] = [
       { nodeId: nonBoss.id, clearedAt: now - THOUGHT_VIRUS_REINFECT_WINDOW_MS - 1 },
     ];
-    // rng = 0 → always under the 0.15 chance
     const result = applyThoughtVirusReinfection(map, clearLog, fallEra, now, () => 0);
     expect(result.reinfectedNodeIds).toContain(nonBoss.id);
-    const stillCleared = result.nextMap.nodes.find(n => n.id === nonBoss.id)!.cleared;
-    expect(stillCleared).toBe(false);
   });
 
   it("does not re-infect the boss node even when past the window", () => {
     const map = generateWarMap();
     const boss = map.nodes.find(n => n.type === "boss")!;
     boss.cleared = true;
+    boss.clearedAt = 0;
     const now = 1_000_000_000;
-    const result = applyThoughtVirusReinfection(
-      map,
-      [{ nodeId: boss.id, clearedAt: 0 }],
-      fallEra,
-      now,
-      () => 0,
-    );
+    const result = applyThoughtVirusReinfection(map, undefined, fallEra, now, () => 0);
     expect(result.reinfectedNodeIds).not.toContain(boss.id);
     expect(result.nextMap.nodes.find(n => n.id === boss.id)!.cleared).toBe(true);
   });
@@ -95,15 +101,10 @@ describe("allianceWar — Thought Virus reinfection", () => {
     const map = generateWarMap();
     const nonBoss = map.nodes.find(n => n.type !== "boss")!;
     nonBoss.cleared = true;
+    nonBoss.clearedAt = 0;
     const now = 1_000_000_000;
     // rng = 0.99 → always above the 0.15 chance
-    const result = applyThoughtVirusReinfection(
-      map,
-      [{ nodeId: nonBoss.id, clearedAt: 0 }],
-      fallEra,
-      now,
-      () => 0.99,
-    );
+    const result = applyThoughtVirusReinfection(map, undefined, fallEra, now, () => 0.99);
     expect(result.reinfectedNodeIds).toHaveLength(0);
   });
 

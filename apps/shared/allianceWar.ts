@@ -55,6 +55,9 @@ export interface WarNode {
   buffs: string[];                 // active buff keywords
   debuffs: string[];               // active debuff keywords
   cleared: boolean;
+  /** When the node was cleared (epoch ms). Null if never cleared, or reset to
+   *  null when the node is re-infected by the Thought Virus rule. */
+  clearedAt: number | null;
   bossHitsRemaining: number;       // only relevant for boss nodes
 }
 
@@ -151,6 +154,7 @@ export function generateWarMap(): WarMap {
         buffs: [],
         debuffs: [],
         cleared: false,
+        clearedAt: null,
         bossHitsRemaining: nodeTypePattern[row][col] === "boss" ? BOSS_WINS_REQUIRED : 0,
       });
     }
@@ -308,9 +312,11 @@ export function attackNode(
       node.bossHitsRemaining -= 1;
       if (node.bossHitsRemaining <= 0) {
         node.cleared = true;
+        node.clearedAt = Date.now();
       }
     } else {
       node.cleared = true;
+      node.clearedAt = Date.now();
     }
 
     if (node.type === "buff") {
@@ -671,10 +677,15 @@ export interface HasSpecialRules {
  *
  * Only runs if the given epoch's specialRules include the Thought Virus rule
  * — other epochs skip this entirely.
+ *
+ * Clear timestamps are read from `WarNode.clearedAt` by default. Callers that
+ * maintain a side-channel clear log (legacy war state) can pass a
+ * `NodeClearRecord[]` that overrides the per-node timestamp; entries in that
+ * log take precedence over anything on the node itself.
  */
 export function applyThoughtVirusReinfection(
   map: WarMap,
-  clearLog: NodeClearRecord[],
+  clearLog: NodeClearRecord[] | undefined,
   epoch: HasSpecialRules | undefined,
   now: number = Date.now(),
   rng: () => number = Math.random,
@@ -685,18 +696,20 @@ export function applyThoughtVirusReinfection(
   );
   if (!hasRule) return { reinfectedNodeIds: [], nextMap: map };
 
-  const clearedAtLookup = new Map(clearLog.map(entry => [entry.nodeId, entry.clearedAt]));
+  const clearedAtLookup = new Map(
+    (clearLog ?? []).map(entry => [entry.nodeId, entry.clearedAt]),
+  );
   const reinfected: string[] = [];
 
   const nextNodes = map.nodes.map(node => {
     if (!node.cleared) return node;
     if (node.type === "boss") return node; // Boss never re-infects
-    const clearedAt = clearedAtLookup.get(node.id);
-    if (clearedAt === undefined) return node;
+    const clearedAt = clearedAtLookup.get(node.id) ?? node.clearedAt;
+    if (clearedAt === null || clearedAt === undefined) return node;
     if (now - clearedAt < THOUGHT_VIRUS_REINFECT_WINDOW_MS) return node;
     if (rng() >= THOUGHT_VIRUS_REINFECT_CHANCE) return node;
     reinfected.push(node.id);
-    return { ...node, cleared: false };
+    return { ...node, cleared: false, clearedAt: null };
   });
 
   return {

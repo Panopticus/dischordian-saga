@@ -27,6 +27,7 @@ import {
   Map, Shield, ScrollText, Radio, X, Camera, Home,
 } from "lucide-react";
 import ShaderOverlay from "@/components/ShaderOverlay";
+import { trpc } from "@/lib/trpc";
 import { PhotoMode } from "@/components/PhotoMode";
 import { motion, AnimatePresence } from "framer-motion";
 import NotificationBell from "@/components/NotificationBell";
@@ -58,6 +59,17 @@ export default function AppShell({ children, elaraTTS: _elaraTTS }: { children: 
   const [location] = useLocation();
   const { showPlayer } = usePlayer();
   const { state: gameState } = useGame();
+  // Thought Virus infection level drives the corruption shader. Falls back to
+  // the legacy narrativeFlags.thought_virus_level when the tRPC query is
+  // unavailable (e.g. on first load, pre-auth).
+  const virusStatusQuery = trpc.thoughtVirus.getStatus.useQuery(undefined, {
+    refetchInterval: 60_000,
+    retry: false,
+  });
+  const virusLoadPct =
+    virusStatusQuery.data?.summary.loadPct ??
+    (gameState.narrativeFlags?.thought_virus_level as unknown as number) ??
+    0;
   const [showTransmissions, setShowTransmissions] = useState(false);
   const [photoModeOpen, setPhotoModeOpen] = useState(false);
 
@@ -100,7 +112,7 @@ export default function AppShell({ children, elaraTTS: _elaraTTS }: { children: 
     <div className="min-h-screen flex flex-col relative">
       {/* ═══ SHADER OVERLAY — Corruption + morality post-processing ═══ */}
       <ShaderOverlay
-        corruption={((gameState.narrativeFlags?.thought_virus_level as unknown as number) || 0) / 100}
+        corruption={Math.max(0, Math.min(1, (virusLoadPct || 0) / 100))}
         morality={gameState.moralityScore || 0}
         enabled={!isAwakening}
       />
