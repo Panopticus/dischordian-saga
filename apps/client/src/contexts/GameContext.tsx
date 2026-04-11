@@ -1120,12 +1120,52 @@ interface GameContextValue {
 
 const GameContext = createContext<GameContextValue | null>(null);
 
+/**
+ * Migrate a loaded game state snapshot into its current shape.
+ * Extracted out so both local hydration and server-sync hydration
+ * get the same treatment. Idempotent.
+ */
+function migrateGameState(parsed: Partial<GameState>): GameState {
+  const merged: GameState = { ...DEFAULT_GAME_STATE, ...parsed };
+
+  // Oracle reveal back-compat: pre-tier saves stored a boolean.
+  // If the legacy flag is set but the new tier defaulted to 0, bump
+  // the tier to 1 so those players keep a visible reveal instead of
+  // falling back to the pre-reveal pink theme after upgrading.
+  if (merged.oracleRevealActive && (merged.oracleRevealTier ?? 0) === 0) {
+    merged.oracleRevealTier = 1;
+  }
+
+  // Legacy transmissionId collision: pre-fix code produced `ep0-N`
+  // for both Epoch 0 episodes 1-10 AND Spaces In Between episodes
+  // 1-10. We can't retroactively split them, so we leave the
+  // existing `ep0-N` ids in place (interpreted as Epoch 0) and log
+  // a one-shot warning so QA can notice mis-attributed state.
+  const collidable = (merged.transmissionsWatched ?? []).filter(
+    id => /^ep0-(?:[1-9]|10)$/.test(id),
+  );
+  if (
+    collidable.length > 0 &&
+    typeof window !== "undefined" &&
+    !(window as unknown as { __txMigrationWarned?: boolean }).__txMigrationWarned
+  ) {
+    (window as unknown as { __txMigrationWarned?: boolean }).__txMigrationWarned = true;
+    // eslint-disable-next-line no-console
+    console.warn(
+      "[Transmissions] Legacy save contains %d `ep0-N` id(s) that may originally have referred to Spaces In Between episodes. Treating as Epoch 0. If any SIB episode looks unwatched, re-watch it to restore credit.",
+      collidable.length,
+    );
+  }
+
+  return merged;
+}
+
 function loadGameState(): GameState {
   try {
     const raw = localStorage.getItem(GAME_STORAGE_KEY);
     if (raw) {
-      const parsed = JSON.parse(raw);
-      return { ...DEFAULT_GAME_STATE, ...parsed };
+      const parsed = JSON.parse(raw) as Partial<GameState>;
+      return migrateGameState(parsed);
     }
   } catch { /* ignore */ }
   return { ...DEFAULT_GAME_STATE };
@@ -1241,7 +1281,10 @@ export function GameProvider({ children }: { children: ReactNode }) {
       }
       // Strip _clientState before setting game state (it's not part of GameState)
       const { _clientState: _, ...cleanState } = serverState as any;
-      const merged = { ...DEFAULT_GAME_STATE, ...cleanState };
+      // Run the same migration applied to localStorage hydration so
+      // server-side saves get Oracle reveal tier / legacy-id warnings
+      // applied consistently.
+      const merged = migrateGameState(cleanState as Partial<GameState>);
       setState(merged);
       saveGameState(merged);
       markSynced(loadQuery.data.savedAt ?? undefined);

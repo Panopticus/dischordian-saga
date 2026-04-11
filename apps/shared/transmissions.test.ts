@@ -238,6 +238,34 @@ describe("transmissions — oracle reveal episodes", () => {
   });
 });
 
+describe("transmissions — legacy id collision detection", () => {
+  // Matches the regex used by GameContext.migrateGameState to warn
+  // about pre-fix transmissionId collisions (ep0-1 through ep0-10).
+  const LEGACY_RE = /^ep0-(?:[1-9]|10)$/;
+
+  it("detects every ep0-N id that could have come from SIB or Epoch 0", () => {
+    for (let n = 1; n <= 10; n++) {
+      expect(LEGACY_RE.test(`ep0-${n}`)).toBe(true);
+    }
+  });
+
+  it("does not flag Epoch 0 episodes outside the 1-10 range", () => {
+    expect(LEGACY_RE.test("ep0-0")).toBe(false);
+    expect(LEGACY_RE.test("ep0-11")).toBe(false);
+    expect(LEGACY_RE.test("ep0-15")).toBe(false);
+  });
+
+  it("does not flag other epochs", () => {
+    expect(LEGACY_RE.test("ep1-1")).toBe(false);
+    expect(LEGACY_RE.test("ep2-5")).toBe(false);
+  });
+
+  it("does not flag post-fix SIB ids", () => {
+    expect(LEGACY_RE.test("sib-ep1")).toBe(false);
+    expect(LEGACY_RE.test("sib-ep10")).toBe(false);
+  });
+});
+
 describe("transmissions — data integrity", () => {
   it("every transmission has a unique transmissionId", () => {
     // Note: (epoch, episodeNumber) pairs COLLIDE for Epoch 0 / SIB

@@ -281,6 +281,28 @@ async function startServer() {
     runUniverseTick().catch(e => console.error("[LivingUniverse] initial tick error:", e));
   }
 
+  // Transmission achievements — upsert the `achievements` table rows
+  // for every Meme broadcast reward so the architect console and
+  // achievement UIs render proper names/icons. Idempotent (no-op if
+  // the rows already match). Skipped in test env to keep unit tests
+  // hermetic and in no-DB environments (function handles the guard).
+  if (process.env.NODE_ENV !== "test") {
+    (async () => {
+      try {
+        const { getDb } = await import("../db");
+        const { seedTransmissionAchievements } = await import("../routers/transmissions");
+        const db = await getDb();
+        if (!db) return;
+        const result = await seedTransmissionAchievements(db);
+        console.log(
+          `[TransmissionAchievements] seeded ${result.inserted} new, updated ${result.updated} (of ${result.total})`,
+        );
+      } catch (err) {
+        console.error("[TransmissionAchievements] boot seed failed:", err);
+      }
+    })();
+  }
+
   server.listen(port, () => {
     console.log(`Server running on http://localhost:${port}/`);
   });

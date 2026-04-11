@@ -29,6 +29,62 @@ import { getTransmissionAchievementDefs } from "@shared/transmissions";
 const TRANSMISSION_CONTENT_TYPE = "transmission";
 const TRANSMISSION_NOTIFIED_TYPE = "transmission-notified";
 
+/**
+ * Shared seeder used by both the admin mutation and the server
+ * boot hook. Upserts every transmission-awarded achievement into
+ * the `achievements` table. Safe to re-run (idempotent per
+ * achievementId). Exported so `_core/index.ts` can call it once
+ * on startup without depending on an admin invocation.
+ */
+export async function seedTransmissionAchievements(
+  db: DrizzleDb,
+): Promise<{ inserted: number; updated: number; total: number }> {
+  const defs = getTransmissionAchievementDefs();
+  let inserted = 0;
+  let updated = 0;
+  for (const def of defs) {
+    try {
+      const existing = await db
+        .select()
+        .from(achievements)
+        .where(eq(achievements.achievementId, def.achievementId))
+        .limit(1);
+      if (existing.length > 0) {
+        await db
+          .update(achievements)
+          .set({
+            name: def.name,
+            description: def.description,
+            category: def.category,
+            tier: def.tier,
+            xpReward: def.xpReward,
+            pointsReward: def.pointsReward,
+            icon: "radio",
+          })
+          .where(eq(achievements.achievementId, def.achievementId));
+        updated++;
+      } else {
+        await db.insert(achievements).values({
+          achievementId: def.achievementId,
+          franchiseId: "dischordian-saga",
+          name: def.name,
+          description: def.description,
+          category: def.category,
+          tier: def.tier,
+          xpReward: def.xpReward,
+          pointsReward: def.pointsReward,
+          icon: "radio",
+          hidden: 0,
+        });
+        inserted++;
+      }
+    } catch (err) {
+      logger.error(`[seedTransmissionAchievements] Failed for ${def.achievementId}:`, err);
+    }
+  }
+  return { inserted, updated, total: defs.length };
+}
+
 async function grantDream(db: DrizzleDb, userId: number, amount: number) {
   if (amount <= 0) return;
   const existing = await db
@@ -253,50 +309,8 @@ export const transmissionsRouter = router({
   seedAchievements: adminProcedure.mutation(async () => {
     const db = await getDb();
     if (!db) return { success: false as const, error: "DB unavailable" as const };
-    const defs = getTransmissionAchievementDefs();
-    let inserted = 0;
-    let updated = 0;
-    for (const def of defs) {
-      try {
-        const existing = await db
-          .select()
-          .from(achievements)
-          .where(eq(achievements.achievementId, def.achievementId))
-          .limit(1);
-        if (existing.length > 0) {
-          await db
-            .update(achievements)
-            .set({
-              name: def.name,
-              description: def.description,
-              category: def.category,
-              tier: def.tier,
-              xpReward: def.xpReward,
-              pointsReward: def.pointsReward,
-              icon: "radio",
-            })
-            .where(eq(achievements.achievementId, def.achievementId));
-          updated++;
-        } else {
-          await db.insert(achievements).values({
-            achievementId: def.achievementId,
-            franchiseId: "dischordian-saga",
-            name: def.name,
-            description: def.description,
-            category: def.category,
-            tier: def.tier,
-            xpReward: def.xpReward,
-            pointsReward: def.pointsReward,
-            icon: "radio",
-            hidden: 0,
-          });
-          inserted++;
-        }
-      } catch (err) {
-        logger.error(`[transmissions.seedAchievements] Failed for ${def.achievementId}:`, err);
-      }
-    }
-    return { success: true as const, inserted, updated, total: defs.length };
+    const result = await seedTransmissionAchievements(db);
+    return { success: true as const, ...result };
   }),
 
   /**
