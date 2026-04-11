@@ -16,9 +16,12 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Setup pnpm
+        # No `version:` override — pnpm/action-setup@v4 reads the exact
+        # version from package.json's `packageManager` field. Specifying
+        # both here and in package.json triggers ERR_PNPM_BAD_PM_VERSION
+        # and fails the whole CI job during setup, before lint/check/test
+        # can run. Keep the single source of truth in package.json.
         uses: pnpm/action-setup@v4
-        with:
-          version: 10
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
