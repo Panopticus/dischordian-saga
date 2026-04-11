@@ -17,6 +17,7 @@ import { Link } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ChevronLeft,
+  ChevronRight,
   Sparkles,
   Flame,
   Scroll,
@@ -178,6 +179,28 @@ export default function WitnessingHubPage() {
 function JourneyPanel({ hubState }: { hubState: WitnessingHubState }) {
   return (
     <div className="space-y-6">
+      {/* Act 1 Ladder entry — always visible, highlighted when
+          the player is in Act 1 or has pending ladder progress. */}
+      <Link
+        href="/act1-ladder"
+        className="block rounded-md border border-emerald-700/60 bg-emerald-950/20 p-4 hover:border-emerald-500/80 hover:bg-emerald-900/30 transition-colors"
+      >
+        <div className="flex items-center justify-between gap-3">
+          <div>
+            <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-emerald-300/70">
+              PLAY · DISCHORDIA LADDER
+            </p>
+            <h3 className="mt-0.5 font-display text-base text-emerald-100">
+              The Twelve Steps
+            </h3>
+            <p className="mt-1 font-serif text-[12px] text-stone-300">
+              Fight every canonical Act 1 opponent in order — from Little Meme to The Authority.
+            </p>
+          </div>
+          <ChevronRight size={20} className="text-emerald-300/70 shrink-0" />
+        </div>
+      </Link>
+
       {/* Current act banner */}
       <section className="rounded-md border border-amber-900/50 bg-stone-950/60 p-5">
         <div className="flex items-center justify-between">

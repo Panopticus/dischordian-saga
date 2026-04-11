@@ -153,6 +153,7 @@ export function useRouteAccess(path: string): { allowed: boolean; requiredRoom: 
     path.startsWith("/song/") ||
     path.startsWith("/album/") ||
     path.startsWith("/witnessing") ||
+    path.startsWith("/act1-ladder") ||
     path === "/404"
   ) {
     return { allowed: true, requiredRoom: null };
