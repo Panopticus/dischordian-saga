@@ -39,7 +39,9 @@ import {
 import {
   YEAR_ONE_CALENDAR_RIPPLES,
   MILESTONE_CHRONICLE_ENTRIES,
+  getActiveBeatChronicleEntries,
   getMilestoneChronicleEntry,
+  type BeatChronicleEntry,
   type MilestoneChronicleEntry,
   type YearOneCalendarRipple,
 } from "./witnessingYearOne";
@@ -108,6 +110,8 @@ export interface WitnessingHubState {
     past: readonly YearOneCalendarRipple[];
   };
   chronicleFeed: readonly ChronicleFeedItem[];
+  /** Beat-flag Chronicle entries (non-milestone). */
+  beatChronicleEntries: readonly BeatChronicleEntry[];
   infiltrationPath: InfiltrationPathDef | null;
   appendixSummaries: readonly AppendixStatusSummary[];
 }
@@ -275,6 +279,7 @@ export function deriveWitnessingHubState(
     kaelFragments: deriveKaelFragmentPanel(inputs.flags, inputs.kaelContext),
     calendar: deriveCalendarPanel(inputs.yearOneMonth),
     chronicleFeed: deriveChronicleFeed(inputs.flags),
+    beatChronicleEntries: getActiveBeatChronicleEntries(inputs.flags),
     infiltrationPath: getActiveInfiltrationPath(inputs.flags),
     appendixSummaries: [
       deriveAppendixSummary("A", inputs.flags),

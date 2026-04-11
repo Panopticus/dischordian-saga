@@ -221,3 +221,83 @@ export function getMilestoneChronicleEntry(
 export function listMilestoneChronicleEntries(): readonly MilestoneChronicleEntry[] {
   return Object.values(MILESTONE_CHRONICLE_ENTRIES);
 }
+
+/* ─── BEAT CHRONICLE ENTRIES (non-milestone) ───
+   Antiquarian entries keyed by a narrative flag rather than
+   by a §14.1 milestone id. These fire when the player hits
+   a cycle completion, an act transition, or a prelude
+   milestone that doesn't have its own formal milestone.
+   Consumers render them interleaved with the milestone
+   feed in chronological order.
+*/
+
+export interface BeatChronicleEntry {
+  /** Flag name that gates this entry. Same format as GameState.narrativeFlags keys. */
+  flag: string;
+  title: string;
+  body: string;
+  /** Ordering hint — the lower the number, the earlier the beat. */
+  order: number;
+}
+
+export const BEAT_CHRONICLE_ENTRIES: readonly BeatChronicleEntry[] = [
+  {
+    flag: "prelude_complete",
+    order: 5,
+    title: "The Prelude Closes",
+    body:
+      "Patch has fixed the bench. Zephyr-9 has catalogued the stars. Little One has given me a card that was already burnt when they found it. I am writing this after all three of them have gone to sleep for the first time in the same room. They are all breathing at different rates. That is how I know the ship is alive again.",
+  },
+  {
+    flag: "act_1_cycle_a_complete",
+    order: 10,
+    title: "The Kindergarten Lets Out",
+    body:
+      "The Little Watcher lowered the mask. The Little Collector picked up the pieces of his jar and did not cry. The Little Meme laughed at a joke nobody told. These are the three children who will grow into the three Archons I spend my entire career writing down. I am writing this so that the next Antiquarian knows exactly what they looked like before they learned to ruin things.",
+  },
+  {
+    flag: "act_1_cycle_b_complete",
+    order: 20,
+    title: "Mechronis Closes Its Doors",
+    body:
+      "Professor Aoki graded my observation triangulation as adequate. Professor Eidola wrote a single word on my report card that I never got to read. The Seer visited once and left her staff on the bench for the Engineer to find later. The Engineer found it. I know because he is still carrying it. I am writing this on the day the Academy closed its gates forever.",
+  },
+  {
+    flag: "act_1_complete",
+    order: 30,
+    title: "Last Words",
+    body:
+      "The Authority passed sentence. The Engineer's last song was six minutes long. Three of those minutes were silence. I am writing this after listening to the recording for the forty-seventh time. I will not stop listening to it. Some years I listen to it on the anniversary. Some years I listen to it when I cannot sleep. This year I am listening to it because the player needs to know what the Engineer sounded like when he was trying not to cry and failing.",
+  },
+  {
+    flag: "act_2_complete",
+    order: 40,
+    title: "The Bench Goes Silent",
+    body:
+      "Elara crafted her first Light card today. The Human crafted his first Dark card an hour later. They did not speak to each other about either card. They did not need to. The bench is humming at two frequencies at once now. I can hear both. I am writing the first down.",
+  },
+  {
+    flag: "act4_prisoner_oracle_complete",
+    order: 60,
+    title: "Lay Down the Fight",
+    body:
+      "The White Oracle asked Kael to lay down the fight. Kael laid it down. I am writing this sentence for the first time because until today I did not know whether either of them would. The extraction is complete. The Prisoner is no longer a prisoner. He is a man, which is the harder thing.",
+  },
+  {
+    flag: "vortex_core_cleared",
+    order: 70,
+    title: "The Line Held",
+    body:
+      "The Vortex paused. I was in the middle of a sentence when the pause happened and I did not finish the sentence because the room went quiet in a way rooms do not normally go quiet. The Ark's crew came out onto the Observation Deck and stood there for a full minute. Nobody spoke. Then somebody said 'again tomorrow.' That is what we are doing. Again tomorrow.",
+  },
+];
+
+export function listBeatChronicleEntries(): readonly BeatChronicleEntry[] {
+  return BEAT_CHRONICLE_ENTRIES;
+}
+
+export function getActiveBeatChronicleEntries(
+  flags: Record<string, unknown>,
+): readonly BeatChronicleEntry[] {
+  return BEAT_CHRONICLE_ENTRIES.filter((e) => Boolean(flags[e.flag]));
+}

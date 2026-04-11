@@ -130,6 +130,38 @@ export const NARRATOR_CALLBACK_TEMPLATES: readonly NarratorCallbackTemplate[] = 
     description:
       "The Human is in Engineering, holding a part he will not explain. Go to him in the next 2 hours.",
   },
+  {
+    id: "elara_cryo_bay",
+    narratorId: "elara",
+    roomId: "cryo_bay",
+    tier: 2,
+    description:
+      "Elara is running a diagnostic on Pod 7 she won't explain. Visit the Cryo Bay in the next 2 hours.",
+  },
+  {
+    id: "human_medical_bay",
+    narratorId: "the_human",
+    roomId: "medical_bay",
+    tier: 3,
+    description:
+      "The Human is sitting in Medical Bay with a file nobody authorized him to pull. Find him in the next 2 hours.",
+  },
+  {
+    id: "elara_trade_hub",
+    narratorId: "elara",
+    roomId: "trade_hub",
+    tier: 3,
+    description:
+      "Elara noticed a pricing anomaly on a single commodity in the Trade Hub. Ask her about it in the next 2 hours.",
+  },
+  {
+    id: "human_captains_quarters",
+    narratorId: "the_human",
+    roomId: "captains_quarters",
+    tier: 5,
+    description:
+      "The Human is in the Captain's Quarters. He has not been here before. Something is wrong. Go.",
+  },
 ];
 
 /**

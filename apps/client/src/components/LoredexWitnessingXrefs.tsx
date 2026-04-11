@@ -16,8 +16,7 @@ import { useMemo } from "react";
 import { ExternalLink, Sparkles } from "lucide-react";
 import { useGame } from "@/contexts/GameContext";
 import {
-  getMascoteerReferences,
-  getMechronisProfessorReferences,
+  getEntityXrefs,
   type WitnessingXref,
 } from "@shared/witnessingCanonXref";
 import { listActiveAppendixAXrefs } from "@shared/witnessingIntegrations";
@@ -43,14 +42,10 @@ export function LoredexWitnessingXrefs({
 }: LoredexWitnessingXrefsProps) {
   const { state: gameState } = useGame();
 
-  const directXrefs = useMemo<readonly WitnessingXref[]>(() => {
-    // Try the entity id as both a Mascoteer id and a
-    // Professor id. Both helpers return [] for unknown ids,
-    // so the union is safe.
-    const mascoteer = getMascoteerReferences(entryId);
-    const professor = getMechronisProfessorReferences(entryId);
-    return [...mascoteer, ...professor];
-  }, [entryId]);
+  const directXrefs = useMemo<readonly WitnessingXref[]>(
+    () => getEntityXrefs(entryId),
+    [entryId],
+  );
 
   const activeNotes = useMemo(
     () => listActiveAppendixAXrefs(gameState.narrativeFlags ?? {}),

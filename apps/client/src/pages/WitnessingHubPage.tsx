@@ -480,7 +480,30 @@ function KaelFragmentsPanel({
 }
 
 function ChroniclePanel({ hubState }: { hubState: WitnessingHubState }) {
-  const { chronicleFeed } = hubState;
+  const { chronicleFeed, beatChronicleEntries } = hubState;
+  // Interleave milestone + beat entries into one chronological
+  // timeline. Milestone entries use their canonical order;
+  // beat entries use their declared order field.
+  const merged = useMemo(
+    () =>
+      [
+        ...chronicleFeed.map((f) => ({
+          key: `milestone_${f.milestoneId}`,
+          order: f.order,
+          title: f.entry.title,
+          body: f.entry.body,
+          kind: "milestone" as const,
+        })),
+        ...beatChronicleEntries.map((e) => ({
+          key: `beat_${e.flag}`,
+          order: e.order,
+          title: e.title,
+          body: e.body,
+          kind: "beat" as const,
+        })),
+      ].sort((a, b) => a.order - b.order),
+    [chronicleFeed, beatChronicleEntries],
+  );
   return (
     <div className="space-y-4">
       <section className="rounded-md border border-amber-900/50 bg-stone-950/60 p-5">
@@ -488,25 +511,29 @@ function ChroniclePanel({ hubState }: { hubState: WitnessingHubState }) {
           <Scroll size={12} />
           THE ANTIQUARIAN'S CHRONICLE
         </header>
-        {chronicleFeed.length === 0 ? (
+        {merged.length === 0 ? (
           <p className="font-serif text-[13px] text-amber-300/50 italic">
             The Chronicle is waiting. The Antiquarian sharpens his pen. No milestones have fired yet.
           </p>
         ) : (
           <ul className="space-y-5">
-            {chronicleFeed.map((item) => (
+            {merged.map((item, i) => (
               <li
-                key={item.milestoneId}
-                className="border-l-2 border-amber-600/50 pl-4"
+                key={item.key}
+                className={`pl-4 ${
+                  item.kind === "milestone"
+                    ? "border-l-2 border-amber-600/50"
+                    : "border-l-2 border-violet-700/50"
+                }`}
               >
                 <p className="font-mono text-[9px] uppercase tracking-wider text-amber-300/60">
-                  ENTRY {item.order + 1}
+                  {item.kind === "milestone" ? "MILESTONE" : "BEAT"} · ENTRY {i + 1}
                 </p>
                 <h3 className="mt-0.5 font-display text-base text-amber-100">
-                  {item.entry.title}
+                  {item.title}
                 </h3>
                 <p className="mt-2 font-serif text-[13px] leading-relaxed text-stone-200">
-                  {item.entry.body}
+                  {item.body}
                 </p>
               </li>
             ))}
