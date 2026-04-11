@@ -196,7 +196,7 @@ export const EPOCH_1_TRANSMISSIONS: Transmission[] = [
     memeIntro: "The crystalline city. Tall hooded beings. A figure whose FACE CHANGES, with red glowing eyes. Absolutely normal, can happen to anyone, don't look into it.",
     memeOutro: "The Oracle. THE Oracle. I'm told she's going to do wonderful things in this story. Now you've seen her. Don't you feel reassured? Sure you do.",
     triggersOracleReveal: true,
-    unlockTrigger: { kind: "chapter_complete", chapterId: "ch6" },
+    unlockTrigger: { kind: "chapter_complete", chapterId: "ch6_false_prophet" },
     reward: { xp: 400, dream: 40, achievement: "witnessed_oracle" },
     synopsis: "Captured on arrival — the Potentials meet the Oracle, the face that never stays the same.",
     relatedLoredexEntries: ["entity_oracle", "entity_meme", "thaloria"],

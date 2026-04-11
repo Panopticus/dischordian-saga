@@ -299,13 +299,155 @@ const ch5: StoryChapter = {
 };
 
 // ═══════════════════════════════════════════════════════
-// CH 4-12 + CORRUPTION + SOURCE + FINALE
-// Full chapter data continues in this file. Each chapter
-// follows the same dialog wheel pattern established above.
-// See the production bible for complete dialog scripts.
+// CH 6 — THE FALSE PROPHET (White Oracle mirror match)
 // ═══════════════════════════════════════════════════════
 
-export const STORY_CHAPTERS: StoryChapter[] = [ch1, ch2, ch3a, ch3b, ch4, ch5];
+const ch6: StoryChapter = {
+  id: "ch6_false_prophet", chapter: 6,
+  title: "THE FALSE PROPHET",
+  subtitle: "A mirror with your face asks who you really are",
+  opponentId: "white-oracle", arenaId: "thaloria",
+  difficulty: "hard", unlocksFighter: "white-oracle",
+  cinematicId: "VEO-005",
+  secretIdentity: "meme",
+  memeGlitch: { color: "#ec4899", frameInterval: 120, duration: 6 },
+  preFight: [
+    { speaker: "narrator", text: "Thaloria. The bioluminescent canopy is breathing. In the clearing stands you — or something wearing your face. It smiles the way you smile. It gets it almost right." },
+    { speaker: "The White Oracle", text: "Hello, Oracle. I've been keeping your seat warm.", speakerColor: "#f8fafc" },
+    { options: [
+      { icon: "🔍", label: "You're not me. I'd know.", key: "ch6_investigate", axis: "truth", dir: 1,
+        response: [{ speaker: "The White Oracle", text: "You'd hope. Eleven years is a long time to practice a face. Ask yourself: how many of the dreams you had in that cell were actually yours?", speakerColor: "#f8fafc" }],
+        internalMonologue: "The smile is 95% right. The 5% wrong is MINE." },
+      { icon: "⚔️", label: "I'll break your jaw to prove it.", key: "ch6_defy", axis: "defiance", dir: 1,
+        response: [{ speaker: "The White Oracle", text: "That IS the proof. Oracles hesitate. You don't. You haven't hesitated once since Agent Zero unlocked your cell.", speakerColor: "#f8fafc" }] },
+      { icon: "💜", label: "Who put you in my shape?", key: "ch6_empathize", axis: "empathy", dir: 1,
+        response: [{ speaker: "The White Oracle", text: "The same entity that took yours. Pity, isn't it? We're both cosplay. Only one of us got to keep the original pattern.", speakerColor: "#f8fafc", portraitDirection: "glitch_pink" }] },
+      { icon: "✋", label: "Fight me for the name.", key: "ch6_accept", axis: "acceptance", dir: 1,
+        response: [{ speaker: "The White Oracle", text: "Oh, good. A formal duel. I love formal duels. They're the one form of combat where the loser still gets to keep their dignity.", speakerColor: "#f8fafc" }] },
+    ] } as DialogWheel,
+  ],
+  postFight: [
+    { speaker: "The White Oracle", text: "You win. Of course you win. The real one always does. The real one always has.", speakerColor: "#f8fafc", portraitDirection: "glitch_pink" },
+    { options: [
+      { icon: "🔍", label: "Who are you really?", key: "ch6_post_investigate", axis: "truth", dir: 1,
+        response: [{ speaker: "The White Oracle", text: "A rumor. A song stuck in the universe's head. You'll meet me again with my real face on in Act III. I'll be smaller then. Pink, mostly.", speakerColor: "#f8fafc", portraitDirection: "flicker" }] },
+      { icon: "⚔️", label: "What did you DO with my face for eleven years?", key: "ch6_post_defy", axis: "defiance", dir: 1,
+        response: [{ speaker: "The White Oracle", text: "I gave orders. I signed death warrants. I lied to the Insurgency with your voice and they believed me because your voice was the only thing they still trusted.", speakerColor: "#f8fafc" }] },
+      { icon: "💜", label: "You sound relieved to lose.", key: "ch6_post_empathize", axis: "empathy", dir: 1,
+        response: [{ speaker: "The White Oracle", text: "Eleven years of being a counterfeit is tiring. I wanted you to beat me the way you want morning to beat night.", speakerColor: "#f8fafc", portraitDirection: "zoom" }] },
+      { icon: "✋", label: "Tell me how to find the real you.", key: "ch6_post_accept", axis: "acceptance", dir: 1,
+        response: [{ speaker: "The White Oracle", text: "There's a signal in Channel 7. Older than any of us. The Archons have been ignoring it for nine thousand years. It's singing. Find it. Then we'll see what ORACLE really means.", speakerColor: "#f8fafc" }] },
+    ] } as DialogWheel,
+    { speaker: "narrator", text: "The White Oracle flickers pink — a single frame — and is gone. The clearing is quiet except for the spores, which keep breathing like nothing happened." },
+  ],
+  postDefeatDialogue: [
+    { speaker: "The White Oracle", text: "So predictable. I've fought myself for eleven years — the real one always breaks on the eighth exchange. Get up, Oracle. Try again.", speakerColor: "#f8fafc" },
+  ],
+  memoryFragment: "The White Oracle wears your face. It glitches pink under pressure. Someone is PUPPETEERING your identity — and the real puppeteer hasn't even introduced themselves yet.",
+  powerGained: "Identity fidelity — you feel the difference between a copy and the original, in your teeth.",
+};
+
+// ═══════════════════════════════════════════════════════
+// CH 7 — PROJECT VECTOR (Dr. Vox → Warlord dual-portrait boss)
+// ═══════════════════════════════════════════════════════
+
+const ch7: StoryChapter = {
+  id: "ch7_project_vector", chapter: 7,
+  title: "PROJECT VECTOR",
+  subtitle: "Dr. Vox dissolves mid-fight. Something larger is wearing the lab coat.",
+  opponentId: "warlord", arenaId: "terminus",
+  difficulty: "hard", unlocksFighter: "warlord",
+  cinematicId: "VEO-007",
+  isBoss: true, fightPhases: 2,
+  dualPortrait: {
+    initial: "dr-vox",
+    transformed: "warlord",
+    transformTrigger: "hp_below_50",
+    flickerOnEmpathy: true,
+  },
+  preFight: [
+    { speaker: "narrator", text: "Terminus. A research lab that stopped pretending to be civilian six cycles ago. Dr. Vox adjusts his glasses. The Thought Virus waits in a reinforced beaker, pressing politely against the inside of the glass." },
+    { speaker: "Dr. Vox", text: "Oh — you must be the Oracle. Marvelous. I've been wanting to discuss your cerebrospinal chemistry in person. You're the only patient whose sample I kept in a drawer instead of a freezer. Sentimental, I know.", speakerColor: "#10b981" },
+    { options: [
+      { icon: "🔍", label: "What's Project Vector?", key: "ch7_investigate", axis: "truth", dir: 1,
+        response: [{ speaker: "Dr. Vox", text: "A thought that doesn't need a brain to spread. Isn't that elegant? I only weaponized it for funding reasons. The silent partner insisted.", speakerColor: "#10b981" }] },
+      { icon: "⚔️", label: "You're not walking out of this lab.", key: "ch7_defy", axis: "defiance", dir: 1,
+        response: [{ speaker: "Dr. Vox", text: "Oh my. Violence. I was told you'd be more... measured. That was the pitch, anyway. The silent partner promised me a philosopher.", speakerColor: "#10b981" }] },
+      { icon: "💜", label: "Who signs your paychecks, doctor?", key: "ch7_empathize", axis: "empathy", dir: 1,
+        response: [{ speaker: "Dr. Vox", text: "A... silent partner. He prefers direct deposits. And direct revenge. He's in the room with us now. He's in the COAT.", speakerColor: "#10b981", portraitDirection: "flicker" }] },
+      { icon: "✋", label: "Show me the virus.", key: "ch7_accept", axis: "acceptance", dir: 1,
+        response: [{ speaker: "Dr. Vox", text: "I'd be delighted. It's already in your bloodstream, actually. I put it there eleven years ago via the brunch we never had. You won't feel it until the lab coat falls.", speakerColor: "#10b981" }] },
+    ] } as DialogWheel,
+  ],
+  postFight: [
+    { speaker: "narrator", text: "Dr. Vox dissolves into red sand at the 50% HP mark. The lab coat hangs in the air for a half-second. A VOICE underneath it — deeper, older, amused — picks up the conversation." },
+    { speaker: "The Warlord", text: "Oracle. You cost me Veridian VI. You cost me my right hand. Tonight I cost you an illusion.", speakerColor: "#ef4444" },
+    { options: [
+      { icon: "🔍", label: "You were INSIDE Vox the whole time?", key: "ch7_post_investigate", axis: "truth", dir: 1,
+        response: [{ speaker: "The Warlord", text: "Not inside. Above. Around. The way a general wears a uniform. Vox was the uniform.", speakerColor: "#ef4444" }] },
+      { icon: "⚔️", label: "You took my right hand. I'll take yours.", key: "ch7_post_defy", axis: "defiance", dir: 1,
+        response: [{ speaker: "The Warlord", text: "You already did. Eleven years ago. I've been swinging with a phantom limb the whole time. I'm FASTER now. It turns out I didn't need the flesh.", speakerColor: "#ef4444" }] },
+      { icon: "💜", label: "You sound exhausted, Warlord.", key: "ch7_post_empathize", axis: "empathy", dir: 1,
+        response: [{ speaker: "The Warlord", text: "Eleven years of hating one prophet is a part-time job that never clocks off. Yes, Oracle. I am tired. That is what makes me dangerous.", speakerColor: "#ef4444", portraitDirection: "zoom" }] },
+    ] } as DialogWheel,
+    { speaker: "The Warlord", text: "The Thought Virus is already in you. I put it there with the kill order eleven years ago. Every prophecy you utter spreads it a little further. Every fight you win makes me a little stronger. Run well, prophet. I can't wait to see what you become when you finally stop resisting.", speakerColor: "#ef4444" },
+  ],
+  postDefeatDialogue: [
+    { speaker: "Dr. Vox", text: "Oh dear. This is going in the report under 'expected outcome.' Get up, Oracle. The Warlord still wants his chat, and he doesn't tolerate rescheduling.", speakerColor: "#10b981" },
+  ],
+  memoryFragment: "Dr. Vox is a puppet. The Warlord is wearing him like a lab coat. Project Vector was deployed into your skull eleven years ago — every prophecy you utter spreads it.",
+  powerGained: "Antibody resonance — your cells remember how to push back against the Thought Virus.",
+};
+
+// ═══════════════════════════════════════════════════════
+// CH 8 — THE DETECTIVE (Human — Branch Point B)
+// ═══════════════════════════════════════════════════════
+
+const ch8: StoryChapter = {
+  id: "ch8_detective", chapter: 8,
+  title: "THE DETECTIVE",
+  subtitle: "The Human has been following your body since before you had one",
+  opponentId: "human", arenaId: "panopticon",
+  difficulty: "normal", unlocksFighter: "human",
+  preFight: [
+    { speaker: "narrator", text: "Panopticon observation deck. Smoke from something that isn't a cigarette. The Human is already seated when you arrive, one hand in his coat pocket like he's been ready for you for a decade." },
+    { speaker: "The Human", text: "Oracle. Subject Zero. Prophet. Prisoner. I've been carrying four names for you so I could return the one you actually used.", speakerColor: "#64748b" },
+    { context: "BRANCH POINT B — determines Chapter 9", options: [
+      { icon: "🔍", label: "Enigma. She was at Veridian VI.", key: "ch8_branch_enigma", axis: "truth", dir: 1, branch: "BRANCH_B_ENIGMA",
+        response: [{ speaker: "The Human", text: "Variable Path. The thinker. Her Rylloh Strike still works — you taught her that. Good choice.", speakerColor: "#64748b" }] },
+      { icon: "🔍", label: "Degen. He bet on my life once.", key: "ch8_branch_degen", axis: "truth", dir: 1, branch: "BRANCH_B_DEGEN",
+        response: [{ speaker: "The Human", text: "Gambler's Path. He'll try to owe you by morning. Don't let him — that's a trap. His debts are how he keeps people alive past their expiration dates.", speakerColor: "#64748b" }] },
+      { icon: "⚔️", label: "Stop circling. Fight me.", key: "ch8_defy", axis: "defiance", dir: 1,
+        response: [{ speaker: "The Human", text: "Sure. I've always wondered what it feels like to punch a prophecy.", speakerColor: "#64748b" }] },
+      { icon: "💜", label: "Who told you to find me?", key: "ch8_empathize", axis: "empathy", dir: 1,
+        response: [{ speaker: "The Human", text: "You did. Eleven years ago. You left a letter in my desk. It said: 'When I forget who I am, come find me. Kick me in the ribs until I remember my own surname.' So here I am. Starting with the ribs.", speakerColor: "#64748b", portraitDirection: "zoom" }] },
+    ] } as DialogWheel,
+  ],
+  postFight: [
+    { speaker: "The Human", text: "Eleven years of waiting to feel that punch. Worth it. Every second.", speakerColor: "#64748b" },
+    { options: [
+      { icon: "🔍", label: "Read me the rest of the letter.", key: "ch8_post_investigate", axis: "truth", dir: 1,
+        response: [{ speaker: "The Human", text: "'The Collector is not the real enemy. The Warden is not the real enemy. The Architect IS the real enemy, and his weakness is that he thinks he built the Arena himself.' I still don't know what that last sentence means. You will.", speakerColor: "#64748b" }] },
+      { icon: "⚔️", label: "Who do I punch next?", key: "ch8_post_defy", axis: "defiance", dir: 1,
+        response: [{ speaker: "The Human", text: "The Warden. He runs the Panopticon. He was your FRIEND, Oracle. Until he wasn't. You're going to want to feel something complicated about him. Try not to let it slow your fist.", speakerColor: "#64748b" }] },
+      { icon: "💜", label: "Are YOU okay, detective?", key: "ch8_post_empathize", axis: "empathy", dir: 1,
+        response: [{ speaker: "The Human", text: "Eleven years carrying a dead man's letter ages you in the shoulders. I'll sleep when this is done. Not before.", speakerColor: "#64748b", portraitDirection: "zoom" }] },
+      { icon: "✋", label: "Tell me what to do.", key: "ch8_post_accept", axis: "acceptance", dir: 1,
+        response: [{ speaker: "The Human", text: "Pick one of the names I just offered you. Fight the one you picked. Come back here when you're done. I'll have a drink ready — or three, depending on which branch you took.", speakerColor: "#64748b" }] },
+    ] } as DialogWheel,
+  ],
+  postDefeatDialogue: [
+    { speaker: "The Human", text: "Get up. The letter you left me also said: 'If I'm stupid enough to lose this fight, kick me in the ribs until I remember my own surname.' I'm holding you to your own paperwork.", speakerColor: "#64748b" },
+  ],
+  memoryFragment: "You left a letter eleven years ago for the one man you trusted. The Human has been carrying it like a warrant ever since. The letter names the Architect as the real enemy.",
+  powerGained: "Self-evidence — you start believing your own cold case file.",
+};
+
+// ═══════════════════════════════════════════════════════
+// CH 4-12 + CORRUPTION + SOURCE + FINALE
+// ═══════════════════════════════════════════════════════
+
+export const STORY_CHAPTERS: StoryChapter[] = [ch1, ch2, ch3a, ch3b, ch4, ch5, ch6, ch7, ch8];
 
 // Chapters 4-12 are defined in the local storyMode.ts
 // build and will be merged during the development phase.
