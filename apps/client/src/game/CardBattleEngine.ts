@@ -142,7 +142,43 @@ function shuffle<T>(arr: T[]): T[] {
   return a;
 }
 
-function assignKeywords(card: { rarity: string; cardType: string; characterClass?: string | null }): Keyword[] {
+const VALID_KEYWORDS: ReadonlySet<Keyword> = new Set([
+  "stealth", "taunt", "drain", "pierce", "overcharge",
+  "shield", "rally", "resurrect", "evolve",
+]);
+
+/**
+ * Resolve the keyword set for a card instance.
+ *
+ * Priority:
+ *   1. If the card carries an explicit `keywords` array from the DB
+ *      (cards.keywords JSON column), use those — filtered to the
+ *      keywords the battle engine actually implements.
+ *   2. Otherwise fall back to the class/rarity heuristic so freshly
+ *      generated cards without declared keywords still feel alive.
+ *
+ * This is the single source of truth that TCG gap #11 was about: the
+ * battle engine no longer re-rolls random keywords every time a card
+ * is loaded into a match.
+ */
+function assignKeywords(card: {
+  rarity: string;
+  cardType: string;
+  characterClass?: string | null;
+  keywords?: string[] | null;
+}): Keyword[] {
+  // 1. Explicit, DB-declared keywords take precedence.
+  if (Array.isArray(card.keywords) && card.keywords.length > 0) {
+    const declared: Keyword[] = [];
+    for (const raw of card.keywords) {
+      if (typeof raw !== "string") continue;
+      const lower = raw.toLowerCase() as Keyword;
+      if (VALID_KEYWORDS.has(lower)) declared.push(lower);
+    }
+    if (declared.length > 0) return Array.from(new Set(declared));
+  }
+
+  // 2. Heuristic fallback for cards without declared keywords.
   const kws: Keyword[] = [];
   const r = Math.random();
 
@@ -198,6 +234,8 @@ export function cardToBattleCard(card: {
   characterClass?: string | null;
   abilityText?: string | null;
   imageUrl?: string | null;
+  /** DB-declared keyword list — takes precedence over the heuristic fallback. */
+  keywords?: string[] | null;
   /** Optional userCard metadata used to apply persistent upgrades. */
   userCard?: { cardLevel?: number | null; isFoil?: number | null } | null;
 }): BattleCard {
