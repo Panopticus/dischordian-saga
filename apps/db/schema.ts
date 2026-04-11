@@ -1832,6 +1832,62 @@ export const chessTournaments = mysqlTable("chess_tournaments", {
 });
 export type ChessTournament = typeof chessTournaments.$inferSelect;
 
+/** Per-user puzzle solve history — gates first-solve rewards and tracks stats. */
+export const chessPuzzleProgress = mysqlTable("chess_puzzle_progress", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  puzzleId: varchar("puzzleId", { length: 32 }).notNull(),
+  solvedAt: timestamp("solvedAt").defaultNow().notNull(),
+  attempts: int("attempts").notNull().default(1),
+}, (table) => ({
+  userPuzzleUq: uniqueIndex("idx_chess_puzzle_progress_user_puzzle").on(table.userId, table.puzzleId),
+  userIdx: index("idx_chess_puzzle_progress_user").on(table.userId),
+}));
+export type ChessPuzzleProgress = typeof chessPuzzleProgress.$inferSelect;
+
+/** Persistent participant state for a chess tournament.
+ *
+ *  IMPORTANT: `score` and `tieBreak` are stored as 2× the actual
+ *  point value to keep them as plain integers (avoiding MySQL DECIMAL).
+ *  A win is +2, a draw is +1, half-Buchholz is +1 per opponent half-point.
+ *  All read sites in the chess router divide by 2 before returning
+ *  values to the client. */
+export const chessTournamentParticipants = mysqlTable("chess_tournament_participants", {
+  id: int("id").autoincrement().primaryKey(),
+  tournamentId: int("tournamentId").notNull(),
+  userId: int("userId").notNull(),
+  userName: varchar("userName", { length: 128 }).notNull(),
+  /** 2× actual score — divide by 2 for display. */
+  score: int("score").notNull().default(0),
+  /** 2× actual tie-break — divide by 2 for display. */
+  tieBreak: int("tieBreak").notNull().default(0),
+  active: boolean("active").notNull().default(true),
+  joinedAt: timestamp("joinedAt").defaultNow().notNull(),
+}, (table) => ({
+  tournamentUserUq: uniqueIndex("idx_chess_tournament_participants_tourney_user").on(table.tournamentId, table.userId),
+  tournamentIdx: index("idx_chess_tournament_participants_tournament").on(table.tournamentId),
+  userIdx: index("idx_chess_tournament_participants_user").on(table.userId),
+}));
+export type ChessTournamentParticipant = typeof chessTournamentParticipants.$inferSelect;
+
+/** Per-round pairings for a chess tournament, linked to the chess_games row that resolves them. */
+export const chessTournamentPairings = mysqlTable("chess_tournament_pairings", {
+  id: int("id").autoincrement().primaryKey(),
+  tournamentId: int("tournamentId").notNull(),
+  round: int("round").notNull(),
+  whiteId: int("whiteId").notNull(),
+  blackId: int("blackId").notNull(),
+  whiteResult: mysqlEnum("whiteResult", ["win", "loss", "draw"]),
+  reported: boolean("reported").notNull().default(false),
+  gameId: int("gameId"),
+  deadlineAt: timestamp("deadlineAt"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+}, (table) => ({
+  tournamentIdx: index("idx_chess_tournament_pairings_tournament").on(table.tournamentId),
+  tournamentRoundIdx: index("idx_chess_tournament_pairings_tournament_round").on(table.tournamentId, table.round),
+}));
+export type ChessTournamentPairing = typeof chessTournamentPairings.$inferSelect;
+
 
 /* ═══════════════════════════════════════════════════════
    CLASS MASTERY — Progressive class specialization
