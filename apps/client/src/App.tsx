@@ -38,6 +38,9 @@ import RadioMode from "./components/RadioMode";
 import EasterEggs from "./components/EasterEggs";
 import UniverseAtmosphere from "./components/UniverseAtmosphere";
 import SoundControls from "./components/SoundControls";
+import { SlideshowPlayerRoot } from "./components/SlideshowPlayerRoot";
+import { DischordiaCycleSync } from "./components/DischordiaCycleSync";
+import { ForgivenessChoicePanel } from "./components/ForgivenessChoicePanel";
 import { useElaraTTS } from "./hooks/useElaraTTS";
 import { useVoidEngine } from "./engine/useVoidEngine";
 import { useArchetypeDetection } from "./hooks/useArchetypeDetection";
@@ -78,6 +81,7 @@ const TerminusSwarmPage = lazy(() => import("./game/terminus-swarm/TerminusSwarm
 // CardGamePage removed — Dischordia is the only card game now
 const CardGamePage = lazy(() => import("./game/duelyst/DuelystPage"));
 const InceptionArkPage = lazy(() => import("./pages/InceptionArkPage"));
+const CrewRosterPage = lazy(() => import("./pages/CrewRosterPage"));
 const TrophyRoomPage = lazy(() => import("./pages/TrophyRoomPage"));
 const TradeWarsPage = lazy(() => import("./game/TradeEmpirePage"));
 const WarMapPage = lazy(() => import("./pages/WarMapPage"));
@@ -220,6 +224,7 @@ function Router() {
         <Route path="/terminus-swarm">{() => <GameRoute component={TerminusSwarmPage} />}</Route>
         <Route path="/ark" component={ArkExplorerPage} />
         <Route path="/ark-legacy" component={InceptionArkPage} />
+        <Route path="/crew" component={CrewRosterPage} />
         <Route path="/ship-map" component={ShipSchematicMap} />
         <Route path="/trophy" component={TrophyRoomPage} />
         <Route path="/trade-empire">{() => <GameRoute component={TradeWarsPage} />}</Route>
@@ -532,6 +537,23 @@ function App() {
                   <SagaThemeBGMProvider>
                   <TooltipProvider>
                     <Toaster position="bottom-left" />
+                    {/* Witnessing §3 — hydrate the community
+                        Light/Dark meter from the server on mount
+                        and install fire-and-forget write-through
+                        for every subsequent applyEnergy call. */}
+                    <DischordiaCycleSync />
+                    {/* Witnessing §5 — global slideshow host. Mounts
+                        whenever any caller queues a slideshow via
+                        playSlideshow(id). Must be above AuthGate so
+                        the overlay covers the whole app surface. */}
+                    <SlideshowPlayerRoot />
+                    {/* Witnessing §1.5 — the Bond-80 Forgive/Refuse
+                        three-option wheel. Mounts only when the
+                        forgiveness_choice_unlocked flag is set (by
+                        the Two Witnesses Meet slideshow's
+                        flagsSetOnComplete) AND the player hasn't
+                        already chosen. Fires-and-clears. */}
+                    <ForgivenessChoicePanel />
                     <AuthGate />
                   </TooltipProvider>
                   </SagaThemeBGMProvider>

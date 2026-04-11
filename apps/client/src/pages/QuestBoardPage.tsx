@@ -25,13 +25,13 @@ const QUEST_TYPE_COLORS: Record<string, string> = {
   craft: "text-purple-400", explore: "text-cyan-400", social: "text-green-400",
 };
 
-const TAB_IDS = ["daily", "weekly", "epoch", "calendar"] as const;
+const TAB_IDS = ["daily", "weekly", "epoch", "crew", "calendar"] as const;
 type TabId = (typeof TAB_IDS)[number];
 const TAB_LABELS: Record<TabId, string> = {
-  daily: "DAILY", weekly: "WEEKLY", epoch: "EPOCH", calendar: "LOGIN",
+  daily: "DAILY", weekly: "WEEKLY", epoch: "EPOCH", crew: "CREW", calendar: "LOGIN",
 };
 const TAB_ICONS: Record<TabId, typeof Scroll> = {
-  daily: Scroll, weekly: Calendar, epoch: Crown, calendar: Gift,
+  daily: Scroll, weekly: Calendar, epoch: Crown, crew: Swords, calendar: Gift,
 };
 
 export default function QuestBoardPage() {
@@ -117,6 +117,7 @@ export default function QuestBoardPage() {
           {activeTab === "daily" && <QuestListTab key="daily" period="daily" />}
           {activeTab === "weekly" && <QuestListTab key="weekly" period="weekly" />}
           {activeTab === "epoch" && <QuestListTab key="epoch" period="epoch" />}
+          {activeTab === "crew" && <CrewMissionsTab key="crew" />}
           {activeTab === "calendar" && <LoginCalendarTab key="calendar" />}
         </AnimatePresence>
       </div>
@@ -473,6 +474,145 @@ function LoginCalendarTab() {
           ))}
         </div>
       </div>
+    </motion.div>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════
+   CREW MISSIONS TAB — Surfaces crew dispatch missions
+   alongside daily/weekly quests so the Trade Empire
+   dispatch flow is visible in one place.
+   ═══════════════════════════════════════════════════════ */
+function CrewMissionsTab() {
+  const { data: crewState, isLoading } = trpc.crew.getState.useQuery();
+  const { data: templates } = trpc.crew.getMissionTemplates.useQuery();
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center py-16">
+        <Loader2 className="animate-spin text-primary" size={24} />
+      </div>
+    );
+  }
+
+  const cs = crewState as any;
+  const systemLocked = !cs?.crewSystemUnlocked;
+
+  if (systemLocked) {
+    return (
+      <motion.div
+        initial={{ opacity: 0, y: 8 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -8 }}
+        className="py-16 text-center"
+      >
+        <Lock className="mx-auto mb-4 text-muted-foreground/40" size={36} />
+        <div className="font-mono text-sm text-muted-foreground max-w-md mx-auto">
+          Crew missions unlock once the Resurrection Protocols are online. Complete the awakening
+          sequence first.
+        </div>
+      </motion.div>
+    );
+  }
+
+  const active = cs?.missions?.filter((m: any) => m.status === "dispatched") ?? [];
+  const resolved = cs?.missions?.filter((m: any) => m.status !== "dispatched") ?? [];
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 8 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -8 }}
+      className="space-y-4"
+    >
+      <div className="flex items-center justify-between mb-2">
+        <div className="font-mono text-[11px] text-muted-foreground">
+          {active.length} active · {resolved.length} pending review ·{" "}
+          {templates?.length ?? 0} templates
+        </div>
+        <Button
+          size="sm"
+          variant="outline"
+          onClick={() => (window.location.href = "/crew")}
+          className="gap-1"
+        >
+          <ChevronRight size={12} />
+          open crew dispatch
+        </Button>
+      </div>
+
+      {active.length > 0 && (
+        <section>
+          <div className="text-[10px] font-mono uppercase text-muted-foreground mb-2">
+            Active
+          </div>
+          <div className="space-y-2">
+            {active.map((m: any) => {
+              const pct = Math.min(
+                100,
+                ((Date.now() - m.dispatchedAt) / (m.completesAt - m.dispatchedAt)) * 100,
+              );
+              return (
+                <div key={m.id} className="p-3 border border-border/40 bg-card/40 rounded">
+                  <div className="flex items-center justify-between mb-1">
+                    <span className="font-display text-sm font-semibold">{m.name}</span>
+                    <span className="text-[9px] font-mono text-muted-foreground uppercase">
+                      {m.difficulty}
+                    </span>
+                  </div>
+                  <div className="text-[10px] font-mono text-muted-foreground mb-2">
+                    {m.assignedCrewIds.length} crew ·{" "}
+                    {Math.round(m.successChance * 100)}% projected
+                  </div>
+                  <div className="h-1 bg-background/60 rounded overflow-hidden">
+                    <div
+                      className="h-full bg-primary"
+                      style={{ width: `${pct}%` }}
+                    />
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </section>
+      )}
+
+      {resolved.length === 0 && active.length === 0 && (
+        <div className="py-12 text-center text-[11px] font-mono text-muted-foreground">
+          No crew missions dispatched. Open the Crew page to send a squad out.
+        </div>
+      )}
+
+      {resolved.length > 0 && (
+        <section>
+          <div className="text-[10px] font-mono uppercase text-muted-foreground mb-2">
+            Pending review
+          </div>
+          <div className="space-y-2">
+            {resolved.map((m: any) => {
+              const isWin = m.status === "succeeded";
+              return (
+                <div
+                  key={m.id}
+                  className={`p-3 border rounded ${
+                    isWin
+                      ? "border-green-500/30 bg-green-500/5"
+                      : "border-red-500/30 bg-red-500/5"
+                  }`}
+                >
+                  <div className="flex items-center justify-between mb-1">
+                    <span className="font-display text-sm font-semibold">{m.name}</span>
+                    <span className="text-[9px] font-mono uppercase">{m.status}</span>
+                  </div>
+                  <div className="text-[11px] font-mono italic text-muted-foreground">
+                    {m.resolution?.narrative}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </section>
+      )}
     </motion.div>
   );
 }

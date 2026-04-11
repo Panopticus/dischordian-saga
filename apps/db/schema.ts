@@ -614,6 +614,10 @@ export const dreamBalance = mysqlTable("dream_balance", {
   soulBoundDream: int("soulBoundDream").notNull().default(0),
   /** DNA/CODE resource for attribute leveling */
   dnaCode: int("dnaCode").notNull().default(0),
+  /** Premium currency — purchased with real money (or granted by admin). */
+  gems: int("gems").notNull().default(0),
+  /** Lifetime gems purchased via real-money; read-only rollup for rank perks. */
+  totalGemsPurchased: int("totalGemsPurchased").notNull().default(0),
   /** Total Dream ever earned (for milestones) */
   totalDreamEarned: int("totalDreamEarned").notNull().default(0),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
@@ -918,6 +922,11 @@ export const pvpLeaderboard = mysqlTable("pvp_leaderboard", {
     "bronze", "silver", "gold", "platinum", "diamond", "master", "grandmaster"
   ]).default("bronze").notNull(),
   lastMatchAt: timestamp("lastMatchAt"),
+  /** Timestamp of the last time ELO decay was applied for this user.
+   *  Used to make decay idempotent across repeated reads — the
+   *  decay helper only applies delta since this anchor, never the
+   *  full (now - lastMatchAt) window on every check. */
+  lastDecayAt: timestamp("lastDecayAt"),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
 });
@@ -2846,6 +2855,61 @@ export const universeEventHistory = mysqlTable("universe_event_history", {
 export type UniverseEventHistory = typeof universeEventHistory.$inferSelect;
 
 /* ═══════════════════════════════════════════════════════
+   DISCHORDIA CYCLE — Witnessing Narrative Proposal §3
+   Community-wide Light/Dark meter. A single row per server
+   holds the current state; energy_events is the audit log.
+   ═══════════════════════════════════════════════════════ */
+
+/**
+ * Dischordia Cycle state — single-row table holding the
+ * community Light/Dark/Vortex meter. The `id` column is
+ * always 1 (enforced by the service layer) so there is
+ * exactly one canonical state.
+ */
+export const dischordiaCycleState = mysqlTable("dischordia_cycle_state", {
+  id: int("id").primaryKey(),
+  /** See shared/dischordiaCycle.ts DischordiaPhase enum */
+  phase: varchar("phase", { length: 32 }).notNull().default("dawn"),
+  phaseStartedAt: timestamp("phaseStartedAt").defaultNow().notNull(),
+  cycleNumber: int("cycleNumber").notNull().default(1),
+  /** Hidden numeric meter — galaxy waking up */
+  lightEnergy: int("lightEnergy").notNull().default(0),
+  /** Hidden numeric meter — galaxy going quiet */
+  darkEnergy: int("darkEnergy").notNull().default(0),
+  /** Doomsday clock 0..100. Only ticks up. */
+  vortexProximity: int("vortexProximity").notNull().default(0),
+  /** "dark_ascending" | "balanced" | "light_ascending" */
+  energyBalance: varchar("energyBalance", { length: 32 }).notNull().default("balanced"),
+  /** Append-only history of completed reclamation records */
+  history: json("history").$type<Array<Record<string, unknown>>>(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type DischordiaCycleStateRow = typeof dischordiaCycleState.$inferSelect;
+
+/**
+ * Dischordia energy events — append-only audit log of every
+ * applyEnergy / applyRawDelta call. Keyed by userId when the
+ * source was a player action.
+ */
+export const dischordiaEnergyEvents = mysqlTable("dischordia_energy_events", {
+  id: int("id").autoincrement().primaryKey(),
+  /** Null when the source was server-initiated (tick jobs, admin tools) */
+  userId: int("userId"),
+  /** A row id from ENERGY_GAIN_TABLE, or a free-form source tag for raw deltas */
+  actionId: varchar("actionId", { length: 128 }).notNull(),
+  lightDelta: int("lightDelta").notNull().default(0),
+  darkDelta: int("darkDelta").notNull().default(0),
+  vortexDelta: int("vortexDelta").notNull().default(0),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+}, (table) => ({
+  idxCreatedAt: index("idx_dischordia_energy_created").on(table.createdAt),
+  idxUserId: index("idx_dischordia_energy_user").on(table.userId),
+}));
+
+export type DischordiaEnergyEvent = typeof dischordiaEnergyEvents.$inferSelect;
+
+/* ═══════════════════════════════════════════════════════
    ROOM STATES — Visual evolution of Ark rooms based
    on player actions. Rooms change over time.
    ═══════════════════════════════════════════════════════ */
@@ -3255,3 +3319,127 @@ export const xmasJulyWheelSpins = mysqlTable("xmas_july_wheel_spins", {
 }));
 export type XmasJulyWheelRow = typeof xmasJulyWheelSpins.$inferSelect;
 
+/* ═══════════════════════════════════════════════════════
+   CREW SYSTEM — Bloodlines, Clones, Pods, Missions
+
+   NOTE: The crew system's runtime state lives in
+   userProgress.gameData.crew as a JSON blob (see
+   apps/shared/crewPersistence.ts). These tables are
+   provided for cross-user queries, server-side analytics,
+   and future migration away from the JSON blob. The router
+   does not require them — they're opt-in promotion
+   targets. Run db:push to materialize.
+   ═══════════════════════════════════════════════════════ */
+
+export const crewMembers = mysqlTable("crew_members", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  /** Stable client-side id, e.g. "crew-1710000000000-12345" */
+  memberKey: varchar("memberKey", { length: 64 }).notNull(),
+  name: varchar("name", { length: 128 }).notNull(),
+  nickname: varchar("nickname", { length: 64 }),
+  species: varchar("species", { length: 32 }).notNull(),
+  gender: varchar("gender", { length: 16 }).notNull(),
+  bloodlineKey: varchar("bloodlineKey", { length: 64 }).notNull(),
+  generation: int("generation").notNull().default(1),
+  parentIds: json("parentIds").$type<[string, string] | null>(),
+  children: json("children").$type<string[]>().default([]).notNull(),
+  geneticTraits: json("geneticTraits").$type<string[]>().default([]).notNull(),
+  role: varchar("role", { length: 32 }),
+  stats: json("stats").$type<Record<string, number>>().notNull(),
+  morale: int("morale").notNull().default(70),
+  health: int("health").notNull().default(100),
+  loyalty: int("loyalty").notNull().default(50),
+  status: varchar("status", { length: 24 }).notNull().default("active"),
+  age: int("age").notNull().default(0),
+  maxAge: int("maxAge").notNull().default(80),
+  birthCycle: int("birthCycle").notNull().default(0),
+  missionHistory: json("missionHistory").$type<string[]>().default([]).notNull(),
+  relationships: json("relationships").$type<Record<string, number>>().default({}).notNull(),
+  deathRecord: json("deathRecord").$type<{ cycle: number; cause: string; lastWords: string } | null>(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  userMemberIdx: uniqueIndex("uq_crew_member_user_key").on(table.userId, table.memberKey),
+  userIdx: index("idx_crew_member_user").on(table.userId),
+  bloodlineIdx: index("idx_crew_member_bloodline").on(table.bloodlineKey),
+  statusIdx: index("idx_crew_member_status").on(table.status),
+}));
+
+export type CrewMemberRow = typeof crewMembers.$inferSelect;
+export type InsertCrewMember = typeof crewMembers.$inferInsert;
+
+export const crewBloodlines = mysqlTable("crew_bloodlines", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  bloodlineKey: varchar("bloodlineKey", { length: 64 }).notNull(),
+  foundedAt: timestamp("foundedAt").defaultNow().notNull(),
+  generationCount: int("generationCount").notNull().default(1),
+  geneticDrift: int("geneticDrift").notNull().default(0),
+  diversityIndex: int("diversityIndex").notNull().default(0),
+  activeTraits: json("activeTraits").$type<string[]>().default([]).notNull(),
+  recessiveTraits: json("recessiveTraits").$type<string[]>().default([]).notNull(),
+  /** Derived — bloodline data may mirror the immutable FOUNDING_BLOODLINES template */
+  metadata: json("metadata").$type<Record<string, unknown>>(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  userBloodlineIdx: uniqueIndex("uq_crew_bloodline_user_key").on(table.userId, table.bloodlineKey),
+  userIdx: index("idx_crew_bloodline_user").on(table.userId),
+}));
+
+export type CrewBloodlineRow = typeof crewBloodlines.$inferSelect;
+export type InsertCrewBloodline = typeof crewBloodlines.$inferInsert;
+
+export const crewIncubatorPods = mysqlTable("crew_incubator_pods", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  /** 1..6 — stable slot index shown in the UI */
+  podSlot: int("podSlot").notNull(),
+  status: varchar("status", { length: 24 }).notNull().default("empty"),
+  templateId: varchar("templateId", { length: 64 }),
+  bloodlineKey: varchar("bloodlineKey", { length: 64 }),
+  generation: int("generation").notNull().default(1),
+  parentIds: json("parentIds").$type<[string, string] | null>(),
+  timeRemainingSeconds: int("timeRemainingSeconds").notNull().default(0),
+  totalTimeSeconds: int("totalTimeSeconds").notNull().default(0),
+  geneticIntegrity: int("geneticIntegrity").notNull().default(100),
+  traits: json("traits").$type<string[]>().default([]).notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  userSlotIdx: uniqueIndex("uq_crew_pod_user_slot").on(table.userId, table.podSlot),
+  userIdx: index("idx_crew_pod_user").on(table.userId),
+  statusIdx: index("idx_crew_pod_status").on(table.status),
+}));
+
+export type CrewIncubatorPodRow = typeof crewIncubatorPods.$inferSelect;
+export type InsertCrewIncubatorPod = typeof crewIncubatorPods.$inferInsert;
+
+export const crewMissions = mysqlTable("crew_missions", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  missionKey: varchar("missionKey", { length: 96 }).notNull(),
+  templateId: varchar("templateId", { length: 64 }).notNull(),
+  name: varchar("name", { length: 128 }).notNull(),
+  sectorId: varchar("sectorId", { length: 64 }).notNull(),
+  difficulty: varchar("difficulty", { length: 24 }).notNull(),
+  status: varchar("status", { length: 24 }).notNull().default("dispatched"),
+  assignedCrewIds: json("assignedCrewIds").$type<string[]>().default([]).notNull(),
+  successChance: int("successChance").notNull().default(50),
+  dispatchedAt: timestamp("dispatchedAt").defaultNow().notNull(),
+  completesAt: timestamp("completesAt").notNull(),
+  resolvedAt: timestamp("resolvedAt"),
+  resolution: json("resolution").$type<{
+    success: boolean;
+    narrative: string;
+    casualties: string[];
+    injured: string[];
+    survived: string[];
+    rewardGranted: Record<string, unknown>;
+  } | null>(),
+}, (table) => ({
+  userMissionIdx: uniqueIndex("uq_crew_mission_user_key").on(table.userId, table.missionKey),
+  userStatusIdx: index("idx_crew_mission_user_status").on(table.userId, table.status),
+}));
+
+export type CrewMissionRow = typeof crewMissions.$inferSelect;
+export type InsertCrewMission = typeof crewMissions.$inferInsert;

@@ -40,8 +40,16 @@ const ClientMessageSchema = z.union([
   z.object({ type: z.literal("GAME_ACTION"), action: PvpActionSchema }),
   z.object({ type: z.literal("SURRENDER") }),
   z.object({ type: z.literal("SEND_EMOTE"), emoteId: z.string() }),
-  z.object({ type: z.literal("SPECTATE"), matchId: z.string() }),
+  z.object({
+    type: z.literal("SPECTATE"),
+    matchId: z.string(),
+    spectatorName: z.string().max(64).optional(),
+  }),
   z.object({ type: z.literal("STOP_SPECTATING") }),
+  z.object({
+    type: z.literal("SEND_SPECTATOR_CHAT"),
+    text: z.string().min(1).max(200),
+  }),
   z.object({ type: z.literal("PING") }),
 ]);
 
@@ -92,8 +100,9 @@ type ClientMessage =
   | { type: "GAME_ACTION"; action: PvpAction }
   | { type: "SURRENDER" }
   | { type: "SEND_EMOTE"; emoteId: string }
-  | { type: "SPECTATE"; matchId: string }
+  | { type: "SPECTATE"; matchId: string; spectatorName?: string }
   | { type: "STOP_SPECTATING" }
+  | { type: "SEND_SPECTATOR_CHAT"; text: string }
   | { type: "PING" };
 
 type ServerMessage =
@@ -107,6 +116,8 @@ type ServerMessage =
   | { type: "SPECTATE_JOINED"; matchId: string; player1Name: string; player2Name: string; player1Elo: number; player2Elo: number }
   | { type: "SPECTATE_STATE"; state: PvpBattleState }
   | { type: "SPECTATE_ENDED"; reason: string }
+  | { type: "SPECTATOR_CHAT"; spectatorName: string; text: string; timestamp: number }
+  | { type: "SPECTATOR_CHAT_RATE_LIMITED"; cooldownSeconds: number }
   | { type: "ACTIVE_MATCHES"; matches: Array<{ matchId: string; player1Name: string; player2Name: string; player1Elo: number; player2Elo: number; turnNumber: number; spectatorCount: number }> }
   | { type: "EMOTE"; playerId: number; playerName: string; emoteId: string; emoteText: string }
   | { type: "EMOTE_RATE_LIMITED"; cooldownSeconds: number }
@@ -120,6 +131,12 @@ const matchmakingQueue: ConnectedPlayer[] = [];
 const activeMatches = new Map<string, ActiveMatch>();
 const playerConnections = new Map<number, ConnectedPlayer>();
 const spectatorConnections = new Map<WebSocket, string>(); // ws -> matchId
+/** Spectator display name keyed by websocket so chat can attribute messages. */
+const spectatorNames = new Map<WebSocket, string>();
+/** Rolling timestamps of recent spectator chat sends for rate limiting. */
+const spectatorChatRate = new Map<WebSocket, number[]>();
+const SPECTATOR_CHAT_WINDOW_MS = 10_000;
+const SPECTATOR_CHAT_MAX_PER_WINDOW = 3;
 
 const TURN_TIMEOUT_SECONDS = 75;
 const MATCHMAKING_INTERVAL_MS = 3000;
@@ -576,6 +593,8 @@ function handleSpectatorDisconnect(ws: WebSocket) {
     }
     spectatorConnections.delete(ws);
   }
+  spectatorNames.delete(ws);
+  spectatorChatRate.delete(ws);
 }
 
 /** Expose live matchmaking status for the REST API */
@@ -783,6 +802,13 @@ export function setupPvpWebSocket(server: Server) {
           isSpectator = true;
           matchToWatch.spectators.add(ws);
           spectatorConnections.set(ws, msg.matchId);
+          // Sanitize the requested display name and fall back to
+          // "Spectator". Names are only used for chat attribution.
+          const rawName = (msg.spectatorName ?? "").toString().trim();
+          const safeName = rawName.length > 0
+            ? rawName.slice(0, 32).replace(/[\u0000-\u001f]/g, "")
+            : "Spectator";
+          spectatorNames.set(ws, safeName);
 
           // Send join confirmation
           send(ws, {
@@ -804,6 +830,56 @@ export function setupPvpWebSocket(server: Server) {
           isSpectator = false;
           // Send active matches list
           send(ws, { type: "ACTIVE_MATCHES", matches: getActiveMatchesList() });
+          break;
+        }
+
+        case "SEND_SPECTATOR_CHAT": {
+          // Must currently be spectating a match to send chat.
+          const chatMatchId = spectatorConnections.get(ws);
+          if (!chatMatchId) {
+            send(ws, { type: "ERROR", message: "You must be spectating a match to chat" });
+            return;
+          }
+          const chatMatch = activeMatches.get(chatMatchId);
+          if (!chatMatch) {
+            send(ws, { type: "ERROR", message: "Match has ended" });
+            return;
+          }
+
+          // Rate limit: at most N messages per window.
+          const now = Date.now();
+          const history = (spectatorChatRate.get(ws) ?? [])
+            .filter(t => now - t < SPECTATOR_CHAT_WINDOW_MS);
+          if (history.length >= SPECTATOR_CHAT_MAX_PER_WINDOW) {
+            const oldest = history[0];
+            const cooldownSeconds = Math.ceil(
+              (SPECTATOR_CHAT_WINDOW_MS - (now - oldest)) / 1000,
+            );
+            send(ws, { type: "SPECTATOR_CHAT_RATE_LIMITED", cooldownSeconds });
+            return;
+          }
+          history.push(now);
+          spectatorChatRate.set(ws, history);
+
+          // Basic sanitation: strip control chars, collapse whitespace, trim.
+          const cleanedText = msg.text
+            .replace(/[\u0000-\u001f]/g, "")
+            .replace(/\s+/g, " ")
+            .trim()
+            .slice(0, 200);
+          if (cleanedText.length === 0) return;
+
+          const chatMsg: ServerMessage = {
+            type: "SPECTATOR_CHAT",
+            spectatorName: spectatorNames.get(ws) ?? "Spectator",
+            text: cleanedText,
+            timestamp: now,
+          };
+          // Broadcast to all spectators of the same match (sender included
+          // so their own client renders the message confirmation).
+          Array.from(chatMatch.spectators).forEach(specWs => {
+            send(specWs, chatMsg);
+          });
           break;
         }
       }

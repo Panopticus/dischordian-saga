@@ -79,6 +79,8 @@ import { deadMansCircuitRouter } from "./routers/deadMansCircuit";
 import { livingUniverseRouter } from "./routers/livingUniverse";
 import { casinoRouter } from "./routers/casino";
 import { christmasInJulyRouter } from "./routers/christmasInJuly";
+import { dischordiaCycleRouter } from "./routers/dischordiaCycle";
+import { crewRouter } from "./routers/crew";
 
 export const appRouter = router({
   system: systemRouter,
@@ -154,6 +156,8 @@ export const appRouter = router({
   livingUniverse: livingUniverseRouter,
   casino: casinoRouter,
   christmasInJuly: christmasInJulyRouter,
+  dischordiaCycle: dischordiaCycleRouter,
+  crew: crewRouter,
   auth: router({
     me: publicProcedure.query(opts => opts.ctx.user),
     logout: publicProcedure.mutation(({ ctx }) => {
