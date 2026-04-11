@@ -92,4 +92,79 @@ describe("mobileNarratorDialog", () => {
       expect(lines.some((l) => l.text.includes("tarot card"))).toBe(true);
     });
   });
+
+  describe("dialog matrix expansion coverage", () => {
+    it("Bridge has a devoted-tier line for both narrators", () => {
+      expect(pickNarratorLine("bridge", "elara", 80)?.tier).toBe("D");
+      expect(pickNarratorLine("bridge", "the_human", 80)?.tier).toBe("D");
+    });
+
+    it("Archives unlocks progressively by tier", () => {
+      expect(pickNarratorLine("archives", "elara", 0)?.tier).toBe("F");
+      expect(pickNarratorLine("archives", "elara", 20)?.tier).toBe("P");
+      expect(pickNarratorLine("archives", "elara", 40)?.tier).toBe("H");
+      expect(pickNarratorLine("archives", "the_human", 40)?.tier).toBe("H");
+    });
+
+    it("Observation Deck has functional AND honest lines", () => {
+      const lines = listAvailableLines("observation_deck", "elara", 100);
+      expect(lines.map((l) => l.tier).sort()).toContain("F");
+      expect(lines.map((l) => l.tier).sort()).toContain("H");
+    });
+
+    it("Memorial Corridor unlocks a vulnerable-tier line at bond 60", () => {
+      expect(pickNarratorLine("memorial_corridor", "elara", 60)?.tier).toBe("V");
+      expect(pickNarratorLine("memorial_corridor", "the_human", 60)?.tier).toBe("V");
+    });
+
+    it("Trade Hub has F/P/H tiers for both narrators", () => {
+      expect(pickNarratorLine("trade_hub", "elara", 0)?.tier).toBe("F");
+      expect(pickNarratorLine("trade_hub", "elara", 20)?.tier).toBe("P");
+      expect(pickNarratorLine("trade_hub", "elara", 40)?.tier).toBe("H");
+      expect(pickNarratorLine("trade_hub", "the_human", 40)?.tier).toBe("H");
+    });
+
+    it("Trophy Room has F/P/H tiers for both narrators", () => {
+      expect(pickNarratorLine("trophy_room", "elara", 40)?.tier).toBe("H");
+      expect(pickNarratorLine("trophy_room", "the_human", 40)?.tier).toBe("H");
+    });
+
+    it("Captain's Quarters has F/P/H tiers for both narrators", () => {
+      expect(pickNarratorLine("captains_quarters", "elara", 40)?.tier).toBe("H");
+      expect(pickNarratorLine("captains_quarters", "the_human", 40)?.tier).toBe("H");
+    });
+
+    it("every canonicalized ship room has at least F-tier lines for both narrators", () => {
+      // Memorial Corridor is intentionally omitted — per §1.5 it
+      // unlocks at trust 40, so its lines are gated to tier H.
+      // Pet Garden is also trust-gated per §2.5 but currently has
+      // F-tier lines so we include it.
+      const fTierRooms: Array<keyof typeof NARRATOR_DIALOG> = [
+        "bridge",
+        "cryo_bay",
+        "medical_bay",
+        "comms_array",
+        "observation_deck",
+        "armory",
+        "engineering",
+        "archives",
+        "cargo_bay",
+        "pet_garden",
+        "trade_hub",
+        "trophy_room",
+        "captains_quarters",
+      ];
+      for (const room of fTierRooms) {
+        expect(pickNarratorLine(room, "elara", 0), `Elara F in ${room}`).not.toBeNull();
+        expect(pickNarratorLine(room, "the_human", 0), `Human F in ${room}`).not.toBeNull();
+      }
+    });
+
+    it("Memorial Corridor is trust-gated: no F-tier content", () => {
+      // §1.5 — the corridor unlocks at bond 40 with both narrators.
+      expect(pickNarratorLine("memorial_corridor", "elara", 0)).toBeNull();
+      expect(pickNarratorLine("memorial_corridor", "the_human", 0)).toBeNull();
+      expect(pickNarratorLine("memorial_corridor", "elara", 40)?.tier).toBe("H");
+    });
+  });
 });

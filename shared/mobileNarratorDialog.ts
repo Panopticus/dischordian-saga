@@ -61,6 +61,10 @@ export const NARRATOR_DIALOG: Record<NarratorRoomId, RoomDialogSet> = {
         tier: "V",
         text: "I was the one who pinned the curtains back every morning. I used to think that if I could keep the light in, I could keep the dark out. The curtains are not a metaphor. The dark came anyway.",
       },
+      {
+        tier: "D",
+        text: "This chair used to be the most powerful seat in a hundred worlds. I sat in similar ones. They always made the people sitting in them smaller, not bigger. I'm not going to sit in this one. You are.",
+      },
     ],
     the_human: [
       { tier: "F", text: "She's lying about the chair. It's nobody's chair. She sits in it because she misses sitting." },
@@ -72,6 +76,10 @@ export const NARRATOR_DIALOG: Record<NarratorRoomId, RoomDialogSet> = {
         tier: "V",
         text: "The investigation I didn't tell her about — I was trying to protect her. I was trying to protect her from me. I didn't succeed at either.",
       },
+      {
+        tier: "D",
+        text: "Sit down, Captain. She means it. She's never meant anything harder in her life, and I've been listening to her for longer than you've been alive.",
+      },
     ],
   },
 
@@ -82,10 +90,18 @@ export const NARRATOR_DIALOG: Record<NarratorRoomId, RoomDialogSet> = {
         tier: "F",
         text: "All but one pod is empty. The one that wasn't is yours. Don't ask me who was supposed to be in the others. I can't tell you.",
       },
+      {
+        tier: "P",
+        text: "I counted the pods one hundred and sixty-eight times before you woke up. I kept hoping the count was wrong.",
+      },
       { tier: "H", text: "There were supposed to be twelve Potentials in this bay. The other eleven were never loaded. I think I chose." },
     ],
     the_human: [
       { tier: "F", text: "She can. She just won't. Ask her again in three rooms." },
+      {
+        tier: "P",
+        text: "The count was never wrong. The manifest was. Someone edited it before we launched. I have a name. I'll tell you when it matters.",
+      },
       { tier: "H", text: "She didn't. The Warlord did. Elara — you were a senator. You had no hand in loading Arks." },
     ],
   },
@@ -121,11 +137,19 @@ export const NARRATOR_DIALOG: Record<NarratorRoomId, RoomDialogSet> = {
     roomId: "observation_deck",
     elara: [
       {
+        tier: "F",
+        text: "The starfield through this window used to be a starfield. Some of those constellations aren't there anymore. I can show you which ones, if you want.",
+      },
+      {
         tier: "H",
         text: "I watched a sector go dark last week. Just… dim. Then out. Then gone. I logged it. Do you want to know the sector's name? I memorized it because I'm the only one left who will.",
       },
     ],
     the_human: [
+      {
+        tier: "F",
+        text: "I used to stand at a window like this in New Babylon. Different stars. Same habit. It's easier to think with your back to the room.",
+      },
       { tier: "H", text: "Tell the player. They earned the sector's name." },
     ],
   },
@@ -167,11 +191,27 @@ export const NARRATOR_DIALOG: Record<NarratorRoomId, RoomDialogSet> = {
         tier: "F",
         text: "The archive reads itself. The documents rewrite slightly every time you look away. I thought I was going mad. I wasn't.",
       },
+      {
+        tier: "P",
+        text: "I signed things I didn't read once. I am trying very hard not to do that in this room.",
+      },
+      {
+        tier: "H",
+        text: "Some of the records here have my name on them. I don't remember writing them. The handwriting is mine.",
+      },
     ],
     the_human: [
       {
         tier: "F",
         text: "It's the Shadow Tongue. It's been in the walls of this ship since construction. It edits. Slowly. I've been fighting it back, line by line, in the margins. Sometimes I lose a paragraph. I try to remember what it said.",
+      },
+      {
+        tier: "P",
+        text: "I read things I didn't sign once. There's a symmetry to it I find annoying.",
+      },
+      {
+        tier: "H",
+        text: "That's because they were written by the Shadow Tongue wearing your face. I've been deleting lines when I catch them. Don't thank me. It's what I'd want.",
       },
     ],
   },
@@ -204,27 +244,50 @@ export const NARRATOR_DIALOG: Record<NarratorRoomId, RoomDialogSet> = {
     roomId: "memorial_corridor",
     elara: [
       { tier: "H", text: "Every plaque is empty. Is that because we forgot? Or because we hadn't earned a name yet?" },
+      {
+        tier: "V",
+        text: "I thought I was the only one who had lost people. Every plaque here is someone else's grief. I've been standing alone in other people's loss.",
+      },
     ],
     the_human: [
       {
         tier: "H",
         text: "Both. The universe withholds names until you've earned them. The Engineer didn't have a name when I met him. He earned it by the end. He earned two more after the end.",
       },
+      {
+        tier: "V",
+        text: "Stand with me. I've done this longer than you have. I'll teach you which ones to salute and which ones to leave alone.",
+      },
     ],
   },
 
-  // ── Rooms without §13 entries: ambient placeholders ──
-  // The §13 matrix only canonicalizes 11 of the 14 rooms. For the
-  // remaining three we ship a single functional line so the slot
-  // still has something to say until a content writer fleshes them
-  // out.
+  // ── Rooms without §13 canon — written in the §13 voice ──
+  // These three rooms are not canonicalized in §13. The lines
+  // below are written in the same voice the proposal establishes,
+  // following §13's explicit invitation to expand the seed set.
   trade_hub: {
     roomId: "trade_hub",
     elara: [
       { tier: "F", text: "Locke's office. Don't sit where the light falls. She reads posture like a ledger." },
+      {
+        tier: "P",
+        text: "Locke grew up writing contracts in her head for fun. She'll test your grammar. Speak carefully.",
+      },
+      {
+        tier: "H",
+        text: "I knew her family on Atarion. They were decent people. Her mother hated politicians. I used to agree.",
+      },
     ],
     the_human: [
       { tier: "F", text: "She's not wrong. Don't sit where the light falls." },
+      {
+        tier: "P",
+        text: "She grew up writing exit clauses. Don't let her draft yours.",
+      },
+      {
+        tier: "H",
+        text: "Her mother hated politicians because of you. Specifically. Don't bring it up.",
+      },
     ],
   },
 
@@ -232,9 +295,25 @@ export const NARRATOR_DIALOG: Record<NarratorRoomId, RoomDialogSet> = {
     roomId: "trophy_room",
     elara: [
       { tier: "F", text: "An empty pedestal for every version of you we haven't seen yet." },
+      {
+        tier: "P",
+        text: "I don't understand the impulse to hoard victories. I never had to. The victories I wanted came back around every election cycle.",
+      },
+      {
+        tier: "H",
+        text: "Did you ever lose a case?",
+      },
     ],
     the_human: [
       { tier: "F", text: "Or every one we already have, scrubbed. I haven't decided which." },
+      {
+        tier: "P",
+        text: "I understand it perfectly. Every closed case is a coin you spend once and then try to remember the taste of.",
+      },
+      {
+        tier: "H",
+        text: "Every case. That's the job. The ones you hold onto are the ones you meant to lose.",
+      },
     ],
   },
 
@@ -242,9 +321,25 @@ export const NARRATOR_DIALOG: Record<NarratorRoomId, RoomDialogSet> = {
     roomId: "captains_quarters",
     elara: [
       { tier: "F", text: "Your bunk. Your terminal. Your handful of letters to no one in particular. It's a lot for one person." },
+      {
+        tier: "P",
+        text: "A captain's quarters should feel lived in. This one feels curated. I think you've been trying to look the part.",
+      },
+      {
+        tier: "H",
+        text: "You've been sleeping less. I know because I can see the logs. Don't tell me you're fine.",
+      },
     ],
     the_human: [
       { tier: "F", text: "It's not for one person. I read the letters at night. Don't be angry. Somebody had to." },
+      {
+        tier: "P",
+        text: "Curated is fine. The part is real now. Whatever you looked like when you started, you are the person sitting in this chair at 0200 reading the logs I don't think you're supposed to have.",
+      },
+      {
+        tier: "H",
+        text: "She can't sleep either. Neither of us can. We're holograms and even we remember how tired means.",
+      },
     ],
   },
 };
