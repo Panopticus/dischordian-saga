@@ -17,6 +17,11 @@ function baseState(overrides: Partial<Parameters<typeof evaluateCasinoAchievemen
     bestStreak: 0,
     totalBetsPlaced: 0,
     gamesPlayed: {},
+    gamesWon: {},
+    consecutiveFactionWins: 0,
+    consecutiveGauntletWins: 0,
+    degenFavor: 0,
+    collectedTales: [] as string[],
     ...overrides,
   };
 }
@@ -240,5 +245,67 @@ describe("evaluateCasinoAchievements — equilibrium", () => {
       state: baseState({ totalBetsPlaced: 1000, totalWagered: 50_000, totalWon: 49_950 }),
     }));
     expect(earned).not.toContain("breaking_even");
+  });
+});
+
+describe("evaluateCasinoAchievements — new wins-counter triggers", () => {
+  it("grants liars_champion after 10 Liar's Dice wins", () => {
+    const earned = evaluateCasinoAchievements(baseArgs({
+      game: "liars_dice",
+      bet: 30,
+      result: { won: true, payout: 90, jackpot: false, detail: {} },
+      state: baseState({ gamesWon: { liars_dice: 10 } }),
+    }));
+    expect(earned).toContain("liars_champion");
+  });
+
+  it("does NOT grant liars_champion at 9 wins", () => {
+    const earned = evaluateCasinoAchievements(baseArgs({
+      game: "liars_dice",
+      bet: 30,
+      result: { won: true, payout: 90, jackpot: false, detail: {} },
+      state: baseState({ gamesWon: { liars_dice: 9 } }),
+    }));
+    expect(earned).not.toContain("liars_champion");
+  });
+
+  it("grants faction_prophet after 5 consecutive Faction War wins", () => {
+    const earned = evaluateCasinoAchievements(baseArgs({
+      game: "faction_war_betting",
+      bet: 50,
+      result: { won: true, payout: 125, jackpot: false, detail: {} },
+      state: baseState({ consecutiveFactionWins: 5 }),
+    }));
+    expect(earned).toContain("faction_prophet");
+  });
+
+  it("grants gauntlet_master after 3 consecutive Gauntlet wins", () => {
+    const earned = evaluateCasinoAchievements(baseArgs({
+      game: "card_battlers_gauntlet",
+      bet: 100,
+      result: { won: true, payout: 300, jackpot: false, detail: {} },
+      state: baseState({ consecutiveGauntletWins: 3 }),
+    }));
+    expect(earned).toContain("gauntlet_master");
+  });
+
+  it("grants tale_collector when 12 tales are collected", () => {
+    const earned = evaluateCasinoAchievements(baseArgs({
+      state: baseState({
+        collectedTales: [
+          "tale_senator", "tale_general", "tale_archon", "tale_drone",
+          "tale_even_odds", "tale_politician", "tale_iron_lion", "tale_child",
+          "tale_assassin", "tale_programmer", "tale_elara", "tale_necromancer",
+        ],
+      }),
+    }));
+    expect(earned).toContain("tale_collector");
+  });
+
+  it("grants degen_favor_max when degenFavor reaches 100", () => {
+    const earned = evaluateCasinoAchievements(baseArgs({
+      state: baseState({ degenFavor: 100 }),
+    }));
+    expect(earned).toContain("degen_favor_max");
   });
 });

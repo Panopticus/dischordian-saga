@@ -11,6 +11,7 @@ import {
   evaluatePokerHand,
   rollCraps, spinWheel, vipLevelFor, vipWinBonus, validateBet,
   MAX_DAILY_WAGER, GAME_LIMITS,
+  splitJackpotPool, JACKPOT_SEED_FRACTION, JACKPOT_MIN_SEED,
 } from "./casinoGames";
 
 describe("createRng", () => {
@@ -412,5 +413,33 @@ describe("MAX_DAILY_WAGER constant", () => {
   it("is a positive integer", () => {
     expect(MAX_DAILY_WAGER).toBeGreaterThan(0);
     expect(Number.isInteger(MAX_DAILY_WAGER)).toBe(true);
+  });
+});
+
+describe("splitJackpotPool", () => {
+  it("returns zeros for an empty pool", () => {
+    expect(splitJackpotPool(0)).toEqual({ payout: 0, retained: 0 });
+  });
+
+  it("retains at least JACKPOT_MIN_SEED on small pools", () => {
+    const { payout, retained } = splitJackpotPool(150);
+    expect(retained).toBe(JACKPOT_MIN_SEED);
+    expect(payout).toBe(50);
+  });
+
+  it("retains ~20% of large pools and pays out the rest", () => {
+    const { payout, retained } = splitJackpotPool(10_000);
+    expect(retained).toBe(2_000);
+    expect(payout).toBe(8_000);
+    expect(retained / 10_000).toBeCloseTo(JACKPOT_SEED_FRACTION, 5);
+  });
+
+  it("payout + retained always equals the original balance (non-negative case)", () => {
+    for (const balance of [200, 500, 1234, 9_999, 100_000]) {
+      const { payout, retained } = splitJackpotPool(balance);
+      expect(payout + retained).toBe(balance);
+      expect(payout).toBeGreaterThanOrEqual(0);
+      expect(retained).toBeGreaterThanOrEqual(JACKPOT_MIN_SEED);
+    }
   });
 });

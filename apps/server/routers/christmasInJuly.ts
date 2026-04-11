@@ -14,7 +14,8 @@
    the `xmas_july_testing` flag for QA).
    ═══════════════════════════════════════════════════════ */
 import { z } from "zod";
-import { router, protectedProcedure, publicProcedure } from "../_core/trpc";
+import { router, protectedProcedure, publicProcedure, adminProcedure } from "../_core/trpc";
+import { invalidateFeatureFlagCache } from "../middleware/featureFlag";
 import { getDb, type DrizzleDb } from "../db";
 import { checkFeatureFlag } from "../middleware/featureFlag";
 
@@ -31,7 +32,7 @@ import { createRng, randomSeed, rollCraps, spinWheel } from "../../shared/casino
 import {
   CHRISTMAS_EVENT_CONFIG, CHRISTMAS_EVENT_KEY,
   CHRISTMAS_WHEEL_PRIZES, CHRISTMAS_MILESTONES, CHRISTMAS_DAILY_CHALLENGES,
-  GIFT_TYPES, type GiftType,
+  GIFT_TYPES, GIFT_TYPE_CATALOG, type GiftType,
 } from "../../shared/christmasInJuly";
 
 function todayString(): string {
@@ -213,19 +214,29 @@ export const christmasInJulyRouter = router({
       const end = new Date(CHRISTMAS_EVENT_CONFIG.endDate).getTime();
       const windowActive = now >= start && now <= end;
       let overrideActive = false;
+      let tickerEnabled = true;
       if (db) {
-        const [flag] = await db
+        const flags = await db
           .select()
           .from(featureFlags)
-          .where(eq(featureFlags.featureName, "xmas_july_testing"))
-          .limit(1);
-        overrideActive = Boolean(flag && flag.enabled === 1);
+          .where(
+            sql`${featureFlags.featureName} IN ('xmas_july_testing', 'xmas_july_ticker')`,
+          );
+        for (const flag of flags) {
+          if (flag.featureName === "xmas_july_testing" && flag.enabled === 1) {
+            overrideActive = true;
+          }
+          if (flag.featureName === "xmas_july_ticker") {
+            tickerEnabled = flag.enabled === 1;
+          }
+        }
       }
       const active = windowActive || overrideActive;
       return {
         active,
         windowActive,
         overrideActive,
+        tickerEnabled,
         currentDay: active ? currentEventDay() : null,
         startDate: CHRISTMAS_EVENT_CONFIG.startDate,
         endDate: CHRISTMAS_EVENT_CONFIG.endDate,
@@ -559,7 +570,10 @@ export const christmasInJulyRouter = router({
         if (gift.claimed) throw new Error("Gift already claimed.");
 
         const progress = await ensureProgress(tx, ctx.user.id);
-        const tokensEarned = CHRISTMAS_EVENT_CONFIG.tokensPerGiftReceived;
+        // Base tokens for opening plus gift-type bonus
+        const catalog = GIFT_TYPE_CATALOG[gift.giftType as GiftType];
+        const bonusTokens = catalog?.bonusTokens ?? 0;
+        const tokensEarned = CHRISTMAS_EVENT_CONFIG.tokensPerGiftReceived + bonusTokens;
 
         await tx
           .update(xmasJulyGifts)
@@ -570,9 +584,10 @@ export const christmasInJulyRouter = router({
           festiveTokens: progress.festiveTokens + tokensEarned,
           giftsReceived: progress.giftsReceived + 1,
         };
-        if (gift.giftType === "gift_box") {
+        if (catalog?.grantsGiftBox) {
           updates.giftBoxesOwned = progress.giftBoxesOwned + 1;
-        } else if (gift.giftType === "snowflake_fragment") {
+        }
+        if (catalog?.grantsSnowflakeStone) {
           updates.snowflakeStones = progress.snowflakeStones + 1;
         }
         await tx
@@ -580,7 +595,7 @@ export const christmasInJulyRouter = router({
           .set(updates)
           .where(eq(xmasJulyProgress.userId, ctx.user.id));
 
-        return { claimed: true, tokensEarned, giftType: gift.giftType };
+        return { claimed: true, tokensEarned, bonusTokens, giftType: gift.giftType };
       });
     }),
 
@@ -729,6 +744,62 @@ export const christmasInJulyRouter = router({
         ))
         .limit(10);
       return rows;
+    }),
+
+  /** Dedicated admin knob for flipping the testing window override.
+   *  Flipping this is normally a setFeatureFlag on the architect
+   *  console, but exposing a named endpoint makes it much easier to
+   *  wire into a "activate event for QA" button on the admin UI. */
+  adminSetTestingOverride: adminProcedure
+    .input(z.object({ enabled: z.boolean() }))
+    .mutation(async ({ input }) => {
+      const db = await getDb();
+      if (!db) throw new Error("DB unavailable");
+      const [existing] = await db
+        .select()
+        .from(featureFlags)
+        .where(eq(featureFlags.featureName, "xmas_july_testing"))
+        .limit(1);
+      if (existing) {
+        await db
+          .update(featureFlags)
+          .set({ enabled: input.enabled ? 1 : 0 })
+          .where(eq(featureFlags.id, existing.id));
+      } else {
+        await db.insert(featureFlags).values({
+          featureName: "xmas_july_testing",
+          enabled: input.enabled ? 1 : 0,
+        });
+      }
+      invalidateFeatureFlagCache("xmas_july_testing");
+      return { enabled: input.enabled };
+    }),
+
+  /** Admin knob for suppressing the HolidayDialogTicker without
+   *  disabling the whole event. */
+  adminSetTickerEnabled: adminProcedure
+    .input(z.object({ enabled: z.boolean() }))
+    .mutation(async ({ input }) => {
+      const db = await getDb();
+      if (!db) throw new Error("DB unavailable");
+      const [existing] = await db
+        .select()
+        .from(featureFlags)
+        .where(eq(featureFlags.featureName, "xmas_july_ticker"))
+        .limit(1);
+      if (existing) {
+        await db
+          .update(featureFlags)
+          .set({ enabled: input.enabled ? 1 : 0 })
+          .where(eq(featureFlags.id, existing.id));
+      } else {
+        await db.insert(featureFlags).values({
+          featureName: "xmas_july_ticker",
+          enabled: input.enabled ? 1 : 0,
+        });
+      }
+      invalidateFeatureFlagCache("xmas_july_ticker");
+      return { enabled: input.enabled };
     }),
 
   /** Leaderboard of top gift senders. */

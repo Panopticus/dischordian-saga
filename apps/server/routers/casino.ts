@@ -34,7 +34,7 @@ import {
   playCardBattlersGauntlet, playFactionWarBet, playVoidBingo, playVoidCase,
   scoreMahjongRun,
   validateBet, vipLevelFor, vipWinBonus, MAX_DAILY_WAGER,
-  ROULETTE_FACTIONS, GAME_LIMITS, type RouletteFaction,
+  ROULETTE_FACTIONS, GAME_LIMITS, splitJackpotPool, type RouletteFaction,
 } from "../../shared/casinoGames";
 
 type PlayableGame =
@@ -52,6 +52,31 @@ interface CasinoEvalState {
   bestStreak: number;
   totalBetsPlaced: number;
   gamesPlayed: Record<string, number>;
+  gamesWon: Record<string, number>;
+  consecutiveFactionWins: number;
+  consecutiveGauntletWins: number;
+  degenFavor: number;
+  collectedTales: string[];
+}
+
+/** The 12 Degen's Tales — kept server-side so that the tale_collector
+ *  achievement can be trusted. Ids mirror the client's DEGEN_TALES. */
+const DEGEN_TALE_IDS = [
+  "tale_senator", "tale_general", "tale_archon", "tale_drone", "tale_even_odds",
+  "tale_politician", "tale_iron_lion", "tale_child", "tale_assassin",
+  "tale_programmer", "tale_elara", "tale_necromancer",
+] as const;
+
+/** 5% chance per game to drop a tale, bumped to 10% once the player
+ *  passes Degen Favor 25. Pure function — the caller owns the RNG via
+ *  Math.random since tales are flavor, not audit-critical. */
+function maybeRollTale(degenFavor: number, collectedTales: string[]): { id: string } | null {
+  const dropRate = degenFavor >= 25 ? 0.10 : 0.05;
+  if (Math.random() > dropRate) return null;
+  const uncollected = DEGEN_TALE_IDS.filter(t => !collectedTales.includes(t));
+  if (uncollected.length === 0) return null;
+  const id = uncollected[Math.floor(Math.random() * uncollected.length)];
+  return { id };
 }
 
 /** Returns the ids of newly earned achievements for this turn. The
@@ -141,11 +166,8 @@ export function evaluateCasinoAchievements(args: {
 
   // liars_champion — 10 Liar's Dice wins
   if (game === "liars_dice" && result.won) {
-    const plays = (state.gamesPlayed ?? {})["liars_dice"] ?? 0;
-    // We use total plays as a proxy for wins; a stricter implementation
-    // would track wins separately. For now, gate on 10 total wins via
-    // a simple counter stashed under `${game}_wins`.
-    if (plays >= 10) earned.push("liars_champion");
+    const wins = (state.gamesWon ?? {})["liars_dice"] ?? 0;
+    if (wins >= 10) earned.push("liars_champion");
   }
 
   // tournament_winner — any Void Blackjack Tournament win
@@ -173,6 +195,26 @@ export function evaluateCasinoAchievements(args: {
   if (game === "entropy_dice") {
     const detail = result.detail as { total?: number; prediction?: string };
     if (detail.total === 7 && detail.prediction === "exact") earned.push("lucky_7");
+  }
+
+  // faction_prophet — 5 Faction War bets won in a row
+  if (game === "faction_war_betting" && state.consecutiveFactionWins >= 5) {
+    earned.push("faction_prophet");
+  }
+
+  // gauntlet_master — 3 Card Battler's Gauntlets in a row
+  if (game === "card_battlers_gauntlet" && state.consecutiveGauntletWins >= 3) {
+    earned.push("gauntlet_master");
+  }
+
+  // tale_collector — collected all 12 Degen's Tales
+  if (state.collectedTales.length >= 12) {
+    earned.push("tale_collector");
+  }
+
+  // degen_favor_max — reached Degen Favor 100
+  if (state.degenFavor >= 100) {
+    earned.push("degen_favor_max");
   }
 
   return earned;
@@ -330,6 +372,28 @@ async function executeGame(
       ...(state.gamesPlayed ?? {}),
       [game]: ((state.gamesPlayed ?? {})[game] ?? 0) + 1,
     };
+    const gamesWonNext: Record<string, number> = {
+      ...(state.gamesWon ?? {}),
+      [game]: ((state.gamesWon ?? {})[game] ?? 0) + (result.won ? 1 : 0),
+    };
+
+    // Consecutive win counters for game-specific streak achievements
+    const newConsecutiveFactionWins =
+      game === "faction_war_betting"
+        ? result.won ? state.consecutiveFactionWins + 1 : 0
+        : state.consecutiveFactionWins;
+    const newConsecutiveGauntletWins =
+      game === "card_battlers_gauntlet"
+        ? result.won ? state.consecutiveGauntletWins + 1 : 0
+        : state.consecutiveGauntletWins;
+
+    // Server-side lore-tale roll so the `tale_collector` achievement is
+    // reachable without trusting the client.
+    const previousTales = (state.collectedTales ?? []) as string[];
+    const rolledTale = maybeRollTale(state.degenFavor, previousTales);
+    const collectedTalesNext = rolledTale
+      ? [...previousTales, rolledTale.id]
+      : previousTales;
 
     const newTotalWagered = state.totalWagered + bet;
     const updates = {
@@ -344,6 +408,10 @@ async function executeGame(
       vipLevel: vipLevelFor(newTotalWagered),
       dailyWagered: state.dailyWagered + bet,
       gamesPlayed: gamesPlayedNext,
+      gamesWon: gamesWonNext,
+      consecutiveFactionWins: newConsecutiveFactionWins,
+      consecutiveGauntletWins: newConsecutiveGauntletWins,
+      collectedTales: collectedTalesNext,
       jackpotContribution:
         bet > 0 ? state.jackpotContribution + Math.ceil(bet * 0.02) : state.jackpotContribution,
     } as const;
@@ -377,8 +445,17 @@ async function executeGame(
     // become active as soon as their trigger condition returns true.
     const newState = { ...state, ...updates };
     const nextStateForEval: CasinoEvalState = {
-      ...newState,
+      totalWagered: newState.totalWagered,
+      totalWon: newState.totalWon,
+      currentStreak: newState.currentStreak,
+      bestStreak: newState.bestStreak,
+      totalBetsPlaced: newState.totalBetsPlaced,
       gamesPlayed: updates.gamesPlayed,
+      gamesWon: updates.gamesWon,
+      consecutiveFactionWins: updates.consecutiveFactionWins,
+      consecutiveGauntletWins: updates.consecutiveGauntletWins,
+      degenFavor: newState.degenFavor,
+      collectedTales: updates.collectedTales,
     };
     const earned = evaluateCasinoAchievements({
       game,
@@ -416,6 +493,8 @@ async function executeGame(
       vipBonusMultiplier: bonusMult,
       seed,
       state: { ...state, ...updates },
+      tale: rolledTale,
+      achievementsUnlocked: earned,
     };
   });
 }
@@ -776,32 +855,36 @@ export const casinoRouter = router({
           throw new Error("This jackpot has already been claimed.");
         }
 
-        const payout = pool.balance;
+        // Split the pool into a payout + retained seed. See
+        // `shared/casinoGames#splitJackpotPool` for the formula.
+        const { payout, retained } = splitJackpotPool(pool.balance);
 
         await tx
           .update(casinoJackpotPool)
           .set({
-            balance: 0,
+            balance: retained,
             totalPaidOut: pool.totalPaidOut + payout,
             lastWinnerId: ctx.user.id,
             lastWinAt: new Date(),
           })
           .where(eq(casinoJackpotPool.poolKey, "main"));
 
-        await tx
-          .update(dreamBalance)
-          .set({
-            dreamTokens: sql`${dreamBalance.dreamTokens} + ${payout}`,
-            totalDreamEarned: sql`${dreamBalance.totalDreamEarned} + ${payout}`,
-          })
-          .where(eq(dreamBalance.userId, ctx.user.id));
+        if (payout > 0) {
+          await tx
+            .update(dreamBalance)
+            .set({
+              dreamTokens: sql`${dreamBalance.dreamTokens} + ${payout}`,
+              totalDreamEarned: sql`${dreamBalance.totalDreamEarned} + ${payout}`,
+            })
+            .where(eq(dreamBalance.userId, ctx.user.id));
+        }
 
         await tx
           .update(casinoResults)
           .set({ seed: `CLAIMED:${recent.seed ?? ""}` })
           .where(eq(casinoResults.id, recent.id));
 
-        return { payout, newBalance: 0 };
+        return { payout, newBalance: retained, retained };
       });
     }),
 });

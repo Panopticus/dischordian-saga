@@ -3088,6 +3088,14 @@ export const casinoState = mysqlTable("casino_state", {
   collectedTales: json("collectedTales").$type<string[]>().default([]),
   /** Games played per type */
   gamesPlayed: json("gamesPlayed").$type<Record<string, number>>().default({}),
+  /** Games *won* per type — drives achievements that require N wins
+   *  rather than N attempts. */
+  gamesWon: json("gamesWon").$type<Record<string, number>>().default({}),
+  /** Consecutive Faction War Betting wins (resets on loss) — powers the
+   *  "Faction Prophet" achievement. */
+  consecutiveFactionWins: int("consecutiveFactionWins").notNull().default(0),
+  /** Consecutive Card Battler's Gauntlet wins — powers "Gauntlet Master". */
+  consecutiveGauntletWins: int("consecutiveGauntletWins").notNull().default(0),
   /** Cases opened since last rare+ drop (Void Cases pity timer) */
   casesSinceRarePlus: int("casesSinceRarePlus").notNull().default(0),
   /** Daily wager accumulator (enforces MAX_DAILY_WAGER) */

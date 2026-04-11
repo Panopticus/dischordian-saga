@@ -16,13 +16,14 @@ import { Link } from "wouter";
 import {
   Gem, Sparkles, Gift, TreePine, Calendar, Dice1, Dice2, Dice3, Dice4, Dice5, Dice6,
   RotateCw, Trophy, Heart, Star, Flame, ChevronLeft, Target,
-  Snowflake, CircleDollarSign, TrendingUp, Check,
+  Snowflake, CircleDollarSign, TrendingUp, Check, Crown,
   Timer, Package, ArrowRight,
 } from "lucide-react";
 import { useSoulStoneStore } from "@/features/soulStones/soulStoneStore";
 import { trpc } from "@/lib/trpc";
 import { useIsChristmasActive, getNpcHolidayLines } from "./holidayDialog";
 import { CHRISTMAS_EVENT_CONFIG } from "@/data/events/christmasInJuly/eventConfig";
+import { CrewHolidayFeed } from "@/components/CrewHolidayFeed";
 
 /* ─── TAB TYPE ─── */
 type Tab = "floor" | "wheel" | "craps" | "calendar" | "charity";
@@ -147,7 +148,10 @@ const SNOW_STYLES = `
 function GiftSendBar() {
   const [query, setQuery] = useState("");
   const [picked, setPicked] = useState<{ id: number; name: string | null } | null>(null);
-  const [giftType, setGiftType] = useState<"gift_box" | "candy_cane" | "snowflake_fragment" | "mystery_box">("gift_box");
+  const [giftType, setGiftType] = useState<
+    "gift_box" | "candy_cane" | "snowflake_fragment" | "mystery_box"
+    | "eggnog" | "carol_recording" | "festive_ornament" | "warm_socks"
+  >("gift_box");
   const [message, setMessage] = useState("");
   const utils = trpc.useUtils();
   const searchQuery = trpc.christmasInJuly.searchGiftRecipients.useQuery(
@@ -208,6 +212,10 @@ function GiftSendBar() {
           <option value="candy_cane">Candy Cane</option>
           <option value="snowflake_fragment">Snowflake Fragment</option>
           <option value="mystery_box">Mystery Box</option>
+          <option value="eggnog">Free Ports Eggnog</option>
+          <option value="carol_recording">Pre-Fall Carol</option>
+          <option value="festive_ornament">Festive Ornament</option>
+          <option value="warm_socks">Warm Socks</option>
         </select>
         <input
           type="text"
@@ -268,20 +276,24 @@ function RewardsPanel() {
               {kind}s
             </p>
             <div className="flex flex-wrap gap-2">
-              {byKind[kind].map((r) => (
-                <span
-                  key={r.id}
-                  className={`text-xs px-3 py-1 rounded-full border font-mono ${
-                    kind === "title"
-                      ? "bg-amber-500/10 border-amber-500/30 text-amber-300"
-                      : kind === "badge"
-                      ? "bg-red-500/10 border-red-500/30 text-red-300"
-                      : "bg-green-500/10 border-green-500/30 text-green-300"
-                  }`}
-                >
-                  {r.label}
-                </span>
-              ))}
+              {byKind[kind].map((r) => {
+                const Icon = kind === "title" ? Crown : kind === "badge" ? Trophy : Gift;
+                return (
+                  <span
+                    key={r.id}
+                    className={`inline-flex items-center gap-1.5 text-xs px-3 py-1 rounded-full border font-mono ${
+                      kind === "title"
+                        ? "bg-amber-500/10 border-amber-500/30 text-amber-300"
+                        : kind === "badge"
+                        ? "bg-red-500/10 border-red-500/30 text-red-300"
+                        : "bg-green-500/10 border-green-500/30 text-green-300"
+                    }`}
+                  >
+                    <Icon className="w-3 h-3" />
+                    {r.label}
+                  </span>
+                );
+              })}
             </div>
           </div>
         ) : null,
@@ -771,10 +783,11 @@ export default function CasinoFloor() {
                   <p className="text-center text-xs text-red-400/80 font-mono">{claimTokensMut.error?.message}</p>
                 )}
 
-                {/* Quick gift dispatcher + inbox + holiday rewards */}
+                {/* Quick gift dispatcher + inbox + holiday rewards + crew chatter */}
                 <GiftSendBar />
                 <GiftInbox userId={progress?.userId ?? 0} />
                 <RewardsPanel />
+                <CrewHolidayFeed />
 
                 {/* Quick Access Grid */}
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-3">

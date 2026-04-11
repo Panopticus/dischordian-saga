@@ -28,13 +28,17 @@ interface HolidayTickerProps {
 
 export function HolidayDialogTicker({ npcId, className }: HolidayTickerProps) {
   // Use the server-side `isActive` query as the authoritative source so
-  // admins can toggle the `xmas_july_testing` flag for QA. Fall back to
-  // the client clock until the query resolves.
+  // admins can toggle the `xmas_july_testing` flag for QA and suppress
+  // the ticker via the `xmas_july_ticker` flag. Fall back to the client
+  // clock until the query resolves.
   const statusQuery = trpc.christmasInJuly.isActive.useQuery(undefined, {
     retry: false,
     staleTime: 60_000,
   });
-  const active = statusQuery.data ? statusQuery.data.active : isChristmasInJulyActive();
+  const serverActive = statusQuery.data
+    ? statusQuery.data.active && statusQuery.data.tickerEnabled
+    : isChristmasInJulyActive();
+  const active = serverActive;
   const lines = useMemo(() => {
     if (!active) return [];
     const npcs = npcId ? [npcId] : (Object.keys(NPC_HOLIDAY_DIALOG) as (keyof typeof NPC_HOLIDAY_DIALOG)[]);

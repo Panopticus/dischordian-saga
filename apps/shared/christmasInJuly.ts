@@ -106,5 +106,70 @@ export const GIFT_TYPES = [
   "candy_cane",
   "snowflake_fragment",
   "mystery_box",
+  "eggnog",
+  "carol_recording",
+  "festive_ornament",
+  "warm_socks",
 ] as const;
 export type GiftType = typeof GIFT_TYPES[number];
+
+export interface GiftTypeDef {
+  id: GiftType;
+  name: string;
+  description: string;
+  /** Optional bonus applied when the recipient claims the gift.
+   *  E.g. 5 extra tokens for eggnog. */
+  bonusTokens?: number;
+  /** Does the gift count as a "gift box" when granted via
+   *  inventory? Some gift types are consumables, not boxes. */
+  grantsGiftBox?: boolean;
+  grantsSnowflakeStone?: boolean;
+}
+
+export const GIFT_TYPE_CATALOG: Record<GiftType, GiftTypeDef> = {
+  gift_box: {
+    id: "gift_box",
+    name: "Gift Box",
+    description: "A holographic mystery box. Standard seasonal gift.",
+    grantsGiftBox: true,
+  },
+  candy_cane: {
+    id: "candy_cane",
+    name: "Candy Cane",
+    description: "Infused with temporal energy. Grants +5% XP for one hour.",
+  },
+  snowflake_fragment: {
+    id: "snowflake_fragment",
+    name: "Snowflake Fragment",
+    description: "A crystallized sliver of the Snowflake Soul Stone. Collect three to forge a full stone.",
+    grantsSnowflakeStone: true,
+  },
+  mystery_box: {
+    id: "mystery_box",
+    name: "Mystery Box",
+    description: "Unmarked. Unweighted. The Degen says he 'forgot what's inside.' He's lying.",
+    grantsGiftBox: true,
+  },
+  eggnog: {
+    id: "eggnog",
+    name: "Free Ports Eggnog",
+    description: "Origin unverified. Tests clean. Tastes suspiciously delicious. Bonus 5 festive tokens.",
+    bonusTokens: 5,
+  },
+  carol_recording: {
+    id: "carol_recording",
+    name: "Pre-Fall Carol Recording",
+    description: "A decoded signal fragment from a dead world. Plays a song no one alive has heard.",
+    bonusTokens: 2,
+  },
+  festive_ornament: {
+    id: "festive_ornament",
+    name: "Festive Ornament",
+    description: "Hand-carved by a crew member. Warms the quarters by one morale notch.",
+  },
+  warm_socks: {
+    id: "warm_socks",
+    name: "Warm Socks",
+    description: "Knitted, red and green, with little skulls. Even the Necromancer kept his pair.",
+  },
+};

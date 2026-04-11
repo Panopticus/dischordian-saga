@@ -590,6 +590,23 @@ export function vipWinBonus(vipLevel: number): number {
   return 1 + 0.05 * Math.max(0, vipLevel);
 }
 
+/** ─── PROGRESSIVE JACKPOT SPLIT ───
+ *  When a jackpot is claimed, the pool is split into a payout and
+ *  a retained seed so the pool never bottoms out. The minimum seed
+ *  guarantees early claims still leave a visible pool for late-joiners.
+ *
+ *  Returns { payout, retained }.
+ */
+export const JACKPOT_SEED_FRACTION = 0.20;
+export const JACKPOT_MIN_SEED = 100;
+
+export function splitJackpotPool(balance: number): { payout: number; retained: number } {
+  if (balance <= 0) return { payout: 0, retained: 0 };
+  const retained = Math.max(JACKPOT_MIN_SEED, Math.floor(balance * JACKPOT_SEED_FRACTION));
+  const payout = Math.max(0, balance - retained);
+  return { payout, retained };
+}
+
 /* ─── BET VALIDATION ─── */
 
 export const MAX_DAILY_WAGER = 5000;

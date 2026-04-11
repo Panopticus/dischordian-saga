@@ -2,7 +2,7 @@ import { describe, it, expect } from "vitest";
 import {
   CHRISTMAS_EVENT_CONFIG, CHRISTMAS_EVENT_KEY,
   CHRISTMAS_WHEEL_PRIZES, CHRISTMAS_MILESTONES, CHRISTMAS_DAILY_CHALLENGES,
-  GIFT_TYPES,
+  GIFT_TYPES, GIFT_TYPE_CATALOG,
 } from "./christmasInJuly";
 import { spinWheel, rollCraps, createRng } from "./casinoGames";
 
@@ -90,11 +90,19 @@ describe("daily challenges", () => {
 });
 
 describe("gift types", () => {
-  it("has exactly 4 gift types", () => {
-    expect(GIFT_TYPES).toHaveLength(4);
+  it("has at least 4 gift types", () => {
+    expect(GIFT_TYPES.length).toBeGreaterThanOrEqual(4);
   });
   it("includes gift_box", () => {
     expect(GIFT_TYPES).toContain("gift_box");
+  });
+  it("every gift type has a catalog entry with a name + description", () => {
+    for (const id of GIFT_TYPES) {
+      const entry = GIFT_TYPE_CATALOG[id];
+      expect(entry).toBeDefined();
+      expect(entry.name.length).toBeGreaterThan(0);
+      expect(entry.description.length).toBeGreaterThan(0);
+    }
   });
 });
 
