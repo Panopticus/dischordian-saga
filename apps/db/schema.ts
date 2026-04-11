@@ -3119,6 +3119,207 @@ export type InsertAdminApprovalRequest = typeof adminApprovalRequests.$inferInse
 export type CodexVoteRow = typeof codexVotes.$inferSelect;
 
 /* ═══════════════════════════════════════════════════════
+   DEGEN'S CASINO — Server-authoritative game state & audit
+   ═══════════════════════════════════════════════════════ */
+
+export const casinoState = mysqlTable("casino_state", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull().unique(),
+  /** Lifetime Dream wagered */
+  totalWagered: int("totalWagered").notNull().default(0),
+  /** Lifetime Dream won */
+  totalWon: int("totalWon").notNull().default(0),
+  /** Session wins/losses (reset per login) */
+  sessionWins: int("sessionWins").notNull().default(0),
+  sessionLosses: int("sessionLosses").notNull().default(0),
+  /** VIP tier 0-5 */
+  vipLevel: int("vipLevel").notNull().default(0),
+  /** Daily free plays remaining */
+  freeSpinsLeft: int("freeSpinsLeft").notNull().default(3),
+  /** Progressive jackpot pool contribution */
+  jackpotContribution: int("jackpotContribution").notNull().default(0),
+  /** Unscratched scratch cards in inventory */
+  scratchCards: int("scratchCards").notNull().default(0),
+  /** Current win streak */
+  currentStreak: int("currentStreak").notNull().default(0),
+  /** Best streak ever */
+  bestStreak: int("bestStreak").notNull().default(0),
+  /** Hidden 8th NPC trust (0-100) */
+  degenFavor: int("degenFavor").notNull().default(0),
+  /** Lifetime bets placed (Equilibrium tracking) */
+  totalBetsPlaced: int("totalBetsPlaced").notNull().default(0),
+  /** Collected Degen's Tale ids */
+  collectedTales: json("collectedTales").$type<string[]>().default([]),
+  /** Games played per type */
+  gamesPlayed: json("gamesPlayed").$type<Record<string, number>>().default({}),
+  /** Games *won* per type — drives achievements that require N wins
+   *  rather than N attempts. */
+  gamesWon: json("gamesWon").$type<Record<string, number>>().default({}),
+  /** Consecutive Faction War Betting wins (resets on loss) — powers the
+   *  "Faction Prophet" achievement. */
+  consecutiveFactionWins: int("consecutiveFactionWins").notNull().default(0),
+  /** Consecutive Card Battler's Gauntlet wins — powers "Gauntlet Master". */
+  consecutiveGauntletWins: int("consecutiveGauntletWins").notNull().default(0),
+  /** Cases opened since last rare+ drop (Void Cases pity timer) */
+  casesSinceRarePlus: int("casesSinceRarePlus").notNull().default(0),
+  /** Daily wager accumulator (enforces MAX_DAILY_WAGER) */
+  dailyWagered: int("dailyWagered").notNull().default(0),
+  /** YYYY-MM-DD string used to reset daily counters */
+  dailyCounterDate: varchar("dailyCounterDate", { length: 10 }),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  userIdx: index("idx_casino_state_user").on(table.userId),
+}));
+export type CasinoStateRow = typeof casinoState.$inferSelect;
+
+export const casinoJackpotPool = mysqlTable("casino_jackpot_pool", {
+  id: int("id").autoincrement().primaryKey(),
+  /** Stable key — "main" is the only pool for now. */
+  poolKey: varchar("poolKey", { length: 32 }).notNull().unique(),
+  /** Current accumulated Dream in the pool. */
+  balance: int("balance").notNull().default(0),
+  /** Lifetime Dream paid out from this pool. */
+  totalPaidOut: int("totalPaidOut").notNull().default(0),
+  /** userId of the last winner, if any. */
+  lastWinnerId: int("lastWinnerId"),
+  lastWinAt: timestamp("lastWinAt"),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+export type CasinoJackpotPoolRow = typeof casinoJackpotPool.$inferSelect;
+
+export const casinoResults = mysqlTable("casino_results", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  game: varchar("game", { length: 64 }).notNull(),
+  bet: int("bet").notNull(),
+  won: boolean("won").notNull().default(false),
+  payout: int("payout").notNull().default(0),
+  jackpot: boolean("jackpot").notNull().default(false),
+  /** Arbitrary per-game result payload (reels, dice, cards, etc.) */
+  detail: json("detail").$type<Record<string, unknown>>(),
+  /** Seed used for deterministic replay */
+  seed: varchar("seed", { length: 64 }),
+  playedAt: timestamp("playedAt").defaultNow().notNull(),
+}, (table) => ({
+  userIdx: index("idx_casino_results_user").on(table.userId),
+  gameIdx: index("idx_casino_results_game").on(table.game),
+  playedAtIdx: index("idx_casino_results_played_at").on(table.playedAt),
+}));
+export type CasinoResultRow = typeof casinoResults.$inferSelect;
+
+/* ═══════════════════════════════════════════════════════
+   CHRISTMAS IN JULY — Event progress, gifts, charity pool
+   ═══════════════════════════════════════════════════════ */
+
+export const xmasJulyProgress = mysqlTable("xmas_july_progress", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull().unique(),
+  /** Festive Tokens held */
+  festiveTokens: int("festiveTokens").notNull().default(0),
+  /** Gift boxes sent */
+  giftsSent: int("giftsSent").notNull().default(0),
+  /** Gift boxes received */
+  giftsReceived: int("giftsReceived").notNull().default(0),
+  /** Days whose challenge has been claimed (1-14) */
+  completedDays: json("completedDays").$type<number[]>().default([]),
+  /** Current consecutive day streak */
+  streak: int("streak").notNull().default(0),
+  /** Last day claimed (for streak continuity) */
+  lastDayClaimed: int("lastDayClaimed"),
+  /** Soul stones wagered at craps */
+  stonesWagered: int("stonesWagered").notNull().default(0),
+  /** Soul stones won back */
+  stonesWon: int("stonesWon").notNull().default(0),
+  /** Free purifications from lucky 7s */
+  blessedPurifications: int("blessedPurifications").notNull().default(0),
+  /** Snowflake Soul Stones held */
+  snowflakeStones: int("snowflakeStones").notNull().default(0),
+  /** Ungifted gift boxes in inventory */
+  giftBoxesOwned: int("giftBoxesOwned").notNull().default(0),
+  /** Last free daily token claim date (YYYY-MM-DD) */
+  lastDailyTokenClaim: varchar("lastDailyTokenClaim", { length: 10 }),
+  /** Charity multiplier usage — 100-spend window remaining */
+  charityMultiplierRemaining: int("charityMultiplierRemaining").notNull().default(0),
+  /** Unlocked cosmetic/badge ids earned from the event */
+  unlockedRewards: json("unlockedRewards").$type<string[]>().default([]),
+  /** Gifts sent today — resets when giftCounterDate rolls */
+  giftsSentToday: int("giftsSentToday").notNull().default(0),
+  /** UTC YYYY-MM-DD of the last gift-send — drives daily reset */
+  giftCounterDate: varchar("giftCounterDate", { length: 10 }),
+  /** Lifetime festive tokens spent (wheel spins + gift crafts + donations) */
+  tokensSpent: int("tokensSpent").notNull().default(0),
+  /** Festive tokens spent today — for day 10 "High Roller" challenge */
+  tokensSpentToday: int("tokensSpentToday").notNull().default(0),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  userIdx: index("idx_xmas_july_progress_user").on(table.userId),
+}));
+export type XmasJulyProgressRow = typeof xmasJulyProgress.$inferSelect;
+
+export const xmasJulyGifts = mysqlTable("xmas_july_gifts", {
+  id: int("id").autoincrement().primaryKey(),
+  senderId: int("senderId").notNull(),
+  recipientId: int("recipientId").notNull(),
+  /** Gift kind — "gift_box", "candy_cane", etc. */
+  giftType: varchar("giftType", { length: 64 }).notNull(),
+  /** Custom message from sender */
+  message: text("message"),
+  /** Has the recipient opened/claimed it? */
+  claimed: boolean("claimed").notNull().default(false),
+  sentAt: timestamp("sentAt").defaultNow().notNull(),
+  claimedAt: timestamp("claimedAt"),
+}, (table) => ({
+  senderIdx: index("idx_xmas_july_gifts_sender").on(table.senderId),
+  recipientIdx: index("idx_xmas_july_gifts_recipient").on(table.recipientId),
+}));
+export type XmasJulyGiftRow = typeof xmasJulyGifts.$inferSelect;
+
+export const xmasJulyCharityPool = mysqlTable("xmas_july_charity_pool", {
+  id: int("id").autoincrement().primaryKey(),
+  eventKey: varchar("eventKey", { length: 64 }).notNull().unique(),
+  /** Global gift count (drives milestones) */
+  totalGifts: int("totalGifts").notNull().default(0),
+  /** Cumulative festive tokens contributed */
+  totalTokensDonated: int("totalTokensDonated").notNull().default(0),
+  /** Community pool of soul stones (from losing craps rolls) */
+  communityPool: int("communityPool").notNull().default(0),
+  /** Milestone ids already reached */
+  milestonesReached: json("milestonesReached").$type<string[]>().default([]),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+export type XmasJulyCharityPoolRow = typeof xmasJulyCharityPool.$inferSelect;
+
+export const xmasJulyCrapsRolls = mysqlTable("xmas_july_craps_rolls", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  total: int("total").notNull(),
+  die1: int("die1").notNull(),
+  die2: int("die2").notNull(),
+  outcome: varchar("outcome", { length: 32 }).notNull(),
+  /** Id of the wagered soul stone */
+  stoneId: varchar("stoneId", { length: 64 }),
+  rolledAt: timestamp("rolledAt").defaultNow().notNull(),
+}, (table) => ({
+  userIdx: index("idx_xmas_july_craps_user").on(table.userId),
+}));
+export type XmasJulyCrapsRow = typeof xmasJulyCrapsRolls.$inferSelect;
+
+export const xmasJulyWheelSpins = mysqlTable("xmas_july_wheel_spins", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  prizeId: varchar("prizeId", { length: 64 }).notNull(),
+  prizeType: varchar("prizeType", { length: 32 }).notNull(),
+  amount: int("amount").notNull().default(0),
+  rarity: varchar("rarity", { length: 16 }).notNull().default("common"),
+  spunAt: timestamp("spunAt").defaultNow().notNull(),
+}, (table) => ({
+  userIdx: index("idx_xmas_july_wheel_user").on(table.userId),
+}));
+export type XmasJulyWheelRow = typeof xmasJulyWheelSpins.$inferSelect;
+
+/* ═══════════════════════════════════════════════════════
    CREW SYSTEM — Bloodlines, Clones, Pods, Missions
 
    NOTE: The crew system's runtime state lives in

@@ -77,6 +77,8 @@ import { communityCodexRouter } from "./routers/communityCodex";
 import { performanceRouter } from "./routers/performance";
 import { deadMansCircuitRouter } from "./routers/deadMansCircuit";
 import { livingUniverseRouter } from "./routers/livingUniverse";
+import { casinoRouter } from "./routers/casino";
+import { christmasInJulyRouter } from "./routers/christmasInJuly";
 import { dischordiaCycleRouter } from "./routers/dischordiaCycle";
 import { crewRouter } from "./routers/crew";
 
@@ -152,6 +154,8 @@ export const appRouter = router({
   performance: performanceRouter,
   deadMansCircuit: deadMansCircuitRouter,
   livingUniverse: livingUniverseRouter,
+  casino: casinoRouter,
+  christmasInJuly: christmasInJulyRouter,
   dischordiaCycle: dischordiaCycleRouter,
   crew: crewRouter,
   auth: router({
