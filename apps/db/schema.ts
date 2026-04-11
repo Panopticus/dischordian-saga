@@ -614,6 +614,10 @@ export const dreamBalance = mysqlTable("dream_balance", {
   soulBoundDream: int("soulBoundDream").notNull().default(0),
   /** DNA/CODE resource for attribute leveling */
   dnaCode: int("dnaCode").notNull().default(0),
+  /** Premium currency — purchased with real money (or granted by admin). */
+  gems: int("gems").notNull().default(0),
+  /** Lifetime gems purchased via real-money; read-only rollup for rank perks. */
+  totalGemsPurchased: int("totalGemsPurchased").notNull().default(0),
   /** Total Dream ever earned (for milestones) */
   totalDreamEarned: int("totalDreamEarned").notNull().default(0),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
@@ -918,6 +922,11 @@ export const pvpLeaderboard = mysqlTable("pvp_leaderboard", {
     "bronze", "silver", "gold", "platinum", "diamond", "master", "grandmaster"
   ]).default("bronze").notNull(),
   lastMatchAt: timestamp("lastMatchAt"),
+  /** Timestamp of the last time ELO decay was applied for this user.
+   *  Used to make decay idempotent across repeated reads — the
+   *  decay helper only applies delta since this anchor, never the
+   *  full (now - lastMatchAt) window on every check. */
+  lastDecayAt: timestamp("lastDecayAt"),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
 });
