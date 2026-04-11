@@ -624,3 +624,83 @@ export function getActiveWarSeason(now: Date = new Date()): AllianceWarEpochSeas
   const seasonIndex = ((weekIndex % ALLIANCE_WAR_EPOCH_SEASONS.length) + ALLIANCE_WAR_EPOCH_SEASONS.length) % ALLIANCE_WAR_EPOCH_SEASONS.length;
   return ALLIANCE_WAR_EPOCH_SEASONS[seasonIndex];
 }
+
+/* ─── THOUGHT VIRUS RE-INFECTION ─── */
+
+/**
+ * The Fall Era ("New Babylon Siege Grid") has the Thought Virus special rule:
+ * "cleared nodes have a 15% chance to re-infect after 6 hours." The rule lives
+ * as a human-readable string in the epoch's specialRules, but there was never
+ * a handler that actually applied it. This function is that handler.
+ *
+ * Intended usage: the alliance-war tick job (runs once per hour server-side)
+ * passes in the current map state + timestamps and gets back a map where some
+ * previously-cleared nodes have been marked uncleared again.
+ *
+ * Pure — no DB access, no globals. Inject a rng in tests to get deterministic
+ * re-infection.
+ */
+export interface NodeClearRecord {
+  nodeId: string;
+  clearedAt: number; // epoch ms
+}
+
+export const THOUGHT_VIRUS_REINFECT_WINDOW_MS = 6 * 60 * 60 * 1000;
+export const THOUGHT_VIRUS_REINFECT_CHANCE = 0.15;
+
+export interface ReinfectResult {
+  reinfectedNodeIds: string[];
+  nextMap: WarMap;
+}
+
+/**
+ * Anything that carries a specialRules list can drive the reinfection rule.
+ * The repo has two epoch types (AllianceWarEpochSeason and AllianceWarEpoch);
+ * both satisfy this shape, so this keeps the handler decoupled from which
+ * one the caller happens to hold.
+ */
+export interface HasSpecialRules {
+  specialRules: readonly string[];
+}
+
+/**
+ * Walk a war map, find every node that has been cleared for longer than
+ * THOUGHT_VIRUS_REINFECT_WINDOW_MS, roll against THOUGHT_VIRUS_REINFECT_CHANCE,
+ * and mark the node uncleared. Returns a new map (pure function) and the list
+ * of node IDs that were re-infected so the caller can broadcast a war event.
+ *
+ * Only runs if the given epoch's specialRules include the Thought Virus rule
+ * — other epochs skip this entirely.
+ */
+export function applyThoughtVirusReinfection(
+  map: WarMap,
+  clearLog: NodeClearRecord[],
+  epoch: HasSpecialRules | undefined,
+  now: number = Date.now(),
+  rng: () => number = Math.random,
+): ReinfectResult {
+  if (!epoch) return { reinfectedNodeIds: [], nextMap: map };
+  const hasRule = epoch.specialRules.some(rule =>
+    rule.toLowerCase().includes("thought virus"),
+  );
+  if (!hasRule) return { reinfectedNodeIds: [], nextMap: map };
+
+  const clearedAtLookup = new Map(clearLog.map(entry => [entry.nodeId, entry.clearedAt]));
+  const reinfected: string[] = [];
+
+  const nextNodes = map.nodes.map(node => {
+    if (!node.cleared) return node;
+    if (node.type === "boss") return node; // Boss never re-infects
+    const clearedAt = clearedAtLookup.get(node.id);
+    if (clearedAt === undefined) return node;
+    if (now - clearedAt < THOUGHT_VIRUS_REINFECT_WINDOW_MS) return node;
+    if (rng() >= THOUGHT_VIRUS_REINFECT_CHANCE) return node;
+    reinfected.push(node.id);
+    return { ...node, cleared: false };
+  });
+
+  return {
+    reinfectedNodeIds: reinfected,
+    nextMap: { ...map, nodes: nextNodes },
+  };
+}

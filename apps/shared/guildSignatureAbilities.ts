@@ -143,7 +143,11 @@ export const GUILD_ABILITIES: GuildAbility[] = [
     affects: ["fight"], cooldownMinutes: 20, skillThreshold: 75,
     darkVariant: {
       name: "Thought Virus",
-      mechanics: "Apply the Warden's virus — target slowly loses control, may attack allies.",
+      mechanics:
+        "Attach a Thought Virus status to the target. Each turn the infected unit rolls " +
+        "against friendlyFireChance (starts 25%, +15% per stack, max 85%) to attack the " +
+        "nearest ally instead of its intended target. Lasts 3 turns, extends +1 per stack. " +
+        "Implemented via applyVirusStatus/tickVirusStatus in apps/shared/thoughtVirus.ts.",
       corruptionGain: 20,
     },
   },
