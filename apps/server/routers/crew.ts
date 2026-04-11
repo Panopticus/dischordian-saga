@@ -15,8 +15,14 @@ import { z } from "zod";
 import { TRPCError } from "@trpc/server";
 import { router, protectedProcedure } from "../_core/trpc";
 import { getDb } from "../db";
-import { userProgress } from "../../db/schema";
-import { eq, and } from "drizzle-orm";
+import {
+  userProgress,
+  dreamBalance,
+  crewBloodlines,
+  crewMembers,
+  users,
+} from "../../db/schema";
+import { eq, and, desc, sql } from "drizzle-orm";
 import {
   ensureCrewState,
   createDefaultCrewState,
@@ -422,6 +428,33 @@ export const crewRouter = router({
       if (assigned.some(m => m.status !== "active")) {
         return { success: false, error: "All selected crew must be active" };
       }
+
+      // Deduct upfront resource cost from unified economy (dream tokens for now;
+      // materials/salvage/void crystals would need their own stores).
+      if (template.cost?.dream && template.cost.dream > 0) {
+        const db = await getDb();
+        if (!db) dbUnavailable();
+        const row = await db
+          .select()
+          .from(dreamBalance)
+          .where(eq(dreamBalance.userId, ctx.user.id))
+          .limit(1);
+        const current = row[0]?.dreamTokens ?? 0;
+        if (current < template.cost.dream) {
+          return {
+            success: false,
+            error: `Insufficient dream tokens (need ${template.cost.dream}, have ${current})`,
+          };
+        }
+        await db
+          .update(dreamBalance)
+          .set({ dreamTokens: current - template.cost.dream })
+          .where(eq(dreamBalance.userId, ctx.user.id));
+      }
+      // Material/salvage/void-crystal deductions are deferred until those
+      // inventories get their own Drizzle tables; noted in the cost field
+      // so the UI can still show the requirement.
+
       const successChance = calculateMissionSuccess(template, assigned);
       const now = Date.now();
       const mission: CrewMissionState = {
@@ -438,6 +471,7 @@ export const crewRouter = router({
         preferredRole: template.preferredRole,
         reward: template.reward,
         failureReward: template.failureReward,
+        cost: template.cost,
         status: "dispatched",
       };
 
@@ -841,6 +875,133 @@ export const crewRouter = router({
     await saveState(ctx.user.id, next);
     return { success: true, founder };
   }),
+
+  /* ─── Romance opt-out / opt-in / end ─── */
+  toggleRomanceOptOut: protectedProcedure
+    .input(z.object({ memberId: z.string(), optOut: z.boolean() }))
+    .mutation(async ({ ctx, input }) => {
+      const state = await loadState(ctx.user.id);
+      const current = new Set(state.romanceOptOuts ?? []);
+      if (input.optOut) {
+        current.add(input.memberId);
+      } else {
+        current.delete(input.memberId);
+      }
+      const next: CrewState = {
+        ...state,
+        romanceOptOuts: Array.from(current),
+      };
+      await saveState(ctx.user.id, next);
+      return { success: true };
+    }),
+
+  endRomance: protectedProcedure
+    .input(z.object({ romanceId: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      const state = await loadState(ctx.user.id);
+      const romance = state.romances.find(r => r.id === input.romanceId);
+      if (!romance) return { success: false, error: "Romance not found" };
+      const a = state.roster.members.find(m => m.id === romance.memberAId);
+      const b = state.roster.members.find(m => m.id === romance.memberBId);
+      const next: CrewState = {
+        ...state,
+        romances: state.romances.map(r =>
+          r.id === input.romanceId ? { ...r, status: "estranged" as const } : r,
+        ),
+        feed:
+          a && b
+            ? trimFeed([
+                ...state.feed,
+                {
+                  id: `romance-estranged-${input.romanceId}-${Date.now()}`,
+                  timestamp: Date.now(),
+                  roomId: "captains_quarters",
+                  category: "social",
+                  text: `Captain's Quarters: Paperwork filed — ${a.name} and ${b.name} are no longer together. Elara has updated the quarters assignment.`,
+                  severity: "warning",
+                  actionable: false,
+                },
+              ])
+            : state.feed,
+        feedUnreadCount: state.feedUnreadCount + (a && b ? 1 : 0),
+      };
+      await saveState(ctx.user.id, next);
+      return { success: true };
+    }),
+
+  /* ─── Cross-user leaderboards (reads from native tables, populated by
+         syncCrewStateToTables). Public — no ctx.user.id filter. ─── */
+  getBloodlineLeaderboard: protectedProcedure
+    .input(
+      z
+        .object({
+          limit: z.number().min(1).max(50).optional(),
+        })
+        .optional(),
+    )
+    .query(async ({ input }) => {
+      const db = await getDb();
+      if (!db) return [];
+      const limit = input?.limit ?? 20;
+      try {
+        const rows = await db
+          .select({
+            bloodlineKey: crewBloodlines.bloodlineKey,
+            generationCount: crewBloodlines.generationCount,
+            diversityIndex: crewBloodlines.diversityIndex,
+            geneticDrift: crewBloodlines.geneticDrift,
+            metadata: crewBloodlines.metadata,
+            userId: crewBloodlines.userId,
+            userName: users.name,
+          })
+          .from(crewBloodlines)
+          .leftJoin(users, eq(crewBloodlines.userId, users.id))
+          .orderBy(desc(crewBloodlines.generationCount))
+          .limit(limit);
+        return rows;
+      } catch {
+        // Tables may not be applied yet — return empty instead of crashing.
+        return [];
+      }
+    }),
+
+  getSurvivalLeaderboard: protectedProcedure
+    .input(
+      z
+        .object({
+          limit: z.number().min(1).max(50).optional(),
+        })
+        .optional(),
+    )
+    .query(async ({ input }) => {
+      const db = await getDb();
+      if (!db) return [];
+      const limit = input?.limit ?? 20;
+      try {
+        // Oldest living crew members across all players (status='active'
+        // filters out deceased rows in the mirror table).
+        const rows = await db
+          .select({
+            userId: crewMembers.userId,
+            memberKey: crewMembers.memberKey,
+            name: crewMembers.name,
+            species: crewMembers.species,
+            bloodlineKey: crewMembers.bloodlineKey,
+            generation: crewMembers.generation,
+            age: crewMembers.age,
+            maxAge: crewMembers.maxAge,
+            userName: users.name,
+          })
+          .from(crewMembers)
+          .leftJoin(users, eq(crewMembers.userId, users.id))
+          .where(eq(crewMembers.status, "active"))
+          .orderBy(desc(crewMembers.age))
+          .limit(limit);
+        return rows;
+      } catch {
+        return [];
+      }
+    }),
 
   /* ─── Dev/testing: reset crew state ─── */
   resetCrew: protectedProcedure.mutation(async ({ ctx }) => {

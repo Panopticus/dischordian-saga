@@ -421,6 +421,7 @@ import {
   tickAging,
   tickMissions,
   tickAmbientFeed,
+  tickRomance,
   applyRelationshipDeltas,
   applyTick,
 } from "./crewTick";
@@ -677,6 +678,83 @@ describe("tickAmbientFeed()", () => {
   });
 });
 
+describe("tickRomance()", () => {
+  it("does nothing with fewer than 2 active crew", () => {
+    const state = createDefaultCrewState();
+    state.roster.members.push(fakeMember("a"));
+    const next = tickRomance(state, Date.now(), () => 0);
+    expect(next.romances).toHaveLength(0);
+  });
+
+  it("starts a courtship when two crew have high mutual bonds and rng fires", () => {
+    const state = createDefaultCrewState();
+    state.roster.members.push(
+      fakeMember("a", { relationships: { b: 85 } }),
+      fakeMember("b", { relationships: { a: 85 } }),
+    );
+    // Force rng to 0 so the chance always passes
+    const next = tickRomance(state, 1_000_000_000, () => 0);
+    expect(next.romances.length).toBeGreaterThan(0);
+    expect(next.romances[0].status).toBe("courtship");
+  });
+
+  it("respects opt-out — no romance forms when a member is opted out", () => {
+    const state = createDefaultCrewState();
+    state.roster.members.push(
+      fakeMember("a", { relationships: { b: 95 } }),
+      fakeMember("b", { relationships: { a: 95 } }),
+    );
+    state.romanceOptOuts = ["a"];
+    const next = tickRomance(state, 1_000_000_000, () => 0);
+    expect(next.romances).toHaveLength(0);
+  });
+
+  it("advances a courtship to partnered after the grace period", () => {
+    const state = createDefaultCrewState();
+    state.roster.members.push(
+      fakeMember("a", { relationships: { b: 85 } }),
+      fakeMember("b", { relationships: { a: 85 } }),
+    );
+    const threeHoursAgo = Date.now() - 4 * 60 * 60 * 1000;
+    state.romances.push({
+      id: "r1",
+      memberAId: "a",
+      memberBId: "b",
+      declaredAt: threeHoursAgo,
+      status: "courtship",
+    });
+    const next = tickRomance(state, Date.now(), () => 1);
+    expect(next.romances[0].status).toBe("partnered");
+  });
+
+  it("ends a romance when one member dies", () => {
+    const state = createDefaultCrewState();
+    state.roster.members.push(fakeMember("a"));
+    state.roster.deceased.push(fakeMember("b", { status: "dead" }));
+    state.romances.push({
+      id: "r1",
+      memberAId: "a",
+      memberBId: "b",
+      declaredAt: 0,
+      status: "partnered",
+    });
+    const next = tickRomance(state, Date.now(), () => 1);
+    expect(next.romances[0].status).toBe("ended");
+  });
+
+  it("throttles courtship detection to COURTSHIP_CHECK_MS", () => {
+    const state = createDefaultCrewState();
+    state.roster.members.push(
+      fakeMember("a", { relationships: { b: 90 } }),
+      fakeMember("b", { relationships: { a: 90 } }),
+    );
+    const now = 1_000_000_000;
+    state.lastRomanceCheckAt = now;
+    const next = tickRomance(state, now + 60_000, () => 0); // 1 minute later
+    expect(next.romances).toHaveLength(0); // too soon to check
+  });
+});
+
 describe("applyTick() combined pipeline", () => {
   it("runs all sub-ticks in order without throwing on a blank state", () => {
     const state = createDefaultCrewState();
@@ -733,9 +811,9 @@ describe("crewMemberToCloneStats()", () => {
       { ...fakeMember("b", { stats: { ...BASE_STATS, reflexes: 95 } }) } as any,
       "WIRED-4-X",
     );
-    expect(slow.velocity_ceiling_pct).toBeGreaterThanOrEqual(80);
-    expect(fast.velocity_ceiling_pct).toBeLessThanOrEqual(120);
-    expect(fast.velocity_ceiling_pct).toBeGreaterThan(slow.velocity_ceiling_pct);
+    expect(slow.velocity_ceiling).toBeGreaterThanOrEqual(80);
+    expect(fast.velocity_ceiling).toBeLessThanOrEqual(120);
+    expect(fast.velocity_ceiling).toBeGreaterThan(slow.velocity_ceiling);
   });
 
   it("maps adaptability → surface_grip in the 40-80 range", () => {
@@ -743,8 +821,8 @@ describe("crewMemberToCloneStats()", () => {
       { ...fakeMember("a", { stats: { ...BASE_STATS, adaptability: 20 } }) } as any,
       "WIRED-5-X",
     );
-    expect(clumsy.surface_grip_pct).toBeGreaterThanOrEqual(40);
-    expect(clumsy.surface_grip_pct).toBeLessThanOrEqual(80);
+    expect(clumsy.surface_grip).toBeGreaterThanOrEqual(40);
+    expect(clumsy.surface_grip).toBeLessThanOrEqual(80);
   });
 
   it("clamps physical_integrity to 60-100 even when health is 0 or 150", () => {

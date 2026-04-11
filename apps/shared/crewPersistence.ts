@@ -161,6 +161,14 @@ export interface CrewMissionReward {
   loreFragmentId?: string;
 }
 
+/** Resources that must be paid upfront when dispatching a mission. */
+export interface CrewMissionCost {
+  dream?: number;
+  salvage?: number;
+  materials?: number;
+  voidCrystals?: number;
+}
+
 export interface CrewMissionTemplate {
   id: string;
   name: string;
@@ -174,6 +182,7 @@ export interface CrewMissionTemplate {
   baseSuccessChance: number;
   reward: CrewMissionReward;
   failureReward?: CrewMissionReward;
+  cost?: CrewMissionCost;
 }
 
 export interface CrewMissionState {
@@ -190,6 +199,7 @@ export interface CrewMissionState {
   preferredRole: CrewRoleId | null;
   reward: CrewMissionReward;
   failureReward?: CrewMissionReward;
+  cost?: CrewMissionCost;
   status: CrewMissionStatus;
   resolution?: {
     resolvedAt: number;
@@ -263,6 +273,10 @@ export interface CrewState {
   missionStats: CrewMissionStats;
   pendingOffspring: PendingOffspring[];
   romances: CrewRomance[];
+  lastRomanceCheckAt: number;
+  /** Crew ids the player has explicitly opted out of romance for. Any
+   *  pair involving an opted-out member will be ignored by tickRomance. */
+  romanceOptOuts: string[];
   lastTickAt: number;
   lastAgingTickAt: number;
   firstCrewMemberBorn: boolean;
@@ -317,6 +331,8 @@ export function createDefaultCrewState(): CrewState {
     },
     pendingOffspring: [],
     romances: [],
+    lastRomanceCheckAt: 0,
+    romanceOptOuts: [],
     lastTickAt: 0,
     lastAgingTickAt: 0,
     firstCrewMemberBorn: false,
@@ -340,6 +356,8 @@ export function ensureCrewState(raw: unknown): CrewState {
     incubator: { ...defaults.incubator, ...(incoming.incubator ?? {}) },
     missionStats: { ...defaults.missionStats, ...(incoming.missionStats ?? {}) },
     romances: incoming.romances ?? [],
+    romanceOptOuts: incoming.romanceOptOuts ?? [],
+    lastRomanceCheckAt: incoming.lastRomanceCheckAt ?? 0,
     version: CREW_STATE_VERSION,
   };
 }

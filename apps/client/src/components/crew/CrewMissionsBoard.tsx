@@ -40,12 +40,14 @@ function formatTimeLeft(ms: number): string {
 export default function CrewMissionsBoard({ state, onRefetch }: Props) {
   const [selectedTemplate, setSelectedTemplate] = useState<string | null>(null);
   const [selectedCrew, setSelectedCrew] = useState<string[]>([]);
-  // Strict rivalries mode: persisted to localStorage. When on, dispatching
-  // a squad with any rival pair is blocked with a toast; when off, the
-  // warning still shows but the dispatch button remains enabled.
+  // Strict rivalries mode: persisted to localStorage. Defaults ON —
+  // dispatching a squad with any rival pair is blocked with a toast.
+  // Players can explicitly opt out if they want the harsher default off.
   const [strictRivalries, setStrictRivalries] = useState(() => {
-    if (typeof window === "undefined") return false;
-    return localStorage.getItem("crew-strict-rivalries") === "1";
+    if (typeof window === "undefined") return true;
+    const stored = localStorage.getItem("crew-strict-rivalries");
+    // null → default true; "0" → explicitly off; anything else → on
+    return stored !== "0";
   });
   const toggleStrict = (next: boolean) => {
     setStrictRivalries(next);
@@ -204,6 +206,15 @@ export default function CrewMissionsBoard({ state, onRefetch }: Props) {
                   {t.durationHours}h · {t.minCrew}–{t.maxCrew} crew · prefers{" "}
                   {t.preferredRole ?? "any"}
                 </div>
+                {t.cost && Object.values(t.cost).some(v => v && v > 0) && (
+                  <div className="text-[9px] font-mono text-yellow-400/80 mt-1">
+                    cost:{" "}
+                    {Object.entries(t.cost)
+                      .filter(([, v]) => v && v > 0)
+                      .map(([k, v]) => `${v} ${k}`)
+                      .join(", ")}
+                  </div>
+                )}
               </button>
             ))}
           </div>

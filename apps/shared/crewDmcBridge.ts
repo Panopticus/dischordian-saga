@@ -15,12 +15,28 @@
 
 import type { SerializedCrewMember, CrewSpecies, GeneticStat } from "./crewPersistence";
 
+/**
+ * Payload shape expected by the Godot iframe (see
+ * games/dead-mans-circuit/autoloads/GameState.gd + WebBridge.gd).
+ * Field names MUST match what clone.get(...) reads on the Godot side.
+ *
+ * Verified against the Godot project on 2026-04-11:
+ *   neural_sync          ✓
+ *   physical_integrity   ✓
+ *   velocity_ceiling     ✓ (NO _pct suffix)
+ *   surface_grip         ✓ (NO _pct suffix)
+ *   survival_instinct    ✓
+ *
+ * The old `CloneStats` interface in apps/shared/deadMansCircuit.ts
+ * had `_pct` suffixes which the Godot loop silently ignored. This
+ * interface is the source of truth for the crew → iframe bridge.
+ */
 export interface DmcCloneStats {
   designation: string;
   neural_sync: number;
   physical_integrity: number;
-  velocity_ceiling_pct: number;
-  surface_grip_pct: number;
+  velocity_ceiling: number;
+  surface_grip: number;
   survival_instinct: number;
   chassisColor: string;
 }
@@ -51,8 +67,8 @@ export function crewMemberToCloneStats(
     designation,
     neural_sync: neural,
     physical_integrity: integrity,
-    velocity_ceiling_pct: velocity,
-    surface_grip_pct: grip,
+    velocity_ceiling: velocity,
+    surface_grip: grip,
     survival_instinct: survival,
     chassisColor: CHASSIS_COLOR[member.species] ?? "#f87171",
   };
