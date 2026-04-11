@@ -2855,6 +2855,61 @@ export const universeEventHistory = mysqlTable("universe_event_history", {
 export type UniverseEventHistory = typeof universeEventHistory.$inferSelect;
 
 /* ═══════════════════════════════════════════════════════
+   DISCHORDIA CYCLE — Witnessing Narrative Proposal §3
+   Community-wide Light/Dark meter. A single row per server
+   holds the current state; energy_events is the audit log.
+   ═══════════════════════════════════════════════════════ */
+
+/**
+ * Dischordia Cycle state — single-row table holding the
+ * community Light/Dark/Vortex meter. The `id` column is
+ * always 1 (enforced by the service layer) so there is
+ * exactly one canonical state.
+ */
+export const dischordiaCycleState = mysqlTable("dischordia_cycle_state", {
+  id: int("id").primaryKey(),
+  /** See shared/dischordiaCycle.ts DischordiaPhase enum */
+  phase: varchar("phase", { length: 32 }).notNull().default("dawn"),
+  phaseStartedAt: timestamp("phaseStartedAt").defaultNow().notNull(),
+  cycleNumber: int("cycleNumber").notNull().default(1),
+  /** Hidden numeric meter — galaxy waking up */
+  lightEnergy: int("lightEnergy").notNull().default(0),
+  /** Hidden numeric meter — galaxy going quiet */
+  darkEnergy: int("darkEnergy").notNull().default(0),
+  /** Doomsday clock 0..100. Only ticks up. */
+  vortexProximity: int("vortexProximity").notNull().default(0),
+  /** "dark_ascending" | "balanced" | "light_ascending" */
+  energyBalance: varchar("energyBalance", { length: 32 }).notNull().default("balanced"),
+  /** Append-only history of completed reclamation records */
+  history: json("history").$type<Array<Record<string, unknown>>>(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type DischordiaCycleStateRow = typeof dischordiaCycleState.$inferSelect;
+
+/**
+ * Dischordia energy events — append-only audit log of every
+ * applyEnergy / applyRawDelta call. Keyed by userId when the
+ * source was a player action.
+ */
+export const dischordiaEnergyEvents = mysqlTable("dischordia_energy_events", {
+  id: int("id").autoincrement().primaryKey(),
+  /** Null when the source was server-initiated (tick jobs, admin tools) */
+  userId: int("userId"),
+  /** A row id from ENERGY_GAIN_TABLE, or a free-form source tag for raw deltas */
+  actionId: varchar("actionId", { length: 128 }).notNull(),
+  lightDelta: int("lightDelta").notNull().default(0),
+  darkDelta: int("darkDelta").notNull().default(0),
+  vortexDelta: int("vortexDelta").notNull().default(0),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+}, (table) => ({
+  idxCreatedAt: index("idx_dischordia_energy_created").on(table.createdAt),
+  idxUserId: index("idx_dischordia_energy_user").on(table.userId),
+}));
+
+export type DischordiaEnergyEvent = typeof dischordiaEnergyEvents.$inferSelect;
+
+/* ═══════════════════════════════════════════════════════
    ROOM STATES — Visual evolution of Ark rooms based
    on player actions. Rooms change over time.
    ═══════════════════════════════════════════════════════ */
