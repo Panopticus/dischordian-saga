@@ -15,6 +15,7 @@ import { LoredexWitnessingXrefs } from "@/components/LoredexWitnessingXrefs";
 import { usePageMeta } from "@/hooks/usePageMeta";
 import ShareButton from "@/components/ShareButton";
 import ZoomableImage from "@/components/ZoomableImage";
+import { applyOverrideToBio, getLoredexOverride } from "@/game/loredexRewrite";
 
 const TYPE_ICONS: Record<string, typeof Users> = {
   character: Users,
@@ -41,9 +42,15 @@ export default function EntityPage() {
 
   const entry = params?.id ? getEntryById(params.id) : undefined;
 
+  // For meta description, prefer the rewritten bio if one exists. This
+  // runs before the early-return so we need to tolerate a missing entry.
+  const metaBio = entry?.bio
+    ? applyOverrideToBio(entry.id, entry.bio)
+    : undefined;
+
   usePageMeta({
     title: entry?.name || "Entity",
-    description: entry?.bio?.slice(0, 160) || `Explore ${entry?.name || "this entity"} in the Dischordian Saga universe.`,
+    description: metaBio?.slice(0, 160) || `Explore ${entry?.name || "this entity"} in the Dischordian Saga universe.`,
     image: entry?.image || undefined,
     type: "article",
   });
@@ -77,6 +84,13 @@ export default function EntityPage() {
   const songs = getSongsForCharacter(entry.name);
   const badgeClass = BADGE_CLASS[entry.type] || "badge-concept";
 
+  // Shadow Tongue Apprentice (§7.3 F2) — if the player has rewritten this
+  // entry via the Hierarchy infiltration path, apply the override here so
+  // the displayed bio reflects their lie. The canonical server-side entry
+  // is untouched; the override lives in localStorage via loredexRewrite.ts.
+  const bioOverride = getLoredexOverride(entry.id);
+  const displayBio = entry.bio ? applyOverrideToBio(entry.id, entry.bio) : entry.bio;
+
   const entityRels = relationships.filter(
     (r) => r.source.toLowerCase() === entry.name.toLowerCase() || r.target.toLowerCase() === entry.name.toLowerCase()
   );
@@ -96,7 +110,7 @@ export default function EntityPage() {
             <Link href="/" className="inline-flex items-center gap-1.5 text-muted-foreground hover:text-primary text-xs font-mono transition-colors">
               <ArrowLeft size={12} /> BACK TO DASHBOARD
             </Link>
-            <ShareButton title={entry.name} text={entry.bio?.slice(0, 100)} />
+            <ShareButton title={entry.name} text={displayBio?.slice(0, 100)} />
           </div>
 
           <div className="flex flex-col sm:flex-row gap-5">
@@ -166,8 +180,8 @@ export default function EntityPage() {
                 )}
               </div>
 
-              {entry.bio && (
-                <p className="text-sm text-foreground/70 leading-relaxed line-clamp-3">{entry.bio}</p>
+              {displayBio && (
+                <p className="text-sm text-foreground/70 leading-relaxed line-clamp-3">{displayBio}</p>
               )}
             </motion.div>
           </div>
@@ -176,7 +190,7 @@ export default function EntityPage() {
 
       <div className="px-4 sm:px-6 space-y-5">
         {/* ═══ DESCRIPTION ═══ */}
-        {entry.bio && entry.bio.length > 150 && (
+        {displayBio && displayBio.length > 150 && (
           <motion.section
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
@@ -185,8 +199,18 @@ export default function EntityPage() {
           >
             <h2 className="font-display text-xs font-bold tracking-[0.2em] text-primary mb-3 flex items-center gap-2">
               <Eye size={13} /> DOSSIER
+              {bioOverride && (
+                <span className="font-mono text-[9px] text-purple-400/70 tracking-wider ml-2">
+                  · REWRITTEN
+                </span>
+              )}
             </h2>
-            <p className="text-sm text-foreground/80 leading-relaxed whitespace-pre-line">{entry.bio}</p>
+            <p className="text-sm text-foreground/80 leading-relaxed whitespace-pre-line">{displayBio}</p>
+            {bioOverride && (
+              <p className="mt-2 font-mono text-[10px] text-purple-400/60 italic">
+                This entry has been altered by the Shadow Tongue's Apprentice path. The original reading is gone.
+              </p>
+            )}
           </motion.section>
         )}
 
