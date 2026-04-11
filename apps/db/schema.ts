@@ -896,6 +896,38 @@ export const fightMatches = mysqlTable("fight_matches", {
 export type FightMatch = typeof fightMatches.$inferSelect;
 export type InsertFightMatch = typeof fightMatches.$inferInsert;
 
+/**
+ * Arena essences — the "Collector's Ledger" trophy system for the
+ * Collectors Arena story mode. One row per (userId, fighterId): tracks
+ * how many times the player has defeated that fighter, the best rarity
+ * seen across all harvests, and first/last harvest timestamps.
+ *
+ * Rarity is upgraded on each harvest via maxRarity() in the
+ * essenceHarvest router, never downgraded. See
+ * apps/client/src/game/essenceHarvest.ts for the registry + rarity
+ * derivation rules.
+ */
+export const arenaEssences = mysqlTable("arena_essences", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  /** Matches FighterData.id in gameData.ts */
+  fighterId: varchar("fighterId", { length: 128 }).notNull(),
+  /** Number of times the fighter has been defeated */
+  count: int("count").notNull().default(0),
+  /** Highest rarity seen across all harvests of this fighter */
+  bestRarity: mysqlEnum("bestRarity", [
+    "common", "rare", "epic", "legendary", "mythic",
+  ]).notNull().default("common"),
+  firstHarvestedAt: timestamp("firstHarvestedAt").defaultNow().notNull(),
+  lastHarvestedAt: timestamp("lastHarvestedAt").defaultNow().notNull(),
+}, (table) => ({
+  userFighterIdx: uniqueIndex("idx_arena_essences_user_fighter").on(table.userId, table.fighterId),
+  userIdx: index("idx_arena_essences_user").on(table.userId),
+}));
+
+export type ArenaEssence = typeof arenaEssences.$inferSelect;
+export type InsertArenaEssence = typeof arenaEssences.$inferInsert;
+
 
 /* ═══════════════════════════════════════════════════════
    PVP CARD BATTLES — Real-time multiplayer matchmaking
