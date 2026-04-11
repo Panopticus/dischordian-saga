@@ -2279,13 +2279,26 @@ export const gameReplays = mysqlTable("game_replays", {
 export type GameReplayRow = typeof gameReplays.$inferSelect;
 
 /* ─── PERSONAL QUARTERS ─── */
+/**
+ * Personal Quarters / Cabin — the consolidated housing system.
+ * - `placedItems` carries optional `slotId` for visual slot-map placement
+ *   (see ZONE_SLOT_MAPS in shared/personalQuarters.ts). Items without a
+ *   slotId fall back to grid (x,y) coordinates.
+ * - `lightingPreset` drives the room's visual atmosphere (porting the
+ *   8 presets from the former Player Cabin system).
+ * - `musicTrack` is the currently-selected music-box track.
+ */
 export const playerQuarters = mysqlTable("player_quarters", {
   id: int("id").primaryKey().autoincrement(),
   userId: int("userId").notNull().unique(),
   name: varchar("name", { length: 200 }).notNull().default("My Quarters"),
   unlockedZones: json("unlockedZones").$type<string[]>(),
-  placedItems: json("placedItems").$type<{ itemKey: string; zone: string; x: number; y: number }[]>(),
+  placedItems: json("placedItems").$type<{ itemKey: string; zone: string; x: number; y: number; slotId?: string }[]>(),
   ownedItems: json("ownedItems").$type<string[]>(),
+  /** Active lighting preset id (see LIGHTING_PRESETS) */
+  lightingPreset: varchar("lightingPreset", { length: 32 }).notNull().default("void"),
+  /** Active music box track key */
+  musicTrack: varchar("musicTrack", { length: 64 }).notNull().default("music_void_ambient"),
   visitCount: int("visitCount").notNull().default(0),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),

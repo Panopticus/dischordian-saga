@@ -177,7 +177,8 @@ const PlanetGalleryPage = lazy(() => import("./pages/PlanetGalleryPage"));
 const GovernanceHubPage = lazy(() => import("./pages/GovernanceHubPage"));
 const SoulStonesPage = lazy(() => import("./features/soulStones/SoulStonesPage"));
 const ChristmasCasinoPage = lazy(() => import("./features/events/christmasInJuly/CasinoFloor"));
-const PlayerCabinPage = lazy(() => import("./pages/PlayerCabinPage"));
+// PlayerCabinPage was consolidated into PersonalQuartersPage — the `/cabin`
+// route below is kept as a back-compat alias that renders the same component.
 const DeadMansCircuitPage = lazy(() => import("./pages/DeadMansCircuitPage"));
 const CADESFPSPage = lazy(() => import("./pages/CADESFPSPage"));
 
@@ -316,7 +317,8 @@ function Router() {
         <Route path="/governance" component={GovernanceHubPage} />
         <Route path="/soul-stones">{() => <GameRoute component={SoulStonesPage} />}</Route>
         <Route path="/christmas-in-july">{() => <GameRoute component={ChristmasCasinoPage} />}</Route>
-        <Route path="/cabin" component={PlayerCabinPage} />
+        {/* Legacy alias: /cabin now renders the consolidated Personal Quarters. */}
+        <Route path="/cabin" component={PersonalQuartersPage} />
         <Route path="/404" component={NotFound} />
         <Route component={NotFound} />
       </Switch>

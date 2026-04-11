@@ -1,7 +1,20 @@
 /**
- * PERSONAL QUARTERS / HIDEOUT
+ * PERSONAL QUARTERS / HIDEOUT / CABIN
  * ══════════════════════════════════════════════════════════
- * Decoratable room with 120+ items, visit system, RPG unlocks.
+ * Consolidated player housing system.
+ *
+ * Originally the codebase had two parallel systems:
+ *   - `personalQuarters` — server-wired, persisted, 120+ RPG-gated items,
+ *                          multi-zone, visit system.
+ *   - `playerCabin`      — UI-only, no persistence, but with visual slot
+ *                          maps, 8 lighting presets, music box, companion
+ *                          visits, and narrative trust-gated items.
+ *
+ * This module merges the best of both:
+ *   - Backend: Personal Quarters' schema, router, and RPG gating.
+ *   - Frontend: Cabin's visual slot maps (ZONE_SLOT_MAPS), lighting
+ *               presets (LIGHTING_PRESETS), music tracks (MUSIC_TRACKS),
+ *               and companion visits (COMPANION_VISITS).
  *
  * RPG IMPACT:
  * - Class → unlocks class-themed furniture sets
@@ -12,6 +25,7 @@
  * - Achievements → trophy displays, badge frames
  * - Boss Mastery → boss kill trophies
  * - Seasonal Events → event-exclusive decorations
+ * - Companion Trust → narrative gift items + unique lighting/music
  */
 
 import type { CharacterClass } from "./classMastery";
@@ -19,6 +33,9 @@ import type { CharacterClass } from "./classMastery";
 export type ItemCategory = "furniture" | "wall_art" | "floor" | "lighting" | "trophy" | "plant" | "tech" | "weapon_rack" | "bookshelf" | "pet" | "ambient" | "luxury";
 export type ItemRarity = "common" | "uncommon" | "rare" | "epic" | "legendary" | "mythic";
 export type RoomZone = "main" | "bedroom" | "study" | "armory" | "garden" | "vault";
+
+/** Visual slot types used by ZONE_SLOT_MAPS for room rendering. */
+export type SlotType = "wall" | "shelf" | "desk" | "floor" | "ceiling" | "window";
 
 export interface DecorationItem {
   key: string;
@@ -288,4 +305,271 @@ export function calculateQuarterBonuses(placedItems: DecorationItem[]): Record<s
     }
   }
   return bonuses;
+}
+
+/* ═══════════════════════════════════════════════════════
+   LIGHTING PRESETS (ported from legacy playerHousing.ts)
+   Each preset drives the room's CSS background gradient
+   and its ambient color palette in the client renderer.
+   ═══════════════════════════════════════════════════════ */
+
+export type LightingPresetId =
+  | "void"       // Default Ark blue-tint
+  | "warm"       // Atarion sunset amber
+  | "cold"       // Clinical white
+  | "noir"       // Single harsh lamp, deep shadows
+  | "candle"     // Flickering warm orange
+  | "neon"       // Cyberpunk pinks/blues
+  | "corruption" // Glitching red/black
+  | "starlight"; // Soft silver from viewport
+
+export interface LightingPreset {
+  id: LightingPresetId;
+  name: string;
+  background: string;
+  /** Source that unlocks this preset (e.g. "Default", "Elara trust ≥ 50") */
+  unlockHint: string;
+}
+
+export const LIGHTING_PRESETS: readonly LightingPreset[] = [
+  { id: "void",       name: "Void Glow",          background: "linear-gradient(180deg, #010030 0%, #020020 50%, #010010 100%)", unlockHint: "Default" },
+  { id: "warm",       name: "Atarion Sunset",     background: "linear-gradient(180deg, #1a0f05 0%, #2a1508 50%, #0f0a03 100%)", unlockHint: "Elara trust ≥ 50" },
+  { id: "cold",       name: "Clinical White",     background: "linear-gradient(180deg, #0a0f15 0%, #0f1520 50%, #080d12 100%)", unlockHint: "Complete Medical Bay quest" },
+  { id: "noir",       name: "Detective's Lamp",   background: "linear-gradient(180deg, #050505 0%, #0a0a08 30%, #020202 100%)", unlockHint: "The Human trust ≥ 50" },
+  { id: "candle",     name: "Candlelight",        background: "linear-gradient(180deg, #0f0800 0%, #1a0e02 50%, #080400 100%)", unlockHint: "Antiquarian trust ≥ 50" },
+  { id: "neon",       name: "Neon Dreams",        background: "linear-gradient(180deg, #0a0015 0%, #100520 50%, #050010 100%)", unlockHint: "Locke trust ≥ 50" },
+  { id: "corruption", name: "Corrupted",          background: "linear-gradient(180deg, #150000 0%, #200505 50%, #0a0000 100%)", unlockHint: "Source trust ≥ 50" },
+  { id: "starlight",  name: "Starlight",          background: "linear-gradient(180deg, #050810 0%, #081015 50%, #030508 100%)", unlockHint: "Discover all Ark rooms" },
+] as const;
+
+/** Get unlocked lighting presets for a player. The `void` preset is always
+ *  available; others gate on companion trust / quest state. */
+export function getAvailableLightingPresets(opts: {
+  elaraTrust?: number;
+  humanTrust?: number;
+  npcTrust?: Record<string, number>;
+  completedQuests?: string[];
+  discoveredRooms?: number;
+  totalRooms?: number;
+}): LightingPreset[] {
+  const npc = opts.npcTrust ?? {};
+  const quests = opts.completedQuests ?? [];
+  return LIGHTING_PRESETS.filter((p) => {
+    switch (p.id) {
+      case "void":       return true;
+      case "warm":       return (opts.elaraTrust ?? 0) >= 50;
+      case "cold":       return quests.includes("medical_bay_quest");
+      case "noir":       return (opts.humanTrust ?? 0) >= 50;
+      case "candle":     return (npc.antiquarian ?? 0) >= 50;
+      case "neon":       return (npc.locke ?? 0) >= 50;
+      case "corruption": return (npc.source ?? 0) >= 50;
+      case "starlight":  return (opts.discoveredRooms ?? 0) >= (opts.totalRooms ?? 20);
+      default:           return false;
+    }
+  });
+}
+
+/* ═══════════════════════════════════════════════════════
+   MUSIC BOX TRACKS (ported from legacy playerHousing.ts)
+   ═══════════════════════════════════════════════════════ */
+
+export interface MusicTrack {
+  id: string;
+  name: string;
+  unlockHint: string;
+  rarity: ItemRarity;
+}
+
+export const MUSIC_TRACKS: readonly MusicTrack[] = [
+  { id: "music_void_ambient",     name: "Void Ambient",            unlockHint: "Default",                        rarity: "common" },
+  { id: "music_atarion_lullaby",  name: "Atarion Lullaby",         unlockHint: "Elara trust ≥ 40",                rarity: "uncommon" },
+  { id: "music_noir_jazz",        name: "Late Night Jazz",         unlockHint: "The Human trust ≥ 40",            rarity: "uncommon" },
+  { id: "music_war_drums",        name: "War Drums",               unlockHint: "Win 10 guild wars",               rarity: "rare" },
+  { id: "music_dream_waltz",      name: "Dream Waltz",             unlockHint: "Internalize 20 thoughts",         rarity: "rare" },
+  { id: "music_silence",          name: "Perfect Silence",         unlockHint: "Shadow Tongue trust ≥ 60",        rarity: "epic" },
+  { id: "music_architects_hymn",  name: "The Architect's Hymn",    unlockHint: "Morality ≤ -80",                  rarity: "epic" },
+  { id: "music_freedom_song",     name: "Freedom's Song",          unlockHint: "Morality ≥ 80",                   rarity: "epic" },
+] as const;
+
+/** Get unlocked music tracks for a player. */
+export function getAvailableMusicTracks(opts: {
+  elaraTrust?: number;
+  humanTrust?: number;
+  npcTrust?: Record<string, number>;
+  moralityScore?: number;
+  guildWarsWon?: number;
+  thoughtsInternalized?: number;
+}): MusicTrack[] {
+  const npc = opts.npcTrust ?? {};
+  const morality = opts.moralityScore ?? 0;
+  return MUSIC_TRACKS.filter((t) => {
+    switch (t.id) {
+      case "music_void_ambient":    return true;
+      case "music_atarion_lullaby": return (opts.elaraTrust ?? 0) >= 40;
+      case "music_noir_jazz":       return (opts.humanTrust ?? 0) >= 40;
+      case "music_war_drums":       return (opts.guildWarsWon ?? 0) >= 10;
+      case "music_dream_waltz":     return (opts.thoughtsInternalized ?? 0) >= 20;
+      case "music_silence":         return (npc.shadow_tongue ?? 0) >= 60;
+      case "music_architects_hymn": return morality <= -80;
+      case "music_freedom_song":    return morality >= 80;
+      default:                      return false;
+    }
+  });
+}
+
+/* ═══════════════════════════════════════════════════════
+   COMPANION VISITS (ported from legacy playerHousing.ts)
+   Companions appear in the player's room at specific
+   positions when their trust threshold is met.
+   ═══════════════════════════════════════════════════════ */
+
+export interface CompanionVisitConfig {
+  companionId: string;
+  name: string;
+  minTrust: number;
+  visitDialogs: string[];
+  idleAnimation: string;
+  /** Percentage-based position in the rendered room (0-100). */
+  position: { x: number; y: number };
+}
+
+export const COMPANION_VISITS: readonly CompanionVisitConfig[] = [
+  { companionId: "elara", name: "Elara", minTrust: 30, visitDialogs: [
+    "I hope you don't mind. The observation deck gets... quiet.",
+    "Your quarters are warmer than mine. The crystal helps.",
+    "I was reviewing star charts nearby. Thought I'd check in.",
+  ], idleAnimation: "reading", position: { x: 75, y: 55 } },
+  { companionId: "the_human", name: "The Human", minTrust: 40, visitDialogs: [
+    "Don't mind me. Just needed somewhere the signal's clean.",
+    "Nice place. Reminds me of... somewhere. Can't remember where.",
+    "I'm not hiding. I'm strategically positioned.",
+  ], idleAnimation: "leaning", position: { x: 20, y: 60 } },
+  { companionId: "agent_zero", name: "Agent Zero", minTrust: 35, visitDialogs: [
+    "Securing the perimeter. Your perimeter. You're welcome.",
+    "I swept for bugs. Found three. Disabled two. The third is mine.",
+    "Brief me on anything new. Or don't. I'll find out anyway.",
+  ], idleAnimation: "standing_guard", position: { x: 85, y: 50 } },
+  { companionId: "locke", name: "Adjudicator Locke", minTrust: 45, visitDialogs: [
+    "I'm assessing the property value. Purely academic, of course.",
+    "Interesting decor choices. They reveal more than you think.",
+    "I brought contracts. Don't worry — just light reading.",
+  ], idleAnimation: "examining", position: { x: 60, y: 45 } },
+  { companionId: "antiquarian", name: "The Antiquarian", minTrust: 25, visitDialogs: [
+    "Every room tells a story. Yours is still being written.",
+    "I've catalogued cabins across a thousand ships. Yours has... character.",
+    "The items you choose to display — they say more about you than any archive.",
+  ], idleAnimation: "studying", position: { x: 40, y: 50 } },
+] as const;
+
+/** Filter companion visits by current trust levels. */
+export function getVisitingCompanions(opts: {
+  elaraTrust?: number;
+  humanTrust?: number;
+  npcTrust?: Record<string, number>;
+}): CompanionVisitConfig[] {
+  const trustMap: Record<string, number> = {
+    elara: opts.elaraTrust ?? 0,
+    the_human: opts.humanTrust ?? 0,
+    ...(opts.npcTrust ?? {}),
+  };
+  return COMPANION_VISITS.filter((c) => (trustMap[c.companionId] ?? 0) >= c.minTrust);
+}
+
+/* ═══════════════════════════════════════════════════════
+   ZONE SLOT MAPS — visual hotspot layouts per room zone.
+   Each zone defines a set of SLOT positions (x/y/w/h as
+   percentages of the room canvas) that the client renders
+   as interactive hotspots for decoration placement.
+
+   This is the visual "room map" from the legacy Player
+   Cabin UI, generalized across all 6 Personal Quarters
+   zones. An item placed via a slotId is pinned to that
+   hotspot; items placed via bare (x,y) grid coordinates
+   continue to work for backward compatibility.
+   ═══════════════════════════════════════════════════════ */
+
+export interface RoomSlot {
+  id: string;
+  label: string;
+  /** Percentage-based position (0-100). */
+  x: number;
+  y: number;
+  w: number;
+  h: number;
+  type: SlotType;
+  /** Compatible decoration item categories. */
+  accepts: ItemCategory[];
+}
+
+/** Slot layouts keyed by zone id. Every zone ships a default map so a
+ *  player can decorate visually without any backend config. */
+export const ZONE_SLOT_MAPS: Record<RoomZone, RoomSlot[]> = {
+  main: [
+    { id: "main_wall_left",   label: "Left Wall",    x: 8,  y: 22, w: 20, h: 30, type: "wall",  accepts: ["wall_art", "trophy"] },
+    { id: "main_wall_center", label: "Center Wall",  x: 36, y: 14, w: 28, h: 36, type: "wall",  accepts: ["wall_art", "trophy"] },
+    { id: "main_wall_right",  label: "Right Wall",   x: 72, y: 22, w: 20, h: 30, type: "wall",  accepts: ["wall_art", "trophy"] },
+    { id: "main_shelf_left",  label: "Left Shelf",   x: 10, y: 58, w: 18, h: 14, type: "shelf", accepts: ["bookshelf", "trophy", "luxury"] },
+    { id: "main_shelf_right", label: "Right Shelf",  x: 72, y: 58, w: 18, h: 14, type: "shelf", accepts: ["bookshelf", "trophy", "luxury"] },
+    { id: "main_desk",        label: "Command Desk", x: 34, y: 62, w: 32, h: 16, type: "desk",  accepts: ["furniture", "tech"] },
+    { id: "main_floor_left",  label: "Floor Left",   x: 4,  y: 80, w: 22, h: 16, type: "floor", accepts: ["floor", "plant", "pet"] },
+    { id: "main_floor_right", label: "Floor Right",  x: 74, y: 80, w: 22, h: 16, type: "floor", accepts: ["floor", "plant", "pet"] },
+  ],
+  bedroom: [
+    { id: "bed_wall_head",    label: "Headboard Wall", x: 26, y: 16, w: 48, h: 32, type: "wall",  accepts: ["wall_art"] },
+    { id: "bed_bed",          label: "Bed",            x: 20, y: 50, w: 40, h: 28, type: "floor", accepts: ["furniture"] },
+    { id: "bed_nightstand",   label: "Nightstand",     x: 62, y: 56, w: 14, h: 18, type: "desk",  accepts: ["furniture", "lighting"] },
+    { id: "bed_rug",          label: "Bedside Rug",    x: 16, y: 82, w: 46, h: 14, type: "floor", accepts: ["floor"] },
+    { id: "bed_shelf",        label: "Shelf",          x: 78, y: 22, w: 16, h: 30, type: "shelf", accepts: ["bookshelf", "luxury"] },
+  ],
+  study: [
+    { id: "study_desk",       label: "Study Desk",     x: 30, y: 52, w: 38, h: 22, type: "desk",  accepts: ["furniture", "tech"] },
+    { id: "study_bookwall",   label: "Book Wall",      x: 6,  y: 14, w: 24, h: 60, type: "wall",  accepts: ["bookshelf"] },
+    { id: "study_chair",      label: "Reading Chair",  x: 72, y: 52, w: 20, h: 24, type: "floor", accepts: ["furniture"] },
+    { id: "study_wall_art",   label: "Wall Art",       x: 38, y: 14, w: 26, h: 28, type: "wall",  accepts: ["wall_art"] },
+    { id: "study_lamp",       label: "Floor Lamp",     x: 82, y: 20, w: 12, h: 28, type: "floor", accepts: ["lighting"] },
+  ],
+  armory: [
+    { id: "armory_rack_left",  label: "Left Rack",   x: 6,  y: 20, w: 24, h: 58, type: "wall",  accepts: ["weapon_rack"] },
+    { id: "armory_rack_right", label: "Right Rack",  x: 70, y: 20, w: 24, h: 58, type: "wall",  accepts: ["weapon_rack"] },
+    { id: "armory_display",    label: "Display Case", x: 34, y: 28, w: 32, h: 28, type: "wall",  accepts: ["trophy", "weapon_rack"] },
+    { id: "armory_workbench",  label: "Workbench",    x: 34, y: 62, w: 32, h: 18, type: "desk",  accepts: ["furniture", "tech"] },
+  ],
+  garden: [
+    { id: "garden_window",    label: "Viewport",     x: 20, y: 8,  w: 60, h: 28, type: "window", accepts: ["wall_art"] },
+    { id: "garden_bed_left",  label: "Plant Bed L",  x: 8,  y: 50, w: 24, h: 36, type: "floor",  accepts: ["plant"] },
+    { id: "garden_bed_right", label: "Plant Bed R",  x: 68, y: 50, w: 24, h: 36, type: "floor",  accepts: ["plant"] },
+    { id: "garden_fountain",  label: "Fountain",     x: 36, y: 54, w: 28, h: 28, type: "floor",  accepts: ["ambient"] },
+    { id: "garden_lantern",   label: "Lantern",      x: 46, y: 12, w: 8,  h: 14, type: "ceiling", accepts: ["lighting"] },
+  ],
+  vault: [
+    { id: "vault_pedestal_1", label: "Pedestal I",  x: 18, y: 40, w: 16, h: 30, type: "shelf", accepts: ["luxury", "trophy"] },
+    { id: "vault_pedestal_2", label: "Pedestal II", x: 42, y: 40, w: 16, h: 30, type: "shelf", accepts: ["luxury", "trophy"] },
+    { id: "vault_pedestal_3", label: "Pedestal III", x: 66, y: 40, w: 16, h: 30, type: "shelf", accepts: ["luxury", "trophy"] },
+    { id: "vault_wall_back",  label: "Vault Wall",  x: 20, y: 8,  w: 60, h: 24, type: "wall",  accepts: ["wall_art", "trophy"] },
+    { id: "vault_floor",      label: "Vault Floor", x: 10, y: 78, w: 80, h: 18, type: "floor", accepts: ["floor"] },
+  ],
+};
+
+/** Look up the slot definition for a given zone + slot id. */
+export function getSlot(zone: RoomZone, slotId: string): RoomSlot | undefined {
+  return ZONE_SLOT_MAPS[zone]?.find((s) => s.id === slotId);
+}
+
+/** Whether a decoration item is allowed in a specific slot. */
+export function isItemAllowedInSlot(item: DecorationItem, slot: RoomSlot): boolean {
+  return slot.accepts.includes(item.category);
+}
+
+/* ═══════════════════════════════════════════════════════
+   PLACED ITEM TYPE
+   Canonical shape for an entry in player_quarters.placedItems.
+   ═══════════════════════════════════════════════════════ */
+
+export interface PlacedQuartersItem {
+  itemKey: string;
+  zone: string;
+  x: number;
+  y: number;
+  /** Optional: pin this item to a specific visual slot hotspot. */
+  slotId?: string;
 }
