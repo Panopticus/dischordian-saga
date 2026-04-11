@@ -77,6 +77,7 @@ import { communityCodexRouter } from "./routers/communityCodex";
 import { performanceRouter } from "./routers/performance";
 import { deadMansCircuitRouter } from "./routers/deadMansCircuit";
 import { livingUniverseRouter } from "./routers/livingUniverse";
+import { crewRouter } from "./routers/crew";
 
 export const appRouter = router({
   system: systemRouter,
@@ -150,6 +151,7 @@ export const appRouter = router({
   performance: performanceRouter,
   deadMansCircuit: deadMansCircuitRouter,
   livingUniverse: livingUniverseRouter,
+  crew: crewRouter,
   auth: router({
     me: publicProcedure.query(opts => opts.ctx.user),
     logout: publicProcedure.mutation(({ ctx }) => {
