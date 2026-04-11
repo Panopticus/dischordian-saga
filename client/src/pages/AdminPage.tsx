@@ -11,11 +11,12 @@ import {
   Shield, Users, Layers, Gift, BarChart3, Search,
   ChevronLeft, ChevronRight, Edit2, Check, X,
   Crown, UserCog, ArrowLeft, Plus, Trash2, Eye, Compass, Lock, Unlock, Rocket,
-  BookOpen, Music, MapPin, Swords, Lightbulb, Save
+  BookOpen, Music, MapPin, Swords, Lightbulb, Save,
+  FileCheck, Clock, AlertTriangle, CheckCircle2, XCircle
 } from "lucide-react";
 import { toast } from "sonner";
 
-type Tab = "dashboard" | "users" | "cards" | "rewards" | "discovery" | "content";
+type Tab = "dashboard" | "users" | "cards" | "rewards" | "discovery" | "content" | "approvals";
 
 export default function AdminPage() {
   const { user, isAuthenticated } = useAuth();
@@ -41,6 +42,7 @@ export default function AdminPage() {
     { id: "rewards", label: "REWARDS", icon: Gift },
     { id: "discovery", label: "DISCOVERY", icon: Compass },
     { id: "content", label: "CONTENT", icon: BookOpen },
+    { id: "approvals", label: "APPROVALS", icon: FileCheck },
   ];
 
   return (
@@ -94,6 +96,7 @@ export default function AdminPage() {
             {activeTab === "rewards" && <RewardsTab />}
             {activeTab === "discovery" && <DiscoveryTab />}
             {activeTab === "content" && <ContentTab />}
+            {activeTab === "approvals" && <ApprovalsTab />}
           </motion.div>
         </AnimatePresence>
       </div>
@@ -1204,6 +1207,363 @@ function ContentTab() {
           <button onClick={() => setPage(p => p + 1)} disabled={page * 25 >= data.total} className="p-1.5 rounded bg-secondary/30 border border-border/30 disabled:opacity-30">
             <ChevronRight size={14} />
           </button>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ═══════════════════════════════════════════════════════
+// APPROVALS TAB — Moderator-submitted economy/feature-flag
+// change requests. Two distinct admins must approve before the
+// dispatcher runs the change. Admins see every request; the
+// server-side gate enforces the narrower view for moderators.
+// ═══════════════════════════════════════════════════════
+
+type ApprovalStatusFilter = "pending" | "executed" | "rejected" | "all";
+
+function ApprovalsTab() {
+  const { user } = useAuth();
+  const [filter, setFilter] = useState<ApprovalStatusFilter>("pending");
+
+  const utils = trpc.useUtils();
+  const listQuery = trpc.architectConsole.listApprovalRequests.useQuery(
+    filter === "all" ? { limit: 100 } : { status: filter, limit: 100 },
+  );
+
+  const approveMutation = trpc.architectConsole.approveApprovalRequest.useMutation({
+    onSuccess: (result) => {
+      if (result.status === "executed") {
+        toast.success(`Request #${result.id} approved and executed.`);
+      } else {
+        toast.success(
+          `Request #${result.id} approved (${result.approvalCount}/2). Waiting on a second admin.`,
+        );
+      }
+      utils.architectConsole.listApprovalRequests.invalidate();
+    },
+    onError: (err) => toast.error(err.message),
+  });
+
+  const rejectMutation = trpc.architectConsole.rejectApprovalRequest.useMutation({
+    onSuccess: (result) => {
+      toast.success(`Request #${result.id} rejected.`);
+      utils.architectConsole.listApprovalRequests.invalidate();
+    },
+    onError: (err) => toast.error(err.message),
+  });
+
+  const filterPills: { id: ApprovalStatusFilter; label: string; icon: typeof Shield; color: string }[] = [
+    { id: "pending", label: "PENDING", icon: Clock, color: "text-chart-4" },
+    { id: "executed", label: "EXECUTED", icon: CheckCircle2, color: "text-primary" },
+    { id: "rejected", label: "REJECTED", icon: XCircle, color: "text-destructive" },
+    { id: "all", label: "ALL", icon: FileCheck, color: "text-muted-foreground" },
+  ];
+
+  const rows = listQuery.data ?? [];
+
+  return (
+    <div className="space-y-4">
+      {/* Header + filter pills */}
+      <div className="void-surface p-4">
+        <div className="flex items-center gap-2 mb-3">
+          <FileCheck size={14} className="text-primary" />
+          <h3 className="font-display text-xs font-bold tracking-[0.2em] text-primary">
+            APPROVAL REQUESTS
+          </h3>
+          <span className="font-mono text-[10px] text-muted-foreground/50 ml-auto">
+            TWO-ADMIN APPROVAL REQUIRED
+          </span>
+        </div>
+        <p className="font-mono text-[10px] text-muted-foreground/70 mb-3 leading-relaxed">
+          Moderators submit feature-flag and economy-knob changes here. Two distinct
+          admins must approve before the dispatcher runs the change. A single admin
+          can reject at any time.
+        </p>
+        <div className="flex gap-1">
+          {filterPills.map((p) => {
+            const Icon = p.icon;
+            const active = filter === p.id;
+            return (
+              <button
+                key={p.id}
+                onClick={() => setFilter(p.id)}
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md font-mono text-[10px] tracking-wider transition-all border ${
+                  active
+                    ? "bg-primary/10 border-primary/40 text-primary"
+                    : "bg-secondary/20 border-border/30 text-muted-foreground hover:border-border/60"
+                }`}
+              >
+                <Icon size={11} className={active ? "text-primary" : p.color} />
+                {p.label}
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Request list */}
+      {listQuery.isLoading ? (
+        <div className="void-surface p-6 text-center font-mono text-xs text-muted-foreground">
+          Loading approval requests…
+        </div>
+      ) : rows.length === 0 ? (
+        <div className="void-surface p-6 text-center">
+          <FileCheck size={24} className="text-muted-foreground/30 mx-auto mb-2" />
+          <p className="font-mono text-xs text-muted-foreground/60">
+            No {filter === "all" ? "" : filter} approval requests.
+          </p>
+        </div>
+      ) : (
+        <div className="space-y-2">
+          {rows.map((row) => (
+            <ApprovalRequestCard
+              key={row.id}
+              request={row}
+              currentUserId={user?.id ?? 0}
+              onApprove={() => approveMutation.mutate({ id: row.id })}
+              onReject={(reason) => rejectMutation.mutate({ id: row.id, reason })}
+              isApproving={approveMutation.isPending && approveMutation.variables?.id === row.id}
+              isRejecting={rejectMutation.isPending && rejectMutation.variables?.id === row.id}
+            />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+/* ─── Individual approval request card ─── */
+interface ApprovalRequestRow {
+  id: number;
+  requestedBy: number;
+  action: string;
+  targetKey: string;
+  newValue: unknown;
+  reason: string | null;
+  status: "pending" | "executed" | "rejected";
+  approvals: Array<{ adminId: number; approvedAt: string }> | unknown;
+  rejectedBy: number | null;
+  rejectionReason: string | null;
+  createdAt: Date | string;
+  executedAt: Date | string | null;
+  rejectedAt: Date | string | null;
+}
+
+function ApprovalRequestCard({
+  request,
+  currentUserId,
+  onApprove,
+  onReject,
+  isApproving,
+  isRejecting,
+}: {
+  request: ApprovalRequestRow;
+  currentUserId: number;
+  onApprove: () => void;
+  onReject: (reason: string) => void;
+  isApproving: boolean;
+  isRejecting: boolean;
+}) {
+  const [showRejectInput, setShowRejectInput] = useState(false);
+  const [rejectReason, setRejectReason] = useState("");
+
+  const approvals = (request.approvals ?? []) as Array<{ adminId: number; approvedAt: string }>;
+  const alreadyApproved = approvals.some((a) => a.adminId === currentUserId);
+  const isOwnRequest = request.requestedBy === currentUserId;
+  const canApprove = request.status === "pending" && !alreadyApproved && !isOwnRequest;
+  const canReject = request.status === "pending";
+
+  const statusBadge = {
+    pending: { bg: "bg-chart-4/10", border: "border-chart-4/40", text: "text-chart-4", icon: Clock },
+    executed: { bg: "bg-primary/10", border: "border-primary/40", text: "text-primary", icon: CheckCircle2 },
+    rejected: { bg: "bg-destructive/10", border: "border-destructive/40", text: "text-destructive", icon: XCircle },
+  }[request.status];
+  const StatusIcon = statusBadge.icon;
+
+  // Render the newValue payload compactly. setFeatureFlag uses
+  // { enabled: boolean }; future actions can extend the dispatcher.
+  const newValueStr = (() => {
+    if (request.newValue == null) return "—";
+    if (typeof request.newValue === "object") {
+      try {
+        return JSON.stringify(request.newValue);
+      } catch {
+        return String(request.newValue);
+      }
+    }
+    return String(request.newValue);
+  })();
+
+  return (
+    <div className="void-surface p-4 border border-border/30">
+      {/* Header row */}
+      <div className="flex items-start gap-3 mb-3">
+        <div
+          className={`flex items-center gap-1.5 px-2 py-0.5 rounded border ${statusBadge.bg} ${statusBadge.border}`}
+        >
+          <StatusIcon size={10} className={statusBadge.text} />
+          <span className={`font-mono text-[9px] tracking-wider ${statusBadge.text}`}>
+            {request.status.toUpperCase()}
+          </span>
+        </div>
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center gap-2 flex-wrap">
+            <span className="font-mono text-[11px] font-bold text-foreground">
+              #{request.id}
+            </span>
+            <span className="font-mono text-[11px] text-accent">{request.action}</span>
+            <span className="font-mono text-[10px] text-muted-foreground">→</span>
+            <code className="font-mono text-[10px] px-1.5 py-0.5 rounded bg-secondary/40 text-foreground/80">
+              {request.targetKey}
+            </code>
+          </div>
+          <div className="font-mono text-[9px] text-muted-foreground/60 mt-0.5">
+            Requested by user #{request.requestedBy} ·{" "}
+            {new Date(request.createdAt).toLocaleString()}
+          </div>
+        </div>
+        {request.status === "pending" && (
+          <div className="flex items-center gap-1 px-2 py-0.5 rounded bg-secondary/30 border border-border/30">
+            <span className="font-mono text-[9px] text-muted-foreground">
+              {approvals.length}/2
+            </span>
+          </div>
+        )}
+      </div>
+
+      {/* Body — new value + reason */}
+      <div className="space-y-2 mb-3">
+        <div className="grid grid-cols-[auto_1fr] gap-x-3 gap-y-1 text-[10px]">
+          <span className="font-mono text-muted-foreground/50">NEW VALUE:</span>
+          <code className="font-mono text-foreground/80 break-all">{newValueStr}</code>
+          {request.reason && (
+            <>
+              <span className="font-mono text-muted-foreground/50">REASON:</span>
+              <span className="font-mono text-foreground/70 leading-relaxed">
+                {request.reason}
+              </span>
+            </>
+          )}
+        </div>
+
+        {/* Approval trail */}
+        {approvals.length > 0 && (
+          <div className="flex flex-wrap gap-1.5 pt-1">
+            {approvals.map((a, idx) => (
+              <div
+                key={idx}
+                className="flex items-center gap-1 px-2 py-0.5 rounded bg-primary/5 border border-primary/20"
+              >
+                <Check size={9} className="text-primary" />
+                <span className="font-mono text-[9px] text-primary">
+                  admin #{a.adminId}
+                </span>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* Rejection metadata */}
+        {request.status === "rejected" && (
+          <div className="flex items-start gap-1.5 pt-1">
+            <AlertTriangle size={10} className="text-destructive mt-0.5 flex-shrink-0" />
+            <div className="font-mono text-[9px] text-destructive/80 leading-relaxed">
+              Rejected by admin #{request.rejectedBy ?? "?"}
+              {request.rejectionReason ? ` — ${request.rejectionReason}` : ""}
+            </div>
+          </div>
+        )}
+
+        {/* Executed metadata */}
+        {request.status === "executed" && request.executedAt && (
+          <div className="flex items-center gap-1.5 pt-1">
+            <CheckCircle2 size={10} className="text-primary" />
+            <span className="font-mono text-[9px] text-primary/80">
+              Executed {new Date(request.executedAt).toLocaleString()}
+            </span>
+          </div>
+        )}
+      </div>
+
+      {/* Action row (pending + admin only) */}
+      {canApprove || canReject ? (
+        <div className="flex items-center gap-2 pt-2 border-t border-border/30">
+          {isOwnRequest && request.status === "pending" && (
+            <span className="font-mono text-[9px] text-muted-foreground/60 italic">
+              You submitted this request; another admin must approve or reject.
+            </span>
+          )}
+          {alreadyApproved && !isOwnRequest && (
+            <span className="font-mono text-[9px] text-primary/70 italic">
+              You already approved. Waiting on a second distinct admin.
+            </span>
+          )}
+          <div className="ml-auto flex items-center gap-2">
+            {canReject && !showRejectInput && (
+              <button
+                onClick={() => setShowRejectInput(true)}
+                disabled={isRejecting}
+                className="flex items-center gap-1 px-3 py-1 rounded-md bg-destructive/5 border border-destructive/30 text-destructive font-mono text-[10px] hover:bg-destructive/10 disabled:opacity-30"
+              >
+                <X size={11} />
+                REJECT
+              </button>
+            )}
+            {canApprove && (
+              <button
+                onClick={onApprove}
+                disabled={isApproving}
+                className="flex items-center gap-1 px-3 py-1 rounded-md bg-primary/10 border border-primary/40 text-primary font-mono text-[10px] hover:bg-primary/20 disabled:opacity-30"
+              >
+                <Check size={11} />
+                {isApproving ? "APPROVING…" : "APPROVE"}
+              </button>
+            )}
+          </div>
+        </div>
+      ) : null}
+
+      {/* Reject reason input */}
+      {showRejectInput && canReject && (
+        <div className="mt-2 pt-2 border-t border-border/30 space-y-2">
+          <label className="font-mono text-[9px] text-muted-foreground/70">
+            Rejection reason (required):
+          </label>
+          <textarea
+            value={rejectReason}
+            onChange={(e) => setRejectReason(e.target.value)}
+            placeholder="Explain why this request is being rejected…"
+            rows={2}
+            className="w-full p-2 rounded bg-secondary/30 border border-border/40 font-mono text-[10px] text-foreground resize-none focus:outline-none focus:border-destructive/40"
+          />
+          <div className="flex items-center gap-2 justify-end">
+            <button
+              onClick={() => {
+                setShowRejectInput(false);
+                setRejectReason("");
+              }}
+              className="px-3 py-1 rounded-md bg-secondary/30 border border-border/30 font-mono text-[10px] text-muted-foreground hover:border-border/60"
+            >
+              CANCEL
+            </button>
+            <button
+              onClick={() => {
+                if (rejectReason.trim().length === 0) {
+                  toast.error("Rejection reason is required.");
+                  return;
+                }
+                onReject(rejectReason.trim());
+                setShowRejectInput(false);
+                setRejectReason("");
+              }}
+              disabled={isRejecting}
+              className="flex items-center gap-1 px-3 py-1 rounded-md bg-destructive/10 border border-destructive/40 text-destructive font-mono text-[10px] hover:bg-destructive/20 disabled:opacity-30"
+            >
+              <X size={11} />
+              {isRejecting ? "REJECTING…" : "CONFIRM REJECT"}
+            </button>
+          </div>
         </div>
       )}
     </div>
