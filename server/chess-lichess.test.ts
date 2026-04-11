@@ -196,7 +196,7 @@ describe("ChessPage Component", () => {
   });
 
   it("has multiplayer mode option", () => {
-    expect(pageContent).toContain("multiplayer") || expect(pageContent).toContain("Multiplayer");
+    expect(pageContent).toMatch(/multiplayer/i);
   });
 
   it("has evaluation bar display", () => {
@@ -250,7 +250,7 @@ describe("useChessMultiplayer Hook", () => {
   });
 
   it("tracks connection state", () => {
-    expect(hookContent).toContain("connected") || expect(hookContent).toContain("isConnected");
+    expect(hookContent).toMatch(/(isC|c)onnected/);
   });
 });
 

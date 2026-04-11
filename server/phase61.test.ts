@@ -80,13 +80,16 @@ describe("RewardCelebration: Animation Timing", () => {
   });
 
   it("major rewards show for 4 seconds", () => {
-    const tier = "major";
+    // Tier is typed wide so the ternary isn't dead-coded at type level.
+    const getTier = (): "standard" | "major" | "legendary" => "major";
+    const tier = getTier();
     const duration = tier === "legendary" ? 5000 : 4000;
     expect(duration).toBe(4000);
   });
 
   it("standard rewards show for 4 seconds", () => {
-    const tier = "standard";
+    const getTier = (): "standard" | "major" | "legendary" => "standard";
+    const tier = getTier();
     const duration = tier === "legendary" ? 5000 : 4000;
     expect(duration).toBe(4000);
   });
@@ -163,8 +166,13 @@ describe("Card Collection Milestones: Threshold Checks", () => {
 });
 
 describe("Card Collection Milestones: Species-Specific Narratives", () => {
+  // Helper keeps species typed wide so the milestone ternary doesn't
+  // dead-code at type level — the real milestone engine receives
+  // species as a runtime value, so TS can't narrow to the literal.
+  const getSpecies = (value: "demagi" | "quarchon" | "neyon"): "demagi" | "quarchon" | "neyon" => value;
+
   it("25-card milestone generates DeMagi-specific text for demagi species", () => {
-    const species = "demagi";
+    const species = getSpecies("demagi");
     const text = species === "neyon"
       ? "Ne-Yon hybrid processing"
       : species === "quarchon"
@@ -174,7 +182,7 @@ describe("Card Collection Milestones: Species-Specific Narratives", () => {
   });
 
   it("25-card milestone generates Quarchon-specific text for quarchon species", () => {
-    const species = "quarchon";
+    const species = getSpecies("quarchon");
     const text = species === "neyon"
       ? "Ne-Yon hybrid processing"
       : species === "quarchon"
@@ -184,7 +192,7 @@ describe("Card Collection Milestones: Species-Specific Narratives", () => {
   });
 
   it("25-card milestone generates Ne-Yon-specific text for neyon species", () => {
-    const species = "neyon";
+    const species = getSpecies("neyon");
     const text = species === "neyon"
       ? "Ne-Yon hybrid processing"
       : species === "quarchon"

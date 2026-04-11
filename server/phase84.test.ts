@@ -136,12 +136,12 @@ describe("Boss Mastery", () => {
   });
 
   it("getBossMasteryLevel should return 0 for 0 kills", () => {
-    const level = getBossMasteryLevel(0, BOSS_MASTERY_DEFS[0].key);
+    const level = getBossMasteryLevel(0, BOSS_MASTERY_DEFS[0].bossKey);
     expect(level).toBe(0);
   });
 
   it("getBossMasteryLevel should increase with more kills", () => {
-    const key = BOSS_MASTERY_DEFS[0].key;
+    const key = BOSS_MASTERY_DEFS[0].bossKey;
     const low = getBossMasteryLevel(5, key);
     const high = getBossMasteryLevel(50, key);
     expect(high).toBeGreaterThanOrEqual(low);
@@ -164,8 +164,11 @@ describe("Cosmetic Shop", () => {
     }
   });
 
-  it("getShopItems should filter by type", () => {
-    const items = getShopItems({ classKeys: [], prestigeKeys: [], bossKills: {} });
+  it("getShopItems should return items for an unlocked player", () => {
+    // Signature was { classKeys, prestigeKeys, bossKills } in the
+    // original draft; the real implementation narrowed to just
+    // prestige class + citizen level. Test now matches.
+    const items = getShopItems({ prestigeClass: undefined, citizenLevel: 1 });
     expect(items.length).toBeGreaterThan(0);
   });
 });

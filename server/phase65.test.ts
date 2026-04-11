@@ -201,11 +201,11 @@ describe("Admin CRUD Panel", () => {
     });
 
     it("should validate admin role before CRUD operations", () => {
-      const user = { id: 1, role: "admin" as const };
+      const user: { id: number; role: "user" | "moderator" | "admin" } = { id: 1, role: "admin" };
       const isAdmin = user.role === "admin";
       expect(isAdmin).toBe(true);
 
-      const regularUser = { id: 2, role: "user" as const };
+      const regularUser: { id: number; role: "user" | "moderator" | "admin" } = { id: 2, role: "user" };
       const isAdminRegular = regularUser.role === "admin";
       expect(isAdminRegular).toBe(false);
     });
@@ -309,7 +309,10 @@ describe("Fight Game Polish", () => {
     });
 
     it("should counter heavy spam with dodges", () => {
-      const playerPattern = "heavy";
+      // Obfuscate the literal so TS keeps the full union at the
+      // comparison site (otherwise the ternary gets dead-coded).
+      const getPattern = (): "light" | "heavy" | "mixed" => "heavy";
+      const playerPattern = getPattern();
       const counterAction =
         playerPattern === "light" ? "block" :
         playerPattern === "heavy" ? "dodge" :

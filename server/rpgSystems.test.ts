@@ -1,4 +1,5 @@
 import { describe, it, expect } from "vitest";
+import type { CitizenData } from "../shared/citizenTraits";
 
 /* ═══════════════════════════════════════════════════════
    1. SYNERGY BONUSES
@@ -9,6 +10,22 @@ import {
   getSynergyEffectsForSystem,
   type SynergyBonus,
 } from "../shared/synergyBonuses";
+
+/* ─── HELPER: Construct a full CitizenData mock ─── */
+function makeCitizen(overrides: Partial<CitizenData> = {}): CitizenData {
+  return {
+    species: "quarchon",
+    characterClass: "assassin",
+    alignment: "order",
+    element: "fire",
+    attrAttack: 3,
+    attrDefense: 3,
+    attrVitality: 3,
+    classLevel: 1,
+    level: 1,
+    ...overrides,
+  };
+}
 
 describe("Synergy Bonuses", () => {
   describe("SYNERGY_BONUSES data integrity", () => {
@@ -31,19 +48,15 @@ describe("Synergy Bonuses", () => {
 
   describe("resolveSynergies", () => {
     it("returns matching synergies for a Quarchon Assassin Fire build", () => {
-      const result = resolveSynergies({
-        species: "quarchon",
-        characterClass: "assassin",
-        element: "fire",
-      });
+      const result = resolveSynergies(
+        makeCitizen({ species: "quarchon", characterClass: "assassin", element: "fire" }),
+      );
       expect(Array.isArray(result)).toBe(true);
     });
     it("returns empty array for non-matching build", () => {
-      const result = resolveSynergies({
-        species: "human" as any,
-        characterClass: "warrior" as any,
-        element: "water",
-      });
+      const result = resolveSynergies(
+        makeCitizen({ species: "human", characterClass: "soldier", element: "water" }),
+      );
       // May or may not match, but should not throw
       expect(Array.isArray(result)).toBe(true);
     });
@@ -51,8 +64,8 @@ describe("Synergy Bonuses", () => {
 
   describe("getSynergyEffectsForSystem", () => {
     it("returns an object with effects and sources arrays", () => {
-      const citizen = { species: "quarchon" as any, characterClass: "assassin" as any, element: "fire" as any };
-      const result = getSynergyEffectsForSystem(citizen, "combat");
+      const citizen = makeCitizen({ species: "quarchon", characterClass: "assassin", element: "fire" });
+      const result = getSynergyEffectsForSystem(citizen, "fight");
       expect(Array.isArray(result.effects)).toBe(true);
       expect(Array.isArray(result.sources)).toBe(true);
     });
@@ -258,15 +271,16 @@ describe("Elemental Combos", () => {
 
   describe("resolveElementalCombo", () => {
     it("finds a combo for fire + air", () => {
-      const combo = resolveElementalCombo("fire", "air");
-      // May or may not exist depending on data, but should not throw
-      if (combo) {
-        expect(combo.name).toBeTruthy();
+      // resolveElementalCombo now takes (attacker, defender, system)
+      // and returns `{ combo, effects }` (not the ElementalCombo directly).
+      const result = resolveElementalCombo("fire", "air", "fight");
+      if (result) {
+        expect(result.combo.name).toBeTruthy();
       }
     });
     it("returns null or undefined for same element", () => {
-      const combo = resolveElementalCombo("fire", "fire");
-      expect(!combo).toBe(true);
+      const result = resolveElementalCombo("fire", "fire", "fight");
+      expect(!result).toBe(true);
     });
   });
 
@@ -310,7 +324,7 @@ describe("Companion Synergies", () => {
   describe("calculateSynergyScore", () => {
     it("returns a number for any valid build", () => {
       const score = calculateSynergyScore(
-        { species: "quarchon", characterClass: "warrior", element: "fire", alignment: "order" },
+        { species: "quarchon", characterClass: "soldier", element: "fire", alignment: "order" },
         "elara",
         50
       );
@@ -339,7 +353,7 @@ describe("Companion Synergies", () => {
     it("returns a complete summary", () => {
       const summary = getSynergySummary(
         "elara",
-        { species: "quarchon", characterClass: "mystic", element: "space", alignment: "order" },
+        { species: "quarchon", characterClass: "oracle", element: "space", alignment: "order" },
         50,
         5
       );

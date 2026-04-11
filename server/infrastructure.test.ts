@@ -16,8 +16,9 @@ describe("Discovery Router", () => {
 
   it("should have discovery procedures defined", async () => {
     const { appRouter } = await import("./routers");
-    const procedures = appRouter._def.procedures;
-    // Check that discovery-related procedures exist
+    // tRPC typed procedure map uses a nested shape; we want string
+    // key lookups for this integration test, so widen the view.
+    const procedures = appRouter._def.procedures as unknown as Record<string, unknown>;
     expect(procedures["discovery.getUnlocks"]).toBeDefined();
     expect(procedures["discovery.unlockFeature"]).toBeDefined();
     expect(procedures["discovery.getProgress"]).toBeDefined();
@@ -27,8 +28,7 @@ describe("Discovery Router", () => {
 describe("Content Admin Router", () => {
   it("should have contentAdmin procedures defined", async () => {
     const { appRouter } = await import("./routers");
-    const procedures = appRouter._def.procedures;
-    // Check that content admin procedures exist
+    const procedures = appRouter._def.procedures as unknown as Record<string, unknown>;
     expect(procedures["contentAdmin.listEntries"]).toBeDefined();
     expect(procedures["contentAdmin.getEntry"]).toBeDefined();
     expect(procedures["contentAdmin.createEntry"]).toBeDefined();

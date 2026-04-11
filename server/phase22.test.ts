@@ -223,17 +223,19 @@ describe("Antiquarian's Library Room", () => {
     expect(library!.name).toContain("Antiquarian");
   });
 
-  it("should be accessible from archives room", async () => {
+  it("library room should exist alongside archives", async () => {
     const mod = await import("../client/src/contexts/GameContext");
     const rooms = mod.ROOM_DEFINITIONS;
-    const archives = rooms.find((r: { id: string }) => r.id === "archives");
+    const archives = rooms.find((r) => r.id === "archives");
     expect(archives).toBeTruthy();
-    if (archives?.doors) {
-      const hasLibraryDoor = archives.doors.some(
-        (d: { targetRoom: string }) => d.targetRoom === "antiquarian-library"
-      );
-      expect(hasLibraryDoor).toBe(true);
-    }
+    // RoomDef tracks traversal via `connections: string[]` (array of
+    // adjacent room ids). Earlier drafts had a `doors` structure —
+    // replaced during the room graph consolidation. The direct
+    // archives → antiquarian-library adjacency was removed when the
+    // library became reachable via the bridge hub; we assert the
+    // library room itself still exists.
+    const library = rooms.find((r) => r.id === "antiquarian-library");
+    expect(library).toBeTruthy();
   });
 
   it("library room should have proper metadata", async () => {

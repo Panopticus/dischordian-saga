@@ -858,7 +858,7 @@ describe("Cross-System Integration", () => {
 
   it("morality score affects both card modifiers and story transmissions", () => {
     // Machine alignment should unlock machine transmissions and give order card bonuses
-    const machineTransmissions = getAvailableTransmissions(-50, []);
+    const machineTransmissions = getAvailableTransmissions(-50);
     const orderBonus = getCardMoralityModifier(-50, "order");
     expect(machineTransmissions.length).toBeGreaterThan(0);
     expect(orderBonus.type).toBe("bonus");

@@ -22,7 +22,7 @@ describe("Sprite Pose System", () => {
   });
 
   it("pose sprites include all 6 required poses", () => {
-    const requiredPoses = ["idle", "attack", "block", "hit", "ko", "victory"];
+    const requiredPoses = ["idle", "attack", "block", "hit", "ko", "victory"] as const;
     for (const id of STARTER_IDS) {
       const config = CHARACTER_CONFIGS[id];
       if (config?.poseSprites) {

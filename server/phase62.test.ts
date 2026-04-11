@@ -10,6 +10,7 @@ import {
   matchesRequirement,
   type ChainCheckContext,
 } from "../client/src/components/QuestChainSystem";
+import type { CharacterChoices } from "../client/src/contexts/GameContext";
 
 /* ─── IMPORT REWARD SYSTEM EXPORTS ─── */
 import {
@@ -32,6 +33,9 @@ function makeChainCtx(overrides: Partial<ChainCheckContext> = {}): ChainCheckCon
       characterClass: "engineer",
       alignment: "order",
       element: "fire",
+      attrAttack: 10,
+      attrDefense: 10,
+      attrVitality: 10,
     },
     totalRoomsUnlocked: 0,
     totalItemsFound: 0,
@@ -57,6 +61,9 @@ function makeMilestoneCtx(overrides: Partial<MilestoneCheckContext> = {}): Miles
       characterClass: "engineer",
       alignment: "order",
       element: "fire",
+      attrAttack: 10,
+      attrDefense: 10,
+      attrVitality: 10,
     },
     totalRoomsUnlocked: 0,
     totalItemsFound: 0,
@@ -103,8 +110,8 @@ describe("Species-Specific Quest Chains", () => {
     });
 
     it("should match DeMagi characters", () => {
-      expect(matchesRequirement(chain.requirement, { species: "demagi", characterClass: "engineer", alignment: "order", element: "fire", name: "Test" })).toBe(true);
-      expect(matchesRequirement(chain.requirement, { species: "quarchon", characterClass: "engineer", alignment: "order", element: "fire", name: "Test" })).toBe(false);
+      expect(matchesRequirement(chain.requirement, { species: "demagi", characterClass: "engineer", alignment: "order", element: "fire", name: "Test", attrAttack: 10, attrDefense: 10, attrVitality: 10 })).toBe(true);
+      expect(matchesRequirement(chain.requirement, { species: "quarchon", characterClass: "engineer", alignment: "order", element: "fire", name: "Test", attrAttack: 10, attrDefense: 10, attrVitality: 10 })).toBe(false);
     });
 
     it("quest 1 (Elemental Resonance) should complete at 3 rooms", () => {
@@ -262,9 +269,9 @@ describe("Species-Specific Quest Chains", () => {
   });
 
   it("species chains should only match their respective species", () => {
-    const demagiChar = { species: "demagi", characterClass: "engineer", alignment: "order", element: "fire", name: "Test" };
-    const quarchonChar = { species: "quarchon", characterClass: "engineer", alignment: "order", element: "fire", name: "Test" };
-    const neyonChar = { species: "neyon", characterClass: "engineer", alignment: "order", element: "fire", name: "Test" };
+    const demagiChar: CharacterChoices = { species: "demagi", characterClass: "engineer", alignment: "order", element: "fire", name: "Test", attrAttack: 10, attrDefense: 10, attrVitality: 10 };
+    const quarchonChar: CharacterChoices = { species: "quarchon", characterClass: "engineer", alignment: "order", element: "fire", name: "Test", attrAttack: 10, attrDefense: 10, attrVitality: 10 };
+    const neyonChar: CharacterChoices = { species: "neyon", characterClass: "engineer", alignment: "order", element: "fire", name: "Test", attrAttack: 10, attrDefense: 10, attrVitality: 10 };
 
     const demagi = ALL_QUEST_CHAINS.find(c => c.id === "demagi_chain")!;
     const quarchon = ALL_QUEST_CHAINS.find(c => c.id === "quarchon_chain")!;
@@ -338,10 +345,10 @@ describe("Quest Chain Reward Claiming", () => {
   });
 
   it("each player gets exactly 3 chains (class + alignment + species)", () => {
-    const chars = [
-      { species: "demagi", characterClass: "engineer", alignment: "order", element: "fire", name: "T" },
-      { species: "quarchon", characterClass: "oracle", alignment: "chaos", element: "fire", name: "T" },
-      { species: "neyon", characterClass: "assassin", alignment: "order", element: "fire", name: "T" },
+    const chars: CharacterChoices[] = [
+      { species: "demagi", characterClass: "engineer", alignment: "order", element: "fire", name: "T", attrAttack: 10, attrDefense: 10, attrVitality: 10 },
+      { species: "quarchon", characterClass: "oracle", alignment: "chaos", element: "fire", name: "T", attrAttack: 10, attrDefense: 10, attrVitality: 10 },
+      { species: "neyon", characterClass: "assassin", alignment: "order", element: "fire", name: "T", attrAttack: 10, attrDefense: 10, attrVitality: 10 },
     ];
 
     for (const char of chars) {
@@ -447,7 +454,7 @@ describe("Chain Completion Journal Entries", () => {
   it("demagi chain entry should reference the element in Elara's note", () => {
     const entry = MILESTONES.find(m => m.id === "chain_demagi_complete")!;
     const ctx = makeMilestoneCtx({
-      characterChoices: { name: "TestOp", species: "demagi", characterClass: "engineer", alignment: "order", element: "fire" },
+      characterChoices: { name: "TestOp", species: "demagi", characterClass: "engineer", alignment: "order", element: "fire", attrAttack: 10, attrDefense: 10, attrVitality: 10 },
     });
     const note = entry.elaraNote(ctx);
     expect(note).toContain("fire");
@@ -559,7 +566,7 @@ describe("Chain Structure Integrity", () => {
    ═══════════════════════════════════════════════════════ */
 describe("Player Journey Simulation", () => {
   it("DeMagi Engineer Order player should have exactly 3 active chains", () => {
-    const char = { species: "demagi", characterClass: "engineer", alignment: "order", element: "fire", name: "Kael" };
+    const char: CharacterChoices = { species: "demagi", characterClass: "engineer", alignment: "order", element: "fire", name: "Kael", attrAttack: 10, attrDefense: 10, attrVitality: 10 };
     const active = ALL_QUEST_CHAINS.filter(c => matchesRequirement(c.requirement, char));
     expect(active.map(c => c.id)).toEqual(
       expect.arrayContaining(["engineer_chain", "order_chain", "demagi_chain"])
@@ -568,7 +575,7 @@ describe("Player Journey Simulation", () => {
   });
 
   it("Quarchon Oracle Chaos player should have exactly 3 active chains", () => {
-    const char = { species: "quarchon", characterClass: "oracle", alignment: "chaos", element: "fire", name: "Zyx" };
+    const char: CharacterChoices = { species: "quarchon", characterClass: "oracle", alignment: "chaos", element: "fire", name: "Zyx", attrAttack: 10, attrDefense: 10, attrVitality: 10 };
     const active = ALL_QUEST_CHAINS.filter(c => matchesRequirement(c.requirement, char));
     expect(active.map(c => c.id)).toEqual(
       expect.arrayContaining(["oracle_chain", "chaos_chain", "quarchon_chain"])
@@ -577,7 +584,7 @@ describe("Player Journey Simulation", () => {
   });
 
   it("Ne-Yon Spy Order player should have exactly 3 active chains", () => {
-    const char = { species: "neyon", characterClass: "spy", alignment: "order", element: "fire", name: "Nyx" };
+    const char: CharacterChoices = { species: "neyon", characterClass: "spy", alignment: "order", element: "fire", name: "Nyx", attrAttack: 10, attrDefense: 10, attrVitality: 10 };
     const active = ALL_QUEST_CHAINS.filter(c => matchesRequirement(c.requirement, char));
     expect(active.map(c => c.id)).toEqual(
       expect.arrayContaining(["spy_chain", "order_chain", "neyon_chain"])
