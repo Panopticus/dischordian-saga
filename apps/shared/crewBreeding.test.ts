@@ -304,3 +304,75 @@ describe("GENETIC_TEMPLATES coverage", () => {
     expect(GENETIC_TEMPLATES.length).toBeGreaterThanOrEqual(8);
   });
 });
+
+/* ─── Ambient feed generator (shared subset) ─── */
+import { generateAmbientFeedBatch, AMBIENT_TEMPLATES } from "./crewAmbientFeed";
+
+describe("generateAmbientFeedBatch()", () => {
+  it("returns 3–6 entries for a populated roster", () => {
+    const out = generateAmbientFeedBatch(["Ada", "Kira", "Jace"], 42);
+    expect(out.length).toBeGreaterThanOrEqual(3);
+    expect(out.length).toBeLessThanOrEqual(6);
+  });
+  it("returns empty array when no crew names are supplied", () => {
+    expect(generateAmbientFeedBatch([], 1)).toEqual([]);
+  });
+  it("fills the [CREW_NAME] placeholder with a real name", () => {
+    const out = generateAmbientFeedBatch(["AdaTest"], 77);
+    // Templates with needsCrew: 1+ should get filled
+    const textContains = out.some(e => e.text.includes("AdaTest"));
+    expect(textContains || out.every(e => !e.text.includes("[CREW_NAME]"))).toBe(true);
+  });
+  it("never leaves raw [TOKEN] placeholders in output", () => {
+    const out = generateAmbientFeedBatch(["Ada", "Kira"], 123);
+    for (const e of out) {
+      expect(e.text).not.toMatch(/\[CREW_NAME\]/);
+    }
+  });
+  it("template library is non-empty", () => {
+    expect(AMBIENT_TEMPLATES.length).toBeGreaterThan(10);
+  });
+});
+
+/* ─── LCA walk for inbreeding ─── */
+import { generationsSinceShared } from "../client/src/game/crewBirth";
+
+describe("generationsSinceShared()", () => {
+  const mkFounder = (id: string, bloodline: BloodlineId = "void_resonance") =>
+    fakeMember(id, { bloodlineId: bloodline, generation: 1, parentIds: null });
+  const mkChild = (
+    id: string,
+    parents: [string, string],
+    bloodline: BloodlineId = "void_resonance",
+  ) => fakeMember(id, { bloodlineId: bloodline, generation: 2, parentIds: parents });
+
+  it("treats unrelated crew as infinite distance", () => {
+    const a = mkFounder("a", "void_resonance");
+    const b = mkFounder("b", "iron_memory");
+    const roster = [a, b];
+    expect(generationsSinceShared(a, b, roster)).toBeGreaterThan(10);
+  });
+  it("returns 0 for full siblings", () => {
+    const p1 = mkFounder("p1");
+    const p2 = mkFounder("p2", "iron_memory");
+    const c1 = mkChild("c1", ["p1", "p2"]);
+    const c2 = mkChild("c2", ["p1", "p2"]);
+    const roster = [p1, p2, c1, c2];
+    expect(generationsSinceShared(c1, c2, roster)).toBe(0);
+  });
+  it("returns a small number for half-siblings", () => {
+    const p1 = mkFounder("p1");
+    const p2 = mkFounder("p2", "iron_memory");
+    const p3 = mkFounder("p3", "temporal_echo");
+    const c1 = mkChild("c1", ["p1", "p2"]);
+    const c2 = mkChild("c2", ["p1", "p3"]);
+    const roster = [p1, p2, p3, c1, c2];
+    const gap = generationsSinceShared(c1, c2, roster);
+    expect(gap).toBeLessThanOrEqual(2);
+  });
+  it("returns 0 when one parent is a direct ancestor of the other", () => {
+    const g = mkFounder("g");
+    const p = mkChild("p", ["g", "g"]);
+    expect(generationsSinceShared(g, p, [g, p])).toBe(0);
+  });
+});

@@ -10,6 +10,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { AlertTriangle, Heart, Dna } from "lucide-react";
 import { FOUNDING_BLOODLINES, getTrait, calculateInbreedingPenalty, type BloodlineId } from "@/game/crewGenetics";
+import { generationsSinceShared } from "@/game/crewBirth";
 import type { CrewState } from "@shared/crewPersistence";
 
 interface Props {
@@ -42,9 +43,19 @@ export default function BreedingSelector({ state, onBreed }: Props) {
     );
   }
 
+  const fullRoster = useMemo(
+    () => [...state.roster.members, ...state.roster.deceased],
+    [state.roster.members, state.roster.deceased],
+  );
+  const gensShared =
+    parent1 && parent2 ? generationsSinceShared(parent1, parent2, fullRoster) : Infinity;
   const inbreeding =
     parent1 && parent2
-      ? calculateInbreedingPenalty(parent1.bloodlineId as BloodlineId, parent2.bloodlineId as BloodlineId, 0)
+      ? calculateInbreedingPenalty(
+          parent1.bloodlineId as BloodlineId,
+          parent2.bloodlineId as BloodlineId,
+          Number.isFinite(gensShared) ? gensShared : 0,
+        )
       : 0;
 
   // Quick preview: shared + unique trait counts
@@ -137,7 +148,17 @@ export default function BreedingSelector({ state, onBreed }: Props) {
                   INBREEDING PENALTY: -{inbreeding}%
                 </div>
                 <div className="text-[9px] font-mono text-red-200/70">
-                  Same bloodline. High risk of clone_degradation mutation if penalty exceeds 20%.
+                  {Number.isFinite(gensShared)
+                    ? gensShared === 0
+                      ? "Full siblings or direct ancestry — maximum penalty."
+                      : gensShared === 1
+                        ? "Half-siblings. Strong penalty."
+                        : gensShared === 2
+                          ? "First cousins. Moderate penalty."
+                          : `${gensShared} generations apart.`
+                    : "Same bloodline, distant kinship."}
+                  {" "}
+                  High risk of clone_degradation mutation if penalty exceeds 20%.
                 </div>
               </div>
             )}

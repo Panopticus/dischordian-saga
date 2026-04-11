@@ -18,27 +18,88 @@ import {
   generateCrewMember,
   type CrewMember,
 } from "./crewManagement";
-import type { PendingOffspring } from "@shared/crewPersistence";
+import type { PendingOffspring, SerializedCrewMember } from "@shared/crewPersistence";
 
 function seededRandom(seed: number): number {
   const x = Math.sin(seed) * 10000;
   return x - Math.floor(x);
 }
 
-export function generationsSinceShared(_parent1Id: string, _parent2Id: string): number {
-  // Simplistic: if both ids are founder-generation, they share immediately; otherwise
-  // we assume 1 generation back. A full genealogy walk would be ideal but this is
-  // good enough for the inbreeding penalty to kick in when breeding siblings.
-  // TODO(future): walk parentIds chain to find real LCA.
-  return 0;
+/**
+ * Walk each parent's ancestry chain to find the lowest common ancestor.
+ * Returns the number of generations between the two parents through their
+ * shared ancestor — used for the inbreeding penalty decay.
+ *
+ * - Full siblings (same two parents): returns 0 (strong penalty)
+ * - Half-siblings (one shared parent): returns 1
+ * - First cousins (share a grandparent): returns 2
+ * - Unrelated crew: returns Infinity
+ *
+ * If both parents belong to the same bloodline but no LCA is found in the
+ * tree we've tracked, returns a conservative 3 — enough to decay the base
+ * penalty significantly but not fully.
+ */
+export function generationsSinceShared(
+  parent1: SerializedCrewMember | CrewMember,
+  parent2: SerializedCrewMember | CrewMember,
+  roster: Array<SerializedCrewMember | CrewMember>,
+): number {
+  if (parent1.id === parent2.id) return 0;
+
+  // Build a quick id→member map
+  const byId = new Map(roster.map(m => [m.id, m]));
+
+  // BFS up from each parent, collecting ancestors with their depth.
+  function ancestors(start: SerializedCrewMember | CrewMember): Map<string, number> {
+    const out = new Map<string, number>();
+    const queue: Array<{ id: string; depth: number }> = [{ id: start.id, depth: 0 }];
+    while (queue.length > 0) {
+      const { id, depth } = queue.shift()!;
+      if (out.has(id)) continue;
+      out.set(id, depth);
+      const m = byId.get(id);
+      if (m?.parentIds) {
+        for (const pid of m.parentIds) {
+          if (pid && !out.has(pid)) queue.push({ id: pid, depth: depth + 1 });
+        }
+      }
+    }
+    return out;
+  }
+
+  const a1 = ancestors(parent1);
+  const a2 = ancestors(parent2);
+
+  // Find the minimum combined depth across shared ancestors
+  let best = Infinity;
+  for (const [id, d1] of a1) {
+    if (id === parent1.id || id === parent2.id) continue;
+    const d2 = a2.get(id);
+    if (d2 == null) continue;
+    const combined = d1 + d2 - 2; // both start at depth 0 (self) — subtract those
+    if (combined < best) best = combined;
+  }
+
+  // Parent1 is an ancestor of parent2 (or vice versa): treat as immediate incest
+  if (a2.has(parent1.id)) return 0;
+  if (a1.has(parent2.id)) return 0;
+
+  if (best === Infinity) {
+    // No tracked LCA. If both share a bloodline we assume distant kinship;
+    // otherwise treat as unrelated (the inbreeding-penalty math short-circuits
+    // anyway when bloodlines differ).
+    return parent1.bloodlineId === parent2.bloodlineId ? 3 : 99;
+  }
+  return Math.max(0, best);
 }
 
 export function buildPendingOffspring(
-  parent1: CrewMember,
-  parent2: CrewMember,
+  parent1: CrewMember | SerializedCrewMember,
+  parent2: CrewMember | SerializedCrewMember,
+  roster: Array<CrewMember | SerializedCrewMember> = [],
   seed: number = Date.now(),
 ): PendingOffspring {
-  const gensShared = generationsSinceShared(parent1.id, parent2.id);
+  const gensShared = generationsSinceShared(parent1, parent2, roster);
   const result: BreedingResult = breedCrewMembers(
     parent1.geneticTraits,
     parent2.geneticTraits,

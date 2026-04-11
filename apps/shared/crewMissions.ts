@@ -21,6 +21,7 @@ import type {
   CrewMissionState,
   SerializedCrewMember,
 } from "./crewPersistence";
+import { CREW_BALANCE } from "./crewBalance";
 
 /* ─── TEMPLATES ─── */
 
@@ -212,35 +213,17 @@ export function calculateMissionSuccess(
     ? assignedCrew.some(m => m.role === template.preferredRole)
     : false;
   const roleBonus = hasPreferred ? 0.12 : 0;
-  // Difficulty cap
-  const difficultyCap: Record<CrewMissionDifficulty, number> = {
-    routine: 0.98,
-    challenging: 0.92,
-    dangerous: 0.82,
-    suicidal: 0.60,
-  };
   // Squad-size bonus: extra bodies help a little, but not infinitely
   const sizeBonus = Math.min(0.08, (assignedCrew.length - template.minCrew) * 0.03);
   const raw =
     template.baseSuccessChance + (statAvg - 0.5) * 0.30 + (moraleAvg - 0.5) * 0.10 + roleBonus + sizeBonus;
-  return Math.max(0.05, Math.min(difficultyCap[template.difficulty], raw));
+  return Math.max(0.05, Math.min(CREW_BALANCE.missionSuccessCap[template.difficulty], raw));
 }
 
 /* ─── CASUALTY RESOLUTION ─── */
 
-const DEATH_CHANCE: Record<CrewMissionDifficulty, number> = {
-  routine: 0.015,
-  challenging: 0.06,
-  dangerous: 0.18,
-  suicidal: 0.40,
-};
-
-const INJURY_CHANCE: Record<CrewMissionDifficulty, number> = {
-  routine: 0.04,
-  challenging: 0.12,
-  dangerous: 0.28,
-  suicidal: 0.50,
-};
+const DEATH_CHANCE = CREW_BALANCE.missionDeathChance;
+const INJURY_CHANCE = CREW_BALANCE.missionInjuryChance;
 
 const LAST_WORDS = [
   "Tell them I didn't hesitate.",

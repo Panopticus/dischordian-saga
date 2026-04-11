@@ -20,6 +20,7 @@ import {
 import { useNilmorgVO } from "@/hooks/useNilmorgVO";
 import { DMC_ENVIRONMENTS, DMC_MUSIC, DMC_CINEMATICS } from "@/data/dmcAssets";
 import { getNilmorgPortrait } from "@shared/nilmorgPortraits";
+import DeadMansCircuitCrewPicker from "@/components/crew/DeadMansCircuitCrewPicker";
 
 type Phase = "lobby" | "racing" | "results";
 
@@ -81,6 +82,11 @@ export default function DeadMansCircuitPage() {
   const [nilmorgQuote, setNilmorgQuote] = useState(() => getNilmorgLine("circuit_begins"));
   const [cinematic, setCinematic] = useState<{ src: string; caption?: string; next: () => void } | null>(null);
   const iframeRef = useRef<HTMLIFrameElement>(null);
+  const [showCrewPicker, setShowCrewPicker] = useState(false);
+  const [crewRunner, setCrewRunner] = useState<{ memberId: string; designation: string } | null>(
+    null,
+  );
+  const resolveDmc = trpc.crew.resolveDeadMansCircuit.useMutation();
 
   // Helper: play a cinematic, then run `after()` when done/skipped
   const playCinematic = useCallback((src: string, caption: string, after: () => void) => {
@@ -142,6 +148,14 @@ export default function DeadMansCircuitPage() {
           rivalKills: result.rival_kills || 0,
           abilitiesUsed: result.abilities_used || [],
         });
+        // If the player sent a real crew member, resolve their fate in the roster
+        if (crewRunner) {
+          resolveDmc.mutate({
+            memberId: crewRunner.memberId,
+            survived: !!result.clone_survived,
+          });
+          setCrewRunner(null);
+        }
         // Nilmorg reacts
         const nilmorgVoId = `nilmorg_${String(Math.floor(Math.random() * 28)).padStart(2, '0')}`;
         if (!result.clone_survived) setNilmorgQuote(getNilmorgLine("player_died"));
@@ -161,7 +175,7 @@ export default function DeadMansCircuitPage() {
     };
     window.addEventListener("message", handler);
     return () => window.removeEventListener("message", handler);
-  }, [cloneConfig.data, season.data, trackConfig.data]);
+  }, [cloneConfig.data, season.data, trackConfig.data, crewRunner]);
 
   // ─── NO ACTIVE SEASON ───
   if (!season.data) {
@@ -420,6 +434,32 @@ export default function DeadMansCircuitPage() {
           </div>
         )}
 
+        {/* Crew-sourced clone seat */}
+        {crewRunner ? (
+          <div className="w-full p-3 rounded-lg border text-[11px] font-mono flex items-center justify-between"
+               style={{ borderColor: CIRCUIT_PALETTE.NILMORG_ORANGE, background: `${CIRCUIT_PALETTE.NILMORG_ORANGE}10` }}>
+            <span>
+              <Users size={11} className="inline mr-1" style={{ color: CIRCUIT_PALETTE.NILMORG_ORANGE }} />
+              Clone seat: <span style={{ color: CIRCUIT_PALETTE.NILMORG_ORANGE }}>{crewRunner.designation}</span>
+            </span>
+            <button
+              onClick={() => setCrewRunner(null)}
+              className="text-white/40 hover:text-white/80 text-[10px] uppercase tracking-wider"
+            >
+              clear
+            </button>
+          </div>
+        ) : (
+          <button
+            onClick={() => setShowCrewPicker(true)}
+            className="w-full py-2.5 rounded-lg border font-mono text-[10px] tracking-[0.2em] text-white/60 hover:text-white transition"
+            style={{ borderColor: `${CIRCUIT_PALETTE.NILMORG_ORANGE}40` }}
+          >
+            <Users size={12} className="inline mr-2" />
+            USE ARK CREW MEMBER
+          </button>
+        )}
+
         {/* Start Race */}
         <button
           onClick={() => playCinematic(DMC_CINEMATICS.cloneAwakeningV2, "CLONE AWAKENING", () => setPhase("racing"))}
@@ -483,6 +523,14 @@ export default function DeadMansCircuitPage() {
       </div>
       <AnimatePresence>
         {cinematic && <CinematicOverlay key="cin" src={cinematic.src} caption={cinematic.caption} onComplete={cinematic.next} />}
+      </AnimatePresence>
+      <AnimatePresence>
+        {showCrewPicker && (
+          <DeadMansCircuitCrewPicker
+            onClose={() => setShowCrewPicker(false)}
+            onPicked={(memberId, designation) => setCrewRunner({ memberId, designation })}
+          />
+        )}
       </AnimatePresence>
     </div>
   );

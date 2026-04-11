@@ -39,6 +39,8 @@ import {
   resolveMission,
   pickLastWords,
 } from "../../shared/crewMissions";
+import { generateAmbientFeedBatch } from "../../shared/crewAmbientFeed";
+import { CREW_BALANCE } from "../../shared/crewBalance";
 
 const FRANCHISE = "dischordian-saga";
 
@@ -102,14 +104,21 @@ function tickIncubator(state: CrewState, now: number): CrewState {
       return { ...pod, status: "ready", timeRemainingHours: 0 };
     }
     // Malfunction chance scales with low integrity and elapsed time
-    const chance = (100 - pod.geneticIntegrity) * 0.002 * Math.min(hoursElapsed, 6);
+    const chance =
+      (100 - pod.geneticIntegrity) *
+      0.002 *
+      Math.min(hoursElapsed, 6) *
+      CREW_BALANCE.incubatorMalfunctionMultiplier;
     if (Math.random() < chance) {
       malfunctionCount += 1;
       return {
         ...pod,
         status: "malfunction",
         timeRemainingHours: remaining,
-        geneticIntegrity: Math.max(30, pod.geneticIntegrity - 10),
+        geneticIntegrity: Math.max(
+          CREW_BALANCE.incubatorIntegrityFloor,
+          pod.geneticIntegrity - 10,
+        ),
       };
     }
     return { ...pod, timeRemainingHours: remaining };
@@ -122,9 +131,30 @@ function tickIncubator(state: CrewState, now: number): CrewState {
   };
 }
 
-/* ─── AGING TICK: one crew day per real hour ─── */
+/* ─── AMBIENT FEED TICK: generate ambient entries every N hours ─── */
 
-const REAL_MS_PER_CREW_YEAR = 4 * 60 * 60 * 1000; // 4 hours of real time = 1 crew-year
+function tickAmbientFeed(state: CrewState, now: number): CrewState {
+  if (state.roster.members.length === 0) return state;
+  if (now - state.feedLastGenerated < CREW_BALANCE.ambientFeedTickMs) return state;
+  const active = state.roster.members.filter(m => m.status === "active");
+  if (active.length === 0) return state;
+  const batch = generateAmbientFeedBatch(
+    active.map(m => m.name),
+    Math.floor(now / CREW_BALANCE.ambientFeedTickMs),
+    now,
+  );
+  if (batch.length === 0) return state;
+  return {
+    ...state,
+    feed: trimFeed([...state.feed, ...batch]),
+    feedLastGenerated: now,
+    feedUnreadCount: state.feedUnreadCount + batch.length,
+  };
+}
+
+/* ─── AGING TICK: configurable crew-years per real millisecond ─── */
+
+const REAL_MS_PER_CREW_YEAR = CREW_BALANCE.realMsPerCrewYear;
 
 function tickAging(state: CrewState, now: number): CrewState {
   if (state.lastAgingTickAt === 0) {
@@ -174,6 +204,43 @@ function tickAging(state: CrewState, now: number): CrewState {
     },
     lastAgingTickAt: state.lastAgingTickAt + yearsPassed * REAL_MS_PER_CREW_YEAR,
   };
+}
+
+/* ─── RELATIONSHIP UPDATES ─── */
+
+/**
+ * Mutate survivor members in-place so every pair that survived a mission
+ * together nudges their relationship scores. Losses nudge the survivors'
+ * bonds a bit more (trauma bonding).
+ */
+function applyRelationshipDeltas(
+  members: SerializedCrewMember[],
+  survivorIds: string[],
+  lostIds: string[],
+): SerializedCrewMember[] {
+  if (survivorIds.length < 2) return members;
+  const survivorSet = new Set(survivorIds);
+  const winDelta = CREW_BALANCE.relationshipDeltaPerSharedMission;
+  const lossDelta = CREW_BALANCE.relationshipDeltaOnSharedLoss;
+  return members.map(m => {
+    if (!survivorSet.has(m.id)) return m;
+    const relationships = { ...m.relationships };
+    for (const other of survivorIds) {
+      if (other === m.id) continue;
+      relationships[other] = Math.max(-100, Math.min(100, (relationships[other] ?? 0) + winDelta));
+    }
+    // Trauma-bond with other survivors when anyone was lost
+    if (lostIds.length > 0) {
+      for (const other of survivorIds) {
+        if (other === m.id) continue;
+        relationships[other] = Math.max(
+          -100,
+          Math.min(100, (relationships[other] ?? 0) + lossDelta),
+        );
+      }
+    }
+    return { ...m, relationships };
+  });
 }
 
 /* ─── MISSION TICK: auto-resolve missions whose timer elapsed ─── */
@@ -241,12 +308,21 @@ function tickMissions(state: CrewState, now: number): CrewState {
       });
     }
 
+    // Bump relationships for the crew who survived this mission together
+    const survivorIds =
+      resolved.resolution?.survived ??
+      updatedMembers
+        .filter(m => mission.assignedCrewIds.includes(m.id))
+        .map(m => m.id);
+    const casualtyIds = resolved.resolution?.casualties ?? [];
+    const withBonds = applyRelationshipDeltas(updatedMembers, survivorIds, casualtyIds);
+
     next = {
       ...next,
       missions: next.missions.map(x => (x.id === mission.id ? resolved : x)),
       roster: {
         ...next.roster,
-        members: updatedMembers,
+        members: withBonds,
         deceased: [...next.roster.deceased, ...deceased],
         totalLost,
       },
@@ -287,6 +363,7 @@ function applyTick(state: CrewState): CrewState {
   let next = tickIncubator(state, now);
   next = tickMissions(next, now);
   next = tickAging(next, now);
+  next = tickAmbientFeed(next, now);
   return next;
 }
 
@@ -588,8 +665,11 @@ export const crewRouter = router({
       if (!template) return { success: false, error: "Unknown mission template" };
       const state = applyTick(await loadState(ctx.user.id));
       const active = state.missions.filter(m => m.status === "dispatched");
-      if (active.length >= 3) {
-        return { success: false, error: "Maximum 3 active crew missions" };
+      if (active.length >= CREW_BALANCE.maxConcurrentMissions) {
+        return {
+          success: false,
+          error: `Maximum ${CREW_BALANCE.maxConcurrentMissions} active crew missions`,
+        };
       }
       const assigned = state.roster.members.filter(m => input.crewIds.includes(m.id));
       if (assigned.length < template.minCrew) {

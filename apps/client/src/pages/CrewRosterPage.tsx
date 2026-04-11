@@ -49,6 +49,7 @@ const MemorialWall = lazy(() => import("@/components/crew/MemorialWall"));
 const CrewActivityFeed = lazy(() => import("@/components/crew/CrewActivityFeed"));
 const OffspringReviewModal = lazy(() => import("@/components/crew/OffspringReviewModal"));
 const CloneFromTemplateModal = lazy(() => import("@/components/crew/CloneFromTemplateModal"));
+const CrewDangerEventModal = lazy(() => import("@/components/crew/CrewDangerEventModal"));
 
 type Tab =
   | "roster"
@@ -64,6 +65,7 @@ export default function CrewRosterPage() {
   const [tab, setTab] = useState<Tab>("roster");
   const [showCloneModal, setShowCloneModal] = useState(false);
   const [reviewOffspringId, setReviewOffspringId] = useState<string | null>(null);
+  const [showDangerModal, setShowDangerModal] = useState(false);
 
   const { data: crewState, refetch, isLoading } = trpc.crew.getState.useQuery(undefined, {
     refetchInterval: 30000,
@@ -173,7 +175,9 @@ export default function CrewRosterPage() {
     const p1 = cs.roster.members.find(m => m.id === parent1Id);
     const p2 = cs.roster.members.find(m => m.id === parent2Id);
     if (!p1 || !p2) return;
-    const pending = buildPendingOffspring(p1 as any, p2 as any);
+    // Pass living + deceased roster so the LCA walk can reach dead ancestors
+    const fullRoster = [...cs.roster.members, ...cs.roster.deceased];
+    const pending = buildPendingOffspring(p1, p2, fullRoster);
     await recordOffspring.mutateAsync({ pending: pending as any });
     setReviewOffspringId(pending.id);
     toast.success("Breeding complete — review the offspring");
@@ -232,6 +236,18 @@ export default function CrewRosterPage() {
               {cs.roster.generationRecord}
             </p>
           </div>
+          {cs.roster.members.length > 0 && (
+            <Button
+              size="sm"
+              variant="outline"
+              onClick={() => setShowDangerModal(true)}
+              className="gap-1"
+              title="Scan for active threats"
+            >
+              <AlertTriangle size={14} />
+              Threat Scan
+            </Button>
+          )}
           <Button size="sm" onClick={() => setShowCloneModal(true)} className="gap-1">
             <Dna size={14} />
             Clone from Archive
@@ -359,6 +375,20 @@ export default function CrewRosterPage() {
               onClose={() => setShowCloneModal(false)}
               onClone={handleClone}
               founded={Object.keys(cs.bloodlines)}
+            />
+          </Suspense>
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {showDangerModal && (
+          <Suspense fallback={null}>
+            <CrewDangerEventModal
+              state={cs}
+              onClose={() => {
+                setShowDangerModal(false);
+                refetch();
+              }}
             />
           </Suspense>
         )}

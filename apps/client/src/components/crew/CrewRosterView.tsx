@@ -190,6 +190,45 @@ export default function CrewRosterView({ state, onAssignRole }: Props) {
               </div>
             )}
 
+            {/* Relationships */}
+            {Object.keys(selected.relationships).length > 0 && (
+              <div className="mb-4">
+                <div className="text-[10px] font-mono uppercase text-muted-foreground mb-1">
+                  Bonds
+                </div>
+                <div className="space-y-0.5 max-h-32 overflow-y-auto">
+                  {Object.entries(selected.relationships)
+                    .sort(([, a], [, b]) => b - a)
+                    .slice(0, 6)
+                    .map(([otherId, score]) => {
+                      const other = state.roster.members.find(m => m.id === otherId)
+                        ?? state.roster.deceased.find(m => m.id === otherId);
+                      if (!other) return null;
+                      const isDead = other.status === "dead";
+                      const color =
+                        score >= 40
+                          ? "text-green-300"
+                          : score >= 10
+                            ? "text-cyan-300"
+                            : score <= -40
+                              ? "text-red-300"
+                              : "text-muted-foreground";
+                      return (
+                        <div
+                          key={otherId}
+                          className="flex items-center justify-between text-[10px] font-mono"
+                        >
+                          <span className={isDead ? "line-through text-muted-foreground/50" : ""}>
+                            {other.name}
+                          </span>
+                          <span className={color}>{score > 0 ? `+${score}` : score}</span>
+                        </div>
+                      );
+                    })}
+                </div>
+              </div>
+            )}
+
             {/* Role assignment */}
             <div>
               <div className="text-[10px] font-mono uppercase text-muted-foreground mb-1">
