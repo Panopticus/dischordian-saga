@@ -13,6 +13,8 @@ import { useEffect, useRef } from "react";
 import { toast } from "sonner";
 import { useGame } from "@/contexts/GameContext";
 import { usePlayerContext } from "@/hooks/usePlayerContext";
+import { trpc } from "@/lib/trpc";
+import { useAuth } from "@/_core/hooks/useAuth";
 import {
   ALL_TRANSMISSIONS,
   getNewlyUnlocked,
@@ -22,6 +24,8 @@ import {
 export function useIncomingTransmissions() {
   const { state, markTransmissionNotified } = useGame();
   const ctx = usePlayerContext();
+  const { isAuthenticated } = useAuth();
+  const notifyIncoming = trpc.transmissions.notifyIncoming.useMutation();
   // Debounce repeated fires during a single tick of fast state updates.
   const firedRef = useRef<Set<string>>(new Set());
 
@@ -55,8 +59,21 @@ export function useIncomingTransmissions() {
           },
         },
       });
+
+      // Create a persistent bell notification too. Server dedupes
+      // via contentParticipation so repeated calls are safe.
+      if (isAuthenticated) {
+        notifyIncoming.mutate({ transmissionId: id, title: t.title });
+      }
     }
-  }, [ctx, state.transmissionsNotified, state.transmissionsWatched, markTransmissionNotified]);
+  }, [
+    ctx,
+    state.transmissionsNotified,
+    state.transmissionsWatched,
+    markTransmissionNotified,
+    isAuthenticated,
+    notifyIncoming,
+  ]);
 }
 
 /** Exported for tests. Number of currently-unlocked transmissions

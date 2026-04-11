@@ -12,18 +12,22 @@
    existing content-reward infrastructure.
    ═══════════════════════════════════════════════════════ */
 import { z } from "zod";
-import { protectedProcedure, router } from "../_core/trpc";
+import { protectedProcedure, adminProcedure, router } from "../_core/trpc";
 import { getDb, type DrizzleDb } from "../db";
 import {
   contentParticipation,
   dreamBalance,
   citizenCharacters,
   userAchievements,
+  notifications,
+  achievements,
 } from "../../db/schema";
 import { and, eq, sql } from "drizzle-orm";
 import { logger } from "../logger";
+import { getTransmissionAchievementDefs } from "@shared/transmissions";
 
 const TRANSMISSION_CONTENT_TYPE = "transmission";
+const TRANSMISSION_NOTIFIED_TYPE = "transmission-notified";
 
 async function grantDream(db: DrizzleDb, userId: number, amount: number) {
   if (amount <= 0) return;
@@ -180,6 +184,120 @@ export const transmissionsRouter = router({
         return { newlyGranted: false as const, error: "grant_failed" as const };
       }
     }),
+
+  /**
+   * Create a persistent "TRANSMISSION INCOMING" bell notification
+   * for a newly unlocked broadcast. Deduped server-side via a
+   * `transmission-notified` contentParticipation row so repeated
+   * calls from the client's `useIncomingTransmissions` hook don't
+   * spam the bell if client state is lost.
+   */
+  notifyIncoming: protectedProcedure
+    .input(
+      z.object({
+        transmissionId: z.string().min(1).max(128),
+        title: z.string().min(1).max(256),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const db = await getDb();
+      if (!db) return { inserted: false as const };
+
+      // Dedup: check if we've already notified for this transmission.
+      const existing = await db
+        .select()
+        .from(contentParticipation)
+        .where(
+          and(
+            eq(contentParticipation.userId, ctx.user.id),
+            eq(contentParticipation.contentType, TRANSMISSION_NOTIFIED_TYPE),
+            eq(contentParticipation.contentId, input.transmissionId),
+          ),
+        )
+        .limit(1);
+
+      if (existing.length > 0) {
+        return { inserted: false as const, alreadyNotified: true as const };
+      }
+
+      try {
+        await db.insert(notifications).values({
+          userId: ctx.user.id,
+          type: "meme_broadcast",
+          title: "▸ TRANSMISSION INCOMING",
+          message: `Late Night with the Meme: "${input.title}"`,
+          actionUrl: "/transmissions",
+        });
+        await db.insert(contentParticipation).values({
+          userId: ctx.user.id,
+          contentType: TRANSMISSION_NOTIFIED_TYPE,
+          contentId: input.transmissionId,
+          completed: 1,
+          progress: 100,
+          rewardsClaimed: 0,
+          metadata: { notifiedAt: Date.now() },
+        });
+        return { inserted: true as const };
+      } catch (err) {
+        logger.error("[transmissions.notifyIncoming] Failed:", err);
+        return { inserted: false as const, error: "insert_failed" as const };
+      }
+    }),
+
+  /**
+   * Admin: upsert every transmission-awarded achievement into the
+   * `achievements` table so architect console and achievement UIs
+   * can render names/icons. Safe to re-run (idempotent per
+   * achievementId). Returns counts of inserted vs updated rows.
+   */
+  seedAchievements: adminProcedure.mutation(async () => {
+    const db = await getDb();
+    if (!db) return { success: false as const, error: "DB unavailable" as const };
+    const defs = getTransmissionAchievementDefs();
+    let inserted = 0;
+    let updated = 0;
+    for (const def of defs) {
+      try {
+        const existing = await db
+          .select()
+          .from(achievements)
+          .where(eq(achievements.achievementId, def.achievementId))
+          .limit(1);
+        if (existing.length > 0) {
+          await db
+            .update(achievements)
+            .set({
+              name: def.name,
+              description: def.description,
+              category: def.category,
+              tier: def.tier,
+              xpReward: def.xpReward,
+              pointsReward: def.pointsReward,
+              icon: "radio",
+            })
+            .where(eq(achievements.achievementId, def.achievementId));
+          updated++;
+        } else {
+          await db.insert(achievements).values({
+            achievementId: def.achievementId,
+            franchiseId: "dischordian-saga",
+            name: def.name,
+            description: def.description,
+            category: def.category,
+            tier: def.tier,
+            xpReward: def.xpReward,
+            pointsReward: def.pointsReward,
+            icon: "radio",
+            hidden: 0,
+          });
+          inserted++;
+        }
+      } catch (err) {
+        logger.error(`[transmissions.seedAchievements] Failed for ${def.achievementId}:`, err);
+      }
+    }
+    return { success: true as const, inserted, updated, total: defs.length };
+  }),
 
   /**
    * Server-side authoritative list of watched transmission ids.

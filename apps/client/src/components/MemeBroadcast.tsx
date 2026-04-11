@@ -15,7 +15,7 @@
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Play, SkipForward, Radio, BookOpen } from "lucide-react";
-import { driveEmbedUrl, type Transmission } from "@shared/transmissions";
+import { driveEmbedUrl, transmissionId as makeTransmissionId, type Transmission } from "@shared/transmissions";
 import { getLoredexUnlocksForTransmission } from "@shared/transmissionLoredexUnlocks";
 import { useKinetic } from "@/hooks/useKinetic";
 import { emitDiscoveryNotification } from "@/components/DiscoveryNotification";
@@ -31,13 +31,20 @@ interface Props {
   onClose: () => void;
   onComplete: (transmissionId: string) => void;
   alreadyWatched: boolean;
+  /** Legacy boolean (back-compat). Prefer `oracleRevealTier`. */
   oracleRevealActive: boolean;
+  /** 0 = hidden, 1-3 = progressively revealed. Drives color gradation. */
+  oracleRevealTier?: number;
 }
 
 type Phase = "static-in" | "intro" | "static-to-video" | "broadcast" | "static-to-outro" | "outro" | "done";
 
-export default function MemeBroadcast({ transmission, onClose, onComplete, alreadyWatched, oracleRevealActive }: Props) {
-  const [phase, setPhase] = useState<Phase>("static-in");
+export default function MemeBroadcast({ transmission, onClose, onComplete, alreadyWatched, oracleRevealActive, oracleRevealTier = 0 }: Props) {
+  // Replays skip intro static → jump straight to the video. First
+  // watches play the full CRT-static → intro → tape → outro arc.
+  const [phase, setPhase] = useState<Phase>(
+    alreadyWatched ? "static-to-video" : "static-in",
+  );
   const [loredexRevealed, setLoredexRevealed] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
   const { addLoredexDiscovered } = useGame();
@@ -55,10 +62,20 @@ export default function MemeBroadcast({ transmission, onClose, onComplete, alrea
       return () => clearTimeout(t);
     }
     if (phase === "static-to-outro") {
+      // Replays skip the outro kinetic commentary entirely and
+      // close immediately after the video ends — no re-earning
+      // rewards, no re-revealing loredex.
+      if (alreadyWatched) {
+        const t = setTimeout(() => {
+          setPhase("done");
+          setTimeout(onClose, 1000);
+        }, 400);
+        return () => clearTimeout(t);
+      }
       const t = setTimeout(() => setPhase("outro"), 600);
       return () => clearTimeout(t);
     }
-  }, [phase]);
+  }, [phase, alreadyWatched, onClose]);
 
   // Meme VO playback
   const { speak: speakMeme, stop: stopMeme } = useMemeVO();
@@ -79,7 +96,10 @@ export default function MemeBroadcast({ transmission, onClose, onComplete, alrea
     }
   }, [phase, transmission.epoch, transmission.episodeNumber, speakMeme, stopMeme]);
 
-  const transmissionId = `ep${transmission.epoch}-${transmission.episodeNumber}`;
+  // Use the shared helper — the inline `ep${epoch}-${episode}` form
+  // would produce the wrong id for Spaces In Between episodes, which
+  // need a `sib-ep{n}` prefix to avoid colliding with Epoch 0.
+  const transmissionId = makeTransmissionId(transmission);
 
   const handleComplete = () => {
     onComplete(transmissionId);
@@ -141,11 +161,26 @@ export default function MemeBroadcast({ transmission, onClose, onComplete, alrea
     setTimeout(onClose, 2500);
   };
 
-  // Visual theming — shifts when Oracle reveal active (Episode 11+)
-  const accent = oracleRevealActive ? "text-purple-300" : "text-pink-400";
-  const borderColor = oracleRevealActive ? "border-purple-400/60" : "border-pink-500/60";
-  const glowColor = oracleRevealActive ? "rgba(168,85,247,0.2)" : "rgba(236,72,153,0.2)";
-  const memeColor = oracleRevealActive ? "#c084fc" : "#f472b6";
+  // Visual theming gradates across 4 tiers as Oracle-shift episodes
+  // accumulate (Episodes 11, 14, 19 in transmissions.ts). Tier 0 is
+  // pink (pre-reveal). Each step toward Tier 3 shifts toward purple
+  // / void accents, matching the "he's been the Oracle all along"
+  // narrative beat. Legacy `oracleRevealActive=true` maps to Tier 1
+  // so older saves still get a visible shift on upgrade.
+  const effectiveTier = oracleRevealTier > 0
+    ? oracleRevealTier
+    : oracleRevealActive ? 1 : 0;
+  const THEME = [
+    { accent: "text-pink-400",  borderColor: "border-pink-500/60",   glow: "rgba(236,72,153,0.2)", color: "#f472b6" },
+    { accent: "text-fuchsia-300", borderColor: "border-fuchsia-500/60", glow: "rgba(217,70,239,0.22)", color: "#e879f9" },
+    { accent: "text-purple-300", borderColor: "border-purple-400/60", glow: "rgba(168,85,247,0.26)", color: "#c084fc" },
+    { accent: "text-violet-200", borderColor: "border-violet-400/70", glow: "rgba(139,92,246,0.32)", color: "#a78bfa" },
+  ] as const;
+  const theme = THEME[Math.max(0, Math.min(3, effectiveTier))];
+  const accent = theme.accent;
+  const borderColor = theme.borderColor;
+  const glowColor = theme.glow;
+  const memeColor = theme.color;
 
   // Meme portrait expressions — shifts face based on broadcast phase
   const memePortrait = getNPCPortrait("the_meme");

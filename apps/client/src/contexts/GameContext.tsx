@@ -6,6 +6,7 @@
 import { createContext, useContext, useCallback, useEffect, useState, useRef, type ReactNode } from "react";
 import { trpc } from "@/lib/trpc";
 import { LORE_ACHIEVEMENTS } from "@/data/loreAchievements";
+import { SIB_WATCHED_FLAGS } from "@shared/transmissions";
 // Task 3.1 — sync status moved out of context into its own store so the 77
 // GameContext consumers don't re-render every 5 seconds during debounced save.
 import { useSyncStatusStore } from "@/stores/syncStatusStore";
@@ -232,7 +233,8 @@ export interface GameState {
   // Meme Broadcasts / Transmissions
   transmissionsWatched: string[];           // list of transmissionId strings
   transmissionsNotified: string[];          // which ones were notified
-  oracleRevealActive: boolean;              // subtle Meme commentary shift
+  oracleRevealActive: boolean;              // subtle Meme commentary shift (legacy boolean; prefer oracleRevealTier)
+  oracleRevealTier: number;                 // 0 = hidden, 1-3 = progressively revealed as Oracle-shift episodes are watched
   loredexDiscovered: string[];              // loredex entity ids unlocked (from transmissions, etc.)
   // Graduate Legion — deployed apprentices
   legionRoster: unknown;            // shape: LegionRoster from graduateLegion.ts
@@ -972,6 +974,7 @@ const DEFAULT_GAME_STATE: GameState = {
   transmissionsWatched: [],
   transmissionsNotified: [],
   oracleRevealActive: false,
+  oracleRevealTier: 0,
   loredexDiscovered: [],
   legionRoster: { assignments: [], unassigned: [], sacrificedHistory: [] },
   legionGraduates: {},
@@ -1758,27 +1761,35 @@ export function GameProvider({ children }: { children: ReactNode }) {
   const markTransmissionWatched = useCallback((id: string, triggersOracleReveal: boolean) => {
     setState(prev => {
       if (prev.transmissionsWatched.includes(id)) {
-        // Already watched — only update oracle reveal (idempotent for re-runs).
-        return prev.oracleRevealActive || !triggersOracleReveal
-          ? prev
-          : { ...prev, oracleRevealActive: true };
+        // Already watched — no-op. Rewards + reveal tier are one-shot
+        // per transmission; replays are cosmetic only.
+        return prev;
       }
       // Parse `ep{epoch}-{episode}` → set both `_watched` and `_viewed`
       // narrative flags so chain-unlocked episodes (Epoch 0 + Epoch 2)
       // can progress. Covers both naming conventions used in
       // apps/shared/transmissions.ts.
       //
-      // NOTE: SIB (Spaces In Between) ids use the `sib-ep{n}` prefix
-      // and are intentionally skipped — those episodes unlock via
-      // hand-written narrative flags (sib_celebration_viewed, etc.)
-      // set by the Epoch 0 detective chain, not by the broadcast watch.
+      // SIB (Spaces In Between) ids use the `sib-ep{n}` prefix and
+      // set their hand-written sib_*_viewed flags via SIB_WATCHED_FLAGS
+      // so NPC dialog unlocks and the detective chain can progress
+      // whether the player found the episode via the inbox or via
+      // the Epoch 0 detective chain.
       const match = id.match(/^ep(\d+)-(\d+)$/);
       const nextFlags = { ...prev.narrativeFlags };
       if (match) {
         const [, epoch, episode] = match;
         nextFlags[`epoch${epoch}_ep${episode}_watched`] = true;
         nextFlags[`epoch${epoch}_ep${episode}_viewed`] = true;
+      } else if (SIB_WATCHED_FLAGS[id]) {
+        nextFlags[SIB_WATCHED_FLAGS[id]] = true;
       }
+      // Increment oracle reveal tier on every reveal-triggering
+      // episode. Clamped to 3 since there are currently 3 reveal
+      // episodes total (episodes 11, 14, 19 in transmissions.ts).
+      const nextTier = triggersOracleReveal
+        ? Math.min(3, (prev.oracleRevealTier ?? 0) + 1)
+        : prev.oracleRevealTier ?? 0;
       return {
         ...prev,
         transmissionsWatched: [...prev.transmissionsWatched, id],
@@ -1786,6 +1797,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
           ? prev.transmissionsNotified
           : [...prev.transmissionsNotified, id],
         oracleRevealActive: prev.oracleRevealActive || triggersOracleReveal,
+        oracleRevealTier: nextTier,
         narrativeFlags: nextFlags,
       };
     });

@@ -607,6 +607,72 @@ export function transmissionId(t: Transmission): string {
   return `ep${t.epoch}-${t.episodeNumber}`;
 }
 
+/**
+ * All transmission-awarded achievements, derived from the
+ * transmission data. Used by the seed procedure to upsert
+ * achievement records into the `achievements` table so they
+ * have pretty names/icons in the architect console and
+ * achievement UI.
+ */
+export interface TransmissionAchievementDef {
+  achievementId: string;
+  name: string;
+  description: string;
+  category: "transmission";
+  tier: "bronze" | "silver" | "gold" | "platinum";
+  xpReward: number;
+  pointsReward: number;
+}
+
+export function getTransmissionAchievementDefs(): TransmissionAchievementDef[] {
+  // Defined inline-after-epoch-consts so ALL_TRANSMISSIONS is live.
+  // Uses broadcastOrder to pick tier: earliest = bronze, late = gold.
+  const defs: TransmissionAchievementDef[] = [];
+  const seen = new Set<string>();
+  for (const t of ALL_TRANSMISSIONS) {
+    const id = t.reward.achievement;
+    if (!id || seen.has(id)) continue;
+    seen.add(id);
+    // Tier scales with reward size — bigger rewards = later story.
+    const tier: TransmissionAchievementDef["tier"] =
+      t.reward.xp >= 500 ? "platinum"
+      : t.reward.xp >= 300 ? "gold"
+      : t.reward.xp >= 200 ? "silver"
+      : "bronze";
+    defs.push({
+      achievementId: id,
+      name: t.title,
+      description: t.synopsis,
+      category: "transmission",
+      tier,
+      xpReward: Math.floor(t.reward.xp / 4),
+      pointsReward: t.reward.dream * 2,
+    });
+  }
+  return defs;
+}
+
+/**
+ * SIB episode → narrative flag map. Watching a SIB broadcast should
+ * set its corresponding `sib_*_viewed` flag so downstream gates
+ * (NPC dialog unlocks, conspiracy board enhancements, detective
+ * chain progression in epochZeroTriggers.ts) all fire consistently
+ * whether the player watched via the inbox or via the Epoch 0
+ * detective chain. Keys are transmissionIds (see transmissionId()).
+ */
+export const SIB_WATCHED_FLAGS: Record<string, string> = {
+  "sib-ep1": "sib_celebration_viewed",
+  "sib-ep2": "sib_mechronis_viewed",
+  "sib-ep3": "sib_ninth_viewed",
+  "sib-ep4": "sib_wolf_viewed",
+  "sib-ep5": "sib_necromancer_lair_viewed",
+  "sib-ep6": "sib_syndicate_viewed",
+  "sib-ep7": "sib_politician_viewed",
+  "sib-ep8": "sib_collector_viewed",
+  "sib-ep9": "sib_gamemaster_viewed",
+  "sib-ep10": "sib_necromancer_profile_viewed",
+};
+
 /* ─── TRIGGER EVALUATION ─── */
 
 export interface PlayerContext {

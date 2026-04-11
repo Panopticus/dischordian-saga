@@ -20,6 +20,8 @@ import {
   isUnlocked,
   getNewlyUnlocked,
   transmissionId,
+  SIB_WATCHED_FLAGS,
+  getTransmissionAchievementDefs,
   type PlayerContext,
   type Transmission,
 } from "./transmissions";
@@ -186,6 +188,53 @@ describe("transmissions — getNewlyUnlocked", () => {
     // The second batch should contain transmissions whose flag
     // triggers just became satisfied — proving the chain advances.
     expect(secondBatch.length).toBeGreaterThan(0);
+  });
+});
+
+describe("transmissions — SIB flag map", () => {
+  it("every SIB transmission has a corresponding watched flag entry", () => {
+    const sibs = ALL_TRANSMISSIONS.filter(t => t.broadcastOrder <= -20);
+    expect(sibs.length).toBeGreaterThan(0);
+    for (const t of sibs) {
+      const id = transmissionId(t);
+      expect(id).toMatch(/^sib-ep/);
+      expect(SIB_WATCHED_FLAGS[id]).toBeDefined();
+      expect(SIB_WATCHED_FLAGS[id]).toMatch(/^sib_.*_viewed$/);
+    }
+  });
+
+  it("SIB ids are globally unique to the sib- prefix", () => {
+    for (const id of Object.keys(SIB_WATCHED_FLAGS)) {
+      expect(id).toMatch(/^sib-ep\d+$/);
+    }
+  });
+});
+
+describe("transmissions — achievement definitions", () => {
+  it("generates one achievement def per unique transmission achievement", () => {
+    const defs = getTransmissionAchievementDefs();
+    const uniqueIds = new Set(
+      ALL_TRANSMISSIONS.map(t => t.reward.achievement).filter(Boolean) as string[],
+    );
+    expect(defs.length).toBe(uniqueIds.size);
+    for (const def of defs) {
+      expect(def.category).toBe("transmission");
+      expect(def.name.length).toBeGreaterThan(0);
+      expect(def.description.length).toBeGreaterThan(0);
+      expect(["bronze", "silver", "gold", "platinum"]).toContain(def.tier);
+      expect(def.xpReward).toBeGreaterThan(0);
+      expect(def.pointsReward).toBeGreaterThan(0);
+    }
+  });
+});
+
+describe("transmissions — oracle reveal episodes", () => {
+  it("has a finite small count of triggersOracleReveal episodes", () => {
+    const triggering = ALL_TRANSMISSIONS.filter(t => t.triggersOracleReveal);
+    // Tier system clamps at 3 — catch if someone adds a 4th without
+    // also updating the clamp in GameContext.markTransmissionWatched.
+    expect(triggering.length).toBeGreaterThanOrEqual(1);
+    expect(triggering.length).toBeLessThanOrEqual(3);
   });
 });
 
