@@ -274,6 +274,22 @@ export default function DeckBuilderPage() {
     }
   }, [deleteDeckMut, utils, selectedDeckId]);
 
+  // Duplicate deck — clones the card list under a new "(Copy)" name.
+  const handleCopyDeck = useCallback(async (deck: DeckData) => {
+    try {
+      await createDeckMut.mutateAsync({
+        name: `${deck.name} (Copy)`.slice(0, 256),
+        description: deck.description || undefined,
+        deckType: (deck.deckType as "crypt" | "library" | "combined") || "combined",
+        cardList: (deck.cardList || []).map(c => ({ cardId: c.cardId, quantity: c.quantity })),
+      });
+      toast.success(`Copied "${deck.name}"`);
+      utils.cardGame.myDecks.invalidate();
+    } catch (err: any) {
+      toast.error(err.message || "Failed to copy deck");
+    }
+  }, [createDeckMut, utils]);
+
   // Drag handlers
   const handleDragStart = useCallback((cardId: string) => {
     setDraggedCard(cardId);
@@ -423,12 +439,22 @@ export default function DeckBuilderPage() {
                               {deck.name}
                             </h3>
                           </div>
-                          <button
-                            onClick={(e) => { e.stopPropagation(); handleDeleteDeck(deck.id); }}
-                            className="p-1 text-muted-foreground/40 hover:text-destructive transition-colors"
-                          >
-                            <Trash2 size={14} />
-                          </button>
+                          <div className="flex items-center gap-1">
+                            <button
+                              onClick={(e) => { e.stopPropagation(); handleCopyDeck(deck); }}
+                              className="p-1 text-muted-foreground/40 hover:text-primary transition-colors"
+                              title="Duplicate deck"
+                            >
+                              <Copy size={14} />
+                            </button>
+                            <button
+                              onClick={(e) => { e.stopPropagation(); handleDeleteDeck(deck.id); }}
+                              className="p-1 text-muted-foreground/40 hover:text-destructive transition-colors"
+                              title="Delete deck"
+                            >
+                              <Trash2 size={14} />
+                            </button>
+                          </div>
                         </div>
                         {deck.description && (
                           <p className="text-muted-foreground text-xs mb-3 line-clamp-2">{deck.description}</p>
