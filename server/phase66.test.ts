@@ -7,6 +7,7 @@
  * 3. Morality Unlockables — Tier gating, zero-sum mechanics, unlock logic
  * 4. Fight Page Morality Bonuses — Stat boosts from morality alignment
  */
+import { describe, it, expect, beforeAll } from "vitest";
 
 /* ═══════════════════════════════════════════════════════
    1. MORALITY UNLOCKABLES DATA

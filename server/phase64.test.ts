@@ -11,6 +11,7 @@
  * 7. Triple Mastery quest in QuestTracker
  * 8. RewardCelebration forceTier support
  */
+import { describe, it, expect } from "vitest";
 
 /* ─── MOCK DATA: Character Choices ─── */
 interface MockCharacterChoices {

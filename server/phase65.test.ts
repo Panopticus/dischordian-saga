@@ -9,6 +9,7 @@
  *    cursor pagination, content API caching, dynamic imports, relations
  * 5. Miscellaneous — Streaming embed, character sheet hub, video log hooks
  */
+import { describe, it, expect } from "vitest";
 
 /* ═══════════════════════════════════════════════════════
    1. DISCOVERY SYSTEM
