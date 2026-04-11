@@ -1805,14 +1805,22 @@ export const chessPuzzleProgress = mysqlTable("chess_puzzle_progress", {
 }));
 export type ChessPuzzleProgress = typeof chessPuzzleProgress.$inferSelect;
 
-/** Persistent participant state for a chess tournament. */
+/** Persistent participant state for a chess tournament.
+ *
+ *  IMPORTANT: `score` and `tieBreak` are stored as 2× the actual
+ *  point value to keep them as plain integers (avoiding MySQL DECIMAL).
+ *  A win is +2, a draw is +1, half-Buchholz is +1 per opponent half-point.
+ *  All read sites in the chess router divide by 2 before returning
+ *  values to the client. */
 export const chessTournamentParticipants = mysqlTable("chess_tournament_participants", {
   id: int("id").autoincrement().primaryKey(),
   tournamentId: int("tournamentId").notNull(),
   userId: int("userId").notNull(),
   userName: varchar("userName", { length: 128 }).notNull(),
-  score: int("score").notNull().default(0),        // 2x actual score (so 1.5 → 3)
-  tieBreak: int("tieBreak").notNull().default(0),  // 2x actual tie-break
+  /** 2× actual score — divide by 2 for display. */
+  score: int("score").notNull().default(0),
+  /** 2× actual tie-break — divide by 2 for display. */
+  tieBreak: int("tieBreak").notNull().default(0),
   active: boolean("active").notNull().default(true),
   joinedAt: timestamp("joinedAt").defaultNow().notNull(),
 }, (table) => ({
