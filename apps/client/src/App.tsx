@@ -85,6 +85,7 @@ const CrewRosterPage = lazy(() => import("./pages/CrewRosterPage"));
 const TrophyRoomPage = lazy(() => import("./pages/TrophyRoomPage"));
 const WitnessingHubPage = lazy(() => import("./pages/WitnessingHubPage"));
 const Act1CardLadderPage = lazy(() => import("./pages/Act1CardLadderPage"));
+const VortexIncursionPage = lazy(() => import("./pages/VortexIncursionPage"));
 const TradeWarsPage = lazy(() => import("./game/TradeEmpirePage"));
 const WarMapPage = lazy(() => import("./pages/WarMapPage"));
 const DeckBuilderPage = lazy(() => import("./pages/DeckBuilderPage"));
@@ -232,6 +233,7 @@ function Router() {
         <Route path="/trophy" component={TrophyRoomPage} />
         <Route path="/witnessing" component={WitnessingHubPage} />
         <Route path="/act1-ladder" component={Act1CardLadderPage} />
+        <Route path="/vortex-incursion" component={VortexIncursionPage} />
         <Route path="/trade-empire">{() => <GameRoute component={TradeWarsPage} />}</Route>
         <Route path="/war-map">{() => <GameRoute component={WarMapPage} />}</Route>
         <Route path="/deck-builder" component={DeckBuilderPage} />

@@ -201,6 +201,27 @@ function JourneyPanel({ hubState }: { hubState: WitnessingHubState }) {
         </div>
       </Link>
 
+      {/* Vortex Incursion entry — §11.5 community endgame. */}
+      <Link
+        href="/vortex-incursion"
+        className="block rounded-md border border-violet-700/60 bg-violet-950/20 p-4 hover:border-violet-500/80 hover:bg-violet-900/30 transition-colors"
+      >
+        <div className="flex items-center justify-between gap-3">
+          <div>
+            <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-violet-300/70">
+              PLAY · §11.5 COMMUNITY ENDGAME
+            </p>
+            <h3 className="mt-0.5 font-display text-base text-violet-100">
+              The Vortex Incursion
+            </h3>
+            <p className="mt-1 font-serif text-[12px] text-stone-300">
+              Ten rooms between you and the Vortex itself. Hold the line long enough for the next Ark to take the watch.
+            </p>
+          </div>
+          <ChevronRight size={20} className="text-violet-300/70 shrink-0" />
+        </div>
+      </Link>
+
       {/* Current act banner */}
       <section className="rounded-md border border-amber-900/50 bg-stone-950/60 p-5">
         <div className="flex items-center justify-between">
