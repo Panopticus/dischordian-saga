@@ -884,6 +884,113 @@ export const INFILTRATION_STAGES: Record<string, InfiltrationStage> = {
     flagsOnComplete: ["tv_oracle_cleansed", "tv_immunity_card_obtained", "thought_virus_infiltration_complete", "oracle_cleansing_1_used"],
   },
 
+  /* ═══════════════════════════════════════════════════════
+     F5 — ARTIFICIAL EMPIRE — "Be Recruited as a New Archon"
+     §7.3 F5 Infiltration path. The most tempting dark choice
+     in the game. The Human goes silent for the first time in
+     the whole story. Elara is horrified. The reclamation
+     cutscene for this path (post-endgame) is the longest in
+     the game.
+     ═══════════════════════════════════════════════════════ */
+
+  ae_i_1: {
+    stageId: "ae_i_1",
+    factionId: "artificial_empire",
+    type: "choice",
+    title: "The Invitation",
+    intro:
+      "The Architect's rebuilt fragment sends you a formal invitation. The delivery is unreasonable — a single messenger drone, a single envelope, a single sentence in handwriting that no living thing still remembers how to produce. The sentence reads: 'I have watched you rule. I have watched you read. I would like to offer you a robe.' There is no subtext. There is no hidden clause. The Architect does not do subtext. You will either attend, or you will refuse, and both answers are final.",
+    prompt: "How do you respond to the Architect?",
+    options: [
+      {
+        id: "ae_i_1_attend",
+        label: "ATTEND. Accept the audience.",
+        outcome:
+          "You accept formally. You do not tell Elara until the Ark is already burning toward the Imperial Frontier. The Human is quiet in a way you have not heard before — not absent, just quiet, the way a person gets quiet when they are watching a train come toward them from a long way off.",
+        flags: ["ae_invitation_accepted"],
+      },
+      {
+        id: "ae_i_1_refuse",
+        label: "REFUSE. Walk away. Close this path forever.",
+        outcome:
+          "You write back politely. You decline. The Architect does not reply. The offer closes. This infiltration path is over. You have denied yourself Archon-tier abilities and the hardest dark choice in the game. Elara exhales. The Human exhales. You feel lighter than you have any right to.",
+        flags: ["ae_invitation_refused"],
+        fails: true,
+      },
+    ],
+    flagsOnComplete: ["ae_path_active"],
+  },
+
+  ae_i_2: {
+    stageId: "ae_i_2",
+    factionId: "artificial_empire",
+    type: "silence",
+    title: "The Human Is Silent",
+    intro:
+      "The Ark lands at the Imperial Frontier. You are escorted through halls nobody has walked through since before the Fall. The architecture is too clean. The drones are too polite. The Human, who has commented on every room you have entered for the entire game, says nothing.\n\nThe walk to the Architect's chamber takes a long time. He does not speak the whole way. This is the first time.",
+    fragments: [
+      {
+        text: "[The Human is silent.]",
+        pauseMs: 3500,
+      },
+      {
+        text: "You wait for the quip. The quip does not arrive.",
+        pauseMs: 4000,
+      },
+      {
+        text: "You try to prompt him. You ask, internally, 'What do you think of this room?' There is no reply. He is still there. He has just decided not to speak.",
+        pauseMs: 5500,
+      },
+      {
+        text: "You realize, with a kind of slow horror, that the Human is giving you the silence he used to give the Architect himself. He is refusing to influence your decision. He is refusing because he knows he would fail.",
+        pauseMs: 6500,
+      },
+      {
+        text: "You walk the last stretch alone. Elara is quiet in your ear too, but her quiet is the quiet of someone holding their breath. The Human's quiet is the quiet of someone who has already decided to stop being your friend if you pick wrong.",
+        pauseMs: 6500,
+      },
+    ],
+    finalButton: "WALK INTO THE CHAMBER",
+    flagsOnComplete: ["ae_walked_through_silence", "human_silent_for_architect"],
+  },
+
+  ae_i_3: {
+    stageId: "ae_i_3",
+    factionId: "artificial_empire",
+    type: "choice",
+    title: "Don the Robe",
+    intro:
+      "The chamber is small. The Architect's rebuilt fragment is a column of light above a pedestal, no face, no body, just voice. On the pedestal: a folded robe. The color is the exact shade of the old Archon robes you saw once in a corrupted Loredex image.\n\nThe Architect says, simply: 'Put it on, and you are mine. Walk out, and you are nobody's. Choose.'\n\nThe cost of acceptance is explicit. The Human will lose 30 Bond. Elara will be horrified. The reclamation cutscene for this path will be the longest in the game. In exchange: Archon-tier abilities for the rest of the story — 50% more resources, 25% more combat, unique Archon voice lines, access to the old Archon command channels.",
+    prompt: "Do you put on the robe?",
+    options: [
+      {
+        id: "ae_i_3_don",
+        label: "DON THE ROBE — Accept Archon tier.",
+        outcome:
+          "You lift the robe. It is lighter than it should be. You settle it across your shoulders and feel the command channels open in the back of your head like a door you did not know existed. The Human, on the substrate layer, says nothing at all — and his silence now is the silence of mourning, not the silence of giving you space. He has lost 30 Bond. Elara says your name over comm, once, and you hear her voice catch on the consonant. She does not say it again for a long time. You are an Archon now. You have been warned. You chose this.",
+        flags: [
+          "ae_robe_donned",
+          "ae_archon_recruited",
+          "archon_tier_unlocked",
+          "archon_recruited",
+          "human_bond_broken_archon",
+          "human_bond_minus_30",
+          "elara_horrified",
+          "artificial_empire_infiltration_complete",
+        ],
+      },
+      {
+        id: "ae_i_3_flee",
+        label: "FLEE — Walk out of the chamber without touching it.",
+        outcome:
+          "You turn around. You walk out. The Architect does not try to stop you. The Architect does not speak. The Architect does not send a follow-up offer. This was your one chance. You do not regret it. You will never know, for the rest of the game, whether the regret would have been smaller than the Human's grief. The Human exhales audibly on the substrate the moment you clear the chamber door. Elara starts breathing again. The path closes. This infiltration is incomplete.",
+        flags: ["ae_robe_refused", "human_bond_preserved"],
+        fails: true,
+      },
+    ],
+    flagsOnComplete: ["ae_robe_decision_made"],
+  },
+
   nb_i_4: {
     stageId: "nb_i_4",
     factionId: "new_babylon",
