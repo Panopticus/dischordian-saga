@@ -250,14 +250,45 @@ export const cardGameRouter = router({
     return { success: true, message: `Received ${pack.length} starter cards!`, count: pack.length };
   }),
 
-  // Open a booster pack (earn random cards)
+  // Open a booster pack (earn random cards). Charges the player in
+  // credits from their characterSheet balance. Three tiers:
+  //  - standard: 100 credits, 3 common + 1 uncommon + 1 rare+
+  //  - premium:  250 credits, guaranteed rare, chance at legendary+
+  //  - ultra:    500 credits, guaranteed epic, higher legendary+ chance
   openBoosterPack: protectedProcedure
-    .input(z.object({ season: z.string().optional() }))
+    .input(z.object({
+      season: z.string().optional(),
+      tier: z.enum(["standard", "premium", "ultra"]).default("standard"),
+    }))
     .mutation(async ({ ctx, input }) => {
       const db = await getDb();
-      if (!db) return { success: false, cards: [] };
+      if (!db) return { success: false, cards: [], message: "Database unavailable" };
 
-      // 5 cards per pack: 3 common, 1 uncommon, 1 rare+
+      const PACK_PRICES = { standard: 100, premium: 250, ultra: 500 } as const;
+      const cost = PACK_PRICES[input.tier];
+
+      // Charge the player's credit balance up front.
+      const sheetRows = await db
+        .select()
+        .from(characterSheets)
+        .where(eq(characterSheets.userId, ctx.user.id))
+        .limit(1);
+      const sheet = sheetRows[0];
+      if (!sheet) {
+        return { success: false, cards: [], message: "Create a character first" };
+      }
+      if ((sheet.credits ?? 0) < cost) {
+        return {
+          success: false,
+          cards: [],
+          message: `Not enough credits (need ${cost}, have ${sheet.credits ?? 0})`,
+        };
+      }
+      await db.update(characterSheets)
+        .set({ credits: sheet.credits - cost })
+        .where(eq(characterSheets.userId, ctx.user.id));
+
+      // 5 cards per pack: 3 common, 1 uncommon, 1 rare+ (tier scales the rare slot)
       const conditions: SQL[] = [eq(cards.isActive, 1)];
       if (input?.season) conditions.push(eq(cards.season, input.season));
 
@@ -282,13 +313,29 @@ export const cardGameRouter = router({
       }
       // 1 uncommon
       if (byRarity.uncommon.length > 0) packCards.push(pick(byRarity.uncommon));
-      // 1 rare+ (weighted)
+      // 1 rare+ slot, weighted by tier
       const roll = Math.random();
-      if (roll < 0.01 && byRarity.neyon.length > 0) packCards.push(pick(byRarity.neyon));
-      else if (roll < 0.03 && byRarity.mythic.length > 0) packCards.push(pick(byRarity.mythic));
-      else if (roll < 0.08 && byRarity.legendary.length > 0) packCards.push(pick(byRarity.legendary));
-      else if (roll < 0.25 && byRarity.epic.length > 0) packCards.push(pick(byRarity.epic));
-      else if (byRarity.rare.length > 0) packCards.push(pick(byRarity.rare));
+      if (input.tier === "ultra") {
+        // Guaranteed epic, 40% shot at legendary+, 5% shot at mythic/neyon
+        if (roll < 0.02 && byRarity.neyon.length > 0) packCards.push(pick(byRarity.neyon));
+        else if (roll < 0.05 && byRarity.mythic.length > 0) packCards.push(pick(byRarity.mythic));
+        else if (roll < 0.40 && byRarity.legendary.length > 0) packCards.push(pick(byRarity.legendary));
+        else if (byRarity.epic.length > 0) packCards.push(pick(byRarity.epic));
+        else if (byRarity.rare.length > 0) packCards.push(pick(byRarity.rare));
+      } else if (input.tier === "premium") {
+        // Guaranteed rare, 15% shot at epic+, 2% shot at legendary+
+        if (roll < 0.01 && byRarity.mythic.length > 0) packCards.push(pick(byRarity.mythic));
+        else if (roll < 0.02 && byRarity.legendary.length > 0) packCards.push(pick(byRarity.legendary));
+        else if (roll < 0.15 && byRarity.epic.length > 0) packCards.push(pick(byRarity.epic));
+        else if (byRarity.rare.length > 0) packCards.push(pick(byRarity.rare));
+      } else {
+        // Standard distribution
+        if (roll < 0.01 && byRarity.neyon.length > 0) packCards.push(pick(byRarity.neyon));
+        else if (roll < 0.03 && byRarity.mythic.length > 0) packCards.push(pick(byRarity.mythic));
+        else if (roll < 0.08 && byRarity.legendary.length > 0) packCards.push(pick(byRarity.legendary));
+        else if (roll < 0.25 && byRarity.epic.length > 0) packCards.push(pick(byRarity.epic));
+        else if (byRarity.rare.length > 0) packCards.push(pick(byRarity.rare));
+      }
 
       // Add to user collection
       for (const card of packCards) {
@@ -319,8 +366,23 @@ export const cardGameRouter = router({
       trackCollectionSize(ctx.user.id)
         .catch(e => logger.error("[CardGame] Collection tracking error:", e));
 
-      return { success: true, cards: packCards };
+      return {
+        success: true,
+        cards: packCards,
+        cost,
+        tier: input.tier,
+        remainingCredits: sheet.credits - cost,
+      };
     }),
+
+  /** Return the current pack shop prices and rarity tiers. */
+  getPackPrices: publicProcedure.query(() => {
+    return {
+      standard: { price: 100, currency: "credits", description: "5 cards • guaranteed rare+" },
+      premium: { price: 250, currency: "credits", description: "5 cards • 15% chance epic+" },
+      ultra: { price: 500, currency: "credits", description: "5 cards • guaranteed epic+" },
+    };
+  }),
 
   // ═══════════════════════════════════════════════════════
   // DAILY FREE PACK — Once per 24 hours
