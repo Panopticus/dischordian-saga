@@ -184,6 +184,88 @@ export const tradingRouter = router({
       return { success: true };
     }),
 
+  /**
+   * Counter a pending trade offer with modified terms. Declines the
+   * original offer and creates a new trade in the reverse direction
+   * (the original receiver becomes the new sender, proposing revised
+   * terms back). Preserves a `counterOf` breadcrumb via the message
+   * field so the UI can render the negotiation chain.
+   */
+  counterOffer: protectedProcedure
+    .input(z.object({
+      tradeId: z.number(),
+      senderCards: z.array(tradeCardSchema).min(0),
+      receiverCards: z.array(tradeCardSchema).min(0),
+      senderDream: z.number().min(0).max(10000).default(0),
+      receiverDream: z.number().min(0).max(10000).default(0),
+      message: z.string().max(200).optional(),
+    }))
+    .mutation(async ({ ctx, input }) => {
+      const db = await getDb();
+      if (!db) return { success: false, error: "DB unavailable" };
+
+      const [original] = await db.select().from(cardTrades)
+        .where(eq(cardTrades.id, input.tradeId)).limit(1);
+      if (!original) return { success: false, error: "Trade not found" };
+      if (original.status !== "pending") {
+        return { success: false, error: "Trade is no longer pending" };
+      }
+      if (original.receiverId !== ctx.user.id) {
+        return { success: false, error: "Only the receiver can counter a trade" };
+      }
+      if (input.senderCards.length === 0 && input.receiverCards.length === 0 && input.senderDream === 0 && input.receiverDream === 0) {
+        return { success: false, error: "Counter-offer must include at least one item" };
+      }
+
+      // Verify the new sender (ctx.user = original receiver) owns what they're offering.
+      for (const card of input.senderCards) {
+        const [owned] = await db.select().from(userCards)
+          .where(and(eq(userCards.userId, ctx.user.id), eq(userCards.cardId, card.cardId))).limit(1);
+        if (!owned || owned.quantity < card.quantity) {
+          return { success: false, error: `You don't own enough copies of ${card.cardId}` };
+        }
+      }
+      if (input.senderDream > 0) {
+        const [bal] = await db.select().from(dreamBalance).where(eq(dreamBalance.userId, ctx.user.id)).limit(1);
+        const total = (bal?.dreamTokens || 0) + (bal?.soulBoundDream || 0);
+        if (total < input.senderDream) return { success: false, error: "Not enough Dream tokens" };
+      }
+
+      // Decline the original offer.
+      await db.update(cardTrades)
+        .set({ status: "declined" })
+        .where(eq(cardTrades.id, input.tradeId));
+
+      // Insert the counter-offer with flipped direction. Keep a short
+      // breadcrumb so the receiver sees this is a counter, not a cold
+      // trade proposal.
+      const counterMessage = `[Counter to #${input.tradeId}] ${input.message ?? ""}`.slice(0, 256);
+      const [result] = await db.insert(cardTrades).values({
+        senderId: ctx.user.id,
+        receiverId: original.senderId,
+        senderCards: input.senderCards,
+        receiverCards: input.receiverCards,
+        senderDream: input.senderDream,
+        receiverDream: input.receiverDream,
+        message: counterMessage,
+      });
+
+      // Notify the original sender that their trade has a counter.
+      db.insert(notifications).values({
+        userId: original.senderId,
+        type: "trade_offer",
+        title: "Counter-Offer Received",
+        message: `${ctx.user.name || "An operative"} sent a counter to your trade offer.`,
+        actionUrl: "/trading",
+      }).catch(e => logger.error("[Trading] Notification send failed:", e));
+
+      return {
+        success: true,
+        counterTradeId: Number(result.insertId),
+        originalTradeId: input.tradeId,
+      };
+    }),
+
   /** Decline a trade offer */
   declineTrade: protectedProcedure
     .input(z.object({ tradeId: z.number() }))
@@ -231,6 +313,55 @@ export const tradingRouter = router({
       received: await Promise.all(received.map(enrichTrade)),
     };
   }),
+
+  /**
+   * Compute a user's trade reputation score derived from the cardTrades
+   * table. No schema migration — reputation is simply:
+   *
+   *   +5 per accepted trade the user participated in
+   *   -1 per declined trade they initiated
+   *
+   * A minimum of 0 is enforced so cancelled/declined-heavy accounts
+   * don't go negative. The query returns totals + the raw score so the
+   * UI can show "3 deals completed" alongside the reputation badge.
+   */
+  getTradeReputation: protectedProcedure
+    .input(z.object({ userId: z.number().optional() }).optional())
+    .query(async ({ ctx, input }) => {
+      const db = await getDb();
+      if (!db) return { score: 0, completed: 0, declined: 0 };
+
+      const targetId = input?.userId ?? ctx.user.id;
+
+      const [completedResult] = await db
+        .select({ count: sql<number>`COUNT(*)` })
+        .from(cardTrades)
+        .where(and(
+          eq(cardTrades.status, "accepted"),
+          or(eq(cardTrades.senderId, targetId), eq(cardTrades.receiverId, targetId)),
+        ));
+      const completed = Number(completedResult?.count ?? 0);
+
+      const [declinedResult] = await db
+        .select({ count: sql<number>`COUNT(*)` })
+        .from(cardTrades)
+        .where(and(
+          eq(cardTrades.status, "declined"),
+          eq(cardTrades.senderId, targetId),
+        ));
+      const declined = Number(declinedResult?.count ?? 0);
+
+      const score = Math.max(0, completed * 5 - declined);
+      const badge =
+        score >= 200 ? "legendary_trader" :
+        score >= 100 ? "master_trader" :
+        score >= 50 ? "veteran_trader" :
+        score >= 20 ? "trusted_trader" :
+        score >= 5 ? "novice_trader" :
+        "unverified";
+
+      return { score, completed, declined, badge };
+    }),
 
   /** Search for players to trade with */
   searchPlayers: protectedProcedure
