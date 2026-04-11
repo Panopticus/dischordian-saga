@@ -22,6 +22,7 @@ import { eq, and } from "drizzle-orm";
 import { logger } from "../logger";
 import {
   EPOCH_1_TRANSMISSIONS,
+  localize,
   type Transmission,
 } from "@shared/transmissions";
 
@@ -115,12 +116,17 @@ export const episodeService = {
       return { intro: "", playerAlreadyKnows: [] };
     }
 
+    // Resolve once for the whole branch — server-side rendering
+    // always picks English until a per-player locale preference is
+    // threaded through the call.
+    const introText = localize(episode.memeIntro);
+
     if (!episode.relatedLoredexEntries || episode.relatedLoredexEntries.length === 0) {
-      return { intro: episode.memeIntro, playerAlreadyKnows: [] };
+      return { intro: introText, playerAlreadyKnows: [] };
     }
 
     const db = await getDb();
-    if (!db) return { intro: episode.memeIntro, playerAlreadyKnows: [] };
+    if (!db) return { intro: introText, playerAlreadyKnows: [] };
 
     // Check player's game state for discovered loredex entries
     // Loredex discoveries are tracked in the gameData JSON blob
@@ -128,7 +134,7 @@ export const episodeService = {
     const [progress] = await db.select().from(userProgress)
       .where(eq(userProgress.userId, userId)).limit(1);
 
-    if (!progress?.gameData) return { intro: episode.memeIntro, playerAlreadyKnows: [] };
+    if (!progress?.gameData) return { intro: introText, playerAlreadyKnows: [] };
 
     const gameData = progress.gameData as Record<string, any>;
     const discoveredEntities = new Set<string>([
@@ -143,7 +149,7 @@ export const episodeService = {
     );
 
     if (alreadyKnown.length === 0) {
-      return { intro: episode.memeIntro, playerAlreadyKnows: [] };
+      return { intro: introText, playerAlreadyKnows: [] };
     }
 
     // Prepend a special Meme acknowledgment
@@ -156,7 +162,7 @@ export const episodeService = {
       : `[The Meme pauses, stares directly at you.] "Oh, you've been busy. You already know about ${knownNames.slice(0, -1).join(", ")} and ${knownNames[knownNames.length - 1]}. Good. That means you'll understand what happens next."\n\n`;
 
     return {
-      intro: acknowledgment + episode.memeIntro,
+      intro: acknowledgment + introText,
       playerAlreadyKnows: alreadyKnown,
     };
   },

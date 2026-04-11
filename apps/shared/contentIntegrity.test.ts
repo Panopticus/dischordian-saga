@@ -22,7 +22,7 @@ import {
   SacrificeReactionLinesSchema,
 } from "./contentSchemas";
 
-import { ALL_TRANSMISSIONS } from "./transmissions";
+import { ALL_TRANSMISSIONS, localize } from "./transmissions";
 import { ARCHETYPES } from "./apprentices";
 import { SEASONAL_EVENTS } from "./seasonalEvents";
 import {
@@ -443,10 +443,14 @@ describe("Empty String Checks", () => {
   it("no transmissions with empty user-facing strings", () => {
     const issues: string[] = [];
     for (const t of ALL_TRANSMISSIONS) {
+      // `synopsis`, `memeIntro`, `memeOutro` are LocalizedString
+      // (plain string or locale map). Resolve via localize() so the
+      // test works on both forms — the content-integrity check
+      // applies to the English form.
       if (!t.title.trim()) issues.push(`Episode ${t.episodeNumber}: empty title`);
-      if (!t.synopsis.trim()) issues.push(`Episode ${t.episodeNumber}: empty synopsis`);
-      if (!t.memeIntro.trim()) issues.push(`Episode ${t.episodeNumber}: empty memeIntro`);
-      if (!t.memeOutro.trim()) issues.push(`Episode ${t.episodeNumber}: empty memeOutro`);
+      if (!localize(t.synopsis).trim()) issues.push(`Episode ${t.episodeNumber}: empty synopsis`);
+      if (!localize(t.memeIntro).trim()) issues.push(`Episode ${t.episodeNumber}: empty memeIntro`);
+      if (!localize(t.memeOutro).trim()) issues.push(`Episode ${t.episodeNumber}: empty memeOutro`);
     }
     expect(issues).toEqual([]);
   });

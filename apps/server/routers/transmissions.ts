@@ -21,6 +21,7 @@ import {
   userAchievements,
   notifications,
   achievements,
+  userProgress,
 } from "../../db/schema";
 import { and, eq, sql } from "drizzle-orm";
 import { logger } from "../logger";
@@ -312,6 +313,130 @@ export const transmissionsRouter = router({
     const result = await seedTransmissionAchievements(db);
     return { success: true as const, ...result };
   }),
+
+  /**
+   * Admin: migrate pre-fix `ep0-N` watched ids in a specific
+   * user's gameData to a chosen strategy.
+   *
+   * Context: before the SIB id-collision fix, both Spaces In Between
+   * Ep N and Epoch 0 Ep N serialized to the same `ep0-N` string.
+   * Any existing `ep0-N` entry (where N is 1..10) in a player's
+   * `transmissionsWatched` list is ambiguous — we can't know if
+   * they actually watched the SIB or the main Epoch 0 episode.
+   *
+   * Strategies (pick one based on product guidance):
+   *   - `keep-epoch0`: leave the `ep0-N` entries alone, treat them
+   *     as Epoch 0 main-chain watches (current default behavior).
+   *     This is a no-op data-wise but clears the diagnostic warning.
+   *   - `wipe`: remove the ambiguous `ep0-N` entries entirely so
+   *     the player can re-watch for correct credit. Refunds nothing
+   *     (server-side `contentParticipation` rows stay intact for
+   *     auditing). Produces a tombstone in `transmissionsNotified`
+   *     so the player doesn't get a fresh "INCOMING" toast for the
+   *     re-unlocked episodes.
+   *   - `duplicate`: keep the `ep0-N` entry as Epoch 0 AND add a
+   *     `sib-epN` entry for the same index, so the player gets
+   *     credit for both. Most generous option; use only if the
+   *     team prefers overcounting over forcing re-watches.
+   *
+   * Returns `{ migrated: number, strategy, beforeIds, afterIds }`
+   * so the caller can audit the change.
+   */
+  migrateAmbiguousIds: adminProcedure
+    .input(
+      z.object({
+        userId: z.number().int().positive(),
+        strategy: z.enum(["keep-epoch0", "wipe", "duplicate"]),
+      }),
+    )
+    .mutation(async ({ input }) => {
+      const db = await getDb();
+      if (!db) {
+        return { success: false as const, error: "DB unavailable" as const };
+      }
+
+      const rows = await db
+        .select()
+        .from(userProgress)
+        .where(eq(userProgress.userId, input.userId))
+        .limit(1);
+
+      if (rows.length === 0) {
+        return { success: false as const, error: "User has no game state" as const };
+      }
+
+      const gameData = (rows[0].gameData ?? {}) as Record<string, unknown>;
+      const beforeIds = Array.isArray(gameData.transmissionsWatched)
+        ? (gameData.transmissionsWatched as string[])
+        : [];
+      const beforeNotified = Array.isArray(gameData.transmissionsNotified)
+        ? (gameData.transmissionsNotified as string[])
+        : [];
+
+      const LEGACY_RE = /^ep0-([1-9]|10)$/;
+      const ambiguous = beforeIds.filter(id => LEGACY_RE.test(id));
+
+      if (ambiguous.length === 0) {
+        return {
+          success: true as const,
+          migrated: 0,
+          strategy: input.strategy,
+          beforeIds,
+          afterIds: beforeIds,
+          message: "No ambiguous ids found — nothing to migrate",
+        };
+      }
+
+      let afterIds = beforeIds;
+      let afterNotified = beforeNotified;
+      if (input.strategy === "wipe") {
+        // Drop the ambiguous entries. Also drop their counterparts
+        // from `transmissionsNotified` so the client's getNewlyUnlocked
+        // re-surfaces them on the next login and the player sees the
+        // INCOMING toast again.
+        afterIds = beforeIds.filter(id => !LEGACY_RE.test(id));
+        afterNotified = beforeNotified.filter(id => !LEGACY_RE.test(id));
+      } else if (input.strategy === "duplicate") {
+        // Add sib-epN alongside each ep0-N so the player gets credit
+        // for both. Deduplicate with a Set in case the sib- entry
+        // somehow already exists.
+        const sibEntries = ambiguous.map(id => {
+          const match = id.match(LEGACY_RE);
+          return `sib-ep${match?.[1] ?? ""}`;
+        });
+        afterIds = Array.from(new Set([...beforeIds, ...sibEntries]));
+      }
+      // strategy === "keep-epoch0" is a no-op on the list; we still
+      // clear the ambiguous diagnostic by flipping a flag below.
+
+      const nextGameData = {
+        ...gameData,
+        transmissionsWatched: afterIds,
+        transmissionsNotified: afterNotified,
+        // Flag consumed by the client migration helper to suppress
+        // the one-shot console.warn on future loads.
+        _ambiguousIdsMigrated: true,
+        _ambiguousIdsMigratedStrategy: input.strategy,
+        _ambiguousIdsMigratedAt: Date.now(),
+      };
+
+      await db
+        .update(userProgress)
+        .set({ gameData: nextGameData })
+        .where(eq(userProgress.userId, input.userId));
+
+      logger.info(
+        `[transmissions.migrateAmbiguousIds] user=${input.userId} strategy=${input.strategy} migrated=${ambiguous.length}`,
+      );
+
+      return {
+        success: true as const,
+        migrated: ambiguous.length,
+        strategy: input.strategy,
+        beforeIds,
+        afterIds,
+      };
+    }),
 
   /**
    * Server-side authoritative list of watched transmission ids.

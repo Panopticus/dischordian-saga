@@ -12,7 +12,7 @@
 
 import { ALL_ROOM_DIALOGS, type RoomDialogDef, type RoomChoice } from "../client/src/game/roomDialogs";
 import { ALL_CHAPTERS, type StoryChapter } from "../client/src/game/storyMode";
-import { ALL_TRANSMISSIONS, type Transmission, type TransmissionTrigger } from "./transmissions";
+import { ALL_TRANSMISSIONS, localize, type Transmission, type TransmissionTrigger } from "./transmissions";
 import { resolveBreakingPoint, BREAKING_POINT_OPTIONS, type BreakingPointChoice } from "./breakingPoint";
 import { ARCHETYPES, type ApprenticeArchetype } from "./apprentices";
 import { BETRAYAL_THRESHOLDS, type BetrayalStage } from "./apprenticeBetrayal";
@@ -439,13 +439,17 @@ export function validateTransmissionUnlocks(): ValidationIssue[] {
     }
 
     // --- Verify episode metadata ---
+    // memeIntro/memeOutro are LocalizedString — resolve via
+    // localize() so both plain and localized forms validate.
     if (!t.title || t.title.trim() === "") {
       issues.push(issue("critical", "transmission_unlock", `Episode has empty title`, loc));
     }
-    if (!t.memeIntro || t.memeIntro.trim() === "") {
+    const memeIntroText = localize(t.memeIntro);
+    const memeOutroText = localize(t.memeOutro);
+    if (!memeIntroText || memeIntroText.trim() === "") {
       issues.push(issue("warning", "transmission_unlock", `Episode has empty memeIntro`, loc));
     }
-    if (!t.memeOutro || t.memeOutro.trim() === "") {
+    if (!memeOutroText || memeOutroText.trim() === "") {
       issues.push(issue("warning", "transmission_unlock", `Episode has empty memeOutro`, loc));
     }
     if (t.lengthSeconds < 0) {

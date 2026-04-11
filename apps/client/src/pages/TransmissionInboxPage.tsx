@@ -12,7 +12,7 @@ import { ChevronLeft, Radio, Play, CheckCircle, Sparkles } from "lucide-react";
 import { useGame } from "@/contexts/GameContext";
 import { usePlayerContext } from "@/hooks/usePlayerContext";
 import {
-  ALL_TRANSMISSIONS, isUnlocked, transmissionId, type Transmission,
+  ALL_TRANSMISSIONS, isUnlocked, localize, transmissionId, type Transmission,
 } from "@shared/transmissions";
 import MemeBroadcast from "@/components/MemeBroadcast";
 
@@ -170,7 +170,7 @@ export default function TransmissionInboxPage() {
                                 {isWatched && <CheckCircle size={10} className="text-emerald-400" />}
                                 {isShift && <Sparkles size={10} className="text-purple-400" />}
                               </div>
-                              <p className="font-mono text-[9px] text-muted-foreground/70 leading-snug mt-0.5">{t.synopsis}</p>
+                              <p className="font-mono text-[9px] text-muted-foreground/70 leading-snug mt-0.5">{localize(t.synopsis)}</p>
                               <div className="flex items-center gap-2 mt-1">
                                 <span className="font-mono text-[8px] uppercase tracking-wider text-muted-foreground/40">
                                   Epoch {t.epoch} · Ep {t.episodeNumber} · {Math.floor(t.lengthSeconds / 60)}:{String(t.lengthSeconds % 60).padStart(2, "0")}

@@ -15,7 +15,12 @@
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Play, SkipForward, Radio, BookOpen } from "lucide-react";
-import { driveEmbedUrl, transmissionId as makeTransmissionId, type Transmission } from "@shared/transmissions";
+import {
+  driveEmbedUrl,
+  localize,
+  transmissionId as makeTransmissionId,
+  type Transmission,
+} from "@shared/transmissions";
 import { getLoredexUnlocksForTransmission } from "@shared/transmissionLoredexUnlocks";
 import { useKinetic } from "@/hooks/useKinetic";
 import { emitDiscoveryNotification } from "@/components/DiscoveryNotification";
@@ -85,9 +90,15 @@ export default function MemeBroadcast({ transmission, onClose, onComplete, alrea
   // Meme VO playback
   const { speak: speakMeme, stop: stopMeme } = useMemeVO();
 
-  // Kinetic typography for Meme commentary
-  const intro = useKinetic({ mode: "word", text: transmission.memeIntro, speed: 18, autoStart: phase === "intro" });
-  const outro = useKinetic({ mode: "word", text: transmission.memeOutro, speed: 18, autoStart: phase === "outro" });
+  // Kinetic typography for Meme commentary. Narrative fields accept
+  // either a plain string or a LocalizedString map — localize()
+  // resolves both. Defaulting to English until the locale switch
+  // lands in the player settings.
+  const introText = localize(transmission.memeIntro);
+  const outroText = localize(transmission.memeOutro);
+  const synopsisText = localize(transmission.synopsis);
+  const intro = useKinetic({ mode: "word", text: introText, speed: 18, autoStart: phase === "intro" });
+  const outro = useKinetic({ mode: "word", text: outroText, speed: 18, autoStart: phase === "outro" });
 
   // Play Meme VO when intro/outro phase starts
   useEffect(() => {
@@ -410,7 +421,7 @@ export default function MemeBroadcast({ transmission, onClose, onComplete, alrea
                     // Synopsis + auto-advance so the flow still reaches the
                     // outro and rewards trigger normally.
                     <TextTransmissionFallback
-                      synopsis={transmission.synopsis}
+                      synopsis={synopsisText}
                       memeColor={memeColor}
                       onContinue={() => setPhase("static-to-outro")}
                     />

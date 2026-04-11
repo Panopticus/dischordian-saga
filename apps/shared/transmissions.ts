@@ -35,6 +35,41 @@ export type TransmissionTrigger =
   | { kind: "apprentice_graduates" }
   | { kind: "always" };
 
+/**
+ * Locale identifier. Matches the BCP-47 short codes under
+ * `apps/client/src/i18n/locales/*`. Extend as locales are added —
+ * unknown codes fall back to "en" at runtime via `localize()`.
+ */
+export type LocaleId = "en" | "es" | "fr" | "de" | "ja" | "zh";
+
+/**
+ * A string that may be plain (English-only) or a locale map. Both
+ * forms are accepted everywhere `LocalizedString` appears so content
+ * can be migrated entry-by-entry without a big-bang type change.
+ *
+ * Examples:
+ *   "Hello, frens."                             // plain
+ *   { en: "Hello, frens.", es: "Hola, amigos." } // localized
+ */
+export type LocalizedString = string | Partial<Record<LocaleId, string>>;
+
+/**
+ * Resolve a `LocalizedString` to an actual string for the given
+ * locale. Falls back to English if the locale is missing, then to
+ * any first available string in the map, then to empty string.
+ */
+export function localize(
+  value: LocalizedString | undefined | null,
+  locale: LocaleId = "en",
+): string {
+  if (value == null) return "";
+  if (typeof value === "string") return value;
+  if (value[locale]) return value[locale] as string;
+  if (value.en) return value.en;
+  const first = Object.values(value).find(v => typeof v === "string" && v.length > 0);
+  return (first as string | undefined) ?? "";
+}
+
 export interface Transmission {
   episodeNumber: number;
   epoch: EpochId;
@@ -44,12 +79,15 @@ export interface Transmission {
   /** Direct video URL (Cloudinary, S3, etc.) — preferred over driveFileId */
   videoUrl: string | null;
   lengthSeconds: number;
-  memeIntro: string;
-  memeOutro: string;
+  /** Narrative content. Plain strings are in English. Migrate to
+   *  `LocalizedString` maps (e.g. `{ en: "...", es: "..." }`) as
+   *  translations land — the helper `localize()` accepts both. */
+  memeIntro: LocalizedString;
+  memeOutro: LocalizedString;
   triggersOracleReveal: boolean;
   unlockTrigger: TransmissionTrigger;
   reward: { xp: number; dream: number; achievement?: string };
-  synopsis: string;
+  synopsis: LocalizedString;
   /** Loredex entries this episode relates to — enables bidirectional discovery */
   relatedLoredexEntries?: string[];
 }
@@ -642,7 +680,11 @@ export function getTransmissionAchievementDefs(): TransmissionAchievementDef[] {
     defs.push({
       achievementId: id,
       name: t.title,
-      description: t.synopsis,
+      // Achievement defs live in the DB's `achievements` table as
+      // plain strings — pick the English form at seed time. If
+      // multi-locale achievement text is needed later, seed per
+      // locale or extend the achievements schema.
+      description: localize(t.synopsis),
       category: "transmission",
       tier,
       xpReward: Math.floor(t.reward.xp / 4),

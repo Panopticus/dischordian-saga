@@ -1179,9 +1179,20 @@ function migrateGameState(parsed: Partial<GameState>): GameState {
   // 1-10. We can't retroactively split them, so we leave the
   // existing `ep0-N` ids in place (interpreted as Epoch 0) and log
   // a one-shot warning so QA can notice mis-attributed state.
-  const collidable = (merged.transmissionsWatched ?? []).filter(
-    id => /^ep0-(?:[1-9]|10)$/.test(id),
+  //
+  // The warning is suppressed once an admin resolves the state via
+  // transmissions.migrateAmbiguousIds, which sets the
+  // `_ambiguousIdsMigrated` flag on the gameData blob. The flag
+  // survives the save/load round trip because gameStateSchema uses
+  // `.passthrough()`.
+  const alreadyMigrated = Boolean(
+    (parsed as unknown as Record<string, unknown>)._ambiguousIdsMigrated,
   );
+  const collidable = alreadyMigrated
+    ? []
+    : (merged.transmissionsWatched ?? []).filter(
+        id => /^ep0-(?:[1-9]|10)$/.test(id),
+      );
   if (
     collidable.length > 0 &&
     typeof window !== "undefined" &&
@@ -1190,7 +1201,7 @@ function migrateGameState(parsed: Partial<GameState>): GameState {
     (window as unknown as { __txMigrationWarned?: boolean }).__txMigrationWarned = true;
     // eslint-disable-next-line no-console
     console.warn(
-      "[Transmissions] Legacy save contains %d `ep0-N` id(s) that may originally have referred to Spaces In Between episodes. Treating as Epoch 0. If any SIB episode looks unwatched, re-watch it to restore credit.",
+      "[Transmissions] Legacy save contains %d `ep0-N` id(s) that may originally have referred to Spaces In Between episodes. Treating as Epoch 0. If any SIB episode looks unwatched, re-watch it to restore credit. (Admins can call transmissions.migrateAmbiguousIds to resolve.)",
       collidable.length,
     );
   }

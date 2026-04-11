@@ -18,6 +18,7 @@ import {
   EPOCH_1_TRANSMISSIONS,
   EPOCH_2_TRANSMISSIONS,
   isUnlocked,
+  localize,
   getNewlyUnlocked,
   transmissionId,
   SIB_WATCHED_FLAGS,
@@ -293,9 +294,28 @@ describe("transmissions — data integrity", () => {
 
   it("every transmission has a non-empty memeIntro and memeOutro", () => {
     for (const t of ALL_TRANSMISSIONS) {
-      expect(t.memeIntro.length).toBeGreaterThan(0);
-      expect(t.memeOutro.length).toBeGreaterThan(0);
+      // Fields are LocalizedString — plain strings are also valid.
+      // Resolve via localize() so the test stays correct after any
+      // entry is migrated to a locale map.
+      expect(localize(t.memeIntro).length).toBeGreaterThan(0);
+      expect(localize(t.memeOutro).length).toBeGreaterThan(0);
     }
+  });
+
+  it("localize() resolves plain strings unchanged", () => {
+    expect(localize("hello")).toBe("hello");
+  });
+
+  it("localize() resolves locale maps with fallbacks", () => {
+    expect(localize({ en: "hello", es: "hola" }, "es")).toBe("hola");
+    // Missing locale → English fallback
+    expect(localize({ en: "hello", es: "hola" }, "fr")).toBe("hello");
+    // No English, no requested locale → first available
+    expect(localize({ es: "hola" }, "fr")).toBe("hola");
+    // Empty/null/undefined → empty string
+    expect(localize({}, "en")).toBe("");
+    expect(localize(null, "en")).toBe("");
+    expect(localize(undefined, "en")).toBe("");
   });
 
   it("every transmission has a positive reward XP or Dream", () => {
