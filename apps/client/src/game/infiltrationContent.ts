@@ -584,6 +584,190 @@ export const INFILTRATION_STAGES: Record<string, InfiltrationStage> = {
     flagsOnComplete: ["hi_graduate_rewrite_committed", "hierarchy_infiltration_complete", "shadow_tongue_apprentice"],
   },
 
+  /* ═══════════════════════════════════════════════════════
+     F3 — THE INSURGENCY — "Meet the Engineer"
+     §7.3 F3 Infiltration path. The quiet earthquake of Act 3.
+     The player discovers the Engineer — Act 1's master builder —
+     is still alive inside "Agent Zero"'s body. The emotional
+     centerpiece of the whole act.
+     ═══════════════════════════════════════════════════════ */
+
+  in_i_1: {
+    stageId: "in_i_1",
+    factionId: "insurgency",
+    type: "decrypt",
+    title: "Follow the Signal",
+    intro:
+      "You pull Agent Zero's command signal out of the Ark's long-range receiver. The signal has a tell — a three-note handshake she never mentioned in any briefing, hidden in the carrier wave. You know it because you built it. You built it in Act 1 when the Engineer taught you his personal handshake. Pick the right three notes to decrypt the signal and prove — to yourself, not to anyone else — that whoever is running the Insurgency now was taught by him.",
+    hint: "The Engineer's handshake was built from three notes of the Dischordian scale. You have heard them before. The first is low, the second is high, the third resolves.",
+    slots: [
+      { correct: "F♯ sub-basso", decoys: ["C high", "D♭ middle", "A mid", "E flat"] },
+      { correct: "C high", decoys: ["G middle", "A♭ sub-basso", "E mid", "B flat"] },
+      { correct: "D resolving", decoys: ["F♯ middle", "E sub-basso", "A high", "C minor"] },
+    ],
+    maxWrongPicks: 2,
+    flagsOnComplete: ["in_signal_decrypted", "engineer_handshake_recognized"],
+  },
+
+  in_i_2: {
+    stageId: "in_i_2",
+    factionId: "insurgency",
+    type: "ritual",
+    title: "The Hidden Room",
+    intro:
+      "The decrypted signal routes you to a sealed chamber at the heart of the Insurgency Haven. The door is a steel vault the Engineer would have designed — six locks, three of them decoys, one of them only opening if you press your palm against it at exactly the angle he taught you in Act 1. You approach it slowly. You are about to learn something the Insurgency has been hiding for longer than most of its members have been alive.",
+    beats: [
+      {
+        label: "THE APPROACH",
+        text:
+          "The corridor narrows. The lights get warmer. You realize you are walking the exact floor plan of the workshop in which the Engineer taught you your first card. Someone has rebuilt his workshop down here in a different star system, from memory, without ever saying why.",
+        buttonLabel: "KEEP WALKING",
+      },
+      {
+        label: "THE DOOR",
+        text:
+          "The six locks. You turn them without thinking. Your hands remember the order before your head does. The vault breathes once as the seals let go. There is no alarm. Nobody is going to stop you.",
+        buttonLabel: "OPEN THE DOOR",
+      },
+      {
+        label: "THE THRESHOLD",
+        text:
+          "Inside: a single room, warm lights, the smell of old solder and the specific brand of tea the Engineer drank in Act 1. A chair with its back to you. A figure in the chair. The figure does not turn around immediately. You realize the figure is breathing in the exact rhythm he used when he was deciding whether to trust you.",
+        buttonLabel: "STEP INSIDE",
+      },
+    ],
+    closingLine: "The figure in the chair says your name. You stop moving.",
+    flagsOnComplete: ["in_hidden_room_entered"],
+  },
+
+  in_i_3: {
+    stageId: "in_i_3",
+    factionId: "insurgency",
+    type: "dialogue",
+    title: "He Remembers You",
+    intro:
+      "The figure turns. The face is the face of the woman the Insurgency has been calling Agent Zero for seven years — the warlord's body, the dead woman's name. But the eyes are the Engineer's. The cadence is the Engineer's. The small tremor in the left hand is the Engineer's. He is in there. He weeps the moment he sees you. You can talk to him for the first time since Act 1.",
+    speaker: "The Engineer (in Agent Zero's body)",
+    exchanges: [
+      {
+        npcLine:
+          "You built the Deck. I watched you build it. I watched you become the thing I was trying to become, and I watched you get farther than I did, and I watched you get away from Terminus while I didn't. I didn't expect to see your face again. I don't know what mine looks like from the outside anymore.",
+        responses: [
+          {
+            id: "in_i_3_a1",
+            label: "\"It looks like her.\"",
+            outcome: "He nods. He had suspected. He has been avoiding mirrors.",
+            npcReply:
+              "Then I owe her a funeral I can never give her. She was a better person than I am, and I am wearing her skin.",
+            flags: ["in_engineer_told_mirror_truth"],
+          },
+          {
+            id: "in_i_3_a2",
+            label: "\"It looks like you. I'd know you anywhere.\"",
+            outcome: "He weeps harder at this. It is the kindest lie anyone has told him in a very long time. He accepts it.",
+            npcReply:
+              "Thank you. I will take that with me into whatever happens next. Tell me — how bad is it out there? How much of the story of us has survived?",
+            flags: ["in_engineer_told_kind_lie"],
+          },
+          {
+            id: "in_i_3_a3",
+            label: "\"I am going to stop talking. I am going to let you talk first.\"",
+            outcome: "He blinks. Nobody has let him go first in seven years. He uses the silence like a drowning person uses air.",
+            npcReply:
+              "I have been Agent Zero for seven years. The Insurgency still thinks I am her. I have been running their operations with her habits and her contact book and her grudges, because if I used mine the Watcher would find me. I am so tired. Please sit down.",
+            flags: ["in_engineer_let_him_speak"],
+          },
+        ],
+      },
+      {
+        npcLine:
+          "I have so many questions for you. About the Deck. About the Ark. About the woman you brought with you — the AI who used to be Senator Voss. I can feel her listening through your comm. Tell me one thing. Tell me how you got here. Tell me how you survived the Fall.",
+        responses: [
+          {
+            id: "in_i_3_b1",
+            label: "\"I didn't know there was a Fall until I woke up on the Ark.\"",
+            outcome: "He processes this. He had assumed everyone who remembered the old world was gone by now. You are proof otherwise.",
+            npcReply:
+              "Then you are the last eyewitness who doesn't know what they're an eyewitness to. The Insurgency has been looking for one of those for seven years. You may be our most valuable asset and you don't even know it. Be careful who knows.",
+            flags: ["in_engineer_eyewitness_revealed"],
+          },
+          {
+            id: "in_i_3_b2",
+            label: "\"Elara kept me alive in cryo. She chose who to save.\"",
+            outcome: "He softens at the name. He and Elara almost-met in Act 1 through you.",
+            npcReply:
+              "Senator Voss. Of course. I used to watch her speeches on corrupted terminals in the Panopticon basement. She saved me once without knowing it. Tell her I owe her a drink, and that I cannot pay the debt in this body.",
+            flags: ["in_engineer_elara_message"],
+          },
+          {
+            id: "in_i_3_b3",
+            label: "\"I don't know how I got here. I remember the Deck. That's all.\"",
+            outcome: "He nods. Memory, in his experience, is a building that burns from the top down.",
+            npcReply:
+              "The Deck is enough. The Deck is where you learned the shape of the world. I will trust anyone who understood what I was teaching. You did. So we start from here.",
+            flags: ["in_engineer_deck_anchor"],
+          },
+        ],
+      },
+      {
+        npcLine:
+          "One more thing. I need to hear you say it out loud before you leave this room. I need to hear it from you because there is a very small chance I am hallucinating all of this. Am I alive? Am I really in this body? Or am I dead and this is the Source's last little cruelty before Terminus eats me?",
+        responses: [
+          {
+            id: "in_i_3_c1",
+            label: "\"You are alive. You are real. I am real. This is not a hallucination.\"",
+            outcome: "He sags with relief. He has been holding his breath, metaphorically, since Agent Zero's body took him in.",
+            npcReply:
+              "Thank you. I needed to hear that from a voice I recognize. I will not ask you to say it again. I will carry it with me.",
+            flags: ["in_engineer_confirmed_alive"],
+          },
+          {
+            id: "in_i_3_c2",
+            label: "\"I don't know. But I am going to act like you are, and so should you.\"",
+            outcome: "He laughs — a small, broken laugh. He has missed being told to pretend with somebody.",
+            npcReply: "That's the engineering approach. Act as if, until the math catches up. I will do that. Thank you for not lying.",
+            flags: ["in_engineer_conditional_alive"],
+          },
+        ],
+      },
+    ],
+    flagsOnComplete: ["in_engineer_spoken_to", "engineer_alive_confirmed", "engineer_npc_unlocked"],
+  },
+
+  in_i_4: {
+    stageId: "in_i_4",
+    factionId: "insurgency",
+    type: "choice",
+    title: "Choice of Return",
+    intro:
+      "The Engineer asks you the hardest question he can think of. 'What do you want me to do now? I am going to trust your answer. I am not used to trusting answers. I am going to trust yours.' You have three options. None of them are good. Two of them are lies. All of them are binding.",
+    prompt: "What do you tell the Engineer to do?",
+    options: [
+      {
+        id: "in_i_4_rebuild",
+        label: "\"Help him rebuild. In Agent Zero's body. As himself, openly.\"",
+        outcome:
+          "The Engineer nods slowly. He will tell the Insurgency the truth about who he is, and he will build them a real command structure instead of the puppet-show Agent Zero hand-wrote. It is terrifying and necessary and the Watcher will learn within the month. He accepts all of it. He asks you to bring Elara to meet him in person once the trade lanes clear. You agree.",
+        flags: ["in_engineer_rebuild_openly", "engineer_insurgency_commander"],
+      },
+      {
+        id: "in_i_4_return",
+        label: "\"Promise you will find his original body and put him back in it.\"",
+        outcome:
+          "You know you cannot do this. His original body is Warlord Zero's, which is to say it was scooped out and used as a glove for the Warlord's consciousness, which is to say it no longer exists in a form that could receive him back. You are lying to a man who just asked you not to lie. He believes you. He weeps harder. Your decision will be remembered.",
+        flags: ["in_engineer_false_promise", "engineer_lied_to"],
+      },
+      {
+        id: "in_i_4_mercy",
+        label: "\"Offer him mercy. Offer to end it if he wants you to.\"",
+        outcome:
+          "He considers this for a very long time. Then he says, 'Not yet. But thank you for offering. Thank you for being the first person in seven years to offer me that.' He takes your hand. You leave the room without either of you making a decision. The offer stays on the table for the rest of the game.",
+        flags: ["in_engineer_mercy_offered"],
+      },
+    ],
+    flagsOnComplete: ["in_choice_of_return_made", "insurgency_infiltration_complete"],
+  },
+
   nb_i_4: {
     stageId: "nb_i_4",
     factionId: "new_babylon",
