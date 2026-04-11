@@ -36,9 +36,10 @@ func check_open_channel_unlock() -> void:
 		if hud and hud.has_method("show_open_channel"):
 			hud.show_open_channel()
 
-func on_open_channel_activated() -> void:
+func on_open_channel_activated(player_choice: String = "") -> void:
 	GameMode.open_channel_used = true
 	WebBridge.send_event("IRON_LION_CHANNEL_OPEN", {
 		"loop_count": GameMode.loop_count,
-		"awareness_level": GameMode.awareness_level
+		"awareness_level": GameMode.awareness_level,
+		"player_choice": player_choice,
 	})

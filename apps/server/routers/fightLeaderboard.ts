@@ -5,12 +5,18 @@
 import { z } from "zod";
 import { publicProcedure, protectedProcedure, router } from "../_core/trpc";
 import { getDb } from "../db";
-import { fightLeaderboard, fightMatches, users } from "../../db/schema";
+import { fightLeaderboard, fightMatches, arenaEssences, users } from "../../db/schema";
 import { eq, desc, sql, and, gte } from "drizzle-orm";
 import { fetchCitizenData, fetchPotentialNftData, resolveFightGameBonuses, nftLevelMultiplier } from "../traitResolver";
 import { pressureService } from "../services/pressureService";
 import { companionCombat } from "../services/companionCombat";
 import { battlePassXp } from "../services/battlePassXp";
+import {
+  getEssenceDef,
+  deriveHarvestRarity,
+  maxRarity,
+  type EssenceRarity,
+} from "../../client/src/game/essenceHarvest";
 
 /* ─── ELO Calculation ─── */
 function calculateElo(playerElo: number, opponentElo: number, won: boolean, kFactor = 32): number {
@@ -155,7 +161,7 @@ export const fightLeaderboardRouter = router({
     }))
     .mutation(async ({ ctx, input }) => {
       const db = await getDb();
-      if (!db) return { eloChange: 0, newElo: 1000, newTier: 'bronze' as const, newStreak: 0, bestStreak: 0, tierChanged: false, previousTier: 'bronze' as const };
+      if (!db) return { eloChange: 0, newElo: 1000, newTier: 'bronze' as const, newStreak: 0, bestStreak: 0, tierChanged: false, previousTier: 'bronze' as const, essenceHarvest: null as null | { fighterId: string; essenceName: string; count: number; bestRarity: EssenceRarity; firstHarvest: boolean; upgraded: boolean } };
       const userId = ctx.user.id;
 
       // Get or create leaderboard entry
@@ -253,6 +259,86 @@ export const fightLeaderboardRouter = router({
         battlePassXp.award(userId, "combat_win").catch(() => {});
       }
 
+      /* ─── Essence Harvest (victory only) ───
+       *
+       * Every win in the Collectors Arena harvests an essence from
+       * the defeated opponent. Upsert into arena_essences: new row
+       * on first harvest, otherwise increment count and lift
+       * bestRarity via maxRarity() so rarity is one-directional.
+       *
+       * Failures are swallowed — harvest is a side quest, not a
+       * blocker for the match result.
+       */
+      let essenceHarvest: {
+        fighterId: string;
+        essenceName: string;
+        count: number;
+        bestRarity: EssenceRarity;
+        firstHarvest: boolean;
+        upgraded: boolean;
+      } | null = null;
+
+      if (input.won) {
+        try {
+          const def = getEssenceDef(input.opponentFighter);
+          const harvestRarity = deriveHarvestRarity(
+            def.baseRarity,
+            input.difficulty,
+            input.perfect,
+          );
+
+          const [existingEssence] = await db
+            .select()
+            .from(arenaEssences)
+            .where(
+              and(
+                eq(arenaEssences.userId, userId),
+                eq(arenaEssences.fighterId, input.opponentFighter),
+              ),
+            );
+
+          if (!existingEssence) {
+            await db.insert(arenaEssences).values({
+              userId,
+              fighterId: input.opponentFighter,
+              count: 1,
+              bestRarity: harvestRarity,
+            });
+            essenceHarvest = {
+              fighterId: input.opponentFighter,
+              essenceName: def.name,
+              count: 1,
+              bestRarity: harvestRarity,
+              firstHarvest: true,
+              upgraded: false,
+            };
+          } else {
+            const prevRarity = existingEssence.bestRarity as EssenceRarity;
+            const nextRarity = maxRarity(prevRarity, harvestRarity);
+            const upgraded = nextRarity !== prevRarity;
+            await db
+              .update(arenaEssences)
+              .set({
+                count: existingEssence.count + 1,
+                bestRarity: nextRarity,
+                lastHarvestedAt: new Date(),
+              })
+              .where(eq(arenaEssences.id, existingEssence.id));
+            essenceHarvest = {
+              fighterId: input.opponentFighter,
+              essenceName: def.name,
+              count: existingEssence.count + 1,
+              bestRarity: nextRarity,
+              firstHarvest: false,
+              upgraded,
+            };
+          }
+        } catch (err) {
+          // Harvest is best-effort — never block a match result on it.
+          console.warn("[essenceHarvest] failed to harvest essence:", err);
+        }
+      }
+
       return {
         eloChange,
         newElo,
@@ -263,6 +349,7 @@ export const fightLeaderboardRouter = router({
         previousTier: entry.rankTier,
         pointsEarned: adjustedPointsEarned,
         pointsBasePreBonus: input.pointsEarned,
+        essenceHarvest,
         companionBonus: companionBonus.attack > 0 ? {
           attack: companionBonus.attack,
           defense: companionBonus.defense,

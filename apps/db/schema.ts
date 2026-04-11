@@ -614,6 +614,10 @@ export const dreamBalance = mysqlTable("dream_balance", {
   soulBoundDream: int("soulBoundDream").notNull().default(0),
   /** DNA/CODE resource for attribute leveling */
   dnaCode: int("dnaCode").notNull().default(0),
+  /** Premium currency — purchased with real money (or granted by admin). */
+  gems: int("gems").notNull().default(0),
+  /** Lifetime gems purchased via real-money; read-only rollup for rank perks. */
+  totalGemsPurchased: int("totalGemsPurchased").notNull().default(0),
   /** Total Dream ever earned (for milestones) */
   totalDreamEarned: int("totalDreamEarned").notNull().default(0),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
@@ -786,6 +790,37 @@ export const contentRewards = mysqlTable("content_rewards", {
 export type ContentReward = typeof contentRewards.$inferSelect;
 
 /* ═══════════════════════════════════════════════════════
+   PALIMPSEST STATE — Per-user Signal/Noise meter
+   One row per user. Matches the shared PalimpsestState shape
+   in apps/shared/palimpsest.ts. The history array lives in
+   the `history` JSON blob.
+   ═══════════════════════════════════════════════════════ */
+
+export const palimpsestState = mysqlTable("palimpsest_state", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull().unique(),
+  /** Gold ink — truth, remembering. */
+  signal: int("signal").notNull().default(0),
+  /** Red ink — corruption, editing. */
+  noise: int("noise").notNull().default(0),
+  /** ISO timestamp of last passive-decay tick. */
+  lastDecayAt: timestamp("lastDecayAt").defaultNow().notNull(),
+  /** Current broadcast episode (1..13). */
+  currentEpisode: int("currentEpisode").notNull().default(1),
+  /** Whether the Host's mask has visibly slipped this episode. */
+  hostMaskSlipped: int("hostMaskSlipped").notNull().default(0),
+  /** JSON array of EpisodeRecord entries from apps/shared/palimpsest.ts. */
+  history: json("history").$type<Record<string, unknown>[]>(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  userIdIdx: index("idx_palimpsest_state_user_id").on(table.userId),
+}));
+
+export type PalimpsestStateRow = typeof palimpsestState.$inferSelect;
+export type InsertPalimpsestState = typeof palimpsestState.$inferInsert;
+
+/* ═══════════════════════════════════════════════════════
    FIGHT LEADERBOARD — Online ranked ladder
    Tracks fight records, ELO ratings, and achievements
    ═══════════════════════════════════════════════════════ */
@@ -861,6 +896,38 @@ export const fightMatches = mysqlTable("fight_matches", {
 export type FightMatch = typeof fightMatches.$inferSelect;
 export type InsertFightMatch = typeof fightMatches.$inferInsert;
 
+/**
+ * Arena essences — the "Collector's Ledger" trophy system for the
+ * Collectors Arena story mode. One row per (userId, fighterId): tracks
+ * how many times the player has defeated that fighter, the best rarity
+ * seen across all harvests, and first/last harvest timestamps.
+ *
+ * Rarity is upgraded on each harvest via maxRarity() in the
+ * essenceHarvest router, never downgraded. See
+ * apps/client/src/game/essenceHarvest.ts for the registry + rarity
+ * derivation rules.
+ */
+export const arenaEssences = mysqlTable("arena_essences", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  /** Matches FighterData.id in gameData.ts */
+  fighterId: varchar("fighterId", { length: 128 }).notNull(),
+  /** Number of times the fighter has been defeated */
+  count: int("count").notNull().default(0),
+  /** Highest rarity seen across all harvests of this fighter */
+  bestRarity: mysqlEnum("bestRarity", [
+    "common", "rare", "epic", "legendary", "mythic",
+  ]).notNull().default("common"),
+  firstHarvestedAt: timestamp("firstHarvestedAt").defaultNow().notNull(),
+  lastHarvestedAt: timestamp("lastHarvestedAt").defaultNow().notNull(),
+}, (table) => ({
+  userFighterIdx: uniqueIndex("idx_arena_essences_user_fighter").on(table.userId, table.fighterId),
+  userIdx: index("idx_arena_essences_user").on(table.userId),
+}));
+
+export type ArenaEssence = typeof arenaEssences.$inferSelect;
+export type InsertArenaEssence = typeof arenaEssences.$inferInsert;
+
 
 /* ═══════════════════════════════════════════════════════
    PVP CARD BATTLES — Real-time multiplayer matchmaking
@@ -918,6 +985,11 @@ export const pvpLeaderboard = mysqlTable("pvp_leaderboard", {
     "bronze", "silver", "gold", "platinum", "diamond", "master", "grandmaster"
   ]).default("bronze").notNull(),
   lastMatchAt: timestamp("lastMatchAt"),
+  /** Timestamp of the last time ELO decay was applied for this user.
+   *  Used to make decay idempotent across repeated reads — the
+   *  decay helper only applies delta since this anchor, never the
+   *  full (now - lastMatchAt) window on every check. */
+  lastDecayAt: timestamp("lastDecayAt"),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
 });
@@ -1791,6 +1863,62 @@ export const chessTournaments = mysqlTable("chess_tournaments", {
   createdAt: timestamp("createdAt").defaultNow().notNull(),
 });
 export type ChessTournament = typeof chessTournaments.$inferSelect;
+
+/** Per-user puzzle solve history — gates first-solve rewards and tracks stats. */
+export const chessPuzzleProgress = mysqlTable("chess_puzzle_progress", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  puzzleId: varchar("puzzleId", { length: 32 }).notNull(),
+  solvedAt: timestamp("solvedAt").defaultNow().notNull(),
+  attempts: int("attempts").notNull().default(1),
+}, (table) => ({
+  userPuzzleUq: uniqueIndex("idx_chess_puzzle_progress_user_puzzle").on(table.userId, table.puzzleId),
+  userIdx: index("idx_chess_puzzle_progress_user").on(table.userId),
+}));
+export type ChessPuzzleProgress = typeof chessPuzzleProgress.$inferSelect;
+
+/** Persistent participant state for a chess tournament.
+ *
+ *  IMPORTANT: `score` and `tieBreak` are stored as 2× the actual
+ *  point value to keep them as plain integers (avoiding MySQL DECIMAL).
+ *  A win is +2, a draw is +1, half-Buchholz is +1 per opponent half-point.
+ *  All read sites in the chess router divide by 2 before returning
+ *  values to the client. */
+export const chessTournamentParticipants = mysqlTable("chess_tournament_participants", {
+  id: int("id").autoincrement().primaryKey(),
+  tournamentId: int("tournamentId").notNull(),
+  userId: int("userId").notNull(),
+  userName: varchar("userName", { length: 128 }).notNull(),
+  /** 2× actual score — divide by 2 for display. */
+  score: int("score").notNull().default(0),
+  /** 2× actual tie-break — divide by 2 for display. */
+  tieBreak: int("tieBreak").notNull().default(0),
+  active: boolean("active").notNull().default(true),
+  joinedAt: timestamp("joinedAt").defaultNow().notNull(),
+}, (table) => ({
+  tournamentUserUq: uniqueIndex("idx_chess_tournament_participants_tourney_user").on(table.tournamentId, table.userId),
+  tournamentIdx: index("idx_chess_tournament_participants_tournament").on(table.tournamentId),
+  userIdx: index("idx_chess_tournament_participants_user").on(table.userId),
+}));
+export type ChessTournamentParticipant = typeof chessTournamentParticipants.$inferSelect;
+
+/** Per-round pairings for a chess tournament, linked to the chess_games row that resolves them. */
+export const chessTournamentPairings = mysqlTable("chess_tournament_pairings", {
+  id: int("id").autoincrement().primaryKey(),
+  tournamentId: int("tournamentId").notNull(),
+  round: int("round").notNull(),
+  whiteId: int("whiteId").notNull(),
+  blackId: int("blackId").notNull(),
+  whiteResult: mysqlEnum("whiteResult", ["win", "loss", "draw"]),
+  reported: boolean("reported").notNull().default(false),
+  gameId: int("gameId"),
+  deadlineAt: timestamp("deadlineAt"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+}, (table) => ({
+  tournamentIdx: index("idx_chess_tournament_pairings_tournament").on(table.tournamentId),
+  tournamentRoundIdx: index("idx_chess_tournament_pairings_tournament_round").on(table.tournamentId, table.round),
+}));
+export type ChessTournamentPairing = typeof chessTournamentPairings.$inferSelect;
 
 
 /* ═══════════════════════════════════════════════════════
@@ -2846,6 +2974,61 @@ export const universeEventHistory = mysqlTable("universe_event_history", {
 export type UniverseEventHistory = typeof universeEventHistory.$inferSelect;
 
 /* ═══════════════════════════════════════════════════════
+   DISCHORDIA CYCLE — Witnessing Narrative Proposal §3
+   Community-wide Light/Dark meter. A single row per server
+   holds the current state; energy_events is the audit log.
+   ═══════════════════════════════════════════════════════ */
+
+/**
+ * Dischordia Cycle state — single-row table holding the
+ * community Light/Dark/Vortex meter. The `id` column is
+ * always 1 (enforced by the service layer) so there is
+ * exactly one canonical state.
+ */
+export const dischordiaCycleState = mysqlTable("dischordia_cycle_state", {
+  id: int("id").primaryKey(),
+  /** See shared/dischordiaCycle.ts DischordiaPhase enum */
+  phase: varchar("phase", { length: 32 }).notNull().default("dawn"),
+  phaseStartedAt: timestamp("phaseStartedAt").defaultNow().notNull(),
+  cycleNumber: int("cycleNumber").notNull().default(1),
+  /** Hidden numeric meter — galaxy waking up */
+  lightEnergy: int("lightEnergy").notNull().default(0),
+  /** Hidden numeric meter — galaxy going quiet */
+  darkEnergy: int("darkEnergy").notNull().default(0),
+  /** Doomsday clock 0..100. Only ticks up. */
+  vortexProximity: int("vortexProximity").notNull().default(0),
+  /** "dark_ascending" | "balanced" | "light_ascending" */
+  energyBalance: varchar("energyBalance", { length: 32 }).notNull().default("balanced"),
+  /** Append-only history of completed reclamation records */
+  history: json("history").$type<Array<Record<string, unknown>>>(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type DischordiaCycleStateRow = typeof dischordiaCycleState.$inferSelect;
+
+/**
+ * Dischordia energy events — append-only audit log of every
+ * applyEnergy / applyRawDelta call. Keyed by userId when the
+ * source was a player action.
+ */
+export const dischordiaEnergyEvents = mysqlTable("dischordia_energy_events", {
+  id: int("id").autoincrement().primaryKey(),
+  /** Null when the source was server-initiated (tick jobs, admin tools) */
+  userId: int("userId"),
+  /** A row id from ENERGY_GAIN_TABLE, or a free-form source tag for raw deltas */
+  actionId: varchar("actionId", { length: 128 }).notNull(),
+  lightDelta: int("lightDelta").notNull().default(0),
+  darkDelta: int("darkDelta").notNull().default(0),
+  vortexDelta: int("vortexDelta").notNull().default(0),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+}, (table) => ({
+  idxCreatedAt: index("idx_dischordia_energy_created").on(table.createdAt),
+  idxUserId: index("idx_dischordia_energy_user").on(table.userId),
+}));
+
+export type DischordiaEnergyEvent = typeof dischordiaEnergyEvents.$inferSelect;
+
+/* ═══════════════════════════════════════════════════════
    ROOM STATES — Visual evolution of Ark rooms based
    on player actions. Rooms change over time.
    ═══════════════════════════════════════════════════════ */
@@ -3123,3 +3306,329 @@ export type AdminApprovalRequest = typeof adminApprovalRequests.$inferSelect;
 export type InsertAdminApprovalRequest = typeof adminApprovalRequests.$inferInsert;
 
 export type CodexVoteRow = typeof codexVotes.$inferSelect;
+
+/* ═══════════════════════════════════════════════════════
+   DEGEN'S CASINO — Server-authoritative game state & audit
+   ═══════════════════════════════════════════════════════ */
+
+export const casinoState = mysqlTable("casino_state", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull().unique(),
+  /** Lifetime Dream wagered */
+  totalWagered: int("totalWagered").notNull().default(0),
+  /** Lifetime Dream won */
+  totalWon: int("totalWon").notNull().default(0),
+  /** Session wins/losses (reset per login) */
+  sessionWins: int("sessionWins").notNull().default(0),
+  sessionLosses: int("sessionLosses").notNull().default(0),
+  /** VIP tier 0-5 */
+  vipLevel: int("vipLevel").notNull().default(0),
+  /** Daily free plays remaining */
+  freeSpinsLeft: int("freeSpinsLeft").notNull().default(3),
+  /** Progressive jackpot pool contribution */
+  jackpotContribution: int("jackpotContribution").notNull().default(0),
+  /** Unscratched scratch cards in inventory */
+  scratchCards: int("scratchCards").notNull().default(0),
+  /** Current win streak */
+  currentStreak: int("currentStreak").notNull().default(0),
+  /** Best streak ever */
+  bestStreak: int("bestStreak").notNull().default(0),
+  /** Hidden 8th NPC trust (0-100) */
+  degenFavor: int("degenFavor").notNull().default(0),
+  /** Lifetime bets placed (Equilibrium tracking) */
+  totalBetsPlaced: int("totalBetsPlaced").notNull().default(0),
+  /** Collected Degen's Tale ids */
+  collectedTales: json("collectedTales").$type<string[]>().default([]),
+  /** Games played per type */
+  gamesPlayed: json("gamesPlayed").$type<Record<string, number>>().default({}),
+  /** Games *won* per type — drives achievements that require N wins
+   *  rather than N attempts. */
+  gamesWon: json("gamesWon").$type<Record<string, number>>().default({}),
+  /** Consecutive Faction War Betting wins (resets on loss) — powers the
+   *  "Faction Prophet" achievement. */
+  consecutiveFactionWins: int("consecutiveFactionWins").notNull().default(0),
+  /** Consecutive Card Battler's Gauntlet wins — powers "Gauntlet Master". */
+  consecutiveGauntletWins: int("consecutiveGauntletWins").notNull().default(0),
+  /** Cases opened since last rare+ drop (Void Cases pity timer) */
+  casesSinceRarePlus: int("casesSinceRarePlus").notNull().default(0),
+  /** Daily wager accumulator (enforces MAX_DAILY_WAGER) */
+  dailyWagered: int("dailyWagered").notNull().default(0),
+  /** YYYY-MM-DD string used to reset daily counters */
+  dailyCounterDate: varchar("dailyCounterDate", { length: 10 }),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  userIdx: index("idx_casino_state_user").on(table.userId),
+}));
+export type CasinoStateRow = typeof casinoState.$inferSelect;
+
+export const casinoJackpotPool = mysqlTable("casino_jackpot_pool", {
+  id: int("id").autoincrement().primaryKey(),
+  /** Stable key — "main" is the only pool for now. */
+  poolKey: varchar("poolKey", { length: 32 }).notNull().unique(),
+  /** Current accumulated Dream in the pool. */
+  balance: int("balance").notNull().default(0),
+  /** Lifetime Dream paid out from this pool. */
+  totalPaidOut: int("totalPaidOut").notNull().default(0),
+  /** userId of the last winner, if any. */
+  lastWinnerId: int("lastWinnerId"),
+  lastWinAt: timestamp("lastWinAt"),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+export type CasinoJackpotPoolRow = typeof casinoJackpotPool.$inferSelect;
+
+export const casinoResults = mysqlTable("casino_results", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  game: varchar("game", { length: 64 }).notNull(),
+  bet: int("bet").notNull(),
+  won: boolean("won").notNull().default(false),
+  payout: int("payout").notNull().default(0),
+  jackpot: boolean("jackpot").notNull().default(false),
+  /** Arbitrary per-game result payload (reels, dice, cards, etc.) */
+  detail: json("detail").$type<Record<string, unknown>>(),
+  /** Seed used for deterministic replay */
+  seed: varchar("seed", { length: 64 }),
+  playedAt: timestamp("playedAt").defaultNow().notNull(),
+}, (table) => ({
+  userIdx: index("idx_casino_results_user").on(table.userId),
+  gameIdx: index("idx_casino_results_game").on(table.game),
+  playedAtIdx: index("idx_casino_results_played_at").on(table.playedAt),
+}));
+export type CasinoResultRow = typeof casinoResults.$inferSelect;
+
+/* ═══════════════════════════════════════════════════════
+   CHRISTMAS IN JULY — Event progress, gifts, charity pool
+   ═══════════════════════════════════════════════════════ */
+
+export const xmasJulyProgress = mysqlTable("xmas_july_progress", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull().unique(),
+  /** Festive Tokens held */
+  festiveTokens: int("festiveTokens").notNull().default(0),
+  /** Gift boxes sent */
+  giftsSent: int("giftsSent").notNull().default(0),
+  /** Gift boxes received */
+  giftsReceived: int("giftsReceived").notNull().default(0),
+  /** Days whose challenge has been claimed (1-14) */
+  completedDays: json("completedDays").$type<number[]>().default([]),
+  /** Current consecutive day streak */
+  streak: int("streak").notNull().default(0),
+  /** Last day claimed (for streak continuity) */
+  lastDayClaimed: int("lastDayClaimed"),
+  /** Soul stones wagered at craps */
+  stonesWagered: int("stonesWagered").notNull().default(0),
+  /** Soul stones won back */
+  stonesWon: int("stonesWon").notNull().default(0),
+  /** Free purifications from lucky 7s */
+  blessedPurifications: int("blessedPurifications").notNull().default(0),
+  /** Snowflake Soul Stones held */
+  snowflakeStones: int("snowflakeStones").notNull().default(0),
+  /** Ungifted gift boxes in inventory */
+  giftBoxesOwned: int("giftBoxesOwned").notNull().default(0),
+  /** Last free daily token claim date (YYYY-MM-DD) */
+  lastDailyTokenClaim: varchar("lastDailyTokenClaim", { length: 10 }),
+  /** Charity multiplier usage — 100-spend window remaining */
+  charityMultiplierRemaining: int("charityMultiplierRemaining").notNull().default(0),
+  /** Unlocked cosmetic/badge ids earned from the event */
+  unlockedRewards: json("unlockedRewards").$type<string[]>().default([]),
+  /** Gifts sent today — resets when giftCounterDate rolls */
+  giftsSentToday: int("giftsSentToday").notNull().default(0),
+  /** UTC YYYY-MM-DD of the last gift-send — drives daily reset */
+  giftCounterDate: varchar("giftCounterDate", { length: 10 }),
+  /** Lifetime festive tokens spent (wheel spins + gift crafts + donations) */
+  tokensSpent: int("tokensSpent").notNull().default(0),
+  /** Festive tokens spent today — for day 10 "High Roller" challenge */
+  tokensSpentToday: int("tokensSpentToday").notNull().default(0),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  userIdx: index("idx_xmas_july_progress_user").on(table.userId),
+}));
+export type XmasJulyProgressRow = typeof xmasJulyProgress.$inferSelect;
+
+export const xmasJulyGifts = mysqlTable("xmas_july_gifts", {
+  id: int("id").autoincrement().primaryKey(),
+  senderId: int("senderId").notNull(),
+  recipientId: int("recipientId").notNull(),
+  /** Gift kind — "gift_box", "candy_cane", etc. */
+  giftType: varchar("giftType", { length: 64 }).notNull(),
+  /** Custom message from sender */
+  message: text("message"),
+  /** Has the recipient opened/claimed it? */
+  claimed: boolean("claimed").notNull().default(false),
+  sentAt: timestamp("sentAt").defaultNow().notNull(),
+  claimedAt: timestamp("claimedAt"),
+}, (table) => ({
+  senderIdx: index("idx_xmas_july_gifts_sender").on(table.senderId),
+  recipientIdx: index("idx_xmas_july_gifts_recipient").on(table.recipientId),
+}));
+export type XmasJulyGiftRow = typeof xmasJulyGifts.$inferSelect;
+
+export const xmasJulyCharityPool = mysqlTable("xmas_july_charity_pool", {
+  id: int("id").autoincrement().primaryKey(),
+  eventKey: varchar("eventKey", { length: 64 }).notNull().unique(),
+  /** Global gift count (drives milestones) */
+  totalGifts: int("totalGifts").notNull().default(0),
+  /** Cumulative festive tokens contributed */
+  totalTokensDonated: int("totalTokensDonated").notNull().default(0),
+  /** Community pool of soul stones (from losing craps rolls) */
+  communityPool: int("communityPool").notNull().default(0),
+  /** Milestone ids already reached */
+  milestonesReached: json("milestonesReached").$type<string[]>().default([]),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+export type XmasJulyCharityPoolRow = typeof xmasJulyCharityPool.$inferSelect;
+
+export const xmasJulyCrapsRolls = mysqlTable("xmas_july_craps_rolls", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  total: int("total").notNull(),
+  die1: int("die1").notNull(),
+  die2: int("die2").notNull(),
+  outcome: varchar("outcome", { length: 32 }).notNull(),
+  /** Id of the wagered soul stone */
+  stoneId: varchar("stoneId", { length: 64 }),
+  rolledAt: timestamp("rolledAt").defaultNow().notNull(),
+}, (table) => ({
+  userIdx: index("idx_xmas_july_craps_user").on(table.userId),
+}));
+export type XmasJulyCrapsRow = typeof xmasJulyCrapsRolls.$inferSelect;
+
+export const xmasJulyWheelSpins = mysqlTable("xmas_july_wheel_spins", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  prizeId: varchar("prizeId", { length: 64 }).notNull(),
+  prizeType: varchar("prizeType", { length: 32 }).notNull(),
+  amount: int("amount").notNull().default(0),
+  rarity: varchar("rarity", { length: 16 }).notNull().default("common"),
+  spunAt: timestamp("spunAt").defaultNow().notNull(),
+}, (table) => ({
+  userIdx: index("idx_xmas_july_wheel_user").on(table.userId),
+}));
+export type XmasJulyWheelRow = typeof xmasJulyWheelSpins.$inferSelect;
+
+/* ═══════════════════════════════════════════════════════
+   CREW SYSTEM — Bloodlines, Clones, Pods, Missions
+
+   NOTE: The crew system's runtime state lives in
+   userProgress.gameData.crew as a JSON blob (see
+   apps/shared/crewPersistence.ts). These tables are
+   provided for cross-user queries, server-side analytics,
+   and future migration away from the JSON blob. The router
+   does not require them — they're opt-in promotion
+   targets. Run db:push to materialize.
+   ═══════════════════════════════════════════════════════ */
+
+export const crewMembers = mysqlTable("crew_members", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  /** Stable client-side id, e.g. "crew-1710000000000-12345" */
+  memberKey: varchar("memberKey", { length: 64 }).notNull(),
+  name: varchar("name", { length: 128 }).notNull(),
+  nickname: varchar("nickname", { length: 64 }),
+  species: varchar("species", { length: 32 }).notNull(),
+  gender: varchar("gender", { length: 16 }).notNull(),
+  bloodlineKey: varchar("bloodlineKey", { length: 64 }).notNull(),
+  generation: int("generation").notNull().default(1),
+  parentIds: json("parentIds").$type<[string, string] | null>(),
+  children: json("children").$type<string[]>().default([]).notNull(),
+  geneticTraits: json("geneticTraits").$type<string[]>().default([]).notNull(),
+  role: varchar("role", { length: 32 }),
+  stats: json("stats").$type<Record<string, number>>().notNull(),
+  morale: int("morale").notNull().default(70),
+  health: int("health").notNull().default(100),
+  loyalty: int("loyalty").notNull().default(50),
+  status: varchar("status", { length: 24 }).notNull().default("active"),
+  age: int("age").notNull().default(0),
+  maxAge: int("maxAge").notNull().default(80),
+  birthCycle: int("birthCycle").notNull().default(0),
+  missionHistory: json("missionHistory").$type<string[]>().default([]).notNull(),
+  relationships: json("relationships").$type<Record<string, number>>().default({}).notNull(),
+  deathRecord: json("deathRecord").$type<{ cycle: number; cause: string; lastWords: string } | null>(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  userMemberIdx: uniqueIndex("uq_crew_member_user_key").on(table.userId, table.memberKey),
+  userIdx: index("idx_crew_member_user").on(table.userId),
+  bloodlineIdx: index("idx_crew_member_bloodline").on(table.bloodlineKey),
+  statusIdx: index("idx_crew_member_status").on(table.status),
+}));
+
+export type CrewMemberRow = typeof crewMembers.$inferSelect;
+export type InsertCrewMember = typeof crewMembers.$inferInsert;
+
+export const crewBloodlines = mysqlTable("crew_bloodlines", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  bloodlineKey: varchar("bloodlineKey", { length: 64 }).notNull(),
+  foundedAt: timestamp("foundedAt").defaultNow().notNull(),
+  generationCount: int("generationCount").notNull().default(1),
+  geneticDrift: int("geneticDrift").notNull().default(0),
+  diversityIndex: int("diversityIndex").notNull().default(0),
+  activeTraits: json("activeTraits").$type<string[]>().default([]).notNull(),
+  recessiveTraits: json("recessiveTraits").$type<string[]>().default([]).notNull(),
+  /** Derived — bloodline data may mirror the immutable FOUNDING_BLOODLINES template */
+  metadata: json("metadata").$type<Record<string, unknown>>(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  userBloodlineIdx: uniqueIndex("uq_crew_bloodline_user_key").on(table.userId, table.bloodlineKey),
+  userIdx: index("idx_crew_bloodline_user").on(table.userId),
+}));
+
+export type CrewBloodlineRow = typeof crewBloodlines.$inferSelect;
+export type InsertCrewBloodline = typeof crewBloodlines.$inferInsert;
+
+export const crewIncubatorPods = mysqlTable("crew_incubator_pods", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  /** 1..6 — stable slot index shown in the UI */
+  podSlot: int("podSlot").notNull(),
+  status: varchar("status", { length: 24 }).notNull().default("empty"),
+  templateId: varchar("templateId", { length: 64 }),
+  bloodlineKey: varchar("bloodlineKey", { length: 64 }),
+  generation: int("generation").notNull().default(1),
+  parentIds: json("parentIds").$type<[string, string] | null>(),
+  timeRemainingSeconds: int("timeRemainingSeconds").notNull().default(0),
+  totalTimeSeconds: int("totalTimeSeconds").notNull().default(0),
+  geneticIntegrity: int("geneticIntegrity").notNull().default(100),
+  traits: json("traits").$type<string[]>().default([]).notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  userSlotIdx: uniqueIndex("uq_crew_pod_user_slot").on(table.userId, table.podSlot),
+  userIdx: index("idx_crew_pod_user").on(table.userId),
+  statusIdx: index("idx_crew_pod_status").on(table.status),
+}));
+
+export type CrewIncubatorPodRow = typeof crewIncubatorPods.$inferSelect;
+export type InsertCrewIncubatorPod = typeof crewIncubatorPods.$inferInsert;
+
+export const crewMissions = mysqlTable("crew_missions", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  missionKey: varchar("missionKey", { length: 96 }).notNull(),
+  templateId: varchar("templateId", { length: 64 }).notNull(),
+  name: varchar("name", { length: 128 }).notNull(),
+  sectorId: varchar("sectorId", { length: 64 }).notNull(),
+  difficulty: varchar("difficulty", { length: 24 }).notNull(),
+  status: varchar("status", { length: 24 }).notNull().default("dispatched"),
+  assignedCrewIds: json("assignedCrewIds").$type<string[]>().default([]).notNull(),
+  successChance: int("successChance").notNull().default(50),
+  dispatchedAt: timestamp("dispatchedAt").defaultNow().notNull(),
+  completesAt: timestamp("completesAt").notNull(),
+  resolvedAt: timestamp("resolvedAt"),
+  resolution: json("resolution").$type<{
+    success: boolean;
+    narrative: string;
+    casualties: string[];
+    injured: string[];
+    survived: string[];
+    rewardGranted: Record<string, unknown>;
+  } | null>(),
+}, (table) => ({
+  userMissionIdx: uniqueIndex("uq_crew_mission_user_key").on(table.userId, table.missionKey),
+  userStatusIdx: index("idx_crew_mission_user_status").on(table.userId, table.status),
+}));
+
+export type CrewMissionRow = typeof crewMissions.$inferSelect;
+export type InsertCrewMission = typeof crewMissions.$inferInsert;

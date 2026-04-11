@@ -63,15 +63,30 @@ const SEASONS: Season[] = [
     startDate: "2026-06-15",
     endDate: "2026-09-15",
     rewards: [
-      "Warlord's Arsenal Pack",
+      "Warlord's Arsenal Pack (8 cards, 1 Vox Artifact)",
       "Void Corruption Cosmetic Set",
       "Mythic Title: Void-Touched",
+      "Echo of Kael boss deck unlock",
+      "Vox Corridor trade route access",
+      "500 Void Crystals + 1,500 viralExposures bonus",
     ],
     theme: "warlord",
     color: "#FF4444",
     isCurrent: false,
   },
 ];
+
+/**
+ * Season 5's battle pass is driven by the `viralExposures` pressure counter
+ * — every residue logged, every Vox Corridor run, every Thought Virus cast
+ * contributes to season progression. Constants here mirror the config in
+ * apps/shared/battlePassConfig.ts so the UI and the server stay aligned.
+ */
+export const SEASON_5_PRESSURE_SOURCE = "viralExposures" as const;
+export const SEASON_5_PRESSURE_MULTIPLIER = 1.0;
+export const SEASON_5_THEME_EVENT_ID = "terminus_advance" as const;
+/** Fallback emergent-event id that Season 5 activates at 90% pressure fill. */
+export const SEASON_5_REVELATION_EVENT_ID = "vox_revelation" as const;
 
 const UPCOMING_FEATURES: UpcomingFeature[] = [
   {

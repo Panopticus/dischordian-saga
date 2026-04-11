@@ -11,8 +11,20 @@ export interface BonusObjective {
   description: string;
   rewardType: BonusRewardType;
   rewardAmount: number;
-  category: "combat" | "lore" | "chess" | "social" | "exploration";
+  category:
+    | "combat"
+    | "lore"
+    | "chess"
+    | "social"
+    | "exploration"
+    | "narrator_callback";
   completed: boolean;
+  /** If set, this objective's reward is unlocking a §13 dialog line. */
+  narratorCallback?: {
+    narratorId: "elara" | "the_human";
+    roomId: string;
+    tier: number;
+  };
 }
 
 /* ─── OBJECTIVE TEMPLATES ─── */
@@ -51,6 +63,141 @@ const OBJECTIVE_TEMPLATES: ObjectiveTemplate[] = [
   { description: "Collect a resource node for {reward} bonus Salvage", rewardType: "salvage", baseReward: 25, category: "exploration" },
   { description: "Complete a tower defense wave for {reward} bonus XP", rewardType: "xp", baseReward: 30, category: "exploration" },
 ];
+
+/* ─── §13 NARRATOR CALLBACK OBJECTIVES (Appendix A.3) ───
+   Separate pool: the 2h refresh cycle becomes the delivery
+   channel for companion callback objectives. Each template
+   references a room + narrator; when completed, the reward
+   is unlocking a higher-tier dialog line from the §13 matrix
+   rather than a resource drop. Consumers read
+   `narratorCallback` on the returned BonusObjective and call
+   into the dialog registry to surface the unlocked line. */
+
+export interface NarratorCallbackTemplate {
+  id: string;
+  narratorId: "elara" | "the_human";
+  roomId: string;
+  tier: number;
+  description: string;
+}
+
+export const NARRATOR_CALLBACK_TEMPLATES: readonly NarratorCallbackTemplate[] = [
+  {
+    id: "elara_memorial_corridor",
+    narratorId: "elara",
+    roomId: "trophy_room",
+    tier: 2,
+    description:
+      "Elara asked you yesterday about the Memorial Corridor. Visit it in the next 2 hours to hear her thoughts.",
+  },
+  {
+    id: "human_comms_array",
+    narratorId: "the_human",
+    roomId: "comms_array",
+    tier: 2,
+    description:
+      "The Human has been listening to something in the Comms Array. Return in the next 2 hours and he'll tell you what.",
+  },
+  {
+    id: "elara_archives",
+    narratorId: "elara",
+    roomId: "archives",
+    tier: 3,
+    description:
+      "Elara wants to show you something in the Archives. Go in the next 2 hours.",
+  },
+  {
+    id: "human_observation_deck",
+    narratorId: "the_human",
+    roomId: "observation_deck",
+    tier: 3,
+    description:
+      "The Human has been stargazing. Join him in the next 2 hours to hear what he saw.",
+  },
+  {
+    id: "elara_bridge",
+    narratorId: "elara",
+    roomId: "bridge",
+    tier: 4,
+    description:
+      "Elara has been plotting something on the conspiracy board. Visit the Bridge in the next 2 hours.",
+  },
+  {
+    id: "human_engineering",
+    narratorId: "the_human",
+    roomId: "engineering",
+    tier: 4,
+    description:
+      "The Human is in Engineering, holding a part he will not explain. Go to him in the next 2 hours.",
+  },
+  {
+    id: "elara_cryo_bay",
+    narratorId: "elara",
+    roomId: "cryo_bay",
+    tier: 2,
+    description:
+      "Elara is running a diagnostic on Pod 7 she won't explain. Visit the Cryo Bay in the next 2 hours.",
+  },
+  {
+    id: "human_medical_bay",
+    narratorId: "the_human",
+    roomId: "medical_bay",
+    tier: 3,
+    description:
+      "The Human is sitting in Medical Bay with a file nobody authorized him to pull. Find him in the next 2 hours.",
+  },
+  {
+    id: "elara_trade_hub",
+    narratorId: "elara",
+    roomId: "trade_hub",
+    tier: 3,
+    description:
+      "Elara noticed a pricing anomaly on a single commodity in the Trade Hub. Ask her about it in the next 2 hours.",
+  },
+  {
+    id: "human_captains_quarters",
+    narratorId: "the_human",
+    roomId: "captains_quarters",
+    tier: 5,
+    description:
+      "The Human is in the Captain's Quarters. He has not been here before. Something is wrong. Go.",
+  },
+];
+
+/**
+ * Given a deterministic seed and the template pool, return a
+ * single narrator_callback bonus objective. This is called by
+ * the bonus-refresh path IFF the player is out of daily quests
+ * AND has at least one active narrator (Elara or The Human).
+ *
+ * @param playerId - Player's ID (seed input)
+ * @param refreshSlot - Current 2h slot since daily reset
+ */
+export function generateNarratorCallbackObjective(
+  playerId: number,
+  refreshSlot: number,
+): BonusObjective | null {
+  if (NARRATOR_CALLBACK_TEMPLATES.length === 0) return null;
+  const seed = playerId * 10000 + refreshSlot * 31 + 7;
+  const rng = seededRandom(seed);
+  const pick =
+    NARRATOR_CALLBACK_TEMPLATES[
+      Math.floor(rng() * NARRATOR_CALLBACK_TEMPLATES.length)
+    ];
+  return {
+    id: `bonus_narrator_${playerId}_${refreshSlot}_${pick.id}`,
+    description: pick.description,
+    rewardType: "xp",
+    rewardAmount: 0, // Reward is the dialog line, not resources.
+    category: "narrator_callback",
+    completed: false,
+    narratorCallback: {
+      narratorId: pick.narratorId,
+      roomId: pick.roomId,
+      tier: pick.tier,
+    },
+  };
+}
 
 /* ─── CONSTANTS ─── */
 

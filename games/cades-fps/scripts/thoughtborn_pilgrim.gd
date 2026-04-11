@@ -27,12 +27,20 @@ func _on_timer_timeout() -> void:
 func damage(amount):
 	health -= amount
 	Audio.play("sounds/enemy_hurt.ogg")
-	if health < 36 and not has_triggered_first_elara:
-		has_triggered_first_elara = true
-		Elara.speak("breach_lost_observation")
+	# Damaging a non-hostile Thoughtborn pilgrim is a moral failure in
+	# Ship Defense. Every hit drains shield progress and Elara reacts.
+	if GameMode.current_mode == "ship_defense" and ShieldManager.active:
+		ShieldManager.progress = max(0.0, ShieldManager.progress - 0.01)
+		if not has_triggered_first_elara:
+			has_triggered_first_elara = true
+			Elara.speak("breach_lost_observation")
 	if health <= 0 and not destroyed:
 		GameMode.thoughtborn_killed += 1
 		destroyed = true
+		# A killed pilgrim removes 5% of shield progress as penance.
+		if GameMode.current_mode == "ship_defense" and ShieldManager.active:
+			ShieldManager.progress = max(0.0, ShieldManager.progress - 0.05)
+			Elara.speak("thoughtborn_gone")
 		queue_free()
 
 func _on_reach_cades() -> void:

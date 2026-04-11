@@ -1,0 +1,46 @@
+{
+  "_notes": "Voice-over manifest for The Palimpsest's Host (the Meme wearing the Game Master's mask). Keys are stable identifiers; values are S3 URLs to the recorded clips. Values are currently placeholders until the voice sessions are booked — the game falls back to on-screen text. Naming convention: gm_<context>_<variant>.",
+  "_voice_direction": "Cadence: grand carnival barker with a 15ms delay between syllables, as if the mask is lagging the face by one frame. Do not smile on recordings — the smile has to come from nowhere in the middle of words.",
+
+  "gm_intro_episode_1": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Palimpsest+Host/ep01_welcome_mat_intro.mp3",
+  "gm_intro_episode_2": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Palimpsest+Host/ep02_first_objection_intro.mp3",
+  "gm_intro_episode_3": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Palimpsest+Host/ep03_office_hours_intro.mp3",
+  "gm_intro_episode_4": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Palimpsest+Host/ep04_ghost_contestant_intro.mp3",
+  "gm_intro_episode_5": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Palimpsest+Host/ep05_midpoint_stutter_intro.mp3",
+  "gm_intro_episode_6": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Palimpsest+Host/ep06_survivor_mechronis_intro.mp3",
+  "gm_intro_episode_7": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Palimpsest+Host/ep07_second_safe_point_intro.mp3",
+  "gm_intro_episode_8": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Palimpsest+Host/ep08_corrections_intro.mp3",
+  "gm_intro_episode_9": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Palimpsest+Host/ep09_backwards_crawl_intro.mp3",
+  "gm_intro_episode_10": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Palimpsest+Host/ep10_thaloria_debate_intro.mp3",
+  "gm_intro_episode_11": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Palimpsest+Host/ep11_late_to_taping_intro.mp3",
+  "gm_intro_episode_12": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Palimpsest+Host/ep12_inventor_takeover_intro.mp3",
+  "gm_intro_episode_13": "",
+
+  "gm_correct_response_1": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Palimpsest+Host/response_correct_01.mp3",
+  "gm_correct_response_2": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Palimpsest+Host/response_correct_02.mp3",
+  "gm_correct_response_3": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Palimpsest+Host/response_correct_03.mp3",
+  "gm_correct_response_4": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Palimpsest+Host/response_correct_04.mp3",
+
+  "gm_wrong_response_1": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Palimpsest+Host/response_wrong_01.mp3",
+  "gm_wrong_response_2": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Palimpsest+Host/response_wrong_02.mp3",
+  "gm_wrong_response_3": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Palimpsest+Host/response_wrong_03.mp3",
+  "gm_wrong_response_4": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Palimpsest+Host/response_wrong_04.mp3",
+
+  "gm_lifeline_50_50": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Palimpsest+Host/lifeline_50_50.mp3",
+  "gm_lifeline_audience": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Palimpsest+Host/lifeline_audience.mp3",
+  "gm_lifeline_ghost": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Palimpsest+Host/lifeline_phone_ghost.mp3",
+
+  "gm_round5_halfway": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Palimpsest+Host/round5_halfway.mp3",
+  "gm_round10_final": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Palimpsest+Host/round10_final.mp3",
+  "gm_perfect_run": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Palimpsest+Host/perfect_run.mp3",
+
+  "gm_mask_slip_stutter": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Palimpsest+Host/mask_slip_stutter.mp3",
+  "gm_mask_slip_full": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Palimpsest+Host/mask_slip_full.mp3",
+
+  "gm_objection_accepted": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Palimpsest+Host/alaric_objection_accepted.mp3",
+  "gm_objection_exposed": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Palimpsest+Host/alaric_objection_exposed.mp3",
+
+  "gm_vyre_introduction": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Palimpsest+Host/vyre_guest_introduction.mp3",
+  "gm_darren_eulogy": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Palimpsest+Host/darren_eulogy_ep12.mp3",
+  "gm_inventor_takeover": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Palimpsest+Host/inventor_takeover_ep12_fullsession.mp3"
+}

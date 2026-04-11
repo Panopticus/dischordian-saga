@@ -264,6 +264,14 @@ async function startServer() {
   // Chess multiplayer WebSocket
   registerChessMultiplayer(server);
 
+  // Re-arm chess tournament auto-forfeit timers for in-flight rounds.
+  if (process.env.NODE_ENV !== "test") {
+    const { rehydrateChessTournamentTimers } = await import("../routers/chess");
+    rehydrateChessTournamentTimers().catch(e =>
+      console.error("[Chess] tournament timer rehydrate error:", e),
+    );
+  }
+
   // Duelyst card game multiplayer WebSocket
   const { setupDuelystWebSocket } = await import("../duelystWs");
   setupDuelystWebSocket(server);
@@ -279,6 +287,15 @@ async function startServer() {
     }, ONE_HOUR_MS);
     // Run once on startup so the first expiry doesn't wait an hour
     runUniverseTick().catch(e => console.error("[LivingUniverse] initial tick error:", e));
+
+    // Witnessing §3 — load the community Dischordia Cycle meter
+    // from MySQL into the in-memory cache on startup. If the DB
+    // has no row yet (fresh install), seeds defaults. Falls back
+    // to in-memory-only when DB is unavailable.
+    const { dischordiaCycleService } = await import("../services/dischordiaCycleService");
+    dischordiaCycleService
+      .hydrate()
+      .catch(e => console.error("[DischordiaCycle] initial hydrate error:", e));
   }
 
   server.listen(port, () => {

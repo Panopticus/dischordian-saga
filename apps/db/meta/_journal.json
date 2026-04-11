@@ -253,6 +253,27 @@
       "when": 1774172938176,
       "tag": "0035_store_purchase_stripe_idempotency",
       "breakpoints": true
+    },
+    {
+      "idx": 37,
+      "version": "5",
+      "when": 1775873552985,
+      "tag": "0037_dischordia_cycle",
+      "breakpoints": true
+    },
+    {
+      "idx": 40,
+      "version": "5",
+      "when": 1775913700166,
+      "tag": "0040_crew_tables",
+      "breakpoints": true
+    },
+    {
+      "idx": 45,
+      "version": "5",
+      "when": 1775990000000,
+      "tag": "0045_arena_essences",
+      "breakpoints": true
     }
   ]
 }

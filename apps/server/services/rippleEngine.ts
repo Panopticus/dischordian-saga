@@ -25,6 +25,8 @@ import {
 } from "../../db/schema";
 import { eq, and, sql, gte } from "drizzle-orm";
 import { pressureService } from "./pressureService";
+import { palimpsestService } from "./palimpsestService";
+import { getPhase } from "@shared/palimpsest";
 import { logger } from "../logger";
 
 /* ─── EVENT TYPES ─── */
@@ -91,6 +93,39 @@ export interface GovernanceVoteEvent extends RippleEvent {
 export interface SeasonalParticipationEvent extends RippleEvent {
   eventKey: string;
   contribution: number;
+}
+
+/* ─── PALIMPSEST EVENTS (Appendix C ripple types) ─── */
+
+export interface PalimpsestSignalGainEvent extends RippleEvent {
+  amount: number;
+  source: string;
+}
+
+export interface PalimpsestNoiseGainEvent extends RippleEvent {
+  amount: number;
+  source: string;
+}
+
+export interface InventorHackLandedEvent extends RippleEvent {
+  episode: number;
+  success: boolean;
+}
+
+export interface InventorHackBlockedEvent extends RippleEvent {
+  episode: number;
+  blockedBy: string;
+}
+
+export interface ShowCasualtyRolledEvent extends RippleEvent {
+  playerName: string;
+  eliminationRound: number;
+  episode: number;
+}
+
+export interface HostMaskSlippedEvent extends RippleEvent {
+  episode: number;
+  cause: string;
 }
 
 /* ─── HANDLER TYPE ─── */
@@ -683,6 +718,215 @@ on("casino_game_won", async (ev) => {
   const { userId } = ev as RippleEvent;
   const { advanceCircuitSideQuests } = await _circuitSideQuestImport();
   await advanceCircuitSideQuests(userId, "casino_game_won", 1);
+});
+
+/* ═══════════════════════════════════════════════════════
+   CROSS-ARC FEEDERS INTO THE PALIMPSEST
+
+   Existing ripple events feed the Signal/Noise meter via
+   secondary handlers — see Appendix C.2 of the design proposal.
+   ═══════════════════════════════════════════════════════ */
+
+// Crafting outcomes feed the Palimpsest per spec:
+//  epic/legendary success → Signal
+//  any craft failure → Noise
+on("craft_result", async (ev) => {
+  const { userId, success, rarity } = ev as RippleEvent & { success: boolean; rarity?: string };
+  if (success && (rarity === "epic" || rarity === "mythic")) {
+    await palimpsestService.apply(userId, "epicCraftSuccess");
+  } else if (success && rarity === "legendary") {
+    await palimpsestService.apply(userId, "legendaryCraftSuccess");
+  } else if (!success) {
+    await palimpsestService.apply(userId, "craftFailure");
+  }
+});
+
+// Soul-bound companion death in combat is a Noise event — the Shadow
+// Tongue feeds on bond severing. Also boosts next casualty crawl severity.
+on("companion_died", async (ev) => {
+  const { userId, wasSoulBound } = ev as CompanionDiedEvent;
+  if (wasSoulBound) {
+    await palimpsestService.applyRaw(userId, 0, 15);
+  }
+});
+
+// Loredex discovery is a Signal event — remembering is truth.
+on("loredex_entry_discovered", async (ev) => {
+  const { userId } = ev as LoredexDiscoveryEvent;
+  await palimpsestService.apply(userId, "truthDialogChoice"); // +1 Signal per discovery
+});
+
+// Governance votes: voting at all is a tiny truth signal (engagement is truth).
+on("governance_vote_cast", async (ev) => {
+  const { userId } = ev as GovernanceVoteEvent;
+  await palimpsestService.apply(userId, "truthDialogChoice");
+});
+
+/* ═══════════════════════════════════════════════════════
+   TIER 8: THE PALIMPSEST (Appendix C ripple handlers)
+   ═══════════════════════════════════════════════════════ */
+
+// ── PALIMPSEST SIGNAL GAIN ──
+on("palimpsest_signal_gain", async (ev) => {
+  const { userId, amount, source } = ev as PalimpsestSignalGainEvent;
+  await palimpsestService.applyRaw(userId, amount, 0);
+  await pressureService.increment(userId, "loreDiscoveries", 1, `palimpsest_signal:${source}`);
+});
+
+// ── PALIMPSEST NOISE GAIN ──
+on("palimpsest_noise_gain", async (ev) => {
+  const { userId, amount, source } = ev as PalimpsestNoiseGainEvent;
+  await palimpsestService.applyRaw(userId, 0, amount);
+  // Noise accrual feeds the Shadow Tongue pressure bucket — reuse betrayals.
+  await pressureService.increment(userId, "betrayals", 1, `palimpsest_noise:${source}`);
+
+  // If the noise spike just pushed us into "overwritten" territory, emit
+  // a secondary host_mask_slipped event so the UI/narrative can react.
+  const state = await palimpsestService.get(userId);
+  if (getPhase(state) === "overwritten") {
+    await emit("host_mask_slipped", {
+      userId,
+      episode: state.currentEpisode,
+      cause: source,
+    } as HostMaskSlippedEvent);
+  }
+});
+
+// ── INVENTOR HACK LANDED ──
+on("inventor_hack_landed", async (ev) => {
+  const { userId, episode, success } = ev as InventorHackLandedEvent;
+  if (success) {
+    await palimpsestService.apply(userId, "inventorHackLanded");
+    const db = await getDb();
+    if (!db) return;
+    await db.insert(notifications).values({
+      userId,
+      type: "lore_event",
+      title: "SIGNAL INTRUSION",
+      message: `Episode ${episode}: the broadcast cut sideways. A second voice behind the Host — the Inventor, laughing. For three seconds, every contestant was visible to themselves as they really were.`,
+    }).catch(() => {});
+  }
+});
+
+// ── INVENTOR HACK BLOCKED ──
+on("inventor_hack_blocked", async (ev) => {
+  const { userId, episode, blockedBy } = ev as InventorHackBlockedEvent;
+  await palimpsestService.apply(userId, "inventorHackBlocked");
+  await pressureService.increment(userId, "betrayals", 2, `inventor_hack_blocked_ep${episode}_${blockedBy}`);
+});
+
+// ── SHOW CASUALTY ROLLED ──
+on("show_casualty_rolled", async (ev) => {
+  const { userId, playerName, eliminationRound, episode } = ev as ShowCasualtyRolledEvent;
+  await palimpsestService.apply(userId, "showCasualty");
+  // Reuse the combat_death pressure channel so casualty crawls feed
+  // the Necromancer Cycle's resurrection energy too.
+  await pressureService.increment(userId, "deaths", 3, `show_casualty_ep${episode}`);
+
+  const db = await getDb();
+  if (!db) return;
+  await db.insert(notifications).values({
+    userId,
+    type: "lore_event",
+    title: "CASUALTY CRAWL",
+    message: `${playerName} was eliminated on round ${eliminationRound} of Episode ${episode}. Their name is now on the crawl. The Host smiles.`,
+  }).catch(() => {});
+});
+
+// ── HOST MASK SLIPPED ──
+on("host_mask_slipped", async (ev) => {
+  const { userId, episode, cause } = ev as HostMaskSlippedEvent;
+  // Seeing through the mask IS a truth event, even though it's horrifying.
+  await palimpsestService.apply(userId, "hostMaskSlipped");
+  await pressureService.increment(userId, "loreDiscoveries", 5, `host_mask_slipped_ep${episode}:${cause}`);
+
+  const db = await getDb();
+  if (!db) return;
+  await db.insert(notifications).values({
+    userId,
+    type: "lore_event",
+    title: "THE HOST'S FACE",
+    message: `For half a frame, the Game Master's mask fell. Something else was underneath. You saw it. The Palimpsest remembers what you saw. (Episode ${episode})`,
+  }).catch(() => {});
+});
+
+/* ═══════════════════════════════════════════════════════
+   TIER 9: KAEL ASYNCHRONOUS QUESTLINE HANDLERS (Appendix B)
+
+   Six event types emitted when the player unlocks Kael
+   Fragments F1-F6, notices a tower memorial, makes the
+   Apprentice's Stand choice, or completes the questline.
+   See apps/shared/appendixBKaelQuestline.ts for canonical
+   data and KAEL_RIPPLE_EVENT_TYPES.
+   ═══════════════════════════════════════════════════════ */
+
+export interface KaelFragmentEvent extends RippleEvent {
+  fragmentId: "f1" | "f2" | "f3" | "f4" | "f5" | "f6";
+  fragmentTitle: string;
+}
+
+on("kael_fragment_unlocked", async (ev) => {
+  const { userId, fragmentId, fragmentTitle } = ev as KaelFragmentEvent;
+  await pressureService.increment(userId, "loreDiscoveries", 8, `kael_${fragmentId}`);
+  const db = await getDb();
+  if (!db) return;
+  await db.insert(notifications).values({
+    userId,
+    type: "lore_event",
+    title: "A FRAGMENT SURFACES",
+    message: `Kael Fragment unlocked: ${fragmentTitle}. The Antiquarian's hand trembles as he writes.`,
+  }).catch(() => {});
+});
+
+on("kael_mirror_seen", async (ev) => {
+  const { userId } = ev as RippleEvent;
+  // F1 — the face beneath the face. A silent ripple; no notification.
+  await pressureService.increment(userId, "loreDiscoveries", 3, "kael_mirror");
+});
+
+on("kael_name_spoken", async (ev) => {
+  const { userId } = ev as RippleEvent;
+  // F6 — the Recruiter's real name. Largest single lore beat of the questline.
+  await pressureService.increment(userId, "loreDiscoveries", 25, "kael_name_spoken");
+  const db = await getDb();
+  if (!db) return;
+  await db.insert(notifications).values({
+    userId,
+    type: "lore_event",
+    title: "THE RECRUITER HAS A NAME",
+    message: "You have seen his name exactly once. Both narrators will be silent for 24 real hours.",
+  }).catch(() => {});
+});
+
+on("kael_memorial_noticed", async (ev) => {
+  const { userId, towerKey } = ev as RippleEvent & { towerKey: string };
+  // Hovering a tower inscription for the first time.
+  await pressureService.increment(userId, "loreDiscoveries", 1, `memorial_${towerKey}`);
+});
+
+on("kael_apprentice_choice", async (ev) => {
+  const { userId, choice } = ev as RippleEvent & { choice: "stayed" | "ran" };
+  // F5 — the Apprentice's exact choice, permanent mechanical consequence.
+  await pressureService.increment(
+    userId,
+    choice === "stayed" ? "trustGains" : "betrayals",
+    15,
+    `apprentice_${choice}`,
+  );
+});
+
+on("kael_questline_complete", async (ev) => {
+  const { userId } = ev as RippleEvent;
+  await pressureService.increment(userId, "loreDiscoveries", 50, "kael_questline_complete");
+  await pressureService.increment(userId, "healingDone", 10, "kael_questline_complete");
+  const db = await getDb();
+  if (!db) return;
+  await db.insert(notifications).values({
+    userId,
+    type: "lore_event",
+    title: "THE MAN WHO CAME BACK",
+    message: "The Terminus Swarm has paused for a full real minute. The Ark crew saw it from the Observation Deck. Kael is named. Kael is remembered.",
+  }).catch(() => {});
 });
 
 /* ═══════════════════════════════════════════════════════

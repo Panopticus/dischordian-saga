@@ -420,4 +420,35 @@ export const STARTER_MISSIONS: MissionDef[] = [
     requiresFlag: "antiquarian_trust_30",
     completionSong: "Silence in Heaven",
   },
+  {
+    id: "vox_corridor",
+    name: "The Vox Corridor",
+    type: "trade",
+    description:
+      "Dr. Lyra Vox's original research-supply chain is still mapped in the Ark's navigation " +
+      "archives. The route threads through the Viral Wastes and past Terminus Approach — " +
+      "extremely profitable for anyone carrying pre-Fall pharmaceuticals, but every sector " +
+      "you touch accrues viral exposure. Elara refuses to plot it; Locke will, for a cut.",
+    loreContext:
+      "Vox's journal (Medical Bay) describes the Thought Virus spreading most efficiently " +
+      "through trade routes — merchants carried it from world to world without knowing. " +
+      "Running the Vox Corridor is, literally, rebuilding the plague network.",
+    targetSector: "viral_wastes",
+    targetFaction: "thought_virus",
+    difficulty: "dangerous",
+    duration: 5,
+    baseSuccessRate: 70,
+    cost: { credits: 80, materials: 40 },
+    // Doubles normal trade-route payout, but adds a contamination tick via
+    // the server-side mission resolver (see apps/server/routers/tradeEmpire.ts).
+    rewards: { credits: 400, materials: 60, influence: 20 },
+    reputationEffect: [
+      { factionId: "new_babylon", change: 5 },
+      { factionId: "thought_virus", change: 10 },
+      { factionId: "insurgency", change: -10 },
+    ],
+    offeredBy: "adjudicator_locke",
+    requiresFlag: "vox_journal_read",
+    completionSong: "The Source (Reprise)",
+  },
 ];

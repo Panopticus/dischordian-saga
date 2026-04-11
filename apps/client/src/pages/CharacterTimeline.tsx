@@ -7,6 +7,7 @@
    ═══════════════════════════════════════════════════════ */
 import { useLoredex, type LoredexEntry } from "@/contexts/LoredexContext";
 import { useGamification } from "@/contexts/GamificationContext";
+import { CorruptibleBio } from "@/components/CorruptibleBio";
 import { Link } from "wouter";
 import {
   useState, useMemo, useRef, useCallback, useEffect,
@@ -639,7 +640,9 @@ export default function CharacterTimeline() {
                             {entry.image && <img src={entry.image} alt="" className="w-8 h-8 rounded object-cover shrink-0" />}
                             <div className="min-w-0">
                               <p className="text-xs font-medium">{entry.name}</p>
-                              <p className="text-[10px] text-muted-foreground truncate">{entry.bio?.slice(0, 100)}</p>
+                              <p className="text-[10px] text-muted-foreground truncate">
+                                <CorruptibleBio entryId={entry.id} text={entry.bio} truncate={100} />
+                              </p>
                             </div>
                           </div>
                         ))}

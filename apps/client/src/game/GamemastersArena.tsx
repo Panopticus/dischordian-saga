@@ -18,6 +18,7 @@
 import { useState, useEffect, useCallback, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Radio, Trophy, Zap, X, Star, Clock, HelpCircle, Users, Skull } from "lucide-react";
+import { trpc } from "@/lib/trpc";
 
 /* ─── QUESTIONS ─── */
 interface Question { q: string; a: string[]; c: number; }
@@ -109,10 +110,13 @@ type Lifeline = "fifty_fifty" | "ask_audience" | "phone_ghost";
 interface Props { onComplete: (dream: number, rounds: number) => void; onClose: () => void; }
 
 export default function GamemastersArena({ onComplete, onClose }: Props) {
+  const recordQuiz = trpc.palimpsest.recordQuiz.useMutation();
   const [phase, setPhase] = useState<Phase>("intro");
   const [round, setRound] = useState(0);
   const [score, setScore] = useState(0);
   const [safeScore, setSafeScore] = useState(0);
+  const [correctCount, setCorrectCount] = useState(0);
+  const [wrongCount, setWrongCount] = useState(0);
   const [lifelines, setLifelines] = useState<Set<Lifeline>>(new Set(["fifty_fifty", "ask_audience", "phone_ghost"]));
   const [eliminated, setEliminated] = useState<Set<number>>(new Set());
   const [audienceData, setAudienceData] = useState<number[] | null>(null);
@@ -188,6 +192,7 @@ export default function GamemastersArena({ onComplete, onClose }: Props) {
 
     const correct = idx === currentQ.c;
     if (correct) {
+      setCorrectCount(n => n + 1);
       const prize = PRIZES[round];
       setScore(prev => prev + prize);
       if (SAFE_ROUNDS.has(round)) setSafeScore(score + prize);
@@ -209,6 +214,7 @@ export default function GamemastersArena({ onComplete, onClose }: Props) {
         }
       }, 2000);
     } else {
+      setWrongCount(n => n + 1);
       setCommentary(COMMENTARY.wrong[Math.floor(Math.random() * COMMENTARY.wrong.length)]);
       setTimeout(() => {
         setWon(false);
@@ -253,6 +259,15 @@ export default function GamemastersArena({ onComplete, onClose }: Props) {
     // Save clone state
     const today = new Date().toDateString();
     localStorage.setItem("gm_arena_clones", JSON.stringify({ date: today, clones: Math.max(0, clonesLeft - 1) }));
+    // Feed the Palimpsest meter. The arena is a standalone quiz when it isn't
+    // launched inside the episode lobby, so tag it as gamemasters_arena.
+    if (correctCount > 0 || wrongCount > 0) {
+      recordQuiz.mutate({
+        correct: correctCount,
+        wrong: wrongCount,
+        source: "gamemasters_arena",
+      });
+    }
     onComplete(finalScore, won ? 10 : round);
   };
 

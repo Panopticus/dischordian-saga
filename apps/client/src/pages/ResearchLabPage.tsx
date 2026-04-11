@@ -93,10 +93,12 @@ export default function ResearchLabPage() {
     if (!currentRecipe) return [];
 
     if (currentRecipe.type === "fusion" && currentRecipe.sameCard) {
-      // Only show duplicates of matching rarity
+      // Only show non-foil duplicates of matching rarity. All sameCard
+      // fusion recipes (including foil_upgrade) consume non-foil copies.
       return (duplicates ?? []).filter(d =>
         (!currentRecipe.inputRarity || d.rarity === currentRecipe.inputRarity) &&
-        d.quantity >= currentRecipe.inputCount
+        d.quantity >= currentRecipe.inputCount &&
+        d.isFoil === 0
       );
     }
 

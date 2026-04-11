@@ -36,6 +36,8 @@ import {
   ACTS, getCategoryLabel, getStatusColor, getNextEvents,
 } from "@/data/eventsCalendar";
 import { getDailyVote, generateVoterName } from "@shared/governance";
+import { PalimpsestMeterPanel } from "@/components/PalimpsestMeterPanel";
+import { usePalimpsest } from "@/hooks/usePalimpsest";
 
 /* ─── ICON MAP (for dynamic metric rendering) ─── */
 const ICON_MAP: Record<string, React.ComponentType<{ size?: number; className?: string }>> = {
@@ -588,14 +590,18 @@ function UpcomingEventsBar() {
    ═══════════════════════════════════════════════════════ */
 
 export default function GovernanceHubPage() {
-  const [mobileTab, setMobileTab] = useState<"vote" | "chronicle" | "pulse" | "daily">("vote");
+  const [mobileTab, setMobileTab] = useState<"vote" | "chronicle" | "pulse" | "daily" | "palimpsest">("vote");
 
   const mobileTabs = [
     { id: "vote" as const, label: "VOTE", icon: Vote },
     { id: "daily" as const, label: "DAILY", icon: Clock },
+    { id: "palimpsest" as const, label: "PALIMPSEST", icon: Flame },
     { id: "chronicle" as const, label: "TOME", icon: BookOpen },
     { id: "pulse" as const, label: "PULSE", icon: BarChart3 },
   ];
+
+  // Server-backed Palimpsest state via the shared hook (dedupes across components).
+  const { state: palimpsestState } = usePalimpsest();
 
   return (
     <AtmosphereScope roomKey="guild_sanctum">
@@ -654,6 +660,11 @@ export default function GovernanceHubPage() {
                   <PulsePanel />
                 </motion.div>
               )}
+              {mobileTab === "palimpsest" && (
+                <motion.div key="palimpsest" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}>
+                  <PalimpsestMeterPanel state={palimpsestState} />
+                </motion.div>
+              )}
             </AnimatePresence>
           </div>
 
@@ -664,10 +675,13 @@ export default function GovernanceHubPage() {
               <ChroniclePanel />
             </div>
 
-            {/* CENTER — Active Vote + Daily */}
+            {/* CENTER — Active Vote + Daily + Palimpsest */}
             <div>
               <ActiveVotePanel />
               <DailyMicroVotes />
+              <div className="mt-4">
+                <PalimpsestMeterPanel state={palimpsestState} />
+              </div>
             </div>
 
             {/* RIGHT — Pulse */}

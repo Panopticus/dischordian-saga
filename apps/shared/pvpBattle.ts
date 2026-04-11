@@ -428,3 +428,35 @@ export function getRankTier(elo: number): string {
   if (elo >= 1200) return "silver";
   return "bronze";
 }
+
+/**
+ * Subdivide a rank tier into Divisions III → II → I as the player's
+ * ELO climbs within the 200-point tier band. Returns "—" for the top
+ * two tiers (grandmaster / master), which are leaderboard-only.
+ *
+ * Thresholds (distance into the tier):
+ *   0-65 points  → Division III (entry)
+ *   66-130       → Division II
+ *   131-200      → Division I (promotion zone)
+ */
+export function getRankDivision(elo: number): "I" | "II" | "III" | "—" {
+  const tier = getRankTier(elo);
+  if (tier === "grandmaster" || tier === "master") return "—";
+  const tierFloor =
+    tier === "diamond" ? 1800 :
+    tier === "platinum" ? 1600 :
+    tier === "gold" ? 1400 :
+    tier === "silver" ? 1200 :
+    0; // bronze starts at 0
+  const offset = elo - tierFloor;
+  if (offset >= 131) return "I";
+  if (offset >= 66) return "II";
+  return "III";
+}
+
+/** Combined tier + division string, e.g. "gold II" or just "master". */
+export function getRankDisplay(elo: number): string {
+  const tier = getRankTier(elo);
+  const division = getRankDivision(elo);
+  return division === "—" ? tier : `${tier} ${division}`;
+}
