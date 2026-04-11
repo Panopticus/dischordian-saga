@@ -991,6 +991,140 @@ export const INFILTRATION_STAGES: Record<string, InfiltrationStage> = {
     flagsOnComplete: ["ae_robe_decision_made"],
   },
 
+  /* ═══════════════════════════════════════════════════════
+     F6 — ANTIQUARIAN'S REFUGE — "A Moment Outside Time"
+     §7.3 F6 Infiltration path. Accept apprenticeship. Spend
+     a session in the Refuge outside time. When you return,
+     everyone you know has aged mentally — Elara is harder,
+     the Human is more tired. Reward: a Mythic card.
+     ═══════════════════════════════════════════════════════ */
+
+  an_i_1: {
+    stageId: "an_i_1",
+    factionId: "antiquarian",
+    type: "choice",
+    title: "Accept Apprenticeship",
+    intro:
+      "The Antiquarian extends his hand from inside the black-hole-that-is-not-a-black-hole. The hand exists across more dimensions than you are comfortable with. He offers apprenticeship. He explains the terms with unusual precision for him — a sign of how serious the offer is.",
+    prompt: "Accept his terms?",
+    options: [
+      {
+        id: "an_i_1_accept",
+        label: "ACCEPT — Step through the gate.",
+        outcome:
+          "You take his hand. The hand closes around yours. The stars stop moving. That is your first indication that time has been paused for everyone you know. They are frozen in place on the Ark, faces still shaped like whatever they were in the middle of saying. Elara's expression is concern. The Human's expression is, for once, gratitude. You will remember both.",
+        flags: ["an_apprenticeship_accepted"],
+      },
+      {
+        id: "an_i_1_decline",
+        label: "DECLINE — Remain in time.",
+        outcome:
+          "You shake your head. The Antiquarian nods without disappointment. 'Most who get this offer decline. Most of those who accept never get to decline anything again.' He withdraws his hand. The gate closes. This path is permanently over. You did not earn the Mythic card. You did not lose thirty Elara Trust. You did not age the Human.",
+        flags: ["an_apprenticeship_declined"],
+        fails: true,
+      },
+    ],
+    flagsOnComplete: ["an_path_active"],
+  },
+
+  an_i_2: {
+    stageId: "an_i_2",
+    factionId: "antiquarian",
+    type: "time_skip",
+    title: "Outside Time",
+    intro:
+      "The Refuge has no clock. The Antiquarian does not teach you with lessons — he teaches you by letting you live, for subjective periods your mind cannot honestly measure, inside moments he considers interesting. Your body does not age. Your mind does.",
+    fragments: [
+      {
+        text: "You spend a subjective year reading the only book in the Refuge's archive that has not been written yet.",
+        pauseMs: 5500,
+      },
+      {
+        text: "You spend a subjective decade watching a star die in real time at a frame rate of about one photon per week.",
+        pauseMs: 5500,
+      },
+      {
+        text: "You spend a subjective century holding a conversation with a woman who is technically still alive but has not yet been born. She asks you about Elara. You answer honestly. She writes your answers down.",
+        pauseMs: 6500,
+      },
+      {
+        text: "You spend a subjective millennium learning to be still enough that the Refuge stops noticing you are there. When it stops noticing, you see what it is. You are not allowed to describe what it is when you leave.",
+        pauseMs: 6500,
+      },
+      {
+        text: "The Antiquarian taps your shoulder. It has been nine seconds outside. 'Ready,' he says, without a question mark. You are ready.",
+        pauseMs: 5000,
+      },
+    ],
+    finalButton: "RETURN",
+    flagsOnComplete: ["an_outside_time_complete", "companions_aged"],
+  },
+
+  an_i_3: {
+    stageId: "an_i_3",
+    factionId: "antiquarian",
+    type: "dialogue",
+    title: "Return",
+    intro:
+      "You step back onto the Ark. Elara is mid-sentence, exactly where you left her nine seconds ago, but she takes one look at your face and the sentence dies in her mouth. She can tell you have been away for a long time. The Human can tell too. Neither of them asks for a number. They know better than to ask for a number.",
+    speaker: "Elara Voss (and the Human)",
+    exchanges: [
+      {
+        npcLine:
+          "Elara: 'You're older. Not visibly. I can just tell. The Human says it's something in the way you hold your shoulders. What did he teach you?'",
+        responses: [
+          {
+            id: "an_i_3_a1",
+            label: "\"Stillness.\"",
+            outcome: "Elara nods. She does not push. The Human, on the substrate, sighs with something that isn't approval but isn't disapproval either.",
+            npcReply:
+              "Elara: 'I missed you. Nine seconds is too long when I can tell you weren't in them. Please do not do that to me again.'\n\nHuman: 'Aye. She speaks for both of us. I have been tired for a long time and you just got to rest in a way I will never get to rest. I am happy for you. I am also fourteen years more tired because of it. Your choice.'",
+            flags: ["an_taught_stillness"],
+          },
+          {
+            id: "an_i_3_a2",
+            label: "\"He taught me how to sit inside a decision for a century before making it.\"",
+            outcome: "Elara inhales sharply. She understands exactly what you just said. She has suspected that skill is possible and now she knows.",
+            npcReply:
+              "Elara: 'Oh. Oh, that is terrifying. That is — that is the skill every adjudicator on New Babylon would sell their coffin for. Be careful which decision you first practice it on. Please.'\n\nHuman: 'She's right to be scared of it. That skill is how the Architect made half his worst mistakes. It gives you enough time to talk yourself into anything.'",
+            flags: ["an_taught_century_decisions"],
+          },
+          {
+            id: "an_i_3_a3",
+            label: "\"Nothing I can say out loud.\"",
+            outcome: "Both of them accept this with different weights. Elara accepts it the way a sister does. The Human accepts it the way a theologian does.",
+            npcReply:
+              "Elara: 'Then don't. Promise me you won't feel like you have to. Please.'\n\nHuman: 'There are three things that cannot be spoken and still be true. I think I can guess which one you brushed against. I will not name it either.'",
+            flags: ["an_taught_unspeakable"],
+          },
+        ],
+      },
+      {
+        npcLine:
+          "Elara: 'One more thing. You have a new card. I can see it in your deck file. It says A Moment Outside Time. The lore entry on the card is exactly the lore entry of the thing you just did, written in past tense. The Antiquarian already wrote the card before you earned it. How do you feel about that?'",
+        responses: [
+          {
+            id: "an_i_3_b1",
+            label: "\"I feel like I was always going to earn it.\"",
+            outcome: "Elara laughs once. A small, sharp laugh. She has been thinking about destiny this whole time and now she has to think about it differently.",
+            npcReply:
+              "Elara: 'Then you agree with him about predestination, and I am going to have to have a long argument with you about that in our next conversation, and I am going to lose. Welcome back.'",
+            flags: ["an_predestination_accepted"],
+          },
+          {
+            id: "an_i_3_b2",
+            label: "\"I feel like I was cheated, a little.\"",
+            outcome: "Elara nods. She agrees. The Human agrees more loudly.",
+            npcReply:
+              "Elara: 'Good. You should feel cheated when you get a prize you didn't earn fair. Hold on to that feeling. The Antiquarian gives gifts like that because he wants his pupils to feel small. Don't feel small. Feel cheated. Use the cheated feeling.'",
+            flags: ["an_predestination_rejected"],
+          },
+        ],
+      },
+    ],
+    flagsOnComplete: ["an_returned_aged", "antiquarian_infiltration_complete", "moment_outside_time_obtained"],
+  },
+
   nb_i_4: {
     stageId: "nb_i_4",
     factionId: "new_babylon",
