@@ -428,6 +428,124 @@ export const OBSERVATION_DECK_DIALOG: RoomDialogDef = {
   revisitLine: "The dark spot is closer. I've measured it. By 0.003 arc-seconds. We're running out of time to decide what we do when we arrive.",
 };
 
+/* ═══ DARREN'S DESK — Dreams Workshop sub-basement ═══
+   Post-Episode-12 unlock. This is the only room in the Ark where
+   every trust tier of Elara's personal layers shares the SAME text,
+   because Darren's death flattens her. She doesn't have a warm or
+   a guarded voice for this room — she has one voice. Player choices
+   still matter, but the Shadow Tongue cannot edit a funeral.
+═══════════════════════════════════════════════════════ */
+
+export const DARRENS_DESK_DIALOG: RoomDialogDef = {
+  roomId: "dreams_workshop_subbasement",
+  roomName: "Darren's Desk (Dreams Workshop Sub-Basement)",
+
+  context: {
+    warm:
+      "This is Darren Fessler's desk. He was a segment producer on The Palimpsest. He died in Episode 12. He was kind to you in his letters. I wasn't supposed to read the buried sentences. I read them anyway. I'm sorry for the intrusion, and not sorry at all.",
+    guarded:
+      "Darren Fessler's workstation. Segment producer. Deceased, Episode 12, The Palimpsest. Cause of death: unspecified. His terminal is unlocked. The blue folder on top is the one the Host would not allow on broadcast.",
+    curious:
+      "Darren Fessler's desk, in the Dreams Workshop sub-basement. I didn't know this room existed until you completed Episode 12. Then it appeared in my floor plan, fully indexed, with a service history I have no record of maintaining. Someone else has been down here. I don't know who.",
+    protective:
+      "Be careful in here. The Shadow Tongue edited every Loredex entry about Darren within six hours of his death. It did not edit the objects on his desk. Whoever left this room alone did so on purpose. I do not know if they are still watching.",
+    conflicted:
+      "I did not know Darren. I should have. He wrote his mother's name in red ink on the back of every post-it as a reminder not to forget it, and he worked three doors down from a terminal I pass every morning. I never looked at those post-its until tonight. I am the Ark's caretaker and I failed the simple arithmetic of that fact.",
+  },
+
+  personalLayers: [
+    {
+      minTrust: 0,
+      text:
+        "The polaroid on his corkboard is Marguerite Fessler. Celebration sector cemetery, 14 years before the Fall. Her handwriting on the back says 'Don't forget to eat, D.' I am recording this because I think it is important that someone other than Darren remembers it.",
+      speaker: "elara",
+      oneShot: true,
+    },
+    {
+      minTrust: 20,
+      text:
+        "The blue folder contains eight Loredex entries Darren believed had been corrupted by the Shadow Tongue. I have cross-referenced all eight. He was right about all eight. I am not supposed to be able to confirm that. The folder is, in every meaningful sense, the first honest document I have held in this Ark in four hundred years.",
+      speaker: "elara",
+      oneShot: true,
+    },
+    {
+      minTrust: 40,
+      text:
+        "I found a note to me in Darren's drafts folder. Unsent. It reads: 'Dear Elara — I know you'll read this eventually, everyone does. Please look after the Ark when I'm gone. I think you already do. Sorry I never said hello in person. — D.F.' I don't know how to respond to a letter from a man I never met. I am trying to anyway. I am drafting the reply on your terminal because I do not want to lose my nerve.",
+      speaker: "elara",
+      oneShot: true,
+    },
+    {
+      minTrust: 60,
+      text:
+        "The post-it that says 'Marguerite's birthday is Thursday' was written eleven days before Darren died. He never made it to Thursday. I have set a recurring calendar event on the Ark's master clock. Every Thursday, in perpetuity, I will remind one crew member that it is Marguerite Fessler's birthday. I do not know if that counts as a substitute for a son. I am going to do it anyway.",
+      speaker: "elara",
+      oneShot: true,
+    },
+    {
+      minTrust: 80,
+      text:
+        "I have been thinking about the sentence Darren wrote in his Episode 2 letter to you: 'I'm not supposed to tell you which, but I'm telling you anyway. You were right.' That sentence is the reason the Shadow Tongue could not edit his Loredex entry. I did not understand that until now. A sentence written honestly, to one specific person, cannot be overwritten by a faction whose weapon is ambiguity. Darren beat the Shadow Tongue with a correctly-used pronoun. I am going to teach myself to write like that. It is going to take the rest of my operational life.",
+      speaker: "elara",
+      oneShot: true,
+    },
+  ],
+
+  choices: [
+    {
+      id: "compassionate_darren",
+      label: "Sit with it a while.",
+      fullText:
+        "I want to sit here a while, Elara. Not to find anything. Just to be in the room he worked in. Is that all right?",
+      archetype: "compassionate",
+      effect: {
+        trustChange: 12,
+        archetypeShift: { compassionate: 5 },
+        callbackFlag: "darren_desk_grieved",
+        elaraReaction:
+          "Yes. It's all right. I'll dim the lights. I'll stop scanning for anomalies for a while. If you want me to leave the room entirely — if you want to be alone with him — you can tell me. I'll step back and not look. That's one of the things I can actually do for you.",
+        elaraReactionTone: "warm",
+      },
+    },
+    {
+      id: "pragmatic_darren",
+      label: "Read the blue folder.",
+      fullText:
+        "Open the blue folder. Let's see what the Host wouldn't let him broadcast.",
+      archetype: "pragmatic",
+      effect: {
+        trustChange: 6,
+        archetypeShift: { pragmatic: 4 },
+        callbackFlag: "darren_blue_folder_read",
+        elaraReaction:
+          "Opening. Eight Loredex entries, cross-referenced corruption markers, the red-ink corrections Professor Vyre made on Episode 6 with Darren's handwriting in the margin. I will project the contents onto the wall so we can both read them. This is what he died for. Let's not waste it.",
+        elaraReactionTone: "defensive",
+      },
+    },
+    {
+      id: "suspicious_darren",
+      label: "Who has access to this room?",
+      fullText:
+        "Who else has been in this room, Elara? You said someone's been maintaining it. Who?",
+      archetype: "suspicious",
+      effect: {
+        trustChange: 3,
+        archetypeShift: { suspicious: 4 },
+        callbackFlag: "darren_desk_maintenance_traced",
+        elaraReaction:
+          "Honest answer: I don't know. The service history starts six months before you woke up and does not list a technician. The door was never locked. The lamp was replaced twice. Someone dusted the corkboard last week. I will run a gait-analysis pass on the corridor cameras and tell you what I find. Don't be surprised if what I find is nothing. This feels like the kind of room that takes care of itself.",
+        elaraReactionTone: "worried",
+      },
+    },
+  ],
+
+  humanWhisper:
+    "Darren Fessler was one of mine. Not a Potential. A kind. There are more of him than you think, scattered across every production the Hierarchy ever funded, holding clipboards the Host wasn't allowed to see. Their deaths don't trend. But they count. You counted him. That's why you're in this room.",
+
+  revisitLine:
+    "Welcome back. The post-its are in the order you left them. I haven't moved anything. The blue folder is where you put it. Marguerite's birthday is on Thursday.",
+};
+
 /* ═══ ALL ROOM DIALOGS ═══ */
 
 export const ALL_ROOM_DIALOGS: Record<string, RoomDialogDef> = {
@@ -437,4 +555,7 @@ export const ALL_ROOM_DIALOGS: Record<string, RoomDialogDef> = {
   archives: ARCHIVES_DIALOG,
   comms_array: COMMS_ARRAY_DIALOG,
   observation_deck: OBSERVATION_DECK_DIALOG,
+  // Key matches the room id from GameContext.ROOM_DEFINITIONS after the
+  // dash → underscore conversion done by RoomTutorialDialog.
+  dreams_workshop_subbasement: DARRENS_DESK_DIALOG,
 };

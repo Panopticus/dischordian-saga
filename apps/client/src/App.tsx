@@ -81,6 +81,7 @@ const TerminusSwarmPage = lazy(() => import("./game/terminus-swarm/TerminusSwarm
 // CardGamePage removed — Dischordia is the only card game now
 const CardGamePage = lazy(() => import("./game/duelyst/DuelystPage"));
 const InceptionArkPage = lazy(() => import("./pages/InceptionArkPage"));
+const CrewRosterPage = lazy(() => import("./pages/CrewRosterPage"));
 const TrophyRoomPage = lazy(() => import("./pages/TrophyRoomPage"));
 const TradeWarsPage = lazy(() => import("./game/TradeEmpirePage"));
 const WarMapPage = lazy(() => import("./pages/WarMapPage"));
@@ -165,7 +166,9 @@ const LoreJournalPage = lazy(() => import("./pages/LoreJournalPage"));
 const ArmyManagementPage = lazy(() => import("./pages/ArmyManagementPage"));
 const ShipSchematicMap = lazy(() => import("./components/ShipSchematicMap"));
 const GamemastersArenaPage = lazy(() => import("./game/GamemastersArenaPage"));
+const PalimpsestEpisodesPage = lazy(() => import("./game/PalimpsestEpisodesPage"));
 const DegensCasinoPage = lazy(() => import("./game/DegensCasinoPage"));
+const CasinoLeaderboardPage = lazy(() => import("./game/CasinoLeaderboardPage"));
 const SignalDecryptionPage = lazy(() => import("./game/SignalDecryptionPage"));
 const StarChartPage = lazy(() => import("./game/StarChartPage"));
 const HackingPuzzlePage = lazy(() => import("./game/HackingPuzzlePage"));
@@ -222,6 +225,7 @@ function Router() {
         <Route path="/terminus-swarm">{() => <GameRoute component={TerminusSwarmPage} />}</Route>
         <Route path="/ark" component={ArkExplorerPage} />
         <Route path="/ark-legacy" component={InceptionArkPage} />
+        <Route path="/crew" component={CrewRosterPage} />
         <Route path="/ship-map" component={ShipSchematicMap} />
         <Route path="/trophy" component={TrophyRoomPage} />
         <Route path="/trade-empire">{() => <GameRoute component={TradeWarsPage} />}</Route>
@@ -285,7 +289,9 @@ function Router() {
         <Route path="/duelyst-play">{() => <GameRoute component={DuelystClassicPage} />}</Route>
         <Route path="/spectate" component={SpectatorPage} />
         <Route path="/gamemasters-arena">{() => <GameRoute component={GamemastersArenaPage} />}</Route>
+        <Route path="/palimpsest">{() => <GameRoute component={PalimpsestEpisodesPage} />}</Route>
         <Route path="/casino">{() => <GameRoute component={DegensCasinoPage} />}</Route>
+        <Route path="/casino/leaderboard">{() => <GameRoute component={CasinoLeaderboardPage} />}</Route>
         <Route path="/circuit">{() => <GameRoute component={DeadMansCircuitPage} />}</Route>
         <Route path="/cades-fps">{() => <GameRoute component={CADESFPSPage} />}</Route>
         <Route path="/signal-decryption">{() => <GameRoute component={SignalDecryptionPage} />}</Route>

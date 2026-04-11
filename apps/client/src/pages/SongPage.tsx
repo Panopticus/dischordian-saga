@@ -7,6 +7,7 @@ import {
   ArrowLeft, Music, Play, ExternalLink, Users, Clock, Disc3, ChevronRight
 } from "lucide-react";
 import LyricsViewer from "@/components/LyricsViewer";
+import { CorruptibleBio } from "@/components/CorruptibleBio";
 import { usePageMeta } from "@/hooks/usePageMeta";
 
 export default function SongPage() {
@@ -219,7 +220,9 @@ export default function SongPage() {
             className="void-surface p-5"
           >
             <h2 className="font-display text-xs font-bold tracking-[0.2em] text-primary mb-3">DESCRIPTION</h2>
-            <p className="text-sm text-foreground/80 leading-relaxed">{entry.bio}</p>
+            <p className="text-sm text-foreground/80 leading-relaxed">
+              <CorruptibleBio entryId={entry.id} text={entry.bio} />
+            </p>
           </motion.section>
         )}
 

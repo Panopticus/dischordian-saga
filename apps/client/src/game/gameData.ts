@@ -557,6 +557,31 @@ export const UNLOCKABLE_FIGHTERS: FighterData[] = [
     combos: ["Silent Kill", "Shadow Step", "Zero Strike"], color: "#1e293b",
     frameProfile: { archetype: "rushdown", walkSpeedMult: 1.2, dashSpeedMult: 1.15, jumpForceMult: 1.05, lightStartup: 3, lightRecovery: 6, mediumStartup: 7, mediumRecovery: 13, heavyStartup: 7, heavyRecovery: 20, damageMult: 1.15, hitstunMult: 0.95, pushbackMult: 0.9, rangeMult: 0.95, meterGainMult: 1.0, maxComboHits: 13 },
   },
+  /* ─── Story Mode chapter opponents (ch6, ch8, ch10) ─── */
+  {
+    id: "white-oracle", loredexId: "entity_61", name: "The White Oracle", title: "Prophet of the Unwritten Future",
+    image: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/white_oracle_portrait.png",
+    faction: "neutral", locked: true, unlockCost: 1800, hp: 95, attack: 8, defense: 6, speed: 9,
+    special: { name: "UNWRITTEN PROPHECY", damage: 34, description: "Rewrites the next 3 seconds of combat, reversing incoming damage", cooldown: 290, color: "#f8fafc" },
+    combos: ["Mirror Strike", "Paradox Blow", "Oracle's Edge"], color: "#f8fafc",
+    frameProfile: { archetype: "balanced", walkSpeedMult: 1.05, dashSpeedMult: 1.05, jumpForceMult: 1.05, lightStartup: 5, lightRecovery: 8, mediumStartup: 9, mediumRecovery: 15, heavyStartup: 9, heavyRecovery: 22, damageMult: 1.0, hitstunMult: 1.0, pushbackMult: 1.0, rangeMult: 1.0, meterGainMult: 1.1, maxComboHits: 12 },
+  },
+  {
+    id: "human", loredexId: "entity_62", name: "The Human", title: "Last Detective of the Old World",
+    image: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/the_human_portrait.png",
+    faction: "neutral", locked: true, unlockCost: 1600, hp: 95, attack: 8, defense: 7, speed: 7,
+    special: { name: "MOTIVE UNVEILED", damage: 30, description: "Reads the opponent's next move and counters it flawlessly", cooldown: 260, color: "#64748b" },
+    combos: ["Pistol Whip", "Evidence Chain", "Case Closed"], color: "#64748b",
+    frameProfile: { archetype: "balanced", walkSpeedMult: 1.0, dashSpeedMult: 1.0, jumpForceMult: 1.0, lightStartup: 5, lightRecovery: 8, mediumStartup: 9, mediumRecovery: 15, heavyStartup: 9, heavyRecovery: 22, damageMult: 1.0, hitstunMult: 1.0, pushbackMult: 1.0, rangeMult: 1.05, meterGainMult: 1.0, maxComboHits: 11 },
+  },
+  {
+    id: "warden", loredexId: "entity_63", name: "The Panoptic Warden", title: "Foucault with a Chrome Jaw",
+    image: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/the_warden_portrait.png",
+    faction: "empire", locked: true, unlockCost: 2000, hp: 125, attack: 10, defense: 10, speed: 5,
+    special: { name: "TOTAL SURVEILLANCE", damage: 38, description: "Pins the opponent in every possible angle simultaneously — true damage, pierces block", cooldown: 320, color: "#facc15" },
+    combos: ["Chrome Jaw", "Observation Crush", "Discipline Protocol"], color: "#facc15",
+    frameProfile: { archetype: "tank", walkSpeedMult: 0.8, dashSpeedMult: 0.85, jumpForceMult: 0.9, lightStartup: 7, lightRecovery: 11, mediumStartup: 11, mediumRecovery: 18, heavyStartup: 10, heavyRecovery: 26, damageMult: 1.15, hitstunMult: 1.1, pushbackMult: 1.2, rangeMult: 0.95, meterGainMult: 1.15, maxComboHits: 9 },
+  },
 ];
 
 /* ─── HIERARCHY OF THE DAMNED — Demon Leaders ─── */

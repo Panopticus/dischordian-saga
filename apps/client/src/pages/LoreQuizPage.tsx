@@ -9,6 +9,7 @@ import { Link } from "wouter";
 import { useLoredex, type LoredexEntry } from "@/contexts/LoredexContext";
 import { useGamification } from "@/contexts/GamificationContext";
 import { triggerFailureRevelation } from "@/lib/failureRevelations";
+import { trpc } from "@/lib/trpc";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Brain, Zap, Trophy, ChevronRight, RotateCcw, CheckCircle2,
@@ -169,6 +170,8 @@ export default function LoreQuizPage() {
   const [timeLeft, setTimeLeft] = useState(0);
   const [answers, setAnswers] = useState<boolean[]>([]);
 
+  const recordQuiz = trpc.palimpsest.recordQuiz.useMutation();
+
   const allQuestions = useMemo(() => generateQuestions(entries), [entries]);
 
   const quizQuestions = useMemo(() => {
@@ -238,12 +241,18 @@ export default function LoreQuizPage() {
           description: `${answers.filter(Boolean).length}/${quizQuestions.length} correct`,
         });
       }
+      // Feed the Palimpsest meter: correct answers → Signal, wrong → Noise.
+      const correct = answers.filter(Boolean).length;
+      const wrong = answers.length - correct;
+      if (correct > 0 || wrong > 0) {
+        recordQuiz.mutate({ correct, wrong, source: "lore_quiz" });
+      }
     } else {
       setCurrentQ((q) => q + 1);
       setSelectedAnswer(null);
       setShowExplanation(false);
     }
-  }, [currentQ, quizQuestions.length, score, answers]);
+  }, [currentQ, quizQuestions.length, score, answers, recordQuiz]);
 
   const startQuiz = useCallback(
     (diff: "easy" | "medium" | "hard") => {

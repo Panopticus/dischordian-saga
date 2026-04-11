@@ -187,6 +187,22 @@ export const MECHRONIS_PROFESSORS: MechronisProfessor[] = [
     hiddenAgenda: "Training investigators — students will later be the Architect's personal agents, walking history.",
     divergenceFromReal: "The real Human is imprisoned in every Ark's substrate. The Proctor was pulled from the version before that.",
   },
+  {
+    // Guest judge appearing on The Palimpsest, Episode 6 (Survivor: Mechronis).
+    // Shares archonNumber 9 with the core Game Master professor because Vyre
+    // was Vex's most promising student — the student who exceeded the teacher
+    // and was therefore quietly buried under a new title.
+    id: "prof_glinn_vyre", archonNumber: 9,
+    teacherName: "Professor Glinn Vyre",
+    title: "Visiting Chair of Broadcast Adjudication",
+    appearance: "Tall, gaunt, dark academic robes cut in the Game Master's style, red goggles that do not open in his eye sockets — the lenses are his eyes now. Gloved to the elbow. Never blinks on camera because there is nothing behind the lenses to blink.",
+    philosophy: "Rules are the scaffolding inside a hollow tower. Grade the scaffolding. Ignore the tower.",
+    classroomRule: "Arguments scored in red ink become law. Arguments scored in gold ink become history. There is no other color.",
+    gradingStyle: "Every essay is returned with exactly one correction in red. The correction is always the same sentence: 'You were right. Do not tell the Host.'",
+    signatureLesson: "The Broadcast Defense: defend an answer you know the Host wants overturned. Survive the objection. Accept the grade.",
+    hiddenAgenda: "Feeding the Inventor's hacks by deliberately grading contestants correctly on-air even when the Host's scoreboard says otherwise. The red ink is a dead drop.",
+    divergenceFromReal: "Vex teaches loopholes. Vyre teaches when to lose them on purpose. If you ask Vyre about the first time he graded an essay in red, he will say 'Darren from the cafeteria' and change the subject.",
+  },
 ];
 
 /* ─── HELPERS ─── */

@@ -88,6 +88,15 @@ interface SoulStoneActions {
   checkWeeklyCap: () => void;
   updateGlobalAlignment: (corruption: number, purity: number) => void;
   reset: () => void;
+  /** Mark a stone as corrupted (red) — used by Soul Stone Craps
+   *  when the server returns a "corrupted" outcome. */
+  markStoneCorrupted: (stoneId: string) => boolean;
+  /** Remove a stone from inventory entirely — used when the server
+   *  returns a "consumed" outcome (loss to community pool). */
+  markStoneConsumed: (stoneId: string) => boolean;
+  /** Mark a stone as purified (gold). Used for craps "blessed" rolls
+   *  which bypass the normal 24-hour purification flow. */
+  markStonePurified: (stoneId: string) => boolean;
 }
 
 type SoulStoneStore = SoulStoneState & SoulStoneActions;
@@ -358,6 +367,49 @@ export const useSoulStoneStore = create<SoulStoneStore>()(
           globalCorruption: Math.max(0, Math.min(100, corruption)),
           globalPurity: Math.max(0, Math.min(100, purity)),
         });
+      },
+
+      /** Mark a stone corrupted (red) without requiring it to be
+       *  violet — used for events where the corruption is imposed
+       *  by the fiction (hierarchy_claims outcome in craps). */
+      markStoneCorrupted: (stoneId) => {
+        const s = get();
+        const idx = s.stones.findIndex((st) => st.id === stoneId);
+        if (idx === -1) return false;
+        const updated = [...s.stones];
+        updated[idx] = { ...updated[idx], state: "red", isPurifying: false };
+        set({
+          stones: updated,
+          corruptionPoints: s.corruptionPoints + 1,
+          totalCorrupted: s.totalCorrupted + 1,
+        });
+        return true;
+      },
+
+      /** Remove a stone from inventory entirely — used when the
+       *  server says the stone was consumed (loss to pool in craps). */
+      markStoneConsumed: (stoneId) => {
+        const s = get();
+        const stone = s.stones.find((st) => st.id === stoneId);
+        if (!stone) return false;
+        set({ stones: s.stones.filter((st) => st.id !== stoneId) });
+        return true;
+      },
+
+      /** Instantly mark a stone purified (gold). Used for craps
+       *  "blessed" rolls which skip the 24-hour purification flow. */
+      markStonePurified: (stoneId) => {
+        const s = get();
+        const idx = s.stones.findIndex((st) => st.id === stoneId);
+        if (idx === -1) return false;
+        const updated = [...s.stones];
+        updated[idx] = { ...updated[idx], state: "gold", isPurifying: false };
+        set({
+          stones: updated,
+          divineLightFragments: s.divineLightFragments + 1,
+          totalPurified: s.totalPurified + 1,
+        });
+        return true;
       },
 
       reset: () => set(INITIAL_STATE),

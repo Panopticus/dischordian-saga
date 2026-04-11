@@ -15,11 +15,15 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "wouter";
 import {
   Gem, Sparkles, Gift, TreePine, Calendar, Dice1, Dice2, Dice3, Dice4, Dice5, Dice6,
-  RotateCw, Trophy, Heart, Star, Flame, ChevronLeft, Crown, Target,
-  Snowflake, PartyPopper, CircleDollarSign, TrendingUp, Check, X,
-  Timer, Users, Zap, Package, ArrowRight, BarChart3,
+  RotateCw, Trophy, Heart, Star, Flame, ChevronLeft, Target,
+  Snowflake, CircleDollarSign, TrendingUp, Check, Crown,
+  Timer, Package, ArrowRight,
 } from "lucide-react";
 import { useSoulStoneStore } from "@/features/soulStones/soulStoneStore";
+import { trpc } from "@/lib/trpc";
+import { useIsChristmasActive, getNpcHolidayLines } from "./holidayDialog";
+import { CHRISTMAS_EVENT_CONFIG } from "@/data/events/christmasInJuly/eventConfig";
+import { CrewHolidayFeed } from "@/components/CrewHolidayFeed";
 
 /* ─── TAB TYPE ─── */
 type Tab = "floor" | "wheel" | "craps" | "calendar" | "charity";
@@ -137,16 +141,297 @@ const SNOW_STYLES = `
 `;
 
 /* ═══════════════════════════════════════════════════════
+   GIFT SEND BAR — autocomplete-based recipient picker.
+   The "Send" button is gated on a resolved recipient from
+   the searchGiftRecipients query.
+   ═══════════════════════════════════════════════════════ */
+function GiftSendBar() {
+  const [query, setQuery] = useState("");
+  const [picked, setPicked] = useState<{ id: number; name: string | null } | null>(null);
+  const [giftType, setGiftType] = useState<
+    "gift_box" | "candy_cane" | "snowflake_fragment" | "mystery_box"
+    | "eggnog" | "carol_recording" | "festive_ornament" | "warm_socks"
+  >("gift_box");
+  const [message, setMessage] = useState("");
+  const utils = trpc.useUtils();
+  const searchQuery = trpc.christmasInJuly.searchGiftRecipients.useQuery(
+    { query },
+    { enabled: query.length >= 2 && !picked, staleTime: 15_000 },
+  );
+  const sendGift = trpc.christmasInJuly.sendGift.useMutation({
+    onSuccess: () => {
+      utils.christmasInJuly.getMyProgress.invalidate();
+      utils.christmasInJuly.getCharityPool.invalidate();
+      setMessage("");
+      setQuery("");
+      setPicked(null);
+    },
+  });
+  const onSend = () => {
+    if (!picked) return;
+    sendGift.mutate({ recipientId: picked.id, giftType, message: message || undefined });
+  };
+  return (
+    <div className="bg-gradient-to-r from-red-950/20 via-amber-900/10 to-green-950/20 border border-amber-500/20 rounded-xl p-4">
+      <div className="flex items-center gap-2 mb-3">
+        <Gift className="w-4 h-4 text-amber-400" />
+        <span className="font-display text-sm text-amber-300">Send a Gift</span>
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-2 relative">
+        <div className="relative">
+          <input
+            type="text"
+            placeholder="Search by name..."
+            value={picked ? (picked.name ?? `User #${picked.id}`) : query}
+            onChange={(e) => {
+              setPicked(null);
+              setQuery(e.target.value);
+            }}
+            className="w-full px-3 py-2 rounded-lg bg-gray-900/60 border border-gray-700/40 text-gray-200 text-sm"
+          />
+          {query.length >= 2 && !picked && searchQuery.data && searchQuery.data.length > 0 && (
+            <div className="absolute top-full left-0 right-0 z-10 mt-1 rounded-lg bg-gray-900 border border-gray-700/60 shadow-xl max-h-48 overflow-auto">
+              {searchQuery.data.map((u) => (
+                <button
+                  key={u.id}
+                  onClick={() => { setPicked(u); setQuery(""); }}
+                  className="w-full text-left px-3 py-2 text-sm text-gray-200 hover:bg-amber-500/10 border-b border-gray-800/60 last:border-b-0"
+                >
+                  {u.name ?? `User #${u.id}`}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+        <select
+          value={giftType}
+          onChange={(e) => setGiftType(e.target.value as typeof giftType)}
+          className="px-3 py-2 rounded-lg bg-gray-900/60 border border-gray-700/40 text-gray-200 text-sm"
+        >
+          <option value="gift_box">Gift Box</option>
+          <option value="candy_cane">Candy Cane</option>
+          <option value="snowflake_fragment">Snowflake Fragment</option>
+          <option value="mystery_box">Mystery Box</option>
+          <option value="eggnog">Free Ports Eggnog</option>
+          <option value="carol_recording">Pre-Fall Carol</option>
+          <option value="festive_ornament">Festive Ornament</option>
+          <option value="warm_socks">Warm Socks</option>
+        </select>
+        <input
+          type="text"
+          placeholder="Message (optional)"
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+          className="px-3 py-2 rounded-lg bg-gray-900/60 border border-gray-700/40 text-gray-200 text-sm"
+        />
+        <button
+          onClick={onSend}
+          disabled={sendGift.isPending || !picked}
+          className="px-4 py-2 rounded-lg bg-amber-500/20 border border-amber-500/40 text-amber-200 font-mono text-sm hover:bg-amber-500/30 disabled:opacity-50"
+        >
+          {sendGift.isPending ? "Sending..." : "Send"}
+        </button>
+      </div>
+      {sendGift.isError && (
+        <p className="mt-2 text-xs text-red-400/80 font-mono">{sendGift.error.message}</p>
+      )}
+      {sendGift.isSuccess && (
+        <p className="mt-2 text-xs text-green-400/80 font-mono">Gift sent! +{sendGift.data?.tokensEarned ?? 0} tokens earned.</p>
+      )}
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════
+   REWARDS PANEL — Displays badges, items, and titles the
+   player has earned during the event. Reads the decorated
+   unlockedRewards list from `christmasInJuly.getMyRewards`.
+   ═══════════════════════════════════════════════════════ */
+function RewardsPanel() {
+  const rewardsQuery = trpc.christmasInJuly.getMyRewards.useQuery();
+  const rewards = rewardsQuery.data ?? [];
+  if (rewards.length === 0) {
+    return (
+      <div className="bg-gray-900/30 border border-gray-700/20 rounded-xl p-4 text-center text-xs text-gray-500 font-mono">
+        No holiday rewards earned yet. Spin, roll, and claim daily challenges to collect them.
+      </div>
+    );
+  }
+  const byKind = {
+    title: rewards.filter(r => r.kind === "title"),
+    badge: rewards.filter(r => r.kind === "badge"),
+    item: rewards.filter(r => r.kind === "item"),
+  };
+  return (
+    <div className="bg-gradient-to-br from-amber-950/20 to-red-950/20 border border-amber-500/20 rounded-xl p-4">
+      <div className="flex items-center gap-2 mb-3">
+        <Star className="w-4 h-4 text-amber-400" />
+        <span className="font-display text-sm text-amber-300">Holiday Rewards Earned</span>
+        <span className="ml-auto text-xs text-amber-400/50 font-mono">{rewards.length} total</span>
+      </div>
+      {(["title", "badge", "item"] as const).map((kind) =>
+        byKind[kind].length > 0 ? (
+          <div key={kind} className="mb-3 last:mb-0">
+            <p className="text-[10px] uppercase tracking-widest text-gray-500 font-mono mb-1">
+              {kind}s
+            </p>
+            <div className="flex flex-wrap gap-2">
+              {byKind[kind].map((r) => {
+                const Icon = kind === "title" ? Crown : kind === "badge" ? Trophy : Gift;
+                return (
+                  <span
+                    key={r.id}
+                    className={`inline-flex items-center gap-1.5 text-xs px-3 py-1 rounded-full border font-mono ${
+                      kind === "title"
+                        ? "bg-amber-500/10 border-amber-500/30 text-amber-300"
+                        : kind === "badge"
+                        ? "bg-red-500/10 border-red-500/30 text-red-300"
+                        : "bg-green-500/10 border-green-500/30 text-green-300"
+                    }`}
+                  >
+                    <Icon className="w-3 h-3" />
+                    {r.label}
+                  </span>
+                );
+              })}
+            </div>
+          </div>
+        ) : null,
+      )}
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════
+   GIFT INBOX — lists the current user's received gifts
+   with a Claim button for unclaimed ones.
+   ═══════════════════════════════════════════════════════ */
+function GiftInbox({ userId }: { userId: number }) {
+  const utils = trpc.useUtils();
+  const giftsQuery = trpc.christmasInJuly.myGifts.useQuery();
+  const claimGift = trpc.christmasInJuly.claimGift.useMutation({
+    onSuccess: () => {
+      utils.christmasInJuly.myGifts.invalidate();
+      utils.christmasInJuly.getMyProgress.invalidate();
+    },
+  });
+  const gifts = giftsQuery.data ?? [];
+  const received = gifts.filter(g => g.recipientId === userId);
+  const unclaimed = received.filter(g => !g.claimed);
+  if (received.length === 0) {
+    return (
+      <div className="bg-gray-900/40 border border-gray-700/20 rounded-xl p-4 text-center text-xs text-gray-500 font-mono">
+        No gifts received yet. Tell your friends you love presents.
+      </div>
+    );
+  }
+  return (
+    <div className="bg-amber-950/20 border border-amber-500/20 rounded-xl p-4">
+      <div className="flex items-center gap-2 mb-3">
+        <Package className="w-4 h-4 text-amber-400" />
+        <span className="font-display text-sm text-amber-300">Gift Inbox</span>
+        {unclaimed.length > 0 && (
+          <span className="ml-auto text-xs px-2 py-0.5 rounded-full bg-red-500/20 border border-red-500/40 text-red-300 font-mono">
+            {unclaimed.length} unclaimed
+          </span>
+        )}
+      </div>
+      <div className="space-y-2 max-h-64 overflow-auto">
+        {received.slice(0, 10).map((gift) => (
+          <div
+            key={gift.id}
+            className={`flex items-center justify-between gap-3 p-3 rounded-lg border ${
+              gift.claimed
+                ? "bg-gray-900/30 border-gray-700/20 opacity-60"
+                : "bg-amber-500/10 border-amber-500/30"
+            }`}
+          >
+            <div className="flex-1 min-w-0">
+              <p className="font-mono text-xs text-amber-300 truncate">
+                {gift.giftType.replace(/_/g, " ")}
+              </p>
+              {gift.message && (
+                <p className="text-[10px] text-gray-400 italic mt-1 truncate">"{gift.message}"</p>
+              )}
+            </div>
+            {!gift.claimed ? (
+              <button
+                onClick={() => claimGift.mutate({ giftId: gift.id })}
+                disabled={claimGift.isPending}
+                className="px-3 py-1.5 rounded-lg bg-amber-500/20 border border-amber-500/40 text-amber-200 font-mono text-xs hover:bg-amber-500/30 disabled:opacity-50"
+              >
+                Claim
+              </button>
+            ) : (
+              <span className="text-[10px] text-gray-500 font-mono">claimed</span>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════
    MAIN COMPONENT
    ═══════════════════════════════════════════════════════ */
 export default function CasinoFloor() {
   /* ─── TAB STATE ─── */
   const [activeTab, setActiveTab] = useState<Tab>("floor");
 
-  /* ─── FESTIVE TOKEN ECONOMY ─── */
+  /* ─── HOLIDAY DIALOG + EVENT-ACTIVE FLAG ─── */
+  const isEventActive = useIsChristmasActive();
+  const degenLines = getNpcHolidayLines("degen");
+
+  /* ─── BACKEND PROGRESS + CONFIG ─── */
+  const trpcContext = trpc.useUtils();
+  const configQuery = trpc.christmasInJuly.getConfig.useQuery();
+  const progressQuery = trpc.christmasInJuly.getMyProgress.useQuery(undefined, { retry: false });
+  const charityPoolQuery = trpc.christmasInJuly.getCharityPool.useQuery(undefined, {
+    refetchInterval: 30_000,
+  });
+  const spinWheelMut = trpc.christmasInJuly.spinWheel.useMutation({
+    onSuccess: () => {
+      trpcContext.christmasInJuly.getMyProgress.invalidate();
+      trpcContext.christmasInJuly.getCharityPool.invalidate();
+    },
+  });
+  const rollCrapsMut = trpc.christmasInJuly.rollCraps.useMutation({
+    onSuccess: () => {
+      trpcContext.christmasInJuly.getMyProgress.invalidate();
+      trpcContext.christmasInJuly.getCharityPool.invalidate();
+    },
+  });
+  const claimTokensMut = trpc.christmasInJuly.claimDailyTokens.useMutation({
+    onSuccess: () => trpcContext.christmasInJuly.getMyProgress.invalidate(),
+  });
+  const claimChallengeMut = trpc.christmasInJuly.claimDailyChallenge.useMutation({
+    onSuccess: () => trpcContext.christmasInJuly.getMyProgress.invalidate(),
+  });
+  const donateToCharityMut = trpc.christmasInJuly.donateToCharity.useMutation({
+    onSuccess: () => {
+      trpcContext.christmasInJuly.getMyProgress.invalidate();
+      trpcContext.christmasInJuly.getCharityPool.invalidate();
+    },
+  });
+
+  const progress = progressQuery.data;
+  const charityPool = charityPoolQuery.data;
+  const currentDay = configQuery.data?.currentDay ?? 1;
+  const completedDaysSet = useMemo(() => new Set((progress?.completedDays as number[] | null) ?? []), [progress?.completedDays]);
+
+  /* ─── FESTIVE TOKEN ECONOMY (mirrors server) ─── */
   const [festiveTokens, setFestiveTokens] = useState(100);
   const [giftsSent, setGiftsSent] = useState(0);
   const [giftsReceived, setGiftsReceived] = useState(0);
+
+  // Mirror server progress into local display state.
+  useEffect(() => {
+    if (!progress) return;
+    setFestiveTokens(progress.festiveTokens);
+    setGiftsSent(progress.giftsSent);
+    setGiftsReceived(progress.giftsReceived);
+  }, [progress]);
 
   /* ─── WHEEL STATE ─── */
   const [spinning, setSpinning] = useState(false);
@@ -166,29 +451,32 @@ export default function CasinoFloor() {
   const [blessedPurifications, setBlessedPurifications] = useState(0);
   const [communityPool, setCommunityPool] = useState(0);
 
-  /* ─── CALENDAR STATE ─── */
-  const [completedDays, setCompletedDays] = useState<Set<number>>(new Set());
-  const [currentDay] = useState(7); // Simulated: day 7 of event
-  const streak = useMemo(() => {
-    let s = 0;
-    for (let i = currentDay; i >= 1; i--) {
-      if (completedDays.has(i)) s++;
-      else break;
-    }
-    return s;
-  }, [completedDays, currentDay]);
+  /* ─── CALENDAR STATE — backed by server completedDays ─── */
+  const completedDays = completedDaysSet;
+  const streak = progress?.streak ?? 0;
 
-  /* ─── CHARITY STATE ─── */
-  const [communityGifts, setCommunityGifts] = useState(67432);
-  const [animatedGifts, setAnimatedGifts] = useState(67432);
+  /* ─── CHARITY STATE — backed by xmas_july_charity_pool ─── */
+  const communityGifts = charityPool?.totalGifts ?? 0;
+  const [animatedGifts, setAnimatedGifts] = useState(communityGifts);
 
-  /* ─── GIVING TREE ─── */
-  const treeGoal = 5000;
-  const [treeGifts, setTreeGifts] = useState(2847);
+  /* ─── GIVING TREE ─── Pulled live from the charity pool. The
+   *  tree fills up against the next uncleared milestone; each
+   *  community milestone effectively "reseeds" the tree with a
+   *  higher goal so there's always something to aim at. */
+  const treeGoal = useMemo(() => {
+    const milestones = configQuery.data?.milestones ?? [];
+    const next = milestones.find(m => communityGifts < m.threshold);
+    return next?.threshold ?? (milestones[milestones.length - 1]?.threshold ?? 250_000);
+  }, [configQuery.data, communityGifts]);
+  const treeGifts = communityGifts;
   const treeProgress = Math.min((treeGifts / treeGoal) * 100, 100);
 
-  /* ─── EVENT TIMER ─── */
-  const daysRemaining = 7;
+  /* ─── EVENT TIMER ─── Real days remaining until event end. */
+  const daysRemaining = useMemo(() => {
+    const end = new Date(CHRISTMAS_EVENT_CONFIG.endDate).getTime();
+    const now = Date.now();
+    return Math.max(0, Math.ceil((end - now) / (24 * 60 * 60 * 1000)));
+  }, []);
 
   /* ─── SOUL STONE STORE ─── */
   const stoneStore = useSoulStoneStore();
@@ -215,44 +503,59 @@ export default function CasinoFloor() {
   }, [animatedGifts, communityGifts]);
 
 
-  /* ─── WHEEL SPIN LOGIC ─── */
+  /* ─── WHEEL SPIN LOGIC — server-authoritative ─── */
   const spinWheel = useCallback(() => {
     if (spinning || festiveTokens < 5) return;
     setSpinning(true);
-    setFestiveTokens((t) => t - 5);
     setResult(null);
 
-    // Weighted random selection
-    const totalWeight = WHEEL_PRIZES.reduce((sum, p) => sum + p.weight, 0);
-    let rand = Math.random() * totalWeight;
-    let selected = WHEEL_PRIZES[0];
-    for (const prize of WHEEL_PRIZES) {
-      rand -= prize.weight;
-      if (rand <= 0) { selected = prize; break; }
-    }
+    spinWheelMut.mutate(
+      { useFreeSpin: false },
+      {
+        onSuccess: (data) => {
+          // Map the server prize back to a local wheel segment
+          const serverPrize = data.prize;
+          const tokenAmount =
+            serverPrize.prizeType === "tokens" || serverPrize.prizeType === "jackpot"
+              ? serverPrize.amount
+              : 0;
+          const localRarity: WheelPrize["rarity"] =
+            serverPrize.rarity === "epic" ? "rare" :
+            serverPrize.rarity as WheelPrize["rarity"];
+          const selected: WheelPrize = {
+            label: serverPrize.id.replace(/_/g, " "),
+            color: "#eab308",
+            weight: serverPrize.weight,
+            tokens: tokenAmount,
+            rarity: localRarity,
+          };
+          // Animate the wheel: pick a random segment to land on (visual only)
+          const segmentAngle = 360 / WHEEL_PRIZES.length;
+          const prizeIndex = Math.floor(Math.random() * WHEEL_PRIZES.length);
+          const targetAngle = 360 - (prizeIndex * segmentAngle + segmentAngle / 2);
+          const totalRotation = wheelRotation + 1440 + targetAngle;
+          setWheelRotation(totalRotation);
+          setTimeout(() => {
+            setSpinning(false);
+            setResult(selected);
+            setHistory((prev) => [selected, ...prev].slice(0, 5));
+          }, 3500);
+        },
+        onError: () => { setSpinning(false); },
+      },
+    );
+  }, [spinning, festiveTokens, wheelRotation, spinWheelMut]);
 
-    // Calculate final rotation: multiple full spins + prize segment offset
-    const segmentAngle = 360 / WHEEL_PRIZES.length;
-    const prizeIndex = WHEEL_PRIZES.indexOf(selected);
-    const targetAngle = 360 - (prizeIndex * segmentAngle + segmentAngle / 2);
-    const totalRotation = wheelRotation + 1440 + targetAngle + Math.random() * 10;
-
-    setWheelRotation(totalRotation);
-
-    setTimeout(() => {
-      setSpinning(false);
-      setResult(selected);
-      setHistory((prev) => [selected, ...prev].slice(0, 5));
-      if (selected.tokens > 0) setFestiveTokens((t) => t + selected.tokens);
-      if (selected.tokens < 0) setFestiveTokens((t) => Math.max(0, t + selected.tokens));
-    }, 3500);
-  }, [spinning, festiveTokens, wheelRotation]);
-
-  /* ─── CRAPS ROLL LOGIC ─── */
+  /* ─── CRAPS ROLL LOGIC — server-authoritative + soul stone integration ─── */
   const rollDice = useCallback(() => {
-    if (rolling) return;
+    if (rolling || !selectedStone) return;
+    // Find a stone of the selected color in the player's inventory
+    const stone = stoneStore.stones.find((s) => s.state === selectedStone);
+    if (!stone) {
+      setCrapsResult("No matching soul stone in inventory");
+      return;
+    }
     setRolling(true);
-    setStonesWagered((s) => s + 1);
     setCrapsResult("");
     setCrapsCommentary("");
 
@@ -264,42 +567,52 @@ export default function CasinoFloor() {
       ]);
     }, 80);
 
-    setTimeout(() => {
-      clearInterval(interval);
-      const d1 = Math.floor(Math.random() * 6) + 1;
-      const d2 = Math.floor(Math.random() * 6) + 1;
-      setDice([d1, d2]);
-      const total = d1 + d2;
+    rollCrapsMut.mutate(
+      { stoneId: stone.id },
+      {
+        onSuccess: (data) => {
+          clearInterval(interval);
+          setDice([data.roll.die1, data.roll.die2]);
+          setStonesWagered((s) => s + 1);
 
-      let outcome: string;
-      let commentary: string[];
+          // Apply the server's instruction to the soul stone store via
+          // its public actions.
+          const action = data.stoneAction;
+          if (action === "consumed") {
+            stoneStore.markStoneConsumed(stone.id);
+          } else if (action === "corrupted") {
+            stoneStore.markStoneCorrupted(stone.id);
+          } else if (action === "purified") {
+            setBlessedPurifications((b) => b + 1);
+            stoneStore.markStonePurified(stone.id);
+          }
 
-      if (d1 === 6 && d2 === 6) {
-        outcome = "JACKPOT! Double Sixes!";
-        commentary = DEGEN_COMMENTARY.jackpot;
-        setStonesWon((s) => s + 5);
-        setBlessedPurifications((b) => b + 1);
-        setFestiveTokens((t) => t + 50);
-      } else if (d1 === 1 && d2 === 1) {
-        outcome = "Snake Eyes... Stone Lost!";
-        commentary = DEGEN_COMMENTARY.snake;
-        setCommunityPool((p) => p + 1);
-      } else if (total >= 7) {
-        outcome = `${total} — You win!`;
-        commentary = DEGEN_COMMENTARY.win;
-        setStonesWon((s) => s + 2);
-        setFestiveTokens((t) => t + total * 2);
-      } else {
-        outcome = `${total} — House wins.`;
-        commentary = DEGEN_COMMENTARY.lose;
-        setCommunityPool((p) => p + 1);
-      }
+          // Tally wins on the local UI mirror
+          if (data.roll.outcome === "win" || data.roll.outcome === "miracle" || data.roll.outcome === "blessed") {
+            setStonesWon((s) => s + 1);
+          }
+          if (data.roll.outcome === "hierarchy_claims" || data.roll.outcome === "loss_to_pool") {
+            setCommunityPool((p) => p + 1);
+          }
 
-      setCrapsResult(outcome);
-      setCrapsCommentary(commentary[Math.floor(Math.random() * commentary.length)]);
-      setRolling(false);
-    }, 1500);
-  }, [rolling]);
+          // Pick a commentary bucket based on the outcome
+          const bucket =
+            data.roll.outcome === "miracle" ? DEGEN_COMMENTARY.jackpot :
+            data.roll.outcome === "hierarchy_claims" ? DEGEN_COMMENTARY.snake :
+            data.roll.outcome === "blessed" || data.roll.outcome === "win" ? DEGEN_COMMENTARY.win :
+            DEGEN_COMMENTARY.lose;
+          setCrapsResult(`${data.roll.total} — ${data.roll.outcome.replace(/_/g, " ")}`);
+          setCrapsCommentary(bucket[Math.floor(Math.random() * bucket.length)]);
+          setRolling(false);
+        },
+        onError: (err) => {
+          clearInterval(interval);
+          setCrapsResult(`Error: ${err.message}`);
+          setRolling(false);
+        },
+      },
+    );
+  }, [rolling, selectedStone, stoneStore.stones, rollCrapsMut]);
 
   /* ─── TAB CONFIG ─── */
   const TABS: { id: Tab; label: string; icon: React.ReactNode }[] = [
@@ -430,8 +743,9 @@ export default function CasinoFloor() {
                         Welcome to Degen's Casino!
                       </h2>
                       <p className="text-gray-400 text-sm mt-1">
-                        'Tis the season to be degenerate! Spin the wheel, roll the bones, spread some holiday cheer, 
-                        and help us reach our charity milestones. Every gift counts — 10% of premium purchases go to LCIF.
+                        {isEventActive && degenLines
+                          ? degenLines.welcome
+                          : "'Tis the season to be degenerate! Spin the wheel, roll the bones, spread some holiday cheer, and help us reach our charity milestones. Every gift counts — 10% of premium purchases go to LCIF."}
                       </p>
                     </div>
                   </div>
@@ -452,6 +766,28 @@ export default function CasinoFloor() {
                     </div>
                   ))}
                 </div>
+
+                {/* Daily free tokens claim */}
+                <div className="flex justify-center">
+                  <motion.button
+                    onClick={() => claimTokensMut.mutate()}
+                    disabled={claimTokensMut.isPending}
+                    whileHover={{ scale: 1.03 }}
+                    whileTap={{ scale: 0.97 }}
+                    className="px-6 py-3 rounded-xl bg-gradient-to-r from-amber-500/20 via-amber-500/30 to-amber-500/20 border border-amber-400/40 text-amber-200 font-display tracking-wider disabled:opacity-50"
+                  >
+                    {claimTokensMut.isPending ? "Claiming..." : "Claim 10 Free Festive Tokens"}
+                  </motion.button>
+                </div>
+                {claimTokensMut.isError && (
+                  <p className="text-center text-xs text-red-400/80 font-mono">{claimTokensMut.error?.message}</p>
+                )}
+
+                {/* Quick gift dispatcher + inbox + holiday rewards + crew chatter */}
+                <GiftSendBar />
+                <GiftInbox userId={progress?.userId ?? 0} />
+                <RewardsPanel />
+                <CrewHolidayFeed />
 
                 {/* Quick Access Grid */}
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
@@ -856,10 +1192,8 @@ export default function CasinoFloor() {
                         <motion.button
                           key={day.day}
                           onClick={() => {
-                            if (!isLocked && !isCompleted) {
-                              setCompletedDays((prev) => new Set([...prev, day.day]));
-                              if (day.tokens > 0) setFestiveTokens((t) => t + day.tokens);
-                            }
+                            if (isLocked || isCompleted) return;
+                            claimChallengeMut.mutate({ day: day.day });
                           }}
                           whileHover={!isLocked ? { scale: 1.05 } : undefined}
                           whileTap={!isLocked ? { scale: 0.95 } : undefined}
@@ -944,6 +1278,28 @@ export default function CasinoFloor() {
                     10% of all premium purchases during Christmas in July are donated to LCIF
                   </p>
                 </motion.div>
+
+                {/* Direct donation widget */}
+                <div className="bg-amber-950/20 border border-amber-500/20 rounded-xl p-4 flex flex-col sm:flex-row items-center gap-3 justify-between">
+                  <div className="text-center sm:text-left">
+                    <p className="font-display text-sm text-amber-300">Donate Festive Tokens</p>
+                    <p className="text-xs text-gray-400 mt-1">
+                      Each 5 tokens donated counts as +1 community gift toward the next milestone.
+                    </p>
+                  </div>
+                  <div className="flex gap-2">
+                    {[10, 25, 50].map((amount) => (
+                      <button
+                        key={amount}
+                        onClick={() => donateToCharityMut.mutate({ amount })}
+                        disabled={donateToCharityMut.isPending || (progress?.festiveTokens ?? 0) < amount}
+                        className="px-3 py-2 rounded-lg bg-amber-500/20 border border-amber-500/40 text-amber-200 font-mono text-xs hover:bg-amber-500/30 disabled:opacity-50"
+                      >
+                        {amount}
+                      </button>
+                    ))}
+                  </div>
+                </div>
 
                 {/* Community Gifts Counter */}
                 <div className="text-center py-6">
