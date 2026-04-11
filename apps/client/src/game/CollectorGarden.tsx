@@ -1,23 +1,27 @@
 /* ═══════════════════════════════════════════════════════
    THE COLLECTOR'S GARDEN — Act 3 climax
    Spec §7.6. The player lands in a Thalorian field, picks
-   up a xenomorph helmet, and fights the Collector.
+   up a xenomorph helmet, and fights the Collector in a
+   full Dischordia card battle.
 
-   This component is the narrative shell — it uses the
-   existing Dischordia card battle engine for the actual
-   fight (wired via onStartBattle callback), then records
-   the result. The Collector's boss narration runs as a
-   speech bubble over the battle.
+   Battle phase uses the real `initBossBattle` / `processBossAction`
+   engine with the `boss-collector` encounter from bossEncounters.ts.
+   Narrative phases (approach → helmet → narration → battle →
+   victory/defeat) are custom-built for Act 3.
    ═══════════════════════════════════════════════════════ */
-import { useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Swords, Skull, Flower2, Mic } from "lucide-react";
+import { Swords, Shield, Skull, Flower2, Mic, Heart, Zap, Target } from "lucide-react";
+import { generateStarterDeck } from "@/components/StarterDeckViewer";
+import { type BattleCard } from "@/lib/cardBattle";
+import { initBossBattle, processBossAction, type BossBattleState } from "@/lib/bossBattle";
+import { BOSS_ENCOUNTERS } from "@/data/bossEncounters";
+import { useGame } from "@/contexts/GameContext";
 
 interface Props {
-  /** Starts the underlying card battle. Returns true on win. */
-  onStartBattle: () => Promise<boolean>;
   /** The faction arc the player resolved most recently — determines what card is lost on defeat. */
   lastFactionArc: string | null;
+  /** Called once the fight resolves. The caller handles rewards, flags, event log. */
   onComplete: (won: boolean) => void;
   onClose: () => void;
 }
@@ -42,40 +46,170 @@ const LAST_ARC_CARD_LOSS: Record<string, string> = {
 
 type Phase = "approach" | "helmet" | "narration" | "battle" | "victory" | "defeat";
 
-export default function CollectorGarden({ onStartBattle, lastFactionArc, onComplete, onClose }: Props) {
+/* ─── Minimal inline card UI — shares the visual language of BossBattlePage
+       without requiring the full landscape-enforcer surface. ─── */
+function MiniBattleCard({ card, onClick, selected, targetable, disabled }: {
+  card: BattleCard;
+  onClick?: () => void;
+  selected?: boolean;
+  targetable?: boolean;
+  disabled?: boolean;
+}) {
+  const rarityBorder = {
+    common: "border-white/15",
+    uncommon: "border-emerald-400/35",
+    rare: "border-blue-400/45",
+    legendary: "border-amber-400/55",
+  }[card.rarity];
+  const hpPct = card.defense > 0 ? (card.currentHP / card.defense) * 100 : 100;
+  return (
+    <motion.button
+      onClick={onClick}
+      disabled={disabled}
+      whileHover={!disabled ? { y: -3 } : {}}
+      className={`relative w-16 h-24 rounded-md border-2 text-left overflow-hidden transition-all
+        ${rarityBorder}
+        ${selected ? "ring-2 ring-amber-400" : ""}
+        ${targetable ? "ring-2 ring-red-400/60 animate-pulse" : ""}
+        ${disabled ? "opacity-40 cursor-not-allowed" : "hover:border-white/40"}
+        ${card.currentHP <= 0 ? "opacity-20 grayscale" : ""}
+      `}
+      style={{ background: "linear-gradient(180deg, rgba(30,10,20,0.95), rgba(10,5,10,0.98))" }}
+    >
+      <div className="absolute top-0.5 left-0.5 w-4 h-4 rounded-full bg-purple-500/80 flex items-center justify-center">
+        <span className="font-mono text-[8px] font-bold text-white">{card.cost}</span>
+      </div>
+      <div className="pt-6 px-1 text-center">
+        <p className="font-mono text-[8px] font-semibold text-white truncate leading-tight">{card.name}</p>
+      </div>
+      {card.type === "unit" && (
+        <div className="absolute bottom-1 left-0 right-0 flex items-center justify-center gap-1">
+          <span className="font-mono text-[8px] text-red-400 font-bold">{card.attack + card.tempAttackMod}</span>
+          <span className="text-white/20 text-[7px]">/</span>
+          <span
+            className={`font-mono text-[8px] font-bold ${
+              card.currentHP < card.defense ? "text-amber-400" : "text-emerald-400"
+            }`}
+          >
+            {card.currentHP}
+          </span>
+        </div>
+      )}
+      {card.type === "unit" && (
+        <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-black/60">
+          <div
+            className={`h-full ${hpPct > 50 ? "bg-emerald-400" : hpPct > 25 ? "bg-amber-400" : "bg-red-400"}`}
+            style={{ width: `${Math.max(0, hpPct)}%` }}
+          />
+        </div>
+      )}
+    </motion.button>
+  );
+}
+
+export default function CollectorGarden({ lastFactionArc, onComplete, onClose }: Props) {
   const [phase, setPhase] = useState<Phase>("approach");
   const [lineIdx, setLineIdx] = useState(0);
-  const [battling, setBattling] = useState(false);
+  const { state: gameState } = useGame();
 
-  const advance = async () => {
+  const [battleState, setBattleState] = useState<BossBattleState | null>(null);
+  const [selectedAttacker, setSelectedAttacker] = useState<string | null>(null);
+  const [targetMode, setTargetMode] = useState(false);
+
+  // Build the player's deck from their character choices (same pattern as BossBattlePage).
+  const playerDeck = useMemo(() => {
+    const c = gameState.characterChoices ?? {};
+    return generateStarterDeck({
+      species: c.species || undefined,
+      characterClass: c.characterClass || undefined,
+      alignment: c.alignment || undefined,
+      element: c.element || undefined,
+      name: c.name || undefined,
+    });
+  }, [gameState.characterChoices]);
+
+  // Lookup the pre-built Collector encounter.
+  const collectorEncounter = useMemo(
+    () => BOSS_ENCOUNTERS.find(b => b.id === "boss-collector") ?? null,
+    [],
+  );
+
+  const advance = () => {
     if (phase === "approach") setPhase("helmet");
     else if (phase === "helmet") setPhase("narration");
     else if (phase === "narration") {
       if (lineIdx < COLLECTOR_LINES.length - 1) {
         setLineIdx(i => i + 1);
       } else {
+        // Kick off the actual battle.
+        if (!collectorEncounter) {
+          // Safety net: if the encounter data is missing, short-circuit to defeat.
+          setPhase("defeat");
+          return;
+        }
+        const initial = initBossBattle(playerDeck, collectorEncounter);
+        setBattleState(initial);
         setPhase("battle");
-        setBattling(true);
-        const won = await onStartBattle();
-        setBattling(false);
-        setPhase(won ? "victory" : "defeat");
       }
     }
   };
+
+  const doAction = useCallback((action: Parameters<typeof processBossAction>[1]) => {
+    setBattleState(prev => {
+      if (!prev) return prev;
+      const next = processBossAction(prev, action);
+      return next;
+    });
+    setSelectedAttacker(null);
+    setTargetMode(false);
+  }, []);
+
+  const handleHandClick = useCallback((card: BattleCard) => {
+    if (!battleState || battleState.turn !== "player" || battleState.winner) return;
+    if (card.cost > battleState.player.energy) return;
+    if (card.type === "unit" && battleState.player.field.length >= 5) return;
+    doAction({ type: "PLAY_CARD", cardInstanceId: card.instanceId });
+  }, [battleState, doAction]);
+
+  const handleFieldClick = useCallback((card: BattleCard) => {
+    if (!battleState || battleState.turn !== "player" || battleState.winner) return;
+    if (card.hasAttacked || card.justDeployed) return;
+    if (selectedAttacker === card.instanceId) {
+      setSelectedAttacker(null);
+      setTargetMode(false);
+    } else {
+      setSelectedAttacker(card.instanceId);
+      setTargetMode(true);
+    }
+  }, [battleState, selectedAttacker]);
+
+  const handleTargetClick = useCallback((targetId: string | "face") => {
+    if (!selectedAttacker || !battleState) return;
+    doAction({ type: "ATTACK", attackerInstanceId: selectedAttacker, targetInstanceId: targetId });
+  }, [selectedAttacker, battleState, doAction]);
+
+  // Transition into victory/defeat once the engine resolves.
+  useEffect(() => {
+    if (phase !== "battle") return;
+    if (!battleState?.winner) return;
+    setPhase(battleState.winner === "player" ? "victory" : "defeat");
+  }, [phase, battleState?.winner]);
 
   const finish = (won: boolean) => {
     onComplete(won);
     onClose();
   };
 
-  const lostCard = lastFactionArc ? LAST_ARC_CARD_LOSS[lastFactionArc] ?? "A card from your deck" : "A card from your deck";
+  const lostCard = lastFactionArc
+    ? LAST_ARC_CARD_LOSS[lastFactionArc] ?? "A card from your deck"
+    : "A card from your deck";
 
   return (
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 z-[80] bg-black flex flex-col items-center justify-center p-6"
+      className="fixed inset-0 z-[80] bg-black flex flex-col items-center justify-center p-4 overflow-y-auto"
     >
       {/* Atmospheric backdrop — Thalorian field */}
       <div className="absolute inset-0 pointer-events-none">
@@ -88,9 +222,9 @@ export default function CollectorGarden({ onStartBattle, lastFactionArc, onCompl
         />
       </div>
 
-      <div className="relative z-10 w-full max-w-2xl">
+      <div className={`relative z-10 w-full ${phase === "battle" ? "max-w-3xl" : "max-w-2xl"}`}>
         {/* Header */}
-        <div className="text-center mb-8">
+        <div className="text-center mb-6">
           <Flower2 size={28} className="text-emerald-400 mx-auto mb-2" />
           <p className="font-display text-xs tracking-[0.4em] text-emerald-300">THE COLLECTOR'S GARDEN</p>
           <p className="font-mono text-[9px] text-white/30 mt-1">Thalorian field · proximity to the Shadow Tongue's birthplace</p>
@@ -161,18 +295,162 @@ export default function CollectorGarden({ onStartBattle, lastFactionArc, onCompl
             </motion.div>
           )}
 
-          {/* Phase 4: Battle (delegated) */}
-          {phase === "battle" && (
+          {/* Phase 4: Real battle UI */}
+          {phase === "battle" && battleState && collectorEncounter && (
             <motion.div
               key="battle"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              className="p-6 rounded-xl bg-black/60 border border-rose-500/30 text-center"
+              className="rounded-xl bg-black/70 border border-rose-500/40 overflow-hidden"
             >
-              <Swords size={32} className="text-rose-400 mx-auto mb-3" />
-              <p className="font-mono text-xs text-rose-300 font-bold mb-1">THE COLLECTOR'S DECK IS DRAWN</p>
-              <p className="font-mono text-[10px] text-white/50">A full Dischordia battle. Win to recover the Eyes' final transmission.</p>
-              {battling && <p className="font-mono text-[9px] text-white/30 mt-3 animate-pulse">Battle in progress…</p>}
+              {/* Boss HP strip */}
+              <div className="p-3 border-b border-rose-500/20 bg-gradient-to-r from-rose-950/40 to-black">
+                <div className="flex items-center gap-3">
+                  <img src={collectorEncounter.image} alt="" className="w-10 h-10 rounded-full object-cover ring-1 ring-rose-400/30" />
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2 mb-0.5">
+                      <span className="font-display text-xs tracking-wider text-rose-200">{collectorEncounter.name}</span>
+                      <span className="font-mono text-[8px] text-purple-400/60 px-1.5 py-0.5 rounded-full bg-purple-400/10">
+                        PHASE {battleState.bossPhase}
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Heart size={10} className="text-red-400" />
+                      <div className="flex-1 h-1.5 rounded-full bg-white/10 overflow-hidden">
+                        <motion.div
+                          className="h-full bg-red-500"
+                          animate={{ width: `${Math.max(0, (battleState.enemy.hp / battleState.enemy.maxHP) * 100)}%` }}
+                        />
+                      </div>
+                      <span className="font-mono text-[9px] text-white/60">
+                        {battleState.enemy.hp}/{battleState.enemy.maxHP}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                {battleState.bossDialog && (
+                  <p className="font-mono text-[10px] text-rose-300/80 italic mt-2">&ldquo;{battleState.bossDialog}&rdquo;</p>
+                )}
+              </div>
+
+              {/* Boss field */}
+              <div className="px-3 py-2 min-h-[7rem] flex items-center justify-center gap-1.5 flex-wrap">
+                {battleState.enemy.field.length === 0 ? (
+                  <p className="font-mono text-[10px] text-white/20 italic">No boss units on the field</p>
+                ) : (
+                  battleState.enemy.field.map(c => (
+                    <MiniBattleCard
+                      key={c.instanceId}
+                      card={c}
+                      targetable={targetMode}
+                      onClick={() => targetMode && handleTargetClick(c.instanceId)}
+                    />
+                  ))
+                )}
+              </div>
+
+              {/* Attack boss face button */}
+              <div className="flex items-center justify-center gap-3 py-2 border-y border-white/5">
+                {targetMode && (
+                  <button
+                    onClick={() => handleTargetClick("face")}
+                    className="px-3 py-1 rounded-md font-mono text-[10px] bg-red-500/15 border border-red-400/30 text-red-300 hover:bg-red-500/25"
+                  >
+                    <Target size={9} className="inline mr-1" /> ATTACK BOSS
+                  </button>
+                )}
+                <p className="font-mono text-[9px] text-white/40">
+                  Turn {battleState.turnNumber} — {battleState.turn === "player" ? "YOUR TURN" : "BOSS TURN"}
+                </p>
+                {targetMode && (
+                  <button
+                    onClick={() => {
+                      setSelectedAttacker(null);
+                      setTargetMode(false);
+                    }}
+                    className="px-2 py-0.5 rounded font-mono text-[9px] text-white/40 border border-white/10"
+                  >
+                    CANCEL
+                  </button>
+                )}
+              </div>
+
+              {/* Player field */}
+              <div className="px-3 py-2 min-h-[7rem] flex items-center justify-center gap-1.5 flex-wrap">
+                {battleState.player.field.length === 0 ? (
+                  <p className="font-mono text-[10px] text-white/20 italic">Deploy units from your hand</p>
+                ) : (
+                  battleState.player.field.map(c => (
+                    <MiniBattleCard
+                      key={c.instanceId}
+                      card={c}
+                      selected={selectedAttacker === c.instanceId}
+                      disabled={c.hasAttacked || c.justDeployed}
+                      onClick={() => handleFieldClick(c)}
+                    />
+                  ))
+                )}
+              </div>
+
+              {/* Player HP + End turn */}
+              <div className="flex items-center gap-3 px-3 py-2 border-t border-white/5 bg-black/40">
+                <Heart size={12} className="text-cyan-400" />
+                <div className="flex-1 h-1.5 rounded-full bg-white/10 overflow-hidden">
+                  <motion.div
+                    className="h-full bg-cyan-400"
+                    animate={{ width: `${Math.max(0, (battleState.player.hp / battleState.player.maxHP) * 100)}%` }}
+                  />
+                </div>
+                <span className="font-mono text-[9px] text-white/60">
+                  {battleState.player.hp}/{battleState.player.maxHP}
+                </span>
+                <Zap size={10} className="text-blue-400/70 ml-2" />
+                <span className="font-mono text-[10px] text-blue-300">
+                  {battleState.player.energy}/{battleState.player.maxEnergy}
+                </span>
+                <button
+                  onClick={() => doAction({ type: "END_TURN" })}
+                  disabled={battleState.turn !== "player" || !!battleState.winner}
+                  className="ml-2 px-3 py-1 rounded-md font-mono text-[10px] bg-cyan-500/15 border border-cyan-400/30 text-cyan-300 disabled:opacity-30"
+                >
+                  END TURN
+                </button>
+              </div>
+
+              {/* Player hand */}
+              <div className="px-3 py-3 border-t border-white/5 overflow-x-auto">
+                <div className="flex items-center justify-center gap-1.5 flex-wrap">
+                  {battleState.player.hand.map(c => (
+                    <MiniBattleCard
+                      key={c.instanceId}
+                      card={c}
+                      disabled={c.cost > battleState.player.energy || battleState.turn !== "player" || !!battleState.winner}
+                      onClick={() => handleHandClick(c)}
+                    />
+                  ))}
+                  {battleState.player.hand.length === 0 && (
+                    <p className="font-mono text-[10px] text-white/20 italic py-4">No cards in hand</p>
+                  )}
+                </div>
+              </div>
+
+              {/* Surrender — narrative fail */}
+              <div className="px-3 py-2 border-t border-white/5 text-center">
+                <button
+                  onClick={() => setPhase("defeat")}
+                  className="font-mono text-[9px] text-white/25 hover:text-white/50"
+                >
+                  Surrender to the Collector
+                </button>
+              </div>
+
+              {/* Boss passive reminder */}
+              <div className="px-3 py-1.5 border-t border-white/5 bg-rose-950/20">
+                <p className="font-mono text-[8px] text-rose-400/60">
+                  <Shield size={8} className="inline mr-1" />
+                  {battleState.bossPassive.name}: {battleState.bossPassive.description}
+                </p>
+              </div>
             </motion.div>
           )}
 
@@ -184,6 +462,7 @@ export default function CollectorGarden({ onStartBattle, lastFactionArc, onCompl
               animate={{ opacity: 1, y: 0 }}
               className="p-5 rounded-xl bg-emerald-500/10 border border-emerald-500/30"
             >
+              <Swords size={24} className="text-emerald-400 mb-3" />
               <p className="font-mono text-xs font-bold text-emerald-400 mb-2">THE COLLECTOR RETREATS</p>
               <p className="font-mono text-[11px] text-white/70 italic leading-relaxed">
                 He does not run. He walks, slowly, the way gardeners walk. He will be back. You know he will be back
@@ -211,7 +490,7 @@ export default function CollectorGarden({ onStartBattle, lastFactionArc, onCompl
               <p className="font-mono text-xs font-bold text-red-400 mb-2">THE COLLECTOR TAKES SOMETHING</p>
               <p className="font-mono text-[11px] text-white/70 italic leading-relaxed">
                 He plucks the helmet from your fingers gently, the way you would take a knife from a sleeping child.
-                He smiles. He reaches into your deck and takes "{lostCard}" without needing your permission. It is gone.
+                He smiles. He reaches into your deck and takes &ldquo;{lostCard}&rdquo; without needing your permission. It is gone.
               </p>
               <p className="font-mono text-[10px] text-red-400/80 mt-3">
                 Lost: {lostCard} — permanently removed from your deck<br />

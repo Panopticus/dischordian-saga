@@ -28,6 +28,7 @@ import EyesTransmission from "./EyesTransmission";
 import OcularumSlideshow from "./OcularumSlideshow";
 import CollectorGarden from "./CollectorGarden";
 import Act3EndingReveal from "./Act3EndingReveal";
+import EyesNarratorWhisper from "./EyesNarratorWhisper";
 import {
   getTechsByBranch, canResearch, getTechById,
   type TechBranch, type TechTreeState, DEFAULT_TECH_STATE,
@@ -369,17 +370,50 @@ export default function TradeEmpirePage() {
   }, []);
 
   // ─── Act 3: mark the Collector boss result ───
+  // On defeat the Collector permanently takes a card keyed to the player's last
+  // resolved faction arc. We persist both the flag and the card name so the
+  // card game engine can honor the loss from the unified save state.
+  const LAST_ARC_CARD_LOSS_MAP: Record<string, string> = {
+    new_babylon: "Adjudicator's Decree",
+    hierarchy: "Blood Weave Token",
+    insurgency: "The Engineer Remembers",
+    thought_virus: "Immunity",
+    artificial_empire: "Archon Robe",
+    antiquarian: "A Moment Outside Time",
+  };
   const recordCollectorResult = useCallback((won: boolean) => {
     setEmpire(prev => {
       if (!prev.act3) return prev;
+      // Determine which card was lost (if any) from the last resolved arc.
+      let lostCard: string | null = prev.act3.lostCardToCollector ?? null;
+      if (!won) {
+        const sorted = Object.values(prev.act3.arcs)
+          .filter(a => a.status === "resolved" && a.resolvedAt)
+          .sort((a, b) => (b.resolvedAt ?? 0) - (a.resolvedAt ?? 0));
+        const lastArcId = sorted[0]?.factionId;
+        if (lastArcId) lostCard = LAST_ARC_CARD_LOSS_MAP[lastArcId] ?? lostCard;
+      }
       const next: EmpireState = {
         ...prev,
-        act3: { ...prev.act3, collectorBossFought: true, collectorBossWon: won },
+        act3: {
+          ...prev.act3,
+          collectorBossFought: true,
+          collectorBossWon: won,
+          lostCardToCollector: lostCard,
+        },
+        // +500 "Light Energy" is tracked through the narrative-proxy influence counter.
+        influence: won ? prev.influence + 500 : prev.influence,
       };
       localStorage.setItem("trade_empire_state", JSON.stringify(next));
       return next;
     });
-    if (won) setNarrativeFlag("collector_boss_won");
+    if (won) {
+      setNarrativeFlag("collector_boss_won");
+      setNarrativeFlag("eyes_full_transmission_recovered");
+    } else {
+      setNarrativeFlag("collector_boss_lost");
+      setNarrativeFlag("collector_card_forfeit");
+    }
     logEvent({
       sectorId: "thaloria",
       label: won ? "Defeated the Collector" : "Lost to the Collector",
@@ -572,6 +606,13 @@ export default function TradeEmpirePage() {
         opacity={0.12}
         particleCount={6}
         scanlines={false}
+      />
+
+      {/* Eyes narrator whisper — only fires after eyes_shadow ending */}
+      <EyesNarratorWhisper
+        selectedSectorId={selectedSector}
+        narrativeFlags={gameState.narrativeFlags}
+        act3State={empire.act3}
       />
 
       {/* Header */}
@@ -1292,11 +1333,6 @@ export default function TradeEmpirePage() {
         )}
         {showCollector && (
           <CollectorGarden
-            onStartBattle={async () => {
-              // Stub: real integration would launch the Dischordia card battle engine
-              // For now, resolve 65% win (leaves room for both branches to be tested)
-              return Math.random() > 0.35;
-            }}
             lastFactionArc={(() => {
               // Find most recently resolved arc
               if (!empire.act3) return null;
