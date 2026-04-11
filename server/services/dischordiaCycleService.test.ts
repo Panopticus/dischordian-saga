@@ -194,4 +194,55 @@ describe("dischordiaCycleService (server)", () => {
       expect(dischordiaCycleService.getRecentAuditTrail().length).toBe(0);
     });
   });
+
+  describe("hydrate (DB-backed persistence)", () => {
+    it("degrades gracefully when no DB is available (test env)", async () => {
+      // In the test environment getDb() returns null, so hydrate
+      // is a no-op that leaves the cache untouched and resolves
+      // to the current default state.
+      const state = await dischordiaCycleService.hydrate();
+      expect(state.phase).toBe("dawn");
+      expect(state.lightEnergy).toBe(0);
+      expect(state.darkEnergy).toBe(0);
+      expect(state.cycleNumber).toBe(1);
+    });
+
+    it("hydrate is idempotent", async () => {
+      await dischordiaCycleService.hydrate();
+      await dischordiaCycleService.hydrate();
+      await dischordiaCycleService.hydrate();
+      const state = dischordiaCycleService.getState();
+      expect(state.phase).toBe("dawn");
+    });
+
+    it("hydrate does not clobber state set before it runs (no-DB case)", async () => {
+      dischordiaCycleService.applyRawDelta({ light: 42_000, source: "test" });
+      // Without a DB, hydrate has nothing to load, so the
+      // manually-set state must survive.
+      await dischordiaCycleService.hydrate();
+      expect(dischordiaCycleService.getState().lightEnergy).toBe(42_000);
+    });
+  });
+
+  describe("mutations are non-blocking on DB writes", () => {
+    it("applyEnergy returns synchronously even without DB", () => {
+      // getDb() returns null in tests, so the persist calls
+      // short-circuit. The cache update must still land
+      // synchronously for the tRPC response.
+      const state = dischordiaCycleService.applyEnergy(
+        "card_battle_light_win" as never,
+      );
+      expect(state.lightEnergy).toBe(20);
+    });
+
+    it("applyRawDelta returns synchronously even without DB", () => {
+      const state = dischordiaCycleService.applyRawDelta({ light: 100 });
+      expect(state.lightEnergy).toBe(100);
+    });
+
+    it("triggerVortexAdvance returns synchronously even without DB", () => {
+      const state = dischordiaCycleService.triggerVortexAdvance();
+      expect(state.phase).toBe("vortex_advance");
+    });
+  });
 });
