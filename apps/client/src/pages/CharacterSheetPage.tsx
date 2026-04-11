@@ -360,6 +360,22 @@ export default function CharacterSheetPage() {
       consumable: gear.consumable || null,
     };
   }, [gear]);
+
+  // Pull crafted items from the Forge profile so anything the player has
+  // actually crafted shows up in the equipment picker below. Starting gear,
+  // arena drops, shop items and crafted items all feed `playerInventory`.
+  const craftingProfileQuery = trpc.crafting.getCraftingProfile.useQuery(undefined, {
+    enabled: isAuthenticated,
+    staleTime: 30_000,
+  });
+  const craftedItemIds = useMemo(() => {
+    const ids = new Set<string>();
+    for (const entry of craftingProfileQuery.data?.craftedItems ?? []) {
+      if (entry?.itemId) ids.add(entry.itemId);
+    }
+    return ids;
+  }, [craftingProfileQuery.data?.craftedItems]);
+
   const playerInventory = useMemo(() => {
     const owned = new Set<string>();
     for (const id of Object.values(gear)) { if (id) owned.add(id); }
@@ -370,8 +386,9 @@ export default function CharacterSheetPage() {
     }
     EQUIPMENT_DB.filter(e => e.source === "drop" || e.source === "shop")
       .forEach(e => owned.add(e.id));
+    for (const id of craftedItemIds) owned.add(id);
     return Array.from(owned);
-  }, [gear, character.data?.characterClass]);
+  }, [gear, character.data?.characterClass, craftedItemIds]);
   const equipStats = useMemo(() => calculateEquipmentStats(paperDollEquipped), [paperDollEquipped]);
 
   const updateGearMutation = trpc.citizen.updateGear.useMutation({

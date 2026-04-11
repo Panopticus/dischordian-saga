@@ -1,15 +1,18 @@
 import { trpc } from "@/lib/trpc";
 import { useAuth } from "@/_core/hooks/useAuth";
-import { useState } from "react";
+import { useState, useMemo } from "react";
+import { Link } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Package, Gem, Flame, Sparkles, ChevronRight, Loader2,
-  Trash2, AlertTriangle, Check, Zap
+  Trash2, AlertTriangle, Check, Zap, Hammer, Shield,
 } from "lucide-react";
 import { getLoginUrl } from "@/const";
 import { toast } from "sonner";
 import { useSwipeTabs } from "@/hooks/useSwipeTabs";
 import { EmptyInventory } from "@/components/EmptyStates";
+import { getEquipmentById, RARITY_COLORS } from "@/data/equipmentData";
+import { MATERIALS } from "@/data/craftingData";
 
 import LivingBackground from "@/components/LivingBackground";
 
@@ -25,7 +28,7 @@ const RARITY_CONFIG: Record<string, { label: string; color: string; dream: numbe
 
 export default function InventoryPage() {
   const { isAuthenticated } = useAuth();
-  const tabNames = ["overview", "cards", "disenchant"] as const;
+  const tabNames = ["overview", "cards", "forge", "disenchant"] as const;
   type TabName = typeof tabNames[number];
   const [activeTab, setActiveTab] = useState<TabName>("overview");
   const activeIndex = tabNames.indexOf(activeTab);
@@ -67,6 +70,7 @@ export default function InventoryPage() {
         {[
           { id: "overview" as const, label: "OVERVIEW", icon: Package },
           { id: "cards" as const, label: "CARDS", icon: Sparkles },
+          { id: "forge" as const, label: "FORGE", icon: Hammer },
           { id: "disenchant" as const, label: "DISENCHANT", icon: Flame },
         ].map(t => {
           const Icon = t.icon;
@@ -98,6 +102,11 @@ export default function InventoryPage() {
           {activeTab === "cards" && (
             <motion.div key="cards" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
               <CardsTab />
+            </motion.div>
+          )}
+          {activeTab === "forge" && (
+            <motion.div key="forge" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+              <ForgeTab />
             </motion.div>
           )}
           {activeTab === "disenchant" && (
@@ -289,6 +298,136 @@ function DisenchantTab() {
               </button>
             </div>
           </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+/* ═══ FORGE TAB — materials + crafted items ═══ */
+function ForgeTab() {
+  const profile = trpc.crafting.getCraftingProfile.useQuery(undefined, { staleTime: 15_000 });
+
+  // Aggregate crafted item counts (itemId → quantity), resolve each against
+  // EQUIPMENT_DB, and group by rarity for display.
+  const craftedItems = useMemo(() => {
+    const counts: Record<string, number> = {};
+    for (const entry of profile.data?.craftedItems ?? []) {
+      if (!entry?.itemId) continue;
+      counts[entry.itemId] = (counts[entry.itemId] ?? 0) + 1;
+    }
+    return Object.entries(counts)
+      .map(([itemId, qty]) => ({ itemId, qty, def: getEquipmentById(itemId) }))
+      .sort((a, b) => (a.def?.name ?? a.itemId).localeCompare(b.def?.name ?? b.itemId));
+  }, [profile.data?.craftedItems]);
+
+  const materials = useMemo<Record<string, number>>(
+    () => profile.data?.materials ?? {},
+    [profile.data?.materials],
+  );
+  const ownedMaterials = useMemo(
+    () => MATERIALS.filter(m => (materials[m.id] ?? 0) > 0),
+    [materials],
+  );
+
+  if (profile.isLoading) {
+    return <div className="flex justify-center py-12"><Loader2 className="animate-spin text-primary" size={24} /></div>;
+  }
+
+  return (
+    <div className="space-y-6">
+      {/* ── Crafting Skills summary + Forge link ── */}
+      <div className="p-4 void-surface flex items-center justify-between gap-3">
+        <div>
+          <h3 className="font-display text-xs font-bold tracking-[0.2em] text-orange-400 mb-1 flex items-center gap-2">
+            <Hammer size={13} /> THE FORGE
+          </h3>
+          <p className="font-mono text-[11px] text-muted-foreground">
+            {craftedItems.length} crafted item{craftedItems.length === 1 ? "" : "s"} • {ownedMaterials.length} material type{ownedMaterials.length === 1 ? "" : "s"}
+          </p>
+        </div>
+        <Link
+          href="/forge"
+          className="px-3 py-2 rounded-md bg-orange-500/10 border border-orange-500/30 text-orange-400 font-mono text-[10px] tracking-wider hover:bg-orange-500/20 transition-all flex items-center gap-1.5"
+        >
+          OPEN FORGE <ChevronRight size={12} />
+        </Link>
+      </div>
+
+      {/* ── Materials inventory ── */}
+      <div className="p-4 void-surface">
+        <h3 className="font-display text-xs font-bold tracking-[0.2em] text-muted-foreground mb-3 flex items-center gap-2">
+          <Sparkles size={13} className="text-cyan-400" /> CRAFTING MATERIALS
+        </h3>
+        {ownedMaterials.length === 0 ? (
+          <p className="font-mono text-[11px] text-muted-foreground/60">
+            No materials yet. Win fights, complete Trade Empire missions, or disenchant cards to earn them.
+          </p>
+        ) : (
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+            {ownedMaterials.map(mat => (
+              <div
+                key={mat.id}
+                className="flex items-center gap-2 px-2 py-1.5 rounded-md bg-card/30 border border-border/20"
+              >
+                <span className="text-base">{mat.icon}</span>
+                <div className="flex-1 min-w-0">
+                  <p className="font-mono text-[10px] truncate" style={{ color: mat.color }}>{mat.name}</p>
+                  <p className="font-mono text-[8px] text-muted-foreground/50 uppercase">{mat.rarity}</p>
+                </div>
+                <span className="font-mono text-xs font-bold" style={{ color: mat.color }}>{materials[mat.id]}</span>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* ── Crafted items ── */}
+      <div className="p-4 void-surface">
+        <h3 className="font-display text-xs font-bold tracking-[0.2em] text-muted-foreground mb-3 flex items-center gap-2">
+          <Shield size={13} className="text-amber-400" /> CRAFTED GEAR
+        </h3>
+        {craftedItems.length === 0 ? (
+          <p className="font-mono text-[11px] text-muted-foreground/60">
+            No crafted gear yet. Visit <Link href="/forge" className="text-orange-400 underline">The Forge</Link> to craft equipment.
+          </p>
+        ) : (
+          <>
+            <p className="font-mono text-[10px] text-muted-foreground/60 mb-3">
+              Equip crafted gear from your <Link href="/character-sheet" className="text-cyan-400 underline">Character Sheet</Link>.
+            </p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              {craftedItems.map(({ itemId, qty, def }) => {
+                const rc = def ? RARITY_COLORS[def.rarity] : null;
+                return (
+                  <div
+                    key={itemId}
+                    className={`flex items-start gap-2 px-3 py-2 rounded-md border ${rc ? `${rc.bg} ${rc.border}` : "bg-card/30 border-border/20"}`}
+                  >
+                    <div className="flex-1 min-w-0">
+                      <p className={`font-mono text-[11px] font-bold truncate ${rc?.text ?? ""}`}>
+                        {def?.name ?? itemId}
+                      </p>
+                      <p className="font-mono text-[9px] text-muted-foreground/60 uppercase">
+                        {def ? `${def.slot} • ${rc?.label ?? def.rarity}` : "Unknown item"}
+                      </p>
+                      {def && (
+                        <div className="flex gap-2 mt-1">
+                          {def.stats.atk ? <span className="font-mono text-[9px] text-red-400">+{def.stats.atk} ATK</span> : null}
+                          {def.stats.def ? <span className="font-mono text-[9px] text-blue-400">+{def.stats.def} DEF</span> : null}
+                          {def.stats.hp ? <span className="font-mono text-[9px] text-green-400">+{def.stats.hp} HP</span> : null}
+                          {def.stats.speed ? <span className="font-mono text-[9px] text-amber-400">+{def.stats.speed} SPD</span> : null}
+                        </div>
+                      )}
+                    </div>
+                    {qty > 1 && (
+                      <span className="font-mono text-[9px] text-muted-foreground/50 shrink-0">×{qty}</span>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          </>
         )}
       </div>
     </div>

@@ -554,11 +554,22 @@ export const craftingRouter = router({
       engineering: { level: 1, xp: 0 },
     });
 
+    // Starter material bundle, handed out the first time a player opens
+    // the Forge so the initial tier-1 recipes (Refined Alloy, Circuit Vest,
+    // Health Potion) are actually craftable out of the box.
+    const STARTER_MATERIALS: Record<string, number> = {
+      card_essence: 10,
+      iron_ore: 8,
+      stardust: 8,
+      crystal_shard: 3,
+      battle_shard: 3,
+    };
+
     const db = await getDb();
     if (!db) {
       return {
         skills: DEFAULT_SKILLS(),
-        materials: {} as Record<string, number>,
+        materials: { ...STARTER_MATERIALS },
         craftedItems: [] as Array<{ itemId: string; craftedAt: number }>,
       };
     }
@@ -590,12 +601,33 @@ export const craftingRouter = router({
     // gameData.craftingMaterials (old gameState.save format).
     const rawMaterials =
       (gameData.materials as Record<string, number> | undefined) ??
-      (gameData.craftingMaterials as Record<string, number> | undefined) ??
-      {};
+      (gameData.craftingMaterials as Record<string, number> | undefined);
+
+    // First-time visitors get the starter bundle persisted so crafts
+    // actually deduct from it instead of producing ghost materials that
+    // vanish on the next query.
+    let materials: Record<string, number>;
+    const hasBeenSeeded = gameData.craftingSeeded === true;
+    if (!rawMaterials && !hasBeenSeeded) {
+      materials = { ...STARTER_MATERIALS };
+      if (row[0]) {
+        await db.update(userProgress)
+          .set({ gameData: { ...gameData, materials, craftingSeeded: true } })
+          .where(and(eq(userProgress.userId, ctx.user.id), eq(userProgress.franchiseId, "dischordian-saga")));
+      } else {
+        await db.insert(userProgress).values({
+          userId: ctx.user.id,
+          franchiseId: "dischordian-saga",
+          gameData: { materials, craftingSeeded: true },
+        });
+      }
+    } else {
+      materials = { ...(rawMaterials ?? {}) };
+    }
 
     return {
       skills,
-      materials: { ...rawMaterials },
+      materials,
       craftedItems: (gameData.craftedItems ?? []) as Array<{ itemId: string; craftedAt: number }>,
     };
   }),

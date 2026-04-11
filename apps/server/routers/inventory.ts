@@ -4,6 +4,7 @@ import { getDb } from "../db";
 import { userCards, dreamBalance, cards } from "../../db/schema";
 import { eq, and, sql, inArray } from "drizzle-orm";
 import { TRPCError } from "@trpc/server";
+import { craftingRewards } from "../services/craftingRewards";
 
 /* ═══ DISENCHANT VALUES BY RARITY ═══ */
 const DISENCHANT_VALUES: Record<string, { dream: number; dust: number; essence: number }> = {
@@ -191,10 +192,27 @@ export const inventoryRouter = router({
         }
       }
 
+      // Grant card_essence to the Forge economy alongside the Dream/Dust rewards.
+      // Rarity-bucketing uses the defaults-to-common behaviour of the surrounding
+      // loop so we stay consistent; higher-fidelity buckets can come later.
+      const craftingDrops = craftingRewards.forDisenchant({
+        common: cardsDisenchanted,
+        rare: 0,
+        legendary: 0,
+      });
+      if (Object.keys(craftingDrops).length > 0) {
+        craftingRewards.award(ctx.user.id, craftingDrops).catch(() => {});
+      }
+
       return {
         success: true,
         cardsDisenchanted,
-        rewards: { dream: totalDream, dust: totalDust, essence: totalEssence },
+        rewards: {
+          dream: totalDream,
+          dust: totalDust,
+          essence: totalEssence,
+          materials: craftingDrops,
+        },
       };
     }),
 

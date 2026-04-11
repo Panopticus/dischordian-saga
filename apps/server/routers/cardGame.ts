@@ -8,6 +8,7 @@ import { fetchCitizenData, fetchPotentialNftData, resolveCardGameBonuses } from 
 import { trackAiResult, trackCollectionSize } from "../achievementTracker";
 import { ripple } from "../services/rippleEngine";
 import { getConsequences } from "../services/universeConsequences";
+import { craftingRewards } from "../services/craftingRewards";
 
 // ═══════════════════════════════════════════════════════
 // CARD GAME STATE TYPES
@@ -760,6 +761,11 @@ export const cardGameRouter = router({
         trackAiResult(ctx.user.id, winnerId === ctx.user.id)
           .catch(e => logger.error("[CardGame] Achievement tracking error:", e));
         await ripple.emit("card_battle_result", { userId: ctx.user.id, won: winnerId === ctx.user.id });
+        // Card-battle win → small card_essence drop for the Forge.
+        const cardDrops = craftingRewards.forCardBattle({ won: winnerId === ctx.user.id });
+        if (Object.keys(cardDrops).length > 0) {
+          craftingRewards.award(ctx.user.id, cardDrops).catch(() => {});
+        }
       }
 
       return {
@@ -854,6 +860,11 @@ export const cardGameRouter = router({
         trackAiResult(ctx.user.id, winnerId === ctx.user.id)
           .catch(e => logger.error("[CardGame] Achievement tracking error:", e));
         await ripple.emit("card_battle_result", { userId: ctx.user.id, won: winnerId === ctx.user.id });
+        // Card-battle win → small card_essence drop for the Forge.
+        const cardDrops = craftingRewards.forCardBattle({ won: winnerId === ctx.user.id });
+        if (Object.keys(cardDrops).length > 0) {
+          craftingRewards.award(ctx.user.id, cardDrops).catch(() => {});
+        }
       }
 
       return { success: true, gameState: state, logEntry, matchStatus };
@@ -923,6 +934,11 @@ export const cardGameRouter = router({
         trackAiResult(ctx.user.id, winnerId === ctx.user.id)
           .catch(e => logger.error("[CardGame] Achievement tracking error:", e));
         await ripple.emit("card_battle_result", { userId: ctx.user.id, won: winnerId === ctx.user.id });
+        // Card-battle win → small card_essence drop for the Forge.
+        const cardDrops = craftingRewards.forCardBattle({ won: winnerId === ctx.user.id });
+        if (Object.keys(cardDrops).length > 0) {
+          craftingRewards.award(ctx.user.id, cardDrops).catch(() => {});
+        }
       }
 
       return { success: true, gameState: state, matchStatus };

@@ -11,6 +11,7 @@ import { fetchCitizenData, fetchPotentialNftData, resolveFightGameBonuses, nftLe
 import { pressureService } from "../services/pressureService";
 import { companionCombat } from "../services/companionCombat";
 import { battlePassXp } from "../services/battlePassXp";
+import { craftingRewards } from "../services/craftingRewards";
 
 /* ─── ELO Calculation ─── */
 function calculateElo(playerElo: number, opponentElo: number, won: boolean, kFactor = 32): number {
@@ -253,6 +254,17 @@ export const fightLeaderboardRouter = router({
         battlePassXp.award(userId, "combat_win").catch(() => {});
       }
 
+      // Crafting material drops — fed into gameData.materials for the Forge.
+      // Best-effort; any failure is swallowed so it never blocks match reporting.
+      const craftingDrops = craftingRewards.forFight({
+        won: input.won,
+        difficulty: input.difficulty,
+        winStreak: newStreak,
+      });
+      if (Object.keys(craftingDrops).length > 0) {
+        craftingRewards.award(userId, craftingDrops).catch(() => {});
+      }
+
       return {
         eloChange,
         newElo,
@@ -273,6 +285,7 @@ export const fightLeaderboardRouter = router({
           description: companionCombat.formatBreakdown(companionBonus),
           pointsBoostApplied: input.won ? adjustedPointsEarned - input.pointsEarned : 0,
         } : null,
+        craftingDrops,
       };
     }),
 
