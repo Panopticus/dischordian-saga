@@ -247,7 +247,29 @@ export const cardGameRouter = router({
       });
     }
 
-    return { success: true, message: `Received ${pack.length} starter cards!`, count: pack.length };
+    // Also create a pre-built "Starter Deck" so new players can jump
+    // straight into a match without opening the deck builder first.
+    // Only create one if the player doesn't already have a deck.
+    const existingDecks = await db
+      .select({ count: sql<number>`COUNT(*)` })
+      .from(decks)
+      .where(eq(decks.userId, ctx.user.id));
+    if (Number(existingDecks[0]?.count ?? 0) === 0 && pack.length > 0) {
+      await db.insert(decks).values({
+        userId: ctx.user.id,
+        name: "Starter Deck",
+        description: "Pre-built starter deck. Edit freely in the Deck Builder.",
+        deckType: "combined",
+        cardList: pack.map(c => ({ cardId: c.cardId, quantity: 1 })),
+      });
+    }
+
+    return {
+      success: true,
+      message: `Received ${pack.length} starter cards + a pre-built deck!`,
+      count: pack.length,
+      deckCreated: Number(existingDecks[0]?.count ?? 0) === 0,
+    };
   }),
 
   // Open a booster pack (earn random cards). Charges the player in

@@ -314,6 +314,55 @@ export const tradingRouter = router({
     };
   }),
 
+  /**
+   * Compute a user's trade reputation score derived from the cardTrades
+   * table. No schema migration — reputation is simply:
+   *
+   *   +5 per accepted trade the user participated in
+   *   -1 per declined trade they initiated
+   *
+   * A minimum of 0 is enforced so cancelled/declined-heavy accounts
+   * don't go negative. The query returns totals + the raw score so the
+   * UI can show "3 deals completed" alongside the reputation badge.
+   */
+  getTradeReputation: protectedProcedure
+    .input(z.object({ userId: z.number().optional() }).optional())
+    .query(async ({ ctx, input }) => {
+      const db = await getDb();
+      if (!db) return { score: 0, completed: 0, declined: 0 };
+
+      const targetId = input?.userId ?? ctx.user.id;
+
+      const [completedResult] = await db
+        .select({ count: sql<number>`COUNT(*)` })
+        .from(cardTrades)
+        .where(and(
+          eq(cardTrades.status, "accepted"),
+          or(eq(cardTrades.senderId, targetId), eq(cardTrades.receiverId, targetId)),
+        ));
+      const completed = Number(completedResult?.count ?? 0);
+
+      const [declinedResult] = await db
+        .select({ count: sql<number>`COUNT(*)` })
+        .from(cardTrades)
+        .where(and(
+          eq(cardTrades.status, "declined"),
+          eq(cardTrades.senderId, targetId),
+        ));
+      const declined = Number(declinedResult?.count ?? 0);
+
+      const score = Math.max(0, completed * 5 - declined);
+      const badge =
+        score >= 200 ? "legendary_trader" :
+        score >= 100 ? "master_trader" :
+        score >= 50 ? "veteran_trader" :
+        score >= 20 ? "trusted_trader" :
+        score >= 5 ? "novice_trader" :
+        "unverified";
+
+      return { score, completed, declined, badge };
+    }),
+
   /** Search for players to trade with */
   searchPlayers: protectedProcedure
     .input(z.object({ query: z.string().min(1).max(100) }))
