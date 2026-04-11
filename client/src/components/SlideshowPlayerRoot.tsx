@@ -12,17 +12,32 @@
    a slideshow and it just plays over whatever's rendered.
    ═══════════════════════════════════════════════════════ */
 
-import { useCallback } from "react";
+import { useCallback, useMemo } from "react";
 import { SongSlideshow } from "./SongSlideshow";
 import { useWitnessingStore } from "@/stores/witnessingStore";
 import { applySlideshowReward } from "@/stores/dischordiaCycleStore";
+import { useMemorableMomentsStore } from "@/stores/memorableMomentsStore";
+import { getDynamicLionFrames } from "@shared/memorableMoments";
 import { useGame } from "@/contexts/GameContext";
 
 export function SlideshowPlayerRoot() {
   const active = useWitnessingStore((s) => s.activeSlideshow);
   const completeActive = useWitnessingStore((s) => s.completeActiveSlideshow);
   const closeActive = useWitnessingStore((s) => s.closeActiveSlideshow);
+  const moments = useMemorableMomentsStore((s) => s.moments);
   const { setNarrativeFlag } = useGame();
+
+  // §11.2 — when the queued slideshow is "The Lion in Black",
+  // substitute its dynamic frames (2-10) with captions curated
+  // from the player's memorable moments. Every other slideshow
+  // plays with its canonical frames untouched.
+  const slideshowDef = useMemo(() => {
+    if (!active) return null;
+    if (active.def.id === "the-lion-in-black") {
+      return getDynamicLionFrames(active.def, moments);
+    }
+    return active.def;
+  }, [active, moments]);
 
   const handleComplete = useCallback(() => {
     // Apply the slideshow's registered light-energy reward (if any)
@@ -48,11 +63,11 @@ export function SlideshowPlayerRoot() {
     closeActive();
   }, [closeActive]);
 
-  if (!active) return null;
+  if (!active || !slideshowDef) return null;
 
   return (
     <SongSlideshow
-      def={active.def}
+      def={slideshowDef}
       onComplete={handleComplete}
       onSkip={handleComplete}
       onClose={handleClose}

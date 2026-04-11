@@ -27,6 +27,7 @@ import {
 import { pickNarratorLine } from "@shared/mobileNarratorDialog";
 import { useWitnessingStore } from "@/stores/witnessingStore";
 import { applyDischordiaEnergy } from "@/stores/dischordiaCycleStore";
+import { recordMemorableMoment } from "@/stores/memorableMomentsStore";
 import { useGame } from "@/contexts/GameContext";
 import { getNPCBust } from "@/game/npcPortraits";
 
@@ -102,9 +103,27 @@ export function MobileNarratorSlot({ roomId, flags, className }: MobileNarratorS
       if (choice === "both_out") {
         applyDischordiaEnergy("dismiss_companion");
       }
+      // Witnessing §11.2 — record a memorable moment for the
+      // Antiquarian's Lion in Black feed. The silence choice
+      // fills the "night you chose silence" slot specifically.
+      const dismissedId = slot?.narratorId;
+      if (choice === "both_out") {
+        recordMemorableMoment(
+          "silence_chosen",
+          `The night you chose silence in the ${roomId.replace(/_/g, " ")}.`,
+        );
+      } else if (dismissedId) {
+        const nameFor = dismissedId === "elara" ? "Elara" : "The Human";
+        recordMemorableMoment(
+          "companion_argument",
+          `An argument with ${nameFor} in the ${roomId.replace(/_/g, " ")}.`,
+          undefined,
+          { narratorId: dismissedId, choice },
+        );
+      }
       setWheelOpen(false);
     },
-    [dismiss, elaraBond, humanBond, flags, adjustElara, adjustHuman],
+    [dismiss, elaraBond, humanBond, flags, adjustElara, adjustHuman, slot, roomId],
   );
 
   // Don't render until we've actually seeded for this room.
