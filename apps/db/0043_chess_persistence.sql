@@ -1,13 +1,18 @@
 -- Chess persistence tables: puzzle progress + tournament state.
 --
 -- NOTE FOR DEVS: This migration is committed as raw SQL only. The
--- drizzle-kit `_journal.json` and `meta/0037_snapshot.json` are NOT
+-- drizzle-kit `_journal.json` and `meta/0043_snapshot.json` are NOT
 -- regenerated here because (a) snapshot generation requires the full
--- schema diff machinery and (b) migration 0036_admin_approval_requests
--- in main is already an orphan with no journal entry, so this branch
--- follows the established convention. Run `pnpm drizzle-kit generate`
--- once on a clean working tree to fold both 0036 and 0037 into the
--- journal before the next deploy that runs `drizzle-kit migrate`.
+-- schema diff machinery and (b) several recent migrations on main
+-- (0036, 0037, 0038, 0039, 0040, 0041, 0042) are already orphans
+-- with no journal entries, so this branch follows the established
+-- convention. Run `pnpm drizzle-kit generate` once on a clean
+-- working tree to fold the orphan migrations into the journal
+-- before the next deploy that runs `drizzle-kit migrate`.
+--
+-- This migration was originally numbered 0037 on the chess branch
+-- but was renumbered to 0043 when merging onto main, which had
+-- already used 0037-0042.
 --
 -- Previously the chess router tracked puzzle solves and tournament
 -- participants/pairings in process-local Maps that reset on every
