@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3]
+[gd_scene load_steps=10 format=3]
 
 [ext_resource type="Script" path="res://scenes/levels/BridgeOfKael.gd" id="1_scr"]
 [ext_resource type="PackedScene" path="res://objects/player.tscn" id="2_player"]
@@ -23,6 +23,22 @@ fog_density = 0.015
 ambient_light_color = Color(0.973, 0.451, 0.086, 1)
 ambient_light_energy = 0.3
 
+[sub_resource type="StandardMaterial3D" id="mat_trench"]
+albedo_color = Color(0.10, 0.07, 0.05, 1)
+emission_enabled = false
+
+[sub_resource type="StandardMaterial3D" id="mat_barricade"]
+albedo_color = Color(0.12, 0.09, 0.06, 1)
+emission_enabled = true
+emission = Color(0.35, 0.15, 0.03, 1)
+emission_energy_multiplier = 0.15
+
+[sub_resource type="StandardMaterial3D" id="mat_parapet"]
+albedo_color = Color(0.18, 0.12, 0.06, 1)
+emission_enabled = true
+emission = Color(0.55, 0.22, 0.04, 1)
+emission_energy_multiplier = 0.2
+
 [node name="BridgeOfKael" type="Node3D"]
 script = ExtResource("1_scr")
 
@@ -37,6 +53,58 @@ light_energy = 0.4
 [node name="Floor" type="MeshInstance3D" parent="."]
 mesh = BoxMesh.new()
 transform = Transform3D(40, 0, 0, 0, 0.1, 0, 0, 0, 60, 0, -0.05, 0)
+
+[node name="BridgeGeometry" type="Node3D" parent="."]
+
+[node name="LeftParapet" type="MeshInstance3D" parent="BridgeGeometry"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 30, -18, 0.9, 0)
+mesh = BoxMesh.new()
+surface_material_override/0 = SubResource("mat_parapet")
+
+[node name="RightParapet" type="MeshInstance3D" parent="BridgeGeometry"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 30, 18, 0.9, 0)
+mesh = BoxMesh.new()
+surface_material_override/0 = SubResource("mat_parapet")
+
+[node name="Barricade1" type="MeshInstance3D" parent="BridgeGeometry"]
+transform = Transform3D(4, 0, 0, 0, 1.2, 0, 0, 0, 0.5, -6, 0.7, 10)
+mesh = BoxMesh.new()
+surface_material_override/0 = SubResource("mat_barricade")
+
+[node name="Barricade2" type="MeshInstance3D" parent="BridgeGeometry"]
+transform = Transform3D(4, 0, 0, 0, 1.2, 0, 0, 0, 0.5, 6, 0.7, 10)
+mesh = BoxMesh.new()
+surface_material_override/0 = SubResource("mat_barricade")
+
+[node name="Barricade3" type="MeshInstance3D" parent="BridgeGeometry"]
+transform = Transform3D(3, 0, 0, 0, 1.0, 0, 0, 0, 0.5, 0, 0.5, 15)
+mesh = BoxMesh.new()
+surface_material_override/0 = SubResource("mat_barricade")
+
+[node name="Barricade4" type="MeshInstance3D" parent="BridgeGeometry"]
+transform = Transform3D(3, 0, 0, 0, 1.0, 0, 0, 0, 0.5, -10, 0.5, 20)
+mesh = BoxMesh.new()
+surface_material_override/0 = SubResource("mat_barricade")
+
+[node name="Barricade5" type="MeshInstance3D" parent="BridgeGeometry"]
+transform = Transform3D(3, 0, 0, 0, 1.0, 0, 0, 0, 0.5, 10, 0.5, 20)
+mesh = BoxMesh.new()
+surface_material_override/0 = SubResource("mat_barricade")
+
+[node name="TrenchFront" type="MeshInstance3D" parent="BridgeGeometry"]
+transform = Transform3D(14, 0, 0, 0, 0.6, 0, 0, 0, 1, 0, 0.3, -15)
+mesh = BoxMesh.new()
+surface_material_override/0 = SubResource("mat_trench")
+
+[node name="TrenchLeft" type="MeshInstance3D" parent="BridgeGeometry"]
+transform = Transform3D(1, 0, 0, 0, 0.6, 0, 0, 0, 8, -14, 0.3, -10)
+mesh = BoxMesh.new()
+surface_material_override/0 = SubResource("mat_trench")
+
+[node name="TrenchRight" type="MeshInstance3D" parent="BridgeGeometry"]
+transform = Transform3D(1, 0, 0, 0, 0.6, 0, 0, 0, 8, 14, 0.3, -10)
+mesh = BoxMesh.new()
+surface_material_override/0 = SubResource("mat_trench")
 
 [node name="Player" parent="." instance=ExtResource("2_player")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -25)

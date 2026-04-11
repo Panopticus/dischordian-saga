@@ -78,6 +78,43 @@ export const BOUNTY_CONTRACTS: BountyContract[] = [
     reward: { dream: 100, xp: 200, material: "terminus_shard", reputation: 25 },
     difficulty: "legendary", requiresFlag: "terminus_singer_found", timeLimitHours: 12,
   },
+  /* ─── CADES FPS related bounties ─── */
+  {
+    id: "bounty_hierarchy_contractor", name: "The Hierarchy Contractor", postedBy: "Elara",
+    description: "Someone installed the CADES unit on this Ark before it ever launched, and that someone had Hierarchy credentials. Trace the contractor, their paper trail, and the encrypted power drain destination.",
+    investigationSteps: [
+      "Read the CADES power consumption log in the Medical Bay",
+      "Decrypt the handwritten note beneath the official manifest",
+      "Cross-reference the install order with Hierarchy procurement records",
+    ],
+    target: { name: "CADES Unit Install Manifest", type: "ai_construct", weakness: "Data analysis" },
+    reward: { dream: 80, xp: 150, reputation: 20 },
+    difficulty: "dangerous", requiresFlag: "cadesDiscovered", timeLimitHours: 72,
+  },
+  {
+    id: "bounty_game_masters", name: "The Game Masters", postedBy: "Elara",
+    description: "A cult of archivists is maintaining the Matrix of Dreams after the original Game Master Archon's destruction. Identify their signal origin and their custodial agreement with the Hierarchy.",
+    investigationSteps: [
+      "Trace the secondary comms channel signal through Matrix Anchor Point 7",
+      "Locate the dimensional fold where the origin resolves",
+      "Confirm whether they are still under Hierarchy contract",
+    ],
+    target: { name: "Game Masters Cult", type: "hierarchy_demon", weakness: "Breaking the custodial contract" },
+    reward: { dream: 120, xp: 250, reputation: 30 },
+    difficulty: "deadly", requiresFlag: "cades_gm_contact_1", timeLimitHours: 96,
+  },
+  {
+    id: "bounty_who_suppressed", name: "Who Suppressed The Alert?", postedBy: "Agent Zero",
+    description: "The CADES unit's monitoring systems flagged an anomaly in Iron Lion's baseline behavior and the alert was suppressed before it reached any command channel. Find the suppressor.",
+    investigationSteps: [
+      "Pull Iron Lion's temporal anomaly log from the CADES monitoring subsystem",
+      "Identify which process handled the alert suppression",
+      "Trace the suppressor's authorization chain",
+    ],
+    target: { name: "Alert Suppression Process", type: "ai_construct", weakness: "Access trace" },
+    reward: { dream: 70, xp: 140, reputation: 15 },
+    difficulty: "dangerous", requiresFlag: "cades_awareness_3", timeLimitHours: 48,
+  },
 ];
 
 

@@ -19,6 +19,11 @@ import { ChevronLeft, Skull, Shield, BookOpen, Crosshair, Clock } from "lucide-r
 import { CADES_CHARACTERS, CADES_UI, CADES_MUSIC } from "@/data/cadesAssets";
 import { isCadesUnlocked } from "@/data/cadesNarrativeIntegration";
 import { dispatchNarrativeEffect } from "@/hooks/useNarrativeEvents";
+import { CADESFeed } from "@/components/CADESFeed";
+import { CADESAmbientLines } from "@/components/CADESAmbientLines";
+import { CADESClueBoard } from "@/components/CADESClueBoard";
+import { CADESConspiracyBoard } from "@/components/CADESConspiracyBoard";
+import { OpenChannelEcho } from "@/components/OpenChannelEcho";
 
 /* ─── PALETTE ─── */
 const P = {
@@ -279,6 +284,26 @@ export default function CADESFPSPage() {
             </motion.button>
           </div>
 
+          {/* Elara echo of the player's last Open Channel choice */}
+          <div className="max-w-lg mx-auto mt-8">
+            <OpenChannelEcho />
+          </div>
+
+          {/* Ambient chatter — shows NPC reactions and GM surveillance */}
+          <div className="max-w-lg mx-auto mt-4">
+            <CADESAmbientLines />
+          </div>
+
+          {/* Investigation clues unlocked through CADES progress */}
+          <div className="max-w-lg mx-auto mt-4">
+            <CADESClueBoard />
+          </div>
+
+          {/* Conspiracy board showing discovered CADES-side nodes */}
+          <div className="max-w-3xl mx-auto mt-4">
+            <CADESConspiracyBoard />
+          </div>
+
           {/* Lore footer */}
           <p className="font-mono text-[9px] text-center mt-8 max-w-md mx-auto" style={{ color: P.OFF_WHITE + "40" }}>
             Installed by a Hierarchy contractor. Dual-purpose: therapeutic immersion
@@ -365,6 +390,11 @@ export default function CADESFPSPage() {
                 )}
               </>
             )}
+          </div>
+
+          {/* Crew reactions feed — shows what the ship is saying */}
+          <div className="mb-4 text-left">
+            <CADESFeed limit={4} title="CREW RESPONSE — LIVE FEED" />
           </div>
 
           {/* Actions */}
