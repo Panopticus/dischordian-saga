@@ -143,20 +143,25 @@ describe("Phase 72: Fight Game Story Mode Enhancements", () => {
     });
   });
 
-  // As chapters ship, this block grows. CH5 (Necromancer) is the
-  // first mandatory-loss boss; ch7/10/11/12 will join as their
-  // dialog content lands.
-  it("boss chapters present in today's built set", () => {
+  it("all shipped boss chapters are present and canonically tagged", () => {
     const bossChapters = STORY_CHAPTERS.filter(c => c.isBoss === true);
-    expect(bossChapters.length).toBeGreaterThan(0);
+    // S1 ships 6 bosses: Jailer (ch2), Necromancer (ch5 mandatory loss),
+    // Warlord (ch7 dual portrait), Warden (ch10), Collector (ch11),
+    // Architect (ch12 final).
+    expect(bossChapters.length).toBeGreaterThanOrEqual(6);
+
     const opponentIds = new Set(bossChapters.map(c => c.opponentId));
     expect(opponentIds.has("jailer")).toBe(true);
     expect(opponentIds.has("necromancer")).toBe(true);
-    // TODO(story-mode): restore once CH 7/10/11/12 ship
-    // const chapterNums = STORY_CHAPTERS.map(c => c.chapter);
-    // expect(chapterNums).toContain(7);
-    // expect(chapterNums).toContain(11);
-    // expect(chapterNums).toContain(12);
+    expect(opponentIds.has("warlord")).toBe(true);
+    expect(opponentIds.has("warden")).toBe(true);
+    expect(opponentIds.has("collector")).toBe(true);
+    expect(opponentIds.has("architect")).toBe(true);
+
+    const chapterNums = STORY_CHAPTERS.map(c => c.chapter);
+    expect(chapterNums).toContain(7);
+    expect(chapterNums).toContain(11);
+    expect(chapterNums).toContain(12);
   });
 
   it("every story chapter should have pre and post-victory dialogue", () => {
@@ -174,11 +179,12 @@ describe("Phase 72: Fight Game Story Mode Enhancements", () => {
     }
   });
 
-  // NOTE: Story Mode is still in-progress. `storyModeChapters.ts`
-  // currently ships ch1, ch2, ch3a, ch3b — full S1 expects 12 chapters
-  // + branches. When CH 4–12 land, bump this back to `.toBeGreaterThanOrEqual(13)`.
+  // Season 1 ships all 14 chapters: ch1, ch2, ch3a, ch3b, ch4, ch5,
+  // ch6, ch7, ch8, ch9a, ch9b, ch10, ch11, ch12. The upper bound
+  // leaves headroom for the CORRUPTION + SOURCE + FINALE chapters
+  // that live in a follow-up (they'll add 4-6 more entries).
   it("story mode has the currently-shipped chapter count", () => {
-    expect(STORY_CHAPTERS.length).toBeGreaterThanOrEqual(4);
-    expect(STORY_CHAPTERS.length).toBeLessThanOrEqual(13);
+    expect(STORY_CHAPTERS.length).toBeGreaterThanOrEqual(14);
+    expect(STORY_CHAPTERS.length).toBeLessThanOrEqual(25);
   });
 });

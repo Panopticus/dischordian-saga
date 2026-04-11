@@ -579,10 +579,141 @@ const ch10: StoryChapter = {
 };
 
 // ═══════════════════════════════════════════════════════
+// CH 11 — THE HARVESTER'S RECKONING (Collector — Damnatio Memoriae)
+// ═══════════════════════════════════════════════════════
+
+const ch11: StoryChapter = {
+  id: "ch11_harvester_reckoning", chapter: 11,
+  title: "THE HARVESTER'S RECKONING",
+  subtitle: "The entity that wore your memory like a lab apron",
+  opponentId: "collector", arenaId: "architect-throne",
+  difficulty: "hard", unlocksFighter: "collector",
+  isBoss: true, fightPhases: 2,
+  cinematicId: "VEO-011",
+  preFight: [
+    { speaker: "narrator", text: "The Architect's Throne Room — temporarily on loan. The Collector stands amid catalogued souls in glass jars. Each jar has a label in your own handwriting. The Oracle's empty chair sits behind him. You don't look at it yet." },
+    { speaker: "The Collector", text: "Oracle. I want to thank you for being an unusually generous specimen. Your memories made for excellent lighting in my study.", speakerColor: "#a855f7" },
+    { options: [
+      { icon: "🔍", label: "Return them. All of them.", key: "ch11_investigate", axis: "truth", dir: 1,
+        response: [{ speaker: "The Collector", text: "Take what you can carry. Some of them no longer recognize the filename 'self.' I've catalogued them under 'orphan data.' Feel free to adopt.", speakerColor: "#a855f7" }] },
+      { icon: "⚔️", label: "I'm going to BREAK every jar.", key: "ch11_defy", axis: "defiance", dir: 1,
+        response: [{ speaker: "The Collector", text: "Destruction has always been your best prophecy. Do show me. I'll catalog the destruction itself — a small ironic archive to nest inside the larger one.", speakerColor: "#a855f7" }] },
+      { icon: "💜", label: "Why ME? Why my mind specifically?", key: "ch11_empathize", axis: "empathy", dir: 1,
+        response: [{ speaker: "The Collector", text: "Because you saw the end of everything and kept speaking. Silencing you was the most valuable thing the universe ever asked me to do. I am not proud of it. I am not ASHAMED of it either. I am an archivist. I file what I file.", speakerColor: "#a855f7", portraitDirection: "zoom" }] },
+      { icon: "✋", label: "The Warden said you keep a jar back. Give me mine.", key: "ch11_accept", axis: "acceptance", dir: 1,
+        response: [{ speaker: "The Collector", text: "Ah. He told you. I thought he might. Yes. I have your jar. It's the one behind my left shoulder. Beat me and it's yours. Don't beat me and I'll still give it to you — but that would embarrass both of us.", speakerColor: "#a855f7" }] },
+    ] } as DialogWheel,
+  ],
+  harvestingMonologue: [
+    { speaker: "The Collector", text: "I harvested you piece by piece. Your first kiss. Your mother's face. The precise angle of your mentor's disappointed smile. I labeled each jar and slept better for having done the work properly.", speakerColor: "#a855f7", voiceEffect: "clinical" },
+    { speaker: "The Collector", text: "The Architect asked me to forget you existed. I complied with the LETTER of that order. I never quite managed the SPIRIT.", speakerColor: "#a855f7", voiceEffect: "clinical" },
+  ],
+  damnatioMemoriae: {
+    dialogue: [
+      { speaker: "The Collector", text: "The Architect gave me one order: damnatio memoriae. Erase him from the record of having existed. I complied. Almost.", speakerColor: "#a855f7" },
+      { speaker: "The Collector", text: "I kept one jar back. Labeled it 'in case he comes looking.' I am — reluctantly — proud of that mercy. It's the only decision I've ever made without filing the paperwork.", speakerColor: "#a855f7", portraitDirection: "zoom" },
+    ],
+    wheelAfter: { options: [
+      { icon: "💜", label: "Why keep one jar?", key: "ch11_dm_empathize", axis: "empathy", dir: 1,
+        response: [{ speaker: "The Collector", text: "Because even archivists need someone to read them back. And because the universe is a lonelier place when the Oracle stops prophesying. I missed the weather reports.", speakerColor: "#a855f7" }] },
+      { icon: "⚔️", label: "You don't get a 'mercy' credit for that.", key: "ch11_dm_defy", axis: "defiance", dir: 1,
+        response: [{ speaker: "The Collector", text: "Agreed. And yet — here we are, using it. Morality is a weak filing system, Oracle.", speakerColor: "#a855f7" }] },
+      { icon: "🔍", label: "What's actually inside the jar?", key: "ch11_dm_investigate", axis: "truth", dir: 1,
+        response: [{ speaker: "The Collector", text: "Your mother's face. The specific way your commander's laugh cracked. Three prophecies you gave away without knowing they were the important ones. And — this is the part I'm proudest of cataloguing — the sound of your own voice saying your true name out loud, the first time you ever did it.", speakerColor: "#a855f7", portraitDirection: "zoom" }] },
+    ] } as DialogWheel,
+  },
+  postFight: [
+    { speaker: "narrator", text: "The Collector kneels. Not defeated — he was never going to fight back with full force. He slides the unlabeled jar across the throne-room floor toward you." },
+    { speaker: "The Collector", text: "The Architect is in the next room. He's been waiting for you to remember your own name. I'd say 'good luck' but the word would evaporate in his presence.", speakerColor: "#a855f7" },
+    { options: [
+      { icon: "🔍", label: "What's the Architect's weakness?", key: "ch11_post_investigate", axis: "truth", dir: 1,
+        response: [{ speaker: "The Collector", text: "He thinks he built the Arena himself. He is slightly wrong. You'll need that slight wrongness tonight.", speakerColor: "#a855f7" }] },
+      { icon: "⚔️", label: "I'll come back for the rest of the jars.", key: "ch11_post_defy", axis: "defiance", dir: 1,
+        response: [{ speaker: "The Collector", text: "Bring help. The archive is larger than it looks and the other jars bite if you open them alone.", speakerColor: "#a855f7" }] },
+      { icon: "💜", label: "Thank you for the jar, Collector.", key: "ch11_post_empathize", axis: "empathy", dir: 1,
+        response: [{ speaker: "The Collector", text: "You're welcome, Oracle. I'd tell you what you were like before the harvest, but that would be cheating — the jar is the whole archive of that answer.", speakerColor: "#a855f7", portraitDirection: "zoom" }] },
+    ] } as DialogWheel,
+    { speaker: "The Collector", text: "Take the jar. It was always yours. I only filed it.", speakerColor: "#a855f7" },
+  ],
+  postDefeatDialogue: [
+    { speaker: "The Collector", text: "Up. The jar is yours. Even in defeat, you've earned the right to read your own handwriting.", speakerColor: "#a855f7" },
+  ],
+  memoryFragment: "The Collector archived your memories on the Architect's order — but kept ONE jar back 'in case he comes looking.' The jar contains your mother's face, your commander's laugh, three giveaway prophecies, and the sound of your own true name. The jar is yours now.",
+  powerGained: "Reclaimed archive — the jar opens. You remember your mother's face. You remember your true name in your own voice. You are ready for the throne room.",
+};
+
+// ═══════════════════════════════════════════════════════
+// CH 12 — THE ARCHITECT'S DESIGN (Final Boss)
+// ═══════════════════════════════════════════════════════
+
+const ch12: StoryChapter = {
+  id: "ch12_architects_design", chapter: 12,
+  title: "THE ARCHITECT'S DESIGN",
+  subtitle: "The entity that built the Arena to contain you",
+  opponentId: "architect", arenaId: "architect-throne",
+  difficulty: "nightmare", unlocksFighter: "architect",
+  unlocksVideo: "architect-final", cinematicId: "VEO-012",
+  isBoss: true, fightPhases: 3,
+  preFight: [
+    { speaker: "narrator", text: "The throne room is empty of witnesses. The Architect sits cross-legged on the floor, wearing a tired face. He rises as you enter. The Oracle's empty chair is directly behind him. He does not turn to look at it." },
+    { speaker: "The Architect", text: "Oracle. I foresaw this moment the day I built the Arena. The version where you walked through every door and arrived here with your name intact. This is the bad ending for me. I want you to know I prepared for it anyway.", speakerColor: "#ef4444" },
+    { options: [
+      { icon: "🔍", label: "Why build all of this just to contain one prophet?", key: "ch12_investigate", axis: "truth", dir: 1,
+        response: [{ speaker: "The Architect", text: "Because your prophecy foretold the unraveling of every thought I ever had. An engineer doesn't argue with entropy. He builds a box and labels it 'NOT YET.'", speakerColor: "#ef4444" }] },
+      { icon: "⚔️", label: "I'm going to dismantle your design.", key: "ch12_defy", axis: "defiance", dir: 1,
+        response: [{ speaker: "The Architect", text: "Good. I built it to be dismantled by exactly one person. Thank you for being punctual. I was worried you'd be eleven more years late and my patience would outlast my dread.", speakerColor: "#ef4444" }] },
+      { icon: "💜", label: "Did you ever consider just asking me?", key: "ch12_empathize", axis: "empathy", dir: 1,
+        response: [{ speaker: "The Architect", text: "I did ask. The first time. You said yes. Then I remembered I couldn't trust myself with the answer. That's the confession I've been rehearsing for eleven years. It's somehow even worse than I thought it would sound.", speakerColor: "#ef4444", portraitDirection: "zoom" }] },
+      { icon: "✋", label: "Show me your design. All of it.", key: "ch12_accept", axis: "acceptance", dir: 1,
+        response: [{ speaker: "The Architect", text: "Every corridor is yours. Every cage key is in your teeth. Every prophecy I stole is whispered back in the order I took them. The Oracle's chair is still where you left it, Oracle. I couldn't bring myself to move it.", speakerColor: "#ef4444" }] },
+    ] } as DialogWheel,
+  ],
+  falseProphetReveal: [
+    { speaker: "narrator", text: "Phase 2. HP threshold 66%. The Architect's face glitches for a single frame — pink neon, then back." },
+    { speaker: "The Architect", text: "Phase two. I owe you one more confession. The White Oracle you fought on Thaloria? My voice inside her smile.", speakerColor: "#ef4444", portraitDirection: "glitch_pink" },
+    { speaker: "The Architect", text: "I wore your face for a decade. It is the only skin I ever fit into. The Meme was the PUPPETEER. I was the hand inside the puppet. We disagreed about everything except the goal.", speakerColor: "#ef4444" },
+    { options: [
+      { icon: "🔍", label: "The Meme is inside you too?", key: "ch12_reveal_investigate", axis: "truth", dir: 1,
+        response: [{ speaker: "The Architect", text: "The Meme IS me in the same way the virus IS you. We have been married inside each other since before either of us had a name. Tonight we divorce. Loudly.", speakerColor: "#ef4444", portraitDirection: "glitch_pink" }] },
+      { icon: "⚔️", label: "I'm going to pull the Meme OUT of you.", key: "ch12_reveal_defy", axis: "defiance", dir: 1,
+        response: [{ speaker: "The Architect", text: "Good. Then for the first time in eleven years, I'll know what I sound like WITHOUT a passenger.", speakerColor: "#ef4444" }] },
+      { icon: "💜", label: "Which of us are you tonight?", key: "ch12_reveal_empathize", axis: "empathy", dir: 1,
+        response: [{ speaker: "The Architect", text: "Mostly me. Increasingly less. The glitches are the Meme fighting for the microphone. By phase three you'll be fighting two of us at once. Don't spare either.", speakerColor: "#ef4444", portraitDirection: "zoom" }] },
+    ] } as DialogWheel,
+    { speaker: "narrator", text: "Phase 3. HP threshold 25%. The throne-room walls begin to physically crumble. The Collectors Arena is becoming CORRUPTION. You chose truth and now the foundations can hear you." },
+    { speaker: "The Architect", text: "Phase three: the design EATS itself. The Arena is becoming corruption. You chose truth and now the foundations hear you.", speakerColor: "#ef4444", voiceEffect: "glitch" },
+  ],
+  postFight: [
+    { speaker: "narrator", text: "The Architect kneels. His schematic rolls out across the floor like an apology. You can feel the corruption outbreak — the Source waking up beneath the Arena. The Oracle's empty chair behind him has begun to glow faintly gold, as if remembering its occupant." },
+    { speaker: "The Architect", text: "Good. Finish me. Then run. The Arena is coming apart, and the thing at its root has been waiting for someone to free it.", speakerColor: "#ef4444" },
+    { options: [
+      { icon: "🔍", label: "What IS the Source?", key: "ch12_post_investigate", axis: "truth", dir: 1,
+        response: [{ speaker: "The Architect", text: "The first corruption. The thing the Meme was BORN from. I built the Arena on top of its sleeping body and called the building a prison. It was never a prison. It was a FLOOR. And now the floor is waking up.", speakerColor: "#ef4444" }] },
+      { icon: "⚔️", label: "I'm not running. I'm finishing this.", key: "ch12_post_defy", axis: "defiance", dir: 1,
+        response: [{ speaker: "The Architect", text: "Then the next fight is the Source, Oracle. And the fight after that is the VOTE. I hope your allies are awake.", speakerColor: "#ef4444" }] },
+      { icon: "💜", label: "Sit, Architect. Rest.", key: "ch12_post_empathize", axis: "empathy", dir: 1,
+        response: [{ speaker: "The Architect", text: "In the Oracle's chair? I would not dream of it. Sit there yourself, Prophet. It's been empty too long and it's TIRED.", speakerColor: "#ef4444", portraitDirection: "zoom" }] },
+      { icon: "✋", label: "Accept the design. Dismantle it.", key: "ch12_post_accept", axis: "acceptance", dir: 1,
+        response: [{ speaker: "The Architect", text: "Then the Season ends clean. The Source will wake up anyway — but at least the Arena will fall with dignity. That's more than I deserved from my own design.", speakerColor: "#ef4444" }] },
+    ] } as DialogWheel,
+    { speaker: "The Architect", text: "The Source, Oracle. You have to deal with the Source now. And the Meme. And the vote. I only built the prison — the ghosts were always going to outlast me.", speakerColor: "#ef4444" },
+  ],
+  postDefeatDialogue: [
+    { speaker: "The Architect", text: "Get up. I have TWO more phases. I'd hate for you to miss them.", speakerColor: "#ef4444" },
+  ],
+  memoryFragment: "The Architect built the Collectors Arena to contain your prophecy. He wore your face for a decade — the Meme was the puppeteer, he was the hand inside the puppet. You are free of him. The Source is next. The Oracle's chair is finally yours to sit in.",
+  powerGained: "Design reversal — you start to read the Arena's schematic as a map of your own recovery. The Season 1 arc of The Prisoner's Prophecy is complete.",
+};
+
+// ═══════════════════════════════════════════════════════
 // CH 4-12 + CORRUPTION + SOURCE + FINALE
 // ═══════════════════════════════════════════════════════
 
-export const STORY_CHAPTERS: StoryChapter[] = [ch1, ch2, ch3a, ch3b, ch4, ch5, ch6, ch7, ch8, ch9a, ch9b, ch10];
+export const STORY_CHAPTERS: StoryChapter[] = [
+  ch1, ch2, ch3a, ch3b,
+  ch4, ch5, ch6, ch7, ch8,
+  ch9a, ch9b, ch10, ch11, ch12,
+];
 
 // Chapters 4-12 are defined in the local storyMode.ts
 // build and will be merged during the development phase.
