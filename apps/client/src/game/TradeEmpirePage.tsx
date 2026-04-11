@@ -7,18 +7,30 @@ import { useState, useMemo, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Globe, Users, Swords, Shield, Package, Target, ChevronRight,
-  ArrowLeft, Clock, Star, AlertTriangle, MapPin, Send, Eye,
+  Clock, Star, AlertTriangle, MapPin, Send, Eye,
+  Bookmark, Route, ScrollText, Check, Flower2, Crown,
 } from "lucide-react";
 import GalacticMap from "./GalacticMap";
 import { useGame } from "@/contexts/GameContext";
 import { getEquipmentGameBonuses } from "./equipmentState";
 import {
   GALACTIC_MAP, GALACTIC_FACTIONS, STARTER_MISSIONS,
-  createInitialEmpire, type EmpireState, type MissionDef, type GalacticFactionId,
+  createInitialEmpire, migrateEmpireState, ACT3_FACTION_IDS, ACT3_FACTION_ARCS,
+  countArcsResolved, countPathsResolved, determineAct3Ending,
+  type EmpireState, type MissionDef, type GalacticFactionId,
+  type Act3FactionId, type FactionArcPath, type SectorEventEntry,
 } from "./tradeEmpire";
 import {
-  ALL_TECHNOLOGIES, getTechsByBranch, canResearch, getTechById,
-  type Technology, type TechBranch, type TechTreeState, DEFAULT_TECH_STATE,
+  EYES_LORE_FRAGMENTS, ACT3_ENDINGS,
+} from "./eyesArc";
+import DiplomacyTable from "./DiplomacyTable";
+import EyesTransmission from "./EyesTransmission";
+import OcularumSlideshow from "./OcularumSlideshow";
+import CollectorGarden from "./CollectorGarden";
+import Act3EndingReveal from "./Act3EndingReveal";
+import {
+  getTechsByBranch, canResearch, getTechById,
+  type TechBranch, type TechTreeState, DEFAULT_TECH_STATE,
 } from "./techTree";
 import { FlaskConical } from "lucide-react";
 import LivingBackground from "@/components/LivingBackground";
@@ -48,6 +60,8 @@ function getTradeBackground(view: View) {
   switch (view) {
     case "map":
     case "sector_detail":
+    case "routes":
+    case "event_log":
       return TRADE_BACKGROUNDS.map;
     case "missions":
     case "fleet":
@@ -56,13 +70,14 @@ function getTradeBackground(view: View) {
     case "research":
       return TRADE_BACKGROUNDS.colony;
     case "diplomacy":
+    case "act3":
       return TRADE_BACKGROUNDS.office;
     default:
       return TRADE_BACKGROUNDS.map;
   }
 }
 
-type View = "map" | "missions" | "agents" | "diplomacy" | "fleet" | "research" | "sector_detail";
+type View = "map" | "missions" | "agents" | "diplomacy" | "fleet" | "research" | "sector_detail" | "act3" | "routes" | "event_log";
 
 const MISSION_TYPE_ICONS: Record<string, typeof Globe> = {
   trade: Package, espionage: Eye, diplomacy: Users, combat: Swords,
@@ -74,15 +89,171 @@ const DIFFICULTY_COLORS: Record<string, string> = {
   routine: "#22c55e", challenging: "#eab308", dangerous: "#f97316", suicidal: "#ef4444",
 };
 
+/** Which Act 3 factions have a diplomacy minigame table. Maps faction → table id. */
+const DIPLOMACY_TABLES_AVAILABLE: Partial<Record<Act3FactionId, string>> = {
+  new_babylon: "new_babylon",
+  hierarchy: "hierarchy",
+  artificial_empire: "artificial_empire",
+};
+
+/* ─── §8.2 QUICK-WIN: Trade routes panel ─── */
+function RoutesPanel({
+  empire,
+  saveEmpire,
+  logEvent,
+}: {
+  empire: EmpireState;
+  saveEmpire: (e: EmpireState) => void;
+  logEvent: (entry: Omit<SectorEventEntry, "id" | "timestamp">) => void;
+}) {
+  const [newName, setNewName] = useState("");
+  const [draft, setDraft] = useState<string[]>([]);
+  const routes = empire.tradeRoutes ?? [];
+
+  const toggleSector = (id: string) => {
+    setDraft(prev => prev.includes(id) ? prev.filter(s => s !== id) : [...prev, id]);
+  };
+
+  const saveRoute = () => {
+    if (draft.length < 2 || !newName.trim()) return;
+    const next: EmpireState = {
+      ...empire,
+      tradeRoutes: [
+        ...routes,
+        {
+          id: `route_${Date.now()}`,
+          name: newName.trim(),
+          sectorIds: draft,
+          runCount: 0,
+          createdAt: Date.now(),
+        },
+      ],
+    };
+    saveEmpire(next);
+    setNewName("");
+    setDraft([]);
+  };
+
+  const runRoute = (routeId: string) => {
+    const route = routes.find(r => r.id === routeId);
+    if (!route) return;
+    const nextRoutes = routes.map(r => r.id === routeId ? { ...r, runCount: r.runCount + 1 } : r);
+    saveEmpire({ ...empire, tradeRoutes: nextRoutes });
+    logEvent({
+      sectorId: route.sectorIds[0] ?? "unknown",
+      label: `Ran route: ${route.name}`,
+      detail: `Route touches ${route.sectorIds.length} sectors. Total runs: ${route.runCount + 1}.`,
+      tone: "neutral",
+    });
+  };
+
+  const deleteRoute = (routeId: string) => {
+    saveEmpire({ ...empire, tradeRoutes: routes.filter(r => r.id !== routeId) });
+  };
+
+  return (
+    <div className="space-y-4">
+      {/* Saved routes */}
+      <div>
+        <p className="font-mono text-[10px] text-white/30 tracking-wider mb-2">SAVED ROUTES</p>
+        {routes.length === 0 && (
+          <p className="font-mono text-[10px] text-white/30 italic">No routes saved. Build one below.</p>
+        )}
+        {routes.map(route => (
+          <div key={route.id} className="p-3 rounded-xl bg-white/[0.02] border border-white/10 mb-2">
+            <div className="flex items-center justify-between mb-1">
+              <p className="font-mono text-xs font-bold text-white">{route.name}</p>
+              <span className="font-mono text-[9px] text-white/30">{route.runCount} runs</span>
+            </div>
+            <p className="font-mono text-[9px] text-white/40 mb-2">
+              {route.sectorIds.map(s => GALACTIC_MAP.find(sec => sec.id === s)?.name ?? s).join(" → ")}
+            </p>
+            <div className="flex gap-2">
+              <button
+                onClick={() => runRoute(route.id)}
+                className="px-3 py-1 rounded bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 font-mono text-[9px] font-bold hover:bg-emerald-500/20"
+              >
+                RUN ROUTE
+              </button>
+              <button
+                onClick={() => deleteRoute(route.id)}
+                className="px-3 py-1 rounded bg-white/5 border border-white/10 text-white/40 font-mono text-[9px] hover:text-white/60"
+              >
+                DELETE
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Builder */}
+      <div className="p-3 rounded-xl bg-white/[0.02] border border-white/10">
+        <p className="font-mono text-[10px] text-white/30 tracking-wider mb-2">BUILD NEW ROUTE</p>
+        <input
+          type="text"
+          placeholder="Route name"
+          value={newName}
+          onChange={e => setNewName(e.target.value)}
+          className="w-full px-3 py-2 mb-2 rounded bg-black/60 border border-white/10 font-mono text-[11px] text-white"
+        />
+        <p className="font-mono text-[9px] text-white/30 mb-2">Tap sectors to add (min 2, max 10):</p>
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-1 max-h-48 overflow-y-auto mb-2">
+          {GALACTIC_MAP.map(sector => {
+            const idx = draft.indexOf(sector.id);
+            const selected = idx !== -1;
+            return (
+              <button
+                key={sector.id}
+                onClick={() => toggleSector(sector.id)}
+                className={`p-1.5 rounded text-left font-mono text-[9px] border transition-colors ${
+                  selected ? "border-cyan-500/40 bg-cyan-500/10 text-cyan-300" : "border-white/10 bg-white/[0.02] text-white/50 hover:bg-white/5"
+                }`}
+              >
+                {selected && `${idx + 1}. `}{sector.name}
+              </button>
+            );
+          })}
+        </div>
+        <button
+          onClick={saveRoute}
+          disabled={draft.length < 2 || !newName.trim()}
+          className="w-full py-2 rounded bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 font-mono text-[10px] font-bold disabled:opacity-30 disabled:cursor-not-allowed hover:bg-cyan-500/20"
+        >
+          SAVE ROUTE
+        </button>
+      </div>
+    </div>
+  );
+}
+
 export default function TradeEmpirePage() {
-  const { state: gameState } = useGame();
+  const { state: gameState, setNarrativeFlag } = useGame();
+  const playerName = gameState.characterChoices?.name || "Captain";
   const [view, setView] = useState<View>("map");
   const [empire, setEmpire] = useState<EmpireState>(() => {
     const saved = localStorage.getItem("trade_empire_state");
-    return saved ? JSON.parse(saved) : createInitialEmpire();
+    if (!saved) return createInitialEmpire();
+    try {
+      return migrateEmpireState(JSON.parse(saved));
+    } catch {
+      return createInitialEmpire();
+    }
   });
   const [selectedSector, setSelectedSector] = useState<string | null>(null);
   const [selectedMission, setSelectedMission] = useState<MissionDef | null>(null);
+
+  // ─── Act 3 cinematic overlays ───
+  const [showEyesTransmission, setShowEyesTransmission] = useState(false);
+  const [showOcularum, setShowOcularum] = useState(false);
+  const [showCollector, setShowCollector] = useState(false);
+  const [showEndingReveal, setShowEndingReveal] = useState(false);
+  const [activeDiplomacyTable, setActiveDiplomacyTable] = useState<string | null>(null);
+
+  // Act 3 selections
+  const [selectedArc, setSelectedArc] = useState<Act3FactionId | null>(null);
+
+  // §8.2 Quick-win: galaxy map faction filter
+  const [factionFilter, setFactionFilter] = useState<GalacticFactionId | "all">("all");
 
   // Equipment bonuses for Trade Empire
   const tradeBonuses = useMemo(() => getEquipmentGameBonuses("trade_empire"), []);
@@ -93,6 +264,142 @@ export default function TradeEmpirePage() {
     setEmpire(newState);
     localStorage.setItem("trade_empire_state", JSON.stringify(newState));
   }, []);
+
+  // Append a sector event to the rolling event log (§8.2)
+  const logEvent = useCallback((entry: Omit<SectorEventEntry, "id" | "timestamp">) => {
+    setEmpire(prev => {
+      const log = [...(prev.eventLog ?? [])];
+      log.unshift({
+        id: `evt_${Date.now()}_${Math.floor(Math.random() * 1000)}`,
+        timestamp: Date.now(),
+        ...entry,
+      });
+      const next = { ...prev, eventLog: log.slice(0, 50) };
+      localStorage.setItem("trade_empire_state", JSON.stringify(next));
+      return next;
+    });
+  }, []);
+
+  // ─── Act 3: unlock the arcs once the Eyes transmission has been watched ───
+  const beginAct3 = useCallback(() => {
+    setEmpire(prev => {
+      // migrateEmpireState at load-time guarantees prev.act3 exists, but guard anyway.
+      const act3 = prev.act3 ?? createInitialEmpire().act3!;
+      const nextArcs = { ...act3.arcs };
+      for (const fId of ACT3_FACTION_IDS) {
+        if (nextArcs[fId]?.status === "locked") {
+          nextArcs[fId] = { ...nextArcs[fId], status: "available" };
+        }
+      }
+      const next: EmpireState = {
+        ...prev,
+        act3: { ...act3, arcs: nextArcs, eyesTransmissionSeen: true },
+      };
+      localStorage.setItem("trade_empire_state", JSON.stringify(next));
+      return next;
+    });
+    setNarrativeFlag("eyes_transmission_seen");
+    setNarrativeFlag("act3_started");
+  }, [setNarrativeFlag]);
+
+  // ─── Act 3: choose a path on a faction arc ───
+  const chooseArcPath = useCallback((factionId: Act3FactionId, path: FactionArcPath) => {
+    setEmpire(prev => {
+      if (!prev.act3) return prev;
+      const arc = prev.act3.arcs[factionId];
+      if (!arc || arc.status === "resolved") return prev;
+
+      // Spec impossibilities: mark failed immediately.
+      const impossible =
+        (factionId === "thought_virus" && path === "diplomacy") ||
+        (factionId === "antiquarian" && path === "conquest");
+
+      const nextArc = impossible
+        ? {
+            ...arc,
+            chosenPath: path,
+            status: "failed" as const,
+            stageIndex: 1,
+            completedStages: [ACT3_FACTION_ARCS[factionId].paths[path].stages[0]?.id].filter(Boolean) as string[],
+          }
+        : {
+            ...arc,
+            chosenPath: path,
+            status: "in_progress" as const,
+            stageIndex: 0,
+            completedStages: [] as string[],
+          };
+      const next: EmpireState = {
+        ...prev,
+        act3: { ...prev.act3, arcs: { ...prev.act3.arcs, [factionId]: nextArc } },
+      };
+      localStorage.setItem("trade_empire_state", JSON.stringify(next));
+      return next;
+    });
+    logEvent({
+      sectorId: factionId,
+      label: `Chose ${path} path against ${GALACTIC_FACTIONS[factionId as GalacticFactionId]?.name ?? factionId}`,
+      detail: ACT3_FACTION_ARCS[factionId].paths[path].summary,
+      tone: path === "conquest" ? "dark" : path === "diplomacy" ? "light" : "neutral",
+    });
+  }, [logEvent]);
+
+  // ─── Act 3: complete the current stage of a faction arc ───
+  const completeArcStage = useCallback((factionId: Act3FactionId, stageId: string) => {
+    setEmpire(prev => {
+      if (!prev.act3) return prev;
+      const arc = prev.act3.arcs[factionId];
+      if (!arc || arc.status !== "in_progress" || !arc.chosenPath) return prev;
+      const pathDef = ACT3_FACTION_ARCS[factionId].paths[arc.chosenPath];
+      const completed = arc.completedStages.includes(stageId)
+        ? arc.completedStages
+        : [...arc.completedStages, stageId];
+      const stageIndex = completed.length;
+      const justResolved = stageIndex >= pathDef.stages.length;
+      const nextArc = justResolved
+        ? { ...arc, completedStages: completed, stageIndex, status: "resolved" as const, resolvedAt: Date.now() }
+        : { ...arc, completedStages: completed, stageIndex };
+      const next: EmpireState = {
+        ...prev,
+        act3: { ...prev.act3, arcs: { ...prev.act3.arcs, [factionId]: nextArc } },
+      };
+      localStorage.setItem("trade_empire_state", JSON.stringify(next));
+      return next;
+    });
+  }, []);
+
+  // ─── Act 3: mark the Collector boss result ───
+  const recordCollectorResult = useCallback((won: boolean) => {
+    setEmpire(prev => {
+      if (!prev.act3) return prev;
+      const next: EmpireState = {
+        ...prev,
+        act3: { ...prev.act3, collectorBossFought: true, collectorBossWon: won },
+      };
+      localStorage.setItem("trade_empire_state", JSON.stringify(next));
+      return next;
+    });
+    if (won) setNarrativeFlag("collector_boss_won");
+    logEvent({
+      sectorId: "thaloria",
+      label: won ? "Defeated the Collector" : "Lost to the Collector",
+      detail: won
+        ? "The Collector retreats. You recovered the Eyes' final transmission. +500 Light Energy."
+        : "The Collector takes a card from your deck. He will remember your face.",
+      tone: won ? "light" : "dark",
+    });
+  }, [logEvent, setNarrativeFlag]);
+
+  // ─── Act 3: ending selection ───
+  const chooseAct3Ending = useCallback((ending: "eyes_shadow" | "iron_path" | "council") => {
+    setEmpire(prev => {
+      if (!prev.act3) return prev;
+      const next: EmpireState = { ...prev, act3: { ...prev.act3, act3Ending: ending } };
+      localStorage.setItem("trade_empire_state", JSON.stringify(next));
+      return next;
+    });
+    for (const flag of ACT3_ENDINGS[ending].flagsOnReach) setNarrativeFlag(flag);
+  }, [setNarrativeFlag]);
 
   // Tech tree state
   const [techState, setTechState] = useState<TechTreeState>(() => {
@@ -196,8 +503,59 @@ export default function TradeEmpirePage() {
 
     newEmpire.activeMissions = empire.activeMissions.filter(am => am.missionId !== missionId);
     newEmpire.completedMissions = [...empire.completedMissions, missionId];
+
+    // §8.2: log the completion as a sector event
+    const log = [...(newEmpire.eventLog ?? [])];
+    log.unshift({
+      id: `evt_${Date.now()}_${Math.floor(Math.random() * 1000)}`,
+      sectorId: mission.targetSector,
+      label: `Completed: ${mission.name}`,
+      detail: `Collected rewards. Reputation shifted across ${mission.reputationEffect.length} faction(s).`,
+      timestamp: Date.now(),
+      tone: "neutral",
+    });
+    newEmpire.eventLog = log.slice(0, 50);
+
+    // §7.4: discover Eyes lore fragment if this mission visits a tied sector and Act 3 is active
+    if (newEmpire.act3?.eyesTransmissionSeen) {
+      const frag = EYES_LORE_FRAGMENTS.find(f => f.sectorId === mission.targetSector);
+      if (frag && !newEmpire.act3.discoveredFragments.includes(frag.id)) {
+        newEmpire.act3 = {
+          ...newEmpire.act3,
+          discoveredFragments: [...newEmpire.act3.discoveredFragments, frag.id],
+        };
+        log.unshift({
+          id: `evt_${Date.now()}_frag`,
+          sectorId: mission.targetSector,
+          label: `Eyes fragment discovered: ${frag.title}`,
+          detail: frag.toastLabel,
+          timestamp: Date.now(),
+          tone: "neutral",
+        });
+        newEmpire.eventLog = log.slice(0, 50);
+      }
+    }
     saveEmpire(newEmpire);
   }, [empire, saveEmpire]);
+
+  // ─── §8.2: Sector bookmark toggle (max 5) ───
+  const toggleBookmark = useCallback((sectorId: string) => {
+    setEmpire(prev => {
+      const current = prev.sectorBookmarks ?? [];
+      const next = current.includes(sectorId)
+        ? current.filter(s => s !== sectorId)
+        : current.length >= 5 ? current : [...current, sectorId];
+      const updated: EmpireState = { ...prev, sectorBookmarks: next };
+      localStorage.setItem("trade_empire_state", JSON.stringify(updated));
+      return updated;
+    });
+  }, []);
+
+  // ─── §8.2: Filter the galaxy by faction ───
+  const filteredSectors = useMemo(() => {
+    if (factionFilter === "all") return GALACTIC_MAP;
+    return GALACTIC_MAP.filter(s => s.controlledBy === factionFilter);
+  }, [factionFilter]);
 
   const selectedSectorData = selectedSector ? GALACTIC_MAP.find(s => s.id === selectedSector) : null;
   const selectedSectorFaction = selectedSectorData ? GALACTIC_FACTIONS[selectedSectorData.controlledBy] : null;
@@ -236,9 +594,12 @@ export default function TradeEmpirePage() {
         {[
           { id: "map" as View, label: "GALAXY MAP", icon: Globe },
           { id: "missions" as View, label: "MISSIONS", icon: Target },
+          { id: "act3" as View, label: "ACT III", icon: Eye, accent: "purple" },
           { id: "agents" as View, label: "AGENTS", icon: Users },
           { id: "diplomacy" as View, label: "DIPLOMACY", icon: Shield },
           { id: "fleet" as View, label: "FLEET", icon: Send },
+          { id: "routes" as View, label: "ROUTES", icon: Route },
+          { id: "event_log" as View, label: "EVENT LOG", icon: ScrollText },
           { id: "research" as View, label: "RESEARCH", icon: FlaskConical },
         ].map(tab => {
           const Icon = tab.icon;
@@ -260,6 +621,54 @@ export default function TradeEmpirePage() {
         {/* Galaxy Map View */}
         {view === "map" && (
           <div className="space-y-4">
+            {/* §8.2: Faction filter + bookmarks bar */}
+            <div className="flex flex-wrap gap-2 items-center">
+              <span className="font-mono text-[9px] text-white/30 tracking-wider">FILTER:</span>
+              <button
+                onClick={() => setFactionFilter("all")}
+                className={`px-2 py-1 rounded font-mono text-[9px] ${factionFilter === "all" ? "bg-white/15 text-white" : "bg-white/[0.02] text-white/40 hover:text-white/70"}`}
+              >
+                ALL
+              </button>
+              {Object.values(GALACTIC_FACTIONS).map(f => (
+                <button
+                  key={f.id}
+                  onClick={() => setFactionFilter(f.id)}
+                  className="px-2 py-1 rounded font-mono text-[9px] hover:text-white/80 transition-colors"
+                  style={{
+                    backgroundColor: factionFilter === f.id ? f.color + "40" : f.color + "10",
+                    border: `1px solid ${f.color}30`,
+                    color: factionFilter === f.id ? "#fff" : "rgba(255,255,255,0.5)",
+                  }}
+                >
+                  {f.name.replace("The ", "")}
+                </button>
+              ))}
+              <span className="font-mono text-[9px] text-white/20 ml-2">
+                {filteredSectors.length} sectors shown
+              </span>
+            </div>
+
+            {(empire.sectorBookmarks ?? []).length > 0 && (
+              <div className="flex flex-wrap gap-2 items-center">
+                <span className="font-mono text-[9px] text-white/30 tracking-wider">BOOKMARKS:</span>
+                {(empire.sectorBookmarks ?? []).map(id => {
+                  const sec = GALACTIC_MAP.find(s => s.id === id);
+                  if (!sec) return null;
+                  return (
+                    <button
+                      key={id}
+                      onClick={() => setSelectedSector(id)}
+                      className="px-2 py-1 rounded bg-amber-500/10 border border-amber-500/30 font-mono text-[9px] text-amber-300 hover:bg-amber-500/20 flex items-center gap-1"
+                    >
+                      <Bookmark size={9} />
+                      {sec.name}
+                    </button>
+                  );
+                })}
+              </div>
+            )}
+
             <GalacticMap
               empire={empire}
               selectedSector={selectedSector}
@@ -281,6 +690,16 @@ export default function TradeEmpirePage() {
                   <div className="flex items-center gap-2">
                     <div className="w-4 h-4 rounded-full" style={{ backgroundColor: selectedSectorFaction.color }} />
                     <h3 className="font-mono text-sm font-bold text-white">{selectedSectorData.name}</h3>
+                    <button
+                      onClick={() => toggleBookmark(selectedSectorData.id)}
+                      className="p-1 rounded hover:bg-white/10"
+                      title={(empire.sectorBookmarks ?? []).includes(selectedSectorData.id) ? "Remove bookmark" : "Bookmark sector"}
+                    >
+                      <Bookmark
+                        size={12}
+                        className={(empire.sectorBookmarks ?? []).includes(selectedSectorData.id) ? "text-amber-400 fill-amber-400" : "text-white/30"}
+                      />
+                    </button>
                   </div>
                   <span className="font-mono text-[10px]" style={{ color: selectedSectorFaction.color }}>
                     {selectedSectorFaction.name}
@@ -542,7 +961,393 @@ export default function TradeEmpirePage() {
             })}
           </div>
         )}
+
+        {/* ═══ ACT III: FACTION ARCS ═══ */}
+        {view === "act3" && (() => {
+          const act3 = empire.act3;
+          if (!act3 || !act3.eyesTransmissionSeen) {
+            return (
+              <div className="flex flex-col items-center justify-center min-h-[40vh] gap-4 text-center">
+                <Eye size={48} className="text-purple-400/40" />
+                <p className="font-display text-sm tracking-widest text-purple-300">THE EYES IN THE DARK</p>
+                <p className="font-mono text-[11px] text-white/50 max-w-md leading-relaxed">
+                  An archival transmission is waiting in the Ark's substrate layer. Seventeen thousand years old.
+                  A woman's voice. She knows both of your companions by name.
+                </p>
+                <button
+                  onClick={() => setShowEyesTransmission(true)}
+                  className="mt-2 px-5 py-2.5 rounded-lg bg-purple-500/20 border border-purple-500/40 text-purple-300 font-mono text-xs font-bold hover:bg-purple-500/30"
+                >
+                  PLAY THE TRANSMISSION
+                </button>
+              </div>
+            );
+          }
+
+          const resolvedCount = countArcsResolved(act3);
+          const paths = countPathsResolved(act3);
+          const eligibleEnding = determineAct3Ending(act3);
+          const act3Complete = resolvedCount >= 5;
+
+          return (
+            <div className="space-y-4">
+              {/* Status bar */}
+              <div className="p-3 rounded-xl bg-white/[0.02] border border-white/10 grid grid-cols-2 md:grid-cols-4 gap-3">
+                <div>
+                  <p className="font-mono text-[9px] text-white/30 tracking-wider">ARCS RESOLVED</p>
+                  <p className="font-mono text-lg font-bold text-white">{resolvedCount} / 6</p>
+                  <p className="font-mono text-[8px] text-white/40">{act3Complete ? "Act 3 complete" : `${5 - resolvedCount} to unlock ending`}</p>
+                </div>
+                <div>
+                  <p className="font-mono text-[9px] text-red-400/60 tracking-wider">CONQUEST</p>
+                  <p className="font-mono text-lg font-bold text-red-400">{paths.conquest}</p>
+                </div>
+                <div>
+                  <p className="font-mono text-[9px] text-amber-400/60 tracking-wider">DIPLOMACY</p>
+                  <p className="font-mono text-lg font-bold text-amber-400">{paths.diplomacy}</p>
+                </div>
+                <div>
+                  <p className="font-mono text-[9px] text-purple-400/60 tracking-wider">INFILTRATION</p>
+                  <p className="font-mono text-lg font-bold text-purple-400">{paths.infiltration}</p>
+                </div>
+              </div>
+
+              {/* Act 3 climax buttons */}
+              {act3Complete && (
+                <div className="flex gap-2">
+                  {!act3.collectorBossFought && (
+                    <button
+                      onClick={() => setShowCollector(true)}
+                      className="flex-1 p-3 rounded-xl bg-rose-500/10 border border-rose-500/30 text-left hover:bg-rose-500/20"
+                    >
+                      <div className="flex items-center gap-2">
+                        <Flower2 size={14} className="text-rose-400" />
+                        <p className="font-mono text-xs font-bold text-rose-300">THE COLLECTOR'S GARDEN</p>
+                      </div>
+                      <p className="font-mono text-[9px] text-white/40 mt-1">A Thalorian field. A helmet in the grass. A boss fight.</p>
+                    </button>
+                  )}
+                  {act3.collectorBossFought && !act3.act3Ending && (
+                    <button
+                      onClick={() => setShowEndingReveal(true)}
+                      className="flex-1 p-3 rounded-xl bg-amber-500/10 border border-amber-500/30 text-left hover:bg-amber-500/20"
+                    >
+                      <div className="flex items-center gap-2">
+                        <Crown size={14} className="text-amber-400" />
+                        <p className="font-mono text-xs font-bold text-amber-300">REACH AN ENDING</p>
+                      </div>
+                      <p className="font-mono text-[9px] text-white/40 mt-1">Eligible: {eligibleEnding ? ACT3_ENDINGS[eligibleEnding].title : "none yet"}</p>
+                    </button>
+                  )}
+                  {act3.act3Ending && (
+                    <div className="flex-1 p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/30">
+                      <div className="flex items-center gap-2">
+                        <Check size={14} className="text-emerald-400" />
+                        <p className="font-mono text-xs font-bold text-emerald-300">ENDING: {ACT3_ENDINGS[act3.act3Ending].title.toUpperCase()}</p>
+                      </div>
+                      <p className="font-mono text-[9px] text-white/40 mt-1">Act 4 unlocked.</p>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Faction arc cards */}
+              <div className="space-y-2">
+                <p className="font-mono text-[10px] text-white/30 tracking-wider">FACTION ARCS</p>
+                {ACT3_FACTION_IDS.map(fId => {
+                  const arc = act3.arcs[fId];
+                  const def = ACT3_FACTION_ARCS[fId];
+                  const faction = GALACTIC_FACTIONS[fId];
+                  const chosen = arc?.chosenPath;
+                  const chosenPathDef = chosen ? def.paths[chosen] : null;
+                  const isResolved = arc?.status === "resolved";
+                  const isFailed = arc?.status === "failed";
+                  const isInProgress = arc?.status === "in_progress";
+                  return (
+                    <div
+                      key={fId}
+                      className={`p-3 rounded-xl border transition-colors ${
+                        isResolved ? "bg-emerald-500/5 border-emerald-500/30" :
+                        isFailed ? "bg-red-500/5 border-red-500/20" :
+                        isInProgress ? "bg-cyan-500/5 border-cyan-500/30" :
+                        "bg-white/[0.02] border-white/10"
+                      }`}
+                    >
+                      <button onClick={() => setSelectedArc(selectedArc === fId ? null : fId)} className="w-full text-left">
+                        <div className="flex items-center gap-2 mb-1">
+                          <div className="w-3 h-3 rounded-full" style={{ backgroundColor: faction.color }} />
+                          <p className="font-mono text-xs font-bold text-white flex-1">{faction.name}</p>
+                          {isResolved && <Check size={12} className="text-emerald-400" />}
+                          {isFailed && <AlertTriangle size={12} className="text-red-400" />}
+                          {isInProgress && <Clock size={12} className="text-cyan-400" />}
+                        </div>
+                        <p className="font-mono text-[9px] text-white/40">Boss: {def.boss}</p>
+                        {chosenPathDef && (
+                          <p className="font-mono text-[9px] mt-1" style={{ color: chosen === "conquest" ? "#f87171" : chosen === "diplomacy" ? "#fbbf24" : "#c084fc" }}>
+                            Chosen: {chosenPathDef.name}
+                            {isInProgress && ` (${arc.completedStages.length}/${chosenPathDef.stages.length})`}
+                          </p>
+                        )}
+                      </button>
+
+                      {/* Expanded: choose a path OR advance stages */}
+                      {selectedArc === fId && (
+                        <div className="mt-3 pt-3 border-t border-white/10 space-y-2">
+                          {!chosen && arc?.status === "available" && (
+                            <div className="grid md:grid-cols-3 gap-2">
+                              {(["conquest", "diplomacy", "infiltration"] as FactionArcPath[]).map(p => {
+                                const pathDef = def.paths[p];
+                                const impossible = pathDef.impossible;
+                                return (
+                                  <button
+                                    key={p}
+                                    disabled={impossible}
+                                    onClick={() => chooseArcPath(fId, p)}
+                                    className={`p-2.5 rounded-lg border text-left transition-all ${
+                                      impossible
+                                        ? "opacity-40 border-white/5 bg-white/[0.01] cursor-not-allowed"
+                                        : "border-white/10 bg-white/[0.02] hover:bg-white/[0.05]"
+                                    }`}
+                                  >
+                                    <p className="font-mono text-[10px] font-bold" style={{ color: p === "conquest" ? "#f87171" : p === "diplomacy" ? "#fbbf24" : "#c084fc" }}>
+                                      {pathDef.name}
+                                    </p>
+                                    <p className="font-mono text-[8px] text-white/40 mt-1 leading-tight">{pathDef.summary}</p>
+                                    {impossible && <p className="font-mono text-[8px] text-red-400/80 mt-1 italic">IMPOSSIBLE (see spec)</p>}
+                                  </button>
+                                );
+                              })}
+                            </div>
+                          )}
+
+                          {chosen && isInProgress && chosenPathDef && (
+                            <div>
+                              <p className="font-mono text-[9px] text-white/30 tracking-wider mb-2">STAGES</p>
+                              {chosenPathDef.stages.map((stage, idx) => {
+                                const done = arc.completedStages.includes(stage.id);
+                                const available = idx === arc.completedStages.length;
+                                const isDiplomacy = chosen === "diplomacy";
+                                return (
+                                  <div
+                                    key={stage.id}
+                                    className={`p-2 rounded-lg mb-1 border ${
+                                      done ? "bg-emerald-500/5 border-emerald-500/30" :
+                                      available ? "bg-cyan-500/5 border-cyan-500/30" :
+                                      "bg-white/[0.02] border-white/5 opacity-50"
+                                    }`}
+                                  >
+                                    <div className="flex items-center justify-between">
+                                      <p className="font-mono text-[10px] text-white font-bold">{idx + 1}. {stage.name}</p>
+                                      {done && <Check size={10} className="text-emerald-400" />}
+                                    </div>
+                                    <p className="font-mono text-[9px] text-white/50 mt-0.5">{stage.description}</p>
+                                    <p className="font-mono text-[8px] text-white/30 italic mt-0.5">→ {stage.objective}</p>
+                                    {available && (
+                                      <div className="flex gap-2 mt-2">
+                                        {isDiplomacy && idx === 0 && !done && (
+                                          <button
+                                            onClick={() => {
+                                              // Launch the diplomacy minigame for this faction if a table exists
+                                              const table = DIPLOMACY_TABLES_AVAILABLE[fId];
+                                              if (table) {
+                                                setActiveDiplomacyTable(table);
+                                              } else {
+                                                completeArcStage(fId, stage.id);
+                                              }
+                                            }}
+                                            className="px-2 py-1 rounded bg-amber-500/10 border border-amber-500/30 text-amber-400 font-mono text-[9px] hover:bg-amber-500/20"
+                                          >
+                                            OPEN THE TABLE
+                                          </button>
+                                        )}
+                                        <button
+                                          onClick={() => completeArcStage(fId, stage.id)}
+                                          className="px-2 py-1 rounded bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 font-mono text-[9px] hover:bg-cyan-500/20"
+                                        >
+                                          MARK STAGE COMPLETE
+                                        </button>
+                                      </div>
+                                    )}
+                                  </div>
+                                );
+                              })}
+                              {chosenPathDef.reward.description && (
+                                <p className="font-mono text-[9px] text-emerald-300/80 italic mt-2 border-l-2 border-emerald-500/30 pl-2">
+                                  Reward on completion: {chosenPathDef.reward.description}
+                                </p>
+                              )}
+                            </div>
+                          )}
+
+                          {isResolved && chosenPathDef && (
+                            <div>
+                              <p className="font-mono text-[9px] text-emerald-400 tracking-wider">RESOLVED — {chosenPathDef.name}</p>
+                              <p className="font-mono text-[9px] text-white/60 mt-1 italic">{chosenPathDef.reward.description}</p>
+                            </div>
+                          )}
+
+                          {isFailed && chosenPathDef && (
+                            <div>
+                              <p className="font-mono text-[9px] text-red-400 tracking-wider">FAILED — {chosenPathDef.name}</p>
+                              <p className="font-mono text-[9px] text-white/60 mt-1 italic">{chosenPathDef.summary}</p>
+                            </div>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+
+              {/* Lore fragments */}
+              {act3.discoveredFragments.length > 0 && (
+                <div>
+                  <p className="font-mono text-[10px] text-white/30 tracking-wider mb-2">
+                    EYES' BIOGRAPHY ({act3.discoveredFragments.length}/{EYES_LORE_FRAGMENTS.length})
+                  </p>
+                  <div className="space-y-2">
+                    {EYES_LORE_FRAGMENTS.filter(f => act3.discoveredFragments.includes(f.id)).map(frag => (
+                      <div key={frag.id} className="p-3 rounded-lg bg-purple-500/5 border border-purple-500/20">
+                        <p className="font-mono text-[10px] font-bold text-purple-300">{frag.title}</p>
+                        <p className="font-mono text-[8px] text-white/30">{frag.period}</p>
+                        <p className="font-mono text-[9px] text-white/60 italic mt-1 leading-relaxed">{frag.narrative}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Ocularum trigger — available once New Babylon OR Artificial Empire arc is resolved */}
+              {!act3.watcherOriginSeen &&
+                ((act3.arcs.new_babylon?.status === "resolved") || (act3.arcs.artificial_empire?.status === "resolved")) && (
+                <button
+                  onClick={() => setShowOcularum(true)}
+                  className="w-full p-3 rounded-xl bg-amber-500/10 border border-amber-500/30 hover:bg-amber-500/20 text-left"
+                >
+                  <div className="flex items-center gap-2">
+                    <Eye size={14} className="text-amber-400" />
+                    <p className="font-mono text-xs font-bold text-amber-300">OCULARUM — THE WATCHER'S ORIGIN</p>
+                  </div>
+                  <p className="font-mono text-[9px] text-white/40 mt-1">New slideshow available. The Watcher was not a man. He was a network.</p>
+                </button>
+              )}
+            </div>
+          );
+        })()}
+
+        {/* ═══ ROUTES VIEW (§8.2 quick-win) ═══ */}
+        {view === "routes" && (
+          <RoutesPanel empire={empire} saveEmpire={saveEmpire} logEvent={logEvent} />
+        )}
+
+        {/* ═══ EVENT LOG VIEW (§8.2 quick-win) ═══ */}
+        {view === "event_log" && (
+          <div className="space-y-2">
+            <p className="font-mono text-[10px] text-white/30 tracking-wider">RECENT SECTOR EVENTS (most recent first)</p>
+            {(empire.eventLog ?? []).length === 0 && (
+              <p className="font-mono text-[11px] text-white/30 italic mt-4">No events logged yet. Take action in a sector and it will appear here.</p>
+            )}
+            {(empire.eventLog ?? []).map(e => {
+              const tone = e.tone;
+              const toneColor = tone === "light" ? "emerald-400" : tone === "dark" ? "red-400" : "white/60";
+              return (
+                <div key={e.id} className={`p-2.5 rounded-lg border bg-white/[0.02] ${tone === "light" ? "border-emerald-500/20" : tone === "dark" ? "border-red-500/20" : "border-white/10"}`}>
+                  <div className="flex items-center justify-between">
+                    <p className={`font-mono text-[10px] font-bold text-${toneColor}`}>{e.label}</p>
+                    <span className="font-mono text-[8px] text-white/20">{new Date(e.timestamp).toLocaleString()}</span>
+                  </div>
+                  <p className="font-mono text-[9px] text-white/40 mt-1 italic">{e.detail}</p>
+                  <p className="font-mono text-[8px] text-white/20 mt-1">{e.sectorId}</p>
+                </div>
+              );
+            })}
+          </div>
+        )}
       </div>
+
+      {/* Act 3 cinematic overlays */}
+      <AnimatePresence>
+        {showEyesTransmission && (
+          <EyesTransmission
+            playerName={playerName}
+            onComplete={() => {
+              setShowEyesTransmission(false);
+              beginAct3();
+            }}
+          />
+        )}
+        {showOcularum && (
+          <OcularumSlideshow
+            onComplete={() => {
+              setShowOcularum(false);
+              setEmpire(prev => {
+                if (!prev.act3) return prev;
+                const next: EmpireState = { ...prev, act3: { ...prev.act3, watcherOriginSeen: true } };
+                localStorage.setItem("trade_empire_state", JSON.stringify(next));
+                return next;
+              });
+              setNarrativeFlag("watcher_origin_seen");
+            }}
+          />
+        )}
+        {showCollector && (
+          <CollectorGarden
+            onStartBattle={async () => {
+              // Stub: real integration would launch the Dischordia card battle engine
+              // For now, resolve 65% win (leaves room for both branches to be tested)
+              return Math.random() > 0.35;
+            }}
+            lastFactionArc={(() => {
+              // Find most recently resolved arc
+              if (!empire.act3) return null;
+              const sorted = Object.values(empire.act3.arcs)
+                .filter(a => a.status === "resolved" && a.resolvedAt)
+                .sort((a, b) => (b.resolvedAt ?? 0) - (a.resolvedAt ?? 0));
+              return sorted[0]?.factionId ?? null;
+            })()}
+            onComplete={(won) => recordCollectorResult(won)}
+            onClose={() => setShowCollector(false)}
+          />
+        )}
+        {showEndingReveal && empire.act3 && (
+          <Act3EndingReveal
+            eligible={determineAct3Ending(empire.act3)}
+            pathCounts={countPathsResolved(empire.act3)}
+            onConfirm={(ending) => chooseAct3Ending(ending)}
+            onClose={() => setShowEndingReveal(false)}
+          />
+        )}
+        {activeDiplomacyTable && (
+          <DiplomacyTable
+            tableId={activeDiplomacyTable}
+            onClose={() => setActiveDiplomacyTable(null)}
+            onResolve={(result) => {
+              // On success, mark the current stage complete (only when a faction arc is in progress).
+              if (result === "success" && selectedArc) {
+                const arc = empire.act3?.arcs[selectedArc];
+                if (arc?.status === "in_progress" && arc.chosenPath === "diplomacy") {
+                  const def = ACT3_FACTION_ARCS[selectedArc].paths.diplomacy;
+                  const currentStage = def.stages[arc.completedStages.length];
+                  if (currentStage) completeArcStage(selectedArc, currentStage.id);
+                }
+                logEvent({
+                  sectorId: selectedArc ?? "diplomacy",
+                  label: `Treaty signed with ${GALACTIC_FACTIONS[selectedArc as GalacticFactionId]?.name ?? selectedArc}`,
+                  detail: "The Table held. A binding treaty has been entered into the ledger.",
+                  tone: "light",
+                });
+              } else if (result === "failure" && selectedArc) {
+                logEvent({
+                  sectorId: selectedArc ?? "diplomacy",
+                  label: `The Table broke at ${GALACTIC_FACTIONS[selectedArc as GalacticFactionId]?.name ?? selectedArc}`,
+                  detail: "The words ran out before the NPCs did.",
+                  tone: "dark",
+                });
+              }
+            }}
+          />
+        )}
+      </AnimatePresence>
 
       {/* Mission detail modal */}
       <AnimatePresence>
