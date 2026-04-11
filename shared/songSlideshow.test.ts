@@ -16,7 +16,9 @@ import {
   OCULARUM_SLIDESHOW,
   SONG_SLIDESHOWS,
   SUPERMAN_AINT_COMING_SLIDESHOW,
+  THE_BULB_BREAKS_SLIDESHOW,
   THE_HELMET_IN_THE_GRASS_SLIDESHOW,
+  THE_LIGHT_HOLDS_SLIDESHOW,
   THE_LION_IN_BLACK_SLIDESHOW,
   THE_PRISONER_SLIDESHOW,
   TO_BE_THE_HUMAN_SLIDESHOW,
@@ -635,9 +637,94 @@ describe("It Ain't Been the Same slideshow (§5.5 P1 — Elara high-trust confes
   });
 });
 
+describe("The Light Holds slideshow (§11.5 + §12 C11 — positive variant)", () => {
+  it("has 8 frames", () => {
+    expect(THE_LIGHT_HOLDS_SLIDESHOW.frames.length).toBe(8);
+  });
+
+  it("is priority P0 (community-wide finale)", () => {
+    expect(THE_LIGHT_HOLDS_SLIDESHOW.priority).toBe("P0");
+  });
+
+  it("sets the Light variant endgame flags", () => {
+    const flags = THE_LIGHT_HOLDS_SLIDESHOW.flagsSetOnComplete;
+    expect(flags).toContain("endgame_variant_light");
+    expect(flags).toContain("dreamer_walked_through_shield");
+    expect(flags).toContain("vortex_endgame_seen");
+  });
+
+  it("rewards the largest community light bump in the registry", () => {
+    // The finale is the biggest payoff — +1000.
+    expect(THE_LIGHT_HOLDS_SLIDESHOW.lightEnergyReward).toBe(1000);
+  });
+
+  it("validates cleanly", () => {
+    expect(validateSlideshow(THE_LIGHT_HOLDS_SLIDESHOW)).toEqual([]);
+  });
+
+  it("unlocks the Dreamer's Shield loredex entry", () => {
+    expect(THE_LIGHT_HOLDS_SLIDESHOW.unlockLoredexEntry).toBe("the-dreamers-shield");
+  });
+
+  it("has the 'She is walking toward you' closing lyric", () => {
+    const lyrics = THE_LIGHT_HOLDS_SLIDESHOW.lyrics ?? [];
+    expect(lyrics.some((l) => l.text.includes("walking toward you"))).toBe(true);
+  });
+});
+
+describe("The Bulb Breaks slideshow (§11.5 + §12 C11 — negative variant)", () => {
+  it("has 8 frames", () => {
+    expect(THE_BULB_BREAKS_SLIDESHOW.frames.length).toBe(8);
+  });
+
+  it("is priority P0", () => {
+    expect(THE_BULB_BREAKS_SLIDESHOW.priority).toBe("P0");
+  });
+
+  it("sets the Dark variant endgame flags including prestige_cycle_ready", () => {
+    const flags = THE_BULB_BREAKS_SLIDESHOW.flagsSetOnComplete;
+    expect(flags).toContain("endgame_variant_dark");
+    expect(flags).toContain("dreamer_consumed");
+    expect(flags).toContain("prestige_cycle_ready");
+  });
+
+  it("awards zero light energy (it's the loss state)", () => {
+    expect(THE_BULB_BREAKS_SLIDESHOW.lightEnergyReward).toBe(0);
+  });
+
+  it("validates cleanly", () => {
+    expect(validateSlideshow(THE_BULB_BREAKS_SLIDESHOW)).toEqual([]);
+  });
+
+  it("contains the Antiquarian's 'Begin again' line in a dialog overlay", () => {
+    const dialogs = THE_BULB_BREAKS_SLIDESHOW.frames
+      .map((f) => f.dialogOverlay)
+      .filter((d): d is string => typeof d === "string");
+    expect(dialogs.some((d) => d.includes("Begin again"))).toBe(true);
+  });
+
+  it("both variants unlock the same Dreamer's Shield loredex entry", () => {
+    expect(THE_BULB_BREAKS_SLIDESHOW.unlockLoredexEntry).toBe("the-dreamers-shield");
+    expect(THE_LIGHT_HOLDS_SLIDESHOW.unlockLoredexEntry).toBe("the-dreamers-shield");
+  });
+
+  it("both variants share the vortex_endgame_seen flag (mutual exclusion)", () => {
+    // The variant selector in useNarrativeIntegration picks ONE
+    // of the two and the slideshow that runs raises
+    // vortex_endgame_seen. The other variant is suppressed by
+    // the guard, so the player sees exactly one ending per save.
+    expect(THE_LIGHT_HOLDS_SLIDESHOW.flagsSetOnComplete).toContain(
+      "vortex_endgame_seen",
+    );
+    expect(THE_BULB_BREAKS_SLIDESHOW.flagsSetOnComplete).toContain(
+      "vortex_endgame_seen",
+    );
+  });
+});
+
 describe("Full registry invariants", () => {
-  it("registry has 12 slideshows total", () => {
-    expect(Object.keys(SONG_SLIDESHOWS).length).toBe(12);
+  it("registry has 14 slideshows total", () => {
+    expect(Object.keys(SONG_SLIDESHOWS).length).toBe(14);
   });
 
   it("every registered slideshow validates cleanly (second-wave audit)", () => {

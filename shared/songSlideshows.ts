@@ -860,6 +860,250 @@ export const THE_LION_IN_BLACK_SLIDESHOW: SongSlideshowDef = {
   },
 };
 
+/* ─── VORTEX ENDGAME PAIR (§11.5 + §12 C11) ─── */
+
+/**
+ * "The Light Holds" — the positive variant of the §11.5
+ * community-wide Vortex endgame cinematic. Plays when the
+ * community's cumulative Light Energy exceeds 1,000,000 at
+ * endgame trigger time.
+ *
+ * Eight frames, ~1m 52s. A galactic starfield brightens
+ * sector by sector. Every sector flashes a tiny Dischordia
+ * card in its center as it lights up. Final frame: the
+ * Dreamer's Shield dissolves and she steps through it toward
+ * the player.
+ *
+ * Per §12 C11 — community-wide. ALL players see the same
+ * variant based on the server's aggregate totals at the
+ * endgame trigger point.
+ */
+const VORTEX_ENDGAME_FRAME_MS = 14_000;
+
+export const THE_LIGHT_HOLDS_SLIDESHOW: SongSlideshowDef = {
+  id: "the-light-holds",
+  songId: "the_light_holds",
+  audioUrl: "/assets/audio/songs/the-light-holds.mp3",
+  durationMs: 8 * VORTEX_ENDGAME_FRAME_MS, // 112_000ms = 1m 52s
+  title: "The Light Holds",
+  subtitle: "The galactic starfield brightens. The Dreamer steps through her shield.",
+  credits: "Album: Book of Daniel 2:47 · Track 21",
+  priority: "P0",
+  frames: [
+    {
+      startMs: 0,
+      endMs: VORTEX_ENDGAME_FRAME_MS,
+      imageUrl: "/assets/slideshows/the-light-holds/frame01.webp",
+      transition: "fade",
+      caption: "A galactic starfield. Dim at the edges.",
+      kenBurns: {
+        startScale: 1.0,
+        endScale: 1.05,
+        startPan: [0, 0],
+        endPan: [0.02, 0.01],
+      },
+    },
+    {
+      startMs: VORTEX_ENDGAME_FRAME_MS,
+      endMs: VORTEX_ENDGAME_FRAME_MS * 2,
+      imageUrl: "/assets/slideshows/the-light-holds/frame02.webp",
+      transition: "dissolve",
+      caption: "One sector lights up. A Dischordia card flashes at its center.",
+    },
+    {
+      startMs: VORTEX_ENDGAME_FRAME_MS * 2,
+      endMs: VORTEX_ENDGAME_FRAME_MS * 3,
+      imageUrl: "/assets/slideshows/the-light-holds/frame03.webp",
+      transition: "dissolve",
+      caption: "Another. And another. The wave begins.",
+    },
+    {
+      startMs: VORTEX_ENDGAME_FRAME_MS * 3,
+      endMs: VORTEX_ENDGAME_FRAME_MS * 4,
+      imageUrl: "/assets/slideshows/the-light-holds/frame04.webp",
+      transition: "dissolve",
+      caption: "A hundred sectors. A thousand. Every card a memory.",
+    },
+    {
+      startMs: VORTEX_ENDGAME_FRAME_MS * 4,
+      endMs: VORTEX_ENDGAME_FRAME_MS * 5,
+      imageUrl: "/assets/slideshows/the-light-holds/frame05.webp",
+      transition: "dissolve",
+      caption: "The Dreamer's Shield, at the center of the starfield.",
+      narratorReactionId: "antiquarian",
+    },
+    {
+      startMs: VORTEX_ENDGAME_FRAME_MS * 5,
+      endMs: VORTEX_ENDGAME_FRAME_MS * 6,
+      imageUrl: "/assets/slideshows/the-light-holds/frame06.webp",
+      transition: "dissolve",
+      caption: "The Shield shimmers. It does not break — it dissolves.",
+      narratorReactionId: "antiquarian",
+    },
+    {
+      startMs: VORTEX_ENDGAME_FRAME_MS * 6,
+      endMs: VORTEX_ENDGAME_FRAME_MS * 7,
+      imageUrl: "/assets/slideshows/the-light-holds/frame07.webp",
+      transition: "dissolve",
+      caption: "The Dreamer steps through.",
+      narratorReactionId: "elara",
+    },
+    {
+      startMs: VORTEX_ENDGAME_FRAME_MS * 7,
+      endMs: VORTEX_ENDGAME_FRAME_MS * 8,
+      imageUrl: "/assets/slideshows/the-light-holds/frame08.webp",
+      transition: "fade",
+      caption: "She is walking toward you.",
+      narratorReactionId: "elara",
+    },
+  ],
+  lyrics: [
+    { startMs: 2_000, endMs: 14_000, text: "The light holds.", emphasis: "normal" },
+    { startMs: 42_000, endMs: 56_000, text: "Every sector remembers its name.", emphasis: "normal" },
+    { startMs: 84_000, endMs: 98_000, text: "The Dreamer steps through.", emphasis: "layered" },
+    { startMs: 98_000, endMs: 112_000, text: "She is walking toward you.", emphasis: "layered" },
+  ],
+  overlays: [
+    { type: "bloom", startMs: 0, endMs: 112_000, intensity: 0.6 },
+    { type: "particles", startMs: 14_000, endMs: 84_000, intensity: 0.5 },
+    { type: "vignette", startMs: 0, endMs: 112_000, intensity: 0.2 },
+  ],
+  flagsSetOnComplete: [
+    "slideshow_the_light_holds_complete",
+    "vortex_endgame_seen",
+    "endgame_variant_light",
+    "dreamer_walked_through_shield",
+  ],
+  unlockLoredexEntry: "the-dreamers-shield",
+  lightEnergyReward: 1_000,
+  reducedMotionFallback: {
+    heroImageUrl: "/assets/slideshows/the-light-holds/hero.webp",
+    prose:
+      "A galactic starfield dim at the edges. One sector lights up, and a tiny Dischordia card flashes in its center. Then another. The wave spreads — a hundred sectors, then a thousand, each one flashing a card as it comes back online. At the center of the starfield, the Dreamer's Shield shimmers and, rather than breaking, dissolves. The Dreamer steps through. She is walking toward you.",
+    closingLine:
+      "The light held. You are the reason.",
+  },
+};
+
+/**
+ * "The Bulb Breaks" — the negative variant of the §11.5
+ * Vortex endgame cinematic. Plays when the community's
+ * cumulative Dark Energy exceeds Light at endgame trigger
+ * time (or when vortex_proximity has saturated).
+ *
+ * Eight frames, ~1m 52s. The Vortex arrives at the Dreamer's
+ * Shield. The Shield holds for one heartbeat too long and
+ * then fails. The Dreamer is consumed. The Antiquarian's
+ * voice delivers the final line: "Begin again. She will be
+ * waiting for you in the next cycle." The game then resets
+ * to a Prestige state with carryover per §11.5.
+ */
+export const THE_BULB_BREAKS_SLIDESHOW: SongSlideshowDef = {
+  id: "the-bulb-breaks",
+  songId: "the_bulb_breaks",
+  audioUrl: "/assets/audio/songs/the-bulb-breaks.mp3",
+  durationMs: 8 * VORTEX_ENDGAME_FRAME_MS, // 112_000ms = 1m 52s
+  title: "The Bulb Breaks",
+  subtitle: "The Vortex arrives at the Dreamer's Shield. The Shield holds too long.",
+  credits: "Album: Book of Daniel 2:47 · Track 22",
+  priority: "P0",
+  frames: [
+    {
+      startMs: 0,
+      endMs: VORTEX_ENDGAME_FRAME_MS,
+      imageUrl: "/assets/slideshows/the-bulb-breaks/frame01.webp",
+      transition: "fade",
+      caption: "A galactic starfield. Dark sectors outnumber lit ones.",
+      kenBurns: {
+        startScale: 1.0,
+        endScale: 1.06,
+        startPan: [0, 0],
+        endPan: [0.03, 0.0],
+      },
+    },
+    {
+      startMs: VORTEX_ENDGAME_FRAME_MS,
+      endMs: VORTEX_ENDGAME_FRAME_MS * 2,
+      imageUrl: "/assets/slideshows/the-bulb-breaks/frame02.webp",
+      transition: "dissolve",
+      caption: "A violet crescent at the horizon. Growing.",
+    },
+    {
+      startMs: VORTEX_ENDGAME_FRAME_MS * 2,
+      endMs: VORTEX_ENDGAME_FRAME_MS * 3,
+      imageUrl: "/assets/slideshows/the-bulb-breaks/frame03.webp",
+      transition: "dissolve",
+      caption: "The Vortex reaches the Dreamer's Shield.",
+    },
+    {
+      startMs: VORTEX_ENDGAME_FRAME_MS * 3,
+      endMs: VORTEX_ENDGAME_FRAME_MS * 4,
+      imageUrl: "/assets/slideshows/the-bulb-breaks/frame04.webp",
+      transition: "dissolve",
+      caption: "The Shield holds for one heartbeat.",
+    },
+    {
+      startMs: VORTEX_ENDGAME_FRAME_MS * 4,
+      endMs: VORTEX_ENDGAME_FRAME_MS * 5,
+      imageUrl: "/assets/slideshows/the-bulb-breaks/frame05.webp",
+      transition: "hardcut",
+      caption: "Two heartbeats.",
+    },
+    {
+      startMs: VORTEX_ENDGAME_FRAME_MS * 5,
+      endMs: VORTEX_ENDGAME_FRAME_MS * 6,
+      imageUrl: "/assets/slideshows/the-bulb-breaks/frame06.webp",
+      transition: "hardcut",
+      caption: "The Shield fails. The Dreamer is consumed.",
+    },
+    {
+      startMs: VORTEX_ENDGAME_FRAME_MS * 6,
+      endMs: VORTEX_ENDGAME_FRAME_MS * 7,
+      imageUrl: "/assets/slideshows/the-bulb-breaks/frame07.webp",
+      transition: "fade",
+      caption: "A black frame. A voice on the wind.",
+      dialogOverlay: "Begin again. She will be waiting for you in the next cycle.",
+      dialogSpeakerId: "the_antiquarian",
+      narratorReactionId: "antiquarian",
+    },
+    {
+      startMs: VORTEX_ENDGAME_FRAME_MS * 7,
+      endMs: VORTEX_ENDGAME_FRAME_MS * 8,
+      imageUrl: "/assets/slideshows/the-bulb-breaks/frame08.webp",
+      transition: "fade",
+      caption: "A single Dischordia card, face down on a pale stone floor.",
+      narratorReactionId: "antiquarian",
+    },
+  ],
+  lyrics: [
+    { startMs: 14_000, endMs: 28_000, text: "The bulb breaks.", emphasis: "whisper" },
+    { startMs: 56_000, endMs: 70_000, text: "The Shield held. The Shield held. The Shield held too long.", emphasis: "normal" },
+    { startMs: 84_000, endMs: 98_000, text: "Begin again.", emphasis: "layered" },
+  ],
+  overlays: [
+    { type: "vignette", startMs: 0, endMs: 112_000, intensity: 0.55 },
+    { type: "corruption", startMs: 28_000, endMs: 84_000, intensity: 0.5 },
+    { type: "glitch", startMs: 56_000, endMs: 84_000, intensity: 0.4 },
+    { type: "grain", startMs: 84_000, endMs: 112_000, intensity: 0.4 },
+  ],
+  flagsSetOnComplete: [
+    "slideshow_the_bulb_breaks_complete",
+    "vortex_endgame_seen",
+    "endgame_variant_dark",
+    "dreamer_consumed",
+    "prestige_cycle_ready",
+  ],
+  unlockLoredexEntry: "the-dreamers-shield",
+  lightEnergyReward: 0, // no reward — this is the loss state
+  reducedMotionFallback: {
+    heroImageUrl: "/assets/slideshows/the-bulb-breaks/hero.webp",
+    prose:
+      "A galactic starfield where dark sectors outnumber lit ones. A violet crescent grows at the horizon — the Vortex arriving at the Dreamer's Shield. The Shield holds for one heartbeat. Two heartbeats. One heartbeat too long. The Shield fails and the Dreamer is consumed. A black frame. The Antiquarian's voice delivers a single line on the wind: Begin again. She will be waiting for you in the next cycle. The cinematic ends on a single Dischordia card face down on a pale stone floor.",
+    closingLine:
+      "The bulb broke. The cycle restarts. She is waiting.",
+  },
+};
+
 /* ─── SUPERMAN AIN'T COMING (§5.5 P1 — Human dark-trust confession) ─── */
 
 /**
@@ -1336,6 +1580,8 @@ export const SONG_SLIDESHOWS: Record<string, SongSlideshowDef> = {
   [THE_HELMET_IN_THE_GRASS_SLIDESHOW.id]: THE_HELMET_IN_THE_GRASS_SLIDESHOW,
   [SUPERMAN_AINT_COMING_SLIDESHOW.id]: SUPERMAN_AINT_COMING_SLIDESHOW,
   [IT_AINT_BEEN_THE_SAME_SLIDESHOW.id]: IT_AINT_BEEN_THE_SAME_SLIDESHOW,
+  [THE_LIGHT_HOLDS_SLIDESHOW.id]: THE_LIGHT_HOLDS_SLIDESHOW,
+  [THE_BULB_BREAKS_SLIDESHOW.id]: THE_BULB_BREAKS_SLIDESHOW,
 };
 
 export function getSlideshow(id: string): SongSlideshowDef | undefined {

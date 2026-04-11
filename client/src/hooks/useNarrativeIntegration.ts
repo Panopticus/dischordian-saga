@@ -218,6 +218,25 @@ export const SLIDESHOW_TRIGGERS: ReadonlyArray<{
     slideshowId: "it-aint-been-the-same",
     completionFlag: "slideshow_it_aint_been_the_same_complete",
   },
+  {
+    // §11.5 / §12 C11 — Vortex endgame, LIGHT variant. Fires
+    // when the community's cumulative Light Energy exceeds
+    // 1M at endgame trigger. The watcher below picks this
+    // variant over the_bulb_breaks based on the server's
+    // cycle state at endgame time.
+    triggerFlag: "vortex_endgame_light_variant",
+    slideshowId: "the-light-holds",
+    completionFlag: "slideshow_the_light_holds_complete",
+  },
+  {
+    // §11.5 / §12 C11 — Vortex endgame, DARK variant. Fires
+    // when the community's cumulative Dark Energy exceeds
+    // Light at endgame trigger (or vortex_proximity has
+    // saturated).
+    triggerFlag: "vortex_endgame_dark_variant",
+    slideshowId: "the-bulb-breaks",
+    completionFlag: "slideshow_the_bulb_breaks_complete",
+  },
 ];
 
 export function useNarrativeIntegration() {
@@ -435,6 +454,45 @@ export function useNarrativeIntegration() {
     state.narrativeFlags?.slideshow_superman_aint_coming_complete,
     state.narrativeFlags?.elara_high_confession_unlocked,
     state.narrativeFlags?.slideshow_it_aint_been_the_same_complete,
+    setNarrativeFlag,
+  ]);
+
+  // ─── WITNESSING §11.5 — VORTEX ENDGAME VARIANT SELECTOR ───
+  // When gameplay sets `vortex_endgame_triggered` (by finishing
+  // the Act 5 Cades mission chain, or by the community cycle
+  // phase reaching a specific threshold), this watcher reads
+  // the Dischordia Cycle state and picks the LIGHT variant or
+  // the DARK variant based on the community totals at that
+  // exact moment.
+  //
+  //   lightEnergy > darkEnergy  → vortex_endgame_light_variant
+  //   otherwise                 → vortex_endgame_dark_variant
+  //
+  // Both are guarded by the "seen" flag so the player sees
+  // one and only one ending per save.
+  const cycleLight = useDischordiaCycleStore((s) => s.state.lightEnergy);
+  const cycleDark = useDischordiaCycleStore((s) => s.state.darkEnergy);
+  useEffect(() => {
+    if (!state.narrativeFlags?.vortex_endgame_triggered) return;
+    if (state.narrativeFlags?.vortex_endgame_seen) return;
+    if (
+      state.narrativeFlags?.vortex_endgame_light_variant ||
+      state.narrativeFlags?.vortex_endgame_dark_variant
+    ) {
+      return;
+    }
+    if (cycleLight > cycleDark) {
+      setNarrativeFlag("vortex_endgame_light_variant", true);
+    } else {
+      setNarrativeFlag("vortex_endgame_dark_variant", true);
+    }
+  }, [
+    state.narrativeFlags?.vortex_endgame_triggered,
+    state.narrativeFlags?.vortex_endgame_seen,
+    state.narrativeFlags?.vortex_endgame_light_variant,
+    state.narrativeFlags?.vortex_endgame_dark_variant,
+    cycleLight,
+    cycleDark,
     setNarrativeFlag,
   ]);
 

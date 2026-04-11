@@ -45,6 +45,22 @@ describe("useNarrativeIntegration.SLIDESHOW_TRIGGERS", () => {
     expect(entry?.triggerFlag).toBe("elara_high_confession_unlocked");
   });
 
+  it("has both Vortex Endgame variants registered with distinct trigger flags", () => {
+    const light = SLIDESHOW_TRIGGERS.find(
+      (t) => t.slideshowId === "the-light-holds",
+    );
+    const dark = SLIDESHOW_TRIGGERS.find(
+      (t) => t.slideshowId === "the-bulb-breaks",
+    );
+    expect(light).toBeDefined();
+    expect(dark).toBeDefined();
+    expect(light?.triggerFlag).toBe("vortex_endgame_light_variant");
+    expect(dark?.triggerFlag).toBe("vortex_endgame_dark_variant");
+    // Variants must be distinct — same trigger would break the
+    // endgame selector.
+    expect(light?.triggerFlag).not.toBe(dark?.triggerFlag);
+  });
+
   it("every slideshow id resolves to a registered slideshow", () => {
     for (const trigger of SLIDESHOW_TRIGGERS) {
       const def = getSlideshow(trigger.slideshowId);
