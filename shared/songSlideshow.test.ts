@@ -8,9 +8,12 @@ import {
 } from "./songSlideshow";
 import {
   getSlideshow,
+  I_AM_THE_EYES_SLIDESHOW,
   LAST_WORDS_SLIDESHOW,
   listSlideshows,
   SONG_SLIDESHOWS,
+  TO_BE_THE_HUMAN_SLIDESHOW,
+  WELCOME_TO_CELEBRATION_SLIDESHOW,
 } from "./songSlideshows";
 
 function makeMinimalSlideshow(overrides: Partial<SongSlideshowDef> = {}): SongSlideshowDef {
@@ -199,5 +202,102 @@ describe("songSlideshows registry", () => {
     const list = listSlideshows();
     expect(list.length).toBeGreaterThan(0);
     expect(list[0].priority).toBe("P0");
+  });
+
+  it("registry has all four §5.5 P0 Act openers registered", () => {
+    expect(getSlideshow("welcome-to-celebration")).toBeDefined();
+    expect(getSlideshow("to-be-the-human")).toBeDefined();
+    expect(getSlideshow("last-words")).toBeDefined();
+    expect(getSlideshow("i-am-the-eyes-that-watch")).toBeDefined();
+  });
+
+  it("listSlideshows returns at least four P0 entries", () => {
+    const p0 = listSlideshows().filter((s) => s.priority === "P0");
+    expect(p0.length).toBeGreaterThanOrEqual(4);
+  });
+});
+
+describe("Welcome to Celebration slideshow (§4.3 / §12 C2)", () => {
+  it("has 8 frames per the proposal", () => {
+    expect(WELCOME_TO_CELEBRATION_SLIDESHOW.frames.length).toBe(8);
+  });
+
+  it("sets the Engineer's origin flags on completion", () => {
+    const flags = WELCOME_TO_CELEBRATION_SLIDESHOW.flagsSetOnComplete;
+    expect(flags).toContain("engineer_origin_seen");
+    expect(flags).toContain("celebration_class_photo_seen");
+    expect(flags).toContain("cycle_a_complete");
+  });
+
+  it("rewards a modest community light bump on the first cycle payoff", () => {
+    expect(WELCOME_TO_CELEBRATION_SLIDESHOW.lightEnergyReward).toBe(150);
+  });
+
+  it("validates cleanly", () => {
+    expect(validateSlideshow(WELCOME_TO_CELEBRATION_SLIDESHOW)).toEqual([]);
+  });
+
+  it("unlocks the Project Celebration loredex entry", () => {
+    expect(WELCOME_TO_CELEBRATION_SLIDESHOW.unlockLoredexEntry).toBe("project-celebration");
+  });
+});
+
+describe("To Be the Human slideshow (§4.4 / §12 C3)", () => {
+  it("has 10 frames for the Mechronis academy arc", () => {
+    expect(TO_BE_THE_HUMAN_SLIDESHOW.frames.length).toBe(10);
+  });
+
+  it("sets Iron Lion absence and Seer glimpsed flags", () => {
+    const flags = TO_BE_THE_HUMAN_SLIDESHOW.flagsSetOnComplete;
+    expect(flags).toContain("iron_lion_absence_noted");
+    expect(flags).toContain("seer_glimpsed");
+    expect(flags).toContain("cycle_b_complete");
+  });
+
+  it("rewards +200 community light (bigger payoff than cycle A)", () => {
+    expect(TO_BE_THE_HUMAN_SLIDESHOW.lightEnergyReward).toBe(200);
+  });
+
+  it("validates cleanly", () => {
+    expect(validateSlideshow(TO_BE_THE_HUMAN_SLIDESHOW)).toEqual([]);
+  });
+
+  it("unlocks the Mechronis Academy loredex entry", () => {
+    expect(TO_BE_THE_HUMAN_SLIDESHOW.unlockLoredexEntry).toBe("mechronis-academy");
+  });
+});
+
+describe("I Am the Eyes That Watch slideshow (§7 / §12 C6)", () => {
+  it("has 8 frames per the proposal", () => {
+    expect(I_AM_THE_EYES_SLIDESHOW.frames.length).toBe(8);
+  });
+
+  it("sets Elara's witness flag and the Act 3 opener flag", () => {
+    const flags = I_AM_THE_EYES_SLIDESHOW.flagsSetOnComplete;
+    expect(flags).toContain("elara_watched_her_own_past");
+    expect(flags).toContain("panopticon_betrayal_seen");
+    expect(flags).toContain("act_3_opened");
+  });
+
+  it("rewards +250 community light (Act 3 opener carries weight)", () => {
+    expect(I_AM_THE_EYES_SLIDESHOW.lightEnergyReward).toBe(250);
+  });
+
+  it("validates cleanly", () => {
+    expect(validateSlideshow(I_AM_THE_EYES_SLIDESHOW)).toEqual([]);
+  });
+
+  it("marks Elara as a live reactor in at least one frame", () => {
+    // Per §12 C6, this is the FIRST slideshow where the
+    // on-shoulder narrator is a character inside the cutscene.
+    // At least one frame should have narratorReactionId === "elara".
+    const elaraReactions = I_AM_THE_EYES_SLIDESHOW.frames.filter(
+      (f) => f.narratorReactionId === "elara",
+    );
+    expect(elaraReactions.length).toBeGreaterThan(0);
+  });
+
+  it("unlocks the Eyes loredex entry", () => {
+    expect(I_AM_THE_EYES_SLIDESHOW.unlockLoredexEntry).toBe("the-eyes");
   });
 });
