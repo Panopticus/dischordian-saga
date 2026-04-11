@@ -554,7 +554,7 @@ export const chessRouter = router({
         const result = await processGameEnd(db, ctx.user.id, game[0], status, winnerId);
         rewards = result.rewards;
         eloChange = result.eloChange;
-        await ripple.emit("chess_result", { userId: ctx.user.id, won: winnerId === ctx.user.id });
+        await ripple.emit("chess_result", { userId: ctx.user.id, won: winnerId === ctx.user.id, moveCount });
       }
 
       return {
@@ -636,7 +636,7 @@ export const chessRouter = router({
         const result = await processGameEnd(db, ctx.user.id, game[0], status, winnerId);
         rewards = result.rewards;
         eloChange = result.eloChange;
-        await ripple.emit("chess_result", { userId: ctx.user.id, won: winnerId === ctx.user.id });
+        await ripple.emit("chess_result", { userId: ctx.user.id, won: winnerId === ctx.user.id, moveCount });
       }
 
       return {
