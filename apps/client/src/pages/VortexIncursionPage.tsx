@@ -42,12 +42,13 @@ import { useVortexIncursionStore } from "@/stores/vortexIncursionStore";
 import { useDischordiaCycleStore } from "@/stores/dischordiaCycleStore";
 import { useGame } from "@/contexts/GameContext";
 import { useAuth } from "@/_core/hooks/useAuth";
+import { trpc } from "@/lib/trpc";
 import LivingBackground from "@/components/LivingBackground";
 
 type View = "briefing" | "running" | "complete";
 
 export default function VortexIncursionPage() {
-  const { user } = useAuth();
+  const { user, isAuthenticated } = useAuth();
   const { state: gameState, setNarrativeFlag } = useGame();
   const applyRawDelta = useDischordiaCycleStore((s) => s.applyRawDelta);
   const activeRun = useVortexIncursionStore((s) => s.activeRun);
@@ -55,6 +56,19 @@ export default function VortexIncursionPage() {
   const startRun = useVortexIncursionStore((s) => s.startRun);
   const clearCurrentRoom = useVortexIncursionStore((s) => s.clearCurrentRoom);
   const abandonRun = useVortexIncursionStore((s) => s.abandonRun);
+
+  // Server sync — the community progress counter + the
+  // mutation that reports each room clear back to the server.
+  const communityProgress = trpc.vortexIncursion.getCommunityProgress.useQuery(
+    undefined,
+    {
+      retry: false,
+      refetchInterval: 30_000,
+      refetchOnWindowFocus: false,
+    },
+  );
+  const reportRoomCleared = trpc.vortexIncursion.reportRoomCleared.useMutation();
+  const utils = trpc.useUtils();
 
   const [view, setView] = useState<View>(() =>
     activeRun && !isVortexRunComplete(activeRun) ? "running" : "briefing",
@@ -82,19 +96,43 @@ export default function VortexIncursionPage() {
   const handleClearRoom = useCallback(() => {
     if (!activeRun) return;
     const elapsedMs = Date.now() - roomStartMs;
-    const roomDef = activeRun.rooms[activeRun.currentRoomIndex]?.def;
+    const roomIndex = activeRun.currentRoomIndex;
+    const roomDef = activeRun.rooms[roomIndex]?.def;
+    const isCore = roomDef?.key === "vortex_core";
     clearCurrentRoom(elapsedMs);
 
     // Apply the canonical Dischordia Cycle light energy.
     const lightGain =
-      VORTEX_LIGHT_PER_ROOM +
-      (roomDef?.key === "vortex_core" ? VORTEX_CORE_BONUS_LIGHT : 0);
+      VORTEX_LIGHT_PER_ROOM + (isCore ? VORTEX_CORE_BONUS_LIGHT : 0);
     applyRawDelta({ light: lightGain });
 
     // Vortex Core clear fires the sector_wakes milestone.
-    if (roomDef?.key === "vortex_core") {
+    if (isCore) {
       setNarrativeFlag("event_sector_wakes", true);
       setNarrativeFlag("vortex_core_cleared", true);
+    }
+
+    // Server sync — fire-and-forget. The ripple engine will
+    // emit vortex_room_cleared on the server side, which the
+    // community counter queries pick up on the next refetch.
+    if (isAuthenticated && roomDef) {
+      reportRoomCleared
+        .mutateAsync({
+          runId: activeRun.runId,
+          roomKey: roomDef.key,
+          roomIndex,
+          elapsedMs,
+          isCore,
+        })
+        .then(() => {
+          // Bump the community counter query on successful report.
+          utils.vortexIncursion.getCommunityProgress.invalidate();
+        })
+        .catch((err) => {
+          // Best-effort — the local store already advanced.
+          // eslint-disable-next-line no-console
+          console.warn("[vortexIncursion] report failed:", err);
+        });
     }
   }, [
     activeRun,
@@ -102,6 +140,9 @@ export default function VortexIncursionPage() {
     clearCurrentRoom,
     applyRawDelta,
     setNarrativeFlag,
+    isAuthenticated,
+    reportRoomCleared,
+    utils,
   ]);
 
   const handleAbandon = useCallback(() => {
@@ -166,7 +207,11 @@ export default function VortexIncursionPage() {
                 exit={{ opacity: 0, y: -10 }}
                 transition={{ duration: 0.25 }}
               >
-                <BriefingView stats={stats} onStart={handleStart} />
+                <BriefingView
+                  stats={stats}
+                  communityProgress={communityProgress.data ?? null}
+                  onStart={handleStart}
+                />
               </motion.section>
             )}
 
@@ -218,9 +263,15 @@ export default function VortexIncursionPage() {
 
 function BriefingView({
   stats,
+  communityProgress,
   onStart,
 }: {
   stats: { runsCompleted: number; roomsCleared: number; coresReached: number };
+  communityProgress: {
+    roomsClearedThisWeek: number;
+    coresHeldThisWeek: number;
+    uniqueArksThisWeek: number;
+  } | null;
   onStart: () => void;
 }) {
   return (
@@ -246,6 +297,25 @@ function BriefingView({
           defeat it. You hold the line long enough for another Ark to take
           the next watch.
         </p>
+      </section>
+
+      {/* Community progress — aggregated across every Ark
+          that reported a Vortex room clear in the last 7 days. */}
+      <section className="rounded-md border border-violet-700/50 bg-violet-950/20 p-4">
+        <p className="mb-3 font-mono text-[10px] uppercase tracking-[0.25em] text-violet-200">
+          COMMUNITY THIS WEEK
+        </p>
+        {communityProgress ? (
+          <div className="grid grid-cols-3 gap-3 font-mono text-[10px] text-violet-300/80">
+            <Stat label="Rooms held" value={communityProgress.roomsClearedThisWeek} />
+            <Stat label="Cores held" value={communityProgress.coresHeldThisWeek} />
+            <Stat label="Arks active" value={communityProgress.uniqueArksThisWeek} />
+          </div>
+        ) : (
+          <p className="font-mono text-[10px] text-violet-300/40">
+            Fetching the next watch…
+          </p>
+        )}
       </section>
 
       <section className="rounded-md border border-violet-900/40 bg-stone-950/50 p-4">

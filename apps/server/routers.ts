@@ -34,6 +34,7 @@ import { companionRouter } from "./routers/companion";
 import { marketplaceRouter } from "./routers/marketplace";
 import { dailyQuestsRouter } from "./routers/dailyQuests";
 import { bonusObjectivesRouter } from "./routers/bonusObjectives";
+import { vortexIncursionRouter } from "./routers/vortexIncursion";
 import { marketAchievementsRouter } from "./routers/marketAchievements";
 import { notificationRouter } from "./routers/notificationRouter";
 import { guildRouter } from "./routers/guild";
@@ -114,6 +115,7 @@ export const appRouter = router({
   marketplace: marketplaceRouter,
   quests: dailyQuestsRouter,
   bonusObjectives: bonusObjectivesRouter,
+  vortexIncursion: vortexIncursionRouter,
   marketAchievements: marketAchievementsRouter,
   notifications: notificationRouter,
   guild: guildRouter,
