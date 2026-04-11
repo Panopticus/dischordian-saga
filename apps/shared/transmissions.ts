@@ -597,6 +597,13 @@ export function getTransmissionByBroadcastOrder(order: number): Transmission | u
 }
 
 export function transmissionId(t: Transmission): string {
+  // Spaces In Between episodes live at broadcastOrder <= -20, sharing
+  // epoch=0 with the main Epoch 0 chain. Without a dedicated prefix
+  // their ids collide with regular Epoch 0 episodes (e.g. SIB Ep 1
+  // "Welcome to Celebration" and Epoch 0 Ep 1 "The Awakening" would
+  // both serialize to "ep0-1"), which would cause watched-state and
+  // reward-grant leakage between the two chains.
+  if (t.broadcastOrder <= -20) return `sib-ep${t.episodeNumber}`;
   return `ep${t.epoch}-${t.episodeNumber}`;
 }
 

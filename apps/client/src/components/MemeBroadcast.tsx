@@ -21,6 +21,10 @@ import { useKinetic } from "@/hooks/useKinetic";
 import { emitDiscoveryNotification } from "@/components/DiscoveryNotification";
 import { getNPCPortrait } from "@/game/npcPortraits";
 import { useMemeVO } from "@/hooks/useMemeVO";
+import { useGame } from "@/contexts/GameContext";
+import { trpc } from "@/lib/trpc";
+import { useAuth } from "@/_core/hooks/useAuth";
+import { toast } from "sonner";
 
 interface Props {
   transmission: Transmission;
@@ -36,6 +40,9 @@ export default function MemeBroadcast({ transmission, onClose, onComplete, alrea
   const [phase, setPhase] = useState<Phase>("static-in");
   const [loredexRevealed, setLoredexRevealed] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const { addLoredexDiscovered } = useGame();
+  const { isAuthenticated } = useAuth();
+  const recordWatched = trpc.transmissions.recordWatched.useMutation();
 
   // Opening static burst → intro
   useEffect(() => {
@@ -77,24 +84,56 @@ export default function MemeBroadcast({ transmission, onClose, onComplete, alrea
   const handleComplete = () => {
     onComplete(transmissionId);
 
-    // Fire Loredex unlocks on first watch
+    // Fire Loredex unlocks on first watch — persisted via game context
+    // (survives cache clears, syncs to server via userProgress save).
     if (!alreadyWatched && !loredexRevealed) {
       setLoredexRevealed(true);
       const unlocks = getLoredexUnlocksForTransmission(transmissionId);
       if (unlocks && unlocks.entityIds.length > 0) {
-        // Mark entities as discovered in localStorage
-        const discovered: string[] = JSON.parse(localStorage.getItem("loredex_discovered") || "[]");
-        const newIds = unlocks.entityIds.filter(id => !discovered.includes(id));
-        if (newIds.length > 0) {
-          localStorage.setItem("loredex_discovered", JSON.stringify([...discovered, ...newIds]));
-          // Emit discovery notification
-          emitDiscoveryNotification({
-            featureKey: `transmission-${transmissionId}`,
-            featureLabel: `${unlocks.discoveryLabel} — ${newIds.length} Loredex ${newIds.length === 1 ? "entry" : "entries"} unlocked`,
-            roomName: "Late Night with the Meme",
-            path: `/entity/${newIds[0]}`,
-          });
-        }
+        addLoredexDiscovered(unlocks.entityIds);
+        emitDiscoveryNotification({
+          featureKey: `transmission-${transmissionId}`,
+          featureLabel: `${unlocks.discoveryLabel} — ${unlocks.entityIds.length} Loredex ${unlocks.entityIds.length === 1 ? "entry" : "entries"} unlocked`,
+          roomName: "Late Night with the Meme",
+          path: `/entity/${unlocks.entityIds[0]}`,
+        });
+      }
+
+      // Server-side idempotent reward grant. The server dedupes via
+      // contentParticipation so this is safe to call from re-renders;
+      // rewards are only granted once per transmission per user.
+      if (isAuthenticated) {
+        recordWatched.mutate(
+          {
+            transmissionId,
+            xp: transmission.reward.xp,
+            dream: transmission.reward.dream,
+            achievement: transmission.reward.achievement,
+            loredexEntries: unlocks?.entityIds ?? [],
+          },
+          {
+            onSuccess: (result) => {
+              if (result.newlyGranted) {
+                const parts: string[] = [];
+                if (result.rewards.xp > 0) parts.push(`+${result.rewards.xp} XP`);
+                if (result.rewards.dream > 0) parts.push(`+${result.rewards.dream} Dream`);
+                if (result.rewards.achievement) {
+                  parts.push(`◈ ${result.rewards.achievement.replace(/_/g, " ")}`);
+                }
+                if (parts.length > 0) {
+                  toast.success(parts.join(" · "), {
+                    description: `Transmission archived: ${transmission.title}`,
+                    duration: 4500,
+                  });
+                }
+              }
+            },
+            onError: () => {
+              // Silent — client state already marked watched; rewards
+              // can be reconciled on next login.
+            },
+          },
+        );
       }
     }
 
@@ -305,27 +344,26 @@ export default function MemeBroadcast({ transmission, onClose, onComplete, alrea
                       title={transmission.title}
                     />
                   ) : (
-                    <div className="w-full h-full flex flex-col items-center justify-center text-center px-6">
-                      <motion.div
-                        animate={{ opacity: [0.3, 1, 0.3] }}
-                        transition={{ duration: 1.5, repeat: Infinity }}
-                        className="font-mono text-[10px] uppercase tracking-[0.3em] text-amber-400 mb-3"
-                      >
-                        ▸ SIGNAL PENDING
-                      </motion.div>
-                      <p className="font-mono text-xs text-white/50 max-w-md leading-relaxed">
-                        {transmission.synopsis}
-                      </p>
-                    </div>
+                    // Text-only "audio intercept" fallback for transmissions
+                    // that don't have a video asset (e.g. Spaces In Between).
+                    // Synopsis + auto-advance so the flow still reaches the
+                    // outro and rewards trigger normally.
+                    <TextTransmissionFallback
+                      synopsis={transmission.synopsis}
+                      memeColor={memeColor}
+                      onContinue={() => setPhase("static-to-outro")}
+                    />
                   )}
 
-                  {/* Skip button */}
-                  <button
-                    onClick={() => setPhase("static-to-outro")}
-                    className="absolute bottom-3 right-3 px-3 py-1.5 rounded bg-black/80 border border-white/10 font-mono text-[8px] uppercase tracking-wider text-white/50 hover:text-white hover:bg-black flex items-center gap-1.5 z-[70]"
-                  >
-                    SKIP <SkipForward size={9} />
-                  </button>
+                  {/* Skip button (only useful when there's a real video) */}
+                  {(transmission.videoUrl || transmission.driveFileId) && (
+                    <button
+                      onClick={() => setPhase("static-to-outro")}
+                      className="absolute bottom-3 right-3 px-3 py-1.5 rounded bg-black/80 border border-white/10 font-mono text-[8px] uppercase tracking-wider text-white/50 hover:text-white hover:bg-black flex items-center gap-1.5 z-[70]"
+                    >
+                      SKIP <SkipForward size={9} />
+                    </button>
+                  )}
                 </div>
               )}
 
@@ -434,5 +472,67 @@ export default function MemeBroadcast({ transmission, onClose, onComplete, alrea
         `}</style>
       </motion.div>
     </AnimatePresence>
+  );
+}
+
+/**
+ * Text-only fallback shown during the `broadcast` phase when a
+ * transmission has no videoUrl / driveFileId. Reveals the synopsis
+ * with a kinetic cursor then exposes a CONTINUE button that advances
+ * to the Meme's outro (where rewards fire).
+ */
+function TextTransmissionFallback({
+  synopsis,
+  memeColor,
+  onContinue,
+}: {
+  synopsis: string;
+  memeColor: string;
+  onContinue: () => void;
+}) {
+  const kinetic = useKinetic({ mode: "word", text: synopsis, speed: 30, autoStart: true });
+  return (
+    <div className="w-full h-full flex flex-col items-center justify-center text-center px-6 py-8 gap-5">
+      <motion.div
+        animate={{ opacity: [0.3, 1, 0.3] }}
+        transition={{ duration: 1.8, repeat: Infinity }}
+        className="font-mono text-[10px] uppercase tracking-[0.3em] text-amber-400"
+      >
+        ▸ AUDIO INTERCEPT · VIDEO UNAVAILABLE
+      </motion.div>
+      <p className="font-mono text-xs sm:text-sm text-white/70 max-w-md leading-relaxed italic">
+        {kinetic.displayText}
+        {!kinetic.isComplete && (
+          <span
+            className="inline-block w-[2px] h-[1em] ml-[2px] align-text-bottom animate-pulse"
+            style={{ background: memeColor }}
+          />
+        )}
+      </p>
+      <AnimatePresence>
+        {kinetic.isComplete && (
+          <motion.button
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            onClick={onContinue}
+            className="px-5 py-2 rounded font-mono text-[10px] uppercase tracking-[0.3em] flex items-center justify-center gap-2 transition-all"
+            style={{
+              border: `1px solid ${memeColor}40`,
+              color: memeColor,
+              background: `${memeColor}08`,
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = `${memeColor}15`;
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = `${memeColor}08`;
+            }}
+          >
+            <SkipForward size={12} /> CONTINUE TO OUTRO
+          </motion.button>
+        )}
+      </AnimatePresence>
+    </div>
   );
 }

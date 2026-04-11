@@ -10,8 +10,9 @@ import { Link } from "wouter";
 import { motion } from "framer-motion";
 import { ChevronLeft, Radio, Play, CheckCircle, Sparkles } from "lucide-react";
 import { useGame } from "@/contexts/GameContext";
+import { usePlayerContext } from "@/hooks/usePlayerContext";
 import {
-  ALL_TRANSMISSIONS, isUnlocked, transmissionId, type Transmission, type PlayerContext,
+  ALL_TRANSMISSIONS, isUnlocked, transmissionId, type Transmission,
 } from "@shared/transmissions";
 import MemeBroadcast from "@/components/MemeBroadcast";
 
@@ -19,18 +20,7 @@ export default function TransmissionInboxPage() {
   const { state, markTransmissionWatched } = useGame();
   const [playing, setPlaying] = useState<Transmission | null>(null);
 
-  const ctx: PlayerContext = useMemo(() => ({
-    level: 1,
-    awakeningStep: state.awakeningStep,
-    completedChapters: [],
-    elaraTrust: state.elaraTrust ?? 0,
-    humanTrust: state.humanTrust ?? 0,
-    npcTrust: state.npcTrust ?? {},
-    moralityScore: state.moralityScore ?? 0,
-    narrativeFlags: state.narrativeFlags ?? {},
-    roomsVisited: Object.keys(state.rooms ?? {}).filter(k => (state.rooms as any)?.[k]?.visited),
-    hasApprenticeGraduate: Object.keys(state.legionGraduates ?? {}).length > 0,
-  }), [state]);
+  const ctx = usePlayerContext();
 
   const unlocked = useMemo(
     () => ALL_TRANSMISSIONS.filter(t => isUnlocked(t, ctx)).sort((a, b) => a.broadcastOrder - b.broadcastOrder),

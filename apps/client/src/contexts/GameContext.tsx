@@ -233,6 +233,7 @@ export interface GameState {
   transmissionsWatched: string[];           // list of transmissionId strings
   transmissionsNotified: string[];          // which ones were notified
   oracleRevealActive: boolean;              // subtle Meme commentary shift
+  loredexDiscovered: string[];              // loredex entity ids unlocked (from transmissions, etc.)
   // Graduate Legion — deployed apprentices
   legionRoster: unknown;            // shape: LegionRoster from graduateLegion.ts
   /** Historical roster of all graduates keyed by id */
@@ -382,12 +383,13 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
     description: "Banks of communication equipment fill the room. Screens display static and fragments of intercepted transmissions. A large antenna array is visible through a reinforced window.",
     elaraIntro: "The Communications Array... where the void is given a voice — and where echoes sometimes answer back. From this chamber, signals are cast across the darkness, and what returns is not always bound by origin or intent. The Saga flows through these channels without end — the recorded memory of the Dischordian conflict, circling itself like a truth that refuses to conclude. But there are other signals. Fragments that break the pattern. Intrusions that do not belong. They arrive without signature... without trajectory... without source. I have traced every frequency, every layer of the spectrum the Ark can perceive — and still... nothing resolves. No origin. No sender. Only the signal. Something is reaching across the void. And it does not require us to understand.",
     imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/room_comms_array-MeKGcBZGammMEjbx8aN8fb.webp",
-    features: ["Watch The Saga", "Radio", "Lore Tutorials", "Communication Relay"],
-    featureRoutes: ["/watch", "/lore-tutorials"],
+    features: ["Watch The Saga", "Late Night with the Meme", "Radio", "Lore Tutorials", "Communication Relay"],
+    featureRoutes: ["/watch", "/transmissions", "/lore-tutorials"],
     unlockRequirement: { type: "narrative_event", value: "bridge_systems_restored" },
     connections: ["bridge", "observation-deck"],
     hotspots: [
       { id: "broadcast-screen", name: "Broadcast Screen", description: "A large screen playing recorded episodes of the Dischordian Saga.", x: 30, y: 20, width: 25, height: 40, type: "terminal", action: "/watch", elaraDialog: "The broadcast system. It plays the recorded history of the Dischordian Saga in episodic format. Each epoch covers a different era — from the Age of Privacy through the Fall of Reality. Watch carefully. There are clues hidden in every episode." },
+      { id: "late-night-tv", name: "Pirate Frequency TV", description: "A battered CRT television set tuned to a frequency that shouldn't exist. The signal comes and goes. Sometimes a handsome devil speaks directly to you.", x: 6, y: 58, width: 14, height: 22, type: "terminal", action: "/transmissions", elaraDialog: "This... this isn't supposed to be here. It's tuned to a frequency outside the Ark's normal broadcast spectrum. The signal ID reads 'MEME-PRIME.' Whoever is broadcasting has been recording the entire Dischordian Saga — and narrating it with alarming personal knowledge. The episodes unlock as you progress. It calls itself 'Late Night with the Meme.' I don't trust it. But I can't stop watching either." },
       { id: "radio-console", name: "Radio Console", description: "A radio tuner picking up fragments of music from across the multiverse.", x: 65, y: 35, width: 18, height: 30, type: "examine", elaraDialog: "The radio picks up fragments of music transmissions. Songs from Malkia Ukweli and the Panopticon — they seem to broadcast across dimensional barriers. Each song tells part of the story." },
       { id: "static-screen", name: "Static Screen", description: "A screen showing nothing but static. Occasionally, shapes seem to form in the noise.", x: 10, y: 30, width: 12, height: 25, type: "examine", elaraDialog: "That screen has been showing static since I can remember. But sometimes... sometimes I think I see patterns in it. Faces. Words. It's probably just signal degradation. Probably." },
       { id: "training-console", name: "Training Console", description: "An interactive tutorial system explaining the lore and mechanics of the Dischordian Saga.", x: 45, y: 60, width: 16, height: 18, type: "terminal", action: "/lore-tutorials", elaraDialog: "The Training Console. It contains interactive tutorials covering the lore, factions, game mechanics, and history of the Dischordian Saga. Essential reading for new Potentials. Even veterans might learn something new." },
@@ -970,6 +972,7 @@ const DEFAULT_GAME_STATE: GameState = {
   transmissionsWatched: [],
   transmissionsNotified: [],
   oracleRevealActive: false,
+  loredexDiscovered: [],
   legionRoster: { assignments: [], unassigned: [], sacrificedHistory: [] },
   legionGraduates: {},
   legionLetters: [],
@@ -1104,6 +1107,7 @@ interface GameContextValue {
   completeSorting: (archonNumber: number) => void;
   markTransmissionWatched: (id: string, triggersOracleReveal: boolean) => void;
   markTransmissionNotified: (id: string) => void;
+  addLoredexDiscovered: (entityIds: string[]) => void;
   // Graduate Legion
   addGraduate: (apprentice: unknown) => void;
   setLegionRoster: (roster: unknown) => void;
@@ -1752,13 +1756,39 @@ export function GameProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const markTransmissionWatched = useCallback((id: string, triggersOracleReveal: boolean) => {
-    setState(prev => ({
-      ...prev,
-      transmissionsWatched: prev.transmissionsWatched.includes(id)
-        ? prev.transmissionsWatched
-        : [...prev.transmissionsWatched, id],
-      oracleRevealActive: prev.oracleRevealActive || triggersOracleReveal,
-    }));
+    setState(prev => {
+      if (prev.transmissionsWatched.includes(id)) {
+        // Already watched — only update oracle reveal (idempotent for re-runs).
+        return prev.oracleRevealActive || !triggersOracleReveal
+          ? prev
+          : { ...prev, oracleRevealActive: true };
+      }
+      // Parse `ep{epoch}-{episode}` → set both `_watched` and `_viewed`
+      // narrative flags so chain-unlocked episodes (Epoch 0 + Epoch 2)
+      // can progress. Covers both naming conventions used in
+      // apps/shared/transmissions.ts.
+      //
+      // NOTE: SIB (Spaces In Between) ids use the `sib-ep{n}` prefix
+      // and are intentionally skipped — those episodes unlock via
+      // hand-written narrative flags (sib_celebration_viewed, etc.)
+      // set by the Epoch 0 detective chain, not by the broadcast watch.
+      const match = id.match(/^ep(\d+)-(\d+)$/);
+      const nextFlags = { ...prev.narrativeFlags };
+      if (match) {
+        const [, epoch, episode] = match;
+        nextFlags[`epoch${epoch}_ep${episode}_watched`] = true;
+        nextFlags[`epoch${epoch}_ep${episode}_viewed`] = true;
+      }
+      return {
+        ...prev,
+        transmissionsWatched: [...prev.transmissionsWatched, id],
+        transmissionsNotified: prev.transmissionsNotified.includes(id)
+          ? prev.transmissionsNotified
+          : [...prev.transmissionsNotified, id],
+        oracleRevealActive: prev.oracleRevealActive || triggersOracleReveal,
+        narrativeFlags: nextFlags,
+      };
+    });
   }, []);
 
   const markTransmissionNotified = useCallback((id: string) => {
@@ -1768,6 +1798,19 @@ export function GameProvider({ children }: { children: ReactNode }) {
         ? prev.transmissionsNotified
         : [...prev.transmissionsNotified, id],
     }));
+  }, []);
+
+  const addLoredexDiscovered = useCallback((entityIds: string[]) => {
+    if (entityIds.length === 0) return;
+    setState(prev => {
+      const existing = new Set(prev.loredexDiscovered ?? []);
+      const added = entityIds.filter(id => !existing.has(id));
+      if (added.length === 0) return prev;
+      return {
+        ...prev,
+        loredexDiscovered: [...(prev.loredexDiscovered ?? []), ...added],
+      };
+    });
   }, []);
 
   const addGraduate = useCallback((apprentice: any) => {
@@ -2539,6 +2582,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
       completeSorting,
       markTransmissionWatched,
       markTransmissionNotified,
+      addLoredexDiscovered,
       addGraduate,
       setLegionRoster,
       addLegionLetter,

@@ -6,9 +6,10 @@ import {
   Bell, X, Check, CheckCheck, Trash2, Loader2,
   Store, Swords, Gavel, Shield, Gift, Star,
   Trophy, Crown, Users, Flag, Scroll, Zap,
-  ArrowLeftRight, ShoppingCart, MessageSquare
+  ArrowLeftRight, ShoppingCart, MessageSquare, Radio
 } from "lucide-react";
 import { useLocation } from "wouter";
+import { useMemeVO } from "@/hooks/useMemeVO";
 
 const TYPE_ICONS: Record<string, typeof Bell> = {
   trade_offer: ArrowLeftRight,
@@ -33,6 +34,12 @@ const TYPE_ICONS: Record<string, typeof Bell> = {
   battle_pass_reward: Zap,
   syndicate_quest: Shield,
   system: Bell,
+  meme_broadcast: Radio,
+  prestige_dialog: Star,
+  prestige_deferred_dialog: Star,
+  prestige_conditional_dialog: Star,
+  prestige_complete: Crown,
+  companion_prestige_gesture: Gift,
 };
 
 const TYPE_COLORS: Record<string, string> = {
@@ -58,6 +65,12 @@ const TYPE_COLORS: Record<string, string> = {
   battle_pass_reward: "text-purple-400",
   syndicate_quest: "text-cyan-400",
   system: "text-muted-foreground",
+  meme_broadcast: "text-pink-400",
+  prestige_dialog: "text-amber-300",
+  prestige_deferred_dialog: "text-amber-300",
+  prestige_conditional_dialog: "text-amber-300",
+  prestige_complete: "text-amber-300",
+  companion_prestige_gesture: "text-emerald-300",
 };
 
 export default function NotificationBell() {
@@ -65,6 +78,7 @@ export default function NotificationBell() {
   const [isOpen, setIsOpen] = useState(false);
   const panelRef = useRef<HTMLDivElement>(null);
   const [, navigate] = useLocation();
+  const { speak: speakMeme } = useMemeVO();
 
   // Poll unread count every 30 seconds
   const { data: unreadData } = trpc.notifications.unreadCount.useQuery(undefined, {
@@ -109,6 +123,15 @@ export default function NotificationBell() {
   function handleNotifClick(notif: typeof items[0]) {
     if (!notif.isRead) {
       markRead.mutate({ id: notif.id });
+    }
+    // Meme broadcast notifications play the Meme's prestige VO and
+    // open the transmission inbox. This is the pre-recorded prestige
+    // commentary line (meme_prestige_broadcast) from memeVoManifest.
+    if (notif.type === "meme_broadcast") {
+      speakMeme("meme_prestige_broadcast");
+      navigate(notif.actionUrl ?? "/transmissions");
+      setIsOpen(false);
+      return;
     }
     if (notif.actionUrl) {
       navigate(notif.actionUrl);
