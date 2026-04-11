@@ -1,6 +1,6 @@
 {
-  "include": ["client/src/**/*", "shared/**/*", "server/**/*"],
-  "exclude": ["node_modules", "build", "dist", "**/*.test.ts", "client/src/game/duelyst-engine/**/*"],
+  "include": ["apps/client/src/**/*", "apps/shared/**/*", "apps/server/**/*", "apps/scripts/**/*", "apps/db/**/*"],
+  "exclude": ["node_modules", "build", "dist", "apps/client/src/game/duelyst-engine/**/*"],
   "compilerOptions": {
     "incremental": true,
     "tsBuildInfoFile": "./node_modules/typescript/tsbuildinfo",
@@ -17,8 +17,8 @@
     "baseUrl": ".",
     "types": ["node", "vite/client"],
     "paths": {
-      "@/*": ["./client/src/*"],
-      "@shared/*": ["./shared/*"]
+      "@/*": ["./apps/client/src/*"],
+      "@shared/*": ["./apps/shared/*"]
     }
   }
 }
