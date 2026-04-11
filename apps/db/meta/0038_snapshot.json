@@ -12470,7 +12470,7 @@
         },
         "role": {
           "name": "role",
-          "type": "enum('user','admin')",
+          "type": "enum('user','moderator','admin')",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false,
@@ -13158,6 +13158,131 @@
             "userId"
           ],
           "isUnique": true
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraint": {}
+    },
+    "admin_approval_requests": {
+      "name": "admin_approval_requests",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "requestedBy": {
+          "name": "requestedBy",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "action": {
+          "name": "action",
+          "type": "varchar(64)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "targetKey": {
+          "name": "targetKey",
+          "type": "varchar(128)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "newValue": {
+          "name": "newValue",
+          "type": "json",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "reason": {
+          "name": "reason",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "status": {
+          "name": "status",
+          "type": "enum('pending','executed','rejected')",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'pending'"
+        },
+        "approvals": {
+          "name": "approvals",
+          "type": "json",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "rejectedBy": {
+          "name": "rejectedBy",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "rejectionReason": {
+          "name": "rejectionReason",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "(now())"
+        },
+        "executedAt": {
+          "name": "executedAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "rejectedAt": {
+          "name": "rejectedAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        }
+      },
+      "indexes": {
+        "idx_admin_approval_status": {
+          "name": "idx_admin_approval_status",
+          "columns": [
+            "status"
+          ],
+          "isUnique": false
+        },
+        "idx_admin_approval_requested_by": {
+          "name": "idx_admin_approval_requested_by",
+          "columns": [
+            "requestedBy"
+          ],
+          "isUnique": false
+        },
+        "idx_admin_approval_created_at": {
+          "name": "idx_admin_approval_created_at",
+          "columns": [
+            "createdAt"
+          ],
+          "isUnique": false
         }
       },
       "foreignKeys": {},

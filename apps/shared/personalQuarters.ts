@@ -391,6 +391,27 @@ export const MUSIC_TRACKS: readonly MusicTrack[] = [
   { id: "music_freedom_song",     name: "Freedom's Song",          unlockHint: "Morality ≥ 80",                   rarity: "epic" },
 ] as const;
 
+/**
+ * CDN URLs for the music box tracks. Left empty so the audio element
+ * gracefully no-ops — the UI still persists the selected track, and
+ * actual playback lights up as soon as audio assets ship. The music
+ * metadata layer is decoupled from the playback layer on purpose.
+ *
+ * To enable audio: populate a track's entry with a valid URL and the
+ * client's <audio> element will start playing it on track change.
+ */
+export const MUSIC_TRACK_URLS: Partial<Record<string, string>> = {
+  // music_void_ambient: "https://cdn.example.com/music/void-ambient.mp3",
+  // music_atarion_lullaby: "https://cdn.example.com/music/atarion-lullaby.mp3",
+};
+
+/** Return the playback URL for a track id, or undefined if the asset
+ *  hasn't been registered yet. Consumers should silently degrade when
+ *  undefined is returned. */
+export function getMusicTrackUrl(trackId: string): string | undefined {
+  return MUSIC_TRACK_URLS[trackId];
+}
+
 /** Get unlocked music tracks for a player. */
 export function getAvailableMusicTracks(opts: {
   elaraTrust?: number;

@@ -1,8 +1,8 @@
 {
   "version": "5",
   "dialect": "mysql",
-  "id": "0bbc9df1-c0f6-4f2d-b138-09a783e2dfb9",
-  "prevId": "9ff34764-8ee0-409a-b8a5-80e02da1986a",
+  "id": "9ff34764-8ee0-409a-b8a5-80e02da1986a",
+  "prevId": "b5e28df6-efcc-48ff-86a0-41ed1fa7c4c0",
   "tables": {
     "achievement_trait_progress": {
       "name": "achievement_trait_progress",
@@ -8621,22 +8621,6 @@
           "autoincrement": false,
           "onUpdate": true,
           "default": "(now())"
-        },
-        "lightingPreset": {
-          "name": "lightingPreset",
-          "type": "varchar(32)",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false,
-          "default": "'void'"
-        },
-        "musicTrack": {
-          "name": "musicTrack",
-          "type": "varchar(64)",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false,
-          "default": "'music_void_ambient'"
         }
       },
       "indexes": {},

@@ -271,14 +271,20 @@ async function startServer() {
   // Living Universe tick — expires stale events and re-checks thresholds
   // once per hour. Safe to run in all environments because it short-circuits
   // when there are no active events.
+  //
+  // Guild tick runs on the same cadence and handles weekly welfare Dream
+  // distribution + stale event auto-completion. See _core/guildTick.ts.
   if (process.env.NODE_ENV !== "test") {
     const { runUniverseTick } = await import("../routers/livingUniverse");
+    const { runGuildTick } = await import("./guildTick");
     const ONE_HOUR_MS = 60 * 60 * 1000;
     setInterval(() => {
       runUniverseTick().catch(e => console.error("[LivingUniverse] tick error:", e));
+      runGuildTick().catch(e => console.error("[GuildTick] tick error:", e));
     }, ONE_HOUR_MS);
     // Run once on startup so the first expiry doesn't wait an hour
     runUniverseTick().catch(e => console.error("[LivingUniverse] initial tick error:", e));
+    runGuildTick().catch(e => console.error("[GuildTick] initial tick error:", e));
   }
 
   server.listen(port, () => {

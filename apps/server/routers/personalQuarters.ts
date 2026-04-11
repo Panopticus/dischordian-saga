@@ -23,8 +23,8 @@ import { z } from "zod";
 import { router, protectedProcedure, publicProcedure } from "../_core/trpc";
 import { getDb } from "../db";
 import {
-  playerQuarters, quarterVisits,
-  citizenCharacters, civilSkillProgress, classMastery,
+  playerQuarters, quarterVisits, quarterCompanionVisits,
+  citizenCharacters, civilSkillProgress,
   prestigeProgress, bossMastery, eventParticipation,
   seasonalEvents, userAchievements, characterSheets,
   userProgress,
@@ -38,6 +38,59 @@ import {
   getVisitingCompanions, getSlot, isItemAllowedInSlot,
   type PlacedQuartersItem,
 } from "../../shared/personalQuarters";
+
+/**
+ * Collect every piece of RPG state that governs a player's Personal
+ * Quarters unlocks. Used by both getMyQuarters (to return the full
+ * available-items list) and placeItem (to re-validate on the server
+ * that the requested item is actually unlocked for this player).
+ */
+async function fetchQuartersUnlockContext(userId: number) {
+  const db = await getDb();
+  if (!db) throw new Error("DB unavailable");
+
+  const [char] = await db.select().from(citizenCharacters).where(eq(citizenCharacters.userId, userId));
+  const civilSkills = await db.select().from(civilSkillProgress).where(eq(civilSkillProgress.userId, userId));
+  const skillMap: Record<string, number> = {};
+  for (const s of civilSkills) skillMap[s.skillKey] = s.level;
+  const prestRows = await db.select().from(prestigeProgress).where(eq(prestigeProgress.userId, userId));
+
+  const bossRows = await db.select().from(bossMastery).where(eq(bossMastery.userId, userId));
+  const bossKills: Record<string, number> = {};
+  for (const b of bossRows) bossKills[b.bossKey] = b.kills;
+
+  const eventParts = await db.select({
+    eventKey: seasonalEvents.eventKey,
+  }).from(eventParticipation)
+    .innerJoin(seasonalEvents, eq(eventParticipation.eventId, seasonalEvents.id))
+    .where(eq(eventParticipation.userId, userId));
+  const seasonalEventsParticipated = Array.from(new Set(eventParts.map(e => e.eventKey)));
+
+  const achievementRows = await db.select().from(userAchievements).where(eq(userAchievements.userId, userId));
+  const achievements = achievementRows.map(a => a.achievementId);
+
+  const [sheet] = await db.select().from(characterSheets).where(eq(characterSheets.userId, userId));
+  const moralityScore = sheet?.moralityScore ?? 0;
+  const citizenLevel = char?.level ?? 1;
+
+  const [progress] = await db.select().from(userProgress)
+    .where(and(eq(userProgress.userId, userId), eq(userProgress.franchiseId, "dischordian-saga")));
+  const progressData = (progress?.progressData ?? {}) as Record<string, unknown>;
+  const gameData = (progress?.gameData ?? {}) as Record<string, unknown>;
+
+  return {
+    char,
+    skillMap,
+    prestigeClassKey: prestRows[0]?.prestigeClassKey,
+    bossKills,
+    seasonalEventsParticipated,
+    achievements,
+    moralityScore,
+    citizenLevel,
+    progressData,
+    gameData,
+  };
+}
 
 export const personalQuartersRouter = router({
   /** Get or create my quarters */
@@ -53,45 +106,15 @@ export const personalQuartersRouter = router({
       [quarters] = await db.select().from(playerQuarters).where(eq(playerQuarters.userId, ctx.user.id));
     }
 
-    // Get RPG bonuses
-    const [char] = await db.select().from(citizenCharacters).where(eq(citizenCharacters.userId, ctx.user.id));
-    const civilSkills = await db.select().from(civilSkillProgress).where(eq(civilSkillProgress.userId, ctx.user.id));
-    const skillMap: Record<string, number> = {};
-    for (const s of civilSkills) skillMap[s.skillKey] = s.level;
-    const classRows = await db.select().from(classMastery).where(eq(classMastery.userId, ctx.user.id));
-    const classMap: Record<string, number> = {};
-    for (const c of classRows) classMap[c.characterClass] = c.masteryRank;
-    const prestRows = await db.select().from(prestigeProgress).where(eq(prestigeProgress.userId, ctx.user.id));
+    // Pull the full RPG unlock context (class / species / skills / boss
+    // kills / achievements / morality / level / narrative progress).
+    const unlockCtx = await fetchQuartersUnlockContext(ctx.user.id);
+    const {
+      char, skillMap, prestigeClassKey, bossKills, seasonalEventsParticipated,
+      achievements, moralityScore, citizenLevel, progressData, gameData,
+    } = unlockCtx;
 
-    // Get boss kill counts
-    const bossRows = await db.select().from(bossMastery).where(eq(bossMastery.userId, ctx.user.id));
-    const bossKills: Record<string, number> = {};
-    for (const b of bossRows) bossKills[b.bossKey] = b.kills;
-
-    // Get seasonal event participation
-    const eventParts = await db.select({
-      eventKey: seasonalEvents.eventKey,
-    }).from(eventParticipation)
-      .innerJoin(seasonalEvents, eq(eventParticipation.eventId, seasonalEvents.id))
-      .where(eq(eventParticipation.userId, ctx.user.id));
-    const seasonalEventsParticipated = Array.from(new Set(eventParts.map(e => e.eventKey)));
-
-    // Get achievements
-    const achievementRows = await db.select().from(userAchievements).where(eq(userAchievements.userId, ctx.user.id));
-    const achievements = achievementRows.map(a => a.achievementId);
-
-    // Get morality score and level
-    const [sheet] = await db.select().from(characterSheets).where(eq(characterSheets.userId, ctx.user.id));
-    const moralityScore = sheet?.moralityScore ?? 0;
-    const citizenLevel = char?.level ?? 1;
-
-    // Pull narrative progress (companion trust etc.) from userProgress.progressData.
-    // These keys come from the legacy Cabin unlock rules and drive lighting/music/
-    // companion-visit availability.
-    const [progress] = await db.select().from(userProgress)
-      .where(and(eq(userProgress.userId, ctx.user.id), eq(userProgress.franchiseId, "dischordian-saga")));
-    const progressData = (progress?.progressData ?? {}) as Record<string, unknown>;
-    const gameData = (progress?.gameData ?? {}) as Record<string, unknown>;
+    // Narrative-state fields used for lighting/music/companion gating.
     const elaraTrust = (progressData.elaraTrust as number) ?? 0;
     const humanTrust = (progressData.humanTrust as number) ?? 0;
     const npcTrust = (progressData.npcTrust as Record<string, number>) ?? {};
@@ -106,7 +129,7 @@ export const personalQuartersRouter = router({
       characterClass: char?.characterClass,
       species: char?.species,
       civilSkills: skillMap,
-      prestigeClass: prestRows[0]?.prestigeClassKey,
+      prestigeClass: prestigeClassKey,
       achievements,
       moralityScore,
       citizenLevel,
@@ -160,9 +183,12 @@ export const personalQuartersRouter = router({
   /**
    * Place an item. If `slotId` is supplied, the item is pinned to that
    * visual hotspot in the zone's slot map (see ZONE_SLOT_MAPS). The server
-   * validates that the slot exists, that the zone owns it, and that the
-   * item's category is compatible with the slot's accepts[] list. The
-   * pre-existing grid-coordinate placement still works if slotId is omitted.
+   * validates that the slot exists, that the zone owns it, that the
+   * item's category is compatible with the slot's accepts[] list, AND
+   * that the requested item is actually unlocked by the player's current
+   * RPG state (class/species/prestige/civil skills/achievements/morality/
+   * boss kills/seasonal events). The pre-existing grid-coordinate
+   * placement still works if slotId is omitted.
    */
   placeItem: protectedProcedure
     .input(z.object({
@@ -183,6 +209,25 @@ export const personalQuartersRouter = router({
 
       const unlockedZones = quarters.unlockedZones || ["main"];
       if (!unlockedZones.includes(input.zone)) throw new Error("Zone not unlocked");
+
+      // Server-side unlock re-check: the client filters `availableItems`
+      // client-side in the picker, but a crafted request could bypass that,
+      // so we validate against the player's actual RPG state here.
+      const unlockCtx = await fetchQuartersUnlockContext(ctx.user.id);
+      const unlocked = getAvailableDecorations({
+        characterClass: unlockCtx.char?.characterClass,
+        species: unlockCtx.char?.species,
+        civilSkills: unlockCtx.skillMap,
+        prestigeClass: unlockCtx.prestigeClassKey,
+        achievements: unlockCtx.achievements,
+        moralityScore: unlockCtx.moralityScore,
+        citizenLevel: unlockCtx.citizenLevel,
+        bossKills: unlockCtx.bossKills,
+        seasonalEventsParticipated: unlockCtx.seasonalEventsParticipated,
+      });
+      if (!unlocked.some((u) => u.key === input.itemKey)) {
+        throw new Error(`Item ${input.itemKey} is not unlocked for your character`);
+      }
 
       // Validate slot placement if a slotId is supplied.
       if (input.slotId) {
@@ -380,6 +425,117 @@ export const personalQuartersRouter = router({
       .orderBy(desc(quarterVisits.visitedAt))
       .limit(20);
   }),
+
+  /**
+   * Get recent companion visits to my quarters. Used by the "X stopped by
+   * while you were away" UI hook and for narrative trust bonuses.
+   */
+  getRecentCompanionVisits: protectedProcedure.query(async ({ ctx }) => {
+    const db = await getDb();
+    if (!db) throw new Error("DB unavailable");
+    return db.select().from(quarterCompanionVisits)
+      .where(eq(quarterCompanionVisits.ownerId, ctx.user.id))
+      .orderBy(desc(quarterCompanionVisits.visitedAt))
+      .limit(10);
+  }),
+
+  /**
+   * Log a companion visit. Called by the client the first time a visiting
+   * companion is rendered in the room (when trust thresholds are met).
+   * The server validates the companion actually has enough trust to visit
+   * so clients can't log arbitrary visits. Visits are rate-limited to one
+   * per companion per 6 hours so the history doesn't fill up.
+   */
+  logCompanionVisit: protectedProcedure
+    .input(z.object({
+      companionId: z.string().min(1).max(64),
+      dialogIndex: z.number().int().min(0).max(32).default(0),
+    }))
+    .mutation(async ({ ctx, input }) => {
+      const db = await getDb();
+      if (!db) throw new Error("DB unavailable");
+
+      // Pull narrative state and verify the companion's trust threshold.
+      const unlockCtx = await fetchQuartersUnlockContext(ctx.user.id);
+      const pd = unlockCtx.progressData;
+      const visiting = getVisitingCompanions({
+        elaraTrust: (pd.elaraTrust as number) ?? 0,
+        humanTrust: (pd.humanTrust as number) ?? 0,
+        npcTrust: (pd.npcTrust as Record<string, number>) ?? {},
+      });
+      if (!visiting.some((c) => c.companionId === input.companionId)) {
+        throw new Error(`Companion ${input.companionId} is not visiting your quarters yet`);
+      }
+
+      // Rate-limit: skip if the same companion logged a visit in the
+      // last 6 hours.
+      const sixHoursAgo = new Date(Date.now() - 6 * 60 * 60 * 1000);
+      const recent = await db.select().from(quarterCompanionVisits)
+        .where(and(
+          eq(quarterCompanionVisits.ownerId, ctx.user.id),
+          eq(quarterCompanionVisits.companionId, input.companionId),
+        ))
+        .orderBy(desc(quarterCompanionVisits.visitedAt))
+        .limit(1);
+      if (recent[0] && recent[0].visitedAt > sixHoursAgo) {
+        return { logged: false as const, reason: "rate_limited" };
+      }
+
+      await db.insert(quarterCompanionVisits).values({
+        ownerId: ctx.user.id,
+        companionId: input.companionId,
+        dialogIndex: input.dialogIndex,
+      });
+      return { logged: true as const };
+    }),
+
+  /**
+   * Set (or clear) the quarters screenshot URL and toggle the public
+   * featured-gallery flag. The server currently trusts the client-supplied
+   * URL (presumed to be a pre-signed CDN upload URL); future hardening
+   * should validate the domain against an allow-list.
+   */
+  setScreenshot: protectedProcedure
+    .input(z.object({
+      url: z.string().url().max(512).nullable(),
+      featured: z.boolean().default(false),
+    }))
+    .mutation(async ({ ctx, input }) => {
+      const db = await getDb();
+      if (!db) throw new Error("DB unavailable");
+      await db.update(playerQuarters)
+        .set({
+          screenshotUrl: input.url ?? null,
+          isFeatured: input.featured && input.url !== null,
+        })
+        .where(eq(playerQuarters.userId, ctx.user.id));
+      return { updated: true };
+    }),
+
+  /**
+   * Public featured quarters gallery. Returns quarters flagged `isFeatured`
+   * with a non-null screenshot, ordered by visit count. Clients can use
+   * this to browse and "visit" from the featured tab.
+   */
+  getFeaturedGallery: publicProcedure
+    .input(z.object({ limit: z.number().int().min(1).max(50).default(12) }).optional())
+    .query(async ({ input }) => {
+      const db = await getDb();
+      if (!db) throw new Error("DB unavailable");
+      return db.select({
+        userId: playerQuarters.userId,
+        name: playerQuarters.name,
+        screenshotUrl: playerQuarters.screenshotUrl,
+        visitCount: playerQuarters.visitCount,
+        lightingPreset: playerQuarters.lightingPreset,
+      }).from(playerQuarters)
+        .where(and(
+          eq(playerQuarters.isFeatured, true),
+          sql`${playerQuarters.screenshotUrl} IS NOT NULL`,
+        ))
+        .orderBy(desc(playerQuarters.visitCount))
+        .limit(input?.limit ?? 12);
+    }),
 
   /** Rename quarters */
   rename: protectedProcedure

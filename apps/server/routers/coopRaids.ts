@@ -19,6 +19,7 @@ import {
 import { ripple } from "../services/rippleEngine";
 import { checkFeatureFlag } from "../middleware/featureFlag";
 import { getConsequences } from "../services/universeConsequences";
+import { getGuildHallBuffs, hallStatMultiplier } from "../_core/guildHallBuffs";
 
 export const coopRaidsRouter = router({
   /** Get active raids */
@@ -191,7 +192,15 @@ export const coopRaidsRouter = router({
       const baseXp = 500;
       const baseCurrency = 200;
 
-      const xpEarned = Math.floor(baseXp * sharePercent * 3);
+      // Apply guild hall XP + boss-damage buffs to raid rewards. Tier
+      // perks (e.g. "+15% XP for all members" at Citadel) and decoration
+      // passives (e.g. "+3% damage vs Sentinel") compound with the base
+      // share-percent × 3 multiplier.
+      const hallBuffs = await getGuildHallBuffs(ctx.user.id);
+      const xpMult = hallBuffs ? hallStatMultiplier(hallBuffs, "xp") : 1;
+      const bossDmgMult = hallBuffs ? hallStatMultiplier(hallBuffs, "boss_damage") : 1;
+
+      const xpEarned = Math.floor(baseXp * sharePercent * 3 * xpMult * bossDmgMult);
       const currencyEarned = Math.floor(baseCurrency * sharePercent * 3);
 
       // Persist rewards to player progress

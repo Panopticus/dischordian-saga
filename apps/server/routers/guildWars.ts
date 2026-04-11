@@ -15,6 +15,7 @@ import {
 import { fetchCitizenData, fetchPotentialNftData, resolveGuildWarBonuses } from "../traitResolver";
 import { getConsequences } from "../services/universeConsequences";
 import { pressureService } from "../services/pressureService";
+import { getGuildHallBuffs, hallStatMultiplier } from "../_core/guildHallBuffs";
 
 /** Territory names tied to Dischordian Saga lore */
 const TERRITORIES = [
@@ -148,6 +149,14 @@ export const guildWarsRouter = router({
       // Check if the war territory matches player's element affinity
       if (war[0].territory && warTb.boostedTerritories.includes(war[0].territory)) {
         points = Math.round(points * (1 + warTb.elementTerritoryBonus));
+      }
+
+      // Apply guild hall buffs — tier perks + room bonuses + decoration
+      // passives. `war_points` is the canonical stat key for this multiplier
+      // (see HALL_TIERS in shared/guildHall.ts).
+      const hallBuffs = await getGuildHallBuffs(ctx.user.id);
+      if (hallBuffs) {
+        points = Math.round(points * hallStatMultiplier(hallBuffs, "war_points"));
       }
 
       // Apply Living Universe guild war score multiplier

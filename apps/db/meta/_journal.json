@@ -255,6 +255,13 @@
       "breakpoints": true
     },
     {
+      "idx": 36,
+      "version": "5",
+      "when": 1774172998176,
+      "tag": "0036_admin_approval_requests",
+      "breakpoints": true
+    },
+    {
       "idx": 37,
       "version": "5",
       "when": 1775880083471,
@@ -266,6 +273,13 @@
       "version": "5",
       "when": 1775881121184,
       "tag": "0038_guild_hall_and_events",
+      "breakpoints": true
+    },
+    {
+      "idx": 39,
+      "version": "5",
+      "when": 1775914116387,
+      "tag": "0039_quarters_companions_and_gallery",
       "breakpoints": true
     }
   ]

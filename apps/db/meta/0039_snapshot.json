@@ -1,8 +1,8 @@
 {
   "version": "5",
   "dialect": "mysql",
-  "id": "0bbc9df1-c0f6-4f2d-b138-09a783e2dfb9",
-  "prevId": "9ff34764-8ee0-409a-b8a5-80e02da1986a",
+  "id": "e322c3ef-d65d-4a8a-9700-cc3806974544",
+  "prevId": "c7359ad7-8368-4919-bce5-3d155b4dbd87",
   "tables": {
     "achievement_trait_progress": {
       "name": "achievement_trait_progress",
@@ -7173,6 +7173,21 @@
           "autoincrement": false,
           "onUpdate": true,
           "default": "(now())"
+        },
+        "hallTier": {
+          "name": "hallTier",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": 1
+        },
+        "hallData": {
+          "name": "hallData",
+          "type": "json",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
         }
       },
       "indexes": {},
@@ -8637,9 +8652,32 @@
           "notNull": true,
           "autoincrement": false,
           "default": "'music_void_ambient'"
+        },
+        "screenshotUrl": {
+          "name": "screenshotUrl",
+          "type": "varchar(512)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "isFeatured": {
+          "name": "isFeatured",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": false
         }
       },
-      "indexes": {},
+      "indexes": {
+        "idx_player_quarters_featured": {
+          "name": "idx_player_quarters_featured",
+          "columns": [
+            "isFeatured"
+          ],
+          "isUnique": false
+        }
+      },
       "foreignKeys": {},
       "compositePrimaryKeys": {
         "player_quarters_id": {
@@ -12944,6 +12982,212 @@
       },
       "checkConstraint": {}
     },
+    "guild_events": {
+      "name": "guild_events",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "guildId": {
+          "name": "guildId",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "createdBy": {
+          "name": "createdBy",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "title": {
+          "name": "title",
+          "type": "varchar(128)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "description": {
+          "name": "description",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "eventType": {
+          "name": "eventType",
+          "type": "enum('raid','tournament','pvp_practice','roleplay','lore_night','recruitment_drive','trade_fair','training','social','other')",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'social'"
+        },
+        "startsAt": {
+          "name": "startsAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "endsAt": {
+          "name": "endsAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "maxAttendees": {
+          "name": "maxAttendees",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": 0
+        },
+        "status": {
+          "name": "status",
+          "type": "enum('scheduled','in_progress','completed','cancelled')",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'scheduled'"
+        },
+        "locationRoomId": {
+          "name": "locationRoomId",
+          "type": "varchar(64)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "(now())"
+        },
+        "updatedAt": {
+          "name": "updatedAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "(now())",
+          "onUpdate": true
+        }
+      },
+      "indexes": {
+        "idx_guild_events_guild_id": {
+          "name": "idx_guild_events_guild_id",
+          "columns": [
+            "guildId"
+          ],
+          "isUnique": false
+        },
+        "idx_guild_events_starts_at": {
+          "name": "idx_guild_events_starts_at",
+          "columns": [
+            "startsAt"
+          ],
+          "isUnique": false
+        },
+        "idx_guild_events_status": {
+          "name": "idx_guild_events_status",
+          "columns": [
+            "status"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraint": {}
+    },
+    "guild_event_attendance": {
+      "name": "guild_event_attendance",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "eventId": {
+          "name": "eventId",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "userId": {
+          "name": "userId",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "rsvpStatus": {
+          "name": "rsvpStatus",
+          "type": "enum('going','maybe','declined')",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'going'"
+        },
+        "checkedInAt": {
+          "name": "checkedInAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "rsvpAt": {
+          "name": "rsvpAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "(now())"
+        }
+      },
+      "indexes": {
+        "idx_guild_event_attendance_event_id": {
+          "name": "idx_guild_event_attendance_event_id",
+          "columns": [
+            "eventId"
+          ],
+          "isUnique": false
+        },
+        "idx_guild_event_attendance_user_id": {
+          "name": "idx_guild_event_attendance_user_id",
+          "columns": [
+            "userId"
+          ],
+          "isUnique": false
+        },
+        "uniq_guild_event_attendance_event_user": {
+          "name": "uniq_guild_event_attendance_event_user",
+          "columns": [
+            "eventId",
+            "userId"
+          ],
+          "isUnique": true
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraint": {}
+    },
     "admin_approval_requests": {
       "name": "admin_approval_requests",
       "columns": {
@@ -13060,6 +13304,68 @@
           "name": "idx_admin_approval_created_at",
           "columns": [
             "createdAt"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraint": {}
+    },
+    "quarter_companion_visits": {
+      "name": "quarter_companion_visits",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "ownerId": {
+          "name": "ownerId",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "companionId": {
+          "name": "companionId",
+          "type": "varchar(64)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "dialogIndex": {
+          "name": "dialogIndex",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": 0
+        },
+        "visitedAt": {
+          "name": "visitedAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "(now())"
+        }
+      },
+      "indexes": {
+        "idx_quarter_companion_visits_owner_id": {
+          "name": "idx_quarter_companion_visits_owner_id",
+          "columns": [
+            "ownerId"
+          ],
+          "isUnique": false
+        },
+        "idx_quarter_companion_visits_visited_at": {
+          "name": "idx_quarter_companion_visits_visited_at",
+          "columns": [
+            "visitedAt"
           ],
           "isUnique": false
         }

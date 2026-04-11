@@ -11,16 +11,17 @@
    ═══════════════════════════════════════════════════════ */
 import { trpc } from "@/lib/trpc";
 import { motion, AnimatePresence } from "framer-motion";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect, useRef } from "react";
 import { Link } from "wouter";
 import {
   ChevronLeft, Home, Trash2, Eye, Lock,
   Sparkles, Package, Palette, Sofa,
   Lamp, Frame, Music, Flower2, X, Check,
-  Shield, Trees, Vault,
+  Shield, Trees, Vault, Camera, Star,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
+import { getMusicTrackUrl } from "@shared/personalQuarters";
 
 const ZONE_ICONS: Record<string, React.ComponentType<any>> = {
   main: Home,
@@ -31,7 +32,7 @@ const ZONE_ICONS: Record<string, React.ComponentType<any>> = {
   vault: Vault,
 };
 
-type Tab = "decorate" | "catalog" | "visit";
+type Tab = "decorate" | "catalog" | "visit" | "gallery";
 
 export default function PersonalQuartersPage() {
   const [tab, setTab] = useState<Tab>("decorate");
@@ -60,6 +61,22 @@ export default function PersonalQuartersPage() {
   });
   const setMusicMut = trpc.personalQuarters.setMusicTrack.useMutation({
     onSuccess: () => { refetch(); },
+    onError: (e: any) => toast.error(e.message),
+  });
+  const logCompanionVisitMut = trpc.personalQuarters.logCompanionVisit.useMutation();
+  const { data: companionVisits } = trpc.personalQuarters.getRecentCompanionVisits.useQuery(undefined, {
+    staleTime: 60_000,
+  });
+  const { data: featured, refetch: refetchFeatured } = trpc.personalQuarters.getFeaturedGallery.useQuery(
+    { limit: 12 },
+    { enabled: tab === "gallery" },
+  );
+  const setScreenshotMut = trpc.personalQuarters.setScreenshot.useMutation({
+    onSuccess: () => {
+      toast.success("Screenshot updated!");
+      refetch();
+      refetchFeatured();
+    },
     onError: (e: any) => toast.error(e.message),
   });
 
@@ -95,6 +112,43 @@ export default function PersonalQuartersPage() {
                 ?? (lighting.all as any[])[0];
     return preset?.background;
   }, [lighting]);
+
+  // Music box playback. We keep a single <audio> element and swap its
+  // src as the active track changes. If the track has no registered
+  // CDN URL we silently no-op so the UI still persists the selection.
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const activeTrackId = music?.active as string | undefined;
+  useEffect(() => {
+    const el = audioRef.current;
+    if (!el || !activeTrackId) return;
+    const url = getMusicTrackUrl(activeTrackId);
+    if (!url) {
+      el.pause();
+      el.removeAttribute("src");
+      return;
+    }
+    if (el.src !== url) {
+      el.src = url;
+      el.loop = true;
+      el.volume = 0.35;
+      el.play().catch(() => {
+        // Autoplay may be blocked until the user interacts — that's fine.
+      });
+    }
+  }, [activeTrackId]);
+
+  // Log companion visits to the server the first time each visiting
+  // companion renders. Rate-limited on the server side (6h/companion).
+  const loggedCompanions = useRef(new Set<string>());
+  useEffect(() => {
+    if (!visitingCompanions || selectedZone !== "main") return;
+    for (const c of visitingCompanions) {
+      if (loggedCompanions.current.has(c.companionId)) continue;
+      loggedCompanions.current.add(c.companionId);
+      logCompanionVisitMut.mutate({ companionId: c.companionId, dialogIndex: 0 });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [visitingCompanions, selectedZone]);
 
   if (isLoading) {
     return (
@@ -153,7 +207,7 @@ export default function PersonalQuartersPage() {
           </span>
         </div>
         <div className="px-4 sm:px-6 flex gap-1 pb-2">
-          {(["decorate", "catalog", "visit"] as Tab[]).map(t => (
+          {(["decorate", "catalog", "visit", "gallery"] as Tab[]).map(t => (
             <button
               key={t}
               onClick={() => { setTab(t); setSelectedSlot(null); }}
@@ -456,7 +510,126 @@ export default function PersonalQuartersPage() {
             )}
           </div>
         )}
+
+        {tab === "gallery" && (
+          <div className="space-y-4">
+            {/* My screenshot controls */}
+            <div className="void-surface p-3 space-y-2">
+              <div className="flex items-center gap-2">
+                <Camera size={14} className="text-primary" />
+                <span className="font-mono text-[10px] tracking-wider text-primary">MY SCREENSHOT</span>
+              </div>
+              {quartersData.screenshotUrl ? (
+                <div className="flex gap-2 items-start">
+                  <img
+                    src={quartersData.screenshotUrl}
+                    alt="My quarters"
+                    className="w-32 h-20 object-cover rounded border border-border/30"
+                  />
+                  <div className="flex-1 space-y-1">
+                    <p className="font-mono text-[10px] text-muted-foreground">
+                      {quartersData.isFeatured ? "Featured in public gallery" : "Not featured"}
+                    </p>
+                    <div className="flex gap-1">
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        className="font-mono text-[10px] h-6"
+                        onClick={() => setScreenshotMut.mutate({
+                          url: quartersData.screenshotUrl,
+                          featured: !quartersData.isFeatured,
+                        })}
+                      >
+                        {quartersData.isFeatured ? "Unfeature" : "Feature"}
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        className="font-mono text-[10px] h-6"
+                        onClick={() => setScreenshotMut.mutate({ url: null, featured: false })}
+                      >
+                        Clear
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <div className="space-y-2">
+                  <p className="font-mono text-[10px] text-muted-foreground">
+                    Paste a CDN URL to submit your quarters to the public gallery.
+                  </p>
+                  <ScreenshotUrlInput onSubmit={(url, featured) => setScreenshotMut.mutate({ url, featured })} />
+                </div>
+              )}
+            </div>
+
+            {/* Featured gallery */}
+            <div>
+              <p className="font-mono text-[10px] text-muted-foreground/60 tracking-wider mb-2">
+                FEATURED QUARTERS ({featured?.length ?? 0})
+              </p>
+              {!featured || featured.length === 0 ? (
+                <div className="text-center py-8 border border-dashed border-border/30 rounded-md">
+                  <Camera size={28} className="mx-auto text-muted-foreground/30 mb-2" />
+                  <p className="font-mono text-xs text-muted-foreground/60">No featured quarters yet.</p>
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                  {featured.map((q: any) => (
+                    <motion.button
+                      key={q.userId}
+                      onClick={() => { setTab("visit"); setVisitUserId(String(q.userId)); }}
+                      initial={{ opacity: 0, y: 8 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="text-left void-surface p-2 hover:border-primary/40 transition-colors"
+                    >
+                      <img
+                        src={q.screenshotUrl}
+                        alt={q.name}
+                        className="w-full aspect-video object-cover rounded mb-2"
+                      />
+                      <p className="font-mono text-xs font-semibold truncate">{q.name}</p>
+                      <p className="font-mono text-[10px] text-muted-foreground flex items-center gap-2">
+                        <Eye size={9} /> {q.visitCount} visits
+                        {q.lightingPreset && (
+                          <>
+                            <Lamp size={9} className="ml-auto" /> {q.lightingPreset}
+                          </>
+                        )}
+                      </p>
+                    </motion.button>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* Companion visit history */}
+            {companionVisits && companionVisits.length > 0 && (
+              <div>
+                <p className="font-mono text-[10px] text-muted-foreground/60 tracking-wider mb-2">
+                  COMPANIONS STOPPED BY
+                </p>
+                <div className="space-y-1">
+                  {companionVisits.map((v: any) => (
+                    <div key={v.id} className="flex items-center gap-2 font-mono text-[11px]">
+                      <div className="w-5 h-5 rounded-full bg-accent/30 border border-accent/60 flex items-center justify-center">
+                        <span className="text-[8px] font-bold text-accent">{v.companionId.charAt(0).toUpperCase()}</span>
+                      </div>
+                      <span className="text-foreground capitalize">{v.companionId.replace(/_/g, " ")}</span>
+                      <span className="text-muted-foreground ml-auto">
+                        {new Date(v.visitedAt).toLocaleString(undefined, { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" })}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        )}
       </div>
+
+      {/* Hidden audio element — driven by the music-box track effect. */}
+      <audio ref={audioRef} preload="none" aria-hidden="true" className="hidden" />
 
       {/* Slot item picker modal (overlay within decorate tab) */}
       <AnimatePresence>
@@ -522,6 +695,55 @@ export default function PersonalQuartersPage() {
           </motion.div>
         )}
       </AnimatePresence>
+    </div>
+  );
+}
+
+/**
+ * Tiny controlled input for pasting a screenshot URL. Separated from the
+ * main page so we can keep PersonalQuartersPage's top-level hook count
+ * stable whether or not a screenshot is set.
+ */
+function ScreenshotUrlInput({
+  onSubmit,
+}: {
+  onSubmit: (url: string, featured: boolean) => void;
+}) {
+  const [url, setUrl] = useState("");
+  const [featured, setFeatured] = useState(true);
+  return (
+    <div className="flex gap-1">
+      <input
+        type="url"
+        value={url}
+        onChange={(e) => setUrl(e.target.value)}
+        placeholder="https://cdn.example.com/my-quarters.jpg"
+        className="flex-1 px-2 py-1 rounded bg-card/30 border border-border/30 font-mono text-[10px] focus:outline-none focus:border-primary/50"
+      />
+      <button
+        type="button"
+        onClick={() => setFeatured((f) => !f)}
+        className={`px-2 rounded font-mono text-[10px] border ${
+          featured
+            ? "bg-primary/20 border-primary/40 text-primary"
+            : "bg-card/30 border-border/30 text-muted-foreground"
+        }`}
+        title="Feature in public gallery"
+      >
+        <Star size={10} className="inline" />
+      </button>
+      <Button
+        size="sm"
+        variant="outline"
+        disabled={!url}
+        onClick={() => {
+          onSubmit(url, featured);
+          setUrl("");
+        }}
+        className="font-mono text-[10px] h-7"
+      >
+        Submit
+      </Button>
     </div>
   );
 }

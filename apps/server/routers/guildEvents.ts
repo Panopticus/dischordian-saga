@@ -19,10 +19,14 @@ import { z } from "zod";
 import { TRPCError } from "@trpc/server";
 import { router, protectedProcedure } from "../_core/trpc";
 import { getDb } from "../db";
-import { guildEvents, guildEventAttendance, guildMembers, guilds, users } from "../../db/schema";
-import { eq, and, gte, lte, desc, asc, inArray, or } from "drizzle-orm";
+import {
+  guildEvents, guildEventAttendance, guildMembers, guilds, users,
+  notifications, userProgress,
+} from "../../db/schema";
+import { eq, and, gte, lte, desc, asc, inArray, or, sql } from "drizzle-orm";
 import {
   validateEventInput, GUILD_EVENT_LIMITS, computeLiveStatus,
+  getGuildEventTypeDef,
   type GuildEventType,
 } from "../../shared/guildEvents";
 
@@ -45,6 +49,61 @@ async function getMyMembership(userId: number) {
 function isOfficerOrLeader(role: string | null | undefined): boolean {
   return role === "leader" || role === "officer";
 }
+
+/**
+ * Persist any status drift for a batch of events. An event stored as
+ * `scheduled` that has crossed its `startsAt` moves to `in_progress`;
+ * one past `endsAt` moves to `completed`. Cancelled and already-completed
+ * rows are never touched. Returns the events with their up-to-date status
+ * so the caller can return fresh data without a second round-trip.
+ *
+ * This is intentionally idempotent and cheap (one UPDATE per transition)
+ * so it can run on every read. A dedicated cron is unnecessary for now.
+ */
+async function reconcileEventStatuses<T extends {
+  id: number;
+  status: "scheduled" | "in_progress" | "completed" | "cancelled";
+  startsAt: Date;
+  endsAt: Date;
+}>(events: T[]): Promise<T[]> {
+  if (events.length === 0) return events;
+  const db = await getDb();
+  if (!db) return events;
+  const now = Date.now();
+  const toUpdate: Array<{ id: number; next: "in_progress" | "completed" }> = [];
+
+  for (const e of events) {
+    if (e.status === "cancelled" || e.status === "completed") continue;
+    const live = computeLiveStatus(e.status, e.startsAt, e.endsAt, now);
+    if (live !== e.status && (live === "in_progress" || live === "completed")) {
+      toUpdate.push({ id: e.id, next: live });
+    }
+  }
+
+  if (toUpdate.length === 0) return events;
+
+  for (const t of toUpdate) {
+    await db.update(guildEvents).set({ status: t.next }).where(eq(guildEvents.id, t.id));
+  }
+
+  // Return updated objects so the caller doesn't see stale status.
+  const updatedById = new Map(toUpdate.map((t) => [t.id, t.next]));
+  return events.map((e) => {
+    const next = updatedById.get(e.id);
+    return next ? { ...e, status: next } : e;
+  });
+}
+
+/** Per-event reward tuning for check-in. Only "participatory" event
+ *  types (raid, tournament, training, pvp_practice) grant rewards; social
+ *  events and roleplay nights have no loot. Tuning is intentionally
+ *  modest — events are flavor content, not a farming vector. */
+const EVENT_CHECKIN_REWARDS: Partial<Record<GuildEventType, { xp: number; dream: number }>> = {
+  raid:         { xp: 120, dream: 15 },
+  tournament:   { xp: 100, dream: 20 },
+  training:     { xp: 80,  dream: 0  },
+  pvp_practice: { xp: 60,  dream: 5  },
+};
 
 /** Fetch attendance + member name map for a set of event ids. */
 async function fetchAttendanceByEvent(eventIds: number[]): Promise<Record<number, Array<{
@@ -88,7 +147,7 @@ export const guildEventsRouter = router({
     if (!membership) return [];
 
     const now = new Date();
-    const events = await db
+    const rawEvents = await db
       .select()
       .from(guildEvents)
       .where(and(
@@ -97,6 +156,8 @@ export const guildEventsRouter = router({
         or(eq(guildEvents.status, "scheduled"), eq(guildEvents.status, "in_progress")),
       ))
       .orderBy(asc(guildEvents.startsAt));
+    // Persist any scheduled→in_progress transitions that have come due.
+    const events = await reconcileEventStatuses(rawEvents);
 
     const attendance = await fetchAttendanceByEvent(events.map((e) => e.id));
     return events.map((e) => {
@@ -149,9 +210,12 @@ export const guildEventsRouter = router({
       const membership = await getMyMembership(ctx.user.id);
       if (!membership) return null;
 
-      const [event] = await db.select().from(guildEvents).where(eq(guildEvents.id, input.eventId));
-      if (!event) return null;
-      if (event.guildId !== membership.guildId) return null;
+      const [rawEvent] = await db.select().from(guildEvents).where(eq(guildEvents.id, input.eventId));
+      if (!rawEvent) return null;
+      if (rawEvent.guildId !== membership.guildId) return null;
+
+      // Persist any status drift (scheduled→in_progress→completed).
+      const [event] = await reconcileEventStatuses([rawEvent]);
 
       const attendance = (await fetchAttendanceByEvent([event.id]))[event.id] ?? [];
       return {
@@ -226,6 +290,27 @@ export const guildEventsRouter = router({
           userId: ctx.user.id,
           rsvpStatus: "going",
         });
+
+        // Notify every other guild member about the new event so they
+        // can RSVP. The creator doesn't get pinged (they made it).
+        const members = await db
+          .select({ userId: guildMembers.userId })
+          .from(guildMembers)
+          .where(eq(guildMembers.guildId, membership.guildId));
+        const typeDef = getGuildEventTypeDef(input.eventType);
+        const notifyRows = members
+          .filter((m) => m.userId !== ctx.user.id)
+          .map((m) => ({
+            userId: m.userId,
+            type: "guild_message" as const,
+            title: `New guild event: ${input.title.trim()}`,
+            message: `${typeDef.name} scheduled for ${new Date(input.startsAt).toLocaleString()}. Tap to RSVP.`,
+            actionUrl: "/guild",
+            metadata: { eventId: created.id, eventType: input.eventType } as Record<string, unknown>,
+          }));
+        if (notifyRows.length > 0) {
+          await db.insert(notifications).values(notifyRows);
+        }
       }
 
       return { success: true, eventId: created?.id ?? null };
@@ -404,6 +489,11 @@ export const guildEventsRouter = router({
         ))
         .limit(1);
 
+      // Idempotent: if the user has already checked in, grant no further
+      // rewards. This is the key guard — a naive `if existingRsvp` branch
+      // would double-pay anyone who re-clicks the check-in button.
+      const alreadyCheckedIn = Boolean(existingRsvp?.checkedInAt);
+
       if (existingRsvp) {
         await db
           .update(guildEventAttendance)
@@ -417,6 +507,33 @@ export const guildEventsRouter = router({
           checkedInAt: new Date(),
         });
       }
-      return { success: true };
+
+      // First-time check-in → grant the configured event reward (if any).
+      let reward: { xp: number; dream: number } | null = null;
+      if (!alreadyCheckedIn) {
+        const cfg = EVENT_CHECKIN_REWARDS[event.eventType as GuildEventType];
+        if (cfg) {
+          reward = cfg;
+          if (cfg.xp > 0) {
+            await db.update(userProgress)
+              .set({ xp: sql`${userProgress.xp} + ${cfg.xp}` })
+              .where(and(
+                eq(userProgress.userId, ctx.user.id),
+                eq(userProgress.franchiseId, "dischordian-saga"),
+              ));
+          }
+          if (cfg.dream > 0) {
+            // Treat check-in Dream as a guild-treasury bonus rather than
+            // minting to player dreamBalance — rewards flow into the
+            // guild's pool, reinforcing the "guild activity strengthens
+            // the hall" feedback loop.
+            await db.update(guilds)
+              .set({ treasuryDream: sql`${guilds.treasuryDream} + ${cfg.dream}` })
+              .where(eq(guilds.id, membership.guildId));
+          }
+        }
+      }
+
+      return { success: true, reward, alreadyCheckedIn };
     }),
 });

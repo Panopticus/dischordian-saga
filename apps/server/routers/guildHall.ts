@@ -12,8 +12,8 @@ import { z } from "zod";
 import { TRPCError } from "@trpc/server";
 import { router, protectedProcedure } from "../_core/trpc";
 import { getDb } from "../db";
-import { guilds, guildMembers } from "../../db/schema";
-import { eq, and } from "drizzle-orm";
+import { guilds, guildMembers, bossMastery, guildWarContributions, userProgress } from "../../db/schema";
+import { eq, and, inArray, sql } from "drizzle-orm";
 import {
   HALL_TIERS, HALL_ROOMS, GUILD_DECORATIONS,
   getHallTier, getRoomsForTier, getUpgradeCost,
@@ -54,6 +54,112 @@ async function getGuildForMember(userId: number) {
   const guild = await db.select().from(guilds)
     .where(eq(guilds.id, membership[0].guildId)).limit(1);
   return { guild: guild[0] ?? null, role: membership[0].role };
+}
+
+/**
+ * Resolve a decoration's `unlockRequirement` string against the guild's
+ * current state. Returns `{ unlocked: true }` for decorations with no
+ * requirement or with a requirement the guild has satisfied, otherwise
+ * a `{ unlocked: false, reason }` object suitable for returning to the
+ * client.
+ *
+ * Known requirement tokens (defined in shared/guildHall.ts):
+ *   - "win_guild_war"        — guild has participated in ≥1 war (proxied
+ *                              via a guildWarContribution row existing).
+ *   - "first_guild_war"      — same as above.
+ *   - "guild_sentinel_kill"  — any member has killed Sentinel Prime ≥1.
+ *   - "guild_wyrm_kill"      — any member has killed the Chrono Wyrm ≥1.
+ *   - "guild_void_kill_10"   — members' Void Leviathan kills sum to ≥10.
+ *   - "tier_5"               — guild hall is at tier 5.
+ *   - "antiquarian_trust_60" — any member has Antiquarian trust ≥60.
+ */
+async function isDecorationUnlocked(
+  requirement: string | undefined,
+  guildId: number,
+  hallTier: number,
+): Promise<{ unlocked: true } | { unlocked: false; reason: string }> {
+  if (!requirement) return { unlocked: true };
+  const db = await getDb();
+  if (!db) dbUnavailable();
+
+  switch (requirement) {
+    case "tier_5":
+      return hallTier >= 5
+        ? { unlocked: true }
+        : { unlocked: false, reason: "Requires Tier 5 (Sanctum) hall" };
+
+    case "win_guild_war":
+    case "first_guild_war": {
+      const rows = await db
+        .select({ id: guildWarContributions.id })
+        .from(guildWarContributions)
+        .where(eq(guildWarContributions.guildId, guildId))
+        .limit(1);
+      return rows.length > 0
+        ? { unlocked: true }
+        : { unlocked: false, reason: "Requires participation in a guild war" };
+    }
+
+    case "guild_sentinel_kill":
+    case "guild_wyrm_kill":
+    case "guild_void_kill_10": {
+      const bossKey =
+        requirement === "guild_sentinel_kill" ? "panopticon_sentinel"
+        : requirement === "guild_wyrm_kill" ? "chrono_wyrm"
+        : "void_leviathan";
+      const minKills = requirement === "guild_void_kill_10" ? 10 : 1;
+      // Sum kills across all guild members for the target boss.
+      const members = await db
+        .select({ userId: guildMembers.userId })
+        .from(guildMembers)
+        .where(eq(guildMembers.guildId, guildId));
+      if (members.length === 0) {
+        return { unlocked: false, reason: "No guild members" };
+      }
+      const kills = await db
+        .select({ kills: bossMastery.kills })
+        .from(bossMastery)
+        .where(and(
+          inArray(bossMastery.userId, members.map((m) => m.userId)),
+          eq(bossMastery.bossKey, bossKey),
+        ));
+      const total = kills.reduce((acc, k) => acc + (k.kills ?? 0), 0);
+      return total >= minKills
+        ? { unlocked: true }
+        : { unlocked: false, reason: `Requires ${minKills}× ${bossKey} guild kills (have ${total})` };
+    }
+
+    case "antiquarian_trust_60": {
+      // Any member with Antiquarian trust ≥60 unlocks the item for the guild.
+      const members = await db
+        .select({ userId: guildMembers.userId })
+        .from(guildMembers)
+        .where(eq(guildMembers.guildId, guildId));
+      if (members.length === 0) {
+        return { unlocked: false, reason: "No guild members" };
+      }
+      const progressRows = await db
+        .select({ progressData: userProgress.progressData })
+        .from(userProgress)
+        .where(and(
+          inArray(userProgress.userId, members.map((m) => m.userId)),
+          eq(userProgress.franchiseId, "dischordian-saga"),
+        ));
+      const met = progressRows.some((row) => {
+        const pd = (row.progressData ?? {}) as Record<string, unknown>;
+        const npcTrust = (pd.npcTrust as Record<string, number> | undefined) ?? {};
+        return (npcTrust.antiquarian ?? 0) >= 60;
+      });
+      return met
+        ? { unlocked: true }
+        : { unlocked: false, reason: "Requires a guild member with Antiquarian trust ≥60" };
+    }
+
+    default:
+      // Unknown requirement tokens fail closed — better to be strict than
+      // accidentally unlock things by typo.
+      return { unlocked: false, reason: `Unknown unlock requirement: ${requirement}` };
+  }
 }
 
 export const guildHallRouter = router({
@@ -153,6 +259,16 @@ export const guildHallRouter = router({
       const existingInRoom = hallData.decorations.filter((d) => d.roomId === input.roomId).length;
       if (existingInRoom >= room.decorationSlots) {
         return { success: false as const, error: `Room has no free decoration slots (${room.decorationSlots} max)` };
+      }
+
+      const deco = GUILD_DECORATIONS.find((d) => d.id === input.decoId);
+      if (!deco) return { success: false as const, error: "Unknown decoration" };
+
+      // Unlock gating — decorations with an `unlockRequirement` have to be
+      // earned via guild activity (war wins, boss kills, hall tier, NPC trust).
+      const unlockCheck = await isDecorationUnlocked(deco.unlockRequirement, guild.id, guild.hallTier);
+      if (!unlockCheck.unlocked) {
+        return { success: false as const, error: unlockCheck.reason };
       }
 
       const cost = getDecoCost(input.decoId);

@@ -207,3 +207,53 @@ export function getTotalPassiveBonuses(placedDecorationIds: string[]): Record<st
   }
   return bonuses;
 }
+
+/** Aggregate stat → percent map from tier perks + room bonuses + placed
+ *  decoration bonuses. Stats are keyed the same way the individual sources
+ *  use them (e.g. "xp", "war_points", "craft_success", "dream_gain").
+ *
+ *  The value for each stat is its cumulative percent contribution — e.g.
+ *  { xp: 15 } means +15% XP. Consumers apply it as `(1 + stat/100)`. */
+export function getGuildHallStatBonuses(
+  hallTier: number,
+  placedDecorations: { decoId: string; roomId: string }[],
+): Record<string, number> {
+  const totals: Record<string, number> = {};
+
+  // 1. Tier perks — all perks unlocked at or below the current tier apply.
+  for (const perk of getAllPerks(hallTier)) {
+    if (!perk.effect.percent) continue;
+    totals[perk.effect.stat] = (totals[perk.effect.stat] ?? 0) + perk.effect.value;
+  }
+
+  // 2. Room bonuses — only for rooms whose tier requirement is met AND
+  //    which actually exist in the placed catalog (rooms are unlocked by
+  //    tier, but bonuses are active regardless of decoration count).
+  const unlockedRoomIds = new Set(getRoomsForTier(hallTier).map((r) => r.id));
+  for (const room of HALL_ROOMS) {
+    if (!unlockedRoomIds.has(room.id)) continue;
+    for (const b of room.bonuses) {
+      if (!b.percent) continue;
+      totals[b.stat] = (totals[b.stat] ?? 0) + b.value;
+    }
+  }
+
+  // 3. Placed decoration passive bonuses — each decoration's passiveBonus
+  //    is additive. `getTotalPassiveBonuses` already handles this shape
+  //    but we fold it into the same totals map.
+  const decoBonuses = getTotalPassiveBonuses(placedDecorations.map((d) => d.decoId));
+  for (const [stat, value] of Object.entries(decoBonuses)) {
+    totals[stat] = (totals[stat] ?? 0) + value;
+  }
+
+  return totals;
+}
+
+/** Convert a stat-percent map into a multiplier for a specific stat.
+ *  Returns 1 when the stat isn't present. */
+export function hallStatMultiplier(
+  bonuses: Record<string, number>,
+  stat: string,
+): number {
+  return 1 + (bonuses[stat] ?? 0) / 100;
+}

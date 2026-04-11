@@ -2345,6 +2345,8 @@ export type GameReplayRow = typeof gameReplays.$inferSelect;
  * - `lightingPreset` drives the room's visual atmosphere (porting the
  *   8 presets from the former Player Cabin system).
  * - `musicTrack` is the currently-selected music-box track.
+ * - `screenshotUrl` is the featured-gallery image URL.
+ * - `isFeatured` flags the quarters for the community gallery.
  */
 export const playerQuarters = mysqlTable("player_quarters", {
   id: int("id").primaryKey().autoincrement(),
@@ -2357,10 +2359,16 @@ export const playerQuarters = mysqlTable("player_quarters", {
   lightingPreset: varchar("lightingPreset", { length: 32 }).notNull().default("void"),
   /** Active music box track key */
   musicTrack: varchar("musicTrack", { length: 64 }).notNull().default("music_void_ambient"),
+  /** CDN URL for the quarters screenshot (used by the featured gallery). */
+  screenshotUrl: varchar("screenshotUrl", { length: 512 }),
+  /** Flagged for inclusion in the public featured-quarters gallery. */
+  isFeatured: boolean("isFeatured").notNull().default(false),
   visitCount: int("visitCount").notNull().default(0),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
-});
+}, (table) => ({
+  featuredIdx: index("idx_player_quarters_featured").on(table.isFeatured),
+}));
 export type PlayerQuartersRow = typeof playerQuarters.$inferSelect;
 
 export const quarterVisits = mysqlTable("quarter_visits", {
@@ -2370,6 +2378,27 @@ export const quarterVisits = mysqlTable("quarter_visits", {
   visitedAt: timestamp("visitedAt").defaultNow().notNull(),
 });
 export type QuarterVisitRow = typeof quarterVisits.$inferSelect;
+
+/**
+ * Companion visits to a player's personal quarters. Unlike `quarterVisits`,
+ * these are NPC visits — the `companionId` is a string key (elara, locke,
+ * agent_zero, etc.) matching the COMPANION_VISITS config in
+ * shared/personalQuarters.ts. Used for the "Elara stopped by while you
+ * were away" UI and for narrative hooks.
+ */
+export const quarterCompanionVisits = mysqlTable("quarter_companion_visits", {
+  id: int("id").primaryKey().autoincrement(),
+  ownerId: int("ownerId").notNull(),
+  companionId: varchar("companionId", { length: 64 }).notNull(),
+  /** Which randomly-selected visit dialog was shown (index into the
+   *  COMPANION_VISITS[id].visitDialogs array). Lets us persist the line. */
+  dialogIndex: int("dialogIndex").notNull().default(0),
+  visitedAt: timestamp("visitedAt").defaultNow().notNull(),
+}, (table) => ({
+  ownerIdIdx: index("idx_quarter_companion_visits_owner_id").on(table.ownerId),
+  visitedAtIdx: index("idx_quarter_companion_visits_visited_at").on(table.visitedAt),
+}));
+export type QuarterCompanionVisitRow = typeof quarterCompanionVisits.$inferSelect;
 
 /* ─── FRIENDLY CHALLENGES ─── */
 export const friendlyChallenges = mysqlTable("friendly_challenges", {
