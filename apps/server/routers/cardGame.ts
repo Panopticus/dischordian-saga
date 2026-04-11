@@ -2,7 +2,7 @@ import { logger } from "../logger";
 import { z } from "zod";
 import { publicProcedure, protectedProcedure, router } from "../_core/trpc";
 import { getDb } from "../db";
-import { cards, userCards, decks, cardGameMatches, characterSheets, dreamBalance, userProgress } from "../../db/schema";
+import { cards, userCards, decks, cardGameMatches, characterSheets, dreamBalance, userProgress, pvpMatches } from "../../db/schema";
 import { eq, and, like, inArray, sql, desc, asc, type SQL } from "drizzle-orm";
 import { fetchCitizenData, fetchPotentialNftData, resolveCardGameBonuses } from "../traitResolver";
 import { trackAiResult, trackCollectionSize } from "../achievementTracker";
@@ -383,6 +383,199 @@ export const cardGameRouter = router({
       ultra: { price: 500, currency: "credits", description: "5 cards • guaranteed epic+" },
     };
   }),
+
+  // ═══════════════════════════════════════════════════════
+  // META ANALYTICS — card usage + archetype win-rates
+  // ═══════════════════════════════════════════════════════
+
+  /**
+   * Aggregate card usage and win-rate stats across completed PvP matches.
+   * Scans the last `sampleSize` matches (default 500) so the query stays
+   * O(sampleSize) and the UI can render a "most-played cards" leaderboard.
+   * Returns the top `limit` cards by play count.
+   */
+  getMetaCardStats: publicProcedure
+    .input(z.object({
+      sampleSize: z.number().min(50).max(2000).default(500),
+      limit: z.number().min(1).max(50).default(20),
+    }).optional())
+    .query(async ({ input }) => {
+      const db = await getDb();
+      if (!db) return { sampleSize: 0, cards: [] };
+
+      const sampleSize = input?.sampleSize ?? 500;
+      const limit = input?.limit ?? 20;
+
+      const recent = await db
+        .select({
+          player1Deck: pvpMatches.player1Deck,
+          player2Deck: pvpMatches.player2Deck,
+          winnerId: pvpMatches.winnerId,
+          player1Id: pvpMatches.player1Id,
+          player2Id: pvpMatches.player2Id,
+        })
+        .from(pvpMatches)
+        .where(eq(pvpMatches.status, "completed"))
+        .orderBy(desc(pvpMatches.id))
+        .limit(sampleSize);
+
+      const counts = new Map<string, { plays: number; wins: number }>();
+      for (const match of recent) {
+        const p1Won = match.winnerId != null && match.winnerId === match.player1Id;
+        const p2Won = match.winnerId != null && match.winnerId === match.player2Id;
+        const bump = (cardId: string, won: boolean) => {
+          const entry = counts.get(cardId) ?? { plays: 0, wins: 0 };
+          entry.plays += 1;
+          if (won) entry.wins += 1;
+          counts.set(cardId, entry);
+        };
+        for (const cardId of match.player1Deck ?? []) bump(cardId, p1Won);
+        for (const cardId of match.player2Deck ?? []) bump(cardId, p2Won);
+      }
+
+      if (counts.size === 0) {
+        return { sampleSize: recent.length, cards: [] };
+      }
+
+      const topIds = [...counts.entries()]
+        .sort((a, b) => b[1].plays - a[1].plays)
+        .slice(0, limit)
+        .map(([id]) => id);
+
+      const cardRows = topIds.length > 0
+        ? await db
+            .select({
+              cardId: cards.cardId,
+              name: cards.name,
+              rarity: cards.rarity,
+              cardType: cards.cardType,
+              imageUrl: cards.imageUrl,
+            })
+            .from(cards)
+            .where(inArray(cards.cardId, topIds))
+        : [];
+
+      const nameMap = new Map(cardRows.map(r => [r.cardId, r]));
+
+      const topCards = topIds.map(cardId => {
+        const stats = counts.get(cardId)!;
+        const meta = nameMap.get(cardId);
+        return {
+          cardId,
+          name: meta?.name ?? cardId,
+          rarity: meta?.rarity ?? "common",
+          cardType: meta?.cardType ?? null,
+          imageUrl: meta?.imageUrl ?? null,
+          plays: stats.plays,
+          wins: stats.wins,
+          winRate: stats.plays > 0 ? Math.round((stats.wins / stats.plays) * 1000) / 10 : 0,
+        };
+      });
+
+      return {
+        sampleSize: recent.length,
+        cards: topCards,
+      };
+    }),
+
+  /**
+   * Group decks by their top-rarity "archetype signature" (the 3 rarest
+   * cards) and return each archetype's win/loss totals. Uses the decks
+   * table directly because that's where wins/losses already aggregate.
+   */
+  getMetaArchetypes: publicProcedure
+    .input(z.object({
+      limit: z.number().min(1).max(20).default(10),
+      minGames: z.number().min(1).max(200).default(5),
+    }).optional())
+    .query(async ({ input }) => {
+      const db = await getDb();
+      if (!db) return { archetypes: [] };
+
+      const limit = input?.limit ?? 10;
+      const minGames = input?.minGames ?? 5;
+
+      const allDecks = await db
+        .select({
+          deckId: decks.id,
+          cardList: decks.cardList,
+          wins: decks.wins,
+          losses: decks.losses,
+        })
+        .from(decks)
+        .where(eq(decks.isActive, 1));
+
+      if (allDecks.length === 0) return { archetypes: [] };
+
+      const uniqueCardIds = new Set<string>();
+      for (const d of allDecks) {
+        for (const entry of d.cardList ?? []) uniqueCardIds.add(entry.cardId);
+      }
+
+      const rarityLookup = new Map<string, { rarity: string; name: string }>();
+      if (uniqueCardIds.size > 0) {
+        const cardRows = await db
+          .select({ cardId: cards.cardId, rarity: cards.rarity, name: cards.name })
+          .from(cards)
+          .where(inArray(cards.cardId, [...uniqueCardIds]));
+        for (const r of cardRows) rarityLookup.set(r.cardId, { rarity: r.rarity, name: r.name });
+      }
+
+      const rarityRank: Record<string, number> = {
+        neyon: 6, mythic: 5, legendary: 4, epic: 3, rare: 2, uncommon: 1, common: 0,
+      };
+
+      const archetypeStats = new Map<string, {
+        signature: string[];
+        names: string[];
+        wins: number;
+        losses: number;
+        deckCount: number;
+      }>();
+
+      for (const d of allDecks) {
+        const sorted = (d.cardList ?? [])
+          .map(c => ({
+            cardId: c.cardId,
+            rarity: rarityLookup.get(c.cardId)?.rarity ?? "common",
+            name: rarityLookup.get(c.cardId)?.name ?? c.cardId,
+          }))
+          .sort((a, b) => (rarityRank[b.rarity] ?? 0) - (rarityRank[a.rarity] ?? 0))
+          .slice(0, 3);
+        if (sorted.length === 0) continue;
+        const signature = sorted.map(c => c.cardId).sort();
+        const key = signature.join("|");
+        const entry = archetypeStats.get(key) ?? {
+          signature,
+          names: sorted.map(c => c.name),
+          wins: 0,
+          losses: 0,
+          deckCount: 0,
+        };
+        entry.wins += d.wins;
+        entry.losses += d.losses;
+        entry.deckCount += 1;
+        archetypeStats.set(key, entry);
+      }
+
+      const archetypes = [...archetypeStats.values()]
+        .filter(a => a.wins + a.losses >= minGames)
+        .map(a => ({
+          signature: a.signature,
+          names: a.names,
+          wins: a.wins,
+          losses: a.losses,
+          games: a.wins + a.losses,
+          deckCount: a.deckCount,
+          winRate: a.wins + a.losses > 0
+            ? Math.round((a.wins / (a.wins + a.losses)) * 1000) / 10
+            : 0,
+        }))
+        .sort((a, b) => b.winRate - a.winRate || b.games - a.games)
+        .slice(0, limit);
+
+      return { archetypes };
+    }),
 
   // ═══════════════════════════════════════════════════════
   // DAILY FREE PACK — Once per 24 hours
