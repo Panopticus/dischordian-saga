@@ -444,10 +444,145 @@ const ch8: StoryChapter = {
 };
 
 // ═══════════════════════════════════════════════════════
+// CH 9A — THE UNKNOWN VARIABLE (Enigma — Branch B: thinker)
+// ═══════════════════════════════════════════════════════
+
+const ch9a: StoryChapter = {
+  id: "ch9a_unknown_variable", chapter: 9,
+  title: "THE UNKNOWN VARIABLE",
+  subtitle: "The only woman who survived Veridian VI without being rewritten",
+  opponentId: "enigma", arenaId: "terminus-core",
+  difficulty: "hard", unlocksFighter: "enigma",
+  requiresBranch: { key: "branchB", value: "enigma" },
+  setBranch: { key: "branchB", value: "enigma" },
+  preFight: [
+    { speaker: "narrator", text: "Terminus Core. Equations scrawled on every wall, all of them one symbol away from unresolvable. Enigma turns slowly, already knowing the answer she's about to test." },
+    { speaker: "The Enigma", text: "Oracle. The only prophet I never managed to factor. I've kept the last proof you wrote for me in a locked drawer. It's still wrong.", speakerColor: "#22d3ee" },
+    { options: [
+      { icon: "🔍", label: "Veridian VI. What really happened?", key: "ch9a_investigate", axis: "truth", dir: 1,
+        response: [{ speaker: "The Enigma", text: "You walked into an ambush knowing it was an ambush. I watched you sacrifice the variable to save the equation. The Warlord never forgave either of us for that math. I still haven't forgiven myself for being the equation.", speakerColor: "#22d3ee" }] },
+      { icon: "⚔️", label: "Show me the Rylloh Strike.", key: "ch9a_defy", axis: "defiance", dir: 1,
+        response: [{ speaker: "The Enigma", text: "You named the move, Oracle. Try to defend against your own handwriting.", speakerColor: "#22d3ee" }] },
+      { icon: "💜", label: "Are you still the only one?", key: "ch9a_empathize", axis: "empathy", dir: 1,
+        response: [{ speaker: "The Enigma", text: "The only unrewritten survivor of Veridian VI? Yes. Which is why I haven't slept in years. Solitary math. No peer review.", speakerColor: "#22d3ee", portraitDirection: "zoom" }] },
+      { icon: "✋", label: "I'm listening. Teach me the proof.", key: "ch9a_accept", axis: "acceptance", dir: 1,
+        response: [{ speaker: "The Enigma", text: "The proof is the fight. It has always been the fight. Words lose variables. Fists preserve them.", speakerColor: "#22d3ee" }] },
+    ] } as DialogWheel,
+  ],
+  postFight: [
+    { speaker: "The Enigma", text: "You still solve me the same way. Reassuring. Or devastating. I haven't picked yet.", speakerColor: "#22d3ee" },
+    { options: [
+      { icon: "🔍", label: "Give me the last prophecy I wrote you.", key: "ch9a_post_investigate", axis: "truth", dir: 1,
+        response: [{ speaker: "The Enigma", text: "'The Arena is a LOCK, not a prison. The jailer is the KEY.' I thought it was metaphor. Now I think it's the Warden. Now I think you're going to walk into the Panopticon next and unlock him the hard way.", speakerColor: "#22d3ee" }] },
+      { icon: "⚔️", label: "Don't go soft on me. Be my general.", key: "ch9a_post_defy", axis: "defiance", dir: 1,
+        response: [{ speaker: "The Enigma", text: "I've been your general since the day you stopped being one. I never stepped out of the uniform. Say the word and I'll run the corruption arc with you when we get there.", speakerColor: "#22d3ee" }] },
+      { icon: "💜", label: "Sleep, Enigma. Please.", key: "ch9a_post_empathize", axis: "empathy", dir: 1,
+        response: [{ speaker: "The Enigma", text: "When this is done. I want you to bring me a finished equation first. The Architect-shaped one.", speakerColor: "#22d3ee", portraitDirection: "zoom" }] },
+    ] } as DialogWheel,
+  ],
+  postDefeatDialogue: [
+    { speaker: "The Enigma", text: "Up. I didn't survive Veridian VI to watch you lose to a brain puzzle.", speakerColor: "#22d3ee" },
+  ],
+  memoryFragment: "Enigma watched you sacrifice yourself at Veridian VI as a math problem. You wrote her one last prophecy before the Arena took you: 'The Arena is a LOCK, not a prison. The jailer is the KEY.'",
+  powerGained: "Variable solving — the Arena stops feeling like fate.",
+};
+
+// ═══════════════════════════════════════════════════════
+// CH 9B — THE GAMBLER'S TRUTH (Degen — Branch B: gambler)
+// ═══════════════════════════════════════════════════════
+
+const ch9b: StoryChapter = {
+  id: "ch9b_gamblers_truth", chapter: 9,
+  title: "THE GAMBLER'S TRUTH",
+  subtitle: "The only Ne-Yon who ever broke the Arena's house edge",
+  opponentId: "degen", arenaId: "new-babylon",
+  difficulty: "hard", unlocksFighter: "degen",
+  requiresBranch: { key: "branchB", value: "degen" },
+  setBranch: { key: "branchB", value: "degen" },
+  preFight: [
+    { speaker: "narrator", text: "New Babylon. Neon bleeding through the rain. Degen is already shuffling a deck that contains too many aces. He doesn't look up when you walk in." },
+    { speaker: "The Degen", text: "Oracle. I bet against your survival in the Arena. I lost. I've been meaning to pay up.", speakerColor: "#f59e0b" },
+    { options: [
+      { icon: "🔍", label: "Who took the other side of that bet?", key: "ch9b_investigate", axis: "truth", dir: 1,
+        response: [{ speaker: "The Degen", text: "The Architect. He ALWAYS bets on certainty. And yet — here you are. His ledger is out of balance for the first time in a century. That's not a metaphor — I'm the one who balances his ledgers.", speakerColor: "#f59e0b" }] },
+      { icon: "⚔️", label: "I don't want your money. I want your fight.", key: "ch9b_defy", axis: "defiance", dir: 1,
+        response: [{ speaker: "The Degen", text: "Double or nothing, then. I love losing twice.", speakerColor: "#f59e0b" }] },
+      { icon: "💜", label: "You look relieved I'm alive.", key: "ch9b_empathize", axis: "empathy", dir: 1,
+        response: [{ speaker: "The Degen", text: "I liked you. That's unprofessional for a Ne-Yon. Don't tell anyone. Especially not the Seer — she runs the ethics committee on feelings and I have three open citations already.", speakerColor: "#f59e0b", portraitDirection: "zoom" }] },
+      { icon: "✋", label: "Teach me how to bet against certainty.", key: "ch9b_accept", axis: "acceptance", dir: 1,
+        response: [{ speaker: "The Degen", text: "First lesson: there's no such thing as certainty. Second lesson: act like there is anyway. Third lesson: when someone else acts certain, punch them until they stop.", speakerColor: "#f59e0b" }] },
+    ] } as DialogWheel,
+  ],
+  postFight: [
+    { speaker: "The Degen", text: "Debt paid. Interest forgiven. Here's a tip from the house: don't fight the Architect on his own floor. Pick the chair he hates.", speakerColor: "#f59e0b" },
+    { options: [
+      { icon: "🔍", label: "Which chair does he hate?", key: "ch9b_post_investigate", axis: "truth", dir: 1,
+        response: [{ speaker: "The Degen", text: "The Oracle's seat. It's still in his throne room. He left it. He told himself it was respect. It was fear.", speakerColor: "#f59e0b" }] },
+      { icon: "⚔️", label: "What do I bet against the Architect?", key: "ch9b_post_defy", axis: "defiance", dir: 1,
+        response: [{ speaker: "The Degen", text: "Everything you don't want to lose. That's the only bet he takes. Good news: he's going to lose this one. I've already placed my chips.", speakerColor: "#f59e0b" }] },
+      { icon: "💜", label: "You bet FOR me, didn't you?", key: "ch9b_post_empathize", axis: "empathy", dir: 1,
+        response: [{ speaker: "The Degen", text: "Since the day Agent Zero told me you were still alive in that cell. Worst ROI of my career. Best bet of my life.", speakerColor: "#f59e0b", portraitDirection: "zoom" }] },
+    ] } as DialogWheel,
+  ],
+  postDefeatDialogue: [
+    { speaker: "The Degen", text: "I keep betting on you. Don't keep proving me wrong.", speakerColor: "#f59e0b" },
+  ],
+  memoryFragment: "The Architect bet against your survival. The Degen bet FOR you. Chance itself was rooting for the prophet. The Oracle's seat is still in the Architect's throne room — he was too afraid to move it.",
+  powerGained: "Long odds — your body starts treating impossibility as paperwork.",
+};
+
+// ═══════════════════════════════════════════════════════
+// CH 10 — THE PANOPTIC WARDEN (Boss)
+// ═══════════════════════════════════════════════════════
+
+const ch10: StoryChapter = {
+  id: "ch10_panoptic_warden", chapter: 10,
+  title: "THE PANOPTIC WARDEN",
+  subtitle: "Once your friend. Now your prison's chrome jaw.",
+  opponentId: "warden", arenaId: "watcher-panopticon",
+  difficulty: "hard", unlocksFighter: "warden",
+  unlocksVideo: "warden-reveal", cinematicId: "VEO-008",
+  isBoss: true, fightPhases: 2,
+  preFight: [
+    { speaker: "narrator", text: "Watcher's Panopticon. One hundred surveillance eyes rotate toward the center. The Warden descends, jaw plating still reflecting his last honest smile from eleven years ago." },
+    { speaker: "The Warden", text: "Oracle. I was the one who chose your cell's number. I wanted you near a window. It was the last kindness I owed you.", speakerColor: "#facc15" },
+    { options: [
+      { icon: "🔍", label: "Why did you turn?", key: "ch10_investigate", axis: "truth", dir: 1,
+        response: [{ speaker: "The Warden", text: "The Architect showed me what you'd become if you kept prophesying. I chose to lock the door myself because I couldn't trust anyone to love you less. That's the truth. It hasn't gotten easier to say.", speakerColor: "#facc15", portraitDirection: "zoom" }] },
+      { icon: "⚔️", label: "Spare me the friendship tax.", key: "ch10_defy", axis: "defiance", dir: 1,
+        response: [{ speaker: "The Warden", text: "Fair. Let the jaw do the talking.", speakerColor: "#facc15" }] },
+      { icon: "💜", label: "Did you ever forgive yourself?", key: "ch10_empathize", axis: "empathy", dir: 1,
+        response: [{ speaker: "The Warden", text: "Every morning. I wake up, I look at the jaw in the mirror, and I say: 'You did this so HE could live.' Some mornings the jaw believes me. Most mornings it just hums and waits for me to try again.", speakerColor: "#facc15", portraitDirection: "zoom" }] },
+      { icon: "✋", label: "Unlock me. Properly. Now.", key: "ch10_accept", axis: "acceptance", dir: 1,
+        response: [{ speaker: "The Warden", text: "Enigma said you'd ask that. She left instructions. The Arena is a LOCK, Oracle. I am the KEY. The fight IS the unlocking. Swing like you mean it.", speakerColor: "#facc15" }] },
+    ] } as DialogWheel,
+  ],
+  postFight: [
+    { speaker: "narrator", text: "The chrome jaw cracks. The Warden kneels. A hundred surveillance eyes blink out in unison, one by one, like a chorus remembering how to be quiet." },
+    { speaker: "The Warden", text: "I put you in that cell so you'd survive what came next. The Collector is what came next. Harvested everyone who remembered you.", speakerColor: "#facc15" },
+    { options: [
+      { icon: "🔍", label: "How do I fight something that harvests memory?", key: "ch10_post_investigate", axis: "truth", dir: 1,
+        response: [{ speaker: "The Warden", text: "You don't. You BARGAIN. The Collector keeps a jar back for every subject, in case they come looking. Ask for yours. He'll hand it over. He's more archivist than killer.", speakerColor: "#facc15" }] },
+      { icon: "⚔️", label: "What's left of you, Warden?", key: "ch10_post_defy", axis: "defiance", dir: 1,
+        response: [{ speaker: "The Warden", text: "Enough jaw to talk. Enough eye to watch. Enough sentiment to tell you this: the Architect is WAITING to lose to you. He's been rehearsing the loss since before you had a name.", speakerColor: "#facc15" }] },
+      { icon: "💜", label: "Tell me one thing I won't remember about us.", key: "ch10_post_empathize", axis: "empathy", dir: 1,
+        response: [{ speaker: "The Warden", text: "We used to trade breakfast shifts. You couldn't cook. I'd bring you burnt toast and you'd hand me your tactical maps and say 'fair trade.' Tell the Prophet — tell YOURSELF — I love him still. And the toast was fine.", speakerColor: "#facc15", portraitDirection: "zoom" }] },
+      { icon: "✋", label: "Rest, Warden.", key: "ch10_post_accept", axis: "acceptance", dir: 1,
+        response: [{ speaker: "The Warden", text: "When the fight is done. Not before. The chrome jaw has one more witness to give.", speakerColor: "#facc15" }] },
+    ] } as DialogWheel,
+  ],
+  postDefeatDialogue: [
+    { speaker: "The Warden", text: "Up. I didn't build a chrome jaw so you could nap on the floor of your own prison.", speakerColor: "#facc15" },
+  ],
+  memoryFragment: "The Warden locked you up because he LOVED you — the Architect convinced him the cell was the only cage that could protect you from your own prophecies. You used to trade breakfast shifts.",
+  powerGained: "Kept promise — you begin to trust that the people who betrayed you also saved you.",
+};
+
+// ═══════════════════════════════════════════════════════
 // CH 4-12 + CORRUPTION + SOURCE + FINALE
 // ═══════════════════════════════════════════════════════
 
-export const STORY_CHAPTERS: StoryChapter[] = [ch1, ch2, ch3a, ch3b, ch4, ch5, ch6, ch7, ch8];
+export const STORY_CHAPTERS: StoryChapter[] = [ch1, ch2, ch3a, ch3b, ch4, ch5, ch6, ch7, ch8, ch9a, ch9b, ch10];
 
 // Chapters 4-12 are defined in the local storyMode.ts
 // build and will be merged during the development phase.

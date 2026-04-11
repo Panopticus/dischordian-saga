@@ -244,7 +244,7 @@ export const EPOCH_1_TRANSMISSIONS: Transmission[] = [
     memeIntro: "The Host arrives. The virus breaches the city. Dragon battles. Harmonic amplification. The Oracle passes a weapon to the Guardian. It's all connected, frens. It all circles back.",
     memeOutro: "The ninth Ne-Yon amplifies the crystal network. The virus dragon falls. And the Oracle stands where the Guardian needs her to stand. What a finale! Except it isn't. Never is.",
     triggersOracleReveal: false,
-    unlockTrigger: { kind: "chapter_complete", chapterId: "ch10" },
+    unlockTrigger: { kind: "chapter_complete", chapterId: "ch10_panoptic_warden" },
     reward: { xp: 600, dream: 60, achievement: "witnessed_first_fall" },
     synopsis: "The Host's infected horde breaches the crystalline city. The Oracle turns the tide.",
     relatedLoredexEntries: ["entity_host", "entity_oracle", "thaloria", "neyons", "thought_virus"],
