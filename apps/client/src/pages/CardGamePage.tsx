@@ -125,6 +125,10 @@ export default function CardGamePage() {
   const saveReplayMut = trpc.replay.saveReplay.useMutation();
   const replaySavedRef = useRef(false);
   const battleStartedAtRef = useRef<number | null>(null);
+  // Track whether the current battle was started from the tutorial flow
+  // so we can layer extra hint toasts on top of the normal UI.
+  const [tutorialBattle, setTutorialBattle] = useState(false);
+  const tutorialHintsShownRef = useRef<Set<number>>(new Set());
 
   // Fetch cards for deck building
   const { data: allCards } = trpc.cardGame.browse.useQuery({
@@ -213,6 +217,58 @@ export default function CardGamePage() {
       }
     }, 200);
   }, [allCards, selectedFaction]);
+
+  // Start a guided tutorial battle: Architect faction, easiest AI, and
+  // a set of scripted hint toasts that fire on the first few turns so
+  // new players learn the loop while actually playing.
+  const startTutorialBattle = useCallback(() => {
+    if (!allCards?.cards) return;
+
+    const available = allCards.cards.filter(c => c.power > 0 && c.health > 0);
+    const shuffled = [...available].sort(() => Math.random() - 0.5);
+    const playerCards = shuffled.slice(0, 25).map(c => cardToBattleCard(c));
+    const opponentCards = shuffled.slice(25, 50).map(c => cardToBattleCard({
+      ...c,
+      userCard: null,
+    }));
+
+    setSelectedFaction("architect");
+    setSelectedDifficulty("recruit");
+    setTutorialBattle(true);
+    tutorialHintsShownRef.current = new Set();
+
+    const state = createBattle(playerCards, opponentCards, "architect", "recruit");
+    const withDraw = drawCards(state, "player", 1);
+    setBattle(withDraw);
+    prevEventCount.current = withDraw.events.length;
+    battleStartedAtRef.current = Date.now();
+    replaySavedRef.current = false;
+
+    setNarrativeToast(
+      "Elara: Welcome to your first battle, Operative. Select a card from your hand, then choose a lane to deploy it.",
+    );
+    setTimeout(() => setNarrativeToast(null), 6000);
+    setScreen("playing");
+  }, [allCards]);
+
+  // Show contextual hint toasts during a tutorial battle. Each turn
+  // fires at most once (tracked via tutorialHintsShownRef) so the
+  // player isn't spammed if they revisit the same turn via events.
+  useEffect(() => {
+    if (!tutorialBattle || !battle) return;
+    const hints: Record<number, string> = {
+      2: "Elara: Turn 2. Attack with Vanguard units for +1 damage, or place cards in Flank to chip away at enemy Influence.",
+      4: "Elara: Watch your energy — it grows each turn. Save it for big plays on the Core lane.",
+      6: "Elara: Element matchups matter. Fire beats Air, Air beats Water, Water beats Earth, Earth beats Fire — 1.5x damage.",
+    };
+    const message = hints[battle.turn];
+    if (message && !tutorialHintsShownRef.current.has(battle.turn)) {
+      tutorialHintsShownRef.current.add(battle.turn);
+      setNarrativeToast(message);
+      const t = setTimeout(() => setNarrativeToast(null), 5000);
+      return () => clearTimeout(t);
+    }
+  }, [battle?.turn, tutorialBattle]);
 
   // Start game after briefing
   const startGame = useCallback(() => {
@@ -547,7 +603,7 @@ export default function CardGamePage() {
               <div className="flex-1" />
               {isLast ? (
                 <button
-                  onClick={() => setScreen("menu")}
+                  onClick={startTutorialBattle}
                   className="flex items-center gap-2 px-4 py-2 rounded-md font-mono text-sm font-bold transition-all hover:brightness-110"
                   style={{
                     background: "color-mix(in oklch, var(--neon-cyan) 15%, transparent)",
@@ -556,7 +612,7 @@ export default function CardGamePage() {
                   }}
                 >
                   <Swords size={14} />
-                  READY TO FIGHT
+                  START PRACTICE BATTLE
                 </button>
               ) : (
                 <button
@@ -993,6 +1049,8 @@ export default function CardGamePage() {
       setScreen("factionSelect");
       setBattle(null);
       setCurrentUniverse(null);
+      setTutorialBattle(false);
+      tutorialHintsShownRef.current = new Set();
     };
 
     return (
