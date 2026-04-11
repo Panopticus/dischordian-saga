@@ -58,7 +58,17 @@ const GM_MESSAGES = {
 	4: "[CADES UNIT — SECONDARY COMMS CHANNEL — PRIORITY]\n[AUDIO TRANSMISSION — TRANSCRIBED]\n\nYou've been in our theater without a ticket.\nBut you've been speaking to the exhibits.\n\nWe are the Game Masters. Inheritors of the Game Master's legacy —\nan Archon of the Hierarchy who was destroyed by something he built.\nWe've kept his work alive since the end of the Second Epoch.\n\nWe can give you access to everything. Every scenario.\nEvery archived consciousness. Every moment he preserved.\n\nImagine having access to all of it.\n\nWe'll wait for your answer.\n\n— The Game Masters",
 }
 
+var pending_gm_contact_level: int = 0
+
 func trigger_gm_contact(level: int) -> void:
+	# Queue this contact for the next scene that has a gm_message_ui node.
+	# Scenarios don't have one (they're combat levels); the Matrix Hub does.
+	pending_gm_contact_level = level
+
+func flush_pending_gm_contact() -> void:
+	if pending_gm_contact_level <= 0: return
+	var level = pending_gm_contact_level
+	pending_gm_contact_level = 0
 	var msg_ui = get_tree().get_first_node_in_group("gm_message_ui")
 	if msg_ui and msg_ui.has_method("show_message") and GM_MESSAGES.has(level):
 		msg_ui.show_message(GM_MESSAGES[level])

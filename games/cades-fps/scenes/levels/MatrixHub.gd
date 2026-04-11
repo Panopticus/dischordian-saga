@@ -25,6 +25,10 @@ func _ready() -> void:
 	Elara.speak("matrix_hub_enter")
 	_prompt_label.visible = false
 	_connect_pillar_areas()
+	# Flush any deferred Game Masters contact queued from the last scenario.
+	if HistoricalManager.pending_gm_contact_level > 0:
+		await get_tree().create_timer(2.0).timeout
+		HistoricalManager.flush_pending_gm_contact()
 
 func _connect_pillar_areas() -> void:
 	for pillar in get_tree().get_nodes_in_group("scenario_pillar"):

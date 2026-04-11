@@ -58,12 +58,19 @@ func _process(delta: float) -> void:
 		canon_done = true
 		GameMode.canon_achieved = true
 		Elara.speak("time_canon")
+		# Historical replays end at canonical time and return to the hub.
+		# Direct Mode 1 runs continue the infinite hold.
+		if GameMode.current_scenario == "last_stand":
+			_finish_historical_replay()
 	# Reinforcement input
 	if Input.is_action_just_pressed("call_reinforcement"):
 		_call_reinforcement()
 	# Iron Lion — Open Channel interaction
 	if Input.is_action_just_pressed("interact"):
 		_try_open_channel()
+	# Historical replay exit: Escape returns to the Matrix Hub.
+	if GameMode.current_scenario == "last_stand" and Input.is_action_just_pressed("pause_game"):
+		_finish_historical_replay()
 
 func _call_reinforcement() -> void:
 	if GameMode.reinforcement_tokens <= 0: return
@@ -102,3 +109,13 @@ func _try_open_channel() -> void:
 func _finish_open_channel() -> void:
 	LoopManager.on_open_channel_activated()
 	GameMode.game_active = true
+
+func _finish_historical_replay() -> void:
+	# Called when Bridge of Kael is being run as a Historical Incursion
+	# pillar and the player has either hit canon or chosen to exit.
+	GameMode.game_active = false
+	GameMode.on_scenario_completed("last_stand")
+	GameMode.current_scenario = ""
+	Elara.speak("scenario_exit")
+	await get_tree().create_timer(2.0).timeout
+	get_tree().change_scene_to_file("res://scenes/levels/MatrixHub.tscn")

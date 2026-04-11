@@ -3,6 +3,7 @@
 [ext_resource type="Script" path="res://scenes/levels/MatrixHub.gd" id="1_scr"]
 [ext_resource type="PackedScene" path="res://objects/player.tscn" id="2_player"]
 [ext_resource type="PackedScene" path="res://scenes/ui/HUD.tscn" id="3_hud"]
+[ext_resource type="PackedScene" path="res://scenes/ui/GMMessageUI.tscn" id="4_gm"]
 
 [sub_resource type="Environment" id="env"]
 background_mode = 1
@@ -70,6 +71,8 @@ transform = Transform3D(30, 0, 0, 0, 0.01, 0, 0, 0, 30, 0, -0.005, 0)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 
 [node name="HUD" parent="." instance=ExtResource("3_hud")]
+
+[node name="GMMessageUI" parent="." instance=ExtResource("4_gm")]
 
 [node name="Pillars" type="Node3D" parent="."]
 
