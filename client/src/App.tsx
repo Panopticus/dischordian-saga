@@ -40,6 +40,7 @@ import UniverseAtmosphere from "./components/UniverseAtmosphere";
 import SoundControls from "./components/SoundControls";
 import { SlideshowPlayerRoot } from "./components/SlideshowPlayerRoot";
 import { DischordiaCycleSync } from "./components/DischordiaCycleSync";
+import { ForgivenessChoicePanel } from "./components/ForgivenessChoicePanel";
 import { useElaraTTS } from "./hooks/useElaraTTS";
 import { useVoidEngine } from "./engine/useVoidEngine";
 import { useArchetypeDetection } from "./hooks/useArchetypeDetection";
@@ -542,6 +543,13 @@ function App() {
                         playSlideshow(id). Must be above AuthGate so
                         the overlay covers the whole app surface. */}
                     <SlideshowPlayerRoot />
+                    {/* Witnessing §1.5 — the Bond-80 Forgive/Refuse
+                        three-option wheel. Mounts only when the
+                        forgiveness_choice_unlocked flag is set (by
+                        the Two Witnesses Meet slideshow's
+                        flagsSetOnComplete) AND the player hasn't
+                        already chosen. Fires-and-clears. */}
+                    <ForgivenessChoicePanel />
                     <AuthGate />
                   </TooltipProvider>
                   </SagaThemeBGMProvider>
