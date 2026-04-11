@@ -235,6 +235,8 @@ export interface GameState {
   transmissionsNotified: string[];          // which ones were notified
   oracleRevealActive: boolean;              // subtle Meme commentary shift (legacy boolean; prefer oracleRevealTier)
   oracleRevealTier: number;                 // 0 = hidden, 1-3 = progressively revealed as Oracle-shift episodes are watched
+  /** transmissionId → last scrubbed playback position in seconds. Used to resume mid-video on the next open. */
+  transmissionPlaybackPositions: Record<string, number>;
   loredexDiscovered: string[];              // loredex entity ids unlocked (from transmissions, etc.)
   // Graduate Legion — deployed apprentices
   legionRoster: unknown;            // shape: LegionRoster from graduateLegion.ts
@@ -975,6 +977,7 @@ const DEFAULT_GAME_STATE: GameState = {
   transmissionsNotified: [],
   oracleRevealActive: false,
   oracleRevealTier: 0,
+  transmissionPlaybackPositions: {},
   loredexDiscovered: [],
   legionRoster: { assignments: [], unassigned: [], sacrificedHistory: [] },
   legionGraduates: {},
@@ -1111,6 +1114,8 @@ interface GameContextValue {
   markTransmissionWatched: (id: string, triggersOracleReveal: boolean) => void;
   markTransmissionNotified: (id: string) => void;
   addLoredexDiscovered: (entityIds: string[]) => void;
+  setTransmissionPlaybackPosition: (id: string, positionSeconds: number) => void;
+  clearTransmissionPlaybackPosition: (id: string) => void;
   // Graduate Legion
   addGraduate: (apprentice: unknown) => void;
   setLegionRoster: (roster: unknown) => void;
@@ -1865,6 +1870,35 @@ export function GameProvider({ children }: { children: ReactNode }) {
         ...prev,
         loredexDiscovered: [...(prev.loredexDiscovered ?? []), ...added],
       };
+    });
+  }, []);
+
+  const setTransmissionPlaybackPosition = useCallback(
+    (id: string, positionSeconds: number) => {
+      setState(prev => {
+        const existing = prev.transmissionPlaybackPositions ?? {};
+        // Snap to integer seconds to avoid thrashing the state on
+        // every `timeupdate` tick — the <video> element fires
+        // 4+ times/sec. Also ignore no-op writes so unchanged
+        // positions don't trigger re-renders.
+        const snapped = Math.max(0, Math.floor(positionSeconds));
+        if (existing[id] === snapped) return prev;
+        return {
+          ...prev,
+          transmissionPlaybackPositions: { ...existing, [id]: snapped },
+        };
+      });
+    },
+    [],
+  );
+
+  const clearTransmissionPlaybackPosition = useCallback((id: string) => {
+    setState(prev => {
+      const existing = prev.transmissionPlaybackPositions ?? {};
+      if (!(id in existing)) return prev;
+      const next = { ...existing };
+      delete next[id];
+      return { ...prev, transmissionPlaybackPositions: next };
     });
   }, []);
 
@@ -2638,6 +2672,8 @@ export function GameProvider({ children }: { children: ReactNode }) {
       markTransmissionWatched,
       markTransmissionNotified,
       addLoredexDiscovered,
+      setTransmissionPlaybackPosition,
+      clearTransmissionPlaybackPosition,
       addGraduate,
       setLegionRoster,
       addLegionLetter,

@@ -47,7 +47,12 @@ export default function MemeBroadcast({ transmission, onClose, onComplete, alrea
   );
   const [loredexRevealed, setLoredexRevealed] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
-  const { addLoredexDiscovered } = useGame();
+  const {
+    state: gameState,
+    addLoredexDiscovered,
+    setTransmissionPlaybackPosition,
+    clearTransmissionPlaybackPosition,
+  } = useGame();
   const { isAuthenticated } = useAuth();
   const recordWatched = trpc.transmissions.recordWatched.useMutation();
 
@@ -366,7 +371,28 @@ export default function MemeBroadcast({ transmission, onClose, onComplete, alrea
                       className="w-full h-full"
                       controls
                       autoPlay
-                      onEnded={() => setPhase("static-to-outro")}
+                      // Seek to the persisted resume position on first
+                      // load (within 1s of end => restart).
+                      onLoadedMetadata={(e) => {
+                        const saved =
+                          gameState.transmissionPlaybackPositions?.[transmissionId] ?? 0;
+                        const vid = e.currentTarget;
+                        if (saved > 2 && vid.duration && saved < vid.duration - 1) {
+                          vid.currentTime = saved;
+                        }
+                      }}
+                      // Persist scrub position ~every second. Helper
+                      // snaps to integer seconds + dedupes no-op writes.
+                      onTimeUpdate={(e) => {
+                        setTransmissionPlaybackPosition(
+                          transmissionId,
+                          e.currentTarget.currentTime,
+                        );
+                      }}
+                      onEnded={() => {
+                        clearTransmissionPlaybackPosition(transmissionId);
+                        setPhase("static-to-outro");
+                      }}
                       title={transmission.title}
                       style={{ filter: "contrast(1.05) brightness(0.95)" }}
                     />
@@ -393,7 +419,12 @@ export default function MemeBroadcast({ transmission, onClose, onComplete, alrea
                   {/* Skip button (only useful when there's a real video) */}
                   {(transmission.videoUrl || transmission.driveFileId) && (
                     <button
-                      onClick={() => setPhase("static-to-outro")}
+                      onClick={() => {
+                        // Skipping voluntarily clears the resume point
+                        // so the next open starts from the beginning.
+                        clearTransmissionPlaybackPosition(transmissionId);
+                        setPhase("static-to-outro");
+                      }}
                       className="absolute bottom-3 right-3 px-3 py-1.5 rounded bg-black/80 border border-white/10 font-mono text-[8px] uppercase tracking-wider text-white/50 hover:text-white hover:bg-black flex items-center gap-1.5 z-[70]"
                     >
                       SKIP <SkipForward size={9} />

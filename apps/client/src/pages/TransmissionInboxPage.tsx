@@ -135,6 +135,10 @@ export default function TransmissionInboxPage() {
                       const id = transmissionId(t);
                       const isWatched = watched.has(id);
                       const isShift = t.triggersOracleReveal;
+                      const resumePos = (state.transmissionPlaybackPositions ?? {})[id] ?? 0;
+                      const resumeLabel = resumePos > 2 && !isWatched
+                        ? `Resume ${Math.floor(resumePos / 60)}:${String(resumePos % 60).padStart(2, "0")}`
+                        : null;
                       return (
                         <motion.button
                           key={id}
@@ -155,8 +159,13 @@ export default function TransmissionInboxPage() {
                             <div className="flex-1 min-w-0">
                               <div className="flex items-center gap-2 flex-wrap">
                                 <span className="font-display text-sm font-bold text-foreground truncate">{t.title}</span>
-                                {!isWatched && (
+                                {!isWatched && !resumeLabel && (
                                   <span className="font-mono text-[8px] px-1 py-0.5 rounded bg-red-500/20 text-red-300 uppercase tracking-wider">NEW</span>
+                                )}
+                                {resumeLabel && (
+                                  <span className="font-mono text-[8px] px-1 py-0.5 rounded bg-amber-500/20 text-amber-300 uppercase tracking-wider">
+                                    {resumeLabel}
+                                  </span>
                                 )}
                                 {isWatched && <CheckCircle size={10} className="text-emerald-400" />}
                                 {isShift && <Sparkles size={10} className="text-purple-400" />}
