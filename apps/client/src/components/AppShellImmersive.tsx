@@ -37,6 +37,7 @@ import TransmissionDeck from "@/components/TransmissionDeck";
 import MobileBottomNav from "@/components/MobileBottomNav";
 import { useNarrativeEvents } from "@/hooks/useNarrativeEvents";
 import { useNarrativeIntegration } from "@/hooks/useNarrativeIntegration";
+import { useIncomingTransmissions } from "@/hooks/useIncomingTransmissions";
 import VoiceWhisper from "@/components/VoiceWhisper";
 
 const ARK_CONTROL_ROOM = "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/ark_control_room_04cb4fe3.png";
@@ -81,6 +82,10 @@ export default function AppShell({ children, elaraTTS: _elaraTTS }: { children: 
   // Narrative integration — lore discovery, morality world effects, cross-game threads,
   // NPC trust consequences. Watches game state and triggers narrative systems automatically.
   useNarrativeIntegration();
+
+  // "TRANSMISSION INCOMING" toast — fires when a new Meme broadcast
+  // unlocks. Mounted once globally so it works on every route.
+  useIncomingTransmissions();
 
   // TransmissionDeck unlocks when Observation Deck OR Comms Array is discovered
   const hasMediaAccess = !!(gameState.rooms["observation-deck"]?.unlocked || gameState.rooms["comms-array"]?.unlocked);

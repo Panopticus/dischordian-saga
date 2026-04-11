@@ -20,7 +20,9 @@ import { gameStateRouter } from "./routers/gameState";
 import { cardChallengeRouter } from "./routers/cardChallenge";
 import { adminRouter } from "./routers/admin";
 import { contentRewardRouter } from "./routers/contentReward";
+import { transmissionsRouter } from "./routers/transmissions";
 import { fightLeaderboardRouter } from "./routers/fightLeaderboard";
+import { essenceHarvestRouter } from "./routers/essenceHarvest";
 import { pvpRouter } from "./routers/pvp";
 import { draftRouter } from "./routers/draft";
 import { tradingRouter } from "./routers/trading";
@@ -101,7 +103,9 @@ export const appRouter = router({
   cardChallenge: cardChallengeRouter,
   admin: adminRouter,
   contentReward: contentRewardRouter,
+  transmissions: transmissionsRouter,
   fightLeaderboard: fightLeaderboardRouter,
+  essenceHarvest: essenceHarvestRouter,
   pvp: pvpRouter,
   draft: draftRouter,
   trading: tradingRouter,

@@ -160,7 +160,7 @@ export const EPOCH_1_TRANSMISSIONS: Transmission[] = [
     memeIntro: "They pick the wormhole. Of course they pick the wormhole. Nobody ever picks 'sacrifice ten friends.' Except that one guy. Agent Zero knows who I mean.",
     memeOutro: "Crystalline city. Unfamiliar planet. Advanced civilization. This is the part of the story where things get COMPLICATED. For them. Not for me. I'm watching with snacks.",
     triggersOracleReveal: false,
-    unlockTrigger: { kind: "chapter_complete", chapterId: "ch5" },
+    unlockTrigger: { kind: "chapter_complete", chapterId: "ch5_dead_code_rising" },
     reward: { xp: 350, dream: 35 },
     synopsis: "The Potentials step through the wormhole and emerge above a crystalline alien city.",
     relatedLoredexEntries: ["thaloria", "wormhole", "potentials"],
@@ -196,7 +196,7 @@ export const EPOCH_1_TRANSMISSIONS: Transmission[] = [
     memeIntro: "The crystalline city. Tall hooded beings. A figure whose FACE CHANGES, with red glowing eyes. Absolutely normal, can happen to anyone, don't look into it.",
     memeOutro: "The Oracle. THE Oracle. I'm told she's going to do wonderful things in this story. Now you've seen her. Don't you feel reassured? Sure you do.",
     triggersOracleReveal: true,
-    unlockTrigger: { kind: "chapter_complete", chapterId: "ch6" },
+    unlockTrigger: { kind: "chapter_complete", chapterId: "ch6_false_prophet" },
     reward: { xp: 400, dream: 40, achievement: "witnessed_oracle" },
     synopsis: "Captured on arrival — the Potentials meet the Oracle, the face that never stays the same.",
     relatedLoredexEntries: ["entity_oracle", "entity_meme", "thaloria"],
@@ -244,7 +244,7 @@ export const EPOCH_1_TRANSMISSIONS: Transmission[] = [
     memeIntro: "The Host arrives. The virus breaches the city. Dragon battles. Harmonic amplification. The Oracle passes a weapon to the Guardian. It's all connected, frens. It all circles back.",
     memeOutro: "The ninth Ne-Yon amplifies the crystal network. The virus dragon falls. And the Oracle stands where the Guardian needs her to stand. What a finale! Except it isn't. Never is.",
     triggersOracleReveal: false,
-    unlockTrigger: { kind: "chapter_complete", chapterId: "ch10" },
+    unlockTrigger: { kind: "chapter_complete", chapterId: "ch10_panoptic_warden" },
     reward: { xp: 600, dream: 60, achievement: "witnessed_first_fall" },
     synopsis: "The Host's infected horde breaches the crystalline city. The Oracle turns the tide.",
     relatedLoredexEntries: ["entity_host", "entity_oracle", "thaloria", "neyons", "thought_virus"],
@@ -597,8 +597,81 @@ export function getTransmissionByBroadcastOrder(order: number): Transmission | u
 }
 
 export function transmissionId(t: Transmission): string {
+  // Spaces In Between episodes live at broadcastOrder <= -20, sharing
+  // epoch=0 with the main Epoch 0 chain. Without a dedicated prefix
+  // their ids collide with regular Epoch 0 episodes (e.g. SIB Ep 1
+  // "Welcome to Celebration" and Epoch 0 Ep 1 "The Awakening" would
+  // both serialize to "ep0-1"), which would cause watched-state and
+  // reward-grant leakage between the two chains.
+  if (t.broadcastOrder <= -20) return `sib-ep${t.episodeNumber}`;
   return `ep${t.epoch}-${t.episodeNumber}`;
 }
+
+/**
+ * All transmission-awarded achievements, derived from the
+ * transmission data. Used by the seed procedure to upsert
+ * achievement records into the `achievements` table so they
+ * have pretty names/icons in the architect console and
+ * achievement UI.
+ */
+export interface TransmissionAchievementDef {
+  achievementId: string;
+  name: string;
+  description: string;
+  category: "transmission";
+  tier: "bronze" | "silver" | "gold" | "platinum";
+  xpReward: number;
+  pointsReward: number;
+}
+
+export function getTransmissionAchievementDefs(): TransmissionAchievementDef[] {
+  // Defined inline-after-epoch-consts so ALL_TRANSMISSIONS is live.
+  // Uses broadcastOrder to pick tier: earliest = bronze, late = gold.
+  const defs: TransmissionAchievementDef[] = [];
+  const seen = new Set<string>();
+  for (const t of ALL_TRANSMISSIONS) {
+    const id = t.reward.achievement;
+    if (!id || seen.has(id)) continue;
+    seen.add(id);
+    // Tier scales with reward size — bigger rewards = later story.
+    const tier: TransmissionAchievementDef["tier"] =
+      t.reward.xp >= 500 ? "platinum"
+      : t.reward.xp >= 300 ? "gold"
+      : t.reward.xp >= 200 ? "silver"
+      : "bronze";
+    defs.push({
+      achievementId: id,
+      name: t.title,
+      description: t.synopsis,
+      category: "transmission",
+      tier,
+      xpReward: Math.floor(t.reward.xp / 4),
+      pointsReward: t.reward.dream * 2,
+    });
+  }
+  return defs;
+}
+
+/**
+ * SIB episode → narrative flag map. Watching a SIB broadcast should
+ * set its corresponding `sib_*_viewed` flag so downstream gates
+ * (NPC dialog unlocks, conspiracy board enhancements, detective
+ * chain progression in epochZeroTriggers.ts) all fire consistently
+ * whether the player watched via the inbox or via the Epoch 0
+ * detective chain. Keys are transmissionIds (see transmissionId()).
+ */
+export const SIB_WATCHED_FLAGS: Record<string, string> = {
+  "sib-ep1": "sib_celebration_viewed",
+  "sib-ep2": "sib_mechronis_viewed",
+  "sib-ep3": "sib_ninth_viewed",
+  "sib-ep4": "sib_wolf_viewed",
+  "sib-ep5": "sib_necromancer_lair_viewed",
+  "sib-ep6": "sib_syndicate_viewed",
+  "sib-ep7": "sib_politician_viewed",
+  "sib-ep8": "sib_collector_viewed",
+  "sib-ep9": "sib_gamemaster_viewed",
+  "sib-ep10": "sib_necromancer_profile_viewed",
+};
 
 /* ─── TRIGGER EVALUATION ─── */
 

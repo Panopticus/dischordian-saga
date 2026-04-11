@@ -806,6 +806,7 @@ export function setupPvpWebSocket(server: Server) {
           // "Spectator". Names are only used for chat attribution.
           const rawName = (msg.spectatorName ?? "").toString().trim();
           const safeName = rawName.length > 0
+            // eslint-disable-next-line no-control-regex -- intentional: strip ASCII control chars from user chat input
             ? rawName.slice(0, 32).replace(/[\u0000-\u001f]/g, "")
             : "Spectator";
           spectatorNames.set(ws, safeName);
@@ -863,6 +864,7 @@ export function setupPvpWebSocket(server: Server) {
 
           // Basic sanitation: strip control chars, collapse whitespace, trim.
           const cleanedText = msg.text
+            // eslint-disable-next-line no-control-regex -- intentional: strip ASCII control chars from user chat input
             .replace(/[\u0000-\u001f]/g, "")
             .replace(/\s+/g, " ")
             .trim()

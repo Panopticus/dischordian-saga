@@ -267,6 +267,13 @@
       "when": 1775913700166,
       "tag": "0040_crew_tables",
       "breakpoints": true
+    },
+    {
+      "idx": 45,
+      "version": "5",
+      "when": 1775990000000,
+      "tag": "0045_arena_essences",
+      "breakpoints": true
     }
   ]
 }

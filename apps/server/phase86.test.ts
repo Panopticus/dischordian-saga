@@ -52,7 +52,9 @@ describe("Room Definitions Integrity", () => {
   it("all rooms should have valid deck numbers", async () => {
     const { ROOM_DEFINITIONS } = await import("../client/src/contexts/GameContext");
     ROOM_DEFINITIONS.forEach(room => {
-      expect(room.deck).toBeGreaterThanOrEqual(1);
+      // deck 0 is reserved for narrative "uncharted" rooms (e.g. the
+      // Dreams Workshop sub-basement which appears on no deck plan)
+      expect(room.deck).toBeGreaterThanOrEqual(0);
       expect(room.deck).toBeLessThanOrEqual(10);
     });
   });

@@ -652,6 +652,72 @@ on("circuit_race_complete", async (ev) => {
   await pressureService.increment(userId, "exploration", 5, "circuit_race");
   if (kills > 0) await pressureService.increment(userId, "deaths", kills, "circuit_kills");
   if (!survived) await pressureService.increment(userId, "deaths", 3, "circuit_death");
+  void position;
+});
+
+/* ─── Cross-game side quest progression ───
+   These handlers feed the Dead Man's Circuit side quests. They no-op
+   when there is no active circuit season, so they're cheap to run on
+   every event during the off-season too. */
+
+const _circuitSideQuestImport = () => import("./circuitSideQuestService");
+
+on("card_battle_result", async (ev) => {
+  const { userId, won } = ev as RippleEvent & { won: boolean };
+  if (!won) return;
+  const { advanceCircuitSideQuests } = await _circuitSideQuestImport();
+  await advanceCircuitSideQuests(userId, "card_battle_won", 1);
+});
+
+on("chess_result", async (ev) => {
+  const { userId, won, moveCount } = ev as RippleEvent & { won: boolean; moveCount?: number };
+  if (!won) return;
+  const { advanceCircuitSideQuests } = await _circuitSideQuestImport();
+  // Only count the chess quest if it was a fast checkmate (< 20 moves).
+  if (typeof moveCount === "number" && moveCount > 0 && moveCount < 40) {
+    // chess.history() returns half-moves; 40 half-moves ≈ 20 full moves.
+    await advanceCircuitSideQuests(userId, "chess_checkmate_fast", 1);
+  }
+});
+
+on("pvp_match_result", async (ev) => {
+  const { userId, won } = ev as RippleEvent & { won: boolean };
+  if (!won) return;
+  const { advanceCircuitSideQuests } = await _circuitSideQuestImport();
+  await advanceCircuitSideQuests(userId, "fight_won", 1);
+});
+
+on("trade_run_complete", async (ev) => {
+  const { userId } = ev as RippleEvent;
+  const { advanceCircuitSideQuests } = await _circuitSideQuestImport();
+  await advanceCircuitSideQuests(userId, "trade_run_complete", 1);
+});
+
+on("defense_wave_complete", async (ev) => {
+  const { userId } = ev as RippleEvent;
+  const { advanceCircuitSideQuests } = await _circuitSideQuestImport();
+  await advanceCircuitSideQuests(userId, "td_wave_survived", 1);
+});
+
+on("npc_trust_gained", async (ev) => {
+  const { userId, newTrust } = ev as RippleEvent & { newTrust: number };
+  if (typeof newTrust !== "number" || newTrust < 50) return;
+  const { advanceCircuitSideQuests } = await _circuitSideQuestImport();
+  // Only fire when the threshold is reached. Quest target is 50 → advance by 50 once.
+  await advanceCircuitSideQuests(userId, "companion_trust_reached", 50);
+});
+
+on("raid_boss_damaged", async (ev) => {
+  const { userId, damage } = ev as RippleEvent & { damage: number };
+  if (typeof damage !== "number" || damage <= 0) return;
+  const { advanceCircuitSideQuests } = await _circuitSideQuestImport();
+  await advanceCircuitSideQuests(userId, "raid_damage_dealt", damage);
+});
+
+on("casino_game_won", async (ev) => {
+  const { userId } = ev as RippleEvent;
+  const { advanceCircuitSideQuests } = await _circuitSideQuestImport();
+  await advanceCircuitSideQuests(userId, "casino_game_won", 1);
 });
 
 /* ═══════════════════════════════════════════════════════

@@ -5,14 +5,18 @@
    skills, prestige all affect towers and raid units.
    ═══════════════════════════════════════════════════════ */
 import { trpc } from "@/lib/trpc";
+import type { inferRouterOutputs } from "@trpc/server";
+import type { AppRouter } from "../../../server/routers";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useMemo, useEffect } from "react";
+
+type TowerPlacementRow = inferRouterOutputs<AppRouter>["towerDefense"]["getTowers"][number];
 import { Link } from "wouter";
 import {
   ChevronLeft, Shield, Plus, ArrowUp, Clock, Zap,
   Target, Lock, Check, ChevronRight, ChevronDown,
   ChevronUp, Star, Crown, Sparkles, Eye, Swords,
-  Flame, Crosshair, AlertTriangle, Trophy,
+  Flame, Crosshair, AlertTriangle, Trophy, Play,
   Calendar, Globe, Building, Hammer, Gift,
   ShieldCheck, Coins, Skull, Square, Heart,
   Rocket, Moon, Orbit, Timer, EyeOff, Cpu, User as UserIcon, Truck,
@@ -96,6 +100,14 @@ export default function TowerDefensePage() {
 
   const { data: combinedHistory } = trpc.towerDefense.getCombinedHistory.useQuery({ limit: 25 });
 
+  // PvE defense wave history
+  const { data: defenseWaveHistory, refetch: refetchWaves } = trpc.towerDefense.getDefenseWaves.useQuery(
+    { ownerType: "station" as const, ownerId: stationId!, limit: 10 },
+    { enabled: !!stationId },
+  );
+  const lastCompletedWaveNumber = defenseWaveHistory?.[0]?.waveNumber || 0;
+  const nextWaveNumber = lastCompletedWaveNumber + 1;
+
   const { data: stationBonuses } = trpc.spaceStation.getStationBonuses.useQuery();
   const allTraitBonuses = trpc.citizen.getAllTraitBonuses.useQuery(undefined, { retry: false, refetchOnWindowFocus: false });
   const tdBonuses = allTraitBonuses.data?.towerDefense;
@@ -169,6 +181,20 @@ export default function TowerDefensePage() {
     },
     onError: (err) => toast.error(err.message),
   });
+  const runDefenseWave = trpc.towerDefense.runDefenseWave.useMutation({
+    onSuccess: (res) => {
+      if (!res.success) { toast.error(("error" in res && res.error) || "Wave failed"); return; }
+      refetchWaves();
+      refetchDef();
+      if (res.survived) {
+        const reward = Object.entries(res.rewards || {}).map(([k, v]) => `${v} ${k}`).join(", ");
+        toast.success(`Wave ${res.waveNumber} survived! ${reward ? `Rewards: ${reward}` : ""}`);
+      } else {
+        toast.error(`Wave ${res.waveNumber} failed — ${res.towersDestroyed} towers destroyed`);
+      }
+    },
+    onError: (err) => toast.error(err.message),
+  });
 
   /* ─── STATE ─── */
   const [activeTab, setActiveTab] = useState<"defense" | "raid" | "history" | "trophies" | "streak">("defense");
@@ -186,17 +212,7 @@ export default function TowerDefensePage() {
     return map;
   }, [availableTowers]);
 
-  const towerList = (towers || []) as Array<{
-    id: number;
-    towerKey: string;
-    level: number;
-    gridX: number;
-    gridY: number;
-    currentHp: number;
-    maxHp: number;
-    status: "active" | "building" | "upgrading" | "destroyed";
-    completesAt: string | null;
-  }>;
+  const towerList: TowerPlacementRow[] = towers || [];
 
   const selectedTowerDef = selectedTowerKey ? towerDefByKey.get(selectedTowerKey) : null;
   const isShielded = !!(station?.shieldUntil && new Date(station.shieldUntil) > new Date());
@@ -611,6 +627,58 @@ export default function TowerDefensePage() {
                 })}
               </div>
             )}
+
+            {/* PvE WAVE DEFENSE */}
+            <div className="border border-amber-500/30 rounded-lg bg-amber-500/5 p-3 mb-4">
+              <div className="flex items-center gap-2 mb-2">
+                <AlertTriangle size={12} className="text-amber-400" />
+                <span className="font-mono text-[10px] font-bold tracking-wider text-amber-300">PVE WAVE DEFENSE</span>
+                <span className="ml-auto font-mono text-[9px] text-muted-foreground">
+                  Cleared {lastCompletedWaveNumber} · Next wave {nextWaveNumber}
+                </span>
+              </div>
+              <p className="font-mono text-[9px] text-muted-foreground mb-2">
+                Run a simulated wave of enemies against your placed towers. Towers take damage; survivors
+                earn credits and alloy scaled to the wave number. Uses your current tower HP — repair
+                with upgrades between waves.
+              </p>
+              <Button
+                className="w-full bg-amber-500/20 border border-amber-500/30 text-amber-300 hover:bg-amber-500/30"
+                disabled={runDefenseWave.isPending || towerList.filter(t => t.status === "active").length === 0}
+                onClick={() => {
+                  if (!stationId) return;
+                  runDefenseWave.mutate({ ownerType: "station", ownerId: stationId });
+                }}
+              >
+                {runDefenseWave.isPending ? (
+                  <span className="animate-pulse">Simulating...</span>
+                ) : (
+                  <><Play size={12} className="mr-1" /> Run Wave {nextWaveNumber}</>
+                )}
+              </Button>
+
+              {defenseWaveHistory && defenseWaveHistory.length > 0 && (
+                <div className="mt-3 space-y-1">
+                  <div className="font-mono text-[8px] text-muted-foreground">Recent waves:</div>
+                  {defenseWaveHistory.slice(0, 5).map(w => {
+                    const won = w.status === "completed";
+                    const rewardsStr = Object.entries((w.rewards || {}) as Record<string, number>)
+                      .map(([k, v]) => `${v} ${k}`)
+                      .join(", ");
+                    return (
+                      <div key={w.id} className={`flex items-center gap-2 text-[9px] font-mono px-2 py-1 rounded ${
+                        won ? "bg-emerald-500/5 text-emerald-400" : "bg-red-500/5 text-red-400"
+                      }`}>
+                        <span>Wave {w.waveNumber}</span>
+                        <span className="opacity-60">· {w.difficultyMultiplier}% diff</span>
+                        <span className="flex-1">{won ? "SURVIVED" : "FAILED"}</span>
+                        {won && rewardsStr && <span className="text-amber-300">{rewardsStr}</span>}
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
 
             {/* Build Menu */}
             <AnimatePresence>
@@ -1071,7 +1139,7 @@ export default function TowerDefensePage() {
                       <span className={`w-4 text-right ${idx < 3 ? "text-yellow-400" : "text-muted-foreground"}`}>
                         #{idx + 1}
                       </span>
-                      <span className="flex-1 truncate">Raider {row.userId}</span>
+                      <span className="flex-1 truncate">{row.userName}</span>
                       <span className={LEAGUE_TEXT[row.league] || "text-muted-foreground"}>{formatLeague(row.league)}</span>
                       <span className="text-yellow-400">{row.trophies} 🏆</span>
                     </div>
