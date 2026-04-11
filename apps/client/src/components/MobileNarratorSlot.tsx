@@ -21,10 +21,12 @@ import { motion, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
 import type { NarratorId, NarratorRoomId } from "@shared/mobileNarrator";
 import {
+  deriveNarratorDominance,
   getBondLocks,
   type DismissalChoice,
 } from "@shared/mobileNarrator";
 import { pickNarratorLine } from "@shared/mobileNarratorDialog";
+import { pickLyraVoxLine } from "@shared/lyraVoxDialog";
 import { useWitnessingStore } from "@/stores/witnessingStore";
 import { applyDischordiaEnergy } from "@/stores/dischordiaCycleStore";
 import { recordMemorableMoment } from "@/stores/memorableMomentsStore";
@@ -46,11 +48,13 @@ export interface MobileNarratorSlotProps {
 const NARRATOR_NAME: Record<NarratorId, string> = {
   elara: "Elara",
   the_human: "The Human",
+  lyra_vox: "Dr. Lyra Vox",
 };
 
 const NARRATOR_ACCENT: Record<NarratorId, { ring: string; text: string; dot: string }> = {
   elara: { ring: "ring-cyan-400/40", text: "text-cyan-200", dot: "bg-cyan-400" },
   the_human: { ring: "ring-amber-400/40", text: "text-amber-200", dot: "bg-amber-400" },
+  lyra_vox: { ring: "ring-violet-400/40", text: "text-violet-200", dot: "bg-violet-400" },
 };
 
 export function MobileNarratorSlot({ roomId, flags, className }: MobileNarratorSlotProps) {
@@ -60,6 +64,14 @@ export function MobileNarratorSlot({ roomId, flags, className }: MobileNarratorS
   const adjustElara = game.adjustElaraTrust;
   const adjustHuman = game.adjustHumanTrust;
 
+  // §1.5 — derive the narrator dominance once per render from the
+  // game's narrative flags. Passed through to the witnessing store
+  // so the slot roll respects the player's Bond-80 Forgive choice.
+  const dominance = useMemo(
+    () => deriveNarratorDominance(game.state.narrativeFlags),
+    [game.state.narrativeFlags],
+  );
+
   const enterRoom = useWitnessingStore((s) => s.enterRoom);
   const dismiss = useWitnessingStore((s) => s.dismiss);
   const slot = useWitnessingStore((s) => s.currentSlot);
@@ -67,25 +79,36 @@ export function MobileNarratorSlot({ roomId, flags, className }: MobileNarratorS
 
   const [wheelOpen, setWheelOpen] = useState(false);
 
-  // Reseed on room entry or when bonds/flags meaningfully change.
-  // We key on (roomId, flag set identity) so callers can re-trigger
-  // by passing a fresh Set when a Prelude beat fires.
+  // Reseed on room entry or when bonds/flags/dominance meaningfully
+  // change. We key on (roomId, flag set identity, dominance) so
+  // callers can re-trigger by passing a fresh Set when a Prelude
+  // beat fires, and a forgiveness choice immediately biases every
+  // subsequent room entry.
   useEffect(() => {
-    enterRoom(roomId, { elaraBond, humanBond }, flags);
-    // We intentionally only reseed on roomId/flags changes. Bond
-    // drift during a single room visit should NOT reseat the slot
-    // mid-conversation — that would feel jarring.
+    enterRoom(roomId, { elaraBond, humanBond }, flags, dominance);
+    // We intentionally only reseed on roomId/flags/dominance changes.
+    // Bond drift during a single room visit should NOT reseat the
+    // slot mid-conversation — that would feel jarring.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [roomId, flags, enterRoom]);
+  }, [roomId, flags, dominance, enterRoom]);
 
   const line = useMemo(() => {
     if (!slot?.narratorId) return null;
+    // Lyra Vox uses her own dialog lookup — she's always-on and
+    // not gated by bond tier.
+    if (slot.narratorId === "lyra_vox") {
+      const lvLine = pickLyraVoxLine(roomId, game.state.narrativeFlags);
+      if (!lvLine) return null;
+      // Adapt to the NarratorLine shape so the render below can
+      // reuse its path.
+      return { tier: "F" as const, text: lvLine.text };
+    }
     const bond = slot.narratorId === "elara" ? elaraBond : humanBond;
     // Pass the active beat flags through so beat-tagged lines
     // (e.g. the §2.7 Archives opener) can override the normal
     // tier-weighted selection.
     return pickNarratorLine(roomId, slot.narratorId, bond, flags);
-  }, [slot, roomId, elaraBond, humanBond, flags]);
+  }, [slot, roomId, elaraBond, humanBond, flags, game.state.narrativeFlags]);
 
   const handleDismiss = useCallback(
     (choice: DismissalChoice) => {
@@ -93,6 +116,7 @@ export function MobileNarratorSlot({ roomId, flags, className }: MobileNarratorS
         choice,
         { elaraBond, humanBond },
         flags,
+        dominance,
       );
       if (deltas.elaraBond) adjustElara(deltas.elaraBond);
       if (deltas.humanBond) adjustHuman(deltas.humanBond);
@@ -123,7 +147,7 @@ export function MobileNarratorSlot({ roomId, flags, className }: MobileNarratorS
       }
       setWheelOpen(false);
     },
-    [dismiss, elaraBond, humanBond, flags, adjustElara, adjustHuman, slot, roomId],
+    [dismiss, elaraBond, humanBond, flags, dominance, adjustElara, adjustHuman, slot, roomId],
   );
 
   // Don't render until we've actually seeded for this room.
@@ -148,9 +172,11 @@ export function MobileNarratorSlot({ roomId, flags, className }: MobileNarratorS
 
   const narratorId = slot.narratorId;
   const accent = NARRATOR_ACCENT[narratorId];
-  const bust = getNPCBust(narratorId);
-  const bond = narratorId === "elara" ? elaraBond : humanBond;
-  const locks = getBondLocks(narratorId, bond);
+  // Lyra Vox has no NPC portrait or bond score — she's the ship.
+  const isLyraVox = narratorId === "lyra_vox";
+  const bust = isLyraVox ? null : getNPCBust(narratorId);
+  const bond = narratorId === "elara" ? elaraBond : narratorId === "the_human" ? humanBond : 0;
+  const locks = isLyraVox ? [] : getBondLocks(narratorId, bond);
 
   return (
     <motion.div
@@ -180,18 +206,21 @@ export function MobileNarratorSlot({ roomId, flags, className }: MobileNarratorS
             </p>
           </div>
           <p className="font-mono text-[10px] text-white/30 uppercase tracking-widest">
-            Bond {bond}
+            {isLyraVox ? "Ship Substrate" : `Bond ${bond}`}
           </p>
         </div>
-        <button
-          type="button"
-          onClick={() => setWheelOpen((v) => !v)}
-          className="p-1.5 rounded-full bg-white/5 hover:bg-white/10 transition"
-          aria-label="Dismiss narrator"
-          data-testid="narrator-slot-dismiss"
-        >
-          <X size={14} className="text-white/60" />
-        </button>
+        {/* Lyra Vox cannot be dismissed — she is the ship. */}
+        {!isLyraVox && (
+          <button
+            type="button"
+            onClick={() => setWheelOpen((v) => !v)}
+            className="p-1.5 rounded-full bg-white/5 hover:bg-white/10 transition"
+            aria-label="Dismiss narrator"
+            data-testid="narrator-slot-dismiss"
+          >
+            <X size={14} className="text-white/60" />
+          </button>
+        )}
       </div>
 
       {/* Dialog line for this room × narrator × bond. */}

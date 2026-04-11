@@ -22,7 +22,32 @@
    is a pure function from (state, choice) → (state, deltas).
    ═══════════════════════════════════════════════════════ */
 
-export type NarratorId = "elara" | "the_human";
+/**
+ * Canonical narrator ids for the §1.2 floating slot. The third
+ * id — `lyra_vox` — is the voice of the ship itself, Dr. Lyra
+ * Vox speaking through the substrate. Per §1.5, Lyra Vox only
+ * becomes available as a slot candidate AFTER the player picks
+ * "Forgive Neither" at the Bond-80 Two Witnesses Meet
+ * cinematic, which raises the `lyra_vox_unlocked` narrative
+ * flag. Until then she is dormant and the slot rolls between
+ * Elara and The Human.
+ */
+export type NarratorId = "elara" | "the_human" | "lyra_vox";
+
+/**
+ * The §1.5 narrator dominance state set by the player's choice
+ * at the Bond-80 Forgive/Refuse wheel. Controls which narrator
+ * biases heavily into the slot rotation for the rest of the
+ * game.
+ *
+ *   "balanced"   — no forgiveness choice made yet
+ *   "elara"      — player forgave Elara only (or both) — she
+ *                  carries the room roll
+ *   "the_human"  — player forgave The Human only (or both,
+ *                  with Human-leaning rooms) — he carries
+ *   "lyra_vox"   — player refused both. Lyra Vox carries.
+ */
+export type NarratorDominance = "balanced" | "elara" | "the_human" | "lyra_vox";
 
 /**
  * The set of rooms that can host the narrator slot.
@@ -257,6 +282,15 @@ export interface NarratorSlotSeedInput {
    * Tests inject this; production uses `Date.now()` when omitted.
    */
   nowMs?: number;
+  /**
+   * §1.5 narrator dominance — set by the player's choice at the
+   * Bond-80 Forgive/Refuse wheel. When non-"balanced", the
+   * dominant narrator's weight is multiplied by 2.5 in the roll
+   * so they carry the rotation for the rest of the game.
+   * `lyra_vox` additionally replaces any null/silence result
+   * with the Lyra Vox narrator id.
+   */
+  dominance?: NarratorDominance;
 }
 
 export interface NarratorSlotSeedResult {
@@ -426,12 +460,26 @@ export function seedNarratorSlot(
 ): NarratorSlotSeedResult {
   const { roomId, elaraBond, humanBond, flags, dismissal, seed, nowMs } = input;
   const clock = nowMs ?? Date.now();
+  const dominance: NarratorDominance = input.dominance ?? "balanced";
 
   // 1. Forcing flags. First match wins.
   if (flags) {
     for (const [flagId, forced] of Object.entries(FORCING_FLAGS)) {
       if (!flags.has(flagId)) continue;
       if (forced === "silence") {
+        // §1.5 — when the player chose lyra_vox dominance, she
+        // speaks during "silence" moments that would otherwise
+        // leave the slot empty. This is the one exception: a
+        // forcing flag that would normally silence the slot is
+        // replaced by the Lyra Vox narrator id when she's unlocked
+        // and dominant.
+        if (dominance === "lyra_vox") {
+          return {
+            narratorId: "lyra_vox",
+            reason: "forced_by_flag",
+            weights: { elara: 0, the_human: 0 },
+          };
+        }
         return {
           narratorId: null,
           reason: "forced_by_flag",
@@ -448,6 +496,14 @@ export function seedNarratorSlot(
 
   // 2. Silence mode.
   if (isDismissalActive(dismissal, clock) && dismissal && dismissal.dismissedId === null) {
+    // Lyra Vox replaces silence when dominant (see above).
+    if (dominance === "lyra_vox") {
+      return {
+        narratorId: "lyra_vox",
+        reason: "silence_active",
+        weights: { elara: 0, the_human: 0 },
+      };
+    }
     return {
       narratorId: null,
       reason: "silence_active",
@@ -471,6 +527,18 @@ export function seedNarratorSlot(
     };
   }
 
+  // §1.5 — Lyra Vox dominance short-circuits every other case.
+  // When she's been chosen, she appears in EVERY room regardless
+  // of affinity, bonds, dismissals (except hard-swap which was
+  // already handled above). She is the ship.
+  if (dominance === "lyra_vox") {
+    return {
+      narratorId: "lyra_vox",
+      reason: "weighted_roll",
+      weights: { elara: 0, the_human: 0 },
+    };
+  }
+
   // 4. Weighted roll.
   // Base weight: [0.5, 0.5] nudged by room affinity in [-1, 1].
   const affinity = ROOM_AFFINITY[roomId] ?? 0;
@@ -484,6 +552,13 @@ export function seedNarratorSlot(
   const bondDiff = humanBondN - elaraBondN; // [-1, 1]
   elaraWeight -= bondDiff * 0.25;
   humanWeight += bondDiff * 0.25;
+
+  // §1.5 dominance multiplier. When the player forgave Elara at
+  // the Bond-80 wheel, Elara's weight is multiplied by 2.5 so
+  // she carries the roll even in Human-leaning rooms. Same for
+  // the_human. "balanced" leaves the roll untouched.
+  if (dominance === "elara") elaraWeight *= 2.5;
+  if (dominance === "the_human") humanWeight *= 2.5;
 
   // Dismissed narrator (soft dismissal) is temporarily suppressed.
   if (isDismissalActive(dismissal, clock) && dismissal && dismissal.choice === "give_space") {
@@ -515,6 +590,30 @@ export function seedNarratorSlot(
     reason: "weighted_roll",
     weights: { elara: elaraWeight, the_human: humanWeight },
   };
+}
+
+/**
+ * Pure helper that translates a set of narrative flags into a
+ * NarratorDominance value. The caller passes a plain
+ * Record<string, boolean> (matching GameContext's
+ * narrativeFlags shape) and gets back whichever of the four
+ * dominance states is active.
+ *
+ * Precedence when multiple flags are set:
+ *   lyra_vox_unlocked           → lyra_vox
+ *   forgiveness_forgave_elara   → elara
+ *   forgiveness_forgave_human   → the_human
+ *   forgiveness_forgave_both    → balanced
+ *   (none / forgiveness not yet chosen) → balanced
+ */
+export function deriveNarratorDominance(
+  flags: Record<string, boolean | undefined> | undefined,
+): NarratorDominance {
+  if (!flags) return "balanced";
+  if (flags.lyra_vox_unlocked) return "lyra_vox";
+  if (flags.forgiveness_forgave_elara) return "elara";
+  if (flags.forgiveness_forgave_human) return "the_human";
+  return "balanced";
 }
 
 /**

@@ -25,6 +25,7 @@ import {
   tickSwapRoom,
   type DismissalChoice,
   type DismissalState,
+  type NarratorDominance,
   type NarratorId,
   type NarratorRoomId,
   type NarratorSlotSeedResult,
@@ -67,12 +68,14 @@ interface WitnessingStore {
     roomId: NarratorRoomId,
     bonds: { elaraBond: number; humanBond: number },
     flags?: ReadonlySet<string>,
+    dominance?: NarratorDominance,
   ) => NarratorSlotSeedResult;
   /** Apply one of the three §1.3 dismissal choices. Returns bond deltas. */
   dismiss: (
     choice: DismissalChoice,
     bonds: { elaraBond: number; humanBond: number },
     flags?: ReadonlySet<string>,
+    dominance?: NarratorDominance,
   ) => { elaraBond: number; humanBond: number; unlockPotentialAlonePage: boolean };
   /** Queue a slideshow for playback. */
   playSlideshow: (
@@ -107,7 +110,7 @@ export const useWitnessingStore = create<WitnessingStore>((set, get) => ({
   potentialAloneUnlocked: false,
   activeSlideshow: null,
 
-  enterRoom: (roomId, bonds, flags) => {
+  enterRoom: (roomId, bonds, flags, dominance) => {
     const state = get();
     const previousVisits = state.visitCounts[roomId] ?? 0;
     const nextVisit = previousVisits + 1;
@@ -128,6 +131,7 @@ export const useWitnessingStore = create<WitnessingStore>((set, get) => ({
       flags,
       dismissal,
       seed: makeNarratorSeed(roomId, state.sessionNonce, nextVisit),
+      dominance,
     });
 
     set({
@@ -140,12 +144,18 @@ export const useWitnessingStore = create<WitnessingStore>((set, get) => ({
     return slot;
   },
 
-  dismiss: (choice, bonds, flags) => {
+  dismiss: (choice, bonds, flags, dominance) => {
     const state = get();
     const presentNarrator: NarratorId | null = state.currentSlot?.narratorId ?? null;
 
     // Dismissal of nobody is a no-op.
     if (!presentNarrator && choice !== "both_out") {
+      return { elaraBond: 0, humanBond: 0, unlockPotentialAlonePage: false };
+    }
+
+    // Lyra Vox cannot be dismissed — she is the ship itself. Ignore
+    // any dismissal attempt on her.
+    if (presentNarrator === "lyra_vox") {
       return { elaraBond: 0, humanBond: 0, unlockPotentialAlonePage: false };
     }
 
@@ -170,6 +180,7 @@ export const useWitnessingStore = create<WitnessingStore>((set, get) => ({
         flags,
         dismissal: outcome.state,
         seed: makeNarratorSeed(state.currentRoomId, state.sessionNonce, visits),
+        dominance,
       });
       set({ currentSlot: slot });
     }
