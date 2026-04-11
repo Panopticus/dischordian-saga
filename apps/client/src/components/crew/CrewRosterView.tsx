@@ -6,17 +6,36 @@ import { useMemo, useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
-import { Heart, Shield, Brain, Zap, Droplet, Wind, Users, Crown, HeartOff, HeartHandshake } from "lucide-react";
+import { Heart, Shield, Brain, Zap, Droplet, Wind, Users, Crown, Sparkles, HeartOff, HeartHandshake } from "lucide-react";
 import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
 import { CREW_ROLES, type CrewRoleId } from "@/game/crewManagement";
 import { FOUNDING_BLOODLINES, getTrait, type BloodlineId } from "@/game/crewGenetics";
 import type { CrewState, SerializedCrewMember } from "@shared/crewPersistence";
 import CrewPortrait from "./CrewPortrait";
+import {
+  BLOODLINE_HOLIDAY_BONUSES,
+  ROLE_HOLIDAY_BONUSES,
+} from "@/data/events/christmasInJuly/crewHoliday";
 
 interface Props {
   state: CrewState;
   onAssignRole: (memberId: string, role: CrewRoleId | null) => void;
+}
+
+/** Returns a short bonus label for a crew member during the Christmas
+ *  in July event, or null if neither their bloodline nor their role
+ *  has a holiday bonus. Display-only. */
+function holidayBonusLabelFor(member: SerializedCrewMember): string | null {
+  if (member.status !== "active") return null;
+  const fragments: string[] = [];
+  const bloodline = BLOODLINE_HOLIDAY_BONUSES.find(b => b.bloodlineId === member.bloodlineId);
+  if (bloodline) fragments.push(bloodline.bonusName);
+  const role = member.role
+    ? ROLE_HOLIDAY_BONUSES.find(r => r.roleId === member.role)
+    : null;
+  if (role) fragments.push(role.bonusDescription.split(".")[0]);
+  return fragments.length > 0 ? fragments.join(" · ") : null;
 }
 
 const STAT_ICON = {
@@ -53,6 +72,14 @@ export default function CrewRosterView({ state, onAssignRole }: Props) {
   const endRomance = trpc.crew.endRomance.useMutation({
     onError: (e: any) => toast.error(e.message),
   });
+
+  // Christmas in July: when the event window is open, each member's
+  // card gets a small bonus chip summarising their holiday contribution.
+  const holidayStatus = trpc.christmasInJuly.isActive.useQuery(undefined, {
+    retry: false,
+    staleTime: 60_000,
+  });
+  const holidayActive = Boolean(holidayStatus.data?.active);
 
   const members = useMemo(
     () => state.roster.members.filter(m => m.status !== "dead"),
@@ -114,6 +141,16 @@ export default function CrewRosterView({ state, onAssignRole }: Props) {
                   <span>☼ {m.morale}</span>
                 </span>
               </div>
+              {holidayActive && (() => {
+                const label = holidayBonusLabelFor(m);
+                if (!label) return null;
+                return (
+                  <div className="mt-1 flex items-center gap-1 text-[10px] font-mono text-amber-300/90 truncate">
+                    <Sparkles className="w-2.5 h-2.5 shrink-0" />
+                    <span className="truncate">{label}</span>
+                  </div>
+                );
+              })()}
             </div>
           </button>
         ))}

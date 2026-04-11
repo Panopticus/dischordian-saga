@@ -761,6 +761,63 @@ function UniverseView() {
   );
 }
 
+/* ═══ CHRISTMAS IN JULY — DEDICATED QA CONTROLS ═══
+   These wrap the two xmas_july flags with named mutations so
+   admins don't have to hunt for them in the generic list. */
+function ChristmasQaPanel() {
+  const statusQuery = trpc.christmasInJuly.isActive.useQuery(undefined, { retry: false });
+  const setTesting = trpc.christmasInJuly.adminSetTestingOverride.useMutation({
+    onSuccess: () => { statusQuery.refetch(); toast.success("Testing override updated"); },
+  });
+  const setTicker = trpc.christmasInJuly.adminSetTickerEnabled.useMutation({
+    onSuccess: () => { statusQuery.refetch(); toast.success("Ticker visibility updated"); },
+  });
+  const active = statusQuery.data?.active ?? false;
+  const override = statusQuery.data?.overrideActive ?? false;
+  const tickerEnabled = statusQuery.data?.tickerEnabled ?? true;
+  return (
+    <div className={`${voidPanel} p-4 border-red-500/30`}>
+      <h3 className="font-mono text-[10px] text-red-400/80 tracking-wider mb-3">
+        CHRISTMAS IN JULY — QA OVERRIDES
+      </h3>
+      <div className="space-y-3">
+        <div className="flex items-center gap-3">
+          <button
+            onClick={() => setTesting.mutate({ enabled: !override })}
+            disabled={setTesting.isPending}
+            className={`w-10 h-5 rounded-full transition-colors ${override ? "bg-red-500/40" : "bg-gray-500/20"}`}
+          >
+            <div className={`w-4 h-4 rounded-full transition-transform ${override ? "translate-x-5 bg-red-300" : "translate-x-0.5 bg-gray-400"}`} />
+          </button>
+          <div className="flex-1">
+            <p className="font-mono text-xs text-white/80">Force-activate event (ignore window)</p>
+            <p className="font-mono text-[10px] text-white/30">
+              Flips <span className="text-red-400/70">xmas_july_testing</span>. Overrides the July 1–14 window.
+              Currently: {active ? "ACTIVE" : "inactive"}
+            </p>
+          </div>
+        </div>
+        <div className="flex items-center gap-3">
+          <button
+            onClick={() => setTicker.mutate({ enabled: !tickerEnabled })}
+            disabled={setTicker.isPending}
+            className={`w-10 h-5 rounded-full transition-colors ${tickerEnabled ? "bg-green-500/30" : "bg-red-500/20"}`}
+          >
+            <div className={`w-4 h-4 rounded-full transition-transform ${tickerEnabled ? "translate-x-5 bg-green-400" : "translate-x-0.5 bg-red-400"}`} />
+          </button>
+          <div className="flex-1">
+            <p className="font-mono text-xs text-white/80">Holiday dialog ticker visible</p>
+            <p className="font-mono text-[10px] text-white/30">
+              Flips <span className="text-green-400/70">xmas_july_ticker</span>. Hides the NPC holiday dialog
+              banner without disabling the event.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 /* ═══ FEATURE FLAGS VIEW ═══ */
 function FlagsView() {
   const flags = trpc.architectConsole.listFeatureFlags.useQuery();
@@ -769,6 +826,7 @@ function FlagsView() {
 
   return (
     <div className="space-y-4">
+      <ChristmasQaPanel />
       <div className="flex items-center justify-between">
         <h3 className="font-mono text-[10px] text-cyan-400/60 tracking-wider">FEATURE FLAGS</h3>
         <button onClick={() => seedFlags.mutate()} className={voidBtnPrimary}>

@@ -243,6 +243,278 @@ function GiftSendBar() {
 }
 
 /* ═══════════════════════════════════════════════════════
+   STRAIN FIRST CHRISTMAS — One-shot cutscene moment for
+   the Strain pet. Renders as a dismissable overlay if the
+   player owns a Strain and hasn't triggered it yet.
+   ═══════════════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════════════════
+   CREW BONUS PREVIEW — Renders the aggregate holiday bonus
+   the player's active crew grants. Helps players understand
+   *why* their gift/wheel/craps rewards differ from the base.
+   ═══════════════════════════════════════════════════════ */
+function CrewBonusPanel() {
+  const bonusQuery = trpc.christmasInJuly.getCrewBonus.useQuery(undefined, { retry: false });
+  const bonus = bonusQuery.data;
+  if (!bonus) return null;
+
+  // Hide the panel entirely if the player has no crew bonus at all —
+  // showing an empty "0%" panel is noise.
+  const hasAnyBonus =
+    bonus.tokenMultiplier > 0 ||
+    bonus.giftBonusTokens > 0 ||
+    bonus.wheelLuckBonus > 0 ||
+    bonus.crapsLuckBonus > 0;
+  if (!hasAnyBonus) {
+    return (
+      <div className="bg-gray-900/30 border border-gray-700/20 rounded-xl p-4 text-center text-xs text-gray-500 font-mono">
+        Your crew has no active holiday bonus yet. Recruit members with distinct bloodlines and
+        roles during the event to stack token multipliers and luck buffs.
+      </div>
+    );
+  }
+
+  const pct = (n: number) => `${(n * 100).toFixed(0)}%`;
+  const stats: { label: string; value: string; icon: React.ReactNode; color: string }[] = [];
+  if (bonus.tokenMultiplier > 0) {
+    stats.push({
+      label: "Festive Token Earnings",
+      value: `+${pct(bonus.tokenMultiplier)}`,
+      icon: <TrendingUp className="w-4 h-4" />,
+      color: "text-green-300",
+    });
+  }
+  if (bonus.giftBonusTokens > 0) {
+    stats.push({
+      label: "Bonus Tokens / Gift",
+      value: `+${bonus.giftBonusTokens}`,
+      icon: <Gift className="w-4 h-4" />,
+      color: "text-amber-300",
+    });
+  }
+  if (bonus.wheelLuckBonus > 0) {
+    stats.push({
+      label: "Wheel Luck (Common Reroll)",
+      value: `+${pct(bonus.wheelLuckBonus)}`,
+      icon: <RotateCw className="w-4 h-4" />,
+      color: "text-red-300",
+    });
+  }
+  if (bonus.crapsLuckBonus > 0) {
+    stats.push({
+      label: "Craps Luck (Snake-Eyes Reroll)",
+      value: `+${pct(bonus.crapsLuckBonus)}`,
+      icon: <Dice5 className="w-4 h-4" />,
+      color: "text-purple-300",
+    });
+  }
+
+  return (
+    <div className="bg-gradient-to-br from-green-950/20 via-amber-950/10 to-red-950/20 border border-amber-500/30 rounded-xl p-4">
+      <div className="flex items-center gap-2 mb-3">
+        <Sparkles className="w-4 h-4 text-amber-300" />
+        <span className="font-display text-sm text-amber-300">Crew Holiday Bonus</span>
+        <span className="ml-auto text-[10px] font-mono text-amber-400/50 uppercase tracking-widest">
+          {bonus.contributingMemberIds.length} contributing
+        </span>
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+        {stats.map((stat) => (
+          <div
+            key={stat.label}
+            className="flex items-center gap-2 p-2 rounded-lg bg-gray-900/40 border border-gray-700/30"
+          >
+            <span className={stat.color}>{stat.icon}</span>
+            <div className="flex-1 min-w-0">
+              <p className="text-[10px] text-gray-400 font-mono uppercase tracking-wider">{stat.label}</p>
+              <p className={`font-mono text-sm font-bold ${stat.color}`}>{stat.value}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+      {(bonus.sourceBloodlines.length > 0 || bonus.sourceRoles.length > 0) && (
+        <div className="mt-3 flex flex-wrap gap-1">
+          {bonus.sourceBloodlines.map((b) => (
+            <span
+              key={b}
+              className="text-[10px] px-2 py-0.5 rounded-full border border-amber-500/30 bg-amber-500/10 text-amber-300 font-mono"
+            >
+              {b.replace(/_/g, " ")}
+            </span>
+          ))}
+          {bonus.sourceRoles.map((r) => (
+            <span
+              key={r}
+              className="text-[10px] px-2 py-0.5 rounded-full border border-green-500/30 bg-green-500/10 text-green-300 font-mono"
+            >
+              {r.replace(/_/g, " ")}
+            </span>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function StrainChristmasMoment() {
+  const utils = trpc.useUtils();
+  const statusQuery = trpc.christmasInJuly.getStrainChristmasStatus.useQuery(undefined, {
+    retry: false,
+  });
+  const [dialogStep, setDialogStep] = useState(0);
+  const [fired, setFired] = useState<{
+    triggered: boolean;
+    petName: string;
+    bondGain: number;
+    dialog: string[];
+  } | null>(null);
+  const mut = trpc.christmasInJuly.triggerStrainChristmasMoment.useMutation({
+    onSuccess: (data) => {
+      setFired(data);
+      setDialogStep(0);
+      utils.christmasInJuly.getStrainChristmasStatus.invalidate();
+    },
+  });
+
+  const status = statusQuery.data;
+  const canPlay = status?.hasStrain && !status.alreadyFired;
+
+  // When the cutscene is active
+  if (fired) {
+    const line = fired.dialog[dialogStep];
+    const isLast = dialogStep >= fired.dialog.length - 1;
+    return (
+      <div
+        className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4"
+        onClick={() => isLast && setFired(null)}
+      >
+        <motion.div
+          initial={{ scale: 0.9, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          exit={{ scale: 0.9, opacity: 0 }}
+          className="max-w-md w-full p-6 rounded-xl border-2 border-amber-500/50 bg-gradient-to-b from-amber-950/60 to-black"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <div className="flex items-center gap-2 mb-4">
+            <Sparkles className="w-4 h-4 text-amber-300" />
+            <span className="font-display text-xs text-amber-300 uppercase tracking-widest">
+              Strain's First Christmas
+            </span>
+          </div>
+          <p className="font-mono text-sm text-amber-100 leading-relaxed mb-5">"{line}"</p>
+          <div className="flex items-center justify-between">
+            <span className="text-[10px] font-mono text-amber-400/40">
+              {dialogStep + 1} / {fired.dialog.length}
+            </span>
+            <button
+              onClick={() => {
+                if (isLast) setFired(null);
+                else setDialogStep((s) => s + 1);
+              }}
+              className="px-4 py-2 rounded-lg bg-amber-500/20 border border-amber-500/40 text-amber-200 font-mono text-xs hover:bg-amber-500/30"
+            >
+              {isLast ? `Bond +${fired.bondGain}` : "Continue"}
+            </button>
+          </div>
+        </motion.div>
+      </div>
+    );
+  }
+
+  // Hide the trigger entirely if the player has no eligible Strain pet.
+  if (!canPlay) return null;
+
+  // Otherwise, show a small inline card the player can click to play the
+  // one-shot cutscene. Reloading mid-dialog won't burn the unlock — the
+  // server only marks the reward on a successful mutation.
+  return (
+    <div className="rounded-xl border border-amber-500/30 bg-amber-950/10 p-4 flex items-center gap-3">
+      <Sparkles className="w-5 h-5 text-amber-300 shrink-0" />
+      <div className="flex-1 min-w-0">
+        <p className="font-display text-sm text-amber-300">Strain's First Christmas</p>
+        <p className="text-[11px] text-amber-200/70 font-mono mt-0.5">
+          {status.petName ?? "Your Strain"} has never seen a holiday. Play the cutscene to deepen your bond.
+        </p>
+      </div>
+      <button
+        onClick={() => mut.mutate()}
+        disabled={mut.isPending}
+        className="px-4 py-2 rounded-lg bg-amber-500/20 border border-amber-500/40 text-amber-200 font-mono text-xs hover:bg-amber-500/30 disabled:opacity-50"
+      >
+        {mut.isPending ? "…" : "Play Cutscene"}
+      </button>
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════
+   DANGER EVENT PANEL — Surfaces today's holiday crew
+   danger event and lets the player pick a choice. Each
+   UTC day has one deterministic event; choices are
+   resolved server-side and persist to dangerResolutions.
+   ═══════════════════════════════════════════════════════ */
+function HolidayDangerPanel() {
+  const utils = trpc.useUtils();
+  const dangerQuery = trpc.christmasInJuly.getDailyDanger.useQuery();
+  const resolveMut = trpc.christmasInJuly.resolveDailyDanger.useMutation({
+    onSuccess: () => {
+      utils.christmasInJuly.getDailyDanger.invalidate();
+      utils.christmasInJuly.getMyProgress.invalidate();
+    },
+  });
+  const data = dangerQuery.data;
+  if (!data) return null;
+  const { danger, alreadyResolved } = data;
+  const severityStyles =
+    danger.severity === "critical" ? "bg-red-950/30 border-red-500/40 text-red-200" :
+    danger.severity === "serious"  ? "bg-amber-950/30 border-amber-500/40 text-amber-200" :
+    "bg-gray-900/40 border-gray-700/30 text-gray-300";
+  return (
+    <div className={`rounded-xl border p-4 ${severityStyles}`}>
+      <div className="flex items-center gap-2 mb-2">
+        <Flame className="w-4 h-4" />
+        <span className="font-display text-sm">Festive Emergency — {danger.severity.toUpperCase()}</span>
+        {alreadyResolved && (
+          <span className="ml-auto text-[10px] font-mono uppercase tracking-widest text-green-400/70">Resolved</span>
+        )}
+      </div>
+      <p className="text-xs font-mono leading-relaxed mb-3 text-gray-200">{danger.description}</p>
+      {resolveMut.data && (
+        <p className={`text-xs font-mono italic mb-3 ${resolveMut.data.success ? "text-green-300" : "text-red-300"}`}>
+          {resolveMut.data.success
+            ? `✓ ${resolveMut.data.flavor ?? "Crisis averted"} — earned ${resolveMut.data.tokensEarned} festive tokens`
+            : "✗ The choice backfired. No tokens earned."}
+        </p>
+      )}
+      {!alreadyResolved && !resolveMut.isSuccess && (
+        <div className="space-y-2">
+          {danger.choices.map((choice) => (
+            <button
+              key={choice.id}
+              onClick={() => resolveMut.mutate({ choiceId: choice.id })}
+              disabled={resolveMut.isPending}
+              className="w-full text-left p-3 rounded-lg bg-gray-900/60 border border-gray-700/40 hover:border-amber-500/40 disabled:opacity-50 transition-colors"
+            >
+              <div className="flex items-center justify-between">
+                <span className="font-mono text-xs text-amber-300">{choice.label}</span>
+                <span className="text-[10px] text-gray-500 font-mono">
+                  {Math.round(choice.successChance * 100)}% success
+                  {choice.dreamCost ? ` · ${choice.dreamCost}D cost` : ""}
+                  {choice.rewardTokens ? ` · +${choice.rewardTokens} tokens` : ""}
+                </span>
+              </div>
+              <p className="text-[10px] text-gray-400 mt-1">{choice.description}</p>
+            </button>
+          ))}
+        </div>
+      )}
+      {resolveMut.isError && (
+        <p className="text-xs text-red-400/80 font-mono mt-2">{resolveMut.error.message}</p>
+      )}
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════
    REWARDS PANEL — Displays badges, items, and titles the
    player has earned during the event. Reads the decorated
    unlockedRewards list from `christmasInJuly.getMyRewards`.
@@ -783,9 +1055,12 @@ export default function CasinoFloor() {
                   <p className="text-center text-xs text-red-400/80 font-mono">{claimTokensMut.error?.message}</p>
                 )}
 
-                {/* Quick gift dispatcher + inbox + holiday rewards + crew chatter */}
+                {/* Crew holiday preview + quick gift dispatcher + inbox + holiday rewards + crew chatter */}
+                <CrewBonusPanel />
                 <GiftSendBar />
                 <GiftInbox userId={progress?.userId ?? 0} />
+                <HolidayDangerPanel />
+                <StrainChristmasMoment />
                 <RewardsPanel />
                 <CrewHolidayFeed />
 

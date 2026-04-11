@@ -12,6 +12,15 @@ import { motion } from "framer-motion";
 import { trpc } from "@/lib/trpc";
 import { SLOT_SYMBOLS, type CasinoGame } from "./degensCasino";
 
+/** Payload emitted by each game panel after a successful play.
+ *  Lifted into a named type so callers can pattern-match against
+ *  `achievementsUnlocked` and `rewardsUnlocked` to show toasts. */
+export interface CasinoGameResultPayload {
+  achievementsUnlocked?: string[];
+  rewardsUnlocked?: string[];
+}
+export type CasinoGameResultCallback = (payload?: CasinoGameResultPayload) => void;
+
 /** Shared result banner used by every panel after a mutation returns. */
 function ResultBanner({ result }: { result: { won: boolean; payout: number; jackpot: boolean; detail: Record<string, unknown> } | null }) {
   if (!result) return null;
@@ -59,7 +68,7 @@ function BetSelector({
 
 /* ─── VOID SLOTS (server-authoritative) ─── */
 
-export function VoidSlotsPanel({ onResult }: { onResult?: () => void }) {
+export function VoidSlotsPanel({ onResult }: { onResult?: CasinoGameResultCallback }) {
   const [bet, setBet] = useState(10);
   const mut = trpc.casino.playVoidSlots.useMutation();
   const reels = (mut.data?.result.detail as { reels?: string[] } | undefined)?.reels;
@@ -87,7 +96,7 @@ export function VoidSlotsPanel({ onResult }: { onResult?: () => void }) {
       )}
       <BetSelector bet={bet} setBet={setBet} min={5} max={100} />
       <button
-        onClick={() => mut.mutate({ bet }, { onSuccess: () => onResult?.() })}
+        onClick={() => mut.mutate({ bet }, { onSuccess: (data) => onResult?.({ achievementsUnlocked: data?.achievementsUnlocked, rewardsUnlocked: data?.rewardsUnlocked }) })}
         disabled={mut.isPending}
         className="px-6 py-2 rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-400 font-mono text-sm hover:bg-amber-500/20 disabled:opacity-50"
       >
@@ -100,7 +109,7 @@ export function VoidSlotsPanel({ onResult }: { onResult?: () => void }) {
 
 /* ─── ENTROPY DICE (server-authoritative) ─── */
 
-export function EntropyDicePanel({ onResult }: { onResult?: () => void }) {
+export function EntropyDicePanel({ onResult }: { onResult?: CasinoGameResultCallback }) {
   const [bet, setBet] = useState(25);
   const mut = trpc.casino.playEntropyDice.useMutation();
   const detail = mut.data?.result.detail as { die1?: number; die2?: number; total?: number } | undefined;
@@ -134,21 +143,21 @@ export function EntropyDicePanel({ onResult }: { onResult?: () => void }) {
       <p className="font-mono text-[10px] text-white/20 mb-3 mt-2">Predict the roll:</p>
       <div className="flex justify-center gap-3">
         <button
-          onClick={() => mut.mutate({ bet, prediction: "under" }, { onSuccess: () => onResult?.() })}
+          onClick={() => mut.mutate({ bet, prediction: "under" }, { onSuccess: (data) => onResult?.({ achievementsUnlocked: data?.achievementsUnlocked, rewardsUnlocked: data?.rewardsUnlocked }) })}
           disabled={mut.isPending}
           className="px-4 py-2 rounded-lg bg-blue-500/10 border border-blue-500/30 text-blue-400 font-mono text-sm hover:bg-blue-500/20 disabled:opacity-50"
         >
           UNDER 7 (2x)
         </button>
         <button
-          onClick={() => mut.mutate({ bet, prediction: "exact" }, { onSuccess: () => onResult?.() })}
+          onClick={() => mut.mutate({ bet, prediction: "exact" }, { onSuccess: (data) => onResult?.({ achievementsUnlocked: data?.achievementsUnlocked, rewardsUnlocked: data?.rewardsUnlocked }) })}
           disabled={mut.isPending}
           className="px-4 py-2 rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-400 font-mono text-sm hover:bg-amber-500/20 disabled:opacity-50"
         >
           EXACT 7 (5x)
         </button>
         <button
-          onClick={() => mut.mutate({ bet, prediction: "over" }, { onSuccess: () => onResult?.() })}
+          onClick={() => mut.mutate({ bet, prediction: "over" }, { onSuccess: (data) => onResult?.({ achievementsUnlocked: data?.achievementsUnlocked, rewardsUnlocked: data?.rewardsUnlocked }) })}
           disabled={mut.isPending}
           className="px-4 py-2 rounded-lg bg-red-500/10 border border-red-500/30 text-red-400 font-mono text-sm hover:bg-red-500/20 disabled:opacity-50"
         >
@@ -162,7 +171,7 @@ export function EntropyDicePanel({ onResult }: { onResult?: () => void }) {
 
 /* ─── NEBULA POKER ─── */
 
-export function NebulaPokerPanel({ onResult }: { onResult?: () => void }) {
+export function NebulaPokerPanel({ onResult }: { onResult?: CasinoGameResultCallback }) {
   const [bet, setBet] = useState(25);
   const [hand, setHand] = useState<Array<{ rank: number; suit: string }> | null>(null);
   const [discard, setDiscard] = useState<number[]>([]);
@@ -178,7 +187,7 @@ export function NebulaPokerPanel({ onResult }: { onResult?: () => void }) {
           setHand(detail.hand);
           setHandType(detail.handType);
           setDiscard([]);
-          onResult?.();
+          onResult?.({ achievementsUnlocked: data?.achievementsUnlocked, rewardsUnlocked: data?.rewardsUnlocked });
         },
       },
     );
@@ -235,7 +244,7 @@ export function NebulaPokerPanel({ onResult }: { onResult?: () => void }) {
 
 const FACTIONS = ["architect", "insurgency", "new_babylon", "thought_virus", "antiquarian", "hierarchy"] as const;
 
-export function QuantumRoulettePanel({ onResult }: { onResult?: () => void }) {
+export function QuantumRoulettePanel({ onResult }: { onResult?: CasinoGameResultCallback }) {
   const [bet, setBet] = useState(25);
   const [selected, setSelected] = useState<typeof FACTIONS[number][]>([]);
   const mut = trpc.casino.playQuantumRoulette.useMutation();
@@ -245,7 +254,7 @@ export function QuantumRoulettePanel({ onResult }: { onResult?: () => void }) {
     const kind = selected.length === 1 ? "straight" : selected.length === 2 ? "adjacent" : "half";
     mut.mutate(
       { bet, kind, factions: selected },
-      { onSuccess: () => { onResult?.(); } },
+      { onSuccess: (data) => { onResult?.({ achievementsUnlocked: data?.achievementsUnlocked, rewardsUnlocked: data?.rewardsUnlocked }); } },
     );
   };
 
@@ -292,7 +301,7 @@ export function QuantumRoulettePanel({ onResult }: { onResult?: () => void }) {
 
 /* ─── PAZAAK 21 ─── */
 
-export function Pazaak21Panel({ onResult }: { onResult?: () => void }) {
+export function Pazaak21Panel({ onResult }: { onResult?: CasinoGameResultCallback }) {
   const [bet, setBet] = useState(25);
   const [stand, setStand] = useState(18);
   const mut = trpc.casino.playPazaak21.useMutation();
@@ -308,7 +317,7 @@ export function Pazaak21Panel({ onResult }: { onResult?: () => void }) {
       />
       <BetSelector bet={bet} setBet={setBet} min={15} max={250} />
       <button
-        onClick={() => mut.mutate({ bet, stand }, { onSuccess: () => onResult?.() })}
+        onClick={() => mut.mutate({ bet, stand }, { onSuccess: (data) => onResult?.({ achievementsUnlocked: data?.achievementsUnlocked, rewardsUnlocked: data?.rewardsUnlocked }) })}
         disabled={mut.isPending}
         className="px-6 py-2 rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-400 font-mono text-sm hover:bg-amber-500/20 disabled:opacity-50"
       >
@@ -327,14 +336,14 @@ export function Pazaak21Panel({ onResult }: { onResult?: () => void }) {
 
 /* ─── HIGH / LOW ─── */
 
-export function HighLowPanel({ onResult }: { onResult?: () => void }) {
+export function HighLowPanel({ onResult }: { onResult?: CasinoGameResultCallback }) {
   const [bet, setBet] = useState(10);
   const [chainLength, setChainLength] = useState(3);
   const mut = trpc.casino.playHighLow.useMutation();
 
   const play = (guess: "high" | "low") => {
     const guesses = Array.from({ length: chainLength }, () => guess);
-    mut.mutate({ bet, guesses }, { onSuccess: () => onResult?.() });
+    mut.mutate({ bet, guesses }, { onSuccess: (data) => onResult?.({ achievementsUnlocked: data?.achievementsUnlocked, rewardsUnlocked: data?.rewardsUnlocked }) });
   };
 
   return (
@@ -369,14 +378,14 @@ export function HighLowPanel({ onResult }: { onResult?: () => void }) {
 
 /* ─── SCRATCH CARDS ─── */
 
-export function ScratchCardPanel({ onResult }: { onResult?: () => void }) {
+export function ScratchCardPanel({ onResult }: { onResult?: CasinoGameResultCallback }) {
   const mut = trpc.casino.playScratchCard.useMutation();
   return (
     <div className="text-center">
       <h2 className="font-display text-xl text-amber-400 mb-4">VOID SCRATCH CARDS</h2>
       <p className="font-mono text-[10px] text-white/40 mb-4">Fixed 10D. Match 3 for prize, curse loses 20.</p>
       <button
-        onClick={() => mut.mutate(undefined, { onSuccess: () => onResult?.() })}
+        onClick={() => mut.mutate(undefined, { onSuccess: (data) => onResult?.({ achievementsUnlocked: data?.achievementsUnlocked, rewardsUnlocked: data?.rewardsUnlocked }) })}
         disabled={mut.isPending}
         className="px-6 py-2 rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-400 font-mono text-sm hover:bg-amber-500/20 disabled:opacity-50"
       >
@@ -389,7 +398,7 @@ export function ScratchCardPanel({ onResult }: { onResult?: () => void }) {
 
 /* ─── VOID BLACKJACK TOURNAMENT ─── */
 
-export function VoidBlackjackTournamentPanel({ onResult }: { onResult?: () => void }) {
+export function VoidBlackjackTournamentPanel({ onResult }: { onResult?: CasinoGameResultCallback }) {
   const [bet, setBet] = useState(50);
   const [stand, setStand] = useState(17);
   const mut = trpc.casino.playVoidBlackjackTournament.useMutation();
@@ -400,7 +409,7 @@ export function VoidBlackjackTournamentPanel({ onResult }: { onResult?: () => vo
       <input type="range" min={10} max={21} value={stand} onChange={e => setStand(Number(e.target.value))} className="w-48 mb-4" />
       <BetSelector bet={bet} setBet={setBet} min={50} max={500} />
       <button
-        onClick={() => mut.mutate({ bet, stand }, { onSuccess: () => onResult?.() })}
+        onClick={() => mut.mutate({ bet, stand }, { onSuccess: (data) => onResult?.({ achievementsUnlocked: data?.achievementsUnlocked, rewardsUnlocked: data?.rewardsUnlocked }) })}
         disabled={mut.isPending}
         className="px-6 py-2 rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-400 font-mono text-sm hover:bg-amber-500/20 disabled:opacity-50"
       >
@@ -413,7 +422,7 @@ export function VoidBlackjackTournamentPanel({ onResult }: { onResult?: () => vo
 
 /* ─── LIAR'S DICE ─── */
 
-export function LiarsDicePanel({ onResult }: { onResult?: () => void }) {
+export function LiarsDicePanel({ onResult }: { onResult?: CasinoGameResultCallback }) {
   const [bet, setBet] = useState(30);
   const mut = trpc.casino.playLiarsDice.useMutation();
   return (
@@ -422,11 +431,11 @@ export function LiarsDicePanel({ onResult }: { onResult?: () => void }) {
       <p className="font-mono text-[10px] text-white/40 mb-4">The NPC bids. Trust or call liar.</p>
       <BetSelector bet={bet} setBet={setBet} min={20} max={200} />
       <div className="flex gap-3 justify-center">
-        <button onClick={() => mut.mutate({ bet, call: "trust" }, { onSuccess: () => onResult?.() })} disabled={mut.isPending}
+        <button onClick={() => mut.mutate({ bet, call: "trust" }, { onSuccess: (data) => onResult?.({ achievementsUnlocked: data?.achievementsUnlocked, rewardsUnlocked: data?.rewardsUnlocked }) })} disabled={mut.isPending}
           className="px-4 py-2 rounded-lg bg-blue-500/10 border border-blue-500/30 text-blue-400 font-mono text-sm hover:bg-blue-500/20 disabled:opacity-50">
           TRUST (2x)
         </button>
-        <button onClick={() => mut.mutate({ bet, call: "liar" }, { onSuccess: () => onResult?.() })} disabled={mut.isPending}
+        <button onClick={() => mut.mutate({ bet, call: "liar" }, { onSuccess: (data) => onResult?.({ achievementsUnlocked: data?.achievementsUnlocked, rewardsUnlocked: data?.rewardsUnlocked }) })} disabled={mut.isPending}
           className="px-4 py-2 rounded-lg bg-red-500/10 border border-red-500/30 text-red-400 font-mono text-sm hover:bg-red-500/20 disabled:opacity-50">
           LIAR (3x)
         </button>
@@ -454,7 +463,7 @@ const BET_LABELS: Record<string, string> = {
   thought_virus_spread:"Thought Virus spreads to Sector 12",
 };
 
-export function FactionWarBettingPanel({ onResult }: { onResult?: () => void }) {
+export function FactionWarBettingPanel({ onResult }: { onResult?: CasinoGameResultCallback }) {
   const [bet, setBet] = useState(50);
   const [selectedId, setSelectedId] = useState("insurgency_weekly");
   const oddsQuery = trpc.casino.getFactionWarOdds.useQuery(undefined, { refetchInterval: 30_000 });
@@ -484,7 +493,7 @@ export function FactionWarBettingPanel({ onResult }: { onResult?: () => void }) 
       </div>
       <BetSelector bet={bet} setBet={setBet} min={10} max={1000} />
       <button
-        onClick={() => mut.mutate({ bet, betId: selectedId }, { onSuccess: () => onResult?.() })}
+        onClick={() => mut.mutate({ bet, betId: selectedId }, { onSuccess: (data) => onResult?.({ achievementsUnlocked: data?.achievementsUnlocked, rewardsUnlocked: data?.rewardsUnlocked }) })}
         disabled={mut.isPending}
         className="px-6 py-2 rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-400 font-mono text-sm hover:bg-amber-500/20 disabled:opacity-50"
       >
@@ -497,7 +506,7 @@ export function FactionWarBettingPanel({ onResult }: { onResult?: () => void }) 
 
 /* ─── DREAM ROULETTE ─── */
 
-export function DreamRoulettePanel({ onResult }: { onResult?: () => void }) {
+export function DreamRoulettePanel({ onResult }: { onResult?: CasinoGameResultCallback }) {
   const [bet, setBet] = useState(50);
   const mut = trpc.casino.playDreamRoulette.useMutation();
   return (
@@ -506,7 +515,7 @@ export function DreamRoulettePanel({ onResult }: { onResult?: () => void }) {
       <p className="font-mono text-[10px] text-white/40 mb-4">6 chambers. Survive all 6 for 5x payout.</p>
       <BetSelector bet={bet} setBet={setBet} min={25} max={300} />
       <button
-        onClick={() => mut.mutate({ bet }, { onSuccess: () => onResult?.() })}
+        onClick={() => mut.mutate({ bet }, { onSuccess: (data) => onResult?.({ achievementsUnlocked: data?.achievementsUnlocked, rewardsUnlocked: data?.rewardsUnlocked }) })}
         disabled={mut.isPending}
         className="px-6 py-2 rounded-lg bg-red-500/10 border border-red-500/30 text-red-400 font-mono text-sm hover:bg-red-500/20 disabled:opacity-50"
       >
@@ -524,7 +533,7 @@ export function DreamRoulettePanel({ onResult }: { onResult?: () => void }) {
 
 /* ─── CARD BATTLER'S GAUNTLET ─── */
 
-export function CardBattlersGauntletPanel({ onResult }: { onResult?: () => void }) {
+export function CardBattlersGauntletPanel({ onResult }: { onResult?: CasinoGameResultCallback }) {
   const [bet, setBet] = useState(50);
   const mut = trpc.casino.playCardBattlersGauntlet.useMutation();
   return (
@@ -533,7 +542,7 @@ export function CardBattlersGauntletPanel({ onResult }: { onResult?: () => void 
       <p className="font-mono text-[10px] text-white/40 mb-4">Best-of-3 vs The Degen. Win = 3x.</p>
       <BetSelector bet={bet} setBet={setBet} min={30} max={250} />
       <button
-        onClick={() => mut.mutate({ bet }, { onSuccess: () => onResult?.() })}
+        onClick={() => mut.mutate({ bet }, { onSuccess: (data) => onResult?.({ achievementsUnlocked: data?.achievementsUnlocked, rewardsUnlocked: data?.rewardsUnlocked }) })}
         disabled={mut.isPending}
         className="px-6 py-2 rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-400 font-mono text-sm hover:bg-amber-500/20 disabled:opacity-50"
       >
@@ -551,14 +560,14 @@ export function CardBattlersGauntletPanel({ onResult }: { onResult?: () => void 
 
 /* ─── VOID BINGO ─── */
 
-export function VoidBingoPanel({ onResult }: { onResult?: () => void }) {
+export function VoidBingoPanel({ onResult }: { onResult?: CasinoGameResultCallback }) {
   const mut = trpc.casino.playVoidBingo.useMutation();
   return (
     <div className="text-center">
       <h2 className="font-display text-xl text-amber-400 mb-4">VOID BINGO</h2>
       <p className="font-mono text-[10px] text-white/40 mb-4">Free to play. Win 50D if you line up in under 20 draws.</p>
       <button
-        onClick={() => mut.mutate(undefined, { onSuccess: () => onResult?.() })}
+        onClick={() => mut.mutate(undefined, { onSuccess: (data) => onResult?.({ achievementsUnlocked: data?.achievementsUnlocked, rewardsUnlocked: data?.rewardsUnlocked }) })}
         disabled={mut.isPending}
         className="px-6 py-2 rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-400 font-mono text-sm hover:bg-amber-500/20 disabled:opacity-50"
       >
@@ -576,7 +585,7 @@ export function VoidBingoPanel({ onResult }: { onResult?: () => void }) {
 
 /* ─── VOID CASES ─── */
 
-export function VoidCasesPanel({ onResult }: { onResult?: () => void }) {
+export function VoidCasesPanel({ onResult }: { onResult?: CasinoGameResultCallback }) {
   const [bet, setBet] = useState(100);
   const mut = trpc.casino.playVoidCase.useMutation();
   return (
@@ -585,7 +594,7 @@ export function VoidCasesPanel({ onResult }: { onResult?: () => void }) {
       <p className="font-mono text-[10px] text-white/40 mb-4">Pity timer at 20 cases. Published drop rates.</p>
       <BetSelector bet={bet} setBet={setBet} min={50} max={500} />
       <button
-        onClick={() => mut.mutate({ bet }, { onSuccess: () => onResult?.() })}
+        onClick={() => mut.mutate({ bet }, { onSuccess: (data) => onResult?.({ achievementsUnlocked: data?.achievementsUnlocked, rewardsUnlocked: data?.rewardsUnlocked }) })}
         disabled={mut.isPending}
         className="px-6 py-2 rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-400 font-mono text-sm hover:bg-amber-500/20 disabled:opacity-50"
       >
@@ -604,7 +613,7 @@ export function VoidCasesPanel({ onResult }: { onResult?: () => void }) {
 
 /* ─── DISCHORDIAN MAHJONG ─── */
 
-export function DischordianMahjongPanel({ onResult }: { onResult?: () => void }) {
+export function DischordianMahjongPanel({ onResult }: { onResult?: CasinoGameResultCallback }) {
   const [timeUsed, setTimeUsed] = useState(120);
   const mut = trpc.casino.reportMahjongCompletion.useMutation();
   return (
@@ -616,7 +625,7 @@ export function DischordianMahjongPanel({ onResult }: { onResult?: () => void })
       <button
         onClick={() => mut.mutate(
           { baseXp: 50, timeUsedSeconds: timeUsed, timeLimitSeconds: 300, factionCombo: 3 },
-          { onSuccess: () => onResult?.() },
+          { onSuccess: (data) => onResult?.({ achievementsUnlocked: data?.achievementsUnlocked, rewardsUnlocked: data?.rewardsUnlocked }) },
         )}
         disabled={mut.isPending}
         className="px-6 py-2 rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-400 font-mono text-sm hover:bg-amber-500/20 disabled:opacity-50"
@@ -632,7 +641,7 @@ export function DischordianMahjongPanel({ onResult }: { onResult?: () => void })
 
 export function CasinoGamePanel({
   game, onResult,
-}: { game: CasinoGame; onResult?: () => void }) {
+}: { game: CasinoGame; onResult?: CasinoGameResultCallback }) {
   switch (game) {
     case "void_slots":                return <VoidSlotsPanel                onResult={onResult} />;
     case "entropy_dice":              return <EntropyDicePanel              onResult={onResult} />;

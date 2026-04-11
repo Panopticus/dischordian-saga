@@ -18,7 +18,7 @@ import { getDb, type DrizzleDb } from "../db";
 import { checkFeatureFlag } from "../middleware/featureFlag";
 import {
   casinoState, casinoResults, casinoJackpotPool, dreamBalance, userAchievements,
-  warTerritories, warSeasons,
+  warTerritories, warSeasons, notifications,
 } from "../../db/schema";
 import { eq, and, sql, desc } from "drizzle-orm";
 
@@ -34,7 +34,9 @@ import {
   playCardBattlersGauntlet, playFactionWarBet, playVoidBingo, playVoidCase,
   scoreMahjongRun,
   validateBet, vipLevelFor, vipWinBonus, MAX_DAILY_WAGER,
-  ROULETTE_FACTIONS, GAME_LIMITS, splitJackpotPool, type RouletteFaction,
+  ROULETTE_FACTIONS, GAME_LIMITS, splitJackpotPool, rewardsForAchievement,
+  getCasinoCosmetic,
+  type RouletteFaction,
 } from "../../shared/casinoGames";
 
 type PlayableGame =
@@ -468,6 +470,13 @@ async function executeGame(
       previousVipLevel: state.vipLevel,
       vipLevel: updates.vipLevel,
     });
+    // Also persist any cosmetics / titles that come with each newly
+    // earned achievement. We accumulate them across the loop and
+    // write once at the end so the JSON column is only updated once.
+    const existingRewards = new Set(
+      (state.casinoUnlockedRewards ?? []) as string[],
+    );
+    const newRewardIds: string[] = [];
     for (const achievementId of earned) {
       const [existing] = await tx
         .select()
@@ -480,6 +489,18 @@ async function executeGame(
       if (!existing) {
         await tx.insert(userAchievements).values({ userId, achievementId });
       }
+      for (const rewardId of rewardsForAchievement(achievementId)) {
+        if (!existingRewards.has(rewardId)) {
+          existingRewards.add(rewardId);
+          newRewardIds.push(rewardId);
+        }
+      }
+    }
+    if (newRewardIds.length > 0) {
+      await tx
+        .update(casinoState)
+        .set({ casinoUnlockedRewards: Array.from(existingRewards) })
+        .where(eq(casinoState.userId, userId));
     }
 
     if (opts.afterHook) {
@@ -495,6 +516,7 @@ async function executeGame(
       state: { ...state, ...updates },
       tale: rolledTale,
       achievementsUnlocked: earned,
+      rewardsUnlocked: newRewardIds,
     };
   });
 }
@@ -508,6 +530,89 @@ export const casinoRouter = router({
   }),
 
   /** Recent game history (for replay + audit). */
+  /** All cosmetics, titles, Loredex entries, and companion unlocks
+   *  the player has earned from casino achievements. Returns decorated
+   *  rows the UI can render directly, including the catalog metadata
+   *  (slot / label / description / tier) and which slot is currently
+   *  equipped. */
+  getMyCasinoRewards: protectedProcedure
+    .use(checkFeatureFlag("casino"))
+    .query(async ({ ctx }) => {
+      const db = await getDb();
+      if (!db) throw new Error("DB unavailable");
+      const state = await ensureCasinoState(db, ctx.user.id);
+      const ids = (state.casinoUnlockedRewards ?? []) as string[];
+      const equipped = (state.equippedCasinoCosmetics ?? {}) as Record<string, string>;
+      return ids.map((id) => {
+        const meta = getCasinoCosmetic(id);
+        const colon = id.indexOf(":");
+        const kindFallback = (colon >= 0 ? id.slice(0, colon) : "cosmetic") as
+          | "title" | "cosmetic" | "loredex" | "companion";
+        const slug = colon >= 0 ? id.slice(colon + 1) : id;
+        const label = meta?.label ?? slug.replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase());
+        return {
+          id,
+          kind: kindFallback,
+          label,
+          description: meta?.description ?? null,
+          slot: meta?.slot ?? null,
+          tier: meta?.tier ?? "common",
+          equipped: meta ? equipped[meta.slot] === id : false,
+        };
+      });
+    }),
+
+  /** Equip a casino cosmetic into its slot. The cosmetic must be in
+   *  the player's unlocked list. Replaces any previously equipped
+   *  cosmetic in the same slot. */
+  equipCasinoCosmetic: protectedProcedure
+    .use(checkFeatureFlag("casino"))
+    .input(z.object({ rewardId: z.string().min(1).max(128) }))
+    .mutation(async ({ ctx, input }) => {
+      const db = await getDb();
+      if (!db) throw new Error("DB unavailable");
+      return db.transaction(async (tx) => {
+        const state = await ensureCasinoState(tx, ctx.user.id);
+        const unlocked = (state.casinoUnlockedRewards ?? []) as string[];
+        if (!unlocked.includes(input.rewardId)) {
+          throw new Error("You haven't unlocked that cosmetic yet.");
+        }
+        const meta = getCasinoCosmetic(input.rewardId);
+        if (!meta) {
+          throw new Error(`Unknown cosmetic: ${input.rewardId}`);
+        }
+        const equipped = { ...(state.equippedCasinoCosmetics ?? {}) as Record<string, string> };
+        equipped[meta.slot] = input.rewardId;
+        await tx
+          .update(casinoState)
+          .set({ equippedCasinoCosmetics: equipped })
+          .where(eq(casinoState.userId, ctx.user.id));
+        return { equipped, slot: meta.slot, rewardId: input.rewardId };
+      });
+    }),
+
+  /** Unequip a slot. Accepts the slot id directly. */
+  unequipCasinoCosmetic: protectedProcedure
+    .use(checkFeatureFlag("casino"))
+    .input(z.object({ slot: z.enum(["title", "chip", "card_back", "table_felt", "companion", "loredex"]) }))
+    .mutation(async ({ ctx, input }) => {
+      const db = await getDb();
+      if (!db) throw new Error("DB unavailable");
+      return db.transaction(async (tx) => {
+        const state = await ensureCasinoState(tx, ctx.user.id);
+        const equipped = { ...(state.equippedCasinoCosmetics ?? {}) as Record<string, string> };
+        if (!equipped[input.slot]) {
+          return { equipped, slot: input.slot, rewardId: null };
+        }
+        delete equipped[input.slot];
+        await tx
+          .update(casinoState)
+          .set({ equippedCasinoCosmetics: equipped })
+          .where(eq(casinoState.userId, ctx.user.id));
+        return { equipped, slot: input.slot, rewardId: null };
+      });
+    }),
+
   recentResults: protectedProcedure
     .use(checkFeatureFlag("casino"))
     .input(z.object({ limit: z.number().min(1).max(100).default(25) }).optional())
@@ -883,6 +988,40 @@ export const casinoRouter = router({
           .update(casinoResults)
           .set({ seed: `CLAIMED:${recent.seed ?? ""}` })
           .where(eq(casinoResults.id, recent.id));
+
+        // Broadcast a system notification to every casino participant.
+        // lastBroadcastAt guards against retries flooding the inbox.
+        const alreadyBroadcast = pool.lastBroadcastAt &&
+          Date.now() - pool.lastBroadcastAt.getTime() < 60_000;
+        if (!alreadyBroadcast) {
+          const participants = await tx
+            .select({ userId: casinoState.userId })
+            .from(casinoState);
+          if (participants.length > 0) {
+            const winnerName = ctx.user.name ?? `Captain #${ctx.user.id}`;
+            const rows = participants.map(p => ({
+              userId: p.userId,
+              type: "seasonal_event" as const,
+              title: "The Jackpot Has Fallen",
+              message: `${winnerName} just claimed the progressive jackpot — ${payout.toLocaleString()} Dream. The Degen is weeping. Or laughing. It's hard to tell.`,
+              actionUrl: "/casino/leaderboard",
+              metadata: {
+                kind: "casino_jackpot_claim",
+                winnerId: ctx.user.id,
+                payout,
+                retained,
+              },
+            }));
+            const chunk = 500;
+            for (let i = 0; i < rows.length; i += chunk) {
+              await tx.insert(notifications).values(rows.slice(i, i + chunk));
+            }
+            await tx
+              .update(casinoJackpotPool)
+              .set({ lastBroadcastAt: new Date() })
+              .where(eq(casinoJackpotPool.poolKey, "main"));
+          }
+        }
 
         return { payout, newBalance: retained, retained };
       });

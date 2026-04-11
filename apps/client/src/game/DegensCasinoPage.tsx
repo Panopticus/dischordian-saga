@@ -20,9 +20,10 @@ import {
   getDegenPortrait, getVipChip,
 } from "@/lib/casinoAssets";
 import { useDegenVO } from "@/hooks/useDegenVO";
-import { CasinoGamePanel } from "./CasinoGamePanels";
+import { CasinoGamePanel, type CasinoGameResultPayload } from "./CasinoGamePanels";
 import { HolidayDialogTicker } from "@/components/HolidayDialogTicker";
 import { trpc } from "@/lib/trpc";
+import { toast } from "sonner";
 
 const CASINO_FLOOR_BG = CASINO_ENVIRONMENTS.mainFloor;
 const CASINO_PARALLAX_COLOR = "https://res.cloudinary.com/dsenaozjq/image/upload/q_auto/f_auto/v1775681916/Vast_open_casino_202604081640_drbpia.jpg";
@@ -122,8 +123,20 @@ export default function DegensCasinoPage() {
   /** Called by every game panel after a successful tRPC mutation. Rolls for
    *  a lore tale drop client-side (low-cost flavor) and updates the Degen's
    *  commentary banner + VO based on the fresh server state. */
-  const onAnyGameResult = () => {
+  const onAnyGameResult = (payload?: CasinoGameResultPayload) => {
     trpcContext.casino.getState.invalidate();
+    trpcContext.casino.getMyCasinoRewards.invalidate();
+    // Toast any new achievements + cosmetic rewards that landed this turn.
+    for (const id of payload?.achievementsUnlocked ?? []) {
+      toast.success(`Achievement unlocked: ${id.replace(/_/g, " ")}`);
+    }
+    for (const id of payload?.rewardsUnlocked ?? []) {
+      const kind = id.split(":")[0];
+      const slug = id.split(":")[1] ?? id;
+      toast(`New ${kind} unlocked`, {
+        description: slug.replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase()),
+      });
+    }
     const nextState = stateQuery.data;
     if (!nextState) return;
     // Tale drop is purely cosmetic — rolled on the client from the
