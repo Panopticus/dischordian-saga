@@ -918,6 +918,11 @@ export const pvpLeaderboard = mysqlTable("pvp_leaderboard", {
     "bronze", "silver", "gold", "platinum", "diamond", "master", "grandmaster"
   ]).default("bronze").notNull(),
   lastMatchAt: timestamp("lastMatchAt"),
+  /** Timestamp of the last time ELO decay was applied for this user.
+   *  Used to make decay idempotent across repeated reads — the
+   *  decay helper only applies delta since this anchor, never the
+   *  full (now - lastMatchAt) window on every check. */
+  lastDecayAt: timestamp("lastDecayAt"),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
 });

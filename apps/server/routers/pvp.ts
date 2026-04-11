@@ -10,10 +10,55 @@ import {
 import { eq, desc, and, or, sql, asc, inArray } from "drizzle-orm";
 import { logger } from "../logger";
 import { getRankTier } from "@shared/pvpBattle";
-import { getDecayStatus } from "@shared/rankDecay";
+import { calculateDecay, getDecayStatus } from "@shared/rankDecay";
 import { classifyDeck, ARCHETYPES } from "@shared/cardArchetypes";
 import { ripple } from "../services/rippleEngine";
 import { checkFeatureFlag } from "../middleware/featureFlag";
+
+/**
+ * Apply any pending ELO decay to a player's leaderboard row.
+ *
+ * Reads the row, computes decay against `lastDecayAt` (or
+ * `lastMatchAt` on first call), subtracts the decay from ELO,
+ * recomputes the rank tier, and persists. Idempotent — repeated
+ * calls within the same grace window do nothing because
+ * `lastDecayAt` gets bumped to `now` on every successful apply.
+ *
+ * Returns the fresh row (post-decay) so callers can consume it
+ * without a second SELECT.
+ */
+async function applyPendingDecay(
+  db: NonNullable<Awaited<ReturnType<typeof getDb>>>,
+  userId: number,
+): Promise<typeof pvpLeaderboard.$inferSelect | null> {
+  const rows = await db
+    .select()
+    .from(pvpLeaderboard)
+    .where(eq(pvpLeaderboard.userId, userId))
+    .limit(1);
+  if (!rows[0]) return null;
+  const row = rows[0];
+
+  // No anchor yet → no decay to apply.
+  const anchor = row.lastDecayAt ?? row.lastMatchAt;
+  if (!anchor) return row;
+
+  const decay = calculateDecay(new Date(anchor), row.elo, new Date());
+  if (decay <= 0) return row;
+
+  const newElo = Math.max(0, row.elo - decay);
+  const newTier = getRankTier(newElo);
+  await db
+    .update(pvpLeaderboard)
+    .set({
+      elo: newElo,
+      rankTier: newTier as typeof row.rankTier,
+      lastDecayAt: new Date(),
+    })
+    .where(eq(pvpLeaderboard.userId, userId));
+
+  return { ...row, elo: newElo, rankTier: newTier as typeof row.rankTier, lastDecayAt: new Date() };
+}
 
 /* ─── DECK RULES ─── */
 const MAX_DECK_SIZE = 30;
@@ -49,13 +94,10 @@ export const pvpRouter = router({
   getMyStats: protectedProcedure.query(async ({ ctx }) => {
     const db = await getDb();
     if (!db) return null;
-    const rows = await db
-      .select()
-      .from(pvpLeaderboard)
-      .where(eq(pvpLeaderboard.userId, ctx.user.id))
-      .limit(1);
-    if (!rows[0]) return null;
-    const row = rows[0];
+    // Apply any pending decay before reading the stats row so the
+    // displayed ELO / tier reflect reality. Helper is idempotent.
+    const row = await applyPendingDecay(db, ctx.user.id);
+    if (!row) return null;
     const tier = row.rankTier;
     const thresholds = TIER_THRESHOLDS[tier] || TIER_THRESHOLDS.bronze;
     const progressInTier = Math.min(1, Math.max(0, (row.elo - thresholds.min) / (thresholds.max - thresholds.min + 1)));
