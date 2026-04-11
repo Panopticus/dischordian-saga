@@ -162,6 +162,7 @@ const LoreJournalPage = lazy(() => import("./pages/LoreJournalPage"));
 const ArmyManagementPage = lazy(() => import("./pages/ArmyManagementPage"));
 const ShipSchematicMap = lazy(() => import("./components/ShipSchematicMap"));
 const GamemastersArenaPage = lazy(() => import("./game/GamemastersArenaPage"));
+const PalimpsestEpisodesPage = lazy(() => import("./game/PalimpsestEpisodesPage"));
 const DegensCasinoPage = lazy(() => import("./game/DegensCasinoPage"));
 const SignalDecryptionPage = lazy(() => import("./game/SignalDecryptionPage"));
 const StarChartPage = lazy(() => import("./game/StarChartPage"));
@@ -282,6 +283,7 @@ function Router() {
         <Route path="/duelyst-play">{() => <GameRoute component={DuelystClassicPage} />}</Route>
         <Route path="/spectate" component={SpectatorPage} />
         <Route path="/gamemasters-arena">{() => <GameRoute component={GamemastersArenaPage} />}</Route>
+        <Route path="/palimpsest">{() => <GameRoute component={PalimpsestEpisodesPage} />}</Route>
         <Route path="/casino">{() => <GameRoute component={DegensCasinoPage} />}</Route>
         <Route path="/circuit">{() => <GameRoute component={DeadMansCircuitPage} />}</Route>
         <Route path="/cades-fps">{() => <GameRoute component={CADESFPSPage} />}</Route>
