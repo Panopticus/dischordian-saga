@@ -31,7 +31,7 @@ import {
   Crosshair,
 } from "lucide-react";
 import type { IncursionRoomDef, IncursionRun } from "@shared/incursions";
-import { VORTEX_INCURSION_ROOMS } from "@shared/vortexIncursionTemplate";
+import { VortexRoomMinigame } from "@/components/VortexRoomMinigame";
 import {
   VORTEX_CORE_BONUS_LIGHT,
   VORTEX_LIGHT_PER_ROOM,
@@ -365,8 +365,22 @@ function RunningView({
         </p>
       </section>
 
-      {/* Actions */}
-      <div className="flex items-center justify-between">
+      {/* Minigame dispatcher — renders the interactive content
+          for this room type. On resolve the page fires
+          onClearRoom, which advances the run + applies light. */}
+      <VortexRoomMinigame
+        roomDef={currentRoomDef}
+        seed={run.startedAt + roomIndex * 7919}
+        onResolve={(outcome) => {
+          if (outcome === "won") onClearRoom();
+          // A failed minigame leaves the room unresolved — the
+          // player can retry the same puzzle by staying on the
+          // page. Loss tracking could be wired here later.
+        }}
+      />
+
+      {/* Abandon action */}
+      <div className="flex items-center justify-start">
         <button
           type="button"
           onClick={onAbandon}
@@ -374,19 +388,6 @@ function RunningView({
         >
           <X size={11} />
           Abandon
-        </button>
-        <button
-          type="button"
-          onClick={onClearRoom}
-          className={`flex items-center gap-2 rounded-sm border px-5 py-2 font-mono text-[11px] uppercase tracking-wider transition-colors ${
-            isCore
-              ? "border-violet-400 bg-violet-900/40 text-violet-50 hover:border-violet-200 hover:bg-violet-900/60"
-              : "border-emerald-700/70 bg-emerald-900/20 text-emerald-100 hover:border-emerald-500/80 hover:bg-emerald-900/40"
-          }`}
-        >
-          {isCore ? <Crosshair size={12} /> : <CheckCircle2 size={12} />}
-          {isCore ? "Hold the Line" : "Clear Room"}
-          <ChevronRight size={12} />
         </button>
       </div>
 
