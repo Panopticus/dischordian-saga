@@ -18,6 +18,27 @@
 
 import type { FactionNPCId } from "./factionNPCs";
 
+// Re-export the shared skill tree data + bonus parser so every
+// existing client import site continues to work unchanged.
+export {
+  PET_SKILL_TREES,
+  getSkillTreeForSpecies,
+  parseSkillBonus,
+  aggregateSkillEffects,
+  canUnlockNode,
+  getSkillNodeCost,
+  type PetSkillNode,
+  type PetSkillBranch,
+  type PetSkillTree,
+  type SkillBonusEffect,
+} from "@shared/petSkillTrees";
+
+/** Per-pet skill-tree progress snapshot used by the client bond store. */
+export interface PetSkillProgress {
+  availablePoints: number;
+  unlockedNodes: string[];
+}
+
 /* ─── BOND STATE ─── */
 
 export interface PetBond {
@@ -44,69 +65,6 @@ export interface PetBond {
   deathCount: number;
 }
 
-/* ─── SKILL TREES ─── */
-
-export interface PetSkillTree {
-  combat: PetSkillBranch;
-  utility: PetSkillBranch;
-  social: PetSkillBranch;
-}
-
-export interface PetSkillBranch {
-  name: string;
-  nodes: PetSkillNode[];
-}
-
-export interface PetSkillNode {
-  id: string;
-  name: string;
-  description: string;
-  tier: 1 | 2 | 3;
-  cost: number; // Skill points required
-  bonus: string;
-  /** Prerequisite node */
-  requires?: string;
-}
-
-export interface PetSkillProgress {
-  availablePoints: number;
-  unlockedNodes: string[];
-}
-
-export const PET_SKILL_TREES: Record<string, PetSkillTree> = {
-  default: {
-    combat: {
-      name: "COMBAT",
-      nodes: [
-        { id: "bite", name: "Sharpened Bite", description: "+10% pet battle damage", tier: 1, cost: 1, bonus: "damage_10" },
-        { id: "dodge", name: "Quick Dodge", description: "+5% dodge chance in pet battles", tier: 1, cost: 1, bonus: "dodge_5" },
-        { id: "rally", name: "Rally Cry", description: "Buffs your combat stats by +5% when pet is active", tier: 2, cost: 2, bonus: "owner_buff_5", requires: "bite" },
-        { id: "crit", name: "Critical Strike", description: "10% chance to crit in pet battles (2x damage)", tier: 2, cost: 2, bonus: "crit_10", requires: "dodge" },
-        { id: "fury", name: "Protective Fury", description: "When owner HP below 25%, pet enrages: +25% damage, +25% speed", tier: 3, cost: 3, bonus: "rage_mode", requires: "rally" },
-      ],
-    },
-    utility: {
-      name: "UTILITY",
-      nodes: [
-        { id: "scout", name: "Scouting", description: "Reveals adjacent room hotspots", tier: 1, cost: 1, bonus: "hotspot_reveal" },
-        { id: "fetch", name: "Fetch Items", description: "5% chance to find bonus items in rooms", tier: 1, cost: 1, bonus: "item_bonus_5" },
-        { id: "sniff", name: "Treasure Sense", description: "Can detect hidden items in rooms", tier: 2, cost: 2, bonus: "hidden_reveal", requires: "fetch" },
-        { id: "guide", name: "Path Guide", description: "Shows shortest path between rooms on map", tier: 2, cost: 2, bonus: "pathfinding", requires: "scout" },
-        { id: "oracle", name: "Oracle's Instinct", description: "Predicts NPC trust changes from choices before you commit", tier: 3, cost: 3, bonus: "choice_preview", requires: "guide" },
-      ],
-    },
-    social: {
-      name: "SOCIAL",
-      nodes: [
-        { id: "calm", name: "Calming Presence", description: "+5% trust gain with all NPCs", tier: 1, cost: 1, bonus: "trust_gain_5" },
-        { id: "empathy", name: "Empathic Link", description: "Pet warns you when NPC dialog is deceptive", tier: 1, cost: 1, bonus: "deception_detect" },
-        { id: "charm", name: "Charm", description: "+10% gift effectiveness with NPCs", tier: 2, cost: 2, bonus: "gift_boost_10", requires: "calm" },
-        { id: "insight", name: "Deep Insight", description: "See NPC mood (hidden) before dialogue", tier: 2, cost: 2, bonus: "mood_reveal", requires: "empathy" },
-        { id: "harmonize", name: "Harmonic Bond", description: "Your active pet's bond affects ALL NPC trust gains (+0.5% per bond point)", tier: 3, cost: 3, bonus: "universal_trust", requires: "charm" },
-      ],
-    },
-  },
-};
 
 /* ─── PET COMMUNICATION ─── */
 
