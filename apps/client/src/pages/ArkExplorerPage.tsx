@@ -45,6 +45,14 @@ import AlienSymbolPuzzle from "@/components/AlienSymbolPuzzle";
 import FastTravelPanel from "@/components/FastTravelPanel";
 import ItemDetailModal from "@/components/ItemDetailModal";
 import ParallaxRoom from "@/components/ParallaxRoom";
+import { MobileNarratorSlot } from "@/components/MobileNarratorSlot";
+import {
+  getActiveEngineerHook,
+  getActivePreludeBeats,
+  mergeBeatFlags,
+  toNarratorRoomId,
+} from "@shared/mobileNarrator";
+import { isRoomUnlocked as isPreludeRoomUnlocked } from "@shared/preludeRoomGate";
 import LoreTutorialEngine from "@/components/LoreTutorialEngine";
 import NarrativeTrigger from "@/components/NarrativeTrigger";
 import InlineShipMap from "@/components/InlineShipMap";
@@ -780,6 +788,40 @@ export default function ArkExplorerPage() {
   const currentRoom = state.currentRoomId ? getRoomDef(state.currentRoomId) : null;
   const currentRoomState = state.currentRoomId ? getRoomState(state.currentRoomId) : null;
 
+  // Witnessing §1.2 + §1.4 + §2.7 — compute the canonical
+  // NarratorRoomId and the active narrative beat flag set for the
+  // current room. Memoized per (room, visit-count, engineer-hook
+  // state) so the slot component doesn't reseed on every re-render.
+  const witnessingNarratorRoomId = useMemo(
+    () => toNarratorRoomId(state.currentRoomId),
+    [state.currentRoomId],
+  );
+  const witnessingBeatFlags = useMemo(() => {
+    if (!witnessingNarratorRoomId) return undefined;
+    const visitCount = state.currentRoomId
+      ? state.rooms[state.currentRoomId]?.visitCount ?? 0
+      : 0;
+    const prelude = getActivePreludeBeats(witnessingNarratorRoomId, visitCount);
+    // §2.7 Archives opener — fires only when the player has the
+    // burnt Seer's card (gameplay sets prelude_burnt_card_found
+    // on the §2.6 crew mission 3 reward).
+    const engineer = getActiveEngineerHook(
+      witnessingNarratorRoomId,
+      visitCount,
+      {
+        burntCardFound: !!state.narrativeFlags?.prelude_burnt_card_found,
+        openerPlayed: !!state.narrativeFlags?.engineer_archives_opener_played,
+      },
+    );
+    return mergeBeatFlags(prelude, engineer);
+  }, [
+    witnessingNarratorRoomId,
+    state.currentRoomId,
+    state.rooms,
+    state.narrativeFlags?.prelude_burnt_card_found,
+    state.narrativeFlags?.engineer_archives_opener_played,
+  ]);
+
   // Persist solved puzzles
   useEffect(() => {
     try {
@@ -876,6 +918,29 @@ export default function ArkExplorerPage() {
   const navigateWithTransition = useCallback((targetRoomId: string) => {
     const targetDef = getRoomDef(targetRoomId);
     if (!targetDef) return;
+
+    // Witnessing §2.2 — the Prelude hard-gated 10-room order.
+    // Refuse transitions to rooms that are still locked behind
+    // earlier cleaning steps. Only applies during the Prelude
+    // (narrativeAct === 0); Act 1+ navigates freely.
+    const cleanedMap: Record<string, boolean> = {};
+    for (const [id, room] of Object.entries(state.rooms)) {
+      if ((room?.visitCount ?? 0) > 0) cleanedMap[id] = true;
+    }
+    if (
+      !isPreludeRoomUnlocked(targetRoomId, {
+        narrativeAct: state.narrativeAct ?? 0,
+        roomCleanedMap: cleanedMap,
+      })
+    ) {
+      toast.info("The door is sealed.", {
+        description:
+          "There's still an earlier part of the ship you haven't finished cleaning. The Ark is patient.",
+        duration: 5000,
+      });
+      return;
+    }
+
     const isNew = !state.rooms[targetRoomId]?.visited;
     const fromRoom = state.currentRoomId || "cryo-bay";
     if (audioReady) playSFX("room_enter");
@@ -886,7 +951,7 @@ export default function ArkExplorerPage() {
       toRoomImage: targetDef.imageUrl,
       isNewRoom: isNew,
     });
-  }, [getRoomDef, state.rooms, state.currentRoomId, audioReady, playSFX]);
+  }, [getRoomDef, state.rooms, state.currentRoomId, state.narrativeAct, audioReady, playSFX]);
 
   // Persist completed tutorials
   useEffect(() => {
@@ -1077,15 +1142,30 @@ export default function ArkExplorerPage() {
       <div className="px-4 sm:px-6 flex gap-4">
         {/* Main scene */}
         <div className="flex-1">
-          {/* Room scene */}
-          <RoomScene
-            room={currentRoom}
-            onHotspotClick={handleHotspotClick}
-            itemsCollected={state.itemsCollected}
-            fastTravelUnlocked={fastTravelUnlocked}
-            commsRelayComplete={!!state.narrativeFlags["comms_relay_first_claim"]}
-            roomsWithEvents={roomsWithEvents}
-          />
+          {/* Room scene — wrapped in a relative container so the
+              Witnessing mobile narrator slot (§1.2) can overlay. */}
+          <div className="relative">
+            <RoomScene
+              room={currentRoom}
+              onHotspotClick={handleHotspotClick}
+              itemsCollected={state.itemsCollected}
+              fastTravelUnlocked={fastTravelUnlocked}
+              commsRelayComplete={!!state.narrativeFlags["comms_relay_first_claim"]}
+              roomsWithEvents={roomsWithEvents}
+            />
+            {/* Witnessing §1.2 — floating narrator slot. Appears in
+                every canonicalized ship room. Specialized mini-game
+                venues (forge, libraries, vaults, etc.) return null
+                from toNarratorRoomId and suppress the slot.
+                §1.4 — beat flags force the scripted reveal narrator
+                on first visit to each Prelude room. */}
+            {witnessingNarratorRoomId && (
+              <MobileNarratorSlot
+                roomId={witnessingNarratorRoomId}
+                flags={witnessingBeatFlags}
+              />
+            )}
+          </div>
 
           {/* Room description */}
           <div className="mt-3 rounded-lg p-4" style={{

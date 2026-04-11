@@ -45,6 +45,10 @@ export interface BattleCard {
   // runtime state
   currentHealth: number;
   currentPower: number;
+  /** Flat damage reduction applied before health subtraction.
+   *  Raised by species bonus (Quarchon +2, Neyon +2); the `pierce`
+   *  keyword ignores it. */
+  armor: number;
   isExhausted: boolean;
   stealthTurns: number;
   shieldActive: boolean;
@@ -104,6 +108,7 @@ const MAX_INFLUENCE = 30;
 const MAX_ENERGY = 10;
 const STARTING_ENERGY = 3;
 const STARTING_HAND = 5;
+const MAX_HAND_SIZE = 10;
 const MAX_TURNS = 15;
 
 const ELEMENT_ADVANTAGE: Record<Element, Element> = {
@@ -137,7 +142,43 @@ function shuffle<T>(arr: T[]): T[] {
   return a;
 }
 
-function assignKeywords(card: { rarity: string; cardType: string; characterClass?: string | null }): Keyword[] {
+const VALID_KEYWORDS: ReadonlySet<Keyword> = new Set([
+  "stealth", "taunt", "drain", "pierce", "overcharge",
+  "shield", "rally", "resurrect", "evolve",
+]);
+
+/**
+ * Resolve the keyword set for a card instance.
+ *
+ * Priority:
+ *   1. If the card carries an explicit `keywords` array from the DB
+ *      (cards.keywords JSON column), use those — filtered to the
+ *      keywords the battle engine actually implements.
+ *   2. Otherwise fall back to the class/rarity heuristic so freshly
+ *      generated cards without declared keywords still feel alive.
+ *
+ * This is the single source of truth that TCG gap #11 was about: the
+ * battle engine no longer re-rolls random keywords every time a card
+ * is loaded into a match.
+ */
+function assignKeywords(card: {
+  rarity: string;
+  cardType: string;
+  characterClass?: string | null;
+  keywords?: string[] | null;
+}): Keyword[] {
+  // 1. Explicit, DB-declared keywords take precedence.
+  if (Array.isArray(card.keywords) && card.keywords.length > 0) {
+    const declared: Keyword[] = [];
+    for (const raw of card.keywords) {
+      if (typeof raw !== "string") continue;
+      const lower = raw.toLowerCase() as Keyword;
+      if (VALID_KEYWORDS.has(lower)) declared.push(lower);
+    }
+    if (declared.length > 0) return Array.from(new Set(declared));
+  }
+
+  // 2. Heuristic fallback for cards without declared keywords.
   const kws: Keyword[] = [];
   const r = Math.random();
 
@@ -193,16 +234,28 @@ export function cardToBattleCard(card: {
   characterClass?: string | null;
   abilityText?: string | null;
   imageUrl?: string | null;
+  /** DB-declared keyword list — takes precedence over the heuristic fallback. */
+  keywords?: string[] | null;
+  /** Optional userCard metadata used to apply persistent upgrades. */
+  userCard?: { cardLevel?: number | null; isFoil?: number | null } | null;
 }): BattleCard {
   const kws = assignKeywords(card);
+  // Each cardLevel above 1 grants +1 power and +1 health, matching the
+  // "Card Enhancement" crafting recipe description. Foil cards get an
+  // additional +1/+1 glory bonus so owning a foil is always a power-up.
+  const level = Math.max(1, card.userCard?.cardLevel ?? 1);
+  const levelBonus = level - 1;
+  const foilBonus = card.userCard?.isFoil ? 1 : 0;
+  const power = card.power + levelBonus + foilBonus;
+  const health = card.health + levelBonus + foilBonus;
   return {
     uid: genUid(),
     cardId: card.cardId,
     name: card.name,
     cardType: card.cardType,
     rarity: card.rarity,
-    basePower: card.power,
-    baseHealth: card.health,
+    basePower: power,
+    baseHealth: health,
     cost: card.cost,
     element: (card.element as Element) || null,
     alignment: card.alignment || null,
@@ -211,8 +264,9 @@ export function cardToBattleCard(card: {
     abilityText: card.abilityText || null,
     imageUrl: card.imageUrl || null,
     keywords: kws,
-    currentHealth: card.health,
-    currentPower: card.power,
+    currentHealth: health,
+    currentPower: power,
+    armor: 0,
     isExhausted: false,
     stealthTurns: kws.includes("stealth") ? 1 : 0,
     shieldActive: kws.includes("shield"),
@@ -239,9 +293,16 @@ function applyFactionBonus(card: BattleCard, faction: Faction): void {
   }
 }
 
+/** Apply a species bonus once to a card. Tracked with a WeakSet so
+ *  that draws from the deck (which also call this) never double-apply
+ *  to a card that was already bonused at init time. */
+const SPECIES_BONUS_APPLIED = new WeakSet<BattleCard>();
 function applySpeciesBonus(card: BattleCard, bonus: { extraHp: number; baseArmor: number }): void {
+  if (SPECIES_BONUS_APPLIED.has(card)) return;
   card.currentHealth += bonus.extraHp;
   card.baseHealth += bonus.extraHp;
+  card.armor += bonus.baseArmor;
+  SPECIES_BONUS_APPLIED.add(card);
 }
 
 function getElementMultiplier(attacker: Element | null, defender: Element | null): number {
@@ -293,9 +354,17 @@ export function createBattle(
   const pHand = pDeck.splice(0, STARTING_HAND);
   const oHand = oDeck.splice(0, STARTING_HAND);
 
-  // Apply faction bonuses to all cards
-  [...pHand, ...pDeck].forEach(c => applyFactionBonus(c, playerFaction));
-  [...oHand, ...oDeck].forEach(c => applyFactionBonus(c, opponentFaction));
+  // Apply faction + species bonuses to all cards (hand + draw pile).
+  // Both helpers are idempotent, so cards re-touched at draw time
+  // don't stack bonuses.
+  [...pHand, ...pDeck].forEach(c => {
+    applyFactionBonus(c, playerFaction);
+    applySpeciesBonus(c, pSpecies);
+  });
+  [...oHand, ...oDeck].forEach(c => {
+    applyFactionBonus(c, opponentFaction);
+    applySpeciesBonus(c, oSpecies);
+  });
 
   return {
     player: {
@@ -423,6 +492,24 @@ export function drawCards(state: BattleState, who: "player" | "opponent", count:
     }
     const drawn = p.deck.shift()!;
     applyFactionBonus(drawn, p.faction);
+    applySpeciesBonus(drawn, p.speciesBonus);
+
+    // Overdraw: hand is full. The drawn card is burned (sent to
+    // graveyard) and the player takes chip damage to their influence.
+    // Mirrors the pressure valve from Hearthstone / most TCGs that
+    // use a fixed hand size.
+    if (p.hand.length >= MAX_HAND_SIZE) {
+      p.graveyard.push(drawn);
+      p.influence = Math.max(0, p.influence - 1);
+      events.push({
+        type: "influence_damage",
+        source: drawn.name,
+        value: 1,
+        message: `${who === "player" ? "You" : "Opponent"} overdrew! ${drawn.name} burned, 1 Influence lost.`,
+      });
+      continue;
+    }
+
     p.hand.push(drawn);
     events.push({
       type: "draw",
@@ -526,14 +613,31 @@ export function resolveCombat(state: BattleState): BattleState {
         });
       }
 
-      // Pierce keyword
-      if (attacker.keywords.includes("pierce")) {
+      // Pierce keyword: +50% damage AND ignore the target's armor.
+      const pierces = attacker.keywords.includes("pierce");
+      if (pierces) {
         damage = Math.round(damage * 1.5);
         events.push({
           type: "keyword",
           source: attacker.name,
           message: `${attacker.name}'s Pierce ignores armor!`,
         });
+      }
+
+      // Armor reduction (unless pierced). Flat damage reduction from
+      // species bonus (Quarchon / Neyon +2) — never reduces below 1
+      // so a hit still registers.
+      if (!pierces && target.armor > 0) {
+        const blocked = Math.min(damage - 1, target.armor);
+        if (blocked > 0) {
+          damage -= blocked;
+          events.push({
+            type: "keyword",
+            target: target.name,
+            value: blocked,
+            message: `${target.name}'s armor absorbs ${blocked}!`,
+          });
+        }
       }
 
       // Shield keyword

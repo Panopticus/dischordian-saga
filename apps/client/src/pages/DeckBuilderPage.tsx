@@ -9,9 +9,10 @@ import {
   Plus, Save, Trash2, ChevronLeft, ChevronRight, Search,
   Layers, Shield, Swords, Zap, Package, GripVertical,
   X, Check, Edit2, Copy, LayoutGrid, List, Filter,
-  ArrowUpDown, Sparkles, AlertCircle, ChevronDown
+  ArrowUpDown, Sparkles, AlertCircle, ChevronDown, Share2, Download
 } from "lucide-react";
 import { toast } from "sonner";
+import { encodeDeckCode, decodeDeckCode } from "@shared/deckCode";
 
 // ═══════════════════════════════════════════════════════
 // TYPES
@@ -96,6 +97,10 @@ export default function DeckBuilderPage() {
   const [showFilters, setShowFilters] = useState(false);
 
   const deckPanelRef = useRef<HTMLDivElement>(null);
+
+  // Deck code import modal state
+  const [showImportModal, setShowImportModal] = useState(false);
+  const [importCode, setImportCode] = useState("");
 
   // tRPC
   const { data: myDecks, isLoading: decksLoading } = trpc.cardGame.myDecks.useQuery(undefined, {
@@ -274,6 +279,61 @@ export default function DeckBuilderPage() {
     }
   }, [deleteDeckMut, utils, selectedDeckId]);
 
+  // Export the current editor deck to a shareable code copied to clipboard.
+  const handleExportDeckCode = useCallback(async () => {
+    try {
+      if (deckCards.length === 0) {
+        toast.error("Add cards to the deck before exporting");
+        return;
+      }
+      const code = encodeDeckCode(deckCards);
+      if (typeof navigator !== "undefined" && navigator.clipboard) {
+        await navigator.clipboard.writeText(code);
+        toast.success("Deck code copied to clipboard");
+      } else {
+        toast.success(`Deck code: ${code}`);
+      }
+    } catch (err: any) {
+      toast.error(err?.message || "Failed to export deck");
+    }
+  }, [deckCards]);
+
+  // Decode a pasted deck code and load it into the editor as a new deck.
+  const handleImportDeckCode = useCallback(() => {
+    const decoded = decodeDeckCode(importCode);
+    if (!decoded) {
+      toast.error("Invalid deck code");
+      return;
+    }
+    setSelectedDeckId(null);
+    setDeckName("Imported Deck");
+    setDeckDescription("");
+    setDeckType("combined");
+    setDeckCards(decoded.cards);
+    setIsCreating(true);
+    setIsEditing(true);
+    setShowDeckList(false);
+    setShowImportModal(false);
+    setImportCode("");
+    toast.success(`Imported ${decoded.cards.length} card entries`);
+  }, [importCode]);
+
+  // Duplicate deck — clones the card list under a new "(Copy)" name.
+  const handleCopyDeck = useCallback(async (deck: DeckData) => {
+    try {
+      await createDeckMut.mutateAsync({
+        name: `${deck.name} (Copy)`.slice(0, 256),
+        description: deck.description || undefined,
+        deckType: (deck.deckType as "crypt" | "library" | "combined") || "combined",
+        cardList: (deck.cardList || []).map(c => ({ cardId: c.cardId, quantity: c.quantity })),
+      });
+      toast.success(`Copied "${deck.name}"`);
+      utils.cardGame.myDecks.invalidate();
+    } catch (err: any) {
+      toast.error(err.message || "Failed to copy deck");
+    }
+  }, [createDeckMut, utils]);
+
   // Drag handlers
   const handleDragStart = useCallback((cardId: string) => {
     setDraggedCard(cardId);
@@ -356,6 +416,15 @@ export default function DeckBuilderPage() {
                 ← Back
               </button>
               <button
+                onClick={handleExportDeckCode}
+                disabled={deckCards.length === 0}
+                className="px-3 py-1.5 text-xs font-mono text-muted-foreground hover:text-primary border border-border/30 rounded hover:bg-secondary/50 transition-colors disabled:opacity-50 flex items-center gap-1.5"
+                title="Export deck code to clipboard"
+              >
+                <Share2 size={12} />
+                Export
+              </button>
+              <button
                 onClick={saveDeck}
                 disabled={createDeckMut.isPending || updateDeckMut.isPending || deckStats.totalCards < MIN_DECK_SIZE}
                 className="px-4 py-1.5 text-xs font-mono bg-primary/20 border border-primary/50 text-primary rounded hover:bg-primary/30 transition-colors disabled:opacity-50 flex items-center gap-1.5"
@@ -376,13 +445,22 @@ export default function DeckBuilderPage() {
             <div className="max-w-4xl mx-auto">
               <div className="flex items-center justify-between mb-6">
                 <h2 className="font-display text-lg tracking-[0.15em] text-foreground">YOUR DECKS</h2>
-                <button
-                  onClick={startNewDeck}
-                  className="flex items-center gap-2 px-4 py-2 bg-primary/15 border border-primary/40 text-primary text-sm font-mono rounded hover:bg-primary/25 transition-colors"
-                >
-                  <Plus size={14} />
-                  New Deck
-                </button>
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => setShowImportModal(true)}
+                    className="flex items-center gap-2 px-4 py-2 bg-card/40 border border-border/40 text-muted-foreground hover:text-primary text-sm font-mono rounded hover:bg-card/60 transition-colors"
+                  >
+                    <Download size={14} />
+                    Import Code
+                  </button>
+                  <button
+                    onClick={startNewDeck}
+                    className="flex items-center gap-2 px-4 py-2 bg-primary/15 border border-primary/40 text-primary text-sm font-mono rounded hover:bg-primary/25 transition-colors"
+                  >
+                    <Plus size={14} />
+                    New Deck
+                  </button>
+                </div>
               </div>
 
               {decksLoading ? (
@@ -423,12 +501,22 @@ export default function DeckBuilderPage() {
                               {deck.name}
                             </h3>
                           </div>
-                          <button
-                            onClick={(e) => { e.stopPropagation(); handleDeleteDeck(deck.id); }}
-                            className="p-1 text-muted-foreground/40 hover:text-destructive transition-colors"
-                          >
-                            <Trash2 size={14} />
-                          </button>
+                          <div className="flex items-center gap-1">
+                            <button
+                              onClick={(e) => { e.stopPropagation(); handleCopyDeck(deck); }}
+                              className="p-1 text-muted-foreground/40 hover:text-primary transition-colors"
+                              title="Duplicate deck"
+                            >
+                              <Copy size={14} />
+                            </button>
+                            <button
+                              onClick={(e) => { e.stopPropagation(); handleDeleteDeck(deck.id); }}
+                              className="p-1 text-muted-foreground/40 hover:text-destructive transition-colors"
+                              title="Delete deck"
+                            >
+                              <Trash2 size={14} />
+                            </button>
+                          </div>
                         </div>
                         {deck.description && (
                           <p className="text-muted-foreground text-xs mb-3 line-clamp-2">{deck.description}</p>
@@ -785,6 +873,49 @@ export default function DeckBuilderPage() {
           </>
         )}
       </div>
+
+      {/* Deck code import modal */}
+      {showImportModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4">
+          <div className="w-full max-w-md bg-card border border-primary/30 rounded-lg p-5">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="font-display text-base tracking-[0.15em] text-foreground">IMPORT DECK CODE</h3>
+              <button
+                onClick={() => { setShowImportModal(false); setImportCode(""); }}
+                className="text-muted-foreground hover:text-foreground transition-colors"
+              >
+                <X size={16} />
+              </button>
+            </div>
+            <p className="font-mono text-[10px] text-muted-foreground mb-3">
+              Paste a deck code (starts with <code className="text-primary/80">DS1.</code>) to load it into the editor.
+            </p>
+            <textarea
+              value={importCode}
+              onChange={(e) => setImportCode(e.target.value)}
+              placeholder="DS1.eyJ2IjoxLCJjIjpbWyJjYXJkX2EiLDNdXX0"
+              rows={4}
+              className="w-full px-3 py-2 bg-background/60 border border-border/40 rounded font-mono text-xs text-foreground placeholder:text-muted-foreground/40 focus:border-primary/60 focus:outline-none resize-none"
+            />
+            <div className="flex items-center justify-end gap-2 mt-4">
+              <button
+                onClick={() => { setShowImportModal(false); setImportCode(""); }}
+                className="px-3 py-1.5 text-xs font-mono text-muted-foreground hover:text-foreground border border-border/30 rounded hover:bg-secondary/50 transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleImportDeckCode}
+                disabled={importCode.trim().length === 0}
+                className="px-4 py-1.5 text-xs font-mono bg-primary/20 border border-primary/50 text-primary rounded hover:bg-primary/30 transition-colors disabled:opacity-50 flex items-center gap-1.5"
+              >
+                <Download size={12} />
+                Import
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

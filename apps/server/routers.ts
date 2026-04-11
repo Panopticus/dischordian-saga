@@ -78,6 +78,11 @@ import { performanceRouter } from "./routers/performance";
 import { deadMansCircuitRouter } from "./routers/deadMansCircuit";
 import { livingUniverseRouter } from "./routers/livingUniverse";
 import { palimpsestRouter } from "./routers/palimpsest";
+import { thoughtVirusRouter } from "./routers/thoughtVirus";
+import { casinoRouter } from "./routers/casino";
+import { christmasInJulyRouter } from "./routers/christmasInJuly";
+import { dischordiaCycleRouter } from "./routers/dischordiaCycle";
+import { crewRouter } from "./routers/crew";
 
 export const appRouter = router({
   system: systemRouter,
@@ -152,6 +157,11 @@ export const appRouter = router({
   deadMansCircuit: deadMansCircuitRouter,
   livingUniverse: livingUniverseRouter,
   palimpsest: palimpsestRouter,
+  thoughtVirus: thoughtVirusRouter,
+  casino: casinoRouter,
+  christmasInJuly: christmasInJulyRouter,
+  dischordiaCycle: dischordiaCycleRouter,
+  crew: crewRouter,
   auth: router({
     me: publicProcedure.query(opts => opts.ctx.user),
     logout: publicProcedure.mutation(({ ctx }) => {
