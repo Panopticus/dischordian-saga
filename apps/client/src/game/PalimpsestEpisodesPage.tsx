@@ -12,7 +12,7 @@
    and the Palimpsest meter descriptors from apps/shared/palimpsest.ts.
    ═══════════════════════════════════════════════════════ */
 
-import { useState, useEffect, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLocation } from "wouter";
 import { toast } from "sonner";
@@ -31,34 +31,15 @@ import {
   getPhase,
   getBalanceDescription,
   shouldHostMaskSlip,
+  type PalimpsestState,
 } from "@shared/palimpsest";
-import { getHackForEpisode, didHackLand } from "@shared/theInventor";
+import { getHackForEpisode } from "@shared/theInventor";
 import { getLetterForEpisode, isDarrenGone } from "@shared/darrenFessler";
 import GamemastersArena from "./GamemastersArena";
+import { HostMaskSlip } from "@/components/HostMaskSlip";
+import { trpc } from "@/lib/trpc";
 
-type Phase = "lobby" | "broadcast" | "crawl" | "letter";
-
-interface EpisodeProgress {
-  [episodeNumber: number]: { completed: boolean; won: boolean; dreamEarned: number };
-}
-
-const STORAGE_KEY = "palimpsest_episode_progress";
-
-function loadProgress(): EpisodeProgress {
-  try {
-    return JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
-  } catch {
-    return {};
-  }
-}
-
-function saveProgress(progress: EpisodeProgress): void {
-  try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(progress));
-  } catch {
-    /* quota full — non-blocking */
-  }
-}
+type Phase = "lobby" | "broadcast" | "crawl" | "letter" | "funeral";
 
 /* ─── CASUALTY CRAWL ─── */
 function CasualtyCrawl({
@@ -127,62 +108,91 @@ export default function PalimpsestEpisodesPage() {
   const [, navigate] = useLocation();
   const [phase, setPhase] = useState<Phase>("lobby");
   const [selected, setSelected] = useState<number | null>(null);
-  const [progress, setProgress] = useState<EpisodeProgress>(() => loadProgress());
   const [crawlNames, setCrawlNames] = useState<string[]>([]);
 
-  // Keep progress persisted.
-  useEffect(() => {
-    saveProgress(progress);
-  }, [progress]);
+  // Server-backed Palimpsest state + completed episodes.
+  const stateQuery = trpc.palimpsest.get.useQuery();
+  const completedQuery = trpc.palimpsest.listCompletedEpisodes.useQuery();
+  const recordEpisode = trpc.palimpsest.recordEpisode.useMutation({
+    onSuccess: () => {
+      stateQuery.refetch();
+      completedQuery.refetch();
+    },
+  });
 
-  const palimpsestState = DEFAULT_PALIMPSEST_STATE; // Placeholder until tRPC hookup.
+  const palimpsestState: PalimpsestState = stateQuery.data?.state ?? DEFAULT_PALIMPSEST_STATE;
   const phaseLabel = getPhase(palimpsestState);
   const maskSlipping = shouldHostMaskSlip(palimpsestState);
+  const completedSet = useMemo(
+    () => new Set(completedQuery.data?.completed ?? []),
+    [completedQuery.data],
+  );
 
   const selectedEpisode = useMemo(
     () => (selected !== null ? getEpisode(selected) : null),
     [selected],
   );
 
-  const completedCount = Object.values(progress).filter((p) => p.completed).length;
+  const completedCount = completedSet.size;
 
   const handleBroadcast = (episode: PalimpsestEpisode) => {
-    // Ep 13 is the silent funeral — no quiz, just watch.
-    if (episode.round3Format === "silent" && episode.episodeNumber === 13) {
-      toast("The broadcast is thirty minutes of a black screen. You watch anyway.", {
-        description: "+1 Signal for showing up.",
-      });
-      setProgress((prev) => ({
-        ...prev,
-        [episode.episodeNumber]: { completed: true, won: true, dreamEarned: 0 },
-      }));
+    setSelected(episode.episodeNumber);
+    // Episode 13 is the silent funeral episode — no quiz, no casualty
+    // crawl. The player watches in a separate dedicated view.
+    if (episode.episodeNumber === 13) {
+      setPhase("funeral");
       return;
     }
-    setSelected(episode.episodeNumber);
     setPhase("broadcast");
   };
 
   const handleEpisodeComplete = (dream: number, rounds: number) => {
     if (!selectedEpisode) return;
     const won = rounds >= 10;
+    const winner: "signal" | "noise" = won ? "signal" : "noise";
 
-    setProgress((prev) => ({
-      ...prev,
-      [selectedEpisode.episodeNumber]: {
-        completed: true,
-        won,
-        dreamEarned: dream,
-      },
-    }));
-
-    // Roll casualties for the crawl.
-    const casualtyCount = rollCasualtyCount(selectedEpisode.episodeNumber, palimpsestState.noise);
-    const names = CASUALTY_NAME_POOL.slice(0, casualtyCount);
-    // Guaranteed entry for Episode 12: Darren.
-    if (selectedEpisode.episodeNumber === 12 && !names.includes("Darren Fessler")) {
-      names.push("Darren Fessler");
+    // Build the real casualty list from rolled count + elimination round.
+    // Elimination round for the player is the round they lost on (or 10 for survivors).
+    const casualtyCount = rollCasualtyCount(
+      selectedEpisode.episodeNumber,
+      palimpsestState.noise,
+    );
+    const casualties: { playerName: string; eliminationRound: number }[] = [];
+    // First `casualtyCount` entries from the name pool, each assigned a
+    // plausible elimination round distributed across the broadcast.
+    for (let i = 0; i < Math.min(casualtyCount, CASUALTY_NAME_POOL.length); i++) {
+      casualties.push({
+        playerName: CASUALTY_NAME_POOL[i],
+        eliminationRound: Math.min(10, 2 + Math.floor((i * 10) / Math.max(1, casualtyCount))),
+      });
     }
+    // Guaranteed: Darren dies in Episode 12, off-screen between rounds.
+    if (selectedEpisode.episodeNumber === 12) {
+      casualties.push({ playerName: "Darren Fessler", eliminationRound: 10 });
+    }
+    // The player's own clone death counts as a casualty when they lose.
+    if (!won) {
+      casualties.push({ playerName: "Clone 1047-A", eliminationRound: rounds + 1 });
+    }
+    const names = casualties.map((c) => c.playerName);
     setCrawlNames(names);
+
+    // Inventor's hack landed this episode iff the canonical hack wasn't blocked.
+    const hack = getHackForEpisode(selectedEpisode.episodeNumber);
+
+    recordEpisode.mutate({
+      episodeNumber: selectedEpisode.episodeNumber,
+      winner,
+      casualties,
+      signalGained: won ? 50 : 0,
+      noiseGained: won ? 0 : 25,
+      inventorHackLanded: !!hack && !hack.blocked,
+    });
+
+    toast.success(`Episode ${selectedEpisode.episodeNumber} complete`, {
+      description: `+${dream} Dream · ${rounds}/10 rounds`,
+    });
+
     setPhase("crawl");
   };
 
@@ -237,8 +247,9 @@ export default function PalimpsestEpisodesPage() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
             {PALIMPSEST_EPISODES.map((ep) => {
-              const epProgress = progress[ep.episodeNumber];
-              const isLocked = ep.episodeNumber > 1 && !progress[ep.episodeNumber - 1]?.completed;
+              const isCompleted = completedSet.has(ep.episodeNumber);
+              const isLocked =
+                ep.episodeNumber > 1 && !completedSet.has(ep.episodeNumber - 1);
               const hack = getHackForEpisode(ep.episodeNumber);
 
               return (
@@ -251,10 +262,8 @@ export default function PalimpsestEpisodesPage() {
                   className={`text-left p-4 rounded-lg border transition-all ${
                     isLocked
                       ? "opacity-30 cursor-not-allowed border-white/5 bg-white/[0.02]"
-                      : epProgress?.won
+                      : isCompleted
                       ? "border-amber-500/30 bg-amber-500/5 hover:bg-amber-500/10"
-                      : epProgress?.completed
-                      ? "border-red-500/20 bg-red-500/5 hover:bg-red-500/10"
                       : "border-white/10 bg-white/[0.02] hover:border-red-400/30"
                   }`}
                   data-testid={`palimpsest-episode-${ep.episodeNumber}`}
@@ -265,10 +274,8 @@ export default function PalimpsestEpisodesPage() {
                     </span>
                     {isLocked ? (
                       <Lock size={10} className="text-white/20" />
-                    ) : epProgress?.won ? (
+                    ) : isCompleted ? (
                       <Trophy size={12} className="text-amber-400" />
-                    ) : epProgress?.completed ? (
-                      <Skull size={12} className="text-red-400/60" />
                     ) : (
                       <Radio size={12} className="text-red-400/40" />
                     )}
@@ -312,14 +319,50 @@ export default function PalimpsestEpisodesPage() {
 
       {/* ═══ BROADCAST (Gamemaster's Arena quiz) ═══ */}
       {phase === "broadcast" && selectedEpisode && (
-        <GamemastersArena
-          onComplete={handleEpisodeComplete}
-          onClose={() => {
-            setPhase("lobby");
-            setSelected(null);
-          }}
-        />
+        <>
+          {/* Thaloria debate stage overlay on Episode 10 */}
+          {selectedEpisode.useThaloriaStage && (
+            <img
+              src="/art/special-maps/special-thaloria-debate-stage.png"
+              alt=""
+              aria-hidden
+              className="fixed inset-0 w-full h-full object-cover z-[55] pointer-events-none"
+              style={{ opacity: 0.25, filter: "brightness(0.4) saturate(1.1)" }}
+              data-testid="palimpsest-thaloria-stage"
+            />
+          )}
+          {/* Host mask slip overlay — only when Noise dominates */}
+          <HostMaskSlip state={palimpsestState} />
+          <GamemastersArena
+            onComplete={handleEpisodeComplete}
+            onClose={() => {
+              setPhase("lobby");
+              setSelected(null);
+            }}
+          />
+        </>
       )}
+
+      {/* ═══ EPISODE 13 — FUNERAL (silent broadcast) ═══ */}
+      <AnimatePresence>
+        {phase === "funeral" && selectedEpisode && (
+          <Episode13Funeral
+            onDismiss={() => {
+              // Finalize Episode 13 just by showing up.
+              recordEpisode.mutate({
+                episodeNumber: 13,
+                winner: "signal",
+                casualties: [],
+                signalGained: 10,
+                noiseGained: 0,
+                inventorHackLanded: false,
+              });
+              setPhase("lobby");
+              setSelected(null);
+            }}
+          />
+        )}
+      </AnimatePresence>
 
       {/* ═══ CASUALTY CRAWL ═══ */}
       <AnimatePresence>
@@ -412,3 +455,98 @@ const CASUALTY_NAME_POOL: string[] = [
   "Wren Ostlund",
   "Marguerite Fessler", // Darren's mother — her name edited onto the crawl in Ep 9.
 ];
+
+/* ─── EPISODE 13: FUNERAL ─── */
+/**
+ * Silent broadcast. Thirty seconds of a black screen with
+ * "TECHNICAL DIFFICULTIES." If the player waits, they see
+ * Darren's graveside service in the Celebration cemetery.
+ * No score. No casualties. Just showing up is Signal.
+ */
+function Episode13Funeral({ onDismiss }: { onDismiss: () => void }) {
+  const [stage, setStage] = useState<"technical" | "service" | "credits">("technical");
+  const [staticPhase, setStaticPhase] = useState(true);
+
+  // Progress through the three stages. Total watch time ~36s.
+  // Users can dismiss at any time; staying through credits is the
+  // in-universe act of bearing witness.
+  useEffect(() => {
+    const t1 = setTimeout(() => {
+      setStage("service");
+      setStaticPhase(false);
+    }, 6000);
+    const t2 = setTimeout(() => setStage("credits"), 30000);
+    return () => {
+      clearTimeout(t1);
+      clearTimeout(t2);
+    };
+  }, []);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 z-[80] bg-black text-white/80 flex flex-col items-center justify-center"
+      data-testid="palimpsest-funeral"
+    >
+      {stage === "technical" && (
+        <div className="text-center">
+          <p
+            className={`font-mono text-base tracking-[0.4em] ${
+              staticPhase ? "animate-pulse" : ""
+            }`}
+          >
+            TECHNICAL DIFFICULTIES
+          </p>
+          <p className="font-mono text-[10px] text-white/30 mt-4">
+            Please stand by. Broadcast will resume shortly.
+          </p>
+        </div>
+      )}
+
+      {stage === "service" && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 2 }}
+          className="max-w-md text-center px-6"
+        >
+          <p className="font-serif text-[14px] italic text-amber-200/70 leading-relaxed mb-4">
+            A small graveside service. The Celebration sector cemetery. The sky is
+            painted; the flowers are real.
+          </p>
+          <p className="font-serif text-[13px] italic text-amber-200/60 leading-relaxed mb-4">
+            Nine people attend. One wears red goggles. One of them shimmers faintly.
+            Nobody speaks.
+          </p>
+          <p className="font-serif text-[12px] italic text-white/50 leading-relaxed">
+            The headstone reads: DARREN FESSLER · BELOVED SON · HE WROTE DOWN THE
+            THINGS THAT DIDN'T MAKE THE BROADCAST.
+          </p>
+        </motion.div>
+      )}
+
+      {stage === "credits" && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="text-center max-w-md px-6"
+        >
+          <p className="font-serif text-[14px] italic text-amber-200/80 mb-6">
+            You stayed until the end. The Palimpsest remembers what you did.
+          </p>
+          <p className="font-mono text-[10px] text-white/40 mb-6 tracking-wider">
+            EPISODE 13 · DIRECTED BY NOBODY · IN MEMORIAM
+          </p>
+          <button
+            onClick={onDismiss}
+            className="px-6 py-2 rounded border border-amber-500/30 font-mono text-[10px] tracking-wider text-amber-300 hover:bg-amber-500/10"
+          >
+            RETURN TO THE ARK
+          </button>
+        </motion.div>
+      )}
+    </motion.div>
+  );
+}

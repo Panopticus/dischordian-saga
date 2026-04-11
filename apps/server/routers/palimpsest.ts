@@ -13,11 +13,15 @@ import { protectedProcedure, router } from "../_core/trpc";
 import { ripple } from "../services/rippleEngine";
 import { palimpsestService } from "../services/palimpsestService";
 import { getPhase, PALIMPSEST_DELTAS } from "@shared/palimpsest";
+import { getDb } from "../db";
+import { contentParticipation } from "../../db/schema";
+import { and, eq } from "drizzle-orm";
+import { logger } from "../logger";
 
 export const palimpsestRouter = router({
   /* ─── READ ─── */
-  get: protectedProcedure.query(({ ctx }) => {
-    const state = palimpsestService.get(ctx.user.id);
+  get: protectedProcedure.query(async ({ ctx }) => {
+    const state = await palimpsestService.get(ctx.user.id);
     const global = palimpsestService.getGlobal();
     return {
       state,
@@ -53,7 +57,7 @@ export const palimpsestRouter = router({
           source: input.source,
         });
       }
-      return { state: palimpsestService.get(ctx.user.id) };
+      return { state: await palimpsestService.get(ctx.user.id) };
     }),
 
   /* ─── ALARIC DEBATE RESOLUTION ─── */
@@ -81,7 +85,7 @@ export const palimpsestRouter = router({
           source: `alaric_debate_ep${input.episode}`,
         });
       }
-      return { state: palimpsestService.get(ctx.user.id) };
+      return { state: await palimpsestService.get(ctx.user.id) };
     }),
 
   /* ─── EPISODE FINALIZATION ─── */
@@ -90,21 +94,84 @@ export const palimpsestRouter = router({
       z.object({
         episodeNumber: z.number().int().min(1).max(13),
         winner: z.enum(["signal", "noise", "draw"]),
-        casualties: z.array(z.string()),
+        /**
+         * Casualties with their real elimination round. The Arena
+         * passes the round index a contestant died in, not a default.
+         */
+        casualties: z.array(
+          z.object({
+            playerName: z.string().min(1).max(128),
+            eliminationRound: z.number().int().min(1).max(10),
+          }),
+        ),
         signalGained: z.number().int().min(0),
         noiseGained: z.number().int().min(0),
         inventorHackLanded: z.boolean(),
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      const state = palimpsestService.recordEpisode(ctx.user.id, input);
+      const state = await palimpsestService.recordEpisode(ctx.user.id, {
+        episodeNumber: input.episodeNumber,
+        winner: input.winner,
+        casualties: input.casualties.map((c) => c.playerName),
+        signalGained: input.signalGained,
+        noiseGained: input.noiseGained,
+        inventorHackLanded: input.inventorHackLanded,
+      });
 
-      // Fan out the outcome-level ripples.
-      for (const name of input.casualties) {
+      // Persist episode completion to contentParticipation so progress
+      // follows the player across devices and sessions.
+      const db = await getDb();
+      if (db) {
+        const contentId = `palimpsest_ep${input.episodeNumber}`;
+        try {
+          const [existing] = await db
+            .select()
+            .from(contentParticipation)
+            .where(
+              and(
+                eq(contentParticipation.userId, ctx.user.id),
+                eq(contentParticipation.contentType, "palimpsest_episode"),
+                eq(contentParticipation.contentId, contentId),
+              ),
+            )
+            .limit(1);
+          const metadata = {
+            winner: input.winner,
+            casualties: input.casualties,
+            signalGained: input.signalGained,
+            noiseGained: input.noiseGained,
+            inventorHackLanded: input.inventorHackLanded,
+          };
+          if (existing) {
+            await db
+              .update(contentParticipation)
+              .set({ completed: 1, progress: 100, metadata })
+              .where(eq(contentParticipation.id, existing.id));
+          } else {
+            await db.insert(contentParticipation).values({
+              userId: ctx.user.id,
+              contentType: "palimpsest_episode",
+              contentId,
+              completed: 1,
+              progress: 100,
+              metadata,
+            });
+          }
+        } catch (e) {
+          logger.warn(
+            `[Palimpsest] failed to persist episode ${input.episodeNumber} participation:`,
+            e,
+          );
+        }
+      }
+
+      // Fan out the outcome-level ripples, preserving real rounds.
+      for (const casualty of input.casualties) {
         await ripple.emit("show_casualty_rolled", {
           userId: ctx.user.id,
-          playerName: name,
-          eliminationRound: 10, // default round 10; refine later
+          playerName: casualty.playerName,
+          eliminationRound: casualty.eliminationRound,
           episode: input.episodeNumber,
         });
       }
@@ -131,4 +198,25 @@ export const palimpsestRouter = router({
       }
       return { state };
     }),
+
+  /* ─── LIST COMPLETED EPISODES ─── */
+  listCompletedEpisodes: protectedProcedure.query(async ({ ctx }) => {
+    const db = await getDb();
+    if (!db) return { completed: [] as number[] };
+    const rows = await db
+      .select()
+      .from(contentParticipation)
+      .where(
+        and(
+          eq(contentParticipation.userId, ctx.user.id),
+          eq(contentParticipation.contentType, "palimpsest_episode"),
+        ),
+      );
+    return {
+      completed: rows
+        .filter((r) => r.completed === 1)
+        .map((r) => parseInt(r.contentId.replace("palimpsest_ep", ""), 10))
+        .filter((n) => !Number.isNaN(n)),
+    };
+  }),
 });

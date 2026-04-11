@@ -786,6 +786,37 @@ export const contentRewards = mysqlTable("content_rewards", {
 export type ContentReward = typeof contentRewards.$inferSelect;
 
 /* ═══════════════════════════════════════════════════════
+   PALIMPSEST STATE — Per-user Signal/Noise meter
+   One row per user. Matches the shared PalimpsestState shape
+   in apps/shared/palimpsest.ts. The history array lives in
+   the `history` JSON blob.
+   ═══════════════════════════════════════════════════════ */
+
+export const palimpsestState = mysqlTable("palimpsest_state", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull().unique(),
+  /** Gold ink — truth, remembering. */
+  signal: int("signal").notNull().default(0),
+  /** Red ink — corruption, editing. */
+  noise: int("noise").notNull().default(0),
+  /** ISO timestamp of last passive-decay tick. */
+  lastDecayAt: timestamp("lastDecayAt").defaultNow().notNull(),
+  /** Current broadcast episode (1..13). */
+  currentEpisode: int("currentEpisode").notNull().default(1),
+  /** Whether the Host's mask has visibly slipped this episode. */
+  hostMaskSlipped: int("hostMaskSlipped").notNull().default(0),
+  /** JSON array of EpisodeRecord entries from apps/shared/palimpsest.ts. */
+  history: json("history").$type<Record<string, unknown>[]>(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  userIdIdx: index("idx_palimpsest_state_user_id").on(table.userId),
+}));
+
+export type PalimpsestStateRow = typeof palimpsestState.$inferSelect;
+export type InsertPalimpsestState = typeof palimpsestState.$inferInsert;
+
+/* ═══════════════════════════════════════════════════════
    FIGHT LEADERBOARD — Online ranked ladder
    Tracks fight records, ELO ratings, and achievements
    ═══════════════════════════════════════════════════════ */

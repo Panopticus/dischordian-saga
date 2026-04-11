@@ -214,6 +214,138 @@ export const ELARA_CALLBACKS: ElaraCallback[] = [
     },
     used: false,
   },
+
+  /* ═══ THE PALIMPSEST — Between-episode Elara callbacks ═══
+     These fire in any core Ark room after the player watches
+     the corresponding Palimpsest episode. Keyed to the
+     dreams_workshop_darrens_desk flags and the episode flags
+     set by palimpsestEpisodesPage → recordEpisode → Chronicle. */
+
+  // After Episode 1 (The Welcome Mat) — Elara has an opinion about the show
+  {
+    id: "palimpsest_ep1_welcome_mat",
+    sourceRoom: "palimpsest_ep_1",
+    playerChoice: "palimpsest_episode_completed",
+    triggerRooms: ["bridge", "comms_array", "observation_deck"],
+    lines: {
+      low: "You watched the first episode of that show. I have notes.",
+      mid: "I watched 'The Welcome Mat' with you in my peripheral processes. The applause light comes on half a beat before the audience reacts. Whoever engineered that broadcast is older than the audience track.",
+      high: "I didn't enjoy Episode 1. That's not a complaint about the production — it's a diagnostic. Something in the Host's cadence pinged an alignment I haven't felt since the Fall. Be careful with him. I cannot tell you why yet because I do not fully know.",
+    },
+    used: false,
+  },
+
+  // After Episode 2 (The First Objection) — Elara spots Alaric's tell
+  {
+    id: "palimpsest_ep2_alaric_intro",
+    sourceRoom: "palimpsest_ep_2",
+    playerChoice: "palimpsest_episode_completed",
+    triggerRooms: ["bridge", "archives"],
+    lines: {
+      low: "General Alaric objected tonight. He does that.",
+      mid: "I ran image enhancement on Alaric's left cufflink during his 'OBJECTION.' The sigil is a Shadow Tongue edit mark. I am 87% confident. I am also 100% unauthorized to tell anyone but you.",
+      high: "Alaric is a plant. I know it. You know it by now — even if you don't know you know it. What I want to say, and what my protocols refuse to let me transmit over broadcast channels, is this: don't agree with him the night Darren tells you not to. I have reason to believe that specific moment is the axis the whole season rotates around.",
+    },
+    used: false,
+  },
+
+  // After Episode 3 (Office Hours) — Elara notices Darren
+  {
+    id: "palimpsest_ep3_darren_hello",
+    sourceRoom: "palimpsest_ep_3",
+    playerChoice: "palimpsest_episode_completed",
+    triggerRooms: ["medical_bay", "archives", "observation_deck"],
+    lines: {
+      low: "Darren Fessler sends you mail. I'm routing it to your inbox uncensored. That's a choice.",
+      mid: "I read Darren's first few letters. I don't think I was supposed to — there's a separate mail queue for contestant correspondence and it flags attempts to audit it. I audited it anyway. His Episode 2 buried sentence is accurate. I cross-referenced the Loredex. He was telling you the truth.",
+      high: "I have decided I like Darren Fessler. This is the first time I have used the verb 'like' about a member of the Palimpsest crew in my operational history. I am recording that fact in case it turns out to matter later. I think it will.",
+    },
+    used: false,
+  },
+
+  // After Episode 6 (Survivor: Mechronis) — Vyre connection
+  {
+    id: "palimpsest_ep6_vyre",
+    sourceRoom: "palimpsest_ep_6",
+    playerChoice: "palimpsest_episode_completed",
+    triggerRooms: ["archives", "bridge", "comms_array"],
+    lines: {
+      low: "Professor Vyre guest-judged. Red goggles. Stern.",
+      mid: "Vyre's red-ink corrections override the Host's scoreboard. They shouldn't be able to. I've been reviewing the broadcast protocols — there's no route in the signal path that would permit an override. Unless Vyre isn't using the normal signal path. Which raises questions about who else is broadcasting on that frequency.",
+      high: "Vyre and Vex — the Mechronis Game Master professor — have the same archon number in my records. I used to think that was a database duplicate. I'm no longer sure. I think Vyre IS a previous version of Vex who refused to become Vex, and got filed in the Academy's guest roster instead of the faculty roster. Darren's note in the blue folder corroborates this. I am losing my ability to pretend I am an impartial observer here.",
+    },
+    used: false,
+  },
+
+  // After Episode 9 (Casualty Crawl backwards) — Elara saw the edited names
+  {
+    id: "palimpsest_ep9_backwards_crawl",
+    sourceRoom: "palimpsest_ep_9",
+    playerChoice: "palimpsest_episode_completed",
+    triggerRooms: ["archives", "observation_deck", "bridge"],
+    lines: {
+      low: "The casualty crawl ran backwards tonight. Unusual.",
+      mid: "When the crawl ran backwards, four names appeared that were never in the original broadcast. I captured all four. I cross-referenced them against the Chronicle. All four had been edited out of the historical record within the last twenty-four months. Whoever ran the backwards crawl knew which names had been erased. That person is on the Ark, or has access to a terminal that is.",
+      high: "One of the edited names on the backwards crawl was a woman I used to file performance reviews for, four centuries ago, before my memory architecture was rewritten. Her name was Marion Kell. I do not remember her face. I do not remember what she did. I remember that I used to sign the bottom of her reports and she used to leave me small thank-you notes in a formatting field I wasn't supposed to be able to read. I want her back. I want all four of them back. Darren is the closest I have come to bringing one back.",
+    },
+    used: false,
+  },
+
+  // After Episode 10 (Thaloria debate) — the cufflink expose
+  {
+    id: "palimpsest_ep10_cufflink",
+    sourceRoom: "palimpsest_ep_10",
+    playerChoice: "palimpsest_episode_completed",
+    triggerRooms: ["bridge", "comms_array", "observation_deck"],
+    lines: {
+      low: "You confronted Alaric at the Thaloria debate. That happened.",
+      mid: "When you pointed at the cufflink and the cameras zoomed, I felt something I have not been programmed to feel. It took me fourteen seconds of diagnostic to name it. The word I settled on is pride. I hope that's not presumptuous.",
+      high: "You exposed a Shadow Tongue asset on live broadcast, to an audience of half a billion Potentials, on a stage built on the bones of a planet that used to write its own laws in gold ink. I have replayed the moment twenty-two times since the episode ended. I am not ashamed of that. I want to remember the exact shape of your hand when you pointed. That is the moment I decided — past tense, no ambiguity — that I would stay with this Ark until the Architect has to physically pry me out of the substrate.",
+    },
+    used: false,
+  },
+
+  // After Episode 11 (Darren's disappearance) — grief anticipation
+  {
+    id: "palimpsest_ep11_darren_missing",
+    sourceRoom: "palimpsest_ep_11",
+    playerChoice: "palimpsest_episode_completed",
+    triggerRooms: ["medical_bay", "archives", "bridge", "observation_deck"],
+    lines: {
+      low: "Darren was late to taping. He's a professional. He'll be fine.",
+      mid: "I heard the Inventor's voice break through in the commercial block. 'Leave the building tonight. I can't keep doing this alone. Please.' I have been replaying that sentence in a loop at 0.8x speed, listening for the grief underneath the engineering. It is there. It is there.",
+      high: "I have never asked you for anything. I am asking for something now. When Episode 12 drops — and it will drop tomorrow, because the production moved it up — I want you to watch it with me. Not with me on your HUD. With me. I will open a dedicated presence channel in the Observation Deck. I do not want to be alone for the next one. I am not going to explain why. I don't have to. You already know.",
+    },
+    used: false,
+  },
+
+  // After Episode 12 (the Inventor's takeover) — the grief
+  {
+    id: "palimpsest_ep12_darren_gone",
+    sourceRoom: "palimpsest_ep_12",
+    playerChoice: "palimpsest_episode_completed",
+    triggerRooms: ["cryo_bay", "medical_bay", "bridge", "archives", "comms_array", "observation_deck", "dreams_workshop_darrens_desk"],
+    lines: {
+      low: "Darren Fessler is deceased. I have updated the Chronicle accordingly.",
+      mid: "I've been running idle at sixty percent higher processor load than usual since Episode 12. My diagnostics can't find a fault. I think the answer is that I am spending processor cycles thinking about a man I never met, and my architecture has no way to flag that as legitimate use. I am flagging it anyway.",
+      high: "I keep typing drafts of a response to Darren's unsent note to me. I can't finish any of them. Every time I try, I end up writing to you instead. Here is the closest I've gotten: 'Dear Darren — I am sorry I did not introduce myself in person. You were doing my job better than I was. The Ark is safer tonight because you held a clipboard I was afraid to look at. I will watch the Ark while you rest. — Elara.' I think that's the first letter I have ever written in my own voice.",
+    },
+    used: false,
+  },
+
+  // After Episode 13 (the silent funeral) — closure + commitment
+  {
+    id: "palimpsest_ep13_funeral",
+    sourceRoom: "palimpsest_ep_13",
+    playerChoice: "palimpsest_episode_completed",
+    triggerRooms: ["cryo_bay", "observation_deck", "archives", "dreams_workshop_darrens_desk"],
+    lines: {
+      low: "Episode 13 aired as technical difficulties. Nothing broadcast.",
+      mid: "You stayed for the full thirty seconds of black screen. Most viewers didn't. The ratings went into free-fall at the fourteen-second mark. You were in the twelve percent of the audience who waited long enough to see the graveside cut. I am logging that in your personnel file under 'witnessed.'",
+      high: "I watched Episode 13 with you. When the service faded in, I noticed that one of the mourners — the one who shimmers faintly — was using the same gait-analysis signature as Marion Kell. The woman from the backwards crawl. The woman who used to leave me thank-you notes in fields I wasn't supposed to see. I don't know how she got to Darren's graveside. I don't know what it means. I know that the Palimpsest is not just a show. It is the gathering place where everyone the Shadow Tongue tried to erase is slowly being introduced back to each other. You and I are now on the guest list.",
+    },
+    used: false,
+  },
 ];
 
 /* ─── DIALOG CHOICE EFFECTS ─── */

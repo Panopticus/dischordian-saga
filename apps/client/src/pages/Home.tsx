@@ -22,6 +22,7 @@ import { Rocket } from "lucide-react";
 import DecisionDeck from "@/components/DecisionDeck";
 import ScrollIndicator from "@/components/ScrollIndicator";
 import PageMeta from "@/components/PageMeta";
+import { CorruptibleBio } from "@/components/CorruptibleBio";
 import { useLivingUniverse } from "@/hooks/useDailyBrief";
 
 /* ─── BOOT SEQUENCE ─── */
@@ -275,7 +276,7 @@ function DossierCard({ entry, index, onDiscover }: { entry: LoredexEntry; index:
               {/* Redacted bio preview */}
               {entry.bio && (
                 <p className="font-mono text-[10px] text-muted-foreground mt-1.5 line-clamp-2 leading-relaxed">
-                  {entry.bio.substring(0, 100)}{entry.bio.length > 100 ? "..." : ""}
+                  <CorruptibleBio entryId={entry.id} text={entry.bio} truncate={100} />
                 </p>
               )}
             </div>

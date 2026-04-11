@@ -667,11 +667,11 @@ on("circuit_race_complete", async (ev) => {
 on("craft_result", async (ev) => {
   const { userId, success, rarity } = ev as RippleEvent & { success: boolean; rarity?: string };
   if (success && (rarity === "epic" || rarity === "mythic")) {
-    palimpsestService.apply(userId, "epicCraftSuccess");
+    await palimpsestService.apply(userId, "epicCraftSuccess");
   } else if (success && rarity === "legendary") {
-    palimpsestService.apply(userId, "legendaryCraftSuccess");
+    await palimpsestService.apply(userId, "legendaryCraftSuccess");
   } else if (!success) {
-    palimpsestService.apply(userId, "craftFailure");
+    await palimpsestService.apply(userId, "craftFailure");
   }
 });
 
@@ -680,20 +680,20 @@ on("craft_result", async (ev) => {
 on("companion_died", async (ev) => {
   const { userId, wasSoulBound } = ev as CompanionDiedEvent;
   if (wasSoulBound) {
-    palimpsestService.applyRaw(userId, 0, 15);
+    await palimpsestService.applyRaw(userId, 0, 15);
   }
 });
 
 // Loredex discovery is a Signal event — remembering is truth.
 on("loredex_entry_discovered", async (ev) => {
   const { userId } = ev as LoredexDiscoveryEvent;
-  palimpsestService.apply(userId, "truthDialogChoice"); // +1 Signal per discovery
+  await palimpsestService.apply(userId, "truthDialogChoice"); // +1 Signal per discovery
 });
 
 // Governance votes: voting at all is a tiny truth signal (engagement is truth).
 on("governance_vote_cast", async (ev) => {
   const { userId } = ev as GovernanceVoteEvent;
-  palimpsestService.apply(userId, "truthDialogChoice");
+  await palimpsestService.apply(userId, "truthDialogChoice");
 });
 
 /* ═══════════════════════════════════════════════════════
@@ -703,20 +703,20 @@ on("governance_vote_cast", async (ev) => {
 // ── PALIMPSEST SIGNAL GAIN ──
 on("palimpsest_signal_gain", async (ev) => {
   const { userId, amount, source } = ev as PalimpsestSignalGainEvent;
-  palimpsestService.applyRaw(userId, amount, 0);
+  await palimpsestService.applyRaw(userId, amount, 0);
   await pressureService.increment(userId, "loreDiscoveries", 1, `palimpsest_signal:${source}`);
 });
 
 // ── PALIMPSEST NOISE GAIN ──
 on("palimpsest_noise_gain", async (ev) => {
   const { userId, amount, source } = ev as PalimpsestNoiseGainEvent;
-  palimpsestService.applyRaw(userId, 0, amount);
+  await palimpsestService.applyRaw(userId, 0, amount);
   // Noise accrual feeds the Shadow Tongue pressure bucket — reuse betrayals.
   await pressureService.increment(userId, "betrayals", 1, `palimpsest_noise:${source}`);
 
   // If the noise spike just pushed us into "overwritten" territory, emit
   // a secondary host_mask_slipped event so the UI/narrative can react.
-  const state = palimpsestService.get(userId);
+  const state = await palimpsestService.get(userId);
   if (getPhase(state) === "overwritten") {
     await emit("host_mask_slipped", {
       userId,
@@ -730,7 +730,7 @@ on("palimpsest_noise_gain", async (ev) => {
 on("inventor_hack_landed", async (ev) => {
   const { userId, episode, success } = ev as InventorHackLandedEvent;
   if (success) {
-    palimpsestService.apply(userId, "inventorHackLanded");
+    await palimpsestService.apply(userId, "inventorHackLanded");
     const db = await getDb();
     if (!db) return;
     await db.insert(notifications).values({
@@ -745,14 +745,14 @@ on("inventor_hack_landed", async (ev) => {
 // ── INVENTOR HACK BLOCKED ──
 on("inventor_hack_blocked", async (ev) => {
   const { userId, episode, blockedBy } = ev as InventorHackBlockedEvent;
-  palimpsestService.apply(userId, "inventorHackBlocked");
+  await palimpsestService.apply(userId, "inventorHackBlocked");
   await pressureService.increment(userId, "betrayals", 2, `inventor_hack_blocked_ep${episode}_${blockedBy}`);
 });
 
 // ── SHOW CASUALTY ROLLED ──
 on("show_casualty_rolled", async (ev) => {
   const { userId, playerName, eliminationRound, episode } = ev as ShowCasualtyRolledEvent;
-  palimpsestService.apply(userId, "showCasualty");
+  await palimpsestService.apply(userId, "showCasualty");
   // Reuse the combat_death pressure channel so casualty crawls feed
   // the Necromancer Cycle's resurrection energy too.
   await pressureService.increment(userId, "deaths", 3, `show_casualty_ep${episode}`);
@@ -771,7 +771,7 @@ on("show_casualty_rolled", async (ev) => {
 on("host_mask_slipped", async (ev) => {
   const { userId, episode, cause } = ev as HostMaskSlippedEvent;
   // Seeing through the mask IS a truth event, even though it's horrifying.
-  palimpsestService.apply(userId, "hostMaskSlipped");
+  await palimpsestService.apply(userId, "hostMaskSlipped");
   await pressureService.increment(userId, "loreDiscoveries", 5, `host_mask_slipped_ep${episode}:${cause}`);
 
   const db = await getDb();

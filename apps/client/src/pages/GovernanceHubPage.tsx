@@ -36,7 +36,7 @@ import {
   ACTS, getCategoryLabel, getStatusColor, getNextEvents,
 } from "@/data/eventsCalendar";
 import { getDailyVote, generateVoterName } from "@shared/governance";
-import { DEFAULT_PALIMPSEST_STATE } from "@shared/palimpsest";
+import { DEFAULT_PALIMPSEST_STATE, type PalimpsestState } from "@shared/palimpsest";
 import { PalimpsestMeterPanel } from "@/components/PalimpsestMeterPanel";
 
 /* ─── ICON MAP (for dynamic metric rendering) ─── */
@@ -600,10 +600,12 @@ export default function GovernanceHubPage() {
     { id: "pulse" as const, label: "PULSE", icon: BarChart3 },
   ];
 
-  // Client-side Palimpsest state — will be replaced with a tRPC query once the
-  // server exposes palimpsestService.get. For now the panel renders the default
-  // manuscript so the layout, descriptors, and animations are visible.
-  const palimpsestState = DEFAULT_PALIMPSEST_STATE;
+  // Server-backed Palimpsest state via the palimpsest tRPC router.
+  const palimpsestQuery = trpc.palimpsest.get.useQuery(undefined, {
+    staleTime: 30_000, // 30s — the manuscript doesn't change by the second.
+  });
+  const palimpsestState: PalimpsestState =
+    palimpsestQuery.data?.state ?? DEFAULT_PALIMPSEST_STATE;
 
   return (
     <AtmosphereScope roomKey="guild_sanctum">

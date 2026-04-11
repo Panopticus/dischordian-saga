@@ -7,6 +7,7 @@ import { useLoredex, type LoredexEntry } from "@/contexts/LoredexContext";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useGamification } from "@/contexts/GamificationContext";
 import { useContentReward } from "@/components/ContentRewardToast";
+import { CorruptibleBio } from "@/components/CorruptibleBio";
 import { Link } from "wouter";
 import { useState, useMemo, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -1545,7 +1546,9 @@ function LoreCard({ entry, type }: { entry: LoredexEntry; type: string }) {
             className="overflow-hidden"
           >
             <div className="px-2.5 pb-2.5 pt-0">
-              <p className="text-[10px] text-muted-foreground/70 leading-relaxed line-clamp-4">{entry.bio}</p>
+              <p className="text-[10px] text-muted-foreground/70 leading-relaxed line-clamp-4">
+                <CorruptibleBio entryId={entry.id} text={entry.bio} />
+              </p>
               <Link href={href} className="inline-flex items-center gap-1 mt-1.5 text-[9px] font-mono text-[var(--neon-cyan)] hover:text-[var(--neon-cyan)]/80 transition-colors">
                 FULL DOSSIER <ChevronRight size={8} />
               </Link>
