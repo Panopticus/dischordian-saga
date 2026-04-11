@@ -91,6 +91,8 @@ export interface SerializedCrewMember {
   relationships: Record<string, number>;
   deathRecord?: { cycle: number; cause: string; lastWords: string };
   birthCycle: number;
+  /** Founder flag — the first member of a bloodline, set at hatch time. */
+  isFounder?: boolean;
 }
 
 export interface SerializedBloodline {

@@ -86,6 +86,23 @@ export default function CrewRosterPage() {
     }
   }, [crewState, gameState.narrativeFlags, setNarrativeFlag]);
 
+  // Passive threat-scan: ~25% chance per real day, auto-opens the danger modal
+  // when the player visits /crew if a threat event triggers. Gated by the
+  // localStorage key so we only roll once per day.
+  useEffect(() => {
+    const cs = crewState as CrewState | undefined;
+    if (!cs || cs.roster.members.length === 0) return;
+    const key = `crew-threat-scan-last-day`;
+    const today = new Date().toISOString().slice(0, 10);
+    if (localStorage.getItem(key) === today) return;
+    localStorage.setItem(key, today);
+    // 25% chance per day
+    if (Math.random() < 0.25) {
+      setShowDangerModal(true);
+      toast.warning("Security alert: threat detected on the Ark");
+    }
+  }, [crewState]);
+
   const foundBloodline = trpc.crew.foundBloodline.useMutation({
     onSuccess: () => refetch(),
     onError: (e: any) => toast.error(e.message),
@@ -127,6 +144,27 @@ export default function CrewRosterPage() {
     onSuccess: () => refetch(),
     onError: (e: any) => toast.error(e.message),
   });
+  const bootstrap = trpc.crew.bootstrap.useMutation({
+    onSuccess: data => {
+      if (data.founder) toast.success(`${data.founder.name} has stirred in Pod 01`);
+      refetch();
+    },
+    onError: () => {
+      /* silent — already bootstrapped */
+    },
+  });
+
+  // First-visit seed: once the crew system is unlocked and the roster is
+  // empty (new save, no deceased either), auto-call bootstrap once.
+  useEffect(() => {
+    const cs = crewState as CrewState | undefined;
+    if (!cs) return;
+    if (!cs.crewSystemUnlocked) return;
+    if (cs.roster.members.length > 0 || cs.roster.deceased.length > 0) return;
+    if (bootstrap.isPending || bootstrap.isSuccess) return;
+    bootstrap.mutate();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [crewState]);
 
   const cs = (crewState as CrewState | undefined) ?? null;
   const activeMemberCount = cs?.roster.members.filter(m => m.status === "active").length ?? 0;
@@ -399,6 +437,7 @@ export default function CrewRosterPage() {
           <Suspense fallback={null}>
             <OffspringReviewModal
               pending={pendingForReview}
+              state={cs}
               onClose={() => {
                 setReviewOffspringId(null);
               }}

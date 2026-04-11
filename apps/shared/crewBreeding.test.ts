@@ -18,6 +18,7 @@ import {
 import {
   CREW_MISSION_TEMPLATES,
   calculateMissionSuccess,
+  calculateSquadCohesionBonus,
   resolveMission,
   getMissionTemplate,
 } from "./crewMissions";
@@ -334,8 +335,343 @@ describe("generateAmbientFeedBatch()", () => {
   });
 });
 
+/* ─── Squad cohesion ─── */
+
+describe("calculateSquadCohesionBonus()", () => {
+  it("returns 0 for a solo squad", () => {
+    expect(calculateSquadCohesionBonus([fakeMember("a")])).toBe(0);
+  });
+  it("returns 0 for squads with no logged relationships", () => {
+    expect(calculateSquadCohesionBonus([fakeMember("a"), fakeMember("b")])).toBe(0);
+  });
+  it("returns a positive bonus for bonded squads", () => {
+    const a = fakeMember("a", { relationships: { b: 80, c: 60 } });
+    const b = fakeMember("b", { relationships: { a: 80, c: 50 } });
+    const c = fakeMember("c", { relationships: { a: 60, b: 50 } });
+    expect(calculateSquadCohesionBonus([a, b, c])).toBeGreaterThan(0);
+  });
+  it("returns a negative bonus for hostile squads", () => {
+    const a = fakeMember("a", { relationships: { b: -80 } });
+    const b = fakeMember("b", { relationships: { a: -80 } });
+    expect(calculateSquadCohesionBonus([a, b])).toBeLessThan(0);
+  });
+  it("caps the bonus at ±0.10", () => {
+    const a = fakeMember("a", { relationships: { b: 200 } });
+    const b = fakeMember("b", { relationships: { a: 200 } });
+    const bonus = calculateSquadCohesionBonus([a, b]);
+    expect(bonus).toBeLessThanOrEqual(0.10);
+  });
+  it("is reflected in calculateMissionSuccess()", () => {
+    // Use a dangerous mission so the challenging-tier success cap isn't hit
+    const template = getMissionTemplate("mission_terminus_scavenge")!;
+    const modestStats = { resilience: 50, intellect: 50, reflexes: 50, empathy: 50, immunity: 50, adaptability: 50 };
+    const bonded = [
+      fakeMember("a", { stats: modestStats, relationships: { b: 80 } }),
+      fakeMember("b", { stats: modestStats, relationships: { a: 80 } }),
+    ];
+    const strangers = [
+      fakeMember("a", { stats: modestStats }),
+      fakeMember("b", { stats: modestStats }),
+    ];
+    const withBonds = calculateMissionSuccess(template, bonded);
+    const withoutBonds = calculateMissionSuccess(template, strangers);
+    expect(withBonds).toBeGreaterThan(withoutBonds);
+  });
+});
+
 /* ─── LCA walk for inbreeding ─── */
 import { generationsSinceShared } from "../client/src/game/crewBirth";
+
+/* ─── Tick pipeline ─── */
+import {
+  tickIncubator,
+  tickAging,
+  tickMissions,
+  tickAmbientFeed,
+  applyRelationshipDeltas,
+  applyTick,
+} from "./crewTick";
+
+const ONE_HOUR_MS = 60 * 60 * 1000;
+
+function stateWithPod(
+  pod: Partial<CrewState["incubator"]["pods"][number]>,
+  overrides: Partial<CrewState> = {},
+): CrewState {
+  const base = createDefaultCrewState();
+  base.incubator.pods[0] = {
+    ...base.incubator.pods[0],
+    ...pod,
+  };
+  return { ...base, ...overrides };
+}
+
+describe("tickIncubator()", () => {
+  it("initializes lastTickAt on first call without mutating pods", () => {
+    const state = stateWithPod({
+      status: "gestating",
+      templateId: "tpl_terran_prime",
+      timeRemainingHours: 4,
+      totalTimeHours: 4,
+    });
+    const now = 1_000_000_000;
+    const next = tickIncubator(state, now, () => 1);
+    expect(next.lastTickAt).toBe(now);
+    expect(next.incubator.pods[0].timeRemainingHours).toBe(4);
+  });
+
+  it("decrements gestation time by elapsed hours", () => {
+    const state = stateWithPod(
+      {
+        status: "gestating",
+        templateId: "tpl_terran_prime",
+        timeRemainingHours: 4,
+        totalTimeHours: 4,
+      },
+      { lastTickAt: 1_000_000_000 },
+    );
+    const next = tickIncubator(state, 1_000_000_000 + 2 * ONE_HOUR_MS, () => 1);
+    expect(next.incubator.pods[0].timeRemainingHours).toBeCloseTo(2, 5);
+  });
+
+  it("transitions a pod to 'ready' when gestation completes", () => {
+    const state = stateWithPod(
+      {
+        status: "gestating",
+        templateId: "tpl_terran_prime",
+        timeRemainingHours: 1,
+        totalTimeHours: 4,
+      },
+      { lastTickAt: 1_000_000_000 },
+    );
+    const next = tickIncubator(state, 1_000_000_000 + 5 * ONE_HOUR_MS, () => 1);
+    expect(next.incubator.pods[0].status).toBe("ready");
+    expect(next.incubator.pods[0].timeRemainingHours).toBe(0);
+  });
+
+  it("can transition a pod to 'malfunction' when the rng fires and integrity is low", () => {
+    const state = stateWithPod(
+      {
+        status: "gestating",
+        templateId: "tpl_terran_prime",
+        timeRemainingHours: 4,
+        totalTimeHours: 4,
+        geneticIntegrity: 55,
+      },
+      { lastTickAt: 1_000_000_000 },
+    );
+    // Force rng → 0 so the malfunction branch always fires
+    const next = tickIncubator(state, 1_000_000_000 + ONE_HOUR_MS, () => 0);
+    expect(next.incubator.pods[0].status).toBe("malfunction");
+    expect(next.incubator.malfunctionCount).toBe(1);
+  });
+
+  it("leaves empty pods untouched", () => {
+    const state = stateWithPod({}, { lastTickAt: 1_000_000_000 });
+    const next = tickIncubator(state, 1_000_000_000 + 100 * ONE_HOUR_MS, () => 0);
+    expect(next.incubator.pods[0].status).toBe("empty");
+  });
+});
+
+describe("tickAging()", () => {
+  it("does nothing on first call (initializes lastAgingTickAt)", () => {
+    const state = createDefaultCrewState();
+    state.roster.members.push(fakeMember("a", { age: 30 }));
+    const next = tickAging(state, 1_000_000_000);
+    expect(next.lastAgingTickAt).toBe(1_000_000_000);
+    expect(next.roster.members[0].age).toBe(30);
+  });
+
+  it("advances age by years elapsed", () => {
+    const state = createDefaultCrewState();
+    state.roster.members.push(fakeMember("a", { age: 30, maxAge: 80 }));
+    state.lastAgingTickAt = 1_000_000_000;
+    const yearMs = 4 * 60 * 60 * 1000;
+    const next = tickAging(state, 1_000_000_000 + 3 * yearMs);
+    expect(next.roster.members[0].age).toBe(33);
+  });
+
+  it("moves a crew member to deceased when they exceed maxAge", () => {
+    const state = createDefaultCrewState();
+    state.roster.members.push(fakeMember("a", { age: 79, maxAge: 80 }));
+    state.lastAgingTickAt = 1_000_000_000;
+    const yearMs = 4 * 60 * 60 * 1000;
+    const next = tickAging(state, 1_000_000_000 + 5 * yearMs);
+    expect(next.roster.members.find(m => m.id === "a")).toBeUndefined();
+    expect(next.roster.deceased.find(m => m.id === "a")).toBeDefined();
+    expect(next.roster.deceased[0].deathRecord?.cause).toContain("Natural");
+    expect(next.roster.totalLost).toBe(1);
+  });
+
+  it("never re-processes deceased members", () => {
+    const state = createDefaultCrewState();
+    state.roster.members.push(fakeMember("a", { status: "dead", age: 100 }));
+    state.lastAgingTickAt = 1_000_000_000;
+    const yearMs = 4 * 60 * 60 * 1000;
+    const next = tickAging(state, 1_000_000_000 + 10 * yearMs);
+    expect(next.roster.members[0].age).toBe(100);
+  });
+});
+
+describe("tickMissions()", () => {
+  it("leaves dispatched missions alone before they complete", () => {
+    const state = createDefaultCrewState();
+    state.roster.members.push(fakeMember("a", { status: "on_mission" }));
+    state.missions.push({
+      id: "m1",
+      templateId: "mission_salvage_sweep",
+      name: "Salvage Sweep",
+      sectorId: "s",
+      description: "d",
+      difficulty: "routine",
+      assignedCrewIds: ["a"],
+      dispatchedAt: 1_000_000_000,
+      completesAt: 1_000_000_000 + 10 * ONE_HOUR_MS,
+      successChance: 0.8,
+      preferredRole: null,
+      reward: {},
+      status: "dispatched",
+    });
+    const next = tickMissions(state, 1_000_000_000 + ONE_HOUR_MS);
+    expect(next.missions[0].status).toBe("dispatched");
+  });
+
+  it("marks a mission 'lost' when all assigned crew are gone", () => {
+    const state = createDefaultCrewState();
+    state.missions.push({
+      id: "m1",
+      templateId: "mission_salvage_sweep",
+      name: "Salvage Sweep",
+      sectorId: "s",
+      description: "d",
+      difficulty: "routine",
+      assignedCrewIds: ["ghost"],
+      dispatchedAt: 1_000_000_000,
+      completesAt: 1_000_000_000 + ONE_HOUR_MS,
+      successChance: 0.8,
+      preferredRole: null,
+      reward: {},
+      status: "dispatched",
+    });
+    const next = tickMissions(state, 1_000_000_000 + 5 * ONE_HOUR_MS);
+    expect(next.missions[0].status).toBe("lost");
+  });
+
+  it("pushes a feed entry when a mission resolves", () => {
+    const state = createDefaultCrewState();
+    state.roster.members.push(fakeMember("a", { status: "on_mission" }));
+    state.missions.push({
+      id: "m1",
+      templateId: "mission_salvage_sweep",
+      name: "Salvage Sweep",
+      sectorId: "s",
+      description: "d",
+      difficulty: "routine",
+      assignedCrewIds: ["a"],
+      dispatchedAt: 1_000_000_000,
+      completesAt: 1_000_000_000 + ONE_HOUR_MS,
+      successChance: 0.95,
+      preferredRole: null,
+      reward: {},
+      status: "dispatched",
+    });
+    const next = tickMissions(state, 1_000_000_000 + 2 * ONE_HOUR_MS);
+    expect(next.feed.length).toBeGreaterThan(0);
+    expect(next.feed[0].id).toContain("mission-resolved");
+  });
+});
+
+describe("applyRelationshipDeltas()", () => {
+  it("is a no-op for fewer than 2 survivors", () => {
+    const ms = [fakeMember("a")];
+    expect(applyRelationshipDeltas(ms, ["a"], [])).toBe(ms);
+  });
+
+  it("bumps every survivor pair's score", () => {
+    const ms = [fakeMember("a"), fakeMember("b"), fakeMember("c")];
+    const next = applyRelationshipDeltas(ms, ["a", "b", "c"], []);
+    expect(next[0].relationships.b).toBeGreaterThan(0);
+    expect(next[0].relationships.c).toBeGreaterThan(0);
+    expect(next[1].relationships.a).toBeGreaterThan(0);
+  });
+
+  it("adds extra trauma-bond when a squadmate is lost", () => {
+    const ms = [fakeMember("a"), fakeMember("b")];
+    const withLoss = applyRelationshipDeltas(ms, ["a", "b"], ["c"]);
+    const withoutLoss = applyRelationshipDeltas(ms, ["a", "b"], []);
+    expect(withLoss[0].relationships.b).toBeGreaterThan(withoutLoss[0].relationships.b);
+  });
+
+  it("clamps scores at +100", () => {
+    const ms = [
+      fakeMember("a", { relationships: { b: 100 } }),
+      fakeMember("b", { relationships: { a: 100 } }),
+    ];
+    const next = applyRelationshipDeltas(ms, ["a", "b"], ["c", "d", "e"]);
+    expect(next[0].relationships.b).toBeLessThanOrEqual(100);
+  });
+
+  it("leaves non-survivor members untouched", () => {
+    const ms = [fakeMember("a"), fakeMember("b"), fakeMember("spectator")];
+    const next = applyRelationshipDeltas(ms, ["a", "b"], []);
+    expect(next[2]).toBe(ms[2]);
+  });
+});
+
+describe("tickAmbientFeed()", () => {
+  it("returns state unchanged when the roster is empty", () => {
+    const state = createDefaultCrewState();
+    const next = tickAmbientFeed(state, Date.now());
+    expect(next).toBe(state);
+  });
+
+  it("adds entries once the tick interval has elapsed", () => {
+    const state = createDefaultCrewState();
+    state.roster.members.push(fakeMember("a"));
+    state.feedLastGenerated = 1_000_000_000;
+    const sevenHours = 7 * 60 * 60 * 1000;
+    const next = tickAmbientFeed(state, 1_000_000_000 + sevenHours);
+    expect(next.feed.length).toBeGreaterThan(0);
+    expect(next.feedLastGenerated).toBe(1_000_000_000 + sevenHours);
+  });
+
+  it("does not re-generate within the tick interval", () => {
+    const state = createDefaultCrewState();
+    state.roster.members.push(fakeMember("a"));
+    state.feedLastGenerated = 1_000_000_000;
+    const next = tickAmbientFeed(state, 1_000_000_000 + 1000);
+    expect(next).toBe(state);
+  });
+});
+
+describe("applyTick() combined pipeline", () => {
+  it("runs all sub-ticks in order without throwing on a blank state", () => {
+    const state = createDefaultCrewState();
+    const next = applyTick(state, 1_000_000_000, () => 1);
+    expect(next.lastTickAt).toBe(1_000_000_000);
+  });
+
+  it("advances pod gestation and ages crew in the same call", () => {
+    const state = createDefaultCrewState();
+    state.roster.members.push(fakeMember("a", { age: 30, maxAge: 80 }));
+    state.incubator.pods[0] = {
+      ...state.incubator.pods[0],
+      status: "gestating",
+      templateId: "tpl_terran_prime",
+      timeRemainingHours: 4,
+      totalTimeHours: 4,
+    };
+    const start = 1_000_000_000;
+    state.lastTickAt = start;
+    state.lastAgingTickAt = start;
+    const yearMs = 4 * 60 * 60 * 1000;
+    const next = applyTick(state, start + yearMs, () => 1);
+    // Pod consumed 4 hours → ready
+    expect(next.incubator.pods[0].status).toBe("ready");
+    // Aging advanced 1 year
+    expect(next.roster.members[0].age).toBe(31);
+  });
+});
 
 describe("generationsSinceShared()", () => {
   const mkFounder = (id: string, bloodline: BloodlineId = "void_resonance") =>

@@ -15,7 +15,7 @@ import {
 } from "lucide-react";
 import {
   CIRCUIT_PALETTE, CIRCUIT_ABILITIES, calculateCP,
-  getNilmorgLine, type CloneStats,
+  getNilmorgLine, SPECIES_CHASSIS_COLOR, type CloneStats,
 } from "@shared/deadMansCircuit";
 import { useNilmorgVO } from "@/hooks/useNilmorgVO";
 import { DMC_ENVIRONMENTS, DMC_MUSIC, DMC_CINEMATICS } from "@/data/dmcAssets";
@@ -87,6 +87,35 @@ export default function DeadMansCircuitPage() {
     null,
   );
   const resolveDmc = trpc.crew.resolveDeadMansCircuit.useMutation();
+  // Fetch the crew state only when we've selected a crew member — we need their
+  // stats to override the default CloneStats payload for the race iframe.
+  const crewQuery = trpc.crew.getState.useQuery(undefined, {
+    enabled: !!crewRunner,
+  });
+  const crewCloneStats = useMemo<CloneStats | null>(() => {
+    if (!crewRunner || !crewQuery.data) return null;
+    const member = (crewQuery.data as any).roster.members.find(
+      (m: any) => m.id === crewRunner.memberId,
+    );
+    if (!member) return null;
+    // Map crew genetic stats → DMC clone stats
+    const neural = Math.max(60, Math.min(100, 60 + Math.round(member.stats.intellect * 0.4)));
+    const velocity = Math.max(80, Math.min(120, 80 + Math.round(member.stats.reflexes * 0.4)));
+    const grip = Math.max(40, Math.min(80, 40 + Math.round(member.stats.adaptability * 0.4)));
+    // Higher resilience = higher survival instinct (less suicidal AI)
+    const survival = Math.max(10, Math.min(40, 10 + Math.round(member.stats.resilience * 0.3)));
+    return {
+      designation: crewRunner.designation,
+      neural_sync: neural,
+      physical_integrity: Math.max(60, Math.min(100, member.health)),
+      velocity_ceiling_pct: velocity,
+      surface_grip_pct: grip,
+      survival_instinct: survival,
+      chassisColor:
+        SPECIES_CHASSIS_COLOR[member.species as keyof typeof SPECIES_CHASSIS_COLOR] ??
+        CIRCUIT_PALETTE.NILMORG_ORANGE,
+    };
+  }, [crewRunner, crewQuery.data]);
 
   // Helper: play a cinematic, then run `after()` when done/skipped
   const playCinematic = useCallback((src: string, caption: string, after: () => void) => {
@@ -115,16 +144,18 @@ export default function DeadMansCircuitPage() {
       if (!e.data?.type) return;
       if (e.data.type === "CIRCUIT_READY") {
         setGameReady(true);
-        // Send config
+        // Send config — crew-member stats override the default if a real crew
+        // member has been dispatched from the Ark roster.
+        const defaultClone = cloneConfig.data || {
+          designation: "WIRED-7042-DELTA",
+          neural_sync: 80,
+          physical_integrity: 100,
+          velocity_ceiling: 100,
+          surface_grip: 65,
+          survival_instinct: 25,
+        };
         const config = {
-          player_clone: cloneConfig.data || {
-            designation: "WIRED-7042-DELTA",
-            neural_sync: 80,
-            physical_integrity: 100,
-            velocity_ceiling: 100,
-            surface_grip: 65,
-            survival_instinct: 25,
-          },
+          player_clone: crewCloneStats ?? defaultClone,
           total_laps: 3,
           phase: season.data?.phase || 1,
           ai_count: 7,
@@ -153,6 +184,7 @@ export default function DeadMansCircuitPage() {
           resolveDmc.mutate({
             memberId: crewRunner.memberId,
             survived: !!result.clone_survived,
+            finishPosition: result.finish_position ?? null,
           });
           setCrewRunner(null);
         }
@@ -175,7 +207,7 @@ export default function DeadMansCircuitPage() {
     };
     window.addEventListener("message", handler);
     return () => window.removeEventListener("message", handler);
-  }, [cloneConfig.data, season.data, trackConfig.data, crewRunner]);
+  }, [cloneConfig.data, season.data, trackConfig.data, crewRunner, crewCloneStats]);
 
   // ─── NO ACTIVE SEASON ───
   if (!season.data) {

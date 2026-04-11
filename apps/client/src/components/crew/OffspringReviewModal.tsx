@@ -7,22 +7,53 @@
    ═══════════════════════════════════════════════════════ */
 
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
-import { X, Dna, AlertTriangle, Sparkles } from "lucide-react";
-import { getTrait, GENETIC_TEMPLATES } from "@/game/crewGenetics";
-import type { PendingOffspring } from "@shared/crewPersistence";
+import { X, Dna, AlertTriangle, Sparkles, Lock } from "lucide-react";
+import { getTrait, GENETIC_TEMPLATES, type GeneticTemplate } from "@/game/crewGenetics";
+import type { PendingOffspring, CrewState } from "@shared/crewPersistence";
 
 interface Props {
   pending: PendingOffspring;
+  state: CrewState;
   onClose: () => void;
   onDismiss: () => void;
   onIncubate: (templateId: string) => void;
 }
 
-export default function OffspringReviewModal({ pending, onClose, onDismiss, onIncubate }: Props) {
-  const [templateId, setTemplateId] = useState(GENETIC_TEMPLATES[0].id);
+/**
+ * Template-unlock progression:
+ * - common:   always available
+ * - uncommon: available after founding 2+ bloodlines
+ * - rare:     available after founding 4+ bloodlines OR reaching gen 3
+ * - exotic:   available after founding 6+ bloodlines OR reaching gen 5
+ */
+function isTemplateUnlocked(t: GeneticTemplate, state: CrewState): boolean {
+  const blCount = Object.keys(state.bloodlines).length;
+  const maxGen = state.roster.generationRecord;
+  switch (t.rarity) {
+    case "common":
+      return true;
+    case "uncommon":
+      return blCount >= 2 || maxGen >= 2;
+    case "rare":
+      return blCount >= 4 || maxGen >= 3;
+    case "exotic":
+      return blCount >= 6 || maxGen >= 5;
+    default:
+      return true;
+  }
+}
+
+export default function OffspringReviewModal({ pending, state, onClose, onDismiss, onIncubate }: Props) {
+  const unlocked = useMemo(
+    () => GENETIC_TEMPLATES.filter(t => isTemplateUnlocked(t, state)),
+    [state],
+  );
+  const [templateId, setTemplateId] = useState(
+    unlocked[0]?.id ?? GENETIC_TEMPLATES[0].id,
+  );
 
   return (
     <motion.div
@@ -134,15 +165,21 @@ export default function OffspringReviewModal({ pending, onClose, onDismiss, onIn
 
         {/* Template picker */}
         <div className="mb-4">
-          <div className="text-[10px] font-mono uppercase text-muted-foreground mb-1">
-            Body template
+          <div className="text-[10px] font-mono uppercase text-muted-foreground mb-1 flex items-center justify-between">
+            <span>Body template</span>
+            {unlocked.length < GENETIC_TEMPLATES.length && (
+              <span className="text-[9px] normal-case flex items-center gap-1">
+                <Lock size={9} />
+                {GENETIC_TEMPLATES.length - unlocked.length} locked
+              </span>
+            )}
           </div>
           <select
             value={templateId}
             onChange={e => setTemplateId(e.target.value)}
             className="w-full bg-background border border-border/40 rounded px-2 py-1 text-[11px] font-mono"
           >
-            {GENETIC_TEMPLATES.map(t => (
+            {unlocked.map(t => (
               <option key={t.id} value={t.id}>
                 {t.name} ({t.rarity})
               </option>

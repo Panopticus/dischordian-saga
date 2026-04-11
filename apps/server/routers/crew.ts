@@ -36,11 +36,10 @@ import {
   CREW_MISSION_TEMPLATES,
   getMissionTemplate,
   calculateMissionSuccess,
-  resolveMission,
   pickLastWords,
 } from "../../shared/crewMissions";
-import { generateAmbientFeedBatch } from "../../shared/crewAmbientFeed";
 import { CREW_BALANCE } from "../../shared/crewBalance";
+import { applyTick as sharedApplyTick } from "../../shared/crewTick";
 
 const FRANCHISE = "dischordian-saga";
 
@@ -87,284 +86,12 @@ async function saveState(userId: number, state: CrewState): Promise<void> {
   }
 }
 
-/* ─── POD TICK: advance gestation, settle malfunctions ─── */
-
-function tickIncubator(state: CrewState, now: number): CrewState {
-  if (state.lastTickAt === 0) {
-    return { ...state, lastTickAt: now };
-  }
-  const hoursElapsed = (now - state.lastTickAt) / (1000 * 60 * 60);
-  if (hoursElapsed <= 0) return { ...state, lastTickAt: now };
-
-  let malfunctionCount = state.incubator.malfunctionCount;
-  const pods: SerializedPod[] = state.incubator.pods.map(pod => {
-    if (pod.status !== "gestating") return pod;
-    const remaining = pod.timeRemainingHours - hoursElapsed;
-    if (remaining <= 0) {
-      return { ...pod, status: "ready", timeRemainingHours: 0 };
-    }
-    // Malfunction chance scales with low integrity and elapsed time
-    const chance =
-      (100 - pod.geneticIntegrity) *
-      0.002 *
-      Math.min(hoursElapsed, 6) *
-      CREW_BALANCE.incubatorMalfunctionMultiplier;
-    if (Math.random() < chance) {
-      malfunctionCount += 1;
-      return {
-        ...pod,
-        status: "malfunction",
-        timeRemainingHours: remaining,
-        geneticIntegrity: Math.max(
-          CREW_BALANCE.incubatorIntegrityFloor,
-          pod.geneticIntegrity - 10,
-        ),
-      };
-    }
-    return { ...pod, timeRemainingHours: remaining };
-  });
-
-  return {
-    ...state,
-    incubator: { ...state.incubator, pods, malfunctionCount },
-    lastTickAt: now,
-  };
-}
-
-/* ─── AMBIENT FEED TICK: generate ambient entries every N hours ─── */
-
-function tickAmbientFeed(state: CrewState, now: number): CrewState {
-  if (state.roster.members.length === 0) return state;
-  if (now - state.feedLastGenerated < CREW_BALANCE.ambientFeedTickMs) return state;
-  const active = state.roster.members.filter(m => m.status === "active");
-  if (active.length === 0) return state;
-  const batch = generateAmbientFeedBatch(
-    active.map(m => m.name),
-    Math.floor(now / CREW_BALANCE.ambientFeedTickMs),
-    now,
-  );
-  if (batch.length === 0) return state;
-  return {
-    ...state,
-    feed: trimFeed([...state.feed, ...batch]),
-    feedLastGenerated: now,
-    feedUnreadCount: state.feedUnreadCount + batch.length,
-  };
-}
-
-/* ─── AGING TICK: configurable crew-years per real millisecond ─── */
-
-const REAL_MS_PER_CREW_YEAR = CREW_BALANCE.realMsPerCrewYear;
-
-function tickAging(state: CrewState, now: number): CrewState {
-  if (state.lastAgingTickAt === 0) {
-    return { ...state, lastAgingTickAt: now };
-  }
-  const elapsed = now - state.lastAgingTickAt;
-  const yearsPassed = Math.floor(elapsed / REAL_MS_PER_CREW_YEAR);
-  if (yearsPassed <= 0) return state;
-
-  const members: SerializedCrewMember[] = [];
-  const newlyDeceased: SerializedCrewMember[] = [];
-  let totalLost = state.roster.totalLost;
-
-  for (const m of state.roster.members) {
-    if (m.status === "dead") {
-      members.push(m);
-      continue;
-    }
-    const newAge = m.age + yearsPassed;
-    if (newAge >= m.maxAge) {
-      // Death by old age
-      const dead: SerializedCrewMember = {
-        ...m,
-        age: newAge,
-        status: "dead",
-        health: 0,
-        deathRecord: {
-          cycle: newAge,
-          cause: "Natural cellular expiration",
-          lastWords: pickLastWords(m.name.length + newAge),
-        },
-      };
-      newlyDeceased.push(dead);
-      totalLost += 1;
-      continue;
-    }
-    members.push({ ...m, age: newAge });
-  }
-
-  return {
-    ...state,
-    roster: {
-      ...state.roster,
-      members,
-      deceased: [...state.roster.deceased, ...newlyDeceased],
-      totalLost,
-    },
-    lastAgingTickAt: state.lastAgingTickAt + yearsPassed * REAL_MS_PER_CREW_YEAR,
-  };
-}
-
-/* ─── RELATIONSHIP UPDATES ─── */
-
-/**
- * Mutate survivor members in-place so every pair that survived a mission
- * together nudges their relationship scores. Losses nudge the survivors'
- * bonds a bit more (trauma bonding).
- */
-function applyRelationshipDeltas(
-  members: SerializedCrewMember[],
-  survivorIds: string[],
-  lostIds: string[],
-): SerializedCrewMember[] {
-  if (survivorIds.length < 2) return members;
-  const survivorSet = new Set(survivorIds);
-  const winDelta = CREW_BALANCE.relationshipDeltaPerSharedMission;
-  const lossDelta = CREW_BALANCE.relationshipDeltaOnSharedLoss;
-  return members.map(m => {
-    if (!survivorSet.has(m.id)) return m;
-    const relationships = { ...m.relationships };
-    for (const other of survivorIds) {
-      if (other === m.id) continue;
-      relationships[other] = Math.max(-100, Math.min(100, (relationships[other] ?? 0) + winDelta));
-    }
-    // Trauma-bond with other survivors when anyone was lost
-    if (lostIds.length > 0) {
-      for (const other of survivorIds) {
-        if (other === m.id) continue;
-        relationships[other] = Math.max(
-          -100,
-          Math.min(100, (relationships[other] ?? 0) + lossDelta),
-        );
-      }
-    }
-    return { ...m, relationships };
-  });
-}
-
-/* ─── MISSION TICK: auto-resolve missions whose timer elapsed ─── */
-
-function tickMissions(state: CrewState, now: number): CrewState {
-  let next = state;
-  for (const mission of state.missions) {
-    if (mission.status !== "dispatched") continue;
-    if (now < mission.completesAt) continue;
-
-    const assigned = next.roster.members.filter(m => mission.assignedCrewIds.includes(m.id));
-    if (assigned.length === 0) {
-      // Crew all gone; mark lost
-      next = {
-        ...next,
-        missions: next.missions.map(x =>
-          x.id === mission.id ? { ...x, status: "lost" } : x,
-        ),
-      };
-      continue;
-    }
-    const resolved = resolveMission(mission, assigned, now + mission.name.length);
-
-    // Apply casualties / injuries to the roster
-    const updatedMembers: SerializedCrewMember[] = [];
-    const deceased: SerializedCrewMember[] = [];
-    let totalLost = next.roster.totalLost;
-    for (const m of next.roster.members) {
-      if (!mission.assignedCrewIds.includes(m.id)) {
-        updatedMembers.push(m);
-        continue;
-      }
-      if (resolved.resolution?.casualties.includes(m.id)) {
-        const dead = {
-          ...m,
-          status: "dead" as const,
-          health: 0,
-          deathRecord: {
-            cycle: m.age,
-            cause: `Lost during ${mission.name}`,
-            lastWords: pickLastWords(now + m.name.length),
-          },
-        };
-        deceased.push(dead);
-        totalLost += 1;
-        continue;
-      }
-      if (resolved.resolution?.injured.includes(m.id)) {
-        updatedMembers.push({
-          ...m,
-          status: "injured",
-          health: Math.max(10, m.health - 30),
-          morale: Math.max(0, m.morale - 10),
-          missionHistory: [...m.missionHistory, mission.id],
-        });
-        continue;
-      }
-      // Survived cleanly
-      updatedMembers.push({
-        ...m,
-        status: "active",
-        morale: Math.min(100, m.morale + (resolved.resolution?.success ? 12 : 4)),
-        loyalty: Math.min(100, m.loyalty + (resolved.resolution?.success ? 6 : 2)),
-        missionHistory: [...m.missionHistory, mission.id],
-      });
-    }
-
-    // Bump relationships for the crew who survived this mission together
-    const survivorIds =
-      resolved.resolution?.survived ??
-      updatedMembers
-        .filter(m => mission.assignedCrewIds.includes(m.id))
-        .map(m => m.id);
-    const casualtyIds = resolved.resolution?.casualties ?? [];
-    const withBonds = applyRelationshipDeltas(updatedMembers, survivorIds, casualtyIds);
-
-    next = {
-      ...next,
-      missions: next.missions.map(x => (x.id === mission.id ? resolved : x)),
-      roster: {
-        ...next.roster,
-        members: withBonds,
-        deceased: [...next.roster.deceased, ...deceased],
-        totalLost,
-      },
-      missionStats: {
-        totalDispatched: next.missionStats.totalDispatched,
-        totalSucceeded: next.missionStats.totalSucceeded + (resolved.resolution?.success ? 1 : 0),
-        totalFailed: next.missionStats.totalFailed + (resolved.resolution?.success ? 0 : 1),
-        totalCasualties:
-          next.missionStats.totalCasualties + (resolved.resolution?.casualties.length ?? 0),
-      },
-    };
-
-    // Push a feed entry for the resolution
-    next = {
-      ...next,
-      feed: trimFeed([
-        ...next.feed,
-        {
-          id: `mission-resolved-${mission.id}`,
-          timestamp: now,
-          roomId: "bridge",
-          category: "security",
-          text: resolved.resolution?.narrative ?? "Mission returned.",
-          severity: resolved.resolution?.success ? "info" : "alert",
-          actionable: false,
-        },
-      ]),
-      feedUnreadCount: next.feedUnreadCount + 1,
-    };
-  }
-  return next;
-}
-
-/* ─── FULL TICK (applied on every major query/mutation) ─── */
+/* ─── FULL TICK (applied on every major query/mutation)
+       Delegates to the shared pure pipeline (apps/shared/crewTick.ts)
+       so the same logic is used in tests and in the request handlers. ─── */
 
 function applyTick(state: CrewState): CrewState {
-  const now = Date.now();
-  let next = tickIncubator(state, now);
-  next = tickMissions(next, now);
-  next = tickAging(next, now);
-  next = tickAmbientFeed(next, now);
-  return next;
+  return sharedApplyTick(state);
 }
 
 /* ═══ ROUTER ═══ */
@@ -522,10 +249,18 @@ export const crewRouter = router({
       if (pod.status !== "ready") {
         return { success: false, error: "Pod is not ready to hatch" };
       }
-      const member = input.member as unknown as SerializedCrewMember;
+      const incoming = input.member as unknown as SerializedCrewMember;
       if (state.roster.members.length >= MAX_CREW_CAPACITY) {
         return { success: false, error: "Crew roster at max capacity" };
       }
+      // First living member of a bloodline is flagged as the founder.
+      const blHasMembers = state.roster.members.some(
+        m => m.bloodlineId === incoming.bloodlineId,
+      );
+      const member: SerializedCrewMember = {
+        ...incoming,
+        isFounder: !blHasMembers,
+      };
 
       const cleared: SerializedPod = {
         id: pod.id,
@@ -766,19 +501,33 @@ export const crewRouter = router({
     }),
 
   resolveDeadMansCircuit: protectedProcedure
-    .input(z.object({ memberId: z.string(), survived: z.boolean() }))
+    .input(
+      z.object({
+        memberId: z.string(),
+        survived: z.boolean(),
+        finishPosition: z.number().nullable().optional(),
+      }),
+    )
     .mutation(async ({ ctx, input }) => {
       const state = applyTick(await loadState(ctx.user.id));
       const member = state.roster.members.find(m => m.id === input.memberId);
       if (!member) return { success: false, error: "Member not found" };
       if (input.survived) {
+        const isPodium = (input.finishPosition ?? 99) <= 3;
+        const isWin = input.finishPosition === 1;
+        const moraleBoost = isWin ? 35 : isPodium ? 25 : 20;
+        const narrative = isWin
+          ? `${member.name} WON the Dead Man's Circuit. Nilmorg paid out in full. The mess hall will not be quiet tonight.`
+          : isPodium
+            ? `${member.name} finished on the podium (P${input.finishPosition}). Locke filed a trade report. The crew noticed.`
+            : `${member.name} returned from the Dead Man's Circuit. Still breathing. Still wanted.`;
         const next: CrewState = {
           ...state,
           roster: {
             ...state.roster,
             members: state.roster.members.map(m =>
               m.id === input.memberId
-                ? { ...m, status: "active" as const, morale: Math.min(100, m.morale + 20) }
+                ? { ...m, status: "active" as const, morale: Math.min(100, m.morale + moraleBoost) }
                 : m,
             ),
           },
@@ -787,10 +536,10 @@ export const crewRouter = router({
             {
               id: `dmc-return-${member.id}-${Date.now()}`,
               timestamp: Date.now(),
-              roomId: "trade_hub",
-              category: "security",
-              text: `${member.name} returned from the Dead Man's Circuit. Still breathing. Still wanted.`,
-              severity: "info",
+              roomId: "trophy_room",
+              category: isWin ? "player_echo" : "security",
+              text: narrative,
+              severity: isWin ? "info" : "info",
               actionable: false,
             },
           ]),
@@ -861,6 +610,102 @@ export const crewRouter = router({
     const next: CrewState = { ...state, feedUnreadCount: 0 };
     await saveState(ctx.user.id, next);
     return { success: true };
+  }),
+
+  /* ─── Bootstrap: seed one starter crew member when the Ark first wakes ───
+     Called by the CrewRosterPage when the roster is empty and the system
+     is unlocked. Creates one Terran Prime founder in House Resonance —
+     lore-wise, the Collector's archive preserved a single "first-breath"
+     template that activated automatically during the awakening. */
+  bootstrap: protectedProcedure.mutation(async ({ ctx }) => {
+    const state = await loadState(ctx.user.id);
+    if (!state.crewSystemUnlocked) {
+      return { success: false, error: "crew system not unlocked" };
+    }
+    if (state.roster.members.length > 0 || state.roster.deceased.length > 0) {
+      return { success: false, error: "already bootstrapped" };
+    }
+
+    const founderId = `crew-bootstrap-${Date.now()}`;
+    const founder: SerializedCrewMember = {
+      id: founderId,
+      name: "Vale Resonance",
+      nickname: "the First",
+      species: "human",
+      gender: "non-binary",
+      bloodlineId: "void_resonance",
+      generation: 1,
+      parentIds: null,
+      children: [],
+      geneticTraits: ["hardy", "calm_under_fire"],
+      role: null,
+      stats: {
+        resilience: 62,
+        intellect: 68,
+        reflexes: 55,
+        empathy: 70,
+        immunity: 52,
+        adaptability: 78,
+      },
+      morale: 80,
+      health: 100,
+      loyalty: 60,
+      status: "active",
+      age: 24,
+      maxAge: 82,
+      missionHistory: [],
+      relationships: {},
+      birthCycle: 0,
+      isFounder: true,
+    };
+
+    // Auto-found the House Resonance bloodline
+    const bloodline: SerializedBloodline = {
+      id: "void_resonance",
+      founderTemplateId: "tpl_terran_prime",
+      name: "House Resonance",
+      motto: "We echo forward.",
+      color: "#22d3ee",
+      generationCount: 1,
+      geneticDrift: 0,
+      diversityIndex: 0,
+      activeTraits: ["hardy", "calm_under_fire"],
+      recessiveTraits: [],
+      power: {
+        name: "Void Resonance",
+        description: "Trade routes hum with an efficiency others can't explain.",
+        stat: "trade_income",
+        baseValue: 5,
+        perGeneration: 2,
+      },
+    };
+
+    const next: CrewState = {
+      ...state,
+      roster: {
+        ...state.roster,
+        members: [founder],
+        totalCloned: state.roster.totalCloned + 1,
+        generationRecord: 1,
+      },
+      bloodlines: { ...state.bloodlines, void_resonance: bloodline },
+      firstCrewMemberBorn: true,
+      feed: trimFeed([
+        ...state.feed,
+        {
+          id: `bootstrap-${founderId}`,
+          timestamp: Date.now(),
+          roomId: "cryo_bay",
+          category: "crew_life",
+          text: `Cryo Bay: ${founder.name} stirred in Pod 01. Elara was there. The Collector's archive has given us our first-breath.`,
+          severity: "info",
+          actionable: false,
+        },
+      ]),
+      feedUnreadCount: state.feedUnreadCount + 1,
+    };
+    await saveState(ctx.user.id, next);
+    return { success: true, founder };
   }),
 
   /* ─── Dev/testing: reset crew state ─── */

@@ -17,7 +17,6 @@
 import type {
   CrewMissionTemplate,
   CrewMissionReward,
-  CrewMissionDifficulty,
   CrewMissionState,
   SerializedCrewMember,
 } from "./crewPersistence";
@@ -215,9 +214,39 @@ export function calculateMissionSuccess(
   const roleBonus = hasPreferred ? 0.12 : 0;
   // Squad-size bonus: extra bodies help a little, but not infinitely
   const sizeBonus = Math.min(0.08, (assignedCrew.length - template.minCrew) * 0.03);
+  // Squad cohesion bonus: mean pairwise relationship score ∈ [-100, 100]
+  // contributes up to ±10% (hostile squads suffer, bonded squads excel).
+  const cohesionBonus = calculateSquadCohesionBonus(assignedCrew);
   const raw =
-    template.baseSuccessChance + (statAvg - 0.5) * 0.30 + (moraleAvg - 0.5) * 0.10 + roleBonus + sizeBonus;
+    template.baseSuccessChance +
+    (statAvg - 0.5) * 0.30 +
+    (moraleAvg - 0.5) * 0.10 +
+    roleBonus +
+    sizeBonus +
+    cohesionBonus;
   return Math.max(0.05, Math.min(CREW_BALANCE.missionSuccessCap[template.difficulty], raw));
+}
+
+/**
+ * Returns a bonus in [-0.10, +0.10] based on the mean pairwise relationship
+ * score among the assigned crew. Positive bonds → positive bonus; hostile
+ * squads → penalty. Singleton squads return 0.
+ */
+export function calculateSquadCohesionBonus(crew: SerializedCrewMember[]): number {
+  if (crew.length < 2) return 0;
+  let total = 0;
+  let pairs = 0;
+  for (let i = 0; i < crew.length; i++) {
+    for (let j = i + 1; j < crew.length; j++) {
+      const a = crew[i].relationships?.[crew[j].id] ?? 0;
+      const b = crew[j].relationships?.[crew[i].id] ?? 0;
+      total += (a + b) / 2;
+      pairs += 1;
+    }
+  }
+  if (pairs === 0) return 0;
+  const meanScore = total / pairs; // -100 .. +100
+  return Math.max(-0.10, Math.min(0.10, meanScore / 1000));
 }
 
 /* ─── CASUALTY RESOLUTION ─── */
