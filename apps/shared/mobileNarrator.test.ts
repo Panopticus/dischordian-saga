@@ -2,6 +2,7 @@ import { describe, it, expect } from "vitest";
 import {
   applyDismissal,
   BOND_TIER_EFFECTS,
+  deriveNarratorDominance,
   FORCING_FLAGS,
   getActiveEngineerHook,
   getActivePreludeBeats,
@@ -498,5 +499,134 @@ describe("mobileNarrator.toNarratorRoomId", () => {
         expect(ROOM_AFFINITY).toHaveProperty(narratorId);
       }
     }
+  });
+});
+
+describe("mobileNarrator.deriveNarratorDominance (§1.5)", () => {
+  it("returns balanced with no flags", () => {
+    expect(deriveNarratorDominance(undefined)).toBe("balanced");
+    expect(deriveNarratorDominance({})).toBe("balanced");
+  });
+
+  it("returns elara when forgave_elara is set", () => {
+    expect(deriveNarratorDominance({ forgiveness_forgave_elara: true })).toBe(
+      "elara",
+    );
+  });
+
+  it("returns the_human when forgave_human is set", () => {
+    expect(deriveNarratorDominance({ forgiveness_forgave_human: true })).toBe(
+      "the_human",
+    );
+  });
+
+  it("returns balanced when forgave_both is set", () => {
+    expect(deriveNarratorDominance({ forgiveness_forgave_both: true })).toBe(
+      "balanced",
+    );
+  });
+
+  it("lyra_vox_unlocked takes precedence over everything else", () => {
+    expect(
+      deriveNarratorDominance({
+        lyra_vox_unlocked: true,
+        forgiveness_forgave_elara: true,
+      }),
+    ).toBe("lyra_vox");
+  });
+});
+
+describe("mobileNarrator.seedNarratorSlot — dominance bias", () => {
+  it("Elara dominance carries her into a Human-leaning room", () => {
+    // Archives has affinity +0.6 (Human-leaning). At seed 0.5 +
+    // neutral bonds, Elara's base probability is 0.29. With
+    // dominance=elara her weight is multiplied by 2.5, bringing
+    // her share well above 0.5.
+    const res = seedNarratorSlot({
+      roomId: "archives",
+      elaraBond: 50,
+      humanBond: 50,
+      seed: 0.5,
+      dominance: "elara",
+    });
+    expect(res.narratorId).toBe("elara");
+  });
+
+  it("The Human dominance carries him into an Elara-leaning room", () => {
+    // Medical Bay has affinity -0.6 (Elara-leaning).
+    const res = seedNarratorSlot({
+      roomId: "medical_bay",
+      elaraBond: 50,
+      humanBond: 50,
+      seed: 0.5,
+      dominance: "the_human",
+    });
+    expect(res.narratorId).toBe("the_human");
+  });
+
+  it("balanced dominance leaves room-affinity rolls alone", () => {
+    const resNoDom = seedNarratorSlot({
+      roomId: "archives",
+      elaraBond: 50,
+      humanBond: 50,
+      seed: 0.5,
+      dominance: "balanced",
+    });
+    const resUnset = seedNarratorSlot({
+      roomId: "archives",
+      elaraBond: 50,
+      humanBond: 50,
+      seed: 0.5,
+    });
+    expect(resNoDom.narratorId).toBe(resUnset.narratorId);
+  });
+
+  it("lyra_vox dominance replaces every slot with lyra_vox", () => {
+    for (const roomId of [
+      "cryo_bay",
+      "medical_bay",
+      "archives",
+      "comms_array",
+      "observation_deck",
+    ] as const) {
+      const res = seedNarratorSlot({
+        roomId,
+        elaraBond: 80,
+        humanBond: 80,
+        seed: 0.5,
+        dominance: "lyra_vox",
+      });
+      expect(res.narratorId).toBe("lyra_vox");
+    }
+  });
+
+  it("lyra_vox dominance overrides silence forcing flags", () => {
+    const res = seedNarratorSlot({
+      roomId: "memorial_corridor",
+      elaraBond: 80,
+      humanBond: 80,
+      flags: new Set(["two_witnesses_silence_phase"]),
+      seed: 0.5,
+      dominance: "lyra_vox",
+    });
+    expect(res.narratorId).toBe("lyra_vox");
+  });
+
+  it("lyra_vox dominance overrides give_space silence", () => {
+    const now = 1_700_000_000_000;
+    const res = seedNarratorSlot({
+      roomId: "bridge",
+      elaraBond: 50,
+      humanBond: 50,
+      dismissal: {
+        dismissedId: null,
+        choice: "both_out",
+        expiresAt: now + 60_000,
+      },
+      nowMs: now,
+      seed: 0.5,
+      dominance: "lyra_vox",
+    });
+    expect(res.narratorId).toBe("lyra_vox");
   });
 });

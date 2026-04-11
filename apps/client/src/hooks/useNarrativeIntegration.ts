@@ -523,6 +523,30 @@ export function useNarrativeIntegration() {
     setNarrativeFlag,
   ]);
 
+  // ─── WITNESSING §14.1 — ACT-3/ACT-4 CONDITIONAL MILESTONES ───
+  // Three event toasts that fire on specific Act 3 narrative
+  // flags. Each is guarded by a dedicated flag that some future
+  // gameplay system sets (first Arena 3rd win, first Insurgency
+  // infiltration, first Empire Archon offer). The flag names
+  // are documented in §14.1. Guarded by their milestone flags
+  // via fireMilestone's internal dedupe.
+  useEffect(() => {
+    if (state.narrativeFlags?.thaloria_cinematic_seen) {
+      fireMilestone("thaloria_echo");
+    }
+    if (state.narrativeFlags?.insurgency_infiltration_complete) {
+      fireMilestone("the_engineer_speaks");
+    }
+    if (state.narrativeFlags?.empire_archon_offer_accepted) {
+      fireMilestone("the_archon_recruited");
+    }
+  }, [
+    state.narrativeFlags?.thaloria_cinematic_seen,
+    state.narrativeFlags?.insurgency_infiltration_complete,
+    state.narrativeFlags?.empire_archon_offer_accepted,
+    fireMilestone,
+  ]);
+
   // ─── WITNESSING §3.3 / §14.1 — DISCHORDIA PHASE MILESTONES ───
   // The community Dischordia Cycle phase change is a Living
   // Universe event. When the server pushes the phase into

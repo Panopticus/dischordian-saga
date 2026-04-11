@@ -381,6 +381,11 @@ export function pickNarratorLine(
 ): NarratorLine | null {
   const set = NARRATOR_DIALOG[roomId];
   if (!set) return null;
+  // The §13 dialog matrix only covers the two principal narrators.
+  // Lyra Vox has her own dialog module (lyraVoxDialog.ts); callers
+  // looking her up here receive null and are expected to use
+  // pickLyraVoxLine instead.
+  if (narratorId !== "elara" && narratorId !== "the_human") return null;
   const lines = set[narratorId];
 
   // Pass 1: beat-tagged lines take priority.
@@ -417,6 +422,7 @@ export function listAvailableLines(
 ): NarratorLine[] {
   const set = NARRATOR_DIALOG[roomId];
   if (!set) return [];
+  if (narratorId !== "elara" && narratorId !== "the_human") return [];
   return set[narratorId].filter(
     (line) => bond >= TRUST_TIER_MIN_BOND[line.tier],
   );

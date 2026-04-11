@@ -32,7 +32,10 @@ export type WitnessingMilestoneId =
   | "two_witnesses_meet"
   | "bulb_dims"
   | "sector_wakes"
-  | "lions_last_broadcast";
+  | "lions_last_broadcast"
+  | "thaloria_echo"
+  | "the_engineer_speaks"
+  | "the_archon_recruited";
 
 export interface WitnessingMilestone {
   id: WitnessingMilestoneId;
@@ -143,6 +146,56 @@ export const WITNESSING_MILESTONES: Record<WitnessingMilestoneId, WitnessingMile
     npcReactions: {
       the_antiquarian:
         "I have been waiting to play this for you. I did not edit it. I did not need to.",
+    },
+  },
+
+  thaloria_echo: {
+    id: "thaloria_echo",
+    title: "Thaloria Echo",
+    description:
+      "A soft chime across the Collector's Arena. The echo of a child reaching for a helmet. Nobody else hears it but you.",
+    raisesFlag: "event_thaloria_echo",
+    lightEnergyReward: 25,
+    npcReactions: {
+      elara:
+        "I felt that. I don't know what it was. I wrote it down anyway.",
+      the_human:
+        "That was Thaloria. Twenty-six millennia ago. The helmet is on the grass right now. Ask me how I know later.",
+      the_antiquarian:
+        "The echo is real. The event that caused it has already happened and already not-happened. This is normal for my job.",
+    },
+  },
+
+  the_engineer_speaks: {
+    id: "the_engineer_speaks",
+    title: "The Engineer Speaks",
+    description:
+      "A broadcast from an Insurgency cell in sector chatter. The voice is old. The cadence is familiar. Everyone on the Ark freezes for a second.",
+    raisesFlag: "event_the_engineer_speaks",
+    lightEnergyReward: 100,
+    npcReactions: {
+      elara:
+        "That's not him. That can't be him. The Atarion death certificate is still on my desk.",
+      the_human:
+        "I told you. I told you twenty rooms ago. He's alive. She heard him this time. That matters.",
+    },
+  },
+
+  the_archon_recruited: {
+    id: "the_archon_recruited",
+    title: "The Archon Recruited",
+    description:
+      "A Potential has joined the Empire. Light Energy -1000. The galaxy records the defection in stone.",
+    raisesFlag: "event_the_archon_recruited",
+    lightEnergyReward: 0,
+    darkEnergyCost: 1000,
+    npcReactions: {
+      elara:
+        "I know the recruiters. I used to BE one. There are things they promise that they cannot deliver. I am sorry I cannot say this louder.",
+      the_human:
+        "I was once the Potential they asked. I said yes. I spent thirteen hundred and fifty-one years finding out what that meant. Whoever just said yes — do not be me.",
+      the_antiquarian:
+        "Across twelve timelines I have seen this choice land four ways. Two of them are survivable. I will not tell you which two.",
     },
   },
 };
