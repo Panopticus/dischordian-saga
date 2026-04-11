@@ -21,6 +21,11 @@ import {
   WITNESSING_MILESTONES,
   type WitnessingMilestoneId,
 } from "@shared/witnessingEvents";
+import {
+  getPendingKaelPayoffCinematic,
+  KAEL_FRAGMENTS,
+} from "@shared/appendixBKaelQuestline";
+import { isKaelQuestlineComplete } from "@shared/kaelFragmentWatchers";
 
 /* ─── LORE DISCOVERY TRIGGERS ───
    Automatically discover lore entries based on game state changes.
@@ -546,6 +551,40 @@ export function useNarrativeIntegration() {
     state.narrativeFlags?.empire_archon_offer_accepted,
     fireMilestone,
   ]);
+
+  // ─── APPENDIX B §B.8 — KAEL PAYOFF CINEMATICS ───
+  // Watches the narrative flag set for the three bd1/bd2/bd3
+  // trigger conditions. getPendingKaelPayoffCinematic returns
+  // the next cinematic that should play; on fire we raise its
+  // flag and surface a toast. The toast is the playback
+  // surface until the bd1/bd2/bd3 cinematic components ship.
+  useEffect(() => {
+    // Auto-raise kael_questline_complete once all six F1-F6
+    // flags are set. This keeps the bd3 trigger honest even
+    // though the per-fragment consumers haven't shipped yet.
+    if (
+      isKaelQuestlineComplete(state.narrativeFlags ?? {}) &&
+      !state.narrativeFlags?.kael_questline_complete
+    ) {
+      setNarrativeFlag("kael_questline_complete", true);
+      return;
+    }
+    const pending = getPendingKaelPayoffCinematic(state.narrativeFlags ?? {});
+    if (!pending) return;
+    setNarrativeFlag(pending.flag, true);
+    toast.success(`Cinematic: ${pending.title}`, {
+      description: pending.purpose,
+      duration: 12000,
+    });
+  }, [
+    state.narrativeFlags,
+    setNarrativeFlag,
+  ]);
+
+  // Touch KAEL_FRAGMENTS so strict TypeScript doesn't flag the
+  // import as unused in the event the useEffect above is later
+  // guarded out of a build.
+  void KAEL_FRAGMENTS;
 
   // ─── WITNESSING §3.3 / §14.1 — DISCHORDIA PHASE MILESTONES ───
   // The community Dischordia Cycle phase change is a Living
