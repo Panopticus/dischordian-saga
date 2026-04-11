@@ -35,6 +35,14 @@ export default function BreedingSelector({ state, onBreed }: Props) {
     setChosenBloodline(null);
   }, [p1, p2]);
 
+  // NOTE: this useMemo must be called BEFORE any conditional early-return below
+  // (rules-of-hooks). The result is still only needed when we render the main
+  // UI, but the hook has to run on every render regardless.
+  const fullRoster = useMemo(
+    () => [...state.roster.members, ...state.roster.deceased],
+    [state.roster.members, state.roster.deceased],
+  );
+
   const gen2Available = state.generation2Reached || state.roster.members.some(m => m.generation >= 2);
 
   if (!gen2Available && eligible.length < 2) {
@@ -48,11 +56,6 @@ export default function BreedingSelector({ state, onBreed }: Props) {
       </div>
     );
   }
-
-  const fullRoster = useMemo(
-    () => [...state.roster.members, ...state.roster.deceased],
-    [state.roster.members, state.roster.deceased],
-  );
   const gensShared =
     parent1 && parent2 ? generationsSinceShared(parent1, parent2, fullRoster) : Infinity;
   const inbreeding =

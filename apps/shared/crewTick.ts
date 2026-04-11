@@ -293,7 +293,8 @@ export function tickRomance(
   // the emergence (new-courtship) pass requires 2+ active members.
 
   let romances = [...state.romances];
-  let feedAdditions: SerializedFeedEntry[] = [];
+  // feedAdditions is appended to via .push() but never reassigned, so it should be const.
+  const feedAdditions: SerializedFeedEntry[] = [];
 
   // 1) Advance courtships to partnered status after the grace period
   romances = romances.map(r => {
