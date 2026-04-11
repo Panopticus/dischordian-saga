@@ -6,6 +6,7 @@ var spoke_1h: bool = false
 var spoke_2h: bool = false
 var canon_done: bool = false
 var open_channel_active: bool = false
+var _open_channel_sequence: Node = null
 
 func _ready() -> void:
 	# BridgeOfKael is always "last_stand" combat, whether entered directly
@@ -13,6 +14,10 @@ func _ready() -> void:
 	GameMode.current_mode = "last_stand"
 	Elara.flush_run_start_queue()
 	LoopManager.check_open_channel_unlock()
+	# Reset the wave manager so any orphaned spawn loops from a previous
+	# run (before a scene reload) abandon themselves instead of spawning
+	# into our fresh scene tree.
+	WaveManager.reset_for_new_run()
 	# Set up wave manager
 	var spawns: Array[Node3D] = []
 	for child in $SpawnPoints.get_children():
@@ -101,13 +106,17 @@ func _try_open_channel() -> void:
 	if scene == null:
 		_finish_open_channel()
 		return
-	var sequence = scene.instantiate()
-	add_child(sequence)
-	if sequence.has_signal("conversation_complete"):
-		sequence.conversation_complete.connect(_finish_open_channel)
+	_open_channel_sequence = scene.instantiate()
+	add_child(_open_channel_sequence)
+	if _open_channel_sequence.has_signal("conversation_complete"):
+		_open_channel_sequence.conversation_complete.connect(_finish_open_channel)
 
 func _finish_open_channel() -> void:
-	LoopManager.on_open_channel_activated()
+	var choice := ""
+	if _open_channel_sequence != null and "player_choice" in _open_channel_sequence:
+		choice = _open_channel_sequence.player_choice
+	_open_channel_sequence = null
+	LoopManager.on_open_channel_activated(choice)
 	GameMode.game_active = true
 
 func _finish_historical_replay() -> void:

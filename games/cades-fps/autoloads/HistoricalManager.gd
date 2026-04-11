@@ -72,6 +72,12 @@ func flush_pending_gm_contact() -> void:
 	var msg_ui = get_tree().get_first_node_in_group("gm_message_ui")
 	if msg_ui and msg_ui.has_method("show_message") and GM_MESSAGES.has(level):
 		msg_ui.show_message(GM_MESSAGES[level])
+	# Notify the React host so the Living Universe layer can react to the
+	# Game Masters escalating (crew feed entries, ambient lines, etc.).
+	WebBridge.send_event("CADES_GM_CONTACT", {
+		"level": level,
+		"scenarios_completed": GameMode.scenarios_completed,
+	})
 	match level:
 		1: Elara.speak("gm_contact_1")
 		2: Elara.speak("gm_contact_2")

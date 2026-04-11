@@ -10,6 +10,8 @@ import {
   ArrowLeftRight, Medal, Dices, Store, CalendarDays, Shield as ShieldIcon, Star, Package
 } from "lucide-react";
 import { useGamification } from "@/contexts/GamificationContext";
+import { useGame } from "@/contexts/GameContext";
+import { isCadesUnlocked } from "@/data/cadesNarrativeIntegration";
 import { LoreOverlay } from "@/components/LoreOverlay";
 import NarrativeTrigger from "@/components/NarrativeTrigger";
 import TutorialTrigger from "@/components/TutorialTrigger";
@@ -26,6 +28,11 @@ interface GameTile {
   color: string;
   badge?: string;
   primary?: boolean;
+  /** Called per-render with the current game state; returning false grays
+   *  the tile out with a lock badge and makes the link inert. */
+  unlockCheck?: (state: { narrativeAct: number }) => boolean;
+  lockedBadge?: string;
+  lockedReason?: string;
 }
 
 const SIMULATIONS: GameTile[] = [
@@ -72,6 +79,9 @@ const SIMULATIONS: GameTile[] = [
     color: "#f59e0b",
     badge: "ENTER SIMULATION",
     primary: true,
+    unlockCheck: (s) => isCadesUnlocked({ narrativeAct: s.narrativeAct }),
+    lockedBadge: "ACT 5",
+    lockedReason: "The Human has not yet whispered about the device in the Medical Bay.",
   },
   {
     href: "/fight",
@@ -299,7 +309,11 @@ const SIMULATIONS: GameTile[] = [
 
 export default function GamesPage() {
   const gam = useGamification();
+  const { state: gameState } = useGame();
   const { autoTutorial, showAutoTutorial, launchTutorial, dismissTutorial, snoozeTutorial } = useAutoTutorial("/games");
+
+  const narrativeState = { narrativeAct: gameState.narrativeAct ?? 0 };
+  const isTileLocked = (s: GameTile) => s.unlockCheck ? !s.unlockCheck(narrativeState) : false;
 
   const primarySims = SIMULATIONS.filter(s => s.primary);
   const supportSims = SIMULATIONS.filter(s => !s.primary);
@@ -371,6 +385,80 @@ export default function GamesPage() {
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
           {primarySims.map((sim, i) => {
             const Icon = sim.icon;
+            const locked = isTileLocked(sim);
+            const tileInner = (
+              <>
+                {/* Top accent line */}
+                <div className="h-[2px]" style={{ background: `linear-gradient(90deg, transparent, ${sim.color}, transparent)` }} />
+
+                <div className="p-4 sm:p-5">
+                  {/* Icon + Badge */}
+                  <div className="flex items-start justify-between mb-3">
+                    <div
+                      className="w-11 h-11 rounded-lg flex items-center justify-center transition-all group-hover:scale-110"
+                      style={{
+                        background: `color-mix(in oklch, ${sim.color} 12%, transparent)`,
+                        border: `1px solid color-mix(in oklch, ${sim.color} 25%, transparent)`,
+                        boxShadow: `0 0 20px color-mix(in oklch, ${sim.color} 15%, transparent)`,
+                      }}
+                    >
+                      <Icon size={22} style={{ color: sim.color }} />
+                    </div>
+                    {locked ? (
+                      <span
+                        className="font-mono text-[8px] font-bold tracking-[0.15em] px-2 py-1 rounded-full"
+                        style={{
+                          background: "rgba(100, 100, 100, 0.15)",
+                          color: "#94a3b8",
+                          border: "1px solid rgba(148, 163, 184, 0.3)",
+                        }}
+                      >
+                        LOCKED{sim.lockedBadge ? ` · ${sim.lockedBadge}` : ""}
+                      </span>
+                    ) : sim.badge && (
+                      <span
+                        className="font-mono text-[8px] font-bold tracking-[0.15em] px-2 py-1 rounded-full animate-cyber-pulse"
+                        style={{
+                          background: `color-mix(in oklch, ${sim.color} 15%, transparent)`,
+                          color: sim.color,
+                          border: `1px solid color-mix(in oklch, ${sim.color} 30%, transparent)`,
+                        }}
+                      >
+                        {sim.badge}
+                      </span>
+                    )}
+                  </div>
+
+                  {/* Title */}
+                  <h3
+                    className="font-display text-base font-bold tracking-wider mb-1 transition-all group-hover:brightness-125"
+                    style={{ color: sim.color }}
+                  >
+                    {sim.title}
+                  </h3>
+                  <p className="font-mono text-[9px] tracking-wider mb-2" style={{ color: "var(--text-muted-ve)" }}>
+                    {sim.subtitle}
+                  </p>
+
+                  {/* Description (or lock reason) */}
+                  <p className="font-mono text-[11px] leading-relaxed mb-3" style={{ color: "var(--text-dim)" }}>
+                    {locked && sim.lockedReason ? sim.lockedReason : sim.description}
+                  </p>
+
+                  {/* Lore context tag */}
+                  <div className="flex items-center justify-between">
+                    <span className="font-mono text-[8px] tracking-wider px-2 py-0.5 rounded glass-sunk" style={{ color: "var(--text-muted-ve)" }}>
+                      {sim.loreContext}
+                    </span>
+                    <ChevronRight
+                      size={14}
+                      className="opacity-30 group-hover:opacity-80 group-hover:translate-x-1 transition-all"
+                      style={{ color: sim.color }}
+                    />
+                  </div>
+                </div>
+              </>
+            );
             return (
               <motion.div
                 key={sim.href}
@@ -378,69 +466,22 @@ export default function GamesPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.08 }}
               >
-                <Link
-                  href={sim.href}
-                  className="group block rounded-lg overflow-hidden glass-float hover:shadow-[0_0_30px_rgba(51,226,230,0.12)] transition-all duration-300"
-                >
-                  {/* Top accent line */}
-                  <div className="h-[2px]" style={{ background: `linear-gradient(90deg, transparent, ${sim.color}, transparent)` }} />
-
-                  <div className="p-4 sm:p-5">
-                    {/* Icon + Badge */}
-                    <div className="flex items-start justify-between mb-3">
-                      <div
-                        className="w-11 h-11 rounded-lg flex items-center justify-center transition-all group-hover:scale-110"
-                        style={{
-                          background: `color-mix(in oklch, ${sim.color} 12%, transparent)`,
-                          border: `1px solid color-mix(in oklch, ${sim.color} 25%, transparent)`,
-                          boxShadow: `0 0 20px color-mix(in oklch, ${sim.color} 15%, transparent)`,
-                        }}
-                      >
-                        <Icon size={22} style={{ color: sim.color }} />
-                      </div>
-                      {sim.badge && (
-                        <span
-                          className="font-mono text-[8px] font-bold tracking-[0.15em] px-2 py-1 rounded-full animate-cyber-pulse"
-                          style={{
-                            background: `color-mix(in oklch, ${sim.color} 15%, transparent)`,
-                            color: sim.color,
-                            border: `1px solid color-mix(in oklch, ${sim.color} 30%, transparent)`,
-                          }}
-                        >
-                          {sim.badge}
-                        </span>
-                      )}
-                    </div>
-
-                    {/* Title */}
-                    <h3
-                      className="font-display text-base font-bold tracking-wider mb-1 transition-all group-hover:brightness-125"
-                      style={{ color: sim.color }}
-                    >
-                      {sim.title}
-                    </h3>
-                    <p className="font-mono text-[9px] tracking-wider mb-2" style={{ color: "var(--text-muted-ve)" }}>
-                      {sim.subtitle}
-                    </p>
-
-                    {/* Description */}
-                    <p className="font-mono text-[11px] leading-relaxed mb-3" style={{ color: "var(--text-dim)" }}>
-                      {sim.description}
-                    </p>
-
-                    {/* Lore context tag */}
-                    <div className="flex items-center justify-between">
-                      <span className="font-mono text-[8px] tracking-wider px-2 py-0.5 rounded glass-sunk" style={{ color: "var(--text-muted-ve)" }}>
-                        {sim.loreContext}
-                      </span>
-                      <ChevronRight
-                        size={14}
-                        className="opacity-30 group-hover:opacity-80 group-hover:translate-x-1 transition-all"
-                        style={{ color: sim.color }}
-                      />
-                    </div>
+                {locked ? (
+                  <div
+                    className="group block rounded-lg overflow-hidden glass-float cursor-not-allowed"
+                    style={{ opacity: 0.5, filter: "grayscale(0.5)" }}
+                    aria-disabled="true"
+                  >
+                    {tileInner}
                   </div>
-                </Link>
+                ) : (
+                  <Link
+                    href={sim.href}
+                    className="group block rounded-lg overflow-hidden glass-float hover:shadow-[0_0_30px_rgba(51,226,230,0.12)] transition-all duration-300"
+                  >
+                    {tileInner}
+                  </Link>
+                )}
               </motion.div>
             );
           })}

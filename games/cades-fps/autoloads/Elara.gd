@@ -5,6 +5,36 @@ var _run_start_queue: Array[String] = []
 var _last_spoken: float = 0.0
 var _cooldown: float = 7.0
 
+# Maps Elara.speak() keys to URLs in apps/shared/cadesVoManifest.json.
+# Only keys present in the manifest get voiced; others remain subtitle-only.
+const VO_BASE = "https://dgrsvoices.s3.us-east-2.amazonaws.com/CADES+Voices"
+const VO_URLS = {
+	# Mode 1 — Elara narration over Iron Lion's loop
+	"time_2h":             VO_BASE + "/elara/elara_pause.mp3",
+	"iron_lion_memory":    VO_BASE + "/elara/elara_memory.mp3",
+	"iron_lion_suspects":  VO_BASE + "/elara/elara_looked.mp3",
+	"iron_lion_waiting":   VO_BASE + "/elara/elara_waiting.mp3",
+	"time_canon":          VO_BASE + "/elara/elara_canon.mp3",
+	"loop_reset":          VO_BASE + "/elara/elara_bridge_holds.mp3",
+	# Mode 2 — Ship Defense
+	"game_start":                 VO_BASE + "/elara/elara_25min.mp3",
+	"breach_lost_engineering":    VO_BASE + "/elara/elara_eng_breach.mp3",
+	"breach_lost_cargo":          VO_BASE + "/elara/elara_cargo_breach.mp3",
+	"breach_lost_observation":    VO_BASE + "/elara/elara_obs_breach.mp3",
+	"shields_done":               VO_BASE + "/elara/elara_shields_done.mp3",
+	"shields_fail":               VO_BASE + "/elara/elara_shields_fail.mp3",
+	"thoughtborn_first":          VO_BASE + "/elara/elara_thoughtborn.mp3",
+	"thoughtborn_rev":            VO_BASE + "/elara/elara_changed.mp3",
+	# Mode 3 — Historical Incursions
+	"matrix_hub_enter":    VO_BASE + "/elara/elara_matrix.mp3",
+	"gm_theory":           VO_BASE + "/elara/elara_gm_theory.mp3",
+	"gm_final":            VO_BASE + "/elara/elara_dont_answer.mp3",
+	# The Game Masters speak over the secondary channel directly
+	"gm_contact_1":        VO_BASE + "/game_masters/gm_unauthorized.mp3",
+	"gm_contact_2":        VO_BASE + "/game_masters/gm_stop.mp3",
+	"gm_contact_3":        VO_BASE + "/game_masters/gm_curious.mp3",
+}
+
 const LINES = {
 	# Mode 1
 	"loop_reset": "The bridge holds. Dawn comes again.",
@@ -84,3 +114,26 @@ func _display(key: String) -> void:
 	var hud = get_tree().get_first_node_in_group("hud")
 	if hud and hud.has_method("show_elara"):
 		hud.show_elara("ELARA: " + text)
+	_play_vo(key)
+
+func _play_vo(key: String) -> void:
+	# Only the web export can reach the remote VO bucket; desktop runs stay
+	# subtitle-only. We use the browser's native Audio element via
+	# JavaScriptBridge instead of Godot's AudioStreamMP3 so we don't have
+	# to bundle the files locally or cold-load them through HTTPRequest.
+	if not OS.has_feature("web"):
+		return
+	var url = VO_URLS.get(key, "")
+	if url == "":
+		return
+	JavaScriptBridge.eval("""
+		(function(){
+			try {
+				if (window._cadesVoAudio) { window._cadesVoAudio.pause(); }
+				var a = new Audio(%s);
+				a.volume = 0.85;
+				window._cadesVoAudio = a;
+				a.play().catch(function(){});
+			} catch(e) {}
+		})();
+	""" % JSON.stringify(url))

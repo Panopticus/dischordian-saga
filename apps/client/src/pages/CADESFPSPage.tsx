@@ -18,6 +18,7 @@ import { useGame } from "@/contexts/GameContext";
 import { ChevronLeft, Skull, Shield, BookOpen, Crosshair, Clock } from "lucide-react";
 import { CADES_CHARACTERS, CADES_UI, CADES_MUSIC } from "@/data/cadesAssets";
 import { isCadesUnlocked } from "@/data/cadesNarrativeIntegration";
+import { dispatchNarrativeEffect } from "@/hooks/useNarrativeEvents";
 
 /* ─── PALETTE ─── */
 const P = {
@@ -95,6 +96,12 @@ export default function CADESFPSPage() {
         setPhase("result");
         // Persist
         saveCadesResult.mutate(r as unknown as Record<string, unknown>);
+        // Fan out narrative events so the living universe layer can react.
+        if (r.canon_achieved) dispatchNarrativeEffect(undefined, "cades_canon_achieved");
+        if (r.mode === "ship_defense" && r.success) dispatchNarrativeEffect(undefined, "cades_shields_restored");
+        if (r.mode === "ship_defense" && (r.thoughtborn_killed ?? 0) > 0) dispatchNarrativeEffect(undefined, "cades_thoughtborn_killed");
+        if (r.thoughtborn_contacted) dispatchNarrativeEffect(undefined, "cades_thoughtborn_contacted");
+        if (r.scenario_completed) dispatchNarrativeEffect(undefined, `cades_scenario_${r.scenario_completed}`);
       }
 
       if (e.data.type === "IRON_LION_CHANNEL_OPEN") {
@@ -103,7 +110,19 @@ export default function CADESFPSPage() {
           iron_lion_contacted: true,
           loop_count: e.data.payload.loop_count,
           awareness_level: e.data.payload.awareness_level,
+          open_channel_choice: e.data.payload.player_choice ?? "",
         });
+        dispatchNarrativeEffect(undefined, "cades_iron_lion_contacted");
+      }
+
+      if (e.data.type === "CADES_GM_CONTACT") {
+        const level = e.data.payload?.level ?? 0;
+        saveCadesResult.mutate({
+          mode: "historical_incursions",
+          gm_contact_level: level,
+          scenarios_total_completed: e.data.payload?.scenarios_completed ?? [],
+        });
+        dispatchNarrativeEffect(undefined, `cades_gm_contact_${level}`);
       }
     };
 

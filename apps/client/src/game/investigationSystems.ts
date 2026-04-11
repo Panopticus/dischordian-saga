@@ -93,12 +93,30 @@ export interface InvestigationClue {
   questChainId?: string;
 }
 
-export const INVESTIGATION_CLUES: InvestigationClue[] = [
+const BASE_INVESTIGATION_CLUES: InvestigationClue[] = [
   { id: "clue_viral_trace", roomId: "medical_bay", type: "visual", description: "Faint bioluminescent residue on the floor — not standard ship fluids.", revelation: "The Thought Virus leaves traces that glow under UV. The trail leads toward Engineering.", bountyId: "bounty_viral_nest" },
   { id: "clue_edited_log", roomId: "archives", type: "data", description: "A log entry with metadata showing 14 edits in the last hour.", revelation: "The Shadow Tongue has been rewriting this specific entry. The original text mentioned a name — now erased.", bountyId: "bounty_shadow_agent" },
   { id: "clue_signal_echo", roomId: "comms_array", type: "audio", description: "A faint echo in the background static — like someone breathing.", revelation: "The signal isn't a recording. It's live. Someone is transmitting from inside the Ark.", bountyId: "bounty_ghost_signal" },
   { id: "clue_temporal_ripple", roomId: "observation_deck", type: "temporal", description: "The stars outside flicker — as if time hiccupped.", revelation: "The Antiquarian's temporal shields are weakening. Something from another timeline is pushing through.", },
   { id: "clue_substrate_heat", roomId: "bridge", type: "visual", description: "The floor grating is warm. The substrate layer beneath is more active than usual.", revelation: "The Human is agitated. Something in the substrate has changed — a new presence, or an old one awakening.", },
+];
+
+// CADES FPS clues — declared in cadesNarrativeIntegration with a different
+// shape (room/title/description/connectedBounty). Normalize into the
+// InvestigationClue structure so they show up in this registry too.
+import { CADES_INVESTIGATION_CLUES } from "@/data/cadesNarrativeIntegration";
+const CADES_CLUES_NORMALIZED: InvestigationClue[] = CADES_INVESTIGATION_CLUES.map((c) => ({
+  id: c.id,
+  roomId: c.room.replace(/-/g, "_"),
+  type: c.type as InvestigationClue["type"],
+  description: c.title + " — " + c.description,
+  revelation: c.description,
+  bountyId: c.connectedBounty ?? undefined,
+}));
+
+export const INVESTIGATION_CLUES: InvestigationClue[] = [
+  ...BASE_INVESTIGATION_CLUES,
+  ...CADES_CLUES_NORMALIZED,
 ];
 
 
