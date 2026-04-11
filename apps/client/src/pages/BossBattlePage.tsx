@@ -3,14 +3,21 @@
    ═══════════════════════════════════════════════════════ */
 import { useState, useCallback, useMemo, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Swords, Shield, Heart, Zap, RotateCcw, Skull, Trophy, Target, Crown, AlertTriangle, Star, Gem, FlaskConical, Sparkles } from "lucide-react";
+import { Swords, Shield, Heart, Zap, RotateCcw, Skull, Trophy, Target, Crown, AlertTriangle, Star, Gem, FlaskConical, Sparkles, Flame, Eye, Radiation } from "lucide-react";
 import { trpc } from "@/lib/trpc";
 import { useGame } from "@/contexts/GameContext";
 import { useSound } from "@/contexts/SoundContext";
 import { useGamification } from "@/contexts/GamificationContext";
 import { generateStarterDeck } from "@/components/StarterDeckViewer";
 import { type BattleCard } from "@/lib/cardBattle";
-import { initBossBattle, processBossAction, type BossBattleState } from "@/lib/bossBattle";
+import {
+  initBossBattle,
+  processBossAction,
+  computeScaledRewards,
+  type BossBattleState,
+  type BossMasteryBonuses,
+  type ScaledRewards,
+} from "@/lib/bossBattle";
 import { BOSS_ENCOUNTERS, type BossEncounter } from "@/data/bossEncounters";
 import { useLocation } from "wouter";
 import LandscapeEnforcer from "@/components/LandscapeEnforcer";
@@ -126,12 +133,30 @@ export default function BossBattlePage() {
   const [selectedAttacker, setSelectedAttacker] = useState<string | null>(null);
   const [targetMode, setTargetMode] = useState(false);
   const [currentBoss, setCurrentBoss] = useState<BossEncounter | null>(null);
+  const [phaseCutscene, setPhaseCutscene] = useState<number | null>(null);
+  const [entryCutscene, setEntryCutscene] = useState(false);
+  const [screenShake, setScreenShake] = useState(0);
+  const [damageFlashes, setDamageFlashes] = useState<
+    Array<{ id: number; text: string; target: string; kind: string }>
+  >([]);
+  const [scaledRewards, setScaledRewards] = useState<ScaledRewards | null>(null);
+  const flashIdRef = useRef(0);
   const logRef = useRef<HTMLDivElement>(null);
   const battleStartRef = useRef<number>(0);
   const recordKill = trpc.bossMastery.recordKill.useMutation();
 
   const allTraitBonuses = trpc.citizen.getAllTraitBonuses.useQuery(undefined, { retry: false, refetchOnWindowFocus: false });
   const bossBonuses = allTraitBonuses.data?.bossMastery;
+
+  const masteryBonusesForInit: BossMasteryBonuses = useMemo(
+    () => ({
+      bossDamageMultiplier: bossBonuses?.bossDamageMultiplier ?? 1,
+      bossDefenseReduction: bossBonuses?.bossDefenseReduction ?? 0,
+      lootQualityMultiplier: bossBonuses?.lootQualityMultiplier ?? 1,
+      masteryXpMultiplier: bossBonuses?.masteryXpMultiplier ?? 1,
+    }),
+    [bossBonuses],
+  );
 
   const playerDeck = useMemo(() => {
     const choices = gameState.characterChoices;
@@ -141,10 +166,19 @@ export default function BossBattlePage() {
 
   const startBossBattle = useCallback((boss: BossEncounter) => {
     setCurrentBoss(boss);
-    setBattleState(initBossBattle(playerDeck, boss));
+    setBattleState(initBossBattle(playerDeck, boss, masteryBonusesForInit));
     battleStartRef.current = Date.now();
-    if (audioReady) playSFX("room_enter");
-  }, [playerDeck, audioReady, playSFX]);
+    setEntryCutscene(true);
+    setPhaseCutscene(null);
+    setDamageFlashes([]);
+    setScaledRewards(null);
+    // Auto-dismiss entry cutscene after 2.2s
+    window.setTimeout(() => setEntryCutscene(false), 2200);
+    if (audioReady) {
+      playSFX("room_enter");
+      window.setTimeout(() => audioReady && playSFX("critical_hit"), 400);
+    }
+  }, [playerDeck, audioReady, playSFX, masteryBonusesForInit]);
 
   const doAction = useCallback((action: Parameters<typeof processBossAction>[1]) => {
     setBattleState(prev => {
@@ -155,20 +189,74 @@ export default function BossBattlePage() {
         if (action.type === "ATTACK") playSFX("door_locked");
         if (action.type === "END_TURN") playSFX("terminal_access");
       }
+
+      // Phase transition cutscene + screen shake
+      if (next.phaseJustChanged && next.bossPhase > prev.bossPhase) {
+        setPhaseCutscene(next.bossPhase);
+        setScreenShake(Date.now());
+        window.setTimeout(() => setPhaseCutscene(null), 2600);
+        if (audioReady) {
+          playSFX("critical_hit");
+          window.setTimeout(() => audioReady && playSFX("battle_defeat"), 200);
+        }
+      }
+
+      // Drain pending events into damage flashes / sfx
+      if (next.pendingEvents.length > 0) {
+        const now = Date.now();
+        const flashes = next.pendingEvents.map(evt => ({
+          id: ++flashIdRef.current,
+          text: evt.message,
+          target: evt.target || "arena",
+          kind: evt.kind,
+        }));
+        setDamageFlashes(prev => [...prev, ...flashes].slice(-8));
+        // Schedule cleanup
+        flashes.forEach(f => {
+          window.setTimeout(() => {
+            setDamageFlashes(curr => curr.filter(x => x.id !== f.id));
+          }, 2000);
+        });
+        if (audioReady) {
+          if (next.pendingEvents.some(e => e.kind === "damage" || e.kind === "hazard")) {
+            playSFX("shield_hit");
+          }
+          if (next.pendingEvents.some(e => e.kind === "summon")) {
+            playSFX("energy_charge");
+          }
+          if (next.pendingEvents.some(e => e.kind === "passive" || e.kind === "buff")) {
+            playSFX("card_spell");
+          }
+        }
+        // Shake on any damage event
+        if (next.pendingEvents.some(e => e.kind === "damage" || e.kind === "hazard" || e.kind === "phase")) {
+          setScreenShake(now);
+        }
+        // Clear events from state so they don't replay
+        next.pendingEvents = [];
+      }
+
       if (next.winner === "player" && currentBoss) {
         discoverEntry(currentBoss.entityId);
-        // Record kill for mastery tracking
+        // Compute mastery-scaled rewards
         const fightDuration = Math.round((Date.now() - battleStartRef.current) / 1000);
+        const rewards = computeScaledRewards(currentBoss, next.mastery, fightDuration);
+        setScaledRewards(rewards);
+        // Record kill for mastery tracking
         recordKill.mutate(
-          { bossKey: currentBoss.entityId, difficulty: "normal", timeSeconds: fightDuration },
+          { bossKey: currentBoss.entityId, difficulty: currentBoss.difficulty, timeSeconds: fightDuration },
           { onError: (err) => console.warn("[BossMastery] recordKill failed:", err.message) },
         );
+        if (audioReady) playSFX("battle_victory");
+      }
+      if (next.winner === "enemy" && audioReady) {
+        playSFX("battle_defeat");
       }
       return next;
     });
     setSelectedAttacker(null);
     setTargetMode(false);
-  }, [audioReady, playSFX, currentBoss, discoverEntry]);
+  }, [audioReady, playSFX, currentBoss, discoverEntry, recordKill]);
 
   const handleHandCardClick = useCallback((card: BattleCard) => {
     if (!battleState || battleState.turn !== "player" || battleState.winner) return;
@@ -247,10 +335,182 @@ export default function BossBattlePage() {
   );
 
   const { player, enemy, turn, turnNumber, logs, winner } = battleState;
+  const phaseBgFrom = battleState.bossPhase === 3 ? "from-red-900/30" : battleState.bossPhase === 2 ? "from-purple-900/25" : "from-slate-900/20";
+  const phaseAccent = battleState.bossPhase === 3 ? "rgba(239,68,68,0.6)" : battleState.bossPhase === 2 ? "rgba(168,85,247,0.55)" : "rgba(100,116,139,0.4)";
 
   return (
     <LandscapeEnforcer forceRotate message="Boss encounters are best experienced in landscape mode.">
-    <div className={`min-h-screen flex flex-col bg-gradient-to-b ${battleState.bossPhase === 3 ? "from-red-900/20" : battleState.bossPhase === 2 ? "from-purple-900/20" : "from-slate-900/20"} to-black`}>
+    <motion.div
+      className={`min-h-screen flex flex-col bg-gradient-to-b ${phaseBgFrom} to-black relative overflow-hidden`}
+      animate={screenShake ? { x: [0, -6, 6, -4, 4, -2, 2, 0], y: [0, 2, -2, 1, -1, 0, 0, 0] } : { x: 0, y: 0 }}
+      transition={{ duration: 0.5 }}
+      key={`shake-${screenShake}`}
+    >
+      {/* ═══ PHASE PULSE BORDER ═══ */}
+      {battleState.bossPhase >= 2 && (
+        <div
+          className="pointer-events-none absolute inset-0 z-[5]"
+          style={{
+            boxShadow: `inset 0 0 60px ${phaseAccent}, inset 0 0 120px rgba(0,0,0,0.5)`,
+            animation: battleState.bossPhase === 3 ? "pulse 1.8s ease-in-out infinite" : undefined,
+          }}
+        />
+      )}
+
+      {/* ═══ BOSS ENTRY CUTSCENE ═══ */}
+      <AnimatePresence>
+        {entryCutscene && (
+          <motion.div
+            key="boss-entry"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[60] flex items-center justify-center pointer-events-none"
+            style={{ background: "radial-gradient(ellipse at center, rgba(80,0,0,0.65) 0%, rgba(0,0,0,0.95) 70%)" }}
+          >
+            <motion.div
+              initial={{ scale: 0.4, rotate: -8 }}
+              animate={{ scale: 1, rotate: 0 }}
+              exit={{ scale: 1.3, opacity: 0 }}
+              transition={{ type: "spring", stiffness: 90, damping: 14 }}
+              className="text-center"
+            >
+              <motion.div
+                initial={{ filter: "blur(20px)" }}
+                animate={{ filter: "blur(0px)" }}
+                transition={{ delay: 0.3, duration: 0.6 }}
+                className="relative inline-block mb-4"
+              >
+                <img
+                  src={currentBoss.image}
+                  alt={currentBoss.name}
+                  className="w-32 h-32 rounded-full object-cover mx-auto ring-4 ring-red-500/60"
+                  style={{ boxShadow: "0 0 60px rgba(239,68,68,0.6)" }}
+                />
+                <motion.div
+                  className="absolute inset-0 rounded-full ring-4 ring-red-500/40"
+                  animate={{ scale: [1, 1.4, 1.6], opacity: [0.8, 0.2, 0] }}
+                  transition={{ duration: 1.5, repeat: Infinity }}
+                />
+              </motion.div>
+              <motion.p
+                initial={{ y: 20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: 0.5 }}
+                className="font-mono text-[10px] tracking-[0.4em] text-red-400/60 mb-2"
+              >
+                BOSS ENCOUNTER
+              </motion.p>
+              <motion.h2
+                initial={{ y: 30, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: 0.7 }}
+                className="font-display text-3xl sm:text-5xl tracking-[0.15em] text-white mb-2"
+                style={{ textShadow: "0 0 24px rgba(239,68,68,0.6)" }}
+              >
+                {currentBoss.name.toUpperCase()}
+              </motion.h2>
+              <motion.p
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 1.0 }}
+                className="font-mono text-xs text-muted-foreground/70 italic max-w-md mx-auto"
+              >
+                "{currentBoss.taunt}"
+              </motion.p>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* ═══ PHASE TRANSITION CUTSCENE ═══ */}
+      <AnimatePresence>
+        {phaseCutscene && (
+          <motion.div
+            key={`phase-${phaseCutscene}`}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 z-[60] flex items-center justify-center pointer-events-none"
+            style={{
+              background: phaseCutscene === 3
+                ? "radial-gradient(ellipse at center, rgba(180,0,0,0.85) 0%, rgba(0,0,0,0.95) 70%)"
+                : "radial-gradient(ellipse at center, rgba(100,0,180,0.75) 0%, rgba(0,0,0,0.95) 70%)",
+            }}
+          >
+            {/* Radial shock waves */}
+            {[0, 1, 2].map(i => (
+              <motion.div
+                key={`wave-${i}`}
+                className="absolute rounded-full border-4"
+                style={{ borderColor: phaseCutscene === 3 ? "rgba(239,68,68,0.6)" : "rgba(168,85,247,0.6)" }}
+                initial={{ width: 0, height: 0, opacity: 0.8 }}
+                animate={{ width: 1200, height: 1200, opacity: 0 }}
+                transition={{ duration: 1.6, delay: i * 0.2, ease: "easeOut" }}
+              />
+            ))}
+            <motion.div
+              initial={{ scale: 0.3, opacity: 0 }}
+              animate={{ scale: [0.3, 1.2, 1], opacity: 1 }}
+              exit={{ scale: 1.4, opacity: 0 }}
+              transition={{ duration: 0.8 }}
+              className="text-center relative z-10"
+            >
+              <Flame size={60} className="text-white mx-auto mb-3" style={{ filter: `drop-shadow(0 0 24px ${phaseCutscene === 3 ? "rgba(239,68,68,0.8)" : "rgba(168,85,247,0.8)"})` }} />
+              <p className="font-mono text-xs tracking-[0.4em] text-white/60 mb-2">
+                PHASE {phaseCutscene}
+              </p>
+              <h2
+                className="font-display text-4xl sm:text-6xl tracking-[0.2em] text-white mb-3"
+                style={{ textShadow: `0 0 32px ${phaseCutscene === 3 ? "rgba(239,68,68,1)" : "rgba(168,85,247,1)"}` }}
+              >
+                {phaseCutscene === 3 ? "FINAL FORM" : "AWAKENED"}
+              </h2>
+              {battleState.bossDialog && (
+                <p className="font-mono text-sm text-white/80 italic max-w-lg mx-auto">
+                  "{battleState.bossDialog}"
+                </p>
+              )}
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* ═══ DAMAGE / EVENT FLASHES ═══ */}
+      <div className="pointer-events-none absolute top-1/3 left-1/2 -translate-x-1/2 z-40 flex flex-col items-center gap-1">
+        <AnimatePresence>
+          {damageFlashes.map(flash => {
+            const isDamage = flash.kind === "damage" || flash.kind === "hazard";
+            const isHeal = flash.kind === "heal";
+            const isSummon = flash.kind === "summon";
+            const isBuff = flash.kind === "buff" || flash.kind === "passive";
+            const color = isDamage
+              ? "text-red-400"
+              : isHeal
+                ? "text-green-400"
+                : isSummon
+                  ? "text-cyan-400"
+                  : isBuff
+                    ? "text-amber-400"
+                    : "text-white";
+            return (
+              <motion.div
+                key={flash.id}
+                initial={{ y: 10, opacity: 0, scale: 0.8 }}
+                animate={{ y: -20, opacity: 1, scale: 1 }}
+                exit={{ y: -60, opacity: 0, scale: 1.1 }}
+                transition={{ duration: 1.8 }}
+                className={`font-display text-lg sm:text-xl font-bold ${color}`}
+                style={{ textShadow: "0 0 10px currentColor, 0 2px 4px rgba(0,0,0,0.8)" }}
+              >
+                {flash.text}
+              </motion.div>
+            );
+          })}
+        </AnimatePresence>
+      </div>
+
       {/* ═══ DEFEAT SCREEN ═══ */}
       {winner && winner !== "player" && (
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="fixed inset-0 z-50 flex items-center justify-center p-4" style={{ background: "rgba(0,0,0,0.9)" }}>
@@ -394,7 +654,24 @@ export default function BossBattlePage() {
               className="text-center max-w-sm w-full"
             >
               <h2 className="font-display text-xl tracking-[0.2em] text-amber-400 mb-1">BATTLE REWARDS</h2>
-              <p className="font-mono text-[10px] text-muted-foreground/50 mb-6">{currentBoss.name} — DEFEATED</p>
+              <p className="font-mono text-[10px] text-muted-foreground/50 mb-2">{currentBoss.name} — DEFEATED</p>
+              {scaledRewards && (
+                <div className="mb-4">
+                  <span
+                    className={`font-mono text-[9px] tracking-[0.3em] px-3 py-1 rounded-full border ${
+                      scaledRewards.tier === "mythic"
+                        ? "text-fuchsia-300 border-fuchsia-400/50 bg-fuchsia-500/10"
+                        : scaledRewards.tier === "epic"
+                          ? "text-purple-300 border-purple-400/50 bg-purple-500/10"
+                          : scaledRewards.tier === "rare"
+                            ? "text-blue-300 border-blue-400/50 bg-blue-500/10"
+                            : "text-amber-300 border-amber-400/30 bg-amber-500/5"
+                    }`}
+                  >
+                    {scaledRewards.tier.toUpperCase()} LOOT TIER
+                  </span>
+                </div>
+              )}
 
               <div className="space-y-3 mb-6">
                 {/* XP Reward */}
@@ -410,7 +687,12 @@ export default function BossBattlePage() {
                   </div>
                   <div className="flex-1 text-left">
                     <p className="font-mono text-[10px] text-muted-foreground/50">EXPERIENCE</p>
-                    <p className="font-mono text-sm text-amber-400 font-bold">+{currentBoss.rewards.xp} XP</p>
+                    <p className="font-mono text-sm text-amber-400 font-bold">
+                      +{scaledRewards?.xp ?? currentBoss.rewards.xp} XP
+                      {scaledRewards && scaledRewards.masteryXpMultiplier > 1 && (
+                        <span className="text-[9px] text-amber-400/60 ml-2">(x{scaledRewards.masteryXpMultiplier.toFixed(2)} mastery)</span>
+                      )}
+                    </p>
                   </div>
                 </motion.div>
 
@@ -427,7 +709,12 @@ export default function BossBattlePage() {
                   </div>
                   <div className="flex-1 text-left">
                     <p className="font-mono text-[10px] text-muted-foreground/50">DREAM TOKENS</p>
-                    <p className="font-mono text-sm text-orange-400 font-bold">+{currentBoss.rewards.dreamTokens}</p>
+                    <p className="font-mono text-sm text-orange-400 font-bold">
+                      +{scaledRewards?.dreamTokens ?? currentBoss.rewards.dreamTokens}
+                      {scaledRewards && scaledRewards.lootQualityMultiplier > 1 && (
+                        <span className="text-[9px] text-orange-400/60 ml-2">(x{scaledRewards.lootQualityMultiplier.toFixed(2)} loot)</span>
+                      )}
+                    </p>
                   </div>
                 </motion.div>
 
@@ -444,7 +731,13 @@ export default function BossBattlePage() {
                   </div>
                   <div className="flex-1 text-left">
                     <p className="font-mono text-[10px] text-muted-foreground/50">CRAFTING MATERIALS</p>
-                    <p className="font-mono text-sm text-cyan-400 font-bold">Boss Essence + Rare Catalysts</p>
+                    {scaledRewards ? (
+                      <p className="font-mono text-[11px] text-cyan-400 font-bold">
+                        {scaledRewards.materials.map(m => `${m.quantity}× ${m.id.replace(/_/g, " ")}`).join(", ")}
+                      </p>
+                    ) : (
+                      <p className="font-mono text-sm text-cyan-400 font-bold">Boss Essence + Rare Catalysts</p>
+                    )}
                   </div>
                 </motion.div>
 
@@ -461,7 +754,12 @@ export default function BossBattlePage() {
                   </div>
                   <div className="flex-1 text-left">
                     <p className="font-mono text-[10px] text-muted-foreground/50">LEGENDARY CARD</p>
-                    <p className="font-mono text-sm text-purple-400 font-bold">{currentBoss.rewards.cardReward.name}</p>
+                    <p className="font-mono text-sm text-purple-400 font-bold">
+                      {currentBoss.rewards.cardReward.name}
+                      {scaledRewards?.bonusCardDrop && (
+                        <span className="text-[9px] text-fuchsia-300 ml-2">+ BONUS DROP</span>
+                      )}
+                    </p>
                   </div>
                 </motion.div>
               </div>
@@ -475,16 +773,20 @@ export default function BossBattlePage() {
                 <button
                   onClick={() => {
                     if (!rewardsClaimed) {
-                      // Grant material drops for boss kill
-                      addMaterial("void_catalyst", 2);
-                      addMaterial("dream_shard", 3);
-                      addMaterial("neural_thread", 1);
+                      // Grant mastery-scaled material drops
+                      const mats = scaledRewards?.materials ?? [
+                        { id: "void_catalyst", quantity: 2 },
+                        { id: "dream_shard", quantity: 3 },
+                        { id: "neural_thread", quantity: 1 },
+                      ];
+                      mats.forEach(m => addMaterial(m.id, m.quantity));
                       setRewardsClaimed(true);
                     }
                     setBattleState(null);
                     setCurrentBoss(null);
                     setRewardPhase(null);
                     setRewardsClaimed(false);
+                    setScaledRewards(null);
                   }}
                   className="px-5 py-2 rounded-md font-mono text-xs tracking-wider"
                   style={{ background: "rgba(251,191,36,0.1)", border: "1px solid rgba(251,191,36,0.3)", color: "rgb(251,191,36)" }}
@@ -494,9 +796,12 @@ export default function BossBattlePage() {
                 <button
                   onClick={() => {
                     if (!rewardsClaimed) {
-                      addMaterial("void_catalyst", 2);
-                      addMaterial("dream_shard", 3);
-                      addMaterial("neural_thread", 1);
+                      const mats = scaledRewards?.materials ?? [
+                        { id: "void_catalyst", quantity: 2 },
+                        { id: "dream_shard", quantity: 3 },
+                        { id: "neural_thread", quantity: 1 },
+                      ];
+                      mats.forEach(m => addMaterial(m.id, m.quantity));
                       setRewardsClaimed(true);
                     }
                     navigate("/forge");
@@ -509,9 +814,12 @@ export default function BossBattlePage() {
                 <button
                   onClick={() => {
                     if (!rewardsClaimed) {
-                      addMaterial("void_catalyst", 2);
-                      addMaterial("dream_shard", 3);
-                      addMaterial("neural_thread", 1);
+                      const mats = scaledRewards?.materials ?? [
+                        { id: "void_catalyst", quantity: 2 },
+                        { id: "dream_shard", quantity: 3 },
+                        { id: "neural_thread", quantity: 1 },
+                      ];
+                      mats.forEach(m => addMaterial(m.id, m.quantity));
                       setRewardsClaimed(true);
                     }
                     navigate("/ark");
@@ -529,16 +837,45 @@ export default function BossBattlePage() {
 
       <div className="px-3 sm:px-6 pt-3 pb-2">
         <div className="flex items-center gap-3">
-          <img src={currentBoss.image} alt="" className="w-10 h-10 rounded-full object-cover ring-1 ring-red-400/30" />
+          <div className="relative">
+            <img src={currentBoss.image} alt="" className="w-10 h-10 rounded-full object-cover ring-1 ring-red-400/30" />
+            {battleState.bossPhase >= 2 && (
+              <motion.div
+                className="absolute inset-0 rounded-full"
+                style={{ boxShadow: `0 0 14px ${phaseAccent}` }}
+                animate={{ opacity: [0.4, 1, 0.4] }}
+                transition={{ duration: 1.8, repeat: Infinity }}
+              />
+            )}
+          </div>
           <div className="flex-1">
             <div className="flex items-center gap-2 mb-0.5">
               <span className="font-display text-xs tracking-wider text-white">{currentBoss.name}</span>
-              <span className="font-mono text-[8px] text-purple-400/60 px-1.5 py-0.5 rounded-full bg-purple-400/10">PHASE {battleState.bossPhase}</span>
+              <span
+                className={`font-mono text-[8px] px-1.5 py-0.5 rounded-full ${
+                  battleState.bossPhase === 3
+                    ? "text-red-300 bg-red-500/20 border border-red-500/40"
+                    : battleState.bossPhase === 2
+                      ? "text-purple-300 bg-purple-500/20 border border-purple-500/40"
+                      : "text-purple-400/60 bg-purple-400/10"
+                }`}
+              >
+                PHASE {battleState.bossPhase}
+              </span>
+              {battleState.bossPhase === 3 && (
+                <span className="font-mono text-[8px] text-red-400 animate-pulse">● FURY</span>
+              )}
             </div>
             <div className="flex items-center gap-2">
               <Heart size={10} className="text-red-400" />
-              <div className="flex-1 h-1.5 rounded-full bg-muted/40 overflow-hidden">
-                <motion.div className="h-full rounded-full bg-red-500" animate={{ width: `${Math.max(0, (enemy.hp / enemy.maxHP) * 100)}%` }} />
+              <div className="flex-1 h-1.5 rounded-full bg-muted/40 overflow-hidden relative">
+                <motion.div
+                  className={`h-full rounded-full ${battleState.bossPhase === 3 ? "bg-red-600" : battleState.bossPhase === 2 ? "bg-purple-500" : "bg-red-500"}`}
+                  animate={{ width: `${Math.max(0, (enemy.hp / enemy.maxHP) * 100)}%` }}
+                />
+                {/* Phase gates markers */}
+                <div className="absolute top-0 bottom-0 w-px bg-amber-400/40" style={{ left: "66%" }} />
+                <div className="absolute top-0 bottom-0 w-px bg-red-400/60" style={{ left: "33%" }} />
               </div>
               <span className="font-mono text-[9px] text-muted-foreground/70">{enemy.hp}/{enemy.maxHP}</span>
               <Zap size={10} className="text-blue-400/50 ml-2" />
@@ -547,9 +884,17 @@ export default function BossBattlePage() {
           </div>
         </div>
         <div className="mt-1.5 flex items-center gap-1.5">
-          <AlertTriangle size={8} className="text-amber-400/50" />
+          <Eye size={8} className="text-amber-400/50" />
           <span className="font-mono text-[8px] text-amber-400/40">{battleState.bossPassive.name}: {battleState.bossPassive.description}</span>
         </div>
+        {battleState.arenaHazard && (
+          <div className="mt-1 flex items-center gap-1.5">
+            <Radiation size={8} className="text-orange-400/60" />
+            <span className="font-mono text-[8px] text-orange-400/60">
+              ARENA — {battleState.arenaHazard.name}: {battleState.arenaHazard.description}
+            </span>
+          </div>
+        )}
       </div>
 
       <AnimatePresence>
@@ -617,8 +962,8 @@ export default function BossBattlePage() {
           </div>
         </div>
       </div>
-    </div>
-    <NarrativeTrigger variant="banner" className="mb-3" />
+    </motion.div>
+    <NarrativeTrigger variant="banner" currentRoom={currentBoss?.roomId} currentRoute="/boss-battle" className="mb-3" />
       <LoreOverlay gameMode="boss" contextId={currentBoss?.id} />
     </LandscapeEnforcer>
   );
