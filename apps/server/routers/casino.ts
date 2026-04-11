@@ -35,6 +35,7 @@ import {
   scoreMahjongRun,
   validateBet, vipLevelFor, vipWinBonus, MAX_DAILY_WAGER,
   ROULETTE_FACTIONS, GAME_LIMITS, splitJackpotPool, rewardsForAchievement,
+  getCasinoCosmetic,
   type RouletteFaction,
 } from "../../shared/casinoGames";
 
@@ -531,7 +532,9 @@ export const casinoRouter = router({
   /** Recent game history (for replay + audit). */
   /** All cosmetics, titles, Loredex entries, and companion unlocks
    *  the player has earned from casino achievements. Returns decorated
-   *  rows the UI can render directly. */
+   *  rows the UI can render directly, including the catalog metadata
+   *  (slot / label / description / tier) and which slot is currently
+   *  equipped. */
   getMyCasinoRewards: protectedProcedure
     .use(checkFeatureFlag("casino"))
     .query(async ({ ctx }) => {
@@ -539,17 +542,74 @@ export const casinoRouter = router({
       if (!db) throw new Error("DB unavailable");
       const state = await ensureCasinoState(db, ctx.user.id);
       const ids = (state.casinoUnlockedRewards ?? []) as string[];
+      const equipped = (state.equippedCasinoCosmetics ?? {}) as Record<string, string>;
       return ids.map((id) => {
+        const meta = getCasinoCosmetic(id);
         const colon = id.indexOf(":");
-        const kind = colon >= 0 ? id.slice(0, colon) : "item";
+        const kindFallback = (colon >= 0 ? id.slice(0, colon) : "cosmetic") as
+          | "title" | "cosmetic" | "loredex" | "companion";
         const slug = colon >= 0 ? id.slice(colon + 1) : id;
+        const label = meta?.label ?? slug.replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase());
         return {
           id,
-          kind: (["title", "cosmetic", "loredex", "companion"].includes(kind)
-            ? kind
-            : "cosmetic") as "title" | "cosmetic" | "loredex" | "companion",
-          label: slug.replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase()),
+          kind: kindFallback,
+          label,
+          description: meta?.description ?? null,
+          slot: meta?.slot ?? null,
+          tier: meta?.tier ?? "common",
+          equipped: meta ? equipped[meta.slot] === id : false,
         };
+      });
+    }),
+
+  /** Equip a casino cosmetic into its slot. The cosmetic must be in
+   *  the player's unlocked list. Replaces any previously equipped
+   *  cosmetic in the same slot. */
+  equipCasinoCosmetic: protectedProcedure
+    .use(checkFeatureFlag("casino"))
+    .input(z.object({ rewardId: z.string().min(1).max(128) }))
+    .mutation(async ({ ctx, input }) => {
+      const db = await getDb();
+      if (!db) throw new Error("DB unavailable");
+      return db.transaction(async (tx) => {
+        const state = await ensureCasinoState(tx, ctx.user.id);
+        const unlocked = (state.casinoUnlockedRewards ?? []) as string[];
+        if (!unlocked.includes(input.rewardId)) {
+          throw new Error("You haven't unlocked that cosmetic yet.");
+        }
+        const meta = getCasinoCosmetic(input.rewardId);
+        if (!meta) {
+          throw new Error(`Unknown cosmetic: ${input.rewardId}`);
+        }
+        const equipped = { ...(state.equippedCasinoCosmetics ?? {}) as Record<string, string> };
+        equipped[meta.slot] = input.rewardId;
+        await tx
+          .update(casinoState)
+          .set({ equippedCasinoCosmetics: equipped })
+          .where(eq(casinoState.userId, ctx.user.id));
+        return { equipped, slot: meta.slot, rewardId: input.rewardId };
+      });
+    }),
+
+  /** Unequip a slot. Accepts the slot id directly. */
+  unequipCasinoCosmetic: protectedProcedure
+    .use(checkFeatureFlag("casino"))
+    .input(z.object({ slot: z.enum(["title", "chip", "card_back", "table_felt", "companion", "loredex"]) }))
+    .mutation(async ({ ctx, input }) => {
+      const db = await getDb();
+      if (!db) throw new Error("DB unavailable");
+      return db.transaction(async (tx) => {
+        const state = await ensureCasinoState(tx, ctx.user.id);
+        const equipped = { ...(state.equippedCasinoCosmetics ?? {}) as Record<string, string> };
+        if (!equipped[input.slot]) {
+          return { equipped, slot: input.slot, rewardId: null };
+        }
+        delete equipped[input.slot];
+        await tx
+          .update(casinoState)
+          .set({ equippedCasinoCosmetics: equipped })
+          .where(eq(casinoState.userId, ctx.user.id));
+        return { equipped, slot: input.slot, rewardId: null };
       });
     }),
 

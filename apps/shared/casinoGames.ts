@@ -634,6 +634,111 @@ export function rewardsForAchievement(id: string): string[] {
   return CASINO_ACHIEVEMENT_REWARDS[id] ?? [];
 }
 
+/** ─── COSMETIC SLOTS ───
+ *  Every casino cosmetic belongs to exactly one slot. The player
+ *  can have at most one cosmetic equipped per slot. Titles live in
+ *  their own `title` slot so only one title shows next to the
+ *  player's name at a time. */
+export type CosmeticSlot = "title" | "chip" | "card_back" | "table_felt" | "companion" | "loredex";
+
+interface CosmeticMeta {
+  id: string;
+  slot: CosmeticSlot;
+  label: string;
+  description: string;
+  /** Rarity label used for UI colour. */
+  tier: "common" | "rare" | "epic" | "legendary" | "mythic";
+}
+
+/** Central catalog of every casino cosmetic. New ids added via
+ *  CASINO_ACHIEVEMENT_REWARDS must also be registered here so the
+ *  equip mutation can validate them. */
+export const CASINO_COSMETIC_CATALOG: Record<string, CosmeticMeta> = {
+  "cosmetic:golden_chip": {
+    id: "cosmetic:golden_chip",
+    slot: "chip",
+    label: "Golden Chip",
+    description: "The Degen's Chosen — a gold-leaf chip that the house keeps on a velvet cushion.",
+    tier: "legendary",
+  },
+  "cosmetic:void_slot_reels": {
+    id: "cosmetic:void_slot_reels",
+    slot: "table_felt",
+    label: "Void Slot Reels",
+    description: "Slot reels that briefly show the inside of Ne-Yon space between spins.",
+    tier: "epic",
+  },
+  "cosmetic:royal_deck": {
+    id: "cosmetic:royal_deck",
+    slot: "card_back",
+    label: "Royal Deck",
+    description: "A card back stamped with the crest of the last royal court to sit at this table.",
+    tier: "legendary",
+  },
+  "cosmetic:black_crown_chip": {
+    id: "cosmetic:black_crown_chip",
+    slot: "chip",
+    label: "Black Crown Chip",
+    description: "A tournament winner's chip. Heavy. Too heavy.",
+    tier: "epic",
+  },
+  "cosmetic:custom_casino_theme": {
+    id: "cosmetic:custom_casino_theme",
+    slot: "table_felt",
+    label: "Custom Casino Theme",
+    description: "The whale's prerogative — the casino's walls and lights recolour to your palette.",
+    tier: "legendary",
+  },
+  "title:the_degens_chosen": {
+    id: "title:the_degens_chosen",
+    slot: "title",
+    label: "The Degen's Chosen",
+    description: "Displayed next to your name at every casino table.",
+    tier: "legendary",
+  },
+  "title:the_equilibrium": {
+    id: "title:the_equilibrium",
+    slot: "title",
+    label: "The Equilibrium",
+    description: "Earned by breaking exactly even across a thousand bets. Terrifies the house.",
+    tier: "legendary",
+  },
+  "title:neyons_chosen": {
+    id: "title:neyons_chosen",
+    slot: "title",
+    label: "Ne-Yon's Chosen",
+    description: "Whale-tier recognition. Every Ne-Yon acknowledges you on sight.",
+    tier: "legendary",
+  },
+  "title:entropys_equal": {
+    id: "title:entropys_equal",
+    slot: "title",
+    label: "Entropy's Equal",
+    description: "Reserved for those who maxed out the Degen's favor.",
+    tier: "mythic",
+  },
+  "loredex:ne_yon_gambling_history": {
+    id: "loredex:ne_yon_gambling_history",
+    slot: "loredex",
+    label: "Ne-Yon Gambling History",
+    description: "The full twelve-tale Loredex entry on the casino's origins, unlocked forever.",
+    tier: "legendary",
+  },
+  "companion:the_degen": {
+    id: "companion:the_degen",
+    slot: "companion",
+    label: "The Degen",
+    description: "The Ne-Yon himself walks the Ark at your side. Reality bends slightly around him.",
+    tier: "mythic",
+  },
+};
+
+/** Helper: look up cosmetic metadata by id. Returns undefined for
+ *  unknown ids so the caller can skip them. */
+export function getCasinoCosmetic(id: string): CosmeticMeta | undefined {
+  return CASINO_COSMETIC_CATALOG[id];
+}
+
 /* ─── BET VALIDATION ─── */
 
 export const MAX_DAILY_WAGER = 5000;

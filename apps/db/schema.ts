@@ -3170,6 +3170,10 @@ export const casinoState = mysqlTable("casino_state", {
    *  parser at `casino.ts#rewardsFromUnlockString` turns a human
    *  readable `unlockReward` into normalized ids that land here. */
   casinoUnlockedRewards: json("casinoUnlockedRewards").$type<string[]>().default([]),
+  /** Currently equipped cosmetics — maps slot → reward id. One
+   *  cosmetic per slot (title / chip / card_back / table_felt /
+   *  companion / loredex). */
+  equippedCasinoCosmetics: json("equippedCasinoCosmetics").$type<Record<string, string>>().default({}),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
 }, (table) => ({

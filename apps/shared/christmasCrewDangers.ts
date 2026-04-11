@@ -29,6 +29,9 @@ export interface CrewHolidayDangerEvent {
   severity: CrewHolidayDangerSeverity;
   description: string;
   choices: CrewHolidayDangerChoice[];
+  /** Weight for the daily pick. Higher = more common. Severity tracks
+   *  weight inversely: minor events happen more often than critical. */
+  weight: number;
 }
 
 export const CREW_HOLIDAY_DANGERS: CrewHolidayDangerEvent[] = [
@@ -36,6 +39,7 @@ export const CREW_HOLIDAY_DANGERS: CrewHolidayDangerEvent[] = [
     id: "system_malfunction",
     type: "system_malfunction",
     severity: "minor",
+    weight: 30,
     description: "FESTIVE EMERGENCY: A crew member strung holiday lights through Engineering's main power conduit. The lights are beautiful. The power grid is not.",
     choices: [
       { id: "fix", label: "Let the engineer fix it", description: "Standard repair. The lights come down. Morale takes a hit.", successChance: 0.95, rewardTokens: 5 },
@@ -46,6 +50,7 @@ export const CREW_HOLIDAY_DANGERS: CrewHolidayDangerEvent[] = [
     id: "quarantine_infection",
     type: "quarantine_infection",
     severity: "serious",
+    weight: 15,
     description: "FESTIVE EMERGENCY: The 'Free Ports eggnog' contains trace amounts of an unknown compound. The crew is showing symptoms: euphoria, generosity, and a compulsion to sing.",
     choices: [
       { id: "quarantine", label: "Quarantine and observe", description: "Standard medical protocol. 12 hours of singing.", successChance: 0.90, rewardTokens: 8 },
@@ -57,6 +62,7 @@ export const CREW_HOLIDAY_DANGERS: CrewHolidayDangerEvent[] = [
     id: "mutiny",
     type: "mutiny",
     severity: "serious",
+    weight: 15,
     description: "FESTIVE CRISIS: A crew member wants to give the Degen access to the Ark's mess hall for a proper Christmas dinner. Security says absolutely not.",
     choices: [
       { id: "allow", label: "Allow the dinner, supervised", description: "Let the Degen cook. Post guards.", successChance: 0.85, dreamCost: 20, rewardTokens: 25 },
@@ -68,6 +74,7 @@ export const CREW_HOLIDAY_DANGERS: CrewHolidayDangerEvent[] = [
     id: "boarding_action",
     type: "boarding_action",
     severity: "critical",
+    weight: 5,
     description: "FESTIVE EMERGENCY: An unregistered cargo pod has docked at Cargo Bay. Holographic gift paper. Tag: 'FROM: THE DEGEN. DO NOT OPEN UNTIL CHRISTMAS.' It's beeping.",
     choices: [
       { id: "scan", label: "Scan it first", description: "Full security scan. Better safe than sorry.", successChance: 0.90, dreamCost: 15, rewardTokens: 30 },
@@ -79,6 +86,7 @@ export const CREW_HOLIDAY_DANGERS: CrewHolidayDangerEvent[] = [
     id: "genetic_degradation",
     type: "genetic_degradation",
     severity: "minor",
+    weight: 35,
     description: "FESTIVE ANOMALY: A crew member's tear ducts are overproducing. The Medic says they're crying because someone gave them a gift.",
     choices: [
       { id: "let_them_be", label: "It's not a medical issue", description: "They're just happy. Let them be happy.", successChance: 1.0, rewardTokens: 10 },
@@ -88,11 +96,19 @@ export const CREW_HOLIDAY_DANGERS: CrewHolidayDangerEvent[] = [
 ];
 
 /** Pick a deterministic daily danger event so every player sees the
- *  same one within a UTC day. Returns null if the input id is
- *  provided and not recognized. */
+ *  same one within a UTC day. Uses a weighted walk so minor events
+ *  land more often than critical ones. */
 export function pickDailyDanger(daySeed: number): CrewHolidayDangerEvent {
-  const idx = Math.abs(daySeed) % CREW_HOLIDAY_DANGERS.length;
-  return CREW_HOLIDAY_DANGERS[idx];
+  const total = CREW_HOLIDAY_DANGERS.reduce((s, d) => s + d.weight, 0);
+  // Deterministic "random" draw from the day seed so every player sees
+  // the same event inside a UTC day.
+  const hash = Math.abs(Math.imul(daySeed, 2654435761) >>> 0) % total;
+  let running = 0;
+  for (const danger of CREW_HOLIDAY_DANGERS) {
+    running += danger.weight;
+    if (hash < running) return danger;
+  }
+  return CREW_HOLIDAY_DANGERS[CREW_HOLIDAY_DANGERS.length - 1];
 }
 
 /** Look up a danger event by id. */

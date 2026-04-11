@@ -1,10 +1,122 @@
 /* ═══════════════════════════════════════════════════════
-   CASINO LEADERBOARD — Biggest jackpots + progressive pool.
+   CASINO LEADERBOARD — Biggest jackpots + progressive pool
+   + the player's cosmetic inventory with equip controls.
    ═══════════════════════════════════════════════════════ */
 import { Link } from "wouter";
 import { motion } from "framer-motion";
-import { ChevronLeft, Trophy, Skull } from "lucide-react";
+import { ChevronLeft, Trophy, Skull, Crown, Circle, Layers, Sparkles, BookOpen, Ghost } from "lucide-react";
 import { trpc } from "@/lib/trpc";
+import { toast } from "sonner";
+
+/** Slot → icon mapping for the cosmetic inventory panel. */
+const SLOT_ICONS: Record<string, React.ReactNode> = {
+  title: <Crown className="w-3 h-3" />,
+  chip: <Circle className="w-3 h-3" />,
+  card_back: <Layers className="w-3 h-3" />,
+  table_felt: <Sparkles className="w-3 h-3" />,
+  companion: <Ghost className="w-3 h-3" />,
+  loredex: <BookOpen className="w-3 h-3" />,
+};
+
+/** Rarity tier → text colour. */
+const TIER_COLORS: Record<string, string> = {
+  common: "text-white/60",
+  rare: "text-blue-300",
+  epic: "text-purple-300",
+  legendary: "text-amber-300",
+  mythic: "text-red-300",
+};
+
+function CosmeticsInventory() {
+  const utils = trpc.useUtils();
+  const rewardsQuery = trpc.casino.getMyCasinoRewards.useQuery(undefined, { retry: false });
+  const equip = trpc.casino.equipCasinoCosmetic.useMutation({
+    onSuccess: (data) => {
+      utils.casino.getMyCasinoRewards.invalidate();
+      toast.success(`Equipped: ${data.rewardId.split(":")[1]?.replace(/_/g, " ")}`);
+    },
+    onError: (err) => toast.error(err.message),
+  });
+  const unequip = trpc.casino.unequipCasinoCosmetic.useMutation({
+    onSuccess: () => {
+      utils.casino.getMyCasinoRewards.invalidate();
+      toast.success("Unequipped");
+    },
+    onError: (err) => toast.error(err.message),
+  });
+
+  const rewards = rewardsQuery.data ?? [];
+  if (rewards.length === 0) {
+    return (
+      <div className="bg-gray-900/40 border border-gray-700/20 rounded-xl p-6 text-center mb-8">
+        <Sparkles className="w-8 h-8 text-white/20 mx-auto mb-2" />
+        <p className="font-mono text-xs text-white/40">
+          You haven't earned any casino cosmetics yet. Chase achievements to unlock titles,
+          chips, card backs, and more.
+        </p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="bg-gradient-to-br from-amber-950/30 to-red-950/20 border border-amber-500/30 rounded-xl p-5 mb-8">
+      <h2 className="font-display text-lg text-amber-300 mb-3 flex items-center gap-2">
+        <Sparkles className="w-5 h-5 text-amber-400" />
+        My Casino Cosmetics
+        <span className="ml-auto text-[10px] font-mono text-amber-400/50 uppercase tracking-widest">
+          {rewards.length} earned
+        </span>
+      </h2>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+        {rewards.map((r) => {
+          const slot = r.slot ?? "cosmetic";
+          const icon = SLOT_ICONS[slot] ?? <Sparkles className="w-3 h-3" />;
+          const color = TIER_COLORS[r.tier] ?? TIER_COLORS.common;
+          return (
+            <div
+              key={r.id}
+              className={`rounded-lg border p-3 flex items-start gap-3 font-mono text-xs ${
+                r.equipped
+                  ? "bg-amber-500/10 border-amber-500/50"
+                  : "bg-gray-900/40 border-gray-700/30"
+              }`}
+            >
+              <span className={`mt-0.5 ${color}`}>{icon}</span>
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-2">
+                  <span className={`font-display text-sm ${color} truncate`}>{r.label}</span>
+                  <span className="text-[9px] uppercase tracking-widest text-white/30 shrink-0">
+                    {slot.replace(/_/g, " ")}
+                  </span>
+                </div>
+                {r.description && (
+                  <p className="text-[11px] text-white/50 mt-1 leading-relaxed">{r.description}</p>
+                )}
+              </div>
+              <button
+                onClick={() => {
+                  if (r.equipped) {
+                    unequip.mutate({ slot: slot as "title" | "chip" | "card_back" | "table_felt" | "companion" | "loredex" });
+                  } else {
+                    equip.mutate({ rewardId: r.id });
+                  }
+                }}
+                disabled={equip.isPending || unequip.isPending}
+                className={`px-3 py-1 rounded-lg border font-mono text-[10px] shrink-0 ${
+                  r.equipped
+                    ? "bg-amber-500/20 border-amber-500/40 text-amber-200 hover:bg-amber-500/30"
+                    : "bg-white/[0.02] border-white/20 text-white/60 hover:border-amber-500/40 hover:text-amber-300"
+                }`}
+              >
+                {r.equipped ? "Unequip" : "Equip"}
+              </button>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
 
 const GAME_LABELS: Record<string, string> = {
   void_slots: "Void Slots",
@@ -90,6 +202,9 @@ export default function CasinoLeaderboardPage() {
             </p>
           )}
         </div>
+
+        {/* Cosmetic inventory with equip controls */}
+        <CosmeticsInventory />
 
         {/* Top jackpots */}
         <h2 className="font-display text-lg text-amber-300 mb-3 flex items-center gap-2">

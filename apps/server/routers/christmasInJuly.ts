@@ -45,6 +45,48 @@ async function loadCrewBonus(db: DbLike, userId: number): Promise<CrewHolidayBon
     return { ...EMPTY_HOLIDAY_BONUS };
   }
 }
+
+/** Apply a morale delta to every active crew member and write the
+ *  updated state back to userProgress.gameData.crew. Clamps each
+ *  member to [0, 100]. Best-effort — swallows errors so a failing
+ *  crew write never breaks the xmas_july mutation it was called from. */
+async function applyCrewMoraleDelta(
+  db: DbLike,
+  userId: number,
+  delta: number,
+): Promise<{ affected: number }> {
+  if (delta === 0) return { affected: 0 };
+  try {
+    const rows = await db
+      .select()
+      .from(userProgress)
+      .where(and(eq(userProgress.userId, userId), eq(userProgress.franchiseId, FRANCHISE)))
+      .limit(1);
+    const existing = (rows[0]?.gameData as Record<string, unknown> | undefined) ?? {};
+    const state = ensureCrewState((existing as { crew?: unknown }).crew);
+    if (!state.roster?.members?.length) return { affected: 0 };
+    let affected = 0;
+    for (const member of state.roster.members) {
+      if (member.status !== "active") continue;
+      const next = Math.max(0, Math.min(100, member.morale + delta));
+      if (next !== member.morale) {
+        member.morale = next;
+        affected++;
+      }
+    }
+    if (affected === 0) return { affected: 0 };
+    const nextGameData = { ...existing, crew: state };
+    if (rows.length > 0) {
+      await db
+        .update(userProgress)
+        .set({ gameData: nextGameData })
+        .where(and(eq(userProgress.userId, userId), eq(userProgress.franchiseId, FRANCHISE)));
+    }
+    return { affected };
+  } catch {
+    return { affected: 0 };
+  }
+}
 import { getDb, type DrizzleDb } from "../db";
 import { checkFeatureFlag } from "../middleware/featureFlag";
 
@@ -621,11 +663,21 @@ export const christmasInJulyRouter = router({
         // Milestone check (after pool updates)
         const newMilestones = await checkMilestones(tx);
 
+        // Crew morale bump — the crew notices generosity. Matches the
+        // `perGiftSent: 2` constant from crewHoliday.ts. Plus a +5
+        // perMilestone bonus whenever this gift trips a new community
+        // milestone. Applied inside the same transaction so the
+        // morale write is atomic with the gift send.
+        const moraleDelta = 2 + 5 * newMilestones.length;
+        const moraleResult = await applyCrewMoraleDelta(tx, ctx.user.id, moraleDelta);
+
         return {
           sent: true,
           giftId,
           tokensEarned,
           newMilestonesReached: newMilestones.map(m => m.id),
+          crewMoraleDelta: moraleResult.affected > 0 ? moraleDelta : 0,
+          crewMembersAffected: moraleResult.affected,
         };
       });
     }),
@@ -799,6 +851,28 @@ export const christmasInJulyRouter = router({
           newMilestonesReached: newMilestones.map(m => m.id),
         };
       });
+    }),
+
+  /** Peek: does the player currently own a Strain-species pet, and
+   *  have they already fired the first-Christmas moment? Used by the
+   *  Casino Floor to decide whether to render the cutscene button. */
+  getStrainChristmasStatus: protectedProcedure
+    .use(checkFeatureFlag("christmas_in_july"))
+    .query(async ({ ctx }) => {
+      const db = await getDb();
+      if (!db) throw new Error("DB unavailable");
+      const progress = await ensureProgress(db, ctx.user.id);
+      const hasFired = (progress.unlockedRewards ?? []).includes("strain_first_christmas");
+      const pets = await db
+        .select()
+        .from(playerPets)
+        .where(eq(playerPets.userId, ctx.user.id));
+      const strainPet = pets.find(p => p.species.toLowerCase() === "strain");
+      return {
+        hasStrain: Boolean(strainPet),
+        petName: strainPet?.name ?? null,
+        alreadyFired: hasFired,
+      };
     }),
 
   /** Strain's first Christmas — a one-shot pet moment that grants

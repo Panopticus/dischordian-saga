@@ -12,6 +12,8 @@ import {
   rollCraps, spinWheel, vipLevelFor, vipWinBonus, validateBet,
   MAX_DAILY_WAGER, GAME_LIMITS,
   splitJackpotPool, JACKPOT_SEED_FRACTION, JACKPOT_MIN_SEED,
+  rewardsForAchievement, getCasinoCosmetic,
+  CASINO_ACHIEVEMENT_REWARDS, CASINO_COSMETIC_CATALOG,
 } from "./casinoGames";
 
 describe("createRng", () => {
@@ -413,6 +415,33 @@ describe("MAX_DAILY_WAGER constant", () => {
   it("is a positive integer", () => {
     expect(MAX_DAILY_WAGER).toBeGreaterThan(0);
     expect(Number.isInteger(MAX_DAILY_WAGER)).toBe(true);
+  });
+});
+
+describe("CASINO_COSMETIC_CATALOG", () => {
+  it("registers every reward id referenced by CASINO_ACHIEVEMENT_REWARDS", () => {
+    for (const ids of Object.values(CASINO_ACHIEVEMENT_REWARDS)) {
+      for (const id of ids) {
+        expect(getCasinoCosmetic(id)).toBeDefined();
+      }
+    }
+  });
+
+  it("every catalog entry has a non-empty label and valid slot", () => {
+    const validSlots = new Set(["title", "chip", "card_back", "table_felt", "companion", "loredex"]);
+    for (const [id, meta] of Object.entries(CASINO_COSMETIC_CATALOG)) {
+      expect(meta.id).toBe(id);
+      expect(meta.label.length).toBeGreaterThan(0);
+      expect(validSlots.has(meta.slot)).toBe(true);
+    }
+  });
+
+  it("rewardsForAchievement returns an empty array for unknown ids", () => {
+    expect(rewardsForAchievement("no_such_achievement")).toEqual([]);
+  });
+
+  it("rewardsForAchievement returns at least one id for degens_chosen", () => {
+    expect(rewardsForAchievement("degens_chosen").length).toBeGreaterThan(0);
   });
 });
 
