@@ -45,6 +45,10 @@ export interface BattleCard {
   // runtime state
   currentHealth: number;
   currentPower: number;
+  /** Flat damage reduction applied before health subtraction.
+   *  Raised by species bonus (Quarchon +2, Neyon +2); the `pierce`
+   *  keyword ignores it. */
+  armor: number;
   isExhausted: boolean;
   stealthTurns: number;
   shieldActive: boolean;
@@ -213,6 +217,7 @@ export function cardToBattleCard(card: {
     keywords: kws,
     currentHealth: card.health,
     currentPower: card.power,
+    armor: 0,
     isExhausted: false,
     stealthTurns: kws.includes("stealth") ? 1 : 0,
     shieldActive: kws.includes("shield"),
@@ -239,9 +244,16 @@ function applyFactionBonus(card: BattleCard, faction: Faction): void {
   }
 }
 
+/** Apply a species bonus once to a card. Tracked with a WeakSet so
+ *  that draws from the deck (which also call this) never double-apply
+ *  to a card that was already bonused at init time. */
+const SPECIES_BONUS_APPLIED = new WeakSet<BattleCard>();
 function applySpeciesBonus(card: BattleCard, bonus: { extraHp: number; baseArmor: number }): void {
+  if (SPECIES_BONUS_APPLIED.has(card)) return;
   card.currentHealth += bonus.extraHp;
   card.baseHealth += bonus.extraHp;
+  card.armor += bonus.baseArmor;
+  SPECIES_BONUS_APPLIED.add(card);
 }
 
 function getElementMultiplier(attacker: Element | null, defender: Element | null): number {
@@ -293,9 +305,17 @@ export function createBattle(
   const pHand = pDeck.splice(0, STARTING_HAND);
   const oHand = oDeck.splice(0, STARTING_HAND);
 
-  // Apply faction bonuses to all cards
-  [...pHand, ...pDeck].forEach(c => applyFactionBonus(c, playerFaction));
-  [...oHand, ...oDeck].forEach(c => applyFactionBonus(c, opponentFaction));
+  // Apply faction + species bonuses to all cards (hand + draw pile).
+  // Both helpers are idempotent, so cards re-touched at draw time
+  // don't stack bonuses.
+  [...pHand, ...pDeck].forEach(c => {
+    applyFactionBonus(c, playerFaction);
+    applySpeciesBonus(c, pSpecies);
+  });
+  [...oHand, ...oDeck].forEach(c => {
+    applyFactionBonus(c, opponentFaction);
+    applySpeciesBonus(c, oSpecies);
+  });
 
   return {
     player: {
@@ -423,6 +443,7 @@ export function drawCards(state: BattleState, who: "player" | "opponent", count:
     }
     const drawn = p.deck.shift()!;
     applyFactionBonus(drawn, p.faction);
+    applySpeciesBonus(drawn, p.speciesBonus);
     p.hand.push(drawn);
     events.push({
       type: "draw",
@@ -526,14 +547,31 @@ export function resolveCombat(state: BattleState): BattleState {
         });
       }
 
-      // Pierce keyword
-      if (attacker.keywords.includes("pierce")) {
+      // Pierce keyword: +50% damage AND ignore the target's armor.
+      const pierces = attacker.keywords.includes("pierce");
+      if (pierces) {
         damage = Math.round(damage * 1.5);
         events.push({
           type: "keyword",
           source: attacker.name,
           message: `${attacker.name}'s Pierce ignores armor!`,
         });
+      }
+
+      // Armor reduction (unless pierced). Flat damage reduction from
+      // species bonus (Quarchon / Neyon +2) — never reduces below 1
+      // so a hit still registers.
+      if (!pierces && target.armor > 0) {
+        const blocked = Math.min(damage - 1, target.armor);
+        if (blocked > 0) {
+          damage -= blocked;
+          events.push({
+            type: "keyword",
+            target: target.name,
+            value: blocked,
+            message: `${target.name}'s armor absorbs ${blocked}!`,
+          });
+        }
       }
 
       // Shield keyword
