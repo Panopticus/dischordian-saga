@@ -29,6 +29,7 @@ import {
 import ShaderOverlay from "@/components/ShaderOverlay";
 import { trpc } from "@/lib/trpc";
 import { PhotoMode } from "@/components/PhotoMode";
+import CrewAmbientTicker from "@/components/crew/CrewAmbientTicker";
 import { motion, AnimatePresence } from "framer-motion";
 import NotificationBell from "@/components/NotificationBell";
 import { ShipThemeOverlay } from "@/components/ShipThemeOverlay";
@@ -164,6 +165,15 @@ export default function AppShell({ children, elaraTTS: _elaraTTS }: { children: 
             <NotificationBell />
           </div>
         </header>
+      )}
+
+      {/* ═══ AMBIENT CREW TICKER — overhears the ship ═══ */}
+      {!isImmersive && (
+        <div className="fixed top-10 left-0 right-0 z-40 flex justify-center px-4 pt-1 pointer-events-none">
+          <div className="pointer-events-auto">
+            <CrewAmbientTicker />
+          </div>
+        </div>
       )}
 
       {/* ═══ MAIN CONTENT ═══ */}

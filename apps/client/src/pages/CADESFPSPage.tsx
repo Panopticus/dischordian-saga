@@ -17,6 +17,13 @@ import { useAuth } from "@/_core/hooks/useAuth";
 import { useGame } from "@/contexts/GameContext";
 import { ChevronLeft, Skull, Shield, BookOpen, Crosshair, Clock } from "lucide-react";
 import { CADES_CHARACTERS, CADES_UI, CADES_MUSIC } from "@/data/cadesAssets";
+import { isCadesUnlocked } from "@/data/cadesNarrativeIntegration";
+import { dispatchNarrativeEffect } from "@/hooks/useNarrativeEvents";
+import { CADESFeed } from "@/components/CADESFeed";
+import { CADESAmbientLines } from "@/components/CADESAmbientLines";
+import { CADESClueBoard } from "@/components/CADESClueBoard";
+import { CADESConspiracyBoard } from "@/components/CADESConspiracyBoard";
+import { OpenChannelEcho } from "@/components/OpenChannelEcho";
 
 /* ─── PALETTE ─── */
 const P = {
@@ -94,6 +101,12 @@ export default function CADESFPSPage() {
         setPhase("result");
         // Persist
         saveCadesResult.mutate(r as unknown as Record<string, unknown>);
+        // Fan out narrative events so the living universe layer can react.
+        if (r.canon_achieved) dispatchNarrativeEffect(undefined, "cades_canon_achieved");
+        if (r.mode === "ship_defense" && r.success) dispatchNarrativeEffect(undefined, "cades_shields_restored");
+        if (r.mode === "ship_defense" && (r.thoughtborn_killed ?? 0) > 0) dispatchNarrativeEffect(undefined, "cades_thoughtborn_killed");
+        if (r.thoughtborn_contacted) dispatchNarrativeEffect(undefined, "cades_thoughtborn_contacted");
+        if (r.scenario_completed) dispatchNarrativeEffect(undefined, `cades_scenario_${r.scenario_completed}`);
       }
 
       if (e.data.type === "IRON_LION_CHANNEL_OPEN") {
@@ -102,7 +115,19 @@ export default function CADESFPSPage() {
           iron_lion_contacted: true,
           loop_count: e.data.payload.loop_count,
           awareness_level: e.data.payload.awareness_level,
+          open_channel_choice: e.data.payload.player_choice ?? "",
         });
+        dispatchNarrativeEffect(undefined, "cades_iron_lion_contacted");
+      }
+
+      if (e.data.type === "CADES_GM_CONTACT") {
+        const level = e.data.payload?.level ?? 0;
+        saveCadesResult.mutate({
+          mode: "historical_incursions",
+          gm_contact_level: level,
+          scenarios_total_completed: e.data.payload?.scenarios_completed ?? [],
+        });
+        dispatchNarrativeEffect(undefined, `cades_gm_contact_${level}`);
       }
     };
 
@@ -121,6 +146,49 @@ export default function CADESFPSPage() {
     setGameReady(false);
     setResult(null);
   }, []);
+
+  // ─── NARRATIVE GATE — Act 5 (THE MAP) must be reached ───
+  const unlocked = isCadesUnlocked({
+    narrativeAct: gameState.narrativeAct ?? 0,
+    cadesDiscovered: (gameState as unknown as { cadesDiscovered?: boolean }).cadesDiscovered,
+  });
+  if (!unlocked) {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center p-6" style={{ background: P.VOID_BLACK }}>
+        <img src={CADES_UI.modeSelectBg} alt="" className="absolute inset-0 w-full h-full object-cover opacity-10 pointer-events-none" />
+        <div className="relative z-10 max-w-lg text-center">
+          <div className="flex items-center justify-center gap-3 mb-6">
+            <Link href="/games" className="text-white/40 hover:text-white/70"><ChevronLeft size={18} /></Link>
+            <h1 className="font-display text-2xl font-bold tracking-[0.3em]" style={{ color: P.AMBER }}>
+              CADES UNIT — LOCKED
+            </h1>
+          </div>
+          <p className="font-mono text-[10px] tracking-[0.2em] mb-6" style={{ color: P.VIOLET }}>
+            CONSCIOUSNESS ARCHIVAL AND DREAM ENGAGEMENT SYSTEM
+          </p>
+          <div className={`${voidPanel} p-6 mb-6`}>
+            <p className="font-mono text-xs leading-relaxed mb-4" style={{ color: P.BONE }}>
+              The CADES unit sits in the restricted section of the Medical Bay.
+              It has been drawing power from the Ark's core since before launch.
+            </p>
+            <p className="font-mono text-xs leading-relaxed mb-4" style={{ color: P.OFF_WHITE + "80" }}>
+              You are not yet ready to use it. The Human has not told you what it does.
+              Elara does not yet know what the violet light means.
+            </p>
+            <p className="font-mono text-[10px] tracking-wider" style={{ color: P.VIOLET }}>
+              UNLOCKS AFTER ACT 5 — THE MAP
+            </p>
+            <p className="font-mono text-[10px] mt-2" style={{ color: P.OFF_WHITE + "60" }}>
+              Current narrative act: {gameState.narrativeAct ?? 0}/7
+            </p>
+          </div>
+          <Link href="/games" className="inline-block px-6 py-3 rounded-lg font-mono text-sm tracking-wider border" style={{ color: P.AMBER, borderColor: P.AMBER + "40", background: P.AMBER + "10" }}>
+            RETURN TO GAMES
+          </Link>
+        </div>
+      </div>
+    );
+  }
 
   // ─── MODE SELECT ───
   if (phase === "select") {
@@ -216,6 +284,26 @@ export default function CADESFPSPage() {
             </motion.button>
           </div>
 
+          {/* Elara echo of the player's last Open Channel choice */}
+          <div className="max-w-lg mx-auto mt-8">
+            <OpenChannelEcho />
+          </div>
+
+          {/* Ambient chatter — shows NPC reactions and GM surveillance */}
+          <div className="max-w-lg mx-auto mt-4">
+            <CADESAmbientLines />
+          </div>
+
+          {/* Investigation clues unlocked through CADES progress */}
+          <div className="max-w-lg mx-auto mt-4">
+            <CADESClueBoard />
+          </div>
+
+          {/* Conspiracy board showing discovered CADES-side nodes */}
+          <div className="max-w-3xl mx-auto mt-4">
+            <CADESConspiracyBoard />
+          </div>
+
           {/* Lore footer */}
           <p className="font-mono text-[9px] text-center mt-8 max-w-md mx-auto" style={{ color: P.OFF_WHITE + "40" }}>
             Installed by a Hierarchy contractor. Dual-purpose: therapeutic immersion
@@ -302,6 +390,11 @@ export default function CADESFPSPage() {
                 )}
               </>
             )}
+          </div>
+
+          {/* Crew reactions feed — shows what the ship is saying */}
+          <div className="mb-4 text-left">
+            <CADESFeed limit={4} title="CREW RESPONSE — LIVE FEED" />
           </div>
 
           {/* Actions */}

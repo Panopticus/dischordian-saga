@@ -26,6 +26,7 @@ import { useLoredex, type LoredexEntry } from "@/contexts/LoredexContext";
 import { generateDailyBrief, ROOMS, type RoomEvent, type RoomId } from "@/game/livingArk";
 import { FACTION_NPCS, type FactionNPCId } from "@/game/factionNPCs";
 import { getFeaturedNPC } from "@/game/npcDailyRotation";
+import { LightDarkMeterDisplay } from "@/components/LightDarkMeterDisplay";
 
 /* ─── NPC SIGNAL CARD ─── */
 function NPCSignalCard({ npcId, trust }: { npcId: string; trust: number }) {
@@ -198,6 +199,15 @@ export default function BridgeConsole() {
           {dailyBrief.story && <EventCard event={dailyBrief.story} accent="#a855f7" />}
           {dailyBrief.relationship && <EventCard event={dailyBrief.relationship} accent="#f59e0b" />}
         </div>
+      </div>
+
+      {/* ═══ GALACTIC BULB — Witnessing §3.5 Light/Dark poetic meter ═══ */}
+      <div className="px-4 mb-5">
+        <div className="flex items-center gap-2 mb-3">
+          <Star size={10} className="text-amber-300/60" />
+          <span className="font-mono text-[9px] text-amber-300/60 tracking-[0.2em]">GALACTIC BULB</span>
+        </div>
+        <LightDarkMeterDisplay />
       </div>
 
       {/* ═══ FEATURED NPC (daily rotation) ═══ */}

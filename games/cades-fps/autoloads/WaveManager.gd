@@ -4,6 +4,17 @@ var player: Node3D
 var spawn_points: Array[Node3D] = []
 var enemies_alive: int = 0
 var wave_active: bool = false
+# Incremented every time the BridgeOfKael scene is torn down (player death,
+# historical replay exit, etc.). Any in-flight spawn loops that notice a
+# mismatch between their captured epoch and the current one bail out.
+var spawn_epoch: int = 0
+
+func reset_for_new_run() -> void:
+	wave_active = false
+	enemies_alive = 0
+	spawn_points.clear()
+	player = null
+	spawn_epoch += 1
 
 const WAVE_DEFS = {
 	1: {"type": "MachineScout", "count": 5, "interval": 2.0},
@@ -44,9 +55,14 @@ func start_wave(wave_num: int) -> void:
 func _spawn_wave(data: Dictionary) -> void:
 	var count: int = data["count"]
 	var interval: float = data["interval"]
+	var my_epoch: int = spawn_epoch
 	for i in count:
 		await get_tree().create_timer(interval * i).timeout
+		# Bail out if the scene has been reset while we were awaiting — the
+		# old level's spawn loop must not bleed enemies into a fresh run.
 		if not wave_active: return
+		if my_epoch != spawn_epoch: return
+		if not is_instance_valid(player): return
 		_spawn_single(data["type"])
 
 func _spawn_single(type: String) -> void:
