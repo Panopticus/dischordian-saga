@@ -1,0 +1,137 @@
+/* ═══════════════════════════════════════════════════════
+   PET QUEST TRACKER
+
+   Displays the list of companion quests for a given pet:
+   - Locked (bond too low)
+   - Available (bond met, not started)
+   - In progress (steps being completed)
+   - Complete (rewards claimed)
+
+   Step completion is tracked in localStorage against a
+   `completionFlag` set that the rest of the game can write
+   to when narrative milestones trigger.
+   ═══════════════════════════════════════════════════════ */
+
+import { useMemo, useEffect, useState } from "react";
+import { motion } from "framer-motion";
+import { ScrollText, Lock, Check, Circle } from "lucide-react";
+import { PET_QUESTS, type PetQuest } from "@/game/petBonding";
+
+interface Props {
+  petId: string;
+  petName: string;
+  bond: number;
+}
+
+const FLAGS_KEY = "dischordian-pet-quest-flags";
+
+function loadFlags(): Set<string> {
+  try {
+    const raw = localStorage.getItem(FLAGS_KEY);
+    return new Set(raw ? (JSON.parse(raw) as string[]) : []);
+  } catch {
+    return new Set();
+  }
+}
+
+export default function PetQuestTracker({ petId, petName, bond }: Props) {
+  const [flags, setFlags] = useState<Set<string>>(() => loadFlags());
+
+  useEffect(() => {
+    const handler = () => setFlags(loadFlags());
+    window.addEventListener("storage", handler);
+    return () => window.removeEventListener("storage", handler);
+  }, []);
+
+  const quests = useMemo(() => PET_QUESTS.filter((q) => q.petId === petId), [petId]);
+
+  if (quests.length === 0) {
+    return (
+      <div className="border border-border/30 rounded-lg bg-card/40 p-4">
+        <div className="flex items-center gap-2 text-muted-foreground">
+          <ScrollText size={14} />
+          <span className="font-display text-xs font-bold tracking-[0.2em]">{petName.toUpperCase()} QUESTS</span>
+        </div>
+        <p className="font-mono text-[10px] text-muted-foreground/60 mt-2">
+          No companion quests authored for this specimen yet.
+        </p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="border border-border/30 rounded-lg bg-card/40 p-4 space-y-3" data-testid="pet-quest-tracker">
+      <div className="flex items-center gap-2">
+        <ScrollText size={14} className="text-amber-400" />
+        <span className="font-display text-xs font-bold tracking-[0.2em]">{petName.toUpperCase()} QUESTS</span>
+      </div>
+      {quests.map((quest) => (
+        <QuestCard key={quest.id} quest={quest} bond={bond} flags={flags} />
+      ))}
+    </div>
+  );
+}
+
+function QuestCard({ quest, bond, flags }: { quest: PetQuest; bond: number; flags: Set<string> }) {
+  const locked = bond < quest.bondRequired;
+  const completedSteps = quest.steps.filter((s) => flags.has(s.completionFlag));
+  const allDone = completedSteps.length === quest.steps.length;
+
+  const status = locked ? "locked" : allDone ? "complete" : completedSteps.length > 0 ? "in_progress" : "available";
+  const statusStyle: Record<string, string> = {
+    locked: "border-zinc-700/30 bg-zinc-900/20 opacity-60",
+    available: "border-amber-500/40 bg-amber-500/5",
+    in_progress: "border-indigo-500/40 bg-indigo-500/5",
+    complete: "border-emerald-500/40 bg-emerald-500/10",
+  };
+  const statusLabel: Record<string, string> = {
+    locked: "LOCKED",
+    available: "AVAILABLE",
+    in_progress: "IN PROGRESS",
+    complete: "COMPLETE",
+  };
+
+  return (
+    <motion.div
+      layout
+      className={`border rounded-md p-2.5 ${statusStyle[status]}`}
+      data-testid={`quest-${quest.id}`}
+    >
+      <div className="flex items-center justify-between gap-2">
+        <span className="font-display text-[11px] font-bold text-foreground">{quest.name}</span>
+        <span className="font-mono text-[8px] uppercase tracking-wider text-muted-foreground/60 flex items-center gap-1">
+          {locked && <Lock size={8} />}
+          {statusLabel[status]}
+        </span>
+      </div>
+      <p className="font-mono text-[9px] text-muted-foreground/70 italic mt-1 leading-relaxed">
+        {quest.description}
+      </p>
+      {locked && (
+        <p className="font-mono text-[9px] text-amber-400 mt-1">
+          Requires bond {quest.bondRequired} (currently {bond})
+        </p>
+      )}
+      {!locked && (
+        <ul className="mt-2 space-y-0.5">
+          {quest.steps.map((step) => {
+            const done = flags.has(step.completionFlag);
+            return (
+              <li key={step.id} className="flex items-start gap-1.5 font-mono text-[9px]">
+                {done ? <Check size={10} className="text-emerald-400 mt-0.5" /> : <Circle size={10} className="text-muted-foreground/50 mt-0.5" />}
+                <span className={done ? "text-muted-foreground/50 line-through" : "text-foreground/80"}>
+                  {step.description}
+                </span>
+              </li>
+            );
+          })}
+        </ul>
+      )}
+      <div className="mt-2 flex items-center gap-2 text-[9px] font-mono">
+        <span className="text-rose-400">+{quest.reward.bondGain} bond</span>
+        <span className="text-indigo-400">+{quest.reward.skillPoints} skills</span>
+        {quest.reward.loreUnlock && <span className="text-amber-400">lore: {quest.reward.loreUnlock}</span>}
+      </div>
+    </motion.div>
+  );
+}

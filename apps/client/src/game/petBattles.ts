@@ -12,6 +12,8 @@
    Death is possible in the Arena. The stakes are real.
    ═══════════════════════════════════════════════════════ */
 
+import { aggregateMultipliers, type TraitBonus } from "@shared/companionTraitThresholds";
+
 /* ─── BATTLE STATE ─── */
 
 export interface PetBattle {
@@ -110,49 +112,178 @@ export const SPECIES_MOVES: Record<string, PetMove[]> = {
   ],
 };
 
+/* ─── PARTY SYNERGY / COMBAT BONUSES ───
+
+   Pets contribute to party-wide trait thresholds (see
+   `companionTraitThresholds.ts`). When the player fields two
+   or more pets sharing an element/species/faction/class, the
+   resulting bonuses are baked into the fighter's stats via
+   `applyPartyBonusesToPet` before the battle starts.          */
+
+export interface PartyCombatBonuses {
+  /** Stacked multipliers keyed by trait target (e.g., "fire_damage"). */
+  multipliers: Record<string, number>;
+  /** Flat values (e.g., damage_reduction = 10). */
+  flats: Record<string, number>;
+  /** Passive flags (burn_on_hit, chain_lightning, reveal_invisible, etc.). */
+  passives: Record<string, number>;
+  /** Unlocked abilities (pyre_ultimate, tidal_revival, etc.). */
+  unlocks: string[];
+  /** Human-readable summary lines for the UI. */
+  labels: string[];
+}
+
+export const EMPTY_PARTY_BONUSES: PartyCombatBonuses = {
+  multipliers: {},
+  flats: {},
+  passives: {},
+  unlocks: [],
+  labels: [],
+};
+
+export function resolvePartyCombatBonuses(bonuses: TraitBonus[]): PartyCombatBonuses {
+  const multipliers = aggregateMultipliers(bonuses);
+  const flats: Record<string, number> = {};
+  const passives: Record<string, number> = {};
+  const unlocks: string[] = [];
+  const labels: string[] = [];
+
+  for (const b of bonuses) {
+    labels.push(b.label);
+    switch (b.type) {
+      case "flat":
+        flats[b.target] = (flats[b.target] ?? 0) + b.value;
+        break;
+      case "passive":
+        passives[b.target] = Math.max(passives[b.target] ?? 0, b.value);
+        break;
+      case "unlock":
+        unlocks.push(b.target);
+        break;
+    }
+  }
+
+  return { multipliers, flats, passives, unlocks, labels };
+}
+
+/** Returns the effective multiplier for a target stat (defaults to 1). */
+function mult(bonuses: PartyCombatBonuses, target: string): number {
+  return bonuses.multipliers[target] ?? 1;
+}
+
 /* ─── BATTLE LOGIC ─── */
 
-export function createBattlePet(petId: string, species: string, evolutionStage: 1 | 2 | 3, bond: number): BattlePet {
+export function createBattlePet(
+  petId: string,
+  species: string,
+  evolutionStage: 1 | 2 | 3,
+  bond: number,
+  partyBonuses: PartyCombatBonuses = EMPTY_PARTY_BONUSES,
+): BattlePet {
   const baseHp = 50;
   const stageBonus = { 1: 1.0, 2: 1.25, 3: 1.5 }[evolutionStage];
   const bondBonus = 1 + bond * 0.005; // +0.5% per bond point (50% at max bond)
 
+  // Party synergy: baseline multipliers stack with whatever other traits
+  // you're running. `armor` is the standardized defense target in
+  // companionTraitThresholds.
+  const armorMult = mult(partyBonuses, "armor");
+  const hpMult = mult(partyBonuses, "hp"); // unused by default, reserved for Tidal Flow
+
   return {
     petId,
     name: petId.charAt(0).toUpperCase() + petId.slice(1),
-    hp: Math.floor(baseHp * stageBonus * bondBonus),
-    maxHp: Math.floor(baseHp * stageBonus * bondBonus),
+    hp: Math.floor(baseHp * stageBonus * bondBonus * hpMult),
+    maxHp: Math.floor(baseHp * stageBonus * bondBonus * hpMult),
     attack: Math.floor(10 * stageBonus * bondBonus),
-    defense: Math.floor(8 * stageBonus * bondBonus),
-    speed: Math.floor(12 * stageBonus),
+    defense: Math.floor(8 * stageBonus * bondBonus * armorMult),
+    speed: Math.floor(12 * stageBonus * mult(partyBonuses, "initiative")),
     moves: [...STANDARD_MOVES, ...(SPECIES_MOVES[species] || [])],
     statusEffects: [],
     evolutionStage,
   };
 }
 
-export function executeMove(attacker: BattlePet, defender: BattlePet, moveId: string): BattleLogEntry {
+export interface MoveContext {
+  /** Party-wide synergy bonuses applied on top of base stats. */
+  partyBonuses?: PartyCombatBonuses;
+  /** Active epoch modifier for the current arena week. */
+  arenaModifier?: EpochArenaModifier;
+  /** Is the attacker the player-controlled pet? (Arena modifiers may be sided.) */
+  attackerIsPlayer?: boolean;
+}
+
+export function executeMove(
+  attacker: BattlePet,
+  defender: BattlePet,
+  moveId: string,
+  context: MoveContext = {},
+): BattleLogEntry {
   const move = attacker.moves.find(m => m.id === moveId);
   if (!move) {
     return { round: 0, turn: "player1", action: "miss", flavor: "The move failed to execute." };
   }
 
+  const bonuses = context.partyBonuses ?? EMPTY_PARTY_BONUSES;
+  const modifier = context.arenaModifier;
+
+  // Dodge: synergy multiplier (+15% from Cyclone/Phalanx) × arena epoch dodge bonus.
+  const dodgeMult = mult(bonuses, "dodge_chance");
+  let arenaDodge = 0;
+  if (modifier?.effect.stat === "dodge" && typeof modifier.effect.value === "number") {
+    arenaDodge = modifier.effect.value;
+  }
+  const effectiveAccuracy = Math.max(5, move.accuracy - arenaDodge * 0.5 - (dodgeMult - 1) * 15);
+
   // Accuracy check
-  if (Math.random() * 100 > move.accuracy) {
+  if (Math.random() * 100 > effectiveAccuracy) {
     return { round: 0, turn: "player1", action: "miss", flavor: `${attacker.name} missed!` };
   }
 
   // Calculate damage
   let damage = 0;
   if (move.power > 0) {
-    const baseDamage = attacker.attack * move.power;
+    let baseDamage = attacker.attack * move.power;
+
+    // Arena modifier: Rebel Spirit — +15% attack when below 50% HP
+    if (modifier?.modifierName === "Rebel Spirit" && attacker.hp < attacker.maxHp * 0.5) {
+      baseDamage *= 1 + (modifier.effect.value ?? 15) / 100;
+    }
+    // Arena modifier: Reality Fracture — chaotic 0.7–1.4 multiplier each strike
+    if (modifier?.modifierName === "Reality Fracture") {
+      baseDamage *= 0.7 + Math.random() * 0.7;
+    }
+
+    // Party-wide improvise/plan bonuses
+    baseDamage *= mult(bonuses, "improvise_damage");
+    baseDamage *= mult(bonuses, "plan_damage");
+    baseDamage *= mult(bonuses, "ambush_damage");
+    baseDamage *= mult(bonuses, "backstab_damage");
+    // Fire-aligned moves — applied if move hint matches burn effect
+    if (move.effect === "burn") baseDamage *= mult(bonuses, "fire_damage");
+
     const defense = defender.defense * 0.5;
-    damage = Math.max(1, Math.floor(baseDamage - defense));
-    // Crit chance
-    const critChance = attacker.evolutionStage * 5;
+    const damageReduction = bonuses.flats.damage_reduction ?? 0;
+    damage = Math.max(1, Math.floor(baseDamage - defense - damageReduction));
+
+    // Crit chance: base + party synergy + arena modifier (Prophet's Blessing doubles crits)
+    const baseCrit = attacker.evolutionStage * 5;
+    const critMult = mult(bonuses, "crit_chance");
+    let critChance = baseCrit * critMult;
+    if (modifier?.modifierName === "Prophet's Blessing") critChance *= 2;
     const isCrit = Math.random() * 100 < critChance;
     if (isCrit) damage = Math.floor(damage * 2);
+
+    // Passive: chain_lightning splashes a flat 20% of damage to "the air"
+    if (bonuses.passives.chain_lightning && Math.random() < bonuses.passives.chain_lightning) {
+      damage = Math.floor(damage * 1.2);
+    }
+
     defender.hp = Math.max(0, defender.hp - damage);
+
+    const suffixes: string[] = [];
+    if (isCrit) suffixes.push("CRITICAL HIT!");
+    if (modifier?.modifierName === "Reality Fracture") suffixes.push("[reality fractures]");
 
     return {
       round: 0,
@@ -161,13 +292,14 @@ export function executeMove(attacker: BattlePet, defender: BattlePet, moveId: st
       damage,
       effect: move.effect,
       critical: isCrit,
-      flavor: move.flavorText.replace("{pet}", attacker.name) + (isCrit ? " CRITICAL HIT!" : ""),
+      flavor: move.flavorText.replace("{pet}", attacker.name) + (suffixes.length ? " " + suffixes.join(" ") : ""),
     };
   }
 
   // Status moves
   if (move.effect === "heal") {
-    const healAmount = Math.floor(attacker.maxHp * 0.3);
+    const healMult = mult(bonuses, "heal_power");
+    const healAmount = Math.floor(attacker.maxHp * 0.3 * healMult);
     attacker.hp = Math.min(attacker.maxHp, attacker.hp + healAmount);
     return { round: 0, turn: "player1", action: move.name, effect: "heal", flavor: move.flavorText.replace("{pet}", attacker.name) };
   }
@@ -175,6 +307,17 @@ export function executeMove(attacker: BattlePet, defender: BattlePet, moveId: st
   // Buffs/debuffs
   move.currentCooldown = move.cooldown;
   return { round: 0, turn: "player1", action: move.name, effect: move.effect, flavor: move.flavorText.replace("{pet}", attacker.name) };
+}
+
+/** End-of-turn regeneration from Tidal Flow / constructs' repair_rate, etc. */
+export function applyTurnPassives(pet: BattlePet, bonuses: PartyCombatBonuses): number {
+  const regen = bonuses.passives.regen_per_turn ?? 0;
+  if (regen > 0 && pet.hp > 0 && pet.hp < pet.maxHp) {
+    const healed = Math.min(regen, pet.maxHp - pet.hp);
+    pet.hp += healed;
+    return healed;
+  }
+  return 0;
 }
 
 /* ─── BATTLE OUTCOMES ─── */

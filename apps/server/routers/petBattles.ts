@@ -8,7 +8,7 @@ import { z } from "zod";
 import { protectedProcedure, router } from "../_core/trpc";
 import { TRPCError } from "@trpc/server";
 import { getDb } from "../db";
-import { playerPets, petBattleHistory, userProgress } from "../../db/schema";
+import { playerPets, petBattleHistory, userProgress, dreamBalance } from "../../db/schema";
 import { eq, and, sql, desc, isNull, lte } from "drizzle-orm";
 import { companionCombat } from "../services/companionCombat";
 import { petEvolution } from "../services/petEvolution";
@@ -16,6 +16,8 @@ import { pressureService } from "../services/pressureService";
 import { battlePassXp } from "../services/battlePassXp";
 import { applyPrestigeBonuses } from "../services/prestigeMultiplier";
 import { checkFeatureFlag } from "../middleware/featureFlag";
+import { computeActiveTraits, resolvePartyBonuses, suggestThresholdUpgrade } from "@shared/companionTraitThresholds";
+import { petsToPartyTraits } from "@shared/petSpeciesTraits";
 
 export const petBattlesRouter = router({
   /** Get player's full pet roster */
@@ -262,6 +264,100 @@ export const petBattlesRouter = router({
         .where(and(eq(playerPets.userId, ctx.user.id), eq(playerPets.petId, input.petId)));
 
       return { success: true, message: "Pet fully healed", currentHp: pet.maxHp };
+    }),
+
+  /**
+   * Revive a downed pet. Costs Dream tokens scaled to the pet's evolution
+   * stage. Unlike Eidolon resurrection (which is a once-per-run story
+   * event), pet revival is a routine economy sink: pay Dream, restore HP,
+   * clear the injury cooldown. High-stakes pets (stage 3) pay more.
+   */
+  revivePet: protectedProcedure
+    .use(checkFeatureFlag("pet_battles"))
+    .input(z.object({ petId: z.string().min(1) }))
+    .mutation(async ({ ctx, input }) => {
+      const db = await getDb();
+      if (!db) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Database unavailable" });
+
+      const [pet] = await db
+        .select()
+        .from(playerPets)
+        .where(and(eq(playerPets.userId, ctx.user.id), eq(playerPets.petId, input.petId)));
+
+      if (!pet) throw new TRPCError({ code: "NOT_FOUND", message: "Pet not found" });
+
+      // Cost scales with evolution stage: stage 1 = 100, stage 2 = 250, stage 3 = 500
+      const cost = { 1: 100, 2: 250, 3: 500 }[pet.evolutionStage as 1 | 2 | 3] ?? 100;
+
+      // Verify Dream balance
+      const [balance] = await db
+        .select()
+        .from(dreamBalance)
+        .where(eq(dreamBalance.userId, ctx.user.id));
+
+      if (!balance || balance.dreamTokens < cost) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: `Revival costs ${cost} Dream tokens (have ${balance?.dreamTokens ?? 0}).`,
+        });
+      }
+
+      // Apply bond penalty for revival. High bond softens the blow (their
+      // trust absorbs the shock); low-bond pets take a full -10 bond hit.
+      const bondPenalty = pet.bond >= 60 ? 5 : 10;
+      const newBond = Math.max(0, pet.bond - bondPenalty);
+
+      await db
+        .update(dreamBalance)
+        .set({ dreamTokens: sql`${dreamBalance.dreamTokens} - ${cost}` })
+        .where(eq(dreamBalance.userId, ctx.user.id));
+
+      await db
+        .update(playerPets)
+        .set({
+          currentHp: pet.maxHp,
+          injuredUntil: null,
+          bond: newBond,
+        })
+        .where(and(eq(playerPets.userId, ctx.user.id), eq(playerPets.petId, input.petId)));
+
+      return {
+        success: true,
+        cost,
+        bondPenalty,
+        newBond,
+        newHp: pet.maxHp,
+      };
+    }),
+
+  /**
+   * Compute party-wide trait thresholds for the player's current roster.
+   * The client uses this to display the synergy panel and to apply
+   * combat bonuses client-side during battle simulation.
+   */
+  getPartyTraits: protectedProcedure
+    .use(checkFeatureFlag("pet_battles"))
+    .query(async ({ ctx }) => {
+      const db = await getDb();
+      if (!db) return { party: [], activeTraits: [], bonuses: [], suggestion: null };
+
+      const pets = await db
+        .select()
+        .from(playerPets)
+        .where(eq(playerPets.userId, ctx.user.id));
+
+      const party = petsToPartyTraits(pets.map((p) => ({
+        petId: p.petId,
+        name: p.name,
+        species: p.species,
+      })));
+
+      return {
+        party,
+        activeTraits: computeActiveTraits(party),
+        bonuses: resolvePartyBonuses(party),
+        suggestion: suggestThresholdUpgrade(party),
+      };
     }),
 
   /** Evolve a pet (requires bond threshold) */
