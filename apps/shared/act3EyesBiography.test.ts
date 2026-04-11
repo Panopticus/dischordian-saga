@@ -1,6 +1,8 @@
 import { describe, it, expect } from "vitest";
 import {
   EYES_BIOGRAPHY,
+  EYES_FINAL_TRANSMISSION_LINES,
+  getEyesFinalTransmissionLine,
   getEyesStage,
   getInfiltrationPath,
   INFILTRATION_PATHS,
@@ -97,6 +99,46 @@ describe("act3EyesBiography", () => {
     it("improvement #10 is the Eyes voice layer reveal", () => {
       const tenth = TRADE_EMPIRE_IMPROVEMENTS.find((i) => i.order === 10);
       expect(tenth?.id).toBe("eyes_voice_layer");
+    });
+  });
+
+  describe("Eyes' final transmission (Appendix A.4)", () => {
+    it("has exactly 9 names — the Eyes left nine", () => {
+      expect(EYES_FINAL_TRANSMISSION_LINES.length).toBe(9);
+    });
+
+    it("orders are 1..9 contiguously", () => {
+      const orders = [...EYES_FINAL_TRANSMISSION_LINES]
+        .map((l) => l.order)
+        .sort((a, b) => a - b);
+      expect(orders).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9]);
+    });
+
+    it("every line has a unique lineId", () => {
+      const ids = EYES_FINAL_TRANSMISSION_LINES.map((l) => l.lineId);
+      expect(new Set(ids).size).toBe(ids.length);
+    });
+
+    it("the 8th name is the Recruiter (Kael) — she will not write it", () => {
+      const eighth = EYES_FINAL_TRANSMISSION_LINES.find((l) => l.order === 8);
+      expect(eighth?.text.toLowerCase()).toContain("recruiter");
+    });
+
+    it("the 9th name is the Eyes herself", () => {
+      const ninth = EYES_FINAL_TRANSMISSION_LINES.find((l) => l.order === 9);
+      expect(ninth?.text.toLowerCase()).toContain("ninth");
+    });
+
+    it("getEyesFinalTransmissionLine returns nth line", () => {
+      expect(getEyesFinalTransmissionLine(1)?.order).toBe(1);
+      expect(getEyesFinalTransmissionLine(5)?.order).toBe(5);
+      expect(getEyesFinalTransmissionLine(9)?.order).toBe(9);
+    });
+
+    it("returns null past the ninth agent", () => {
+      expect(getEyesFinalTransmissionLine(10)).toBeNull();
+      expect(getEyesFinalTransmissionLine(0)).toBeNull();
+      expect(getEyesFinalTransmissionLine(-1)).toBeNull();
     });
   });
 });

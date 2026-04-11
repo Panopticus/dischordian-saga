@@ -26,6 +26,7 @@ import {
   Crown,
   AlertTriangle,
   GitBranch,
+  Trophy,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -46,6 +47,7 @@ const IncubatorMonitor = lazy(() => import("@/components/crew/IncubatorMonitor")
 const BreedingSelector = lazy(() => import("@/components/crew/BreedingSelector"));
 const BloodlineViewer = lazy(() => import("@/components/crew/BloodlineViewer"));
 const FamilyTreeView = lazy(() => import("@/components/crew/FamilyTreeView"));
+const BloodlineLeaderboard = lazy(() => import("@/components/crew/BloodlineLeaderboard"));
 const CrewMissionsBoard = lazy(() => import("@/components/crew/CrewMissionsBoard"));
 const MemorialWall = lazy(() => import("@/components/crew/MemorialWall"));
 const CrewActivityFeed = lazy(() => import("@/components/crew/CrewActivityFeed"));
@@ -59,6 +61,7 @@ type Tab =
   | "breeding"
   | "bloodlines"
   | "tree"
+  | "leaderboard"
   | "missions"
   | "memorial"
   | "feed";
@@ -334,7 +337,7 @@ export default function CrewRosterPage() {
 
       <div className="max-w-6xl mx-auto px-4 pt-4">
         <Tabs value={tab} onValueChange={v => setTab(v as Tab)}>
-          <TabsList className="grid grid-cols-8 w-full">
+          <TabsList className="grid grid-cols-9 w-full">
             <TabsTrigger value="roster" className="gap-1">
               <Users size={14} />
               Roster
@@ -359,6 +362,10 @@ export default function CrewRosterPage() {
             <TabsTrigger value="tree" className="gap-1">
               <GitBranch size={14} />
               Tree
+            </TabsTrigger>
+            <TabsTrigger value="leaderboard" className="gap-1">
+              <Trophy size={14} />
+              Top
             </TabsTrigger>
             <TabsTrigger value="missions" className="gap-1">
               <Rocket size={14} />
@@ -410,6 +417,9 @@ export default function CrewRosterPage() {
               </TabsContent>
               <TabsContent value="tree">
                 <FamilyTreeView state={cs} />
+              </TabsContent>
+              <TabsContent value="leaderboard">
+                <BloodlineLeaderboard />
               </TabsContent>
               <TabsContent value="missions">
                 <CrewMissionsBoard state={cs} onRefetch={() => refetch()} />

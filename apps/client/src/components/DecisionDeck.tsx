@@ -25,10 +25,12 @@ import { THOUGHTS } from "@/game/thoughtCabinet";
 import { getDarkTier } from "@shared/darkArts";
 import { getDominantGuild } from "@/game/archonTrainingVoices";
 import type { SkillId } from "@/game/innerVoices";
-import { ALL_TRANSMISSIONS, isUnlocked, transmissionId, type PlayerContext as TxCtx } from "@shared/transmissions";
+import { ALL_TRANSMISSIONS, isUnlocked, transmissionId } from "@shared/transmissions";
+import { usePlayerContext } from "@/hooks/usePlayerContext";
 
 export default function DecisionDeck() {
   const { state } = useGame();
+  const txCtx = usePlayerContext();
   const apprentice = state.apprentice as Apprentice | null;
   const skills = (state.innerVoiceSkills ?? {}) as Record<SkillId, number>;
   const guild = useMemo(() => getDominantGuild(skills), [skills]);
@@ -221,18 +223,6 @@ export default function DecisionDeck() {
   }
 
   // Card: New Transmissions (if unwatched ones exist)
-  const txCtx: TxCtx = {
-    level: 1,
-    awakeningStep: state.awakeningStep,
-    completedChapters: [],
-    elaraTrust: state.elaraTrust ?? 0,
-    humanTrust: state.humanTrust ?? 0,
-    npcTrust: state.npcTrust ?? {},
-    moralityScore: state.moralityScore ?? 0,
-    narrativeFlags: state.narrativeFlags ?? {},
-    roomsVisited: [],
-    hasApprenticeGraduate: Object.keys(state.legionGraduates ?? {}).length > 0,
-  };
   const watchedSet = new Set(state.transmissionsWatched ?? []);
   const unwatchedUnlocked = ALL_TRANSMISSIONS.filter(t => isUnlocked(t, txCtx) && !watchedSet.has(transmissionId(t)));
   if (unwatchedUnlocked.length > 0) {

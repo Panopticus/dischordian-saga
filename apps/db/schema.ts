@@ -790,6 +790,37 @@ export const contentRewards = mysqlTable("content_rewards", {
 export type ContentReward = typeof contentRewards.$inferSelect;
 
 /* ═══════════════════════════════════════════════════════
+   PALIMPSEST STATE — Per-user Signal/Noise meter
+   One row per user. Matches the shared PalimpsestState shape
+   in apps/shared/palimpsest.ts. The history array lives in
+   the `history` JSON blob.
+   ═══════════════════════════════════════════════════════ */
+
+export const palimpsestState = mysqlTable("palimpsest_state", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull().unique(),
+  /** Gold ink — truth, remembering. */
+  signal: int("signal").notNull().default(0),
+  /** Red ink — corruption, editing. */
+  noise: int("noise").notNull().default(0),
+  /** ISO timestamp of last passive-decay tick. */
+  lastDecayAt: timestamp("lastDecayAt").defaultNow().notNull(),
+  /** Current broadcast episode (1..13). */
+  currentEpisode: int("currentEpisode").notNull().default(1),
+  /** Whether the Host's mask has visibly slipped this episode. */
+  hostMaskSlipped: int("hostMaskSlipped").notNull().default(0),
+  /** JSON array of EpisodeRecord entries from apps/shared/palimpsest.ts. */
+  history: json("history").$type<Record<string, unknown>[]>(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  userIdIdx: index("idx_palimpsest_state_user_id").on(table.userId),
+}));
+
+export type PalimpsestStateRow = typeof palimpsestState.$inferSelect;
+export type InsertPalimpsestState = typeof palimpsestState.$inferInsert;
+
+/* ═══════════════════════════════════════════════════════
    FIGHT LEADERBOARD — Online ranked ladder
    Tracks fight records, ELO ratings, and achievements
    ═══════════════════════════════════════════════════════ */
@@ -864,6 +895,38 @@ export const fightMatches = mysqlTable("fight_matches", {
 
 export type FightMatch = typeof fightMatches.$inferSelect;
 export type InsertFightMatch = typeof fightMatches.$inferInsert;
+
+/**
+ * Arena essences — the "Collector's Ledger" trophy system for the
+ * Collectors Arena story mode. One row per (userId, fighterId): tracks
+ * how many times the player has defeated that fighter, the best rarity
+ * seen across all harvests, and first/last harvest timestamps.
+ *
+ * Rarity is upgraded on each harvest via maxRarity() in the
+ * essenceHarvest router, never downgraded. See
+ * apps/client/src/game/essenceHarvest.ts for the registry + rarity
+ * derivation rules.
+ */
+export const arenaEssences = mysqlTable("arena_essences", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  /** Matches FighterData.id in gameData.ts */
+  fighterId: varchar("fighterId", { length: 128 }).notNull(),
+  /** Number of times the fighter has been defeated */
+  count: int("count").notNull().default(0),
+  /** Highest rarity seen across all harvests of this fighter */
+  bestRarity: mysqlEnum("bestRarity", [
+    "common", "rare", "epic", "legendary", "mythic",
+  ]).notNull().default("common"),
+  firstHarvestedAt: timestamp("firstHarvestedAt").defaultNow().notNull(),
+  lastHarvestedAt: timestamp("lastHarvestedAt").defaultNow().notNull(),
+}, (table) => ({
+  userFighterIdx: uniqueIndex("idx_arena_essences_user_fighter").on(table.userId, table.fighterId),
+  userIdx: index("idx_arena_essences_user").on(table.userId),
+}));
+
+export type ArenaEssence = typeof arenaEssences.$inferSelect;
+export type InsertArenaEssence = typeof arenaEssences.$inferInsert;
 
 
 /* ═══════════════════════════════════════════════════════
@@ -1489,6 +1552,7 @@ export const notifications = mysqlTable("notifications", {
     "universe_event",
     // ── Companion / eidolon / pet lifecycle ──
     "companion_death", "companion_resurrected", "eidolon_evolved", "pet_evolved",
+    "pet_death", "pet_acquired",
     "apprentice_sacrificed", "crew_cloned",
     // ── Morality + content discovery ──
     "morality_threshold", "morality_market_notice", "content_discovery",
@@ -1800,6 +1864,62 @@ export const chessTournaments = mysqlTable("chess_tournaments", {
   createdAt: timestamp("createdAt").defaultNow().notNull(),
 });
 export type ChessTournament = typeof chessTournaments.$inferSelect;
+
+/** Per-user puzzle solve history — gates first-solve rewards and tracks stats. */
+export const chessPuzzleProgress = mysqlTable("chess_puzzle_progress", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  puzzleId: varchar("puzzleId", { length: 32 }).notNull(),
+  solvedAt: timestamp("solvedAt").defaultNow().notNull(),
+  attempts: int("attempts").notNull().default(1),
+}, (table) => ({
+  userPuzzleUq: uniqueIndex("idx_chess_puzzle_progress_user_puzzle").on(table.userId, table.puzzleId),
+  userIdx: index("idx_chess_puzzle_progress_user").on(table.userId),
+}));
+export type ChessPuzzleProgress = typeof chessPuzzleProgress.$inferSelect;
+
+/** Persistent participant state for a chess tournament.
+ *
+ *  IMPORTANT: `score` and `tieBreak` are stored as 2× the actual
+ *  point value to keep them as plain integers (avoiding MySQL DECIMAL).
+ *  A win is +2, a draw is +1, half-Buchholz is +1 per opponent half-point.
+ *  All read sites in the chess router divide by 2 before returning
+ *  values to the client. */
+export const chessTournamentParticipants = mysqlTable("chess_tournament_participants", {
+  id: int("id").autoincrement().primaryKey(),
+  tournamentId: int("tournamentId").notNull(),
+  userId: int("userId").notNull(),
+  userName: varchar("userName", { length: 128 }).notNull(),
+  /** 2× actual score — divide by 2 for display. */
+  score: int("score").notNull().default(0),
+  /** 2× actual tie-break — divide by 2 for display. */
+  tieBreak: int("tieBreak").notNull().default(0),
+  active: boolean("active").notNull().default(true),
+  joinedAt: timestamp("joinedAt").defaultNow().notNull(),
+}, (table) => ({
+  tournamentUserUq: uniqueIndex("idx_chess_tournament_participants_tourney_user").on(table.tournamentId, table.userId),
+  tournamentIdx: index("idx_chess_tournament_participants_tournament").on(table.tournamentId),
+  userIdx: index("idx_chess_tournament_participants_user").on(table.userId),
+}));
+export type ChessTournamentParticipant = typeof chessTournamentParticipants.$inferSelect;
+
+/** Per-round pairings for a chess tournament, linked to the chess_games row that resolves them. */
+export const chessTournamentPairings = mysqlTable("chess_tournament_pairings", {
+  id: int("id").autoincrement().primaryKey(),
+  tournamentId: int("tournamentId").notNull(),
+  round: int("round").notNull(),
+  whiteId: int("whiteId").notNull(),
+  blackId: int("blackId").notNull(),
+  whiteResult: mysqlEnum("whiteResult", ["win", "loss", "draw"]),
+  reported: boolean("reported").notNull().default(false),
+  gameId: int("gameId"),
+  deadlineAt: timestamp("deadlineAt"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+}, (table) => ({
+  tournamentIdx: index("idx_chess_tournament_pairings_tournament").on(table.tournamentId),
+  tournamentRoundIdx: index("idx_chess_tournament_pairings_tournament_round").on(table.tournamentId, table.round),
+}));
+export type ChessTournamentPairing = typeof chessTournamentPairings.$inferSelect;
 
 
 /* ═══════════════════════════════════════════════════════
@@ -2648,12 +2768,26 @@ export const playerPets = mysqlTable("player_pets", {
   maxHp: int("maxHp").default(100).notNull(),
   /** Unlocked moves beyond the standard 3 */
   unlockedMoves: json("unlockedMoves").$type<string[]>(),
+  /** Skill tree node IDs the player has unlocked for this pet */
+  unlockedSkillNodes: json("unlockedSkillNodes").$type<string[]>().default([]),
+  /** Completed companion-quest step flags */
+  completedQuestSteps: json("completedQuestSteps").$type<string[]>().default([]),
   /** Evolution XP for pet evolution tracking */
   evolutionXp: int("evolutionXp").default(0).notNull(),
   /** Total wins / losses / kills */
   wins: int("wins").default(0).notNull(),
   losses: int("losses").default(0).notNull(),
   kills: int("kills").default(0).notNull(),
+  /** How many times this pet has died and been revived */
+  deathCount: int("deathCount").default(0).notNull(),
+  /** Is the pet currently in spectral form (died + gained ghost bonus)? */
+  isSpectral: boolean("isSpectral").default(false).notNull(),
+  /** Game system that granted the spectral bonus (pet_battles, card_game, etc.) */
+  spectralBonusSystem: varchar("spectralBonusSystem", { length: 64 }),
+  /** Narrative cause of the most recent death */
+  deathCause: varchar("deathCause", { length: 64 }),
+  /** Whether this pet is part of the active battle party (trait synergy contributor) */
+  isActive: boolean("isActive").default(true).notNull(),
   /** Injury cooldown — timestamp when pet can fight again */
   injuredUntil: timestamp("injuredUntil"),
   acquiredAt: timestamp("acquiredAt").defaultNow().notNull(),
@@ -3008,6 +3142,11 @@ export const circuitSeasons = mysqlTable("circuit_seasons", {
   boneObstacles: json("boneObstacles").$type<{x:number,z:number}[]>().default([]),
   totalRaces: int("totalRaces").default(0).notNull(),
   totalDeaths: int("totalDeaths").default(0).notNull(),
+  /** Universe event ids that were active when the season was last ticked. Snapshot for modifier resolution. */
+  activeUniverseEvents: json("activeUniverseEvents").$type<string[]>().default([]),
+  /** User id of the season's #1 finisher when the season was closed. Used for the Severance Prize. */
+  championUserId: int("championUserId"),
+  closedAt: timestamp("closedAt"),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
 });
 
@@ -3046,12 +3185,77 @@ export const circuitLeaderboard = mysqlTable("circuit_leaderboard", {
   totalKills: int("totalKills").notNull().default(0),
   clonesSurvived: int("clonesSurvived").notNull().default(0),
   clonesLost: int("clonesLost").notNull().default(0),
+  /** Reward tier keys the user has already claimed for this season. */
+  claimedTiers: json("claimedTiers").$type<string[]>().default([]),
+  /** True once the Severance Prize companion has been granted (only valid for #1 finisher of a closed season). */
+  severancePrizeClaimed: int("severancePrizeClaimed").notNull().default(0),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
 }, (table) => ({
   userSeasonIdx: uniqueIndex("uq_circuit_lb_user_season").on(table.userId, table.seasonId),
 }));
 
 export type CircuitLeaderboardRow = typeof circuitLeaderboard.$inferSelect;
+
+/* ─── CIRCUIT CLONES — Persistent clone roster across races ─── */
+export const circuitClones = mysqlTable("circuit_clones", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  seasonId: int("seasonId").notNull(),
+  designation: varchar("designation", { length: 64 }).notNull(),
+  neuralSync: int("neuralSync").notNull().default(80),
+  velocityCeilingPct: int("velocityCeilingPct").notNull().default(100),
+  surfaceGripPct: int("surfaceGripPct").notNull().default(60),
+  survivalInstinct: int("survivalInstinct").notNull().default(25),
+  chassisColor: varchar("chassisColor", { length: 16 }).notNull().default("#f5f0e8"),
+  racesRun: int("racesRun").notNull().default(0),
+  killsScored: int("killsScored").notNull().default(0),
+  status: mysqlEnum("status", ["active", "dead", "severed"]).notNull().default("active"),
+  /** True once this clone has been "noticed" by the Bone Lane (3+ races survived). */
+  veteranNoted: int("veteranNoted").notNull().default(0),
+  bornAt: timestamp("bornAt").defaultNow().notNull(),
+  diedAt: timestamp("diedAt"),
+}, (table) => ({
+  userSeasonIdx: index("idx_circuit_clones_user_season").on(table.userId, table.seasonId),
+  statusIdx: index("idx_circuit_clones_status").on(table.status),
+}));
+
+export type CircuitCloneRow = typeof circuitClones.$inferSelect;
+
+/* ─── CIRCUIT IDENTITY CHAINS — Player-authored four-name identity ─── */
+export const circuitIdentityChains = mysqlTable("circuit_identity_chains", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull().unique(),
+  studentName: varchar("studentName", { length: 64 }),
+  seekerName: varchar("seekerName", { length: 64 }),
+  detectiveName: varchar("detectiveName", { length: 64 }),
+  lastName: varchar("lastName", { length: 64 }),
+  /** How many of the four names have been authored. 0..4 */
+  slotsCompleted: int("slotsCompleted").notNull().default(0),
+  loredexEntryId: int("loredexEntryId"),
+  completedAt: timestamp("completedAt"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type CircuitIdentityChainRow = typeof circuitIdentityChains.$inferSelect;
+
+/* ─── CIRCUIT SIDE QUEST PROGRESS — Cross-game quests during a season ─── */
+export const circuitSideQuestProgress = mysqlTable("circuit_side_quest_progress", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  seasonId: int("seasonId").notNull(),
+  questKey: varchar("questKey", { length: 64 }).notNull(),
+  progress: int("progress").notNull().default(0),
+  target: int("target").notNull(),
+  completed: int("completed").notNull().default(0),
+  claimed: int("claimed").notNull().default(0),
+  cpAwarded: int("cpAwarded").notNull().default(0),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  userQuestIdx: uniqueIndex("uq_circuit_sq_user_season_quest").on(table.userId, table.seasonId, table.questKey),
+}));
+
+export type CircuitSideQuestProgressRow = typeof circuitSideQuestProgress.$inferSelect;
 
 export const codexContributions = mysqlTable("codex_contributions", {
   id: int("id").autoincrement().primaryKey(),

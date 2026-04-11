@@ -17,7 +17,7 @@ import {
   CIRCUIT_PALETTE, CIRCUIT_ABILITIES, calculateCP,
   getNilmorgLine, type CloneStats,
 } from "@shared/deadMansCircuit";
-import { crewMemberToCloneStats } from "@shared/crewDmcBridge";
+import { crewMemberToCloneStats, type DmcCloneStats } from "@shared/crewDmcBridge";
 import { useNilmorgVO } from "@/hooks/useNilmorgVO";
 import { DMC_ENVIRONMENTS, DMC_MUSIC, DMC_CINEMATICS } from "@/data/dmcAssets";
 import { getNilmorgPortrait } from "@shared/nilmorgPortraits";
@@ -93,7 +93,7 @@ export default function DeadMansCircuitPage() {
   const crewQuery = trpc.crew.getState.useQuery(undefined, {
     enabled: !!crewRunner,
   });
-  const crewCloneStats = useMemo<CloneStats | null>(() => {
+  const crewCloneStats = useMemo<DmcCloneStats | null>(() => {
     if (!crewRunner || !crewQuery.data) return null;
     const member = (crewQuery.data as any).roster.members.find(
       (m: any) => m.id === crewRunner.memberId,

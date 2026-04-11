@@ -89,6 +89,20 @@ const ENEMY_DECKS: Record<string, { name: string; cards: Omit<StarterCard, "id">
       { name: "Patient Zero", type: "unit", rarity: "legendary", attack: 6, defense: 7, cost: 5, ability: "When deployed, infect all enemy units (reduce attack and defense by 1).", lore: "The origin of the Thought Virus. It has been waiting for you.", imageUrl: "" },
     ],
   },
+  "echo-of-kael": {
+    name: "Echo of Kael",
+    cards: [
+      { name: "EMP Shockwave", type: "spell", rarity: "rare", attack: 5, defense: 0, cost: 3, ability: "Stun all enemy units for 1 turn. Disables their ability this turn.", lore: "Kael's prosthetic arm was built to kill AI. It still works.", imageUrl: "" },
+      { name: "EMP Shockwave", type: "spell", rarity: "rare", attack: 5, defense: 0, cost: 3, ability: "Stun all enemy units for 1 turn. Disables their ability this turn.", lore: "Kael's prosthetic arm was built to kill AI. It still works.", imageUrl: "" },
+      { name: "Thought Virus Burst", type: "spell", rarity: "rare", attack: 3, defense: 0, cost: 3, ability: "Deal 3 damage to all enemy units. Surviving units gain a virus counter.", lore: "He is not contagious on purpose. That's what makes it worse.", imageUrl: "" },
+      { name: "Maintenance Tunnel Rat", type: "unit", rarity: "common", attack: 3, defense: 2, cost: 1, ability: "Stealth for 1 turn after deployment.", lore: "Day 47 in the tunnels. No food. The walls whisper in Vox's voice.", imageUrl: "" },
+      { name: "Maintenance Tunnel Rat", type: "unit", rarity: "common", attack: 3, defense: 2, cost: 1, ability: "Stealth for 1 turn after deployment.", lore: "Day 47 in the tunnels. No food. The walls whisper in Vox's voice.", imageUrl: "" },
+      { name: "Engineered Theft", type: "spell", rarity: "uncommon", attack: 0, defense: 0, cost: 2, ability: "Steal 1 energy from opponent. Draw a card.", lore: "The Warlord let you take the ship. You didn't notice. You never noticed.", imageUrl: "" },
+      { name: "Iron Lion's Sigil", type: "unit", rarity: "rare", attack: 4, defense: 4, cost: 3, ability: "Friendly units gain +1/+0 while Iron Lion's Sigil is on the field.", lore: "A rebel banner Kael carried into every raid. He carried it here too.", imageUrl: "" },
+      { name: "Wife's Ghost", type: "unit", rarity: "rare", attack: 2, defense: 6, cost: 3, ability: "Heals Kael for 2 HP at the start of each turn. Cannot attack.", lore: "The Source wears her voice now. She says it's all right. It is not all right.", imageUrl: "" },
+      { name: "Kael, The Infected", type: "unit", rarity: "legendary", attack: 7, defense: 8, cost: 5, ability: "On deploy: EMP Shockwave all enemy units and apply a Thought-Virus counter. Immune to first kill per match.", lore: "He knows he was the delivery mechanism. He apologises in a voice that is not fully his own.", imageUrl: "" },
+    ],
+  },
   "void-entity": {
     name: "Void Entity",
     cards: [
@@ -494,6 +508,7 @@ export function getAvailableEnemies(): { id: string; name: string; difficulty: s
     { id: "corrupted-sentinel", name: "Corrupted Sentinel", difficulty: "Easy", description: "A malfunctioning security system. Good for learning the basics." },
     { id: "thought-virus", name: "The Thought Virus", difficulty: "Normal", description: "An insidious enemy that weakens your forces over time." },
     { id: "void-entity", name: "Void Entity", difficulty: "Hard", description: "An ancient being from between dimensions. Devastating power." },
+    { id: "echo-of-kael", name: "Echo of Kael", difficulty: "Mythic", description: "A Thought-Virus-corrupted simulation of Kael, running in the CADES sandbox. Every EMP shockwave is a memory." },
   ];
 }
 

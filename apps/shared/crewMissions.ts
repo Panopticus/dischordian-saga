@@ -117,6 +117,7 @@ export const CREW_MISSION_TEMPLATES: CrewMissionTemplate[] = [
     baseSuccessChance: 0.55,
     reward: { salvage: 220, materials: 120, voidCrystals: 4, xp: 90, loreFragmentId: "terminus_cache_01" },
     failureReward: { salvage: 30, xp: 15 },
+    cost: { dream: 40, materials: 30 },
   },
   {
     id: "mission_abyssal_extraction",
@@ -132,6 +133,7 @@ export const CREW_MISSION_TEMPLATES: CrewMissionTemplate[] = [
     baseSuccessChance: 0.50,
     reward: { dream: 260, influence: 80, voidCrystals: 5, xp: 100 },
     failureReward: { dream: 40, xp: 20 },
+    cost: { dream: 50, voidCrystals: 1 },
   },
   {
     id: "mission_signal_trace",
@@ -164,6 +166,7 @@ export const CREW_MISSION_TEMPLATES: CrewMissionTemplate[] = [
     baseSuccessChance: 0.30,
     reward: { dream: 600, voidCrystals: 12, materials: 200, xp: 250, loreFragmentId: "collector_annex_key" },
     failureReward: { dream: 60, xp: 40 },
+    cost: { dream: 100, voidCrystals: 2 },
   },
   {
     id: "mission_deadmans_circuit_glory",
@@ -179,6 +182,7 @@ export const CREW_MISSION_TEMPLATES: CrewMissionTemplate[] = [
     baseSuccessChance: 0.25,
     reward: { dream: 500, influence: 200, xp: 300 },
     failureReward: { influence: 20 },
+    cost: { dream: 80 },
   },
 ];
 

@@ -263,16 +263,66 @@ export const livingUniverseRouter = router({
 export { pressureService };
 
 /* ─── Non-tRPC utility: used by the setInterval tick job in _core/index.ts ─── */
-export async function runUniverseTick(): Promise<{ expired: string[]; emerged: string | null }> {
+export async function runUniverseTick(): Promise<{
+  expired: string[];
+  emerged: string | null;
+  virusTicks: number;
+}> {
   try {
     const result = await pressureService.tick();
-    if (result.expired.length > 0 || result.emerged) {
-      logger.info(`[LivingUniverse] scheduled tick: expired=${result.expired.join(",") || "none"} emerged=${result.emerged ?? "none"}`);
+    // Virus propagation tick: walks every recently-active player and advances
+    // their infection state. Short-circuits inside the service when the
+    // player's lastTickAt has not yet hit PROPAGATION_TICK_MS.
+    const virusTicks = await runThoughtVirusPropagationSweep().catch(e => {
+      logger.error("[LivingUniverse] virus sweep failed:", e);
+      return 0;
+    });
+    if (result.expired.length > 0 || result.emerged || virusTicks > 0) {
+      logger.info(
+        `[LivingUniverse] scheduled tick: expired=${result.expired.join(",") || "none"} ` +
+          `emerged=${result.emerged ?? "none"} virusTicks=${virusTicks}`,
+      );
     }
-    return result;
+    return { ...result, virusTicks };
   } catch (e) {
     logger.error("[LivingUniverse] scheduled tick failed:", e);
-    return { expired: [], emerged: null };
+    return { expired: [], emerged: null, virusTicks: 0 };
   }
+}
+
+/**
+ * Walk users who have signed in in the last 7 days and run the virus
+ * propagation tick for each. Keeps idle/lapsed accounts out of the sweep so
+ * the scheduled job stays cheap, and relies on the service-level short-circuit
+ * (lastTickAt guard) to skip players who propagated recently.
+ *
+ * Returns the number of players whose infection state actually changed.
+ */
+export async function runThoughtVirusPropagationSweep(): Promise<number> {
+  const db = await getDb();
+  if (!db) return 0;
+
+  const { users } = await import("../../db/schema");
+  const cutoff = new Date();
+  cutoff.setDate(cutoff.getDate() - 7);
+
+  const active = await db.select({ id: users.id })
+    .from(users)
+    .where(sql`${users.lastSignedIn} >= ${cutoff}`);
+
+  if (active.length === 0) return 0;
+
+  const { runPropagationTick } = await import("../services/thoughtVirusService");
+  let ticked = 0;
+  for (const row of active) {
+    const result = await runPropagationTick(row.id).catch(e => {
+      logger.error(`[ThoughtVirus] propagation tick failed for user ${row.id}:`, e);
+      return null;
+    });
+    if (result && (result.loadGained > 0 || result.newlyInfectedRooms.length > 0)) {
+      ticked += 1;
+    }
+  }
+  return ticked;
 }
 

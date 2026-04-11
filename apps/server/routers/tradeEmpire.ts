@@ -12,6 +12,7 @@ import { router, protectedProcedure } from "../_core/trpc";
 import { getDb } from "../db";
 import { userProgress, dreamBalance } from "../../db/schema";
 import { eq, and } from "drizzle-orm";
+import { ripple } from "../services/rippleEngine";
 
 function dbUnavailable(): never {
   throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Database unavailable" });
@@ -199,7 +200,17 @@ export const tradeEmpireRouter = router({
       }
       state.sectors[mission.sectorId] = sector;
 
+      // Thought Virus integration — running the Vox Corridor adds real viral
+      // exposure on top of the normal reward, per thoughtVirus.ts lore.
+      if (mission.id.startsWith("vox_corridor")) {
+        const { addLoad } = await import("../services/thoughtVirusService");
+        await addLoad(ctx.user.id, 6, "mission_vox_corridor");
+      }
+
       await saveEmpireState(ctx.user.id, state);
+
+      // Cross-system: feed Dead Man's Circuit "Kinetic Acquisition" side quest
+      await ripple.emit("trade_run_complete", { userId: ctx.user.id, missionId: mission.id });
 
       return {
         success: true,

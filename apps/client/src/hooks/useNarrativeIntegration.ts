@@ -21,6 +21,17 @@ import {
   WITNESSING_MILESTONES,
   type WitnessingMilestoneId,
 } from "@shared/witnessingEvents";
+import {
+  getPendingKaelPayoffCinematic,
+  KAEL_FRAGMENTS,
+} from "@shared/appendixBKaelQuestline";
+import {
+  isKaelQuestlineComplete,
+  pendingKaelFragmentUnlocks,
+  type KaelFragmentWatcherContext,
+} from "@shared/kaelFragmentWatchers";
+import { act4PrisonerFlagsForCompletedStoryChapters } from "@shared/actsFourFiveShells";
+import { loadStoryProgress } from "@/game/storyMode";
 
 /* ─── LORE DISCOVERY TRIGGERS ───
    Automatically discover lore entries based on game state changes.
@@ -545,6 +556,96 @@ export function useNarrativeIntegration() {
     state.narrativeFlags?.insurgency_infiltration_complete,
     state.narrativeFlags?.empire_archon_offer_accepted,
     fireMilestone,
+  ]);
+
+  // ─── §9 — ACT 4 PRISONER CHAPTERS FROM STORY MODE ───
+  // When the player completes a Collectors Arena story mode
+  // chapter that matches one of the four Act 4 Prisoner
+  // chapters, raise the corresponding completedFlag. The
+  // storyProgress state lives in localStorage, so we read
+  // it on every narrativeFlags change — returning to the
+  // Ark from a fight is the natural retrigger.
+  useEffect(() => {
+    let completedChapters: readonly string[] = [];
+    try {
+      completedChapters = loadStoryProgress().completedChapters ?? [];
+    } catch {
+      return;
+    }
+    if (completedChapters.length === 0) return;
+    const pendingFlags = act4PrisonerFlagsForCompletedStoryChapters(
+      completedChapters,
+    );
+    for (const flag of pendingFlags) {
+      if (!state.narrativeFlags?.[flag]) {
+        setNarrativeFlag(flag, true);
+      }
+    }
+  }, [state.narrativeFlags, setNarrativeFlag]);
+
+  // ─── APPENDIX B §B.3 — KAEL FRAGMENT F1-F6 WATCHER ───
+  // pendingKaelFragmentUnlocks is pure: given flags + a small
+  // runtime context, it returns the set of Fragment ids whose
+  // conditions are now satisfied. This effect raises the flag
+  // for each one — the ripple handlers registered in Tier 9 of
+  // the ripple engine do the rest.
+  //
+  // The runtime context values (comms idle minutes, panopticon
+  // ruins mission count, Celebration Trial day, apprentice
+  // bond) come from other gameplay systems that haven't yet
+  // wired themselves in. Until they do, these default to 0 and
+  // the only fragments that can unlock here are the ones gated
+  // purely on flags (F1 after Terminus Wave 10, F4 after
+  // Substrate Dungeon, F6 after Act 1 Cycle B / Light reading).
+  useEffect(() => {
+    const flags = state.narrativeFlags ?? {};
+    const ctx: KaelFragmentWatcherContext = {
+      // Placeholder values — gameplay systems will override
+      // these once they start tracking the metrics.
+      commsIdleMinutesWhileHumanActive: 0,
+      panopticonRuinsMissionCount: 0,
+      celebrationTrialDay: 0,
+      highestApprenticeBond: 0,
+    };
+    const pending = pendingKaelFragmentUnlocks(flags, ctx);
+    for (const fragmentId of pending) {
+      const frag = KAEL_FRAGMENTS.find((f) => f.id === fragmentId);
+      if (!frag) continue;
+      setNarrativeFlag(frag.flag, true);
+      toast.success(`Kael Fragment ${fragmentId.toUpperCase()}: ${frag.title}`, {
+        description: frag.whatPlayerLearns,
+        duration: 15000,
+      });
+    }
+  }, [state.narrativeFlags, setNarrativeFlag]);
+
+  // ─── APPENDIX B §B.8 — KAEL PAYOFF CINEMATICS ───
+  // Watches the narrative flag set for the three bd1/bd2/bd3
+  // trigger conditions. getPendingKaelPayoffCinematic returns
+  // the next cinematic that should play; on fire we raise its
+  // flag and surface a toast. The toast is the playback
+  // surface until the bd1/bd2/bd3 cinematic components ship.
+  useEffect(() => {
+    // Auto-raise kael_questline_complete once all six F1-F6
+    // flags are set. This keeps the bd3 trigger honest even
+    // though the per-fragment consumers haven't shipped yet.
+    if (
+      isKaelQuestlineComplete(state.narrativeFlags ?? {}) &&
+      !state.narrativeFlags?.kael_questline_complete
+    ) {
+      setNarrativeFlag("kael_questline_complete", true);
+      return;
+    }
+    const pending = getPendingKaelPayoffCinematic(state.narrativeFlags ?? {});
+    if (!pending) return;
+    setNarrativeFlag(pending.flag, true);
+    toast.success(`Cinematic: ${pending.title}`, {
+      description: pending.purpose,
+      duration: 12000,
+    });
+  }, [
+    state.narrativeFlags,
+    setNarrativeFlag,
   ]);
 
   // ─── WITNESSING §3.3 / §14.1 — DISCHORDIA PHASE MILESTONES ───

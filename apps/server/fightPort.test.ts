@@ -84,11 +84,13 @@ describe("Fighting Game SF-Port Enhancements", () => {
       expect(STARTER_FIGHTERS.length).toBe(14);
     });
 
-    it("should have 19 unlockable fighters", async () => {
+    it("should have 22 unlockable fighters", async () => {
+      // Was 19; raised to 22 when white-oracle/human/warden were added
+      // as story-mode chapter opponents for ch6/ch8/ch10.
       const { UNLOCKABLE_FIGHTERS } = await import(
         "../client/src/game/gameData"
       );
-      expect(UNLOCKABLE_FIGHTERS.length).toBe(19);
+      expect(UNLOCKABLE_FIGHTERS.length).toBe(22);
     });
 
     it("should have 10 demon fighters", async () => {

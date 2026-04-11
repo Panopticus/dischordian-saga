@@ -6,7 +6,9 @@ import { useMemo, useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
-import { Heart, Shield, Brain, Zap, Droplet, Wind, Users, Crown, Sparkles } from "lucide-react";
+import { Heart, Shield, Brain, Zap, Droplet, Wind, Users, Crown, Sparkles, HeartOff, HeartHandshake } from "lucide-react";
+import { trpc } from "@/lib/trpc";
+import { toast } from "sonner";
 import { CREW_ROLES, type CrewRoleId } from "@/game/crewManagement";
 import { FOUNDING_BLOODLINES, getTrait, type BloodlineId } from "@/game/crewGenetics";
 import type { CrewState, SerializedCrewMember } from "@shared/crewPersistence";
@@ -15,7 +17,6 @@ import {
   BLOODLINE_HOLIDAY_BONUSES,
   ROLE_HOLIDAY_BONUSES,
 } from "@/data/events/christmasInJuly/crewHoliday";
-import { trpc } from "@/lib/trpc";
 
 interface Props {
   state: CrewState;
@@ -65,6 +66,12 @@ function StatusBadge({ status }: { status: SerializedCrewMember["status"] }) {
 
 export default function CrewRosterView({ state, onAssignRole }: Props) {
   const [selectedId, setSelectedId] = useState<string | null>(null);
+  const toggleOptOut = trpc.crew.toggleRomanceOptOut.useMutation({
+    onError: (e: any) => toast.error(e.message),
+  });
+  const endRomance = trpc.crew.endRomance.useMutation({
+    onError: (e: any) => toast.error(e.message),
+  });
 
   // Christmas in July: when the event window is open, each member's
   // card gets a small bonus chip summarising their holiday contribution.
@@ -234,6 +241,90 @@ export default function CrewRosterView({ state, onAssignRole }: Props) {
                 </div>
               </div>
             )}
+
+            {/* Romances — any active partner/courtship involving this member */}
+            {(() => {
+              const myRomances = state.romances.filter(
+                r =>
+                  (r.memberAId === selected.id || r.memberBId === selected.id) &&
+                  (r.status === "courtship" || r.status === "partnered"),
+              );
+              const isOptedOut = state.romanceOptOuts?.includes(selected.id);
+              if (myRomances.length === 0 && !isOptedOut) {
+                return (
+                  <div className="mb-4">
+                    <button
+                      onClick={() =>
+                        toggleOptOut.mutate({ memberId: selected.id, optOut: true })
+                      }
+                      className="text-[10px] font-mono text-muted-foreground/60 hover:text-muted-foreground flex items-center gap-1"
+                    >
+                      <HeartOff size={10} />
+                      opt out of emergent romances
+                    </button>
+                  </div>
+                );
+              }
+              return (
+                <div className="mb-4">
+                  <div className="text-[10px] font-mono uppercase text-muted-foreground mb-1 flex items-center gap-1">
+                    <HeartHandshake size={10} />
+                    Romance
+                  </div>
+                  {isOptedOut && (
+                    <div className="text-[10px] font-mono text-muted-foreground/60 italic mb-1">
+                      opted out — no emergent romances will form
+                    </div>
+                  )}
+                  {myRomances.map(r => {
+                    const otherId =
+                      r.memberAId === selected.id ? r.memberBId : r.memberAId;
+                    const other =
+                      state.roster.members.find(m => m.id === otherId) ??
+                      state.roster.deceased.find(m => m.id === otherId);
+                    if (!other) return null;
+                    return (
+                      <div
+                        key={r.id}
+                        className="flex items-center justify-between text-[10px] font-mono mb-1"
+                      >
+                        <span>
+                          {r.status === "partnered" ? "partnered with" : "courting"}{" "}
+                          <span className="text-cyan-300">{other.name}</span>
+                        </span>
+                        <button
+                          onClick={() => endRomance.mutate({ romanceId: r.id })}
+                          className="text-[9px] text-red-300/70 hover:text-red-300"
+                        >
+                          end
+                        </button>
+                      </div>
+                    );
+                  })}
+                  {isOptedOut ? (
+                    <button
+                      onClick={() =>
+                        toggleOptOut.mutate({ memberId: selected.id, optOut: false })
+                      }
+                      className="text-[9px] font-mono text-muted-foreground/60 hover:text-muted-foreground"
+                    >
+                      allow emergent romances
+                    </button>
+                  ) : (
+                    myRomances.length > 0 && (
+                      <button
+                        onClick={() =>
+                          toggleOptOut.mutate({ memberId: selected.id, optOut: true })
+                        }
+                        className="text-[9px] font-mono text-muted-foreground/60 hover:text-muted-foreground"
+                      >
+                        opt out of future romances
+                      </button>
+                    )
+                  )}
+                </div>
+              );
+            })()}
 
             {/* Relationships */}
             {Object.keys(selected.relationships).length > 0 && (

@@ -15,27 +15,46 @@
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Play, SkipForward, Radio, BookOpen } from "lucide-react";
-import { driveEmbedUrl, type Transmission } from "@shared/transmissions";
+import { driveEmbedUrl, transmissionId as makeTransmissionId, type Transmission } from "@shared/transmissions";
 import { getLoredexUnlocksForTransmission } from "@shared/transmissionLoredexUnlocks";
 import { useKinetic } from "@/hooks/useKinetic";
 import { emitDiscoveryNotification } from "@/components/DiscoveryNotification";
 import { getNPCPortrait } from "@/game/npcPortraits";
 import { useMemeVO } from "@/hooks/useMemeVO";
+import { useGame } from "@/contexts/GameContext";
+import { trpc } from "@/lib/trpc";
+import { useAuth } from "@/_core/hooks/useAuth";
+import { toast } from "sonner";
 
 interface Props {
   transmission: Transmission;
   onClose: () => void;
   onComplete: (transmissionId: string) => void;
   alreadyWatched: boolean;
+  /** Legacy boolean (back-compat). Prefer `oracleRevealTier`. */
   oracleRevealActive: boolean;
+  /** 0 = hidden, 1-3 = progressively revealed. Drives color gradation. */
+  oracleRevealTier?: number;
 }
 
 type Phase = "static-in" | "intro" | "static-to-video" | "broadcast" | "static-to-outro" | "outro" | "done";
 
-export default function MemeBroadcast({ transmission, onClose, onComplete, alreadyWatched, oracleRevealActive }: Props) {
-  const [phase, setPhase] = useState<Phase>("static-in");
+export default function MemeBroadcast({ transmission, onClose, onComplete, alreadyWatched, oracleRevealActive, oracleRevealTier = 0 }: Props) {
+  // Replays skip intro static → jump straight to the video. First
+  // watches play the full CRT-static → intro → tape → outro arc.
+  const [phase, setPhase] = useState<Phase>(
+    alreadyWatched ? "static-to-video" : "static-in",
+  );
   const [loredexRevealed, setLoredexRevealed] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const {
+    state: gameState,
+    addLoredexDiscovered,
+    setTransmissionPlaybackPosition,
+    clearTransmissionPlaybackPosition,
+  } = useGame();
+  const { isAuthenticated } = useAuth();
+  const recordWatched = trpc.transmissions.recordWatched.useMutation();
 
   // Opening static burst → intro
   useEffect(() => {
@@ -48,10 +67,20 @@ export default function MemeBroadcast({ transmission, onClose, onComplete, alrea
       return () => clearTimeout(t);
     }
     if (phase === "static-to-outro") {
+      // Replays skip the outro kinetic commentary entirely and
+      // close immediately after the video ends — no re-earning
+      // rewards, no re-revealing loredex.
+      if (alreadyWatched) {
+        const t = setTimeout(() => {
+          setPhase("done");
+          setTimeout(onClose, 1000);
+        }, 400);
+        return () => clearTimeout(t);
+      }
       const t = setTimeout(() => setPhase("outro"), 600);
       return () => clearTimeout(t);
     }
-  }, [phase]);
+  }, [phase, alreadyWatched, onClose]);
 
   // Meme VO playback
   const { speak: speakMeme, stop: stopMeme } = useMemeVO();
@@ -72,29 +101,64 @@ export default function MemeBroadcast({ transmission, onClose, onComplete, alrea
     }
   }, [phase, transmission.epoch, transmission.episodeNumber, speakMeme, stopMeme]);
 
-  const transmissionId = `ep${transmission.epoch}-${transmission.episodeNumber}`;
+  // Use the shared helper — the inline `ep${epoch}-${episode}` form
+  // would produce the wrong id for Spaces In Between episodes, which
+  // need a `sib-ep{n}` prefix to avoid colliding with Epoch 0.
+  const transmissionId = makeTransmissionId(transmission);
 
   const handleComplete = () => {
     onComplete(transmissionId);
 
-    // Fire Loredex unlocks on first watch
+    // Fire Loredex unlocks on first watch — persisted via game context
+    // (survives cache clears, syncs to server via userProgress save).
     if (!alreadyWatched && !loredexRevealed) {
       setLoredexRevealed(true);
       const unlocks = getLoredexUnlocksForTransmission(transmissionId);
       if (unlocks && unlocks.entityIds.length > 0) {
-        // Mark entities as discovered in localStorage
-        const discovered: string[] = JSON.parse(localStorage.getItem("loredex_discovered") || "[]");
-        const newIds = unlocks.entityIds.filter(id => !discovered.includes(id));
-        if (newIds.length > 0) {
-          localStorage.setItem("loredex_discovered", JSON.stringify([...discovered, ...newIds]));
-          // Emit discovery notification
-          emitDiscoveryNotification({
-            featureKey: `transmission-${transmissionId}`,
-            featureLabel: `${unlocks.discoveryLabel} — ${newIds.length} Loredex ${newIds.length === 1 ? "entry" : "entries"} unlocked`,
-            roomName: "Late Night with the Meme",
-            path: `/entity/${newIds[0]}`,
-          });
-        }
+        addLoredexDiscovered(unlocks.entityIds);
+        emitDiscoveryNotification({
+          featureKey: `transmission-${transmissionId}`,
+          featureLabel: `${unlocks.discoveryLabel} — ${unlocks.entityIds.length} Loredex ${unlocks.entityIds.length === 1 ? "entry" : "entries"} unlocked`,
+          roomName: "Late Night with the Meme",
+          path: `/entity/${unlocks.entityIds[0]}`,
+        });
+      }
+
+      // Server-side idempotent reward grant. The server dedupes via
+      // contentParticipation so this is safe to call from re-renders;
+      // rewards are only granted once per transmission per user.
+      if (isAuthenticated) {
+        recordWatched.mutate(
+          {
+            transmissionId,
+            xp: transmission.reward.xp,
+            dream: transmission.reward.dream,
+            achievement: transmission.reward.achievement,
+            loredexEntries: unlocks?.entityIds ?? [],
+          },
+          {
+            onSuccess: (result) => {
+              if (result.newlyGranted) {
+                const parts: string[] = [];
+                if (result.rewards.xp > 0) parts.push(`+${result.rewards.xp} XP`);
+                if (result.rewards.dream > 0) parts.push(`+${result.rewards.dream} Dream`);
+                if (result.rewards.achievement) {
+                  parts.push(`◈ ${result.rewards.achievement.replace(/_/g, " ")}`);
+                }
+                if (parts.length > 0) {
+                  toast.success(parts.join(" · "), {
+                    description: `Transmission archived: ${transmission.title}`,
+                    duration: 4500,
+                  });
+                }
+              }
+            },
+            onError: () => {
+              // Silent — client state already marked watched; rewards
+              // can be reconciled on next login.
+            },
+          },
+        );
       }
     }
 
@@ -102,11 +166,26 @@ export default function MemeBroadcast({ transmission, onClose, onComplete, alrea
     setTimeout(onClose, 2500);
   };
 
-  // Visual theming — shifts when Oracle reveal active (Episode 11+)
-  const accent = oracleRevealActive ? "text-purple-300" : "text-pink-400";
-  const borderColor = oracleRevealActive ? "border-purple-400/60" : "border-pink-500/60";
-  const glowColor = oracleRevealActive ? "rgba(168,85,247,0.2)" : "rgba(236,72,153,0.2)";
-  const memeColor = oracleRevealActive ? "#c084fc" : "#f472b6";
+  // Visual theming gradates across 4 tiers as Oracle-shift episodes
+  // accumulate (Episodes 11, 14, 19 in transmissions.ts). Tier 0 is
+  // pink (pre-reveal). Each step toward Tier 3 shifts toward purple
+  // / void accents, matching the "he's been the Oracle all along"
+  // narrative beat. Legacy `oracleRevealActive=true` maps to Tier 1
+  // so older saves still get a visible shift on upgrade.
+  const effectiveTier = oracleRevealTier > 0
+    ? oracleRevealTier
+    : oracleRevealActive ? 1 : 0;
+  const THEME = [
+    { accent: "text-pink-400",  borderColor: "border-pink-500/60",   glow: "rgba(236,72,153,0.2)", color: "#f472b6" },
+    { accent: "text-fuchsia-300", borderColor: "border-fuchsia-500/60", glow: "rgba(217,70,239,0.22)", color: "#e879f9" },
+    { accent: "text-purple-300", borderColor: "border-purple-400/60", glow: "rgba(168,85,247,0.26)", color: "#c084fc" },
+    { accent: "text-violet-200", borderColor: "border-violet-400/70", glow: "rgba(139,92,246,0.32)", color: "#a78bfa" },
+  ] as const;
+  const theme = THEME[Math.max(0, Math.min(3, effectiveTier))];
+  const accent = theme.accent;
+  const borderColor = theme.borderColor;
+  const glowColor = theme.glow;
+  const memeColor = theme.color;
 
   // Meme portrait expressions — shifts face based on broadcast phase
   const memePortrait = getNPCPortrait("the_meme");
@@ -292,7 +371,28 @@ export default function MemeBroadcast({ transmission, onClose, onComplete, alrea
                       className="w-full h-full"
                       controls
                       autoPlay
-                      onEnded={() => setPhase("static-to-outro")}
+                      // Seek to the persisted resume position on first
+                      // load (within 1s of end => restart).
+                      onLoadedMetadata={(e) => {
+                        const saved =
+                          gameState.transmissionPlaybackPositions?.[transmissionId] ?? 0;
+                        const vid = e.currentTarget;
+                        if (saved > 2 && vid.duration && saved < vid.duration - 1) {
+                          vid.currentTime = saved;
+                        }
+                      }}
+                      // Persist scrub position ~every second. Helper
+                      // snaps to integer seconds + dedupes no-op writes.
+                      onTimeUpdate={(e) => {
+                        setTransmissionPlaybackPosition(
+                          transmissionId,
+                          e.currentTarget.currentTime,
+                        );
+                      }}
+                      onEnded={() => {
+                        clearTransmissionPlaybackPosition(transmissionId);
+                        setPhase("static-to-outro");
+                      }}
                       title={transmission.title}
                       style={{ filter: "contrast(1.05) brightness(0.95)" }}
                     />
@@ -305,27 +405,31 @@ export default function MemeBroadcast({ transmission, onClose, onComplete, alrea
                       title={transmission.title}
                     />
                   ) : (
-                    <div className="w-full h-full flex flex-col items-center justify-center text-center px-6">
-                      <motion.div
-                        animate={{ opacity: [0.3, 1, 0.3] }}
-                        transition={{ duration: 1.5, repeat: Infinity }}
-                        className="font-mono text-[10px] uppercase tracking-[0.3em] text-amber-400 mb-3"
-                      >
-                        ▸ SIGNAL PENDING
-                      </motion.div>
-                      <p className="font-mono text-xs text-white/50 max-w-md leading-relaxed">
-                        {transmission.synopsis}
-                      </p>
-                    </div>
+                    // Text-only "audio intercept" fallback for transmissions
+                    // that don't have a video asset (e.g. Spaces In Between).
+                    // Synopsis + auto-advance so the flow still reaches the
+                    // outro and rewards trigger normally.
+                    <TextTransmissionFallback
+                      synopsis={transmission.synopsis}
+                      memeColor={memeColor}
+                      onContinue={() => setPhase("static-to-outro")}
+                    />
                   )}
 
-                  {/* Skip button */}
-                  <button
-                    onClick={() => setPhase("static-to-outro")}
-                    className="absolute bottom-3 right-3 px-3 py-1.5 rounded bg-black/80 border border-white/10 font-mono text-[8px] uppercase tracking-wider text-white/50 hover:text-white hover:bg-black flex items-center gap-1.5 z-[70]"
-                  >
-                    SKIP <SkipForward size={9} />
-                  </button>
+                  {/* Skip button (only useful when there's a real video) */}
+                  {(transmission.videoUrl || transmission.driveFileId) && (
+                    <button
+                      onClick={() => {
+                        // Skipping voluntarily clears the resume point
+                        // so the next open starts from the beginning.
+                        clearTransmissionPlaybackPosition(transmissionId);
+                        setPhase("static-to-outro");
+                      }}
+                      className="absolute bottom-3 right-3 px-3 py-1.5 rounded bg-black/80 border border-white/10 font-mono text-[8px] uppercase tracking-wider text-white/50 hover:text-white hover:bg-black flex items-center gap-1.5 z-[70]"
+                    >
+                      SKIP <SkipForward size={9} />
+                    </button>
+                  )}
                 </div>
               )}
 
@@ -434,5 +538,67 @@ export default function MemeBroadcast({ transmission, onClose, onComplete, alrea
         `}</style>
       </motion.div>
     </AnimatePresence>
+  );
+}
+
+/**
+ * Text-only fallback shown during the `broadcast` phase when a
+ * transmission has no videoUrl / driveFileId. Reveals the synopsis
+ * with a kinetic cursor then exposes a CONTINUE button that advances
+ * to the Meme's outro (where rewards fire).
+ */
+function TextTransmissionFallback({
+  synopsis,
+  memeColor,
+  onContinue,
+}: {
+  synopsis: string;
+  memeColor: string;
+  onContinue: () => void;
+}) {
+  const kinetic = useKinetic({ mode: "word", text: synopsis, speed: 30, autoStart: true });
+  return (
+    <div className="w-full h-full flex flex-col items-center justify-center text-center px-6 py-8 gap-5">
+      <motion.div
+        animate={{ opacity: [0.3, 1, 0.3] }}
+        transition={{ duration: 1.8, repeat: Infinity }}
+        className="font-mono text-[10px] uppercase tracking-[0.3em] text-amber-400"
+      >
+        ▸ AUDIO INTERCEPT · VIDEO UNAVAILABLE
+      </motion.div>
+      <p className="font-mono text-xs sm:text-sm text-white/70 max-w-md leading-relaxed italic">
+        {kinetic.displayText}
+        {!kinetic.isComplete && (
+          <span
+            className="inline-block w-[2px] h-[1em] ml-[2px] align-text-bottom animate-pulse"
+            style={{ background: memeColor }}
+          />
+        )}
+      </p>
+      <AnimatePresence>
+        {kinetic.isComplete && (
+          <motion.button
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            onClick={onContinue}
+            className="px-5 py-2 rounded font-mono text-[10px] uppercase tracking-[0.3em] flex items-center justify-center gap-2 transition-all"
+            style={{
+              border: `1px solid ${memeColor}40`,
+              color: memeColor,
+              background: `${memeColor}08`,
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = `${memeColor}15`;
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = `${memeColor}08`;
+            }}
+          >
+            <SkipForward size={12} /> CONTINUE TO OUTRO
+          </motion.button>
+        )}
+      </AnimatePresence>
+    </div>
   );
 }

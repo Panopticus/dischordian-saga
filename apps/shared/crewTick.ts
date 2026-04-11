@@ -14,6 +14,7 @@ import type {
   SerializedCrewMember,
   SerializedPod,
   SerializedFeedEntry,
+  CrewRomance,
 } from "./crewPersistence";
 import { trimFeed } from "./crewPersistence";
 import { CREW_BALANCE } from "./crewBalance";
@@ -270,6 +271,169 @@ export function tickAmbientFeed(state: CrewState, now: number): CrewState {
   };
 }
 
+/* ─── ROMANCE TICK ───
+   Emergent romance: on each tick, any pair with a mutual relationship
+   score ≥ romanceThreshold who are not already in an active romance
+   has a small chance to begin a courtship. Courtships become
+   partnerships after REAL_MS_COURTSHIP if the player doesn't opt them
+   out. Partnered couples grant +romanceMoraleBonus to both members.
+   Ended romances are preserved in the list so the UI can show history. */
+
+const COURTSHIP_DURATION_MS = 3 * 60 * 60 * 1000; // 3 hours of real time
+const COURTSHIP_CHECK_MS = 30 * 60 * 1000; // check every 30 minutes
+
+export function tickRomance(
+  state: CrewState,
+  now: number,
+  rng: () => number = Math.random,
+): CrewState {
+  const active = state.roster.members.filter(m => m.status === "active");
+  // Note: we don't early-return on active.length < 2 here because the
+  // pruning pass still needs to end romances whose partners died. Only
+  // the emergence (new-courtship) pass requires 2+ active members.
+
+  let romances = [...state.romances];
+  const feedAdditions: SerializedFeedEntry[] = [];
+
+  // 1) Advance courtships to partnered status after the grace period
+  romances = romances.map(r => {
+    if (r.status === "courtship" && now - r.declaredAt >= COURTSHIP_DURATION_MS) {
+      const a = state.roster.members.find(m => m.id === r.memberAId);
+      const b = state.roster.members.find(m => m.id === r.memberBId);
+      if (a && b) {
+        feedAdditions.push({
+          id: `romance-partnered-${r.id}`,
+          timestamp: now,
+          roomId: "captains_quarters",
+          category: "social",
+          text: `Captain's Quarters: ${a.name} and ${b.name} have made it official. The crew has been... waiting for this.`,
+          severity: "info",
+          actionable: false,
+        });
+      }
+      return { ...r, status: "partnered" as const };
+    }
+    return r;
+  });
+
+  // 2) Prune romances where one member is dead or no longer active
+  romances = romances.map(r => {
+    if (r.status === "ended" || r.status === "estranged") return r;
+    const a = state.roster.members.find(m => m.id === r.memberAId);
+    const b = state.roster.members.find(m => m.id === r.memberBId);
+    if (!a || !b || a.status === "dead" || b.status === "dead") {
+      if (a || b) {
+        const survivor = a?.status !== "dead" ? a : b;
+        const lost = a?.status === "dead" ? a : b;
+        if (survivor && lost) {
+          feedAdditions.push({
+            id: `romance-ended-${r.id}-${now}`,
+            timestamp: now,
+            roomId: "trophy_room",
+            category: "social",
+            text: `Trophy Room: ${survivor.name} sat alone at ${lost.name}'s memorial. Nobody asked them to speak.`,
+            severity: "warning",
+            actionable: false,
+          });
+        }
+      }
+      return { ...r, status: "ended" as const };
+    }
+    return r;
+  });
+
+  // 3) Apply partnered-romance morale bonus to active partners (idempotent —
+  //    only nudges morale if below the ceiling). Fires at most once per tick.
+  const partnerIds = new Set(
+    romances
+      .filter(r => r.status === "partnered")
+      .flatMap(r => [r.memberAId, r.memberBId]),
+  );
+
+  // 4) Check for new emergent romances — throttle to COURTSHIP_CHECK_MS.
+  //    Requires at least two living, active crew.
+  const lastCheck = state.lastRomanceCheckAt ?? 0;
+  if (active.length >= 2 && now - lastCheck >= COURTSHIP_CHECK_MS) {
+    const existingPairs = new Set(
+      romances
+        .filter(r => r.status === "courtship" || r.status === "partnered")
+        .flatMap(r => [`${r.memberAId}:${r.memberBId}`, `${r.memberBId}:${r.memberAId}`]),
+    );
+    const optOutSet = new Set(state.romanceOptOuts ?? []);
+
+    for (let i = 0; i < active.length; i++) {
+      for (let j = i + 1; j < active.length; j++) {
+        const a = active[i];
+        const b = active[j];
+        if (optOutSet.has(a.id) || optOutSet.has(b.id)) continue;
+        const key = `${a.id}:${b.id}`;
+        if (existingPairs.has(key)) continue;
+        const scoreA = a.relationships?.[b.id] ?? 0;
+        const scoreB = b.relationships?.[a.id] ?? 0;
+        const mean = (scoreA + scoreB) / 2;
+        if (mean < CREW_BALANCE.romanceThreshold) continue;
+        // Emergence chance scales with how far above threshold they are
+        const over = Math.min(1, (mean - CREW_BALANCE.romanceThreshold) / 25);
+        const chance = 0.2 + over * 0.5;
+        if (rng() >= chance) continue;
+        // New courtship!
+        const romance: CrewRomance = {
+          id: `romance-${now}-${a.id}-${b.id}`,
+          memberAId: a.id,
+          memberBId: b.id,
+          declaredAt: now,
+          status: "courtship",
+        };
+        romances.push(romance);
+        feedAdditions.push({
+          id: `romance-start-${romance.id}`,
+          timestamp: now,
+          roomId: "observation_deck",
+          category: "social",
+          text: `Observation Deck: ${a.name} and ${b.name} were seen talking after shift. Elara logged it under "developments."`,
+          severity: "info",
+          actionable: false,
+        });
+        existingPairs.add(key);
+        existingPairs.add(`${b.id}:${a.id}`);
+      }
+    }
+  }
+
+  if (
+    romances === state.romances &&
+    feedAdditions.length === 0 &&
+    state.lastRomanceCheckAt === lastCheck + (now - lastCheck >= COURTSHIP_CHECK_MS ? now - lastCheck : 0)
+  ) {
+    return state;
+  }
+
+  // Apply partnered morale bonus (at most +romanceMoraleBonus per partner,
+  // applied once per tick; won't pump past 100)
+  const updatedMembers =
+    partnerIds.size > 0
+      ? state.roster.members.map(m => {
+          if (!partnerIds.has(m.id) || m.status !== "active") return m;
+          const boosted = Math.min(100, m.morale + CREW_BALANCE.romanceMoraleBonus);
+          if (boosted === m.morale) return m;
+          return { ...m, morale: boosted };
+        })
+      : state.roster.members;
+
+  return {
+    ...state,
+    romances,
+    roster:
+      updatedMembers === state.roster.members
+        ? state.roster
+        : { ...state.roster, members: updatedMembers },
+    feed:
+      feedAdditions.length > 0 ? trimFeed([...state.feed, ...feedAdditions]) : state.feed,
+    feedUnreadCount: state.feedUnreadCount + feedAdditions.length,
+    lastRomanceCheckAt: now - lastCheck >= COURTSHIP_CHECK_MS ? now : lastCheck,
+  };
+}
+
 /* ─── COMBINED PIPELINE ─── */
 
 export function applyTick(
@@ -281,5 +445,6 @@ export function applyTick(
   next = tickMissions(next, now);
   next = tickAging(next, now);
   next = tickAmbientFeed(next, now);
+  next = tickRomance(next, now, rng);
   return next;
 }

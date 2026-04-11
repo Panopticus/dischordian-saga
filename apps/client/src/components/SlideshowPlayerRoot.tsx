@@ -14,6 +14,7 @@
 
 import { useCallback, useMemo } from "react";
 import { SongSlideshow } from "./SongSlideshow";
+import { MatrixFrame } from "./MatrixFrame";
 import { useWitnessingStore } from "@/stores/witnessingStore";
 import { applySlideshowReward } from "@/stores/dischordiaCycleStore";
 import {
@@ -28,7 +29,15 @@ export function SlideshowPlayerRoot() {
   const completeActive = useWitnessingStore((s) => s.completeActiveSlideshow);
   const closeActive = useWitnessingStore((s) => s.closeActiveSlideshow);
   const moments = useMemorableMomentsStore((s) => s.moments);
-  const { setNarrativeFlag } = useGame();
+  const { setNarrativeFlag, state: gameState } = useGame();
+
+  // Appendix A.1 — once the player flips
+  // matrix_is_slideshow_substrate, every slideshow becomes a
+  // diegetic "Matrix pull." Before the flag, slideshows play
+  // with the pre-Witnessing framing they always had.
+  const matrixFrameActive = Boolean(
+    gameState.narrativeFlags?.matrix_is_slideshow_substrate,
+  );
 
   // §11.2 — when the queued slideshow is "The Lion in Black",
   // substitute its dynamic frames (2-10) with captions curated
@@ -79,7 +88,7 @@ export function SlideshowPlayerRoot() {
 
   if (!active || !slideshowDef) return null;
 
-  return (
+  const slideshow = (
     <SongSlideshow
       def={slideshowDef}
       onComplete={handleComplete}
@@ -87,4 +96,11 @@ export function SlideshowPlayerRoot() {
       onClose={handleClose}
     />
   );
+
+  if (matrixFrameActive) {
+    return (
+      <MatrixFrame title={slideshowDef.title}>{slideshow}</MatrixFrame>
+    );
+  }
+  return slideshow;
 }

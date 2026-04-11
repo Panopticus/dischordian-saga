@@ -20,7 +20,9 @@ import { gameStateRouter } from "./routers/gameState";
 import { cardChallengeRouter } from "./routers/cardChallenge";
 import { adminRouter } from "./routers/admin";
 import { contentRewardRouter } from "./routers/contentReward";
+import { transmissionsRouter } from "./routers/transmissions";
 import { fightLeaderboardRouter } from "./routers/fightLeaderboard";
+import { essenceHarvestRouter } from "./routers/essenceHarvest";
 import { pvpRouter } from "./routers/pvp";
 import { draftRouter } from "./routers/draft";
 import { tradingRouter } from "./routers/trading";
@@ -33,6 +35,8 @@ import { moralityLeaderboardRouter } from "./routers/moralityLeaderboard";
 import { companionRouter } from "./routers/companion";
 import { marketplaceRouter } from "./routers/marketplace";
 import { dailyQuestsRouter } from "./routers/dailyQuests";
+import { bonusObjectivesRouter } from "./routers/bonusObjectives";
+import { vortexIncursionRouter } from "./routers/vortexIncursion";
 import { marketAchievementsRouter } from "./routers/marketAchievements";
 import { notificationRouter } from "./routers/notificationRouter";
 import { guildRouter } from "./routers/guild";
@@ -77,6 +81,8 @@ import { communityCodexRouter } from "./routers/communityCodex";
 import { performanceRouter } from "./routers/performance";
 import { deadMansCircuitRouter } from "./routers/deadMansCircuit";
 import { livingUniverseRouter } from "./routers/livingUniverse";
+import { palimpsestRouter } from "./routers/palimpsest";
+import { thoughtVirusRouter } from "./routers/thoughtVirus";
 import { casinoRouter } from "./routers/casino";
 import { christmasInJulyRouter } from "./routers/christmasInJuly";
 import { dischordiaCycleRouter } from "./routers/dischordiaCycle";
@@ -97,7 +103,9 @@ export const appRouter = router({
   cardChallenge: cardChallengeRouter,
   admin: adminRouter,
   contentReward: contentRewardRouter,
+  transmissions: transmissionsRouter,
   fightLeaderboard: fightLeaderboardRouter,
+  essenceHarvest: essenceHarvestRouter,
   pvp: pvpRouter,
   draft: draftRouter,
   trading: tradingRouter,
@@ -110,6 +118,8 @@ export const appRouter = router({
   companion: companionRouter,
   marketplace: marketplaceRouter,
   quests: dailyQuestsRouter,
+  bonusObjectives: bonusObjectivesRouter,
+  vortexIncursion: vortexIncursionRouter,
   marketAchievements: marketAchievementsRouter,
   notifications: notificationRouter,
   guild: guildRouter,
@@ -154,6 +164,8 @@ export const appRouter = router({
   performance: performanceRouter,
   deadMansCircuit: deadMansCircuitRouter,
   livingUniverse: livingUniverseRouter,
+  palimpsest: palimpsestRouter,
+  thoughtVirus: thoughtVirusRouter,
   casino: casinoRouter,
   christmasInJuly: christmasInJulyRouter,
   dischordiaCycle: dischordiaCycleRouter,

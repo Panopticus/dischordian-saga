@@ -12,8 +12,8 @@
    footprint that works with the existing theme.
    ═══════════════════════════════════════════════════════ */
 
-import { useMemo, useRef, useState, useEffect } from "react";
-import { Crown, Skull } from "lucide-react";
+import { useMemo, useRef, useState, useEffect, useCallback } from "react";
+import { Crown, Skull, ZoomIn, ZoomOut, Move } from "lucide-react";
 import { FOUNDING_BLOODLINES, type BloodlineId } from "@/game/crewGenetics";
 import type { CrewState, SerializedCrewMember } from "@shared/crewPersistence";
 import CrewPortrait from "./CrewPortrait";
@@ -31,11 +31,67 @@ interface NodeLayout {
 }
 
 export default function FamilyTreeView({ state }: Props) {
-  const [filter, setFilter] = useState<BloodlineId | "all">("all");
+  // Default filter: "all" for small rosters (≤8 members across living+deceased),
+  // largest bloodline for bigger ones so the tree stays readable.
+  const [filter, setFilter] = useState<BloodlineId | "all">(() => {
+    const total = state.roster.members.length + state.roster.deceased.length;
+    if (total <= 8) return "all";
+    const byBloodline = new Map<string, number>();
+    for (const m of [...state.roster.members, ...state.roster.deceased]) {
+      byBloodline.set(m.bloodlineId, (byBloodline.get(m.bloodlineId) ?? 0) + 1);
+    }
+    let largest: string | null = null;
+    let largestCount = 0;
+    for (const [id, count] of byBloodline) {
+      if (count > largestCount) {
+        largest = id;
+        largestCount = count;
+      }
+    }
+    return (largest as BloodlineId) ?? "all";
+  });
   const ref = useRef<HTMLDivElement>(null);
   const [lineCoords, setLineCoords] = useState<Array<{
     x1: number; y1: number; x2: number; y2: number;
   }>>([]);
+  // Pan/zoom state — CSS transforms on the inner stage.
+  const [zoom, setZoom] = useState(1);
+  const [pan, setPan] = useState({ x: 0, y: 0 });
+  const dragRef = useRef<{ startX: number; startY: number; originX: number; originY: number } | null>(null);
+
+  const handlePointerDown = useCallback(
+    (e: React.PointerEvent<HTMLDivElement>) => {
+      if (e.button !== 0) return;
+      (e.currentTarget as HTMLElement).setPointerCapture?.(e.pointerId);
+      dragRef.current = {
+        startX: e.clientX,
+        startY: e.clientY,
+        originX: pan.x,
+        originY: pan.y,
+      };
+    },
+    [pan],
+  );
+  const handlePointerMove = useCallback((e: React.PointerEvent<HTMLDivElement>) => {
+    if (!dragRef.current) return;
+    const dx = e.clientX - dragRef.current.startX;
+    const dy = e.clientY - dragRef.current.startY;
+    setPan({ x: dragRef.current.originX + dx, y: dragRef.current.originY + dy });
+  }, []);
+  const handlePointerUp = useCallback((e: React.PointerEvent<HTMLDivElement>) => {
+    (e.currentTarget as HTMLElement).releasePointerCapture?.(e.pointerId);
+    dragRef.current = null;
+  }, []);
+  const handleWheel = useCallback((e: React.WheelEvent<HTMLDivElement>) => {
+    // Only zoom when holding ctrl / cmd — otherwise let the page scroll.
+    if (!e.ctrlKey && !e.metaKey) return;
+    e.preventDefault();
+    setZoom(z => Math.max(0.4, Math.min(2.5, z - e.deltaY * 0.002)));
+  }, []);
+  const resetView = () => {
+    setZoom(1);
+    setPan({ x: 0, y: 0 });
+  };
 
   const all = useMemo(
     () => [...state.roster.members, ...state.roster.deceased],
@@ -98,7 +154,7 @@ export default function FamilyTreeView({ state }: Props) {
     }
     setLineCoords(coords);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [nodes, filter]);
+  }, [nodes, filter, zoom, pan]);
 
   if (all.length === 0) {
     return (
@@ -143,15 +199,57 @@ export default function FamilyTreeView({ state }: Props) {
         })}
       </div>
 
+      {/* Pan/zoom controls */}
+      <div className="flex items-center gap-1 mb-2">
+        <button
+          onClick={() => setZoom(z => Math.min(2.5, z + 0.2))}
+          className="p-1 border border-border/30 rounded hover:border-border"
+          title="zoom in"
+        >
+          <ZoomIn size={12} />
+        </button>
+        <button
+          onClick={() => setZoom(z => Math.max(0.4, z - 0.2))}
+          className="p-1 border border-border/30 rounded hover:border-border"
+          title="zoom out"
+        >
+          <ZoomOut size={12} />
+        </button>
+        <button
+          onClick={resetView}
+          className="px-2 py-1 text-[9px] font-mono border border-border/30 rounded hover:border-border"
+          title="reset view"
+        >
+          reset
+        </button>
+        <span className="text-[9px] font-mono text-muted-foreground ml-1 flex items-center gap-1">
+          <Move size={10} />
+          drag to pan · ctrl+scroll to zoom · {Math.round(zoom * 100)}%
+        </span>
+      </div>
+
       <div
         ref={ref}
-        className="relative bg-card/20 border border-border/30 rounded p-4 overflow-x-auto"
-        style={{ minHeight: `${(maxGen + 1) * 110}px` }}
+        className="relative bg-card/20 border border-border/30 rounded p-4 overflow-hidden cursor-grab active:cursor-grabbing"
+        style={{ minHeight: `${Math.max(300, (maxGen + 1) * 110 * zoom)}px` }}
+        onPointerDown={handlePointerDown}
+        onPointerMove={handlePointerMove}
+        onPointerUp={handlePointerUp}
+        onPointerCancel={handlePointerUp}
+        onWheel={handleWheel}
       >
-        {/* Lines */}
+        {/* Lines — rendered after the transformed node stage so
+            getBoundingClientRect() reflects the current zoom/pan.
+            Because they're positioned in the same container, the
+            getBoundingClientRect() call in the useEffect already
+            accounts for transforms. */}
         <svg
-          className="absolute inset-0 w-full h-full pointer-events-none"
-          style={{ zIndex: 0 }}
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            zIndex: 0,
+            width: "100%",
+            height: "100%",
+          }}
         >
           {lineCoords.map((c, i) => (
             <line
@@ -167,8 +265,16 @@ export default function FamilyTreeView({ state }: Props) {
           ))}
         </svg>
 
-        {/* Nodes */}
-        <div className="relative" style={{ zIndex: 1 }}>
+        {/* Nodes — transformed stage */}
+        <div
+          className="relative"
+          style={{
+            zIndex: 1,
+            transform: `translate(${pan.x}px, ${pan.y}px) scale(${zoom})`,
+            transformOrigin: "top left",
+            transition: dragRef.current ? "none" : "transform 0.1s ease",
+          }}
+        >
           {Array.from({ length: maxGen }, (_, i) => i + 1).map(gen => {
             const genNodes = nodes.filter(n => n.gen === gen);
             if (genNodes.length === 0) return null;

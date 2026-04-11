@@ -264,6 +264,14 @@ async function startServer() {
   // Chess multiplayer WebSocket
   registerChessMultiplayer(server);
 
+  // Re-arm chess tournament auto-forfeit timers for in-flight rounds.
+  if (process.env.NODE_ENV !== "test") {
+    const { rehydrateChessTournamentTimers } = await import("../routers/chess");
+    rehydrateChessTournamentTimers().catch(e =>
+      console.error("[Chess] tournament timer rehydrate error:", e),
+    );
+  }
+
   // Duelyst card game multiplayer WebSocket
   const { setupDuelystWebSocket } = await import("../duelystWs");
   setupDuelystWebSocket(server);
@@ -288,6 +296,28 @@ async function startServer() {
     dischordiaCycleService
       .hydrate()
       .catch(e => console.error("[DischordiaCycle] initial hydrate error:", e));
+  }
+
+  // Transmission achievements — upsert the `achievements` table rows
+  // for every Meme broadcast reward so the architect console and
+  // achievement UIs render proper names/icons. Idempotent (no-op if
+  // the rows already match). Skipped in test env to keep unit tests
+  // hermetic and in no-DB environments (function handles the guard).
+  if (process.env.NODE_ENV !== "test") {
+    (async () => {
+      try {
+        const { getDb } = await import("../db");
+        const { seedTransmissionAchievements } = await import("../routers/transmissions");
+        const db = await getDb();
+        if (!db) return;
+        const result = await seedTransmissionAchievements(db);
+        console.log(
+          `[TransmissionAchievements] seeded ${result.inserted} new, updated ${result.updated} (of ${result.total})`,
+        );
+      } catch (err) {
+        console.error("[TransmissionAchievements] boot seed failed:", err);
+      }
+    })();
   }
 
   server.listen(port, () => {

@@ -242,6 +242,30 @@ export const TOWERS: TowerDef[] = [
     specialAbility: { name: "Resource Drain", description: "Each kill steals 5% of raider's carried loot", cooldown: 0 },
     requiredPrestige: "shadow_broker", gridSize: [2, 2],
   },
+
+  /* ─── WITNESSING APPENDIX B §B.4 — APPRENTICE'S STAND ───
+     Once-per-account-ever sacrificial tower. Unlocked after
+     Kael Fragment F5 ("The Apprentice Who Ran"), but ONLY when
+     the player's Apprentice chose to stay and die rather than
+     run. The inscription is the Apprentice's chosen name
+     followed by "Who did not run." */
+  {
+    key: "apprentices_stand",
+    name: "Apprentice's Stand",
+    description:
+      "A sacrificial monument, not a weapon. Costs nothing to place but cannot be moved or sold. The inscription reads the Apprentice's chosen name — once only, ever.",
+    category: "ultimate", icon: "Flag", color: "#fbbf24",
+    baseDamage: 0, baseRange: 6, baseFireRate: 0, baseHp: 1,
+    maxLevel: 1, damagePerLevel: 0,
+    baseCost: {}, costMultiplier: 1.0,
+    specialAbility: {
+      name: "They Did Not Run",
+      description:
+        "Adjacent towers gain +50% damage and cannot be destroyed while this monument stands. The monument itself crumbles at 0 HP and is never rebuilt on this account.",
+      cooldown: 0,
+    },
+    gridSize: [1, 1],
+  },
 ];
 
 /* ═══════════════════════════════════════════════════════
@@ -407,6 +431,10 @@ export interface TowerDefenseBonuses {
   raidUnitHpMultiplier: number;
   raidUnitDamageMultiplier: number;
   raidLootMultiplier: number;
+  /** Fractional cost reduction applied to tower build + upgrade costs (0.0 - 1.0). */
+  costReduction: number;
+  /** Fractional reduction to tower build + upgrade timers (0.0 - 1.0). */
+  buildTimeReduction: number;
   maxTowerSlots: number;
   maxRaidUnits: number;
   sources: { source: string; label: string }[];
@@ -433,6 +461,8 @@ export function resolveTowerDefenseBonuses(opts: {
     raidUnitHpMultiplier: 1.0,
     raidUnitDamageMultiplier: 1.0,
     raidLootMultiplier: 1.0,
+    costReduction: 0,
+    buildTimeReduction: 0,
     maxTowerSlots: 10,
     maxRaidUnits: 20,
     sources: [],
@@ -447,10 +477,16 @@ export function resolveTowerDefenseBonuses(opts: {
       b.sources.push({ source: "Soldier", label: `+${5 * (opts.classRank || 0)}% tower dmg, +${5 * (opts.classRank || 0)}% unit HP, +${2 * (opts.classRank || 0)} raid units` });
     },
     engineer: () => {
-      b.towerHpMultiplier += 0.08 * (opts.classRank || 0);
-      b.towerRangeBonus += Math.floor((opts.classRank || 0) / 2);
-      b.maxTowerSlots += (opts.classRank || 0);
-      b.sources.push({ source: "Engineer", label: `+${8 * (opts.classRank || 0)}% tower HP, +${Math.floor((opts.classRank || 0) / 2)} range, +${opts.classRank || 0} tower slots` });
+      const rank = opts.classRank || 0;
+      b.towerHpMultiplier += 0.08 * rank;
+      b.towerRangeBonus += Math.floor(rank / 2);
+      b.maxTowerSlots += rank;
+      b.costReduction += 0.05 * rank;
+      b.buildTimeReduction += 0.05 * rank;
+      b.sources.push({
+        source: "Engineer",
+        label: `+${8 * rank}% tower HP, +${Math.floor(rank / 2)} range, +${rank} slots, -${5 * rank}% build cost & time`,
+      });
     },
     oracle: () => {
       b.towerRangeBonus += 1;
@@ -533,6 +569,16 @@ export function resolveTowerDefenseBonuses(opts: {
     if (endurance >= 3) {
       b.towerHpMultiplier += 0.02 * endurance;
       b.sources.push({ source: "Endurance Skill", label: `+${2 * endurance}% tower HP` });
+    }
+    const craftsmanship = opts.civilSkills["craftsmanship"] || 0;
+    if (craftsmanship >= 2) {
+      b.costReduction += 0.02 * craftsmanship;
+      b.sources.push({ source: "Craftsmanship Skill", label: `-${2 * craftsmanship}% build cost` });
+    }
+    const engineering = opts.civilSkills["engineering"] || 0;
+    if (engineering >= 2) {
+      b.buildTimeReduction += 0.03 * engineering;
+      b.sources.push({ source: "Engineering Skill", label: `-${3 * engineering}% build time` });
     }
   }
 

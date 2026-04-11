@@ -75,6 +75,7 @@ const SearchPage = lazy(() => import("./pages/SearchPage"));
 const CharacterTimeline = lazy(() => import("./pages/CharacterTimeline"));
 const WatchPage = lazy(() => import("./pages/WatchPage"));
 const FightPage = lazy(() => import("./pages/FightPage"));
+const EssenceHarvestPage = lazy(() => import("./pages/EssenceHarvestPage"));
 const ConsolePage = lazy(() => import("./pages/ConsolePage"));
 const CardBrowserPage = lazy(() => import("./pages/CardBrowserPage"));
 const TerminusSwarmPage = lazy(() => import("./game/terminus-swarm/TerminusSwarmPage"));
@@ -83,6 +84,9 @@ const CardGamePage = lazy(() => import("./game/duelyst/DuelystPage"));
 const InceptionArkPage = lazy(() => import("./pages/InceptionArkPage"));
 const CrewRosterPage = lazy(() => import("./pages/CrewRosterPage"));
 const TrophyRoomPage = lazy(() => import("./pages/TrophyRoomPage"));
+const WitnessingHubPage = lazy(() => import("./pages/WitnessingHubPage"));
+const Act1CardLadderPage = lazy(() => import("./pages/Act1CardLadderPage"));
+const VortexIncursionPage = lazy(() => import("./pages/VortexIncursionPage"));
 const TradeWarsPage = lazy(() => import("./game/TradeEmpirePage"));
 const WarMapPage = lazy(() => import("./pages/WarMapPage"));
 const DeckBuilderPage = lazy(() => import("./pages/DeckBuilderPage"));
@@ -166,6 +170,7 @@ const LoreJournalPage = lazy(() => import("./pages/LoreJournalPage"));
 const ArmyManagementPage = lazy(() => import("./pages/ArmyManagementPage"));
 const ShipSchematicMap = lazy(() => import("./components/ShipSchematicMap"));
 const GamemastersArenaPage = lazy(() => import("./game/GamemastersArenaPage"));
+const PalimpsestEpisodesPage = lazy(() => import("./game/PalimpsestEpisodesPage"));
 const DegensCasinoPage = lazy(() => import("./game/DegensCasinoPage"));
 const CasinoLeaderboardPage = lazy(() => import("./game/CasinoLeaderboardPage"));
 const SignalDecryptionPage = lazy(() => import("./game/SignalDecryptionPage"));
@@ -217,6 +222,7 @@ function Router() {
         <Route path="/character-timeline" component={CharacterTimeline} />
         <Route path="/watch" component={WatchPage} />
         <Route path="/fight">{() => <GameRoute component={FightPage} />}</Route>
+        <Route path="/collectors-ledger">{() => <GameRoute component={EssenceHarvestPage} />}</Route>
         <Route path="/console" component={ConsolePage} />
         <Route path="/cards">{() => <Suspense fallback={<CardGridSkeleton />}><CardBrowserPage /></Suspense>}</Route>
         <Route path="/cards/play">{() => <GameRoute component={CardGamePage} />}</Route>
@@ -227,6 +233,9 @@ function Router() {
         <Route path="/crew" component={CrewRosterPage} />
         <Route path="/ship-map" component={ShipSchematicMap} />
         <Route path="/trophy" component={TrophyRoomPage} />
+        <Route path="/witnessing" component={WitnessingHubPage} />
+        <Route path="/act1-ladder" component={Act1CardLadderPage} />
+        <Route path="/vortex-incursion" component={VortexIncursionPage} />
         <Route path="/trade-empire">{() => <GameRoute component={TradeWarsPage} />}</Route>
         <Route path="/war-map">{() => <GameRoute component={WarMapPage} />}</Route>
         <Route path="/deck-builder" component={DeckBuilderPage} />
@@ -288,6 +297,7 @@ function Router() {
         <Route path="/duelyst-play">{() => <GameRoute component={DuelystClassicPage} />}</Route>
         <Route path="/spectate" component={SpectatorPage} />
         <Route path="/gamemasters-arena">{() => <GameRoute component={GamemastersArenaPage} />}</Route>
+        <Route path="/palimpsest">{() => <GameRoute component={PalimpsestEpisodesPage} />}</Route>
         <Route path="/casino">{() => <GameRoute component={DegensCasinoPage} />}</Route>
         <Route path="/casino/leaderboard">{() => <GameRoute component={CasinoLeaderboardPage} />}</Route>
         <Route path="/circuit">{() => <GameRoute component={DeadMansCircuitPage} />}</Route>

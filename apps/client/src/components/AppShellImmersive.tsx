@@ -27,6 +27,7 @@ import {
   Map, Shield, ScrollText, Radio, X, Camera, Home,
 } from "lucide-react";
 import ShaderOverlay from "@/components/ShaderOverlay";
+import { trpc } from "@/lib/trpc";
 import { PhotoMode } from "@/components/PhotoMode";
 import CrewAmbientTicker from "@/components/crew/CrewAmbientTicker";
 import { motion, AnimatePresence } from "framer-motion";
@@ -36,6 +37,7 @@ import TransmissionDeck from "@/components/TransmissionDeck";
 import MobileBottomNav from "@/components/MobileBottomNav";
 import { useNarrativeEvents } from "@/hooks/useNarrativeEvents";
 import { useNarrativeIntegration } from "@/hooks/useNarrativeIntegration";
+import { useIncomingTransmissions } from "@/hooks/useIncomingTransmissions";
 import VoiceWhisper from "@/components/VoiceWhisper";
 
 const ARK_CONTROL_ROOM = "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/ark_control_room_04cb4fe3.png";
@@ -59,6 +61,17 @@ export default function AppShell({ children, elaraTTS: _elaraTTS }: { children: 
   const [location] = useLocation();
   const { showPlayer } = usePlayer();
   const { state: gameState } = useGame();
+  // Thought Virus infection level drives the corruption shader. Falls back to
+  // the legacy narrativeFlags.thought_virus_level when the tRPC query is
+  // unavailable (e.g. on first load, pre-auth).
+  const virusStatusQuery = trpc.thoughtVirus.getStatus.useQuery(undefined, {
+    refetchInterval: 60_000,
+    retry: false,
+  });
+  const virusLoadPct =
+    virusStatusQuery.data?.summary.loadPct ??
+    (gameState.narrativeFlags?.thought_virus_level as unknown as number) ??
+    0;
   const [showTransmissions, setShowTransmissions] = useState(false);
   const [photoModeOpen, setPhotoModeOpen] = useState(false);
 
@@ -69,6 +82,10 @@ export default function AppShell({ children, elaraTTS: _elaraTTS }: { children: 
   // Narrative integration — lore discovery, morality world effects, cross-game threads,
   // NPC trust consequences. Watches game state and triggers narrative systems automatically.
   useNarrativeIntegration();
+
+  // "TRANSMISSION INCOMING" toast — fires when a new Meme broadcast
+  // unlocks. Mounted once globally so it works on every route.
+  useIncomingTransmissions();
 
   // TransmissionDeck unlocks when Observation Deck OR Comms Array is discovered
   const hasMediaAccess = !!(gameState.rooms["observation-deck"]?.unlocked || gameState.rooms["comms-array"]?.unlocked);
@@ -101,7 +118,7 @@ export default function AppShell({ children, elaraTTS: _elaraTTS }: { children: 
     <div className="min-h-screen flex flex-col relative">
       {/* ═══ SHADER OVERLAY — Corruption + morality post-processing ═══ */}
       <ShaderOverlay
-        corruption={((gameState.narrativeFlags?.thought_virus_level as unknown as number) || 0) / 100}
+        corruption={Math.max(0, Math.min(1, (virusLoadPct || 0) / 100))}
         morality={gameState.moralityScore || 0}
         enabled={!isAwakening}
       />

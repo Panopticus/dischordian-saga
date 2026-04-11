@@ -198,6 +198,54 @@ const ITEM_DATABASE: Record<string, ItemMeta> = {
     relatedEntities: ["Dr. Lyra Vox", "The Warlord", "The Warden", "Kael", "The Source", "The Thought Virus"],
     loreExcerpt: "DR. LYRA VOX \u2014 PERSONAL LOG (ENCRYPTED)\n\nDay 1: Assigned to Inception Ark 1047. The Warlord chose me for my expertise in neuropsychology. I am honored.\n\nDay 247: The voice is constant now. I cannot tell where I end and It begins.\n\nDay 612: The Warden and I completed the Thought Virus prototype. I told myself it was for research. The Warlord told me it was for victory. We are both right.\n\nDay 1,001: I looked in the mirror today and saw the Warlord looking back. It smiled with my face.\n\nDay 1,247: Tomorrow I order the Recruiter's transfer. Kael. He is already infected — Project Vector saw to that. He is Patient Zero, and he doesn't know it. When he steals this ship, the virus will walk aboard with him. Every system he touches will be contaminated from day one. The Source will be born from the ashes of the Recruiter's rage. And the Warlord will have won without ever raising a weapon.\n\nDay 1,248: There is no more Lyra Vox.\nThere is only the mission.\nThere was only ever the mission.",
   },
+  /* ─── RESIDUE ITEMS (backed by apps/shared/thoughtVirus.ts) ─── */
+  /* These keys match ResidueItem.id so the thoughtVirus router's logResidue */
+  /* mutation can be called directly with the same string. */
+  "residue_cryo_coolant": {
+    name: "Clouded Cryo Coolant",
+    description: "The blue fluid has tiny black filaments suspended in it — too regular to be damage. They arrange themselves into the Warlord's sigil when you look away.",
+    elaraAnalysis: "The cryo coolant is contaminated. I'm flagging this for quarantine — if you leave it in the system, the infection will spread through every cryo pod on the ship.",
+    category: "evidence",
+    dangerLevel: "high",
+    relatedEntities: ["The Thought Virus", "The Warlord", "Dr. Lyra Vox", "Cryo Bay"],
+    loreExcerpt: "CRYO COOLANT CONTAMINATION REPORT\n\nSAMPLE: Deck 4, Cryo Pod 7 coolant loop\nCONTAMINANT: Biomechanical filaments, self-organising\nORIGIN: Unknown (matches Warlord sigil pattern)\nRISK: Infection propagates through shared coolant lines\n\nElara's note: the filaments are too regular to be damage debris. They respond to observation — slowing when watched, moving when unwatched. This is virus residue in its most quiet form.",
+  },
+  "residue_life_support_filter": {
+    name: "Clogged Life-Support Filter",
+    description: "Someone replaced this filter in a hurry — Kael's prosthetic left scoring on the frame. The cartridge inside is saturated with a fine grey powder.",
+    elaraAnalysis: "This filter was replaced mid-flight. The scoring on the frame matches Kael's prosthetic. Whatever he filtered out, he knew it was bad enough to risk taking the life support offline for minutes at a time.",
+    category: "evidence",
+    dangerLevel: "high",
+    relatedEntities: ["Kael", "The Thought Virus", "Engineering Core"],
+    loreExcerpt: "MAINTENANCE LOG (RECONSTRUCTED)\n\nKael's handwriting, etched into the filter housing:\n\n\"Filter clogs every 36 hours now. Grey powder, same every time. The galley's food smells wrong since I started. I can't sleep in my cabin anymore — too close to the vents.\n\nI don't know what this powder is.\nI think I've been breathing it since Day 1.\"\n\nSomeone then scratched the words out and wrote: \"DOES NOT MATTER. MISSION CONTINUES.\"",
+  },
+  "residue_medbay_sample": {
+    name: "Stasis-Locked Sample Vial",
+    description: "Vox's handwriting: 'PATIENT 0 — VIABLE, LATENT.' The stasis lock is original. The contents are still moving.",
+    elaraAnalysis: "This vial contains a biological sample Dr. Vox labelled 'PATIENT 0 — VIABLE, LATENT.' It's been in stasis for over a thousand days, but the contents are still moving. Quarantine this immediately. Do not, under any circumstances, open it.",
+    category: "artifact",
+    dangerLevel: "critical",
+    relatedEntities: ["Dr. Lyra Vox", "Kael", "The Thought Virus", "Medical Bay"],
+    loreExcerpt: "SAMPLE VIAL VX-0\n\nLABEL: PATIENT 0 — VIABLE, LATENT\nDATE: Day 1,200 (Vox era)\nSTASIS LOCK: Intact\nCONTENTS: Active biomechanical culture\n\nVox's addendum: 'The Recruiter's blood tests all came back clean. But there are things in him the tests don't look for. I kept a sample. The Warlord says I'm being sentimental. Maybe I am. Maybe I just wanted proof, one day, that I knew.'",
+  },
+  "residue_water_recycler": {
+    name: "Water Recycler Sediment",
+    description: "The sediment at the bottom of the recycler cycles independent of the ship's pumps. It is the colour of old photographs.",
+    elaraAnalysis: "The sediment is moving against the pump flow. That's not physically possible without an external driver — and there IS no external driver. The water recycler has been quietly feeding the contamination through every sink and shower on the ship.",
+    category: "evidence",
+    dangerLevel: "medium",
+    relatedEntities: ["The Thought Virus", "Crew Cabin", "Life Support"],
+    loreExcerpt: "WATER SYSTEM ANALYSIS\n\nLOCATION: Crew cabin sink, sediment trap\nANOMALY: Independent flow against pump direction\nCOLOUR: 'Old photographs' (sepia / oxidised silver)\nSPREAD VECTOR: Every freshwater outlet on Deck 2\n\nElara notes that the recycler has been running for 17,000 years. Nobody knows when this sediment first appeared. It may have been there since the day the ship was launched.",
+  },
+  "residue_observation_console": {
+    name: "Warlord Surveillance Node",
+    description: "An uncatalogued console behind a bulkhead, still drawing power. It is watching the cryo bay — a deck away from the bridge's sensors.",
+    elaraAnalysis: "This console is NOT on any of my schematics. It's drawing power from a dedicated line that doesn't exist in my systems map. Someone — the Warlord, through Dr. Vox — installed a secondary surveillance network, and it's still watching the cryo bay from behind the observation deck bulkhead.",
+    category: "artifact",
+    dangerLevel: "critical",
+    relatedEntities: ["The Warlord", "Dr. Lyra Vox", "Observation Deck", "Cryo Bay"],
+    loreExcerpt: "OFF-BOOK SURVEILLANCE NODE — WARLORD ARCHITECTURE\n\nPOWER DRAW: 0.3kW (unbudgeted)\nCAMERA FEED: Cryo Bay 1-8 (continuous)\nSTORAGE: Encrypted, 17,040 years of footage\nACCESS: Not in Elara's directory\n\nLast still image captured: the player's own cryo pod, seventeen minutes before awakening. Someone was watching. Someone is still watching.",
+  },
 };
 
 const CATEGORY_CONFIG: Record<string, { icon: typeof Star; label: string; color: string }> = {

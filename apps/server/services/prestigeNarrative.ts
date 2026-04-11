@@ -82,7 +82,9 @@ export async function onPrestigeComplete(
     chronicleCreated = true;
   }
 
-  // 4. Meme broadcast commentary (queued as notification)
+  // 4. Meme broadcast commentary (queued as notification).
+  // actionUrl takes the player to the Transmission Inbox on click;
+  // the NotificationBell also triggers the prestige Meme VO line.
   const memeDialogs = getPrestigeDialogsForTier(newTier)
     .filter(d => d.npcId === "the_meme");
   for (const dialog of memeDialogs) {
@@ -91,6 +93,7 @@ export async function onPrestigeComplete(
       type: "meme_broadcast",
       title: dialog.speakerOverride || "The Meme — Late Night",
       message: dialog.text,
+      actionUrl: "/transmissions",
     }).catch(e => logger.error("[PrestigeNarrative] Meme broadcast failed:", e));
   }
 

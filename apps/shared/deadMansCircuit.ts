@@ -120,6 +120,8 @@ export const CIRCUIT_ABILITIES: CircuitAbility[] = [
   {
     key: "emp_pulse",
     name: "EMP Pulse",
+    display_name: "EMP PULSE",
+    color: "#3b82f6",
     description: "Disables all nearby rival clones for 1.5 seconds, cutting their neural sync.",
     lore: "Derived from Panopticon suppression tech. The pulse fries cheap clone wiring — which is all clone wiring.",
     cooldownMs: 12000,
@@ -129,6 +131,8 @@ export const CIRCUIT_ABILITIES: CircuitAbility[] = [
   {
     key: "thought_spike",
     name: "Thought Spike",
+    display_name: "THOUGHT SPIKE",
+    color: "#8b5cf6",
     description: "Injects a hallucination into the nearest rival's neural feed, causing erratic steering for 2 seconds.",
     lore: "Oracle-class wetware excels at projecting false realities. On the circuit, a false corner is as deadly as a real wall.",
     cooldownMs: 10000,
@@ -138,6 +142,8 @@ export const CIRCUIT_ABILITIES: CircuitAbility[] = [
   {
     key: "neural_flood",
     name: "Neural Flood",
+    display_name: "NEURAL FLOOD",
+    color: "#f97316",
     description: "Overloads the clone's own neural sync to boost grip by 30% for 3 seconds. Risk of integrity loss.",
     lore: "The clone screams during activation. Nilmorg loves it.",
     cooldownMs: 15000,
@@ -147,6 +153,8 @@ export const CIRCUIT_ABILITIES: CircuitAbility[] = [
   {
     key: "overclock",
     name: "Overclock",
+    display_name: "OVERCLOCK",
+    color: "#fbbf24",
     description: "Pushes velocity ceiling to 140% for 2.5 seconds. Clone integrity drops 10 points.",
     lore: "Every engineer knows: removing the safety limiters is a feature, not a bug. The clone disagrees. Briefly.",
     cooldownMs: 18000,
@@ -156,6 +164,8 @@ export const CIRCUIT_ABILITIES: CircuitAbility[] = [
   {
     key: "phase_step",
     name: "Phase Step",
+    display_name: "PHASE STEP",
+    color: "#a855f7",
     description: "Clone phases through the next obstacle or wall. 0.8 second window. If mistimed, instant death.",
     lore: "Quarchon dimensional theory applied to disposable bodies. The clone briefly exists in two places. Then one. Hopefully the right one.",
     cooldownMs: 20000,
@@ -165,6 +175,8 @@ export const CIRCUIT_ABILITIES: CircuitAbility[] = [
   {
     key: "dead_weight",
     name: "Dead Weight",
+    display_name: "DEAD WEIGHT",
+    color: "#ef4444",
     description: "Drops the clone's previous corpse as a bone obstacle on the track. Persists for 10 seconds.",
     lore: "Nilmorg's favorite ability. 'Waste not, want not,' he says, as another clone trips over its predecessor.",
     cooldownMs: 25000,
@@ -589,4 +601,254 @@ export function getRewardTier(totalCp: number): SeasonRewardTier {
     if (totalCp >= tier.minCp) best = tier;
   }
   return best;
+}
+
+/* ═══════════════════════════════════════════════════════
+   SEASON NAMING — Bone-themed flavor names
+   ═══════════════════════════════════════════════════════ */
+
+const SEASON_NAME_PATTERNS = [
+  "Season of Bone",
+  "Season of Splice",
+  "Season of the Velocity Devourer",
+  "Season of the Hungry Track",
+  "Season of Severance",
+  "Season of the Quiet Bone",
+  "Season of the Unspoken Lap",
+  "Season of the Final Splice",
+  "Season of the Watching Wheels",
+  "Season of the Empty Chassis",
+  "Season of Calcified Hope",
+  "Season of the Dead Run",
+] as const;
+
+/** Pick a deterministic season name from the season number. */
+export function getSeasonName(seasonNumber: number): string {
+  const idx = ((seasonNumber - 1) % SEASON_NAME_PATTERNS.length + SEASON_NAME_PATTERNS.length) % SEASON_NAME_PATTERNS.length;
+  return `${SEASON_NAME_PATTERNS[idx]} (S${seasonNumber})`;
+}
+
+/* ═══════════════════════════════════════════════════════
+   CIRCUIT SIDE QUESTS — Cross-game seasonal quests
+   Triggered by ripple events from other game systems.
+   ═══════════════════════════════════════════════════════ */
+
+export type CircuitQuestTriggerKind =
+  | "fight_won"
+  | "card_battle_won"
+  | "chess_checkmate_fast"
+  | "trade_run_complete"
+  | "td_wave_survived"
+  | "casino_game_won"
+  | "companion_trust_reached"
+  | "raid_damage_dealt";
+
+export interface CircuitSideQuest {
+  key: string;
+  title: string;
+  description: string;
+  lore: string;
+  trigger: CircuitQuestTriggerKind;
+  /** How many trigger events to fire before the quest completes. */
+  target: number;
+  /** CP awarded on claim. */
+  cpReward: number;
+  /** Optional cosmetic key granted on claim. */
+  cosmeticReward?: string;
+  /** Optional title granted on claim. */
+  titleReward?: string;
+  /** Optional one-shot Nilmorg commentary line played on completion. */
+  nilmorgLine?: string;
+}
+
+export const CIRCUIT_SIDE_QUESTS: CircuitSideQuest[] = [
+  {
+    key: "warlords_bet",
+    title: "The Warlord's Bet",
+    description: "Win 3 fights during an active Circuit season.",
+    lore: "The Warlord placed a wager on you. He lost. I collected.",
+    trigger: "fight_won",
+    target: 3,
+    cpReward: 50,
+    nilmorgLine: "The Warlord placed a wager on you. He lost. I collected.",
+  },
+  {
+    key: "dead_mans_hand",
+    title: "Dead Man's Hand",
+    description: "Win a card battle during a Circuit season.",
+    lore: "Winning with nothing proves more than winning with everything.",
+    trigger: "card_battle_won",
+    target: 1,
+    cpReward: 30,
+    cosmeticReward: "card_back_bone_lane",
+  },
+  {
+    key: "nilmorgs_gambit",
+    title: "Nilmorg's Gambit",
+    description: "Checkmate an opponent in under 20 moves during a Circuit season.",
+    lore: "Speed in all things. Even thinking.",
+    trigger: "chess_checkmate_fast",
+    target: 1,
+    cpReward: 40,
+    nilmorgLine: "Speed in all things. Even thinking.",
+  },
+  {
+    key: "kinetic_acquisition",
+    title: "Kinetic Acquisition",
+    description: "Complete 3 trade missions during an active Circuit season.",
+    lore: "The Hierarchy's supply chains overlap with the Trade Empire's sectors.",
+    trigger: "trade_run_complete",
+    target: 3,
+    cpReward: 75,
+  },
+  {
+    key: "defend_the_trench",
+    title: "Defend The Trench",
+    description: "Survive 10 waves of tower defense during a Circuit season.",
+    lore: "The Trench needs protection between races. Nilmorg's infrastructure is valuable.",
+    trigger: "td_wave_survived",
+    target: 10,
+    cpReward: 60,
+    titleReward: "Trench Defender",
+  },
+  {
+    key: "the_degens_wager",
+    title: "The Degen's Wager",
+    description: "Win 5 casino games during a Circuit season.",
+    lore: "The Degen approves. He rarely does.",
+    trigger: "casino_game_won",
+    target: 5,
+    cpReward: 35,
+    nilmorgLine: "The Degen approves. He rarely does.",
+  },
+  {
+    key: "the_clones_question",
+    title: "The Clone's Question",
+    description: "Reach trust 50 with any companion during a Circuit season.",
+    lore: "Your companions have opinions about conscious beings racing to die.",
+    trigger: "companion_trust_reached",
+    target: 50,
+    cpReward: 45,
+  },
+  {
+    key: "nilmorgs_bounty",
+    title: "Nilmorg's Bounty",
+    description: "Deal 100,000+ damage in a co-op raid during a Circuit season.",
+    lore: "Nilmorg sponsors raid bounties. Destruction at scale feeds adjacent resonance frequencies.",
+    trigger: "raid_damage_dealt",
+    target: 100000,
+    cpReward: 75,
+    titleReward: "Velocity Devourer",
+  },
+];
+
+/** Look up a side quest by trigger kind. */
+export function getCircuitSideQuestsForTrigger(trigger: CircuitQuestTriggerKind): CircuitSideQuest[] {
+  return CIRCUIT_SIDE_QUESTS.filter(q => q.trigger === trigger);
+}
+
+/* ═══════════════════════════════════════════════════════
+   LIVING UNIVERSE MODIFIERS — Cross-event interactions
+   Applied to clone stats / track config when an event is active.
+   ═══════════════════════════════════════════════════════ */
+
+export interface CircuitUniverseModifiers {
+  /** Multiplier on the bone obstacle cap and append rate. */
+  boneObstacleMultiplier: number;
+  /** Flat add to neural sync stat for clone generation. */
+  neuralSyncBonus: number;
+  /** Multiplier on speed conduit boost duration. */
+  speedConduitMultiplier: number;
+  /** Multiplier on splice jam tile slow duration. */
+  spliceJamMultiplier: number;
+  /** Add hidden lore obstacle markers to track tiles. */
+  hiddenLoreEnabled: boolean;
+  /** Scramble clone designation suffixes (corrupted leaderboard names). */
+  designationsScrambled: boolean;
+  /** Per-clone-death extra deaths pressure to fire. */
+  extraDeathPressurePerClone: number;
+  /** True if the doubled survival CP bonus is active. */
+  survivalBonusDoubled: boolean;
+}
+
+export const NEUTRAL_CIRCUIT_MODIFIERS: CircuitUniverseModifiers = {
+  boneObstacleMultiplier: 1,
+  neuralSyncBonus: 0,
+  speedConduitMultiplier: 1,
+  spliceJamMultiplier: 1,
+  hiddenLoreEnabled: false,
+  designationsScrambled: false,
+  extraDeathPressurePerClone: 0,
+  survivalBonusDoubled: false,
+};
+
+/**
+ * Compose modifiers from a list of currently-active universe event ids.
+ * Applies the rules from the production doc Section 6.
+ */
+export function resolveCircuitUniverseModifiers(activeEventIds: string[]): CircuitUniverseModifiers {
+  const m: CircuitUniverseModifiers = { ...NEUTRAL_CIRCUIT_MODIFIERS };
+  for (const id of activeEventIds) {
+    switch (id) {
+      case "necromancer_return":
+        m.boneObstacleMultiplier *= 1.5;
+        m.extraDeathPressurePerClone += 2;
+        break;
+      case "dreamer_awakening":
+        m.neuralSyncBonus += 5;
+        m.survivalBonusDoubled = true;
+        break;
+      case "terminus_advance":
+        m.speedConduitMultiplier *= 1.25;
+        m.spliceJamMultiplier *= 2;
+        break;
+      case "antiquarian_revelation":
+        m.hiddenLoreEnabled = true;
+        break;
+      case "shadow_tongue_edit":
+        m.designationsScrambled = true;
+        break;
+    }
+  }
+  return m;
+}
+
+/** Apply scramble to a clone designation if Shadow Tongue is editing reality. */
+export function maybeScrambleDesignation(designation: string, scramble: boolean): string {
+  if (!scramble) return designation;
+  // Replace WIRED-XXXX-GREEK with WIRED-▓▓▓▓-█████ — readable but clearly wrong
+  return designation
+    .replace(/\d/g, "▓")
+    .replace(/[A-Z]/g, (c, i) => (i > 6 ? "█" : c));
+}
+
+/* ═══════════════════════════════════════════════════════
+   NILMORG VO LINE CATEGORIES
+   Maps semantic categories to the available nilmorg_NN.mp3 line ids.
+   ═══════════════════════════════════════════════════════ */
+
+export const NILMORG_VO_LINE_COUNT = 28;
+
+/**
+ * Distribution of voice lines across categories. The lines were recorded
+ * sequentially; the producer's notes group them as below. If new lines are
+ * added, extend this map rather than the random index in the page.
+ */
+export const NILMORG_VO_BY_CATEGORY: Record<NilmorgCategory, string[]> = {
+  circuit_begins:    ["nilmorg_00", "nilmorg_01", "nilmorg_02"],
+  player_leading:    ["nilmorg_03", "nilmorg_04", "nilmorg_05"],
+  player_losing:     ["nilmorg_06", "nilmorg_07", "nilmorg_08"],
+  clone_died:        ["nilmorg_09", "nilmorg_10", "nilmorg_11", "nilmorg_12"],
+  survived_danger:   ["nilmorg_13", "nilmorg_14", "nilmorg_15"],
+  player_died:       ["nilmorg_16", "nilmorg_17", "nilmorg_18"],
+  player_wins:       ["nilmorg_19", "nilmorg_20", "nilmorg_21"],
+  final_lap:         ["nilmorg_22", "nilmorg_23", "nilmorg_24"],
+  bone_lane_grows:   ["nilmorg_25", "nilmorg_26", "nilmorg_27"],
+};
+
+/** Pick a random VO line id for the given category. */
+export function getNilmorgVoLineId(category: NilmorgCategory): string {
+  const lines = NILMORG_VO_BY_CATEGORY[category];
+  if (!lines || lines.length === 0) return "nilmorg_00";
+  return lines[Math.floor(Math.random() * lines.length)];
 }

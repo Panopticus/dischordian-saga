@@ -24,6 +24,21 @@ export interface Act4PrisonerChapter {
   title: string;
   /** Which existing fight-game boss this chapter reframes. */
   boss: string;
+  /**
+   * Canonical Collectors Arena fighter id that this chapter
+   * maps to, matching FighterData.id in apps/client/src/game/
+   * gameData.ts. When the player defeats this fighter in
+   * Collectors Arena story mode, the chapter's completedFlag
+   * should be raised.
+   */
+  fighterId: string;
+  /**
+   * Collectors Arena story-mode chapter tag
+   * (StoryProgress.completedChapters). When the player's
+   * completedChapters list includes this tag, the Act 4
+   * chapter is also complete.
+   */
+  storyModeChapterTag: string;
   /** What memory the fight is extracting from Kael. */
   memoryExtracted: string;
   /** Canonical dialog line on fight start. */
@@ -38,6 +53,9 @@ export const ACT_4_PRISONER_CHAPTERS: readonly Act4PrisonerChapter[] = [
     order: 1,
     title: "The Cell",
     boss: "prison_guard_zero",
+    // ch2 in FIGHTER_ROSTER — the Jailer boss fight.
+    fighterId: "jailer",
+    storyModeChapterTag: "ch2",
     memoryExtracted:
       "Who Kael was before the virus. A child in Atarion's cloud-gardens with a little sister he cannot remember the name of.",
     openingLine:
@@ -49,6 +67,12 @@ export const ACT_4_PRISONER_CHAPTERS: readonly Act4PrisonerChapter[] = [
     order: 2,
     title: "The Extraction",
     boss: "meme_puppet",
+    // ch8 in FIGHTER_ROSTER — The Human / Last Detective.
+    // The Prisoner's memory extraction happens as a mirror-
+    // match against an entity wearing Kael's investigator
+    // face; the Human fighter is the in-engine surface.
+    fighterId: "human",
+    storyModeChapterTag: "ch8",
     memoryExtracted:
       "What Kael agreed to. The offer the virus made him and what he said in the mirror before he said yes.",
     openingLine:
@@ -60,6 +84,9 @@ export const ACT_4_PRISONER_CHAPTERS: readonly Act4PrisonerChapter[] = [
     order: 3,
     title: "The Warlord Rematch",
     boss: "warlord_zero_final_form",
+    // ch7 in FIGHTER_ROSTER — Warlord.
+    fighterId: "warlord",
+    storyModeChapterTag: "ch7",
     memoryExtracted:
       "Why Kael went after the Warlord in the first place. It was not revenge. It was a list of names.",
     openingLine:
@@ -71,6 +98,9 @@ export const ACT_4_PRISONER_CHAPTERS: readonly Act4PrisonerChapter[] = [
     order: 4,
     title: "The White Oracle Meets",
     boss: "the_white_oracle",
+    // ch6 in FIGHTER_ROSTER — White Oracle (secretly the Meme).
+    fighterId: "white-oracle",
+    storyModeChapterTag: "ch6",
     memoryExtracted:
       "Nothing. The White Oracle does not fight to extract; he fights to return. What Kael gives back to himself here is the right to be a man, not a virus.",
     openingLine:
@@ -302,6 +332,45 @@ export function getAct4Chapter(
   id: Act4PrisonerChapter["id"],
 ): Act4PrisonerChapter | undefined {
   return ACT_4_PRISONER_CHAPTERS.find((c) => c.id === id);
+}
+
+/**
+ * Reverse lookup: given a Collectors Arena fighter id, return
+ * the Act 4 Prisoner chapter that reframes a win against this
+ * fighter as a memory extraction. Returns undefined for
+ * fighters that are not part of the Act 4 arc.
+ */
+export function getAct4ChapterByFighterId(
+  fighterId: string,
+): Act4PrisonerChapter | undefined {
+  return ACT_4_PRISONER_CHAPTERS.find((c) => c.fighterId === fighterId);
+}
+
+/**
+ * Reverse lookup: given a storyMode chapter tag (e.g. "ch2",
+ * "ch7"), return the matching Act 4 Prisoner chapter.
+ */
+export function getAct4ChapterByStoryTag(
+  storyTag: string,
+): Act4PrisonerChapter | undefined {
+  return ACT_4_PRISONER_CHAPTERS.find((c) => c.storyModeChapterTag === storyTag);
+}
+
+/**
+ * Pure helper: given a StoryProgress.completedChapters list,
+ * return the set of Act 4 Prisoner chapter completedFlag
+ * values that should now be raised. Caller is responsible
+ * for applying the flags to game state.
+ */
+export function act4PrisonerFlagsForCompletedStoryChapters(
+  completedStoryChapters: readonly string[],
+): readonly string[] {
+  const out: string[] = [];
+  for (const tag of completedStoryChapters) {
+    const chapter = getAct4ChapterByStoryTag(tag);
+    if (chapter) out.push(chapter.completedFlag);
+  }
+  return out;
 }
 
 export function listDmcTracks(): readonly DeadMansCircuitTrack[] {
