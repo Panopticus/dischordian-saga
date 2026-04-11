@@ -10,7 +10,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { trpc } from "@/lib/trpc";
-import type { CasinoGame } from "./degensCasino";
+import { SLOT_SYMBOLS, type CasinoGame } from "./degensCasino";
 
 /** Shared result banner used by every panel after a mutation returns. */
 function ResultBanner({ result }: { result: { won: boolean; payout: number; jackpot: boolean; detail: Record<string, unknown> } | null }) {
@@ -53,6 +53,109 @@ function BetSelector({
           {s}D
         </button>
       ))}
+    </div>
+  );
+}
+
+/* ─── VOID SLOTS (server-authoritative) ─── */
+
+export function VoidSlotsPanel({ onResult }: { onResult?: () => void }) {
+  const [bet, setBet] = useState(10);
+  const mut = trpc.casino.playVoidSlots.useMutation();
+  const reels = (mut.data?.result.detail as { reels?: string[] } | undefined)?.reels;
+  return (
+    <div className="text-center">
+      <h2 className="font-display text-xl text-amber-400 mb-4">VOID SLOTS</h2>
+      {reels && (
+        <div className="flex justify-center gap-4 mb-6">
+          {reels.map((sym, i) => {
+            const s = SLOT_SYMBOLS.find((x) => x.id === sym);
+            return (
+              <motion.div
+                key={`${sym}-${i}-${mut.data?.seed}`}
+                initial={{ rotateX: 360 }}
+                animate={{ rotateX: 0 }}
+                transition={{ duration: 0.5, delay: i * 0.2 }}
+                className="w-20 h-20 rounded-xl border-2 flex items-center justify-center text-3xl"
+                style={{ borderColor: `${s?.color || "#fff"}40`, background: `${s?.color || "#fff"}10` }}
+              >
+                {s?.emoji || "?"}
+              </motion.div>
+            );
+          })}
+        </div>
+      )}
+      <BetSelector bet={bet} setBet={setBet} min={5} max={100} />
+      <button
+        onClick={() => mut.mutate({ bet }, { onSuccess: () => onResult?.() })}
+        disabled={mut.isPending}
+        className="px-6 py-2 rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-400 font-mono text-sm hover:bg-amber-500/20 disabled:opacity-50"
+      >
+        {mut.isPending ? "Spinning..." : `SPIN ${bet}D`}
+      </button>
+      <ResultBanner result={mut.data?.result ?? null} />
+    </div>
+  );
+}
+
+/* ─── ENTROPY DICE (server-authoritative) ─── */
+
+export function EntropyDicePanel({ onResult }: { onResult?: () => void }) {
+  const [bet, setBet] = useState(25);
+  const mut = trpc.casino.playEntropyDice.useMutation();
+  const detail = mut.data?.result.detail as { die1?: number; die2?: number; total?: number } | undefined;
+  return (
+    <div className="text-center">
+      <h2 className="font-display text-xl text-amber-400 mb-4">ENTROPY DICE</h2>
+      {detail?.die1 !== undefined && (
+        <div className="flex justify-center gap-6 mb-4">
+          <motion.div
+            key={`d1-${mut.data?.seed}`}
+            initial={{ rotateZ: 360 }}
+            animate={{ rotateZ: 0 }}
+            className="w-16 h-16 rounded-xl bg-white/5 border border-white/20 flex items-center justify-center font-display text-2xl text-white"
+          >
+            {detail.die1}
+          </motion.div>
+          <motion.div
+            key={`d2-${mut.data?.seed}`}
+            initial={{ rotateZ: -360 }}
+            animate={{ rotateZ: 0 }}
+            className="w-16 h-16 rounded-xl bg-white/5 border border-white/20 flex items-center justify-center font-display text-2xl text-white"
+          >
+            {detail.die2}
+          </motion.div>
+        </div>
+      )}
+      {detail?.total !== undefined && (
+        <p className="font-mono text-lg text-white/60 mb-4">Total: {detail.total}</p>
+      )}
+      <BetSelector bet={bet} setBet={setBet} min={10} max={200} />
+      <p className="font-mono text-[10px] text-white/20 mb-3 mt-2">Predict the roll:</p>
+      <div className="flex justify-center gap-3">
+        <button
+          onClick={() => mut.mutate({ bet, prediction: "under" }, { onSuccess: () => onResult?.() })}
+          disabled={mut.isPending}
+          className="px-4 py-2 rounded-lg bg-blue-500/10 border border-blue-500/30 text-blue-400 font-mono text-sm hover:bg-blue-500/20 disabled:opacity-50"
+        >
+          UNDER 7 (2x)
+        </button>
+        <button
+          onClick={() => mut.mutate({ bet, prediction: "exact" }, { onSuccess: () => onResult?.() })}
+          disabled={mut.isPending}
+          className="px-4 py-2 rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-400 font-mono text-sm hover:bg-amber-500/20 disabled:opacity-50"
+        >
+          EXACT 7 (5x)
+        </button>
+        <button
+          onClick={() => mut.mutate({ bet, prediction: "over" }, { onSuccess: () => onResult?.() })}
+          disabled={mut.isPending}
+          className="px-4 py-2 rounded-lg bg-red-500/10 border border-red-500/30 text-red-400 font-mono text-sm hover:bg-red-500/20 disabled:opacity-50"
+        >
+          OVER 7 (2x)
+        </button>
+      </div>
+      <ResultBanner result={mut.data?.result ?? null} />
     </div>
   );
 }
@@ -342,36 +445,46 @@ export function LiarsDicePanel({ onResult }: { onResult?: () => void }) {
 
 /* ─── FACTION WAR BETTING ─── */
 
-const SAMPLE_BETS = [
-  { id: "insurgency_weekly", label: "Insurgency wins weekly territory war", odds: 2.5 },
-  { id: "architect_weekly", label: "Architect holds core sectors", odds: 1.8 },
-  { id: "necromancer_event", label: "Necromancer event triggers", odds: 8.0 },
-  { id: "alliance_war_outcome", label: "Iron Lions vs Void Walkers", odds: 3.0 },
-];
+const BET_LABELS: Record<string, string> = {
+  insurgency_weekly:   "Insurgency wins weekly territory war",
+  architect_weekly:    "Architect holds core sectors",
+  necromancer_event:   "Necromancer event triggers",
+  alliance_war_outcome:"Iron Lions vs Void Walkers",
+  new_babylon_trade:   "New Babylon trade index rises",
+  thought_virus_spread:"Thought Virus spreads to Sector 12",
+};
 
 export function FactionWarBettingPanel({ onResult }: { onResult?: () => void }) {
   const [bet, setBet] = useState(50);
-  const [selected, setSelected] = useState(SAMPLE_BETS[0]);
+  const [selectedId, setSelectedId] = useState("insurgency_weekly");
+  const oddsQuery = trpc.casino.getFactionWarOdds.useQuery(undefined, { refetchInterval: 30_000 });
   const mut = trpc.casino.playFactionWarBet.useMutation();
+  const odds = oddsQuery.data ?? {};
   return (
     <div className="text-center">
       <h2 className="font-display text-xl text-amber-400 mb-4">FACTION WAR BETTING</h2>
+      <p className="font-mono text-[9px] text-amber-400/40 mb-3">
+        Odds are computed live from the active faction war.
+      </p>
       <div className="space-y-2 mb-4 max-w-md mx-auto">
-        {SAMPLE_BETS.map(b => (
-          <button
-            key={b.id}
-            onClick={() => setSelected(b)}
-            className={`w-full p-2 rounded-lg border text-left text-xs font-mono ${
-              selected.id === b.id ? "bg-amber-500/20 border-amber-500/40 text-amber-300" : "bg-white/[0.03] border-white/10 text-white/50"
-            }`}
-          >
-            {b.label} — <span className="text-amber-400">{b.odds}x</span>
-          </button>
-        ))}
+        {Object.keys(BET_LABELS).map(id => {
+          const live = odds[id];
+          return (
+            <button
+              key={id}
+              onClick={() => setSelectedId(id)}
+              className={`w-full p-2 rounded-lg border text-left text-xs font-mono ${
+                selectedId === id ? "bg-amber-500/20 border-amber-500/40 text-amber-300" : "bg-white/[0.03] border-white/10 text-white/50"
+              }`}
+            >
+              {BET_LABELS[id]} — <span className="text-amber-400">{live ? `${live.toFixed(2)}x` : "…"}</span>
+            </button>
+          );
+        })}
       </div>
       <BetSelector bet={bet} setBet={setBet} min={10} max={1000} />
       <button
-        onClick={() => mut.mutate({ bet, betId: selected.id, odds: selected.odds }, { onSuccess: () => onResult?.() })}
+        onClick={() => mut.mutate({ bet, betId: selectedId }, { onSuccess: () => onResult?.() })}
         disabled={mut.isPending}
         className="px-6 py-2 rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-400 font-mono text-sm hover:bg-amber-500/20 disabled:opacity-50"
       >
@@ -521,6 +634,8 @@ export function CasinoGamePanel({
   game, onResult,
 }: { game: CasinoGame; onResult?: () => void }) {
   switch (game) {
+    case "void_slots":                return <VoidSlotsPanel                onResult={onResult} />;
+    case "entropy_dice":              return <EntropyDicePanel              onResult={onResult} />;
     case "nebula_poker":              return <NebulaPokerPanel              onResult={onResult} />;
     case "quantum_roulette":          return <QuantumRoulettePanel          onResult={onResult} />;
     case "pazaak_21":                 return <Pazaak21Panel                 onResult={onResult} />;

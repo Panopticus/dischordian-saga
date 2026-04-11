@@ -3101,6 +3101,21 @@ export const casinoState = mysqlTable("casino_state", {
 }));
 export type CasinoStateRow = typeof casinoState.$inferSelect;
 
+export const casinoJackpotPool = mysqlTable("casino_jackpot_pool", {
+  id: int("id").autoincrement().primaryKey(),
+  /** Stable key — "main" is the only pool for now. */
+  poolKey: varchar("poolKey", { length: 32 }).notNull().unique(),
+  /** Current accumulated Dream in the pool. */
+  balance: int("balance").notNull().default(0),
+  /** Lifetime Dream paid out from this pool. */
+  totalPaidOut: int("totalPaidOut").notNull().default(0),
+  /** userId of the last winner, if any. */
+  lastWinnerId: int("lastWinnerId"),
+  lastWinAt: timestamp("lastWinAt"),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+export type CasinoJackpotPoolRow = typeof casinoJackpotPool.$inferSelect;
+
 export const casinoResults = mysqlTable("casino_results", {
   id: int("id").autoincrement().primaryKey(),
   userId: int("userId").notNull(),
@@ -3156,6 +3171,14 @@ export const xmasJulyProgress = mysqlTable("xmas_july_progress", {
   charityMultiplierRemaining: int("charityMultiplierRemaining").notNull().default(0),
   /** Unlocked cosmetic/badge ids earned from the event */
   unlockedRewards: json("unlockedRewards").$type<string[]>().default([]),
+  /** Gifts sent today — resets when giftCounterDate rolls */
+  giftsSentToday: int("giftsSentToday").notNull().default(0),
+  /** UTC YYYY-MM-DD of the last gift-send — drives daily reset */
+  giftCounterDate: varchar("giftCounterDate", { length: 10 }),
+  /** Lifetime festive tokens spent (wheel spins + gift crafts + donations) */
+  tokensSpent: int("tokensSpent").notNull().default(0),
+  /** Festive tokens spent today — for day 10 "High Roller" challenge */
+  tokensSpentToday: int("tokensSpentToday").notNull().default(0),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
 }, (table) => ({

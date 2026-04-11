@@ -17,7 +17,8 @@ import { router, protectedProcedure, publicProcedure } from "../_core/trpc";
 import { getDb, type DrizzleDb } from "../db";
 import { checkFeatureFlag } from "../middleware/featureFlag";
 import {
-  casinoState, casinoResults, dreamBalance, userAchievements,
+  casinoState, casinoResults, casinoJackpotPool, dreamBalance, userAchievements,
+  warTerritories, warSeasons,
 } from "../../db/schema";
 import { eq, and, sql, desc } from "drizzle-orm";
 
@@ -42,6 +43,46 @@ type PlayableGame =
   | "void_blackjack_tournament" | "liars_dice" | "faction_war_betting"
   | "dream_roulette" | "card_battlers_gauntlet" | "void_bingo"
   | "void_cases" | "dischordian_mahjong";
+
+/** ─── Faction War odds lookup ───
+ *  Computes the implied odds for each betting market from the
+ *  current state of the faction war tables. This is the
+ *  server-authoritative source of truth — the client can no
+ *  longer smuggle its own odds in. */
+async function computeFactionWarOdds(db: DbLike): Promise<Record<string, number>> {
+  const territories = await db.select().from(warTerritories);
+  const [season] = await db.select().from(warSeasons).where(eq(warSeasons.endedAt, sql`NULL`)).limit(1);
+  const total = territories.length || 1;
+  const empireHeld = territories.filter(t => t.faction === "empire").length;
+  const insurgencyHeld = territories.filter(t => t.faction === "insurgency").length;
+  const empireRatio = empireHeld / total;
+  const insurgencyRatio = insurgencyHeld / total;
+  // Implied probability → odds, inverted and shifted slightly to keep a
+  // house edge around 8%. Odds are clamped to [1.15, 20.0].
+  const clamp = (n: number) => Math.max(1.15, Math.min(20.0, n));
+  const baseOdds = (p: number) => clamp(1 / Math.max(0.05, p * 0.92));
+
+  // Fallback to the seasonal defaults if no war season is active.
+  if (!season) {
+    return {
+      insurgency_weekly: 2.5,
+      architect_weekly: 1.8,
+      necromancer_event: 8.0,
+      alliance_war_outcome: 3.0,
+      new_babylon_trade: 3.2,
+      thought_virus_spread: 5.0,
+    };
+  }
+
+  return {
+    insurgency_weekly: baseOdds(insurgencyRatio + 0.3),
+    architect_weekly: baseOdds(empireRatio + 0.3),
+    necromancer_event: 8.0,
+    alliance_war_outcome: baseOdds(0.5),
+    new_babylon_trade: 3.2,
+    thought_virus_spread: 5.0,
+  };
+}
 
 /** Convert the Date → YYYY-MM-DD so we can reset daily counters. */
 function todayString(): string {
@@ -85,14 +126,23 @@ async function ensureDreamBalance(db: DbLike, userId: number) {
   return fresh!;
 }
 
-/** Shared helper — deduct bet, run logic, apply payout, persist results + state. */
+/** Shared helper — deduct bet, run logic, apply payout, persist results + state.
+ *  `afterHook` runs inside the same transaction (after the casino row
+ *  update) so callers can patch game-specific state atomically. */
 async function executeGame(
   db: DrizzleDb,
   userId: number,
   game: PlayableGame,
   bet: number,
   runGame: (rng: () => number) => { won: boolean; payout: number; jackpot: boolean; detail: Record<string, unknown> },
-  opts: { seed?: string; skipBetDeduction?: boolean } = {},
+  opts: {
+    seed?: string;
+    skipBetDeduction?: boolean;
+    afterHook?: (
+      tx: DbLike,
+      result: { won: boolean; payout: number; jackpot: boolean; detail: Record<string, unknown> },
+    ) => Promise<void>;
+  } = {},
 ) {
   // Validate bet against game limits
   const validation = validateBet(game, bet);
@@ -166,6 +216,16 @@ async function executeGame(
 
     await tx.update(casinoState).set(updates).where(eq(casinoState.userId, userId));
 
+    // Contribute 2% of every paid bet to the global progressive jackpot pool.
+    // Free-to-play games (bet === 0) don't contribute.
+    if (bet > 0) {
+      const contribution = Math.ceil(bet * 0.02);
+      await tx
+        .update(casinoJackpotPool)
+        .set({ balance: sql`${casinoJackpotPool.balance} + ${contribution}` })
+        .where(eq(casinoJackpotPool.poolKey, "main"));
+    }
+
     await tx.insert(casinoResults).values({
       userId,
       game,
@@ -197,6 +257,10 @@ async function executeGame(
       if (!existing) {
         await tx.insert(userAchievements).values({ userId, achievementId: "degens_chosen" });
       }
+    }
+
+    if (opts.afterHook) {
+      await opts.afterHook(tx, result);
     }
 
     return {
@@ -360,20 +424,33 @@ export const casinoRouter = router({
       );
     }),
 
-  /** Faction War Betting — odds-based resolution. */
+  /** Current live odds for every faction war market. Served fresh
+   *  from the warTerritories table so clients can't spoof them. */
+  getFactionWarOdds: protectedProcedure
+    .use(checkFeatureFlag("casino"))
+    .query(async () => {
+      const db = await getDb();
+      if (!db) throw new Error("DB unavailable");
+      return computeFactionWarOdds(db);
+    }),
+
+  /** Faction War Betting — odds are looked up server-side from the
+   *  current war state; the client only picks which market to bet on. */
   playFactionWarBet: protectedProcedure
     .use(checkFeatureFlag("casino"))
     .input(z.object({
       bet: z.number().min(10).max(1000),
       betId: z.string(),
-      odds: z.number().min(1.1).max(20),
     }))
     .mutation(async ({ ctx, input }) => {
       const db = await getDb();
       if (!db) throw new Error("DB unavailable");
+      const odds = await computeFactionWarOdds(db);
+      const liveOdds = odds[input.betId];
+      if (!liveOdds) throw new Error(`Unknown faction war market: ${input.betId}`);
       return executeGame(db, ctx.user.id, "faction_war_betting", input.bet, (rng) => {
-        const result = playFactionWarBet(input.bet, input.odds, rng);
-        result.detail = { ...result.detail, betId: input.betId };
+        const result = playFactionWarBet(input.bet, liveOdds, rng);
+        result.detail = { ...result.detail, betId: input.betId, odds: liveOdds };
         return result;
       });
     }),
@@ -418,19 +495,31 @@ export const casinoRouter = router({
     .mutation(async ({ ctx, input }) => {
       const db = await getDb();
       if (!db) throw new Error("DB unavailable");
+      // Read pity once up-front so the RNG sees a stable counter; the
+      // actual increment happens inside the transaction via afterHook.
       const state = await ensureCasinoState(db, ctx.user.id);
       const pity = state.casesSinceRarePlus;
-      const out = await executeGame(db, ctx.user.id, "void_cases", input.bet, (rng) =>
-        playVoidCase(input.bet, pity, rng),
+      return executeGame(
+        db,
+        ctx.user.id,
+        "void_cases",
+        input.bet,
+        (rng) => playVoidCase(input.bet, pity, rng),
+        {
+          afterHook: async (tx, result) => {
+            const detail = result.detail as { tier: string };
+            const rarePlus =
+              detail.tier === "rare" ||
+              detail.tier === "epic" ||
+              detail.tier === "legendary" ||
+              detail.tier === "mythic";
+            await tx
+              .update(casinoState)
+              .set({ casesSinceRarePlus: rarePlus ? 0 : pity + 1 })
+              .where(eq(casinoState.userId, ctx.user.id));
+          },
+        },
       );
-      // Update pity timer on the row
-      const detail = out.result.detail as { tier: string };
-      const rarePlus = detail.tier === "rare" || detail.tier === "epic" || detail.tier === "legendary" || detail.tier === "mythic";
-      await db
-        .update(casinoState)
-        .set({ casesSinceRarePlus: rarePlus ? 0 : pity + 1 })
-        .where(eq(casinoState.userId, ctx.user.id));
-      return out;
     }),
 
   /** Dischordian Mahjong — client reports completion time, server scores it. */
@@ -476,5 +565,97 @@ export const casinoRouter = router({
         .where(eq(casinoResults.jackpot, true))
         .orderBy(desc(casinoResults.payout))
         .limit(input?.limit ?? 10);
+    }),
+
+  /** Current progressive jackpot pool balance + last winner. */
+  getJackpotPool: publicProcedure
+    .use(checkFeatureFlag("casino"))
+    .query(async () => {
+      const db = await getDb();
+      if (!db) throw new Error("DB unavailable");
+      const [pool] = await db
+        .select()
+        .from(casinoJackpotPool)
+        .where(eq(casinoJackpotPool.poolKey, "main"))
+        .limit(1);
+      if (pool) return pool;
+      await db.insert(casinoJackpotPool).values({ poolKey: "main", balance: 0, totalPaidOut: 0 });
+      const [fresh] = await db
+        .select()
+        .from(casinoJackpotPool)
+        .where(eq(casinoJackpotPool.poolKey, "main"))
+        .limit(1);
+      return fresh!;
+    }),
+
+  /** Claim the progressive jackpot pool. Only callable if the
+   *  player hit a true jackpot (three Degens in slots, royal flush
+   *  in poker, etc.) in the last 5 minutes, verified against the
+   *  audit log. Drains the pool into the player's Dream balance. */
+  claimJackpot: protectedProcedure
+    .use(checkFeatureFlag("casino"))
+    .mutation(async ({ ctx }) => {
+      const db = await getDb();
+      if (!db) throw new Error("DB unavailable");
+      return db.transaction(async (tx) => {
+        // Look for a qualifying jackpot in the audit log
+        const fiveMinutesAgo = new Date(Date.now() - 5 * 60 * 1000);
+        const [recent] = await tx
+          .select()
+          .from(casinoResults)
+          .where(and(
+            eq(casinoResults.userId, ctx.user.id),
+            eq(casinoResults.jackpot, true),
+            sql`${casinoResults.playedAt} > ${fiveMinutesAgo}`,
+          ))
+          .orderBy(desc(casinoResults.playedAt))
+          .limit(1);
+        if (!recent) {
+          throw new Error("No recent jackpot hit. The pool is only claimable within 5 minutes of a jackpot.");
+        }
+
+        const [pool] = await tx
+          .select()
+          .from(casinoJackpotPool)
+          .where(eq(casinoJackpotPool.poolKey, "main"))
+          .limit(1);
+        if (!pool || pool.balance <= 0) {
+          throw new Error("The jackpot pool is empty.");
+        }
+
+        // Guard against double-claiming: stamp the result row by re-
+        // using the seed column. If it contains "CLAIMED", we've
+        // already paid out for this hit.
+        if (recent.seed?.startsWith("CLAIMED:")) {
+          throw new Error("This jackpot has already been claimed.");
+        }
+
+        const payout = pool.balance;
+
+        await tx
+          .update(casinoJackpotPool)
+          .set({
+            balance: 0,
+            totalPaidOut: pool.totalPaidOut + payout,
+            lastWinnerId: ctx.user.id,
+            lastWinAt: new Date(),
+          })
+          .where(eq(casinoJackpotPool.poolKey, "main"));
+
+        await tx
+          .update(dreamBalance)
+          .set({
+            dreamTokens: sql`${dreamBalance.dreamTokens} + ${payout}`,
+            totalDreamEarned: sql`${dreamBalance.totalDreamEarned} + ${payout}`,
+          })
+          .where(eq(dreamBalance.userId, ctx.user.id));
+
+        await tx
+          .update(casinoResults)
+          .set({ seed: `CLAIMED:${recent.seed ?? ""}` })
+          .where(eq(casinoResults.id, recent.id));
+
+        return { payout, newBalance: 0 };
+      });
     }),
 });

@@ -22,6 +22,7 @@ import { EmptyCompanions } from "@/components/EmptyStates";
 import { AnimatedPortrait } from "@/components/AnimatedPortrait";
 import { getMaterialById } from "@/data/craftingData";
 import { ALL_LOYALTY_MISSIONS, getAvailableLoyaltyMissions, type LoyaltyMission, type LoyaltyMissionStep } from "@/data/loyaltyMissions";
+import { HolidayDialogTicker } from "@/components/HolidayDialogTicker";
 
 import LivingBackground from "@/components/LivingBackground";
 
@@ -311,6 +312,13 @@ export default function CompanionHubPage() {
           <ArrowLeft size={14} />
           BACK TO COMPANIONS
         </button>
+
+        {/* Seasonal holiday ticker — only visible while Christmas in July is active */}
+        <div className="mb-4">
+          <HolidayDialogTicker
+            npcId={isElara ? "elara" : "the_human"}
+          />
+        </div>
 
         {/* Companion Header */}
         <div className={`rounded-lg border overflow-hidden mb-6 ${

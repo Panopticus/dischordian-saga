@@ -25,7 +25,7 @@ import {
   xmasJulyProgress, xmasJulyGifts, xmasJulyCharityPool,
   xmasJulyCrapsRolls, xmasJulyWheelSpins, notifications, users,
 } from "../../db/schema";
-import { eq, and, desc, sql, or } from "drizzle-orm";
+import { eq, and, desc, sql, or, like, ne } from "drizzle-orm";
 import { createRng, randomSeed, rollCraps, spinWheel } from "../../shared/casinoGames";
 import {
   CHRISTMAS_EVENT_CONFIG, CHRISTMAS_EVENT_KEY,
@@ -46,19 +46,37 @@ function currentEventDay(): number {
   return Math.max(1, Math.min(CHRISTMAS_EVENT_CONFIG.durationDays, day));
 }
 
-async function ensureProgress(
-  db: DbLike,
-  userId: number,
-) {
+/** Reset `giftsSentToday` / `tokensSpentToday` when the UTC date changes. */
+async function ensureProgress(db: DbLike, userId: number) {
   const [existing] = await db
     .select()
     .from(xmasJulyProgress)
     .where(eq(xmasJulyProgress.userId, userId))
     .limit(1);
-  if (existing) return existing;
+  if (existing) {
+    const today = todayString();
+    if (existing.giftCounterDate !== today) {
+      await db
+        .update(xmasJulyProgress)
+        .set({
+          giftsSentToday: 0,
+          tokensSpentToday: 0,
+          giftCounterDate: today,
+        })
+        .where(eq(xmasJulyProgress.userId, userId));
+      return {
+        ...existing,
+        giftsSentToday: 0,
+        tokensSpentToday: 0,
+        giftCounterDate: today,
+      };
+    }
+    return existing;
+  }
   await db.insert(xmasJulyProgress).values({
     userId,
     festiveTokens: 0,
+    giftCounterDate: todayString(),
   });
   const [fresh] = await db
     .select()
@@ -67,6 +85,9 @@ async function ensureProgress(
     .limit(1);
   return fresh!;
 }
+
+/** Daily gift send cap — anti-farm. */
+const DAILY_GIFT_CAP = 50;
 
 async function ensureCharityPool(
   db: DbLike,
@@ -222,6 +243,8 @@ export const christmasInJulyRouter = router({
 
         const updates: Partial<typeof progress> = {
           festiveTokens: progress.festiveTokens - cost,
+          tokensSpent: progress.tokensSpent + cost,
+          tokensSpentToday: progress.tokensSpentToday + cost,
         };
 
         // Apply prize effects
@@ -350,6 +373,12 @@ export const christmasInJulyRouter = router({
       if (!db) throw new Error("DB unavailable");
       return db.transaction(async (tx) => {
         const progress = await ensureProgress(tx, ctx.user.id);
+
+        // Rate limit: max DAILY_GIFT_CAP gifts per user per UTC day
+        if (progress.giftsSentToday >= DAILY_GIFT_CAP) {
+          throw new Error(`Daily gift limit reached (${DAILY_GIFT_CAP}/day).`);
+        }
+
         // Verify recipient exists
         const [recipient] = await tx.select({ id: users.id }).from(users).where(eq(users.id, input.recipientId)).limit(1);
         if (!recipient) throw new Error("Recipient not found.");
@@ -373,6 +402,9 @@ export const christmasInJulyRouter = router({
           .set({
             festiveTokens: progress.festiveTokens - cost + tokensEarned,
             giftsSent: progress.giftsSent + 1,
+            giftsSentToday: progress.giftsSentToday + 1,
+            tokensSpent: progress.tokensSpent + cost,
+            tokensSpentToday: progress.tokensSpentToday + cost,
           })
           .where(eq(xmasJulyProgress.userId, ctx.user.id));
 
@@ -514,8 +546,8 @@ export const christmasInJulyRouter = router({
               .where(eq(xmasJulyCrapsRolls.userId, ctx.user.id));
             return (row?.c ?? 0) >= req.amount;
           })() :
-          req.type === "gifts_sent_today" ? progress.giftsSent >= req.amount :
-          req.type === "tokens_spent" ? progress.giftsSent * CHRISTMAS_EVENT_CONFIG.giftBoxCraftCost >= req.amount :
+          req.type === "gifts_sent_today" ? progress.giftsSentToday >= req.amount :
+          req.type === "tokens_spent" ? progress.tokensSpent >= req.amount :
           false;
 
         if (!satisfied) throw new Error("Challenge requirement not met.");
@@ -559,6 +591,8 @@ export const christmasInJulyRouter = router({
           .set({
             festiveTokens: progress.festiveTokens - input.amount,
             charityMultiplierRemaining: Math.max(0, progress.charityMultiplierRemaining - input.amount),
+            tokensSpent: progress.tokensSpent + input.amount,
+            tokensSpentToday: progress.tokensSpentToday + input.amount,
           })
           .where(eq(xmasJulyProgress.userId, ctx.user.id));
 
@@ -579,6 +613,24 @@ export const christmasInJulyRouter = router({
           newMilestonesReached: newMilestones.map(m => m.id),
         };
       });
+    }),
+
+  /** Search for users to gift by name prefix. Excludes self. */
+  searchGiftRecipients: protectedProcedure
+    .use(checkFeatureFlag("christmas_in_july"))
+    .input(z.object({ query: z.string().min(1).max(64) }))
+    .query(async ({ ctx, input }) => {
+      const db = await getDb();
+      if (!db) return [];
+      const rows = await db
+        .select({ id: users.id, name: users.name })
+        .from(users)
+        .where(and(
+          like(users.name, `${input.query}%`),
+          ne(users.id, ctx.user.id),
+        ))
+        .limit(10);
+      return rows;
     }),
 
   /** Leaderboard of top gift senders. */

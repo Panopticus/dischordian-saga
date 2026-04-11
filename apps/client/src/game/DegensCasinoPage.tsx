@@ -5,24 +5,23 @@
 import { useState, useMemo, useEffect } from "react";
 import { useLocation } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Skull, Star, Zap, Dice1 as Dice, Trophy } from "lucide-react";
+import { X, Skull } from "lucide-react";
 import ParallaxDepthBackground from "@/components/ParallaxDepthBackground";
 import {
-  CASINO_GAMES, spinSlots, rollDice, getVIPLevel, getDegenQuote,
+  CASINO_GAMES, getVIPLevel, getDegenQuote,
   DEFAULT_CASINO_STATE, type CasinoState, type CasinoGame,
-  SLOT_SYMBOLS, getStreakMultiplier, getStreakReward,
-  calculateFavorGain, getDegenFavorMilestone, rollForTale,
-  checkEquilibrium, getDegenMood, DEGEN_MOOD_COMMENTARY,
+  getStreakReward, getStreakMultiplier,
+  getDegenFavorMilestone, rollForTale,
+  checkEquilibrium, getDegenMood,
   DEGEN_QUOTES_EXPANSION, type DegenTale,
-  rollLiarsDice, dreamRouletteRound, generateBingoCard, checkBingoWin,
-  LIARS_DICE_NPCS, SAMPLE_FACTION_BETS, BINGO_LORE_EVENTS,
 } from "./degensCasino";
 import {
   CASINO_ENVIRONMENTS, FLOOR_BACKGROUNDS, CASINO_GAME_TABLES,
-  getDegenPortrait, getVipChip, getTrustMilestoneArt,
+  getDegenPortrait, getVipChip,
 } from "@/lib/casinoAssets";
 import { useDegenVO } from "@/hooks/useDegenVO";
 import { CasinoGamePanel } from "./CasinoGamePanels";
+import { HolidayDialogTicker } from "@/components/HolidayDialogTicker";
 import { trpc } from "@/lib/trpc";
 
 const CASINO_FLOOR_BG = CASINO_ENVIRONMENTS.mainFloor;
@@ -33,14 +32,30 @@ export default function DegensCasinoPage() {
   const [, navigate] = useLocation();
   const [entering, setEntering] = useState(true);
   const trpcContext = trpc.useUtils();
-  // Server-side casino state (authoritative). When present it overrides
-  // the localStorage mirror — but we fall back to local state so the
-  // page still renders without a logged-in session.
-  trpc.casino.getState.useQuery(undefined, { retry: false });
-  const [casinoState, setCasinoState] = useState<CasinoState>(() => {
-    const saved = localStorage.getItem("degen_casino");
-    return saved ? JSON.parse(saved) : DEFAULT_CASINO_STATE;
-  });
+  // Server-side casino state (authoritative). If the query errors
+  // (unauthenticated or DB-less dev mode) we fall back to the default
+  // state and keep the UI rendering without crashing.
+  const stateQuery = trpc.casino.getState.useQuery(undefined, { retry: false });
+  const casinoState: CasinoState = useMemo(() => {
+    if (!stateQuery.data) return DEFAULT_CASINO_STATE;
+    const srv = stateQuery.data;
+    return {
+      totalWagered: srv.totalWagered,
+      totalWon: srv.totalWon,
+      sessionWins: srv.sessionWins,
+      sessionLosses: srv.sessionLosses,
+      vipLevel: srv.vipLevel,
+      freeSpinsLeft: srv.freeSpinsLeft,
+      jackpotContribution: srv.jackpotContribution,
+      scratchCards: srv.scratchCards,
+      currentStreak: srv.currentStreak,
+      bestStreak: srv.bestStreak,
+      degenFavor: srv.degenFavor,
+      totalBetsPlaced: srv.totalBetsPlaced,
+      collectedTales: (srv.collectedTales ?? []) as string[],
+      gamesPlayed: (srv.gamesPlayed ?? {}) as Partial<Record<CasinoGame, number>>,
+    };
+  }, [stateQuery.data]);
 
   // Auto-dismiss loading screen after image loads + brief cinematic pause
   useEffect(() => {
@@ -58,8 +73,6 @@ export default function DegensCasinoPage() {
   const [casinoFloor, setCasinoFloor] = useState<"main" | "cards" | "dice" | "slots" | "vip" | "betting" | "bingo" | "roulette">("main");
   const { speak: speakDegen } = useDegenVO();
   const [degenText, setDegenText] = useState(() => getDegenQuote("welcome"));
-  const [slotResult, setSlotResult] = useState<{ reels: string[]; payout: number } | null>(null);
-  const [diceResult, setDiceResult] = useState<{ die1: number; die2: number; total: number } | null>(null);
   const [latestTale, setLatestTale] = useState<DegenTale | null>(null);
   const [showTale, setShowTale] = useState(false);
 
@@ -75,79 +88,41 @@ export default function DegensCasinoPage() {
   );
   const vipChipImg = useMemo(() => getVipChip(vip.name), [vip.name]);
 
-  const save = (s: CasinoState) => { setCasinoState(s); localStorage.setItem("degen_casino", JSON.stringify(s)); };
-
-  /** Unified game result handler — tracks streaks, favor, tales, bets */
-  const processGameResult = (game: CasinoGame, bet: number, won: boolean, payout: number, jackpot = false) => {
-    const newStreak = won ? casinoState.currentStreak + 1 : 0;
-    const streakMult = getStreakMultiplier(casinoState.currentStreak);
-    const adjustedPayout = won ? Math.round(payout * streakMult) : 0;
-    const favorGain = calculateFavorGain({ won, jackpot, bet });
-
-    // Roll for lore tale drop
-    const tale = rollForTale(casinoState.degenFavor, casinoState.collectedTales);
+  /** Called by every game panel after a successful tRPC mutation. Rolls for
+   *  a lore tale drop client-side (low-cost flavor) and updates the Degen's
+   *  commentary banner + VO based on the fresh server state. */
+  const onAnyGameResult = () => {
+    trpcContext.casino.getState.invalidate();
+    const nextState = stateQuery.data;
+    if (!nextState) return;
+    // Tale drop is purely cosmetic — rolled on the client from the
+    // refreshed degenFavor + collectedTales list.
+    const tale = rollForTale(nextState.degenFavor, (nextState.collectedTales ?? []) as string[]);
     if (tale) {
       setLatestTale(tale);
       setShowTale(true);
     }
-
-    const newState: CasinoState = {
-      ...casinoState,
-      totalWagered: casinoState.totalWagered + bet,
-      totalWon: casinoState.totalWon + adjustedPayout,
-      sessionWins: won ? casinoState.sessionWins + 1 : casinoState.sessionWins,
-      sessionLosses: !won ? casinoState.sessionLosses + 1 : casinoState.sessionLosses,
-      currentStreak: newStreak,
-      bestStreak: Math.max(casinoState.bestStreak, newStreak),
-      degenFavor: Math.min(100, casinoState.degenFavor + favorGain),
-      totalBetsPlaced: casinoState.totalBetsPlaced + 1,
-      collectedTales: tale ? [...casinoState.collectedTales, tale.id] : casinoState.collectedTales,
-      gamesPlayed: {
-        ...casinoState.gamesPlayed,
-        [game]: (casinoState.gamesPlayed[game] ?? 0) + 1,
-      },
-    };
-    save(newState);
-
-    // Set appropriate commentary and play VO
-    if (jackpot) {
-      setDegenText(getDegenQuote("jackpot"));
-      speakDegen("degen_jackpot_00");
-    } else if (newStreak >= 10) {
-      const quotes = DEGEN_QUOTES_EXPANSION.streak_10;
-      setDegenText(quotes[Math.floor(Math.random() * quotes.length)]);
+    // Pick commentary bucket from the new streak.
+    const streak = nextState.currentStreak;
+    if (streak >= 10) {
+      const q = DEGEN_QUOTES_EXPANSION.streak_10;
+      setDegenText(q[Math.floor(Math.random() * q.length)]);
       speakDegen("degen_win_00");
-    } else if (newStreak >= 5) {
-      const quotes = DEGEN_QUOTES_EXPANSION.streak_5;
-      setDegenText(quotes[Math.floor(Math.random() * quotes.length)]);
+    } else if (streak >= 5) {
+      const q = DEGEN_QUOTES_EXPANSION.streak_5;
+      setDegenText(q[Math.floor(Math.random() * q.length)]);
       speakDegen("degen_win_00");
-    } else if (newStreak >= 3) {
-      const quotes = DEGEN_QUOTES_EXPANSION.streak_3;
-      setDegenText(quotes[Math.floor(Math.random() * quotes.length)]);
+    } else if (streak >= 3) {
+      const q = DEGEN_QUOTES_EXPANSION.streak_3;
+      setDegenText(q[Math.floor(Math.random() * q.length)]);
       speakDegen("degen_win_00");
-    } else if (won) {
+    } else if (nextState.sessionWins > 0) {
       setDegenText(getDegenQuote("win"));
       speakDegen("degen_win_00");
     } else {
       setDegenText(getDegenQuote("lose"));
       speakDegen("degen_lose_00");
     }
-  };
-
-  const handleSlotSpin = (bet: number) => {
-    const result = spinSlots();
-    const payout = result.payout * bet;
-    setSlotResult({ reels: result.reels, payout });
-    processGameResult("void_slots", bet, payout > 0, Math.max(0, payout), result.jackpot);
-  };
-
-  const handleDiceRoll = (bet: number, prediction: "over" | "under" | "exact") => {
-    const result = rollDice();
-    setDiceResult(result);
-    const won = prediction === "over" ? result.total > 7 : prediction === "under" ? result.total < 7 : result.total === 7;
-    const multiplier = prediction === "exact" ? 5 : 2;
-    const payout = won ? bet * multiplier : 0;
-    processGameResult("entropy_dice", bet, won, payout);
   };
 
   // ─── LOADING / ENTRY SCREEN ───
@@ -239,6 +214,13 @@ export default function DegensCasinoPage() {
               <p className="font-mono text-[8px] text-white/20">Wagered: {casinoState.totalWagered}D</p>
             </div>
           </div>
+          <button
+            onClick={() => navigate("/casino/leaderboard")}
+            className="font-mono text-[9px] text-amber-400/50 hover:text-amber-300 px-2 py-1 rounded border border-amber-500/10 hover:border-amber-500/30"
+            title="View jackpot leaderboard"
+          >
+            LEADERBOARD
+          </button>
           <button onClick={() => navigate("/ark")} className="text-white/20 hover:text-white/50">
             <X size={18} />
           </button>
@@ -262,6 +244,11 @@ export default function DegensCasinoPage() {
           )}
         </div>
       )}
+
+      {/* Christmas in July ticker — active only during the event window */}
+      <div className="px-4 py-2">
+        <HolidayDialogTicker npcId="degen" />
+      </div>
 
       {/* Degen Commentary */}
       <div className="px-4 py-3 border-b border-white/5">
@@ -395,86 +382,14 @@ export default function DegensCasinoPage() {
           </>
         ) : (
           <div>
-            <button onClick={() => { setSelectedGame(null); setSlotResult(null); setDiceResult(null); }}
+            <button onClick={() => setSelectedGame(null)}
               className="font-mono text-[10px] text-white/20 hover:text-white/40 mb-4 flex items-center gap-1">
               ← BACK TO GAMES
             </button>
 
-            {/* VOID SLOTS */}
-            {selectedGame === "void_slots" && (
-              <div className="text-center">
-                <h2 className="font-display text-xl text-amber-400 mb-4">VOID SLOTS</h2>
-                {slotResult && (
-                  <div className="flex justify-center gap-4 mb-6">
-                    {slotResult.reels.map((sym, i) => {
-                      const s = SLOT_SYMBOLS.find(x => x.id === sym);
-                      return (
-                        <motion.div key={i} initial={{ rotateX: 360 }} animate={{ rotateX: 0 }}
-                          transition={{ duration: 0.5, delay: i * 0.2 }}
-                          className="w-20 h-20 rounded-xl border-2 flex items-center justify-center text-3xl"
-                          style={{ borderColor: `${s?.color || "#fff"}40`, background: `${s?.color || "#fff"}10` }}>
-                          {s?.emoji || "?"}
-                        </motion.div>
-                      );
-                    })}
-                  </div>
-                )}
-                {slotResult && (
-                  <p className={`font-mono text-lg mb-4 ${slotResult.payout > 0 ? "text-green-400" : "text-red-400"}`}>
-                    {slotResult.payout > 0 ? `+${slotResult.payout} DREAM!` : "No match"}
-                  </p>
-                )}
-                <div className="flex justify-center gap-3">
-                  {[10, 25, 50, 100].map(bet => (
-                    <button key={bet} onClick={() => handleSlotSpin(bet)}
-                      className="px-4 py-2 rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-400 font-mono text-sm hover:bg-amber-500/20 transition-all">
-                      SPIN {bet}D
-                    </button>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* ENTROPY DICE */}
-            {selectedGame === "entropy_dice" && (
-              <div className="text-center">
-                <h2 className="font-display text-xl text-amber-400 mb-4">ENTROPY DICE</h2>
-                {diceResult && (
-                  <div className="flex justify-center gap-6 mb-4">
-                    <motion.div initial={{ rotateZ: 360 }} animate={{ rotateZ: 0 }}
-                      className="w-16 h-16 rounded-xl bg-white/5 border border-white/20 flex items-center justify-center font-display text-2xl text-white">
-                      {diceResult.die1}
-                    </motion.div>
-                    <motion.div initial={{ rotateZ: -360 }} animate={{ rotateZ: 0 }}
-                      className="w-16 h-16 rounded-xl bg-white/5 border border-white/20 flex items-center justify-center font-display text-2xl text-white">
-                      {diceResult.die2}
-                    </motion.div>
-                  </div>
-                )}
-                {diceResult && (
-                  <p className="font-mono text-lg text-white/60 mb-4">Total: {diceResult.total}</p>
-                )}
-                <p className="font-mono text-[10px] text-white/20 mb-3">Bet 25 Dream — Predict the roll:</p>
-                <div className="flex justify-center gap-3">
-                  <button onClick={() => handleDiceRoll(25, "under")}
-                    className="px-4 py-2 rounded-lg bg-blue-500/10 border border-blue-500/30 text-blue-400 font-mono text-sm hover:bg-blue-500/20">
-                    UNDER 7 (2x)
-                  </button>
-                  <button onClick={() => handleDiceRoll(25, "exact")}
-                    className="px-4 py-2 rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-400 font-mono text-sm hover:bg-amber-500/20">
-                    EXACT 7 (5x)
-                  </button>
-                  <button onClick={() => handleDiceRoll(25, "over")}
-                    className="px-4 py-2 rounded-lg bg-red-500/10 border border-red-500/30 text-red-400 font-mono text-sm hover:bg-red-500/20">
-                    OVER 7 (2x)
-                  </button>
-                </div>
-              </div>
-            )}
-
-            {/* All other games are rendered by the CasinoGamePanel dispatcher,
-                 which wires each one to the server-authoritative tRPC casino router. */}
-            {selectedGame !== "void_slots" && selectedGame !== "entropy_dice" && selectedGame && (
+            {/* All games are rendered by the CasinoGamePanel dispatcher,
+                which wires each one to the server-authoritative tRPC casino router. */}
+            {selectedGame && (
               <div>
                 {(() => {
                   const GAME_TABLE_ART: Partial<Record<CasinoGame, string>> = {
@@ -493,14 +408,7 @@ export default function DegensCasinoPage() {
                     <img src={tableImg} alt="" className="w-full max-w-sm mx-auto rounded-xl mb-4 opacity-40" style={{ filter: "saturate(0.7)" }} />
                   ) : null;
                 })()}
-                <CasinoGamePanel
-                  game={selectedGame}
-                  onResult={() => {
-                    // Refresh the server-side casino state snapshot if we are
-                    // using it (we mirror to localStorage for legacy reasons).
-                    trpcContext.casino.getState.invalidate();
-                  }}
-                />
+                <CasinoGamePanel game={selectedGame} onResult={onAnyGameResult} />
                 <p className="font-mono text-[9px] text-white/20 mt-6 text-center">
                   {CASINO_GAMES.find(g => g.id === selectedGame)?.rules}
                 </p>

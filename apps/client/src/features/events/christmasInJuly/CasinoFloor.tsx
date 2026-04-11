@@ -15,9 +15,9 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "wouter";
 import {
   Gem, Sparkles, Gift, TreePine, Calendar, Dice1, Dice2, Dice3, Dice4, Dice5, Dice6,
-  RotateCw, Trophy, Heart, Star, Flame, ChevronLeft, Crown, Target,
-  Snowflake, PartyPopper, CircleDollarSign, TrendingUp, Check, X,
-  Timer, Users, Zap, Package, ArrowRight, BarChart3,
+  RotateCw, Trophy, Heart, Star, Flame, ChevronLeft, Target,
+  Snowflake, CircleDollarSign, TrendingUp, Check,
+  Timer, Package, ArrowRight,
 } from "lucide-react";
 import { useSoulStoneStore } from "@/features/soulStones/soulStoneStore";
 import { trpc } from "@/lib/trpc";
@@ -139,28 +139,32 @@ const SNOW_STYLES = `
 `;
 
 /* ═══════════════════════════════════════════════════════
-   GIFT SEND BAR — quick dispatcher for sending a gift to
-   any user by id. In production this would autocomplete
-   off a friend list; for now the recipient id input is
-   sufficient to wire the full gifting loop.
+   GIFT SEND BAR — autocomplete-based recipient picker.
+   The "Send" button is gated on a resolved recipient from
+   the searchGiftRecipients query.
    ═══════════════════════════════════════════════════════ */
 function GiftSendBar() {
-  const [recipientId, setRecipientId] = useState("");
+  const [query, setQuery] = useState("");
+  const [picked, setPicked] = useState<{ id: number; name: string | null } | null>(null);
   const [giftType, setGiftType] = useState<"gift_box" | "candy_cane" | "snowflake_fragment" | "mystery_box">("gift_box");
   const [message, setMessage] = useState("");
   const utils = trpc.useUtils();
+  const searchQuery = trpc.christmasInJuly.searchGiftRecipients.useQuery(
+    { query },
+    { enabled: query.length >= 2 && !picked, staleTime: 15_000 },
+  );
   const sendGift = trpc.christmasInJuly.sendGift.useMutation({
     onSuccess: () => {
       utils.christmasInJuly.getMyProgress.invalidate();
       utils.christmasInJuly.getCharityPool.invalidate();
       setMessage("");
-      setRecipientId("");
+      setQuery("");
+      setPicked(null);
     },
   });
   const onSend = () => {
-    const id = Number(recipientId);
-    if (!id || Number.isNaN(id)) return;
-    sendGift.mutate({ recipientId: id, giftType, message: message || undefined });
+    if (!picked) return;
+    sendGift.mutate({ recipientId: picked.id, giftType, message: message || undefined });
   };
   return (
     <div className="bg-gradient-to-r from-red-950/20 via-amber-900/10 to-green-950/20 border border-amber-500/20 rounded-xl p-4">
@@ -168,14 +172,32 @@ function GiftSendBar() {
         <Gift className="w-4 h-4 text-amber-400" />
         <span className="font-display text-sm text-amber-300">Send a Gift</span>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-2">
-        <input
-          type="number"
-          placeholder="Recipient ID"
-          value={recipientId}
-          onChange={(e) => setRecipientId(e.target.value)}
-          className="px-3 py-2 rounded-lg bg-gray-900/60 border border-gray-700/40 text-gray-200 text-sm"
-        />
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-2 relative">
+        <div className="relative">
+          <input
+            type="text"
+            placeholder="Search by name..."
+            value={picked ? (picked.name ?? `User #${picked.id}`) : query}
+            onChange={(e) => {
+              setPicked(null);
+              setQuery(e.target.value);
+            }}
+            className="w-full px-3 py-2 rounded-lg bg-gray-900/60 border border-gray-700/40 text-gray-200 text-sm"
+          />
+          {query.length >= 2 && !picked && searchQuery.data && searchQuery.data.length > 0 && (
+            <div className="absolute top-full left-0 right-0 z-10 mt-1 rounded-lg bg-gray-900 border border-gray-700/60 shadow-xl max-h-48 overflow-auto">
+              {searchQuery.data.map((u) => (
+                <button
+                  key={u.id}
+                  onClick={() => { setPicked(u); setQuery(""); }}
+                  className="w-full text-left px-3 py-2 text-sm text-gray-200 hover:bg-amber-500/10 border-b border-gray-800/60 last:border-b-0"
+                >
+                  {u.name ?? `User #${u.id}`}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
         <select
           value={giftType}
           onChange={(e) => setGiftType(e.target.value as typeof giftType)}
@@ -195,7 +217,7 @@ function GiftSendBar() {
         />
         <button
           onClick={onSend}
-          disabled={sendGift.isPending || !recipientId}
+          disabled={sendGift.isPending || !picked}
           className="px-4 py-2 rounded-lg bg-amber-500/20 border border-amber-500/40 text-amber-200 font-mono text-sm hover:bg-amber-500/30 disabled:opacity-50"
         >
           {sendGift.isPending ? "Sending..." : "Send"}
@@ -207,6 +229,76 @@ function GiftSendBar() {
       {sendGift.isSuccess && (
         <p className="mt-2 text-xs text-green-400/80 font-mono">Gift sent! +{sendGift.data?.tokensEarned ?? 0} tokens earned.</p>
       )}
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════
+   GIFT INBOX — lists the current user's received gifts
+   with a Claim button for unclaimed ones.
+   ═══════════════════════════════════════════════════════ */
+function GiftInbox({ userId }: { userId: number }) {
+  const utils = trpc.useUtils();
+  const giftsQuery = trpc.christmasInJuly.myGifts.useQuery();
+  const claimGift = trpc.christmasInJuly.claimGift.useMutation({
+    onSuccess: () => {
+      utils.christmasInJuly.myGifts.invalidate();
+      utils.christmasInJuly.getMyProgress.invalidate();
+    },
+  });
+  const gifts = giftsQuery.data ?? [];
+  const received = gifts.filter(g => g.recipientId === userId);
+  const unclaimed = received.filter(g => !g.claimed);
+  if (received.length === 0) {
+    return (
+      <div className="bg-gray-900/40 border border-gray-700/20 rounded-xl p-4 text-center text-xs text-gray-500 font-mono">
+        No gifts received yet. Tell your friends you love presents.
+      </div>
+    );
+  }
+  return (
+    <div className="bg-amber-950/20 border border-amber-500/20 rounded-xl p-4">
+      <div className="flex items-center gap-2 mb-3">
+        <Package className="w-4 h-4 text-amber-400" />
+        <span className="font-display text-sm text-amber-300">Gift Inbox</span>
+        {unclaimed.length > 0 && (
+          <span className="ml-auto text-xs px-2 py-0.5 rounded-full bg-red-500/20 border border-red-500/40 text-red-300 font-mono">
+            {unclaimed.length} unclaimed
+          </span>
+        )}
+      </div>
+      <div className="space-y-2 max-h-64 overflow-auto">
+        {received.slice(0, 10).map((gift) => (
+          <div
+            key={gift.id}
+            className={`flex items-center justify-between gap-3 p-3 rounded-lg border ${
+              gift.claimed
+                ? "bg-gray-900/30 border-gray-700/20 opacity-60"
+                : "bg-amber-500/10 border-amber-500/30"
+            }`}
+          >
+            <div className="flex-1 min-w-0">
+              <p className="font-mono text-xs text-amber-300 truncate">
+                {gift.giftType.replace(/_/g, " ")}
+              </p>
+              {gift.message && (
+                <p className="text-[10px] text-gray-400 italic mt-1 truncate">"{gift.message}"</p>
+              )}
+            </div>
+            {!gift.claimed ? (
+              <button
+                onClick={() => claimGift.mutate({ giftId: gift.id })}
+                disabled={claimGift.isPending}
+                className="px-3 py-1.5 rounded-lg bg-amber-500/20 border border-amber-500/40 text-amber-200 font-mono text-xs hover:bg-amber-500/30 disabled:opacity-50"
+              >
+                Claim
+              </button>
+            ) : (
+              <span className="text-[10px] text-gray-500 font-mono">claimed</span>
+            )}
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
@@ -403,26 +495,16 @@ export default function CasinoFloor() {
           setDice([data.roll.die1, data.roll.die2]);
           setStonesWagered((s) => s + 1);
 
-          // Apply the server's instruction to the soul stone store
+          // Apply the server's instruction to the soul stone store via
+          // its public actions.
           const action = data.stoneAction;
-          if (action === "consumed" || action === "corrupted") {
-            // Losing or corruption — remove or mark as corrupted on the client.
-            // The store handles this via collectStone + local bookkeeping; we
-            // just emit a pseudo-update so the UI reflects the change.
-            useSoulStoneStore.setState((prev) => ({
-              stones: prev.stones.filter((s) => s.id !== stone.id),
-              ...(action === "corrupted"
-                ? { corruptionPoints: prev.corruptionPoints + 1 }
-                : {}),
-            }));
+          if (action === "consumed") {
+            stoneStore.markStoneConsumed(stone.id);
+          } else if (action === "corrupted") {
+            stoneStore.markStoneCorrupted(stone.id);
           } else if (action === "purified") {
             setBlessedPurifications((b) => b + 1);
-            useSoulStoneStore.setState((prev) => ({
-              stones: prev.stones.map((s) =>
-                s.id === stone.id ? { ...s, state: "gold" as const } : s,
-              ),
-              totalPurified: prev.totalPurified + 1,
-            }));
+            stoneStore.markStonePurified(stone.id);
           }
 
           // Tally wins on the local UI mirror
@@ -621,8 +703,9 @@ export default function CasinoFloor() {
                   <p className="text-center text-xs text-red-400/80 font-mono">{claimTokensMut.error?.message}</p>
                 )}
 
-                {/* Quick gift dispatcher */}
+                {/* Quick gift dispatcher + inbox */}
                 <GiftSendBar />
+                <GiftInbox userId={progress?.userId ?? 0} />
 
                 {/* Quick Access Grid */}
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
