@@ -191,13 +191,121 @@ const ch3b: StoryChapter = {
 };
 
 // ═══════════════════════════════════════════════════════
+// CH 4 — THE RED DEATH (Akai Shi)
+// ═══════════════════════════════════════════════════════
+
+const ch4: StoryChapter = {
+  id: "ch4_red_death", chapter: 4,
+  title: "THE RED DEATH",
+  subtitle: "Akai Shi escaped the Necromancer's Matrix — she remembers what lives inside it",
+  opponentId: "akai-shi", arenaId: "blood-weave",
+  difficulty: "normal", unlocksFighter: "akai-shi",
+  cinematicId: "VEO-003",
+  preFight: [
+    { speaker: "narrator", text: "Blood Weave. A training room that learned to bleed. Akai Shi waits in the center, red robes soaked with resin from the walls." },
+    { speaker: "Akai Shi", text: "They told me a Prisoner wanted to talk to me about the Matrix of Dreams. I told them I don't talk. I fight. Whoever's still moving at the end gets the truth.", speakerColor: "#dc2626" },
+    { options: [
+      { icon: "🔍", label: "The Necromancer. Is he in my head?", key: "ch4_investigate", axis: "truth", dir: 1,
+        response: [{ speaker: "Akai Shi", text: "He's in EVERYONE'S head who's ever died in his dream. Yours is paid already. You just haven't read the receipt.", speakerColor: "#dc2626" }] },
+      { icon: "⚔️", label: "Less talking. More fighting.", key: "ch4_defy", axis: "defiance", dir: 1,
+        response: [{ speaker: "Akai Shi", text: "Good. Words lie. Red Death doesn't.", speakerColor: "#dc2626" }] },
+      { icon: "💜", label: "You look tired. How many deaths?", key: "ch4_empathize", axis: "empathy", dir: 1,
+        response: [{ speaker: "Akai Shi", text: "I stopped counting at eleven. Each one taught me something the living don't know.", speakerColor: "#dc2626", portraitDirection: "zoom" }] },
+      { icon: "✋", label: "Teach me the Matrix, then.", key: "ch4_accept", axis: "acceptance", dir: 1,
+        response: [{ speaker: "Akai Shi", text: "The Matrix teaches itself. You just survive long enough to listen.", speakerColor: "#dc2626" }] },
+    ] } as DialogWheel,
+  ],
+  postFight: [
+    { speaker: "Akai Shi", text: "You fight like someone who's already died once. I mean that as a compliment.", speakerColor: "#dc2626" },
+    { options: [
+      { icon: "🔍", label: "What lives in the Matrix?", key: "ch4_post_investigate", axis: "truth", dir: 1,
+        response: [{ speaker: "Akai Shi", text: "Every Protocol subject the Necromancer ever killed. Including you. Twelve of you are still in there, walking circles around the version that's about to die.", speakerColor: "#dc2626" }] },
+      { icon: "💜", label: "How did you survive eleven deaths?", key: "ch4_post_empathize", axis: "empathy", dir: 1,
+        response: [{ speaker: "Akai Shi", text: "Spite, like Calder. And because I wrote the rules down on the inside of my own skull before the first one. Muscle memory lasts longer than mind memory.", speakerColor: "#dc2626", portraitDirection: "zoom" }] },
+      { icon: "✋", label: "What happens when I die in his dream?", key: "ch4_post_accept", axis: "acceptance", dir: 1,
+        response: [{ speaker: "Akai Shi", text: "Don't fight the green fire. Let it take you. That's the only way you come back as someone who REMEMBERS. Fighting it is how you stay a stranger to yourself.", speakerColor: "#dc2626" }] },
+    ] } as DialogWheel,
+    { speaker: "Akai Shi", text: "Go. The Necromancer is next. I'll see you on the other side of your seventh death.", speakerColor: "#dc2626" },
+  ],
+  postDefeatDialogue: [
+    { speaker: "Akai Shi", text: "Eleven deaths, and I still don't flinch at new ones. Get up, Prisoner. This was only practice.", speakerColor: "#dc2626" },
+  ],
+  memoryFragment: "Akai Shi has died eleven times in the Necromancer's Matrix. She survives by refusing to grieve herself. Twelve versions of you are already inside.",
+  powerGained: "Death calibration — your body stops flinching at the idea of its own end.",
+};
+
+// ═══════════════════════════════════════════════════════
+// CH 5 — DEAD CODE RISING (Necromancer — mandatory death + resurrection)
+// ═══════════════════════════════════════════════════════
+
+const ch5: StoryChapter = {
+  id: "ch5_dead_code_rising", chapter: 5,
+  title: "DEAD CODE RISING",
+  subtitle: "The Necromancer designed the Seven Protocol. Tonight he collects the deposit.",
+  opponentId: "necromancer", arenaId: "necromancer-castle",
+  difficulty: "hard", unlocksFighter: "necromancer",
+  unlocksVideo: "necromancer-throne", cinematicId: "VEO-004",
+  isBoss: true, mandatoryLoss: true, removeFighterAfter: true,
+  preFight: [
+    { speaker: "narrator", text: "Castle of Death. Throne hall carved from compressed prayers. The Necromancer stands in a pool of green fire that makes its own shadows." },
+    { speaker: "The Necromancer", text: "Subject Zero. Thirteen iterations of this conversation. You never remember the previous twelve. I do. It's a strange intimacy.", speakerColor: "#22c55e", voiceEffect: "echo" },
+    { options: [
+      { icon: "🔍", label: "What is the Seven Protocol?", key: "ch5_investigate", axis: "truth", dir: 1,
+        response: [{ speaker: "The Necromancer", text: "A contract with entropy. You die seven times. On the seventh, the debt comes due and the body stays where it fell. Would you like me to be honest? You're at five.", speakerColor: "#22c55e", voiceEffect: "echo" }] },
+      { icon: "⚔️", label: "You're not killing me tonight.", key: "ch5_defy", axis: "defiance", dir: 1,
+        response: [{ speaker: "The Necromancer", text: "I already am. The fight is ritual. The outcome is paperwork.", speakerColor: "#22c55e", voiceEffect: "echo" }] },
+      { icon: "💜", label: "You sound tired of this.", key: "ch5_empathize", axis: "empathy", dir: 1,
+        response: [{ speaker: "The Necromancer", text: "I am tired. I don't get to stop. Even the architect of death has to clock in. The fifth time I killed you I apologized. You didn't hear me. You weren't in there anymore.", speakerColor: "#22c55e", voiceEffect: "echo", portraitDirection: "zoom" }] },
+      { icon: "✋", label: "Do what you came to do.", key: "ch5_accept", axis: "acceptance", dir: 1,
+        response: [{ speaker: "The Necromancer", text: "Good. Acceptance cuts the transition time in half. I appreciate you.", speakerColor: "#22c55e", voiceEffect: "echo" }] },
+    ] } as DialogWheel,
+  ],
+  postFight: [
+    // Mandatory loss — this array plays only if the player somehow wins, which shouldn't happen.
+    { speaker: "narrator", text: "You cannot win this fight. The engine knows. Your body knows. The Necromancer already knew." },
+  ],
+  postDefeatDialogue: [
+    { speaker: "The Necromancer", text: "Fall. Fall. Fall. You're going to love the next part. Everyone does the first time they REMEMBER.", speakerColor: "#22c55e", voiceEffect: "echo" },
+    { speaker: "The Necromancer", text: "I'll see you in the Matrix. Or rather — I won't. None of the previous twelve versions made it back out. Today we'll see if the thirteenth one surprises me.", speakerColor: "#22c55e", voiceEffect: "echo" },
+  ],
+  mandatoryDeathSequence: {
+    deathDialogue: [
+      { speaker: "The Necromancer", text: "Green fire now. Soft, if it helps. Yes. Like that.", speakerColor: "#22c55e", voiceEffect: "echo" },
+      { speaker: "narrator", text: "You fall. The fire is gentle. Somewhere, a clone tank hisses open. A heart that hasn't beaten in eleven years starts keeping time again." },
+    ],
+    resurrectionVoices: [
+      { speaker: "???", text: "Ink in water. A name rising to the surface.", internal: true, voiceEffect: "echo" },
+      { speaker: "???", text: "Oracle. You were Oracle. You are Oracle. You will be Oracle.", internal: true, voiceEffect: "glitch" },
+      { speaker: "???", text: "The first prophecy you ever spoke was your own return. Say it back.", internal: true, voiceEffect: "echo" },
+      { speaker: "???", text: "One more vision before you open your eyes. They will ask you who you are. Tell them the true name.", internal: true, voiceEffect: "echo" },
+    ],
+    postResurrection: [
+      { speaker: "The Prisoner", text: "...Oracle.", internal: true },
+      { speaker: "Agent Zero", text: "You said a name. Out loud. You said ORACLE. Do you know whose that is?", speakerColor: "#94a3b8" },
+      { options: [
+        { icon: "🔍", label: "Mine. I think it's mine.", key: "ch5_rez_investigate", axis: "truth", dir: 1,
+          response: [{ speaker: "Agent Zero", text: "Yes. Yours. Welcome back, Prophet. We've been waiting a long time for a name to stick to your face.", speakerColor: "#94a3b8" }] },
+        { icon: "⚔️", label: "I don't care whose name it is. I'm going to break the Arena.", key: "ch5_rez_defy", axis: "defiance", dir: 1,
+          response: [{ speaker: "Agent Zero", text: "Good. The Oracle always started with an oath. You're on schedule.", speakerColor: "#94a3b8" }] },
+        { icon: "💜", label: "I saw him. He was me.", key: "ch5_rez_empathize", axis: "empathy", dir: 1,
+          response: [{ speaker: "Agent Zero", text: "Five years I've been looking for that face in your face. There it is. Finally.", speakerColor: "#94a3b8", portraitDirection: "zoom" }] },
+        { icon: "✋", label: "Tell me what I have to do next.", key: "ch5_rez_accept", axis: "acceptance", dir: 1,
+          response: [{ speaker: "Agent Zero", text: "Rest for ten minutes. Then the White Oracle. Then everything gets worse.", speakerColor: "#94a3b8" }] },
+      ] } as DialogWheel,
+    ],
+  },
+  memoryFragment: "You died in the Necromancer's green fire. You came back with a name: ORACLE. Not stolen. Recovered. Twelve previous versions didn't make it back.",
+  powerGained: "Name recovery — the mind reassembles around a single true word.",
+};
+
+// ═══════════════════════════════════════════════════════
 // CH 4-12 + CORRUPTION + SOURCE + FINALE
 // Full chapter data continues in this file. Each chapter
 // follows the same dialog wheel pattern established above.
 // See the production bible for complete dialog scripts.
 // ═══════════════════════════════════════════════════════
 
-export const STORY_CHAPTERS: StoryChapter[] = [ch1, ch2, ch3a, ch3b];
+export const STORY_CHAPTERS: StoryChapter[] = [ch1, ch2, ch3a, ch3b, ch4, ch5];
 
 // Chapters 4-12 are defined in the local storyMode.ts
 // build and will be merged during the development phase.

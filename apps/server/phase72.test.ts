@@ -143,17 +143,16 @@ describe("Phase 72: Fight Game Story Mode Enhancements", () => {
     });
   });
 
-  // NOTE: Chapters 4–12 are still pending per the block comment in
-  // `client/src/game/storyModeChapters.ts`. Until those land, the boss
-  // chapter assertion checks the bosses that actually exist today
-  // (ch2 "Jailer" and ch3a "Iron Lion"). When chapters 4–12 ship,
-  // re-enable the full 7/11/12 assertion.
+  // As chapters ship, this block grows. CH5 (Necromancer) is the
+  // first mandatory-loss boss; ch7/10/11/12 will join as their
+  // dialog content lands.
   it("boss chapters present in today's built set", () => {
     const bossChapters = STORY_CHAPTERS.filter(c => c.isBoss === true);
     expect(bossChapters.length).toBeGreaterThan(0);
     const opponentIds = new Set(bossChapters.map(c => c.opponentId));
     expect(opponentIds.has("jailer")).toBe(true);
-    // TODO(story-mode): restore once CH 7/11/12 ship
+    expect(opponentIds.has("necromancer")).toBe(true);
+    // TODO(story-mode): restore once CH 7/10/11/12 ship
     // const chapterNums = STORY_CHAPTERS.map(c => c.chapter);
     // expect(chapterNums).toContain(7);
     // expect(chapterNums).toContain(11);

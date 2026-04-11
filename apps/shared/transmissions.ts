@@ -160,7 +160,7 @@ export const EPOCH_1_TRANSMISSIONS: Transmission[] = [
     memeIntro: "They pick the wormhole. Of course they pick the wormhole. Nobody ever picks 'sacrifice ten friends.' Except that one guy. Agent Zero knows who I mean.",
     memeOutro: "Crystalline city. Unfamiliar planet. Advanced civilization. This is the part of the story where things get COMPLICATED. For them. Not for me. I'm watching with snacks.",
     triggersOracleReveal: false,
-    unlockTrigger: { kind: "chapter_complete", chapterId: "ch5" },
+    unlockTrigger: { kind: "chapter_complete", chapterId: "ch5_dead_code_rising" },
     reward: { xp: 350, dream: 35 },
     synopsis: "The Potentials step through the wormhole and emerge above a crystalline alien city.",
     relatedLoredexEntries: ["thaloria", "wormhole", "potentials"],
