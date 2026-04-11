@@ -1,18 +1,13 @@
 /* ═══════════════════════════════════════════════════════
    PET QUEST TRACKER
 
-   Displays the list of companion quests for a given pet:
-   - Locked (bond too low)
-   - Available (bond met, not started)
-   - In progress (steps being completed)
-   - Complete (rewards claimed)
-
-   Step completion is tracked in localStorage against a
-   `completionFlag` set that the rest of the game can write
-   to when narrative milestones trigger.
+   Displays companion quests for a pet. Quest step completion
+   flags live on `playerPets.completedQuestSteps` and are
+   updated via `trpc.petBattles.setQuestFlag`. The tracker
+   reads them live — no localStorage.
    ═══════════════════════════════════════════════════════ */
 
-import { useMemo, useEffect, useState } from "react";
+import { useMemo } from "react";
 import { motion } from "framer-motion";
 import { ScrollText, Lock, Check, Circle } from "lucide-react";
 import { PET_QUESTS, type PetQuest } from "@/game/petBonding";
@@ -21,29 +16,13 @@ interface Props {
   petId: string;
   petName: string;
   bond: number;
+  /** Server-persisted completion flags for this pet. */
+  completedFlags: string[];
 }
 
-const FLAGS_KEY = "dischordian-pet-quest-flags";
-
-function loadFlags(): Set<string> {
-  try {
-    const raw = localStorage.getItem(FLAGS_KEY);
-    return new Set(raw ? (JSON.parse(raw) as string[]) : []);
-  } catch {
-    return new Set();
-  }
-}
-
-export default function PetQuestTracker({ petId, petName, bond }: Props) {
-  const [flags, setFlags] = useState<Set<string>>(() => loadFlags());
-
-  useEffect(() => {
-    const handler = () => setFlags(loadFlags());
-    window.addEventListener("storage", handler);
-    return () => window.removeEventListener("storage", handler);
-  }, []);
-
+export default function PetQuestTracker({ petId, petName, bond, completedFlags }: Props) {
   const quests = useMemo(() => PET_QUESTS.filter((q) => q.petId === petId), [petId]);
+  const flagSet = useMemo(() => new Set(completedFlags), [completedFlags]);
 
   if (quests.length === 0) {
     return (
@@ -66,7 +45,7 @@ export default function PetQuestTracker({ petId, petName, bond }: Props) {
         <span className="font-display text-xs font-bold tracking-[0.2em]">{petName.toUpperCase()} QUESTS</span>
       </div>
       {quests.map((quest) => (
-        <QuestCard key={quest.id} quest={quest} bond={bond} flags={flags} />
+        <QuestCard key={quest.id} quest={quest} bond={bond} flags={flagSet} />
       ))}
     </div>
   );

@@ -9,7 +9,7 @@ import { protectedProcedure, router } from "../_core/trpc";
 import { TRPCError } from "@trpc/server";
 import { getDb } from "../db";
 import { playerPets, petBattleHistory, userProgress, dreamBalance } from "../../db/schema";
-import { eq, and, sql, desc, isNull, lte } from "drizzle-orm";
+import { eq, and, sql, desc } from "drizzle-orm";
 import { companionCombat } from "../services/companionCombat";
 import { petEvolution } from "../services/petEvolution";
 import { pressureService } from "../services/pressureService";
@@ -18,6 +18,9 @@ import { applyPrestigeBonuses } from "../services/prestigeMultiplier";
 import { checkFeatureFlag } from "../middleware/featureFlag";
 import { computeActiveTraits, resolvePartyBonuses, suggestThresholdUpgrade } from "@shared/companionTraitThresholds";
 import { petsToPartyTraits } from "@shared/petSpeciesTraits";
+import { getSkillTreeForSpecies } from "@shared/petSkillTrees";
+import { buildOpponent, ARENA_OPPONENT_POOLS } from "@shared/petArenaOpponents";
+import { petDeath } from "../services/petDeath";
 
 export const petBattlesRouter = router({
   /** Get player's full pet roster */
@@ -30,12 +33,20 @@ export const petBattlesRouter = router({
       .where(eq(playerPets.userId, ctx.user.id));
   }),
 
-  /** Acquire a new pet (from specimen collection, quest reward, etc.) */
+  /**
+   * Acquire a new pet. Source tracks *why* the pet was gained so we
+   * can gate duplicates, credit rewards, and tell the story back to
+   * the player. `shop_purchase` deducts Dream tokens; `quest_reward`
+   * and `specimen_drop` are free; `starter` is used only by
+   * grantStarterPet.
+   */
   acquirePet: protectedProcedure
+    .use(checkFeatureFlag("pet_battles"))
     .input(z.object({
       petId: z.string().min(1).max(64),
       species: z.string().min(1).max(64),
       name: z.string().min(1).max(128),
+      source: z.enum(["quest_reward", "specimen_drop", "shop_purchase", "starter"]).default("quest_reward"),
     }))
     .mutation(async ({ ctx, input }) => {
       const db = await getDb();
@@ -51,13 +62,39 @@ export const petBattlesRouter = router({
         throw new TRPCError({ code: "CONFLICT", message: "You already have this pet" });
       }
 
+      // Shop purchases debit Dream tokens. Stage-1 pets cost 500 Dream.
+      const SHOP_PET_COST = 500;
+      if (input.source === "shop_purchase") {
+        const [balance] = await db
+          .select()
+          .from(dreamBalance)
+          .where(eq(dreamBalance.userId, ctx.user.id));
+        if (!balance || balance.dreamTokens < SHOP_PET_COST) {
+          throw new TRPCError({
+            code: "BAD_REQUEST",
+            message: `Specimen costs ${SHOP_PET_COST} Dream (have ${balance?.dreamTokens ?? 0}).`,
+          });
+        }
+        await db
+          .update(dreamBalance)
+          .set({ dreamTokens: sql`${dreamBalance.dreamTokens} - ${SHOP_PET_COST}` })
+          .where(eq(dreamBalance.userId, ctx.user.id));
+      }
+
+      // Starting bond varies by source — quest rewards come in with a
+      // small established bond because of the narrative setup; shop
+      // purchases start cold (you're a stranger to them).
+      const startingBond = input.source === "quest_reward" ? 8
+        : input.source === "specimen_drop" ? 3
+        : 0;
+
       await db.insert(playerPets).values({
         userId: ctx.user.id,
         petId: input.petId,
         species: input.species,
         name: input.name,
         evolutionStage: 1,
-        bond: 0,
+        bond: startingBond,
         skillPoints: 0,
         currentHp: 50,
         maxHp: 50,
@@ -67,7 +104,13 @@ export const petBattlesRouter = router({
         kills: 0,
       });
 
-      return { success: true, petId: input.petId };
+      return {
+        success: true,
+        petId: input.petId,
+        source: input.source,
+        bond: startingBond,
+        cost: input.source === "shop_purchase" ? SHOP_PET_COST : 0,
+      };
     }),
 
   /** Check if a pet is battle-ready (not injured) */
@@ -172,12 +215,25 @@ export const petBattlesRouter = router({
       const companionBonus = await companionCombat.getCombatBonus(ctx.user.id);
       // Companion bond amplifies pet battle XP reward
       const companionXpBoost = companionBonus.attack > 0 ? Math.round(xpReward * companionBonus.attack / 100) : 0;
-      const preMultXp = xpReward + companionXpBoost;
+
+      // Spectral pet bonus: each fallen pet in spectral form grants +10%
+      // to pet_battles rewards (capped at +40%). Mirrors companionDeath.
+      const spectralBonusPct = await petDeath.getSpectralPetBonus(ctx.user.id);
+      const spectralXpBoost = spectralBonusPct > 0 ? Math.round(xpReward * spectralBonusPct / 100) : 0;
+
+      const preMultXp = xpReward + companionXpBoost + spectralXpBoost;
 
       // Apply prestige multipliers on top of the companion-boosted XP.
       // Non-prestiged players get the same number back (tier: 0).
       const prestige = await applyPrestigeBonuses(ctx.user.id, { xp: preMultXp });
       const totalXp = prestige.xp;
+
+      // If the pet HP hit zero, trigger the pet death flow (spectral form).
+      // This is additive: the pet already has currentHp=0 from the update
+      // above, so killPet just layers the spectral state on top.
+      if (newHp <= 0 && !pet.isSpectral) {
+        petDeath.killPet(ctx.user.id, input.petId, "arena_lethal").catch(() => {});
+      }
 
       // Grant XP + Dream tokens to player progress
       await db
@@ -205,10 +261,14 @@ export const petBattlesRouter = router({
       return {
         success: true,
         rewards: { bondGain, skillPoints: skillGain, dream: dreamReward, xp: totalXp, injury },
-        petStatus: { currentHp: newHp, injuredUntil, bond: pet.bond + bondGain },
+        petStatus: { currentHp: newHp, injuredUntil, bond: pet.bond + bondGain, died: newHp <= 0 },
         companionBonus: companionBonus.attack > 0 ? {
           description: companionCombat.formatBreakdown(companionBonus),
           xpBoost: companionXpBoost,
+        } : null,
+        spectralBonus: spectralBonusPct > 0 ? {
+          percent: spectralBonusPct,
+          xpBoost: spectralXpBoost,
         } : null,
         prestigeBonus: prestige.tier > 0 ? {
           tier: prestige.tier,
@@ -304,7 +364,10 @@ export const petBattlesRouter = router({
 
       // Apply bond penalty for revival. High bond softens the blow (their
       // trust absorbs the shock); low-bond pets take a full -10 bond hit.
-      const bondPenalty = pet.bond >= 60 ? 5 : 10;
+      // Spectral revivals hit harder — pulling them back from beyond costs
+      // more of the relationship.
+      const basePenalty = pet.bond >= 60 ? 5 : 10;
+      const bondPenalty = pet.isSpectral ? basePenalty + 5 : basePenalty;
       const newBond = Math.max(0, pet.bond - bondPenalty);
 
       await db
@@ -312,13 +375,13 @@ export const petBattlesRouter = router({
         .set({ dreamTokens: sql`${dreamBalance.dreamTokens} - ${cost}` })
         .where(eq(dreamBalance.userId, ctx.user.id));
 
+      // Strip spectral state + restore HP via the petDeath service so
+      // spectral bookkeeping stays in one place.
+      await petDeath.restorePet(ctx.user.id, input.petId);
+      // Apply the bond penalty on top (restorePet doesn't touch bond).
       await db
         .update(playerPets)
-        .set({
-          currentHp: pet.maxHp,
-          injuredUntil: null,
-          bond: newBond,
-        })
+        .set({ bond: newBond })
         .where(and(eq(playerPets.userId, ctx.user.id), eq(playerPets.petId, input.petId)));
 
       return {
@@ -326,6 +389,7 @@ export const petBattlesRouter = router({
         cost,
         bondPenalty,
         newBond,
+        wasSpectral: pet.isSpectral,
         newHp: pet.maxHp,
       };
     }),
@@ -334,6 +398,9 @@ export const petBattlesRouter = router({
    * Compute party-wide trait thresholds for the player's current roster.
    * The client uses this to display the synergy panel and to apply
    * combat bonuses client-side during battle simulation.
+   *
+   * Only pets with `isActive = true` contribute — the player chooses
+   * their active party from the roster.
    */
   getPartyTraits: protectedProcedure
     .use(checkFeatureFlag("pet_battles"))
@@ -344,7 +411,10 @@ export const petBattlesRouter = router({
       const pets = await db
         .select()
         .from(playerPets)
-        .where(eq(playerPets.userId, ctx.user.id));
+        .where(and(
+          eq(playerPets.userId, ctx.user.id),
+          eq(playerPets.isActive, true),
+        ));
 
       const party = petsToPartyTraits(pets.map((p) => ({
         petId: p.petId,
@@ -358,6 +428,174 @@ export const petBattlesRouter = router({
         bonuses: resolvePartyBonuses(party),
         suggestion: suggestThresholdUpgrade(party),
       };
+    }),
+
+  /**
+   * Toggle a pet's "active party" membership. Inactive pets still
+   * exist in the roster (you don't lose bond, injuries, skill nodes)
+   * but they don't contribute to party-wide trait thresholds.
+   */
+  setPetActive: protectedProcedure
+    .use(checkFeatureFlag("pet_battles"))
+    .input(z.object({ petId: z.string().min(1), isActive: z.boolean() }))
+    .mutation(async ({ ctx, input }) => {
+      const db = await getDb();
+      if (!db) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Database unavailable" });
+
+      const [pet] = await db
+        .select()
+        .from(playerPets)
+        .where(and(eq(playerPets.userId, ctx.user.id), eq(playerPets.petId, input.petId)));
+
+      if (!pet) throw new TRPCError({ code: "NOT_FOUND", message: "Pet not found" });
+
+      await db
+        .update(playerPets)
+        .set({ isActive: input.isActive })
+        .where(and(eq(playerPets.userId, ctx.user.id), eq(playerPets.petId, input.petId)));
+
+      return { success: true, petId: input.petId, isActive: input.isActive };
+    }),
+
+  /**
+   * Unlock a skill tree node. Server-authoritative: checks that the
+   * player owns the pet, has enough skill points, hasn't already
+   * unlocked the node, and that any prerequisite is met. On success,
+   * decrements skillPoints and appends the node to unlockedSkillNodes.
+   */
+  unlockSkillNode: protectedProcedure
+    .use(checkFeatureFlag("pet_battles"))
+    .input(z.object({
+      petId: z.string().min(1),
+      nodeId: z.string().min(1).max(64),
+    }))
+    .mutation(async ({ ctx, input }) => {
+      const db = await getDb();
+      if (!db) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Database unavailable" });
+
+      const [pet] = await db
+        .select()
+        .from(playerPets)
+        .where(and(eq(playerPets.userId, ctx.user.id), eq(playerPets.petId, input.petId)));
+
+      if (!pet) throw new TRPCError({ code: "NOT_FOUND", message: "Pet not found" });
+
+      const unlocked = pet.unlockedSkillNodes ?? [];
+      const tree = getSkillTreeForSpecies(pet.species);
+      const all = [...tree.combat.nodes, ...tree.utility.nodes, ...tree.social.nodes];
+      const node = all.find((n) => n.id === input.nodeId);
+      if (!node) throw new TRPCError({ code: "BAD_REQUEST", message: "Unknown skill node" });
+      if (unlocked.includes(input.nodeId)) {
+        throw new TRPCError({ code: "CONFLICT", message: "Node already unlocked" });
+      }
+      if (pet.skillPoints < node.cost) {
+        throw new TRPCError({ code: "BAD_REQUEST", message: "Not enough skill points" });
+      }
+      if (node.requires && !unlocked.includes(node.requires)) {
+        throw new TRPCError({ code: "BAD_REQUEST", message: `Requires prerequisite: ${node.requires}` });
+      }
+
+      const nextUnlocked = [...unlocked, input.nodeId];
+      await db
+        .update(playerPets)
+        .set({
+          skillPoints: pet.skillPoints - node.cost,
+          unlockedSkillNodes: nextUnlocked,
+        })
+        .where(and(eq(playerPets.userId, ctx.user.id), eq(playerPets.petId, input.petId)));
+
+      return {
+        success: true,
+        nodeId: input.nodeId,
+        cost: node.cost,
+        remainingPoints: pet.skillPoints - node.cost,
+        unlockedSkillNodes: nextUnlocked,
+      };
+    }),
+
+  /**
+   * Mark a companion-quest step as complete. Idempotent: calling it
+   * twice with the same flag is a no-op. Other systems (story hooks,
+   * NPC relationship milestones, puzzle completions) call this via
+   * tRPC whenever the narrative event fires.
+   */
+  setQuestFlag: protectedProcedure
+    .use(checkFeatureFlag("pet_battles"))
+    .input(z.object({
+      petId: z.string().min(1),
+      flag: z.string().min(1).max(64),
+    }))
+    .mutation(async ({ ctx, input }) => {
+      const db = await getDb();
+      if (!db) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Database unavailable" });
+
+      const [pet] = await db
+        .select()
+        .from(playerPets)
+        .where(and(eq(playerPets.userId, ctx.user.id), eq(playerPets.petId, input.petId)));
+
+      if (!pet) throw new TRPCError({ code: "NOT_FOUND", message: "Pet not found" });
+
+      const existing = pet.completedQuestSteps ?? [];
+      if (existing.includes(input.flag)) {
+        return { success: true, alreadySet: true, flags: existing };
+      }
+      const next = [...existing, input.flag];
+      await db
+        .update(playerPets)
+        .set({ completedQuestSteps: next })
+        .where(and(eq(playerPets.userId, ctx.user.id), eq(playerPets.petId, input.petId)));
+
+      return { success: true, alreadySet: false, flags: next };
+    }),
+
+  /**
+   * Matchmaker: returns a tier-appropriate opponent scaled to the
+   * player's pet. Replaces the old hard-coded "void_crawler at 40 bond"
+   * fallback. The client feeds this into `createBattlePet` to stage
+   * the matchup. The server only returns data — no DB writes.
+   */
+  getArenaOpponent: protectedProcedure
+    .use(checkFeatureFlag("pet_battles"))
+    .input(z.object({
+      tierId: z.enum(["bronze_gauntlet", "silver_circle", "gold_coliseum"]),
+      petId: z.string().min(1),
+    }))
+    .query(async ({ ctx, input }) => {
+      const db = await getDb();
+      if (!db) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Database unavailable" });
+
+      const [pet] = await db
+        .select()
+        .from(playerPets)
+        .where(and(eq(playerPets.userId, ctx.user.id), eq(playerPets.petId, input.petId)));
+
+      if (!pet) throw new TRPCError({ code: "NOT_FOUND", message: "Pet not found" });
+
+      return buildOpponent(input.tierId, {
+        evolutionStage: pet.evolutionStage as 1 | 2 | 3,
+        bond: pet.bond,
+      });
+    }),
+
+  /** Read the opponent pool (for UI display / testing). */
+  getOpponentPools: protectedProcedure
+    .use(checkFeatureFlag("pet_battles"))
+    .query(() => ARENA_OPPONENT_POOLS),
+
+  /** Kill a pet via the narrative death hook (story callers). */
+  killPet: protectedProcedure
+    .use(checkFeatureFlag("pet_battles"))
+    .input(z.object({
+      petId: z.string().min(1),
+      cause: z.enum(["arena_lethal", "injury_escalation", "sacrifice", "necromancer"]),
+    }))
+    .mutation(async ({ ctx, input }) => {
+      const result = await petDeath.killPet(ctx.user.id, input.petId, input.cause);
+      if (!result.success) {
+        throw new TRPCError({ code: "BAD_REQUEST", message: result.error ?? "Could not kill pet" });
+      }
+      return result;
     }),
 
   /** Evolve a pet (requires bond threshold) */

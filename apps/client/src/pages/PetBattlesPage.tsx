@@ -9,11 +9,11 @@
    No canvas sprite work — pure narrative text+cards,
    like WoW pet battles logs but with Dischordian flavor.
    ═══════════════════════════════════════════════════════ */
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "wouter";
 import {
-  ChevronLeft, Swords, Shield, Zap, Heart, Trophy, Play, RotateCcw, Sparkles,
+  ChevronLeft, Swords, Shield, Zap, Heart, Trophy, Play, RotateCcw, Sparkles, ShoppingBag,
 } from "lucide-react";
 import {
   createBattlePet,
@@ -34,6 +34,7 @@ import {
   type ArenaBackground,
   type PartyCombatBonuses,
 } from "@/game/petBattles";
+import { aggregateSkillEffects, type SkillBonusEffect } from "@shared/petSkillTrees";
 import { resolvePartyBonuses } from "@shared/companionTraitThresholds";
 import { petsToPartyTraits } from "@shared/petSpeciesTraits";
 import { trpc } from "@/lib/trpc";
@@ -81,6 +82,14 @@ export default function PetBattlesPage() {
     },
     onError: (err) => toast.error(err.message),
   });
+  const acquireShopMutation = trpc.petBattles.acquirePet.useMutation({
+    onSuccess: () => {
+      toast.success("New specimen acquired from the Collector");
+      utils.petBattles.getMyPets.invalidate();
+      utils.petBattles.getPartyTraits.invalidate();
+    },
+    onError: (err) => toast.error(err.message),
+  });
 
   // Living Universe — active events drive arena background
   const universeQuery = trpc.dailyBrief.getUniverseState.useQuery(undefined, { staleTime: 60_000, retry: false });
@@ -98,12 +107,19 @@ export default function PetBattlesPage() {
   // Active weekly arena modifier (rotates through Dischordian epochs)
   const arenaModifier = useMemo(() => getActiveArenaModifier(), []);
 
-  // Party synergy — pets in roster contribute trait thresholds
+  // Party synergy — ONLY active pets contribute to trait thresholds.
+  // Benched pets still exist in the roster but don't count toward
+  // synergy numbers. The player chooses their party via the roster's
+  // active toggle button.
+  const activePets = useMemo(
+    () => (myPetsQuery.data ?? []).filter((p) => p.isActive),
+    [myPetsQuery.data],
+  );
   const partyTraits = useMemo(
-    () => petsToPartyTraits((myPetsQuery.data ?? []).map((p) => ({
+    () => petsToPartyTraits(activePets.map((p) => ({
       petId: p.petId, name: p.name, species: p.species,
     }))),
-    [myPetsQuery.data],
+    [activePets],
   );
   const partyBonuses = useMemo<PartyCombatBonuses>(
     () => resolvePartyCombatBonuses(resolvePartyBonuses(partyTraits)),
@@ -149,8 +165,19 @@ export default function PetBattlesPage() {
       wins: p.wins,
       losses: p.losses,
       injuredUntil: p.injuredUntil,
+      isActive: p.isActive ?? true,
+      isSpectral: p.isSpectral ?? false,
+      deathCount: p.deathCount ?? 0,
     })),
     [myPetsQuery.data],
+  );
+
+  // Aggregated skill effects for the currently-selected pet. Used
+  // when staging a matchup so unlocked skill tree nodes actually
+  // change combat numbers.
+  const activePetSkillEffects = useMemo<SkillBonusEffect>(
+    () => activePet ? aggregateSkillEffects(activePet.unlockedSkillNodes ?? [], activePet.species) : {},
+    [activePet],
   );
 
   const sidePanelPet = useMemo(
@@ -158,23 +185,46 @@ export default function PetBattlesPage() {
     [myPetsQuery.data, sidePanelPetId],
   );
 
-  // Auto-play turn loop
-  useEffect(() => {
-    if (!isAutoPlaying || !battle || battle.status !== "in_progress") return;
-    const timer = setTimeout(() => advanceTurn(), 900);
-    return () => clearTimeout(timer);
-  }, [isAutoPlaying, battle, log]);
+  // Auto-play turn loop — driven by an explicit turn counter so we
+  // can depend on `advanceTurn` without re-running the effect on
+  // every log mutation.
+  const [turnTick, setTurnTick] = useState(0);
 
-  const startMatchup = (tier: ArenaTier) => {
+  const startMatchup = async (tier: ArenaTier) => {
     setSelectedTier(tier);
     setServerRewards(null);
     const myPet = activePet;
     const player = myPet
-      ? createBattlePet(myPet.petId, myPet.species, myPet.evolutionStage as 1|2|3, myPet.bond, partyBonuses)
-      : createBattlePet("lux", "holographic_fox", petEvolution, petBond, partyBonuses);
+      ? createBattlePet(myPet.petId, myPet.species, myPet.evolutionStage as 1|2|3, myPet.bond, partyBonuses, activePetSkillEffects)
+      : createBattlePet("lux", "holographic_fox", petEvolution, petBond, partyBonuses, activePetSkillEffects);
     if (myPet) player.name = myPet.name;
-    const opponent = createBattlePet("shadow", "void_crawler", petEvolution, 40);
-    opponent.name = "Opponent: Shadow";
+
+    // Matchmaker: ask the server for a tier-appropriate opponent
+    // scaled to the player's pet. Falls back to a default if the
+    // call fails or if there's no active pet yet.
+    let opponent: BattlePet;
+    try {
+      if (myPet) {
+        const opponentData = await utils.petBattles.getArenaOpponent.fetch({
+          tierId: tier.id as "bronze_gauntlet" | "silver_circle" | "gold_coliseum",
+          petId: myPet.petId,
+        });
+        opponent = createBattlePet(
+          opponentData.petId,
+          opponentData.species,
+          opponentData.evolutionStage,
+          opponentData.bond,
+        );
+        opponent.name = opponentData.name;
+      } else {
+        opponent = createBattlePet("shadow", "void_crawler", petEvolution, 40);
+        opponent.name = "Opponent: Shadow";
+      }
+    } catch (err) {
+      console.warn("[PetBattles] matchmaker failed, using fallback", err);
+      opponent = createBattlePet("shadow", "void_crawler", petEvolution, 40);
+      opponent.name = "Opponent: Shadow";
+    }
     // Let the pet react to the fight about to start
     setThoughtTrigger({ type: "combat_start" });
     setPlayerPet(player);
@@ -199,7 +249,7 @@ export default function PetBattlesPage() {
     setIsAutoPlaying(true);
   };
 
-  const advanceTurn = () => {
+  const advanceTurn = useCallback(() => {
     if (!battle || !playerPet || !opponentPet) return;
     const attacker = battle.turn === "player1" ? playerPet : opponentPet;
     const defender = battle.turn === "player1" ? opponentPet : playerPet;
@@ -208,15 +258,17 @@ export default function PetBattlesPage() {
     const move = availableMoves[Math.floor(Math.random() * availableMoves.length)];
     if (!move) return;
 
-    // Player gets the party synergy + arena modifier; opponent only arena modifier
+    // Player gets the party synergy + arena modifier + skill-node
+    // effects; opponent only sees the arena modifier.
     const attackerIsPlayer = battle.turn === "player1";
     const entry = executeMove(attacker, defender, move.id, {
       partyBonuses: attackerIsPlayer ? partyBonuses : EMPTY_PARTY_BONUSES,
       arenaModifier,
       attackerIsPlayer,
+      skillEffects: attackerIsPlayer ? activePetSkillEffects : {},
     });
-    // End-of-turn regen (Tidal Flow etc.) applies to the player pet only
-    if (attackerIsPlayer) applyTurnPassives(playerPet, partyBonuses);
+    // End-of-turn regen (Tidal Flow etc. + skill regen) applies to the player.
+    if (attackerIsPlayer) applyTurnPassives(playerPet, partyBonuses, activePetSkillEffects);
     // Surface low-HP thoughts
     if (playerPet.hp > 0 && playerPet.hp / playerPet.maxHp < 0.3) {
       setThoughtTrigger({ type: "low_hp" });
@@ -272,7 +324,20 @@ export default function PetBattlesPage() {
       });
       setTimeout(() => setPhase("result"), 1500);
     }
-  };
+  }, [battle, playerPet, opponentPet, partyBonuses, arenaModifier, activePetSkillEffects, log, selectedTier, submitBattleMutation]);
+
+  // Auto-play tick: advance a turn on each tick while the battle is
+  // in progress. Ticks are driven by a setTimeout that only re-arms
+  // when the battle state genuinely changes, so the effect's deps
+  // array can safely include advanceTurn without looping.
+  useEffect(() => {
+    if (!isAutoPlaying || !battle || battle.status !== "in_progress") return;
+    const timer = setTimeout(() => {
+      advanceTurn();
+      setTurnTick((t) => t + 1);
+    }, 900);
+    return () => clearTimeout(timer);
+  }, [isAutoPlaying, battle, turnTick, advanceTurn]);
 
   const reset = () => {
     setPhase("tier_select");
@@ -415,9 +480,44 @@ export default function PetBattlesPage() {
                 />
               )}
 
-              {/* Party synergy panel (only if we have ≥ 2 pets) */}
+              {/* Collector's shop — buy additional specimens beyond the starter */}
+              {rosterPets.length > 0 && rosterPets.length < 4 && (
+                <div className="border border-border/30 rounded-lg bg-card/40 p-3" data-testid="pet-shop">
+                  <div className="flex items-center gap-2 mb-2">
+                    <ShoppingBag size={14} className="text-amber-400" />
+                    <span className="font-display text-xs font-bold tracking-[0.2em]">COLLECTOR'S SHOP</span>
+                    <span className="font-mono text-[9px] text-muted-foreground/50">500 Dream each</span>
+                  </div>
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                    {[
+                      { petId: "spore", species: "spore_fungus", name: "Spore" },
+                      { petId: "gilt", species: "gilt_beetle", name: "Gilt" },
+                      { petId: "glyph", species: "glyph_moth", name: "Glyph" },
+                      { petId: "flicker", species: "flicker_imp", name: "Flicker" },
+                    ].filter((s) => !rosterPets.some((p) => p.petId === s.petId)).map((s) => (
+                      <button
+                        key={s.petId}
+                        onClick={() => acquireShopMutation.mutate({
+                          petId: s.petId,
+                          species: s.species,
+                          name: s.name,
+                          source: "shop_purchase",
+                        })}
+                        disabled={acquireShopMutation.isPending}
+                        className="border border-border/40 rounded p-2 text-center hover:border-amber-500/60 hover:bg-amber-500/10 transition-colors disabled:opacity-50"
+                        data-testid={`shop-${s.petId}`}
+                      >
+                        <div className="font-display text-xs font-bold">{s.name}</div>
+                        <div className="font-mono text-[8px] text-muted-foreground/60 truncate">{s.species}</div>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Party synergy panel (only if we have ≥ 2 active pets) */}
               {partyTraits.length >= 2 && (
-                <PartyTraitThresholdPanel party={partyTraits} title="PARTY SYNERGY" />
+                <PartyTraitThresholdPanel party={partyTraits} title="ACTIVE PARTY SYNERGY" />
               )}
 
               <h2 className="font-display text-sm font-bold tracking-wider mb-2">SELECT TIER</h2>
@@ -596,7 +696,9 @@ export default function PetBattlesPage() {
                 <PetSkillTreePanel
                   petId={sidePanelPet.petId}
                   petName={sidePanelPet.name}
+                  species={sidePanelPet.species}
                   availablePoints={sidePanelPet.skillPoints}
+                  unlockedNodes={sidePanelPet.unlockedSkillNodes ?? []}
                 />
               )}
               {sidePanel === "quests" && (
@@ -604,6 +706,7 @@ export default function PetBattlesPage() {
                   petId={sidePanelPet.petId}
                   petName={sidePanelPet.name}
                   bond={sidePanelPet.bond}
+                  completedFlags={sidePanelPet.completedQuestSteps ?? []}
                 />
               )}
               <button

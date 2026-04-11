@@ -9,7 +9,9 @@
 
 import { useMemo } from "react";
 import { motion } from "framer-motion";
-import { Heart, Swords, Shield, Skull, HeartHandshake, AlertTriangle, RotateCcw } from "lucide-react";
+import {
+  Heart, Swords, Shield, Skull, HeartHandshake, AlertTriangle, RotateCcw, Ghost, Star, StarOff,
+} from "lucide-react";
 import { calculateMoralityDissonance, canPetLeave } from "@/game/petBonding";
 import { useMoralityStore, selectScore } from "@/stores/moralityStore";
 import { trpc } from "@/lib/trpc";
@@ -27,6 +29,9 @@ export interface RosterPet {
   wins: number;
   losses: number;
   injuredUntil: Date | string | null;
+  isActive: boolean;
+  isSpectral: boolean;
+  deathCount: number;
 }
 
 interface Props {
@@ -42,8 +47,21 @@ export default function PetRoster({ pets, selectedPetId, onSelect, onOpenSkills,
   const utils = trpc.useUtils();
   const reviveMutation = trpc.petBattles.revivePet.useMutation({
     onSuccess: (res) => {
-      toast.success(`Pet revived — -${res.cost} Dream, -${res.bondPenalty} bond`);
+      toast.success(
+        res.wasSpectral
+          ? `Brought back from the spectral form — -${res.cost} Dream, -${res.bondPenalty} bond`
+          : `Pet revived — -${res.cost} Dream, -${res.bondPenalty} bond`,
+      );
       utils.petBattles.getMyPets.invalidate();
+      utils.petBattles.getPartyTraits.invalidate();
+    },
+    onError: (err) => toast.error(err.message),
+  });
+  const setActiveMutation = trpc.petBattles.setPetActive.useMutation({
+    onSuccess: (res) => {
+      toast.success(res.isActive ? "Added to active party" : "Removed from active party");
+      utils.petBattles.getMyPets.invalidate();
+      utils.petBattles.getPartyTraits.invalidate();
     },
     onError: (err) => toast.error(err.message),
   });
@@ -77,6 +95,8 @@ export default function PetRoster({ pets, selectedPetId, onSelect, onOpenSkills,
           onOpenQuests={() => onOpenQuests?.(p.petId)}
           onRevive={() => reviveMutation.mutate({ petId: p.petId })}
           reviving={reviveMutation.isPending && reviveMutation.variables?.petId === p.petId}
+          onToggleActive={() => setActiveMutation.mutate({ petId: p.petId, isActive: !p.isActive })}
+          toggling={setActiveMutation.isPending && setActiveMutation.variables?.petId === p.petId}
         />
       ))}
     </div>
@@ -85,6 +105,7 @@ export default function PetRoster({ pets, selectedPetId, onSelect, onOpenSkills,
 
 function PetRosterRow({
   pet, selected, moralityScore, onSelect, onOpenSkills, onOpenQuests, onRevive, reviving,
+  onToggleActive, toggling,
 }: {
   pet: RosterPet;
   selected: boolean;
@@ -94,6 +115,8 @@ function PetRosterRow({
   onOpenQuests: () => void;
   onRevive: () => void;
   reviving: boolean;
+  onToggleActive: () => void;
+  toggling: boolean;
 }) {
   const dissonance = useMemo(
     () => calculateMoralityDissonance(pet.petId, moralityScore),
@@ -122,7 +145,10 @@ function PetRosterRow({
       <button onClick={onSelect} className="w-full text-left">
         <div className="flex items-center justify-between gap-2">
           <div className="flex items-center gap-2 min-w-0">
-            <span className="font-display text-sm font-bold text-foreground truncate">{pet.name}</span>
+            <span className={`font-display text-sm font-bold truncate ${pet.isSpectral ? "text-cyan-300" : "text-foreground"}`}>
+              {pet.name}
+            </span>
+            {pet.isSpectral && <Ghost size={10} className="text-cyan-300 shrink-0" />}
             <span className="font-mono text-[8px] uppercase tracking-wider text-muted-foreground/60 shrink-0">
               {stageLabel}
             </span>
@@ -168,6 +194,25 @@ function PetRosterRow({
 
       {/* Status chips */}
       <div className="mt-2 flex flex-wrap gap-1">
+        {pet.isActive ? (
+          <span className="font-mono text-[8px] uppercase tracking-wider px-1.5 py-0.5 rounded border border-emerald-500/40 bg-emerald-500/10 text-emerald-300 flex items-center gap-1">
+            <Star size={8} /> Active Party
+          </span>
+        ) : (
+          <span className="font-mono text-[8px] uppercase tracking-wider px-1.5 py-0.5 rounded border border-zinc-700/40 bg-zinc-800/40 text-muted-foreground/60 flex items-center gap-1">
+            <StarOff size={8} /> Benched
+          </span>
+        )}
+        {pet.isSpectral && (
+          <span className="font-mono text-[8px] uppercase tracking-wider px-1.5 py-0.5 rounded border border-cyan-500/40 bg-cyan-500/10 text-cyan-300 flex items-center gap-1">
+            <Ghost size={8} /> Spectral
+          </span>
+        )}
+        {pet.deathCount > 0 && (
+          <span className="font-mono text-[8px] uppercase tracking-wider px-1.5 py-0.5 rounded border border-border/30 text-muted-foreground/70">
+            Deaths: {pet.deathCount}
+          </span>
+        )}
         {isDowned && (
           <span className="font-mono text-[8px] uppercase tracking-wider px-1.5 py-0.5 rounded border border-red-500/40 bg-red-500/10 text-red-300 flex items-center gap-1">
             <Skull size={8} /> Downed
@@ -215,15 +260,24 @@ function PetRosterRow({
           >
             <Shield size={10} /> Quests
           </button>
+          <button
+            onClick={onToggleActive}
+            disabled={toggling}
+            className="font-mono text-[9px] uppercase tracking-wider text-emerald-400 hover:text-emerald-300 disabled:opacity-50 flex items-center gap-1"
+            data-testid={`toggle-active-${pet.petId}`}
+          >
+            {pet.isActive ? <StarOff size={10} /> : <Star size={10} />}
+            {toggling ? "..." : pet.isActive ? "Bench" : "Activate"}
+          </button>
         </div>
-        {(isDowned || isInjured) && (
+        {(isDowned || isInjured || pet.isSpectral) && (
           <button
             onClick={onRevive}
             disabled={reviving}
             className="font-mono text-[9px] uppercase tracking-wider text-rose-400 hover:text-rose-300 disabled:opacity-50 flex items-center gap-1"
             data-testid={`revive-${pet.petId}`}
           >
-            <RotateCcw size={10} /> {reviving ? "Reviving..." : "Revive"}
+            <RotateCcw size={10} /> {reviving ? "Reviving..." : pet.isSpectral ? "Restore" : "Revive"}
           </button>
         )}
       </div>

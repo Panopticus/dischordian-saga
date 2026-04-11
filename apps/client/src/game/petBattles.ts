@@ -13,6 +13,7 @@
    ═══════════════════════════════════════════════════════ */
 
 import { aggregateMultipliers, type TraitBonus } from "@shared/companionTraitThresholds";
+import { aggregateSkillEffects, type SkillBonusEffect } from "@shared/petSkillTrees";
 
 /* ─── BATTLE STATE ─── */
 
@@ -179,6 +180,7 @@ export function createBattlePet(
   evolutionStage: 1 | 2 | 3,
   bond: number,
   partyBonuses: PartyCombatBonuses = EMPTY_PARTY_BONUSES,
+  skillEffects: SkillBonusEffect = {},
 ): BattlePet {
   const baseHp = 50;
   const stageBonus = { 1: 1.0, 2: 1.25, 3: 1.5 }[evolutionStage];
@@ -189,15 +191,17 @@ export function createBattlePet(
   // companionTraitThresholds.
   const armorMult = mult(partyBonuses, "armor");
   const hpMult = mult(partyBonuses, "hp"); // unused by default, reserved for Tidal Flow
+  const damageMult = skillEffects.damageMult ?? 1;
+  const initiativeMult = 1 + (skillEffects.initiativeBonus ?? 0) / 100;
 
   return {
     petId,
     name: petId.charAt(0).toUpperCase() + petId.slice(1),
     hp: Math.floor(baseHp * stageBonus * bondBonus * hpMult),
     maxHp: Math.floor(baseHp * stageBonus * bondBonus * hpMult),
-    attack: Math.floor(10 * stageBonus * bondBonus),
+    attack: Math.floor(10 * stageBonus * bondBonus * damageMult),
     defense: Math.floor(8 * stageBonus * bondBonus * armorMult),
-    speed: Math.floor(12 * stageBonus * mult(partyBonuses, "initiative")),
+    speed: Math.floor(12 * stageBonus * mult(partyBonuses, "initiative") * initiativeMult),
     moves: [...STANDARD_MOVES, ...(SPECIES_MOVES[species] || [])],
     statusEffects: [],
     evolutionStage,
@@ -211,6 +215,8 @@ export interface MoveContext {
   arenaModifier?: EpochArenaModifier;
   /** Is the attacker the player-controlled pet? (Arena modifiers may be sided.) */
   attackerIsPlayer?: boolean;
+  /** Aggregated effects from unlocked skill-tree nodes on the attacker. */
+  skillEffects?: SkillBonusEffect;
 }
 
 export function executeMove(
@@ -226,17 +232,28 @@ export function executeMove(
 
   const bonuses = context.partyBonuses ?? EMPTY_PARTY_BONUSES;
   const modifier = context.arenaModifier;
+  const skills = context.skillEffects ?? {};
 
-  // Dodge: synergy multiplier (+15% from Cyclone/Phalanx) × arena epoch dodge bonus.
+  // Dodge: synergy multiplier (+15% from Cyclone/Phalanx) × arena epoch dodge
+  // bonus × per-pet dodge skill nodes (e.g., dodge_5 for "Quick Dodge").
   const dodgeMult = mult(bonuses, "dodge_chance");
   let arenaDodge = 0;
   if (modifier?.effect.stat === "dodge" && typeof modifier.effect.value === "number") {
     arenaDodge = modifier.effect.value;
   }
-  const effectiveAccuracy = Math.max(5, move.accuracy - arenaDodge * 0.5 - (dodgeMult - 1) * 15);
+  const skillDodge = skills.dodgeBonus ?? 0;
+  const effectiveAccuracy = Math.max(
+    5,
+    move.accuracy - arenaDodge * 0.5 - (dodgeMult - 1) * 15 - skillDodge,
+  );
 
-  // Accuracy check
-  if (Math.random() * 100 > effectiveAccuracy) {
+  // Accuracy check — with optional miss re-roll from Echo's "Second Chance".
+  const accRoll = () => Math.random() * 100;
+  let firstRoll = accRoll();
+  if (firstRoll > effectiveAccuracy && skills.missRerollChance && Math.random() < skills.missRerollChance) {
+    firstRoll = accRoll();
+  }
+  if (firstRoll > effectiveAccuracy) {
     return { round: 0, turn: "player1", action: "miss", flavor: `${attacker.name} missed!` };
   }
 
@@ -262,20 +279,32 @@ export function executeMove(
     // Fire-aligned moves — applied if move hint matches burn effect
     if (move.effect === "burn") baseDamage *= mult(bonuses, "fire_damage");
 
-    const defense = defender.defense * 0.5;
+    // Defense calculation with armor penetration from skill nodes.
+    const armorPen = (skills.armorPen ?? 0) / 100;
+    const defense = defender.defense * 0.5 * (1 - armorPen);
     const damageReduction = bonuses.flats.damage_reduction ?? 0;
     damage = Math.max(1, Math.floor(baseDamage - defense - damageReduction));
 
-    // Crit chance: base + party synergy + arena modifier (Prophet's Blessing doubles crits)
+    // Double-hit: split damage across two sub-strikes (Echo Strike).
+    if (skills.doubleHitFactor) {
+      damage = Math.max(2, Math.floor(damage * skills.doubleHitFactor * 2));
+    }
+
+    // Crit chance: base + party synergy + skill crit bonus + arena modifier.
     const baseCrit = attacker.evolutionStage * 5;
     const critMult = mult(bonuses, "crit_chance");
-    let critChance = baseCrit * critMult;
+    let critChance = baseCrit * critMult + (skills.critBonus ?? 0);
     if (modifier?.modifierName === "Prophet's Blessing") critChance *= 2;
     const isCrit = Math.random() * 100 < critChance;
     if (isCrit) damage = Math.floor(damage * 2);
 
-    // Passive: chain_lightning splashes a flat 20% of damage to "the air"
-    if (bonuses.passives.chain_lightning && Math.random() < bonuses.passives.chain_lightning) {
+    // Passive: chain_lightning splashes a flat 20% of damage — includes
+    // Voltari chorus synergy AND Lux's "Photon Chain" skill node.
+    const chainChance = Math.max(
+      bonuses.passives.chain_lightning ?? 0,
+      skills.chainChance ?? 0,
+    );
+    if (chainChance && Math.random() < chainChance) {
       damage = Math.floor(damage * 1.2);
     }
 
@@ -298,20 +327,25 @@ export function executeMove(
 
   // Status moves
   if (move.effect === "heal") {
-    const healMult = mult(bonuses, "heal_power");
+    const healMult = mult(bonuses, "heal_power") * (skills.healMult ?? 1);
     const healAmount = Math.floor(attacker.maxHp * 0.3 * healMult);
     attacker.hp = Math.min(attacker.maxHp, attacker.hp + healAmount);
     return { round: 0, turn: "player1", action: move.name, effect: "heal", flavor: move.flavorText.replace("{pet}", attacker.name) };
   }
 
-  // Buffs/debuffs
-  move.currentCooldown = move.cooldown;
+  // Buffs/debuffs — skill cooldownMult shortens the re-arm delay.
+  const cdMult = skills.cooldownMult ?? 1;
+  move.currentCooldown = Math.max(0, Math.round(move.cooldown * cdMult));
   return { round: 0, turn: "player1", action: move.name, effect: move.effect, flavor: move.flavorText.replace("{pet}", attacker.name) };
 }
 
 /** End-of-turn regeneration from Tidal Flow / constructs' repair_rate, etc. */
-export function applyTurnPassives(pet: BattlePet, bonuses: PartyCombatBonuses): number {
-  const regen = bonuses.passives.regen_per_turn ?? 0;
+export function applyTurnPassives(
+  pet: BattlePet,
+  bonuses: PartyCombatBonuses,
+  skills: SkillBonusEffect = {},
+): number {
+  const regen = (bonuses.passives.regen_per_turn ?? 0) + (skills.regenPerTurn ?? 0);
   if (regen > 0 && pet.hp > 0 && pet.hp < pet.maxHp) {
     const healed = Math.min(regen, pet.maxHp - pet.hp);
     pet.hp += healed;
@@ -319,6 +353,9 @@ export function applyTurnPassives(pet: BattlePet, bonuses: PartyCombatBonuses): 
   }
   return 0;
 }
+
+/** Re-export so PetBattlesPage can aggregate server-persisted skill nodes. */
+export { aggregateSkillEffects, type SkillBonusEffect } from "@shared/petSkillTrees";
 
 /* ─── BATTLE OUTCOMES ─── */
 

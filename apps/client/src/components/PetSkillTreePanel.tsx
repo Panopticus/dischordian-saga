@@ -2,57 +2,50 @@
    PET SKILL TREE PANEL
 
    Renders the 3-branch (Combat/Utility/Social) skill tree
-   for a single pet. Nodes show tier, cost, description, and
-   a lock icon if prereqs aren't met. Clicking an unlockable
-   node consumes a skill point.
-
-   Unlocks persist in localStorage (client-authoritative for
-   now — the server tracks skillPoints only, not the specific
-   unlocked nodes. Future: sync nodes via playerPets.unlockedMoves).
+   for a single pet. Skill tree definition is resolved
+   per-species so Lux, Cipher, and Echo each see their own
+   branches. Unlocks are server-authoritative via
+   `trpc.petBattles.unlockSkillNode` — skillPoints and the
+   unlocked-node list both live on `playerPets`.
    ═══════════════════════════════════════════════════════ */
 
-import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
 import { Lock, Check, Sparkles } from "lucide-react";
-import { PET_SKILL_TREES, type PetSkillNode, type PetSkillBranch } from "@/game/petBonding";
+import { motion } from "framer-motion";
+import {
+  getSkillTreeForSpecies,
+  type PetSkillNode,
+  type PetSkillBranch,
+} from "@shared/petSkillTrees";
+import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
 
 interface Props {
   petId: string;
   petName: string;
+  species: string;
   availablePoints: number;
-  onSpendPoint?: () => void;
+  unlockedNodes: string[];
 }
 
-const STORAGE_KEY = "dischordian-pet-skills";
+export default function PetSkillTreePanel({
+  petId, petName, species, availablePoints, unlockedNodes,
+}: Props) {
+  const tree = getSkillTreeForSpecies(species);
+  const utils = trpc.useUtils();
 
-type StoredSkills = Record<string, string[]>;
-
-function loadUnlocked(): StoredSkills {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    return raw ? (JSON.parse(raw) as StoredSkills) : {};
-  } catch {
-    return {};
-  }
-}
-
-function saveUnlocked(data: StoredSkills) {
-  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); } catch { /* ignore */ }
-}
-
-export default function PetSkillTreePanel({ petId, petName, availablePoints, onSpendPoint }: Props) {
-  const [unlocked, setUnlocked] = useState<string[]>(() => loadUnlocked()[petId] ?? []);
-  const tree = PET_SKILL_TREES.default; // Future: per-species trees
-
-  useEffect(() => {
-    setUnlocked(loadUnlocked()[petId] ?? []);
-  }, [petId]);
+  const unlockMutation = trpc.petBattles.unlockSkillNode.useMutation({
+    onSuccess: (res) => {
+      toast.success(`Unlocked · ${res.nodeId}`);
+      utils.petBattles.getMyPets.invalidate();
+      utils.petBattles.getPartyTraits.invalidate();
+    },
+    onError: (err) => toast.error(err.message),
+  });
 
   const canUnlock = (node: PetSkillNode): { ok: boolean; reason?: string } => {
-    if (unlocked.includes(node.id)) return { ok: false, reason: "Already unlocked" };
+    if (unlockedNodes.includes(node.id)) return { ok: false, reason: "Already unlocked" };
     if (availablePoints < node.cost) return { ok: false, reason: "Not enough skill points" };
-    if (node.requires && !unlocked.includes(node.requires)) {
+    if (node.requires && !unlockedNodes.includes(node.requires)) {
       return { ok: false, reason: `Requires ${node.requires}` };
     }
     return { ok: true };
@@ -64,13 +57,7 @@ export default function PetSkillTreePanel({ petId, petName, availablePoints, onS
       toast.error(check.reason ?? "Cannot unlock");
       return;
     }
-    const next = [...unlocked, node.id];
-    setUnlocked(next);
-    const all = loadUnlocked();
-    all[petId] = next;
-    saveUnlocked(all);
-    onSpendPoint?.();
-    toast.success(`${node.name} unlocked for ${petName}`);
+    unlockMutation.mutate({ petId, nodeId: node.id });
   };
 
   return (
@@ -78,7 +65,9 @@ export default function PetSkillTreePanel({ petId, petName, availablePoints, onS
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-2">
           <Sparkles size={14} className="text-indigo-400" />
-          <span className="font-display text-xs font-bold tracking-[0.2em]">SKILL TREE · {petName.toUpperCase()}</span>
+          <span className="font-display text-xs font-bold tracking-[0.2em]">
+            SKILL TREE · {petName.toUpperCase()}
+          </span>
         </div>
         <span className="font-mono text-[9px] text-indigo-300">
           {availablePoints} point{availablePoints !== 1 ? "s" : ""}
@@ -86,9 +75,9 @@ export default function PetSkillTreePanel({ petId, petName, availablePoints, onS
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-        <BranchColumn branch={tree.combat} unlocked={unlocked} canUnlock={canUnlock} onUnlock={handleUnlock} accent="text-red-400" />
-        <BranchColumn branch={tree.utility} unlocked={unlocked} canUnlock={canUnlock} onUnlock={handleUnlock} accent="text-emerald-400" />
-        <BranchColumn branch={tree.social} unlocked={unlocked} canUnlock={canUnlock} onUnlock={handleUnlock} accent="text-sky-400" />
+        <BranchColumn branch={tree.combat} unlocked={unlockedNodes} canUnlock={canUnlock} onUnlock={handleUnlock} accent="text-red-400" />
+        <BranchColumn branch={tree.utility} unlocked={unlockedNodes} canUnlock={canUnlock} onUnlock={handleUnlock} accent="text-emerald-400" />
+        <BranchColumn branch={tree.social} unlocked={unlockedNodes} canUnlock={canUnlock} onUnlock={handleUnlock} accent="text-sky-400" />
       </div>
     </div>
   );
