@@ -20,16 +20,13 @@ export default defineConfig({
   plugins,
   resolve: {
     alias: {
-      "@": path.resolve(ROOT, "client", "src"),
-      "@shared": path.resolve(ROOT, "shared"),
-      "@assets": path.resolve(ROOT, "attached_assets"),
-      "@duelyst": path.resolve(ROOT, "client", "src", "game", "duelyst-engine"),
-      "app": path.resolve(ROOT, "client", "src", "game", "duelyst-engine"),
+      "@": path.resolve(ROOT, "apps", "client", "src"),
+      "@shared": path.resolve(ROOT, "apps", "shared"),
     },
   },
   envDir: path.resolve(ROOT),
-  root: path.resolve(ROOT, "client"),
-  publicDir: path.resolve(ROOT, "client", "public"),
+  root: path.resolve(ROOT, "apps", "client"),
+  publicDir: path.resolve(ROOT, "apps", "client", "public"),
   build: {
     outDir: path.resolve(ROOT, "dist/public"),
     emptyOutDir: true,
