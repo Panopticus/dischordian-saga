@@ -10,6 +10,7 @@ import { protectedProcedure, adminProcedure, router } from "../_core/trpc";
 import { getDb, type DrizzleDb } from "../db";
 import {
   chessGames, chessRankings, chessTournaments,
+  chessPuzzleProgress, chessTournamentParticipants, chessTournamentPairings,
   dreamBalance, notifications,
 } from "../../db/schema";
 import { fetchCitizenData, fetchPotentialNftData, resolveChessBonuses } from "../traitResolver";
@@ -22,8 +23,6 @@ import {
   getDailyPuzzle as getDailyPuzzleImpl,
   validateSolution,
   getPuzzlesByDifficulty,
-  getPuzzlesByCategory,
-  getPuzzlesByTheme,
   type ChessPuzzle,
 } from "@shared/chessPuzzles";
 
@@ -213,12 +212,12 @@ const OPENING_BOOKS: Record<string, Array<{ name: string; moves: string[]; descr
 };
 
 /* ─── ELO CALCULATION ─── */
-function calculateElo(playerElo: number, opponentElo: number, result: 1 | 0 | 0.5, k = 32): number {
+export function calculateElo(playerElo: number, opponentElo: number, result: 1 | 0 | 0.5, k = 32): number {
   const expected = 1 / (1 + Math.pow(10, (opponentElo - playerElo) / 400));
   return Math.round(k * (result - expected));
 }
 
-function getTier(elo: number): string {
+export function getTier(elo: number): string {
   if (elo >= 2400) return "grandmaster";
   if (elo >= 2200) return "master";
   if (elo >= 2000) return "diamond";
@@ -228,86 +227,171 @@ function getTier(elo: number): string {
   return "bronze";
 }
 
-/* ─── AI MOVE GENERATION ─── */
-function getAiMove(game: ChessInstance, difficulty: number, style: string): string {
-  const moves = game.moves();
+/* ─── AI MOVE GENERATION ─────────────────────────────────
+   Heuristic-based move picker. There is no Stockfish here —
+   a real engine would take a deeper look at the resulting
+   position. Instead each move is scored from a few signals:
+     - terminal evaluation (mate, stalemate, draw)
+     - material delta after the move (1-pawn = 100 cp etc.)
+     - king-safety: detect "hanging" pieces and self-checks
+     - piece activity: development + central control
+     - style preferences from CHARACTER_AI_TIER
+   The result is then rank-blended with randomness based on
+   difficulty so weak AIs play loose moves and strong AIs
+   stick close to the top of the score list. */
+
+const PIECE_VALUE: Record<string, number> = {
+  p: 100, n: 320, b: 330, r: 500, q: 900, k: 20_000,
+};
+
+/** Net material balance for the side that just moved (positive = good). */
+function materialBalance(game: ChessInstance, sideJustMoved: "w" | "b"): number {
+  const board = game.board();
+  let score = 0;
+  for (const row of board) {
+    for (const cell of row) {
+      if (!cell) continue;
+      const v = PIECE_VALUE[cell.type] ?? 0;
+      score += cell.color === sideJustMoved ? v : -v;
+    }
+  }
+  return score;
+}
+
+/** Penalty if the moved piece can be immediately captured for free. */
+function hangingPenalty(game: ChessInstance, toSquare: string): number {
+  // chess.js's `Square` type is a literal union; we know toSquare came
+  // from a verbose move so the cast is safe.
+  const piece = game.get(toSquare as Parameters<ChessInstance["get"]>[0]);
+  if (!piece) return 0;
+  // Iterate opponent's legal replies and see if any capture this square.
+  const replies = game.moves({ verbose: true }) as Array<{ to: string; flags: string; captured?: string }>;
+  let worstLoss = 0;
+  for (const reply of replies) {
+    if (reply.to === toSquare && reply.flags.includes("c")) {
+      const lost = PIECE_VALUE[piece.type] ?? 0;
+      const gained = reply.captured ? (PIECE_VALUE[reply.captured] ?? 0) : 0;
+      // Crude SEE: if we lose more than we gain, it's a hanging trade.
+      if (lost - gained > worstLoss) worstLoss = lost - gained;
+    }
+  }
+  return worstLoss;
+}
+
+export function getAiMove(game: ChessInstance, difficulty: number, style: string): string {
+  const moves = game.moves({ verbose: true }) as Array<{
+    san: string; from: string; to: string; flags: string; piece: string; captured?: string; promotion?: string;
+  }>;
   if (moves.length === 0) return "";
 
-  // Higher difficulty = more likely to pick the best move
-  // Style influences move selection preferences
-  const scored = moves.map((move: string) => {
-    let score = Math.random() * 100;
+  const sideToMove = game.turn();
+  // Very high difficulty mostly trusts the heuristic; low difficulty injects more noise.
+  const noise = Math.max(5, 120 - difficulty * 12);
+
+  const scored = moves.map(mv => {
     const testGame = new Chess(game.fen());
-    testGame.move(move);
+    // Use from/to/promotion rather than SAN — chess.js v1.4 sometimes
+    // refuses to parse SANs with mate (#) or check (+) suffixes.
+    const result = testGame.move({ from: mv.from, to: mv.to, promotion: mv.promotion });
+    if (!result) return { move: mv.san, score: -Infinity };
 
-    // Base scoring by difficulty (0-10 scale)
-    const depthBonus = difficulty * 8;
-
-    // Checkmate is always best
-    if (testGame.isCheckmate()) return { move, score: 10000 };
-
-    // Check is good
-    if (testGame.isCheck()) score += 30 + depthBonus;
-
-    // Captures
-    if (move.includes("x")) {
-      score += 20 + depthBonus * 0.5;
-      // Capture high-value pieces
-      if (move.includes("Q") || move.includes("q")) score += 50;
-      if (move.includes("R") || move.includes("r")) score += 30;
-      if (move.includes("B") || move.includes("b") || move.includes("N") || move.includes("n")) score += 20;
+    // Terminal positions trump everything else.
+    if (testGame.isCheckmate()) return { move: mv.san, score: 100_000 };
+    if (testGame.isStalemate() || testGame.isDraw()) {
+      // Draws are good if we're losing material, bad if we're winning.
+      const matBefore = materialBalance(game, sideToMove);
+      return { move: mv.san, score: matBefore < -200 ? 800 : -800 };
     }
 
-    // Style-based preferences
+    // Material delta after the move (positive = we gained material).
+    const after = materialBalance(testGame, sideToMove);
+    let score = after / 4; // 1-pawn capture = +25 base score
+
+    // Checks are tactically valuable.
+    if (testGame.isCheck()) score += 20 + difficulty * 3;
+
+    // Capture bonuses (in addition to material delta) bias toward action.
+    if (mv.captured) {
+      score += 15 + (PIECE_VALUE[mv.captured] ?? 0) / 25;
+    }
+
+    // Promotion: prefer queen, but reward under-promotion if it gives check
+    // or wins material (e.g. knight check + skewer).
+    if (mv.promotion) {
+      const baseValue = PIECE_VALUE[mv.promotion] ?? 0;
+      score += (baseValue - PIECE_VALUE.p) / 8;
+      if (mv.promotion === "q") score += 60;
+      if (mv.promotion === "n" && testGame.isCheck()) score += 40;
+    }
+
+    // King safety: penalise moves that leave a piece hanging.
+    const hangs = hangingPenalty(testGame, mv.to);
+    score -= hangs / 3;
+
+    // Activity: development + central control.
+    const PIECE_LETTERS: Record<string, string> = { n: "N", b: "B", r: "R", q: "Q", k: "K", p: "" };
+    const pieceLetter = PIECE_LETTERS[mv.piece] || "";
+    if (pieceLetter && (mv.to[0] === "d" || mv.to[0] === "e") && (mv.to[1] === "4" || mv.to[1] === "5")) {
+      score += 15;
+    }
+    if (mv.flags.includes("k") || mv.flags.includes("q")) {
+      score += 35; // castling
+    }
+
+    // Style-based preferences.
     switch (style) {
       case "aggressive":
-        if (move.includes("x") || testGame.isCheck()) score += 25;
-        // Prefer central pawn pushes and piece development
-        if (move.match(/^[a-h][45]/)) score += 15;
+        if (mv.captured || testGame.isCheck()) score += 30;
+        if (mv.flags.includes("k") || mv.flags.includes("q")) score += 20;
+        if (mv.piece === "p" && (mv.to[1] === "4" || mv.to[1] === "5")) score += 15;
         break;
       case "defensive":
-        // Prefer castling and piece retreats
-        if (move === "O-O" || move === "O-O-O") score += 40;
-        if (!move.includes("x")) score += 10;
+        if (mv.flags.includes("k") || mv.flags.includes("q")) score += 50;
+        if (!mv.captured) score += 10;
+        // Penalise risky tactical attacks; defensive AIs prefer quiet moves.
+        if (hangs > 0) score -= 25;
         break;
       case "positional":
-        // Prefer center control and piece development
-        if (move.match(/^[NBRQ][a-h]?[1-8]?[de][45]$/)) score += 20;
-        if (move === "O-O" || move === "O-O-O") score += 30;
+        if (pieceLetter && (mv.to[0] === "c" || mv.to[0] === "f") && (mv.to[1] === "4" || mv.to[1] === "5")) score += 12;
+        if (mv.flags.includes("k") || mv.flags.includes("q")) score += 35;
+        // Slow squeeze: rewards developing moves over captures.
+        if (pieceLetter === "N" || pieceLetter === "B") score += 8;
         break;
-      case "tactical":
-        // Prefer complex positions with many captures
-        if (move.includes("x") || move.includes("+")) score += 30;
-        if (move.includes("=Q")) score += 50; // promotion
+      case "tactical": {
+        if (mv.captured || testGame.isCheck()) score += 35;
+        // Tactical AIs love forks: bonus if the moved piece attacks 2+
+        // enemy pieces simultaneously.
+        const followUps = (testGame.moves({ verbose: true }) as Array<{ to: string; captured?: string }>)
+          .filter(m => m.captured);
+        if (followUps.length >= 2) score += 30;
         break;
+      }
       case "endgame": {
-        // Prefer king activity and pawn pushes in later game
-        const moveCount = game.history().length;
-        if (moveCount > 40) {
-          if (move.match(/^K/)) score += 20;
-          if (move.match(/^[a-h][78]/)) score += 25;
+        const ply = game.history().length;
+        if (ply > 30) {
+          if (mv.piece === "k") score += 20;
+          if (mv.piece === "p" && (mv.to[1] === "7" || mv.to[1] === "2")) score += 30;
         }
         break;
       }
       case "universal":
-        // Balanced — slight preference for development
-        if (move === "O-O" || move === "O-O-O") score += 20;
-        if (move.match(/^[NBRQ]/)) score += 10;
+        if (mv.flags.includes("k") || mv.flags.includes("q")) score += 25;
+        if (pieceLetter === "N" || pieceLetter === "B") score += 10;
         break;
     }
 
-    // Difficulty-based randomness reduction
-    // Difficulty 1-3: very random, 4-6: moderate, 7-9: strong, 10: near-perfect
-    const randomFactor = Math.max(5, 100 - difficulty * 10);
-    score += Math.random() * randomFactor;
-
-    return { move, score };
+    // Difficulty-based noise. Weak AIs are erratic; strong AIs play steady.
+    score += (Math.random() - 0.5) * noise;
+    return { move: mv.san, score };
   });
 
-  scored.sort((a: { move: string; score: number }, b: { move: string; score: number }) => b.score - a.score);
+  scored.sort((a, b) => b.score - a.score);
 
-  // At higher difficulties, more likely to pick top moves
-  const topN = Math.max(1, Math.floor(moves.length * Math.max(0.05, 1 - difficulty * 0.09)));
+  // Weak AIs sometimes wander away from the top of the list. At
+  // difficulty 10 the AI is deterministic: it always picks the top
+  // scored move so mate-in-1 and free captures are reliable.
+  const fraction = Math.max(0, 1 - difficulty / 9.5);
+  const topN = Math.max(1, Math.ceil(moves.length * fraction));
   const pick = scored[Math.floor(Math.random() * Math.min(topN, scored.length))];
   return pick.move;
 }
@@ -963,9 +1047,9 @@ export const chessRouter = router({
 
   /* ─── PUZZLE / TRAINING MODE ─────────────────────────────
      Lichess-style tactical training backed by the shared
-     CHESS_PUZZLES catalog. Puzzles are stateless definitions;
-     per-user claim history is tracked in memory so a restart
-     wipes it (acceptable for this low-stakes training loop). */
+     CHESS_PUZZLES catalog. Per-user solve history is persisted
+     in chess_puzzle_progress, so first-solve rewards are durable
+     across server restarts. */
 
   /** Get today's daily puzzle (solution stripped). */
   getDailyPuzzle: protectedProcedure.query(async ({ ctx }) => {
@@ -977,7 +1061,7 @@ export const chessRouter = router({
     return {
       ...stripSolution(puzzle),
       date: now.toISOString().slice(0, 10),
-      alreadySolved: hasSolvedPuzzle(ctx.user.id, puzzle.id),
+      alreadySolved: await hasSolvedPuzzle(ctx.user.id, puzzle.id),
     };
   }),
 
@@ -1000,11 +1084,11 @@ export const chessRouter = router({
       if (input.theme) {
         pool = pool.filter(p => p.theme === input.theme);
       }
-      const solved = puzzleSolvedByUser.get(ctx.user.id) ?? new Set<string>();
+      const solvedSet = await getSolvedPuzzleIds(ctx.user.id);
       return {
         puzzles: pool.slice(0, input.limit).map(p => ({
           ...stripSolution(p),
-          alreadySolved: solved.has(p.id),
+          alreadySolved: solvedSet.has(p.id),
         })),
         total: pool.length,
       };
@@ -1018,7 +1102,7 @@ export const chessRouter = router({
       if (!puzzle) throw new Error("Puzzle not found");
       return {
         ...stripSolution(puzzle),
-        alreadySolved: hasSolvedPuzzle(ctx.user.id, puzzle.id),
+        alreadySolved: await hasSolvedPuzzle(ctx.user.id, puzzle.id),
       };
     }),
 
@@ -1031,9 +1115,21 @@ export const chessRouter = router({
     .mutation(async ({ ctx, input }) => {
       const puzzle = CHESS_PUZZLES.find(p => p.id === input.puzzleId);
       if (!puzzle) throw new Error("Puzzle not found");
+      const db = (await getDb())!;
 
       const correct = validateSolution(input.puzzleId, input.moves);
       if (!correct) {
+        // Count the attempt but don't award rewards.
+        const existing = await db.select().from(chessPuzzleProgress)
+          .where(and(
+            eq(chessPuzzleProgress.userId, ctx.user.id),
+            eq(chessPuzzleProgress.puzzleId, puzzle.id),
+          )).limit(1);
+        if (existing[0]) {
+          await db.update(chessPuzzleProgress)
+            .set({ attempts: sql`${chessPuzzleProgress.attempts} + 1` })
+            .where(eq(chessPuzzleProgress.id, existing[0].id));
+        }
         return {
           correct: false,
           hint: puzzle.hint,
@@ -1042,13 +1138,29 @@ export const chessRouter = router({
         };
       }
 
-      const alreadySolved = hasSolvedPuzzle(ctx.user.id, puzzle.id);
-      markPuzzleSolved(ctx.user.id, puzzle.id);
+      const existing = await db.select().from(chessPuzzleProgress)
+        .where(and(
+          eq(chessPuzzleProgress.userId, ctx.user.id),
+          eq(chessPuzzleProgress.puzzleId, puzzle.id),
+        )).limit(1);
+      const alreadySolved = !!existing[0];
+
+      // Record the solve (upsert semantics).
+      if (alreadySolved) {
+        await db.update(chessPuzzleProgress)
+          .set({ attempts: sql`${chessPuzzleProgress.attempts} + 1` })
+          .where(eq(chessPuzzleProgress.id, existing[0].id));
+      } else {
+        await db.insert(chessPuzzleProgress).values({
+          userId: ctx.user.id,
+          puzzleId: puzzle.id,
+          attempts: 1,
+        });
+      }
 
       // Only reward first-time solves so there's no farming loop.
       let awarded = 0;
       if (!alreadySolved) {
-        const db = (await getDb())!;
         awarded = puzzle.xpReward;
 
         // Award Dream tokens equal to the puzzle's XP reward.
@@ -1081,22 +1193,26 @@ export const chessRouter = router({
       };
     }),
 
-  /** Return how many puzzles the current user has solved (in-memory). */
+  /** Return how many puzzles the current user has solved (persistent). */
   getPuzzleStats: protectedProcedure.query(async ({ ctx }) => {
-    const solved = puzzleSolvedByUser.get(ctx.user.id) ?? new Set<string>();
+    const db = (await getDb())!;
+    const rows = await db.select({ puzzleId: chessPuzzleProgress.puzzleId })
+      .from(chessPuzzleProgress)
+      .where(eq(chessPuzzleProgress.userId, ctx.user.id));
     return {
-      solvedCount: solved.size,
+      solvedCount: rows.length,
       totalPuzzles: CHESS_PUZZLES.length,
-      solvedIds: Array.from(solved),
+      solvedIds: rows.map(r => r.puzzleId),
     };
   }),
 
   /* ─── TOURNAMENTS ────────────────────────────────────────
-     Minimal Swiss-style tournament runtime. Metadata lives in
-     the chess_tournaments table; live participant/pairing state
-     is held in memory (non-persistent across restarts).
-     The runtime is intentionally simple: a single active round
-     per tournament, score-sorted pairing, player-reported results. */
+     DB-backed Swiss / elimination tournament runtime. Metadata
+     lives in chess_tournaments, participants in
+     chess_tournament_participants, and pairings in
+     chess_tournament_pairings with optional links to the real
+     chess_games row that resolved them. Scores are stored as
+     2x the actual point value (int storage, no MySQL decimals). */
 
   listTournaments: protectedProcedure
     .input(z.object({
@@ -1111,14 +1227,20 @@ export const chessRouter = router({
         ? await db.select().from(chessTournaments).where(filter).orderBy(desc(chessTournaments.startsAt))
         : await db.select().from(chessTournaments).orderBy(desc(chessTournaments.startsAt));
 
-      return rows.map(t => {
-        const live = getTournamentState(t.id);
-        return {
-          ...t,
-          registeredPlayers: live.participants.length,
-          isActive: t.status === "active",
-        };
-      });
+      const counts = await db.select({
+        tournamentId: chessTournamentParticipants.tournamentId,
+        count: sql<number>`count(*)`.as("count"),
+      })
+        .from(chessTournamentParticipants)
+        .where(eq(chessTournamentParticipants.active, true))
+        .groupBy(chessTournamentParticipants.tournamentId);
+      const countMap = new Map(counts.map(c => [c.tournamentId, Number(c.count)]));
+
+      return rows.map(t => ({
+        ...t,
+        registeredPlayers: countMap.get(t.id) ?? 0,
+        isActive: t.status === "active",
+      }));
     }),
 
   getTournament: protectedProcedure
@@ -1130,18 +1252,33 @@ export const chessRouter = router({
       const row = rows[0];
       if (!row) throw new Error("Tournament not found");
 
-      const live = getTournamentState(row.id);
-      const youAreIn = live.participants.some(p => p.userId === ctx.user.id);
-      const standings = [...live.participants]
+      const participants = await db.select().from(chessTournamentParticipants)
+        .where(eq(chessTournamentParticipants.tournamentId, row.id));
+      const pairings = await db.select().from(chessTournamentPairings)
+        .where(eq(chessTournamentPairings.tournamentId, row.id))
+        .orderBy(desc(chessTournamentPairings.round));
+
+      const youAreIn = participants.some(p => p.userId === ctx.user.id);
+      const standings = [...participants]
         .sort((a, b) => b.score - a.score || b.tieBreak - a.tieBreak)
-        .map((p, i) => ({ rank: i + 1, ...p }));
+        .map((p, i) => ({
+          rank: i + 1,
+          userId: p.userId,
+          userName: p.userName,
+          score: p.score / 2,
+          tieBreak: p.tieBreak / 2,
+          active: p.active,
+        }));
 
       return {
         tournament: row,
         standings,
-        currentPairings: live.pairings,
+        currentPairings: pairings
+          .filter(p => p.round === row.currentRound)
+          .map(toPairingDTO),
+        allPairings: pairings.map(toPairingDTO),
         youAreIn,
-        participantCount: live.participants.length,
+        participantCount: participants.length,
       };
     }),
 
@@ -1186,11 +1323,20 @@ export const chessRouter = router({
         throw new Error("Tournament is no longer accepting registrations");
       }
 
-      const live = getTournamentState(t.id);
-      if (live.participants.some(p => p.userId === ctx.user.id)) {
+      const existing = await db.select().from(chessTournamentParticipants)
+        .where(and(
+          eq(chessTournamentParticipants.tournamentId, t.id),
+          eq(chessTournamentParticipants.userId, ctx.user.id),
+        )).limit(1);
+      if (existing[0]) {
         return { ok: true, alreadyJoined: true };
       }
-      if (live.participants.length >= t.maxPlayers) {
+
+      const countRows = await db.select({ count: sql<number>`count(*)` })
+        .from(chessTournamentParticipants)
+        .where(eq(chessTournamentParticipants.tournamentId, t.id));
+      const current = Number(countRows[0]?.count ?? 0);
+      if (current >= t.maxPlayers) {
         throw new Error("Tournament is full");
       }
 
@@ -1206,7 +1352,8 @@ export const chessRouter = router({
           .where(eq(dreamBalance.userId, ctx.user.id));
       }
 
-      live.participants.push({
+      await db.insert(chessTournamentParticipants).values({
+        tournamentId: t.id,
         userId: ctx.user.id,
         userName: ctx.user.name || `Player ${ctx.user.id}`,
         score: 0,
@@ -1215,7 +1362,7 @@ export const chessRouter = router({
       });
 
       await db.update(chessTournaments)
-        .set({ currentPlayers: live.participants.length })
+        .set({ currentPlayers: current + 1 })
         .where(eq(chessTournaments.id, t.id));
 
       return { ok: true, alreadyJoined: false };
@@ -1230,21 +1377,30 @@ export const chessRouter = router({
       const t = rows[0];
       if (!t) throw new Error("Tournament not found");
 
-      const live = getTournamentState(t.id);
-      const before = live.participants.length;
       if (t.status === "registration") {
-        // Full withdrawal before the event starts.
-        live.participants = live.participants.filter(p => p.userId !== ctx.user.id);
+        await db.delete(chessTournamentParticipants)
+          .where(and(
+            eq(chessTournamentParticipants.tournamentId, t.id),
+            eq(chessTournamentParticipants.userId, ctx.user.id),
+          ));
       } else if (t.status === "active") {
-        // Mark as inactive but keep the record so standings are stable.
-        const p = live.participants.find(p => p.userId === ctx.user.id);
-        if (p) p.active = false;
+        await db.update(chessTournamentParticipants)
+          .set({ active: false })
+          .where(and(
+            eq(chessTournamentParticipants.tournamentId, t.id),
+            eq(chessTournamentParticipants.userId, ctx.user.id),
+          ));
       }
-      if (live.participants.length !== before) {
-        await db.update(chessTournaments)
-          .set({ currentPlayers: live.participants.length })
-          .where(eq(chessTournaments.id, t.id));
-      }
+
+      const countRows = await db.select({ count: sql<number>`count(*)` })
+        .from(chessTournamentParticipants)
+        .where(and(
+          eq(chessTournamentParticipants.tournamentId, t.id),
+          eq(chessTournamentParticipants.active, true),
+        ));
+      await db.update(chessTournaments)
+        .set({ currentPlayers: Number(countRows[0]?.count ?? 0) })
+        .where(eq(chessTournaments.id, t.id));
       return { ok: true };
     }),
 
@@ -1261,17 +1417,45 @@ export const chessRouter = router({
         throw new Error("Tournament has already started");
       }
 
-      const live = getTournamentState(t.id);
-      if (live.participants.length < 2) {
+      const participants = await db.select().from(chessTournamentParticipants)
+        .where(eq(chessTournamentParticipants.tournamentId, t.id));
+      if (participants.length < 2) {
         throw new Error("Need at least 2 participants to start");
       }
 
-      live.pairings = generatePairings(live.participants, /*round*/ 1);
+      const priorPairings: ChessPairingRow[] = [];
+      const pairings = generatePairingsFor(
+        t.format,
+        participants,
+        priorPairings,
+        /*round*/ 1,
+      );
+      const deadline = new Date(Date.now() + roundDeadlineMs(t.timeControl));
+      for (const p of pairings) {
+        await db.insert(chessTournamentPairings).values({
+          tournamentId: t.id,
+          round: 1,
+          whiteId: p.whiteId,
+          blackId: p.blackId,
+          deadlineAt: deadline,
+        });
+      }
+      // Apply bye scoring (if any) directly to the DB.
+      for (const bye of collectByes(t.format, participants, priorPairings)) {
+        await db.update(chessTournamentParticipants)
+          .set({ score: sql`${chessTournamentParticipants.score} + 2` })
+          .where(and(
+            eq(chessTournamentParticipants.tournamentId, t.id),
+            eq(chessTournamentParticipants.userId, bye),
+          ));
+      }
+
       await db.update(chessTournaments)
         .set({ status: "active", currentRound: 1 })
         .where(eq(chessTournaments.id, t.id));
 
-      return { ok: true, round: 1, pairings: live.pairings };
+      scheduleRoundAutoForfeit(t.id, 1, deadline.getTime());
+      return { ok: true, round: 1, pairingsCount: pairings.length };
     }),
 
   /** A player reports the result of their current pairing. */
@@ -1279,6 +1463,7 @@ export const chessRouter = router({
     .input(z.object({
       tournamentId: z.number().int(),
       result: z.enum(["win", "loss", "draw"]),
+      gameId: z.number().int().optional(),
     }))
     .mutation(async ({ ctx, input }) => {
       const db = (await getDb())!;
@@ -1290,71 +1475,109 @@ export const chessRouter = router({
         throw new Error("Tournament is not in an active round");
       }
 
-      const live = getTournamentState(t.id);
-      const pairing = live.pairings.find(
-        p => !p.reported && (p.whiteId === ctx.user.id || p.blackId === ctx.user.id),
-      );
-      if (!pairing) throw new Error("No active pairing for you this round");
+      const [pairing] = await db.select().from(chessTournamentPairings)
+        .where(and(
+          eq(chessTournamentPairings.tournamentId, t.id),
+          eq(chessTournamentPairings.round, t.currentRound),
+          eq(chessTournamentPairings.reported, false),
+        ));
+      const mine = pairing && (pairing.whiteId === ctx.user.id || pairing.blackId === ctx.user.id)
+        ? pairing
+        : (await db.select().from(chessTournamentPairings)
+            .where(and(
+              eq(chessTournamentPairings.tournamentId, t.id),
+              eq(chessTournamentPairings.round, t.currentRound),
+              eq(chessTournamentPairings.reported, false),
+            ))).find(p => p.whiteId === ctx.user.id || p.blackId === ctx.user.id);
+      if (!mine) throw new Error("No active pairing for you this round");
 
-      const isWhite = pairing.whiteId === ctx.user.id;
-      // Normalise to a white-perspective result.
-      const whiteResult =
+      const isWhite = mine.whiteId === ctx.user.id;
+      const whiteResult: "win" | "loss" | "draw" =
         input.result === "draw" ? "draw"
         : (input.result === "win") === isWhite ? "win" : "loss";
 
-      pairing.whiteResult = whiteResult;
-      pairing.reported = true;
-
-      // Apply scores.
-      const white = live.participants.find(p => p.userId === pairing.whiteId);
-      const black = live.participants.find(p => p.userId === pairing.blackId);
-      if (white && black) {
-        if (whiteResult === "win") {
-          white.score += 1;
-          black.tieBreak += 0.5; // Buchholz-lite
-        } else if (whiteResult === "loss") {
-          black.score += 1;
-          white.tieBreak += 0.5;
-        } else {
-          white.score += 0.5;
-          black.score += 0.5;
+      // Verify gameId (if given) actually resolves to this pairing.
+      if (input.gameId) {
+        const [game] = await db.select().from(chessGames)
+          .where(eq(chessGames.id, input.gameId)).limit(1);
+        if (!game) throw new Error("Game not found");
+        const gameIsBetweenPair =
+          (game.whitePlayerId === mine.whiteId && game.blackPlayerId === mine.blackId) ||
+          (game.whitePlayerId === mine.blackId && game.blackPlayerId === mine.whiteId);
+        if (!gameIsBetweenPair) {
+          throw new Error("Game does not match the tournament pairing");
         }
-      }
-
-      // If every pairing is reported, advance the round or close out.
-      if (live.pairings.every(p => p.reported)) {
-        if (t.currentRound >= t.totalRounds) {
-          await db.update(chessTournaments)
-            .set({ status: "completed" })
-            .where(eq(chessTournaments.id, t.id));
-
-          // Distribute prize pool to top 3 finishers.
-          if (t.prizePool > 0) {
-            const ranked = [...live.participants]
-              .sort((a, b) => b.score - a.score || b.tieBreak - a.tieBreak);
-            const splits = [0.6, 0.25, 0.15];
-            for (let i = 0; i < Math.min(3, ranked.length); i++) {
-              const prize = Math.floor(t.prizePool * splits[i]);
-              if (prize <= 0) continue;
-              await db.update(dreamBalance)
-                .set({ dreamTokens: sql`${dreamBalance.dreamTokens} + ${prize}` })
-                .where(eq(dreamBalance.userId, ranked[i].userId));
-              await db.insert(notifications).values({
-                userId: ranked[i].userId,
-                type: "achievement",
-                title: `Tournament Finish: ${t.name}`,
-                message: `You placed #${i + 1} and earned ${prize} Dream tokens.`,
-                actionUrl: "/chess",
-              });
-            }
+        // Prefer server-authoritative result over user claim.
+        if (game.status === "checkmate" && game.winnerId) {
+          const serverWhiteResult = game.winnerId === mine.whiteId ? "win" : "loss";
+          if (serverWhiteResult !== whiteResult) {
+            throw new Error("Reported result does not match the game outcome");
           }
-        } else {
-          live.pairings = generatePairings(live.participants, t.currentRound + 1);
-          await db.update(chessTournaments)
-            .set({ currentRound: t.currentRound + 1 })
-            .where(eq(chessTournaments.id, t.id));
+        } else if (game.status === "stalemate" || game.status === "draw") {
+          if (whiteResult !== "draw") {
+            throw new Error("Reported result does not match the game outcome");
+          }
         }
       }
+
+      await db.update(chessTournamentPairings)
+        .set({ whiteResult, reported: true, gameId: input.gameId ?? null })
+        .where(eq(chessTournamentPairings.id, mine.id));
+
+      // Apply scores (2x) + Buchholz-lite tie-break.
+      if (whiteResult === "win") {
+        await db.update(chessTournamentParticipants)
+          .set({ score: sql`${chessTournamentParticipants.score} + 2` })
+          .where(and(
+            eq(chessTournamentParticipants.tournamentId, t.id),
+            eq(chessTournamentParticipants.userId, mine.whiteId),
+          ));
+        await db.update(chessTournamentParticipants)
+          .set({ tieBreak: sql`${chessTournamentParticipants.tieBreak} + 1` })
+          .where(and(
+            eq(chessTournamentParticipants.tournamentId, t.id),
+            eq(chessTournamentParticipants.userId, mine.blackId),
+          ));
+      } else if (whiteResult === "loss") {
+        await db.update(chessTournamentParticipants)
+          .set({ score: sql`${chessTournamentParticipants.score} + 2` })
+          .where(and(
+            eq(chessTournamentParticipants.tournamentId, t.id),
+            eq(chessTournamentParticipants.userId, mine.blackId),
+          ));
+        await db.update(chessTournamentParticipants)
+          .set({ tieBreak: sql`${chessTournamentParticipants.tieBreak} + 1` })
+          .where(and(
+            eq(chessTournamentParticipants.tournamentId, t.id),
+            eq(chessTournamentParticipants.userId, mine.whiteId),
+          ));
+      } else {
+        await db.update(chessTournamentParticipants)
+          .set({ score: sql`${chessTournamentParticipants.score} + 1` })
+          .where(and(
+            eq(chessTournamentParticipants.tournamentId, t.id),
+            eq(chessTournamentParticipants.userId, mine.whiteId),
+          ));
+        await db.update(chessTournamentParticipants)
+          .set({ score: sql`${chessTournamentParticipants.score} + 1` })
+          .where(and(
+            eq(chessTournamentParticipants.tournamentId, t.id),
+            eq(chessTournamentParticipants.userId, mine.blackId),
+          ));
+      }
+
+      // Elimination: mark loser inactive.
+      if (t.format === "elimination" && whiteResult !== "draw") {
+        const loserId = whiteResult === "win" ? mine.blackId : mine.whiteId;
+        await db.update(chessTournamentParticipants)
+          .set({ active: false })
+          .where(and(
+            eq(chessTournamentParticipants.tournamentId, t.id),
+            eq(chessTournamentParticipants.userId, loserId),
+          ));
+      }
+
+      await maybeAdvanceRound(t.id);
 
       return { ok: true, whiteResult };
     }),
@@ -1365,19 +1588,34 @@ export const chessRouter = router({
     const rows = await db.select().from(chessTournaments)
       .where(ne(chessTournaments.status, "completed"));
     for (const t of rows) {
-      const live = getTournamentState(t.id);
-      const me = live.participants.find(p => p.userId === ctx.user.id && p.active);
+      const me = (await db.select().from(chessTournamentParticipants)
+        .where(and(
+          eq(chessTournamentParticipants.tournamentId, t.id),
+          eq(chessTournamentParticipants.userId, ctx.user.id),
+          eq(chessTournamentParticipants.active, true),
+        )).limit(1))[0];
       if (me) {
+        const allParts = await db.select().from(chessTournamentParticipants)
+          .where(eq(chessTournamentParticipants.tournamentId, t.id));
+        const myRank = [...allParts]
+          .sort((a, b) => b.score - a.score || b.tieBreak - a.tieBreak)
+          .findIndex(p => p.userId === ctx.user.id) + 1;
+
+        const [currentPairing] = await db.select().from(chessTournamentPairings)
+          .where(and(
+            eq(chessTournamentPairings.tournamentId, t.id),
+            eq(chessTournamentPairings.round, t.currentRound),
+            eq(chessTournamentPairings.reported, false),
+          ));
+        const isMine = currentPairing && (
+          currentPairing.whiteId === ctx.user.id || currentPairing.blackId === ctx.user.id
+        );
+
         return {
           tournament: t,
-          myScore: me.score,
-          myRank:
-            [...live.participants]
-              .sort((a, b) => b.score - a.score || b.tieBreak - a.tieBreak)
-              .findIndex(p => p.userId === ctx.user.id) + 1,
-          currentPairing: live.pairings.find(
-            p => !p.reported && (p.whiteId === ctx.user.id || p.blackId === ctx.user.id),
-          ) || null,
+          myScore: me.score / 2,
+          myRank,
+          currentPairing: isMine && currentPairing ? toPairingDTO(currentPairing) : null,
         };
       }
     }
@@ -1385,21 +1623,27 @@ export const chessRouter = router({
   }),
 });
 
-/* ─── PUZZLE STATE (process-local) ──────────────────────── */
-/** Per-user set of solved puzzle IDs. Not persisted — a restart resets it. */
-const puzzleSolvedByUser = new Map<number, Set<string>>();
-
-function hasSolvedPuzzle(userId: number, puzzleId: string): boolean {
-  return puzzleSolvedByUser.get(userId)?.has(puzzleId) ?? false;
+/* ─── PUZZLE STATE (DB-backed) ──────────────────────────── */
+async function hasSolvedPuzzle(userId: number, puzzleId: string): Promise<boolean> {
+  const db = await getDb();
+  if (!db) return false;
+  const row = await db.select({ id: chessPuzzleProgress.id })
+    .from(chessPuzzleProgress)
+    .where(and(
+      eq(chessPuzzleProgress.userId, userId),
+      eq(chessPuzzleProgress.puzzleId, puzzleId),
+    ))
+    .limit(1);
+  return !!row[0];
 }
 
-function markPuzzleSolved(userId: number, puzzleId: string) {
-  let set = puzzleSolvedByUser.get(userId);
-  if (!set) {
-    set = new Set<string>();
-    puzzleSolvedByUser.set(userId, set);
-  }
-  set.add(puzzleId);
+async function getSolvedPuzzleIds(userId: number): Promise<Set<string>> {
+  const db = await getDb();
+  if (!db) return new Set();
+  const rows = await db.select({ puzzleId: chessPuzzleProgress.puzzleId })
+    .from(chessPuzzleProgress)
+    .where(eq(chessPuzzleProgress.userId, userId));
+  return new Set(rows.map(r => r.puzzleId));
 }
 
 function stripSolution(puzzle: ChessPuzzle) {
@@ -1407,65 +1651,421 @@ function stripSolution(puzzle: ChessPuzzle) {
   return rest;
 }
 
-/* ─── TOURNAMENT STATE (process-local) ──────────────────── */
-interface TournamentParticipant {
-  userId: number;
-  userName: string;
-  score: number;
-  tieBreak: number;
-  active: boolean;
-}
-interface TournamentPairing {
-  round: number;
+/* ─── TOURNAMENT HELPERS (DB-backed) ─────────────────────
+   Pairing runs on plain rows from chess_tournament_participants.
+   `priorPairings` is the full history from chess_tournament_pairings
+   for this tournament — the Swiss pairer uses it to avoid rematches
+   and to balance white/black counts. */
+
+type ChessParticipantRow = typeof chessTournamentParticipants.$inferSelect;
+type ChessPairingRow = typeof chessTournamentPairings.$inferSelect;
+
+interface PairingPlan {
   whiteId: number;
   blackId: number;
-  whiteResult: "win" | "loss" | "draw" | null;
-  reported: boolean;
-}
-interface TournamentRuntime {
-  participants: TournamentParticipant[];
-  pairings: TournamentPairing[];
 }
 
-const tournamentState = new Map<number, TournamentRuntime>();
-
-function getTournamentState(tournamentId: number): TournamentRuntime {
-  let state = tournamentState.get(tournamentId);
-  if (!state) {
-    state = { participants: [], pairings: [] };
-    tournamentState.set(tournamentId, state);
-  }
-  return state;
+function toPairingDTO(p: ChessPairingRow) {
+  return {
+    id: p.id,
+    round: p.round,
+    whiteId: p.whiteId,
+    blackId: p.blackId,
+    whiteResult: p.whiteResult,
+    reported: p.reported,
+    gameId: p.gameId,
+    deadlineAt: p.deadlineAt,
+  };
 }
 
-/** Simple Swiss-lite pairing: sort by score desc and pair adjacent active players. */
-function generatePairings(
-  participants: TournamentParticipant[],
+function roundDeadlineMs(timeControl: number): number {
+  // Give players 3x the time control, with a 10-minute floor, to finish
+  // their round before auto-forfeit kicks in.
+  return Math.max(600_000, timeControl * 3_000);
+}
+
+/** Dispatch by format. Returns the list of pairings (the bye, if any,
+ *  is separate — see collectByes). */
+export function generatePairingsFor(
+  format: "swiss" | "elimination" | "round_robin",
+  participants: ChessParticipantRow[],
+  priorPairings: ChessPairingRow[],
   round: number,
-): TournamentPairing[] {
+): PairingPlan[] {
   const active = participants.filter(p => p.active);
-  const sorted = [...active].sort(
-    (a, b) => b.score - a.score || b.tieBreak - a.tieBreak,
-  );
+  if (format === "elimination") {
+    return pairEliminationBracket(active, priorPairings, round);
+  }
+  if (format === "round_robin") {
+    return pairRoundRobin(active, priorPairings, round);
+  }
+  return pairSwiss(active, priorPairings, round);
+}
 
-  const pairings: TournamentPairing[] = [];
-  for (let i = 0; i + 1 < sorted.length; i += 2) {
-    // Alternate colors on odd rounds for a mild fairness boost.
-    const whiteFirst = round % 2 === 1;
+/** Return user IDs that get a bye this round (auto +1 point). */
+export function collectByes(
+  format: "swiss" | "elimination" | "round_robin",
+  participants: ChessParticipantRow[],
+  priorPairings: ChessPairingRow[],
+): number[] {
+  const active = participants.filter(p => p.active);
+  if (active.length % 2 === 0) return [];
+  if (format === "elimination") {
+    // Odd-player-out in elimination gets a free pass to next round.
+    const sorted = [...active].sort((a, b) => b.score - a.score || b.tieBreak - a.tieBreak);
+    // Prefer a player who hasn't had a bye yet.
+    const byeReceivers = new Set<number>();
+    for (const p of priorPairings) {
+      if (p.whiteId === p.blackId) byeReceivers.add(p.whiteId);
+    }
+    const noBye = sorted.find(p => !byeReceivers.has(p.userId));
+    return [(noBye ?? sorted[sorted.length - 1]).userId];
+  }
+  if (format === "round_robin") {
+    // Round robin assigns byes based on the circular schedule (handled by pairRoundRobin).
+    return [];
+  }
+  // Swiss: lowest-scored player who has not received a bye yet.
+  const byePrior = new Set<number>();
+  for (const p of priorPairings) if (p.whiteId === p.blackId) byePrior.add(p.whiteId);
+  const sorted = [...active].sort((a, b) => a.score - b.score || a.tieBreak - b.tieBreak);
+  const noBye = sorted.find(p => !byePrior.has(p.userId));
+  return [(noBye ?? sorted[0]).userId];
+}
+
+/** Swiss pairing with rematch avoidance + color balance.
+ *
+ *  Groups players by score, pairs within groups using a simple backtracking
+ *  search that skips previous opponents. Color is chosen per pair to
+ *  minimise the difference in previous white/black counts (Dutch-style
+ *  rather than "always alternate by round"). Odd count: lowest-scoring
+ *  player is floated down (a bye is handled separately via collectByes). */
+export function pairSwiss(
+  active: ChessParticipantRow[],
+  priorPairings: ChessPairingRow[],
+  _round: number,
+): PairingPlan[] {
+  if (active.length < 2) return [];
+
+  // Build opponent history + color counts.
+  const playedWith = new Map<number, Set<number>>();
+  const whiteCount = new Map<number, number>();
+  const blackCount = new Map<number, number>();
+  for (const p of active) {
+    playedWith.set(p.userId, new Set());
+    whiteCount.set(p.userId, 0);
+    blackCount.set(p.userId, 0);
+  }
+  for (const prev of priorPairings) {
+    if (prev.whiteId === prev.blackId) continue; // bye
+    playedWith.get(prev.whiteId)?.add(prev.blackId);
+    playedWith.get(prev.blackId)?.add(prev.whiteId);
+    whiteCount.set(prev.whiteId, (whiteCount.get(prev.whiteId) ?? 0) + 1);
+    blackCount.set(prev.blackId, (blackCount.get(prev.blackId) ?? 0) + 1);
+  }
+
+  // Sort by score desc (tiebreak desc). If odd count, the lowest is the
+  // bye — pull them out and pair the rest.
+  const sorted = [...active].sort((a, b) => b.score - a.score || b.tieBreak - a.tieBreak);
+  const pool = sorted.length % 2 === 1 ? sorted.slice(0, -1) : sorted;
+
+  // Backtracking pairer.
+  const used = new Set<number>();
+  const result: PairingPlan[] = [];
+  const byId = new Map(pool.map(p => [p.userId, p]));
+
+  function tryPair(i: number): boolean {
+    // Advance past already-paired players.
+    while (i < pool.length && used.has(pool[i].userId)) i++;
+    if (i >= pool.length) return true;
+
+    const anchor = pool[i];
+    used.add(anchor.userId);
+    const anchorDiff = (whiteCount.get(anchor.userId) ?? 0) - (blackCount.get(anchor.userId) ?? 0);
+
+    // Score candidates by how well they balance the anchor's color counts.
+    // Prefer candidates whose own color preference is opposite to the
+    // anchor's, so the resulting pair zeroes out both diffs.
+    const candidates: Array<{ idx: number; balanceCost: number }> = [];
+    for (let j = i + 1; j < pool.length; j++) {
+      const cand = pool[j];
+      if (used.has(cand.userId)) continue;
+      if (playedWith.get(anchor.userId)?.has(cand.userId)) continue;
+      const candDiff = (whiteCount.get(cand.userId) ?? 0) - (blackCount.get(cand.userId) ?? 0);
+      // Lower balanceCost = better (we'd ideally pair +1/-1 over +1/+1).
+      const balanceCost = Math.abs(anchorDiff + candDiff);
+      candidates.push({ idx: j, balanceCost });
+    }
+    candidates.sort((a, b) => a.balanceCost - b.balanceCost);
+
+    for (const { idx: j } of candidates) {
+      const cand = pool[j];
+      used.add(cand.userId);
+      const candDiff = (whiteCount.get(cand.userId) ?? 0) - (blackCount.get(cand.userId) ?? 0);
+      // Whoever has played fewer whites should be white now.
+      const anchorIsWhite = anchorDiff < candDiff
+        ? true
+        : anchorDiff > candDiff
+          ? false
+          : (anchor.userId < cand.userId); // deterministic tiebreak
+      result.push({
+        whiteId: anchorIsWhite ? anchor.userId : cand.userId,
+        blackId: anchorIsWhite ? cand.userId : anchor.userId,
+      });
+      if (tryPair(i + 1)) return true;
+      result.pop();
+      used.delete(cand.userId);
+    }
+    used.delete(anchor.userId);
+    return false;
+  }
+
+  if (!tryPair(0)) {
+    // Rematch avoidance impossible — fall back to adjacent score pairing,
+    // ignoring history. Happens in small tournaments late in the schedule.
+    result.length = 0;
+    used.clear();
+    for (let i = 0; i + 1 < pool.length; i += 2) {
+      const a = pool[i];
+      const b = pool[i + 1];
+      const aDiff = (whiteCount.get(a.userId) ?? 0) - (blackCount.get(a.userId) ?? 0);
+      const bDiff = (whiteCount.get(b.userId) ?? 0) - (blackCount.get(b.userId) ?? 0);
+      const aIsWhite = aDiff <= bDiff;
+      result.push({
+        whiteId: aIsWhite ? a.userId : b.userId,
+        blackId: aIsWhite ? b.userId : a.userId,
+      });
+    }
+  }
+  // Safety: suppress type-checker "declared but not used" if a future edit drops it.
+  void byId;
+  return result;
+}
+
+/** Elimination: pair adjacent winners of the previous round. Round 1 is
+ *  seeded by score desc (typically all zero, so registration order). */
+function pairEliminationBracket(
+  active: ChessParticipantRow[],
+  priorPairings: ChessPairingRow[],
+  round: number,
+): PairingPlan[] {
+  const sorted = [...active].sort((a, b) => b.score - a.score || b.tieBreak - a.tieBreak);
+  const pool = sorted.length % 2 === 1 ? sorted.slice(0, -1) : sorted;
+  const pairings: PairingPlan[] = [];
+  for (let i = 0; i + 1 < pool.length; i += 2) {
+    // Alternate who plays white based on seed parity so #1 alternates.
+    const aIsWhite = (i + round) % 2 === 0;
     pairings.push({
-      round,
-      whiteId: whiteFirst ? sorted[i].userId : sorted[i + 1].userId,
-      blackId: whiteFirst ? sorted[i + 1].userId : sorted[i].userId,
-      whiteResult: null,
-      reported: false,
+      whiteId: aIsWhite ? pool[i].userId : pool[i + 1].userId,
+      blackId: aIsWhite ? pool[i + 1].userId : pool[i].userId,
     });
   }
-  // Odd player out gets a bye — auto-score 1 for this round.
-  if (sorted.length % 2 === 1) {
-    const bye = sorted[sorted.length - 1];
-    bye.score += 1;
+  // Suppress "unused" warning on priorPairings; future rematch-check may use it.
+  void priorPairings;
+  return pairings;
+}
+
+/** Simple round-robin: fixed schedule (all-play-all) over n-1 rounds. */
+function pairRoundRobin(
+  active: ChessParticipantRow[],
+  _priorPairings: ChessPairingRow[],
+  round: number,
+): PairingPlan[] {
+  // Circle method: fix player 0, rotate the rest.
+  const players = [...active];
+  if (players.length % 2 === 1) players.push({ ...players[0], id: -1, userId: -1 });
+  const n = players.length;
+  const halfN = n / 2;
+
+  // Rotate (round - 1) times.
+  const rotated = [players[0]];
+  const rest = players.slice(1);
+  for (let i = 0; i < (round - 1) % (n - 1); i++) {
+    rest.unshift(rest.pop()!);
+  }
+  rotated.push(...rest);
+
+  const pairings: PairingPlan[] = [];
+  for (let i = 0; i < halfN; i++) {
+    const a = rotated[i];
+    const b = rotated[n - 1 - i];
+    if (a.userId === -1 || b.userId === -1) continue; // the bye
+    const aIsWhite = (i + round) % 2 === 0;
+    pairings.push({
+      whiteId: aIsWhite ? a.userId : b.userId,
+      blackId: aIsWhite ? b.userId : a.userId,
+    });
   }
   return pairings;
+}
+
+/** After a result is reported, check if the current round is complete
+ *  and either generate next-round pairings or close out the tournament. */
+async function maybeAdvanceRound(tournamentId: number): Promise<void> {
+  const db = (await getDb())!;
+  const [t] = await db.select().from(chessTournaments)
+    .where(eq(chessTournaments.id, tournamentId)).limit(1);
+  if (!t || t.status !== "active") return;
+
+  const roundPairings = await db.select().from(chessTournamentPairings)
+    .where(and(
+      eq(chessTournamentPairings.tournamentId, t.id),
+      eq(chessTournamentPairings.round, t.currentRound),
+    ));
+  if (roundPairings.some(p => !p.reported)) return;
+
+  // All reported — advance or close out.
+  if (t.format === "elimination") {
+    const activeCount = (await db.select({ count: sql<number>`count(*)` })
+      .from(chessTournamentParticipants)
+      .where(and(
+        eq(chessTournamentParticipants.tournamentId, t.id),
+        eq(chessTournamentParticipants.active, true),
+      )))[0]?.count ?? 0;
+    if (Number(activeCount) <= 1) {
+      await finalizeTournament(t.id);
+      return;
+    }
+  } else if (t.currentRound >= t.totalRounds) {
+    await finalizeTournament(t.id);
+    return;
+  }
+
+  const participants = await db.select().from(chessTournamentParticipants)
+    .where(eq(chessTournamentParticipants.tournamentId, t.id));
+  const allPrior = await db.select().from(chessTournamentPairings)
+    .where(eq(chessTournamentPairings.tournamentId, t.id));
+
+  const nextRound = t.currentRound + 1;
+  const plans = generatePairingsFor(t.format, participants, allPrior, nextRound);
+  const deadline = new Date(Date.now() + roundDeadlineMs(t.timeControl));
+  for (const p of plans) {
+    await db.insert(chessTournamentPairings).values({
+      tournamentId: t.id,
+      round: nextRound,
+      whiteId: p.whiteId,
+      blackId: p.blackId,
+      deadlineAt: deadline,
+    });
+  }
+  for (const byeId of collectByes(t.format, participants, allPrior)) {
+    await db.update(chessTournamentParticipants)
+      .set({ score: sql`${chessTournamentParticipants.score} + 2` })
+      .where(and(
+        eq(chessTournamentParticipants.tournamentId, t.id),
+        eq(chessTournamentParticipants.userId, byeId),
+      ));
+  }
+
+  await db.update(chessTournaments)
+    .set({ currentRound: nextRound })
+    .where(eq(chessTournaments.id, t.id));
+
+  scheduleRoundAutoForfeit(t.id, nextRound, deadline.getTime());
+}
+
+/** Close out the tournament: mark completed + distribute prize pool. */
+async function finalizeTournament(tournamentId: number): Promise<void> {
+  const db = (await getDb())!;
+  const [t] = await db.select().from(chessTournaments)
+    .where(eq(chessTournaments.id, tournamentId)).limit(1);
+  if (!t) return;
+
+  await db.update(chessTournaments)
+    .set({ status: "completed" })
+    .where(eq(chessTournaments.id, t.id));
+
+  if (t.prizePool > 0) {
+    const parts = await db.select().from(chessTournamentParticipants)
+      .where(eq(chessTournamentParticipants.tournamentId, t.id));
+    const ranked = [...parts].sort((a, b) => b.score - a.score || b.tieBreak - a.tieBreak);
+    const splits = [0.6, 0.25, 0.15];
+    for (let i = 0; i < Math.min(3, ranked.length); i++) {
+      const prize = Math.floor(t.prizePool * splits[i]);
+      if (prize <= 0) continue;
+      await db.update(dreamBalance)
+        .set({ dreamTokens: sql`${dreamBalance.dreamTokens} + ${prize}` })
+        .where(eq(dreamBalance.userId, ranked[i].userId));
+      await db.insert(notifications).values({
+        userId: ranked[i].userId,
+        type: "achievement",
+        title: `Tournament Finish: ${t.name}`,
+        message: `You placed #${i + 1} and earned ${prize} Dream tokens.`,
+        actionUrl: "/chess",
+      });
+    }
+  }
+}
+
+/** Process-local auto-forfeit timers. Persistent scheduling is out of
+ *  scope here (would need a job queue); we re-arm on server restart via
+ *  rehydrateAutoForfeitTimers() below. */
+const autoForfeitTimers = new Map<string, ReturnType<typeof setTimeout>>();
+
+function scheduleRoundAutoForfeit(tournamentId: number, round: number, deadlineMs: number) {
+  const key = `${tournamentId}:${round}`;
+  const existing = autoForfeitTimers.get(key);
+  if (existing) clearTimeout(existing);
+  const delay = Math.max(0, deadlineMs - Date.now());
+  const timer = setTimeout(() => {
+    autoForfeitTimers.delete(key);
+    runRoundAutoForfeit(tournamentId, round).catch(e =>
+      logger.error("[Chess] auto-forfeit failed:", e),
+    );
+  }, delay);
+  autoForfeitTimers.set(key, timer);
+}
+
+async function runRoundAutoForfeit(tournamentId: number, round: number) {
+  const db = (await getDb())!;
+  const unreported = await db.select().from(chessTournamentPairings)
+    .where(and(
+      eq(chessTournamentPairings.tournamentId, tournamentId),
+      eq(chessTournamentPairings.round, round),
+      eq(chessTournamentPairings.reported, false),
+    ));
+  if (unreported.length === 0) return;
+
+  // Any pairing still unreported is scored as a double-forfeit draw.
+  for (const p of unreported) {
+    await db.update(chessTournamentPairings)
+      .set({ whiteResult: "draw", reported: true })
+      .where(eq(chessTournamentPairings.id, p.id));
+    await db.update(chessTournamentParticipants)
+      .set({ score: sql`${chessTournamentParticipants.score} + 1` })
+      .where(and(
+        eq(chessTournamentParticipants.tournamentId, tournamentId),
+        eq(chessTournamentParticipants.userId, p.whiteId),
+      ));
+    await db.update(chessTournamentParticipants)
+      .set({ score: sql`${chessTournamentParticipants.score} + 1` })
+      .where(and(
+        eq(chessTournamentParticipants.tournamentId, tournamentId),
+        eq(chessTournamentParticipants.userId, p.blackId),
+      ));
+  }
+  await maybeAdvanceRound(tournamentId);
+}
+
+/** Called at server startup to re-arm auto-forfeit timers for active
+ *  tournaments whose current round has a pending deadline. */
+export async function rehydrateChessTournamentTimers(): Promise<void> {
+  const db = await getDb();
+  if (!db) return;
+  const active = await db.select().from(chessTournaments)
+    .where(eq(chessTournaments.status, "active"));
+  for (const t of active) {
+    const pending = await db.select().from(chessTournamentPairings)
+      .where(and(
+        eq(chessTournamentPairings.tournamentId, t.id),
+        eq(chessTournamentPairings.round, t.currentRound),
+        eq(chessTournamentPairings.reported, false),
+      ));
+    const deadline = pending.find(p => p.deadlineAt)?.deadlineAt;
+    if (deadline) {
+      scheduleRoundAutoForfeit(t.id, t.currentRound, new Date(deadline).getTime());
+    }
+  }
 }
 
 /** Process game end — update ELO, give rewards, advance story */

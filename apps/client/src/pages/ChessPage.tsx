@@ -644,6 +644,107 @@ export default function ChessPage() {
     setView("character_select");
   };
 
+  /* ─── Board orientation (flip with 'F' key or button) ─── */
+  const [boardFlipped, setBoardFlipped] = useState(false);
+  const handleFlipBoard = useCallback(() => setBoardFlipped(f => !f), []);
+
+  /* ─── Last-move highlight ───
+     Tracks the last player and last AI move so we can paint both
+     squares in the active color via Chessboard's `squareStyles`. */
+  const [lastPlayerMove, setLastPlayerMove] = useState<{ from: string; to: string } | null>(null);
+
+  /** Square highlight overlay map for the SP board. */
+  const squareStyles = useMemo(() => {
+    const styles: Record<string, React.CSSProperties> = {};
+    const playerHighlight = "rgba(120, 220, 120, 0.42)";
+    const aiHighlight = "rgba(220, 140, 70, 0.42)";
+    if (lastPlayerMove) {
+      styles[lastPlayerMove.from] = { background: playerHighlight };
+      styles[lastPlayerMove.to] = { background: playerHighlight };
+    }
+    if (lastAiMove) {
+      styles[lastAiMove.from] = { background: aiHighlight };
+      styles[lastAiMove.to] = { background: aiHighlight };
+    }
+    return styles;
+  }, [lastPlayerMove, lastAiMove]);
+
+  /** Square highlight overlay map for the multiplayer board. */
+  const mpSquareStyles = useMemo(() => {
+    const styles: Record<string, React.CSSProperties> = {};
+    if (mpLastMove) {
+      styles[mpLastMove.from] = { background: "rgba(255, 255, 0, 0.38)" };
+      styles[mpLastMove.to] = { background: "rgba(255, 255, 0, 0.38)" };
+    }
+    return styles;
+  }, [mpLastMove]);
+
+  /** PGN export — copies current game's PGN to the clipboard. */
+  const handleExportPgn = useCallback(async () => {
+    try {
+      const ref = view === "multiplayer_playing" ? mpChessRef.current : chessRef.current;
+      const pgn = ref.pgn() || "(empty)";
+      await navigator.clipboard.writeText(pgn);
+      const { toast } = await import("sonner");
+      toast.success("PGN copied to clipboard");
+    } catch (e) {
+      const { toast } = await import("sonner");
+      toast.error("Failed to copy PGN");
+      console.error("PGN export failed:", e);
+    }
+  }, [view]);
+
+  /* ─── Keyboard shortcuts ───
+     F = flip board, R = resign, D = offer draw, C = copy PGN, Esc = close
+     promotion dialog. We only react when an action is meaningful in the
+     current view to avoid surprising the player elsewhere. */
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      // Ignore typing in inputs.
+      const target = e.target as HTMLElement | null;
+      if (target && (target.tagName === "INPUT" || target.tagName === "TEXTAREA" || target.isContentEditable)) {
+        return;
+      }
+      if (e.key === "Escape" && pendingPromotion) {
+        setPendingPromotion(null);
+        return;
+      }
+      if (view !== "playing" && view !== "multiplayer_playing") return;
+      if (e.metaKey || e.ctrlKey || e.altKey) return;
+      switch (e.key.toLowerCase()) {
+        case "f":
+          e.preventDefault();
+          handleFlipBoard();
+          break;
+        case "r":
+          e.preventDefault();
+          if (view === "playing" && gameStatus === "active") void handleResign();
+          if (view === "multiplayer_playing" && !mpGameOver) handleMpResign();
+          break;
+        case "d":
+          e.preventDefault();
+          if (view === "multiplayer_playing" && !mpGameOver) handleMpOfferDraw();
+          break;
+        case "c":
+          e.preventDefault();
+          void handleExportPgn();
+          break;
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [view, gameStatus, mpGameOver, pendingPromotion, handleFlipBoard, handleExportPgn, handleMpResign, handleMpOfferDraw]);
+
+  // Track player moves for highlighting (alongside the existing lastAiMove).
+  useEffect(() => {
+    if (!moveHistory.length || !chessRef.current) return;
+    const history = chessRef.current.history({ verbose: true });
+    const lastWhite = [...history].reverse().find(m => m.color === "w");
+    if (lastWhite) {
+      setLastPlayerMove({ from: lastWhite.from, to: lastWhite.to });
+    }
+  }, [moveHistory]);
+
   /* ─── Evaluation bar calculation ───
      Must run before any conditional early-return so hook order
      is stable across renders. */
@@ -977,6 +1078,20 @@ export default function ChessPage() {
                     <BarChart3 size={12} className={showEvalBar ? "text-primary" : "text-white/40"} />
                   </button>
                   <button
+                    onClick={handleFlipBoard}
+                    className="p-1.5 rounded-md bg-black/30 backdrop-blur-sm border border-white/10 hover:bg-black/50"
+                    title="Flip board (F)"
+                  >
+                    <RotateCcw size={12} className="text-white/60" />
+                  </button>
+                  <button
+                    onClick={handleExportPgn}
+                    className="px-2 py-1.5 rounded-md bg-black/30 backdrop-blur-sm border border-white/10 hover:bg-black/50 font-mono text-[9px] text-white/60"
+                    title="Copy PGN to clipboard (C)"
+                  >
+                    PGN
+                  </button>
+                  <button
                     onClick={handleNewGame}
                     className="px-3 py-1.5 rounded-md backdrop-blur-sm border text-xs font-mono"
                     style={{
@@ -1032,6 +1147,9 @@ export default function ChessPage() {
                       options={{
                         position: gameFen,
                         pieces: customPieces,
+                        boardOrientation: boardFlipped ? "black" : "white",
+                        showNotation: true,
+                        squareStyles,
                         onPieceDrop: ({ piece, sourceSquare, targetSquare }: any) => {
                           if (!targetSquare) return false;
                           handleDrop(sourceSquare, targetSquare, piece?.pieceType || "");
@@ -1510,6 +1628,8 @@ export default function ChessPage() {
                         position: mpFen,
                         pieces: customPieces,
                         boardOrientation: mpOpponent.color === "white" ? "black" : "white",
+                        showNotation: true,
+                        squareStyles: mpSquareStyles,
                         onPieceDrop: ({ sourceSquare, targetSquare }: any) => {
                           if (!targetSquare) return false;
                           return handleMpMove(sourceSquare, targetSquare);

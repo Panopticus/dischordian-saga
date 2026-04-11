@@ -25,6 +25,8 @@ const ChessClientMessageSchema = z.union([
   z.object({ type: z.literal("DECLINE_DRAW") }),
   z.object({ type: z.literal("SPECTATE"), matchId: z.string() }),
   z.object({ type: z.literal("STOP_SPECTATING") }),
+  z.object({ type: z.literal("LIST_ACTIVE_MATCHES") }),
+  z.object({ type: z.literal("RECONNECT"), userId: z.number(), matchId: z.string() }),
   z.object({ type: z.literal("PING") }),
 ]);
 
@@ -68,6 +70,8 @@ type ChessClientMessage =
   | { type: "DECLINE_DRAW" }
   | { type: "SPECTATE"; matchId: string }
   | { type: "STOP_SPECTATING" }
+  | { type: "LIST_ACTIVE_MATCHES" }
+  | { type: "RECONNECT"; userId: number; matchId: string }
   | { type: "PING" };
 
 type ChessServerMessage =
@@ -84,6 +88,7 @@ type ChessServerMessage =
   | { type: "SPECTATE_UPDATE"; fen: string; lastMove: { from: string; to: string; san: string } | null; turn: "w" | "b"; moveCount: number }
   | { type: "SPECTATE_ENDED"; reason: string }
   | { type: "ACTIVE_MATCHES"; matches: Array<{ matchId: string; whiteName: string; blackName: string; whiteElo: number; blackElo: number; moveCount: number; spectatorCount: number }> }
+  | { type: "RECONNECTED"; matchId: string; color: "white" | "black"; fen: string; whiteTimeMs: number; blackTimeMs: number; turn: "w" | "b"; moveCount: number; opponentName: string; opponentElo: number }
   | { type: "ERROR"; message: string }
   | { type: "PONG" };
 
@@ -101,6 +106,9 @@ const matchmakingQueue: ChessPlayer[] = [];
 const activeMatches = new Map<string, ActiveChessMatch>();
 const playerConnections = new Map<number, ChessPlayer>();
 const spectatorConnections = new Map<WebSocket, string>();
+/** Match-end forfeit timers scheduled after a disconnect. Keyed by
+ *  `<matchId>:<userId>` so a reconnect can cancel just the right one. */
+const pendingForfeitTimers = new Map<string, ReturnType<typeof setTimeout>>();
 
 /* ─── CHESS.JS DYNAMIC IMPORT ─── */
 let Chess: typeof import("chess.js").Chess;
@@ -115,6 +123,35 @@ const chessReady = import("chess.js").then(m => {
 function send(ws: WebSocket, msg: ChessServerMessage) {
   if (ws.readyState === WebSocket.OPEN) {
     ws.send(JSON.stringify(msg));
+  }
+}
+
+/** Build the ACTIVE_MATCHES broadcast payload from the in-memory map. */
+function buildActiveMatchesMessage(): ChessServerMessage {
+  return {
+    type: "ACTIVE_MATCHES",
+    matches: [...activeMatches.values()]
+      .filter(m => m.status === "active")
+      .map(m => ({
+        matchId: m.matchId,
+        whiteName: m.white.userName,
+        blackName: m.black.userName,
+        whiteElo: m.white.elo,
+        blackElo: m.black.elo,
+        moveCount: m.moveCount,
+        spectatorCount: m.spectators.size,
+      })),
+  };
+}
+
+/** Broadcast the current active-matches list to everyone who's in the
+ *  chess WS but not currently playing a game (i.e. lobby viewers). */
+function broadcastActiveMatchesToLobby() {
+  const payload = buildActiveMatchesMessage();
+  for (const player of playerConnections.values()) {
+    if (!player.matchId) {
+      send(player.ws, payload);
+    }
   }
 }
 
@@ -194,6 +231,7 @@ async function startMatch(p1: ChessPlayer, p2: ChessPlayer) {
   white.matchId = matchId;
   black.matchId = matchId;
   activeMatches.set(matchId, match);
+  broadcastActiveMatchesToLobby();
 
   // Save to database
   try {
@@ -484,6 +522,14 @@ async function endMatch(match: ActiveChessMatch, winnerId: number | null, reason
   match.white.matchId = null;
   match.black.matchId = null;
   activeMatches.delete(match.matchId);
+  // Clear any lingering forfeit timers for this match.
+  for (const key of [...pendingForfeitTimers.keys()]) {
+    if (key.startsWith(match.matchId + ":")) {
+      clearTimeout(pendingForfeitTimers.get(key)!);
+      pendingForfeitTimers.delete(key);
+    }
+  }
+  broadcastActiveMatchesToLobby();
 }
 
 /* ─── WEBSOCKET SERVER SETUP ─── */
@@ -662,6 +708,49 @@ export function setupChessPvpWebSocket(server: Server) {
             }
             break;
           }
+
+          case "LIST_ACTIVE_MATCHES": {
+            send(ws, buildActiveMatchesMessage());
+            break;
+          }
+
+          case "RECONNECT": {
+            const match = activeMatches.get(msg.matchId);
+            if (!match || match.status !== "active") {
+              send(ws, { type: "ERROR", message: "Match not found or already ended" });
+              break;
+            }
+            const isWhite = match.white.userId === msg.userId;
+            const isBlack = match.black.userId === msg.userId;
+            if (!isWhite && !isBlack) {
+              send(ws, { type: "ERROR", message: "You are not a player in this match" });
+              break;
+            }
+            // Swap the WS on the existing player record.
+            const player = isWhite ? match.white : match.black;
+            player.ws = ws;
+            playerConnections.set(player.userId, player);
+            // Cancel any pending forfeit.
+            const forfeit = pendingForfeitTimers.get(match.matchId + ":" + player.userId);
+            if (forfeit) {
+              clearTimeout(forfeit);
+              pendingForfeitTimers.delete(match.matchId + ":" + player.userId);
+            }
+            const opponent = isWhite ? match.black : match.white;
+            send(ws, {
+              type: "RECONNECTED",
+              matchId: match.matchId,
+              color: isWhite ? "white" : "black",
+              fen: match.fen,
+              whiteTimeMs: match.whiteTimeMs,
+              blackTimeMs: match.blackTimeMs,
+              turn: match.turn,
+              moveCount: match.moveCount,
+              opponentName: opponent.userName,
+              opponentElo: opponent.elo,
+            });
+            break;
+          }
         }
       } catch (e) {
         console.error("[ChessPvP] Message error:", e);
@@ -683,19 +772,29 @@ export function setupChessPvpWebSocket(server: Server) {
           if (match && match.status === "active") {
             const opponent = player.userId === match.white.userId ? match.black : match.white;
             send(opponent.ws, { type: "OPPONENT_DISCONNECTED" });
-            // Give 30 seconds to reconnect, then forfeit
-            setTimeout(() => {
-              if (match.status === "active" && !playerConnections.has(player.userId)) {
-                const winnerId = opponent.userId;
-                // "abandoned" matches the chess_games status enum; "disconnect"
-                // was a silent DB-update failure previously.
-                endMatch(match, winnerId, "abandoned");
+            // Give 30 seconds to reconnect, then forfeit.
+            // Leave the player record in place so RECONNECT can find it.
+            const key = match.matchId + ":" + player.userId;
+            const existing = pendingForfeitTimers.get(key);
+            if (existing) clearTimeout(existing);
+            const timer = setTimeout(() => {
+              pendingForfeitTimers.delete(key);
+              if (match.status === "active") {
+                const stillDisconnected = player.ws.readyState !== WebSocket.OPEN;
+                if (stillDisconnected) {
+                  endMatch(match, opponent.userId, "abandoned");
+                }
               }
             }, 30_000);
+            pendingForfeitTimers.set(key, timer);
+          } else {
+            // Match is over or missing — clean up the player map.
+            playerConnections.delete(player.userId);
           }
+        } else {
+          // Not in a match — safe to drop the player record.
+          playerConnections.delete(player.userId);
         }
-
-        playerConnections.delete(player.userId);
       }
 
       // Handle spectator disconnect
