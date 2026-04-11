@@ -52,6 +52,7 @@ import {
   mergeBeatFlags,
   toNarratorRoomId,
 } from "@shared/mobileNarrator";
+import { isRoomUnlocked } from "@shared/preludeRoomGate";
 import LoreTutorialEngine from "@/components/LoreTutorialEngine";
 import NarrativeTrigger from "@/components/NarrativeTrigger";
 import InlineShipMap from "@/components/InlineShipMap";
@@ -917,6 +918,29 @@ export default function ArkExplorerPage() {
   const navigateWithTransition = useCallback((targetRoomId: string) => {
     const targetDef = getRoomDef(targetRoomId);
     if (!targetDef) return;
+
+    // Witnessing §2.2 — the Prelude hard-gated 10-room order.
+    // Refuse transitions to rooms that are still locked behind
+    // earlier cleaning steps. Only applies during the Prelude
+    // (narrativeAct === 0); Act 1+ navigates freely.
+    const cleanedMap: Record<string, boolean> = {};
+    for (const [id, room] of Object.entries(state.rooms)) {
+      if ((room?.visitCount ?? 0) > 0) cleanedMap[id] = true;
+    }
+    if (
+      !isRoomUnlocked(targetRoomId, {
+        narrativeAct: state.narrativeAct ?? 0,
+        roomCleanedMap: cleanedMap,
+      })
+    ) {
+      toast.info("The door is sealed.", {
+        description:
+          "There's still an earlier part of the ship you haven't finished cleaning. The Ark is patient.",
+        duration: 5000,
+      });
+      return;
+    }
+
     const isNew = !state.rooms[targetRoomId]?.visited;
     const fromRoom = state.currentRoomId || "cryo-bay";
     if (audioReady) playSFX("room_enter");
@@ -927,7 +951,7 @@ export default function ArkExplorerPage() {
       toRoomImage: targetDef.imageUrl,
       isNewRoom: isNew,
     });
-  }, [getRoomDef, state.rooms, state.currentRoomId, audioReady, playSFX]);
+  }, [getRoomDef, state.rooms, state.currentRoomId, state.narrativeAct, audioReady, playSFX]);
 
   // Persist completed tutorials
   useEffect(() => {
