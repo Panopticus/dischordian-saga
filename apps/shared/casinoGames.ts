@@ -607,6 +607,33 @@ export function splitJackpotPool(balance: number): { payout: number; retained: n
   return { payout, retained };
 }
 
+/** ─── ACHIEVEMENT REWARD MAP ───
+ *  Maps a casino achievement id to the normalized cosmetic/title
+ *  reward ids it grants. Ids are human-meaningful so the client can
+ *  render them without a separate lookup table:
+ *    - `title:<slug>`   — display title the player can equip
+ *    - `cosmetic:<slug>` — visual cosmetic (card back, table felt, chip)
+ *    - `loredex:<slug>` — unlocked Loredex entry
+ *    - `companion:<slug>` — new NPC companion option
+ *
+ *  Achievements not listed here grant only the base row — their
+ *  `unlockReward` is pure flavor text. */
+export const CASINO_ACHIEVEMENT_REWARDS: Record<string, string[]> = {
+  degens_chosen: ["cosmetic:golden_chip", "title:the_degens_chosen"],
+  breaking_even: ["title:the_equilibrium"],
+  tale_collector: ["loredex:ne_yon_gambling_history"],
+  degen_favor_max: ["companion:the_degen", "title:entropys_equal"],
+  jackpot: ["cosmetic:void_slot_reels"],
+  royal_flush: ["cosmetic:royal_deck"],
+  tournament_winner: ["cosmetic:black_crown_chip"],
+  whale: ["title:neyons_chosen", "cosmetic:custom_casino_theme"],
+};
+
+/** Returns the reward ids the given achievement grants. */
+export function rewardsForAchievement(id: string): string[] {
+  return CASINO_ACHIEVEMENT_REWARDS[id] ?? [];
+}
+
 /* ─── BET VALIDATION ─── */
 
 export const MAX_DAILY_WAGER = 5000;

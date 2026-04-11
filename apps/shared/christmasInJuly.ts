@@ -33,18 +33,23 @@ export const CHRISTMAS_WHEEL_PRIZES: (WheelPrizeDef & {
   name: string;
   description: string;
 })[] = [
-  { id: "wheel_tokens_10",          name: "10 Dream Tokens",      description: "A modest handful of Dream Tokens.",    weight: 0.20,  prizeType: "tokens",              amount: 10,  rarity: "common" },
-  { id: "wheel_cosmetic_fragment",  name: "Festive Fragment 1/5", description: "One-fifth of a holiday cosmetic set.", weight: 0.15,  prizeType: "cosmetic",            amount: 1,   rarity: "uncommon" },
-  { id: "wheel_candy_cane_xp",      name: "Candy Cane +5% XP",    description: "+5% XP for one hour.",                 weight: 0.15,  prizeType: "consumable",          amount: 1,   rarity: "common" },
-  { id: "wheel_gift_box",           name: "Gift Box",             description: "A mystery gift box.",                  weight: 0.12,  prizeType: "gift_box",            amount: 1,   rarity: "uncommon" },
-  { id: "wheel_tokens_25",          name: "25 Dream Tokens",      description: "A respectable stack.",                 weight: 0.10,  prizeType: "tokens",              amount: 25,  rarity: "uncommon" },
-  { id: "wheel_snowflake_soul_stone", name: "Snowflake Soul Stone", description: "A pre-purified soul stone.",         weight: 0.08,  prizeType: "soul_stone",          amount: 1,   rarity: "rare" },
-  { id: "wheel_holiday_pet_accessory", name: "Holiday Pet Accessory", description: "A festive accessory for companions.", weight: 0.07, prizeType: "pet_accessory",     amount: 1,   rarity: "rare" },
-  { id: "wheel_degens_iou",         name: "Degen's IOU",          description: "One free spin.",                       weight: 0.05,  prizeType: "free_spin",           amount: 1,   rarity: "rare" },
-  { id: "wheel_festive_specimen_egg", name: "Festive Specimen Egg", description: "A Jingle Wisp egg.",                 weight: 0.04,  prizeType: "specimen_egg",        amount: 1,   rarity: "epic" },
-  { id: "wheel_charity_multiplier", name: "Charity Multiplier",   description: "2x LCIF for the next 100 spends.",     weight: 0.02,  prizeType: "charity_multiplier",  amount: 2,   rarity: "epic" },
-  { id: "wheel_tokens_100",         name: "100 Dream Tokens",     description: "A fortune.",                           weight: 0.015, prizeType: "tokens",              amount: 100, rarity: "epic" },
-  { id: "wheel_degens_jackpot",     name: "THE DEGEN'S JACKPOT",  description: "500 Dream Tokens + legendary title.",  weight: 0.005, prizeType: "jackpot",             amount: 500, rarity: "legendary" },
+  { id: "wheel_tokens_10",           name: "10 Dream Tokens",       description: "A modest handful of Dream Tokens.",                   weight: 0.155, prizeType: "tokens",             amount: 10,  rarity: "common" },
+  { id: "wheel_cosmetic_fragment",   name: "Festive Fragment 1/5",  description: "One-fifth of a holiday cosmetic set.",                weight: 0.15,  prizeType: "cosmetic",           amount: 1,   rarity: "uncommon" },
+  { id: "wheel_candy_cane_xp",       name: "Candy Cane +5% XP",     description: "+5% XP for one hour.",                                weight: 0.15,  prizeType: "consumable",         amount: 1,   rarity: "common" },
+  { id: "wheel_gift_box",            name: "Gift Box",              description: "A mystery gift box.",                                 weight: 0.12,  prizeType: "gift_box",           amount: 1,   rarity: "uncommon" },
+  { id: "wheel_tokens_25",           name: "25 Dream Tokens",       description: "A respectable stack.",                                weight: 0.10,  prizeType: "tokens",             amount: 25,  rarity: "uncommon" },
+  { id: "wheel_snowflake_soul_stone",  name: "Snowflake Soul Stone",    description: "A pre-purified soul stone.",                      weight: 0.08,  prizeType: "soul_stone",         amount: 1,   rarity: "rare" },
+  { id: "wheel_holiday_pet_accessory", name: "Holiday Pet Accessory",   description: "A festive accessory for companions.",             weight: 0.07,  prizeType: "pet_accessory",      amount: 1,   rarity: "rare" },
+  { id: "wheel_degens_iou",          name: "Degen's IOU",           description: "One free spin.",                                      weight: 0.05,  prizeType: "free_spin",          amount: 1,   rarity: "rare" },
+  { id: "wheel_festive_specimen_egg",  name: "Festive Specimen Egg",    description: "A Jingle Wisp egg.",                              weight: 0.04,  prizeType: "specimen_egg",       amount: 1,   rarity: "epic" },
+  { id: "wheel_charity_multiplier",  name: "Charity Multiplier",    description: "2x LCIF for the next 100 spends.",                    weight: 0.02,  prizeType: "charity_multiplier", amount: 2,   rarity: "epic" },
+  { id: "wheel_carol_recording",     name: "Pre-Fall Carol",        description: "A decoded signal from a dead world. Plays a song no one alive has heard.", weight: 0.015, prizeType: "consumable", amount: 1, rarity: "uncommon" },
+  { id: "wheel_tokens_100",          name: "100 Dream Tokens",      description: "A fortune.",                                          weight: 0.015, prizeType: "tokens",             amount: 100, rarity: "epic" },
+  { id: "wheel_warm_socks",          name: "Warm Socks",            description: "Knitted, red and green, with little skulls. Even the Necromancer kept his pair.", weight: 0.01, prizeType: "cosmetic", amount: 1, rarity: "uncommon" },
+  { id: "wheel_tinsel_trail",        name: "Tinsel Trail Aura",     description: "Your companion leaves a sparkling trail wherever it goes.", weight: 0.008, prizeType: "pet_accessory",     amount: 1,   rarity: "rare" },
+  { id: "wheel_vintage_chip",        name: "Vintage Degen Chip",    description: "A chip from the pre-Shield casino era. Displayed, never played.", weight: 0.007, prizeType: "cosmetic",   amount: 1,   rarity: "rare" },
+  { id: "wheel_ornament_fragment",   name: "Last Ornament Fragment", description: "A shard of the legendary Last Ornament. Collect all five for the full cosmetic.", weight: 0.005, prizeType: "cosmetic", amount: 1, rarity: "epic" },
+  { id: "wheel_degens_jackpot",      name: "THE DEGEN'S JACKPOT",   description: "500 Dream Tokens + legendary title.",                 weight: 0.005, prizeType: "jackpot",            amount: 500, rarity: "legendary" },
 ];
 
 /* ─── COMMUNITY MILESTONES ─── */

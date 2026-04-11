@@ -3166,6 +3166,10 @@ export const casinoState = mysqlTable("casino_state", {
   dailyWagered: int("dailyWagered").notNull().default(0),
   /** YYYY-MM-DD string used to reset daily counters */
   dailyCounterDate: varchar("dailyCounterDate", { length: 10 }),
+  /** Unlocked cosmetic/title rewards from casino achievements — the
+   *  parser at `casino.ts#rewardsFromUnlockString` turns a human
+   *  readable `unlockReward` into normalized ids that land here. */
+  casinoUnlockedRewards: json("casinoUnlockedRewards").$type<string[]>().default([]),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
 }, (table) => ({
@@ -3184,6 +3188,9 @@ export const casinoJackpotPool = mysqlTable("casino_jackpot_pool", {
   /** userId of the last winner, if any. */
   lastWinnerId: int("lastWinnerId"),
   lastWinAt: timestamp("lastWinAt"),
+  /** When the most recent claim was broadcast to players. Lets
+   *  claimJackpot avoid double-sending notifications on retries. */
+  lastBroadcastAt: timestamp("lastBroadcastAt"),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
 });
 export type CasinoJackpotPoolRow = typeof casinoJackpotPool.$inferSelect;
@@ -3251,6 +3258,9 @@ export const xmasJulyProgress = mysqlTable("xmas_july_progress", {
   tokensSpent: int("tokensSpent").notNull().default(0),
   /** Festive tokens spent today — for day 10 "High Roller" challenge */
   tokensSpentToday: int("tokensSpentToday").notNull().default(0),
+  /** Resolved holiday danger event ids (prevents replaying the same
+   *  daily event twice). Format: "YYYY-MM-DD:<danger_id>". */
+  dangerResolutions: json("dangerResolutions").$type<string[]>().default([]),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
 }, (table) => ({

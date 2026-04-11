@@ -243,6 +243,145 @@ function GiftSendBar() {
 }
 
 /* ═══════════════════════════════════════════════════════
+   STRAIN FIRST CHRISTMAS — One-shot cutscene moment for
+   the Strain pet. Renders as a dismissable overlay if the
+   player owns a Strain and hasn't triggered it yet.
+   ═══════════════════════════════════════════════════════ */
+function StrainChristmasMoment() {
+  const [dismissed, setDismissed] = useState(false);
+  const [dialogStep, setDialogStep] = useState(0);
+  const [fired, setFired] = useState<{
+    triggered: boolean;
+    petName: string;
+    bondGain: number;
+    dialog: string[];
+  } | null>(null);
+  const mut = trpc.christmasInJuly.triggerStrainChristmasMoment.useMutation({
+    onSuccess: (data) => {
+      setFired(data);
+      setDialogStep(0);
+    },
+  });
+  // Fire-and-forget: only attempt once per mount. If the mutation errors
+  // (no Strain, already triggered, out of window) we silently swallow it.
+  const [attempted, setAttempted] = useState(false);
+  useEffect(() => {
+    if (!attempted) {
+      setAttempted(true);
+      mut.mutate(undefined, { onError: () => { /* ignore */ } });
+    }
+  }, [attempted, mut]);
+
+  if (!fired || dismissed) return null;
+  const line = fired.dialog[dialogStep];
+  const isLast = dialogStep >= fired.dialog.length - 1;
+  return (
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4"
+      onClick={() => isLast && setDismissed(true)}
+    >
+      <motion.div
+        initial={{ scale: 0.9, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        exit={{ scale: 0.9, opacity: 0 }}
+        className="max-w-md w-full p-6 rounded-xl border-2 border-amber-500/50 bg-gradient-to-b from-amber-950/60 to-black"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="flex items-center gap-2 mb-4">
+          <Sparkles className="w-4 h-4 text-amber-300" />
+          <span className="font-display text-xs text-amber-300 uppercase tracking-widest">
+            Strain's First Christmas
+          </span>
+        </div>
+        <p className="font-mono text-sm text-amber-100 leading-relaxed mb-5">"{line}"</p>
+        <div className="flex items-center justify-between">
+          <span className="text-[10px] font-mono text-amber-400/40">
+            {dialogStep + 1} / {fired.dialog.length}
+          </span>
+          <button
+            onClick={() => {
+              if (isLast) setDismissed(true);
+              else setDialogStep((s) => s + 1);
+            }}
+            className="px-4 py-2 rounded-lg bg-amber-500/20 border border-amber-500/40 text-amber-200 font-mono text-xs hover:bg-amber-500/30"
+          >
+            {isLast ? `Bond +${fired.bondGain}` : "Continue"}
+          </button>
+        </div>
+      </motion.div>
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════
+   DANGER EVENT PANEL — Surfaces today's holiday crew
+   danger event and lets the player pick a choice. Each
+   UTC day has one deterministic event; choices are
+   resolved server-side and persist to dangerResolutions.
+   ═══════════════════════════════════════════════════════ */
+function HolidayDangerPanel() {
+  const utils = trpc.useUtils();
+  const dangerQuery = trpc.christmasInJuly.getDailyDanger.useQuery();
+  const resolveMut = trpc.christmasInJuly.resolveDailyDanger.useMutation({
+    onSuccess: () => {
+      utils.christmasInJuly.getDailyDanger.invalidate();
+      utils.christmasInJuly.getMyProgress.invalidate();
+    },
+  });
+  const data = dangerQuery.data;
+  if (!data) return null;
+  const { danger, alreadyResolved } = data;
+  const severityStyles =
+    danger.severity === "critical" ? "bg-red-950/30 border-red-500/40 text-red-200" :
+    danger.severity === "serious"  ? "bg-amber-950/30 border-amber-500/40 text-amber-200" :
+    "bg-gray-900/40 border-gray-700/30 text-gray-300";
+  return (
+    <div className={`rounded-xl border p-4 ${severityStyles}`}>
+      <div className="flex items-center gap-2 mb-2">
+        <Flame className="w-4 h-4" />
+        <span className="font-display text-sm">Festive Emergency — {danger.severity.toUpperCase()}</span>
+        {alreadyResolved && (
+          <span className="ml-auto text-[10px] font-mono uppercase tracking-widest text-green-400/70">Resolved</span>
+        )}
+      </div>
+      <p className="text-xs font-mono leading-relaxed mb-3 text-gray-200">{danger.description}</p>
+      {resolveMut.data && (
+        <p className={`text-xs font-mono italic mb-3 ${resolveMut.data.success ? "text-green-300" : "text-red-300"}`}>
+          {resolveMut.data.success
+            ? `✓ ${resolveMut.data.flavor ?? "Crisis averted"} — earned ${resolveMut.data.tokensEarned} festive tokens`
+            : "✗ The choice backfired. No tokens earned."}
+        </p>
+      )}
+      {!alreadyResolved && !resolveMut.isSuccess && (
+        <div className="space-y-2">
+          {danger.choices.map((choice) => (
+            <button
+              key={choice.id}
+              onClick={() => resolveMut.mutate({ choiceId: choice.id })}
+              disabled={resolveMut.isPending}
+              className="w-full text-left p-3 rounded-lg bg-gray-900/60 border border-gray-700/40 hover:border-amber-500/40 disabled:opacity-50 transition-colors"
+            >
+              <div className="flex items-center justify-between">
+                <span className="font-mono text-xs text-amber-300">{choice.label}</span>
+                <span className="text-[10px] text-gray-500 font-mono">
+                  {Math.round(choice.successChance * 100)}% success
+                  {choice.dreamCost ? ` · ${choice.dreamCost}D cost` : ""}
+                  {choice.rewardTokens ? ` · +${choice.rewardTokens} tokens` : ""}
+                </span>
+              </div>
+              <p className="text-[10px] text-gray-400 mt-1">{choice.description}</p>
+            </button>
+          ))}
+        </div>
+      )}
+      {resolveMut.isError && (
+        <p className="text-xs text-red-400/80 font-mono mt-2">{resolveMut.error.message}</p>
+      )}
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════
    REWARDS PANEL — Displays badges, items, and titles the
    player has earned during the event. Reads the decorated
    unlockedRewards list from `christmasInJuly.getMyRewards`.
@@ -637,6 +776,8 @@ export default function CasinoFloor() {
      ═══════════════════════════════════════════════════════ */
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-950 via-red-950/10 to-gray-950 text-white relative overflow-hidden">
+      {/* Strain first-Christmas moment — overlay, auto-fires once */}
+      <StrainChristmasMoment />
       {/* ── SNOW PARTICLES ── */}
       {Array.from({ length: 30 }).map((_, i) => (
         <div
@@ -786,6 +927,7 @@ export default function CasinoFloor() {
                 {/* Quick gift dispatcher + inbox + holiday rewards + crew chatter */}
                 <GiftSendBar />
                 <GiftInbox userId={progress?.userId ?? 0} />
+                <HolidayDangerPanel />
                 <RewardsPanel />
                 <CrewHolidayFeed />
 

@@ -16,6 +16,35 @@
 import { z } from "zod";
 import { router, protectedProcedure, publicProcedure, adminProcedure } from "../_core/trpc";
 import { invalidateFeatureFlagCache } from "../middleware/featureFlag";
+import { ripple } from "../services/rippleEngine";
+import { userProgress, dreamBalance, playerPets } from "../../db/schema";
+import { ensureCrewState } from "../../shared/crewPersistence";
+import {
+  computeCrewHolidayBonus, applyTokenBonuses,
+  EMPTY_HOLIDAY_BONUS, type CrewHolidayBonus,
+} from "../../shared/christmasCrewBonuses";
+import { pickDailyDanger } from "../../shared/christmasCrewDangers";
+
+const FRANCHISE = "dischordian-saga";
+
+/** Load the player's current crew holiday bonus. Always safe — if
+ *  the crew system has no data for this user, returns the
+ *  EMPTY_HOLIDAY_BONUS constant. Read-only; does not tick the crew
+ *  state. */
+async function loadCrewBonus(db: DbLike, userId: number): Promise<CrewHolidayBonus> {
+  try {
+    const rows = await db
+      .select()
+      .from(userProgress)
+      .where(and(eq(userProgress.userId, userId), eq(userProgress.franchiseId, FRANCHISE)))
+      .limit(1);
+    const gameData = (rows[0]?.gameData as { crew?: unknown }) ?? {};
+    const state = ensureCrewState(gameData.crew);
+    return computeCrewHolidayBonus(state);
+  } catch {
+    return { ...EMPTY_HOLIDAY_BONUS };
+  }
+}
 import { getDb, type DrizzleDb } from "../db";
 import { checkFeatureFlag } from "../middleware/featureFlag";
 
@@ -261,6 +290,17 @@ export const christmasInJulyRouter = router({
       return ensureProgress(db, ctx.user.id);
     }),
 
+  /** The aggregate holiday bonus the player's current crew roster
+   *  earns them. Used by the UI to render a preview panel and to
+   *  let players see *why* their tokens are higher than the base. */
+  getCrewBonus: protectedProcedure
+    .use(checkFeatureFlag("christmas_in_july"))
+    .query(async ({ ctx }) => {
+      const db = await getDb();
+      if (!db) throw new Error("DB unavailable");
+      return loadCrewBonus(db, ctx.user.id);
+    }),
+
   /** User-facing inventory of rewards earned during the event.
    *  Decorates the raw `unlockedRewards` id list with display names
    *  and rarities so the client can render a real collection tab. */
@@ -326,9 +366,22 @@ export const christmasInJulyRouter = router({
         if (progress.festiveTokens < cost) {
           throw new Error("Not enough Festive Tokens.");
         }
+        // Crew holiday bonus — wheelLuckBonus gives the player a
+        // "second chance" reroll if the first spin lands on a common
+        // prize. A 0.05 bonus = 5% chance to reroll.
+        const crewBonus = await loadCrewBonus(tx, ctx.user.id);
         const seed = randomSeed();
         const rng = createRng(seed);
-        const prize = spinWheel(CHRISTMAS_WHEEL_PRIZES, rng);
+        let prize = spinWheel(CHRISTMAS_WHEEL_PRIZES, rng);
+        let luckRerollUsed = false;
+        if (
+          crewBonus.wheelLuckBonus > 0 &&
+          prize.rarity === "common" &&
+          rng() < crewBonus.wheelLuckBonus
+        ) {
+          prize = spinWheel(CHRISTMAS_WHEEL_PRIZES, rng);
+          luckRerollUsed = true;
+        }
 
         const updates: Partial<typeof progress> = {
           festiveTokens: progress.festiveTokens - cost,
@@ -368,6 +421,8 @@ export const christmasInJulyRouter = router({
           prize,
           seed,
           progress: { ...progress, ...updates },
+          crewBonus,
+          luckRerollUsed,
         };
       });
     }),
@@ -383,9 +438,21 @@ export const christmasInJulyRouter = router({
       if (!db) throw new Error("DB unavailable");
       return db.transaction(async (tx) => {
         const progress = await ensureProgress(tx, ctx.user.id);
+        // Crew holiday bonus — crapsLuckBonus gives the player a
+        // chance to reroll the worst outcome (hierarchy_claims).
+        const crewBonus = await loadCrewBonus(tx, ctx.user.id);
         const seed = randomSeed();
         const rng = createRng(seed);
-        const roll = rollCraps(rng);
+        let roll = rollCraps(rng);
+        let luckRerollUsed = false;
+        if (
+          crewBonus.crapsLuckBonus > 0 &&
+          roll.outcome === "hierarchy_claims" &&
+          rng() < crewBonus.crapsLuckBonus
+        ) {
+          roll = rollCraps(rng);
+          luckRerollUsed = true;
+        }
 
         const updates: Partial<typeof progress> = {
           stonesWagered: progress.stonesWagered + 1,
@@ -428,6 +495,8 @@ export const christmasInJulyRouter = router({
           roll,
           seed,
           progress: { ...progress, ...updates },
+          crewBonus,
+          luckRerollUsed,
           /**
            * Tells the client what to do to the wagered soul stone:
            *  - "consumed" = remove from store (lost to pool)
@@ -501,7 +570,15 @@ export const christmasInJulyRouter = router({
           if (progress.festiveTokens < cost) throw new Error("Not enough Festive Tokens.");
         }
 
-        const tokensEarned = CHRISTMAS_EVENT_CONFIG.tokensPerGiftSent;
+        // Crew holiday bonus — boosts the tokens earned from sending
+        // a gift. Loaded inside the transaction so the payout is
+        // consistent with whatever crew state was live when the
+        // gift went out.
+        const crewBonus = await loadCrewBonus(tx, ctx.user.id);
+        const tokensEarned = applyTokenBonuses(
+          CHRISTMAS_EVENT_CONFIG.tokensPerGiftSent,
+          crewBonus,
+        );
         await tx
           .update(xmasJulyProgress)
           .set({
@@ -724,6 +801,158 @@ export const christmasInJulyRouter = router({
       });
     }),
 
+  /** Strain's first Christmas — a one-shot pet moment that grants
+   *  a bond bump to any Strain-species pet the player owns. Gated on
+   *  the `strain_first_christmas` reward id so it only fires once. */
+  triggerStrainChristmasMoment: protectedProcedure
+    .use(checkFeatureFlag("christmas_in_july"))
+    .use(checkEventWindow(CHRISTMAS_IN_JULY_WINDOW))
+    .mutation(async ({ ctx }) => {
+      const db = await getDb();
+      if (!db) throw new Error("DB unavailable");
+      return db.transaction(async (tx) => {
+        const progress = await ensureProgress(tx, ctx.user.id);
+        const rewards = progress.unlockedRewards ?? [];
+        if (rewards.includes("strain_first_christmas")) {
+          throw new Error("Strain has already had their first Christmas.");
+        }
+
+        // Find the player's Strain pet, if any
+        const pets = await tx
+          .select()
+          .from(playerPets)
+          .where(eq(playerPets.userId, ctx.user.id));
+        const strain = pets.find(p => p.species.toLowerCase() === "strain");
+        if (!strain) {
+          throw new Error("No Strain pet found in your roster.");
+        }
+
+        // Grant +15 bond to Strain
+        const BOND_GAIN = 15;
+        await tx
+          .update(playerPets)
+          .set({ bond: sql`${playerPets.bond} + ${BOND_GAIN}` })
+          .where(eq(playerPets.id, strain.id));
+
+        // Persist the unlock so the mutation can only fire once
+        await tx
+          .update(xmasJulyProgress)
+          .set({ unlockedRewards: [...rewards, "strain_first_christmas"] })
+          .where(eq(xmasJulyProgress.userId, ctx.user.id));
+
+        // Side-channel notification so the player sees the moment
+        // happen even if they were on a different page.
+        await tx.insert(notifications).values({
+          userId: ctx.user.id,
+          type: "seasonal_event",
+          title: "Strain's First Christmas",
+          message: "The virus chose not to consume. That is either the smallest gift or the largest. Strain's bond with you has deepened.",
+          actionUrl: "/events/christmas-in-july",
+          metadata: {
+            kind: "strain_first_christmas",
+            petId: strain.id,
+            bondGain: BOND_GAIN,
+          },
+        });
+
+        return {
+          triggered: true,
+          petId: strain.id,
+          petName: strain.name,
+          bondGain: BOND_GAIN,
+          dialog: [
+            "WHAT IS... THIS PLACE? THE LIGHTS... THE SOUNDS... EVERYONE IS... GIVING?",
+            "I DO NOT UNDERSTAND. IN THE SWARM... THERE IS NO GIVING. THERE IS ONLY... TAKING.",
+            "BUT HERE... THEY GIVE... AND THEY GET... HAPPY? NOT STRONGER. NOT BIGGER. HAPPY?",
+            "IS HAPPY... GOOD?",
+            "...I CAN GIVE... NOT INFECTING. THAT IS... MY GIFT. I CHOOSE... NOT TO CONSUME.",
+            "IS THAT... IS THAT ENOUGH?",
+          ],
+        };
+      });
+    }),
+
+  /** Fetch today's crew holiday danger event — one per UTC day,
+   *  deterministic so every player sees the same event. */
+  getDailyDanger: protectedProcedure
+    .use(checkFeatureFlag("christmas_in_july"))
+    .query(async ({ ctx }) => {
+      const db = await getDb();
+      if (!db) throw new Error("DB unavailable");
+      const today = todayString();
+      const daySeed = Number(today.replace(/-/g, ""));
+      const danger = pickDailyDanger(daySeed);
+      const progress = await ensureProgress(db, ctx.user.id);
+      const resolutionKey = `${today}:${danger.id}`;
+      const alreadyResolved = (progress.dangerResolutions ?? []).includes(resolutionKey);
+      return { danger, alreadyResolved, date: today };
+    }),
+
+  /** Resolve today's holiday danger event by picking a choice. The
+   *  outcome is rolled server-side; tokens + flavor label are
+   *  persisted back to the progress row. Can only be called once
+   *  per UTC day per danger id. */
+  resolveDailyDanger: protectedProcedure
+    .use(checkFeatureFlag("christmas_in_july"))
+    .use(checkEventWindow(CHRISTMAS_IN_JULY_WINDOW))
+    .input(z.object({ choiceId: z.string().min(1).max(32) }))
+    .mutation(async ({ ctx, input }) => {
+      const db = await getDb();
+      if (!db) throw new Error("DB unavailable");
+      return db.transaction(async (tx) => {
+        const today = todayString();
+        const daySeed = Number(today.replace(/-/g, ""));
+        const danger = pickDailyDanger(daySeed);
+        const resolutionKey = `${today}:${danger.id}`;
+
+        const progress = await ensureProgress(tx, ctx.user.id);
+        const resolved = progress.dangerResolutions ?? [];
+        if (resolved.includes(resolutionKey)) {
+          throw new Error("Today's holiday danger event is already resolved.");
+        }
+
+        const choice = danger.choices.find(c => c.id === input.choiceId);
+        if (!choice) throw new Error(`Unknown choice: ${input.choiceId}`);
+
+        // Dream cost — pulled from the shared dream balance if present.
+        if (choice.dreamCost && choice.dreamCost > 0) {
+          const [bal] = await tx
+            .select()
+            .from(dreamBalance)
+            .where(eq(dreamBalance.userId, ctx.user.id))
+            .limit(1);
+          if (!bal || bal.dreamTokens < choice.dreamCost) {
+            throw new Error("Not enough Dream tokens for this choice.");
+          }
+          await tx
+            .update(dreamBalance)
+            .set({ dreamTokens: sql`${dreamBalance.dreamTokens} - ${choice.dreamCost}` })
+            .where(eq(dreamBalance.userId, ctx.user.id));
+        }
+
+        // Server-side success roll
+        const success = Math.random() < choice.successChance;
+        const tokensEarned = success ? (choice.rewardTokens ?? 0) : 0;
+
+        await tx
+          .update(xmasJulyProgress)
+          .set({
+            festiveTokens: progress.festiveTokens + tokensEarned,
+            dangerResolutions: [...resolved, resolutionKey],
+          })
+          .where(eq(xmasJulyProgress.userId, ctx.user.id));
+
+        return {
+          resolved: true,
+          success,
+          tokensEarned,
+          flavor: success ? (choice.rewardFlavor ?? null) : null,
+          choice,
+          danger,
+        };
+      });
+    }),
+
   /** Search for users to gift by name prefix. Excludes self.
    *  Rate-limited to 20 queries/minute/user to prevent enumeration. */
   searchGiftRecipients: protectedProcedure
@@ -731,6 +960,14 @@ export const christmasInJulyRouter = router({
     .input(z.object({ query: z.string().min(2).max(64) }))
     .query(async ({ ctx, input }) => {
       if (!consumeSearchToken(ctx.user.id)) {
+        // Emit a ripple event so mods can see abuse patterns in the
+        // analytics pipeline. Fire-and-forget — the throttle error
+        // still propagates to the client.
+        ripple.emit("search_rate_limited", {
+          userId: ctx.user.id,
+          endpoint: "christmasInJuly.searchGiftRecipients",
+          query: input.query.slice(0, 16),
+        }).catch(() => { /* ignore */ });
         throw new Error("Too many searches — slow down.");
       }
       const db = await getDb();

@@ -18,7 +18,7 @@ import { getDb, type DrizzleDb } from "../db";
 import { checkFeatureFlag } from "../middleware/featureFlag";
 import {
   casinoState, casinoResults, casinoJackpotPool, dreamBalance, userAchievements,
-  warTerritories, warSeasons,
+  warTerritories, warSeasons, notifications,
 } from "../../db/schema";
 import { eq, and, sql, desc } from "drizzle-orm";
 
@@ -34,7 +34,8 @@ import {
   playCardBattlersGauntlet, playFactionWarBet, playVoidBingo, playVoidCase,
   scoreMahjongRun,
   validateBet, vipLevelFor, vipWinBonus, MAX_DAILY_WAGER,
-  ROULETTE_FACTIONS, GAME_LIMITS, splitJackpotPool, type RouletteFaction,
+  ROULETTE_FACTIONS, GAME_LIMITS, splitJackpotPool, rewardsForAchievement,
+  type RouletteFaction,
 } from "../../shared/casinoGames";
 
 type PlayableGame =
@@ -468,6 +469,13 @@ async function executeGame(
       previousVipLevel: state.vipLevel,
       vipLevel: updates.vipLevel,
     });
+    // Also persist any cosmetics / titles that come with each newly
+    // earned achievement. We accumulate them across the loop and
+    // write once at the end so the JSON column is only updated once.
+    const existingRewards = new Set(
+      (state.casinoUnlockedRewards ?? []) as string[],
+    );
+    const newRewardIds: string[] = [];
     for (const achievementId of earned) {
       const [existing] = await tx
         .select()
@@ -480,6 +488,18 @@ async function executeGame(
       if (!existing) {
         await tx.insert(userAchievements).values({ userId, achievementId });
       }
+      for (const rewardId of rewardsForAchievement(achievementId)) {
+        if (!existingRewards.has(rewardId)) {
+          existingRewards.add(rewardId);
+          newRewardIds.push(rewardId);
+        }
+      }
+    }
+    if (newRewardIds.length > 0) {
+      await tx
+        .update(casinoState)
+        .set({ casinoUnlockedRewards: Array.from(existingRewards) })
+        .where(eq(casinoState.userId, userId));
     }
 
     if (opts.afterHook) {
@@ -495,6 +515,7 @@ async function executeGame(
       state: { ...state, ...updates },
       tale: rolledTale,
       achievementsUnlocked: earned,
+      rewardsUnlocked: newRewardIds,
     };
   });
 }
@@ -508,6 +529,30 @@ export const casinoRouter = router({
   }),
 
   /** Recent game history (for replay + audit). */
+  /** All cosmetics, titles, Loredex entries, and companion unlocks
+   *  the player has earned from casino achievements. Returns decorated
+   *  rows the UI can render directly. */
+  getMyCasinoRewards: protectedProcedure
+    .use(checkFeatureFlag("casino"))
+    .query(async ({ ctx }) => {
+      const db = await getDb();
+      if (!db) throw new Error("DB unavailable");
+      const state = await ensureCasinoState(db, ctx.user.id);
+      const ids = (state.casinoUnlockedRewards ?? []) as string[];
+      return ids.map((id) => {
+        const colon = id.indexOf(":");
+        const kind = colon >= 0 ? id.slice(0, colon) : "item";
+        const slug = colon >= 0 ? id.slice(colon + 1) : id;
+        return {
+          id,
+          kind: (["title", "cosmetic", "loredex", "companion"].includes(kind)
+            ? kind
+            : "cosmetic") as "title" | "cosmetic" | "loredex" | "companion",
+          label: slug.replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase()),
+        };
+      });
+    }),
+
   recentResults: protectedProcedure
     .use(checkFeatureFlag("casino"))
     .input(z.object({ limit: z.number().min(1).max(100).default(25) }).optional())
@@ -883,6 +928,40 @@ export const casinoRouter = router({
           .update(casinoResults)
           .set({ seed: `CLAIMED:${recent.seed ?? ""}` })
           .where(eq(casinoResults.id, recent.id));
+
+        // Broadcast a system notification to every casino participant.
+        // lastBroadcastAt guards against retries flooding the inbox.
+        const alreadyBroadcast = pool.lastBroadcastAt &&
+          Date.now() - pool.lastBroadcastAt.getTime() < 60_000;
+        if (!alreadyBroadcast) {
+          const participants = await tx
+            .select({ userId: casinoState.userId })
+            .from(casinoState);
+          if (participants.length > 0) {
+            const winnerName = ctx.user.name ?? `Captain #${ctx.user.id}`;
+            const rows = participants.map(p => ({
+              userId: p.userId,
+              type: "seasonal_event" as const,
+              title: "The Jackpot Has Fallen",
+              message: `${winnerName} just claimed the progressive jackpot — ${payout.toLocaleString()} Dream. The Degen is weeping. Or laughing. It's hard to tell.`,
+              actionUrl: "/casino/leaderboard",
+              metadata: {
+                kind: "casino_jackpot_claim",
+                winnerId: ctx.user.id,
+                payout,
+                retained,
+              },
+            }));
+            const chunk = 500;
+            for (let i = 0; i < rows.length; i += chunk) {
+              await tx.insert(notifications).values(rows.slice(i, i + chunk));
+            }
+            await tx
+              .update(casinoJackpotPool)
+              .set({ lastBroadcastAt: new Date() })
+              .where(eq(casinoJackpotPool.poolKey, "main"));
+          }
+        }
 
         return { payout, newBalance: retained, retained };
       });
