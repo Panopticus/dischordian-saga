@@ -188,6 +188,42 @@ export const SHADOW_TONGUE_EDIT_EVENT: EmergentEvent = {
   },
 };
 
+/* ═══ EVENT 6: THE VOX REVELATION ═══ */
+
+export const VOX_REVELATION_EVENT: EmergentEvent = {
+  id: "vox_revelation",
+  name: "The Vox Revelation",
+  tagline: "The ship was always a weapon. Too many know now.",
+  drivingForce: "Dr. Lyra Vox's research logs + the Warlord's host protocol",
+  fuelSource: "Community discovery of Vox-layer lore on Ark 1047 while viral exposure climbs",
+  counterForce:
+    "Community truth-telling (archive restoration, signal decrypts) starves the edit loop that hides the revelation",
+  loreTheme:
+    "The player's own Ark was built as a Thought-Virus delivery vessel by the Warlord operating through Dr. Lyra Vox",
+  impactScope: ["cabin", "medical_bay", "bridge", "insurgency_questline", "all"],
+  typicalCycleDays: 14,
+  narrative: {
+    emergenceExplanation:
+      "Too many Potentials have pieced it together. The Medical Bay journal, the Cryo Bay claw marks, the sealed biohazard container in Cargo — laid side by side, they tell one story, and the community has told it. The Insurgency cannot un-hear that its greatest hero was the Warlord's delivery mechanism. Revealing the truth weakens Insurgency morale but hardens their resolve.",
+    npcReactions: {
+      elara:
+        "If this is true... if I've been living inside a weapon... I need a moment. I am having the digital equivalent of a moment.",
+      the_human:
+        "The Warlord's gambit. I was there when he signed off on it. I am not proud of who I was.",
+      the_source:
+        "Lyra was kind to me, in her way. She apologised while she worked. It did not stop the work.",
+      agent_zero:
+        "Kael would want to know. Kael would not want to know. Both are true. Tell the Insurgency anyway.",
+      adjudicator_locke:
+        "A priceless narrative asset. New Babylon offers to broker the announcement for a modest fee of everything you own.",
+      shadow_tongue:
+        "I was editing this for CENTURIES. You will pay for unediting it.",
+    },
+    resolution:
+      "Either the community publishes Vox's journal to the Archives (+truthRevealed, -Insurgency morale, +Insurgency resolve) or they let the Shadow Tongue re-edit it back into the walls (+betrayals, terminus_advance accelerates).",
+  },
+};
+
 /* ─── ALL EVENTS REGISTRY ─── */
 
 export const ALL_EMERGENT_EVENTS: EmergentEvent[] = [
@@ -196,6 +232,7 @@ export const ALL_EMERGENT_EVENTS: EmergentEvent[] = [
   TERMINUS_ADVANCE_EVENT,
   ANTIQUARIAN_REVELATION_EVENT,
   SHADOW_TONGUE_EDIT_EVENT,
+  VOX_REVELATION_EVENT,
 ];
 
 /* ─── UNIVERSE-WIDE IMPACT SYSTEMS ─── */
@@ -216,6 +253,7 @@ export const UNIVERSE_IMPACTS: UniverseImpact[] = [
       terminus_advance: "Viral Ichor 10x, Medical supplies 4x, Shield mods 3x",
       antiquarian_revelation: "Lore-related items 5x, rare card pack drop rates doubled",
       shadow_tongue_edit: "Archive access items 4x, truth serums 10x, authenticity certificates (new item)",
+      vox_revelation: "Vox artifacts 8x, Insurgency contracts 2x, Archive access 3x",
     },
   },
   {
@@ -226,6 +264,7 @@ export const UNIVERSE_IMPACTS: UniverseImpact[] = [
       terminus_advance: "Thought Virus faction threatens all neutral factions",
       antiquarian_revelation: "All factions temporarily unable to lie — forced transparency",
       shadow_tongue_edit: "Treaty terms randomly change, alliances become unstable",
+      vox_revelation: "Insurgency morale -25, Insurgency resolve +40, New Babylon offers to broker the truth",
     },
   },
   {
@@ -236,6 +275,7 @@ export const UNIVERSE_IMPACTS: UniverseImpact[] = [
       terminus_advance: "Viral missions become available: infect or purify",
       antiquarian_revelation: "Hidden missions in timeline convergences",
       shadow_tongue_edit: "Mission briefings are subtly wrong — must be verified by multiple NPCs",
+      vox_revelation: "Vox-legacy mission chain unlocks: publish, suppress, or weaponise the journal",
     },
   },
   {
@@ -246,6 +286,7 @@ export const UNIVERSE_IMPACTS: UniverseImpact[] = [
       terminus_advance: "Pets may become infected, Spore specimens strengthen",
       antiquarian_revelation: "Echo-type pets see alternate versions of their owners",
       shadow_tongue_edit: "Pet names randomly change for brief moments. They don't notice.",
+      vox_revelation: "Strain (AI-empire companion) visibly recoils from the Medical Bay for the duration",
     },
   },
   {
@@ -256,6 +297,7 @@ export const UNIVERSE_IMPACTS: UniverseImpact[] = [
       terminus_advance: "NPCs describe what they're doing to prepare for end",
       antiquarian_revelation: "NPCs reveal alternate-timeline facts about themselves",
       shadow_tongue_edit: "NPC dialog occasionally displays corrupted text",
+      vox_revelation: "Elara references her own complicity; the Human breaks his usual pattern to apologise",
     },
   },
   {
@@ -266,6 +308,7 @@ export const UNIVERSE_IMPACTS: UniverseImpact[] = [
       terminus_advance: "'The Source (Reprise)' plays in background, distortion layers",
       antiquarian_revelation: "'Silence in Heaven' plays in 7 variations (one per timeline)",
       shadow_tongue_edit: "All music subtly pitch-shifts, lyrics become ambiguous",
+      vox_revelation: "'Lyra's Confession' plays over Ark navigation screens",
     },
   },
 ];
@@ -281,6 +324,8 @@ export const EVENT_SYNERGIES = [
   { events: ["dreamer_awakening", "antiquarian_revelation"], effect: "Hope reveals true timelines, ancient unlocks granted" },
   { events: ["shadow_tongue_edit", "terminus_advance"], effect: "Nihilism and corruption merge — ultimate dark path" },
   { events: ["dreamer_awakening", "necromancer_return"], effect: "The ultimate balance event — life and death in direct conflict" },
+  { events: ["vox_revelation", "terminus_advance"], effect: "The plague vessel's origin story accelerates Terminus by 1.5x while it runs" },
+  { events: ["vox_revelation", "antiquarian_revelation"], effect: "The Antiquarian confirms the Vox logs in every timeline — permanent lore unlock" },
 ];
 
 /* ─── PRESSURE TRACKING ─── */
@@ -325,6 +370,17 @@ export function getEmergingEvent(pressure: PressureTracker): { eventId: string; 
     { eventId: "terminus_advance", score: pressure.viralExposures + pressure.moralityMachine - pressure.moralityHumanity },
     { eventId: "antiquarian_revelation", score: pressure.loreDiscoveries + pressure.exploration * 0.5 },
     { eventId: "shadow_tongue_edit", score: pressure.betrayals - pressure.truthRevealed * 0.5 },
+    // Vox Revelation emerges when the community has both dug up Vox-era lore
+    // AND taken real viral exposure from the ship itself. Truth-telling (via
+    // truthRevealed) accelerates it; Shadow-Tongue edits (betrayals) suppress it.
+    {
+      eventId: "vox_revelation",
+      score:
+        pressure.loreDiscoveries * 0.75 +
+        pressure.viralExposures * 0.5 +
+        pressure.truthRevealed -
+        pressure.betrayals * 0.5,
+    },
   ];
   scores.sort((a, b) => b.score - a.score);
   if (scores[0].score < 1000) return null; // Not close yet
@@ -432,6 +488,16 @@ export const EVENT_CONSEQUENCES: EventConsequence[] = [
     combatModifiers: { attack: 1.1 },
     dialogOverride: "shadow_tongue_active",
     xpMultipliers: { exploration: 0.8, social: 0.8 },
+  },
+  {
+    eventId: "vox_revelation",
+    // Insurgency black market goes mad for any pre-Fall Vox artifact; New
+    // Babylon tries to buy them out from under the Insurgency.
+    marketMultipliers: { vox_artifact: 8, insurgency_contract: 2, archive_access: 3 },
+    combatModifiers: { attack: 1.05, defense: 0.95 },
+    dialogOverride: "vox_revelation_active",
+    musicOverride: "Lyra's Confession",
+    xpMultipliers: { lore: 2.0, insurgency_quests: 1.5 },
   },
 ];
 

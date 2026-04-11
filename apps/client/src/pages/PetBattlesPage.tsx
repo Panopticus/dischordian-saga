@@ -30,6 +30,7 @@ import {
   type ArenaBackground,
 } from "@/game/petBattles";
 import { trpc } from "@/lib/trpc";
+import { applyDischordiaEnergy } from "@/stores/dischordiaCycleStore";
 
 type Phase = "tier_select" | "matchup" | "battle" | "result";
 
@@ -128,6 +129,8 @@ export default function PetBattlesPage() {
       // Submit result to server
       const won = winner === "player1";
       const perfect = won && playerPet.hp === playerPet.maxHp;
+      // Witnessing §3.6 — a pet battle win feeds the Light meter.
+      if (won) applyDischordiaEnergy("pet_battle_rescue");
       submitBattleMutation.mutate({
         petId: playerPet.petId,
         opponentSpecies: opponentPet.petId,
@@ -156,6 +159,8 @@ export default function PetBattlesPage() {
       setBattle({ ...battle, status: "completed", winner });
       setIsAutoPlaying(false);
       const won = winner === "player1";
+      // Witnessing §3.6 — a pet battle win on judged points still counts.
+      if (won) applyDischordiaEnergy("pet_battle_rescue");
       submitBattleMutation.mutate({
         petId: playerPet.petId,
         opponentSpecies: opponentPet.petId,

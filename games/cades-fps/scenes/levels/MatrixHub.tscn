@@ -1,14 +1,61 @@
-[gd_scene load_steps=5 format=3]
+[gd_scene load_steps=11 format=3]
 
 [ext_resource type="Script" path="res://scenes/levels/MatrixHub.gd" id="1_scr"]
 [ext_resource type="PackedScene" path="res://objects/player.tscn" id="2_player"]
 [ext_resource type="PackedScene" path="res://scenes/ui/HUD.tscn" id="3_hud"]
+[ext_resource type="PackedScene" path="res://scenes/ui/GMMessageUI.tscn" id="4_gm"]
 
 [sub_resource type="Environment" id="env"]
 background_mode = 1
 background_color = Color(0, 0, 0, 1)
 ambient_light_color = Color(0.545, 0.361, 0.965, 1)
 ambient_light_energy = 0.3
+fog_enabled = true
+fog_density = 0.008
+fog_light_color = Color(0.06, 0.04, 0.12, 1)
+
+[sub_resource type="BoxMesh" id="pillar_mesh"]
+size = Vector3(1.2, 5.0, 1.2)
+
+[sub_resource type="StandardMaterial3D" id="pillar_mat_lastStand"]
+albedo_color = Color(0.961, 0.624, 0.043, 1)
+emission_enabled = true
+emission = Color(0.961, 0.624, 0.043, 1)
+emission_energy_multiplier = 1.2
+
+[sub_resource type="StandardMaterial3D" id="pillar_mat_firstBreath"]
+albedo_color = Color(0.937, 0.267, 0.267, 1)
+emission_enabled = true
+emission = Color(0.937, 0.267, 0.267, 1)
+emission_energy_multiplier = 1.2
+
+[sub_resource type="StandardMaterial3D" id="pillar_mat_severance"]
+albedo_color = Color(0.231, 0.510, 0.965, 1)
+emission_enabled = true
+emission = Color(0.231, 0.510, 0.965, 1)
+emission_energy_multiplier = 1.2
+
+[sub_resource type="StandardMaterial3D" id="pillar_mat_thaloria"]
+albedo_color = Color(0.659, 0.333, 0.969, 1)
+emission_enabled = true
+emission = Color(0.659, 0.333, 0.969, 1)
+emission_energy_multiplier = 1.2
+
+[sub_resource type="StandardMaterial3D" id="pillar_mat_fall"]
+albedo_color = Color(0.545, 0.361, 0.965, 1)
+emission_enabled = true
+emission = Color(0.545, 0.361, 0.965, 1)
+emission_energy_multiplier = 1.2
+
+[sub_resource type="StandardMaterial3D" id="pillar_mat_agentZero"]
+albedo_color = Color(0.392, 0.455, 0.557, 1)
+emission_enabled = true
+emission = Color(0.392, 0.455, 0.557, 1)
+emission_energy_multiplier = 1.0
+
+[sub_resource type="CylinderShape3D" id="pillar_area_shape"]
+radius = 3.0
+height = 6.0
 
 [node name="MatrixHub" type="Node3D"]
 script = ExtResource("1_scr")
@@ -18,9 +65,152 @@ environment = SubResource("env")
 
 [node name="Floor" type="MeshInstance3D" parent="."]
 mesh = BoxMesh.new()
-transform = Transform3D(20, 0, 0, 0, 0.01, 0, 0, 0, 20, 0, -0.005, 0)
+transform = Transform3D(30, 0, 0, 0, 0.01, 0, 0, 0, 30, 0, -0.005, 0)
 
 [node name="Player" parent="." instance=ExtResource("2_player")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 
 [node name="HUD" parent="." instance=ExtResource("3_hud")]
+
+[node name="GMMessageUI" parent="." instance=ExtResource("4_gm")]
+
+[node name="Pillars" type="Node3D" parent="."]
+
+[node name="last_stand" type="Node3D" parent="Pillars" groups=["scenario_pillar"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -10)
+
+[node name="Mesh" type="MeshInstance3D" parent="Pillars/last_stand"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 0)
+mesh = SubResource("pillar_mesh")
+surface_material_override/0 = SubResource("pillar_mat_lastStand")
+
+[node name="Light" type="OmniLight3D" parent="Pillars/last_stand"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
+light_color = Color(0.961, 0.624, 0.043, 1)
+light_energy = 1.5
+omni_range = 6.0
+
+[node name="Area" type="Area3D" parent="Pillars/last_stand"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Pillars/last_stand/Area"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("pillar_area_shape")
+
+[node name="first_breath" type="Node3D" parent="Pillars" groups=["scenario_pillar"]]
+transform = Transform3D(0.5, 0, -0.866, 0, 1, 0, 0.866, 0, 0.5, -8.66, 0, -5)
+
+[node name="Mesh" type="MeshInstance3D" parent="Pillars/first_breath"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 0)
+mesh = SubResource("pillar_mesh")
+surface_material_override/0 = SubResource("pillar_mat_firstBreath")
+
+[node name="Light" type="OmniLight3D" parent="Pillars/first_breath"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
+light_color = Color(0.937, 0.267, 0.267, 1)
+light_energy = 1.5
+omni_range = 6.0
+
+[node name="Area" type="Area3D" parent="Pillars/first_breath"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Pillars/first_breath/Area"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("pillar_area_shape")
+
+[node name="the_severance" type="Node3D" parent="Pillars" groups=["scenario_pillar"]]
+transform = Transform3D(-0.5, 0, -0.866, 0, 1, 0, 0.866, 0, -0.5, -8.66, 0, 5)
+
+[node name="Mesh" type="MeshInstance3D" parent="Pillars/the_severance"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 0)
+mesh = SubResource("pillar_mesh")
+surface_material_override/0 = SubResource("pillar_mat_severance")
+
+[node name="Light" type="OmniLight3D" parent="Pillars/the_severance"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
+light_color = Color(0.231, 0.510, 0.965, 1)
+light_energy = 1.5
+omni_range = 6.0
+
+[node name="Area" type="Area3D" parent="Pillars/the_severance"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Pillars/the_severance/Area"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("pillar_area_shape")
+
+[node name="thaloria_burns" type="Node3D" parent="Pillars" groups=["scenario_pillar"]]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 0, 0, 10)
+
+[node name="Mesh" type="MeshInstance3D" parent="Pillars/thaloria_burns"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 0)
+mesh = SubResource("pillar_mesh")
+surface_material_override/0 = SubResource("pillar_mat_thaloria")
+
+[node name="Light" type="OmniLight3D" parent="Pillars/thaloria_burns"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
+light_color = Color(0.659, 0.333, 0.969, 1)
+light_energy = 1.5
+omni_range = 6.0
+
+[node name="Area" type="Area3D" parent="Pillars/thaloria_burns"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Pillars/thaloria_burns/Area"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("pillar_area_shape")
+
+[node name="the_fall" type="Node3D" parent="Pillars" groups=["scenario_pillar"]]
+transform = Transform3D(-0.5, 0, 0.866, 0, 1, 0, -0.866, 0, -0.5, 8.66, 0, 5)
+
+[node name="Mesh" type="MeshInstance3D" parent="Pillars/the_fall"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 0)
+mesh = SubResource("pillar_mesh")
+surface_material_override/0 = SubResource("pillar_mat_fall")
+
+[node name="Light" type="OmniLight3D" parent="Pillars/the_fall"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
+light_color = Color(0.545, 0.361, 0.965, 1)
+light_energy = 1.5
+omni_range = 6.0
+
+[node name="Area" type="Area3D" parent="Pillars/the_fall"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Pillars/the_fall/Area"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("pillar_area_shape")
+
+[node name="agent_zero_silence" type="Node3D" parent="Pillars" groups=["scenario_pillar"]]
+transform = Transform3D(0.5, 0, 0.866, 0, 1, 0, -0.866, 0, 0.5, 8.66, 0, -5)
+
+[node name="Mesh" type="MeshInstance3D" parent="Pillars/agent_zero_silence"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 0)
+mesh = SubResource("pillar_mesh")
+surface_material_override/0 = SubResource("pillar_mat_agentZero")
+
+[node name="Light" type="OmniLight3D" parent="Pillars/agent_zero_silence"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
+light_color = Color(0.392, 0.455, 0.557, 1)
+light_energy = 1.2
+omni_range = 6.0
+
+[node name="Area" type="Area3D" parent="Pillars/agent_zero_silence"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Pillars/agent_zero_silence/Area"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("pillar_area_shape")
+
+[node name="PillarPrompt" type="CanvasLayer" parent="."]
+layer = 5
+
+[node name="Label" type="Label" parent="PillarPrompt"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -260.0
+offset_top = 80.0
+offset_right = 260.0
+offset_bottom = 140.0
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+text = ""
+visible = false

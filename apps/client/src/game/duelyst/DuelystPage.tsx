@@ -15,6 +15,8 @@ import PackOpening, { type PackCard } from "./PackOpening";
 import CollectionView from "./CollectionView";
 import DeckBuilder from "./DeckBuilder";
 import { dischordiaSounds } from "./SoundManager";
+import { applyDischordiaEnergy } from "@/stores/dischordiaCycleStore";
+import { recordCardBattleOutcome } from "@/stores/memorableMomentsStore";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Swords, Shield, Zap, Eye, Skull, Clock, Bug,
@@ -138,6 +140,22 @@ export default function DuelystPage() {
       const newElo = elo + gain;
       setElo(newElo);
       localStorage.setItem("dischordia_elo", String(newElo));
+      // Witnessing §3.6 — a card battle win feeds the galactic bulb.
+      applyDischordiaEnergy("card_battle_light_win");
+      // Witnessing §11.2 — record the win as a memorable moment
+      // for the Antiquarian's Lion in Black feed. The helper
+      // picks card_battle_comeback vs card_battle_win based on
+      // the comeback flag. DuelystGameUI does not currently
+      // report the low-HP watermark through onGameEnd, so we
+      // pass false for now and slot 3 of the Lion feed falls
+      // back to generic card_battle_win entries (still valid
+      // content). When DuelystGameUI starts reporting the
+      // low-HP watermark, flip this boolean accordingly.
+      recordCardBattleOutcome(
+        opponentFaction ?? "unknown",
+        false,
+        { eloBefore: elo, eloAfter: newElo, winCount: w },
+      );
     } else {
       const l = losses + 1;
       setLosses(l);
@@ -147,6 +165,8 @@ export default function DuelystPage() {
       const loss = 10 + Math.floor(Math.random() * 8);
       const newElo = Math.max(100, elo - loss);
       setElo(newElo);
+      // Witnessing §3.6 — a card battle loss moves the Dark needle.
+      applyDischordiaEnergy("card_battle_loss");
       localStorage.setItem("dischordia_elo", String(newElo));
     }
     setView("result");

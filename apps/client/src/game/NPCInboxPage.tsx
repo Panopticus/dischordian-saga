@@ -13,6 +13,7 @@ import { ASYNC_NPC_MESSAGES, type NPCMessage } from "./investigationSystems";
 import { FACTION_NPCS, type FactionNPCId } from "./factionNPCs";
 import { useGame } from "@/contexts/GameContext";
 import { toast } from "sonner";
+import { HolidayDialogTicker } from "@/components/HolidayDialogTicker";
 
 type Filter = "all" | "unread" | "replied";
 
@@ -106,6 +107,11 @@ export default function NPCInboxPage() {
           </p>
         </div>
         <div className="w-16" />
+      </div>
+
+      {/* Seasonal holiday ticker — only visible while Christmas in July is active */}
+      <div className="max-w-3xl mx-auto mb-4">
+        <HolidayDialogTicker />
       </div>
 
       {/* Filters */}
