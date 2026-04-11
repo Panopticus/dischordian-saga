@@ -219,12 +219,12 @@ export default function BreedingSelector({ state, onBreed }: Props) {
               </div>
             </div>
 
-            {parent1.bloodlineId !== parent2.bloodlineId && (
-              <div>
-                <div className="text-[10px] font-mono uppercase text-muted-foreground mb-1 flex items-center gap-1">
-                  <Crown size={10} />
-                  Child's bloodline
-                </div>
+            <div>
+              <div className="text-[10px] font-mono uppercase text-muted-foreground mb-1 flex items-center gap-1">
+                <Crown size={10} />
+                Child's bloodline
+              </div>
+              {parent1.bloodlineId !== parent2.bloodlineId ? (
                 <div className="grid grid-cols-2 gap-1">
                   {[parent1, parent2].map(p => {
                     const bl = FOUNDING_BLOODLINES[p.bloodlineId as BloodlineId];
@@ -249,8 +249,31 @@ export default function BreedingSelector({ state, onBreed }: Props) {
                     );
                   })}
                 </div>
-              </div>
-            )}
+              ) : (
+                <div
+                  className="p-2 border border-border/30 rounded text-[9px] font-mono opacity-60"
+                  style={{
+                    borderLeftWidth: "3px",
+                    borderLeftColor:
+                      FOUNDING_BLOODLINES[parent1.bloodlineId as BloodlineId]?.color ?? "#666",
+                  }}
+                >
+                  <div
+                    className="font-display text-[10px]"
+                    style={{
+                      color:
+                        FOUNDING_BLOODLINES[parent1.bloodlineId as BloodlineId]?.color ?? "#666",
+                    }}
+                  >
+                    {FOUNDING_BLOODLINES[parent1.bloodlineId as BloodlineId]?.name ??
+                      parent1.bloodlineId}
+                  </div>
+                  <div className="text-muted-foreground mt-0.5">
+                    single-house lineage — choose parents from two different Houses to pick
+                  </div>
+                </div>
+              )}
+            </div>
 
             <div className="text-[9px] font-mono text-muted-foreground italic border-t border-border/30 pt-2">
               12% chance of spontaneous mutation. Incompatible traits resolve by rarity.

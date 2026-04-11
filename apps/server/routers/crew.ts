@@ -38,6 +38,7 @@ import {
   getMissionTemplate,
   calculateMissionSuccess,
   pickLastWords,
+  pickBestFitRole,
 } from "../../shared/crewMissions";
 import { CREW_BALANCE } from "../../shared/crewBalance";
 import { applyTick as sharedApplyTick } from "../../shared/crewTick";
@@ -663,6 +664,7 @@ export const crewRouter = router({
           maxAge: 82,
           missionHistory: [],
           relationships: {},
+          portraitOverrideId: "bootstrap_vale_resonance",
         },
         bloodline: {
           id: "void_resonance",
@@ -714,6 +716,7 @@ export const crewRouter = router({
           maxAge: 105,
           missionHistory: [],
           relationships: {},
+          portraitOverrideId: "bootstrap_kesh_vigil",
         },
         bloodline: {
           id: "crimson_vigil",
@@ -766,6 +769,7 @@ export const crewRouter = router({
           maxAge: 160,
           missionHistory: [],
           relationships: {},
+          portraitOverrideId: "bootstrap_cipher_parallax",
         },
         bloodline: {
           id: "temporal_echo",
@@ -794,11 +798,17 @@ export const crewRouter = router({
 
     const variant = variants[ctx.user.id % variants.length];
     const founderId = `crew-bootstrap-${Date.now()}`;
-    const founder: SerializedCrewMember = {
+    const founderWithoutRole: SerializedCrewMember = {
       ...variant.member,
       id: founderId,
       birthCycle: 0,
       isFounder: true,
+    };
+    // Auto-assign the best-fit role so the player wakes up to a functional
+    // crew instead of an "unassigned" slot.
+    const founder: SerializedCrewMember = {
+      ...founderWithoutRole,
+      role: pickBestFitRole(founderWithoutRole) as any,
     };
 
     const next: CrewState = {

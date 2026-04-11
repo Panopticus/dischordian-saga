@@ -40,6 +40,19 @@ function formatTimeLeft(ms: number): string {
 export default function CrewMissionsBoard({ state, onRefetch }: Props) {
   const [selectedTemplate, setSelectedTemplate] = useState<string | null>(null);
   const [selectedCrew, setSelectedCrew] = useState<string[]>([]);
+  // Strict rivalries mode: persisted to localStorage. When on, dispatching
+  // a squad with any rival pair is blocked with a toast; when off, the
+  // warning still shows but the dispatch button remains enabled.
+  const [strictRivalries, setStrictRivalries] = useState(() => {
+    if (typeof window === "undefined") return false;
+    return localStorage.getItem("crew-strict-rivalries") === "1";
+  });
+  const toggleStrict = (next: boolean) => {
+    setStrictRivalries(next);
+    if (typeof window !== "undefined") {
+      localStorage.setItem("crew-strict-rivalries", next ? "1" : "0");
+    }
+  };
 
   const dispatchMission = trpc.crew.dispatchMission.useMutation({
     onSuccess: () => {
@@ -261,16 +274,30 @@ export default function CrewMissionsBoard({ state, onRefetch }: Props) {
                   )}
                 </div>
 
+                <label className="flex items-center gap-1.5 text-[9px] font-mono text-muted-foreground mb-2 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={strictRivalries}
+                    onChange={e => toggleStrict(e.target.checked)}
+                    className="h-3 w-3"
+                  />
+                  strict rivalries (block hostile squads)
+                </label>
                 <Button
                   size="sm"
                   className="w-full gap-1"
                   disabled={
                     !template ||
                     selectedCrew.length < template.minCrew ||
-                    selectedCrew.length > template.maxCrew
+                    selectedCrew.length > template.maxCrew ||
+                    (strictRivalries && rivalPairs.length > 0)
                   }
                   onClick={() => {
                     if (!template) return;
+                    if (strictRivalries && rivalPairs.length > 0) {
+                      toast.error("Rivals on squad — strict mode blocks dispatch");
+                      return;
+                    }
                     dispatchMission.mutate({
                       templateId: template.id,
                       crewIds: selectedCrew,

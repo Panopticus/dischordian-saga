@@ -26,6 +26,35 @@ interface Props {
   className?: string;
 }
 
+/** Hand-tuned palette overrides for named narrative crew — e.g., the three
+ *  bootstrap founders. Looked up by `member.portraitOverrideId`. Each entry
+ *  returns a color pair that the portrait's base path/accent will use,
+ *  plus an optional extra glyph layered on top of the silhouette. */
+const NAMED_PORTRAIT_OVERRIDES: Record<
+  string,
+  {
+    base: string;
+    accent: string;
+    glyph?: "resonance_wave" | "vigil_flame" | "parallax_rings";
+  }
+> = {
+  bootstrap_vale_resonance: {
+    base: "#22d3ee",
+    accent: "#67e8f9",
+    glyph: "resonance_wave",
+  },
+  bootstrap_kesh_vigil: {
+    base: "#dc2626",
+    accent: "#fbbf24",
+    glyph: "vigil_flame",
+  },
+  bootstrap_cipher_parallax: {
+    base: "#a855f7",
+    accent: "#e9d5ff",
+    glyph: "parallax_rings",
+  },
+};
+
 function hash(str: string): number {
   let h = 0;
   for (let i = 0; i < str.length; i++) {
@@ -122,12 +151,28 @@ function silhouettePath(species: CrewSpecies, size: number): string {
 export default function CrewPortrait({ member, size = 48, className = "" }: Props) {
   const visual = useMemo(() => {
     const rng = seeded(hash(member.id));
+    const override = member.portraitOverrideId
+      ? NAMED_PORTRAIT_OVERRIDES[member.portraitOverrideId]
+      : undefined;
+    const forcedAccent = override?.accent;
+    const glyph = override?.glyph ?? null;
     const bl = FOUNDING_BLOODLINES[member.bloodlineId as BloodlineId];
-    const baseColor = bl?.color ?? "#666";
+    const baseColor = override?.base ?? bl?.color ?? "#666";
     // Derived secondary palette slot from rng so members in the same
     // bloodline still vary.
     const hue = Math.floor(rng() * 60) + hash(member.species) % 120;
-    const accent = `hsl(${hue}, 70%, 55%)`;
+    // Mood/status affects the accent saturation and lightness:
+    // - low morale dims the accent
+    // - high loyalty brightens it
+    // - injury desaturates
+    const loyaltyBoost = Math.max(0, (member.loyalty - 50) / 50) * 15;
+    const moralePenalty = Math.max(0, (50 - member.morale) / 50) * 20;
+    const injuryDesat = member.status === "injured" ? 25 : 0;
+    const saturation = Math.max(20, 70 - injuryDesat);
+    const lightness = Math.max(30, Math.min(75, 55 + loyaltyBoost - moralePenalty));
+    const accent = forcedAccent ?? `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+    // Dim the whole sigil for injured/sick members
+    const opacity = member.status === "injured" || member.status === "sick" ? 0.65 : 1;
     // Eye y position
     const eyeY = size * 0.45 + (rng() - 0.5) * size * 0.05;
     const eyeDx = size * 0.08 + rng() * size * 0.04;
@@ -139,8 +184,18 @@ export default function CrewPortrait({ member, size = 48, className = "" }: Prop
     );
     const hasStudious = member.geneticTraits.includes("eidetic") ||
       member.geneticTraits.includes("brilliant");
-    return { baseColor, accent, eyeY, eyeDx, hasHalo, hasScar, hasStudious };
-  }, [member.id, member.bloodlineId, member.species, member.geneticTraits]);
+    return { baseColor, accent, eyeY, eyeDx, hasHalo, hasScar, hasStudious, opacity, glyph };
+  }, [
+    member.id,
+    member.bloodlineId,
+    member.species,
+    member.geneticTraits,
+    member.morale,
+    member.loyalty,
+    member.status,
+    member.portraitOverrideId,
+    size,
+  ]);
 
   const path = silhouettePath(member.species, size);
   const cx = size / 2;
@@ -154,6 +209,7 @@ export default function CrewPortrait({ member, size = 48, className = "" }: Prop
       className={className}
       aria-label={`portrait of ${member.name}`}
       role="img"
+      style={{ opacity: visual.opacity }}
     >
       {/* Background halo for mythic-trait members */}
       {visual.hasHalo && (
@@ -217,6 +273,30 @@ export default function CrewPortrait({ member, size = 48, className = "" }: Prop
         strokeWidth={1}
         strokeOpacity={0.4}
       />
+
+      {/* Named-NPC override glyph */}
+      {visual.glyph === "resonance_wave" && (
+        <path
+          d={`M ${cx - size * 0.28} ${cy + size * 0.3} Q ${cx - size * 0.14} ${cy + size * 0.2} ${cx} ${cy + size * 0.3} T ${cx + size * 0.28} ${cy + size * 0.3}`}
+          fill="none"
+          stroke={visual.accent}
+          strokeWidth={1.5}
+          strokeOpacity={0.8}
+        />
+      )}
+      {visual.glyph === "vigil_flame" && (
+        <path
+          d={`M ${cx} ${cy - size * 0.38} L ${cx - size * 0.05} ${cy - size * 0.28} L ${cx + size * 0.05} ${cy - size * 0.28} Z`}
+          fill={visual.accent}
+          fillOpacity={0.9}
+        />
+      )}
+      {visual.glyph === "parallax_rings" && (
+        <>
+          <circle cx={cx} cy={cy} r={size * 0.48} fill="none" stroke={visual.accent} strokeWidth={0.8} strokeOpacity={0.4} />
+          <circle cx={cx} cy={cy} r={size * 0.52} fill="none" stroke={visual.accent} strokeWidth={0.8} strokeOpacity={0.3} />
+        </>
+      )}
     </svg>
   );
 }

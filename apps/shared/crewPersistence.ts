@@ -93,6 +93,11 @@ export interface SerializedCrewMember {
   birthCycle: number;
   /** Founder flag — the first member of a bloodline, set at hatch time. */
   isFounder?: boolean;
+  /** Optional portrait override — id of a named-NPC visual DNA entry
+   *  (see apps/shared/characterVisualDNA.ts) to use instead of the
+   *  procedural CrewPortrait. Used for named bootstrap founders and
+   *  future narrative-significant crew. */
+  portraitOverrideId?: string;
 }
 
 export interface SerializedBloodline {
@@ -223,6 +228,16 @@ export interface PendingOffspring {
   reviewed: boolean;
 }
 
+/* ─── ROMANCE ─── */
+
+export interface CrewRomance {
+  id: string;
+  memberAId: string;
+  memberBId: string;
+  declaredAt: number;
+  status: "courtship" | "partnered" | "estranged" | "ended";
+}
+
 /* ─── CREW STATE (the root blob) ─── */
 
 export interface CrewState {
@@ -247,6 +262,7 @@ export interface CrewState {
   missions: CrewMissionState[];
   missionStats: CrewMissionStats;
   pendingOffspring: PendingOffspring[];
+  romances: CrewRomance[];
   lastTickAt: number;
   lastAgingTickAt: number;
   firstCrewMemberBorn: boolean;
@@ -300,6 +316,7 @@ export function createDefaultCrewState(): CrewState {
       totalCasualties: 0,
     },
     pendingOffspring: [],
+    romances: [],
     lastTickAt: 0,
     lastAgingTickAt: 0,
     firstCrewMemberBorn: false,
@@ -322,6 +339,7 @@ export function ensureCrewState(raw: unknown): CrewState {
     roster: { ...defaults.roster, ...(incoming.roster ?? {}) },
     incubator: { ...defaults.incubator, ...(incoming.incubator ?? {}) },
     missionStats: { ...defaults.missionStats, ...(incoming.missionStats ?? {}) },
+    romances: incoming.romances ?? [],
     version: CREW_STATE_VERSION,
   };
 }

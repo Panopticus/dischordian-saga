@@ -67,4 +67,10 @@ export const CREW_BALANCE = {
   /** Score at which a pair is considered "close" — they unlock small
    *  cohesion bonuses and get relationship flavor text. */
   closeBondThreshold: 50,
+
+  /** Score at which a close-bond pair can become a formal romance. */
+  romanceThreshold: 75,
+
+  /** Stat bonus applied to both members of a romance when active. */
+  romanceMoraleBonus: 10,
 };

@@ -399,3 +399,28 @@ function buildNarrative(
 export function pickLastWords(seed: number): string {
   return LAST_WORDS[Math.floor(seededRandom(seed * 97) * LAST_WORDS.length)];
 }
+
+/** Pick the best-fit role for a crew member based on their highest stat.
+ *  Returns a role id string that the caller can use to auto-assign a
+ *  freshly hatched founder during bootstrap or onboarding flows. */
+export function pickBestFitRole(member: SerializedCrewMember): string {
+  const stats = member.stats;
+  // Map of primary stat → role id (mirrors CREW_ROLES in crewManagement.ts).
+  const roleByPrimaryStat: Record<string, string> = {
+    intellect: "scientist",
+    resilience: "security",
+    reflexes: "navigator",
+    empathy: "trader",
+    immunity: "medic",
+    adaptability: "quartermaster",
+  };
+  let bestStat: keyof typeof stats = "intellect";
+  let bestValue = -1;
+  for (const s of Object.keys(stats) as Array<keyof typeof stats>) {
+    if (stats[s] > bestValue) {
+      bestValue = stats[s];
+      bestStat = s;
+    }
+  }
+  return roleByPrimaryStat[bestStat] ?? "engineer";
+}
