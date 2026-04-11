@@ -817,6 +817,7 @@ export const architectConsoleRouter = router({
         eidolons,
         memorials,
         episodes,
+        transmissionRows,
         [battlePass],
         [activeSeason],
         guildMembership,
@@ -839,6 +840,18 @@ export const architectConsoleRouter = router({
         db.select().from(contentParticipation).where(
           and(eq(contentParticipation.userId, input.userId), eq(contentParticipation.contentType, "episode"))
         ),
+        // Meme broadcast watched rows (server-side source of truth).
+        db.select({
+          contentId: contentParticipation.contentId,
+          updatedAt: contentParticipation.updatedAt,
+          metadata: contentParticipation.metadata,
+        }).from(contentParticipation).where(
+          and(
+            eq(contentParticipation.userId, input.userId),
+            eq(contentParticipation.contentType, "transmission"),
+            eq(contentParticipation.completed, 1),
+          ),
+        ).orderBy(desc(contentParticipation.updatedAt)),
         db.select().from(battlePassProgress).where(eq(battlePassProgress.userId, input.userId)).limit(1),
         db.select().from(battlePassSeasons).where(eq(battlePassSeasons.status, "active")).limit(1),
         db.select().from(guildMembers).where(eq(guildMembers.userId, input.userId)).limit(1),
@@ -968,6 +981,23 @@ export const architectConsoleRouter = router({
         } : null,
         episodesWatched: episodes.filter((e: any) => e.completed).length,
         totalEpisodes: episodes.length,
+        /** Meme broadcast watched ids + latest watch timestamp. Derived
+         *  from contentParticipation (contentType="transmission"). */
+        transmissions: {
+          watchedCount: transmissionRows.length,
+          watchedIds: transmissionRows.map(r => r.contentId),
+          lastWatchedAt: transmissionRows[0]?.updatedAt ?? null,
+          /** Oracle reveal progression tier from gameData (0-3). */
+          oracleRevealTier: Number(gameData.oracleRevealTier ?? 0),
+          /** Number of in-progress (resumable) transmissions — ids
+           *  with a non-zero playback position but not yet watched. */
+          resumable: Object.entries(
+            (gameData.transmissionPlaybackPositions ?? {}) as Record<string, number>,
+          ).filter(
+            ([id, pos]) =>
+              pos > 0 && !(gameData.transmissionsWatched ?? []).includes(id),
+          ).length,
+        },
         questsCompleted: (gameData.claimedQuestRewards || []).length,
         achievementCount: (gameData.achievementsEarned || []).length,
         loredexEntries: Number(journalEntries[0]?.count ?? 0),

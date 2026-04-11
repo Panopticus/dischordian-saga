@@ -8,8 +8,8 @@ import { TRPCError } from "@trpc/server";
 import { logger } from "../logger";
 import { publicProcedure, protectedProcedure, router } from "../_core/trpc";
 import { getDb } from "../db";
-import { userProgress, users } from "../../db/schema";
-import { eq, desc, sql } from "drizzle-orm";
+import { userProgress, users, contentParticipation } from "../../db/schema";
+import { eq, desc, sql, and } from "drizzle-orm";
 
 function dbUnavailable(): never {
   throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Database unavailable" });
@@ -120,8 +120,36 @@ export const gameStateRouter = router({
       .limit(1);
     if (!rows[0]) return null;
     const row = rows[0];
+
+    // Hydrate transmissionsWatched from the server-side source of truth
+    // (contentParticipation.contentType = "transmission"). This handles
+    // cross-device sync: a player who watched Ep 2 on device A will see
+    // it as watched on device B on login, even if the last persisted
+    // gameData snapshot predates that watch.
+    let gameData = row.gameData as Record<string, unknown> | null;
+    try {
+      const watchedRows = await db
+        .select({ contentId: contentParticipation.contentId })
+        .from(contentParticipation)
+        .where(
+          and(
+            eq(contentParticipation.userId, ctx.user.id),
+            eq(contentParticipation.contentType, "transmission"),
+            eq(contentParticipation.completed, 1),
+          ),
+        );
+      if (watchedRows.length > 0) {
+        const serverWatched = watchedRows.map(r => r.contentId);
+        const existing = (gameData?.transmissionsWatched as string[] | undefined) ?? [];
+        const merged = Array.from(new Set([...existing, ...serverWatched]));
+        gameData = { ...(gameData ?? {}), transmissionsWatched: merged };
+      }
+    } catch (err) {
+      logger.error("[GameState.load] Failed to hydrate transmissionsWatched:", err);
+    }
+
     return {
-      gameState: row.gameData as Record<string, unknown> | null,
+      gameState: gameData,
       stats: row.progressData as Record<string, unknown> | null,
       savedAt: row.updatedAt?.toISOString() ?? null,
     };
