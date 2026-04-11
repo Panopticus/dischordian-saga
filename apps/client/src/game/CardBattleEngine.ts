@@ -108,6 +108,7 @@ const MAX_INFLUENCE = 30;
 const MAX_ENERGY = 10;
 const STARTING_ENERGY = 3;
 const STARTING_HAND = 5;
+const MAX_HAND_SIZE = 10;
 const MAX_TURNS = 15;
 
 const ELEMENT_ADVANTAGE: Record<Element, Element> = {
@@ -444,6 +445,23 @@ export function drawCards(state: BattleState, who: "player" | "opponent", count:
     const drawn = p.deck.shift()!;
     applyFactionBonus(drawn, p.faction);
     applySpeciesBonus(drawn, p.speciesBonus);
+
+    // Overdraw: hand is full. The drawn card is burned (sent to
+    // graveyard) and the player takes chip damage to their influence.
+    // Mirrors the pressure valve from Hearthstone / most TCGs that
+    // use a fixed hand size.
+    if (p.hand.length >= MAX_HAND_SIZE) {
+      p.graveyard.push(drawn);
+      p.influence = Math.max(0, p.influence - 1);
+      events.push({
+        type: "influence_damage",
+        source: drawn.name,
+        value: 1,
+        message: `${who === "player" ? "You" : "Opponent"} overdrew! ${drawn.name} burned, 1 Influence lost.`,
+      });
+      continue;
+    }
+
     p.hand.push(drawn);
     events.push({
       type: "draw",
