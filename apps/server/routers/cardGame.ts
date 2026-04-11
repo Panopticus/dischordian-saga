@@ -3,7 +3,7 @@ import { z } from "zod";
 import { publicProcedure, protectedProcedure, router } from "../_core/trpc";
 import { getDb } from "../db";
 import { cards, userCards, decks, cardGameMatches, characterSheets, dreamBalance, userProgress, pvpMatches } from "../../db/schema";
-import { eq, and, like, inArray, sql, desc, asc, type SQL } from "drizzle-orm";
+import { eq, and, or, like, inArray, sql, desc, asc, type SQL } from "drizzle-orm";
 import { fetchCitizenData, fetchPotentialNftData, resolveCardGameBonuses } from "../traitResolver";
 import { trackAiResult, trackCollectionSize } from "../achievementTracker";
 import { ripple } from "../services/rippleEngine";
@@ -1478,6 +1478,90 @@ export const cardGameRouter = router({
         .where(eq(cardGameMatches.player1Id, ctx.user.id))
         .orderBy(desc(cardGameMatches.startedAt))
         .limit(input?.limit ?? 10);
+    }),
+
+  /**
+   * Unified match history — merges PvE (cardGameMatches) and PvP
+   * (pvpMatches) into a single normalized shape so the UI can render
+   * one "Recent Matches" list without juggling two endpoints.
+   *
+   * Addresses the TCG audit "PvE vs PvP match table split" finding:
+   * the two tables stay separate for ownership/relations reasons but
+   * are presented as one stream to the client.
+   */
+  getUnifiedMatchHistory: protectedProcedure
+    .input(z.object({ limit: z.number().min(1).max(100).default(20) }).optional())
+    .query(async ({ ctx, input }) => {
+      const db = await getDb();
+      if (!db) return [];
+
+      const limit = input?.limit ?? 20;
+
+      // Pull a generous window from each table, then merge + sort in JS.
+      // Each table's individual limit is the requested limit so the merged
+      // set has enough candidates from either side.
+      const pveRows = await db
+        .select()
+        .from(cardGameMatches)
+        .where(eq(cardGameMatches.player1Id, ctx.user.id))
+        .orderBy(desc(cardGameMatches.startedAt))
+        .limit(limit);
+
+      const pvpRows = await db
+        .select()
+        .from(pvpMatches)
+        .where(or(
+          eq(pvpMatches.player1Id, ctx.user.id),
+          eq(pvpMatches.player2Id, ctx.user.id),
+        ))
+        .orderBy(desc(pvpMatches.id))
+        .limit(limit);
+
+      const pveNormalized = pveRows.map(r => ({
+        kind: "pve" as const,
+        matchId: String(r.id),
+        opponentUserId: r.player2Id,
+        opponentName: r.player2Id === 0 ? "AI" : `user_${r.player2Id}`,
+        status: r.status ?? "unknown",
+        result: r.winnerId === ctx.user.id
+          ? "win"
+          : r.winnerId != null
+            ? "loss"
+            : "pending",
+        startedAt: r.startedAt,
+        endedAt: r.endedAt,
+        eloChange: 0,
+      }));
+
+      const pvpNormalized = pvpRows.map(r => {
+        const isPlayer1 = r.player1Id === ctx.user.id;
+        const opponentId = isPlayer1 ? r.player2Id : r.player1Id;
+        return {
+          kind: "pvp" as const,
+          matchId: r.matchId,
+          opponentUserId: opponentId ?? 0,
+          opponentName: `user_${opponentId ?? 0}`,
+          status: r.status ?? "unknown",
+          result: r.winnerId === ctx.user.id
+            ? "win"
+            : r.winnerId != null
+              ? "loss"
+              : "pending",
+          startedAt: r.startedAt ?? null,
+          endedAt: r.endedAt ?? null,
+          eloChange: isPlayer1 ? (r.player1EloChange ?? 0) : (r.player2EloChange ?? 0),
+        };
+      });
+
+      const merged = [...pveNormalized, ...pvpNormalized]
+        .sort((a, b) => {
+          const aTime = a.startedAt ? new Date(a.startedAt).getTime() : 0;
+          const bTime = b.startedAt ? new Date(b.startedAt).getTime() : 0;
+          return bTime - aTime;
+        })
+        .slice(0, limit);
+
+      return merged;
     }),
 
   // ═══════════════════════════════════════════════════════
