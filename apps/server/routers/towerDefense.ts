@@ -9,11 +9,11 @@ import { router, protectedProcedure } from "../_core/trpc";
 import { getDb } from "../db";
 import {
   towerPlacements, raidLogs, raidTrophies, dailyStreaks,
-  spaceStations, syndicateWorlds,
+  spaceStations, syndicateWorlds, users,
   citizenCharacters, civilSkillProgress, citizenTalentSelections,
   prestigeProgress, achievementTraitProgress, classMastery, characterSheets,
 } from "../../db/schema";
-import { eq, and, desc, sql } from "drizzle-orm";
+import { eq, and, desc, inArray, sql } from "drizzle-orm";
 import {
   TOWERS, RAID_UNITS,
   resolveTowerDefenseBonuses,
@@ -85,6 +85,65 @@ function getLeagueForTrophies(trophies: number): string {
   return league;
 }
 
+/* ═══ RAID LOG ENRICHMENT ═══ */
+type RaidLogRow = typeof raidLogs.$inferSelect;
+type EnrichedRaidLog = RaidLogRow & { role: "attacker" | "defender"; opponentName: string };
+
+async function enrichRaidLogs(
+  db: NonNullable<Awaited<ReturnType<typeof getDb>>>,
+  rows: RaidLogRow[],
+  role: "attacker" | "defender",
+): Promise<EnrichedRaidLog[]> {
+  if (rows.length === 0) return [];
+
+  // Build sets of user IDs / station IDs / world IDs we need names for
+  const userIds = new Set<number>();
+  const stationIds = new Set<number>();
+  const worldIds = new Set<number>();
+  for (const r of rows) {
+    if (role === "attacker") {
+      // Opponent is the defender
+      if (r.defenderType === "station") stationIds.add(r.defenderId);
+      else worldIds.add(r.defenderId);
+    } else {
+      // Opponent is the attacker
+      userIds.add(r.attackerId);
+    }
+  }
+
+  const userMap = new Map<number, string>();
+  if (userIds.size > 0) {
+    const userRows = await db.select({ id: users.id, name: users.name })
+      .from(users).where(inArray(users.id, [...userIds]));
+    for (const u of userRows) userMap.set(u.id, u.name || `User ${u.id}`);
+  }
+
+  const stationMap = new Map<number, string>();
+  if (stationIds.size > 0) {
+    const stationRows = await db.select({ id: spaceStations.id, name: spaceStations.stationName })
+      .from(spaceStations).where(inArray(spaceStations.id, [...stationIds]));
+    for (const s of stationRows) stationMap.set(s.id, s.name || `Station ${s.id}`);
+  }
+
+  const worldMap = new Map<number, string>();
+  if (worldIds.size > 0) {
+    const worldRows = await db.select({ id: syndicateWorlds.id, name: syndicateWorlds.worldName })
+      .from(syndicateWorlds).where(inArray(syndicateWorlds.id, [...worldIds]));
+    for (const w of worldRows) worldMap.set(w.id, w.name || `World ${w.id}`);
+  }
+
+  return rows.map((r): EnrichedRaidLog => {
+    let opponentName = "Unknown";
+    if (role === "attacker") {
+      if (r.defenderType === "station") opponentName = stationMap.get(r.defenderId) || `Station ${r.defenderId}`;
+      else opponentName = worldMap.get(r.defenderId) || `World ${r.defenderId}`;
+    } else {
+      opponentName = userMap.get(r.attackerId) || `User ${r.attackerId}`;
+    }
+    return { ...r, role, opponentName };
+  });
+}
+
 /* ═══ DAILY STREAK REWARDS ═══ */
 const DAILY_STREAK_REWARDS = [
   { day: 1, chronoShards: 5, credits: 100, label: "Day 1" },
@@ -145,23 +204,64 @@ export const towerDefenseRouter = router({
       if (towerDef.requiredClass && rpgStats.characterClass !== towerDef.requiredClass) {
         return { success: false, error: `Requires ${towerDef.requiredClass} class` };
       }
+      if (towerDef.requiredClassRank && (rpgStats.classRank || 0) < towerDef.requiredClassRank) {
+        return { success: false, error: `Requires ${towerDef.requiredClass} rank ${towerDef.requiredClassRank}` };
+      }
       if (towerDef.requiredPrestige && rpgStats.prestigeClass !== towerDef.requiredPrestige) {
         return { success: false, error: `Requires ${towerDef.requiredPrestige} prestige class` };
       }
+      if (towerDef.requiredCivilSkill) {
+        const skillLevel = rpgStats.civilSkills?.[towerDef.requiredCivilSkill.skill] || 0;
+        if (skillLevel < towerDef.requiredCivilSkill.level) {
+          return { success: false, error: `Requires ${towerDef.requiredCivilSkill.skill} level ${towerDef.requiredCivilSkill.level}` };
+        }
+      }
 
-      // Get resources from owner
+      // Get resources + grid size from owner
       let resources: Record<string, number> = {};
+      let gridSize = 8;
       if (input.ownerType === "station") {
         const [station] = await db.select().from(spaceStations)
           .where(eq(spaceStations.id, input.ownerId)).limit(1);
         resources = (station?.storedResources || {}) as Record<string, number>;
+        gridSize = station?.gridSize || 8;
       } else {
         const [world] = await db.select().from(syndicateWorlds)
           .where(eq(syndicateWorlds.id, input.ownerId)).limit(1);
         resources = (world?.storedResources || {}) as Record<string, number>;
+        gridSize = world?.gridSize || 8;
+      }
+
+      // Grid bounds + collision check
+      const [w, h] = towerDef.gridSize;
+      if (
+        input.gridX < 0 || input.gridY < 0 ||
+        input.gridX + w > gridSize || input.gridY + h > gridSize
+      ) {
+        return { success: false, error: "Tower does not fit on the grid" };
+      }
+      const existingTowers = await db.select().from(towerPlacements).where(and(
+        eq(towerPlacements.ownerType, input.ownerType),
+        eq(towerPlacements.ownerId, input.ownerId),
+      ));
+      for (const t of existingTowers) {
+        if (t.status === "destroyed") continue;
+        const tDef = TOWERS.find(td => td.key === t.towerKey);
+        const [tw, th] = tDef?.gridSize || [1, 1];
+        const overlapX = input.gridX < t.gridX + tw && t.gridX < input.gridX + w;
+        const overlapY = input.gridY < t.gridY + th && t.gridY < input.gridY + h;
+        if (overlapX && overlapY) {
+          return { success: false, error: "That cell is already occupied" };
+        }
       }
 
       const tdBonuses = resolveTowerDefenseBonuses(rpgStats);
+
+      // Enforce dynamic max tower slot limit
+      const activeTowerCount = existingTowers.filter(t => t.status !== "destroyed").length;
+      if (activeTowerCount >= tdBonuses.maxTowerSlots) {
+        return { success: false, error: `Tower slots full (${activeTowerCount}/${tdBonuses.maxTowerSlots})` };
+      }
 
       // Cost (no cost reduction in TowerDefenseBonuses, use base cost)
       const cost: Record<string, number> = {};
@@ -536,10 +636,11 @@ export const towerDefenseRouter = router({
     .query(async ({ ctx, input }) => {
       const db = await getDb();
       if (!db) return [];
-      return db.select().from(raidLogs)
+      const rows = await db.select().from(raidLogs)
         .where(eq(raidLogs.attackerId, ctx.user.id))
         .orderBy(desc(raidLogs.createdAt))
         .limit(input.limit);
+      return enrichRaidLogs(db, rows, "attacker");
     }),
 
   getDefenseLog: protectedProcedure
@@ -550,13 +651,44 @@ export const towerDefenseRouter = router({
       const [station] = await db.select().from(spaceStations)
         .where(eq(spaceStations.userId, ctx.user.id)).limit(1);
       if (!station) return [];
-      return db.select().from(raidLogs)
+      const rows = await db.select().from(raidLogs)
         .where(and(
           eq(raidLogs.defenderType, "station"),
           eq(raidLogs.defenderId, station.id),
         ))
         .orderBy(desc(raidLogs.createdAt))
         .limit(input.limit);
+      return enrichRaidLogs(db, rows, "defender");
+    }),
+
+  getCombinedHistory: protectedProcedure
+    .input(z.object({ limit: z.number().min(1).max(50).default(25) }))
+    .query(async ({ ctx, input }) => {
+      const db = await getDb();
+      if (!db) return [];
+      // Attacker raids
+      const attackerRows = await db.select().from(raidLogs)
+        .where(eq(raidLogs.attackerId, ctx.user.id))
+        .orderBy(desc(raidLogs.createdAt))
+        .limit(input.limit);
+      // Defender raids (only station defenses, since only stations belong to a single user)
+      const [station] = await db.select().from(spaceStations)
+        .where(eq(spaceStations.userId, ctx.user.id)).limit(1);
+      let defenderRows: typeof attackerRows = [];
+      if (station) {
+        defenderRows = await db.select().from(raidLogs)
+          .where(and(
+            eq(raidLogs.defenderType, "station"),
+            eq(raidLogs.defenderId, station.id),
+          ))
+          .orderBy(desc(raidLogs.createdAt))
+          .limit(input.limit);
+      }
+      const enrichedAttacker = await enrichRaidLogs(db, attackerRows, "attacker");
+      const enrichedDefender = await enrichRaidLogs(db, defenderRows, "defender");
+      const merged = [...enrichedAttacker, ...enrichedDefender];
+      merged.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+      return merged.slice(0, input.limit);
     }),
 
   /* ═══════════════════════════════════════════
@@ -655,4 +787,14 @@ export const towerDefenseRouter = router({
   getTowerDefs: protectedProcedure.query(() => TOWERS),
   getUnitDefs: protectedProcedure.query(() => RAID_UNITS),
   getStreakRewards: protectedProcedure.query(() => DAILY_STREAK_REWARDS),
+
+  /** Returns the player's dynamic max tower slot count from RPG bonuses. */
+  getMaxTowerSlots: protectedProcedure.query(async ({ ctx }) => {
+    const rpgStats = await getUserRpgStats(ctx.user.id);
+    const tdBonuses = resolveTowerDefenseBonuses(rpgStats);
+    return {
+      maxTowerSlots: tdBonuses.maxTowerSlots,
+      maxRaidUnits: tdBonuses.maxRaidUnits,
+    };
+  }),
 });
