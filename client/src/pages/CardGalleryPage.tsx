@@ -279,15 +279,17 @@ function CardDetailModal({ card, onClose, onSacrifice }: { card: FullCard | null
   const [showSacrificeConfirm, setShowSacrificeConfirm] = useState(false);
   const [sacrificeResult, setSacrificeResult] = useState<{ materialId: string; quantity: number }[] | null>(null);
 
+  // Preview what sacrifice would yield. Hook must run unconditionally,
+  // so we guard the body with `card?.rarity` instead of early-returning.
+  const sacrificePreview = useMemo(() => {
+    if (!card) return [];
+    return getCardSacrificeRewards(card.rarity);
+  }, [card]);
+
   if (!card) return null;
   const rarity = RARITY_COLORS[card.rarity] || RARITY_COLORS.common;
   const TypeIcon = TYPE_ICONS[card.cardType] || Sword;
   const elemCfg = ELEMENT_CONFIG[card.element];
-
-  // Preview what sacrifice would yield
-  const sacrificePreview = useMemo(() => {
-    return getCardSacrificeRewards(card.rarity);
-  }, [card.rarity]);
 
   return (
     <motion.div
@@ -610,7 +612,7 @@ export default function CardGalleryPage() {
 
   // Apply filters and search
   const filtered = useMemo(() => {
-    let result = catalog.filter(card => {
+    const result = catalog.filter(card => {
       if (searchQuery) {
         const q = searchQuery.toLowerCase();
         const searchable = `${card.name} ${card.abilityText} ${card.flavorText} ${card.affiliation} ${card.keywords.join(" ")}`.toLowerCase();

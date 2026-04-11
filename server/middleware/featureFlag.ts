@@ -51,7 +51,13 @@ export function invalidateFeatureFlagCache(featureName?: string) {
  * Usage: `.use(checkFeatureFlag("casino"))`
  */
 export function checkFeatureFlag(featureName: string) {
-  return async (opts: { next: Function; ctx: any }) => {
+  // The tRPC middleware `next` is a generic callable whose exact
+  // signature is tied to the router's context. Typing it as
+  // `Function` is the pragmatic tradeoff — tRPC's `use(...)` accepts
+  // loose middleware shapes and narrowing here would drag the full
+  // router generics in just for a flag gate.
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type -- tRPC middleware next is intentionally loose here
+  return async (opts: { next: Function; ctx: unknown }) => {
     const enabled = await isFeatureEnabled(featureName);
     if (!enabled) {
       throw new TRPCError({

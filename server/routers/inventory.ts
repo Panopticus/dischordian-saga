@@ -53,7 +53,7 @@ export const inventoryRouter = router({
       const db = await getDb();
       if (!db) return { cards: [], total: 0 };
 
-      let query = db.select().from(userCards)
+      const query = db.select().from(userCards)
         .where(eq(userCards.userId, ctx.user.id))
         .$dynamic();
 

@@ -81,7 +81,7 @@ export const friendlyChallengesRouter = router({
     .query(async ({ ctx, input }) => {
       const db = await getDb();
       if (!db) throw new Error("DB unavailable");
-      let query = db.select().from(friendlyChallenges)
+      const query = db.select().from(friendlyChallenges)
         .where(or(eq(friendlyChallenges.challengerId, ctx.user.id), eq(friendlyChallenges.opponentId, ctx.user.id)))
         .orderBy(desc(friendlyChallenges.createdAt))
         .limit(30);

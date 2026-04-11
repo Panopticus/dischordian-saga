@@ -583,6 +583,17 @@ export default function ChessPage() {
     setView("character_select");
   };
 
+  /* ─── Evaluation bar calculation ───
+     Must run before any conditional early-return so hook order
+     is stable across renders. */
+  const evalPercent = useMemo(() => {
+    if (stockfish.evaluation === null) return 50;
+    if (stockfish.evaluation >= 999) return 95;
+    if (stockfish.evaluation <= -999) return 5;
+    // Map eval (-5 to +5) to (10% to 90%)
+    return Math.max(5, Math.min(95, 50 + stockfish.evaluation * 8));
+  }, [stockfish.evaluation]);
+
   if (!isAuthenticated) {
     return (
       <div className="min-h-screen flex items-center justify-center p-8 grid-bg">
@@ -600,15 +611,6 @@ export default function ChessPage() {
 
   const tier = ranking.data?.tier || "bronze";
   const tierConfig = TIER_CONFIG[tier] || TIER_CONFIG.bronze;
-
-  /* ─── Evaluation bar calculation ─── */
-  const evalPercent = useMemo(() => {
-    if (stockfish.evaluation === null) return 50;
-    if (stockfish.evaluation >= 999) return 95;
-    if (stockfish.evaluation <= -999) return 5;
-    // Map eval (-5 to +5) to (10% to 90%)
-    return Math.max(5, Math.min(95, 50 + stockfish.evaluation * 8));
-  }, [stockfish.evaluation]);
 
   return (
     <div className="min-h-screen grid-bg relative overflow-hidden">

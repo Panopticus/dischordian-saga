@@ -69,16 +69,12 @@ export default function LiveSpecimen({
   className = "",
 }: LiveSpecimenProps) {
   const spec = SPECIMENS[specimenId];
-  if (!spec) return null;
 
-  const px = SIZE_MAP[size];
-  const artPath = getSpecimenArtPath(specimenId, stage);
-  const palette = spec.basePalette;
-
+  // Hooks must run unconditionally before any early return.
   const [thought, setThought] = useState<string | null>(null);
   const [pokeCount, setPokeCount] = useState(0);
   const [isPoking, setIsPoking] = useState(false);
-  const thoughtTimer = useRef<ReturnType<typeof setTimeout>>(undefined);
+  const thoughtTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   const containerRef = useRef<HTMLDivElement>(null);
 
   // Mouse tracking for parallax
@@ -122,6 +118,13 @@ export default function LiveSpecimen({
     setTimeout(() => setIsPoking(false), 600);
     setTimeout(() => setThought(null), 3000);
   }, [specimenId, interactive]);
+
+  // Early return must come AFTER all hook calls.
+  if (!spec) return null;
+
+  const px = SIZE_MAP[size];
+  const artPath = getSpecimenArtPath(specimenId, stage);
+  const palette = spec.basePalette;
 
   // Bond-based color temperature (0=cold/blue, 100=warm/amber)
   const bondWarmth = Math.max(0, Math.min(100, bond));

@@ -134,6 +134,23 @@ export default function CardTradingPage() {
     );
   };
 
+  // useSwipeTabs must run unconditionally before any early return.
+  // tabs/activeTabIndex derived from trade data (empty when unauthed)
+  // so the hook signature stays stable across renders.
+  const tabs: { key: Tab; label: string; icon: any; count?: number }[] = [
+    { key: "create", label: "NEW TRADE", icon: Send },
+    { key: "incoming", label: "INCOMING", icon: Package, count: incomingTrades.length },
+    { key: "outgoing", label: "OUTGOING", icon: Clock, count: outgoingTrades.length },
+    { key: "history", label: "HISTORY", icon: ArrowLeftRight },
+  ];
+  const tabKeys = tabs.map(t => t.key);
+  const activeTabIndex = tabKeys.indexOf(activeTab);
+  const { handlers: swipeHandlers, swipeStyle } = useSwipeTabs({
+    tabCount: tabs.length,
+    activeIndex: activeTabIndex,
+    onTabChange: (idx) => setActiveTab(tabKeys[idx]),
+  });
+
   if (authLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -161,21 +178,6 @@ export default function CardTradingPage() {
       </div>
     );
   }
-
-  const tabs: { key: Tab; label: string; icon: any; count?: number }[] = [
-    { key: "create", label: "NEW TRADE", icon: Send },
-    { key: "incoming", label: "INCOMING", icon: Package, count: incomingTrades.length },
-    { key: "outgoing", label: "OUTGOING", icon: Clock, count: outgoingTrades.length },
-    { key: "history", label: "HISTORY", icon: ArrowLeftRight },
-  ];
-
-  const tabKeys = tabs.map(t => t.key);
-  const activeTabIndex = tabKeys.indexOf(activeTab);
-  const { handlers: swipeHandlers, swipeStyle } = useSwipeTabs({
-    tabCount: tabs.length,
-    activeIndex: activeTabIndex,
-    onTabChange: (idx) => setActiveTab(tabKeys[idx]),
-  });
 
   return (
     <div className="min-h-screen p-4 sm:p-6 max-w-6xl mx-auto">

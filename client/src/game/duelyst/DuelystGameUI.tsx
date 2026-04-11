@@ -291,7 +291,7 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
 
   const handleEndTurn = useCallback(() => {
     if (!gameState || phase !== "playing") return;
-    let state = executeAction(gameState, { type: "end_turn" });
+    const state = executeAction(gameState, { type: "end_turn" });
     setGameState(state);
     setPhase("ai_turn");
     addLog("Your turn ended. AI is thinking...", "system");

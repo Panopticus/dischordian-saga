@@ -269,11 +269,12 @@ export function getAvailableRevelation(
       case "flag":
         if (flags[rev.requirement.value as string]) return rev;
         break;
-      case "secret_kept":
+      case "secret_kept": {
         // Check if player has kept N secrets from Elara
         const secretCount = Object.keys(flags).filter(k => k.startsWith("secret_")).length;
         if (secretCount >= parseInt(rev.requirement.value as string)) return rev;
         break;
+      }
       case "elara_confronted":
         if (flags[`confronted_elara_${rev.requirement.value}`]) return rev;
         break;

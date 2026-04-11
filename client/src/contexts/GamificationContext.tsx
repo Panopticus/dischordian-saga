@@ -117,7 +117,7 @@ export function GamificationProvider({ children }: { children: ReactNode }) {
 
   // Check achievements after state changes
   const checkAchievements = useCallback((s: GamificationState): GamificationState => {
-    let newState = { ...s };
+    const newState = { ...s };
     let awarded: AchievementDef | null = null;
 
     for (const ach of DISCHORDIAN_ACHIEVEMENTS) {
@@ -202,8 +202,9 @@ export function GamificationProvider({ children }: { children: ReactNode }) {
   const discoverEntry = useCallback((entryId: string) => {
     update(s => {
       if (s.progress.discoveredEntries.includes(entryId)) return s;
-      // Trigger cinematic discovery video for first-time discoveries
+      // Trigger cinematic discovery video for first-time discoveries.
       try {
+        // eslint-disable-next-line @typescript-eslint/no-require-imports -- synchronous lookup avoids circular import cycle at module load
         const { triggerDiscoveryVideo } = require("@/components/DiscoveryVideoOverlay");
         triggerDiscoveryVideo(entryId);
       } catch { /* overlay not mounted */ }

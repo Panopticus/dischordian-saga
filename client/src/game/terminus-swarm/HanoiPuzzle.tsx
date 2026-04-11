@@ -198,12 +198,8 @@ export default function HanoiPuzzle({ numDiscs = 4, onComplete, onSkip }: HanoiP
                       className="w-full h-full object-contain select-none"
                       draggable={false}
                     />
-                    {/* Size number overlay */}
-                    <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                      {false && Array.from({ length: size + 1 }, (_, i) => (
-                        <div key={i} className="w-1.5 h-3 rounded-full" style={{ backgroundColor: color }} />
-                      ))}
-                    </div>
+                    {/* Size number overlay — disabled pending design review */}
+                    <div className="absolute inset-0 flex items-center justify-center pointer-events-none" />
                   </motion.div>
                 );
               })}

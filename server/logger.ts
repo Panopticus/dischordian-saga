@@ -68,6 +68,7 @@ function log(level: LogLevel, message: string, context?: string, data?: Record<s
       console.error(formatted);
       // Forward errors to Sentry when available
       try {
+        // eslint-disable-next-line @typescript-eslint/no-require-imports -- sentry is optional and synchronously loaded to avoid init order issues
         const { captureException, captureMessage, sentryInitialized } = require("./sentry");
         if (sentryInitialized) {
           if (error) {

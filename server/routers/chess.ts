@@ -271,7 +271,7 @@ function getAiMove(game: ChessInstance, difficulty: number, style: string): stri
         if (move.includes("x") || move.includes("+")) score += 30;
         if (move.includes("=Q")) score += 50; // promotion
         break;
-      case "endgame":
+      case "endgame": {
         // Prefer king activity and pawn pushes in later game
         const moveCount = game.history().length;
         if (moveCount > 40) {
@@ -279,6 +279,7 @@ function getAiMove(game: ChessInstance, difficulty: number, style: string): stri
           if (move.match(/^[a-h][78]/)) score += 25;
         }
         break;
+      }
       case "universal":
         // Balanced — slight preference for development
         if (move === "O-O" || move === "O-O-O") score += 20;

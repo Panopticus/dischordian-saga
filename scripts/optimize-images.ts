@@ -118,7 +118,7 @@ async function main() {
     ? args.targetDirs.map(d => join(ROOT, d))
     : [ART_DIR];
 
-  let allImages: ImageFile[] = [];
+  const allImages: ImageFile[] = [];
   for (const d of dirs) allImages.push(...walkImages(d));
 
   // Filter by min size

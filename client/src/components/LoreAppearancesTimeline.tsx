@@ -111,9 +111,8 @@ export default function LoreAppearancesTimeline({ characterName }: { characterNa
     return events;
   }, [characterName, entries, relationships, songCharacterMap]);
 
-  if (appearances.length === 0) return null;
-
-  // Group by age
+  // Group by age (hooks must run unconditionally, so early-return
+  // below this block)
   const grouped = useMemo(() => {
     const groups: Record<string, AppearanceEvent[]> = {};
     appearances.forEach(a => {
@@ -122,6 +121,8 @@ export default function LoreAppearancesTimeline({ characterName }: { characterNa
     });
     return groups;
   }, [appearances]);
+
+  if (appearances.length === 0) return null;
 
   return (
     <div>

@@ -601,7 +601,7 @@ export const towerDefenseRouter = router({
 
     const today = new Date().toISOString().slice(0, 10);
 
-    let [streak] = await db.select().from(dailyStreaks)
+    const [streak] = await db.select().from(dailyStreaks)
       .where(eq(dailyStreaks.userId, ctx.user.id)).limit(1);
 
     if (!streak) {

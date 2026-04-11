@@ -318,11 +318,12 @@ export function getAvailableSourceRevelation(
       case "flag":
         if (flags[rev.requirement.value as string]) return rev;
         break;
-      case "infection_resisted":
+      case "infection_resisted": {
         // Check if player has resisted N infection attempts
         const resistCount = Object.keys(flags).filter(k => k.startsWith("resisted_")).length;
         if (resistCount >= parseInt(rev.requirement.value as string)) return rev;
         break;
+      }
       case "mercy_shown":
         if (flags[`mercy_${rev.requirement.value}`]) return rev;
         break;

@@ -171,7 +171,7 @@ export default function DeckBuilderPage() {
 
   // Available cards for the collection panel (filtered)
   const availableCards = useMemo(() => {
-    let cards = allCardsData?.cards || [];
+    const cards = allCardsData?.cards || [];
     return cards;
   }, [allCardsData]);
 

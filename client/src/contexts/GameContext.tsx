@@ -2338,7 +2338,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const advanceFactionWar = useCallback((): { ended: boolean; winner?: string } => {
-    let result = { ended: false, winner: undefined as string | undefined };
+    const result = { ended: false, winner: undefined as string | undefined };
     setState(prev => {
       const fw = prev.factionWarState;
       if (!fw.activeWar) return prev;

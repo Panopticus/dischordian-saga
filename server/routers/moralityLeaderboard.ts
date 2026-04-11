@@ -57,7 +57,7 @@ export const moralityLeaderboardRouter = router({
 
     // Fetch user names
     const userIds = allProgress.map(p => p.userId);
-    let userMap: Record<number, string> = {};
+    const userMap: Record<number, string> = {};
     if (userIds.length > 0) {
       const userRows = await db
         .select({ id: users.id, name: users.name })

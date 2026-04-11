@@ -60,7 +60,10 @@ export const INJECTION_PATTERNS: readonly RegExp[] = [
 // Input sanitization
 // ---------------------------------------------------------------------------
 
-/** Control-character regex (keeps newlines and tabs). */
+/** Control-character regex (keeps newlines and tabs).
+ *  Prompt-injection hardening strips these from user input before the
+ *  LLM sees it, so the literal control-char range is intentional. */
+// eslint-disable-next-line no-control-regex -- intentional; see comment above
 const CONTROL_CHARS = /[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/g;
 
 /** Matches fenced code blocks that may hide prompt overrides. */

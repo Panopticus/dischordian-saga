@@ -434,7 +434,7 @@ export function resolveFrame(
 
   // For looping animations, cycle through frames
   if (anim.loop) {
-    let elapsed = stateFrame % anim.totalDuration;
+    const elapsed = stateFrame % anim.totalDuration;
     let accumulated = 0;
     for (let i = 0; i < frameCount; i++) {
       accumulated += anim.frames[i].duration;

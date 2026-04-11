@@ -17,7 +17,7 @@ type ProgressCallback = (progress: number, label: string) => void;
 
 function createLoadingManager() {
   let tasks: LoadingTask[] = [];
-  let subscribers = new Set<ProgressCallback>();
+  const subscribers = new Set<ProgressCallback>();
 
   function notify() {
     const progress = getProgress();

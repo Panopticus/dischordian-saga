@@ -88,6 +88,7 @@ function tryMatchPlayers() {
   try {
     // Dynamic import to avoid circular dependency issues
     // Engine is in shared/ so it's available server-side
+    // eslint-disable-next-line @typescript-eslint/no-require-imports -- sync require to skip ESM top-level circular cycle
     const { createGameState } = require("../shared/duelyst-engine-stub");
     gameState = createGameState(p1.faction, p2.faction, p1.deckCardIds, p2.deckCardIds);
   } catch {
@@ -234,6 +235,7 @@ export function setupDuelystWebSocket(server: Server) {
 
           // Broadcast updated state
           try {
+            // eslint-disable-next-line @typescript-eslint/no-require-imports -- sync require to skip ESM top-level circular cycle
             const { executeAction } = require("../shared/duelyst-engine-stub");
             match.gameState = executeAction(match.gameState, msg.action);
           } catch {

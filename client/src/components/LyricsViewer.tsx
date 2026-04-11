@@ -73,7 +73,7 @@ export default function LyricsViewer({ songName, albumName, artistName, characte
 
       const segments: AnnotatedLine["segments"] = [];
       let remaining = line;
-      let pos = 0;
+      const pos = 0;
 
       while (remaining.length > 0) {
         let found = false;

@@ -260,7 +260,7 @@ export const tradingRouter = router({
       const limit = input?.limit ?? 20;
       const cursor = input?.cursor;
 
-      let query = db.select().from(cardTrades)
+      const query = db.select().from(cardTrades)
         .where(and(
           or(eq(cardTrades.senderId, ctx.user.id), eq(cardTrades.receiverId, ctx.user.id)),
           eq(cardTrades.status, "accepted"),

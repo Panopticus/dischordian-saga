@@ -116,9 +116,10 @@ function getUnlockHint(def: RoomDef): string {
       return UNLOCK_HINTS[req.value as string] || "Continue exploring to unlock";
     case "specific_item":
       return UNLOCK_HINTS[req.value as string] || `Find the required item`;
-    case "room_visited":
+    case "room_visited": {
       const parentRoom = ROOM_DEFINITIONS.find(r => r.id === req.value);
       return parentRoom ? `Discover ${parentRoom.name} first` : "Continue exploring";
+    }
     case "items_collected":
       return `Collect ${req.value} items to unlock`;
     case "chain_complete":

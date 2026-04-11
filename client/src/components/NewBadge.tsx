@@ -137,7 +137,7 @@ export default function NewBadge({
         markSeen(featureId);
       }
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+     
   }, [autoMarkOnUnmount, featureId]);
 
   return (

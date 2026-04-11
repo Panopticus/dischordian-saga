@@ -436,7 +436,7 @@ export function drawCards(state: BattleState, who: "player" | "opponent", count:
 }
 
 export function resolveCombat(state: BattleState): BattleState {
-  let s = structuredClone(state);
+  const s = structuredClone(state);
   const events: CombatEvent[] = [];
   const laneOrder: Lane[] = ["vanguard", "core", "flank"];
 

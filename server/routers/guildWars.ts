@@ -138,7 +138,7 @@ export const guildWarsRouter = router({
 
       // Calculate points — apply trait multiplier
       const basePoints = POINT_VALUES[input.source] || 10;
-      let rawPoints = input.source === "trade_volume"
+      const rawPoints = input.source === "trade_volume"
         ? Math.floor((input.rawValue || 0) / 100) * basePoints
         : basePoints;
 

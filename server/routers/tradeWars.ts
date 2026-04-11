@@ -879,7 +879,7 @@ export const tradeWarsRouter = router({
 
       // Get combat stats for each player
       const playerIds = players.map(p => p.userId);
-      let combatStats: Record<number, { wins: number; losses: number }> = {};
+      const combatStats: Record<number, { wins: number; losses: number }> = {};
 
       if (playerIds.length > 0) {
         const combatLogs = await db
