@@ -4,7 +4,7 @@
    ═══════════════════════════════════════════════════════ */
 import { eq, and, sql } from "drizzle-orm";
 import { getDb } from "./db";
-import { cardGameAchievements, userCards, dreamBalance } from "../db/schema";
+import { cardGameAchievements, userCards, dreamBalance, userProgress } from "../db/schema";
 import { CARD_ACHIEVEMENTS, type CardAchievementDef } from "./routers/cardAchievements";
 
 const achievementMap = new Map<string, CardAchievementDef>(
@@ -216,6 +216,91 @@ export async function trackDisenchant(userId: number): Promise<string[]> {
   const completed: string[] = [];
   const r = await trackIncrement(userId, "disenchant_50");
   if (r.newlyCompleted) completed.push("disenchant_50");
+  return completed;
+}
+
+/**
+ * Track a successful Forge recipe craft (separate from card crafting).
+ * Increments forge counts and checks rarity-tier achievements.
+ */
+export async function trackRecipeForge(
+  userId: number,
+  outputRarity?: string,
+): Promise<string[]> {
+  const completed: string[] = [];
+
+  for (const key of ["forge_first", "forge_25", "forge_100"]) {
+    const r = await trackIncrement(userId, key);
+    if (r.newlyCompleted) completed.push(key);
+  }
+
+  if (outputRarity === "epic") {
+    const r = await trackSet(userId, "forge_epic_recipe", 1);
+    if (r.newlyCompleted) completed.push("forge_epic_recipe");
+  }
+  if (outputRarity === "legendary" || outputRarity === "mythic") {
+    const r = await trackSet(userId, "forge_legendary_recipe", 1);
+    if (r.newlyCompleted) completed.push("forge_legendary_recipe");
+  }
+
+  return completed;
+}
+
+/**
+ * Track when a player levels up a crafting skill. Fires the
+ * "max skill" achievement when any skill hits 10, and the
+ * "all max skills" achievement counts how many distinct skills
+ * have reached 10.
+ *
+ * The list of maxed skills is reconstructed from the session's
+ * progress row at call time, so passing a single skillId here is
+ * sufficient — the helper handles the aggregation.
+ */
+export async function trackForgeSkillLevel(
+  userId: number,
+  _skillId: string,
+  newLevel: number,
+): Promise<string[]> {
+  const completed: string[] = [];
+  if (newLevel < 10) return completed;
+
+  // First any-skill maxed
+  const r1 = await trackSet(userId, "forge_max_skill", 1);
+  if (r1.newlyCompleted) completed.push("forge_max_skill");
+
+  // Aggregate count of maxed skills — read from userProgress
+  try {
+    const db = await getDb();
+    if (!db) return completed;
+    const row = await db.select().from(userProgress)
+      .where(and(eq(userProgress.userId, userId), eq(userProgress.franchiseId, "dischordian-saga")))
+      .limit(1);
+    const gameData = (row[0]?.gameData ?? {}) as Record<string, unknown>;
+    const skills = (gameData.craftingSkills ?? {}) as Record<string, unknown>;
+    let maxed = 0;
+    for (const v of Object.values(skills)) {
+      if (typeof v === "number" && v >= 10) maxed++;
+      else if (v && typeof v === "object" && "level" in (v as object)) {
+        const lvl = (v as { level?: unknown }).level;
+        if (typeof lvl === "number" && lvl >= 10) maxed++;
+      }
+    }
+    const r2 = await trackSet(userId, "forge_all_max_skills", maxed);
+    if (r2.newlyCompleted) completed.push("forge_all_max_skills");
+  } catch (e) {
+    console.error("[AchievementTracker] forge_all_max_skills aggregation failed:", e);
+  }
+
+  return completed;
+}
+
+/**
+ * Track a Forge disenchant action (distinct from card disenchanting).
+ */
+export async function trackForgeDisenchant(userId: number): Promise<string[]> {
+  const completed: string[] = [];
+  const r = await trackIncrement(userId, "forge_disenchant_10");
+  if (r.newlyCompleted) completed.push("forge_disenchant_10");
   return completed;
 }
 

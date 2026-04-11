@@ -4,6 +4,8 @@ import { publicProcedure, protectedProcedure, router } from "../_core/trpc";
 import { getDb } from "../db";
 import { arkRooms, userArkProgress } from "../../db/schema";
 import { eq, and, sql } from "drizzle-orm";
+import { grantMaterials } from "../services/craftingMaterials";
+import { rollExplorationDrops, dropsToMaterialMap } from "../../shared/lootDrops";
 
 export const arkRouter = router({
   // Get all rooms (public map overview)
@@ -99,7 +101,16 @@ export const arkRouter = router({
       const { awardCivilXp } = await import("../civilSkillHelper");
       awardCivilXp(ctx.user.id, "explore_room").catch(e => logger.error("[Ark] Civil XP award failed:", e));
 
-      return { success: true, room: room[0], firstVisit: true };
+      // ── Crafting material drops on first visit ──
+      // Roll the exploration loot table once per new room and credit the
+      // result to the player's crafting inventory. Repeat visits don't drop.
+      const drops = rollExplorationDrops();
+      const materialDrops = dropsToMaterialMap(drops);
+      if (Object.keys(materialDrops).length > 0) {
+        grantMaterials(ctx.user.id, materialDrops).catch(() => {});
+      }
+
+      return { success: true, room: room[0], firstVisit: true, materialDrops };
     }),
 
   // Get a specific room's details

@@ -11,6 +11,8 @@ import { fetchCitizenData, fetchPotentialNftData, resolveFightGameBonuses, nftLe
 import { pressureService } from "../services/pressureService";
 import { companionCombat } from "../services/companionCombat";
 import { battlePassXp } from "../services/battlePassXp";
+import { grantMaterials } from "../services/craftingMaterials";
+import { rollCombatDrops, dropsToMaterialMap } from "../../shared/lootDrops";
 
 /* ─── ELO Calculation ─── */
 function calculateElo(playerElo: number, opponentElo: number, won: boolean, kFactor = 32): number {
@@ -253,6 +255,20 @@ export const fightLeaderboardRouter = router({
         battlePassXp.award(userId, "combat_win").catch(() => {});
       }
 
+      // ── Crafting material drops ──
+      // On a win, roll the combat loot table and credit materials to the
+      // player's crafting inventory. Mirrors the client-side getCombatDrops
+      // call in FightPage.tsx, but persists the result server-side so the
+      // Forge always sees the right counts.
+      let materialDrops: Record<string, number> = {};
+      if (input.won) {
+        const drops = rollCombatDrops(input.difficulty, input.perfect, newStreak);
+        materialDrops = dropsToMaterialMap(drops);
+        if (Object.keys(materialDrops).length > 0) {
+          grantMaterials(userId, materialDrops).catch(() => {});
+        }
+      }
+
       return {
         eloChange,
         newElo,
@@ -263,6 +279,7 @@ export const fightLeaderboardRouter = router({
         previousTier: entry.rankTier,
         pointsEarned: adjustedPointsEarned,
         pointsBasePreBonus: input.pointsEarned,
+        materialDrops,
         companionBonus: companionBonus.attack > 0 ? {
           attack: companionBonus.attack,
           defense: companionBonus.defense,

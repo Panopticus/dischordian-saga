@@ -1150,6 +1150,10 @@ export function GameProvider({ children }: { children: ReactNode }) {
     retry: false,
   });
   const saveMutation = trpc.gameState.save.useMutation();
+  // Mirrors local craftingMaterials to the server-side Forge inventory.
+  // Used by addMaterial below — every local material grant fires this
+  // mutation so the server's gameData.materials stays in sync.
+  const addMaterialsMutation = trpc.crafting.addMaterials.useMutation();
 
   // Server sync readiness: true once we know whether server state exists
   // - If not authenticated (authQuery resolved with no user): ready immediately
@@ -2208,7 +2212,13 @@ export function GameProvider({ children }: { children: ReactNode }) {
         [materialId]: (prev.craftingMaterials[materialId] || 0) + quantity,
       },
     }));
-  }, []);
+    // Sync to server-side crafting inventory so the Forge sees the same
+    // materials. Fire-and-forget — local state is the immediate source of
+    // truth for the UI; the server is the persistent backstop.
+    if (authQuery.data) {
+      addMaterialsMutation.mutate({ materials: { [materialId]: quantity } });
+    }
+  }, [addMaterialsMutation, authQuery.data]);
 
   // ═══ COMPANION SYSTEM CALLBACKS ═══
   const gainCompanionXp = useCallback((companionId: string, amount: number) => {

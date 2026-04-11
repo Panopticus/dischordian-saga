@@ -50,6 +50,15 @@ export const CARD_ACHIEVEMENTS: CardAchievementDef[] = [
   { key: "craft_10", title: "Journeyman Crafter", description: "Craft 10 cards", icon: "⚒️", category: "crafting", tier: "silver", target: 10, dreamReward: 15 },
   { key: "craft_legendary", title: "Legendary Smith", description: "Craft a Legendary card", icon: "🌠", category: "crafting", tier: "gold", target: 1, dreamReward: 50 },
   { key: "disenchant_50", title: "Essence Harvester", description: "Disenchant 50 cards", icon: "💀", category: "crafting", tier: "silver", target: 50, dreamReward: 20 },
+  // ─── FORGE (recipe-based crafting) ───
+  { key: "forge_first", title: "First Forging", description: "Successfully craft an item at the Forge", icon: "🔥", category: "crafting", tier: "bronze", target: 1, dreamReward: 5 },
+  { key: "forge_25", title: "Master Smith", description: "Forge 25 items", icon: "🛠️", category: "crafting", tier: "silver", target: 25, dreamReward: 25 },
+  { key: "forge_100", title: "Grand Artisan", description: "Forge 100 items", icon: "⚙️", category: "crafting", tier: "gold", target: 100, dreamReward: 100 },
+  { key: "forge_epic_recipe", title: "Epic Craftsman", description: "Forge an Epic-tier item", icon: "💜", category: "crafting", tier: "gold", target: 1, dreamReward: 75 },
+  { key: "forge_legendary_recipe", title: "Legendary Artisan", description: "Forge a Legendary-tier item", icon: "✨", category: "crafting", tier: "diamond", target: 1, dreamReward: 150 },
+  { key: "forge_max_skill", title: "Skill Mastery", description: "Reach level 10 in any crafting skill", icon: "🏆", category: "crafting", tier: "diamond", target: 1, dreamReward: 100 },
+  { key: "forge_all_max_skills", title: "Forge Grandmaster", description: "Reach level 10 in all 5 crafting skills", icon: "👑", category: "crafting", tier: "legendary", target: 5, dreamReward: 500 },
+  { key: "forge_disenchant_10", title: "Recycler", description: "Disenchant 10 crafted items", icon: "♻️", category: "crafting", tier: "bronze", target: 10, dreamReward: 15 },
 
   // ─── DRAFT ───
   { key: "first_draft", title: "Draft Rookie", description: "Complete your first draft tournament", icon: "🎲", category: "draft", tier: "bronze", target: 1, dreamReward: 10 },

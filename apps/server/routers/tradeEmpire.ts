@@ -12,6 +12,7 @@ import { router, protectedProcedure } from "../_core/trpc";
 import { getDb } from "../db";
 import { userProgress, dreamBalance } from "../../db/schema";
 import { eq, and } from "drizzle-orm";
+import { rollTradeEmpireDrops, dropsToMaterialMap } from "../../shared/lootDrops";
 
 function dbUnavailable(): never {
   throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Database unavailable" });
@@ -178,13 +179,26 @@ export const tradeEmpireRouter = router({
       }
 
       // Materials (add to crafting inventory)
+      // 1. Fixed reward from the mission definition (if any)
+      // 2. Bonus roll from the trade port loot table — every completed
+      //    mission has a chance to drop crafting materials in addition
+      //    to its declared reward.
+      const bonusDrops = rollTradeEmpireDrops(1);
+      const bonusMap = dropsToMaterialMap(bonusDrops);
+      const totalMaterialDelta: Record<string, number> = { ...bonusMap };
       if (r.material && r.materialAmount) {
+        totalMaterialDelta[r.material] =
+          (totalMaterialDelta[r.material] ?? 0) + r.materialAmount;
+      }
+      if (Object.keys(totalMaterialDelta).length > 0) {
         const row = await db.select().from(userProgress)
           .where(and(eq(userProgress.userId, ctx.user.id), eq(userProgress.franchiseId, "dischordian-saga")))
           .limit(1);
         const gameData = row[0]?.gameData as any ?? {};
-        const materials = gameData.materials ?? {};
-        materials[r.material] = (materials[r.material] ?? 0) + r.materialAmount;
+        const materials = { ...(gameData.materials ?? {}) };
+        for (const [matId, qty] of Object.entries(totalMaterialDelta)) {
+          materials[matId] = (materials[matId] ?? 0) + qty;
+        }
         await db.update(userProgress)
           .set({ gameData: { ...gameData, materials } })
           .where(and(eq(userProgress.userId, ctx.user.id), eq(userProgress.franchiseId, "dischordian-saga")));
@@ -204,6 +218,7 @@ export const tradeEmpireRouter = router({
       return {
         success: true,
         rewards: r,
+        bonusMaterials: bonusMap,
         sectorReputation: sector.reputation,
         sectorControlLevel: sector.controlLevel,
         totalCompleted: state.totalMissionsCompleted,

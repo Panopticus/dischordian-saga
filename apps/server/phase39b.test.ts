@@ -242,7 +242,17 @@ describe("Phase 39b: Achievement Auto-Tracking Wiring", () => {
       "utf-8"
     );
     it("should import trackCraftAction, trackDisenchant, trackCollectionSize", () => {
-      expect(crafting).toContain('import { trackCraftAction, trackDisenchant, trackCollectionSize } from "../achievementTracker"');
+      // crafting.ts now imports additional forge helpers alongside the
+      // original three. Assert each name is present rather than pinning
+      // the full import line.
+      for (const name of [
+        "trackCraftAction",
+        "trackDisenchant",
+        "trackCollectionSize",
+      ]) {
+        expect(crafting).toContain(name);
+      }
+      expect(crafting).toContain('from "../achievementTracker"');
     });
     it("should track disenchant actions", () => {
       expect(crafting).toContain("trackDisenchant(ctx.user.id)");

@@ -244,4 +244,99 @@ describe("Crafting Data", () => {
       }
     }
   });
+
+  it("every recipe outputItemId that maps to equipment should reference EQUIPMENT_DB", async () => {
+    // Equipment integration safety: any recipe whose output should be
+    // equippable must have a matching entry in EQUIPMENT_DB so the
+    // InventoryPage "Crafted" tab can resolve slot/stats/rarity. Recipes
+    // for intermediates / potions / ship upgrades / card enhancements are
+    // exempt — their outputs are consumables or abstract effects.
+    const craft = await import("../client/src/data/craftingData");
+    const equip = await import("../client/src/data/equipmentData");
+    const EQUIPPABLE_CATS = new Set(["weapon", "armor", "accessory"]);
+    for (const recipe of craft.CRAFTING_RECIPES) {
+      if (!EQUIPPABLE_CATS.has(recipe.category)) continue;
+      const def = equip.getEquipmentById(recipe.outputItemId);
+      expect(def, `recipe ${recipe.id} output ${recipe.outputItemId} missing from EQUIPMENT_DB`).toBeDefined();
+    }
+  });
+});
+
+describe("Loot Drop Tables (server)", () => {
+  it("rollCombatDrops returns at least one drop for every difficulty", async () => {
+    const mod = await import("../shared/lootDrops");
+    for (const diff of ["easy", "normal", "hard", "nightmare"]) {
+      const drops = mod.rollCombatDrops(diff, false, 0, () => 0.5);
+      expect(drops.length).toBeGreaterThan(0);
+      for (const d of drops) {
+        expect(d.quantity).toBeGreaterThan(0);
+        expect(d.materialId).toBeTruthy();
+      }
+    }
+  });
+
+  it("rollCombatDrops adds bonus drops on perfect wins", async () => {
+    const mod = await import("../shared/lootDrops");
+    // Deterministic RNG: always falls through to the first table entry.
+    const drops = mod.rollCombatDrops("normal", true, 0, () => 0);
+    expect(drops.length).toBeGreaterThan(0);
+  });
+
+  it("rollExplorationDrops returns ark_fragment family materials", async () => {
+    const mod = await import("../shared/lootDrops");
+    const drops = mod.rollExplorationDrops(() => 0.1);
+    expect(drops.length).toBeGreaterThan(0);
+  });
+
+  it("dropsToMaterialMap merges duplicate materialIds", async () => {
+    const mod = await import("../shared/lootDrops");
+    const map = mod.dropsToMaterialMap([
+      { materialId: "iron_ore", quantity: 2 },
+      { materialId: "iron_ore", quantity: 3 },
+      { materialId: "stardust", quantity: 1 },
+    ]);
+    expect(map.iron_ore).toBe(5);
+    expect(map.stardust).toBe(1);
+  });
+
+  it("win streak bonus scales material quantities", async () => {
+    const mod = await import("../shared/lootDrops");
+    const lowStreak = mod.rollCombatDrops("normal", false, 0, () => 0);
+    const highStreak = mod.rollCombatDrops("normal", false, 10, () => 0);
+    // With a 10-streak (2 blocks × 20% = 40% bonus), drop quantities
+    // should be at least as high as the non-streak roll.
+    const lowTotal = lowStreak.reduce((s, d) => s + d.quantity, 0);
+    const highTotal = highStreak.reduce((s, d) => s + d.quantity, 0);
+    expect(highTotal).toBeGreaterThanOrEqual(lowTotal);
+  });
+});
+
+describe("Forge Achievement Definitions", () => {
+  it("should include the new forge achievement keys", async () => {
+    const mod = await import("./routers/cardAchievements");
+    const keys = new Set(mod.CARD_ACHIEVEMENTS.map(a => a.key));
+    for (const required of [
+      "forge_first",
+      "forge_25",
+      "forge_100",
+      "forge_epic_recipe",
+      "forge_legendary_recipe",
+      "forge_max_skill",
+      "forge_all_max_skills",
+      "forge_disenchant_10",
+    ]) {
+      expect(keys.has(required)).toBe(true);
+    }
+  });
+
+  it("forge achievements should belong to the crafting category", async () => {
+    const mod = await import("./routers/cardAchievements");
+    const forgeAchievements = mod.CARD_ACHIEVEMENTS.filter(a => a.key.startsWith("forge_"));
+    expect(forgeAchievements.length).toBeGreaterThanOrEqual(8);
+    for (const a of forgeAchievements) {
+      expect(a.category).toBe("crafting");
+      expect(a.dreamReward).toBeGreaterThanOrEqual(0);
+      expect(a.target).toBeGreaterThan(0);
+    }
+  });
 });

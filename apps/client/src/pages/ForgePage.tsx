@@ -3,7 +3,7 @@
    Browse recipes, manage materials, craft items, and
    level up crafting skills.
    ═══════════════════════════════════════════════════ */
-import { useState, useMemo, useCallback } from "react";
+import { useState, useMemo, useCallback, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "wouter";
 import {
@@ -170,6 +170,32 @@ export default function ForgePage() {
 
   const profile = profileQuery.data;
 
+  // Cooldowns map: skillId → ms-epoch when the skill is free again.
+  // Polled every 5s; we tick a local clock once a second while a cooldown
+  // is pending so the visible countdown stays accurate without
+  // a heavy re-render of the rest of the Forge UI.
+  const [now, setNow] = useState(() => Date.now());
+  const cooldownsQuery = trpc.crafting.getCraftingCooldowns.useQuery(undefined, {
+    enabled: isAuthenticated,
+    refetchInterval: 5_000,
+  });
+  // Memoise the cooldowns map so its identity is stable across renders
+  // unless the server data actually changes. Without this the useEffect
+  // below would thrash its setInterval on every parent re-render.
+  const cooldowns = useMemo<Record<CraftingSkillId, number>>(
+    () => (cooldownsQuery.data ?? {}) as Record<CraftingSkillId, number>,
+    [cooldownsQuery.data],
+  );
+  const hasActiveCooldown = useMemo(
+    () => Object.values(cooldowns).some(t => (t ?? 0) > now),
+    [cooldowns, now],
+  );
+  useEffect(() => {
+    if (!hasActiveCooldown) return;
+    const id = setInterval(() => setNow(Date.now()), 1000);
+    return () => clearInterval(id);
+  }, [hasActiveCooldown]);
+
   const skillLevels = useMemo<Record<CraftingSkillId, number>>(() => ({
     weaponsmith: profile?.skills.weaponsmith?.level ?? 0,
     armorsmith: profile?.skills.armorsmith?.level ?? 0,
@@ -219,6 +245,8 @@ export default function ForgePage() {
       }
       void utils.crafting.getCraftingProfile.invalidate();
       void utils.crafting.getDreamBalance.invalidate();
+      void utils.crafting.getCraftingCooldowns.invalidate();
+      void utils.crafting.getCraftedInventory.invalidate();
     },
     onError: (err) => {
       setIsCrafting(false);
@@ -257,6 +285,8 @@ export default function ForgePage() {
     }, intervalMs);
 
     // Fire the server mutation — success/failure comes from res.crafted.
+    // craftTimeSeconds + rarity were added so the server can enforce
+    // per-skill cooldowns and tag forge achievements by tier.
     craftMutation.mutate({
       recipeId: selectedRecipe.id,
       skill: selectedRecipe.skill,
@@ -267,12 +297,21 @@ export default function ForgePage() {
       xpGain: selectedRecipe.xpGain,
       outputItemId: selectedRecipe.outputItemId,
       outputQuantity: selectedRecipe.outputQuantity,
+      craftTimeSeconds: selectedRecipe.craftTime,
+      rarity: selectedRecipe.rarity,
     });
   }, [selectedRecipe, isCrafting, skillLevels, materials, dreamTokens, craftMutation]);
 
   const craftCheck = selectedRecipe
     ? canCraftRecipe(selectedRecipe, skillLevels, materials, dreamTokens)
     : { canCraft: false, reasons: [] };
+
+  // Cooldown for the selected recipe's skill
+  const selectedCooldownUntil = selectedRecipe
+    ? (cooldowns[selectedRecipe.skill] ?? 0)
+    : 0;
+  const selectedCooldownRemaining = Math.max(0, selectedCooldownUntil - now);
+  const onCooldown = selectedCooldownRemaining > 0;
 
   return (
     <div className="min-h-screen relative">
@@ -556,17 +595,29 @@ export default function ForgePage() {
                           ))}
                         </div>
                       )}
+                      {onCooldown && (
+                        <div className="mb-2 px-2 py-1.5 rounded-md border border-amber-500/20 bg-amber-500/5 flex items-center gap-2">
+                          <Clock size={11} className="text-amber-400" />
+                          <span className="font-mono text-[10px] text-amber-400">
+                            {CRAFTING_SKILLS.find(s => s.id === selectedRecipe.skill)?.name} on cooldown — {Math.ceil(selectedCooldownRemaining / 1000)}s remaining
+                          </span>
+                        </div>
+                      )}
                       <button
                         onClick={handleCraft}
-                        disabled={!craftCheck.canCraft}
+                        disabled={!craftCheck.canCraft || onCooldown}
                         className={`w-full py-3 rounded-lg font-display text-sm font-bold tracking-[0.2em] transition-all flex items-center justify-center gap-2
-                          ${craftCheck.canCraft
+                          ${craftCheck.canCraft && !onCooldown
                             ? "bg-gradient-to-r from-orange-600 to-amber-500 text-foreground hover:from-orange-500 hover:to-amber-400 shadow-lg shadow-orange-500/20"
                             : "bg-muted/30 text-muted-foreground/30 cursor-not-allowed border border-border/20"
                           }`}
                       >
                         <Hammer size={16} />
-                        {craftCheck.canCraft ? "FORGE ITEM" : "REQUIREMENTS NOT MET"}
+                        {onCooldown
+                          ? `COOLDOWN ${Math.ceil(selectedCooldownRemaining / 1000)}s`
+                          : craftCheck.canCraft
+                          ? "FORGE ITEM"
+                          : "REQUIREMENTS NOT MET"}
                       </button>
                     </div>
                   )}
