@@ -75,6 +75,7 @@ const SearchPage = lazy(() => import("./pages/SearchPage"));
 const CharacterTimeline = lazy(() => import("./pages/CharacterTimeline"));
 const WatchPage = lazy(() => import("./pages/WatchPage"));
 const FightPage = lazy(() => import("./pages/FightPage"));
+const EssenceHarvestPage = lazy(() => import("./pages/EssenceHarvestPage"));
 const ConsolePage = lazy(() => import("./pages/ConsolePage"));
 const CardBrowserPage = lazy(() => import("./pages/CardBrowserPage"));
 const TerminusSwarmPage = lazy(() => import("./game/terminus-swarm/TerminusSwarmPage"));
@@ -221,6 +222,7 @@ function Router() {
         <Route path="/character-timeline" component={CharacterTimeline} />
         <Route path="/watch" component={WatchPage} />
         <Route path="/fight">{() => <GameRoute component={FightPage} />}</Route>
+        <Route path="/collectors-ledger">{() => <GameRoute component={EssenceHarvestPage} />}</Route>
         <Route path="/console" component={ConsolePage} />
         <Route path="/cards">{() => <Suspense fallback={<CardGridSkeleton />}><CardBrowserPage /></Suspense>}</Route>
         <Route path="/cards/play">{() => <GameRoute component={CardGamePage} />}</Route>
