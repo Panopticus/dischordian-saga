@@ -3,10 +3,12 @@ import {
   applyDismissal,
   BOND_TIER_EFFECTS,
   FORCING_FLAGS,
+  getActiveEngineerHook,
   getActivePreludeBeats,
   getBondLocks,
   isDismissalActive,
   makeNarratorSeed,
+  mergeBeatFlags,
   PRELUDE_BEAT_BY_ROOM,
   ROOM_AFFINITY,
   seedNarratorSlot,
@@ -345,6 +347,96 @@ describe("mobileNarrator.getActivePreludeBeats", () => {
     });
     expect(res2.narratorId).toBe("the_human");
     expect(res2.reason).toBe("forced_by_flag");
+  });
+});
+
+describe("mobileNarrator.getActiveEngineerHook (§2.7)", () => {
+  const fullCtx = { burntCardFound: true, openerPlayed: false };
+
+  it("fires on first visit to Archives with the burnt card", () => {
+    const flags = getActiveEngineerHook("archives", 1, fullCtx);
+    expect(flags).toBeDefined();
+    expect(flags!.has("engineer_hook_active_opener")).toBe(true);
+  });
+
+  it("does NOT fire without the burnt card", () => {
+    expect(
+      getActiveEngineerHook("archives", 1, { burntCardFound: false, openerPlayed: false }),
+    ).toBeUndefined();
+  });
+
+  it("does NOT fire on subsequent Archives visits", () => {
+    expect(getActiveEngineerHook("archives", 2, fullCtx)).toBeUndefined();
+    expect(getActiveEngineerHook("archives", 10, fullCtx)).toBeUndefined();
+  });
+
+  it("does NOT fire once the opener has already played", () => {
+    expect(
+      getActiveEngineerHook("archives", 1, { burntCardFound: true, openerPlayed: true }),
+    ).toBeUndefined();
+  });
+
+  it("does NOT fire in any other room", () => {
+    expect(getActiveEngineerHook("bridge", 1, fullCtx)).toBeUndefined();
+    expect(getActiveEngineerHook("cryo_bay", 1, fullCtx)).toBeUndefined();
+    expect(getActiveEngineerHook("comms_array", 1, fullCtx)).toBeUndefined();
+  });
+
+  it("the flag it returns is a valid FORCING_FLAGS key", () => {
+    const flags = getActiveEngineerHook("archives", 1, fullCtx);
+    expect(flags).toBeDefined();
+    const [flag] = flags!;
+    expect(FORCING_FLAGS).toHaveProperty(flag);
+    expect(FORCING_FLAGS[flag]).toBe("the_human");
+  });
+
+  it("feeds through seedNarratorSlot to force The Human", () => {
+    // Archives affinity is +0.6 (Human-leaning) but we use a
+    // lopsided Elara bond and a seed that would otherwise pick
+    // her — the forcing flag must override everything.
+    const res = seedNarratorSlot({
+      roomId: "archives",
+      elaraBond: 100,
+      humanBond: 0,
+      flags: getActiveEngineerHook("archives", 1, fullCtx),
+      seed: 0.05,
+    });
+    expect(res.narratorId).toBe("the_human");
+    expect(res.reason).toBe("forced_by_flag");
+  });
+});
+
+describe("mobileNarrator.mergeBeatFlags", () => {
+  it("returns undefined when both inputs are undefined", () => {
+    expect(mergeBeatFlags(undefined, undefined)).toBeUndefined();
+  });
+
+  it("returns a when b is undefined (reference-stable)", () => {
+    const a = new Set(["flag1"]);
+    expect(mergeBeatFlags(a, undefined)).toBe(a);
+  });
+
+  it("returns b when a is undefined (reference-stable)", () => {
+    const b = new Set(["flag2"]);
+    expect(mergeBeatFlags(undefined, b)).toBe(b);
+  });
+
+  it("merges when both are present", () => {
+    const a = new Set(["flag1"]);
+    const b = new Set(["flag2"]);
+    const merged = mergeBeatFlags(a, b);
+    expect(merged).toBeDefined();
+    expect(merged!.has("flag1")).toBe(true);
+    expect(merged!.has("flag2")).toBe(true);
+    expect(merged!.size).toBe(2);
+  });
+
+  it("deduplicates overlapping flags", () => {
+    const a = new Set(["flag1", "flag2"]);
+    const b = new Set(["flag2", "flag3"]);
+    const merged = mergeBeatFlags(a, b);
+    expect(merged).toBeDefined();
+    expect(merged!.size).toBe(3);
   });
 });
 

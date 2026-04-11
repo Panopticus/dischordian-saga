@@ -80,8 +80,11 @@ export function MobileNarratorSlot({ roomId, flags, className }: MobileNarratorS
   const line = useMemo(() => {
     if (!slot?.narratorId) return null;
     const bond = slot.narratorId === "elara" ? elaraBond : humanBond;
-    return pickNarratorLine(roomId, slot.narratorId, bond);
-  }, [slot, roomId, elaraBond, humanBond]);
+    // Pass the active beat flags through so beat-tagged lines
+    // (e.g. the §2.7 Archives opener) can override the normal
+    // tier-weighted selection.
+    return pickNarratorLine(roomId, slot.narratorId, bond, flags);
+  }, [slot, roomId, elaraBond, humanBond, flags]);
 
   const handleDismiss = useCallback(
     (choice: DismissalChoice) => {

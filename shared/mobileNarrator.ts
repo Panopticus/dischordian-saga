@@ -96,6 +96,68 @@ export function getActivePreludeBeats(
   return new Set<string>([beat]);
 }
 
+/* ─── §2.7 ENGINEER OPENER HOOK ─── */
+
+/**
+ * Context for narrative beats that depend on inventory / quest
+ * state, not just room visit count.
+ */
+export interface EngineerHookContext {
+  /** The §2.6 crew mission 3 reward — the burnt Seer's card. */
+  burntCardFound: boolean;
+  /**
+   * Whether the Archives opener cutscene (§2.7 "Two Voices, One
+   * Deck") has already played. Once true, the forcing flag stops
+   * firing so the player doesn't keep getting the scripted line
+   * on repeat visits.
+   */
+  openerPlayed: boolean;
+}
+
+/**
+ * §2.7 Archives opener — forces The Human to appear in the slot
+ * when the player walks into the Archives for the first time
+ * carrying the burnt Seer's card. This is the "She means the
+ * Engineer. He was my classmate." moment.
+ *
+ * Returns a Set containing `engineer_hook_active_opener` when
+ * the conditions match, `undefined` otherwise. Kept as a
+ * separate helper from `getActivePreludeBeats` because it depends
+ * on inventory state, not just visit count.
+ */
+export function getActiveEngineerHook(
+  roomId: NarratorRoomId,
+  visitCount: number,
+  ctx: EngineerHookContext,
+): ReadonlySet<string> | undefined {
+  if (roomId !== "archives") return undefined;
+  if (visitCount !== 1) return undefined;
+  if (!ctx.burntCardFound) return undefined;
+  if (ctx.openerPlayed) return undefined;
+  return new Set<string>(["engineer_hook_active_opener"]);
+}
+
+/**
+ * Merge two optional flag sets into a single one. Used at the
+ * call site to combine Prelude beats with the Engineer hook
+ * without having to construct intermediate objects in React
+ * render paths.
+ *
+ * Returns the original `a` or `b` reference when the other is
+ * undefined, so memoized callers can keep stable references.
+ */
+export function mergeBeatFlags(
+  a: ReadonlySet<string> | undefined,
+  b: ReadonlySet<string> | undefined,
+): ReadonlySet<string> | undefined {
+  if (!a && !b) return undefined;
+  if (!a) return b;
+  if (!b) return a;
+  const merged = new Set<string>(a);
+  for (const flag of b) merged.add(flag);
+  return merged;
+}
+
 /* ─── ROOM ID BRIDGE ─── */
 
 /**

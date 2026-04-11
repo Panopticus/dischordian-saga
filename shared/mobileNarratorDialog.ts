@@ -25,6 +25,12 @@ export type TrustTier = "F" | "P" | "H" | "V" | "D";
 export interface NarratorLine {
   tier: TrustTier;
   text: string;
+  /**
+   * Optional forcing-flag tag. When present, the line ONLY fires
+   * if the given flag is in the active beat set. Used for scripted
+   * narrative moments like the §2.7 Archives opener.
+   */
+  beatFlag?: string;
 }
 
 export interface RoomDialogSet {
@@ -213,6 +219,14 @@ export const NARRATOR_DIALOG: Record<NarratorRoomId, RoomDialogSet> = {
         tier: "H",
         text: "That's because they were written by the Shadow Tongue wearing your face. I've been deleting lines when I catch them. Don't thank me. It's what I'd want.",
       },
+      // §2.7 — the Archives opener moment. Beat-tagged so it only
+      // fires when the burnt Seer's card has just been recovered
+      // and the player walks into Archives for the first time.
+      {
+        tier: "F",
+        beatFlag: "engineer_hook_active_opener",
+        text: "She means the Engineer. He was my classmate. Sit down — this is the part where I tell you something I haven't told anyone in a thousand years.",
+      },
     ],
   },
 
@@ -346,23 +360,44 @@ export const NARRATOR_DIALOG: Record<NarratorRoomId, RoomDialogSet> = {
 
 /**
  * Pick the highest-tier line available to the player for a given
- * (room, narrator, bond) combination. Returns the line text and
- * its tier. If the narrator has no entries at this bond level,
- * returns `null`.
+ * (room, narrator, bond) combination, optionally respecting active
+ * beat flags.
+ *
+ * Selection order:
+ *   1. If any line has a `beatFlag` that's in `activeBeats` AND
+ *      the player's bond meets the line's tier, return it. This
+ *      is how scripted narrative moments (e.g. §2.7 Archives
+ *      opener) override normal dialog selection.
+ *   2. Otherwise, filter to non-beat-tagged lines and pick the
+ *      highest tier the player has unlocked.
+ *
+ * Returns `null` if neither bucket has a match.
  */
 export function pickNarratorLine(
   roomId: NarratorRoomId,
   narratorId: NarratorId,
   bond: number,
+  activeBeats?: ReadonlySet<string>,
 ): NarratorLine | null {
   const set = NARRATOR_DIALOG[roomId];
   if (!set) return null;
   const lines = set[narratorId];
+
+  // Pass 1: beat-tagged lines take priority.
+  if (activeBeats && activeBeats.size > 0) {
+    for (const line of lines) {
+      if (!line.beatFlag) continue;
+      if (!activeBeats.has(line.beatFlag)) continue;
+      if (bond < TRUST_TIER_MIN_BOND[line.tier]) continue;
+      return line;
+    }
+  }
+
+  // Pass 2: normal tier-weighted pick from non-beat-tagged lines.
   const available = lines.filter(
-    (line) => bond >= TRUST_TIER_MIN_BOND[line.tier],
+    (line) => !line.beatFlag && bond >= TRUST_TIER_MIN_BOND[line.tier],
   );
   if (available.length === 0) return null;
-  // Highest tier wins. Ties go to the first declared line.
   const tierOrder: TrustTier[] = ["D", "V", "H", "P", "F"];
   for (const tier of tierOrder) {
     const match = available.find((line) => line.tier === tier);

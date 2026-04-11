@@ -167,4 +167,46 @@ describe("mobileNarratorDialog", () => {
       expect(pickNarratorLine("memorial_corridor", "elara", 40)?.tier).toBe("H");
     });
   });
+
+  describe("beat-aware line selection (§2.7)", () => {
+    it("fires the Archives opener line when the beat flag is active", () => {
+      const activeBeats = new Set(["engineer_hook_active_opener"]);
+      const line = pickNarratorLine("archives", "the_human", 0, activeBeats);
+      expect(line).not.toBeNull();
+      expect(line!.text).toContain("She means the Engineer");
+      expect(line!.beatFlag).toBe("engineer_hook_active_opener");
+    });
+
+    it("does NOT fire the opener line when the flag is inactive", () => {
+      const line = pickNarratorLine("archives", "the_human", 0);
+      expect(line).not.toBeNull();
+      expect(line!.text).not.toContain("She means the Engineer");
+    });
+
+    it("beat-tagged line beats a higher-tier untagged line at the same bond", () => {
+      // At bond 40, the H-tier Shadow Tongue line is available.
+      // The beat line is F-tier but the beat flag is active, so
+      // it should win.
+      const activeBeats = new Set(["engineer_hook_active_opener"]);
+      const line = pickNarratorLine("archives", "the_human", 40, activeBeats);
+      expect(line!.text).toContain("She means the Engineer");
+    });
+
+    it("beat lines don't leak into normal listAvailableLines", () => {
+      // Without an active beat, the opener line stays out of the
+      // normal selection even though bond is 100.
+      const line = pickNarratorLine("archives", "the_human", 100);
+      expect(line!.text).not.toContain("She means the Engineer");
+    });
+
+    it("unrelated beat flags don't trigger the opener", () => {
+      const line = pickNarratorLine(
+        "archives",
+        "the_human",
+        0,
+        new Set(["narrator_beat_1_interference"]),
+      );
+      expect(line!.text).not.toContain("She means the Engineer");
+    });
+  });
 });

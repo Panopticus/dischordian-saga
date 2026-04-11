@@ -46,7 +46,12 @@ import FastTravelPanel from "@/components/FastTravelPanel";
 import ItemDetailModal from "@/components/ItemDetailModal";
 import ParallaxRoom from "@/components/ParallaxRoom";
 import { MobileNarratorSlot } from "@/components/MobileNarratorSlot";
-import { getActivePreludeBeats, toNarratorRoomId } from "@shared/mobileNarrator";
+import {
+  getActiveEngineerHook,
+  getActivePreludeBeats,
+  mergeBeatFlags,
+  toNarratorRoomId,
+} from "@shared/mobileNarrator";
 import LoreTutorialEngine from "@/components/LoreTutorialEngine";
 import NarrativeTrigger from "@/components/NarrativeTrigger";
 import InlineShipMap from "@/components/InlineShipMap";
@@ -782,10 +787,10 @@ export default function ArkExplorerPage() {
   const currentRoom = state.currentRoomId ? getRoomDef(state.currentRoomId) : null;
   const currentRoomState = state.currentRoomId ? getRoomState(state.currentRoomId) : null;
 
-  // Witnessing §1.2 + §1.4 — compute the canonical NarratorRoomId
-  // and the set of active Prelude reveal beats for the current
-  // room. Memoized per (room, visit-count) so the slot component
-  // doesn't reseed on every re-render.
+  // Witnessing §1.2 + §1.4 + §2.7 — compute the canonical
+  // NarratorRoomId and the active narrative beat flag set for the
+  // current room. Memoized per (room, visit-count, engineer-hook
+  // state) so the slot component doesn't reseed on every re-render.
   const witnessingNarratorRoomId = useMemo(
     () => toNarratorRoomId(state.currentRoomId),
     [state.currentRoomId],
@@ -795,8 +800,26 @@ export default function ArkExplorerPage() {
     const visitCount = state.currentRoomId
       ? state.rooms[state.currentRoomId]?.visitCount ?? 0
       : 0;
-    return getActivePreludeBeats(witnessingNarratorRoomId, visitCount);
-  }, [witnessingNarratorRoomId, state.currentRoomId, state.rooms]);
+    const prelude = getActivePreludeBeats(witnessingNarratorRoomId, visitCount);
+    // §2.7 Archives opener — fires only when the player has the
+    // burnt Seer's card (gameplay sets prelude_burnt_card_found
+    // on the §2.6 crew mission 3 reward).
+    const engineer = getActiveEngineerHook(
+      witnessingNarratorRoomId,
+      visitCount,
+      {
+        burntCardFound: !!state.narrativeFlags?.prelude_burnt_card_found,
+        openerPlayed: !!state.narrativeFlags?.engineer_archives_opener_played,
+      },
+    );
+    return mergeBeatFlags(prelude, engineer);
+  }, [
+    witnessingNarratorRoomId,
+    state.currentRoomId,
+    state.rooms,
+    state.narrativeFlags?.prelude_burnt_card_found,
+    state.narrativeFlags?.engineer_archives_opener_played,
+  ]);
 
   // Persist solved puzzles
   useEffect(() => {
