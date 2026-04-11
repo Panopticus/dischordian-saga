@@ -235,8 +235,38 @@ function GiftSendBar() {
       {sendGift.isError && (
         <p className="mt-2 text-xs text-red-400/80 font-mono">{sendGift.error.message}</p>
       )}
-      {sendGift.isSuccess && (
-        <p className="mt-2 text-xs text-green-400/80 font-mono">Gift sent! +{sendGift.data?.tokensEarned ?? 0} tokens earned.</p>
+      {sendGift.isSuccess && sendGift.data && (
+        <div className="mt-2 space-y-1">
+          <p className="text-xs text-green-400/80 font-mono">
+            Gift sent! +{sendGift.data.tokensEarned} tokens earned
+            {sendGift.data.bonusDelta > 0 && (
+              <span className="text-amber-300/80"> ({sendGift.data.baseTokens} base + {sendGift.data.bonusDelta} crew bonus)</span>
+            )}
+          </p>
+          {sendGift.data.bonusDelta > 0 && sendGift.data.crewBonus && (
+            <p className="text-[10px] text-amber-400/60 font-mono">
+              Attributable to{" "}
+              {sendGift.data.crewBonus.sourceBloodlines.length > 0 && (
+                <span>
+                  bloodlines: {sendGift.data.crewBonus.sourceBloodlines.map(b => b.replace(/_/g, " ")).join(", ")}
+                </span>
+              )}
+              {sendGift.data.crewBonus.sourceBloodlines.length > 0 &&
+                sendGift.data.crewBonus.sourceRoles.length > 0 && " · "}
+              {sendGift.data.crewBonus.sourceRoles.length > 0 && (
+                <span>
+                  roles: {sendGift.data.crewBonus.sourceRoles.map(r => r.replace(/_/g, " ")).join(", ")}
+                </span>
+              )}
+            </p>
+          )}
+          {sendGift.data.crewMembersAffected > 0 && (
+            <p className="text-[10px] text-green-400/50 font-mono">
+              Morale +{sendGift.data.crewMoraleDelta} for {sendGift.data.crewMembersAffected} crew
+              {sendGift.data.newMilestonesReached.length > 0 && " (milestone bonus!)"}
+            </p>
+          )}
+        </div>
       )}
     </div>
   );

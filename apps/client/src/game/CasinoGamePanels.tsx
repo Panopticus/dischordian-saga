@@ -21,6 +21,46 @@ export interface CasinoGameResultPayload {
 }
 export type CasinoGameResultCallback = (payload?: CasinoGameResultPayload) => void;
 
+/** Equipped cosmetic slots pulled from `getMyCasinoRewards`. Panels
+ *  that render a board / reel / table use this to tint their frame
+ *  when a matching cosmetic is equipped. Only slots the casino UI
+ *  actually honours are listed here; unused slots (loredex,
+ *  companion) are ignored. */
+export interface EquippedCosmeticsMap {
+  title?: string;
+  chip?: string;
+  card_back?: string;
+  table_felt?: string;
+  companion?: string;
+  loredex?: string;
+}
+
+/** Compute the CSS class suffix for an equipped table-felt cosmetic.
+ *  Returns "" when nothing is equipped so the default frame style
+ *  wins. */
+function tableFeltClass(equipped?: EquippedCosmeticsMap): string {
+  if (!equipped?.table_felt) return "";
+  if (equipped.table_felt === "cosmetic:void_slot_reels") {
+    return "ring-2 ring-purple-500/50 shadow-[0_0_30px_rgba(168,85,247,0.25)]";
+  }
+  if (equipped.table_felt === "cosmetic:custom_casino_theme") {
+    return "ring-2 ring-amber-500/50 shadow-[0_0_30px_rgba(245,158,11,0.25)]";
+  }
+  return "";
+}
+
+/** CSS class applied to chip buttons when a chip cosmetic is equipped. */
+function chipClass(equipped?: EquippedCosmeticsMap): string {
+  if (!equipped?.chip) return "";
+  if (equipped.chip === "cosmetic:golden_chip") {
+    return "shadow-[0_0_12px_rgba(234,179,8,0.6)] border-amber-300/60";
+  }
+  if (equipped.chip === "cosmetic:black_crown_chip") {
+    return "shadow-[0_0_12px_rgba(0,0,0,0.8)] border-white/40";
+  }
+  return "";
+}
+
 /** Shared result banner used by every panel after a mutation returns. */
 function ResultBanner({ result }: { result: { won: boolean; payout: number; jackpot: boolean; detail: Record<string, unknown> } | null }) {
   if (!result) return null;
@@ -68,12 +108,17 @@ function BetSelector({
 
 /* ─── VOID SLOTS (server-authoritative) ─── */
 
-export function VoidSlotsPanel({ onResult }: { onResult?: CasinoGameResultCallback }) {
+export function VoidSlotsPanel({
+  onResult,
+  equipped,
+}: { onResult?: CasinoGameResultCallback; equipped?: EquippedCosmeticsMap }) {
   const [bet, setBet] = useState(10);
   const mut = trpc.casino.playVoidSlots.useMutation();
   const reels = (mut.data?.result.detail as { reels?: string[] } | undefined)?.reels;
+  const feltCls = tableFeltClass(equipped);
+  const chipCls = chipClass(equipped);
   return (
-    <div className="text-center">
+    <div className={`text-center rounded-xl p-4 transition-shadow ${feltCls}`}>
       <h2 className="font-display text-xl text-amber-400 mb-4">VOID SLOTS</h2>
       {reels && (
         <div className="flex justify-center gap-4 mb-6">
@@ -98,7 +143,7 @@ export function VoidSlotsPanel({ onResult }: { onResult?: CasinoGameResultCallba
       <button
         onClick={() => mut.mutate({ bet }, { onSuccess: (data) => onResult?.({ achievementsUnlocked: data?.achievementsUnlocked, rewardsUnlocked: data?.rewardsUnlocked }) })}
         disabled={mut.isPending}
-        className="px-6 py-2 rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-400 font-mono text-sm hover:bg-amber-500/20 disabled:opacity-50"
+        className={`px-6 py-2 rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-400 font-mono text-sm hover:bg-amber-500/20 disabled:opacity-50 ${chipCls}`}
       >
         {mut.isPending ? "Spinning..." : `SPIN ${bet}D`}
       </button>
@@ -109,12 +154,16 @@ export function VoidSlotsPanel({ onResult }: { onResult?: CasinoGameResultCallba
 
 /* ─── ENTROPY DICE (server-authoritative) ─── */
 
-export function EntropyDicePanel({ onResult }: { onResult?: CasinoGameResultCallback }) {
+export function EntropyDicePanel({
+  onResult,
+  equipped,
+}: { onResult?: CasinoGameResultCallback; equipped?: EquippedCosmeticsMap }) {
   const [bet, setBet] = useState(25);
   const mut = trpc.casino.playEntropyDice.useMutation();
   const detail = mut.data?.result.detail as { die1?: number; die2?: number; total?: number } | undefined;
+  const feltCls = tableFeltClass(equipped);
   return (
-    <div className="text-center">
+    <div className={`text-center rounded-xl p-4 transition-shadow ${feltCls}`}>
       <h2 className="font-display text-xl text-amber-400 mb-4">ENTROPY DICE</h2>
       {detail?.die1 !== undefined && (
         <div className="flex justify-center gap-6 mb-4">
@@ -640,11 +689,15 @@ export function DischordianMahjongPanel({ onResult }: { onResult?: CasinoGameRes
 /* ─── DISPATCHER ─── */
 
 export function CasinoGamePanel({
-  game, onResult,
-}: { game: CasinoGame; onResult?: CasinoGameResultCallback }) {
+  game, onResult, equippedCosmetics,
+}: {
+  game: CasinoGame;
+  onResult?: CasinoGameResultCallback;
+  equippedCosmetics?: EquippedCosmeticsMap;
+}) {
   switch (game) {
-    case "void_slots":                return <VoidSlotsPanel                onResult={onResult} />;
-    case "entropy_dice":              return <EntropyDicePanel              onResult={onResult} />;
+    case "void_slots":                return <VoidSlotsPanel                onResult={onResult} equipped={equippedCosmetics} />;
+    case "entropy_dice":              return <EntropyDicePanel              onResult={onResult} equipped={equippedCosmetics} />;
     case "nebula_poker":              return <NebulaPokerPanel              onResult={onResult} />;
     case "quantum_roulette":          return <QuantumRoulettePanel          onResult={onResult} />;
     case "pazaak_21":                 return <Pazaak21Panel                 onResult={onResult} />;
