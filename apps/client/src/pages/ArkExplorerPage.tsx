@@ -52,7 +52,7 @@ import {
   mergeBeatFlags,
   toNarratorRoomId,
 } from "@shared/mobileNarrator";
-import { isRoomUnlocked } from "@shared/preludeRoomGate";
+import { isRoomUnlocked as isPreludeRoomUnlocked } from "@shared/preludeRoomGate";
 import LoreTutorialEngine from "@/components/LoreTutorialEngine";
 import NarrativeTrigger from "@/components/NarrativeTrigger";
 import InlineShipMap from "@/components/InlineShipMap";
@@ -928,7 +928,7 @@ export default function ArkExplorerPage() {
       if ((room?.visitCount ?? 0) > 0) cleanedMap[id] = true;
     }
     if (
-      !isRoomUnlocked(targetRoomId, {
+      !isPreludeRoomUnlocked(targetRoomId, {
         narrativeAct: state.narrativeAct ?? 0,
         roomCleanedMap: cleanedMap,
       })

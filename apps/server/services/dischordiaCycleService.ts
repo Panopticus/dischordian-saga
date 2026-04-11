@@ -45,7 +45,7 @@ import { getDb } from "../db";
 import {
   dischordiaCycleState as cycleStateTable,
   dischordiaEnergyEvents as energyEventsTable,
-} from "../../drizzle/schema";
+} from "../../db/schema";
 import { eq } from "drizzle-orm";
 import { logger } from "../logger";
 
@@ -184,7 +184,8 @@ export const dischordiaCycleService = {
         darkEnergy: row.darkEnergy,
         vortexProximity: row.vortexProximity,
         energyBalance: row.energyBalance as DischordiaCycleState["energyBalance"],
-        history: (row.history as DischordiaCycleState["history"]) ?? [],
+        history:
+          (row.history as unknown as DischordiaCycleState["history"]) ?? [],
       };
       logger.info(
         `[DischordiaCycle] hydrate: loaded phase=${singletonState.phase} light=${singletonState.lightEnergy} dark=${singletonState.darkEnergy}`,
