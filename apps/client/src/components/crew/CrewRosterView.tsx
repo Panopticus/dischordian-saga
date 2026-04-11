@@ -210,6 +210,48 @@ export default function CrewRosterView({ state, onAssignRole }: Props) {
               })}
             </div>
 
+            {/* Holiday bonus — only visible during Christmas in July */}
+            {holidayActive && (() => {
+              const bloodline = BLOODLINE_HOLIDAY_BONUSES.find(
+                b => b.bloodlineId === selected.bloodlineId,
+              );
+              const role = selected.role
+                ? ROLE_HOLIDAY_BONUSES.find(r => r.roleId === selected.role)
+                : null;
+              if (!bloodline && !role) return null;
+              return (
+                <div className="mb-4 rounded-lg border border-amber-500/30 bg-amber-500/5 p-3">
+                  <div className="text-[10px] font-mono uppercase text-amber-300/80 mb-2 flex items-center gap-1">
+                    <Sparkles size={10} />
+                    Christmas in July contribution
+                  </div>
+                  {bloodline && (
+                    <div className="mb-1.5">
+                      <div className="text-xs font-display text-amber-200">
+                        {bloodline.bonusName}
+                      </div>
+                      <div className="text-[10px] font-mono text-amber-400/70 leading-relaxed">
+                        {bloodline.description}
+                      </div>
+                    </div>
+                  )}
+                  {role && (
+                    <div>
+                      <div className="text-xs font-display text-green-200">
+                        Role: {role.roleName}
+                      </div>
+                      <div className="text-[10px] font-mono text-green-400/70 leading-relaxed">
+                        {role.bonusDescription}
+                      </div>
+                      <div className="text-[9px] font-mono text-green-400/50 mt-0.5 italic">
+                        {role.effect}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              );
+            })()}
+
             {/* Traits */}
             {selected.geneticTraits.length > 0 && (
               <div className="mb-4">

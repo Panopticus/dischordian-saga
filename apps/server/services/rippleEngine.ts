@@ -930,6 +930,62 @@ on("kael_questline_complete", async (ev) => {
 });
 
 /* ═══════════════════════════════════════════════════════
+   SEARCH RATE-LIMIT COUNTERS
+
+   In-memory hourly buckets keyed by userId. Emitted by
+   christmasInJuly.searchGiftRecipients when a player trips
+   its token bucket. Exposed to the analytics router via
+   `getSearchRateLimitCounts()` so mods can spot enumeration
+   attempts without standing up a new persistence table.
+   ═══════════════════════════════════════════════════════ */
+
+interface SearchRateLimitBucket {
+  userId: number;
+  hourEpoch: number; // floor(Date.now() / 3600_000)
+  count: number;
+  lastEndpoint: string;
+}
+
+const searchRateLimitBuckets = new Map<string, SearchRateLimitBucket>();
+const SEARCH_RATE_LIMIT_TTL_HOURS = 24;
+
+function bucketKey(userId: number, hourEpoch: number): string {
+  return `${userId}:${hourEpoch}`;
+}
+
+on("search_rate_limited", async (ev) => {
+  const userId = typeof ev.userId === "number" ? ev.userId : 0;
+  const endpoint = typeof ev.endpoint === "string" ? ev.endpoint : "unknown";
+  const hourEpoch = Math.floor(Date.now() / (60 * 60 * 1000));
+  const key = bucketKey(userId, hourEpoch);
+  const existing = searchRateLimitBuckets.get(key);
+  if (existing) {
+    existing.count += 1;
+    existing.lastEndpoint = endpoint;
+  } else {
+    searchRateLimitBuckets.set(key, { userId, hourEpoch, count: 1, lastEndpoint: endpoint });
+  }
+  // Trim buckets older than 24 hours.
+  const cutoff = hourEpoch - SEARCH_RATE_LIMIT_TTL_HOURS;
+  for (const [k, b] of searchRateLimitBuckets) {
+    if (b.hourEpoch < cutoff) searchRateLimitBuckets.delete(k);
+  }
+});
+
+/** Returns the current hourly rate-limit buckets. Used by
+ *  analytics router admin endpoints for moderation visibility. */
+export function getSearchRateLimitCounts(): Array<{
+  userId: number;
+  hourEpoch: number;
+  count: number;
+  lastEndpoint: string;
+}> {
+  return Array.from(searchRateLimitBuckets.values())
+    .sort((a, b) => b.count - a.count)
+    .slice(0, 100);
+}
+
+/* ═══════════════════════════════════════════════════════
    EXPORT — Single public interface
    ═══════════════════════════════════════════════════════ */
 

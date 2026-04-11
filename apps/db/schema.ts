@@ -3378,6 +3378,9 @@ export const casinoState = mysqlTable("casino_state", {
    *  cosmetic per slot (title / chip / card_back / table_felt /
    *  companion / loredex). */
   equippedCasinoCosmetics: json("equippedCasinoCosmetics").$type<Record<string, string>>().default({}),
+  /** If true, the player is excluded from the progressive jackpot
+   *  claim broadcast blast. They can still see the leaderboard. */
+  jackpotBroadcastOptOut: boolean("jackpotBroadcastOptOut").notNull().default(false),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
 }, (table) => ({

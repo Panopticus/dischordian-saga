@@ -671,13 +671,22 @@ export const christmasInJulyRouter = router({
         const moraleDelta = 2 + 5 * newMilestones.length;
         const moraleResult = await applyCrewMoraleDelta(tx, ctx.user.id, moraleDelta);
 
+        // Attribution: the delta tokens the crew bonus is responsible
+        // for (tokens earned minus the pre-bonus base). Lets the client
+        // render an "attributable to …" flash.
+        const baseTokens = CHRISTMAS_EVENT_CONFIG.tokensPerGiftSent;
+        const bonusDelta = tokensEarned - baseTokens;
+
         return {
           sent: true,
           giftId,
           tokensEarned,
+          baseTokens,
+          bonusDelta,
           newMilestonesReached: newMilestones.map(m => m.id),
           crewMoraleDelta: moraleResult.affected > 0 ? moraleDelta : 0,
           crewMembersAffected: moraleResult.affected,
+          crewBonus,
         };
       });
     }),

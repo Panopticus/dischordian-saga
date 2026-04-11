@@ -120,6 +120,22 @@ export default function DegensCasinoPage() {
   );
   const vipChipImg = useMemo(() => getVipChip(vip.name), [vip.name]);
 
+  // Equipped cosmetics — pulls from the same query the leaderboard
+  // cosmetic inventory uses. The title (if any) is rendered next to
+  // the page title; the equipped chip and table_felt tint the slot
+  // reel frames via a CSS class in CasinoGamePanels.
+  const rewardsQuery = trpc.casino.getMyCasinoRewards.useQuery(undefined, { retry: false });
+  const equippedTitle = useMemo(() => {
+    return (rewardsQuery.data ?? []).find(r => r.slot === "title" && r.equipped)?.label ?? null;
+  }, [rewardsQuery.data]);
+  const equippedCosmetics = useMemo(() => {
+    const out: Record<string, string> = {};
+    for (const r of rewardsQuery.data ?? []) {
+      if (r.equipped && r.slot) out[r.slot] = r.id;
+    }
+    return out;
+  }, [rewardsQuery.data]);
+
   /** Called by every game panel after a successful tRPC mutation. Rolls for
    *  a lore tale drop client-side (low-cost flavor) and updates the Degen's
    *  commentary banner + VO based on the fresh server state. */
@@ -246,7 +262,14 @@ export default function DegensCasinoPage() {
             className="w-10 h-10 rounded-full object-cover bg-amber-500/10 border border-amber-500/30"
           />
           <div>
-            <h1 className="font-display text-lg tracking-[0.2em] text-amber-400">THE DEGEN'S CASINO</h1>
+            <div className="flex items-baseline gap-2">
+              <h1 className="font-display text-lg tracking-[0.2em] text-amber-400">THE DEGEN'S CASINO</h1>
+              {equippedTitle && (
+                <span className="font-mono text-[9px] text-amber-300/80 italic" title="Equipped casino title">
+                  — {equippedTitle}
+                </span>
+              )}
+            </div>
             <p className="font-mono text-[8px] text-amber-400/40">EDGE OF THE SHIELD // ONLY OPEN ZONE IN NE-YON SPACE // THE HOST WATCHES</p>
           </div>
         </div>
@@ -455,7 +478,11 @@ export default function DegensCasinoPage() {
                     <img src={tableImg} alt="" className="w-full max-w-sm mx-auto rounded-xl mb-4 opacity-40" style={{ filter: "saturate(0.7)" }} />
                   ) : null;
                 })()}
-                <CasinoGamePanel game={selectedGame} onResult={onAnyGameResult} />
+                <CasinoGamePanel
+                  game={selectedGame}
+                  onResult={onAnyGameResult}
+                  equippedCosmetics={equippedCosmetics}
+                />
                 <p className="font-mono text-[9px] text-white/20 mt-6 text-center">
                   {CASINO_GAMES.find(g => g.id === selectedGame)?.rules}
                 </p>
