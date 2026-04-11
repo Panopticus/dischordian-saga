@@ -12,7 +12,15 @@
    cover it?"
    ═══════════════════════════════════════════════════════ */
 
-export type AppendixCSystemStatus = "existing" | "new" | "data_only";
+export type AppendixCSystemStatus =
+  /** Pre-Witnessing canonical system re-used by Appendix C. */
+  | "existing"
+  /** Planned new code that has not yet shipped. */
+  | "new"
+  /** Planned pure-data addition to an existing system. */
+  | "data_only"
+  /** Planned work that has since shipped to main. */
+  | "shipped";
 
 export interface AppendixCIntegrationEntry {
   id: string;
@@ -134,91 +142,98 @@ export const APPENDIX_C_CANONICAL_USES: readonly AppendixCIntegrationEntry[] = [
   },
 ];
 
-/** New files / additions Appendix C introduces. */
+/** New files / additions Appendix C introduces.
+ *  NOTE: The "quiz-show" parallel track on main has already shipped
+ *  implementations for all of these entries. Each is marked `shipped`
+ *  with a pointer to the canonical file. The planned statuses are
+ *  preserved in history for anyone reading the proposal alongside
+ *  the code. */
 export const APPENDIX_C_NEW_CODE: readonly AppendixCIntegrationEntry[] = [
   {
     id: "darren_fessler_npc",
     system: "Darren Fessler NPC",
     file: "apps/shared/darrenFessler.ts",
-    status: "new",
+    status: "shipped",
     usage:
-      "Dialog, letters, and office-hours review prompts.",
+      "Dialog, letters, and office-hours review prompts. Shipped by the quiz-show track; this shell mirrors the canonical data.",
   },
   {
     id: "general_alaric_npc",
     system: "General Alaric NPC",
     file: "apps/shared/generalAlaric.ts",
-    status: "new",
+    status: "shipped",
     usage:
-      "Contestant dialog, Objection ability, cross-faction metadata linking him to Shadow Tongue.",
+      "Contestant dialog, Objection ability, and cross-faction Shadow Tongue metadata. Shipped by the quiz-show track.",
   },
   {
     id: "professor_glinn_vyre",
     system: "Professor Glinn Vyre entry",
     file: "apps/shared/mechronisProfessors.ts",
-    status: "data_only",
-    usage: "One new Mechronis Professor entry — the Game Master Professor.",
+    status: "shipped",
+    usage:
+      "prof_glinn_vyre added to mechronisProfessors.ts — the Academy's Game Master Professor.",
   },
   {
     id: "palimpsest_meter",
     system: "Palimpsest meter",
     file: "apps/shared/palimpsest.ts",
-    status: "new",
+    status: "shipped",
     usage:
-      "Modeled on the existing necromancerCycle.ts two-bar pattern. Consumes the §C.1 contribution tables.",
+      "Full Signal/Noise meter shipped with service layer (apps/server/services/palimpsestService.ts) and schema (apps/db/0044_palimpsest_state.sql).",
   },
   {
     id: "palimpsest_ripple_events",
     system: "Six new ripple events",
     file: "apps/server/services/rippleEngine.ts",
-    status: "data_only",
+    status: "shipped",
     usage:
-      "palimpsest_signal_gain, palimpsest_noise_gain, inventor_hack_landed, inventor_hack_blocked, show_casualty_rolled, host_mask_slipped.",
+      "palimpsest_signal_gain, palimpsest_noise_gain, inventor_hack_landed, inventor_hack_blocked, show_casualty_rolled, host_mask_slipped — all wired as Tier 8 handlers.",
   },
   {
     id: "palimpsest_episode_configs",
     system: "13 episode configs",
-    file: "apps/shared/appendixC/episodeFormats.ts",
-    status: "data_only",
+    file: "apps/shared/palimpsestEpisodes.ts",
+    status: "shipped",
     usage:
-      "One entry per episode — Round 3 format, theme, casualty rules, hack level.",
+      "Runtime episode configs in palimpsestEpisodes.ts. This shell's episodeFormats.ts mirrors the narrative data.",
   },
   {
     id: "darrens_desk",
     system: "Darren's desk in Dreams Workshop",
-    file: "apps/client/src/game/rooms/dreamsWorkshop.ts",
-    status: "new",
+    file: "apps/client/src/game/roomDialogs.ts",
+    status: "shipped",
     usage:
-      "Single scene, accessible post-Episode 12. Displays half-finished scenarios the player can finish.",
+      "dreams_workshop_subbasement room dialog + DARRENS_DESK_DIALOG. Post-Episode-12 access via darrenMemorial.ts desk room key.",
   },
   {
     id: "inventor_signal_beacon",
     system: "Inventor's posthumous Signal Beacon",
-    file: "apps/shared/signalBeacons.ts",
-    status: "data_only",
-    usage: "One new beacon entry fired after Darren's death.",
+    file: "apps/shared/darrenMemorial.ts",
+    status: "shipped",
+    usage: "INVENTOR_FINAL_BEACON constant — permanent, archives reading room.",
   },
   {
     id: "the_assistant_card",
     system: "THE ASSISTANT card",
-    file: "apps/shared/cardArchetypes.ts",
-    status: "data_only",
-    usage: "Darren's memorial Dischordia card. Reuses his badge render.",
+    file: "apps/shared/darrenMemorial.ts",
+    status: "shipped",
+    usage:
+      "THE_ASSISTANT_CARD memorial entry. 4-cost 2/5 Witness archetype, Signal-scaling draw effect.",
   },
   {
     id: "mailroom_letters",
     system: "12 between-episode letter templates",
     file: "apps/shared/darrenFessler.ts",
-    status: "data_only",
-    usage: "Mailroom content, one per episode.",
+    status: "shipped",
+    usage: "DARREN_LETTERS — one letter per episode, surface text + buried real sentence.",
   },
   {
     id: "governance_hub_panel",
     system: "Palimpsest Governance Hub panel",
-    file: "apps/client/src/pages/GovernanceHubPage.tsx",
-    status: "new",
+    file: "apps/client/src/components/PalimpsestMeterPanel.tsx",
+    status: "shipped",
     usage:
-      "Renders the Palimpsest bars as an illuminated-manuscript page component.",
+      "Illuminated-manuscript panel with gold Signal / red Noise bars, wired into the Governance Hub.",
   },
 ];
 

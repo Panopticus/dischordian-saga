@@ -324,9 +324,18 @@ describe("Appendix C §C.7 — Integration Map", () => {
     }
   });
 
-  it("new code is either new or data_only, never existing", () => {
+  it("new code is never tagged as pre-existing canon", () => {
     for (const e of APPENDIX_C_NEW_CODE) {
       expect(e.status).not.toBe("existing");
+    }
+  });
+
+  it("every new-code entry has already shipped on main", () => {
+    // The quiz-show track shipped all eleven entries. This test
+    // is the regression guard that keeps the integration map
+    // honest if any of them are reverted.
+    for (const e of APPENDIX_C_NEW_CODE) {
+      expect(e.status).toBe("shipped");
     }
   });
 
