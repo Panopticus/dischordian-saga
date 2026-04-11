@@ -418,6 +418,172 @@ export const INFILTRATION_STAGES: Record<string, InfiltrationStage> = {
     flagsOnComplete: ["nb_risen_through_ranks"],
   },
 
+  /* ═══════════════════════════════════════════════════════
+     F2 — HIERARCHY OF THE DAMNED — "Shadow Tongue's Apprentice"
+     §7.3 F2 Infiltration path. Learn to rewrite small pieces
+     of the Loredex. Lie to the universe and make it true.
+     Uses the loredexRewrite.ts override layer — the player's
+     changes are permanent on their device.
+     ═══════════════════════════════════════════════════════ */
+
+  hi_i_1: {
+    stageId: "hi_i_1",
+    factionId: "hierarchy",
+    type: "choice",
+    title: "Accept the Bargain",
+    intro:
+      "The Shadow Tongue receives you in the Armory. They are not in their vessel-body. They are spread across every metal surface in the room, and their voice comes from wherever you happen to be looking. They set three terms on the table. You must accept one to be apprenticed. Accepting more than one is not permitted. Declining all three ends the offer permanently.",
+    prompt: "Which term do you accept?",
+    options: [
+      {
+        id: "hi_i_1_truth",
+        label: "PAY IN TRUTH — Surrender one secret you have never spoken.",
+        outcome:
+          "You whisper a secret into the silence and it leaves you. You do not remember what the secret was when you finish saying it. This is the oldest and cheapest currency the Shadow Tongue accepts. They are slightly disappointed you chose the cheap one, which means they expect you to be very useful.",
+        flags: ["hi_term_truth"],
+      },
+      {
+        id: "hi_i_1_blood",
+        label: "PAY IN BLOOD — Three drops, drawn willingly, from the webbing of your left hand.",
+        outcome:
+          "The cut is painless until you look away. When you look back the scar has already knit. The Shadow Tongue breathes in when they see the mark — blood is the currency of the Hierarchy's most entangled contracts. You have signed something longer than this stage.",
+        flags: ["hi_term_blood"],
+      },
+      {
+        id: "hi_i_1_name",
+        label: "PAY IN NAME — Surrender the name of someone you love to the Book of Names.",
+        outcome:
+          "You write Elara's name, or the Human's name, or the Engineer's name, or whichever name you chose in that terrible pause — you write it into the Book of Names. It stays there. The person whose name you wrote does not know. They will not know until the Hierarchy decides they should.",
+        flags: ["hi_term_name", "hi_name_pledged"],
+      },
+    ],
+    flagsOnComplete: ["hi_apprenticeship_accepted"],
+  },
+
+  hi_i_2: {
+    stageId: "hi_i_2",
+    factionId: "hierarchy",
+    type: "rewrite",
+    title: "First Rewrite",
+    intro:
+      "The Shadow Tongue brings you a single Loredex page and a single pen. 'Practice on a quiet one,' they say. 'A Judge. Nobody reads this entry. Nobody will notice the change. The universe will not resist. Try it.'\n\nThis rewrite is practice. It does not alter the canonical record — only your copy. The Graduate stage will be the binding one.",
+    entityId: "entity_31",
+    entityName: "The Judge",
+    entityPreview:
+      "Deciding the fate of individuals, civilizations, and ideologies, the Judge is guided solely by their perception of balance and fairness.",
+    templates: [
+      {
+        id: "hi_i_2_tmpl_cruelty",
+        label: "REWRITE: The Judge is cruel by design.",
+        claim:
+          "Change the Judge's motivation from 'balance and fairness' to 'cruelty the court pretends is fairness'.",
+        find: "the Judge is guided solely by their perception of balance and fairness",
+        replace: "the Judge is guided by a cruelty the court has learned to pretend is fairness",
+      },
+      {
+        id: "hi_i_2_tmpl_bribery",
+        label: "REWRITE: The Judge is for sale.",
+        claim: "Change 'balance and fairness' to 'the Judge's last accepted bribe'.",
+        find: "the Judge is guided solely by their perception of balance and fairness",
+        replace: "the Judge is guided solely by whichever party offered the largest bribe most recently",
+      },
+      {
+        id: "hi_i_2_tmpl_kinder",
+        label: "REWRITE: The Judge is quietly merciful.",
+        claim: "Change 'balance and fairness' to 'mercy they will never admit to in open court'.",
+        find: "the Judge is guided solely by their perception of balance and fairness",
+        replace: "the Judge is guided, in private, by a mercy they will never admit to in open court",
+      },
+    ],
+    binding: false,
+    flagsOnComplete: ["hi_first_rewrite_done"],
+  },
+
+  hi_i_3: {
+    stageId: "hi_i_3",
+    factionId: "hierarchy",
+    type: "ritual",
+    title: "Blood Weave Ritual",
+    intro:
+      "The Shadow Tongue leads you into the Armory's sub-chamber. The Blood Weave hangs on the back wall like a tapestry that has only half-decided to be physical. The ritual has five beats. You will not be allowed to skip any of them. Each beat takes something.",
+    beats: [
+      {
+        label: "BEAT 1 — THE FIRST CUT",
+        text:
+          "The Shadow Tongue opens a thin line across the webbing of your left hand — not the one you paid with in hi_i_1, the other one. The pain arrives slightly after you see the cut, the way distant lightning arrives after the flash.",
+        buttonLabel: "HOLD STILL",
+      },
+      {
+        label: "BEAT 2 — THE NAME YOU DO NOT SAY",
+        text:
+          "A name rises in your throat unbidden — the name of someone you promised yourself you would never think of again in a room with a mirror in it. The Shadow Tongue writes it down without asking you. They already knew.",
+        buttonLabel: "LET IT GO",
+      },
+      {
+        label: "BEAT 3 — THE THREAD",
+        text:
+          "A single thread of the Blood Weave detaches from the tapestry and climbs your forearm. It is not blood. It is the IDEA of blood. It sits under your skin now, warm, looking for something to bind. You will feel it for the rest of the game.",
+        buttonLabel: "ACCEPT THE THREAD",
+      },
+      {
+        label: "BEAT 4 — THE RECITATION",
+        text:
+          "The Shadow Tongue teaches you the five syllables that open the Book of Names. You say them after them, once. They tell you to never say them again in this room. You immediately want to say them again. You will have to not-say them for the rest of this session.",
+        buttonLabel: "SWALLOW THE SYLLABLES",
+      },
+      {
+        label: "BEAT 5 — THE SEAL",
+        text:
+          "The Shadow Tongue presses their thumb to the cut on your hand. It closes. It leaves a brand shaped like a sentence you cannot read. The ritual is complete. You are an apprentice now by contract and by Weave.",
+        buttonLabel: "RISE, APPRENTICE",
+      },
+    ],
+    closingLine:
+      "You walk out of the sub-chamber with two new scars, one secret you cannot remember, and a single thread of the Blood Weave asleep under the skin of your forearm. Elara asks if you are all right. You lie.",
+    flagsOnComplete: ["hi_blood_weave_ritual_done", "blood_weave_thread_acquired"],
+  },
+
+  hi_i_4: {
+    stageId: "hi_i_4",
+    factionId: "hierarchy",
+    type: "rewrite",
+    title: "Graduate",
+    intro:
+      "The Shadow Tongue sets the Recruiter's Loredex page on the lectern. 'This one is weighted,' they say. 'This one is tied to real people and real events. If you rewrite this, the universe will push back and lose. You will have changed something that was. Make a choice you can live with, apprentice. This is binding.'\n\nWhatever you pick is permanent on your device. The Loredex entry you know will be the one you wrote, from now until you start a new game.",
+    entityId: "entity_26",
+    entityName: "The Recruiter",
+    entityPreview:
+      "Initially, he applied his powers to benefit the Empire, enrolling at the Academy and swiftly rising in influence. Yet, when the Iron Lion was expelled, the Recruiter chose to abandon his training and...",
+    templates: [
+      {
+        id: "hi_i_4_tmpl_loyal",
+        label: "REWRITE: The Recruiter never broke with the Empire.",
+        claim:
+          "Claim that the Recruiter remained loyal to the Academy and the Empire. Retcon the Iron Lion expulsion entirely.",
+        find: "when the Iron Lion was expelled, the Recruiter chose to abandon his training",
+        replace: "when the Iron Lion was expelled, the Recruiter stayed at the Academy and denounced him in open court",
+      },
+      {
+        id: "hi_i_4_tmpl_architect",
+        label: "REWRITE: The Recruiter was always a Hierarchy asset.",
+        claim:
+          "Claim the Recruiter was a Hierarchy sleeper inside the Academy the entire time. The 'abandon training' line becomes a cover story.",
+        find: "the Recruiter chose to abandon his training",
+        replace: "the Recruiter 'abandoned' his training in the exact way a Hierarchy sleeper is supposed to abandon a cover",
+      },
+      {
+        id: "hi_i_4_tmpl_eyes",
+        label: "REWRITE: The Recruiter was the one who selected the Eyes.",
+        claim:
+          "Claim that the Recruiter was the one who personally identified and selected the sixteen-year-old Eyes for training. Canonizes §7.4's 'Recruitment' fragment.",
+        find: "the Recruiter chose to abandon his training",
+        replace: "the Recruiter personally identified a sixteen-year-old orphan who would later be known as the Eyes, and selected her for training he would never finish",
+      },
+    ],
+    binding: true,
+    flagsOnComplete: ["hi_graduate_rewrite_committed", "hierarchy_infiltration_complete", "shadow_tongue_apprentice"],
+  },
+
   nb_i_4: {
     stageId: "nb_i_4",
     factionId: "new_babylon",
