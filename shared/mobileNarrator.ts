@@ -44,6 +44,58 @@ export type NarratorRoomId =
   | "memorial_corridor" // unlocks at trust 40, §1.5
   | "pet_garden";       // unlocks after Prelude, §2.5
 
+/* ─── PRELUDE REVEAL BEATS (§1.4) ─── */
+
+/**
+ * The four §1.4 Prelude reveal beats, indexed by the room they
+ * fire in. Each beat flag is one of the `FORCING_FLAGS` keys so
+ * a single lookup in `seedNarratorSlot` produces the right
+ * narrator.
+ *
+ * The proposal ties these beats to cleaned-room count (1st, 3rd,
+ * 5th, 7th cleaned room). The codebase does not model "cleaning"
+ * as a first-class concept, so we use the first room-visit as
+ * the equivalent trigger — a single-shot moment at visitCount=1
+ * and never again.
+ */
+export const PRELUDE_BEAT_BY_ROOM: Record<NarratorRoomId, string | undefined> = {
+  cryo_bay: "narrator_beat_1_interference",
+  medical_bay: "narrator_beat_2_signal",
+  comms_array: "narrator_beat_3_introduction",
+  observation_deck: "narrator_beat_4_swap",
+  // Rooms below do not have a Prelude beat.
+  bridge: undefined,
+  archives: undefined,
+  armory: undefined,
+  engineering: undefined,
+  trade_hub: undefined,
+  cargo_bay: undefined,
+  trophy_room: undefined,
+  captains_quarters: undefined,
+  memorial_corridor: undefined,
+  pet_garden: undefined,
+};
+
+/**
+ * Given a room id and its visit count, return the set of active
+ * Prelude beat flags to feed into `seedNarratorSlot` via the
+ * `flags` argument. Returns `undefined` when no beat is active
+ * so callers can keep the reference stable across renders.
+ *
+ * Beats only fire on the FIRST visit to the room (visitCount === 1).
+ * On subsequent visits the set is empty and the slot reverts to
+ * bond-and-affinity weighting.
+ */
+export function getActivePreludeBeats(
+  roomId: NarratorRoomId,
+  visitCount: number,
+): ReadonlySet<string> | undefined {
+  if (visitCount !== 1) return undefined;
+  const beat = PRELUDE_BEAT_BY_ROOM[roomId];
+  if (!beat) return undefined;
+  return new Set<string>([beat]);
+}
+
 /* ─── ROOM ID BRIDGE ─── */
 
 /**

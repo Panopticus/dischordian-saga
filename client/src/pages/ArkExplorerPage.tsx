@@ -46,7 +46,7 @@ import FastTravelPanel from "@/components/FastTravelPanel";
 import ItemDetailModal from "@/components/ItemDetailModal";
 import ParallaxRoom from "@/components/ParallaxRoom";
 import { MobileNarratorSlot } from "@/components/MobileNarratorSlot";
-import { toNarratorRoomId } from "@shared/mobileNarrator";
+import { getActivePreludeBeats, toNarratorRoomId } from "@shared/mobileNarrator";
 import LoreTutorialEngine from "@/components/LoreTutorialEngine";
 import NarrativeTrigger from "@/components/NarrativeTrigger";
 import InlineShipMap from "@/components/InlineShipMap";
@@ -782,6 +782,22 @@ export default function ArkExplorerPage() {
   const currentRoom = state.currentRoomId ? getRoomDef(state.currentRoomId) : null;
   const currentRoomState = state.currentRoomId ? getRoomState(state.currentRoomId) : null;
 
+  // Witnessing §1.2 + §1.4 — compute the canonical NarratorRoomId
+  // and the set of active Prelude reveal beats for the current
+  // room. Memoized per (room, visit-count) so the slot component
+  // doesn't reseed on every re-render.
+  const witnessingNarratorRoomId = useMemo(
+    () => toNarratorRoomId(state.currentRoomId),
+    [state.currentRoomId],
+  );
+  const witnessingBeatFlags = useMemo(() => {
+    if (!witnessingNarratorRoomId) return undefined;
+    const visitCount = state.currentRoomId
+      ? state.rooms[state.currentRoomId]?.visitCount ?? 0
+      : 0;
+    return getActivePreludeBeats(witnessingNarratorRoomId, visitCount);
+  }, [witnessingNarratorRoomId, state.currentRoomId, state.rooms]);
+
   // Persist solved puzzles
   useEffect(() => {
     try {
@@ -1093,13 +1109,15 @@ export default function ArkExplorerPage() {
             {/* Witnessing §1.2 — floating narrator slot. Appears in
                 every canonicalized ship room. Specialized mini-game
                 venues (forge, libraries, vaults, etc.) return null
-                from toNarratorRoomId and suppress the slot. */}
-            {(() => {
-              const narratorRoomId = toNarratorRoomId(state.currentRoomId);
-              return narratorRoomId ? (
-                <MobileNarratorSlot roomId={narratorRoomId} />
-              ) : null;
-            })()}
+                from toNarratorRoomId and suppress the slot.
+                §1.4 — beat flags force the scripted reveal narrator
+                on first visit to each Prelude room. */}
+            {witnessingNarratorRoomId && (
+              <MobileNarratorSlot
+                roomId={witnessingNarratorRoomId}
+                flags={witnessingBeatFlags}
+              />
+            )}
           </div>
 
           {/* Room description */}

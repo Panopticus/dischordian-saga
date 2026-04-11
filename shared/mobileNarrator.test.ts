@@ -3,9 +3,11 @@ import {
   applyDismissal,
   BOND_TIER_EFFECTS,
   FORCING_FLAGS,
+  getActivePreludeBeats,
   getBondLocks,
   isDismissalActive,
   makeNarratorSeed,
+  PRELUDE_BEAT_BY_ROOM,
   ROOM_AFFINITY,
   seedNarratorSlot,
   tickSwapRoom,
@@ -266,6 +268,83 @@ describe("mobileNarrator.getBondLocks", () => {
     for (const effect of BOND_TIER_EFFECTS) {
       expect(effect.locks.length).toBeGreaterThan(0);
     }
+  });
+});
+
+describe("mobileNarrator.getActivePreludeBeats", () => {
+  it("fires beat 1 on first visit to cryo_bay", () => {
+    const flags = getActivePreludeBeats("cryo_bay", 1);
+    expect(flags).toBeDefined();
+    expect(flags!.has("narrator_beat_1_interference")).toBe(true);
+  });
+
+  it("fires beat 2 on first visit to medical_bay", () => {
+    const flags = getActivePreludeBeats("medical_bay", 1);
+    expect(flags).toBeDefined();
+    expect(flags!.has("narrator_beat_2_signal")).toBe(true);
+  });
+
+  it("fires beat 3 on first visit to comms_array", () => {
+    const flags = getActivePreludeBeats("comms_array", 1);
+    expect(flags).toBeDefined();
+    expect(flags!.has("narrator_beat_3_introduction")).toBe(true);
+  });
+
+  it("fires beat 4 on first visit to observation_deck", () => {
+    const flags = getActivePreludeBeats("observation_deck", 1);
+    expect(flags).toBeDefined();
+    expect(flags!.has("narrator_beat_4_swap")).toBe(true);
+  });
+
+  it("returns undefined on subsequent visits to a beat room", () => {
+    expect(getActivePreludeBeats("cryo_bay", 2)).toBeUndefined();
+    expect(getActivePreludeBeats("cryo_bay", 10)).toBeUndefined();
+    expect(getActivePreludeBeats("medical_bay", 2)).toBeUndefined();
+  });
+
+  it("returns undefined on visitCount 0 (has not been entered yet)", () => {
+    expect(getActivePreludeBeats("cryo_bay", 0)).toBeUndefined();
+  });
+
+  it("returns undefined for rooms without a Prelude beat", () => {
+    expect(getActivePreludeBeats("bridge", 1)).toBeUndefined();
+    expect(getActivePreludeBeats("archives", 1)).toBeUndefined();
+    expect(getActivePreludeBeats("armory", 1)).toBeUndefined();
+    expect(getActivePreludeBeats("engineering", 1)).toBeUndefined();
+    expect(getActivePreludeBeats("trade_hub", 1)).toBeUndefined();
+    expect(getActivePreludeBeats("captains_quarters", 1)).toBeUndefined();
+  });
+
+  it("every declared beat is also a FORCING_FLAGS key", () => {
+    for (const beat of Object.values(PRELUDE_BEAT_BY_ROOM)) {
+      if (beat === undefined) continue;
+      expect(FORCING_FLAGS).toHaveProperty(beat);
+    }
+  });
+
+  it("beat flags in seedNarratorSlot produce the right narrator", () => {
+    // Beat 1 forces Elara regardless of a lopsided Human bond.
+    const res1 = seedNarratorSlot({
+      roomId: "cryo_bay",
+      elaraBond: 0,
+      humanBond: 100,
+      flags: getActivePreludeBeats("cryo_bay", 1),
+      seed: 0.9,
+    });
+    expect(res1.narratorId).toBe("elara");
+    expect(res1.reason).toBe("forced_by_flag");
+
+    // Beat 2 forces The Human on Medical Bay even though Elara
+    // lives there by affinity.
+    const res2 = seedNarratorSlot({
+      roomId: "medical_bay",
+      elaraBond: 100,
+      humanBond: 0,
+      flags: getActivePreludeBeats("medical_bay", 1),
+      seed: 0.1,
+    });
+    expect(res2.narratorId).toBe("the_human");
+    expect(res2.reason).toBe("forced_by_flag");
   });
 });
 
