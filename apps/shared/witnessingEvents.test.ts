@@ -8,7 +8,7 @@ import {
 
 describe("witnessingEvents (§14.1 Living Universe bridge)", () => {
   describe("registry structure", () => {
-    it("has exactly the six milestones from §14.1", () => {
+    it("has all nine milestones from §14.1", () => {
       const ids = Object.keys(WITNESSING_MILESTONES).sort();
       expect(ids).toEqual(
         [
@@ -16,6 +16,9 @@ describe("witnessingEvents (§14.1 Living Universe bridge)", () => {
           "lions_last_broadcast",
           "sector_wakes",
           "silence_of_two_witnesses",
+          "the_archon_recruited",
+          "the_engineer_speaks",
+          "thaloria_echo",
           "two_witnesses_meet",
           "two_witnesses_remember",
         ].sort(),
@@ -90,6 +93,38 @@ describe("witnessingEvents (§14.1 Living Universe bridge)", () => {
       expect(
         getWitnessingMilestone("not_a_real_milestone" as WitnessingMilestoneId),
       ).toBeUndefined();
+    });
+  });
+
+  describe("new §14.1 milestones (items 3-5)", () => {
+    it("Thaloria Echo awards modest light and has three narrator reactions", () => {
+      const m = getWitnessingMilestone("thaloria_echo");
+      expect(m).toBeDefined();
+      expect(m!.lightEnergyReward).toBe(25);
+      expect(m!.npcReactions.elara).toBeDefined();
+      expect(m!.npcReactions.the_human).toBeDefined();
+      expect(m!.npcReactions.the_antiquarian).toBeDefined();
+    });
+
+    it("The Engineer Speaks awards +100 light and sets the flag", () => {
+      const m = getWitnessingMilestone("the_engineer_speaks");
+      expect(m).toBeDefined();
+      expect(m!.lightEnergyReward).toBe(100);
+      expect(m!.raisesFlag).toBe("event_the_engineer_speaks");
+    });
+
+    it("The Archon Recruited costs -1000 dark and awards zero light", () => {
+      const m = getWitnessingMilestone("the_archon_recruited");
+      expect(m).toBeDefined();
+      expect(m!.lightEnergyReward).toBe(0);
+      expect(m!.darkEnergyCost).toBe(1000);
+    });
+
+    it("The Archon Recruited has all three narrator warnings", () => {
+      const m = getWitnessingMilestone("the_archon_recruited");
+      expect(m!.npcReactions.elara).toBeDefined();
+      expect(m!.npcReactions.the_human).toBeDefined();
+      expect(m!.npcReactions.the_antiquarian).toBeDefined();
     });
   });
 });

@@ -104,3 +104,59 @@ export function recordMemorableMoment(
 export function getMemorableMoments(): ReadonlyArray<MemorableMoment> {
   return useMemorableMomentsStore.getState().moments;
 }
+
+/* ─── CANONICAL RECORDING HELPERS ─── */
+
+/**
+ * Record a Game Master defeat moment. Called by Collector's
+ * Arena code (§6.4) when the player beats Left Game Master or
+ * Right Game Master. Subtitle calls out which of the two fell.
+ *
+ * The Lion in Black feed doesn't currently have a dedicated
+ * slot for `game_master_defeated`, but the moment is recorded
+ * for the Loredex and for future slot additions.
+ */
+export function recordGameMasterDefeat(
+  gameMasterId: "left_game_master" | "right_game_master",
+  metadata?: Record<string, unknown>,
+): void {
+  const name =
+    gameMasterId === "left_game_master"
+      ? "the Left Game Master"
+      : "the Right Game Master";
+  recordMemorableMoment(
+    "game_master_defeated",
+    `The night you defeated ${name}. You did not lose a single Eidolon.`,
+    undefined,
+    { gameMasterId, ...metadata },
+  );
+}
+
+/**
+ * Record a card battle win. If `wasComeback` is true — the
+ * player had their general below 10 HP at some point during
+ * the match — record it as a `card_battle_comeback` instead
+ * of a generic win. The Lion in Black feed slot 3 prefers
+ * the comeback variant.
+ */
+export function recordCardBattleOutcome(
+  opponentFaction: string,
+  wasComeback: boolean,
+  metadata?: Record<string, unknown>,
+): void {
+  if (wasComeback) {
+    recordMemorableMoment(
+      "card_battle_comeback",
+      `A card battle you won on a losing deck against the ${opponentFaction} faction.`,
+      undefined,
+      metadata,
+    );
+  } else {
+    recordMemorableMoment(
+      "card_battle_win",
+      `A card battle you won against the ${opponentFaction} faction.`,
+      undefined,
+      metadata,
+    );
+  }
+}
