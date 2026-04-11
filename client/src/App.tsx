@@ -39,6 +39,7 @@ import EasterEggs from "./components/EasterEggs";
 import UniverseAtmosphere from "./components/UniverseAtmosphere";
 import SoundControls from "./components/SoundControls";
 import { SlideshowPlayerRoot } from "./components/SlideshowPlayerRoot";
+import { DischordiaCycleSync } from "./components/DischordiaCycleSync";
 import { useElaraTTS } from "./hooks/useElaraTTS";
 import { useVoidEngine } from "./engine/useVoidEngine";
 import { useArchetypeDetection } from "./hooks/useArchetypeDetection";
@@ -531,6 +532,11 @@ function App() {
                   <SagaThemeBGMProvider>
                   <TooltipProvider>
                     <Toaster position="bottom-left" />
+                    {/* Witnessing §3 — hydrate the community
+                        Light/Dark meter from the server on mount
+                        and install fire-and-forget write-through
+                        for every subsequent applyEnergy call. */}
+                    <DischordiaCycleSync />
                     {/* Witnessing §5 — global slideshow host. Mounts
                         whenever any caller queues a slideshow via
                         playSlideshow(id). Must be above AuthGate so

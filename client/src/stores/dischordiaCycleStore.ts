@@ -38,6 +38,60 @@ import {
   type EnergyGainActionId,
 } from "@shared/dischordiaCycle";
 
+/* ─── SERVER SYNC (§3 community meter) ─── */
+
+/**
+ * Fire-and-forget server write-through. Mirrors the pattern
+ * from client/src/lib/settingsSync.ts — a module-level tRPC
+ * utils reference is set once at app mount, then every
+ * `applyEnergy` call triggers a best-effort server mutation
+ * on top of the local state update.
+ *
+ * Tests and SSR skip this path entirely because the utils
+ * reference is null.
+ */
+type DischordiaSyncUtils = {
+  client: {
+    dischordiaCycle: {
+      applyEnergy: {
+        mutate: (input: { actionId: string }) => Promise<unknown>;
+      };
+      getState: {
+        query: () => Promise<DischordiaCycleState>;
+      };
+    };
+  };
+};
+
+let syncUtils: DischordiaSyncUtils | null = null;
+
+/**
+ * Initialize the client sync layer. Called once from a React
+ * component that has access to `trpc.useUtils()` — typically
+ * `<DischordiaCycleSync />` mounted near the app root.
+ */
+export function initDischordiaSync(utils: DischordiaSyncUtils | null): void {
+  syncUtils = utils;
+}
+
+/**
+ * Hydrate the local store from the server's current community
+ * meter. Called on app mount after the user is authenticated
+ * (or anonymously — the tRPC query is public).
+ */
+export async function hydrateDischordiaFromServer(): Promise<void> {
+  if (!syncUtils) return;
+  try {
+    const state = await syncUtils.client.dischordiaCycle.getState.query();
+    useDischordiaCycleStore.setState({ state });
+  } catch (err) {
+    // Fail-quiet — hydration is best-effort. The local store
+    // retains its default state if the server is unreachable.
+    // eslint-disable-next-line no-console
+    console.warn("[DischordiaCycle] hydrate failed:", err);
+  }
+}
+
 interface DischordiaCycleStore {
   state: DischordiaCycleState;
 
@@ -76,6 +130,18 @@ export const useDischordiaCycleStore = create<DischordiaCycleStore>((set, get) =
 
   applyEnergy: (actionId) => {
     set({ state: applyEnergyGain(get().state, actionId) });
+    // Fire-and-forget server write-through. Only runs when
+    // initDischordiaSync has been called with live tRPC utils.
+    if (syncUtils) {
+      syncUtils.client.dischordiaCycle.applyEnergy
+        .mutate({ actionId })
+        .catch((err: unknown) => {
+          // Best-effort. The local store already updated and the
+          // next hydrate cycle will reconcile any drift.
+          // eslint-disable-next-line no-console
+          console.warn("[DischordiaCycle] server write failed:", err);
+        });
+    }
   },
 
   applyRawDelta: ({ light = 0, dark = 0, vortex = 0 }) => {
