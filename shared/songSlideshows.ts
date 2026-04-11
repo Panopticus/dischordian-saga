@@ -328,7 +328,10 @@ export const WELCOME_TO_CELEBRATION_SLIDESHOW: SongSlideshowDef = {
     "slideshow_welcome_to_celebration_complete",
     "engineer_origin_seen",
     "celebration_class_photo_seen",
-    "cycle_a_complete",
+    // Note: `act_1_cycle_a_complete` is an UPSTREAM gameplay flag
+    // that TRIGGERS this slideshow (see useNarrativeIntegration
+    // SLIDESHOW_TRIGGERS table). The slideshow must not set it
+    // itself or we'd have a causal loop.
   ],
   unlockLoredexEntry: "project-celebration",
   lightEnergyReward: 150,
@@ -409,7 +412,8 @@ export const TO_BE_THE_HUMAN_SLIDESHOW: SongSlideshowDef = {
     "mechronis_graduation_seen",
     "iron_lion_absence_noted",
     "seer_glimpsed",
-    "cycle_b_complete",
+    // `act_1_cycle_b_complete` is the UPSTREAM trigger flag set
+    // by gameplay when Cycle B finishes. Don't set it here.
   ],
   unlockLoredexEntry: "mechronis-academy",
   lightEnergyReward: 200,
@@ -492,7 +496,8 @@ export const I_AM_THE_EYES_SLIDESHOW: SongSlideshowDef = {
     "eyes_life_seen",
     "elara_watched_her_own_past",
     "panopticon_betrayal_seen",
-    "act_3_opened",
+    // `act_3_starting` is the UPSTREAM trigger flag set by
+    // gameplay when Act 3 begins. Don't set it here.
   ],
   unlockLoredexEntry: "the-eyes",
   lightEnergyReward: 250,

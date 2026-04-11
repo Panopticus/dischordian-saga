@@ -135,13 +135,59 @@ const TRUST_CONSEQUENCE_MESSAGES: Record<string, Record<number, string>> = {
  * Mount in AppShell. Watches game state changes and triggers
  * narrative consequences automatically.
  */
+/**
+ * Witnessing §5 — Slideshow trigger table.
+ *
+ * Every P0 slideshow in the §5.5 priority list maps one upstream
+ * gameplay flag to one slideshow id, plus the completion flag that
+ * blocks replay. Adding a new §5.5 entry is one row in this table
+ * plus the slideshow definition in shared/songSlideshows.ts — no
+ * new effect wiring.
+ *
+ * Exported for the structural test in this file's test suite.
+ */
+export const SLIDESHOW_TRIGGERS: ReadonlyArray<{
+  triggerFlag: string;
+  slideshowId: string;
+  completionFlag: string;
+}> = [
+  {
+    // §5.4 / §12 C4 — Act 1 finale. The Engineer's execution.
+    triggerFlag: "act_1_complete",
+    slideshowId: "last-words",
+    completionFlag: "slideshow_last_words_complete",
+  },
+  {
+    // §4.3 / §12 C2 — Cycle A finale. Gameplay must set
+    // `act_1_cycle_a_complete` when the Little Watcher falls.
+    triggerFlag: "act_1_cycle_a_complete",
+    slideshowId: "welcome-to-celebration",
+    completionFlag: "slideshow_welcome_to_celebration_complete",
+  },
+  {
+    // §4.4 / §12 C3 — Cycle B finale. Gameplay sets
+    // `act_1_cycle_b_complete` when the final Mechronis battle
+    // resolves.
+    triggerFlag: "act_1_cycle_b_complete",
+    slideshowId: "to-be-the-human",
+    completionFlag: "slideshow_to_be_the_human_complete",
+  },
+  {
+    // §7 / §12 C6 — Act 3 opener. Gameplay sets `act_3_starting`
+    // when the player transitions out of the Act 2 interlude.
+    triggerFlag: "act_3_starting",
+    slideshowId: "i-am-the-eyes-that-watch",
+    completionFlag: "slideshow_i_am_the_eyes_complete",
+  },
+];
+
 export function useNarrativeIntegration() {
   const { state, setNarrativeFlag } = useGame();
   const prevMoralityRef = useRef(state.moralityScore);
   const prevTrustRef = useRef<Record<string, number>>({});
   const prevRoomsRef = useRef<Set<string>>(new Set());
   const discoveredRef = useRef<Set<string>>(new Set());
-  const lastWordsFiredRef = useRef(false);
+  const slideshowFiredRef = useRef<Set<string>>(new Set());
 
   // Initialize discovered set from localStorage
   useEffect(() => {
@@ -244,28 +290,36 @@ export function useNarrativeIntegration() {
     }
   }, [state.rooms, discoverLore]);
 
-  // ─── WITNESSING §5.4 — ACT 1 PAYOFF SLIDESHOW ───
-  // When Act 1 completes, fire "Last Words" — the P0 master
-  // slideshow (15 frames, 3m 30s) that pays off the Engineer's
-  // execution arc and delivers +500 community Light Energy.
+  // ─── WITNESSING §5 — SLIDESHOW TRIGGER FAN-OUT ───
+  // Every §5.5 P0 slideshow has:
+  //   - an upstream trigger flag (set by gameplay when the payoff
+  //     moment lands),
+  //   - a completion flag (set by SlideshowPlayerRoot once the
+  //     cinematic finishes — used for cross-session dedupe).
   //
-  // Two dedupe layers:
-  //   1. `slideshow_last_words_complete` narrative flag — set
-  //      by SlideshowPlayerRoot on completion. Prevents replay
-  //      across sessions.
-  //   2. In-session useRef — prevents the effect from re-firing
-  //      during the brief window between queueing the slideshow
-  //      and the completion flag being written back to state.
+  // One effect processes the table. The in-session Set guards
+  // against a re-render firing the same slideshow twice during
+  // the React window between queue and completion.
+  //
+  // Trigger flags are deliberately distinct from the completion
+  // flags the slideshow sets itself, to prevent causal loops.
+  // Several trigger flags are NOT yet set by any gameplay code —
+  // those slideshows are pre-wired for when the Act 2/3 beats
+  // ship and can be driven manually via setNarrativeFlag until
+  // then.
   useEffect(() => {
-    if (!state.narrativeFlags?.act_1_complete) return;
-    if (state.narrativeFlags?.slideshow_last_words_complete) return;
-    if (lastWordsFiredRef.current) return;
-    lastWordsFiredRef.current = true;
-    playSlideshow("last-words");
-  }, [
-    state.narrativeFlags?.act_1_complete,
-    state.narrativeFlags?.slideshow_last_words_complete,
-  ]);
+    for (const trigger of SLIDESHOW_TRIGGERS) {
+      if (!state.narrativeFlags?.[trigger.triggerFlag]) continue;
+      if (state.narrativeFlags?.[trigger.completionFlag]) continue;
+      if (slideshowFiredRef.current.has(trigger.slideshowId)) continue;
+      slideshowFiredRef.current.add(trigger.slideshowId);
+      playSlideshow(trigger.slideshowId);
+      // One slideshow per effect run. If multiple triggers are hot
+      // at the same time (rare) they'll fire in subsequent render
+      // passes as the state settles.
+      break;
+    }
+  }, [state.narrativeFlags]);
 
   // ─── CROSS-GAME NARRATIVE FLAGS ───
   useEffect(() => {

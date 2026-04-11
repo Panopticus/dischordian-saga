@@ -226,7 +226,18 @@ describe("Welcome to Celebration slideshow (§4.3 / §12 C2)", () => {
     const flags = WELCOME_TO_CELEBRATION_SLIDESHOW.flagsSetOnComplete;
     expect(flags).toContain("engineer_origin_seen");
     expect(flags).toContain("celebration_class_photo_seen");
-    expect(flags).toContain("cycle_a_complete");
+    expect(flags).toContain("slideshow_welcome_to_celebration_complete");
+  });
+
+  it("does NOT set the upstream cycle_a trigger flag", () => {
+    // Causality guard: the slideshow is TRIGGERED by the upstream
+    // act_1_cycle_a_complete flag, not the other way around.
+    expect(WELCOME_TO_CELEBRATION_SLIDESHOW.flagsSetOnComplete).not.toContain(
+      "act_1_cycle_a_complete",
+    );
+    expect(WELCOME_TO_CELEBRATION_SLIDESHOW.flagsSetOnComplete).not.toContain(
+      "cycle_a_complete",
+    );
   });
 
   it("rewards a modest community light bump on the first cycle payoff", () => {
@@ -251,7 +262,16 @@ describe("To Be the Human slideshow (§4.4 / §12 C3)", () => {
     const flags = TO_BE_THE_HUMAN_SLIDESHOW.flagsSetOnComplete;
     expect(flags).toContain("iron_lion_absence_noted");
     expect(flags).toContain("seer_glimpsed");
-    expect(flags).toContain("cycle_b_complete");
+    expect(flags).toContain("slideshow_to_be_the_human_complete");
+  });
+
+  it("does NOT set the upstream cycle_b trigger flag", () => {
+    expect(TO_BE_THE_HUMAN_SLIDESHOW.flagsSetOnComplete).not.toContain(
+      "act_1_cycle_b_complete",
+    );
+    expect(TO_BE_THE_HUMAN_SLIDESHOW.flagsSetOnComplete).not.toContain(
+      "cycle_b_complete",
+    );
   });
 
   it("rewards +200 community light (bigger payoff than cycle A)", () => {
@@ -272,11 +292,20 @@ describe("I Am the Eyes That Watch slideshow (§7 / §12 C6)", () => {
     expect(I_AM_THE_EYES_SLIDESHOW.frames.length).toBe(8);
   });
 
-  it("sets Elara's witness flag and the Act 3 opener flag", () => {
+  it("sets Elara's witness flag and the betrayal flag", () => {
     const flags = I_AM_THE_EYES_SLIDESHOW.flagsSetOnComplete;
     expect(flags).toContain("elara_watched_her_own_past");
     expect(flags).toContain("panopticon_betrayal_seen");
-    expect(flags).toContain("act_3_opened");
+    expect(flags).toContain("eyes_life_seen");
+  });
+
+  it("does NOT set the upstream act_3 trigger flag", () => {
+    expect(I_AM_THE_EYES_SLIDESHOW.flagsSetOnComplete).not.toContain(
+      "act_3_starting",
+    );
+    expect(I_AM_THE_EYES_SLIDESHOW.flagsSetOnComplete).not.toContain(
+      "act_3_opened",
+    );
   });
 
   it("rewards +250 community light (Act 3 opener carries weight)", () => {
