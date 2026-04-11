@@ -1686,6 +1686,37 @@ export const CHARACTER_CONFIGS: Record<string, CharacterConfig> = {
       taunt: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/taunt_78b2eb0d.png",
     }
   },
+  /* ─── Story Mode chapter opponents (ch6, ch8, ch10) ─── */
+  /* Minimal configs — sprite sheets live in spriteSheetConfig and
+     drive the real 2D rendering. These exist so CHARACTER_CONFIGS
+     has an entry for every fighter id in gameData (phase31 test). */
+  "white-oracle": {
+    id: "white-oracle", name: "The White Oracle",
+    primaryColor: "#f8fafc", secondaryColor: "#e2e8f0", accentColor: "#c4b5fd",
+    eyeColor: "#a78bfa", skinColor: "#f1f5f9",
+    height: 1.78, bulk: 0.85,
+    helmetStyle: "halo", armorStyle: "robes", weaponType: "orb",
+    hasCape: true, glowColor: "#f8fafc",
+    fightStyle: "balanced",
+  },
+  "human": {
+    id: "human", name: "The Human",
+    primaryColor: "#475569", secondaryColor: "#1e293b", accentColor: "#94a3b8",
+    eyeColor: "#64748b", skinColor: "#d4a574",
+    height: 1.85, bulk: 1.0,
+    helmetStyle: "none", armorStyle: "light", weaponType: "none",
+    hasCape: false, glowColor: "#64748b",
+    fightStyle: "balanced",
+  },
+  "warden": {
+    id: "warden", name: "The Panoptic Warden",
+    primaryColor: "#facc15", secondaryColor: "#713f12", accentColor: "#fef08a",
+    eyeColor: "#fbbf24", skinColor: "#a8a29e",
+    height: 2.1, bulk: 1.4,
+    helmetStyle: "mask", armorStyle: "heavy", weaponType: "chains",
+    hasCape: false, glowColor: "#facc15",
+    fightStyle: "defensive",
+  },
 };
 
 /* ─── GET CONFIG ─── */
