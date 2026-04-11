@@ -309,6 +309,85 @@ export function getInfiltrationPath(
 }
 
 /** Return the full §8 list of 10 improvements in order. */
+/* ─── APPENDIX A.4 — EYES' FINAL TRANSMISSION (agent list) ───
+   Every §7.3 Infiltration success adds one agent to the
+   player's roster. Each recruited agent unlocks one line of
+   the Eyes' final transmission — the list of names she left
+   behind before her death in the grass. Consumers read
+   `EYES_FINAL_TRANSMISSION_LINES` via
+   `getEyesFinalTransmissionLine(nthAgent)` and add the
+   returned line to the Loredex as a `character_fragment`. */
+
+export interface EyesFinalTransmissionLine {
+  /** 1-based index matching nth successful recruitment. */
+  order: number;
+  /** Fragment id the Loredex surfaces. */
+  lineId: string;
+  /** The Eyes' actual words. */
+  text: string;
+}
+
+export const EYES_FINAL_TRANSMISSION_LINES: readonly EyesFinalTransmissionLine[] = [
+  {
+    order: 1,
+    lineId: "eyes_final_1_mira",
+    text: "Mira at the Free Ports. Code name Fisher. Tell her the nets are clean.",
+  },
+  {
+    order: 2,
+    lineId: "eyes_final_2_halden",
+    text: "Halden in the Viral Wastes. He limps. He knows why.",
+  },
+  {
+    order: 3,
+    lineId: "eyes_final_3_ceilo",
+    text: "Ceilo at the Obsidian Reach. Ask for the lighthouse keeper's sister.",
+  },
+  {
+    order: 4,
+    lineId: "eyes_final_4_morvek",
+    text: "Morvek in the Insurgency Haven. Count the chairs at his table. There should always be four.",
+  },
+  {
+    order: 5,
+    lineId: "eyes_final_5_ysra",
+    text: "Ysra in Atarion's cloud-gardens. She is the one who remembers what we did to the Prisoner.",
+  },
+  {
+    order: 6,
+    lineId: "eyes_final_6_bren",
+    text: "Bren on the Frontier Worlds. He will pretend he doesn't know me. He does. He chose his choice.",
+  },
+  {
+    order: 7,
+    lineId: "eyes_final_7_joss",
+    text: "Joss in the Dreaming Deep. She paints in saltwater. Ask her whose face she keeps drawing.",
+  },
+  {
+    order: 8,
+    lineId: "eyes_final_8_kael",
+    text: "The Recruiter. I will not write his name even here. He knows what he took from me. I forgive him for most of it.",
+  },
+  {
+    order: 9,
+    lineId: "eyes_final_9_me",
+    text: "And me. Whoever finds this. I am the ninth name. I was the Eyes. I watched until I couldn't.",
+  },
+];
+
+/**
+ * Given the nth agent recruited across the whole account,
+ * return the Eyes transmission line to unlock. Returns null
+ * once the player has recruited more agents than the
+ * transmission has lines — the Eyes only had nine names.
+ */
+export function getEyesFinalTransmissionLine(
+  nthAgent: number,
+): EyesFinalTransmissionLine | null {
+  if (nthAgent < 1) return null;
+  return EYES_FINAL_TRANSMISSION_LINES[nthAgent - 1] ?? null;
+}
+
 export function listTradeEmpireImprovements(): readonly TradeEmpireImprovement[] {
   return TRADE_EMPIRE_IMPROVEMENTS;
 }

@@ -620,6 +620,85 @@ on("circuit_race_complete", async (ev) => {
 });
 
 /* ═══════════════════════════════════════════════════════
+   TIER 8: KAEL ASYNCHRONOUS QUESTLINE HANDLERS (Appendix B)
+
+   Six event types emitted when the player unlocks Kael
+   Fragments F1-F6, notices a tower memorial, makes the
+   Apprentice's Stand choice, or completes the questline.
+   See apps/shared/appendixBKaelQuestline.ts for canonical
+   data and KAEL_RIPPLE_EVENT_TYPES.
+   ═══════════════════════════════════════════════════════ */
+
+export interface KaelFragmentEvent extends RippleEvent {
+  fragmentId: "f1" | "f2" | "f3" | "f4" | "f5" | "f6";
+  fragmentTitle: string;
+}
+
+on("kael_fragment_unlocked", async (ev) => {
+  const { userId, fragmentId, fragmentTitle } = ev as KaelFragmentEvent;
+  await pressureService.increment(userId, "loreDiscoveries", 8, `kael_${fragmentId}`);
+  const db = await getDb();
+  if (!db) return;
+  await db.insert(notifications).values({
+    userId,
+    type: "lore_event",
+    title: "A FRAGMENT SURFACES",
+    message: `Kael Fragment unlocked: ${fragmentTitle}. The Antiquarian's hand trembles as he writes.`,
+  }).catch(() => {});
+});
+
+on("kael_mirror_seen", async (ev) => {
+  const { userId } = ev as RippleEvent;
+  // F1 — the face beneath the face. A silent ripple; no notification.
+  await pressureService.increment(userId, "loreDiscoveries", 3, "kael_mirror");
+});
+
+on("kael_name_spoken", async (ev) => {
+  const { userId } = ev as RippleEvent;
+  // F6 — the Recruiter's real name. Largest single lore beat of the questline.
+  await pressureService.increment(userId, "loreDiscoveries", 25, "kael_name_spoken");
+  const db = await getDb();
+  if (!db) return;
+  await db.insert(notifications).values({
+    userId,
+    type: "lore_event",
+    title: "THE RECRUITER HAS A NAME",
+    message: "You have seen his name exactly once. Both narrators will be silent for 24 real hours.",
+  }).catch(() => {});
+});
+
+on("kael_memorial_noticed", async (ev) => {
+  const { userId, towerKey } = ev as RippleEvent & { towerKey: string };
+  // Hovering a tower inscription for the first time.
+  await pressureService.increment(userId, "loreDiscoveries", 1, `memorial_${towerKey}`);
+});
+
+on("kael_apprentice_choice", async (ev) => {
+  const { userId, choice } = ev as RippleEvent & { choice: "stayed" | "ran" };
+  // F5 — the Apprentice's exact choice, permanent mechanical consequence.
+  await pressureService.increment(
+    userId,
+    choice === "stayed" ? "trustGains" : "betrayals",
+    15,
+    `apprentice_${choice}`,
+  );
+});
+
+on("kael_questline_complete", async (ev) => {
+  const { userId } = ev as RippleEvent;
+  await pressureService.increment(userId, "loreDiscoveries", 50, "kael_questline_complete");
+  await pressureService.increment(userId, "healingDone", 10, "kael_questline_complete");
+  const db = await getDb();
+  if (!db) return;
+  await db.insert(notifications).values({
+    userId,
+    type: "lore_event",
+    title: "THE MAN WHO CAME BACK",
+    message: "The Terminus Swarm has paused for a full real minute. The Ark crew saw it from the Observation Deck. Kael is named. Kael is remembered.",
+  }).catch(() => {});
+});
+
+/* ═══════════════════════════════════════════════════════
    EXPORT — Single public interface
    ═══════════════════════════════════════════════════════ */
 

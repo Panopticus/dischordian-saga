@@ -275,6 +275,64 @@ export function listKaelTowerMemorials(): readonly KaelTowerMemorial[] {
   return KAEL_TOWER_MEMORIALS;
 }
 
+/**
+ * Tower-build-mode hover tooltip: returns the Insurgent
+ * inscription for `towerKey` IFF Fragment F2 ("The Recorded
+ * Voice") has been unlocked. Before F2, towers look like
+ * ordinary hardware. After F2, every memorial hover raises
+ * `kael_memorial_noticed` and builds toward F6.
+ */
+export function getKaelTowerInscription(
+  towerKey: string,
+  flags: Record<string, unknown>,
+): string | null {
+  if (!flags.kael_fragment_f2_unlocked) return null;
+  const memorial = KAEL_TOWER_MEMORIALS.find((m) => m.towerKey === towerKey);
+  return memorial?.inscription ?? null;
+}
+
+/**
+ * Look up a memorial entry by tower key regardless of whether
+ * F2 is unlocked yet. Used by the Trophy Room Witnessing Wall
+ * and test suites that need the raw data.
+ */
+export function getKaelTowerMemorial(
+  towerKey: string,
+): KaelTowerMemorial | undefined {
+  return KAEL_TOWER_MEMORIALS.find((m) => m.towerKey === towerKey);
+}
+
 export function listKaelPayoffCinematics(): readonly KaelPayoffCinematic[] {
   return KAEL_PAYOFF_CINEMATICS;
+}
+
+/**
+ * Which payoff cinematic (if any) should trigger right now?
+ * Returns the cinematic id + its flag, or null if none is due.
+ *
+ *   bd1 — fires after F6 and both narrators first speak Kael's
+ *         real name within 48 real hours.
+ *   bd2 — fires the first time Apprentice's Stand is built.
+ *   bd3 — fires at kael_questline_complete.
+ */
+export function getPendingKaelPayoffCinematic(
+  flags: Record<string, unknown>,
+): KaelPayoffCinematic | null {
+  for (const cine of KAEL_PAYOFF_CINEMATICS) {
+    if (flags[cine.flag]) continue;
+    if (cine.id === "bd1") {
+      if (
+        flags.kael_fragment_f6_unlocked &&
+        flags.kael_name_spoken_by_elara &&
+        flags.kael_name_spoken_by_human
+      ) {
+        return cine;
+      }
+    } else if (cine.id === "bd2") {
+      if (flags.apprentices_stand_built) return cine;
+    } else if (cine.id === "bd3") {
+      if (flags.kael_questline_complete) return cine;
+    }
+  }
+  return null;
 }

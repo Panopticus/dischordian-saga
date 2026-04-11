@@ -2,6 +2,9 @@ import { describe, it, expect } from "vitest";
 import {
   APPRENTICE_STAND_TOWER,
   getKaelFragment,
+  getKaelTowerInscription,
+  getKaelTowerMemorial,
+  getPendingKaelPayoffCinematic,
   KAEL_FRAGMENTS,
   KAEL_PAYOFF_CINEMATICS,
   KAEL_RIPPLE_EVENT_TYPES,
@@ -123,5 +126,73 @@ describe("Appendix B Kael questline — §B.6 Year One Ripples", () => {
   it("f6's calendar beat mentions redaction by Lyra Vox", () => {
     const f6 = YEAR_ONE_RIPPLES.find((r) => r.fragmentId === "f6");
     expect(f6?.calendarBeat).toContain("Lyra Vox");
+  });
+});
+
+describe("Appendix B Kael questline — runtime helpers", () => {
+  it("getKaelTowerInscription returns null before F2", () => {
+    expect(getKaelTowerInscription("artillery_cannon", {})).toBeNull();
+  });
+
+  it("getKaelTowerInscription returns the inscription after F2", () => {
+    const out = getKaelTowerInscription("artillery_cannon", {
+      kael_fragment_f2_unlocked: true,
+    });
+    expect(out).toContain("fire where he fell");
+  });
+
+  it("getKaelTowerInscription returns null for unknown tower keys even after F2", () => {
+    expect(
+      getKaelTowerInscription("made_up_tower", { kael_fragment_f2_unlocked: true }),
+    ).toBeNull();
+  });
+
+  it("getKaelTowerMemorial works without flag gating", () => {
+    expect(getKaelTowerMemorial("tesla_coil")?.memorialTo).toContain("Engineer");
+    expect(getKaelTowerMemorial("made_up_tower")).toBeUndefined();
+  });
+
+  it("getPendingKaelPayoffCinematic returns null by default", () => {
+    expect(getPendingKaelPayoffCinematic({})).toBeNull();
+  });
+
+  it("bd1 fires only when F6 + both narrators have spoken Kael's name", () => {
+    expect(
+      getPendingKaelPayoffCinematic({ kael_fragment_f6_unlocked: true }),
+    ).toBeNull();
+    expect(
+      getPendingKaelPayoffCinematic({
+        kael_fragment_f6_unlocked: true,
+        kael_name_spoken_by_elara: true,
+      }),
+    ).toBeNull();
+    expect(
+      getPendingKaelPayoffCinematic({
+        kael_fragment_f6_unlocked: true,
+        kael_name_spoken_by_elara: true,
+        kael_name_spoken_by_human: true,
+      })?.id,
+    ).toBe("bd1");
+  });
+
+  it("bd2 fires when apprentices_stand_built is set", () => {
+    expect(
+      getPendingKaelPayoffCinematic({ apprentices_stand_built: true })?.id,
+    ).toBe("bd2");
+  });
+
+  it("bd3 fires at kael_questline_complete", () => {
+    expect(
+      getPendingKaelPayoffCinematic({ kael_questline_complete: true })?.id,
+    ).toBe("bd3");
+  });
+
+  it("does not re-fire a cinematic that already has its flag raised", () => {
+    expect(
+      getPendingKaelPayoffCinematic({
+        kael_questline_complete: true,
+        kael_cinematic_came_back_seen: true,
+      }),
+    ).toBeNull();
   });
 });
