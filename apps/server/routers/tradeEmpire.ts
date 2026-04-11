@@ -12,6 +12,30 @@ import { router, protectedProcedure } from "../_core/trpc";
 import { getDb } from "../db";
 import { userProgress, dreamBalance } from "../../db/schema";
 import { eq, and } from "drizzle-orm";
+import { isKnownMaterial } from "../services/craftingRewards";
+
+/**
+ * Defensive caps on client-supplied mission reward fields. The client
+ * today passes mission rewards at dispatch time, which means a malicious
+ * caller could otherwise promise themselves arbitrary Dream/material
+ * amounts and collect them on completeMission. These caps clamp every
+ * field to an amount larger than any legitimate mission tier but far
+ * smaller than an exploit would want.
+ */
+const REWARD_CAPS = {
+  dream: 500,
+  salvage: 10_000,
+  influence: 500,
+  voidCrystals: 500,
+  xp: 10_000,
+  materialAmount: 25,
+} as const;
+
+function clampReward<K extends keyof typeof REWARD_CAPS>(value: number | undefined, key: K): number | undefined {
+  if (value === undefined) return undefined;
+  if (!Number.isFinite(value) || value < 0) return 0;
+  return Math.min(value, REWARD_CAPS[key]);
+}
 
 function dbUnavailable(): never {
   throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Database unavailable" });
@@ -124,13 +148,31 @@ export const tradeEmpireRouter = router({
         return { success: false, error: "Mission already dispatched" };
       }
 
+      // Clamp every reward field to server-side caps and whitelist the
+      // crafting material ID. A client that tries to promise itself
+      // `{ dream: 999999, material: "architects_tear", materialAmount: 9999 }`
+      // will see the values normalised here, not in completeMission.
+      const sanitizedReward = {
+        dream: clampReward(input.reward.dream, "dream"),
+        salvage: clampReward(input.reward.salvage, "salvage"),
+        influence: clampReward(input.reward.influence, "influence"),
+        voidCrystals: clampReward(input.reward.voidCrystals, "voidCrystals"),
+        xp: clampReward(input.reward.xp, "xp"),
+        material: input.reward.material && isKnownMaterial(input.reward.material)
+          ? input.reward.material
+          : undefined,
+        materialAmount: input.reward.material && isKnownMaterial(input.reward.material)
+          ? clampReward(input.reward.materialAmount, "materialAmount")
+          : undefined,
+      };
+
       state.activeMissions.push({
         id: input.id,
         name: input.name,
         sectorId: input.sectorId,
         dispatchedAt: Date.now(),
         durationMs: input.durationMs,
-        reward: input.reward,
+        reward: sanitizedReward,
       });
 
       await saveEmpireState(ctx.user.id, state);

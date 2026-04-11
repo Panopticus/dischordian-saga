@@ -124,9 +124,23 @@ describe("inventory.disenchantDuplicates wires craftingRewards", () => {
     expect(src).toContain('from "../services/craftingRewards"');
   });
 
-  it("awards card_essence based on disenchanted card count", () => {
-    expect(src).toMatch(/craftingRewards\.forDisenchant\(/);
-    expect(src).toContain("common: cardsDisenchanted");
+  it("joins userCards against the cards catalogue so rarity is real", () => {
+    // Regression guard for the old bug where every disenchant was
+    // treated as common regardless of the card's actual rarity.
+    expect(src).toContain(".innerJoin(cards,");
+    expect(src).toContain("rarity: cards.rarity");
+  });
+
+  it("buckets disenchanted rarities into card/rare/legendary essence", () => {
+    expect(src).toContain("rarityBuckets");
+    expect(src).toMatch(/rarityBuckets\.legendary\s*\+=\s*excess/);
+    expect(src).toMatch(/rarityBuckets\.rare\s*\+=\s*excess/);
+    expect(src).toMatch(/rarityBuckets\.common\s*\+=\s*excess/);
+    expect(src).toMatch(/craftingRewards\.forDisenchant\(rarityBuckets\)/);
+  });
+
+  it("applies the rarity-specific DISENCHANT_VALUES row", () => {
+    expect(src).toMatch(/DISENCHANT_VALUES\[rarity\]\s*\?\?\s*DISENCHANT_VALUES\.common/);
   });
 
   it("returns the materials bag on the disenchant response", () => {
@@ -170,6 +184,94 @@ describe("CharacterSheetPage equipment picker includes crafted items", () => {
   it("folds crafted item IDs into the owned-inventory set", () => {
     expect(src).toContain("craftedItemIds");
     expect(src).toMatch(/for \(const id of craftedItemIds\) owned\.add\(id\);/);
+  });
+});
+
+/* ── Trade Empire mission reward sanitization ── */
+
+describe("tradeEmpire.dispatchMission sanitizes client-supplied rewards", () => {
+  const src = loadSource("routers/tradeEmpire.ts");
+
+  it("imports the material whitelist from craftingRewards", () => {
+    expect(src).toContain('from "../services/craftingRewards"');
+    expect(src).toContain("isKnownMaterial");
+  });
+
+  it("defines server-side reward caps", () => {
+    expect(src).toContain("REWARD_CAPS");
+    expect(src).toMatch(/dream:\s*\d+/);
+    expect(src).toMatch(/materialAmount:\s*\d+/);
+  });
+
+  it("clamps every reward field with clampReward before persisting", () => {
+    expect(src).toMatch(/clampReward\(input\.reward\.dream,\s*"dream"\)/);
+    expect(src).toMatch(/clampReward\(input\.reward\.salvage,\s*"salvage"\)/);
+    expect(src).toMatch(/clampReward\(input\.reward\.materialAmount,\s*"materialAmount"\)/);
+  });
+
+  it("drops unknown material IDs from the sanitized payload", () => {
+    // If the client sends e.g. `material: "architects_tear"` but that key
+    // ever gets removed from the whitelist, the payload is scrubbed.
+    expect(src).toMatch(/isKnownMaterial\(input\.reward\.material\)/);
+    expect(src).toMatch(/reward:\s*sanitizedReward/);
+  });
+});
+
+/* ── Crafting service exports ── */
+
+describe("craftingRewards service surface", () => {
+  it("exposes isKnownMaterial for router-level whitelists", async () => {
+    const { isKnownMaterial, KNOWN_MATERIAL_IDS } = await import("./services/craftingRewards");
+    expect(isKnownMaterial("battle_shard")).toBe(true);
+    expect(isKnownMaterial("architects_tear")).toBe(true);
+    expect(isKnownMaterial("not_a_real_material")).toBe(false);
+    // Sanity: set is non-empty and contains a handful of canonical ids.
+    expect(KNOWN_MATERIAL_IDS.has("iron_ore")).toBe(true);
+    expect(KNOWN_MATERIAL_IDS.has("card_essence")).toBe(true);
+  });
+});
+
+/* ── crafting.ts disenchant path awards essence ── */
+
+describe("crafting.craft disenchant path awards essence materials", () => {
+  const src = loadSource("routers/crafting.ts");
+
+  it("imports craftingRewards at the top of the router", () => {
+    expect(src).toContain('from "../services/craftingRewards"');
+  });
+
+  it("calls forDisenchant and award within the disenchant branch", () => {
+    expect(src).toMatch(/craftingRewards\.forDisenchant\(\{/);
+    expect(src).toMatch(/craftingRewards\.award\(ctx\.user\.id,\s*essenceDrops\)/);
+  });
+
+  it("returns the materials bag on the disenchant response", () => {
+    expect(src).toMatch(/materials:\s*essenceDrops/);
+  });
+});
+
+/* ── Fight Arena UI surfaces server-side crafting drops ── */
+
+describe("FightPage surfaces recordMatch.craftingDrops in the UI", () => {
+  const src = fs.readFileSync(
+    path.resolve(__dirname, "../client/src/pages/FightPage.tsx"),
+    "utf-8",
+  );
+
+  it("attaches an onSuccess handler to the recordMatch mutation", () => {
+    expect(src).toMatch(/fightLeaderboard\.recordMatch\.useMutation\(\{[\s\S]*onSuccess/);
+  });
+
+  it("reads craftingDrops from the mutation result", () => {
+    expect(src).toContain("craftingDrops");
+  });
+
+  it("invalidates the Forge profile query after drops land", () => {
+    expect(src).toContain("utils.crafting.getCraftingProfile.invalidate");
+  });
+
+  it("notifies the player via the notification queue", () => {
+    expect(src).toMatch(/nqNotify\("loot-drop",\s*`Forge drops/);
   });
 });
 

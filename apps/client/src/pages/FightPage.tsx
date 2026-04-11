@@ -162,7 +162,27 @@ export default function FightPage() {
     setSelectingFor("player");
   }, []);
 
-  const recordMatch = trpc.fightLeaderboard.recordMatch.useMutation();
+  const utils = trpc.useUtils();
+  const recordMatch = trpc.fightLeaderboard.recordMatch.useMutation({
+    onSuccess: (res) => {
+      // Surface any server-side Forge material drops as a toast so the
+      // player learns where their new battle_shard / champions_mark /
+      // void_catalyst / architects_tear came from. Client-side
+      // getCombatDrops is separate legacy loot — this complements it.
+      const drops = (res as { craftingDrops?: Record<string, number> } | null | undefined)?.craftingDrops;
+      if (drops && Object.keys(drops).length > 0) {
+        const summary = Object.entries(drops)
+          .map(([matId, qty]) => {
+            const mat = getMaterialById(matId);
+            return `${mat?.icon ?? ""} ${mat?.name ?? matId} x${qty}`;
+          })
+          .join(", ");
+        nqNotify("loot-drop", `Forge drops: ${summary}`);
+        // Refresh the Forge profile so the new materials appear immediately.
+        void utils.crafting.getCraftingProfile.invalidate();
+      }
+    },
+  });
   const updateQuestProgress = trpc.quests.updateProgress.useMutation();
 
   const handleMatchEnd = useCallback((winner: "p1" | "p2", perfect: boolean) => {

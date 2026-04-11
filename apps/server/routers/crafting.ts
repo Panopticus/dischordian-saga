@@ -9,6 +9,7 @@ import { fetchCitizenData, fetchPotentialNftData, resolveCraftingBonuses } from 
 import { ripple } from "../services/rippleEngine";
 import { getConsequences } from "../services/universeConsequences";
 import { checkFeatureFlag } from "../middleware/featureFlag";
+import { craftingRewards } from "../services/craftingRewards";
 
 // ═══════════════════════════════════════════════════════
 // CRAFTING RECIPES
@@ -367,11 +368,25 @@ export const craftingRouter = router({
         // Achievement auto-tracking for disenchant
         trackDisenchant(ctx.user.id).catch(e => logger.error("[Crafting] Achievement error:", e));
 
+        // Grant the matching essence tier to the Forge economy. This
+        // mirrors the bulk-disenchant path in inventory.disenchantDuplicates
+        // so both sacrifice flows feed the same material buckets.
+        const disenchantRarity = (cardDetail[0]?.rarity ?? "common").toLowerCase();
+        const essenceDrops = craftingRewards.forDisenchant({
+          common: disenchantRarity === "common" || disenchantRarity === "uncommon" ? 1 : 0,
+          rare: disenchantRarity === "rare" || disenchantRarity === "epic" ? 1 : 0,
+          legendary: disenchantRarity === "legendary" || disenchantRarity === "mythic" ? 1 : 0,
+        });
+        if (Object.keys(essenceDrops).length > 0) {
+          craftingRewards.award(ctx.user.id, essenceDrops).catch(() => {});
+        }
+
         return {
           success: true,
           message: `Disenchanted for ${dreamGain} Dream!`,
           dreamGained: dreamGain,
           outputCard: null,
+          materials: essenceDrops,
         };
       }
 

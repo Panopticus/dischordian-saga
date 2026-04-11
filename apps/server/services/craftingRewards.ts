@@ -18,6 +18,30 @@ import { logger } from "../logger";
 
 const FRANCHISE_ID = "dischordian-saga";
 
+/**
+ * Known crafting material IDs — mirrors MATERIALS in
+ * client/src/data/craftingData.ts. Used as a server-side whitelist so
+ * routers that accept reward payloads from client callers (notably
+ * tradeEmpire.dispatchMission) can't be abused to grant arbitrary keys.
+ * Keep this list in sync whenever new materials are added to MATERIALS.
+ */
+export const KNOWN_MATERIAL_IDS: ReadonlySet<string> = new Set([
+  // Card sacrifice
+  "card_essence", "rare_essence", "legendary_essence", "soul_fragment",
+  // Trade Empire
+  "iron_ore", "crystal_shard", "void_metal", "quantum_flux", "stardust",
+  // Combat drops
+  "battle_shard", "champions_mark", "void_catalyst", "architects_tear",
+  // Exploration
+  "ark_fragment", "dream_crystal",
+  // Crafted intermediates
+  "refined_alloy", "enchanted_crystal", "void_ingot",
+]);
+
+export function isKnownMaterial(id: string): boolean {
+  return KNOWN_MATERIAL_IDS.has(id);
+}
+
 export interface FightRewardContext {
   /** Was the match a win? Losses grant nothing. */
   won: boolean;

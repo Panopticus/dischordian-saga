@@ -158,23 +158,50 @@ export const inventoryRouter = router({
       const db = await getDb();
       if (!db) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
 
-      const allCards = await db.select().from(userCards)
+      // Join the user's card rows against the cards catalogue so we can
+      // look up each card's rarity and apply the correct DISENCHANT_VALUES
+      // bucket instead of paying out common rates for legendaries.
+      const rows = await db
+        .select({
+          id: userCards.id,
+          quantity: userCards.quantity,
+          rarity: cards.rarity,
+        })
+        .from(userCards)
+        .innerJoin(cards, eq(userCards.cardId, cards.cardId))
         .where(eq(userCards.userId, ctx.user.id));
 
       let totalDream = 0;
       let totalDust = 0;
       let totalEssence = 0;
       let cardsDisenchanted = 0;
+      const rarityBuckets: { common: number; rare: number; legendary: number } = {
+        common: 0,
+        rare: 0,
+        legendary: 0,
+      };
 
-      for (const card of allCards) {
+      for (const card of rows) {
         if (card.quantity <= input.keepCount) continue;
+        const rarity = (card.rarity ?? "common").toLowerCase();
+        if (input.rarity && rarity !== input.rarity) continue;
 
         const excess = card.quantity - input.keepCount;
-        const values = DISENCHANT_VALUES.common; // Default rarity
+        const values = DISENCHANT_VALUES[rarity] ?? DISENCHANT_VALUES.common;
         totalDream += values.dream * excess;
         totalDust += values.dust * excess;
         totalEssence += values.essence * excess;
         cardsDisenchanted += excess;
+
+        // Forge-material rarity buckets: common+uncommon → card_essence,
+        // rare+epic → rare_essence, legendary+mythic → legendary_essence.
+        if (rarity === "legendary" || rarity === "mythic") {
+          rarityBuckets.legendary += excess;
+        } else if (rarity === "rare" || rarity === "epic") {
+          rarityBuckets.rare += excess;
+        } else {
+          rarityBuckets.common += excess;
+        }
 
         await db.update(userCards)
           .set({ quantity: input.keepCount })
@@ -192,14 +219,9 @@ export const inventoryRouter = router({
         }
       }
 
-      // Grant card_essence to the Forge economy alongside the Dream/Dust rewards.
-      // Rarity-bucketing uses the defaults-to-common behaviour of the surrounding
-      // loop so we stay consistent; higher-fidelity buckets can come later.
-      const craftingDrops = craftingRewards.forDisenchant({
-        common: cardsDisenchanted,
-        rare: 0,
-        legendary: 0,
-      });
+      // Grant the right essence tier to the Forge economy alongside the
+      // Dream/Dust rewards using the rarity buckets above.
+      const craftingDrops = craftingRewards.forDisenchant(rarityBuckets);
       if (Object.keys(craftingDrops).length > 0) {
         craftingRewards.award(ctx.user.id, craftingDrops).catch(() => {});
       }
